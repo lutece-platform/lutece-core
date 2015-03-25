@@ -84,22 +84,12 @@ public class XPageAppService extends ContentService
     {
         try
         {
-            XPageApplication application = (XPageApplication) Class.forName( entry.getClassName(  ) ).newInstance(  );
-            entry.setApplication( application );
+            // check that the class can be found
+            Class.forName( entry.getClassName(  ) ).newInstance(  );
             _mapApplications.put( entry.getId(  ), entry );
             AppLogService.info( "New XPage application registered : " + entry.getId(  ) );
         }
-        catch ( ClassNotFoundException e )
-        {
-            throw new LuteceInitException( "Error instantiating XPageApplication : " + entry.getId(  ) + " - " +
-                e.getCause(  ), e );
-        }
-        catch ( InstantiationException e )
-        {
-            throw new LuteceInitException( "Error instantiating XPageApplication : " + entry.getId(  ) + " - " +
-                e.getCause(  ), e );
-        }
-        catch ( IllegalAccessException e )
+        catch ( ClassNotFoundException|InstantiationException|IllegalAccessException e )
         {
             throw new LuteceInitException( "Error instantiating XPageApplication : " + entry.getId(  ) + " - " +
                 e.getCause(  ), e );

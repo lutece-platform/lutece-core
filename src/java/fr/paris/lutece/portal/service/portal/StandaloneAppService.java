@@ -166,7 +166,7 @@ public class StandaloneAppService extends ContentService
 
         if ( ( entry != null ) && ( entry.isEnable(  ) ) )
         {
-            XPageApplication app = entry.getApplication(  );
+            XPageApplication app = XPageAppService.getApplicationInstance( entry );
             XPage page = app.getPage( request, nMode, entry.getPlugin(  ) );
             data.setContent( page.getContent(  ) );
             data.setName( page.getTitle(  ) );

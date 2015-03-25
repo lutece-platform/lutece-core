@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.web.xpages;
 
+import fr.paris.lutece.portal.service.content.XPageAppService;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.plugin.PluginService;
 
@@ -50,7 +51,6 @@ public class XPageApplicationEntry
     private String _strId;
     private String _strClassName;
     private String _strPluginName;
-    private XPageApplication _application;
     private List<String> _listRoles = new ArrayList<String>(  );
 
     /**
@@ -145,21 +145,22 @@ public class XPageApplicationEntry
     /**
      * Returns the Application
      *
+     * @deprecated use {@link XPageAppService#getApplicationInstance(XPageApplicationEntry)} instead
      * @return The Application
      */
     public XPageApplication getApplication(  )
     {
-        return _application;
+        return XPageAppService.getApplicationInstance( this );
     }
 
     /**
      * Sets the Application
      *
+     * @deprecated should not be used anymore
      * @param application The Application
      */
     public void setApplication( XPageApplication application )
     {
-        _application = application;
     }
 
     /**
