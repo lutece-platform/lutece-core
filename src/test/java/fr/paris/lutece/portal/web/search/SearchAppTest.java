@@ -42,6 +42,7 @@ import org.springframework.web.context.request.RequestContextListener;
 
 import fr.paris.lutece.portal.service.message.SiteMessageException;
 import fr.paris.lutece.portal.service.plugin.Plugin;
+import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.web.xpages.XPage;
 import fr.paris.lutece.test.LuteceTestCase;
 
@@ -70,7 +71,7 @@ public class SearchAppTest extends LuteceTestCase
 
         int nMode = 0;
         Plugin plugin = null;
-        SearchApp instance = new SearchApp(  );
+        SearchApp instance = SpringContextService.getBean( "core.xpage.search" );
 
         XPage result = instance.getPage( request, nMode, plugin );
 

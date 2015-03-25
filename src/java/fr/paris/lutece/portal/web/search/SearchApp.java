@@ -47,7 +47,6 @@ import fr.paris.lutece.portal.service.search.SearchEngine;
 import fr.paris.lutece.portal.service.search.SearchResult;
 import fr.paris.lutece.portal.service.search.SearchService;
 import fr.paris.lutece.portal.service.search.SponsoredLinksSearchService;
-import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
@@ -61,12 +60,13 @@ import fr.paris.lutece.util.url.UrlItem;
 import org.apache.commons.lang.StringUtils;
 
 import java.io.UnsupportedEncodingException;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import javax.inject.Inject;
+import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 
 
@@ -110,6 +110,10 @@ public class SearchApp implements XPageApplication
     private static final String CONSTANT_ENCODING_UTF8 = "UTF-8";
     private static final String CONSTANT_HTTP_METHOD_GET = "GET";
     private static final boolean DEFAULT_ENCODE_URI = false;
+
+    @Inject
+    @Named( BEAN_SEARCH_ENGINE )
+    private SearchEngine _engine;
 
     /**
      * Returns search results
@@ -179,8 +183,7 @@ public class SearchApp implements XPageApplication
         String strCurrentPageIndex = request.getParameter( PARAMETER_PAGE_INDEX );
         strCurrentPageIndex = ( strCurrentPageIndex != null ) ? strCurrentPageIndex : DEFAULT_PAGE_INDEX;
 
-        SearchEngine engine = (SearchEngine) SpringContextService.getBean( BEAN_SEARCH_ENGINE );
-        List<SearchResult> listResults = engine.getSearchResults( strQuery, request );
+        List<SearchResult> listResults = _engine.getSearchResults( strQuery, request );
 
         // The page should not be added to the cache
 
