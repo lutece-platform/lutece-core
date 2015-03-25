@@ -149,7 +149,7 @@ public final class AppInit
 
             // Spring ApplicationContext initialization
             AppLogService.info( "Loading context files ..." );
-            SpringContextService.init(  );
+            SpringContextService.init( context );
 
             // Initialize and run StartUp services
             AppLogService.info( "Running extra startup services ..." );

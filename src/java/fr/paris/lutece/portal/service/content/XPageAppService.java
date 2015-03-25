@@ -41,6 +41,7 @@ import fr.paris.lutece.portal.service.portal.PortalService;
 import fr.paris.lutece.portal.service.security.LuteceUser;
 import fr.paris.lutece.portal.service.security.SecurityService;
 import fr.paris.lutece.portal.service.security.UserNotSignedException;
+import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppException;
 import fr.paris.lutece.portal.service.util.AppLogService;
@@ -57,6 +58,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 
 /**
  * This class delivers Extra pages (xpages) to web components. An XPage is a page where the content is provided by a
@@ -84,22 +86,21 @@ public class XPageAppService extends ContentService
     {
         try
         {
-            XPageApplication application = (XPageApplication) Class.forName( entry.getClassName(  ) ).newInstance(  );
-            entry.setApplication( application );
+            if ( entry.getClassName( ) == null )
+            {
+                String applicationBeanName = entry.getPluginName( ) + ".xpage." + entry.getId( );
+                if ( !SpringContextService.getContext( ).containsBean( applicationBeanName ) )
+                    throw new LuteceInitException( "Error instantiating XPageApplication : " + entry.getId(  ) + " - Could not find bean named " +
+                            applicationBeanName, new NoSuchBeanDefinitionException( applicationBeanName ) );
+            } else
+            {
+                // check that the class can be found
+                Class.forName( entry.getClassName(  ) ).newInstance(  );
+            }
             _mapApplications.put( entry.getId(  ), entry );
             AppLogService.info( "New XPage application registered : " + entry.getId(  ) );
         }
-        catch ( ClassNotFoundException e )
-        {
-            throw new LuteceInitException( "Error instantiating XPageApplication : " + entry.getId(  ) + " - " +
-                e.getCause(  ), e );
-        }
-        catch ( InstantiationException e )
-        {
-            throw new LuteceInitException( "Error instantiating XPageApplication : " + entry.getId(  ) + " - " +
-                e.getCause(  ), e );
-        }
-        catch ( IllegalAccessException e )
+        catch ( ClassNotFoundException|InstantiationException|IllegalAccessException e )
         {
             throw new LuteceInitException( "Error instantiating XPageApplication : " + entry.getId(  ) + " - " +
                 e.getCause(  ), e );
@@ -319,7 +320,13 @@ public class XPageAppService extends ContentService
 
         try
         {
-            application = (XPageApplication) Class.forName( entry.getClassName(  ) ).newInstance(  );
+            if ( entry.getClassName( ) == null )
+            {
+                application = SpringContextService.getBean( entry.getPluginName( ) + ".xpage." + entry.getId( ) );
+            } else
+            {
+                application = (XPageApplication) Class.forName( entry.getClassName(  ) ).newInstance(  );
+            }
         }
         catch ( Exception e )
         {
