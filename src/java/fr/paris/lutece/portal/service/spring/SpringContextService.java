@@ -44,6 +44,7 @@ import fr.paris.lutece.portal.service.util.AppPathService;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.AbstractApplicationContext;
 
 import org.springframework.web.context.support.GenericWebApplicationContext;
 
@@ -331,6 +332,18 @@ public final class SpringContextService implements PluginEventListener
         public boolean accept( File file, String strName )
         {
             return strName.endsWith( SUFFIX_CONTEXT_FILE );
+        }
+    }
+
+    /**
+     * Closes the Spring context
+     * @since 5.1.0
+     */
+    public static void shutdown( )
+    {
+        if ( _context != null )
+        {
+            ( ( AbstractApplicationContext ) _context ).close( );
         }
     }
 }
