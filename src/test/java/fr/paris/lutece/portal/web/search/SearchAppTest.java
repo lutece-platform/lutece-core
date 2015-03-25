@@ -33,11 +33,17 @@
  */
 package fr.paris.lutece.portal.web.search;
 
+import javax.servlet.ServletContext;
+import javax.servlet.ServletRequestEvent;
+
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.mock.web.MockServletContext;
+import org.springframework.web.context.request.RequestContextListener;
+
 import fr.paris.lutece.portal.service.message.SiteMessageException;
 import fr.paris.lutece.portal.service.plugin.Plugin;
-import fr.paris.lutece.portal.web.xpages.*;
+import fr.paris.lutece.portal.web.xpages.XPage;
 import fr.paris.lutece.test.LuteceTestCase;
-import fr.paris.lutece.test.MokeHttpServletRequest;
 
 
 /**
@@ -54,14 +60,20 @@ public class SearchAppTest extends LuteceTestCase
     {
         System.out.println( "getPage" );
 
-        MokeHttpServletRequest request = new MokeHttpServletRequest(  );
-        request.addMokeParameters( "query", "lutece" );
-        request.addMokeParameters( "items_per_page", "5" );
+        MockHttpServletRequest request = new MockHttpServletRequest(  );
+        request.addParameter( "query", "lutece" );
+        request.addParameter( "items_per_page", "5" );
+
+        RequestContextListener listener = new RequestContextListener( );
+        ServletContext context = new MockServletContext( );
+        listener.requestInitialized( new ServletRequestEvent( context, request ) );
 
         int nMode = 0;
         Plugin plugin = null;
         SearchApp instance = new SearchApp(  );
 
         XPage result = instance.getPage( request, nMode, plugin );
+
+        listener.requestDestroyed( new ServletRequestEvent( context, request ) );
     }
 }
