@@ -46,6 +46,7 @@ public class PageIncludeEntry
     private String _strId;
     private String _strClassName;
     private String _strPluginName;
+    private boolean _bEnabled = true; // defaults to enabled
     private PageInclude _pageInclude;
 
     /**
@@ -109,13 +110,34 @@ public class PageIncludeEntry
     }
 
     /**
-      * Tells if the application is enable (plugin enabled)
-      *
-      * @return True if the application is enable, otherwise false
-      */
+     * Sets the enabled state of this PageInclude
+     * @param enabled <code>true</code> if this PageInclude is enabled, <code>false</code> otherwise
+     * @since 5.1
+     */
+    public void setEnabled( boolean enabled )
+    {
+        _bEnabled = enabled;
+    }
+
+    /**
+     * Tells if the PageInclude is enabled, independently of the plugin's status
+     * @return <code>true</code> if this PageInclude is enabled, <code>false</code> otherwise
+     * @since 5.1
+     */
+    public boolean isEnabled( )
+    {
+        return _bEnabled;
+    }
+
+    /**
+     * Tells if the PageInclude is enabled (plugin enabled and this
+     * particular PageInclude is enabled)
+     *
+     * @return True if the PageInclude is enabled, otherwise false
+     */
     public boolean isEnable(  )
     {
-        return PluginService.isPluginEnable( _strPluginName );
+        return PluginService.isPluginEnable( _strPluginName ) && _bEnabled;
     }
 
     /**

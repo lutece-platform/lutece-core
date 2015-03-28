@@ -143,6 +143,7 @@
             <set-properties-rule />
             <bean-property-setter-rule pattern="page-include-service-id" propertyname="id" />
             <bean-property-setter-rule pattern="page-include-service-class" propertyname="className" />
+            <bean-property-setter-rule pattern="enabled" propertyname="enabled" />
             <set-next-rule methodname="addPageInclude" />
         </pattern>
         <pattern value="params">
