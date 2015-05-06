@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col-xs-12 col-sm-4 col-md-4">
+    <div class="col-xs-12 col-sm-4">
         <form method="get" action="jsp/site/Portal.jsp" class="form">
             <input type="hidden" name="page" value="search" />
             <div class="input-group">
@@ -51,16 +51,8 @@
         <#if date_filter == "1">
         <#-- date_filter 0/1 -->
         <p>#i18n{portal.search.search_results.dateFilter} :</p>
-        <label>#i18n{portal.search.search_results.dateFilterAfter}</label>
-        <div class="input-group">
-            <input type="text" class="form-control" id="date_after" name="date_after" />
-            <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-        </div>
-        <label>#i18n{portal.search.search_results.dateFilterBefore}</label>
-        <div class="input-group">
-            <input type="text" class="input-sm" id="date_before" name="date_before" size="10"/>
-            <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
-        </div>
+        <@fieldInputCalendarSite i18nLabelKey="portal.search.search_results.dateFilterAfter" inputName="date_after" />
+        <@fieldInputCalendarSite i18nLabelKey="portal.search.search_results.dateFilterBefore" inputName="date_before" />
         </#if>
         <#if taglist?has_content>
         <#if tag_filter == "1" && taglist?trim != "">
@@ -101,12 +93,6 @@
             </ul>
         </div>
 </div>
-
-<script src="js/jquery/plugins/ui/jquery-ui-1.9.2.custom.min.js"></script>
-<script src="js/jquery/plugins/ui/ui.datepicker-fr.js"></script>
-<@getDatePicker idField="date_after" language="fr" />
-<@getDatePicker idField="date_before" language="fr" />
-
 
 <#-- Freemarker macros -->
 
