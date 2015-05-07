@@ -42,6 +42,7 @@ import fr.paris.lutece.portal.service.daemon.AppDaemonService;
 import fr.paris.lutece.portal.service.database.AppConnectionService;
 import fr.paris.lutece.portal.service.mail.MailService;
 import fr.paris.lutece.portal.service.scheduler.JobSchedulerService;
+import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 
@@ -82,6 +83,7 @@ public class AppInitListener implements ServletContextListener
         ShutdownServiceManager.shutdown(  );
         CacheService.getInstance(  ).shutdown(  );
         AppConnectionService.releasePool(  );
+        SpringContextService.shutdown(  );
         AppLogService.info( "Application stopped" );
 	}
 }
