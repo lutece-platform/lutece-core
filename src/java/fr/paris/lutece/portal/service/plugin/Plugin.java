@@ -119,6 +119,8 @@ public abstract class Plugin implements Comparable<Plugin>
     private List<HttpSessionListenerEntry> _listListeners;
     private Map<Integer, List<String>> _listCssStyleSheets;
     private Map<Integer, List<String>> _listJavascriptFiles;
+    private List<String> _listAdminCssStyleSheets;
+    private List<String> _listAdminJavascriptFiles;
     private List<Right> _listRights;
     private List<PortletType> _listPortletTypes;
     private List<ContentServiceEntry> _listContentServices;
@@ -188,6 +190,8 @@ public abstract class Plugin implements Comparable<Plugin>
             _strJavascriptFilesScope = ( pluginFile.getJavascriptFilesScope(  ) != null )
                 ? pluginFile.getJavascriptFilesScope(  ) : SCOPE_XPAGE;
             _listFreemarkerMacrosFiles = pluginFile.getFreemarkerMacrosFiles(  );
+            _listAdminCssStyleSheets = pluginFile.getAdminCssStyleSheets();
+            _listAdminJavascriptFiles = pluginFile.getAdminJavascriptFiles();
             // Register plugin components
             registerXPageApplications(  );
             registerFilters(  );
@@ -1193,6 +1197,28 @@ public abstract class Plugin implements Comparable<Plugin>
     {
         return ( ( _strJavascriptFilesScope != null ) && _strJavascriptFilesScope.equalsIgnoreCase( SCOPE_XPAGE ) );
     }
+
+    /**
+     * Return the list of stylesheets that should be used in the Back Office
+     * @return the list of stylesheets that should be used in the Back Office
+     * @since 5.1
+     */
+    public List<String> getAdminCssStyleSheets()
+    {
+        return _listAdminCssStyleSheets;
+    }
+    
+    /**
+     * Return the list of Javascript Files that should be used in the Back Office
+     * @return the list of Javascript Files that should be used in the Back Office
+     * @since 5.1
+     */
+    public List<String> getAdminJavascriptFiles()
+    {
+        return _listAdminJavascriptFiles;
+    }
+    
+    
 
     /**
      * Adds a that file that will be autoincluded in freemarker templates

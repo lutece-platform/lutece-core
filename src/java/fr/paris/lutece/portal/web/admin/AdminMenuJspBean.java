@@ -98,12 +98,18 @@ public class AdminMenuJspBean implements Serializable
     private static final String MARK_MENU_POS = "menu_pos";
     private static final String MARK_MODIFY_PASSWORD_URL = "url_modify_password";
     private static final String MARK_DASHBOARD_ZONE = "dashboard_zone_";
+    private static final String MARK_URL_CSS = "css_url";
+    private static final String MARK_JAVASCRIPT_FILE = "javascript_file";
+    private static final String MARK_JAVASCRIPT_FILES = "javascript_files";
+    private static final String MARK_PLUGIN_NAME = "plugin_name";
 
     // Templates
     private static final String TEMPLATE_ADMIN_HOME = "admin/user/admin_home.html";
     private static final String TEMPLATE_ADMIN_MENU_HEADER = "admin/user/admin_header.html";
     private static final String TEMPLATE_ADMIN_MENU_FOOTER = "admin/user/admin_footer.html";
     private static final String TEMPLATE_MODIFY_PASSWORD_DEFAULT_MODULE = "admin/user/modify_password_default_module.html";
+    private static final String TEMPLATE_STYLESHEET_LINK = "admin/stylesheet_link.html";
+    private static final String TEMPLATE_JAVASCRIPT_FILE = "admin/javascript_file.html";
 
     // Parameter
     private static final String PARAMETER_LANGUAGE = "language";
@@ -122,6 +128,9 @@ public class AdminMenuJspBean implements Serializable
     private static final String PASSWORD_CURRENT_ERROR = "portal.users.message.password.new.equals.current";
     private static final String MESSAGE_PASSWORD_REDIRECT = "portal.users.message.password.ok.redirect";
 
+    private static String _strStylesheets;
+    private static String _strJavascripts;
+    
     /**
      * Returns the Administration header menu
      *
@@ -176,7 +185,8 @@ public class AdminMenuJspBean implements Serializable
         Locale locale = ( user != null ) ? user.getLocale(  ) : Locale.getDefault(  );
         model.put( Markers.VERSION, strFooterVersion );
         model.put( MARK_SITE_NAME, strFooterSiteName );
-
+        model.put( MARK_JAVASCRIPT_FILES , getAdminJavascripts() );
+        
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_MENU_FOOTER, locale, model );
 
         return template.getHtml(  );
@@ -498,4 +508,68 @@ public class AdminMenuJspBean implements Serializable
 
         return AppPathService.getBaseUrl( request ) + AppPathService.getAdminMenuUrl(  );
     }
+    
+    /**
+     * Return the stylesheets block to include in the footer
+     * @return the stylesheets files block to include in the footer
+     * @since 5.1
+     */
+    public String getAdminStyleSheets()
+    {
+        if( _strStylesheets == null )
+        {
+            StringBuilder sbCssLinks = new StringBuilder();
+            List<Plugin> listPlugins = new ArrayList<>();
+            listPlugins.add( PluginService.getCore() );
+            listPlugins.addAll( PluginService.getPluginList() );
+            for( Plugin plugin : listPlugins )
+            {
+                if( plugin.getAdminCssStyleSheets() != null )
+                {
+                    for( String strStyleSheet : plugin.getAdminCssStyleSheets() )
+                    {
+                        Map<String,Object> model = new HashMap<String, Object>();
+                        model.put( MARK_URL_CSS, strStyleSheet );
+                        model.put( MARK_PLUGIN_NAME, plugin.getName() );
+                        sbCssLinks.append( AppTemplateService.getTemplate( TEMPLATE_STYLESHEET_LINK, Locale.getDefault(), model ).getHtml() );
+                    }
+                }
+            }
+            _strStylesheets = sbCssLinks.toString();
+        }
+        return _strStylesheets; 
+    }
+    
+    /**
+     * Return the javascript files block to include in the footer
+     * @return the javascript files block to include in the footer
+     * @since 5.1
+     */
+    private String getAdminJavascripts()
+    {
+        if( _strJavascripts == null )
+        {
+            StringBuilder sbJavascripts = new StringBuilder();
+            List<Plugin> listPlugins = new ArrayList<>();
+            listPlugins.add( PluginService.getCore() );
+            listPlugins.addAll( PluginService.getPluginList() );
+            for( Plugin plugin : listPlugins )
+            {
+                if( plugin.getAdminJavascriptFiles() != null )
+                {
+                    for( String strJavascript : plugin.getAdminJavascriptFiles())
+                    {
+                        Map<String,Object> model = new HashMap<String, Object>();
+                        model.put( MARK_JAVASCRIPT_FILE, strJavascript );
+                        model.put( MARK_PLUGIN_NAME, plugin.getName() );
+                        sbJavascripts.append( AppTemplateService.getTemplate( TEMPLATE_JAVASCRIPT_FILE, Locale.getDefault(), model ).getHtml() );
+                    }
+                }
+            }
+            _strJavascripts = sbJavascripts.toString();
+        }
+        return _strJavascripts; 
+    }
+    
+    
 }

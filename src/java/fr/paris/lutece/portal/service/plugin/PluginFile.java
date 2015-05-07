@@ -93,6 +93,8 @@ public class PluginFile
     private boolean _bDbPoolRequired;
     private Map<Integer, List<String>> _listCssStyleSheets = new HashMap<Integer, List<String>>( );
     private Map<Integer, List<String>> _listJavascriptFiles = new HashMap<Integer, List<String>>( );
+    private List<String> _listAdminCssStyleSheets = new ArrayList<String>(  );
+    private List<String> _listAdminJavascriptFiles = new ArrayList<String>(  );
     private List<String> _listFreemarkerMacrosFiles = new ArrayList<String>(  );
     private List<Right> _listRights = new ArrayList<Right>(  );
     private List<PortletType> _listPortletTypes = new ArrayList<PortletType>(  );
@@ -144,15 +146,7 @@ public class PluginFile
         {
             throw new LuteceInitException( "Error loading plugin file : " + strFilename, e );
         }
-        catch ( SAXException e )
-        {
-            throw new LuteceInitException( "Error loading plugin file : " + strFilename, e );
-        }
-        catch ( IOException e )
-        {
-            throw new LuteceInitException( "Error loading plugin file : " + strFilename, e );
-        }
-        catch ( IllegalArgumentException e )
+        catch ( SAXException | IllegalArgumentException | IOException e )
         {
             throw new LuteceInitException( "Error loading plugin file : " + strFilename, e );
         }
@@ -438,6 +432,27 @@ public class PluginFile
         }
         cssStyleSheets.add( strStyleSheet );
     }
+
+    /**
+     * Add an CSS stylesheet to the plugin 
+     * @param strStyleSheet The StyleSheet path
+     * @since 5.1
+     */
+    public void addAdminCssStyleSheet( String strStyleSheet )
+    {
+        _listAdminCssStyleSheets.add( strStyleSheet );
+    }
+
+    /**
+     * Add an Javascript File to the plugin 
+     * @param strJavascriptFile The Javascript File path
+     * @since 5.1
+     */
+    public void addAdminJavascriptFile( String strJavascriptFile )
+    {
+        _listAdminJavascriptFiles.add( strJavascriptFile );
+    }
+
 
     /**
      * Returns all CSS Style Sheets of the plugin not associated with a mode
@@ -905,4 +920,25 @@ public class PluginFile
     {
         _strJavascriptFilesScope = strJavascriptFilescope;
     }
+    
+    /**
+     * Get the list of CSS stylesheets for the admin
+     * @return list of CSS stylesheets for the admin
+     * @since 5.1
+     */
+    public List<String> getAdminCssStyleSheets()
+    {
+        return _listAdminCssStyleSheets;
+    }
+
+    /**
+     * Get the list of Javascript Files for the admin
+     * @return  the list of Javascript Files for the admin
+     * @since 5.1
+     */
+    public List<String> getAdminJavascriptFiles()
+    {
+        return _listAdminJavascriptFiles;
+    }
+    
 }

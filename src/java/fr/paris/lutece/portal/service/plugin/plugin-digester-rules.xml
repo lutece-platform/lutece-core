@@ -28,11 +28,19 @@
             <call-param-rule pattern="css-stylesheet" paramnumber="0"/>
             <call-param-rule pattern="css-stylesheet" attrname="mode" paramnumber="1" />
         </pattern>
+        <pattern value="admin-css-stylesheets">
+            <call-method-rule pattern="admin-css-stylesheet" methodname="addAdminCssStyleSheet" paramcount="1" />
+            <call-param-rule pattern="admin-css-stylesheet" paramnumber="0"/>
+        </pattern>
         <pattern value="javascript-files">
             <bean-property-setter-rule pattern="javascript-files-scope" propertyname="javascriptFilesScope"/>
             <call-method-rule pattern="javascript-file" methodname="addJavascriptFile" paramcount="2" />
             <call-param-rule pattern="javascript-file" paramnumber="0"/>
             <call-param-rule pattern="javascript-file" attrname="mode" paramnumber="1" />
+        </pattern>
+        <pattern value="admin-javascript-files">
+            <call-method-rule pattern="admin-javascript-file" methodname="addAdminJavascriptFile" paramcount="1" />
+            <call-param-rule pattern="admin-javascript-file" paramnumber="0"/>
         </pattern>
         <pattern value="content-services/content-service">
             <object-create-rule classname="fr.paris.lutece.portal.service.content.ContentServiceEntry" />
