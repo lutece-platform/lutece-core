@@ -18,17 +18,9 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge" >
 <!-- Set the viewport width to device width for mobile -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!-- Le styles -->
-<link href="css/admin/bootstrap.min.css" rel="stylesheet">
-<link href="css/admin/datepicker.css" rel="stylesheet" >
-<link href="css/admin/bootstrap2-compatibility.css" rel="stylesheet">
-<link href="css/admin/bootstrap-theme.min.css" rel="stylesheet">
-<link href="css/admin/font-awesome.min.css"  rel="stylesheet" >
-<link href="css/admin/ionicons.min.css"  rel="stylesheet" >
-<link href="css/admin/bootstrap-clockpicker.min.css"  rel="stylesheet" >
-<link href="css/admin/component.css" rel="stylesheet" >
-<link href="css/admin/AdminLTE.css" rel="stylesheet" >
-<link href="css/admin/portal_admin.css" rel="stylesheet" >
+
+<!-- Styles -->
+<%= adminMenu.getAdminStyleSheets() %>
 <%
 	if ( AdminThemeService.isModeAccessible( request ) ){
 %>
