@@ -152,7 +152,7 @@
 <!-- Le javascript
     ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
-<script src="js/jquery/jquery-1.11.3.min.js"></script>
+<script src="js/jquery/jquery.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script>
 $(document).ready(function(e){

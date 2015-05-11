@@ -33,7 +33,7 @@
 <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 <![endif]-->
 <link rel="shortcut icon" href="favicon.ico">
-<script src="js/jquery/jquery-1.11.3.min.js"></script>
+<script src="js/jquery/jquery.min.js"></script>
 </head>
 <body>
 <div class="container">

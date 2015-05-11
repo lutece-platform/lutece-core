@@ -44,7 +44,7 @@
 <link rel="apple-touch-icon-precomposed" href="apple-touch-icon-57-precomposed.png">
 <script src="js/jquery/jquery.min.js"></script>
 -->
-<script src="js/jquery/jquery-1.11.3.min.js"></script>
+<script src="js/jquery/jquery.min.js"></script>
 </head>
  <body class="skin-blue bs-fixed-body">
 <%-- Display the admin menu --%>
