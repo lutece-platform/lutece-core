@@ -52,6 +52,7 @@ public class XPage
     private String _strKeyword;
     private String _strPathLabel;
     private String _strXmlExtendedPathLabel;
+    private boolean _bStandalone;
 
     /**
      *
@@ -161,5 +162,27 @@ public class XPage
         }
 
         _strXmlExtendedPathLabel = sbXml.toString(  );
+    }
+
+    /**
+     * Indicates if the content is standalone and should not be encapsulated in other
+     * content, such as portal headers and footers
+     * @return <code>true</code> is the content is standalone
+     * @since 5.1.0
+     */
+    public boolean isStandalone( )
+    {
+        return _bStandalone;
+    }
+
+    /**
+     * Indicates if the content is standalone and should not be encapsulated in other
+     * content, such as portal headers and footers
+     * @param standalone <code>true</code> is the content is standalone
+     * @since 5.1.0
+     */
+    public void setStandalone( boolean standalone )
+    {
+        _bStandalone = standalone;
     }
 }
