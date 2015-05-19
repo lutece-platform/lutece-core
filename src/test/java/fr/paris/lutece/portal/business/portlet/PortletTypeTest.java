@@ -97,7 +97,7 @@ public class PortletTypeTest extends LuteceTestCase
         assertEquals( ptStored.getModifySpecificFormTemplate(  ), pt.getModifySpecificFormTemplate(  ) );
 
         // List test
-        PortletTypeHome.getPortletTypesList( Locale.getDefault(  ) );
+        PortletTypeHome.getPortletTypesList( LocaleService.getDefault(  ) );
 
         // Delete Test
         PortletTypeHome.remove( ID );

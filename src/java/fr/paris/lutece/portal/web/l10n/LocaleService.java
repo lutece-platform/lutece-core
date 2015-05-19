@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.web.l10n;
 
+import fr.paris.lutece.portal.service.datastore.DatastoreService;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
@@ -45,6 +46,10 @@ import javax.servlet.http.HttpSession;
 public final class LocaleService
 {
     private static final String ATTRIBUTE_SELECTED_LOCALE = "LUTECE_ATTRIBUTE_USER_SELECTED_LOCALE";
+    private static final String DSKEY_LANGUAGE_DEFAULT = "portal.site.site_property.locale.default";
+    private static final String LANGUAGE_DEFAULT = "en";
+    
+    private static Locale _locale;
 
     /**
      * Private constructor
@@ -72,7 +77,7 @@ public final class LocaleService
      */
     public static Locale getUserSelectedLocale( HttpServletRequest request )
     {
-        Locale locale = Locale.getDefault(  );
+        Locale locale = LocaleService.getDefault(  );
         HttpSession session = request.getSession(  );
 
         if ( session != null )
@@ -86,5 +91,28 @@ public final class LocaleService
         }
 
         return locale;
+    }
+    
+    /**
+     * Return a Lutece defined default Locale
+     * @return The locale
+     */
+    public static Locale getDefault()
+    {
+        if( _locale == null )
+        {
+            String strCountry = DatastoreService.getInstanceDataValue( DSKEY_LANGUAGE_DEFAULT, LANGUAGE_DEFAULT );
+            for( String strISOContry : Locale.getISOCountries() )
+            {
+                if( strISOContry.equalsIgnoreCase( strCountry ))
+                {    
+                    _locale = new Locale( strCountry );
+                    return _locale;
+                }
+            }
+            _locale = Locale.getDefault();
+        }
+        
+        return _locale;
     }
 }

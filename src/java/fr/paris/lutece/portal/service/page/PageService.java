@@ -501,7 +501,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
     public String getPageContent( int nIdPage, int nMode, HttpServletRequest request )
         throws SiteMessageException
     {
-        Locale locale = ( request == null ) ? Locale.getDefault(  ) : request.getLocale(  );
+        Locale locale = ( request == null ) ? LocaleService.getDefault(  ) : request.getLocale(  );
 
         String[] arrayContent = new String[MAX_COLUMNS];
 

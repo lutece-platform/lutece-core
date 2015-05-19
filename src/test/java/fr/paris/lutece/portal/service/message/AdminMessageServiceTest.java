@@ -83,11 +83,11 @@ public class AdminMessageServiceTest extends LuteceTestCase
         AdminMessageService.getMessageUrl( request, strMessageKey, strButtonUrl, strTarget, AdminMessage.TYPE_STOP );
 
         AdminMessage message = AdminMessageService.getMessage( request );
-        assertEquals( message.getText( Locale.getDefault(  ) ),
-            I18nService.getLocalizedString( strMessageKey, Locale.getDefault(  ) ) );
+        assertEquals( message.getText( LocaleService.getDefault(  ) ),
+            I18nService.getLocalizedString( strMessageKey, LocaleService.getDefault(  ) ) );
         assertEquals( message.getUrl(  ), strButtonUrl );
         assertEquals( message.getTarget(  ), strTarget );
-        message.getTitle( Locale.getDefault(  ) );
+        message.getTitle( LocaleService.getDefault(  ) );
         message.isCancel(  );
     }
 }

@@ -1212,7 +1212,7 @@ public final class AdminUserService
             return null;
         }
 
-        Calendar calendar = new GregorianCalendar( Locale.getDefault(  ) );
+        Calendar calendar = new GregorianCalendar( LocaleService.getDefault(  ) );
         calendar.add( Calendar.MONTH, nbMonthsAccountValid );
 
         return new Timestamp( calendar.getTimeInMillis(  ) );
@@ -1336,7 +1336,7 @@ public final class AdminUserService
 
                 Map<String, String> model = new HashMap<String, String>(  );
 
-                DateFormat dateFormat = SimpleDateFormat.getDateInstance( DateFormat.SHORT, Locale.getDefault(  ) );
+                DateFormat dateFormat = SimpleDateFormat.getDateInstance( DateFormat.SHORT, LocaleService.getDefault(  ) );
 
                 String accountMaxValidDate = dateFormat.format( new Date( newExpirationDate.getTime(  ) ) );
 
@@ -1344,7 +1344,7 @@ public final class AdminUserService
                 model.put( MARK_NAME, completeUser.getLastName(  ) );
                 model.put( MARK_FIRST_NAME, completeUser.getFirstName(  ) );
 
-                HtmlTemplate template = AppTemplateService.getTemplateFromStringFtl( strBody, Locale.getDefault(  ),
+                HtmlTemplate template = AppTemplateService.getTemplateFromStringFtl( strBody, LocaleService.getDefault(  ),
                         model );
                 MailService.sendMailHtml( strUserMail, strSender, strSender, strSubject, template.getHtml(  ) );
             }
@@ -1536,7 +1536,7 @@ public final class AdminUserService
         if ( bIncludeAttributes )
         {
             Map<String, Object> mapAttributes = AdminUserFieldService.getAdminUserFields( listAttributes,
-                    user.getUserId(  ), Locale.getDefault(  ) );
+                    user.getUserId(  ), LocaleService.getDefault(  ) );
             XmlUtil.beginElement( sbXml, CONSTANT_XML_ATTRIBUTES );
 
             for ( Entry<String, Object> entry : mapAttributes.entrySet(  ) )

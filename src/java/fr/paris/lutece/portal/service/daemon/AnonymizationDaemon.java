@@ -54,7 +54,7 @@ public class AnonymizationDaemon extends Daemon
     @Override
     public void run(  )
     {
-        Locale locale = Locale.getDefault(  );
+        Locale locale = LocaleService.getDefault(  );
         StringBuilder sbLogs = new StringBuilder(  );
         StringBuilder sbResult = new StringBuilder(  );
         List<Integer> expiredUserIdList = AdminUserService.getExpiredUserIdList(  );

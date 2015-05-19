@@ -318,7 +318,7 @@ public class AccountLifeTimeDaemon extends Daemon
                             addParametersToModel( model, nIdUser );
 
                             HtmlTemplate template = AppTemplateService.getTemplateFromStringFtl( strBody,
-                                    Locale.getDefault(  ), model );
+                                    LocaleService.getDefault(  ), model );
 
                             MailService.sendMailHtml( strUserMail, strSender, strSender, strSubject,
                                 template.getHtml(  ) );
@@ -362,7 +362,7 @@ public class AccountLifeTimeDaemon extends Daemon
 
         if ( user.getAccountMaxValidDate(  ) != null )
         {
-            DateFormat dateFormat = SimpleDateFormat.getDateInstance( DateFormat.SHORT, Locale.getDefault(  ) );
+            DateFormat dateFormat = SimpleDateFormat.getDateInstance( DateFormat.SHORT, LocaleService.getDefault(  ) );
 
             String accountMaxValidDate = dateFormat.format( new Date( user.getAccountMaxValidDate(  ).getTime(  ) ) );
 

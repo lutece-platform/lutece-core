@@ -239,8 +239,8 @@ public abstract class MVCApplication implements XPageApplication
     {
         XPage page = new XPage(  );
 
-        page.setTitle( getDefaultPageTitle( Locale.getDefault(  ) ) );
-        page.setPathLabel( getDefaultPagePath( Locale.getDefault(  ) ) );
+        page.setTitle( getDefaultPageTitle( LocaleService.getDefault(  ) ) );
+        page.setPathLabel( getDefaultPagePath( LocaleService.getDefault(  ) ) );
 
         return page;
     }

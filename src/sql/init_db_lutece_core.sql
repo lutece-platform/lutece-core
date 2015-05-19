@@ -186,9 +186,10 @@ INSERT INTO core_datastore VALUES ('core.advanced_parameters.access_failures_cap
 INSERT INTO core_datastore VALUES ('core.advanced_parameters.notify_user_password_expired', '');
 INSERT INTO core_datastore VALUES ('core.advanced_parameters.password_expired_mail_sender', 'lutece@nowhere.com');
 INSERT INTO core_datastore VALUES ('core.advanced_parameters.password_expired_mail_subject', 'Votre mot de passe a expiré');
-
 INSERT INTO core_datastore VALUES ('core.backOffice.defaultEditor', 'tinymce');
 INSERT INTO core_datastore VALUES ('core.frontOffice.defaultEditor', 'markitupbbcode');
+INSERT INTO core_datastore VALUES ('core_banned_domain_names', 'yopmail.com');
+
 INSERT INTO core_datastore VALUES ('portal.site.site_property.name', 'LUTECE');
 INSERT INTO core_datastore VALUES ('portal.site.site_property.meta.author', '<author>');
 INSERT INTO core_datastore VALUES ('portal.site.site_property.meta.copyright', '<copyright>');
@@ -201,9 +202,9 @@ INSERT INTO core_datastore VALUES ('portal.site.site_property.admin_home_url', '
 INSERT INTO core_datastore VALUES ('portal.site.site_property.popup_credits.textblock', '&lt;credits text&gt;');
 INSERT INTO core_datastore VALUES ('portal.site.site_property.popup_legal_info.copyright.textblock', '&lt;copyright text&gt;');
 INSERT INTO core_datastore VALUES ('portal.site.site_property.popup_legal_info.privacy.textblock', '&lt;privacy text&gt;');
-INSERT INTO core_datastore VALUES ('core_banned_domain_names', 'yopmail.com');
 INSERT INTO core_datastore VALUES ('portal.site.site_property.logo_url', 'images/logo-header-icon.png');
 INSERT INTO core_datastore VALUES ('portal.site.site_property.menu.position', 'top');
+INSERT INTO core_datastore VALUES ('portal.site.site_property.locale.default', 'fr');
 
 
 INSERT INTO core_search_parameter (parameter_key, parameter_value) VALUES ('type_filter', 'none');

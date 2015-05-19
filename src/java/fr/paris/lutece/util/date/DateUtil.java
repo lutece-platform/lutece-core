@@ -248,7 +248,7 @@ public final class DateUtil
             }
             else
             {
-                dateFormat = DateFormat.getDateInstance( DateFormat.SHORT, Locale.getDefault(  ) );
+                dateFormat = DateFormat.getDateInstance( DateFormat.SHORT, LocaleService.getDefault(  ) );
             }
 
             dateFormat.setLenient( false );
@@ -347,7 +347,7 @@ public final class DateUtil
         }
         else
         {
-            dateFormat = DateFormat.getDateInstance( DateFormat.SHORT, Locale.getDefault(  ) );
+            dateFormat = DateFormat.getDateInstance( DateFormat.SHORT, LocaleService.getDefault(  ) );
         }
 
         return dateFormat.format( date );
@@ -419,7 +419,7 @@ public final class DateUtil
             }
         }
 
-        DateFormat df = DateFormat.getDateInstance( DateFormat.SHORT, Locale.getDefault(  ) );
+        DateFormat df = DateFormat.getDateInstance( DateFormat.SHORT, LocaleService.getDefault(  ) );
 
         if ( df instanceof SimpleDateFormat )
         {

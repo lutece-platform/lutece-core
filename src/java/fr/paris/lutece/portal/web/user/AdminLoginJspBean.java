@@ -407,7 +407,7 @@ public class AdminLoginJspBean implements Serializable
 
         if ( locale == null )
         {
-            locale = Locale.getDefault(  );
+            locale = LocaleService.getDefault(  );
         }
 
         // if user or mail not found, send admin message
@@ -483,7 +483,7 @@ public class AdminLoginJspBean implements Serializable
 
         if ( locale == null )
         {
-            locale = Locale.getDefault(  );
+            locale = LocaleService.getDefault(  );
         }
 
         // if access code not found, send admin message
@@ -529,7 +529,7 @@ public class AdminLoginJspBean implements Serializable
 
         if ( locale == null )
         {
-            locale = Locale.getDefault(  );
+            locale = LocaleService.getDefault(  );
         }
 
         // send mail to admin wich have level

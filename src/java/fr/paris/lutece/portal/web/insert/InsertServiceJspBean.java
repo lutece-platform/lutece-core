@@ -128,7 +128,7 @@ public abstract class InsertServiceJspBean implements Serializable
         model.put( MARK_TITLE, StringEscapeUtils.escapeHtml( strTitle ) );
         model.put( MARK_TARGET, strTarget );
 
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_LINK, Locale.getDefault(  ), model );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_LINK, LocaleService.getDefault(  ), model );
 
         return template.getHtml(  );
     }

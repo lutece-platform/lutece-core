@@ -76,7 +76,7 @@ public class FreeMarkerTemplateServiceTest extends LuteceTestCase
         model.put( Markers.PAGE_MAIN_MENU, "menu" );
 
         IFreeMarkerTemplateService freeMarkerTemplateService = FreeMarkerTemplateService.getInstance(  );
-        freeMarkerTemplateService.loadTemplate( strPath, strTemplate, Locale.getDefault(  ), model );
+        freeMarkerTemplateService.loadTemplate( strPath, strTemplate, LocaleService.getDefault(  ), model );
     }
 
     /**

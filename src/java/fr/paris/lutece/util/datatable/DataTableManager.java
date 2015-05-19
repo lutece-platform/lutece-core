@@ -566,7 +566,7 @@ public class DataTableManager<T> implements Serializable
             paginationProperties.setCurrentPageIndex( nCurrentPageIndex );
         }
 
-        _locale = ( request != null ) ? request.getLocale(  ) : Locale.getDefault(  );
+        _locale = ( request != null ) ? request.getLocale(  ) : LocaleService.getDefault(  );
 
         return paginationProperties;
     }

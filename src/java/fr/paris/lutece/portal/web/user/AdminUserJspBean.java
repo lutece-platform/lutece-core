@@ -1203,7 +1203,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         Collection<AdminUser> listUsers = AdminUserHome.findUserList(  );
 
         List<IAttribute> listAttributes = AttributeService.getInstance(  )
-                                                          .getAllAttributesWithFields( Locale.getDefault(  ) );
+                                                          .getAllAttributesWithFields( LocaleService.getDefault(  ) );
         List<IAttribute> listAttributesFiltered = new ArrayList<IAttribute>(  );
 
         for ( IAttribute attribute : listAttributes )

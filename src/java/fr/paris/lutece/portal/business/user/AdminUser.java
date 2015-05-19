@@ -135,7 +135,7 @@ public class AdminUser implements Serializable, AdminWorkgroupResource
      */
     public Locale getLocale(  )
     {
-        return ( _locale == null ) ? Locale.getDefault(  ) : _locale;
+        return ( _locale == null ) ? LocaleService.getDefault(  ) : _locale;
     }
 
     /**

@@ -182,7 +182,7 @@ public class AdminMenuJspBean implements Serializable
         String strFooterVersion = AppInfo.getVersion(  );
         String strFooterSiteName = PortalService.getSiteName(  );
         AdminUser user = AdminUserService.getAdminUser( request );
-        Locale locale = ( user != null ) ? user.getLocale(  ) : Locale.getDefault(  );
+        Locale locale = ( user != null ) ? user.getLocale(  ) : LocaleService.getDefault(  );
         model.put( Markers.VERSION, strFooterVersion );
         model.put( MARK_SITE_NAME, strFooterSiteName );
         model.put( MARK_JAVASCRIPT_FILES , getAdminJavascripts() );
@@ -531,7 +531,7 @@ public class AdminMenuJspBean implements Serializable
                         Map<String,Object> model = new HashMap<String, Object>();
                         model.put( MARK_URL_CSS, strStyleSheet );
                         model.put( MARK_PLUGIN_NAME, plugin.getName() );
-                        sbCssLinks.append( AppTemplateService.getTemplate( TEMPLATE_STYLESHEET_LINK, Locale.getDefault(), model ).getHtml() );
+                        sbCssLinks.append( AppTemplateService.getTemplate( TEMPLATE_STYLESHEET_LINK, LocaleService.getDefault(), model ).getHtml() );
                     }
                 }
             }
@@ -562,7 +562,7 @@ public class AdminMenuJspBean implements Serializable
                         Map<String,Object> model = new HashMap<String, Object>();
                         model.put( MARK_JAVASCRIPT_FILE, strJavascript );
                         model.put( MARK_PLUGIN_NAME, plugin.getName() );
-                        sbJavascripts.append( AppTemplateService.getTemplate( TEMPLATE_JAVASCRIPT_FILE, Locale.getDefault(), model ).getHtml() );
+                        sbJavascripts.append( AppTemplateService.getTemplate( TEMPLATE_JAVASCRIPT_FILE, LocaleService.getDefault(), model ).getHtml() );
                     }
                 }
             }

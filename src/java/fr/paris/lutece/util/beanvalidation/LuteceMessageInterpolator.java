@@ -58,7 +58,7 @@ public class LuteceMessageInterpolator implements MessageInterpolator
     public LuteceMessageInterpolator(  )
     {
         _interpolator = Validation.byDefaultProvider(  ).configure(  ).getDefaultMessageInterpolator(  );
-        _locale = Locale.getDefault(  );
+        _locale = LocaleService.getDefault(  );
     }
 
     /**
