@@ -34,6 +34,7 @@
 package fr.paris.lutece.portal.web.l10n;
 
 import fr.paris.lutece.portal.service.datastore.DatastoreService;
+import fr.paris.lutece.portal.service.util.AppLogService;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
@@ -107,10 +108,12 @@ public final class LocaleService
                 if( strISOContry.equalsIgnoreCase( strCountry ))
                 {    
                     _locale = new Locale( strCountry );
+                    AppLogService.info( "LocaleService : default locale set to : " + strCountry );
                     return _locale;
                 }
             }
             _locale = Locale.getDefault();
+            AppLogService.error( "LocaleService : invalid defined locale " + strCountry  + " - default set to " + LANGUAGE_DEFAULT );
         }
         
         return _locale;
