@@ -66,6 +66,7 @@ import java.text.SimpleDateFormat;
 
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
 
@@ -307,7 +308,7 @@ public final class AppInit
             model.put( MARK_PROD_URL, p.getProperty( PROPERTY_INIT_WEBAPP_PROD_URL ) );
             model.put( MARK_AUTOINIT, Boolean.FALSE.toString(  ) );
 
-            HtmlTemplate configTemplate = AppTemplateService.getTemplate( CONFIG_PROPERTIES_TEMPLATE, null, model );
+            HtmlTemplate configTemplate = AppTemplateService.getTemplate( CONFIG_PROPERTIES_TEMPLATE, Locale.getDefault() , model );
             // reset configuration cache to avoid configuration caching before macros are set. See LUTECE-1460
             AppTemplateService.resetConfiguration(  );
 
