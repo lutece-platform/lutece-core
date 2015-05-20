@@ -37,13 +37,13 @@ import fr.paris.lutece.portal.service.database.AppConnectionService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.web.constants.Markers;
+import fr.paris.lutece.portal.web.l10n.LocaleService;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.util.html.HtmlTemplate;
 
 import java.sql.Connection;
 
 import java.util.HashMap;
-import java.util.Locale;
 
 
 /**

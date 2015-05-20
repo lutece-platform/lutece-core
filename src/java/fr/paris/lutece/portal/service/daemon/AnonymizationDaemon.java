@@ -35,6 +35,7 @@ package fr.paris.lutece.portal.service.daemon;
 
 import fr.paris.lutece.portal.service.admin.AdminUserService;
 import fr.paris.lutece.portal.service.util.AppLogService;
+import fr.paris.lutece.portal.web.l10n.LocaleService;
 
 import java.util.List;
 import java.util.Locale;

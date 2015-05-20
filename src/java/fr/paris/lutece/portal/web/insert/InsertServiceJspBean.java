@@ -36,6 +36,7 @@ package fr.paris.lutece.portal.web.insert;
 import fr.paris.lutece.portal.service.html.EncodingService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppPathService;
+import fr.paris.lutece.portal.web.l10n.LocaleService;
 import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.url.UrlItem;
@@ -45,7 +46,6 @@ import org.apache.commons.lang.StringEscapeUtils;
 import java.io.Serializable;
 
 import java.util.HashMap;
-import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 

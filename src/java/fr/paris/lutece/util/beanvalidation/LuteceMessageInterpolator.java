@@ -34,6 +34,7 @@
 package fr.paris.lutece.util.beanvalidation;
 
 import static fr.paris.lutece.portal.service.i18n.I18nService.getLocalizedString;
+import fr.paris.lutece.portal.web.l10n.LocaleService;
 
 import java.util.Locale;
 import java.util.regex.Matcher;

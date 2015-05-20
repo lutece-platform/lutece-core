@@ -39,6 +39,7 @@ import fr.paris.lutece.portal.business.user.authentication.AdminAuthentication;
 import fr.paris.lutece.portal.business.user.parameter.EmailPatternRegularExpressionRemovalListener;
 import fr.paris.lutece.portal.service.regularexpression.RegularExpressionRemovalListenerService;
 import fr.paris.lutece.portal.service.workgroup.AdminWorkgroupResource;
+import fr.paris.lutece.portal.web.l10n.LocaleService;
 
 import org.apache.commons.lang.StringUtils;
 

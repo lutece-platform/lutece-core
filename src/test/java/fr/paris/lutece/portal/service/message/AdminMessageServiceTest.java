@@ -35,10 +35,10 @@ package fr.paris.lutece.portal.service.message;
 
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.web.constants.Messages;
+import fr.paris.lutece.portal.web.l10n.LocaleService;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.MokeHttpServletRequest;
 
-import java.util.Locale;
 
 
 /**

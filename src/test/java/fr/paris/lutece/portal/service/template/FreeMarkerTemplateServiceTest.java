@@ -34,10 +34,10 @@
 package fr.paris.lutece.portal.service.template;
 
 import fr.paris.lutece.portal.web.constants.Markers;
+import fr.paris.lutece.portal.web.l10n.LocaleService;
 import fr.paris.lutece.test.LuteceTestCase;
 
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 
 
