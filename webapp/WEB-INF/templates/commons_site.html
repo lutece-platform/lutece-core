@@ -14,7 +14,7 @@
 		   	<#else>
 		   		<option value="${item.code}" >${item.name}</option>
 		   	</#if>
-		</#list>		
+		</#list>
 	</select>
 </#macro>
 
@@ -26,7 +26,7 @@
 		   	<#else>
 		   		<option value="${item.code}" >${item.name}</option>
 		   	</#if>
-		</#list>		
+		</#list>
 	</select>
 </#macro>
 
@@ -37,13 +37,13 @@
             	<#assign item_new = "..." + "${item.name?substring(item.name?length-max_length+3)}" >
             <#else>
               	<#assign item_new = "${item.name}">
-            </#if>	
-			<#if default_value="${item.code}"> 			
+            </#if>
+			<#if default_value="${item.code}">
       			<option selected="selected" value="${item.code}" >${item_new}</option>
       		<#else>
       			<option value="${item.code}" >${item_new}</option>
       		</#if>
-    	</#list>		
+    	</#list>
 	</select>
 </#macro>
 
@@ -69,7 +69,7 @@
     </a>
 </#macro>
 
-<#macro paginationSite paginator combo=0 form=1 nb_items_per_page=nb_items_per_page >
+<#macro paginationSite paginator combo=0 form=1 nb_items_per_page=nb_items_per_page showcount=0>
 	<#if (paginator.pagesCount > 1) >
 		<@paginationSitePageLinks paginator=paginator />
 	</#if>
@@ -79,7 +79,7 @@
 		<div class="row-fluid">
 			<div class="pull-right" >
 				<div class="form-inline">
-					<@paginationSiteItemCount paginator=paginator combo=combo nb_items_per_page=nb_items_per_page/>
+					<@paginationSiteItemCount paginator=paginator combo=combo nb_items_per_page=nb_items_per_page showcount=showcount />
 				</div>
 			</div>
 		</div>
@@ -160,7 +160,7 @@
 			</#if>
 		</ul>
  </#macro>
- 
+
 <#macro paginationSiteCombo paginator nb_items_per_page=nb_items_per_page>
 	<span class="add-on">${paginator.labelItemCountPerPage}</span>
 	<select class="input-mini" name="${paginator.itemsPerPageParameterName}" id="${paginator.itemsPerPageParameterName}" title="${paginator.labelItemCountPerPage}">
@@ -178,13 +178,15 @@
 	&nbsp;-&nbsp;
 </#macro>
 
-<#macro paginationSiteItemCount paginator combo=0 nb_items_per_page=nb_items_per_page>
+<#macro paginationSiteItemCount paginator combo=0 nb_items_per_page=nb_items_per_page showcount=0>
 	<#-- Display combo -->
 	<#if combo == 1 >
 		<@paginationSiteCombo paginator=paginator nb_items_per_page=nb_items_per_page/>
 	</#if>
-	<#-- Display item count -->
-	<#if (paginator.labelItemCount)?? && paginator.labelItemCount?has_content>${paginator.labelItemCount} : </#if>${paginator.itemsCount}
+  <#if showcount == 1 >
+	  <#-- Display item count -->
+	  <#if (paginator.labelItemCount)?? && paginator.labelItemCount?has_content>${paginator.labelItemCount} : </#if>${paginator.itemsCount}
+  </#if>
 </#macro>
 
 
@@ -332,7 +334,7 @@
 
 <#macro fieldInputTextSite i18nLabelKey inputName mandatory=false value="" maxlength=0 i18nHelpBlockKey='' cssClass=''>
 	<div class="control-group">
-		<label class="control-label" for="${inputName}">#i18n{${i18nLabelKey}} <#if mandatory>*</#if> :</label> 
+		<label class="control-label" for="${inputName}">#i18n{${i18nLabelKey}} <#if mandatory>*</#if> :</label>
 		<div class="controls">
 			<input class="${cssClass}" id="${inputName}" name="${inputName}" type="text" value="${value}" <#if maxlength &gt; 0>maxlength=${maxlength}</#if> />
 			<#if i18nHelpBlockKey != ''><span class="help-block">#i18n{${i18nHelpBlockKey}}</span></#if>
@@ -342,7 +344,7 @@
 
 <#macro fieldInputCalendarSite i18nLabelKey inputName mandatory=false value="" i18nHelpBlockKey='' cssClass='' language='fr'>
 	<div class="control-group">
-		<label class="control-label" for="${inputName}">#i18n{${i18nLabelKey}} <#if mandatory>*</#if> :</label> 
+		<label class="control-label" for="${inputName}">#i18n{${i18nLabelKey}} <#if mandatory>*</#if> :</label>
 		<div class="controls">
 			<div class="input-prepend">
 				<span class="add-on"><i class="icon-calendar">&nbsp;</i></span>
@@ -356,7 +358,7 @@
 
 <#macro fieldInputCheckBoxSite i18nLabelKey inputName value="" checked=false i18nHelpBlockKey='' cssClass='' >
 	<div class="control-group">
-		<label class="control-label" for="${inputName}">#i18n{${i18nLabelKey}} :</label> 
+		<label class="control-label" for="${inputName}">#i18n{${i18nLabelKey}} :</label>
 		<div class="controls">
 			<input class="${cssClass}" id="${inputName}" name="${inputName}" type="checkbox" value="${value}" <#if checked>checked="checked"</#if> />
 			<#if i18nHelpBlockKey != ''><span class="help-block">#i18n{${i18nHelpBlockKey}}</span></#if>
@@ -366,7 +368,7 @@
 
 <#macro fieldInputComboSite i18nLabelKey inputName items value="" mandatory=false i18nHelpBlockKey='' cssClass='' >
 	<div class="control-group">
-		<label class="control-label" for="${inputName}">#i18n{${i18nLabelKey}} <#if mandatory>* </#if>:</label> 
+		<label class="control-label" for="${inputName}">#i18n{${i18nLabelKey}} <#if mandatory>* </#if>:</label>
 		<div class="controls">
 			<#assign params = "class='" + cssClass + "'" >
 			<@comboWithParams name=inputName items=items default_value=value additionalParameters=params />
@@ -378,7 +380,7 @@
 
 <#macro fieldTextAreaSite i18nLabelKey inputName mandatory=false value="" maxlength=0 i18nHelpBlockKey='' cssClass=''>
 	<div class="control-group">
-		<label class="control-label" for="${inputName}">#i18n{${i18nLabelKey}} <#if mandatory>*</#if> :</label> 
+		<label class="control-label" for="${inputName}">#i18n{${i18nLabelKey}} <#if mandatory>*</#if> :</label>
 		<div class="controls">
 			<textarea class="${cssClass}" id="${inputName}" name="${inputName}" <#if maxlength &gt; 0>maxlength=255</#if> >${value}</textarea>
 			<#if i18nHelpBlockKey != ''><span class="help-block">#i18n{${i18nHelpBlockKey}}</span></#if>
