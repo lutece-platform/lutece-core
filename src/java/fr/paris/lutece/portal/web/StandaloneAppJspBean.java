@@ -38,6 +38,7 @@ import fr.paris.lutece.portal.service.content.XPageAppService;
 import fr.paris.lutece.portal.service.message.ISiteMessageHandler;
 import fr.paris.lutece.portal.service.message.SiteMessageException;
 import fr.paris.lutece.portal.service.plugin.Plugin;
+import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.portal.StandaloneAppService;
 import fr.paris.lutece.portal.service.security.UserNotSignedException;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
@@ -65,6 +66,7 @@ public class StandaloneAppJspBean
     private static final String TEMPLATE_STANDALONE = "skin/site/standalone_app.html";
     private static final String MARK_ENTRY_LIST = "entry_list";
     private static final String MARK_BASE_URL = "base_url";
+    private static final String MARK_CORE_PLUGIN = "core_plugin";
     private static final String BEAN_SITE_MESSAGE_HANDLER = "siteMessageHandler";
 
     /**
@@ -132,18 +134,14 @@ public class StandaloneAppJspBean
         {
             if ( entry.isEnable(  ) )
             {
-                Plugin plugin = entry.getPlugin(  );
-
-                if ( plugin != null )
-                {
-                    entryList.add( entry );
-                }
+                entryList.add( entry );
             }
         }
 
         // Insert the rows in the list
         modelList.put( MARK_ENTRY_LIST, entryList );
         modelList.put( MARK_BASE_URL, AppPathService.getBaseUrl( request ) );
+        modelList.put( MARK_CORE_PLUGIN, PluginService.getCore() );
 
         HtmlTemplate templateList = AppTemplateService.getTemplate( TEMPLATE_STANDALONE, locale, modelList );
 

@@ -52,10 +52,15 @@
 				<#list entry_list as entry>
 					<tr>
 						<td><a href="jsp/site/RunStandaloneApp.jsp?page=${entry.id}">${entry.id}</a></td>
-						<td>${entry.plugin.name}</td>
-						<td>${entry.plugin.version}</td>
-						<td>${entry.plugin.description}</td>
-						<td>${entry.plugin.provider}</td>
+						<#if entry.plugin??>
+							<#assign plugin=entry.plugin>
+						<#else>
+							<#assign plugin=core_plugin>
+						</#if>
+						<td>${plugin.name}</td>
+						<td>${plugin.version}</td>
+						<td>${plugin.description}</td>
+						<td>${plugin.provider}</td>
 					</tr>
 				</#list>
 			</table>
