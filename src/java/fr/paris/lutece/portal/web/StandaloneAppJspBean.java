@@ -63,7 +63,7 @@ public class StandaloneAppJspBean
     // Constants
     private static final int MODE_HTML = 0;
     private static final String TEMPLATE_STANDALONE = "skin/site/standalone_app.html";
-    private static final String MARK_PLUGINS_LIST = "plugins_list";
+    private static final String MARK_ENTRY_LIST = "entry_list";
     private static final String MARK_BASE_URL = "base_url";
     private static final String BEAN_SITE_MESSAGE_HANDLER = "siteMessageHandler";
 
@@ -124,7 +124,7 @@ public class StandaloneAppJspBean
     public String getPluginList( HttpServletRequest request )
     {
         HashMap<String, Object> modelList = new HashMap<String, Object>(  );
-        Collection<Plugin> pluginList = new ArrayList<Plugin>(  );
+        Collection<XPageApplicationEntry> entryList = new ArrayList<XPageApplicationEntry>(  );
         Locale locale = ( request == null ) ? null : request.getLocale(  );
 
         // Scan of the list
@@ -136,13 +136,13 @@ public class StandaloneAppJspBean
 
                 if ( plugin != null )
                 {
-                    pluginList.add( plugin );
+                    entryList.add( entry );
                 }
             }
         }
 
         // Insert the rows in the list
-        modelList.put( MARK_PLUGINS_LIST, pluginList );
+        modelList.put( MARK_ENTRY_LIST, entryList );
         modelList.put( MARK_BASE_URL, AppPathService.getBaseUrl( request ) );
 
         HtmlTemplate templateList = AppTemplateService.getTemplate( TEMPLATE_STANDALONE, locale, modelList );

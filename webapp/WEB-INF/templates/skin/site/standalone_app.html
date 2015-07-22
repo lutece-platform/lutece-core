@@ -43,17 +43,19 @@
 			<h2>#i18n{portal.site.standalone_app.applicationsList.pageTitle}</h2>
 			<table class="table table-striped">
 				<tr>
+					<th>#i18n{portal.site.standalone_app.applicationsList.labelId}</th>
 					<th>#i18n{portal.site.standalone_app.applicationsList.labelName}</th>
 					<th>#i18n{portal.site.standalone_app.applicationsList.labelVersion}</th>
 					<th>#i18n{portal.site.standalone_app.applicationsList.labelDescription}</th>
 					<th>#i18n{portal.site.standalone_app.applicationsList.labelAuthor}</th>
 				</tr>
-				<#list plugins_list as plugin>
+				<#list entry_list as entry>
 					<tr>
-						<td><a href="jsp/site/RunStandaloneApp.jsp?page=${plugin.name}">${plugin.name}</a></td>
-						<td>${plugin.version}</td>
-						<td>${plugin.description}</td>
-						<td>${plugin.provider}</td>
+						<td><a href="jsp/site/RunStandaloneApp.jsp?page=${entry.id}">${entry.id}</a></td>
+						<td>${entry.plugin.name}</td>
+						<td>${entry.plugin.version}</td>
+						<td>${entry.plugin.description}</td>
+						<td>${entry.plugin.provider}</td>
 					</tr>
 				</#list>
 			</table>
