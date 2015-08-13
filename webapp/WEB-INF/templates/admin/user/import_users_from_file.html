@@ -1,5 +1,5 @@
 <div class="row">
-	<div class="col-xs-12 col-sm-12 col-md-12">
+	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 		<div class="box box-success">
 			<div class="box-body">
 				<form class="form-horizontal" enctype="multipart/form-data" method="post" name="import_users_from_file" action="jsp/admin/user/DoImportUsersFromFile.jsp">
@@ -12,8 +12,8 @@
 						</li>
 					</ul>
 					<div class="form-group">
-						<label class="control-label col-xs-12 col-sm-1 col-md-1" for="import_file">#i18n{portal.users.import_users_from_file.labelImportFile} * :</label>
-						<div class="col-xs-12 col-sm-9 col-md-9">
+						<label class="col-xs-12 col-sm-12 col-md-2 col-lg-3" for="import_file">#i18n{portal.users.import_users_from_file.labelImportFile} * :</label>
+						<div class="col-xs-12 col-sm-12 col-md-10 col-lg-9">
 							<input type="file" id="import_file" name="import_file"/>
 							<span class="help-block">#i18n{portal.users.import_users_from_file.labelCSVSeparator} "<strong>${csv_separator}</strong>".<br />
 							#i18n{portal.users.import_users_from_file.labelListColumns}<br />
@@ -23,8 +23,8 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="control-label col-xs-12 col-sm-1 col-md-1" for="ignore_first_line"></label>
-						<div class="col-xs-12 col-sm-9 col-md-9">
+						<label class="col-xs-12 col-sm-12 col-md-2 col-lg-3" for="ignore_first_line"></label>
+						<div class="col-xs-12 col-sm-12 col-md-10 col-lg-9">
 							<div class="checkbox">
 								<label>
 									<input type="checkbox" id="ignore_first_line" name="ignore_first_line">
@@ -35,8 +35,8 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="control-label col-xs-12 col-sm-1 col-md-1" for="update_existing_users"></label>
-						<div class="col-xs-12 col-sm-9 col-md-9">
+						<label class="col-xs-12 col-sm-12 col-md-2 col-lg-3" for="update_existing_users"></label>
+						<div class="col-xs-12 col-sm-12 col-md-10 col-lg-9">
 							<div class="checkbox">
 								<label>
 									<input type="checkbox" id="update_existing_users" name="update_existing_users">
@@ -54,7 +54,7 @@
 						</#list>
 					</#if>
 					<div class="form-group">
-						<div class="col-xs-12 col-sm-offset-3 col-sm-9 col-md-offset-3 col-md-9">
+						<div class="col-xs-12 col-sm-12 col-md-offset-2 col-lg-offset-3">
 							<button class="btn btn-primary btn-flat" type="submit">
 								<i class="glyphicon glyphicon-ok"></i> #i18n{portal.util.labelValidate}
 							</button>
