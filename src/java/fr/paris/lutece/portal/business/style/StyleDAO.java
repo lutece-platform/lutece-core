@@ -236,7 +236,7 @@ public final class StyleDAO implements IStyleDAO
         daoUtil.setInt( 1, nPortalComponentId );
         daoUtil.executeQuery(  );
 
-        if ( !daoUtil.next(  ) )
+        if ( daoUtil.next(  ) )
         {
             daoUtil.free(  );
 
