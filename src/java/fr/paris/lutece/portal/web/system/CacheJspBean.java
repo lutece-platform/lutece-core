@@ -104,7 +104,7 @@ public class CacheJspBean extends AdminFeaturesPageJspBean
         {
             CacheService.resetCaches(  );
             AppTemplateService.resetCache(  );
-            I18nService.resetCache();
+            I18nService.resetCache(  );
         }
 
         return JSP_MANAGE_CACHES;

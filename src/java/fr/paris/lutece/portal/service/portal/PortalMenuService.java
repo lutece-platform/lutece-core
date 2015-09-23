@@ -48,6 +48,8 @@ import fr.paris.lutece.portal.service.security.LuteceUser;
 import fr.paris.lutece.portal.service.security.SecurityService;
 import fr.paris.lutece.util.xml.XmlUtil;
 
+import org.apache.commons.lang.StringUtils;
+
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
@@ -55,8 +57,6 @@ import java.util.Map;
 import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
-
-import org.apache.commons.lang.StringUtils;
 
 
 /**
@@ -267,9 +267,9 @@ public final class PortalMenuService extends AbstractCacheableService implements
             {
                 LuteceUser user = SecurityService.getInstance(  ).getRegisteredUser( request );
 
-                if ( user != null && user.getRoles( ) != null)
+                if ( ( user != null ) && ( user.getRoles(  ) != null ) )
                 {
-                    String[] roles = user.getRoles( );
+                    String[] roles = user.getRoles(  );
                     Arrays.sort( roles );
                     strRoles = StringUtils.join( roles, ',' );
                 }
@@ -283,9 +283,10 @@ public final class PortalMenuService extends AbstractCacheableService implements
         return sbKey.toString(  );
     }
 
-	@Override
-	public void processPageEvent(PageEvent event) {
-		// page was added, removed or updated; clear cache
-		resetCache();
-	}
+    @Override
+    public void processPageEvent( PageEvent event )
+    {
+        // page was added, removed or updated; clear cache
+        resetCache(  );
+    }
 }

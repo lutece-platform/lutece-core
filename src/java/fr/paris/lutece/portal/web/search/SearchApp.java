@@ -60,6 +60,7 @@ import fr.paris.lutece.util.url.UrlItem;
 import org.apache.commons.lang.StringUtils;
 
 import java.io.UnsupportedEncodingException;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -67,6 +68,7 @@ import java.util.Map;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+
 import javax.servlet.http.HttpServletRequest;
 
 
@@ -110,7 +112,6 @@ public class SearchApp implements XPageApplication
     private static final String CONSTANT_ENCODING_UTF8 = "UTF-8";
     private static final String CONSTANT_HTTP_METHOD_GET = "GET";
     private static final boolean DEFAULT_ENCODE_URI = false;
-
     @Inject
     @Named( BEAN_SEARCH_ENGINE )
     private SearchEngine _engine;

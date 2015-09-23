@@ -164,7 +164,7 @@ public abstract class PortletHome implements PortletHomeInterface
         portlet.setStatus( AppPropertiesService.getPropertyInt( PROPERTY_PORTLET_CREATION_STATUS,
                 CONSTANT_DEFAULT_STATUS ) );
 
-       // Creation of the portlet child
+        // Creation of the portlet child
         getDAO(  ).insert( portlet );
 
         // Creation of the portlet parent
@@ -175,8 +175,6 @@ public abstract class PortletHome implements PortletHomeInterface
 
         return portlet;
     }
-
-  
 
     /**
      * Recovery of an identifier for the new portlet
@@ -195,7 +193,6 @@ public abstract class PortletHome implements PortletHomeInterface
      */
     public synchronized void remove( Portlet portlet )
     {
-       
         // Deleting of the portlet child
         getDAO(  ).delete( portlet.getId(  ) );
 
@@ -213,8 +210,6 @@ public abstract class PortletHome implements PortletHomeInterface
      */
     public void update( Portlet portlet )
     {
-        
-
         getDAO(  ).store( portlet );
         _dao.store( portlet );
 
@@ -334,7 +329,7 @@ public abstract class PortletHome implements PortletHomeInterface
             listener.processPortletEvent( event );
         }
     }
-    
+
     /**
      * Get list of used orders for a column
      * @param pageId the page id
@@ -345,6 +340,4 @@ public abstract class PortletHome implements PortletHomeInterface
     {
         return _dao.getUsedOrdersForColumns( pageId, columnId );
     }
-
-    
 }

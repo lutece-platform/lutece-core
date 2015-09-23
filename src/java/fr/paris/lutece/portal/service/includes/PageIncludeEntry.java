@@ -124,7 +124,7 @@ public class PageIncludeEntry
      * @return <code>true</code> if this PageInclude is enabled, <code>false</code> otherwise
      * @since 5.1
      */
-    public boolean isEnabled( )
+    public boolean isEnabled(  )
     {
         return _bEnabled;
     }

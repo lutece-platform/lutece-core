@@ -80,7 +80,7 @@ public class UploadFilterSite extends UploadFilter
         }
         catch ( SiteMessageException lme )
         {
-            return AppPathService.getSiteMessageUrl(request);
+            return AppPathService.getSiteMessageUrl( request );
         }
 
         return null;

@@ -33,15 +33,16 @@
  */
 package fr.paris.lutece.portal.service.i18n;
 
+import fr.paris.lutece.portal.service.template.AbstractMessageFormatTemplateMethod;
+
 import java.util.Locale;
 
-import fr.paris.lutece.portal.service.template.AbstractMessageFormatTemplateMethod;
 
 public class I18nTemplateMethod extends AbstractMessageFormatTemplateMethod
 {
-	@Override
-	protected String getPattern( String key, Locale locale )
-	{
-		return I18nService.getLocalizedString( key, locale );
-	}
+    @Override
+    protected String getPattern( String key, Locale locale )
+    {
+        return I18nService.getLocalizedString( key, locale );
+    }
 }

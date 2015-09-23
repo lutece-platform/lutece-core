@@ -33,16 +33,16 @@
  */
 package fr.paris.lutece.portal.service.datastore;
 
+import fr.paris.lutece.portal.service.template.AbstractMessageFormatTemplateMethod;
+
 import java.util.Locale;
 
-import fr.paris.lutece.portal.service.template.AbstractMessageFormatTemplateMethod;
 
 public class DatastoreTemplateMethod extends AbstractMessageFormatTemplateMethod
 {
-
-	@Override
-	protected String getPattern( String key, Locale locale ) {
-		return DatastoreService.getDataValue( key, DatastoreService.VALUE_MISSING );
-	}
-
+    @Override
+    protected String getPattern( String key, Locale locale )
+    {
+        return DatastoreService.getDataValue( key, DatastoreService.VALUE_MISSING );
+    }
 }

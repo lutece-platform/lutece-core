@@ -54,13 +54,16 @@ import org.apache.commons.digester.Substitutor;
 import org.apache.commons.digester.substitution.MultiVariableExpander;
 import org.apache.commons.digester.substitution.VariableSubstitutor;
 import org.apache.commons.digester.xmlrules.DigesterLoader;
+
 import org.xml.sax.SAXException;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+
 import java.net.URL;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -91,8 +94,8 @@ public class PluginFile
     private String _strMaxCoreVersion;
     private boolean _bIsInstalled;
     private boolean _bDbPoolRequired;
-    private Map<Integer, List<String>> _listCssStyleSheets = new HashMap<Integer, List<String>>( );
-    private Map<Integer, List<String>> _listJavascriptFiles = new HashMap<Integer, List<String>>( );
+    private Map<Integer, List<String>> _listCssStyleSheets = new HashMap<Integer, List<String>>(  );
+    private Map<Integer, List<String>> _listJavascriptFiles = new HashMap<Integer, List<String>>(  );
     private List<String> _listAdminCssStyleSheets = new ArrayList<String>(  );
     private List<String> _listAdminJavascriptFiles = new ArrayList<String>(  );
     private List<String> _listFreemarkerMacrosFiles = new ArrayList<String>(  );
@@ -146,7 +149,15 @@ public class PluginFile
         {
             throw new LuteceInitException( "Error loading plugin file : " + strFilename, e );
         }
-        catch ( SAXException | IllegalArgumentException | IOException e )
+        catch ( SAXException e )
+        {
+            throw new LuteceInitException( "Error loading plugin file : " + strFilename, e );
+        }
+        catch ( IllegalArgumentException e )
+        {
+            throw new LuteceInitException( "Error loading plugin file : " + strFilename, e );
+        }
+        catch ( IOException e )
         {
             throw new LuteceInitException( "Error loading plugin file : " + strFilename, e );
         }
@@ -400,10 +411,12 @@ public class PluginFile
     private Integer getMode( String mode )
     {
         Integer nMode = null;
+
         if ( mode != null )
         {
             nMode = Integer.valueOf( mode );
         }
+
         return nMode;
     }
 
@@ -425,16 +438,18 @@ public class PluginFile
     {
         Integer nMode = getMode( mode );
         List<String> cssStyleSheets = _listCssStyleSheets.get( nMode );
+
         if ( cssStyleSheets == null )
         {
-            cssStyleSheets = new ArrayList<String>( );
+            cssStyleSheets = new ArrayList<String>(  );
             _listCssStyleSheets.put( nMode, cssStyleSheets );
         }
+
         cssStyleSheets.add( strStyleSheet );
     }
 
     /**
-     * Add an CSS stylesheet to the plugin 
+     * Add an CSS stylesheet to the plugin
      * @param strStyleSheet The StyleSheet path
      * @since 5.1
      */
@@ -444,7 +459,7 @@ public class PluginFile
     }
 
     /**
-     * Add an Javascript File to the plugin 
+     * Add an Javascript File to the plugin
      * @param strJavascriptFile The Javascript File path
      * @since 5.1
      */
@@ -452,7 +467,6 @@ public class PluginFile
     {
         _listAdminJavascriptFiles.add( strJavascriptFile );
     }
-
 
     /**
      * Returns all CSS Style Sheets of the plugin not associated with a mode
@@ -462,10 +476,12 @@ public class PluginFile
     public List<String> getCssStyleSheets(  )
     {
         List<String> res = _listCssStyleSheets.get( null );
-        if ( res == null)
+
+        if ( res == null )
         {
-            return Collections.emptyList( );
+            return Collections.emptyList(  );
         }
+
         return res;
     }
 
@@ -475,7 +491,7 @@ public class PluginFile
      * @since 5.1.0
      */
     @NotNull
-    public Map<Integer, List<String>> getCssStyleSheetsForAllModes( )
+    public Map<Integer, List<String>> getCssStyleSheetsForAllModes(  )
     {
         return _listCssStyleSheets;
     }
@@ -498,11 +514,13 @@ public class PluginFile
     {
         Integer nMode = getMode( mode );
         List<String> javascriptFiles = _listJavascriptFiles.get( nMode );
+
         if ( javascriptFiles == null )
         {
-            javascriptFiles = new ArrayList<String>( );
+            javascriptFiles = new ArrayList<String>(  );
             _listJavascriptFiles.put( nMode, javascriptFiles );
         }
+
         javascriptFiles.add( strJavascriptFile );
     }
 
@@ -514,10 +532,12 @@ public class PluginFile
     public List<String> getJavascriptFiles(  )
     {
         List<String> res = _listJavascriptFiles.get( null );
-        if ( res == null)
+
+        if ( res == null )
         {
-            return Collections.emptyList( );
+            return Collections.emptyList(  );
         }
+
         return res;
     }
 
@@ -527,7 +547,7 @@ public class PluginFile
      * @since 5.1.0
      */
     @NotNull
-    public Map<Integer, List<String>> getJavascriptFilesForAllModes( )
+    public Map<Integer, List<String>> getJavascriptFilesForAllModes(  )
     {
         return _listJavascriptFiles;
     }
@@ -920,13 +940,13 @@ public class PluginFile
     {
         _strJavascriptFilesScope = strJavascriptFilescope;
     }
-    
+
     /**
      * Get the list of CSS stylesheets for the admin
      * @return list of CSS stylesheets for the admin
      * @since 5.1
      */
-    public List<String> getAdminCssStyleSheets()
+    public List<String> getAdminCssStyleSheets(  )
     {
         return _listAdminCssStyleSheets;
     }
@@ -936,9 +956,8 @@ public class PluginFile
      * @return  the list of Javascript Files for the admin
      * @since 5.1
      */
-    public List<String> getAdminJavascriptFiles()
+    public List<String> getAdminJavascriptFiles(  )
     {
         return _listAdminJavascriptFiles;
     }
-    
 }

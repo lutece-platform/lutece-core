@@ -37,7 +37,6 @@ import fr.paris.lutece.portal.web.l10n.LocaleService;
 import fr.paris.lutece.test.LuteceTestCase;
 
 
-
 /**
  * PortletType Test Class
  */

@@ -46,11 +46,11 @@ import java.util.concurrent.ThreadFactory;
 public final class DaemonThreadFactory implements ThreadFactory
 {
     private static final String PROPERTY_RUN_THREAD_AS_DAEMON = "daemon.runThreadAsDaemon";
-    private static final boolean RUN_THREAD_AS_DAEMON = Boolean.valueOf( AppPropertiesService.getProperty( PROPERTY_RUN_THREAD_AS_DAEMON, "0" ) );
+    private static final boolean RUN_THREAD_AS_DAEMON = Boolean.valueOf( AppPropertiesService.getProperty( 
+                PROPERTY_RUN_THREAD_AS_DAEMON, "0" ) );
     private static final ThreadFactory _defaultThreadFactory = Executors.defaultThreadFactory(  );
     private static final String DAEMONS_NAME_PREFIX = "Lutece-DaemonsPool-Thread-";
-
-    private static int _nIndex = 1; 
+    private static int _nIndex = 1;
 
     /**
      * Constructs a new <tt>Thread</tt> with priority and daemon status
@@ -67,6 +67,7 @@ public final class DaemonThreadFactory implements ThreadFactory
         thread.setName( DAEMONS_NAME_PREFIX + _nIndex );
         AppLogService.info( "New Scheduled Thread added to the pool for daemons. Index:" + _nIndex );
         _nIndex++;
+
         return thread;
     }
 }

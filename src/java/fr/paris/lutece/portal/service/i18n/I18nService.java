@@ -522,10 +522,12 @@ public final class I18nService
     public static void resetCache(  )
     {
         ResourceBundle.clearCache(  );
-        if ( _overrideLoader != null)
+
+        if ( _overrideLoader != null )
         {
             ResourceBundle.clearCache( _overrideLoader );
         }
+
         _resourceBundleCache.clear(  );
     }
 }

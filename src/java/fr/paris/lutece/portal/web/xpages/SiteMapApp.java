@@ -49,6 +49,8 @@ import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.web.admin.AdminPageJspBean;
 import fr.paris.lutece.util.xml.XmlUtil;
 
+import org.apache.commons.lang.StringUtils;
+
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Locale;
@@ -56,8 +58,6 @@ import java.util.Map;
 import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
-
-import org.apache.commons.lang.StringUtils;
 
 
 /**
@@ -162,9 +162,9 @@ public class SiteMapApp implements XPageApplication
         {
             LuteceUser user = SecurityService.getInstance(  ).getRegisteredUser( request );
 
-            if ( user != null && user.getRoles( ) != null )
+            if ( ( user != null ) && ( user.getRoles(  ) != null ) )
             {
-                String[ ] roles = user.getRoles( );
+                String[] roles = user.getRoles(  );
                 Arrays.sort( roles );
                 strRoles = StringUtils.join( roles, ',' );
             }

@@ -72,7 +72,7 @@ public final class DatastoreService
      */
     public static void init(  )
     {
-    	FreeMarkerTemplateService.getInstance( ).setSharedVariable( DATASTORE_KEY, new DatastoreTemplateMethod( ) );
+        FreeMarkerTemplateService.getInstance(  ).setSharedVariable( DATASTORE_KEY, new DatastoreTemplateMethod(  ) );
     }
 
     /**

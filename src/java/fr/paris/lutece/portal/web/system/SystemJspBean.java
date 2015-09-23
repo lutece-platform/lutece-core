@@ -109,10 +109,9 @@ public class SystemJspBean extends AdminFeaturesPageJspBean
     private static final String PROPERTY_FILE_NAME = "portal.system.manage_files_system.name.";
     private static final String PROPERTY_TITLE_VIEW_FILES_SYSTEM = "portal.system.view_files_system.pageTitle";
     private static final String PROPERTY_TITLE_VIEW_FILE = "portal.system.view_file.pageTitle";
-
     private static final String MARK_WEBAPP_URL = "webapp_url";
     private static final String MARK_LOCALE = "locale";
-    
+
     /**
      * Returns ViewLogs page
      *
@@ -299,6 +298,7 @@ public class SystemJspBean extends AdminFeaturesPageJspBean
         model.put( MARK_PROPERTIES_GROUPS_LIST, SitePropertiesService.getGroups( getLocale(  ) ) );
         model.put( MARK_WEBAPP_URL, AppPathService.getBaseUrl( request ) );
         model.put( MARK_LOCALE, getLocale(  ).getLanguage(  ) );
+
         HtmlTemplate templateList = AppTemplateService.getTemplate( TEMPLATE_MODIFY_PROPERTIES, getLocale(  ), model );
 
         return getAdminPage( templateList.getHtml(  ) );

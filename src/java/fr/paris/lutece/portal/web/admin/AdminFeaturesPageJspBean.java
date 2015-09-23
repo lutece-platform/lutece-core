@@ -131,7 +131,7 @@ public abstract class AdminFeaturesPageJspBean implements Serializable
         _strFeatureUrl = right.getUrl(  );
         _strFeatureIcon = right.getIconUrl(  );
         _strFeatureDocumentation = right.getDocumentationUrl(  );
-	_strFeatureGroup = right.getFeatureGroup();
+        _strFeatureGroup = right.getFeatureGroup(  );
     }
 
     /**
@@ -200,7 +200,6 @@ public abstract class AdminFeaturesPageJspBean implements Serializable
         _strFeatureIcon = strFeatureIcon;
     }
 
-	    
     /**
      * Sets the feature group
      * @param strFeatureGroup the feature group
@@ -209,7 +208,7 @@ public abstract class AdminFeaturesPageJspBean implements Serializable
     {
         _strFeatureGroup = strFeatureGroup;
     }
-	
+
     /**
      * Get the admin page from a content data
      *
@@ -235,8 +234,8 @@ public abstract class AdminFeaturesPageJspBean implements Serializable
         }
 
         rootModel.put( MARK_FEATURE_DOCUMENTATION, strDocumentationUrl );
-	rootModel.put( MARK_FEATURE_GROUP, _strFeatureGroup );
-		
+        rootModel.put( MARK_FEATURE_GROUP, _strFeatureGroup );
+
         rootModel.put( MARK_PAGE_TITLE, getPageTitle(  ) );
         rootModel.put( MARK_PAGE_CONTENT, strContent );
 

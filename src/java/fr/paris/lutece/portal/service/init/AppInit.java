@@ -122,8 +122,7 @@ public final class AppInit
     {
         try
         {
-            
-            Thread.currentThread().setName( "Lutece-MainThread" );
+            Thread.currentThread(  ).setName( "Lutece-MainThread" );
             // Initializes the log service
             AppLogService.init( strConfPath, FILE_PROPERTIES_CONFIG );
             AppLogService.info( "Starting LUTECE ..." );
@@ -308,7 +307,8 @@ public final class AppInit
             model.put( MARK_PROD_URL, p.getProperty( PROPERTY_INIT_WEBAPP_PROD_URL ) );
             model.put( MARK_AUTOINIT, Boolean.FALSE.toString(  ) );
 
-            HtmlTemplate configTemplate = AppTemplateService.getTemplate( CONFIG_PROPERTIES_TEMPLATE, Locale.getDefault() , model );
+            HtmlTemplate configTemplate = AppTemplateService.getTemplate( CONFIG_PROPERTIES_TEMPLATE,
+                    Locale.getDefault(  ), model );
             // reset configuration cache to avoid configuration caching before macros are set. See LUTECE-1460
             AppTemplateService.resetConfiguration(  );
 

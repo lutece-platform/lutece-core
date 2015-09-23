@@ -33,10 +33,6 @@
  */
 package fr.paris.lutece.portal.service.init;
 
-import javax.servlet.ServletContext;
-import javax.servlet.ServletContextEvent;
-import javax.servlet.ServletContextListener;
-
 import fr.paris.lutece.portal.service.cache.CacheService;
 import fr.paris.lutece.portal.service.daemon.AppDaemonService;
 import fr.paris.lutece.portal.service.database.AppConnectionService;
@@ -45,6 +41,10 @@ import fr.paris.lutece.portal.service.scheduler.JobSchedulerService;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
+
+import javax.servlet.ServletContext;
+import javax.servlet.ServletContextEvent;
+import javax.servlet.ServletContextListener;
 
 
 /**
@@ -56,12 +56,13 @@ public class AppInitListener implements ServletContextListener
     //Constants
     private static final String PATH_CONF = "/WEB-INF/conf/";
 
-	/**
-	 * Initialize the application
-	 * @param sce context event
-	 */
+    /**
+     * Initialize the application
+     * @param sce context event
+     */
     @Override
-	public void contextInitialized(ServletContextEvent sce) {
+    public void contextInitialized( ServletContextEvent sce )
+    {
         ServletContext context = sce.getServletContext(  );
 
         // Initializes the PathService that give Absolute paths or URL to other services
@@ -69,14 +70,15 @@ public class AppInitListener implements ServletContextListener
 
         // Initializes all other services
         AppInit.initServices( context, PATH_CONF, AppPathService.getWebAppPath(  ) );
-	}
+    }
 
     /**
      * Shutdown the application
      * @param sce context event
      */
-	@Override
-	public void contextDestroyed(ServletContextEvent sce) {
+    @Override
+    public void contextDestroyed( ServletContextEvent sce )
+    {
         MailService.shutdown(  );
         AppDaemonService.shutdown(  );
         JobSchedulerService.shutdown(  );
@@ -85,5 +87,5 @@ public class AppInitListener implements ServletContextListener
         AppConnectionService.releasePool(  );
         SpringContextService.shutdown(  );
         AppLogService.info( "Application stopped" );
-	}
+    }
 }

@@ -70,9 +70,9 @@ public final class DaemonThread implements Runnable
             {
                 _strDaemonName = "Daemon " + _entry.getId(  );
             }
-            
+
             Thread currentThread = Thread.currentThread(  );
-            String strPooledThreadName = currentThread.getName();
+            String strPooledThreadName = currentThread.getName(  );
             currentThread.setName( "Lutece-Daemon-" + _entry.getId(  ) );
 
             Daemon daemon = _entry.getDaemon(  );

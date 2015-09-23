@@ -68,7 +68,8 @@ public class AppInitTest extends LuteceTestCase
         model.put( "web_mail", "lutece@paris.fr" );
         model.put( Markers.PAGE_MAIN_MENU, "menu" );
 
-        HtmlTemplate t = AppTemplateService.getTemplate( "skin/site/portal_footer.html", LocaleService.getDefault(  ), model );
+        HtmlTemplate t = AppTemplateService.getTemplate( "skin/site/portal_footer.html", LocaleService.getDefault(  ),
+                model );
         assertNotNull( t );
     }
 

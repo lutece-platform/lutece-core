@@ -266,6 +266,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
                 {
                     htParamRequest.put( Parameters.PAGE_ID, strIdPage );
                 }
+
                 if ( !htParamRequest.containsKey( Parameters.BASE_URL ) )
                 {
                     htParamRequest.put( Parameters.BASE_URL, AppPathService.getBaseUrl( request ) );
@@ -531,6 +532,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
                 bCanPageBeCached = false;
             }
         }
+
         // Add columns outline in admin mode
         if ( nMode == MODE_ADMIN )
         {
@@ -561,8 +563,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
             pic.fillTemplate( rootModel, data, nMode, request );
         }
 
-        HtmlTemplate t = AppTemplateService.getTemplate( page.getTemplate(  ),
-                locale, rootModel );
+        HtmlTemplate t = AppTemplateService.getTemplate( page.getTemplate(  ), locale, rootModel );
 
         return t.getHtml(  );
     }

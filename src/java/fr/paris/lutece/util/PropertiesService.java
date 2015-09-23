@@ -36,6 +36,8 @@ package fr.paris.lutece.util;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 
+import org.apache.commons.lang.StringUtils;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -44,8 +46,6 @@ import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Properties;
-
-import org.apache.commons.lang.StringUtils;
 
 
 /**
@@ -130,12 +130,11 @@ public class PropertiesService
      * @throws java.io.IOException If an error occurs reading the file
      * @throws java.io.FileNotFoundException If the file is not found
      */
-    private void loadFile( String strFullPath, Properties props ) throws FileNotFoundException, IOException
+    private void loadFile( String strFullPath, Properties props )
+        throws FileNotFoundException, IOException
     {
-        try ( FileInputStream fis = new FileInputStream( new File( strFullPath ) ) )
-        {
-            props.load( fis );
-        }
+        FileInputStream fis = new FileInputStream( new File( strFullPath ) );
+        props.load( fis );
     }
 
     /**
@@ -155,11 +154,13 @@ public class PropertiesService
      */
     public void reloadAll(  ) throws IOException
     {
-        Properties newProperties = new Properties( );
+        Properties newProperties = new Properties(  );
+
         for ( String strFullPath : _mapPropertiesFiles.values(  ) )
         {
             loadFile( strFullPath, newProperties );
         }
+
         _properties = newProperties;
     }
 

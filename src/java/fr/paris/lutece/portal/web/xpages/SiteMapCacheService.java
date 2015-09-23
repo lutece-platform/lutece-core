@@ -76,8 +76,9 @@ public final class SiteMapCacheService extends AbstractCacheableService implemen
     }
 
     @Override
-    public void processPageEvent(PageEvent event) {
+    public void processPageEvent( PageEvent event )
+    {
         // page was added, removed or updated; clear cache
-        resetCache();
+        resetCache(  );
     }
 }

@@ -33,23 +33,26 @@
  */
 package fr.paris.lutece.portal.service.i18n;
 
+import fr.paris.lutece.test.LuteceTestCase;
+import fr.paris.lutece.util.ReferenceList;
+
+import org.springframework.core.io.ClassPathResource;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+
 import java.security.SecureRandom;
+
 import java.text.DateFormat;
+
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Properties;
-
-import org.springframework.core.io.ClassPathResource;
-
-import fr.paris.lutece.test.LuteceTestCase;
-import fr.paris.lutece.util.ReferenceList;
 
 
 /**
@@ -154,14 +157,17 @@ public class I18nServiceTest extends LuteceTestCase
     {
         // get a message
         String message = I18nService.getLocalizedString( "portal.admin.admin_home.password", Locale.FRENCH );
+
         // change the message
-        File propertiesFile = new ClassPathResource( "fr/paris/lutece/portal/resources/admin_messages_fr.properties" ).getFile(  ) ;
+        File propertiesFile = new ClassPathResource( "fr/paris/lutece/portal/resources/admin_messages_fr.properties" ).getFile(  );
         Properties resources = new Properties(  );
         InputStream is = new FileInputStream( propertiesFile );
         resources.load( is );
         is.close(  );
+
         String newValue = "junit" + new SecureRandom(  ).nextLong(  );
         resources.setProperty( "admin_home.password", newValue );
+
         OutputStream os = new FileOutputStream( propertiesFile );
         resources.store( os, null );
         os.close(  );

@@ -42,8 +42,8 @@ import fr.paris.lutece.portal.business.user.authentication.LuteceDefaultAdminUse
 import fr.paris.lutece.portal.service.admin.AdminAuthenticationService;
 import fr.paris.lutece.portal.service.admin.AdminUserService;
 import fr.paris.lutece.portal.service.dashboard.DashboardService;
-import fr.paris.lutece.portal.service.datastore.DatastoreService;
 import fr.paris.lutece.portal.service.dashboard.IDashboardComponent;
+import fr.paris.lutece.portal.service.datastore.DatastoreService;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.init.AppInfo;
 import fr.paris.lutece.portal.service.message.AdminMessage;
@@ -128,10 +128,9 @@ public class AdminMenuJspBean implements Serializable
     private static final String PASSWORD_ERROR = "portal.users.message.password.wrong.current";
     private static final String PASSWORD_CURRENT_ERROR = "portal.users.message.password.new.equals.current";
     private static final String MESSAGE_PASSWORD_REDIRECT = "portal.users.message.password.ok.redirect";
-
     private static String _strStylesheets;
     private static String _strJavascripts;
-    
+
     /**
      * Returns the Administration header menu
      *
@@ -150,7 +149,8 @@ public class AdminMenuJspBean implements Serializable
         // Displays the menus accroding to the rights of the users
         model.put( Markers.VERSION, strVersion );
         model.put( MARK_SITE_NAME, strSiteName );
-        model.put( MARK_MENU_POS, DatastoreService.getInstanceDataValue(PROPERTY_MENU_DATASTORE_POS, PROPERTY_MENU_DEFAULT_POS) );
+        model.put( MARK_MENU_POS,
+            DatastoreService.getInstanceDataValue( PROPERTY_MENU_DATASTORE_POS, PROPERTY_MENU_DEFAULT_POS ) );
         model.put( MARK_FEATURE_GROUP_LIST, aFeaturesGroupList );
         model.put( MARK_ADMIN_URL, AppPathService.getBaseUrl( request ) + AppPathService.getAdminMenuUrl(  ) );
         model.put( MARK_USER, user );
@@ -186,8 +186,8 @@ public class AdminMenuJspBean implements Serializable
         Locale locale = ( user != null ) ? user.getLocale(  ) : LocaleService.getDefault(  );
         model.put( Markers.VERSION, strFooterVersion );
         model.put( MARK_SITE_NAME, strFooterSiteName );
-        model.put( MARK_JAVASCRIPT_FILES , getAdminJavascripts() );
-        
+        model.put( MARK_JAVASCRIPT_FILES, getAdminJavascripts(  ) );
+
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_MENU_FOOTER, locale, model );
 
         return template.getHtml(  );
@@ -509,68 +509,74 @@ public class AdminMenuJspBean implements Serializable
 
         return AppPathService.getBaseUrl( request ) + AppPathService.getAdminMenuUrl(  );
     }
-    
+
     /**
      * Return the stylesheets block to include in the footer
      * @return the stylesheets files block to include in the footer
      * @since 5.1
      */
-    public String getAdminStyleSheets()
+    public String getAdminStyleSheets(  )
     {
-        if( _strStylesheets == null )
+        if ( _strStylesheets == null )
         {
-            StringBuilder sbCssLinks = new StringBuilder();
-            List<Plugin> listPlugins = new ArrayList<>();
-            listPlugins.add( PluginService.getCore() );
-            listPlugins.addAll( PluginService.getPluginList() );
-            for( Plugin plugin : listPlugins )
+            StringBuilder sbCssLinks = new StringBuilder(  );
+            List<Plugin> listPlugins = new ArrayList<Plugin>(  );
+            listPlugins.add( PluginService.getCore(  ) );
+            listPlugins.addAll( PluginService.getPluginList(  ) );
+
+            for ( Plugin plugin : listPlugins )
             {
-                if( plugin.getAdminCssStyleSheets() != null )
+                if ( plugin.getAdminCssStyleSheets(  ) != null )
                 {
-                    for( String strStyleSheet : plugin.getAdminCssStyleSheets() )
+                    for ( String strStyleSheet : plugin.getAdminCssStyleSheets(  ) )
                     {
-                        Map<String,Object> model = new HashMap<String, Object>();
+                        Map<String, Object> model = new HashMap<String, Object>(  );
                         model.put( MARK_URL_CSS, strStyleSheet );
-                        model.put( MARK_PLUGIN_NAME, plugin.getName() );
-                        sbCssLinks.append( AppTemplateService.getTemplate( TEMPLATE_STYLESHEET_LINK, LocaleService.getDefault(), model ).getHtml() );
+                        model.put( MARK_PLUGIN_NAME, plugin.getName(  ) );
+                        sbCssLinks.append( AppTemplateService.getTemplate( TEMPLATE_STYLESHEET_LINK,
+                                LocaleService.getDefault(  ), model ).getHtml(  ) );
                     }
                 }
             }
-            _strStylesheets = sbCssLinks.toString();
+
+            _strStylesheets = sbCssLinks.toString(  );
         }
-        return _strStylesheets; 
+
+        return _strStylesheets;
     }
-    
+
     /**
      * Return the javascript files block to include in the footer
      * @return the javascript files block to include in the footer
      * @since 5.1
      */
-    private String getAdminJavascripts()
+    private String getAdminJavascripts(  )
     {
-        if( _strJavascripts == null )
+        if ( _strJavascripts == null )
         {
-            StringBuilder sbJavascripts = new StringBuilder();
-            List<Plugin> listPlugins = new ArrayList<>();
-            listPlugins.add( PluginService.getCore() );
-            listPlugins.addAll( PluginService.getPluginList() );
-            for( Plugin plugin : listPlugins )
+            StringBuilder sbJavascripts = new StringBuilder(  );
+            List<Plugin> listPlugins = new ArrayList<Plugin>(  );
+            listPlugins.add( PluginService.getCore(  ) );
+            listPlugins.addAll( PluginService.getPluginList(  ) );
+
+            for ( Plugin plugin : listPlugins )
             {
-                if( plugin.getAdminJavascriptFiles() != null )
+                if ( plugin.getAdminJavascriptFiles(  ) != null )
                 {
-                    for( String strJavascript : plugin.getAdminJavascriptFiles())
+                    for ( String strJavascript : plugin.getAdminJavascriptFiles(  ) )
                     {
-                        Map<String,Object> model = new HashMap<String, Object>();
+                        Map<String, Object> model = new HashMap<String, Object>(  );
                         model.put( MARK_JAVASCRIPT_FILE, strJavascript );
-                        model.put( MARK_PLUGIN_NAME, plugin.getName() );
-                        sbJavascripts.append( AppTemplateService.getTemplate( TEMPLATE_JAVASCRIPT_FILE, LocaleService.getDefault(), model ).getHtml() );
+                        model.put( MARK_PLUGIN_NAME, plugin.getName(  ) );
+                        sbJavascripts.append( AppTemplateService.getTemplate( TEMPLATE_JAVASCRIPT_FILE,
+                                LocaleService.getDefault(  ), model ).getHtml(  ) );
                     }
                 }
             }
-            _strJavascripts = sbJavascripts.toString();
+
+            _strJavascripts = sbJavascripts.toString(  );
         }
-        return _strJavascripts; 
+
+        return _strJavascripts;
     }
-    
-    
 }

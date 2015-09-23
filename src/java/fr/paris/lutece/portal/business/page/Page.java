@@ -161,7 +161,7 @@ public class Page implements RBACResource, IExtendableResource
      * @return the parent page identifier
      * @since 5.1.0
      */
-    public int getOrigParentPageId( )
+    public int getOrigParentPageId(  )
     {
         return _nOrigParentPageId;
     }

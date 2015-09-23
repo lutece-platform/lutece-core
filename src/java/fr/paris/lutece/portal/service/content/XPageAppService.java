@@ -50,6 +50,8 @@ import fr.paris.lutece.portal.web.xpages.XPageApplication;
 import fr.paris.lutece.portal.web.xpages.XPageApplicationEntry;
 import fr.paris.lutece.util.html.HtmlTemplate;
 
+import org.springframework.beans.factory.NoSuchBeanDefinitionException;
+
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -58,12 +60,12 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 
 /**
  * This class delivers Extra pages (xpages) to web components. An XPage is a page where the content is provided by a
  * specific class, but should be integrated into the portal struture and design. XPageApps are identified by a key
- * name. To display an XPage into the portal just call the following url :<br><code>
+ * name.
+ * To display an XPage into the portal just call the following url :<br><code>
  * Portal.jsp?page=<i>keyname</i>&amp;param1=value1&amp; ...&amp;paramN=valueN </code>
  *
  * @see fr.paris.lutece.portal.web.xpages.XPage
@@ -86,21 +88,37 @@ public class XPageAppService extends ContentService
     {
         try
         {
-            if ( entry.getClassName( ) == null )
+            if ( entry.getClassName(  ) == null )
             {
-                String applicationBeanName = entry.getPluginName( ) + ".xpage." + entry.getId( );
-                if ( !SpringContextService.getContext( ).containsBean( applicationBeanName ) )
-                    throw new LuteceInitException( "Error instantiating XPageApplication : " + entry.getId(  ) + " - Could not find bean named " +
-                            applicationBeanName, new NoSuchBeanDefinitionException( applicationBeanName ) );
-            } else
+                String applicationBeanName = entry.getPluginName(  ) + ".xpage." + entry.getId(  );
+
+                if ( !SpringContextService.getContext(  ).containsBean( applicationBeanName ) )
+                {
+                    throw new LuteceInitException( "Error instantiating XPageApplication : " + entry.getId(  ) +
+                        " - Could not find bean named " + applicationBeanName,
+                        new NoSuchBeanDefinitionException( applicationBeanName ) );
+                }
+            }
+            else
             {
                 // check that the class can be found
                 Class.forName( entry.getClassName(  ) ).newInstance(  );
             }
+
             _mapApplications.put( entry.getId(  ), entry );
             AppLogService.info( "New XPage application registered : " + entry.getId(  ) );
         }
-        catch ( ClassNotFoundException|InstantiationException|IllegalAccessException e )
+        catch ( ClassNotFoundException e )
+        {
+            throw new LuteceInitException( "Error instantiating XPageApplication : " + entry.getId(  ) + " - " +
+                e.getCause(  ), e );
+        }
+        catch ( InstantiationException e )
+        {
+            throw new LuteceInitException( "Error instantiating XPageApplication : " + entry.getId(  ) + " - " +
+                e.getCause(  ), e );
+        }
+        catch ( IllegalAccessException e )
         {
             throw new LuteceInitException( "Error instantiating XPageApplication : " + entry.getId(  ) + " - " +
                 e.getCause(  ), e );
@@ -241,9 +259,9 @@ public class XPageAppService extends ContentService
                 page = application.getPage( request, nMode, entry.getPlugin(  ) );
             }
 
-            if ( page.isStandalone( ) )
+            if ( page.isStandalone(  ) )
             {
-                return page.getContent( );
+                return page.getContent(  );
             }
 
             PageData data = new PageData(  );
@@ -264,13 +282,13 @@ public class XPageAppService extends ContentService
             }
 
             return PortalService.buildPageContent( data, nMode, request );
-
         }
         else
         {
             AppLogService.error( "The specified Xpage '" + strName +
                 "' cannot be retrieved. Check installation of your Xpage application." );
             SiteMessageService.setMessage( request, MESSAGE_ERROR_APP_BODY, SiteMessage.TYPE_ERROR );
+
             return null; // unreachable because SiteMessageService.setMessage throws
         }
     }
@@ -328,10 +346,11 @@ public class XPageAppService extends ContentService
 
         try
         {
-            if ( entry.getClassName( ) == null )
+            if ( entry.getClassName(  ) == null )
             {
-                application = SpringContextService.getBean( entry.getPluginName( ) + ".xpage." + entry.getId( ) );
-            } else
+                application = SpringContextService.getBean( entry.getPluginName(  ) + ".xpage." + entry.getId(  ) );
+            }
+            else
             {
                 application = (XPageApplication) Class.forName( entry.getClassName(  ) ).newInstance(  );
             }

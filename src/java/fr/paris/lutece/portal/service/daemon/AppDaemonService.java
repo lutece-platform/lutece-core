@@ -60,9 +60,12 @@ public final class AppDaemonService
     private static final String PROPERTY_DAEMON_ON_STARTUP = ".onStartUp";
     private static final String PROPERTY_DAEMON_INTERVAL = ".interval";
     private static final String KEY_DAEMON_PREFIX = "core.daemon.";
-    private static final int MAX_INITIAL_START_DELAY = AppPropertiesService.getPropertyInt( PROPERTY_MAX_INITIAL_START_DELAY, 30 );
-    private static final int MAX_AWAIT_TERMINATION_DELAY = AppPropertiesService.getPropertyInt( PROPERTY_MAX_AWAIT_TERMINATION_DELAY, 15 );
-    private static final int DAEMON_CORE_POOL_SIZE = AppPropertiesService.getPropertyInt( PROPERTY_SCHEDULED_THREAD_CORE_POOL_SIZE, 30 );
+    private static final int MAX_INITIAL_START_DELAY = AppPropertiesService.getPropertyInt( PROPERTY_MAX_INITIAL_START_DELAY,
+            30 );
+    private static final int MAX_AWAIT_TERMINATION_DELAY = AppPropertiesService.getPropertyInt( PROPERTY_MAX_AWAIT_TERMINATION_DELAY,
+            15 );
+    private static final int DAEMON_CORE_POOL_SIZE = AppPropertiesService.getPropertyInt( PROPERTY_SCHEDULED_THREAD_CORE_POOL_SIZE,
+            30 );
     private static final Map<String, DaemonEntry> _mapDaemonEntries = new HashMap<String, DaemonEntry>(  );
     private static final ScheduledThreadPoolExecutor _scheduler = (ScheduledThreadPoolExecutor) Executors.newScheduledThreadPool( DAEMON_CORE_POOL_SIZE,
             new DaemonThreadFactory(  ) );
@@ -141,7 +144,8 @@ public final class AppDaemonService
         //init interval value if no exists
         if ( !DatastoreService.existsInstanceKey( strIntervalKey ) )
         {
-            strIntervalKeyDefaultValue = AppPropertiesService.getProperty( "daemon." + entry.getId(  ) + ".interval", "10" );
+            strIntervalKeyDefaultValue = AppPropertiesService.getProperty( "daemon." + entry.getId(  ) + ".interval",
+                    "10" );
             DatastoreService.setInstanceDataValue( strIntervalKey, strIntervalKeyDefaultValue );
         }
 
@@ -261,9 +265,9 @@ public final class AppDaemonService
         {
             ScheduledFuture<?> task = _scheduler.scheduleAtFixedRate( entry.getDaemonThread(  ), nInitialDelay,
                     entry.getInterval(  ), TimeUnit.SECONDS );
-            
+
             _lRunningThread.putIfAbsent( entry.getId(  ), task );
-            AppLogService.info( "Starting daemon '" + entry.getId(  ) + "'" );            
+            AppLogService.info( "Starting daemon '" + entry.getId(  ) + "'" );
         }
 
         entry.setIsRunning( true );

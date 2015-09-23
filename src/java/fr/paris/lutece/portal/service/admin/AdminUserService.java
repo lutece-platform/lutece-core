@@ -1345,8 +1345,8 @@ public final class AdminUserService
                 model.put( MARK_NAME, completeUser.getLastName(  ) );
                 model.put( MARK_FIRST_NAME, completeUser.getFirstName(  ) );
 
-                HtmlTemplate template = AppTemplateService.getTemplateFromStringFtl( strBody, LocaleService.getDefault(  ),
-                        model );
+                HtmlTemplate template = AppTemplateService.getTemplateFromStringFtl( strBody,
+                        LocaleService.getDefault(  ), model );
                 MailService.sendMailHtml( strUserMail, strSender, strSender, strSubject, template.getHtml(  ) );
             }
         }

@@ -52,54 +52,56 @@ public class PageIncludeServiceTest extends LuteceTestCase
         assertTrue( listIncludes.size(  ) > 2 );
     }
 
-    public void testEnabledState( ) throws LuteceInitException
+    public void testEnabledState(  ) throws LuteceInitException
     {
-        PageIncludeEntry entry = new PageIncludeEntry( );
-        entry.setClassName( TestPageInclude.class.getName( ) );
+        PageIncludeEntry entry = new PageIncludeEntry(  );
+        entry.setClassName( TestPageInclude.class.getName(  ) );
         entry.setId( "testEnablePageInclude" );
         entry.setPluginName( "core" ); // core is an always enabled plugin
 
         PageIncludeService.registerPageInclude( entry );
-        List<PageInclude> includes = PageIncludeService.getIncludes( );
+
+        List<PageInclude> includes = PageIncludeService.getIncludes(  );
         assertTrue( isTestPageIncludeActive( includes ) );
 
         entry.setEnabled( false );
         PageIncludeService.registerPageInclude( entry );
-        includes = PageIncludeService.getIncludes( );
+        includes = PageIncludeService.getIncludes(  );
         assertFalse( isTestPageIncludeActive( includes ) );
 
         entry.setPluginName( "bogus_inexistant_plugin" );
         PageIncludeService.registerPageInclude( entry );
-        includes = PageIncludeService.getIncludes( );
+        includes = PageIncludeService.getIncludes(  );
         assertFalse( isTestPageIncludeActive( includes ) );
 
         entry.setEnabled( true );
         PageIncludeService.registerPageInclude( entry );
-        includes = PageIncludeService.getIncludes( );
+        includes = PageIncludeService.getIncludes(  );
         assertFalse( isTestPageIncludeActive( includes ) );
     }
 
     private boolean isTestPageIncludeActive( List<PageInclude> includes )
     {
         boolean found = false;
+
         for ( PageInclude include : includes )
         {
             if ( include instanceof TestPageInclude )
             {
                 found = true;
+
                 break;
             }
         }
+
         return found;
     }
 
     static class TestPageInclude implements PageInclude
     {
-
         @Override
         public void fillTemplate( Map<String, Object> rootModel, PageData data, int nMode, HttpServletRequest request )
         {
         }
-
     }
 }

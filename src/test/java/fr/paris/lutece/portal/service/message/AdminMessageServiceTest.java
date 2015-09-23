@@ -40,7 +40,6 @@ import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.MokeHttpServletRequest;
 
 
-
 /**
  * AdminMessageService Test Class
  *

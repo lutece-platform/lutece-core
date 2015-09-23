@@ -170,7 +170,7 @@ public class XPage
      * @return <code>true</code> is the content is standalone
      * @since 5.1.0
      */
-    public boolean isStandalone( )
+    public boolean isStandalone(  )
     {
         return _bStandalone;
     }

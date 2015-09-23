@@ -731,7 +731,7 @@ public final class PageDAO implements IPageDAO
             int nIndex = 1;
             page.setId( daoUtil.getInt( nIndex++ ) );
             page.setParentPageId( daoUtil.getInt( nIndex++ ) );
-            page.setOrigParentPageId( page.getParentPageId( ) );
+            page.setOrigParentPageId( page.getParentPageId(  ) );
             page.setName( daoUtil.getString( nIndex++ ) );
             page.setDescription( daoUtil.getString( nIndex++ ) );
             page.setPageTemplateId( daoUtil.getInt( nIndex++ ) );

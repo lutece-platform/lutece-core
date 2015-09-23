@@ -33,43 +33,42 @@
  */
 package fr.paris.lutece.portal.service.site.properties;
 
+
 /**
  * Site Properties Group
  */
 public class SitePropertiesGroup implements ILocalizedSitePropertiesGroup
 {
-    
     private String _strNameKey;
     private String _strDescriptionKey;
     private String _strKeysPrefix;
-            
 
     /**
      * {@inheritDoc }
-     * @return 
+     * @return
      */
     @Override
-    public String getNameKey()
+    public String getNameKey(  )
     {
         return _strNameKey;
     }
 
     /**
      * {@inheritDoc }
-     * @return 
+     * @return
      */
     @Override
-    public String getDescriptionKey()
+    public String getDescriptionKey(  )
     {
         return _strDescriptionKey;
     }
 
     /**
      * {@inheritDoc }
-     * @return 
+     * @return
      */
     @Override
-    public String getDatastoreKeysPrefix()
+    public String getDatastoreKeysPrefix(  )
     {
         return _strKeysPrefix;
     }
@@ -77,7 +76,7 @@ public class SitePropertiesGroup implements ILocalizedSitePropertiesGroup
     /**
      * @param strNameKey the key for the name to set
      */
-    public void setNameKey(String strNameKey)
+    public void setNameKey( String strNameKey )
     {
         _strNameKey = strNameKey;
     }
@@ -85,7 +84,7 @@ public class SitePropertiesGroup implements ILocalizedSitePropertiesGroup
     /**
      * @param strDescriptionKey the key for the descriptionKey
      */
-    public void setDescriptionKey(String strDescriptionKey)
+    public void setDescriptionKey( String strDescriptionKey )
     {
         _strDescriptionKey = strDescriptionKey;
     }
@@ -93,9 +92,8 @@ public class SitePropertiesGroup implements ILocalizedSitePropertiesGroup
     /**
      * @param strKeysPrefix the prefix for keys
      */
-    public void setKeysPrefix(String strKeysPrefix)
+    public void setKeysPrefix( String strKeysPrefix )
     {
         _strKeysPrefix = strKeysPrefix;
     }
-    
 }

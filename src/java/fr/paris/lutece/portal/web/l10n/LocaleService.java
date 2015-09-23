@@ -35,6 +35,7 @@ package fr.paris.lutece.portal.web.l10n;
 
 import fr.paris.lutece.portal.service.datastore.DatastoreService;
 import fr.paris.lutece.portal.service.util.AppLogService;
+
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
@@ -49,7 +50,6 @@ public final class LocaleService
     private static final String ATTRIBUTE_SELECTED_LOCALE = "LUTECE_ATTRIBUTE_USER_SELECTED_LOCALE";
     private static final String DSKEY_LANGUAGE_DEFAULT = "portal.site.site_property.locale.default";
     private static final String LANGUAGE_DEFAULT = "en";
-    
     private static Locale _locale;
 
     /**
@@ -93,29 +93,33 @@ public final class LocaleService
 
         return locale;
     }
-    
+
     /**
      * Return a Lutece defined default Locale
      * @return The locale
      */
-    public static Locale getDefault()
+    public static Locale getDefault(  )
     {
-        if( _locale == null )
+        if ( _locale == null )
         {
             String strCountry = DatastoreService.getInstanceDataValue( DSKEY_LANGUAGE_DEFAULT, LANGUAGE_DEFAULT );
-            for( String strISOContry : Locale.getISOCountries() )
+
+            for ( String strISOContry : Locale.getISOCountries(  ) )
             {
-                if( strISOContry.equalsIgnoreCase( strCountry ))
-                {    
+                if ( strISOContry.equalsIgnoreCase( strCountry ) )
+                {
                     _locale = new Locale( strCountry );
                     AppLogService.info( "LocaleService : default locale set to : " + strCountry );
+
                     return _locale;
                 }
             }
-            _locale = Locale.getDefault();
-            AppLogService.error( "LocaleService : invalid defined locale " + strCountry  + " - default set to " + LANGUAGE_DEFAULT );
+
+            _locale = Locale.getDefault(  );
+            AppLogService.error( "LocaleService : invalid defined locale " + strCountry + " - default set to " +
+                LANGUAGE_DEFAULT );
         }
-        
+
         return _locale;
     }
 }

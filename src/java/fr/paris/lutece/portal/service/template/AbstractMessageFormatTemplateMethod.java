@@ -33,11 +33,8 @@
  */
 package fr.paris.lutece.portal.service.template;
 
-import java.text.MessageFormat;
-import java.util.List;
-import java.util.Locale;
-
 import freemarker.core.Environment;
+
 import freemarker.template.TemplateDateModel;
 import freemarker.template.TemplateMethodModelEx;
 import freemarker.template.TemplateModel;
@@ -45,39 +42,52 @@ import freemarker.template.TemplateModelException;
 import freemarker.template.TemplateNumberModel;
 import freemarker.template.TemplateScalarModel;
 
+import java.text.MessageFormat;
+
+import java.util.List;
+import java.util.Locale;
+
+
 public abstract class AbstractMessageFormatTemplateMethod implements TemplateMethodModelEx
 {
+    @Override
+    public Object exec( @SuppressWarnings( "rawtypes" )
+    List arguments ) throws TemplateModelException
+    {
+        int argsSize = arguments.size(  );
 
-	@Override
-	public Object exec( @SuppressWarnings("rawtypes") List arguments ) throws TemplateModelException
-	{
-		int argsSize = arguments.size( );
-		if ( argsSize < 1 )
-		{
-			throw new TemplateModelException( "Must be called with at least one argument (the message key)" );
-		}
-		String key = ( ( TemplateScalarModel ) arguments.get( 0 ) ).getAsString( );
-		Object[] args = new Object[argsSize - 1];
-		for ( int i = 1; i < argsSize; i++ )
-		{
-			TemplateModel arg = ( TemplateModel ) arguments.get( i );
-			if ( arg instanceof TemplateScalarModel )
-			{
-				args[i-1] = ( ( TemplateScalarModel ) arg ).getAsString( );
-			} else if ( arg instanceof TemplateNumberModel )
-			{
-				args[i-1] = ( ( TemplateNumberModel ) arg ).getAsNumber( );
-			} else if ( arg instanceof TemplateDateModel )
-			{
-				args[i-1] = ( ( TemplateDateModel ) arg ).getAsDate( );
-			} else
-			{
-				throw new TemplateModelException( "Unsupported argument type : " + arg ) ;
-			}
-		}
-		return MessageFormat.format( getPattern( key, Environment.getCurrentEnvironment( ).getLocale( ) ), args );
-	}
+        if ( argsSize < 1 )
+        {
+            throw new TemplateModelException( "Must be called with at least one argument (the message key)" );
+        }
 
-	protected abstract String getPattern( String key, Locale locale );
+        String key = ( (TemplateScalarModel) arguments.get( 0 ) ).getAsString(  );
+        Object[] args = new Object[argsSize - 1];
 
+        for ( int i = 1; i < argsSize; i++ )
+        {
+            TemplateModel arg = (TemplateModel) arguments.get( i );
+
+            if ( arg instanceof TemplateScalarModel )
+            {
+                args[i - 1] = ( (TemplateScalarModel) arg ).getAsString(  );
+            }
+            else if ( arg instanceof TemplateNumberModel )
+            {
+                args[i - 1] = ( (TemplateNumberModel) arg ).getAsNumber(  );
+            }
+            else if ( arg instanceof TemplateDateModel )
+            {
+                args[i - 1] = ( (TemplateDateModel) arg ).getAsDate(  );
+            }
+            else
+            {
+                throw new TemplateModelException( "Unsupported argument type : " + arg );
+            }
+        }
+
+        return MessageFormat.format( getPattern( key, Environment.getCurrentEnvironment(  ).getLocale(  ) ), args );
+    }
+
+    protected abstract String getPattern( String key, Locale locale );
 }

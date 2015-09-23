@@ -190,8 +190,8 @@ public abstract class Plugin implements Comparable<Plugin>
             _strJavascriptFilesScope = ( pluginFile.getJavascriptFilesScope(  ) != null )
                 ? pluginFile.getJavascriptFilesScope(  ) : SCOPE_XPAGE;
             _listFreemarkerMacrosFiles = pluginFile.getFreemarkerMacrosFiles(  );
-            _listAdminCssStyleSheets = pluginFile.getAdminCssStyleSheets();
-            _listAdminJavascriptFiles = pluginFile.getAdminJavascriptFiles();
+            _listAdminCssStyleSheets = pluginFile.getAdminCssStyleSheets(  );
+            _listAdminJavascriptFiles = pluginFile.getAdminJavascriptFiles(  );
             // Register plugin components
             registerXPageApplications(  );
             registerFilters(  );
@@ -1084,10 +1084,12 @@ public abstract class Plugin implements Comparable<Plugin>
     public List<String> getCssStyleSheets(  )
     {
         List<String> res = _listCssStyleSheets.get( null );
-        if ( res == null)
+
+        if ( res == null )
         {
-            return Collections.emptyList( );
+            return Collections.emptyList(  );
         }
+
         return res;
     }
 
@@ -1100,10 +1102,12 @@ public abstract class Plugin implements Comparable<Plugin>
     public List<String> getCssStyleSheets( int mode )
     {
         List<String> res = _listCssStyleSheets.get( mode );
-        if ( res == null)
+
+        if ( res == null )
         {
-            return Collections.emptyList( );
+            return Collections.emptyList(  );
         }
+
         return res;
     }
 
@@ -1124,11 +1128,13 @@ public abstract class Plugin implements Comparable<Plugin>
     public void addJavascriptFile( String strJavascriptFile )
     {
         List<String> files = _listJavascriptFiles.get( null );
+
         if ( files == null )
         {
-            files = new ArrayList<String>( );
+            files = new ArrayList<String>(  );
             _listJavascriptFiles.put( null, files );
         }
+
         files.add( strJavascriptFile );
     }
 
@@ -1139,10 +1145,12 @@ public abstract class Plugin implements Comparable<Plugin>
     public List<String> getJavascriptFiles(  )
     {
         List<String> res = _listJavascriptFiles.get( null );
-        if ( res == null)
+
+        if ( res == null )
         {
-            return Collections.emptyList( );
+            return Collections.emptyList(  );
         }
+
         return res;
     }
 
@@ -1155,10 +1163,12 @@ public abstract class Plugin implements Comparable<Plugin>
     public List<String> getJavascriptFiles( int mode )
     {
         List<String> res = _listJavascriptFiles.get( mode );
-        if ( res == null)
+
+        if ( res == null )
         {
-            return Collections.emptyList( );
+            return Collections.emptyList(  );
         }
+
         return res;
     }
 
@@ -1203,22 +1213,20 @@ public abstract class Plugin implements Comparable<Plugin>
      * @return the list of stylesheets that should be used in the Back Office
      * @since 5.1
      */
-    public List<String> getAdminCssStyleSheets()
+    public List<String> getAdminCssStyleSheets(  )
     {
         return _listAdminCssStyleSheets;
     }
-    
+
     /**
      * Return the list of Javascript Files that should be used in the Back Office
      * @return the list of Javascript Files that should be used in the Back Office
      * @since 5.1
      */
-    public List<String> getAdminJavascriptFiles()
+    public List<String> getAdminJavascriptFiles(  )
     {
         return _listAdminJavascriptFiles;
     }
-    
-    
 
     /**
      * Adds a that file that will be autoincluded in freemarker templates

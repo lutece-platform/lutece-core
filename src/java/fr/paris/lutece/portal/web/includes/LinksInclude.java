@@ -97,7 +97,8 @@ public class LinksInclude implements PageInclude
 
             // Add CSS links coming from plugins
             Collection<Plugin> listPlugins = PluginService.getPluginList(  );
-            listPlugins.add( PluginService.getCore( ) );
+            listPlugins.add( PluginService.getCore(  ) );
+
             StringBuilder sbCssLinks = new StringBuilder(  );
             StringBuilder sbJsLinks = new StringBuilder(  );
 
@@ -127,6 +128,7 @@ public class LinksInclude implements PageInclude
                         {
                             appendStyleSheet( sbCssLinks, strCssStyleSheet, locale );
                         }
+
                         for ( String strCssStyleSheet : plugin.getCssStyleSheets( nMode ) )
                         {
                             appendStyleSheet( sbCssLinks, strCssStyleSheet, locale );
@@ -139,6 +141,7 @@ public class LinksInclude implements PageInclude
                         {
                             appendJavascriptFile( sbJsLinks, strJavascriptFile, locale );
                         }
+
                         for ( String strJavascriptFile : plugin.getJavascriptFiles( nMode ) )
                         {
                             appendJavascriptFile( sbJsLinks, strJavascriptFile, locale );
@@ -163,8 +166,7 @@ public class LinksInclude implements PageInclude
         Map<String, String> model = new HashMap<String, String>( 1 );
         model.put( MARK_PLUGIN_JAVASCRIPT_FILE, strJavascriptFile );
 
-        HtmlTemplate tJs = AppTemplateService.getTemplate( TEMPLATE_PLUGIN_JAVASCRIPT_LINK, locale,
-                model );
+        HtmlTemplate tJs = AppTemplateService.getTemplate( TEMPLATE_PLUGIN_JAVASCRIPT_LINK, locale, model );
         sbJsLinks.append( tJs.getHtml(  ) );
     }
 

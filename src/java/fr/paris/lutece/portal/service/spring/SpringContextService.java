@@ -42,6 +42,7 @@ import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 
 import org.apache.commons.lang.StringUtils;
+
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 
 import org.springframework.context.ApplicationContext;
@@ -59,6 +60,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletContext;
+
 
 /**
  * This class provides a way to use Spring Framework ligthweight containers
@@ -120,7 +122,8 @@ public final class SpringContextService implements PluginEventListener
      * @throws LuteceInitException The lutece init exception
      * @since 2.4
      */
-    public static void init( ServletContext servletContext ) throws LuteceInitException
+    public static void init( ServletContext servletContext )
+        throws LuteceInitException
     {
         try
         {
@@ -136,6 +139,7 @@ public final class SpringContextService implements PluginEventListener
 
             GenericWebApplicationContext gwac = new GenericWebApplicationContext( servletContext );
             gwac.setId( getContextName( servletContext ) );
+
             XmlBeanDefinitionReader xmlReader = new XmlBeanDefinitionReader( gwac );
             xmlReader.loadBeanDefinitions( strContextFile );
 
@@ -201,13 +205,16 @@ public final class SpringContextService implements PluginEventListener
     private static String getContextName( ServletContext servletContext )
     {
         String name = "lutece";
-        if ( servletContext != null)
+
+        if ( servletContext != null )
         {
-            String contextName = servletContext.getServletContextName( );
+            String contextName = servletContext.getServletContextName(  );
+
             if ( contextName == null )
             {
-                contextName = servletContext.getContextPath( );
+                contextName = servletContext.getContextPath(  );
             }
+
             if ( StringUtils.isNotBlank( contextName ) )
             {
                 name = contextName;
@@ -346,6 +353,18 @@ public final class SpringContextService implements PluginEventListener
     }
 
     /**
+     * Closes the Spring context
+     * @since 5.1.0
+     */
+    public static void shutdown(  )
+    {
+        if ( _context != null )
+        {
+            ( (AbstractApplicationContext) _context ).close(  );
+        }
+    }
+
+    /**
      * Utils filename filter to identify context files
      */
     static class ContextFileFilter implements FilenameFilter
@@ -360,18 +379,6 @@ public final class SpringContextService implements PluginEventListener
         public boolean accept( File file, String strName )
         {
             return strName.endsWith( SUFFIX_CONTEXT_FILE );
-        }
-    }
-
-    /**
-     * Closes the Spring context
-     * @since 5.1.0
-     */
-    public static void shutdown( )
-    {
-        if ( _context != null )
-        {
-            ( ( AbstractApplicationContext ) _context ).close( );
         }
     }
 }

@@ -120,10 +120,9 @@ public final class FilterService
      * @param context The context
      * @throws LuteceInitException If an error occurs
      */
-    public static void init( ServletContext context  ) throws LuteceInitException
+    public static void init( ServletContext context ) throws LuteceInitException
     {
-    	
-    	 _context=context;
+        _context = context;
         AppLogService.info( "Initialize plugins filters" );
 
         for ( LuteceFilter filter : FilterService.getInstance(  ).getFilters(  ) )

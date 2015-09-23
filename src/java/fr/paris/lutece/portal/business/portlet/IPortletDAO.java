@@ -168,7 +168,7 @@ public interface IPortletDAO
      * @return the last modified {@link Portlet}
      */
     Portlet loadLastModifiedPortlet(  );
-    
+
     /**
      * Get list of used orders for a column
      * @param pageId the page id
@@ -176,5 +176,4 @@ public interface IPortletDAO
      * @return list of orders used for this column
      */
     List<Integer> getUsedOrdersForColumns( int pageId, int columnId );
-
 }

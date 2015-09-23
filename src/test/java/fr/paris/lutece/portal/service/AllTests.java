@@ -45,6 +45,7 @@ import fr.paris.lutece.portal.service.security.LuteceUserTest;
 import fr.paris.lutece.portal.service.template.FreeMarkerTemplateServiceTest;
 import fr.paris.lutece.portal.service.util.AppLogServiceTest;
 import fr.paris.lutece.portal.service.util.AppPathServiceTest;
+
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
