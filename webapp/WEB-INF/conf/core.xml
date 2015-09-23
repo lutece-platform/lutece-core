@@ -36,7 +36,6 @@
     <applications>
         <application>
             <application-id>search</application-id>
-            <application-class>fr.paris.lutece.portal.web.search.SearchApp</application-class>
         </application>
         <application>
             <application-id>map</application-id>

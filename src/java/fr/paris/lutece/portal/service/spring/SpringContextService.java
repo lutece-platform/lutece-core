@@ -41,6 +41,7 @@ import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 
 import org.springframework.context.ApplicationContext;
@@ -57,6 +58,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletContext;
 
 /**
  * This class provides a way to use Spring Framework ligthweight containers
@@ -114,10 +116,11 @@ public final class SpringContextService implements PluginEventListener
      * Now uses GenericApplicationContext for better performances. A wrong formatted file
      * will not block block context to be built (without the file), but a wrong bean (i.e. cannot
      * be instantiated) will cause a full context failure. Context is less "failure-friendly"
+     * @param servletContext The servlet context
      * @throws LuteceInitException The lutece init exception
      * @since 2.4
      */
-    public static void init(  ) throws LuteceInitException
+    public static void init( ServletContext servletContext ) throws LuteceInitException
     {
         try
         {
@@ -131,7 +134,8 @@ public final class SpringContextService implements PluginEventListener
             String strConfPath = AppPathService.getAbsolutePathFromRelativePath( PATH_CONF );
             String strContextFile = "file:" + strConfPath + FILE_CORE_CONTEXT;
 
-            GenericWebApplicationContext gwac = new GenericWebApplicationContext(  );
+            GenericWebApplicationContext gwac = new GenericWebApplicationContext( servletContext );
+            gwac.setId( getContextName( servletContext ) );
             XmlBeanDefinitionReader xmlReader = new XmlBeanDefinitionReader( gwac );
             xmlReader.loadBeanDefinitions( strContextFile );
 
@@ -187,6 +191,30 @@ public final class SpringContextService implements PluginEventListener
             AppLogService.error( "Error initializing Spring Context Service " + e.getMessage(  ), e );
             throw new LuteceInitException( "Error initializing Spring Context Service", e );
         }
+    }
+
+    /**
+     * Returns a name for this context
+     * @param servletContext the servlet context
+     * @return name for this context
+     */
+    private static String getContextName( ServletContext servletContext )
+    {
+        String name = "lutece";
+        if ( servletContext != null)
+        {
+            String contextName = servletContext.getServletContextName( );
+            if ( contextName == null )
+            {
+                contextName = servletContext.getContextPath( );
+            }
+            if ( StringUtils.isNotBlank( contextName ) )
+            {
+                name = contextName;
+            }
+        }
+
+        return name;
     }
 
     /**

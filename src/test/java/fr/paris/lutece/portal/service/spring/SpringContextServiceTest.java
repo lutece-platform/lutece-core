@@ -62,7 +62,7 @@ public class SpringContextServiceTest extends LuteceTestCase
     public void testInit(  ) throws LuteceInitException
     {
         System.out.println( "init" );
-        SpringContextService.init(  );
+        SpringContextService.init( null );
 
         for ( String name : SpringContextService.getContext(  ).getBeanDefinitionNames(  ) )
         {
