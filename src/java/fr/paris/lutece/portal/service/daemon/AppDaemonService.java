@@ -336,7 +336,7 @@ public final class AppDaemonService
             else
             {
                 AppLogService.info( _scheduler.getActiveCount(  ) +
-                    " daemons steel running, trying to interrupt them..." );
+                    " daemons still running, trying to interrupt them..." );
                 _scheduler.shutdownNow(  );
 
                 if ( _scheduler.awaitTermination( 1, TimeUnit.SECONDS ) )
@@ -346,7 +346,7 @@ public final class AppDaemonService
                 else
                 {
                     AppLogService.error( "Interrupt failed : " + _scheduler.getActiveCount(  ) +
-                        " daemons steel running." );
+                        " daemons still running." );
                 }
             }
         }
