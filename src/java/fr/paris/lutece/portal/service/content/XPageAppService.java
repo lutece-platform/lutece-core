@@ -190,7 +190,6 @@ public class XPageAppService extends ContentService
     {
         // Gets XPage info from the lutece.properties
         String strName = request.getParameter( PARAM_XPAGE_APP );
-        PageData data = new PageData(  );
 
         XPageApplicationEntry entry = getApplicationEntry( strName );
 
@@ -241,10 +240,17 @@ public class XPageAppService extends ContentService
                 page = application.getPage( request, nMode, entry.getPlugin(  ) );
             }
 
+            if ( page.isStandalone( ) )
+            {
+                return page.getContent( );
+            }
+
+            PageData data = new PageData(  );
+
             data.setContent( page.getContent(  ) );
             data.setName( page.getTitle(  ) );
 
-            // set the page path. Done by addind the extra-path information to the pathLabel.
+            // set the page path. Done by adding the extra-path information to the pathLabel.
             String strXml = page.getXmlExtendedPathLabel(  );
 
             if ( strXml == null )
@@ -255,15 +261,17 @@ public class XPageAppService extends ContentService
             {
                 data.setPagePath( PortalService.getXPagePathContent( page.getPathLabel(  ), 0, strXml, request ) );
             }
+
+            return PortalService.buildPageContent( data, nMode, request );
+
         }
         else
         {
             AppLogService.error( "The specified Xpage '" + strName +
                 "' cannot be retrieved. Check installation of your Xpage application." );
             SiteMessageService.setMessage( request, MESSAGE_ERROR_APP_BODY, SiteMessage.TYPE_ERROR );
+            return null; // unreachable because SiteMessageService.setMessage throws
         }
-
-        return PortalService.buildPageContent( data, nMode, request );
     }
 
     /**

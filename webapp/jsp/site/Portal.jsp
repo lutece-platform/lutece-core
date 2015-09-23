@@ -1,23 +1,16 @@
-<%@ page errorPage="ErrorPagePortal.jsp" %>
-<%@ page import="fr.paris.lutece.portal.service.security.UserNotSignedException" %>
-<%@ page import="fr.paris.lutece.portal.service.security.SecurityService" %>
-<%@ page import="java.util.Enumeration" %>
-<%@ page import="java.lang.StringBuffer" %>
-<%@ page import="fr.paris.lutece.portal.web.LocalVariables" %>
-
-
-<%@page import="fr.paris.lutece.portal.service.message.SiteMessageException"%>
-<%@page import="fr.paris.lutece.portal.service.page.PageNotFoundException"%>
-<%@page import="fr.paris.lutece.portal.service.util.AppPathService"%>
-<%@page import="fr.paris.lutece.portal.web.PortalJspBean"%>
-
-<%@ page pageEncoding="UTF-8" %>
-
-<jsp:include page="PortalHeader.jsp" />
-
-<jsp:useBean id="portal" scope="page" class="fr.paris.lutece.portal.web.PortalJspBean" />
-
-<%
+<%@ page errorPage="ErrorPagePortal.jsp" %><%@
+    page import="fr.paris.lutece.portal.service.security.UserNotSignedException,
+                 fr.paris.lutece.portal.service.security.SecurityService,
+                 java.util.Enumeration,
+                 java.lang.StringBuffer,
+                 fr.paris.lutece.portal.web.LocalVariables,
+                 fr.paris.lutece.portal.service.message.SiteMessageException,
+                 fr.paris.lutece.portal.service.page.PageNotFoundException,
+                 fr.paris.lutece.portal.service.util.AppPathService,
+                 fr.paris.lutece.portal.web.PortalJspBean"%><%@
+    page pageEncoding="UTF-8"
+%><jsp:include page="PortalHeader.jsp"
+/><jsp:useBean id="portal" scope="page" class="fr.paris.lutece.portal.web.PortalJspBean" /><%
 
 	// Required by JSR168 portlets (added in v1.2)
 	LocalVariables.setLocal( config, request, response );
@@ -69,5 +62,3 @@
         }
 
 %>
-
-
