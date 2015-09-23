@@ -57,10 +57,22 @@
     </application>
 
    <!-- Page Include Service -->
-   <page-include-service>
-     <page-include-service-name>My Include Service</page-include-service-name>
-     <page-include-service-class>fr.paris.lutece.plugins.myplugin.web.MyPluginInclude</page-include-service-class>
-   </page-include-service>
+   <page-include-services>
+        <page-include-service>
+            <page-include-service-id>My Include Service</page-include-service-id>
+            <page-include-service-class>fr.paris.lutece.plugins.myplugin.web.MyPluginInclude</page-include-service-class>
+        </page-include-service>
+        <page-include-service>
+            <page-include-service-id>My Include Service enabled</page-include-service-id>
+            <page-include-service-class>fr.paris.lutece.plugins.myplugin.web.MyPluginInclude</page-include-service-class>
+            <enabled>true</enabled>
+        </page-include-service>
+        <page-include-service>
+            <page-include-service-id>My Include Service disabled</page-include-service-id>
+            <page-include-service-class>fr.paris.lutece.plugins.myplugin.web.MyPluginInclude</page-include-service-class>
+            <enabled>false</enabled>
+        </page-include-service>
+   </page-include-services>
 
    <!-- Content Service -->
    <content-service>

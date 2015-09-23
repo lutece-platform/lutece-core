@@ -49,26 +49,32 @@
         <page-include-service>
             <page-include-service-id>main_menu</page-include-service-id>
             <page-include-service-class>fr.paris.lutece.portal.web.includes.MainMenuInclude</page-include-service-class>
+            <enabled>${core.include.main_menu.enabled}</enabled>
         </page-include-service>	
         <page-include-service>
             <page-include-service-id>tree_menu</page-include-service-id>
             <page-include-service-class>fr.paris.lutece.portal.web.includes.TreeMenuInclude</page-include-service-class>
+            <enabled>${core.include.tree_menu.enabled}</enabled>
         </page-include-service>			
         <page-include-service>
             <page-include-service-id>links</page-include-service-id>
             <page-include-service-class>fr.paris.lutece.portal.web.includes.LinksInclude</page-include-service-class>
+            <enabled>${core.include.links.enabled}</enabled>
         </page-include-service>
         <page-include-service>
             <page-include-service-id>metas</page-include-service-id>
             <page-include-service-class>fr.paris.lutece.portal.web.includes.MetasInclude</page-include-service-class>
+            <enabled>${core.include.metas.enabled}</enabled>
         </page-include-service>
         <page-include-service>
             <page-include-service-id>statistics</page-include-service-id>
             <page-include-service-class>fr.paris.lutece.portal.web.includes.StatisticsInclude</page-include-service-class>
+            <enabled>${core.include.statistics.enabled}</enabled>
         </page-include-service>
         <page-include-service>
             <page-include-service-id>themes</page-include-service-id>
             <page-include-service-class>fr.paris.lutece.portal.web.includes.ThemesInclude</page-include-service-class>
+            <enabled>${core.include.themes.enabled}</enabled>
         </page-include-service>
     </page-include-services>
     
