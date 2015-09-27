@@ -75,8 +75,8 @@
 				<ul>
                     <#list applications as application >
                     <li>
-                        <h3>${application.id}</h3>
-                        <p>${application.className}</p>
+                        <h3>${application.id}<#if !application.enabled> <span class="badge"><i class="fa fa-ban"></i> ${i18n("portal.system.view_plugin.disabled")}</span></#if></h3>
+                        <p>${application.className!}</p>
                     </li>		
                     </#list>
                 </ul>

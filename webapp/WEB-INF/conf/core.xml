@@ -36,10 +36,12 @@
     <applications>
         <application>
             <application-id>search</application-id>
+            <enabled>${core.xpage.search.enabled}</enabled>
         </application>
         <application>
             <application-id>map</application-id>
             <application-class>fr.paris.lutece.portal.web.xpages.SiteMapApp</application-class>
+            <enabled>${core.xpage.map.enabled}</enabled>
         </application>
     </applications>
 
