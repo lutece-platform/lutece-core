@@ -2277,20 +2277,29 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
      */
     public String getAnonymizeAdminUser( HttpServletRequest request )
     {
-        UrlItem url = new UrlItem( JSP_URL_ANONYMIZE_ADMIN_USER );
-
         String strAdminUserId = request.getParameter( PARAMETER_USER_ID );
 
-        if ( ( strAdminUserId == null ) || strAdminUserId.isEmpty(  ) )
+        if ( !StringUtils.isNumeric( strAdminUserId ) || strAdminUserId.isEmpty(  ) )
         {
             return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_NO_ADMIN_USER_SELECTED,
                 AdminMessage.TYPE_STOP );
         }
 
+        int nUserId = Integer.parseInt( strAdminUserId );
+        AdminUser user = AdminUserHome.findByPrimaryKey( nUserId );
+
+        if ( user == null )
+        {
+            return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_USER_ERROR_SESSION,
+                    AdminMessage.TYPE_ERROR );
+        }
+
+        UrlItem url = new UrlItem( JSP_URL_ANONYMIZE_ADMIN_USER );
         url.addParameter( PARAMETER_USER_ID, strAdminUserId );
 
-        return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_CONFIRM_ANONYMIZE_USER, url.getUrl(  ),
-            AdminMessage.TYPE_CONFIRMATION );
+        return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_CONFIRM_ANONYMIZE_USER,
+            new Object[] { user.getFirstName(  ), user.getLastName(  ), user.getAccessCode(  ) },
+            url.getUrl(  ), AdminMessage.TYPE_CONFIRMATION );
     }
 
     /**
@@ -2302,13 +2311,22 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     {
         String strAdminUserId = request.getParameter( PARAMETER_USER_ID );
 
-        if ( ( strAdminUserId == null ) || strAdminUserId.isEmpty(  ) )
+        if ( !StringUtils.isNumeric( strAdminUserId ) || strAdminUserId.isEmpty(  ) )
         {
             return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_NO_ADMIN_USER_SELECTED,
                 AdminMessage.TYPE_STOP );
         }
 
-        AdminUserService.anonymizeUser( Integer.parseInt( strAdminUserId ), getLocale(  ) );
+        int nUserId = Integer.parseInt( strAdminUserId );
+        AdminUser user = AdminUserHome.findByPrimaryKey( nUserId );
+
+        if ( user == null )
+        {
+            return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_USER_ERROR_SESSION,
+                    AdminMessage.TYPE_ERROR );
+        }
+
+        AdminUserService.anonymizeUser( nUserId, getLocale(  ) );
 
         return JSP_MANAGE_USER;
     }
