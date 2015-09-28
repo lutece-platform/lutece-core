@@ -225,6 +225,11 @@ ul.pagination{margin-top:0;}
 ----------------------------
 */
 .plugin{min-height:300px;max-height:300px;}
+/* 
+	Plugins view
+----------------------------
+*/
+h3>.badge { vertical-align: middle }
 
 /* 
 	Admin Site

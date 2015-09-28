@@ -69,6 +69,7 @@
             <bean-property-setter-rule pattern="application-id" propertyname="id" />
             <bean-property-setter-rule pattern="application-class" propertyname="className" />
             <bean-property-setter-rule pattern="application-roles" propertyname="roles" />
+            <bean-property-setter-rule pattern="enabled" propertyname="enabled" />
             <set-next-rule methodname="addXPageApplication" />
         </pattern>
         <pattern value="filters/filter">

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2015, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -106,7 +106,8 @@ public class XPageAppService extends ContentService
             }
 
             _mapApplications.put( entry.getId(  ), entry );
-            AppLogService.info( "New XPage application registered : " + entry.getId(  ) );
+            AppLogService.info( "New XPage application registered : " + entry.getId(  )
+                    + ( entry.isEnabled(  ) ? "" : " (disabled)" ) );
         }
         catch ( ClassNotFoundException e )
         {

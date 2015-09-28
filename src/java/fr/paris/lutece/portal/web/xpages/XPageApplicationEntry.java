@@ -52,6 +52,7 @@ public class XPageApplicationEntry
     private String _strClassName;
     private String _strPluginName;
     private List<String> _listRoles = new ArrayList<String>(  );
+    private boolean _bEnabled = true; // defaults to enabled
 
     /**
      * Returns the Id
@@ -170,7 +171,27 @@ public class XPageApplicationEntry
      */
     public boolean isEnable(  )
     {
-        return PluginService.isPluginEnable( _strPluginName );
+        return _bEnabled && PluginService.isPluginEnable( _strPluginName );
+    }
+
+    /**
+     * Tells if the XPageApplication is enabled, independently of the plugin's status
+     * @return <code>true</code> if this XPageApplication is enabled, <code>false</code> otherwise
+     * @since 5.1
+     */
+    public boolean isEnabled(  )
+    {
+        return _bEnabled;
+    }
+
+    /**
+     * Sets the enabled state of this XPageApplication
+     * @param enabled <code>true</code> if this XPageApplication is enabled, <code>false</code> otherwise
+     * @since 5.1
+     */
+    public void setEnabled( boolean bEnabled )
+    {
+        _bEnabled = bEnabled;
     }
 
     /**
