@@ -189,6 +189,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     private static final String PROPERTY_ACCOUNT_DEACTIVATES_EMAIL = "portal.users.accountLifeTime.labelAccountDeactivatedEmail";
     private static final String PROPERTY_ACCOUNT_UPDATED_EMAIL = "portal.users.accountLifeTime.labelAccountUpdatedEmail";
     private static final String PROPERTY_NOTIFY_PASSWORD_EXPIRED = "portal.users.accountLifeTime.labelPasswordExpired";
+    private static final String PROPERTY_MESSAGE_USER_ERROR_SESSION = "portal.users.message.user.error.session";
     private static final String MESSAGE_NOT_AUTHORIZED = "Action not permited to current user";
     private static final String MESSAGE_MANDATORY_FIELD = "portal.util.message.mandatoryField";
     private static final String MESSAGE_ERROR_CSV_FILE_IMPORT = "portal.users.import_users_from_file.error_csv_file_import";
@@ -1262,15 +1263,32 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
      *
      * @param request The Http Request
      * @return the confirmation url
+     * @throws AccessDeniedException 
      */
-    public String doConfirmRemoveAdminUser( HttpServletRequest request )
+    public String doConfirmRemoveAdminUser( HttpServletRequest request ) throws AccessDeniedException
     {
         String strUserId = request.getParameter( PARAMETER_USER_ID );
         int nUserId = Integer.parseInt( strUserId );
+        AdminUser user = AdminUserHome.findByPrimaryKey( nUserId );
+
+        if ( user == null )
+        {
+            return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_USER_ERROR_SESSION,
+                    AdminMessage.TYPE_ERROR );
+        }
+
+        AdminUser currentUser = AdminUserService.getAdminUser( request );
+
+        if ( !isUserAuthorizedToModifyUser( currentUser, user ) )
+        {
+            throw new fr.paris.lutece.portal.service.admin.AccessDeniedException( MESSAGE_NOT_AUTHORIZED );
+        }
+
         String strUrlRemove = JSP_URL_REMOVE_USER + "?" + PARAMETER_USER_ID + "=" + nUserId;
 
-        String strUrl = AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_CONFIRM_REMOVE, strUrlRemove,
-                AdminMessage.TYPE_CONFIRMATION );
+        String strUrl = AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_CONFIRM_REMOVE,
+                new Object[] { user.getFirstName( ), user.getLastName( ), user.getAccessCode( ) },
+                strUrlRemove, AdminMessage.TYPE_CONFIRMATION );
 
         return strUrl;
     }
@@ -1288,6 +1306,12 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         String strUserId = request.getParameter( PARAMETER_USER_ID );
         int nUserId = Integer.parseInt( strUserId );
         AdminUser user = AdminUserHome.findByPrimaryKey( nUserId );
+
+        if ( user == null )
+        {
+            return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_USER_ERROR_SESSION,
+                    AdminMessage.TYPE_ERROR );
+        }
 
         AdminUser currentUser = AdminUserService.getAdminUser( request );
 
