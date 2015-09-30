@@ -61,4 +61,11 @@ public interface IPortalUserPreferencesService extends IUserPreferencesService
      * @param strNickname The nickname
      */
     void setNickname( String strUserId, String strNickname );
+    
+    /**
+     * return true if the nickname already exist 
+     * @param strNickname The nickname
+     *
+     */
+    boolean existsNickname( String strNickname  );
 }

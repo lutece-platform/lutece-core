@@ -207,4 +207,10 @@ public class BaseUserPreferencesServiceImpl implements IUserPreferencesService, 
             }
         }
     }
+
+	@Override
+	public boolean existsValueForKey(String strKey, String strValue) {
+		
+		return _dao.existsValueForKey(strKey, strValue);
+	}
 }

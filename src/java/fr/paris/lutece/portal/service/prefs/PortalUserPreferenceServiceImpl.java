@@ -68,4 +68,15 @@ public class PortalUserPreferenceServiceImpl extends BaseUserPreferencesServiceI
     {
         put( strUserId, PrefsConstants.PORTAL_NICKNAME, strNickname );
     }
+    
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public boolean existsNickname( String strNickname  )
+    {
+        return existsValueForKey(PrefsConstants.PORTAL_NICKNAME, strNickname);
+    }
+    
+    
 }

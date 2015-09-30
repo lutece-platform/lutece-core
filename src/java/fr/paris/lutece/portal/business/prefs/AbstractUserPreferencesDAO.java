@@ -60,6 +60,9 @@ public abstract class AbstractUserPreferencesDAO implements IPreferencesDAO
         " WHERE id_user = ? AND pref_key LIKE ? ";
     private final String _strSqlSelectCount = "SELECT COUNT(*) FROM " + getPreferencesTable(  ) +
         " WHERE id_user = ? AND pref_key = ?";
+    private final String _strSqlSelectCountPrefValue = "SELECT COUNT(*) FROM " + getPreferencesTable(  ) +
+            " WHERE pref_key = ? AND pref_value = ?";
+        
 
     /**
      * Gets the preferences table
@@ -203,6 +206,29 @@ public abstract class AbstractUserPreferencesDAO implements IPreferencesDAO
         DAOUtil daoUtil = new DAOUtil( _strSqlSelectCount );
         daoUtil.setString( 1, strUserId );
         daoUtil.setString( 2, strKey );
+        daoUtil.executeQuery(  );
+
+        int nValue = 0;
+
+        if ( daoUtil.next(  ) )
+        {
+            nValue = ( daoUtil.getInt( 1 ) );
+        }
+
+        daoUtil.free(  );
+
+        return ( nValue != 0 );
+    }
+    
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public boolean existsValueForKey( String strKey,String strValue )
+    {
+        DAOUtil daoUtil = new DAOUtil( _strSqlSelectCountPrefValue );
+        daoUtil.setString( 1, strKey );
+        daoUtil.setString( 2, strValue );
         daoUtil.executeQuery(  );
 
         int nValue = 0;

@@ -135,4 +135,11 @@ public interface IUserPreferencesService
      * @return 1 if exists otherwise false
      */
     boolean existsKey( String strUserId, String strKey );
+    /**
+     * Checks if a value is already used for a preference given key 
+     * @param strKey The Pref key
+     * @param strValue The Pref Value
+     * @return 1 if exists otherwise false
+     */
+    boolean existsValueForKey( String strKey,String strValue );
 }
