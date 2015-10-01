@@ -169,28 +169,21 @@
 
 
 <#macro paginationAdmin paginator combo=0 form=1 nb_items_per_page=nb_items_per_page showcount=1 showall=0>
-<div class="row">
-	<div class="col-xs-12 col-sm-12 col-md-12">
 		<#if (paginator.pagesCount > 1) >
 			<@paginationPageLinks paginator=paginator />
 		</#if>
 		<div class="pull-right">
 			<#if form == 1 >
-				<form method="post" action="">
+				<form method="post" class="form-inline" action="">
 			</#if>
-				<div class="input-group">
-					<@paginationItemCount paginator=paginator combo=combo nb_items_per_page=nb_items_per_page showcount=showcount showall=showall/>
-				</div>
+			<@paginationItemCount paginator=paginator combo=combo nb_items_per_page=nb_items_per_page showcount=showcount showall=showall/>
 			<#if form == 1 >
 				</form>
 			</#if>
 		</div>
-	</div>
-</div>
-<div class="table"></div>
  </#macro>
 
- <#macro paginationPageLinks paginator >
+<#macro paginationPageLinks paginator >
 <#assign nbLinkPagesToDisplay = 10 />
 <#assign offsetPrev = nbLinkPagesToDisplay / 2 />
 <#assign offsetNext = nbLinkPagesToDisplay / 2 />
@@ -264,38 +257,40 @@
 
 <#macro paginationCombo paginator nb_items_per_page=nb_items_per_page showall=0>
 	<label>${paginator.labelItemCountPerPage}</label>
-	<select data-max-item="${paginator.itemsCount}" class="input-xs" name="${paginator.itemsPerPageParameterName}" id="${paginator.itemsPerPageParameterName}" title="${paginator.labelItemCountPerPage}">
-		<#list [ "10" , "20" , "50" , "100" ] as nb>
-			<#if nb_items_per_page = nb >
-				<option selected="selected" value="${nb}">${nb}</option>
-			<#else>
-				<option value="${nb}">${nb}</option>
-			</#if>
-		</#list>
-		<#if showall ==1>
-			<#if paginator.itemsCount &gt; 100 >
-				<option <#if nb_items_per_page?number = paginator.itemsCount?number >selected="selected"</#if> value="${paginator.itemsCount}" class="${nb_items_per_page}">#i18n{portal.util.labelAll}</option>
-			</#if>
-		</#if>
-	</select>
-	<span class="input-group-btn">
+  <div class="input-group">
+	  <select data-max-item="${paginator.itemsCount}" class="input-xs" name="${paginator.itemsPerPageParameterName}" id="${paginator.itemsPerPageParameterName}" title="${paginator.labelItemCountPerPage}">
+  		<#list [ "10" , "20" , "50" , "100" ] as nb>
+  			<#if nb_items_per_page = nb >
+  				<option selected="selected" value="${nb}">${nb}</option>
+  			<#else>
+  				<option value="${nb}">${nb}</option>
+  			</#if>
+  		</#list>
+  		<#if showall ==1>
+  			<#if paginator.itemsCount &gt; 100 >
+  				<option <#if nb_items_per_page?number = paginator.itemsCount?number >selected="selected"</#if> value="${paginator.itemsCount}" class="${nb_items_per_page}">#i18n{portal.util.labelAll}</option>
+  			</#if>
+  		</#if>
+	  </select>
+	  <span class="input-group-btn">
 		<button class="btn btn-default btn-xs" type="submit" title="#i18n{portal.util.labelRefresh}">
 			<i class="fa fa-repeat"></i>
 		</button>
 	</span>
+</div>
 </#macro>
 
 <#macro paginationItemCount paginator combo=0 nb_items_per_page=nb_items_per_page showcount=1 showall=0>
-        <#-- Display combo -->
-        <#if combo == 1 >
-            <@paginationCombo paginator=paginator nb_items_per_page=nb_items_per_page showall=showall/>
-        </#if>
-        <#-- Display item count -->
-		 <#if showcount == 1 >
-			<span class="showcount">
-				<#if (paginator.labelItemCount)?? && paginator.labelItemCount?has_content>&nbsp;-&nbsp;${paginator.labelItemCount} : </#if> ${paginator.itemsCount}
-			</span>
-		</#if>
+<#-- Display combo -->
+<#if combo == 1 >
+  <@paginationCombo paginator=paginator nb_items_per_page=nb_items_per_page showall=showall />
+</#if>
+<#-- Display item count -->
+<#if showcount == 1 >
+<span class="showcount">
+	<#if (paginator.labelItemCount)?? && paginator.labelItemCount?has_content>&nbsp;-&nbsp;${paginator.labelItemCount} : </#if> ${paginator.itemsCount}
+</span>
+</#if>
 </#macro>
 
 

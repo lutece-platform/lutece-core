@@ -37,4 +37,4 @@
 <link rel="shortcut icon" href="<%= strBase %>favicon.ico">
 <script src="js/jquery/jquery.min.js"></script>
 </head>
-<body class="login-page">
+<body>

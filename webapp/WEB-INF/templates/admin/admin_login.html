@@ -1,41 +1,51 @@
-<div class="form-box margin" id="login-box">
-    <div class="header bg-blue">
-		<h3><a href="jsp/site/Portal.jsp" title="${site_name}" style="color:#fff;">#i18n{portal.admin.admin_login.welcome} ${site_name}</a>
-		</h3>
-		<small>#i18n{portal.admin.admin_login.boxTitle}</small>
-	</div>
-    <form method="post" name="login" id="login" action="${do_admin_login_url}" class="form" role="form">
-		<#list params_list as param><input type="hidden" name="${param.code}" value="${param.name}"></#list>
-		<div class="body bg-gray">
-			<div class="form-group">
-				<div class="input-group">
-					<div class="input-group-addon"><span class="fa fa-user"></span></div>
-					<label class="sr-only" for="access_code">#i18n{portal.admin.admin_login.loginLabel}</label>
-					<input type="text" name="access_code" class="form-control" autofocus placeholder="#i18n{portal.admin.admin_login.loginLabel}">
-				</div>
-            </div>
-            <div class="form-group">
-				<label class="sr-only" for="password">#i18n{portal.admin.admin_login.passwordLabel}</label>
-				<div class="input-group">
-					<div class="input-group-addon"><span class="fa fa-lock"></span></div>	
-					<input type="password" name="password" class="form-control" placeholder="#i18n{portal.admin.admin_login.passwordLabel}">
-				</div>          
-            </div>          
-        </div>
-        <div class="footer">                                                               
-			<button type="submit" class="btn btn-primary btn-block btn-flat">#i18n{portal.admin.admin_login.buttonConnect}</button>  
-			<p>#i18n{portal.admin.admin_login.helpText} </p>
-			<p>
-				<a href="${forgot_password_url?if_exists}" title="#i18n{portal.admin.admin_login.forgotPassword}">#i18n{portal.admin.admin_login.forgotPassword} ?</a>&nbsp;
-				<a href="${forgot_login_url?if_exists}" title="#i18n{portal.admin.admin_login.forgotLogin}"> #i18n{portal.admin.admin_login.forgotLogin} ?</a>
-			</p>
-			<div class="text-center">
-				<p>
-				<a class="btn btn-default btn-flat" href="http://fr.lutece.paris.fr" target="_blank" title="#i18n{portal.site.portal_footer.labelPortal}">
-					<img src="images/poweredby.jpg" class="thumbnails" alt="logo lutece" title="Lutece">
-				</a>
-				</p>
-			</div>
-		</div>
-    </form>
-</div>	
+<div id="login-page">
+  <img src="images/logo-header.png" id="logoLogin" title="LUTECE Back-Office" alt="LUTECE Back-Office">
+    <div class="login-box">
+      <div class="login-logo bg-primary">
+        <a href="jsp/site/Portal.jsp" title="${site_name}">#i18n{portal.admin.admin_login.welcome}<br> <b>${site_name}</b></a>
+      </div>
+      <div class="login-box-body">
+        <div class="login-box-header">
+          <p class="text-center">#i18n{portal.admin.admin_login.boxTitle}</small></p>
+    	  </div>
+        <form method="post" name="login" id="login" action="${do_admin_login_url}" class="form" role="form">
+        	<#list params_list as param><input type="hidden" name="${param.code}" value="${param.name}"></#list>
+        			<div class="form-group">
+        				<div class="input-group">
+        					<div class="input-group-addon"><span class="fa fa-user"></span></div>
+        					<label class="sr-only" for="access_code">#i18n{portal.admin.admin_login.loginLabel}</label>
+        					<input type="text" name="access_code" class="form-control" autofocus placeholder="#i18n{portal.admin.admin_login.loginLabel}">
+        				</div>
+              </div>
+              <div class="form-group">
+        				<label class="sr-only" for="password">#i18n{portal.admin.admin_login.passwordLabel}</label>
+        				<div class="input-group">
+        					<div class="input-group-addon"><span class="fa fa-lock"></span></div>
+        					<input type="password" name="password" class="form-control" placeholder="#i18n{portal.admin.admin_login.passwordLabel}">
+        				</div>
+              </div>
+            	<button type="submit" class="btn btn-primary btn-block btn-flat">#i18n{portal.admin.admin_login.buttonConnect}</button>
+        			<p>#i18n{portal.admin.admin_login.helpText} </p>
+        			<p>
+        				<a href="${forgot_password_url?if_exists}" title="#i18n{portal.admin.admin_login.forgotPassword}">#i18n{portal.admin.admin_login.forgotPassword} ?</a>&nbsp;
+        				<a href="${forgot_login_url?if_exists}" title="#i18n{portal.admin.admin_login.forgotLogin}"> #i18n{portal.admin.admin_login.forgotLogin} ?</a>
+        			</p>
+        			<div class="text-center">
+        				<p>
+        				<a class="btn btn-default btn-flat" href="http://fr.lutece.paris.fr" target="_blank" title="#i18n{portal.site.portal_footer.labelPortal}">
+        					<img src="images/poweredby.jpg" class="thumbnails" alt="logo lutece" title="Lutece">
+        				</a>
+        				</p>
+        		</div>
+        </form>
+      </div>
+    </div>
+</div>
+<script>
+$(function() {
+  var randomImages = [#dskey{portal.site.site_property.back_images}];
+  var rndNum = Math.ceil(Math.random()*(randomImages.length - 1));
+  var bgImg = 'url(' + randomImages[rndNum] + ')';
+  $("#login-page").css('background-image', bgImg );
+});
+</script>

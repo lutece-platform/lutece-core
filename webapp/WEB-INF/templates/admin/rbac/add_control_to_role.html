@@ -3,45 +3,42 @@
 		<div class="box box-success">
 			<div class="box-header">
 				<h3 class="box-title">#i18n{portal.rbac.add_control_to_role.titleAddControl}</h3>
-				<div class="box-tools"></div>
-			</div><!-- /.box-header -->
+			</div>
 			<div class="box-body">
 				<form class="form-horizontal" method="post" action="jsp/admin/rbac/DoSelectResources.jsp" name="add_control">
 					<input type="hidden" name="role_key" value="${role_key}">
 					<input type="hidden" name="resource_type" value="${resource_type}">
 					<div class="form-group">
-						<div class="col-sm-offset-2 col-sm-10">
+						<div class="col-xs-12 col-sm-offset-2 col-sm-10">
 							<div class="radio">
 								<label>
-									<input type="radio" name="select_resources" value="all" checked="checked">#i18n{portal.rbac.add_control_to_role.labelSelectAllResources} 
+									<input type="radio" name="select_resources" value="all" checked="checked">#i18n{portal.rbac.add_control_to_role.labelSelectAllResources}
 								</label>
 							</div>
 							<div class="radio">
-								<#if resource_list_available = true >
-									<label>
-										<input class="radio" type="radio" name="select_resources" value="choose">
-										#i18n{portal.rbac.add_control_to_role.labelSelectResourcesInList}
-									<#else>
-										<input type="hidden" name="select_resources" value="all" >
-										<span class="label label-info"><i class="fa fa-info-circle"></i>&nbsp;#i18n{portal.rbac.add_control_to_role.labelNoResourcesList}</span>
-									</label>
+								<label>
+								<#if resource_list_available=true>
+										<input class="radio" type="radio" name="select_resources" value="choose"> #i18n{portal.rbac.add_control_to_role.labelSelectResourcesInList}
+								<#else>
+									<input type="hidden" name="select_resources" value="all">
+									<span class="label label-info"><i class="fa fa-info-circle"></i>&nbsp;#i18n{portal.rbac.add_control_to_role.labelNoResourcesList}</span>
 								</#if>
+								</label>
 							</div>
 						</div>
 					</div>
 					<div class="form-group">
-						<div class="col-sm-offset-2 col-sm-10">
-							<button class="btn btn-primary btn-flat" type="submit" >
-								#i18n{portal.rbac.add_control_to_role.buttonLabelValidate}&nbsp;
-								<i class="fa fa-step-forward"></i>
-							</button>
-							<a class="btn btn-default btn-flat" href="jsp/admin/rbac/ViewRoleDescription.jsp?role_key=${role_key}" >
-								<i class="glyphicon glyphicon-remove-circle"></i>&nbsp;#i18n{portal.rbac.add_control_to_role.buttonLabelCancel}
+						<div class="col-xs-12 col-sm-offset-2 col-sm-10">
+							<a class="btn btn-default btn-flat" href="jsp/admin/rbac/ViewRoleDescription.jsp?role_key=${role_key}">
+								<i class="fa fa-step-backward"></i>&nbsp;#i18n{portal.rbac.add_control_to_role.buttonLabelCancel}
 							</a>
+							<button class="btn btn-primary btn-flat" type="submit">
+								#i18n{portal.rbac.add_control_to_role.buttonLabelValidate}&nbsp;<i class="fa fa-step-forward"></i>
+							</button>
 						</div>
 					</div>
 				</form>
 			</div>
 		</div>
-    </div>
+	</div>
 </div>

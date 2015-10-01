@@ -3,84 +3,83 @@
 		<div class="box box-info">
 			<div class="box-header">
 				<h3 class="box-title">#i18n{portal.style.modify_mode.boxTitle} <small>${mode.description}</small></h3>
-				<div class="box-tools"></div>
-			</div><!-- /.box-header -->
+			</div>
 			<div class="box-body">
 				<form class="form-horizontal" method="post" action="jsp/admin/style/DoModifyMode.jsp" name="modify_mode" role="form">
-				<input type="hidden" name="mode_id" value="${mode.id}"  />
+				<input type="hidden" name="mode_id" value="${mode.id}" >
 					<div class="form-group">
-						<label class="control-label col-sm-2" > #i18n{portal.style.modify_mode.labelId}&nbsp;*&nbsp;</label>
-						<div class="col-sm-10">
+						<label class="control-label col-xs-12 col-sm-2" > #i18n{portal.style.modify_mode.labelId}&nbsp;*&nbsp;</label>
+						<div class="col-xs-12 col-sm-10">
 							<p class="form-control-static">${mode.id}</p>
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="control-label col-sm-2" for="mode_description" >#i18n{portal.style.modify_mode.labelDescription}</label>
-						<div class="col-sm-10">
-							<input type="text" name="mode_description" value="${mode.description}" class="form-control" maxlength="50" />
+						<label class="control-label col-xs-12 col-sm-2" for="mode_description" >#i18n{portal.style.modify_mode.labelDescription}</label>
+						<div class="col-xs-12 col-sm-10">
+							<input type="text" name="mode_description" value="${mode.description}" class="form-control" maxlength="50">
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="control-label col-sm-2" for=""> #i18n{portal.style.modify_mode.labelXslPath}</label>
-						<div class="col-sm-10">
+						<label class="control-label col-xs-12 col-sm-2" for=""> #i18n{portal.style.modify_mode.labelXslPath}</label>
+						<div class="col-xs-12 col-sm-10">
 							<pre class="form-control-static">${mode.path}</pre>
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="control-label col-sm-2 col-sr-only"></label>
-						<div class="col-sm-4">
+						<label class="control-label col-xs-12 col-sm-2"></label>
+						<div class="col-xs-12 col-sm-4">
 							<p class="form-control-static"><strong>#i18n{portal.style.modify_mode.xslParameterValues}</strong></p>
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="control-label col-sm-2" for="mode_output_xsl_method" >#i18n{portal.style.modify_mode.labelMethod}</label>
-						<div class="col-sm-10">
-							<input type="text" name="mode_output_xsl_method" value="${mode.outputXslPropertyMethod}" class="form-control" maxlength="50" />
+						<label class="control-label col-xs-12 col-sm-2" for="mode_output_xsl_method" >#i18n{portal.style.modify_mode.labelMethod}</label>
+						<div class="col-xs-12 col-sm-10">
+							<input type="text" name="mode_output_xsl_method" value="${mode.outputXslPropertyMethod}" class="form-control" maxlength="50">
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="control-label col-sm-2" for="mode_output_xsl_version" >#i18n{portal.style.modify_mode.labelVersion}</label>
-						<div class="col-sm-10">
-							<input type="text" name="mode_output_xsl_version" value="${mode.outputXslPropertyVersion}" class="form-control" maxlength="50" />
+						<label class="control-label col-xs-12 col-sm-2" for="mode_output_xsl_version" >#i18n{portal.style.modify_mode.labelVersion}</label>
+						<div class="col-xs-12 col-sm-10">
+							<input type="text" name="mode_output_xsl_version" value="${mode.outputXslPropertyVersion}" class="form-control" maxlength="50">
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="control-label col-sm-2" for="mode_output_xsl_mediatype" >#i18n{portal.style.modify_mode.labelMediaType}</label>
-						<div class="col-sm-10">
-							<input type="text" name="mode_output_xsl_mediatype" value="${mode.outputXslPropertyMediaType}" class="form-control" maxlength="50" />
+						<label class="control-label col-xs-12 col-sm-2" for="mode_output_xsl_mediatype" >#i18n{portal.style.modify_mode.labelMediaType}</label>
+						<div class="col-xs-12 col-sm-10">
+							<input type="text" name="mode_output_xsl_mediatype" value="${mode.outputXslPropertyMediaType}" class="form-control" maxlength="50">
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="control-label col-sm-2" for="mode_output_xsl_encoding" >#i18n{portal.style.modify_mode.labelEncoding}</label>
-						<div class="col-sm-10">
-							<input type="text" name="mode_output_xsl_encoding" value="${mode.outputXslPropertyEncoding}" class="form-control" maxlength="50" />
+						<label class="control-label col-xs-12 col-sm-2" for="mode_output_xsl_encoding" >#i18n{portal.style.modify_mode.labelEncoding}</label>
+						<div class="col-xs-12 col-sm-10">
+							<input type="text" name="mode_output_xsl_encoding" value="${mode.outputXslPropertyEncoding}" class="form-control" maxlength="50">
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="control-label col-sm-2" for="mode_output_xsl_indent" >#i18n{portal.style.modify_mode.labelIndent}</label>
-						<div class="col-sm-10">
-							<input type="text" name="mode_output_xsl_indent" value="${mode.outputXslPropertyIndent}" class="form-control" maxlength="50" />
+						<label class="control-label col-xs-12 col-sm-2" for="mode_output_xsl_indent" >#i18n{portal.style.modify_mode.labelIndent}</label>
+						<div class="col-xs-12 col-sm-10">
+							<input type="text" name="mode_output_xsl_indent" value="${mode.outputXslPropertyIndent}" class="form-control" maxlength="50">
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="control-label col-sm-2" for="mode_output_xsl_omitxmldeclaration" >#i18n{portal.style.modify_mode.labelOmitXmlDeclaration}</label>
-						<div class="col-sm-10">
-							<input type="text" name="mode_output_xsl_omitxmldeclaration" value="${mode.outputXslPropertyOmitXmlDeclaration}" class="form-control" maxlength="50" />
+						<label class="control-label col-xs-12 col-sm-2" for="mode_output_xsl_omitxmldeclaration" >#i18n{portal.style.modify_mode.labelOmitXmlDeclaration}</label>
+						<div class="col-xs-12 col-sm-10">
+							<input type="text" name="mode_output_xsl_omitxmldeclaration" value="${mode.outputXslPropertyOmitXmlDeclaration}" class="form-control" maxlength="50">
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="control-label col-sm-2" for="mode_output_xsl_standalone" >#i18n{portal.style.modify_mode.labelStandalone}</label>
-						<div class="col-sm-10">
-							<input type="text" name="mode_output_xsl_standalone" value="${mode.outputXslPropertyStandalone}" class="form-control" maxlength="50" />
+						<label class="control-label col-xs-12 col-sm-2" for="mode_output_xsl_standalone" >#i18n{portal.style.modify_mode.labelStandalone}</label>
+						<div class="col-xs-12 col-sm-10">
+							<input type="text" name="mode_output_xsl_standalone" value="${mode.outputXslPropertyStandalone}" class="form-control" maxlength="50">
 						</div>
 					</div>
 					<div class="form-group">
-						 <div class="col-md-offset-2 col-sm-10">
+						 <div class="col-xs-12 col-md-offset-2 col-sm-10">
 							<button class="btn btn-primary btn-flat" type="submit" >
-								<i class="glyphicon glyphicon-ok"></i> #i18n{portal.style.modify_mode.buttonLabelValidate}
+								<i class="fa fa-check"></i> #i18n{portal.style.modify_mode.buttonLabelValidate}
 							</button>
 							<a class="btn btn-default btn-flat" href="jsp/admin/style/ManageModes.jsp" >
-								<i class="glyphicon glyphicon-remove-circle"></i> #i18n{portal.util.labelCancel}
+								<i class="fa fa-remove"></i> #i18n{portal.util.labelCancel}
 							</a>
 						</div>
 					</div>

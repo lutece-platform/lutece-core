@@ -3,40 +3,39 @@
 		<div class="box box-success">
 			<div class="box-header">
 				<h3 class="box-title">#i18n{portal.role.create_role.boxTitle}</h3>
-				<div class="box-tools"></div>
-			</div><!-- /.box-header -->
+			</div>
 			<div class="box-body">
 				<form class="form-horizontal" method="post" action="jsp/admin/role/DoCreatePageRole.jsp" name="create_page_role">
-				<div class="form-group">
-					<label class="control-label col-xs-12 col-sm-3 col-md-3">#i18n{portal.role.create_role.labelName} *:</label>
-					<div class="col-xs-12 col-sm-6 col-md-6">
-						<input type="text" class="form-control input-sm" name="role" size="78" maxlength="50">
+					<div class="form-group">
+						<label class="control-label col-xs-12 col-sm-3 col-md-3">#i18n{portal.role.create_role.labelName} *:</label>
+						<div class="col-xs-12 col-sm-6 col-md-6">
+							<input type="text" class="form-control" name="role" maxlength="50">
+						</div>
 					</div>
-				</div>
-				<div class="form-group">
-					<label class="control-label col-xs-12 col-sm-3 col-md-3"> #i18n{portal.role.create_role.labelDescription} * :</label>
-					<div class="col-xs-12 col-sm-6 col-md-6">
-						<input type="text" class="form-control input-sm" name="role_description" size="78" maxlength="50">
+					<div class="form-group">
+						<label class="control-label col-xs-12 col-sm-3 col-md-3"> #i18n{portal.role.create_role.labelDescription} * :</label>
+						<div class="col-xs-12 col-sm-6 col-md-6">
+							<input type="text" class="form-control" name="role_description" maxlength="50">
+						</div>
 					</div>
-				</div>
-				<div class="form-group">
-					<label class="control-label col-xs-12 col-sm-3 col-md-3"> #i18n{portal.role.create_role.labelWorkgroupKey} * :</label>
-					<div class="col-xs-12 col-sm-6 col-md-6">
-						<@comboSortedWithParams name="workgroup_key" default_value="${workgroup_key_default_value}" additionalParameters="class=\"form-control input-sm\"" items=workgroup_key_list />
+					<div class="form-group">
+						<label class="control-label col-xs-12 col-sm-3 col-md-3"> #i18n{portal.role.create_role.labelWorkgroupKey} * :</label>
+						<div class="col-xs-12 col-sm-6 col-md-6">
+							<@comboSortedWithParams name="workgroup_key" default_value="${workgroup_key_default_value}" additionalParameters=" class=\"form-control\" " items=workgroup_key_list />
+						</div>
 					</div>
-				</div>
-				<div class="form-group">
-					<div class="col-xs-12 col-sm-offset-3 col-sm-6 col-md-offset-3 col-md-6">
-						<button class="btn btn-primary btn-flat" type="submit" >
-							<i class="glyphicon glyphicon-ok"></i> #i18n{portal.role.modify_role.buttonLabelValidate}
-						</button>
-						<a class="btn btn-default btn-flat" href="jsp/admin/role/ManagePageRole.jsp">
-							<i class="glyphicon glyphicon-remove-circle"></i> #i18n{portal.admin.message.buttonCancel}
-						</a>
+					<div class="form-group">
+						<div class="col-xs-12 col-sm-offset-3 col-sm-6 col-md-offset-3 col-md-6">
+							<button class="btn btn-primary btn-flat" type="submit">
+								<i class="fa fa-check"></i> #i18n{portal.role.modify_role.buttonLabelValidate}
+							</button>
+							<a class="btn btn-default btn-flat" href="jsp/admin/role/ManagePageRole.jsp">
+								<i class="fa fa-remove"></i> #i18n{portal.admin.message.buttonCancel}
+							</a>
+						</div>
 					</div>
-				</div>
 				</form>
 			</div>
-		</div>	
+		</div>
 	</div>
 </div>

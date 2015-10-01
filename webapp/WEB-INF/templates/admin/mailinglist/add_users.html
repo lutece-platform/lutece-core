@@ -4,29 +4,31 @@
 			<div class="box-header">
 				<h3 class="box-title">#i18n{portal.mailinglist.add_users.title}</h3>
 				<div class="box-tools"></div>
-			</div><!-- /.box-header -->
+			</div>
 			<div class="box-body">
 				<form class="form-horizontal" role="form" method="post"  action="jsp/admin/mailinglist/DoAddUsers.jsp">
-					<input type="hidden" name="id_mailinglist" value="${mailinglist.id}" />
+					<input type="hidden" name="id_mailinglist" value="${mailinglist.id}">
 					<div class="form-group">
-						<label class="control-label col-xs-12 col-sm-3 col-md-3" for="mailinglist_order" >#i18n{portal.mailinglist.add_users.labelWorkgroup}* : </label>
+						<label class="control-label col-xs-12 col-sm-2" for="mailinglist_order" >#i18n{portal.mailinglist.add_users.labelWorkgroup}* : </label>
 						<div class="col-xs-12 col-sm-6 col-md-6">
-							<@comboSortedWithParams name="workgroup" default_value="all" additionalParameters="class='form-control input-sm'" items=workgroups_list />
+							<@comboSortedWithParams name="workgroup" default_value="all" additionalParameters=" class=\"form-control\" " items=workgroups_list />
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="control-label col-xs-12 col-sm-3 col-md-3" for="mailinglist_order" >#i18n{portal.mailinglist.add_users.labelRole}* : </label>
+						<label class="control-label col-xs-12 col-sm-2" for="mailinglist_order" >#i18n{portal.mailinglist.add_users.labelRole}* : </label>
 						<div class="col-xs-12 col-sm-6 col-md-6">
-							<@comboSortedWithParams name="role" default_value="none" additionalParameters="class='form-control input-sm'" items=roles_list />
+							<@comboSortedWithParams name="role" default_value="none" additionalParameters=" class=\"form-control\" " items=roles_list />
 						</div>
 					</div>
 					<div class="form-group">
-						<div class="col-xs-12 col-sm-offset-3 col-sm-6 col-md-offset-3 col-md-6">
-							<button class="btn btn-primary btn-flat" type="submit" ><i class="glyphicon glyphicon-ok"></i>
-								<span class="hidden-phone" >#i18n{portal.mailinglist.add_users.buttonAdd}</span></button>
+						<div class="col-xs-12 col-sm-offset-2 col-sm-9">
+							<button class="btn btn-primary btn-flat" type="submit" >
+								<i class="fa fa-check"></i>
+								<span class="hidden-xs" >#i18n{portal.mailinglist.add_users.buttonAdd}</span>
+							</button>
 							<a class="btn btn-default btn-flat" href="jsp/admin/mailinglist/ManageMailingLists.jsp" >
-								<i class="glyphicon glyphicon-remove-circle"></i>
-								<span class="hidden-phone">#i18n{portal.util.labelCancel}</span>
+								<i class="fa fa-remove"></i>
+								<span class="hidden-xs">#i18n{portal.util.labelCancel}</span>
 							</a>
 						</div>
 					</div>

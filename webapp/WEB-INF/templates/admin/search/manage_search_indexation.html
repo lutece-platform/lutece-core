@@ -2,42 +2,46 @@
 	<div class="col-xs-12 col-sm-12 col-md-12">
 		<div class="box box-danger">
 			<div class="box-header">
-				<h3 class="box-title">#i18n{portal.search.manage_indexer.labelIndexersList}</h3>
+				<h3 class="box-title hidden-xs">#i18n{portal.search.manage_indexer.labelIndexersList}</h3>
 				<div class="box-tools">
 					<form method="get" name="doIndexing" action="jsp/admin/search/DoIndexing.jsp" class="form-inline pull-right">
 						<button class="btn btn-primary btn-xs btn-flat" type="submit" name="total">
-							<i class="glyphicon glyphicon-repeat"></i>&nbsp;#i18n{portal.search.manage_indexer.buttonDoIndex}
+							<i class="fa fa-repeat"></i> #i18n{portal.search.manage_indexer.buttonDoIndex}
 						</button>
 						<button class="btn btn-primary btn-xs btn-flat" type="submit" name="incremental">
-							 <i class="glyphicon glyphicon-refresh"></i>&nbsp;#i18n{portal.search.manage_indexer.buttonDoIncrementalIndex}
+							<i class="fa fa-refresh"></i> #i18n{portal.search.manage_indexer.buttonDoIncrementalIndex}
 						</button>
 					</form>
 				</div>
-			</div><!-- /.box-header -->
+			</div>
+			<!-- /.box-header -->
 			<div class="box-body table-responsive no-padding">
-				<table class="table table-hover table-condensed">
-				<tr>
-					<th>#i18n{portal.search.manage_indexer.columnIndexerName}</th>
-					<th>#i18n{portal.search.manage_indexer.columnIndexerVersion}</th>
-					<th>#i18n{portal.search.manage_indexer.columnIndexerDescription}</th>
-					<th>#i18n{portal.search.manage_indexer.columnIndexerEnable}</th>
-				</tr>
-				<#list indexers_list as indexer>
+				<table class="table table-hover table-striped">
 					<tr>
-						<td>${indexer.name}</td>
-						<td>${indexer.version}</td>
-						<td>${indexer.description}</td>
-						<td>
-						<#if indexer.enable >  
-							<span class="label label-success" title="${indexer.name} #i18n{portal.search.manage_indexer.IndexerEnable}"><i class="glyphicon glyphicon-ok-sign"></i></span>					
-						<#else>    
-							<span class="label label-important" title=" "><i class="glyphicon glyphicon-remove-sign" title="${indexer.name} #i18n{portal.search.manage_indexer.IndexerDisable}"></i></span>		  
-						</#if>
-						</td>
+						<th>#i18n{portal.search.manage_indexer.columnIndexerName}</th>
+						<th>#i18n{portal.search.manage_indexer.columnIndexerVersion}</th>
+						<th>#i18n{portal.search.manage_indexer.columnIndexerDescription}</th>
 					</tr>
-				</#list>
+					<#list indexers_list as indexer>
+						<tr>
+							<td>
+								<#if indexer.enable>
+									<span class="label label-success" title="${indexer.name} #i18n{portal.search.manage_indexer.IndexerEnable}">
+										<i class="fa fa-check"></i>
+									</span>
+								<#else>
+									<span class="label label-important" title="${indexer.name} #i18n{portal.search.manage_indexer.IndexerDisable}">
+										<i class="fa fa-remove" title="${indexer.name} #i18n{portal.search.manage_indexer.IndexerDisable}"></i>
+									</span>
+								</#if>&nbsp;${indexer.name}
+							</td>
+							<td>${indexer.version}</td>
+							<td>${indexer.description}</td>
+
+						</tr>
+					</#list>
 				</table>
 			</div>
-		</div>	
+		</div>
 	</div>
 </div>

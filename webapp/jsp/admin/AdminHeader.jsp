@@ -12,7 +12,7 @@
 <title><%= PortalService.getSiteName(  ) %> - Administration</title>
 <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" >
 <meta http-equiv="Expires" content="Mon, 26 Jul 1997 05:00:00 GMT" >
-<meta http-equiv="Pragma" content="no-cache" > 
+<meta http-equiv="Pragma" content="no-cache" >
 <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" >
 <meta http-equiv="Cache-Control" content="post-check=0, pre-check=0" >
 <meta http-equiv="X-UA-Compatible" content="IE=edge" >
@@ -34,18 +34,16 @@
 <script src="https://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
 <![endif]-->
-
 <!-- Le fav and touch icons -->
 <link rel="shortcut icon" href="<%= AppPathService.getBaseUrl( request ) %>favicon.ico">
-<!-- 
+<!--
 <link rel="apple-touch-icon-precomposed" sizes="144x144" href="apple-touch-icon-144-precomposed.png">
 <link rel="apple-touch-icon-precomposed" sizes="114x114" href="apple-touch-icon-114-precomposed.png">
 <link rel="apple-touch-icon-precomposed" sizes="72x72" href="apple-touch-icon-72-precomposed.png">
 <link rel="apple-touch-icon-precomposed" href="apple-touch-icon-57-precomposed.png">
-<script src="js/jquery/jquery.min.js"></script>
 -->
 <script src="js/jquery/jquery.min.js"></script>
 </head>
- <body class="skin-blue bs-fixed-body">
+<body class="skin-blue-light hold-transition sidebar-mini" data-spy="scroll" data-target="#scrollspy">
 <%-- Display the admin menu --%>
 <%= adminMenu.getAdminMenuHeader( request ) %>

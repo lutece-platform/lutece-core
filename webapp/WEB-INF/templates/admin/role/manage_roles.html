@@ -1,50 +1,48 @@
 <div class="row">
-    <div class="col-xs-12 col-sm-12 col-md-12">
-        <div class="box box-success">
-            <div class="box-header">
-                <h3 class="box-title">#i18n{portal.role.manage_roles.boxTitle}</h3>
-                <div class="box-tools pull-right">
-                    <form class="form-inline" method="post" action="jsp/admin/role/CreatePageRole.jsp">
-                        <button class="btn btn-primary btn-xs btn-flat" type="submit">
-                            <i class="glyphicon glyphicon-plus"></i>
-                            <span class="hidden-xs" >#i18n{portal.role.manage_roles.buttonLabelCreate}</span>
-                        </button>
-                    </form>
-                </div>
-            </div><!-- /.box-header -->
-            <div class="box-body table-responsive no-padding">
-                <table class="table table-hover table-condensed">
-                    <thead>
-                        <tr>
-                            <th>#i18n{portal.role.manage_roles.columnTitleId}</th>
-                            <th>#i18n{portal.role.manage_roles.columnTitleDescription}</th>
-                            <th>#i18n{portal.role.manage_roles.columnTitleWorkgroup}</th>
-                            <th>#i18n{portal.role.manage_roles.columnTitleActions}</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <#list roles_list as role >
-                        <#if role.role != "none">
-                        <tr>
-                            <td>${role.role}</td>
-                            <td>${role.roleDescription}</td>
-                            <td>${role.workgroup}</td>
-                            <td>
-                                <a class="btn btn-primary btn-xs btn-flat" href="jsp/admin/role/ModifyPageRole.jsp?role=${role.role}" title="#i18n{portal.util.labelModify} (${role.role})">
-                                    <i class="glyphicon glyphicon-edit"></i>
-                                </a>
-                                <a class="btn btn-danger btn-xs btn-flat" href="jsp/admin/role/RemovePageRole.jsp?role=${role.role}" title="#i18n{portal.util.labelDelete} (${role.role})">
-                                    <i class="glyphicon glyphicon-trash"></i>
-                                </a>
-
-                            </td>
-                        </tr>
-                        </#if>
-                        </#list>
-                    </tbody>
-                </table>
-            </div>
+  <div class="col-xs-12 col-sm-12 col-md-12">
+    <div class="box box-success">
+      <div class="box-header">
+        <h3 class="box-title">#i18n{portal.role.manage_roles.boxTitle}</h3>
+        <div class="box-tools pull-right">
+          <form class="form-inline" method="post" action="jsp/admin/role/CreatePageRole.jsp">
+            <button class="btn btn-primary btn-xs btn-flat" type="submit">
+              <i class="fa fa-plus"></i> <span class="hidden-xs">#i18n{portal.role.manage_roles.buttonLabelCreate}</span>
+            </button>
+          </form>
         </div>
+      </div>
+      <!-- /.box-header -->
+      <div class="box-body table-responsive no-padding">
+        <table class="table table-hover table-striped">
+          <thead>
+            <tr>
+              <th>#i18n{portal.role.manage_roles.columnTitleId}</th>
+              <th>#i18n{portal.role.manage_roles.columnTitleDescription}</th>
+              <th>#i18n{portal.role.manage_roles.columnTitleWorkgroup}</th>
+              <th>#i18n{portal.role.manage_roles.columnTitleActions}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <#list roles_list as role>
+              <#if role.role !="none">
+                <tr>
+                  <td>${role.role}</td>
+                  <td>${role.roleDescription}</td>
+                  <td>${role.workgroup}</td>
+                  <td>
+                    <a class="btn btn-primary btn-xs btn-flat" href="jsp/admin/role/ModifyPageRole.jsp?role=${role.role}" title="#i18n{portal.util.labelModify} (${role.role})">
+                      <i class="fa fa-pencil"></i>
+                    </a>
+                    <a class="btn btn-danger btn-xs btn-flat" href="jsp/admin/role/RemovePageRole.jsp?role=${role.role}" title="#i18n{portal.util.labelDelete} (${role.role})">
+                      <i class="fa fa-trash"></i>
+                    </a>
+                  </td>
+                </tr>
+              </#if>
+            </#list>
+          </tbody>
+        </table>
+      </div>
     </div>
+  </div>
 </div>
-

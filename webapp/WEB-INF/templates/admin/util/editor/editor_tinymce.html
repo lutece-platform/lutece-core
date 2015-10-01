@@ -1,30 +1,41 @@
 <script type="text/javascript" src="${webapp_url}js/editors/tinymce/tinymce.min.js"></script>
-
-<#macro initEditor editorWidth=450 >
-	<script type="text/javascript">
+<#macro initEditor editorWidth=450 cssFiles="">
+<#assign editorLocale="" />
+<#if locale?contains("_")>
+	<#assign editorLocale="${locale}" />
+<#else>
+	<#assign editorLocale="${locale}_${locale?upper_case}" />
+</#if>
+<#if cssFiles=="">
+	<#assign cssFiles="editor.css, page_template_styles.css" />
+</#if>
+<script type="text/javascript">
 	tinyMCE.init({
-		// General options ${locale}_${locale?upper_case}
+		// General options ${editorLocale}
 		selector : "textarea.richtext",
 		theme : "modern",
 		document_base_url : "${webapp_url}",
 		width : "${editorWidth}",
-		language : '${locale}_${locale?upper_case}',
+		menubar : false,
+		language : '${editorLocale}',
 		plugins: [
-         "lutece advlist autolink link image lists charmap print preview hr anchor pagebreak ",
-         "searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking",
-         "save table contextmenu directionality template paste textcolor youtube importcss"
+       "lutece advlist autolink link image lists charmap print preview hr anchor pagebreak ",
+       "searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking",
+       "save table contextmenu directionality template paste textcolor youtube"
 		],
 		paste_as_text: true,
+		// Extended elements
+		extended_valid_elements : "iframe[style|src|width|height|name|align|frameborder|scrolling],script[src|type]",
 		paste_word_valid_elements: "b,strong,i,em,h1,h2,h3,p,br",
-		content_css: "css/bootstrap.min.css,css/page_template_styles.css",
-		importcss_groups: [
-			{title: 'Table styles', filter: /^(td|tr)\./}, // td.class and tr.class
-			{title: 'Block styles', filter: /^(div|p)\./}, // div.class and p.class
-			{title: 'Other styles'} // The rest
+		content_css: "${cssFiles}",
+		style_formats: [
+			{title: "H2", format: "h2"},
+			{title: "H3", format: "h3"},
+			{title: "Paragraphe", format: "p"},
+			{title: 'Listes puces', selector: 'ul', classes: 'liste-puces'}
 		],
-		toolbar: "undo redo | paste | styleselect | bold italic  | forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | lutece link media | print preview fullscreen code", 
+		toolbar: "undo redo | paste | styleselect | bold italic  | forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | lutece link media | print preview fullscreen code",
 		contextmenu: "lutece link image | paste copy cut | inserttable | cell row column deletetable",
-		convert_urls: false,
 	});
 </script>
 </#macro>

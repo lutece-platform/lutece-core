@@ -20,89 +20,65 @@
             </div>	
             <div class="box-body">
                 <#if assigned_users_list?size &gt; 0 || search_is_search >
-                <form class="form-horizontal" method="post" name="search_users" action="jsp/admin/workgroup/AssignUsersWorkgroup.jsp">
+                <form class="form-inline" method="post" name="search_users" action="jsp/admin/workgroup/AssignUsersWorkgroup.jsp">
                     <#if (user_levels?has_content)>
-                        <div class="form-group">
-							<label for="user_level" class="col-xs-12 col-sm-12 col-md-2 col-lg-1">#i18n{portal.users.manage_users.search_users.userLevelLabel}</label>
-							<div class="col-xs-12 col-sm-12 col-md-10 col-lg-11">
-								<select id="user_level" name="search_user_level" class="form-control input-xs hidden-xs hidden-sm">
-									<#if (search_admin_user_filter.userLevel > -1) >
-										<option value="noValue" >#i18n{portal.users.manage_users.search_users.labelAllLevels}</option>
-										<#list user_levels as user_level>
-											<#if (search_admin_user_filter.userLevel == user_level.id) >
-												<option value="${user_level.id}" selected="selected" >${user_level.name}</option>
-											<#else>
-												<option value="${user_level.id}" >${user_level.name}</option>
-											</#if>
-										</#list>
-									<#else>
-										<option value="noValue" selected="selected" >#i18n{portal.users.manage_users.search_users.labelAllLevels}</option>
-										<#list user_levels as user_level>
-											<option value="${user_level.id}" >${user_level.name}</option>
-										</#list>
-									</#if>
-								</select>
-							</div>
-						</div>
+                        <label for="user_level" class="hidden-xs hidden-sm">#i18n{portal.users.manage_users.search_users.userLevelLabel}</label>
+                        <select id="user_level" name="search_user_level" class="form-control input-xs hidden-xs hidden-sm">
+                            <#if (search_admin_user_filter.userLevel > -1) >
+                                <option value="noValue" >#i18n{portal.users.manage_users.search_users.labelAllLevels}</option>
+                                <#list user_levels as user_level>
+                                    <#if (search_admin_user_filter.userLevel == user_level.id) >
+                                        <option value="${user_level.id}" selected="selected" >${user_level.name}</option>
+                                    <#else>
+                                        <option value="${user_level.id}" >${user_level.name}</option>
+                                    </#if>
+                                </#list>
+                            <#else>
+                                <option value="noValue" selected="selected" >#i18n{portal.users.manage_users.search_users.labelAllLevels}</option>
+                                <#list user_levels as user_level>
+                                    <option value="${user_level.id}" >${user_level.name}</option>
+                                </#list>
+                            </#if>
+                        </select>
                     </#if>
-                    <div class="form-group">
-						<label for="access_code" class="col-xs-12 col-sm-12 col-md-2 col-lg-1">#i18n{portal.users.manage_users.search_users.labelAccessCode} </label>
-						<div class="col-xs-12 col-sm-12 col-md-4 col-lg-5">
-							<input type="text" class="form-control input-xs" id="access_code" name="search_access_code" value="${search_admin_user_filter.accessCode}">
-						</div>
-						<label for="last_name" class="col-xs-12 col-sm-12 col-md-2 col-lg-1">#i18n{portal.users.manage_users.search_users.labelLastName} </label>
-						<div class="col-xs-12 col-sm-12 col-md-4 col-lg-5">
-							<input type="text" class="form-control input-xs" id="last_name" name="search_last_name" value="${search_admin_user_filter.lastName}" maxlength="100">
-						</div>
-					</div>
-                    <div class="form-group">
-						<label for="first_name" class="col-xs-12 col-sm-12 col-md-2 col-lg-1">#i18n{portal.users.manage_users.search_users.labelFirstName} </label>
-						<div class="col-xs-12 col-sm-12 col-md-4 col-lg-5">
-							<input type="text" class="form-control input-xs" id="first_name" name="search_first_name" value="${search_admin_user_filter.firstName}" maxlength="100">
-						</div>
-						<label for="email" class="col-xs-12 col-sm-12 col-md-2 col-lg-1">#i18n{portal.users.manage_users.search_users.labelEmail} </label>
-						<div class="col-xs-12 col-sm-12 col-md-4 col-lg-5">
-							<input type="text" class="form-control input-xs" id="email" name="search_email" value="${search_admin_user_filter.email}" maxlength="100">
-						</div>
-					</div>
-                    <div class="form-group">
-						<label for="status" class="col-xs-12 col-sm-12 col-md-2 col-lg-1">#i18n{portal.users.manage_users.search_users.labelStatus}</label>
-						<div class="col-xs-12 col-sm-12 col-md-10 col-lg-11">
-							<select id="status" class="form-control input-xs hidden-xs" name="search_status">
-								<#switch search_admin_user_filter.status >
-								<#case 0 >
-								<option value="noValue" >#i18n{portal.users.manage_users.search_users.labelAllStatus}</option>
-								<option value="0" selected="selected" >#i18n{portal.users.create_user.statusLabelEnabled}</option>
-								<option value="1" >#i18n{portal.users.create_user.statusLabelDisabled}</option>
-								<#break>
-								<#case 1 >
-								<option value="noValue" >#i18n{portal.users.manage_users.search_users.labelAllStatus}</option>
-								<option value="0" >#i18n{portal.users.create_user.statusLabelEnabled}</option>
-								<option value="1" selected="selected" >#i18n{portal.users.create_user.statusLabelDisabled}</option>
-								<#break>
-								<#default>
-								<option value="noValue" selected="selected" >#i18n{portal.users.manage_users.search_users.labelAllStatus}</option>
-								<option value="0" >#i18n{portal.users.create_user.statusLabelEnabled}</option>
-								<option value="1" >#i18n{portal.users.create_user.statusLabelDisabled}</option>
-								<#break>
-								</#switch>
-							</select>
-						</div>
-					</div>
+                    <label for="access_code" class="hidden-xs hidden-sm">#i18n{portal.users.manage_users.search_users.labelAccessCode} </label>
+                    <input type="text" class="form-control input-xs hidden-xs hidden-sm" id="access_code" name="search_access_code" value="${search_admin_user_filter.accessCode}">
+                    <label for="last_name" class="hidden-xs">#i18n{portal.users.manage_users.search_users.labelLastName} </label>
+                    <input type="text" class="form-control input-xs hidden-xs" id="last_name" name="search_last_name" value="${search_admin_user_filter.lastName}" maxlength="100">
+                    <label for="first_name" class="hidden-xs hidden-sm">#i18n{portal.users.manage_users.search_users.labelFirstName} </label>
+                    <input type="text" class="form-control input-xs hidden-xs hidden-sm" id="first_name" name="search_first_name" value="${search_admin_user_filter.firstName}" maxlength="100">
+                    <label for="email">#i18n{portal.users.manage_users.search_users.labelEmail} </label>
+                    <input type="text" class="form-control input-xs" id="email" name="search_email" value="${search_admin_user_filter.email}" maxlength="100">
+                    <label for="status" class="hidden-xs">#i18n{portal.users.manage_users.search_users.labelStatus}</label>
+                    <select id="status" class="form-control input-xs hidden-xs" name="search_status">
+                        <#switch search_admin_user_filter.status >
+                        <#case 0 >
+                        <option value="noValue" >#i18n{portal.users.manage_users.search_users.labelAllStatus}</option>
+                        <option value="0" selected="selected" >#i18n{portal.users.create_user.statusLabelEnabled}</option>
+                        <option value="1" >#i18n{portal.users.create_user.statusLabelDisabled}</option>
+                        <#break>
+                        <#case 1 >
+                        <option value="noValue" >#i18n{portal.users.manage_users.search_users.labelAllStatus}</option>
+                        <option value="0" >#i18n{portal.users.create_user.statusLabelEnabled}</option>
+                        <option value="1" selected="selected" >#i18n{portal.users.create_user.statusLabelDisabled}</option>
+                        <#break>
+                        <#default>
+                        <option value="noValue" selected="selected" >#i18n{portal.users.manage_users.search_users.labelAllStatus}</option>
+                        <option value="0" >#i18n{portal.users.create_user.statusLabelEnabled}</option>
+                        <option value="1" >#i18n{portal.users.create_user.statusLabelDisabled}</option>
+                        <#break>
+                        </#switch>
+                    </select>
                     <#list attributes_list as attribute>
                     <#if attribute.shownInSearch>
                     ${attribute.getHtmlFormSearchAttribute( search_admin_user_field_filter, locale )}
                     </#if>
                     </#list>
                     <input type="hidden" name="workgroup_key" value="${workgroup.key}">
-					<div class="form-group">
-						<div class="col-xs-12 col-sm-12 col-md-offset-2 col-lg-offset-1">
-							<button class="btn btn-primary btn-xs btn-flat" type="submit" name="search_is_search"> 
-								<span class="glyphicon glyphicon-search"></span>
-								<span class="hidden-xs">#i18n{portal.users.manage_users.search_users.buttonSearch}</span>
-							</button>
-						</div>
-					</div>
+                    <button class="btn btn-primary btn-xs btn-flat" type="submit" name="search_is_search"> 
+                        <span class="glyphicon glyphicon-search"></span>
+                        <span class="hidden-xs">#i18n{portal.users.manage_users.search_users.buttonSearch}</span>
+                    </button>
                 </form>
                 </#if>
             </div>
@@ -110,7 +86,7 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-xs-12 col-sm-12 col-md-3 col-lg-4">
+    <div class="col-xs-12 col-sm-4 col-md-3">
         <div class="box">
             <div class="box-header">
                 <h3 class="box-title">#i18n{portal.workgroup.assign_users.labelAvailableUser}</h3>
@@ -135,7 +111,7 @@
                     </div>
                 </form>
                 <#else>
-                <div class="alert alert-warning">
+                <div class="callout callout-warning">
                     <i class="fa fa-warning"></i>
                     #i18n{portal.workgroup.assign_users.noUserToAssign}
                 </div>
@@ -143,7 +119,7 @@
             </div>
         </div>
     </div>
-    <div class="col-xs-12 col-sm-12 col-md-9 col-lg-8">	
+    <div class="col-xs-12 col-sm-8 col-md-9">	
         <div class="box">
             <div class="box-header">
                 <h3 class="box-title">#i18n{portal.workgroup.assign_users.labelAssignedUser}</h3>
@@ -218,7 +194,7 @@
                 <@paginationAdmin paginator=paginator combo=1 form=0 />
                 </#if>
                 <#else>
-                <div class="alert alert-warning"><i class="fa fa-warning"></i>#i18n{portal.rbac.assign_users.noAssignedList}</div>
+                <div class="callout callout-warning"><i class="fa fa-warning"></i>#i18n{portal.rbac.assign_users.noAssignedList}</div>
                 </#if>
             </div>	
         </div>	

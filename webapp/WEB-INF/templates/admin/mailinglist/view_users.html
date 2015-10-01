@@ -4,9 +4,9 @@
 			<div class="box-header">
 				<h3 class="box-title">#i18n{portal.mailinglist.view_users.boxTitle}</h3>
 				<div class="box-tools"></div>
-			</div><!-- /.box-header -->
+			</div>
 			<div class="box-body table-responsive no-padding">
-				<table class="table table-hover table-condensed">
+				<table class="table table-hover table-striped">
 					<tr>
 						<th >#i18n{portal.mailinglist.view_users.columnTitleName}</th>
 						<th >#i18n{portal.mailinglist.view_users.columnTitleEmail}</th>
@@ -19,7 +19,9 @@
 					</#list>
 				</table>
 				<p class="text-center">
-					<button class="btn btn-default btn-flat" onclick="javascript:window.history.back();"><i class="glyphicon glyphicon-remove-circle"></i>&nbsp;#i18n{portal.util.labelBack}</button>
+					<button class="btn btn-default btn-flat" onclick="javascript:window.history.back();">
+						<i class="fa fa-remove"></i>&nbsp;#i18n{portal.util.labelBack}
+					</button>
 				</p>
 				<br>
 			</div>

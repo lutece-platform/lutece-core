@@ -5,21 +5,21 @@
 				<h3 class="box-title"> #i18n{portal.search.manage_search.tableLabel}</h3>
 				<div class="box-tools pull-right">
 					<#if permission_manage_advanced_parameters>
-						<a href="jsp/admin/search/ManageAdvancedParameters.jsp" class="btn btn-primary btn-xs">
-							<i class="glyphicon glyphicon-cog"></i>&nbsp;#i18n{portal.search.manage_search.button_manage_advanced_parameters}
+						<a href="jsp/admin/search/ManageAdvancedParameters.jsp" class="btn btn-primary btn-xs btn-flat">
+							<i class="fa fa-cog"></i> #i18n{portal.search.manage_search.button_manage_advanced_parameters}
 						</a>
-                    </#if>
+          </#if>
 				</div>
 			</div><!-- /.box-header -->
 			<div class="box-body">
 				<ul class="list-unstyled">
-                    <li class="margin">
-                        <a href="jsp/admin/search/ModifyTagList.jsp" class="btn btn-default btn-lg">
+        	<li class="margin">
+          	<a href="jsp/admin/search/ModifyTagList.jsp" class="btn btn-default btn-lg">
 							#i18n{portal.search.manage_search.tagsManagment.label} [ #i18n{portal.search.manage_search.tagsManagement.description} <#if tag_filter = "0"> <em>(#i18n{portal.search.manage_search.tagsManagement.unactiveFilter})</em> ]</#if>
 						</a>
-                    </li>
-                </ul>       
-            </div>
-        </div>
+          </li>
+        </ul>
+      </div>
     </div>
+  </div>
 </div>

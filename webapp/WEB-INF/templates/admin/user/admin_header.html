@@ -1,217 +1,141 @@
-<header class="header" role="banner" data-menu="${menu_pos}">
-    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+<div class="wrapper">
+  <header class="main-header" role="banner" data-menu="${menu_pos}">
+    <nav class="navbar navbar-fixed-top" role="navigation">
         <div class="navbar-header">
-            <ul class="nav navbar-nav navbar-left">
-                <li>
-                    <a href="#" class="toggle-nav visible-xs menu-${menu_pos}" id="menu-${menu_pos}">
-                        MENU <span class="fa fa-bars"></span>
-                    </a>
-                </li>
-            </ul>	
-            <a href="jsp/site/Portal.jsp" title="#i18n{portal.users.admin_header.title.viewSite} ${site_name}" target="_blank" class="logo navbar-brand">
-                <#if site_name?upper_case="LUTECE" >
-					&nbsp;<img src="images/logo.png" title="#i18n{portal.users.admin_header.title.viewSite} ${site_name}" alt="${site_name}" class="hidden-xs">
-					<img src="images/logo-header-icon.png" title="#i18n{portal.users.admin_header.title.viewSite} ${site_name}" alt="${site_name}"  class="visible-xs">
-                <#else>
-					&nbsp;<img src="images/logo-header-icon.png" title="#i18n{portal.users.admin_header.title.viewSite} ${site_name}" alt="${site_name}">
-					&nbsp;<span title="${site_name}"><#if site_name?length &gt; 18>${site_name?substring(0,16)}...<#else>${site_name}</#if></span>
-                </#if>
-                &nbsp;<span class="fa fa-external-link hidden-xs" title="External Link"></span>
+            <a href="jsp/site/Portal.jsp" title="#i18n{portal.users.admin_header.title.viewSite} ${site_name}" target="_blank" class="navbar-brand">
+              <#if site_name?upper_case="LUTECE">
+                <img src="images/logo.png" class="img-responsive"  title="#i18n{portal.users.admin_header.title.viewSite} ${site_name}" alt="${site_name}"><#else><img src="images/logo-header-icon.png" class="img-responsive" title="#i18n{portal.users.admin_header.title.viewSite} ${site_name}" alt="${site_name}"><b> <#if site_name?length &gt; 18> ${site_name?substring(0,16)}... <#else> ${site_name}</#if></b>
+              </#if>
             </a>
-            <a href="jsp/site/Portal.jsp" title="#i18n{portal.users.admin_header.title.viewSite} ${site_name}" target="_blank" class="navbar-brand visible-xs visible-sm visible-md pull-left">
-                <img src="#dskey{portal.site.site_property.logo_url}" title="#i18n{portal.users.admin_header.title.viewSite} ${site_name}" alt="${site_name}"><small> ${site_name}</small>
-            </a>
-            <ul class="nav navbar-nav navbar-right user visible-xs">
-                <li class="home">
-                    <a href="${admin_url}" title="#i18n{portal.users.admin_header.homePage}">
-                        <span class="glyphicon glyphicon-home"></span>
-                    </a>
-                </li>
-                <li class="dropdown user-menu">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        <i class="glyphicon glyphicon-user"></i>
-                        <span class="hidden-xs hidden-sm">${dashboard_zone_4}<i class="caret"></i></span>
-                    </a>
-                    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabelUserHeader">
-                        <li>
-                            <a href="jsp/admin/user/ModifyDefaultUserPassword.jsp"><i class="glyphicon glyphicon-lock"></i>&nbsp;#i18n{portal.admin.admin_home.password}</a>
-                        </li>
-                        <#if user.accessibilityMode>
-                        <li>
-                            <a href="jsp/admin/DoModifyAccessibilityMode.jsp" title="#i18n{portal.users.admin_header.labelDeactivateAccessibilityMode}"><i class="glyphicon glyphicon-eye-open"></i>&nbsp;#i18n{portal.users.admin_header.labelDeactivateAccessibilityMode}</a>
-                        </li>
-                        <#else>
-                        <li>
-                            <a href="jsp/admin/DoModifyAccessibilityMode.jsp" title="#i18n{portal.users.admin_header.labelActivateAccessibilityMode}"><i class="glyphicon glyphicon-eye-close"></i>&nbsp;#i18n{portal.users.admin_header.labelActivateAccessibilityMode}</a>
-                        </li>
-                        </#if>
-                        <li class="divider"></li>
-                        <li>
-                            <a href="javascript:return false;">
-                                <i class="fa fa-language"></i><span>&nbsp;#i18n{portal.admin.admin_home.language}</span></i>
-                            </a>	
-                            <ul class="list-inline">
-                                <#list languages_list as lang>
-                                <li>
-                                    <#if current_language==lang.code>
-                                    <span class="label label-success">
-                                        </#if>	
-                                        <a  href="jsp/admin/DoChangeLanguage.jsp?language=${lang.code}">
-                                            ${lang.name}&nbsp;
-                                        </a>
-                                        <#if current_language==lang.code>
-                                    </span>
-                                    </#if>
-                                </li>
-                                </#list>
-                            </ul>
-                        </li>
-                        <li class="divider"></li>
-                        <#if user.userLevel == 0>
-                        <li>
-                            <a href="jsp/admin/AdminTechnicalMenu.jsp" title="#i18n{portal.users.admin_header.title.technicalMenu}">
-                                <i class="glyphicon glyphicon-wrench"></i>&nbsp;#i18n{portal.users.admin_header.technicalMenu}
-                            </a>
-                        </li>
-                        </#if>
-                        <#if admin_summary_documentation_url?exists>
-                        <li>
-                            <a href="${admin_summary_documentation_url}" title="#i18n{portal.users.admin_header.title.documentation}">
-                                <i class="glyphicon glyphicon-question-sign"></i>&nbsp;#i18n{portal.users.admin_header.documentation}
-                            </a>
-                        </li>
-                        </#if>
-                        <li class="divider"></li>
-                        <#if admin_logout_url?has_content>
-                        <li>
-                            <a href="login.html"><i class="fa fa-sign-out fa-fw"></i> #i18n{portal.users.admin_header.deconnectionLink}</a>
-                        </li>
-                        </#if>
-                    </ul>
-                </li>	
-            </ul>
-            <ul id="top" class="nav navbar-nav hidden-xs">
-                <#list feature_group_list as feature_group>
-                <li class="dropdown tasks-menu">
-                    <a data-toggle="dropdown" class="dropdown-toggle" id="dLabel${feature_group.id}Header" href="${admin_url}#${feature_group.id}">${feature_group.label} <b class="caret"></b></a>
-                    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel${feature_group.id}Header">
-                        <#list feature_group.features as feature >
-                        <li class="menu">
-                            <a href="${feature.url}?plugin_name=${feature.pluginName}">${feature.name}</a>
-                        </li>
-                        </#list>
-                    </ul>
-                </li>
-                </#list>
-            </ul>
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
+              <i class="fa fa-bars"></i>
+            </button>
         </div>
-        <ul class="nav navbar-nav navbar-right user hidden-xs">
-            <li class="home hidden-xs">
-                <a href="${admin_url}" title="&nbsp;#i18n{portal.users.admin_header.homePage}"><i class="glyphicon glyphicon-home"></i></a>
+        <div class="collapse navbar-collapse" id="navbar-collapse">
+          <ul id="top" class="nav navbar-nav">
+            <#list feature_group_list as feature_group>
+              <li class="dropdown tasks-menu">
+                <a data-toggle="dropdown" class="dropdown-toggle" id="dLabel${feature_group.id}Header" href="${admin_url}#${feature_group.id}">${feature_group.label} <b class="caret"></b></a>
+                <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel${feature_group.id}Header">
+                  <#list feature_group.features as feature>
+                    <li class="menu">
+                      <a href="${feature.url}?plugin_name=${feature.pluginName}">${feature.name}</a>
+                    </li>
+                  </#list>
+                </ul>
+              </li>
+            </#list>
+          </ul>
+          <ul class="nav navbar-nav navbar-right user">
+            <li class="home">
+              <a href="${admin_url}" title="#i18n{portal.users.admin_header.homePage}"><i class="fa fa-home"></i></a>
             </li>
             <li class="dropdown user-menu">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                    <i class="glyphicon glyphicon-user"></i>
-                    <span id="zone4" class="hidden-xs hidden-sm">${dashboard_zone_4}<i class="caret"></i></span>
-                </a>
-                <ul class="dropdown-menu" role="menu" aria-labelledby="dLabelUserHeader">
-                    <li>
-                        <a href="jsp/admin/user/ModifyDefaultUserPassword.jsp"><i class="glyphicon glyphicon-lock"></i>&nbsp;#i18n{portal.admin.admin_home.password}</a>
-                    </li>
-                    <#if user.accessibilityMode>
-                    <li>
-                        <a href="jsp/admin/DoModifyAccessibilityMode.jsp" title="#i18n{portal.users.admin_header.labelDeactivateAccessibilityMode}"><i class="glyphicon glyphicon-eye-open"></i>&nbsp;#i18n{portal.users.admin_header.labelDeactivateAccessibilityMode}</a>
-                    </li>
-                    <#else>
-                    <li>
-                        <a href="jsp/admin/DoModifyAccessibilityMode.jsp" title="#i18n{portal.users.admin_header.labelActivateAccessibilityMode}"><i class="glyphicon glyphicon-eye-close"></i>&nbsp;#i18n{portal.users.admin_header.labelActivateAccessibilityMode}</a>
-                    </li>
-                    </#if>
-                    <li class="divider"></li>
-                    <li>
-                        <a href="javascript:return false;">
-                            <i class="fa fa-language"></i><span>&nbsp;#i18n{portal.admin.admin_home.language}</span></i>
-                        </a>	
-                        <ul class="list-inline">
-                            <#list languages_list as lang>
-                            <li>
-                                <#if current_language==lang.code>
-                                <span class="label label-success">
-                                    </#if>	
-                                    <a href="jsp/admin/DoChangeLanguage.jsp?language=${lang.code}">
-                                        ${lang.name}&nbsp;
-                                    </a>
-                                    <#if current_language==lang.code>
-                                </span>
-                                </#if>
-                            </li>
-                            </#list>
-                        </ul>
-                    </li>
-                    <li class="divider"></li>
-                    <#if user.userLevel == 0>
-                    <li>
-                        <a href="jsp/admin/AdminTechnicalMenu.jsp" title="#i18n{portal.users.admin_header.title.technicalMenu}">
-                            <i class="glyphicon glyphicon-wrench"></i>&nbsp;#i18n{portal.users.admin_header.technicalMenu}
-                        </a>
-                    </li>
-                    </#if>
-                    <#if admin_summary_documentation_url?exists>
-                    <li>
-                        <a href="${admin_summary_documentation_url}" title="#i18n{portal.users.admin_header.title.documentation}">
-                            <i class="glyphicon glyphicon-question-sign"></i>&nbsp;#i18n{portal.users.admin_header.documentation}
-                        </a>
-                    </li>
-                    </#if>
-                    <li class="divider"></li>
-                    <#if admin_logout_url?has_content>
-                    <li>
-                        <a href="${admin_logout_url}"><i class="fa fa-sign-out fa-fw"></i> #i18n{portal.users.admin_header.deconnectionLink}</a>
-                    </li>
-                    </#if>
-                </ul>
-            </li>	
-        </ul>
-    </nav>
-</header>
-<nav id="cd-lateral-nav">
-    <ul class="cd-navigation">
-        <#list feature_group_list as feature_group>
-        <li class="item-has-children">
-            <a href="#">${feature_group.label}</a>
-            <ul class="sub-menu">
-                <#list feature_group.features as feature >
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <img src="#dskey{portal.site.site_property.avatar_default}" id="admin-avatar" class="user-image" alt="User Image">
+                <span id="zone4" class="hidden-sm hidden-md"> ${dashboard_zone_4}<i class="caret"></i></span>
+              </a>
+              <ul class="dropdown-menu" role="menu" aria-labelledby="dLabelUserHeader">
                 <li>
-                    <a href="${feature.url}?plugin_name=${feature.pluginName}"><span class="fa fa-angle-right"></span>  ${feature.name}</a>
+                  <a href="jsp/admin/user/ModifyDefaultUserPassword.jsp"><i class="fa fa-lock"></i>&nbsp;#i18n{portal.admin.admin_home.password}</a>
                 </li>
-                </#list>
-            </ul>
-        </li>
-        </#list>
-    </ul> 
-</nav>
-<!-- Wrapper -->
-<div id="admin-wrapper">
+                <#if user.accessibilityMode>
+                  <li>
+                    <a href="jsp/admin/DoModifyAccessibilityMode.jsp" title="#i18n{portal.users.admin_header.labelDeactivateAccessibilityMode}"><i class="fa fa-eye"></i>&nbsp;#i18n{portal.users.admin_header.labelDeactivateAccessibilityMode}</a>
+                  </li>
+                  <#else>
+                    <li>
+                      <a href="jsp/admin/DoModifyAccessibilityMode.jsp" title="#i18n{portal.users.admin_header.labelActivateAccessibilityMode}"><i class="fa fa-eye-close"></i>&nbsp;#i18n{portal.users.admin_header.labelActivateAccessibilityMode}</a>
+                    </li>
+                </#if>
+                <li class="divider"></li>
+                <li>
+                  <a href="javascript:return false;">
+                    <i class="fa fa-language"></i>
+                    <span>&nbsp;#i18n{portal.admin.admin_home.language}</span>
+                    </i>
+                  </a>
+                  <ul class="list-inline">
+                    <#list languages_list as lang>
+                      <li>
+                        <#if current_language==lang.code>
+                          <span class="label label-success">
+                        </#if>
+                        <a href="jsp/admin/DoChangeLanguage.jsp?language=${lang.code}">
+                          ${lang.name}&nbsp;
+                        </a>
+                        <#if current_language==lang.code>
+                          </span>
+                        </#if>
+                      </li>
+                    </#list>
+                  </ul>
+                </li>
+                <li class="divider"></li>
+                <#if user.userLevel==0>
+                  <li>
+                    <a href="jsp/admin/AdminTechnicalMenu.jsp" title="#i18n{portal.users.admin_header.title.technicalMenu}">
+                      <i class="fa fa-wrench"></i>&nbsp;#i18n{portal.users.admin_header.technicalMenu}
+                    </a>
+                  </li>
+                </#if>
+                <#if admin_summary_documentation_url?exists>
+                  <li>
+                    <a href="${admin_summary_documentation_url}" title="#i18n{portal.users.admin_header.title.documentation}">
+                      <i class="fa fa-question-circle"></i>&nbsp;#i18n{portal.users.admin_header.documentation}
+                    </a>
+                  </li>
+                </#if>
+                <!--
+                <li class="divider"></li>
+                <#if admin_logout_url?has_content>
+                  <li>
+                    <a href="${admin_logout_url}"><i class="fa fa-sign-out fa-fw"></i> #i18n{portal.users.admin_header.deconnectionLink}</a>
+                  </li>
+                </#if>
+              -->
+              </ul>
+            </li>
+            <#if admin_logout_url?has_content>
+              <li>
+                <a href="${admin_logout_url}" title="#i18n{portal.users.admin_header.deconnectionLink}">
+                  <i class="fa fa-power-off fa-fw"></i> <span class="visible-xs">#i18n{portal.users.admin_header.deconnectionLink}</span>
+                </a>
+              </li>
+            </#if>
+            <!--
+            <li>
+              <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i> </a>
+            </li>
+          -->
+          </ul>
+        </div>
+    </nav>
+  </header>
+  <!-- Wrapper -->
+  <div id="admin-wrapper">
     <!-- Canvas/Menu -->
     <div id="canvas">
-        <div id="nav">
-            <h2 id="title"><i class="fa fa-sitemap"></i> MENU <span class="pull-right fa fa-minus-square"></span></h2> 
-            <ul id="toggle">
-                <#list feature_group_list as feature_group>
-                <li>
-                    <div>
-                        <a href="#">${feature_group.label} </a>
-                        <span class="the-btn fa fa-plus"></span>
-                    </div>	
-                    <ul>
-                        <#list feature_group.features as feature >
-                        <li>
-                            <span class="fa fa-angle-right"></span> <a href="${feature.url}?plugin_name=${feature.pluginName}">${feature.name}</a>
-                        </li>
-                        </#list>
-                    </ul>
-                </li>
+      <div id="nav">
+        <h2 id="title"><i class="fa fa-sitemap"></i> MENU
+          <span class="pull-right fa fa-minus-square"></span>
+        </h2>
+        <ul id="toggle">
+          <#list feature_group_list as feature_group>
+            <li>
+              <div>
+                <a href="#">${feature_group.label} </a>
+                <span class="the-btn fa fa-plus"></span>
+              </div>
+              <ul>
+                <#list feature_group.features as feature>
+                  <li>
+                    <span class="fa fa-angle-right"></span> <a href="${feature.url}?plugin_name=${feature.pluginName}">${feature.name}</a>
+                  </li>
                 </#list>
-            </ul>
-        </div>
-        <!-- Close in footer -->
+              </ul>
+            </li>
+          </#list>
+        </ul>
+      </div>
+      <!-- Close in footer -->

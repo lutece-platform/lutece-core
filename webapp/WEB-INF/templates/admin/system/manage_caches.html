@@ -6,14 +6,13 @@
 				<div class="box-tools">
 					<form method="post" action="jsp/admin/system/DoReloadProperties.jsp" class="form-inline pull-right">
 						<button class="btn btn-primary btn-xs" type="submit" id="reload" title="#i18n{portal.system.manage_caches.titleReloadProperties}">
-							<i class="glyphicon glyphicon-refresh"></i><span class="hidden-xs">&nbsp;<!-- #i18n{portal.system.manage_caches.buttonReload} -->#i18n{portal.system.manage_caches.titleReloadProperties}</span>
+							<i class="fa fa-refresh"></i><span class="hidden-xs">&nbsp;<!-- #i18n{portal.system.manage_caches.buttonReload} -->#i18n{portal.system.manage_caches.titleReloadProperties}</span>
 						</button>
-						<a class="btn btn-primary btn-xs" href="jsp/admin/system/CacheInfos.jsp"> 
-							<i class="glyphicon glyphicon-eye-open"></i><span class="hidden-xs">&nbsp;#i18n{portal.system.manage_caches.buttonViewKeys}</span>
+						<a class="btn btn-primary btn-xs" href="jsp/admin/system/CacheInfos.jsp">
+							<i class="fa fa-eye-open"></i><span class="hidden-xs">&nbsp;#i18n{portal.system.manage_caches.buttonViewKeys}</span>
 						</a>
-						
-						<a class="btn btn-danger btn-xs" href="jsp/admin/system/DoResetCaches.jsp"> 
-							<i class="glyphicon glyphicon-trash "></i><span class="hidden-xs">&nbsp;#i18n{portal.system.manage_caches.buttonFlush}</span>
+						<a class="btn btn-danger btn-xs" href="jsp/admin/system/DoResetCaches.jsp">
+							<i class="fa fa-trash "></i><span class="hidden-xs">&nbsp;#i18n{portal.system.manage_caches.buttonFlush}</span>
 						</a>
 					</form>
 				</div>
@@ -38,49 +37,48 @@
 							</#if>
 							&nbsp;<strong>${service.name}</strong>
 							<div class="visible-xs">
-							<blockquote>	
+							<blockquote>
 								<#if service.cacheEnable >
 									<a href="jsp/admin/system/DoToggleCache.jsp?id_cache=${id}" class="btn btn-danger btn-xs" title="#i18n{portal.system.manage_caches.actionDisable}">
-										<i class="glyphicon glyphicon-stop"></i>
+										<i class="fa fa-stop"></i>
 									</a>
 								<#else>
 									<a href="jsp/admin/system/DoToggleCache.jsp?id_cache=${id}" class="btn btn-success btn-xs" title="#i18n{portal.system.manage_caches.actionEnable}">
-										<i class="glyphicon glyphicon-play"></i>
+										<i class="fa fa-play"></i>
 									</a>
 								</#if>
 								<a href="jsp/admin/system/CacheInfos.jsp?id_cache=${id}" class="btn btn-primary btn-xs" title="#i18n{portal.system.manage_caches.actionViewKeys}">
-									<i class="glyphicon glyphicon-eye-open"></i>
+									<i class="fa fa-eye"></i>
 								</a>
 								<a class="btn btn-danger btn-xs" href="jsp/admin/system/DoResetCaches.jsp?id_cache=${id}" title="#i18n{portal.system.manage_caches.actionClear}">
-									<i class="glyphicon glyphicon-trash"></i>
+									<i class="fa fa-trash"></i>
 								</a>
-							</blockquote>		
-							</div>	
-						</td>	
-						<td class="hidden-xs hidden-sm">	
+							</blockquote>
+							</div>
+						</td>
+						<td class="hidden-xs hidden-sm">
 							[
-							<i class="glyphicon glyphicon-info-sign"></i>&nbsp;#i18n{portal.system.manage_caches.columnTitleMaxElements}: ${service.maxElements!"-"}
-							&nbsp;|&nbsp;<i class="glyphicon glyphicon-time"></i>&nbsp;#i18n{portal.system.manage_caches.columnTitleTimeToLive} : ${service.timeToLive!"-"}
+							<i class="fa fa-info-circle"></i>&nbsp;#i18n{portal.system.manage_caches.columnTitleMaxElements}: ${service.maxElements!"-"}
+							&nbsp;|&nbsp;<i class="fa fa-time"></i>&nbsp;#i18n{portal.system.manage_caches.columnTitleTimeToLive} : ${service.timeToLive!"-"}
 							]
 						</td>
-
 						<td class="hidden-xs">${service.cacheSize}</td>
 						<td class="hidden-xs">${service.memorySize}</td>
 						<td>
 							<#if service.cacheEnable >
 								<a href="jsp/admin/system/DoToggleCache.jsp?id_cache=${id}" class="btn btn-danger btn-xs" title="#i18n{portal.system.manage_caches.actionDisable}">
-									<i class="glyphicon glyphicon-stop"></i>
+									<i class="fa fa-stop"></i>
 								</a>
 							<#else>
 								<a href="jsp/admin/system/DoToggleCache.jsp?id_cache=${id}" class="btn btn-success btn-xs" title="#i18n{portal.system.manage_caches.actionEnable}">
-									<i class="glyphicon glyphicon-play"></i>
+									<i class="fa fa-play"></i>
 								</a>
 							</#if>
 							<a href="jsp/admin/system/CacheInfos.jsp?id_cache=${id}" class="btn btn-primary btn-xs" title="#i18n{portal.system.manage_caches.actionViewKeys}">
-								<i class="glyphicon glyphicon-eye-open"></i>
+								<i class="fa fa-eye"></i>
 							</a>
 							<a class="btn btn-danger btn-xs" href="jsp/admin/system/DoResetCaches.jsp?id_cache=${id}" title="#i18n{portal.system.manage_caches.actionClear}">
-								<i class="glyphicon glyphicon-trash"></i>
+								<i class="fa fa-trash"></i>
 							</a>
 
 						</td>
