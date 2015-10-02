@@ -44,7 +44,7 @@
 <script>
 $(function() {
   var randomImages = [#dskey{portal.site.site_property.back_images}];
-  var rndNum = Math.ceil(Math.random()*(randomImages.length - 1));
+  var rndNum = Math.floor(Math.random()*(randomImages.length));
   var bgImg = 'url(' + randomImages[rndNum] + ')';
   $("#login-page").css('background-image', bgImg );
 });
