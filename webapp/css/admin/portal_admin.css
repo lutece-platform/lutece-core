@@ -67,7 +67,7 @@ span.the-btn {float: right;font-size: 20px;height: 30px;width: 43px;margin-top: 
 @keyframes fadeAnimation { from { opacity: 0;}  to { opacity: 1; } }
 @-webkit-keyframes fadeAnimation { from {  opacity: 0; } to {  opacity: 1; }}
 /*  Login page*/
-#login-page {margin: 0px -15px;padding: 9em 0px 2em;background: #fff url("../../images/admin/skin/LUTECE1.jpg");background-size: cover;background-attachment: fixed;min-height: 922px;overflow: hidden;}
+#login-page {margin: 0px -15px;padding: 9em 0px 2em;background: #fff url("../../images/admin/skin/bg_login1.jpg");background-size: cover;background-attachment: fixed;min-height: 922px;overflow: hidden;}
 #login-page img#logoLogin {position:absolute;top:50px;left:50px;}
 .login-box .login-logo{margin-bottom: 0;color:#fff}
 .login-box .login-logo a{color:#fff}
