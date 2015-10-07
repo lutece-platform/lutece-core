@@ -206,6 +206,12 @@
             <version>1.1.0</version>
             <type>jar</type>
         </dependency>
+        <dependency>
+            <groupId>fr.paris.lutece.plugins</groupId>
+            <artifactId>library-jade</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+            <type>jar</type>
+        </dependency>
 		
         <!-- Workflow -->
         <dependency>
