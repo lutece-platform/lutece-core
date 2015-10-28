@@ -134,7 +134,8 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
 
     // Jsp
     private static final String JSP_ADMIN_SITE = "AdminSite.jsp";
-    private static final String JSP_REMOVE_PAGE = "jsp/admin/site/DoRemovePage.jsp";
+    private static final String JSP_PATH = "jsp/admin/site/";
+    private static final String JSP_REMOVE_PAGE = JSP_PATH + "DoRemovePage.jsp";
 
     //Messages
     private static final String MESSAGE_TITLE_INVALID_CHARACTERS = "portal.site.message.invalidCharactersInTitleName";
@@ -289,16 +290,28 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
      * Display the confirm page for the delete of a page
      *
      * @param request The http request
-     * @return The html code of the confirm page
+     * @return The url of the confirm page
      */
     public String getRemovePage( HttpServletRequest request )
     {
         String strPageId = request.getParameter( Parameters.PAGE_ID );
+        if ( !StringUtils.isNumeric( strPageId ) )
+        {
+            return AdminMessageService.getMessageUrl( request, MESSAGE_INVALID_PAGE_ID,
+                    AdminMessage.TYPE_ERROR );
+        }
+        int nPageId = Integer.parseInt( strPageId );
+        Page page = PageHome.getPage( nPageId );
+        if ( page == null || page.getId( ) == 0 || page.getId( ) != nPageId )
+        {
+            return AdminMessageService.getMessageUrl( request, MESSAGE_INVALID_PAGE_ID,
+                    AdminMessage.TYPE_ERROR );
+        }
         UrlItem url = new UrlItem( JSP_REMOVE_PAGE );
         url.addParameter( Parameters.PAGE_ID, strPageId );
 
-        return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_CONFIRM_REMOVE_PAGE, url.getUrl(  ), "",
-            AdminMessage.TYPE_CONFIRMATION );
+        return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_CONFIRM_REMOVE_PAGE,
+                new Object[] { page.getName( ) }, url.getUrl(  ), AdminMessage.TYPE_CONFIRMATION );
     }
 
     /**
@@ -310,18 +323,28 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
     public String doRemovePage( HttpServletRequest request )
     {
         String strPageId = request.getParameter( Parameters.PAGE_ID );
+        if ( !StringUtils.isNumeric( strPageId ) )
+        {
+            return AdminMessageService.getMessageUrl( request, MESSAGE_INVALID_PAGE_ID,
+                    AdminMessage.TYPE_ERROR );
+        }
         int nPageId = Integer.parseInt( strPageId );
-
+        Page page = PageHome.getPage( nPageId );
+        if ( page == null || page.getId( ) == 0 || page.getId( ) != nPageId )
+        {
+            return AdminMessageService.getMessageUrl( request, MESSAGE_INVALID_PAGE_ID,
+                    AdminMessage.TYPE_ERROR );
+        }
         // Checks that the page has no child
         Collection<Page> list = PageHome.getChildPagesMinimalData( nPageId );
 
         if ( list.size(  ) > 0 )
         {
             return AdminMessageService.getMessageUrl( request, MESSAGE_CANNOT_REMOVE_CHILDPAGE_EXISTS,
-                AdminMessage.TYPE_STOP );
+                    new Object[] { page.getName( ), list.size(  ) }, JSP_PATH + getUrlPage( nPageId ), AdminMessage.TYPE_STOP );
         }
 
-        int nParentPageId = PageHome.getPage( nPageId ).getParentPageId(  );
+        int nParentPageId = page.getParentPageId(  );
 
         // Delete the page
         _pageService.removePage( nPageId );
