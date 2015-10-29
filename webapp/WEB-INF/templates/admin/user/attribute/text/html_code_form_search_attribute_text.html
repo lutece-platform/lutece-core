@@ -1,5 +1,5 @@
 <div class="form-group">
-	<label class="col-xs-12 col-sm-12 col-md-12" for="attribute_${attribute.idAttribute}">${attribute.title} : </label>
+	<label class="col-xs-12 col-sm-12 col-md-12" for="attribute_${attribute.idAttribute}">${attribute.title?html} : </label>
 	<div class="col-xs-12 col-sm-12 col-md-12">
 		<#list attribute.listAttributeFields as attributeField>
 			<input type="text" class="form-control input-sm" name="attribute_${attribute.idAttribute}" id="attribute_${attribute.idAttribute}" size="${attributeField.width}" 
