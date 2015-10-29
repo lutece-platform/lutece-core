@@ -303,8 +303,6 @@
 	        <span aria-hidden="true">&larr;</span> #i18n{portal.util.labelPrevious}
 	    </a>
 		</li>
-	<#else>
-		&nbsp;&nbsp;
 	</#if>
 	<#if (item_navigator.currentItemId < item_navigator.listItemSize - 1) >
 		<li class="next">
@@ -312,9 +310,8 @@
 				#i18n{portal.util.labelNext} <span aria-hidden="true">&rarr;</span>
 			</a>
 	    </li>
-	<#else>
-		&nbsp;&nbsp;
 	</#if>
+  </ul>
 </nav>
 </#macro>
 

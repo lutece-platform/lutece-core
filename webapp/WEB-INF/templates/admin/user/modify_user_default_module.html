@@ -4,8 +4,8 @@
             <div class="box-header">
                 <h3 class="box-title">
                     <i class="glyphicon glyphicon-user"></i>&nbsp;${user.lastName} ${user.firstName}
-                    <small><@item_navigation item_navigator=item_navigator /></small>
                 </h3>
+                <@item_navigation item_navigator=item_navigator />
             </div>
             <div class="box-body content-padding">
                 <ul class="nav nav-tabs">
@@ -29,7 +29,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="first_password" class="col-xs-12 col-sm-12 col-md-12">#i18n{portal.users.modify_user.labelFirstPassword}</label>
+                                    <label for="password" class="col-xs-12 col-sm-12 col-md-12">#i18n{portal.users.modify_user.labelFirstPassword}</label>
                                     <div class="col-xs-12 col-sm-12 col-md-12">
                                         <input type="password" class="form-control" id="password" name="first_password" maxlength="100" value="">
                                     </div>
@@ -37,7 +37,7 @@
                                 <div class="form-group">
                                     <label for="second_password" class="col-xs-12 col-sm-12 col-md-12">#i18n{portal.users.modify_user.labelSecondPassword}</label>
                                     <div class="col-xs-12 col-sm-12 col-md-12">
-                                        <input type="password" class="form-control" id="password" name="second_password" maxlength="100" value="">
+                                        <input type="password" class="form-control" id="second_password" name="second_password" maxlength="100" value="">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -55,7 +55,7 @@
                                 <div class="form-group">
                                     <label for="email" class="col-xs-12 col-sm-12 col-md-12">#i18n{portal.users.modify_user.labelEmail} *</label>
                                     <div class="col-xs-12 col-sm-12 col-md-12">
-                                        <input type="text" class="form-control" id="email" name="email" maxlength="100" value="${user.email}">
+                                        <input type="email" class="form-control" id="email" name="email" maxlength="100" value="${user.email}">
                                     </div>
                                 </div>
                             </fieldset>
@@ -64,13 +64,13 @@
                             <fieldset>
                                 <legend>#i18n{portal.users.modify_user.labelAttributes} </legend>
                                 <div class="form-group">
-                                    <label for="" class="col-xs-12 col-sm-12 col-md-12">#i18n{portal.users.create_user.userLevelLabel}</label>
+                                    <label class="col-xs-12 col-sm-12 col-md-12">#i18n{portal.users.create_user.userLevelLabel}</label>
                                     <div class="col-xs-12 col-sm-12 col-md-12">
                                         <p class="form-control-static">${level.name}</p>
                                     </div>						
                                 </div>						
                                 <div class="form-group">
-                                    <label for="" class="col-xs-12 col-sm-12 col-md-12">#i18n{portal.role.create_role.labelWorkgroupKey} *</label>
+                                    <label for="workgroup_key" class="col-xs-12 col-sm-12 col-md-12">#i18n{portal.role.create_role.labelWorkgroupKey} *</label>
                                     <div class="col-xs-12 col-sm-12 col-md-12">
                                         <@comboSortedWithParams name="workgroup_key" default_value="${user.workgroupKey!}" additionalParameters="class=\"form-control\"" items=workgroup_key_list />
                                     </div>
@@ -96,10 +96,10 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="" class="col-xs-12 col-sm-12 col-md-12">#i18n{portal.users.create_user.labelTheme}</label>
+                                    <label class="col-xs-12 col-sm-12 col-md-12">#i18n{portal.users.create_user.labelTheme}</label>
                                     <div class="col-xs-12 col-sm-12 col-md-12">
-                                        <div class="checkbox" for="accessibility_mode">
-                                            <label>
+                                        <div class="checkbox">
+                                            <label for="accessibility_mode">
                                                 <input type="checkbox" id="accessibility_mode" name="accessibility_mode" value="1" <#if user.accessibilityMode>checked="checked"</#if> />
                                                        #i18n{portal.users.create_user.labelAccessibilityMode}
                                             </label>
