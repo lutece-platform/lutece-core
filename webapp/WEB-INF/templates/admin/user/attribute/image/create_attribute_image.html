@@ -5,12 +5,12 @@
 				<h3 class="box-title">#i18n{portal.users.create_attribute.pageTitleAttributeImage}</h3>
 			</div>
 			<div class="box-body">
-				<form class="form-horizontal" action="jsp/admin/user/attribute/DoCreateAttribute.jsp" method="post" name="" id="" >
+				<form class="form-horizontal" action="jsp/admin/user/attribute/DoCreateAttribute.jsp" method="post">
 					<input name="attribute_type_class_name" value="${attribute_type.className}" type="hidden"> 
 					<div class="form-group">
-						<label class="control-label col-xs-12 col-sm-3 col-md-3" for="title">#i18n{portal.users.create_attribute.labelTitle} *</label>
+						<label class="control-label col-xs-12 col-sm-3 col-md-3" for="attr_title">#i18n{portal.users.create_attribute.labelTitle} *</label>
 						<div class="col-xs-12 col-sm-9 col-md-9">
-							<input type="text" class="form-control" name="title" id="title" value=""  maxlength="255">
+							<input type="text" class="form-control" name="title" id="attr_title" value=""  maxlength="255">
 							<span class="help-block">#i18n{portal.users.create_attribute.labelTitleComment}</span>
 						</div>
 					</div>
@@ -22,7 +22,7 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="control-label col-xs-12 col-sm-3 col-md-3" for="is_shown_in_result_list"></label>
+						<label class="control-label col-xs-12 col-sm-3 col-md-3"></label>
 						<div class="col-xs-12 col-sm-9 col-md-9">
 							<div class="checkbox">
 								<label>
@@ -32,7 +32,7 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="control-label col-xs-12 col-sm-3 col-md-3" for="mandatory"> </label>
+						<label class="control-label col-xs-12 col-sm-3 col-md-3"></label>
 						<div class="col-xs-12 col-sm-9 col-md-9">
 							<div class="checkbox">
 								<label>
@@ -44,13 +44,13 @@
 					<div class="form-group">
 						<label class="control-label col-xs-12 col-sm-3 col-md-3" for="width">#i18n{portal.users.create_attribute.labelWidth} </label>
 						<div class="col-xs-12 col-sm-9 col-md-9">
-							<input type="text" class="form-control" name="width" id="width" s value="50">&nbsp;
+							<input type="text" class="form-control" name="width" id="width" value="50">&nbsp;
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="control-label col-xs-12 col-sm-3 col-md-3" for="height">#i18n{portal.users.create_attribute.labelHeight} : </label>
+						<label class="control-label col-xs-12 col-sm-3 col-md-3" for="height">#i18n{portal.users.create_attribute.labelHeight} </label>
 						<div class="col-xs-12 col-sm-9 col-md-9">
-							<input type="text" class="form-control" name="height" id="height" alue="50">
+							<input type="text" class="form-control" name="height" id="height" value="50">
 						</div>
 					</div>
 					<div class="form-group">
