@@ -2,24 +2,24 @@
 	<div class="col-xs-12 col-sm-12 col-md-12">
 		<div class="box box-success">
 			<div class="box-header">
-				<h3 class="box-title">#i18n{portal.users.modify_attribute_field.pageTitle} :'${attribute.title}'</h3>
+				<h3 class="box-title">#i18n{portal.users.modify_attribute_field.pageTitle} : '${attribute.title?html}'</h3>
 			</div>
 			<div class="box-body">
-				<form class="form-horizontal" role="form" action="jsp/admin/user/attribute/DoModifyAttributeField.jsp#list" method="post" name="" id="" >
+				<form class="form-horizontal" role="form" action="jsp/admin/user/attribute/DoModifyAttributeField.jsp#list" method="post">
 					<div class="form-group">
-						<label class="control-label col-xs-12 col-sm-3 col-md-3" for="title">#i18n{portal.users.modify_attribute_field.labelTitle} * </label>
+						<label class="control-label col-xs-12 col-sm-3 col-md-3" for="attr_title">#i18n{portal.users.modify_attribute_field.labelTitle} * </label>
 						<div class="col-xs-12 col-sm-9 col-md-9">
-							<input type="text" name="title" id="title" class="form-control"  value="${attribute_field.title}"  maxlength="255">
+							<input type="text" name="title" id="attr_title" class="form-control"  value="${attribute_field.title?html}"  maxlength="255">
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="control-label col-xs-12 col-sm-3 col-md-3" for="value">#i18n{portal.users.modify_attribute_field.labelValue} * </label>
 						<div class="col-xs-12 col-sm-9 col-md-9">
-							<input type="text" name="value" id="value" class="form-control"  value="${attribute_field.value}">
+							<input type="text" name="value" id="value" class="form-control"  value="${attribute_field.value?html}">
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="control-label col-xs-12 col-sm-3 col-md-3" for="default_value"></label>
+						<label class="control-label col-xs-12 col-sm-3 col-md-3"></label>
 						<div class="col-xs-12 col-sm-9 col-md-9">
 							<div class="checkbox">
 								<label>

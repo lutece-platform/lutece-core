@@ -48,12 +48,12 @@
             </#if>
             <#list attribute.listAttributeFields as attributeField>
                 <#if attributeField.title?exists && attributeField.value != "">
-                    <option value="${attributeField.idField}" title="${attributeField.title}"
+                    <option value="${attributeField.idField}" title="${attributeField.title?html}"
                         <#if default_values_list?has_content && isSelected(attributeField.idField default_values_list) >
                             selected="selected"  
                         </#if>
                         >
-                            ${attributeField.title}
+                            ${attributeField.title?html}
                     </option>
                 </#if>
             </#list>
