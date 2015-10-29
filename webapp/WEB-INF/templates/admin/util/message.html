@@ -21,7 +21,7 @@
   		<#if message.cancel>
   			<div class="col-md-6">
   				<#if url?has_content>
-  					<form method="post" action="${url}" target="${target}" class="form-inline">
+  					<form method="post" action="${url}" <#if target?has_content>target="${target}"</#if> class="form-inline">
   						<#if list_parameters?exists>
   							<#assign keys = list_parameters?keys>
   							<#list keys as key>
