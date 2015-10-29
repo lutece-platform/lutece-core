@@ -294,8 +294,8 @@
 </#macro>
 
 
-<#macro item_navigation item_navigator>
-<nav id="item-navigator">
+<#macro item_navigation item_navigator id="item-navigator">
+<nav id="${id}">
   <ul class="pager">
 	<#if (item_navigator.currentItemId > 0)>
 		<li class="previous">

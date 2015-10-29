@@ -10,13 +10,13 @@
                     <div class="form-group">
                         <label class="col-xs-12 col-sm-2 col-md-2" for="workgroup_key">#i18n{portal.workgroup.create_workgroup.labelKey} * </label>
                         <div class="col-xs-12 col-sm-6 col-md-6">
-                            <input disabled="disabled" type="text" class="form-control" id="workgroup_key" name="old_workgroup_key" value="${workgroup.key}" maxlength="50" >
+                            <input disabled="disabled" type="text" class="form-control" id="workgroup_key" name="old_workgroup_key" value="${workgroup.key?html}" maxlength="50" >
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="col-xs-12 col-sm-2 col-md-2" for="workgroup_description">#i18n{portal.workgroup.modify_workgroup.labelDescription} *</label>
                         <div class="col-xs-12 col-sm-6 col-md-6">
-                            <input type="text" class="form-control" id="workgroup_description" class="form-control" name="workgroup_description" value="${workgroup.description}" maxlength="250">
+                            <input type="text" class="form-control" id="workgroup_description" name="workgroup_description" value="${workgroup.description?html}" maxlength="250">
                         </div>
                     </div>
                     <div class="form-group">

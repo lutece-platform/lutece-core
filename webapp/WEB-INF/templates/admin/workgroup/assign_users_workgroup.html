@@ -15,8 +15,8 @@
                             <i class="glyphicon glyphicon-trash"></i><span class="hidden-xs">#i18n{portal.workgroup.manage_workgroup.buttonLabelDelete}</span>
                         </a>
                     </span>
-                    <small class="pull-left" style="color:#000;"><@item_navigation item_navigator=item_navigator /></small>
                 </div>	
+                <@item_navigation item_navigator=item_navigator />
             </div>	
             <div class="box-body">
                 <#if assigned_users_list?size &gt; 0 || search_is_search >
@@ -90,7 +90,7 @@
         <div class="box">
             <div class="box-header">
                 <h3 class="box-title">#i18n{portal.workgroup.assign_users.labelAvailableUser}</h3>
-                <div class="box-tools pull-right"><@item_navigation item_navigator=item_navigator /></div>
+                <div class="box-tools pull-right"><@item_navigation item_navigator=item_navigator id="item-navigator-availableusers"/></div>
             </div>
             <div class="box-body">   
                 <#if users_list?size &gt; 0 >
@@ -123,7 +123,7 @@
         <div class="box">
             <div class="box-header">
                 <h3 class="box-title">#i18n{portal.workgroup.assign_users.labelAssignedUser}</h3>
-                <div class="box-tools pull-right"><@item_navigation item_navigator=item_navigator /></div>
+                <div class="box-tools pull-right"><@item_navigation item_navigator=item_navigator  id="item-navigator-assignedusers"/></div>
             </div>
             <div class="box-body">
                 <#if assigned_users_list?size &gt; 0 >
@@ -152,19 +152,19 @@
                     <tr>            
                         <th>
                             #i18n{portal.users.manage_users.columnTitleLastName}
-                            <@sort jsp_url="jsp/admin/workgroup/AssignUsersWorkgroup.jsp" attribute="lastName&workgroup_key=${workgroup.key}${sort_search_attribute}" />
+                            <@sort jsp_url="jsp/admin/workgroup/AssignUsersWorkgroup.jsp" attribute="lastName&amp;workgroup_key=${workgroup.key}${sort_search_attribute}" />
                         </th>
                         <th>
                             #i18n{portal.users.manage_users.columnTitleFirstName}
-                            <@sort jsp_url="jsp/admin/workgroup/AssignUsersWorkgroup.jsp" attribute="firstName&workgroup_key=${workgroup.key}${sort_search_attribute}" />
+                            <@sort jsp_url="jsp/admin/workgroup/AssignUsersWorkgroup.jsp" attribute="firstName&amp;workgroup_key=${workgroup.key}${sort_search_attribute}" />
                         </th> 
                         <th>
                             #i18n{portal.users.manage_users.columnTitleAccessCode}
-                            <@sort jsp_url="jsp/admin/workgroup/AssignUsersWorkgroup.jsp" attribute="accessCode&workgroup_key=${workgroup.key}${sort_search_attribute}" />
+                            <@sort jsp_url="jsp/admin/workgroup/AssignUsersWorkgroup.jsp" attribute="accessCode&amp;workgroup_key=${workgroup.key}${sort_search_attribute}" />
                         </th>        
                         <th>
                             #i18n{portal.users.manage_users.columnTitleEmail}
-                            <@sort jsp_url="jsp/admin/workgroup/AssignUsersWorkgroup.jsp" attribute="email&workgroup_key=${workgroup.key}${sort_search_attribute}" />
+                            <@sort jsp_url="jsp/admin/workgroup/AssignUsersWorkgroup.jsp" attribute="email&amp;workgroup_key=${workgroup.key}${sort_search_attribute}" />
                         </th>
                         <th>#i18n{portal.users.manage_users.columnTitleActions}</th>
                     </tr>
@@ -183,7 +183,7 @@
                             <a class="btn btn-primary btn-xs btn-flat" href="jsp/admin/user/ModifyUser.jsp?id_user=${assigned_user.userId}"  title="#i18n{portal.workgroup.assign_users.actionModify}">
                                 <i class="glyphicon glyphicon-edit"></i>
                             </a>
-                            <a class="btn btn-danger btn-xs btn-flat" href="jsp/admin/workgroup/DoUnassignUser.jsp?id_user=${assigned_user.userId}&workgroup_key=${workgroup.key}&anchor=anchor-${anchor}"  title="#i18n{portal.workgroup.assign_users.actionUnassign}">
+                            <a class="btn btn-danger btn-xs btn-flat" href="jsp/admin/workgroup/DoUnassignUser.jsp?id_user=${assigned_user.userId}&amp;workgroup_key=${workgroup.key}&amp;anchor=anchor-${anchor}"  title="#i18n{portal.workgroup.assign_users.actionUnassign}">
                                 <i class="glyphicon glyphicon-trash"></i>
                             </a>
                         </td>
@@ -199,6 +199,4 @@
             </div>	
         </div>	
     </div>	
-</div>
-</div>
 </div>
