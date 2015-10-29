@@ -7,27 +7,27 @@
 			<div class="box-body">
 				<form class="form-horizontal" action="jsp/admin/user/attribute/DoModifyAttribute.jsp" method="post" >
 					<div class="form-group">
-						<label class="control-label col-xs-12 col-sm-3 col-md-3" for="title">#i18n{portal.users.modify_attribute.labelTitle} * : </label>
+						<label class="control-label col-xs-12 col-sm-3 col-md-3" for="attr_title">#i18n{portal.users.modify_attribute.labelTitle} * : </label>
 						<div class="col-xs-12 col-sm-9 col-md-9">
-							<input type="text" class="form-control" name="title" id="title" value="${attribute.title}"  maxlength="255">
+							<input type="text" class="form-control" name="title" id="attr_title" value="${attribute.title?html}"  maxlength="255">
 							<span class="help-block">#i18n{portal.users.modify_attribute.labelTitleComment}</span>
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="control-label col-xs-12 col-sm-3 col-md-3" for="help_message"> #i18n{portal.users.modify_attribute.labelHelpMessage}</label>
 						<div class="col-xs-12 col-sm-9 col-md-9">
-							<textarea name="help_message" class="form-control" id="help_message" cols="80" rows="5">${attribute.helpMessage}</textarea>
+							<textarea name="help_message" class="form-control" id="help_message" cols="80" rows="5">${attribute.helpMessage?html}</textarea>
 							#i18n{portal.users.modify_attribute.labelHelpMessageComment}
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="control-label col-xs-12 col-sm-3 col-md-3" for="">#i18n{portal.users.modify_attribute.labelType}</label>
+						<label class="control-label col-xs-12 col-sm-3 col-md-3">#i18n{portal.users.modify_attribute.labelType}</label>
 						<div class="col-xs-12 col-sm-9 col-md-9">
 							${attribute.attributeType.name}
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="control-label col-xs-12 col-sm-3 col-md-3" for="is_shown_in_result_list"></label>
+						<label class="control-label col-xs-12 col-sm-3 col-md-3"></label>
 						<div class="col-xs-12 col-sm-9 col-md-9">
 							<div class="checkbox">
 								<label>
@@ -42,7 +42,7 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="control-label col-xs-12 col-sm-3 col-md-3" for="mandatory"></label>
+						<label class="control-label col-xs-12 col-sm-3 col-md-3"></label>
 						<div class="col-xs-12 col-sm-9 col-md-9">
 							<div class="checkbox">
 								<label>
