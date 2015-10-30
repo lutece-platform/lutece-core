@@ -11,7 +11,7 @@
 					<div class="form-group">
 						<label class="control-label col-xs-12 col-sm-3 col-md-3" for="level_name">#i18n{portal.features.modify_level.labelName}</label>
 						<div class="col-xs-12 col-sm-6 col-md-6">
-							<input type="text" name="level_name" value="${level.name}" class="form-control" maxlength="80" >			
+							<input type="text" name="level_name" id="level_name" value="${level.name?html}" class="form-control" maxlength="80" >
 						</div>
 					</div>
 					<div class="form-group">
