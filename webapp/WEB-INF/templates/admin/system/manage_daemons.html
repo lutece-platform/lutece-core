@@ -16,9 +16,7 @@
             <th>#i18n{portal.system.manage_daemons.columnTitleActions}</th>
           </tr>
           <#list daemons_list as daemon>
-            <form method="post" action="jsp/admin/system/DoDaemonAction.jsp" class="form-inline">
-              <input type="hidden" name="daemon" value="${daemon.id}">
-              <tr>
+            <tr>
                 <td>
                   <#if daemon.running>
                     <span class="label label-success" title="#i18n{portal.util.labelEnabled}"><i class="fa fa-check"></i> </span>
@@ -34,7 +32,9 @@
                 <td>
                   <#if daemon.running>
                     ${daemon.interval}
-                    <#else>
+                  <#else>
+                      <form method="post" action="jsp/admin/system/DoDaemonAction.jsp" class="form-inline">
+                      <input type="hidden" name="daemon" value="${daemon.id}">
                       <label for="interval" class="sr-only">#i18n{portal.system.manage_daemons.columnTitleInterval}></label>
                       <div class="input-group">
                         <input type="text" class="form-control input-xs" name="interval" id="interval" value="${daemon.interval}">
@@ -44,6 +44,7 @@
                           </button>
                         </span>
                       </div>
+                      </form>
                   </#if>
                 </td>
                 <td>
@@ -63,6 +64,8 @@
                 </td>
                 <td>
                   <div class="pull-right">
+                    <form method="post" action="jsp/admin/system/DoDaemonAction.jsp" class="form-inline">
+                    <input type="hidden" name="daemon" value="${daemon.id}">
                     <#if daemon.running>
                       <button class="btn btn-danger btn-xs btn-flat" type="submit" title="#i18n{portal.system.manage_daemons.buttonStop} ${daemon.id}" name="action" value="STOP">
                         <i class="fa fa-stop"></i>
@@ -72,10 +75,10 @@
                           <i class="fa fa-play"></i>
                         </button>
                     </#if>
+                    </form>
                   </div>
                 </td>
               </tr>
-            </form>
           </#list>
         </table>
       </div>
