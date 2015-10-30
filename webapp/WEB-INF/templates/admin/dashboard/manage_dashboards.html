@@ -27,7 +27,7 @@
             </#if>
             <input type="hidden" name="dashboard_order" value="${dashboard_order}">
             <div class="input-group">
-              <@comboSortedWithParams name="dashboard_column" default_value="${dashboard.zone!}" additionalParameters="class=\"form-control input-xs\"" items=list_available_columns />
+              <@comboSortedWithParams name="dashboard_column" id="dashboard_column-${dashboard.name}" default_value="${dashboard.zone!}" additionalParameters="class=\"form-control input-xs\"" items=list_available_columns />
               <span class="input-group-btn">
                 <button type="submit" class="btn btn-primary btn-xs btn-flat">
                   <i class="fa fa-check"></i> #i18n{portal.dashboard.table.action.setColumn}
@@ -49,7 +49,7 @@
                 </#if>
                 <input type="hidden" name="dashboard_column" value="${dashboard_column}">
                 <div class="input-group">
-                  <@comboSortedWithParams name="dashboard_order" default_value="${dashboard.order!}" additionalParameters="class=\"form-control input-xs\"" items=list_available_orders_column />
+                  <@comboSortedWithParams name="dashboard_order" id="dashboard_order-${dashboard.name}" default_value="${dashboard.order!}" additionalParameters="class=\"form-control input-xs\"" items=list_available_orders_column />
                   <span class="input-group-btn">
                     <button type="submit" class="btn btn-primary btn-xs btn-flat"><i class="fa fa-arrows-v"></i>&nbsp;&nbsp;#i18n{portal.dashboard.table.action.move}</button>
                   </span>
