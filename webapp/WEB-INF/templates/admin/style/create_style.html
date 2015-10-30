@@ -7,26 +7,26 @@
 			<div class="box-body">
 				<form class="form-horizontal" method="post"  name="create_style" action="jsp/admin/style/DoCreateStyle.jsp">
 					<div class="form-group">
-						<label class="control-label col-xs-12 col-sm-3 col-md-3" > #i18n{portal.style.create_style.labelId} * </label>
+						<label class="control-label col-xs-12 col-sm-3 col-md-3" for="style_id"> #i18n{portal.style.create_style.labelId} * </label>
 						<div class="col-xs-12 col-sm-6 col-md-6">
-							<input type="text" class="form-control" name="style_id" size="5" maxlength="10">
+							<input type="text" class="form-control" id="style_id" name="style_id" size="5" maxlength="10">
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="control-label col-xs-12 col-sm-3 col-md-3" > #i18n{portal.style.create_style.labelName} * </label>
+						<label class="control-label col-xs-12 col-sm-3 col-md-3" for="style_name"> #i18n{portal.style.create_style.labelName} * </label>
 						<div class="col-xs-12 col-sm-6 col-md-6">
-							<input type="text" class="form-control" name="style_name" size="60" maxlength="100">
+							<input type="text" class="form-control" id="style_name" name="style_name" size="60" maxlength="100">
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="control-label col-xs-12 col-sm-3 col-md-3" > #i18n{portal.style.create_style.labelComponentType} </label>
+						<label class="control-label col-xs-12 col-sm-3 col-md-3" for="portal_component"> #i18n{portal.style.create_style.labelComponentType} </label>
 						<#assign javascriptComboParams>onChange="javascript:if( document.create_style.portal_component.value == '0' ) {document.create_style.portlet_type.disabled=false;} else {document.create_style.portlet_type.disabled=true;}"</#assign>
 						<div class="col-xs-12 col-sm-6 col-md-6">
 							<@comboWithParams name="portal_component" default_value="0" additionalParameters="${javascriptComboParams} class=\"form-control\" " items=portal_component_list />
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="control-label col-xs-12 col-sm-3 col-md-3" > #i18n{portal.style.create_style.labelPortletType}</label>
+						<label class="control-label col-xs-12 col-sm-3 col-md-3" for="portlet_type"> #i18n{portal.style.create_style.labelPortletType}</label>
 						<div class="col-xs-12 col-sm-6 col-md-6">
 							<@comboSortedWithParams name="portlet_type" default_value="0" additionalParameters=" class=\"form-control\" " items=portlet_type_list />
 						</div>
