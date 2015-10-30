@@ -18,8 +18,8 @@
 </select>
 </#macro>
 
-<#macro comboSortedWithParams name default_value additionalParameters items >
-<select id="${name}" name="${name}" ${additionalParameters} >
+<#macro comboSortedWithParams name default_value additionalParameters items id=name>
+<select id="${id}" name="${name}" ${additionalParameters} >
 <#list items?sort_by("name") as item>
 	<#if default_value="${item.code}">
 		<option selected="selected" value="${item.code}" >${item.name}</option>

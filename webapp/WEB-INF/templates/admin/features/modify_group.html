@@ -10,19 +10,19 @@
 					<div class="form-group">
 						<label class="control-label col-xs-12 col-sm-3 col-md-3" for="group_id">#i18n{portal.features.modify_group.labelId}</label>
 						<div class="col-xs-12 col-sm-6 col-md-6">
-							<input type="text" id="group_id" name="group_id" value="${feature_group.id}" class="form-control">
+							<input type="text" id="group_id" name="group_id" value="${feature_group.id?html}" class="form-control">
 						</div>	
 					</div>	
 					<div class="form-group">
 						<label class="control-label col-xs-12 col-sm-3 col-md-3" for="group_name">#i18n{portal.features.modify_group.labelName}</label>
 						<div class="col-xs-12 col-sm-6 col-md-6">
-							<input type="text" id="group_name" name="group_name" value="${feature_group.labelKey}" class="form-control">
+							<input type="text" id="group_name" name="group_name" value="${feature_group.labelKey?html}" class="form-control">
 						</div>	
 					</div>
 					<div class="form-group">
 						<label class="control-label col-xs-12 col-sm-3 col-md-3" for="group_description">#i18n{portal.features.modify_group.labelDescription}</label>
 						<div class="col-xs-12 col-sm-6 col-md-6">
-							<input type="text" id="group_description" name="group_description" value="${feature_group.descriptionKey}" class="form-control">
+							<input type="text" id="group_description" name="group_description" value="${feature_group.descriptionKey?html}" class="form-control">
 						</div>	
 					</div>
 					<div class="form-group">
