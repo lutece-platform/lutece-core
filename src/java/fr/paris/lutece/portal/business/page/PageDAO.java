@@ -620,18 +620,19 @@ public final class PageDAO implements IPageDAO
             page.setOrigParentPageId( daoUtil.getInt( 2 ) );
             page.setName( daoUtil.getString( 3 ) );
             page.setDescription( daoUtil.getString( 4 ) );
-            page.setOrder( daoUtil.getInt( 5 ) );
-            page.setStatus( daoUtil.getInt( 6 ) );
-            page.setRole( daoUtil.getString( 7 ) );
-            page.setCodeTheme( daoUtil.getString( 8 ) );
-            page.setImageContent( daoUtil.getBytes( 9 ) );
-            page.setMimeType( daoUtil.getString( 10 ) );
-            page.setMetaKeywords( daoUtil.getString( 11 ) );
-            page.setMetaDescription( daoUtil.getString( 12 ) );
+            page.setDateUpdate( daoUtil.getTimestamp( 5 ) );
+            page.setOrder( daoUtil.getInt( 6 ) );
+            page.setStatus( daoUtil.getInt( 7 ) );
+            page.setRole( daoUtil.getString( 8 ) );
+            page.setCodeTheme( daoUtil.getString( 9 ) );
+            page.setImageContent( daoUtil.getBytes( 10 ) );
+            page.setMimeType( daoUtil.getString( 11 ) );
+            page.setMetaKeywords( daoUtil.getString( 12 ) );
+            page.setMetaDescription( daoUtil.getString( 13 ) );
 
-            if ( daoUtil.getObject( 13 ) != null )
+            if ( daoUtil.getObject( 14 ) != null )
             {
-                page.setIdAuthorizationNode( daoUtil.getInt( 13 ) );
+                page.setIdAuthorizationNode( daoUtil.getInt( 14 ) );
             }
 
             pageList.add( page );
