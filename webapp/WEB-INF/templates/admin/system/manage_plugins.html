@@ -4,7 +4,7 @@
             <div class="box-header">
                 <h3 class="box-title">Liste des plugins</h3>
                 <div class="box-tools" style="margin-top:6px;">
-                    <form method="post" name="" action="" class="form-inline pull-left">
+                    <form method="post" class="form-inline pull-left">
                         <label for="plugin_type" class="sr-only"></label>
                         <div class="input-group"> 
                             <input type="text" autocomplete="off" id="search_plugins" class="form-control input-xs" placeholder="#i18n{portal.system.manage_plugins.buttonFilter}">
@@ -85,7 +85,7 @@
                                 </#if>   
                                 </#if>
                                 <form method="post" class="form-inline pull-right" action="jsp/admin/system/ViewPluginDescription.jsp?plugin_name=${plugin.name}">
-                                    <button type="submit" class="btn btn-primary btn-sm btn-flat spaced" href="" title="#i18n{portal.system.manage_plugins.actionDisplay}">
+                                    <button type="submit" class="btn btn-primary btn-sm btn-flat spaced" title="#i18n{portal.system.manage_plugins.actionDisplay}">
                                         <i class="glyphicon glyphicon-info-sign"></i>
                                     </button>
                                 </form>

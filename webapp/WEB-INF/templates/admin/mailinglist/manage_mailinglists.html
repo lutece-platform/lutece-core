@@ -54,17 +54,17 @@
                   </tr>
                   <#list mailinglists_list as mailinglist>
                   <tr>
-                    <td>${mailinglist.name}</a></td>
+                    <td>${mailinglist.name}</td>
                     <td class="hidden-xs">${mailinglist.description}</td>
                     <td class="hidden-xs">${mailinglist.workgroup}</td>
                     <td>
-                      <a class="btn btn-primary btn-xs btn-flat" href="jsp/admin/mailinglist/ModifyMailingList.jsp?id_mailinglist=${mailinglist.id}" title="#i18n{portal.mailinglist.modify_mailinglist.buttonModify} (${mailinglist.name})">
+                      <a class="btn btn-primary btn-xs btn-flat" href="jsp/admin/mailinglist/ModifyMailingList.jsp?id_mailinglist=${mailinglist.id}" title="#i18n{portal.mailinglist.modify_mailinglist.buttonModify} (${mailinglist.name?html})">
                         <i class="fa fa-pencil"></i>
                       </a>
-                      <a class="btn btn-primary btn-xs btn-flat" href="jsp/admin/mailinglist/ViewUsers.jsp?id_mailinglist=${mailinglist.id}" title="#i18n{portal.mailinglist.modify_mailinglist.linkLabelViewUsers} (${mailinglist.name})">
+                      <a class="btn btn-primary btn-xs btn-flat" href="jsp/admin/mailinglist/ViewUsers.jsp?id_mailinglist=${mailinglist.id}" title="#i18n{portal.mailinglist.modify_mailinglist.linkLabelViewUsers} (${mailinglist.name?html})">
                         <i class="fa fa-user"></i>
                       </a>
-                      <a class="btn btn-danger btn-xs btn-flat" href="jsp/admin/mailinglist/RemoveMailingList.jsp?id_mailinglist=${mailinglist.id}" title="#i18n{portal.mailinglist.modify_mailinglist.linkLabelRemove} (${mailinglist.name})">
+                      <a class="btn btn-danger btn-xs btn-flat" href="jsp/admin/mailinglist/RemoveMailingList.jsp?id_mailinglist=${mailinglist.id}" title="#i18n{portal.mailinglist.modify_mailinglist.linkLabelRemove} (${mailinglist.name?html})">
                         <i class="fa fa-trash"></i>
                       </a>
                     </td>

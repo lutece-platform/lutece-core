@@ -36,11 +36,11 @@
                   <small>${group.descriptionKey}</small>
                   <td>
                     <form method="post" action="jsp/admin/features/DoDispatchFeatureGroup.jsp" class="form-inline">
-                      <input type="hidden" name="group_id" value="${group.id}">
+                      <input type="hidden" name="group_id" value="${group.id?html}">
                       <div class="form-group">
                         <div class="input-group">
                           <span class="input-group-btn">
-                            <@comboSortedWithParams name="order_id" default_value=group.order?string additionalParameters=" class=\"form-control input-xs\"" items=order_list />
+                            <@comboSortedWithParams name="order_id" id="order_id-${group.id?html}" default_value=group.order?string additionalParameters=" class=\"form-control input-xs\"" items=order_list />
                             <button class="btn btn-primary btn-xs btn-flat" type="submit" title="#i18n{portal.features.manage_groups.buttonChangeOrder}">
                               <i class="fa fa-refresh"></i>
                             </button>
@@ -50,11 +50,11 @@
                     </form>
                   </td>
                   <td>
-                    <a class="btn btn-primary btn-xs btn-flat" href="jsp/admin/features/ModifyGroup.jsp?group_id=${group.id}" title="#i18n{portal.util.labelModify} ${group.id}">
+                    <a class="btn btn-primary btn-xs btn-flat" href="jsp/admin/features/ModifyGroup.jsp?group_id=${group.id?html}" title="#i18n{portal.util.labelModify} ${group.id?html}">
                       <i class="fa fa-pencil"></i>
                     </a>
                     <form class="inline" method="post" action="jsp/admin/features/RemoveGroup.jsp">
-                      <input type="hidden" name="group_id" value="${group.id}">
+                      <input type="hidden" name="group_id" value="${group.id?html}">
                       <button class="btn btn-danger btn-xs btn-flat" type="submit" title="#i18n{portal.features.manage_groups.buttonDelete}">
                         <i class="fa fa-trash"></i>
                       </button>

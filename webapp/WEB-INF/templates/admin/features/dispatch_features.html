@@ -20,6 +20,7 @@
         </#if>
       </div>
     </#if>
+  </div>
     <div class="box-body">
       <#if groupDisplay.feature_list?has_content>
         <table class="table table-hover table-condensed">
@@ -44,7 +45,7 @@
                       <input type="hidden" name="right_id" value="${right.id}">
                       <div class="form-group">
                         <div class="input-group">
-                          <@comboGroups name="group_name" default_value="${right.featureGroup?if_exists}" />
+                          <@comboGroups name="group_name" id="group_name-${right.id}" default_value="${right.featureGroup?if_exists}" />
                           <span class="input-group-btn">
                             <button class="btn btn-primary btn-xs btn-flat" type="submit" title="#i18n{portal.features.dispatch_features_row.buttonSetGroup}">
                               <i class="fa fa-check"></i>
@@ -61,7 +62,7 @@
                         <input type="hidden" name="group_name" value="${right.featureGroup?if_exists}">
                         <div class="form-group">
                           <div class="input-group">
-                            <@comboOrders name="order_id" default_value=right.order max=groupDisplay.feature_list?size />
+                            <@comboOrders name="order_id"  id="order_id-${right.id}" default_value=right.order max=groupDisplay.feature_list?size />
                             <span class="input-group-btn">
                               <button class="btn btn-primary btn-xs btn-flat" type="submit" title="#i18n{portal.features.dispatch_features_row.buttonSetOrder}">
                                 <i class="fa fa-refresh"></i>
@@ -100,25 +101,25 @@
   </div>
     </#macro>
 
-    <#macro comboGroups name default_value >
-        <select id="${name}" name="${name}" class="input-xs form-control" title="#i18n{portal.features.dispatch_features.tableLabelGroup}">
+    <#macro comboGroups name id default_value >
+        <select id="${id}" name="${name}" class="input-xs form-control" title="#i18n{portal.features.dispatch_features.tableLabelGroup}">
             <#if default_value="${no_group.feature_group.id?if_exists}">
-            <option selected="selected" value="${no_group.feature_group.id?if_exists}" >#i18n{${no_group.feature_group.labelKey}}</option>
+            <option selected="selected" label="${i18n(no_group.feature_group.descriptionKey)?html}" value="${no_group.feature_group.id?if_exists}" >#i18n{${no_group.feature_group.labelKey}}</option>
             <#else>
-            <option value="${no_group.feature_group.id?if_exists}" >#i18n{${no_group.feature_group.labelKey}}</option>
+            <option label="${i18n(no_group.feature_group.descriptionKey)?html}" value="${no_group.feature_group.id?if_exists}" >#i18n{${no_group.feature_group.labelKey}}</option>
             </#if>
             <#list feature_group_list as groupDisplay>
             <#if default_value="${groupDisplay.feature_group.id?if_exists}">
-            <option selected="selected" value="${groupDisplay.feature_group.id?if_exists}" >#i18n{${groupDisplay.feature_group.labelKey}}</option>
+            <option label="${i18n(groupDisplay.feature_group.descriptionKey)?html}" selected="selected" value="${groupDisplay.feature_group.id?if_exists}" >#i18n{${groupDisplay.feature_group.labelKey}}</option>
             <#else>
-            <option value="${groupDisplay.feature_group.id?if_exists}" >#i18n{${groupDisplay.feature_group.labelKey}}</option>
+            <option label="${i18n(groupDisplay.feature_group.descriptionKey)?html}" value="${groupDisplay.feature_group.id?if_exists}" >#i18n{${groupDisplay.feature_group.labelKey}}</option>
             </#if>
             </#list>
         </select>
     </#macro>
 
-    <#macro comboOrders name default_value max >
-        <select id="${name}" name="${name}" class="input-xs form-control" title="#i18n{portal.features.dispatch_features.tableLabelOrder}">
+    <#macro comboOrders name id default_value max >
+        <select id="${id}" name="${name}" class="input-xs form-control" title="#i18n{portal.features.dispatch_features.tableLabelOrder}">
             <#list 1..max as i>
             <#if "${default_value}" == "${i}">
             <option selected="selected" value="${i}" >${i}</option>

@@ -9,13 +9,13 @@
 				<form class="form-horizontal" role="form" method="post"  action="jsp/admin/mailinglist/DoAddUsers.jsp">
 					<input type="hidden" name="id_mailinglist" value="${mailinglist.id}">
 					<div class="form-group">
-						<label class="control-label col-xs-12 col-sm-2" for="mailinglist_order" >#i18n{portal.mailinglist.add_users.labelWorkgroup}* : </label>
+						<label class="control-label col-xs-12 col-sm-2" for="workgroup" >#i18n{portal.mailinglist.add_users.labelWorkgroup}* : </label>
 						<div class="col-xs-12 col-sm-6 col-md-6">
 							<@comboSortedWithParams name="workgroup" default_value="all" additionalParameters=" class=\"form-control\" " items=workgroups_list />
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="control-label col-xs-12 col-sm-2" for="mailinglist_order" >#i18n{portal.mailinglist.add_users.labelRole}* : </label>
+						<label class="control-label col-xs-12 col-sm-2" for="role" >#i18n{portal.mailinglist.add_users.labelRole}* : </label>
 						<div class="col-xs-12 col-sm-6 col-md-6">
 							<@comboSortedWithParams name="role" default_value="none" additionalParameters=" class=\"form-control\" " items=roles_list />
 						</div>

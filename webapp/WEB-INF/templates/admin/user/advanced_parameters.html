@@ -24,7 +24,7 @@
 					<fieldset>
 						<legend>#i18n{portal.users.manage_advanced_parameters.labelEnablePasswordEncryption}</legend>
 						<div class="form-group">
-							<label class="control-label col-xs-12 col-sm-3" for="enable_password_encryption">#i18n{portal.users.manage_advanced_parameters.labelEnablePasswordEncryption} :</label>
+							<label class="control-label col-xs-12 col-sm-3">#i18n{portal.users.manage_advanced_parameters.labelEnablePasswordEncryption} :</label>
 							<#if enable_password_encryption = "false">
 								<div class="col-xs-12 col-sm-9">
 									<label class="radio-inline">
@@ -54,7 +54,7 @@
 						<div class="form-group">
 						<label class="control-label col-xs-12 col-sm-3" for="encryption_algorithm">#i18n{portal.users.manage_advanced_parameters.labelEncryptionAlgorithm} :</label>
 							<div class="col-xs-12 col-sm-9">
-								<select name="encryption_algorithm" class="form-control" <#if use_advanced_security_parameters>disabled="disabled"</#if>>
+								<select id="encryption_algorithm" name="encryption_algorithm" class="form-control" <#if use_advanced_security_parameters>disabled="disabled"</#if>>
 								<#if !encryption_algorithm?has_content>
 									<option value="noValue" selected="selected">#i18n{portal.users.manage_advanced_parameters.labelNoAlgorithm}</option>
 								<#else>
@@ -104,7 +104,7 @@
 							</div>
 							<!-- USER NOTIFICATION -->
 							<div class="form-group">
-								<label class="control-label col-xs-12 col-sm-3" for="notify_user">#i18n{portal.users.manage_advanced_parameters.labelNotify} </label>
+								<label class="control-label col-xs-12 col-sm-3">#i18n{portal.users.manage_advanced_parameters.labelNotify} </label>
 								<#if default_user_notification = 1>
 									<div class="col-xs-12 col-sm-9">
 										<label class="radio-inline">
@@ -154,6 +154,7 @@
 									</button>
 								</div>
 							</div>
+						</fieldset>
 					</form>
 					<!-- EMAIL PATTERN -->
 					<form class="form-horizontal" method="post" name="email_pattern_form" action="jsp/admin/user/DoModifyEmailPattern.jsp">
@@ -179,7 +180,7 @@
 								<label class="control-label col-xs-12 col-sm-3" for="email_pattern">#i18n{portal.users.manage_advanced_parameters.labelEmailPattern} :</label>
 									<div class="col-xs-12 col-sm-6">
 										<div class="input-group">
-											<input type="text" class="form-control" name="email_pattern" value="${email_pattern}">
+											<input type="text" class="form-control" id="email_pattern" name="email_pattern" value="${email_pattern?html}">
 											<span class="input-group-btn">
 												<a href="jsp/admin/user/DoResetEmailPattern.jsp" class="btn btn-primary btn-flat">
 													<i class="fa fa-refresh"></i> #i18n{portal.users.manage_advanced_parameters.buttonResetEmailPattern}
@@ -196,7 +197,6 @@
 									<button class="btn btn-primary btn-xs btn-flat" type="submit" >
 										<i class="fa fa-check"></i> #i18n{portal.users.manage_advanced_parameters.buttonModify}
 									</button>
-									</div>
 								</div>
 							</div>
 						</fieldset>

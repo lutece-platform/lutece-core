@@ -19,8 +19,8 @@
 	<#return false>
 </#function>
 <div class="form-group">
-	<label class="col-xs-12 col-sm-12 col-md-12" for="attribute_${attribute.idAttribute}">
-		${attribute.title}
+	<label class="col-xs-12 col-sm-12 col-md-12">
+		${attribute.title?html}
 	<#if attribute.mandatory>
 		*
 	</#if>

@@ -114,7 +114,7 @@
         <div class="box">
 			<div class="box-header">
 				<h3 class="box-title">#i18n{portal.features.assign_users.labelAssignedUser}</h3>
-				<div class="box-tools pull-right"><@item_navigation item_navigator=item_navigator /></div>
+				<div class="box-tools pull-right"><@item_navigation item_navigator=item_navigator id="item-navigator-assigned"/></div>
 			</div>
 			<div class="box-body">
 			<#if assigned_users_list?size &gt; 0 >
@@ -141,10 +141,10 @@
                     </form>
                     <table class="table table-striped table-condensed">    
 						<tr>
-							<th>#i18n{portal.users.manage_users.columnTitleLastName}<@sort jsp_url="jsp/admin/features/AssignUsersRight.jsp" attribute="lastName&id_right=${right.id}${sort_search_attribute}" /></th>
-							<th>#i18n{portal.users.manage_users.columnTitleFirstName}<@sort jsp_url="jsp/admin/features/AssignUsersRight.jsp" attribute="firstName&id_right=${right.id}${sort_search_attribute}" /></th> 
-							<th>#i18n{portal.users.manage_users.columnTitleAccessCode}<@sort jsp_url="jsp/admin/features/AssignUsersRight.jsp" attribute="accessCode&id_right=${right.id}${sort_search_attribute}" /></th>        
-							<th>#i18n{portal.users.manage_users.columnTitleEmail}<@sort jsp_url="jsp/admin/features/AssignUsersRight.jsp" attribute="email&id_right=${right.id}${sort_search_attribute}" /></th>
+							<th>#i18n{portal.users.manage_users.columnTitleLastName}<@sort jsp_url="jsp/admin/features/AssignUsersRight.jsp" attribute="lastName&amp;id_right=${right.id}${sort_search_attribute}" /></th>
+							<th>#i18n{portal.users.manage_users.columnTitleFirstName}<@sort jsp_url="jsp/admin/features/AssignUsersRight.jsp" attribute="firstName&amp;id_right=${right.id}${sort_search_attribute}" /></th> 
+							<th>#i18n{portal.users.manage_users.columnTitleAccessCode}<@sort jsp_url="jsp/admin/features/AssignUsersRight.jsp" attribute="accessCode&amp;id_right=${right.id}${sort_search_attribute}" /></th>        
+							<th>#i18n{portal.users.manage_users.columnTitleEmail}<@sort jsp_url="jsp/admin/features/AssignUsersRight.jsp" attribute="email&amp;id_right=${right.id}${sort_search_attribute}" /></th>
 							<th>#i18n{portal.users.manage_users.columnTitleActions}</th>
 						</tr>
 						<#list assigned_users_list as assigned_user>
@@ -162,7 +162,7 @@
 								<td>
 									<a class="btn btn-primary btn-xs btn-flat" href="jsp/admin/user/ModifyUser.jsp?id_user=${assigned_user.userId}"  title="#i18n{portal.features.assign_users.actionModify}" >
 										<i class="glyphicon glyphicon-edit"></i></a>
-									<a class="btn btn-danger btn-xs btn-flat" href="jsp/admin/features/DoUnassignUserRight.jsp?id_user=${assigned_user.userId}&amp;id_right=${right.id}&anchor=anchor-${anchor}"  title="#i18n{portal.features.assign_users.actionUnassign}" ><i class="glyphicon glyphicon-trash"></i></a>
+									<a class="btn btn-danger btn-xs btn-flat" href="jsp/admin/features/DoUnassignUserRight.jsp?id_user=${assigned_user.userId}&amp;id_right=${right.id}&amp;anchor=anchor-${anchor}"  title="#i18n{portal.features.assign_users.actionUnassign}" ><i class="glyphicon glyphicon-trash"></i></a>
 								</td>
 							</tr>
 						</#list>		

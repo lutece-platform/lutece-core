@@ -12,10 +12,10 @@
                     </form>
                     <form class="form-inline pull-left" method="post" name="search_workgroups" action="jsp/admin/workgroup/ManageWorkgroups.jsp"  >
                         <label for="key" >#i18n{portal.workgroup.manage_workgroups.search_workgroups.labelKey}</label>
-                        <input type="text" class="form-control input-xs" id="key" name="search_key" value="${search_admin_workgroup_filter.key}" maxlength="50" size="10" class="form-control input-sm">
+                        <input type="text" class="form-control input-xs input-sm" id="key" name="search_key" value="${search_admin_workgroup_filter.key}" maxlength="50" size="10">
                         <label for="description" >#i18n{portal.workgroup.manage_workgroups.search_workgroups.labelDescription}</label>
                         <div class="input-group">
-                            <input type="text" class="form-control input-xs" id="description" name="search_description" value="${search_admin_workgroup_filter.description}" maxlength="250" size="30"  class="form-control input-sm">
+                            <input type="text" class="form-control input-xs  input-sm" id="description" name="search_description" value="${search_admin_workgroup_filter.description}" maxlength="250" size="30">
                             <span class="input-group-btn">
                                 <button class="btn btn-primary btn-xs btn-flat" type="submit" title="#i18n{portal.workgroup.manage_workgroups.search_workgroups.buttonSearch}" >
                                     <i class="glyphicon glyphicon-search"></i> 
@@ -33,7 +33,6 @@
                         <input type="hidden" name="search_key" value="${search_admin_workgroup_filter.key}">
                         <input type="hidden" name="search_description" value="${search_admin_workgroup_filter.description}">
                     </#if>
-                    </fieldset>
                 </form>
                 <table class="table table-hover table-condensed">
                     <tr>

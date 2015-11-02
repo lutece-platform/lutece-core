@@ -7,21 +7,21 @@
 			<div class="box-body">
 				<form class="form-horizontal" action="jsp/admin/user/attribute/DoModifyAttribute.jsp" method="post" >
 					<div class="form-group">
-						<label class="control-label col-xs-12 col-sm-3 col-md-3" for="title">#i18n{portal.users.modify_attribute.labelTitle} *</label>
+						<label class="control-label col-xs-12 col-sm-3 col-md-3" for="attr_title">#i18n{portal.users.modify_attribute.labelTitle} *</label>
 						<div class="col-xs-12 col-sm-9 col-md-9">
-							<input type="text" class="form-control" name="title" id="title" size="80" value="${attribute.title}" maxlength="255">
+							<input type="text" class="form-control" name="title" id="attr_title" size="80" value="${attribute.title?html}" maxlength="255">
 							<p class="help-block">#i18n{portal.users.modify_attribute.labelTitleComment}</p>
 						</div>
 					</div>
 						<div class="form-group">
 							<label class="control-label col-xs-12 col-sm-3 col-md-3" for="help_message"> #i18n{portal.users.modify_attribute.labelHelpMessage} </label>
 							<div class="col-xs-12 col-sm-9 col-md-9">
-								<textarea name="help_message" class="form-control" id="help_message"  cols="80" rows="5">${attribute.helpMessage}</textarea>
+								<textarea name="help_message" class="form-control" id="help_message"  cols="80" rows="5">${attribute.helpMessage?html}</textarea>
 								<p class="help-block">#i18n{portal.users.modify_attribute.labelHelpMessageComment}</p>
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="control-label col-xs-12 col-sm-3 col-md-3" for="is_shown_in_search"></label>
+							<label class="control-label col-xs-12 col-sm-3 col-md-3"></label>
 							<div class="col-xs-12 col-sm-9 col-md-9">
 								<div class="checkbox">
 									<label>
@@ -36,7 +36,7 @@
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="control-label col-xs-12 col-sm-3 col-md-3" for="is_shown_in_result_list"> </label>
+							<label class="control-label col-xs-12 col-sm-3 col-md-3"> </label>
 							<div class="col-xs-12 col-sm-9 col-md-9">
 								<div class="checkbox">
 									<label>
@@ -51,7 +51,7 @@
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="control-label col-xs-12 col-sm-3 col-md-3" for="mandatory"></label>
+							<label class="control-label col-xs-12 col-sm-3 col-md-3"></label>
 							<div class="col-xs-12 col-sm-9 col-md-9">
 								<div class="checkbox">
 									<label>
@@ -66,7 +66,7 @@
 							</div>
 						</div>
 						<div class="form-group">
-							<label class="control-label col-xs-12 col-sm-3 col-md-3" for="is_field_in_line"> </label>
+							<label class="control-label col-xs-12 col-sm-3 col-md-3"></label>
 							<div class="col-xs-12 col-sm-9 col-md-9">
 								<div class="checkbox">
 									<label>
@@ -105,7 +105,7 @@
 	<div class="col-xs-12 col-sm-12 col-md-12">
 		<div class="box box-success">
 			<div class="box-header">
-				<h3 class="box-title"><a name="list" id="list"></a>#i18n{portal.users.modify_attribute.listAssociatedFields}</h3>
+				<h3 class="box-title"><a name="list"></a>#i18n{portal.users.modify_attribute.listAssociatedFields}</h3>
 				<div class="box-tools">
 					<form method="post" action="jsp/admin/user/attribute/CreateAttributeField.jsp" class="form-inline pull-right">
 						<input type="hidden" value="${attribute.idAttribute}" name="id_attribute">
@@ -116,7 +116,6 @@
 				</div>	
 			</div>
 			<div class="box-body table-responsive">
-				<a name="list" id="list"></a>
 				<table class="table table-hover table-condensed" id="list">
 					<tr>
 						<th>#i18n{portal.users.modify_attribute.columnLabelTitle}</th>

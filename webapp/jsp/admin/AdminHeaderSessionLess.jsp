@@ -2,7 +2,10 @@
 <%@ page import="fr.paris.lutece.portal.service.util.AppPathService" %>
 <%@ page import="fr.paris.lutece.portal.service.portal.PortalService" %>
 <%@ page pageEncoding="UTF-8" %>
-
+<%	response.setHeader("Cache-Control","no-cache"); //HTTP 1.1
+	response.setHeader("Pragma","no-cache"); //HTTP 1.0
+	response.setDateHeader ("Expires", 0); //prevents caching at the proxy server
+%>
 <%
 	// Calcul de l'url de base
 	String strBase = AppPathService.getBaseUrl( request ) ;
@@ -10,12 +13,8 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<base href="<%= strBase %>"></base>
+<base href="<%= strBase %>">
 <title><%= PortalService.getSiteName(  ) %> - Administration</title>
-<%	response.setHeader("Cache-Control","no-cache"); //HTTP 1.1
-	response.setHeader("Pragma","no-cache"); //HTTP 1.0
-	response.setDateHeader ("Expires", 0); //prevents caching at the proxy server
-%>
 <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <!-- Set the viewport width to device width for mobile -->

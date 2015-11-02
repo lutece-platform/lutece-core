@@ -20,7 +20,7 @@
             <label class="control-label col-xs-12 col-sm-3 col-md-3" for="stylesheet_name">#i18n{portal.style.modify_stylesheet.labelName}&nbsp;*&nbsp;:</label>
             <input type="hidden" name="stylesheet_id" value="${stylesheet.id}">
             <div class="col-xs-12 col-sm-6 col-md-6">
-              <input type="text" class="form-control" id="stylesheet_name" name="stylesheet_name" value="${stylesheet.description}" maxlength="255">
+              <input type="text" class="form-control" id="stylesheet_name" name="stylesheet_name" value="${stylesheet.description?html}" maxlength="255">
             </div>
           </div>
           <div class="form-group">
@@ -46,7 +46,7 @@
               <button class="btn btn-primary btn-flat" type="submit">
                 <i class="fa fa-check"></i>&nbsp;#i18n{portal.style.modify_stylesheet.buttonModify}
               </button>
-              <a href="jsp/admin/style/ManageStyleSheets.jsp" class="btn btn-default btn-flat" type="button">
+              <a href="jsp/admin/style/ManageStyleSheets.jsp" class="btn btn-default btn-flat">
                 <i class="fa fa-remove"></i>&nbsp;#i18n{portal.admin.message.buttonCancel}
               </a>
             </div>

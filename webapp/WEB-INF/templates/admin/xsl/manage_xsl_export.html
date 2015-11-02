@@ -2,7 +2,7 @@
   <div class="col-xs-12 col-sm-12 col-md-12">
     <div class="box box-danger">
       <div class="box-header">
-        <h3 class="box-title">#i18n{portal.xsl.manage_xsl_export.title}</h3>
+        <h3 class="box-title" id="manage_xsl_export">#i18n{portal.xsl.manage_xsl_export.title}</h3>
         <#if right_create>
           <div class="box-tools pull-right">
             <form class="form-inline" method="post" action="jsp/admin/xsl/CreateXslExport.jsp">
@@ -15,7 +15,7 @@
       </div>
       <!-- /.box-header -->
       <div class="box-body table-responsive">
-        <table class="table table-hover table-striped" summary="#i18n{portal.xsl.manage_xsl_export.title}">
+        <table class="table table-hover table-striped" aria-describedby="manage_xsl_export">
           <caption>&nbsp;</caption>
           <thead>
           <tr>
@@ -33,12 +33,12 @@
             <td class="hidden-xs">${xsl_export.extension}</td>
             <td>
               <#if right_modify>
-                <a class="btn btn-primary btn-xs btn-flat" href="jsp/admin/xsl/ModifyXslExport.jsp?id_xsl_export=${xsl_export.idXslExport}" title="#i18n{portal.xsl.manage_xsl_export.title_modify} (${xsl_export.title})">
+                <a class="btn btn-primary btn-xs btn-flat" href="jsp/admin/xsl/ModifyXslExport.jsp?id_xsl_export=${xsl_export.idXslExport}" title="#i18n{portal.xsl.manage_xsl_export.title_modify} (${xsl_export.title?html})">
                   <i class="fa fa-pencil"></i>
                 </a>
               </#if>
               <#if right_delete>
-                <a class="btn btn-danger btn-xs btn-flat" href="jsp/admin/xsl/ConfirmRemoveXslExport.jsp?id_xsl_export=${xsl_export.idXslExport}" title="#i18n{portal.xsl.manage_xsl_export.title_delete} (${xsl_export.title})">
+                <a class="btn btn-danger btn-xs btn-flat" href="jsp/admin/xsl/ConfirmRemoveXslExport.jsp?id_xsl_export=${xsl_export.idXslExport}" title="#i18n{portal.xsl.manage_xsl_export.title_delete} (${xsl_export.title?html})">
                   <i class="fa fa-trash"></i>
                 </a>
               </#if>

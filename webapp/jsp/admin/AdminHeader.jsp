@@ -4,17 +4,18 @@
 <%@ page pageEncoding="UTF-8" %>
 <%@ page buffer="1024kb" %>
 <%@ page autoFlush="false" %>
+<%
+response.setHeader("Cache-Control","no-cache"); 
+response.setHeader("Pragma","no-cache"); 
+response.setDateHeader ("Expires", 0);
+%>
 <jsp:useBean id="adminMenu" scope="session" class="fr.paris.lutece.portal.web.admin.AdminMenuJspBean" />
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<base href="<%= AppPathService.getBaseUrl( request ) %>"></base>
+<base href="<%= AppPathService.getBaseUrl( request ) %>">
 <title><%= PortalService.getSiteName(  ) %> - Administration</title>
 <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" >
-<meta http-equiv="Expires" content="Mon, 26 Jul 1997 05:00:00 GMT" >
-<meta http-equiv="Pragma" content="no-cache" >
-<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" >
-<meta http-equiv="Cache-Control" content="post-check=0, pre-check=0" >
 <meta http-equiv="X-UA-Compatible" content="IE=edge" >
 <!-- Set the viewport width to device width for mobile -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">

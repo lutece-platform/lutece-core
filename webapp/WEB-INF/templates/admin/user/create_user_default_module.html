@@ -47,6 +47,7 @@
 									</div>
 								</div>
 							</div>
+							</fieldset>
 						</div>
 						<div class="col-xs-12 col-sm-12 col-md-4">
 							<fieldset>
@@ -67,8 +68,7 @@
 											<span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
 											<input type="password" id="first_password" name="first_password" maxlength="100" class="form-control input-sm" value="">
 											<span class="input-group-btn"><button type="button" class="btn btn-default" id="generate_password" title="#i18n{portal.users.create_user.buttonLabelGeneratePassword}">
-											<i class="glyphicon glyphicon-cog"></i></span>
-										</button>
+											<i class="glyphicon glyphicon-cog"></i></button></span>
 										</div>
 									</div>
 								</div>
@@ -114,7 +114,7 @@
 						<fieldset>
 							<legend>#i18n{portal.users.create_user.labelComplementaryAttributes}</legend>
 							<div class="form-group">
-								<label class="col-xs-12 col-sm-12 col-md-12" for="status" class="inline">#i18n{portal.users.create_user.labelStatus}</label>
+								<label class="col-xs-12 col-sm-12 col-md-12 inline" for="status">#i18n{portal.users.create_user.labelStatus}</label>
 								<div class="col-xs-12 col-sm-12 col-md-12">
 									<select id="status" class="form-control input-sm" name="status">
 										<#if default_user_status = 1>
@@ -132,7 +132,7 @@
 										<div class="form-group">
 											<label class="col-xs-12 col-sm-12 col-md-12" for="user_level">#i18n{portal.users.create_user.userLevelLabel} :</label>
 											<div class="col-xs-12 col-sm-12 col-md-12">
-												<select class="form-control input-sm" id="user_level" name="user_level" class="input-sm">
+												<select class="form-control input-sm" id="user_level" name="user_level">
 													<#list user_levels as user_level>
 													<#if user_level.id = default_user_level.id>
 													<option value="${user_level.id}" selected="selected">${user_level.name}</option>
@@ -171,7 +171,7 @@
 									</#list>
 								</#if>
 								<div class="form-group">
-									<label class="col-xs-12 col-sm-12 col-md-12" for="accessibility_mode" class="checkbox">
+									<label class="col-xs-12 col-sm-12 col-md-12 checkbox" for="accessibility_mode">
 									#i18n{portal.users.create_user.labelTheme} :
 									</label>
 									<div class="col-xs-12 col-sm-12 col-md-12">

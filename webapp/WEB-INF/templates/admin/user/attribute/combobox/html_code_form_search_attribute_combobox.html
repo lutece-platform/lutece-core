@@ -17,7 +17,7 @@
 </#function>
 <div class="form-group">
 	<label class="col-xs-12 col-sm-12 col-md-12" for="attribute_${attribute.idAttribute}">
-		${attribute.title} : 
+		${attribute.title?html} : 
 	</label>
 	<div class="col-xs-12 col-sm-12 col-md-12">
 		<select class="form-control input-sm" name="attribute_${attribute.idAttribute}" id="attribute_${attribute.idAttribute}"
@@ -37,7 +37,7 @@
 							selected="selected"
 						</#if>
 					>
-							${attributeField.title}
+							${attributeField.title?html}
 					</option>
 				</#if>
 			</#list>

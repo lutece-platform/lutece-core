@@ -18,13 +18,13 @@
 </select>
 </#macro>
 
-<#macro comboSortedWithParams name default_value additionalParameters items >
-<select id="${name}" name="${name}" ${additionalParameters} >
+<#macro comboSortedWithParams name default_value additionalParameters items id=name>
+<select id="${id}" name="${name}" ${additionalParameters} >
 <#list items?sort_by("name") as item>
 	<#if default_value="${item.code}">
-		<option selected="selected" value="${item.code}" >${item.name}</option>
+		<option selected="selected" value="${item.code}" <#if !item.name?has_content>label="${i18n("portal.util.labelEmpty")}"</#if>>${item.name}</option>
    	<#else>
-   		<option value="${item.code}" >${item.name}</option>
+   		<option value="${item.code}" <#if !item.name?has_content>label="${i18n("portal.util.labelEmpty")}"</#if>>${item.name}</option>
    	</#if>
 </#list>
 </select>
@@ -174,7 +174,7 @@
 		</#if>
 		<div class="pull-right">
 			<#if form == 1 >
-				<form method="post" class="form-inline" action="">
+				<form method="post" class="form-inline">
 			</#if>
 			<@paginationItemCount paginator=paginator combo=combo nb_items_per_page=nb_items_per_page showcount=showcount showall=showall/>
 			<#if form == 1 >
@@ -294,8 +294,8 @@
 </#macro>
 
 
-<#macro item_navigation item_navigator>
-<nav id="item-navigator">
+<#macro item_navigation item_navigator id="item-navigator">
+<nav id="${id}">
   <ul class="pager">
 	<#if (item_navigator.currentItemId > 0)>
 		<li class="previous">
@@ -303,8 +303,6 @@
 	        <span aria-hidden="true">&larr;</span> #i18n{portal.util.labelPrevious}
 	    </a>
 		</li>
-	<#else>
-		&nbsp;&nbsp;
 	</#if>
 	<#if (item_navigator.currentItemId < item_navigator.listItemSize - 1) >
 		<li class="next">
@@ -312,9 +310,8 @@
 				#i18n{portal.util.labelNext} <span aria-hidden="true">&rarr;</span>
 			</a>
 	    </li>
-	<#else>
-		&nbsp;&nbsp;
 	</#if>
+  </ul>
 </nav>
 </#macro>
 

@@ -29,7 +29,7 @@
 					<#list attributes_list as attribute >
 					<#assign cpt = cpt + 1>
 					<tr>
-						<td>${attribute.title}</td>
+						<td>${attribute.title?html}</td>
 						<td>${attribute.attributeType.name}</td>
 						<td>
 							<#if attribute.plugin?exists && attribute.plugin.name?has_content>
@@ -53,23 +53,23 @@
 
 							</#if>
 							<#else>
-							<a class="btn btn-primary btn-xs" href="jsp/admin/user/attribute/ModifyAttribute.jsp?id_attribute=${attribute.idAttribute}"  title="#i18n{portal.users.manage_attributes.buttonLabelModify} (${attribute.title})" >
+							<a class="btn btn-primary btn-xs" href="jsp/admin/user/attribute/ModifyAttribute.jsp?id_attribute=${attribute.idAttribute}"  title="#i18n{portal.users.manage_attributes.buttonLabelModify} (${attribute.title?html})" >
 								<i class="glyphicon glyphicon-edit"></i>
 							</a>
 
 							<#if cpt != 1>
-							<a class="btn btn-primary btn-xs" href="jsp/admin/user/attribute/DoMoveUpAttribute.jsp?id_attribute=${attribute.idAttribute}#list"  title="#i18n{portal.users.modify_attribute.buttonLabelMoveUp} (${attribute.title})" >
+							<a class="btn btn-primary btn-xs" href="jsp/admin/user/attribute/DoMoveUpAttribute.jsp?id_attribute=${attribute.idAttribute}#list"  title="#i18n{portal.users.modify_attribute.buttonLabelMoveUp} (${attribute.title?html})" >
 								<i class="glyphicon glyphicon-chevron-up"></i>
 							</a>
 
 							</#if>
 							<#if attribute_has_next>
-							<a class="btn btn-primary btn-xs" href="jsp/admin/user/attribute/DoMoveDownAttribute.jsp?id_attribute=${attribute.idAttribute}#list"  title="#i18n{portal.users.modify_attribute.buttonLabelMoveDown} (${attribute.title})" >
+							<a class="btn btn-primary btn-xs" href="jsp/admin/user/attribute/DoMoveDownAttribute.jsp?id_attribute=${attribute.idAttribute}#list"  title="#i18n{portal.users.modify_attribute.buttonLabelMoveDown} (${attribute.title?html})" >
 								<i class="glyphicon glyphicon-chevron-down"></i>
 							</a>
 
 							</#if>
-							<a class="btn btn-danger btn-xs" href="jsp/admin/user/attribute/RemoveAttribute.jsp?id_attribute=${attribute.idAttribute}"  title="#i18n{portal.users.manage_attributes.buttonLabelDelete} (${attribute.title})" >
+							<a class="btn btn-danger btn-xs" href="jsp/admin/user/attribute/RemoveAttribute.jsp?id_attribute=${attribute.idAttribute}"  title="#i18n{portal.users.manage_attributes.buttonLabelDelete} (${attribute.title?html})" >
 								<i class="glyphicon glyphicon-trash"></i>
 							</a>
 

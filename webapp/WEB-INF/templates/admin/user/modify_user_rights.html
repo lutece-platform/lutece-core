@@ -4,8 +4,8 @@
             <div class="box-header">
                 <h3 class="box-title">
                     <i class="glyphicon glyphicon-user"></i>&nbsp;${user.lastName} ${user.firstName}
-                    <small><@item_navigation item_navigator=item_navigator /></small>
                 </h3>
+                <@item_navigation item_navigator=item_navigator />
                 <div class="box-tools">
                     <#if can_delegate = 'true'><p>#i18n{portal.users.modify_user_rights.informationRightModification}</p></#if>
                     <form method="post"  action="jsp/admin/user/ModifyUserRights.jsp" class="form-inline pull-right spaced">	

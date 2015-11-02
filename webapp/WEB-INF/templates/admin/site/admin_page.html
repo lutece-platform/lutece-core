@@ -30,7 +30,7 @@
 						<form method="post" action="jsp/admin/site/AdminSite.jsp" class="form-inline pull-right" role="search">
 							<label class="sr-only">#i18n{portal.site.admin_page.buttonSearchPage}</label>
 							<div class="input-group">
-								<input type="text" name="page_id" title="#i18n{portal.site.admin_page.buttonSearchPage}" class="form-control input-xs" placeholder="#i18n{portal.site.admin_page.buttonSearchPage}">
+								<input type="search" name="page_id" title="#i18n{portal.site.admin_page.buttonSearchPage}" class="form-control input-xs" placeholder="#i18n{portal.site.admin_page.buttonSearchPage}">
 								<span class="input-group-btn">
 									<button class="btn btn-default btn-xs btn-flat" type="submit" title="#i18n{portal.site.admin_page.buttonSearchPage}">
 										<i class="fa fa-search"></i>
@@ -41,15 +41,15 @@
 						</form>
 						</div>
 						<div class="btn-group">
-							<a class="btn btn-primary dropdown-toggle btn-xs btn-flat" data-toggle="dropdown" id="portlet-type" href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}&param_block=">
-								<i class="fa fa-th-large" alt="#i18n{portal.site.admin_page.labelPortletPage}" title="#i18n{portal.site.admin_page.labelPortletPage}" ></i>
+							<a class="btn btn-primary dropdown-toggle btn-xs btn-flat" data-toggle="dropdown" id="portlet-type" href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}&amp;param_block=">
+								<i class="fa fa-th-large" title="#i18n{portal.site.admin_page.labelPortletPage}" ></i>
 								<span class="hidden-xs">#i18n{portal.site.admin_page.labelPortletPage}</span> <b class="caret"></b>
 							</a>
 							<#if portlet_types_list?has_content>
 								<ul class="dropdown-menu" aria-labelledby="portlet-type" role="menu">
 									<#list portlet_types_list?sort_by("name") as portlet_type>
 										<li class="portlet-type">
-											<a class="portlet-type-ref" href="jsp/admin/DoCreatePortlet.jsp?portlet_type_id=${portlet_type.id}&page_id=${page.id}" title="${portlet_type.name}" >
+											<a class="portlet-type-ref" href="jsp/admin/DoCreatePortlet.jsp?portlet_type_id=${portlet_type.id}&amp;page_id=${page.id}" title="${portlet_type.name}" >
 												${portlet_type.name}
 											</a>
 										</li>
@@ -60,17 +60,17 @@
 						<#if extendableResourceActionsHtml?? && extendableResourceActionsHtml?has_content>
 							${extendableResourceActionsHtml!}
 						</#if>
-						<a href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}&param_block=2" class="btn btn-primary btn-xs btn-flat">
-							<i class="fa fa-wrench" alt="#i18n{portal.site.admin_page.labelPageProperty}" title="#i18n{portal.site.admin_page.labelPageProperty}"  ></i>
+						<a href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}&amp;param_block=2" class="btn btn-primary btn-xs btn-flat">
+							<i class="fa fa-wrench" title="#i18n{portal.site.admin_page.labelPageProperty}"  ></i>
 							<span class="hidden-xs" >#i18n{portal.site.admin_page.labelPageProperty}</span>
 						</a>
-						<a href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}&param_block=5" class="btn btn-primary btn-xs btn-flat">
-							<i class="fa fa-plus"  alt="#i18n{portal.site.admin_page.labelChildPagePage}" title="#i18n{portal.site.admin_page.labelChildPagePage}" ></i>
+						<a href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}&amp;param_block=5" class="btn btn-primary btn-xs btn-flat">
+							<i class="fa fa-plus" title="#i18n{portal.site.admin_page.labelChildPagePage}" ></i>
 							<span class="hidden-xs">#i18n{portal.site.admin_page.labelChildPagePage}</span>
 						</a>
 						<div class="btn-group">
 							<a href="jsp/admin/site/AdminMap.jsp?page_id=${page.id}" class="btn btn-primary btn-xs btn-flat">
-								<i class="fa fa-sitemap" alt="#i18n{portal.site.admin_page.tabAdminMapSite} Page ${page.name} - Id ${page.id}" title="#i18n{portal.site.admin_page.tabAdminMapSite} Page ${page.name} - Id ${page.id}" ></i>
+								<i class="fa fa-sitemap" title="#i18n{portal.site.admin_page.tabAdminMapSite} Page ${page.name} - Id ${page.id}" ></i>
 								<span class="hidden-xs" >#i18n{portal.site.admin_page.tabAdminMapSite}</span>
 							</a>
 						</div>
@@ -79,4 +79,4 @@
 			</div><!-- /.box-header -->
 			<div class="box-body" id="admin-page-preview">
 				${page_block}
-				<!-- HTML in jsp/admin/AdminSite.jsp -->
+				<!-- HTML in jsp/admin/site/AdminSite.jsp -->
