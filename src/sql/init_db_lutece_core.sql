@@ -206,8 +206,8 @@ INSERT INTO core_datastore VALUES ('portal.site.site_property.logo_url', 'images
 INSERT INTO core_datastore VALUES ('portal.site.site_property.menu.position', 'top');
 INSERT INTO core_datastore VALUES ('portal.site.site_property.locale.default', 'fr');
 -- LUTECE 
-REPLACE INTO core_datastore VALUES ('portal.site.site_property.avatar_default', 'images/admin/skin/unknown.png');
-REPLACE INTO core_datastore VALUES ('portal.site.site_property.back_images', '\'images/admin/skin/bg_login1.jpg\' , \'images/admin/skin/bg_login2.jpg\' , \'images/admin/skin/bg_login3.jpg\' , \'images/admin/skin/bg_login4.jpg\'');
+INSERT INTO core_datastore VALUES ('portal.site.site_property.avatar_default', 'images/admin/skin/unknown.png');
+INSERT INTO core_datastore VALUES ('portal.site.site_property.back_images', '\'images/admin/skin/bg_login1.jpg\' , \'images/admin/skin/bg_login2.jpg\' , \'images/admin/skin/bg_login3.jpg\' , \'images/admin/skin/bg_login4.jpg\'');
 
 
 INSERT INTO core_search_parameter (parameter_key, parameter_value) VALUES ('type_filter', 'none');
