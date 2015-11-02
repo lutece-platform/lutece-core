@@ -53,6 +53,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
+
 
 /**
  * JspBean for Role management
@@ -248,9 +250,21 @@ public class RoleJspBean extends AdminFeaturesPageJspBean
      */
     public String getRemovePageRole( HttpServletRequest request )
     {
+        String strPageRole = request.getParameter( PARAMETER_PAGE_ROLE );
+        if ( StringUtils.isBlank( strPageRole ) )
+        {
+            return AdminMessageService.getMessageUrl( request, Messages.MESSAGE_INVALID_ENTRY,
+                    new Object[] { PARAMETER_PAGE_ROLE }, AdminMessage.TYPE_STOP );
+        }
+        Role role = RoleHome.findByPrimaryKey( strPageRole );
+        if ( role == null || !strPageRole.equals( role.getRole( ) ) )
+        {
+            return AdminMessageService.getMessageUrl( request, Messages.MESSAGE_INVALID_ENTRY,
+                    new Object[] { strPageRole }, AdminMessage.TYPE_STOP );
+        }
         UrlItem url = new UrlItem( PATH_JSP + JSP_REMOVE_ROLE + "?role=" + request.getParameter( PARAMETER_PAGE_ROLE ) );
 
-        return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_REMOVE, url.getUrl(  ),
+        return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_REMOVE, new Object[] { strPageRole }, url.getUrl(  ),
             AdminMessage.TYPE_CONFIRMATION );
     }
 
@@ -267,7 +281,7 @@ public class RoleJspBean extends AdminFeaturesPageJspBean
         if ( !RoleRemovalListenerService.getService(  ).checkForRemoval( strPageRole, listErrors, getLocale(  ) ) )
         {
             String strCause = AdminMessageService.getFormattedList( listErrors, getLocale(  ) );
-            Object[] args = { strCause };
+            Object[] args = { strPageRole, strCause };
 
             return AdminMessageService.getMessageUrl( request, MESSAGE_CANNOT_REMOVE_ROLE, args, AdminMessage.TYPE_STOP );
         }
