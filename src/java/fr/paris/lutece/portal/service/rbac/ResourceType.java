@@ -169,9 +169,11 @@ public class ResourceType implements Localizable
         try
         {
             ResourceIdService service = (ResourceIdService) Class.forName( getResourceIdServiceClass(  ) ).newInstance(  );
-            service.setPluginName( getPluginName(  ) );
-
-            return service;
+            if ( service != null )
+            {
+            	service.setPluginName( getPluginName(  ) );
+            	return service;
+            }
         }
         catch ( InstantiationException e )
         {

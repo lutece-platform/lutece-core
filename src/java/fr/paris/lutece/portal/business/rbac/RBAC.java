@@ -193,10 +193,13 @@ public class RBAC implements Localizable
             if ( resourceType != null )
             {
                 ResourceIdService resourceManagerService = resourceType.getResourceIdService(  );
-
-                String strTitle = resourceManagerService.getTitle( getResourceId(  ), _locale );
-
-                if ( strTitle != null )
+                String strTitle = StringUtils.EMPTY ;
+                
+                if ( resourceManagerService!= null )
+                {
+                	strTitle = resourceManagerService.getTitle( getResourceId(  ), _locale );
+                }
+                if ( strTitle != null && StringUtils.isNotEmpty( strTitle ) )
                 {
                     return strTitle;
                 }
@@ -223,10 +226,16 @@ public class RBAC implements Localizable
         else
         {
             ResourceType resourceType = ResourceTypeManager.getResourceType( getResourceTypeKey(  ) );
-            Permission permission = resourceType.getPermission( getPermissionKey(  ) );
-            permission.setLocale( _locale );
-
-            return permission.getPermissionTitle(  );
+            if ( resourceType != null )
+            {
+            	Permission permission = resourceType.getPermission( getPermissionKey(  ) );
+            	if ( permission != null )
+            	{
+            		permission.setLocale( _locale );
+            		return  permission.getPermissionTitle(  );
+            	}
+            }
         }
+        return StringUtils.EMPTY ;
     }
 }
