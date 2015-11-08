@@ -87,7 +87,7 @@ CREATE TABLE core_admin_user (
 	first_name varchar(100) default '' NOT NULL,
 	email varchar(256) default '0' NOT NULL,
 	status smallint default 0 NOT NULL,
-	password varchar(100) default NULL,
+	password LONG VARCHAR default NULL,
 	locale varchar(10) default 'fr' NOT NULL,
 	level_user smallint default 0 NOT NULL,
 	reset_password smallint default 0 NOT NULL,
@@ -535,7 +535,7 @@ CREATE TABLE core_search_parameter (
 DROP TABLE IF EXISTS core_user_password_history;
 CREATE  TABLE core_user_password_history (
   id_user INT NOT NULL ,
-  password VARCHAR(100) NOT NULL ,
+  password LONG VARCHAR NOT NULL ,
   date_password_change TIMESTAMP DEFAULT NOW() NOT NULL,
   PRIMARY KEY (id_user, date_password_change)
   );

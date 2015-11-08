@@ -57,6 +57,7 @@ import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.portal.PortalService;
 import fr.paris.lutece.portal.service.rbac.RBACService;
 import fr.paris.lutece.portal.service.regularexpression.RegularExpressionService;
+import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.template.DatabaseTemplateService;
 import fr.paris.lutece.portal.service.user.AdminUserResourceIdService;
@@ -69,6 +70,8 @@ import fr.paris.lutece.util.ReferenceItem;
 import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.date.DateUtil;
 import fr.paris.lutece.util.html.HtmlTemplate;
+import fr.paris.lutece.util.password.IPassword;
+import fr.paris.lutece.util.password.IPasswordFactory;
 import fr.paris.lutece.util.password.PasswordUtil;
 import fr.paris.lutece.util.url.UrlItem;
 import fr.paris.lutece.util.xml.XmlUtil;
@@ -76,10 +79,8 @@ import fr.paris.lutece.util.xml.XmlUtil;
 import org.apache.commons.lang.StringUtils;
 
 import java.sql.Timestamp;
-
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
@@ -126,8 +127,6 @@ public final class AdminUserService
     public static final String DSKEY_DEFAULT_USER_LANGUAGE = "core.advanced_parameters.default_user_language";
     public static final String DSKEY_DEFAULT_USER_NOTIFICATION = "core.advanced_parameters.default_user_notification";
     public static final String DSKEY_DEFAULT_USER_LEVEL = "core.advanced_parameters.default_user_level";
-    public static final String DSKEY_ENABLE_PASSWORD_ENCRYPTION = "core.advanced_parameters.enable_password_encryption";
-    public static final String DSKEY_ENCRYPTION_ALGORITHM = "core.advanced_parameters.encryption_algorithm";
     public static final String DSKEY_USE_ADVANCED_SECURITY_PARAMETERS = "core.advanced_parameters.use_advanced_security_parameters";
 
     // Parameter
@@ -143,9 +142,6 @@ public final class AdminUserService
     private static final String MARK_DEFAULT_USER_STATUS = "default_user_status";
     private static final String MARK_LANGUAGES_LIST = "languages_list";
     private static final String MARK_USER_LEVELS_LIST = "user_levels";
-    private static final String MARK_ENABLE_PASSWORD_ENCRYPTION = "enable_password_encryption";
-    private static final String MARK_ENCRYPTION_ALGORITHM = "encryption_algorithm";
-    private static final String MARK_ENCRYPTION_ALGORITHMS_LIST = "encryption_algorithms_list";
     private static final String MARK_SEARCH_IS_SEARCH = "search_is_search";
     private static final String MARK_SEARCH_ADMIN_USER_FILTER = "search_admin_user_filter";
     private static final String MARK_SEARCH_ADMIN_USER_FIELD_FILTER = "search_admin_user_field_filter";
@@ -159,6 +155,7 @@ public final class AdminUserService
     private static final String MARK_IS_EMAIL_PATTERN_SET_MANUALLY = "is_email_pattern_set_manually";
     private static final String MARK_PLUGIN_REGULAREXPRESSION = "plugin_regularexpression";
     private static final String MARK_FORCE_CHANGE_PASSWORD_REINIT = "force_change_password_reinit";
+    private static final String MARK_PASSWORD = "password";
     private static final String MARK_PASSWORD_MINIMUM_LENGTH = "password_minimum_length";
     private static final String MARK_PASSWORD_FORMAT_UPPER_LOWER_CASE = "password_format_upper_lower_case";
     private static final String MARK_PASSWORD_FORMAT_NUMERO = "password_format_numero";
@@ -186,7 +183,6 @@ public final class AdminUserService
 
     // Properties
     private static final String PROPERTY_ADMINISTRATOR = "right.administrator";
-    private static final String PROPERTY_ENCRYPTION_ALGORITHMS_LIST = "encryption.algorithmsList";
     private static final String PROPERTY_EMAIL_PATTERN = "lutece.email.pattern";
     private static final String PROPERTY_MESSAGE_EMAIL_FORMAT = "portal.users.message.user.emailFormat";
     private static final String PROPERTY_MESSAGE_EMAIL_FORMAT_BANNED_DOMAIN_NAME = "portal.users.message.user.emailFormatBannedDomainNames";
@@ -203,7 +199,6 @@ public final class AdminUserService
     private static final String PROPERTY_DEFAULT_TSW_SIZE_PASSWORD_CHANGE = "security.defaultValues.maximumPasswordChangeTSWSize";
     private static final String PROPERTY_DEFAULT_HISTORY_SIZE = "security.defaultValues.passwordHistorySize";
     private static final String PROPERTY_DEFAULT_PASSWORD_DURATION = "security.defaultValues.passwordDuration";
-    private static final String PROPERTY_DEFAULT_ENCRYPTION_ALGORITHM = "security.defaultValues.algorithm";
 
     // CONSTANTS
     private static final String CONSTANT_DEFAULT_ENCRYPT_ALGO = "SHA-256";
@@ -413,29 +408,9 @@ public final class AdminUserService
 
         boolean bPermissionManageAdvancedParameters = RBACService.isAuthorized( AdminUser.RESOURCE_TYPE,
                 RBAC.WILDCARD_RESOURCES_ID, AdminUserResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS, user );
-        boolean bPermissionManageEncryptedPassword = RBACService.isAuthorized( AdminUser.RESOURCE_TYPE,
-                RBAC.WILDCARD_RESOURCES_ID, AdminUserResourceIdService.PERMISSION_MANAGE_ENCRYPTED_PASSWORD, user );
 
         if ( bPermissionManageAdvancedParameters )
         {
-            // Encryption Password
-            if ( bPermissionManageEncryptedPassword )
-            {
-                model.put( MARK_ENABLE_PASSWORD_ENCRYPTION,
-                    DefaultUserParameterHome.findByKey( DSKEY_ENABLE_PASSWORD_ENCRYPTION ) );
-                model.put( MARK_ENCRYPTION_ALGORITHM, DefaultUserParameterHome.findByKey( DSKEY_ENCRYPTION_ALGORITHM ) );
-
-                String[] listAlgorithms = AppPropertiesService.getProperty( PROPERTY_ENCRYPTION_ALGORITHMS_LIST )
-                                                              .split( COMMA );
-
-                for ( String strAlgorithm : listAlgorithms )
-                {
-                    strAlgorithm.trim(  );
-                }
-
-                model.put( MARK_ENCRYPTION_ALGORITHMS_LIST, listAlgorithms );
-            }
-
             // USER LEVEL
             String strDefaultLevel = DefaultUserParameterHome.findByKey( DSKEY_DEFAULT_USER_LEVEL );
             Level defaultLevel = LevelHome.findByPrimaryKey( Integer.parseInt( strDefaultLevel ) );
@@ -1056,18 +1031,19 @@ public final class AdminUserService
 
             if ( nPasswordHistorySize > 0 )
             {
-                String strEncryptedPassword = encryptPassword( strPassword );
-                List<String> passwordHistory = AdminUserHome.selectUserPasswordHistory( nUserId );
+                List<IPassword> passwordHistory = AdminUserHome.selectUserPasswordHistory( nUserId );
 
                 if ( nPasswordHistorySize < passwordHistory.size(  ) )
                 {
                     passwordHistory = passwordHistory.subList( 0, nPasswordHistorySize );
                 }
 
-                if ( passwordHistory.contains( strEncryptedPassword ) )
+                for ( IPassword password : passwordHistory )
                 {
-                    return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_PASSWORD_ALREADY_USED,
-                        AdminMessage.TYPE_STOP );
+                    if ( password.check( strPassword ) ) {
+                        return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_PASSWORD_ALREADY_USED,
+                                AdminMessage.TYPE_STOP );
+                    }
                 }
             }
 
@@ -1116,21 +1092,15 @@ public final class AdminUserService
     }
 
     /**
-     * Encrypt a password with the encryption algorithm choosed by the admin
+     * Encrypt a password
      * @param strPassword The password to encrypt
      * @return The given password encrypted
      */
-    public static String encryptPassword( String strPassword )
+    public static IPassword encryptPassword( String strPassword )
     {
-        String strPasswordTmp = strPassword;
+        IPasswordFactory passwordFactory = SpringContextService.getBean( IPasswordFactory.BEAN_NAME );
 
-        if ( getBooleanSecurityParameter( DSKEY_ENABLE_PASSWORD_ENCRYPTION ) )
-        {
-            String strAlgorithm = DefaultUserParameterHome.findByKey( DSKEY_ENCRYPTION_ALGORITHM );
-            strPasswordTmp = CryptoService.encrypt( strPasswordTmp, strAlgorithm );
-        }
-
-        return strPasswordTmp;
+        return passwordFactory.getPasswordFromCleartext( strPassword );
     }
 
     /**
@@ -1160,9 +1130,6 @@ public final class AdminUserService
                 AppPropertiesService.getProperty( PROPERTY_DEFAULT_PASSWORD_MINIMAL_LENGTH ) );
         }
 
-        updateSecurityParameter( DSKEY_ENABLE_PASSWORD_ENCRYPTION, Boolean.TRUE.toString(  ) );
-        updateSecurityParameter( DSKEY_ENCRYPTION_ALGORITHM,
-            AppPropertiesService.getProperty( PROPERTY_DEFAULT_ENCRYPTION_ALGORITHM ) );
         updateSecurityParameter( DSKEY_NOTIFY_USER_PASSWORD_EXPIRED, Boolean.TRUE.toString(  ) );
     }
 
@@ -1370,6 +1337,19 @@ public final class AdminUserService
      */
     public static void notifyUser( String strBaseUrl, AdminUser user, String strPropertyEmailSubject, String strTemplate )
     {
+        notifyUser( strBaseUrl, user, null, strPropertyEmailSubject, strTemplate );
+    }
+
+    /**
+     * Notify an user by email
+     * @param strBaseUrl The base URL of the webapp
+     * @param user The admin user to notify
+     * @param strPassword the user password in cleartext
+     * @param strPropertyEmailSubject the property of the subject email
+     * @param strTemplate the URL of the HTML Template
+     */
+    public static void notifyUser( String strBaseUrl, AdminUser user, String strPassword, String strPropertyEmailSubject, String strTemplate )
+    {
         String strSenderEmail = MailService.getNoReplyEmail(  );
         String strSiteName = PortalService.getSiteName(  );
         Locale locale = user.getLocale(  );
@@ -1377,6 +1357,7 @@ public final class AdminUserService
                 locale );
         Map<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_USER, user );
+        model.put( MARK_PASSWORD, strPassword );
         model.put( MARK_SITE_NAME, strSiteName );
         model.put( MARK_LOGIN_URL, strBaseUrl + AdminAuthenticationService.getInstance(  ).getLoginPageUrl(  ) );
         model.put( MARK_SITE_LINK, MailService.getSiteLink( strBaseUrl, false ) );
@@ -1571,4 +1552,5 @@ public final class AdminUserService
 
         return sbXml.toString(  );
     }
+
 }
