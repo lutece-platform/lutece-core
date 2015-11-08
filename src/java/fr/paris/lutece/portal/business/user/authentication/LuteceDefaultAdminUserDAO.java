@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2015, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -34,9 +34,13 @@
 package fr.paris.lutece.portal.business.user.authentication;
 
 import fr.paris.lutece.portal.service.util.AppException;
+import fr.paris.lutece.util.password.IPassword;
+import fr.paris.lutece.util.password.IPasswordFactory;
 import fr.paris.lutece.util.sql.DAOUtil;
 
 import java.sql.Timestamp;
+
+import javax.inject.Inject;
 
 
 /**
@@ -44,47 +48,16 @@ import java.sql.Timestamp;
  */
 public class LuteceDefaultAdminUserDAO implements ILuteceDefaultAdminUserDAO
 {
-    public static final int USER_NOTFOUND = -1;
-    public static final int INVALID_PASSWORD = -2;
-    public static final int USER_OK = 0;
-    private static final String SQL_QUERY_CHECK_PASSWORD = "SELECT password FROM core_admin_user WHERE  access_code = ? ";
+    private static final String SQL_QUERY_LOAD_PASSWORD = "SELECT password FROM core_admin_user WHERE  access_code = ? ";
     private static final String SQL_QUERY_LOAD_USER = " SELECT access_code, id_user, password_max_valid_date, account_max_valid_date, email FROM core_admin_user WHERE access_code = ? ";
     private static final String SQL_QUERY_UPDATE_PASSWORD_RESET = "UPDATE core_admin_user set reset_password = ? WHERE id_user = ? ";
+    private static final String SQL_QUERY_UPDATE_PASSWORD = "UPDATE core_admin_user SET password = ? WHERE access_code = ?";
+
+    @Inject
+    private IPasswordFactory _passwordFactory;
 
     // /////////////////////////////////////////////////////////////////////////////////////
     // Access methods to data
-
-    /**
-     * Check the password of a given user into the table provided by the database authentication module
-     * @param strAccessCode The name of the user
-     * @param strPassword the user password
-     * @return the the error number
-     */
-    public int checkPassword( String strAccessCode, String strPassword )
-    {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_CHECK_PASSWORD );
-        daoUtil.setString( 1, strAccessCode );
-        daoUtil.executeQuery(  );
-
-        if ( !daoUtil.next(  ) )
-        {
-            daoUtil.free(  );
-
-            return USER_NOTFOUND;
-        }
-
-        String strStoredPassword = daoUtil.getString( 1 );
-        daoUtil.free(  );
-
-        if ( !strStoredPassword.equals( strPassword ) )
-        {
-            daoUtil.free(  );
-
-            return INVALID_PASSWORD;
-        }
-
-        return USER_OK;
-    }
 
     /**
      * load the data of an user from the table provided by the database authentication module This only provides data specific to the database authentication module.
@@ -135,5 +108,50 @@ public class LuteceDefaultAdminUserDAO implements ILuteceDefaultAdminUserDAO
         daoUtil.setInt( 2, user.getUserId(  ) );
         daoUtil.executeUpdate(  );
         daoUtil.free(  );
+    }
+
+    @Override
+    public IPassword loadPassword( String strAccessCode )
+    {
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_LOAD_PASSWORD );
+        daoUtil.setString( 1, strAccessCode );
+        daoUtil.executeQuery(  );
+
+        IPassword storedPassword;
+        try
+        {
+            if ( daoUtil.next(  ) )
+            {
+                storedPassword = _passwordFactory.getPassword( daoUtil.getString( 1 ) );
+            } else
+            {
+                // timing resistance
+                storedPassword = _passwordFactory.getDummyPassword(  );
+            }
+        } finally
+        {
+            daoUtil.free(  );
+        }
+
+        return storedPassword;
+    }
+
+    @Override
+    public void store( String strAccessCode, IPassword password )
+    {
+        if ( password.isLegacy( ) )
+        {
+            throw new IllegalArgumentException( "Should not store password in legacy format " + password.getClass( ).getCanonicalName( ) );
+        }
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE_PASSWORD );
+        try
+        {
+            daoUtil.setString( 1, password.getStorableRepresentation(  ) );
+            daoUtil.setString( 2, strAccessCode );
+            daoUtil.executeUpdate(  );
+        } finally
+        {
+            daoUtil.free(  );
+        }
     }
 }

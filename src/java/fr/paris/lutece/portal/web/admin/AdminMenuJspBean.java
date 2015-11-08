@@ -51,6 +51,7 @@ import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.portal.PortalService;
+import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
@@ -59,7 +60,8 @@ import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.portal.web.l10n.LocaleService;
 import fr.paris.lutece.util.html.HtmlTemplate;
-import fr.paris.lutece.util.string.StringUtil;
+import fr.paris.lutece.util.password.IPassword;
+import fr.paris.lutece.util.password.IPasswordFactory;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -424,21 +426,15 @@ public class AdminMenuJspBean implements Serializable
         AdminUser user = AdminUserService.getAdminUser( request );
 
         String strCurrentPassword = request.getParameter( Parameters.PASSWORD_CURRENT );
-        strCurrentPassword = StringUtil.replaceAccent( strCurrentPassword );
-
         String strNewPassword = request.getParameter( Parameters.NEW_PASSWORD );
-        strNewPassword = StringUtil.replaceAccent( strNewPassword );
-
         String strConfirmNewPassword = request.getParameter( Parameters.CONFIRM_NEW_PASSWORD );
-        strConfirmNewPassword = StringUtil.replaceAccent( strConfirmNewPassword );
 
         LuteceDefaultAdminUser userStored = AdminUserHome.findLuteceDefaultAdminUserByPrimaryKey( user.getUserId(  ) );
 
-        String strPassword = userStored.getPassword(  );
-        strPassword = StringUtil.replaceAccent( strPassword );
+        IPassword password = userStored.getPassword(  );
 
         // Mandatory Fields
-        if ( strCurrentPassword.equals( "" ) || strNewPassword.equals( "" ) || strConfirmNewPassword.equals( "" ) )
+        if ( StringUtils.isEmpty( strCurrentPassword ) || StringUtils.isEmpty( strNewPassword ) || StringUtils.isEmpty( strConfirmNewPassword ) )
         {
             return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
         }
@@ -452,33 +448,30 @@ public class AdminMenuJspBean implements Serializable
 
         String strUrl = AdminUserService.checkPassword( request, strNewPassword, user.getUserId(  ) );
 
-        if ( ( strUrl != null ) && !StringUtils.isEmpty( strUrl ) )
+        if ( StringUtils.isNotEmpty( strUrl ) )
         {
             return strUrl;
         }
 
-        // Encryption password
-        strNewPassword = AdminUserService.encryptPassword( strNewPassword );
-        strCurrentPassword = AdminUserService.encryptPassword( strCurrentPassword );
-
         // Test of the value of the current password
-        if ( !strCurrentPassword.equals( strPassword ) )
+        if ( !password.check( strCurrentPassword ) )
         {
             return AdminMessageService.getMessageUrl( request, PASSWORD_ERROR, AdminMessage.TYPE_STOP );
         }
 
         // Test of control of difference between the new password and the current one
-        if ( strPassword.equals( strNewPassword ) )
+        if ( strCurrentPassword.equals( strNewPassword ) )
         {
             return AdminMessageService.getMessageUrl( request, PASSWORD_CURRENT_ERROR, AdminMessage.TYPE_STOP );
         }
 
         // Successful tests
-        userStored.setPassword( strNewPassword );
+        IPasswordFactory passwordFactory = SpringContextService.getBean( IPasswordFactory.BEAN_NAME );
+        userStored.setPassword( passwordFactory.getPasswordFromCleartext( strNewPassword ) );
         userStored.setPasswordReset( Boolean.FALSE );
         userStored.setPasswordMaxValidDate( AdminUserService.getPasswordMaxValidDate(  ) );
         AdminUserHome.update( userStored );
-        AdminUserHome.insertNewPasswordInHistory( strNewPassword, userStored.getUserId(  ) );
+        AdminUserHome.insertNewPasswordInHistory( userStored.getPassword(  ), userStored.getUserId(  ) );
 
         return AdminMessageService.getMessageUrl( request, MESSAGE_PASSWORD_REDIRECT,
             AppPropertiesService.getProperty( PROPERTY_JSP_URL_ADMIN_LOGOUT ), AdminMessage.TYPE_INFO );
