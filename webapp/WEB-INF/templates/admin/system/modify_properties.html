@@ -14,7 +14,7 @@
           <#list groups_list as group>
             <h4>${group.name}</h4>
             <p>${group.description}</p>
-            <#list group.localizedDataList as property>
+            <#list group.localizedDataList?sort_by("key") as property>
               <div class="form-group">
                 <label class="control-label col-xs-12 col-sm-3 col-md-3" for="${property.key}" >${property.label}</label>
                 <div class="col-xs-12 -col-sm-9 col-md-9">
