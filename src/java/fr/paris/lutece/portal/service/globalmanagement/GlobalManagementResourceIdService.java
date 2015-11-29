@@ -50,8 +50,8 @@ import java.util.Locale;
 public class GlobalManagementResourceIdService extends ResourceIdService
 {
     public static final String PERMISSION_MANAGE_EDITORS = "MANAGE_EDITORS";
-    private static final String PROPERTY_LABEL_RESOURCE_TYPE = "portal.global_management.globalManagementService.ressourceType";
-    private static final String PROPERTY_LABEL_MANAGE_EDITORS = "portal.global_management.globalManagementService.labelLanageEditors";
+    private static final String PROPERTY_LABEL_RESOURCE_TYPE = "portal.globalmanagement.globalManagementService.ressourceType";
+    private static final String PROPERTY_LABEL_MANAGE_EDITORS = "portal.globalmanagement.globalManagementService.labelLanageEditors";
 
     /**
      * Initializes the service
