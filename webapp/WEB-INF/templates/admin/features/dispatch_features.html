@@ -1,7 +1,6 @@
 <#macro featuresGroupDisplay groupDisplay >
 <div class="box box-danger">
   <div class="box-header">
-    <#if groupDisplay.feature_list?has_content>
       <h3 class="box-title">
         <#if groupDisplay.feature_group.order !=0>
           #i18n{${groupDisplay.feature_group.labelKey}} <a name="${groupDisplay.feature_group.id?if_exists}">&nbsp;</a>
@@ -9,6 +8,7 @@
             #i18n{portal.features.nogroup.title}
         </#if>
       </h3>
+    <#if groupDisplay.feature_list?has_content>
       <div class="box-tools pull-right">
         <#if groupDisplay.feature_group.order !=0>
           <#if groupDisplay.order_list_state==false>
