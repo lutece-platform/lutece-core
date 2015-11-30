@@ -60,7 +60,14 @@ public abstract class AbstractMessageFormatTemplateMethod implements TemplateMet
         }
 
         String key = ( (TemplateScalarModel) arguments.get( 0 ) ).getAsString( );
-        Object [ ] args = new Object [ argsSize - 1];
+
+        if ( argsSize == 1 )
+        {
+            // no arguments, the message is not a MessageFormat
+            return getPattern( key, Environment.getCurrentEnvironment(  ).getLocale(  ) );
+        }
+
+        Object [ ] args = new Object[ argsSize - 1 ];
 
         for ( int i = 1; i < argsSize; i++ )
         {
