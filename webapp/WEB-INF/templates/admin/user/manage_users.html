@@ -104,6 +104,7 @@
               </form>
               <table class="table table-hover table-hover">
                 <tr>
+                  <#if adminAvatar><th>&nbsp;</th></#if>
                   <th class="hidden-xs">#i18n{portal.users.manage_users.columnTitleLastName} <@sort jsp_url="jsp/admin/user/ManageUsers.jsp" attribute="lastName${sort_search_attribute}" /></th>
                   <th class="hidden-xs">#i18n{portal.users.manage_users.columnTitleFirstName} <@sort jsp_url="jsp/admin/user/ManageUsers.jsp" attribute="firstName${sort_search_attribute}" /></th>
                   <th class="hidden-xs hidden-sm">#i18n{portal.users.manage_users.columnTitleAccessCode} <@sort jsp_url="jsp/admin/user/ManageUsers.jsp" attribute="accessCode${sort_search_attribute}" /></th>
@@ -118,6 +119,11 @@
                 </tr>
                 <#list user_list as user>
                   <tr>
+                    <#if adminAvatar>
+                    <td>
+                        <img class="direct-chat-img" src="servlet/plugins/adminavatar/avatar?id_user=${user.userId}" alt="Avatar" title="Avatar">
+                    </td>
+                    </#if>
                     <td class="hidden-xs"><#if user.status = 10 >#i18n{portal.users.anonymize_user.statusLabelAnonymize}<#else>${user.lastName}</#if></td>
                     <td class="hidden-xs"><#if user.status = 10 >#i18n{portal.users.anonymize_user.statusLabelAnonymize}<#else>${user.firstName}</#if></td>
                     <td class="hidden-xs  hidden-sm"><em><#if user.status = 10 >#i18n{portal.users.anonymize_user.statusLabelAnonymize}<#else>${user.accessCode}</#if></em></td>
