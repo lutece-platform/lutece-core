@@ -223,18 +223,8 @@ public class AdminDashboardJspBean extends AdminFeaturesPageJspBean
         String strOrder = request.getParameter( PARAMETER_DASHBOARD_ORDER );
         String strColumn = request.getParameter( PARAMETER_DASHBOARD_COLUMN );
 
-        if ( StringUtils.isBlank( strOrder ) && StringUtils.isBlank( strColumn ) )
-        {
-            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
-        }
-
         int nOrder = StringUtil.getIntValue( strOrder, -1 );
         int nColumn = StringUtil.getIntValue( strColumn, -1 );
-
-        if ( ( nOrder == -1 ) || ( nColumn == -1 ) )
-        {
-            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
-        }
 
         dashboard.setOrder( nOrder );
         dashboard.setZone( nColumn );

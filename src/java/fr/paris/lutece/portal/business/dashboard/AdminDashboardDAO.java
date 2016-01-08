@@ -55,7 +55,7 @@ public class AdminDashboardDAO implements IAdminDashboardDAO
     private static final String SQL_QUERY_DELETE_BY_NAME = SQL_QUERY_DELETE + " WHERE dashboard_name = ? ";
     private static final String SQL_QUERY_SELECT = "SELECT dashboard_name, dashboard_order, dashboard_column  FROM core_admin_dashboard ";
     private static final String SQL_QUERY_ORDER_BY_COLUMN_AND_ORDER = " ORDER BY dashboard_column, dashboard_order";
-    private static final String SQL_QUERY_SELECT_ALL = SQL_QUERY_SELECT + SQL_QUERY_ORDER_BY_COLUMN_AND_ORDER;
+    private static final String SQL_QUERY_SELECT_ALL = SQL_QUERY_SELECT + " WHERE dashboard_column != - 1 " + SQL_QUERY_ORDER_BY_COLUMN_AND_ORDER;
     private static final String SQL_QUERY_SELECT_COLUMNS = "SELECT dashboard_column FROM core_admin_dashboard GROUP BY dashboard_column";
     private static final String SQL_QUERY_FILTER_COLUMN = " dashboard_column = ? ";
     private static final String SQL_QUERY_FILTER_ORDER = " dashboard_order = ? ";
