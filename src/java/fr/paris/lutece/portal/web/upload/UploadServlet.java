@@ -62,6 +62,7 @@ public class UploadServlet extends HttpServlet
     private static final String JSON_FILE_SIZE = "fileSize";
     private static final String JSON_FILE_NAME = "fileName";
     private static final String JSON_FILES = "files";
+    private static final String JSON_UTF8_CONTENT_TYPE = "application/json; charset=UTF-8";
 
     /**
      * {@inheritDoc}
@@ -112,7 +113,8 @@ public class UploadServlet extends HttpServlet
             AppLogService.debug( "Aysnchronous upload : " + json.toString(  ) );
         }
 
-        response.getOutputStream(  ).print( json.toString(  ) );
+        response.setContentType(JSON_UTF8_CONTENT_TYPE);
+        response.getWriter().print( json.toString(  ) );
     }
 
     /**
