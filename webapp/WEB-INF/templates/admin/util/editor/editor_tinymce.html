@@ -4,7 +4,7 @@
 <#-- We only have the language pack for French (France) installed in webapp/js/editors/tinymce/langs -->
 <#-- Some lutece plugins pass locale.getLanguage() (="fr"), some pass the locale object (toString="fr_FR", or more complicated...) -->
 <#-- Force it here because if it is a wrong value, tinyMCE does not load -->
-<#if locale?substring(0,2) == "fr">
+<#if locale?? && (2 <= locale?string?length) && (locale?string?substring(0,2) == "fr")>
 	<#assign editorLocale="fr_FR" />
 </#if>
 <#if cssFiles=="">
