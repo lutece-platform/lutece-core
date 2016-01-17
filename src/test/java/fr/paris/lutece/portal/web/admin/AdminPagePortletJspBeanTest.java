@@ -205,6 +205,180 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
     }
 
     /**
+     * Test when no parameter given
+     * @throws AccessDeniedException should not happen
+     */
+    public void testDoModifyPortletStatusNoParam(  ) throws AccessDeniedException
+    {
+        AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
+        MokeHttpServletRequest request = new MokeHttpServletRequest( );
+        String url = bean.doModifyPortletStatus( request );
+        assertNotNull( url );
+        AdminMessage message = AdminMessageService.getMessage( request );
+        assertNotNull( message );
+        assertEquals( message.getType( ), AdminMessage.TYPE_ERROR );
+    }
+
+    /**
+     * Test when no status parameter given
+     * @throws AccessDeniedException should not happen
+     */
+    public void testDoModifyPortletStatusNoStatusParam(  ) throws AccessDeniedException
+    {
+        AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
+        MokeHttpServletRequest request = new MokeHttpServletRequest( );
+        request.addMokeParameters( Parameters.PORTLET_ID, "1" );
+        String url = bean.doModifyPortletStatus( request );
+        assertNotNull( url );
+        AdminMessage message = AdminMessageService.getMessage( request );
+        assertNotNull( message );
+        assertEquals( message.getType( ), AdminMessage.TYPE_ERROR );
+    }
+
+    /**
+     * Test when no portlet_id parameter given
+     * @throws AccessDeniedException should not happen
+     */
+    public void testDoModifyPortletStatusNoPortletParam(  ) throws AccessDeniedException
+    {
+        AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
+        MokeHttpServletRequest request = new MokeHttpServletRequest( );
+        request.addMokeParameters( PORTLET_STATUS, Integer.toString( Portlet.STATUS_PUBLISHED ) );
+        String url = bean.doModifyPortletStatus( request );
+        assertNotNull( url );
+        AdminMessage message = AdminMessageService.getMessage( request );
+        assertNotNull( message );
+        assertEquals( message.getType( ), AdminMessage.TYPE_ERROR );
+    }
+
+    /**
+     * Test when the status is invalid
+     * @throws AccessDeniedException should not happen
+     */
+    public void testDoModifyPortletStatusInvalidStatus(  ) throws AccessDeniedException
+    {
+        AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
+        MokeHttpServletRequest request = new MokeHttpServletRequest( );
+        Portlet portlet = getPortlet( );
+        try
+        {
+            request.addMokeParameters( Parameters.PORTLET_ID, Integer.toString( portlet.getId( ) ) );
+            request.addMokeParameters( PORTLET_STATUS, "999999999" );
+            String url = bean.doModifyPortletStatus( request );
+            assertNotNull( url );
+            AdminMessage message = AdminMessageService.getMessage( request );
+            assertNotNull( message );
+            assertEquals( message.getType( ), AdminMessage.TYPE_ERROR );
+        } finally
+        {
+            removePortlet( portlet );
+        }
+    }
+
+    /**
+     * Test when the portlet_id is invalid
+     * @throws AccessDeniedException should not happen
+     */
+    public void testDoModifyPortletStatusInvalidPortletID(  ) throws AccessDeniedException
+    {
+        AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
+        MokeHttpServletRequest request = new MokeHttpServletRequest( );
+        request.addMokeParameters( Parameters.PORTLET_ID, "NOT_NUMERIC" );
+        request.addMokeParameters( PORTLET_STATUS, Integer.toString( Portlet.STATUS_PUBLISHED ) );
+        String url = bean.doModifyPortletStatus( request );
+        assertNotNull( url );
+        AdminMessage message = AdminMessageService.getMessage( request );
+        assertNotNull( message );
+        assertEquals( message.getType( ), AdminMessage.TYPE_ERROR );
+    }
+
+    /**
+     * Test when the portlet does not exist
+     * @throws AccessDeniedException should not happen
+     */
+    public void testDoModifyPortletStatusInexistantPortletID(  ) throws AccessDeniedException
+    {
+        AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
+        MokeHttpServletRequest request = new MokeHttpServletRequest( );
+        Portlet portlet = getPortlet( );
+        try
+        {
+            request.addMokeParameters( Parameters.PORTLET_ID, "31415925" );
+            request.addMokeParameters( PORTLET_STATUS, Integer.toString( Portlet.STATUS_PUBLISHED ) );
+            String url = bean.doModifyPortletStatus( request );
+            assertNotNull( url );
+            AdminMessage message = AdminMessageService.getMessage( request );
+            assertNotNull( message );
+            assertEquals( message.getType( ), AdminMessage.TYPE_ERROR );
+        } finally
+        {
+            removePortlet( portlet );
+        }
+    }
+
+    /**
+     * Test when the user does not have the right ro manage portlets
+     */
+    public void testDoModifyPortletStatusNoRight(  )
+    {
+        AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
+        MokeHttpServletRequest request = new MokeHttpServletRequest( );
+        Portlet portlet = getPortlet( );
+        try
+        {
+            request.addMokeParameters( Parameters.PORTLET_ID, Integer.toString( portlet.getId( ) ) );
+            request.addMokeParameters( PORTLET_STATUS, Integer.toString( Portlet.STATUS_PUBLISHED ) );
+            request.registerAdminUser( new AdminUser( ) );
+            bean.doModifyPortletStatus( request );
+            fail("Should not have been able to modify the portlet");
+        } catch (AccessDeniedException e)
+        {
+        } finally
+        {
+            removePortlet( portlet );
+        }
+    }
+
+    /**
+     * Test when all conditions are met
+     * @throws AccessDeniedException should not happen
+     */
+    public void testDoModifyPortletStatus(  ) throws AccessDeniedException
+    {
+        AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
+        MokeHttpServletRequest request = new MokeHttpServletRequest( );
+        Portlet portlet = null;
+        AdminUser user = null;
+        try
+        {
+            portlet = getPortlet( );
+            int nStatus = portlet.getStatus( );
+            int nNewStatus = nStatus == Portlet.STATUS_PUBLISHED ? Portlet.STATUS_UNPUBLISHED : Portlet.STATUS_PUBLISHED;
+            user = getAdminUser( );
+            request.addMokeParameters( Parameters.PORTLET_ID, Integer.toString( portlet.getId( ) ) );
+            request.addMokeParameters( PORTLET_STATUS, Integer.toString( nNewStatus ) );
+            request.registerAdminUser( user );
+            String url = bean.doModifyPortletStatus( request );
+            assertNotNull( url );
+            AdminMessage message = AdminMessageService.getMessage( request );
+            assertNull( message );
+            Portlet storedPortlet = PortletHome.findByPrimaryKey( portlet.getId( ) );
+            assertNotNull( storedPortlet );
+            assertEquals( nNewStatus, storedPortlet.getStatus( ) );
+        } finally
+        {
+            if ( portlet != null )
+            {
+                removePortlet( portlet );
+            }
+            if ( user != null )
+            {
+                removeUser( user );
+            }
+        }
+    }
+
+    /**
      * Get an admin user with a Role which can manage portlets
      * @return the admin user
      */
