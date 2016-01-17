@@ -200,7 +200,7 @@ public class AdminPagePortletJspBean extends AdminFeaturesPageJspBean
         {
             return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_ERROR);
         }
-        int nPortletId = Integer.valueOf( strPortletId );
+        int nPortletId = Integer.parseInt( strPortletId );
         Portlet portlet = null;
         try
         {
@@ -213,7 +213,7 @@ public class AdminPagePortletJspBean extends AdminFeaturesPageJspBean
         {
             return AdminMessageService.getMessageUrl( request, Messages.MESSAGE_INVALID_ENTRY, new Object[] { nPortletId }, AdminMessage.TYPE_ERROR);
         }
-        int nStatus = Integer.valueOf( strStatus );
+        int nStatus = Integer.parseInt( strStatus );
         if ( nStatus != Portlet.STATUS_PUBLISHED && nStatus != Portlet.STATUS_UNPUBLISHED )
         {
             return AdminMessageService.getMessageUrl( request, Messages.MESSAGE_INVALID_ENTRY, new Object[] { nStatus }, AdminMessage.TYPE_ERROR);
@@ -247,7 +247,7 @@ public class AdminPagePortletJspBean extends AdminFeaturesPageJspBean
         {
             return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_ERROR);
         }
-        int nPortletId = Integer.valueOf( strPortletId );
+        int nPortletId = Integer.parseInt( strPortletId );
         Portlet portlet = null;
         try
         {
@@ -260,7 +260,7 @@ public class AdminPagePortletJspBean extends AdminFeaturesPageJspBean
         {
             return AdminMessageService.getMessageUrl( request, Messages.MESSAGE_INVALID_ENTRY, new Object[] { nPortletId }, AdminMessage.TYPE_ERROR);
         }
-        int nStatus = Integer.valueOf( strStatus );
+        int nStatus = Integer.parseInt( strStatus );
         if ( nStatus != Portlet.STATUS_PUBLISHED && nStatus != Portlet.STATUS_UNPUBLISHED )
         {
             return AdminMessageService.getMessageUrl( request, Messages.MESSAGE_INVALID_ENTRY, new Object[] { nStatus }, AdminMessage.TYPE_ERROR);
