@@ -200,7 +200,7 @@ public class AdminPagePortletJspBean extends AdminFeaturesPageJspBean
         {
             return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_ERROR);
         }
-        int nPortletId = Integer.valueOf( strPortletId );
+        int nPortletId = Integer.parseInt( strPortletId );
         Portlet portlet = null;
         try
         {
@@ -247,7 +247,7 @@ public class AdminPagePortletJspBean extends AdminFeaturesPageJspBean
         {
             return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_ERROR);
         }
-        int nPortletId = Integer.valueOf( strPortletId );
+        int nPortletId = Integer.parseInt( strPortletId );
         Portlet portlet = null;
         try
         {
