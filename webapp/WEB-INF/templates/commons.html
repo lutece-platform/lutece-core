@@ -497,6 +497,17 @@
 	</div>
 </#macro>
 
+<#macro fieldStaticText i18nLabelKey cssClass='form-control' >
+	<div class="form-group">
+		<label class="col-xs-12 col-sm-3">#i18n{${i18nLabelKey}}&nbsp; :</label>
+		<div class="col-xs-12 col-sm-9">
+                    <p class="form-control-static">
+			<#nested>
+                    </p>
+		</div>
+	</div>
+</#macro>
+
 <#macro fieldInputCalendar i18nLabelKey inputName mandatory=false value="" i18nHelpBlockKey='' cssClass='form-control' language='fr'>
 	<div class="form-group">
 		<label class="col-xs-12 col-sm-3" for="${inputName}">#i18n{${i18nLabelKey}}&nbsp;<#if mandatory>*</#if>&nbsp;:</label>
