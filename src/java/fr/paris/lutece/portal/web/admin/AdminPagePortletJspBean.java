@@ -190,14 +190,36 @@ public class AdminPagePortletJspBean extends AdminFeaturesPageJspBean
      *
      * @param request The http request
      * @return The Jsp URL of the process result
+     * @throws AccessDeniedException if the user is not authorized to manage the portlet
      */
-    public String doRemovePortlet( HttpServletRequest request )
+    public String doRemovePortlet( HttpServletRequest request ) throws AccessDeniedException
     {
         String strPortletId = request.getParameter( Parameters.PORTLET_ID );
+        if ( !StringUtils.isNumeric( strPortletId ) )
+        {
+            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_ERROR);
+        }
         int nPortletId = Integer.parseInt( strPortletId );
+        Portlet portlet = null;
+        try
+        {
+            portlet = PortletHome.findByPrimaryKey( nPortletId );
+        } catch (NullPointerException e)
+        {
+            AppLogService.error( "Error looking for portlet with id " + nPortletId, e );
+        }
+        if ( portlet == null || portlet.getId( ) != nPortletId )
+        {
+            return AdminMessageService.getMessageUrl( request, Messages.MESSAGE_INVALID_ENTRY, new Object[] { nPortletId }, AdminMessage.TYPE_ERROR);
+        }
+        AdminUser user = AdminUserService.getAdminUser( request );
+        if ( !RBACService.isAuthorized( PortletType.RESOURCE_TYPE, portlet.getPortletTypeId(  ),
+                PortletResourceIdService.PERMISSION_MANAGE, user ) )
+        {
+            throw new AccessDeniedException( "User " + user + " is not authorized to permission " + PortletResourceIdService.PERMISSION_MANAGE
+                    + " on portlet " + nPortletId );
+        }
         ArrayList<String> listErrors = new ArrayList<String>(  );
-        Portlet portlet = PortletHome.findByPrimaryKey( nPortletId );
-        String strUrl = JSP_ADMIN_SITE + "?" + Parameters.PAGE_ID + "=" + portlet.getPageId(  );
         Locale locale = AdminUserService.getLocale( request );
 
         if ( PortletRemovalListenerService.getService(  ).checkForRemoval( strPortletId, listErrors, locale ) )
@@ -205,6 +227,7 @@ public class AdminPagePortletJspBean extends AdminFeaturesPageJspBean
             portlet.remove(  );
         }
 
+        String strUrl = JSP_ADMIN_SITE + "?" + Parameters.PAGE_ID + "=" + portlet.getPageId(  );
         return strUrl;
     }
 

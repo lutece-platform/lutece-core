@@ -489,6 +489,123 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
     }
 
     /**
+     * Test when no parameter given
+     * @throws AccessDeniedException should not happen
+     */
+    public void testDoRemovePortletNoParam(  ) throws AccessDeniedException
+    {
+        AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
+        MokeHttpServletRequest request = new MokeHttpServletRequest( );
+        String url = bean.doRemovePortlet( request );
+        assertNotNull( url );
+        AdminMessage message = AdminMessageService.getMessage( request );
+        assertNotNull( message );
+        assertEquals( message.getType( ), AdminMessage.TYPE_ERROR );
+    }
+
+    /**
+     * Test when the portlet_id is invalid
+     * @throws AccessDeniedException should not happen
+     */
+    public void testDoRemovePortletInvalidPortletID(  ) throws AccessDeniedException
+    {
+        AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
+        MokeHttpServletRequest request = new MokeHttpServletRequest( );
+        request.addMokeParameters( Parameters.PORTLET_ID, "NOT_NUMERIC" );
+        String url = bean.doRemovePortlet( request );
+        assertNotNull( url );
+        AdminMessage message = AdminMessageService.getMessage( request );
+        assertNotNull( message );
+        assertEquals( message.getType( ), AdminMessage.TYPE_ERROR );
+    }
+
+    /**
+     * Test when the portlet does not exist
+     * @throws AccessDeniedException should not happen
+     */
+    public void testDoRemovePortletInexistantPortletID(  ) throws AccessDeniedException
+    {
+        AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
+        MokeHttpServletRequest request = new MokeHttpServletRequest( );
+        Portlet portlet = getPortlet( );
+        try
+        {
+            request.addMokeParameters( Parameters.PORTLET_ID, "31415925" );
+            String url = bean.doRemovePortlet( request );
+            assertNotNull( url );
+            AdminMessage message = AdminMessageService.getMessage( request );
+            assertNotNull( message );
+            assertEquals( message.getType( ), AdminMessage.TYPE_ERROR );
+        } finally
+        {
+            removePortlet( portlet );
+        }
+    }
+
+    /**
+     * Test when the user does not have the right ro manage portlets
+     */
+    public void testDoRemovePortletNoRight(  )
+    {
+        AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
+        MokeHttpServletRequest request = new MokeHttpServletRequest( );
+        Portlet portlet = getPortlet( );
+        try
+        {
+            request.addMokeParameters( Parameters.PORTLET_ID, Integer.toString( portlet.getId( ) ) );
+            request.registerAdminUser( new AdminUser( ) );
+            bean.doRemovePortlet( request );
+            fail("Should not have been able to modify the portlet");
+        } catch (AccessDeniedException e)
+        {
+        } finally
+        {
+            removePortlet( portlet );
+        }
+    }
+
+    /**
+     * Test when all conditions are met
+     * @throws AccessDeniedException should not happen
+     */
+    public void testDoRemovePortlet(  ) throws AccessDeniedException
+    {
+        AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
+        MokeHttpServletRequest request = new MokeHttpServletRequest( );
+        Portlet portlet = null;
+        AdminUser user = null;
+        try
+        {
+            portlet = getPortlet( );
+            user = getAdminUser( );
+            request.addMokeParameters( Parameters.PORTLET_ID, Integer.toString( portlet.getId( ) ) );
+            request.registerAdminUser( user );
+            String url = bean.doRemovePortlet( request );
+            assertNotNull( url );
+            AdminMessage message = AdminMessageService.getMessage( request );
+            assertNull( message );
+            try
+            {
+                portlet = PortletHome.findByPrimaryKey( portlet.getId( ) );
+                fail("Portlet was not removed");
+            } catch (NullPointerException e)
+            {
+                portlet = null;
+            }
+        } finally
+        {
+            if ( portlet != null )
+            {
+                removePortlet( portlet );
+            }
+            if ( user != null )
+            {
+                removeUser( user );
+            }
+        }
+    }
+
+    /**
      * Get an admin user with a Role which can manage portlets
      * @return the admin user
      */
@@ -584,6 +701,7 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
         @Override
         public void remove( )
         {
+            new TestPortletHome( ).remove( this );;
         }
 
     }
