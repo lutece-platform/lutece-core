@@ -33,16 +33,16 @@
  */
 package fr.paris.lutece.util.http;
 
-import fr.paris.lutece.test.MokeHttpServletRequest;
-import static org.junit.Assert.*;
-
 import org.junit.Test;
+
+import fr.paris.lutece.test.LuteceTestCase;
+import fr.paris.lutece.test.MokeHttpServletRequest;
 
 
 /**
  *
  */
-public class SecurityUtilTest
+public class SecurityUtilTest extends LuteceTestCase
 {
     /**
      * Test of containsCleanParameters method, of class SecurityUtil.
@@ -61,24 +61,28 @@ public class SecurityUtilTest
         assertTrue( SecurityUtil.containsCleanParameters( request ) );
 
         request.addMokeParameters( "param4", "%" );
-        assertFalse( SecurityUtil.containsCleanParameters( request ) );
+        assertTrue( SecurityUtil.containsCleanParameters( request ) );
         request.addMokeParameters( "param4", ">" );
         assertFalse( SecurityUtil.containsCleanParameters( request ) );
         request.addMokeParameters( "param4", "<" );
         assertFalse( SecurityUtil.containsCleanParameters( request ) );
-        request.addMokeParameters( "param4", ";" );
+        request.addMokeParameters( "param4", "#" );
         assertFalse( SecurityUtil.containsCleanParameters( request ) );
+        request.addMokeParameters( "param4", "\"" );
+        assertFalse( SecurityUtil.containsCleanParameters( request ) );
+        request.addMokeParameters( "param4", ";" );
+        assertTrue( SecurityUtil.containsCleanParameters( request ) );
         request.addMokeParameters( "param4", "&" );
-        assertFalse( SecurityUtil.containsCleanParameters( request ) );
+        assertTrue( SecurityUtil.containsCleanParameters( request ) );
         request.addMokeParameters( "param4", "[" );
-        assertFalse( SecurityUtil.containsCleanParameters( request ) );
+        assertTrue( SecurityUtil.containsCleanParameters( request ) );
         request.addMokeParameters( "param4", "]" );
-        assertFalse( SecurityUtil.containsCleanParameters( request ) );
+        assertTrue( SecurityUtil.containsCleanParameters( request ) );
         request.addMokeParameters( "param4", ";" );
-        assertFalse( SecurityUtil.containsCleanParameters( request ) );
+        assertTrue( SecurityUtil.containsCleanParameters( request ) );
         request.addMokeParameters( "param4", "{" );
-        assertFalse( SecurityUtil.containsCleanParameters( request ) );
+        assertTrue( SecurityUtil.containsCleanParameters( request ) );
         request.addMokeParameters( "param4", "}" );
-        assertFalse( SecurityUtil.containsCleanParameters( request ) );
+        assertTrue( SecurityUtil.containsCleanParameters( request ) );
     }
 }
