@@ -96,6 +96,10 @@ public final class SecurityService
             {
                 _bEnable = true;
             }
+        } else
+        {
+            // in case authentication is disabled after having been enabled
+            _authenticationService = null;
         }
     }
 
