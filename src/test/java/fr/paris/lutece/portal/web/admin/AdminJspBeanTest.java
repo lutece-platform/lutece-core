@@ -113,8 +113,9 @@ public class AdminJspBeanTest extends LuteceTestCase
     }
 
     @Override
-    public void tearDown( )
+    public void tearDown( ) throws Exception
     {
         LocalVariables.setLocal( null, null, null );
+        super.tearDown( );
     }
 }
