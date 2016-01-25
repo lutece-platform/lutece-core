@@ -1,5 +1,39 @@
 <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12">
+        <@rowBoxHeader i18nTitleKey="portal.system.manage_plugins.titleCorePlugin">
+           <div class="col-md-4 plugins">
+               <div id="plugin_${core.name}_${core.version}" data-plugin="${core.name}" class="box plugin-box plugin">
+                   <div class="box-header">
+                       <h2 class="box-title">
+                           <a name="${core.name}" href="javascript:return false;">
+                               <img src="${core.iconUrl}" alt="logo" title="${core.name}" class="thumbnails thumb-list">
+                           </a>
+                           ${core.name}
+                       </h2>
+                   </div>
+                   <div class="box-body">
+                       <p>#i18n{portal.system.manage_plugins.labelVersion}: ${core.version}</p>
+                       <p>#i18n{${core.description}}</p>
+                       <p>
+                           <i class="glyphicon glyphicon-user"></i>&nbsp;
+                           <em>#i18n{portal.system.manage_plugins.labelAuthor} : #i18n{${core.provider}}</em>&nbsp;
+                       </p>
+                       <p>
+                           <i class="glyphicon glyphicon-globe"></i>&nbsp;
+                           <em>#i18n{portal.system.manage_plugins.labelAuthorUrl} : <a href="${core.providerUrl}" target="_blank">${core.providerUrl}</a></em>
+                       </p>
+
+                   </div><!-- /.box-body -->
+                   <div class="box-footer">
+                        <form method="post" class="form-inline pull-right" action="jsp/admin/system/ViewPluginDescription.jsp?plugin_name=${core.name}">
+                           <button type="submit" class="btn btn-primary btn-sm btn-flat spaced" title="#i18n{portal.system.manage_plugins.actionDisplay}">
+                               <i class="glyphicon glyphicon-info-sign"></i>
+                           </button>
+                       </form>
+                   </div><!-- /.box-footer-->
+               </div>
+           </div>
+        </@rowBoxHeader>
         <div class="box box-danger">
             <div class="box-header">
                 <h3 class="box-title">Liste des plugins</h3>
