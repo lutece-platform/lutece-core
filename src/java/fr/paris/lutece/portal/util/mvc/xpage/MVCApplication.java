@@ -93,7 +93,7 @@ public abstract class MVCApplication implements XPageApplication
     private static final String URL_PORTAL = "Portal.jsp";
     private static final String PATH_PORTAL = "jsp/site/";
     private static final String VIEW_MESSAGEBOX = "messageBox";
-    private static final String CONTENT_TYPE_JSON = "application/json";
+    private static final String CONTENT_TYPE_JSON_UTF8 = "application/json; charset=UTF-8";
     private static final String CONTENT_TYPE_XML = "application/xml";
     private static Logger _logger = MVCUtils.getLogger(  );
     private List<ErrorMessage> _listErrors = new ArrayList<ErrorMessage>(  );
@@ -647,11 +647,11 @@ public abstract class MVCApplication implements XPageApplication
     protected XPage responseJSON( String strJSON )
     {
         HttpServletResponse response = LocalVariables.getResponse(  );
-        response.setContentType( CONTENT_TYPE_JSON );
+        response.setContentType( CONTENT_TYPE_JSON_UTF8 );
 
         try
         {
-            ServletOutputStream out = response.getOutputStream(  );
+            PrintWriter out = response.getWriter(  );
             out.print( strJSON );
             out.flush(  );
             out.close(  );
