@@ -5,8 +5,8 @@
 <%@ page buffer="1024kb" %>
 <%@ page autoFlush="false" %>
 <%
-response.setHeader("Cache-Control","no-cache"); 
-response.setHeader("Pragma","no-cache"); 
+response.setHeader("Cache-Control","no-cache");
+response.setHeader("Pragma","no-cache");
 response.setDateHeader ("Expires", 0);
 %>
 <jsp:useBean id="adminMenu" scope="session" class="fr.paris.lutece.portal.web.admin.AdminMenuJspBean" />
@@ -45,6 +45,5 @@ response.setDateHeader ("Expires", 0);
 -->
 <script src="js/jquery/jquery.min.js"></script>
 </head>
-<body class="skin-blue-light hold-transition sidebar-mini" data-spy="scroll" data-target="#scrollspy">
 <%-- Display the admin menu --%>
 <%= adminMenu.getAdminMenuHeader( request ) %>

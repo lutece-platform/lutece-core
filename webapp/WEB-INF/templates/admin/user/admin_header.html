@@ -1,30 +1,39 @@
+<body class="skin-blue-light hold-transition sidebar-mini" data-spy="scroll" data-target="#scrollspy">
 <div class="wrapper">
   <header class="main-header" role="banner" data-menu="${menu_pos}">
     <nav class="navbar navbar-fixed-top" role="navigation">
         <div class="navbar-header">
-            <a href="jsp/site/Portal.jsp" title="#i18n{portal.users.admin_header.title.viewSite} ${site_name}" target="_blank" class="navbar-brand">
-              <#if site_name?upper_case="LUTECE">
-                <img src="images/logo.png" class="img-responsive"  title="#i18n{portal.users.admin_header.title.viewSite} ${site_name}" alt="${site_name}"><#else><img src="images/logo-header-icon.png" class="img-responsive" title="#i18n{portal.users.admin_header.title.viewSite} ${site_name}" alt="${site_name}"><b> <#if site_name?length &gt; 18> ${site_name?substring(0,16)}... <#else> ${site_name}</#if></b>
-              </#if>
-            </a>
-              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
-              <i class="fa fa-bars"></i>
-            </button>
+          <a href="jsp/site/Portal.jsp" title="#i18n{portal.users.admin_header.title.viewSite} ${site_name}" target="_blank" class="navbar-brand">
+            <img src="#dskey{portal.site.site_property.logo_url}" class="img-responsive"  title="#i18n{portal.users.admin_header.title.viewSite} ${site_name}" alt="${site_name}"><b> <#if site_name?length &gt; 18> ${site_name?substring(0,16)}... <#else> ${site_name}</#if></b>
+          </a>
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
+            <i class="fa fa-bars"></i>
+          </button>
         </div>
         <div class="collapse navbar-collapse" id="navbar-collapse">
           <ul id="top" class="nav navbar-nav">
             <#list feature_group_list as feature_group>
-              <li class="dropdown tasks-menu">
-                <a data-toggle="dropdown" class="dropdown-toggle" id="dLabel${feature_group.id}Header" href="${admin_url}#${feature_group.id}">${feature_group.label} <b class="caret"></b></a>
-                <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel${feature_group.id}Header">
-                  <#list feature_group.features as feature>
-                    <li class="menu">
+               <#if feature_group.features?size &gt; 1>
+                 <li class="dropdown tasks-menu">
+                   <a data-toggle="dropdown" class="dropdown-toggle" id="dLabel${feature_group.id}Header" href="${admin_url}#${feature_group.id}">
+                       ${feature_group.label} <b class="caret"></b>
+                   </a>
+                   <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel${feature_group.id}Header">
+                     <#list feature_group.features as feature>
+                       <li class="menu">
+                         <a href="${feature.url}?plugin_name=${feature.pluginName}">${feature.name}</a>
+                       </li>
+                     </#list>
+                   </ul>
+                 </li>
+               <#else>
+                 <#list feature_group.features as feature>
+                   <li>
                       <a href="${feature.url}?plugin_name=${feature.pluginName}">${feature.name}</a>
                     </li>
-                  </#list>
-                </ul>
-              </li>
-            </#list>
+                   </#list>
+                 </#if>
+           </#list>
           </ul>
           <ul class="nav navbar-nav navbar-right user">
             <li class="home">
@@ -32,11 +41,7 @@
             </li>
             <li class="dropdown user-menu">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" id="dLabelUserHeader">
-                <#if adminAvatar>
-                    <img src="servlet/plugins/adminavatar/avatar?id_user=${user.userId}" id="admin-avatar" class="user-image" alt="User's avatar">
-                <#else>
-                    <img src="#dskey{portal.site.site_property.avatar_default}" id="admin-avatar" class="user-image" alt="User's avatar">
-                </#if>    
+                <img src="#dskey{portal.site.site_property.avatar_default}" id="admin-avatar" class="user-image" alt="User Image">
                 <span id="zone4" class="hidden-sm hidden-md"> ${dashboard_zone_4}<i class="caret"></i></span>
               </a>
               <ul class="dropdown-menu" role="menu" aria-labelledby="dLabelUserHeader">
@@ -88,14 +93,6 @@
                     </a>
                   </li>
                 </#if>
-                <!--
-                <li class="divider"></li>
-                <#if admin_logout_url?has_content>
-                  <li>
-                    <a href="${admin_logout_url}"><i class="fa fa-sign-out fa-fw"></i> #i18n{portal.users.admin_header.deconnectionLink}</a>
-                  </li>
-                </#if>
-              -->
               </ul>
             </li>
             <#if admin_logout_url?has_content>
@@ -116,28 +113,4 @@
   </header>
   <!-- Wrapper -->
   <div id="admin-wrapper">
-    <!-- Canvas/Menu -->
-    <div id="canvas">
-      <div id="nav">
-        <h2 id="title"><i class="fa fa-sitemap"></i> MENU
-          <span class="pull-right fa fa-minus-square"></span>
-        </h2>
-        <ul id="toggle">
-          <#list feature_group_list as feature_group>
-            <li>
-              <div>
-                <a href="#">${feature_group.label} </a>
-                <span class="the-btn fa fa-plus"></span>
-              </div>
-              <ul>
-                <#list feature_group.features as feature>
-                  <li>
-                    <span class="fa fa-angle-right"></span> <a href="${feature.url}?plugin_name=${feature.pluginName}">${feature.name}</a>
-                  </li>
-                </#list>
-              </ul>
-            </li>
-          </#list>
-        </ul>
-      </div>
       <!-- Close in footer -->
