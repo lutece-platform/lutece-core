@@ -41,7 +41,11 @@
             </li>
             <li class="dropdown user-menu">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" id="dLabelUserHeader">
-                <img src="#dskey{portal.site.site_property.avatar_default}" id="admin-avatar" class="user-image" alt="User Image">
+                <#if adminAvatar> 
+					<img src="servlet/plugins/adminavatar/avatar?id_user=${user.userId}" id="admin-avatar" class="user-image" alt="User's avatar"> 
+				<#else> 
+					<img src="#dskey{portal.site.site_property.avatar_default}" id="admin-avatar" class="user-image" alt="User's avatar"> 
+				</#if>     
                 <span id="zone4" class="hidden-sm hidden-md"> ${dashboard_zone_4}<i class="caret"></i></span>
               </a>
               <ul class="dropdown-menu" role="menu" aria-labelledby="dLabelUserHeader">
