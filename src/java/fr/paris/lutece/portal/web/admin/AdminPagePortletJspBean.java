@@ -166,8 +166,9 @@ public class AdminPagePortletJspBean extends AdminFeaturesPageJspBean
         String strTarget = "_top";
         if ( PortletHome.hasAlias( nPortletId ) )
         {
-            return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_WARNING_PORTLET_ALIAS, strUrl,
-                strTarget, AdminMessage.TYPE_CONFIRMATION );
+            return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_WARNING_PORTLET_ALIAS,
+                    new Object[] { portlet.getName( ) },
+                    null, strUrl, strTarget, AdminMessage.TYPE_CONFIRMATION );
         }
 
         ArrayList<String> listErrors = new ArrayList<String>(  );
@@ -175,14 +176,15 @@ public class AdminPagePortletJspBean extends AdminFeaturesPageJspBean
         if ( !PortletRemovalListenerService.getService(  ).checkForRemoval( strPortletId, listErrors, locale ) )
         {
             String strCause = AdminMessageService.getFormattedList( listErrors, locale );
-            Object[] args = { strCause };
+            Object[] args = { strCause, portlet.getName( ) };
 
             return AdminMessageService.getMessageUrl( request, MESSAGE_CANNOT_REMOVE_PORTLET, args,
                 MESSAGE_CANNOT_REMOVE_PORTLET_TITLE, strUrl, strTarget, AdminMessage.TYPE_STOP );
         }
 
-        return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_CONFIRM_REMOVE_PORTLET, strUrl, strTarget,
-            AdminMessage.TYPE_CONFIRMATION );
+        return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_CONFIRM_REMOVE_PORTLET,
+                new Object[] { portlet.getName( ) }, null, strUrl, strTarget,
+                AdminMessage.TYPE_CONFIRMATION );
     }
 
     /**
