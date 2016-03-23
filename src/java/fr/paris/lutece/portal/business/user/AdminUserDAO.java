@@ -837,7 +837,7 @@ public class AdminUserDAO implements IAdminUserDAO
 
         if ( auFilter.getStatus(  ) != -1 )
         {
-            daoUtil.setInt( 5, auFilter.getStatus(  ) );
+            daoUtil.setInt( 4, auFilter.getStatus(  ) );
 
             if ( auFilter.getUserLevel(  ) != -1 )
             {
