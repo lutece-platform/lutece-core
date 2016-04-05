@@ -34,6 +34,7 @@
 package fr.paris.lutece.util.pool.service;
 
 import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import java.sql.Connection;
@@ -98,7 +99,11 @@ public class LuteceConnectionProxy implements InvocationHandler
         }
         else
         {
-            oReturn = method.invoke( _connection, args );
+            try {
+                oReturn = method.invoke( _connection, args );
+            } catch (InvocationTargetException e) {
+                throw e.getCause();
+            }
         }
 
         return oReturn;
