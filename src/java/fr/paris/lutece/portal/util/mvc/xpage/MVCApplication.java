@@ -651,7 +651,7 @@ public abstract class MVCApplication implements XPageApplication
 
         try
         {
-            ServletOutputStream out = response.getOutputStream(  );
+            PrintWriter out = response.getWriter(  );
             out.print( strJSON );
             out.flush(  );
             out.close(  );
@@ -676,7 +676,7 @@ public abstract class MVCApplication implements XPageApplication
 
         try
         {
-            ServletOutputStream out = response.getOutputStream(  );
+            PrintWriter out = response.getWriter(  );
             out.print( strXML );
             out.flush(  );
             out.close(  );

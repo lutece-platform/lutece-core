@@ -70,6 +70,7 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
     private static final long serialVersionUID = -9058113426951331118L;
     private static final String TEMPLATE_MANAGE_PLUGINS = "admin/system/manage_plugins.html";
     private static final String MARK_PLUGINS_LIST = "plugins_list";
+    private static final String MARK_CORE = "core";
     private static final String MARK_POOLS_LIST = "pools_list";
     private static final String MARK_FILTER_LIST = "filter_list";
     private static final String MARK_CURRENT_FILTER = "current_filter";
@@ -107,6 +108,7 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
         Collection<Plugin> listPlugins = PluginService.getPluginList(  );
         HashMap<String, Object> model = new HashMap<String, Object>(  );
         model.put( MARK_PLUGINS_LIST, filterPluginsList( listPlugins, strPluginTypeFilter ) );
+        model.put( MARK_CORE, PluginService.getCore( ) );
         model.put( MARK_POOLS_LIST, getPoolsList(  ) );
         model.put( MARK_FILTER_LIST, getPluginTypeFilterList( locale ) );
         model.put( MARK_CURRENT_FILTER, ( strPluginTypeFilter != null ) ? strPluginTypeFilter : "" );
@@ -240,7 +242,14 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
     public String getPluginDescription( HttpServletRequest request )
     {
         String strPluginName = request.getParameter( PARAM_PLUGIN_NAME );
-        Plugin plugin = PluginService.getPlugin( strPluginName );
+        Plugin plugin;
+        if ( PluginService.getCore( ).getName( ).equals( strPluginName ) )
+        {
+            plugin = PluginService.getCore( );
+        } else
+        {
+            plugin = PluginService.getPlugin( strPluginName );
+        }
 
         // set the locale for the feature labels
         I18nService.localizeCollection( plugin.getRights(  ), getLocale(  ) );

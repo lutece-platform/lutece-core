@@ -40,6 +40,7 @@ import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.util.AppException;
+import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.sql.TransactionManager;
 
@@ -232,6 +233,34 @@ public final class WorkflowService
     {
         return isAvailable(  )
         ? _provider.getDisplayDocumentHistory( nIdResource, strResourceType, nIdWorkflow, request, locale ) : null;
+    }
+
+    /**
+     * returns the actions history performed on a resource
+     * @param nIdResource the resource id
+     * @param strResourceType the resource type
+     * @param request the request
+     * @param nIdWorkflow the workflow id
+     * @param locale the locale
+     * @param strTemplate The template
+     * @return the history of actions performed on a resource
+     */
+    public String getDisplayDocumentHistory( int nIdResource, String strResourceType, int nIdWorkflow,
+        HttpServletRequest request, Locale locale, String strTemplate )
+    {
+        if( ! isAvailable() )
+        {
+            return null;
+        }
+        try
+        {
+            return _provider.getDisplayDocumentHistory( nIdResource, strResourceType, nIdWorkflow, request, locale, strTemplate );
+        }
+        catch( NoSuchMethodError ex )
+        {
+            AppLogService.error( "You are using a too old Workflow provider version. Please upgrade.");
+            return _provider.getDisplayDocumentHistory( nIdResource, strResourceType, nIdWorkflow, request, locale );
+        }
     }
 
     /**

@@ -87,6 +87,20 @@ public interface IWorkflowProvider
         HttpServletRequest request, Locale locale );
 
     /**
+     * returns the  actions history performed on a resource.
+     *
+     * @param nIdResource the resource id
+     * @param strResourceType the resource type
+     * @param nIdWorkflow the workflow id
+     * @param request the request
+     * @param locale the locale
+     * @param strTemplate The template
+     * @return the history of actions performed on a resource
+     */
+    String getDisplayDocumentHistory( int nIdResource, String strResourceType, int nIdWorkflow,
+        HttpServletRequest request, Locale locale, String strTemplate );
+
+    /**
      * returns a xml wich contains the  actions history performed on a resource.
      *
      * @param nIdResource the resource id

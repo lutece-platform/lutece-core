@@ -105,6 +105,7 @@ public class AdminMenuJspBean implements Serializable
     private static final String MARK_JAVASCRIPT_FILE = "javascript_file";
     private static final String MARK_JAVASCRIPT_FILES = "javascript_files";
     private static final String MARK_PLUGIN_NAME = "plugin_name";
+    private static final String MARK_ADMIN_AVATAR = "adminAvatar";
 
     // Templates
     private static final String TEMPLATE_ADMIN_HOME = "admin/user/admin_home.html";
@@ -130,8 +131,10 @@ public class AdminMenuJspBean implements Serializable
     private static final String PASSWORD_ERROR = "portal.users.message.password.wrong.current";
     private static final String PASSWORD_CURRENT_ERROR = "portal.users.message.password.new.equals.current";
     private static final String MESSAGE_PASSWORD_REDIRECT = "portal.users.message.password.ok.redirect";
+    
     private static String _strStylesheets;
     private static String _strJavascripts;
+    private boolean _bAdminAvatar = PluginService.isPluginEnable( "adminavatar" );
 
     /**
      * Returns the Administration header menu
@@ -167,6 +170,8 @@ public class AdminMenuJspBean implements Serializable
 
         int nZoneMax = AppPropertiesService.getPropertyInt( PROPERTY_DASHBOARD_ZONES, PROPERTY_DASHBOARD_ZONES_DEFAULT );
         setDashboardData( model, user, request, nZoneMax );
+        
+        model.put( MARK_ADMIN_AVATAR , _bAdminAvatar );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_MENU_HEADER, user.getLocale(  ), model );
 

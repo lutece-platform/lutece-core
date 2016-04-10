@@ -327,6 +327,8 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     private static final String MARK_LIST_XSL_EXPORT = "refListXsl";
     private static final String MARK_DEFAULT_VALUE_WORKGROUP_KEY = "workgroup_key_default_value";
     private static final String MARK_WORKGROUP_KEY_LIST = "workgroup_key_list";
+    private static final String MARK_ADMIN_AVATAR = "adminAvatar";
+    
     private static final String CONSTANT_EMAIL_TYPE_FIRST = "first";
     private static final String CONSTANT_EMAIL_TYPE_OTHER = "other";
     private static final String CONSTANT_EMAIL_TYPE_EXPIRED = "expired";
@@ -344,7 +346,10 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     private static final String CONSTANT_ATTACHEMENT_FILE_NAME = "attachement; filename=\"";
     private static final String CONSTANT_ATTACHEMENT_DISPOSITION = "Content-Disposition";
     private static final String CONSTANT_XML_USERS = "users";
+    
     private static ImportAdminUserService _importAdminUserService = new ImportAdminUserService(  );
+    private boolean _bAdminAvatar = PluginService.isPluginEnable( "adminavatar" );
+    
     private int _nItemsPerPage;
     private int _nDefaultItemsPerPage;
     private String _strCurrentPageIndex;
@@ -451,6 +456,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         model.put( MARK_USER_CREATION_URL, strCreateUrl );
         model.put( MARK_PERMISSION_ADVANCED_PARAMETER, bPermissionAdvancedParameter );
         model.put( MARK_PERMISSION_IMPORT_EXPORT_USERS, bPermissionImportExportUsers );
+        model.put( MARK_ADMIN_AVATAR , _bAdminAvatar );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_USERS, getLocale(  ), model );
 

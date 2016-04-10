@@ -52,6 +52,8 @@ import fr.paris.lutece.portal.service.includes.PageIncludeService;
 import fr.paris.lutece.portal.service.message.SiteMessageException;
 import fr.paris.lutece.portal.service.page.IPageService;
 import fr.paris.lutece.portal.service.plugin.PluginService;
+import fr.paris.lutece.portal.service.security.LuteceUser;
+import fr.paris.lutece.portal.service.security.SecurityService;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppPathService;
@@ -113,6 +115,7 @@ public final class PortalService
     private static final String PLUGIN_CONTACT_NAME = "contact";
     private static final String MARK_IS_EXTEND_INSTALLED = "isExtendInstalled";
     private static final String MARK_IS_CONTACT_INSTALLED = "isContactInstalled";
+    private static final String MARK_LUTECE_USER = "lutece_user";
     private static final String TARGET_TOP = "target='_top'";
     private static final String BOOKMARK_BASE_URL = "@base_url@";
 
@@ -287,12 +290,18 @@ public final class PortalService
     {
         Locale locale = null;
         HashMap<String, Object> model = new HashMap<String, Object>(  );
+        LuteceUser user = null;
         String strWebmasterEmail = DatastoreService.getDataValue( KEY_WEBMASTER_EMAIL, "" );
         model.put( Markers.WEBMASTER_EMAIL, strWebmasterEmail );
 
         if ( request != null )
         {
             locale = LocaleService.getUserSelectedLocale( request );
+            user = SecurityService.getInstance(  ).getRegisteredUser( request );
+            if ( nMode != MODE_ADMIN) 
+            {
+            	  model.put( MARK_LUTECE_USER, user );
+            }
         }
 
         List<PageInclude> listIncludes = PageIncludeService.getIncludes(  );
@@ -322,7 +331,7 @@ public final class PortalService
         model.put( Markers.PAGE_PATH, ( data.getPagePath(  ) == null ) ? "" : data.getPagePath(  ) );
         model.put( Markers.PAGE_TOOLS_MENU, tToolsMenu.getHtml(  ) );
         model.put( Markers.PAGE_ID, nCurrentPageId );
-
+        
         model.put( Markers.PAGE_FOOTER, tFooter.getHtml(  ) );
 
         String strBaseUrl = ( request != null ) ? AppPathService.getBaseUrl( request ) : ""; // request could be null (method called by daemons or batch)

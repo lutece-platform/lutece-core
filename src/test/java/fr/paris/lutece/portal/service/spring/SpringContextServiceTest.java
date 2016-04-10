@@ -59,14 +59,15 @@ public class SpringContextServiceTest extends LuteceTestCase
         assertTrue( LuteceDefaultAdminAuthentication.class.isInstance( result ) );
     }
 
-    public void testInit(  ) throws LuteceInitException
+    public void testInit(  )
     {
         System.out.println( "init" );
-        SpringContextService.init( null );
-
-        for ( String name : SpringContextService.getContext(  ).getBeanDefinitionNames(  ) )
+        try
         {
-            System.out.println( name );
+            SpringContextService.init( null );
+            fail( "cannot init SpringContextService twice" );
+        } catch ( LuteceInitException e )
+        {
         }
     }
 

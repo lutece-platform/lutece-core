@@ -39,6 +39,7 @@ import java.io.File;
 import java.io.IOException;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 
@@ -47,9 +48,9 @@ public class FileSystemUtilTest extends LuteceTestCase
     public void testGetSubDirectories(  ) throws DirectoryNotFoundException, IOException
     {
         //Create a base folder named Folder
-        String strTempDirectoryPath = System.getProperty( "java.io.tmpdir" );
+        String strTempDirectoryPath = System.getProperty( "java.io.tmpdir" ) + File.separator;
         String strFolderName = "Folder";
-        String strFolderPath = strTempDirectoryPath + File.separator + strFolderName;
+        String strFolderPath = strTempDirectoryPath + strFolderName;
         File fileFolder = new File( strFolderPath );
         fileFolder.mkdir(  );
 
@@ -66,7 +67,7 @@ public class FileSystemUtilTest extends LuteceTestCase
         expectedList.add( fileFolder2 );
 
         List result = FileSystemUtil.getSubDirectories( strTempDirectoryPath, strDirectory );
-        assertEquals( expectedList, result );
+        assertEquals( new HashSet(expectedList), new HashSet(result) );
 
         // try a bad directory
         boolean bCatchedException = false;

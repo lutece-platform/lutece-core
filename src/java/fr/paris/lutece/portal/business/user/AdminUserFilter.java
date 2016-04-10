@@ -135,24 +135,6 @@ public class AdminUserFilter implements Serializable
     }
 
     /**
-     * Get the first name
-     * @return The first name
-     */
-    public String getFirstName(  )
-    {
-        return _strFirstName;
-    }
-
-    /**
-     * Set the first name
-     * @param strFirstName The First Name
-     */
-    public void setFirstName( String strFirstName )
-    {
-        _strFirstName = strFirstName;
-    }
-
-    /**
      * Get the email
      * @return The email
      */
@@ -221,7 +203,6 @@ public class AdminUserFilter implements Serializable
             bIsSearch = true;
             _strAccessCode = request.getParameter( PARAMETER_SEARCH_ACCESS_CODE );
             _strLastName = request.getParameter( PARAMETER_SEARCH_LAST_NAME );
-            _strFirstName = request.getParameter( PARAMETER_SEARCH_FIRST_NAME );
             _strEmail = request.getParameter( PARAMETER_SEARCH_EMAIL );
 
             String strStatus = request.getParameter( PARAMETER_SEARCH_STATUS );
@@ -236,7 +217,7 @@ public class AdminUserFilter implements Serializable
                 setStatus( Integer.valueOf( strStatus ) );
             }
 
-            if ( CONSTANT_DEFAULT_LEVEL.equals( strUserLevel ) || CONSTANT_LEAST_ONE.equals( strUserLevel ) )
+            if ( (strUserLevel == null) || CONSTANT_DEFAULT_LEVEL.equals( strUserLevel ) || CONSTANT_LEAST_ONE.equals( strUserLevel ) )
             {
                 setUserLevel( -1 );
             }
@@ -269,8 +250,6 @@ public class AdminUserFilter implements Serializable
                 URLEncoder.encode( _strAccessCode, AppPropertiesService.getProperty( PROPERTY_ENCODING_URL ) ) );
             url.addParameter( PARAMETER_SEARCH_LAST_NAME,
                 URLEncoder.encode( _strLastName, AppPropertiesService.getProperty( PROPERTY_ENCODING_URL ) ) );
-            url.addParameter( PARAMETER_SEARCH_FIRST_NAME,
-                URLEncoder.encode( _strFirstName, AppPropertiesService.getProperty( PROPERTY_ENCODING_URL ) ) );
             url.addParameter( PARAMETER_SEARCH_EMAIL,
                 URLEncoder.encode( _strEmail, AppPropertiesService.getProperty( PROPERTY_ENCODING_URL ) ) );
         }
@@ -297,8 +276,6 @@ public class AdminUserFilter implements Serializable
                 URLEncoder.encode( _strAccessCode, AppPropertiesService.getProperty( PROPERTY_ENCODING_URL ) ) );
             sbUrlAttributes.append( CONSTANT_AMPERSAND + PARAMETER_SEARCH_LAST_NAME + CONSTANT_EQUAL +
                 URLEncoder.encode( _strLastName, AppPropertiesService.getProperty( PROPERTY_ENCODING_URL ) ) );
-            sbUrlAttributes.append( CONSTANT_AMPERSAND + PARAMETER_SEARCH_FIRST_NAME + CONSTANT_EQUAL +
-                URLEncoder.encode( _strFirstName, AppPropertiesService.getProperty( PROPERTY_ENCODING_URL ) ) );
             sbUrlAttributes.append( CONSTANT_AMPERSAND + PARAMETER_SEARCH_EMAIL + CONSTANT_EQUAL +
                 URLEncoder.encode( _strEmail, AppPropertiesService.getProperty( PROPERTY_ENCODING_URL ) ) );
         }
