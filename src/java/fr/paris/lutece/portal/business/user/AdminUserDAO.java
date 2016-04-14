@@ -841,14 +841,14 @@ public class AdminUserDAO implements IAdminUserDAO
 
             if ( auFilter.getUserLevel(  ) != -1 )
             {
-                daoUtil.setInt( 6, auFilter.getUserLevel(  ) );
+                daoUtil.setInt( 5, auFilter.getUserLevel(  ) );
             }
         }
         else
         {
             if ( auFilter.getUserLevel(  ) != -1 )
             {
-                daoUtil.setInt( 5, auFilter.getUserLevel(  ) );
+                daoUtil.setInt( 4, auFilter.getUserLevel(  ) );
             }
         }
 
