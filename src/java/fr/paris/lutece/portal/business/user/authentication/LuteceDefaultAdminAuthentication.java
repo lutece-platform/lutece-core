@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2015, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -38,9 +38,12 @@ import fr.paris.lutece.portal.business.user.log.UserLog;
 import fr.paris.lutece.portal.business.user.log.UserLogHome;
 import fr.paris.lutece.portal.service.admin.AdminUserService;
 import fr.paris.lutece.util.http.SecurityUtil;
+import fr.paris.lutece.util.password.IPassword;
+import fr.paris.lutece.util.password.IPasswordFactory;
 
 import java.util.Collection;
 
+import javax.inject.Inject;
 import javax.security.auth.login.FailedLoginException;
 import javax.security.auth.login.LoginException;
 
@@ -57,6 +60,9 @@ public class LuteceDefaultAdminAuthentication implements AdminAuthentication
     private static final String PROPERTY_MAX_ACCESS_FAILED = "access_failures_max";
     private static final String PROPERTY_INTERVAL_MINUTES = "access_failures_interval";
     private ILuteceDefaultAdminUserDAO _dao;
+
+    @Inject
+    private IPasswordFactory _passwordFactory;
 
     /**
      * Setter used by Spring IoC
@@ -92,18 +98,18 @@ public class LuteceDefaultAdminAuthentication implements AdminAuthentication
     public AdminUser login( String strAccessCode, String strUserPassword, HttpServletRequest request )
         throws LoginException
     {
-        // Creating a record of connections log
-        UserLog userLog = new UserLog(  );
-        userLog.setAccessCode( strAccessCode );
-        userLog.setIpAddress( SecurityUtil.getRealIp( request ) );
-        userLog.setDateLogin( new java.sql.Timestamp( new java.util.Date(  ).getTime(  ) ) );
-
         // Test the number of errors during an interval of minutes
         int nMaxFailed = AdminUserService.getIntegerSecurityParameter( PROPERTY_MAX_ACCESS_FAILED );
         int nIntervalMinutes = AdminUserService.getIntegerSecurityParameter( PROPERTY_INTERVAL_MINUTES );
 
         if ( ( nMaxFailed > 0 ) && ( nIntervalMinutes > 0 ) )
         {
+            // Creating a record of connections log
+            UserLog userLog = new UserLog(  );
+            userLog.setAccessCode( strAccessCode );
+            userLog.setIpAddress( SecurityUtil.getRealIp( request ) );
+            userLog.setDateLogin( new java.sql.Timestamp( new java.util.Date(  ).getTime(  ) ) );
+
             int nNbFailed = UserLogHome.getLoginErrors( userLog, nIntervalMinutes );
 
             if ( nNbFailed > nMaxFailed )
@@ -112,11 +118,18 @@ public class LuteceDefaultAdminAuthentication implements AdminAuthentication
             }
         }
 
-        int nUserCode = _dao.checkPassword( strAccessCode, strUserPassword );
+        IPassword pasword = _dao.loadPassword( strAccessCode );
 
-        if ( nUserCode != LuteceDefaultAdminUserDAO.USER_OK )
+        if ( !pasword.check( strUserPassword ) )
         {
             throw new FailedLoginException(  );
+        }
+
+        if ( pasword.isLegacy( ) )
+        {
+            // upgrade password storage
+            IPassword upgradedPassword = _passwordFactory.getPasswordFromCleartext( strUserPassword );
+            _dao.store( strAccessCode, upgradedPassword );
         }
 
         LuteceDefaultAdminUser user = _dao.load( strAccessCode, this );

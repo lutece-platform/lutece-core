@@ -123,7 +123,6 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     // //////////////////////////////////////////////////////////////////////////
     // Constants
     private static final String CONSTANTE_UN = "1";
-    private static final String CONSTANT_DEFAULT_ALGORITHM = "noValue";
     private static final String CONSTANT_EMPTY_STRING = "";
 
     // I18n message keys
@@ -173,9 +172,6 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     private static final String PROPERTY_MESSAGE_EMAIL_SUBJECT_CHANGE_STATUS = "portal.users.user_change_status.email.subject";
     private static final String PROPERTY_MESSAGE_EMAIL_SUBJECT_NOTIFY_USER = "portal.users.notify_user.email.subject";
     private static final String PROPERTY_MANAGE_ADVANCED_PARAMETERS_PAGETITLE = "portal.users.manage_advanced_parameters.pageTitle";
-    private static final String PROPERTY_MESSAGE_CONFIRM_MODIFY_PASSWORD_ENCRYPTION = "portal.users.manage_advanced_parameters.message.confirmModifyPasswordEncryption";
-    private static final String PROPERTY_MESSAGE_NO_CHANGE_PASSWORD_ENCRYPTION = "portal.users.manage_advanced_parameters.message.noChangePasswordEncryption";
-    private static final String PROPERTY_MESSAGE_INVALID_ENCRYPTION_ALGORITHM = "portal.users.manage_advanced_parameters.message.invalidEncryptionAlgorithm";
     private static final String PROPERTY_MESSAGE_ERROR_EMAIL_PATTERN = "portal.users.manage_advanced_parameters.message.errorEmailPattern";
     private static final String PROPERTY_MESSAGE_CONFIRM_USE_ASP = "portal.users.manage_advanced_parameters.message.confirmUseAdvancedSecurityParameters";
     private static final String PROPERTY_MESSAGE_CONFIRM_REMOVE_ASP = "portal.users.manage_advanced_parameters.message.confirmRemoveAdvancedSecurityParameters";
@@ -214,11 +210,9 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     private static final String PARAMETER_WORKGROUP = "workgroup";
     private static final String PARAMETER_SELECT = "select";
     private static final String PARAMETER_SELECT_ALL = "all";
-    private static final String PARAMETER_ENCRYPTION_ALGORITHM = "encryption_algorithm";
     private static final String PARAMETER_ACCESSIBILITY_MODE = "accessibility_mode";
     private static final String PARAMETER_WORKGROUP_KEY = "workgroup_key";
     private static final String PARAMETER_EMAIL_PATTERN = "email_pattern";
-    private static final String PARAMETER_ENABLE_PASSWORD_ENCRYPTION = "enable_password_encryption";
     private static final String PARAMETER_IS_EMAIL_PATTERN_SET_MANUALLY = "is_email_pattern_set_manually";
     private static final String PARAMETER_ID_EXPRESSION = "id_expression";
     private static final String PARAMETER_FORCE_CHANGE_PASSWORD_REINIT = "force_change_password_reinit";
@@ -271,8 +265,6 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     private static final String JSP_URL_REMOVE_USER = "jsp/admin/user/DoRemoveUser.jsp";
     private static final String JSP_URL_CREATE_USER = "jsp/admin/user/CreateUser.jsp";
     private static final String JSP_URL_IMPORT_USER = "jsp/admin/user/ImportUser.jsp";
-    private static final String JSP_URL_MANAGE_ADVANCED_PARAMETERS = "jsp/admin/user/ManageAdvancedParameters.jsp";
-    private static final String JSP_URL_MODIFY_PASSWORD_ENCRYPTION = "jsp/admin/user/DoModifyPasswordEncryption.jsp";
     private static final String JSP_URL_MODIFY_USER = "jsp/admin/user/ModifyUser.jsp";
     private static final String JSP_URL_MANAGE_USER_RIGHTS = "jsp/admin/user/ManageUserRights.jsp";
     private static final String JSP_URL_MANAGE_USER_ROLES = "jsp/admin/user/ManageUserRoles.jsp";
@@ -646,22 +638,22 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         String strAccessibilityMode = request.getParameter( PARAMETER_ACCESSIBILITY_MODE );
         String strWorkgroupKey = request.getParameter( PARAMETER_WORKGROUP_KEY );
 
-        if ( ( strAccessCode == null ) || ( strAccessCode.equals( "" ) ) )
+        if ( StringUtils.isEmpty( strAccessCode ) )
         {
             return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
         }
 
-        if ( ( strLastName == null ) || ( strLastName.equals( "" ) ) )
+        if ( StringUtils.isEmpty( strLastName ) )
         {
             return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
         }
 
-        if ( ( strFirstName == null ) || ( strFirstName.equals( "" ) ) )
+        if ( StringUtils.isEmpty( strFirstName ) )
         {
             return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
         }
 
-        if ( ( ( strEmail == null ) || ( strEmail.trim(  ).equals( "" ) ) ) )
+        if ( StringUtils.isBlank( strEmail ) )
         {
             return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
         }
@@ -701,7 +693,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             String strFirstPassword = request.getParameter( PARAMETER_FIRST_PASSWORD );
             String strSecondPassword = request.getParameter( PARAMETER_SECOND_PASSWORD );
 
-            if ( ( strFirstPassword == null ) || ( strFirstPassword.equals( CONSTANT_EMPTY_STRING ) ) )
+            if ( StringUtils.isEmpty( strFirstPassword ) )
             {
                 return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
             }
@@ -714,15 +706,12 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
             String strUrl = AdminUserService.checkPassword( request, strFirstPassword, 0 );
 
-            if ( ( strUrl != null ) && !StringUtils.isEmpty( strUrl ) )
+            if ( StringUtils.isNotEmpty( strUrl ) )
             {
                 return strUrl;
             }
 
-            // Encryption password
-            strFirstPassword = AdminUserService.encryptPassword( strFirstPassword );
-
-            user.setPassword( strFirstPassword );
+            user.setPassword( AdminUserService.encryptPassword( strFirstPassword ) );
 
             user.setPasswordMaxValidDate( AdminUserService.getPasswordMaxValidDate(  ) );
             user.setAccountMaxValidDate( AdminUserService.getAccountMaxValidDate(  ) );
@@ -752,11 +741,8 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             if ( ( strNotifyUser != null ) && strNotifyUser.equals( CONSTANTE_UN ) )
             {
                 // Notify user for the creation of this account
-                // We set the password not encrypted for the email
-                user.setPassword( strSecondPassword );
                 AdminUserService.notifyUser( AppPathService.getBaseUrl( request ), user,
-                    PROPERTY_MESSAGE_EMAIL_SUBJECT_NOTIFY_USER, TEMPLATE_NOTIFY_USER );
-                user.setPassword( strFirstPassword );
+                        strFirstPassword, PROPERTY_MESSAGE_EMAIL_SUBJECT_NOTIFY_USER, TEMPLATE_NOTIFY_USER );
             }
         }
         else
@@ -887,22 +873,22 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             throw new AccessDeniedException( MESSAGE_NOT_AUTHORIZED );
         }
 
-        if ( ( strAccessCode == null ) || ( strAccessCode.equals( "" ) ) )
+        if ( StringUtils.isEmpty( strAccessCode ) )
         {
             return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
         }
 
-        if ( ( strLastName == null ) || ( strLastName.equals( "" ) ) )
+        if ( StringUtils.isEmpty( strLastName ) )
         {
             return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
         }
 
-        if ( ( strFirstName == null ) || ( strFirstName.equals( "" ) ) )
+        if ( StringUtils.isEmpty( strFirstName ) )
         {
             return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
         }
 
-        if ( ( ( strEmail == null ) || ( strEmail.trim(  ).equals( "" ) ) ) )
+        if ( StringUtils.isBlank( strEmail ) )
         {
             return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
         }
@@ -938,16 +924,14 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             String strFirstPassword = request.getParameter( PARAMETER_FIRST_PASSWORD );
             String strSecondPassword = request.getParameter( PARAMETER_SECOND_PASSWORD );
 
-            if ( ( strFirstPassword != null ) && ( strFirstPassword.equals( "" ) ) && ( strSecondPassword != null ) &&
-                    ( !strSecondPassword.equals( "" ) ) )
+            if ( StringUtils.isEmpty( strFirstPassword ) && StringUtils.isNotEmpty( strSecondPassword ) )
             {
                 // First password is empty but second password is filled
                 return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_DIFFERENTS_PASSWORD,
                     AdminMessage.TYPE_STOP );
             }
 
-            if ( ( strSecondPassword != null ) && ( strSecondPassword.equals( "" ) ) && ( strFirstPassword != null ) &&
-                    !strFirstPassword.equals( "" ) )
+            if ( StringUtils.isEmpty( strSecondPassword ) && StringUtils.isNotEmpty( strFirstPassword ) )
             {
                 // First password is filled but second password is empty
                 return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_DIFFERENTS_PASSWORD,
@@ -961,19 +945,16 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
                     AdminMessage.TYPE_STOP );
             }
 
-            if ( ( strFirstPassword != null ) && !strFirstPassword.equals( "" ) )
+            if ( StringUtils.isNotEmpty( strFirstPassword ) )
             {
                 String strUrl = AdminUserService.checkPassword( request, strFirstPassword, nUserId, Boolean.TRUE );
 
-                if ( ( strUrl != null ) && !StringUtils.isEmpty( strUrl ) )
+                if ( StringUtils.isNotEmpty( strUrl ) )
                 {
                     return strUrl;
                 }
 
-                // Encryption password
-                strFirstPassword = AdminUserService.encryptPassword( strFirstPassword );
-
-                user.setPassword( strFirstPassword );
+                user.setPassword( AdminUserService.encryptPassword( strFirstPassword ) );
                 user.setPasswordReset( Boolean.FALSE );
                 user.setPasswordMaxValidDate( AdminUserService.getPasswordMaxValidDate(  ) );
             }
@@ -1829,93 +1810,6 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     }
 
     /**
-     * Returns the page of confirmation for modifying the password encryption
-     *
-     * @param request The Http Request
-     * @return the confirmation url
-     */
-    public String doConfirmModifyPasswordEncryption( HttpServletRequest request )
-    {
-        String strEnablePasswordEncryption = request.getParameter( PARAMETER_ENABLE_PASSWORD_ENCRYPTION );
-        String strEncryptionAlgorithm = request.getParameter( PARAMETER_ENCRYPTION_ALGORITHM );
-
-        if ( strEncryptionAlgorithm.equals( CONSTANT_DEFAULT_ALGORITHM ) )
-        {
-            strEncryptionAlgorithm = CONSTANT_EMPTY_STRING;
-        }
-
-        String strCurrentPasswordEnableEncryption = DefaultUserParameterHome.findByKey( AdminUserService.DSKEY_ENABLE_PASSWORD_ENCRYPTION );
-        String strCurrentEncryptionAlgorithm = DefaultUserParameterHome.findByKey( AdminUserService.DSKEY_ENCRYPTION_ALGORITHM );
-
-        String strUrl = "";
-
-        if ( strEnablePasswordEncryption.equals( strCurrentPasswordEnableEncryption ) &&
-                strEncryptionAlgorithm.equals( strCurrentEncryptionAlgorithm ) )
-        {
-            strUrl = AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_NO_CHANGE_PASSWORD_ENCRYPTION,
-                    JSP_URL_MANAGE_ADVANCED_PARAMETERS, AdminMessage.TYPE_INFO );
-        }
-        else if ( strEnablePasswordEncryption.equals( String.valueOf( Boolean.TRUE ) ) &&
-                strEncryptionAlgorithm.equals( CONSTANT_EMPTY_STRING ) )
-        {
-            strUrl = AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_INVALID_ENCRYPTION_ALGORITHM,
-                    JSP_URL_MANAGE_ADVANCED_PARAMETERS, AdminMessage.TYPE_STOP );
-        }
-        else
-        {
-            if ( strEnablePasswordEncryption.equals( String.valueOf( Boolean.FALSE ) ) )
-            {
-                strEncryptionAlgorithm = "";
-            }
-
-            String strUrlModify = JSP_URL_MODIFY_PASSWORD_ENCRYPTION + "?" + PARAMETER_ENABLE_PASSWORD_ENCRYPTION +
-                "=" + strEnablePasswordEncryption + "&" + PARAMETER_ENCRYPTION_ALGORITHM + "=" +
-                strEncryptionAlgorithm;
-
-            strUrl = AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_CONFIRM_MODIFY_PASSWORD_ENCRYPTION,
-                    strUrlModify, AdminMessage.TYPE_CONFIRMATION );
-        }
-
-        return strUrl;
-    }
-
-    /**
-     * Modify the password encryption
-     * @param request HttpServletRequest
-     * @return The Jsp URL of the process result
-     * @throws AccessDeniedException If the user does not have the permission
-     */
-    public String doModifyPasswordEncryption( HttpServletRequest request )
-        throws AccessDeniedException
-    {
-        if ( !RBACService.isAuthorized( AdminUser.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID,
-                    AdminUserResourceIdService.PERMISSION_MANAGE_ENCRYPTED_PASSWORD, getUser(  ) ) )
-        {
-            throw new AccessDeniedException( "User " + getUser(  ) + " is not authorized to permission " +
-                AdminUserResourceIdService.PERMISSION_MANAGE_ENCRYPTED_PASSWORD );
-        }
-
-        String strEnablePasswordEncryption = request.getParameter( PARAMETER_ENABLE_PASSWORD_ENCRYPTION );
-        String strEncryptionAlgorithm = request.getParameter( PARAMETER_ENCRYPTION_ALGORITHM );
-
-        String strCurrentPasswordEnableEncryption = DefaultUserParameterHome.findByKey( AdminUserService.DSKEY_ENABLE_PASSWORD_ENCRYPTION );
-        String strCurrentEncryptionAlgorithm = DefaultUserParameterHome.findByKey( AdminUserService.DSKEY_ENCRYPTION_ALGORITHM );
-
-        if ( strEnablePasswordEncryption.equals( strCurrentPasswordEnableEncryption ) &&
-                strEncryptionAlgorithm.equals( strCurrentEncryptionAlgorithm ) )
-        {
-            return JSP_MANAGE_ADVANCED_PARAMETERS;
-        }
-
-        DefaultUserParameterHome.update( AdminUserService.DSKEY_ENABLE_PASSWORD_ENCRYPTION, strEnablePasswordEncryption );
-        DefaultUserParameterHome.update( AdminUserService.DSKEY_ENCRYPTION_ALGORITHM, strEncryptionAlgorithm );
-
-        reinitUserPasswordsAndNotify( request );
-
-        return JSP_MANAGE_ADVANCED_PARAMETERS;
-    }
-
-    /**
      * Modify the default user parameter values.
      * @param request HttpServletRequest
      * @return The Jsp URL of the process result
@@ -2164,25 +2058,13 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     }
 
     /**
-     * Enable advanced security parameters, and change users password if
-     * password encryption change
+     * Enable advanced security parameters
      * @param request The request
      * @return The Jsp URL of the process result
      */
     public String doUseAdvancedSecurityParameters( HttpServletRequest request )
     {
-        boolean isPwdEncryptionEnabled = AdminUserService.getBooleanSecurityParameter( AdminUserService.DSKEY_ENABLE_PASSWORD_ENCRYPTION );
-        String defaultUserParameter = DefaultUserParameterHome.findByKey( AdminUserService.DSKEY_ENCRYPTION_ALGORITHM );
-        String strEncryptionAlgorithm = ( defaultUserParameter == null ) ? StringUtils.EMPTY : defaultUserParameter;
-
         AdminUserService.useAdvancedSecurityParameters(  );
-
-        if ( !isPwdEncryptionEnabled ||
-                !StringUtils.equals( strEncryptionAlgorithm,
-                    DefaultUserParameterHome.findByKey( AdminUserService.DSKEY_ENCRYPTION_ALGORITHM ) ) )
-        {
-            reinitUserPasswordsAndNotify( request );
-        }
 
         return JSP_MANAGE_ADVANCED_PARAMETERS;
     }
@@ -2557,13 +2439,10 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             String strPassword = AdminUserService.makePassword(  );
 
             // update password
-            if ( ( strPassword != null ) && !strPassword.equals( CONSTANT_EMPTY_STRING ) )
+            if ( StringUtils.isNotEmpty( strPassword ) )
             {
-                // Encrypted password
-                String strEncryptedPassword = AdminUserService.encryptPassword( strPassword );
-
                 LuteceDefaultAdminUser userStored = AdminUserHome.findLuteceDefaultAdminUserByPrimaryKey( user.getUserId(  ) );
-                userStored.setPassword( strEncryptedPassword );
+                userStored.setPassword( AdminUserService.encryptPassword( strPassword ) );
                 userStored.setPasswordMaxValidDate( AdminUserService.getPasswordMaxValidDate(  ) );
                 userStored.setPasswordReset( Boolean.TRUE );
                 AdminUserHome.update( userStored );

@@ -37,6 +37,7 @@ import fr.paris.lutece.portal.business.rbac.AdminRole;
 import fr.paris.lutece.portal.business.right.Right;
 import fr.paris.lutece.portal.business.user.authentication.LuteceDefaultAdminUser;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
+import fr.paris.lutece.util.password.IPassword;
 
 import java.sql.Timestamp;
 
@@ -348,7 +349,7 @@ public final class AdminUserHome
      * @param nUserID Id of the user
      * @return The collection of recent passwords used by the user.
      */
-    public static List<String> selectUserPasswordHistory( int nUserID )
+    public static List<IPassword> selectUserPasswordHistory( int nUserID )
     {
         return _dao.selectUserPasswordHistory( nUserID );
     }
@@ -366,12 +367,12 @@ public final class AdminUserHome
 
     /**
      * Log a password change in the password history
-     * @param strPassword New password of the user
+     * @param password New password of the user
      * @param nUserId Id of the user
      */
-    public static void insertNewPasswordInHistory( String strPassword, int nUserId )
+    public static void insertNewPasswordInHistory( IPassword password, int nUserId )
     {
-        _dao.insertNewPasswordInHistory( strPassword, nUserId );
+        _dao.insertNewPasswordInHistory( password, nUserId );
     }
 
     /**

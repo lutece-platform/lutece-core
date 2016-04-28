@@ -39,11 +39,11 @@ INSERT INTO core_admin_role_resource VALUES (111,'all_site_manager', 'ADMIN_USER
 INSERT INTO core_admin_role_resource VALUES (137,'all_site_manager', 'SEARCH_SERVICE', '*', '*');
 INSERT INTO core_admin_role_resource VALUES (164,'all_site_manager', 'XSL_EXPORT', '*', '*');
 
-
-INSERT INTO core_admin_user VALUES (1,'admin','Admin','admin','admin@lutece.fr',0,'adminadmin','fr',0,0,0,null,null,0,'1980-01-01 00:00:00','all');
-INSERT INTO core_admin_user VALUES (2,'lutece','Lutèce','lutece','lutece@lutece.fr',0,'adminadmin','fr',1,0,0,null,null,0,'1980-01-01 00:00:00','all');
-INSERT INTO core_admin_user VALUES (3,'redac','redac','redac','redac@lutece.fr',0,'adminadmin','fr',2,0,0,null,null,0,'1980-01-01 00:00:00','all');
-INSERT INTO core_admin_user VALUES (4,'valid','valid','valid','valid@lutece.fr',0,'adminadmin','fr',3,0,0,null,null,0,'1980-01-01 00:00:00','all');
+-- default accounts; password storage will be upgraded on first login
+INSERT INTO core_admin_user VALUES (1,'admin','Admin','admin','admin@lutece.fr',0,'PLAINTEXT:adminadmin','fr',0,0,0,null,null,0,'1980-01-01 00:00:00','all');
+INSERT INTO core_admin_user VALUES (2,'lutece','Lutèce','lutece','lutece@lutece.fr',0,'PLAINTEXT:adminadmin','fr',1,0,0,null,null,0,'1980-01-01 00:00:00','all');
+INSERT INTO core_admin_user VALUES (3,'redac','redac','redac','redac@lutece.fr',0,'PLAINTEXT:adminadmin','fr',2,0,0,null,null,0,'1980-01-01 00:00:00','all');
+INSERT INTO core_admin_user VALUES (4,'valid','valid','valid','valid@lutece.fr',0,'PLAINTEXT:adminadmin','fr',3,0,0,null,null,0,'1980-01-01 00:00:00','all');
 
 INSERT INTO core_dashboard(dashboard_name, dashboard_column, dashboard_order) VALUES('CORE_SYSTEM', 1, 2);
 INSERT INTO core_dashboard(dashboard_name, dashboard_column, dashboard_order) VALUES('CORE_USERS', 1, 1);
@@ -151,8 +151,6 @@ INSERT INTO core_user_role VALUES ('all_site_manager',2);
 INSERT INTO core_user_role VALUES ('super_admin',2);
 
 INSERT INTO core_datastore VALUES ('core.advanced_parameters.password_duration', '120');
-INSERT INTO core_datastore VALUES ('core.advanced_parameters.enable_password_encryption', 'false');
-INSERT INTO core_datastore VALUES ('core.advanced_parameters.encryption_algorithm', '');
 INSERT INTO core_datastore VALUES ('core.advanced_parameters.default_user_level', '0');
 INSERT INTO core_datastore VALUES ('core.advanced_parameters.default_user_notification', '1');
 INSERT INTO core_datastore VALUES ('core.advanced_parameters.default_user_language', 'fr');

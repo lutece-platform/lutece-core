@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2015, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -47,6 +47,7 @@ import fr.paris.lutece.portal.service.mail.MailService;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.portal.PortalService;
+import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppHTTPSService;
 import fr.paris.lutece.portal.service.util.AppLogService;
@@ -58,6 +59,7 @@ import fr.paris.lutece.portal.web.l10n.LocaleService;
 import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.http.SecurityUtil;
+import fr.paris.lutece.util.password.IPasswordFactory;
 import fr.paris.lutece.util.string.StringUtil;
 import fr.paris.lutece.util.url.UrlItem;
 
@@ -320,17 +322,23 @@ public class AdminLoginJspBean implements Serializable
     public String doLogin( HttpServletRequest request )
         throws Exception
     {
-        // recovery of the login attributes
-        String strAccessCode = request.getParameter( Parameters.ACCESS_CODE );
-        String strPassword = request.getParameter( Parameters.PASSWORD );
-
         if ( request.getScheme(  ).equals( CONSTANT_HTTP ) && AppHTTPSService.isHTTPSSupportEnabled(  ) )
         {
             return JSP_URL_ADMIN_LOGIN;
         }
 
-        // Encryption password
-        strPassword = AdminUserService.encryptPassword( strPassword );
+        // recovery of the login attributes
+        String strAccessCode = request.getParameter( Parameters.ACCESS_CODE );
+        String strPassword = request.getParameter( Parameters.PASSWORD );
+
+
+        if (strAccessCode == null || strPassword == null)
+        {
+            // TIME RESISTANT ATTACK
+            // Computation time is equal to the time needed by a legitimate user
+            strAccessCode = "";
+            strPassword = "";
+        }
 
         String strLoginUrl = AdminAuthenticationService.getInstance(  ).getLoginPageUrl(  );
 
@@ -401,7 +409,7 @@ public class AdminLoginJspBean implements Serializable
         String strAccessCode = request.getParameter( Parameters.ACCESS_CODE );
         Locale locale = AdminUserService.getLocale( request );
 
-        if ( ( strAccessCode == null ) || strAccessCode.equals( CONSTANT_EMPTY_STRING ) )
+        if ( StringUtils.isEmpty( strAccessCode ) )
         {
             return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
         }
@@ -414,7 +422,7 @@ public class AdminLoginJspBean implements Serializable
         // if user or mail not found, send admin message
         AdminUser user = AdminUserHome.findUserByLogin( strAccessCode );
 
-        if ( ( user == null ) || ( user.getEmail(  ) == null ) || user.getEmail(  ).equals( CONSTANT_EMPTY_STRING ) )
+        if ( ( user == null ) || StringUtils.isEmpty( user.getEmail(  ) ) )
         {
             return JSP_URL_FORM_CONTACT;
         }
@@ -423,14 +431,12 @@ public class AdminLoginJspBean implements Serializable
         String strPassword = AdminUserService.makePassword(  );
 
         // update password
-        if ( ( strPassword != null ) && !strPassword.equals( CONSTANT_EMPTY_STRING ) )
+        if ( StringUtils.isNotEmpty( strPassword ) )
         {
-            // Encrypted password
-            String strEncryptedPassword = AdminUserService.encryptPassword( strPassword );
-
             LuteceDefaultAdminUser userStored = AdminUserHome.findLuteceDefaultAdminUserByPrimaryKey( user.getUserId(  ) );
             userStored.setPasswordMaxValidDate( AdminUserService.getPasswordMaxValidDate(  ) );
-            userStored.setPassword( strEncryptedPassword );
+            IPasswordFactory passwordFactory = SpringContextService.getBean( IPasswordFactory.BEAN_NAME );
+            userStored.setPassword( passwordFactory.getPasswordFromCleartext( strPassword ) );
 
             if ( Boolean.valueOf( DefaultUserParameterHome.findByKey( PARAMETER_FORCE_CHANGE_PASSWORD_REINIT ) ) )
             {
@@ -439,7 +445,6 @@ public class AdminLoginJspBean implements Serializable
 
             AdminUserHome.update( userStored );
 
-            // AdminUserHome.insertNewPasswordInHistory( strEncryptedPassword, userStored.getUserId( ) );
         }
 
         // send password by e-mail

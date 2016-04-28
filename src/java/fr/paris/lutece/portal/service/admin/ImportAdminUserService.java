@@ -161,7 +161,7 @@ public class ImportAdminUserService extends CSVReaderService
             listMessages.add( message );
         }
 
-        // We ignore the rest password attribute because we set it to true anyway.
+        // We ignore the reset password attribute because we set it to true anyway.
         // String strResetPassword = strLineDataArray[nIndex++];
         nIndex++;
 
@@ -240,13 +240,10 @@ public class ImportAdminUserService extends CSVReaderService
             {
                 LuteceDefaultAdminUser defaultAdminUser = (LuteceDefaultAdminUser) user;
                 String strPassword = AdminUserService.makePassword(  );
-                String strEncryptedPassword = AdminUserService.encryptPassword( strPassword );
-                defaultAdminUser.setPassword( strEncryptedPassword );
+                defaultAdminUser.setPassword( AdminUserService.encryptPassword( strPassword ) );
                 AdminUserHome.create( defaultAdminUser );
-                // We un-encrypt the password to send it in an email
-                defaultAdminUser.setPassword( strPassword );
                 AdminUserService.notifyUser( AppPathService.getProdUrl( strBaseUrl ), user,
-                    PROPERTY_MESSAGE_EMAIL_SUBJECT_NOTIFY_USER, TEMPLATE_NOTIFY_USER );
+                        strPassword, PROPERTY_MESSAGE_EMAIL_SUBJECT_NOTIFY_USER, TEMPLATE_NOTIFY_USER );
             }
             else
             {
@@ -254,7 +251,7 @@ public class ImportAdminUserService extends CSVReaderService
             }
         }
 
-        // We remove any previous right, roles, workgroup adn attributes of the user
+        // We remove any previous right, roles, workgroup and attributes of the user
         AdminUserHome.removeAllRightsForUser( user.getUserId(  ) );
         AdminUserHome.removeAllRolesForUser( user.getUserId(  ) );
 

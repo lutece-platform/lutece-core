@@ -34,16 +34,35 @@
 package fr.paris.lutece.portal.web.admin;
 
 import fr.paris.lutece.portal.business.user.AdminUser;
+import fr.paris.lutece.portal.business.user.AdminUserDAO;
+import fr.paris.lutece.portal.business.user.AdminUserHome;
+import fr.paris.lutece.portal.business.user.authentication.LuteceDefaultAdminAuthentication;
+import fr.paris.lutece.portal.business.user.authentication.LuteceDefaultAdminUser;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.admin.AdminAuthenticationService;
 import fr.paris.lutece.portal.service.admin.AdminUserService;
+import fr.paris.lutece.portal.service.i18n.I18nService;
+import fr.paris.lutece.portal.service.message.AdminMessage;
+import fr.paris.lutece.portal.service.message.AdminMessageService;
+import fr.paris.lutece.portal.service.spring.SpringContextService;
+import fr.paris.lutece.portal.service.util.AppPropertiesService;
+import fr.paris.lutece.portal.web.constants.Messages;
+import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.MokeHttpServletRequest;
+import fr.paris.lutece.util.password.IPassword;
+import fr.paris.lutece.util.password.IPasswordFactory;
 
+import java.security.SecureRandom;
+import java.util.List;
 import java.util.Locale;
 
 import javax.security.auth.login.FailedLoginException;
 import javax.security.auth.login.LoginException;
+
+import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
+import org.springframework.context.ApplicationContext;
+import org.springframework.mock.web.MockHttpServletRequest;
 
 
 /**
@@ -129,5 +148,139 @@ public class AdminMenuJspBeanTest extends LuteceTestCase
         {
             String strReturn = "../../" + AdminAuthenticationService.getInstance(  ).getLoginPageUrl(  );
         }
+    }
+
+    private AdminUserDAO getAdminUserDAO( )
+    {
+        AdminUserDAO adminUserDAO = new AdminUserDAO( );
+        ApplicationContext context = SpringContextService.getContext( );
+        AutowireCapableBeanFactory beanFactory = context.getAutowireCapableBeanFactory( );
+        beanFactory.autowireBean( adminUserDAO );
+        return adminUserDAO;
+    }
+
+    public void testDoModifyDefaultAdminUserPassword( )
+    {
+        AdminUserDAO adminUserDAO = getAdminUserDAO( );
+        String randomUsername = "user" + new SecureRandom( ).nextLong( );
+        String password = "Pa55word!";
+        IPasswordFactory passwordFactory = SpringContextService.getBean( IPasswordFactory.BEAN_NAME );
+
+        LuteceDefaultAdminUser user = new LuteceDefaultAdminUser( randomUsername, new LuteceDefaultAdminAuthentication( ) );   
+        user.setPassword( passwordFactory.getPasswordFromCleartext( password ) );
+        user.setFirstName( randomUsername );
+        user.setLastName( randomUsername );
+        user.setEmail( randomUsername + "@lutece.fr" );
+        adminUserDAO.insert( user );
+        try {
+            AdminMenuJspBean instance = new AdminMenuJspBean(  );
+            // no args
+            MockHttpServletRequest request = new MockHttpServletRequest( );
+            request.getSession( true ).setAttribute( "lutece_admin_user", user );
+            instance.doModifyDefaultAdminUserPassword( request );
+            AdminMessage message = AdminMessageService.getMessage( request );
+            assertNotNull( message );
+            assertEquals( I18nService.getLocalizedString( Messages.MANDATORY_FIELDS, Locale.FRENCH ), message.getText( Locale.FRENCH ) );
+
+            request = new MockHttpServletRequest( );
+            request.getSession( true ).setAttribute( "lutece_admin_user", user );
+            request.addParameter( Parameters.PASSWORD_CURRENT, password );
+            instance.doModifyDefaultAdminUserPassword( request );
+            message = AdminMessageService.getMessage( request );
+            assertNotNull( message );
+            assertEquals( I18nService.getLocalizedString( Messages.MANDATORY_FIELDS, Locale.FRENCH ), message.getText( Locale.FRENCH ) );
+
+            request = new MockHttpServletRequest( );
+            request.getSession( true ).setAttribute( "lutece_admin_user", user );
+            request.addParameter( Parameters.PASSWORD_CURRENT, password );
+            request.addParameter( Parameters.NEW_PASSWORD, password + "_mod" );
+            instance.doModifyDefaultAdminUserPassword( request );
+            message = AdminMessageService.getMessage( request );
+            assertNotNull( message );
+            assertEquals( I18nService.getLocalizedString( Messages.MANDATORY_FIELDS, Locale.FRENCH ), message.getText( Locale.FRENCH ) );
+
+            request = new MockHttpServletRequest( );
+            request.getSession( true ).setAttribute( "lutece_admin_user", user );
+            request.addParameter( Parameters.PASSWORD_CURRENT, password );
+            request.addParameter( Parameters.CONFIRM_NEW_PASSWORD, password + "_mod" );
+            instance.doModifyDefaultAdminUserPassword( request );
+            message = AdminMessageService.getMessage( request );
+            assertNotNull( message );
+            assertEquals( I18nService.getLocalizedString( Messages.MANDATORY_FIELDS, Locale.FRENCH ), message.getText( Locale.FRENCH ) );
+
+            request = new MockHttpServletRequest( );
+            request.getSession( true ).setAttribute( "lutece_admin_user", user );
+            request.addParameter( Parameters.NEW_PASSWORD, password );
+            instance.doModifyDefaultAdminUserPassword( request );
+            message = AdminMessageService.getMessage( request );
+            assertNotNull( message );
+            assertEquals( I18nService.getLocalizedString( Messages.MANDATORY_FIELDS, Locale.FRENCH ), message.getText( Locale.FRENCH ) );
+
+            request = new MockHttpServletRequest( );
+            request.getSession( true ).setAttribute( "lutece_admin_user", user );
+            request.addParameter( Parameters.NEW_PASSWORD, password );
+            request.addParameter( Parameters.CONFIRM_NEW_PASSWORD, password + "_mod" );
+            instance.doModifyDefaultAdminUserPassword( request );
+            message = AdminMessageService.getMessage( request );
+            assertNotNull( message );
+            assertEquals( I18nService.getLocalizedString( Messages.MANDATORY_FIELDS, Locale.FRENCH ), message.getText( Locale.FRENCH ) );
+
+            request = new MockHttpServletRequest( );
+            request.getSession( true ).setAttribute( "lutece_admin_user", user );
+            request.addParameter( Parameters.CONFIRM_NEW_PASSWORD, password + "_mod" );
+            instance.doModifyDefaultAdminUserPassword( request );
+            message = AdminMessageService.getMessage( request );
+            assertNotNull( message );
+            assertEquals( I18nService.getLocalizedString( Messages.MANDATORY_FIELDS, Locale.FRENCH ), message.getText( Locale.FRENCH ) );
+
+            request = new MockHttpServletRequest( );
+            request.getSession( true ).setAttribute( "lutece_admin_user", user );
+            request.addParameter( Parameters.PASSWORD_CURRENT, password );
+            request.addParameter( Parameters.NEW_PASSWORD, password );
+            request.addParameter( Parameters.CONFIRM_NEW_PASSWORD, password + "_mod" );
+            instance.doModifyDefaultAdminUserPassword( request );
+            message = AdminMessageService.getMessage( request );
+            assertNotNull( message );
+            assertEquals( I18nService.getLocalizedString( "portal.users.message.password.confirm.error", Locale.FRENCH ), message.getText( Locale.FRENCH ) );
+
+            request = new MockHttpServletRequest( );
+            request.getSession( true ).setAttribute( "lutece_admin_user", user );
+            request.addParameter( Parameters.PASSWORD_CURRENT, "BOGUS" );
+            request.addParameter( Parameters.NEW_PASSWORD, password + "_mod" );
+            request.addParameter( Parameters.CONFIRM_NEW_PASSWORD, password + "_mod" );
+            instance.doModifyDefaultAdminUserPassword( request );
+            message = AdminMessageService.getMessage( request );
+            assertNotNull( message );
+            assertEquals( I18nService.getLocalizedString( "portal.users.message.password.wrong.current", Locale.FRENCH ), message.getText( Locale.FRENCH ) );
+
+            request = new MockHttpServletRequest( );
+            request.getSession( true ).setAttribute( "lutece_admin_user", user );
+            request.addParameter( Parameters.PASSWORD_CURRENT, password );
+            request.addParameter( Parameters.NEW_PASSWORD, password );
+            request.addParameter( Parameters.CONFIRM_NEW_PASSWORD, password );
+            instance.doModifyDefaultAdminUserPassword( request );
+            message = AdminMessageService.getMessage( request );
+            assertNotNull( message );
+            assertEquals( I18nService.getLocalizedString( "portal.users.message.password.new.equals.current", Locale.FRENCH ), message.getText( Locale.FRENCH ) );
+
+            request = new MockHttpServletRequest( );
+            request.getSession( true ).setAttribute( "lutece_admin_user", user );
+            request.addParameter( Parameters.PASSWORD_CURRENT, password );
+            request.addParameter( Parameters.NEW_PASSWORD, password + "_mod" );
+            request.addParameter( Parameters.CONFIRM_NEW_PASSWORD, password + "_mod" );
+            instance.doModifyDefaultAdminUserPassword( request );
+            message = AdminMessageService.getMessage( request );
+            assertNotNull( message );
+            assertEquals( AppPropertiesService.getProperty( "lutece.admin.logout.url" ), message.getUrl( ) );
+
+            List<IPassword> history = AdminUserHome.selectUserPasswordHistory( user.getUserId( ) );
+            assertEquals( 1, history.size( ) );
+            assertTrue( history.get( 0 ).check( password + "_mod" ) );
+        } finally
+        {
+            adminUserDAO.delete( user.getUserId( ) );
+            AdminUserHome.removeAllPasswordHistoryForUser( user.getUserId( ) );
+        }
+        
     }
 }
