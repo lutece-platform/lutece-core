@@ -156,7 +156,9 @@ public class AdminUserDAOTest extends LuteceTestCase
 
         try {
             adminUserDAO.insertNewPasswordInHistory( passwordFactory.getPasswordFromCleartext( "1" ), user.getUserId( ) );
+            Thread.sleep(1000); //Need this because the PRIMARY KEY uses the timestamp
             adminUserDAO.insertNewPasswordInHistory( passwordFactory.getPasswordFromCleartext( "2" ), user.getUserId( ) );
+            Thread.sleep(1000); //Need this because the PRIMARY KEY uses the timestamp
             adminUserDAO.insertNewPasswordInHistory( passwordFactory.getPasswordFromCleartext( "3" ), user.getUserId( ) );
 
             List<IPassword> passwords = adminUserDAO.selectUserPasswordHistory( user.getUserId( ) );
@@ -165,6 +167,8 @@ public class AdminUserDAOTest extends LuteceTestCase
             assertTrue( passwords.get( 0 ).check( "3" ) );
             assertTrue( passwords.get( 1 ).check( "2" ) );
             assertTrue( passwords.get( 2 ).check( "1" ) );
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e); //Should not happen
         } finally
         {
             try {
