@@ -119,7 +119,7 @@ CREATE INDEX index_admin_user_preferences ON core_admin_user_preferences ( id_us
 --
 DROP TABLE IF EXISTS core_admin_workgroup;
 CREATE TABLE core_admin_workgroup (
-	workgroup_key varchar(50) default NULL,
+	workgroup_key varchar(50) NOT NULL,
 	workgroup_description varchar(255) default NULL,
 	PRIMARY KEY (workgroup_key)
 );
@@ -129,8 +129,8 @@ CREATE TABLE core_admin_workgroup (
 --
 DROP TABLE IF EXISTS core_admin_workgroup_user;
 CREATE TABLE core_admin_workgroup_user (
-	workgroup_key varchar(50) default NULL,
-	id_user int default NULL,
+	workgroup_key varchar(50) NOT NULL,
+	id_user int NOT NULL,
 	PRIMARY KEY (workgroup_key,id_user)
 );
 
@@ -270,7 +270,7 @@ CREATE TABLE core_page (
 	status smallint default NULL,
 	page_order int default 0,
 	id_template int default NULL,
-	date_creation timestamp default '0000-00-00 00:00:00' NOT NULL,
+	date_creation timestamp default CURRENT_TIMESTAMP NOT NULL,
 	role varchar(50) default NULL,
 	code_theme varchar(80) default NULL,
 	node_status smallint default 1 NOT NULL,
@@ -332,7 +332,7 @@ CREATE TABLE core_portlet (
 	column_no int default NULL,
 	id_style int default NULL,
 	accept_alias smallint default NULL,
-	date_creation timestamp default '0000-00-00 00:00:00' NOT NULL,
+	date_creation timestamp default CURRENT_TIMESTAMP NOT NULL,
 	display_portlet_title int default 0 NOT NULL,
 	role varchar(50) default NULL,
         device_display_flags int default 15 NOT NULL,
@@ -535,8 +535,8 @@ CREATE TABLE core_search_parameter (
 DROP TABLE IF EXISTS core_user_password_history;
 CREATE  TABLE core_user_password_history (
   id_user INT NOT NULL ,
-  password VARCHAR(100) NOT NULL ,
-  date_password_change TIMESTAMP NOT NULL DEFAULT NOW() ,
+  password LONG VARCHAR NOT NULL ,
+  date_password_change TIMESTAMP DEFAULT NOW() NOT NULL,
   PRIMARY KEY (id_user, date_password_change)
   );
   
@@ -570,6 +570,6 @@ DROP TABLE IF EXISTS core_text_editor;
 CREATE TABLE core_text_editor (
   editor_name VARCHAR(255) NOT NULL,
   editor_description VARCHAR(255) NOT NULL,
-  backOffice SMALLINT DEFAULT NULL ,
+  backOffice SMALLINT NOT NULL ,
   PRIMARY KEY  (editor_name, backOffice)
 );
