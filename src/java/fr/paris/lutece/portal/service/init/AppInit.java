@@ -123,10 +123,8 @@ public final class AppInit
         try
         {
             Thread.currentThread(  ).setName( "Lutece-MainThread" );
-            // Initializes the log service
-            AppLogService.init( strConfPath, FILE_PROPERTIES_CONFIG );
-            AppLogService.info( "Starting LUTECE ..." );
-            AppLogService.info( "Running version " + AppInfo.getVersion(  ) );
+            // Initializes a very basic logging system (everything to stdout)
+            AppLogService.preinit();
             // Initializes the properties download files containing the variables used by the application
             AppPropertiesService.init( strConfPath );
 
@@ -142,6 +140,11 @@ public final class AppInit
                 // variables used by the application
                 initProperties( strRealPath );
             }
+
+            // Initializes the log service from the property files
+            AppLogService.init( strConfPath, FILE_PROPERTIES_CONFIG );
+            AppLogService.info( "Starting LUTECE ..." );
+            AppLogService.info( "Running version " + AppInfo.getVersion(  ) );
 
             // Initializes the connection pools
             AppConnectionService.init( strConfPath, FILE_PROPERTIES_DATABASE, "portal" );

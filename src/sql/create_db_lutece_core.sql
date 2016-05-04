@@ -87,7 +87,7 @@ CREATE TABLE core_admin_user (
 	first_name varchar(100) default '' NOT NULL,
 	email varchar(256) default '0' NOT NULL,
 	status smallint default 0 NOT NULL,
-	password varchar(100) default NULL,
+	password LONG VARCHAR default NULL,
 	locale varchar(10) default 'fr' NOT NULL,
 	level_user smallint default 0 NOT NULL,
 	reset_password smallint default 0 NOT NULL,

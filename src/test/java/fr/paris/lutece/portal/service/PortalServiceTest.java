@@ -33,29 +33,37 @@
  */
 package fr.paris.lutece.portal.service;
 
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.mock.web.MockServletConfig;
+
 import fr.paris.lutece.portal.service.message.SiteMessageException;
 import fr.paris.lutece.portal.service.portal.PortalService;
+import fr.paris.lutece.portal.web.LocalVariables;
 import fr.paris.lutece.test.LuteceTestCase;
-import fr.paris.lutece.test.MokeHttpServletRequest;
-
-import javax.servlet.http.HttpServletRequest;
 
 
 public class PortalServiceTest extends LuteceTestCase
 {
-    public void testGetDefaultPage(  )
+
+    @Override
+    protected void setUp( ) throws Exception
     {
-        HttpServletRequest request = new MokeHttpServletRequest(  );
+        super.setUp( );
+        LocalVariables.setLocal( new MockServletConfig( ), new MockHttpServletRequest(  ), new MockHttpServletResponse( ) );
+    }
+
+    @Override
+    protected void tearDown( ) throws Exception
+    {
+        LocalVariables.setLocal( null, null, null );
+        super.tearDown( );
+    }
+
+    public void testGetDefaultPage(  ) throws SiteMessageException
+    {
         int nMode = 0;
 
-        try
-        {
-            PortalService.getDefaultPage( request, nMode );
-        }
-        catch ( SiteMessageException e )
-        {
-            // TODO Auto-generated catch block
-            e.printStackTrace(  );
-        }
+        PortalService.getDefaultPage( LocalVariables.getRequest( ), nMode );
     }
 }

@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.service.util;
 
+import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
 
@@ -56,9 +57,9 @@ public final class AppLogService
     /** alternate log4j property file */
     private static final String ALTERNATE_LOG_OVERRIDE_PATH = "override";
     private static final String ALTERNATE_LOG_FILE = "log.properties";
-    private static Logger _loggerEvents;
-    private static Logger _loggerErrors;
-    private static Logger _loggerDebug;
+    private static Logger _loggerEvents = Logger.getLogger( LOGGER_EVENTS );
+    private static Logger _loggerErrors = Logger.getLogger( LOGGER_ERRORS );
+    private static Logger _loggerDebug = Logger.getLogger( LOGGER_DEBUG );
 
     /**
      * Creates a new AppLogService object.
@@ -68,24 +69,27 @@ public final class AppLogService
     }
 
     /**
+     * Initializes a very basic logging system (everything to stdout)
+     */
+    public static void preinit(  )
+    {
+        BasicConfigurator.configure();
+        info("Lutece logs pre-initialized: sending all logs to stdout.");
+    }
+
+    /**
      * initializes the errors log file and the application log file
      * @param strConfigPath The strConfigPath
      * @param strConfigFile The strConfigFile
      */
     public static void init( String strConfigPath, String strConfigFile )
     {
+        BasicConfigurator.resetConfiguration();
         //Initialize the logger and configures it with the values of the properties file : config.properties
         try
         {
-            // Get a logger for errors
-            _loggerErrors = Logger.getLogger( LOGGER_ERRORS );
-
-            // Get a logger for application events
-            _loggerEvents = Logger.getLogger( LOGGER_EVENTS );
             _loggerEvents.setAdditivity( false );
 
-            // Get a logger for debug and trace
-            _loggerDebug = Logger.getLogger( LOGGER_DEBUG );
             _loggerDebug.setAdditivity( false );
 
             String strAbsoluteConfigDirectoryPath = AppPathService.getAbsolutePathFromRelativePath( strConfigPath );
@@ -133,6 +137,7 @@ public final class AppLogService
         {
             System.err.println( "Bad Configuration of Log4j : " + e );
         }
+        info("Lutece logs initialized, using configured property files to define levels and appenders.");
     }
 
     ////////////////////////////////////////////////////////////////////////////

@@ -33,10 +33,20 @@
  */
 package fr.paris.lutece.portal.web.admin;
 
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
+
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.mock.web.MockServletConfig;
+
+import fr.paris.lutece.portal.business.right.Right;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.message.SiteMessageException;
 import fr.paris.lutece.portal.service.security.UserNotSignedException;
+import fr.paris.lutece.portal.web.LocalVariables;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.MokeHttpServletRequest;
 
@@ -49,6 +59,7 @@ public class AdminJspBeanTest extends LuteceTestCase
 {
     private static final String PARAMETER_PAGE_ID = "page_id"; // home page	
     private static final String TEST_PAGE_ID = "1"; // home page
+    private static final String ATTRIBUTE_ADMIN_USER = "lutece_admin_user";
 
     /**
      * Test of getAdminPage method, of class fr.paris.lutece.portal.web.admin.AdminJspBean.
@@ -74,8 +85,18 @@ public class AdminJspBeanTest extends LuteceTestCase
     {
         System.out.println( "getAdminPagePreview" );
 
-        MokeHttpServletRequest request = new MokeHttpServletRequest(  );
-        request.registerAdminUserWithRigth( new AdminUser(  ), AdminPageJspBean.RIGHT_MANAGE_ADMIN_SITE );
+        MockHttpServletRequest request = new MockHttpServletRequest(  );
+
+        // FIXME : MokeHttpServletRequest should be fixed to support attributes
+        Map<String, Right> mapRights = new HashMap<String, Right>(  );
+        Right right = new Right(  );
+        right.setId( AdminPageJspBean.RIGHT_MANAGE_ADMIN_SITE  );
+        mapRights.put( AdminPageJspBean.RIGHT_MANAGE_ADMIN_SITE , right );
+        AdminUser user = new AdminUser( );
+        user.setRights( mapRights );
+        user.setLocale( new Locale( "fr", "FR", "" ) );
+        request.getSession( true ).setAttribute( ATTRIBUTE_ADMIN_USER, user );
+        LocalVariables.setLocal( new MockServletConfig( ), request, new MockHttpServletResponse( ) );
 
         AdminPageJspBean instance = new AdminPageJspBean(  );
         instance.init( request, AdminPageJspBean.RIGHT_MANAGE_ADMIN_SITE );
@@ -89,5 +110,12 @@ public class AdminJspBeanTest extends LuteceTestCase
             // TODO Auto-generated catch block
             e.printStackTrace(  );
         }
+    }
+
+    @Override
+    public void tearDown( ) throws Exception
+    {
+        LocalVariables.setLocal( null, null, null );
+        super.tearDown( );
     }
 }

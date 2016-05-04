@@ -39,6 +39,10 @@ import fr.paris.lutece.test.MokeHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.mock.web.MockServletConfig;
+
 
 /**
  * PortalJspBean Test Class
@@ -53,7 +57,8 @@ public class PortalJspBeanTest extends LuteceTestCase
     {
         System.out.println( "getContent" );
 
-        HttpServletRequest request = new MokeHttpServletRequest(  );
+        HttpServletRequest request = new MockHttpServletRequest(  );
+        LocalVariables.setLocal( new MockServletConfig( ), request, new MockHttpServletResponse( ) );
         PortalJspBean instance = new PortalJspBean(  );
 
         String result = instance.getContent( request );
@@ -146,5 +151,12 @@ public class PortalJspBeanTest extends LuteceTestCase
             HttpServletRequest request = new MokeHttpServletRequest(  );
             PortalJspBean.getLoginNextUrl( request );
         }
+    }
+
+    @Override
+    public void tearDown( ) throws Exception
+    {
+        LocalVariables.setLocal( null, null, null );
+        super.tearDown( );
     }
 }

@@ -60,7 +60,7 @@ public final class IndexerActionDAO implements IIndexerActionDAO
     private static final String SQL_QUERY_INSERT = "INSERT INTO core_indexer_action( id_action,id_document,id_task ,indexer_name,id_portlet)" +
         " VALUES(?,?,?,?,?)";
     private static final String SQL_QUERY_DELETE = "DELETE FROM core_indexer_action WHERE id_action = ? ";
-    private static final String SQL_QUERY_TRUNCATE = "TRUNCATE core_indexer_action  ";
+    private static final String SQL_QUERY_DELETE_ALL = "DELETE FROM core_indexer_action";
     private static final String SQL_QUERY_UPDATE = "UPDATE core_indexer_action SET id_action=?,id_document=?,id_task=?,indexer_name=?,id_portlet=? WHERE id_action = ? ";
     private static final String SQL_QUERY_SELECT = "SELECT id_action,id_document,id_task,indexer_name,id_portlet" +
         " FROM core_indexer_action  ";
@@ -154,7 +154,7 @@ public final class IndexerActionDAO implements IIndexerActionDAO
     @Override
     public void deleteAll(  )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_TRUNCATE );
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE_ALL );
         daoUtil.executeUpdate(  );
         daoUtil.free(  );
     }

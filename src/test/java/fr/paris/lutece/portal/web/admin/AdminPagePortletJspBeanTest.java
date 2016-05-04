@@ -3,10 +3,13 @@ package fr.paris.lutece.portal.web.admin;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import fr.paris.lutece.portal.business.portlet.AliasPortlet;
+import fr.paris.lutece.portal.business.portlet.AliasPortletHome;
 import fr.paris.lutece.portal.business.portlet.IPortletInterfaceDAO;
 import fr.paris.lutece.portal.business.portlet.Portlet;
 import fr.paris.lutece.portal.business.portlet.PortletHome;
@@ -17,13 +20,19 @@ import fr.paris.lutece.portal.business.rbac.RBAC;
 import fr.paris.lutece.portal.business.rbac.RBACHome;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
+import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.message.SiteMessageException;
+import fr.paris.lutece.portal.service.portlet.PortletRemovalListenerService;
 import fr.paris.lutece.portal.service.portlet.PortletResourceIdService;
+import fr.paris.lutece.portal.service.util.RemovalListener;
 import fr.paris.lutece.portal.web.constants.Parameters;
+import fr.paris.lutece.portal.web.portlet.AliasPortletJspBean;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.MokeHttpServletRequest;
+import fr.paris.lutece.util.ReferenceItem;
+import fr.paris.lutece.util.ReferenceList;
 
 /**
  * Test the AdminPagePortletJspBean class
@@ -475,6 +484,11 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
             AdminMessage message = AdminMessageService.getMessage( request );
             assertNotNull( message );
             assertEquals( message.getType( ), AdminMessage.TYPE_CONFIRMATION );
+            ReferenceList listLanguages = I18nService.getAdminLocales( Locale.FRANCE );
+            for ( ReferenceItem lang : listLanguages )
+            {
+                assertTrue( message.getText( new Locale( lang.getCode( ) ) ).contains( portlet.getName( ) ) );
+            }
         } finally
         {
             if ( portlet != null )
@@ -487,6 +501,109 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
             }
         }
     }
+
+    /**
+     * Test when all conditions are met
+     * @throws AccessDeniedException should not happen
+     */
+    public void testGetRemovePortletWithAlias(  ) throws AccessDeniedException
+    {
+        AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
+        MokeHttpServletRequest request = new MokeHttpServletRequest( );
+        Portlet portlet = null;
+        AdminUser user = null;
+        try
+        {
+            portlet = getPortlet( );
+            getAlias( portlet );
+            user = getAdminUser( );
+            request.addMokeParameters( Parameters.PORTLET_ID, Integer.toString( portlet.getId( ) ) );
+            request.registerAdminUser( user );
+            String url = bean.getRemovePortlet( request );
+            assertNotNull( url );
+            AdminMessage message = AdminMessageService.getMessage( request );
+            assertNotNull( message );
+            assertEquals( message.getType( ), AdminMessage.TYPE_CONFIRMATION );
+            ReferenceList listLanguages = I18nService.getAdminLocales( Locale.FRANCE );
+            for ( ReferenceItem lang : listLanguages )
+            {
+                assertTrue( message.getText( new Locale( lang.getCode( ) ) ).contains( portlet.getName( ) ) );
+            }
+        } finally
+        {
+            if ( portlet != null )
+            {
+                removePortlet( portlet );
+            }
+            if ( user != null )
+            {
+                removeUser( user );
+            }
+        }
+    }
+
+    /**
+     * Test when all conditions are met
+     * @throws AccessDeniedException should not happen
+     */
+    public void testGetRemovePortletWithPortletRemovalListener(  ) throws AccessDeniedException
+    {
+        AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
+        MokeHttpServletRequest request = new MokeHttpServletRequest( );
+        Portlet portlet = null;
+        AdminUser user = null;
+        try
+        {
+            portlet = getPortlet( );
+            user = getAdminUser( );
+            request.addMokeParameters( Parameters.PORTLET_ID, Integer.toString( portlet.getId( ) ) );
+            request.registerAdminUser( user );
+            final int nPortletId = portlet.getId( );
+            final String removalRefusedMessage = "REMOVAL_REFUSED_" + nPortletId;
+            PortletRemovalListenerService.getService( ).registerListener( new RemovalListener( )
+            {
+                // removalListener cannot be unregistered. Try not to interfere with other tests
+                private boolean first = true;
+
+                @Override
+                public String getRemovalRefusedMessage( String id, Locale locale )
+                {
+                    return removalRefusedMessage;
+                }
+
+                @Override
+                public boolean canBeRemoved( String id )
+                {
+                    // always allow removal after first use
+                    boolean res = !first || !id.equals( Integer.toString( nPortletId ) );
+                    first = false;
+                    return res;
+                }
+            } );
+            String url = bean.getRemovePortlet( request );
+            assertNotNull( url );
+            AdminMessage message = AdminMessageService.getMessage( request );
+            assertNotNull( message );
+            assertEquals( message.getType( ), AdminMessage.TYPE_STOP );
+            ReferenceList listLanguages = I18nService.getAdminLocales( Locale.FRANCE );
+            for ( ReferenceItem lang : listLanguages )
+            {
+                assertTrue( message.getText( new Locale( lang.getCode( ) ) ).contains( portlet.getName( ) ) );
+                assertTrue( message.getText( new Locale( lang.getCode( ) ) ).contains( removalRefusedMessage ) );
+            }
+        } finally
+        {
+            if ( portlet != null )
+            {
+                removePortlet( portlet );
+            }
+            if ( user != null )
+            {
+                removeUser( user );
+            }
+        }
+    }
+
 
     /**
      * Test when no parameter given
@@ -666,9 +783,22 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
         PortletTypeHome.create( portletType );
         Portlet portlet = new TestPortlet( portletType );
         portlet.setStatus( Portlet.STATUS_UNPUBLISHED );
+        portlet.setName( strPortletTypeID );
+        portlet.setAcceptAlias( 1 );
         PortletHome portletHome = new TestPortletHome( );
         portletHome.create( portlet );
         return portlet;
+    }
+
+    private Portlet getAlias( Portlet portlet )
+    {
+        AliasPortlet aliasPortlet = new AliasPortlet(  );
+        aliasPortlet.setPageId( portlet.getPageId( ) );
+        aliasPortlet.setName( "ALIAS_" + portlet.getName( ) );
+        aliasPortlet.setAliasId( portlet.getId( ) );
+        aliasPortlet.setStyleId( portlet.getStyleId(  ) );
+        AliasPortletHome.getInstance(  ).create( aliasPortlet );
+        return aliasPortlet;
     }
 
     /**
