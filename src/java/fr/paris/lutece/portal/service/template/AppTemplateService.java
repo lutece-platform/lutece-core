@@ -45,7 +45,7 @@ import java.util.Locale;
 
 
 /**
- * This Service is used to retreive HTML templates, stored as files in the
+ * This Service is used to retrieve HTML templates, stored as files in the
  * WEB-INF/templates directory of the webapp,
  * to build the user interface. It provides a cache feature to prevent from
  * loading file each time it is asked.
@@ -55,6 +55,7 @@ public final class AppTemplateService
     // Variables
     private static String _strTemplateDefaultPath;
     private static IFreeMarkerTemplateService _freeMarkerTemplateService;
+    private static IJadeTemplateService _jadeTemplateService;
 
     /**
      * Protected constructor
@@ -71,6 +72,7 @@ public final class AppTemplateService
     {
         _strTemplateDefaultPath = strTemplatePath;
         getFreeMarkerTemplateService(  ).setSharedVariable( "i18n", new I18nTemplateMethod(  ) );
+        getFreeMarkerTemplateService(  ).setSharedVariable( "jade", new FreemarkerDirective( getJadeTemplateService(  ) ) );
     }
 
     /**
@@ -109,6 +111,7 @@ public final class AppTemplateService
     public static void resetCache(  )
     {
         getFreeMarkerTemplateService(  ).resetCache(  );
+        getJadeTemplateService(  ).resetCache(  );
     }
 
     /**
@@ -206,7 +209,7 @@ public final class AppTemplateService
      * Returns a reference on a template object
      *
      * <br />
-     * <b>Deprecated</b> Using Freemarker without cache is huge CPU consuming
+     * <b>Deprecated</b> Using Freemarker without cache is very CPU intensive
      *
      * @param strFreemarkerTemplateData The content of the template
      * @param locale The current {@link Locale} to localize the template
@@ -235,7 +238,11 @@ public final class AppTemplateService
     private static HtmlTemplate loadTemplate( String strPath, String strTemplate, Locale locale, Object model )
     {
         HtmlTemplate template;
-        template = getFreeMarkerTemplateService(  ).loadTemplate( strPath, strTemplate, locale, model );
+        if ( getJadeTemplateService(  ).canHandle( strTemplate ) ) {
+            template = getJadeTemplateService(  ).loadTemplate( strPath, strTemplate, locale, model );
+        } else {
+            template = getFreeMarkerTemplateService(  ).loadTemplate( strPath, strTemplate, locale, model );
+        }
 
         if ( locale != null )
         {
@@ -290,4 +297,16 @@ public final class AppTemplateService
 
         return _freeMarkerTemplateService;
     }
+
+    private static IJadeTemplateService getJadeTemplateService(  )
+    {
+       if ( _jadeTemplateService == null )
+       {
+           _jadeTemplateService = JadeTemplateService.getInstance(  );
+           _jadeTemplateService.init( _strTemplateDefaultPath );
+       }
+
+       return _jadeTemplateService;
+    }
+
 }
