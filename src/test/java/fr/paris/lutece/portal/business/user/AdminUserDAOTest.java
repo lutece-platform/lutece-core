@@ -99,9 +99,7 @@ public class AdminUserDAOTest extends LuteceTestCase
         assertTrue( storedUser.getPassword( ).check( "adminadmin" ) );
         assertEquals( Locale.FRENCH, storedUser.getLocale( ) );
         assertEquals( 0, storedUser.getUserLevel( ) );
-        assertFalse( storedUser.isPasswordReset( ) );
         assertFalse( storedUser.getAccessibilityMode( ) );
-        assertNull( storedUser.getPasswordMaxValidDate( ) );
         assertNull( storedUser.getAccountMaxValidDate( ) );
         assertEquals( "all", storedUser.getWorkgroupKey( ) );
     }

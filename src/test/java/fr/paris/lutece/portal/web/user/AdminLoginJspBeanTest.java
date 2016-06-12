@@ -76,7 +76,8 @@ public class AdminLoginJspBeanTest extends LuteceTestCase
         request.addParameter( Parameters.PASSWORD, "adminadmin" );
         bean.doLogin( request );
         message = AdminMessageService.getMessage( request );
-        assertNull( message );
+        assertNotNull( message );
+        assertEquals( I18nService.getLocalizedString( Messages.MESSAGE_USER_MUST_CHANGE_PASSWORD, Locale.FRENCH ), message.getText( Locale.FRENCH ) );
     }
 
     private AdminUserDAO getAdminUserDAO( )

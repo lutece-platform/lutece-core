@@ -41,10 +41,10 @@ INSERT INTO core_admin_role_resource VALUES (137,'all_site_manager', 'SEARCH_SER
 INSERT INTO core_admin_role_resource VALUES (164,'all_site_manager', 'XSL_EXPORT', '*', '*');
 
 -- default accounts; password storage will be upgraded on first login
-INSERT INTO core_admin_user VALUES (1,'admin','Admin','admin','admin@lutece.fr',0,'PLAINTEXT:adminadmin','fr',0,0,0,null,null,0,'1980-01-01 00:00:00','all');
-INSERT INTO core_admin_user VALUES (2,'lutece','Lutèce','lutece','lutece@lutece.fr',0,'PLAINTEXT:adminadmin','fr',1,0,0,null,null,0,'1980-01-01 00:00:00','all');
-INSERT INTO core_admin_user VALUES (3,'redac','redac','redac','redac@lutece.fr',0,'PLAINTEXT:adminadmin','fr',2,0,0,null,null,0,'1980-01-01 00:00:00','all');
-INSERT INTO core_admin_user VALUES (4,'valid','valid','valid','valid@lutece.fr',0,'PLAINTEXT:adminadmin','fr',3,0,0,null,null,0,'1980-01-01 00:00:00','all');
+INSERT INTO core_admin_user VALUES (1,'admin','Admin','admin','admin@lutece.fr',0,'PLAINTEXT:adminadmin','fr',0,0,0,'1980-01-01 00:00:00',null,0,'1980-01-01 00:00:00','all');
+INSERT INTO core_admin_user VALUES (2,'lutece','Lutèce','lutece','lutece@lutece.fr',0,'PLAINTEXT:adminadmin','fr',1,0,0,'1980-01-01 00:00:00',null,0,'1980-01-01 00:00:00','all');
+INSERT INTO core_admin_user VALUES (3,'redac','redac','redac','redac@lutece.fr',0,'PLAINTEXT:adminadmin','fr',2,0,0,'1980-01-01 00:00:00',null,0,'1980-01-01 00:00:00','all');
+INSERT INTO core_admin_user VALUES (4,'valid','valid','valid','valid@lutece.fr',0,'PLAINTEXT:adminadmin','fr',3,0,0,'1980-01-01 00:00:00',null,0,'1980-01-01 00:00:00','all');
 
 INSERT INTO core_dashboard(dashboard_name, dashboard_column, dashboard_order) VALUES('CORE_SYSTEM', 1, 2);
 INSERT INTO core_dashboard(dashboard_name, dashboard_column, dashboard_order) VALUES('CORE_USERS', 1, 1);
