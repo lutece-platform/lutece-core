@@ -237,7 +237,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         {
             AdminUserJspBean bean = new AdminUserJspBean( );
             MockHttpServletRequest request = new MockHttpServletRequest( );
-            AdminAuthenticationService.getInstance( ).registerUser( request, AdminUserHome.findUserByLogin( "lutece" ) );
+            request.getSession( true ).setAttribute( "lutece_admin_user", getLevel1AdminUserWithCORE_USERS_MANAGEMENTRight( ) );
             request.addParameter( "id_user", Integer.toString( userToModify.getUserId( ) ) );
             try
             {
