@@ -80,6 +80,42 @@ public class AdminLoginJspBeanTest extends LuteceTestCase
         assertEquals( I18nService.getLocalizedString( Messages.MESSAGE_USER_MUST_CHANGE_PASSWORD, Locale.FRENCH ), message.getText( Locale.FRENCH ) );
     }
 
+    public void testDoLoginDisabledLuteceUser( ) throws Exception
+    {
+        AdminLoginJspBean bean = new AdminLoginJspBean( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.addParameter( Parameters.ACCESS_CODE, "lutece" );
+        request.addParameter( Parameters.PASSWORD, "adminadmin" );
+        bean.doLogin( request );
+        AdminMessage message = AdminMessageService.getMessage( request );
+        assertNotNull( message );
+        assertEquals( I18nService.getLocalizedString( Messages.MESSAGE_AUTH_FAILURE, Locale.FRENCH ), message.getText( Locale.FRENCH ) );
+    }
+
+    public void testDoLoginDisabledRedacUser( ) throws Exception
+    {
+        AdminLoginJspBean bean = new AdminLoginJspBean( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.addParameter( Parameters.ACCESS_CODE, "redac" );
+        request.addParameter( Parameters.PASSWORD, "adminadmin" );
+        bean.doLogin( request );
+        AdminMessage message = AdminMessageService.getMessage( request );
+        assertNotNull( message );
+        assertEquals( I18nService.getLocalizedString( Messages.MESSAGE_AUTH_FAILURE, Locale.FRENCH ), message.getText( Locale.FRENCH ) );
+    }
+
+    public void testDoLoginDisabledValidUser( ) throws Exception
+    {
+        AdminLoginJspBean bean = new AdminLoginJspBean( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.addParameter( Parameters.ACCESS_CODE, "valid" );
+        request.addParameter( Parameters.PASSWORD, "adminadmin" );
+        bean.doLogin( request );
+        AdminMessage message = AdminMessageService.getMessage( request );
+        assertNotNull( message );
+        assertEquals( I18nService.getLocalizedString( Messages.MESSAGE_AUTH_FAILURE, Locale.FRENCH ), message.getText( Locale.FRENCH ) );
+    }
+
     private AdminUserDAO getAdminUserDAO( )
     {
         AdminUserDAO adminUserDAO = new AdminUserDAO( );
