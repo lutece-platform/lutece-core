@@ -36,7 +36,6 @@ package fr.paris.lutece.portal.business.user;
 import fr.paris.lutece.portal.business.rbac.AdminRole;
 import fr.paris.lutece.portal.business.right.Right;
 import fr.paris.lutece.portal.business.user.authentication.LuteceDefaultAdminUser;
-import fr.paris.lutece.util.password.IPassword;
 
 import java.sql.Timestamp;
 
@@ -265,7 +264,7 @@ public interface IAdminUserDAO
      * @param nUserID Id of the user
      * @return The collection of recent passwords used by the user.
      */
-    List<IPassword> selectUserPasswordHistory( int nUserID );
+    List<String> selectUserPasswordHistory( int nUserID );
 
     /**
      * Get the number of password change done by a user since the given date.
@@ -277,10 +276,10 @@ public interface IAdminUserDAO
 
     /**
      * Log a password change in the password history
-     * @param password New password of the user
+     * @param strPassword New password of the user
      * @param nUserId Id of the user
      */
-    void insertNewPasswordInHistory( IPassword password, int nUserId );
+    void insertNewPasswordInHistory( String strPassword, int nUserId );
 
     /**
      * Remove every password saved in the password history for a given user.

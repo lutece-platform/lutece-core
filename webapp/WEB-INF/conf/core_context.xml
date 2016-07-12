@@ -60,7 +60,6 @@
     <bean id="indexerActionDAO" class="fr.paris.lutece.portal.business.indexeraction.IndexerActionDAO" />
 
     <!--                      Admin Authentication                             -->
-    <bean id="passwordFactory" class="fr.paris.lutece.portal.business.user.authentication.PasswordFactory"/>
     <bean id="adminAuthenticationModule" class="fr.paris.lutece.portal.business.user.authentication.LuteceDefaultAdminAuthentication">
         <property name="dao" ref="luteceDefaultAdminUserDAO"/>
         <!--<property name="dataSourceFactory" ref="dataSourceFactory" />-->

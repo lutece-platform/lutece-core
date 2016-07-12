@@ -18,6 +18,71 @@
 				</div>
 			</div>
 			<div class="box-body">
+				<!-- PASSWORD ENCRYPTION -->
+				<#if enable_password_encryption?exists>
+					<form class="form-horizontal" method="post" name="password_encryption" action="jsp/admin/user/ModifyPasswordEncryption.jsp">
+					<fieldset>
+						<legend>#i18n{portal.users.manage_advanced_parameters.labelEnablePasswordEncryption}</legend>
+						<div class="form-group">
+							<label class="control-label col-xs-12 col-sm-3">#i18n{portal.users.manage_advanced_parameters.labelEnablePasswordEncryption} :</label>
+							<#if enable_password_encryption = "false">
+								<div class="col-xs-12 col-sm-9">
+									<label class="radio-inline">
+										<input type="radio" name="enable_password_encryption" value="false" <#if use_advanced_security_parameters>disabled="disabled"</#if> checked="checked">
+										#i18n{portal.users.manage_advanced_parameters.buttonPasswordEncryptionOff}
+									</label>
+									<label class="radio-inline">
+										<input type="radio" name="enable_password_encryption" value="true" <#if use_advanced_security_parameters>disabled="disabled"</#if>>
+										#i18n{portal.users.manage_advanced_parameters.buttonPasswordEncryptionOn}
+									</label>
+								</div>
+							<#else>
+								<div class="col-xs-12 col-sm-9">
+									<label class="radio-inline">
+										<input type="radio" name="enable_password_encryption" value="false" <#if use_advanced_security_parameters>disabled="disabled"</#if>> #i18n{portal.users.manage_advanced_parameters.buttonPasswordEncryptionOff}
+									</label>
+									<label class="radio-inline">
+										<input type="radio" name="enable_password_encryption" value="true" <#if use_advanced_security_parameters>disabled="disabled"</#if> checked="checked">
+										#i18n{portal.users.manage_advanced_parameters.buttonPasswordEncryptionOn}
+									</label>
+								</div>
+							</#if>
+						</div>
+						<#if use_advanced_security_parameters>
+							<input type="hidden" name="enable_password_encryption" value="<#if enable_password_encryption?? && enable_password_encryption! = 'true'>true<#else>false</#if>">
+						</#if>
+						<div class="form-group">
+						<label class="control-label col-xs-12 col-sm-3" for="encryption_algorithm">#i18n{portal.users.manage_advanced_parameters.labelEncryptionAlgorithm} :</label>
+							<div class="col-xs-12 col-sm-9">
+								<select id="encryption_algorithm" name="encryption_algorithm" class="form-control" <#if use_advanced_security_parameters>disabled="disabled"</#if>>
+								<#if !encryption_algorithm?has_content>
+									<option value="noValue" selected="selected">#i18n{portal.users.manage_advanced_parameters.labelNoAlgorithm}</option>
+								<#else>
+									<option value="noValue">#i18n{portal.users.manage_advanced_parameters.labelNoAlgorithm}</option>
+								</#if>
+								<#list encryption_algorithms_list as algorithm>
+									<#if algorithm = encryption_algorithm>
+										<option value="${algorithm}" selected="selected">${algorithm}</option>
+									<#else>
+										<option value=${algorithm}>${algorithm}</option>
+									</#if>
+								</#list>
+								</select>
+								<#if use_advanced_security_parameters>
+								<input type="hidden" name="encryption_algorithm" value="${encryption_algorithm!}">
+								</#if>
+							</div>
+						</div>
+						<div class="form-group">
+							<div class="col-xs-12 col-sm-offset-3 col-sm-9">
+							<button class="btn btn-primary btn-xs btn-flat" type="submit" >
+								<i class="fa fa-check"></i> #i18n{portal.users.manage_advanced_parameters.buttonModify}
+							</button>
+							</div>
+						</div>
+						</fieldset>
+					</form>
+					</#if>
 					<!-- DEFAULT USER PARAMETERS -->
 					<form class="form-horizontal" method="post" name="default_user_parameters" action="jsp/admin/user/DoModifyDefaultUserParameterValues.jsp">
 						<fieldset>

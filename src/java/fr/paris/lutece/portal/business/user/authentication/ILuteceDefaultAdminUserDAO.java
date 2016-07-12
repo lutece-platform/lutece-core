@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2015, Mairie de Paris
+ * Copyright (c) 2002-2014, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,7 +33,6 @@
  */
 package fr.paris.lutece.portal.business.user.authentication;
 
-import fr.paris.lutece.util.password.IPassword;
 
 /**
  *
@@ -42,11 +41,12 @@ import fr.paris.lutece.util.password.IPassword;
 public interface ILuteceDefaultAdminUserDAO
 {
     /**
-     * Load the stored password
+     * Check the password of a given user into the table provided by the database authentication module
      * @param strAccessCode The name of the user
-     * @return the stored password
+     * @param strPassword the user password
+     * @return the the error number
      */
-    IPassword loadPassword( String strAccessCode );
+    int checkPassword( String strAccessCode, String strPassword );
 
     /**
      * load the data of an user from the table provided by the database authentication module
@@ -63,11 +63,4 @@ public interface ILuteceDefaultAdminUserDAO
      * @param bIsPasswordReset New value of the reset password attribute
      */
     void updateResetPassword( LuteceDefaultAdminUser user, boolean bIsPasswordReset );
-
-    /**
-     * Store the user password
-     * @param strAccessCode The name of the user
-     * @param password the password to store
-     */
-    void store( String strAccessCode, IPassword password );
 }

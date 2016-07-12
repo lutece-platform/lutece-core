@@ -36,19 +36,16 @@ package fr.paris.lutece.portal.business.user;
 import fr.paris.lutece.portal.business.rbac.AdminRole;
 import fr.paris.lutece.portal.business.right.Right;
 import fr.paris.lutece.portal.business.user.authentication.LuteceDefaultAdminUser;
-import fr.paris.lutece.util.password.IPassword;
-import fr.paris.lutece.util.password.IPasswordFactory;
 import fr.paris.lutece.util.sql.DAOUtil;
 
 import java.sql.Timestamp;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-
-import javax.inject.Inject;
 
 
 /**
@@ -118,9 +115,6 @@ public class AdminUserDAO implements IAdminUserDAO
     private static final String SQL_QUERY_UPDATE_DATE_LAST_LOGIN = " UPDATE core_admin_user SET last_login = ? WHERE id_user = ? ";
     private static final String CONSTANT_CLOSE_PARENTHESIS = " ) ";
     private static final String CONSTANT_COMMA = ", ";
-
-    @Inject
-    private IPasswordFactory _passwordFactory;
 
     /**
      * {@inheritDoc}
@@ -554,7 +548,7 @@ public class AdminUserDAO implements IAdminUserDAO
         daoUtil.setString( 4, user.getFirstName(  ) );
         daoUtil.setString( 5, user.getEmail(  ) );
         daoUtil.setInt( 6, user.getStatus(  ) );
-        daoUtil.setString( 7, user.getPassword(  ).getStorableRepresentation(  ) );
+        daoUtil.setString( 7, user.getPassword(  ) );
         daoUtil.setString( 8, user.getLocale(  ).toString(  ) );
         daoUtil.setInt( 9, user.getUserLevel(  ) );
         daoUtil.setBoolean( 10, user.getAccessibilityMode(  ) );
@@ -589,7 +583,7 @@ public class AdminUserDAO implements IAdminUserDAO
         daoUtil.setString( 3, user.getFirstName(  ) );
         daoUtil.setString( 4, user.getEmail(  ) );
         daoUtil.setInt( 5, user.getStatus(  ) );
-        daoUtil.setString( 6, user.getPassword(  ).getStorableRepresentation(  ) );
+        daoUtil.setString( 6, user.getPassword(  ) );
         daoUtil.setString( 7, user.getLocale(  ).toString(  ) );
         daoUtil.setBoolean( 8, user.isPasswordReset(  ) );
         daoUtil.setBoolean( 9, user.getAccessibilityMode(  ) );
@@ -613,29 +607,25 @@ public class AdminUserDAO implements IAdminUserDAO
         daoUtil.setInt( 1, nUserId );
         daoUtil.executeQuery(  );
 
-        try
+        if ( daoUtil.next(  ) )
         {
-            if ( daoUtil.next(  ) )
-            {
-                user.setUserId( daoUtil.getInt( 1 ) );
-                user.setAccessCode( daoUtil.getString( 2 ) );
-                user.setLastName( daoUtil.getString( 3 ) );
-                user.setFirstName( daoUtil.getString( 4 ) );
-                user.setEmail( daoUtil.getString( 5 ) );
-                user.setStatus( daoUtil.getInt( 6 ) );
-                user.setPassword( _passwordFactory.getPassword( daoUtil.getString( 7 ) ) );
+            user.setUserId( daoUtil.getInt( 1 ) );
+            user.setAccessCode( daoUtil.getString( 2 ) );
+            user.setLastName( daoUtil.getString( 3 ) );
+            user.setFirstName( daoUtil.getString( 4 ) );
+            user.setEmail( daoUtil.getString( 5 ) );
+            user.setStatus( daoUtil.getInt( 6 ) );
+            user.setPassword( daoUtil.getString( 7 ) );
 
-                Locale locale = new Locale( daoUtil.getString( 8 ) );
-                user.setLocale( locale );
-                user.setUserLevel( daoUtil.getInt( 9 ) );
-                user.setPasswordReset( daoUtil.getBoolean( 10 ) );
-                user.setAccessibilityMode( daoUtil.getBoolean( 11 ) );
-                user.setWorkgroupKey( daoUtil.getString( 14 ) );
-            }
-        } finally
-        {
-            daoUtil.free(  );
+            Locale locale = new Locale( daoUtil.getString( 8 ) );
+            user.setLocale( locale );
+            user.setUserLevel( daoUtil.getInt( 9 ) );
+            user.setPasswordReset( daoUtil.getBoolean( 10 ) );
+            user.setAccessibilityMode( daoUtil.getBoolean( 11 ) );
+            user.setWorkgroupKey( daoUtil.getString( 14 ) );
         }
+
+        daoUtil.free(  );
 
         return user;
     }
@@ -954,9 +944,9 @@ public class AdminUserDAO implements IAdminUserDAO
      * {@inheritDoc}
      */
     @Override
-    public List<IPassword> selectUserPasswordHistory( int nUserID )
+    public List<String> selectUserPasswordHistory( int nUserID )
     {
-        List<IPassword> listPasswordHistory = new ArrayList<IPassword>(  );
+        List<String> listPasswordHistory = new ArrayList<String>(  );
 
         DAOUtil daoUtil = new DAOUtil( SQL_SELECT_USER_PASSWORD_HISTORY );
         daoUtil.setInt( 1, nUserID );
@@ -964,7 +954,7 @@ public class AdminUserDAO implements IAdminUserDAO
 
         while ( daoUtil.next(  ) )
         {
-            listPasswordHistory.add( _passwordFactory.getPassword( daoUtil.getString( 1 ) ) );
+            listPasswordHistory.add( daoUtil.getString( 1 ) );
         }
 
         daoUtil.free(  );
@@ -999,11 +989,11 @@ public class AdminUserDAO implements IAdminUserDAO
      * {@inheritDoc}
      */
     @Override
-    public void insertNewPasswordInHistory( IPassword password, int nUserId )
+    public void insertNewPasswordInHistory( String strPassword, int nUserId )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_INSERT_PASSWORD_HISTORY );
         daoUtil.setInt( 1, nUserId );
-        daoUtil.setString( 2, password.getStorableRepresentation(  ) );
+        daoUtil.setString( 2, strPassword );
 
         daoUtil.executeUpdate(  );
         daoUtil.free(  );

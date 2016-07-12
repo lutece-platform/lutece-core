@@ -34,7 +34,6 @@
 package fr.paris.lutece.portal.business.user.authentication;
 
 import fr.paris.lutece.portal.business.user.AdminUser;
-import fr.paris.lutece.util.password.IPassword;
 
 import java.sql.Date;
 
@@ -44,9 +43,7 @@ import java.sql.Date;
  */
 public class LuteceDefaultAdminUser extends AdminUser
 {
-    private static final long serialVersionUID = 332356404347911044L;
-
-    private IPassword _password;
+    private String _strPassword;
     private Date _dateValidityPassword;
     private String _strLastPassword;
 
@@ -72,18 +69,18 @@ public class LuteceDefaultAdminUser extends AdminUser
      * Returns the Password
      * @return The Password.
      */
-    public IPassword getPassword(  )
+    public String getPassword(  )
     {
-        return _password;
+        return _strPassword;
     }
 
     /**
      * Sets the password
      * @param strPassword The Password
      */
-    public void setPassword( IPassword password )
+    public void setPassword( String strPassword )
     {
-        _password = password;
+        _strPassword = strPassword;
     }
 
     /**
