@@ -288,6 +288,13 @@
         </dependency>
     </dependencies>
 
+    <distributionManagement>
+        <site>
+            <id>lutece_ftp_site_maven</id>
+            <url>ftp://site-deploy.dev.lutece.paris.fr/site/</url>
+        </site>
+    </distributionManagement>
+
     <scm>
         <connection>scm:git:https://github.com/lutece-platform/lutece-core.git</connection>
         <developerConnection>scm:git:https://github.com/lutece-platform/lutece-core.git</developerConnection>
