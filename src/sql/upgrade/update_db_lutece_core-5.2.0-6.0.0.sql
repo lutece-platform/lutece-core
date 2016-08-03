@@ -1,0 +1,1 @@
+ALTER TABLE core_file ADD_COLUMN date_creation DATETIME DEFAULT NULL;

@@ -36,6 +36,7 @@ package fr.paris.lutece.portal.business.file;
 import fr.paris.lutece.portal.business.physicalfile.PhysicalFile;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 
 
 /**
@@ -52,6 +53,7 @@ public class File implements Serializable
     private int _nSize;
     private String _strExtension;
     private String _strMimeType;
+    private Timestamp _dateCreation;
 
     /**
      *
@@ -160,4 +162,24 @@ public class File implements Serializable
     {
         _physicalFile = file;
     }
+    
+    /**
+     *
+     * @return the creation date of the file
+     */
+    public Timestamp getDateCreation(  )
+    {
+        return _dateCreation;
+    }
+
+    /**
+     * set the creation date of the file
+     * @param dateCreation the creation date of the file
+     */
+    public void setDateCreation( Timestamp dateCreation )
+    {
+        _dateCreation = dateCreation;
+    }
+    
+    
 }
