@@ -35,7 +35,8 @@ package fr.paris.lutece.portal.business.file;
 
 import fr.paris.lutece.portal.business.physicalfile.PhysicalFile;
 import fr.paris.lutece.util.sql.DAOUtil;
-
+import java.sql.Timestamp;
+import java.util.Date;
 
 /**
  * This class provides Data Access methods for Field objects
@@ -44,19 +45,20 @@ public final class FileDAO implements IFileDAO
 {
     // Constants
     private static final String SQL_QUERY_NEW_PK = "SELECT max( id_file ) FROM core_file";
-    private static final String SQL_QUERY_FIND_BY_PRIMARY_KEY = "SELECT id_file,title,id_physical_file,file_size,mime_type" +
+    private static final String SQL_QUERY_FIND_BY_PRIMARY_KEY = "SELECT id_file,title,id_physical_file,file_size,mime_type,date_creation" +
         " FROM core_file WHERE id_file = ?";
-    private static final String SQL_QUERY_INSERT = "INSERT INTO core_file(id_file,title,id_physical_file,file_size,mime_type)" +
-        " VALUES(?,?,?,?,?)";
+    private static final String SQL_QUERY_INSERT = "INSERT INTO core_file(id_file,title,id_physical_file,file_size,mime_type,date_creation)" +
+        " VALUES(?,?,?,?,?,?)";
     private static final String SQL_QUERY_DELETE = "DELETE FROM core_file WHERE id_file = ? ";
     private static final String SQL_QUERY_UPDATE = "UPDATE  core_file SET " +
-        "id_file=?,title=?,id_physical_file=?,file_size=?,mime_type=? WHERE id_file = ?";
+        "id_file=?,title=?,id_physical_file=?,file_size=?,mime_type=?,date_creation=? WHERE id_file = ?";
 
     /**
      * Generates a new primary key
      *
      * @return The new primary key
      */
+    @Override
     public int newPrimaryKey(  )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_NEW_PK );
@@ -82,6 +84,8 @@ public final class FileDAO implements IFileDAO
      * @param file instance of the File object to insert
      * @return the id of the new file
      */
+    
+    @Override
     public synchronized int insert( File file )
     {
         file.setIdFile( newPrimaryKey(  ) );
@@ -100,7 +104,7 @@ public final class FileDAO implements IFileDAO
 
         daoUtil.setInt( 4, file.getSize(  ) );
         daoUtil.setString( 5, file.getMimeType(  ) );
-
+        daoUtil.setTimestamp( 6, new Timestamp( new Date(  ).getTime(  ) ) );
         daoUtil.setInt( 1, file.getIdFile(  ) );
         daoUtil.executeUpdate(  );
 
@@ -115,6 +119,7 @@ public final class FileDAO implements IFileDAO
      * @param nId The identifier of the file
      * @return the instance of the File
      */
+    @Override
     public File load( int nId )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_FIND_BY_PRIMARY_KEY );
@@ -139,6 +144,7 @@ public final class FileDAO implements IFileDAO
 
             file.setSize( daoUtil.getInt( 4 ) );
             file.setMimeType( daoUtil.getString( 5 ) );
+            file.setDateCreation( daoUtil.getTimestamp( 6 ));
         }
 
         daoUtil.free(  );
@@ -151,6 +157,7 @@ public final class FileDAO implements IFileDAO
      *
      * @param nIdFile The identifier of the file
      */
+    @Override
     public void delete( int nIdFile )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE );
@@ -164,6 +171,7 @@ public final class FileDAO implements IFileDAO
      *
      * @param file instance of the File object to update
      */
+    @Override
     public void store( File file )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE );
@@ -181,7 +189,8 @@ public final class FileDAO implements IFileDAO
 
         daoUtil.setInt( 4, file.getSize(  ) );
         daoUtil.setString( 5, file.getMimeType(  ) );
-        daoUtil.setInt( 6, file.getIdFile(  ) );
+        daoUtil.setTimestamp( 6,  new Timestamp( new Date(  ).getTime(  ) ) );
+        daoUtil.setInt( 7, file.getIdFile(  ) );
         daoUtil.executeUpdate(  );
         daoUtil.free(  );
     }
