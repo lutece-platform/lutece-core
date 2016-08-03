@@ -97,8 +97,24 @@ public interface IWorkflowProvider
      * @param strTemplate The template
      * @return the history of actions performed on a resource
      */
+    @Deprecated
     String getDisplayDocumentHistory( int nIdResource, String strResourceType, int nIdWorkflow,
         HttpServletRequest request, Locale locale, String strTemplate );
+
+    /**
+     * returns the  actions history performed on a resource.
+     *
+     * @param nIdResource the resource id
+     * @param strResourceType the resource type
+     * @param nIdWorkflow the workflow id
+     * @param request the request
+     * @param locale the locale
+     * @param model The model to add to the default model
+     * @param strTemplate The template
+     * @return the history of actions performed on a resource
+     */
+    String getDisplayDocumentHistory( int nIdResource, String strResourceType, int nIdWorkflow,
+        HttpServletRequest request, Locale locale, Map<String, Object> model, String strTemplate );
 
     /**
      * returns a xml wich contains the  actions history performed on a resource.

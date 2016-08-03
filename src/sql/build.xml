@@ -14,10 +14,10 @@
             <echo message="sql.password : @{sql.password}" />
             <echo message="sql.connector.path : @{sql.connector.path}" /-->
             <!-- Concatenate all sql files into one -->
-            <echo message="Creating sql resource from the following files:${line.separator}"/>
-            <pathconvert pathsep="${line.separator}" refid="@{sql.fileset.refid}">
-                <map from="${basedir}/" to=""></map>
+            <pathconvert property="log_pathconvert_@{sql.fileset.refid}" pathsep="${line.separator}" refid="@{sql.fileset.refid}">
+                <map from="${basedir}/" to="    "></map>
             </pathconvert>
+            <echo message="Creating sql resource from the following files:${line.separator}${log_pathconvert_@{sql.fileset.refid}}"/>
             <tempfile property="temp.sql" prefix="tmp_" />
             <concat destfile="${temp.sql}" fixlastline="true">
             	<fileset file="init_db/init_session_${dbms}.sql" />

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2015, Mairie de Paris
+ * Copyright (c) 2015, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -31,43 +31,34 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.portal.business.user.authentication;
-
-import fr.paris.lutece.util.password.IPassword;
+package fr.paris.lutece.util.password;
 
 /**
- *
- * @author lenaini
+ * A factory for handling stored representation of passwords
  */
-public interface ILuteceDefaultAdminUserDAO
+public interface IPasswordFactory
 {
-    /**
-     * Load the stored password
-     * @param strAccessCode The name of the user
-     * @return the stored password
-     */
-    IPassword loadPassword( String strAccessCode );
+    public static final String BEAN_NAME = "passwordFactory";
 
     /**
-     * load the data of an user from the table provided by the database authentication module
-     * This only provides data specific to the database authentication module.
-     * @param strAccessCode The access code of user
-     * @param authenticationService The AdminAuthentication
-     * @return user The instance of an LuteceDefaultAdminUser's object
+     * Get a password for the stored representation
+     * @param strStoredPassword the stored password
+     * @return the password
      */
-    LuteceDefaultAdminUser load( String strAccessCode, AdminAuthentication authenticationService );
+    IPassword getPassword( String strStoredPassword );
 
     /**
-     * Set the reset password attribute of the user
-     * @param user User to update
-     * @param bIsPasswordReset New value of the reset password attribute
+     * Get a password for cleartext password
+     * @param strUserPassword the cleartext password
+     * @return the password
      */
-    void updateResetPassword( LuteceDefaultAdminUser user, boolean bIsPasswordReset );
+    IPassword getPasswordFromCleartext( String strUserPassword );
 
     /**
-     * Store the user password
-     * @param strAccessCode The name of the user
-     * @param password the password to store
+     * Get a password which should never match,
+     * to be used for timing attack resistance
+     * @return a dummy password
      */
-    void store( String strAccessCode, IPassword password );
+    IPassword getDummyPassword(  );
+
 }

@@ -245,6 +245,7 @@ public final class WorkflowService
      * @param strTemplate The template
      * @return the history of actions performed on a resource
      */
+    @Deprecated   
     public String getDisplayDocumentHistory( int nIdResource, String strResourceType, int nIdWorkflow,
         HttpServletRequest request, Locale locale, String strTemplate )
     {
@@ -255,6 +256,35 @@ public final class WorkflowService
         try
         {
             return _provider.getDisplayDocumentHistory( nIdResource, strResourceType, nIdWorkflow, request, locale, strTemplate );
+        }
+        catch( NoSuchMethodError ex )
+        {
+            AppLogService.error( "You are using a too old Workflow provider version. Please upgrade.");
+            return _provider.getDisplayDocumentHistory( nIdResource, strResourceType, nIdWorkflow, request, locale );
+        }
+    }
+
+    /**
+     * returns the actions history performed on a resource
+     * @param nIdResource the resource id
+     * @param strResourceType the resource type
+     * @param request the request
+     * @param nIdWorkflow the workflow id
+     * @param locale the locale
+     * @param model The model to add to the default model
+     * @param strTemplate The template
+     * @return the history of actions performed on a resource
+     */
+    public String getDisplayDocumentHistory( int nIdResource, String strResourceType, int nIdWorkflow,
+        HttpServletRequest request, Locale locale, Map<String, Object> model, String strTemplate )
+    {
+        if( ! isAvailable() )
+        {
+            return null;
+        }
+        try
+        {
+            return _provider.getDisplayDocumentHistory( nIdResource, strResourceType, nIdWorkflow, request, locale, model, strTemplate );
         }
         catch( NoSuchMethodError ex )
         {

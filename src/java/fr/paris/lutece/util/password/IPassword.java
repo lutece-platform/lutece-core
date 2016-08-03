@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2015, Mairie de Paris
+ * Copyright (c) 2015, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -31,43 +31,32 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.portal.business.user.authentication;
-
-import fr.paris.lutece.util.password.IPassword;
+package fr.paris.lutece.util.password;
 
 /**
- *
- * @author lenaini
+ * Representation of a user password stored in the database
  */
-public interface ILuteceDefaultAdminUserDAO
+public interface IPassword
 {
     /**
-     * Load the stored password
-     * @param strAccessCode The name of the user
-     * @return the stored password
+     * Check if the user supplied password is equal to the one
+     * represented by this object
+     * @param strCleartextPassword the user supplied password in clear text
+     * @return <code>true</code> if the password match, <code>false</code> otherwise
      */
-    IPassword loadPassword( String strAccessCode );
+    boolean check( String strCleartextPassword );
 
     /**
-     * load the data of an user from the table provided by the database authentication module
-     * This only provides data specific to the database authentication module.
-     * @param strAccessCode The access code of user
-     * @param authenticationService The AdminAuthentication
-     * @return user The instance of an LuteceDefaultAdminUser's object
+     * Tells if the password is in legacy format and should be
+     * upgraded to the current format
+     * @return <code>true</code> if the password is in a legacy format, <code>false</code> otherwise
      */
-    LuteceDefaultAdminUser load( String strAccessCode, AdminAuthentication authenticationService );
+    boolean isLegacy(  );
 
     /**
-     * Set the reset password attribute of the user
-     * @param user User to update
-     * @param bIsPasswordReset New value of the reset password attribute
+     * Get a representation of this password suitable for storage
+     * @return a representation of this password suitable for storage
      */
-    void updateResetPassword( LuteceDefaultAdminUser user, boolean bIsPasswordReset );
+    String getStorableRepresentation(  );
 
-    /**
-     * Store the user password
-     * @param strAccessCode The name of the user
-     * @param password the password to store
-     */
-    void store( String strAccessCode, IPassword password );
 }

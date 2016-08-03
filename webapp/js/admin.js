@@ -65,7 +65,7 @@ $( function(){
 			nCounter = thisTXT[0];
 			sVal = " / " + thisTXT[1];
 		}
-		if ( !isNaN( nCounter ) ) {
+		if ( $.isNumeric( nCounter ) ) {
 			$(this).prop('Counter',0).animate({
 				Counter: nCounter
 			}, {
@@ -90,10 +90,9 @@ $( function(){
 			sVal = " / " + thisTXT[1];
 		}
 
-		if ( !isNaN( nCounter ) ) {
+		if ( $.isNumeric( nCounter ) && $.isNumeric( nMax ) ) {
 			$(this).prop('Counter',0).animate({
 				Counter: nCounter
-
 			}, {
 				duration: 1000,
 				easing: 'swing',

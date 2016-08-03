@@ -416,7 +416,7 @@
 						</div>
 					</div>
 				</#list>
-				<div class="form-actions">
+				<div class="form-group">
 					<input type="hidden" name="${dataTableManager.filterPanelPrefix}updateFilters" id="${dataTableManager.filterPanelPrefix}updateFilters" value="true" />
 					<input type="hidden" name="${dataTableManager.id}" id="${dataTableManager.id}" value="${dataTableManager.id}" />
 					<button class="btn btn-primary btn-sm" type="submit" >
@@ -439,7 +439,7 @@
 </#macro>
 
 <#-- Macro messages : display message block for errors or infos -->
-<#macro messages errors=[] infos=[] errors_class="alert alert-danger" infos_class="alert alert-info" >
+<#macro messages errors=[] infos=[] warnings=[] errors_class="alert alert-danger" infos_class="alert alert-info" warnings_class="alert alert-warning">
 
     <#-- Error messages handling -->
     <#if errors??>
@@ -465,12 +465,24 @@
         </#if>
     </#if>
 
+    <#-- Warning messages handling -->
+    <#if warnings??>
+        <#if warnings?size &gt; 0 >
+            <div class="${warnings_class}" id="messages_warnings_div" >
+                <a class="close" data-dismiss="alert" href="#">x</a>
+                <#list warnings as warning >
+                    <i class="fa fa-info-circle"></i> ${warning.message} <br>
+                </#list>
+            </div>
+        </#if>
+    </#if>
+
 </#macro>
 
 <#macro fieldInputText i18nLabelKey inputName mandatory=false value="" maxlength=0 i18nHelpBlockKey='' cssClass='form-control'>
 	<div class="form-group">
-		<label class="col-xs-12 col-sm-3 col-md-3 control-label" for="${inputName}">#i18n{${i18nLabelKey}}&nbsp;<#if mandatory>*</#if>&nbsp;:</label>
-		<div class="col-xs-12 col-sm-9 col-md-9">
+		<label class="col-xs-12 col-sm-3 col-md-3 col-lg-3 control-label" for="${inputName}">#i18n{${i18nLabelKey}}&nbsp;<#if mandatory>*</#if>&nbsp;:</label>
+		<div class="col-xs-12 col-sm-9 col-md-6 col-lg-6">
 			<input class="${cssClass}" id="${inputName}" name="${inputName}" type="text" value="${value}" <#if maxlength &gt; 0>maxlength=${maxlength}</#if> />
 			<#if i18nHelpBlockKey != ''><p class="help-block">#i18n{${i18nHelpBlockKey}}</p></#if>
 		</div>
@@ -479,8 +491,8 @@
 
 <#macro fieldInputPassword i18nLabelKey inputName mandatory=false value="" maxlength=0 i18nHelpBlockKey='' cssClass='form-control'>
 	<div class="form-group">
-		<label class="col-xs-12 col-sm-3 control-label" for="${inputName}">#i18n{${i18nLabelKey}}&nbsp;<#if mandatory>*</#if>&nbsp;:</label>
-		<div class="col-xs-12 col-sm-9">
+		<label class="col-xs-12 col-sm-3 col-md-3 col-lg-3 control-label" for="${inputName}">#i18n{${i18nLabelKey}}&nbsp;<#if mandatory>*</#if>&nbsp;:</label>
+		<div class="col-xs-12 col-sm-9 col-md-6 col-lg-6">
 			<input class="${cssClass}" id="${inputName}" name="${inputName}" type="password" value="${value}" <#if maxlength &gt; 0>maxlength=${maxlength}</#if>>
 			<#if i18nHelpBlockKey != ''><p class="help-block">#i18n{${i18nHelpBlockKey}}</p></#if>
 		</div>
@@ -489,8 +501,8 @@
 
 <#macro fieldInputWrapper i18nLabelKey inputName mandatory=false value="" maxlength=0 i18nHelpBlockKey='' cssClass='form-control'>
 	<div class="form-group">
-		<label class="col-xs-12 col-sm-3 control-label" for="${inputName}">#i18n{${i18nLabelKey}}&nbsp;<#if mandatory>*</#if>&nbsp;:</label>
-		<div class="col-xs-12 col-sm-9">
+		<label class="col-xs-12 col-sm-3 col-md-3 col-lg-3 control-label" for="${inputName}">#i18n{${i18nLabelKey}}&nbsp;<#if mandatory>*</#if>&nbsp;:</label>
+		<div class="col-xs-12 col-sm-9 col-md-6 col-lg-6">
 			<#nested>
 			<#if i18nHelpBlockKey != ''><p class="help-block">#i18n{${i18nHelpBlockKey}}</p></#if>
 		</div>
@@ -499,8 +511,8 @@
 
 <#macro fieldStaticText i18nLabelKey cssClass='form-control' >
 	<div class="form-group">
-		<label class="col-xs-12 col-sm-3 control-label">#i18n{${i18nLabelKey}}&nbsp; :</label>
-		<div class="col-xs-12 col-sm-9">
+		<label class="col-xs-12 col-sm-3 col-md-3 col-lg-3 control-label">#i18n{${i18nLabelKey}}&nbsp; :</label>
+		<div class="col-xs-12 col-sm-9 col-md-6 col-lg-6">
                     <p class="form-control-static">
 			<#nested>
                     </p>
@@ -510,8 +522,8 @@
 
 <#macro fieldInputCalendar i18nLabelKey inputName mandatory=false value="" i18nHelpBlockKey='' cssClass='form-control' language='fr'>
 	<div class="form-group">
-		<label class="col-xs-12 col-sm-3 control-label" for="${inputName}">#i18n{${i18nLabelKey}}&nbsp;<#if mandatory>*</#if>&nbsp;:</label>
-		<div class="col-xs-12 col-sm-9">
+		<label class="col-xs-12 col-sm-3 col-md-3 col-lg-3 control-label" for="${inputName}">#i18n{${i18nLabelKey}}&nbsp;<#if mandatory>*</#if>&nbsp;:</label>
+		<div class="col-xs-12 col-sm-9 col-md-6 col-lg-6">
 			<div class="input-group">
 				<div class="input-group-addon"><i class="fa fa-calendar">&nbsp;</i></div>
 				<input class="${cssClass}" id="${inputName}" name="${inputName}" type="text" value="${value}" >
@@ -524,10 +536,11 @@
 
 <#macro fieldInputCheckBox i18nLabelKey inputName value="" disabled=false checked=false i18nHelpBlockKey='' cssClass='' >
 	<div class="form-group">
-		<div class="col-xs-12 col-sm-offset-3 col-sm-9">
+		<div class="col-xs-12 col-sm-offset-3 col-sm-6 col-md-offset-3 col-md-6 col-lg-offset-3 col-lg-6">
 			<div class="checkbox<#if disabled> disabled</#if> ">
 				<label>
-					<input class="${cssClass}" id="${inputName}" name="${inputName}" type="checkbox" value="${value}" <#if checked>checked</#if> <#if disabled>disabled</#if> > #i18n{${i18nLabelKey}}
+					<input class="${cssClass}" id="${inputName}" name="${inputName}" type="checkbox" value="${value}" <#if checked>checked</#if> <#if disabled>disabled</#if> >
+					#i18n{${i18nLabelKey}}
 				</label>
 			</div>
 			<#if i18nHelpBlockKey != ''><p class="help-block">#i18n{${i18nHelpBlockKey}}</p></#if>
@@ -537,10 +550,11 @@
 
 <#macro fieldInputRadioBox i18nLabelKey inputName value="" disabled=false checked=false i18nHelpBlockKey='' cssClass='' >
 	<div class="form-group">
-		<div class="col-xs-12 col-sm-offset-3 col-sm-9">
+		<div class="col-xs-12 col-sm-offset-3 col-sm-6 col-md-offset-3 col-md-6 col-lg-offset-3 col-lg-6">
 			<div class="radio<#if disabled> disabled</#if> ">
 				<label>
-					<input class="${cssClass}" id="${inputName}" name="${inputName}" type="radio" value="${value}" <#if checked>checked</#if> <#if disabled>disabled</#if> > #i18n{${i18nLabelKey}}
+					<input class="${cssClass}" id="${inputName}" name="${inputName}" type="radio" value="${value}" <#if checked>checked</#if> <#if disabled>disabled</#if> >
+					#i18n{${i18nLabelKey}}
 				</label>
 			</div>
 			<#if i18nHelpBlockKey != ''><p class="help-block">#i18n{${i18nHelpBlockKey}}</p></#if>
@@ -562,8 +576,8 @@
 
 <#macro fieldInputCombo i18nLabelKey inputName items value="" mandatory=false i18nHelpBlockKey='' cssClass='form-control' >
 	<div class="form-group">
-		<label class="col-xs-12 col-sm-3 control-label" for="${inputName}">#i18n{${i18nLabelKey}}&nbsp;<#if mandatory>*&nbsp;</#if>:</label>
-		<div class="col-xs-12 col-sm-9">
+		<label class="col-xs-12 col-sm-3 col-md-3 col-lg-3 control-label" for="${inputName}">#i18n{${i18nLabelKey}}&nbsp;<#if mandatory>*&nbsp;</#if>:</label>
+		<div class="col-xs-12 col-sm-9 col-md-6 col-lg-6">
 			<#assign params = "class='" + cssClass + "'" >
 			<@comboWithParams name=inputName items=items default_value=value additionalParameters=params />
 			<#if i18nHelpBlockKey != ''><p class="help-block">#i18n{${i18nHelpBlockKey}}</p></#if>
@@ -573,8 +587,8 @@
 
 <#macro fieldTextArea i18nLabelKey inputName mandatory=false value="" maxlength=0 i18nHelpBlockKey='' cssClass='form-control'>
 	<div class="form-group">
-		<label class="col-xs-12 col-sm-3 control-label" for="${inputName}">#i18n{${i18nLabelKey}}&nbsp;<#if mandatory>*</#if>&nbsp;:</label>
-		<div class="col-xs-12 col-sm-9">
+		<label class="col-xs-12 col-sm-3 col-md-3 col-lg-3 control-label" for="${inputName}">#i18n{${i18nLabelKey}}&nbsp;<#if mandatory>*</#if>&nbsp;:</label>
+		<div class="col-xs-12 col-sm-9 col-md-6 col-lg-6">
 			<textarea class="${cssClass}" id="${inputName}" name="${inputName}" <#if maxlength &gt; 0>maxlength=255</#if> >${value}</textarea>
 			<#if i18nHelpBlockKey != ''><p class="help-block">#i18n{${i18nHelpBlockKey}}</p></#if>
 		</div>
