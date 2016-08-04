@@ -439,7 +439,7 @@
 </#macro>
 
 <#-- Macro messages : display message block for errors or infos -->
-<#macro messages errors=[] infos=[] errors_class="alert alert-danger" infos_class="alert alert-info" >
+<#macro messages errors=[] infos=[] warnings=[] errors_class="alert alert-danger" infos_class="alert alert-info" warnings_class="alert alert-warning">
 
     <#-- Error messages handling -->
     <#if errors??>
@@ -460,6 +460,18 @@
                 <a class="close" data-dismiss="alert" href="#">x</a>
                 <#list infos as info >
                     <i class="fa fa-info-circle"></i> ${info.message} <br>
+                </#list>
+            </div>
+        </#if>
+    </#if>
+
+    <#-- Warning messages handling -->
+    <#if warnings??>
+        <#if warnings?size &gt; 0 >
+            <div class="${warnings_class}" id="messages_warnings_div" >
+                <a class="close" data-dismiss="alert" href="#">x</a>
+                <#list warnings as warning >
+                    <i class="fa fa-info-circle"></i> ${warning.message} <br>
                 </#list>
             </div>
         </#if>

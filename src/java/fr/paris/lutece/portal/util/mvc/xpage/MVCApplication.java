@@ -89,6 +89,7 @@ public abstract class MVCApplication implements XPageApplication
     private static final long serialVersionUID = 6093635383465830355L;
     private static final String MARK_ERRORS = "errors";
     private static final String MARK_INFOS = "infos";
+    private static final String MARK_WARNINGS = "warnings";
     private static final String MARK_MESSAGE_BOX = "messageBox";
     private static final String URL_PORTAL = "Portal.jsp";
     private static final String PATH_PORTAL = "jsp/site/";
@@ -98,6 +99,7 @@ public abstract class MVCApplication implements XPageApplication
     private static Logger _logger = MVCUtils.getLogger(  );
     private List<ErrorMessage> _listErrors = new ArrayList<ErrorMessage>(  );
     private List<ErrorMessage> _listInfos = new ArrayList<ErrorMessage>(  );
+    private List<ErrorMessage> _listWarnings = new ArrayList<ErrorMessage>(  );
     private MVCMessageBox _messageBox;
     private Controller _controller = getClass(  ).getAnnotation( Controller.class );
 
@@ -399,6 +401,25 @@ public abstract class MVCApplication implements XPageApplication
     }
 
     /**
+     * Add an warning message. The warning message must NOT be an I18n key.
+     * @param strMessage The message
+     */
+    protected void addWarning( String strMessage )
+    {
+	_listWarnings.add( new MVCMessage( strMessage ) );
+    }
+
+    /**
+     * Add an warning message. The warning message must be an I18n key.
+     * @param strMessageKey The message
+     * @param locale The locale to display the message in
+     */
+    protected void addWarning( String strMessageKey, Locale locale )
+    {
+        _listWarnings.add( new MVCMessage( I18nService.getLocalizedString( strMessageKey, locale ) ) );
+    }
+
+    /**
      * Add an info message. The info message must NOT be an I18n key.
      * @param strMessage The message
      */
@@ -425,10 +446,13 @@ public abstract class MVCApplication implements XPageApplication
     {
         List<ErrorMessage> listErrors = new ArrayList<ErrorMessage>( _listErrors );
         List<ErrorMessage> listInfos = new ArrayList<ErrorMessage>( _listInfos );
+        List<ErrorMessage> listWarnings = new ArrayList<ErrorMessage>( _listWarnings );
         model.put( MARK_ERRORS, listErrors );
         model.put( MARK_INFOS, listInfos );
+        model.put( MARK_WARNINGS, listWarnings );
         _listErrors.clear(  );
         _listInfos.clear(  );
+        _listWarnings.clear(  );
     }
 
     ////////////////////////////////////////////////////////////////////////////
