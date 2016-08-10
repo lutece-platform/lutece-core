@@ -32,7 +32,7 @@
 				<a href="http://dev.lutece.paris.fr/jira/browse/LUTECE" target="_blank">Issue Tracking</a> : this is a link to the issue management system for this project. Issues (bugs, features, change requests) can be created and queried using this link.
 			</p>	
 			<p>
-				<a href="http://dev.lutece.paris.fr/viewvc/portal/trunk/" target="_blank">Source Repository</a> : this is a link to the online source repository that can be viewed via a web browser.
+				<a href="https://github.com/lutece-platform/lutece-core/" target="_blank">Source Repository</a> : this is a link to the online source repository that can be viewed via a web browser.
 			</p>
 			<p>
 				<a href="dependencies.html">Dependencies</a> : this document lists the projects dependencies and provides information on each dependency.
