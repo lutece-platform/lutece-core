@@ -188,7 +188,7 @@ CREATE TABLE core_file (
 	id_physical_file INT DEFAULT NULL,  
 	file_size  INT DEFAULT NULL,
 	mime_type VARCHAR(255) DEFAULT NULL,
-	date_creation DEFAULT NULL,
+	date_creation datetime default NULL NULL,
 	PRIMARY KEY (id_file)
 );
 
