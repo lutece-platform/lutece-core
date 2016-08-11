@@ -39,6 +39,7 @@
                  url="@{sql.url}"
                  userid="@{sql.userid}" 
                  password="@{sql.password}"
+                 autocommit="true"
                  classpath="@{sql.connector.path}"
                  onerror="${on_sql_error}"
                  encoding="${db.encoding}"
