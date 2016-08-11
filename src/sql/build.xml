@@ -174,7 +174,7 @@
         <property file="${db.properties.path}" />
         <propertyregex property="baseUrl"
                        input="${portal.url}"
-                       select="\1/\2"
+                       select="\1/postgres"
                        casesensitive="false">
             <regexp refid="regexp.postgresql.url"/>
         </propertyregex>
