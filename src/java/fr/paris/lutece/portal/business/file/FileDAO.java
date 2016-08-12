@@ -51,7 +51,7 @@ public final class FileDAO implements IFileDAO
         " VALUES(?,?,?,?,?,?)";
     private static final String SQL_QUERY_DELETE = "DELETE FROM core_file WHERE id_file = ? ";
     private static final String SQL_QUERY_UPDATE = "UPDATE  core_file SET " +
-        "id_file=?,title=?,id_physical_file=?,file_size=?,mime_type=?,date_creation=? WHERE id_file = ?";
+        "id_file=?,title=?,id_physical_file=?,file_size=?,mime_type=? WHERE id_file = ?";
 
     /**
      * Generates a new primary key
@@ -189,8 +189,7 @@ public final class FileDAO implements IFileDAO
 
         daoUtil.setInt( 4, file.getSize(  ) );
         daoUtil.setString( 5, file.getMimeType(  ) );
-        daoUtil.setTimestamp( 6,  new Timestamp( new Date(  ).getTime(  ) ) );
-        daoUtil.setInt( 7, file.getIdFile(  ) );
+        daoUtil.setInt( 6, file.getIdFile(  ) );
         daoUtil.executeUpdate(  );
         daoUtil.free(  );
     }
