@@ -1,4 +1,4 @@
-<%@ page errorPage="../ErrorPage.jsp" %>
+<%@ page errorPage="ErrorPage.jsp" %>
 
 
 <jsp:useBean id="admin" scope="session" class="fr.paris.lutece.portal.web.admin.AdminPageJspBean" />
