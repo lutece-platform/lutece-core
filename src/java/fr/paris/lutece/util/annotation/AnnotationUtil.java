@@ -40,7 +40,6 @@ import java.lang.annotation.Annotation;
 
 import java.util.Set;
 
-
 /**
  *
  * Allow classpath scanning for annotations
@@ -55,34 +54,37 @@ public final class AnnotationUtil
         // check annotation db
         if ( ANNOTATION_DB == null )
         {
-            throw new AppException( 
-                "Bean annotationDB is not correctly set. Please check you core_context.xml configuration." );
+            throw new AppException( "Bean annotationDB is not correctly set. Please check you core_context.xml configuration." );
         }
 
-        ANNOTATION_DB.init(  );
+        ANNOTATION_DB.init( );
     }
 
     /**
      * Empty constructor
      */
-    private AnnotationUtil(  )
+    private AnnotationUtil( )
     {
         // nothing
     }
 
     /**
      * Finds all classes with the given annotation
-     * @param annotationType the annotation class
+     * 
+     * @param annotationType
+     *            the annotation class
      * @return all classes founds
      */
-    public static Set<String> find( Class<?extends Annotation> annotationType )
+    public static Set<String> find( Class<? extends Annotation> annotationType )
     {
         return ANNOTATION_DB.getClassesName( annotationType );
     }
 
     /**
      * Finds all classes with the given annotation
-     * @param strAnnotation the annotation class name
+     * 
+     * @param strAnnotation
+     *            the annotation class name
      * @return all classes founds
      */
     public static Set<String> find( String strAnnotation )

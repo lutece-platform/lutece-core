@@ -35,18 +35,14 @@ package fr.paris.lutece.util.pool.service;
 
 import java.sql.Connection;
 
-
 /**
- * Wraps a connection to use {@link ConnectionPool} when closing with ({@link #close()}).
- * The actual close is done by {@link #closeConnection()}. <br>
- * Lutece needs the {@link #close()} method to return the connection to the pool.
- * Lutece classes (like DAOUtil uses {@link LuteceConnectionService#freeConnection(Connection)} ),
- * but external libraries (such as hibernate) closes connection directly.
- * This interface is a workaround for Connection incompatibilities from java5 to java6.
- * It should be remove as soon as Lutece drop java5 compatibility.
- * No wrapper delegation is possible implementing Connection interface and wrapping one connection.
- * Actually, implementing java5 java.sql.Connection will cause compilation error with jdk6 (not overriding methods), while
- * implementing java6 java.sql.Connection will also cause compilation errors with jdk5 (no such class found).
+ * Wraps a connection to use {@link ConnectionPool} when closing with ({@link #close()}). The actual close is done by {@link #closeConnection()}. <br>
+ * Lutece needs the {@link #close()} method to return the connection to the pool. Lutece classes (like DAOUtil uses
+ * {@link LuteceConnectionService#freeConnection(Connection)} ), but external libraries (such as hibernate) closes connection directly. This interface is a
+ * workaround for Connection incompatibilities from java5 to java6. It should be remove as soon as Lutece drop java5 compatibility. No wrapper delegation is
+ * possible implementing Connection interface and wrapping one connection. Actually, implementing java5 java.sql.Connection will cause compilation error with
+ * jdk6 (not overriding methods), while implementing java6 java.sql.Connection will also cause compilation errors with jdk5 (no such class found).
+ * 
  * @see #closeConnection()
  * @see <a href="http://dev.lutece.paris.fr/jira/browse/LUTECE-1267">LUTECE-1267</a>
  */
@@ -55,5 +51,5 @@ public interface LuteceConnection extends Connection
     /**
      * Actual connection close.
      */
-    void closeConnection(  );
+    void closeConnection( );
 }

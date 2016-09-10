@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -36,22 +36,23 @@ package fr.paris.lutece.portal.service.resource;
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
  * Extendable Resource Removal Listener Service
  */
 public final class ExtendableResourceRemovalListenerService
 {
-    private static List<IExtendableResourceRemovalListener> _listListeners = new ArrayList<IExtendableResourceRemovalListener>(  );
+    private static List<IExtendableResourceRemovalListener> _listListeners = new ArrayList<IExtendableResourceRemovalListener>( );
 
     /** Private Constructor */
-    private ExtendableResourceRemovalListenerService(  )
+    private ExtendableResourceRemovalListenerService( )
     {
     }
 
     /**
      * Register an extendable resource removal listener.
-     * @param removalListener The listener to register.
+     * 
+     * @param removalListener
+     *            The listener to register.
      */
     public static synchronized void registerListener( IExtendableResourceRemovalListener removalListener )
     {
@@ -60,10 +61,11 @@ public final class ExtendableResourceRemovalListenerService
 
     /**
      * Notify listeners that they must remove extensions of a given resource.
-     * @param strExtendableResourceType The extendable resource type of the
-     *            resource to remove the extensions of.
-     * @param strExtendableResourceId The id of the extendable resource to
-     *            remove the extensions of.
+     * 
+     * @param strExtendableResourceType
+     *            The extendable resource type of the resource to remove the extensions of.
+     * @param strExtendableResourceId
+     *            The id of the extendable resource to remove the extensions of.
      */
     public static void doRemoveResourceExtentions( String strExtendableResourceType, String strExtendableResourceId )
     {

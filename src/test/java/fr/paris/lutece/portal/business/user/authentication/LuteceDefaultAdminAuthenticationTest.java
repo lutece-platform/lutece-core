@@ -51,10 +51,10 @@ public class LuteceDefaultAdminAuthenticationTest extends LuteceTestCase
 {
     private static final String PASSWORD = "PASSWORD";
 
-    private LuteceDefaultAdminAuthentication getLuteceDefaultAdminAuthentication(  )
+    private LuteceDefaultAdminAuthentication getLuteceDefaultAdminAuthentication( )
     {
         LuteceDefaultAdminAuthentication adminAuth = new LuteceDefaultAdminAuthentication( );
-        LuteceDefaultAdminUserDAO dao = new LuteceDefaultAdminUserDAO(  );
+        LuteceDefaultAdminUserDAO dao = new LuteceDefaultAdminUserDAO( );
         AutowireCapableBeanFactory beanFactory = SpringContextService.getContext( ).getAutowireCapableBeanFactory( );
         beanFactory.autowireBean( dao );
         adminAuth.setDao( dao );
@@ -71,9 +71,9 @@ public class LuteceDefaultAdminAuthenticationTest extends LuteceTestCase
         return adminUserDAO;
     }
 
-    public void testLoginUpgradePassword(  )
+    public void testLoginUpgradePassword( )
     {
-        LuteceDefaultAdminAuthentication adminAuth = getLuteceDefaultAdminAuthentication(  );
+        LuteceDefaultAdminAuthentication adminAuth = getLuteceDefaultAdminAuthentication( );
         AdminUserDAO adminUserDAO = getAdminUserDAO( );
         String randomUsername = "user" + new SecureRandom( ).nextLong( );
 
@@ -119,10 +119,12 @@ public class LuteceDefaultAdminAuthenticationTest extends LuteceTestCase
             // retry login to check that password has not changed
             authenticated = adminAuth.login( randomUsername, PASSWORD, new MockHttpServletRequest( ) );
             assertNotNull( authenticated );
-        } catch ( LoginException e )
+        }
+        catch( LoginException e )
         {
             fail( e.getMessage( ) );
-        } finally
+        }
+        finally
         {
             adminUserDAO.delete( user.getUserId( ) );
         }

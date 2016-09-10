@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -36,13 +36,12 @@ package fr.paris.lutece.portal.business.portlet;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.util.ReferenceList;
 
-
 /**
  * This class provides instances management methods for AliasPortlet objects
  */
 public class AliasPortletHome extends PortletHome
 {
-    /////////////////////////////////////////////////////////////////////////////////
+    // ///////////////////////////////////////////////////////////////////////////////
     // Constants
     // Static variable pointed at the DAO instance
     private static IAliasPortletDAO _dao = (IAliasPortletDAO) SpringContextService.getBean( "aliasPortletDAO" );
@@ -53,7 +52,7 @@ public class AliasPortletHome extends PortletHome
     /**
      * Constructor
      */
-    public AliasPortletHome(  )
+    public AliasPortletHome( )
     {
         if ( _singleton == null )
         {
@@ -66,9 +65,9 @@ public class AliasPortletHome extends PortletHome
      *
      * @return the portlet type identifier
      */
-    public String getPortletTypeId(  )
+    public String getPortletTypeId( )
     {
-        String strCurrentClassName = this.getClass(  ).getName(  );
+        String strCurrentClassName = this.getClass( ).getName( );
         String strPortletTypeId = PortletTypeHome.getPortletTypeId( strCurrentClassName );
 
         return strPortletTypeId;
@@ -79,11 +78,11 @@ public class AliasPortletHome extends PortletHome
      *
      * @return the AliasPortletHome instance
      */
-    public static PortletHome getInstance(  )
+    public static PortletHome getInstance( )
     {
         if ( _singleton == null )
         {
-            _singleton = new AliasPortletHome(  );
+            _singleton = new AliasPortletHome( );
         }
 
         return _singleton;
@@ -94,7 +93,7 @@ public class AliasPortletHome extends PortletHome
      *
      * @return the instance of the FolderListingPortletDAO
      */
-    public IPortletInterfaceDAO getDAO(  )
+    public IPortletInterfaceDAO getDAO( )
     {
         return _dao;
     }
@@ -102,7 +101,8 @@ public class AliasPortletHome extends PortletHome
     /**
      * Returns the portlet alias identifier of the portlet whose identifier is specified in parameter
      *
-     * @param nIdPortlet the identifier of the portlet
+     * @param nIdPortlet
+     *            the identifier of the portlet
      * @return the identifier of the alias portlet
      */
     public static int getAliasId( int nIdPortlet )
@@ -115,15 +115,16 @@ public class AliasPortletHome extends PortletHome
      *
      * @return the list of the portlets in form of ReferenceList
      */
-    public static ReferenceList getAcceptAliasPortletList(  )
+    public static ReferenceList getAcceptAliasPortletList( )
     {
-        return _dao.selectAcceptAliasPortletList(  );
+        return _dao.selectAcceptAliasPortletList( );
     }
 
     /**
      * Loads the list of the portlets whose type is the same as the one specified in parameter
      *
-     * @param strPortletTypeId the portlet type identifier
+     * @param strPortletTypeId
+     *            the portlet type identifier
      * @return the list of the portlets in form of a ReferenceList
      */
     public static ReferenceList getPortletsByTypeList( String strPortletTypeId )

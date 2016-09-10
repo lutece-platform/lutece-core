@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,7 +33,6 @@
  */
 package fr.paris.lutece.portal.service.page;
 
-
 /**
  * CustomAction define a customized action for portlet types
  *
@@ -47,13 +46,14 @@ public class PortletCustomAdminAction
     /**
      * @return the _actionUrl
      */
-    public String getActionUrl(  )
+    public String getActionUrl( )
     {
         return _strActionUrl;
     }
 
     /**
-     * @param strActionUrl the _actionUrl to set
+     * @param strActionUrl
+     *            the _actionUrl to set
      */
     public void setActionUrl( String strActionUrl )
     {
@@ -63,13 +63,14 @@ public class PortletCustomAdminAction
     /**
      * @return the _imageUrl
      */
-    public String getImageUrl(  )
+    public String getImageUrl( )
     {
         return _strImageUrl;
     }
 
     /**
-     * @param strImageUrl the _imageUrl to set
+     * @param strImageUrl
+     *            the _imageUrl to set
      */
     public void setImageUrl( String strImageUrl )
     {
@@ -79,13 +80,14 @@ public class PortletCustomAdminAction
     /**
      * @return the _strTitle
      */
-    public String getTitle(  )
+    public String getTitle( )
     {
         return _strTitle;
     }
 
     /**
-     * @param strTitle the _strTitle to set
+     * @param strTitle
+     *            the _strTitle to set
      */
     public void setTitle( String strTitle )
     {

@@ -38,7 +38,6 @@ import fr.paris.lutece.portal.service.util.AppPropertiesService;
 
 import java.text.Normalizer;
 
-
 /**
  * This class provides String utils.
  */
@@ -50,27 +49,30 @@ public final class StringUtil
     private static final String CONSTANT_AT = "@";
 
     // The characters that are considered dangerous for XSS attacks
-    private static char[] _aXssCharacters;
+    private static char [ ] _aXssCharacters;
     private static String _xssCharactersAsString;
 
     /**
      * Constructor with no parameter
-    */
-    private StringUtil(  )
+     */
+    private StringUtil( )
     {
     }
 
     /**
      * This function substitutes all occurences of a given bookmark by a given value
      *
-     * @param strSource The input string that contains bookmarks to replace
-     * @param strValue    The value to substitute to the bookmark
-     * @param strBookmark    The bookmark name
+     * @param strSource
+     *            The input string that contains bookmarks to replace
+     * @param strValue
+     *            The value to substitute to the bookmark
+     * @param strBookmark
+     *            The bookmark name
      * @return The output string.
      */
     public static String substitute( String strSource, String strValue, String strBookmark )
     {
-        StringBuilder strResult = new StringBuilder(  );
+        StringBuilder strResult = new StringBuilder( );
         int nPos = strSource.indexOf( strBookmark );
         String strModifySource = strSource;
 
@@ -78,19 +80,20 @@ public final class StringUtil
         {
             strResult.append( strModifySource.substring( 0, nPos ) );
             strResult.append( strValue );
-            strModifySource = strModifySource.substring( nPos + strBookmark.length(  ) );
+            strModifySource = strModifySource.substring( nPos + strBookmark.length( ) );
             nPos = strModifySource.indexOf( strBookmark );
         }
 
         strResult.append( strModifySource );
 
-        return strResult.toString(  );
+        return strResult.toString( );
     }
 
     /**
      * This function converts French diacritics characters into non diacritics.
      *
-     * @param strSource The String to convert
+     * @param strSource
+     *            The String to convert
      * @return The sTring converted to French non diacritics characters
      */
     public static String replaceAccent( String strSource )
@@ -102,22 +105,22 @@ public final class StringUtil
     }
 
     /**
-     * Checks if a string literal contains any HTML special characters
-     * (&, ", ' <, >).
-     * @param strValue The string literal to check
+     * Checks if a string literal contains any HTML special characters (&, ", ' <, >).
+     * 
+     * @param strValue
+     *            The string literal to check
      * @return True if the string literal contains any special character
      */
     public static boolean containsHtmlSpecialCharacters( String strValue )
     {
-        return ( ( strValue.indexOf( '"' ) > -1 ) || ( strValue.indexOf( '&' ) > -1 ) ||
-        ( strValue.indexOf( '<' ) > -1 ) || ( strValue.indexOf( '>' ) > -1 ) );
+        return ( ( strValue.indexOf( '"' ) > -1 ) || ( strValue.indexOf( '&' ) > -1 ) || ( strValue.indexOf( '<' ) > -1 ) || ( strValue.indexOf( '>' ) > -1 ) );
     }
 
     /**
-     * Checks if a String contains characters that could be used for a
-     * cross-site scripting attack.
+     * Checks if a String contains characters that could be used for a cross-site scripting attack.
      *
-     * @param strValue a character String
+     * @param strValue
+     *            a character String
      * @return true if the String contains illegal characters
      */
     public static synchronized boolean containsXssCharacters( String strValue )
@@ -125,21 +128,22 @@ public final class StringUtil
         // Read XSS characters from properties file if not already initialized
         if ( _aXssCharacters == null )
         {
-            _aXssCharacters = AppPropertiesService.getProperty( PROPERTY_XSS_CHARACTERS ).toCharArray(  );
+            _aXssCharacters = AppPropertiesService.getProperty( PROPERTY_XSS_CHARACTERS ).toCharArray( );
         }
 
         return containsXssCharacters( strValue, _aXssCharacters );
     }
 
     /**
-     * Checks if a String contains characters that could be used for a
-     * cross-site scripting attack.
+     * Checks if a String contains characters that could be used for a cross-site scripting attack.
      *
-     * @param strValue a character String
-     * @param aXssCharacters a Xss characters tab to check in strValue
+     * @param strValue
+     *            a character String
+     * @param aXssCharacters
+     *            a Xss characters tab to check in strValue
      * @return true if the String contains illegal characters
      */
-    public static synchronized boolean containsXssCharacters( String strValue, char[] aXssCharacters )
+    public static synchronized boolean containsXssCharacters( String strValue, char [ ] aXssCharacters )
     {
         // Read XSS characters from properties file if not already initialized
         boolean bContains = false;
@@ -148,7 +152,7 @@ public final class StringUtil
         {
             for ( int nIndex = 0; !bContains && ( nIndex < aXssCharacters.length ); nIndex++ )
             {
-                bContains = strValue.lastIndexOf( aXssCharacters[nIndex] ) >= 0;
+                bContains = strValue.lastIndexOf( aXssCharacters [nIndex] ) >= 0;
             }
         }
 
@@ -156,11 +160,12 @@ public final class StringUtil
     }
 
     /**
-     * Checks if a String contains characters that could be used for a
-     * cross-site scripting attack.
+     * Checks if a String contains characters that could be used for a cross-site scripting attack.
      *
-     * @param strValue a character String
-     * @param strXssCharacters a String wich contain a list of Xss characters to check in strValue
+     * @param strValue
+     *            a character String
+     * @param strXssCharacters
+     *            a String wich contain a list of Xss characters to check in strValue
      * @return true if the String contains illegal characters
      */
     public static synchronized boolean containsXssCharacters( String strValue, String strXssCharacters )
@@ -168,51 +173,50 @@ public final class StringUtil
         // Read XSS characters from properties file if not already initialized
         if ( strXssCharacters != null )
         {
-            return containsXssCharacters( strValue, strXssCharacters.toCharArray(  ) );
+            return containsXssCharacters( strValue, strXssCharacters.toCharArray( ) );
         }
 
         return false;
     }
 
     /**
-     * Simple convenience method to return the XSS characters as a string, to
-     * include it in error messages.
+     * Simple convenience method to return the XSS characters as a string, to include it in error messages.
      *
      * @return a String containing a comma-separated list of the XSS characters
      */
-    public static synchronized String getXssCharactersAsString(  )
+    public static synchronized String getXssCharactersAsString( )
     {
         // Read XSS characters from properties file if not already initialized
         if ( _aXssCharacters == null )
         {
-            _aXssCharacters = AppPropertiesService.getProperty( PROPERTY_XSS_CHARACTERS ).toCharArray(  );
+            _aXssCharacters = AppPropertiesService.getProperty( PROPERTY_XSS_CHARACTERS ).toCharArray( );
         }
 
         if ( _xssCharactersAsString == null )
         {
-            StringBuilder sbfCharList = new StringBuilder(  );
+            StringBuilder sbfCharList = new StringBuilder( );
 
             int iIndex;
 
             for ( iIndex = 0; iIndex < ( _aXssCharacters.length - 1 ); iIndex++ )
             {
-                sbfCharList.append( _aXssCharacters[iIndex] );
+                sbfCharList.append( _aXssCharacters [iIndex] );
                 sbfCharList.append( ", " );
             }
 
             // Append last character outside of the loop to avoid trailing comma
-            sbfCharList.append( _aXssCharacters[iIndex] );
-            _xssCharactersAsString = sbfCharList.toString(  );
+            sbfCharList.append( _aXssCharacters [iIndex] );
+            _xssCharactersAsString = sbfCharList.toString( );
         }
 
         return _xssCharactersAsString;
     }
 
     /**
-     * This function checks if an email is in a valid format Returns true if the
-     * email is valid
+     * This function checks if an email is in a valid format Returns true if the email is valid
      *
-     * @param strEmail  The mail to check
+     * @param strEmail
+     *            The mail to check
      * @return boolean true if strEmail is valid
      */
     public static synchronized boolean checkEmail( String strEmail )
@@ -223,11 +227,13 @@ public final class StringUtil
     /**
      * This function checks if an email is in a valid format, and is not in a banned domain names list. Returns true if the email is valid
      *
-     * @param strEmail The mail to check
-     * @param strBannedDomainNames The list of banned domain names. Domain names may start with a '@' or not.
+     * @param strEmail
+     *            The mail to check
+     * @param strBannedDomainNames
+     *            The list of banned domain names. Domain names may start with a '@' or not.
      * @return boolean true if strEmail is valid, false otherwise
      */
-    public static synchronized boolean checkEmailAndDomainName( String strEmail, String[] strBannedDomainNames )
+    public static synchronized boolean checkEmailAndDomainName( String strEmail, String [ ] strBannedDomainNames )
     {
         boolean bIsValid = strEmail.matches( EMAIL_PATTERN );
 
@@ -236,17 +242,20 @@ public final class StringUtil
 
     /**
      * Check if a domain name of an email address is not in a banned domain names list.
-     * @param strEmail Email addresse to check
-     * @param strBannedDomainNames List of banned domain names
+     * 
+     * @param strEmail
+     *            Email addresse to check
+     * @param strBannedDomainNames
+     *            List of banned domain names
      * @return True if the email address is correct, false otherwise
      */
-    public static synchronized boolean checkEmailDomainName( String strEmail, String[] strBannedDomainNames )
+    public static synchronized boolean checkEmailDomainName( String strEmail, String [ ] strBannedDomainNames )
     {
         if ( ( strBannedDomainNames != null ) && ( strBannedDomainNames.length > 0 ) )
         {
             int nOffset;
 
-            if ( strBannedDomainNames[0].contains( CONSTANT_AT ) )
+            if ( strBannedDomainNames [0].contains( CONSTANT_AT ) )
             {
                 nOffset = 0;
             }
@@ -257,7 +266,7 @@ public final class StringUtil
 
             int nIndex = strEmail.indexOf( CONSTANT_AT );
 
-            if ( ( nIndex >= 0 ) && ( ( nIndex + nOffset ) < strEmail.length(  ) ) )
+            if ( ( nIndex >= 0 ) && ( ( nIndex + nOffset ) < strEmail.length( ) ) )
             {
                 String strDomainName = strEmail.substring( nIndex + nOffset );
 
@@ -283,7 +292,8 @@ public final class StringUtil
      * <li>upper case</li>
      * </ul>
      *
-     * @param strCodeKey The code Key
+     * @param strCodeKey
+     *            The code Key
      * @return True if code key is valid
      */
     public static synchronized boolean checkCodeKey( String strCodeKey )
@@ -293,8 +303,11 @@ public final class StringUtil
 
     /**
      * Converts <code>strValue</code> to an int value.
-     * @param strValue the value to convert
-     * @param nDefaultValue the default returned value
+     * 
+     * @param strValue
+     *            the value to convert
+     * @param nDefaultValue
+     *            the default returned value
      * @return <code>strValue</code> int value, <code>nDefaultValue</code> if strValue is not an Integer.
      */
     public static int getIntValue( String strValue, int nDefaultValue )
@@ -303,9 +316,9 @@ public final class StringUtil
         {
             return Integer.parseInt( strValue );
         }
-        catch ( NumberFormatException nfe )
+        catch( NumberFormatException nfe )
         {
-            AppLogService.error( nfe.getMessage(  ), nfe );
+            AppLogService.error( nfe.getMessage( ), nfe );
         }
 
         return nDefaultValue;

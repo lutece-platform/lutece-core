@@ -36,7 +36,6 @@ package fr.paris.lutece.util.date;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-
 /**
  * This class is the main test suite for the package fr.paris.lutece.util.date
  */
@@ -46,22 +45,23 @@ public final class AllTests
      * Constructor
      *
      */
-    private AllTests(  )
+    private AllTests( )
     {
     }
 
     /**
      * A set of tests
+     * 
      * @return Test the tests
      */
-    public static Test suite(  )
+    public static Test suite( )
     {
         TestSuite suite = new TestSuite( "Test for test.fr.paris.lutece.util.date" );
 
-        //$JUnit-BEGIN$
+        // $JUnit-BEGIN$
         suite.addTest( new TestSuite( DateUtilTest.class ) );
 
-        //$JUnit-END$
+        // $JUnit-END$
         return suite;
     }
 }

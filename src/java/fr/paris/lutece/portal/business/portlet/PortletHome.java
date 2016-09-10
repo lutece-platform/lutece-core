@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -44,10 +44,8 @@ import fr.paris.lutece.util.ReferenceList;
 import java.util.Collection;
 import java.util.List;
 
-
 /**
- * This class provides instances management methods (create, find, ...) for
- * Portlet objects
+ * This class provides instances management methods (create, find, ...) for Portlet objects
  */
 public abstract class PortletHome implements PortletHomeInterface
 {
@@ -57,38 +55,39 @@ public abstract class PortletHome implements PortletHomeInterface
     // Static variable pointed at the DAO instance
     private static IPortletDAO _dao = SpringContextService.getBean( "portletDAO" );
 
-    ///////////////////////////////////////////////////////////////////////////
+    // /////////////////////////////////////////////////////////////////////////
     // Finders
 
     /**
      * Returns the Portlet whose primary key is specified in parameter
      *
-     * @param nKey the portlet identifier
+     * @param nKey
+     *            the portlet identifier
      * @return The portlet object
      */
     public static Portlet findByPrimaryKey( int nKey )
     {
         Portlet portlet = _dao.load( nKey );
-        String strHomeClass = portlet.getHomeClassName(  );
+        String strHomeClass = portlet.getHomeClassName( );
         Portlet p = null;
 
         try
         {
-            PortletHomeInterface home = (PortletHomeInterface) Class.forName( strHomeClass ).newInstance(  );
-            p = home.getDAO(  ).load( nKey );
+            PortletHomeInterface home = (PortletHomeInterface) Class.forName( strHomeClass ).newInstance( );
+            p = home.getDAO( ).load( nKey );
             p.copy( portlet );
         }
-        catch ( InstantiationException e )
+        catch( InstantiationException e )
         {
-            AppLogService.error( e.getMessage(  ), e );
+            AppLogService.error( e.getMessage( ), e );
         }
-        catch ( IllegalAccessException e )
+        catch( IllegalAccessException e )
         {
-            AppLogService.error( e.getMessage(  ), e );
+            AppLogService.error( e.getMessage( ), e );
         }
-        catch ( ClassNotFoundException e )
+        catch( ClassNotFoundException e )
         {
-            AppLogService.error( e.getMessage(  ), e );
+            AppLogService.error( e.getMessage( ), e );
         }
 
         return p;
@@ -97,7 +96,8 @@ public abstract class PortletHome implements PortletHomeInterface
     /**
      * Returns a collection of portlets according to the selected type
      *
-     * @param strIdPortletType the portlet type
+     * @param strIdPortletType
+     *            the portlet type
      * @return the portlets in form of Collection
      */
     public static List<Portlet> findByType( String strIdPortletType )
@@ -108,7 +108,8 @@ public abstract class PortletHome implements PortletHomeInterface
     /**
      * Returns the list of portlets for the search on publishing
      *
-     * @param strPortletName STh name of the portlet
+     * @param strPortletName
+     *            STh name of the portlet
      * @return the list in form of Collection
      */
     public static Collection<PortletImpl> getPortletsListbyName( String strPortletName )
@@ -119,8 +120,10 @@ public abstract class PortletHome implements PortletHomeInterface
     /**
      * Returns the stylesheet of the portlet according to the mode
      *
-     * @param nIdPortlet the identifier of the portlet
-     * @param nIdMode the selected mode
+     * @param nIdPortlet
+     *            the identifier of the portlet
+     * @param nIdMode
+     *            the selected mode
      * @return the stylesheet
      */
     static StyleSheet getXsl( int nIdPortlet, int nIdMode )
@@ -131,7 +134,8 @@ public abstract class PortletHome implements PortletHomeInterface
     /**
      * Returns all the styles corresponding to a portlet typeun type de portlet
      *
-     * @param strIdPortletType the identifier of the portlet type
+     * @param strIdPortletType
+     *            the identifier of the portlet type
      * @return the list of styles in form of ReferenceList
      */
     public static ReferenceList getStylesList( String strIdPortletType )
@@ -141,7 +145,9 @@ public abstract class PortletHome implements PortletHomeInterface
 
     /**
      * Gets a collection of portlets associated to a given role
-     * @param strRole The role
+     * 
+     * @param strRole
+     *            The role
      * @return The collection
      */
     public static Collection<Portlet> getPortletsByRoleKey( String strRole )
@@ -152,20 +158,20 @@ public abstract class PortletHome implements PortletHomeInterface
     /**
      * Creates a new portlet in the database
      *
-     * @param portlet An instance of the portlet to create
+     * @param portlet
+     *            An instance of the portlet to create
      * @return the Portlet instance created
      */
     public synchronized Portlet create( Portlet portlet )
     {
         // Recovery of an identifier for the new portlet
-        int nIdPortlet = PortletHome.newPrimaryKey(  );
+        int nIdPortlet = PortletHome.newPrimaryKey( );
         portlet.setId( nIdPortlet );
 
-        portlet.setStatus( AppPropertiesService.getPropertyInt( PROPERTY_PORTLET_CREATION_STATUS,
-                CONSTANT_DEFAULT_STATUS ) );
+        portlet.setStatus( AppPropertiesService.getPropertyInt( PROPERTY_PORTLET_CREATION_STATUS, CONSTANT_DEFAULT_STATUS ) );
 
         // Creation of the portlet child
-        getDAO(  ).insert( portlet );
+        getDAO( ).insert( portlet );
 
         // Creation of the portlet parent
         _dao.insert( portlet );
@@ -181,23 +187,24 @@ public abstract class PortletHome implements PortletHomeInterface
      *
      * @return the new primary key
      */
-    static int newPrimaryKey(  )
+    static int newPrimaryKey( )
     {
-        return _dao.newPrimaryKey(  );
+        return _dao.newPrimaryKey( );
     }
 
     /**
      * Deletes the portlet in the database
      *
-     * @param portlet the portlet to remove
+     * @param portlet
+     *            the portlet to remove
      */
     public synchronized void remove( Portlet portlet )
     {
         // Deleting of the portlet child
-        getDAO(  ).delete( portlet.getId(  ) );
+        getDAO( ).delete( portlet.getId( ) );
 
         // Deleting of the portlet parent and its alias if exist
-        _dao.delete( portlet.getId(  ) );
+        _dao.delete( portlet.getId( ) );
 
         // Invalidate the portlet
         invalidate( portlet );
@@ -206,11 +213,12 @@ public abstract class PortletHome implements PortletHomeInterface
     /**
      * Updates a portlet with the values of the specified portlet instance
      *
-     * @param portlet portlet to update
+     * @param portlet
+     *            portlet to update
      */
     public void update( Portlet portlet )
     {
-        getDAO(  ).store( portlet );
+        getDAO( ).store( portlet );
         _dao.store( portlet );
 
         // Invalidate the portlet
@@ -218,22 +226,22 @@ public abstract class PortletHome implements PortletHomeInterface
     }
 
     /**
-     * Invalidate the portlet which is specified in parameter
-     * Invalidates the alias portlets connected to this portlet too.
+     * Invalidate the portlet which is specified in parameter Invalidates the alias portlets connected to this portlet too.
      *
-     * @param portlet the portlet instance
+     * @param portlet
+     *            the portlet instance
      */
     public static void invalidate( Portlet portlet )
     {
-        PortletEvent event = new PortletEvent( PortletEvent.INVALIDATE, portlet.getId(  ), portlet.getPageId(  ) );
+        PortletEvent event = new PortletEvent( PortletEvent.INVALIDATE, portlet.getId( ), portlet.getPageId( ) );
         notifyListeners( event );
 
         // invalidate aliases
-        Collection<Portlet> listAliases = getAliasList( portlet.getId(  ) );
+        Collection<Portlet> listAliases = getAliasList( portlet.getId( ) );
 
         for ( Portlet alias : listAliases )
         {
-            PortletEvent eventAlias = new PortletEvent( PortletEvent.INVALIDATE, alias.getId(  ), alias.getPageId(  ) );
+            PortletEvent eventAlias = new PortletEvent( PortletEvent.INVALIDATE, alias.getId( ), alias.getPageId( ) );
             notifyListeners( eventAlias );
         }
     }
@@ -241,7 +249,8 @@ public abstract class PortletHome implements PortletHomeInterface
     /**
      * Invalidate a portlet whose identifier is specified in paramaeter
      *
-     * @param nIdPortlet the portlet identifier
+     * @param nIdPortlet
+     *            the portlet identifier
      */
     public static void invalidate( int nIdPortlet )
     {
@@ -252,7 +261,8 @@ public abstract class PortletHome implements PortletHomeInterface
     /**
      * Indicates if the portlet has alias
      *
-     * @param nIdPortlet the portlet identifier
+     * @param nIdPortlet
+     *            the portlet identifier
      * @return true if the portlet has alias, false if not.
      */
     public static boolean hasAlias( int nIdPortlet )
@@ -263,8 +273,10 @@ public abstract class PortletHome implements PortletHomeInterface
     /**
      * Update the status of portlet
      *
-     * @param portlet the portlet to remove
-     * @param nStatus The status to update
+     * @param portlet
+     *            the portlet to remove
+     * @param nStatus
+     *            The status to update
      */
     public static void updateStatus( Portlet portlet, int nStatus )
     {
@@ -276,10 +288,10 @@ public abstract class PortletHome implements PortletHomeInterface
     }
 
     /**
-     * Returns the instance of the PortletType whose identifier is specified in
-     * parameter
+     * Returns the instance of the PortletType whose identifier is specified in parameter
      *
-     * @param strPortletTypeId the identifier of the portlet type
+     * @param strPortletTypeId
+     *            the identifier of the portlet type
      * @return the instance of the portlet type
      */
     public static PortletType getPortletType( String strPortletTypeId )
@@ -290,7 +302,8 @@ public abstract class PortletHome implements PortletHomeInterface
     /**
      * Returns the collection of the StyleSheet objects associated to the Style
      *
-     * @param nStyleId identifier of the style
+     * @param nStyleId
+     *            identifier of the style
      * @return A collection of styles
      */
     public static Collection<PortletImpl> getPortletListByStyle( int nStyleId )
@@ -301,7 +314,8 @@ public abstract class PortletHome implements PortletHomeInterface
     /**
      * Returns the collection of the StyleSheet objects associated to the Style
      *
-     * @param nPortletId identifier of the portlet
+     * @param nPortletId
+     *            identifier of the portlet
      * @return A collection of styles
      */
     public static Collection<Portlet> getAliasList( int nPortletId )
@@ -311,16 +325,19 @@ public abstract class PortletHome implements PortletHomeInterface
 
     /**
      * Get the last modified portlet
+     * 
      * @return the last modified portlet
      */
-    public static Portlet getLastModifiedPortlet(  )
+    public static Portlet getLastModifiedPortlet( )
     {
-        return _dao.loadLastModifiedPortlet(  );
+        return _dao.loadLastModifiedPortlet( );
     }
 
     /**
      * Notifies listeners
-     * @param event the event
+     * 
+     * @param event
+     *            the event
      */
     public static void notifyListeners( PortletEvent event )
     {
@@ -332,8 +349,11 @@ public abstract class PortletHome implements PortletHomeInterface
 
     /**
      * Get list of used orders for a column
-     * @param pageId the page id
-     * @param columnId the column id
+     * 
+     * @param pageId
+     *            the page id
+     * @param columnId
+     *            the column id
      * @return list of orders used for this column
      */
     public static List<Integer> getUsedOrdersForColumns( int pageId, int columnId )

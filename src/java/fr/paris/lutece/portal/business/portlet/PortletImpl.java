@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -37,7 +37,6 @@ import org.apache.commons.lang.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  * This class provides definition of methods which be overloaded by classes which inherits the Portlet class
  */
@@ -46,7 +45,8 @@ public class PortletImpl extends Portlet
     /**
      * Must be overloaded to return the Portlet Xml code without the heading XML
      *
-     * @param request The HTTP servlet request
+     * @param request
+     *            The HTTP servlet request
      * @return none
      */
     @Override
@@ -58,7 +58,8 @@ public class PortletImpl extends Portlet
     /**
      * Must be overloaded to return the complete Xml document (with heading)
      *
-     * @param request The HTTP servlet request
+     * @param request
+     *            The HTTP servlet request
      * @return none
      */
     @Override
@@ -71,7 +72,7 @@ public class PortletImpl extends Portlet
      * {@inheritDoc}
      */
     @Override
-    public void remove(  )
+    public void remove( )
     {
         // Do nothing
     }

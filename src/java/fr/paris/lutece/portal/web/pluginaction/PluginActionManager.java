@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -41,7 +41,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  *
  * PluginActionManager.
@@ -51,6 +50,7 @@ import javax.servlet.http.HttpServletRequest;
  * <li>
  * Use {@link #fillModel(HttpServletRequest, AdminUser, Map, Class, String)} to fill you model
  * </ul>
+ * 
  * @see #getListPluginAction(Class)
  * @see #getPluginAction(HttpServletRequest, Class)
  * @see #fillModel(HttpServletRequest, AdminUser, Map, Class, String)
@@ -61,7 +61,7 @@ public final class PluginActionManager
     /**
      * Empty constructor
      */
-    private PluginActionManager(  )
+    private PluginActionManager( )
     {
         // nothing
     }
@@ -69,8 +69,10 @@ public final class PluginActionManager
     /**
      * Gets the list of {@link IDirectoryAction}.
      *
-     * @param <A> the generic type
-     * @param pluginActionClass the plugin action class
+     * @param <A>
+     *            the generic type
+     * @param pluginActionClass
+     *            the plugin action class
      * @return the list
      */
     public static <A extends IPluginAction<?>> List<A> getListPluginAction( Class<A> pluginActionClass )
@@ -81,9 +83,12 @@ public final class PluginActionManager
     /**
      * Gets the {@link IPluginAction} for the request.
      *
-     * @param <A> the generic type
-     * @param request the request
-     * @param pluginActionClass the plugin action class
+     * @param <A>
+     *            the generic type
+     * @param request
+     *            the request
+     * @param pluginActionClass
+     *            the plugin action class
      * @return the invoked {@link IPluginAction}, <code>null</code> otherwise.
      * @see IPluginAction#isInvoked(HttpServletRequest)
      */
@@ -102,15 +107,22 @@ public final class PluginActionManager
 
     /**
      * Fills the model with all actions and adds the list to the given marker
-     * @param request the request
-     * @param adminUser the admin user
-     * @param model the model
-     * @param pluginActionClass the action class (usually the interface)
-     * @param strMark the marker to put for the actions list
-     * @param <A> the action type (usually the interface)
+     * 
+     * @param request
+     *            the request
+     * @param adminUser
+     *            the admin user
+     * @param model
+     *            the model
+     * @param pluginActionClass
+     *            the action class (usually the interface)
+     * @param strMark
+     *            the marker to put for the actions list
+     * @param <A>
+     *            the action type (usually the interface)
      */
-    public static <A extends IPluginAction<?>> void fillModel( HttpServletRequest request, AdminUser adminUser,
-        Map<String, Object> model, Class<A> pluginActionClass, String strMark )
+    public static <A extends IPluginAction<?>> void fillModel( HttpServletRequest request, AdminUser adminUser, Map<String, Object> model,
+            Class<A> pluginActionClass, String strMark )
     {
         for ( A action : SpringContextService.getBeansOfType( pluginActionClass ) )
         {

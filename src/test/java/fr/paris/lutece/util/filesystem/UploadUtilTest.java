@@ -35,7 +35,6 @@ package fr.paris.lutece.util.filesystem;
 
 import fr.paris.lutece.test.LuteceTestCase;
 
-
 /**
  * UploadUtil Test Class
  *
@@ -43,10 +42,9 @@ import fr.paris.lutece.test.LuteceTestCase;
 public class UploadUtilTest extends LuteceTestCase
 {
     /**
-     * Test of cleanFileName method, of class
-     * fr.paris.lutece.util.filesystem.UploadUtil.
+     * Test of cleanFileName method, of class fr.paris.lutece.util.filesystem.UploadUtil.
      */
-    public void testCleanFileName(  )
+    public void testCleanFileName( )
     {
         System.out.println( "cleanFileName" );
 
@@ -58,10 +56,9 @@ public class UploadUtilTest extends LuteceTestCase
     }
 
     /**
-     * Test of cleanFilePath method, of class
-     * fr.paris.lutece.util.filesystem.UploadUtil.
+     * Test of cleanFilePath method, of class fr.paris.lutece.util.filesystem.UploadUtil.
      */
-    public void testCleanFilePath(  )
+    public void testCleanFilePath( )
     {
         System.out.println( "cleanFilePath" );
 

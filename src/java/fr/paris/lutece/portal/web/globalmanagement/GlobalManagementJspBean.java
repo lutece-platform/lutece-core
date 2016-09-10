@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -45,7 +45,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  * Abstract Lutece Panel JspBean
  */
@@ -63,14 +62,15 @@ public class GlobalManagementJspBean extends PluginAdminPageJspBean
     /**
      * Gets the global management.
      *
-     * @param request the request
+     * @param request
+     *            the request
      * @return the global management
      */
     public String getGlobalManagement( HttpServletRequest request )
     {
         LutecePanelService<AbstractGMLutecePanel> gmLutecePanel = LutecePanelService.instance( AbstractGMLutecePanel.class );
 
-        List<AbstractGMLutecePanel> listPanels = gmLutecePanel.getPanels(  );
+        List<AbstractGMLutecePanel> listPanels = gmLutecePanel.getPanels( );
 
         for ( AbstractGMLutecePanel panel : listPanels )
         {
@@ -78,12 +78,11 @@ public class GlobalManagementJspBean extends PluginAdminPageJspBean
             panel.setRequest( request );
         }
 
-        Map<String, Object> model = new HashMap<String, Object>(  );
+        Map<String, Object> model = new HashMap<String, Object>( );
         model.put( MARK_PANELS_LIST, listPanels );
 
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_GLOBAL_MANAGEMENT,
-                AdminUserService.getLocale( request ), model );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_GLOBAL_MANAGEMENT, AdminUserService.getLocale( request ), model );
 
-        return getAdminPage( template.getHtml(  ) );
+        return getAdminPage( template.getHtml( ) );
     }
 }

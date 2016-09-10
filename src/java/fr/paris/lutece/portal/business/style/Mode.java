@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,7 +33,6 @@
  */
 package fr.paris.lutece.portal.business.style;
 
-
 /**
  * This class reprsents business objects Mode
  */
@@ -54,7 +53,8 @@ public class Mode
     /**
      * Sets the mode identifier
      *
-     * @param nId the mode identifier
+     * @param nId
+     *            the mode identifier
      */
     public void setId( int nId )
     {
@@ -66,7 +66,7 @@ public class Mode
      *
      * @return the mode identifier
      */
-    public int getId(  )
+    public int getId( )
     {
         return _nId;
     }
@@ -74,7 +74,8 @@ public class Mode
     /**
      * Sets the name of the mode
      *
-     * @param strDescription the mode name
+     * @param strDescription
+     *            the mode name
      */
     public void setDescription( String strDescription )
     {
@@ -86,7 +87,7 @@ public class Mode
      *
      * @return mode name
      */
-    public String getDescription(  )
+    public String getDescription( )
     {
         return _strDescription;
     }
@@ -94,7 +95,8 @@ public class Mode
     /**
      * Sets the path of the stylesheet according to their mode
      *
-     * @param strPath the path
+     * @param strPath
+     *            the path
      */
     public void setPath( String strPath )
     {
@@ -106,7 +108,7 @@ public class Mode
      *
      * @return path
      */
-    public String getPath(  )
+    public String getPath( )
     {
         return _strPath;
     }
@@ -114,30 +116,31 @@ public class Mode
     /**
      * @return Returns the _strOutputXslPropertyEncoding.
      */
-    public String getOutputXslPropertyEncoding(  )
+    public String getOutputXslPropertyEncoding( )
     {
         return _strOutputXslPropertyEncoding;
     }
 
     /**
-     * @param strOutPutXslPropertyEncoding The _strOutputXslPropertyEncoding to set.
+     * @param strOutPutXslPropertyEncoding
+     *            The _strOutputXslPropertyEncoding to set.
      */
     public void setOutputXslPropertyEncoding( String strOutPutXslPropertyEncoding )
     {
-        _strOutputXslPropertyEncoding = ( strOutPutXslPropertyEncoding == null ) ? EMPTY_STRING
-                                                                                 : strOutPutXslPropertyEncoding;
+        _strOutputXslPropertyEncoding = ( strOutPutXslPropertyEncoding == null ) ? EMPTY_STRING : strOutPutXslPropertyEncoding;
     }
 
     /**
      * @return Returns the _strOutputXslPropertyIndent.
      */
-    public String getOutputXslPropertyIndent(  )
+    public String getOutputXslPropertyIndent( )
     {
         return _strOutputXslPropertyIndent;
     }
 
     /**
-     * @param strOutPutXslPropertyIndent The _strOutputXslPropertyIndent to set.
+     * @param strOutPutXslPropertyIndent
+     *            The _strOutputXslPropertyIndent to set.
      */
     public void setOutputXslPropertyIndent( String strOutPutXslPropertyIndent )
     {
@@ -147,30 +150,31 @@ public class Mode
     /**
      * @return Returns the _strOutputXslPropertyMediaType.
      */
-    public String getOutputXslPropertyMediaType(  )
+    public String getOutputXslPropertyMediaType( )
     {
         return _strOutputXslPropertyMediaType;
     }
 
     /**
-     * @param strOutPutXslPropertyMediaType The _strOutputXslPropertyMediaType to set.
+     * @param strOutPutXslPropertyMediaType
+     *            The _strOutputXslPropertyMediaType to set.
      */
     public void setOutputXslPropertyMediaType( String strOutPutXslPropertyMediaType )
     {
-        _strOutputXslPropertyMediaType = ( strOutPutXslPropertyMediaType == null ) ? EMPTY_STRING
-                                                                                   : strOutPutXslPropertyMediaType;
+        _strOutputXslPropertyMediaType = ( strOutPutXslPropertyMediaType == null ) ? EMPTY_STRING : strOutPutXslPropertyMediaType;
     }
 
     /**
      * @return Returns the _strOutputXslPropertyMethod.
      */
-    public String getOutputXslPropertyMethod(  )
+    public String getOutputXslPropertyMethod( )
     {
         return _strOutputXslPropertyMethod;
     }
 
     /**
-     * @param strOutPutXslPropertyMethod The _strOutputXslPropertyMethod to set.
+     * @param strOutPutXslPropertyMethod
+     *            The _strOutputXslPropertyMethod to set.
      */
     public void setOutputXslPropertyMethod( String strOutPutXslPropertyMethod )
     {
@@ -180,51 +184,51 @@ public class Mode
     /**
      * @return Returns the _strOutputXslPropertyOmitXmlDeclaration.
      */
-    public String getOutputXslPropertyOmitXmlDeclaration(  )
+    public String getOutputXslPropertyOmitXmlDeclaration( )
     {
         return _strOutputXslPropertyOmitXmlDeclaration;
     }
 
     /**
-     * @param strOutPutXslPropertyOmitXmlDeclaration The _strOutputXslPropertyOmitXmlDeclaration to set.
+     * @param strOutPutXslPropertyOmitXmlDeclaration
+     *            The _strOutputXslPropertyOmitXmlDeclaration to set.
      */
     public void setOutputXslPropertyOmitXmlDeclaration( String strOutPutXslPropertyOmitXmlDeclaration )
     {
-        _strOutputXslPropertyOmitXmlDeclaration = ( strOutPutXslPropertyOmitXmlDeclaration == null ) ? EMPTY_STRING
-                                                                                                     : strOutPutXslPropertyOmitXmlDeclaration;
+        _strOutputXslPropertyOmitXmlDeclaration = ( strOutPutXslPropertyOmitXmlDeclaration == null ) ? EMPTY_STRING : strOutPutXslPropertyOmitXmlDeclaration;
     }
 
     /**
      * @return Returns the _strOutputXslPropertyStandalone.
      */
-    public String getOutputXslPropertyStandalone(  )
+    public String getOutputXslPropertyStandalone( )
     {
         return _strOutputXslPropertyStandalone;
     }
 
     /**
-     * @param strOutPutXslPropertyStandalone The _strOutputXslPropertyStandalone to set.
+     * @param strOutPutXslPropertyStandalone
+     *            The _strOutputXslPropertyStandalone to set.
      */
     public void setOutputXslPropertyStandalone( String strOutPutXslPropertyStandalone )
     {
-        _strOutputXslPropertyStandalone = ( strOutPutXslPropertyStandalone == null ) ? EMPTY_STRING
-                                                                                     : strOutPutXslPropertyStandalone;
+        _strOutputXslPropertyStandalone = ( strOutPutXslPropertyStandalone == null ) ? EMPTY_STRING : strOutPutXslPropertyStandalone;
     }
 
     /**
      * @return Returns the _strOutputXslPropertyVersion.
      */
-    public String getOutputXslPropertyVersion(  )
+    public String getOutputXslPropertyVersion( )
     {
         return _strOutputXslPropertyVersion;
     }
 
     /**
-     * @param strOutPutXslPropertyVersion The _strOutputXslPropertyVersion to set.
+     * @param strOutPutXslPropertyVersion
+     *            The _strOutputXslPropertyVersion to set.
      */
     public void setOutputXslPropertyVersion( String strOutPutXslPropertyVersion )
     {
-        _strOutputXslPropertyVersion = ( strOutPutXslPropertyVersion == null ) ? EMPTY_STRING
-                                                                               : strOutPutXslPropertyVersion;
+        _strOutputXslPropertyVersion = ( strOutPutXslPropertyVersion == null ) ? EMPTY_STRING : strOutPutXslPropertyVersion;
     }
 }

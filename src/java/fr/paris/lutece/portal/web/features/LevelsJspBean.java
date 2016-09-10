@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -47,26 +47,24 @@ import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
- * This class provides the user interface to manage levels features ( manage,
- * create, modify )
+ * This class provides the user interface to manage levels features ( manage, create, modify )
  */
 public class LevelsJspBean extends AdminFeaturesPageJspBean
 {
-    // Right 
+    // Right
     public static final String RIGHT_MANAGE_LEVELS = "CORE_LEVEL_RIGHT_MANAGEMENT";
 
-    // Properties for page titles                             
+    // Properties for page titles
     private static final String PROPERTY_PAGE_TITLE_LEVEL_LIST = "portal.features.manage_levels.pageTitle";
     private static final String PROPERTY_PAGE_TITLE_CREATE_LEVEL = "portal.features.create_level.pageTitle";
     private static final String PROPERTY_PAGE_TITLE_MODIFY_LEVEL = "portal.features.modify_level.pageTitle";
 
-    // Markers            
+    // Markers
     private static final String MARK_LEVELS_LIST = "levels_list";
     private static final String MARK_LEVEL = "level";
 
-    // Templates files path    
+    // Templates files path
     private static final String TEMPLATE_MANAGE_LEVELS = "admin/features/manage_levels.html";
     private static final String TEMPLATE_CREATE_LEVEL = "admin/features/create_level.html";
     private static final String TEMPLATE_MODIFY_LEVEL = "admin/features/modify_level.html";
@@ -77,54 +75,56 @@ public class LevelsJspBean extends AdminFeaturesPageJspBean
     /**
      * Returns the list of levels
      *
-     * @param request The Http request
+     * @param request
+     *            The Http request
      * @return the html code for display the levels list
      */
     public String getManageLevels( HttpServletRequest request )
     {
         setPageTitleProperty( PROPERTY_PAGE_TITLE_LEVEL_LIST );
 
-        HashMap<String, Object> model = new HashMap<String, Object>(  );
-        model.put( MARK_LEVELS_LIST, LevelHome.getLevelsList(  ) );
+        HashMap<String, Object> model = new HashMap<String, Object>( );
+        model.put( MARK_LEVELS_LIST, LevelHome.getLevelsList( ) );
 
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_LEVELS, getLocale(  ), model );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_LEVELS, getLocale( ), model );
 
-        return getAdminPage( template.getHtml(  ) );
+        return getAdminPage( template.getHtml( ) );
     }
 
     /**
      * Returns the level form of creation
      *
-     * @param request The Http request
+     * @param request
+     *            The Http request
      * @return the html code of the level
      */
     public String getCreateLevel( HttpServletRequest request )
     {
         setPageTitleProperty( PROPERTY_PAGE_TITLE_CREATE_LEVEL );
 
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CREATE_LEVEL, getLocale(  ) );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CREATE_LEVEL, getLocale( ) );
 
-        return getAdminPage( template.getHtml(  ) );
+        return getAdminPage( template.getHtml( ) );
     }
 
     /**
-     * Processes the creation form of a new level by recovering the parameters
-     * in the http request
+     * Processes the creation form of a new level by recovering the parameters in the http request
      *
-     * @param request the http request
+     * @param request
+     *            the http request
      * @return The Jsp URL of the process result
      */
     public String doCreateLevel( HttpServletRequest request )
     {
         String strName = request.getParameter( Parameters.LEVEL_NAME );
 
-        //Mandatory fields
+        // Mandatory fields
         if ( strName.equals( "" ) )
         {
             return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
         }
 
-        Level level = new Level(  );
+        Level level = new Level( );
         level.setName( strName );
         LevelHome.create( level );
 
@@ -135,7 +135,8 @@ public class LevelsJspBean extends AdminFeaturesPageJspBean
     /**
      * Returns the level form of update
      *
-     * @param request The Http request
+     * @param request
+     *            The Http request
      * @return the html code of the level form
      */
     public String getModifyLevel( HttpServletRequest request )
@@ -151,19 +152,19 @@ public class LevelsJspBean extends AdminFeaturesPageJspBean
             return getManageLevels( request );
         }
 
-        HashMap<String, Object> model = new HashMap<String, Object>(  );
+        HashMap<String, Object> model = new HashMap<String, Object>( );
         model.put( MARK_LEVEL, level );
 
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_LEVEL, getLocale(  ), model );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_LEVEL, getLocale( ), model );
 
-        return getAdminPage( template.getHtml(  ) );
+        return getAdminPage( template.getHtml( ) );
     }
 
     /**
-     * Processes the updating form of a level whose new parameters are stored in
-     * the http request
+     * Processes the updating form of a level whose new parameters are stored in the http request
      *
-     * @param request The http request
+     * @param request
+     *            The http request
      * @return The Jsp URL of the process result
      */
     public String doModifyLevel( HttpServletRequest request )
@@ -171,7 +172,7 @@ public class LevelsJspBean extends AdminFeaturesPageJspBean
         String strId = request.getParameter( Parameters.LEVEL_ID );
         String strName = request.getParameter( Parameters.LEVEL_NAME );
 
-        //Mandatory fields
+        // Mandatory fields
         if ( strName.equals( "" ) )
         {
             return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );

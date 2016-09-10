@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -38,7 +38,6 @@ import fr.paris.lutece.portal.service.util.AppLogService;
 
 import java.util.List;
 
-
 /**
  * ShutdownServiceManager
  */
@@ -47,14 +46,14 @@ public final class ShutdownServiceManager
     /**
      * Private constructor
      */
-    private ShutdownServiceManager(  )
+    private ShutdownServiceManager( )
     {
     }
 
     /**
      * Runs all Shutdown Services
      */
-    public static void shutdown(  )
+    public static void shutdown( )
     {
         // Get all beans from the global ApplicationContext
         List<ShutdownService> listServices = SpringContextService.getBeansOfType( ShutdownService.class );
@@ -64,12 +63,12 @@ public final class ShutdownServiceManager
         {
             try
             {
-                AppLogService.info( "Processing shutdown service : " + service.getName(  ) );
-                service.process(  );
+                AppLogService.info( "Processing shutdown service : " + service.getName( ) );
+                service.process( );
             }
-            catch ( Exception e )
+            catch( Exception e )
             {
-                AppLogService.error( "Error while processing shutdown service : " + service.getName(  ), e );
+                AppLogService.error( "Error while processing shutdown service : " + service.getName( ), e );
             }
         }
     }

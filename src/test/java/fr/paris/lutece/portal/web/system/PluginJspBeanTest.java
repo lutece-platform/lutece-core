@@ -38,7 +38,6 @@ import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.MokeHttpServletRequest;
 
-
 /**
  * PluginJspBean Test Class
  *
@@ -51,15 +50,15 @@ public class PluginJspBeanTest extends LuteceTestCase
     /**
      * Test of getManagePlugins method, of class fr.paris.lutece.portal.web.system.PluginJspBean.
      */
-    public void testGetManagePlugins(  ) throws AccessDeniedException
+    public void testGetManagePlugins( ) throws AccessDeniedException
     {
         System.out.println( "getManagePlugins" );
 
-        MokeHttpServletRequest request = new MokeHttpServletRequest(  );
-        request.registerAdminUserWithRigth( new AdminUser(  ), PluginJspBean.RIGHT_MANAGE_PLUGINS );
+        MokeHttpServletRequest request = new MokeHttpServletRequest( );
+        request.registerAdminUserWithRigth( new AdminUser( ), PluginJspBean.RIGHT_MANAGE_PLUGINS );
         request.addMokeParameters( PARAM_PLUGIN_TYPE, PARAM_PLUGIN_TYPE_ALL );
 
-        PluginJspBean instance = new PluginJspBean(  );
+        PluginJspBean instance = new PluginJspBean( );
 
         instance.init( request, PluginJspBean.RIGHT_MANAGE_PLUGINS );
         instance.getManagePlugins( request );

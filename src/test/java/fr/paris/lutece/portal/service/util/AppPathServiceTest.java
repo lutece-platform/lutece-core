@@ -42,26 +42,25 @@ import java.io.IOException;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  * AppPathService Test Class
  */
 public class AppPathServiceTest extends LuteceTestCase
 {
-    //TODO D�comenter les virtuals host dans config.properties...
+    // TODO D�comenter les virtuals host dans config.properties...
     private static final String PROPERTY_VIRTUAL_HOST_KEY_PARAMETER = "virtualHostKey.parameterName";
     private static final String PROPERTY_BASE_URL = "lutece.base.url";
     private static final String FRAGMENT_END_PATH_XSL = "/WEB-INF/xsl/";
     private static final String FRAGMENT_END_PATH_CONF = "/WEB-INF/conf/";
     private static final String FRAGMENT_END_PATH_TEMPLATES = "/WEB-INF/templates";
 
-    //TODO WebApp Path en dur...
-    //private static final String WEBAPP_PATH = "C:/Java/projets/lutece/core/target/lutece/";
+    // TODO WebApp Path en dur...
+    // private static final String WEBAPP_PATH = "C:/Java/projets/lutece/core/target/lutece/";
 
     /**
      * Test of getPath method, of class fr.paris.lutece.portal.service.util.AppPathService.
      */
-    public void testGetPath(  )
+    public void testGetPath( )
     {
         System.out.println( "getPath" );
 
@@ -79,32 +78,29 @@ public class AppPathServiceTest extends LuteceTestCase
         {
             AppPathService.getPath( strKey );
         }
-        catch ( AppException e )
+        catch( AppException e )
         {
-            strException = e.getMessage(  );
+            strException = e.getMessage( );
         }
 
         assertNotNull( strException );
     }
 
     /**
-     * Test of getWebAppPath method, of class fr.paris.lutece.portal.service.util.AppPathService.
-     * FIXME : uncomment this method when a better way to find real app path is found.
+     * Test of getWebAppPath method, of class fr.paris.lutece.portal.service.util.AppPathService. FIXME : uncomment this method when a better way to find real
+     * app path is found.
      */
 
-    /*public void testGetWebAppPath(  )
-    {
-        System.out.println( "getWebAppPath" );
-    
-        String expResult = WEBAPP_PATH;
-        String result = AppPathService.getWebAppPath(  );
-        assertNotNull( result );
-    }*/
+    /*
+     * public void testGetWebAppPath( ) { System.out.println( "getWebAppPath" );
+     * 
+     * String expResult = WEBAPP_PATH; String result = AppPathService.getWebAppPath( ); assertNotNull( result ); }
+     */
 
     /**
      * Test of getResourceAsStream method, of class fr.paris.lutece.portal.service.util.AppPathService.
      */
-    public void testGetResourceAsStream(  ) throws IOException
+    public void testGetResourceAsStream( ) throws IOException
     {
         System.out.println( "getResourceAsStream" );
 
@@ -117,31 +113,28 @@ public class AppPathServiceTest extends LuteceTestCase
         // Don't forget to close the file input stream
         if ( fis != null )
         {
-            fis.close(  );
+            fis.close( );
         }
     }
 
     /**
-     * Test of getAbsolutePathFromRelativePath method, of class fr.paris.lutece.portal.service.util.AppPathService.
-     * FIXME : uncomment this method when a better way to find real app path is found.
+     * Test of getAbsolutePathFromRelativePath method, of class fr.paris.lutece.portal.service.util.AppPathService. FIXME : uncomment this method when a better
+     * way to find real app path is found.
      */
 
-    /*public void testGetAbsolutePathFromRelativePath(  )
-    {
-        System.out.println( "getAbsolutePathFromRelativePath" );
-    
-        String strDirectory = FRAGMENT_END_PATH_TEMPLATES;
-    
-        String expResult = strDirectory;
-        String result = AppPathService.getAbsolutePathFromRelativePath( strDirectory );
-        assertNotNull( result );
-        assertTrue( result.endsWith( expResult ) );
-    }*/
+    /*
+     * public void testGetAbsolutePathFromRelativePath( ) { System.out.println( "getAbsolutePathFromRelativePath" );
+     * 
+     * String strDirectory = FRAGMENT_END_PATH_TEMPLATES;
+     * 
+     * String expResult = strDirectory; String result = AppPathService.getAbsolutePathFromRelativePath( strDirectory ); assertNotNull( result ); assertTrue(
+     * result.endsWith( expResult ) ); }
+     */
 
     /**
      * Test of getBaseUrl method, of class fr.paris.lutece.portal.service.util.AppPathService.
      */
-    public void testGetBaseUrl(  )
+    public void testGetBaseUrl( )
     {
         System.out.println( "getBaseUrl" );
 
@@ -162,32 +155,32 @@ public class AppPathServiceTest extends LuteceTestCase
     /**
      * Test of getAvailableVirtualHosts method, of class fr.paris.lutece.portal.service.util.AppPathService.
      */
-    public void testGetAvailableVirtualHosts(  )
+    public void testGetAvailableVirtualHosts( )
     {
         System.out.println( "getAvailableVirtualHosts" );
 
-        ReferenceList result = AppPathService.getAvailableVirtualHosts(  );
+        ReferenceList result = AppPathService.getAvailableVirtualHosts( );
 
         if ( result != null )
         {
-            assertTrue( result.size(  ) == 2 );
+            assertTrue( result.size( ) == 2 );
         }
     }
 
     /**
      * Test of getVirtualHostKey method, of class fr.paris.lutece.portal.service.util.AppPathService.
      */
-    public void testGetVirtualHostKey(  )
+    public void testGetVirtualHostKey( )
     {
         System.out.println( "getVirtualHostKey" );
 
-        MokeHttpServletRequest request = new MokeHttpServletRequest(  );
+        MokeHttpServletRequest request = new MokeHttpServletRequest( );
         String strParameter = AppPropertiesService.getProperty( PROPERTY_VIRTUAL_HOST_KEY_PARAMETER );
-        ReferenceList listKeys = AppPathService.getAvailableVirtualHosts(  );
+        ReferenceList listKeys = AppPathService.getAvailableVirtualHosts( );
 
         if ( listKeys != null )
         {
-            String strKey = listKeys.get( 0 ).getCode(  );
+            String strKey = listKeys.get( 0 ).getCode( );
             request.addMokeParameters( strParameter, strKey );
 
             String expResult = strKey;

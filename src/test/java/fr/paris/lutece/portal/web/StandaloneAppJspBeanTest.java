@@ -38,7 +38,6 @@ import fr.paris.lutece.test.MokeHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  * StandaloneAppJspBeanTest Test Class
  *
@@ -48,25 +47,25 @@ public class StandaloneAppJspBeanTest extends LuteceTestCase
     /**
      * Test of getContent method, of class fr.paris.lutece.portal.web.PortalJspBean.
      */
-    public void testGetContent(  ) throws Exception
+    public void testGetContent( ) throws Exception
     {
         System.out.println( "getContent" );
 
-        HttpServletRequest request = new MokeHttpServletRequest(  );
-        StandaloneAppJspBean instance = new StandaloneAppJspBean(  );
+        HttpServletRequest request = new MokeHttpServletRequest( );
+        StandaloneAppJspBean instance = new StandaloneAppJspBean( );
 
         String result = instance.getContent( request );
     }
 
-    public void testGetPluginList(  )
+    public void testGetPluginList( )
     {
         System.out.println( "getPluginList" );
 
-        HttpServletRequest request = new MokeHttpServletRequest(  );
-        StandaloneAppJspBean instance = new StandaloneAppJspBean(  );
+        HttpServletRequest request = new MokeHttpServletRequest( );
+        StandaloneAppJspBean instance = new StandaloneAppJspBean( );
 
-        /* TODO waiting for LUTECE-451 Fix
-        instance.getPluginList( request );
+        /*
+         * TODO waiting for LUTECE-451 Fix instance.getPluginList( request );
          */
     }
 }

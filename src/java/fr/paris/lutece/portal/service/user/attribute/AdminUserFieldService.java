@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -54,7 +54,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  *
  * AdminUserFieldService
@@ -69,19 +68,22 @@ public final class AdminUserFieldService
     // PARAMETERS
     private static final String PARAMETER_ATTRIBUTE = "attribute";
     private static final String PARAMETER_UPDATE_ATTRIBUTE = "update_attribute";
-    private static final AttributeService _attributeService = AttributeService.getInstance(  );
+    private static final AttributeService _attributeService = AttributeService.getInstance( );
 
     /**
      * Instantiates a new admin user field service.
      */
-    private AdminUserFieldService(  )
+    private AdminUserFieldService( )
     {
     }
 
     /**
      * Check if the user fields are correctly filled
-     * @param request HttpServletRequest
-     * @param locale locale
+     * 
+     * @param request
+     *            HttpServletRequest
+     * @param locale
+     *            locale
      * @return null if there are no problem
      */
     public static String checkUserFields( HttpServletRequest request, Locale locale )
@@ -91,26 +93,22 @@ public final class AdminUserFieldService
 
         for ( IAttribute attribute : listAttributes )
         {
-            if ( attribute.isAttributeImage(  ) )
+            if ( attribute.isAttributeImage( ) )
             {
                 MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
-                FileItem fileItem = multipartRequest.getFile( PARAMETER_ATTRIBUTE + CONSTANT_UNDERSCORE +
-                        attribute.getIdAttribute(  ) );
-                String strUpdateAttribute = request.getParameter( PARAMETER_UPDATE_ATTRIBUTE + CONSTANT_UNDERSCORE +
-                        attribute.getIdAttribute(  ) );
+                FileItem fileItem = multipartRequest.getFile( PARAMETER_ATTRIBUTE + CONSTANT_UNDERSCORE + attribute.getIdAttribute( ) );
+                String strUpdateAttribute = request.getParameter( PARAMETER_UPDATE_ATTRIBUTE + CONSTANT_UNDERSCORE + attribute.getIdAttribute( ) );
 
-                if ( attribute.isMandatory(  ) && ( strUpdateAttribute != null ) &&
-                        ( ( fileItem == null ) || ( fileItem.getSize(  ) == 0 ) ) )
+                if ( attribute.isMandatory( ) && ( strUpdateAttribute != null ) && ( ( fileItem == null ) || ( fileItem.getSize( ) == 0 ) ) )
                 {
                     return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
                 }
             }
             else
             {
-                String value = request.getParameter( PARAMETER_ATTRIBUTE + CONSTANT_UNDERSCORE +
-                        attribute.getIdAttribute(  ) );
+                String value = request.getParameter( PARAMETER_ATTRIBUTE + CONSTANT_UNDERSCORE + attribute.getIdAttribute( ) );
 
-                if ( attribute.isMandatory(  ) && ( ( value == null ) || value.equals( CONSTANT_EMPTY_STRING ) ) )
+                if ( attribute.isMandatory( ) && ( ( value == null ) || value.equals( CONSTANT_EMPTY_STRING ) ) )
                 {
                     return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
                 }
@@ -122,9 +120,13 @@ public final class AdminUserFieldService
 
     /**
      * Create the user fields
-     * @param user Adminuser
-     * @param request HttpServletRequest
-     * @param locale locale
+     * 
+     * @param user
+     *            Adminuser
+     * @param request
+     *            HttpServletRequest
+     * @param locale
+     *            locale
      */
     public static void doCreateUserFields( AdminUser user, HttpServletRequest request, Locale locale )
     {
@@ -145,8 +147,7 @@ public final class AdminUserFieldService
         }
 
         // Attributes associated to the plugins
-        for ( AdminUserFieldListenerService adminUserFieldListenerService : SpringContextService.getBeansOfType( 
-                AdminUserFieldListenerService.class ) )
+        for ( AdminUserFieldListenerService adminUserFieldListenerService : SpringContextService.getBeansOfType( AdminUserFieldListenerService.class ) )
         {
             adminUserFieldListenerService.doCreateUserFields( user, request, locale );
         }
@@ -154,31 +155,35 @@ public final class AdminUserFieldService
 
     /**
      * Modify the user fields
-     * @param user AdminUser
-     * @param request HttpServletRequest
-     * @param locale locale
-     * @param currentUser current user
+     * 
+     * @param user
+     *            AdminUser
+     * @param request
+     *            HttpServletRequest
+     * @param locale
+     *            locale
+     * @param currentUser
+     *            current user
      */
-    public static void doModifyUserFields( AdminUser user, HttpServletRequest request, Locale locale,
-        AdminUser currentUser )
+    public static void doModifyUserFields( AdminUser user, HttpServletRequest request, Locale locale, AdminUser currentUser )
     {
         // Attributes created in the Back-Office
         List<IAttribute> listAttributes = _attributeService.getCoreAttributesWithoutFields( locale );
-        Map<Integer, List<AdminUserField>> map = new HashMap<Integer, List<AdminUserField>>(  );
+        Map<Integer, List<AdminUserField>> map = new HashMap<Integer, List<AdminUserField>>( );
 
         for ( IAttribute attribute : listAttributes )
         {
             List<AdminUserField> listUserFields = attribute.getUserFieldsData( request, user );
 
-            map.put( attribute.getIdAttribute(  ), listUserFields );
+            map.put( attribute.getIdAttribute( ), listUserFields );
         }
 
         // Remove all user fields
-        AdminUserFieldFilter auFieldFilter = new AdminUserFieldFilter(  );
-        auFieldFilter.setIdUser( user.getUserId(  ) );
+        AdminUserFieldFilter auFieldFilter = new AdminUserFieldFilter( );
+        auFieldFilter.setIdUser( user.getUserId( ) );
         AdminUserFieldHome.removeByFilter( auFieldFilter );
 
-        for ( int nIdAttribute : map.keySet(  ) )
+        for ( int nIdAttribute : map.keySet( ) )
         {
             for ( AdminUserField userField : map.get( nIdAttribute ) )
             {
@@ -190,8 +195,7 @@ public final class AdminUserFieldService
         }
 
         // Attributes associated to the plugins
-        for ( AdminUserFieldListenerService adminUserFieldListenerService : SpringContextService.getBeansOfType( 
-                AdminUserFieldListenerService.class ) )
+        for ( AdminUserFieldListenerService adminUserFieldListenerService : SpringContextService.getBeansOfType( AdminUserFieldListenerService.class ) )
         {
             adminUserFieldListenerService.doModifyUserFields( user, request, locale, currentUser );
         }
@@ -199,19 +203,22 @@ public final class AdminUserFieldService
 
     /**
      * Remove the user fields
-     * @param user Adminuser
-     * @param request HttpServletRequest
-     * @param locale locale
+     * 
+     * @param user
+     *            Adminuser
+     * @param request
+     *            HttpServletRequest
+     * @param locale
+     *            locale
      */
     public static void doRemoveUserFields( AdminUser user, HttpServletRequest request, Locale locale )
     {
-        AdminUserFieldFilter auFieldFilter = new AdminUserFieldFilter(  );
-        auFieldFilter.setIdUser( user.getUserId(  ) );
+        AdminUserFieldFilter auFieldFilter = new AdminUserFieldFilter( );
+        auFieldFilter.setIdUser( user.getUserId( ) );
         AdminUserFieldHome.removeByFilter( auFieldFilter );
 
         // Attributes associated to the plugins
-        for ( AdminUserFieldListenerService adminUserFieldListenerService : SpringContextService.getBeansOfType( 
-                AdminUserFieldListenerService.class ) )
+        for ( AdminUserFieldListenerService adminUserFieldListenerService : SpringContextService.getBeansOfType( AdminUserFieldListenerService.class ) )
         {
             adminUserFieldListenerService.doRemoveUserFields( user, request, locale );
         }
@@ -219,18 +226,22 @@ public final class AdminUserFieldService
 
     /**
      * Remove the user fields from a given ID attribute
-     * @param nIdAttribute the ID attribute
+     * 
+     * @param nIdAttribute
+     *            the ID attribute
      */
     public static void doRemoveUserFieldsByIdAttribute( int nIdAttribute )
     {
-        AdminUserFieldFilter auFieldFilter = new AdminUserFieldFilter(  );
+        AdminUserFieldFilter auFieldFilter = new AdminUserFieldFilter( );
         auFieldFilter.setIdAttribute( nIdAttribute );
         AdminUserFieldHome.removeByFilter( auFieldFilter );
     }
 
     /**
      * Remove the user fields from a given ID attribute field
-     * @param nIdAttributeField the attribute field ID
+     * 
+     * @param nIdAttributeField
+     *            the attribute field ID
      */
     public static void doRemoveUserFieldsByIdField( int nIdAttributeField )
     {
@@ -239,8 +250,11 @@ public final class AdminUserFieldService
 
     /**
      * Get the user attribute fields
-     * @param nUserId the user ID
-     * @param locale the {@link Locale}
+     * 
+     * @param nUserId
+     *            the user ID
+     * @param locale
+     *            the {@link Locale}
      * @return a Map of (ID Attribute, Object). The object could be either a File or a list of {@link AdminUserField}
      */
     public static Map<String, Object> getAdminUserFields( int nUserId, Locale locale )
@@ -252,42 +266,45 @@ public final class AdminUserFieldService
 
     /**
      * Get the user attribute fields
-     * @param listAttributes the list of attributes
-     * @param nUserId the user ID
-     * @param locale the {@link Locale}
+     * 
+     * @param listAttributes
+     *            the list of attributes
+     * @param nUserId
+     *            the user ID
+     * @param locale
+     *            the {@link Locale}
      * @return a Map of (ID Attribute, Object). The object could be either a File or a list of {@link AdminUserField}
      */
     public static Map<String, Object> getAdminUserFields( List<IAttribute> listAttributes, int nUserId, Locale locale )
     {
-        Map<String, Object> map = new HashMap<String, Object>(  );
+        Map<String, Object> map = new HashMap<String, Object>( );
 
         for ( IAttribute attribute : listAttributes )
         {
-            List<AdminUserField> listUserFields = AdminUserFieldHome.selectUserFieldsByIdUserIdAttribute( nUserId,
-                    attribute.getIdAttribute(  ) );
+            List<AdminUserField> listUserFields = AdminUserFieldHome.selectUserFieldsByIdUserIdAttribute( nUserId, attribute.getIdAttribute( ) );
 
-            if ( attribute.isAttributeImage(  ) )
+            if ( attribute.isAttributeImage( ) )
             {
-                if ( listUserFields.size(  ) > 0 )
+                if ( listUserFields.size( ) > 0 )
                 {
                     AdminUserField userField = listUserFields.get( 0 );
 
-                    if ( userField.getFile(  ) != null )
+                    if ( userField.getFile( ) != null )
                     {
-                        map.put( String.valueOf( attribute.getIdAttribute(  ) ), userField.getFile(  ) );
+                        map.put( String.valueOf( attribute.getIdAttribute( ) ), userField.getFile( ) );
                     }
                 }
             }
             else
             {
-                if ( listUserFields.size(  ) == 0 )
+                if ( listUserFields.size( ) == 0 )
                 {
-                    AdminUserField userField = new AdminUserField(  );
+                    AdminUserField userField = new AdminUserField( );
                     userField.setValue( StringUtils.EMPTY );
                     listUserFields.add( userField );
                 }
 
-                map.put( String.valueOf( attribute.getIdAttribute(  ) ), listUserFields );
+                map.put( String.valueOf( attribute.getIdAttribute( ) ), listUserFields );
             }
         }
 
@@ -296,33 +313,36 @@ public final class AdminUserFieldService
 
     /**
      * Get the admin user field from a given attribute and a given user ID
-     * @param attribute a {@link IAttribute}
-     * @param nUserId the user ID
-     * @param locale the {@link Locale}
+     * 
+     * @param attribute
+     *            a {@link IAttribute}
+     * @param nUserId
+     *            the user ID
+     * @param locale
+     *            the {@link Locale}
      * @return either a File (if the attribute is a type img) or a list of {@link AdminUserField}
      */
     public Object getAdminUserField( IAttribute attribute, int nUserId, Locale locale )
     {
-        List<AdminUserField> listUserFields = AdminUserFieldHome.selectUserFieldsByIdUserIdAttribute( nUserId,
-                attribute.getIdAttribute(  ) );
+        List<AdminUserField> listUserFields = AdminUserFieldHome.selectUserFieldsByIdUserIdAttribute( nUserId, attribute.getIdAttribute( ) );
 
-        if ( attribute.isAttributeImage(  ) )
+        if ( attribute.isAttributeImage( ) )
         {
-            if ( listUserFields.size(  ) > 0 )
+            if ( listUserFields.size( ) > 0 )
             {
                 AdminUserField userField = listUserFields.get( 0 );
 
-                if ( userField.getFile(  ) != null )
+                if ( userField.getFile( ) != null )
                 {
-                    return userField.getFile(  );
+                    return userField.getFile( );
                 }
             }
         }
         else
         {
-            if ( listUserFields.size(  ) == 0 )
+            if ( listUserFields.size( ) == 0 )
             {
-                AdminUserField userField = new AdminUserField(  );
+                AdminUserField userField = new AdminUserField( );
                 userField.setValue( StringUtils.EMPTY );
                 listUserFields.add( userField );
             }

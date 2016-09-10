@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -42,7 +42,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Locale;
 
-
 /**
  * AdminWorkgroupService
  */
@@ -54,19 +53,22 @@ public final class AdminWorkgroupService
     /**
      * Private constructor
      */
-    private AdminWorkgroupService(  )
+    private AdminWorkgroupService( )
     {
     }
 
     /**
      * Check if a resource should be visible to the user according its workgroup
-     * @param resource The resource to check
-     * @param user The current user
+     * 
+     * @param resource
+     *            The resource to check
+     * @param user
+     *            The current user
      * @return true if authorized, otherwise false
      */
     public static boolean isAuthorized( AdminWorkgroupResource resource, AdminUser user )
     {
-        String strWorkgroup = normalizeWorkgroupKey( resource.getWorkgroup(  ) );
+        String strWorkgroup = normalizeWorkgroupKey( resource.getWorkgroup( ) );
 
         if ( !strWorkgroup.equals( ALL_GROUPS ) )
         {
@@ -80,14 +82,16 @@ public final class AdminWorkgroupService
      * Filter a collection of resources for a given user
      *
      * @return A filtered collection of resources
-     * @param <E> The workgroup resource
-     * @param collection The collection to filter
-     * @param user The user
+     * @param <E>
+     *            The workgroup resource
+     * @param collection
+     *            The collection to filter
+     * @param user
+     *            The user
      */
-    public static <E extends AdminWorkgroupResource> Collection<E> getAuthorizedCollection( Collection<E> collection,
-        AdminUser user )
+    public static <E extends AdminWorkgroupResource> Collection<E> getAuthorizedCollection( Collection<E> collection, AdminUser user )
     {
-        ArrayList<E> list = new ArrayList<E>(  );
+        ArrayList<E> list = new ArrayList<E>( );
 
         for ( E resource : collection )
         {
@@ -102,8 +106,11 @@ public final class AdminWorkgroupService
 
     /**
      * Gets all workgroups of the user
-     * @param user The current user
-     * @param locale The Locale
+     * 
+     * @param user
+     *            The current user
+     * @param locale
+     *            The Locale
      * @return A list of workgroup
      */
     public static ReferenceList getUserWorkgroups( AdminUser user, Locale locale )
@@ -116,8 +123,10 @@ public final class AdminWorkgroupService
 
     /**
      * Normalized an empty or null workgroup key
-     * @param strAdminWorkgroup The workgroup key to normalize
-     * @return  The workgroup key normalized
+     * 
+     * @param strAdminWorkgroup
+     *            The workgroup key to normalize
+     * @return The workgroup key normalized
      */
     public static String normalizeWorkgroupKey( String strAdminWorkgroup )
     {

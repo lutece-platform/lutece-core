@@ -54,7 +54,6 @@ import fr.paris.lutece.portal.web.xpages.SiteMapAppTest;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-
 /**
  * This class is the main test suite for the package fr.paris.lutece.util.date
  */
@@ -62,14 +61,15 @@ public final class AllTests
 {
     /**
      * A set of tests
+     * 
      * @return Test the tests
      */
-    public static Test suite(  )
+    public static Test suite( )
     {
         TestSuite suite = new TestSuite( "*** Tests Lutece core " );
 
-        //$JUnit-BEGIN$
-        //        suite.addTest( new TestSuite( AdminPageJspBeanTest.class ) );
+        // $JUnit-BEGIN$
+        // suite.addTest( new TestSuite( AdminPageJspBeanTest.class ) );
         suite.addTest( new TestSuite( AdminMapJspBeanTest.class ) );
         suite.addTest( new TestSuite( AdminMenuJspBeanTest.class ) );
         suite.addTest( new TestSuite( AdminMessageJspBeanTest.class ) );
@@ -90,7 +90,7 @@ public final class AllTests
         suite.addTest( new TestSuite( PortalJspBeanTest.class ) );
         suite.addTest( new TestSuite( StandaloneAppJspBeanTest.class ) );
 
-        //$JUnit-END$
+        // $JUnit-END$
         return suite;
     }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -37,7 +37,6 @@ import fr.paris.lutece.portal.business.user.AdminUser;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  *
  * AdminThemeService
@@ -48,13 +47,15 @@ public final class AdminThemeService
     /**
      * Private constructor
      */
-    private AdminThemeService(  )
+    private AdminThemeService( )
     {
     }
 
     /**
      * Check if the user is in accessible mode or not
-     * @param request {@link HttpServletRequest}
+     * 
+     * @param request
+     *            {@link HttpServletRequest}
      * @return true if the user is in mode accessible, false otherwise
      */
     public static boolean isModeAccessible( HttpServletRequest request )
@@ -64,7 +65,7 @@ public final class AdminThemeService
 
         if ( user != null )
         {
-            bIsAccessible = user.getAccessibilityMode(  );
+            bIsAccessible = user.getAccessibilityMode( );
         }
 
         return bIsAccessible;

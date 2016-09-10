@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -36,7 +36,6 @@ package fr.paris.lutece.portal.service.datastore;
 import fr.paris.lutece.portal.service.template.AbstractMessageFormatTemplateMethod;
 
 import java.util.Locale;
-
 
 public class DatastoreTemplateMethod extends AbstractMessageFormatTemplateMethod
 {

@@ -39,7 +39,6 @@ import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.MokeHttpServletRequest;
 
-
 /**
  * AdminMapJspBeanTest Test Class
  *
@@ -51,15 +50,15 @@ public class AdminMapJspBeanTest extends LuteceTestCase
     /**
      * Test of getMap method, of class fr.paris.lutece.portal.web.admin.AdminMapJspBean.
      */
-    public void testGetMap(  ) throws AccessDeniedException
+    public void testGetMap( ) throws AccessDeniedException
     {
         System.out.println( "getMap" );
 
-        MokeHttpServletRequest request = new MokeHttpServletRequest(  );
+        MokeHttpServletRequest request = new MokeHttpServletRequest( );
         request.addMokeParameters( Parameters.PAGE_ID, TEST_PAGE_ID );
-        request.registerAdminUserWithRigth( new AdminUser(  ), AdminPageJspBean.RIGHT_MANAGE_ADMIN_SITE );
+        request.registerAdminUserWithRigth( new AdminUser( ), AdminPageJspBean.RIGHT_MANAGE_ADMIN_SITE );
 
-        AdminMapJspBean instance = new AdminMapJspBean(  );
+        AdminMapJspBean instance = new AdminMapJspBean( );
         instance.init( request, AdminPageJspBean.RIGHT_MANAGE_ADMIN_SITE );
         instance.getMap( request );
     }

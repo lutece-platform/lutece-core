@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,9 +33,8 @@
  */
 package fr.paris.lutece.portal.service.admin;
 
-
 /**
- *        Exception thrown when the user can't access a feature.
+ * Exception thrown when the user can't access a feature.
  */
 public class PasswordResetException extends RuntimeException
 {
@@ -46,18 +45,20 @@ public class PasswordResetException extends RuntimeException
 
     /**
      * Builds a AccessDeniedException without message
-     * @deprecated use {@link #AccessDeniedException(String)} to provide an
-     *             explicit message
+     * 
+     * @deprecated use {@link #AccessDeniedException(String)} to provide an explicit message
      */
     @Deprecated
-    public PasswordResetException(  )
+    public PasswordResetException( )
     {
         // nothing
     }
 
     /**
      * Builds a AccessDeniedException with the message
-     * @param strMessage the message
+     * 
+     * @param strMessage
+     *            the message
      */
     public PasswordResetException( String strMessage )
     {

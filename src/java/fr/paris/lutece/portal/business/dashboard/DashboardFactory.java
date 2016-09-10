@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -41,37 +41,37 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
 /**
  * Factory for {@link IDashboardComponent}
  *
  */
 public final class DashboardFactory
 {
-    private static Map<String, IDashboardComponent> _mapDashboardComponents = new HashMap<String, IDashboardComponent>(  );
+    private static Map<String, IDashboardComponent> _mapDashboardComponents = new HashMap<String, IDashboardComponent>( );
 
     /**
      * Empty constructor
      */
-    private DashboardFactory(  )
+    private DashboardFactory( )
     {
         // nothing
     }
 
     /**
      * Registers the new component. Name must be unique
-     * @param dashboardComponent the component to register
+     * 
+     * @param dashboardComponent
+     *            the component to register
      * @return <code>true</code> if registered, <code>false</code> otherwise.
      */
     public static boolean registerDashboardComponent( IDashboardComponent dashboardComponent )
     {
-        String strName = dashboardComponent.getName(  );
+        String strName = dashboardComponent.getName( );
 
         if ( _mapDashboardComponents.containsKey( strName ) )
         {
-            AppLogService.error( "Error while registering  dashboard for " + strName + " class=" +
-                dashboardComponent.getClass(  ) + ", factory already contains class=" +
-                _mapDashboardComponents.get( strName ) );
+            AppLogService.error( "Error while registering  dashboard for " + strName + " class=" + dashboardComponent.getClass( )
+                    + ", factory already contains class=" + _mapDashboardComponents.get( strName ) );
 
             return false;
         }
@@ -83,7 +83,9 @@ public final class DashboardFactory
 
     /**
      * Gets the {@link IDashboardComponent} for the given name
-     * @param strName the name
+     * 
+     * @param strName
+     *            the name
      * @return The component found, <code>null</code> otherwise.
      */
     public static IDashboardComponent getDashboardComponent( String strName )
@@ -93,10 +95,11 @@ public final class DashboardFactory
 
     /**
      * Finds all registered dashboards
+     * 
      * @return the list
      */
-    public static List<IDashboardComponent> getAllDashboardComponents(  )
+    public static List<IDashboardComponent> getAllDashboardComponents( )
     {
-        return new ArrayList<IDashboardComponent>( _mapDashboardComponents.values(  ) );
+        return new ArrayList<IDashboardComponent>( _mapDashboardComponents.values( ) );
     }
 }

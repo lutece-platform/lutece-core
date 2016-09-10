@@ -36,7 +36,6 @@ package fr.paris.lutece.util.filesystem;
 import java.io.File;
 import java.io.FilenameFilter;
 
-
 /**
  * This class provides the lists of files
  */
@@ -48,8 +47,10 @@ public class FileListFilter implements FilenameFilter
     /**
      * Creates a new FileListFilter object.
      *
-     * @param name The name of the file
-     * @param extension The extension of the file
+     * @param name
+     *            The name of the file
+     * @param extension
+     *            The extension of the file
      */
     public FileListFilter( String name, String extension )
     {
@@ -59,8 +60,10 @@ public class FileListFilter implements FilenameFilter
 
     /**
      *
-     * @param fileDirectory The name of directory
-     * @param fileName The name of the file
+     * @param fileDirectory
+     *            The name of directory
+     * @param fileName
+     *            The name of the file
      * @return fileOK The
      */
     public boolean accept( File fileDirectory, String fileName )

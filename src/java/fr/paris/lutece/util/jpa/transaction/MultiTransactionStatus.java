@@ -40,7 +40,6 @@ import org.springframework.transaction.TransactionStatus;
 import java.util.HashMap;
 import java.util.Map;
 
-
 /**
  * This transaction status wraps several {@link TransactionStatus}
  */
@@ -52,34 +51,39 @@ public class MultiTransactionStatus implements TransactionStatus
 
     /**
      * Creates a TransactionStatus that handles several TransactionStatus
-     * @param mainPTM will be default {@link PlatformTransactionManager} for status informations (is*, has* methods)
+     * 
+     * @param mainPTM
+     *            will be default {@link PlatformTransactionManager} for status informations (is*, has* methods)
      */
     public MultiTransactionStatus( PlatformTransactionManager mainPTM )
     {
         _mainPTM = mainPTM;
-        _transactionStatuses = new HashMap<PlatformTransactionManager, TransactionStatus>(  );
+        _transactionStatuses = new HashMap<PlatformTransactionManager, TransactionStatus>( );
     }
 
     /**
      * Sets new synchronization to true
      */
-    public void setNewSynchonization(  )
+    public void setNewSynchonization( )
     {
         this._bNewSynchonization = true;
     }
 
     /**
      * true if new synchronization
+     * 
      * @return true if new synchronization
      */
-    public boolean isNewSynchonization(  )
+    public boolean isNewSynchonization( )
     {
         return this._bNewSynchonization;
     }
 
     /**
      * Gets the transaction status for the ptm
-     * @param ptm the {@link PlatformTransactionManager}
+     * 
+     * @param ptm
+     *            the {@link PlatformTransactionManager}
      * @return transaction status found
      */
     public TransactionStatus getTransactionStatus( PlatformTransactionManager ptm )
@@ -91,19 +95,20 @@ public class MultiTransactionStatus implements TransactionStatus
      *
      * {@inheritDoc}
      */
-    public void flush(  )
+    public void flush( )
     {
-        for ( TransactionStatus ts : _transactionStatuses.values(  ) )
+        for ( TransactionStatus ts : _transactionStatuses.values( ) )
         {
-            ts.flush(  );
+            ts.flush( );
         }
     }
 
     /**
      * Gets the main transaction status
+     * 
      * @return the transaction status
      */
-    private TransactionStatus getMainTransactionStatus(  )
+    private TransactionStatus getMainTransactionStatus( )
     {
         return _transactionStatuses.get( _mainPTM );
     }
@@ -112,47 +117,47 @@ public class MultiTransactionStatus implements TransactionStatus
      *
      * {@inheritDoc}
      */
-    public boolean hasSavepoint(  )
+    public boolean hasSavepoint( )
     {
-        return getMainTransactionStatus(  ).hasSavepoint(  );
+        return getMainTransactionStatus( ).hasSavepoint( );
     }
 
     /**
      *
      * {@inheritDoc}
      */
-    public boolean isCompleted(  )
+    public boolean isCompleted( )
     {
-        return getMainTransactionStatus(  ).isCompleted(  );
+        return getMainTransactionStatus( ).isCompleted( );
     }
 
     /**
      *
      * {@inheritDoc}
      */
-    public boolean isNewTransaction(  )
+    public boolean isNewTransaction( )
     {
-        return getMainTransactionStatus(  ).isNewTransaction(  );
+        return getMainTransactionStatus( ).isNewTransaction( );
     }
 
     /**
      *
      * {@inheritDoc}
      */
-    public boolean isRollbackOnly(  )
+    public boolean isRollbackOnly( )
     {
-        return getMainTransactionStatus(  ).isRollbackOnly(  );
+        return getMainTransactionStatus( ).isRollbackOnly( );
     }
 
     /**
      *
      * {@inheritDoc}
      */
-    public void setRollbackOnly(  )
+    public void setRollbackOnly( )
     {
-        for ( TransactionStatus ts : _transactionStatuses.values(  ) )
+        for ( TransactionStatus ts : _transactionStatuses.values( ) )
         {
-            ts.setRollbackOnly(  );
+            ts.setRollbackOnly( );
         }
     }
 
@@ -160,7 +165,7 @@ public class MultiTransactionStatus implements TransactionStatus
      *
      * {@inheritDoc}
      */
-    public Object createSavepoint(  ) throws TransactionException
+    public Object createSavepoint( ) throws TransactionException
     {
         return null;
     }
@@ -171,7 +176,7 @@ public class MultiTransactionStatus implements TransactionStatus
      */
     public void releaseSavepoint( Object savepoint ) throws TransactionException
     {
-        for ( TransactionStatus ts : _transactionStatuses.values(  ) )
+        for ( TransactionStatus ts : _transactionStatuses.values( ) )
         {
             ts.releaseSavepoint( savepoint );
         }
@@ -181,10 +186,9 @@ public class MultiTransactionStatus implements TransactionStatus
      *
      * {@inheritDoc}
      */
-    public void rollbackToSavepoint( Object savepoint )
-        throws TransactionException
+    public void rollbackToSavepoint( Object savepoint ) throws TransactionException
     {
-        for ( TransactionStatus ts : _transactionStatuses.values(  ) )
+        for ( TransactionStatus ts : _transactionStatuses.values( ) )
         {
             ts.rollbackToSavepoint( savepoint );
         }
@@ -192,16 +196,19 @@ public class MultiTransactionStatus implements TransactionStatus
 
     /**
      * "Getter method" for {@link #_transactionStatuses}
+     * 
      * @return value of {@link #_transactionStatuses}
      */
-    public Map<PlatformTransactionManager, TransactionStatus> getTransactionStatuses(  )
+    public Map<PlatformTransactionManager, TransactionStatus> getTransactionStatuses( )
     {
         return _transactionStatuses;
     }
 
     /**
      * "Setter method" for {@link #_transactionStatuses}
-     * @param statuses value of {@link #_transactionStatuses}
+     * 
+     * @param statuses
+     *            value of {@link #_transactionStatuses}
      */
     public void setTransactionStatuses( Map<PlatformTransactionManager, TransactionStatus> statuses )
     {

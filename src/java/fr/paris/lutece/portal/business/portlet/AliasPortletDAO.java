@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -36,7 +36,6 @@ package fr.paris.lutece.portal.business.portlet;
 import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.sql.DAOUtil;
 
-
 /**
  * This class provides Data Access methods for AliasPortlet objects
  */
@@ -51,8 +50,8 @@ public final class AliasPortletDAO implements IAliasPortletDAO
     private static final String SQL_QUERY_SELECT_ALIAS_ID = "SELECT id_alias FROM core_portlet_alias WHERE id_portlet= ? ";
     private static final String SQL_QUERY_SELECT_ACCEPT_ALIAS_PORTLET_LIST = "SELECT id_portlet, name FROM core_portlet WHERE accept_alias = 1 ";
 
-    ///////////////////////////////////////////////////////////////////////////////////////
-    //Access methods to data
+    // /////////////////////////////////////////////////////////////////////////////////////
+    // Access methods to data
 
     /**
      * {@inheritDoc}
@@ -61,13 +60,13 @@ public final class AliasPortletDAO implements IAliasPortletDAO
     {
         AliasPortlet alias = (AliasPortlet) portlet;
 
-        //insert into the table portlet_alias
+        // insert into the table portlet_alias
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT );
-        daoUtil.setInt( 1, alias.getId(  ) );
-        daoUtil.setInt( 2, alias.getAliasId(  ) );
+        daoUtil.setInt( 1, alias.getId( ) );
+        daoUtil.setInt( 2, alias.getAliasId( ) );
 
-        daoUtil.executeUpdate(  );
-        daoUtil.free(  );
+        daoUtil.executeUpdate( );
+        daoUtil.free( );
     }
 
     /**
@@ -78,8 +77,8 @@ public final class AliasPortletDAO implements IAliasPortletDAO
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE );
         daoUtil.setInt( 1, nPortletId );
 
-        daoUtil.executeUpdate(  );
-        daoUtil.free(  );
+        daoUtil.executeUpdate( );
+        daoUtil.free( );
     }
 
     /**
@@ -89,16 +88,16 @@ public final class AliasPortletDAO implements IAliasPortletDAO
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT );
         daoUtil.setInt( 1, nIdPortlet );
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
-        AliasPortlet portlet = new AliasPortlet(  );
+        AliasPortlet portlet = new AliasPortlet( );
 
-        if ( daoUtil.next(  ) )
+        if ( daoUtil.next( ) )
         {
             portlet.setAliasId( daoUtil.getInt( 1 ) );
         }
 
-        daoUtil.free(  );
+        daoUtil.free( );
 
         return portlet;
     }
@@ -111,11 +110,11 @@ public final class AliasPortletDAO implements IAliasPortletDAO
         AliasPortlet r = (AliasPortlet) portlet;
 
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE );
-        daoUtil.setInt( 1, r.getAliasId(  ) );
-        daoUtil.setInt( 2, portlet.getId(  ) );
+        daoUtil.setInt( 1, r.getAliasId( ) );
+        daoUtil.setInt( 2, portlet.getId( ) );
 
-        daoUtil.executeUpdate(  );
-        daoUtil.free(  );
+        daoUtil.executeUpdate( );
+        daoUtil.free( );
     }
 
     /**
@@ -125,16 +124,16 @@ public final class AliasPortletDAO implements IAliasPortletDAO
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_PORTLETS_BY_TYPE );
         daoUtil.setString( 1, strPortletTypeId );
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
-        ReferenceList list = new ReferenceList(  );
+        ReferenceList list = new ReferenceList( );
 
-        while ( daoUtil.next(  ) )
+        while ( daoUtil.next( ) )
         {
             list.addItem( daoUtil.getInt( 1 ), daoUtil.getString( 2 ) );
         }
 
-        daoUtil.free(  );
+        daoUtil.free( );
 
         return list;
     }
@@ -146,16 +145,16 @@ public final class AliasPortletDAO implements IAliasPortletDAO
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_ALIAS_ID );
         daoUtil.setInt( 1, nIdPortlet );
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
         int nAliasId = 0;
 
-        if ( daoUtil.next(  ) )
+        if ( daoUtil.next( ) )
         {
             nAliasId = daoUtil.getInt( 1 );
         }
 
-        daoUtil.free(  );
+        daoUtil.free( );
 
         return nAliasId;
     }
@@ -163,19 +162,19 @@ public final class AliasPortletDAO implements IAliasPortletDAO
     /**
      * {@inheritDoc}
      */
-    public ReferenceList selectAcceptAliasPortletList(  )
+    public ReferenceList selectAcceptAliasPortletList( )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_ACCEPT_ALIAS_PORTLET_LIST );
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
-        ReferenceList list = new ReferenceList(  );
+        ReferenceList list = new ReferenceList( );
 
-        while ( daoUtil.next(  ) )
+        while ( daoUtil.next( ) )
         {
             list.addItem( daoUtil.getInt( 1 ), daoUtil.getString( 2 ) );
         }
 
-        daoUtil.free(  );
+        daoUtil.free( );
 
         return list;
     }

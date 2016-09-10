@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -40,7 +40,6 @@ import java.io.UnsupportedEncodingException;
 
 import java.net.URLEncoder;
 
-
 /**
  * Encoding utils
  */
@@ -57,13 +56,16 @@ public final class EncodingService
     private static final String DEFAULT_URI_ENCODING = "UTF-8";
 
     /** Creates a new instance of EncodingService */
-    private EncodingService(  )
+    private EncodingService( )
     {
     }
 
     /**
-     * Encode an url string. Uses {@link #PROPERTY_URL_ENCODING} property and {@link #DEFAULT_URI_ENCODING} as default if {@link #PROPERTY_URL_ENCODING} not found.
-     * @param strSource The string to encode
+     * Encode an url string. Uses {@link #PROPERTY_URL_ENCODING} property and {@link #DEFAULT_URI_ENCODING} as default if {@link #PROPERTY_URL_ENCODING} not
+     * found.
+     * 
+     * @param strSource
+     *            The string to encode
      * @return The encoded string
      */
     public static String encodeUrl( String strSource )
@@ -73,8 +75,11 @@ public final class EncodingService
 
     /**
      * Encode an url string. Uses {@link #DEFAULT_URI_ENCODING} as default.
-     * @param strSource The string to encode
-     * @param strProperty The property used used for the encoding. (ex : lutece.encoding.url )
+     * 
+     * @param strSource
+     *            The string to encode
+     * @param strProperty
+     *            The property used used for the encoding. (ex : lutece.encoding.url )
      * @return The encoded string
      */
     public static String encodeUrl( String strSource, String strProperty )
@@ -84,9 +89,13 @@ public final class EncodingService
 
     /**
      * Encode an url string
-     * @param strSource The string to encode
-     * @param strProperty The property used used for the encoding. (ex : lutece.encoding.url )
-     * @param strDefaultEncoding default encoding if <code>strProperty</code> cannot be found.
+     * 
+     * @param strSource
+     *            The string to encode
+     * @param strProperty
+     *            The property used used for the encoding. (ex : lutece.encoding.url )
+     * @param strDefaultEncoding
+     *            default encoding if <code>strProperty</code> cannot be found.
      * @return The encoded string
      */
     public static String encodeUrl( String strSource, String strProperty, String strDefaultEncoding )
@@ -98,9 +107,9 @@ public final class EncodingService
         {
             strEncoded = URLEncoder.encode( strSource, strEncoding );
         }
-        catch ( UnsupportedEncodingException e )
+        catch( UnsupportedEncodingException e )
         {
-            AppLogService.error( e.getMessage(  ), e );
+            AppLogService.error( e.getMessage( ), e );
         }
 
         return strEncoded;
@@ -108,9 +117,10 @@ public final class EncodingService
 
     /**
      * Returns the current encoding
+     * 
      * @return The current encoding
      */
-    public static String getEncoding(  )
+    public static String getEncoding( )
     {
         return AppPropertiesService.getProperty( PROPERTY_URL_ENCODING );
     }

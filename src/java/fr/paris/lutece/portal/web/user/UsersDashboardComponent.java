@@ -45,7 +45,6 @@ import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  * User Dashboard Component
  */
@@ -58,21 +57,24 @@ public class UsersDashboardComponent extends DashboardComponent
 
     /**
      * Returns the dashboard component HTML code
-     * @param user The current user
-     * @param request HttpServletRequest
+     * 
+     * @param user
+     *            The current user
+     * @param request
+     *            HttpServletRequest
      * @return The dashboard data
      */
     @Override
     public String getDashboardData( AdminUser user, HttpServletRequest request )
     {
-        Right right = RightHome.findByPrimaryKey( getRight(  ) );
-        HashMap<String, Object> model = new HashMap<String, Object>(  );
-        model.put( MARK_USERS_COUNT, AdminUserHome.findUserList(  ).size(  ) );
-        model.put( MARK_URL, right.getUrl(  ) );
-        model.put( MARK_ICON, right.getIconUrl(  ) );
+        Right right = RightHome.findByPrimaryKey( getRight( ) );
+        HashMap<String, Object> model = new HashMap<String, Object>( );
+        model.put( MARK_USERS_COUNT, AdminUserHome.findUserList( ).size( ) );
+        model.put( MARK_URL, right.getUrl( ) );
+        model.put( MARK_ICON, right.getIconUrl( ) );
 
-        HtmlTemplate t = AppTemplateService.getTemplate( TEMPLATE_DASHBOARD, user.getLocale(  ), model );
+        HtmlTemplate t = AppTemplateService.getTemplate( TEMPLATE_DASHBOARD, user.getLocale( ), model );
 
-        return t.getHtml(  );
+        return t.getHtml( );
     }
 }

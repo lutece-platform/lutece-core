@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -36,7 +36,6 @@ package fr.paris.lutece.portal.business.file;
 import fr.paris.lutece.portal.business.physicalfile.PhysicalFileHome;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 
-
 /**
  * This class provides instances management methods (create, find, ...) for file objects
  */
@@ -48,22 +47,23 @@ public final class FileHome
     /**
      * Private constructor - this class need not be instantiated
      */
-    private FileHome(  )
+    private FileHome( )
     {
     }
 
     /**
      * Creation of an instance of record file
      *
-     * @param file The instance of the file which contains the informations to store
+     * @param file
+     *            The instance of the file which contains the informations to store
      * @return the id of the file after creation
      *
      */
     public static int create( File file )
     {
-        if ( file.getPhysicalFile(  ) != null )
+        if ( file.getPhysicalFile( ) != null )
         {
-            file.getPhysicalFile(  ).setIdPhysicalFile( PhysicalFileHome.create( file.getPhysicalFile(  ) ) );
+            file.getPhysicalFile( ).setIdPhysicalFile( PhysicalFileHome.create( file.getPhysicalFile( ) ) );
         }
 
         return _dao.insert( file );
@@ -72,42 +72,45 @@ public final class FileHome
     /**
      * Update of file which is specified in parameter
      *
-     * @param  file The instance of the  record file which contains the informations to update
+     * @param file
+     *            The instance of the record file which contains the informations to update
      */
     public static void update( File file )
     {
-        if ( file.getPhysicalFile(  ) != null )
+        if ( file.getPhysicalFile( ) != null )
         {
-            PhysicalFileHome.update( file.getPhysicalFile(  ) );
+            PhysicalFileHome.update( file.getPhysicalFile( ) );
         }
 
         _dao.store( file );
     }
 
     /**
-     *Delete the file whose identifier is specified in parameter
+     * Delete the file whose identifier is specified in parameter
      *
-     * @param nIdFile The identifier of the record file
+     * @param nIdFile
+     *            The identifier of the record file
      */
     public static void remove( int nIdFile )
     {
         File file = FileHome.findByPrimaryKey( nIdFile );
 
-        if ( file.getPhysicalFile(  ) != null )
+        if ( file.getPhysicalFile( ) != null )
         {
-            PhysicalFileHome.remove( file.getPhysicalFile(  ).getIdPhysicalFile(  ) );
+            PhysicalFileHome.remove( file.getPhysicalFile( ).getIdPhysicalFile( ) );
         }
 
         _dao.delete( nIdFile );
     }
 
-    ///////////////////////////////////////////////////////////////////////////
+    // /////////////////////////////////////////////////////////////////////////
     // Finders
 
     /**
      * Returns an instance of a file whose identifier is specified in parameter
      *
-     * @param nKey The file  primary key
+     * @param nKey
+     *            The file primary key
      * @return an instance of file
      */
     public static File findByPrimaryKey( int nKey )

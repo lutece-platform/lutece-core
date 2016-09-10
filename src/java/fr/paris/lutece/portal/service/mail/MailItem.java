@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -40,7 +40,6 @@ import java.io.Serializable;
 
 import java.util.List;
 
-
 /**
  * MailIem
  */
@@ -69,11 +68,11 @@ public class MailItem implements Serializable
     private boolean _bUniqueRecipientTo;
 
     /**
-    * Returns the Recipient
-    *
-    * @return The Recipient
-    */
-    public String getRecipientsTo(  )
+     * Returns the Recipient
+     *
+     * @return The Recipient
+     */
+    public String getRecipientsTo( )
     {
         return _strRecipientsTo;
     }
@@ -81,7 +80,8 @@ public class MailItem implements Serializable
     /**
      * Sets the Recipient
      *
-     * @param strRecipient The Recipient
+     * @param strRecipient
+     *            The Recipient
      */
     public void setRecipientsTo( String strRecipient )
     {
@@ -93,7 +93,7 @@ public class MailItem implements Serializable
      *
      * @return The Recipient
      */
-    public String getRecipientsCc(  )
+    public String getRecipientsCc( )
     {
         return _strRecipientsCc;
     }
@@ -101,7 +101,8 @@ public class MailItem implements Serializable
     /**
      * Sets the Recipient
      *
-     * @param strRecipient The Recipient
+     * @param strRecipient
+     *            The Recipient
      */
     public void setRecipientsCc( String strRecipient )
     {
@@ -113,7 +114,7 @@ public class MailItem implements Serializable
      *
      * @return The Recipient
      */
-    public String getRecipientsBcc(  )
+    public String getRecipientsBcc( )
     {
         return _strRecipientsBcc;
     }
@@ -121,7 +122,8 @@ public class MailItem implements Serializable
     /**
      * Sets the Recipient
      *
-     * @param strRecipient The Recipient
+     * @param strRecipient
+     *            The Recipient
      */
     public void setRecipientsBcc( String strRecipient )
     {
@@ -133,7 +135,7 @@ public class MailItem implements Serializable
      *
      * @return The SenderName
      */
-    public String getSenderName(  )
+    public String getSenderName( )
     {
         return _strSenderName;
     }
@@ -141,7 +143,8 @@ public class MailItem implements Serializable
     /**
      * Sets the SenderName
      *
-     * @param strSenderName The SenderName
+     * @param strSenderName
+     *            The SenderName
      */
     public void setSenderName( String strSenderName )
     {
@@ -153,7 +156,7 @@ public class MailItem implements Serializable
      *
      * @return The SenderEmail
      */
-    public String getSenderEmail(  )
+    public String getSenderEmail( )
     {
         return _strSenderEmail;
     }
@@ -161,7 +164,8 @@ public class MailItem implements Serializable
     /**
      * Sets the SenderEmail
      *
-     * @param strSenderEmail The SenderEmail
+     * @param strSenderEmail
+     *            The SenderEmail
      */
     public void setSenderEmail( String strSenderEmail )
     {
@@ -173,7 +177,7 @@ public class MailItem implements Serializable
      *
      * @return The Subject
      */
-    public String getSubject(  )
+    public String getSubject( )
     {
         return _strSubject;
     }
@@ -181,7 +185,8 @@ public class MailItem implements Serializable
     /**
      * Sets the Subject
      *
-     * @param strSubject The Subject
+     * @param strSubject
+     *            The Subject
      */
     public void setSubject( String strSubject )
     {
@@ -193,7 +198,7 @@ public class MailItem implements Serializable
      *
      * @return The Message
      */
-    public String getMessage(  )
+    public String getMessage( )
     {
         return _strMessage;
     }
@@ -201,7 +206,8 @@ public class MailItem implements Serializable
     /**
      * Sets the Message
      *
-     * @param strMessage The Message
+     * @param strMessage
+     *            The Message
      */
     public void setMessage( String strMessage )
     {
@@ -213,7 +219,7 @@ public class MailItem implements Serializable
      *
      * @return The calendar message
      */
-    public String getCalendarMessage(  )
+    public String getCalendarMessage( )
     {
         return _strCalendarMessage;
     }
@@ -221,7 +227,8 @@ public class MailItem implements Serializable
     /**
      * Sets the calendar message
      *
-     * @param strCalendarMessage The calendar message
+     * @param strCalendarMessage
+     *            The calendar message
      */
     public void setCalendarMessage( String strCalendarMessage )
     {
@@ -229,19 +236,20 @@ public class MailItem implements Serializable
     }
 
     /**
-     * Check if the calendar event of this mail item should be created or
-     * removed
-     * @return True if the event should be created, false if it should be
-     *         removed
+     * Check if the calendar event of this mail item should be created or removed
+     * 
+     * @return True if the event should be created, false if it should be removed
      */
-    public boolean getCreateEvent(  )
+    public boolean getCreateEvent( )
     {
         return _bCreateEvent;
     }
 
     /**
      * Create or remove the event of this mail item
-     * @param bCreateEvent True to create the event, false otherwise
+     * 
+     * @param bCreateEvent
+     *            True to create the event, false otherwise
      */
     public void setCreateEvent( boolean bCreateEvent )
     {
@@ -253,7 +261,7 @@ public class MailItem implements Serializable
      *
      * @return The Format
      */
-    public int getFormat(  )
+    public int getFormat( )
     {
         return _nFormat;
     }
@@ -261,7 +269,8 @@ public class MailItem implements Serializable
     /**
      * Sets the Format
      *
-     * @param nFormat The Format
+     * @param nFormat
+     *            The Format
      */
     public void setFormat( int nFormat )
     {
@@ -273,7 +282,7 @@ public class MailItem implements Serializable
      *
      * @return The Attachements Map
      */
-    public List<FileAttachment> getFilesAttachement(  )
+    public List<FileAttachment> getFilesAttachement( )
     {
         return _listFilesAttachement;
     }
@@ -281,7 +290,8 @@ public class MailItem implements Serializable
     /**
      * Set a collection of files attachement
      *
-     * @param fileAttachements  The collection of files attachement
+     * @param fileAttachements
+     *            The collection of files attachement
      */
     public void setFilesAttachement( List<FileAttachment> fileAttachements )
     {
@@ -290,16 +300,19 @@ public class MailItem implements Serializable
 
     /**
      * return the list of urls attachement
+     * 
      * @return the list of urls attachement
      */
-    public List<UrlAttachment> getUrlsAttachement(  )
+    public List<UrlAttachment> getUrlsAttachement( )
     {
         return _listUrlsAttachement;
     }
 
     /**
      * set the list of urls attachement
-     * @param urlsAttachement the list of urls attachement
+     * 
+     * @param urlsAttachement
+     *            the list of urls attachement
      */
     public void setUrlsAttachement( List<UrlAttachment> urlsAttachement )
     {
@@ -308,7 +321,9 @@ public class MailItem implements Serializable
 
     /**
      * set true if the mail must be send unitarily for each recipient
-     * @param bUniqueRecipient true if the mail must be send unitarily for each recipient
+     * 
+     * @param bUniqueRecipient
+     *            true if the mail must be send unitarily for each recipient
      */
     public void setUniqueRecipientTo( boolean bUniqueRecipient )
     {
@@ -319,7 +334,7 @@ public class MailItem implements Serializable
      *
      * @return if the mail must be send unitarily for each recipient
      */
-    public boolean isUniqueRecipientTo(  )
+    public boolean isUniqueRecipientTo( )
     {
         return _bUniqueRecipientTo;
     }

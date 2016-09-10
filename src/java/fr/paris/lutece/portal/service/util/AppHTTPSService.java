@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -35,7 +35,6 @@ package fr.paris.lutece.portal.service.util;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  * The Class AppHTTPSService.
  */
@@ -48,22 +47,25 @@ public final class AppHTTPSService
     /**
      * Instantiates a new app https service.
      */
-    private AppHTTPSService(  )
+    private AppHTTPSService( )
     {
     }
 
     /**
      * Returns <b>true</b> if HTTPS is supported, <b>false</b> otherwise.
+     * 
      * @return <b>true</b> if HTTPS is supported, <b>false</b> otherwise.
      */
-    public static boolean isHTTPSSupportEnabled(  )
+    public static boolean isHTTPSSupportEnabled( )
     {
         return "1".equals( AppPropertiesService.getProperty( PROPERTY_HTTPS_SUPPORT ) );
     }
 
     /**
      * Returns the HTTPS base url for the site.
-     * @param request the request
+     * 
+     * @param request
+     *            the request
      * @return the HTTPS base url for the site.
      */
     public static String getHTTPSUrl( HttpServletRequest request )

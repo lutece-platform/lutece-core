@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -38,7 +38,6 @@ import fr.paris.lutece.portal.service.util.AppLogService;
 
 import java.util.List;
 
-
 /**
  * PostStartUpServiceManager
  */
@@ -47,14 +46,14 @@ public final class PostStartUpServiceManager
     /**
      * Private constructor
      */
-    private PostStartUpServiceManager(  )
+    private PostStartUpServiceManager( )
     {
     }
 
     /**
      * Runs all PostStartUp Services
      */
-    public static void init(  )
+    public static void init( )
     {
         // Get all beans from the global ApplicationContext
         List<PostStartUpService> listServices = SpringContextService.getBeansOfType( PostStartUpService.class );
@@ -64,12 +63,12 @@ public final class PostStartUpServiceManager
         {
             try
             {
-                AppLogService.info( "Processing PostStartUp service : " + service.getName(  ) );
-                service.process(  );
+                AppLogService.info( "Processing PostStartUp service : " + service.getName( ) );
+                service.process( );
             }
-            catch ( Exception e )
+            catch( Exception e )
             {
-                AppLogService.error( "Error while processing PostStartUp service : " + service.getName(  ), e );
+                AppLogService.error( "Error while processing PostStartUp service : " + service.getName( ), e );
             }
         }
     }

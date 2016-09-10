@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,7 +33,6 @@
  */
 package fr.paris.lutece.portal.service.content;
 
-
 /**
  * This Class is used to load ContentService from the XML plugin file.
  */
@@ -46,7 +45,7 @@ public class ContentServiceEntry
      *
      * @return The ClassName
      */
-    public String getClassName(  )
+    public String getClassName( )
     {
         return _strClassName;
     }
@@ -54,7 +53,8 @@ public class ContentServiceEntry
     /**
      * Sets the ClassName
      *
-     * @param strClassName The ClassName
+     * @param strClassName
+     *            The ClassName
      */
     public void setClassName( String strClassName )
     {

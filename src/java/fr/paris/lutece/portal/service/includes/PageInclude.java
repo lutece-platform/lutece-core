@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -39,21 +39,23 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
- * This interface provides a way to include additional contents to the page
- * build by the PortalService. It lets add new bookmarks to the page_frameset or
- * to other templates. Any page include declared in the lutece.properties
- * or in a plugin will be called by PortalService to substitute its own bookmarks.
+ * This interface provides a way to include additional contents to the page build by the PortalService. It lets add new bookmarks to the page_frameset or to
+ * other templates. Any page include declared in the lutece.properties or in a plugin will be called by PortalService to substitute its own bookmarks.
  */
 public interface PageInclude
 {
     /**
      * Substitue specific Freemarker markers in the page template.
-     * @param rootModel the HashMap containing markers to substitute
-     * @param data A PageData object containing applications data
-     * @param nMode The current mode
-     * @param request The HTTP request
+     * 
+     * @param rootModel
+     *            the HashMap containing markers to substitute
+     * @param data
+     *            A PageData object containing applications data
+     * @param nMode
+     *            The current mode
+     * @param request
+     *            The HTTP request
      */
     void fillTemplate( Map<String, Object> rootModel, PageData data, int nMode, HttpServletRequest request );
 }

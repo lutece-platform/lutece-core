@@ -41,7 +41,6 @@ import java.util.Locale;
 
 import javax.validation.ConstraintViolation;
 
-
 /**
  * ValidationError
  */
@@ -53,9 +52,13 @@ public class ValidationError implements ErrorMessage
 
     /**
      * Constructor
-     * @param cv The constraint violation
-     * @param locale  The locale
-     * @param config The config
+     * 
+     * @param cv
+     *            The constraint violation
+     * @param locale
+     *            The locale
+     * @param config
+     *            The config
      */
     public ValidationError( ConstraintViolation cv, Locale locale, ValidationErrorConfig config )
     {
@@ -68,15 +71,14 @@ public class ValidationError implements ErrorMessage
      * {@inheritDoc }
      */
     @Override
-    public String getMessage(  )
+    public String getMessage( )
     {
-        String strMessage = _constraintViolation.getMessage(  );
+        String strMessage = _constraintViolation.getMessage( );
         String strValue1 = ValidationErrorUtil.getValue1( _constraintViolation, _config );
         String strValue2 = ValidationErrorUtil.getValue2( _constraintViolation, _config );
         String strFieldname = ValidationErrorUtil.getFieldname( _constraintViolation, _config, _locale );
 
-        strMessage = MessageFormat.format( strMessage, strFieldname, strValue1, strValue2,
-                _constraintViolation.getInvalidValue(  ) );
+        strMessage = MessageFormat.format( strMessage, strFieldname, strValue1, strValue2, _constraintViolation.getInvalidValue( ) );
 
         return strMessage;
     }

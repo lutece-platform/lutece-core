@@ -37,7 +37,6 @@ import fr.paris.lutece.util.ReferenceItem;
 import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.xml.XmlUtil;
 
-
 /**
  * This class represents XPage object
  *
@@ -58,7 +57,7 @@ public class XPage
      *
      * @return The content of the page
      */
-    public String getContent(  )
+    public String getContent( )
     {
         return _strContent;
     }
@@ -67,7 +66,7 @@ public class XPage
      *
      * @return The keyword of the page
      */
-    public String getKeyword(  )
+    public String getKeyword( )
     {
         return _strKeyword;
     }
@@ -76,7 +75,7 @@ public class XPage
      *
      * @return The title of the page
      */
-    public String getTitle(  )
+    public String getTitle( )
     {
         return _strTitle;
     }
@@ -85,14 +84,15 @@ public class XPage
      *
      * @return The path label of the page
      */
-    public String getPathLabel(  )
+    public String getPathLabel( )
     {
         return _strPathLabel;
     }
 
     /**
      *
-     * @param strContent The content of the page
+     * @param strContent
+     *            The content of the page
      */
     public void setContent( String strContent )
     {
@@ -101,7 +101,8 @@ public class XPage
 
     /**
      *
-     * @param strKeyword The keyword of the page
+     * @param strKeyword
+     *            The keyword of the page
      */
     public void setKeyword( String strKeyword )
     {
@@ -110,7 +111,8 @@ public class XPage
 
     /**
      *
-     * @param strTitle The title of the page
+     * @param strTitle
+     *            The title of the page
      */
     public void setTitle( String strTitle )
     {
@@ -119,7 +121,8 @@ public class XPage
 
     /**
      *
-     * @param strPathLabel The path label of the page
+     * @param strPathLabel
+     *            The path label of the page
      */
     public void setPathLabel( String strPathLabel )
     {
@@ -128,16 +131,19 @@ public class XPage
 
     /**
      * Get the extended path label, which is given as a Xml code
+     * 
      * @return Returns the Extended Path Label
      */
-    public String getXmlExtendedPathLabel(  )
+    public String getXmlExtendedPathLabel( )
     {
         return _strXmlExtendedPathLabel;
     }
 
     /**
      * Set the Extended Path Label from a xml string
-     * @param strXmlExtendedPathLabel the Extended Path Label to set
+     * 
+     * @param strXmlExtendedPathLabel
+     *            the Extended Path Label to set
      */
     public void setXmlExtendedPathLabel( String strXmlExtendedPathLabel )
     {
@@ -145,40 +151,43 @@ public class XPage
     }
 
     /**
-     * Build a path from a referencelist. Each item of the list is an element of the path
-     * The item's code is the label, the item's name is used for the URL of the link.
-     * @param listPathItem The items of the path.
+     * Build a path from a referencelist. Each item of the list is an element of the path The item's code is the label, the item's name is used for the URL of
+     * the link.
+     * 
+     * @param listPathItem
+     *            The items of the path.
      */
     public void setExtendedPathLabel( ReferenceList listPathItem )
     {
-        StringBuffer sbXml = new StringBuffer(  );
+        StringBuffer sbXml = new StringBuffer( );
 
         for ( ReferenceItem item : listPathItem )
         {
             XmlUtil.beginElement( sbXml, TAG_PAGE_LINK );
-            XmlUtil.addElement( sbXml, TAG_PAGE_NAME, item.getCode(  ) );
-            XmlUtil.addElement( sbXml, TAG_PAGE_URL, item.getName(  ) );
+            XmlUtil.addElement( sbXml, TAG_PAGE_NAME, item.getCode( ) );
+            XmlUtil.addElement( sbXml, TAG_PAGE_URL, item.getName( ) );
             XmlUtil.endElement( sbXml, TAG_PAGE_LINK );
         }
 
-        _strXmlExtendedPathLabel = sbXml.toString(  );
+        _strXmlExtendedPathLabel = sbXml.toString( );
     }
 
     /**
-     * Indicates if the content is standalone and should not be encapsulated in other
-     * content, such as portal headers and footers
+     * Indicates if the content is standalone and should not be encapsulated in other content, such as portal headers and footers
+     * 
      * @return <code>true</code> is the content is standalone
      * @since 5.1.0
      */
-    public boolean isStandalone(  )
+    public boolean isStandalone( )
     {
         return _bStandalone;
     }
 
     /**
-     * Indicates if the content is standalone and should not be encapsulated in other
-     * content, such as portal headers and footers
-     * @param standalone <code>true</code> is the content is standalone
+     * Indicates if the content is standalone and should not be encapsulated in other content, such as portal headers and footers
+     * 
+     * @param standalone
+     *            <code>true</code> is the content is standalone
      * @since 5.1.0
      */
     public void setStandalone( boolean standalone )

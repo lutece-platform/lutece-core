@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -37,17 +37,15 @@ import fr.paris.lutece.portal.service.message.SiteMessageException;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
- * This class represents the interface XmlContent which contains the common
- * Xml tags
+ * This class represents the interface XmlContent which contains the common Xml tags
  */
 public interface XmlContent
 {
-    //Plugins
+    // Plugins
     String TAG_PLUGIN_NAME = "plugin-name";
 
-    //Mode
+    // Mode
     String TAG_MODE = "mode";
 
     // Menus
@@ -83,18 +81,23 @@ public interface XmlContent
 
     /**
      * This method should return the body of an Xml document providing the content
-     * @param request The HTTP Servlet Request
+     * 
+     * @param request
+     *            The HTTP Servlet Request
      * @return string The String
-     * @throws SiteMessageException occurs when a site message need to be displayed
+     * @throws SiteMessageException
+     *             occurs when a site message need to be displayed
      */
     String getXml( HttpServletRequest request ) throws SiteMessageException;
 
     /**
      * This method should return the whole Xml document providing the content (including the header)
-     * @param request The HTTP Servlet Request
+     * 
+     * @param request
+     *            The HTTP Servlet Request
      * @return string The String
-     * @throws SiteMessageException occurs when a site message need to be displayed
+     * @throws SiteMessageException
+     *             occurs when a site message need to be displayed
      */
-    String getXmlDocument( HttpServletRequest request )
-        throws SiteMessageException;
+    String getXmlDocument( HttpServletRequest request ) throws SiteMessageException;
 }

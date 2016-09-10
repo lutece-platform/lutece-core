@@ -52,7 +52,6 @@ import fr.paris.lutece.portal.business.workgroup.AdminWorkgroupTest;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-
 /**
  * This class is the main test suite for the package fr.paris.lutece.util.date
  */
@@ -60,13 +59,14 @@ public final class AllTests
 {
     /**
      * A set of tests
+     * 
      * @return Test the tests
      */
-    public static Test suite(  )
+    public static Test suite( )
     {
         TestSuite suite = new TestSuite( "*** Tests Lutece core " );
 
-        //$JUnit-BEGIN$
+        // $JUnit-BEGIN$
         suite.addTest( new TestSuite( LevelTest.class ) );
         suite.addTest( new TestSuite( PortalComponentTest.class ) );
         suite.addTest( new TestSuite( AliasPortletTest.class ) );
@@ -83,7 +83,7 @@ public final class AllTests
         suite.addTest( new TestSuite( AdminUserTest.class ) );
         suite.addTest( new TestSuite( AdminWorkgroupTest.class ) );
 
-        //$JUnit-END$
+        // $JUnit-END$
         return suite;
     }
 }

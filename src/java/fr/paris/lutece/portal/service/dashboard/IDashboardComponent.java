@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -38,7 +38,6 @@ import fr.paris.lutece.portal.service.plugin.Plugin;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  *
  * IDashboardComponent
@@ -48,75 +47,94 @@ public interface IDashboardComponent extends Comparable<IDashboardComponent>
 {
     /**
      * Gets dashboard data for a given user
-     * @param user The user
-     * @param request HttpServletRequest
+     * 
+     * @param user
+     *            The user
+     * @param request
+     *            HttpServletRequest
      * @return HTML content to insert into a dashboard zone
      */
     String getDashboardData( AdminUser user, HttpServletRequest request );
 
     /**
      * Returns the Name
+     * 
      * @return The Name
      */
-    String getName(  );
+    String getName( );
 
     /**
      * Sets the Name
-     * @param strName The Name
+     * 
+     * @param strName
+     *            The Name
      */
     void setName( String strName );
 
     /**
      * Returns the Right
+     * 
      * @return The Right
      */
-    String getRight(  );
+    String getRight( );
 
     /**
      * Sets the Right
-     * @param strRight The Right
+     * 
+     * @param strRight
+     *            The Right
      */
     void setRight( String strRight );
 
     /**
      * Returns the Zone
+     * 
      * @return The Zone
      */
-    int getZone(  );
+    int getZone( );
 
     /**
      * Sets the Zone
-     * @param nZone The Zone
+     * 
+     * @param nZone
+     *            The Zone
      */
     void setZone( int nZone );
 
     /**
      * Returns the Order
+     * 
      * @return The Order
      */
-    int getOrder(  );
+    int getOrder( );
 
     /**
      * Sets the Order
-     * @param nOrder The Order
+     * 
+     * @param nOrder
+     *            The Order
      */
     void setOrder( int nOrder );
 
     /**
      * Returns the Plugin
+     * 
      * @return The Plugin
      */
-    Plugin getPlugin(  );
+    Plugin getPlugin( );
 
     /**
      * Sets the Plugin
-     * @param plugin The plugin
+     * 
+     * @param plugin
+     *            The plugin
      */
     void setPlugin( Plugin plugin );
 
     /**
      * Tells if the component is enabled
+     * 
      * @return true if enabled
      */
-    boolean isEnabled(  );
+    boolean isEnabled( );
 }

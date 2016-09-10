@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -45,7 +45,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-
 /**
  * This class porvides Data Access methods for Page objects
  */
@@ -53,67 +52,64 @@ public final class PageDAO implements IPageDAO
 {
     // Constants
     private static final String SQL_QUERY_NEW_PK = "SELECT max(id_page) FROM core_page";
-    private static final String SQL_QUERY_SELECT = "SELECT a.id_parent, a.name, a.description, a.id_template, b.file_name, " +
-        " a.page_order, a.status, a.role , a.code_theme , a.node_status , a.image_content, a.mime_type, " +
-        "  a.date_update, a.meta_keywords, a.meta_description, a.id_authorization_node FROM core_page a, core_page_template b WHERE a.id_template = b.id_template AND a.id_page = ? ";
-    private static final String SQL_QUERY_SELECT_WITHOUT_IMAGE_CONTENT = "SELECT a.id_parent, a.name, a.description, a.id_template, b.file_name, " +
-        " a.page_order, a.status, a.role , a.code_theme , a.node_status , a.mime_type, " +
-        "  a.date_update, a.meta_keywords, a.meta_description FROM core_page a INNER JOIN " +
-        " core_page_template b ON (a.id_template = b.id_template) WHERE a.id_page = ? ";
-    private static final String SQL_QUERY_SELECT_BY_ID_PORTLET = "SELECT a.id_page, a.id_parent, a.name, a.description, a.id_template, " +
-        " a.page_order, a.status, a.role , a.code_theme , a.node_status , a.image_content, a.mime_type, " +
-        "  a.meta_keywords, a.meta_description,a.id_authorization_node FROM core_page a,core_portlet b WHERE a.id_page = b.id_page AND b.id_portlet = ? ";
-    private static final String SQL_QUERY_INSERT = "INSERT INTO core_page ( id_page , id_parent , name , description, date_update, " +
-        " id_template,  page_order, status, role, date_creation, code_theme , node_status, image_content , mime_type ,  " +
-        " meta_keywords, meta_description,id_authorization_node ) " +
-        " VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )";
+    private static final String SQL_QUERY_SELECT = "SELECT a.id_parent, a.name, a.description, a.id_template, b.file_name, "
+            + " a.page_order, a.status, a.role , a.code_theme , a.node_status , a.image_content, a.mime_type, "
+            + "  a.date_update, a.meta_keywords, a.meta_description, a.id_authorization_node FROM core_page a, core_page_template b WHERE a.id_template = b.id_template AND a.id_page = ? ";
+    private static final String SQL_QUERY_SELECT_WITHOUT_IMAGE_CONTENT = "SELECT a.id_parent, a.name, a.description, a.id_template, b.file_name, "
+            + " a.page_order, a.status, a.role , a.code_theme , a.node_status , a.mime_type, "
+            + "  a.date_update, a.meta_keywords, a.meta_description FROM core_page a INNER JOIN "
+            + " core_page_template b ON (a.id_template = b.id_template) WHERE a.id_page = ? ";
+    private static final String SQL_QUERY_SELECT_BY_ID_PORTLET = "SELECT a.id_page, a.id_parent, a.name, a.description, a.id_template, "
+            + " a.page_order, a.status, a.role , a.code_theme , a.node_status , a.image_content, a.mime_type, "
+            + "  a.meta_keywords, a.meta_description,a.id_authorization_node FROM core_page a,core_portlet b WHERE a.id_page = b.id_page AND b.id_portlet = ? ";
+    private static final String SQL_QUERY_INSERT = "INSERT INTO core_page ( id_page , id_parent , name , description, date_update, "
+            + " id_template,  page_order, status, role, date_creation, code_theme , node_status, image_content , mime_type ,  "
+            + " meta_keywords, meta_description,id_authorization_node ) " + " VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )";
     private static final String SQL_QUERY_DELETE = "DELETE FROM core_page WHERE id_page = ?";
-    private static final String SQL_QUERY_UPDATE = "UPDATE core_page SET id_parent = ?,  name = ?, description = ? , date_update = ? , " +
-        " id_template = ? , page_order = ? , status = ? , role = ? , code_theme = ? , node_status = ? , " +
-        " image_content = ? , mime_type = ? , meta_keywords = ?, meta_description = ? ,id_authorization_node=?" +
-        " WHERE id_page = ?";
+    private static final String SQL_QUERY_UPDATE = "UPDATE core_page SET id_parent = ?,  name = ?, description = ? , date_update = ? , "
+            + " id_template = ? , page_order = ? , status = ? , role = ? , code_theme = ? , node_status = ? , "
+            + " image_content = ? , mime_type = ? , meta_keywords = ?, meta_description = ? ,id_authorization_node=?" + " WHERE id_page = ?";
     private static final String SQL_QUERY_CHECKPK = "SELECT id_page FROM core_page WHERE id_page = ?";
-    private static final String SQL_QUERY_CHILDPAGE = "SELECT id_page , id_parent, name, description, " +
-        " page_order , status , role, code_theme, image_content, mime_type , meta_keywords, meta_description, date_update,id_authorization_node " +
-        " FROM core_page WHERE id_parent = ? ORDER BY page_order";
-    private static final String SQL_QUERY_CHILDPAGE_MINIMAL_DATA = "SELECT id_page ,id_parent, name, description, role FROM core_page " +
-        " WHERE id_parent = ? ORDER BY page_order";
-    private static final String SQL_QUERY_SELECTALL = "SELECT id_page , id_parent,  name, description, date_update, " +
-        " page_order, status, role, code_theme, image_content, mime_type , meta_keywords, meta_description,id_authorization_node  FROM core_page ";
-    private static final String SQL_QUERY_BY_ROLE_KEY = "SELECT id_page , id_parent,  name, description, date_update, " +
-        " page_order, status, role, code_theme, image_content, mime_type , meta_keywords, meta_description,id_authorization_node  FROM core_page WHERE role = ? ";
+    private static final String SQL_QUERY_CHILDPAGE = "SELECT id_page , id_parent, name, description, "
+            + " page_order , status , role, code_theme, image_content, mime_type , meta_keywords, meta_description, date_update,id_authorization_node "
+            + " FROM core_page WHERE id_parent = ? ORDER BY page_order";
+    private static final String SQL_QUERY_CHILDPAGE_MINIMAL_DATA = "SELECT id_page ,id_parent, name, description, role FROM core_page "
+            + " WHERE id_parent = ? ORDER BY page_order";
+    private static final String SQL_QUERY_SELECTALL = "SELECT id_page , id_parent,  name, description, date_update, "
+            + " page_order, status, role, code_theme, image_content, mime_type , meta_keywords, meta_description,id_authorization_node  FROM core_page ";
+    private static final String SQL_QUERY_BY_ROLE_KEY = "SELECT id_page , id_parent,  name, description, date_update, "
+            + " page_order, status, role, code_theme, image_content, mime_type , meta_keywords, meta_description,id_authorization_node  FROM core_page WHERE role = ? ";
     private static final String SQL_QUERY_SELECT_PORTLET = "SELECT id_portlet FROM core_portlet WHERE id_page = ? ORDER BY portlet_order";
     private static final String SQL_QUERY_UPDATE_PAGE_DATE = "UPDATE core_page SET date_update = ? WHERE id_page = ?";
     private static final String SQL_QUERY_SELECTALL_NODE_PAGE = "SELECT id_page, name FROM core_page WHERE node_status = 0";
     private static final String SQL_QUERY_NEW_CHILD_PAGE_ORDER = "SELECT max(page_order) FROM core_page WHERE id_parent = ?";
     private static final String SQL_QUERY_CHECK_PAGE_EXIST = "SELECT id_page FROM core_page " + " WHERE id_page = ? ";
-    private static final String SQL_QUERY_SELECT_LAST_MODIFIED_PAGE = "SELECT id_page, id_parent, name, description, id_template, " +
-        " page_order, status, role , code_theme , node_status , mime_type, " +
-        "  date_update, meta_keywords, meta_description,id_authorization_node FROM core_page " +
-        " ORDER BY date_update DESC LIMIT 1";
+    private static final String SQL_QUERY_SELECT_LAST_MODIFIED_PAGE = "SELECT id_page, id_parent, name, description, id_template, "
+            + " page_order, status, role , code_theme , node_status , mime_type, "
+            + "  date_update, meta_keywords, meta_description,id_authorization_node FROM core_page " + " ORDER BY date_update DESC LIMIT 1";
 
     // ImageResource queries
-    private static final String SQL_QUERY_SELECT_RESOURCE_IMAGE = " SELECT image_content , mime_type FROM core_page " +
-        " WHERE id_page = ? ";
-    private static final String SQL_QUERY_SELECT_CHILD_PAGE_FOR_MODIFY_AUTORISATION_NODE = "  SELECT id_page FROM core_page  " +
-        "WHERE id_parent=? AND( id_authorization_node IS NULL OR id_page != id_authorization_node ) ";
+    private static final String SQL_QUERY_SELECT_RESOURCE_IMAGE = " SELECT image_content , mime_type FROM core_page " + " WHERE id_page = ? ";
+    private static final String SQL_QUERY_SELECT_CHILD_PAGE_FOR_MODIFY_AUTORISATION_NODE = "  SELECT id_page FROM core_page  "
+            + "WHERE id_parent=? AND( id_authorization_node IS NULL OR id_page != id_authorization_node ) ";
     private static final String SQL_QUERY_UPDATE_AUTORISATION_NODE = " UPDATE core_page SET id_authorization_node = ? WHERE id_page=? ";
 
-    ///////////////////////////////////////////////////////////////////////////////////////
-    //Access methods to data
+    // /////////////////////////////////////////////////////////////////////////////////////
+    // Access methods to data
 
     /**
      * Generates a new primary key
+     * 
      * @return The new primary key
      */
-    int newPrimaryKey(  )
+    int newPrimaryKey( )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_NEW_PK );
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
         int nKey;
 
-        if ( !daoUtil.next(  ) )
+        if ( !daoUtil.next( ) )
         {
             // if the table is empty
             nKey = 1;
@@ -121,7 +117,7 @@ public final class PageDAO implements IPageDAO
 
         nKey = daoUtil.getInt( 1 ) + 1;
 
-        daoUtil.free(  );
+        daoUtil.free( );
 
         return nKey;
     }
@@ -133,57 +129,57 @@ public final class PageDAO implements IPageDAO
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT );
 
-        int nNewPrimaryKey = newPrimaryKey(  );
+        int nNewPrimaryKey = newPrimaryKey( );
         page.setId( nNewPrimaryKey );
-        page.setOrigParentPageId( page.getParentPageId(  ) );
+        page.setOrigParentPageId( page.getParentPageId( ) );
 
-        daoUtil.setInt( 1, page.getId(  ) );
-        daoUtil.setInt( 2, page.getParentPageId(  ) );
-        daoUtil.setString( 3, page.getName(  ) );
-        daoUtil.setString( 4, page.getDescription(  ) );
-        page.setDateUpdate( new Timestamp( new java.util.Date(  ).getTime(  ) ) );
-        daoUtil.setTimestamp( 5, page.getDateUpdate(  ) );
-        daoUtil.setInt( 6, page.getPageTemplateId(  ) );
-        daoUtil.setInt( 7, page.getOrder(  ) );
-        daoUtil.setInt( 8, page.getStatus(  ) );
-        daoUtil.setString( 9, page.getRole(  ) );
+        daoUtil.setInt( 1, page.getId( ) );
+        daoUtil.setInt( 2, page.getParentPageId( ) );
+        daoUtil.setString( 3, page.getName( ) );
+        daoUtil.setString( 4, page.getDescription( ) );
+        page.setDateUpdate( new Timestamp( new java.util.Date( ).getTime( ) ) );
+        daoUtil.setTimestamp( 5, page.getDateUpdate( ) );
+        daoUtil.setInt( 6, page.getPageTemplateId( ) );
+        daoUtil.setInt( 7, page.getOrder( ) );
+        daoUtil.setInt( 8, page.getStatus( ) );
+        daoUtil.setString( 9, page.getRole( ) );
 
         // For a new object, update time = creation time
-        daoUtil.setTimestamp( 10, page.getDateUpdate(  ) );
-        daoUtil.setString( 11, page.getCodeTheme(  ) );
-        daoUtil.setInt( 12, page.getNodeStatus(  ) );
-        daoUtil.setBytes( 13, page.getImageContent(  ) );
-        daoUtil.setString( 14, page.getMimeType(  ) );
+        daoUtil.setTimestamp( 10, page.getDateUpdate( ) );
+        daoUtil.setString( 11, page.getCodeTheme( ) );
+        daoUtil.setInt( 12, page.getNodeStatus( ) );
+        daoUtil.setBytes( 13, page.getImageContent( ) );
+        daoUtil.setString( 14, page.getMimeType( ) );
 
-        if ( ( page.getMetaKeywords(  ) != null ) && ( page.getMetaKeywords(  ).length(  ) > 0 ) )
+        if ( ( page.getMetaKeywords( ) != null ) && ( page.getMetaKeywords( ).length( ) > 0 ) )
         {
-            daoUtil.setString( 15, page.getMetaKeywords(  ) );
+            daoUtil.setString( 15, page.getMetaKeywords( ) );
         }
         else
         {
             daoUtil.setString( 15, null );
         }
 
-        if ( ( page.getMetaDescription(  ) != null ) && ( page.getMetaDescription(  ).length(  ) > 0 ) )
+        if ( ( page.getMetaDescription( ) != null ) && ( page.getMetaDescription( ).length( ) > 0 ) )
         {
-            daoUtil.setString( 16, page.getMetaDescription(  ) );
+            daoUtil.setString( 16, page.getMetaDescription( ) );
         }
         else
         {
             daoUtil.setString( 16, null );
         }
 
-        if ( page.getIdAuthorizationNode(  ) != null )
+        if ( page.getIdAuthorizationNode( ) != null )
         {
-            daoUtil.setInt( 17, page.getIdAuthorizationNode(  ) );
+            daoUtil.setInt( 17, page.getIdAuthorizationNode( ) );
         }
         else
         {
             daoUtil.setIntNull( 17 );
         }
 
-        daoUtil.executeUpdate(  );
-        daoUtil.free(  );
+        daoUtil.executeUpdate( );
+        daoUtil.free( );
     }
 
     /**
@@ -194,11 +190,11 @@ public final class PageDAO implements IPageDAO
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT );
         daoUtil.setInt( 1, nPageId );
 
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
-        Page page = new Page(  );
+        Page page = new Page( );
 
-        if ( daoUtil.next(  ) )
+        if ( daoUtil.next( ) )
         {
             page.setId( nPageId );
             page.setParentPageId( daoUtil.getInt( 1 ) );
@@ -224,7 +220,7 @@ public final class PageDAO implements IPageDAO
             }
 
             // Patch perfs : close connection before loadPortlets
-            daoUtil.free(  );
+            daoUtil.free( );
 
             // Loads the portlets contained into the page
             if ( bPortlets )
@@ -233,7 +229,7 @@ public final class PageDAO implements IPageDAO
             }
         }
 
-        daoUtil.free(  );
+        daoUtil.free( );
 
         return page;
     }
@@ -246,11 +242,11 @@ public final class PageDAO implements IPageDAO
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_WITHOUT_IMAGE_CONTENT );
         daoUtil.setInt( 1, nPageId );
 
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
-        Page page = new Page(  );
+        Page page = new Page( );
 
-        if ( daoUtil.next(  ) )
+        if ( daoUtil.next( ) )
         {
             page.setId( nPageId );
             page.setParentPageId( daoUtil.getInt( 1 ) );
@@ -275,7 +271,7 @@ public final class PageDAO implements IPageDAO
             }
 
             // Patch perfs : close connection before loadPortlets
-            daoUtil.free(  );
+            daoUtil.free( );
 
             // Loads the portlets contained into the page
             if ( bPortlets )
@@ -284,7 +280,7 @@ public final class PageDAO implements IPageDAO
             }
         }
 
-        daoUtil.free(  );
+        daoUtil.free( );
 
         return page;
     }
@@ -297,11 +293,11 @@ public final class PageDAO implements IPageDAO
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_BY_ID_PORTLET );
         daoUtil.setInt( 1, nPorletId );
 
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
-        Page page = new Page(  );
+        Page page = new Page( );
 
-        if ( daoUtil.next(  ) )
+        if ( daoUtil.next( ) )
         {
             page.setId( daoUtil.getInt( 1 ) );
             page.setParentPageId( daoUtil.getInt( 2 ) );
@@ -321,7 +317,7 @@ public final class PageDAO implements IPageDAO
             page.setIdAuthorizationNode( daoUtil.getInt( 15 ) );
         }
 
-        daoUtil.free(  );
+        daoUtil.free( );
 
         return page;
     }
@@ -334,8 +330,8 @@ public final class PageDAO implements IPageDAO
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE );
         daoUtil.setInt( 1, nPageId );
 
-        daoUtil.executeUpdate(  );
-        daoUtil.free(  );
+        daoUtil.executeUpdate( );
+        daoUtil.free( );
     }
 
     /**
@@ -345,56 +341,58 @@ public final class PageDAO implements IPageDAO
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE );
 
-        daoUtil.setInt( 1, page.getParentPageId(  ) );
-        daoUtil.setString( 2, page.getName(  ) );
-        daoUtil.setString( 3, page.getDescription(  ) );
-        page.setDateUpdate( new Timestamp( new java.util.Date(  ).getTime(  ) ) );
-        daoUtil.setTimestamp( 4, page.getDateUpdate(  ) );
-        daoUtil.setInt( 5, page.getPageTemplateId(  ) );
-        daoUtil.setInt( 6, page.getOrder(  ) );
-        daoUtil.setInt( 7, page.getStatus(  ) );
-        daoUtil.setString( 8, page.getRole(  ) );
-        daoUtil.setString( 9, page.getCodeTheme(  ) );
-        daoUtil.setInt( 10, page.getNodeStatus(  ) );
-        daoUtil.setBytes( 11, page.getImageContent(  ) );
-        daoUtil.setString( 12, page.getMimeType(  ) );
+        daoUtil.setInt( 1, page.getParentPageId( ) );
+        daoUtil.setString( 2, page.getName( ) );
+        daoUtil.setString( 3, page.getDescription( ) );
+        page.setDateUpdate( new Timestamp( new java.util.Date( ).getTime( ) ) );
+        daoUtil.setTimestamp( 4, page.getDateUpdate( ) );
+        daoUtil.setInt( 5, page.getPageTemplateId( ) );
+        daoUtil.setInt( 6, page.getOrder( ) );
+        daoUtil.setInt( 7, page.getStatus( ) );
+        daoUtil.setString( 8, page.getRole( ) );
+        daoUtil.setString( 9, page.getCodeTheme( ) );
+        daoUtil.setInt( 10, page.getNodeStatus( ) );
+        daoUtil.setBytes( 11, page.getImageContent( ) );
+        daoUtil.setString( 12, page.getMimeType( ) );
 
-        if ( ( page.getMetaKeywords(  ) != null ) && ( page.getMetaKeywords(  ).length(  ) > 0 ) )
+        if ( ( page.getMetaKeywords( ) != null ) && ( page.getMetaKeywords( ).length( ) > 0 ) )
         {
-            daoUtil.setString( 13, page.getMetaKeywords(  ) );
+            daoUtil.setString( 13, page.getMetaKeywords( ) );
         }
         else
         {
             daoUtil.setString( 13, null );
         }
 
-        if ( ( page.getMetaDescription(  ) != null ) && ( page.getMetaDescription(  ).length(  ) > 0 ) )
+        if ( ( page.getMetaDescription( ) != null ) && ( page.getMetaDescription( ).length( ) > 0 ) )
         {
-            daoUtil.setString( 14, page.getMetaDescription(  ) );
+            daoUtil.setString( 14, page.getMetaDescription( ) );
         }
         else
         {
             daoUtil.setString( 14, null );
         }
 
-        if ( page.getIdAuthorizationNode(  ) != null )
+        if ( page.getIdAuthorizationNode( ) != null )
         {
-            daoUtil.setInt( 15, page.getIdAuthorizationNode(  ) );
+            daoUtil.setInt( 15, page.getIdAuthorizationNode( ) );
         }
         else
         {
             daoUtil.setIntNull( 15 );
         }
 
-        daoUtil.setInt( 16, page.getId(  ) );
+        daoUtil.setInt( 16, page.getId( ) );
 
-        daoUtil.executeUpdate(  );
-        daoUtil.free(  );
+        daoUtil.executeUpdate( );
+        daoUtil.free( );
     }
 
     /**
      * Checks if the page identifier exists
-     * @param nKey  The page identifier
+     * 
+     * @param nKey
+     *            The page identifier
      * @return true if the identifier exists, false if not
      */
     boolean checkPrimaryKey( int nKey )
@@ -402,16 +400,16 @@ public final class PageDAO implements IPageDAO
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_CHECKPK );
 
         daoUtil.setInt( 1, nKey );
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
-        if ( !daoUtil.next(  ) )
+        if ( !daoUtil.next( ) )
         {
-            daoUtil.free(  );
+            daoUtil.free( );
 
             return false;
         }
 
-        daoUtil.free(  );
+        daoUtil.free( );
 
         return true;
     }
@@ -419,26 +417,27 @@ public final class PageDAO implements IPageDAO
     /**
      * loads the portlets list contained into the page
      *
-     * @param page The object page
+     * @param page
+     *            The object page
      */
     void loadPortlets( Page page )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_PORTLET );
-        daoUtil.setInt( 1, page.getId(  ) );
+        daoUtil.setInt( 1, page.getId( ) );
 
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
-        // Patch perfs :  get query responses and close connection before getting portlet
-        ArrayList<Integer> portletIds = new ArrayList<Integer>(  );
+        // Patch perfs : get query responses and close connection before getting portlet
+        ArrayList<Integer> portletIds = new ArrayList<Integer>( );
 
-        while ( daoUtil.next(  ) )
+        while ( daoUtil.next( ) )
         {
             portletIds.add( Integer.valueOf( daoUtil.getInt( 1 ) ) );
         }
 
-        daoUtil.free(  );
+        daoUtil.free( );
 
-        ArrayList<Portlet> pageColl = new ArrayList<Portlet>(  );
+        ArrayList<Portlet> pageColl = new ArrayList<Portlet>( );
 
         for ( Integer nPortletId : portletIds )
         {
@@ -454,15 +453,15 @@ public final class PageDAO implements IPageDAO
      */
     public Collection<Page> selectChildPages( int nParentPageId )
     {
-        Collection<Page> pageList = new ArrayList<Page>(  );
+        Collection<Page> pageList = new ArrayList<Page>( );
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_CHILDPAGE );
         daoUtil.setInt( 1, nParentPageId );
 
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
-        while ( daoUtil.next(  ) )
+        while ( daoUtil.next( ) )
         {
-            Page page = new Page(  );
+            Page page = new Page( );
 
             page.setId( daoUtil.getInt( 1 ) );
             page.setParentPageId( daoUtil.getInt( 2 ) );
@@ -487,7 +486,7 @@ public final class PageDAO implements IPageDAO
             pageList.add( page );
         }
 
-        daoUtil.free(  );
+        daoUtil.free( );
 
         return pageList;
     }
@@ -497,15 +496,15 @@ public final class PageDAO implements IPageDAO
      */
     public Collection<Page> selectChildPagesMinimalData( int nParentPageId )
     {
-        Collection<Page> pageList = new ArrayList<Page>(  );
+        Collection<Page> pageList = new ArrayList<Page>( );
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_CHILDPAGE_MINIMAL_DATA );
         daoUtil.setInt( 1, nParentPageId );
 
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
-        while ( daoUtil.next(  ) )
+        while ( daoUtil.next( ) )
         {
-            Page page = new Page(  );
+            Page page = new Page( );
             page.setId( daoUtil.getInt( 1 ) );
             page.setParentPageId( daoUtil.getInt( 2 ) );
             page.setOrigParentPageId( daoUtil.getInt( 2 ) );
@@ -515,7 +514,7 @@ public final class PageDAO implements IPageDAO
             pageList.add( page );
         }
 
-        daoUtil.free(  );
+        daoUtil.free( );
 
         return pageList;
     }
@@ -523,15 +522,15 @@ public final class PageDAO implements IPageDAO
     /**
      * {@inheritDoc}
      */
-    public List<Page> selectAllPages(  )
+    public List<Page> selectAllPages( )
     {
-        List<Page> pageList = new ArrayList<Page>(  );
+        List<Page> pageList = new ArrayList<Page>( );
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL );
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
-        while ( daoUtil.next(  ) )
+        while ( daoUtil.next( ) )
         {
-            Page page = new Page(  );
+            Page page = new Page( );
 
             page.setId( daoUtil.getInt( 1 ) );
             page.setParentPageId( daoUtil.getInt( 2 ) );
@@ -556,7 +555,7 @@ public final class PageDAO implements IPageDAO
             pageList.add( page );
         }
 
-        daoUtil.free(  );
+        daoUtil.free( );
 
         return pageList;
     }
@@ -568,31 +567,31 @@ public final class PageDAO implements IPageDAO
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE_PAGE_DATE );
 
-        daoUtil.setTimestamp( 1, new Timestamp( new java.util.Date(  ).getTime(  ) ) );
+        daoUtil.setTimestamp( 1, new Timestamp( new java.util.Date( ).getTime( ) ) );
         daoUtil.setInt( 2, nPageId );
 
-        daoUtil.executeUpdate(  );
-        daoUtil.free(  );
+        daoUtil.executeUpdate( );
+        daoUtil.free( );
     }
 
     /**
      * {@inheritDoc}
      */
-    public ReferenceList getPagesList(  )
+    public ReferenceList getPagesList( )
     {
-        ReferenceList listPages = new ReferenceList(  );
+        ReferenceList listPages = new ReferenceList( );
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL_NODE_PAGE );
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
-        while ( daoUtil.next(  ) )
+        while ( daoUtil.next( ) )
         {
-            Page page = new Page(  );
+            Page page = new Page( );
             page.setId( daoUtil.getInt( 1 ) );
             page.setName( daoUtil.getString( 2 ) );
-            listPages.addItem( page.getId(  ), page.getName(  ) + " ( " + page.getId(  ) + " )" );
+            listPages.addItem( page.getId( ), page.getName( ) + " ( " + page.getId( ) + " )" );
         }
 
-        daoUtil.free(  );
+        daoUtil.free( );
 
         return listPages;
     }
@@ -600,20 +599,21 @@ public final class PageDAO implements IPageDAO
     /**
      * Return the list of all the pages filtered by Lutece Role specified in parameter
      *
-     * @param strRoleKey The Lutece Role key
+     * @param strRoleKey
+     *            The Lutece Role key
      * @return a collection of pages
      */
     public Collection<Page> getPagesByRoleKey( String strRoleKey )
     {
-        Collection<Page> pageList = new ArrayList<Page>(  );
+        Collection<Page> pageList = new ArrayList<Page>( );
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_BY_ROLE_KEY );
         daoUtil.setString( 1, strRoleKey );
 
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
-        while ( daoUtil.next(  ) )
+        while ( daoUtil.next( ) )
         {
-            Page page = new Page(  );
+            Page page = new Page( );
 
             page.setId( daoUtil.getInt( 1 ) );
             page.setParentPageId( daoUtil.getInt( 2 ) );
@@ -638,7 +638,7 @@ public final class PageDAO implements IPageDAO
             pageList.add( page );
         }
 
-        daoUtil.free(  );
+        daoUtil.free( );
 
         return pageList;
     }
@@ -650,11 +650,11 @@ public final class PageDAO implements IPageDAO
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_NEW_CHILD_PAGE_ORDER );
         daoUtil.setInt( 1, nParentPageId );
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
         int nPageOrder;
 
-        if ( !daoUtil.next(  ) )
+        if ( !daoUtil.next( ) )
         {
             // if the table is empty
             nPageOrder = 1;
@@ -662,7 +662,7 @@ public final class PageDAO implements IPageDAO
 
         nPageOrder = daoUtil.getInt( 1 ) + 1;
 
-        daoUtil.free(  );
+        daoUtil.free( );
 
         return nPageOrder;
     }
@@ -674,18 +674,18 @@ public final class PageDAO implements IPageDAO
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_RESOURCE_IMAGE );
         daoUtil.setInt( 1, nIdPage );
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
         ImageResource image = null;
 
-        if ( daoUtil.next(  ) )
+        if ( daoUtil.next( ) )
         {
-            image = new ImageResource(  );
+            image = new ImageResource( );
             image.setImage( daoUtil.getBytes( 1 ) );
             image.setMimeType( daoUtil.getString( 2 ) );
         }
 
-        daoUtil.free(  );
+        daoUtil.free( );
 
         return image;
     }
@@ -693,7 +693,8 @@ public final class PageDAO implements IPageDAO
     /**
      * Tests if page exist
      *
-     * @param nPageId The identifier of the document
+     * @param nPageId
+     *            The identifier of the document
      * @return true if the page existed, false otherwise
      */
     public boolean checkPageExist( int nPageId )
@@ -702,14 +703,14 @@ public final class PageDAO implements IPageDAO
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_CHECK_PAGE_EXIST );
 
         daoUtil.setInt( 1, nPageId );
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
-        if ( daoUtil.next(  ) )
+        if ( daoUtil.next( ) )
         {
             bPageExisted = true;
         }
 
-        daoUtil.free(  );
+        daoUtil.free( );
 
         return bPageExisted;
     }
@@ -717,22 +718,22 @@ public final class PageDAO implements IPageDAO
     /**
      * {@inheritDoc}
      */
-    public Page loadLastModifiedPage(  )
+    public Page loadLastModifiedPage( )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_LAST_MODIFIED_PAGE );
 
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
         Page page = null;
 
-        if ( daoUtil.next(  ) )
+        if ( daoUtil.next( ) )
         {
-            page = new Page(  );
+            page = new Page( );
 
             int nIndex = 1;
             page.setId( daoUtil.getInt( nIndex++ ) );
             page.setParentPageId( daoUtil.getInt( nIndex++ ) );
-            page.setOrigParentPageId( page.getParentPageId(  ) );
+            page.setOrigParentPageId( page.getParentPageId( ) );
             page.setName( daoUtil.getString( nIndex++ ) );
             page.setDescription( daoUtil.getString( nIndex++ ) );
             page.setPageTemplateId( daoUtil.getInt( nIndex++ ) );
@@ -752,7 +753,7 @@ public final class PageDAO implements IPageDAO
             }
         }
 
-        daoUtil.free(  );
+        daoUtil.free( );
 
         return page;
     }
@@ -762,10 +763,10 @@ public final class PageDAO implements IPageDAO
      */
     public void updateAutorisationNode( int nIdPage, Integer nIdAutorisationNode )
     {
-        StringBuilder strSQl = new StringBuilder(  );
+        StringBuilder strSQl = new StringBuilder( );
         strSQl.append( SQL_QUERY_UPDATE_AUTORISATION_NODE );
 
-        DAOUtil daoUtil = new DAOUtil( strSQl.toString(  ) );
+        DAOUtil daoUtil = new DAOUtil( strSQl.toString( ) );
 
         if ( nIdAutorisationNode != null )
         {
@@ -778,8 +779,8 @@ public final class PageDAO implements IPageDAO
 
         daoUtil.setInt( 2, nIdPage );
 
-        daoUtil.executeUpdate(  );
-        daoUtil.free(  );
+        daoUtil.executeUpdate( );
+        daoUtil.free( );
     }
 
     /**
@@ -787,19 +788,19 @@ public final class PageDAO implements IPageDAO
      */
     public List<Integer> selectPageForChangeAutorisationNode( int nIdParentPage )
     {
-        List<Integer> listIdPage = new ArrayList<Integer>(  );
+        List<Integer> listIdPage = new ArrayList<Integer>( );
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_CHILD_PAGE_FOR_MODIFY_AUTORISATION_NODE );
 
         daoUtil.setInt( 1, nIdParentPage );
 
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
-        while ( daoUtil.next(  ) )
+        while ( daoUtil.next( ) )
         {
             listIdPage.add( daoUtil.getInt( 1 ) );
         }
 
-        daoUtil.free(  );
+        daoUtil.free( );
 
         return listIdPage;
     }

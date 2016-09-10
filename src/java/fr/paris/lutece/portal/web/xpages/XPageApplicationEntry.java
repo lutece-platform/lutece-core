@@ -41,7 +41,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
-
 /**
  * XPageApplication Entry
  */
@@ -51,7 +50,7 @@ public class XPageApplicationEntry
     private String _strId;
     private String _strClassName;
     private String _strPluginName;
-    private List<String> _listRoles = new ArrayList<String>(  );
+    private List<String> _listRoles = new ArrayList<String>( );
     private boolean _bEnabled = true; // defaults to enabled
 
     /**
@@ -59,7 +58,7 @@ public class XPageApplicationEntry
      *
      * @return The Id
      */
-    public String getId(  )
+    public String getId( )
     {
         return _strId;
     }
@@ -67,7 +66,8 @@ public class XPageApplicationEntry
     /**
      * Sets the Id
      *
-     * @param strId The Id
+     * @param strId
+     *            The Id
      */
     public void setId( String strId )
     {
@@ -79,7 +79,7 @@ public class XPageApplicationEntry
      *
      * @return The ClassName
      */
-    public String getClassName(  )
+    public String getClassName( )
     {
         return _strClassName;
     }
@@ -87,7 +87,8 @@ public class XPageApplicationEntry
     /**
      * Sets the ClassName
      *
-     * @param strClassName The ClassName
+     * @param strClassName
+     *            The ClassName
      */
     public void setClassName( String strClassName )
     {
@@ -99,7 +100,7 @@ public class XPageApplicationEntry
      *
      * @return The Roles
      */
-    public List<String> getRoles(  )
+    public List<String> getRoles( )
     {
         return _listRoles;
     }
@@ -107,7 +108,8 @@ public class XPageApplicationEntry
     /**
      * Sets the Roles
      *
-     * @param strRoles The Roles
+     * @param strRoles
+     *            The Roles
      */
     public void setRoles( String strRoles )
     {
@@ -116,9 +118,9 @@ public class XPageApplicationEntry
         {
             StringTokenizer strTokens = new StringTokenizer( strRoles, "," );
 
-            while ( strTokens.hasMoreTokens(  ) )
+            while ( strTokens.hasMoreTokens( ) )
             {
-                _listRoles.add( strTokens.nextToken(  ) );
+                _listRoles.add( strTokens.nextToken( ) );
             }
         }
     }
@@ -128,7 +130,7 @@ public class XPageApplicationEntry
      *
      * @return The name of the plugin
      */
-    public String getPluginName(  )
+    public String getPluginName( )
     {
         return _strPluginName;
     }
@@ -136,7 +138,8 @@ public class XPageApplicationEntry
     /**
      * Set the plugin name of the insert service
      *
-     * @param strPluginName the plugin name
+     * @param strPluginName
+     *            the plugin name
      */
     public void setPluginName( String strPluginName )
     {
@@ -149,7 +152,7 @@ public class XPageApplicationEntry
      * @deprecated use {@link XPageAppService#getApplicationInstance(XPageApplicationEntry)} instead
      * @return The Application
      */
-    public XPageApplication getApplication(  )
+    public XPageApplication getApplication( )
     {
         return XPageAppService.getApplicationInstance( this );
     }
@@ -158,7 +161,8 @@ public class XPageApplicationEntry
      * Sets the Application
      *
      * @deprecated should not be used anymore
-     * @param application The Application
+     * @param application
+     *            The Application
      */
     public void setApplication( XPageApplication application )
     {
@@ -169,24 +173,27 @@ public class XPageApplicationEntry
      *
      * @return True if the application is enable, otherwise false
      */
-    public boolean isEnable(  )
+    public boolean isEnable( )
     {
         return _bEnabled && PluginService.isPluginEnable( _strPluginName );
     }
 
     /**
      * Tells if the XPageApplication is enabled, independently of the plugin's status
+     * 
      * @return <code>true</code> if this XPageApplication is enabled, <code>false</code> otherwise
      * @since 5.1
      */
-    public boolean isEnabled(  )
+    public boolean isEnabled( )
     {
         return _bEnabled;
     }
 
     /**
      * Sets the enabled state of this XPageApplication
-     * @param enabled <code>true</code> if this XPageApplication is enabled, <code>false</code> otherwise
+     * 
+     * @param enabled
+     *            <code>true</code> if this XPageApplication is enabled, <code>false</code> otherwise
      * @since 5.1
      */
     public void setEnabled( boolean bEnabled )
@@ -199,7 +206,7 @@ public class XPageApplicationEntry
      *
      * @return the plugin
      */
-    public Plugin getPlugin(  )
+    public Plugin getPlugin( )
     {
         return PluginService.getPlugin( _strPluginName );
     }

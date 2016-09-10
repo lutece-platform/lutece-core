@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -45,41 +45,51 @@ import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
- * Implementation of AdminUserFieldListener that allow attributes to be
- * exported.
+ * Implementation of AdminUserFieldListener that allow attributes to be exported.
  */
 public abstract class SimpleAdminUserFieldListener implements AdminUserFieldListener
 {
     /**
      * Get the plugin
+     * 
      * @return The plugin
      */
-    public abstract Plugin getPlugin(  );
+    public abstract Plugin getPlugin( );
 
     /**
      * Create user fields
-     * @param user Adminuser
-     * @param listUserFields The list of user fields to create
-     * @param locale locale
+     * 
+     * @param user
+     *            Adminuser
+     * @param listUserFields
+     *            The list of user fields to create
+     * @param locale
+     *            locale
      */
     public abstract void doCreateUserFields( AdminUser user, List<AdminUserField> listUserFields, Locale locale );
 
     /**
      * Modify user fields
-     * @param user Adminuser
-     * @param listUserFields The list of user fields to modify
-     * @param locale locale
-     * @param currentUser current user
+     * 
+     * @param user
+     *            Adminuser
+     * @param listUserFields
+     *            The list of user fields to modify
+     * @param locale
+     *            locale
+     * @param currentUser
+     *            current user
      */
-    public abstract void doModifyUserFields( AdminUser user, List<AdminUserField> listUserFields, Locale locale,
-        AdminUser currentUser );
+    public abstract void doModifyUserFields( AdminUser user, List<AdminUserField> listUserFields, Locale locale, AdminUser currentUser );
 
     /**
      * Remove user fields
-     * @param user Adminuser
-     * @param locale locale
+     * 
+     * @param user
+     *            Adminuser
+     * @param locale
+     *            locale
      */
     public abstract void doRemoveUserFields( AdminUser user, Locale locale );
 
@@ -89,10 +99,8 @@ public abstract class SimpleAdminUserFieldListener implements AdminUserFieldList
     @Override
     public void doCreateUserFields( AdminUser user, HttpServletRequest request, Locale locale )
     {
-        List<IAttribute> listAttributes = AttributeService.getInstance(  )
-                                                          .getPluginAttributesWithoutFields( getPlugin(  ).getName(  ),
-                locale );
-        List<AdminUserField> listUserFields = new ArrayList<AdminUserField>(  );
+        List<IAttribute> listAttributes = AttributeService.getInstance( ).getPluginAttributesWithoutFields( getPlugin( ).getName( ), locale );
+        List<AdminUserField> listUserFields = new ArrayList<AdminUserField>( );
 
         for ( IAttribute attribute : listAttributes )
         {
@@ -100,12 +108,12 @@ public abstract class SimpleAdminUserFieldListener implements AdminUserFieldList
 
             for ( AdminUserField userField : userFields )
             {
-                if ( ( userField != null ) && StringUtils.isNotBlank( userField.getValue(  ) ) )
+                if ( ( userField != null ) && StringUtils.isNotBlank( userField.getValue( ) ) )
                 {
                     // Change the value of the user field
                     // Instead of having the ID of the attribute field, we put the attribute field title
                     // which represents the profile's ID
-                    userField.setValue( userField.getAttributeField(  ).getTitle(  ) );
+                    userField.setValue( userField.getAttributeField( ).getTitle( ) );
                     AdminUserFieldHome.create( userField );
                     listUserFields.add( userField );
                 }
@@ -121,10 +129,8 @@ public abstract class SimpleAdminUserFieldListener implements AdminUserFieldList
     @Override
     public void doModifyUserFields( AdminUser user, HttpServletRequest request, Locale locale, AdminUser currentUser )
     {
-        List<IAttribute> listAttributes = AttributeService.getInstance(  )
-                                                          .getPluginAttributesWithoutFields( getPlugin(  ).getName(  ),
-                locale );
-        List<AdminUserField> listUserFields = new ArrayList<AdminUserField>(  );
+        List<IAttribute> listAttributes = AttributeService.getInstance( ).getPluginAttributesWithoutFields( getPlugin( ).getName( ), locale );
+        List<AdminUserField> listUserFields = new ArrayList<AdminUserField>( );
 
         for ( IAttribute attribute : listAttributes )
         {
@@ -132,12 +138,12 @@ public abstract class SimpleAdminUserFieldListener implements AdminUserFieldList
 
             for ( AdminUserField userField : userFields )
             {
-                if ( ( userField != null ) && StringUtils.isNotBlank( userField.getValue(  ) ) )
+                if ( ( userField != null ) && StringUtils.isNotBlank( userField.getValue( ) ) )
                 {
                     // Change the value of the user field
                     // Instead of having the ID of the attribute field, we put the attribute field title
                     // which represents the profile's ID
-                    userField.setValue( userField.getAttributeField(  ).getTitle(  ) );
+                    userField.setValue( userField.getAttributeField( ).getTitle( ) );
                     AdminUserFieldHome.create( userField );
                     listUserFields.add( userField );
                 }
@@ -149,9 +155,13 @@ public abstract class SimpleAdminUserFieldListener implements AdminUserFieldList
 
     /**
      * Remove user fields
-     * @param user Adminuser
-     * @param request HttpServletRequest
-     * @param locale locale
+     * 
+     * @param user
+     *            Adminuser
+     * @param request
+     *            HttpServletRequest
+     * @param locale
+     *            locale
      */
     public void doRemoveUserFields( AdminUser user, HttpServletRequest request, Locale locale )
     {

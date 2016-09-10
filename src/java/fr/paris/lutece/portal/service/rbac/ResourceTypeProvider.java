@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -35,18 +35,16 @@ package fr.paris.lutece.portal.service.rbac;
 
 import java.util.Collection;
 
-
 /**
- * This class provides the method to implement in order to provide new resource types.
- * It is called during resource types and permission registration
+ * This class provides the method to implement in order to provide new resource types. It is called during resource types and permission registration
  *
  */
 public interface ResourceTypeProvider
 {
     /**
-     * This method returns a list of ResourceType objects
-     * with permissions and associated idService class fully initialized.
+     * This method returns a list of ResourceType objects with permissions and associated idService class fully initialized.
+     * 
      * @return a collection of ResourceType objects
      */
-    Collection getResourceTypesList(  );
+    Collection getResourceTypesList( );
 }

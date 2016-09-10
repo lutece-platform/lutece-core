@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -35,7 +35,6 @@ package fr.paris.lutece.portal.business.indexeraction;
 
 import java.util.List;
 
-
 /**
  *
  * IIndexerActionDAO
@@ -48,27 +47,30 @@ public interface IIndexerActionDAO
      *
      * @return The new primary key
      */
-    int newPrimaryKey(  );
+    int newPrimaryKey( );
 
     /**
      * Insert a new record in the table.
      *
-     * @param indexerAction instance of the IndexerAction object to insert
+     * @param indexerAction
+     *            instance of the IndexerAction object to insert
      */
     void insert( IndexerAction indexerAction );
 
     /**
-     * Load the data of the IndexerAction  from the table
+     * Load the data of the IndexerAction from the table
      *
-     * @param nId The identifier of the action
-     * @return the instance of the  IndexerAction
+     * @param nId
+     *            The identifier of the action
+     * @return the instance of the IndexerAction
      */
     IndexerAction load( int nId );
 
     /**
      * Delete a record from the table
      *
-     * @param nId The identifier of the action
+     * @param nId
+     *            The identifier of the action
      */
     void delete( int nId );
 
@@ -76,18 +78,21 @@ public interface IIndexerActionDAO
      * Delete a record from the table
      *
      */
-    void deleteAll(  );
+    void deleteAll( );
 
     /**
      * Update the indexerAction in the table
      *
-     * @param indexerAction instance of the IndexerAction object to update
+     * @param indexerAction
+     *            instance of the IndexerAction object to update
      */
     void store( IndexerAction indexerAction );
 
     /**
      * Load the data of all indexerAction and returns them in a list
-     * @param filter the search filter
+     * 
+     * @param filter
+     *            the search filter
      * @return The List which contains the data of all action
      */
     List<IndexerAction> selectList( IndexerActionFilter filter );
@@ -97,5 +102,5 @@ public interface IIndexerActionDAO
      *
      * @return The List which contains the data of all action
      */
-    List<IndexerAction> selectList(  );
+    List<IndexerAction> selectList( );
 }

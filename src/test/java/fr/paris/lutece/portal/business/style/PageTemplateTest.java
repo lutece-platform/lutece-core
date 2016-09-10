@@ -37,7 +37,6 @@ import fr.paris.lutece.test.LuteceTestCase;
 
 import java.util.List;
 
-
 public class PageTemplateTest extends LuteceTestCase
 {
     private final static String DESCRIPTION1 = "Description 1";
@@ -47,10 +46,10 @@ public class PageTemplateTest extends LuteceTestCase
     private final static String PICTURE1 = "Picture 1";
     private final static String PICTURE2 = "Picture 2";
 
-    public void testBusinessPageTemplate(  )
+    public void testBusinessPageTemplate( )
     {
         // Initialize an object
-        PageTemplate pageTemplate = new PageTemplate(  );
+        PageTemplate pageTemplate = new PageTemplate( );
         pageTemplate.setDescription( DESCRIPTION1 );
         pageTemplate.setFile( FILE1 );
         pageTemplate.setPicture( PICTURE1 );
@@ -58,28 +57,28 @@ public class PageTemplateTest extends LuteceTestCase
         // Create test
         PageTemplateHome.create( pageTemplate );
 
-        PageTemplate pageTemplateStored = PageTemplateHome.findByPrimaryKey( pageTemplate.getId(  ) );
-        assertEquals( pageTemplateStored.getDescription(  ), pageTemplate.getDescription(  ) );
-        assertEquals( pageTemplateStored.getFile(  ), pageTemplate.getFile(  ) );
-        assertEquals( pageTemplateStored.getPicture(  ), pageTemplate.getPicture(  ) );
+        PageTemplate pageTemplateStored = PageTemplateHome.findByPrimaryKey( pageTemplate.getId( ) );
+        assertEquals( pageTemplateStored.getDescription( ), pageTemplate.getDescription( ) );
+        assertEquals( pageTemplateStored.getFile( ), pageTemplate.getFile( ) );
+        assertEquals( pageTemplateStored.getPicture( ), pageTemplate.getPicture( ) );
 
         // Update test
         pageTemplate.setDescription( DESCRIPTION2 );
         pageTemplate.setFile( FILE2 );
         pageTemplate.setPicture( PICTURE2 );
         PageTemplateHome.update( pageTemplate );
-        pageTemplateStored = PageTemplateHome.findByPrimaryKey( pageTemplate.getId(  ) );
-        assertEquals( pageTemplateStored.getDescription(  ), pageTemplate.getDescription(  ) );
-        assertEquals( pageTemplateStored.getFile(  ), pageTemplate.getFile(  ) );
-        assertEquals( pageTemplateStored.getPicture(  ), pageTemplate.getPicture(  ) );
+        pageTemplateStored = PageTemplateHome.findByPrimaryKey( pageTemplate.getId( ) );
+        assertEquals( pageTemplateStored.getDescription( ), pageTemplate.getDescription( ) );
+        assertEquals( pageTemplateStored.getFile( ), pageTemplate.getFile( ) );
+        assertEquals( pageTemplateStored.getPicture( ), pageTemplate.getPicture( ) );
 
         // List test
-        List listPageTemplates = PageTemplateHome.getPageTemplatesList(  );
-        assertTrue( listPageTemplates.size(  ) > 0 );
+        List listPageTemplates = PageTemplateHome.getPageTemplatesList( );
+        assertTrue( listPageTemplates.size( ) > 0 );
 
         // Delete test
-        PageTemplateHome.remove( pageTemplate.getId(  ) );
-        pageTemplateStored = PageTemplateHome.findByPrimaryKey( pageTemplate.getId(  ) );
+        PageTemplateHome.remove( pageTemplate.getId( ) );
+        pageTemplateStored = PageTemplateHome.findByPrimaryKey( pageTemplate.getId( ) );
         assertNull( pageTemplateStored );
     }
 }

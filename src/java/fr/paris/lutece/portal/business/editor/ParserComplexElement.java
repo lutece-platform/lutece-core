@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,7 +33,6 @@
  */
 package fr.paris.lutece.portal.business.editor;
 
-
 /**
  *
  * ParserComplexElementClass
@@ -53,19 +52,27 @@ public class ParserComplexElement
 
     /**
      *
-     * @param strTagName strTagName
-     * @param strOpenSubstWithParam strOpenSubstWithParam
-     * @param strCloseSubstWithParam strCloseSubstWithParam
-     * @param strOpenSubstWithoutParam strOpenSubstWithoutParam
-     * @param strCloseSubstWithoutParam strCloseSubstWithoutParam
-     * @param strInternalSubst strInternalSubst
-     * @param bProcessInternalTags bProcessInternalTags
-     * @param bAcceptParam bAcceptParam
-     * @param bRequiresQuotedParam bRequiresQuotedParam
+     * @param strTagName
+     *            strTagName
+     * @param strOpenSubstWithParam
+     *            strOpenSubstWithParam
+     * @param strCloseSubstWithParam
+     *            strCloseSubstWithParam
+     * @param strOpenSubstWithoutParam
+     *            strOpenSubstWithoutParam
+     * @param strCloseSubstWithoutParam
+     *            strCloseSubstWithoutParam
+     * @param strInternalSubst
+     *            strInternalSubst
+     * @param bProcessInternalTags
+     *            bProcessInternalTags
+     * @param bAcceptParam
+     *            bAcceptParam
+     * @param bRequiresQuotedParam
+     *            bRequiresQuotedParam
      */
-    public ParserComplexElement( String strTagName, String strOpenSubstWithParam, String strCloseSubstWithParam,
-        String strOpenSubstWithoutParam, String strCloseSubstWithoutParam, String strInternalSubst,
-        boolean bProcessInternalTags, boolean bAcceptParam, boolean bRequiresQuotedParam )
+    public ParserComplexElement( String strTagName, String strOpenSubstWithParam, String strCloseSubstWithParam, String strOpenSubstWithoutParam,
+            String strCloseSubstWithoutParam, String strInternalSubst, boolean bProcessInternalTags, boolean bAcceptParam, boolean bRequiresQuotedParam )
     {
         _strTagName = strTagName;
         _strOpenSubstWithParam = strOpenSubstWithParam;
@@ -82,14 +89,16 @@ public class ParserComplexElement
      *
      * @return return tag name
      */
-    public String getTagName(  )
+    public String getTagName( )
     {
         return _strTagName;
     }
 
     /**
      * set tag name
-     * @param strTagName strTagName
+     * 
+     * @param strTagName
+     *            strTagName
      */
     public void setTagName( String strTagName )
     {
@@ -97,17 +106,19 @@ public class ParserComplexElement
     }
 
     /**
-     *OpenSubstWithParam(
+     * OpenSubstWithParam(
+     * 
      * @return OpenSubstWithParam(
      */
-    public String getOpenSubstWithParam(  )
+    public String getOpenSubstWithParam( )
     {
         return _strOpenSubstWithParam;
     }
 
     /**
      *
-     * @param strOpenSubstWithParam strOpenSubstWithParam
+     * @param strOpenSubstWithParam
+     *            strOpenSubstWithParam
      */
     public void setOpenSubstWithParam( String strOpenSubstWithParam )
     {
@@ -118,14 +129,15 @@ public class ParserComplexElement
      *
      * @return CloseSubstWithParam
      */
-    public String getCloseSubstWithParam(  )
+    public String getCloseSubstWithParam( )
     {
         return _strCloseSubstWithParam;
     }
 
     /**
      *
-     * @param strCloseSubstWithParam trCloseSubstWithParam
+     * @param strCloseSubstWithParam
+     *            trCloseSubstWithParam
      */
     public void setCloseSubstWithParam( String strCloseSubstWithParam )
     {
@@ -136,14 +148,15 @@ public class ParserComplexElement
      *
      * @return OpenSubstWithoutParam
      */
-    public String getOpenSubstWithoutParam(  )
+    public String getOpenSubstWithoutParam( )
     {
         return _strOpenSubstWithoutParam;
     }
 
     /**
      *
-     * @param strOpenSubstWithoutParam strOpenSubstWithoutParam
+     * @param strOpenSubstWithoutParam
+     *            strOpenSubstWithoutParam
      */
     public void setOpenSubstWithoutParam( String strOpenSubstWithoutParam )
     {
@@ -154,14 +167,15 @@ public class ParserComplexElement
      *
      * @return CloseSubstWithoutParam
      */
-    public String getCloseSubstWithoutParam(  )
+    public String getCloseSubstWithoutParam( )
     {
         return _strCloseSubstWithoutParam;
     }
 
     /**
      *
-     * @param strCloseSubstWithoutParam strCloseSubstWithoutParam
+     * @param strCloseSubstWithoutParam
+     *            strCloseSubstWithoutParam
      */
     public void setCloseSubstWithoutParam( String strCloseSubstWithoutParam )
     {
@@ -172,14 +186,15 @@ public class ParserComplexElement
      *
      * @return InternalSubst
      */
-    public String getInternalSubst(  )
+    public String getInternalSubst( )
     {
         return _strInternalSubst;
     }
 
     /**
      *
-     * @param strInternalSubst strInternalSubst
+     * @param strInternalSubst
+     *            strInternalSubst
      */
     public void setInternalSubst( String strInternalSubst )
     {
@@ -190,14 +205,15 @@ public class ParserComplexElement
      *
      * @return isProcessInternalTags
      */
-    public boolean isProcessInternalTags(  )
+    public boolean isProcessInternalTags( )
     {
         return _bProcessInternalTags;
     }
 
     /**
      *
-     * @param bProcessInternalTags bProcessInternalTags
+     * @param bProcessInternalTags
+     *            bProcessInternalTags
      */
     public void setProcessInternalTags( boolean bProcessInternalTags )
     {
@@ -208,14 +224,15 @@ public class ParserComplexElement
      *
      * @return isAcceptParam
      */
-    public boolean isAcceptParam(  )
+    public boolean isAcceptParam( )
     {
         return _bAcceptParam;
     }
 
     /**
      *
-     * @param bAcceptParam bAcceptParam
+     * @param bAcceptParam
+     *            bAcceptParam
      */
     public void setAcceptParam( boolean bAcceptParam )
     {
@@ -226,14 +243,15 @@ public class ParserComplexElement
      *
      * @return RequiresQuotedParam
      */
-    public boolean isRequiresQuotedParam(  )
+    public boolean isRequiresQuotedParam( )
     {
         return _bRequiresQuotedParam;
     }
 
     /**
      *
-     * @param bRequiresQuotedParam bRequiresQuotedParam
+     * @param bRequiresQuotedParam
+     *            bRequiresQuotedParam
      */
     public void setRequiresQuotedParam( boolean bRequiresQuotedParam )
     {

@@ -37,7 +37,6 @@ import fr.paris.lutece.test.LuteceTestCase;
 
 import java.util.Collection;
 
-
 public class RBACTest extends LuteceTestCase
 {
     private final static String ROLEKEY1 = "RoleKey 1";
@@ -49,17 +48,17 @@ public class RBACTest extends LuteceTestCase
     private final static String PERMISSION1 = "Permission 1";
     private final static String PERMISSION2 = "Permission 2";
 
-    public void testBusiness(  )
+    public void testBusiness( )
     {
         // Initialize an object 1
-        RBAC rbac1 = new RBAC(  );
+        RBAC rbac1 = new RBAC( );
         rbac1.setRoleKey( ROLEKEY1 );
         rbac1.setResourceTypeKey( RESOURCETYPE1 );
         rbac1.setResourceId( RESOURCEID1 );
         rbac1.setPermissionKey( PERMISSION1 );
 
         // Initialize an object 2
-        RBAC rbac2 = new RBAC(  );
+        RBAC rbac2 = new RBAC( );
         rbac2.setRoleKey( ROLEKEY2 );
         rbac2.setResourceTypeKey( RESOURCETYPE2 );
         rbac2.setResourceId( RESOURCEID2 );
@@ -68,11 +67,11 @@ public class RBACTest extends LuteceTestCase
         // Create test
         RBACHome.create( rbac1 );
 
-        RBAC rbacStored = RBACHome.findByPrimaryKey( rbac1.getRBACId(  ) );
-        assertEquals( rbacStored.getRoleKey(  ), rbac1.getRoleKey(  ) );
-        assertEquals( rbacStored.getResourceTypeKey(  ), rbac1.getResourceTypeKey(  ) );
-        assertEquals( rbacStored.getResourceId(  ), rbac1.getResourceId(  ) );
-        assertEquals( rbacStored.getPermissionKey(  ), rbac1.getPermissionKey(  ) );
+        RBAC rbacStored = RBACHome.findByPrimaryKey( rbac1.getRBACId( ) );
+        assertEquals( rbacStored.getRoleKey( ), rbac1.getRoleKey( ) );
+        assertEquals( rbacStored.getResourceTypeKey( ), rbac1.getResourceTypeKey( ) );
+        assertEquals( rbacStored.getResourceId( ), rbac1.getResourceId( ) );
+        assertEquals( rbacStored.getPermissionKey( ), rbac1.getPermissionKey( ) );
 
         // Update test
         rbac1.setRoleKey( ROLEKEY2 );
@@ -81,15 +80,15 @@ public class RBACTest extends LuteceTestCase
         rbac1.setPermissionKey( PERMISSION2 );
 
         RBACHome.update( rbac1 );
-        rbacStored = RBACHome.findByPrimaryKey( rbac1.getRBACId(  ) );
-        assertEquals( rbacStored.getRoleKey(  ), rbac1.getRoleKey(  ) );
-        assertEquals( rbacStored.getResourceTypeKey(  ), rbac1.getResourceTypeKey(  ) );
-        assertEquals( rbacStored.getResourceId(  ), rbac1.getResourceId(  ) );
-        assertEquals( rbacStored.getPermissionKey(  ), rbac1.getPermissionKey(  ) );
+        rbacStored = RBACHome.findByPrimaryKey( rbac1.getRBACId( ) );
+        assertEquals( rbacStored.getRoleKey( ), rbac1.getRoleKey( ) );
+        assertEquals( rbacStored.getResourceTypeKey( ), rbac1.getResourceTypeKey( ) );
+        assertEquals( rbacStored.getResourceId( ), rbac1.getResourceId( ) );
+        assertEquals( rbacStored.getPermissionKey( ), rbac1.getPermissionKey( ) );
 
         // Delete test
-        RBACHome.remove( rbac1.getRBACId(  ) );
-        rbacStored = RBACHome.findByPrimaryKey( rbac1.getRBACId(  ) );
+        RBACHome.remove( rbac1.getRBACId( ) );
+        rbacStored = RBACHome.findByPrimaryKey( rbac1.getRBACId( ) );
         assertNull( rbacStored );
 
         // add elements element for the lists (both rbac1 and rbac2 values are ...2 values at this point)
@@ -97,21 +96,21 @@ public class RBACTest extends LuteceTestCase
         RBACHome.create( rbac2 );
 
         // List Test
-        Collection list = RBACHome.findAll(  );
-        assertTrue( list.size(  ) > 0 );
+        Collection list = RBACHome.findAll( );
+        assertTrue( list.size( ) > 0 );
 
         // list by role Test
         Collection<RBAC> listByRole = RBACHome.findResourcesByCode( ROLEKEY2 );
-        assertTrue( listByRole.size(  ) > 0 );
+        assertTrue( listByRole.size( ) > 0 );
 
         for ( RBAC rbacListItem : listByRole )
         {
-            assertEquals( ROLEKEY2, rbacListItem.getRoleKey(  ) );
+            assertEquals( ROLEKEY2, rbacListItem.getRoleKey( ) );
         }
 
         // find roles from resource and permission Test
         Collection<String> listOfRoles = RBACHome.findRoleKeys( RESOURCETYPE2, RESOURCEID2, PERMISSION2 );
-        assertTrue( list.size(  ) > 0 );
+        assertTrue( list.size( ) > 0 );
 
         boolean bRoleFound = false;
 
@@ -129,13 +128,13 @@ public class RBACTest extends LuteceTestCase
         RBACHome.updateRoleKey( ROLEKEY2, ROLEKEY1 );
 
         Collection listByRoleUpdated = RBACHome.findResourcesByCode( ROLEKEY1 );
-        assertTrue( listByRoleUpdated.size(  ) > 0 );
+        assertTrue( listByRoleUpdated.size( ) > 0 );
 
-        // both rbac1 and rbac2  have ROLEKEY1 values at this point     
+        // both rbac1 and rbac2 have ROLEKEY1 values at this point
         RBACHome.removeForRoleKey( ROLEKEY1 );
-        rbacStored = RBACHome.findByPrimaryKey( rbac1.getRBACId(  ) );
+        rbacStored = RBACHome.findByPrimaryKey( rbac1.getRBACId( ) );
         assertNull( rbacStored );
-        rbacStored = RBACHome.findByPrimaryKey( rbac2.getRBACId(  ) );
+        rbacStored = RBACHome.findByPrimaryKey( rbac2.getRBACId( ) );
         assertNull( rbacStored );
     }
 }

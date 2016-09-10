@@ -44,7 +44,6 @@ import java.io.OutputStream;
 
 import java.util.Properties;
 
-
 /**
  * PropertiesService Test Class
  *
@@ -59,11 +58,11 @@ public class PropertiesServiceTest extends LuteceTestCase
     /**
      * Test of addPropertiesFile method, of class fr.paris.lutece.util.PropertiesService.
      */
-    public void testAddPropertiesFile(  ) throws Exception
+    public void testAddPropertiesFile( ) throws Exception
     {
         System.out.println( "addPropertiesFile" );
 
-        PropertiesService instance = new PropertiesService( AppPathService.getWebAppPath(  ) );
+        PropertiesService instance = new PropertiesService( AppPathService.getWebAppPath( ) );
 
         instance.addPropertiesFile( PATH_CONF, FILE_CONFIG );
         instance.getProperty( PROPERTY_PROD_URL );
@@ -75,36 +74,36 @@ public class PropertiesServiceTest extends LuteceTestCase
     /**
      * Test of addPropertiesDirectory method, of class fr.paris.lutece.util.PropertiesService.
      */
-    public void testAddPropertiesDirectory(  ) throws Exception
+    public void testAddPropertiesDirectory( ) throws Exception
     {
         System.out.println( "addPropertiesDirectory" );
 
         String strRelativePath = PATH_CONF_PLUGINS;
-        PropertiesService instance = new PropertiesService( AppPathService.getWebAppPath(  ) );
+        PropertiesService instance = new PropertiesService( AppPathService.getWebAppPath( ) );
 
         instance.addPropertiesDirectory( strRelativePath );
 
         // Test reloading
-        instance.reloadAll(  );
+        instance.reloadAll( );
     }
 
-    public void testReloadAll(  ) throws FileNotFoundException, IOException
+    public void testReloadAll( ) throws FileNotFoundException, IOException
     {
         File propsFile = File.createTempFile( "junit", ".properties" );
-        propsFile.deleteOnExit(  );
+        propsFile.deleteOnExit( );
 
-        Properties props = new Properties(  );
+        Properties props = new Properties( );
         props.put( "test1", "test1" );
         props.put( "test2", "test2" );
 
         OutputStream os = new FileOutputStream( propsFile );
-        props.store( os, this.getClass(  ).getName(  ) );
-        os.close(  );
+        props.store( os, this.getClass( ).getName( ) );
+        os.close( );
 
-        PropertiesService instance = new PropertiesService( propsFile.getParent(  ) );
-        instance.addPropertiesFile( "", propsFile.getName(  ) );
+        PropertiesService instance = new PropertiesService( propsFile.getParent( ) );
+        instance.addPropertiesFile( "", propsFile.getName( ) );
 
-        for ( String key : props.stringPropertyNames(  ) )
+        for ( String key : props.stringPropertyNames( ) )
         {
             assertNotNull( instance.getProperty( key ) );
             assertEquals( props.getProperty( key ), instance.getProperty( key ) );
@@ -113,47 +112,47 @@ public class PropertiesServiceTest extends LuteceTestCase
         props.setProperty( "test1", "test1_mod" );
         props.remove( "test2" );
         os = new FileOutputStream( propsFile );
-        props.store( os, this.getClass(  ).getName(  ) );
-        os.close(  );
+        props.store( os, this.getClass( ).getName( ) );
+        os.close( );
 
-        instance.reloadAll(  );
+        instance.reloadAll( );
         assertEquals( props.getProperty( "test1" ), instance.getProperty( "test1" ) );
         assertNull( instance.getProperty( "test2" ) );
     }
 
-    public void testReloadAllOrder(  ) throws IOException
+    public void testReloadAllOrder( ) throws IOException
     {
         File propsFile = File.createTempFile( "junit", ".properties" );
-        propsFile.deleteOnExit(  );
+        propsFile.deleteOnExit( );
 
-        Properties props = new Properties(  );
+        Properties props = new Properties( );
         props.put( "key", "1" );
 
         OutputStream os = new FileOutputStream( propsFile );
-        props.store( os, this.getClass(  ).getName(  ) );
-        os.close(  );
+        props.store( os, this.getClass( ).getName( ) );
+        os.close( );
 
-        PropertiesService instance = new PropertiesService( propsFile.getParent(  ) );
-        instance.addPropertiesFile( "", propsFile.getName(  ) );
+        PropertiesService instance = new PropertiesService( propsFile.getParent( ) );
+        instance.addPropertiesFile( "", propsFile.getName( ) );
 
         assertEquals( "1", instance.getProperty( "key" ) );
 
         for ( int i = 2; i < 10; i++ )
         {
             propsFile = File.createTempFile( "junit", ".properties" );
-            propsFile.deleteOnExit(  );
+            propsFile.deleteOnExit( );
 
-            props = new Properties(  );
+            props = new Properties( );
             props.put( "key", Integer.toString( i ) );
             os = new FileOutputStream( propsFile );
-            props.store( os, this.getClass(  ).getName(  ) );
-            os.close(  );
+            props.store( os, this.getClass( ).getName( ) );
+            os.close( );
 
-            instance.addPropertiesFile( "", propsFile.getName(  ) );
+            instance.addPropertiesFile( "", propsFile.getName( ) );
 
             assertEquals( Integer.toString( i ), instance.getProperty( "key" ) );
 
-            instance.reloadAll(  );
+            instance.reloadAll( );
 
             assertEquals( Integer.toString( i ), instance.getProperty( "key" ) );
         }

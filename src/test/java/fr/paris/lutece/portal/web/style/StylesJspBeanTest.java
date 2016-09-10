@@ -40,7 +40,6 @@ import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.MokeHttpServletRequest;
 
-
 /**
  * StylesJspBeanTest Test Class
  *
@@ -50,14 +49,14 @@ public class StylesJspBeanTest extends LuteceTestCase
     /**
      * Test of getStylesManagement method, of class fr.paris.lutece.portal.web.style.StylesJspBean.
      */
-    public void testGetStylesManagement(  ) throws AccessDeniedException
+    public void testGetStylesManagement( ) throws AccessDeniedException
     {
         System.out.println( "getStylesManagement" );
 
-        MokeHttpServletRequest request = new MokeHttpServletRequest(  );
-        request.registerAdminUserWithRigth( new AdminUser(  ), StylesJspBean.RIGHT_MANAGE_STYLE );
+        MokeHttpServletRequest request = new MokeHttpServletRequest( );
+        request.registerAdminUserWithRigth( new AdminUser( ), StylesJspBean.RIGHT_MANAGE_STYLE );
 
-        StylesJspBean instance = new StylesJspBean(  );
+        StylesJspBean instance = new StylesJspBean( );
         instance.init( request, StylesJspBean.RIGHT_MANAGE_STYLE );
         instance.getStylesManagement( request );
     }
@@ -65,14 +64,14 @@ public class StylesJspBeanTest extends LuteceTestCase
     /**
      * Test of getCreateStyle method, of class fr.paris.lutece.portal.web.style.StylesJspBean.
      */
-    public void testGetCreateStyle(  ) throws AccessDeniedException
+    public void testGetCreateStyle( ) throws AccessDeniedException
     {
         System.out.println( "getCreateStyle" );
 
-        MokeHttpServletRequest request = new MokeHttpServletRequest(  );
-        request.registerAdminUserWithRigth( new AdminUser(  ), StylesJspBean.RIGHT_MANAGE_STYLE );
+        MokeHttpServletRequest request = new MokeHttpServletRequest( );
+        request.registerAdminUserWithRigth( new AdminUser( ), StylesJspBean.RIGHT_MANAGE_STYLE );
 
-        StylesJspBean instance = new StylesJspBean(  );
+        StylesJspBean instance = new StylesJspBean( );
         instance.init( request, StylesJspBean.RIGHT_MANAGE_STYLE );
         instance.getCreateStyle( request );
     }
@@ -80,7 +79,7 @@ public class StylesJspBeanTest extends LuteceTestCase
     /**
      * Test of doCreateStyle method, of fr.paris.lutece.portal.web.style.StylesJspBean.
      */
-    public void testDoCreateStyle(  )
+    public void testDoCreateStyle( )
     {
         System.out.println( "doCreateStyle" );
 
@@ -90,18 +89,18 @@ public class StylesJspBeanTest extends LuteceTestCase
     /**
      * Test of getModifyStyle method, of class fr.paris.lutece.portal.web.style.StylesJspBean.
      */
-    public void testGetModifyStyle(  ) throws AccessDeniedException
+    public void testGetModifyStyle( ) throws AccessDeniedException
     {
         System.out.println( "getModifyStyle" );
 
-        if ( StyleHome.getStylesList(  ).size(  ) > 0 )
+        if ( StyleHome.getStylesList( ).size( ) > 0 )
         {
-            int nStyleId = StyleHome.getStylesList(  ).iterator(  ).next(  ).getId(  );
-            MokeHttpServletRequest request = new MokeHttpServletRequest(  );
+            int nStyleId = StyleHome.getStylesList( ).iterator( ).next( ).getId( );
+            MokeHttpServletRequest request = new MokeHttpServletRequest( );
             request.addMokeParameters( Parameters.STYLE_ID, "" + nStyleId );
-            request.registerAdminUserWithRigth( new AdminUser(  ), StylesJspBean.RIGHT_MANAGE_STYLE );
+            request.registerAdminUserWithRigth( new AdminUser( ), StylesJspBean.RIGHT_MANAGE_STYLE );
 
-            StylesJspBean instance = new StylesJspBean(  );
+            StylesJspBean instance = new StylesJspBean( );
             instance.init( request, StylesJspBean.RIGHT_MANAGE_STYLE );
             instance.getModifyStyle( request );
         }
@@ -110,7 +109,7 @@ public class StylesJspBeanTest extends LuteceTestCase
     /**
      * Test of doModifyStyle method, of fr.paris.lutece.portal.web.style.StylesJspBean.
      */
-    public void testDoModifyStyle(  )
+    public void testDoModifyStyle( )
     {
         System.out.println( "doModifyStyle" );
 
@@ -120,18 +119,18 @@ public class StylesJspBeanTest extends LuteceTestCase
     /**
      * Test of getConfirmRemoveStyle method, of class fr.paris.lutece.portal.web.style.StylesJspBean.
      */
-    public void testGetConfirmRemoveStyle(  ) throws AccessDeniedException
+    public void testGetConfirmRemoveStyle( ) throws AccessDeniedException
     {
         System.out.println( "getConfirmRemoveStyle" );
 
-        if ( StyleHome.getStylesList(  ).size(  ) > 0 )
+        if ( StyleHome.getStylesList( ).size( ) > 0 )
         {
-            int nStyleId = StyleHome.getStylesList(  ).iterator(  ).next(  ).getId(  );
-            MokeHttpServletRequest request = new MokeHttpServletRequest(  );
+            int nStyleId = StyleHome.getStylesList( ).iterator( ).next( ).getId( );
+            MokeHttpServletRequest request = new MokeHttpServletRequest( );
             request.addMokeParameters( Parameters.STYLE_ID, "" + nStyleId );
-            request.registerAdminUserWithRigth( new AdminUser(  ), StylesJspBean.RIGHT_MANAGE_STYLE );
+            request.registerAdminUserWithRigth( new AdminUser( ), StylesJspBean.RIGHT_MANAGE_STYLE );
 
-            StylesJspBean instance = new StylesJspBean(  );
+            StylesJspBean instance = new StylesJspBean( );
             instance.init( request, StylesJspBean.RIGHT_MANAGE_STYLE );
             instance.getConfirmRemoveStyle( request );
         }
@@ -140,7 +139,7 @@ public class StylesJspBeanTest extends LuteceTestCase
     /**
      * Test of doRemoveStyle method, of fr.paris.lutece.portal.web.style.StylesJspBean.
      */
-    public void testDoRemoveStyle(  )
+    public void testDoRemoveStyle( )
     {
         System.out.println( "doRemoveStyle" );
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -38,10 +38,9 @@ import fr.paris.lutece.portal.service.workgroup.WorkgroupRemovalListenerService;
 import java.util.ArrayList;
 import java.util.Collection;
 
-
 /**
- * This class represents a mailing list composed by admin users. All members of those
- * mailing lists are dynamically retreived by filters based on roles and workgroups.
+ * This class represents a mailing list composed by admin users. All members of those mailing lists are dynamically retreived by filters based on roles and
+ * workgroups.
  */
 public class MailingList
 {
@@ -52,18 +51,18 @@ public class MailingList
     private String _strName;
     private String _strDescription;
     private String _strWorkgroup;
-    private Collection<MailingListUsersFilter> _listFilters = new ArrayList<MailingListUsersFilter>(  );
+    private Collection<MailingListUsersFilter> _listFilters = new ArrayList<MailingListUsersFilter>( );
 
     /**
      * Initialize the rule
      */
-    public static synchronized void init(  )
+    public static synchronized void init( )
     {
         // Create removal listeners and register them
         if ( _listenerWorkgroup == null )
         {
-            _listenerWorkgroup = new MailingListWorkgroupRemovalListener(  );
-            WorkgroupRemovalListenerService.getService(  ).registerListener( _listenerWorkgroup );
+            _listenerWorkgroup = new MailingListWorkgroupRemovalListener( );
+            WorkgroupRemovalListenerService.getService( ).registerListener( _listenerWorkgroup );
         }
     }
 
@@ -72,7 +71,7 @@ public class MailingList
      *
      * @return The Id
      */
-    public int getId(  )
+    public int getId( )
     {
         return _nId;
     }
@@ -80,7 +79,8 @@ public class MailingList
     /**
      * Sets the Id
      *
-     * @param nId The Id
+     * @param nId
+     *            The Id
      */
     public void setId( int nId )
     {
@@ -92,7 +92,7 @@ public class MailingList
      *
      * @return The Name
      */
-    public String getName(  )
+    public String getName( )
     {
         return _strName;
     }
@@ -100,7 +100,8 @@ public class MailingList
     /**
      * Sets the Name
      *
-     * @param strName The Name
+     * @param strName
+     *            The Name
      */
     public void setName( String strName )
     {
@@ -112,7 +113,7 @@ public class MailingList
      *
      * @return The Description
      */
-    public String getDescription(  )
+    public String getDescription( )
     {
         return _strDescription;
     }
@@ -120,7 +121,8 @@ public class MailingList
     /**
      * Sets the Description
      *
-     * @param strDescription The Description
+     * @param strDescription
+     *            The Description
      */
     public void setDescription( String strDescription )
     {
@@ -132,7 +134,7 @@ public class MailingList
      *
      * @return The Workgroup
      */
-    public String getWorkgroup(  )
+    public String getWorkgroup( )
     {
         return _strWorkgroup;
     }
@@ -140,7 +142,8 @@ public class MailingList
     /**
      * Sets the Workgroup
      *
-     * @param strWorkgroup The Workgroup
+     * @param strWorkgroup
+     *            The Workgroup
      */
     public void setWorkgroup( String strWorkgroup )
     {
@@ -149,9 +152,10 @@ public class MailingList
 
     /**
      * Returns filters of the mailing list
+     * 
      * @return A collection of users filters
      */
-    public Collection<MailingListUsersFilter> getFilters(  )
+    public Collection<MailingListUsersFilter> getFilters( )
     {
         return _listFilters;
     }

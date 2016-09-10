@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -58,7 +58,6 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
 /**
  * ThemesService
  */
@@ -88,7 +87,7 @@ public final class ThemesService
     /**
      * Private constructor
      */
-    private ThemesService(  )
+    private ThemesService( )
     {
     }
 
@@ -101,8 +100,10 @@ public final class ThemesService
      * <li>the page theme : a theme specified for a page</li>
      * </ol>
      *
-     * @param data The PageData object
-     * @param request The HttpServletRequest
+     * @param data
+     *            The PageData object
+     * @param request
+     *            The HttpServletRequest
      * @return the theme
      */
     public static Theme getTheme( PageData data, HttpServletRequest request )
@@ -110,7 +111,7 @@ public final class ThemesService
         String strTheme = StringUtils.EMPTY;
 
         // The code_theme of the page
-        String strPageTheme = data.getTheme(  );
+        String strPageTheme = data.getTheme( );
 
         if ( ( strPageTheme != null ) && ( strPageTheme.compareToIgnoreCase( GLOBAL_THEME ) != 0 ) )
         {
@@ -141,18 +142,19 @@ public final class ThemesService
     /**
      * Gets the theme selected by the user
      *
-     * @param request The HTTP request
+     * @param request
+     *            The HTTP request
      * @return The theme if available otherwise null
      */
     public static String getUserTheme( HttpServletRequest request )
     {
         try
         {
-            IThemeService themeService = getThemeService(  );
+            IThemeService themeService = getThemeService( );
 
             return themeService.getUserTheme( request );
         }
-        catch ( ThemeNotAvailableException e )
+        catch( ThemeNotAvailableException e )
         {
             return null;
         }
@@ -160,9 +162,13 @@ public final class ThemesService
 
     /**
      * Sets the users theme using a cookie
-     * @param request The HTTP request
-     * @param response The HTTP response
-     * @param strTheme The Theme code
+     * 
+     * @param request
+     *            The HTTP request
+     * @param response
+     *            The HTTP response
+     * @param strTheme
+     *            The Theme code
      */
     public static void setUserTheme( HttpServletRequest request, HttpServletResponse response, String strTheme )
     {
@@ -175,11 +181,11 @@ public final class ThemesService
      *
      * @return the global theme
      */
-    public static String getGlobalTheme(  )
+    public static String getGlobalTheme( )
     {
         Theme theme = getGlobalTheme( StringUtils.EMPTY );
 
-        return theme.getCodeTheme(  );
+        return theme.getCodeTheme( );
     }
 
     /**
@@ -187,14 +193,16 @@ public final class ThemesService
      *
      * @return the global theme Object
      */
-    public static Theme getGlobalThemeObject(  )
+    public static Theme getGlobalThemeObject( )
     {
         return getGlobalTheme( StringUtils.EMPTY );
     }
 
     /**
      * Returns the global theme
-     * @param strTheme The theme
+     * 
+     * @param strTheme
+     *            The theme
      * @return the global theme
      */
     public static Theme getGlobalTheme( String strTheme )
@@ -203,20 +211,20 @@ public final class ThemesService
 
         try
         {
-            IThemeService themeService = getThemeService(  );
+            IThemeService themeService = getThemeService( );
 
             if ( StringUtils.isBlank( strTheme ) )
             {
-                theme = themeService.getGlobalTheme(  );
+                theme = themeService.getGlobalTheme( );
             }
             else
             {
                 theme = themeService.getTheme( strTheme );
             }
         }
-        catch ( ThemeNotAvailableException e )
+        catch( ThemeNotAvailableException e )
         {
-            theme = getDefaultTheme(  );
+            theme = getDefaultTheme( );
         }
 
         return theme;
@@ -225,7 +233,8 @@ public final class ThemesService
     /**
      * Sets the global theme
      *
-     * @param strGlobalTheme The global theme
+     * @param strGlobalTheme
+     *            The global theme
      */
     public static void setGlobalTheme( String strGlobalTheme )
     {
@@ -233,10 +242,10 @@ public final class ThemesService
 
         try
         {
-            themeService = getThemeService(  );
+            themeService = getThemeService( );
             themeService.setGlobalTheme( strGlobalTheme );
         }
-        catch ( ThemeNotAvailableException e )
+        catch( ThemeNotAvailableException e )
         {
             AppLogService.info( MESSAGE_THEME_NOT_AVAILABLE );
         }
@@ -244,19 +253,21 @@ public final class ThemesService
 
     /**
      * Returns a reference list which contains all the themes
-     * @param locale The Locale
+     * 
+     * @param locale
+     *            The Locale
      * @return a reference list
      */
     public static ReferenceList getPageThemes( Locale locale )
     {
-        ReferenceList listThemes = new ReferenceList(  );
+        ReferenceList listThemes = new ReferenceList( );
 
         try
         {
-            IThemeService themeService = getThemeService(  );
-            listThemes = themeService.getThemes(  );
+            IThemeService themeService = getThemeService( );
+            listThemes = themeService.getThemes( );
         }
-        catch ( ThemeNotAvailableException e )
+        catch( ThemeNotAvailableException e )
         {
             AppLogService.info( MESSAGE_THEME_NOT_AVAILABLE );
         }
@@ -269,33 +280,35 @@ public final class ThemesService
 
     /**
      * Get the theme service
+     * 
      * @return the theme service
-     * @throws ThemeNotAvailableException If the theme is not available
+     * @throws ThemeNotAvailableException
+     *             If the theme is not available
      */
-    private static IThemeService getThemeService(  ) throws ThemeNotAvailableException
+    private static IThemeService getThemeService( ) throws ThemeNotAvailableException
     {
         IThemeService themeService = null;
 
-        if ( !isAvailable(  ) )
+        if ( !isAvailable( ) )
         {
-            throw new ThemeNotAvailableException(  );
+            throw new ThemeNotAvailableException( );
         }
 
         try
         {
             themeService = SpringContextService.getBean( BEAN_THEME_SERVICE );
         }
-        catch ( BeanDefinitionStoreException e )
+        catch( BeanDefinitionStoreException e )
         {
-            throw new ThemeNotAvailableException(  );
+            throw new ThemeNotAvailableException( );
         }
-        catch ( NoSuchBeanDefinitionException e )
+        catch( NoSuchBeanDefinitionException e )
         {
-            throw new ThemeNotAvailableException(  );
+            throw new ThemeNotAvailableException( );
         }
-        catch ( CannotLoadBeanClassException e )
+        catch( CannotLoadBeanClassException e )
         {
-            throw new ThemeNotAvailableException(  );
+            throw new ThemeNotAvailableException( );
         }
 
         return themeService;
@@ -303,11 +316,12 @@ public final class ThemesService
 
     /**
      * Return the default theme in properties
+     * 
      * @return the default theme
      */
-    private static Theme getDefaultTheme(  )
+    private static Theme getDefaultTheme( )
     {
-        Theme theme = new Theme(  );
+        Theme theme = new Theme( );
         String strCodeTheme = AppPropertiesService.getProperty( PROPERTY_DEFAULT_CODE_THEME );
         String strPathCss = AppPropertiesService.getProperty( PROPERTY_DEFAULT_PATH_CSS );
         String strPathImages = AppPropertiesService.getProperty( PROPERTY_DEFAULT_PATH_IMAGE );
@@ -332,36 +346,38 @@ public final class ThemesService
     }
 
     /**
-     * Check if the theme service is available. It must have the following requirement to be
-     * available :
+     * Check if the theme service is available. It must have the following requirement to be available :
      * <ul>
      * <li>The <code>plugin-theme</code> is activated</li>
      * <li>The pool of the <code>plugin-theme</code> is defined</li>
      * </ul>
+     * 
      * @return true if it is available, false otherwise
      */
-    public static boolean isAvailable(  )
+    public static boolean isAvailable( )
     {
         Plugin pluginTheme = PluginService.getPlugin( THEME_PLUGIN_NAME );
 
-        return PluginService.isPluginEnable( THEME_PLUGIN_NAME ) && ( pluginTheme.getDbPoolName(  ) != null ) &&
-        !AppConnectionService.NO_POOL_DEFINED.equals( pluginTheme.getDbPoolName(  ) );
+        return PluginService.isPluginEnable( THEME_PLUGIN_NAME ) && ( pluginTheme.getDbPoolName( ) != null )
+                && !AppConnectionService.NO_POOL_DEFINED.equals( pluginTheme.getDbPoolName( ) );
     }
 
     /**
      * Create a new theme
-     * @param theme the theme
+     * 
+     * @param theme
+     *            the theme
      * @return The theme
      */
     public static Theme create( Theme theme )
     {
         try
         {
-            IThemeService themeService = getThemeService(  );
+            IThemeService themeService = getThemeService( );
 
             return themeService.create( theme );
         }
-        catch ( ThemeNotAvailableException e )
+        catch( ThemeNotAvailableException e )
         {
             AppLogService.info( MESSAGE_THEME_NOT_AVAILABLE );
 
@@ -371,18 +387,20 @@ public final class ThemesService
 
     /**
      * Update a theme
-     * @param theme the theme to update
+     * 
+     * @param theme
+     *            the theme to update
      * @return The updated theme
      */
     public static Theme update( Theme theme )
     {
         try
         {
-            IThemeService themeService = getThemeService(  );
+            IThemeService themeService = getThemeService( );
 
             return themeService.update( theme );
         }
-        catch ( ThemeNotAvailableException e )
+        catch( ThemeNotAvailableException e )
         {
             AppLogService.info( MESSAGE_THEME_NOT_AVAILABLE );
 
@@ -392,16 +410,18 @@ public final class ThemesService
 
     /**
      * Remove a theme
-     * @param strCodeTheme the code theme
+     * 
+     * @param strCodeTheme
+     *            the code theme
      */
     public static void remove( String strCodeTheme )
     {
         try
         {
-            IThemeService themeService = getThemeService(  );
+            IThemeService themeService = getThemeService( );
             themeService.remove( strCodeTheme );
         }
-        catch ( ThemeNotAvailableException e )
+        catch( ThemeNotAvailableException e )
         {
             AppLogService.info( MESSAGE_THEME_NOT_AVAILABLE );
         }
@@ -409,20 +429,21 @@ public final class ThemesService
 
     /**
      * Get a collection of themes
+     * 
      * @return a collection of themes
      */
-    public static Collection<Theme> getThemesList(  )
+    public static Collection<Theme> getThemesList( )
     {
-        Collection<Theme> listThemes = new ArrayList<Theme>(  );
+        Collection<Theme> listThemes = new ArrayList<Theme>( );
 
         try
         {
-            IThemeService themeService = getThemeService(  );
-            listThemes = themeService.getThemesList(  );
+            IThemeService themeService = getThemeService( );
+            listThemes = themeService.getThemesList( );
         }
-        catch ( ThemeNotAvailableException e )
+        catch( ThemeNotAvailableException e )
         {
-            Theme theme = getDefaultTheme(  );
+            Theme theme = getDefaultTheme( );
             listThemes.add( theme );
         }
 
@@ -431,21 +452,22 @@ public final class ThemesService
 
     /**
      * Get the list of themes as a {@link ReferenceList}
+     * 
      * @return a {@link ReferenceList}
      */
-    public static ReferenceList getThemes(  )
+    public static ReferenceList getThemes( )
     {
-        ReferenceList listThemes = new ReferenceList(  );
+        ReferenceList listThemes = new ReferenceList( );
 
         try
         {
-            IThemeService themeService = getThemeService(  );
-            listThemes = themeService.getThemes(  );
+            IThemeService themeService = getThemeService( );
+            listThemes = themeService.getThemes( );
         }
-        catch ( ThemeNotAvailableException e )
+        catch( ThemeNotAvailableException e )
         {
-            Theme theme = getDefaultTheme(  );
-            listThemes.addItem( theme.getCodeTheme(  ), theme.getThemeDescription(  ) );
+            Theme theme = getDefaultTheme( );
+            listThemes.addItem( theme.getCodeTheme( ), theme.getThemeDescription( ) );
         }
 
         return listThemes;
@@ -453,7 +475,9 @@ public final class ThemesService
 
     /**
      * Check if the theme is valid
-     * @param strCodeTheme the code theme
+     * 
+     * @param strCodeTheme
+     *            the code theme
      * @return true if it is valid, false otherwise
      */
     public static boolean isValidTheme( String strCodeTheme )
@@ -462,13 +486,13 @@ public final class ThemesService
 
         try
         {
-            IThemeService themeService = getThemeService(  );
+            IThemeService themeService = getThemeService( );
             bIsValidTheme = themeService.isValidTheme( strCodeTheme );
         }
-        catch ( ThemeNotAvailableException e )
+        catch( ThemeNotAvailableException e )
         {
-            Theme theme = getDefaultTheme(  );
-            bIsValidTheme = theme.getCodeTheme(  ).equals( strCodeTheme );
+            Theme theme = getDefaultTheme( );
+            bIsValidTheme = theme.getCodeTheme( ).equals( strCodeTheme );
         }
 
         return bIsValidTheme;

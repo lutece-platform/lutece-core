@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -35,7 +35,6 @@ package fr.paris.lutece.portal.business.rbac;
 
 import java.io.Serializable;
 
-
 /**
  * This class describes a role used by the administration
  */
@@ -47,16 +46,19 @@ public class AdminRole implements Serializable
 
     /**
      * Returns the role Key
+     * 
      * @return The role Key.
      */
-    public String getKey(  )
+    public String getKey( )
     {
         return _strKey;
     }
 
     /**
      * Sets the role key
-     * @param strKey The Key to set.
+     * 
+     * @param strKey
+     *            The Key to set.
      */
     public void setKey( String strKey )
     {
@@ -65,16 +67,19 @@ public class AdminRole implements Serializable
 
     /**
      * Returns the role description.
+     * 
      * @return The description.
      */
-    public String getDescription(  )
+    public String getDescription( )
     {
         return _strDescription;
     }
 
     /**
      * Sets the role description
-     * @param strDescription The description to set.
+     * 
+     * @param strDescription
+     *            The description to set.
      */
     public void setDescription( String strDescription )
     {

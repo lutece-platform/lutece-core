@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -38,7 +38,6 @@ import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
 
-
 /**
  * HttpServletResponseWrapper useful for redirections interception
  *
@@ -50,7 +49,9 @@ public final class RedirectionResponseWrapper extends HttpServletResponseWrapper
 
     /**
      * Constructor for class RedirectionResponseWrapper
-     * @param response The HTTP servlet response
+     * 
+     * @param response
+     *            The HTTP servlet response
      */
     public RedirectionResponseWrapper( HttpServletResponse response )
     {
@@ -59,8 +60,10 @@ public final class RedirectionResponseWrapper extends HttpServletResponseWrapper
 
     /**
      * @see javax.servlet.http.HttpServletResponseWrapper#sendRedirect(java.lang.String)
-     * @param location The redirection location
-     * @throws IOException the exception
+     * @param location
+     *            The redirection location
+     * @throws IOException
+     *             the exception
      */
     @Override
     public void sendRedirect( String location ) throws IOException
@@ -71,9 +74,10 @@ public final class RedirectionResponseWrapper extends HttpServletResponseWrapper
 
     /**
      * Return redirection location intercepted
+     * 
      * @return redirection location intercepted
      */
-    public String getRedirectLocation(  )
+    public String getRedirectLocation( )
     {
         return _redirectLocation;
     }

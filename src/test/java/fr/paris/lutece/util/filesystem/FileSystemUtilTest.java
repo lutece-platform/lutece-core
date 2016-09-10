@@ -42,32 +42,31 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
-
 public class FileSystemUtilTest extends LuteceTestCase
 {
-    public void testGetSubDirectories(  ) throws DirectoryNotFoundException, IOException
+    public void testGetSubDirectories( ) throws DirectoryNotFoundException, IOException
     {
-        //Create a base folder named Folder
+        // Create a base folder named Folder
         String strTempDirectoryPath = System.getProperty( "java.io.tmpdir" ) + File.separator;
         String strFolderName = "Folder";
         String strFolderPath = strTempDirectoryPath + strFolderName;
         File fileFolder = new File( strFolderPath );
-        fileFolder.mkdir(  );
+        fileFolder.mkdir( );
 
-        //Place two directories in the base folder
+        // Place two directories in the base folder
         File fileFolder1 = new File( strFolderPath + File.separator + "Folder1" );
-        fileFolder1.mkdir(  );
+        fileFolder1.mkdir( );
 
         File fileFolder2 = new File( strFolderPath + File.separator + "Folder2" );
-        fileFolder2.mkdir(  );
+        fileFolder2.mkdir( );
 
         String strDirectory = "Folder";
-        List expectedList = new ArrayList(  );
+        List expectedList = new ArrayList( );
         expectedList.add( fileFolder1 );
         expectedList.add( fileFolder2 );
 
         List result = FileSystemUtil.getSubDirectories( strTempDirectoryPath, strDirectory );
-        assertEquals( new HashSet(expectedList), new HashSet(result) );
+        assertEquals( new HashSet( expectedList ), new HashSet( result ) );
 
         // try a bad directory
         boolean bCatchedException = false;
@@ -76,7 +75,7 @@ public class FileSystemUtilTest extends LuteceTestCase
         {
             FileSystemUtil.getSubDirectories( strTempDirectoryPath, "dummy" );
         }
-        catch ( DirectoryNotFoundException e )
+        catch( DirectoryNotFoundException e )
         {
             bCatchedException = true;
         }
@@ -84,18 +83,18 @@ public class FileSystemUtilTest extends LuteceTestCase
         assertTrue( bCatchedException );
 
         // Create files
-        File file1 = new File( fileFolder.getAbsolutePath(  ), "dummy1.txt" );
-        file1.createNewFile(  );
+        File file1 = new File( fileFolder.getAbsolutePath( ), "dummy1.txt" );
+        file1.createNewFile( );
 
-        File file2 = new File( fileFolder.getAbsolutePath(  ), "dummy2.txt" );
-        file2.createNewFile(  );
+        File file2 = new File( fileFolder.getAbsolutePath( ), "dummy2.txt" );
+        file2.createNewFile( );
 
         List listFiles = FileSystemUtil.getFiles( strTempDirectoryPath, "Folder" );
-        assertTrue( listFiles.size(  ) == 2 );
+        assertTrue( listFiles.size( ) == 2 );
 
         // Clean folders
-        fileFolder1.delete(  );
-        fileFolder2.delete(  );
-        fileFolder.delete(  );
+        fileFolder1.delete( );
+        fileFolder2.delete( );
+        fileFolder.delete( );
     }
 }

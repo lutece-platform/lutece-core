@@ -38,7 +38,6 @@ import fr.paris.lutece.portal.service.security.LuteceUser;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  * This interface is used to add Xpages to the portal.
  */
@@ -47,10 +46,14 @@ public interface XPageSecuredApplication
     /**
      * Returns the XPage content depending on the request parameters and the current mode.
      *
-     * @param request The HTTP request.
-     * @param nMode The current mode.
-     * @param plugin The plugin which belongs the application.
-     * @param user The current Lutece user
+     * @param request
+     *            The HTTP request.
+     * @param nMode
+     *            The current mode.
+     * @param plugin
+     *            The plugin which belongs the application.
+     * @param user
+     *            The current Lutece user
      * @return The page content.
      */
     XPage getPage( HttpServletRequest request, int nMode, Plugin plugin, LuteceUser user );

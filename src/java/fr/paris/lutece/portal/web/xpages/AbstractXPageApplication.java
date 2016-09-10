@@ -46,7 +46,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import javax.validation.ConstraintViolation;
 
-
 /**
  * Abstract XPageApplication provides
  *
@@ -60,8 +59,11 @@ public abstract class AbstractXPageApplication implements XPageApplication
 
     /**
      * Populate a bean using parameters in http request
-     * @param bean bean to populate
-     * @param request http request
+     * 
+     * @param bean
+     *            bean to populate
+     * @param request
+     *            http request
      */
     protected void populate( Object bean, HttpServletRequest request )
     {
@@ -71,8 +73,10 @@ public abstract class AbstractXPageApplication implements XPageApplication
     /**
      * Validates a bean.
      *
-     * @param <T> the bean type
-     * @param bean the bean to validate
+     * @param <T>
+     *            the bean type
+     * @param bean
+     *            the bean to validate
      * @return the sets of constraints that has been violated
      */
     protected <T> Set<ConstraintViolation<T>> validate( T bean )
@@ -82,10 +86,15 @@ public abstract class AbstractXPageApplication implements XPageApplication
 
     /**
      * Validates a bean
-     * @param <T> The bean type
-     * @param bean The bean to validate
-     * @param strFieldsKeyPrefix The fields keys prefix in resources files
-     * @param locale The locale
+     * 
+     * @param <T>
+     *            The bean type
+     * @param bean
+     *            The bean to validate
+     * @param strFieldsKeyPrefix
+     *            The fields keys prefix in resources files
+     * @param locale
+     *            The locale
      * @return The error list
      */
     protected <T> List<ValidationError> validate( T bean, String strFieldsKeyPrefix, Locale locale )
@@ -95,10 +104,15 @@ public abstract class AbstractXPageApplication implements XPageApplication
 
     /**
      * Validates a bean
-     * @param <T> The bean type
-     * @param bean The bean to validate
-     * @param config The config for Error validation rendering
-     * @param locale The locale
+     * 
+     * @param <T>
+     *            The bean type
+     * @param bean
+     *            The bean to validate
+     * @param config
+     *            The config for Error validation rendering
+     * @param locale
+     *            The locale
      * @return The error list
      */
     protected <T> List<ValidationError> validate( T bean, ValidationErrorConfig config, Locale locale )

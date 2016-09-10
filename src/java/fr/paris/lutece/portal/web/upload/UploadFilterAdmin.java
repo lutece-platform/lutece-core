@@ -38,12 +38,9 @@ import fr.paris.lutece.portal.service.message.AdminMessageService;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
- * A rewrite of the multipart filter from the com.oreilly.servlet package. The
- * rewrite allows us to use initialization parameters specified in the Lutece
- * configuration files.
- * This filter concern administration jsp pages
+ * A rewrite of the multipart filter from the com.oreilly.servlet package. The rewrite allows us to use initialization parameters specified in the Lutece
+ * configuration files. This filter concern administration jsp pages
  */
 public class UploadFilterAdmin extends UploadFilter
 {
@@ -51,8 +48,7 @@ public class UploadFilterAdmin extends UploadFilter
      * {@inheritDoc}
      */
     @Override
-    protected String getMessageRelativeUrl( HttpServletRequest request, String strMessageKey, Object[] messageArgs,
-        String strTitleKey )
+    protected String getMessageRelativeUrl( HttpServletRequest request, String strMessageKey, Object [ ] messageArgs, String strTitleKey )
     {
         return AdminMessageService.getMessageUrl( request, strMessageKey, messageArgs, AdminMessage.TYPE_STOP );
     }

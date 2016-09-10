@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -36,7 +36,6 @@ package fr.paris.lutece.portal.business.user.attribute;
 import fr.paris.lutece.portal.business.file.File;
 import fr.paris.lutece.portal.business.user.AdminUser;
 
-
 /**
  *
  * AdminUserField
@@ -53,16 +52,19 @@ public class AdminUserField
 
     /**
      * Get user
+     * 
      * @return user
      */
-    public AdminUser getUser(  )
+    public AdminUser getUser( )
     {
         return _user;
     }
 
     /**
      * Set user
-     * @param user user
+     * 
+     * @param user
+     *            user
      */
     public void setUser( AdminUser user )
     {
@@ -71,16 +73,19 @@ public class AdminUserField
 
     /**
      * Get attribute field
+     * 
      * @return attribute field
      */
-    public AttributeField getAttributeField(  )
+    public AttributeField getAttributeField( )
     {
         return _attributeField;
     }
 
     /**
      * Set attribute field
-     * @param attributeField attribute field
+     * 
+     * @param attributeField
+     *            attribute field
      */
     public void setAttributeField( AttributeField attributeField )
     {
@@ -89,16 +94,19 @@ public class AdminUserField
 
     /**
      * Get attribute
+     * 
      * @return attribute
      */
-    public IAttribute getAttribute(  )
+    public IAttribute getAttribute( )
     {
         return _attribute;
     }
 
     /**
      * Set attribute
-     * @param attribute attribute
+     * 
+     * @param attribute
+     *            attribute
      */
     public void setAttribute( IAttribute attribute )
     {
@@ -107,16 +115,19 @@ public class AdminUserField
 
     /**
      * Get value
+     * 
      * @return value
      */
-    public String getValue(  )
+    public String getValue( )
     {
         return _value;
     }
 
     /**
      * Set value
-     * @param value value
+     * 
+     * @param value
+     *            value
      */
     public void setValue( String value )
     {
@@ -125,16 +136,19 @@ public class AdminUserField
 
     /**
      * Get Id user field
+     * 
      * @return id user field
      */
-    public int getIdUserField(  )
+    public int getIdUserField( )
     {
         return _nIdUserField;
     }
 
     /**
      * Set id user field
-     * @param nIdUserField id user field
+     * 
+     * @param nIdUserField
+     *            id user field
      */
     public void setIdUserField( int nIdUserField )
     {
@@ -143,16 +157,19 @@ public class AdminUserField
 
     /**
      * Get file
+     * 
      * @return file
      */
-    public File getFile(  )
+    public File getFile( )
     {
         return _file;
     }
 
     /**
      * Set file
-     * @param file file
+     * 
+     * @param file
+     *            file
      */
     public void setFile( File file )
     {

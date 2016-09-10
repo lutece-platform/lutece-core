@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -40,7 +40,6 @@ import java.util.Collection;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  *
  * IThemeService
@@ -50,41 +49,49 @@ public interface IThemeService
 {
     /**
      * Get the global theme
+     * 
      * @return the default theme
      */
-    Theme getGlobalTheme(  );
+    Theme getGlobalTheme( );
 
     /**
      * Set the global theme
-     * @param strGlobalTheme the global theme
+     * 
+     * @param strGlobalTheme
+     *            the global theme
      */
     void setGlobalTheme( String strGlobalTheme );
 
     /**
      * Get the theme given the <code>code_theme</code>
-     * @param strTheme the <code>code_theme</code>
+     * 
+     * @param strTheme
+     *            the <code>code_theme</code>
      * @return the theme
      */
     Theme getTheme( String strTheme );
 
     /**
      * Get all themes
+     * 
      * @return a list of Theme
      */
-    ReferenceList getThemes(  );
+    ReferenceList getThemes( );
 
     /**
-    * Gets the theme selected by the user
-    *
-    * @param request The HTTP request
-    * @return The theme if available otherwise null
-    */
+     * Gets the theme selected by the user
+     *
+     * @param request
+     *            The HTTP request
+     * @return The theme if available otherwise null
+     */
     String getUserTheme( HttpServletRequest request );
 
     /**
      * Creation of an instance of a theme
      *
-     * @param theme An instance of a theme which contains the informations to store
+     * @param theme
+     *            An instance of a theme which contains the informations to store
      * @return The instance of a theme which has been created with its primary key.
      */
     Theme create( Theme theme );
@@ -92,7 +99,8 @@ public interface IThemeService
     /**
      * Update of the theme which is specified
      *
-     * @param theme The instance of the theme which contains the data to store
+     * @param theme
+     *            The instance of the theme which contains the data to store
      * @return The instance of the theme which has been updated
      */
     Theme update( Theme theme );
@@ -100,7 +108,8 @@ public interface IThemeService
     /**
      * Remove the theme whose identifier is specified in parameter
      *
-     * @param strCodeTheme The identifier of the theme to remove
+     * @param strCodeTheme
+     *            The identifier of the theme to remove
      */
     void remove( String strCodeTheme );
 
@@ -109,12 +118,13 @@ public interface IThemeService
      *
      * @return A collection of themes objects
      */
-    Collection<Theme> getThemesList(  );
+    Collection<Theme> getThemesList( );
 
     /**
      * Checks if the theme is among existing themes
      *
-     * @param strCodeTheme The theme to check
+     * @param strCodeTheme
+     *            The theme to check
      * @return True if the theme is valid
      */
     boolean isValidTheme( String strCodeTheme );

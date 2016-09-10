@@ -49,14 +49,11 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
-
 /**
- * This class manages a database connection pool.
- * <br>
- * Connections are wrapped by a {@link LuteceConnection}
- * to avoid explicit calls to {@link Connection#close()}. Connections
- * are released to this pool when {@link Connection#close()} is called, and
- * are not actually closed until {@link #release()} call.
+ * This class manages a database connection pool. <br>
+ * Connections are wrapped by a {@link LuteceConnection} to avoid explicit calls to {@link Connection#close()}. Connections are released to this pool when
+ * {@link Connection#close()} is called, and are not actually closed until {@link #release()} call.
+ * 
  * @see LuteceConnection
  */
 public class ConnectionPool implements DataSource
@@ -69,25 +66,34 @@ public class ConnectionPool implements DataSource
     private int _nTimeOut;
     private Logger _logger;
     private int _nCheckedOut;
-    private List<Connection> _freeConnections = new ArrayList<Connection>(  );
+    private List<Connection> _freeConnections = new ArrayList<Connection>( );
     private String _strCheckValidConnectionSql; // Added in v1.4
     private PrintWriter _logWriter;
 
     /**
      * Constructor.
      *
-     * @param strName Nom du pool
-     * @param strUrl JDBC Data source URL
-     * @param strUser SQL User
-     * @param strPassword SQL Password
-     * @param nMaxConns Max connections
-     * @param nInitConns Initials connections
-     * @param nTimeOut Timeout to get a connection
-     * @param logger the Logger object
-     * @param strCheckValidConnectionSql The SQL syntax used for check connexion validatation
+     * @param strName
+     *            Nom du pool
+     * @param strUrl
+     *            JDBC Data source URL
+     * @param strUser
+     *            SQL User
+     * @param strPassword
+     *            SQL Password
+     * @param nMaxConns
+     *            Max connections
+     * @param nInitConns
+     *            Initials connections
+     * @param nTimeOut
+     *            Timeout to get a connection
+     * @param logger
+     *            the Logger object
+     * @param strCheckValidConnectionSql
+     *            The SQL syntax used for check connexion validatation
      */
-    public ConnectionPool( String strName, String strUrl, String strUser, String strPassword, int nMaxConns,
-        int nInitConns, int nTimeOut, Logger logger, String strCheckValidConnectionSql )
+    public ConnectionPool( String strName, String strUrl, String strUser, String strPassword, int nMaxConns, int nInitConns, int nTimeOut, Logger logger,
+            String strCheckValidConnectionSql )
     {
         _strUrl = strUrl;
         _strUser = strUser;
@@ -98,19 +104,20 @@ public class ConnectionPool implements DataSource
         initPool( nInitConns );
         _logger.info( "New pool created : " + strName );
 
-        _strCheckValidConnectionSql = ( ( strCheckValidConnectionSql != null ) &&
-            !strCheckValidConnectionSql.equals( "" ) ) ? strCheckValidConnectionSql : DEFAULT_CHECK_VALID_CONNECTION_SQL;
+        _strCheckValidConnectionSql = ( ( strCheckValidConnectionSql != null ) && !strCheckValidConnectionSql.equals( "" ) ) ? strCheckValidConnectionSql
+                : DEFAULT_CHECK_VALID_CONNECTION_SQL;
 
         String lf = System.getProperty( "line.separator" );
-        _logger.debug( lf + " url=" + strUrl + lf + " user=" + _strUser + lf + " password=" + _strPassword + lf +
-            " initconns=" + nInitConns + lf + " maxconns=" + _nMaxConns + lf + " logintimeout=" + _nTimeOut );
-        _logger.debug( getStats(  ) );
+        _logger.debug( lf + " url=" + strUrl + lf + " user=" + _strUser + lf + " password=" + _strPassword + lf + " initconns=" + nInitConns + lf
+                + " maxconns=" + _nMaxConns + lf + " logintimeout=" + _nTimeOut );
+        _logger.debug( getStats( ) );
     }
 
     /**
      * Initializes the pool
      *
-     * @param initConns Number of connections to create at the initialisation
+     * @param initConns
+     *            Number of connections to create at the initialisation
      */
     private void initPool( int initConns )
     {
@@ -118,12 +125,12 @@ public class ConnectionPool implements DataSource
         {
             try
             {
-                Connection pc = newConnection(  );
+                Connection pc = newConnection( );
                 _freeConnections.add( pc );
             }
-            catch ( SQLException e )
+            catch( SQLException e )
             {
-                throw new AppException( "SQL Error executing command : " + e.toString(  ) );
+                throw new AppException( "SQL Error executing command : " + e.toString( ) );
             }
         }
     }
@@ -132,10 +139,11 @@ public class ConnectionPool implements DataSource
      * Returns a connection from the pool.
      *
      * @return An open connection
-     * @throws SQLException The SQL exception
+     * @throws SQLException
+     *             The SQL exception
      */
     @Override
-    public Connection getConnection(  ) throws SQLException
+    public Connection getConnection( ) throws SQLException
     {
         _logger.debug( "Request for connection received" );
 
@@ -143,7 +151,7 @@ public class ConnectionPool implements DataSource
         {
             return getConnection( _nTimeOut * 1000L );
         }
-        catch ( SQLException e )
+        catch( SQLException e )
         {
             _logger.error( "Exception getting connection", e );
             throw e;
@@ -153,21 +161,22 @@ public class ConnectionPool implements DataSource
     /**
      * Returns a connection from the pool.
      *
-     * @param timeout The maximum time to wait for a connection
+     * @param timeout
+     *            The maximum time to wait for a connection
      * @return An open connection
-     * @throws SQLException The SQL exception
+     * @throws SQLException
+     *             The SQL exception
      */
-    private synchronized Connection getConnection( long timeout )
-        throws SQLException
+    private synchronized Connection getConnection( long timeout ) throws SQLException
     {
         // Get a pooled Connection from the cache or a new one.
         // Wait if all are checked out and the max limit has
         // been reached.
-        long startTime = System.currentTimeMillis(  );
+        long startTime = System.currentTimeMillis( );
         long remaining = timeout;
         Connection conn = null;
 
-        while ( ( conn = getPooledConnection(  ) ) == null )
+        while ( ( conn = getPooledConnection( ) ) == null )
         {
             try
             {
@@ -175,12 +184,12 @@ public class ConnectionPool implements DataSource
 
                 wait( remaining );
             }
-            catch ( InterruptedException e )
+            catch( InterruptedException e )
             {
                 _logger.debug( "A connection has been released by another thread." );
             }
 
-            remaining = timeout - ( System.currentTimeMillis(  ) - startTime );
+            remaining = timeout - ( System.currentTimeMillis( ) - startTime );
 
             if ( remaining <= 0 )
             {
@@ -201,7 +210,7 @@ public class ConnectionPool implements DataSource
 
         _nCheckedOut++;
         _logger.debug( "Delivered connection from pool" );
-        _logger.debug( getStats(  ) );
+        _logger.debug( getStats( ) );
 
         return conn;
     }
@@ -209,7 +218,8 @@ public class ConnectionPool implements DataSource
     /**
      * Checks a connection to see if it's still alive
      *
-     * @param conn The connection to check
+     * @param conn
+     *            The connection to check
      * @return true if the connection is OK, otherwise false.
      */
     private boolean isConnectionOK( Connection conn )
@@ -218,29 +228,29 @@ public class ConnectionPool implements DataSource
 
         try
         {
-            if ( !conn.isClosed(  ) )
+            if ( !conn.isClosed( ) )
             {
                 // Try to createStatement to see if it's really alive
-                testStmt = conn.createStatement(  );
+                testStmt = conn.createStatement( );
                 testStmt.executeQuery( _strCheckValidConnectionSql );
-                testStmt.close(  );
+                testStmt.close( );
             }
             else
             {
                 return false;
             }
         }
-        catch ( SQLException e )
+        catch( SQLException e )
         {
             if ( testStmt != null )
             {
                 try
                 {
-                    testStmt.close(  );
+                    testStmt.close( );
                 }
-                catch ( SQLException se )
+                catch( SQLException se )
                 {
-                    throw new AppException( "ConnectionService : SQL Error executing command : " + se.toString(  ) );
+                    throw new AppException( "ConnectionService : SQL Error executing command : " + se.toString( ) );
                 }
             }
 
@@ -256,36 +266,38 @@ public class ConnectionPool implements DataSource
      * Gets a connection from the pool
      *
      * @return An opened connection
-     * @throws SQLException The exception
+     * @throws SQLException
+     *             The exception
      */
-    private Connection getPooledConnection(  ) throws SQLException
+    private Connection getPooledConnection( ) throws SQLException
     {
         Connection conn = null;
 
-        if ( _freeConnections.size(  ) > 0 )
+        if ( _freeConnections.size( ) > 0 )
         {
             // Pick the first Connection in the Vector
             // to get round-robin usage
             conn = _freeConnections.get( 0 );
             _freeConnections.remove( 0 );
         }
-        else if ( ( _nMaxConns == 0 ) || ( _nCheckedOut < _nMaxConns ) )
-        {
-            conn = newConnection(  );
-        }
+        else
+            if ( ( _nMaxConns == 0 ) || ( _nCheckedOut < _nMaxConns ) )
+            {
+                conn = newConnection( );
+            }
 
         return conn;
     }
 
     /**
-     * Creates a new connection.
-     * <br>
+     * Creates a new connection. <br>
      * The connection is wrapped by {@link LuteceConnection}
      *
      * @return The new created connection
-     * @throws SQLException The SQL exception
+     * @throws SQLException
+     *             The SQL exception
      */
-    private Connection newConnection(  ) throws SQLException
+    private Connection newConnection( ) throws SQLException
     {
         Connection conn;
 
@@ -301,7 +313,7 @@ public class ConnectionPool implements DataSource
         // wrap connection so this connection pool is used when conn.close() is called
         conn = LuteceConnectionFactory.newInstance( this, conn );
 
-        _logger.info( "New connection created. Connections count is : " + ( getConnectionCount(  ) + 1 ) );
+        _logger.info( "New connection created. Connections count is : " + ( getConnectionCount( ) + 1 ) );
 
         return conn;
     }
@@ -309,22 +321,23 @@ public class ConnectionPool implements DataSource
     /**
      * Returns a connection to pool.
      *
-     * @param conn The released connection to return to pool
+     * @param conn
+     *            The released connection to return to pool
      */
     public synchronized void freeConnection( Connection conn )
     {
         // Put the connection at the end of the Vector
         _freeConnections.add( conn );
         _nCheckedOut--;
-        notifyAll(  );
+        notifyAll( );
         _logger.debug( "Returned connection to pool" );
-        _logger.debug( getStats(  ) );
+        _logger.debug( getStats( ) );
     }
 
     /**
      * Releases the pool by closing all its connections.
      */
-    public synchronized void release(  )
+    public synchronized void release( )
     {
         for ( Connection connection : _freeConnections )
         {
@@ -332,22 +345,22 @@ public class ConnectionPool implements DataSource
             {
                 if ( connection instanceof LuteceConnection )
                 {
-                    ( (LuteceConnection) connection ).closeConnection(  );
+                    ( (LuteceConnection) connection ).closeConnection( );
                 }
                 else
                 {
-                    connection.close(  );
+                    connection.close( );
                 }
 
                 _logger.debug( "Closed connection" );
             }
-            catch ( SQLException e )
+            catch( SQLException e )
             {
                 _logger.error( "Couldn't close connection", e );
             }
         }
 
-        _freeConnections.clear(  );
+        _freeConnections.clear( );
     }
 
     /**
@@ -355,44 +368,47 @@ public class ConnectionPool implements DataSource
      *
      * @return Stats as String.
      */
-    private String getStats(  )
+    private String getStats( )
     {
-        return "Total connections: " + getConnectionCount(  ) + " Available: " + getFreeConnectionCount(  ) +
-        " Checked-out: " + getBusyConnectionCount(  );
+        return "Total connections: " + getConnectionCount( ) + " Available: " + getFreeConnectionCount( ) + " Checked-out: " + getBusyConnectionCount( );
     }
 
     /**
      * Returns the number of connections opened by the pool (available or busy)
+     * 
      * @return A connection count
      */
-    public int getConnectionCount(  )
+    public int getConnectionCount( )
     {
-        return getFreeConnectionCount(  ) + getBusyConnectionCount(  );
+        return getFreeConnectionCount( ) + getBusyConnectionCount( );
     }
 
     /**
      * Returns the number of free connections of the pool (available or busy)
+     * 
      * @return A connection count
      */
-    public int getFreeConnectionCount(  )
+    public int getFreeConnectionCount( )
     {
-        return _freeConnections.size(  );
+        return _freeConnections.size( );
     }
 
     /**
      * Returns the number of busy connections of the pool (available or busy)
+     * 
      * @return A connection count
      */
-    public int getBusyConnectionCount(  )
+    public int getBusyConnectionCount( )
     {
         return _nCheckedOut;
     }
 
     /**
      * Returns the maximum number of connections of the pool
+     * 
      * @return A connection count
      */
-    public int getMaxConnectionCount(  )
+    public int getMaxConnectionCount( )
     {
         return _nMaxConns;
     }
@@ -400,26 +416,29 @@ public class ConnectionPool implements DataSource
     /**
      * Returns the connection of the pool.
      *
-     * @param username the username
-     * @param password the password
+     * @param username
+     *            the username
+     * @param password
+     *            the password
      * @return A connection
-     * @throws SQLException the sQL exception
+     * @throws SQLException
+     *             the sQL exception
      */
     @Override
-    public Connection getConnection( String username, String password )
-        throws SQLException
+    public Connection getConnection( String username, String password ) throws SQLException
     {
-        return getConnection(  );
+        return getConnection( );
     }
 
     /**
      * Get the log.
      *
      * @return A log writer
-     * @throws SQLException the sQL exception
+     * @throws SQLException
+     *             the sQL exception
      */
     @Override
-    public PrintWriter getLogWriter(  ) throws SQLException
+    public PrintWriter getLogWriter( ) throws SQLException
     {
         _logger.debug( "ConnectionPool : DataSource getLogWriter called" );
 
@@ -429,8 +448,10 @@ public class ConnectionPool implements DataSource
     /**
      * Set the log.
      *
-     * @param out the new log writer
-     * @throws SQLException the sQL exception
+     * @param out
+     *            the new log writer
+     * @throws SQLException
+     *             the sQL exception
      */
     @Override
     public void setLogWriter( PrintWriter out ) throws SQLException
@@ -442,8 +463,10 @@ public class ConnectionPool implements DataSource
     /**
      * Set Login Timeout.
      *
-     * @param seconds the new login timeout
-     * @throws SQLException the sQL exception
+     * @param seconds
+     *            the new login timeout
+     * @throws SQLException
+     *             the sQL exception
      */
     @Override
     public void setLoginTimeout( int seconds ) throws SQLException
@@ -454,10 +477,11 @@ public class ConnectionPool implements DataSource
      * Get loging timeout.
      *
      * @return A time out
-     * @throws SQLException the sQL exception
+     * @throws SQLException
+     *             the sQL exception
      */
     @Override
-    public int getLoginTimeout(  ) throws SQLException
+    public int getLoginTimeout( ) throws SQLException
     {
         return _nTimeOut;
     }
@@ -465,10 +489,13 @@ public class ConnectionPool implements DataSource
     /**
      * Get the unwrap.
      *
-     * @param <T> the generic type
-     * @param iface the iface
+     * @param <T>
+     *            the generic type
+     * @param iface
+     *            the iface
      * @return null
-     * @throws SQLException the sQL exception
+     * @throws SQLException
+     *             the sQL exception
      */
     @Override
     public <T> T unwrap( Class<T> iface ) throws SQLException
@@ -479,9 +506,11 @@ public class ConnectionPool implements DataSource
     /**
      * Get the wrapper.
      *
-     * @param iface the iface
+     * @param iface
+     *            the iface
      * @return false
-     * @throws SQLException the sQL exception
+     * @throws SQLException
+     *             the sQL exception
      */
     @Override
     public boolean isWrapperFor( Class<?> iface ) throws SQLException
@@ -494,7 +523,7 @@ public class ConnectionPool implements DataSource
      *
      * @return the parent logger
      */
-    public java.util.logging.Logger getParentLogger(  )
+    public java.util.logging.Logger getParentLogger( )
     {
         return java.util.logging.Logger.getLogger( java.util.logging.Logger.GLOBAL_LOGGER_NAME );
     }

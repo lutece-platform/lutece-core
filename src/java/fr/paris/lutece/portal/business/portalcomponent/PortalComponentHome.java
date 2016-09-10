@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -36,7 +36,6 @@ package fr.paris.lutece.portal.business.portalcomponent;
 import fr.paris.lutece.portal.business.stylesheet.StyleSheet;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 
-
 /**
  * This class provides instances management methods (create, find, ...) for PortalComponent objects
  */
@@ -48,14 +47,15 @@ public final class PortalComponentHome
     /**
      * Creates a new PortalComponentHome object.
      */
-    private PortalComponentHome(  )
+    private PortalComponentHome( )
     {
     }
 
     /**
      * Insert a new record in the table.
      *
-     * @param portalComponent component The Instance of the object PortalComponent
+     * @param portalComponent
+     *            component The Instance of the object PortalComponent
      */
     public static void create( PortalComponent portalComponent )
     {
@@ -65,7 +65,8 @@ public final class PortalComponentHome
     /**
      * Delete a record from the table
      *
-     * @param nPortalComponentId The indentifier of the object PortalComponent
+     * @param nPortalComponentId
+     *            The indentifier of the object PortalComponent
      */
     public static void remove( int nPortalComponentId )
     {
@@ -75,7 +76,8 @@ public final class PortalComponentHome
     /**
      * load the data of PortalComponent from the table
      *
-     * @param nPortalComponentId The indentifier of the object PortalComponent
+     * @param nPortalComponentId
+     *            The indentifier of the object PortalComponent
      * @return The Instance of the object PortalComponent
      */
     public static PortalComponent findByPrimaryKey( int nPortalComponentId )
@@ -86,7 +88,8 @@ public final class PortalComponentHome
     /**
      * Update the record in the table
      *
-     * @param portalComponent The instance of the PortalComponent to update
+     * @param portalComponent
+     *            The instance of the PortalComponent to update
      */
     public static void update( PortalComponent portalComponent )
     {
@@ -96,8 +99,10 @@ public final class PortalComponentHome
     /**
      * Returns the stylesheet of the portal component according to the mode
      *
-     * @param nPortalComponentId the identifier of the portal component
-     * @param nModeId the selected mode
+     * @param nPortalComponentId
+     *            the identifier of the portal component
+     * @param nModeId
+     *            the selected mode
      * @return the stylesheet
      */
     public static StyleSheet getXsl( int nPortalComponentId, int nModeId )

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,7 +33,6 @@
  */
 package fr.paris.lutece.portal.business.physicalfile;
 
-
 /**
  *
  * IPhysicalFileDAO
@@ -46,12 +45,13 @@ public interface IPhysicalFileDAO
      *
      * @return The new primary key
      */
-    int newPrimaryKey(  );
+    int newPrimaryKey( );
 
     /**
      * Insert a new record in the table.
      *
-     * @param physicalFile  instance of the PhysicalFile object to insert
+     * @param physicalFile
+     *            instance of the PhysicalFile object to insert
      * @return the id of the new physical file
      */
     int insert( PhysicalFile physicalFile );
@@ -59,7 +59,8 @@ public interface IPhysicalFileDAO
     /**
      * Load the data of the PhysicalFile from the table
      *
-     * @param nId The identifier of the file
+     * @param nId
+     *            The identifier of the file
      * @return the instance of the PhysicalFile
      */
     PhysicalFile load( int nId );
@@ -67,14 +68,16 @@ public interface IPhysicalFileDAO
     /**
      * Delete a record from the table
      *
-     * @param nIdPhysicalFile The identifier of the PhyscalFile
+     * @param nIdPhysicalFile
+     *            The identifier of the PhyscalFile
      */
     void delete( int nIdPhysicalFile );
 
     /**
      * Update the physical file in the table
      *
-     * @param physicalFile instance of the physicalFile object to update
+     * @param physicalFile
+     *            instance of the physicalFile object to update
      */
     void store( PhysicalFile physicalFile );
 }

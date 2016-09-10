@@ -39,7 +39,6 @@ import java.util.Collection;
 import java.util.Locale;
 import java.util.Map;
 
-
 public class AdminUserTest extends LuteceTestCase
 {
     private final static String ACCESSCODE1 = "AccessCode 1";
@@ -56,10 +55,10 @@ public class AdminUserTest extends LuteceTestCase
     private static final String ROLE1 = "Role 1";
     private final static int LEVEL = 0;
 
-    public void testBusinessUser(  )
+    public void testBusinessUser( )
     {
         // Initialize an object
-        AdminUser user = new AdminUser(  );
+        AdminUser user = new AdminUser( );
         user.setAccessCode( ACCESSCODE1 );
         user.setLastName( LASTNAME1 );
         user.setFirstName( FIRSTNAME1 );
@@ -71,27 +70,27 @@ public class AdminUserTest extends LuteceTestCase
         // Create test
         AdminUserHome.create( user );
 
-        AdminUser userStored = AdminUserHome.findByPrimaryKey( user.getUserId(  ) );
-        assertEquals( userStored.getAccessCode(  ), user.getAccessCode(  ) );
-        assertEquals( userStored.getLastName(  ), user.getLastName(  ) );
-        assertEquals( userStored.getFirstName(  ), user.getFirstName(  ) );
-        assertEquals( userStored.getEmail(  ), user.getEmail(  ) );
-        assertEquals( userStored.getStatus(  ), user.getStatus(  ) );
-        assertEquals( userStored.getLocale(  ), user.getLocale(  ) );
-        assertEquals( userStored.getUserLevel(  ), user.getUserLevel(  ) );
+        AdminUser userStored = AdminUserHome.findByPrimaryKey( user.getUserId( ) );
+        assertEquals( userStored.getAccessCode( ), user.getAccessCode( ) );
+        assertEquals( userStored.getLastName( ), user.getLastName( ) );
+        assertEquals( userStored.getFirstName( ), user.getFirstName( ) );
+        assertEquals( userStored.getEmail( ), user.getEmail( ) );
+        assertEquals( userStored.getStatus( ), user.getStatus( ) );
+        assertEquals( userStored.getLocale( ), user.getLocale( ) );
+        assertEquals( userStored.getUserLevel( ), user.getUserLevel( ) );
 
-        AdminUserHome.createRightForUser( user.getUserId(  ), RIGHT1 );
-        AdminUserHome.createRoleForUser( user.getUserId(  ), ROLE1 );
+        AdminUserHome.createRightForUser( user.getUserId( ), RIGHT1 );
+        AdminUserHome.createRoleForUser( user.getUserId( ), ROLE1 );
 
         // List Test
-        Collection listUsers = AdminUserHome.findUserList(  );
-        assertTrue( listUsers.size(  ) > 0 );
+        Collection listUsers = AdminUserHome.findUserList( );
+        assertTrue( listUsers.size( ) > 0 );
 
-        Map listRights = AdminUserHome.getRightsListForUser( user.getUserId(  ) );
+        Map listRights = AdminUserHome.getRightsListForUser( user.getUserId( ) );
 
-        //        assertTrue( listRights.size() > 0 );
-        Map listRoles = AdminUserHome.getRolesListForUser( user.getUserId(  ) );
-        //        assertTrue( listRoles.size() > 0 );
+        // assertTrue( listRights.size() > 0 );
+        Map listRoles = AdminUserHome.getRolesListForUser( user.getUserId( ) );
+        // assertTrue( listRoles.size() > 0 );
 
         // Update test
         user.setAccessCode( ACCESSCODE2 );
@@ -102,19 +101,19 @@ public class AdminUserTest extends LuteceTestCase
         user.setLocale( Locale.FRANCE );
 
         AdminUserHome.update( user );
-        userStored = AdminUserHome.findByPrimaryKey( user.getUserId(  ) );
-        assertEquals( userStored.getAccessCode(  ), user.getAccessCode(  ) );
-        assertEquals( userStored.getLastName(  ), user.getLastName(  ) );
-        assertEquals( userStored.getFirstName(  ), user.getFirstName(  ) );
-        assertEquals( userStored.getEmail(  ), user.getEmail(  ) );
-        assertEquals( userStored.getStatus(  ), user.getStatus(  ) );
-        //        assertEquals( userStored.getLocale(  ), user.getLocale(  ) );
+        userStored = AdminUserHome.findByPrimaryKey( user.getUserId( ) );
+        assertEquals( userStored.getAccessCode( ), user.getAccessCode( ) );
+        assertEquals( userStored.getLastName( ), user.getLastName( ) );
+        assertEquals( userStored.getFirstName( ), user.getFirstName( ) );
+        assertEquals( userStored.getEmail( ), user.getEmail( ) );
+        assertEquals( userStored.getStatus( ), user.getStatus( ) );
+        // assertEquals( userStored.getLocale( ), user.getLocale( ) );
 
         // Delete test
-        AdminUserHome.removeAllRightsForUser( user.getUserId(  ) );
-        AdminUserHome.removeAllRolesForUser( user.getUserId(  ) );
-        AdminUserHome.remove( user.getUserId(  ) );
-        userStored = AdminUserHome.findByPrimaryKey( user.getUserId(  ) );
+        AdminUserHome.removeAllRightsForUser( user.getUserId( ) );
+        AdminUserHome.removeAllRolesForUser( user.getUserId( ) );
+        AdminUserHome.remove( user.getUserId( ) );
+        userStored = AdminUserHome.findByPrimaryKey( user.getUserId( ) );
         assertNull( userStored );
     }
 }

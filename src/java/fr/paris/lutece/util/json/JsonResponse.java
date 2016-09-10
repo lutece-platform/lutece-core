@@ -33,7 +33,6 @@
  */
 package fr.paris.lutece.util.json;
 
-
 /**
  *
  * JsonResponse
@@ -46,7 +45,9 @@ public class JsonResponse extends AbstractJsonResponse
 
     /**
      * JsonResponse constructor
-     * @param result the result object
+     * 
+     * @param result
+     *            the result object
      */
     public JsonResponse( Object result )
     {
@@ -58,7 +59,7 @@ public class JsonResponse extends AbstractJsonResponse
      *
      * @return the result object
      */
-    public Object getResult(  )
+    public Object getResult( )
     {
         return _result;
     }

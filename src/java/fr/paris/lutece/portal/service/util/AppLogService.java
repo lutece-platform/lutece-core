@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -42,9 +42,8 @@ import java.io.InputStream;
 
 import java.util.Properties;
 
-
 /**
- *  This class provides writing services in the application logs files
+ * This class provides writing services in the application logs files
  */
 public final class AppLogService
 {
@@ -64,28 +63,31 @@ public final class AppLogService
     /**
      * Creates a new AppLogService object.
      */
-    private AppLogService(  )
+    private AppLogService( )
     {
     }
 
     /**
      * Initializes a very basic logging system (everything to stdout)
      */
-    public static void preinit(  )
+    public static void preinit( )
     {
-        BasicConfigurator.configure();
-        info("Lutece logs pre-initialized: sending all logs to stdout.");
+        BasicConfigurator.configure( );
+        info( "Lutece logs pre-initialized: sending all logs to stdout." );
     }
 
     /**
      * initializes the errors log file and the application log file
-     * @param strConfigPath The strConfigPath
-     * @param strConfigFile The strConfigFile
+     * 
+     * @param strConfigPath
+     *            The strConfigPath
+     * @param strConfigFile
+     *            The strConfigFile
      */
     public static void init( String strConfigPath, String strConfigFile )
     {
-        BasicConfigurator.resetConfiguration();
-        //Initialize the logger and configures it with the values of the properties file : config.properties
+        BasicConfigurator.resetConfiguration( );
+        // Initialize the logger and configures it with the values of the properties file : config.properties
         try
         {
             _loggerEvents.setAdditivity( false );
@@ -94,12 +96,12 @@ public final class AppLogService
 
             String strAbsoluteConfigDirectoryPath = AppPathService.getAbsolutePathFromRelativePath( strConfigPath );
 
-            String strAlternateFilePath = strAbsoluteConfigDirectoryPath +
-                ( strAbsoluteConfigDirectoryPath.endsWith( "/" ) ? "" : "/" ) + ALTERNATE_LOG_OVERRIDE_PATH;
+            String strAlternateFilePath = strAbsoluteConfigDirectoryPath + ( strAbsoluteConfigDirectoryPath.endsWith( "/" ) ? "" : "/" )
+                    + ALTERNATE_LOG_OVERRIDE_PATH;
 
             File alternateLogFile = new File( strAlternateFilePath + File.separator + ALTERNATE_LOG_FILE );
 
-            boolean bAlternateConfigFile = alternateLogFile.exists(  );
+            boolean bAlternateConfigFile = alternateLogFile.exists( );
 
             InputStream is;
             String strLog4jConfigFile;
@@ -107,22 +109,21 @@ public final class AppLogService
             if ( bAlternateConfigFile )
             {
                 // Load loggers configuration from the log.properties
-                is = AppPathService.getResourceAsStream( strConfigPath + ( strConfigPath.endsWith( "/" ) ? "" : "/" ) +
-                        ALTERNATE_LOG_OVERRIDE_PATH + "/", ALTERNATE_LOG_FILE );
-                strLog4jConfigFile = alternateLogFile.getAbsolutePath(  );
+                is = AppPathService.getResourceAsStream( strConfigPath + ( strConfigPath.endsWith( "/" ) ? "" : "/" ) + ALTERNATE_LOG_OVERRIDE_PATH + "/",
+                        ALTERNATE_LOG_FILE );
+                strLog4jConfigFile = alternateLogFile.getAbsolutePath( );
             }
             else
             {
                 // Load loggers configuration from the config.properties
                 is = AppPathService.getResourceAsStream( strConfigPath, strConfigFile );
-                strLog4jConfigFile = strAbsoluteConfigDirectoryPath +
-                    ( ( strAbsoluteConfigDirectoryPath.endsWith( "/" ) ) ? "" : "/" ) + strConfigFile;
+                strLog4jConfigFile = strAbsoluteConfigDirectoryPath + ( ( strAbsoluteConfigDirectoryPath.endsWith( "/" ) ) ? "" : "/" ) + strConfigFile;
             }
 
-            Properties props = new Properties(  );
+            Properties props = new Properties( );
             props.load( is );
             PropertyConfigurator.configure( props );
-            is.close(  );
+            is.close( );
 
             // Define the config.properties as log4j configuration file for other libraries using
             // the System property "log4j.configuration"
@@ -133,63 +134,67 @@ public final class AppLogService
                 debug( "Loaded log properties from alternate log.properties file " );
             }
         }
-        catch ( Exception e )
+        catch( Exception e )
         {
             System.err.println( "Bad Configuration of Log4j : " + e );
         }
-        info("Lutece logs initialized, using configured property files to define levels and appenders.");
+        info( "Lutece logs initialized, using configured property files to define levels and appenders." );
     }
 
-    ////////////////////////////////////////////////////////////////////////////
+    // //////////////////////////////////////////////////////////////////////////
     // Log4j wrappers
 
     /**
-     * Tells if the logger accepts debug messages. If not it prevents to build
-     * consuming messages that will be ignored.
+     * Tells if the logger accepts debug messages. If not it prevents to build consuming messages that will be ignored.
+     * 
      * @return True if the logger accepts debug messages, otherwise false.
      */
-    public static boolean isDebugEnabled(  )
+    public static boolean isDebugEnabled( )
     {
-        return _loggerDebug.isDebugEnabled(  );
+        return _loggerDebug.isDebugEnabled( );
     }
 
     /**
      * Log a message object with the DEBUG level. It is logged in application.log
      *
-     * @param objToLog the message object to log
+     * @param objToLog
+     *            the message object to log
      */
     public static void debug( Object objToLog )
     {
-        if ( _loggerDebug.isDebugEnabled(  ) )
+        if ( _loggerDebug.isDebugEnabled( ) )
         {
             _loggerDebug.debug( objToLog );
         }
     }
 
     /**
-     * Tells if the logger accepts debug messages. If not it prevents to build
-     * consuming messages that will be ignored.
-     * @param strLogger The Logger name
+     * Tells if the logger accepts debug messages. If not it prevents to build consuming messages that will be ignored.
+     * 
+     * @param strLogger
+     *            The Logger name
      * @return True if the logger accepts debug messages, otherwise false.
      */
     public static boolean isDebugEnabled( String strLogger )
     {
         Logger logger = Logger.getLogger( strLogger );
 
-        return logger.isDebugEnabled(  );
+        return logger.isDebugEnabled( );
     }
 
     /**
      * Log a message object with the DEBUG level. It is logged in application.log
      *
-     * @param strLogger The Logger name
-     * @param objToLog the message object to log
+     * @param strLogger
+     *            The Logger name
+     * @param objToLog
+     *            the message object to log
      */
     public static void debug( String strLogger, Object objToLog )
     {
         Logger logger = Logger.getLogger( strLogger );
 
-        if ( logger.isDebugEnabled(  ) )
+        if ( logger.isDebugEnabled( ) )
         {
             logger.debug( objToLog );
         }
@@ -198,7 +203,8 @@ public final class AppLogService
     /**
      * Log a message object with the ERROR Level. It is logged in error.log
      *
-     * @param objToLog the message object to log
+     * @param objToLog
+     *            the message object to log
      */
     public static void error( Object objToLog )
     {
@@ -209,12 +215,12 @@ public final class AppLogService
     }
 
     /**
-     * Log a message object with the ERROR level including the stack trace of
-     * the Throwable t passed as parameter. It
-     * is logged in error.log
+     * Log a message object with the ERROR level including the stack trace of the Throwable t passed as parameter. It is logged in error.log
      *
-     * @param message the message object to log
-     * @param t the exception to log, including its stack trace
+     * @param message
+     *            the message object to log
+     * @param t
+     *            the exception to log, including its stack trace
      */
     public static void error( Object message, Throwable t )
     {
@@ -227,11 +233,12 @@ public final class AppLogService
     /**
      * Log a message object with the INFO Level in application.log
      *
-     * @param objToLog the message object to log
+     * @param objToLog
+     *            the message object to log
      */
     public static void info( Object objToLog )
     {
-        if ( ( _loggerEvents != null ) && _loggerEvents.isInfoEnabled(  ) )
+        if ( ( _loggerEvents != null ) && _loggerEvents.isInfoEnabled( ) )
         {
             _loggerEvents.info( objToLog );
         }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -43,7 +43,6 @@ import java.net.URLEncoder;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  * This class describes a workgroup used by the administration
  */
@@ -66,14 +65,14 @@ public class AdminWorkgroupFilter
     /**
      * Constructor
      */
-    public AdminWorkgroupFilter(  )
+    public AdminWorkgroupFilter( )
     {
     }
 
     /**
      * Initialize each component of the object
      */
-    public void init(  )
+    public void init( )
     {
         _strKey = "";
         _strDescription = "";
@@ -81,9 +80,10 @@ public class AdminWorkgroupFilter
 
     /**
      * Gets the workgroup key
+     * 
      * @return Returns the Key.
      */
-    public String getKey(  )
+    public String getKey( )
     {
         return _strKey;
     }
@@ -91,7 +91,8 @@ public class AdminWorkgroupFilter
     /**
      * Sets the workgroup key
      *
-     * @param strKey The Key
+     * @param strKey
+     *            The Key
      */
     public void setKey( String strKey )
     {
@@ -100,9 +101,10 @@ public class AdminWorkgroupFilter
 
     /**
      * Returns the workgroup's description
+     * 
      * @return Returns the Description.
      */
-    public String getDescription(  )
+    public String getDescription( )
     {
         return _strDescription;
     }
@@ -110,7 +112,8 @@ public class AdminWorkgroupFilter
     /**
      * Sets the workgroup's description
      *
-     * @param strDescription The workgroup's description
+     * @param strDescription
+     *            The workgroup's description
      */
     public void setDescription( String strDescription )
     {
@@ -122,14 +125,16 @@ public class AdminWorkgroupFilter
      *
      * @return The workgroup key
      */
-    public String getWorkgroup(  )
+    public String getWorkgroup( )
     {
-        return getKey(  );
+        return getKey( );
     }
 
     /**
      * Set the value of the AdminWorkgroupFilter
-     * @param request HttpServletRequest
+     * 
+     * @param request
+     *            HttpServletRequest
      * @return true if there is a search
      */
     public boolean setAdminWorkgroupFilter( HttpServletRequest request )
@@ -145,7 +150,7 @@ public class AdminWorkgroupFilter
         }
         else
         {
-            init(  );
+            init( );
         }
 
         return bIsSearch;
@@ -153,46 +158,47 @@ public class AdminWorkgroupFilter
 
     /**
      * Build url attributes
-     * @param url The url item
+     * 
+     * @param url
+     *            The url item
      */
     public void setUrlAttributes( UrlItem url )
     {
-        url.addParameter( PARAMETER_SEARCH_IS_SEARCH, Boolean.TRUE.toString(  ) );
+        url.addParameter( PARAMETER_SEARCH_IS_SEARCH, Boolean.TRUE.toString( ) );
 
         try
         {
-            url.addParameter( PARAMETER_SEARCH_KEY,
-                URLEncoder.encode( _strKey, AppPropertiesService.getProperty( PROPERTY_ENCODING_URL ) ) );
-            url.addParameter( PARAMETER_SEARCH_DESCRIPTION,
-                URLEncoder.encode( _strDescription, AppPropertiesService.getProperty( PROPERTY_ENCODING_URL ) ) );
+            url.addParameter( PARAMETER_SEARCH_KEY, URLEncoder.encode( _strKey, AppPropertiesService.getProperty( PROPERTY_ENCODING_URL ) ) );
+            url.addParameter( PARAMETER_SEARCH_DESCRIPTION, URLEncoder.encode( _strDescription, AppPropertiesService.getProperty( PROPERTY_ENCODING_URL ) ) );
         }
-        catch ( UnsupportedEncodingException e )
+        catch( UnsupportedEncodingException e )
         {
-            AppLogService.error( e.getMessage(  ), e );
+            AppLogService.error( e.getMessage( ), e );
         }
     }
 
     /**
      * Build url attributes
+     * 
      * @return the url attributes
      */
-    public String getUrlAttributes(  )
+    public String getUrlAttributes( )
     {
-        StringBuilder sbUrlAttributes = new StringBuilder(  );
+        StringBuilder sbUrlAttributes = new StringBuilder( );
         sbUrlAttributes.append( PARAMETER_SEARCH_IS_SEARCH + CONSTANT_EQUAL + Boolean.TRUE );
 
         try
         {
-            sbUrlAttributes.append( CONSTANT_ESPERLUETTE + PARAMETER_SEARCH_KEY + CONSTANT_EQUAL +
-                URLEncoder.encode( _strKey, AppPropertiesService.getProperty( PROPERTY_ENCODING_URL ) ) );
-            sbUrlAttributes.append( CONSTANT_ESPERLUETTE + PARAMETER_SEARCH_DESCRIPTION + CONSTANT_EQUAL +
-                URLEncoder.encode( _strDescription, AppPropertiesService.getProperty( PROPERTY_ENCODING_URL ) ) );
+            sbUrlAttributes.append( CONSTANT_ESPERLUETTE + PARAMETER_SEARCH_KEY + CONSTANT_EQUAL
+                    + URLEncoder.encode( _strKey, AppPropertiesService.getProperty( PROPERTY_ENCODING_URL ) ) );
+            sbUrlAttributes.append( CONSTANT_ESPERLUETTE + PARAMETER_SEARCH_DESCRIPTION + CONSTANT_EQUAL
+                    + URLEncoder.encode( _strDescription, AppPropertiesService.getProperty( PROPERTY_ENCODING_URL ) ) );
         }
-        catch ( UnsupportedEncodingException e )
+        catch( UnsupportedEncodingException e )
         {
-            AppLogService.error( e.getMessage(  ), e );
+            AppLogService.error( e.getMessage( ), e );
         }
 
-        return sbUrlAttributes.toString(  );
+        return sbUrlAttributes.toString( );
     }
 }

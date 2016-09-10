@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -44,18 +44,22 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
- * This class provides  the list of the page associated by the main menu of the site
+ * This class provides the list of the page associated by the main menu of the site
  */
 public class MainMenuInclude implements PageInclude
 {
     /**
      * Substitue specific Freemarker markers in the page template.
-     * @param rootModel the HashMap containing markers to substitute
-     * @param data A PageData object containing applications data
-     * @param nMode The current mode
-     * @param request The HTTP request
+     * 
+     * @param rootModel
+     *            the HashMap containing markers to substitute
+     * @param data
+     *            A PageData object containing applications data
+     * @param nMode
+     *            The current mode
+     * @param request
+     *            The HTTP request
      */
     public void fillTemplate( Map<String, Object> rootModel, PageData data, int nMode, HttpServletRequest request )
     {
@@ -65,19 +69,16 @@ public class MainMenuInclude implements PageInclude
 
             try
             {
-                nCurrentPageId = ( request.getParameter( Parameters.PAGE_ID ) == null ) ? 0
-                                                                                        : Integer.parseInt( request.getParameter( 
-                            Parameters.PAGE_ID ) );
+                nCurrentPageId = ( request.getParameter( Parameters.PAGE_ID ) == null ) ? 0 : Integer.parseInt( request.getParameter( Parameters.PAGE_ID ) );
             }
-            catch ( NumberFormatException nfe )
+            catch( NumberFormatException nfe )
             {
-                AppLogService.info( "MainMenuInclude.fillTemplate() : " + nfe.getLocalizedMessage(  ) );
+                AppLogService.info( "MainMenuInclude.fillTemplate() : " + nfe.getLocalizedMessage( ) );
                 nCurrentPageId = 0;
             }
 
-            rootModel.put( Markers.PAGE_MAIN_MENU,
-                PortalMenuService.getInstance(  )
-                                 .getMenuContent( nCurrentPageId, nMode, PortalMenuService.MENU_MAIN, request ) );
+            rootModel.put( Markers.PAGE_MAIN_MENU, PortalMenuService.getInstance( )
+                    .getMenuContent( nCurrentPageId, nMode, PortalMenuService.MENU_MAIN, request ) );
         }
     }
 }

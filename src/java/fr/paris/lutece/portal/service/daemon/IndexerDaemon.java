@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -36,24 +36,20 @@ package fr.paris.lutece.portal.service.daemon;
 import fr.paris.lutece.portal.service.search.IndexationService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 
-
 /**
- * This class provides methods which allows Daemon to manage and process the
- * treatment of the indexing.
+ * This class provides methods which allows Daemon to manage and process the treatment of the indexing.
  */
 public final class IndexerDaemon extends Daemon
 {
     private static final String PROPERTY_INDEXER_PARAM_TOTAL = "indexer.param.total";
-    private static final boolean TOTAL_INDEXING = Boolean.valueOf( AppPropertiesService.getProperty( 
-                PROPERTY_INDEXER_PARAM_TOTAL, "true" ) );
+    private static final boolean TOTAL_INDEXING = Boolean.valueOf( AppPropertiesService.getProperty( PROPERTY_INDEXER_PARAM_TOTAL, "true" ) );
 
     /**
-     * Implementation of the run method of the Runnable interface.It processes
-     * the daemon treatment.
+     * Implementation of the run method of the Runnable interface.It processes the daemon treatment.
      */
-    public void run(  )
+    public void run( )
     {
-        // Launching of the incremental indexing.    	
+        // Launching of the incremental indexing.
         setLastRunLogs( IndexationService.processIndexing( TOTAL_INDEXING ) );
     }
 }

@@ -54,24 +54,23 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
-
 public class PageServiceTest extends LuteceTestCase
 {
     private boolean _pageCacheStatus;
 
     @Override
-    public void setUp(  ) throws Exception
+    public void setUp( ) throws Exception
     {
-        super.setUp(  );
+        super.setUp( );
 
         // activate the page cache
-        List<CacheableService> services = CacheService.getCacheableServicesList(  );
+        List<CacheableService> services = CacheService.getCacheableServicesList( );
 
         for ( CacheableService cs : services )
         {
             if ( cs instanceof PageCacheService )
             {
-                _pageCacheStatus = cs.isCacheEnable(  );
+                _pageCacheStatus = cs.isCacheEnable( );
                 cs.enableCache( true );
 
                 break;
@@ -80,10 +79,10 @@ public class PageServiceTest extends LuteceTestCase
     }
 
     @Override
-    public void tearDown(  ) throws Exception
+    public void tearDown( ) throws Exception
     {
         // restore the previous page cache status
-        List<CacheableService> services = CacheService.getCacheableServicesList(  );
+        List<CacheableService> services = CacheService.getCacheableServicesList( );
 
         for ( CacheableService cs : services )
         {
@@ -95,29 +94,29 @@ public class PageServiceTest extends LuteceTestCase
             }
         }
 
-        super.tearDown(  );
+        super.tearDown( );
     }
 
     /**
-     * Tests that the base URL is correct when the page is cached
-     * and the URL used to access the site changes
+     * Tests that the base URL is correct when the page is cached and the URL used to access the site changes
+     * 
      * @throws SiteMessageException
      */
     @Test
-    public void testBaseUrl(  ) throws SiteMessageException
+    public void testBaseUrl( ) throws SiteMessageException
     {
         IPageService pageService = (IPageService) SpringContextService.getBean( "pageService" );
-        HttpServletResponse response = new MokeHttpServletResponse(  );
+        HttpServletResponse response = new MokeHttpServletResponse( );
 
         // FIXME : rework when LUTECE-1837 is resolved
-        MokeHttpServletRequest request = new MokeHttpServletRequest(  )
+        MokeHttpServletRequest request = new MokeHttpServletRequest( )
+        {
+            @Override
+            public Object getAttribute( String string )
             {
-                @Override
-                public Object getAttribute( String string )
-                {
-                    return null;
-                }
-            };
+                return null;
+            }
+        };
 
         LocalVariables.setLocal( null, request, response );
         request.addMokeParameters( Parameters.PAGE_ID, "1" );
@@ -126,21 +125,21 @@ public class PageServiceTest extends LuteceTestCase
         assertTrue( pageContent.contains( "<base href=\"://:0/\">" ) );
 
         // change server name and thus base_url
-        request = new MokeHttpServletRequest(  )
-                {
-                    @Override
-                    public String getServerName(  )
-                    {
-                        return "junit";
-                    }
+        request = new MokeHttpServletRequest( )
+        {
+            @Override
+            public String getServerName( )
+            {
+                return "junit";
+            }
 
-                    // FIXME : rework when LUTECE-1837 is resolved
-                    @Override
-                    public Object getAttribute( String string )
-                    {
-                        return null;
-                    }
-                };
+            // FIXME : rework when LUTECE-1837 is resolved
+            @Override
+            public Object getAttribute( String string )
+            {
+                return null;
+            }
+        };
         LocalVariables.setLocal( null, request, response );
         request.addMokeParameters( Parameters.PAGE_ID, "1" );
         pageContent = pageService.getPage( request, 0 );
@@ -181,69 +180,68 @@ public class PageServiceTest extends LuteceTestCase
         }
 
         @Override
-        public void resetBuffer(  )
+        public void resetBuffer( )
         {
             // TODO Auto-generated method stub
         }
 
         @Override
-        public void reset(  )
+        public void reset( )
         {
             // TODO Auto-generated method stub
         }
 
         @Override
-        public boolean isCommitted(  )
+        public boolean isCommitted( )
         {
             // TODO Auto-generated method stub
             return false;
         }
 
         @Override
-        public PrintWriter getWriter(  ) throws IOException
+        public PrintWriter getWriter( ) throws IOException
         {
             // TODO Auto-generated method stub
             return null;
         }
 
         @Override
-        public ServletOutputStream getOutputStream(  )
-            throws IOException
+        public ServletOutputStream getOutputStream( ) throws IOException
         {
             // TODO Auto-generated method stub
             return null;
         }
 
         @Override
-        public Locale getLocale(  )
+        public Locale getLocale( )
         {
             // TODO Auto-generated method stub
             return null;
         }
 
         @Override
-        public String getContentType(  )
+        public String getContentType( )
         {
             // TODO Auto-generated method stub
             return null;
         }
 
         @Override
-        public String getCharacterEncoding(  )
+        public String getCharacterEncoding( )
         {
             // TODO Auto-generated method stub
             return null;
         }
 
         @Override
-        public int getBufferSize(  )
+        public int getBufferSize( )
         {
             // TODO Auto-generated method stub
             return 0;
         }
 
         @Override
-        public void flushBuffer(  ) throws IOException
+        public void flushBuffer( ) throws IOException
         {
             // TODO Auto-generated method stub
         }

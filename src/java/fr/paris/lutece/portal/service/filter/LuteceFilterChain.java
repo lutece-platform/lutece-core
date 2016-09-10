@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -40,11 +40,8 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
-
 /**
- * Lutece filter chain
- * This is a fake filter chain used by LuteceMainFilter to simulate a chain for
- * plugins filters
+ * Lutece filter chain This is a fake filter chain used by LuteceMainFilter to simulate a chain for plugins filters
  */
 public class LuteceFilterChain implements FilterChain
 {
@@ -54,7 +51,9 @@ public class LuteceFilterChain implements FilterChain
 
     /**
      * Initialize the follow chain flag (does the filter called "chain.doFilter")
-     * @param bFollowChain The follow chain flag
+     * 
+     * @param bFollowChain
+     *            The follow chain flag
      */
     public void setFollowChain( boolean bFollowChain )
     {
@@ -63,26 +62,30 @@ public class LuteceFilterChain implements FilterChain
 
     /**
      * Returns the follow chain flag
+     * 
      * @return The follow chain flag
      */
-    public boolean shouldFollowChain(  )
+    public boolean shouldFollowChain( )
     {
         return _bFollowChain;
     }
 
     /**
      * Returns the request used by {@link #doFilter(ServletRequest, ServletResponse)}
+     * 
      * @return the request
      * @since 2.5
      */
-    public ServletRequest getRequest(  )
+    public ServletRequest getRequest( )
     {
         return _request;
     }
 
     /**
      * Sets the request used by {@link #doFilter(ServletRequest, ServletResponse)}
-     * @param request the request
+     * 
+     * @param request
+     *            the request
      * @since 2.5
      */
     public void setRequest( ServletRequest request )
@@ -92,17 +95,20 @@ public class LuteceFilterChain implements FilterChain
 
     /**
      * Returns the response used by {@link #doFilter(ServletRequest, ServletResponse)}
+     * 
      * @return the response
      * @since 2.5
      */
-    public ServletResponse getResponse(  )
+    public ServletResponse getResponse( )
     {
         return _response;
     }
 
     /**
      * Sets the response used by {@link #doFilter(ServletRequest, ServletResponse)}
-     * @param response the response
+     * 
+     * @param response
+     *            the response
      * @since 2.5
      */
     public void setResponse( ServletResponse response )
@@ -111,10 +117,9 @@ public class LuteceFilterChain implements FilterChain
     }
 
     /**
-    * {@inheritDoc }
-    */
-    public void doFilter( ServletRequest request, ServletResponse response )
-        throws IOException, ServletException
+     * {@inheritDoc }
+     */
+    public void doFilter( ServletRequest request, ServletResponse response ) throws IOException, ServletException
     {
         // Do nothing and set the follow chain flag to true
         setFollowChain( true );

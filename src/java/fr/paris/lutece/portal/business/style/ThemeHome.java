@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -38,76 +38,84 @@ import fr.paris.lutece.util.ReferenceList;
 
 import java.util.Collection;
 
-
 /**
  * This class provides instances management methods (create, find, ...) for Theme objects
+ * 
  * @deprecated As of 2.4.3. Use the plugin-theme instead
  */
 public final class ThemeHome
 {
     // Static variable pointed at the DAO instance
-    //private static IThemeDAO _dao = (IThemeDAO) SpringContextService.getBean( "coreThemeDAO" );
+    // private static IThemeDAO _dao = (IThemeDAO) SpringContextService.getBean( "coreThemeDAO" );
 
     /**
      * Creates a new ThemeHome object.
      */
-    private ThemeHome(  )
+    private ThemeHome( )
     {
     }
 
     /**
      * Creation of an instance of a theme
      *
-     * @param theme An instance of a theme which contains the informations to store
+     * @param theme
+     *            An instance of a theme which contains the informations to store
      * @return The instance of a theme which has been created with its primary key.
      */
     public static Theme create( Theme theme )
     {
         return ThemesService.create( theme );
 
-        /*_dao.insert( theme );
-        
-        return theme;*/
+        /*
+         * _dao.insert( theme );
+         * 
+         * return theme;
+         */
     }
 
     /**
      * Update of the theme which is specified
      *
-     * @param theme The instance of the theme which contains the data to store
+     * @param theme
+     *            The instance of the theme which contains the data to store
      * @return The instance of the theme which has been updated
      */
     public static Theme update( Theme theme )
     {
         return ThemesService.update( theme );
 
-        /*_dao.store( theme );
-        
-        return theme;*/
+        /*
+         * _dao.store( theme );
+         * 
+         * return theme;
+         */
     }
 
     /**
      * Remove the theme whose identifier is specified in parameter
      *
-     * @param strCodeTheme The identifier of the theme to remove
+     * @param strCodeTheme
+     *            The identifier of the theme to remove
      */
     public static void remove( String strCodeTheme )
     {
         ThemesService.remove( strCodeTheme );
 
-        //_dao.delete( strCodeTheme );
+        // _dao.delete( strCodeTheme );
     }
 
     /**
      * Returns an instance of an theme whose identifier is specified in parameter
      *
-     * @param strCodeTheme The theme primary key
+     * @param strCodeTheme
+     *            The theme primary key
      * @return an instance of a theme
      */
     public static Theme findByPrimaryKey( String strCodeTheme )
     {
         return ThemesService.getGlobalTheme( strCodeTheme );
 
-        //return _dao.load( strCodeTheme );
+        // return _dao.load( strCodeTheme );
     }
 
     /**
@@ -115,11 +123,11 @@ public final class ThemeHome
      *
      * @return A collection of themes objects
      */
-    public static Collection<Theme> getThemesList(  )
+    public static Collection<Theme> getThemesList( )
     {
-        return ThemesService.getThemesList(  );
+        return ThemesService.getThemesList( );
 
-        //return _dao.selectThemesList(  );
+        // return _dao.selectThemesList( );
     }
 
     /**
@@ -127,52 +135,55 @@ public final class ThemeHome
      *
      * @return a reference list
      */
-    public static ReferenceList getThemes(  )
+    public static ReferenceList getThemes( )
     {
-        return ThemesService.getThemes(  );
+        return ThemesService.getThemes( );
 
-        //return _dao.getThemesList(  );
+        // return _dao.getThemesList( );
     }
 
     /**
      * Checks if the theme is among existing themes
      *
-     * @param strCodeTheme The theme to check
+     * @param strCodeTheme
+     *            The theme to check
      * @return True if the theme is valid
      */
     public static boolean isValidTheme( String strCodeTheme )
     {
         return ThemesService.isValidTheme( strCodeTheme );
 
-        /*Theme theme = ThemeHome.findByPrimaryKey( strCodeTheme );
-        
-        if ( theme != null )
-        {
-            return true;
-        }
-        
-        return false;*/
+        /*
+         * Theme theme = ThemeHome.findByPrimaryKey( strCodeTheme );
+         * 
+         * if ( theme != null ) { return true; }
+         * 
+         * return false;
+         */
     }
 
     /**
      * Sets the global theme
-     * @param strGlobalTheme The Global Theme
+     * 
+     * @param strGlobalTheme
+     *            The Global Theme
      */
     public static void setGlobalTheme( String strGlobalTheme )
     {
         ThemesService.setGlobalTheme( strGlobalTheme );
 
-        //_dao.setGlobalTheme( strGlobalTheme );
+        // _dao.setGlobalTheme( strGlobalTheme );
     }
 
     /**
      * Returns the global theme
+     * 
      * @return The Global Theme
      */
-    public static String getGlobalTheme(  )
+    public static String getGlobalTheme( )
     {
-        return ThemesService.getGlobalTheme(  );
+        return ThemesService.getGlobalTheme( );
 
-        //return _dao.getGlobalTheme(  );
+        // return _dao.getGlobalTheme( );
     }
 }

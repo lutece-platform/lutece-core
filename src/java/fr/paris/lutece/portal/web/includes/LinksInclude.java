@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -50,7 +50,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  * Page include that insert links into the head part of HTML pages
  */
@@ -77,43 +76,47 @@ public class LinksInclude implements PageInclude
 
     /**
      * Substitue specific bookmarks in the page template.
-     * @param rootModel The data model
-     * @param data A PageData object containing applications data
-     * @param nMode The current mode
-     * @param request The HTTP request
+     * 
+     * @param rootModel
+     *            The data model
+     * @param data
+     *            A PageData object containing applications data
+     * @param nMode
+     *            The current mode
+     * @param request
+     *            The HTTP request
      */
     public void fillTemplate( Map<String, Object> rootModel, PageData data, int nMode, HttpServletRequest request )
     {
         if ( request != null )
         {
             // Add links coming from the data object
-            String strFavourite = ( data.getFavourite(  ) != null ) ? data.getFavourite(  )
-                                                                    : PortalService.getSiteName(  );
-            String strPortalName = PortalService.getSiteName(  );
+            String strFavourite = ( data.getFavourite( ) != null ) ? data.getFavourite( ) : PortalService.getSiteName( );
+            String strPortalName = PortalService.getSiteName( );
             rootModel.put( MARK_FAVOURITE, strFavourite );
             rootModel.put( MARK_PORTAL_NAME, strPortalName );
 
-            Locale locale = request.getLocale(  );
+            Locale locale = request.getLocale( );
 
             // Add CSS links coming from plugins
-            Collection<Plugin> listPlugins = PluginService.getPluginList(  );
-            listPlugins.add( PluginService.getCore(  ) );
+            Collection<Plugin> listPlugins = PluginService.getPluginList( );
+            listPlugins.add( PluginService.getCore( ) );
 
-            StringBuilder sbCssLinks = new StringBuilder(  );
-            StringBuilder sbJsLinks = new StringBuilder(  );
+            StringBuilder sbCssLinks = new StringBuilder( );
+            StringBuilder sbJsLinks = new StringBuilder( );
 
             for ( Plugin plugin : listPlugins )
             {
-                if ( plugin.isInstalled(  ) )
+                if ( plugin.isInstalled( ) )
                 {
                     String strPage = request.getParameter( PARAMETER_PAGE );
                     Theme xpageTheme = plugin.getXPageTheme( request );
 
                     if ( ( strPage != null ) && ( xpageTheme != null ) )
                     {
-                        for ( XPageApplicationEntry entry : plugin.getApplications(  ) )
+                        for ( XPageApplicationEntry entry : plugin.getApplications( ) )
                         {
-                            if ( strPage.equals( entry.getId(  ) ) )
+                            if ( strPage.equals( entry.getId( ) ) )
                             {
                                 rootModel.put( MARK_PLUGIN_THEME_CSS, xpageTheme );
                             }
@@ -122,9 +125,9 @@ public class LinksInclude implements PageInclude
 
                     boolean bXPage = isPluginXPage( strPage, plugin );
 
-                    if ( plugin.isCssStylesheetsScopePortal(  ) || ( bXPage && plugin.isCssStylesheetsScopeXPage(  ) ) )
+                    if ( plugin.isCssStylesheetsScopePortal( ) || ( bXPage && plugin.isCssStylesheetsScopeXPage( ) ) )
                     {
-                        for ( String strCssStyleSheet : plugin.getCssStyleSheets(  ) )
+                        for ( String strCssStyleSheet : plugin.getCssStyleSheets( ) )
                         {
                             appendStyleSheet( sbCssLinks, strCssStyleSheet, locale );
                         }
@@ -135,9 +138,9 @@ public class LinksInclude implements PageInclude
                         }
                     }
 
-                    if ( plugin.isJavascriptFilesScopePortal(  ) || ( bXPage && plugin.isJavascriptFilesScopeXPage(  ) ) )
+                    if ( plugin.isJavascriptFilesScopePortal( ) || ( bXPage && plugin.isJavascriptFilesScopeXPage( ) ) )
                     {
-                        for ( String strJavascriptFile : plugin.getJavascriptFiles(  ) )
+                        for ( String strJavascriptFile : plugin.getJavascriptFiles( ) )
                         {
                             appendJavascriptFile( sbJsLinks, strJavascriptFile, locale );
                         }
@@ -150,16 +153,20 @@ public class LinksInclude implements PageInclude
                 }
             }
 
-            rootModel.put( MARK_PLUGINS_CSS_LINKS, sbCssLinks.toString(  ) );
-            rootModel.put( MARK_PLUGINS_JAVASCRIPT_LINKS, sbJsLinks.toString(  ) );
+            rootModel.put( MARK_PLUGINS_CSS_LINKS, sbCssLinks.toString( ) );
+            rootModel.put( MARK_PLUGINS_JAVASCRIPT_LINKS, sbJsLinks.toString( ) );
         }
     }
 
     /**
      * Append a script to the links
-     * @param sbJsLinks links in construction
-     * @param strJavascriptFile the script to append
-     * @param locale the locale
+     * 
+     * @param sbJsLinks
+     *            links in construction
+     * @param strJavascriptFile
+     *            the script to append
+     * @param locale
+     *            the locale
      */
     private void appendJavascriptFile( StringBuilder sbJsLinks, String strJavascriptFile, Locale locale )
     {
@@ -167,14 +174,18 @@ public class LinksInclude implements PageInclude
         model.put( MARK_PLUGIN_JAVASCRIPT_FILE, strJavascriptFile );
 
         HtmlTemplate tJs = AppTemplateService.getTemplate( TEMPLATE_PLUGIN_JAVASCRIPT_LINK, locale, model );
-        sbJsLinks.append( tJs.getHtml(  ) );
+        sbJsLinks.append( tJs.getHtml( ) );
     }
 
     /**
      * Append a css to the stylesheets
-     * @param sbCssLinks stylesheets in construction
-     * @param strCssStyleSheet the stylesheet to append
-     * @param locale the locale
+     * 
+     * @param sbCssLinks
+     *            stylesheets in construction
+     * @param strCssStyleSheet
+     *            the stylesheet to append
+     * @param locale
+     *            the locale
      */
     private void appendStyleSheet( StringBuilder sbCssLinks, String strCssStyleSheet, Locale locale )
     {
@@ -185,22 +196,25 @@ public class LinksInclude implements PageInclude
         model.put( MARK_CSS_PREFIX, strPrefix );
 
         HtmlTemplate tCss = AppTemplateService.getTemplate( TEMPLATE_PLUGIN_CSS_LINK, locale, model );
-        sbCssLinks.append( tCss.getHtml(  ) );
+        sbCssLinks.append( tCss.getHtml( ) );
     }
 
     /**
      * Check if the page is a valid plugin's page
-     * @param strPage The page
-     * @param plugin The plugin
+     * 
+     * @param strPage
+     *            The page
+     * @param plugin
+     *            The plugin
      * @return true if valid otherwise false
      */
     private boolean isPluginXPage( String strPage, Plugin plugin )
     {
         if ( ( strPage != null ) )
         {
-            for ( XPageApplicationEntry app : plugin.getApplications(  ) )
+            for ( XPageApplicationEntry app : plugin.getApplications( ) )
             {
-                if ( strPage.equals( app.getId(  ) ) )
+                if ( strPage.equals( app.getId( ) ) )
                 {
                     return true;
                 }

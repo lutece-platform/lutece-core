@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -35,7 +35,6 @@ package fr.paris.lutece.portal.business.datastore;
 
 import java.io.Serializable;
 
-
 /**
  * This is the business class for the object Entity
  */
@@ -43,21 +42,24 @@ public class DataEntity implements Serializable
 {
     private static final long serialVersionUID = -1891572928576705478L;
 
-    // Variables declarations 
+    // Variables declarations
     private String _strKey;
     private String _strValue;
 
     /**
      * Constructor
      */
-    public DataEntity(  )
+    public DataEntity( )
     {
     }
 
     /**
      * Constructor
-     * @param strKey The key
-     * @param strValue The value
+     * 
+     * @param strKey
+     *            The key
+     * @param strValue
+     *            The value
      */
     public DataEntity( String strKey, String strValue )
     {
@@ -67,16 +69,19 @@ public class DataEntity implements Serializable
 
     /**
      * Returns the Key
+     * 
      * @return The Key
      */
-    public String getKey(  )
+    public String getKey( )
     {
         return _strKey;
     }
 
     /**
      * Sets the Key
-     * @param strKey The Key
+     * 
+     * @param strKey
+     *            The Key
      */
     public void setKey( String strKey )
     {
@@ -85,16 +90,19 @@ public class DataEntity implements Serializable
 
     /**
      * Returns the Value
+     * 
      * @return The Value
      */
-    public String getValue(  )
+    public String getValue( )
     {
         return _strValue;
     }
 
     /**
      * Sets the Value
-     * @param strValue The Value
+     * 
+     * @param strValue
+     *            The Value
      */
     public void setValue( String strValue )
     {

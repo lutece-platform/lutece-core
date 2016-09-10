@@ -55,17 +55,16 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.TransformerFactoryConfigurationError;
 import javax.xml.transform.stream.StreamResult;
 
-
 /**
  * This class provides methods to transform XML documents using XSLT with cache
  */
 public final class XmlTransformer
 {
     public static final String PROPERTY_TRANSFORMER_POOL_SIZE = "service.xmlTransformer.transformerPoolSize";
-    public static final int TRANSFORMER_POOL_SIZE = AppPropertiesService.getPropertyInt( PROPERTY_TRANSFORMER_POOL_SIZE,
-            2 );
+    public static final int TRANSFORMER_POOL_SIZE = AppPropertiesService.getPropertyInt( PROPERTY_TRANSFORMER_POOL_SIZE, 2 );
     public static final int MAX_TRANSFORMER_SIZE = 1000;
-    private static final List<ConcurrentMap<String, Transformer>> transformerPoolList = new ArrayList<ConcurrentMap<String, Transformer>>( TRANSFORMER_POOL_SIZE );
+    private static final List<ConcurrentMap<String, Transformer>> transformerPoolList = new ArrayList<ConcurrentMap<String, Transformer>>(
+            TRANSFORMER_POOL_SIZE );
 
     static
     {
@@ -77,13 +76,16 @@ public final class XmlTransformer
 
     /**
      * This method try to get a transformer instance from cache or create a new one if can't
-     * @param stylesheet The XML document content
-     * @param strStyleSheetId The StyleSheet Id
+     * 
+     * @param stylesheet
+     *            The XML document content
+     * @param strStyleSheetId
+     *            The StyleSheet Id
      * @return XmlTransformer object
-     * @throws Exception the exception
+     * @throws Exception
+     *             the exception
      */
-    private Transformer getTransformer( Source stylesheet, String strStyleSheetId )
-        throws Exception
+    private Transformer getTransformer( Source stylesheet, String strStyleSheetId ) throws Exception
     {
         Transformer result = null;
 
@@ -104,29 +106,29 @@ public final class XmlTransformer
             // only one thread can use transformer
             try
             {
-                result = TransformerFactory.newInstance(  ).newTransformer( stylesheet );
+                result = TransformerFactory.newInstance( ).newTransformer( stylesheet );
                 AppLogService.debug( " --  XML Transformer instantiation : strStyleSheetId=" + strStyleSheetId );
             }
-            catch ( TransformerConfigurationException e )
+            catch( TransformerConfigurationException e )
             {
-                String strMessage = e.getMessage(  );
+                String strMessage = e.getMessage( );
 
-                if ( e.getLocationAsString(  ) != null )
+                if ( e.getLocationAsString( ) != null )
                 {
-                    strMessage += ( "- location : " + e.getLocationAsString(  ) );
+                    strMessage += ( "- location : " + e.getLocationAsString( ) );
                 }
 
-                throw new Exception( "Error transforming document XSLT : " + strMessage, e.getCause(  ) );
+                throw new Exception( "Error transforming document XSLT : " + strMessage, e.getCause( ) );
             }
-            catch ( TransformerFactoryConfigurationError e )
+            catch( TransformerFactoryConfigurationError e )
             {
-                throw new Exception( "Error transforming document XSLT : " + e.getMessage(  ), e );
+                throw new Exception( "Error transforming document XSLT : " + e.getMessage( ), e );
             }
         }
         else
         {
-            //AppLogService.debug("Get XML Transformer from cache : strStyleSheetId=" + strStyleSheetId);
-            result.clearParameters(  );
+            // AppLogService.debug("Get XML Transformer from cache : strStyleSheetId=" + strStyleSheetId);
+            result.clearParameters( );
             result.setOutputProperties( null );
         }
 
@@ -136,25 +138,26 @@ public final class XmlTransformer
     /**
      * Remove all Transformer instance from cache
      */
-    public static void cleanTransformerList(  )
+    public static void cleanTransformerList( )
     {
         for ( ConcurrentMap<String, Transformer> transformerList : transformerPoolList )
         {
-            transformerList.clear(  );
+            transformerList.clear( );
         }
     }
 
     /**
      * Gets the number of transformers
+     * 
      * @return the transformers count
      */
-    public static int getTransformersCount(  )
+    public static int getTransformersCount( )
     {
         int nCount = 0;
 
         for ( ConcurrentMap<String, Transformer> transformerList : transformerPoolList )
         {
-            nCount += transformerList.size(  );
+            nCount += transformerList.size( );
         }
 
         return nCount;
@@ -162,8 +165,11 @@ public final class XmlTransformer
 
     /**
      * Release Transformer instance in cache
-     * @param transformer The XML transformer
-     * @param strStyleSheetId The StyleSheet Id
+     * 
+     * @param transformer
+     *            The XML transformer
+     * @param strStyleSheetId
+     *            The StyleSheet Id
      */
     private void releaseTransformer( Transformer transformer, String strStyleSheetId )
     {
@@ -179,14 +185,14 @@ public final class XmlTransformer
                 nTransformerListIndex++;
 
                 // This set of action is not performed atomically but it can not cause problems
-                if ( transformerList.size(  ) < MAX_TRANSFORMER_SIZE )
+                if ( transformerList.size( ) < MAX_TRANSFORMER_SIZE )
                 {
                     result = transformerList.putIfAbsent( strStyleSheetId, transformer );
                 }
                 else
                 {
                     // Aggressive release ( speed up GC )
-                    transformerList.clear(  );
+                    transformerList.clear( );
 
                     AppLogService.info( "XmlTransformer : cache is full, you may need to increase cache size." );
                 }
@@ -197,16 +203,23 @@ public final class XmlTransformer
 
     /**
      * Transform XML documents using XSLT with cache
-     * @param source The XML document content
-     * @param stylesheet The XSL source
-     * @param strStyleSheetId The StyleSheet Id
-     * @param params Parameters that can be used by the XSL StyleSheet
-     * @param outputProperties Properties to use for the XSL transform. Will overload the XSL output definition.
+     * 
+     * @param source
+     *            The XML document content
+     * @param stylesheet
+     *            The XSL source
+     * @param strStyleSheetId
+     *            The StyleSheet Id
+     * @param params
+     *            Parameters that can be used by the XSL StyleSheet
+     * @param outputProperties
+     *            Properties to use for the XSL transform. Will overload the XSL output definition.
      * @return The output document
-     * @throws Exception The exception
+     * @throws Exception
+     *             The exception
      */
-    public String transform( Source source, Source stylesheet, String strStyleSheetId, Map<String, String> params,
-        Properties outputProperties ) throws Exception
+    public String transform( Source source, Source stylesheet, String strStyleSheetId, Map<String, String> params, Properties outputProperties )
+            throws Exception
     {
         Transformer transformer = this.getTransformer( stylesheet, strStyleSheetId );
 
@@ -217,37 +230,37 @@ public final class XmlTransformer
 
         if ( params != null )
         {
-            transformer.clearParameters(  );
+            transformer.clearParameters( );
 
-            for ( Entry<String, String> entry : params.entrySet(  ) )
+            for ( Entry<String, String> entry : params.entrySet( ) )
             {
-                transformer.setParameter( entry.getKey(  ), entry.getValue(  ) );
+                transformer.setParameter( entry.getKey( ), entry.getValue( ) );
             }
         }
 
-        StringWriter sw = new StringWriter(  );
+        StringWriter sw = new StringWriter( );
         Result result = new StreamResult( sw );
 
         try
         {
             transformer.transform( source, result );
         }
-        catch ( TransformerException e )
+        catch( TransformerException e )
         {
-            String strMessage = "strStyleSheetId = " + strStyleSheetId + " " + e.getMessage(  );
+            String strMessage = "strStyleSheetId = " + strStyleSheetId + " " + e.getMessage( );
 
-            if ( e.getLocationAsString(  ) != null )
+            if ( e.getLocationAsString( ) != null )
             {
-                strMessage += ( " - location : " + e.getLocationAsString(  ) );
+                strMessage += ( " - location : " + e.getLocationAsString( ) );
             }
 
-            throw new Exception( "Error transforming document XSLT : " + strMessage, e.getCause(  ) );
+            throw new Exception( "Error transforming document XSLT : " + strMessage, e.getCause( ) );
         }
         finally
         {
             this.releaseTransformer( transformer, strStyleSheetId );
         }
 
-        return sw.toString(  );
+        return sw.toString( );
     }
 }

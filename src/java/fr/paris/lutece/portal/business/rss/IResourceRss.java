@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -38,9 +38,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
- *  IResourceRss
+ * IResourceRss
  */
 public interface IResourceRss
 {
@@ -48,35 +47,41 @@ public interface IResourceRss
      *
      * @return the rss Id
      */
-    int getId(  );
+    int getId( );
 
     /**
      * set the rss id
-     * @param nId the rss id
+     * 
+     * @param nId
+     *            the rss id
      */
     void setId( int nId );
 
     /**
-    *
-    * @return the description
-    */
-    String getDescription(  );
+     *
+     * @return the description
+     */
+    String getDescription( );
 
     /**
      * set the description
-     * @param strDescription the description
+     * 
+     * @param strDescription
+     *            the description
      */
     void setDescription( String strDescription );
 
     /**
-    *
-    * @return the name
-    */
-    String getName(  );
+     *
+     * @return the name
+     */
+    String getName( );
 
     /**
      * set the name
-     * @param strName the name
+     * 
+     * @param strName
+     *            the name
      */
     void setName( String strName );
 
@@ -84,125 +89,158 @@ public interface IResourceRss
      *
      * @return the ResourceRssType Object
      */
-    IResourceRssType getResourceRssType(  );
+    IResourceRssType getResourceRssType( );
 
     /**
      * set the ResourceRssType object
-     * @param resourceRssType the ResourceRsstype object
+     * 
+     * @param resourceRssType
+     *            the ResourceRsstype object
      */
     void setResourceRssType( IResourceRssType resourceRssType );
 
     /**
      * validates the user input associated to the resource rss
-     * @param request request
-     * @param locale locale
-     * @return null if there is no error in the resourceRss form
-     *                    else return the error message url
+     * 
+     * @param request
+     *            request
+     * @param locale
+     *            locale
+     * @return null if there is no error in the resourceRss form else return the error message url
      */
     String doValidateConfigForm( HttpServletRequest request, Locale locale );
 
     /**
      * returns the informations which must be displayed in the creation resourceRss configuration
-     * @param request request
-     * @param locale locale
-     * @return the information which must  be displayed in the creation resourceRss configuration
+     * 
+     * @param request
+     *            request
+     * @param locale
+     *            locale
+     * @return the information which must be displayed in the creation resourceRss configuration
      */
     String getDisplayCreateConfigForm( HttpServletRequest request, Locale locale );
 
     /**
-     * returns the informations which must  be displayed in the modification resourceRss configuration
-     * @param request request
-     * @param locale locale
-     * @return the information which must  be displayed in the modification resourceRss configuration
+     * returns the informations which must be displayed in the modification resourceRss configuration
+     * 
+     * @param request
+     *            request
+     * @param locale
+     *            locale
+     * @return the information which must be displayed in the modification resourceRss configuration
      */
     String getDisplayModifyConfigForm( HttpServletRequest request, Locale locale );
 
     /**
      * Save the ResourceRss configuration
-     * @param request request
-     * @param locale locale
+     * 
+     * @param request
+     *            request
+     * @param locale
+     *            locale
      */
     void doSaveConfig( HttpServletRequest request, Locale locale );
 
     /**
      * Update the ResourceRss configuration
-     * @param request request
-     * @param locale locale
+     * 
+     * @param request
+     *            request
+     * @param locale
+     *            locale
      */
     void doUpdateConfig( HttpServletRequest request, Locale locale );
 
     /**
      * verified that the resource contains the resource to be exploited
+     * 
      * @return true if resourceRss content resource
      */
-    boolean contentResourceRss(  );
+    boolean contentResourceRss( );
 
     /**
      * create Html Rss
+     * 
      * @return Html rss
      * @deprecated use {@link #getFeed()} instead.
      */
     @Deprecated
-    String createHtmlRss(  );
+    String createHtmlRss( );
 
     /**
      * Gets the feed with items
+     * 
      * @return the {@link IFeedResource}
      */
-    IFeedResource getFeed(  );
+    IFeedResource getFeed( );
 
     /**
      * Update the ResourceRss configuration
-     * @param idResourceRss id of resourceRss
+     * 
+     * @param idResourceRss
+     *            id of resourceRss
      */
     void deleteResourceRssConfig( int idResourceRss );
 
     /**
      * Return the list of parameter to keep when action apply
-     * @param request request
+     * 
+     * @param request
+     *            request
      * @return the map of parameter
      */
     Map<String, String> getParameterToApply( HttpServletRequest request );
 
     /**
      * verify that the resource exist
+     * 
      * @return true if resource exist
      */
-    boolean checkResource(  );
+    boolean checkResource( );
 
     /**
      * Gets the feed type
+     * 
      * @return the feed type
      */
-    String getFeedType(  );
+    String getFeedType( );
 
     /**
      * Sets the feed type
-     * @param strFeedType the feed type
+     * 
+     * @param strFeedType
+     *            the feed type
      */
     void setFeedType( String strFeedType );
 
     /**
      * Gets the encoding
+     * 
      * @return the encoding
      */
-    String getEncoding(  );
+    String getEncoding( );
 
     /**
      * Sets the encoding
-     * @param strEncoding the encoding
+     * 
+     * @param strEncoding
+     *            the encoding
      */
     void setEncoding( String strEncoding );
 
     /**
      * The number of displayed item.
+     * 
      * @return the number of displayed item
      */
-    int getMaxItems(  );
+    int getMaxItems( );
 
     /**
      * Sets the number of displayed item
-     * @param nMaxItems number of displayed item
+     * 
+     * @param nMaxItems
+     *            number of displayed item
      */
     void setMaxItems( int nMaxItems );
 }

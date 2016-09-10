@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -37,7 +37,6 @@ import fr.paris.lutece.portal.service.plugin.Plugin;
 
 import java.util.List;
 
-
 /**
  *
  * IXslExportDAO
@@ -50,19 +49,21 @@ public interface IXslExportDAO
      *
      * @return The new primary key
      */
-    int newPrimaryKey(  );
+    int newPrimaryKey( );
 
     /**
      * Insert a new record in the table.
      *
-     * @param xslExport instance of the XslExport object to insert
+     * @param xslExport
+     *            instance of the XslExport object to insert
      */
     void insert( XslExport xslExport );
 
     /**
      * Load the data of the XslExport from the table
      *
-     * @param nId The identifier of the xsl
+     * @param nId
+     *            The identifier of the xsl
      * @return the instance of the XslExport
      */
     XslExport load( int nId );
@@ -70,26 +71,31 @@ public interface IXslExportDAO
     /**
      * Delete a record from the table
      *
-     * @param nIdXslExport The identifier of the directory xsl
+     * @param nIdXslExport
+     *            The identifier of the directory xsl
      */
     void delete( int nIdXslExport );
 
     /**
      * Update the xslExport in the table
      *
-     * @param xslExport instance of the XslExport object to update
+     * @param xslExport
+     *            instance of the XslExport object to update
      */
     void store( XslExport xslExport );
 
     /**
      * Get the list of Xsl Export.
+     * 
      * @return The list of all Xsl Export.
      */
-    List<XslExport> selectList(  );
+    List<XslExport> selectList( );
 
     /**
      * Get the list of Xsl Export associated to a specified plugin.
-     * @param plugin The plugin
+     * 
+     * @param plugin
+     *            The plugin
      * @return The list of Xsl Export associated with the given plugin.
      */
     List<XslExport> selectListByPlugin( Plugin plugin );

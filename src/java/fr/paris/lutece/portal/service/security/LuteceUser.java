@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -45,16 +45,14 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-
 /**
  * This Interface defines all methods required for a Lutece user implementation
  */
 public abstract class LuteceUser implements Principal, Serializable, Cloneable
 {
-    /* These attribute names are derived from the Platform for Privacy
-     * Preferences 1.0 (P3P 1.0) Specification by the
-     * W3C (http://www.w3c.org/TR/P3P). The same attribute names are also being considered
-     * by the OASIS Web Services for Remote Portlets Technical Committee.
+    /*
+     * These attribute names are derived from the Platform for Privacy Preferences 1.0 (P3P 1.0) Specification by the W3C (http://www.w3c.org/TR/P3P). The same
+     * attribute names are also being considered by the OASIS Web Services for Remote Portlets Technical Committee.
      */
     public static final String BDATE = "user.bdate";
     public static final String GENDER = "user.gender";
@@ -137,16 +135,16 @@ public abstract class LuteceUser implements Principal, Serializable, Cloneable
     private static final long serialVersionUID = -8733640540563208835L;
 
     /** Map containing users info */
-    private Map<String, String> _mapUserInfo = new HashMap<String, String>(  );
+    private Map<String, String> _mapUserInfo = new HashMap<String, String>( );
 
     /** User's name */
     private String _strUserName;
 
     /** User's roles */
-    private String[] _roles;
+    private String [ ] _roles;
 
     /** User's groups */
-    private String[] _groups;
+    private String [ ] _groups;
 
     /** Authentication Service */
     private String _strAuthenticationService;
@@ -159,29 +157,36 @@ public abstract class LuteceUser implements Principal, Serializable, Cloneable
 
     /**
      * Constructor
-     * @param strUserName The User Name
-     * @param authenticationService The PortalAuthentication object
+     * 
+     * @param strUserName
+     *            The User Name
+     * @param authenticationService
+     *            The PortalAuthentication object
      */
     public LuteceUser( String strUserName, LuteceAuthentication authenticationService )
     {
         _strUserName = strUserName;
-        _strAuthenticationService = authenticationService.getAuthServiceName(  );
+        _strAuthenticationService = authenticationService.getAuthServiceName( );
         _luteceAuthenticationService = authenticationService;
     }
 
     /**
      * Gets the user info map
+     * 
      * @return The user info map
      */
-    public final Map<String, String> getUserInfos(  )
+    public final Map<String, String> getUserInfos( )
     {
         return _mapUserInfo;
     }
 
     /**
      * Add an user's info
-     * @param key The info key
-     * @param value The info value
+     * 
+     * @param key
+     *            The info key
+     * @param value
+     *            The info value
      */
     public final void setUserInfo( String key, String value )
     {
@@ -190,7 +195,9 @@ public abstract class LuteceUser implements Principal, Serializable, Cloneable
 
     /**
      * Gets a user's info
-     * @param key The info key
+     * 
+     * @param key
+     *            The info key
      * @return The info value
      */
     public final String getUserInfo( String key )
@@ -205,42 +212,47 @@ public abstract class LuteceUser implements Principal, Serializable, Cloneable
 
     /**
      * equals implementation
-     * @param object The object to compare
+     * 
+     * @param object
+     *            The object to compare
      * @return true if equal, otherwise false
      */
     @Override
     public boolean equals( Object object )
     {
         // FIXME : use LuteceUser property instead of object.toString()
-        return ObjectUtils.equals( this.toString(  ), ObjectUtils.toString( object ) );
+        return ObjectUtils.equals( this.toString( ), ObjectUtils.toString( object ) );
     }
 
     /**
      * toString implementation
+     * 
      * @return The username
      */
     @Override
-    public String toString(  )
+    public String toString( )
     {
         return _strUserName;
     }
 
     /**
      * hashCode implementation
+     * 
      * @return The hashcode
      */
     @Override
-    public int hashCode(  )
+    public int hashCode( )
     {
-        return ( _strUserName == null ) ? 0 : _strUserName.hashCode(  );
+        return ( _strUserName == null ) ? 0 : _strUserName.hashCode( );
     }
 
     /**
      * Return the user's name
+     * 
      * @return The username
      */
     @Override
-    public String getName(  )
+    public String getName( )
     {
         return _strUserName;
     }
@@ -250,7 +262,9 @@ public abstract class LuteceUser implements Principal, Serializable, Cloneable
 
     /**
      * Sets the user's name
-     * @param strName The User name
+     * 
+     * @param strName
+     *            The User name
      */
     public void setName( String strName )
     {
@@ -259,16 +273,19 @@ public abstract class LuteceUser implements Principal, Serializable, Cloneable
 
     /**
      * Returns user's roles
+     * 
      * @return Returns user's roles
      */
-    public String[] getRoles(  )
+    public String [ ] getRoles( )
     {
         return _roles;
     }
 
     /**
      * add user's roles
-     * @param roles The User roles
+     * 
+     * @param roles
+     *            The User roles
      */
     public void addRoles( Collection<String> roles )
     {
@@ -277,7 +294,9 @@ public abstract class LuteceUser implements Principal, Serializable, Cloneable
 
     /**
      * Defines user's roles
-     * @param roles The User roles
+     * 
+     * @param roles
+     *            The User roles
      */
     public void setRoles( Collection<String> roles )
     {
@@ -286,16 +305,19 @@ public abstract class LuteceUser implements Principal, Serializable, Cloneable
 
     /**
      * Returns user's groups
+     * 
      * @return Returns user's groups
      */
-    public String[] getGroups(  )
+    public String [ ] getGroups( )
     {
         return _groups;
     }
 
     /**
      * add user's groups
-     * @param groups The User groups
+     * 
+     * @param groups
+     *            The User groups
      */
     public void addGroups( Collection<String> groups )
     {
@@ -304,7 +326,9 @@ public abstract class LuteceUser implements Principal, Serializable, Cloneable
 
     /**
      * Defines user's groups
-     * @param groups The User groups
+     * 
+     * @param groups
+     *            The User groups
      */
     public void setGroups( Collection<String> groups )
     {
@@ -314,33 +338,35 @@ public abstract class LuteceUser implements Principal, Serializable, Cloneable
     /**
      * Add elements of a collection into an array
      *
-     * @param array the array to fill
-     * @param collection the collection containing the elements to add
+     * @param array
+     *            the array to fill
+     * @param collection
+     *            the collection containing the elements to add
      * @return The new array
      */
-    private String[] addInArray( String[] array, Collection<String> collection )
+    private String [ ] addInArray( String [ ] array, Collection<String> collection )
     {
-        String[] newArray;
+        String [ ] newArray;
 
         int j = 0;
 
         if ( array == null )
         {
-            newArray = new String[collection.size(  )];
+            newArray = new String [ collection.size( )];
         }
         else
         {
-            newArray = new String[collection.size(  ) + array.length];
+            newArray = new String [ collection.size( ) + array.length];
 
             for ( j = 0; j < array.length; j++ )
             {
-                newArray[j] = array[j];
+                newArray [j] = array [j];
             }
         }
 
         for ( String strItem : collection )
         {
-            newArray[j++] = strItem;
+            newArray [j++] = strItem;
         }
 
         return newArray;
@@ -349,18 +375,19 @@ public abstract class LuteceUser implements Principal, Serializable, Cloneable
     /**
      * Set elements of a collection in array
      *
-     * @param collection the collection containing the elements to add
+     * @param collection
+     *            the collection containing the elements to add
      * @return An array
      */
-    private String[] getArray( Collection<String> collection )
+    private String [ ] getArray( Collection<String> collection )
     {
-        String[] newArray = new String[collection.size(  )];
+        String [ ] newArray = new String [ collection.size( )];
 
         int j = 0;
 
         for ( String strItem : collection )
         {
-            newArray[j++] = strItem;
+            newArray [j++] = strItem;
         }
 
         return newArray;
@@ -371,7 +398,9 @@ public abstract class LuteceUser implements Principal, Serializable, Cloneable
 
     /**
      * Defines the authentification service that had authentified the user
-     * @param strAuthenticationService The authentification service
+     * 
+     * @param strAuthenticationService
+     *            The authentification service
      */
     public void setAuthenticationService( String strAuthenticationService )
     {
@@ -380,16 +409,19 @@ public abstract class LuteceUser implements Principal, Serializable, Cloneable
 
     /**
      * Returns the authentification service that had authentified the user
+     * 
      * @return the authentification service that had authentified the user
      */
-    public String getAuthenticationService(  )
+    public String getAuthenticationService( )
     {
         return _strAuthenticationService;
     }
 
     /**
      * Defines the authentification type that had authentified the user
-     * @param strAuthenticationType The authentification type
+     * 
+     * @param strAuthenticationType
+     *            The authentification type
      */
     public void setAuthenticationType( String strAuthenticationType )
     {
@@ -398,25 +430,29 @@ public abstract class LuteceUser implements Principal, Serializable, Cloneable
 
     /**
      * Returns the authentification type that had authentified the user
+     * 
      * @return the authentification type that had authentified the user
      */
-    public String getAuthenticationType(  )
+    public String getAuthenticationType( )
     {
         return _strAuthenticationType;
     }
 
     /**
      * "Getter method" for {@link #_luteceAuthenticationService}
+     * 
      * @return value of {@link #_luteceAuthenticationService}
      */
-    public LuteceAuthentication getLuteceAuthenticationService(  )
+    public LuteceAuthentication getLuteceAuthenticationService( )
     {
         return _luteceAuthenticationService;
     }
 
     /**
      * "Setter method" for {@link #_luteceAuthenticationService}.
-     * @param authenticationService new value of {@link #_luteceAuthenticationService}
+     * 
+     * @param authenticationService
+     *            new value of {@link #_luteceAuthenticationService}
      */
     public void setLuteceAuthenticationService( LuteceAuthentication authenticationService )
     {
@@ -427,16 +463,17 @@ public abstract class LuteceUser implements Principal, Serializable, Cloneable
      * {@inheritDoc}
      */
     @Override
-    public Object clone(  ) throws CloneNotSupportedException
+    public Object clone( ) throws CloneNotSupportedException
     {
-        return super.clone(  );
+        return super.clone( );
     }
 
     /**
      * Get the users email
+     * 
      * @return The email
      */
-    public String getEmail(  )
+    public String getEmail( )
     {
         return null;
     }

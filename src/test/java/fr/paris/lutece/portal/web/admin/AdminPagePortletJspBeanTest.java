@@ -45,9 +45,11 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
 
     /**
      * Test when no parameter given
-     * @throws AccessDeniedException should not happen
+     * 
+     * @throws AccessDeniedException
+     *             should not happen
      */
-    public void testGetModifyPortletStatusNoParam(  ) throws AccessDeniedException
+    public void testGetModifyPortletStatusNoParam( ) throws AccessDeniedException
     {
         AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
         MokeHttpServletRequest request = new MokeHttpServletRequest( );
@@ -60,9 +62,11 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
 
     /**
      * Test when no status parameter given
-     * @throws AccessDeniedException should not happen
+     * 
+     * @throws AccessDeniedException
+     *             should not happen
      */
-    public void testGetModifyPortletStatusNoStatusParam(  ) throws AccessDeniedException
+    public void testGetModifyPortletStatusNoStatusParam( ) throws AccessDeniedException
     {
         AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
         MokeHttpServletRequest request = new MokeHttpServletRequest( );
@@ -76,9 +80,11 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
 
     /**
      * Test when no portlet_id parameter given
-     * @throws AccessDeniedException should not happen
+     * 
+     * @throws AccessDeniedException
+     *             should not happen
      */
-    public void testGetModifyPortletStatusNoPortletParam(  ) throws AccessDeniedException
+    public void testGetModifyPortletStatusNoPortletParam( ) throws AccessDeniedException
     {
         AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
         MokeHttpServletRequest request = new MokeHttpServletRequest( );
@@ -92,9 +98,11 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
 
     /**
      * Test when the status is invalid
-     * @throws AccessDeniedException should not happen
+     * 
+     * @throws AccessDeniedException
+     *             should not happen
      */
-    public void testGetModifyPortletStatusInvalidStatus(  ) throws AccessDeniedException
+    public void testGetModifyPortletStatusInvalidStatus( ) throws AccessDeniedException
     {
         AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
         MokeHttpServletRequest request = new MokeHttpServletRequest( );
@@ -108,7 +116,8 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
             AdminMessage message = AdminMessageService.getMessage( request );
             assertNotNull( message );
             assertEquals( message.getType( ), AdminMessage.TYPE_ERROR );
-        } finally
+        }
+        finally
         {
             removePortlet( portlet );
         }
@@ -116,9 +125,11 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
 
     /**
      * Test when the portlet_id is invalid
-     * @throws AccessDeniedException should not happen
+     * 
+     * @throws AccessDeniedException
+     *             should not happen
      */
-    public void testGetModifyPortletStatusInvalidPortletID(  ) throws AccessDeniedException
+    public void testGetModifyPortletStatusInvalidPortletID( ) throws AccessDeniedException
     {
         AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
         MokeHttpServletRequest request = new MokeHttpServletRequest( );
@@ -133,9 +144,11 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
 
     /**
      * Test when the portlet does not exist
-     * @throws AccessDeniedException should not happen
+     * 
+     * @throws AccessDeniedException
+     *             should not happen
      */
-    public void testGetModifyPortletStatusInexistantPortletID(  ) throws AccessDeniedException
+    public void testGetModifyPortletStatusInexistantPortletID( ) throws AccessDeniedException
     {
         AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
         MokeHttpServletRequest request = new MokeHttpServletRequest( );
@@ -149,7 +162,8 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
             AdminMessage message = AdminMessageService.getMessage( request );
             assertNotNull( message );
             assertEquals( message.getType( ), AdminMessage.TYPE_ERROR );
-        } finally
+        }
+        finally
         {
             removePortlet( portlet );
         }
@@ -158,7 +172,7 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
     /**
      * Test when the user does not have the right ro manage portlets
      */
-    public void testGetModifyPortletStatusNoRight(  )
+    public void testGetModifyPortletStatusNoRight( )
     {
         AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
         MokeHttpServletRequest request = new MokeHttpServletRequest( );
@@ -169,10 +183,12 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
             request.addMokeParameters( PORTLET_STATUS, Integer.toString( Portlet.STATUS_PUBLISHED ) );
             request.registerAdminUser( new AdminUser( ) );
             bean.getModifyPortletStatus( request );
-            fail("Should not have been able to modify the portlet");
-        } catch (AccessDeniedException e)
+            fail( "Should not have been able to modify the portlet" );
+        }
+        catch( AccessDeniedException e )
         {
-        } finally
+        }
+        finally
         {
             removePortlet( portlet );
         }
@@ -180,9 +196,11 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
 
     /**
      * Test when all conditions are met
-     * @throws AccessDeniedException should not happen
+     * 
+     * @throws AccessDeniedException
+     *             should not happen
      */
-    public void testGetModifyPortletStatus(  ) throws AccessDeniedException
+    public void testGetModifyPortletStatus( ) throws AccessDeniedException
     {
         AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
         MokeHttpServletRequest request = new MokeHttpServletRequest( );
@@ -200,7 +218,8 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
             AdminMessage message = AdminMessageService.getMessage( request );
             assertNotNull( message );
             assertEquals( message.getType( ), AdminMessage.TYPE_CONFIRMATION );
-        } finally
+        }
+        finally
         {
             if ( portlet != null )
             {
@@ -215,9 +234,11 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
 
     /**
      * Test when no parameter given
-     * @throws AccessDeniedException should not happen
+     * 
+     * @throws AccessDeniedException
+     *             should not happen
      */
-    public void testDoModifyPortletStatusNoParam(  ) throws AccessDeniedException
+    public void testDoModifyPortletStatusNoParam( ) throws AccessDeniedException
     {
         AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
         MokeHttpServletRequest request = new MokeHttpServletRequest( );
@@ -230,9 +251,11 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
 
     /**
      * Test when no status parameter given
-     * @throws AccessDeniedException should not happen
+     * 
+     * @throws AccessDeniedException
+     *             should not happen
      */
-    public void testDoModifyPortletStatusNoStatusParam(  ) throws AccessDeniedException
+    public void testDoModifyPortletStatusNoStatusParam( ) throws AccessDeniedException
     {
         AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
         MokeHttpServletRequest request = new MokeHttpServletRequest( );
@@ -246,9 +269,11 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
 
     /**
      * Test when no portlet_id parameter given
-     * @throws AccessDeniedException should not happen
+     * 
+     * @throws AccessDeniedException
+     *             should not happen
      */
-    public void testDoModifyPortletStatusNoPortletParam(  ) throws AccessDeniedException
+    public void testDoModifyPortletStatusNoPortletParam( ) throws AccessDeniedException
     {
         AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
         MokeHttpServletRequest request = new MokeHttpServletRequest( );
@@ -262,9 +287,11 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
 
     /**
      * Test when the status is invalid
-     * @throws AccessDeniedException should not happen
+     * 
+     * @throws AccessDeniedException
+     *             should not happen
      */
-    public void testDoModifyPortletStatusInvalidStatus(  ) throws AccessDeniedException
+    public void testDoModifyPortletStatusInvalidStatus( ) throws AccessDeniedException
     {
         AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
         MokeHttpServletRequest request = new MokeHttpServletRequest( );
@@ -278,7 +305,8 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
             AdminMessage message = AdminMessageService.getMessage( request );
             assertNotNull( message );
             assertEquals( message.getType( ), AdminMessage.TYPE_ERROR );
-        } finally
+        }
+        finally
         {
             removePortlet( portlet );
         }
@@ -286,9 +314,11 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
 
     /**
      * Test when the portlet_id is invalid
-     * @throws AccessDeniedException should not happen
+     * 
+     * @throws AccessDeniedException
+     *             should not happen
      */
-    public void testDoModifyPortletStatusInvalidPortletID(  ) throws AccessDeniedException
+    public void testDoModifyPortletStatusInvalidPortletID( ) throws AccessDeniedException
     {
         AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
         MokeHttpServletRequest request = new MokeHttpServletRequest( );
@@ -303,9 +333,11 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
 
     /**
      * Test when the portlet does not exist
-     * @throws AccessDeniedException should not happen
+     * 
+     * @throws AccessDeniedException
+     *             should not happen
      */
-    public void testDoModifyPortletStatusInexistantPortletID(  ) throws AccessDeniedException
+    public void testDoModifyPortletStatusInexistantPortletID( ) throws AccessDeniedException
     {
         AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
         MokeHttpServletRequest request = new MokeHttpServletRequest( );
@@ -319,7 +351,8 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
             AdminMessage message = AdminMessageService.getMessage( request );
             assertNotNull( message );
             assertEquals( message.getType( ), AdminMessage.TYPE_ERROR );
-        } finally
+        }
+        finally
         {
             removePortlet( portlet );
         }
@@ -328,7 +361,7 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
     /**
      * Test when the user does not have the right ro manage portlets
      */
-    public void testDoModifyPortletStatusNoRight(  )
+    public void testDoModifyPortletStatusNoRight( )
     {
         AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
         MokeHttpServletRequest request = new MokeHttpServletRequest( );
@@ -339,10 +372,12 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
             request.addMokeParameters( PORTLET_STATUS, Integer.toString( Portlet.STATUS_PUBLISHED ) );
             request.registerAdminUser( new AdminUser( ) );
             bean.doModifyPortletStatus( request );
-            fail("Should not have been able to modify the portlet");
-        } catch (AccessDeniedException e)
+            fail( "Should not have been able to modify the portlet" );
+        }
+        catch( AccessDeniedException e )
         {
-        } finally
+        }
+        finally
         {
             removePortlet( portlet );
         }
@@ -350,9 +385,11 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
 
     /**
      * Test when all conditions are met
-     * @throws AccessDeniedException should not happen
+     * 
+     * @throws AccessDeniedException
+     *             should not happen
      */
-    public void testDoModifyPortletStatus(  ) throws AccessDeniedException
+    public void testDoModifyPortletStatus( ) throws AccessDeniedException
     {
         AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
         MokeHttpServletRequest request = new MokeHttpServletRequest( );
@@ -374,7 +411,8 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
             Portlet storedPortlet = PortletHome.findByPrimaryKey( portlet.getId( ) );
             assertNotNull( storedPortlet );
             assertEquals( nNewStatus, storedPortlet.getStatus( ) );
-        } finally
+        }
+        finally
         {
             if ( portlet != null )
             {
@@ -389,9 +427,11 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
 
     /**
      * Test when no parameter given
-     * @throws AccessDeniedException should not happen
+     * 
+     * @throws AccessDeniedException
+     *             should not happen
      */
-    public void testGetRemovePortletNoParam(  ) throws AccessDeniedException
+    public void testGetRemovePortletNoParam( ) throws AccessDeniedException
     {
         AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
         MokeHttpServletRequest request = new MokeHttpServletRequest( );
@@ -404,9 +444,11 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
 
     /**
      * Test when the portlet_id is invalid
-     * @throws AccessDeniedException should not happen
+     * 
+     * @throws AccessDeniedException
+     *             should not happen
      */
-    public void testGetRemovePortletInvalidPortletID(  ) throws AccessDeniedException
+    public void testGetRemovePortletInvalidPortletID( ) throws AccessDeniedException
     {
         AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
         MokeHttpServletRequest request = new MokeHttpServletRequest( );
@@ -420,9 +462,11 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
 
     /**
      * Test when the portlet does not exist
-     * @throws AccessDeniedException should not happen
+     * 
+     * @throws AccessDeniedException
+     *             should not happen
      */
-    public void testGetRemovePortletInexistantPortletID(  ) throws AccessDeniedException
+    public void testGetRemovePortletInexistantPortletID( ) throws AccessDeniedException
     {
         AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
         MokeHttpServletRequest request = new MokeHttpServletRequest( );
@@ -435,7 +479,8 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
             AdminMessage message = AdminMessageService.getMessage( request );
             assertNotNull( message );
             assertEquals( message.getType( ), AdminMessage.TYPE_ERROR );
-        } finally
+        }
+        finally
         {
             removePortlet( portlet );
         }
@@ -444,7 +489,7 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
     /**
      * Test when the user does not have the right ro manage portlets
      */
-    public void testGetRemovePortletNoRight(  )
+    public void testGetRemovePortletNoRight( )
     {
         AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
         MokeHttpServletRequest request = new MokeHttpServletRequest( );
@@ -454,10 +499,12 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
             request.addMokeParameters( Parameters.PORTLET_ID, Integer.toString( portlet.getId( ) ) );
             request.registerAdminUser( new AdminUser( ) );
             bean.getRemovePortlet( request );
-            fail("Should not have been able to modify the portlet");
-        } catch (AccessDeniedException e)
+            fail( "Should not have been able to modify the portlet" );
+        }
+        catch( AccessDeniedException e )
         {
-        } finally
+        }
+        finally
         {
             removePortlet( portlet );
         }
@@ -465,9 +512,11 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
 
     /**
      * Test when all conditions are met
-     * @throws AccessDeniedException should not happen
+     * 
+     * @throws AccessDeniedException
+     *             should not happen
      */
-    public void testGetRemovePortlet(  ) throws AccessDeniedException
+    public void testGetRemovePortlet( ) throws AccessDeniedException
     {
         AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
         MokeHttpServletRequest request = new MokeHttpServletRequest( );
@@ -489,7 +538,8 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
             {
                 assertTrue( message.getText( new Locale( lang.getCode( ) ) ).contains( portlet.getName( ) ) );
             }
-        } finally
+        }
+        finally
         {
             if ( portlet != null )
             {
@@ -504,9 +554,11 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
 
     /**
      * Test when all conditions are met
-     * @throws AccessDeniedException should not happen
+     * 
+     * @throws AccessDeniedException
+     *             should not happen
      */
-    public void testGetRemovePortletWithAlias(  ) throws AccessDeniedException
+    public void testGetRemovePortletWithAlias( ) throws AccessDeniedException
     {
         AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
         MokeHttpServletRequest request = new MokeHttpServletRequest( );
@@ -529,7 +581,8 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
             {
                 assertTrue( message.getText( new Locale( lang.getCode( ) ) ).contains( portlet.getName( ) ) );
             }
-        } finally
+        }
+        finally
         {
             if ( portlet != null )
             {
@@ -544,9 +597,11 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
 
     /**
      * Test when all conditions are met
-     * @throws AccessDeniedException should not happen
+     * 
+     * @throws AccessDeniedException
+     *             should not happen
      */
-    public void testGetRemovePortletWithPortletRemovalListener(  ) throws AccessDeniedException
+    public void testGetRemovePortletWithPortletRemovalListener( ) throws AccessDeniedException
     {
         AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
         MokeHttpServletRequest request = new MokeHttpServletRequest( );
@@ -591,7 +646,8 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
                 assertTrue( message.getText( new Locale( lang.getCode( ) ) ).contains( portlet.getName( ) ) );
                 assertTrue( message.getText( new Locale( lang.getCode( ) ) ).contains( removalRefusedMessage ) );
             }
-        } finally
+        }
+        finally
         {
             if ( portlet != null )
             {
@@ -604,12 +660,13 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
         }
     }
 
-
     /**
      * Test when no parameter given
-     * @throws AccessDeniedException should not happen
+     * 
+     * @throws AccessDeniedException
+     *             should not happen
      */
-    public void testDoRemovePortletNoParam(  ) throws AccessDeniedException
+    public void testDoRemovePortletNoParam( ) throws AccessDeniedException
     {
         AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
         MokeHttpServletRequest request = new MokeHttpServletRequest( );
@@ -622,9 +679,11 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
 
     /**
      * Test when the portlet_id is invalid
-     * @throws AccessDeniedException should not happen
+     * 
+     * @throws AccessDeniedException
+     *             should not happen
      */
-    public void testDoRemovePortletInvalidPortletID(  ) throws AccessDeniedException
+    public void testDoRemovePortletInvalidPortletID( ) throws AccessDeniedException
     {
         AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
         MokeHttpServletRequest request = new MokeHttpServletRequest( );
@@ -638,9 +697,11 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
 
     /**
      * Test when the portlet does not exist
-     * @throws AccessDeniedException should not happen
+     * 
+     * @throws AccessDeniedException
+     *             should not happen
      */
-    public void testDoRemovePortletInexistantPortletID(  ) throws AccessDeniedException
+    public void testDoRemovePortletInexistantPortletID( ) throws AccessDeniedException
     {
         AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
         MokeHttpServletRequest request = new MokeHttpServletRequest( );
@@ -653,7 +714,8 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
             AdminMessage message = AdminMessageService.getMessage( request );
             assertNotNull( message );
             assertEquals( message.getType( ), AdminMessage.TYPE_ERROR );
-        } finally
+        }
+        finally
         {
             removePortlet( portlet );
         }
@@ -662,7 +724,7 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
     /**
      * Test when the user does not have the right ro manage portlets
      */
-    public void testDoRemovePortletNoRight(  )
+    public void testDoRemovePortletNoRight( )
     {
         AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
         MokeHttpServletRequest request = new MokeHttpServletRequest( );
@@ -672,10 +734,12 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
             request.addMokeParameters( Parameters.PORTLET_ID, Integer.toString( portlet.getId( ) ) );
             request.registerAdminUser( new AdminUser( ) );
             bean.doRemovePortlet( request );
-            fail("Should not have been able to modify the portlet");
-        } catch (AccessDeniedException e)
+            fail( "Should not have been able to modify the portlet" );
+        }
+        catch( AccessDeniedException e )
         {
-        } finally
+        }
+        finally
         {
             removePortlet( portlet );
         }
@@ -683,9 +747,11 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
 
     /**
      * Test when all conditions are met
-     * @throws AccessDeniedException should not happen
+     * 
+     * @throws AccessDeniedException
+     *             should not happen
      */
-    public void testDoRemovePortlet(  ) throws AccessDeniedException
+    public void testDoRemovePortlet( ) throws AccessDeniedException
     {
         AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
         MokeHttpServletRequest request = new MokeHttpServletRequest( );
@@ -704,12 +770,14 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
             try
             {
                 portlet = PortletHome.findByPrimaryKey( portlet.getId( ) );
-                fail("Portlet was not removed");
-            } catch (NullPointerException e)
+                fail( "Portlet was not removed" );
+            }
+            catch( NullPointerException e )
             {
                 portlet = null;
             }
-        } finally
+        }
+        finally
         {
             if ( portlet != null )
             {
@@ -724,11 +792,12 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
 
     /**
      * Get an admin user with a Role which can manage portlets
+     * 
      * @return the admin user
      */
     private AdminUser getAdminUser( )
     {
-        String strRoleKey = "ROLE_" + new BigInteger(40, new SecureRandom()).toString(32); 
+        String strRoleKey = "ROLE_" + new BigInteger( 40, new SecureRandom( ) ).toString( 32 );
         RBAC rbac = new RBAC( );
         rbac.setResourceTypeKey( PortletType.RESOURCE_TYPE );
         rbac.setPermissionKey( PortletResourceIdService.PERMISSION_MANAGE );
@@ -747,7 +816,9 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
 
     /**
      * Remove objects persisted with the test user
-     * @param user the test user
+     * 
+     * @param user
+     *            the test user
      */
     private void removeUser( AdminUser user )
     {
@@ -760,7 +831,9 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
 
     /**
      * Remove the test portlet
-     * @param portlet the test portlet
+     * 
+     * @param portlet
+     *            the test portlet
      */
     private void removePortlet( Portlet portlet )
     {
@@ -772,12 +845,13 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
 
     /**
      * Get a test portlet
+     * 
      * @return a test portlet
      */
     private Portlet getPortlet( )
     {
         PortletType portletType = new PortletType( );
-        String strPortletTypeID = "TEST_" + new BigInteger(40, new SecureRandom()).toString(32); 
+        String strPortletTypeID = "TEST_" + new BigInteger( 40, new SecureRandom( ) ).toString( 32 );
         portletType.setId( strPortletTypeID );
         portletType.setHomeClass( TestPortletHome.class.getName( ) );
         PortletTypeHome.create( portletType );
@@ -792,12 +866,12 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
 
     private Portlet getAlias( Portlet portlet )
     {
-        AliasPortlet aliasPortlet = new AliasPortlet(  );
+        AliasPortlet aliasPortlet = new AliasPortlet( );
         aliasPortlet.setPageId( portlet.getPageId( ) );
         aliasPortlet.setName( "ALIAS_" + portlet.getName( ) );
         aliasPortlet.setAliasId( portlet.getId( ) );
-        aliasPortlet.setStyleId( portlet.getStyleId(  ) );
-        AliasPortletHome.getInstance(  ).create( aliasPortlet );
+        aliasPortlet.setStyleId( portlet.getStyleId( ) );
+        AliasPortletHome.getInstance( ).create( aliasPortlet );
         return aliasPortlet;
     }
 
@@ -809,11 +883,13 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
 
         /**
          * Constructor
-         * @param type the portlet type
+         * 
+         * @param type
+         *            the portlet type
          */
         TestPortlet( PortletType type )
         {
-            setPortletTypeId( type.getId(  ) );
+            setPortletTypeId( type.getId( ) );
         }
 
         @Override
@@ -831,7 +907,8 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
         @Override
         public void remove( )
         {
-            new TestPortletHome( ).remove( this );;
+            new TestPortletHome( ).remove( this );
+            ;
         }
 
     }
@@ -845,7 +922,7 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
         @Override
         public IPortletInterfaceDAO getDAO( )
         {
-            return new TestPortletInterfaceDAO(  );
+            return new TestPortletInterfaceDAO( );
         }
 
         @Override

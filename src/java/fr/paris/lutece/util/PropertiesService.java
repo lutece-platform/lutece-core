@@ -47,21 +47,21 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Properties;
 
-
 /**
- * This class provides utility methods to read values of the properties stored in the .properties file of the
- * application.
+ * This class provides utility methods to read values of the properties stored in the .properties file of the application.
  */
 public class PropertiesService
 {
     // Static variables
     private static String _strRootPath;
-    private static volatile Properties _properties = new Properties(  );
-    private static Map<String, String> _mapPropertiesFiles = new LinkedHashMap<String, String>(  );
+    private static volatile Properties _properties = new Properties( );
+    private static Map<String, String> _mapPropertiesFiles = new LinkedHashMap<String, String>( );
 
     /**
      * Constructor should define the base root path for properties files
-     * @param strRootPath The root path
+     * 
+     * @param strRootPath
+     *            The root path
      */
     public PropertiesService( String strRootPath )
     {
@@ -70,42 +70,47 @@ public class PropertiesService
 
     /**
      * Add properties from a properties file
-     * @param strRelativePath Relative path from the root path
-     * @param strFilename The filename of the properties file (ie: config.properties)
-     * @throws java.io.FileNotFoundException If the file is not found
-     * @throws java.io.IOException If an error occurs reading the file
+     * 
+     * @param strRelativePath
+     *            Relative path from the root path
+     * @param strFilename
+     *            The filename of the properties file (ie: config.properties)
+     * @throws java.io.FileNotFoundException
+     *             If the file is not found
+     * @throws java.io.IOException
+     *             If an error occurs reading the file
      */
-    public void addPropertiesFile( String strRelativePath, String strFilename )
-        throws FileNotFoundException, IOException
+    public void addPropertiesFile( String strRelativePath, String strFilename ) throws FileNotFoundException, IOException
     {
-        String strFullPath = _strRootPath +
-            ( ( strRelativePath.endsWith( "/" ) ) ? strRelativePath : ( strRelativePath + "/" ) ) + strFilename;
+        String strFullPath = _strRootPath + ( ( strRelativePath.endsWith( "/" ) ) ? strRelativePath : ( strRelativePath + "/" ) ) + strFilename;
         _mapPropertiesFiles.put( strFilename, strFullPath );
         loadFile( strFullPath );
     }
 
     /**
      * Add properties from all files found in a given directory
-     * @param strRelativePath Relative path from the root path
-     * @throws IOException If an error occurs reading the file
+     * 
+     * @param strRelativePath
+     *            Relative path from the root path
+     * @throws IOException
+     *             If an error occurs reading the file
      */
-    public void addPropertiesDirectory( String strRelativePath )
-        throws IOException
+    public void addPropertiesDirectory( String strRelativePath ) throws IOException
     {
         File directory = new File( _strRootPath + strRelativePath );
 
-        if ( directory.exists(  ) )
+        if ( directory.exists( ) )
         {
-            File[] listFile = directory.listFiles(  );
+            File [ ] listFile = directory.listFiles( );
 
             for ( int i = 0; i < listFile.length; i++ )
             {
-                File file = listFile[i];
+                File file = listFile [i];
 
-                if ( file.getName(  ).endsWith( ".properties" ) )
+                if ( file.getName( ).endsWith( ".properties" ) )
                 {
-                    String strFullPath = file.getAbsolutePath(  );
-                    _mapPropertiesFiles.put( file.getName(  ), strFullPath );
+                    String strFullPath = file.getAbsolutePath( );
+                    _mapPropertiesFiles.put( file.getName( ), strFullPath );
                     loadFile( strFullPath );
                 }
             }
@@ -114,9 +119,13 @@ public class PropertiesService
 
     /**
      * Load properties of a file
-     * @param strFullPath The absolute path of the properties file
-     * @throws java.io.IOException If an error occurs reading the file
-     * @throws java.io.FileNotFoundException If the file is not found
+     * 
+     * @param strFullPath
+     *            The absolute path of the properties file
+     * @throws java.io.IOException
+     *             If an error occurs reading the file
+     * @throws java.io.FileNotFoundException
+     *             If the file is not found
      */
     private void loadFile( String strFullPath ) throws FileNotFoundException, IOException
     {
@@ -125,13 +134,17 @@ public class PropertiesService
 
     /**
      * Load properties of a file
-     * @param strFullPath The absolute path of the properties file
-     * @param props properties to load into
-     * @throws java.io.IOException If an error occurs reading the file
-     * @throws java.io.FileNotFoundException If the file is not found
+     * 
+     * @param strFullPath
+     *            The absolute path of the properties file
+     * @param props
+     *            properties to load into
+     * @throws java.io.IOException
+     *             If an error occurs reading the file
+     * @throws java.io.FileNotFoundException
+     *             If the file is not found
      */
-    private void loadFile( String strFullPath, Properties props )
-        throws FileNotFoundException, IOException
+    private void loadFile( String strFullPath, Properties props ) throws FileNotFoundException, IOException
     {
         FileInputStream fis = new FileInputStream( new File( strFullPath ) );
         props.load( fis );
@@ -139,8 +152,11 @@ public class PropertiesService
 
     /**
      * Reload a properties file .
-     * @param strFilename The filename of the properties file
-     * @throws IOException If an error occurs reading the file
+     * 
+     * @param strFilename
+     *            The filename of the properties file
+     * @throws IOException
+     *             If an error occurs reading the file
      */
     public void reload( String strFilename ) throws IOException
     {
@@ -150,13 +166,15 @@ public class PropertiesService
 
     /**
      * Reload all properties files
-     * @throws IOException If an error occurs reading the file
+     * 
+     * @throws IOException
+     *             If an error occurs reading the file
      */
-    public void reloadAll(  ) throws IOException
+    public void reloadAll( ) throws IOException
     {
-        Properties newProperties = new Properties(  );
+        Properties newProperties = new Properties( );
 
-        for ( String strFullPath : _mapPropertiesFiles.values(  ) )
+        for ( String strFullPath : _mapPropertiesFiles.values( ) )
         {
             loadFile( strFullPath, newProperties );
         }
@@ -167,7 +185,8 @@ public class PropertiesService
     /**
      * Returns the value of a variable defined in the .properties file of the application as a String
      *
-     * @param strProperty The variable name
+     * @param strProperty
+     *            The variable name
      * @return The variable value read in the properties file
      */
     public String getProperty( String strProperty )
@@ -178,9 +197,10 @@ public class PropertiesService
     /**
      * Returns the value of a variable defined in the .properties file of the application as a String
      *
-     * @param strProperty The variable name
-     * @param strDefault The default value which is returned if no value is found for the variable in the .properties
-     *        file.
+     * @param strProperty
+     *            The variable name
+     * @param strDefault
+     *            The default value which is returned if no value is found for the variable in the .properties file.
      * @return The variable value read in the properties file
      */
     public String getProperty( String strProperty, String strDefault )
@@ -191,9 +211,10 @@ public class PropertiesService
     /**
      * Returns the value of a variable defined in the .properties file of the application as an int
      *
-     * @param strProperty The variable name
-     * @param nDefault The default value which is returned if no value is found for the variable in the
-     *        .properties file, or if the value is not numeric
+     * @param strProperty
+     *            The variable name
+     * @param nDefault
+     *            The default value which is returned if no value is found for the variable in the .properties file, or if the value is not numeric
      * @return The variable value read in the properties file
      */
     public int getPropertyInt( String strProperty, int nDefault )
@@ -208,7 +229,7 @@ public class PropertiesService
                 nValue = Integer.parseInt( strValue );
             }
         }
-        catch ( NumberFormatException e )
+        catch( NumberFormatException e )
         {
             AppLogService.info( e );
         }
@@ -219,9 +240,10 @@ public class PropertiesService
     /**
      * Returns the value of a variable defined in the .properties file of the application as an long
      *
-     * @param strProperty The variable name
-     * @param lDefault The default value which is returned if no value is found for the variable in the le downloadFile
-     *        .properties. .properties file.
+     * @param strProperty
+     *            The variable name
+     * @param lDefault
+     *            The default value which is returned if no value is found for the variable in the le downloadFile .properties. .properties file.
      * @return The variable value read in the properties file
      */
     public long getPropertyLong( String strProperty, long lDefault )
@@ -236,7 +258,7 @@ public class PropertiesService
                 lValue = Long.parseLong( strValue );
             }
         }
-        catch ( NumberFormatException e )
+        catch( NumberFormatException e )
         {
             AppLogService.info( e );
         }
@@ -247,9 +269,10 @@ public class PropertiesService
     /**
      * Returns the value of a variable defined in the .properties file of the application as an boolean
      *
-     * @param strProperty The variable name
-     * @param bDefault The default value which is returned if no value is found for the variable in the le downloadFile
-     *        .properties. .properties file.
+     * @param strProperty
+     *            The variable name
+     * @param bDefault
+     *            The default value which is returned if no value is found for the variable in the le downloadFile .properties. .properties file.
      * @return The variable value read in the properties file
      */
     public boolean getPropertyBoolean( String strProperty, boolean bDefault )
@@ -267,9 +290,10 @@ public class PropertiesService
 
     /**
      * Gets properties
+     * 
      * @return All properties
      */
-    public Properties getProperties(  )
+    public Properties getProperties( )
     {
         return _properties;
     }

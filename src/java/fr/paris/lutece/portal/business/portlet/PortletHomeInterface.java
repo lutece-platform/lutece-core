@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,7 +33,6 @@
  */
 package fr.paris.lutece.portal.business.portlet;
 
-
 /**
  * This interface provides the signature of methods to implement by classes which implements it
  */
@@ -44,12 +43,12 @@ public interface PortletHomeInterface
      *
      * @return the instance of the portlet DAO
      */
-    IPortletInterfaceDAO getDAO(  );
+    IPortletInterfaceDAO getDAO( );
 
     /**
      * Signature of the method which returns the identifier of the portlet type : must be implemented
      *
      * @return the identifier of the portlet
      */
-    String getPortletTypeId(  );
+    String getPortletTypeId( );
 }

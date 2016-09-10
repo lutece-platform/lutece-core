@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,7 +33,6 @@
  */
 package fr.paris.lutece.portal.business.mail;
 
-
 /**
  * This class provides Data Access methods for MailItemQueue objects
  */
@@ -41,20 +40,26 @@ public interface IMailItemQueueDAO
 {
     /**
      * Insert a new mail item in the table.
-     * @param mailItemQueue the mail item
+     * 
+     * @param mailItemQueue
+     *            the mail item
      */
     void insert( MailItemQueue mailItemQueue );
 
     /**
-         * return the first mail item  in the table
-         * @param nIdMailItemQueue the id of the mail item
-         * @return the first mail item in the table
-         */
+     * return the first mail item in the table
+     * 
+     * @param nIdMailItemQueue
+     *            the id of the mail item
+     * @return the first mail item in the table
+     */
     MailItemQueue load( int nIdMailItemQueue );
 
     /**
-     * Delete  the mail item record in the table
-     * @param nIdMailItemQueue The indentifier of the mail item to remove
+     * Delete the mail item record in the table
+     * 
+     * @param nIdMailItemQueue
+     *            The indentifier of the mail item to remove
      */
     void delete( int nIdMailItemQueue );
 
@@ -62,17 +67,20 @@ public interface IMailItemQueueDAO
      *
      * @return the number of mail item present in the core_mail_queue
      */
-    int getCountMailItem(  );
+    int getCountMailItem( );
 
     /**
      * return the next mail item queue id
+     * 
      * @return the next mail item queue id
      */
-    int nextMailItemQueueId(  );
+    int nextMailItemQueueId( );
 
     /**
-     * Lock the  mail item
-     * @param nIdMailItemQueue the id of the mail item  to lock
+     * Lock the mail item
+     * 
+     * @param nIdMailItemQueue
+     *            the id of the mail item to lock
      */
     void lockMailItemQueue( int nIdMailItemQueue );
 }

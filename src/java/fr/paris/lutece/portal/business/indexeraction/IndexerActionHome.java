@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -37,7 +37,6 @@ import fr.paris.lutece.portal.service.spring.SpringContextService;
 
 import java.util.List;
 
-
 /**
  * This class provides instances management methods (create, find, ...) for IndexerAction objects
  */
@@ -49,14 +48,15 @@ public final class IndexerActionHome
     /**
      * Private constructor - this class need not be instantiated
      */
-    private IndexerActionHome(  )
+    private IndexerActionHome( )
     {
     }
 
     /**
      * Creation of an instance of Indexer Action
      *
-     * @param indexerAction The instance of the indexer action which contains the informations to store
+     * @param indexerAction
+     *            The instance of the indexer action which contains the informations to store
      *
      */
     public static void create( IndexerAction indexerAction )
@@ -67,7 +67,8 @@ public final class IndexerActionHome
     /**
      * Update of the indexerAction which is specified in parameter
      *
-     * @param indexerAction The instance of the indexerAction which contains the informations to update
+     * @param indexerAction
+     *            The instance of the indexerAction which contains the informations to update
      *
      */
     public static void update( IndexerAction indexerAction )
@@ -78,7 +79,8 @@ public final class IndexerActionHome
     /**
      * Remove the indexerAction whose identifier is specified in parameter
      *
-     * @param nId The IndexerActionId
+     * @param nId
+     *            The IndexerActionId
      */
     public static void remove( int nId )
     {
@@ -89,18 +91,19 @@ public final class IndexerActionHome
      * Remove the indexerAction whose identifier is specified in parameter
      *
      */
-    public static void removeAll(  )
+    public static void removeAll( )
     {
-        _dao.deleteAll(  );
+        _dao.deleteAll( );
     }
 
-    ///////////////////////////////////////////////////////////////////////////
+    // /////////////////////////////////////////////////////////////////////////
     // Finders
 
     /**
      * Returns an instance of a IndexerAction whose identifier is specified in parameter
      *
-     * @param nKey The indexerAction primary key
+     * @param nKey
+     *            The indexerAction primary key
      * @return an instance of IndexerAction
      */
     public static IndexerAction findByPrimaryKey( int nKey )
@@ -111,8 +114,9 @@ public final class IndexerActionHome
     /**
      * Loads the data of all the IndexerAction who verify the filter and returns them in a list
      *
-     *@param  filter the filter
-     * @return the list which contains the data of all the  indexerAction
+     * @param filter
+     *            the filter
+     * @return the list which contains the data of all the indexerAction
      */
     public static List<IndexerAction> getList( IndexerActionFilter filter )
     {
@@ -122,10 +126,10 @@ public final class IndexerActionHome
     /**
      * Loads the data of all the IndexerAction
      *
-     * @return the list which contains the data of all the  indexerAction
+     * @return the list which contains the data of all the indexerAction
      */
-    public static List<IndexerAction> getList(  )
+    public static List<IndexerAction> getList( )
     {
-        return _dao.selectList(  );
+        return _dao.selectList( );
     }
 }

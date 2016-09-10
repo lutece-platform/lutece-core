@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -41,7 +41,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-
 /**
  * This is the business class for the object SiteProperty
  */
@@ -49,31 +48,34 @@ public class LocalizedDataGroup
 {
     private static final String SUFFIX_HELP = ".help";
 
-    // Variables declarations 
+    // Variables declarations
     private String _strName;
     private String _strDescription;
-    private List<LocalizedData> _listLocalizedData = new ArrayList<LocalizedData>(  );
+    private List<LocalizedData> _listLocalizedData = new ArrayList<LocalizedData>( );
 
     /**
      * Constructor
-     * @param group The group
-     * @param locale The locale
+     * 
+     * @param group
+     *            The group
+     * @param locale
+     *            The locale
      */
     public LocalizedDataGroup( ILocalizedDataGroup group, Locale locale )
     {
-        _strName = I18nService.getLocalizedString( group.getNameKey(  ), locale );
-        _strDescription = I18nService.getLocalizedString( group.getDescriptionKey(  ), locale );
+        _strName = I18nService.getLocalizedString( group.getNameKey( ), locale );
+        _strDescription = I18nService.getLocalizedString( group.getDescriptionKey( ), locale );
 
-        ReferenceList listProperties = DatastoreService.getDataByPrefix( group.getDatastoreKeysPrefix(  ) );
+        ReferenceList listProperties = DatastoreService.getDataByPrefix( group.getDatastoreKeysPrefix( ) );
 
-        for ( int i = 0; i < listProperties.size(  ); i++ )
+        for ( int i = 0; i < listProperties.size( ); i++ )
         {
             ReferenceItem item = listProperties.get( i );
-            LocalizedData property = new LocalizedData(  );
-            property.setKey( item.getCode(  ) );
-            property.setValue( item.getName(  ) );
-            property.setLabel( I18nService.getLocalizedString( item.getCode(  ), locale ) );
-            property.setHelp( I18nService.getLocalizedString( item.getCode(  ) + SUFFIX_HELP, locale ) );
+            LocalizedData property = new LocalizedData( );
+            property.setKey( item.getCode( ) );
+            property.setValue( item.getName( ) );
+            property.setLabel( I18nService.getLocalizedString( item.getCode( ), locale ) );
+            property.setHelp( I18nService.getLocalizedString( item.getCode( ) + SUFFIX_HELP, locale ) );
             _listLocalizedData.add( property );
         }
     }
@@ -83,7 +85,7 @@ public class LocalizedDataGroup
      *
      * @return The Name
      */
-    public String getName(  )
+    public String getName( )
     {
         return _strName;
     }
@@ -91,7 +93,8 @@ public class LocalizedDataGroup
     /**
      * Sets the Name
      *
-     * @param strName The Name
+     * @param strName
+     *            The Name
      */
     public void setName( String strName )
     {
@@ -103,7 +106,7 @@ public class LocalizedDataGroup
      *
      * @return The Description
      */
-    public String getDescription(  )
+    public String getDescription( )
     {
         return _strDescription;
     }
@@ -111,7 +114,8 @@ public class LocalizedDataGroup
     /**
      * Sets the Description
      *
-     * @param strDescription The Description
+     * @param strDescription
+     *            The Description
      */
     public void setDescription( String strDescription )
     {
@@ -123,7 +127,7 @@ public class LocalizedDataGroup
      *
      * @return The localized data list
      */
-    public List<LocalizedData> getLocalizedDataList(  )
+    public List<LocalizedData> getLocalizedDataList( )
     {
         return _listLocalizedData;
     }
@@ -131,7 +135,8 @@ public class LocalizedDataGroup
     /**
      * Sets the localized data list
      *
-     * @param listLocalizedData The localized data list
+     * @param listLocalizedData
+     *            The localized data list
      */
     public void setLocalizedDataList( List<LocalizedData> listLocalizedData )
     {

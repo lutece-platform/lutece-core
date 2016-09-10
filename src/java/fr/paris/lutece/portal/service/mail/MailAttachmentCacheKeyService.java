@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -39,7 +39,6 @@ import fr.paris.lutece.portal.service.security.LuteceUser;
 import java.util.List;
 import java.util.Map;
 
-
 /**
  * MailAttachmentCacheKeyService
  *
@@ -54,14 +53,14 @@ public class MailAttachmentCacheKeyService implements ICacheKeyService
     @Override
     public String getKey( Map<String, String> mapParams, int nMode, LuteceUser user )
     {
-        StringBuilder sbKey = new StringBuilder(  );
+        StringBuilder sbKey = new StringBuilder( );
 
         if ( mapParams.containsKey( MARK_URL ) )
         {
             sbKey.append( "[url:" ).append( mapParams.get( MARK_URL ).replaceAll( "/", "" ) ).append( "]" );
         }
 
-        return sbKey.toString(  );
+        return sbKey.toString( );
     }
 
     /**

@@ -41,17 +41,17 @@ import fr.paris.lutece.util.password.IPassword;
 
 public class LuteceDefaultAdminUserDAOTest extends LuteceTestCase
 {
-    private LuteceDefaultAdminUserDAO getLuteceDefaultAdminUserDAO(  )
+    private LuteceDefaultAdminUserDAO getLuteceDefaultAdminUserDAO( )
     {
-        LuteceDefaultAdminUserDAO dao = new LuteceDefaultAdminUserDAO(  );
+        LuteceDefaultAdminUserDAO dao = new LuteceDefaultAdminUserDAO( );
         AutowireCapableBeanFactory beanFactory = SpringContextService.getContext( ).getAutowireCapableBeanFactory( );
         beanFactory.autowireBean( dao );
         return dao;
     }
 
-    public void testLoadPassword(  )
+    public void testLoadPassword( )
     {
-        LuteceDefaultAdminUserDAO dao = getLuteceDefaultAdminUserDAO(  );
+        LuteceDefaultAdminUserDAO dao = getLuteceDefaultAdminUserDAO( );
 
         IPassword password = dao.loadPassword( "admin" );
         assertNotNull( password );
@@ -62,9 +62,9 @@ public class LuteceDefaultAdminUserDAOTest extends LuteceTestCase
         assertFalse( password.check( "adminadmin" ) );
     }
 
-    public void testStore(  )
+    public void testStore( )
     {
-        LuteceDefaultAdminUserDAO dao = getLuteceDefaultAdminUserDAO(  );
+        LuteceDefaultAdminUserDAO dao = getLuteceDefaultAdminUserDAO( );
         PasswordFactory passwordFactory = new PasswordFactory( );
 
         IPassword password = passwordFactory.getPassword( "PLAINTEXT:PASSWORD" );
@@ -72,7 +72,8 @@ public class LuteceDefaultAdminUserDAOTest extends LuteceTestCase
         {
             dao.store( "DOES_NOT_EXIST", password );
             fail( );
-        } catch ( IllegalArgumentException e )
+        }
+        catch( IllegalArgumentException e )
         {
         }
         password = passwordFactory.getPassword( "MD5:319f4d26e3c536b5dd871bb2c52e3178" );
@@ -80,7 +81,8 @@ public class LuteceDefaultAdminUserDAOTest extends LuteceTestCase
         {
             dao.store( "DOES_NOT_EXIST", password );
             fail( );
-        } catch ( IllegalArgumentException e )
+        }
+        catch( IllegalArgumentException e )
         {
         }
         password = passwordFactory.getPassword( "SHA-1:112bb791304791ddcf692e29fd5cf149b35fea37" );
@@ -88,7 +90,8 @@ public class LuteceDefaultAdminUserDAOTest extends LuteceTestCase
         {
             dao.store( "DOES_NOT_EXIST", password );
             fail( );
-        } catch ( IllegalArgumentException e )
+        }
+        catch( IllegalArgumentException e )
         {
         }
         password = passwordFactory.getPassword( "SHA-256:0be64ae89ddd24e225434de95d501711339baeee18f009ba9b4369af27d30d60" );
@@ -96,15 +99,17 @@ public class LuteceDefaultAdminUserDAOTest extends LuteceTestCase
         {
             dao.store( "DOES_NOT_EXIST", password );
             fail( );
-        } catch ( IllegalArgumentException e )
+        }
+        catch( IllegalArgumentException e )
         {
         }
-        password = passwordFactory.getDummyPassword(  );
+        password = passwordFactory.getDummyPassword( );
         try
         {
             dao.store( "DOES_NOT_EXIST", password );
             fail( );
-        } catch ( UnsupportedOperationException e )
+        }
+        catch( UnsupportedOperationException e )
         {
         }
         password = passwordFactory.getPasswordFromCleartext( "PASSWORD" );

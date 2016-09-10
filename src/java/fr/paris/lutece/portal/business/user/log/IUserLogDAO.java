@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,7 +33,6 @@
  */
 package fr.paris.lutece.portal.business.user.log;
 
-
 /**
  *
  * @author lenaini
@@ -42,14 +41,19 @@ public interface IUserLogDAO
 {
     /**
      * Insert a new record in the table of connections
-     * @param userLog the UserLog Object
+     * 
+     * @param userLog
+     *            the UserLog Object
      */
     void insertLog( UserLog userLog );
 
     /**
      * Calculate the number of connections with a given ip_address by a determinate time
-     * @param userLog The Log of connection
-     * @param nIntervalMinutes The number of minutes since the last connection
+     * 
+     * @param userLog
+     *            The Log of connection
+     * @param nIntervalMinutes
+     *            The number of minutes since the last connection
      * @return int
      */
     int selectLoginErrors( UserLog userLog, int nIntervalMinutes );

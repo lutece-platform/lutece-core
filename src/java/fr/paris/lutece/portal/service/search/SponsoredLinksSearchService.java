@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -41,7 +41,6 @@ import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 
 import java.util.Locale;
 
-
 /**
  * Default sponsored links search service implementation
  */
@@ -55,34 +54,33 @@ public class SponsoredLinksSearchService implements ISponsoredLinksSearchService
     /**
      * Default constructor.
      *
-     * Gets the sponsoredLinksService from the sponsoredlinks plugin
-     * If the service is missing, sets available to false
+     * Gets the sponsoredLinksService from the sponsoredlinks plugin If the service is missing, sets available to false
      */
-    public SponsoredLinksSearchService(  )
+    public SponsoredLinksSearchService( )
     {
         try
         {
-            //first check if the sponsoredlinks service bean is available
+            // first check if the sponsoredlinks service bean is available
             _sponsoredLinksService = SpringContextService.getBean( "sponsoredlinks.sponsoredLinksService" );
             _bAvailable = _sponsoredLinksService != null;
         }
-        catch ( BeanDefinitionStoreException e )
+        catch( BeanDefinitionStoreException e )
         {
             _bAvailable = false;
         }
-        catch ( NoSuchBeanDefinitionException e )
+        catch( NoSuchBeanDefinitionException e )
         {
             _bAvailable = false;
         }
-        catch ( CannotLoadBeanClassException e )
+        catch( CannotLoadBeanClassException e )
         {
             _bAvailable = false;
         }
     }
 
     /**
-    * {@inheritDoc}
-    */
+     * {@inheritDoc}
+     */
     public String getHtmlCode( String strRequest, Locale locale )
     {
         if ( _bAvailable )
@@ -96,9 +94,9 @@ public class SponsoredLinksSearchService implements ISponsoredLinksSearchService
     }
 
     /**
-    * {@inheritDoc}
-    */
-    public boolean isAvailable(  )
+     * {@inheritDoc}
+     */
+    public boolean isAvailable( )
     {
         return _bAvailable;
     }

@@ -33,7 +33,6 @@
  */
 package fr.paris.lutece.util.json;
 
-
 /**
  *
  * ErrorJsonResponse
@@ -47,7 +46,8 @@ public class ErrorJsonResponse extends AbstractJsonResponse
 
     /**
      *
-     * @param strErrorCode The response error code
+     * @param strErrorCode
+     *            The response error code
      */
     public ErrorJsonResponse( String strErrorCode )
     {
@@ -56,10 +56,13 @@ public class ErrorJsonResponse extends AbstractJsonResponse
     }
 
     /**
-    * ErrorJsonResponse constructor
-    * @param strErrorCode  The response error code
-    * @param strMessage  The response error message
-    */
+     * ErrorJsonResponse constructor
+     * 
+     * @param strErrorCode
+     *            The response error code
+     * @param strMessage
+     *            The response error message
+     */
     public ErrorJsonResponse( String strErrorCode, String strMessage )
     {
         super( STATUS_ERROR );
@@ -68,19 +71,19 @@ public class ErrorJsonResponse extends AbstractJsonResponse
     }
 
     /**
-      *
-      * @return The response error code
-      */
-    public String getErrorCode(  )
+     *
+     * @return The response error code
+     */
+    public String getErrorCode( )
     {
         return _strErrorCode;
     }
 
     /**
-    *
-    * @return The response error message
-    */
-    public String getMessage(  )
+     *
+     * @return The response error message
+     */
+    public String getMessage( )
     {
         return _strMessage;
     }

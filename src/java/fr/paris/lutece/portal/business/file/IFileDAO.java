@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,7 +33,6 @@
  */
 package fr.paris.lutece.portal.business.file;
 
-
 /**
  *
  * IFileDAO
@@ -46,12 +45,13 @@ public interface IFileDAO
      *
      * @return The new primary key
      */
-    int newPrimaryKey(  );
+    int newPrimaryKey( );
 
     /**
      * Insert a new record in the table.
      *
-     * @param file instance of the File object to insert
+     * @param file
+     *            instance of the File object to insert
      * @return the id of the new file
      */
     int insert( File file );
@@ -59,7 +59,8 @@ public interface IFileDAO
     /**
      * Load the data of the File from the table
      *
-     * @param nId The identifier of the file
+     * @param nId
+     *            The identifier of the file
      * @return the instance of the File
      */
     File load( int nId );
@@ -67,14 +68,16 @@ public interface IFileDAO
     /**
      * Delete a record from the table
      *
-     * @param nIdFile The identifier of the file
+     * @param nIdFile
+     *            The identifier of the file
      */
     void delete( int nIdFile );
 
     /**
      * Update the file in the table
      *
-     * @param file instance of the File object to update
+     * @param file
+     *            instance of the File object to update
      */
     void store( File file );
 }

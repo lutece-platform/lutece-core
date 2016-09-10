@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -41,7 +41,6 @@ import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  * Default captcha security service implementation
  */
@@ -54,10 +53,9 @@ public class CaptchaSecurityService implements ICaptchaSecurityService
     /**
      * Default constructor.
      *
-     * Gets the captchaValidator from the captcha plugin.
-     * If the validator is missing, sets available to false;
+     * Gets the captchaValidator from the captcha plugin. If the validator is missing, sets available to false;
      */
-    public CaptchaSecurityService(  )
+    public CaptchaSecurityService( )
     {
         try
         {
@@ -65,15 +63,15 @@ public class CaptchaSecurityService implements ICaptchaSecurityService
             _captchaService = SpringContextService.getBean( "captcha.captchaService" );
             _bAvailable = _captchaService != null;
         }
-        catch ( BeanDefinitionStoreException e )
+        catch( BeanDefinitionStoreException e )
         {
             _bAvailable = false;
         }
-        catch ( NoSuchBeanDefinitionException e )
+        catch( NoSuchBeanDefinitionException e )
         {
             _bAvailable = false;
         }
-        catch ( CannotLoadBeanClassException e )
+        catch( CannotLoadBeanClassException e )
         {
             _bAvailable = false;
         }
@@ -83,7 +81,7 @@ public class CaptchaSecurityService implements ICaptchaSecurityService
      * {@inheritDoc}
      */
     @Override
-    public String getActiveBlockHtml(  )
+    public String getActiveBlockHtml( )
     {
         // TODO Auto-generated method stub
         return null;
@@ -93,11 +91,11 @@ public class CaptchaSecurityService implements ICaptchaSecurityService
      * {@inheritDoc}
      */
     @Override
-    public String getHtmlCode(  )
+    public String getHtmlCode( )
     {
-        if ( isAvailable(  ) && isActive(  ) )
+        if ( isAvailable( ) && isActive( ) )
         {
-            return _captchaService.getHtmlCode(  );
+            return _captchaService.getHtmlCode( );
         }
         else
         {
@@ -120,7 +118,7 @@ public class CaptchaSecurityService implements ICaptchaSecurityService
     @Override
     public boolean validate( HttpServletRequest request )
     {
-        if ( isAvailable(  ) && isActive(  ) )
+        if ( isAvailable( ) && isActive( ) )
         {
             return _captchaService.validate( request );
         }
@@ -134,7 +132,7 @@ public class CaptchaSecurityService implements ICaptchaSecurityService
      * {@inheritDoc}
      */
     @Override
-    public boolean isActive(  )
+    public boolean isActive( )
     {
         return _bActive;
     }
@@ -143,7 +141,7 @@ public class CaptchaSecurityService implements ICaptchaSecurityService
      * {@inheritDoc}
      */
     @Override
-    public boolean isAvailable(  )
+    public boolean isAvailable( )
     {
         return _bAvailable;
     }

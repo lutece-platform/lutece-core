@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -37,7 +37,6 @@ import fr.paris.lutece.portal.service.spring.SpringContextService;
 
 import java.util.Collection;
 
-
 /**
  * This class provides instances management methods (create, find, ...) for RBAC objects
  */
@@ -49,15 +48,16 @@ public final class RBACHome
     /**
      * Private constructor - this class need not be instantiated
      */
-    private RBACHome(  )
+    private RBACHome( )
     {
     }
 
     /**
      * Creation of an instance of rBAC
      *
-     * @param rBAC The instance of the rBAC which contains the informations to store
-     * @return The  instance of rBAC which has been created with its primary key.
+     * @param rBAC
+     *            The instance of the rBAC which contains the informations to store
+     * @return The instance of rBAC which has been created with its primary key.
      */
     public static RBAC create( RBAC rBAC )
     {
@@ -69,8 +69,9 @@ public final class RBACHome
     /**
      * Update of the rBAC which is specified in parameter
      *
-     * @param rBAC The instance of the rBAC which contains the data to store
-     * @return The instance of the  rBAC which has been updated
+     * @param rBAC
+     *            The instance of the rBAC which contains the data to store
+     * @return The instance of the rBAC which has been updated
      */
     public static RBAC update( RBAC rBAC )
     {
@@ -82,20 +83,22 @@ public final class RBACHome
     /**
      * Remove the RBAC whose identifier is specified in parameter
      *
-     * @param nKey The Primary key of the rBAC to remove
+     * @param nKey
+     *            The Primary key of the rBAC to remove
      */
     public static void remove( int nKey )
     {
         _dao.delete( nKey );
     }
 
-    ///////////////////////////////////////////////////////////////////////////
+    // /////////////////////////////////////////////////////////////////////////
     // Finders
 
     /**
      * Returns an instance of a rBAC whose identifier is specified in parameter
      *
-     * @param nKey The Primary key of the rBAC
+     * @param nKey
+     *            The Primary key of the rBAC
      * @return An instance of rBAC
      */
     public static RBAC findByPrimaryKey( int nKey )
@@ -105,16 +108,19 @@ public final class RBACHome
 
     /**
      * Returns a collection of rBACs objects
+     * 
      * @return A collection of rBACs
      */
-    public static Collection<RBAC> findAll(  )
+    public static Collection<RBAC> findAll( )
     {
-        return _dao.selectRBACList(  );
+        return _dao.selectRBACList( );
     }
 
     /**
      * Find all the entries for a given role key
-     * @param strRoleKey the role key to search for
+     * 
+     * @param strRoleKey
+     *            the role key to search for
      * @return A collection of rBACs
      */
     public static Collection<RBAC> findResourcesByCode( String strRoleKey )
@@ -124,8 +130,11 @@ public final class RBACHome
 
     /**
      * Update the role key of all the entries of a given role key
-     * @param strOldRoleKey the role key to update
-     * @param strNewRoleKey the new role key
+     * 
+     * @param strOldRoleKey
+     *            the role key to update
+     * @param strNewRoleKey
+     *            the new role key
      */
     public static void updateRoleKey( String strOldRoleKey, String strNewRoleKey )
     {
@@ -134,9 +143,13 @@ public final class RBACHome
 
     /**
      * Gets all role keys
-     * @param strTypeCode The code type
-     * @param strId The ID
-     * @param strPermission The permission
+     * 
+     * @param strTypeCode
+     *            The code type
+     * @param strId
+     *            The ID
+     * @param strPermission
+     *            The permission
      * @return A collection of role keys
      */
     public static Collection<String> findRoleKeys( String strTypeCode, String strId, String strPermission )
@@ -146,7 +159,9 @@ public final class RBACHome
 
     /**
      * Remove all the entries of the given role key
-     * @param strRoleKey the role key of the entries to remove
+     * 
+     * @param strRoleKey
+     *            the role key of the entries to remove
      */
     public static void removeForRoleKey( String strRoleKey )
     {

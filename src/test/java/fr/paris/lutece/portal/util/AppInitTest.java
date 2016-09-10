@@ -45,7 +45,6 @@ import java.sql.Connection;
 
 import java.util.HashMap;
 
-
 /**
  * This class tests the class fr.paris.lutece.portal.util.AppInit.
  */
@@ -54,7 +53,7 @@ public class AppInitTest extends LuteceTestCase
     /**
      * Tests the initServices method
      */
-    public void testInitServices(  )
+    public void testInitServices( )
     {
         // initServices is loaded by the LuteceTestCase setUp method
     }
@@ -62,30 +61,29 @@ public class AppInitTest extends LuteceTestCase
     /**
      * Check Template service
      */
-    public void testTemplateService(  )
+    public void testTemplateService( )
     {
-        HashMap model = new HashMap(  );
+        HashMap model = new HashMap( );
         model.put( "web_mail", "lutece@paris.fr" );
         model.put( Markers.PAGE_MAIN_MENU, "menu" );
 
-        HtmlTemplate t = AppTemplateService.getTemplate( "skin/site/portal_footer.html", LocaleService.getDefault(  ),
-                model );
+        HtmlTemplate t = AppTemplateService.getTemplate( "skin/site/portal_footer.html", LocaleService.getDefault( ), model );
         assertNotNull( t );
     }
 
     /**
      * Check some keys from config.properties
      */
-    public void testInitConfigProperties(  )
+    public void testInitConfigProperties( )
     {
-        //        assertNotNull( AppPropertiesService.getProperty( "webapp.path" ) );
-        //        assertNotNull( AppPropertiesService.getProperty( "lutece.webapp.url" ) );
+        // assertNotNull( AppPropertiesService.getProperty( "webapp.path" ) );
+        // assertNotNull( AppPropertiesService.getProperty( "lutece.webapp.url" ) );
     }
 
     /**
      * Check some keys from lutece.properties
      */
-    public void testInitLuteceProperties(  )
+    public void testInitLuteceProperties( )
     {
         assertNotNull( AppPropertiesService.getProperty( "lutece.page.root" ) );
         assertNotNull( AppPropertiesService.getProperty( "lutece.root.name" ) );
@@ -94,9 +92,9 @@ public class AppInitTest extends LuteceTestCase
     /**
      * Check pool initialization for AppConnection Service
      */
-    public void testInitAppConnectionService(  )
+    public void testInitAppConnectionService( )
     {
-        Connection connection = AppConnectionService.getConnection(  );
+        Connection connection = AppConnectionService.getConnection( );
         assertNotNull( connection );
         AppConnectionService.freeConnection( connection );
     }

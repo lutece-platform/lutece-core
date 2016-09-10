@@ -37,7 +37,6 @@ import fr.paris.lutece.test.LuteceTestCase;
 
 import java.util.Collection;
 
-
 public class ModeTest extends LuteceTestCase
 {
     private final static String DESCRIPTION1 = "Description 1";
@@ -59,10 +58,10 @@ public class ModeTest extends LuteceTestCase
     private final static String OUTPUTXSLPROPERTYSTANDALONE1 = "OutputXslPropertyStandalone 1";
     private final static String OUTPUTXSLPROPERTYSTANDALONE2 = "OutputXslPropertyStandalone 2";
 
-    public void testBusinessMode(  )
+    public void testBusinessMode( )
     {
         // Initialize an object
-        Mode mode = new Mode(  );
+        Mode mode = new Mode( );
         mode.setDescription( DESCRIPTION1 );
         mode.setPath( PATH1 );
         mode.setOutputXslPropertyMethod( OUTPUTXSLPROPERTYMETHOD1 );
@@ -76,17 +75,16 @@ public class ModeTest extends LuteceTestCase
         // Create test
         ModeHome.create( mode );
 
-        Mode modeStored = ModeHome.findByPrimaryKey( mode.getId(  ) );
-        assertEquals( modeStored.getDescription(  ), mode.getDescription(  ) );
-        assertEquals( modeStored.getPath(  ), mode.getPath(  ) );
-        assertEquals( modeStored.getOutputXslPropertyMethod(  ), mode.getOutputXslPropertyMethod(  ) );
-        assertEquals( modeStored.getOutputXslPropertyVersion(  ), mode.getOutputXslPropertyVersion(  ) );
-        assertEquals( modeStored.getOutputXslPropertyMediaType(  ), mode.getOutputXslPropertyMediaType(  ) );
-        assertEquals( modeStored.getOutputXslPropertyEncoding(  ), mode.getOutputXslPropertyEncoding(  ) );
-        assertEquals( modeStored.getOutputXslPropertyIndent(  ), mode.getOutputXslPropertyIndent(  ) );
-        assertEquals( modeStored.getOutputXslPropertyOmitXmlDeclaration(  ),
-            mode.getOutputXslPropertyOmitXmlDeclaration(  ) );
-        assertEquals( modeStored.getOutputXslPropertyStandalone(  ), mode.getOutputXslPropertyStandalone(  ) );
+        Mode modeStored = ModeHome.findByPrimaryKey( mode.getId( ) );
+        assertEquals( modeStored.getDescription( ), mode.getDescription( ) );
+        assertEquals( modeStored.getPath( ), mode.getPath( ) );
+        assertEquals( modeStored.getOutputXslPropertyMethod( ), mode.getOutputXslPropertyMethod( ) );
+        assertEquals( modeStored.getOutputXslPropertyVersion( ), mode.getOutputXslPropertyVersion( ) );
+        assertEquals( modeStored.getOutputXslPropertyMediaType( ), mode.getOutputXslPropertyMediaType( ) );
+        assertEquals( modeStored.getOutputXslPropertyEncoding( ), mode.getOutputXslPropertyEncoding( ) );
+        assertEquals( modeStored.getOutputXslPropertyIndent( ), mode.getOutputXslPropertyIndent( ) );
+        assertEquals( modeStored.getOutputXslPropertyOmitXmlDeclaration( ), mode.getOutputXslPropertyOmitXmlDeclaration( ) );
+        assertEquals( modeStored.getOutputXslPropertyStandalone( ), mode.getOutputXslPropertyStandalone( ) );
 
         // Update test
         mode.setDescription( DESCRIPTION2 );
@@ -100,27 +98,26 @@ public class ModeTest extends LuteceTestCase
         mode.setOutputXslPropertyStandalone( OUTPUTXSLPROPERTYSTANDALONE2 );
 
         ModeHome.update( mode );
-        modeStored = ModeHome.findByPrimaryKey( mode.getId(  ) );
-        assertEquals( modeStored.getDescription(  ), mode.getDescription(  ) );
-        assertEquals( modeStored.getPath(  ), mode.getPath(  ) );
-        assertEquals( modeStored.getOutputXslPropertyMethod(  ), mode.getOutputXslPropertyMethod(  ) );
-        assertEquals( modeStored.getOutputXslPropertyVersion(  ), mode.getOutputXslPropertyVersion(  ) );
-        assertEquals( modeStored.getOutputXslPropertyMediaType(  ), mode.getOutputXslPropertyMediaType(  ) );
-        assertEquals( modeStored.getOutputXslPropertyEncoding(  ), mode.getOutputXslPropertyEncoding(  ) );
-        assertEquals( modeStored.getOutputXslPropertyIndent(  ), mode.getOutputXslPropertyIndent(  ) );
-        assertEquals( modeStored.getOutputXslPropertyOmitXmlDeclaration(  ),
-            mode.getOutputXslPropertyOmitXmlDeclaration(  ) );
-        assertEquals( modeStored.getOutputXslPropertyStandalone(  ), mode.getOutputXslPropertyStandalone(  ) );
+        modeStored = ModeHome.findByPrimaryKey( mode.getId( ) );
+        assertEquals( modeStored.getDescription( ), mode.getDescription( ) );
+        assertEquals( modeStored.getPath( ), mode.getPath( ) );
+        assertEquals( modeStored.getOutputXslPropertyMethod( ), mode.getOutputXslPropertyMethod( ) );
+        assertEquals( modeStored.getOutputXslPropertyVersion( ), mode.getOutputXslPropertyVersion( ) );
+        assertEquals( modeStored.getOutputXslPropertyMediaType( ), mode.getOutputXslPropertyMediaType( ) );
+        assertEquals( modeStored.getOutputXslPropertyEncoding( ), mode.getOutputXslPropertyEncoding( ) );
+        assertEquals( modeStored.getOutputXslPropertyIndent( ), mode.getOutputXslPropertyIndent( ) );
+        assertEquals( modeStored.getOutputXslPropertyOmitXmlDeclaration( ), mode.getOutputXslPropertyOmitXmlDeclaration( ) );
+        assertEquals( modeStored.getOutputXslPropertyStandalone( ), mode.getOutputXslPropertyStandalone( ) );
 
-        Collection listModes = ModeHome.getModesList(  );
-        assertTrue( listModes.size(  ) > 0 );
+        Collection listModes = ModeHome.getModesList( );
+        assertTrue( listModes.size( ) > 0 );
 
-        listModes = ModeHome.getModes(  );
-        assertTrue( listModes.size(  ) > 0 );
+        listModes = ModeHome.getModes( );
+        assertTrue( listModes.size( ) > 0 );
 
         // Delete test
-        ModeHome.remove( mode.getId(  ) );
-        modeStored = ModeHome.findByPrimaryKey( mode.getId(  ) );
+        ModeHome.remove( mode.getId( ) );
+        modeStored = ModeHome.findByPrimaryKey( mode.getId( ) );
         assertNull( modeStored );
     }
 }

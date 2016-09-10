@@ -39,24 +39,26 @@ package fr.paris.lutece.util.password;
 public interface IPassword
 {
     /**
-     * Check if the user supplied password is equal to the one
-     * represented by this object
-     * @param strCleartextPassword the user supplied password in clear text
+     * Check if the user supplied password is equal to the one represented by this object
+     * 
+     * @param strCleartextPassword
+     *            the user supplied password in clear text
      * @return <code>true</code> if the password match, <code>false</code> otherwise
      */
     boolean check( String strCleartextPassword );
 
     /**
-     * Tells if the password is in legacy format and should be
-     * upgraded to the current format
+     * Tells if the password is in legacy format and should be upgraded to the current format
+     * 
      * @return <code>true</code> if the password is in a legacy format, <code>false</code> otherwise
      */
-    boolean isLegacy(  );
+    boolean isLegacy( );
 
     /**
      * Get a representation of this password suitable for storage
+     * 
      * @return a representation of this password suitable for storage
      */
-    String getStorableRepresentation(  );
+    String getStorableRepresentation( );
 
 }

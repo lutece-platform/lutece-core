@@ -66,7 +66,7 @@ public class RoleJspBeanTest extends LuteceTestCase
             assertTrue( message.getText( new Locale( lang.getCode( ) ) ).contains( PARAMETER_PAGE_ROLE ) );
         }
         // invalid arg
-        String randomRoleName = "role" + new SecureRandom(  ).nextLong(  );
+        String randomRoleName = "role" + new SecureRandom( ).nextLong( );
         request = new MockHttpServletRequest( );
         request.addParameter( PARAMETER_PAGE_ROLE, randomRoleName );
         bean.getRemovePageRole( request );
@@ -93,7 +93,8 @@ public class RoleJspBeanTest extends LuteceTestCase
             {
                 assertTrue( message.getText( new Locale( lang.getCode( ) ) ).contains( randomRoleName ) );
             }
-        } finally
+        }
+        finally
         {
             RoleHome.remove( randomRoleName );
         }

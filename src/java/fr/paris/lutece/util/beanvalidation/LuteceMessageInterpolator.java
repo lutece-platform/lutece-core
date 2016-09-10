@@ -43,7 +43,6 @@ import java.util.regex.Pattern;
 import javax.validation.MessageInterpolator;
 import javax.validation.Validation;
 
-
 /**
  * Lutece Message Interpolator
  */
@@ -56,15 +55,17 @@ public class LuteceMessageInterpolator implements MessageInterpolator
     /**
      * Constructor;
      */
-    public LuteceMessageInterpolator(  )
+    public LuteceMessageInterpolator( )
     {
-        _interpolator = Validation.byDefaultProvider(  ).configure(  ).getDefaultMessageInterpolator(  );
-        _locale = LocaleService.getDefault(  );
+        _interpolator = Validation.byDefaultProvider( ).configure( ).getDefaultMessageInterpolator( );
+        _locale = LocaleService.getDefault( );
     }
 
     /**
      * Sets the locale for messages
-     * @param locale The locale
+     * 
+     * @param locale
+     *            The locale
      */
     public static void setLocale( Locale locale )
     {
@@ -95,27 +96,29 @@ public class LuteceMessageInterpolator implements MessageInterpolator
 
     /**
      *
-     * @param strMessage The message to transform
-     * @param locale The Locale
+     * @param strMessage
+     *            The message to transform
+     * @param locale
+     *            The Locale
      * @return The transformed message
      */
     protected static String interpolateMessage( String strMessage, Locale locale )
     {
         Matcher matcher = PATTERN_LOCALIZED_KEY.matcher( strMessage );
 
-        if ( matcher.find(  ) )
+        if ( matcher.find( ) )
         {
-            StringBuffer sb = new StringBuffer(  );
+            StringBuffer sb = new StringBuffer( );
 
             do
             {
                 matcher.appendReplacement( sb, getLocalizedString( matcher.group( 1 ), locale ) );
             }
-            while ( matcher.find(  ) );
+            while ( matcher.find( ) );
 
             matcher.appendTail( sb );
 
-            return sb.toString(  );
+            return sb.toString( );
         }
 
         return strMessage;

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -57,13 +57,12 @@ import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
- * This class provides  the list of the page associated by the main menu of the site
+ * This class provides the list of the page associated by the main menu of the site
  */
 public class TreeMenuInclude implements PageInclude
 {
-    /////////////////////////////////////////////////////////////////////////////////////////////
+    // ///////////////////////////////////////////////////////////////////////////////////////////
     // Constants
     private static final int PORTAL_COMPONENT_MENU_TREE = 7;
 
@@ -72,10 +71,15 @@ public class TreeMenuInclude implements PageInclude
 
     /**
      * Substitue specific Freemarker markers in the page template.
-     * @param rootModel the HashMap containing markers to substitute
-     * @param data A PageData object containing applications data
-     * @param nMode The current mode
-     * @param request The HTTP request
+     * 
+     * @param rootModel
+     *            the HashMap containing markers to substitute
+     * @param data
+     *            A PageData object containing applications data
+     * @param nMode
+     *            The current mode
+     * @param request
+     *            The HTTP request
      */
     public void fillTemplate( Map<String, Object> rootModel, PageData data, int nMode, HttpServletRequest request )
     {
@@ -85,31 +89,34 @@ public class TreeMenuInclude implements PageInclude
 
             try
             {
-                nCurrentPageId = ( request.getParameter( Parameters.PAGE_ID ) == null )
-                    ? PortalService.getRootPageId(  ) : Integer.parseInt( request.getParameter( Parameters.PAGE_ID ) );
+                nCurrentPageId = ( request.getParameter( Parameters.PAGE_ID ) == null ) ? PortalService.getRootPageId( ) : Integer.parseInt( request
+                        .getParameter( Parameters.PAGE_ID ) );
             }
-            catch ( NumberFormatException nfe )
+            catch( NumberFormatException nfe )
             {
-                AppLogService.info( "TreeMenuInclude.fillTemplate() : " + nfe.getLocalizedMessage(  ) );
+                AppLogService.info( "TreeMenuInclude.fillTemplate() : " + nfe.getLocalizedMessage( ) );
                 nCurrentPageId = 0;
             }
 
             data.setTreeMenu( buildTreeMenuContent( nCurrentPageId, nMode, request ) );
-            rootModel.put( Markers.PAGE_TREE_MENU, ( data.getTreeMenu(  ) == null ) ? "" : data.getTreeMenu(  ) );
+            rootModel.put( Markers.PAGE_TREE_MENU, ( data.getTreeMenu( ) == null ) ? "" : data.getTreeMenu( ) );
         }
     }
 
     /**
      * Builds the tree menu bar
      *
-     * @param nIdPage The page id
-     * @param nMode the mode id
-         * @param request The HttpServletRequest
+     * @param nIdPage
+     *            The page id
+     * @param nMode
+     *            the mode id
+     * @param request
+     *            The HttpServletRequest
      * @return The list of the tree menus layed out with the stylesheet of the mode
      */
     public String buildTreeMenuContent( int nIdPage, int nMode, HttpServletRequest request )
     {
-        StringBuffer strXml = new StringBuffer(  );
+        StringBuffer strXml = new StringBuffer( );
 
         String strCurrentPageId = Integer.toString( nIdPage );
 
@@ -126,7 +133,7 @@ public class TreeMenuInclude implements PageInclude
             listPagesMenu = PageHome.getChildPagesMinimalData( nIdPage );
         }
 
-        strXml.append( XmlUtil.getXmlHeader(  ) );
+        strXml.append( XmlUtil.getXmlHeader( ) );
         XmlUtil.beginElement( strXml, XmlContent.TAG_MENU_LIST );
 
         int nMenuIndex = 1;
@@ -137,15 +144,15 @@ public class TreeMenuInclude implements PageInclude
             {
                 XmlUtil.beginElement( strXml, XmlContent.TAG_MENU );
                 XmlUtil.addElement( strXml, XmlContent.TAG_MENU_INDEX, nMenuIndex );
-                XmlUtil.addElement( strXml, XmlContent.TAG_PAGE_ID, menuPage.getId(  ) );
-                XmlUtil.addElementHtml( strXml, XmlContent.TAG_PAGE_NAME, menuPage.getName(  ) );
-                XmlUtil.addElementHtml( strXml, XmlContent.TAG_PAGE_DESCRIPTION, menuPage.getDescription(  ) );
+                XmlUtil.addElement( strXml, XmlContent.TAG_PAGE_ID, menuPage.getId( ) );
+                XmlUtil.addElementHtml( strXml, XmlContent.TAG_PAGE_NAME, menuPage.getName( ) );
+                XmlUtil.addElementHtml( strXml, XmlContent.TAG_PAGE_DESCRIPTION, menuPage.getDescription( ) );
                 XmlUtil.addElementHtml( strXml, XmlContent.TAG_CURRENT_PAGE_ID, strCurrentPageId );
 
                 // Seek of the sub-menus
                 XmlUtil.beginElement( strXml, XmlContent.TAG_SUBLEVEL_MENU_LIST );
 
-                Collection<Page> listSubLevelMenuPages = PageHome.getChildPagesMinimalData( menuPage.getId(  ) );
+                Collection<Page> listSubLevelMenuPages = PageHome.getChildPagesMinimalData( menuPage.getId( ) );
                 int nSubLevelMenuIndex = 1;
 
                 for ( Page subLevelMenuPage : listSubLevelMenuPages )
@@ -155,10 +162,9 @@ public class TreeMenuInclude implements PageInclude
                         XmlUtil.beginElement( strXml, XmlContent.TAG_SUBLEVEL_MENU );
                         XmlUtil.addElement( strXml, XmlContent.TAG_MENU_INDEX, nMenuIndex );
                         XmlUtil.addElement( strXml, XmlContent.TAG_SUBLEVEL_INDEX, nSubLevelMenuIndex );
-                        XmlUtil.addElement( strXml, XmlContent.TAG_PAGE_ID, subLevelMenuPage.getId(  ) );
-                        XmlUtil.addElementHtml( strXml, XmlContent.TAG_PAGE_NAME, subLevelMenuPage.getName(  ) );
-                        XmlUtil.addElementHtml( strXml, XmlContent.TAG_PAGE_DESCRIPTION,
-                            subLevelMenuPage.getDescription(  ) );
+                        XmlUtil.addElement( strXml, XmlContent.TAG_PAGE_ID, subLevelMenuPage.getId( ) );
+                        XmlUtil.addElementHtml( strXml, XmlContent.TAG_PAGE_NAME, subLevelMenuPage.getName( ) );
+                        XmlUtil.addElementHtml( strXml, XmlContent.TAG_PAGE_DESCRIPTION, subLevelMenuPage.getDescription( ) );
                         XmlUtil.addElementHtml( strXml, XmlContent.TAG_CURRENT_PAGE_ID, strCurrentPageId );
                         XmlUtil.endElement( strXml, XmlContent.TAG_SUBLEVEL_MENU );
                     }
@@ -175,7 +181,7 @@ public class TreeMenuInclude implements PageInclude
         StyleSheet xslSource;
 
         // Selection of the XSL stylesheet
-        switch ( nMode )
+        switch( nMode )
         {
             case PortalMenuService.MODE_NORMAL:
             case PortalMenuService.MODE_ADMIN:
@@ -193,24 +199,24 @@ public class TreeMenuInclude implements PageInclude
 
         // Added in v1.3
         // Add a path param for choose url to use in admin or normal mode
-        Map<String, String> mapParamRequest = new HashMap<String, String>(  );
+        Map<String, String> mapParamRequest = new HashMap<String, String>( );
         PortalService.setXslPortalPath( mapParamRequest, nMode );
 
-        XmlTransformerService xmlTransformerService = new XmlTransformerService(  );
+        XmlTransformerService xmlTransformerService = new XmlTransformerService( );
 
-        return xmlTransformerService.transformBySourceWithXslCache( strXml.toString(  ), xslSource, mapParamRequest,
-            outputProperties );
+        return xmlTransformerService.transformBySourceWithXslCache( strXml.toString( ), xslSource, mapParamRequest, outputProperties );
     }
 
     /**
      *
-     * @param nPageId The page identifier
+     * @param nPageId
+     *            The page identifier
      * @return The parent page identifier
      */
     private int getPageTree( int nPageId )
     {
         Page page = PageHome.getPage( nPageId );
-        int nParentPageId = page.getParentPageId(  );
+        int nParentPageId = page.getParentPageId( );
 
         if ( nParentPageId == 0 )
         {
@@ -219,13 +225,13 @@ public class TreeMenuInclude implements PageInclude
 
         int nParentTree = nParentPageId;
 
-        //while ( nParentPageId != 1 )
+        // while ( nParentPageId != 1 )
         while ( nParentPageId != 0 )
         {
             nParentTree = nParentPageId;
 
             Page parentPage = PageHome.getPageWithoutImageContent( nParentPageId );
-            nParentPageId = parentPage.getParentPageId(  );
+            nParentPageId = parentPage.getParentPageId( );
         }
 
         return nParentTree;

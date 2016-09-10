@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -38,7 +38,6 @@ import fr.paris.lutece.portal.service.spring.SpringContextService;
 import java.util.Collection;
 import java.util.List;
 
-
 /**
  * This class provides instances management methods (create, find, ...) for MailingList objects
  */
@@ -50,15 +49,16 @@ public final class MailingListHome
     /**
      * Private constructor - this class need not be instantiated
      */
-    private MailingListHome(  )
+    private MailingListHome( )
     {
     }
 
     /**
      * Creation of an instance of mailingList
      *
-     * @param mailingList The instance of the MailingList which contains the informations to store
-     * @return The  instance of mailingList which has been created with its primary key.
+     * @param mailingList
+     *            The instance of the MailingList which contains the informations to store
+     * @return The instance of mailingList which has been created with its primary key.
      */
     public static MailingList create( MailingList mailingList )
     {
@@ -70,8 +70,9 @@ public final class MailingListHome
     /**
      * Update of the mailingList which is specified in parameter
      *
-     * @param mailingList The instance of the MailingList which contains the data to store
-     * @return The instance of the  mailingList which has been updated
+     * @param mailingList
+     *            The instance of the MailingList which contains the data to store
+     * @return The instance of the mailingList which has been updated
      */
     public static MailingList update( MailingList mailingList )
     {
@@ -83,20 +84,22 @@ public final class MailingListHome
     /**
      * Remove the mailingList whose identifier is specified in parameter
      *
-     * @param nMailingListId The mailingList Id
+     * @param nMailingListId
+     *            The mailingList Id
      */
     public static void remove( int nMailingListId )
     {
         _dao.delete( nMailingListId );
     }
 
-    ///////////////////////////////////////////////////////////////////////////
+    // /////////////////////////////////////////////////////////////////////////
     // Finders
 
     /**
      * Returns an instance of a mailingList whose identifier is specified in parameter
      *
-     * @param nKey The mailingList primary key
+     * @param nKey
+     *            The mailingList primary key
      * @return an instance of MailingList
      */
     public static MailingList findByPrimaryKey( int nKey )
@@ -109,14 +112,16 @@ public final class MailingListHome
      *
      * @return the collection which contains the data of all the mailingLists
      */
-    public static Collection<MailingList> findAll(  )
+    public static Collection<MailingList> findAll( )
     {
-        return _dao.selectAll(  );
+        return _dao.selectAll( );
     }
 
     /**
      * Find all mailing lists visible by a workgroup
-     * @param strWorkgroup The workgroup
+     * 
+     * @param strWorkgroup
+     *            The workgroup
      * @return A mailing list collection
      */
     public static Collection<MailingList> findByWorkgroup( String strWorkgroup )
@@ -126,8 +131,11 @@ public final class MailingListHome
 
     /**
      * Add an new user filter to a mailing list
-     * @param filter The filter to add
-     * @param nId The Id of the mailing list
+     * 
+     * @param filter
+     *            The filter to add
+     * @param nId
+     *            The Id of the mailing list
      */
     public static void addFilterToMailingList( MailingListUsersFilter filter, int nId )
     {
@@ -136,8 +144,11 @@ public final class MailingListHome
 
     /**
      * Remove an user filter from a mailing list
-     * @param filter The filter to remove
-     * @param nId The Id of the mailing list
+     * 
+     * @param filter
+     *            The filter to remove
+     * @param nId
+     *            The Id of the mailing list
      */
     public static void deleteFilterToMailingList( MailingListUsersFilter filter, int nId )
     {
@@ -146,8 +157,11 @@ public final class MailingListHome
 
     /**
      * Check if the filter already exists or not in a mailing list
-     * @param filter the filter
-     * @param nId the id mailing list
+     * 
+     * @param filter
+     *            the filter
+     * @param nId
+     *            the id mailing list
      * @return true if it already exists, false otherwise
      */
     public static boolean checkFilter( MailingListUsersFilter filter, int nId )
@@ -158,7 +172,8 @@ public final class MailingListHome
     /**
      * Find by filter.
      *
-     * @param filter the filter
+     * @param filter
+     *            the filter
      * @return the list
      */
     public static List<MailingList> findsByFilter( MailingListFilter filter )

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -36,7 +36,6 @@ package fr.paris.lutece.portal.business.user.attribute;
 import java.util.List;
 import java.util.Locale;
 
-
 /**
  *
  * IAttributeDAO
@@ -46,58 +45,76 @@ public interface IAttributeDAO
 {
     /**
      * Load attribute
-     * @param nIdAttribute ID
-     * @param locale Locale
+     * 
+     * @param nIdAttribute
+     *            ID
+     * @param locale
+     *            Locale
      * @return Attribute
      */
     IAttribute load( int nIdAttribute, Locale locale );
 
     /**
      * Insert a new attribute
-     * @param attribute the attribute
+     * 
+     * @param attribute
+     *            the attribute
      * @return new PK
      */
     int insert( IAttribute attribute );
 
     /**
      * Update an attribute
-     * @param attribute the attribute
+     * 
+     * @param attribute
+     *            the attribute
      */
     void store( IAttribute attribute );
 
     /**
      * Delete an attribute
-     * @param nIdAttribute the ID of the attribute
+     * 
+     * @param nIdAttribute
+     *            the ID of the attribute
      */
     void delete( int nIdAttribute );
 
     /**
      * Load every attributes
-     * @param locale locale
+     * 
+     * @param locale
+     *            locale
      * @return list of attributes
      */
     List<IAttribute> selectAll( Locale locale );
 
     /**
      * Load every attributes from plugin name
-     * @param strPluginName plugin name
-     * @param locale locale
+     * 
+     * @param strPluginName
+     *            plugin name
+     * @param locale
+     *            locale
      * @return list of attributes
      */
     List<IAttribute> selectPluginAttributes( String strPluginName, Locale locale );
 
     /**
      * Load every attributes that do not come from a plugin
-     * @param locale locale
+     * 
+     * @param locale
+     *            locale
      * @return list of attributes
      */
     List<IAttribute> selectCoreAttributes( Locale locale );
 
     /**
      * Update the anonymization status of the attribute.
-     * @param nIdAttribute Id of the attribute
-     * @param bAnonymize New value of the anonymization status. True means the
-     *            attribute should be anonymize, false means it doesn't.
+     * 
+     * @param nIdAttribute
+     *            Id of the attribute
+     * @param bAnonymize
+     *            New value of the anonymization status. True means the attribute should be anonymize, false means it doesn't.
      */
     void updateAttributeAnonymization( int nIdAttribute, boolean bAnonymize );
 }

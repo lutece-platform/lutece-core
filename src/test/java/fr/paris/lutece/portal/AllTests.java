@@ -36,7 +36,6 @@ package fr.paris.lutece.portal;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-
 /**
  * This class is the main test suite for the package fr.paris.lutece.util.date
  */
@@ -44,19 +43,20 @@ public final class AllTests
 {
     /**
      * A set of tests
+     * 
      * @return Test the tests
      */
-    public static Test suite(  )
+    public static Test suite( )
     {
         TestSuite suite = new TestSuite( "*** Tests Lutece core " );
 
-        //$JUnit-BEGIN$
-        suite.addTest( fr.paris.lutece.portal.business.AllTests.suite(  ) );
-        suite.addTest( fr.paris.lutece.portal.util.AllTests.suite(  ) );
-        suite.addTest( fr.paris.lutece.portal.service.AllTests.suite(  ) );
-        suite.addTest( fr.paris.lutece.portal.web.AllTests.suite(  ) );
+        // $JUnit-BEGIN$
+        suite.addTest( fr.paris.lutece.portal.business.AllTests.suite( ) );
+        suite.addTest( fr.paris.lutece.portal.util.AllTests.suite( ) );
+        suite.addTest( fr.paris.lutece.portal.service.AllTests.suite( ) );
+        suite.addTest( fr.paris.lutece.portal.web.AllTests.suite( ) );
 
-        //$JUnit-END$
+        // $JUnit-END$
         return suite;
     }
 }

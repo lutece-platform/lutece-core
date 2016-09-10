@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,10 +33,8 @@
  */
 package fr.paris.lutece.portal.web.insert;
 
-
 // Java Servlet
 import javax.servlet.http.HttpServletRequest;
-
 
 /**
  * Interface to implement for Beans implementing Insert Service
@@ -46,7 +44,8 @@ public interface InsertServiceSelectionBean
     /**
      * method to generate the UI to select an objet for the Insert service
      *
-     * @param request HTTP request
+     * @param request
+     *            HTTP request
      * @return HTML code of the page as string
      */
     String getInsertServiceSelectorUI( HttpServletRequest request );

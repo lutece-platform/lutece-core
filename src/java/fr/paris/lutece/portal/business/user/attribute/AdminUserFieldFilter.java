@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -50,7 +50,6 @@ import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  *
  * AdminUserFieldFilter
@@ -77,16 +76,19 @@ public class AdminUserFieldFilter
 
     /**
      * Get list user fields
+     * 
      * @return list user fields
      */
-    public List<AdminUserField> getListUserFields(  )
+    public List<AdminUserField> getListUserFields( )
     {
         return _listUserFields;
     }
 
     /**
      * Set list user fields
-     * @param listUserFields list user fields
+     * 
+     * @param listUserFields
+     *            list user fields
      */
     public void setListUserFields( List<AdminUserField> listUserFields )
     {
@@ -95,16 +97,19 @@ public class AdminUserFieldFilter
 
     /**
      * Get id user
+     * 
      * @return id user
      */
-    public int getIdUser(  )
+    public int getIdUser( )
     {
         return _nIdUser;
     }
 
     /**
      * Set id user
-     * @param nIdUser id User
+     * 
+     * @param nIdUser
+     *            id User
      */
     public void setIdUser( int nIdUser )
     {
@@ -113,16 +118,19 @@ public class AdminUserFieldFilter
 
     /**
      * Get id attribute
+     * 
      * @return id attribute
      */
-    public int getIdAttribute(  )
+    public int getIdAttribute( )
     {
         return _nIdAttribute;
     }
 
     /**
      * Set id attirbute
-     * @param nIdAttribute id attribute
+     * 
+     * @param nIdAttribute
+     *            id attribute
      */
     public void setIdAttribute( int nIdAttribute )
     {
@@ -131,16 +139,19 @@ public class AdminUserFieldFilter
 
     /**
      * Get id field
+     * 
      * @return id field
      */
-    public int getIdField(  )
+    public int getIdField( )
     {
         return _nIdField;
     }
 
     /**
      * Set id field
-     * @param nIdField id field
+     * 
+     * @param nIdField
+     *            id field
      */
     public void setIdField( int nIdField )
     {
@@ -149,51 +160,57 @@ public class AdminUserFieldFilter
 
     /**
      * Check if the filter contains an id attribute
+     * 
      * @return true if it contains, false otherwise
      */
-    public boolean containsIdAttribute(  )
+    public boolean containsIdAttribute( )
     {
         return ( _nIdAttribute != ALL_INT );
     }
 
     /**
      * Check if the filter contains an id user
+     * 
      * @return true if it contains, false otherwise
      */
-    public boolean containsIdUser(  )
+    public boolean containsIdUser( )
     {
         return ( _nIdUser != ALL_INT );
     }
 
     /**
      * Check if the filter contains an id field
+     * 
      * @return true if it contains, false otherwise
      */
-    public boolean containsIdField(  )
+    public boolean containsIdField( )
     {
         return ( _nIdField != ALL_INT );
     }
 
     /**
      * Set admin user field filter
-     * @param request HttpServletRequest
-     * @param locale locale
+     * 
+     * @param request
+     *            HttpServletRequest
+     * @param locale
+     *            locale
      */
     public void setAdminUserFieldFilter( HttpServletRequest request, Locale locale )
     {
-        _listUserFields = new ArrayList<AdminUserField>(  );
+        _listUserFields = new ArrayList<AdminUserField>( );
 
         String strIsSearch = request.getParameter( PARAMETER_SEARCH_IS_SEARCH );
 
         if ( strIsSearch != null )
         {
-            List<IAttribute> listAttributes = AttributeService.getInstance(  ).getAllAttributesWithoutFields( locale );
+            List<IAttribute> listAttributes = AttributeService.getInstance( ).getAllAttributesWithoutFields( locale );
 
             for ( IAttribute attribute : listAttributes )
             {
                 for ( AdminUserField userField : attribute.getUserFieldsData( request, null ) )
                 {
-                    if ( ( userField != null ) && StringUtils.isNotBlank( userField.getValue(  ) ) )
+                    if ( ( userField != null ) && StringUtils.isNotBlank( userField.getValue( ) ) )
                     {
                         _listUserFields.add( userField );
                     }
@@ -203,48 +220,49 @@ public class AdminUserFieldFilter
     }
 
     /**
-    * Build url attributes
-    * @param url The url item
-    */
+     * Build url attributes
+     * 
+     * @param url
+     *            The url item
+     */
     public void setUrlAttributes( UrlItem url )
     {
         for ( AdminUserField userField : _listUserFields )
         {
             try
             {
-                url.addParameter( PARAMETER_ATTRIBUTE + CONSTANT_UNDERSCORE +
-                    userField.getAttribute(  ).getIdAttribute(  ),
-                    URLEncoder.encode( userField.getValue(  ), AppPropertiesService.getProperty( PROPERTY_ENCODING_URL ) ) );
+                url.addParameter( PARAMETER_ATTRIBUTE + CONSTANT_UNDERSCORE + userField.getAttribute( ).getIdAttribute( ),
+                        URLEncoder.encode( userField.getValue( ), AppPropertiesService.getProperty( PROPERTY_ENCODING_URL ) ) );
             }
-            catch ( UnsupportedEncodingException e )
+            catch( UnsupportedEncodingException e )
             {
-                AppLogService.error( e.getMessage(  ), e );
+                AppLogService.error( e.getMessage( ), e );
             }
         }
     }
 
     /**
      * Build url attributes
+     * 
      * @return the url attributes
      */
-    public String getUrlAttributes(  )
+    public String getUrlAttributes( )
     {
-        StringBuilder sbUrlAttributes = new StringBuilder(  );
+        StringBuilder sbUrlAttributes = new StringBuilder( );
 
         for ( AdminUserField userField : _listUserFields )
         {
             try
             {
-                sbUrlAttributes.append( CONSTANT_ESPERLUETTE + PARAMETER_ATTRIBUTE + CONSTANT_UNDERSCORE +
-                    userField.getAttribute(  ).getIdAttribute(  ) + CONSTANT_EQUAL +
-                    URLEncoder.encode( userField.getValue(  ), AppPropertiesService.getProperty( PROPERTY_ENCODING_URL ) ) );
+                sbUrlAttributes.append( CONSTANT_ESPERLUETTE + PARAMETER_ATTRIBUTE + CONSTANT_UNDERSCORE + userField.getAttribute( ).getIdAttribute( )
+                        + CONSTANT_EQUAL + URLEncoder.encode( userField.getValue( ), AppPropertiesService.getProperty( PROPERTY_ENCODING_URL ) ) );
             }
-            catch ( UnsupportedEncodingException e )
+            catch( UnsupportedEncodingException e )
             {
-                AppLogService.error( e.getMessage(  ), e );
+                AppLogService.error( e.getMessage( ), e );
             }
         }
 
-        return sbUrlAttributes.toString(  );
+        return sbUrlAttributes.toString( );
     }
 }

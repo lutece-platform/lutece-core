@@ -46,7 +46,6 @@ import java.util.Hashtable;
 
 import javax.sql.DataSource;
 
-
 /**
  * C3P0 connection service
  */
@@ -65,7 +64,7 @@ public class C3p0ConnectionService implements ConnectionService
     /**
      * Log4j logger
      */
-    private Logger _logger = Logger.getLogger( this.getClass(  ) );
+    private Logger _logger = Logger.getLogger( this.getClass( ) );
 
     /**
      * {@inheritDoc }
@@ -76,40 +75,40 @@ public class C3p0ConnectionService implements ConnectionService
         {
             _dataSource = new ComboPooledDataSource( _strPoolName );
 
-            String strDriver = htParamsConnectionPool.get( getPoolName(  ) + ".driver" );
+            String strDriver = htParamsConnectionPool.get( getPoolName( ) + ".driver" );
             _dataSource.setDriverClass( strDriver );
 
-            String strUrl = htParamsConnectionPool.get( getPoolName(  ) + ".url" );
+            String strUrl = htParamsConnectionPool.get( getPoolName( ) + ".url" );
             _dataSource.setJdbcUrl( strUrl );
 
-            String strUser = htParamsConnectionPool.get( getPoolName(  ) + ".user" );
+            String strUser = htParamsConnectionPool.get( getPoolName( ) + ".user" );
             _dataSource.setUser( strUser );
 
-            String strPassword = htParamsConnectionPool.get( getPoolName(  ) + ".password" );
+            String strPassword = htParamsConnectionPool.get( getPoolName( ) + ".password" );
             _dataSource.setPassword( strPassword );
 
-            String strMaxConns = htParamsConnectionPool.get( getPoolName(  ) + ".maxconns" );
+            String strMaxConns = htParamsConnectionPool.get( getPoolName( ) + ".maxconns" );
             int nMaxConns = ( strMaxConns == null ) ? 0 : Integer.parseInt( strMaxConns );
             _dataSource.setMaxPoolSize( nMaxConns );
 
-            String strMinConns = htParamsConnectionPool.get( getPoolName(  ) + ".initconns" );
+            String strMinConns = htParamsConnectionPool.get( getPoolName( ) + ".initconns" );
             int nInitConns = ( strMinConns == null ) ? 0 : Integer.parseInt( strMinConns );
             _dataSource.setInitialPoolSize( nInitConns );
             _dataSource.setMinPoolSize( nInitConns );
         }
-        catch ( Exception e )
+        catch( Exception e )
         {
-            _logger.error( "Error while initializing the pool " + getPoolName(  ), e );
+            _logger.error( "Error while initializing the pool " + getPoolName( ), e );
         }
 
-        _logger.info( "Initialization of the C3P0 pool named '" + getPoolName(  ) + "', Min/Max pool size : " +
-            _dataSource.getMinPoolSize(  ) + "/" + _dataSource.getMaxPoolSize(  ) );
+        _logger.info( "Initialization of the C3P0 pool named '" + getPoolName( ) + "', Min/Max pool size : " + _dataSource.getMinPoolSize( ) + "/"
+                + _dataSource.getMaxPoolSize( ) );
     }
 
     /**
      * {@inheritDoc }
      */
-    public Connection getConnection(  )
+    public Connection getConnection( )
     {
         Connection conn = null;
 
@@ -117,18 +116,17 @@ public class C3p0ConnectionService implements ConnectionService
         {
             if ( _dataSource != null )
             {
-                conn = _dataSource.getConnection(  );
+                conn = _dataSource.getConnection( );
 
                 if ( conn != null )
                 {
-                    _logger.debug( "The connexion is get, Current/Max pool : " +
-                        _dataSource.getNumConnectionsAllUsers(  ) + "/" + _dataSource.getMaxPoolSize(  ) );
+                    _logger.debug( "The connexion is get, Current/Max pool : " + _dataSource.getNumConnectionsAllUsers( ) + "/" + _dataSource.getMaxPoolSize( ) );
                 }
             }
         }
-        catch ( Exception e )
+        catch( Exception e )
         {
-            _logger.error( "Erreur when getting the connexion with the pool : " + getPoolName(  ), e );
+            _logger.error( "Erreur when getting the connexion with the pool : " + getPoolName( ), e );
         }
 
         return conn;
@@ -141,18 +139,17 @@ public class C3p0ConnectionService implements ConnectionService
     {
         try
         {
-            conn.close(  );
+            conn.close( );
 
-            _logger.debug( "The connexion is released, Current/Max pool : " +
-                _dataSource.getNumConnectionsAllUsers(  ) + "/" + _dataSource.getMaxPoolSize(  ) );
+            _logger.debug( "The connexion is released, Current/Max pool : " + _dataSource.getNumConnectionsAllUsers( ) + "/" + _dataSource.getMaxPoolSize( ) );
         }
-        catch ( SQLException e )
+        catch( SQLException e )
         {
-            _logger.error( "SQL error when releasing the connexion with the pool : " + getPoolName(  ), e );
+            _logger.error( "SQL error when releasing the connexion with the pool : " + getPoolName( ), e );
         }
-        catch ( Exception e )
+        catch( Exception e )
         {
-            _logger.error( "Error while releasing the connexion with the pool : " + getPoolName(  ), e );
+            _logger.error( "Error while releasing the connexion with the pool : " + getPoolName( ), e );
         }
     }
 
@@ -167,7 +164,7 @@ public class C3p0ConnectionService implements ConnectionService
     /**
      * {@inheritDoc }
      */
-    public String getPoolName(  )
+    public String getPoolName( )
     {
         return _strPoolName;
     }
@@ -183,7 +180,7 @@ public class C3p0ConnectionService implements ConnectionService
     /**
      * {@inheritDoc }
      */
-    public Logger getLogger(  )
+    public Logger getLogger( )
     {
         return _logger;
     }
@@ -191,24 +188,24 @@ public class C3p0ConnectionService implements ConnectionService
     /**
      * {@inheritDoc }
      */
-    public void release(  )
+    public void release( )
     {
     }
 
     /**
      * {@inheritDoc }
      */
-    public int getCurrentConnections(  )
+    public int getCurrentConnections( )
     {
         int nCurrentConnections = -1;
 
         try
         {
-            nCurrentConnections = _dataSource.getNumConnections(  );
+            nCurrentConnections = _dataSource.getNumConnections( );
         }
-        catch ( SQLException ex )
+        catch( SQLException ex )
         {
-            _logger.error( "GetCurrentConnections error : " + ex.getMessage(  ), ex );
+            _logger.error( "GetCurrentConnections error : " + ex.getMessage( ), ex );
         }
 
         return nCurrentConnections;
@@ -217,15 +214,15 @@ public class C3p0ConnectionService implements ConnectionService
     /**
      * {@inheritDoc }
      */
-    public int getMaxConnections(  )
+    public int getMaxConnections( )
     {
-        return _dataSource.getMaxPoolSize(  );
+        return _dataSource.getMaxPoolSize( );
     }
 
     /**
      * {@inheritDoc }
      */
-    public String getPoolProvider(  )
+    public String getPoolProvider( )
     {
         return "C3P0";
     }
@@ -233,7 +230,7 @@ public class C3p0ConnectionService implements ConnectionService
     /**
      * {@inheritDoc }
      */
-    public DataSource getDataSource(  )
+    public DataSource getDataSource( )
     {
         return _dataSource;
     }

@@ -42,31 +42,29 @@ import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
-
 /**
  * Class to manage transactions
  */
 public final class TransactionManager
 {
     private static final String DEFAULT_POOL_NAME = "portal";
-    private static ThreadLocal<Map<String, MultiPluginTransaction>> _tlTransactions = new ThreadLocal<Map<String, MultiPluginTransaction>>(  );
+    private static ThreadLocal<Map<String, MultiPluginTransaction>> _tlTransactions = new ThreadLocal<Map<String, MultiPluginTransaction>>( );
 
     /**
      * Default constructor
      */
-    private TransactionManager(  )
+    private TransactionManager( )
     {
         // Do nothing
     }
 
     /**
-     * Begin a transaction for the current thread using the pool of a specific
-     * plugin with the default transaction isolation. The default transaction
-     * isolation is {@link Connection#TRANSACTION_READ_COMMITTED }.<br />
-     * Note that only one transaction may be active at a time by pool for each
-     * thread.
-     * @param plugin The plugin to use the pool of, or null to use the default
-     *            pool.
+     * Begin a transaction for the current thread using the pool of a specific plugin with the default transaction isolation. The default transaction isolation
+     * is {@link Connection#TRANSACTION_READ_COMMITTED }.<br />
+     * Note that only one transaction may be active at a time by pool for each thread.
+     * 
+     * @param plugin
+     *            The plugin to use the pool of, or null to use the default pool.
      */
     public static void beginTransaction( Plugin plugin )
     {
@@ -74,22 +72,21 @@ public final class TransactionManager
     }
 
     /**
-     * Begin a transaction for the current thread using the pool of a specific
-     * plugin
-     * @param plugin The plugin to use the pool of, or null to use the default
-     *            pool.
-     * @param nTransactionIsolation The transaction isolation. View
-     *            {@link Connection#setTransactionIsolation(int) } to view the
-     *            different available transaction isolations.
+     * Begin a transaction for the current thread using the pool of a specific plugin
+     * 
+     * @param plugin
+     *            The plugin to use the pool of, or null to use the default pool.
+     * @param nTransactionIsolation
+     *            The transaction isolation. View {@link Connection#setTransactionIsolation(int) } to view the different available transaction isolations.
      */
     public static void beginTransaction( Plugin plugin, int nTransactionIsolation )
     {
-        Map<String, MultiPluginTransaction> mapTransactions = _tlTransactions.get(  );
+        Map<String, MultiPluginTransaction> mapTransactions = _tlTransactions.get( );
         MultiPluginTransaction transaction = null;
 
         if ( mapTransactions == null )
         {
-            mapTransactions = new HashMap<String, MultiPluginTransaction>(  );
+            mapTransactions = new HashMap<String, MultiPluginTransaction>( );
             _tlTransactions.set( mapTransactions );
         }
         else
@@ -97,17 +94,17 @@ public final class TransactionManager
             transaction = mapTransactions.get( getPluginPool( plugin ) );
         }
 
-        if ( ( transaction == null ) || ( transaction.getNbTransactionsOpened(  ) <= 0 ) )
+        if ( ( transaction == null ) || ( transaction.getNbTransactionsOpened( ) <= 0 ) )
         {
             transaction = new MultiPluginTransaction( plugin );
 
             try
             {
-                transaction.getConnection(  ).setTransactionIsolation( nTransactionIsolation );
+                transaction.getConnection( ).setTransactionIsolation( nTransactionIsolation );
             }
-            catch ( SQLException e )
+            catch( SQLException e )
             {
-                AppLogService.error( e.getMessage(  ), e );
+                AppLogService.error( e.getMessage( ), e );
             }
 
             mapTransactions.put( getPluginPool( plugin ), transaction );
@@ -116,19 +113,20 @@ public final class TransactionManager
         {
             // A transaction has already been opened for this pool,
             // so we save that information to prevent the next call to the commit method to close the transaction.
-            transaction.incrementNbTransactionsOpened(  );
+            transaction.incrementNbTransactionsOpened( );
         }
     }
 
     /**
      * Get the current transaction for the pool of a given plugin.
-     * @param plugin The plugin to use the pool of, or null to use the default
-     *            pool.
+     * 
+     * @param plugin
+     *            The plugin to use the pool of, or null to use the default pool.
      * @return The transaction, or null if no transaction is currently running.
      */
     public static MultiPluginTransaction getCurrentTransaction( Plugin plugin )
     {
-        Map<String, MultiPluginTransaction> mapTransactions = _tlTransactions.get(  );
+        Map<String, MultiPluginTransaction> mapTransactions = _tlTransactions.get( );
 
         if ( mapTransactions != null )
         {
@@ -140,12 +138,13 @@ public final class TransactionManager
 
     /**
      * Commit the transaction associated to the pool of a given plugin.
-     * @param plugin The plugin associated to the pool to commit the transaction
-     *            of, or null to use the default pool.
+     * 
+     * @param plugin
+     *            The plugin associated to the pool to commit the transaction of, or null to use the default pool.
      */
     public static void commitTransaction( Plugin plugin )
     {
-        Map<String, MultiPluginTransaction> mapTransactions = _tlTransactions.get(  );
+        Map<String, MultiPluginTransaction> mapTransactions = _tlTransactions.get( );
 
         if ( mapTransactions != null )
         {
@@ -155,25 +154,25 @@ public final class TransactionManager
             if ( transaction != null )
             {
                 // If the number of transactions opened is 1 or less, then we commit the transaction
-                if ( transaction.getNbTransactionsOpened(  ) <= 1 )
+                if ( transaction.getNbTransactionsOpened( ) <= 1 )
                 {
-                    transaction.commit(  );
+                    transaction.commit( );
                     mapTransactions.remove( strPoolName );
                 }
                 else
                 {
                     // Otherwise, we decrement the number
-                    transaction.decrementNbTransactionsOpened(  );
+                    transaction.decrementNbTransactionsOpened( );
                 }
             }
         }
     }
 
     /**
-     * Roll back a transaction associated to the pool of a given plugin. Note
-     * that any plugin can roll a transaction back.
-     * @param plugin The plugin associated to the pool to roll back the
-     *            transaction of, or null to use the default pool.
+     * Roll back a transaction associated to the pool of a given plugin. Note that any plugin can roll a transaction back.
+     * 
+     * @param plugin
+     *            The plugin associated to the pool to roll back the transaction of, or null to use the default pool.
      */
     public static void rollBack( Plugin plugin )
     {
@@ -181,15 +180,16 @@ public final class TransactionManager
     }
 
     /**
-     * Roll back a transaction associated to the pool of a given plugin with an
-     * exception.
-     * @param plugin The plugin associated to the pool to roll back the
-     *            transaction of, or null to use the default pool.
-     * @param e The exception to associates with the roll back.
+     * Roll back a transaction associated to the pool of a given plugin with an exception.
+     * 
+     * @param plugin
+     *            The plugin associated to the pool to roll back the transaction of, or null to use the default pool.
+     * @param e
+     *            The exception to associates with the roll back.
      */
     public static void rollBack( Plugin plugin, Exception e )
     {
-        Map<String, MultiPluginTransaction> mapTransactions = _tlTransactions.get(  );
+        Map<String, MultiPluginTransaction> mapTransactions = _tlTransactions.get( );
 
         if ( mapTransactions != null )
         {
@@ -206,43 +206,43 @@ public final class TransactionManager
     }
 
     /**
-     * Roll back every transactions opened by the current thread. This method
-     * attempt to prevent connection leak.
+     * Roll back every transactions opened by the current thread. This method attempt to prevent connection leak.
      */
-    public static void rollBackEveryTransaction(  )
+    public static void rollBackEveryTransaction( )
     {
         rollBackEveryTransaction( null );
     }
 
     /**
-     * Roll back every transactions opened by the current thread. This method
-     * attempt to prevent connection leak.
-     * @param e The exception that occurs and that may have prevent transaction
-     *            from being properly closed (committed or roll backed)
+     * Roll back every transactions opened by the current thread. This method attempt to prevent connection leak.
+     * 
+     * @param e
+     *            The exception that occurs and that may have prevent transaction from being properly closed (committed or roll backed)
      */
     public static void rollBackEveryTransaction( Throwable e )
     {
-        Map<String, MultiPluginTransaction> mapTransactions = _tlTransactions.get(  );
+        Map<String, MultiPluginTransaction> mapTransactions = _tlTransactions.get( );
 
-        if ( ( mapTransactions != null ) && ( mapTransactions.size(  ) > 0 ) )
+        if ( ( mapTransactions != null ) && ( mapTransactions.size( ) > 0 ) )
         {
-            for ( MultiPluginTransaction transaction : mapTransactions.values(  ) )
+            for ( MultiPluginTransaction transaction : mapTransactions.values( ) )
             {
                 transaction.rollback( null );
             }
 
-            mapTransactions.clear(  );
+            mapTransactions.clear( );
         }
     }
 
     /**
      * Get the name of the pool of a given plugin
-     * @param plugin The plugin to get the name of the pool, or null to get the
-     *            name of the default pool.
+     * 
+     * @param plugin
+     *            The plugin to get the name of the pool, or null to get the name of the default pool.
      * @return The name of the pool
      */
     private static String getPluginPool( Plugin plugin )
     {
-        return ( plugin != null ) ? plugin.getDbPoolName(  ) : DEFAULT_POOL_NAME;
+        return ( plugin != null ) ? plugin.getDbPoolName( ) : DEFAULT_POOL_NAME;
     }
 }

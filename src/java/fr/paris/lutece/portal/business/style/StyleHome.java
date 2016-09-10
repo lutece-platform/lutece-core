@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -39,7 +39,6 @@ import fr.paris.lutece.util.ReferenceList;
 
 import java.util.Collection;
 
-
 /**
  * This class provides instances management methods (create, find, ...) for Style objects
  */
@@ -51,15 +50,16 @@ public final class StyleHome
     /**
      * Creates a new StyleHome object.
      */
-    private StyleHome(  )
+    private StyleHome( )
     {
     }
 
     /**
      * Creation of a Style record in the database
      *
-     * @param style An instance of the style which contains the informations to store
-     * @return The  instance of the style which has been created.
+     * @param style
+     *            An instance of the style which contains the informations to store
+     * @return The instance of the style which has been created.
      */
     public static Style create( Style style )
     {
@@ -71,7 +71,8 @@ public final class StyleHome
     /**
      * Updates the record in the database which corresponds to the Style instance specified in parameter.
      *
-     * @param style the instance of the style to update
+     * @param style
+     *            the instance of the style to update
      */
     public static void update( Style style )
     {
@@ -81,20 +82,22 @@ public final class StyleHome
     /**
      * Deletes the record in the database which corresponds to the Style instance specified in parameter.
      *
-     * @param nStyleId The identifier of the style
+     * @param nStyleId
+     *            The identifier of the style
      */
     public static void remove( int nStyleId )
     {
         _dao.delete( nStyleId );
     }
 
-    ///////////////////////////////////////////////////////////////////////////
+    // /////////////////////////////////////////////////////////////////////////
     // Finders
 
     /**
      * Returns an instance of a style whose identifier is specified in parameter
      *
-     * @param nKey The primary key of the style to find in the database
+     * @param nKey
+     *            The primary key of the style to find in the database
      * @return The Style object which corresponds to the key
      */
     public static Style findByPrimaryKey( int nKey )
@@ -107,15 +110,16 @@ public final class StyleHome
      *
      * @return A collection of styles
      */
-    public static Collection<Style> getStylesList(  )
+    public static Collection<Style> getStylesList( )
     {
-        return _dao.selectStylesList(  );
+        return _dao.selectStylesList( );
     }
 
     /**
      * Returns the collection of the StyleSheet objects associated to the Style
      *
-     * @param nStyleId identifier of the style
+     * @param nStyleId
+     *            identifier of the style
      * @return A collection of styles
      */
     public static Collection<StyleSheet> getStyleSheetList( int nStyleId )
@@ -128,15 +132,16 @@ public final class StyleHome
      *
      * @return a reference list
      */
-    public static ReferenceList getPortalComponentList(  )
+    public static ReferenceList getPortalComponentList( )
     {
-        return _dao.selectPortalComponentList(  );
+        return _dao.selectPortalComponentList( );
     }
 
     /**
      * Checks if a style has been created in the database with the given portal componenet
      *
-     * @param nPortalComponentId The identifier of the portal component
+     * @param nPortalComponentId
+     *            The identifier of the portal component
      * @return true if a style has been created for this portal component, false otherwise
      */
     public static boolean checkStylePortalComponent( int nPortalComponentId )

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -41,7 +41,6 @@ import org.apache.commons.lang.StringUtils;
 
 import java.util.List;
 
-
 /**
  * Portlet cache service
  */
@@ -53,7 +52,7 @@ public class PortletCacheService extends AbstractCacheableService implements Por
     /**
      * {@inheritDoc }
      */
-    public String getName(  )
+    public String getName( )
     {
         return SERVICE_NAME;
     }
@@ -63,13 +62,13 @@ public class PortletCacheService extends AbstractCacheableService implements Por
      */
     public void processPortletEvent( PortletEvent event )
     {
-        String strKey = "[" + CACHE_PORTLET_PREFIX + event.getPortletId(  ) + "]";
+        String strKey = "[" + CACHE_PORTLET_PREFIX + event.getPortletId( ) + "]";
 
-        for ( String strKeyTemp : (List<String>) getCache(  ).getKeys(  ) )
+        for ( String strKeyTemp : (List<String>) getCache( ).getKeys( ) )
         {
             if ( StringUtils.indexOf( strKeyTemp, strKey ) != -1 )
             {
-                getCache(  ).remove( strKeyTemp );
+                getCache( ).remove( strKeyTemp );
             }
         }
     }

@@ -42,41 +42,40 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 public class PageIncludeServiceTest extends LuteceTestCase
 {
-    public void testPageIncludes(  )
+    public void testPageIncludes( )
     {
-        List<PageInclude> listIncludes = PageIncludeService.getIncludes(  );
+        List<PageInclude> listIncludes = PageIncludeService.getIncludes( );
         // Assert default includes are loaded
-        assertTrue( listIncludes.size(  ) > 2 );
+        assertTrue( listIncludes.size( ) > 2 );
     }
 
-    public void testEnabledState(  ) throws LuteceInitException
+    public void testEnabledState( ) throws LuteceInitException
     {
-        PageIncludeEntry entry = new PageIncludeEntry(  );
-        entry.setClassName( TestPageInclude.class.getName(  ) );
+        PageIncludeEntry entry = new PageIncludeEntry( );
+        entry.setClassName( TestPageInclude.class.getName( ) );
         entry.setId( "testEnablePageInclude" );
         entry.setPluginName( "core" ); // core is an always enabled plugin
 
         PageIncludeService.registerPageInclude( entry );
 
-        List<PageInclude> includes = PageIncludeService.getIncludes(  );
+        List<PageInclude> includes = PageIncludeService.getIncludes( );
         assertTrue( isTestPageIncludeActive( includes ) );
 
         entry.setEnabled( false );
         PageIncludeService.registerPageInclude( entry );
-        includes = PageIncludeService.getIncludes(  );
+        includes = PageIncludeService.getIncludes( );
         assertFalse( isTestPageIncludeActive( includes ) );
 
         entry.setPluginName( "bogus_inexistant_plugin" );
         PageIncludeService.registerPageInclude( entry );
-        includes = PageIncludeService.getIncludes(  );
+        includes = PageIncludeService.getIncludes( );
         assertFalse( isTestPageIncludeActive( includes ) );
 
         entry.setEnabled( true );
         PageIncludeService.registerPageInclude( entry );
-        includes = PageIncludeService.getIncludes(  );
+        includes = PageIncludeService.getIncludes( );
         assertFalse( isTestPageIncludeActive( includes ) );
     }
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -44,7 +44,6 @@ import fr.paris.lutece.portal.service.spring.SpringContextService;
 import java.util.ArrayList;
 import java.util.Collection;
 
-
 /**
  * class PortletService
  */
@@ -57,38 +56,41 @@ public final class PortletService
      * Constructor for class PortletService
      *
      */
-    private PortletService(  )
+    private PortletService( )
     {
     }
 
     /**
-        * Get the unique instance of the service
-        *
-        * @return The unique instance
-        */
-    public static synchronized PortletService getInstance(  )
+     * Get the unique instance of the service
+     *
+     * @return The unique instance
+     */
+    public static synchronized PortletService getInstance( )
     {
         if ( _singleton == null )
         {
-            _singleton = new PortletService(  );
+            _singleton = new PortletService( );
         }
 
         return _singleton;
     }
 
     /**
-     * Filter a collection of portlet  associated to a given user
-     * @param collectionPortlet the The collection to filter
-     * @param user the current user
-     * @return  a collection of portlet associated to a given user
+     * Filter a collection of portlet associated to a given user
+     * 
+     * @param collectionPortlet
+     *            the The collection to filter
+     * @param user
+     *            the current user
+     * @return a collection of portlet associated to a given user
      */
     public Collection<Portlet> getAuthorizedPortletCollection( Collection<Portlet> collectionPortlet, AdminUser user )
     {
-        Collection<Portlet> collectionPortletAuthorized = new ArrayList<Portlet>(  );
+        Collection<Portlet> collectionPortletAuthorized = new ArrayList<Portlet>( );
 
         for ( Portlet portlet : collectionPortlet )
         {
-            if ( _pageService.isAuthorizedAdminPage( portlet.getPageId(  ), PageResourceIdService.PERMISSION_VIEW, user ) )
+            if ( _pageService.isAuthorizedAdminPage( portlet.getPageId( ), PageResourceIdService.PERMISSION_VIEW, user ) )
             {
                 collectionPortletAuthorized.add( portlet );
             }
@@ -98,28 +100,34 @@ public final class PortletService
     }
 
     /**
-         * Check if a portlet should be visible to the user
-         * @param idPortlet the id of the portlet
-         * @param user the current user
-         * @return true if authorized, otherwise false
-         */
+     * Check if a portlet should be visible to the user
+     * 
+     * @param idPortlet
+     *            the id of the portlet
+     * @param user
+     *            the current user
+     * @return true if authorized, otherwise false
+     */
     public boolean isAuthorized( int idPortlet, AdminUser user )
     {
         Page page = PageHome.getPageByIdPortlet( idPortlet );
 
-        return _pageService.isAuthorizedAdminPage( page.getId(  ), PageResourceIdService.PERMISSION_VIEW, user );
+        return _pageService.isAuthorizedAdminPage( page.getId( ), PageResourceIdService.PERMISSION_VIEW, user );
     }
 
     /**
-           * Check if a portlet should be visible to the user
-           * @param portlet the portlet
-           * @param user the current user
-           * @return true if authorized, otherwise false
-           */
+     * Check if a portlet should be visible to the user
+     * 
+     * @param portlet
+     *            the portlet
+     * @param user
+     *            the current user
+     * @return true if authorized, otherwise false
+     */
     public boolean isAuthorized( Portlet portlet, AdminUser user )
     {
-        Page page = PageHome.findByPrimaryKey( portlet.getPageId(  ) );
+        Page page = PageHome.findByPrimaryKey( portlet.getPageId( ) );
 
-        return _pageService.isAuthorizedAdminPage( page.getId(  ), PageResourceIdService.PERMISSION_VIEW, user );
+        return _pageService.isAuthorizedAdminPage( page.getId( ), PageResourceIdService.PERMISSION_VIEW, user );
     }
 }

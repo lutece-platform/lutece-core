@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -37,7 +37,6 @@ import fr.paris.lutece.portal.business.regularexpression.RegularExpression;
 
 import java.util.List;
 
-
 /**
  *
  * IRegularExpressionService
@@ -46,44 +45,57 @@ public interface IRegularExpressionService
 {
     /**
      * return false if the pattern is invalid
-     * @param strPattern the pattern to test
-     * @return  false if the pattern is invalid
+     * 
+     * @param strPattern
+     *            the pattern to test
+     * @return false if the pattern is invalid
      */
     boolean isPatternValide( String strPattern );
 
     /**
      * return false if the expression's syntax is invalid
-     * @param regularExpression the regular expression object to test
-     * @return  false if the expression's syntax is invalid
+     * 
+     * @param regularExpression
+     *            the regular expression object to test
+     * @return false if the expression's syntax is invalid
      */
     boolean isPatternValide( RegularExpression regularExpression );
 
     /**
-    * return true if the value in parameter verify the pattern
-    * @param strValueToTest the value to test
-    * @param strPattern the regular expression Pattern
-    * @return true if the value in parameter verify the pattern
-    */
+     * return true if the value in parameter verify the pattern
+     * 
+     * @param strValueToTest
+     *            the value to test
+     * @param strPattern
+     *            the regular expression Pattern
+     * @return true if the value in parameter verify the pattern
+     */
     boolean isMatches( String strValueToTest, String strPattern );
 
     /**
      * return true if the value in parameter verify the regular expression
-     * @param strValueToTest the value to test
-     * @param regularExpression the regular expression
+     * 
+     * @param strValueToTest
+     *            the value to test
+     * @param regularExpression
+     *            the regular expression
      * @return true if the value verify the regular expression
      */
     boolean isMatches( String strValueToTest, RegularExpression regularExpression );
 
     /**
-     * return the regular expression object  whose identifier is specified in parameter
-     * @param nKey the regular expression key
-     * @return the regular expression object  whose identifier is specified in parameter
+     * return the regular expression object whose identifier is specified in parameter
+     * 
+     * @param nKey
+     *            the regular expression key
+     * @return the regular expression object whose identifier is specified in parameter
      */
     RegularExpression getRegularExpressionByKey( int nKey );
 
     /**
      * return a list of regular expression
+     * 
      * @return all regular expression
      */
-    List<RegularExpression> getAllRegularExpression(  );
+    List<RegularExpression> getAllRegularExpression( );
 }

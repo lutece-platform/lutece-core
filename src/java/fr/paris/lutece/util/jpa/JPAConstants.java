@@ -33,7 +33,6 @@
  */
 package fr.paris.lutece.util.jpa;
 
-
 /**
  * JPAConstants
  */
@@ -44,7 +43,7 @@ public final class JPAConstants
     /**
      * Instantiates a new jPA constants.
      */
-    private JPAConstants(  )
+    private JPAConstants( )
     {
     }
 }

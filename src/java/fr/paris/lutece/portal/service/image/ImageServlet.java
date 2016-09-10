@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -48,7 +48,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
 /**
  * Servlet serving document file resources
  */
@@ -61,15 +60,18 @@ public class ImageServlet extends HttpServlet
     private static final String PROPERTY_IMAGE_PAGE_DEFAULT = "image.page.default";
 
     /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException the servlet Exception
-     * @throws IOException the io exception
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
+     * 
+     * @param request
+     *            servlet request
+     * @param response
+     *            servlet response
+     * @throws ServletException
+     *             the servlet Exception
+     * @throws IOException
+     *             the io exception
      */
-    protected void processRequest( HttpServletRequest request, HttpServletResponse response )
-        throws ServletException, IOException
+    protected void processRequest( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException
     {
         String strResourceId = request.getParameter( PARAMETER_ID );
         String strResourceTypeId = request.getParameter( PARAMETER_RESOURCE_TYPE );
@@ -84,35 +86,34 @@ public class ImageServlet extends HttpServlet
             // Test the field image value
             if ( getImageExist( image ) )
             {
-                response.setContentType( image.getMimeType(  ) );
+                response.setContentType( image.getMimeType( ) );
 
-                OutputStream out = response.getOutputStream(  );
-                out.write( image.getImage(  ) );
-                out.flush(  );
-                out.close(  );
+                OutputStream out = response.getOutputStream( );
+                out.write( image.getImage( ) );
+                out.flush( );
+                out.close( );
             }
             else
             {
-                ServletContext sc = getServletContext(  );
-                String strImageUrl = AppPathService.getAbsolutePathFromRelativePath( AppPropertiesService.getProperty( 
-                            PROPERTY_PATH_IMAGES ) + "/" +
-                        AppPropertiesService.getProperty( PROPERTY_IMAGE_PAGE_DEFAULT ) ); //
+                ServletContext sc = getServletContext( );
+                String strImageUrl = AppPathService.getAbsolutePathFromRelativePath( AppPropertiesService.getProperty( PROPERTY_PATH_IMAGES ) + "/"
+                        + AppPropertiesService.getProperty( PROPERTY_IMAGE_PAGE_DEFAULT ) ); //
                 response.setContentType( sc.getMimeType( strImageUrl ) );
 
                 File file = new File( strImageUrl );
-                response.setContentLength( (int) file.length(  ) );
+                response.setContentLength( (int) file.length( ) );
 
                 FileInputStream in = null;
 
                 try
                 {
-                    //Open the file and output streams
+                    // Open the file and output streams
                     in = new FileInputStream( file );
 
-                    OutputStream out = response.getOutputStream(  );
+                    OutputStream out = response.getOutputStream( );
 
                     // Copy the contents of the file to the output stream
-                    byte[] buf = new byte[1024];
+                    byte [ ] buf = new byte [ 1024];
                     int count = 0;
 
                     while ( ( count = in.read( buf ) ) >= 0 )
@@ -120,19 +121,19 @@ public class ImageServlet extends HttpServlet
                         out.write( buf, 0, count );
                     }
 
-                    in.close(  );
-                    out.close(  );
+                    in.close( );
+                    out.close( );
                 }
-                catch ( IOException e )
+                catch( IOException e )
                 {
-                    AppLogService.error( e.getMessage(  ), e );
+                    AppLogService.error( e.getMessage( ), e );
                     throw e;
                 }
                 finally
                 {
                     if ( in != null )
                     {
-                        in.close(  );
+                        in.close( );
                     }
                 }
             }
@@ -141,54 +142,64 @@ public class ImageServlet extends HttpServlet
 
     /**
      * Handles the HTTP <code>GET</code> method.
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException the servlet Exception
-     * @throws IOException the io exception
+     * 
+     * @param request
+     *            servlet request
+     * @param response
+     *            servlet response
+     * @throws ServletException
+     *             the servlet Exception
+     * @throws IOException
+     *             the io exception
      */
     @Override
-    protected void doGet( HttpServletRequest request, HttpServletResponse response )
-        throws ServletException, IOException
+    protected void doGet( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException
     {
         processRequest( request, response );
     }
 
     /**
      * Handles the HTTP <code>POST</code> method.
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException the servlet Exception
-     * @throws IOException the io exception
+     * 
+     * @param request
+     *            servlet request
+     * @param response
+     *            servlet response
+     * @throws ServletException
+     *             the servlet Exception
+     * @throws IOException
+     *             the io exception
      */
     @Override
-    protected void doPost( HttpServletRequest request, HttpServletResponse response )
-        throws ServletException, IOException
+    protected void doPost( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException
     {
         processRequest( request, response );
     }
 
     /**
      * Returns a short description of the servlet.
+     * 
      * @return message
      */
     @Override
-    public String getServletInfo(  )
+    public String getServletInfo( )
     {
         return "Servlet serving images content";
     }
 
     /**
-     * Test the existence of an image in the base.
-     * If the size of the contents of the field is null or lower or
-     * equal 1, nImageLength is with false, otherwise it's true
-     * @param image The Resource Image
+     * Test the existence of an image in the base. If the size of the contents of the field is null or lower or equal 1, nImageLength is with false, otherwise
+     * it's true
+     * 
+     * @param image
+     *            The Resource Image
      * @return true if images exist, otherwise return false
      */
     private boolean getImageExist( ImageResource image )
     {
-        if ( image.getImage(  ) != null )
+        if ( image.getImage( ) != null )
         {
-            int nImageLength = image.getImage(  ).length;
+            int nImageLength = image.getImage( ).length;
 
             if ( nImageLength >= 1 )
             {

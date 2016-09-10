@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -48,9 +48,8 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
-
 /**
- *  this class provides methods to manage daemons services
+ * this class provides methods to manage daemons services
  * */
 public final class AppDaemonService
 {
@@ -60,31 +59,28 @@ public final class AppDaemonService
     private static final String PROPERTY_DAEMON_ON_STARTUP = ".onStartUp";
     private static final String PROPERTY_DAEMON_INTERVAL = ".interval";
     private static final String KEY_DAEMON_PREFIX = "core.daemon.";
-    private static final int MAX_INITIAL_START_DELAY = AppPropertiesService.getPropertyInt( PROPERTY_MAX_INITIAL_START_DELAY,
-            30 );
-    private static final int MAX_AWAIT_TERMINATION_DELAY = AppPropertiesService.getPropertyInt( PROPERTY_MAX_AWAIT_TERMINATION_DELAY,
-            15 );
-    private static final int DAEMON_CORE_POOL_SIZE = AppPropertiesService.getPropertyInt( PROPERTY_SCHEDULED_THREAD_CORE_POOL_SIZE,
-            30 );
-    private static final Map<String, DaemonEntry> _mapDaemonEntries = new HashMap<String, DaemonEntry>(  );
+    private static final int MAX_INITIAL_START_DELAY = AppPropertiesService.getPropertyInt( PROPERTY_MAX_INITIAL_START_DELAY, 30 );
+    private static final int MAX_AWAIT_TERMINATION_DELAY = AppPropertiesService.getPropertyInt( PROPERTY_MAX_AWAIT_TERMINATION_DELAY, 15 );
+    private static final int DAEMON_CORE_POOL_SIZE = AppPropertiesService.getPropertyInt( PROPERTY_SCHEDULED_THREAD_CORE_POOL_SIZE, 30 );
+    private static final Map<String, DaemonEntry> _mapDaemonEntries = new HashMap<String, DaemonEntry>( );
     private static final ScheduledThreadPoolExecutor _scheduler = (ScheduledThreadPoolExecutor) Executors.newScheduledThreadPool( DAEMON_CORE_POOL_SIZE,
-            new DaemonThreadFactory(  ) );
-    private static ConcurrentHashMap<String, ScheduledFuture<?>> _lRunningThread = new ConcurrentHashMap<String, ScheduledFuture<?>>(  );
-    private static final Random _random = new Random(  );
+            new DaemonThreadFactory( ) );
+    private static ConcurrentHashMap<String, ScheduledFuture<?>> _lRunningThread = new ConcurrentHashMap<String, ScheduledFuture<?>>( );
+    private static final Random _random = new Random( );
     private static boolean _bInit;
 
     /** Private constructor */
-    private AppDaemonService(  )
+    private AppDaemonService( )
     {
     }
 
     /**
-     * Performs initialization of the DaemonFactory.  Note that this should
-     * return right away so that processing can continue (IE thread off
-     * everything)
-     * @throws LuteceInitException If an error occurred
+     * Performs initialization of the DaemonFactory. Note that this should return right away so that processing can continue (IE thread off everything)
+     * 
+     * @throws LuteceInitException
+     *             If an error occurred
      */
-    public static synchronized void init(  ) throws LuteceInitException
+    public static synchronized void init( ) throws LuteceInitException
     {
         // already initialized
         if ( _bInit )
@@ -92,14 +88,14 @@ public final class AppDaemonService
             return;
         }
 
-        if ( _mapDaemonEntries.size(  ) > 0 )
+        if ( _mapDaemonEntries.size( ) > 0 )
         {
             // Unsynchronized daemon start
             int nInitialDaemon = 0;
 
-            for ( DaemonEntry entry : _mapDaemonEntries.values(  ) )
+            for ( DaemonEntry entry : _mapDaemonEntries.values( ) )
             {
-                if ( entry.onStartup(  ) )
+                if ( entry.onStartup( ) )
                 {
                     nInitialDaemon++;
                 }
@@ -115,10 +111,10 @@ public final class AppDaemonService
             int nInitialDelay = 0;
 
             // Register daemons
-            for ( DaemonEntry entry : _mapDaemonEntries.values(  ) )
+            for ( DaemonEntry entry : _mapDaemonEntries.values( ) )
             {
                 // starts any daemon declared as startup daemons
-                if ( entry.onStartup(  ) )
+                if ( entry.onStartup( ) )
                 {
                     nInitialDelay += nDelay;
 
@@ -132,20 +128,21 @@ public final class AppDaemonService
 
     /**
      * Register a daemon by its entry
-     * @param entry The daemon entry
-     * @throws LuteceInitException If an error occurred
+     * 
+     * @param entry
+     *            The daemon entry
+     * @throws LuteceInitException
+     *             If an error occurred
      */
-    public static void registerDaemon( DaemonEntry entry )
-        throws LuteceInitException
+    public static void registerDaemon( DaemonEntry entry ) throws LuteceInitException
     {
-        String strIntervalKey = getIntervalKey( entry.getId(  ) );
+        String strIntervalKey = getIntervalKey( entry.getId( ) );
         String strIntervalKeyDefaultValue = null;
 
-        //init interval value if no exists
+        // init interval value if no exists
         if ( !DatastoreService.existsInstanceKey( strIntervalKey ) )
         {
-            strIntervalKeyDefaultValue = AppPropertiesService.getProperty( "daemon." + entry.getId(  ) + ".interval",
-                    "10" );
+            strIntervalKeyDefaultValue = AppPropertiesService.getProperty( "daemon." + entry.getId( ) + ".interval", "10" );
             DatastoreService.setInstanceDataValue( strIntervalKey, strIntervalKeyDefaultValue );
         }
 
@@ -153,15 +150,14 @@ public final class AppDaemonService
 
         long lInterval = Long.valueOf( strIntervalKeyValue );
 
-        String strOnStartupKey = getOnStartupKey( entry.getId(  ) );
+        String strOnStartupKey = getOnStartupKey( entry.getId( ) );
         String strOnStartupDefaultValue = null;
 
-        //init onStartup value if no exists
+        // init onStartup value if no exists
         if ( !DatastoreService.existsInstanceKey( strOnStartupKey ) )
         {
-            strOnStartupDefaultValue = AppPropertiesService.getProperty( "daemon." + entry.getId(  ) + ".onstartup", "0" )
-                                                           .equals( "1" ) ? DatastoreService.VALUE_TRUE
-                                                                          : DatastoreService.VALUE_FALSE;
+            strOnStartupDefaultValue = AppPropertiesService.getProperty( "daemon." + entry.getId( ) + ".onstartup", "0" ).equals( "1" ) ? DatastoreService.VALUE_TRUE
+                    : DatastoreService.VALUE_FALSE;
             DatastoreService.setInstanceDataValue( strOnStartupKey, strOnStartupDefaultValue );
         }
 
@@ -173,35 +169,37 @@ public final class AppDaemonService
 
         try
         {
-            entry.loadDaemon(  );
+            entry.loadDaemon( );
         }
-        catch ( ClassNotFoundException e )
+        catch( ClassNotFoundException e )
         {
-            throw new LuteceInitException( "Couldn't instantiate daemon: " + entry.getId(  ), e );
+            throw new LuteceInitException( "Couldn't instantiate daemon: " + entry.getId( ), e );
         }
-        catch ( InstantiationException e )
+        catch( InstantiationException e )
         {
-            throw new LuteceInitException( "Couldn't instantiate daemon: " + entry.getId(  ), e );
+            throw new LuteceInitException( "Couldn't instantiate daemon: " + entry.getId( ), e );
         }
-        catch ( IllegalAccessException e )
+        catch( IllegalAccessException e )
         {
-            throw new LuteceInitException( "Couldn't instantiate daemon: " + entry.getId(  ), e );
+            throw new LuteceInitException( "Couldn't instantiate daemon: " + entry.getId( ), e );
         }
 
         // Add plugin name to Daemon class
-        if ( entry.getPluginName(  ) != null )
+        if ( entry.getPluginName( ) != null )
         {
-            entry.getDaemon(  ).setPluginName( entry.getPluginName(  ) );
+            entry.getDaemon( ).setPluginName( entry.getPluginName( ) );
         }
 
-        _mapDaemonEntries.put( entry.getId(  ), entry );
+        _mapDaemonEntries.put( entry.getId( ), entry );
 
-        AppLogService.info( "New Daemon registered : " + entry.getId(  ) );
+        AppLogService.info( "New Daemon registered : " + entry.getId( ) );
     }
 
     /**
      * Unregister a daemon
-     * @param strDaemonKey The daemon key
+     * 
+     * @param strDaemonKey
+     *            The daemon key
      */
     public static void unregisterDaemon( String strDaemonKey )
     {
@@ -211,7 +209,9 @@ public final class AppDaemonService
 
     /**
      * Starts a daemon
-     * @param strDaemonKey The daemon key
+     * 
+     * @param strDaemonKey
+     *            The daemon key
      */
     public static void startDaemon( String strDaemonKey )
     {
@@ -220,7 +220,9 @@ public final class AppDaemonService
 
     /**
      * Stops a daemon
-     * @param strDaemonKey The daemon key
+     * 
+     * @param strDaemonKey
+     *            The daemon key
      */
     public static void stopDaemon( String strDaemonKey )
     {
@@ -229,8 +231,11 @@ public final class AppDaemonService
 
     /**
      * modify daemon interval
-     * @param strDaemonKey The daemon key
-     * @param strDaemonInterval the daemon interval
+     * 
+     * @param strDaemonKey
+     *            The daemon key
+     * @param strDaemonInterval
+     *            the daemon interval
      */
     public static void modifyDaemonInterval( String strDaemonKey, String strDaemonInterval )
     {
@@ -239,13 +244,15 @@ public final class AppDaemonService
         if ( entry != null )
         {
             entry.setInterval( new Long( strDaemonInterval ) );
-            DatastoreService.setInstanceDataValue( getIntervalKey( entry.getId(  ) ), strDaemonInterval );
+            DatastoreService.setInstanceDataValue( getIntervalKey( entry.getId( ) ), strDaemonInterval );
         }
     }
 
     /**
      * Add daemon to schedule's queue
-     * @param entry The DaemonEntry
+     * 
+     * @param entry
+     *            The DaemonEntry
      */
     private static void scheduleThread( DaemonEntry entry )
     {
@@ -253,44 +260,50 @@ public final class AppDaemonService
     }
 
     /**
-     *  Add daemon to schedule's queue
-     * @param entry The DaemonEntry
-     * @param nInitialDelay Initial start delay
+     * Add daemon to schedule's queue
+     * 
+     * @param entry
+     *            The DaemonEntry
+     * @param nInitialDelay
+     *            Initial start delay
      */
     private static void scheduleThread( DaemonEntry entry, int nInitialDelay )
     {
-        ScheduledFuture<?> result = _lRunningThread.get( entry.getId(  ) );
+        ScheduledFuture<?> result = _lRunningThread.get( entry.getId( ) );
 
         if ( result == null )
         {
-            ScheduledFuture<?> task = _scheduler.scheduleAtFixedRate( entry.getDaemonThread(  ), nInitialDelay,
-                    entry.getInterval(  ), TimeUnit.SECONDS );
+            ScheduledFuture<?> task = _scheduler.scheduleAtFixedRate( entry.getDaemonThread( ), nInitialDelay, entry.getInterval( ), TimeUnit.SECONDS );
 
-            _lRunningThread.putIfAbsent( entry.getId(  ), task );
-            AppLogService.info( "Starting daemon '" + entry.getId(  ) + "'" );
+            _lRunningThread.putIfAbsent( entry.getId( ), task );
+            AppLogService.info( "Starting daemon '" + entry.getId( ) + "'" );
         }
 
         entry.setIsRunning( true );
-        //update onStartup property
-        DatastoreService.setInstanceDataValue( getOnStartupKey( entry.getId(  ) ), DatastoreService.VALUE_TRUE );
+        // update onStartup property
+        DatastoreService.setInstanceDataValue( getOnStartupKey( entry.getId( ) ), DatastoreService.VALUE_TRUE );
     }
 
     /**
      * Remove daemon from schedule's queue
-     * @param entry The DaemonEntry
+     * 
+     * @param entry
+     *            The DaemonEntry
      */
     private static void unScheduleThread( DaemonEntry entry )
     {
-        cancelScheduledThread( entry.getId(  ) );
+        cancelScheduledThread( entry.getId( ) );
         entry.setIsRunning( false );
-        //update onStartup property
-        DatastoreService.setInstanceDataValue( getOnStartupKey( entry.getId(  ) ), DatastoreService.VALUE_FALSE );
-        AppLogService.info( "Stopping daemon '" + entry.getId(  ) + "'" );
+        // update onStartup property
+        DatastoreService.setInstanceDataValue( getOnStartupKey( entry.getId( ) ), DatastoreService.VALUE_FALSE );
+        AppLogService.info( "Stopping daemon '" + entry.getId( ) + "'" );
     }
 
     /**
      * Cancel scheduled thread (don't interrupt if it is running )
-     * @param strEntryId The DaemonEntry Id
+     * 
+     * @param strEntryId
+     *            The DaemonEntry Id
      */
     protected static void cancelScheduledThread( String strEntryId )
     {
@@ -300,7 +313,7 @@ public final class AppDaemonService
         {
             task.cancel( false );
             _scheduler.remove( (Runnable) task );
-            _scheduler.purge(  );
+            _scheduler.purge( );
             _lRunningThread.remove( strEntryId );
         }
     }
@@ -310,22 +323,21 @@ public final class AppDaemonService
      *
      * @return the entries list of daemons declaration
      */
-    public static Collection<DaemonEntry> getDaemonEntries(  )
+    public static Collection<DaemonEntry> getDaemonEntries( )
     {
-        return _mapDaemonEntries.values(  );
+        return _mapDaemonEntries.values( );
     }
 
     /**
      * Performs the shutdown of the DaemonFactory.
      */
-    public static void shutdown(  )
+    public static void shutdown( )
     {
-        AppLogService.info( 
-            "Lutece daemons scheduler stop requested : trying to terminate gracefully daemons list (max wait " +
-            MAX_AWAIT_TERMINATION_DELAY + " s)." );
+        AppLogService.info( "Lutece daemons scheduler stop requested : trying to terminate gracefully daemons list (max wait " + MAX_AWAIT_TERMINATION_DELAY
+                + " s)." );
         _scheduler.setExecuteExistingDelayedTasksAfterShutdownPolicy( false );
         _scheduler.setContinueExistingPeriodicTasksAfterShutdownPolicy( false );
-        _scheduler.shutdown(  );
+        _scheduler.shutdown( );
 
         try
         {
@@ -335,9 +347,8 @@ public final class AppDaemonService
             }
             else
             {
-                AppLogService.info( _scheduler.getActiveCount(  ) +
-                    " daemons still running, trying to interrupt them..." );
-                _scheduler.shutdownNow(  );
+                AppLogService.info( _scheduler.getActiveCount( ) + " daemons still running, trying to interrupt them..." );
+                _scheduler.shutdownNow( );
 
                 if ( _scheduler.awaitTermination( 1, TimeUnit.SECONDS ) )
                 {
@@ -345,37 +356,39 @@ public final class AppDaemonService
                 }
                 else
                 {
-                    AppLogService.error( "Interrupt failed : " + _scheduler.getActiveCount(  ) +
-                        " daemons still running." );
+                    AppLogService.error( "Interrupt failed : " + _scheduler.getActiveCount( ) + " daemons still running." );
                 }
             }
         }
-        catch ( InterruptedException e )
+        catch( InterruptedException e )
         {
             AppLogService.error( "Error during waiting for daemons termination", e );
         }
         finally
         {
-            _scheduler.purge(  );
+            _scheduler.purge( );
         }
     }
 
     /**
      * Gets a daemon object from its key name
      *
-     * @param strDaemonKey The daemon key
+     * @param strDaemonKey
+     *            The daemon key
      * @return The daemon
      */
     public static Daemon getDaemon( String strDaemonKey )
     {
         DaemonEntry entry = _mapDaemonEntries.get( strDaemonKey );
 
-        return entry.getDaemon(  );
+        return entry.getDaemon( );
     }
 
     /**
      * return the OnStartup key link to the daemon
-     * @param strDaemonKey The daemon key
+     * 
+     * @param strDaemonKey
+     *            The daemon key
      * @return The key
      */
     private static String getOnStartupKey( String strDaemonKey )
@@ -385,7 +398,9 @@ public final class AppDaemonService
 
     /**
      * return the Interval key link to the daemon
-     * @param strDaemonKey The daemon key
+     * 
+     * @param strDaemonKey
+     *            The daemon key
      * @return The key
      */
     private static String getIntervalKey( String strDaemonKey )

@@ -38,7 +38,6 @@ import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.MokeHttpServletRequest;
 
-
 /**
  * StyleSheetJspBean Test Class
  *
@@ -51,14 +50,14 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
     /**
      * Test of getManageRoles method, of class fr.paris.lutece.portal.web.rbac.RoleManagementJspBean.
      */
-    public void testGetManageRoles(  ) throws AccessDeniedException
+    public void testGetManageRoles( ) throws AccessDeniedException
     {
         System.out.println( "getManageRoles" );
 
-        MokeHttpServletRequest request = new MokeHttpServletRequest(  );
-        request.registerAdminUserWithRigth( new AdminUser(  ), RoleManagementJspBean.RIGHT_MANAGE_ROLES );
+        MokeHttpServletRequest request = new MokeHttpServletRequest( );
+        request.registerAdminUserWithRigth( new AdminUser( ), RoleManagementJspBean.RIGHT_MANAGE_ROLES );
 
-        RoleManagementJspBean instance = new RoleManagementJspBean(  );
+        RoleManagementJspBean instance = new RoleManagementJspBean( );
         instance.init( request, RoleManagementJspBean.RIGHT_MANAGE_ROLES );
         instance.getManageRoles( request );
     }
@@ -66,15 +65,15 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
     /**
      * Test of getCreateRole method, of class fr.paris.lutece.portal.web.rbac.RoleManagementJspBean.
      */
-    public void testGetCreateRole(  ) throws AccessDeniedException
+    public void testGetCreateRole( ) throws AccessDeniedException
     {
         System.out.println( "getCreateRole" );
 
-        MokeHttpServletRequest request = new MokeHttpServletRequest(  );
+        MokeHttpServletRequest request = new MokeHttpServletRequest( );
 
-        request.registerAdminUserWithRigth( new AdminUser(  ), RoleManagementJspBean.RIGHT_MANAGE_ROLES );
+        request.registerAdminUserWithRigth( new AdminUser( ), RoleManagementJspBean.RIGHT_MANAGE_ROLES );
 
-        RoleManagementJspBean instance = new RoleManagementJspBean(  );
+        RoleManagementJspBean instance = new RoleManagementJspBean( );
         instance.init( request, RoleManagementJspBean.RIGHT_MANAGE_ROLES );
         instance.getCreateRole( request );
     }
@@ -82,7 +81,7 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
     /**
      * Test of doCreateRole method, of class fr.paris.lutece.portal.web.rbac.RoleManagementJspBean.
      */
-    public void testDoCreateRole(  )
+    public void testDoCreateRole( )
     {
         System.out.println( "doCreateRole" );
 
@@ -92,7 +91,7 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
     /**
      * Test of getModifyRole method, of class fr.paris.lutece.portal.web.rbac.RoleManagementJspBean.
      */
-    public void testGetModifyRole(  ) throws AccessDeniedException
+    public void testGetModifyRole( ) throws AccessDeniedException
     {
         System.out.println( "getModifyRole" );
 
@@ -102,7 +101,7 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
     /**
      * Test of doModifyRole method, of class fr.paris.lutece.portal.web.rbac.RoleManagementJspBean.
      */
-    public void testDoModifyRole(  )
+    public void testDoModifyRole( )
     {
         System.out.println( "doModifyRole" );
 
@@ -112,7 +111,7 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
     /**
      * Test of doConfirmRemoveRole method, of class fr.paris.lutece.portal.web.rbac.RoleManagementJspBean.
      */
-    public void testDoConfirmRemoveRole(  ) throws AccessDeniedException
+    public void testDoConfirmRemoveRole( ) throws AccessDeniedException
     {
         System.out.println( "doConfirmRemoveRole" );
 
@@ -122,7 +121,7 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
     /**
      * Test of doRemoveRole method, of class fr.paris.lutece.portal.web.rbac.RoleManagementJspBean.
      */
-    public void testDoRemoveRole(  )
+    public void testDoRemoveRole( )
     {
         System.out.println( "doRemoveRole" );
 
@@ -132,7 +131,7 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
     /**
      * Test of getViewRoleDescription method, of class fr.paris.lutece.portal.web.rbac.RoleManagementJspBean.
      */
-    public void testgetViewRoleDescription(  ) throws AccessDeniedException
+    public void testgetViewRoleDescription( ) throws AccessDeniedException
     {
         System.out.println( "getViewRoleDescription" );
 
@@ -142,8 +141,7 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
     /**
      * Test of doConfirmRemoveControlFromRole method, of class fr.paris.lutece.portal.web.rbac.RoleManagementJspBean.
      */
-    public void testDoConfirmRemoveControlFromRole(  )
-        throws AccessDeniedException
+    public void testDoConfirmRemoveControlFromRole( ) throws AccessDeniedException
     {
         System.out.println( "doConfirmRemoveControlFromRole" );
 
@@ -153,7 +151,7 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
     /**
      * Test of doRemoveControlFromRole method, of class fr.paris.lutece.portal.web.rbac.RoleManagementJspBean.
      */
-    public void testDoRemoveControlFromRole(  )
+    public void testDoRemoveControlFromRole( )
     {
         System.out.println( "doRemoveControlFromRole" );
 

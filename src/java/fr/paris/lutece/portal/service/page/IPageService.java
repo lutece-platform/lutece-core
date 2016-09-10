@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -39,7 +39,6 @@ import fr.paris.lutece.portal.service.message.SiteMessageException;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  * Page Service Interface
  */
@@ -48,76 +47,95 @@ public interface IPageService
     /**
      * Build the page content.
      *
-     * @param nIdPage The page ID
-     * @param nMode The current mode.
-     * @param request The HttpRequest
+     * @param nIdPage
+     *            The page ID
+     * @param nMode
+     *            The current mode.
+     * @param request
+     *            The HttpRequest
      * @return The HTML code of the page as a String.
-     * @throws SiteMessageException occurs when a site message need to be displayed
+     * @throws SiteMessageException
+     *             occurs when a site message need to be displayed
      */
-    String getPageContent( int nIdPage, int nMode, HttpServletRequest request )
-        throws SiteMessageException;
+    String getPageContent( int nIdPage, int nMode, HttpServletRequest request ) throws SiteMessageException;
 
     /**
-     * Returns the page for a given ID. The page is built using XML data of each
-     * portlet or retrieved from the cache if it's enable.
+     * Returns the page for a given ID. The page is built using XML data of each portlet or retrieved from the cache if it's enable.
      *
-     * @param strIdPage The page ID
-     * @param nMode The current mode.
-     * @param request The HttpRequest
+     * @param strIdPage
+     *            The page ID
+     * @param nMode
+     *            The current mode.
+     * @param request
+     *            The HttpRequest
      * @return The HTML code of the page as a String.
-     * @throws SiteMessageException occurs when a site message need to be displayed
+     * @throws SiteMessageException
+     *             occurs when a site message need to be displayed
      */
-    String getPage( String strIdPage, int nMode, HttpServletRequest request )
-        throws SiteMessageException;
+    String getPage( String strIdPage, int nMode, HttpServletRequest request ) throws SiteMessageException;
 
     /**
-     * Returns the page for a given ID. The page is built using XML data of each
-     * portlet or retrieved from the cache if it's enable.
+     * Returns the page for a given ID. The page is built using XML data of each portlet or retrieved from the cache if it's enable.
      *
-     * @param request The page ID
-     * @param nMode The current mode.
+     * @param request
+     *            The page ID
+     * @param nMode
+     *            The current mode.
      * @return The HTML code of the page as a String.
-     * @throws SiteMessageException If a message shouldbe displayed
+     * @throws SiteMessageException
+     *             If a message shouldbe displayed
      */
-    String getPage( HttpServletRequest request, int nMode )
-        throws SiteMessageException;
+    String getPage( HttpServletRequest request, int nMode ) throws SiteMessageException;
 
     /**
-    * Invalidate Page Content
-    * @param nPageId The Page ID
-    */
+     * Invalidate Page Content
+     * 
+     * @param nPageId
+     *            The Page ID
+     */
     void invalidateContent( int nPageId );
 
     /**
      * Update the page
-     * @param page The page
+     * 
+     * @param page
+     *            The page
      */
     void updatePage( Page page );
 
     /**
      * Remove the page
-     * @param nPageId The page's id
+     * 
+     * @param nPageId
+     *            The page's id
      */
     void removePage( int nPageId );
 
     /**
      * Create a page
-     * @param page The page to create
+     * 
+     * @param page
+     *            The page to create
      */
     void createPage( Page page );
 
     /**
      * Check if authorized
-     * @param nId The Page's ID
-     * @param strPermission The given permission
-     * @param user The user
+     * 
+     * @param nId
+     *            The Page's ID
+     * @param strPermission
+     *            The given permission
+     * @param user
+     *            The user
      * @return True if authorized, otherwise false
      */
     boolean isAuthorizedAdminPage( int nId, String strPermission, AdminUser user );
 
     /**
      * Return the ressource id type
+     * 
      * @return the resource type id
      */
-    String getResourceTypeId(  );
+    String getResourceTypeId( );
 }

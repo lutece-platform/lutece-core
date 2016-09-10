@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -35,7 +35,6 @@ package fr.paris.lutece.portal.service.prefs;
 
 import fr.paris.lutece.portal.service.security.LuteceUser;
 
-
 /**
  * IPortalUserPreferencesService
  */
@@ -43,29 +42,38 @@ public interface IPortalUserPreferencesService extends IUserPreferencesService
 {
     /**
      * Gets the user's nickname
-     * @param strUserId The User ID
+     * 
+     * @param strUserId
+     *            The User ID
      * @return The nickname
      */
     String getNickname( String strUserId );
 
     /**
      * Gets the user's nickname
-     * @param user The User
+     * 
+     * @param user
+     *            The User
      * @return The nickname
      */
     String getNickname( LuteceUser user );
 
     /**
      * Sets the nickname
-     * @param strUserId The User ID
-     * @param strNickname The nickname
+     * 
+     * @param strUserId
+     *            The User ID
+     * @param strNickname
+     *            The nickname
      */
     void setNickname( String strUserId, String strNickname );
-    
+
     /**
-     * return true if the nickname already exist 
-     * @param strNickname The nickname
+     * return true if the nickname already exist
+     * 
+     * @param strNickname
+     *            The nickname
      *
      */
-    boolean existsNickname( String strNickname  );
+    boolean existsNickname( String strNickname );
 }

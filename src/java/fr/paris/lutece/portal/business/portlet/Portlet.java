@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -44,15 +44,13 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
- * This class represents business objects Portlet. It is the base class of all
- * portlets. It is abstract and the
- * implementation of the interface XmlContent is compulsory.
+ * This class represents business objects Portlet. It is the base class of all portlets. It is abstract and the implementation of the interface XmlContent is
+ * compulsory.
  */
 public abstract class Portlet implements XmlContent
 {
-    ////////////////////////////////////////////////////////////////////////////
+    // //////////////////////////////////////////////////////////////////////////
     // Publics variables common to all the portlets
     public static final int STATUS_PUBLISHED = 0;
     public static final int STATUS_UNPUBLISHED = 1;
@@ -63,7 +61,7 @@ public abstract class Portlet implements XmlContent
     private static final String VALUE_TRUE = "1";
     private static final String VALUE_FALSE = "0";
 
-    ////////////////////////////////////////////////////////////////////////////
+    // //////////////////////////////////////////////////////////////////////////
     // Privates variables common to all the portlets
     private static final int MODE_NORMAL = 0;
     private static final int MODE_ADMIN = 1;
@@ -86,7 +84,7 @@ public abstract class Portlet implements XmlContent
     private Timestamp _dateUpdate;
     private int _nDeviceFlags;
 
-    ////////////////////////////////////////////////////////////////////////////
+    // //////////////////////////////////////////////////////////////////////////
     // Accessors
 
     /**
@@ -94,7 +92,7 @@ public abstract class Portlet implements XmlContent
      *
      * @return the portlet identifier
      */
-    public int getId(  )
+    public int getId( )
     {
         return _nId;
     }
@@ -102,7 +100,8 @@ public abstract class Portlet implements XmlContent
     /**
      * Sets the identifier of the portlet to the specified int.
      *
-     * @param nId the new identifier
+     * @param nId
+     *            the new identifier
      */
     public void setId( int nId )
     {
@@ -114,7 +113,7 @@ public abstract class Portlet implements XmlContent
      *
      * @return the style identifier
      */
-    public int getStyleId(  )
+    public int getStyleId( )
     {
         return _nStyleId;
     }
@@ -122,7 +121,8 @@ public abstract class Portlet implements XmlContent
     /**
      * Sets the identifier of the portlet style with the specified int.
      *
-     * @param nStyleId the new style identifier
+     * @param nStyleId
+     *            the new style identifier
      */
     public void setStyleId( int nStyleId )
     {
@@ -134,7 +134,7 @@ public abstract class Portlet implements XmlContent
      *
      * @return the page identifier
      */
-    public int getPageId(  )
+    public int getPageId( )
     {
         return _nPageId;
     }
@@ -142,7 +142,8 @@ public abstract class Portlet implements XmlContent
     /**
      * Sets the identifier of the portlet style with the specified int.
      *
-     * @param nPageId The identifier of the page
+     * @param nPageId
+     *            The identifier of the page
      */
     public void setPageId( int nPageId )
     {
@@ -154,7 +155,7 @@ public abstract class Portlet implements XmlContent
      *
      * @return the portlet identifier
      */
-    public int getStatus(  )
+    public int getStatus( )
     {
         return _nStatus;
     }
@@ -162,7 +163,8 @@ public abstract class Portlet implements XmlContent
     /**
      * Sets the identifier of the portlet to the specified int.
      *
-     * @param nStatus the new status
+     * @param nStatus
+     *            the new status
      */
     public void setStatus( int nStatus )
     {
@@ -174,7 +176,7 @@ public abstract class Portlet implements XmlContent
      *
      * @return the portlet name
      */
-    public String getName(  )
+    public String getName( )
     {
         return _strName;
     }
@@ -182,7 +184,8 @@ public abstract class Portlet implements XmlContent
     /**
      * Sets the name of this portlet to the specified string.
      *
-     * @param strName the new name
+     * @param strName
+     *            the new name
      */
     public void setName( String strName )
     {
@@ -190,12 +193,11 @@ public abstract class Portlet implements XmlContent
     }
 
     /**
-     * Returns the identifier of the portlet type of this portlet which
-     * caracterizes the portlet.
+     * Returns the identifier of the portlet type of this portlet which caracterizes the portlet.
      *
      * @return the portlet type identifier
      */
-    public String getPortletTypeId(  )
+    public String getPortletTypeId( )
     {
         return _strPortletTypeId;
     }
@@ -203,7 +205,8 @@ public abstract class Portlet implements XmlContent
     /**
      * Sets the identifier of the portlet type to the specified int.
      *
-     * @param strPortletTypeId the portlet type identifier
+     * @param strPortletTypeId
+     *            the portlet type identifier
      */
     public void setPortletTypeId( String strPortletTypeId )
     {
@@ -215,7 +218,7 @@ public abstract class Portlet implements XmlContent
      *
      * @return the portlet type name
      */
-    public String getPortletTypeName(  )
+    public String getPortletTypeName( )
     {
         return _strPortletTypeName;
     }
@@ -223,7 +226,8 @@ public abstract class Portlet implements XmlContent
     /**
      * Sets the name of this portlet type with the specified string.
      *
-     * @param strPortletTypeName the new portlet type name
+     * @param strPortletTypeName
+     *            the new portlet type name
      */
     public void setPortletTypeName( String strPortletTypeName )
     {
@@ -235,7 +239,7 @@ public abstract class Portlet implements XmlContent
      *
      * @return the url of the creation
      */
-    public String getUrlCreation(  )
+    public String getUrlCreation( )
     {
         return _strUrlCreation;
     }
@@ -243,7 +247,8 @@ public abstract class Portlet implements XmlContent
     /**
      * Sets the url of the program which creates this portlet
      *
-     * @param strUrlCreation The url of creation
+     * @param strUrlCreation
+     *            The url of creation
      */
     public void setUrlCreation( String strUrlCreation )
     {
@@ -255,7 +260,7 @@ public abstract class Portlet implements XmlContent
      *
      * @return the url of the program as a String
      */
-    public String getUrlUpdate(  )
+    public String getUrlUpdate( )
     {
         return _strUrlUpdate;
     }
@@ -263,7 +268,8 @@ public abstract class Portlet implements XmlContent
     /**
      * Sets the url of the program which updates this portlet
      *
-     * @param strUrlUpdate The url of update
+     * @param strUrlUpdate
+     *            The url of update
      */
     public void setUrlUpdate( String strUrlUpdate )
     {
@@ -275,7 +281,7 @@ public abstract class Portlet implements XmlContent
      *
      * @return the update date
      */
-    public Timestamp getDateUpdate(  )
+    public Timestamp getDateUpdate( )
     {
         return _dateUpdate;
     }
@@ -283,7 +289,8 @@ public abstract class Portlet implements XmlContent
     /**
      * Sets the date of update of this portlet with the specified date.
      *
-     * @param dateUpdate the new date
+     * @param dateUpdate
+     *            the new date
      */
     public void setDateUpdate( Timestamp dateUpdate )
     {
@@ -295,16 +302,16 @@ public abstract class Portlet implements XmlContent
      *
      * @return the number of the column
      */
-    public int getColumn(  )
+    public int getColumn( )
     {
         return _nColumn;
     }
 
     /**
-     * Sets the number of the column of this portlet in its page with the
-     * specified int.
+     * Sets the number of the column of this portlet in its page with the specified int.
      *
-     * @param nColumn the new number of column
+     * @param nColumn
+     *            the new number of column
      */
     public void setColumn( int nColumn )
     {
@@ -316,7 +323,7 @@ public abstract class Portlet implements XmlContent
      *
      * @return the order
      */
-    public int getOrder(  )
+    public int getOrder( )
     {
         return _nOrder;
     }
@@ -324,7 +331,8 @@ public abstract class Portlet implements XmlContent
     /**
      * Sets the order of this portlet in its page with the specified int.
      *
-     * @param nType the new order
+     * @param nType
+     *            the new order
      */
     public void setOrder( int nType )
     {
@@ -333,16 +341,19 @@ public abstract class Portlet implements XmlContent
 
     /**
      * Gets device display flags
+     * 
      * @return Flags
      */
-    public int getDeviceDisplayFlags(  )
+    public int getDeviceDisplayFlags( )
     {
         return _nDeviceFlags;
     }
 
     /**
      * Check if a flag is setted
-     * @param nFlag The flag to check
+     * 
+     * @param nFlag
+     *            The flag to check
      * @return true if the flag is set, otherwise false
      */
     public boolean hasDeviceDisplayFlag( int nFlag )
@@ -352,7 +363,9 @@ public abstract class Portlet implements XmlContent
 
     /**
      * Set device display flags
-     * @param nFlags Flags
+     * 
+     * @param nFlags
+     *            Flags
      */
     public void setDeviceDisplayFlags( int nFlags )
     {
@@ -364,16 +377,16 @@ public abstract class Portlet implements XmlContent
      *
      * @return the java class name
      */
-    public String getHomeClassName(  )
+    public String getHomeClassName( )
     {
         return _strHomeClassName;
     }
 
     /**
-     * Sets the name of the java class which manages this type of portlet with
-     * the specified string.
+     * Sets the name of the java class which manages this type of portlet with the specified string.
      *
-     * @param strHomeClassName The Home Class name
+     * @param strHomeClassName
+     *            The Home Class name
      */
     public void setHomeClassName( String strHomeClassName )
     {
@@ -385,16 +398,16 @@ public abstract class Portlet implements XmlContent
      *
      * @return 1 if the portlet can be updated, 0 if not
      */
-    public int getAcceptAlias(  )
+    public int getAcceptAlias( )
     {
         return _nAcceptAlias;
     }
 
     /**
-     * Sets the flag which indicates that this portlet can be have a title or
-     * not.
+     * Sets the flag which indicates that this portlet can be have a title or not.
      *
-     * @param nDisplayPortletTitle The flag
+     * @param nDisplayPortletTitle
+     *            The flag
      */
     public void setDisplayPortletTitle( int nDisplayPortletTitle )
     {
@@ -406,7 +419,7 @@ public abstract class Portlet implements XmlContent
      *
      * @return 1 if the portlet can be have a title, 0 if not
      */
-    public int getDisplayPortletTitle(  )
+    public int getDisplayPortletTitle( )
     {
         return _nDisplayPortletTitle;
     }
@@ -414,7 +427,8 @@ public abstract class Portlet implements XmlContent
     /**
      * Sets the flag which indicates that this portlet can be updated or not.
      *
-     * @param nAcceptAlias The flag
+     * @param nAcceptAlias
+     *            The flag
      */
     public void setAcceptAlias( int nAcceptAlias )
     {
@@ -426,7 +440,7 @@ public abstract class Portlet implements XmlContent
      *
      * @return The pluginName
      */
-    public String getPluginName(  )
+    public String getPluginName( )
     {
         return _strPluginName;
     }
@@ -434,7 +448,8 @@ public abstract class Portlet implements XmlContent
     /**
      * Sets the flag which indicates that this portlet can be updated or not.
      *
-     * @param strPluginName The flag
+     * @param strPluginName
+     *            The flag
      */
     public void setPluginName( String strPluginName )
     {
@@ -443,10 +458,11 @@ public abstract class Portlet implements XmlContent
 
     /**
      * Gets the portlet's role
+     * 
      * @return page's role as a String
      * @since v2.5
      */
-    public String getRole(  )
+    public String getRole( )
     {
         _strRole = ( _strRole == null ) ? Page.ROLE_NONE : _strRole;
 
@@ -455,7 +471,9 @@ public abstract class Portlet implements XmlContent
 
     /**
      * Sets the portlet's role
-     * @param strRole The role
+     * 
+     * @param strRole
+     *            The role
      * @since v2.5
      */
     public void setRole( String strRole )
@@ -463,78 +481,76 @@ public abstract class Portlet implements XmlContent
         _strRole = ( ( strRole == null ) || ( strRole.equals( "" ) ) ) ? Page.ROLE_NONE : strRole;
     }
 
-    ////////////////////////////////////////////////////////////////////////////
+    // //////////////////////////////////////////////////////////////////////////
     // Operations
 
     /**
      * This method copies the fields of the portlet specified in this portlet.
      *
-     * @param portlet the portlet to copy
+     * @param portlet
+     *            the portlet to copy
      */
     public void copy( Portlet portlet )
     {
-        setId( portlet.getId(  ) );
-        setPortletTypeId( portlet.getPortletTypeId(  ) );
-        setPageId( portlet.getPageId(  ) );
-        setStyleId( portlet.getStyleId(  ) );
-        setName( portlet.getName(  ) );
-        setPortletTypeName( portlet.getPortletTypeName(  ) );
-        setUrlCreation( portlet.getUrlCreation(  ) );
-        setUrlUpdate( portlet.getUrlUpdate(  ) );
-        setDateUpdate( portlet.getDateUpdate(  ) );
-        setColumn( portlet.getColumn(  ) );
-        setOrder( portlet.getOrder(  ) );
-        setAcceptAlias( portlet.getAcceptAlias(  ) );
-        setPluginName( portlet.getPluginName(  ) );
-        setDisplayPortletTitle( portlet.getDisplayPortletTitle(  ) );
-        setDeviceDisplayFlags( portlet.getDeviceDisplayFlags(  ) );
-        setStatus( portlet.getStatus(  ) );
-        setRole( portlet.getRole(  ) );
+        setId( portlet.getId( ) );
+        setPortletTypeId( portlet.getPortletTypeId( ) );
+        setPageId( portlet.getPageId( ) );
+        setStyleId( portlet.getStyleId( ) );
+        setName( portlet.getName( ) );
+        setPortletTypeName( portlet.getPortletTypeName( ) );
+        setUrlCreation( portlet.getUrlCreation( ) );
+        setUrlUpdate( portlet.getUrlUpdate( ) );
+        setDateUpdate( portlet.getDateUpdate( ) );
+        setColumn( portlet.getColumn( ) );
+        setOrder( portlet.getOrder( ) );
+        setAcceptAlias( portlet.getAcceptAlias( ) );
+        setPluginName( portlet.getPluginName( ) );
+        setDisplayPortletTitle( portlet.getDisplayPortletTitle( ) );
+        setDeviceDisplayFlags( portlet.getDeviceDisplayFlags( ) );
+        setStatus( portlet.getStatus( ) );
+        setRole( portlet.getRole( ) );
     }
 
     /**
      * Add the common tags to all the portlets to the XML document
      *
-     * @param strPortlet The string buffer which contains the XML content of
-     *            this portlet
+     * @param strPortlet
+     *            The string buffer which contains the XML content of this portlet
      * @return The XML content of this portlet encapsulated by the common tags
      */
     protected String addPortletTags( StringBuffer strPortlet )
     {
-        StringBuffer strXml = new StringBuffer(  );
+        StringBuffer strXml = new StringBuffer( );
         XmlUtil.beginElement( strXml, TAG_PORTLET );
-        XmlUtil.addElementHtml( strXml, TAG_PORTLET_NAME, getName(  ) );
-        XmlUtil.addElement( strXml, TAG_PORTLET_ID, getId(  ) );
-        XmlUtil.addElement( strXml, TAG_PAGE_ID, getPageId(  ) );
-        XmlUtil.addElement( strXml, TAG_PLUGIN_NAME, getPluginName(  ) );
-        XmlUtil.addElement( strXml, TAG_DISPLAY_PORTLET_TITLE, getDisplayPortletTitle(  ) );
+        XmlUtil.addElementHtml( strXml, TAG_PORTLET_NAME, getName( ) );
+        XmlUtil.addElement( strXml, TAG_PORTLET_ID, getId( ) );
+        XmlUtil.addElement( strXml, TAG_PAGE_ID, getPageId( ) );
+        XmlUtil.addElement( strXml, TAG_PLUGIN_NAME, getPluginName( ) );
+        XmlUtil.addElement( strXml, TAG_DISPLAY_PORTLET_TITLE, getDisplayPortletTitle( ) );
 
-        String strDisplayOnSmallDevice = ( ( getDeviceDisplayFlags(  ) & FLAG_DISPLAY_ON_SMALL_DEVICE ) != 0 )
-            ? VALUE_TRUE : VALUE_FALSE;
+        String strDisplayOnSmallDevice = ( ( getDeviceDisplayFlags( ) & FLAG_DISPLAY_ON_SMALL_DEVICE ) != 0 ) ? VALUE_TRUE : VALUE_FALSE;
         XmlUtil.addElement( strXml, TAG_DISPLAY_ON_SMALL_DEVICE, strDisplayOnSmallDevice );
 
-        String strDisplayOnNormalDevice = ( ( getDeviceDisplayFlags(  ) & FLAG_DISPLAY_ON_NORMAL_DEVICE ) != 0 )
-            ? VALUE_TRUE : VALUE_FALSE;
+        String strDisplayOnNormalDevice = ( ( getDeviceDisplayFlags( ) & FLAG_DISPLAY_ON_NORMAL_DEVICE ) != 0 ) ? VALUE_TRUE : VALUE_FALSE;
         XmlUtil.addElement( strXml, TAG_DISPLAY_ON_NORMAL_DEVICE, strDisplayOnNormalDevice );
 
-        String strDisplayOnLargeDevice = ( ( getDeviceDisplayFlags(  ) & FLAG_DISPLAY_ON_LARGE_DEVICE ) != 0 )
-            ? VALUE_TRUE : VALUE_FALSE;
+        String strDisplayOnLargeDevice = ( ( getDeviceDisplayFlags( ) & FLAG_DISPLAY_ON_LARGE_DEVICE ) != 0 ) ? VALUE_TRUE : VALUE_FALSE;
         XmlUtil.addElement( strXml, TAG_DISPLAY_ON_LARGE_DEVICE, strDisplayOnLargeDevice );
 
-        String strDisplayOnXLargeDevice = ( ( getDeviceDisplayFlags(  ) & FLAG_DISPLAY_ON_XLARGE_DEVICE ) != 0 )
-            ? VALUE_TRUE : VALUE_FALSE;
+        String strDisplayOnXLargeDevice = ( ( getDeviceDisplayFlags( ) & FLAG_DISPLAY_ON_XLARGE_DEVICE ) != 0 ) ? VALUE_TRUE : VALUE_FALSE;
         XmlUtil.addElement( strXml, TAG_DISPLAY_ON_XLARGE_DEVICE, strDisplayOnXLargeDevice );
 
-        strXml.append( strPortlet.toString(  ) );
+        strXml.append( strPortlet.toString( ) );
         XmlUtil.endElement( strXml, TAG_PORTLET );
 
-        return strXml.toString(  );
+        return strXml.toString( );
     }
 
     /**
      * Recovers the stylesheet of the portlet according to the mode
      *
-     * @param nMode the selected mode.
+     * @param nMode
+     *            the selected mode.
      * @return the name of the stylesheet file
      */
     public String getXslFile( int nMode )
@@ -543,92 +559,87 @@ public abstract class Portlet implements XmlContent
 
         // Added in v1.3
         // Use the same stylesheet for normal or admin mode
-        switch ( nMode )
+        switch( nMode )
         {
             case MODE_NORMAL:
             case MODE_ADMIN:
-                xsl = PortletHome.getXsl( getId(  ), MODE_NORMAL );
+                xsl = PortletHome.getXsl( getId( ), MODE_NORMAL );
 
                 break;
 
             default:
-                xsl = PortletHome.getXsl( getId(  ), nMode );
+                xsl = PortletHome.getXsl( getId( ), nMode );
 
                 break;
         }
 
-        return xsl.getFile(  );
+        return xsl.getFile( );
     }
 
     /**
      * Recovers the stylesheet of the portlet according to the mode
      *
-     * @param nMode the selected mode.
+     * @param nMode
+     *            the selected mode.
      * @return the content of the stylesheet file
      */
-    public byte[] getXslSource( int nMode )
+    public byte [ ] getXslSource( int nMode )
     {
         StyleSheet xsl;
 
         // Added in v1.3
         // Use the same stylesheet for normal or admin mode
-        switch ( nMode )
+        switch( nMode )
         {
             case MODE_NORMAL:
             case MODE_ADMIN:
-                xsl = PortletHome.getXsl( getId(  ), MODE_NORMAL );
+                xsl = PortletHome.getXsl( getId( ), MODE_NORMAL );
 
                 break;
 
             default:
-                xsl = PortletHome.getXsl( getId(  ), nMode );
+                xsl = PortletHome.getXsl( getId( ), nMode );
 
                 break;
         }
 
-        return xsl.getSource(  );
+        return xsl.getSource( );
     }
 
     /**
-     * Recovers the parameters to use with the stylesheet at the time of the
-     * transformation.<br>
-     * By default, portlets
-     * do not return any parameter
+     * Recovers the parameters to use with the stylesheet at the time of the transformation.<br>
+     * By default, portlets do not return any parameter
      *
-     * @return a collection of the type Dictionary (Use the Hashtable
-     *         implementation)
+     * @return a collection of the type Dictionary (Use the Hashtable implementation)
      */
-    public Map<String, String> getXslParams(  )
+    public Map<String, String> getXslParams( )
     {
         return null;
     }
 
     /**
-     * Remove the portlet. This method MUST be overloaded on the level of the
-     * implementation of each portlet
+     * Remove the portlet. This method MUST be overloaded on the level of the implementation of each portlet
      */
-    public abstract void remove(  );
+    public abstract void remove( );
 
     /**
-     * Check if the content of this portlet is generated by xml and xsl, or if
-     * it manage its own content generation
-     * @return True if the content must be generated from XML and XSL, false if
-     *         it must be generated by the
-     *         {@link #getHtmlContent(HttpServletRequest request)} method
+     * Check if the content of this portlet is generated by xml and xsl, or if it manage its own content generation
+     * 
+     * @return True if the content must be generated from XML and XSL, false if it must be generated by the {@link #getHtmlContent(HttpServletRequest request)}
+     *         method
      */
-    public boolean isContentGeneratedByXmlAndXsl(  )
+    public boolean isContentGeneratedByXmlAndXsl( )
     {
         return true;
     }
 
     /**
-     * Get the HTML content of the portlet. If the content must be generated
-     * from XML and XSL, then this method should return null. This method should
-     * only be overrided if the method {@link #isContentGeneratedByXmlAndXsl()}
-     * returns true
-     * @param request The request
-     * @return The HTML content of the portlet, or null if the content is
-     *         generated from XML and XSL
+     * Get the HTML content of the portlet. If the content must be generated from XML and XSL, then this method should return null. This method should only be
+     * overrided if the method {@link #isContentGeneratedByXmlAndXsl()} returns true
+     * 
+     * @param request
+     *            The request
+     * @return The HTML content of the portlet, or null if the content is generated from XML and XSL
      */
     public String getHtmlContent( HttpServletRequest request )
     {
@@ -636,41 +647,29 @@ public abstract class Portlet implements XmlContent
     }
 
     /**
-     * Check if the content of the portlet can be put in cache if the current
-     * user is not authenticated. If a cache is disabled for a portlet, then
-     * every page that contains a portlet of this type will NOT use the page
-     * cache, and portlet contents of this portlet type will not be saved into
-     * portlet cache.<br />
-     * WARNING : Overrides this method with extreme care : disabling page cache
-     * can cause severe performance issues !
-     * @return True if the content of the portlet can be put in cache if the
-     *         user is not authenticated, false otherwise.<br />
+     * Check if the content of the portlet can be put in cache if the current user is not authenticated. If a cache is disabled for a portlet, then every page
+     * that contains a portlet of this type will NOT use the page cache, and portlet contents of this portlet type will not be saved into portlet cache.<br />
+     * WARNING : Overrides this method with extreme care : disabling page cache can cause severe performance issues !
+     * 
+     * @return True if the content of the portlet can be put in cache if the user is not authenticated, false otherwise.<br />
      *         The default value is true.
-     * @see #canBeCachedForConnectedUsers()
-     *      {@link #canBeCachedForConnectedUsers()} for cache for
-     *      authenticated users
+     * @see #canBeCachedForConnectedUsers() {@link #canBeCachedForConnectedUsers()} for cache for authenticated users
      */
-    public boolean canBeCachedForAnonymousUsers(  )
+    public boolean canBeCachedForAnonymousUsers( )
     {
         return true;
     }
 
     /**
-     * Check if the content of the portlet can be put in cache if the current
-     * user is authenticated. If a cache is disabled for a portlet, then every
-     * page that contains a portlet of this type will NOT use the page cache,
-     * and portlet contents of this portlet type will not be saved into portlet
-     * cache.<br />
-     * WARNING : Overrides this method with extreme care : disabling page cache
-     * can cause severe performance issues !
-     * @return True if the content of the portlet can be put in cache if the
-     *         user is authenticated, false otherwise.<br />
+     * Check if the content of the portlet can be put in cache if the current user is authenticated. If a cache is disabled for a portlet, then every page that
+     * contains a portlet of this type will NOT use the page cache, and portlet contents of this portlet type will not be saved into portlet cache.<br />
+     * WARNING : Overrides this method with extreme care : disabling page cache can cause severe performance issues !
+     * 
+     * @return True if the content of the portlet can be put in cache if the user is authenticated, false otherwise.<br />
      *         The default value is true.
-     * @see #canBeCachedForAnonymousUsers()
-     *      {@link #canBeCachedForAnonymousUsers()} for cache for anonymous
-     *      users
+     * @see #canBeCachedForAnonymousUsers() {@link #canBeCachedForAnonymousUsers()} for cache for anonymous users
      */
-    public boolean canBeCachedForConnectedUsers(  )
+    public boolean canBeCachedForConnectedUsers( )
     {
         return true;
     }

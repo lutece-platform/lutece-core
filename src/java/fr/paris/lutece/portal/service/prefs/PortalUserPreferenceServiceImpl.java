@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -35,12 +35,10 @@ package fr.paris.lutece.portal.service.prefs;
 
 import fr.paris.lutece.portal.service.security.LuteceUser;
 
-
 /**
  * Portal User Preference Service
  */
-public class PortalUserPreferenceServiceImpl extends BaseUserPreferencesServiceImpl
-    implements IPortalUserPreferencesService
+public class PortalUserPreferenceServiceImpl extends BaseUserPreferencesServiceImpl implements IPortalUserPreferencesService
 {
     /**
      * {@inheritDoc }
@@ -48,7 +46,7 @@ public class PortalUserPreferenceServiceImpl extends BaseUserPreferencesServiceI
     @Override
     public String getNickname( LuteceUser user )
     {
-        return getNickname( user.getName(  ) );
+        return getNickname( user.getName( ) );
     }
 
     /**
@@ -68,15 +66,14 @@ public class PortalUserPreferenceServiceImpl extends BaseUserPreferencesServiceI
     {
         put( strUserId, PrefsConstants.PORTAL_NICKNAME, strNickname );
     }
-    
+
     /**
      * {@inheritDoc }
      */
     @Override
-    public boolean existsNickname( String strNickname  )
+    public boolean existsNickname( String strNickname )
     {
-        return existsValueForKey(PrefsConstants.PORTAL_NICKNAME, strNickname);
+        return existsValueForKey( PrefsConstants.PORTAL_NICKNAME, strNickname );
     }
-    
-    
+
 }

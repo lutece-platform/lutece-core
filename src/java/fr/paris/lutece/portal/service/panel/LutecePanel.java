@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -37,7 +37,6 @@ import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  * Interface SEO Panel
  */
@@ -45,55 +44,66 @@ public interface LutecePanel
 {
     /**
      * Returns the panel's title
-     * @return  The title
+     * 
+     * @return The title
      */
-    String getPanelKey(  );
+    String getPanelKey( );
 
     /**
      * Returns the panel's title
-     * @return  The title
+     * 
+     * @return The title
      */
-    String getPanelTitle(  );
+    String getPanelTitle( );
 
     /**
      * Returns the panel's content
+     * 
      * @return The content
      */
-    String getPanelContent(  );
+    String getPanelContent( );
 
     /**
      * Returns the panel's order
+     * 
      * @return The order
      */
-    int getPanelOrder(  );
+    int getPanelOrder( );
 
     /**
      * Sets the panel's locale
-     * @param locale The locale
+     * 
+     * @param locale
+     *            The locale
      */
     void setPanelLocale( Locale locale );
 
     /**
      * Gets the locale
+     * 
      * @return The locale
      */
-    Locale getPanelLocale(  );
+    Locale getPanelLocale( );
 
     /**
      * Sets the request
-     * @param request The request
+     * 
+     * @param request
+     *            The request
      */
     void setRequest( HttpServletRequest request );
 
     /**
      * Gets the request
+     * 
      * @return The request
      */
-    HttpServletRequest getRequest(  );
+    HttpServletRequest getRequest( );
 
     /**
      * Gets the panel index
+     * 
      * @return The index
      */
-    int getPanelIndex(  );
+    int getPanelIndex( );
 }

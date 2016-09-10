@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,7 +33,6 @@
  */
 package fr.paris.lutece.portal.service.site.properties;
 
-
 /**
  * This is the business class for the object SiteProperty
  */
@@ -47,7 +46,7 @@ public class DefaultSitePropertiesGroup implements ILocalizedSitePropertiesGroup
      * {@inheritDoc }
      */
     @Override
-    public String getNameKey(  )
+    public String getNameKey( )
     {
         return KEY_NAME;
     }
@@ -56,16 +55,16 @@ public class DefaultSitePropertiesGroup implements ILocalizedSitePropertiesGroup
      * {@inheritDoc }
      */
     @Override
-    public String getDescriptionKey(  )
+    public String getDescriptionKey( )
     {
         return KEY_DESCRIPTION;
     }
 
     /**
-    * {@inheritDoc }
-    */
+     * {@inheritDoc }
+     */
     @Override
-    public String getDatastoreKeysPrefix(  )
+    public String getDatastoreKeysPrefix( )
     {
         return PREFIX;
     }

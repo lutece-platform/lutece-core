@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -41,67 +41,67 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
 /**
- * This service provides the registration and the list of all Portal Content Includes
- * declared in lutece.properties or in plugin XML files.
+ * This service provides the registration and the list of all Portal Content Includes declared in lutece.properties or in plugin XML files.
+ * 
  * @since 1.2.4
  */
 public final class PageIncludeService
 {
-    private static Map<String, PageIncludeEntry> _mapPageIncludes = new HashMap<String, PageIncludeEntry>(  );
+    private static Map<String, PageIncludeEntry> _mapPageIncludes = new HashMap<String, PageIncludeEntry>( );
 
     /**
      * Contructeur private (singleton pattern)
      */
-    private PageIncludeService(  )
+    private PageIncludeService( )
     {
     }
 
     /**
      * Register a Portal Content Include
      *
-     * @param entry The PageInclude entry
-     * @throws LuteceInitException If an error occured
+     * @param entry
+     *            The PageInclude entry
+     * @throws LuteceInitException
+     *             If an error occured
      */
-    public static void registerPageInclude( PageIncludeEntry entry )
-        throws LuteceInitException
+    public static void registerPageInclude( PageIncludeEntry entry ) throws LuteceInitException
     {
         try
         {
-            PageInclude pageInclude = (PageInclude) Class.forName( entry.getClassName(  ) ).newInstance(  );
+            PageInclude pageInclude = (PageInclude) Class.forName( entry.getClassName( ) ).newInstance( );
             entry.setPageInclude( pageInclude );
-            _mapPageIncludes.put( entry.getId(  ), entry );
-            AppLogService.info( "New Page Include Service registered : " + entry.getId(  ) +
-                ( ( !entry.isEnabled(  ) ) ? " (disabled)" : "" ) );
+            _mapPageIncludes.put( entry.getId( ), entry );
+            AppLogService.info( "New Page Include Service registered : " + entry.getId( ) + ( ( !entry.isEnabled( ) ) ? " (disabled)" : "" ) );
         }
-        catch ( ClassNotFoundException e )
+        catch( ClassNotFoundException e )
         {
-            throw new LuteceInitException( e.getMessage(  ), e );
+            throw new LuteceInitException( e.getMessage( ), e );
         }
-        catch ( IllegalAccessException e )
+        catch( IllegalAccessException e )
         {
-            throw new LuteceInitException( e.getMessage(  ), e );
+            throw new LuteceInitException( e.getMessage( ), e );
         }
-        catch ( InstantiationException e )
+        catch( InstantiationException e )
         {
-            throw new LuteceInitException( e.getMessage(  ), e );
+            throw new LuteceInitException( e.getMessage( ), e );
         }
     }
 
     /**
      * Returns a collection of Portal Content Includes
+     * 
      * @return _mapIncludes
      */
-    public static List<PageInclude> getIncludes(  )
+    public static List<PageInclude> getIncludes( )
     {
-        List<PageInclude> listIncludes = new ArrayList<PageInclude>(  );
+        List<PageInclude> listIncludes = new ArrayList<PageInclude>( );
 
-        for ( PageIncludeEntry entry : _mapPageIncludes.values(  ) )
+        for ( PageIncludeEntry entry : _mapPageIncludes.values( ) )
         {
-            if ( entry.isEnable(  ) )
+            if ( entry.isEnable( ) )
             {
-                listIncludes.add( entry.getPageInclude(  ) );
+                listIncludes.add( entry.getPageInclude( ) );
             }
         }
 

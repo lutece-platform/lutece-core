@@ -50,13 +50,12 @@ import javax.validation.constraints.Past;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-
 /**
  * BeanLuteceMessages class for bean validation tests
  */
 public class BeanLuteceMessages implements Bean
 {
-    // Variables declarations 
+    // Variables declarations
     private int _nIdObject;
     @NotEmpty( message = "#i18n{portal.validation.message.notEmpty}" )
     @Pattern( regexp = "[a-z-A-Z]", message = "#i18n{portal.validation.message.pattern}" )
@@ -87,7 +86,7 @@ public class BeanLuteceMessages implements Bean
      * @return The IdObject
      */
     @Override
-    public int getIdObject(  )
+    public int getIdObject( )
     {
         return _nIdObject;
     }
@@ -95,7 +94,8 @@ public class BeanLuteceMessages implements Bean
     /**
      * Sets the IdObject
      *
-     * @param nIdObject The IdObject
+     * @param nIdObject
+     *            The IdObject
      */
     @Override
     public void setIdObject( int nIdObject )
@@ -109,7 +109,7 @@ public class BeanLuteceMessages implements Bean
      * @return The Name
      */
     @Override
-    public String getName(  )
+    public String getName( )
     {
         return _strName;
     }
@@ -117,7 +117,8 @@ public class BeanLuteceMessages implements Bean
     /**
      * Sets the Name
      *
-     * @param strName The Name
+     * @param strName
+     *            The Name
      */
     @Override
     public void setName( String strName )
@@ -131,7 +132,7 @@ public class BeanLuteceMessages implements Bean
      * @return The Description
      */
     @Override
-    public String getDescription(  )
+    public String getDescription( )
     {
         return _strDescription;
     }
@@ -139,7 +140,8 @@ public class BeanLuteceMessages implements Bean
     /**
      * Sets the Description
      *
-     * @param strDescription The Description
+     * @param strDescription
+     *            The Description
      */
     @Override
     public void setDescription( String strDescription )
@@ -153,7 +155,7 @@ public class BeanLuteceMessages implements Bean
      * @return The Age
      */
     @Override
-    public int getAge(  )
+    public int getAge( )
     {
         return _nAge;
     }
@@ -161,7 +163,8 @@ public class BeanLuteceMessages implements Bean
     /**
      * Sets the Age
      *
-     * @param nAge The Age
+     * @param nAge
+     *            The Age
      */
     @Override
     public void setAge( int nAge )
@@ -175,7 +178,7 @@ public class BeanLuteceMessages implements Bean
      * @return The Email
      */
     @Override
-    public String getEmail(  )
+    public String getEmail( )
     {
         return _strEmail;
     }
@@ -183,7 +186,8 @@ public class BeanLuteceMessages implements Bean
     /**
      * Sets the Email
      *
-     * @param strEmail The Email
+     * @param strEmail
+     *            The Email
      */
     @Override
     public void setEmail( String strEmail )
@@ -195,13 +199,14 @@ public class BeanLuteceMessages implements Bean
      * @return the _dateBirth
      */
     @Override
-    public Date getDateBirth(  )
+    public Date getDateBirth( )
     {
         return _dateBirth;
     }
 
     /**
-     * @param dateBirth the _dateBirth to set
+     * @param dateBirth
+     *            the _dateBirth to set
      */
     @Override
     public void setDateBirth( Date dateBirth )
@@ -213,13 +218,14 @@ public class BeanLuteceMessages implements Bean
      * @return the _dateEndOfWorld
      */
     @Override
-    public Date getDateEndOfWorld(  )
+    public Date getDateEndOfWorld( )
     {
         return _dateEndOfWorld;
     }
 
     /**
-     * @param dateEndOfWorld the _dateEndOfWorld to set
+     * @param dateEndOfWorld
+     *            the _dateEndOfWorld to set
      */
     @Override
     public void setDateEndOfWorld( Date dateEndOfWorld )
@@ -231,13 +237,14 @@ public class BeanLuteceMessages implements Bean
      * @return the _salary
      */
     @Override
-    public BigDecimal getSalary(  )
+    public BigDecimal getSalary( )
     {
         return _salary;
     }
 
     /**
-     * @param salary the _salary to set
+     * @param salary
+     *            the _salary to set
      */
     @Override
     public void setSalary( BigDecimal salary )
@@ -249,13 +256,14 @@ public class BeanLuteceMessages implements Bean
      * @return the _percent
      */
     @Override
-    public BigDecimal getPercent(  )
+    public BigDecimal getPercent( )
     {
         return _percent;
     }
 
     /**
-     * @param percent the _percent to set
+     * @param percent
+     *            the _percent to set
      */
     @Override
     public void setPercent( BigDecimal percent )
@@ -267,13 +275,14 @@ public class BeanLuteceMessages implements Bean
      * @return the _strCurrency
      */
     @Override
-    public String getCurrency(  )
+    public String getCurrency( )
     {
         return _strCurrency;
     }
 
     /**
-     * @param strCurrency the _strCurrency to set
+     * @param strCurrency
+     *            the _strCurrency to set
      */
     @Override
     public void setCurrency( String strCurrency )
@@ -285,13 +294,14 @@ public class BeanLuteceMessages implements Bean
      * @return the _strUrl
      */
     @Override
-    public String getUrl(  )
+    public String getUrl( )
     {
         return _strUrl;
     }
 
     /**
-     * @param strUrl the _strUrl to set
+     * @param strUrl
+     *            the _strUrl to set
      */
     @Override
     public void setUrl( String strUrl )

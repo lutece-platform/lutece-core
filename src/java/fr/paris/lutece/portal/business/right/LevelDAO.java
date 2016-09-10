@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -38,7 +38,6 @@ import fr.paris.lutece.util.sql.DAOUtil;
 import java.util.ArrayList;
 import java.util.Collection;
 
-
 /**
  * This class provides Data Access methods for Level objects
  */
@@ -52,21 +51,22 @@ public final class LevelDAO implements ILevelDAO
     private static final String SQL_QUERY_UPDATE = " UPDATE core_level_right SET id_level = ?, name = ? WHERE id_level = ?";
     private static final String SQL_QUERY_SELECTALL = " SELECT id_level , name FROM core_level_right ORDER BY id_level";
 
-    ///////////////////////////////////////////////////////////////////////////////////////
-    //Access methods to data
+    // /////////////////////////////////////////////////////////////////////////////////////
+    // Access methods to data
 
     /**
      * Generates a new primary key
+     * 
      * @return The new primary key
      */
-    int newPrimaryKey(  )
+    int newPrimaryKey( )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_NEW_PK );
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
         int nKey;
 
-        if ( !daoUtil.next(  ) )
+        if ( !daoUtil.next( ) )
         {
             // if the table is empty
             nKey = 1;
@@ -74,30 +74,34 @@ public final class LevelDAO implements ILevelDAO
 
         nKey = daoUtil.getInt( 1 ) + 1;
 
-        daoUtil.free(  );
+        daoUtil.free( );
 
         return nKey;
     }
 
     /**
      * Insert a new record in the table.
-     * @param level The level object
+     * 
+     * @param level
+     *            The level object
      */
     public synchronized void insert( Level level )
     {
-        level.setId( newPrimaryKey(  ) );
+        level.setId( newPrimaryKey( ) );
 
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT );
-        daoUtil.setInt( 1, level.getId(  ) );
-        daoUtil.setString( 2, level.getName(  ) );
+        daoUtil.setInt( 1, level.getId( ) );
+        daoUtil.setString( 2, level.getName( ) );
 
-        daoUtil.executeUpdate(  );
-        daoUtil.free(  );
+        daoUtil.executeUpdate( );
+        daoUtil.free( );
     }
 
     /**
      * load the data of Level from the table
-     * @param nIdLevel The indentifier of the object Level
+     * 
+     * @param nIdLevel
+     *            The indentifier of the object Level
      * @return The Instance of the object Level
      */
     public Level load( int nIdLevel )
@@ -105,68 +109,73 @@ public final class LevelDAO implements ILevelDAO
         Level level = null;
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT );
         daoUtil.setInt( 1, nIdLevel );
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
-        if ( daoUtil.next(  ) )
+        if ( daoUtil.next( ) )
         {
-            level = new Level(  );
+            level = new Level( );
             level.setId( daoUtil.getInt( 1 ) );
             level.setName( daoUtil.getString( 2 ) );
         }
 
-        daoUtil.free(  );
+        daoUtil.free( );
 
         return level;
     }
 
     /**
      * Delete a record from the table
-     * @param nIdLevel The indentifier of the object Level
+     * 
+     * @param nIdLevel
+     *            The indentifier of the object Level
      */
     public void delete( int nIdLevel )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE );
         daoUtil.setInt( 1, nIdLevel );
 
-        daoUtil.executeUpdate(  );
-        daoUtil.free(  );
+        daoUtil.executeUpdate( );
+        daoUtil.free( );
     }
 
     /**
      * Update the record in the table
-     * @param level The instance of the Level to update
+     * 
+     * @param level
+     *            The instance of the Level to update
      */
     public void store( Level level )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE );
-        int nLevelId = level.getId(  );
+        int nLevelId = level.getId( );
         daoUtil.setInt( 1, nLevelId );
-        daoUtil.setString( 2, level.getName(  ) );
+        daoUtil.setString( 2, level.getName( ) );
         daoUtil.setInt( 3, nLevelId );
 
-        daoUtil.executeUpdate(  );
-        daoUtil.free(  );
+        daoUtil.executeUpdate( );
+        daoUtil.free( );
     }
 
     /**
      * Returns a list of all the right level
+     * 
      * @return A collection of right level objects
      */
-    public Collection<Level> selectLevelsList(  )
+    public Collection<Level> selectLevelsList( )
     {
-        Collection<Level> levelList = new ArrayList<Level>(  );
+        Collection<Level> levelList = new ArrayList<Level>( );
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL );
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
-        while ( daoUtil.next(  ) )
+        while ( daoUtil.next( ) )
         {
-            Level level = new Level(  );
+            Level level = new Level( );
             level.setId( daoUtil.getInt( 1 ) );
             level.setName( daoUtil.getString( 2 ) );
             levelList.add( level );
         }
 
-        daoUtil.free(  );
+        daoUtil.free( );
 
         return levelList;
     }

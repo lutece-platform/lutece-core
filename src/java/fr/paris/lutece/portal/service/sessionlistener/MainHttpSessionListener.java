@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -36,9 +36,9 @@ package fr.paris.lutece.portal.service.sessionlistener;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 
-
 /**
  * Delegates all operations to all registered plugin-listeners.
+ * 
  * @see {@link HttpSessionListenerService#getListeners}.
  */
 public class MainHttpSessionListener implements HttpSessionListener
@@ -48,7 +48,7 @@ public class MainHttpSessionListener implements HttpSessionListener
      */
     public void sessionCreated( HttpSessionEvent se )
     {
-        for ( HttpSessionListener listener : HttpSessionListenerService.getListeners(  ) )
+        for ( HttpSessionListener listener : HttpSessionListenerService.getListeners( ) )
         {
             listener.sessionCreated( se );
         }
@@ -59,7 +59,7 @@ public class MainHttpSessionListener implements HttpSessionListener
      */
     public void sessionDestroyed( HttpSessionEvent se )
     {
-        for ( HttpSessionListener listener : HttpSessionListenerService.getListeners(  ) )
+        for ( HttpSessionListener listener : HttpSessionListenerService.getListeners( ) )
         {
             listener.sessionDestroyed( se );
         }

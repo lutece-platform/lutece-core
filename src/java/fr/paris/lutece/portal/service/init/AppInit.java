@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -72,9 +72,9 @@ import java.util.Properties;
 
 import javax.servlet.ServletContext;
 
-
 /**
  * This class initializes all the application services
+ * 
  * @since 1.1
  */
 public final class AppInit
@@ -99,13 +99,15 @@ public final class AppInit
     /**
      * Constructor
      */
-    private AppInit(  )
+    private AppInit( )
     {
     }
 
     /**
      * Initializes all the application services (used for junit tests)
-     * @param strConfPath The relative path to the config files
+     * 
+     * @param strConfPath
+     *            The relative path to the config files
      */
     public static void initServices( String strConfPath )
     {
@@ -114,17 +116,21 @@ public final class AppInit
 
     /**
      * Initializes all the application services
-     * @param context The servlet context
-     * @param strConfPath The relative path to the config files
-     * @param strRealPath The real path to the config files
+     * 
+     * @param context
+     *            The servlet context
+     * @param strConfPath
+     *            The relative path to the config files
+     * @param strRealPath
+     *            The real path to the config files
      */
     public static void initServices( ServletContext context, String strConfPath, String strRealPath )
     {
         try
         {
-            Thread.currentThread(  ).setName( "Lutece-MainThread" );
+            Thread.currentThread( ).setName( "Lutece-MainThread" );
             // Initializes a very basic logging system (everything to stdout)
-            AppLogService.preinit();
+            AppLogService.preinit( );
             // Initializes the properties download files containing the variables used by the application
             AppPropertiesService.init( strConfPath );
 
@@ -132,7 +138,7 @@ public final class AppInit
             AppTemplateService.init( PATH_TEMPLATES );
 
             // Initializes the Datastore Service
-            DatastoreService.init(  );
+            DatastoreService.init( );
 
             if ( strRealPath != null )
             {
@@ -144,7 +150,7 @@ public final class AppInit
             // Initializes the log service from the property files
             AppLogService.init( strConfPath, FILE_PROPERTIES_CONFIG );
             AppLogService.info( "Starting LUTECE ..." );
-            AppLogService.info( "Running version " + AppInfo.getVersion(  ) );
+            AppLogService.info( "Running version " + AppInfo.getVersion( ) );
 
             // Initializes the connection pools
             AppConnectionService.init( strConfPath, FILE_PROPERTIES_DATABASE, "portal" );
@@ -156,19 +162,19 @@ public final class AppInit
 
             // Initialize and run StartUp services
             AppLogService.info( "Running extra startup services ..." );
-            StartUpServiceManager.init(  );
+            StartUpServiceManager.init( );
 
             // XmlTransformer service cache manager
-            XmlTransformerCacheService.init(  );
+            XmlTransformerCacheService.init( );
 
-            AdminMailingListService.init(  );
+            AdminMailingListService.init( );
 
             // Initializes Search Engine Indexation Service
-            IndexationService.init(  );
+            IndexationService.init( );
 
             // Initializes PluginService
             AppLogService.info( "Initializing plugins ..." );
-            PluginService.init(  );
+            PluginService.init( );
 
             // Initializes FilterService and ServletService
             AppLogService.info( "Initializing plugins filters ..." );
@@ -177,77 +183,80 @@ public final class AppInit
             ServletService.init( context );
 
             // Trace Contents services loading
-            traceContentServicesLoading(  );
+            traceContentServicesLoading( );
 
             // Initializes the SecurityService
-            SecurityService.init(  );
+            SecurityService.init( );
 
             // Initializes plugins autoincludes - needs to be launched before the daemons (indexer could fail)
-            AppTemplateService.initAutoIncludes(  );
+            AppTemplateService.initAutoIncludes( );
 
             // Initializes the daemons service
-            AppDaemonService.init(  );
+            AppDaemonService.init( );
 
             // Initializes the admin authentication module
-            AdminAuthenticationService.init(  );
+            AdminAuthenticationService.init( );
 
             // Initialize FileImageService
-            FileImageService.init(  );
+            FileImageService.init( );
 
             // Initialize AdminUserService
-            AdminUserService.init(  );
+            AdminUserService.init( );
 
             // Process post startup services
             AppLogService.info( "Running post startup services ..." );
-            PostStartUpServiceManager.init(  );
+            PostStartUpServiceManager.init( );
 
             // Initialize Content Post Processor Service
-            ContentPostProcessorService.init(  );
+            ContentPostProcessorService.init( );
 
             _bInitSuccessfull = true;
 
-            logStartupTime(  );
+            logStartupTime( );
 
-            // Start datastore's cache after all processes that may use Datastore 
-            DatastoreService.startCache(  );
+            // Start datastore's cache after all processes that may use Datastore
+            DatastoreService.startCache( );
         }
-        catch ( LuteceInitException e )
+        catch( LuteceInitException e )
         {
-            _strLoadingFailureCause = e.getMessage(  );
+            _strLoadingFailureCause = e.getMessage( );
 
-            Throwable cause = e.getCause(  );
+            Throwable cause = e.getCause( );
 
             while ( cause != null )
             {
-                _strLoadingFailureDetails = cause.getMessage(  );
-                cause = cause.getCause(  );
+                _strLoadingFailureDetails = cause.getMessage( );
+                cause = cause.getCause( );
             }
         }
     }
 
     /**
      * Tells if Lutece Startup was successful
+     * 
      * @return True, if no error, otherwise false
      */
-    public static boolean isWebappSuccessfullyLoaded(  )
+    public static boolean isWebappSuccessfullyLoaded( )
     {
         return _bInitSuccessfull;
     }
 
     /**
      * Returns the cause of the startup failure
+     * 
      * @return the cause of the startup failure
      */
-    public static String getLoadingFailureCause(  )
+    public static String getLoadingFailureCause( )
     {
         return _strLoadingFailureCause;
     }
 
     /**
      * Returns details of the startup failure
+     * 
      * @return details of the startup failure
      */
-    public static String getLoadingFailureDetails(  )
+    public static String getLoadingFailureDetails( )
     {
         return _strLoadingFailureDetails;
     }
@@ -255,24 +264,24 @@ public final class AppInit
     /**
      * Traces Content Services loading
      */
-    private static void traceContentServicesLoading(  )
+    private static void traceContentServicesLoading( )
     {
-        for ( ContentService cs : PortalService.getContentServicesList(  ) )
+        for ( ContentService cs : PortalService.getContentServicesList( ) )
         {
-            AppLogService.info( "Content Service '" + cs.getName(  ) + "' is loaded " +
-                ( cs.isCacheEnable(  ) ? " [ cache enable ] " : " [ cache disable ] " ) );
+            AppLogService.info( "Content Service '" + cs.getName( ) + "' is loaded " + ( cs.isCacheEnable( ) ? " [ cache enable ] " : " [ cache disable ] " ) );
         }
     }
 
     /**
      * Initializes the config.properties file after first installation
      *
-     * @param strRealPath The real path to the configuration file
+     * @param strRealPath
+     *            The real path to the configuration file
      */
     private static void initProperties( String strRealPath )
     {
-        Map<String, Object> model = new HashMap<String, Object>(  );
-        Properties p = new Properties(  );
+        Map<String, Object> model = new HashMap<String, Object>( );
+        Properties p = new Properties( );
 
         FileInputStream fis = null;
 
@@ -281,9 +290,9 @@ public final class AppInit
             fis = new FileInputStream( strRealPath + PATH_CONFIG + FILE_PROPERTIES_CONFIG );
             p.load( fis );
         }
-        catch ( Exception e )
+        catch( Exception e )
         {
-            AppLogService.error( e.getMessage(  ), e );
+            AppLogService.error( e.getMessage( ), e );
         }
         finally
         {
@@ -291,40 +300,40 @@ public final class AppInit
             {
                 try
                 {
-                    fis.close(  );
+                    fis.close( );
                 }
-                catch ( IOException e )
+                catch( IOException e )
                 {
-                    AppLogService.error( e.getMessage(  ), e );
+                    AppLogService.error( e.getMessage( ), e );
                 }
             }
         }
 
         if ( Boolean.parseBoolean( p.getProperty( PROPERTY_AUTOINIT ) ) )
         {
-            Object[] params = { AppPropertiesService.getProperty( PROPERTY_SITE_NAME ) };
-            String strSendMailSubject = I18nService.getLocalizedString( PROPERTY_SENDMAIL_SUBJECT, params,
-                    I18nService.getDefaultLocale(  ) );
+            Object [ ] params = {
+                AppPropertiesService.getProperty( PROPERTY_SITE_NAME )
+            };
+            String strSendMailSubject = I18nService.getLocalizedString( PROPERTY_SENDMAIL_SUBJECT, params, I18nService.getDefaultLocale( ) );
             model.put( MARK_SENDMAIL_SUBJECT, strSendMailSubject );
-            model.put( MARK_WEBAPP_HOME, AppPathService.getWebAppPath(  ) );
+            model.put( MARK_WEBAPP_HOME, AppPathService.getWebAppPath( ) );
             model.put( MARK_PROD_URL, p.getProperty( PROPERTY_INIT_WEBAPP_PROD_URL ) );
-            model.put( MARK_AUTOINIT, Boolean.FALSE.toString(  ) );
+            model.put( MARK_AUTOINIT, Boolean.FALSE.toString( ) );
 
-            HtmlTemplate configTemplate = AppTemplateService.getTemplate( CONFIG_PROPERTIES_TEMPLATE,
-                    Locale.getDefault(  ), model );
+            HtmlTemplate configTemplate = AppTemplateService.getTemplate( CONFIG_PROPERTIES_TEMPLATE, Locale.getDefault( ), model );
             // reset configuration cache to avoid configuration caching before macros are set. See LUTECE-1460
-            AppTemplateService.resetConfiguration(  );
+            AppTemplateService.resetConfiguration( );
 
             FileWriter fw = null;
 
             try
             {
                 fw = new FileWriter( strRealPath + PATH_CONFIG + FILE_PROPERTIES_CONFIG );
-                fw.write( configTemplate.getHtml(  ) );
+                fw.write( configTemplate.getHtml( ) );
             }
-            catch ( Exception io )
+            catch( Exception io )
             {
-                io.printStackTrace(  );
+                io.printStackTrace( );
             }
             finally
             {
@@ -332,11 +341,11 @@ public final class AppInit
                 {
                     try
                     {
-                        fw.close(  );
+                        fw.close( );
                     }
-                    catch ( IOException e )
+                    catch( IOException e )
                     {
-                        AppLogService.error( e.getMessage(  ), e );
+                        AppLogService.error( e.getMessage( ), e );
                     }
                 }
             }
@@ -346,9 +355,9 @@ public final class AppInit
     /**
      * Log startup time.
      */
-    private static void logStartupTime(  )
+    private static void logStartupTime( )
     {
-        String strStartupTime = SimpleDateFormat.getDateTimeInstance(  ).format( new Date(  ) );
+        String strStartupTime = SimpleDateFormat.getDateTimeInstance( ).format( new Date( ) );
         DatastoreService.setDataValue( CoreDataKeys.KEY_STARTUP_TIME, strStartupTime );
     }
 }

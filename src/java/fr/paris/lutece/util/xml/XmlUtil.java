@@ -50,7 +50,6 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.TransformerFactoryConfigurationError;
 import javax.xml.transform.stream.StreamResult;
 
-
 /**
  * This class provides utils for XML document management.
  */
@@ -68,15 +67,16 @@ public final class XmlUtil
     /**
      * Instantiates a new xml util.
      */
-    private XmlUtil(  )
+    private XmlUtil( )
     {
     }
 
     /**
      * Gets the header of an XML file
+     * 
      * @return The header
      */
-    public static String getXmlHeader(  )
+    public static String getXmlHeader( )
     {
         String strXmlHeader = AppPropertiesService.getProperty( PROPERTIES_XML_HEADER );
 
@@ -84,23 +84,27 @@ public final class XmlUtil
     }
 
     /**
-     * This method performs XSL Transformation.
-     * <br />
+     * This method performs XSL Transformation. <br />
      * <b>Deprecated use XmlTransformer.transform</b>
-     * @param source The input XML document
-     * @param stylesheet The XSL stylesheet
-     * @param params parameters to apply to the XSL Stylesheet
-     * @param outputProperties properties to use for the xsl transform. Will overload the xsl output definition.
+     * 
+     * @param source
+     *            The input XML document
+     * @param stylesheet
+     *            The XSL stylesheet
+     * @param params
+     *            parameters to apply to the XSL Stylesheet
+     * @param outputProperties
+     *            properties to use for the xsl transform. Will overload the xsl output definition.
      * @return The output document transformed
-     * @throws Exception The exception
+     * @throws Exception
+     *             The exception
      */
     @Deprecated
-    public static String transform( Source source, Source stylesheet, Map<String, String> params,
-        Properties outputProperties ) throws Exception
+    public static String transform( Source source, Source stylesheet, Map<String, String> params, Properties outputProperties ) throws Exception
     {
         try
         {
-            TransformerFactory factory = TransformerFactory.newInstance(  );
+            TransformerFactory factory = TransformerFactory.newInstance( );
             Transformer transformer = factory.newTransformer( stylesheet );
 
             if ( outputProperties != null )
@@ -110,60 +114,63 @@ public final class XmlUtil
 
             if ( params != null )
             {
-                transformer.clearParameters(  );
+                transformer.clearParameters( );
 
-                for ( Entry<String, String> entry : params.entrySet(  ) )
+                for ( Entry<String, String> entry : params.entrySet( ) )
                 {
-                    String name = entry.getKey(  );
-                    String value = entry.getValue(  );
+                    String name = entry.getKey( );
+                    String value = entry.getValue( );
                     transformer.setParameter( name, value );
                 }
             }
 
-            StringWriter sw = new StringWriter(  );
+            StringWriter sw = new StringWriter( );
             Result result = new StreamResult( sw );
             transformer.transform( source, result );
 
-            return sw.toString(  );
+            return sw.toString( );
         }
-        catch ( TransformerConfigurationException e )
+        catch( TransformerConfigurationException e )
         {
-            String strMessage = e.getMessage(  );
+            String strMessage = e.getMessage( );
 
-            if ( e.getLocationAsString(  ) != null )
+            if ( e.getLocationAsString( ) != null )
             {
-                strMessage += ( "- location : " + e.getLocationAsString(  ) );
+                strMessage += ( "- location : " + e.getLocationAsString( ) );
             }
 
-            throw new Exception( "Error transforming document XSLT : " + strMessage, e.getCause(  ) );
+            throw new Exception( "Error transforming document XSLT : " + strMessage, e.getCause( ) );
         }
-        catch ( TransformerFactoryConfigurationError e )
+        catch( TransformerFactoryConfigurationError e )
         {
-            throw new Exception( "Error transforming document XSLT : " + e.getMessage(  ), e );
+            throw new Exception( "Error transforming document XSLT : " + e.getMessage( ), e );
         }
-        catch ( TransformerException e )
+        catch( TransformerException e )
         {
-            String strMessage = e.getMessage(  );
+            String strMessage = e.getMessage( );
 
-            if ( e.getLocationAsString(  ) != null )
+            if ( e.getLocationAsString( ) != null )
             {
-                strMessage += ( "- location : " + e.getLocationAsString(  ) );
+                strMessage += ( "- location : " + e.getLocationAsString( ) );
             }
 
-            throw new Exception( "Error transforming document XSLT : " + strMessage, e.getCause(  ) );
+            throw new Exception( "Error transforming document XSLT : " + strMessage, e.getCause( ) );
         }
-        catch ( Exception e )
+        catch( Exception e )
         {
-            throw new Exception( "Error transforming document XSLT : " + e.getMessage(  ), e );
+            throw new Exception( "Error transforming document XSLT : " + e.getMessage( ), e );
         }
     }
 
     /**
      * Add an element to an XML document buffer
      *
-     * @param strXmlBuffer The XML document buffer
-     * @param strTag The tag name of the element to add
-     * @param strValue The value of the element
+     * @param strXmlBuffer
+     *            The XML document buffer
+     * @param strTag
+     *            The tag name of the element to add
+     * @param strValue
+     *            The value of the element
      */
     public static void addElement( StringBuffer strXmlBuffer, String strTag, String strValue )
     {
@@ -177,11 +184,14 @@ public final class XmlUtil
     }
 
     /**
-     * Add an empty element (<   />) to an XML document buffer.
+     * Add an empty element (< />) to an XML document buffer.
      *
-     * @param strXmlBuffer The XML document buffer
-     * @param strTag The tag name of the element to add
-     * @param attrList The attributes list
+     * @param strXmlBuffer
+     *            The XML document buffer
+     * @param strTag
+     *            The tag name of the element to add
+     * @param attrList
+     *            The attributes list
      */
     public static void addEmptyElement( StringBuffer strXmlBuffer, String strTag, Map<?, ?> attrList )
     {
@@ -190,11 +200,10 @@ public final class XmlUtil
 
         if ( attrList != null )
         {
-            for ( Entry<?, ?> entry : attrList.entrySet(  ) )
+            for ( Entry<?, ?> entry : attrList.entrySet( ) )
             {
-                String code = (String) entry.getKey(  );
-                strXmlBuffer.append( TAG_SEPARATOR + code + TAG_ASSIGNMENT + TAG_ENCLOSED + entry.getValue(  ) +
-                    TAG_ENCLOSED );
+                String code = (String) entry.getKey( );
+                strXmlBuffer.append( TAG_SEPARATOR + code + TAG_ASSIGNMENT + TAG_ENCLOSED + entry.getValue( ) + TAG_ENCLOSED );
             }
         }
 
@@ -204,10 +213,14 @@ public final class XmlUtil
     /**
      * Add an element to an XML document buffer with attributes
      *
-     * @param strXmlBuffer The XML document buffer
-     * @param strTag The tag name of the element to add
-     * @param strValue The value of the element
-     * @param attrList the attribute list
+     * @param strXmlBuffer
+     *            The XML document buffer
+     * @param strTag
+     *            The tag name of the element to add
+     * @param strValue
+     *            The value of the element
+     * @param attrList
+     *            the attribute list
      */
     public static void addElement( StringBuffer strXmlBuffer, String strTag, String strValue, Map<?, ?> attrList )
     {
@@ -216,11 +229,10 @@ public final class XmlUtil
 
         if ( attrList != null )
         {
-            for ( Entry<?, ?> entry : attrList.entrySet(  ) )
+            for ( Entry<?, ?> entry : attrList.entrySet( ) )
             {
-                String code = (String) entry.getKey(  );
-                strXmlBuffer.append( TAG_SEPARATOR + code + TAG_ASSIGNMENT + TAG_ENCLOSED + entry.getValue(  ) +
-                    TAG_ENCLOSED );
+                String code = (String) entry.getKey( );
+                strXmlBuffer.append( TAG_SEPARATOR + code + TAG_ASSIGNMENT + TAG_ENCLOSED + entry.getValue( ) + TAG_ENCLOSED );
             }
         }
 
@@ -234,9 +246,12 @@ public final class XmlUtil
     /**
      * Add an element to an XML document buffer.
      *
-     * @param strXmlBuffer The XML document buffer
-     * @param strTag The tag name of the element to add
-     * @param nValue The value of the element
+     * @param strXmlBuffer
+     *            The XML document buffer
+     * @param strTag
+     *            The tag name of the element to add
+     * @param nValue
+     *            The value of the element
      */
     public static void addElement( StringBuffer strXmlBuffer, String strTag, int nValue )
     {
@@ -246,9 +261,12 @@ public final class XmlUtil
     /**
      * Add a CDATA type element to XML document buffer.
      *
-     * @param strXmlBuffer The XML document buffer
-     * @param strTag The tag name of the element to add
-     * @param strValue The value of the element
+     * @param strXmlBuffer
+     *            The XML document buffer
+     * @param strTag
+     *            The tag name of the element to add
+     * @param strValue
+     *            The value of the element
      */
     public static void addElementHtml( StringBuffer strXmlBuffer, String strTag, String strValue )
     {
@@ -264,10 +282,14 @@ public final class XmlUtil
     /**
      * Add a CDATA type element to XML document buffer.
      *
-     * @param strXmlBuffer The XML document buffer
-     * @param strTag The tag name of the element to add
-     * @param strValue The value of the element
-     * @param attrList The attributes list
+     * @param strXmlBuffer
+     *            The XML document buffer
+     * @param strTag
+     *            The tag name of the element to add
+     * @param strValue
+     *            The value of the element
+     * @param attrList
+     *            The attributes list
      */
     public static void addElementHtml( StringBuffer strXmlBuffer, String strTag, String strValue, Map<?, ?> attrList )
     {
@@ -276,11 +298,10 @@ public final class XmlUtil
 
         if ( attrList != null )
         {
-            for ( Entry<?, ?> entry : attrList.entrySet(  ) )
+            for ( Entry<?, ?> entry : attrList.entrySet( ) )
             {
-                String code = (String) entry.getKey(  );
-                strXmlBuffer.append( TAG_SEPARATOR + code + TAG_ASSIGNMENT + TAG_ENCLOSED + entry.getValue(  ) +
-                    TAG_ENCLOSED );
+                String code = (String) entry.getKey( );
+                strXmlBuffer.append( TAG_SEPARATOR + code + TAG_ASSIGNMENT + TAG_ENCLOSED + entry.getValue( ) + TAG_ENCLOSED );
             }
         }
 
@@ -294,8 +315,10 @@ public final class XmlUtil
     /**
      * Add an opening tag for an element in a XML document buffer
      *
-     * @param strXmlBuffer The XML document buffer
-     * @param strTag The tag name of the element to add
+     * @param strXmlBuffer
+     *            The XML document buffer
+     * @param strTag
+     *            The tag name of the element to add
      */
     public static void beginElement( StringBuffer strXmlBuffer, String strTag )
     {
@@ -305,9 +328,12 @@ public final class XmlUtil
     /**
      * Add an opening tag for an element in a XML document buffer
      *
-     * @param strXmlBuffer The XML document buffer
-     * @param strTag The tag name of the element to add
-     * @param attrList The attributes list
+     * @param strXmlBuffer
+     *            The XML document buffer
+     * @param strTag
+     *            The tag name of the element to add
+     * @param attrList
+     *            The attributes list
      */
     public static void beginElement( StringBuffer strXmlBuffer, String strTag, Map<?, ?> attrList )
     {
@@ -316,11 +342,10 @@ public final class XmlUtil
 
         if ( attrList != null )
         {
-            for ( Entry<?, ?> entry : attrList.entrySet(  ) )
+            for ( Entry<?, ?> entry : attrList.entrySet( ) )
             {
-                String code = (String) entry.getKey(  );
-                strXmlBuffer.append( TAG_SEPARATOR + code + TAG_ASSIGNMENT + TAG_ENCLOSED + entry.getValue(  ) +
-                    TAG_ENCLOSED );
+                String code = (String) entry.getKey( );
+                strXmlBuffer.append( TAG_SEPARATOR + code + TAG_ASSIGNMENT + TAG_ENCLOSED + entry.getValue( ) + TAG_ENCLOSED );
             }
         }
 
@@ -330,8 +355,10 @@ public final class XmlUtil
     /**
      * Add a closing tag for an element in a XML document buffer
      *
-     * @param strXmlBuffer The XML document buffer
-     * @param strTag The tag name of the element to add
+     * @param strXmlBuffer
+     *            The XML document buffer
+     * @param strTag
+     *            The tag name of the element to add
      */
     public static void endElement( StringBuffer strXmlBuffer, String strTag )
     {

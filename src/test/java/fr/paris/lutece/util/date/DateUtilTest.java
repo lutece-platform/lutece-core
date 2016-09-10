@@ -39,7 +39,6 @@ import java.text.SimpleDateFormat;
 
 import java.util.Locale;
 
-
 /**
  * This class tests the class fr.paris.lutece.util.date.DateUtil.
  */
@@ -47,7 +46,9 @@ public class DateUtilTest extends TestCase
 {
     /**
      * Constructor for DateUtilTest.
-     * @param strName the name of the test
+     * 
+     * @param strName
+     *            the name of the test
      */
     public DateUtilTest( String strName )
     {
@@ -57,18 +58,18 @@ public class DateUtilTest extends TestCase
     /**
      * Tests the getCurrentDateString method
      */
-    public void testGetCurrentDateString(  )
+    public void testGetCurrentDateString( )
     {
         SimpleDateFormat formatter = new SimpleDateFormat( "dd'/'MM'/'yyyy", Locale.FRANCE );
 
         // true if the date does not change between the two calls
-        assertEquals( formatter.format( new java.util.Date(  ) ), DateUtil.getCurrentDateString(  ) );
+        assertEquals( formatter.format( new java.util.Date( ) ), DateUtil.getCurrentDateString( ) );
     }
 
     /**
      * Tests the getDateSql method
      */
-    public void testGetDateSql(  )
+    public void testGetDateSql( )
     {
         final String DATE = "22/09/1978";
         assertEquals( DATE, DateUtil.getDateString( DateUtil.getDateSql( DATE ) ) );
@@ -77,7 +78,7 @@ public class DateUtilTest extends TestCase
     /**
      * Tests the getDate method
      */
-    public void testGetDate(  )
+    public void testGetDate( )
     {
         final String DATE = "22/09/1978";
         assertEquals( DATE, DateUtil.getDateString( DateUtil.getDate( DATE ) ) );
@@ -86,7 +87,7 @@ public class DateUtilTest extends TestCase
     /**
      * Tests the getTimestamp method
      */
-    public void testGetTimestamp(  )
+    public void testGetTimestamp( )
     {
         final String DATE = "22/09/1978";
         assertEquals( DATE, DateUtil.getDateString( DateUtil.getTimestamp( DATE ) ) );
@@ -95,24 +96,22 @@ public class DateUtilTest extends TestCase
     /**
      * Tests the getDateStringDate method
      */
-    public void testGetDateStringDate(  )
+    public void testGetDateStringDate( )
     {
         final int TIME = 5000;
         final java.sql.Date DATE = new java.sql.Date( TIME );
 
         // loss precision ==> three conversion
-        assertEquals( DateUtil.getDateString( DATE ),
-            DateUtil.getDateString( DateUtil.getDateSql( DateUtil.getDateString( DATE ) ) ) );
+        assertEquals( DateUtil.getDateString( DATE ), DateUtil.getDateString( DateUtil.getDateSql( DateUtil.getDateString( DATE ) ) ) );
     }
 
     /**
      * Tests the getDateStringTimestamp method
      */
-    public void testGetDateStringTimestamp(  )
+    public void testGetDateStringTimestamp( )
     {
         final int TIME = 5000;
         final java.sql.Timestamp DATE = new java.sql.Timestamp( TIME );
-        assertEquals( DateUtil.getDateString( DATE ),
-            DateUtil.getDateString( DateUtil.getTimestamp( DateUtil.getDateString( DATE ) ) ) );
+        assertEquals( DateUtil.getDateString( DATE ), DateUtil.getDateString( DateUtil.getTimestamp( DateUtil.getDateString( DATE ) ) ) );
     }
 }

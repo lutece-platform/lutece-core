@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -36,11 +36,9 @@ package fr.paris.lutece.portal.web.resource;
 import fr.paris.lutece.portal.service.resource.IExtendableResource;
 import fr.paris.lutece.portal.web.pluginaction.IPluginAction;
 
-
 /**
  * This interface represents back office actions that interact with extend. <br />
- * For instance, an action to add an extender, or to view the information of an
- * extender...
+ * For instance, an action to add an extender, or to view the information of an extender...
  */
 public interface IExtendableResourcePluginAction extends IPluginAction<IExtendableResource>
 {

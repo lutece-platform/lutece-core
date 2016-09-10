@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,7 +33,6 @@
  */
 package fr.paris.lutece.portal.service.portlet;
 
-
 /**
  * Portlet event
  *
@@ -48,16 +47,20 @@ public class PortletEvent
     /**
      * Default empty constructor
      */
-    public PortletEvent(  )
+    public PortletEvent( )
     {
         // nothing
     }
 
     /**
      * PortletEvent
-     * @param nType the type
-     * @param nPortletId the portlet id
-     * @param nPageId the page id
+     * 
+     * @param nType
+     *            the type
+     * @param nPortletId
+     *            the portlet id
+     * @param nPageId
+     *            the page id
      */
     public PortletEvent( int nType, int nPortletId, int nPageId )
     {
@@ -68,16 +71,19 @@ public class PortletEvent
 
     /**
      * Event type
+     * 
      * @return event type
      */
-    public int getType(  )
+    public int getType( )
     {
         return _nType;
     }
 
     /**
      * Sets the event type
-     * @param nType event type
+     * 
+     * @param nType
+     *            event type
      */
     public void setType( int nType )
     {
@@ -86,16 +92,19 @@ public class PortletEvent
 
     /**
      * Gets the portlet id
+     * 
      * @return the portlet id
      */
-    public Integer getPortletId(  )
+    public Integer getPortletId( )
     {
         return _nPortletId;
     }
 
     /**
      * Sets the portlet id
-     * @param nPortletId the portlet id
+     * 
+     * @param nPortletId
+     *            the portlet id
      */
     public void setPortletId( int nPortletId )
     {
@@ -104,16 +113,19 @@ public class PortletEvent
 
     /**
      * Gets the page id
+     * 
      * @return the page id
      */
-    public int getPageId(  )
+    public int getPageId( )
     {
         return _nPageId;
     }
 
     /**
      * Sets the page id
-     * @param nPageId the page id
+     * 
+     * @param nPageId
+     *            the page id
      */
     public void setPageId( int nPageId )
     {

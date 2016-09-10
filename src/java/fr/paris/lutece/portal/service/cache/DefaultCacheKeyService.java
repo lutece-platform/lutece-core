@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -39,7 +39,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-
 /**
  * Default cache key service
  *
@@ -51,32 +50,36 @@ public class DefaultCacheKeyService implements ICacheKeyService
 
     /**
      * Calculate the cache key
-     * @param mapParams A map of key/value
-     * @param nMode The mode
-     * @param user The LuteceUser
+     * 
+     * @param mapParams
+     *            A map of key/value
+     * @param nMode
+     *            The mode
+     * @param user
+     *            The LuteceUser
      * @return The calculated key
      */
     public String getKey( Map<String, String> mapParams, int nMode, LuteceUser user )
     {
-        StringBuilder sbKey = new StringBuilder(  );
+        StringBuilder sbKey = new StringBuilder( );
 
-        for ( Entry<String, String> entry : mapParams.entrySet(  ) )
+        for ( Entry<String, String> entry : mapParams.entrySet( ) )
         {
-            String strHtKey = entry.getKey(  );
+            String strHtKey = entry.getKey( );
 
-            if ( ( ( _listAllowedParameters == null ) || _listAllowedParameters.contains( strHtKey ) ) &&
-                    ( ( _listIgnoredParameters == null ) || ( !_listIgnoredParameters.contains( strHtKey ) ) ) )
+            if ( ( ( _listAllowedParameters == null ) || _listAllowedParameters.contains( strHtKey ) )
+                    && ( ( _listIgnoredParameters == null ) || ( !_listIgnoredParameters.contains( strHtKey ) ) ) )
             {
-                sbKey.append( "[" ).append( strHtKey ).append( ":" ).append( entry.getValue(  ) ).append( "]" );
+                sbKey.append( "[" ).append( strHtKey ).append( ":" ).append( entry.getValue( ) ).append( "]" );
             }
         }
 
-        String strUserName = ( user != null ) ? user.getName(  ) : "-";
+        String strUserName = ( user != null ) ? user.getName( ) : "-";
 
         sbKey.append( "[m:" ).append( nMode ).append( "]" );
         sbKey.append( "[user:" ).append( strUserName ).append( "]" );
 
-        return sbKey.toString(  );
+        return sbKey.toString( );
     }
 
     /**

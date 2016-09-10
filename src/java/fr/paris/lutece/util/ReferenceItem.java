@@ -33,10 +33,8 @@
  */
 package fr.paris.lutece.util;
 
-
 /**
- * This class is the representation of a ReferenceItem composed of a code and a name. It also provides the methods to
- * access to those attributes.
+ * This class is the representation of a ReferenceItem composed of a code and a name. It also provides the methods to access to those attributes.
  */
 public class ReferenceItem
 {
@@ -49,7 +47,7 @@ public class ReferenceItem
      *
      * @return The code
      */
-    public String getCode(  )
+    public String getCode( )
     {
         return _strCode;
     }
@@ -57,7 +55,8 @@ public class ReferenceItem
     /**
      * Sets the code of this ReferenceItem with the String specified in parameter
      *
-     * @param strCode The new String value of the code
+     * @param strCode
+     *            The new String value of the code
      */
     public void setCode( String strCode )
     {
@@ -69,7 +68,7 @@ public class ReferenceItem
      *
      * @return the name
      */
-    public String getName(  )
+    public String getName( )
     {
         return _strName;
     }
@@ -77,7 +76,8 @@ public class ReferenceItem
     /**
      * Sets the name of this ReferenceItem object with the value specified in parameter
      *
-     * @param strName new String value of the name
+     * @param strName
+     *            new String value of the name
      */
     public void setName( String strName )
     {
@@ -86,17 +86,20 @@ public class ReferenceItem
 
     /**
      * Returns weither the item is checked or not
+     * 
      * @return true if checked, otherwise false
      * @since 2.0
      */
-    public boolean isChecked(  )
+    public boolean isChecked( )
     {
         return _bChecked;
     }
 
     /**
      * Sets checked
-     * @param bChecked The check status
+     * 
+     * @param bChecked
+     *            The check status
      * @since 2.0
      */
     public void setChecked( boolean bChecked )
@@ -108,9 +111,8 @@ public class ReferenceItem
      * {@inheritDoc}
      */
     @Override
-    public String toString(  )
+    public String toString( )
     {
-        return "RefItem[Name=" + this.getName(  ) + ", Code=" + this.getCode(  ) + ", Checked=" + this.isChecked(  ) +
-        "]";
+        return "RefItem[Name=" + this.getName( ) + ", Code=" + this.getCode( ) + ", Checked=" + this.isChecked( ) + "]";
     }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -76,14 +76,12 @@ import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
- * This class provides methods to build the pages of the portal and manage the
- * cache
+ * This class provides methods to build the pages of the portal and manage the cache
  */
 public final class PortalService
 {
-    ////////////////////////////////////////////////////////////////////////////
+    // //////////////////////////////////////////////////////////////////////////
     // Constants
     private static final int PORTAL_COMPONENT_PAGE_PATH_ID = 5;
 
@@ -125,36 +123,37 @@ public final class PortalService
     private static final String PARAMETER_SITE_PATH = "site-path";
 
     // Content Service registry
-    private static Map<String, ContentService> _mapContentServicesRegistry = new HashMap<String, ContentService>(  );
+    private static Map<String, ContentService> _mapContentServicesRegistry = new HashMap<String, ContentService>( );
     private static IPageService _pageService = (IPageService) SpringContextService.getBean( "pageService" );
 
     /**
      * Private Constructor
      */
-    private PortalService(  )
+    private PortalService( )
     {
     }
 
     /**
      * Reset the cache
+     * 
      * @deprecated use CacheService.resetCaches()
      */
     @Deprecated
-    public static void resetCache(  )
+    public static void resetCache( )
     {
-        CacheService.resetCaches(  );
+        CacheService.resetCaches( );
     }
 
     /**
-     * Analyzes request's parameters to find the ContentService that should
-     * handle the request
+     * Analyzes request's parameters to find the ContentService that should handle the request
      *
-     * @param request The HTTP request
+     * @param request
+     *            The HTTP request
      * @return ContentService that should handle the request
      */
     public static ContentService getInvokedContentService( HttpServletRequest request )
     {
-        for ( ContentService cs : getContentServicesList(  ) )
+        for ( ContentService cs : getContentServicesList( ) )
         {
             if ( cs.isInvoked( request ) )
             {
@@ -167,8 +166,11 @@ public final class PortalService
 
     /**
      * Registers a new ContentService
-     * @param strName The name
-     * @param cs The ContentService
+     * 
+     * @param strName
+     *            The name
+     * @param cs
+     *            The ContentService
      */
     public static void registerContentService( String strName, ContentService cs )
     {
@@ -180,17 +182,19 @@ public final class PortalService
      *
      * @return A collection containing all registered Content services
      */
-    public static Collection<ContentService> getContentServicesList(  )
+    public static Collection<ContentService> getContentServicesList( )
     {
-        return _mapContentServicesRegistry.values(  );
+        return _mapContentServicesRegistry.values( );
     }
 
     /**
      * Registers a new CacheableService
-     * @deprecated Use CacheService.registerCacheableService( String strName,
-     *             CacheableService cs ) instead
-     * @param strName The name
-     * @param cs The CacheableService
+     * 
+     * @deprecated Use CacheService.registerCacheableService( String strName, CacheableService cs ) instead
+     * @param strName
+     *            The name
+     * @param cs
+     *            The CacheableService
      */
     @Deprecated
     public static void registerCacheableService( String strName, CacheableService cs )
@@ -200,96 +204,105 @@ public final class PortalService
 
     /**
      * Returns all registered Cacheable services
+     * 
      * @deprecated Use CacheService.getCacheableServicesList() instead
      *
      * @return A collection containing all registered Cacheable services
      */
     @Deprecated
-    public static Collection<CacheableService> getCacheableServicesList(  )
+    public static Collection<CacheableService> getCacheableServicesList( )
     {
-        return CacheService.getCacheableServicesList(  );
+        return CacheService.getCacheableServicesList( );
     }
 
     /**
-     * Returns the identifier of the root page of the portal read in the
-     * lutece.properties file
+     * Returns the identifier of the root page of the portal read in the lutece.properties file
      *
      * @return The identifier of the root page
      */
-    public static int getRootPageId(  )
+    public static int getRootPageId( )
     {
         return AppPropertiesService.getPropertyInt( "lutece.page.root", 1 );
     }
 
     /**
      * Return the default page of the portal (the home page)
-     * @param request The request
-     * @param nMode the mode id
+     * 
+     * @param request
+     *            The request
+     * @param nMode
+     *            the mode id
      * @return default page as a String
-     * @throws SiteMessageException occurs when a site message need to be
-     *             displayed
+     * @throws SiteMessageException
+     *             occurs when a site message need to be displayed
      */
-    public static String getDefaultPage( HttpServletRequest request, int nMode )
-        throws SiteMessageException
+    public static String getDefaultPage( HttpServletRequest request, int nMode ) throws SiteMessageException
     {
-        return _pageService.getPage( String.valueOf( getRootPageId(  ) ), nMode, request );
+        return _pageService.getPage( String.valueOf( getRootPageId( ) ), nMode, request );
     }
 
     /**
-     * Return the xml content of the pages contained in the list specified in
-     * parameter
+     * Return the xml content of the pages contained in the list specified in parameter
      *
-     * @param listPages The pages list
+     * @param listPages
+     *            The pages list
      * @return the xml code for the content page
      */
     public static String getXmlPagesList( Collection<Page> listPages )
     {
-        StringBuffer strXml = new StringBuffer(  );
-        strXml.append( XmlUtil.getXmlHeader(  ) );
+        StringBuffer strXml = new StringBuffer( );
+        strXml.append( XmlUtil.getXmlHeader( ) );
         XmlUtil.beginElement( strXml, XmlContent.TAG_CHILD_PAGES_LIST );
 
         for ( Page page : listPages )
         {
             XmlUtil.beginElement( strXml, XmlContent.TAG_PAGE );
-            XmlUtil.addElement( strXml, XmlContent.TAG_PAGE_ID, page.getId(  ) );
-            XmlUtil.addElementHtml( strXml, XmlContent.TAG_PAGE_NAME, page.getName(  ) );
+            XmlUtil.addElement( strXml, XmlContent.TAG_PAGE_ID, page.getId( ) );
+            XmlUtil.addElementHtml( strXml, XmlContent.TAG_PAGE_NAME, page.getName( ) );
             XmlUtil.endElement( strXml, XmlContent.TAG_PAGE );
         }
 
         XmlUtil.endElement( strXml, XmlContent.TAG_CHILD_PAGES_LIST );
 
-        return strXml.toString(  );
+        return strXml.toString( );
     }
 
-    ////////////////////////////////////////////////////////////////////////////
+    // //////////////////////////////////////////////////////////////////////////
     // pages builder
 
     /**
      * Returns the html code which represents the page content
-     * @param data The structure which contains the informations about the page
-     * @param nMode The mode in which displaying the page : normal or
-     *            administration
-     * @param request The request
+     * 
+     * @param data
+     *            The structure which contains the informations about the page
+     * @param nMode
+     *            The mode in which displaying the page : normal or administration
+     * @param request
+     *            The request
      * @return The html code of a page
      */
     public static String buildPageContent( PageData data, int nMode, HttpServletRequest request )
     {
-        return buildPageContent( getRootPageId(  ), data, nMode, request );
+        return buildPageContent( getRootPageId( ), data, nMode, request );
     }
 
     /**
      * Returns the html code which represents the page content
-     * @param nCurrentPageId the current page id
-     * @param data The structure which contains the informations about the page
-     * @param nMode The mode in which displaying the page : normal or
-     *            administration
-     * @param request The request
+     * 
+     * @param nCurrentPageId
+     *            the current page id
+     * @param data
+     *            The structure which contains the informations about the page
+     * @param nMode
+     *            The mode in which displaying the page : normal or administration
+     * @param request
+     *            The request
      * @return The html code of a page
      */
     public static String buildPageContent( int nCurrentPageId, PageData data, int nMode, HttpServletRequest request )
     {
         Locale locale = null;
-        HashMap<String, Object> model = new HashMap<String, Object>(  );
+        HashMap<String, Object> model = new HashMap<String, Object>( );
         LuteceUser user = null;
         String strWebmasterEmail = DatastoreService.getDataValue( KEY_WEBMASTER_EMAIL, "" );
         model.put( Markers.WEBMASTER_EMAIL, strWebmasterEmail );
@@ -297,42 +310,40 @@ public final class PortalService
         if ( request != null )
         {
             locale = LocaleService.getUserSelectedLocale( request );
-            user = SecurityService.getInstance(  ).getRegisteredUser( request );
-            if ( nMode != MODE_ADMIN) 
+            user = SecurityService.getInstance( ).getRegisteredUser( request );
+            if ( nMode != MODE_ADMIN )
             {
-            	  model.put( MARK_LUTECE_USER, user );
+                model.put( MARK_LUTECE_USER, user );
             }
         }
 
-        List<PageInclude> listIncludes = PageIncludeService.getIncludes(  );
+        List<PageInclude> listIncludes = PageIncludeService.getIncludes( );
 
         for ( PageInclude pic : listIncludes )
         {
             pic.fillTemplate( model, data, nMode, request );
         }
 
-        String strHeader = ( data.isHomePage(  ) )
-            ? AppPropertiesService.getProperty( PROPERTY_HOME_PAGE_HEADER + nMode, TEMPLATE_HOME_PAGE_HEADER )
-            : AppPropertiesService.getProperty( PROPERTY_INTERNAL_PAGE_HEADER + nMode, TEMPLATE_INTERNAL_PAGE_HEADER );
+        String strHeader = ( data.isHomePage( ) ) ? AppPropertiesService.getProperty( PROPERTY_HOME_PAGE_HEADER + nMode, TEMPLATE_HOME_PAGE_HEADER )
+                : AppPropertiesService.getProperty( PROPERTY_INTERNAL_PAGE_HEADER + nMode, TEMPLATE_INTERNAL_PAGE_HEADER );
         HtmlTemplate tHeader = AppTemplateService.getTemplate( strHeader, locale, model );
 
         String strFooter = AppPropertiesService.getProperty( PROPERTY_PORTAL_FOOTER + nMode, TEMPLATE_PORTAL_FOOTER );
-        String strToolsMenu = AppPropertiesService.getProperty( PROPERTY_PAGE_TOOLS_MENU + nMode,
-                TEMPLATE_PAGE_TOOLS_MENU );
-        model.put( MARK_IS_CONTACT_INSTALLED, isContactActivated(  ) );
+        String strToolsMenu = AppPropertiesService.getProperty( PROPERTY_PAGE_TOOLS_MENU + nMode, TEMPLATE_PAGE_TOOLS_MENU );
+        model.put( MARK_IS_CONTACT_INSTALLED, isContactActivated( ) );
 
         HtmlTemplate tFooter = AppTemplateService.getTemplate( strFooter, locale, model );
 
         HtmlTemplate tToolsMenu = AppTemplateService.getTemplate( strToolsMenu, locale, model );
-        model.put( Markers.PAGE_HEADER, tHeader.getHtml(  ) );
+        model.put( Markers.PAGE_HEADER, tHeader.getHtml( ) );
         model.put( MARKER_PAGE_DATA, data );
-        model.put( Markers.PAGE_NAME, ( data.getName(  ) == null ) ? "" : data.getName(  ) );
-        model.put( Markers.PAGE_CONTENT, ( data.getContent(  ) == null ) ? "" : data.getContent(  ) );
-        model.put( Markers.PAGE_PATH, ( data.getPagePath(  ) == null ) ? "" : data.getPagePath(  ) );
-        model.put( Markers.PAGE_TOOLS_MENU, tToolsMenu.getHtml(  ) );
+        model.put( Markers.PAGE_NAME, ( data.getName( ) == null ) ? "" : data.getName( ) );
+        model.put( Markers.PAGE_CONTENT, ( data.getContent( ) == null ) ? "" : data.getContent( ) );
+        model.put( Markers.PAGE_PATH, ( data.getPagePath( ) == null ) ? "" : data.getPagePath( ) );
+        model.put( Markers.PAGE_TOOLS_MENU, tToolsMenu.getHtml( ) );
         model.put( Markers.PAGE_ID, nCurrentPageId );
-        
-        model.put( Markers.PAGE_FOOTER, tFooter.getHtml(  ) );
+
+        model.put( Markers.PAGE_FOOTER, tFooter.getHtml( ) );
 
         String strBaseUrl = ( request != null ) ? AppPathService.getBaseUrl( request ) : ""; // request could be null (method called by daemons or batch)
 
@@ -349,25 +360,28 @@ public final class PortalService
 
         model.put( Markers.ENCODING, strEncoding );
 
-        model.put( MARK_IS_EXTEND_INSTALLED, isExtendActivated(  ) );
+        model.put( MARK_IS_EXTEND_INSTALLED, isExtendActivated( ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_PAGE_FRAMESET, locale, model );
 
-        template.substitute( BOOKMARK_BASE_URL, ( request != null ) ? AppPathService.getBaseUrl( request ) : "" ); // request could be null (method called by daemons or batch)
+        template.substitute( BOOKMARK_BASE_URL, ( request != null ) ? AppPathService.getBaseUrl( request ) : "" ); // request could be null (method called by
+                                                                                                                   // daemons or batch)
 
-        return template.getHtml(  );
+        return template.getHtml( );
     }
 
-    ////////////////////////////////////////////////////////////////////////////
+    // //////////////////////////////////////////////////////////////////////////
     // Management of the pages path
 
     /**
-     * Returns the formated path of the site page whose identifier is specified
-     * in parameter
+     * Returns the formated path of the site page whose identifier is specified in parameter
      *
-     * @param nPageId The identifier of the page
-     * @param nMode The mode to use for the formatting
-     * @param request The HTTP request
+     * @param nPageId
+     *            The identifier of the page
+     * @param nMode
+     *            The mode to use for the formatting
+     * @param request
+     *            The HTTP request
      * @return the formated path
      */
     public static String getPagePathContent( int nPageId, int nMode, HttpServletRequest request )
@@ -375,8 +389,7 @@ public final class PortalService
         String strPathOnRoot = AppPropertiesService.getProperty( PROPERTY_PATH_ON_ROOT );
 
         // If the current page is the home page or the string strPathOnRoot equals false, not display the path
-        if ( ( nPageId == getRootPageId(  ) ) &&
-                ( ( strPathOnRoot == null ) || strPathOnRoot.equalsIgnoreCase( "false" ) ) )
+        if ( ( nPageId == getRootPageId( ) ) && ( ( strPathOnRoot == null ) || strPathOnRoot.equalsIgnoreCase( "false" ) ) )
         {
             return "";
         }
@@ -386,7 +399,7 @@ public final class PortalService
         // Use the same stylesheet for normal or admin mode
         StyleSheet xslSource;
 
-        switch ( nMode )
+        switch( nMode )
         {
             case MODE_NORMAL:
             case MODE_ADMIN:
@@ -406,12 +419,11 @@ public final class PortalService
 
         // Added in v1.3
         // Add a path param for choose url to use in admin or normal mode
-        Map<String, String> mapParamRequest = new HashMap<String, String>(  );
+        Map<String, String> mapParamRequest = new HashMap<String, String>( );
         setXslPortalPath( mapParamRequest, nMode );
 
-        XmlTransformerService xmlTransformerService = new XmlTransformerService(  );
-        String strPath = xmlTransformerService.transformBySourceWithXslCache( strXml, xslSource, mapParamRequest,
-                outputProperties );
+        XmlTransformerService xmlTransformerService = new XmlTransformerService( );
+        String strPath = xmlTransformerService.transformBySourceWithXslCache( strXml, xslSource, mapParamRequest, outputProperties );
 
         return formatPath( strPath, nMode, request );
     }
@@ -419,9 +431,12 @@ public final class PortalService
     /**
      * Returns the formated path of a xpage (ex : result of a seek)
      *
-     * @param strXPageName The xpage name
-     * @param nMode The mode to use for the formatting
-     * @param request The HTTP request
+     * @param strXPageName
+     *            The xpage name
+     * @param nMode
+     *            The mode to use for the formatting
+     * @param request
+     *            The HTTP request
      * @return the formated path
      */
     public static String getXPagePathContent( String strXPageName, int nMode, HttpServletRequest request )
@@ -430,7 +445,7 @@ public final class PortalService
         StyleSheet xslSource;
 
         // Selection of the XSL stylesheet
-        switch ( nMode )
+        switch( nMode )
         {
             case MODE_NORMAL:
             case MODE_ADMIN:
@@ -463,7 +478,7 @@ public final class PortalService
 
                 if ( portlet != null )
                 {
-                    int nPageId = portlet.getPageId(  );
+                    int nPageId = portlet.getPageId( );
                     strXml = getXmlPagesList( getXPagePath( strXPageName, nPageId ) );
                 }
             }
@@ -476,30 +491,29 @@ public final class PortalService
 
         Properties outputProperties = ModeHome.getOuputXslProperties( nMode );
 
-        //Added in v1.3
+        // Added in v1.3
         // Add a path param for choose url to use in admin or normal mode
-        Map<String, String> mapXslParams = new HashMap<String, String>(  );
+        Map<String, String> mapXslParams = new HashMap<String, String>( );
         setXslPortalPath( mapXslParams, nMode );
 
-        XmlTransformerService xmlTransformerService = new XmlTransformerService(  );
-        String strPath = xmlTransformerService.transformBySourceWithXslCache( strXml, xslSource, mapXslParams,
-                outputProperties );
+        XmlTransformerService xmlTransformerService = new XmlTransformerService( );
+        String strPath = xmlTransformerService.transformBySourceWithXslCache( strXml, xslSource, mapXslParams, outputProperties );
 
         return formatPath( strPath, nMode, request );
     }
 
     /**
-     * Builds a collection of pages corresponding to the path of the page
-     * specified in parameter
+     * Builds a collection of pages corresponding to the path of the page specified in parameter
      *
-     * @param nPageId The identifier of the page
+     * @param nPageId
+     *            The identifier of the page
      * @return A collection of pages from the home page to the specified page
      */
     public static Collection<Page> getPagePath( int nPageId )
     {
-        ArrayList<Page> list = new ArrayList<Page>(  );
+        ArrayList<Page> list = new ArrayList<Page>( );
         Page page = PageHome.getPage( nPageId );
-        int nParentPageId = page.getParentPageId(  );
+        int nParentPageId = page.getParentPageId( );
         list.add( page );
 
         while ( nParentPageId != 0 )
@@ -508,7 +522,7 @@ public final class PortalService
 
             // Insert the page in the begin of the list
             list.add( 0, parentPage );
-            nParentPageId = parentPage.getParentPageId(  );
+            nParentPageId = parentPage.getParentPageId( );
         }
 
         return list;
@@ -517,16 +531,17 @@ public final class PortalService
     /**
      * Builds a collection of pages corresponding to the path of a xpage
      *
-     * @param strXPageName The xpage name
+     * @param strXPageName
+     *            The xpage name
      * @return A collection of pages made by the home page and the xpage
      */
     private static Collection<Page> getXPagePath( String strXPageName )
     {
-        ArrayList<Page> list = new ArrayList<Page>(  );
-        Page homePage = PageHome.getPage( getRootPageId(  ) );
+        ArrayList<Page> list = new ArrayList<Page>( );
+        Page homePage = PageHome.getPage( getRootPageId( ) );
         list.add( homePage );
 
-        Page xPage = new Page(  );
+        Page xPage = new Page( );
         xPage.setName( strXPageName );
         list.add( xPage );
 
@@ -536,20 +551,22 @@ public final class PortalService
     /**
      * Builds a collection of pages corresponding to the path of a xpage
      *
-     * @param strXPageName The xpage name
-     * @param nPageId The Page's ID
+     * @param strXPageName
+     *            The xpage name
+     * @param nPageId
+     *            The Page's ID
      * @return A collection of pages made by the home page and the xpage
      */
     private static Collection<Page> getXPagePath( String strXPageName, int nPageId )
     {
-        List<Page> list = new ArrayList<Page>(  );
+        List<Page> list = new ArrayList<Page>( );
         Page page = PageHome.getPage( nPageId );
 
         if ( page != null )
         {
-            int nParentPageId = page.getParentPageId(  );
+            int nParentPageId = page.getParentPageId( );
 
-            while ( ( nParentPageId > 0 ) && ( nParentPageId != getRootPageId(  ) ) )
+            while ( ( nParentPageId > 0 ) && ( nParentPageId != getRootPageId( ) ) )
             {
                 Page parentPage = PageHome.getPage( nParentPageId );
 
@@ -557,22 +574,22 @@ public final class PortalService
                 {
                     // Insert the page at the beginning of the list
                     list.add( 0, parentPage );
-                    nParentPageId = parentPage.getParentPageId(  );
+                    nParentPageId = parentPage.getParentPageId( );
                 }
             }
 
-            if ( nPageId != getRootPageId(  ) )
+            if ( nPageId != getRootPageId( ) )
             {
                 list.add( page );
             }
         }
 
         // Insert the home page at the beginning of the list
-        Page homePage = PageHome.getPage( getRootPageId(  ) );
+        Page homePage = PageHome.getPage( getRootPageId( ) );
         list.add( 0, homePage );
 
         // Insert the XPage at the end of the list
-        Page xPage = new Page(  );
+        Page xPage = new Page( );
         xPage.setName( strXPageName );
         xPage.setId( nPageId );
         list.add( xPage );
@@ -580,82 +597,85 @@ public final class PortalService
         return list;
     }
 
-    ////////////////////////////////////////////////////////////////////////////
+    // //////////////////////////////////////////////////////////////////////////
 
     /**
      * Formats the path specified in parameter and returns it
      *
-     * @param strPath The path to format
-     * @param nMode The mode to use for the formatting
-     * @param request The HTTP request
+     * @param strPath
+     *            The path to format
+     * @param nMode
+     *            The mode to use for the formatting
+     * @param request
+     *            The HTTP request
      * @return the html code to display the path
      */
     public static String formatPath( String strPath, int nMode, HttpServletRequest request )
     {
-        HashMap<String, Object> model = new HashMap<String, Object>(  );
+        HashMap<String, Object> model = new HashMap<String, Object>( );
         model.put( Markers.PAGE_PATH, strPath );
 
-        List<PageInclude> listIncludes = PageIncludeService.getIncludes(  );
-        PageData data = new PageData(  );
+        List<PageInclude> listIncludes = PageIncludeService.getIncludes( );
+        PageData data = new PageData( );
 
         for ( PageInclude pic : listIncludes )
         {
             pic.fillTemplate( model, data, nMode, request );
         }
 
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_PAGE_PATH,
-                ( request == null ) ? null : request.getLocale(  ), model );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_PAGE_PATH, ( request == null ) ? null : request.getLocale( ), model );
 
-        return template.getHtml(  );
+        return template.getHtml( );
     }
 
     /**
-     * Return the xml content of the pages specified by the xml code.
-     * This is called when using the Extended Xml path Label.
+     * Return the xml content of the pages specified by the xml code. This is called when using the Extended Xml path Label.
      *
-     * @param strXmlExtend The xml code to append to the path
+     * @param strXmlExtend
+     *            The xml code to append to the path
      * @return the xml code for the content page
      */
     private static String getXmlPagesListExtended( String strXmlExtend )
     {
-        StringBuffer strXml = new StringBuffer(  );
-        strXml.append( XmlUtil.getXmlHeader(  ) );
+        StringBuffer strXml = new StringBuffer( );
+        strXml.append( XmlUtil.getXmlHeader( ) );
         XmlUtil.beginElement( strXml, XmlContent.TAG_CHILD_PAGES_LIST );
 
-        Page homePage = PageHome.getPage( getRootPageId(  ) );
+        Page homePage = PageHome.getPage( getRootPageId( ) );
 
         XmlUtil.beginElement( strXml, XmlContent.TAG_PAGE );
-        XmlUtil.addElement( strXml, XmlContent.TAG_PAGE_ID, homePage.getId(  ) );
-        XmlUtil.addElementHtml( strXml, XmlContent.TAG_PAGE_NAME, homePage.getName(  ) );
+        XmlUtil.addElement( strXml, XmlContent.TAG_PAGE_ID, homePage.getId( ) );
+        XmlUtil.addElementHtml( strXml, XmlContent.TAG_PAGE_NAME, homePage.getName( ) );
         XmlUtil.endElement( strXml, XmlContent.TAG_PAGE );
 
         strXml.append( strXmlExtend );
 
         XmlUtil.endElement( strXml, XmlContent.TAG_CHILD_PAGES_LIST );
 
-        return strXml.toString(  );
+        return strXml.toString( );
     }
 
     /**
-     * Returns the formated extended path of an xpage.
-     * This method is used when giving the list of elements in the path as a Xml
-     * code.
-     * This is called when using the Extended Xml path Label.
+     * Returns the formated extended path of an xpage. This method is used when giving the list of elements in the path as a Xml code. This is called when using
+     * the Extended Xml path Label.
      *
-     * @param strXPageName The xpage name
-     * @param nMode The mode to use for the formatting
-     * @param strTitlesUrls list of links (url and titles)
-     * @param request The HTTP request
+     * @param strXPageName
+     *            The xpage name
+     * @param nMode
+     *            The mode to use for the formatting
+     * @param strTitlesUrls
+     *            list of links (url and titles)
+     * @param request
+     *            The HTTP request
      * @return the formatted path
      */
-    public static String getXPagePathContent( String strXPageName, int nMode, String strTitlesUrls,
-        HttpServletRequest request )
+    public static String getXPagePathContent( String strXPageName, int nMode, String strTitlesUrls, HttpServletRequest request )
     {
         // Selection of the XSL stylesheet
         StyleSheet xslSource;
 
         // Selection of the XSL stylesheet
-        switch ( nMode )
+        switch( nMode )
         {
             case MODE_NORMAL:
             case MODE_ADMIN:
@@ -671,12 +691,12 @@ public final class PortalService
 
         String strXml = getXmlPagesListExtended( strTitlesUrls );
 
-        //Added in v1.3
+        // Added in v1.3
         // Add a path param for choose url to use in admin or normal mode
-        Map<String, String> mapXslParams = new HashMap<String, String>(  );
+        Map<String, String> mapXslParams = new HashMap<String, String>( );
         setXslPortalPath( mapXslParams, nMode );
 
-        XmlTransformerService xmlTransformerService = new XmlTransformerService(  );
+        XmlTransformerService xmlTransformerService = new XmlTransformerService( );
         String strPath = xmlTransformerService.transformBySourceWithXslCache( strXml, xslSource, mapXslParams );
 
         return formatPath( strPath, nMode, request );
@@ -684,45 +704,51 @@ public final class PortalService
 
     /**
      * Sets XSL portal path
-     * @param mapParameters Parameters as a map
-     * @param nMode The mode
+     * 
+     * @param mapParameters
+     *            Parameters as a map
+     * @param nMode
+     *            The mode
      */
     public static void setXslPortalPath( Map<String, String> mapParameters, int nMode )
     {
         if ( nMode != MODE_ADMIN )
         {
-            mapParameters.put( PARAMETER_SITE_PATH, AppPathService.getPortalUrl(  ) );
+            mapParameters.put( PARAMETER_SITE_PATH, AppPathService.getPortalUrl( ) );
         }
         else
         {
-            mapParameters.put( PARAMETER_SITE_PATH, AppPathService.getAdminPortalUrl(  ) );
+            mapParameters.put( PARAMETER_SITE_PATH, AppPathService.getAdminPortalUrl( ) );
             mapParameters.put( MARKER_TARGET, TARGET_TOP );
         }
     }
 
     /**
      * Returns the site name
+     * 
      * @return The site name
      */
-    public static String getSiteName(  )
+    public static String getSiteName( )
     {
         return DatastoreService.getDataValue( KEY_SITE_NAME, StringUtils.EMPTY );
     }
 
     /**
      * Check if the extend plugin is activated
+     * 
      * @return True if the plugin is activated, false otherwise
      */
-    public static boolean isExtendActivated(  )
+    public static boolean isExtendActivated( )
     {
         return PluginService.isPluginEnable( PLUGIN_EXTEND_NAME );
     }
 
     /**
      * Check if the cotnact plugin is activated
+     * 
      * @return True if the plugin is activated, false otherwise
      */
-    public static boolean isContactActivated(  )
+    public static boolean isContactActivated( )
     {
         return PluginService.isPluginEnable( PLUGIN_CONTACT_NAME );
     }

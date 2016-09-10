@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -37,7 +37,6 @@ import fr.paris.lutece.portal.service.spring.SpringContextService;
 
 import java.util.List;
 
-
 /**
  *
  * AttributeFieldHome
@@ -50,13 +49,15 @@ public final class AttributeFieldHome
     /**
      * Private constructor
      */
-    private AttributeFieldHome(  )
+    private AttributeFieldHome( )
     {
     }
 
     /**
      * Load attribute field
-     * @param nIdField ID Field
+     * 
+     * @param nIdField
+     *            ID Field
      * @return Attribute Field
      */
     public static AttributeField findByPrimaryKey( int nIdField )
@@ -66,7 +67,9 @@ public final class AttributeFieldHome
 
     /**
      * Load the lists of attribute field associated to an attribute
-     * @param nIdAttribute the ID attribute
+     * 
+     * @param nIdAttribute
+     *            the ID attribute
      * @return the list of attribute fields
      */
     public static List<AttributeField> selectAttributeFieldsByIdAttribute( int nIdAttribute )
@@ -76,7 +79,9 @@ public final class AttributeFieldHome
 
     /**
      * Load the attribute associated to the id field
-     * @param nIdField the id field
+     * 
+     * @param nIdField
+     *            the id field
      * @return attribute
      */
     public static IAttribute selectAttributeByIdField( int nIdField )
@@ -86,7 +91,9 @@ public final class AttributeFieldHome
 
     /**
      * Insert an new attribute field
-     * @param attributeField the attribute field
+     * 
+     * @param attributeField
+     *            the attribute field
      * @return @return new PK
      */
     public static int create( AttributeField attributeField )
@@ -96,7 +103,9 @@ public final class AttributeFieldHome
 
     /**
      * Update an attribute field
-     * @param attributeField the attribute field
+     * 
+     * @param attributeField
+     *            the attribute field
      */
     public static void update( AttributeField attributeField )
     {
@@ -105,7 +114,9 @@ public final class AttributeFieldHome
 
     /**
      * Delete an attribute field
-     * @param nIdField the attribute field id
+     * 
+     * @param nIdField
+     *            the attribute field id
      */
     public static void remove( int nIdField )
     {
@@ -114,7 +125,9 @@ public final class AttributeFieldHome
 
     /**
      * Delete all attribute field from an attribute id
-     * @param nIdAttribute the ID attribute
+     * 
+     * @param nIdAttribute
+     *            the ID attribute
      */
     public static void removeAttributeFieldsFromIdAttribute( int nIdAttribute )
     {

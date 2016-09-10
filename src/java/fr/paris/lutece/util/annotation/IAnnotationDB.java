@@ -37,7 +37,6 @@ import java.lang.annotation.Annotation;
 
 import java.util.Set;
 
-
 /**
  *
  * IAnnotationDB is used to find annotation.
@@ -48,18 +47,22 @@ public interface IAnnotationDB
     /**
      * Initializes the database
      */
-    void init(  );
+    void init( );
 
     /**
      * Finds the class having the given annotation
-     * @param annotationType the annotation
+     * 
+     * @param annotationType
+     *            the annotation
      * @return classes found.
      */
-    Set<String> getClassesName( Class<?extends Annotation> annotationType );
+    Set<String> getClassesName( Class<? extends Annotation> annotationType );
 
     /**
      * Finds classes having the given annotation
-     * @param strAnnotationType the annotation type name
+     * 
+     * @param strAnnotationType
+     *            the annotation type name
      * @return classes found.
      */
     Set<String> getClassesName( String strAnnotationType );

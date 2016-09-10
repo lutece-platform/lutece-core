@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -43,7 +43,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
 /**
  * Servlet using for BBCODE parsing
  */
@@ -51,66 +50,82 @@ public class ParserBbcodeServlet extends HttpServlet
 {
     private static final long serialVersionUID = -6564244054015195801L;
 
-    //Properties
+    // Properties
     private static final String PROPERTY_ENCODING = "lutece.encoding";
 
-    //Parameter
+    // Parameter
     private static final String PARAMETER_DATA = "data";
 
     /**
-     *  ParserBbcodeServlet
+     * ParserBbcodeServlet
      */
-    public ParserBbcodeServlet(  )
+    public ParserBbcodeServlet( )
     {
-        super(  );
+        super( );
     }
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException the servlet Exception
-     * @throws IOException the io exception
+     * 
+     * @param request
+     *            servlet request
+     * @param response
+     *            servlet response
+     * @throws ServletException
+     *             the servlet Exception
+     * @throws IOException
+     *             the io exception
      */
-    protected void processRequest( HttpServletRequest request, HttpServletResponse response )
-        throws ServletException, IOException
+    protected void processRequest( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException
     {
         String strValue = request.getParameter( PARAMETER_DATA );
-        String strValueReturn = ( strValue != null ) ? EditorBbcodeService.getInstance(  ).parse( strValue ) : "";
-        OutputStream out = response.getOutputStream(  );
+        String strValueReturn = ( strValue != null ) ? EditorBbcodeService.getInstance( ).parse( strValue ) : "";
+        OutputStream out = response.getOutputStream( );
         out.write( strValueReturn.getBytes( AppPropertiesService.getProperty( PROPERTY_ENCODING ) ) );
-        out.flush(  );
-        out.close(  );
+        out.flush( );
+        out.close( );
     }
 
-    /** Handles the HTTP <code>GET</code> method.
-     * @param request servlet request
-     * @param response servlet response
-         * @throws ServletException the servlet Exception
-         * @throws IOException the io exception
+    /**
+     * Handles the HTTP <code>GET</code> method.
+     * 
+     * @param request
+     *            servlet request
+     * @param response
+     *            servlet response
+     * @throws ServletException
+     *             the servlet Exception
+     * @throws IOException
+     *             the io exception
      */
-    protected void doGet( HttpServletRequest request, HttpServletResponse response )
-        throws ServletException, IOException
+    protected void doGet( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException
     {
         processRequest( request, response );
     }
 
-    /** Handles the HTTP <code>POST</code> method.
-     * @param request servlet request
-     * @param response servlet response
-         * @throws ServletException the servlet Exception
-         * @throws IOException the io exception
+    /**
+     * Handles the HTTP <code>POST</code> method.
+     * 
+     * @param request
+     *            servlet request
+     * @param response
+     *            servlet response
+     * @throws ServletException
+     *             the servlet Exception
+     * @throws IOException
+     *             the io exception
      */
-    protected void doPost( HttpServletRequest request, HttpServletResponse response )
-        throws ServletException, IOException
+    protected void doPost( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException
     {
         processRequest( request, response );
     }
 
-    /** Returns a short description of the servlet.
-         * @return message
+    /**
+     * Returns a short description of the servlet.
+     * 
+     * @return message
      */
-    public String getServletInfo(  )
+    public String getServletInfo( )
     {
         return "Servlet parsing content";
     }

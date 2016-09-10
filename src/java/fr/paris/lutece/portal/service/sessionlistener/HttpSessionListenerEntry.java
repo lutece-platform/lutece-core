@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,7 +33,6 @@
  */
 package fr.paris.lutece.portal.service.sessionlistener;
 
-
 /**
  *
  * ListenerEntry Entry used to load httpsessionlistener from the plugin XML file
@@ -45,16 +44,19 @@ public class HttpSessionListenerEntry
 
     /**
      * The listener class
+     * 
      * @return The listener class
      */
-    public String getListenerClass(  )
+    public String getListenerClass( )
     {
         return _strListenerClass;
     }
 
     /**
      * The listener class
-     * @param strListenerClass The listener class
+     * 
+     * @param strListenerClass
+     *            The listener class
      */
     public void setListenerClass( String strListenerClass )
     {

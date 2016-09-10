@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -37,7 +37,6 @@ import java.util.Enumeration;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
-
 public class CombinedResourceBundle extends ResourceBundle
 {
     private final ResourceBundle _override;
@@ -56,13 +55,13 @@ public class CombinedResourceBundle extends ResourceBundle
         {
             return _override.getObject( key );
         }
-        catch ( MissingResourceException e )
+        catch( MissingResourceException e )
         {
             try
             {
                 return _defaults.getObject( key );
             }
-            catch ( MissingResourceException e2 )
+            catch( MissingResourceException e2 )
             {
                 return null;
             }
@@ -70,8 +69,8 @@ public class CombinedResourceBundle extends ResourceBundle
     }
 
     @Override
-    public Enumeration<String> getKeys(  )
+    public Enumeration<String> getKeys( )
     {
-        return _defaults.getKeys(  );
+        return _defaults.getKeys( );
     }
 }

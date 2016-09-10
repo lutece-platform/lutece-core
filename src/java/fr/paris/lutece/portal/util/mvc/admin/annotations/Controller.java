@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -52,25 +52,30 @@ public @interface Controller
     /**
      * The XPage name as it is called in the URL
      */
-    String controllerJsp(  );
+    String controllerJsp( );
+
     /**
      * Path of the controller JSP
      */
-    String controllerPath(  );
+    String controllerPath( );
+
     /**
      * The right associated to the JSP
      */
-    String right(  );
+    String right( );
+
     /**
      * The default page title property
      */
-    String pageTitleProperty(  ) default "";
+    String pageTitleProperty( ) default "";
+
     /**
      * The default page title property
      */
-    String pageTitleI18nKey(  ) default "";
+    String pageTitleI18nKey( ) default "";
+
     /**
      * The default page path property
      */
-    String pagePathI18nKey(  ) default "";
+    String pagePathI18nKey( ) default "";
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -39,7 +39,6 @@ import org.apache.commons.lang.StringUtils;
 
 import java.io.Serializable;
 
-
 /**
  *
  * MailingListFilter
@@ -63,21 +62,22 @@ public class MailingListFilter implements Serializable
     /**
      * Instantiates a new mailing list filter.
      */
-    public MailingListFilter(  )
+    public MailingListFilter( )
     {
     }
 
     /**
      * Instantiates a new mailing list filter.
      *
-     * @param filter the filter
+     * @param filter
+     *            the filter
      */
     public MailingListFilter( MailingListFilter filter )
     {
-        _strName = filter.getName(  );
-        _strDescription = filter.getDescription(  );
-        _strWorkgroup = filter.getWorkgroup(  );
-        _bIsWideSearch = filter.isWideSearch(  );
+        _strName = filter.getName( );
+        _strDescription = filter.getDescription( );
+        _strWorkgroup = filter.getWorkgroup( );
+        _bIsWideSearch = filter.isWideSearch( );
     }
 
     /**
@@ -85,7 +85,7 @@ public class MailingListFilter implements Serializable
      *
      * @return The Name
      */
-    public String getName(  )
+    public String getName( )
     {
         return _strName;
     }
@@ -93,7 +93,8 @@ public class MailingListFilter implements Serializable
     /**
      * Sets the Name
      *
-     * @param strName The Name
+     * @param strName
+     *            The Name
      */
     public void setName( String strName )
     {
@@ -105,7 +106,7 @@ public class MailingListFilter implements Serializable
      *
      * @return true, if successful
      */
-    public boolean containsName(  )
+    public boolean containsName( )
     {
         return StringUtils.isNotBlank( _strName );
     }
@@ -115,7 +116,7 @@ public class MailingListFilter implements Serializable
      *
      * @return The Description
      */
-    public String getDescription(  )
+    public String getDescription( )
     {
         return _strDescription;
     }
@@ -123,7 +124,8 @@ public class MailingListFilter implements Serializable
     /**
      * Sets the Description
      *
-     * @param strDescription The Description
+     * @param strDescription
+     *            The Description
      */
     public void setDescription( String strDescription )
     {
@@ -135,7 +137,7 @@ public class MailingListFilter implements Serializable
      *
      * @return true, if successful
      */
-    public boolean containsDescription(  )
+    public boolean containsDescription( )
     {
         return StringUtils.isNotBlank( _strDescription );
     }
@@ -145,7 +147,7 @@ public class MailingListFilter implements Serializable
      *
      * @return The Workgroup
      */
-    public String getWorkgroup(  )
+    public String getWorkgroup( )
     {
         return _strWorkgroup;
     }
@@ -153,7 +155,8 @@ public class MailingListFilter implements Serializable
     /**
      * Sets the Workgroup
      *
-     * @param strWorkgroup The Workgroup
+     * @param strWorkgroup
+     *            The Workgroup
      */
     public void setWorkgroup( String strWorkgroup )
     {
@@ -165,14 +168,16 @@ public class MailingListFilter implements Serializable
      *
      * @return true, if successful
      */
-    public boolean containsWorkgroup(  )
+    public boolean containsWorkgroup( )
     {
         return StringUtils.isNotBlank( _strWorkgroup );
     }
 
     /**
      * Set true if the search is wide, false otherwise
-     * @param isWideSearch true if the search is wide, false otherwise
+     * 
+     * @param isWideSearch
+     *            true if the search is wide, false otherwise
      */
     public void setWideSearch( boolean isWideSearch )
     {
@@ -181,9 +186,10 @@ public class MailingListFilter implements Serializable
 
     /**
      * Return true if the search is wide, false otherwise
+     * 
      * @return true if the search is wide, false otherwise
      */
-    public boolean isWideSearch(  )
+    public boolean isWideSearch( )
     {
         return _bIsWideSearch;
     }
@@ -191,7 +197,8 @@ public class MailingListFilter implements Serializable
     /**
      * Builds the sql query.
      *
-     * @param strSQL the str sql
+     * @param strSQL
+     *            the str sql
      * @return the string
      */
     public String buildSQLQuery( String strSQL )
@@ -199,45 +206,50 @@ public class MailingListFilter implements Serializable
         StringBuilder sbSQL = new StringBuilder( strSQL );
         int nIndex = 1;
 
-        nIndex = buildFilter( sbSQL, containsName(  ), SQL_FILTER_NAME, nIndex );
-        nIndex = buildFilter( sbSQL, containsDescription(  ), SQL_FILTER_DESCRIPTION, nIndex );
-        buildFilter( sbSQL, containsWorkgroup(  ), SQL_FILTER_WORKGROUP, nIndex );
+        nIndex = buildFilter( sbSQL, containsName( ), SQL_FILTER_NAME, nIndex );
+        nIndex = buildFilter( sbSQL, containsDescription( ), SQL_FILTER_DESCRIPTION, nIndex );
+        buildFilter( sbSQL, containsWorkgroup( ), SQL_FILTER_WORKGROUP, nIndex );
 
-        return sbSQL.toString(  );
+        return sbSQL.toString( );
     }
 
     /**
      * Sets the filter values.
      *
-     * @param daoUtil the new filter values
+     * @param daoUtil
+     *            the new filter values
      */
     public void setFilterValues( DAOUtil daoUtil )
     {
         int nIndex = 1;
 
-        if ( containsName(  ) )
+        if ( containsName( ) )
         {
-            daoUtil.setString( nIndex++, PERCENT + getName(  ) + PERCENT );
+            daoUtil.setString( nIndex++, PERCENT + getName( ) + PERCENT );
         }
 
-        if ( containsDescription(  ) )
+        if ( containsDescription( ) )
         {
-            daoUtil.setString( nIndex++, PERCENT + getDescription(  ) + PERCENT );
+            daoUtil.setString( nIndex++, PERCENT + getDescription( ) + PERCENT );
         }
 
-        if ( containsWorkgroup(  ) )
+        if ( containsWorkgroup( ) )
         {
-            daoUtil.setString( nIndex, getWorkgroup(  ) );
+            daoUtil.setString( nIndex, getWorkgroup( ) );
         }
     }
 
     /**
      * Builds the filter.
      *
-     * @param sbSQL the sb sql
-     * @param bAddFilter the b add filter
-     * @param strSQL the str sql
-     * @param nIndex the n index
+     * @param sbSQL
+     *            the sb sql
+     * @param bAddFilter
+     *            the b add filter
+     * @param strSQL
+     *            the str sql
+     * @param nIndex
+     *            the n index
      * @return the int
      */
     private int buildFilter( StringBuilder sbSQL, boolean bAddFilter, String strSQL, int nIndex )
@@ -246,7 +258,7 @@ public class MailingListFilter implements Serializable
 
         if ( bAddFilter )
         {
-            nIndexTmp = addSQLWhereOr( isWideSearch(  ), sbSQL, nIndex );
+            nIndexTmp = addSQLWhereOr( isWideSearch( ), sbSQL, nIndex );
             sbSQL.append( strSQL );
         }
 
@@ -254,15 +266,18 @@ public class MailingListFilter implements Serializable
     }
 
     /**
-     * Add a <b>WHERE</b> or a <b>OR</b> depending of the index.
-     * <br/>
+     * Add a <b>WHERE</b> or a <b>OR</b> depending of the index. <br/>
      * <ul>
      * <li>if <code>nIndex</code> == 1, then we add a <b>WHERE</b></li>
      * <li>if <code>nIndex</code> != 1, then we add a <b>OR</b> or a <b>AND</b> depending of the wide search characteristic</li>
      * </ul>
-     * @param bIsWideSearch true if it is a wide search, false otherwise
-     * @param sbSQL the SQL query
-     * @param nIndex the index
+     * 
+     * @param bIsWideSearch
+     *            true if it is a wide search, false otherwise
+     * @param sbSQL
+     *            the SQL query
+     * @param nIndex
+     *            the index
      * @return the new index
      */
     private int addSQLWhereOr( boolean bIsWideSearch, StringBuilder sbSQL, int nIndex )

@@ -49,7 +49,6 @@ import fr.paris.lutece.portal.service.util.AppPathServiceTest;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-
 /**
  * This Class is the main Test Suite class to launch all the unit tests of the current package
  */
@@ -59,19 +58,20 @@ public final class AllTests
      * Constructor
      *
      */
-    private AllTests(  )
+    private AllTests( )
     {
     }
 
     /**
      * A set of tests
+     * 
      * @return Test the tests
      */
-    public static Test suite(  )
+    public static Test suite( )
     {
         TestSuite suite = new TestSuite( "Test for test.fr.paris.lutece.portal.service" );
 
-        //$JUnit-BEGIN$
+        // $JUnit-BEGIN$
         suite.addTest( new TestSuite( HtmlCleanerServiceTest.class ) );
         suite.addTest( new TestSuite( EncodingServiceTest.class ) );
         suite.addTest( new TestSuite( I18nServiceTest.class ) );
@@ -88,9 +88,9 @@ public final class AllTests
         suite.addTest( new TestSuite( PageIncludeServiceTest.class ) );
         suite.addTest( new TestSuite( SecurityServiceTest.class ) );
 
-        //        suite.addTest( new TestSuite( ImageResourceTest.class ) );
+        // suite.addTest( new TestSuite( ImageResourceTest.class ) );
 
-        //$JUnit-END$
+        // $JUnit-END$
         return suite;
     }
 }

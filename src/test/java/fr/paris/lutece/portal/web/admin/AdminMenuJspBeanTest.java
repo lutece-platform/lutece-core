@@ -64,7 +64,6 @@ import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.mock.web.MockHttpServletRequest;
 
-
 /**
  * AdminMenuJspBeanTest Test Class
  *
@@ -75,7 +74,7 @@ public class AdminMenuJspBeanTest extends LuteceTestCase
     private static final String TEST_USER_ACCESS_CODE = "admin";
     private static final String TEST_USER_PASSWORD = "admin";
     private static final String TEST_LANGUAGE = "en";
-    AdminUser _user = new AdminUser(  );
+    AdminUser _user = new AdminUser( );
 
     {
         _user.setFirstName( "first_name" );
@@ -85,68 +84,68 @@ public class AdminMenuJspBeanTest extends LuteceTestCase
     /**
      * Test of getAdminMenuHeader method, of class fr.paris.lutece.portal.web.admin.AdminMenuJspBean.
      */
-    public void testGetAdminMenuHeader(  ) throws AccessDeniedException
+    public void testGetAdminMenuHeader( ) throws AccessDeniedException
     {
         System.out.println( "getAdminMenuHeader" );
 
-        MokeHttpServletRequest request = new MokeHttpServletRequest(  );
+        MokeHttpServletRequest request = new MokeHttpServletRequest( );
         getUser( request );
         request.registerAdminUser( _user );
 
-        AdminMenuJspBean instance = new AdminMenuJspBean(  );
+        AdminMenuJspBean instance = new AdminMenuJspBean( );
         instance.getAdminMenuHeader( request );
     }
 
     /**
      * Test of getAdminMenuUser method, of class fr.paris.lutece.portal.web.admin.AdminMenuJspBean.
      */
-    public void testGetAdminMenuUser(  ) throws AccessDeniedException
+    public void testGetAdminMenuUser( ) throws AccessDeniedException
     {
         System.out.println( "getAdminMenuUser" );
 
-        MokeHttpServletRequest request = new MokeHttpServletRequest(  );
+        MokeHttpServletRequest request = new MokeHttpServletRequest( );
         getUser( request );
         request.registerAdminUser( _user );
 
-        AdminMenuJspBean instance = new AdminMenuJspBean(  );
+        AdminMenuJspBean instance = new AdminMenuJspBean( );
         instance.getAdminMenuUser( request );
     }
 
     /**
      * Test of doChangeLanguage method, of class fr.paris.lutece.portal.web.admin.AdminMenuJspBean.
      */
-    public void testDoChangeLanguage(  ) throws AccessDeniedException
+    public void testDoChangeLanguage( ) throws AccessDeniedException
     {
         System.out.println( "doChangeLanguage" );
 
-        MokeHttpServletRequest request = new MokeHttpServletRequest(  );
+        MokeHttpServletRequest request = new MokeHttpServletRequest( );
         request.addMokeParameters( PARAMETER_LANGUAGE, TEST_LANGUAGE );
 
         getUser( request );
         request.registerAdminUser( _user );
         _user.setLocale( Locale.FRANCE );
 
-        Locale localeSTored = _user.getLocale(  );
+        Locale localeSTored = _user.getLocale( );
 
-        AdminMenuJspBean instance = new AdminMenuJspBean(  );
+        AdminMenuJspBean instance = new AdminMenuJspBean( );
         instance.doChangeLanguage( request );
-        assertNotSame( localeSTored.getLanguage(  ), _user.getLocale(  ).getLanguage(  ) );
+        assertNotSame( localeSTored.getLanguage( ), _user.getLocale( ).getLanguage( ) );
     }
 
     private void getUser( MokeHttpServletRequest request )
     {
         try
         {
-            AdminAuthenticationService.getInstance(  ).loginUser( request, TEST_USER_ACCESS_CODE, TEST_USER_PASSWORD );
+            AdminAuthenticationService.getInstance( ).loginUser( request, TEST_USER_ACCESS_CODE, TEST_USER_PASSWORD );
             _user = AdminUserService.getAdminUser( request );
         }
-        catch ( FailedLoginException ex )
+        catch( FailedLoginException ex )
         {
-            String strReturn = "../../" + AdminAuthenticationService.getInstance(  ).getLoginPageUrl(  );
+            String strReturn = "../../" + AdminAuthenticationService.getInstance( ).getLoginPageUrl( );
         }
-        catch ( LoginException ex )
+        catch( LoginException ex )
         {
-            String strReturn = "../../" + AdminAuthenticationService.getInstance(  ).getLoginPageUrl(  );
+            String strReturn = "../../" + AdminAuthenticationService.getInstance( ).getLoginPageUrl( );
         }
     }
 
@@ -166,14 +165,15 @@ public class AdminMenuJspBeanTest extends LuteceTestCase
         String password = "Pa55word!";
         IPasswordFactory passwordFactory = SpringContextService.getBean( IPasswordFactory.BEAN_NAME );
 
-        LuteceDefaultAdminUser user = new LuteceDefaultAdminUser( randomUsername, new LuteceDefaultAdminAuthentication( ) );   
+        LuteceDefaultAdminUser user = new LuteceDefaultAdminUser( randomUsername, new LuteceDefaultAdminAuthentication( ) );
         user.setPassword( passwordFactory.getPasswordFromCleartext( password ) );
         user.setFirstName( randomUsername );
         user.setLastName( randomUsername );
         user.setEmail( randomUsername + "@lutece.fr" );
         adminUserDAO.insert( user );
-        try {
-            AdminMenuJspBean instance = new AdminMenuJspBean(  );
+        try
+        {
+            AdminMenuJspBean instance = new AdminMenuJspBean( );
             // no args
             MockHttpServletRequest request = new MockHttpServletRequest( );
             request.getSession( true ).setAttribute( "lutece_admin_user", user );
@@ -276,11 +276,12 @@ public class AdminMenuJspBeanTest extends LuteceTestCase
             List<IPassword> history = AdminUserHome.selectUserPasswordHistory( user.getUserId( ) );
             assertEquals( 1, history.size( ) );
             assertTrue( history.get( 0 ).check( password + "_mod" ) );
-        } finally
+        }
+        finally
         {
             adminUserDAO.delete( user.getUserId( ) );
             AdminUserHome.removeAllPasswordHistoryForUser( user.getUserId( ) );
         }
-        
+
     }
 }

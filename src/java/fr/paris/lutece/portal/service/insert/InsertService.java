@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -45,7 +45,6 @@ import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  * The insert Service
  */
@@ -56,10 +55,10 @@ public class InsertService implements RBACResource, Localizable
     /** Unique ID of the Service */
     private String _strId;
 
-    /** Name used in the UI  */
+    /** Name used in the UI */
     private String _strNameKey;
 
-    /** Label used in the UI  */
+    /** Label used in the UI */
     private String _strLabelKey;
 
     /** Name of the Bean to use to select a link */
@@ -74,7 +73,7 @@ public class InsertService implements RBACResource, Localizable
      *
      * @return The Id as a String
      */
-    public String getId(  )
+    public String getId( )
     {
         return _strId;
     }
@@ -82,7 +81,8 @@ public class InsertService implements RBACResource, Localizable
     /**
      * Set the Id of the insert service
      *
-     * @param strId the id
+     * @param strId
+     *            the id
      */
     public void setId( String strId )
     {
@@ -94,7 +94,7 @@ public class InsertService implements RBACResource, Localizable
      *
      * @return The name key as a String
      */
-    public String getNameKey(  )
+    public String getNameKey( )
     {
         return _strNameKey;
     }
@@ -104,7 +104,7 @@ public class InsertService implements RBACResource, Localizable
      *
      * @return The name as a String
      */
-    public String getName(  )
+    public String getName( )
     {
         return I18nService.getLocalizedString( _strNameKey, _locale );
     }
@@ -112,7 +112,8 @@ public class InsertService implements RBACResource, Localizable
     /**
      * Set the name of the insert service
      *
-     * @param strNameKey the label
+     * @param strNameKey
+     *            the label
      */
     public void setNameKey( String strNameKey )
     {
@@ -124,7 +125,7 @@ public class InsertService implements RBACResource, Localizable
      *
      * @return The label key as a String
      */
-    public String getLabelKey(  )
+    public String getLabelKey( )
     {
         return _strLabelKey;
     }
@@ -134,7 +135,7 @@ public class InsertService implements RBACResource, Localizable
      *
      * @return The label as a String
      */
-    public String getLabel(  )
+    public String getLabel( )
     {
         return I18nService.getLocalizedString( _strLabelKey, _locale );
     }
@@ -142,7 +143,8 @@ public class InsertService implements RBACResource, Localizable
     /**
      * Set the name of the insert service
      *
-     * @param strLabelKey the label
+     * @param strLabelKey
+     *            the label
      */
     public void setLabelKey( String strLabelKey )
     {
@@ -154,7 +156,7 @@ public class InsertService implements RBACResource, Localizable
      *
      * @return The ActionBean as a String
      */
-    public String getActionBeanString(  )
+    public String getActionBeanString( )
     {
         return _strActionBean;
     }
@@ -162,7 +164,8 @@ public class InsertService implements RBACResource, Localizable
     /**
      * Set the ActionBean of the insert service
      *
-     * @param strActionBean the ActionBean
+     * @param strActionBean
+     *            the ActionBean
      */
     public void setActionBeanString( String strActionBean )
     {
@@ -172,7 +175,8 @@ public class InsertService implements RBACResource, Localizable
     /**
      * Register the name of the Action Bean associated with the service
      *
-     * @param strSelectionBean The ActionBean to use
+     * @param strSelectionBean
+     *            The ActionBean to use
      */
     public void setActionBeanClassName( String strSelectionBean )
     {
@@ -184,7 +188,7 @@ public class InsertService implements RBACResource, Localizable
      *
      * @return The name of the plugin
      */
-    public String getPluginName(  )
+    public String getPluginName( )
     {
         return _strPluginName;
     }
@@ -192,7 +196,8 @@ public class InsertService implements RBACResource, Localizable
     /**
      * Set the plugin name of the insert service
      *
-     * @param strPluginName the plugin name
+     * @param strPluginName
+     *            the plugin name
      */
     public void setPluginName( String strPluginName )
     {
@@ -205,72 +210,78 @@ public class InsertService implements RBACResource, Localizable
      * @return an Instance of the Bean
      * @see fr.paris.lutece.portal.service.LinkService#getActionBean()
      */
-    public InsertServiceSelectionBean getSelectionActionBean(  )
+    public InsertServiceSelectionBean getSelectionActionBean( )
     {
         try
         {
-            return (InsertServiceSelectionBean) Class.forName( getActionBeanString(  ) ).newInstance(  );
+            return (InsertServiceSelectionBean) Class.forName( getActionBeanString( ) ).newInstance( );
         }
-        catch ( InstantiationException e )
+        catch( InstantiationException e )
         {
-            throw new AppException( "Error instantiating a LinkService Selection Bean : " + e.getMessage(  ), e );
+            throw new AppException( "Error instantiating a LinkService Selection Bean : " + e.getMessage( ), e );
         }
-        catch ( IllegalAccessException e )
+        catch( IllegalAccessException e )
         {
-            throw new AppException( "Error instantiating a LinkService Selection Bean : " + e.getMessage(  ), e );
+            throw new AppException( "Error instantiating a LinkService Selection Bean : " + e.getMessage( ), e );
         }
-        catch ( ClassNotFoundException e )
+        catch( ClassNotFoundException e )
         {
-            throw new AppException( "Error instantiating a LinkService Selection Bean : " + e.getMessage(  ), e );
+            throw new AppException( "Error instantiating a LinkService Selection Bean : " + e.getMessage( ), e );
         }
     }
 
     /**
      * Get the UI to select an object
      *
-     * @param request The Http request.
+     * @param request
+     *            The Http request.
      * @return HTML code of the page as string
      */
     public String getSelectorUI( HttpServletRequest request )
     {
-        return getSelectionActionBean(  ).getInsertServiceSelectorUI( request );
+        return getSelectionActionBean( ).getInsertServiceSelectorUI( request );
     }
 
     /**
      * Tells if the insertservice is enable (plugin activated).
+     * 
      * @return Returns the state of the insert service : enable or disable
      */
-    public boolean isEnabled(  )
+    public boolean isEnabled( )
     {
         Plugin plugin = PluginService.getPlugin( _strPluginName );
 
-        return plugin.isInstalled(  );
+        return plugin.isInstalled( );
     }
 
-    ////////////////////////////////////////////////////////////////////////////
+    // //////////////////////////////////////////////////////////////////////////
     // RBAC Resource implementation
 
     /**
      * Returns the Resource Type Code that identify the resource type
+     * 
      * @return The Resource Type Code
      */
-    public String getResourceTypeCode(  )
+    public String getResourceTypeCode( )
     {
         return RESOURCE_TYPE;
     }
 
     /**
      * Returns the resource Id of the current object
+     * 
      * @return The resource Id of the current object
      */
-    public String getResourceId(  )
+    public String getResourceId( )
     {
-        return "" + getId(  );
+        return "" + getId( );
     }
 
     /**
      * Implements Localizable
-     * @param locale The current locale
+     * 
+     * @param locale
+     *            The current locale
      */
     public void setLocale( Locale locale )
     {

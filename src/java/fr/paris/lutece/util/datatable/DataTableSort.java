@@ -33,7 +33,6 @@
  */
 package fr.paris.lutece.util.datatable;
 
-
 /**
  * The Class DataTableSort.
  */
@@ -45,14 +44,17 @@ public class DataTableSort
     /**
      * Private constructor
      */
-    protected DataTableSort(  )
+    protected DataTableSort( )
     {
     }
 
     /**
      * Creates a new DataTableSort
-     * @param strSortKey The key of the sort
-     * @param bAscSort True if the sort is ascending, false otherwise
+     * 
+     * @param strSortKey
+     *            The key of the sort
+     * @param bAscSort
+     *            True if the sort is ascending, false otherwise
      */
     public DataTableSort( String strSortKey, boolean bAscSort )
     {
@@ -62,16 +64,19 @@ public class DataTableSort
 
     /**
      * Get the sort key
+     * 
      * @return The sort key
      */
-    public String getSortKey(  )
+    public String getSortKey( )
     {
         return _strSortKey;
     }
 
     /**
      * Set the sort key
-     * @param strSortKey The sort key
+     * 
+     * @param strSortKey
+     *            The sort key
      */
     public void setSortKey( String strSortKey )
     {
@@ -80,16 +85,19 @@ public class DataTableSort
 
     /**
      * Check if the sort is ascending
+     * 
      * @return True if the sort is ascending, false otherwise
      */
-    public boolean getAscSort(  )
+    public boolean getAscSort( )
     {
         return _bAscSort;
     }
 
     /**
      * Set the ascending sort boolean
-     * @param bAscSort True if the sort is ascending, false otherwise
+     * 
+     * @param bAscSort
+     *            True if the sort is ascending, false otherwise
      */
     public void setAscSort( boolean bAscSort )
     {

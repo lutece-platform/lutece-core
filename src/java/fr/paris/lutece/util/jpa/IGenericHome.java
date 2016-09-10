@@ -37,35 +37,45 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-
 /**
  * Interface IGenericLuteceHome
- * @param <K> key class
- * @param <E> entity class
+ * 
+ * @param <K>
+ *            key class
+ * @param <E>
+ *            entity class
  */
 public interface IGenericHome<K, E>
 {
     /**
      * Creates the entity
-     * @param entity object
+     * 
+     * @param entity
+     *            object
      */
     void create( E entity );
 
     /**
      * Merges the entity
-     * @param entity object
+     * 
+     * @param entity
+     *            object
      */
     void update( E entity );
 
     /**
      * Removes the entity if exists
-     * @param key The entity key
+     * 
+     * @param key
+     *            The entity key
      */
     void remove( K key );
 
     /**
      * Loads an entity by its key
-     * @param pKey primary key
+     * 
+     * @param pKey
+     *            primary key
      * @return the found entity, <code>null</code> otherwise.
      */
     @Transactional( readOnly = true )
@@ -73,8 +83,9 @@ public interface IGenericHome<K, E>
 
     /**
      * Finds all
+     * 
      * @return the list
      */
     @Transactional( readOnly = true )
-    List<E> findAll(  );
+    List<E> findAll( );
 }

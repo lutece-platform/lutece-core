@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -35,61 +35,65 @@ package fr.paris.lutece.portal.business.user.log;
 
 import fr.paris.lutece.util.sql.DAOUtil;
 
-
 /**
  * This class provides Data Access methods for AppUser objects
  */
 public final class UserLogDAO implements IUserLogDAO
 {
     // Constants
-    private static final String SQL_QUERY_SELECT_LOGIN_ERRORS = " SELECT COUNT(*) FROM core_connections_log  WHERE ip_address = ?  " +
-        " AND date_login > ? AND date_login < ? ";
-    private static final String SQL_QUERY_INSERT_LOGS = " INSERT INTO core_connections_log ( access_code, ip_address, date_login, login_status ) " +
-        " VALUES ( ?, ?, ?, ? )";
+    private static final String SQL_QUERY_SELECT_LOGIN_ERRORS = " SELECT COUNT(*) FROM core_connections_log  WHERE ip_address = ?  "
+            + " AND date_login > ? AND date_login < ? ";
+    private static final String SQL_QUERY_INSERT_LOGS = " INSERT INTO core_connections_log ( access_code, ip_address, date_login, login_status ) "
+            + " VALUES ( ?, ?, ?, ? )";
 
     /**
      * Calculate the number of connections with a given ip_address by a determinate time
-     * @param userLog The Log of connection
-     * @param nIntervalMinutes The number of minutes since the last connection
+     * 
+     * @param userLog
+     *            The Log of connection
+     * @param nIntervalMinutes
+     *            The number of minutes since the last connection
      * @return int
      */
     public int selectLoginErrors( UserLog userLog, int nIntervalMinutes )
     {
         int nCount = 0;
-        java.sql.Timestamp dateEnd = new java.sql.Timestamp( new java.util.Date(  ).getTime(  ) );
-        java.sql.Timestamp dateBegin = new java.sql.Timestamp( dateEnd.getTime(  ) - ( nIntervalMinutes * 1000L * 60L ) );
+        java.sql.Timestamp dateEnd = new java.sql.Timestamp( new java.util.Date( ).getTime( ) );
+        java.sql.Timestamp dateBegin = new java.sql.Timestamp( dateEnd.getTime( ) - ( nIntervalMinutes * 1000L * 60L ) );
 
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_LOGIN_ERRORS );
 
-        daoUtil.setString( 1, userLog.getIpAddress(  ) );
+        daoUtil.setString( 1, userLog.getIpAddress( ) );
         daoUtil.setTimestamp( 2, dateBegin );
         daoUtil.setTimestamp( 3, dateEnd );
 
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
-        if ( daoUtil.next(  ) )
+        if ( daoUtil.next( ) )
         {
             nCount = daoUtil.getInt( 1 );
         }
 
-        daoUtil.free(  );
+        daoUtil.free( );
 
         return nCount;
     }
 
     /**
      * Insert a new record in the table of connections
-     * @param userLog the UserLog Object
+     * 
+     * @param userLog
+     *            the UserLog Object
      */
     public void insertLog( UserLog userLog )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT_LOGS );
-        daoUtil.setString( 1, userLog.getAccessCode(  ) );
-        daoUtil.setString( 2, userLog.getIpAddress(  ) );
-        daoUtil.setTimestamp( 3, userLog.getDateLogin(  ) );
-        daoUtil.setInt( 4, userLog.getLoginStatus(  ) );
+        daoUtil.setString( 1, userLog.getAccessCode( ) );
+        daoUtil.setString( 2, userLog.getIpAddress( ) );
+        daoUtil.setTimestamp( 3, userLog.getDateLogin( ) );
+        daoUtil.setInt( 4, userLog.getLoginStatus( ) );
 
-        daoUtil.executeUpdate(  );
-        daoUtil.free(  );
+        daoUtil.executeUpdate( );
+        daoUtil.free( );
     }
 }

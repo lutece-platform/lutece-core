@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -35,13 +35,12 @@ package fr.paris.lutece.portal.business.user.log;
 
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 
-
 /**
  * This class represents business object UserLog
  */
 public class UserLog
 {
-    /////////////////////////////////////////////////////////////////////////////////
+    // ///////////////////////////////////////////////////////////////////////////////
     // Constants
     public static final int LOGIN_OK = 1;
     public static final int LOGIN_DENIED = 0;
@@ -56,7 +55,7 @@ public class UserLog
      *
      * @return the user access code
      */
-    public String getAccessCode(  )
+    public String getAccessCode( )
     {
         return _strAccessCode;
     }
@@ -64,14 +63,15 @@ public class UserLog
     /**
      * Sets the access code of the user log to the specified string.
      *
-     * @param strAccessCode the new access code
+     * @param strAccessCode
+     *            the new access code
      */
     public void setAccessCode( String strAccessCode )
     {
         int nPasswordMaxLenght = Integer.parseInt( AppPropertiesService.getProperty( PROPERTY_PASSWORD_LENGHT_MAX ) );
         String strModifyAccessCode = strAccessCode;
 
-        if ( strModifyAccessCode.length(  ) > nPasswordMaxLenght )
+        if ( strModifyAccessCode.length( ) > nPasswordMaxLenght )
         {
             strModifyAccessCode = strModifyAccessCode.substring( 0, nPasswordMaxLenght );
         }
@@ -84,7 +84,7 @@ public class UserLog
      *
      * @return the user ip address
      */
-    public String getIpAddress(  )
+    public String getIpAddress( )
     {
         return _strIpAddress;
     }
@@ -92,7 +92,8 @@ public class UserLog
     /**
      * Sets the ip address of the user log to the specified string.
      *
-     * @param strIpAddress the new ip address
+     * @param strIpAddress
+     *            the new ip address
      */
     public void setIpAddress( String strIpAddress )
     {
@@ -104,7 +105,7 @@ public class UserLog
      *
      * @return the user date of login
      */
-    public java.sql.Timestamp getDateLogin(  )
+    public java.sql.Timestamp getDateLogin( )
     {
         return _dateLogin;
     }
@@ -112,7 +113,8 @@ public class UserLog
     /**
      * Sets the login date of the user log to the specified timestamp.
      *
-     * @param dateLogin the new date of login
+     * @param dateLogin
+     *            the new date of login
      */
     public void setDateLogin( java.sql.Timestamp dateLogin )
     {
@@ -124,7 +126,7 @@ public class UserLog
      *
      * @return the user status of login
      */
-    public int getLoginStatus(  )
+    public int getLoginStatus( )
     {
         return _nLoginStatus;
     }
@@ -132,7 +134,8 @@ public class UserLog
     /**
      * Sets the login status of the user log to the specified integer.
      *
-     * @param nLoginStatus the new status of login
+     * @param nLoginStatus
+     *            the new status of login
      */
     public void setLoginStatus( int nLoginStatus )
     {

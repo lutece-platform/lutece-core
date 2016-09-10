@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -35,7 +35,6 @@ package fr.paris.lutece.portal.business.user.log;
 
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 
-
 /**
  * This class provides instances management methods (create, find, ...) for UserLog objects
  */
@@ -47,16 +46,18 @@ public final class UserLogHome
     /**
      * Creates a new UserLogHome object.
      */
-    private UserLogHome(  )
+    private UserLogHome( )
     {
     }
 
-    /////////////////////////////////////////////////////////////////////////////
+    // ///////////////////////////////////////////////////////////////////////////
     // Connections logs
 
     /**
      * Insert a new record in the table of connections
-     * @param userLog the UserLog object
+     * 
+     * @param userLog
+     *            the UserLog object
      */
     public static void addUserLog( UserLog userLog )
     {
@@ -65,8 +66,11 @@ public final class UserLogHome
 
     /**
      * Calculate the number of connections with a given ip_address by a determinate time
-     * @param userLog the UserLog object
-     * @param nIntervalMinutes The number of minutes of properties file
+     * 
+     * @param userLog
+     *            the UserLog object
+     * @param nIntervalMinutes
+     *            The number of minutes of properties file
      * @return int the count of errors of login
      */
     public static int getLoginErrors( UserLog userLog, int nIntervalMinutes )

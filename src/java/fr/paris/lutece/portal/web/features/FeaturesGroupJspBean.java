@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -58,7 +58,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  * FeaturesGroupJspBean
  */
@@ -97,71 +96,77 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
 
     /**
      * Returns the Manage Features page
-     * @param request The HTTP request
+     * 
+     * @param request
+     *            The HTTP request
      * @return The HTML page
      */
     public String getManageFeatures( HttpServletRequest request )
     {
         HtmlTemplate t = AppTemplateService.getTemplate( TEMPLATE_MANAGE_FEATURES );
 
-        return getAdminPage( t.getHtml(  ) );
+        return getAdminPage( t.getHtml( ) );
     }
 
     /**
      * Returns the Manage Groups page
-     * @param request The HTTP request
+     * 
+     * @param request
+     *            The HTTP request
      * @return The HTML page
      */
     public String getManageGroups( HttpServletRequest request )
     {
-        List<FeatureGroup> listGroups = FeatureGroupHome.getFeatureGroupsList(  );
-        Map<String, Object> model = new HashMap<String, Object>(  );
-        model.put( MARK_ORDER_LIST, getOrderRefList(  ) );
+        List<FeatureGroup> listGroups = FeatureGroupHome.getFeatureGroupsList( );
+        Map<String, Object> model = new HashMap<String, Object>( );
+        model.put( MARK_ORDER_LIST, getOrderRefList( ) );
         model.put( MARK_GROUPS_LIST, listGroups );
 
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_GROUPS, getLocale(  ), model );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_GROUPS, getLocale( ), model );
 
-        return getAdminPage( template.getHtml(  ) );
+        return getAdminPage( template.getHtml( ) );
     }
 
     /**
      * Returns the Dispatch Features page
-     * @param request The HTTP request
+     * 
+     * @param request
+     *            The HTTP request
      * @return The HTML page
      */
     public String getDispatchFeatures( HttpServletRequest request )
     {
-        Locale locale = getLocale(  );
+        Locale locale = getLocale( );
 
-        Map<String, Object> model = new HashMap<String, Object>(  );
+        Map<String, Object> model = new HashMap<String, Object>( );
         model.put( MARK_FEATURE_NO_GROUP, getNoGroup( locale ) );
         model.put( MARK_FEATURE_GROUP_LIST, getRefListFeatureGroups( locale ) );
 
         HtmlTemplate tPage = AppTemplateService.getTemplate( TEMPLATE_DISPATCH_FEATURES, locale, model );
 
-        return getAdminPage( tPage.getHtml(  ) );
+        return getAdminPage( tPage.getHtml( ) );
     }
 
     /**
      * Generate a combo containing all available groups
      *
-     * @param locale The locale
+     * @param locale
+     *            The locale
      * @return the reference list of feature groups
      */
     private Map<String, Object> getNoGroup( Locale locale )
     {
-        FeatureGroup noGroup = new FeatureGroup(  );
+        FeatureGroup noGroup = new FeatureGroup( );
         noGroup.setLocale( locale );
         noGroup.setId( NO_GROUP_ID );
         noGroup.setOrder( NO_GROUP_ORDER );
         noGroup.setDescriptionKey( NO_GROUP_DESCRIPTION );
         noGroup.setLabelKey( NO_GROUP_LABEL );
 
-        Map<String, Object> groupMap = new HashMap<String, Object>(  );
+        Map<String, Object> groupMap = new HashMap<String, Object>( );
         groupMap.put( MARK_FEATURE_GROUP, noGroup );
-        groupMap.put( MARK_RIGHT_LIST,
-            I18nService.localizeCollection( RightHome.getRightsList( noGroup.getId(  ) ), locale ) );
-        groupMap.put( MARK_ORDER_IS_OK, RightHome.checkFeatureOrders( noGroup.getId(  ) ) );
+        groupMap.put( MARK_RIGHT_LIST, I18nService.localizeCollection( RightHome.getRightsList( noGroup.getId( ) ), locale ) );
+        groupMap.put( MARK_ORDER_IS_OK, RightHome.checkFeatureOrders( noGroup.getId( ) ) );
 
         return groupMap;
     }
@@ -169,21 +174,21 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
     /**
      * Generate a combo containing all available groups
      *
-     * @param locale The locale
+     * @param locale
+     *            The locale
      * @return the reference list of feature groups
      */
     private Collection<HashMap<String, Object>> getRefListFeatureGroups( Locale locale )
     {
-        Collection<HashMap<String, Object>> colGroupMap = new ArrayList<HashMap<String, Object>>(  );
-        Collection<FeatureGroup> colGroups = FeatureGroupHome.getFeatureGroupsList(  );
+        Collection<HashMap<String, Object>> colGroupMap = new ArrayList<HashMap<String, Object>>( );
+        Collection<FeatureGroup> colGroups = FeatureGroupHome.getFeatureGroupsList( );
 
         for ( FeatureGroup fg : colGroups )
         {
-            HashMap<String, Object> groupMap = new HashMap<String, Object>(  );
+            HashMap<String, Object> groupMap = new HashMap<String, Object>( );
             groupMap.put( MARK_FEATURE_GROUP, fg );
-            groupMap.put( MARK_RIGHT_LIST,
-                I18nService.localizeCollection( RightHome.getRightsList( fg.getId(  ) ), locale ) );
-            groupMap.put( MARK_ORDER_IS_OK, RightHome.checkFeatureOrders( fg.getId(  ) ) );
+            groupMap.put( MARK_RIGHT_LIST, I18nService.localizeCollection( RightHome.getRightsList( fg.getId( ) ), locale ) );
+            groupMap.put( MARK_ORDER_IS_OK, RightHome.checkFeatureOrders( fg.getId( ) ) );
             colGroupMap.add( groupMap );
         }
 
@@ -192,7 +197,9 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
 
     /**
      * Dispatch a feature to a given group
-     * @param request The HTTP request
+     * 
+     * @param request
+     *            The HTTP request
      * @return The next URL to redirect after processing
      */
     public String doDispatchFeature( HttpServletRequest request )
@@ -205,8 +212,8 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
 
         if ( ( strGroupName != null ) )
         {
-            //Set the old group as anchor
-            url.setAnchor( right.getFeatureGroup(  ) );
+            // Set the old group as anchor
+            url.setAnchor( right.getFeatureGroup( ) );
             right.setFeatureGroup( strGroupName.equals( "" ) ? null : strGroupName );
         }
 
@@ -217,13 +224,14 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
 
         RightHome.update( right );
 
-        return url.getUrl(  );
+        return url.getUrl( );
     }
 
     /**
      * Dispatch a feature group
      *
-     * @param request The HTTP request
+     * @param request
+     *            The HTTP request
      * @return The next URL to redirect after processing
      */
     public String doDispatchFeatureGroup( HttpServletRequest request )
@@ -240,12 +248,14 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
 
         FeatureGroupHome.update( featureGroup );
 
-        return url.getUrl(  );
+        return url.getUrl( );
     }
 
     /**
      * Reinitialize feature orders
-     * @param request The {@link HttpServletRequest}
+     * 
+     * @param request
+     *            The {@link HttpServletRequest}
      * @return The next URL to redirect after processing
      */
     public String doReinitFeatures( HttpServletRequest request )
@@ -260,30 +270,34 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
             url.setAnchor( strGroupId );
         }
 
-        return url.getUrl(  );
+        return url.getUrl( );
     }
 
     /**
      * Returns the Create Group page
-     * @param request The HTTP request
+     * 
+     * @param request
+     *            The HTTP request
      * @return The HTML page
      */
     public String getCreateGroup( HttpServletRequest request )
     {
-        int nCount = FeatureGroupHome.getFeatureGroupsCount(  ) + 1;
+        int nCount = FeatureGroupHome.getFeatureGroupsCount( ) + 1;
 
-        Map<String, Serializable> model = new HashMap<String, Serializable>(  );
-        model.put( MARK_ORDER_LIST, getOrderRefList(  ) );
+        Map<String, Serializable> model = new HashMap<String, Serializable>( );
+        model.put( MARK_ORDER_LIST, getOrderRefList( ) );
         model.put( MARK_DEFAULT_ORDER, String.valueOf( nCount ) );
 
-        HtmlTemplate t = AppTemplateService.getTemplate( TEMPLATE_CREATE_GROUP, getLocale(  ), model );
+        HtmlTemplate t = AppTemplateService.getTemplate( TEMPLATE_CREATE_GROUP, getLocale( ), model );
 
-        return getAdminPage( t.getHtml(  ) );
+        return getAdminPage( t.getHtml( ) );
     }
 
     /**
      * Returns the Modify Group page
-     * @param request The HTTP request
+     * 
+     * @param request
+     *            The HTTP request
      * @return The HTML page
      */
     public String getModifyGroup( HttpServletRequest request )
@@ -297,18 +311,20 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
             return getManageGroups( request );
         }
 
-        Map<String, Object> model = new HashMap<String, Object>(  );
-        model.put( MARK_ORDER_LIST, getOrderRefList(  ) );
+        Map<String, Object> model = new HashMap<String, Object>( );
+        model.put( MARK_ORDER_LIST, getOrderRefList( ) );
         model.put( MARK_FEATURE_GROUP, group );
 
-        HtmlTemplate t = AppTemplateService.getTemplate( TEMPLATE_MODIFY_GROUP, getLocale(  ), model );
+        HtmlTemplate t = AppTemplateService.getTemplate( TEMPLATE_MODIFY_GROUP, getLocale( ), model );
 
-        return getAdminPage( t.getHtml(  ) );
+        return getAdminPage( t.getHtml( ) );
     }
 
     /**
      * Create the group
-     * @param request The HTTP request
+     * 
+     * @param request
+     *            The HTTP request
      * @return The next URL to redirect after processing
      */
     public String doCreateGroup( HttpServletRequest request )
@@ -324,7 +340,7 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
             return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
         }
 
-        FeatureGroup group = new FeatureGroup(  );
+        FeatureGroup group = new FeatureGroup( );
         group.setId( strGroupId );
         group.setLabelKey( strGroupName );
         group.setDescriptionKey( strGroupDescription );
@@ -338,7 +354,9 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
 
     /**
      * Modify the group
-     * @param request The HTTP request
+     * 
+     * @param request
+     *            The HTTP request
      * @return The next URL to redirect after processing
      */
     public String doModifyGroup( HttpServletRequest request )
@@ -365,12 +383,13 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
 
     /**
      * Generate an HTML combo of available group order
+     * 
      * @return The reference list of orders
      */
-    private ReferenceList getOrderRefList(  )
+    private ReferenceList getOrderRefList( )
     {
-        int nGroupsCount = FeatureGroupHome.getFeatureGroupsCount(  );
-        ReferenceList listOrders = new ReferenceList(  );
+        int nGroupsCount = FeatureGroupHome.getFeatureGroupsCount( );
+        ReferenceList listOrders = new ReferenceList( );
 
         for ( int i = 0; i < nGroupsCount; i++ )
         {
@@ -382,7 +401,9 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
 
     /**
      * Returns the Remove page
-     * @param request The HTTP request
+     * 
+     * @param request
+     *            The HTTP request
      * @return The HTML page
      */
     public String getRemoveGroup( HttpServletRequest request )
@@ -391,24 +412,27 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
 
         String strUrl = "jsp/admin/features/DoRemoveGroup.jsp?" + PARAMETER_GROUP_ID + "=" + strGroupId;
         FeatureGroup group = FeatureGroupHome.findByPrimaryKey( strGroupId );
-        group.setLocale( getUser(  ).getLocale(  ) );
+        group.setLocale( getUser( ).getLocale( ) );
 
-        Object[] messageArgs = { group.getLabel(  ) };
+        Object [ ] messageArgs = {
+            group.getLabel( )
+        };
 
-        return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_DELETE, messageArgs, null, strUrl, "",
-            AdminMessage.TYPE_CONFIRMATION );
+        return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_DELETE, messageArgs, null, strUrl, "", AdminMessage.TYPE_CONFIRMATION );
     }
 
     /**
      * Remove the group
-     * @param request The HTTP request
+     * 
+     * @param request
+     *            The HTTP request
      * @return The next URL to redirect after processing
      */
     public String doRemoveGroup( HttpServletRequest request )
     {
         String strGroupId = request.getParameter( PARAMETER_GROUP_ID );
 
-        if ( RightHome.getRightsList( strGroupId ).size(  ) > 0 )
+        if ( RightHome.getRightsList( strGroupId ).size( ) > 0 )
         {
             return AdminMessageService.getMessageUrl( request, MESSAGE_RIGHT_ALREADY_ASSIGN, AdminMessage.TYPE_STOP );
         }

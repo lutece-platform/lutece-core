@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -35,7 +35,6 @@ package fr.paris.lutece.portal.business.rbac;
 
 import java.util.Collection;
 
-
 /**
  * Interface for RBAC DAO
  */
@@ -44,14 +43,16 @@ public interface IRBACDAO
     /**
      * Delete a record from the table
      *
-     * @param nRBACId The id of RBAC object to delete
+     * @param nRBACId
+     *            The id of RBAC object to delete
      */
     void delete( int nRBACId );
 
     /**
      * Remove all the entries of the given role key
      *
-     * @param strRoleKey the role key of the entries to remove
+     * @param strRoleKey
+     *            the role key of the entries to remove
      */
     void deleteForRoleKey( String strRoleKey );
 
@@ -59,7 +60,8 @@ public interface IRBACDAO
      * Insert a new record in the table.
      *
      *
-     * @param rBAC The rBAC object
+     * @param rBAC
+     *            The rBAC object
      */
     void insert( RBAC rBAC );
 
@@ -67,7 +69,8 @@ public interface IRBACDAO
      * Load the data of RBAC from the table
      *
      *
-     * @param nRBACId The identifier of RBAC
+     * @param nRBACId
+     *            The identifier of RBAC
      * @return the instance of the RBAC
      */
     RBAC load( int nRBACId );
@@ -77,12 +80,13 @@ public interface IRBACDAO
      *
      * @return The Collection of the RBACs
      */
-    Collection<RBAC> selectRBACList(  );
+    Collection<RBAC> selectRBACList( );
 
     /**
      * Find all the entries for a given role key
      *
-     * @param strRoleKey the role key to search for
+     * @param strRoleKey
+     *            the role key to search for
      * @return A collection of rBACs
      */
     Collection<RBAC> selectRBACListByRoleKey( String strRoleKey );
@@ -90,9 +94,12 @@ public interface IRBACDAO
     /**
      *
      *
-     * @param strTypeCode The type code
-     * @param strId the id
-     * @param strPermission th permission
+     * @param strTypeCode
+     *            The type code
+     * @param strId
+     *            the id
+     * @param strPermission
+     *            th permission
      * @return listRoleKeys
      */
     Collection<String> selectRoleKeys( String strTypeCode, String strId, String strPermission );
@@ -100,15 +107,18 @@ public interface IRBACDAO
     /**
      * Update the record in the table
      *
-     * @param rBAC The reference of rBAC
+     * @param rBAC
+     *            The reference of rBAC
      */
     void store( RBAC rBAC );
 
     /**
      * Update the role key of all the entries of a given role key
      *
-     * @param strOldRoleKey the role key to update
-     * @param strNewRoleKey the new role key
+     * @param strOldRoleKey
+     *            the role key to update
+     * @param strNewRoleKey
+     *            the new role key
      */
     void updateRoleKey( String strOldRoleKey, String strNewRoleKey );
 }

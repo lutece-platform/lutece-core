@@ -35,7 +35,6 @@ package fr.paris.lutece.util.string;
 
 import fr.paris.lutece.test.LuteceTestCase;
 
-
 /**
  * StringUtil Test Class
  *
@@ -45,7 +44,7 @@ public class StringUtilTest extends LuteceTestCase
     /**
      * Test of substitute method, of class fr.paris.lutece.util.string.StringUtil.
      */
-    public void testSubstitute(  )
+    public void testSubstitute( )
     {
         System.out.println( "substitute" );
 
@@ -61,7 +60,7 @@ public class StringUtilTest extends LuteceTestCase
     /**
      * Test of replaceAccent method, of class fr.paris.lutece.util.string.StringUtil.
      */
-    public void testReplaceAccent(  )
+    public void testReplaceAccent( )
     {
         System.out.println( "replaceAccent" );
 
@@ -75,7 +74,7 @@ public class StringUtilTest extends LuteceTestCase
     /**
      * Test of containsHtmlSpecialCharacters method, of class fr.paris.lutece.util.string.StringUtil.
      */
-    public void testContainsHtmlSpecialCharacters(  )
+    public void testContainsHtmlSpecialCharacters( )
     {
         System.out.println( "containsHtmlSpecialCharacters" );
 
@@ -89,7 +88,7 @@ public class StringUtilTest extends LuteceTestCase
     /**
      * Test of containsXssCharacters method, of class fr.paris.lutece.util.string.StringUtil.
      */
-    public void testContainsXssCharacters(  )
+    public void testContainsXssCharacters( )
     {
         System.out.println( "containsXssCharacters" );
 
@@ -103,12 +102,12 @@ public class StringUtilTest extends LuteceTestCase
     /**
      * Test of getXssCharactersAsString method, of class fr.paris.lutece.util.string.StringUtil.
      */
-    public void testGetXssCharactersAsString(  )
+    public void testGetXssCharactersAsString( )
     {
         System.out.println( "getXssCharactersAsString" );
 
-        String result = fr.paris.lutece.util.string.StringUtil.getXssCharactersAsString(  );
+        String result = fr.paris.lutece.util.string.StringUtil.getXssCharactersAsString( );
         // The result should not be empty
-        assertTrue( result.length(  ) > 0 );
+        assertTrue( result.length( ) > 0 );
     }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -35,7 +35,6 @@ package fr.paris.lutece.portal.business.datastore;
 
 import java.util.List;
 
-
 /**
  * IDataEntityDAO Interface
  */
@@ -43,35 +42,44 @@ public interface IDataEntityDAO
 {
     /**
      * Insert a new record in the table.
-     * @param entity instance of the Entity object to insert
+     * 
+     * @param entity
+     *            instance of the Entity object to insert
      */
     void insert( DataEntity entity );
 
     /**
-    * Update the record in the table
-    * @param entity the reference of the Entity
-    */
+     * Update the record in the table
+     * 
+     * @param entity
+     *            the reference of the Entity
+     */
     void store( DataEntity entity );
 
     /**
      * Delete a record from the table
-     * @param strKey The identifier of the Entity to delete
+     * 
+     * @param strKey
+     *            The identifier of the Entity to delete
      */
     void delete( String strKey );
 
-    ///////////////////////////////////////////////////////////////////////////
+    // /////////////////////////////////////////////////////////////////////////
     // Finders
 
     /**
      * Load the data from the table
-     * @param strKey The identifier of the property
+     * 
+     * @param strKey
+     *            The identifier of the property
      * @return The instance of the property
      */
     DataEntity load( String strKey );
 
     /**
      * Load the data of all entities and returns them as a List
+     * 
      * @return The List which contains the data of all the property objects
      */
-    List<DataEntity> selectEntitiesList(  );
+    List<DataEntity> selectEntitiesList( );
 }

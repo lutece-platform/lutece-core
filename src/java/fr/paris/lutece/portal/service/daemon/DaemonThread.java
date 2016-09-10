@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -38,7 +38,6 @@ import fr.paris.lutece.portal.service.util.AppLogService;
 
 import java.util.Date;
 
-
 /**
  * This class performs methods to manage threads of execution for a given daemon instance
  */
@@ -48,9 +47,10 @@ public final class DaemonThread implements Runnable
     private String _strDaemonName;
 
     /**
-     * Constructor Creates the thread of execution from informations contained
-     * in DaemonEntry structure
-     * @param entry The entry
+     * Constructor Creates the thread of execution from informations contained in DaemonEntry structure
+     * 
+     * @param entry
+     *            The entry
      */
     public DaemonThread( DaemonEntry entry )
     {
@@ -58,43 +58,42 @@ public final class DaemonThread implements Runnable
     }
 
     /**
-     * Execution process of the daemon associated with the thread
-         * This methods is called for regular interval
+     * Execution process of the daemon associated with the thread This methods is called for regular interval
      */
     @Override
-    public void run(  )
+    public void run( )
     {
-        if ( _entry.isRunning(  ) )
+        if ( _entry.isRunning( ) )
         {
             if ( _strDaemonName == null )
             {
-                _strDaemonName = "Daemon " + _entry.getId(  );
+                _strDaemonName = "Daemon " + _entry.getId( );
             }
 
-            Thread currentThread = Thread.currentThread(  );
-            String strPooledThreadName = currentThread.getName(  );
-            currentThread.setName( "Lutece-Daemon-" + _entry.getId(  ) );
+            Thread currentThread = Thread.currentThread( );
+            String strPooledThreadName = currentThread.getName( );
+            currentThread.setName( "Lutece-Daemon-" + _entry.getId( ) );
 
-            Daemon daemon = _entry.getDaemon(  );
+            Daemon daemon = _entry.getDaemon( );
             AppLogService.info( _strDaemonName + " - starts processing." );
 
             try
             {
-                _entry.setLastRunDate( new Date(  ) );
+                _entry.setLastRunDate( new Date( ) );
 
-                if ( PluginService.isPluginEnable( daemon.getPluginName(  ) ) )
+                if ( PluginService.isPluginEnable( daemon.getPluginName( ) ) )
                 {
-                    daemon.run(  );
-                    _entry.setLastRunLogs( daemon.getLastRunLogs(  ) );
+                    daemon.run( );
+                    _entry.setLastRunLogs( daemon.getLastRunLogs( ) );
                 }
                 else
                 {
                     _entry.setLastRunLogs( "Plugin not enabled" );
                 }
             }
-            catch ( Throwable t )
+            catch( Throwable t )
             {
-                AppLogService.error( "Could not process Daemon: " + _entry.getId(  ), t );
+                AppLogService.error( "Could not process Daemon: " + _entry.getId( ), t );
             }
 
             AppLogService.info( _strDaemonName + " - end of process." );
@@ -102,7 +101,7 @@ public final class DaemonThread implements Runnable
         }
         else
         {
-            AppDaemonService.cancelScheduledThread( _entry.getId(  ) );
+            AppDaemonService.cancelScheduledThread( _entry.getId( ) );
         }
     }
 }

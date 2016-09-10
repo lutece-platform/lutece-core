@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -42,7 +42,6 @@ import fr.paris.lutece.util.ReferenceList;
 
 import java.util.Locale;
 
-
 /**
  * RBAC Resource Id Service to alloaw roles on Insert Services
  */
@@ -55,14 +54,14 @@ public class InsertResourceIdService extends ResourceIdService
     /**
      * Initializes the service
      */
-    public void register(  )
+    public void register( )
     {
-        ResourceType rt = new ResourceType(  );
-        rt.setResourceIdServiceClass( InsertResourceIdService.class.getName(  ) );
+        ResourceType rt = new ResourceType( );
+        rt.setResourceIdServiceClass( InsertResourceIdService.class.getName( ) );
         rt.setResourceTypeKey( InsertService.RESOURCE_TYPE );
         rt.setResourceTypeLabelKey( PROPERTY_LABEL_RESOURCE_TYPE );
 
-        Permission p = new Permission(  );
+        Permission p = new Permission( );
         p.setPermissionKey( PERMISSION_USE );
         p.setPermissionTitleKey( PROPERTY_LABEL_USE );
         rt.registerPermission( p );
@@ -72,16 +71,18 @@ public class InsertResourceIdService extends ResourceIdService
 
     /**
      * Returns a list of resource ids
-     * @param locale The current locale
+     * 
+     * @param locale
+     *            The current locale
      * @return A list of resource ids
      */
     public ReferenceList getResourceIdList( Locale locale )
     {
-        ReferenceList list = new ReferenceList(  );
+        ReferenceList list = new ReferenceList( );
 
-        for ( InsertService service : InsertServiceManager.getInsertServicesList(  ) )
+        for ( InsertService service : InsertServiceManager.getInsertServicesList( ) )
         {
-            list.addItem( service.getId(  ), I18nService.getLocalizedString( service.getNameKey(  ), locale ) );
+            list.addItem( service.getId( ), I18nService.getLocalizedString( service.getNameKey( ), locale ) );
         }
 
         return list;
@@ -89,14 +90,17 @@ public class InsertResourceIdService extends ResourceIdService
 
     /**
      * Returns the Title of a given resource
-     * @param strInsertServiceId The Id of the resource
-     * @param locale The current locale
+     * 
+     * @param strInsertServiceId
+     *            The Id of the resource
+     * @param locale
+     *            The current locale
      * @return The Title of a given resource
      */
     public String getTitle( String strInsertServiceId, Locale locale )
     {
         InsertService service = InsertServiceManager.getInsertService( strInsertServiceId );
 
-        return I18nService.getLocalizedString( service.getNameKey(  ), locale );
+        return I18nService.getLocalizedString( service.getNameKey( ), locale );
     }
 }

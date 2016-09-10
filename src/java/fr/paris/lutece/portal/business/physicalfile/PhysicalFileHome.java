@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -35,7 +35,6 @@ package fr.paris.lutece.portal.business.physicalfile;
 
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 
-
 /**
  * This class provides instances management methods (create, find, ...) for physical file objects
  */
@@ -47,14 +46,15 @@ public final class PhysicalFileHome
     /**
      * Private constructor - this class need not be instantiated
      */
-    private PhysicalFileHome(  )
+    private PhysicalFileHome( )
     {
     }
 
     /**
      * Creation of an instance of record physical file
      *
-     * @param physicalFile The instance of the physical file which contains the informations to store
+     * @param physicalFile
+     *            The instance of the physical file which contains the informations to store
      *
      * @return the id of the file after creation
      *
@@ -67,7 +67,8 @@ public final class PhysicalFileHome
     /**
      * Update of physical file which is specified in parameter
      *
-     * @param  physicalFile The instance of the  record physicalFile which contains the informations to update
+     * @param physicalFile
+     *            The instance of the record physicalFile which contains the informations to update
      *
      */
     public static void update( PhysicalFile physicalFile )
@@ -76,22 +77,24 @@ public final class PhysicalFileHome
     }
 
     /**
-     *Delete the physical file whose identifier is specified in parameter
+     * Delete the physical file whose identifier is specified in parameter
      *
-     * @param nIdPhysicalFile The identifier of the record physical file
+     * @param nIdPhysicalFile
+     *            The identifier of the record physical file
      */
     public static void remove( int nIdPhysicalFile )
     {
         _dao.delete( nIdPhysicalFile );
     }
 
-    ///////////////////////////////////////////////////////////////////////////
+    // /////////////////////////////////////////////////////////////////////////
     // Finders
 
     /**
      * Returns an instance of a physical file whose identifier is specified in parameter
      *
-     * @param nKey The file  primary key
+     * @param nKey
+     *            The file primary key
      * @return an instance of physical file
      */
     public static PhysicalFile findByPrimaryKey( int nKey )

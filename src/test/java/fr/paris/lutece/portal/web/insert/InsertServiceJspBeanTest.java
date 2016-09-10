@@ -36,7 +36,6 @@ package fr.paris.lutece.portal.web.insert;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.MokeHttpServletRequest;
 
-
 /**
  * InsertServiceJspBean Test Class
  */
@@ -45,14 +44,14 @@ public class InsertServiceJspBeanTest extends LuteceTestCase
     /**
      * Test of insertUrl method, of class fr.paris.lutece.portal.web.insertservice.InsertServiceJspBean.
      */
-    public void testInsertUrl(  )
+    public void testInsertUrl( )
     {
         System.out.println( "insertUrl" );
 
-        MokeHttpServletRequest request = new MokeHttpServletRequest(  );
+        MokeHttpServletRequest request = new MokeHttpServletRequest( );
         String strInput = "Input";
         String strInsert = "Insert";
-        MokeInsertServiceJspBean instance = new MokeInsertServiceJspBean(  );
+        MokeInsertServiceJspBean instance = new MokeInsertServiceJspBean( );
 
         String result = instance.testInsertUrl( request, strInput, strInsert );
     }
@@ -60,7 +59,7 @@ public class InsertServiceJspBeanTest extends LuteceTestCase
     /**
      * Test of buildLink method, of class fr.paris.lutece.portal.web.insertservice.InsertServiceJspBean.
      */
-    public void testBuildLink(  )
+    public void testBuildLink( )
     {
         System.out.println( "buildLink" );
 
@@ -68,7 +67,7 @@ public class InsertServiceJspBeanTest extends LuteceTestCase
         String strUrl = "Url";
         String strTitle = "Title";
         String strTarget = "Target";
-        MokeInsertServiceJspBean instance = new MokeInsertServiceJspBean(  );
+        MokeInsertServiceJspBean instance = new MokeInsertServiceJspBean( );
 
         String result = instance.testBuildLink( strText, strUrl, strTitle, strTarget );
     }

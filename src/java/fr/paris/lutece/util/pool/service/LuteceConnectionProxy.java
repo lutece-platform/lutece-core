@@ -39,11 +39,9 @@ import java.lang.reflect.Method;
 
 import java.sql.Connection;
 
-
 /**
  *
- * LuteceConnectionProxy : proxy implementation of {@link LuteceConnection}
- * This class should be removed when java5 support is dropped.
+ * LuteceConnectionProxy : proxy implementation of {@link LuteceConnection} This class should be removed when java5 support is dropped.
  *
  */
 public class LuteceConnectionProxy implements InvocationHandler
@@ -62,8 +60,11 @@ public class LuteceConnectionProxy implements InvocationHandler
 
     /**
      * Private constructor
-     * @param pool the pool to use
-     * @param connection the actual connection
+     * 
+     * @param pool
+     *            the pool to use
+     * @param connection
+     *            the actual connection
      */
     LuteceConnectionProxy( ConnectionPool pool, Connection connection )
     {
@@ -72,39 +73,45 @@ public class LuteceConnectionProxy implements InvocationHandler
     }
 
     /**
-     * Catches close() and closeConnection() method.
-     * close() calls _pool.freeConnection, and closeConnection() calls _connection.close().
+     * Catches close() and closeConnection() method. close() calls _pool.freeConnection, and closeConnection() calls _connection.close().
      *
-     * @param proxy the proxy
-     * @param method the method
-     * @param args the args
+     * @param proxy
+     *            the proxy
+     * @param method
+     *            the method
+     * @param args
+     *            the args
      * @return the object
-     * @throws Throwable the throwable
+     * @throws Throwable
+     *             the throwable
      */
     @Override
-    public Object invoke( Object proxy, Method method, Object[] args )
-        throws Throwable
+    public Object invoke( Object proxy, Method method, Object [ ] args ) throws Throwable
     {
         Object oReturn;
 
-        if ( METHOD_CLOSE.equals( method.getName(  ) ) )
+        if ( METHOD_CLOSE.equals( method.getName( ) ) )
         {
             _pool.freeConnection( (Connection) proxy );
             oReturn = null;
         }
-        else if ( METHOD_CLOSE_CONNECTION.equals( method.getName(  ) ) )
-        {
-            _connection.close(  );
-            oReturn = null;
-        }
         else
-        {
-            try {
-                oReturn = method.invoke( _connection, args );
-            } catch (InvocationTargetException e) {
-                throw e.getCause();
+            if ( METHOD_CLOSE_CONNECTION.equals( method.getName( ) ) )
+            {
+                _connection.close( );
+                oReturn = null;
             }
-        }
+            else
+            {
+                try
+                {
+                    oReturn = method.invoke( _connection, args );
+                }
+                catch( InvocationTargetException e )
+                {
+                    throw e.getCause( );
+                }
+            }
 
         return oReturn;
     }

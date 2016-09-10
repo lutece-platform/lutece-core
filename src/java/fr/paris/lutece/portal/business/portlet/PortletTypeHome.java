@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -40,7 +40,6 @@ import fr.paris.lutece.util.ReferenceList;
 import java.util.List;
 import java.util.Locale;
 
-
 /**
  * This class provides instances management methods (create, find, ...) for PortletType objects
  */
@@ -52,15 +51,16 @@ public final class PortletTypeHome
     /**
      * Creates a new PortletTypeHome object.
      */
-    private PortletTypeHome(  )
+    private PortletTypeHome( )
     {
     }
 
     /**
      * Creation of an instance of an PortletType
      *
-     * @param portletType An instance of the PortletType which contains the informations to store
-     * @return The  instance of PortletType which has been created with its primary key.
+     * @param portletType
+     *            An instance of the PortletType which contains the informations to store
+     * @return The instance of PortletType which has been created with its primary key.
      */
     public static PortletType create( PortletType portletType )
     {
@@ -72,20 +72,22 @@ public final class PortletTypeHome
     /**
      * Remove the portlet type whose identifier is specified in parameter
      *
-     * @param strPortletTypeId The identifier of the portlet type to remove
+     * @param strPortletTypeId
+     *            The identifier of the portlet type to remove
      */
     public static void remove( String strPortletTypeId )
     {
         _dao.delete( strPortletTypeId );
     }
 
-    ///////////////////////////////////////////////////////////////////////////
+    // /////////////////////////////////////////////////////////////////////////
     // Finders
 
     /**
      * Returns an instance of an portletType whose identifier is specified in parameter
      *
-     * @param strKey The Primary Key of the portletType
+     * @param strKey
+     *            The Primary Key of the portletType
      * @return an instance of portletType
      */
     public static PortletType findByPrimaryKey( String strKey )
@@ -96,7 +98,8 @@ public final class PortletTypeHome
     /**
      * Return the id of a portlet type
      *
-     * @param strPluginHomeClass The identifier of the portlet
+     * @param strPluginHomeClass
+     *            The identifier of the portlet
      * @return The order max
      */
     public static String getPortletTypeId( String strPluginHomeClass )
@@ -107,7 +110,8 @@ public final class PortletTypeHome
     /**
      * Search the number of portlet type for a portlet
      *
-     * @param strPortletTypeId The Type Id of portlet
+     * @param strPortletTypeId
+     *            The Type Id of portlet
      * @return int
      */
     public static int getNbPortletTypeByPortlet( String strPortletTypeId )
@@ -118,7 +122,8 @@ public final class PortletTypeHome
     /**
      * Returns the list of the portlet types
      *
-     * @param locale The locale
+     * @param locale
+     *            The locale
      * @return the list of portlet types
      */
     public static ReferenceList getPortletsTypesList( Locale locale )
@@ -129,12 +134,13 @@ public final class PortletTypeHome
     /**
      * Returns the list of the portlet types
      *
-     * @param locale The locale
+     * @param locale
+     *            The locale
      * @return the list of portlet types
      */
     public static List<PortletType> getPortletTypesList( Locale locale )
     {
-        List<PortletType> list = _dao.selectPortletTypesList(  );
+        List<PortletType> list = _dao.selectPortletTypesList( );
         I18nService.localizeCollection( list, locale );
 
         return list;

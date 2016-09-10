@@ -39,10 +39,11 @@ import fr.paris.lutece.util.html.Paginator;
 import java.util.List;
 import java.util.Locale;
 
-
 /**
  * Localized Paginator
- * @param <E> Item of the list
+ * 
+ * @param <E>
+ *            Item of the list
  */
 public class LocalizedPaginator<E> extends Paginator<E>
 {
@@ -57,15 +58,21 @@ public class LocalizedPaginator<E> extends Paginator<E>
 
     /**
      * Creates a new instance of Paginator
-     * @param list The collection to paginate
-     * @param nItemPerPage Number of items to display per page
-     * @param strBaseUrl The base Url for build links on each page link
-     * @param strPageIndexParameterName The parameter name for the page index
-     * @param strPageIndex The current page index
-     * @param locale The Locale
+     * 
+     * @param list
+     *            The collection to paginate
+     * @param nItemPerPage
+     *            Number of items to display per page
+     * @param strBaseUrl
+     *            The base Url for build links on each page link
+     * @param strPageIndexParameterName
+     *            The parameter name for the page index
+     * @param strPageIndex
+     *            The current page index
+     * @param locale
+     *            The Locale
      */
-    public LocalizedPaginator( List<E> list, int nItemPerPage, String strBaseUrl, String strPageIndexParameterName,
-        String strPageIndex, Locale locale )
+    public LocalizedPaginator( List<E> list, int nItemPerPage, String strBaseUrl, String strPageIndexParameterName, String strPageIndex, Locale locale )
     {
         super( list, nItemPerPage, strBaseUrl, strPageIndexParameterName, strPageIndex );
         _locale = locale;
@@ -73,16 +80,24 @@ public class LocalizedPaginator<E> extends Paginator<E>
 
     /**
      * Creates a new instance of Paginator
-     * @param list The collection to paginate
-     * @param nItemPerPage Number of items to display per page
-     * @param strBaseUrl The base Url for build links on each page link
-     * @param strPageIndexParameterName The parameter name for the page index
-     * @param strPageIndex The current page index
-         * @param strItemsPerPageParameterName The parameter name of the number items per page
-     * @param locale The Locale
+     * 
+     * @param list
+     *            The collection to paginate
+     * @param nItemPerPage
+     *            Number of items to display per page
+     * @param strBaseUrl
+     *            The base Url for build links on each page link
+     * @param strPageIndexParameterName
+     *            The parameter name for the page index
+     * @param strPageIndex
+     *            The current page index
+     * @param strItemsPerPageParameterName
+     *            The parameter name of the number items per page
+     * @param locale
+     *            The Locale
      */
-    public LocalizedPaginator( List<E> list, int nItemPerPage, String strBaseUrl, String strPageIndexParameterName,
-        String strPageIndex, String strItemsPerPageParameterName, Locale locale )
+    public LocalizedPaginator( List<E> list, int nItemPerPage, String strBaseUrl, String strPageIndexParameterName, String strPageIndex,
+            String strItemsPerPageParameterName, Locale locale )
     {
         this( list, nItemPerPage, strBaseUrl, strPageIndexParameterName, strPageIndex, locale );
         setItemsPerPageParameterName( strItemsPerPageParameterName );
@@ -92,7 +107,7 @@ public class LocalizedPaginator<E> extends Paginator<E>
      * {@inheritDoc }
      */
     @Override
-    public String getLabelFirst(  )
+    public String getLabelFirst( )
     {
         return I18nService.getLocalizedString( KEY_FIRST, _locale );
     }
@@ -101,7 +116,7 @@ public class LocalizedPaginator<E> extends Paginator<E>
      * {@inheritDoc }
      */
     @Override
-    public String getLabelPrevious(  )
+    public String getLabelPrevious( )
     {
         return I18nService.getLocalizedString( KEY_PREVIOUS, _locale );
     }
@@ -110,7 +125,7 @@ public class LocalizedPaginator<E> extends Paginator<E>
      * {@inheritDoc }
      */
     @Override
-    public String getLabelNext(  )
+    public String getLabelNext( )
     {
         return I18nService.getLocalizedString( KEY_NEXT, _locale );
     }
@@ -119,7 +134,7 @@ public class LocalizedPaginator<E> extends Paginator<E>
      * {@inheritDoc }
      */
     @Override
-    public String getLabelLast(  )
+    public String getLabelLast( )
     {
         return I18nService.getLocalizedString( KEY_LAST, _locale );
     }
@@ -128,7 +143,7 @@ public class LocalizedPaginator<E> extends Paginator<E>
      * {@inheritDoc }
      */
     @Override
-    public String getLabelItemCount(  )
+    public String getLabelItemCount( )
     {
         return I18nService.getLocalizedString( KEY_ITEM_COUNT, _locale );
     }
@@ -137,7 +152,7 @@ public class LocalizedPaginator<E> extends Paginator<E>
      * {@inheritDoc }
      */
     @Override
-    public String getLabelItemCountPerPage(  )
+    public String getLabelItemCountPerPage( )
     {
         return I18nService.getLocalizedString( KEY_ITEM_COUNT_PER_PAGE, _locale );
     }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -41,7 +41,6 @@ import fr.paris.lutece.portal.business.user.attribute.IAttribute;
 import java.util.List;
 import java.util.Locale;
 
-
 /**
  *
  * AttributeService
@@ -54,19 +53,20 @@ public final class AttributeService
     /**
      * Private constructor
      */
-    private AttributeService(  )
+    private AttributeService( )
     {
     }
 
     /**
      * Get the instance of {@link AttributeService}
+     * 
      * @return an instance of {@link AttributeService}
      */
-    public static synchronized AttributeService getInstance(  )
+    public static synchronized AttributeService getInstance( )
     {
         if ( _singleton == null )
         {
-            _singleton = new AttributeService(  );
+            _singleton = new AttributeService( );
         }
 
         return _singleton;
@@ -74,8 +74,11 @@ public final class AttributeService
 
     /**
      * Get an attribute without its attribute fields
-     * @param nIdAttribute the id attribute
-     * @param locale {@link Locale}
+     * 
+     * @param nIdAttribute
+     *            the id attribute
+     * @param locale
+     *            {@link Locale}
      * @return a {@link IAttribute}
      */
     public IAttribute getAttributeWithoutFields( int nIdAttribute, Locale locale )
@@ -85,8 +88,11 @@ public final class AttributeService
 
     /**
      * Get the attribute with its attribute fields
-     * @param nIdAttribute the id attribute
-     * @param locale the {@link Locale}
+     * 
+     * @param nIdAttribute
+     *            the id attribute
+     * @param locale
+     *            the {@link Locale}
      * @return a {@link IAttribute}
      */
     public IAttribute getAttributeWithFields( int nIdAttribute, Locale locale )
@@ -100,7 +106,8 @@ public final class AttributeService
     /**
      * Get all user attribute without its attribute fields.
      *
-     * @param locale the {@link Locale}
+     * @param locale
+     *            the {@link Locale}
      * @return a list of {@link IAttribute}
      */
     public List<IAttribute> getAllAttributesWithoutFields( Locale locale )
@@ -110,7 +117,9 @@ public final class AttributeService
 
     /**
      * Get core user attribute without its attribute fields
-     * @param locale the {@link Locale}
+     * 
+     * @param locale
+     *            the {@link Locale}
      * @return a list of {@link IAttribute}
      */
     public List<IAttribute> getCoreAttributesWithoutFields( Locale locale )
@@ -120,8 +129,11 @@ public final class AttributeService
 
     /**
      * Get plugin user attribute without its attribute fields
-     * @param strPluginName the plugin name
-     * @param locale the {@link Locale}
+     * 
+     * @param strPluginName
+     *            the plugin name
+     * @param locale
+     *            the {@link Locale}
      * @return a list of {@link IAttribute}
      */
     public List<IAttribute> getPluginAttributesWithoutFields( String strPluginName, Locale locale )
@@ -130,10 +142,12 @@ public final class AttributeService
     }
 
     /**
-    * Get all user attributes with its attribute fields
-    * @param locale the {@link Locale}
-    * @return a list of {@link IAttribute}
-    */
+     * Get all user attributes with its attribute fields
+     * 
+     * @param locale
+     *            the {@link Locale}
+     * @return a list of {@link IAttribute}
+     */
     public List<IAttribute> getAllAttributesWithFields( Locale locale )
     {
         List<IAttribute> listAttributes = getAllAttributesWithoutFields( locale );
@@ -144,7 +158,9 @@ public final class AttributeService
 
     /**
      * Get core user attributes with its attribute fields
-     * @param locale the {@link Locale}
+     * 
+     * @param locale
+     *            the {@link Locale}
      * @return a list of {@link IAttribute}
      */
     public List<IAttribute> getCoreAttributesWithFields( Locale locale )
@@ -157,8 +173,11 @@ public final class AttributeService
 
     /**
      * Get plugin user attributes with its attribute fields
-     * @param strPluginName the plugin name
-     * @param locale the {@link Locale}
+     * 
+     * @param strPluginName
+     *            the plugin name
+     * @param locale
+     *            the {@link Locale}
      * @return a list of {@link IAttribute}
      */
     public List<IAttribute> getPluginAttributesWithFields( String strPluginName, Locale locale )
@@ -170,9 +189,11 @@ public final class AttributeService
     }
 
     /**
-         * Set the attribute fields from a given list of {@link IAttribute}
-         * @param listAttributes the list of {@link IAttribute}
-         */
+     * Set the attribute fields from a given list of {@link IAttribute}
+     * 
+     * @param listAttributes
+     *            the list of {@link IAttribute}
+     */
     public void setAttributeFields( List<IAttribute> listAttributes )
     {
         for ( IAttribute attribute : listAttributes )
@@ -183,13 +204,15 @@ public final class AttributeService
 
     /**
      * Set the attribute field from a given {@link IAttribute}
-     * @param attribute the {@link IAttribute}
+     * 
+     * @param attribute
+     *            the {@link IAttribute}
      */
     public void setAttributeField( IAttribute attribute )
     {
         if ( attribute != null )
         {
-            List<AttributeField> listAttributeFields = AttributeFieldHome.selectAttributeFieldsByIdAttribute( attribute.getIdAttribute(  ) );
+            List<AttributeField> listAttributeFields = AttributeFieldHome.selectAttributeFieldsByIdAttribute( attribute.getIdAttribute( ) );
             attribute.setListAttributeFields( listAttributeFields );
         }
     }
@@ -197,7 +220,8 @@ public final class AttributeService
     /**
      * Create a new attribute and its attribute field.
      *
-     * @param attribute the {@link IAttribute} to create
+     * @param attribute
+     *            the {@link IAttribute} to create
      */
     public void createAttribute( IAttribute attribute )
     {
@@ -206,12 +230,12 @@ public final class AttributeService
             int nIdAttribute = AttributeHome.create( attribute );
             attribute.setIdAttribute( nIdAttribute );
 
-            if ( attribute.getListAttributeFields(  ) != null )
+            if ( attribute.getListAttributeFields( ) != null )
             {
-                for ( AttributeField attributeField : attribute.getListAttributeFields(  ) )
+                for ( AttributeField attributeField : attribute.getListAttributeFields( ) )
                 {
                     attributeField.setAttribute( attribute );
-                    AttributeFieldService.getInstance(  ).createAttributeField( attributeField );
+                    AttributeFieldService.getInstance( ).createAttributeField( attributeField );
                 }
             }
         }
@@ -219,7 +243,9 @@ public final class AttributeService
 
     /**
      * Update the attribute
-     * @param attribute the {@link IAttribute} to update
+     * 
+     * @param attribute
+     *            the {@link IAttribute} to update
      */
     public void updateAttribute( IAttribute attribute )
     {
@@ -227,12 +253,12 @@ public final class AttributeService
         {
             AttributeHome.update( attribute );
 
-            if ( attribute.getListAttributeFields(  ) != null )
+            if ( attribute.getListAttributeFields( ) != null )
             {
-                for ( AttributeField attributeField : attribute.getListAttributeFields(  ) )
+                for ( AttributeField attributeField : attribute.getListAttributeFields( ) )
                 {
                     attributeField.setAttribute( attribute );
-                    AttributeFieldService.getInstance(  ).updateAttributeField( attributeField );
+                    AttributeFieldService.getInstance( ).updateAttributeField( attributeField );
                 }
             }
         }
@@ -240,23 +266,27 @@ public final class AttributeService
 
     /**
      * Remove the attribute from a given attribute ID
-     * @param nIdAttribute the ID attribute
+     * 
+     * @param nIdAttribute
+     *            the ID attribute
      */
     public void removeAttribute( int nIdAttribute )
     {
         // Remove the AdminUserField associated to the attribute
         AdminUserFieldService.doRemoveUserFieldsByIdAttribute( nIdAttribute );
         // Remove the AttributeField associated to the attribute
-        AttributeFieldService.getInstance(  ).removeAttributeFieldsFromIdAttribute( nIdAttribute );
+        AttributeFieldService.getInstance( ).removeAttributeFieldsFromIdAttribute( nIdAttribute );
         // Remove the Attribute
         AttributeHome.remove( nIdAttribute );
     }
 
     /**
      * Update the anonymization status of the attribute.
-     * @param nIdAttribute Id of the attribute
-     * @param bAnonymize New value of the anonymization status. True means the
-     *            attribute should be anonymize, false means it doesn't.
+     * 
+     * @param nIdAttribute
+     *            Id of the attribute
+     * @param bAnonymize
+     *            New value of the anonymization status. True means the attribute should be anonymize, false means it doesn't.
      */
     public void updateAnonymizationStatusUserField( int nIdAttribute, boolean bAnonymize )
     {

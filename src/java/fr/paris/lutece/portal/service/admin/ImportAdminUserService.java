@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -70,7 +70,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-
 /**
  * Class to import Admin Users from CSV files.
  */
@@ -91,7 +90,7 @@ public class ImportAdminUserService extends CSVReaderService
     private static final String CONSTANT_ROLE = "role";
     private static final String CONSTANT_WORKGROUP = "workgroup";
     private static final int CONSTANT_MINIMUM_COLUMNS_PER_LINE = 12;
-    private static final AttributeService _attributeService = AttributeService.getInstance(  );
+    private static final AttributeService _attributeService = AttributeService.getInstance( );
     private Character _strAttributesSeparator;
     private boolean _bUpdateExistingUsers;
 
@@ -99,18 +98,17 @@ public class ImportAdminUserService extends CSVReaderService
      * {@inheritDoc}
      */
     @Override
-    protected List<CSVMessageDescriptor> readLineOfCSVFile( String[] strLineDataArray, int nLineNumber, Locale locale,
-        String strBaseUrl )
+    protected List<CSVMessageDescriptor> readLineOfCSVFile( String [ ] strLineDataArray, int nLineNumber, Locale locale, String strBaseUrl )
     {
-        List<CSVMessageDescriptor> listMessages = new ArrayList<CSVMessageDescriptor>(  );
+        List<CSVMessageDescriptor> listMessages = new ArrayList<CSVMessageDescriptor>( );
         int nIndex = 0;
 
-        String strAccessCode = strLineDataArray[nIndex++];
-        String strLastName = strLineDataArray[nIndex++];
-        String strFirstName = strLineDataArray[nIndex++];
-        String strEmail = strLineDataArray[nIndex++];
+        String strAccessCode = strLineDataArray [nIndex++];
+        String strLastName = strLineDataArray [nIndex++];
+        String strFirstName = strLineDataArray [nIndex++];
+        String strEmail = strLineDataArray [nIndex++];
 
-        boolean bUpdateUser = getUpdateExistingUsers(  );
+        boolean bUpdateUser = getUpdateExistingUsers( );
         int nUserId = 0;
 
         if ( bUpdateUser )
@@ -122,15 +120,16 @@ public class ImportAdminUserService extends CSVReaderService
             {
                 nUserId = nAccessCodeUserId;
             }
-            else if ( nEmailUserId > 0 )
-            {
-                nUserId = nEmailUserId;
-            }
+            else
+                if ( nEmailUserId > 0 )
+                {
+                    nUserId = nEmailUserId;
+                }
 
             bUpdateUser = nUserId > 0;
         }
 
-        String strStatus = strLineDataArray[nIndex++];
+        String strStatus = strLineDataArray [nIndex++];
         int nStatus = 0;
 
         if ( StringUtils.isNotEmpty( strStatus ) && StringUtils.isNumeric( strStatus ) )
@@ -139,14 +138,16 @@ public class ImportAdminUserService extends CSVReaderService
         }
         else
         {
-            Object[] args = { strLastName, strFirstName, nStatus };
+            Object [ ] args = {
+                    strLastName, strFirstName, nStatus
+            };
             String strMessage = I18nService.getLocalizedString( MESSAGE_NO_STATUS, args, locale );
             CSVMessageDescriptor message = new CSVMessageDescriptor( CSVMessageLevel.INFO, nLineNumber, strMessage );
             listMessages.add( message );
         }
 
-        String strLocale = strLineDataArray[nIndex++];
-        String strLevelUser = strLineDataArray[nIndex++];
+        String strLocale = strLineDataArray [nIndex++];
+        String strLevelUser = strLineDataArray [nIndex++];
         int nLevelUser = 3;
 
         if ( StringUtils.isNotEmpty( strLevelUser ) && StringUtils.isNumeric( strLevelUser ) )
@@ -155,7 +156,9 @@ public class ImportAdminUserService extends CSVReaderService
         }
         else
         {
-            Object[] args = { strLastName, strFirstName, nLevelUser };
+            Object [ ] args = {
+                    strLastName, strFirstName, nLevelUser
+            };
             String strMessage = I18nService.getLocalizedString( MESSAGE_NO_LEVEL, args, locale );
             CSVMessageDescriptor message = new CSVMessageDescriptor( CSVMessageLevel.INFO, nLineNumber, strMessage );
             listMessages.add( message );
@@ -166,7 +169,7 @@ public class ImportAdminUserService extends CSVReaderService
         nIndex++;
 
         boolean bResetPassword = true;
-        String strAccessibilityMode = strLineDataArray[nIndex++];
+        String strAccessibilityMode = strLineDataArray [nIndex++];
         boolean bAccessibilityMode = Boolean.parseBoolean( strAccessibilityMode );
         // We ignore the password max valid date attribute because we changed the password.
         // String strPasswordMaxValidDate = strLineDataArray[nIndex++];
@@ -177,28 +180,28 @@ public class ImportAdminUserService extends CSVReaderService
         // String strAccountMaxValidDate = strLineDataArray[nIndex++];
         nIndex++;
 
-        Timestamp accountMaxValidDate = AdminUserService.getAccountMaxValidDate(  );
-        String strDateLastLogin = strLineDataArray[nIndex++];
-        Timestamp dateLastLogin = new Timestamp( AdminUser.DEFAULT_DATE_LAST_LOGIN.getTime(  ) );
+        Timestamp accountMaxValidDate = AdminUserService.getAccountMaxValidDate( );
+        String strDateLastLogin = strLineDataArray [nIndex++];
+        Timestamp dateLastLogin = new Timestamp( AdminUser.DEFAULT_DATE_LAST_LOGIN.getTime( ) );
 
         if ( StringUtils.isNotBlank( strDateLastLogin ) )
         {
-            DateFormat dateFormat = new SimpleDateFormat(  );
+            DateFormat dateFormat = new SimpleDateFormat( );
             Date dateParsed;
 
             try
             {
                 dateParsed = dateFormat.parse( strDateLastLogin );
             }
-            catch ( ParseException e )
+            catch( ParseException e )
             {
-                AppLogService.error( e.getMessage(  ), e );
+                AppLogService.error( e.getMessage( ), e );
                 dateParsed = null;
             }
 
             if ( dateParsed != null )
             {
-                dateLastLogin = new Timestamp( dateParsed.getTime(  ) );
+                dateLastLogin = new Timestamp( dateParsed.getTime( ) );
             }
         }
 
@@ -210,7 +213,7 @@ public class ImportAdminUserService extends CSVReaderService
         }
         else
         {
-            user = new LuteceDefaultAdminUser(  );
+            user = new LuteceDefaultAdminUser( );
         }
 
         user.setAccessCode( strAccessCode );
@@ -236,14 +239,14 @@ public class ImportAdminUserService extends CSVReaderService
             user.setAccountMaxValidDate( accountMaxValidDate );
             user.setDateLastLogin( dateLastLogin );
 
-            if ( AdminAuthenticationService.getInstance(  ).isDefaultModuleUsed(  ) )
+            if ( AdminAuthenticationService.getInstance( ).isDefaultModuleUsed( ) )
             {
                 LuteceDefaultAdminUser defaultAdminUser = (LuteceDefaultAdminUser) user;
-                String strPassword = AdminUserService.makePassword(  );
+                String strPassword = AdminUserService.makePassword( );
                 defaultAdminUser.setPassword( AdminUserService.encryptPassword( strPassword ) );
                 AdminUserHome.create( defaultAdminUser );
-                AdminUserService.notifyUser( AppPathService.getProdUrl( strBaseUrl ), user,
-                        strPassword, PROPERTY_MESSAGE_EMAIL_SUBJECT_NOTIFY_USER, TEMPLATE_NOTIFY_USER );
+                AdminUserService.notifyUser( AppPathService.getProdUrl( strBaseUrl ), user, strPassword, PROPERTY_MESSAGE_EMAIL_SUBJECT_NOTIFY_USER,
+                        TEMPLATE_NOTIFY_USER );
             }
             else
             {
@@ -252,26 +255,26 @@ public class ImportAdminUserService extends CSVReaderService
         }
 
         // We remove any previous right, roles, workgroup and attributes of the user
-        AdminUserHome.removeAllRightsForUser( user.getUserId(  ) );
-        AdminUserHome.removeAllRolesForUser( user.getUserId(  ) );
+        AdminUserHome.removeAllRightsForUser( user.getUserId( ) );
+        AdminUserHome.removeAllRolesForUser( user.getUserId( ) );
 
-        AdminUserFieldFilter auFieldFilter = new AdminUserFieldFilter(  );
-        auFieldFilter.setIdUser( user.getUserId(  ) );
+        AdminUserFieldFilter auFieldFilter = new AdminUserFieldFilter( );
+        auFieldFilter.setIdUser( user.getUserId( ) );
         AdminUserFieldHome.removeByFilter( auFieldFilter );
 
         // We get every attribute, role, right and workgroup of the user
-        Map<Integer, List<String>> mapAttributesValues = new HashMap<Integer, List<String>>(  );
-        List<String> listAdminRights = new ArrayList<String>(  );
-        List<String> listAdminRoles = new ArrayList<String>(  );
-        List<String> listAdminWorkgroups = new ArrayList<String>(  );
+        Map<Integer, List<String>> mapAttributesValues = new HashMap<Integer, List<String>>( );
+        List<String> listAdminRights = new ArrayList<String>( );
+        List<String> listAdminRoles = new ArrayList<String>( );
+        List<String> listAdminWorkgroups = new ArrayList<String>( );
 
         while ( nIndex < strLineDataArray.length )
         {
-            String strValue = strLineDataArray[nIndex];
+            String strValue = strLineDataArray [nIndex];
 
-            if ( StringUtils.isNotBlank( strValue ) && ( strValue.indexOf( getAttributesSeparator(  ) ) > 0 ) )
+            if ( StringUtils.isNotBlank( strValue ) && ( strValue.indexOf( getAttributesSeparator( ) ) > 0 ) )
             {
-                int nSeparatorIndex = strValue.indexOf( getAttributesSeparator(  ) );
+                int nSeparatorIndex = strValue.indexOf( getAttributesSeparator( ) );
                 String strLineId = strValue.substring( 0, nSeparatorIndex );
 
                 if ( StringUtils.isNotBlank( strLineId ) )
@@ -280,29 +283,31 @@ public class ImportAdminUserService extends CSVReaderService
                     {
                         listAdminRights.add( strValue.substring( nSeparatorIndex + 1 ) );
                     }
-                    else if ( StringUtils.equalsIgnoreCase( strLineId, CONSTANT_ROLE ) )
-                    {
-                        listAdminRoles.add( strValue.substring( nSeparatorIndex + 1 ) );
-                    }
-                    else if ( StringUtils.equalsIgnoreCase( strLineId, CONSTANT_WORKGROUP ) )
-                    {
-                        listAdminWorkgroups.add( strValue.substring( nSeparatorIndex + 1 ) );
-                    }
                     else
-                    {
-                        int nAttributeId = Integer.parseInt( strLineId );
-
-                        String strAttributeValue = strValue.substring( nSeparatorIndex + 1 );
-                        List<String> listValues = mapAttributesValues.get( nAttributeId );
-
-                        if ( listValues == null )
+                        if ( StringUtils.equalsIgnoreCase( strLineId, CONSTANT_ROLE ) )
                         {
-                            listValues = new ArrayList<String>(  );
+                            listAdminRoles.add( strValue.substring( nSeparatorIndex + 1 ) );
                         }
+                        else
+                            if ( StringUtils.equalsIgnoreCase( strLineId, CONSTANT_WORKGROUP ) )
+                            {
+                                listAdminWorkgroups.add( strValue.substring( nSeparatorIndex + 1 ) );
+                            }
+                            else
+                            {
+                                int nAttributeId = Integer.parseInt( strLineId );
 
-                        listValues.add( strAttributeValue );
-                        mapAttributesValues.put( nAttributeId, listValues );
-                    }
+                                String strAttributeValue = strValue.substring( nSeparatorIndex + 1 );
+                                List<String> listValues = mapAttributesValues.get( nAttributeId );
+
+                                if ( listValues == null )
+                                {
+                                    listValues = new ArrayList<String>( );
+                                }
+
+                                listValues.add( strAttributeValue );
+                                mapAttributesValues.put( nAttributeId, listValues );
+                            }
                 }
             }
 
@@ -312,13 +317,13 @@ public class ImportAdminUserService extends CSVReaderService
         // We create rights
         for ( String strRight : listAdminRights )
         {
-            AdminUserHome.createRightForUser( user.getUserId(  ), strRight );
+            AdminUserHome.createRightForUser( user.getUserId( ), strRight );
         }
 
         // We create roles
         for ( String strRole : listAdminRoles )
         {
-            AdminUserHome.createRoleForUser( user.getUserId(  ), strRole );
+            AdminUserHome.createRoleForUser( user.getUserId( ), strRole );
         }
 
         // We create workgroups
@@ -328,24 +333,24 @@ public class ImportAdminUserService extends CSVReaderService
         }
 
         List<IAttribute> listAttributes = _attributeService.getAllAttributesWithoutFields( locale );
-        Plugin pluginCore = PluginService.getCore(  );
+        Plugin pluginCore = PluginService.getCore( );
 
         // We save the attributes found
         for ( IAttribute attribute : listAttributes )
         {
             if ( attribute instanceof ISimpleValuesAttributes )
             {
-                List<String> listValues = mapAttributesValues.get( attribute.getIdAttribute(  ) );
+                List<String> listValues = mapAttributesValues.get( attribute.getIdAttribute( ) );
 
-                if ( ( listValues != null ) && ( listValues.size(  ) > 0 ) )
+                if ( ( listValues != null ) && ( listValues.size( ) > 0 ) )
                 {
                     int nIdField = 0;
-                    boolean bCoreAttribute = ( attribute.getPlugin(  ) == null ) ||
-                        StringUtils.equals( pluginCore.getName(  ), attribute.getPlugin(  ).getName(  ) );
+                    boolean bCoreAttribute = ( attribute.getPlugin( ) == null )
+                            || StringUtils.equals( pluginCore.getName( ), attribute.getPlugin( ).getName( ) );
 
                     for ( String strValue : listValues )
                     {
-                        int nSeparatorIndex = strValue.indexOf( getAttributesSeparator(  ) );
+                        int nSeparatorIndex = strValue.indexOf( getAttributesSeparator( ) );
 
                         if ( nSeparatorIndex >= 0 )
                         {
@@ -355,7 +360,7 @@ public class ImportAdminUserService extends CSVReaderService
                             {
                                 nIdField = Integer.parseInt( strValue.substring( 0, nSeparatorIndex ) );
                             }
-                            catch ( NumberFormatException e )
+                            catch( NumberFormatException e )
                             {
                                 nIdField = 0;
                             }
@@ -367,39 +372,38 @@ public class ImportAdminUserService extends CSVReaderService
                             nIdField = 0;
                         }
 
-                        String[] strValues = { strValue };
+                        String [ ] strValues = {
+                            strValue
+                        };
 
                         try
                         {
-                            List<AdminUserField> listUserFields = ( (ISimpleValuesAttributes) attribute ).getUserFieldsData( strValues,
-                                    user );
+                            List<AdminUserField> listUserFields = ( (ISimpleValuesAttributes) attribute ).getUserFieldsData( strValues, user );
 
                             for ( AdminUserField userField : listUserFields )
                             {
                                 if ( userField != null )
                                 {
-                                    userField.getAttributeField(  ).setIdField( nIdField );
+                                    userField.getAttributeField( ).setIdField( nIdField );
                                     AdminUserFieldHome.create( userField );
                                 }
                             }
 
                             if ( !bCoreAttribute )
                             {
-                                for ( AdminUserFieldListenerService adminUserFieldListenerService : SpringContextService.getBeansOfType( 
-                                        AdminUserFieldListenerService.class ) )
+                                for ( AdminUserFieldListenerService adminUserFieldListenerService : SpringContextService
+                                        .getBeansOfType( AdminUserFieldListenerService.class ) )
                                 {
                                     adminUserFieldListenerService.doCreateUserFields( user, listUserFields, locale );
                                 }
                             }
                         }
-                        catch ( Exception e )
+                        catch( Exception e )
                         {
-                            AppLogService.error( e.getMessage(  ), e );
+                            AppLogService.error( e.getMessage( ), e );
 
-                            String strErrorMessage = I18nService.getLocalizedString( MESSAGE_ERROR_IMPORTING_ATTRIBUTES,
-                                    locale );
-                            CSVMessageDescriptor error = new CSVMessageDescriptor( CSVMessageLevel.ERROR, nLineNumber,
-                                    strErrorMessage );
+                            String strErrorMessage = I18nService.getLocalizedString( MESSAGE_ERROR_IMPORTING_ATTRIBUTES, locale );
+                            CSVMessageDescriptor error = new CSVMessageDescriptor( CSVMessageLevel.ERROR, nLineNumber, strErrorMessage );
                             listMessages.add( error );
                         }
                     }
@@ -414,10 +418,10 @@ public class ImportAdminUserService extends CSVReaderService
      * {@inheritDoc}
      */
     @Override
-    protected List<CSVMessageDescriptor> checkLineOfCSVFile( String[] strLineDataArray, int nLineNumber, Locale locale )
+    protected List<CSVMessageDescriptor> checkLineOfCSVFile( String [ ] strLineDataArray, int nLineNumber, Locale locale )
     {
         int nMinColumnNumber = CONSTANT_MINIMUM_COLUMNS_PER_LINE;
-        List<CSVMessageDescriptor> listMessages = new ArrayList<CSVMessageDescriptor>(  );
+        List<CSVMessageDescriptor> listMessages = new ArrayList<CSVMessageDescriptor>( );
 
         if ( ( strLineDataArray == null ) || ( strLineDataArray.length < nMinColumnNumber ) )
         {
@@ -432,7 +436,9 @@ public class ImportAdminUserService extends CSVReaderService
                 nNbCol = strLineDataArray.length;
             }
 
-            Object[] args = { nNbCol, nMinColumnNumber };
+            Object [ ] args = {
+                    nNbCol, nMinColumnNumber
+            };
             String strErrorMessage = I18nService.getLocalizedString( MESSAGE_ERROR_MIN_NUMBER_COLUMNS, args, locale );
             CSVMessageDescriptor error = new CSVMessageDescriptor( CSVMessageLevel.ERROR, nLineNumber, strErrorMessage );
             listMessages.add( error );
@@ -440,10 +446,10 @@ public class ImportAdminUserService extends CSVReaderService
             return listMessages;
         }
 
-        if ( !getUpdateExistingUsers(  ) )
+        if ( !getUpdateExistingUsers( ) )
         {
-            String strAccessCode = strLineDataArray[0];
-            String strEmail = strLineDataArray[3];
+            String strAccessCode = strLineDataArray [0];
+            String strEmail = strLineDataArray [3];
 
             if ( AdminUserHome.checkAccessCodeAlreadyInUse( strAccessCode ) > 0 )
             {
@@ -456,8 +462,7 @@ public class ImportAdminUserService extends CSVReaderService
                 if ( AdminUserHome.checkEmailAlreadyInUse( strEmail ) > 0 )
                 {
                     String strMessage = I18nService.getLocalizedString( MESSAGE_EMAIL_ALREADY_USED, locale );
-                    CSVMessageDescriptor error = new CSVMessageDescriptor( CSVMessageLevel.ERROR, nLineNumber,
-                            strMessage );
+                    CSVMessageDescriptor error = new CSVMessageDescriptor( CSVMessageLevel.ERROR, nLineNumber, strMessage );
                     listMessages.add( error );
                 }
             }
@@ -470,11 +475,12 @@ public class ImportAdminUserService extends CSVReaderService
      * {@inheritDoc}
      */
     @Override
-    protected List<CSVMessageDescriptor> getEndOfProcessMessages( int nNbLineParses, int nNbLinesWithoutErrors,
-        Locale locale )
+    protected List<CSVMessageDescriptor> getEndOfProcessMessages( int nNbLineParses, int nNbLinesWithoutErrors, Locale locale )
     {
-        List<CSVMessageDescriptor> listMessages = new ArrayList<CSVMessageDescriptor>(  );
-        Object[] args = { nNbLineParses, nNbLinesWithoutErrors };
+        List<CSVMessageDescriptor> listMessages = new ArrayList<CSVMessageDescriptor>( );
+        Object [ ] args = {
+                nNbLineParses, nNbLinesWithoutErrors
+        };
         String strMessageContent = I18nService.getLocalizedString( MESSAGE_USERS_IMPORTED, args, locale );
         CSVMessageDescriptor message = new CSVMessageDescriptor( CSVMessageLevel.INFO, 0, strMessageContent );
         listMessages.add( message );
@@ -484,14 +490,15 @@ public class ImportAdminUserService extends CSVReaderService
 
     /**
      * Get the separator used for attributes of admin users.
+     * 
      * @return The separator
      */
-    public Character getAttributesSeparator(  )
+    public Character getAttributesSeparator( )
     {
         if ( _strAttributesSeparator == null )
         {
-            _strAttributesSeparator = AppPropertiesService.getProperty( PROPERTY_IMPORT_EXPORT_USER_SEPARATOR,
-                    CONSTANT_DEFAULT_IMPORT_EXPORT_USER_SEPARATOR ).charAt( 0 );
+            _strAttributesSeparator = AppPropertiesService.getProperty( PROPERTY_IMPORT_EXPORT_USER_SEPARATOR, CONSTANT_DEFAULT_IMPORT_EXPORT_USER_SEPARATOR )
+                    .charAt( 0 );
         }
 
         return _strAttributesSeparator;
@@ -499,18 +506,19 @@ public class ImportAdminUserService extends CSVReaderService
 
     /**
      * Get the update users flag
-     * @return True if existing users should be updated, false if they should be
-     *         ignored.
+     * 
+     * @return True if existing users should be updated, false if they should be ignored.
      */
-    public boolean getUpdateExistingUsers(  )
+    public boolean getUpdateExistingUsers( )
     {
         return _bUpdateExistingUsers;
     }
 
     /**
      * Set the update users flag
-     * @param bUpdateExistingUsers True if existing users should be updated,
-     *            false if they should be ignored.
+     * 
+     * @param bUpdateExistingUsers
+     *            True if existing users should be updated, false if they should be ignored.
      */
     public void setUpdateExistingUsers( boolean bUpdateExistingUsers )
     {

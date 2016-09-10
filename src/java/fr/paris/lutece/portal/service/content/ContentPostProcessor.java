@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -35,7 +35,6 @@ package fr.paris.lutece.portal.service.content;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  * Content Post Processor
  */
@@ -43,14 +42,18 @@ public interface ContentPostProcessor
 {
     /**
      * Return the processor's name
+     * 
      * @return The name
      */
-    String getName(  );
+    String getName( );
 
     /**
      * Process a content
-     * @param request The HTTP request
-     * @param strContent The content to process
+     * 
+     * @param request
+     *            The HTTP request
+     * @param strContent
+     *            The content to process
      * @return The processed content
      */
     String process( HttpServletRequest request, String strContent );

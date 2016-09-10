@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -43,7 +43,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 
-
 /**
  * This class provides the main methods to control the access to a resource depending on the user's roles
  */
@@ -52,20 +51,24 @@ public final class RBACService
     /**
      * Constructor
      */
-    private RBACService(  )
+    private RBACService( )
     {
     }
 
     /**
      * Check that a given user is allowed to access a resource for a given permission
-     * @param strResourceTypeCode the key of the resource type being considered
-     * @param strResourceId the id of the resource being considered
-     * @param strPermission the permission needed
-     * @param user the user trying to access the ressource
+     * 
+     * @param strResourceTypeCode
+     *            the key of the resource type being considered
+     * @param strResourceId
+     *            the id of the resource being considered
+     * @param strPermission
+     *            the permission needed
+     * @param user
+     *            the user trying to access the ressource
      * @return true if the user can access the given resource with the given permission, false otherwise
      */
-    public static boolean isAuthorized( String strResourceTypeCode, String strResourceId, String strPermission,
-        AdminUser user )
+    public static boolean isAuthorized( String strResourceTypeCode, String strResourceId, String strPermission, AdminUser user )
     {
         // Check user roles
         Collection<String> colRoles = RBACHome.findRoleKeys( strResourceTypeCode, strResourceId, strPermission );
@@ -83,9 +86,13 @@ public final class RBACService
 
     /**
      * Check that a given user is allowed to access a resource for a given permission
-     * @param resource the resource object being considered
-     * @param strPermission the permission needed
-     * @param user the user trying to access the ressource
+     * 
+     * @param resource
+     *            the resource object being considered
+     * @param strPermission
+     *            the permission needed
+     * @param user
+     *            the user trying to access the ressource
      * @return true if the user can access the given resource with the given permission, false otherwise
      */
     public static boolean isAuthorized( RBACResource resource, String strPermission, AdminUser user )
@@ -94,8 +101,7 @@ public final class RBACService
 
         if ( resource != null )
         {
-            bAuthorized = isAuthorized( resource.getResourceTypeCode(  ), resource.getResourceId(  ), strPermission,
-                    user );
+            bAuthorized = isAuthorized( resource.getResourceTypeCode( ), resource.getResourceId( ), strPermission, user );
         }
 
         return bAuthorized;
@@ -103,13 +109,16 @@ public final class RBACService
 
     /**
      * Check that a given user is in the given role
-     * @param user The user
-     * @param strRole The role
+     * 
+     * @param user
+     *            The user
+     * @param strRole
+     *            The role
      * @return true if the user has the given role, false otherwise
      */
     public static boolean isUserInRole( AdminUser user, String strRole )
     {
-        Map<String, AdminRole> userRoles = user.getRoles(  );
+        Map<String, AdminRole> userRoles = user.getRoles( );
 
         if ( userRoles.containsKey( strRole ) )
         {
@@ -121,16 +130,20 @@ public final class RBACService
 
     /**
      * Filter a collection of resources for a given user
-     * @param <E> The RBAC resource
-     * @param collection The collection to filter
-     * @param strPermission Permission to check
-     * @param user The user
+     * 
+     * @param <E>
+     *            The RBAC resource
+     * @param collection
+     *            The collection to filter
+     * @param strPermission
+     *            Permission to check
+     * @param user
+     *            The user
      * @return A filtered collection of resources
      */
-    public static <E extends RBACResource> Collection<E> getAuthorizedCollection( Collection<E> collection,
-        String strPermission, AdminUser user )
+    public static <E extends RBACResource> Collection<E> getAuthorizedCollection( Collection<E> collection, String strPermission, AdminUser user )
     {
-        Collection<E> list = new ArrayList<E>(  );
+        Collection<E> list = new ArrayList<E>( );
 
         for ( E resource : collection )
         {
@@ -145,22 +158,26 @@ public final class RBACService
 
     /**
      * Filter a Reference List for a given user
-     * @param listResources The list to filter
-     * @param strResourceType The resource type
-     * @param strPermission  The permission to check
-     * @param user The user
+     * 
+     * @param listResources
+     *            The list to filter
+     * @param strResourceType
+     *            The resource type
+     * @param strPermission
+     *            The permission to check
+     * @param user
+     *            The user
      * @return The filtered collection
      */
-    public static ReferenceList getAuthorizedReferenceList( ReferenceList listResources, String strResourceType,
-        String strPermission, AdminUser user )
+    public static ReferenceList getAuthorizedReferenceList( ReferenceList listResources, String strResourceType, String strPermission, AdminUser user )
     {
-        ReferenceList list = new ReferenceList(  );
+        ReferenceList list = new ReferenceList( );
 
         for ( ReferenceItem item : listResources )
         {
-            if ( isAuthorized( strResourceType, item.getCode(  ), strPermission, user ) )
+            if ( isAuthorized( strResourceType, item.getCode( ), strPermission, user ) )
             {
-                list.addItem( item.getCode(  ), item.getName(  ) );
+                list.addItem( item.getCode( ), item.getName( ) );
             }
         }
 
@@ -169,20 +186,24 @@ public final class RBACService
 
     /**
      * Filter a collection of RBACAction for a given user
-     * @param <E> The RBAC resource
-     * @param collection The collection to filter
-     * @param resource The resource
-     * @param user The user
+     * 
+     * @param <E>
+     *            The RBAC resource
+     * @param collection
+     *            The collection to filter
+     * @param resource
+     *            The resource
+     * @param user
+     *            The user
      * @return The filtered collection
      */
-    public static <E extends RBACAction> Collection<E> getAuthorizedActionsCollection( Collection<E> collection,
-        RBACResource resource, AdminUser user )
+    public static <E extends RBACAction> Collection<E> getAuthorizedActionsCollection( Collection<E> collection, RBACResource resource, AdminUser user )
     {
-        Collection<E> list = new ArrayList<E>(  );
+        Collection<E> list = new ArrayList<E>( );
 
         for ( E action : collection )
         {
-            if ( isAuthorized( resource, action.getPermission(  ), user ) )
+            if ( isAuthorized( resource, action.getPermission( ), user ) )
             {
                 list.add( action );
             }

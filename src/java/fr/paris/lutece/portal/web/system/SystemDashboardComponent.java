@@ -43,7 +43,6 @@ import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  * System Dashboard Component
  */
@@ -54,18 +53,21 @@ public class SystemDashboardComponent extends DashboardComponent
 
     /**
      * Returns the dashboard component HTML code
-     * @param user The current user
-     * @param request HttpServletRequest
+     * 
+     * @param user
+     *            The current user
+     * @param request
+     *            HttpServletRequest
      * @return The dashboard data
      */
     @Override
     public String getDashboardData( AdminUser user, HttpServletRequest request )
     {
-        HashMap<String, Object> model = new HashMap<String, Object>(  );
-        model.put( MARK_PLUGINS_COUNT, PluginService.getPluginList(  ).size(  ) );
+        HashMap<String, Object> model = new HashMap<String, Object>( );
+        model.put( MARK_PLUGINS_COUNT, PluginService.getPluginList( ).size( ) );
 
-        HtmlTemplate t = AppTemplateService.getTemplate( TEMPLATE_DASHBOARD, user.getLocale(  ), model );
+        HtmlTemplate t = AppTemplateService.getTemplate( TEMPLATE_DASHBOARD, user.getLocale( ), model );
 
-        return t.getHtml(  );
+        return t.getHtml( );
     }
 }

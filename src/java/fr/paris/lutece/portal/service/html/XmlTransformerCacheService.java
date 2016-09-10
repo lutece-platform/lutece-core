@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -40,9 +40,9 @@ import fr.paris.lutece.util.xml.XmlTransformer;
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
  * XmlTransformerCacheService
+ * 
  * @since v 3.0
  */
 public class XmlTransformerCacheService implements CacheableService
@@ -54,9 +54,9 @@ public class XmlTransformerCacheService implements CacheableService
     /**
      * Inits the.
      */
-    public static void init(  )
+    public static void init( )
     {
-        _singleton = new XmlTransformerCacheService(  );
+        _singleton = new XmlTransformerCacheService( );
         CacheService.registerCacheableService( _singleton );
     }
 
@@ -64,7 +64,7 @@ public class XmlTransformerCacheService implements CacheableService
      * {@inheritDoc }
      */
     @Override
-    public String getName(  )
+    public String getName( )
     {
         return SERVICE_NAME;
     }
@@ -73,7 +73,7 @@ public class XmlTransformerCacheService implements CacheableService
      * {@inheritDoc }
      */
     @Override
-    public boolean isCacheEnable(  )
+    public boolean isCacheEnable( )
     {
         return true;
     }
@@ -82,18 +82,18 @@ public class XmlTransformerCacheService implements CacheableService
      * {@inheritDoc }
      */
     @Override
-    public int getCacheSize(  )
+    public int getCacheSize( )
     {
-        return XmlTransformer.getTransformersCount(  );
+        return XmlTransformer.getTransformersCount( );
     }
 
     /**
      * {@inheritDoc }
      */
     @Override
-    public void resetCache(  )
+    public void resetCache( )
     {
-        XmlTransformer.cleanTransformerList(  );
+        XmlTransformer.cleanTransformerList( );
     }
 
     /**
@@ -109,9 +109,9 @@ public class XmlTransformerCacheService implements CacheableService
      * {@inheritDoc }
      */
     @Override
-    public List<String> getKeys(  )
+    public List<String> getKeys( )
     {
-        List<String> list = new ArrayList<String>(  );
+        List<String> list = new ArrayList<String>( );
         list.add( MSG_KEYS_NOT_AVAILABLE );
 
         return list;
@@ -121,7 +121,7 @@ public class XmlTransformerCacheService implements CacheableService
      * {@inheritDoc }
      */
     @Override
-    public int getMaxElements(  )
+    public int getMaxElements( )
     {
         return XmlTransformer.TRANSFORMER_POOL_SIZE * XmlTransformer.MAX_TRANSFORMER_SIZE;
     }
@@ -130,7 +130,7 @@ public class XmlTransformerCacheService implements CacheableService
      * {@inheritDoc }
      */
     @Override
-    public long getTimeToLive(  )
+    public long getTimeToLive( )
     {
         return 0L;
     }
@@ -139,7 +139,7 @@ public class XmlTransformerCacheService implements CacheableService
      * {@inheritDoc }
      */
     @Override
-    public long getMemorySize(  )
+    public long getMemorySize( )
     {
         return 0L;
     }
@@ -148,7 +148,7 @@ public class XmlTransformerCacheService implements CacheableService
      * {@inheritDoc }
      */
     @Override
-    public String getInfos(  )
+    public String getInfos( )
     {
         return "This cache can't be disabled - Poolsize = " + XmlTransformer.TRANSFORMER_POOL_SIZE;
     }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -38,7 +38,6 @@ import fr.paris.lutece.util.ReferenceList;
 
 import java.util.Collection;
 
-
 /**
  *
  * @author LEVY
@@ -48,7 +47,8 @@ public interface IStyleDAO
     /**
      * Checks if a style has been created in the database with the given portal componenet
      *
-     * @param nPortalComponentId The identifier of the portal component
+     * @param nPortalComponentId
+     *            The identifier of the portal component
      * @return true if a style has been created for this portal component, false otherwise
      */
     boolean checkStylePortalComponent( int nPortalComponentId );
@@ -56,21 +56,24 @@ public interface IStyleDAO
     /**
      * Delete a record from the table
      *
-     * @param nStyleId the identifier of the style to delete
+     * @param nStyleId
+     *            the identifier of the style to delete
      */
     void delete( int nStyleId );
 
     /**
      * Insert a new record in the table.
      *
-     * @param style The Instance of the object Style
+     * @param style
+     *            The Instance of the object Style
      */
     void insert( Style style );
 
     /**
      * load the data of the Style whose identifier is specified in parameter from the table
      *
-     * @param nStyleId The identifier of the Style
+     * @param nStyleId
+     *            The identifier of the Style
      * @return an instance of the Style which has been created
      */
     Style load( int nStyleId );
@@ -80,13 +83,14 @@ public interface IStyleDAO
      *
      * @return the list of the portal component
      */
-    ReferenceList selectPortalComponentList(  );
+    ReferenceList selectPortalComponentList( );
 
     /**
      * load the data of the StyleSheet which re associated to the given style
      *
      *
-     * @param nStyleId The identifier of the Style
+     * @param nStyleId
+     *            The identifier of the Style
      * @return an instance of the Style which has been created
      */
     Collection<StyleSheet> selectStyleSheetList( int nStyleId );
@@ -96,12 +100,13 @@ public interface IStyleDAO
      *
      * @return The styles list in form of a Collection object
      */
-    Collection<Style> selectStylesList(  );
+    Collection<Style> selectStylesList( );
 
     /**
      * Update the record in the table
      *
-     * @param style The instance of the Style to update
+     * @param style
+     *            The instance of the Style to update
      */
     void store( Style style );
 }

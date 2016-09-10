@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -44,7 +44,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  * This Page Include
  */
@@ -62,10 +61,15 @@ public class StatisticsInclude implements PageInclude
 
     /**
      * Substitue specific Freemarker markers in the page template.
-     * @param rootModel the HashMap containing markers to substitute
-     * @param data A PageData object containing applications data
-     * @param nMode The current mode
-     * @param request The HTTP request
+     * 
+     * @param rootModel
+     *            the HashMap containing markers to substitute
+     * @param data
+     *            A PageData object containing applications data
+     * @param nMode
+     *            The current mode
+     * @param request
+     *            The HTTP request
      */
     public void fillTemplate( Map<String, Object> rootModel, PageData data, int nMode, HttpServletRequest request )
     {
@@ -82,18 +86,16 @@ public class StatisticsInclude implements PageInclude
             {
                 String strStatisticalIncludeTemplateHead = AppPropertiesService.getProperty( PROPERTY_STATISTICAL_INCLUDE_HEAD_TEMPLATE );
 
-                Map<String, String> model = new HashMap<String, String>(  );
+                Map<String, String> model = new HashMap<String, String>( );
                 model.put( MARK_STATISTICAL_SITE_ID, strStatisticalSiteId );
                 model.put( MARK_STATISTICAL_SERVER_URL, strStatisticalServerUrl );
 
-                HtmlTemplate tHead = AppTemplateService.getTemplate( strStatisticalIncludeTemplateHead,
-                        request.getLocale(  ), model );
-                strStatisticalIncludeHead = tHead.getHtml(  );
+                HtmlTemplate tHead = AppTemplateService.getTemplate( strStatisticalIncludeTemplateHead, request.getLocale( ), model );
+                strStatisticalIncludeHead = tHead.getHtml( );
 
                 String strStatisticalIncludeTemplate = AppPropertiesService.getProperty( PROPERTY_STATISTICAL_INCLUDE_TEMPLATE );
-                HtmlTemplate t = AppTemplateService.getTemplate( strStatisticalIncludeTemplate, request.getLocale(  ),
-                        model );
-                strStatisticalInclude = t.getHtml(  );
+                HtmlTemplate t = AppTemplateService.getTemplate( strStatisticalIncludeTemplate, request.getLocale( ), model );
+                strStatisticalInclude = t.getHtml( );
             }
             else
             {

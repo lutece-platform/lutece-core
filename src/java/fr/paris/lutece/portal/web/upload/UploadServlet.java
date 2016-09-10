@@ -52,7 +52,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
 /**
  * Handles asynchronous uploads.
  */
@@ -68,22 +67,21 @@ public class UploadServlet extends HttpServlet
      * {@inheritDoc}
      */
     @Override
-    protected void doPost( HttpServletRequest req, HttpServletResponse response )
-        throws ServletException, IOException
+    protected void doPost( HttpServletRequest req, HttpServletResponse response ) throws ServletException, IOException
     {
         MultipartHttpServletRequest request = (MultipartHttpServletRequest) req;
 
-        List<FileItem> listFileItems = new ArrayList<FileItem>(  );
-        JSONObject json = new JSONObject(  );
-        json.element( JSON_FILES, new JSONArray(  ) );
+        List<FileItem> listFileItems = new ArrayList<FileItem>( );
+        JSONObject json = new JSONObject( );
+        json.element( JSON_FILES, new JSONArray( ) );
 
-        for ( Entry<String, List<FileItem>> entry : ( request.getFileListMap(  ) ).entrySet(  ) )
+        for ( Entry<String, List<FileItem>> entry : ( request.getFileListMap( ) ).entrySet( ) )
         {
-            for ( FileItem fileItem : entry.getValue(  ) )
+            for ( FileItem fileItem : entry.getValue( ) )
             {
-                JSONObject jsonFile = new JSONObject(  );
-                jsonFile.element( JSON_FILE_NAME, fileItem.getName(  ) );
-                jsonFile.element( JSON_FILE_SIZE, fileItem.getSize(  ) );
+                JSONObject jsonFile = new JSONObject( );
+                jsonFile.element( JSON_FILE_NAME, fileItem.getName( ) );
+                jsonFile.element( JSON_FILE_SIZE, fileItem.getSize( ) );
 
                 // add to existing array
                 json.accumulate( JSON_FILES, jsonFile );
@@ -100,7 +98,7 @@ public class UploadServlet extends HttpServlet
 
             for ( FileItem fileItem : listFileItems )
             {
-                fileItem.delete(  );
+                fileItem.delete( );
             }
         }
         else
@@ -108,25 +106,26 @@ public class UploadServlet extends HttpServlet
             handler.process( request, response, json, listFileItems );
         }
 
-        if ( AppLogService.isDebugEnabled(  ) )
+        if ( AppLogService.isDebugEnabled( ) )
         {
-            AppLogService.debug( "Aysnchronous upload : " + json.toString(  ) );
+            AppLogService.debug( "Aysnchronous upload : " + json.toString( ) );
         }
 
-        response.setContentType(JSON_UTF8_CONTENT_TYPE);
-        response.getWriter().print( json.toString(  ) );
+        response.setContentType( JSON_UTF8_CONTENT_TYPE );
+        response.getWriter( ).print( json.toString( ) );
     }
 
     /**
      * Gets the handler
-     * @param request the reques
+     * 
+     * @param request
+     *            the reques
      * @return the handler found, <code>null</code> otherwise.
      * @see IAsynchronousUploadHandler#isInvoked(HttpServletRequest)
      */
     private IAsynchronousUploadHandler getHandler( HttpServletRequest request )
     {
-        for ( IAsynchronousUploadHandler handler : SpringContextService.getBeansOfType( 
-                IAsynchronousUploadHandler.class ) )
+        for ( IAsynchronousUploadHandler handler : SpringContextService.getBeansOfType( IAsynchronousUploadHandler.class ) )
         {
             if ( handler.isInvoked( request ) )
             {

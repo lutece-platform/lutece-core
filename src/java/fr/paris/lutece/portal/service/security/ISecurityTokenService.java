@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -35,7 +35,6 @@ package fr.paris.lutece.portal.service.security;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  *
  * Interface wich provides a security service for getting and verify tokens
@@ -45,16 +44,22 @@ public interface ISecurityTokenService
 {
     /**
      * return a security token
-     * @param request The Http request
-     * @param strActionType the action type
+     * 
+     * @param request
+     *            The Http request
+     * @param strActionType
+     *            the action type
      * @return a security token
      */
     String getToken( HttpServletRequest request, String strActionType );
 
     /**
      * verify if the request contains the securiy token
-     * @param request The Http request
-     * @param StrActionType the action type
+     * 
+     * @param request
+     *            The Http request
+     * @param StrActionType
+     *            the action type
      * @return true if the request contains the security token associated to the action type
      */
     boolean validate( HttpServletRequest request, String StrActionType );

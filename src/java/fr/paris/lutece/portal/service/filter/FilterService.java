@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -44,71 +44,74 @@ import java.util.List;
 import javax.servlet.Filter;
 import javax.servlet.ServletContext;
 
-
 /**
  * FilterService
  */
 public final class FilterService
 {
-    private static FilterService _singleton = new FilterService(  );
+    private static FilterService _singleton = new FilterService( );
     private static ServletContext _context;
-    private List<LuteceFilter> _listFilters = new ArrayList<LuteceFilter>(  );
+    private List<LuteceFilter> _listFilters = new ArrayList<LuteceFilter>( );
 
     /**
      * Private constructor
      */
-    private FilterService(  )
+    private FilterService( )
     {
     }
 
     /**
      * Return the unique instance
+     * 
      * @return The instance
      */
-    public static FilterService getInstance(  )
+    public static FilterService getInstance( )
     {
         return _singleton;
     }
 
     /**
      * Register a filter
-     * @param entry The filter entry defined in the plugin's XML file
-     * @param plugin The plugin
+     * 
+     * @param entry
+     *            The filter entry defined in the plugin's XML file
+     * @param plugin
+     *            The plugin
      */
     public void registerFilter( FilterEntry entry, Plugin plugin )
     {
         try
         {
-            Filter filter = (Filter) Class.forName( entry.getFilterClass(  ) ).newInstance(  );
-            LuteceFilter f = new LuteceFilter( entry.getName(  ), filter, entry.getMappingUrlPattern(  ), plugin,
-                    entry.getInitParameters(  ) );
-            f.setOrder( entry.getOrder(  ) );
+            Filter filter = (Filter) Class.forName( entry.getFilterClass( ) ).newInstance( );
+            LuteceFilter f = new LuteceFilter( entry.getName( ), filter, entry.getMappingUrlPattern( ), plugin, entry.getInitParameters( ) );
+            f.setOrder( entry.getOrder( ) );
             _listFilters.add( f );
-            AppLogService.info( "New Filter registered : " + entry.getName(  ) );
+            AppLogService.info( "New Filter registered : " + entry.getName( ) );
 
-            for ( String strKey : entry.getInitParameters(  ).keySet(  ) )
+            for ( String strKey : entry.getInitParameters( ).keySet( ) )
             {
-                AppLogService.info( " * init parameter - name : '" + strKey + "' - value : '" +
-                    entry.getInitParameters(  ).get( strKey ) + "'" );
+                AppLogService.info( " * init parameter - name : '" + strKey + "' - value : '" + entry.getInitParameters( ).get( strKey ) + "'" );
             }
         }
-        catch ( InstantiationException e )
+        catch( InstantiationException e )
         {
-            AppLogService.error( "Error registering a filter : " + e.getMessage(  ), e );
+            AppLogService.error( "Error registering a filter : " + e.getMessage( ), e );
         }
-        catch ( IllegalAccessException e )
+        catch( IllegalAccessException e )
         {
-            AppLogService.error( "Error registering a filter : " + e.getMessage(  ), e );
+            AppLogService.error( "Error registering a filter : " + e.getMessage( ), e );
         }
-        catch ( ClassNotFoundException e )
+        catch( ClassNotFoundException e )
         {
-            AppLogService.error( "Error registering a filter : " + e.getMessage(  ), e );
+            AppLogService.error( "Error registering a filter : " + e.getMessage( ), e );
         }
     }
 
     /**
      * Defines the servlet context used by the FilterConfig given to the filters
-     * @param servletContext The context
+     * 
+     * @param servletContext
+     *            The context
      */
     public static void setServletContext( ServletContext servletContext )
     {
@@ -117,45 +120,46 @@ public final class FilterService
 
     /**
      * Initializes filters
-     * @param context The context
-     * @throws LuteceInitException If an error occurs
+     * 
+     * @param context
+     *            The context
+     * @throws LuteceInitException
+     *             If an error occurs
      */
     public static void init( ServletContext context ) throws LuteceInitException
     {
         _context = context;
         AppLogService.info( "Initialize plugins filters" );
 
-        for ( LuteceFilter filter : FilterService.getInstance(  ).getFilters(  ) )
+        for ( LuteceFilter filter : FilterService.getInstance( ).getFilters( ) )
         {
             // Catch exception for each filter to execute all chain
             try
             {
-                if ( filter.getPlugin(  ).isInstalled(  ) )
+                if ( filter.getPlugin( ).isInstalled( ) )
                 {
                     // Create a FilterConfig wrapper to provide init parameters to the filter
-                    LuteceFilterConfig filterConfig = new LuteceFilterConfig( filter.getName(  ), _context,
-                            filter.getInitParameters(  ) );
-                    filter.getFilter(  ).init( filterConfig );
-                    AppLogService.info( " * filter '" + filter.getName(  ) + "' from plugin " +
-                        filter.getPlugin(  ).getName(  ) + " initialized." );
+                    LuteceFilterConfig filterConfig = new LuteceFilterConfig( filter.getName( ), _context, filter.getInitParameters( ) );
+                    filter.getFilter( ).init( filterConfig );
+                    AppLogService.info( " * filter '" + filter.getName( ) + "' from plugin " + filter.getPlugin( ).getName( ) + " initialized." );
                 }
             }
-            catch ( Exception e )
+            catch( Exception e )
             {
-                AppLogService.error( "Error execution init() method - Filter " + filter.getName(  ), e );
-                throw new LuteceInitException( "Error execution init() method - Filter " + filter.getName(  ), e );
+                AppLogService.error( "Error execution init() method - Filter " + filter.getName( ), e );
+                throw new LuteceInitException( "Error execution init() method - Filter " + filter.getName( ), e );
             }
         }
 
-        sortFilters(  );
+        sortFilters( );
 
-        if ( AppLogService.isDebugEnabled(  ) )
+        if ( AppLogService.isDebugEnabled( ) )
         {
             AppLogService.debug( "Displaying filters order" );
 
-            for ( LuteceFilter filter : FilterService.getInstance(  ).getFilters(  ) )
+            for ( LuteceFilter filter : FilterService.getInstance( ).getFilters( ) )
             {
-                AppLogService.debug( filter.getName(  ) + " - order = " + filter.getOrder(  ) );
+                AppLogService.debug( filter.getName( ) + " - order = " + filter.getOrder( ) );
             }
         }
     }
@@ -163,17 +167,18 @@ public final class FilterService
     /**
      * Sort filters.
      */
-    public static void sortFilters(  )
+    public static void sortFilters( )
     {
         // sort the filter's list
-        Collections.sort( FilterService.getInstance(  ).getFilters(  ) );
+        Collections.sort( FilterService.getInstance( ).getFilters( ) );
     }
 
     /**
      * Gives the filters list
+     * 
      * @return The list of filters
      */
-    public List<LuteceFilter> getFilters(  )
+    public List<LuteceFilter> getFilters( )
     {
         return _listFilters;
     }

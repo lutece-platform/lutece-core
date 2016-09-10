@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,7 +33,6 @@
  */
 package fr.paris.lutece.portal.business.portlet;
 
-
 /**
  * This class represents business objects IPortletInterfaceDAO
  */
@@ -42,21 +41,24 @@ public interface IPortletInterfaceDAO
     /**
      * Insert the portlet
      *
-     * @param portlet The Portlet object
+     * @param portlet
+     *            The Portlet object
      */
     void insert( Portlet portlet );
 
     /**
      * Deletes the portlet whose identifier is specified in parameter
      *
-     * @param nPortletId The identifier of the portlet
+     * @param nPortletId
+     *            The identifier of the portlet
      */
     void delete( int nPortletId );
 
     /**
      * Load the portlet whose identifier is specified in parameter
      *
-     * @param nPortletId the identifier of the portlet
+     * @param nPortletId
+     *            the identifier of the portlet
      * @return The portlet instance
      */
     Portlet load( int nPortletId );
@@ -64,7 +66,8 @@ public interface IPortletInterfaceDAO
     /**
      * Update the portlet
      *
-     * @param portlet The portlet object
+     * @param portlet
+     *            The portlet object
      */
     void store( Portlet portlet );
 }

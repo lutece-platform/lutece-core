@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,7 +33,6 @@
  */
 package fr.paris.lutece.portal.business.rss;
 
-
 /**
  *
  * Class ResourceRssType that provides the resources type for rss
@@ -48,16 +47,19 @@ public class ResourceRssType implements IResourceRssType
 
     /**
      * Get resource rss type
-     * @return  key of the resourceRss type
+     * 
+     * @return key of the resourceRss type
      */
-    public String getKey(  )
+    public String getKey( )
     {
         return _strKey;
     }
 
     /**
-     * Set the  key  of the resourceRss type
-     * @param key title the key of the text type
+     * Set the key of the resourceRss type
+     * 
+     * @param key
+     *            title the key of the text type
      */
     public void setKey( String key )
     {
@@ -66,16 +68,19 @@ public class ResourceRssType implements IResourceRssType
 
     /**
      * Get title key of the resourceRss type
+     * 
      * @return the I18n title key of the resourceRss type
      */
-    public String getTitleI18nKey(  )
+    public String getTitleI18nKey( )
     {
         return _strTitleI18nKey;
     }
 
     /**
-     * Set the I18n title key  of the resourceRss type
-     * @param title the title of the resourceRss type
+     * Set the I18n title key of the resourceRss type
+     * 
+     * @param title
+     *            the title of the resourceRss type
      */
     public void setTitleI18nKey( String title )
     {
@@ -84,16 +89,19 @@ public class ResourceRssType implements IResourceRssType
 
     /**
      * Get the path for acces to the Class resourceRss
+     * 
      * @return the path for acces to the Classe resourceRss
      */
-    public String getClassName(  )
+    public String getClassName( )
     {
         return _strClassName;
     }
 
     /**
      * set the path for acces to the Class resourceRss
-     * @param className the path for acces to the Class resourceRss
+     * 
+     * @param className
+     *            the path for acces to the Class resourceRss
      */
     public void setClassName( String className )
     {
@@ -101,18 +109,21 @@ public class ResourceRssType implements IResourceRssType
     }
 
     /**
-    * Get the  title of the resourceRss type
-    * @return the title of the resourceRss type
-    */
-    public String getTitle(  )
+     * Get the title of the resourceRss type
+     * 
+     * @return the title of the resourceRss type
+     */
+    public String getTitle( )
     {
         // TODO Auto-generated method stub
         return _strTitle;
     }
 
     /**
-     * Set the  title of the resourceRss type
-     * @param title the title of the resourceRss type
+     * Set the title of the resourceRss type
+     * 
+     * @param title
+     *            the title of the resourceRss type
      */
     public void setTitle( String title )
     {

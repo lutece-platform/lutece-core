@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -45,7 +45,6 @@ import org.quartz.impl.StdSchedulerFactory;
 
 import java.util.Date;
 
-
 /**
  * JobSchedulerService
  */
@@ -55,22 +54,23 @@ public final class JobSchedulerService
     private static Scheduler _scheduler;
 
     /** Creates a new instance of JobSchedulerService */
-    private JobSchedulerService(  )
+    private JobSchedulerService( )
     {
     }
 
     /**
      * Gets the unique instance of the service
+     * 
      * @return The service's instance
      */
-    public static JobSchedulerService getInstance(  )
+    public static JobSchedulerService getInstance( )
     {
         if ( _singleton == null )
         {
-            synchronized ( JobSchedulerService.class )
+            synchronized( JobSchedulerService.class )
             {
-                JobSchedulerService service = new JobSchedulerService(  );
-                service.init(  );
+                JobSchedulerService service = new JobSchedulerService( );
+                service.init( );
                 _singleton = service;
             }
         }
@@ -81,17 +81,17 @@ public final class JobSchedulerService
     /**
      * Initialize the service.
      */
-    private void init(  )
+    private void init( )
     {
-        SchedulerFactory factory = new StdSchedulerFactory(  );
+        SchedulerFactory factory = new StdSchedulerFactory( );
 
         try
         {
-            _scheduler = factory.getScheduler(  );
-            _scheduler.start(  );
+            _scheduler = factory.getScheduler( );
+            _scheduler.start( );
             AppLogService.info( "Lutece job scheduler started." );
         }
-        catch ( SchedulerException e )
+        catch( SchedulerException e )
         {
             AppLogService.error( "Error starting the Lutece job scheduler ", e );
         }
@@ -99,8 +99,11 @@ public final class JobSchedulerService
 
     /**
      * Schedule a job according cron information
-     * @param job The Job to schedule
-     * @param trigger The Cron trigger
+     * 
+     * @param job
+     *            The Job to schedule
+     * @param trigger
+     *            The Cron trigger
      * @return Date
      */
     public Date scheduleJob( JobDetail job, CronTrigger trigger )
@@ -112,11 +115,11 @@ public final class JobSchedulerService
             try
             {
                 date = _scheduler.scheduleJob( job, trigger );
-                AppLogService.info( "New job scheduled : " + job.getName(  ) );
+                AppLogService.info( "New job scheduled : " + job.getName( ) );
             }
-            catch ( SchedulerException e )
+            catch( SchedulerException e )
             {
-                AppLogService.error( "Error scheduling job " + job.getName(  ), e );
+                AppLogService.error( "Error scheduling job " + job.getName( ), e );
             }
         }
 
@@ -126,16 +129,16 @@ public final class JobSchedulerService
     /**
      * Shutdown the service (Called by the core while the webapp is destroyed)
      */
-    public static void shutdown(  )
+    public static void shutdown( )
     {
         if ( _scheduler != null )
         {
             try
             {
-                _scheduler.shutdown(  );
+                _scheduler.shutdown( );
                 AppLogService.info( "Lutece job scheduler stopped." );
             }
-            catch ( SchedulerException e )
+            catch( SchedulerException e )
             {
                 AppLogService.error( "Error shuting down the Lutece job scheduler ", e );
             }

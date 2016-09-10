@@ -46,7 +46,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  * SearchAdminDashboardComponent
  */
@@ -61,15 +60,15 @@ public class SearchAdminDashboardComponent extends AdminDashboardComponent
     @Override
     public String getDashboardData( AdminUser user, HttpServletRequest request )
     {
-        if ( !RBACService.isAuthorized( SearchService.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID,
-                    SearchResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS, user ) )
+        if ( !RBACService.isAuthorized( SearchService.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID, SearchResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS,
+                user ) )
         {
             return EMPTY_STRING;
         }
 
         Map<String, Object> model = SearchService.getManageAdvancedParameters( user, request );
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_DASHBOARD, user.getLocale(  ), model );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_DASHBOARD, user.getLocale( ), model );
 
-        return template.getHtml(  );
+        return template.getHtml( );
     }
 }

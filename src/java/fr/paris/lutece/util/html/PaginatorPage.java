@@ -33,7 +33,6 @@
  */
 package fr.paris.lutece.util.html;
 
-
 /**
  * Used by Paginator to build links on pages
  */
@@ -49,7 +48,7 @@ public class PaginatorPage
      *
      * @return The Url
      */
-    public String getUrl(  )
+    public String getUrl( )
     {
         return _strUrl;
     }
@@ -57,7 +56,8 @@ public class PaginatorPage
     /**
      * Sets the Url
      *
-     * @param strUrl The Url
+     * @param strUrl
+     *            The Url
      */
     public void setUrl( String strUrl )
     {
@@ -69,7 +69,7 @@ public class PaginatorPage
      *
      * @return The Name
      */
-    public String getName(  )
+    public String getName( )
     {
         return _strName;
     }
@@ -77,7 +77,8 @@ public class PaginatorPage
     /**
      * Sets the Name
      *
-     * @param strName The Name
+     * @param strName
+     *            The Name
      */
     public void setName( String strName )
     {
@@ -89,7 +90,7 @@ public class PaginatorPage
      *
      * @return The Index
      */
-    public int getIndex(  )
+    public int getIndex( )
     {
         return _nIndex;
     }
@@ -97,7 +98,8 @@ public class PaginatorPage
     /**
      * Sets the Index
      *
-     * @param nIndex The Index
+     * @param nIndex
+     *            The Index
      */
     public void setIndex( int nIndex )
     {

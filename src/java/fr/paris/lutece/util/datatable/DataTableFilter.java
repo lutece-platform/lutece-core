@@ -35,7 +35,6 @@ package fr.paris.lutece.util.datatable;
 
 import fr.paris.lutece.util.ReferenceList;
 
-
 /**
  * Class to filter data with a DataTableManager
  */
@@ -49,9 +48,13 @@ public class DataTableFilter
 
     /**
      * Creates a new filter
-     * @param filterType The type of the filter
-     * @param strParameterName The name of the parameter to filter
-     * @param strFilterLabel The label of the filter
+     * 
+     * @param filterType
+     *            The type of the filter
+     * @param strParameterName
+     *            The name of the parameter to filter
+     * @param strFilterLabel
+     *            The label of the filter
      */
     protected DataTableFilter( DataTableFilterType filterType, String strParameterName, String strFilterLabel )
     {
@@ -62,16 +65,19 @@ public class DataTableFilter
 
     /**
      * Get the type of the filter
+     * 
      * @return The type of the filter
      */
-    public DataTableFilterType getFilterType(  )
+    public DataTableFilterType getFilterType( )
     {
         return _filterType;
     }
 
     /**
      * Set the type of the filter
-     * @param filterType The type of the filter
+     * 
+     * @param filterType
+     *            The type of the filter
      */
     protected void setFilterType( DataTableFilterType filterType )
     {
@@ -80,16 +86,19 @@ public class DataTableFilter
 
     /**
      * Get the name of the parameter to filter
+     * 
      * @return The name of the parameter to filter
      */
-    public String getParameterName(  )
+    public String getParameterName( )
     {
         return _strParameterName;
     }
 
     /**
      * Set the name of the parameter to filter
-     * @param strParameterName The name of the parameter to filter
+     * 
+     * @param strParameterName
+     *            The name of the parameter to filter
      */
     protected void setParameterName( String strParameterName )
     {
@@ -98,16 +107,19 @@ public class DataTableFilter
 
     /**
      * Get the label of the filter
+     * 
      * @return The label of the filter
      */
-    public String getFilterLabel(  )
+    public String getFilterLabel( )
     {
         return _strFilterLabel;
     }
 
     /**
      * Set the label of the filter
-     * @param strFilterLabel The label of the filter
+     * 
+     * @param strFilterLabel
+     *            The label of the filter
      */
     protected void setFilterLabel( String strFilterLabel )
     {
@@ -116,16 +128,19 @@ public class DataTableFilter
 
     /**
      * Get the reference list of this filter
+     * 
      * @return The reference list of this filter
      */
-    public ReferenceList getRefList(  )
+    public ReferenceList getRefList( )
     {
         return _refList;
     }
 
     /**
      * Set the reference list of this filter
-     * @param refList The reference list of this filter
+     * 
+     * @param refList
+     *            The reference list of this filter
      */
     protected void setRefList( ReferenceList refList )
     {
@@ -134,16 +149,19 @@ public class DataTableFilter
 
     /**
      * Get the current value of the filter
+     * 
      * @return The current value of the filter
      */
-    public String getValue(  )
+    public String getValue( )
     {
         return _strValue;
     }
 
     /**
      * Set the current value of the filter
-     * @param strValue The current value of the filter
+     * 
+     * @param strValue
+     *            The current value of the filter
      */
     protected void setValue( String strValue )
     {

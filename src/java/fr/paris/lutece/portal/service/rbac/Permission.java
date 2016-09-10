@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -38,7 +38,6 @@ import fr.paris.lutece.portal.service.i18n.Localizable;
 
 import java.util.Locale;
 
-
 /**
  * This class defines the permission element for resource control
  */
@@ -50,7 +49,9 @@ public class Permission implements Localizable
 
     /**
      * Implements Localizable
-     * @param locale The current locale
+     * 
+     * @param locale
+     *            The current locale
      */
     public void setLocale( Locale locale )
     {
@@ -60,14 +61,16 @@ public class Permission implements Localizable
     /**
      * @return Returns the Permission Key.
      */
-    public String getPermissionKey(  )
+    public String getPermissionKey( )
     {
         return _strPermissionKey;
     }
 
     /**
      * Sets the permission
-     * @param strPermissionKey The Permission Key to set.
+     * 
+     * @param strPermissionKey
+     *            The Permission Key to set.
      */
     public void setPermissionKey( String strPermissionKey )
     {
@@ -77,14 +80,16 @@ public class Permission implements Localizable
     /**
      * @return Returns the Permission Title.
      */
-    public String getPermissionTitle(  )
+    public String getPermissionTitle( )
     {
         return I18nService.getLocalizedString( _strPermissionTitle, _locale );
     }
 
     /**
      * Sets the permission title
-     * @param strPermissionTitle The Permission Title to set.
+     * 
+     * @param strPermissionTitle
+     *            The Permission Title to set.
      */
     public void setPermissionTitleKey( String strPermissionTitle )
     {

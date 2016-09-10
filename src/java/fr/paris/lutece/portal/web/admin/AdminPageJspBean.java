@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -79,13 +79,12 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  * This class provides the admin interface to manage administration of site
  */
 public class AdminPageJspBean extends AdminFeaturesPageJspBean
 {
-    ////////////////////////////////////////////////////////////////////////////
+    // //////////////////////////////////////////////////////////////////////////
     // Constants
 
     // Right
@@ -137,7 +136,7 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
     private static final String JSP_PATH = "jsp/admin/site/";
     private static final String JSP_REMOVE_PAGE = JSP_PATH + "DoRemovePage.jsp";
 
-    //Messages
+    // Messages
     private static final String MESSAGE_TITLE_INVALID_CHARACTERS = "portal.site.message.invalidCharactersInTitleName";
     private static final String MESSAGE_DESCRIPTION_INVALID_CHARACTERS = "portal.site.message.invalidCharactersInDescription";
     private static final String MESSAGE_CANNOT_REMOVE_CHILDPAGE_EXISTS = "portal.site.message.cannotRemoveChildPageExists";
@@ -151,7 +150,8 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
     /**
      * Displays the page which contains the management forms of a skin page whose identifier is specified in parameter
      *
-     * @param request The identifier of the page
+     * @param request
+     *            The identifier of the page
      * @return The html code of the management forms of a page
      */
     public String getAdminPage( HttpServletRequest request )
@@ -160,7 +160,7 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
 
         if ( ( strPageId == null ) || strPageId.equals( "" ) )
         {
-            strPageId = String.valueOf( PortalService.getRootPageId(  ) );
+            strPageId = String.valueOf( PortalService.getRootPageId( ) );
         }
 
         String strParamBlock = request.getParameter( PARAMETER_BLOCK );
@@ -170,16 +170,18 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
     }
 
     /**
-     * Returns the html code for displaying the page whose identifier is specified in parameter from the administration
-     * unit. <br> That is useful to make a preview of the page.
+     * Returns the html code for displaying the page whose identifier is specified in parameter from the administration unit. <br>
+     * That is useful to make a preview of the page.
      *
-     * @param request The http request
+     * @param request
+     *            The http request
      * @return The html code of the page
-     * @throws UserNotSignedException The UserNotSignedException
-     * @throws SiteMessageException occurs when a site message need to be displayed
+     * @throws UserNotSignedException
+     *             The UserNotSignedException
+     * @throws SiteMessageException
+     *             occurs when a site message need to be displayed
      */
-    public String getAdminPagePreview( HttpServletRequest request )
-        throws UserNotSignedException, SiteMessageException
+    public String getAdminPagePreview( HttpServletRequest request ) throws UserNotSignedException, SiteMessageException
     {
         ContentService cs = PortalService.getInvokedContentService( request );
         int nMode = 1;
@@ -195,7 +197,7 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
             strContent = PortalService.getDefaultPage( request, nMode );
         }
 
-        if ( ContentPostProcessorService.hasProcessor(  ) )
+        if ( ContentPostProcessorService.hasProcessor( ) )
         {
             strContent = ContentPostProcessorService.process( request, strContent );
         }
@@ -206,7 +208,8 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
     /**
      * Processes of the modification of the page informations
      *
-     * @param request The http request
+     * @param request
+     *            The http request
      * @return The jsp url result of the process
      */
     public String doModifyPage( HttpServletRequest request )
@@ -215,7 +218,7 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
         int nPageId = Integer.parseInt( mRequest.getParameter( Parameters.PAGE_ID ) );
 
         Page page = PageHome.getPage( nPageId );
-        Integer nOldAutorisationNode = page.getIdAuthorizationNode(  );
+        Integer nOldAutorisationNode = page.getIdAuthorizationNode( );
 
         String strErrorUrl = getPageData( mRequest, page );
 
@@ -226,7 +229,7 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
 
         int nParentPageId = Integer.parseInt( mRequest.getParameter( Parameters.PARENT_ID ) );
 
-        if ( nParentPageId != page.getParentPageId(  ) )
+        if ( nParentPageId != page.getParentPageId( ) )
         {
             strErrorUrl = getNewParentPageId( mRequest, page, nParentPageId );
 
@@ -236,21 +239,20 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
             }
         }
 
-        //set the authorization node
-        if ( page.getNodeStatus(  ) != 0 )
+        // set the authorization node
+        if ( page.getNodeStatus( ) != 0 )
         {
-            Page parentPage = PageHome.getPage( page.getParentPageId(  ) );
-            page.setIdAuthorizationNode( parentPage.getIdAuthorizationNode(  ) );
+            Page parentPage = PageHome.getPage( page.getParentPageId( ) );
+            page.setIdAuthorizationNode( parentPage.getIdAuthorizationNode( ) );
         }
         else
         {
-            page.setIdAuthorizationNode( page.getId(  ) );
+            page.setIdAuthorizationNode( page.getId( ) );
         }
 
-        if ( ( page.getIdAuthorizationNode(  ) == null ) ||
-                !page.getIdAuthorizationNode(  ).equals( nOldAutorisationNode ) )
+        if ( ( page.getIdAuthorizationNode( ) == null ) || !page.getIdAuthorizationNode( ).equals( nOldAutorisationNode ) )
         {
-            PageService.updateChildrenAuthorizationNode( page.getId(  ), page.getIdAuthorizationNode(  ) );
+            PageService.updateChildrenAuthorizationNode( page.getId( ), page.getIdAuthorizationNode( ) );
         }
 
         String strUpdatePicture = mRequest.getParameter( PARAMETER_PAGE_TEMPLATE_UPDATE_IMAGE );
@@ -273,8 +275,8 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
 
         if ( bUpdatePicture )
         {
-            byte[] bytes = item.get(  );
-            String strMimeType = item.getContentType(  );
+            byte [ ] bytes = item.get( );
+            String strMimeType = item.getContentType( );
             page.setImageContent( bytes );
             page.setMimeType( strMimeType );
         }
@@ -289,7 +291,8 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
     /**
      * Display the confirm page for the delete of a page
      *
-     * @param request The http request
+     * @param request
+     *            The http request
      * @return The url of the confirm page
      */
     public String getRemovePage( HttpServletRequest request )
@@ -297,27 +300,27 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
         String strPageId = request.getParameter( Parameters.PAGE_ID );
         if ( !StringUtils.isNumeric( strPageId ) )
         {
-            return AdminMessageService.getMessageUrl( request, MESSAGE_INVALID_PAGE_ID,
-                    AdminMessage.TYPE_ERROR );
+            return AdminMessageService.getMessageUrl( request, MESSAGE_INVALID_PAGE_ID, AdminMessage.TYPE_ERROR );
         }
         int nPageId = Integer.parseInt( strPageId );
         Page page = PageHome.getPage( nPageId );
         if ( page == null || page.getId( ) == 0 || page.getId( ) != nPageId )
         {
-            return AdminMessageService.getMessageUrl( request, MESSAGE_INVALID_PAGE_ID,
-                    AdminMessage.TYPE_ERROR );
+            return AdminMessageService.getMessageUrl( request, MESSAGE_INVALID_PAGE_ID, AdminMessage.TYPE_ERROR );
         }
         UrlItem url = new UrlItem( JSP_REMOVE_PAGE );
         url.addParameter( Parameters.PAGE_ID, strPageId );
 
-        return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_CONFIRM_REMOVE_PAGE,
-                new Object[] { page.getName( ) }, url.getUrl(  ), AdminMessage.TYPE_CONFIRMATION );
+        return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_CONFIRM_REMOVE_PAGE, new Object [ ] {
+            page.getName( )
+        }, url.getUrl( ), AdminMessage.TYPE_CONFIRMATION );
     }
 
     /**
      * Processes the deletion of a page
      *
-     * @param request The http request
+     * @param request
+     *            The http request
      * @return The jsp url result of the process
      */
     public String doRemovePage( HttpServletRequest request )
@@ -325,26 +328,25 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
         String strPageId = request.getParameter( Parameters.PAGE_ID );
         if ( !StringUtils.isNumeric( strPageId ) )
         {
-            return AdminMessageService.getMessageUrl( request, MESSAGE_INVALID_PAGE_ID,
-                    AdminMessage.TYPE_ERROR );
+            return AdminMessageService.getMessageUrl( request, MESSAGE_INVALID_PAGE_ID, AdminMessage.TYPE_ERROR );
         }
         int nPageId = Integer.parseInt( strPageId );
         Page page = PageHome.getPage( nPageId );
         if ( page == null || page.getId( ) == 0 || page.getId( ) != nPageId )
         {
-            return AdminMessageService.getMessageUrl( request, MESSAGE_INVALID_PAGE_ID,
-                    AdminMessage.TYPE_ERROR );
+            return AdminMessageService.getMessageUrl( request, MESSAGE_INVALID_PAGE_ID, AdminMessage.TYPE_ERROR );
         }
         // Checks that the page has no child
         Collection<Page> list = PageHome.getChildPagesMinimalData( nPageId );
 
-        if ( list.size(  ) > 0 )
+        if ( list.size( ) > 0 )
         {
-            return AdminMessageService.getMessageUrl( request, MESSAGE_CANNOT_REMOVE_CHILDPAGE_EXISTS,
-                    new Object[] { page.getName( ), list.size(  ) }, JSP_PATH + getUrlPage( nPageId ), AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrl( request, MESSAGE_CANNOT_REMOVE_CHILDPAGE_EXISTS, new Object [ ] {
+                    page.getName( ), list.size( )
+            }, JSP_PATH + getUrlPage( nPageId ), AdminMessage.TYPE_STOP );
         }
 
-        int nParentPageId = page.getParentPageId(  );
+        int nParentPageId = page.getParentPageId( );
 
         // Delete the page
         _pageService.removePage( nPageId );
@@ -355,7 +357,8 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
     /**
      * Processes the creation of a child page to the page whose identifier is stored in the http request
      *
-     * @param request The http request
+     * @param request
+     *            The http request
      * @return The jsp url result of the process
      */
     public String doCreateChildPage( HttpServletRequest request )
@@ -365,7 +368,7 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
         String strParentPageId = mRequest.getParameter( Parameters.PAGE_ID );
         int nParentPageId = Integer.parseInt( strParentPageId );
 
-        Page page = new Page(  );
+        Page page = new Page( );
         page.setParentPageId( nParentPageId );
 
         String strErrorUrl = getPageData( mRequest, page );
@@ -378,21 +381,21 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
         // Create the page
         _pageService.createPage( page );
 
-        //set the authorization node
-        if ( page.getNodeStatus(  ) != 0 )
+        // set the authorization node
+        if ( page.getNodeStatus( ) != 0 )
         {
-            Page parentPage = PageHome.getPage( page.getParentPageId(  ) );
-            page.setIdAuthorizationNode( parentPage.getIdAuthorizationNode(  ) );
+            Page parentPage = PageHome.getPage( page.getParentPageId( ) );
+            page.setIdAuthorizationNode( parentPage.getIdAuthorizationNode( ) );
         }
         else
         {
-            page.setIdAuthorizationNode( page.getId(  ) );
+            page.setIdAuthorizationNode( page.getId( ) );
         }
 
         FileItem item = mRequest.getFile( PARAMETER_IMAGE_CONTENT );
 
-        byte[] bytes = item.get(  );
-        String strMimeType = item.getContentType(  );
+        byte [ ] bytes = item.get( );
+        String strMimeType = item.getContentType( );
 
         page.setImageContent( bytes );
         page.setMimeType( strMimeType );
@@ -400,41 +403,47 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
         _pageService.updatePage( page );
 
         // Displays again the current page with the modifications
-        return getUrlPage( page.getId(  ) );
+        return getUrlPage( page.getId( ) );
     }
 
     /**
      * Management of the image associated to the page
-     * @param page The Page Object
-     * @param strPageId The page identifier
+     * 
+     * @param page
+     *            The Page Object
+     * @param strPageId
+     *            The page identifier
      * @return The url
      */
     public String getResourceImagePage( Page page, String strPageId )
     {
-        String strResourceType = _pageService.getResourceTypeId(  );
+        String strResourceType = _pageService.getResourceTypeId( );
         UrlItem url = new UrlItem( Parameters.IMAGE_SERVLET );
         url.addParameter( Parameters.RESOURCE_TYPE, strResourceType );
         url.addParameter( Parameters.RESOURCE_ID, strPageId );
 
-        return url.getUrlWithEntity(  );
+        return url.getUrlWithEntity( );
     }
 
-    //////////////////////////////////////////////////////////////////////////////////
+    // ////////////////////////////////////////////////////////////////////////////////
     // Private implementation
 
     /**
      * Displays the page which contains the management forms of a skin page whose identifier is specified in parameter.
      *
-     * @param strPageId The identifier of the page
-     * @param strParamBlock The block parameter to display
-     * @param strPortletType the str portlet type
-     * @param request The request
+     * @param strPageId
+     *            The identifier of the page
+     * @param strParamBlock
+     *            The block parameter to display
+     * @param strPortletType
+     *            the str portlet type
+     * @param request
+     *            The request
      * @return The management page of a page
      */
-    private String getAdminPageBlock( String strPageId, String strParamBlock, String strPortletType,
-        HttpServletRequest request )
+    private String getAdminPageBlock( String strPageId, String strParamBlock, String strPortletType, HttpServletRequest request )
     {
-        Map<String, Object> model = new HashMap<String, Object>(  );
+        Map<String, Object> model = new HashMap<String, Object>( );
 
         Page page = null;
         int nPageId = 1;
@@ -456,20 +465,19 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
             }
             else
             {
-                nPageId = PortalService.getRootPageId(  );
+                nPageId = PortalService.getRootPageId( );
                 page = PageHome.getPage( nPageId );
-                model.put( MARK_PAGE_MESSAGE,
-                    I18nService.getLocalizedString( PROPERTY_MESSAGE_PAGE_INEXISTENT, getLocale(  ) ) );
+                model.put( MARK_PAGE_MESSAGE, I18nService.getLocalizedString( PROPERTY_MESSAGE_PAGE_INEXISTENT, getLocale( ) ) );
             }
         }
-        catch ( NumberFormatException nfe )
+        catch( NumberFormatException nfe )
         {
-            nPageId = PortalService.getRootPageId(  );
+            nPageId = PortalService.getRootPageId( );
             page = PageHome.getPage( nPageId );
-            model.put( MARK_PAGE_MESSAGE, I18nService.getLocalizedString( PROPERTY_MESSAGE_PAGE_FORMAT, getLocale(  ) ) );
+            model.put( MARK_PAGE_MESSAGE, I18nService.getLocalizedString( PROPERTY_MESSAGE_PAGE_FORMAT, getLocale( ) ) );
         }
 
-        switch ( nParamBlock )
+        switch( nParamBlock )
         {
             case BLOCK_SEARCH:
                 model.put( MARK_PAGE_BLOCK, getAdminPageBlockSearch( nPageIdInit, model ) );
@@ -488,40 +496,42 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
                 break;
         }
 
-        model.put( MARK_PORTLET_TYPES_LIST, getPortletTypeList( getUser(  ) ) );
+        model.put( MARK_PORTLET_TYPES_LIST, getPortletTypeList( getUser( ) ) );
         model.put( MARK_PAGE, page );
-        ExtendableResourcePluginActionManager.fillModel( request, getUser(  ), model, strPageId, Page.RESOURCE_TYPE );
+        ExtendableResourcePluginActionManager.fillModel( request, getUser( ), model, strPageId, Page.RESOURCE_TYPE );
 
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_PAGE, getLocale(  ), model );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_PAGE, getLocale( ), model );
 
-        return getAdminPage( template.getHtml(  ) );
+        return getAdminPage( template.getHtml( ) );
     }
 
     /**
      * Displays the page which contains the management forms of a skin page whose identifier is specified in parameter
      *
-     * @param page The page object
-     * @param nParamBlock The id parameter to display
-     * @param model The HashMap
+     * @param page
+     *            The page object
+     * @param nParamBlock
+     *            The id parameter to display
+     * @param model
+     *            The HashMap
      * @return The management page of a page
      */
     private String getAdminPageBlockProperty( Page page, int nParamBlock, Map model )
     {
         model.put( MARK_PAGE, page );
-        model.put( MARK_PAGE_INIT_ID, page.getId(  ) );
-        model.put( MARK_PAGE_ORDER_LIST, getOrdersList(  ) );
-        model.put( MARK_PAGE_ROLES_LIST, RoleHome.getRolesList( getUser(  ) ) );
-        model.put( MARK_PAGE_THEMES_LIST, ThemesService.getPageThemes( getLocale(  ) ) );
-        model.put( MARK_IMAGE_URL, getResourceImagePage( page, Integer.toString( page.getId(  ) ) ) );
+        model.put( MARK_PAGE_INIT_ID, page.getId( ) );
+        model.put( MARK_PAGE_ORDER_LIST, getOrdersList( ) );
+        model.put( MARK_PAGE_ROLES_LIST, RoleHome.getRolesList( getUser( ) ) );
+        model.put( MARK_PAGE_THEMES_LIST, ThemesService.getPageThemes( getLocale( ) ) );
+        model.put( MARK_IMAGE_URL, getResourceImagePage( page, Integer.toString( page.getId( ) ) ) );
 
         int nIndexRow = 1;
-        StringBuffer strPageTemplatesRow = new StringBuffer(  );
+        StringBuffer strPageTemplatesRow = new StringBuffer( );
 
         // Scan of the list
-        for ( PageTemplate pageTemplate : PageTemplateHome.getPageTemplatesList(  ) )
+        for ( PageTemplate pageTemplate : PageTemplateHome.getPageTemplatesList( ) )
         {
-            strPageTemplatesRow.append( getTemplatesPageList( pageTemplate.getId(  ), page.getPageTemplateId(  ),
-                    Integer.toString( nIndexRow ) ) );
+            strPageTemplatesRow.append( getTemplatesPageList( pageTemplate.getId( ), page.getPageTemplateId( ), Integer.toString( nIndexRow ) ) );
             nIndexRow++;
         }
 
@@ -530,7 +540,7 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
         // Add in v2.0
         int nManageAuthorization = 1;
 
-        if ( _pageService.isAuthorizedAdminPage( page.getId(  ), PageResourceIdService.PERMISSION_MANAGE, getUser(  ) ) )
+        if ( _pageService.isAuthorizedAdminPage( page.getId( ), PageResourceIdService.PERMISSION_MANAGE, getUser( ) ) )
         {
             nManageAuthorization = 0;
         }
@@ -544,31 +554,36 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
             strTemplate = TEMPLATE_ADMIN_PAGE_BLOCK_CHILDPAGE;
         }
 
-        HtmlTemplate template = AppTemplateService.getTemplate( strTemplate, getLocale(  ), model );
+        HtmlTemplate template = AppTemplateService.getTemplate( strTemplate, getLocale( ), model );
 
-        return template.getHtml(  );
+        return template.getHtml( );
     }
 
     /**
      * Displays the page which contains the management forms of a skin page whose identifier is specified in parameter
      *
-     * @param nPageIdInit The identifier of the init page
-     * @param model The HashMap
+     * @param nPageIdInit
+     *            The identifier of the init page
+     * @param model
+     *            The HashMap
      * @return The management page of a page
      */
     private String getAdminPageBlockSearch( int nPageIdInit, Map model )
     {
         model.put( MARK_PAGE_INIT_ID, Integer.toString( nPageIdInit ) );
 
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_PAGE_BLOCK_SEARCH, getLocale(  ), model );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_PAGE_BLOCK_SEARCH, getLocale( ), model );
 
-        return template.getHtml(  );
+        return template.getHtml( );
     }
 
     /**
      * Provide page data
-     * @param request The HttpServletRequest
-     * @param page the Page Object
+     * 
+     * @param request
+     *            The HttpServletRequest
+     * @param page
+     *            the Page Object
      * @return strErrorUrl
      */
     private String getPageData( HttpServletRequest request, Page page )
@@ -584,55 +599,56 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
         String strOrder = request.getParameter( Parameters.ORDER );
         String strRole = request.getParameter( Parameters.ROLE );
         String strTheme = request.getParameter( Parameters.THEME );
-        String strMetaKeywords = request.getParameter( Parameters.META_KEYWORDS ).trim(  );
-        String strMetaDescription = request.getParameter( Parameters.META_DESCRIPTION ).trim(  );
+        String strMetaKeywords = request.getParameter( Parameters.META_KEYWORDS ).trim( );
+        String strMetaDescription = request.getParameter( Parameters.META_DESCRIPTION ).trim( );
 
         /* Added in v2.0 */
         String strNodeStatus = request.getParameter( PARAMETER_NODE_STATUS );
         int nNodeStatus = Integer.parseInt( strNodeStatus );
 
         // Checks the description length (150 car. maximum)
-        if ( strDescription.length(  ) > 150 )
+        if ( strDescription.length( ) > 150 )
         {
             return AdminMessageService.getMessageUrl( request, MESSAGE_LENGTH_DESCRIPTION, AdminMessage.TYPE_STOP );
         }
 
         // Checks if the mandatory field page name is found in the request
-        if ( strName.trim(  ).equals( "" ) )
+        if ( strName.trim( ).equals( "" ) )
         {
             return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
         }
 
         // Checks if the page name contains HTML special characters
-        else if ( StringUtil.containsHtmlSpecialCharacters( strName ) )
-        {
-            return AdminMessageService.getMessageUrl( request, MESSAGE_TITLE_INVALID_CHARACTERS, AdminMessage.TYPE_STOP );
-        }
-
-        // Checks if the page description contains HTML special characters
-        else if ( StringUtil.containsHtmlSpecialCharacters( strDescription ) )
-        {
-            return AdminMessageService.getMessageUrl( request, MESSAGE_DESCRIPTION_INVALID_CHARACTERS,
-                AdminMessage.TYPE_STOP );
-        }
-
-        // Checks if the META name of the page contains HTML special characters
-        else if ( StringUtil.containsHtmlSpecialCharacters( strMetaKeywords ) )
-        {
-            return AdminMessageService.getMessageUrl( request, MESSAGE_DESCRIPTION_INVALID_CHARACTERS,
-                AdminMessage.TYPE_STOP );
-        }
-
-        // Checks if the META description of the page description contains HTML special characters
-        else if ( StringUtil.containsHtmlSpecialCharacters( strMetaDescription ) )
-        {
-            return AdminMessageService.getMessageUrl( request, MESSAGE_DESCRIPTION_INVALID_CHARACTERS,
-                AdminMessage.TYPE_STOP );
-        }
         else
-        {
-            page.setName( strName );
-        }
+            if ( StringUtil.containsHtmlSpecialCharacters( strName ) )
+            {
+                return AdminMessageService.getMessageUrl( request, MESSAGE_TITLE_INVALID_CHARACTERS, AdminMessage.TYPE_STOP );
+            }
+
+            // Checks if the page description contains HTML special characters
+            else
+                if ( StringUtil.containsHtmlSpecialCharacters( strDescription ) )
+                {
+                    return AdminMessageService.getMessageUrl( request, MESSAGE_DESCRIPTION_INVALID_CHARACTERS, AdminMessage.TYPE_STOP );
+                }
+
+                // Checks if the META name of the page contains HTML special characters
+                else
+                    if ( StringUtil.containsHtmlSpecialCharacters( strMetaKeywords ) )
+                    {
+                        return AdminMessageService.getMessageUrl( request, MESSAGE_DESCRIPTION_INVALID_CHARACTERS, AdminMessage.TYPE_STOP );
+                    }
+
+                    // Checks if the META description of the page description contains HTML special characters
+                    else
+                        if ( StringUtil.containsHtmlSpecialCharacters( strMetaDescription ) )
+                        {
+                            return AdminMessageService.getMessageUrl( request, MESSAGE_DESCRIPTION_INVALID_CHARACTERS, AdminMessage.TYPE_STOP );
+                        }
+                        else
+                        {
+                            page.setName( strName );
+                        }
 
         int nOrder = ( strOrder != null ) ? Integer.parseInt( strOrder ) : PageHome.getNewChildPageOrder( nPageId );
 
@@ -653,9 +669,9 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
      *
      * @return The list of the orders in form of a ReferenceList object
      */
-    private ReferenceList getOrdersList(  )
+    private ReferenceList getOrdersList( )
     {
-        ReferenceList list = new ReferenceList(  );
+        ReferenceList list = new ReferenceList( );
         int nOrderMax = AppPropertiesService.getPropertyInt( PROPERTY_LIST_ORDER_MAX, 15 );
 
         for ( int i = 1; i <= nOrderMax; i++ )
@@ -668,12 +684,14 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
 
     /**
      * Returns an html template containing the list of the portlet types
-     * @param user The AdminUser
+     * 
+     * @param user
+     *            The AdminUser
      * @return The html code
      */
     private Collection<PortletType> getPortletTypeList( AdminUser user )
     {
-        List<PortletType> listPortletType = PortletTypeHome.getPortletTypesList( getLocale(  ) );
+        List<PortletType> listPortletType = PortletTypeHome.getPortletTypesList( getLocale( ) );
 
         return RBACService.getAuthorizedCollection( listPortletType, PortletResourceIdService.PERMISSION_CREATE, user );
     }
@@ -681,30 +699,35 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
     /**
      * Gets an html template displaying the patterns list available in the portal for the layout
      *
-     * @param nTemplatePageId The identifier of the layout to select in the list
-     * @param nPageTemplatePageId The pafa templatepage id
-     * @param nIndexRow the index row
+     * @param nTemplatePageId
+     *            The identifier of the layout to select in the list
+     * @param nPageTemplatePageId
+     *            The pafa templatepage id
+     * @param nIndexRow
+     *            the index row
      * @return The html code of the list
      */
     private String getTemplatesPageList( int nTemplatePageId, int nPageTemplatePageId, String nIndexRow )
     {
-        Map<String, Object> model = new HashMap<String, Object>(  );
+        Map<String, Object> model = new HashMap<String, Object>( );
 
         PageTemplate pageTemplate = PageTemplateHome.findByPrimaryKey( nTemplatePageId );
         model.put( MARK_PAGE_TEMPLATE, pageTemplate );
         model.put( MARK_INDEX_ROW, nIndexRow );
 
-        String strChecked = ( pageTemplate.getId(  ) == nPageTemplatePageId ) ? "checked=\"checked\"" : "";
+        String strChecked = ( pageTemplate.getId( ) == nPageTemplatePageId ) ? "checked=\"checked\"" : "";
         model.put( Markers.PAGE_TEMPLATE_CHECKED, strChecked );
 
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_PAGE_TEMPLATE_ROW, getLocale(  ), model );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_PAGE_TEMPLATE_ROW, getLocale( ), model );
 
-        return template.getHtml(  );
+        return template.getHtml( );
     }
 
     /**
      * Return AdminSite Url
-     * @param nId The PageId
+     * 
+     * @param nId
+     *            The PageId
      * @return url
      */
     private String getUrlPage( int nId )
@@ -712,14 +735,17 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
         UrlItem url = new UrlItem( JSP_ADMIN_SITE );
         url.addParameter( Parameters.PAGE_ID, nId );
 
-        return url.getUrl(  );
+        return url.getUrl( );
     }
 
     /**
      *
-     * @param request The HttpServletRequest
-     * @param page The Page
-     * @param nParentPageId The page parent Id
+     * @param request
+     *            The HttpServletRequest
+     * @param page
+     *            The Page
+     * @param nParentPageId
+     *            The page parent Id
      * @return strParentPageId the new parent id
      */
     private String getNewParentPageId( HttpServletRequest request, Page page, int nParentPageId )
@@ -733,27 +759,26 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
 
             if ( bPageExist )
             {
-                if ( nChildPagePageId >= PortalService.getRootPageId(  ) )
+                if ( nChildPagePageId >= PortalService.getRootPageId( ) )
                 {
                     Page childPage = PageHome.getPage( nChildPagePageId );
-                    int nParentChildPageId = childPage.getParentPageId(  );
+                    int nParentChildPageId = childPage.getParentPageId( );
 
-                    while ( ( nChildPagePageId != page.getId(  ) ) && ( nChildPagePageId != 0 ) )
+                    while ( ( nChildPagePageId != page.getId( ) ) && ( nChildPagePageId != 0 ) )
                     {
-                        if ( nParentChildPageId != page.getId(  ) )
+                        if ( nParentChildPageId != page.getId( ) )
                         {
                             childPage = PageHome.getPage( nParentChildPageId );
-                            nChildPagePageId = childPage.getId(  );
-                            nParentChildPageId = childPage.getParentPageId(  );
+                            nChildPagePageId = childPage.getId( );
+                            nParentChildPageId = childPage.getParentPageId( );
                         }
                         else
                         {
-                            return AdminMessageService.getMessageUrl( request, MESSAGE_PAGE_ID_CHILDPAGE,
-                                AdminMessage.TYPE_STOP );
+                            return AdminMessageService.getMessageUrl( request, MESSAGE_PAGE_ID_CHILDPAGE, AdminMessage.TYPE_STOP );
                         }
                     }
 
-                    if ( nParentPageId != page.getId(  ) )
+                    if ( nParentPageId != page.getId( ) )
                     {
                         String strParentPageId = Integer.toString( nParentPageId );
                         page.setParentPageId( Integer.parseInt( strParentPageId ) );
@@ -765,8 +790,7 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
                 }
                 else
                 {
-                    return AdminMessageService.getMessageUrl( request, MESSAGE_ROOT_PAGE_FORBIDDEN,
-                        AdminMessage.TYPE_STOP );
+                    return AdminMessageService.getMessageUrl( request, MESSAGE_ROOT_PAGE_FORBIDDEN, AdminMessage.TYPE_STOP );
                 }
             }
             else

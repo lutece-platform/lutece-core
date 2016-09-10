@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -39,7 +39,6 @@ import java.util.Map;
 
 import javax.servlet.Filter;
 
-
 /**
  * LuteceFilter
  */
@@ -55,14 +54,19 @@ public class LuteceFilter implements Comparable<LuteceFilter>
 
     /**
      * Constructor
-     * @param strName The name
-     * @param filter The filter class
-     * @param strMapping The mapping url pattern
-     * @param plugin The plugin
-     * @param mapInitParameters Init parameters as a map
+     * 
+     * @param strName
+     *            The name
+     * @param filter
+     *            The filter class
+     * @param strMapping
+     *            The mapping url pattern
+     * @param plugin
+     *            The plugin
+     * @param mapInitParameters
+     *            Init parameters as a map
      */
-    public LuteceFilter( String strName, Filter filter, String strMapping, Plugin plugin,
-        Map<String, String> mapInitParameters )
+    public LuteceFilter( String strName, Filter filter, String strMapping, Plugin plugin, Map<String, String> mapInitParameters )
     {
         _strName = strName;
         _filter = filter;
@@ -76,7 +80,7 @@ public class LuteceFilter implements Comparable<LuteceFilter>
      *
      * @return The Name
      */
-    public String getName(  )
+    public String getName( )
     {
         return _strName;
     }
@@ -84,7 +88,8 @@ public class LuteceFilter implements Comparable<LuteceFilter>
     /**
      * Sets the Name
      *
-     * @param strName The Name
+     * @param strName
+     *            The Name
      */
     public void setName( String strName )
     {
@@ -96,7 +101,7 @@ public class LuteceFilter implements Comparable<LuteceFilter>
      *
      * @return The filter
      */
-    public Filter getFilter(  )
+    public Filter getFilter( )
     {
         return _filter;
     }
@@ -104,7 +109,8 @@ public class LuteceFilter implements Comparable<LuteceFilter>
     /**
      * Sets the filter
      *
-     * @param filter The filter
+     * @param filter
+     *            The filter
      */
     public void setFilter( Filter filter )
     {
@@ -116,7 +122,7 @@ public class LuteceFilter implements Comparable<LuteceFilter>
      *
      * @return The Mapping
      */
-    public String getMappingUrlPattern(  )
+    public String getMappingUrlPattern( )
     {
         return _strMapping;
     }
@@ -124,7 +130,8 @@ public class LuteceFilter implements Comparable<LuteceFilter>
     /**
      * Sets the Mapping
      *
-     * @param strMapping The Mapping
+     * @param strMapping
+     *            The Mapping
      */
     public void setMappingUrlPattern( String strMapping )
     {
@@ -132,11 +139,11 @@ public class LuteceFilter implements Comparable<LuteceFilter>
     }
 
     /**
-         * Returns the Plugin
-         *
-         * @return The Plugin
-         */
-    public Plugin getPlugin(  )
+     * Returns the Plugin
+     *
+     * @return The Plugin
+     */
+    public Plugin getPlugin( )
     {
         return _plugin;
     }
@@ -144,7 +151,8 @@ public class LuteceFilter implements Comparable<LuteceFilter>
     /**
      * Sets the Plugin
      *
-     * @param plugin The plugin
+     * @param plugin
+     *            The plugin
      */
     public void setPlugin( Plugin plugin )
     {
@@ -152,38 +160,42 @@ public class LuteceFilter implements Comparable<LuteceFilter>
     }
 
     /**
-    * Returns init parameters
-    * @return Init parameters in a map object
-    */
-    public Map<String, String> getInitParameters(  )
+     * Returns init parameters
+     * 
+     * @return Init parameters in a map object
+     */
+    public Map<String, String> getInitParameters( )
     {
         return _mapInitParameters;
     }
 
     /**
      * for debug purpose
+     * 
      * @return The name of the filter
      */
     @Override
-    public String toString(  )
+    public String toString( )
     {
-        return getName(  );
+        return getName( );
     }
 
     /**
      *
-     * Returns the order.
-     * {@link #getOrder()} == {@value #ORDER_NOT_DEFINED} means there is no priority set for the filter
+     * Returns the order. {@link #getOrder()} == {@value #ORDER_NOT_DEFINED} means there is no priority set for the filter
+     * 
      * @return the order
      */
-    public int getOrder(  )
+    public int getOrder( )
     {
         return _nOrder;
     }
 
     /**
-     * nOrder ==  == {@value #ORDER_NOT_DEFINED} means there is no priority set for the filter
-     * @param nOrder the order
+     * nOrder == == {@value #ORDER_NOT_DEFINED} means there is no priority set for the filter
+     * 
+     * @param nOrder
+     *            the order
      */
     public void setOrder( int nOrder )
     {
@@ -202,7 +214,7 @@ public class LuteceFilter implements Comparable<LuteceFilter>
             return 1;
         }
 
-        return luteceFilter.getOrder(  ) - this.getOrder(  );
+        return luteceFilter.getOrder( ) - this.getOrder( );
     }
 
     /**
@@ -223,8 +235,8 @@ public class LuteceFilter implements Comparable<LuteceFilter>
      * {@inheritDoc}
      */
     @Override
-    public int hashCode(  )
+    public int hashCode( )
     {
-        return getOrder(  );
+        return getOrder( );
     }
 }

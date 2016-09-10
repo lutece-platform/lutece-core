@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -44,7 +44,6 @@ import fr.paris.lutece.util.ReferenceList;
 import java.util.Collection;
 import java.util.Locale;
 
-
 /**
  * Service to manage front office and back office default rich text editor
  */
@@ -59,15 +58,16 @@ public final class RichTextEditorService
     /**
      * Instantiates a new rich text editor service.
      */
-    private RichTextEditorService(  )
+    private RichTextEditorService( )
     {
     }
 
     /**
      * Get the default rich text editor for back office
+     * 
      * @return The default rich text editor for back office
      */
-    public static String getBackOfficeDefaultEditor(  )
+    public static String getBackOfficeDefaultEditor( )
     {
         String strDefaultEditorName = AppPropertiesService.getProperty( PROPERTY_DEFAULT_EDITOR_BACK_OFFICE );
 
@@ -76,9 +76,10 @@ public final class RichTextEditorService
 
     /**
      * Get the default rich text editor for front office
+     * 
      * @return The default rich text editor for front office
      */
-    public static String getFrontOfficeDefaultEditor(  )
+    public static String getFrontOfficeDefaultEditor( )
     {
         String strDefaultEditorName = AppPropertiesService.getProperty( PROPERTY_DEFAULT_EDITOR_FRONT_OFFICE );
 
@@ -87,7 +88,9 @@ public final class RichTextEditorService
 
     /**
      * Update the default rich text editor for back office
-     * @param strEditorUrl Name of the new rich text editor for back office
+     * 
+     * @param strEditorUrl
+     *            Name of the new rich text editor for back office
      */
     public static void updateBackOfficeDefaultEditor( String strEditorUrl )
     {
@@ -96,7 +99,9 @@ public final class RichTextEditorService
 
     /**
      * Update the default rich text editor for front office
-     * @param strEditorUrl Name of the new rich text editor for front office
+     * 
+     * @param strEditorUrl
+     *            Name of the new rich text editor for front office
      */
     public static void updateFrontOfficeDefaultEditor( String strEditorUrl )
     {
@@ -105,19 +110,21 @@ public final class RichTextEditorService
 
     /**
      * Get the list of rich text editors for back office
-     * @param locale The locale of to use
+     * 
+     * @param locale
+     *            The locale of to use
      * @return The list of rich text editors for back office
      */
     public static ReferenceList getListEditorsForBackOffice( Locale locale )
     {
-        Collection<RichTextEditor> listRichTextEditor = RichTextEditorHome.findListEditorsForBackOffice(  );
-        ReferenceList refList = new ReferenceList(  );
+        Collection<RichTextEditor> listRichTextEditor = RichTextEditorHome.findListEditorsForBackOffice( );
+        ReferenceList refList = new ReferenceList( );
 
         for ( RichTextEditor editor : listRichTextEditor )
         {
-            ReferenceItem refItem = new ReferenceItem(  );
-            refItem.setCode( editor.getEditorName(  ) );
-            refItem.setName( I18nService.getLocalizedString( editor.getDescription(  ), locale ) );
+            ReferenceItem refItem = new ReferenceItem( );
+            refItem.setCode( editor.getEditorName( ) );
+            refItem.setName( I18nService.getLocalizedString( editor.getDescription( ), locale ) );
             refList.add( refItem );
         }
 
@@ -126,19 +133,21 @@ public final class RichTextEditorService
 
     /**
      * Get the list of rich text editors for front office
-     * @param locale The locale of to use
+     * 
+     * @param locale
+     *            The locale of to use
      * @return The list of rich text editors for front office
      */
     public static ReferenceList getListEditorsForFrontOffice( Locale locale )
     {
-        Collection<RichTextEditor> listRichTextEditor = RichTextEditorHome.findListEditorsForFrontOffice(  );
-        ReferenceList refList = new ReferenceList(  );
+        Collection<RichTextEditor> listRichTextEditor = RichTextEditorHome.findListEditorsForFrontOffice( );
+        ReferenceList refList = new ReferenceList( );
 
         for ( RichTextEditor editor : listRichTextEditor )
         {
-            ReferenceItem refItem = new ReferenceItem(  );
-            refItem.setCode( editor.getEditorName(  ) );
-            refItem.setName( I18nService.getLocalizedString( editor.getDescription(  ), locale ) );
+            ReferenceItem refItem = new ReferenceItem( );
+            refItem.setCode( editor.getEditorName( ) );
+            refItem.setName( I18nService.getLocalizedString( editor.getDescription( ), locale ) );
             refList.add( refItem );
         }
 

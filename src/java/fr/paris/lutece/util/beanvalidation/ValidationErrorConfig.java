@@ -33,47 +33,50 @@
  */
 package fr.paris.lutece.util.beanvalidation;
 
-
 /**
  * Interface for ValidationError Configs
  */
 public interface ValidationErrorConfig
 {
     /**
-     * Returns the list of constraint descriptor attribute that will appear
-     * in the value#1 of the message
+     * Returns the list of constraint descriptor attribute that will appear in the value#1 of the message
+     * 
      * @return A list of attributes separated with spaces or commas
      */
-    String getValue1Attributes(  );
+    String getValue1Attributes( );
 
     /**
-     * Returns the list of constraint descriptor attribute that will appear
-     * in the value#2 of the message
+     * Returns the list of constraint descriptor attribute that will appear in the value#2 of the message
+     * 
      * @return A list of attributes separated with spaces or commas
      */
-    String getValue2Attributes(  );
+    String getValue2Attributes( );
 
     /**
      * The array of all variables prefix
+     * 
      * @return The array
      */
-    String[] getVariablesPrefix(  );
+    String [ ] getVariablesPrefix( );
 
     /**
      * The prefix of fields name in the resource file (ex : myplugin.model.entity.product.field." )
+     * 
      * @return the _strFieldKeysPrefix
      */
-    String getFieldKeysPrefix(  );
+    String getFieldKeysPrefix( );
 
     /**
      * Returns the begin wrapper string for fieldname rendering (ex : "'" or "&lt;strong"&gt;" )
+     * 
      * @return The begin string
      */
-    String getFieldWrapperBegin(  );
+    String getFieldWrapperBegin( );
 
     /**
      * Returns the end wrapper string for fieldname rendering (ex : "'" or "&lt;/strong"&gt;" )
+     * 
      * @return The end string
      */
-    String getFieldWrapperEnd(  );
+    String getFieldWrapperEnd( );
 }

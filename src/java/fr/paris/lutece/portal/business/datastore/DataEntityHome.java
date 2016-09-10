@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -35,26 +35,27 @@ package fr.paris.lutece.portal.business.datastore;
 
 import java.util.List;
 
-
 /**
  * This class provides instances management methods (create, find, ...) for Entity objects
  */
 public final class DataEntityHome
 {
     // Static variable pointed at the DAO instance
-    private static IDataEntityDAO _dao = new DataEntityDAO(  );
+    private static IDataEntityDAO _dao = new DataEntityDAO( );
 
     /**
      * Private constructor - this class need not be instantiated
      */
-    private DataEntityHome(  )
+    private DataEntityHome( )
     {
     }
 
     /**
      * Create an instance of the entity class
-     * @param entity The instance of the Entity which contains the informations to store
-     * @return The  instance of entity which has been created with its primary key.
+     * 
+     * @param entity
+     *            The instance of the Entity which contains the informations to store
+     * @return The instance of entity which has been created with its primary key.
      */
     public static DataEntity create( DataEntity entity )
     {
@@ -65,8 +66,10 @@ public final class DataEntityHome
 
     /**
      * Update of the entity data specified in parameter
-     * @param entity The instance of the Entity which contains the data to store
-     * @return The instance of the  entity which has been updated
+     * 
+     * @param entity
+     *            The instance of the Entity which contains the data to store
+     * @return The instance of the entity which has been updated
      */
     public static DataEntity update( DataEntity entity )
     {
@@ -77,19 +80,23 @@ public final class DataEntityHome
 
     /**
      * Remove the entity whose identifier is specified in parameter
-     * @param strKey The entity Id
+     * 
+     * @param strKey
+     *            The entity Id
      */
     public static void remove( String strKey )
     {
         _dao.delete( strKey );
     }
 
-    ///////////////////////////////////////////////////////////////////////////
+    // /////////////////////////////////////////////////////////////////////////
     // Finders
 
     /**
      * Returns an instance of a entity whose identifier is specified in parameter
-     * @param strKey The entity primary key
+     * 
+     * @param strKey
+     *            The entity primary key
      * @return an instance of Entity
      */
     public static DataEntity findByPrimaryKey( String strKey )
@@ -99,10 +106,11 @@ public final class DataEntityHome
 
     /**
      * Load the data of all the entity objects and returns them in form of a collection
+     * 
      * @return the list which contains the data of all the entity objects
      */
-    public static List<DataEntity> findAll(  )
+    public static List<DataEntity> findAll( )
     {
-        return _dao.selectEntitiesList(  );
+        return _dao.selectEntitiesList( );
     }
 }

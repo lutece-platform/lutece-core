@@ -72,14 +72,16 @@ public class AdminUserDAOTest extends LuteceTestCase
         user.setEmail( randomUsername + "@lutece.fr" );
         adminUserDAO.insert( user );
 
-        try {
+        try
+        {
             LuteceDefaultAdminUser storedUser = adminUserDAO.loadDefaultAdminUser( user.getUserId( ) );
             assertEquals( randomUsername, storedUser.getAccessCode( ) );
             assertEquals( randomUsername, storedUser.getFirstName( ) );
             assertEquals( randomUsername, storedUser.getLastName( ) );
             assertEquals( randomUsername + "@lutece.fr", storedUser.getEmail( ) );
             assertTrue( storedUser.getPassword( ).check( randomUsername ) );
-        } finally
+        }
+        finally
         {
             adminUserDAO.delete( user.getUserId( ) );
         }
@@ -117,7 +119,8 @@ public class AdminUserDAOTest extends LuteceTestCase
         user.setEmail( randomUsername + "@lutece.fr" );
         adminUserDAO.insert( user );
 
-        try {
+        try
+        {
             LuteceDefaultAdminUser storedUser = adminUserDAO.loadDefaultAdminUser( user.getUserId( ) );
             String changedRandomUsername = randomUsername + "_2";
             storedUser.setAccessCode( changedRandomUsername );
@@ -135,7 +138,8 @@ public class AdminUserDAOTest extends LuteceTestCase
             assertEquals( changedRandomUsername, storedUser.getLastName( ) );
             assertEquals( changedRandomUsername + "@lutece.fr", storedUser.getEmail( ) );
             assertTrue( storedUser.getPassword( ).check( changedRandomUsername ) );
-        } finally
+        }
+        finally
         {
             adminUserDAO.delete( user.getUserId( ) );
         }
@@ -154,11 +158,12 @@ public class AdminUserDAOTest extends LuteceTestCase
         user.setEmail( randomUsername + "@lutece.fr" );
         adminUserDAO.insert( user );
 
-        try {
+        try
+        {
             adminUserDAO.insertNewPasswordInHistory( passwordFactory.getPasswordFromCleartext( "1" ), user.getUserId( ) );
-            Thread.sleep(1000); //Need this because the PRIMARY KEY uses the timestamp
+            Thread.sleep( 1000 ); // Need this because the PRIMARY KEY uses the timestamp
             adminUserDAO.insertNewPasswordInHistory( passwordFactory.getPasswordFromCleartext( "2" ), user.getUserId( ) );
-            Thread.sleep(1000); //Need this because the PRIMARY KEY uses the timestamp
+            Thread.sleep( 1000 ); // Need this because the PRIMARY KEY uses the timestamp
             adminUserDAO.insertNewPasswordInHistory( passwordFactory.getPasswordFromCleartext( "3" ), user.getUserId( ) );
 
             List<IPassword> passwords = adminUserDAO.selectUserPasswordHistory( user.getUserId( ) );
@@ -167,13 +172,18 @@ public class AdminUserDAOTest extends LuteceTestCase
             assertTrue( passwords.get( 0 ).check( "3" ) );
             assertTrue( passwords.get( 1 ).check( "2" ) );
             assertTrue( passwords.get( 2 ).check( "1" ) );
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e); //Should not happen
-        } finally
+        }
+        catch( InterruptedException e )
         {
-            try {
+            throw new RuntimeException( e ); // Should not happen
+        }
+        finally
+        {
+            try
+            {
                 adminUserDAO.removeAllPasswordHistoryForUser( user.getUserId( ) );
-            } finally
+            }
+            finally
             {
             }
             adminUserDAO.delete( user.getUserId( ) );

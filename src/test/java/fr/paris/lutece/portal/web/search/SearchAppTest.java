@@ -47,7 +47,6 @@ import org.springframework.web.context.request.RequestContextListener;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletRequestEvent;
 
-
 /**
  * SearchApp Test Class
  *
@@ -56,18 +55,19 @@ public class SearchAppTest extends LuteceTestCase
 {
     /**
      * Test of getPage method, of class fr.paris.lutece.portal.web.search.SearchApp.
+     * 
      * @throws SiteMessageException
      */
-    public void testGetPage(  ) throws SiteMessageException
+    public void testGetPage( ) throws SiteMessageException
     {
         System.out.println( "getPage" );
 
-        MockHttpServletRequest request = new MockHttpServletRequest(  );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
         request.addParameter( "query", "lutece" );
         request.addParameter( "items_per_page", "5" );
 
-        RequestContextListener listener = new RequestContextListener(  );
-        ServletContext context = new MockServletContext(  );
+        RequestContextListener listener = new RequestContextListener( );
+        ServletContext context = new MockServletContext( );
         listener.requestInitialized( new ServletRequestEvent( context, request ) );
 
         int nMode = 0;

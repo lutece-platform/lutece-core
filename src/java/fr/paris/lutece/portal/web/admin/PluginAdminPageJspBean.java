@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -39,7 +39,6 @@ import fr.paris.lutece.portal.service.plugin.PluginService;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  * Provides generic methods for plugin jspBeans
  */
@@ -52,15 +51,17 @@ public abstract class PluginAdminPageJspBean extends AdminFeaturesPageJspBean
     private transient Plugin _plugin;
 
     /**
-     * Initialize the jspbean data
-     * Allows to set the feature url and feature title associated
-     * @param request the HTTP request
-     * @param strRight The right
-     * @throws fr.paris.lutece.portal.service.admin.AccessDeniedException Access denied exception
+     * Initialize the jspbean data Allows to set the feature url and feature title associated
+     * 
+     * @param request
+     *            the HTTP request
+     * @param strRight
+     *            The right
+     * @throws fr.paris.lutece.portal.service.admin.AccessDeniedException
+     *             Access denied exception
      */
     @Override
-    public void init( HttpServletRequest request, String strRight )
-        throws AccessDeniedException
+    public void init( HttpServletRequest request, String strRight ) throws AccessDeniedException
     {
         super.init( request, strRight );
 
@@ -69,16 +70,16 @@ public abstract class PluginAdminPageJspBean extends AdminFeaturesPageJspBean
 
         if ( strPluginName != null )
         {
-            if ( ( _plugin == null ) || ( !_plugin.getName(  ).equals( strPluginName ) ) )
+            if ( ( _plugin == null ) || ( !_plugin.getName( ).equals( strPluginName ) ) )
             {
                 _plugin = PluginService.getPlugin( strPluginName );
             }
         }
 
         // if no icon is provided for the feature, try to use the plugin's one
-        if ( ( _plugin != null ) && ( ( getFeatureIcon(  ) == null ) || ( getFeatureIcon(  ).equals( "" ) ) ) )
+        if ( ( _plugin != null ) && ( ( getFeatureIcon( ) == null ) || ( getFeatureIcon( ).equals( "" ) ) ) )
         {
-            setFeatureIcon( _plugin.getIconUrl(  ) );
+            setFeatureIcon( _plugin.getIconUrl( ) );
         }
     }
 
@@ -87,7 +88,7 @@ public abstract class PluginAdminPageJspBean extends AdminFeaturesPageJspBean
      *
      * @return The Plugin
      */
-    public Plugin getPlugin(  )
+    public Plugin getPlugin( )
     {
         return _plugin;
     }

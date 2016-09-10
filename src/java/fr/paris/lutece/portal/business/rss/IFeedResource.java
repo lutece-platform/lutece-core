@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -36,7 +36,6 @@ package fr.paris.lutece.portal.business.rss;
 import java.util.Date;
 import java.util.List;
 
-
 /**
  * A feed resource.
  * <ul>
@@ -53,85 +52,106 @@ public interface IFeedResource
 {
     /**
      * Gets the feed title
+     * 
      * @return the title
      */
-    String getTitle(  );
+    String getTitle( );
 
     /**
      * Sets the feed title
-     * @param strTitle the title
+     * 
+     * @param strTitle
+     *            the title
      */
     void setTitle( String strTitle );
 
     /**
      * Gets the feed link - usually the site url.
+     * 
      * @return the link
      */
-    String getLink(  );
+    String getLink( );
 
     /**
      * Sets the feed link
-     * @param strLink the link -  usually the site url.
+     * 
+     * @param strLink
+     *            the link - usually the site url.
      */
     void setLink( String strLink );
 
     /**
      * Gets the feed description
+     * 
      * @return the description
      */
-    String getDescription(  );
+    String getDescription( );
 
     /**
      * Sets the description
-     * @param strDescription the description
+     * 
+     * @param strDescription
+     *            the description
      */
     void setDescription( String strDescription );
 
     /**
      * Gets the feed language
+     * 
      * @return the language
      */
-    String getLanguage(  );
+    String getLanguage( );
 
     /**
      * Sets the language
-     * @param strLanguage the language
+     * 
+     * @param strLanguage
+     *            the language
      */
     void setLanguage( String strLanguage );
 
     /**
      * Gets the feed items
+     * 
      * @return the items
      */
-    List<IFeedResourceItem> getItems(  );
+    List<IFeedResourceItem> getItems( );
 
     /**
      * Sets the feed items
-     * @param listItems the items
+     * 
+     * @param listItems
+     *            the items
      */
     void setItems( List<IFeedResourceItem> listItems );
 
     /**
      * Gets the image
+     * 
      * @return the image
      */
-    IFeedResourceImage getImage(  );
+    IFeedResourceImage getImage( );
 
     /**
      * Sets the image
-     * @param image the image
+     * 
+     * @param image
+     *            the image
      */
     void setImage( IFeedResourceImage image );
 
     /**
      * Gets the item publishing date
+     * 
      * @return the date
      */
-    Date getDate(  );
+    Date getDate( );
 
     /**
      * Set the item publishing date
-     * @param date the date
+     * 
+     * @param date
+     *            the date
      */
     void setDate( Date date );
 }

@@ -40,18 +40,17 @@ import javax.security.auth.login.LoginException;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  *
  */
 public class MokeLuteceAuthentication implements LuteceAuthentication
 {
     /** Creates a new instance of MokeLuteceAuthentication */
-    public MokeLuteceAuthentication(  )
+    public MokeLuteceAuthentication( )
     {
     }
 
-    public String getAuthServiceName(  )
+    public String getAuthServiceName( )
     {
         return "MOKE AUTHENTICATION SERVICE";
     }
@@ -61,8 +60,7 @@ public class MokeLuteceAuthentication implements LuteceAuthentication
         return null;
     }
 
-    public LuteceUser login( final String strUserName, final String strUserPassword, HttpServletRequest request )
-        throws LoginException
+    public LuteceUser login( final String strUserName, final String strUserPassword, HttpServletRequest request ) throws LoginException
     {
         return null;
     }
@@ -76,22 +74,22 @@ public class MokeLuteceAuthentication implements LuteceAuthentication
         return false;
     }
 
-    public LuteceUser getAnonymousUser(  )
+    public LuteceUser getAnonymousUser( )
     {
         return null;
     }
 
     public boolean isUserInRole( LuteceUser user, HttpServletRequest request, String strRole )
     {
-        return Arrays.asList( user.getRoles(  ) ).contains( strRole );
+        return Arrays.asList( user.getRoles( ) ).contains( strRole );
     }
 
-    public String[] getRolesByUser( LuteceUser user )
+    public String [ ] getRolesByUser( LuteceUser user )
     {
         return null;
     }
 
-    public boolean isExternalAuthentication(  )
+    public boolean isExternalAuthentication( )
     {
         return false;
     }
@@ -101,32 +99,32 @@ public class MokeLuteceAuthentication implements LuteceAuthentication
         return null;
     }
 
-    public String getLoginPageUrl(  )
+    public String getLoginPageUrl( )
     {
         return null;
     }
 
-    public String getDoLoginUrl(  )
+    public String getDoLoginUrl( )
     {
         return null;
     }
 
-    public String getDoLogoutUrl(  )
+    public String getDoLogoutUrl( )
     {
         return null;
     }
 
-    public String getNewAccountPageUrl(  )
+    public String getNewAccountPageUrl( )
     {
         return null;
     }
 
-    public String getViewAccountPageUrl(  )
+    public String getViewAccountPageUrl( )
     {
         return null;
     }
 
-    public String getLostPasswordPageUrl(  )
+    public String getLostPasswordPageUrl( )
     {
         return null;
     }
@@ -136,22 +134,22 @@ public class MokeLuteceAuthentication implements LuteceAuthentication
         return null;
     }
 
-    public String getAccessDeniedTemplate(  )
+    public String getAccessDeniedTemplate( )
     {
         return null;
     }
 
-    public String getAccessControledTemplate(  )
+    public String getAccessControledTemplate( )
     {
         return null;
     }
 
-    public boolean isUsersListAvailable(  )
+    public boolean isUsersListAvailable( )
     {
         return false;
     }
 
-    public Collection<LuteceUser> getUsers(  )
+    public Collection<LuteceUser> getUsers( )
     {
         return null;
     }
@@ -161,27 +159,27 @@ public class MokeLuteceAuthentication implements LuteceAuthentication
         return null;
     }
 
-    public boolean isDelegatedAuthentication(  )
+    public boolean isDelegatedAuthentication( )
     {
         return false;
     }
 
-    public boolean isMultiAuthenticationSupported(  )
+    public boolean isMultiAuthenticationSupported( )
     {
         return false;
     }
 
-    public String getIconUrl(  )
+    public String getIconUrl( )
     {
         return null;
     }
 
-    public String getName(  )
+    public String getName( )
     {
         return null;
     }
 
-    public String getPluginName(  )
+    public String getPluginName( )
     {
         return null;
     }
@@ -191,7 +189,7 @@ public class MokeLuteceAuthentication implements LuteceAuthentication
     }
 
     @Override
-    public String getLostLoginPageUrl(  )
+    public String getLostLoginPageUrl( )
     {
         return null;
     }

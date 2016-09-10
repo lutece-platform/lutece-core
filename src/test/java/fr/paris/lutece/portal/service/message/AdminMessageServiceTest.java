@@ -39,7 +39,6 @@ import fr.paris.lutece.portal.web.l10n.LocaleService;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.MokeHttpServletRequest;
 
-
 /**
  * AdminMessageService Test Class
  *
@@ -49,15 +48,17 @@ public class AdminMessageServiceTest extends LuteceTestCase
     /**
      * Test of getMessageUrl method, of class fr.paris.lutece.portal.service.message.AdminMessageService.
      */
-    public void testGetMessageUrl(  )
+    public void testGetMessageUrl( )
     {
         System.out.println( "getMessageUrl" );
 
-        MokeHttpServletRequest request = new MokeHttpServletRequest(  );
+        MokeHttpServletRequest request = new MokeHttpServletRequest( );
         String strMessageKey = Messages.MANDATORY_FIELDS;
         String strButtonUrl = "url";
         String strTarget = "target";
-        Object[] args = { "arg1", "arg2" };
+        Object [ ] args = {
+                "arg1", "arg2"
+        };
 
         AdminMessageService.getMessageUrl( request, strMessageKey );
         AdminMessageService.getMessageUrl( request, strMessageKey, AdminMessage.TYPE_STOP );
@@ -71,22 +72,21 @@ public class AdminMessageServiceTest extends LuteceTestCase
     /**
      * Test of getMessage method, of class fr.paris.lutece.portal.service.message.AdminMessageService.
      */
-    public void testGetMessage(  )
+    public void testGetMessage( )
     {
         System.out.println( "getMessage" );
 
-        MokeHttpServletRequest request = new MokeHttpServletRequest(  );
+        MokeHttpServletRequest request = new MokeHttpServletRequest( );
         String strMessageKey = Messages.MANDATORY_FIELDS;
         String strButtonUrl = "url";
         String strTarget = "target";
         AdminMessageService.getMessageUrl( request, strMessageKey, strButtonUrl, strTarget, AdminMessage.TYPE_STOP );
 
         AdminMessage message = AdminMessageService.getMessage( request );
-        assertEquals( message.getText( LocaleService.getDefault(  ) ),
-            I18nService.getLocalizedString( strMessageKey, LocaleService.getDefault(  ) ) );
-        assertEquals( message.getUrl(  ), strButtonUrl );
-        assertEquals( message.getTarget(  ), strTarget );
-        message.getTitle( LocaleService.getDefault(  ) );
-        message.isCancel(  );
+        assertEquals( message.getText( LocaleService.getDefault( ) ), I18nService.getLocalizedString( strMessageKey, LocaleService.getDefault( ) ) );
+        assertEquals( message.getUrl( ), strButtonUrl );
+        assertEquals( message.getTarget( ), strTarget );
+        message.getTitle( LocaleService.getDefault( ) );
+        message.isCancel( );
     }
 }

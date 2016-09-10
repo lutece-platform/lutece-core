@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -46,46 +46,49 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
-
 /**
  * The initialization servlet of the application. This servlet is declared load-on-startup in the downloadFile web.xml
  */
 public class AppInitListener implements ServletContextListener
 {
-    //////////////////////////////////////////////////////////////////////////////////
-    //Constants
+    // ////////////////////////////////////////////////////////////////////////////////
+    // Constants
     private static final String PATH_CONF = "/WEB-INF/conf/";
 
     /**
      * Initialize the application
-     * @param sce context event
+     * 
+     * @param sce
+     *            context event
      */
     @Override
     public void contextInitialized( ServletContextEvent sce )
     {
-        ServletContext context = sce.getServletContext(  );
+        ServletContext context = sce.getServletContext( );
 
         // Initializes the PathService that give Absolute paths or URL to other services
         AppPathService.init( context );
 
         // Initializes all other services
-        AppInit.initServices( context, PATH_CONF, AppPathService.getWebAppPath(  ) );
+        AppInit.initServices( context, PATH_CONF, AppPathService.getWebAppPath( ) );
     }
 
     /**
      * Shutdown the application
-     * @param sce context event
+     * 
+     * @param sce
+     *            context event
      */
     @Override
     public void contextDestroyed( ServletContextEvent sce )
     {
-        MailService.shutdown(  );
-        AppDaemonService.shutdown(  );
-        JobSchedulerService.shutdown(  );
-        ShutdownServiceManager.shutdown(  );
-        CacheService.getInstance(  ).shutdown(  );
-        AppConnectionService.releasePool(  );
-        SpringContextService.shutdown(  );
+        MailService.shutdown( );
+        AppDaemonService.shutdown( );
+        JobSchedulerService.shutdown( );
+        ShutdownServiceManager.shutdown( );
+        CacheService.getInstance( ).shutdown( );
+        AppConnectionService.releasePool( );
+        SpringContextService.shutdown( );
         AppLogService.info( "Application stopped" );
     }
 }

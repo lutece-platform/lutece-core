@@ -35,7 +35,6 @@ package fr.paris.lutece.portal.service.html;
 
 import fr.paris.lutece.test.LuteceTestCase;
 
-
 /**
  * HtmlCleanerService Test Class
  */
@@ -44,11 +43,11 @@ public class HtmlCleanerServiceTest extends LuteceTestCase
     /**
      * Test of clean method, of class fr.paris.lutece.portal.service.html.HtmlCleanerService.
      */
-    public void testClean(  ) throws HtmlCleanerException
+    public void testClean( ) throws HtmlCleanerException
     {
         System.out.println( "clean" );
 
-        //TODO expression de test en dure...
+        // TODO expression de test en dure...
         String strSource = "<p><font color=red>Hello, World</font>";
 
         // Add double quote to attribute's values
@@ -66,7 +65,7 @@ public class HtmlCleanerServiceTest extends LuteceTestCase
         {
             result = HtmlCleanerService.clean( strSource );
         }
-        catch ( HtmlCleanerException ex )
+        catch( HtmlCleanerException ex )
         {
             bExceptionCaught = true;
         }

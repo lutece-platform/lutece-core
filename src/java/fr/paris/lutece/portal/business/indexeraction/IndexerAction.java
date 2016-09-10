@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,7 +33,6 @@
  */
 package fr.paris.lutece.portal.business.indexeraction;
 
-
 /**
  *
  * IndexerAction
@@ -54,14 +53,16 @@ public class IndexerAction
      *
      * @return the indexer name
      */
-    public String getIndexerName(  )
+    public String getIndexerName( )
     {
         return _strIndexerName;
     }
 
     /**
      * set the indexer name
-     * @param indexerName the indexer name
+     * 
+     * @param indexerName
+     *            the indexer name
      */
     public void setIndexerName( String indexerName )
     {
@@ -69,17 +70,19 @@ public class IndexerAction
     }
 
     /**
-    *
-    * @return the action id
-    */
-    public int getIdAction(  )
+     *
+     * @return the action id
+     */
+    public int getIdAction( )
     {
         return _nIdAction;
     }
 
     /**
      * set the action id
-     * @param idAction idAction
+     * 
+     * @param idAction
+     *            idAction
      */
     public void setIdAction( int idAction )
     {
@@ -87,17 +90,19 @@ public class IndexerAction
     }
 
     /**
-    *
-    * @return the  portlet id
-    */
-    public int getIdPortlet(  )
+     *
+     * @return the portlet id
+     */
+    public int getIdPortlet( )
     {
         return _nIdPortlet;
     }
 
     /**
-     * set the  portlet id
-     * @param idPortlet the  portlet id
+     * set the portlet id
+     * 
+     * @param idPortlet
+     *            the portlet id
      */
     public void setIdPortlet( int idPortlet )
     {
@@ -108,14 +113,16 @@ public class IndexerAction
      *
      * @return the document Id
      */
-    public String getIdDocument(  )
+    public String getIdDocument( )
     {
         return _strIdDocument;
     }
 
     /**
      * set the DocumentId
-     * @param strIdDocument  document id
+     * 
+     * @param strIdDocument
+     *            document id
      */
     public void setIdDocument( String strIdDocument )
     {
@@ -124,16 +131,19 @@ public class IndexerAction
 
     /**
      * get the task id
+     * 
      * @return the task id
      */
-    public int getIdTask(  )
+    public int getIdTask( )
     {
         return _nIdTask;
     }
 
     /**
      * set the task id
-     * @param idTask the task id
+     * 
+     * @param idTask
+     *            the task id
      */
     public void setIdTask( int idTask )
     {

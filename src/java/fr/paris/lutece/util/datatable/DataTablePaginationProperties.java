@@ -33,7 +33,6 @@
  */
 package fr.paris.lutece.util.datatable;
 
-
 /**
  * The Class DataTablePaginationProperties.
  */
@@ -44,16 +43,19 @@ public class DataTablePaginationProperties
 
     /**
      * Get the number of items to display per page
+     * 
      * @return The number of items to display per page
      */
-    public int getItemsPerPage(  )
+    public int getItemsPerPage( )
     {
         return _nItemsPerPage;
     }
 
     /**
      * Set the number of items to display per page
-     * @param nItemsPerPage The number of items to display per page
+     * 
+     * @param nItemsPerPage
+     *            The number of items to display per page
      */
     public void setItemsPerPage( int nItemsPerPage )
     {
@@ -62,16 +64,19 @@ public class DataTablePaginationProperties
 
     /**
      * Get the current page index
+     * 
      * @return The current page index
      */
-    public int getCurrentPageIndex(  )
+    public int getCurrentPageIndex( )
     {
         return _nCurrentPageIndex;
     }
 
     /**
      * Set the current page index
-     * @param nCurrentPageIndex The current page index
+     * 
+     * @param nCurrentPageIndex
+     *            The current page index
      */
     public void setCurrentPageIndex( int nCurrentPageIndex )
     {

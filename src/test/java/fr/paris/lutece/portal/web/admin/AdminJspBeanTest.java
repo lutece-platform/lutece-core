@@ -50,65 +50,65 @@ import fr.paris.lutece.portal.web.LocalVariables;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.MokeHttpServletRequest;
 
-
 /**
  * AdminJspBeanTest Test Class
  *
  */
 public class AdminJspBeanTest extends LuteceTestCase
 {
-    private static final String PARAMETER_PAGE_ID = "page_id"; // home page	
+    private static final String PARAMETER_PAGE_ID = "page_id"; // home page
     private static final String TEST_PAGE_ID = "1"; // home page
     private static final String ATTRIBUTE_ADMIN_USER = "lutece_admin_user";
 
     /**
      * Test of getAdminPage method, of class fr.paris.lutece.portal.web.admin.AdminJspBean.
      */
-    public void testGetAdminPage(  ) throws AccessDeniedException
+    public void testGetAdminPage( ) throws AccessDeniedException
     {
         System.out.println( "getAdminPage" );
 
-        MokeHttpServletRequest request = new MokeHttpServletRequest(  );
+        MokeHttpServletRequest request = new MokeHttpServletRequest( );
         request.addMokeParameters( PARAMETER_PAGE_ID, TEST_PAGE_ID );
-        request.registerAdminUserWithRigth( new AdminUser(  ), AdminPageJspBean.RIGHT_MANAGE_ADMIN_SITE );
+        request.registerAdminUserWithRigth( new AdminUser( ), AdminPageJspBean.RIGHT_MANAGE_ADMIN_SITE );
 
-        AdminPageJspBean instance = new AdminPageJspBean(  );
+        AdminPageJspBean instance = new AdminPageJspBean( );
         instance.init( request, AdminPageJspBean.RIGHT_MANAGE_ADMIN_SITE );
         instance.getAdminPage( request );
     }
 
     /**
      * Test of getAdminPagePreview method, of class fr.paris.lutece.portal.web.admin.AdminJspBean.
+     * 
      * @throws UserNotSignedException
      */
-    public void testGetAdminPagePreview(  ) throws AccessDeniedException, UserNotSignedException
+    public void testGetAdminPagePreview( ) throws AccessDeniedException, UserNotSignedException
     {
         System.out.println( "getAdminPagePreview" );
 
-        MockHttpServletRequest request = new MockHttpServletRequest(  );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
 
         // FIXME : MokeHttpServletRequest should be fixed to support attributes
-        Map<String, Right> mapRights = new HashMap<String, Right>(  );
-        Right right = new Right(  );
-        right.setId( AdminPageJspBean.RIGHT_MANAGE_ADMIN_SITE  );
-        mapRights.put( AdminPageJspBean.RIGHT_MANAGE_ADMIN_SITE , right );
+        Map<String, Right> mapRights = new HashMap<String, Right>( );
+        Right right = new Right( );
+        right.setId( AdminPageJspBean.RIGHT_MANAGE_ADMIN_SITE );
+        mapRights.put( AdminPageJspBean.RIGHT_MANAGE_ADMIN_SITE, right );
         AdminUser user = new AdminUser( );
         user.setRights( mapRights );
         user.setLocale( new Locale( "fr", "FR", "" ) );
         request.getSession( true ).setAttribute( ATTRIBUTE_ADMIN_USER, user );
         LocalVariables.setLocal( new MockServletConfig( ), request, new MockHttpServletResponse( ) );
 
-        AdminPageJspBean instance = new AdminPageJspBean(  );
+        AdminPageJspBean instance = new AdminPageJspBean( );
         instance.init( request, AdminPageJspBean.RIGHT_MANAGE_ADMIN_SITE );
 
         try
         {
             instance.getAdminPagePreview( request );
         }
-        catch ( SiteMessageException e )
+        catch( SiteMessageException e )
         {
             // TODO Auto-generated catch block
-            e.printStackTrace(  );
+            e.printStackTrace( );
         }
     }
 

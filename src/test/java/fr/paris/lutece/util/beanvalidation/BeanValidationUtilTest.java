@@ -46,7 +46,6 @@ import java.util.Locale;
 
 import javax.validation.Validator;
 
-
 /**
  * BeanValidationUtilTest
  */
@@ -56,22 +55,24 @@ public class BeanValidationUtilTest
      * Test of validate method, of class BeanValidationUtil.
      */
     @Test
-    public void testValidate_GenericType_Locale(  )
+    public void testValidate_GenericType_Locale( )
     {
         System.out.println( "validate" );
 
         Locale locale = Locale.FRENCH;
 
-        Bean[] beans = { new BeanDefaultMessages(  ), new BeanLuteceMessages(  ) };
+        Bean [ ] beans = {
+                new BeanDefaultMessages( ), new BeanLuteceMessages( )
+        };
 
         for ( int i = 0; i < beans.length; i++ )
         {
-            Bean bean = beans[i];
+            Bean bean = beans [i];
             bean.setName( "contains-invalid-char-1" );
             bean.setDescription( "too-short" );
             bean.setEmail( "invalid-email" );
 
-            long lTimeNow = new java.util.Date(  ).getTime(  );
+            long lTimeNow = new java.util.Date( ).getTime( );
             bean.setDateBirth( new Date( lTimeNow + 1000000000L ) );
             bean.setDateEndOfWorld( new Date( lTimeNow - 1000000000L ) );
 
@@ -81,11 +82,11 @@ public class BeanValidationUtilTest
             bean.setUrl( "invalid-url" );
 
             List<ValidationError> list = BeanValidationUtil.validate( bean, locale, "fields_prefix." );
-            assertTrue( list.size(  ) > 0 );
+            assertTrue( list.size( ) > 0 );
 
             for ( ValidationError error : list )
             {
-                System.out.println( error.getMessage(  ) );
+                System.out.println( error.getMessage( ) );
             }
         }
     }

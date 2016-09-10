@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -41,7 +41,6 @@ import java.util.Properties;
 
 import javax.xml.transform.OutputKeys;
 
-
 /**
  * This class provides instances management methods (create, find, ...) for Mode objects
  */
@@ -53,14 +52,15 @@ public final class ModeHome
     /**
      * Creates a new ModeHome object.
      */
-    private ModeHome(  )
+    private ModeHome( )
     {
     }
 
     /**
      * Creation of an instance of a mode
      *
-     * @param mode An instance of a mode which contains the informations to store
+     * @param mode
+     *            An instance of a mode which contains the informations to store
      * @return The instance of a mode which has been created with its primary key.
      */
     public static Mode create( Mode mode )
@@ -73,7 +73,8 @@ public final class ModeHome
     /**
      * Update of the mode which is specified
      *
-     * @param mode The instance of the mode which contains the data to store
+     * @param mode
+     *            The instance of the mode which contains the data to store
      * @return The instance of the mode which has been updated
      */
     public static Mode update( Mode mode )
@@ -86,20 +87,22 @@ public final class ModeHome
     /**
      * Remove the mode whose identifier is specified in parameter
      *
-     * @param nId The identifier of the mode to remove
+     * @param nId
+     *            The identifier of the mode to remove
      */
     public static void remove( int nId )
     {
         _dao.delete( nId );
     }
 
-    ///////////////////////////////////////////////////////////////////////////
+    // /////////////////////////////////////////////////////////////////////////
     // Finders
 
     /**
      * Returns an instance of an mode whose identifier is specified in parameter
      *
-     * @param nKey The mode primary key
+     * @param nKey
+     *            The mode primary key
      * @return an instance of a mode
      */
     public static Mode findByPrimaryKey( int nKey )
@@ -112,9 +115,9 @@ public final class ModeHome
      *
      * @return A collection of modes objects
      */
-    public static Collection<Mode> getModesList(  )
+    public static Collection<Mode> getModesList( )
     {
-        return _dao.selectModesList(  );
+        return _dao.selectModesList( );
     }
 
     /**
@@ -122,67 +125,68 @@ public final class ModeHome
      *
      * @return a reference list
      */
-    public static ReferenceList getModes(  )
+    public static ReferenceList getModes( )
     {
-        return _dao.getModesList(  );
+        return _dao.getModesList( );
     }
 
     /**
      * Returns a set of properties used for xsl output
      *
-     * @param nKey The mode primary key
+     * @param nKey
+     *            The mode primary key
      * @return the output properties to use for xsl transformation
      */
     public static Properties getOuputXslProperties( int nKey )
     {
         Mode mode = _dao.load( nKey );
-        Properties ouputProperties = new Properties(  );
+        Properties ouputProperties = new Properties( );
 
-        String strMethod = mode.getOutputXslPropertyMethod(  );
+        String strMethod = mode.getOutputXslPropertyMethod( );
 
-        if ( ( strMethod != null ) && ( !strMethod.trim(  ).equals( "" ) ) )
+        if ( ( strMethod != null ) && ( !strMethod.trim( ).equals( "" ) ) )
         {
             ouputProperties.setProperty( OutputKeys.METHOD, strMethod );
         }
 
-        String strVersion = mode.getOutputXslPropertyVersion(  );
+        String strVersion = mode.getOutputXslPropertyVersion( );
 
-        if ( ( strVersion != null ) && ( !strVersion.trim(  ).equals( "" ) ) )
+        if ( ( strVersion != null ) && ( !strVersion.trim( ).equals( "" ) ) )
         {
             ouputProperties.setProperty( OutputKeys.VERSION, strVersion );
         }
 
-        String strEncoding = mode.getOutputXslPropertyEncoding(  );
+        String strEncoding = mode.getOutputXslPropertyEncoding( );
 
-        if ( ( strEncoding != null ) && ( !strEncoding.trim(  ).equals( "" ) ) )
+        if ( ( strEncoding != null ) && ( !strEncoding.trim( ).equals( "" ) ) )
         {
             ouputProperties.setProperty( OutputKeys.ENCODING, strEncoding );
         }
 
-        String strIndent = mode.getOutputXslPropertyIndent(  );
+        String strIndent = mode.getOutputXslPropertyIndent( );
 
-        if ( ( strIndent != null ) && ( !strIndent.trim(  ).equals( "" ) ) )
+        if ( ( strIndent != null ) && ( !strIndent.trim( ).equals( "" ) ) )
         {
             ouputProperties.setProperty( OutputKeys.INDENT, strIndent );
         }
 
-        String strOmitXmlDeclaration = mode.getOutputXslPropertyOmitXmlDeclaration(  );
+        String strOmitXmlDeclaration = mode.getOutputXslPropertyOmitXmlDeclaration( );
 
-        if ( ( strOmitXmlDeclaration != null ) && ( !strOmitXmlDeclaration.trim(  ).equals( "" ) ) )
+        if ( ( strOmitXmlDeclaration != null ) && ( !strOmitXmlDeclaration.trim( ).equals( "" ) ) )
         {
             ouputProperties.setProperty( OutputKeys.OMIT_XML_DECLARATION, strOmitXmlDeclaration );
         }
 
-        String strMediaType = mode.getOutputXslPropertyMediaType(  );
+        String strMediaType = mode.getOutputXslPropertyMediaType( );
 
-        if ( ( strMediaType != null ) && ( !strMediaType.trim(  ).equals( "" ) ) )
+        if ( ( strMediaType != null ) && ( !strMediaType.trim( ).equals( "" ) ) )
         {
             ouputProperties.setProperty( OutputKeys.MEDIA_TYPE, strMediaType );
         }
 
-        String strStandalone = mode.getOutputXslPropertyStandalone(  );
+        String strStandalone = mode.getOutputXslPropertyStandalone( );
 
-        if ( ( strStandalone != null ) && ( !strStandalone.trim(  ).equals( "" ) ) )
+        if ( ( strStandalone != null ) && ( !strStandalone.trim( ).equals( "" ) ) )
         {
             ouputProperties.setProperty( OutputKeys.STANDALONE, strStandalone );
         }

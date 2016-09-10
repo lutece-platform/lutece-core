@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -38,7 +38,6 @@ import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-
 /**
  * The Class CryptoService.
  */
@@ -51,16 +50,19 @@ public final class CryptoService
     /**
      * Private constructor
      */
-    private CryptoService(  )
+    private CryptoService( )
     {
     }
 
     /**
-    * Encrypt a data using an algorithm defined in lutece.properties
-    * @param strDataToEncrypt The data to encrypt
-    * @param strAlgorithm the algorithm
-    * @return The encrypted string
-    */
+     * Encrypt a data using an algorithm defined in lutece.properties
+     * 
+     * @param strDataToEncrypt
+     *            The data to encrypt
+     * @param strAlgorithm
+     *            the algorithm
+     * @return The encrypted string
+     */
     public static String encrypt( String strDataToEncrypt, String strAlgorithm )
     {
         String hash = null;
@@ -70,18 +72,18 @@ public final class CryptoService
         {
             md = MessageDigest.getInstance( strAlgorithm );
         }
-        catch ( NoSuchAlgorithmException e )
+        catch( NoSuchAlgorithmException e )
         {
-            AppLogService.error( e.getMessage(  ), e );
+            AppLogService.error( e.getMessage( ), e );
         }
 
         try
         {
             hash = byteToHex( md.digest( strDataToEncrypt.getBytes( AppPropertiesService.getProperty( PROPERTY_ENCODING ) ) ) );
         }
-        catch ( UnsupportedEncodingException e )
+        catch( UnsupportedEncodingException e )
         {
-            AppLogService.error( e.getMessage(  ), e );
+            AppLogService.error( e.getMessage( ), e );
         }
 
         return hash;
@@ -89,19 +91,22 @@ public final class CryptoService
 
     /**
      * Get the cryptographic key of the application
+     * 
      * @return The cryptographic key of the application
      */
-    public static String getCryptoKey(  )
+    public static String getCryptoKey( )
     {
         return AppPropertiesService.getProperty( PROPERTY_CRYPTO_KEY );
     }
 
     /**
      * Convert byte to hex
-     * @param bits the byte to convert
+     * 
+     * @param bits
+     *            the byte to convert
      * @return the hex
      */
-    private static String byteToHex( byte[] bits )
+    private static String byteToHex( byte [ ] bits )
     {
         if ( bits == null )
         {
@@ -113,16 +118,16 @@ public final class CryptoService
 
         for ( int i = 0; i < bits.length; i++ )
         {
-            if ( ( (int) bits[i] & 0xff ) < 0x10 )
+            if ( ( (int) bits [i] & 0xff ) < 0x10 )
             {
                 // 0 < .. < 9
                 hex.append( "0" );
             }
 
             // [(bit+256)%256]^16
-            hex.append( Integer.toString( (int) bits[i] & 0xff, 16 ) );
+            hex.append( Integer.toString( (int) bits [i] & 0xff, 16 ) );
         }
 
-        return hex.toString(  );
+        return hex.toString( );
     }
 }

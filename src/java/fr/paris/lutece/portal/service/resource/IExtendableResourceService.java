@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -35,12 +35,9 @@ package fr.paris.lutece.portal.service.resource;
 
 import java.util.Locale;
 
-
 /**
  *
- * This interface is used to fetch the {@link IExtendableResource}.
- * The implementations are developed in each plugins that have a
- * {@link IExtendableResource}.
+ * This interface is used to fetch the {@link IExtendableResource}. The implementations are developed in each plugins that have a {@link IExtendableResource}.
  *
  */
 public interface IExtendableResourceService
@@ -48,7 +45,8 @@ public interface IExtendableResourceService
     /**
      * Checks if is invoked.
      *
-     * @param strResourceType the str resource type
+     * @param strResourceType
+     *            the str resource type
      * @return true, if is invoked
      */
     boolean isInvoked( String strResourceType );
@@ -56,31 +54,38 @@ public interface IExtendableResourceService
     /**
      * Gets the resource.
      *
-     * @param strIdResource the str id resource
-     * @param strResourceType the str resource type
+     * @param strIdResource
+     *            the str id resource
+     * @param strResourceType
+     *            the str resource type
      * @return the resource
      */
     IExtendableResource getResource( String strIdResource, String strResourceType );
 
     /**
      * Gets the resource type.
+     * 
      * @return the resource type.
      */
-    String getResourceType(  );
+    String getResourceType( );
 
     /**
      * Gets the description of the resource type.
-     * @param locale The locale to use
+     * 
+     * @param locale
+     *            The locale to use
      * @return the description of the resource type.
      */
     String getResourceTypeDescription( Locale locale );
 
     /**
      * Get the main URL to access a resource
-     * @param strIdResource The id of the resource
-     * @param strResourceType The type of a resource
-     * @return The main URL to access a resource, or null if the resource has no
-     *         main URL
+     * 
+     * @param strIdResource
+     *            The id of the resource
+     * @param strResourceType
+     *            The type of a resource
+     * @return The main URL to access a resource, or null if the resource has no main URL
      */
     String getResourceUrl( String strIdResource, String strResourceType );
 }

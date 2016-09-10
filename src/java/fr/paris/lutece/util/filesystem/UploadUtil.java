@@ -35,7 +35,6 @@ package fr.paris.lutece.util.filesystem;
 
 import fr.paris.lutece.util.string.StringUtil;
 
-
 /**
  * This class provides utilities for uploaded files
  */
@@ -44,14 +43,15 @@ public final class UploadUtil
     /**
      * Creates a new UploadUtil object.
      */
-    private UploadUtil(  )
+    private UploadUtil( )
     {
     }
 
     /**
      * Removes special characters contained in the file name
      *
-     * @param strName the file name
+     * @param strName
+     *            the file name
      * @return strClearName the cleaned file name
      */
     public static String cleanFileName( String strName )
@@ -60,10 +60,10 @@ public final class UploadUtil
     }
 
     /**
-     * Removes special characters contained in a file path. This method performs
-     * the same transformation as cleanFileName but leaves out the slashes.
+     * Removes special characters contained in a file path. This method performs the same transformation as cleanFileName but leaves out the slashes.
      *
-     * @param strPath The path to clean
+     * @param strPath
+     *            The path to clean
      * @return The cleaned path
      */
     public static String cleanFilePath( String strPath )
@@ -74,8 +74,10 @@ public final class UploadUtil
     /**
      * Helper method for cleanFileName and cleanFilePath.
      *
-     * @param strValue The string literal to clean
-     * @param bKeepSlashes Set to true to keep slashes, false to replace them
+     * @param strValue
+     *            The string literal to clean
+     * @param bKeepSlashes
+     *            Set to true to keep slashes, false to replace them
      * @return The cleaned string literal
      */
     private static String cleanString( String strValue, boolean bKeepSlashes )
@@ -84,24 +86,23 @@ public final class UploadUtil
         String strNoAccents = StringUtil.replaceAccent( strValue );
 
         // Convert to an array of characters
-        char[] characters = new char[strNoAccents.length(  )];
-        strNoAccents.getChars( 0, strNoAccents.length(  ), characters, 0 );
+        char [ ] characters = new char [ strNoAccents.length( )];
+        strNoAccents.getChars( 0, strNoAccents.length( ), characters, 0 );
 
         // Iterate to process one character at a time
-        for ( int i = 0; i < strNoAccents.length(  ); i++ )
+        for ( int i = 0; i < strNoAccents.length( ); i++ )
         {
-            char current = characters[i];
+            char current = characters [i];
 
             // Valid characters are : '.', alphanumeric (a-zA-Z0-9),
             // and '/' if bKeepSlashes is true.
-            boolean bValid = ( ( current == '.' ) || ( ( current >= '0' ) && ( current <= '9' ) ) ||
-                ( ( current >= 'a' ) && ( current <= 'z' ) ) || ( ( current >= 'A' ) && ( current <= 'Z' ) ) ||
-                ( bKeepSlashes && ( current == '/' ) ) );
+            boolean bValid = ( ( current == '.' ) || ( ( current >= '0' ) && ( current <= '9' ) ) || ( ( current >= 'a' ) && ( current <= 'z' ) )
+                    || ( ( current >= 'A' ) && ( current <= 'Z' ) ) || ( bKeepSlashes && ( current == '/' ) ) );
 
             // Other characters are replaced by underscore.
             if ( !bValid )
             {
-                characters[i] = '_';
+                characters [i] = '_';
             }
         }
 

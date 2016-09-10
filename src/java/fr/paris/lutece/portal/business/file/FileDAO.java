@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -45,13 +45,12 @@ public final class FileDAO implements IFileDAO
 {
     // Constants
     private static final String SQL_QUERY_NEW_PK = "SELECT max( id_file ) FROM core_file";
-    private static final String SQL_QUERY_FIND_BY_PRIMARY_KEY = "SELECT id_file,title,id_physical_file,file_size,mime_type,date_creation" +
-        " FROM core_file WHERE id_file = ?";
-    private static final String SQL_QUERY_INSERT = "INSERT INTO core_file(id_file,title,id_physical_file,file_size,mime_type,date_creation)" +
-        " VALUES(?,?,?,?,?,?)";
+    private static final String SQL_QUERY_FIND_BY_PRIMARY_KEY = "SELECT id_file,title,id_physical_file,file_size,mime_type,date_creation"
+            + " FROM core_file WHERE id_file = ?";
+    private static final String SQL_QUERY_INSERT = "INSERT INTO core_file(id_file,title,id_physical_file,file_size,mime_type,date_creation)"
+            + " VALUES(?,?,?,?,?,?)";
     private static final String SQL_QUERY_DELETE = "DELETE FROM core_file WHERE id_file = ? ";
-    private static final String SQL_QUERY_UPDATE = "UPDATE  core_file SET " +
-        "id_file=?,title=?,id_physical_file=?,file_size=?,mime_type=? WHERE id_file = ?";
+    private static final String SQL_QUERY_UPDATE = "UPDATE  core_file SET " + "id_file=?,title=?,id_physical_file=?,file_size=?,mime_type=? WHERE id_file = ?";
 
     /**
      * Generates a new primary key
@@ -59,21 +58,21 @@ public final class FileDAO implements IFileDAO
      * @return The new primary key
      */
     @Override
-    public int newPrimaryKey(  )
+    public int newPrimaryKey( )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_NEW_PK );
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
         int nKey;
 
-        if ( !daoUtil.next(  ) )
+        if ( !daoUtil.next( ) )
         {
             // if the table is empty
             nKey = 1;
         }
 
         nKey = daoUtil.getInt( 1 ) + 1;
-        daoUtil.free(  );
+        daoUtil.free( );
 
         return nKey;
     }
@@ -81,42 +80,44 @@ public final class FileDAO implements IFileDAO
     /**
      * Insert a new record in the table.
      *
-     * @param file instance of the File object to insert
+     * @param file
+     *            instance of the File object to insert
      * @return the id of the new file
      */
-    
+
     @Override
     public synchronized int insert( File file )
     {
-        file.setIdFile( newPrimaryKey(  ) );
+        file.setIdFile( newPrimaryKey( ) );
 
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT );
-        daoUtil.setString( 2, file.getTitle(  ) );
+        daoUtil.setString( 2, file.getTitle( ) );
 
-        if ( file.getPhysicalFile(  ) != null )
+        if ( file.getPhysicalFile( ) != null )
         {
-            daoUtil.setInt( 3, file.getPhysicalFile(  ).getIdPhysicalFile(  ) );
+            daoUtil.setInt( 3, file.getPhysicalFile( ).getIdPhysicalFile( ) );
         }
         else
         {
             daoUtil.setIntNull( 3 );
         }
 
-        daoUtil.setInt( 4, file.getSize(  ) );
-        daoUtil.setString( 5, file.getMimeType(  ) );
-        daoUtil.setTimestamp( 6, new Timestamp( new Date(  ).getTime(  ) ) );
-        daoUtil.setInt( 1, file.getIdFile(  ) );
-        daoUtil.executeUpdate(  );
+        daoUtil.setInt( 4, file.getSize( ) );
+        daoUtil.setString( 5, file.getMimeType( ) );
+        daoUtil.setTimestamp( 6, new Timestamp( new Date( ).getTime( ) ) );
+        daoUtil.setInt( 1, file.getIdFile( ) );
+        daoUtil.executeUpdate( );
 
-        daoUtil.free(  );
+        daoUtil.free( );
 
-        return file.getIdFile(  );
+        return file.getIdFile( );
     }
 
     /**
      * Load the data of the File from the table
      *
-     * @param nId The identifier of the file
+     * @param nId
+     *            The identifier of the file
      * @return the instance of the File
      */
     @Override
@@ -124,30 +125,30 @@ public final class FileDAO implements IFileDAO
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_FIND_BY_PRIMARY_KEY );
         daoUtil.setInt( 1, nId );
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
         File file = null;
         PhysicalFile physicalFile = null;
 
-        if ( daoUtil.next(  ) )
+        if ( daoUtil.next( ) )
         {
-            file = new File(  );
+            file = new File( );
             file.setIdFile( daoUtil.getInt( 1 ) );
             file.setTitle( daoUtil.getString( 2 ) );
 
             if ( daoUtil.getObject( 3 ) != null )
             {
-                physicalFile = new PhysicalFile(  );
+                physicalFile = new PhysicalFile( );
                 physicalFile.setIdPhysicalFile( daoUtil.getInt( 3 ) );
                 file.setPhysicalFile( physicalFile );
             }
 
             file.setSize( daoUtil.getInt( 4 ) );
             file.setMimeType( daoUtil.getString( 5 ) );
-            file.setDateCreation( daoUtil.getTimestamp( 6 ));
+            file.setDateCreation( daoUtil.getTimestamp( 6 ) );
         }
 
-        daoUtil.free(  );
+        daoUtil.free( );
 
         return file;
     }
@@ -155,42 +156,44 @@ public final class FileDAO implements IFileDAO
     /**
      * Delete a record from the table
      *
-     * @param nIdFile The identifier of the file
+     * @param nIdFile
+     *            The identifier of the file
      */
     @Override
     public void delete( int nIdFile )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE );
         daoUtil.setInt( 1, nIdFile );
-        daoUtil.executeUpdate(  );
-        daoUtil.free(  );
+        daoUtil.executeUpdate( );
+        daoUtil.free( );
     }
 
     /**
      * Update the file in the table
      *
-     * @param file instance of the File object to update
+     * @param file
+     *            instance of the File object to update
      */
     @Override
     public void store( File file )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE );
-        daoUtil.setInt( 1, file.getIdFile(  ) );
-        daoUtil.setString( 2, file.getTitle(  ) );
+        daoUtil.setInt( 1, file.getIdFile( ) );
+        daoUtil.setString( 2, file.getTitle( ) );
 
-        if ( file.getPhysicalFile(  ) != null )
+        if ( file.getPhysicalFile( ) != null )
         {
-            daoUtil.setInt( 3, file.getPhysicalFile(  ).getIdPhysicalFile(  ) );
+            daoUtil.setInt( 3, file.getPhysicalFile( ).getIdPhysicalFile( ) );
         }
         else
         {
             daoUtil.setIntNull( 3 );
         }
 
-        daoUtil.setInt( 4, file.getSize(  ) );
-        daoUtil.setString( 5, file.getMimeType(  ) );
-        daoUtil.setInt( 6, file.getIdFile(  ) );
-        daoUtil.executeUpdate(  );
-        daoUtil.free(  );
+        daoUtil.setInt( 4, file.getSize( ) );
+        daoUtil.setString( 5, file.getMimeType( ) );
+        daoUtil.setInt( 6, file.getIdFile( ) );
+        daoUtil.executeUpdate( );
+        daoUtil.free( );
     }
 }

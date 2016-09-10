@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -43,7 +43,6 @@ import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 
 import java.util.List;
 
-
 /**
  *
  * this class provides services for use regular expression
@@ -58,108 +57,122 @@ public final class RegularExpressionService
     /**
      * Private constructor
      */
-    private RegularExpressionService(  )
+    private RegularExpressionService( )
     {
         try
         {
             _service = SpringContextService.getBean( "regularExpressionService" );
             _bServiceAvailable = _service != null;
         }
-        catch ( BeanDefinitionStoreException e )
+        catch( BeanDefinitionStoreException e )
         {
             _bServiceAvailable = false;
         }
-        catch ( NoSuchBeanDefinitionException e )
+        catch( NoSuchBeanDefinitionException e )
         {
             _bServiceAvailable = false;
         }
-        catch ( CannotLoadBeanClassException e )
+        catch( CannotLoadBeanClassException e )
         {
             _bServiceAvailable = false;
         }
     }
 
     /**
-    * Returns the unique instance of the service
-    * @return The instance of the service
-    */
-    public static RegularExpressionService getInstance(  )
+     * Returns the unique instance of the service
+     * 
+     * @return The instance of the service
+     */
+    public static RegularExpressionService getInstance( )
     {
         if ( _singleton == null )
         {
-            _singleton = new RegularExpressionService(  );
+            _singleton = new RegularExpressionService( );
         }
 
         return _singleton;
     }
 
     /**
-    *
-    * @return true if the regular expression service is available
-    */
-    public boolean isAvailable(  )
+     *
+     * @return true if the regular expression service is available
+     */
+    public boolean isAvailable( )
     {
         return _bServiceAvailable && PluginService.isPluginEnable( PLUGIN_REGULAR_EXPRESSION_NAME );
     }
 
     /**
-         * return false if the pattern is invalid
-         * @param strPattern the pattern to test
-         * @return  false if the pattern is invalid
-         */
+     * return false if the pattern is invalid
+     * 
+     * @param strPattern
+     *            the pattern to test
+     * @return false if the pattern is invalid
+     */
     boolean isPatternValide( String strPattern )
     {
-        return isAvailable(  ) ? _service.isPatternValide( strPattern ) : false;
+        return isAvailable( ) ? _service.isPatternValide( strPattern ) : false;
     }
 
     /**
      * return false if the expression's syntax is invalid
-     * @param regularExpression the regular expression object to test
-     * @return  false if the expression's syntax is invalid
+     * 
+     * @param regularExpression
+     *            the regular expression object to test
+     * @return false if the expression's syntax is invalid
      */
     boolean isPatternValide( RegularExpression regularExpression )
     {
-        return isAvailable(  ) ? _service.isPatternValide( regularExpression ) : false;
+        return isAvailable( ) ? _service.isPatternValide( regularExpression ) : false;
     }
 
     /**
-    * return true if the value in parameter verify the pattern
-    * @param strValueToTest the value to test
-    * @param strPattern the regular expression Pattern
-    * @return true if the value in parameter verify the pattern
-    */
+     * return true if the value in parameter verify the pattern
+     * 
+     * @param strValueToTest
+     *            the value to test
+     * @param strPattern
+     *            the regular expression Pattern
+     * @return true if the value in parameter verify the pattern
+     */
     public boolean isMatches( String strValueToTest, String strPattern )
     {
-        return isAvailable(  ) ? _service.isMatches( strValueToTest, strPattern ) : false;
+        return isAvailable( ) ? _service.isMatches( strValueToTest, strPattern ) : false;
     }
 
     /**
      * return true if the value in parameter verify the regular expression
-     * @param strValueToTest the value to test
-     * @param regularExpression the regular expression
+     * 
+     * @param strValueToTest
+     *            the value to test
+     * @param regularExpression
+     *            the regular expression
      * @return true if the value verify the regular expression
      */
     public boolean isMatches( String strValueToTest, RegularExpression regularExpression )
     {
-        return isAvailable(  ) ? _service.isMatches( strValueToTest, regularExpression ) : false;
+        return isAvailable( ) ? _service.isMatches( strValueToTest, regularExpression ) : false;
     }
 
     /**
-     * return the regular expression object  whose identifier is specified in parameter
-     * @param nKey the regular expression key
-     * @return the regular expression object  whose identifier is specified in parameter
+     * return the regular expression object whose identifier is specified in parameter
+     * 
+     * @param nKey
+     *            the regular expression key
+     * @return the regular expression object whose identifier is specified in parameter
      */
     public RegularExpression getRegularExpressionByKey( int nKey )
     {
-        return isAvailable(  ) ? _service.getRegularExpressionByKey( nKey ) : null;
+        return isAvailable( ) ? _service.getRegularExpressionByKey( nKey ) : null;
     }
 
     /**
      * return a list of regular expression
+     * 
      * @return all regular expression
      */
-    public List<RegularExpression> getAllRegularExpression(  )
+    public List<RegularExpression> getAllRegularExpression( )
     {
-        return isAvailable(  ) ? _service.getAllRegularExpression(  ) : null;
+        return isAvailable( ) ? _service.getAllRegularExpression( ) : null;
     }
 }

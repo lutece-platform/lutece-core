@@ -39,11 +39,11 @@ import fr.paris.lutece.util.html.DelegatePaginator;
 import java.util.List;
 import java.util.Locale;
 
-
 /**
  * Localized Delegate Paginator.
  *
- * @param <E> the element type
+ * @param <E>
+ *            the element type
  * @see LocalizedPaginator
  */
 public class LocalizedDelegatePaginator<E> extends DelegatePaginator<E>
@@ -60,16 +60,23 @@ public class LocalizedDelegatePaginator<E> extends DelegatePaginator<E>
     /**
      * Instantiates a new localized delegate paginator.
      *
-     * @param list The collection to paginate
-     * @param nItemPerPage Number of items to display per page
-     * @param strBaseUrl The base Url for build links on each page link
-     * @param strPageIndexParameterName The parameter name for the page index
-     * @param strPageIndex The current page index
-     * @param nItemsCount total items
-     * @param locale The Locale
+     * @param list
+     *            The collection to paginate
+     * @param nItemPerPage
+     *            Number of items to display per page
+     * @param strBaseUrl
+     *            The base Url for build links on each page link
+     * @param strPageIndexParameterName
+     *            The parameter name for the page index
+     * @param strPageIndex
+     *            The current page index
+     * @param nItemsCount
+     *            total items
+     * @param locale
+     *            The Locale
      */
-    public LocalizedDelegatePaginator( List<E> list, int nItemPerPage, String strBaseUrl,
-        String strPageIndexParameterName, String strPageIndex, int nItemsCount, Locale locale )
+    public LocalizedDelegatePaginator( List<E> list, int nItemPerPage, String strBaseUrl, String strPageIndexParameterName, String strPageIndex,
+            int nItemsCount, Locale locale )
     {
         super( list, nItemPerPage, strBaseUrl, strPageIndexParameterName, strPageIndex, nItemsCount );
         _locale = locale;
@@ -79,7 +86,7 @@ public class LocalizedDelegatePaginator<E> extends DelegatePaginator<E>
      * {@inheritDoc}
      */
     @Override
-    public String getLabelFirst(  )
+    public String getLabelFirst( )
     {
         return I18nService.getLocalizedString( KEY_FIRST, _locale );
     }
@@ -88,7 +95,7 @@ public class LocalizedDelegatePaginator<E> extends DelegatePaginator<E>
      * {@inheritDoc }
      */
     @Override
-    public String getLabelPrevious(  )
+    public String getLabelPrevious( )
     {
         return I18nService.getLocalizedString( KEY_PREVIOUS, _locale );
     }
@@ -97,7 +104,7 @@ public class LocalizedDelegatePaginator<E> extends DelegatePaginator<E>
      * {@inheritDoc }
      */
     @Override
-    public String getLabelNext(  )
+    public String getLabelNext( )
     {
         return I18nService.getLocalizedString( KEY_NEXT, _locale );
     }
@@ -106,7 +113,7 @@ public class LocalizedDelegatePaginator<E> extends DelegatePaginator<E>
      * {@inheritDoc }
      */
     @Override
-    public String getLabelLast(  )
+    public String getLabelLast( )
     {
         return I18nService.getLocalizedString( KEY_LAST, _locale );
     }
@@ -115,7 +122,7 @@ public class LocalizedDelegatePaginator<E> extends DelegatePaginator<E>
      * {@inheritDoc }
      */
     @Override
-    public String getLabelItemCount(  )
+    public String getLabelItemCount( )
     {
         return I18nService.getLocalizedString( KEY_ITEM_COUNT, _locale );
     }
@@ -124,7 +131,7 @@ public class LocalizedDelegatePaginator<E> extends DelegatePaginator<E>
      * {@inheritDoc }
      */
     @Override
-    public String getLabelItemCountPerPage(  )
+    public String getLabelItemCountPerPage( )
     {
         return I18nService.getLocalizedString( KEY_ITEM_COUNT_PER_PAGE, _locale );
     }

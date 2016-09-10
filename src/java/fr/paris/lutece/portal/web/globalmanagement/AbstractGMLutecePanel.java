@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -41,7 +41,6 @@ import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  * Abstract Lutece Panel JspBean
  */
@@ -52,12 +51,12 @@ public abstract class AbstractGMLutecePanel extends PluginAdminPageJspBean imple
     private HttpServletRequest _request;
 
     /**
-         * {@inheritDoc }
-         */
+     * {@inheritDoc }
+     */
     @Override
-    public int getPanelIndex(  )
+    public int getPanelIndex( )
     {
-        return LutecePanelService.instance( AbstractGMLutecePanel.class ).getIndex( getPanelKey(  ) );
+        return LutecePanelService.instance( AbstractGMLutecePanel.class ).getIndex( getPanelKey( ) );
     }
 
     /**
@@ -73,7 +72,7 @@ public abstract class AbstractGMLutecePanel extends PluginAdminPageJspBean imple
      * {@inheritDoc }
      */
     @Override
-    public Locale getPanelLocale(  )
+    public Locale getPanelLocale( )
     {
         return _locale;
     }
@@ -91,7 +90,7 @@ public abstract class AbstractGMLutecePanel extends PluginAdminPageJspBean imple
      * {@inheritDoc }
      */
     @Override
-    public HttpServletRequest getRequest(  )
+    public HttpServletRequest getRequest( )
     {
         return _request;
     }
@@ -102,6 +101,6 @@ public abstract class AbstractGMLutecePanel extends PluginAdminPageJspBean imple
     @Override
     public String getHomeUrl( HttpServletRequest request )
     {
-        return super.getHomeUrl( request ) + HASH_PANEL + getPanelIndex(  );
+        return super.getHomeUrl( request ) + HASH_PANEL + getPanelIndex( );
     }
 }

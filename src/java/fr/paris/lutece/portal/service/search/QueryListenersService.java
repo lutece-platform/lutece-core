@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -38,31 +38,31 @@ import fr.paris.lutece.portal.service.util.AppLogService;
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
  * QueryListenersService
  */
 public final class QueryListenersService
 {
-    private static List<QueryEventListener> _listListeners = new ArrayList<QueryEventListener>(  );
+    private static List<QueryEventListener> _listListeners = new ArrayList<QueryEventListener>( );
     private static volatile QueryListenersService _singleton;
 
     /**
      * Creates a new instance of QueryListenersService
      */
-    private QueryListenersService(  )
+    private QueryListenersService( )
     {
     }
 
     /**
      * Returns the unique instance of the service
+     * 
      * @return The instance of the service
      */
-    public static QueryListenersService getInstance(  )
+    public static QueryListenersService getInstance( )
     {
         if ( _singleton == null )
         {
-            _singleton = new QueryListenersService(  );
+            _singleton = new QueryListenersService( );
         }
 
         return _singleton;
@@ -70,17 +70,21 @@ public final class QueryListenersService
 
     /**
      * Register a new listener
-     * @param listener The listener to register
+     * 
+     * @param listener
+     *            The listener to register
      */
     public void registerQueryListener( QueryEventListener listener )
     {
         _listListeners.add( listener );
-        AppLogService.info( "New Query Event Listener registered : " + listener.getClass(  ).getName(  ) );
+        AppLogService.info( "New Query Event Listener registered : " + listener.getClass( ).getName( ) );
     }
 
     /**
      * Notify all registered listeners
-     * @param event The query event to notify
+     * 
+     * @param event
+     *            The query event to notify
      */
     public void notifyListeners( QueryEvent event )
     {
@@ -90,10 +94,10 @@ public final class QueryListenersService
             {
                 listener.processQueryEvent( event );
             }
-            catch ( Exception e )
+            catch( Exception e )
             {
                 // Catch any exception in order to stay in the loop to notify all listeners
-                AppLogService.error( "Error while processing query event : " + e.getMessage(  ), e );
+                AppLogService.error( "Error while processing query event : " + e.getMessage( ), e );
             }
         }
     }

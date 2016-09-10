@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -36,7 +36,6 @@ package fr.paris.lutece.portal.business.rss;
 import java.util.Date;
 import java.util.List;
 
-
 /**
  *
  * FeedResource - {@link IFeedResource} implementation.
@@ -55,7 +54,7 @@ public class FeedResource implements IFeedResource
      *
      * {@inheritDoc}
      */
-    public String getDescription(  )
+    public String getDescription( )
     {
         return _strDescription;
     }
@@ -73,7 +72,7 @@ public class FeedResource implements IFeedResource
      *
      * {@inheritDoc}
      */
-    public String getTitle(  )
+    public String getTitle( )
     {
         return _strTitle;
     }
@@ -91,14 +90,16 @@ public class FeedResource implements IFeedResource
      *
      * {@inheritDoc}
      */
-    public IFeedResourceImage getImage(  )
+    public IFeedResourceImage getImage( )
     {
         return _image;
     }
 
     /**
      * Sets the image
-     * @param image the image
+     * 
+     * @param image
+     *            the image
      */
     public void setImage( IFeedResourceImage image )
     {
@@ -109,14 +110,16 @@ public class FeedResource implements IFeedResource
      *
      * {@inheritDoc}
      */
-    public List<IFeedResourceItem> getItems(  )
+    public List<IFeedResourceItem> getItems( )
     {
         return _listItems;
     }
 
     /**
      * Sets the items
-     * @param listItems the items
+     * 
+     * @param listItems
+     *            the items
      */
     public void setItems( List<IFeedResourceItem> listItems )
     {
@@ -127,14 +130,16 @@ public class FeedResource implements IFeedResource
      *
      * {@inheritDoc}
      */
-    public String getLanguage(  )
+    public String getLanguage( )
     {
         return _strLanguage;
     }
 
     /**
      * Sets the language
-     * @param strLanguage the language
+     * 
+     * @param strLanguage
+     *            the language
      */
     public void setLanguage( String strLanguage )
     {
@@ -145,14 +150,16 @@ public class FeedResource implements IFeedResource
      *
      * {@inheritDoc}
      */
-    public String getLink(  )
+    public String getLink( )
     {
         return _strLink;
     }
 
     /**
      * Sets the link
-     * @param strLink the link
+     * 
+     * @param strLink
+     *            the link
      */
     public void setLink( String strLink )
     {
@@ -163,7 +170,7 @@ public class FeedResource implements IFeedResource
      *
      * {@inheritDoc}
      */
-    public Date getDate(  )
+    public Date getDate( )
     {
         return _date;
     }

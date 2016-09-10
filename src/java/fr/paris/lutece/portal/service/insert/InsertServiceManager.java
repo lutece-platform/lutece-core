@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -41,37 +41,37 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
 /**
  * Manager of the InsertServices (Insert + HTML). Responsible for (un)registering them.
  */
 public final class InsertServiceManager
 {
-    ////////////////////////////////////////////////////////////////////////////
+    // //////////////////////////////////////////////////////////////////////////
     // Class attributes
 
     /** Insert Service registry */
-    private static Map<String, InsertService> _mapInsertServicesRegistry = new HashMap<String, InsertService>(  );
+    private static Map<String, InsertService> _mapInsertServicesRegistry = new HashMap<String, InsertService>( );
 
-    ////////////////////////////////////////////////////////////////////////////
+    // //////////////////////////////////////////////////////////////////////////
     // Methods
 
     /**
      * Creates a new InsertServiceManager object
      */
-    private InsertServiceManager(  )
+    private InsertServiceManager( )
     {
     }
 
     /**
      * Registers a new Index Service
      *
-     * @param is the  service
+     * @param is
+     *            the service
      */
     public static void registerInsertService( InsertService is )
     {
-        _mapInsertServicesRegistry.put( is.getId(  ), is );
-        AppLogService.info( "New Insert Service registered : " + is.getId(  ) );
+        _mapInsertServicesRegistry.put( is.getId( ), is );
+        AppLogService.info( "New Insert Service registered : " + is.getId( ) );
     }
 
     /**
@@ -79,13 +79,13 @@ public final class InsertServiceManager
      *
      * @return A collection containing all registered Insert services
      */
-    public static Collection<InsertService> getInsertServicesList(  )
+    public static Collection<InsertService> getInsertServicesList( )
     {
-        ArrayList<InsertService> listServices = new ArrayList<InsertService>(  );
+        ArrayList<InsertService> listServices = new ArrayList<InsertService>( );
 
-        for ( InsertService service : _mapInsertServicesRegistry.values(  ) )
+        for ( InsertService service : _mapInsertServicesRegistry.values( ) )
         {
-            if ( service.isEnabled(  ) )
+            if ( service.isEnabled( ) )
             {
                 listServices.add( service );
             }
@@ -97,7 +97,8 @@ public final class InsertServiceManager
     /**
      * Get a particular Insert service
      *
-     * @param strId Identifier of the seeked service
+     * @param strId
+     *            Identifier of the seeked service
      * @return the selected Insert service
      */
     public static InsertService getInsertService( String strId )
@@ -110,13 +111,13 @@ public final class InsertServiceManager
      *
      * @return An enumeration containing the names of all registered Insert Service
      */
-    public static List<String> getInsertsLabels(  )
+    public static List<String> getInsertsLabels( )
     {
-        List<String> listInserts = new ArrayList<String>(  );
+        List<String> listInserts = new ArrayList<String>( );
 
-        for ( InsertService ls : getInsertServicesList(  ) )
+        for ( InsertService ls : getInsertServicesList( ) )
         {
-            listInserts.add( ls.getLabelKey(  ) );
+            listInserts.add( ls.getLabelKey( ) );
         }
 
         return listInserts;

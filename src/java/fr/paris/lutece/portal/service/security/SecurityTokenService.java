@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -44,7 +44,6 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-
 /**
  *
  * This class provides a security service for getting and verify tokens
@@ -61,7 +60,7 @@ public class SecurityTokenService implements ISecurityTokenService
     /**
      * SecurityTokenService
      */
-    private SecurityTokenService(  )
+    private SecurityTokenService( )
     {
     }
 
@@ -70,7 +69,7 @@ public class SecurityTokenService implements ISecurityTokenService
      *
      * @return The instance of the singleton
      */
-    public static ISecurityTokenService getInstance(  )
+    public static ISecurityTokenService getInstance( )
     {
         if ( _singleton == null )
         {
@@ -86,13 +85,13 @@ public class SecurityTokenService implements ISecurityTokenService
     @Override
     public String getToken( HttpServletRequest request, String strAction )
     {
-        String strToken = generateNewKey(  );
+        String strToken = generateNewKey( );
         HttpSession session = request.getSession( true );
         Map<String, Set<String>> hashTokens;
 
         if ( session.getAttribute( PARAMETER_SESSION_TOKENS ) == null )
         {
-            hashTokens = new HashMap<String, Set<String>>(  );
+            hashTokens = new HashMap<String, Set<String>>( );
             session.setAttribute( PARAMETER_SESSION_TOKENS, hashTokens );
         }
 
@@ -100,7 +99,7 @@ public class SecurityTokenService implements ISecurityTokenService
 
         if ( !hashTokens.containsKey( strAction ) )
         {
-            hashTokens.put( strAction, new HashSet<String>(  ) );
+            hashTokens.put( strAction, new HashSet<String>( ) );
         }
 
         hashTokens.get( strAction ).add( strToken );
@@ -118,13 +117,11 @@ public class SecurityTokenService implements ISecurityTokenService
 
         String strToken = request.getParameter( PARAMETER_TOKEN );
 
-        if ( ( session.getAttribute( PARAMETER_SESSION_TOKENS ) != null ) &&
-                ( (Map<String, Set<String>>) session.getAttribute( PARAMETER_SESSION_TOKENS ) ).containsKey( StrAction ) &&
-                ( (Map<String, Set<String>>) session.getAttribute( PARAMETER_SESSION_TOKENS ) ).get( StrAction )
-                      .contains( strToken ) )
+        if ( ( session.getAttribute( PARAMETER_SESSION_TOKENS ) != null )
+                && ( (Map<String, Set<String>>) session.getAttribute( PARAMETER_SESSION_TOKENS ) ).containsKey( StrAction )
+                && ( (Map<String, Set<String>>) session.getAttribute( PARAMETER_SESSION_TOKENS ) ).get( StrAction ).contains( strToken ) )
         {
-            ( (Map<String, Set<String>>) session.getAttribute( PARAMETER_SESSION_TOKENS ) ).get( StrAction )
-              .remove( strToken );
+            ( (Map<String, Set<String>>) session.getAttribute( PARAMETER_SESSION_TOKENS ) ).get( StrAction ).remove( strToken );
 
             return true;
         }
@@ -137,10 +134,10 @@ public class SecurityTokenService implements ISecurityTokenService
      *
      * @return a new key
      */
-    private String generateNewKey(  )
+    private String generateNewKey( )
     {
-        UUID key = UUID.randomUUID(  );
+        UUID key = UUID.randomUUID( );
 
-        return key.toString(  );
+        return key.toString( );
     }
 }

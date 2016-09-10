@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,7 +33,6 @@
  */
 package fr.paris.lutece.portal.business.rss;
 
-
 /**
  *
  * IResourceRssType
@@ -43,13 +42,16 @@ public interface IResourceRssType
 {
     /**
      * Get resource rss type
-     * @return  key of the resourceRss type
+     * 
+     * @return key of the resourceRss type
      */
-    String getKey(  );
+    String getKey( );
 
     /**
-     * set the  key  of the resourceRss type
-     * @param key title the key of the text type
+     * set the key of the resourceRss type
+     * 
+     * @param key
+     *            title the key of the text type
      */
     void setKey( String key );
 
@@ -57,11 +59,13 @@ public interface IResourceRssType
      *
      * @return the I18n title key of the resourceRss type
      */
-    String getTitleI18nKey(  );
+    String getTitleI18nKey( );
 
     /**
-     * set the I18n title key  of the resourceRss type
-     * @param title the title of the resourceRss type
+     * set the I18n title key of the resourceRss type
+     * 
+     * @param title
+     *            the title of the resourceRss type
      */
     void setTitleI18nKey( String title );
 
@@ -69,23 +73,27 @@ public interface IResourceRssType
      *
      * @return the path for acces to the Classe resourceRss
      */
-    String getClassName(  );
+    String getClassName( );
 
     /**
      * set the path for acces to the Class resourceRss
-     * @param className the path for acces to the Class resourceRss
+     * 
+     * @param className
+     *            the path for acces to the Class resourceRss
      */
     void setClassName( String className );
 
     /**
-    *
-    * @return the title of the resourceRss type
-    */
-    String getTitle(  );
+     *
+     * @return the title of the resourceRss type
+     */
+    String getTitle( );
 
     /**
-     * set the  title of the resourceRss type
-     * @param title the title of the resourceRss type
+     * set the title of the resourceRss type
+     * 
+     * @param title
+     *            the title of the resourceRss type
      */
     void setTitle( String title );
 }

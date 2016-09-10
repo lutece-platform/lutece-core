@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,7 +33,6 @@
  */
 package fr.paris.lutece.portal.business.prefs;
 
-
 /**
  * User Preferences DAO
  */
@@ -45,7 +44,7 @@ public class AdminUserPreferencesDAO extends AbstractUserPreferencesDAO
      * {@inheritDoc }
      */
     @Override
-    String getPreferencesTable(  )
+    String getPreferencesTable( )
     {
         return TABLE_PREFERENCES;
     }

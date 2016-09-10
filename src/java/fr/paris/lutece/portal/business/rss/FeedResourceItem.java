@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -35,7 +35,6 @@ package fr.paris.lutece.portal.business.rss;
 
 import java.util.Date;
 
-
 /**
  *
  * FeedResourceItem - {@link IFeedResourceItem} implementation.
@@ -52,7 +51,7 @@ public class FeedResourceItem implements IFeedResourceItem
      *
      * {@inheritDoc}
      */
-    public String getTitle(  )
+    public String getTitle( )
     {
         return _strTitle;
     }
@@ -70,7 +69,7 @@ public class FeedResourceItem implements IFeedResourceItem
      *
      * {@inheritDoc}
      */
-    public String getLink(  )
+    public String getLink( )
     {
         return _strLink;
     }
@@ -88,7 +87,7 @@ public class FeedResourceItem implements IFeedResourceItem
      *
      * {@inheritDoc}
      */
-    public String getDescription(  )
+    public String getDescription( )
     {
         return _strDescription;
     }
@@ -106,7 +105,7 @@ public class FeedResourceItem implements IFeedResourceItem
      *
      * {@inheritDoc}
      */
-    public String getGUID(  )
+    public String getGUID( )
     {
         return _strGUID;
     }
@@ -124,7 +123,7 @@ public class FeedResourceItem implements IFeedResourceItem
      *
      * {@inheritDoc}
      */
-    public Date getDate(  )
+    public Date getDate( )
     {
         return _date;
     }

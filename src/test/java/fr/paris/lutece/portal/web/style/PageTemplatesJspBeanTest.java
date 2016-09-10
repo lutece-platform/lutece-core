@@ -39,26 +39,25 @@ import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.MokeHttpServletRequest;
 
-
 /**
  * PageTemplatesJspBeanTest Test Class
  *
  */
 public class PageTemplatesJspBeanTest extends LuteceTestCase
 {
-    private static final String TEST_PAGE_TEMPLATE_ID = "1"; // Page template one column 
+    private static final String TEST_PAGE_TEMPLATE_ID = "1"; // Page template one column
 
     /**
      * Test of getManagePageTemplate method, of class fr.paris.lutece.portal.web.style.PageTemplatesJspBean.
      */
-    public void testGetManagePageTemplate(  ) throws AccessDeniedException
+    public void testGetManagePageTemplate( ) throws AccessDeniedException
     {
         System.out.println( "getManagePageTemplate" );
 
-        MokeHttpServletRequest request = new MokeHttpServletRequest(  );
-        request.registerAdminUserWithRigth( new AdminUser(  ), PageTemplatesJspBean.RIGHT_MANAGE_PAGE_TEMPLATES );
+        MokeHttpServletRequest request = new MokeHttpServletRequest( );
+        request.registerAdminUserWithRigth( new AdminUser( ), PageTemplatesJspBean.RIGHT_MANAGE_PAGE_TEMPLATES );
 
-        PageTemplatesJspBean instance = new PageTemplatesJspBean(  );
+        PageTemplatesJspBean instance = new PageTemplatesJspBean( );
         instance.init( request, PageTemplatesJspBean.RIGHT_MANAGE_PAGE_TEMPLATES );
         instance.getManagePageTemplate( request );
     }
@@ -66,14 +65,14 @@ public class PageTemplatesJspBeanTest extends LuteceTestCase
     /**
      * Test of getCreatePageTemplate method, of class fr.paris.lutece.portal.web.style.PageTemplatesJspBean.
      */
-    public void testGetCreatePageTemplate(  ) throws AccessDeniedException
+    public void testGetCreatePageTemplate( ) throws AccessDeniedException
     {
         System.out.println( "getCreatePageTemplate" );
 
-        MokeHttpServletRequest request = new MokeHttpServletRequest(  );
-        request.registerAdminUserWithRigth( new AdminUser(  ), PageTemplatesJspBean.RIGHT_MANAGE_PAGE_TEMPLATES );
+        MokeHttpServletRequest request = new MokeHttpServletRequest( );
+        request.registerAdminUserWithRigth( new AdminUser( ), PageTemplatesJspBean.RIGHT_MANAGE_PAGE_TEMPLATES );
 
-        PageTemplatesJspBean instance = new PageTemplatesJspBean(  );
+        PageTemplatesJspBean instance = new PageTemplatesJspBean( );
         instance.init( request, PageTemplatesJspBean.RIGHT_MANAGE_PAGE_TEMPLATES );
         instance.getCreatePageTemplate( request );
     }
@@ -81,7 +80,7 @@ public class PageTemplatesJspBeanTest extends LuteceTestCase
     /**
      * Test of doCreatePageTemplate method, of fr.paris.lutece.portal.web.style.PageTemplatesJspBean.
      */
-    public void testDoCreatePageTemplate(  )
+    public void testDoCreatePageTemplate( )
     {
         System.out.println( "doCreatePageTemplate" );
 
@@ -91,15 +90,15 @@ public class PageTemplatesJspBeanTest extends LuteceTestCase
     /**
      * Test of getModifyPageTemplate method, of class fr.paris.lutece.portal.web.style.PageTemplatesJspBean.
      */
-    public void testGetModifyPageTemplate(  ) throws AccessDeniedException
+    public void testGetModifyPageTemplate( ) throws AccessDeniedException
     {
         System.out.println( "getModifyPageTemplate" );
 
-        MokeHttpServletRequest request = new MokeHttpServletRequest(  );
+        MokeHttpServletRequest request = new MokeHttpServletRequest( );
         request.addMokeParameters( Parameters.PAGE_TEMPLATE_ID, TEST_PAGE_TEMPLATE_ID );
-        request.registerAdminUserWithRigth( new AdminUser(  ), PageTemplatesJspBean.RIGHT_MANAGE_PAGE_TEMPLATES );
+        request.registerAdminUserWithRigth( new AdminUser( ), PageTemplatesJspBean.RIGHT_MANAGE_PAGE_TEMPLATES );
 
-        PageTemplatesJspBean instance = new PageTemplatesJspBean(  );
+        PageTemplatesJspBean instance = new PageTemplatesJspBean( );
         instance.init( request, PageTemplatesJspBean.RIGHT_MANAGE_PAGE_TEMPLATES );
         instance.getModifyPageTemplate( request );
     }
@@ -107,7 +106,7 @@ public class PageTemplatesJspBeanTest extends LuteceTestCase
     /**
      * Test of doModifyPageTemplate method, of fr.paris.lutece.portal.web.style.PageTemplatesJspBean.
      */
-    public void testDoModifyPageTemplate(  )
+    public void testDoModifyPageTemplate( )
     {
         System.out.println( "doModifyPageTemplate" );
 

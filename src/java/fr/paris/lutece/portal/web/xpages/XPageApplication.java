@@ -41,7 +41,6 @@ import java.io.Serializable;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  * This interface is used to add Xpages to the portal.
  */
@@ -50,13 +49,17 @@ public interface XPageApplication extends Serializable
     /**
      * Returns the XPage content depending on the request parameters and the current mode.
      *
-     * @param request The HTTP request.
-     * @param nMode The current mode.
-     * @param plugin The plugin
+     * @param request
+     *            The HTTP request.
+     * @param nMode
+     *            The current mode.
+     * @param plugin
+     *            The plugin
      * @return The page content.
-     * @throws UserNotSignedException If the application ask for an user sign
-     * @throws SiteMessageException occurs when a site message need to be displayed
+     * @throws UserNotSignedException
+     *             If the application ask for an user sign
+     * @throws SiteMessageException
+     *             occurs when a site message need to be displayed
      */
-    XPage getPage( HttpServletRequest request, int nMode, Plugin plugin )
-        throws UserNotSignedException, SiteMessageException;
+    XPage getPage( HttpServletRequest request, int nMode, Plugin plugin ) throws UserNotSignedException, SiteMessageException;
 }

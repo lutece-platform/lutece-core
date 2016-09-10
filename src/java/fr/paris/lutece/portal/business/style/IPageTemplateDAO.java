@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -35,7 +35,6 @@ package fr.paris.lutece.portal.business.style;
 
 import java.util.List;
 
-
 /**
  *
  * @author LEVY
@@ -45,14 +44,16 @@ public interface IPageTemplateDAO
     /**
      * Delete a record from the table
      *
-     * @param nPageTemplateId The indentifier of the object PageTemplate
+     * @param nPageTemplateId
+     *            The indentifier of the object PageTemplate
      */
     void delete( int nPageTemplateId );
 
     /**
      * Insert a new record in the table.
      *
-     * @param pageTemplate The Instance of the object PageTemplate
+     * @param pageTemplate
+     *            The Instance of the object PageTemplate
      */
     void insert( PageTemplate pageTemplate );
 
@@ -60,7 +61,8 @@ public interface IPageTemplateDAO
      * load the data of PageTemplate from the table
      *
      *
-     * @param nPageTemplateId The indentifier of the object PageTemplate
+     * @param nPageTemplateId
+     *            The indentifier of the object PageTemplate
      * @return The Instance of the object PageTemplate
      */
     PageTemplate load( int nPageTemplateId );
@@ -70,18 +72,21 @@ public interface IPageTemplateDAO
      *
      * @return A list of PageTemplates objects
      */
-    List<PageTemplate> selectPageTemplatesList(  );
+    List<PageTemplate> selectPageTemplatesList( );
 
     /**
      * Update the record in the table
      *
-     * @param pageTemplate The instance of the PageTemplate to update
+     * @param pageTemplate
+     *            The instance of the PageTemplate to update
      */
     void store( PageTemplate pageTemplate );
 
     /**
      * Checks if a page template has been used by a page
-     * @param nPageTemplateId The identifier of the page template
+     * 
+     * @param nPageTemplateId
+     *            The identifier of the page template
      * @return true if a page template is used by a page, false otherwise
      */
     boolean checkPageTemplateIsUsed( int nPageTemplateId );

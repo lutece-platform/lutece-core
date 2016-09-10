@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -38,7 +38,6 @@ import fr.paris.lutece.util.sql.DAOUtil;
 import java.util.ArrayList;
 import java.util.Collection;
 
-
 /**
  * Rich text editor DAO
  */
@@ -55,19 +54,19 @@ public class RichTextEditorDAO implements IRichTextEditorDAO
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_FIND_EDITORS_BY_TYPE );
         daoUtil.setBoolean( 1, bBackOffice );
 
-        Collection<RichTextEditor> listRes = new ArrayList<RichTextEditor>(  );
-        daoUtil.executeQuery(  );
+        Collection<RichTextEditor> listRes = new ArrayList<RichTextEditor>( );
+        daoUtil.executeQuery( );
 
-        while ( daoUtil.next(  ) )
+        while ( daoUtil.next( ) )
         {
-            RichTextEditor editor = new RichTextEditor(  );
+            RichTextEditor editor = new RichTextEditor( );
             editor.setEditorName( daoUtil.getString( 1 ) );
             editor.setDescription( daoUtil.getString( 2 ) );
             editor.setBackOffice( bBackOffice );
             listRes.add( editor );
         }
 
-        daoUtil.free(  );
+        daoUtil.free( );
 
         return listRes;
     }

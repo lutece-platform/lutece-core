@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -35,7 +35,6 @@ package fr.paris.lutece.portal.service.image;
 
 import java.io.Serializable;
 
-
 /**
  * Image resource
  */
@@ -43,8 +42,8 @@ public class ImageResource implements Serializable
 {
     private static final long serialVersionUID = -3832656263478838897L;
 
-    // Variables declarations 
-    private byte[] _strImage;
+    // Variables declarations
+    private byte [ ] _strImage;
     private String _strMimeType;
 
     /**
@@ -52,7 +51,7 @@ public class ImageResource implements Serializable
      *
      * @return The Image
      */
-    public byte[] getImage(  )
+    public byte [ ] getImage( )
     {
         return _strImage;
     }
@@ -60,9 +59,10 @@ public class ImageResource implements Serializable
     /**
      * Sets the Image
      *
-     * @param strImage The Image
+     * @param strImage
+     *            The Image
      */
-    public void setImage( byte[] strImage )
+    public void setImage( byte [ ] strImage )
     {
         _strImage = strImage;
     }
@@ -72,7 +72,7 @@ public class ImageResource implements Serializable
      *
      * @return The MimeType
      */
-    public String getMimeType(  )
+    public String getMimeType( )
     {
         return _strMimeType;
     }
@@ -80,7 +80,8 @@ public class ImageResource implements Serializable
     /**
      * Sets the MimeType
      *
-     * @param strMimeType The MimeType
+     * @param strMimeType
+     *            The MimeType
      */
     public void setMimeType( String strMimeType )
     {

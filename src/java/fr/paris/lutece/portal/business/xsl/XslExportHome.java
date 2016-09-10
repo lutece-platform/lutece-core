@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -41,7 +41,6 @@ import fr.paris.lutece.util.ReferenceList;
 
 import java.util.List;
 
-
 /**
  * This class provides instances management methods (create, find, ...) for ExportFormat objects
  */
@@ -53,14 +52,15 @@ public final class XslExportHome
     /**
      * Private constructor - this class do not need to be instantiated
      */
-    private XslExportHome(  )
+    private XslExportHome( )
     {
     }
 
     /**
      * Creation of an instance of Xsl Export
      *
-     * @param xslExport The instance of the xslExport which contains the informations to store
+     * @param xslExport
+     *            The instance of the xslExport which contains the informations to store
      *
      */
     public static void create( XslExport xslExport )
@@ -71,23 +71,25 @@ public final class XslExportHome
     /**
      * Update of the XslExport which is specified in parameter
      *
-     * @param xslExport The instance of the xslExport which contains the informations to update
+     * @param xslExport
+     *            The instance of the xslExport which contains the informations to update
      */
     public static void update( XslExport xslExport )
     {
         _dao.store( xslExport );
-        XmlTransformerService.clearXslCache(  );
+        XmlTransformerService.clearXslCache( );
     }
 
     /**
      * Remove the XslExport whose identifier is specified in parameter
      *
-     * @param nIdXslExport The XslExport Id
+     * @param nIdXslExport
+     *            The XslExport Id
      */
     public static void remove( int nIdXslExport )
     {
         _dao.delete( nIdXslExport );
-        XmlTransformerService.clearXslCache(  );
+        XmlTransformerService.clearXslCache( );
     }
 
     // /////////////////////////////////////////////////////////////////////////
@@ -96,16 +98,17 @@ public final class XslExportHome
     /**
      * Returns an instance of a XslExport whose identifier is specified in parameter
      *
-     * @param nKey The xslExport primary key
+     * @param nKey
+     *            The xslExport primary key
      * @return an instance of XslExport
      */
     public static XslExport findByPrimaryKey( int nKey )
     {
         XslExport xslExport = _dao.load( nKey );
 
-        if ( ( xslExport != null ) && ( xslExport.getFile(  ) != null ) )
+        if ( ( xslExport != null ) && ( xslExport.getFile( ) != null ) )
         {
-            xslExport.setFile( FileHome.findByPrimaryKey( xslExport.getFile(  ).getIdFile(  ) ) );
+            xslExport.setFile( FileHome.findByPrimaryKey( xslExport.getFile( ).getIdFile( ) ) );
         }
 
         return xslExport;
@@ -113,17 +116,19 @@ public final class XslExportHome
 
     /**
      * Loads the data of all the XslExport and returns them in a list
+     * 
      * @return the list which contains the data of every Xsl export items
      */
-    public static List<XslExport> getList(  )
+    public static List<XslExport> getList( )
     {
-        return _dao.selectList(  );
+        return _dao.selectList( );
     }
 
     /**
-     * Loads the data of XslExport associated with a given plugin and returns
-     * them in a list
-     * @param plugin The plugin
+     * Loads the data of XslExport associated with a given plugin and returns them in a list
+     * 
+     * @param plugin
+     *            The plugin
      * @return the list which contains the data of Xsl export items
      */
     public static List<XslExport> getListByPlugin( Plugin plugin )
@@ -132,39 +137,40 @@ public final class XslExportHome
     }
 
     /**
-     * Loads in the reference list the data of all the XslExport and returns
-     * them in a list
+     * Loads in the reference list the data of all the XslExport and returns them in a list
+     * 
      * @return the list which contains the data of every Xsl Export items
      */
-    public static ReferenceList getRefList(  )
+    public static ReferenceList getRefList( )
     {
-        ReferenceList refList = new ReferenceList(  );
+        ReferenceList refList = new ReferenceList( );
 
-        List<XslExport> xslList = getList(  );
+        List<XslExport> xslList = getList( );
 
         for ( XslExport xslExport : xslList )
         {
-            refList.addItem( xslExport.getIdXslExport(  ), xslExport.getTitle(  ) );
+            refList.addItem( xslExport.getIdXslExport( ), xslExport.getTitle( ) );
         }
 
         return refList;
     }
 
     /**
-     * Loads the data of XslExport associated with a given plugin and returns
-     * them in a list
-     * @param plugin The plugin
+     * Loads the data of XslExport associated with a given plugin and returns them in a list
+     * 
+     * @param plugin
+     *            The plugin
      * @return the list which contains the data of Xsl export items
      */
     public static ReferenceList getRefListByPlugin( Plugin plugin )
     {
-        ReferenceList refList = new ReferenceList(  );
+        ReferenceList refList = new ReferenceList( );
 
         List<XslExport> xslList = getListByPlugin( plugin );
 
         for ( XslExport xslExport : xslList )
         {
-            refList.addItem( xslExport.getIdXslExport(  ), xslExport.getTitle(  ) );
+            refList.addItem( xslExport.getIdXslExport( ), xslExport.getTitle( ) );
         }
 
         return refList;

@@ -38,7 +38,6 @@ import fr.paris.lutece.test.LuteceTestCase;
 import java.util.ArrayList;
 import java.util.Collection;
 
-
 /**
  * ReferenceList Test Class
  *
@@ -48,13 +47,13 @@ public class ReferenceListTest extends LuteceTestCase
     /**
      * Test of addItem method, of class fr.paris.lutece.util.ReferenceList.
      */
-    public void testAddItem(  )
+    public void testAddItem( )
     {
         System.out.println( "addItem" );
 
         String strCode = "code";
         String strName = "name";
-        ReferenceList instance = new ReferenceList(  );
+        ReferenceList instance = new ReferenceList( );
 
         instance.addItem( strCode, strName );
     }
@@ -62,12 +61,12 @@ public class ReferenceListTest extends LuteceTestCase
     /**
      * Test of convert method, of class fr.paris.lutece.util.ReferenceList.
      */
-    public void testConvert(  )
+    public void testConvert( )
     {
         System.out.println( "convert" );
 
-        Collection collection = new ArrayList(  );
-        ReferenceItem item = new ReferenceItem(  );
+        Collection collection = new ArrayList( );
+        ReferenceItem item = new ReferenceItem( );
         String strCode = "code 1";
         String strName = "name 1";
         item.setCode( strCode );
@@ -81,26 +80,28 @@ public class ReferenceListTest extends LuteceTestCase
         String strCodeAttribute = "code";
         String strNameAttribute = "name";
         ReferenceList result = ReferenceList.convert( collection, strCodeAttribute, strNameAttribute, bNumericCode );
-        assertEquals( strCode, result.get( 0 ).getCode(  ) );
-        assertEquals( strName, result.get( 0 ).getName(  ) );
+        assertEquals( strCode, result.get( 0 ).getCode( ) );
+        assertEquals( strName, result.get( 0 ).getName( ) );
     }
 
     /**
      * Test of checkItems method, of class fr.paris.lutece.util.ReferenceList.
      */
-    public void testCheckItems(  )
+    public void testCheckItems( )
     {
         System.out.println( "checkItems" );
 
-        String[] valuesToCheck = { "code1", "code3" };
-        ReferenceList instance = new ReferenceList(  );
+        String [ ] valuesToCheck = {
+                "code1", "code3"
+        };
+        ReferenceList instance = new ReferenceList( );
         instance.addItem( "code1", "name1" );
         instance.addItem( "code2", "name2" );
         instance.addItem( "code3", "name3" );
 
         instance.checkItems( valuesToCheck );
-        assertTrue( instance.get( 0 ).isChecked(  ) );
-        assertFalse( instance.get( 1 ).isChecked(  ) );
-        assertTrue( instance.get( 2 ).isChecked(  ) );
+        assertTrue( instance.get( 0 ).isChecked( ) );
+        assertFalse( instance.get( 1 ).isChecked( ) );
+        assertTrue( instance.get( 2 ).isChecked( ) );
     }
 }

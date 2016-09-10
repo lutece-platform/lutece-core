@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -35,7 +35,6 @@ package fr.paris.lutece.portal.business.right;
 
 import java.util.Collection;
 
-
 /**
  * ILevelDAO Interface
  */
@@ -44,14 +43,16 @@ public interface ILevelDAO
     /**
      * Insert a new record in the table.
      *
-     * @param level The level object
+     * @param level
+     *            The level object
      */
     void insert( Level level );
 
     /**
      * load the data of Level from the table
      *
-     * @param nIdLevel The indentifier of the object Level
+     * @param nIdLevel
+     *            The indentifier of the object Level
      * @return The Instance of the object Level
      */
     Level load( int nIdLevel );
@@ -59,19 +60,23 @@ public interface ILevelDAO
     /**
      * Delete a record from the table
      *
-     * @param nIdLevel The indentifier of the object Level
+     * @param nIdLevel
+     *            The indentifier of the object Level
      */
     void delete( int nIdLevel );
 
     /**
      * Update the record in the table
-     * @param level The instance of the Level to update
+     * 
+     * @param level
+     *            The instance of the Level to update
      */
     void store( Level level );
 
     /**
      * Returns a list of all the right level
+     * 
      * @return A collection of right level objects
      */
-    Collection<Level> selectLevelsList(  );
+    Collection<Level> selectLevelsList( );
 }

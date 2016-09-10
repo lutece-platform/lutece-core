@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -38,37 +38,41 @@ import fr.paris.lutece.util.ReferenceList;
 
 import java.util.Map;
 
-
 /**
  *
- * Interface ISearchParameterDAO
- * Defines data access providers for search parameters
+ * Interface ISearchParameterDAO Defines data access providers for search parameters
  *
  */
 public interface ISearchParameterDAO
 {
     /**
      * Gets the parameters defined by the specified key
-     * @param strParameterKey the parameter key
+     * 
+     * @param strParameterKey
+     *            the parameter key
      * @return the found parameter
      */
     ReferenceItem load( String strParameterKey );
 
     /**
      * Updates the value of an existing parameter
-     * @param param the parameter to store
+     * 
+     * @param param
+     *            the parameter to store
      */
     void store( ReferenceItem param );
 
     /**
      * Gets a list of all search parameters
+     * 
      * @return all search parameters as a Map
      */
-    Map<String, String> findAll(  );
+    Map<String, String> findAll( );
 
     /**
      * Gets a list of all search parameters
+     * 
      * @return all search parameters as a ReferenceList
      */
-    ReferenceList selectParametersList(  );
+    ReferenceList selectParametersList( );
 }

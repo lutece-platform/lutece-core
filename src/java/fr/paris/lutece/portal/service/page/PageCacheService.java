@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -40,7 +40,6 @@ import net.sf.ehcache.Element;
 
 import java.util.concurrent.ConcurrentHashMap;
 
-
 /**
  * Page Cache Service
  */
@@ -49,19 +48,21 @@ public class PageCacheService extends AbstractCacheableService
     private static final String SERVICE_NAME = "Page Cache Service";
 
     // Performance patch
-    private static ConcurrentHashMap<String, String> _keyMemory = new ConcurrentHashMap<String, String>(  );
+    private static ConcurrentHashMap<String, String> _keyMemory = new ConcurrentHashMap<String, String>( );
 
     /**
      * {@inheritDoc }
      */
-    public String getName(  )
+    public String getName( )
     {
         return SERVICE_NAME;
     }
 
     /**
      * Get a memory key
-     * @param strKey The key
+     * 
+     * @param strKey
+     *            The key
      * @return The key
      */
     String getKey( String strKey )
@@ -77,10 +78,11 @@ public class PageCacheService extends AbstractCacheableService
     }
 
     /**
-     * @see net.sf.ehcache.event.CacheEventListener#notifyElementEvicted(net.sf.ehcache.Ehcache,
-     *      net.sf.ehcache.Element)
-     * @param cache The Ehcache object
-     * @param element The Element object
+     * @see net.sf.ehcache.event.CacheEventListener#notifyElementEvicted(net.sf.ehcache.Ehcache, net.sf.ehcache.Element)
+     * @param cache
+     *            The Ehcache object
+     * @param element
+     *            The Element object
      */
     @Override
     public void notifyElementEvicted( Ehcache cache, Element element )
@@ -89,10 +91,11 @@ public class PageCacheService extends AbstractCacheableService
     }
 
     /**
-     * @see net.sf.ehcache.event.CacheEventListener#notifyElementExpired(net.sf.ehcache.Ehcache,
-     *      net.sf.ehcache.Element)
-     * @param cache The Ehcache object
-     * @param element The Element object
+     * @see net.sf.ehcache.event.CacheEventListener#notifyElementExpired(net.sf.ehcache.Ehcache, net.sf.ehcache.Element)
+     * @param cache
+     *            The Ehcache object
+     * @param element
+     *            The Element object
      */
     @Override
     public void notifyElementExpired( Ehcache cache, Element element )
@@ -101,10 +104,11 @@ public class PageCacheService extends AbstractCacheableService
     }
 
     /**
-     * @see net.sf.ehcache.event.CacheEventListener#notifyElementRemoved(net.sf.ehcache.Ehcache,
-     *      net.sf.ehcache.Element)
-     * @param cache The Ehcache object
-     * @param element The Element object
+     * @see net.sf.ehcache.event.CacheEventListener#notifyElementRemoved(net.sf.ehcache.Ehcache, net.sf.ehcache.Element)
+     * @param cache
+     *            The Ehcache object
+     * @param element
+     *            The Element object
      */
     @Override
     public void notifyElementRemoved( Ehcache cache, Element element )
@@ -114,20 +118,22 @@ public class PageCacheService extends AbstractCacheableService
 
     /**
      * @see net.sf.ehcache.event.CacheEventListener#notifyRemoveAll(net.sf.ehcache.Ehcache)
-     * @param cache The Ehcache object
+     * @param cache
+     *            The Ehcache object
      */
     @Override
     public void notifyRemoveAll( Ehcache cache )
     {
-        _keyMemory.clear(  );
+        _keyMemory.clear( );
     }
 
     /**
-     * @param element The Element object
+     * @param element
+     *            The Element object
      */
     public void removeKeyFromMap( Element element )
     {
-        _keyMemory.remove( (String) element.getKey(  ) );
+        _keyMemory.remove( (String) element.getKey( ) );
     }
 
     /**
@@ -135,7 +141,7 @@ public class PageCacheService extends AbstractCacheableService
      * @return the instance
      */
     @Override
-    public Object clone(  )
+    public Object clone( )
     {
         throw new RuntimeException( "This class shouldn't be cloned" );
     }

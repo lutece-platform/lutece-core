@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -35,7 +35,6 @@ package fr.paris.lutece.portal.web.encoding;
 
 import javax.servlet.http.HttpServletResponse;
 
-
 /**
  * This class provides a Wrapper of an Http response that manage a correct UTF-8 encoding
  *
@@ -47,7 +46,9 @@ public class EncodingServletResponse extends javax.servlet.http.HttpServletRespo
 
     /**
      * Constructor
-     * @param response The HTTP response
+     * 
+     * @param response
+     *            The HTTP response
      */
     public EncodingServletResponse( HttpServletResponse response )
     {
@@ -56,18 +57,20 @@ public class EncodingServletResponse extends javax.servlet.http.HttpServletRespo
 
     /**
      * Sets the content type
-     * @param type The content type
+     * 
+     * @param type
+     *            The content type
      */
     public void setContentType( String type )
     {
         String explicitType = type;
 
         // If a specific encoding has not already been set by the app,
-        // let's see if this is a call to specify it.  If the content
+        // let's see if this is a call to specify it. If the content
         // type doesn't explicitly set an encoding, make it UTF-8.
         if ( !_bEncodingSpecified )
         {
-            String lowerType = type.toLowerCase(  );
+            String lowerType = type.toLowerCase( );
 
             // See if this is a call to explicitly set the character encoding.
             if ( lowerType.indexOf( "charset" ) < 0 )

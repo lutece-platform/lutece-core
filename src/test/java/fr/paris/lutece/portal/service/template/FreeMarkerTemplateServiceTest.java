@@ -40,7 +40,6 @@ import fr.paris.lutece.test.LuteceTestCase;
 import java.util.HashMap;
 import java.util.Map;
 
-
 /**
  *
  * @author Pierre
@@ -50,13 +49,13 @@ public class FreeMarkerTemplateServiceTest extends LuteceTestCase
     /**
      * Test of init method, of class fr.paris.lutece.portal.service.template.FreeMarkerTemplateService.
      */
-    public void testInit(  )
+    public void testInit( )
     {
         System.out.println( "init" );
 
         String strTemplatePath = "WEB-INF/templates/";
 
-        IFreeMarkerTemplateService freeMarkerTemplateService = FreeMarkerTemplateService.getInstance(  );
+        IFreeMarkerTemplateService freeMarkerTemplateService = FreeMarkerTemplateService.getInstance( );
 
         freeMarkerTemplateService.init( strTemplatePath );
     }
@@ -64,29 +63,29 @@ public class FreeMarkerTemplateServiceTest extends LuteceTestCase
     /**
      * Test of loadTemplate method, of class fr.paris.lutece.portal.service.template.FreeMarkerTemplateService.
      */
-    public void testLoadTemplate(  )
+    public void testLoadTemplate( )
     {
         System.out.println( "loadTemplate" );
 
         String strPath = "WEB-INF/templates/";
         String strTemplate = "skin/site/portal_footer.html";
 
-        Map<String, Object> model = new HashMap<String, Object>(  );
+        Map<String, Object> model = new HashMap<String, Object>( );
         model.put( "web_mail", "lutece@paris.fr" );
         model.put( Markers.PAGE_MAIN_MENU, "menu" );
 
-        IFreeMarkerTemplateService freeMarkerTemplateService = FreeMarkerTemplateService.getInstance(  );
-        freeMarkerTemplateService.loadTemplate( strPath, strTemplate, LocaleService.getDefault(  ), model );
+        IFreeMarkerTemplateService freeMarkerTemplateService = FreeMarkerTemplateService.getInstance( );
+        freeMarkerTemplateService.loadTemplate( strPath, strTemplate, LocaleService.getDefault( ), model );
     }
 
     /**
      * Test of resetCache method, of class fr.paris.lutece.portal.service.template.FreeMarkerTemplateService.
      */
-    public void testResetCache(  )
+    public void testResetCache( )
     {
         System.out.println( "resetCache" );
 
-        IFreeMarkerTemplateService freeMarkerTemplateService = FreeMarkerTemplateService.getInstance(  );
-        freeMarkerTemplateService.resetCache(  );
+        IFreeMarkerTemplateService freeMarkerTemplateService = FreeMarkerTemplateService.getInstance( );
+        freeMarkerTemplateService.resetCache( );
     }
 }

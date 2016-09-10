@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -35,7 +35,6 @@ package fr.paris.lutece.portal.business.right;
 
 import java.util.List;
 
-
 /**
  *
  * @author LEVY
@@ -45,21 +44,24 @@ public interface IFeatureGroupDAO
     /**
      * Delete a record from the table
      *
-     * @param strIdFeatureGroup The indentifier of the object FeatureGroup
+     * @param strIdFeatureGroup
+     *            The indentifier of the object FeatureGroup
      */
     void delete( String strIdFeatureGroup );
 
     /**
      * Insert a new record in the table.
      *
-     * @param featureGroup instance of the feature group to insert
+     * @param featureGroup
+     *            instance of the feature group to insert
      */
     void insert( FeatureGroup featureGroup );
 
     /**
      * load the data of FeatureGroup from the table
      *
-     * @param strIdFeatureGroup The indentifier of the object FeatureGroup
+     * @param strIdFeatureGroup
+     *            The indentifier of the object FeatureGroup
      * @return The Instance of the object Page
      */
     FeatureGroup load( String strIdFeatureGroup );
@@ -69,19 +71,20 @@ public interface IFeatureGroupDAO
      *
      * @return the count of all the feature groups
      */
-    int selectFeatureGroupsCount(  );
+    int selectFeatureGroupsCount( );
 
     /**
      * Loads the data of all the feature groups and returns them in form of a collection
      *
      * @return the list which contains the data of all the feature groups
      */
-    List<FeatureGroup> selectFeatureGroupsList(  );
+    List<FeatureGroup> selectFeatureGroupsList( );
 
     /**
      * Update the record in the table
      *
-     * @param featureGroup the reference of the feature group
+     * @param featureGroup
+     *            the reference of the feature group
      */
     void store( FeatureGroup featureGroup );
 }

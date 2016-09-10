@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -44,34 +44,33 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-
 /**
  * Daemon that manage a pool of threads to launch runnables.
  */
 public class ThreadLauncherDaemon extends Daemon
 {
     private static final String PROPERTY_MAX_NUMBER_THREAD = "daemon.threadLauncherDaemon.maxNumberOfThread";
-    private static Deque<RunnableQueueItem> _stackItems = new ArrayDeque<RunnableQueueItem>(  );
-    private Map<String, Thread> _mapThreadByKey = new HashMap<String, Thread>(  );
-    private List<Thread> _listThread = new ArrayList<Thread>(  );
+    private static Deque<RunnableQueueItem> _stackItems = new ArrayDeque<RunnableQueueItem>( );
+    private Map<String, Thread> _mapThreadByKey = new HashMap<String, Thread>( );
+    private List<Thread> _listThread = new ArrayList<Thread>( );
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void run(  )
+    public void run( )
     {
         int nMaxNumberThread = AppPropertiesService.getPropertyInt( PROPERTY_MAX_NUMBER_THREAD, 5 );
 
         // We remove dead threads from running thread collections
         RunnableQueueItem item = null;
-        List<String> listDeadThreadKeys = new ArrayList<String>(  );
+        List<String> listDeadThreadKeys = new ArrayList<String>( );
 
-        for ( Entry<String, Thread> threadEntry : _mapThreadByKey.entrySet(  ) )
+        for ( Entry<String, Thread> threadEntry : _mapThreadByKey.entrySet( ) )
         {
-            if ( !threadEntry.getValue(  ).isAlive(  ) )
+            if ( !threadEntry.getValue( ).isAlive( ) )
             {
-                listDeadThreadKeys.add( threadEntry.getKey(  ) );
+                listDeadThreadKeys.add( threadEntry.getKey( ) );
             }
         }
 
@@ -80,11 +79,11 @@ public class ThreadLauncherDaemon extends Daemon
             _mapThreadByKey.remove( strThreadKey );
         }
 
-        List<Thread> listDeadThreads = new ArrayList<Thread>(  );
+        List<Thread> listDeadThreads = new ArrayList<Thread>( );
 
         for ( Thread thread : _listThread )
         {
-            if ( !thread.isAlive(  ) )
+            if ( !thread.isAlive( ) )
             {
                 listDeadThreads.add( thread );
             }
@@ -95,20 +94,20 @@ public class ThreadLauncherDaemon extends Daemon
             _listThread.remove( thread );
         }
 
-        int nCurrentNumberRunningThreads = _mapThreadByKey.size(  ) + _listThread.size(  );
+        int nCurrentNumberRunningThreads = _mapThreadByKey.size( ) + _listThread.size( );
 
-        List<RunnableQueueItem> listLockedItems = new ArrayList<RunnableQueueItem>(  );
+        List<RunnableQueueItem> listLockedItems = new ArrayList<RunnableQueueItem>( );
 
-        while ( ( nCurrentNumberRunningThreads < nMaxNumberThread ) && ( ( item = popItemFromQueue(  ) ) != null ) )
+        while ( ( nCurrentNumberRunningThreads < nMaxNumberThread ) && ( ( item = popItemFromQueue( ) ) != null ) )
         {
             // If the item has a key, then we must make sure that another thread with the same key and plugin is not running
-            if ( ( item.getKey(  ) != null ) && ( item.getPlugin(  ) != null ) )
+            if ( ( item.getKey( ) != null ) && ( item.getPlugin( ) != null ) )
             {
-                Thread thread = _mapThreadByKey.get( item.computeKey(  ) );
+                Thread thread = _mapThreadByKey.get( item.computeKey( ) );
 
                 if ( thread != null )
                 {
-                    if ( thread.isAlive(  ) )
+                    if ( thread.isAlive( ) )
                     {
                         // The thread is already running. We declare this item as locked for this run of the daemon.
                         listLockedItems.add( item );
@@ -117,9 +116,9 @@ public class ThreadLauncherDaemon extends Daemon
                     {
                         // Dead threads are removed from collections at the beginning of the run of the daemon
                         // We still check again that the thread is alive just in case it died during the run
-                        thread = new Thread( item.getRunnable(  ) );
-                        thread.start(  );
-                        _mapThreadByKey.put( item.computeKey(  ), thread );
+                        thread = new Thread( item.getRunnable( ) );
+                        thread.start( );
+                        _mapThreadByKey.put( item.computeKey( ), thread );
 
                         // We do not increase the number of running threads, because we removed and add one
                     }
@@ -127,18 +126,18 @@ public class ThreadLauncherDaemon extends Daemon
                 else
                 {
                     // We start a new thread, and increase the current number of running threads
-                    thread = new Thread( item.getRunnable(  ) );
-                    thread.start(  );
-                    _mapThreadByKey.put( item.computeKey(  ), thread );
+                    thread = new Thread( item.getRunnable( ) );
+                    thread.start( );
+                    _mapThreadByKey.put( item.computeKey( ), thread );
                     nCurrentNumberRunningThreads++;
                 }
             }
             else
             {
                 // If it has no key, or if the plugin has not been set, we create a thread in the keyless collection
-                Thread thread = new Thread( item.getRunnable(  ) );
-                thread.start(  );
-                _mapThreadByKey.put( item.computeKey(  ), thread );
+                Thread thread = new Thread( item.getRunnable( ) );
+                thread.start( );
+                _mapThreadByKey.put( item.computeKey( ), thread );
                 nCurrentNumberRunningThreads++;
             }
         }
@@ -161,19 +160,20 @@ public class ThreadLauncherDaemon extends Daemon
     }
 
     /**
-     * Add a runnable to the launch queue. It will be launched as soon as a
-     * thread is available.
-     * @param runnable The runnable to execute
-     * @param strKey The key of the runnable. Runnables of a given plugin are
-     *            ensured that they will not be executed at the same time if
-     *            they have the same key.
-     * @param plugin The plugin the runnable is associated with
+     * Add a runnable to the launch queue. It will be launched as soon as a thread is available.
+     * 
+     * @param runnable
+     *            The runnable to execute
+     * @param strKey
+     *            The key of the runnable. Runnables of a given plugin are ensured that they will not be executed at the same time if they have the same key.
+     * @param plugin
+     *            The plugin the runnable is associated with
      */
     public static void addItemToQueue( Runnable runnable, String strKey, Plugin plugin )
     {
         RunnableQueueItem runnableItem = new RunnableQueueItem( runnable, strKey, plugin );
 
-        synchronized ( ThreadLauncherDaemon.class )
+        synchronized( ThreadLauncherDaemon.class )
         {
             _stackItems.addLast( runnableItem );
         }
@@ -181,7 +181,9 @@ public class ThreadLauncherDaemon extends Daemon
 
     /**
      * Add a runnable item to the queue
-     * @param runnableItem The runnable item to add to the queue
+     * 
+     * @param runnableItem
+     *            The runnable item to add to the queue
      */
     private static synchronized void addItemToQueue( RunnableQueueItem runnableItem )
     {
@@ -190,24 +192,26 @@ public class ThreadLauncherDaemon extends Daemon
 
     /**
      * Pop the first item of the queue. The item is removed from the queue.
+     * 
      * @return The first item of the queue, or null if the queue is empty
      */
-    private static synchronized RunnableQueueItem popItemFromQueue(  )
+    private static synchronized RunnableQueueItem popItemFromQueue( )
     {
-        if ( _stackItems.size(  ) == 0 )
+        if ( _stackItems.size( ) == 0 )
         {
             return null;
         }
 
-        return _stackItems.pop(  );
+        return _stackItems.pop( );
     }
 
     /**
      * Count the number of items in the queue.
+     * 
      * @return The current number of items in the queue
      */
-    public static synchronized Integer countItemsInQueue(  )
+    public static synchronized Integer countItemsInQueue( )
     {
-        return _stackItems.size(  );
+        return _stackItems.size( );
     }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -35,7 +35,6 @@ package fr.paris.lutece.portal.business.globalmanagement;
 
 import java.util.Collection;
 
-
 /**
  * Interface of RichTextEditorDAO
  */
@@ -45,7 +44,9 @@ public interface IRichTextEditorDAO
 
     /**
      * Get the collection of RichTextEditor for back or front office
-     * @param bBackOffice True if the list should contain back office editors, false if it should contain front office editors.
+     * 
+     * @param bBackOffice
+     *            True if the list should contain back office editors, false if it should contain front office editors.
      * @return The collection of RichTextEditor for back or front office
      */
     Collection<RichTextEditor> findEditors( Boolean bBackOffice );

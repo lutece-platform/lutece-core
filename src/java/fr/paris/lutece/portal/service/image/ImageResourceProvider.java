@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,7 +33,6 @@
  */
 package fr.paris.lutece.portal.service.image;
 
-
 /**
  * This class provide ImageResourceProvider Interface
  *
@@ -42,13 +41,16 @@ public interface ImageResourceProvider
 {
     /**
      * Return the Resource Type id
+     * 
      * @return The Resource Type Id
      */
-    String getResourceTypeId(  );
+    String getResourceTypeId( );
 
     /**
      * Return the Resource id
-     * @param nIdResource The resource identifier
+     * 
+     * @param nIdResource
+     *            The resource identifier
      * @return The Resource Image
      */
     ImageResource getImageResource( int nIdResource );

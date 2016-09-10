@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -77,7 +77,8 @@ public class AdminPagePortletJspBean extends AdminFeaturesPageJspBean
     /**
      * Processes the modification of a portlet whose identifier is stored in the http request
      *
-     * @param request The http request
+     * @param request
+     *            The http request
      * @return The jsp url of the process result
      */
     public String doModifyPortlet( HttpServletRequest request )
@@ -88,13 +89,13 @@ public class AdminPagePortletJspBean extends AdminFeaturesPageJspBean
         int nPortletId = Integer.parseInt( strPortletId );
         Portlet portlet = PortletHome.findByPrimaryKey( nPortletId );
 
-        for ( PortletType portletType : PortletTypeHome.getPortletTypesList( getLocale(  ) ) )
+        for ( PortletType portletType : PortletTypeHome.getPortletTypesList( getLocale( ) ) )
         {
-            if ( portletType.getId(  ).equals( portlet.getPortletTypeId(  ) ) )
+            if ( portletType.getId( ).equals( portlet.getPortletTypeId( ) ) )
             {
-                UrlItem url = new UrlItem( portletType.getUrlUpdate(  ) );
+                UrlItem url = new UrlItem( portletType.getUrlUpdate( ) );
                 url.addParameter( Parameters.PORTLET_ID, nPortletId );
-                strUrl = url.getUrl(  );
+                strUrl = url.getUrl( );
 
                 break;
             }
@@ -104,10 +105,10 @@ public class AdminPagePortletJspBean extends AdminFeaturesPageJspBean
     }
 
     /**
-     * Redirects towards the url of the process creation of a portlet according to its type or null if the portlet type
-     * doesn't exist.
+     * Redirects towards the url of the process creation of a portlet according to its type or null if the portlet type doesn't exist.
      *
-     * @param request The http request
+     * @param request
+     *            The http request
      * @return The jsp url of the portlet type process creation
      */
     public String doCreatePortlet( HttpServletRequest request )
@@ -115,11 +116,11 @@ public class AdminPagePortletJspBean extends AdminFeaturesPageJspBean
         String strUrl = null;
         String strPortletTypeId = request.getParameter( Parameters.PORTLET_TYPE_ID );
 
-        for ( PortletType portletType : PortletTypeHome.getPortletTypesList( getLocale(  ) ) )
+        for ( PortletType portletType : PortletTypeHome.getPortletTypesList( getLocale( ) ) )
         {
-            if ( portletType.getId(  ).equals( strPortletTypeId ) )
+            if ( portletType.getId( ).equals( strPortletTypeId ) )
             {
-                strUrl = portletType.getUrlCreation(  );
+                strUrl = portletType.getUrlCreation( );
 
                 break;
             }
@@ -131,114 +132,126 @@ public class AdminPagePortletJspBean extends AdminFeaturesPageJspBean
     /**
      * Displays the confirm message for deleting the portlet
      *
-     * @param request The http request
+     * @param request
+     *            The http request
      * @return The confirm page
-     * @throws AccessDeniedException if the user is not authorized to manage the portlet
+     * @throws AccessDeniedException
+     *             if the user is not authorized to manage the portlet
      */
     public String getRemovePortlet( HttpServletRequest request ) throws AccessDeniedException
     {
         String strPortletId = request.getParameter( Parameters.PORTLET_ID );
         if ( !StringUtils.isNumeric( strPortletId ) )
         {
-            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_ERROR);
+            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_ERROR );
         }
         int nPortletId = Integer.parseInt( strPortletId );
         Portlet portlet = null;
         try
         {
             portlet = PortletHome.findByPrimaryKey( nPortletId );
-        } catch (NullPointerException e)
+        }
+        catch( NullPointerException e )
         {
             AppLogService.error( "Error looking for portlet with id " + nPortletId, e );
         }
         if ( portlet == null || portlet.getId( ) != nPortletId )
         {
-            return AdminMessageService.getMessageUrl( request, Messages.MESSAGE_INVALID_ENTRY, new Object[] { nPortletId }, AdminMessage.TYPE_ERROR);
+            return AdminMessageService.getMessageUrl( request, Messages.MESSAGE_INVALID_ENTRY, new Object [ ] {
+                nPortletId
+            }, AdminMessage.TYPE_ERROR );
         }
         AdminUser user = AdminUserService.getAdminUser( request );
-        if ( !RBACService.isAuthorized( PortletType.RESOURCE_TYPE, portlet.getPortletTypeId(  ),
-                PortletResourceIdService.PERMISSION_MANAGE, user ) )
+        if ( !RBACService.isAuthorized( PortletType.RESOURCE_TYPE, portlet.getPortletTypeId( ), PortletResourceIdService.PERMISSION_MANAGE, user ) )
         {
-            throw new AccessDeniedException( "User " + user + " is not authorized to permission " + PortletResourceIdService.PERMISSION_MANAGE
-                    + " on portlet " + nPortletId );
+            throw new AccessDeniedException( "User " + user + " is not authorized to permission " + PortletResourceIdService.PERMISSION_MANAGE + " on portlet "
+                    + nPortletId );
         }
         String strUrl = JSP_REMOVE_PORTLET + "?portlet_id=" + strPortletId;
         String strTarget = "_top";
         if ( PortletHome.hasAlias( nPortletId ) )
         {
-            return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_WARNING_PORTLET_ALIAS,
-                    new Object[] { portlet.getName( ) },
-                    null, strUrl, strTarget, AdminMessage.TYPE_CONFIRMATION );
+            return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_WARNING_PORTLET_ALIAS, new Object [ ] {
+                portlet.getName( )
+            }, null, strUrl, strTarget, AdminMessage.TYPE_CONFIRMATION );
         }
 
-        ArrayList<String> listErrors = new ArrayList<String>(  );
+        ArrayList<String> listErrors = new ArrayList<String>( );
         Locale locale = AdminUserService.getLocale( request );
-        if ( !PortletRemovalListenerService.getService(  ).checkForRemoval( strPortletId, listErrors, locale ) )
+        if ( !PortletRemovalListenerService.getService( ).checkForRemoval( strPortletId, listErrors, locale ) )
         {
             String strCause = AdminMessageService.getFormattedList( listErrors, locale );
-            Object[] args = { strCause, portlet.getName( ) };
+            Object [ ] args = {
+                    strCause, portlet.getName( )
+            };
 
-            return AdminMessageService.getMessageUrl( request, MESSAGE_CANNOT_REMOVE_PORTLET, args,
-                MESSAGE_CANNOT_REMOVE_PORTLET_TITLE, strUrl, strTarget, AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrl( request, MESSAGE_CANNOT_REMOVE_PORTLET, args, MESSAGE_CANNOT_REMOVE_PORTLET_TITLE, strUrl, strTarget,
+                    AdminMessage.TYPE_STOP );
         }
 
-        return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_CONFIRM_REMOVE_PORTLET,
-                new Object[] { portlet.getName( ) }, null, strUrl, strTarget,
-                AdminMessage.TYPE_CONFIRMATION );
+        return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_CONFIRM_REMOVE_PORTLET, new Object [ ] {
+            portlet.getName( )
+        }, null, strUrl, strTarget, AdminMessage.TYPE_CONFIRMATION );
     }
 
     /**
      * Processes the removal of the portlet
      *
-     * @param request The http request
+     * @param request
+     *            The http request
      * @return The Jsp URL of the process result
-     * @throws AccessDeniedException if the user is not authorized to manage the portlet
+     * @throws AccessDeniedException
+     *             if the user is not authorized to manage the portlet
      */
     public String doRemovePortlet( HttpServletRequest request ) throws AccessDeniedException
     {
         String strPortletId = request.getParameter( Parameters.PORTLET_ID );
         if ( !StringUtils.isNumeric( strPortletId ) )
         {
-            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_ERROR);
+            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_ERROR );
         }
         int nPortletId = Integer.parseInt( strPortletId );
         Portlet portlet = null;
         try
         {
             portlet = PortletHome.findByPrimaryKey( nPortletId );
-        } catch (NullPointerException e)
+        }
+        catch( NullPointerException e )
         {
             AppLogService.error( "Error looking for portlet with id " + nPortletId, e );
         }
         if ( portlet == null || portlet.getId( ) != nPortletId )
         {
-            return AdminMessageService.getMessageUrl( request, Messages.MESSAGE_INVALID_ENTRY, new Object[] { nPortletId }, AdminMessage.TYPE_ERROR);
+            return AdminMessageService.getMessageUrl( request, Messages.MESSAGE_INVALID_ENTRY, new Object [ ] {
+                nPortletId
+            }, AdminMessage.TYPE_ERROR );
         }
         AdminUser user = AdminUserService.getAdminUser( request );
-        if ( !RBACService.isAuthorized( PortletType.RESOURCE_TYPE, portlet.getPortletTypeId(  ),
-                PortletResourceIdService.PERMISSION_MANAGE, user ) )
+        if ( !RBACService.isAuthorized( PortletType.RESOURCE_TYPE, portlet.getPortletTypeId( ), PortletResourceIdService.PERMISSION_MANAGE, user ) )
         {
-            throw new AccessDeniedException( "User " + user + " is not authorized to permission " + PortletResourceIdService.PERMISSION_MANAGE
-                    + " on portlet " + nPortletId );
+            throw new AccessDeniedException( "User " + user + " is not authorized to permission " + PortletResourceIdService.PERMISSION_MANAGE + " on portlet "
+                    + nPortletId );
         }
-        ArrayList<String> listErrors = new ArrayList<String>(  );
+        ArrayList<String> listErrors = new ArrayList<String>( );
         Locale locale = AdminUserService.getLocale( request );
 
-        if ( PortletRemovalListenerService.getService(  ).checkForRemoval( strPortletId, listErrors, locale ) )
+        if ( PortletRemovalListenerService.getService( ).checkForRemoval( strPortletId, listErrors, locale ) )
         {
-            portlet.remove(  );
+            portlet.remove( );
         }
 
-        String strUrl = JSP_ADMIN_SITE + "?" + Parameters.PAGE_ID + "=" + portlet.getPageId(  );
+        String strUrl = JSP_ADMIN_SITE + "?" + Parameters.PAGE_ID + "=" + portlet.getPageId( );
         return strUrl;
     }
 
     /**
      * Displays the portlet status modification page
      *
-     * @param request The http request
+     * @param request
+     *            The http request
      * @return The confirm page
-     * @throws AccessDeniedException if the user is not authorized to manage the portlet
+     * @throws AccessDeniedException
+     *             if the user is not authorized to manage the portlet
      */
     public String getModifyPortletStatus( HttpServletRequest request ) throws AccessDeniedException
     {
@@ -246,46 +259,51 @@ public class AdminPagePortletJspBean extends AdminFeaturesPageJspBean
         String strStatus = request.getParameter( PORTLET_STATUS );
         if ( !StringUtils.isNumeric( strPortletId ) || !StringUtils.isNumeric( strStatus ) )
         {
-            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_ERROR);
+            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_ERROR );
         }
         int nPortletId = Integer.parseInt( strPortletId );
         Portlet portlet = null;
         try
         {
             portlet = PortletHome.findByPrimaryKey( nPortletId );
-        } catch (NullPointerException e)
+        }
+        catch( NullPointerException e )
         {
             AppLogService.error( "Error looking for portlet with id " + nPortletId, e );
         }
         if ( portlet == null || portlet.getId( ) != nPortletId )
         {
-            return AdminMessageService.getMessageUrl( request, Messages.MESSAGE_INVALID_ENTRY, new Object[] { nPortletId }, AdminMessage.TYPE_ERROR);
+            return AdminMessageService.getMessageUrl( request, Messages.MESSAGE_INVALID_ENTRY, new Object [ ] {
+                nPortletId
+            }, AdminMessage.TYPE_ERROR );
         }
         int nStatus = Integer.parseInt( strStatus );
         if ( nStatus != Portlet.STATUS_PUBLISHED && nStatus != Portlet.STATUS_UNPUBLISHED )
         {
-            return AdminMessageService.getMessageUrl( request, Messages.MESSAGE_INVALID_ENTRY, new Object[] { nStatus }, AdminMessage.TYPE_ERROR);
+            return AdminMessageService.getMessageUrl( request, Messages.MESSAGE_INVALID_ENTRY, new Object [ ] {
+                nStatus
+            }, AdminMessage.TYPE_ERROR );
         }
         AdminUser user = AdminUserService.getAdminUser( request );
-        if ( !RBACService.isAuthorized( PortletType.RESOURCE_TYPE, portlet.getPortletTypeId(  ),
-                PortletResourceIdService.PERMISSION_MANAGE, user ) )
+        if ( !RBACService.isAuthorized( PortletType.RESOURCE_TYPE, portlet.getPortletTypeId( ), PortletResourceIdService.PERMISSION_MANAGE, user ) )
         {
-            throw new AccessDeniedException( "User " + user + " is not authorized to permission " + PortletResourceIdService.PERMISSION_MANAGE
-                    + " on portlet " + nPortletId );
+            throw new AccessDeniedException( "User " + user + " is not authorized to permission " + PortletResourceIdService.PERMISSION_MANAGE + " on portlet "
+                    + nPortletId );
         }
         String strUrl = JSP_DO_MODIFY_STATUS + "?portlet_id=" + strPortletId + "&status=" + strStatus;
         String strTarget = "_top";
 
-        return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_CONFIRM_MODIFY_STATUS, strUrl, strTarget,
-            AdminMessage.TYPE_CONFIRMATION );
+        return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_CONFIRM_MODIFY_STATUS, strUrl, strTarget, AdminMessage.TYPE_CONFIRMATION );
     }
 
     /**
      * Processes the status definition for portlet : suspended or activated
      *
-     * @param request The http request
+     * @param request
+     *            The http request
      * @return The Jsp URL of the process result
-     * @throws AccessDeniedException if the user is not authorized to manage the portlet
+     * @throws AccessDeniedException
+     *             if the user is not authorized to manage the portlet
      */
     public String doModifyPortletStatus( HttpServletRequest request ) throws AccessDeniedException
     {
@@ -293,36 +311,40 @@ public class AdminPagePortletJspBean extends AdminFeaturesPageJspBean
         String strStatus = request.getParameter( PORTLET_STATUS );
         if ( !StringUtils.isNumeric( strPortletId ) || !StringUtils.isNumeric( strStatus ) )
         {
-            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_ERROR);
+            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_ERROR );
         }
         int nPortletId = Integer.parseInt( strPortletId );
         Portlet portlet = null;
         try
         {
             portlet = PortletHome.findByPrimaryKey( nPortletId );
-        } catch (NullPointerException e)
+        }
+        catch( NullPointerException e )
         {
             AppLogService.error( "Error looking for portlet with id " + nPortletId, e );
         }
         if ( portlet == null || portlet.getId( ) != nPortletId )
         {
-            return AdminMessageService.getMessageUrl( request, Messages.MESSAGE_INVALID_ENTRY, new Object[] { nPortletId }, AdminMessage.TYPE_ERROR);
+            return AdminMessageService.getMessageUrl( request, Messages.MESSAGE_INVALID_ENTRY, new Object [ ] {
+                nPortletId
+            }, AdminMessage.TYPE_ERROR );
         }
         int nStatus = Integer.parseInt( strStatus );
         if ( nStatus != Portlet.STATUS_PUBLISHED && nStatus != Portlet.STATUS_UNPUBLISHED )
         {
-            return AdminMessageService.getMessageUrl( request, Messages.MESSAGE_INVALID_ENTRY, new Object[] { nStatus }, AdminMessage.TYPE_ERROR);
+            return AdminMessageService.getMessageUrl( request, Messages.MESSAGE_INVALID_ENTRY, new Object [ ] {
+                nStatus
+            }, AdminMessage.TYPE_ERROR );
         }
         AdminUser user = AdminUserService.getAdminUser( request );
-        if ( !RBACService.isAuthorized( PortletType.RESOURCE_TYPE, portlet.getPortletTypeId(  ),
-                PortletResourceIdService.PERMISSION_MANAGE, user ) )
+        if ( !RBACService.isAuthorized( PortletType.RESOURCE_TYPE, portlet.getPortletTypeId( ), PortletResourceIdService.PERMISSION_MANAGE, user ) )
         {
-            throw new AccessDeniedException( "User " + user + " is not authorized to permission " + PortletResourceIdService.PERMISSION_MANAGE
-                    + " on portlet " + nPortletId );
+            throw new AccessDeniedException( "User " + user + " is not authorized to permission " + PortletResourceIdService.PERMISSION_MANAGE + " on portlet "
+                    + nPortletId );
         }
 
         PortletHome.updateStatus( portlet, nStatus );
 
-        return JSP_ADMIN_SITE + "?" + Parameters.PAGE_ID + "=" + portlet.getPageId(  );
+        return JSP_ADMIN_SITE + "?" + Parameters.PAGE_ID + "=" + portlet.getPageId( );
     }
 }

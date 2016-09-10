@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -40,7 +40,6 @@ import fr.paris.lutece.portal.web.l10n.LocaleService;
 import java.util.List;
 import java.util.Locale;
 
-
 /**
  * Daemon to anonymize admin users
  */
@@ -53,38 +52,37 @@ public class AnonymizationDaemon extends Daemon
      * {@inheritDoc}
      */
     @Override
-    public void run(  )
+    public void run( )
     {
-        Locale locale = LocaleService.getDefault(  );
-        StringBuilder sbLogs = new StringBuilder(  );
-        StringBuilder sbResult = new StringBuilder(  );
-        List<Integer> expiredUserIdList = AdminUserService.getExpiredUserIdList(  );
+        Locale locale = LocaleService.getDefault( );
+        StringBuilder sbLogs = new StringBuilder( );
+        StringBuilder sbResult = new StringBuilder( );
+        List<Integer> expiredUserIdList = AdminUserService.getExpiredUserIdList( );
 
-        if ( ( expiredUserIdList != null ) && ( expiredUserIdList.size(  ) > 0 ) )
+        if ( ( expiredUserIdList != null ) && ( expiredUserIdList.size( ) > 0 ) )
         {
-            int nbUserFound = expiredUserIdList.size(  );
+            int nbUserFound = expiredUserIdList.size( );
             AppLogService.info( CONSTANT_FOUND_EXPIRED_USER_ANONYMIZED_START );
 
             for ( Integer nIdUser : expiredUserIdList )
             {
                 AdminUserService.anonymizeUser( nIdUser, locale );
-                AppLogService.info( "AnonymizationService - Admin user with id " + Integer.toString( nIdUser ) +
-                    " has been anonymized" );
+                AppLogService.info( "AnonymizationService - Admin user with id " + Integer.toString( nIdUser ) + " has been anonymized" );
             }
 
             sbLogs.append( "AnonymizationService - " );
             sbLogs.append( nbUserFound );
             sbLogs.append( " admin user(s) have been anonymized" );
-            AppLogService.info( sbLogs.toString(  ) );
-            sbResult.append( sbLogs.toString(  ) );
+            AppLogService.info( sbLogs.toString( ) );
+            sbResult.append( sbLogs.toString( ) );
         }
         else
         {
             sbLogs.append( CONSTANT_NO_EXPIRED_USER );
-            AppLogService.info( sbLogs.toString(  ) );
-            sbResult.append( sbLogs.toString(  ) );
+            AppLogService.info( sbLogs.toString( ) );
+            sbResult.append( sbLogs.toString( ) );
         }
 
-        setLastRunLogs( sbLogs.toString(  ) );
+        setLastRunLogs( sbLogs.toString( ) );
     }
 }

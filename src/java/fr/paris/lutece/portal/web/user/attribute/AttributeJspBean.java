@@ -53,7 +53,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  *
  * AttributeJspBean
@@ -94,36 +93,40 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
     private static final String JSP_URL_REMOVE_ATTRIBUTE = "jsp/admin/user/attribute/DoRemoveAttribute.jsp";
     private static final String JSP_MANAGE_ATTRIBUTES = "ManageAttributes.jsp";
     private static final String JSP_MODIFY_ATTRIBUTE = "ModifyAttribute.jsp";
-    private static final AttributeService _attributeService = AttributeService.getInstance(  );
-    private static final AttributeTypeService _attributeTypeService = AttributeTypeService.getInstance(  );
+    private static final AttributeService _attributeService = AttributeService.getInstance( );
+    private static final AttributeTypeService _attributeTypeService = AttributeTypeService.getInstance( );
 
     /**
      * Get list of user attributes
-     * @param request HttpServletRequest
+     * 
+     * @param request
+     *            HttpServletRequest
      * @return list of attributes
      */
     public String getManageAttributes( HttpServletRequest request )
     {
         setPageTitleProperty( PROPERTY_MANAGE_ATTRIBUTES_PAGETITLE );
 
-        List<IAttribute> listAttributes = _attributeService.getAllAttributesWithoutFields( getLocale(  ) );
+        List<IAttribute> listAttributes = _attributeService.getAllAttributesWithoutFields( getLocale( ) );
 
         // ATTRIBUTE TYPES
-        List<AttributeType> listAttributeTypes = _attributeTypeService.getAttributeTypes( getLocale(  ) );
+        List<AttributeType> listAttributeTypes = _attributeTypeService.getAttributeTypes( getLocale( ) );
 
         HtmlTemplate template;
-        Map<String, Object> model = new HashMap<String, Object>(  );
+        Map<String, Object> model = new HashMap<String, Object>( );
         model.put( MARK_ATTRIBUTES_LIST, listAttributes );
         model.put( MARK_ATTRIBUTE_TYPES_LIST, listAttributeTypes );
 
-        template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_ATTRIBUTES, getLocale(  ), model );
+        template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_ATTRIBUTES, getLocale( ), model );
 
-        return getAdminPage( template.getHtml(  ) );
+        return getAdminPage( template.getHtml( ) );
     }
 
     /**
      * Get user attribute creation interface
-     * @param request HttpServletRequest
+     * 
+     * @param request
+     *            HttpServletRequest
      * @return the Html form
      */
     public String getCreateAttribute( HttpServletRequest request )
@@ -134,20 +137,20 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
 
         try
         {
-            attribute = (IAttribute) Class.forName( strAttributeTypeClassName ).newInstance(  );
+            attribute = (IAttribute) Class.forName( strAttributeTypeClassName ).newInstance( );
         }
-        catch ( ClassNotFoundException e )
+        catch( ClassNotFoundException e )
         {
             // class doesn't exist
             AppLogService.error( e );
         }
-        catch ( InstantiationException e )
+        catch( InstantiationException e )
         {
             // Class is abstract or is an interface or haven't accessible
             // builder
             AppLogService.error( e );
         }
-        catch ( IllegalAccessException e )
+        catch( IllegalAccessException e )
         {
             // can't access to the class
             AppLogService.error( e );
@@ -158,22 +161,24 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
             return getManageAttributes( request );
         }
 
-        setPageTitleProperty( attribute.getPropertyCreatePageTitle(  ) );
+        setPageTitleProperty( attribute.getPropertyCreatePageTitle( ) );
 
-        attribute.setAttributeType( getLocale(  ) );
+        attribute.setAttributeType( getLocale( ) );
 
         HtmlTemplate template;
-        Map<String, Object> model = new HashMap<String, Object>(  );
-        model.put( MARK_ATTRIBUTE_TYPE, attribute.getAttributeType(  ) );
+        Map<String, Object> model = new HashMap<String, Object>( );
+        model.put( MARK_ATTRIBUTE_TYPE, attribute.getAttributeType( ) );
 
-        template = AppTemplateService.getTemplate( attribute.getTemplateCreateAttribute(  ), getLocale(  ), model );
+        template = AppTemplateService.getTemplate( attribute.getTemplateCreateAttribute( ), getLocale( ), model );
 
-        return getAdminPage( template.getHtml(  ) );
+        return getAdminPage( template.getHtml( ) );
     }
 
     /**
      * Create an user attribute
-     * @param request HttpServletRequest
+     * 
+     * @param request
+     *            HttpServletRequest
      * @return The Jsp URL of the process result
      */
     public String doCreateAttribute( HttpServletRequest request )
@@ -188,20 +193,20 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
 
             try
             {
-                attribute = (IAttribute) Class.forName( strAttributeTypeClassName ).newInstance(  );
+                attribute = (IAttribute) Class.forName( strAttributeTypeClassName ).newInstance( );
             }
-            catch ( ClassNotFoundException e )
+            catch( ClassNotFoundException e )
             {
                 // class doesn't exist
                 AppLogService.error( e );
             }
-            catch ( InstantiationException e )
+            catch( InstantiationException e )
             {
                 // Class is abstract or is an interface or haven't accessible
                 // builder
                 AppLogService.error( e );
             }
-            catch ( IllegalAccessException e )
+            catch( IllegalAccessException e )
             {
                 // can't access to the class
                 AppLogService.error( e );
@@ -223,8 +228,7 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
 
             if ( strActionApply != null )
             {
-                return JSP_MODIFY_ATTRIBUTE + QUESTION_MARK + PARAMETER_ID_ATTRIBUTE + EQUAL +
-                attribute.getIdAttribute(  );
+                return JSP_MODIFY_ATTRIBUTE + QUESTION_MARK + PARAMETER_ID_ATTRIBUTE + EQUAL + attribute.getIdAttribute( );
             }
         }
 
@@ -233,7 +237,9 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
 
     /**
      * Get the user attribute modification interface
-     * @param request HttpServletRequest
+     * 
+     * @param request
+     *            HttpServletRequest
      * @return the html form
      */
     public String getModifyAttribute( HttpServletRequest request )
@@ -245,18 +251,18 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
             // Check if the ID attribute is correct
             int nIdAttribute = Integer.parseInt( strIdAttribute );
 
-            IAttribute attribute = _attributeService.getAttributeWithFields( nIdAttribute, getLocale(  ) );
+            IAttribute attribute = _attributeService.getAttributeWithFields( nIdAttribute, getLocale( ) );
 
-            setPageTitleProperty( attribute.getPropertyModifyPageTitle(  ) );
+            setPageTitleProperty( attribute.getPropertyModifyPageTitle( ) );
 
             HtmlTemplate template;
-            Map<String, Object> model = new HashMap<String, Object>(  );
+            Map<String, Object> model = new HashMap<String, Object>( );
             model.put( MARK_ATTRIBUTE, attribute );
-            model.put( MARK_ATTRIBUTE_FIELDS_LIST, attribute.getListAttributeFields(  ) );
+            model.put( MARK_ATTRIBUTE_FIELDS_LIST, attribute.getListAttributeFields( ) );
 
-            template = AppTemplateService.getTemplate( attribute.getTemplateModifyAttribute(  ), getLocale(  ), model );
+            template = AppTemplateService.getTemplate( attribute.getTemplateModifyAttribute( ), getLocale( ), model );
 
-            return getAdminPage( template.getHtml(  ) );
+            return getAdminPage( template.getHtml( ) );
         }
 
         // Otherwise, we redirect the user to the attribute management interface
@@ -265,7 +271,9 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
 
     /**
      * Modify the attribute
-     * @param request HttpServletRequest
+     * 
+     * @param request
+     *            HttpServletRequest
      * @return The Jsp URL of the process result
      */
     public String doModifyAttribute( HttpServletRequest request )
@@ -277,7 +285,7 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
 
         if ( StringUtils.isEmpty( strActionCancel ) )
         {
-            IAttribute attribute = _attributeService.getAttributeWithFields( nIdAttribute, getLocale(  ) );
+            IAttribute attribute = _attributeService.getAttributeWithFields( nIdAttribute, getLocale( ) );
 
             if ( attribute != null )
             {
@@ -292,8 +300,7 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
 
                 if ( strActionApply != null )
                 {
-                    return JSP_MODIFY_ATTRIBUTE + QUESTION_MARK + PARAMETER_ID_ATTRIBUTE + EQUAL +
-                    attribute.getIdAttribute(  );
+                    return JSP_MODIFY_ATTRIBUTE + QUESTION_MARK + PARAMETER_ID_ATTRIBUTE + EQUAL + attribute.getIdAttribute( );
                 }
             }
         }
@@ -303,24 +310,26 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
 
     /**
      * Get the confirmation to remove an user attribute
-     * @param request HttpServletRequest
+     * 
+     * @param request
+     *            HttpServletRequest
      * @return The Jsp URL of the confirmation window
      */
     public String doConfirmRemoveAttribute( HttpServletRequest request )
     {
         String strIdAttribute = request.getParameter( PARAMETER_ID_ATTRIBUTE );
-        String strUrlRemove = JSP_URL_REMOVE_ATTRIBUTE + QUESTION_MARK + PARAMETER_ID_ATTRIBUTE + EQUAL +
-            strIdAttribute;
+        String strUrlRemove = JSP_URL_REMOVE_ATTRIBUTE + QUESTION_MARK + PARAMETER_ID_ATTRIBUTE + EQUAL + strIdAttribute;
 
-        String strUrl = AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_CONFIRM_REMOVE_ATTRIBUTE,
-                strUrlRemove, AdminMessage.TYPE_CONFIRMATION );
+        String strUrl = AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_CONFIRM_REMOVE_ATTRIBUTE, strUrlRemove, AdminMessage.TYPE_CONFIRMATION );
 
         return strUrl;
     }
 
     /**
      * Remove an user attribute
-     * @param request HttpServletRequest
+     * 
+     * @param request
+     *            HttpServletRequest
      * @return The Jsp URL of the process result
      */
     public String doRemoveAttribute( HttpServletRequest request )
@@ -338,7 +347,9 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
 
     /**
      * Move up the position of the attribute field
-     * @param request HttpServletRequest
+     * 
+     * @param request
+     *            HttpServletRequest
      * @return The Jsp URL of the process result
      */
     public String doMoveUpAttribute( HttpServletRequest request )
@@ -349,22 +360,22 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
         {
             int nIdAttribute = Integer.parseInt( strIdAttribute );
 
-            List<IAttribute> listAttributes = _attributeService.getAllAttributesWithoutFields( getLocale(  ) );
+            List<IAttribute> listAttributes = _attributeService.getAllAttributesWithoutFields( getLocale( ) );
             IAttribute previousAttribute = null;
             IAttribute currentAttribute = null;
 
-            Iterator<IAttribute> it = listAttributes.iterator(  );
-            previousAttribute = it.next(  );
-            currentAttribute = it.next(  );
+            Iterator<IAttribute> it = listAttributes.iterator( );
+            previousAttribute = it.next( );
+            currentAttribute = it.next( );
 
-            while ( it.hasNext(  ) && ( currentAttribute.getIdAttribute(  ) != nIdAttribute ) )
+            while ( it.hasNext( ) && ( currentAttribute.getIdAttribute( ) != nIdAttribute ) )
             {
                 previousAttribute = currentAttribute;
-                currentAttribute = it.next(  );
+                currentAttribute = it.next( );
             }
 
-            int previousAttributePosition = previousAttribute.getPosition(  );
-            int currentAttributePosition = currentAttribute.getPosition(  );
+            int previousAttributePosition = previousAttribute.getPosition( );
+            int currentAttributePosition = currentAttribute.getPosition( );
             previousAttribute.setPosition( currentAttributePosition );
             currentAttribute.setPosition( previousAttributePosition );
 
@@ -377,7 +388,9 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
 
     /**
      * Move down the position of the attribute field
-     * @param request HttpServletRequest
+     * 
+     * @param request
+     *            HttpServletRequest
      * @return The Jsp URL of the process result
      */
     public String doMoveDownAttribute( HttpServletRequest request )
@@ -388,22 +401,22 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
         {
             int nIdAttribute = Integer.parseInt( strIdAttribute );
 
-            List<IAttribute> listAttributes = _attributeService.getAllAttributesWithoutFields( getLocale(  ) );
+            List<IAttribute> listAttributes = _attributeService.getAllAttributesWithoutFields( getLocale( ) );
             IAttribute nextAttribute = null;
             IAttribute currentAttribute = null;
 
-            Iterator<IAttribute> it = listAttributes.iterator(  );
-            currentAttribute = it.next(  );
-            nextAttribute = it.next(  );
+            Iterator<IAttribute> it = listAttributes.iterator( );
+            currentAttribute = it.next( );
+            nextAttribute = it.next( );
 
-            while ( it.hasNext(  ) && ( currentAttribute.getIdAttribute(  ) != nIdAttribute ) )
+            while ( it.hasNext( ) && ( currentAttribute.getIdAttribute( ) != nIdAttribute ) )
             {
                 currentAttribute = nextAttribute;
-                nextAttribute = it.next(  );
+                nextAttribute = it.next( );
             }
 
-            int nextAttributePosition = nextAttribute.getPosition(  );
-            int currentAttributePosition = currentAttribute.getPosition(  );
+            int nextAttributePosition = nextAttribute.getPosition( );
+            int currentAttributePosition = currentAttribute.getPosition( );
             nextAttribute.setPosition( currentAttributePosition );
             currentAttribute.setPosition( nextAttributePosition );
 

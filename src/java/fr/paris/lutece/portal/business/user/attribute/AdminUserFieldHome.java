@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -39,7 +39,6 @@ import fr.paris.lutece.portal.service.spring.SpringContextService;
 
 import java.util.List;
 
-
 /**
  *
  * AdminUserFieldHome
@@ -52,13 +51,15 @@ public final class AdminUserFieldHome
     /**
      * Private constructor
      */
-    private AdminUserFieldHome(  )
+    private AdminUserFieldHome( )
     {
     }
 
     /**
      * Load the user field
-     * @param nIdUserField ID
+     * 
+     * @param nIdUserField
+     *            ID
      * @return AdminUserField
      */
     public static AdminUserField findByPrimaryKey( int nIdUserField )
@@ -68,13 +69,15 @@ public final class AdminUserFieldHome
 
     /**
      * Insert a new user field
-     * @param userField the user field
+     * 
+     * @param userField
+     *            the user field
      */
     public static void create( AdminUserField userField )
     {
-        if ( userField.getFile(  ) != null )
+        if ( userField.getFile( ) != null )
         {
-            userField.getFile(  ).setIdFile( FileHome.create( userField.getFile(  ) ) );
+            userField.getFile( ).setIdFile( FileHome.create( userField.getFile( ) ) );
         }
 
         _dao.insert( userField );
@@ -82,13 +85,15 @@ public final class AdminUserFieldHome
 
     /**
      * Update an user field
-     * @param userField the user field
+     * 
+     * @param userField
+     *            the user field
      */
     public static void update( AdminUserField userField )
     {
-        if ( userField.getFile(  ) != null )
+        if ( userField.getFile( ) != null )
         {
-            FileHome.update( userField.getFile(  ) );
+            FileHome.update( userField.getFile( ) );
         }
 
         _dao.store( userField );
@@ -97,24 +102,27 @@ public final class AdminUserFieldHome
     /**
      * Delete an attribute.
      *
-     * @param userField the user field
+     * @param userField
+     *            the user field
      */
     public static void remove( AdminUserField userField )
     {
         if ( userField != null )
         {
-            if ( userField.getFile(  ) != null )
+            if ( userField.getFile( ) != null )
             {
-                FileHome.remove( userField.getFile(  ).getIdFile(  ) );
+                FileHome.remove( userField.getFile( ).getIdFile( ) );
             }
 
-            _dao.delete( userField.getIdUserField(  ) );
+            _dao.delete( userField.getIdUserField( ) );
         }
     }
 
     /**
      * Delete all user fields from given id field
-     * @param nIdField id field
+     * 
+     * @param nIdField
+     *            id field
      */
     public static void removeUserFieldsFromIdField( int nIdField )
     {
@@ -123,7 +131,9 @@ public final class AdminUserFieldHome
 
     /**
      * Delete all user fields from given id user
-     * @param nIdUser id user
+     * 
+     * @param nIdUser
+     *            id user
      */
     public static void removeUserFieldsFromIdUser( int nIdUser )
     {
@@ -132,7 +142,9 @@ public final class AdminUserFieldHome
 
     /**
      * Delete all user fields from given id attribute
-     * @param nIdAttribute id attribute
+     * 
+     * @param nIdAttribute
+     *            id attribute
      */
     public static void removeUserFieldsFromIdAttribute( int nIdAttribute )
     {
@@ -141,8 +153,11 @@ public final class AdminUserFieldHome
 
     /**
      * Load all the user field by a given ID user and a given ID attribute
-     * @param nIdUser the ID user
-     * @param nIdAttribute the attribute identifier
+     * 
+     * @param nIdUser
+     *            the ID user
+     * @param nIdAttribute
+     *            the attribute identifier
      * @return a list of adminuserfield
      */
     public static List<AdminUserField> selectUserFieldsByIdUserIdAttribute( int nIdUser, int nIdAttribute )
@@ -152,7 +167,9 @@ public final class AdminUserFieldHome
 
     /**
      * Load users by a given filter
-     * @param auFieldFilter the filter
+     * 
+     * @param auFieldFilter
+     *            the filter
      * @return a list of users
      */
     public static List<AdminUser> findUsersByFilter( AdminUserFieldFilter auFieldFilter )
@@ -162,7 +179,9 @@ public final class AdminUserFieldHome
 
     /**
      * Select by filter
-     * @param auFieldFilter the filter
+     * 
+     * @param auFieldFilter
+     *            the filter
      * @return a list of admin user field
      */
     public static List<AdminUserField> findByFilter( AdminUserFieldFilter auFieldFilter )
@@ -172,7 +191,9 @@ public final class AdminUserFieldHome
 
     /**
      * Remove by filter
-     * @param auFieldFilter the filter
+     * 
+     * @param auFieldFilter
+     *            the filter
      */
     public static void removeByFilter( AdminUserFieldFilter auFieldFilter )
     {

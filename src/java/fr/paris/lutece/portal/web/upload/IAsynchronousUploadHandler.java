@@ -42,7 +42,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
 /**
  *
  * Handler for the asynchronous upload.
@@ -52,17 +51,23 @@ public interface IAsynchronousUploadHandler
 {
     /**
      * Processes asynchronous upload. May fill <code>mainObject</code> with plugin specific values.
-     * @param request request
-     * @param response response
-     * @param mainObject the mainObject
-     * @param fileItems uploaded fileItems
+     * 
+     * @param request
+     *            request
+     * @param response
+     *            response
+     * @param mainObject
+     *            the mainObject
+     * @param fileItems
+     *            uploaded fileItems
      */
-    void process( HttpServletRequest request, HttpServletResponse response, JSONObject mainObject,
-        List<FileItem> fileItems );
+    void process( HttpServletRequest request, HttpServletResponse response, JSONObject mainObject, List<FileItem> fileItems );
 
     /**
      * Defines if this handler is invoked. A parameter (like page=plugin-name) should be found in the request.
-     * @param request request
+     * 
+     * @param request
+     *            request
      * @return <code>true</code> if invoked, <code>false</code> otherwise.
      */
     boolean isInvoked( HttpServletRequest request );

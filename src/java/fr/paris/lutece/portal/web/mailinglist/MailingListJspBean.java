@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -69,13 +69,12 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  * Mailing ListJspBean
  */
 public class MailingListJspBean extends AdminFeaturesPageJspBean
 {
-    //Rights
+    // Rights
     public static final String RIGHT_MANAGE_MAILINGLISTS = "CORE_MAILINGLISTS_MANAGEMENT";
 
     // Templates
@@ -124,24 +123,24 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
     private String _strCurrentPageIndex;
 
     /**
-     * Get the mailinglists management page.
-     * This page provides the list of all existing mailinglists.
-     * @param request the http request
+     * Get the mailinglists management page. This page provides the list of all existing mailinglists.
+     * 
+     * @param request
+     *            the http request
      * @return the html code for the mailinglist management page
      */
     public String getManageMailinglists( HttpServletRequest request )
     {
-        Map<String, Object> model = new HashMap<String, Object>(  );
+        Map<String, Object> model = new HashMap<String, Object>( );
 
         // Build filter
         if ( StringUtils.isBlank( request.getParameter( PARAMETER_SESSION ) ) )
         {
-            _mailingListFilter = new MailingListFilter(  );
+            _mailingListFilter = new MailingListFilter( );
             populate( _mailingListFilter, request );
         }
 
-        List<MailingList> listMailinglists = AdminMailingListService.getUserMailingListsByFilter( getUser(  ),
-                _mailingListFilter );
+        List<MailingList> listMailinglists = AdminMailingListService.getUserMailingListsByFilter( getUser( ), _mailingListFilter );
 
         // SORT
         String strSortedAttributeName = request.getParameter( Parameters.SORTED_ATTRIBUTE_NAME );
@@ -163,62 +162,63 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
         // Paginator
         _strCurrentPageIndex = Paginator.getPageIndex( request, Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex );
         _nDefaultItemsPerPage = AppPropertiesService.getPropertyInt( PROPERTY_MAILINGLIST_PER_PAGE, 50 );
-        _nItemsPerPage = Paginator.getItemsPerPage( request, Paginator.PARAMETER_ITEMS_PER_PAGE, _nItemsPerPage,
-                _nDefaultItemsPerPage );
+        _nItemsPerPage = Paginator.getItemsPerPage( request, Paginator.PARAMETER_ITEMS_PER_PAGE, _nItemsPerPage, _nDefaultItemsPerPage );
 
         UrlItem url = new UrlItem( AppPathService.getBaseUrl( request ) + JSP_URL_MANAGE_MAILINGLISTS );
         url.addParameter( Parameters.SORTED_ATTRIBUTE_NAME, strSortedAttributeName );
         url.addParameter( Parameters.SORTED_ASC, Boolean.toString( bIsAscSort ) );
         url.addParameter( PARAMETER_SESSION, PARAMETER_SESSION );
 
-        LocalizedPaginator<MailingList> paginator = new LocalizedPaginator<MailingList>( listMailinglists,
-                _nItemsPerPage, url.getUrl(  ), Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex,
-                request.getLocale(  ) );
+        LocalizedPaginator<MailingList> paginator = new LocalizedPaginator<MailingList>( listMailinglists, _nItemsPerPage, url.getUrl( ),
+                Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex, request.getLocale( ) );
 
-        model.put( MARK_MAILINGLISTS_LIST, paginator.getPageItems(  ) );
+        model.put( MARK_MAILINGLISTS_LIST, paginator.getPageItems( ) );
         model.put( MARK_PAGINATOR, paginator );
-        model.put( MARK_NB_ITEMS_PER_PAGE, Integer.toString( paginator.getItemsPerPage(  ) ) );
+        model.put( MARK_NB_ITEMS_PER_PAGE, Integer.toString( paginator.getItemsPerPage( ) ) );
         model.put( MARK_MAILINGLIST_FILTER, _mailingListFilter );
 
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_MAILINGLISTS, getLocale(  ), model );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_MAILINGLISTS, getLocale( ), model );
 
-        return getAdminPage( template.getHtml(  ) );
+        return getAdminPage( template.getHtml( ) );
     }
 
     /**
      * Get the mailinglist create page.
-     * @param request the http request
+     * 
+     * @param request
+     *            the http request
      * @return the html code for the mailinglist create page
      */
     public String getCreateMailinglist( HttpServletRequest request )
     {
         setPageTitleProperty( PROPERTY_CREATE_MAILINGLIST_PAGETITLE );
 
-        ReferenceList listWorkgroups = AdminWorkgroupService.getUserWorkgroups( getUser(  ), getLocale(  ) );
+        ReferenceList listWorkgroups = AdminWorkgroupService.getUserWorkgroups( getUser( ), getLocale( ) );
 
-        HashMap<String, Object> model = new HashMap<String, Object>(  );
+        HashMap<String, Object> model = new HashMap<String, Object>( );
         model.put( MARK_WORKGROUPS_LIST, listWorkgroups );
 
-        //LUTECE-890 : the first workgroup will be selected by default
-        if ( !listWorkgroups.isEmpty(  ) )
+        // LUTECE-890 : the first workgroup will be selected by default
+        if ( !listWorkgroups.isEmpty( ) )
         {
-            model.put( MARK_WORKGROUP_SELECTED, listWorkgroups.get( 0 ).getCode(  ) );
+            model.put( MARK_WORKGROUP_SELECTED, listWorkgroups.get( 0 ).getCode( ) );
         }
 
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CREATE_MAILINGLIST, getLocale(  ), model );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CREATE_MAILINGLIST, getLocale( ), model );
 
-        return getAdminPage( template.getHtml(  ) );
+        return getAdminPage( template.getHtml( ) );
     }
 
     /**
      * Process the data capture form for create a mailing list
      *
-     * @param request The HTTP Request
+     * @param request
+     *            The HTTP Request
      * @return The Jsp URL of the process result
      */
     public String doCreateMailingList( HttpServletRequest request )
     {
-        MailingList mailinglist = new MailingList(  );
+        MailingList mailinglist = new MailingList( );
         String strErrors = processFormData( request, mailinglist );
 
         if ( strErrors != null )
@@ -230,21 +230,23 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
 
         // Forward to modify page to enter users filters
         UrlItem urlModify = new UrlItem( JSP_MODIFY_MAILINGLIST );
-        urlModify.addParameter( PARAMETER_MAILINGLIST_ID, mailinglist.getId(  ) );
+        urlModify.addParameter( PARAMETER_MAILINGLIST_ID, mailinglist.getId( ) );
 
-        return urlModify.getUrl(  );
+        return urlModify.getUrl( );
     }
 
     /**
      * Get the mailinglist modify page.
-     * @param request the http request
+     * 
+     * @param request
+     *            the http request
      * @return the html code for the mailinglist modify page
      */
     public String getModifyMailinglist( HttpServletRequest request )
     {
         setPageTitleProperty( PROPERTY_MODIFY_MAILINGLIST_PAGETITLE );
 
-        ReferenceList listWorkgroups = AdminWorkgroupService.getUserWorkgroups( getUser(  ), getLocale(  ) );
+        ReferenceList listWorkgroups = AdminWorkgroupService.getUserWorkgroups( getUser( ), getLocale( ) );
 
         String strMailingListId = request.getParameter( PARAMETER_MAILINGLIST_ID );
 
@@ -265,19 +267,20 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
             return getManageMailinglists( request );
         }
 
-        Map<String, Object> model = new HashMap<String, Object>(  );
+        Map<String, Object> model = new HashMap<String, Object>( );
         model.put( MARK_WORKGROUPS_LIST, listWorkgroups );
         model.put( MARK_MAILINGLIST, mailinglist );
 
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_MAILINGLIST, getLocale(  ), model );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_MAILINGLIST, getLocale( ), model );
 
-        return getAdminPage( template.getHtml(  ) );
+        return getAdminPage( template.getHtml( ) );
     }
 
     /**
      * Process the data capture form for modify a mailing list
      *
-     * @param request The HTTP Request
+     * @param request
+     *            The HTTP Request
      * @return The Jsp URL of the process result
      */
     public String doModifyMailingList( HttpServletRequest request )
@@ -301,7 +304,8 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
     /**
      * Returns the page of confirmation for deleting a mailinglist
      *
-     * @param request The Http Request
+     * @param request
+     *            The Http Request
      * @return the confirmation url
      */
     public String getConfirmRemoveMailingList( HttpServletRequest request )
@@ -309,14 +313,15 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
         String strId = request.getParameter( PARAMETER_MAILINGLIST_ID );
         String strUrlRemove = JSP_URL_REMOVE_MAILINGLIST + "?" + PARAMETER_MAILINGLIST_ID + "=" + strId;
 
-        ArrayList<String> listErrors = new ArrayList<String>(  );
-        String strUrl = AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_REMOVE, strUrlRemove,
-                AdminMessage.TYPE_CONFIRMATION );
+        ArrayList<String> listErrors = new ArrayList<String>( );
+        String strUrl = AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_REMOVE, strUrlRemove, AdminMessage.TYPE_CONFIRMATION );
 
-        if ( !MailingListRemovalListenerService.getService(  ).checkForRemoval( strId, listErrors, getLocale(  ) ) )
+        if ( !MailingListRemovalListenerService.getService( ).checkForRemoval( strId, listErrors, getLocale( ) ) )
         {
-            String strCause = AdminMessageService.getFormattedList( listErrors, getLocale(  ) );
-            Object[] args = { strCause };
+            String strCause = AdminMessageService.getFormattedList( listErrors, getLocale( ) );
+            Object [ ] args = {
+                strCause
+            };
             strUrl = AdminMessageService.getMessageUrl( request, MESSAGE_CANNOT_REMOVE, args, AdminMessage.TYPE_STOP );
         }
 
@@ -326,7 +331,8 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
     /**
      * Process the data capture form for modify a mailing list
      *
-     * @param request The HTTP Request
+     * @param request
+     *            The HTTP Request
      * @return The Jsp URL of the process result
      */
     public String doRemoveMailingList( HttpServletRequest request )
@@ -341,14 +347,16 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
 
     /**
      * Get the view users page.
-     * @param request the http request
+     * 
+     * @param request
+     *            the http request
      * @return the html code for the mailinglist modify page
      */
     public String getViewUsers( HttpServletRequest request )
     {
         setPageTitleProperty( PROPERTY_VIEW_USERS_PAGETITLE );
 
-        HashMap<String, Object> model = new HashMap<String, Object>(  );
+        HashMap<String, Object> model = new HashMap<String, Object>( );
         Collection<Recipient> listRecipients;
         String strId = request.getParameter( PARAMETER_MAILINGLIST_ID );
 
@@ -366,14 +374,16 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
 
         model.put( MARK_RECIPIENTS_LIST, listRecipients );
 
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_VIEW_USERS, getLocale(  ), model );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_VIEW_USERS, getLocale( ), model );
 
-        return getAdminPage( template.getHtml(  ) );
+        return getAdminPage( template.getHtml( ) );
     }
 
     /**
      * Get the add users page.
-     * @param request the http request
+     * 
+     * @param request
+     *            the http request
      * @return the html code for the mailinglist modify page
      */
     public String getAddUsers( HttpServletRequest request )
@@ -389,24 +399,25 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
             return getManageMailinglists( request );
         }
 
-        ReferenceList listWorkgroups = AdminWorkgroupService.getUserWorkgroups( getUser(  ), getLocale(  ) );
-        ReferenceList listRoles = AdminRoleHome.getRolesList(  );
+        ReferenceList listWorkgroups = AdminWorkgroupService.getUserWorkgroups( getUser( ), getLocale( ) );
+        ReferenceList listRoles = AdminRoleHome.getRolesList( );
         listRoles.addItem( AdminMailingListService.ALL_ROLES, AdminMailingListService.ALL_ROLES );
 
-        Map<String, Object> model = new HashMap<String, Object>(  );
+        Map<String, Object> model = new HashMap<String, Object>( );
         model.put( MARK_WORKGROUPS_LIST, listWorkgroups );
         model.put( MARK_ROLES_LIST, listRoles );
         model.put( MARK_MAILINGLIST, mailinglist );
 
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADD_USERS, getLocale(  ), model );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADD_USERS, getLocale( ), model );
 
-        return getAdminPage( template.getHtml(  ) );
+        return getAdminPage( template.getHtml( ) );
     }
 
     /**
      * Process the data capture form for adding users filters
      *
-     * @param request The HTTP Request
+     * @param request
+     *            The HTTP Request
      * @return The Jsp URL of the process result
      */
     public String doAddUsers( HttpServletRequest request )
@@ -416,7 +427,7 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
         String strRole = request.getParameter( PARAMETER_ROLE );
 
         int nId = Integer.parseInt( strId );
-        MailingListUsersFilter filter = new MailingListUsersFilter(  );
+        MailingListUsersFilter filter = new MailingListUsersFilter( );
         filter.setWorkgroup( strWorkgroup );
         filter.setRole( strRole );
 
@@ -428,7 +439,7 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
             UrlItem urlModify = new UrlItem( JSP_MODIFY_MAILINGLIST );
             urlModify.addParameter( PARAMETER_MAILINGLIST_ID, nId );
 
-            return urlModify.getUrl(  );
+            return urlModify.getUrl( );
         }
 
         return AdminMessageService.getMessageUrl( request, MESSAGE_FILTER_ALREADY_EXISTS, AdminMessage.TYPE_STOP );
@@ -437,7 +448,8 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
     /**
      * Process the data capture form to remove users filters
      *
-     * @param request The HTTP Request
+     * @param request
+     *            The HTTP Request
      * @return The Jsp URL of the process result
      */
     public String doDeleteFilter( HttpServletRequest request )
@@ -447,7 +459,7 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
         String strRole = request.getParameter( PARAMETER_ROLE );
 
         int nId = Integer.parseInt( strId );
-        MailingListUsersFilter filter = new MailingListUsersFilter(  );
+        MailingListUsersFilter filter = new MailingListUsersFilter( );
         filter.setWorkgroup( strWorkgroup );
         filter.setRole( strRole );
         MailingListHome.deleteFilterToMailingList( filter, nId );
@@ -456,13 +468,16 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
         UrlItem urlModify = new UrlItem( JSP_MODIFY_MAILINGLIST );
         urlModify.addParameter( PARAMETER_MAILINGLIST_ID, nId );
 
-        return urlModify.getUrl(  );
+        return urlModify.getUrl( );
     }
 
     /**
      * Process Form Data
-     * @param request The HTTP request
-     * @param mailinglist The mailing list
+     * 
+     * @param request
+     *            The HTTP request
+     * @param mailinglist
+     *            The mailing list
      * @return An Error message or null if no error
      */
     private String processFormData( HttpServletRequest request, MailingList mailinglist )
@@ -472,8 +487,7 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
         String strDescription = request.getParameter( PARAMETER_DESCRIPTION );
         String strWorkgroup = request.getParameter( PARAMETER_WORKGROUP );
 
-        if ( ( strName == null ) || ( strName.equals( "" ) ) || ( strDescription == null ) ||
-                ( strDescription.equals( "" ) ) )
+        if ( ( strName == null ) || ( strName.equals( "" ) ) || ( strDescription == null ) || ( strDescription.equals( "" ) ) )
         {
             return Messages.MANDATORY_FIELDS;
         }

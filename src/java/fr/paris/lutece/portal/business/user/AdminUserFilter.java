@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -46,7 +46,6 @@ import java.net.URLEncoder;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  * This class provides a filter for users search function
  */
@@ -79,16 +78,16 @@ public class AdminUserFilter implements Serializable
     private int _nUserLevel;
 
     /**
-    * Constructor
-    */
-    public AdminUserFilter(  )
+     * Constructor
+     */
+    public AdminUserFilter( )
     {
     }
 
     /**
      * Initialize each component of the object
      */
-    public void init(  )
+    public void init( )
     {
         _strAccessCode = StringUtils.EMPTY;
         _strLastName = StringUtils.EMPTY;
@@ -100,16 +99,19 @@ public class AdminUserFilter implements Serializable
 
     /**
      * Get the access code
+     * 
      * @return The access code
      */
-    public String getAccessCode(  )
+    public String getAccessCode( )
     {
         return _strAccessCode;
     }
 
     /**
      * Set the access code
-     * @param strAccessCode The Access Code
+     * 
+     * @param strAccessCode
+     *            The Access Code
      */
     public void setAccessCode( String strAccessCode )
     {
@@ -118,16 +120,19 @@ public class AdminUserFilter implements Serializable
 
     /**
      * Get the last name
+     * 
      * @return The last name
      */
-    public String getLastName(  )
+    public String getLastName( )
     {
         return _strLastName;
     }
 
     /**
      * Set the last name
-     * @param strLastName The Last Name
+     * 
+     * @param strLastName
+     *            The Last Name
      */
     public void setLastName( String strLastName )
     {
@@ -136,16 +141,19 @@ public class AdminUserFilter implements Serializable
 
     /**
      * Get the email
+     * 
      * @return The email
      */
-    public String getEmail(  )
+    public String getEmail( )
     {
         return _strEmail;
     }
 
     /**
      * Set the email
-     * @param strEmail The email
+     * 
+     * @param strEmail
+     *            The email
      */
     public void setEmail( String strEmail )
     {
@@ -154,16 +162,19 @@ public class AdminUserFilter implements Serializable
 
     /**
      * Get the status
+     * 
      * @return The status level
      */
-    public int getStatus(  )
+    public int getStatus( )
     {
         return _nStatus;
     }
 
     /**
      * Set the status
-     * @param nStatus The Status
+     * 
+     * @param nStatus
+     *            The Status
      */
     public void setStatus( int nStatus )
     {
@@ -172,16 +183,19 @@ public class AdminUserFilter implements Serializable
 
     /**
      * Get the user level
+     * 
      * @return The user level
      */
-    public int getUserLevel(  )
+    public int getUserLevel( )
     {
         return _nUserLevel;
     }
 
     /**
      * Set the user level
-     * @param nUserLevel The User Level
+     * 
+     * @param nUserLevel
+     *            The User Level
      */
     public void setUserLevel( int nUserLevel )
     {
@@ -190,7 +204,9 @@ public class AdminUserFilter implements Serializable
 
     /**
      * Set the value of the AdminUserFilter
-     * @param request HttpServletRequest
+     * 
+     * @param request
+     *            HttpServletRequest
      * @return true if there is a search
      */
     public boolean setAdminUserFilter( HttpServletRequest request )
@@ -217,7 +233,7 @@ public class AdminUserFilter implements Serializable
                 setStatus( Integer.valueOf( strStatus ) );
             }
 
-            if ( (strUserLevel == null) || CONSTANT_DEFAULT_LEVEL.equals( strUserLevel ) || CONSTANT_LEAST_ONE.equals( strUserLevel ) )
+            if ( ( strUserLevel == null ) || CONSTANT_DEFAULT_LEVEL.equals( strUserLevel ) || CONSTANT_LEAST_ONE.equals( strUserLevel ) )
             {
                 setUserLevel( -1 );
             }
@@ -228,7 +244,7 @@ public class AdminUserFilter implements Serializable
         }
         else
         {
-            init(  );
+            init( );
         }
 
         return bIsSearch;
@@ -236,54 +252,54 @@ public class AdminUserFilter implements Serializable
 
     /**
      * Build url attributes
-     * @param url The url item
+     * 
+     * @param url
+     *            The url item
      */
     public void setUrlAttributes( UrlItem url )
     {
-        url.addParameter( PARAMETER_SEARCH_IS_SEARCH, Boolean.TRUE.toString(  ) );
+        url.addParameter( PARAMETER_SEARCH_IS_SEARCH, Boolean.TRUE.toString( ) );
         url.addParameter( PARAMETER_SEARCH_USER_LEVEL, _nUserLevel );
         url.addParameter( PARAMETER_SEARCH_STATUS, _nStatus );
 
         try
         {
-            url.addParameter( PARAMETER_SEARCH_ACCESS_CODE,
-                URLEncoder.encode( _strAccessCode, AppPropertiesService.getProperty( PROPERTY_ENCODING_URL ) ) );
-            url.addParameter( PARAMETER_SEARCH_LAST_NAME,
-                URLEncoder.encode( _strLastName, AppPropertiesService.getProperty( PROPERTY_ENCODING_URL ) ) );
-            url.addParameter( PARAMETER_SEARCH_EMAIL,
-                URLEncoder.encode( _strEmail, AppPropertiesService.getProperty( PROPERTY_ENCODING_URL ) ) );
+            url.addParameter( PARAMETER_SEARCH_ACCESS_CODE, URLEncoder.encode( _strAccessCode, AppPropertiesService.getProperty( PROPERTY_ENCODING_URL ) ) );
+            url.addParameter( PARAMETER_SEARCH_LAST_NAME, URLEncoder.encode( _strLastName, AppPropertiesService.getProperty( PROPERTY_ENCODING_URL ) ) );
+            url.addParameter( PARAMETER_SEARCH_EMAIL, URLEncoder.encode( _strEmail, AppPropertiesService.getProperty( PROPERTY_ENCODING_URL ) ) );
         }
-        catch ( UnsupportedEncodingException e )
+        catch( UnsupportedEncodingException e )
         {
-            AppLogService.error( e.getMessage(  ), e );
+            AppLogService.error( e.getMessage( ), e );
         }
     }
 
     /**
      * Build url attributes
+     * 
      * @return the url attributes
      */
-    public String getUrlAttributes(  )
+    public String getUrlAttributes( )
     {
-        StringBuilder sbUrlAttributes = new StringBuilder(  );
+        StringBuilder sbUrlAttributes = new StringBuilder( );
         sbUrlAttributes.append( PARAMETER_SEARCH_IS_SEARCH + CONSTANT_EQUAL + Boolean.TRUE );
         sbUrlAttributes.append( CONSTANT_AMPERSAND + PARAMETER_SEARCH_USER_LEVEL + CONSTANT_EQUAL + _nUserLevel );
         sbUrlAttributes.append( CONSTANT_AMPERSAND + PARAMETER_SEARCH_STATUS + CONSTANT_EQUAL + _nStatus );
 
         try
         {
-            sbUrlAttributes.append( CONSTANT_AMPERSAND + PARAMETER_SEARCH_ACCESS_CODE + CONSTANT_EQUAL +
-                URLEncoder.encode( _strAccessCode, AppPropertiesService.getProperty( PROPERTY_ENCODING_URL ) ) );
-            sbUrlAttributes.append( CONSTANT_AMPERSAND + PARAMETER_SEARCH_LAST_NAME + CONSTANT_EQUAL +
-                URLEncoder.encode( _strLastName, AppPropertiesService.getProperty( PROPERTY_ENCODING_URL ) ) );
-            sbUrlAttributes.append( CONSTANT_AMPERSAND + PARAMETER_SEARCH_EMAIL + CONSTANT_EQUAL +
-                URLEncoder.encode( _strEmail, AppPropertiesService.getProperty( PROPERTY_ENCODING_URL ) ) );
+            sbUrlAttributes.append( CONSTANT_AMPERSAND + PARAMETER_SEARCH_ACCESS_CODE + CONSTANT_EQUAL
+                    + URLEncoder.encode( _strAccessCode, AppPropertiesService.getProperty( PROPERTY_ENCODING_URL ) ) );
+            sbUrlAttributes.append( CONSTANT_AMPERSAND + PARAMETER_SEARCH_LAST_NAME + CONSTANT_EQUAL
+                    + URLEncoder.encode( _strLastName, AppPropertiesService.getProperty( PROPERTY_ENCODING_URL ) ) );
+            sbUrlAttributes.append( CONSTANT_AMPERSAND + PARAMETER_SEARCH_EMAIL + CONSTANT_EQUAL
+                    + URLEncoder.encode( _strEmail, AppPropertiesService.getProperty( PROPERTY_ENCODING_URL ) ) );
         }
-        catch ( UnsupportedEncodingException e )
+        catch( UnsupportedEncodingException e )
         {
-            AppLogService.error( e.getMessage(  ), e );
+            AppLogService.error( e.getMessage( ), e );
         }
 
-        return sbUrlAttributes.toString(  );
+        return sbUrlAttributes.toString( );
     }
 }

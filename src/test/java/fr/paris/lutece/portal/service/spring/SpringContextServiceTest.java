@@ -40,7 +40,6 @@ import fr.paris.lutece.test.LuteceTestCase;
 
 import java.util.List;
 
-
 /**
  * SpringContextService Test Class
  */
@@ -49,7 +48,7 @@ public class SpringContextServiceTest extends LuteceTestCase
     /**
      * Test of getBean method, of class fr.paris.lutece.portal.service.spring.SpringContextService.
      */
-    public void testGetBean(  )
+    public void testGetBean( )
     {
         System.out.println( "getBean" );
 
@@ -59,19 +58,20 @@ public class SpringContextServiceTest extends LuteceTestCase
         assertTrue( LuteceDefaultAdminAuthentication.class.isInstance( result ) );
     }
 
-    public void testInit(  )
+    public void testInit( )
     {
         System.out.println( "init" );
         try
         {
             SpringContextService.init( null );
             fail( "cannot init SpringContextService twice" );
-        } catch ( LuteceInitException e )
+        }
+        catch( LuteceInitException e )
         {
         }
     }
 
-    public void testGetBeanOfType(  )
+    public void testGetBeanOfType( )
     {
         System.out.println( "getBeanOfType" );
 
@@ -79,7 +79,7 @@ public class SpringContextServiceTest extends LuteceTestCase
 
         for ( SearchEngine engine : list )
         {
-            System.out.println( engine.getClass(  ) );
+            System.out.println( engine.getClass( ) );
         }
     }
 }

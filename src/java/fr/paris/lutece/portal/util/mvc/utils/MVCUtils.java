@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -45,7 +45,6 @@ import java.util.Enumeration;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
 /**
  * Utils for MVC components
  */
@@ -61,13 +60,15 @@ public final class MVCUtils
     /**
      * Private constructor
      */
-    private MVCUtils(  )
+    private MVCUtils( )
     {
     }
 
     /**
      * Get the view parameter
-     * @param request The HTTP request
+     * 
+     * @param request
+     *            The HTTP request
      * @return The view parameter or null if not found
      */
     public static String getView( HttpServletRequest request )
@@ -79,15 +80,15 @@ public final class MVCUtils
             return strView;
         }
 
-        Enumeration<String> parameters = request.getParameterNames(  );
+        Enumeration<String> parameters = request.getParameterNames( );
 
-        while ( parameters.hasMoreElements(  ) )
+        while ( parameters.hasMoreElements( ) )
         {
-            String strParameter = parameters.nextElement(  );
+            String strParameter = parameters.nextElement( );
 
             if ( strParameter.startsWith( PREFIX_VIEW ) )
             {
-                strView = strParameter.substring( PREFIX_VIEW.length(  ) );
+                strView = strParameter.substring( PREFIX_VIEW.length( ) );
 
                 break;
             }
@@ -98,7 +99,9 @@ public final class MVCUtils
 
     /**
      * Get the action parameter or any parameter with the prefix 'action_'
-     * @param request The HTTP request
+     * 
+     * @param request
+     *            The HTTP request
      * @return The action parameter or null if not found
      */
     public static String getAction( HttpServletRequest request )
@@ -110,15 +113,15 @@ public final class MVCUtils
             return strAction;
         }
 
-        Enumeration<String> parameters = request.getParameterNames(  );
+        Enumeration<String> parameters = request.getParameterNames( );
 
-        while ( parameters.hasMoreElements(  ) )
+        while ( parameters.hasMoreElements( ) )
         {
-            String strParameter = parameters.nextElement(  );
+            String strParameter = parameters.nextElement( );
 
             if ( strParameter.startsWith( PREFIX_ACTION ) )
             {
-                strAction = strParameter.substring( PREFIX_ACTION.length(  ) );
+                strAction = strParameter.substring( PREFIX_ACTION.length( ) );
 
                 break;
             }
@@ -129,11 +132,14 @@ public final class MVCUtils
 
     /**
      * Find the method that provide a given view
-     * @param request The HTTP request
-     * @param methods The methods list
+     * 
+     * @param request
+     *            The HTTP request
+     * @param methods
+     *            The methods list
      * @return The method
      */
-    public static Method findViewAnnotedMethod( HttpServletRequest request, Method[] methods )
+    public static Method findViewAnnotedMethod( HttpServletRequest request, Method [ ] methods )
     {
         String strView = getView( request );
 
@@ -141,7 +147,7 @@ public final class MVCUtils
         {
             for ( Method m : methods )
             {
-                if ( m.isAnnotationPresent( View.class ) && strView.equals( m.getAnnotation( View.class ).value(  ) ) )
+                if ( m.isAnnotationPresent( View.class ) && strView.equals( m.getAnnotation( View.class ).value( ) ) )
                 {
                     _logger.debug( "MVC controller - process view : '" + strView + "'" );
 
@@ -157,11 +163,14 @@ public final class MVCUtils
 
     /**
      * Find the method that provide a given action
-     * @param request The HTTP request
-     * @param methods The methods list
+     * 
+     * @param request
+     *            The HTTP request
+     * @param methods
+     *            The methods list
      * @return The method
      */
-    public static Method findActionAnnotedMethod( HttpServletRequest request, Method[] methods )
+    public static Method findActionAnnotedMethod( HttpServletRequest request, Method [ ] methods )
     {
         String strAction = getAction( request );
 
@@ -169,8 +178,7 @@ public final class MVCUtils
         {
             for ( Method m : methods )
             {
-                if ( m.isAnnotationPresent( Action.class ) &&
-                        strAction.equals( m.getAnnotation( Action.class ).value(  ) ) )
+                if ( m.isAnnotationPresent( Action.class ) && strAction.equals( m.getAnnotation( Action.class ).value( ) ) )
                 {
                     _logger.debug( "MVC controller - process action : '" + strAction + "'" );
 
@@ -186,14 +194,16 @@ public final class MVCUtils
 
     /**
      * Find the method that provide the default view
-     * @param methods The methods list
+     * 
+     * @param methods
+     *            The methods list
      * @return The method
      */
-    public static Method findDefaultViewMethod( Method[] methods )
+    public static Method findDefaultViewMethod( Method [ ] methods )
     {
         for ( Method m : methods )
         {
-            if ( m.isAnnotationPresent( View.class ) && m.getAnnotation( View.class ).defaultView(  ) )
+            if ( m.isAnnotationPresent( View.class ) && m.getAnnotation( View.class ).defaultView( ) )
             {
                 _logger.debug( "MVC controller - process default view" );
 
@@ -208,12 +218,15 @@ public final class MVCUtils
 
     /**
      * Add download headers to the response
-     * @param response The response
-     * @param strFilename The name of the file to download
-     * @param strContentType The content type of the downloaded file
+     * 
+     * @param response
+     *            The response
+     * @param strFilename
+     *            The name of the file to download
+     * @param strContentType
+     *            The content type of the downloaded file
      */
-    public static void addDownloadHeaderToResponse( HttpServletResponse response, String strFilename,
-        String strContentType )
+    public static void addDownloadHeaderToResponse( HttpServletResponse response, String strFilename, String strContentType )
     {
         response.setHeader( "Content-Disposition", "attachment; filename=\"" + strFilename + "\";" );
         response.setHeader( "Content-type", strContentType );
@@ -225,9 +238,10 @@ public final class MVCUtils
 
     /**
      * Return the MVC logger
+     * 
      * @return THe logger
      */
-    public static Logger getLogger(  )
+    public static Logger getLogger( )
     {
         return _logger;
     }

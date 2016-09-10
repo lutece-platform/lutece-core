@@ -54,7 +54,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  * This class provides the user interface to manage app search features ( manage filters )
  */
@@ -68,8 +67,8 @@ public class SearchJspBean extends AdminFeaturesPageJspBean
      */
     private static final long serialVersionUID = -2095709285081142039L;
 
-    ////////////////////////////////////////////////////////////////////////////
-    //Constants
+    // //////////////////////////////////////////////////////////////////////////
+    // Constants
     private static final String EMPTY_STRING = "";
 
     // Jsp url
@@ -101,55 +100,61 @@ public class SearchJspBean extends AdminFeaturesPageJspBean
 
     /**
      * Builds the search management page
-     * @param request Http request
+     * 
+     * @param request
+     *            Http request
      * @return the built page
      */
     public String getManageSearch( HttpServletRequest request )
     {
         setPageTitleProperty( PROPERTY_MANAGE_SEARCH_PAGETITLE );
 
-        boolean bPermissionManageAdvancedParameters = RBACService.isAuthorized( SearchService.RESOURCE_TYPE,
-                RBAC.WILDCARD_RESOURCES_ID, SearchResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS, getUser(  ) );
+        boolean bPermissionManageAdvancedParameters = RBACService.isAuthorized( SearchService.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID,
+                SearchResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS, getUser( ) );
 
-        Map<String, Object> model = new HashMap<String, Object>(  );
+        Map<String, Object> model = new HashMap<String, Object>( );
 
         model.put( MARK_PERMISSION_MANAGE_ADVANCED_PARAMETERS, bPermissionManageAdvancedParameters );
-        model.put( MARK_TAG_FILTER, SearchParameterHome.findByKey( PARAMETER_TAG_FILTER ).getName(  ) );
+        model.put( MARK_TAG_FILTER, SearchParameterHome.findByKey( PARAMETER_TAG_FILTER ).getName( ) );
 
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_SEARCH, getLocale(  ), model );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_SEARCH, getLocale( ), model );
 
-        return getAdminPage( template.getHtml(  ) );
+        return getAdminPage( template.getHtml( ) );
     }
 
     /**
      * Builds the form to modify the tag cloud for the tag filter
-     * @param request Http request
+     * 
+     * @param request
+     *            Http request
      * @return the built form
      */
     public String getModifyTagList( HttpServletRequest request )
     {
         setPageTitleProperty( PROPERTY_MODIFY_TAGLIST_PAGETITLE );
 
-        Map<String, Object> model = new HashMap<String, Object>(  );
+        Map<String, Object> model = new HashMap<String, Object>( );
 
-        model.put( MARK_TAGLIST, SearchParameterHome.findByKey( PARAMETER_TAGLIST ).getName(  ) );
-        model.put( MARK_TAG_FILTER, SearchParameterHome.findByKey( PARAMETER_TAG_FILTER ).getName(  ) );
+        model.put( MARK_TAGLIST, SearchParameterHome.findByKey( PARAMETER_TAGLIST ).getName( ) );
+        model.put( MARK_TAG_FILTER, SearchParameterHome.findByKey( PARAMETER_TAG_FILTER ).getName( ) );
 
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_TAGLIST, getLocale(  ), model );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_TAGLIST, getLocale( ), model );
 
-        return getAdminPage( template.getHtml(  ) );
+        return getAdminPage( template.getHtml( ) );
     }
 
     /**
      * Processes the data capture form of tag list
-     * @param request the HTTP request
+     * 
+     * @param request
+     *            the HTTP request
      * @return the jsp URL of the process result
      */
     public String doModifyTagList( HttpServletRequest request )
     {
         if ( request.getParameter( PARAMETER_CANCEL ) == null )
         {
-            ReferenceItem param = new ReferenceItem(  );
+            ReferenceItem param = new ReferenceItem( );
             param.setCode( PARAMETER_TAGLIST );
 
             String strTagList = request.getParameter( PARAMETER_TAGLIST );
@@ -162,42 +167,44 @@ public class SearchJspBean extends AdminFeaturesPageJspBean
 
     /**
      * Builds the advanced parameters management page. A form to specify search parameters (mainly filter)
-     * @param request the HTTP request
+     * 
+     * @param request
+     *            the HTTP request
      * @return the built page
      */
     public String getManageAdvancedParameters( HttpServletRequest request )
     {
-        if ( !RBACService.isAuthorized( SearchService.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID,
-                    SearchResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS, getUser(  ) ) )
+        if ( !RBACService.isAuthorized( SearchService.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID, SearchResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS,
+                getUser( ) ) )
         {
             return getManageSearch( request );
         }
 
         setPageTitleProperty( PROPERTY_MANAGE_ADVANCED_PARAMETERS_PAGETITLE );
 
-        Map<String, Object> model = SearchService.getManageAdvancedParameters( getUser(  ), request );
+        Map<String, Object> model = SearchService.getManageAdvancedParameters( getUser( ), request );
 
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_ADVANCED_PARAMETERS, getLocale(  ),
-                model );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_ADVANCED_PARAMETERS, getLocale( ), model );
 
-        return getAdminPage( template.getHtml(  ) );
+        return getAdminPage( template.getHtml( ) );
     }
 
     /**
      * Processes the data capture form of advanced parameters
-     * @param request the HTTP request
+     * 
+     * @param request
+     *            the HTTP request
      * @return the jsp URL of the process result
-     * @throws AccessDeniedException if permission to manage advanced parameters
-     * on search has not been granted to the user
+     * @throws AccessDeniedException
+     *             if permission to manage advanced parameters on search has not been granted to the user
      */
-    public String doModifyAdvancedParameters( HttpServletRequest request )
-        throws AccessDeniedException
+    public String doModifyAdvancedParameters( HttpServletRequest request ) throws AccessDeniedException
     {
-        if ( !RBACService.isAuthorized( SearchService.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID,
-                    SearchResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS, getUser(  ) ) )
+        if ( !RBACService.isAuthorized( SearchService.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID, SearchResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS,
+                getUser( ) ) )
         {
-            throw new AccessDeniedException( "User " + getUser(  ) + " is not authorized to permission " +
-                SearchResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS );
+            throw new AccessDeniedException( "User " + getUser( ) + " is not authorized to permission "
+                    + SearchResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS );
         }
 
         if ( request.getParameter( PARAMETER_CANCEL ) == null )
@@ -208,34 +215,34 @@ public class SearchJspBean extends AdminFeaturesPageJspBean
             String strDateFilter = request.getParameter( PARAMETER_DATE_FILTER );
             String strTagFilter = request.getParameter( PARAMETER_TAG_FILTER );
 
-            //mandatory field
-            if ( StringUtils.isBlank( strTypeFilter ) || StringUtils.isBlank( strDefaultOperator ) ||
-                    StringUtils.isBlank( strDateFilter ) || StringUtils.isBlank( strTagFilter ) )
+            // mandatory field
+            if ( StringUtils.isBlank( strTypeFilter ) || StringUtils.isBlank( strDefaultOperator ) || StringUtils.isBlank( strDateFilter )
+                    || StringUtils.isBlank( strTagFilter ) )
             {
                 return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
             }
 
-            ReferenceItem param = new ReferenceItem(  );
+            ReferenceItem param = new ReferenceItem( );
             param.setCode( PARAMETER_TYPE_FILTER );
             param.setName( strTypeFilter );
             SearchParameterHome.update( param );
 
-            param = new ReferenceItem(  );
+            param = new ReferenceItem( );
             param.setCode( PARAMETER_DEFAULT_OPERATOR );
             param.setName( strDefaultOperator );
             SearchParameterHome.update( param );
 
-            param = new ReferenceItem(  );
+            param = new ReferenceItem( );
             param.setCode( PARAMETER_HELP_MESSAGE );
             param.setName( StringUtils.isNotBlank( strHelpMessage ) ? strHelpMessage : EMPTY_STRING );
             SearchParameterHome.update( param );
 
-            param = new ReferenceItem(  );
+            param = new ReferenceItem( );
             param.setCode( PARAMETER_DATE_FILTER );
             param.setName( strDateFilter );
             SearchParameterHome.update( param );
 
-            param = new ReferenceItem(  );
+            param = new ReferenceItem( );
             param.setCode( PARAMETER_TAG_FILTER );
             param.setName( strTagFilter );
             SearchParameterHome.update( param );

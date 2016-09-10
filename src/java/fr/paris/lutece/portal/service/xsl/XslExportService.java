@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -40,7 +40,6 @@ import fr.paris.lutece.portal.business.xsl.XslExportHome;
 import fr.paris.lutece.portal.service.html.XmlTransformerService;
 import fr.paris.lutece.util.UniqueIDGenerator;
 
-
 /**
  *
  * Class to export XML datas with a Xsl file.
@@ -48,30 +47,32 @@ import fr.paris.lutece.util.UniqueIDGenerator;
  */
 public final class XslExportService
 {
-    private static final String XSL_UNIQUE_PREFIX_ID = UniqueIDGenerator.getNewId(  ) + "core-";
+    private static final String XSL_UNIQUE_PREFIX_ID = UniqueIDGenerator.getNewId( ) + "core-";
 
     /**
      * Instantiates a new xsl export service.
      */
-    private XslExportService(  )
+    private XslExportService( )
     {
     }
 
     /**
      * Transform an XML with an XSL
-     * @param nIdXslExport Id of the Xsl export to use for the XML transformation.
-     * @param strXml XML to transform
+     * 
+     * @param nIdXslExport
+     *            Id of the Xsl export to use for the XML transformation.
+     * @param strXml
+     *            XML to transform
      * @return The given XML transformed with the given XSL
      */
     public static String exportXMLWithXSL( int nIdXslExport, String strXml )
     {
         XslExport xslExport = XslExportHome.findByPrimaryKey( nIdXslExport );
-        PhysicalFile xslPhysicalFile = PhysicalFileHome.findByPrimaryKey( xslExport.getFile(  ).getPhysicalFile(  )
-                                                                                   .getIdPhysicalFile(  ) );
-        XmlTransformerService xmlTransformerService = new XmlTransformerService(  );
+        PhysicalFile xslPhysicalFile = PhysicalFileHome.findByPrimaryKey( xslExport.getFile( ).getPhysicalFile( ).getIdPhysicalFile( ) );
+        XmlTransformerService xmlTransformerService = new XmlTransformerService( );
 
-        String strXslId = XSL_UNIQUE_PREFIX_ID + xslPhysicalFile.getIdPhysicalFile(  );
+        String strXslId = XSL_UNIQUE_PREFIX_ID + xslPhysicalFile.getIdPhysicalFile( );
 
-        return xmlTransformerService.transformBySourceWithXslCache( strXml, xslPhysicalFile.getValue(  ), strXslId, null );
+        return xmlTransformerService.transformBySourceWithXslCache( strXml, xslPhysicalFile.getValue( ), strXslId, null );
     }
 }

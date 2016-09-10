@@ -53,7 +53,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  *
  * MultipartUtil
@@ -64,13 +63,15 @@ public final class MultipartUtil
     /**
      * Private constructor
      */
-    private MultipartUtil(  )
+    private MultipartUtil( )
     {
     }
 
     /**
      * Check if the given HTTP request has multipart content
-     * @param request the HTTP request
+     * 
+     * @param request
+     *            the HTTP request
      * @return true if it has multipart content, false otherwise
      */
     public static boolean isMultipart( HttpServletRequest request )
@@ -80,22 +81,28 @@ public final class MultipartUtil
 
     /**
      * Convert a HTTP request to a {@link MultipartHttpServletRequest}
-     * @param nSizeThreshold the size threshold
-     * @param nRequestSizeMax the request size max
-     * @param bActivateNormalizeFileName true if the file name must be normalized, false otherwise
-     * @param request the HTTP request
+     * 
+     * @param nSizeThreshold
+     *            the size threshold
+     * @param nRequestSizeMax
+     *            the request size max
+     * @param bActivateNormalizeFileName
+     *            true if the file name must be normalized, false otherwise
+     * @param request
+     *            the HTTP request
      * @return a {@link MultipartHttpServletRequest}, null if the request does not have a multipart content
-     * @throws SizeLimitExceededException exception if the file size is too big
-     * @throws FileUploadException exception if an unknown error has occurred
+     * @throws SizeLimitExceededException
+     *             exception if the file size is too big
+     * @throws FileUploadException
+     *             exception if an unknown error has occurred
      */
-    public static MultipartHttpServletRequest convert( int nSizeThreshold, long nRequestSizeMax,
-        boolean bActivateNormalizeFileName, HttpServletRequest request )
-        throws SizeLimitExceededException, FileUploadException
+    public static MultipartHttpServletRequest convert( int nSizeThreshold, long nRequestSizeMax, boolean bActivateNormalizeFileName, HttpServletRequest request )
+            throws SizeLimitExceededException, FileUploadException
     {
         if ( isMultipart( request ) )
         {
             // Create a factory for disk-based file items
-            DiskFileItemFactory factory = new DiskFileItemFactory(  );
+            DiskFileItemFactory factory = new DiskFileItemFactory( );
 
             // Set factory constraints
             factory.setSizeThreshold( nSizeThreshold );
@@ -107,56 +114,58 @@ public final class MultipartUtil
             upload.setSizeMax( nRequestSizeMax );
 
             // get encoding to be used
-            String strEncoding = request.getCharacterEncoding(  );
+            String strEncoding = request.getCharacterEncoding( );
 
             if ( strEncoding == null )
             {
-                strEncoding = EncodingService.getEncoding(  );
+                strEncoding = EncodingService.getEncoding( );
             }
 
-            Map<String, List<FileItem>> mapFiles = new HashMap<String, List<FileItem>>(  );
-            Map<String, String[]> mapParameters = new HashMap<String, String[]>(  );
+            Map<String, List<FileItem>> mapFiles = new HashMap<String, List<FileItem>>( );
+            Map<String, String [ ]> mapParameters = new HashMap<String, String [ ]>( );
 
             List<FileItem> listItems = upload.parseRequest( request );
 
             // Process the uploaded items
             for ( FileItem item : listItems )
             {
-                if ( item.isFormField(  ) )
+                if ( item.isFormField( ) )
                 {
                     String strValue = StringUtils.EMPTY;
 
                     try
                     {
-                        if ( item.getSize(  ) > 0 )
+                        if ( item.getSize( ) > 0 )
                         {
                             strValue = item.getString( strEncoding );
                         }
                     }
-                    catch ( UnsupportedEncodingException ex )
+                    catch( UnsupportedEncodingException ex )
                     {
-                        if ( item.getSize(  ) > 0 )
+                        if ( item.getSize( ) > 0 )
                         {
                             // if encoding problem, try with system encoding
-                            strValue = item.getString(  );
+                            strValue = item.getString( );
                         }
                     }
 
                     // check if item of same name already in map
-                    String[] curParam = mapParameters.get( item.getFieldName(  ) );
+                    String [ ] curParam = mapParameters.get( item.getFieldName( ) );
 
                     if ( curParam == null )
                     {
                         // simple form field
-                        mapParameters.put( item.getFieldName(  ), new String[] { strValue } );
+                        mapParameters.put( item.getFieldName( ), new String [ ] {
+                            strValue
+                        } );
                     }
                     else
                     {
                         // array of simple form fields
-                        String[] newArray = new String[curParam.length + 1];
+                        String [ ] newArray = new String [ curParam.length + 1];
                         System.arraycopy( curParam, 0, newArray, 0, curParam.length );
-                        newArray[curParam.length] = strValue;
-                        mapParameters.put( item.getFieldName(  ), newArray );
+                        newArray [curParam.length] = strValue;
+                        mapParameters.put( item.getFieldName( ), newArray );
                     }
                 }
                 else
@@ -164,7 +173,7 @@ public final class MultipartUtil
                     // multipart file field, if the parameter filter ActivateNormalizeFileName is set to true
                     // all file name will be normalize
                     FileItem fileItem = bActivateNormalizeFileName ? new NormalizeFileItem( item ) : item;
-                    List<FileItem> listFileItem = mapFiles.get( fileItem.getFieldName(  ) );
+                    List<FileItem> listFileItem = mapFiles.get( fileItem.getFieldName( ) );
 
                     if ( listFileItem != null )
                     {
@@ -174,7 +183,7 @@ public final class MultipartUtil
                     {
                         listFileItem = new ArrayList<FileItem>( 1 );
                         listFileItem.add( fileItem );
-                        mapFiles.put( fileItem.getFieldName(  ), listFileItem );
+                        mapFiles.put( fileItem.getFieldName( ), listFileItem );
                     }
                 }
             }

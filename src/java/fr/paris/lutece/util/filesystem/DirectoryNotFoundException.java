@@ -33,7 +33,6 @@
  */
 package fr.paris.lutece.util.filesystem;
 
-
 /**
  *
  */

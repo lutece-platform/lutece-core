@@ -40,10 +40,11 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  * Abstract Paginator
- * @param <E> the type
+ * 
+ * @param <E>
+ *            the type
  */
 public abstract class AbstractPaginator<E> implements IPaginator<E>
 {
@@ -81,49 +82,49 @@ public abstract class AbstractPaginator<E> implements IPaginator<E>
     protected int _nItemsCount;
 
     /**
-     *{@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
-    public int getPageCurrent(  )
+    public int getPageCurrent( )
     {
         return _nPageCurrent;
     }
 
     /**
-     *{@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
-    public String getFirstPageLink(  )
+    public String getFirstPageLink( )
     {
         UrlItem url = new UrlItem( _strBaseUrl );
         url.addParameter( _strPageIndexParameterName, "" + 1 );
 
-        return url.getUrl(  );
+        return url.getUrl( );
     }
 
     /**
-     *{@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
-    public String getPreviousPageLink(  )
+    public String getPreviousPageLink( )
     {
         int nPreviousIndex = _nPageCurrent - 1;
         UrlItem url = new UrlItem( _strBaseUrl );
         url.addParameter( _strPageIndexParameterName, "" + nPreviousIndex );
 
-        return url.getUrl(  );
+        return url.getUrl( );
     }
 
     /**
-     *{@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
-    public String getLastPageLink(  )
+    public String getLastPageLink( )
     {
         UrlItem url = new UrlItem( _strBaseUrl );
-        url.addParameter( _strPageIndexParameterName, "" + getPagesCount(  ) );
+        url.addParameter( _strPageIndexParameterName, "" + getPagesCount( ) );
 
-        return url.getUrl(  );
+        return url.getUrl( );
     }
 
     /**
@@ -131,34 +132,34 @@ public abstract class AbstractPaginator<E> implements IPaginator<E>
      * {@inheritDoc}
      */
     @Override
-    public int getItemsPerPage(  )
+    public int getItemsPerPage( )
     {
         return _nItemPerPage;
     }
 
     /**
-     *{@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
-    public String getNextPageLink(  )
+    public String getNextPageLink( )
     {
         int nNextIndex = _nPageCurrent + 1;
         UrlItem url = new UrlItem( _strBaseUrl );
         url.addParameter( _strPageIndexParameterName, "" + nNextIndex );
 
-        return url.getUrl(  );
+        return url.getUrl( );
     }
 
     /**
-     *{@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
-    public List<PaginatorPage> getPagesLinks(  )
+    public List<PaginatorPage> getPagesLinks( )
     {
-        List<PaginatorPage> list = new ArrayList<PaginatorPage>(  );
+        List<PaginatorPage> list = new ArrayList<PaginatorPage>( );
 
         // Number of link pages in total
-        int nNbLinkPages = getPagesCount(  );
+        int nNbLinkPages = getPagesCount( );
 
         // Max number of link pages displayed
         int nNbLinkPagesToDisplay = 10;
@@ -176,12 +177,13 @@ public abstract class AbstractPaginator<E> implements IPaginator<E>
             nOffsetPrev = _nPageCurrent - 1;
             nOffsetNext = nNbLinkPagesToDisplay - nOffsetPrev;
         }
-        else if ( ( _nPageCurrent + nOffsetNext ) > nNbLinkPages )
-        {
-            // If the current page is within the last 5 pages
-            nOffsetNext = nNbLinkPages - _nPageCurrent;
-            nOffsetPrev = nNbLinkPagesToDisplay - nOffsetNext;
-        }
+        else
+            if ( ( _nPageCurrent + nOffsetNext ) > nNbLinkPages )
+            {
+                // If the current page is within the last 5 pages
+                nOffsetNext = nNbLinkPages - _nPageCurrent;
+                nOffsetPrev = nNbLinkPagesToDisplay - nOffsetNext;
+            }
 
         // Index of the last number of the link page to display
         int nMax = nNbLinkPages;
@@ -204,11 +206,11 @@ public abstract class AbstractPaginator<E> implements IPaginator<E>
 
         for ( int i = nMin; i <= nMax; i++ )
         {
-            PaginatorPage page = new PaginatorPage(  );
+            PaginatorPage page = new PaginatorPage( );
             String strIndex = "" + i;
             UrlItem url = new UrlItem( _strBaseUrl );
             url.addParameter( _strPageIndexParameterName, strIndex );
-            page.setUrl( url.getUrl(  ) );
+            page.setUrl( url.getUrl( ) );
             page.setName( strIndex );
             page.setIndex( i );
             list.add( page );
@@ -218,70 +220,70 @@ public abstract class AbstractPaginator<E> implements IPaginator<E>
     }
 
     /**
-     *{@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
-    public String getLabelFirst(  )
+    public String getLabelFirst( )
     {
         return LABEL_FIRST;
     }
 
     /**
-     *{@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
-    public String getLabelPrevious(  )
+    public String getLabelPrevious( )
     {
         return LABEL_PREVIOUS;
     }
 
     /**
-     *{@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
-    public String getLabelNext(  )
+    public String getLabelNext( )
     {
         return LABEL_NEXT;
     }
 
     /**
-     *{@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
-    public String getLabelLast(  )
+    public String getLabelLast( )
     {
         return LABEL_LAST;
     }
 
     /**
-     *{@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
-    public String getLabelItemCount(  )
+    public String getLabelItemCount( )
     {
         return "";
     }
 
     /**
-     *{@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
-    public String getLabelItemCountPerPage(  )
+    public String getLabelItemCountPerPage( )
     {
         return "";
     }
 
     /**
-     *{@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
-    public String getItemsPerPageParameterName(  )
+    public String getItemsPerPageParameterName( )
     {
         return _strItemsPerPageParameterName;
     }
 
     /**
-     *{@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void setItemsPerPageParameterName( String strItemsPerPageParameterName )
@@ -290,47 +292,52 @@ public abstract class AbstractPaginator<E> implements IPaginator<E>
     }
 
     /**
-     *{@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
-    public int getPagesCount(  )
+    public int getPagesCount( )
     {
         return ( ( _nItemsCount - 1 ) / _nItemPerPage ) + 1;
     }
 
     /**
-     *{@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
-    public int getRangeMin(  )
+    public int getRangeMin( )
     {
-        return ( !_list.isEmpty(  ) ) ? ( ( _nItemPerPage * ( _nPageCurrent - 1 ) ) + 1 ) : 0;
+        return ( !_list.isEmpty( ) ) ? ( ( _nItemPerPage * ( _nPageCurrent - 1 ) ) + 1 ) : 0;
     }
 
     /**
-     *{@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
-    public int getRangeMax(  )
+    public int getRangeMax( )
     {
         return ( _nItemsCount < ( ( _nItemPerPage * _nPageCurrent ) - 1 ) ) ? _nItemsCount : ( _nItemPerPage * _nPageCurrent );
     }
 
     /**
-     *{@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
-    public int getItemsCount(  )
+    public int getItemsCount( )
     {
         return _nItemsCount;
     }
 
     /**
      * Gets the number of items per page from a request parameter
-     * @param request The HTTP request
-     * @param strParameter The request parameter name
-     * @param nCurrent The current number of items
-     * @param nDefault The default number of items
+     * 
+     * @param request
+     *            The HTTP request
+     * @param strParameter
+     *            The request parameter name
+     * @param nCurrent
+     *            The current number of items
+     * @param nDefault
+     *            The default number of items
      * @return The new number of items
      */
     public static int getItemsPerPage( HttpServletRequest request, String strParameter, int nCurrent, int nDefault )
@@ -359,9 +366,13 @@ public abstract class AbstractPaginator<E> implements IPaginator<E>
 
     /**
      * Gets the new page index from a request parameter
-     * @param request The HTTP request
-     * @param strParameter The request parameter name
-     * @param strCurrentPageIndex The current page index
+     * 
+     * @param request
+     *            The HTTP request
+     * @param strParameter
+     *            The request parameter name
+     * @param strCurrentPageIndex
+     *            The current page index
      * @return The new page index
      */
     public static String getPageIndex( HttpServletRequest request, String strParameter, String strCurrentPageIndex )

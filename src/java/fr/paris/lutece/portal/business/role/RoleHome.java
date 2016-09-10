@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -41,15 +41,14 @@ import fr.paris.lutece.util.ReferenceList;
 
 import java.util.Collection;
 
-
 /**
  * This class provides instances management methods (create, find, ...) for Role right objects
  */
 
-//TODO : change Role management (deletion of role 'none', manage role in mylutece exclusively)
+// TODO : change Role management (deletion of role 'none', manage role in mylutece exclusively)
 public final class RoleHome
 {
-    //Properties
+    // Properties
     private static final String PROPERTY_DEFAULT_ROLE_CODE = "defaultRole.code";
     private static final String PROPERTY_DEFAULT_ROLE_DESCRIPTION = "defaultRole.description";
 
@@ -59,19 +58,20 @@ public final class RoleHome
     /**
      * Creates a new RoleHome object.
      */
-    private RoleHome(  )
+    private RoleHome( )
     {
     }
 
     /**
      * Creation of an instance of a mode
      *
-     * @param role An instance of a role which contains the informations to create
+     * @param role
+     *            An instance of a role which contains the informations to create
      * @return The instance of a mode which has been created with its primary key.
      */
     public static Role create( Role role )
     {
-        if ( !role.getRole(  ).equals( getDefaultRole(  ).getRole(  ) ) )
+        if ( !role.getRole( ).equals( getDefaultRole( ).getRole( ) ) )
         {
             _dao.insert( role );
         }
@@ -82,12 +82,13 @@ public final class RoleHome
     /**
      * Update of the mode which is specified
      *
-     * @param role The instance of the role which contains the data to store
+     * @param role
+     *            The instance of the role which contains the data to store
      * @return The instance of the mode which has been updated
      */
     public static Role update( Role role )
     {
-        if ( !role.getRole(  ).equals( getDefaultRole(  ).getRole(  ) ) )
+        if ( !role.getRole( ).equals( getDefaultRole( ).getRole( ) ) )
         {
             _dao.store( role );
         }
@@ -98,27 +99,29 @@ public final class RoleHome
     /**
      * Remove the mode whose identifier is specified in parameter
      *
-     * @param strRole The identifier of the role to remove
+     * @param strRole
+     *            The identifier of the role to remove
      */
     public static void remove( String strRole )
     {
         _dao.delete( strRole );
     }
 
-    ///////////////////////////////////////////////////////////////////////////
+    // /////////////////////////////////////////////////////////////////////////
     // Finders
 
     /**
      * Returns an instance of an role whose identifier is specified in parameter
      *
-     * @param strRole The mode primary key
+     * @param strRole
+     *            The mode primary key
      * @return an instance of a role
      */
     public static Role findByPrimaryKey( String strRole )
     {
-        Role role = getDefaultRole(  );
+        Role role = getDefaultRole( );
 
-        if ( !strRole.equals( role.getRole(  ) ) )
+        if ( !strRole.equals( role.getRole( ) ) )
         {
             return _dao.load( strRole );
         }
@@ -131,11 +134,11 @@ public final class RoleHome
      *
      * @return A ReferenceList of roles
      */
-    public static ReferenceList getRolesList(  )
+    public static ReferenceList getRolesList( )
     {
-        ReferenceList roleList = _dao.selectRolesList(  );
-        Role defaultRole = getDefaultRole(  );
-        roleList.addItem( defaultRole.getRole(  ), defaultRole.getRoleDescription(  ) );
+        ReferenceList roleList = _dao.selectRolesList( );
+        Role defaultRole = getDefaultRole( );
+        roleList.addItem( defaultRole.getRole( ), defaultRole.getRoleDescription( ) );
 
         return roleList;
     }
@@ -145,22 +148,24 @@ public final class RoleHome
      *
      * @return Collection of Role
      */
-    public static Collection<Role> findAll(  )
+    public static Collection<Role> findAll( )
     {
-        Collection<Role> roleList = _dao.selectAll(  );
-        roleList.add( getDefaultRole(  ) );
+        Collection<Role> roleList = _dao.selectAll( );
+        roleList.add( getDefaultRole( ) );
 
         return roleList;
     }
 
     /**
      * Test if the role exists
-     * @param strRole The role name
+     * 
+     * @param strRole
+     *            The role name
      * @return true if the role exists, otherwise false
      */
     public static boolean findExistRole( String strRole )
     {
-        if ( strRole.equals( getDefaultRole(  ).getRole(  ) ) )
+        if ( strRole.equals( getDefaultRole( ).getRole( ) ) )
         {
             return true;
         }
@@ -173,9 +178,9 @@ public final class RoleHome
      *
      * @return the default role
      */
-    private static Role getDefaultRole(  )
+    private static Role getDefaultRole( )
     {
-        Role role = new Role(  );
+        Role role = new Role( );
         role.setRole( AppPropertiesService.getProperty( PROPERTY_DEFAULT_ROLE_CODE ) );
         role.setRoleDescription( AppPropertiesService.getProperty( PROPERTY_DEFAULT_ROLE_DESCRIPTION ) );
 
@@ -184,19 +189,21 @@ public final class RoleHome
 
     /**
      * Return the list of all roles
-     * @param user The Admin User
+     * 
+     * @param user
+     *            The Admin User
      * @return A ReferenceList of roles
      */
     public static ReferenceList getRolesList( AdminUser user )
     {
-        Collection<Role> listRoles = RoleHome.findAll(  );
+        Collection<Role> listRoles = RoleHome.findAll( );
         listRoles = AdminWorkgroupService.getAuthorizedCollection( listRoles, user );
 
-        ReferenceList roleList = new ReferenceList(  );
+        ReferenceList roleList = new ReferenceList( );
 
         for ( Role role : listRoles )
         {
-            roleList.addItem( role.getRole(  ), role.getRoleDescription(  ) );
+            roleList.addItem( role.getRole( ), role.getRoleDescription( ) );
         }
 
         return roleList;

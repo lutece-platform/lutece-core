@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,13 +33,12 @@
  */
 package fr.paris.lutece.portal.service.daemon;
 
-
 /**
  * Interfaces for Daemons Service.
  */
 public abstract class Daemon implements Runnable
 {
-    ////////////////////////////////////////////////////////////////////////////////
+    // //////////////////////////////////////////////////////////////////////////////
     // Constants
     public static final int STATUS_STOPPED = 0;
     public static final int STATUS_RUNNING = 1;
@@ -64,7 +63,7 @@ public abstract class Daemon implements Runnable
      *
      * @return the plugin name
      */
-    public String getPluginName(  )
+    public String getPluginName( )
     {
         return _strPluginName;
     }
@@ -72,7 +71,8 @@ public abstract class Daemon implements Runnable
     /**
      * Sets the plugin name
      *
-     * @param pluginName The plugin name
+     * @param pluginName
+     *            The plugin name
      */
     public void setPluginName( String pluginName )
     {
@@ -84,7 +84,7 @@ public abstract class Daemon implements Runnable
      *
      * @return The LastRunLogs
      */
-    public String getLastRunLogs(  )
+    public String getLastRunLogs( )
     {
         return _strLastRunLogs;
     }
@@ -92,7 +92,8 @@ public abstract class Daemon implements Runnable
     /**
      * Sets the LastRunLogs
      *
-     * @param strLastRunLogs The LastRunLogs
+     * @param strLastRunLogs
+     *            The LastRunLogs
      */
     public void setLastRunLogs( String strLastRunLogs )
     {
@@ -104,7 +105,7 @@ public abstract class Daemon implements Runnable
      *
      * @return The Result
      */
-    public int getResult(  )
+    public int getResult( )
     {
         return _nResult;
     }
@@ -112,7 +113,8 @@ public abstract class Daemon implements Runnable
     /**
      * Sets the Result
      *
-     * @param nResult The Result
+     * @param nResult
+     *            The Result
      */
     public void setResult( int nResult )
     {

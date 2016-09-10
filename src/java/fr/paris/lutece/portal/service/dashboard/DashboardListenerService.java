@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -41,7 +41,6 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  *
  * DashboardListenerService
@@ -49,11 +48,13 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class DashboardListenerService
 {
-    private List<DashboardListener> _listRegisteredListeners = new ArrayList<DashboardListener>(  );
+    private List<DashboardListener> _listRegisteredListeners = new ArrayList<DashboardListener>( );
 
     /**
      * Register a new dashboard listener
-     * @param listener The listener to register
+     * 
+     * @param listener
+     *            The listener to register
      */
     public void registerListener( DashboardListener listener )
     {
@@ -62,12 +63,15 @@ public class DashboardListenerService
 
     /**
      * get the list of dashboards
-     * @param listDashboards the list of dashboards
-     * @param request HttpServletRequest
-     * @param user AdminUser
+     * 
+     * @param listDashboards
+     *            the list of dashboards
+     * @param request
+     *            HttpServletRequest
+     * @param user
+     *            AdminUser
      */
-    public void getDashboardComponents( List<IDashboardComponent> listDashboards, AdminUser user,
-        HttpServletRequest request )
+    public void getDashboardComponents( List<IDashboardComponent> listDashboards, AdminUser user, HttpServletRequest request )
     {
         for ( DashboardListener listener : _listRegisteredListeners )
         {

@@ -41,7 +41,6 @@ import java.util.Hashtable;
 
 import javax.sql.DataSource;
 
-
 /**
  * Database Connection Service Interface
  */
@@ -51,72 +50,87 @@ public interface ConnectionService
 
     /**
      * Get a connection
+     * 
      * @return A database connection
      */
-    Connection getConnection(  );
+    Connection getConnection( );
 
     /**
      * Release the connection
-     * @param conn The connection to release
+     * 
+     * @param conn
+     *            The connection to release
      */
     void freeConnection( Connection conn );
 
     /**
      * Free all connections
      */
-    void release(  );
+    void release( );
 
     /**
      * Initialize pool parameters
-     * @param htParamsConnectionPool Parameters
+     * 
+     * @param htParamsConnectionPool
+     *            Parameters
      */
     void init( Hashtable<String, String> htParamsConnectionPool );
 
     /**
      * Define the pool name
-     * @param strPoolName The pool name
+     * 
+     * @param strPoolName
+     *            The pool name
      */
     void setPoolName( String strPoolName );
 
     /**
      * Gets the pool name
+     * 
      * @return The pool name
      */
-    String getPoolName(  );
+    String getPoolName( );
 
     /**
      * Define the logger
-     * @param logger The logger
+     * 
+     * @param logger
+     *            The logger
      */
     void setLogger( Logger logger );
 
-    /**Gets the logger
+    /**
+     * Gets the logger
      *
-     * @return  The logger
+     * @return The logger
      */
-    Logger getLogger(  );
+    Logger getLogger( );
 
     /**
      * Gets the number of opened connections
+     * 
      * @return The current connections count
      */
-    int getCurrentConnections(  );
+    int getCurrentConnections( );
 
     /**
      * Gets the max connections
+     * 
      * @return The max connections count
      */
-    int getMaxConnections(  );
+    int getMaxConnections( );
 
     /**
      * Gets the pool manager provider
+     * 
      * @return The pool manager
      */
-    String getPoolProvider(  );
+    String getPoolProvider( );
 
     /**
      * Get datasource
+     * 
      * @return A data source object
      */
-    DataSource getDataSource(  );
+    DataSource getDataSource( );
 }

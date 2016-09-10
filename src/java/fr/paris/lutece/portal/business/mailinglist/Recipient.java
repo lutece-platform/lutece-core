@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,7 +33,6 @@
  */
 package fr.paris.lutece.portal.business.mailinglist;
 
-
 /**
  * Recipient
  */
@@ -48,7 +47,7 @@ public class Recipient
      *
      * @return The Name
      */
-    public String getName(  )
+    public String getName( )
     {
         return _strName;
     }
@@ -56,7 +55,8 @@ public class Recipient
     /**
      * Sets the Name
      *
-     * @param strName The Name
+     * @param strName
+     *            The Name
      */
     public void setName( String strName )
     {
@@ -68,7 +68,7 @@ public class Recipient
      *
      * @return The Email
      */
-    public String getEmail(  )
+    public String getEmail( )
     {
         return _strEmail;
     }
@@ -76,7 +76,8 @@ public class Recipient
     /**
      * Sets the Email
      *
-     * @param strEmail The Email
+     * @param strEmail
+     *            The Email
      */
     public void setEmail( String strEmail )
     {

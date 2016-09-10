@@ -59,7 +59,6 @@ import java.util.Properties;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  * This class provides the map of the pages on the site
  */
@@ -82,13 +81,15 @@ public class SiteMapApp implements XPageApplication
     /**
      * Creates a new SiteMapPage object
      */
-    public SiteMapApp(  )
+    public SiteMapApp( )
     {
     }
 
     /**
      * Returns the localized service name
-     * @param locale The locale
+     * 
+     * @param locale
+     *            The locale
      * @return The localized service name
      */
     public String getName( Locale locale )
@@ -97,27 +98,28 @@ public class SiteMapApp implements XPageApplication
     }
 
     /**
-     * Build or get in the cache the page which contains the site map depending
-     * on the mode
+     * Build or get in the cache the page which contains the site map depending on the mode
      *
-     * @param request The Http request
-     * @param nMode The selected mode
-     * @param plugin The plugin
+     * @param request
+     *            The Http request
+     * @param nMode
+     *            The selected mode
+     * @param plugin
+     *            The plugin
      * @return The content of the site map
      */
     @Override
     public XPage getPage( HttpServletRequest request, int nMode, Plugin plugin )
     {
-        XPage page = new XPage(  );
+        XPage page = new XPage( );
         String strKey = getKey( nMode, request );
 
-        Locale locale = request.getLocale(  );
+        Locale locale = request.getLocale( );
 
-        SiteMapCacheService siteMapCacheService = SiteMapCacheService.getInstance(  );
+        SiteMapCacheService siteMapCacheService = SiteMapCacheService.getInstance( );
 
         // Check the key in the cache
-        String strCachedPage = siteMapCacheService.isCacheEnable(  )
-            ? (String) siteMapCacheService.getFromCache( strKey ) : null;
+        String strCachedPage = siteMapCacheService.isCacheEnable( ) ? (String) siteMapCacheService.getFromCache( strKey ) : null;
 
         if ( strCachedPage == null )
         {
@@ -125,9 +127,9 @@ public class SiteMapApp implements XPageApplication
             String strPage = buildPageContent( nMode, request );
 
             // Add it to the cache
-            if ( siteMapCacheService.isCacheEnable(  ) )
+            if ( siteMapCacheService.isCacheEnable( ) )
             {
-                synchronized ( strKey )
+                synchronized( strKey )
                 {
                     siteMapCacheService.putInCache( strKey, strPage );
                 }
@@ -150,21 +152,24 @@ public class SiteMapApp implements XPageApplication
 
     /**
      * Gets the cache key
-     * @param nMode The mode
-     * @param request The HTTP request
+     * 
+     * @param nMode
+     *            The mode
+     * @param request
+     *            The HTTP request
      * @return The key
      */
     private String getKey( int nMode, HttpServletRequest request )
     {
         String strRoles = "-";
 
-        if ( SecurityService.isAuthenticationEnable(  ) )
+        if ( SecurityService.isAuthenticationEnable( ) )
         {
-            LuteceUser user = SecurityService.getInstance(  ).getRegisteredUser( request );
+            LuteceUser user = SecurityService.getInstance( ).getRegisteredUser( request );
 
-            if ( ( user != null ) && ( user.getRoles(  ) != null ) )
+            if ( ( user != null ) && ( user.getRoles( ) != null ) )
             {
-                String[] roles = user.getRoles(  );
+                String [ ] roles = user.getRoles( );
                 Arrays.sort( roles );
                 strRoles = StringUtils.join( roles, ',' );
             }
@@ -174,26 +179,27 @@ public class SiteMapApp implements XPageApplication
     }
 
     /**
-     * Build an XML document containing the arborescence of the site pages and
-     * transform it with the stylesheet
-     * combined with the mode
-     * @param nMode The selected mode
-     * @param request The HttpServletRequest
+     * Build an XML document containing the arborescence of the site pages and transform it with the stylesheet combined with the mode
+     * 
+     * @param nMode
+     *            The selected mode
+     * @param request
+     *            The HttpServletRequest
      * @return The content of the site map
      */
     private String buildPageContent( int nMode, HttpServletRequest request )
     {
-        StringBuffer strArborescenceXml = new StringBuffer(  );
-        strArborescenceXml.append( XmlUtil.getXmlHeader(  ) );
+        StringBuffer strArborescenceXml = new StringBuffer( );
+        strArborescenceXml.append( XmlUtil.getXmlHeader( ) );
 
         int nLevel = 0;
-        findPages( strArborescenceXml, PortalService.getRootPageId(  ), nLevel, request );
+        findPages( strArborescenceXml, PortalService.getRootPageId( ), nLevel, request );
 
         // Added in v1.3
         // Use the same stylesheet for normal or admin mode
         StyleSheet xslSource;
 
-        switch ( nMode )
+        switch( nMode )
         {
             case MODE_NORMAL:
             case MODE_ADMIN:
@@ -209,34 +215,36 @@ public class SiteMapApp implements XPageApplication
 
         // Added in v1.3
         // Add a path param for choose url to use in admin or normal mode
-        Map<String, String> mapParamRequest = new HashMap<String, String>(  );
+        Map<String, String> mapParamRequest = new HashMap<String, String>( );
 
         if ( nMode != MODE_ADMIN )
         {
-            mapParamRequest.put( PARAMETER_SITE_PATH, AppPathService.getPortalUrl(  ) );
+            mapParamRequest.put( PARAMETER_SITE_PATH, AppPathService.getPortalUrl( ) );
         }
         else
         {
-            mapParamRequest.put( PARAMETER_SITE_PATH, AppPathService.getAdminPortalUrl(  ) );
+            mapParamRequest.put( PARAMETER_SITE_PATH, AppPathService.getAdminPortalUrl( ) );
             mapParamRequest.put( MARKER_TARGET, TARGET_TOP );
         }
 
         Properties outputProperties = ModeHome.getOuputXslProperties( nMode );
 
-        XmlTransformerService xmlTransformerService = new XmlTransformerService(  );
+        XmlTransformerService xmlTransformerService = new XmlTransformerService( );
 
-        return xmlTransformerService.transformBySourceWithXslCache( strArborescenceXml.toString(  ), xslSource,
-            mapParamRequest, outputProperties );
+        return xmlTransformerService.transformBySourceWithXslCache( strArborescenceXml.toString( ), xslSource, mapParamRequest, outputProperties );
     }
 
     /**
-     * Build recursively the XML document containing the arborescence of the
-     * site pages
-     * @param strXmlArborescence The buffer in which adding the current page of
-     *            the arborescence
-     * @param nPageId The current page of the recursive course
-     * @param nLevel The depth level of the page in the arborescence
-     * @param request The HttpServletRequest
+     * Build recursively the XML document containing the arborescence of the site pages
+     * 
+     * @param strXmlArborescence
+     *            The buffer in which adding the current page of the arborescence
+     * @param nPageId
+     *            The current page of the recursive course
+     * @param nLevel
+     *            The depth level of the page in the arborescence
+     * @param request
+     *            The HttpServletRequest
      */
     private void findPages( StringBuffer strXmlArborescence, int nPageId, int nLevel, HttpServletRequest request )
     {
@@ -245,22 +253,21 @@ public class SiteMapApp implements XPageApplication
         if ( page.isVisible( request ) )
         {
             XmlUtil.beginElement( strXmlArborescence, XmlContent.TAG_PAGE );
-            XmlUtil.addElement( strXmlArborescence, XmlContent.TAG_PAGE_ID, page.getId(  ) );
-            XmlUtil.addElementHtml( strXmlArborescence, XmlContent.TAG_PAGE_NAME, page.getName(  ) );
-            XmlUtil.addElement( strXmlArborescence, XmlContent.TAG_PAGE_DESCRIPTION, page.getDescription(  ) );
+            XmlUtil.addElement( strXmlArborescence, XmlContent.TAG_PAGE_ID, page.getId( ) );
+            XmlUtil.addElementHtml( strXmlArborescence, XmlContent.TAG_PAGE_NAME, page.getName( ) );
+            XmlUtil.addElement( strXmlArborescence, XmlContent.TAG_PAGE_DESCRIPTION, page.getDescription( ) );
             XmlUtil.addElement( strXmlArborescence, XmlContent.TAG_PAGE_LEVEL, nLevel );
 
-            AdminPageJspBean adminPage = new AdminPageJspBean(  );
+            AdminPageJspBean adminPage = new AdminPageJspBean( );
 
-            if ( page.getImageContent(  ) != null )
+            if ( page.getImageContent( ) != null )
             {
-                int nImageLength = page.getImageContent(  ).length;
+                int nImageLength = page.getImageContent( ).length;
 
                 if ( nImageLength >= 1 )
                 {
-                    String strPageId = Integer.toString( page.getId(  ) );
-                    XmlUtil.addElement( strXmlArborescence, XmlContent.TAG_PAGE_IMAGE,
-                        adminPage.getResourceImagePage( page, strPageId ) );
+                    String strPageId = Integer.toString( page.getId( ) );
+                    XmlUtil.addElement( strXmlArborescence, XmlContent.TAG_PAGE_IMAGE, adminPage.getResourceImagePage( page, strPageId ) );
                 }
             }
 
@@ -268,7 +275,7 @@ public class SiteMapApp implements XPageApplication
 
             for ( Page pageChild : PageHome.getChildPagesMinimalData( nPageId ) )
             {
-                findPages( strXmlArborescence, pageChild.getId(  ), nLevel + 1, request );
+                findPages( strXmlArborescence, pageChild.getId( ), nLevel + 1, request );
             }
 
             XmlUtil.endElement( strXmlArborescence, XmlContent.TAG_CHILD_PAGES_LIST );

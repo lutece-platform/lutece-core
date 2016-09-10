@@ -43,7 +43,6 @@ import java.util.Locale;
 
 import javax.servlet.http.HttpSession;
 
-
 /**
  * AdminMessageJspBeanTest Test Class
  *
@@ -53,25 +52,26 @@ public class AdminMessageJspBeanTest extends LuteceTestCase
     /**
      * Test of getMessage method, of class fr.paris.lutece.portal.web.admin.AdminMessageJspBean.
      */
-    public void testGetMessage(  ) throws AccessDeniedException
+    public void testGetMessage( ) throws AccessDeniedException
     {
         System.out.println( "getMessage" );
 
-        MokeHttpServletRequest request = new MokeHttpServletRequest(  );
+        MokeHttpServletRequest request = new MokeHttpServletRequest( );
 
-        AdminUser user = new AdminUser(  );
+        AdminUser user = new AdminUser( );
         user.setLocale( Locale.FRANCE );
         request.registerAdminUser( user );
 
         String strTitle = "WARNING_MESSAGE";
         boolean bCancelButton = false;
-        Object[] messageArgs = { "WARNING_MESSAGE" };
-        AdminMessage message = new AdminMessage( "WARNING_MESSAGE", messageArgs, strTitle, "", "",
-                AdminMessage.TYPE_WARNING, bCancelButton );
+        Object [ ] messageArgs = {
+            "WARNING_MESSAGE"
+        };
+        AdminMessage message = new AdminMessage( "WARNING_MESSAGE", messageArgs, strTitle, "", "", AdminMessage.TYPE_WARNING, bCancelButton );
         HttpSession session = request.getSession( true );
         session.setAttribute( "LUTECE_ADMIN_MESSAGE", message );
 
-        AdminMessageJspBean instance = new AdminMessageJspBean(  );
+        AdminMessageJspBean instance = new AdminMessageJspBean( );
         instance.getMessage( request );
     }
 }

@@ -35,7 +35,6 @@ package fr.paris.lutece.util.datatable;
 
 import java.io.Serializable;
 
-
 /**
  * Data table column
  */
@@ -51,13 +50,17 @@ public class DataTableColumn implements Serializable
 
     /**
      * Creates a new DataTableColumn
-     * @param strTitleKey I18n key of the title of this column
-     * @param strParameterName Name of the object to insert into this cells of this column
-     * @param bSortable True of the column is sortable, false otherwise
-     * @param typeColumn The type of data displayed by the column
+     * 
+     * @param strTitleKey
+     *            I18n key of the title of this column
+     * @param strParameterName
+     *            Name of the object to insert into this cells of this column
+     * @param bSortable
+     *            True of the column is sortable, false otherwise
+     * @param typeColumn
+     *            The type of data displayed by the column
      */
-    public DataTableColumn( String strTitleKey, String strParameterName, boolean bSortable,
-        DataTableColumnType typeColumn )
+    public DataTableColumn( String strTitleKey, String strParameterName, boolean bSortable, DataTableColumnType typeColumn )
     {
         _strTitleKey = strTitleKey;
         _strParameterName = strParameterName;
@@ -67,15 +70,22 @@ public class DataTableColumn implements Serializable
 
     /**
      * Creates a new boolean DataTableColumn
-     * @param strTitleKey I18n key of the title of this column
-     * @param strParameterName Name of the object to insert into this cells of this column
-     * @param bSortable True of the column is sortable, false otherwise
-     * @param columnType The type of data displayed by the column
-     * @param strLabelTrue The label to display in a cell if the value is true
-     * @param strLabelFalse The label to display in a cell if the value is false
+     * 
+     * @param strTitleKey
+     *            I18n key of the title of this column
+     * @param strParameterName
+     *            Name of the object to insert into this cells of this column
+     * @param bSortable
+     *            True of the column is sortable, false otherwise
+     * @param columnType
+     *            The type of data displayed by the column
+     * @param strLabelTrue
+     *            The label to display in a cell if the value is true
+     * @param strLabelFalse
+     *            The label to display in a cell if the value is false
      */
-    public DataTableColumn( String strTitleKey, String strParameterName, boolean bSortable,
-        DataTableColumnType columnType, String strLabelTrue, String strLabelFalse )
+    public DataTableColumn( String strTitleKey, String strParameterName, boolean bSortable, DataTableColumnType columnType, String strLabelTrue,
+            String strLabelFalse )
     {
         _strTitleKey = strTitleKey;
         _strParameterName = strParameterName;
@@ -87,16 +97,19 @@ public class DataTableColumn implements Serializable
 
     /**
      * Get the I18n key of the title of this column
+     * 
      * @return The I18n key of the title of this column
      */
-    public String getTitleKey(  )
+    public String getTitleKey( )
     {
         return _strTitleKey;
     }
 
     /**
      * Set the I18n key of the title of this column
-     * @param strTitleKey The I18n key of the title of this column
+     * 
+     * @param strTitleKey
+     *            The I18n key of the title of this column
      */
     public void setTitleKey( String strTitleKey )
     {
@@ -105,16 +118,19 @@ public class DataTableColumn implements Serializable
 
     /**
      * Get the name of the object to insert into this cells of this column
+     * 
      * @return The name of the object to insert into this cells of this column
      */
-    public String getParameterName(  )
+    public String getParameterName( )
     {
         return _strParameterName;
     }
 
     /**
      * Set the name of the object to insert into this cells of this column
-     * @param strParameterName The name of the object to insert into this cells of this column
+     * 
+     * @param strParameterName
+     *            The name of the object to insert into this cells of this column
      */
     public void setParameterName( String strParameterName )
     {
@@ -123,16 +139,19 @@ public class DataTableColumn implements Serializable
 
     /**
      * Get the sortable boolean of this column
+     * 
      * @return true if the column is sortable, false otherwise
      */
-    public boolean getSortable(  )
+    public boolean getSortable( )
     {
         return _bSortable;
     }
 
     /**
      * Set the sortable boolean of this column
-     * @param bSortable true if the column is sortable, false otherwise
+     * 
+     * @param bSortable
+     *            true if the column is sortable, false otherwise
      */
     public void setSortable( boolean bSortable )
     {
@@ -141,16 +160,19 @@ public class DataTableColumn implements Serializable
 
     /**
      * Get the type of the column
+     * 
      * @return The type of the column
      */
-    public DataTableColumnType getTypeColumn(  )
+    public DataTableColumnType getTypeColumn( )
     {
         return _columnType;
     }
 
     /**
      * Set the type of the column
-     * @param columnType The type of the column
+     * 
+     * @param columnType
+     *            The type of the column
      */
     public void setTypeColumn( DataTableColumnType columnType )
     {
@@ -159,16 +181,19 @@ public class DataTableColumn implements Serializable
 
     /**
      * Get the label to print in a cell if the boolean value is true
+     * 
      * @return The label to print in a cell if the boolean value is true
      */
-    public String getLabelTrue(  )
+    public String getLabelTrue( )
     {
         return _strLabelTrue;
     }
 
     /**
      * Set the label to print in a cell if the boolean value is true
-     * @param strLabelTrue The label to print in a cell if the boolean value is true
+     * 
+     * @param strLabelTrue
+     *            The label to print in a cell if the boolean value is true
      */
     public void setLabelTrue( String strLabelTrue )
     {
@@ -177,16 +202,19 @@ public class DataTableColumn implements Serializable
 
     /**
      * Get the label to print in a cell if the boolean value is false
+     * 
      * @return The label to print in a cell if the boolean value is false
      */
-    public String getLabelFalse(  )
+    public String getLabelFalse( )
     {
         return _strLabelFalse;
     }
 
     /**
      * Set the label to print in a cell if the boolean value is false
-     * @param strLabelFalse The label to print in a cell if the boolean value is false
+     * 
+     * @param strLabelFalse
+     *            The label to print in a cell if the boolean value is false
      */
     public void setLabelFalse( String strLabelFalse )
     {

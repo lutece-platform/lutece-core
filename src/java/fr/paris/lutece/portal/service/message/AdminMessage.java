@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -42,7 +42,6 @@ import java.text.MessageFormat;
 import java.util.Locale;
 import java.util.Map;
 
-
 /**
  * The class provides a bean to hold message box informations
  */
@@ -61,75 +60,111 @@ public class AdminMessage implements Serializable
     private String _strTarget;
     private int _nType;
     private boolean _bCancel;
-    private Object[] _messageArgs;
+    private Object [ ] _messageArgs;
     private Map<String, Object> _requestParameters;
     private String _strBackUrl;
 
-    /** Creates a new instance of AppMessage
-     * @param strTextKey The message Key
-     * @param strUrl The default Button URL
-     * @param messageArgs The message arguments
-     * @param strTitleKey The Title key
-     * @param strTarget The target
-     * @param nType The message Type
-     * @param bCancelButton Add a Cancel Button
+    /**
+     * Creates a new instance of AppMessage
+     * 
+     * @param strTextKey
+     *            The message Key
+     * @param strUrl
+     *            The default Button URL
+     * @param messageArgs
+     *            The message arguments
+     * @param strTitleKey
+     *            The Title key
+     * @param strTarget
+     *            The target
+     * @param nType
+     *            The message Type
+     * @param bCancelButton
+     *            Add a Cancel Button
      */
-    public AdminMessage( String strTextKey, Object[] messageArgs, String strTitleKey, String strUrl, String strTarget,
-        int nType, boolean bCancelButton )
+    public AdminMessage( String strTextKey, Object [ ] messageArgs, String strTitleKey, String strUrl, String strTarget, int nType, boolean bCancelButton )
     {
         buildAdminMessage( strTextKey, messageArgs, strTitleKey, strUrl, strTarget, nType, bCancelButton, null, null );
     }
 
-    /** Creates a new instance of AppMessage with request parameters
-     * @param strTextKey The message Key
-     * @param strUrl The default Button URL
-     * @param messageArgs The message arguments
-     * @param strTitleKey The Title key
-     * @param strTarget The target
-     * @param nType The message Type
-     * @param bCancelButton Add a Cancel Button
-     * @param requestParameters The Request parameters in a map
+    /**
+     * Creates a new instance of AppMessage with request parameters
+     * 
+     * @param strTextKey
+     *            The message Key
+     * @param strUrl
+     *            The default Button URL
+     * @param messageArgs
+     *            The message arguments
+     * @param strTitleKey
+     *            The Title key
+     * @param strTarget
+     *            The target
+     * @param nType
+     *            The message Type
+     * @param bCancelButton
+     *            Add a Cancel Button
+     * @param requestParameters
+     *            The Request parameters in a map
      */
-    public AdminMessage( String strTextKey, Object[] messageArgs, String strTitleKey, String strUrl, String strTarget,
-        int nType, boolean bCancelButton, Map<String, Object> requestParameters )
+    public AdminMessage( String strTextKey, Object [ ] messageArgs, String strTitleKey, String strUrl, String strTarget, int nType, boolean bCancelButton,
+            Map<String, Object> requestParameters )
     {
-        buildAdminMessage( strTextKey, messageArgs, strTitleKey, strUrl, strTarget, nType, bCancelButton,
-            requestParameters, null );
+        buildAdminMessage( strTextKey, messageArgs, strTitleKey, strUrl, strTarget, nType, bCancelButton, requestParameters, null );
     }
 
-    /** Creates a new instance of AppMessage with request parameters
-     * @param strTextKey The message Key
-     * @param strUrl The default Button URL
-     * @param messageArgs The message arguments
-     * @param strTitleKey The Title key
-     * @param strTarget The target
-     * @param nType The message Type
-     * @param bCancelButton Add a Cancel Button
-     * @param requestParameters The Request parameters in a map
-     * @param strBackUrl the back url
+    /**
+     * Creates a new instance of AppMessage with request parameters
+     * 
+     * @param strTextKey
+     *            The message Key
+     * @param strUrl
+     *            The default Button URL
+     * @param messageArgs
+     *            The message arguments
+     * @param strTitleKey
+     *            The Title key
+     * @param strTarget
+     *            The target
+     * @param nType
+     *            The message Type
+     * @param bCancelButton
+     *            Add a Cancel Button
+     * @param requestParameters
+     *            The Request parameters in a map
+     * @param strBackUrl
+     *            the back url
      */
-    public AdminMessage( String strTextKey, Object[] messageArgs, String strTitleKey, String strUrl, String strTarget,
-        int nType, boolean bCancelButton, Map<String, Object> requestParameters, String strBackUrl )
+    public AdminMessage( String strTextKey, Object [ ] messageArgs, String strTitleKey, String strUrl, String strTarget, int nType, boolean bCancelButton,
+            Map<String, Object> requestParameters, String strBackUrl )
     {
-        buildAdminMessage( strTextKey, messageArgs, strTitleKey, strUrl, strTarget, nType, bCancelButton,
-            requestParameters, null );
+        buildAdminMessage( strTextKey, messageArgs, strTitleKey, strUrl, strTarget, nType, bCancelButton, requestParameters, null );
     }
 
     /**
      * Build a new admin message
      *
-     * @param strTextKey The message Key
-     * @param strUrl The default Button URL
-     * @param messageArgs The message arguments
-     * @param strTitleKey The Title key
-     * @param strTarget The target
-     * @param nType The message Type
-     * @param bCancelButton Add a Cancel Button
-     * @param requestParameters The Request parameters in a map
-     * @param strBackUrl the back url
+     * @param strTextKey
+     *            The message Key
+     * @param strUrl
+     *            The default Button URL
+     * @param messageArgs
+     *            The message arguments
+     * @param strTitleKey
+     *            The Title key
+     * @param strTarget
+     *            The target
+     * @param nType
+     *            The message Type
+     * @param bCancelButton
+     *            Add a Cancel Button
+     * @param requestParameters
+     *            The Request parameters in a map
+     * @param strBackUrl
+     *            the back url
      */
-    private void buildAdminMessage( String strTextKey, Object[] messageArgs, String strTitleKey, String strUrl,
-        String strTarget, int nType, boolean bCancelButton, Map<String, Object> requestParameters, String strBackUrl )
+    private void buildAdminMessage( String strTextKey, Object [ ] messageArgs, String strTitleKey, String strUrl, String strTarget, int nType,
+            boolean bCancelButton, Map<String, Object> requestParameters, String strBackUrl )
     {
         _strTextKey = strTextKey;
         _strTitleKey = strTitleKey;
@@ -144,25 +179,29 @@ public class AdminMessage implements Serializable
 
     /**
      * Return the type of message
+     * 
      * @return the type message
      */
-    public int getType(  )
+    public int getType( )
     {
         return _nType;
     }
 
     /**
      * Return if the cancel button is display
+     * 
      * @return true if the cancel button is display
      */
-    public boolean isCancel(  )
+    public boolean isCancel( )
     {
         return _bCancel;
     }
 
     /**
      * Set the display of cancel button
-     * @param bCancel the new bCancel
+     * 
+     * @param bCancel
+     *            the new bCancel
      */
     public void setCancel( boolean bCancel )
     {
@@ -171,7 +210,9 @@ public class AdminMessage implements Serializable
 
     /**
      * Returns the localized text of the message
-     * @param locale The current locale
+     * 
+     * @param locale
+     *            The current locale
      * @return The localized text of the message
      */
     public String getText( Locale locale )
@@ -188,7 +229,9 @@ public class AdminMessage implements Serializable
 
     /**
      * Returns the localized text of the message
-     * @param locale The current locale
+     * 
+     * @param locale
+     *            The current locale
      * @return The localized text of the message
      */
     public String getTitle( Locale locale )
@@ -198,34 +241,39 @@ public class AdminMessage implements Serializable
 
     /**
      * Returns the Url of the message box Ok button
+     * 
      * @return the Url of the Ok button
      */
-    public String getUrl(  )
+    public String getUrl( )
     {
         return _strUrl;
     }
 
     /**
      * Returns the Url of the message box Ok button
+     * 
      * @return the Url of the Ok button
      */
-    public String getTarget(  )
+    public String getTarget( )
     {
         return _strTarget;
     }
 
     /**
      * Return the request parameters
+     * 
      * @return the request parameters
      */
-    public Map<String, Object> getRequestParameters(  )
+    public Map<String, Object> getRequestParameters( )
     {
         return _requestParameters;
     }
 
     /**
      * set the back url
-     * @param strBackUrl the back url
+     * 
+     * @param strBackUrl
+     *            the back url
      */
     public void setBackUrl( String strBackUrl )
     {
@@ -236,7 +284,7 @@ public class AdminMessage implements Serializable
      *
      * @return back url
      */
-    public String getBackUrl(  )
+    public String getBackUrl( )
     {
         return _strBackUrl;
     }

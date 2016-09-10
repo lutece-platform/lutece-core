@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -49,7 +49,6 @@ import javax.servlet.http.HttpSession;
 
 import javax.validation.ConstraintViolation;
 
-
 /**
  * This class provides a service that build messages and deliver the Url to display them
  */
@@ -73,14 +72,17 @@ public final class AdminMessageService
     /**
      * Private constructor
      */
-    private AdminMessageService(  )
+    private AdminMessageService( )
     {
     }
 
     /**
      * Returns the Url that display the given message
-     * @param request The HttpRequest
-     * @param strMessageKey The message key
+     * 
+     * @param request
+     *            The HttpRequest
+     * @param strMessageKey
+     *            The message key
      * @return The Url of the JSP that display the message
      */
     public static String getMessageUrl( HttpServletRequest request, String strMessageKey )
@@ -90,9 +92,13 @@ public final class AdminMessageService
 
     /**
      * Returns the Url that display the given message
-     * @param request The HttpRequest
-     * @param strMessageKey The message key
-     * @param nMessageType The message type
+     * 
+     * @param request
+     *            The HttpRequest
+     * @param strMessageKey
+     *            The message key
+     * @param nMessageType
+     *            The message type
      * @return The Url of the JSP that display the message
      */
     public static String getMessageUrl( HttpServletRequest request, String strMessageKey, int nMessageType )
@@ -102,178 +108,235 @@ public final class AdminMessageService
 
     /**
      * Returns the Url that display the given message
+     * 
      * @return The Url of the JSP that display the message
-     * @param messageArgs Message arguments
-     * @param request The HttpRequest
-     * @param strMessageKey The message key
-     * @param nMessageType The message type
+     * @param messageArgs
+     *            Message arguments
+     * @param request
+     *            The HttpRequest
+     * @param strMessageKey
+     *            The message key
+     * @param nMessageType
+     *            The message type
      */
-    public static String getMessageUrl( HttpServletRequest request, String strMessageKey, Object[] messageArgs,
-        int nMessageType )
+    public static String getMessageUrl( HttpServletRequest request, String strMessageKey, Object [ ] messageArgs, int nMessageType )
     {
         return getMessageUrl( request, strMessageKey, messageArgs, null, JSP_BACK, TARGET_SELF, nMessageType );
     }
 
     /**
      * Returns the Url that display the given message
+     * 
      * @return The Url of the JSP that display the message
-     * @param strTarget Target
-     * @param request The HttpRequest
-     * @param strMessageKey The message key
-     * @param strUrl The Url of the OK button
+     * @param strTarget
+     *            Target
+     * @param request
+     *            The HttpRequest
+     * @param strMessageKey
+     *            The message key
+     * @param strUrl
+     *            The Url of the OK button
      */
-    public static String getMessageUrl( HttpServletRequest request, String strMessageKey, String strUrl,
-        String strTarget )
+    public static String getMessageUrl( HttpServletRequest request, String strMessageKey, String strUrl, String strTarget )
     {
         return getMessageUrl( request, strMessageKey, null, null, strUrl, strTarget, AdminMessage.TYPE_INFO );
     }
 
     /**
      * Returns the Url that display the given message
+     * 
      * @return The Url of the JSP that display the message
-     * @param strTarget The url target if not "_self"
-     * @param request The HttpRequest
-     * @param strMessageKey The message key
-     * @param strUrl The Url of the Ok button
-     * @param nMessageType The message type
+     * @param strTarget
+     *            The url target if not "_self"
+     * @param request
+     *            The HttpRequest
+     * @param strMessageKey
+     *            The message key
+     * @param strUrl
+     *            The Url of the Ok button
+     * @param nMessageType
+     *            The message type
      */
-    public static String getMessageUrl( HttpServletRequest request, String strMessageKey, String strUrl,
-        String strTarget, int nMessageType )
+    public static String getMessageUrl( HttpServletRequest request, String strMessageKey, String strUrl, String strTarget, int nMessageType )
     {
         return getMessageUrl( request, strMessageKey, null, null, strUrl, strTarget, nMessageType );
     }
 
     /**
      * Returns the Url that display the given message
+     * 
      * @return The Url of the JSP that display the message
-     * @param request The HttpRequest
-     * @param strMessageKey The message key
-     * @param strUrl The Url of the Ok button
-     * @param nMessageType The message type
+     * @param request
+     *            The HttpRequest
+     * @param strMessageKey
+     *            The message key
+     * @param strUrl
+     *            The Url of the Ok button
+     * @param nMessageType
+     *            The message type
      */
-    public static String getMessageUrl( HttpServletRequest request, String strMessageKey, String strUrl,
-        int nMessageType )
+    public static String getMessageUrl( HttpServletRequest request, String strMessageKey, String strUrl, int nMessageType )
     {
         return getMessageUrl( request, strMessageKey, null, null, strUrl, "", nMessageType );
     }
 
     /**
      * Returns the Url that display the given message
+     * 
      * @return The Url of the JSP that display the message
-     * @param request The HttpRequest
-     * @param strMessageKey The message key
-     * @param strUrl The Url of the Ok button
-     * @param nMessageType The message type
-     * @param requestParameters a collection of parameters
+     * @param request
+     *            The HttpRequest
+     * @param strMessageKey
+     *            The message key
+     * @param strUrl
+     *            The Url of the Ok button
+     * @param nMessageType
+     *            The message type
+     * @param requestParameters
+     *            a collection of parameters
      */
-    public static String getMessageUrl( HttpServletRequest request, String strMessageKey, String strUrl,
-        int nMessageType, Map requestParameters )
+    public static String getMessageUrl( HttpServletRequest request, String strMessageKey, String strUrl, int nMessageType, Map requestParameters )
     {
         return getMessageUrl( request, strMessageKey, null, null, strUrl, "", nMessageType, requestParameters );
     }
 
     /**
      * Returns the Url that display the given message
+     * 
      * @return The Url of the JSP that display the message
-     * @param messageArgs Message Arguments
-     * @param request The HttpRequest
-     * @param strMessageKey The message key
-     * @param strUrl The Url of the Ok button
-     * @param nMessageType The message type
+     * @param messageArgs
+     *            Message Arguments
+     * @param request
+     *            The HttpRequest
+     * @param strMessageKey
+     *            The message key
+     * @param strUrl
+     *            The Url of the Ok button
+     * @param nMessageType
+     *            The message type
      */
-    public static String getMessageUrl( HttpServletRequest request, String strMessageKey, Object[] messageArgs,
-        String strUrl, int nMessageType )
+    public static String getMessageUrl( HttpServletRequest request, String strMessageKey, Object [ ] messageArgs, String strUrl, int nMessageType )
     {
         return getMessageUrl( request, strMessageKey, messageArgs, null, strUrl, "", nMessageType );
     }
 
     /**
      * Returns the Url that display the given message
+     * 
      * @return The Url of the JSP that display the message
-     * @param messageArgs Message Arguments
-     * @param strTarget The url target if not "_self"
-     * @param strTitleKey The title key
-     * @param nMessageType The message type
-     * @param request The HttpRequest
-     * @param strMessageKey The message key
-     * @param strUrl The Url of the Ok button
+     * @param messageArgs
+     *            Message Arguments
+     * @param strTarget
+     *            The url target if not "_self"
+     * @param strTitleKey
+     *            The title key
+     * @param nMessageType
+     *            The message type
+     * @param request
+     *            The HttpRequest
+     * @param strMessageKey
+     *            The message key
+     * @param strUrl
+     *            The Url of the Ok button
      */
-    public static String getMessageUrl( HttpServletRequest request, String strMessageKey, Object[] messageArgs,
-        String strTitleKey, String strUrl, String strTarget, int nMessageType )
+    public static String getMessageUrl( HttpServletRequest request, String strMessageKey, Object [ ] messageArgs, String strTitleKey, String strUrl,
+            String strTarget, int nMessageType )
     {
         return getMessageUrl( request, strMessageKey, messageArgs, strTitleKey, strUrl, strTarget, nMessageType, null );
     }
 
     /**
      * Returns the Url that display the given message
+     * 
      * @return The Url of the JSP that display the message
-     * @param messageArgs Message Arguments
-     * @param strTarget The url target if not "_self"
-     * @param strTitleKey The title key
-     * @param nMessageType The message type
-     * @param request The HttpRequest
-     * @param strMessageKey The message key
-     * @param strUrl The Url of the Ok button
-     * @param requestParameters a collection of parameters
+     * @param messageArgs
+     *            Message Arguments
+     * @param strTarget
+     *            The url target if not "_self"
+     * @param strTitleKey
+     *            The title key
+     * @param nMessageType
+     *            The message type
+     * @param request
+     *            The HttpRequest
+     * @param strMessageKey
+     *            The message key
+     * @param strUrl
+     *            The Url of the Ok button
+     * @param requestParameters
+     *            a collection of parameters
      */
-    public static String getMessageUrl( HttpServletRequest request, String strMessageKey, Object[] messageArgs,
-        String strTitleKey, String strUrl, String strTarget, int nMessageType, Map<String, Object> requestParameters )
+    public static String getMessageUrl( HttpServletRequest request, String strMessageKey, Object [ ] messageArgs, String strTitleKey, String strUrl,
+            String strTarget, int nMessageType, Map<String, Object> requestParameters )
     {
-        return getMessageUrl( request, strMessageKey, messageArgs, strTitleKey, strUrl, strTarget, nMessageType,
-            requestParameters, null );
+        return getMessageUrl( request, strMessageKey, messageArgs, strTitleKey, strUrl, strTarget, nMessageType, requestParameters, null );
     }
 
     /**
      * Returns the Url that display the given message
-     * @param <T> The type of the bean that has been validated
-     * @param request The HTTP request
-     * @param strMessageKey The message key
-     * @param constraintViolations The set of violations
+     * 
+     * @param <T>
+     *            The type of the bean that has been validated
+     * @param request
+     *            The HTTP request
+     * @param strMessageKey
+     *            The message key
+     * @param constraintViolations
+     *            The set of violations
      * @return The Url of the JSP that display the message
      */
-    public static <T> String getMessageUrl( HttpServletRequest request, String strMessageKey,
-        Set<ConstraintViolation<T>> constraintViolations )
+    public static <T> String getMessageUrl( HttpServletRequest request, String strMessageKey, Set<ConstraintViolation<T>> constraintViolations )
     {
-        return getMessageUrl( request, strMessageKey, formatConstraintViolations( request, constraintViolations ),
-            null, JSP_BACK, TARGET_SELF, AdminMessage.TYPE_ERROR );
+        return getMessageUrl( request, strMessageKey, formatConstraintViolations( request, constraintViolations ), null, JSP_BACK, TARGET_SELF,
+                AdminMessage.TYPE_ERROR );
     }
 
     /**
      * Returns the Url that display the given message
-     * @param request The HTTP request
-     * @param strMessageKey The message key
-     * @param errors The set of violations
+     * 
+     * @param request
+     *            The HTTP request
+     * @param strMessageKey
+     *            The message key
+     * @param errors
+     *            The set of violations
      * @return The Url of the JSP that display the message
      */
-    public static String getMessageUrl( HttpServletRequest request, String strMessageKey,
-        List<?extends ErrorMessage> errors )
+    public static String getMessageUrl( HttpServletRequest request, String strMessageKey, List<? extends ErrorMessage> errors )
     {
-        return getMessageUrl( request, strMessageKey, formatValidationErrors( request, errors ), null, JSP_BACK,
-            TARGET_SELF, AdminMessage.TYPE_ERROR );
+        return getMessageUrl( request, strMessageKey, formatValidationErrors( request, errors ), null, JSP_BACK, TARGET_SELF, AdminMessage.TYPE_ERROR );
     }
 
     /**
      * Returns the Url that display the given message.
      *
-     * @param request The HttpRequest
-     * @param strMessageKey The message key
-     * @param messageArgs Message Arguments
-     * @param strTitleKey The title key
-     * @param strUrl The Url of the Ok button
-     * @param strTarget The url target if not "_self"
-     * @param nMessageType The message type
-     * @param requestParameters a collection of parameters
-     * @param strBackUrl the str back url
+     * @param request
+     *            The HttpRequest
+     * @param strMessageKey
+     *            The message key
+     * @param messageArgs
+     *            Message Arguments
+     * @param strTitleKey
+     *            The title key
+     * @param strUrl
+     *            The Url of the Ok button
+     * @param strTarget
+     *            The url target if not "_self"
+     * @param nMessageType
+     *            The message type
+     * @param requestParameters
+     *            a collection of parameters
+     * @param strBackUrl
+     *            the str back url
      * @return The Url of the JSP that display the message
      */
-    public static String getMessageUrl( HttpServletRequest request, String strMessageKey, Object[] messageArgs,
-        String strTitleKey, String strUrl, String strTarget, int nMessageType, Map<String, Object> requestParameters,
-        String strBackUrl )
+    public static String getMessageUrl( HttpServletRequest request, String strMessageKey, Object [ ] messageArgs, String strTitleKey, String strUrl,
+            String strTarget, int nMessageType, Map<String, Object> requestParameters, String strBackUrl )
     {
         String strTitle = ( strTitleKey != null ) ? strTitleKey : getDefaultTitle( nMessageType );
         boolean bCancelButton = getCancelButton( nMessageType );
-        AdminMessage message = new AdminMessage( strMessageKey, messageArgs, strTitle, strUrl, strTarget, nMessageType,
-                bCancelButton, requestParameters, strBackUrl );
+        AdminMessage message = new AdminMessage( strMessageKey, messageArgs, strTitle, strUrl, strTarget, nMessageType, bCancelButton, requestParameters,
+                strBackUrl );
         setMessage( request, message );
 
         return getUrl( request );
@@ -281,7 +344,9 @@ public final class AdminMessageService
 
     /**
      * Returns the message associated to the current request
-     * @param request The HttpRequest
+     * 
+     * @param request
+     *            The HttpRequest
      * @return The message associated to the current request
      */
     public static AdminMessage getMessage( HttpServletRequest request )
@@ -293,19 +358,22 @@ public final class AdminMessageService
     }
 
     /**
-     * Return relative url for the admin message jsp.
-     * This method does not generate admin message.
+     * Return relative url for the admin message jsp. This method does not generate admin message.
+     * 
      * @return The relative url
      */
-    public static String getMessageRelativeUrl(  )
+    public static String getMessageRelativeUrl( )
     {
         return JSP_ADMIN_MESSAGE;
     }
 
     /**
      * Store a message into the current session
-     * @param request The HTTP request
-     * @param message The message to store
+     * 
+     * @param request
+     *            The HTTP request
+     * @param message
+     *            The message to store
      */
     private static void setMessage( HttpServletRequest request, AdminMessage message )
     {
@@ -315,7 +383,9 @@ public final class AdminMessageService
 
     /**
      * Build the message url
-     * @param request The HTTP request
+     * 
+     * @param request
+     *            The HTTP request
      * @return The Url
      */
     private static String getUrl( HttpServletRequest request )
@@ -325,14 +395,16 @@ public final class AdminMessageService
 
     /**
      * Returns a default title for the message box
-     * @param nMessageType The message type
+     * 
+     * @param nMessageType
+     *            The message type
      * @return The default title
      */
     private static String getDefaultTitle( int nMessageType )
     {
         String strTitleKey;
 
-        switch ( nMessageType )
+        switch( nMessageType )
         {
             case AdminMessage.TYPE_QUESTION:
                 strTitleKey = PROPERTY_TITLE_QUESTION;
@@ -370,14 +442,16 @@ public final class AdminMessageService
 
     /**
      * Returns if the cancel button should be displayed or not according the message type
-     * @param nMessageType The message type
+     * 
+     * @param nMessageType
+     *            The message type
      * @return True if the button should be displayed, otherwise false
      */
     private static boolean getCancelButton( int nMessageType )
     {
         boolean bCancel;
 
-        switch ( nMessageType )
+        switch( nMessageType )
         {
             case AdminMessage.TYPE_QUESTION:
             case AdminMessage.TYPE_CONFIRMATION:
@@ -396,53 +470,67 @@ public final class AdminMessageService
 
     /**
      * Format a list of item to include in a message
-     * @param list The list of item as string
-     * @param locale The current locale
+     * 
+     * @param list
+     *            The list of item as string
+     * @param locale
+     *            The current locale
      * @return The formatted list
      */
     public static String getFormattedList( List<String> list, Locale locale )
     {
-        Map<String, List<String>> model = new HashMap<String, List<String>>(  );
+        Map<String, List<String>> model = new HashMap<String, List<String>>( );
         model.put( MARK_MESSAGES_LIST, list );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_FORMAT_LIST, locale, model );
 
-        return template.getHtml(  );
+        return template.getHtml( );
     }
 
     /**
      * Format a set of constraints violations as en error list.
-     * @param <T> The type of the object
-     * @param request The HTTP request
-     * @param constraintViolations The set of violations
+     * 
+     * @param <T>
+     *            The type of the object
+     * @param request
+     *            The HTTP request
+     * @param constraintViolations
+     *            The set of violations
      * @return The formatted errors list as an object array
      */
-    private static <T> Object[] formatConstraintViolations( HttpServletRequest request,
-        Set<ConstraintViolation<T>> constraintViolations )
+    private static <T> Object [ ] formatConstraintViolations( HttpServletRequest request, Set<ConstraintViolation<T>> constraintViolations )
     {
-        Map<String, Object> model = new HashMap<String, Object>(  );
+        Map<String, Object> model = new HashMap<String, Object>( );
         model.put( MARK_ERRORS_LIST, constraintViolations );
 
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ERRORS_LIST, request.getLocale(  ), model );
-        String[] formatedErrors = { template.getHtml(  ) };
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ERRORS_LIST, request.getLocale( ), model );
+        String [ ] formatedErrors = {
+            template.getHtml( )
+        };
 
         return formatedErrors;
     }
 
     /**
      * Format a set of constraints violations as en error list.
-     * @param <T> The type of the bean that has been validated
-     * @param request The HTTP request
-     * @param errors The set of violations
+     * 
+     * @param <T>
+     *            The type of the bean that has been validated
+     * @param request
+     *            The HTTP request
+     * @param errors
+     *            The set of violations
      * @return The formatted errors list as an object array
      */
-    private static <T> Object[] formatValidationErrors( HttpServletRequest request, List<?extends ErrorMessage> errors )
+    private static <T> Object [ ] formatValidationErrors( HttpServletRequest request, List<? extends ErrorMessage> errors )
     {
-        Map<String, Object> model = new HashMap<String, Object>(  );
+        Map<String, Object> model = new HashMap<String, Object>( );
         model.put( MARK_ERRORS_LIST, errors );
 
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ERRORS_LIST, request.getLocale(  ), model );
-        String[] formatedErrors = { template.getHtml(  ) };
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ERRORS_LIST, request.getLocale( ), model );
+        String [ ] formatedErrors = {
+            template.getHtml( )
+        };
 
         return formatedErrors;
     }

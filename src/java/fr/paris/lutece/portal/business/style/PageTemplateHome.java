@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -37,7 +37,6 @@ import fr.paris.lutece.portal.service.spring.SpringContextService;
 
 import java.util.List;
 
-
 /**
  * This class provides instances management methods (create, find, ...) for PageTemplate objects
  */
@@ -49,14 +48,15 @@ public final class PageTemplateHome
     /**
      * Creates a new PageTemplateHome object.
      */
-    private PageTemplateHome(  )
+    private PageTemplateHome( )
     {
     }
 
     /**
      * Creation of an instance of a page template
      *
-     * @param pageTemplate template An instance of a page template which contains the informations to store
+     * @param pageTemplate
+     *            template An instance of a page template which contains the informations to store
      * @return The instance of a page template which has been created with its primary key.
      */
     public static PageTemplate create( PageTemplate pageTemplate )
@@ -69,7 +69,8 @@ public final class PageTemplateHome
     /**
      * Update of the page template which is specified
      *
-     * @param pageTemplate The instance of the page template which contains the data to store
+     * @param pageTemplate
+     *            The instance of the page template which contains the data to store
      * @return The instance of the page template which has been updated
      */
     public static PageTemplate update( PageTemplate pageTemplate )
@@ -82,20 +83,22 @@ public final class PageTemplateHome
     /**
      * Remove the page template whose identifier is specified in parameter
      *
-     * @param nId The identifier of the page template to remove
+     * @param nId
+     *            The identifier of the page template to remove
      */
     public static void remove( int nId )
     {
         _dao.delete( nId );
     }
 
-    ///////////////////////////////////////////////////////////////////////////
+    // /////////////////////////////////////////////////////////////////////////
     // Finders
 
     /**
      * Returns an instance of an page template whose identifier is specified in parameter
      *
-     * @param nKey The page template primary key
+     * @param nKey
+     *            The page template primary key
      * @return an instance of a page template
      */
     public static PageTemplate findByPrimaryKey( int nKey )
@@ -108,15 +111,16 @@ public final class PageTemplateHome
      *
      * @return A collection of page templates objects
      */
-    public static List<PageTemplate> getPageTemplatesList(  )
+    public static List<PageTemplate> getPageTemplatesList( )
     {
-        return _dao.selectPageTemplatesList(  );
+        return _dao.selectPageTemplatesList( );
     }
 
     /**
      * Checks if a page template is used by a page
      *
-     * @param nPageTemplateId The identifier of the page Template
+     * @param nPageTemplateId
+     *            The identifier of the page Template
      * @return true if a page template has been used by a page, false otherwise
      */
     public static boolean checkStylePageTemplateIsUsed( int nPageTemplateId )

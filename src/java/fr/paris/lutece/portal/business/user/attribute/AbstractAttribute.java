@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -43,7 +43,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-
 /**
  *
  * Attribute
@@ -72,23 +71,26 @@ public abstract class AbstractAttribute implements IAttribute
     /**
      * Constructor
      */
-    public AbstractAttribute(  )
+    public AbstractAttribute( )
     {
     }
 
     /**
      * Get ID Attribute
+     * 
      * @return ID attribute
      */
     @Override
-    public int getIdAttribute(  )
+    public int getIdAttribute( )
     {
         return _nIdAttribute;
     }
 
     /**
      * Set ID Attribute
-     * @param nIdAttribute ID Attribute
+     * 
+     * @param nIdAttribute
+     *            ID Attribute
      */
     @Override
     public void setIdAttribute( int nIdAttribute )
@@ -98,17 +100,20 @@ public abstract class AbstractAttribute implements IAttribute
 
     /**
      * Get Mandatory
+     * 
      * @return true if it's mandatory, false otherwise
      */
     @Override
-    public boolean isMandatory(  )
+    public boolean isMandatory( )
     {
         return _bMandatory;
     }
 
     /**
      * Set mandatory
-     * @param bMandatory true if it's mandatory, false otherwise
+     * 
+     * @param bMandatory
+     *            true if it's mandatory, false otherwise
      */
     @Override
     public void setMandatory( boolean bMandatory )
@@ -118,17 +123,20 @@ public abstract class AbstractAttribute implements IAttribute
 
     /**
      * Get list fields
+     * 
      * @return list fields
      */
     @Override
-    public List<AttributeField> getListAttributeFields(  )
+    public List<AttributeField> getListAttributeFields( )
     {
         return _listAttributeFields;
     }
 
     /**
      * Set list fields
-     * @param listAttributeFields list fields
+     * 
+     * @param listAttributeFields
+     *            list fields
      */
     @Override
     public void setListAttributeFields( List<AttributeField> listAttributeFields )
@@ -138,17 +146,20 @@ public abstract class AbstractAttribute implements IAttribute
 
     /**
      * Get title
+     * 
      * @return title
      */
     @Override
-    public String getTitle(  )
+    public String getTitle( )
     {
         return _strTitle;
     }
 
     /**
      * Set title
-     * @param strTitle title
+     * 
+     * @param strTitle
+     *            title
      */
     @Override
     public void setTitle( String strTitle )
@@ -158,17 +169,20 @@ public abstract class AbstractAttribute implements IAttribute
 
     /**
      * Get help Message
+     * 
      * @return help message
      */
     @Override
-    public String getHelpMessage(  )
+    public String getHelpMessage( )
     {
         return _strHelpMessage;
     }
 
     /**
      * Set help message
-     * @param strHelpMessage help message
+     * 
+     * @param strHelpMessage
+     *            help message
      */
     @Override
     public void setHelpMessage( String strHelpMessage )
@@ -178,17 +192,20 @@ public abstract class AbstractAttribute implements IAttribute
 
     /**
      * Get position
+     * 
      * @return position
      */
     @Override
-    public int getPosition(  )
+    public int getPosition( )
     {
         return _nPosition;
     }
 
     /**
      * Set position
-     * @param nPosition position
+     * 
+     * @param nPosition
+     *            position
      */
     @Override
     public void setPosition( int nPosition )
@@ -198,17 +215,20 @@ public abstract class AbstractAttribute implements IAttribute
 
     /**
      * Get attribute type
+     * 
      * @return attribute type
      */
     @Override
-    public AttributeType getAttributeType(  )
+    public AttributeType getAttributeType( )
     {
         return _attributeType;
     }
 
     /**
      * Set attribute Type
-     * @param attributeType attribute type
+     * 
+     * @param attributeType
+     *            attribute type
      */
     @Override
     public void setAttributeType( AttributeType attributeType )
@@ -218,18 +238,20 @@ public abstract class AbstractAttribute implements IAttribute
 
     /**
      * Get the anonymize status of the attribute
+     * 
      * @return True if the attribute should be anonymize, false otherwise.
      */
     @Override
-    public boolean getAnonymize(  )
+    public boolean getAnonymize( )
     {
         return _bAnonymize;
     }
 
     /**
      * Set the anonymize status of the attribute
-     * @param bAnonymize New anonymize status. True if the attribute should be
-     *            anonymize, false otherwise.
+     * 
+     * @param bAnonymize
+     *            New anonymize status. True if the attribute should be anonymize, false otherwise.
      */
     @Override
     public void setAnonymize( boolean bAnonymize )
@@ -239,55 +261,63 @@ public abstract class AbstractAttribute implements IAttribute
 
     /**
      * Get Html form
-     * @param locale locale
+     * 
+     * @param locale
+     *            locale
      * @return html form
      */
     public String getHtmlFormAttribute( Locale locale )
     {
-        Map<String, Object> model = new HashMap<String, Object>(  );
+        Map<String, Object> model = new HashMap<String, Object>( );
         model.put( MARK_ATTRIBUTE, this );
 
-        HtmlTemplate template = AppTemplateService.getTemplate( getTemplateHtmlFormAttribute(  ), locale, model );
+        HtmlTemplate template = AppTemplateService.getTemplate( getTemplateHtmlFormAttribute( ), locale, model );
 
-        return template.getHtml(  );
+        return template.getHtml( );
     }
 
     /**
      * Get Html form
-     * @param locale locale
-     * @param listDefaultValues the list of default values
+     * 
+     * @param locale
+     *            locale
+     * @param listDefaultValues
+     *            the list of default values
      * @return html form
      */
     public String getHtmlFormAttribute( Locale locale, Object listDefaultValues )
     {
-        Map<String, Object> model = new HashMap<String, Object>(  );
+        Map<String, Object> model = new HashMap<String, Object>( );
         model.put( MARK_ATTRIBUTE, this );
         model.put( MARK_DEFAULT_VALUES_LIST, listDefaultValues );
 
-        HtmlTemplate template = AppTemplateService.getTemplate( getTemplateHtmlFormAttribute(  ), locale, model );
+        HtmlTemplate template = AppTemplateService.getTemplate( getTemplateHtmlFormAttribute( ), locale, model );
 
-        return template.getHtml(  );
+        return template.getHtml( );
     }
 
     /**
      * Get Html form
-     * @param auFieldFilter The admin user field filter
-     * @param locale locale
+     * 
+     * @param auFieldFilter
+     *            The admin user field filter
+     * @param locale
+     *            locale
      * @return html form
      */
     public String getHtmlFormSearchAttribute( AdminUserFieldFilter auFieldFilter, Locale locale )
     {
-        Map<String, Object> model = new HashMap<String, Object>(  );
-        List<AdminUserField> listUserFields = auFieldFilter.getListUserFields(  );
+        Map<String, Object> model = new HashMap<String, Object>( );
+        List<AdminUserField> listUserFields = auFieldFilter.getListUserFields( );
         List<AdminUserField> selectedUserFields = null;
 
-        if ( ( listUserFields != null ) && ( !listUserFields.isEmpty(  ) ) )
+        if ( ( listUserFields != null ) && ( !listUserFields.isEmpty( ) ) )
         {
-            selectedUserFields = new ArrayList<AdminUserField>(  );
+            selectedUserFields = new ArrayList<AdminUserField>( );
 
             for ( AdminUserField userField : listUserFields )
             {
-                if ( userField.getAttribute(  ).getIdAttribute(  ) == _nIdAttribute )
+                if ( userField.getAttribute( ).getIdAttribute( ) == _nIdAttribute )
                 {
                     selectedUserFields.add( userField );
                 }
@@ -297,42 +327,48 @@ public abstract class AbstractAttribute implements IAttribute
         model.put( MARK_DEFAULT_VALUES_LIST, selectedUserFields );
         model.put( MARK_ATTRIBUTE, this );
 
-        HtmlTemplate template = AppTemplateService.getTemplate( getTemplateHtmlFormSearchAttribute(  ), locale, model );
+        HtmlTemplate template = AppTemplateService.getTemplate( getTemplateHtmlFormSearchAttribute( ), locale, model );
 
-        return template.getHtml(  );
+        return template.getHtml( );
     }
 
     /**
      * Get Html value
-     * @param locale Locale
-     * @param userField User field
+     * 
+     * @param locale
+     *            Locale
+     * @param userField
+     *            User field
      * @return the html
      */
     public String getHtmlValue( Locale locale, AdminUserField userField )
     {
-        Map<String, Object> model = new HashMap<String, Object>(  );
+        Map<String, Object> model = new HashMap<String, Object>( );
 
         model.put( MARK_ATTRIBUTE, this );
         model.put( MARK_USER_FIELD, userField );
 
-        HtmlTemplate template = AppTemplateService.getTemplate( getTemplateHtmlValue(  ), locale, model );
+        HtmlTemplate template = AppTemplateService.getTemplate( getTemplateHtmlValue( ), locale, model );
 
-        return template.getHtml(  );
+        return template.getHtml( );
     }
 
     /**
      * Get plugin
+     * 
      * @return plugin
      */
     @Override
-    public Plugin getPlugin(  )
+    public Plugin getPlugin( )
     {
         return _plugin;
     }
 
     /**
      * Set plugin
-     * @param plugin plugin
+     * 
+     * @param plugin
+     *            plugin
      */
     @Override
     public void setPlugin( Plugin plugin )
@@ -342,17 +378,20 @@ public abstract class AbstractAttribute implements IAttribute
 
     /**
      * Check if the attribute is shown in search
+     * 
      * @return true if it is, false otherwise
      */
     @Override
-    public boolean isShownInSearch(  )
+    public boolean isShownInSearch( )
     {
         return _bIsShownInSearch;
     }
 
     /**
      * Set isShownInSearch
-     * @param bIsShownInSearch shown in search
+     * 
+     * @param bIsShownInSearch
+     *            shown in search
      */
     @Override
     public void setShownInSearch( boolean bIsShownInSearch )
@@ -362,17 +401,20 @@ public abstract class AbstractAttribute implements IAttribute
 
     /**
      * Check if the attribute is to be shown in line
+     * 
      * @return true if it is shown in line, false otherwise
      */
     @Override
-    public boolean isFieldInLine(  )
+    public boolean isFieldInLine( )
     {
         return _bIsFieldInLine;
     }
 
     /**
      * Set isFieldInLine
-     * @param bIsFieldInLine shown in line
+     * 
+     * @param bIsFieldInLine
+     *            shown in line
      */
     @Override
     public void setFieldInLine( boolean bIsFieldInLine )
@@ -382,17 +424,20 @@ public abstract class AbstractAttribute implements IAttribute
 
     /**
      * Check if it is an attribute image
+     * 
      * @return true if it is, false otherwise
      */
     @Override
-    public boolean isAttributeImage(  )
+    public boolean isAttributeImage( )
     {
         return _bIsAttributeImage;
     }
 
     /**
      * Set the attribute as an attribute image
-     * @param bIsAttributeImage true if it is an image, false otherwise
+     * 
+     * @param bIsAttributeImage
+     *            true if it is an image, false otherwise
      */
     @Override
     public void setAttributeImage( boolean bIsAttributeImage )
@@ -402,17 +447,20 @@ public abstract class AbstractAttribute implements IAttribute
 
     /**
      * Check if the attribute is shown in result list
+     * 
      * @return true if it is, false otherwise
      */
     @Override
-    public boolean isShownInResultList(  )
+    public boolean isShownInResultList( )
     {
         return _bIsShownInResultList;
     }
 
     /**
      * Set isShownInResultList
-     * @param bIsShownInResultList shown in result list
+     * 
+     * @param bIsShownInResultList
+     *            shown in result list
      */
     @Override
     public void setShownInResultList( boolean bIsShownInResultList )

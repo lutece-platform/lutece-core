@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -46,7 +46,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-
 /**
  * this class provides management services for properties files
  */
@@ -68,19 +67,22 @@ public final class AppPropertiesService
     /**
      * Private constructor
      */
-    private AppPropertiesService(  )
+    private AppPropertiesService( )
     {
     }
 
     /**
      * Initializes the service
-     * @param strConfPath The configuration path
-     * @throws LuteceInitException If an error occured
+     * 
+     * @param strConfPath
+     *            The configuration path
+     * @throws LuteceInitException
+     *             If an error occured
      */
     public static void init( String strConfPath ) throws LuteceInitException
     {
         _strConfPath = strConfPath;
-        _propertiesService = new PropertiesService( AppPathService.getWebAppPath(  ) );
+        _propertiesService = new PropertiesService( AppPathService.getWebAppPath( ) );
 
         try
         {
@@ -95,20 +97,21 @@ public final class AppPropertiesService
             _propertiesService.addPropertiesDirectory( _strConfPath + PATH_OVERRIDE_CORE );
             _propertiesService.addPropertiesDirectory( _strConfPath + PATH_OVERRIDE_PLUGINS );
         }
-        catch ( FileNotFoundException e )
+        catch( FileNotFoundException e )
         {
-            throw new LuteceInitException( "AppPropertiesService failed to load : " + e.getMessage(  ), e );
+            throw new LuteceInitException( "AppPropertiesService failed to load : " + e.getMessage( ), e );
         }
-        catch ( IOException e )
+        catch( IOException e )
         {
-            throw new LuteceInitException( "AppPropertiesService failed to load : " + e.getMessage(  ), e );
+            throw new LuteceInitException( "AppPropertiesService failed to load : " + e.getMessage( ), e );
         }
     }
 
     /**
      * Returns the value of a variable defined in the .properties file of the application as a String
      *
-     * @param strProperty The variable name
+     * @param strProperty
+     *            The variable name
      * @return The variable value read in the properties file
      */
     public static String getProperty( String strProperty )
@@ -119,9 +122,10 @@ public final class AppPropertiesService
     /**
      * Returns the value of a variable defined in the .properties file of the application as a String
      *
-     * @param strProperty The variable name
-     * @param strDefault The default value which is returned if no value is found for the variable in the .properties
-     *        file.
+     * @param strProperty
+     *            The variable name
+     * @param strDefault
+     *            The default value which is returned if no value is found for the variable in the .properties file.
      * @return The variable value read in the properties file
      */
     public static String getProperty( String strProperty, String strDefault )
@@ -132,9 +136,10 @@ public final class AppPropertiesService
     /**
      * Returns the value of a variable defined in the .properties file of the application as an int
      *
-     * @param strProperty The variable name
-     * @param nDefault The default value which is returned if no value is found for the variable in the le downloadFile
-     *        .properties. .properties file.
+     * @param strProperty
+     *            The variable name
+     * @param nDefault
+     *            The default value which is returned if no value is found for the variable in the le downloadFile .properties. .properties file.
      * @return The variable value read in the properties file
      */
     public static int getPropertyInt( String strProperty, int nDefault )
@@ -145,9 +150,10 @@ public final class AppPropertiesService
     /**
      * Returns the value of a variable defined in the .properties file of the application as an long
      *
-     * @param strProperty The variable name
-     * @param lDefault The default value which is returned if no value is found for the variable in the le downloadFile
-     *        .properties. .properties file.
+     * @param strProperty
+     *            The variable name
+     * @param lDefault
+     *            The default value which is returned if no value is found for the variable in the le downloadFile .properties. .properties file.
      * @return The variable value read in the properties file
      */
     public static long getPropertyLong( String strProperty, long lDefault )
@@ -158,9 +164,10 @@ public final class AppPropertiesService
     /**
      * Returns the value of a variable defined in the .properties file of the application as a boolean
      *
-     * @param strProperty The variable name
-     * @param bDefault The default value which is returned if no value is found for the variable in the le downloadFile
-     *        .properties. .properties file.
+     * @param strProperty
+     *            The variable name
+     * @param bDefault
+     *            The default value which is returned if no value is found for the variable in the le downloadFile .properties. .properties file.
      * @return The variable value read in the properties file
      */
     public static boolean getPropertyBoolean( String strProperty, boolean bDefault )
@@ -171,25 +178,27 @@ public final class AppPropertiesService
     /**
      * Reloads all the properties files
      */
-    public static void reloadAll(  )
+    public static void reloadAll( )
     {
         try
         {
-            _propertiesService.reloadAll(  );
+            _propertiesService.reloadAll( );
         }
-        catch ( FileNotFoundException e )
+        catch( FileNotFoundException e )
         {
-            AppLogService.error( e.getMessage(  ), e );
+            AppLogService.error( e.getMessage( ), e );
         }
-        catch ( IOException e )
+        catch( IOException e )
         {
-            AppLogService.error( e.getMessage(  ), e );
+            AppLogService.error( e.getMessage( ), e );
         }
     }
 
     /**
      * Reloads a given properties file
-     * @param strFilename The file name
+     * 
+     * @param strFilename
+     *            The file name
      */
     public static void reload( String strFilename )
     {
@@ -197,43 +206,45 @@ public final class AppPropertiesService
         {
             _propertiesService.reload( strFilename );
         }
-        catch ( FileNotFoundException e )
+        catch( FileNotFoundException e )
         {
-            AppLogService.error( e.getMessage(  ), e );
+            AppLogService.error( e.getMessage( ), e );
         }
-        catch ( IOException e )
+        catch( IOException e )
         {
-            AppLogService.error( e.getMessage(  ), e );
+            AppLogService.error( e.getMessage( ), e );
         }
     }
 
     /**
      * Gets properties
+     * 
      * @return All properties
      * @since version 3.0
      */
-    public static Properties getProperties(  )
+    public static Properties getProperties( )
     {
         // Return a copy of all properties
-        return new Properties( _propertiesService.getProperties(  ) );
+        return new Properties( _propertiesService.getProperties( ) );
     }
 
     /**
      * Gets all properties as a Map
+     * 
      * @return a Map of all properties
      * @since version 5.0
      */
-    public static Map<String, String> getPropertiesAsMap(  )
+    public static Map<String, String> getPropertiesAsMap( )
     {
-        Map<String, String> res = new HashMap<String, String>(  );
-        Properties properties = _propertiesService.getProperties(  );
+        Map<String, String> res = new HashMap<String, String>( );
+        Properties properties = _propertiesService.getProperties( );
 
         // enumerate over property names to get all properties, including one which are defaults
-        Enumeration<?> names = properties.propertyNames(  );
+        Enumeration<?> names = properties.propertyNames( );
 
-        while ( names.hasMoreElements(  ) )
+        while ( names.hasMoreElements( ) )
         {
-            String name = (String) names.nextElement(  );
+            String name = (String) names.nextElement( );
             res.put( name, properties.getProperty( name ) );
             ;
         }
@@ -244,18 +255,19 @@ public final class AppPropertiesService
     /**
      * Returns a list of keys that match a given prefix.
      *
-     * @param strPrefix the str prefix
+     * @param strPrefix
+     *            the str prefix
      * @return A list of keys that match the prefix
      * @since version 3.0
      */
     public static List<String> getKeys( String strPrefix )
     {
-        List<String> listKeys = new ArrayList<String>(  );
-        Enumeration eList = _propertiesService.getProperties(  ).keys(  );
+        List<String> listKeys = new ArrayList<String>( );
+        Enumeration eList = _propertiesService.getProperties( ).keys( );
 
-        while ( eList.hasMoreElements(  ) )
+        while ( eList.hasMoreElements( ) )
         {
-            String strKey = (String) eList.nextElement(  );
+            String strKey = (String) eList.nextElement( );
 
             if ( strKey.startsWith( strPrefix ) )
             {

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,7 +33,6 @@
  */
 package fr.paris.lutece.portal.business.globalmanagement;
 
-
 /**
  * Rich text editor configuration
  */
@@ -45,16 +44,19 @@ public class RichTextEditor
 
     /**
      * Get the name of the editor
+     * 
      * @return The name of the editor
      */
-    public String getEditorName(  )
+    public String getEditorName( )
     {
         return _strEditorName;
     }
 
     /**
      * Set the name of the editor
-     * @param strEditorName The name of the editor
+     * 
+     * @param strEditorName
+     *            The name of the editor
      */
     public void setEditorName( String strEditorName )
     {
@@ -63,16 +65,19 @@ public class RichTextEditor
 
     /**
      * Get the description of the editor
+     * 
      * @return The description of the editor
      */
-    public String getDescription(  )
+    public String getDescription( )
     {
         return _strDescription;
     }
 
     /**
      * Set the description of the editor
-     * @param strDescription The description of the editor
+     * 
+     * @param strDescription
+     *            The description of the editor
      */
     public void setDescription( String strDescription )
     {
@@ -81,16 +86,19 @@ public class RichTextEditor
 
     /**
      * Get a boolean describing of this text editor should be used for back of front office
+     * 
      * @return True if this editor should be used for back office, false if it should be used for front office.
      */
-    public boolean getBackOffice(  )
+    public boolean getBackOffice( )
     {
         return _bBackOffice;
     }
 
     /**
      * Set a boolean describing of this text editor should be used for back of front office
-     * @param bBackOffice True if this editor should be used for back office, false if it should be used for front office.
+     * 
+     * @param bBackOffice
+     *            True if this editor should be used for back office, false if it should be used for front office.
      */
     public void setBackOffice( boolean bBackOffice )
     {

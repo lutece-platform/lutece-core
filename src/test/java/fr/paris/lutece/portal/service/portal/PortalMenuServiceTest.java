@@ -59,65 +59,56 @@ import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 public class PortalMenuServiceTest extends LuteceTestCase
 {
     private static final String ROLE1 = "ROLE1";
     private static final String ROLE2 = "ROLE2";
 
-    public void testGetMenuContent(  )
+    public void testGetMenuContent( )
     {
-        HttpServletRequest request = new MokeHttpServletRequest(  );
+        HttpServletRequest request = new MokeHttpServletRequest( );
 
         // determine a random page name
-        String randomPageName = "page" + new SecureRandom(  ).nextLong(  );
+        String randomPageName = "page" + new SecureRandom( ).nextLong( );
 
         // get the menu
-        String menu = PortalMenuService.getInstance(  )
-                                       .getMenuContent( 0, PortalMenuService.MODE_NORMAL, PortalMenuService.MENU_MAIN,
-                request );
-        assertFalse( "Portal menu should not contain not yet created page with name " + randomPageName,
-            menu.contains( randomPageName ) );
+        String menu = PortalMenuService.getInstance( ).getMenuContent( 0, PortalMenuService.MODE_NORMAL, PortalMenuService.MENU_MAIN, request );
+        assertFalse( "Portal menu should not contain not yet created page with name " + randomPageName, menu.contains( randomPageName ) );
 
         // create the page
-        Page page = new Page(  );
-        page.setParentPageId( PortalService.getRootPageId(  ) );
+        Page page = new Page( );
+        page.setParentPageId( PortalService.getRootPageId( ) );
         page.setName( randomPageName );
 
         IPageService pageService = (IPageService) SpringContextService.getBean( "pageService" );
         pageService.createPage( page );
         // get the menu
-        menu = PortalMenuService.getInstance(  )
-                                .getMenuContent( 0, PortalMenuService.MODE_NORMAL, PortalMenuService.MENU_MAIN, request );
+        menu = PortalMenuService.getInstance( ).getMenuContent( 0, PortalMenuService.MODE_NORMAL, PortalMenuService.MENU_MAIN, request );
         assertTrue( "Portal menu should contain page with name " + randomPageName, menu.contains( randomPageName ) );
         // change the page name
         randomPageName = randomPageName + "_mod";
         page.setName( randomPageName );
         pageService.updatePage( page );
         // get the menu
-        menu = PortalMenuService.getInstance(  )
-                                .getMenuContent( 0, PortalMenuService.MODE_NORMAL, PortalMenuService.MENU_MAIN, request );
-        assertTrue( "Portal menu should contain page with the modified name " + randomPageName,
-            menu.contains( randomPageName ) );
+        menu = PortalMenuService.getInstance( ).getMenuContent( 0, PortalMenuService.MODE_NORMAL, PortalMenuService.MENU_MAIN, request );
+        assertTrue( "Portal menu should contain page with the modified name " + randomPageName, menu.contains( randomPageName ) );
         // remove the page
-        pageService.removePage( page.getId(  ) );
+        pageService.removePage( page.getId( ) );
         // get the menu
-        menu = PortalMenuService.getInstance(  )
-                                .getMenuContent( 0, PortalMenuService.MODE_NORMAL, PortalMenuService.MENU_MAIN, request );
-        assertFalse( "Portal menu should not contain page with name " + randomPageName + " anymore",
-            menu.contains( randomPageName ) );
+        menu = PortalMenuService.getInstance( ).getMenuContent( 0, PortalMenuService.MODE_NORMAL, PortalMenuService.MENU_MAIN, request );
+        assertFalse( "Portal menu should not contain page with name " + randomPageName + " anymore", menu.contains( randomPageName ) );
     }
 
-    public void testPageVisibility(  ) throws IOException, LuteceInitException
+    public void testPageVisibility( ) throws IOException, LuteceInitException
     {
         // create pages
-        final Random rand = new SecureRandom(  );
-        Page pageNoRole = createPage( "page." + rand.nextLong(  ) );
-        Page pageRole1 = createPage( "page.role1." + rand.nextLong(  ), ROLE1 );
-        Page pageRole2 = createPage( "page.role2." + rand.nextLong(  ), ROLE2 );
+        final Random rand = new SecureRandom( );
+        Page pageNoRole = createPage( "page." + rand.nextLong( ) );
+        Page pageRole1 = createPage( "page.role1." + rand.nextLong( ), ROLE1 );
+        Page pageRole2 = createPage( "page.role2." + rand.nextLong( ), ROLE2 );
 
-        boolean authStatus = enableAuthentication(  );
-        boolean cacheStatus = enablePortalMenuServiceCache(  );
+        boolean authStatus = enableAuthentication( );
+        boolean cacheStatus = enablePortalMenuServiceCache( );
 
         try
         {
@@ -125,81 +116,69 @@ public class PortalMenuServiceTest extends LuteceTestCase
             for ( int i = 0; i < 2; i++ )
             {
                 // test menu content with no user
-                HttpServletRequest request = new MokeHttpServletRequest(  );
-                String menu = PortalMenuService.getInstance(  )
-                                               .getMenuContent( 0, PortalMenuService.MODE_NORMAL,
-                        PortalMenuService.MENU_MAIN, request );
-                assertTrue( "Portal menu should contain page not associated with a role named " +
-                    pageNoRole.getName(  ) + " (call " + ( i + 1 ) + ")", menu.contains( pageNoRole.getName(  ) ) );
-                assertFalse( "Portal menu should not contain page associated with role " + ROLE1 + " named " +
-                    pageRole1.getName(  ) + " (call " + ( i + 1 ) + ")", menu.contains( pageRole1.getName(  ) ) );
-                assertFalse( "Portal menu should not contain page associated with role " + ROLE2 + " named " +
-                    pageRole2.getName(  ) + " (call " + ( i + 1 ) + ")", menu.contains( pageRole2.getName(  ) ) );
+                HttpServletRequest request = new MokeHttpServletRequest( );
+                String menu = PortalMenuService.getInstance( ).getMenuContent( 0, PortalMenuService.MODE_NORMAL, PortalMenuService.MENU_MAIN, request );
+                assertTrue( "Portal menu should contain page not associated with a role named " + pageNoRole.getName( ) + " (call " + ( i + 1 ) + ")",
+                        menu.contains( pageNoRole.getName( ) ) );
+                assertFalse( "Portal menu should not contain page associated with role " + ROLE1 + " named " + pageRole1.getName( ) + " (call " + ( i + 1 )
+                        + ")", menu.contains( pageRole1.getName( ) ) );
+                assertFalse( "Portal menu should not contain page associated with role " + ROLE2 + " named " + pageRole2.getName( ) + " (call " + ( i + 1 )
+                        + ")", menu.contains( pageRole2.getName( ) ) );
 
                 // test menu content with no role
                 @SuppressWarnings( "serial" )
-                LuteceUser user = new LuteceUser( "junit", SecurityService.getInstance(  ).getAuthenticationService(  ) )
+                LuteceUser user = new LuteceUser( "junit", SecurityService.getInstance( ).getAuthenticationService( ) )
+                {
+                    @Override
+                    public String getName( )
                     {
-                        @Override
-                        public String getName(  )
-                        {
-                            // user name is different on each call
-                            return "user" + rand.nextLong(  );
-                        }
-                    };
+                        // user name is different on each call
+                        return "user" + rand.nextLong( );
+                    }
+                };
 
-                request.getSession(  ).setAttribute( "lutece_user", user );
-                menu = PortalMenuService.getInstance(  )
-                                        .getMenuContent( 0, PortalMenuService.MODE_NORMAL, PortalMenuService.MENU_MAIN,
-                        request );
-                assertTrue( "Portal menu should contain page not associated with a role named " +
-                    pageNoRole.getName(  ) + " (call " + ( i + 1 ) + ")", menu.contains( pageNoRole.getName(  ) ) );
-                assertFalse( "Portal menu should not contain page associated with role " + ROLE1 + " named " +
-                    pageRole1.getName(  ) + " (call " + ( i + 1 ) + ")", menu.contains( pageRole1.getName(  ) ) );
-                assertFalse( "Portal menu should not contain page associated with role " + ROLE2 + " named " +
-                    pageRole2.getName(  ) + " (call " + ( i + 1 ) + ")", menu.contains( pageRole2.getName(  ) ) );
+                request.getSession( ).setAttribute( "lutece_user", user );
+                menu = PortalMenuService.getInstance( ).getMenuContent( 0, PortalMenuService.MODE_NORMAL, PortalMenuService.MENU_MAIN, request );
+                assertTrue( "Portal menu should contain page not associated with a role named " + pageNoRole.getName( ) + " (call " + ( i + 1 ) + ")",
+                        menu.contains( pageNoRole.getName( ) ) );
+                assertFalse( "Portal menu should not contain page associated with role " + ROLE1 + " named " + pageRole1.getName( ) + " (call " + ( i + 1 )
+                        + ")", menu.contains( pageRole1.getName( ) ) );
+                assertFalse( "Portal menu should not contain page associated with role " + ROLE2 + " named " + pageRole2.getName( ) + " (call " + ( i + 1 )
+                        + ")", menu.contains( pageRole2.getName( ) ) );
                 // test menu content with ROLE1
                 user.setRoles( Arrays.asList( ROLE1 ) );
-                menu = PortalMenuService.getInstance(  )
-                                        .getMenuContent( 0, PortalMenuService.MODE_NORMAL, PortalMenuService.MENU_MAIN,
-                        request );
-                assertTrue( "Portal menu should contain page not associated with a role named " +
-                    pageNoRole.getName(  ) + " (call " + ( i + 1 ) + ")", menu.contains( pageNoRole.getName(  ) ) );
-                assertTrue( "Portal menu should contain page associated with role " + ROLE1 + " named " +
-                    pageRole1.getName(  ) + " (call " + ( i + 1 ) + ")", menu.contains( pageRole1.getName(  ) ) );
-                assertFalse( "Portal menu should not contain page associated with role " + ROLE2 + " named " +
-                    pageRole2.getName(  ) + " (call " + ( i + 1 ) + ")", menu.contains( pageRole2.getName(  ) ) );
+                menu = PortalMenuService.getInstance( ).getMenuContent( 0, PortalMenuService.MODE_NORMAL, PortalMenuService.MENU_MAIN, request );
+                assertTrue( "Portal menu should contain page not associated with a role named " + pageNoRole.getName( ) + " (call " + ( i + 1 ) + ")",
+                        menu.contains( pageNoRole.getName( ) ) );
+                assertTrue( "Portal menu should contain page associated with role " + ROLE1 + " named " + pageRole1.getName( ) + " (call " + ( i + 1 ) + ")",
+                        menu.contains( pageRole1.getName( ) ) );
+                assertFalse( "Portal menu should not contain page associated with role " + ROLE2 + " named " + pageRole2.getName( ) + " (call " + ( i + 1 )
+                        + ")", menu.contains( pageRole2.getName( ) ) );
 
                 // test menu content with ROLE2
                 user.setRoles( Arrays.asList( ROLE2 ) );
-                menu = PortalMenuService.getInstance(  )
-                                        .getMenuContent( 0, PortalMenuService.MODE_NORMAL, PortalMenuService.MENU_MAIN,
-                        request );
-                assertTrue( "Portal menu should contain page not associated with a role named " +
-                    pageNoRole.getName(  ) + " (call " + ( i + 1 ) + ")", menu.contains( pageNoRole.getName(  ) ) );
-                assertFalse( "Portal menu should not contain page associated with role " + ROLE1 + " named " +
-                    pageRole1.getName(  ) + " (call " + ( i + 1 ) + ")", menu.contains( pageRole1.getName(  ) ) );
-                assertTrue( "Portal menu should contain page associated with role " + ROLE2 + " named " +
-                    pageRole2.getName(  ) + " (call " + ( i + 1 ) + ")", menu.contains( pageRole2.getName(  ) ) );
+                menu = PortalMenuService.getInstance( ).getMenuContent( 0, PortalMenuService.MODE_NORMAL, PortalMenuService.MENU_MAIN, request );
+                assertTrue( "Portal menu should contain page not associated with a role named " + pageNoRole.getName( ) + " (call " + ( i + 1 ) + ")",
+                        menu.contains( pageNoRole.getName( ) ) );
+                assertFalse( "Portal menu should not contain page associated with role " + ROLE1 + " named " + pageRole1.getName( ) + " (call " + ( i + 1 )
+                        + ")", menu.contains( pageRole1.getName( ) ) );
+                assertTrue( "Portal menu should contain page associated with role " + ROLE2 + " named " + pageRole2.getName( ) + " (call " + ( i + 1 ) + ")",
+                        menu.contains( pageRole2.getName( ) ) );
 
                 // test menu content with ROLE1 and ROLE2
                 user.setRoles( Arrays.asList( ROLE1, ROLE2 ) );
-                menu = PortalMenuService.getInstance(  )
-                                        .getMenuContent( 0, PortalMenuService.MODE_NORMAL, PortalMenuService.MENU_MAIN,
-                        request );
-                assertTrue( "Portal menu should contain page not associated with a role named " +
-                    pageNoRole.getName(  ) + " (call " + ( i + 1 ) + ")", menu.contains( pageNoRole.getName(  ) ) );
-                assertTrue( "Portal menu should contain page associated with role " + ROLE1 + " named " +
-                    pageRole1.getName(  ) + " (call " + ( i + 1 ) + ")", menu.contains( pageRole1.getName(  ) ) );
-                assertTrue( "Portal menu should contain page associated with role " + ROLE2 + " named " +
-                    pageRole2.getName(  ) + " (call " + ( i + 1 ) + ")", menu.contains( pageRole2.getName(  ) ) );
+                menu = PortalMenuService.getInstance( ).getMenuContent( 0, PortalMenuService.MODE_NORMAL, PortalMenuService.MENU_MAIN, request );
+                assertTrue( "Portal menu should contain page not associated with a role named " + pageNoRole.getName( ) + " (call " + ( i + 1 ) + ")",
+                        menu.contains( pageNoRole.getName( ) ) );
+                assertTrue( "Portal menu should contain page associated with role " + ROLE1 + " named " + pageRole1.getName( ) + " (call " + ( i + 1 ) + ")",
+                        menu.contains( pageRole1.getName( ) ) );
+                assertTrue( "Portal menu should contain page associated with role " + ROLE2 + " named " + pageRole2.getName( ) + " (call " + ( i + 1 ) + ")",
+                        menu.contains( pageRole2.getName( ) ) );
 
                 // test menu content with ROLE2 and ROLE1
                 user.setRoles( Arrays.asList( ROLE2, ROLE1 ) );
 
-                String menu2 = PortalMenuService.getInstance(  )
-                                                .getMenuContent( 0, PortalMenuService.MODE_NORMAL,
-                        PortalMenuService.MENU_MAIN, request );
+                String menu2 = PortalMenuService.getInstance( ).getMenuContent( 0, PortalMenuService.MODE_NORMAL, PortalMenuService.MENU_MAIN, request );
                 assertTrue( "Role order should not matter to the cache (call " + ( i + 1 ) + ")", menu == menu2 );
             }
         }
@@ -210,65 +189,64 @@ public class PortalMenuServiceTest extends LuteceTestCase
             restorePortalMenuServiceCache( cacheStatus );
 
             IPageService pageService = (IPageService) SpringContextService.getBean( "pageService" );
-            pageService.removePage( pageNoRole.getId(  ) );
-            pageService.removePage( pageRole1.getId(  ) );
-            pageService.removePage( pageRole2.getId(  ) );
+            pageService.removePage( pageNoRole.getId( ) );
+            pageService.removePage( pageRole1.getId( ) );
+            pageService.removePage( pageRole2.getId( ) );
         }
     }
 
     private void restorePortalMenuServiceCache( boolean status )
     {
-        PortalMenuService.getInstance(  ).enableCache( status );
+        PortalMenuService.getInstance( ).enableCache( status );
     }
 
-    private boolean enablePortalMenuServiceCache(  )
+    private boolean enablePortalMenuServiceCache( )
     {
-        boolean status = PortalMenuService.getInstance(  ).isCacheEnable(  );
-        PortalMenuService.getInstance(  ).enableCache( true );
+        boolean status = PortalMenuService.getInstance( ).isCacheEnable( );
+        PortalMenuService.getInstance( ).enableCache( true );
 
         return status;
     }
 
-    private void restoreAuthentication( boolean status )
-        throws IOException, LuteceInitException
+    private void restoreAuthentication( boolean status ) throws IOException, LuteceInitException
     {
         if ( !status )
         {
-            File luteceProperties = new File( getResourcesDir(  ), "WEB-INF/conf/lutece.properties" );
-            Properties props = new Properties(  );
+            File luteceProperties = new File( getResourcesDir( ), "WEB-INF/conf/lutece.properties" );
+            Properties props = new Properties( );
             InputStream is = new FileInputStream( luteceProperties );
             props.load( is );
-            is.close(  );
+            is.close( );
             props.remove( "mylutece.authentication.enable" );
             props.remove( "mylutece.authentication.class" );
 
             OutputStream os = new FileOutputStream( luteceProperties );
-            props.store( os, "saved for junit " + this.getClass(  ).getCanonicalName(  ) );
-            os.close(  );
-            AppPropertiesService.reloadAll(  );
-            SecurityService.init(  );
+            props.store( os, "saved for junit " + this.getClass( ).getCanonicalName( ) );
+            os.close( );
+            AppPropertiesService.reloadAll( );
+            SecurityService.init( );
         }
     }
 
-    private boolean enableAuthentication(  ) throws IOException, LuteceInitException
+    private boolean enableAuthentication( ) throws IOException, LuteceInitException
     {
-        boolean status = SecurityService.isAuthenticationEnable(  );
+        boolean status = SecurityService.isAuthenticationEnable( );
 
         if ( !status )
         {
-            File luteceProperties = new File( getResourcesDir(  ), "WEB-INF/conf/lutece.properties" );
-            Properties props = new Properties(  );
+            File luteceProperties = new File( getResourcesDir( ), "WEB-INF/conf/lutece.properties" );
+            Properties props = new Properties( );
             InputStream is = new FileInputStream( luteceProperties );
             props.load( is );
-            is.close(  );
+            is.close( );
             props.setProperty( "mylutece.authentication.enable", "true" );
-            props.setProperty( "mylutece.authentication.class", MokeLuteceAuthentication.class.getName(  ) );
+            props.setProperty( "mylutece.authentication.class", MokeLuteceAuthentication.class.getName( ) );
 
             OutputStream os = new FileOutputStream( luteceProperties );
-            props.store( os, "saved for junit " + this.getClass(  ).getCanonicalName(  ) );
-            os.close(  );
-            AppPropertiesService.reloadAll(  );
-            SecurityService.init(  );
+            props.store( os, "saved for junit " + this.getClass( ).getCanonicalName( ) );
+            os.close( );
+            AppPropertiesService.reloadAll( );
+            SecurityService.init( );
         }
 
         return status;
@@ -276,8 +254,8 @@ public class PortalMenuServiceTest extends LuteceTestCase
 
     private Page createPage( String pageName, String role )
     {
-        Page page = new Page(  );
-        page.setParentPageId( PortalService.getRootPageId(  ) );
+        Page page = new Page( );
+        page.setParentPageId( PortalService.getRootPageId( ) );
         page.setName( pageName );
 
         if ( role != null )

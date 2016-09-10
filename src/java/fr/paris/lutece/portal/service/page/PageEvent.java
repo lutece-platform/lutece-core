@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -35,7 +35,6 @@ package fr.paris.lutece.portal.service.page;
 
 import fr.paris.lutece.portal.business.page.Page;
 
-
 /**
  * Page Event used to notify PageEvent Listeners
  */
@@ -51,9 +50,13 @@ public class PageEvent
     private Page _page;
     private int _nType;
 
-    /** Creates a new instance of PageEvent
-     * @param page The page
-     * @param nType The event type
+    /**
+     * Creates a new instance of PageEvent
+     * 
+     * @param page
+     *            The page
+     * @param nType
+     *            The event type
      */
     public PageEvent( Page page, int nType )
     {
@@ -66,7 +69,7 @@ public class PageEvent
      *
      * @return The EventType
      */
-    public int getEventType(  )
+    public int getEventType( )
     {
         return _nType;
     }
@@ -76,7 +79,7 @@ public class PageEvent
      *
      * @return The Page
      */
-    public Page getPage(  )
+    public Page getPage( )
     {
         return _page;
     }

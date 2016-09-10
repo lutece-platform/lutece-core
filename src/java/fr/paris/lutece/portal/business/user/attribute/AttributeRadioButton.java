@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -47,10 +47,9 @@ import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  *
- *  class EntryTypeRadioButton
+ * class EntryTypeRadioButton
  *
  */
 public class AttributeRadioButton extends AbstractAttribute implements ISimpleValuesAttributes
@@ -82,91 +81,99 @@ public class AttributeRadioButton extends AbstractAttribute implements ISimpleVa
     /**
      * Constructor
      */
-    public AttributeRadioButton(  )
+    public AttributeRadioButton( )
     {
     }
 
     /**
      * Get the template create an attribute
+     * 
      * @return The URL of the template
      */
     @Override
-    public String getTemplateCreateAttribute(  )
+    public String getTemplateCreateAttribute( )
     {
         return TEMPLATE_CREATE_ATTRIBUTE;
     }
 
     /**
      * Get the template modify an attribute
+     * 
      * @return The URL of the template
      */
     @Override
-    public String getTemplateModifyAttribute(  )
+    public String getTemplateModifyAttribute( )
     {
         return TEMPLATE_MODIFY_ATTRIBUTE;
     }
 
     /**
      * Get the template html form attribute
+     * 
      * @return the template
      */
     @Override
-    public String getTemplateHtmlFormAttribute(  )
+    public String getTemplateHtmlFormAttribute( )
     {
         return TEMPLATE_HTML_FORM_ATTRIBUTE;
     }
 
     /**
      * Get the template html form search attribute
+     * 
      * @return the template
      */
     @Override
-    public String getTemplateHtmlFormSearchAttribute(  )
+    public String getTemplateHtmlFormSearchAttribute( )
     {
         return TEMPLATE_HTML_FORM_SEARCH_ATTRIBUTE;
     }
 
     /**
      * Get the template html for the value of the attribute
+     * 
      * @return the template
      */
     @Override
-    public String getTemplateHtmlValue(  )
+    public String getTemplateHtmlValue( )
     {
         return TEMPLATE_HTML_VALUE;
     }
 
     /**
      * Get page title for create page
+     * 
      * @return page title
      */
     @Override
-    public String getPropertyCreatePageTitle(  )
+    public String getPropertyCreatePageTitle( )
     {
         return PROPERTY_CREATE_RADIO_BUTTON_PAGETITLE;
     }
 
     /**
      * Get page title for modify page
+     * 
      * @return page title
      */
     @Override
-    public String getPropertyModifyPageTitle(  )
+    public String getPropertyModifyPageTitle( )
     {
         return PROPERTY_MODIFY_RADIO_BUTTON_PAGETITLE;
     }
 
     /**
      * Set the data of the attribute
-     * @param request HttpServletRequest
+     * 
+     * @param request
+     *            HttpServletRequest
      * @return null if there are no errors
      */
     @Override
     public String setAttributeData( HttpServletRequest request )
     {
         String strTitle = request.getParameter( PARAMETER_TITLE );
-        String strHelpMessage = ( request.getParameter( PARAMETER_HELP_MESSAGE ) != null )
-            ? request.getParameter( PARAMETER_HELP_MESSAGE ).trim(  ) : null;
+        String strHelpMessage = ( request.getParameter( PARAMETER_HELP_MESSAGE ) != null ) ? request.getParameter( PARAMETER_HELP_MESSAGE ).trim( ) : null;
         String strIsShownInSearch = request.getParameter( PARAMETER_IS_SHOWN_IN_SEARCH );
         String strIsShownInResultList = request.getParameter( PARAMETER_IS_SHOWN_IN_RESULT_LIST );
         String strMandatory = request.getParameter( PARAMETER_MANDATORY );
@@ -189,29 +196,33 @@ public class AttributeRadioButton extends AbstractAttribute implements ISimpleVa
 
     /**
      * Set attribute type
-     * @param locale locale
+     * 
+     * @param locale
+     *            locale
      */
     @Override
     public void setAttributeType( Locale locale )
     {
-        AttributeType attributeType = new AttributeType(  );
+        AttributeType attributeType = new AttributeType( );
         attributeType.setLocale( locale );
-        attributeType.setClassName( this.getClass(  ).getName(  ) );
+        attributeType.setClassName( this.getClass( ).getName( ) );
         attributeType.setLabelType( PROPERTY_TYPE_RADIO_BUTTON );
         setAttributeType( attributeType );
     }
 
     /**
      * Get the data of the user fields
-     * @param request HttpServletRequest
-     * @param user user
+     * 
+     * @param request
+     *            HttpServletRequest
+     * @param user
+     *            user
      * @return user field data
      */
     @Override
     public List<AdminUserField> getUserFieldsData( HttpServletRequest request, AdminUser user )
     {
-        String[] strValues = request.getParameterValues( PARAMETER_ATTRIBUTE + CONSTANT_UNDERSCORE +
-                getIdAttribute(  ) );
+        String [ ] strValues = request.getParameterValues( PARAMETER_ATTRIBUTE + CONSTANT_UNDERSCORE + getIdAttribute( ) );
 
         return getUserFieldsData( strValues, user );
     }
@@ -220,25 +231,25 @@ public class AttributeRadioButton extends AbstractAttribute implements ISimpleVa
      * {@inheritDoc}
      */
     @Override
-    public List<AdminUserField> getUserFieldsData( String[] strValues, AdminUser user )
+    public List<AdminUserField> getUserFieldsData( String [ ] strValues, AdminUser user )
     {
-        List<AdminUserField> listUserFields = new ArrayList<AdminUserField>(  );
+        List<AdminUserField> listUserFields = new ArrayList<AdminUserField>( );
 
         if ( strValues != null )
         {
             for ( String strValue : strValues )
             {
-                AdminUserField userField = new AdminUserField(  );
+                AdminUserField userField = new AdminUserField( );
                 AttributeField attributeField;
 
                 if ( StringUtils.isNotBlank( strValue ) && StringUtils.isNumeric( strValue ) )
                 {
                     int nIdField = Integer.parseInt( strValue );
-                    attributeField = AttributeFieldService.getInstance(  ).getAttributeField( nIdField );
+                    attributeField = AttributeFieldService.getInstance( ).getAttributeField( nIdField );
                 }
                 else
                 {
-                    attributeField = new AttributeField(  );
+                    attributeField = new AttributeField( );
                     attributeField.setAttribute( this );
                     attributeField.setTitle( strValue );
                     attributeField.setValue( strValue );
@@ -249,7 +260,7 @@ public class AttributeRadioButton extends AbstractAttribute implements ISimpleVa
                     userField.setUser( user );
                     userField.setAttribute( this );
                     userField.setAttributeField( attributeField );
-                    userField.setValue( attributeField.getTitle(  ) );
+                    userField.setValue( attributeField.getTitle( ) );
                     listUserFields.add( userField );
                 }
             }
@@ -260,10 +271,11 @@ public class AttributeRadioButton extends AbstractAttribute implements ISimpleVa
 
     /**
      * Get whether the attribute is anonymizable.
+     * 
      * @return True if the attribute can be anonymized, false otherwise.
      */
     @Override
-    public boolean isAnonymizable(  )
+    public boolean isAnonymizable( )
     {
         return false;
     }

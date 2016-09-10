@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -58,11 +58,10 @@ import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
- * This class delivers Extra pages (xpages) to web components. An XPage is a page where the content is provided by a
- * specific class, but should be integrated into the portal struture and design. XPageApps are identified by a key
- * name. To display an XPage into the portal just call the following url :<br><code>
+ * This class delivers Extra pages (xpages) to web components. An XPage is a page where the content is provided by a specific class, but should be integrated
+ * into the portal struture and design. XPageApps are identified by a key name. To display an XPage into the portal just call the following url :<br>
+ * <code>
  * RunStandaloneApp.jsp?page=<i>keyname</i>&amp;param1=value1&amp; ...&amp;paramN=valueN </code>
  *
  * @see fr.paris.lutece.portal.web.xpages.XPage
@@ -81,7 +80,7 @@ public class StandaloneAppService extends ContentService
      *
      * @return The name as a String
      */
-    public String getName(  )
+    public String getName( )
     {
         return CONTENT_SERVICE_NAME;
     }
@@ -89,14 +88,15 @@ public class StandaloneAppService extends ContentService
     /**
      * Analyzes request parameters to see if the request should be handled by the current Content Service
      *
-     * @param request The HTTP request
+     * @param request
+     *            The HTTP request
      * @return true if this ContentService should handle this request
      */
     public boolean isInvoked( HttpServletRequest request )
     {
         String strStandaloneApp = request.getParameter( PARAM_STANDALONE_APP );
 
-        if ( ( strStandaloneApp != null ) && ( strStandaloneApp.length(  ) > 0 ) )
+        if ( ( strStandaloneApp != null ) && ( strStandaloneApp.length( ) > 0 ) )
         {
             return true;
         }
@@ -107,7 +107,8 @@ public class StandaloneAppService extends ContentService
     /**
      * Enable or disable the cache feature.
      *
-     * @param bCache true to enable the cache, false to disable
+     * @param bCache
+     *            true to enable the cache, false to disable
      */
     public void setCache( boolean bCache )
     {
@@ -118,7 +119,7 @@ public class StandaloneAppService extends ContentService
      *
      * @return true if enable, otherwise false
      */
-    public boolean isCacheEnable(  )
+    public boolean isCacheEnable( )
     {
         return false;
     }
@@ -126,7 +127,7 @@ public class StandaloneAppService extends ContentService
     /**
      * Reset the cache.
      */
-    public void resetCache(  )
+    public void resetCache( )
     {
     }
 
@@ -135,7 +136,7 @@ public class StandaloneAppService extends ContentService
      *
      * @return the number of item currently in the cache.
      */
-    public int getCacheSize(  )
+    public int getCacheSize( )
     {
         return 0;
     }
@@ -143,38 +144,40 @@ public class StandaloneAppService extends ContentService
     /**
      * Build the XPage content.
      *
-     * @param request The HTTP request.
-     * @param nMode The current mode.
+     * @param request
+     *            The HTTP request.
+     * @param nMode
+     *            The current mode.
      * @return The HTML code of the page.
-     * @throws UserNotSignedException a userNotSignedException
-     * @throws SiteMessageException occurs when a site message need to be displayed
+     * @throws UserNotSignedException
+     *             a userNotSignedException
+     * @throws SiteMessageException
+     *             occurs when a site message need to be displayed
      */
-    public String getPage( HttpServletRequest request, int nMode )
-        throws UserNotSignedException, SiteMessageException
+    public String getPage( HttpServletRequest request, int nMode ) throws UserNotSignedException, SiteMessageException
     {
         // Gets XPage info from the lutece.properties
         String strName = request.getParameter( PARAM_STANDALONE_APP );
 
-        if ( ( strName == null ) || ( strName.length(  ) <= 0 ) )
+        if ( ( strName == null ) || ( strName.length( ) <= 0 ) )
         {
             // Return the welcome page
             return null;
         }
 
-        PageData data = new PageData(  );
+        PageData data = new PageData( );
         XPageApplicationEntry entry = XPageAppService.getApplicationEntry( strName );
 
-        if ( ( entry != null ) && ( entry.isEnable(  ) ) )
+        if ( ( entry != null ) && ( entry.isEnable( ) ) )
         {
             XPageApplication app = XPageAppService.getApplicationInstance( entry );
-            XPage page = app.getPage( request, nMode, entry.getPlugin(  ) );
-            data.setContent( page.getContent(  ) );
-            data.setName( page.getTitle(  ) );
+            XPage page = app.getPage( request, nMode, entry.getPlugin( ) );
+            data.setContent( page.getContent( ) );
+            data.setName( page.getTitle( ) );
         }
         else
         {
-            AppLogService.error( "The specified Xpage '" + strName +
-                "' cannot be retrieved. Check installation of your Xpage application." );
+            AppLogService.error( "The specified Xpage '" + strName + "' cannot be retrieved. Check installation of your Xpage application." );
             SiteMessageService.setMessage( request, MESSAGE_ERROR_APP_BODY, SiteMessage.TYPE_ERROR );
         }
 
@@ -184,10 +187,14 @@ public class StandaloneAppService extends ContentService
     /**
      * Returns the html code which represents the page content
      *
-     * @param data The structure which contains the informations about the page
-     * @param nMode The mode in which displaying the page : normal or administration
-     * @param strPluginName The name of the plugin
-     * @param request TheHttpServletRequest
+     * @param data
+     *            The structure which contains the informations about the page
+     * @param nMode
+     *            The mode in which displaying the page : normal or administration
+     * @param strPluginName
+     *            The name of the plugin
+     * @param request
+     *            TheHttpServletRequest
      * @return The html code of a page
      */
     private static String buildPageContent( PageData data, int nMode, String strPluginName, HttpServletRequest request )
@@ -199,27 +206,27 @@ public class StandaloneAppService extends ContentService
         String strPluginPath = "skin/plugins/";
 
         // Load of the templates
-        HashMap<String, Object> model = new HashMap<String, Object>(  );
+        HashMap<String, Object> model = new HashMap<String, Object>( );
         model.put( Markers.BASE_URL, AppPathService.getBaseUrl( request ) );
-        model.put( Markers.PAGE_NAME, data.getName(  ) );
-        model.put( Markers.PAGE_CONTENT, data.getContent(  ) );
+        model.put( Markers.PAGE_NAME, data.getName( ) );
+        model.put( Markers.PAGE_CONTENT, data.getContent( ) );
 
-        Collection<PageInclude> colIncludes = PageIncludeService.getIncludes(  );
+        Collection<PageInclude> colIncludes = PageIncludeService.getIncludes( );
 
         for ( PageInclude pic : colIncludes )
         {
             pic.fillTemplate( model, data, nMode, request );
         }
 
-        if ( file.exists(  ) )
+        if ( file.exists( ) )
         {
-            template = AppTemplateService.getTemplate( strPluginPath + strFileName, request.getLocale(  ), model );
+            template = AppTemplateService.getTemplate( strPluginPath + strFileName, request.getLocale( ), model );
         }
         else
         {
-            template = AppTemplateService.getTemplate( TEMPLATE_STANDALONE_PAGE_FRAMESET, request.getLocale(  ), model );
+            template = AppTemplateService.getTemplate( TEMPLATE_STANDALONE_PAGE_FRAMESET, request.getLocale( ), model );
         }
 
-        return template.getHtml(  );
+        return template.getHtml( );
     }
 }

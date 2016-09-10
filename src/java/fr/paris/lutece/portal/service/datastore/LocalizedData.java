@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,13 +33,12 @@
  */
 package fr.paris.lutece.portal.service.datastore;
 
-
 /**
  * This is the business class for the object SiteProperty
  */
 public class LocalizedData
 {
-    // Variables declarations 
+    // Variables declarations
     private String _strKey;
     private String _strLabel;
     private String _strValue;
@@ -50,7 +49,7 @@ public class LocalizedData
      *
      * @return The Key
      */
-    public String getKey(  )
+    public String getKey( )
     {
         return _strKey;
     }
@@ -58,7 +57,8 @@ public class LocalizedData
     /**
      * Sets the Key
      *
-     * @param strKey The Key
+     * @param strKey
+     *            The Key
      */
     public void setKey( String strKey )
     {
@@ -70,7 +70,7 @@ public class LocalizedData
      *
      * @return The Label
      */
-    public String getLabel(  )
+    public String getLabel( )
     {
         return _strLabel;
     }
@@ -78,7 +78,8 @@ public class LocalizedData
     /**
      * Sets the Label
      *
-     * @param strLabel The Label
+     * @param strLabel
+     *            The Label
      */
     public void setLabel( String strLabel )
     {
@@ -90,7 +91,7 @@ public class LocalizedData
      *
      * @return The Value
      */
-    public String getValue(  )
+    public String getValue( )
     {
         return _strValue;
     }
@@ -98,7 +99,8 @@ public class LocalizedData
     /**
      * Sets the Value
      *
-     * @param strValue The Value
+     * @param strValue
+     *            The Value
      */
     public void setValue( String strValue )
     {
@@ -110,7 +112,7 @@ public class LocalizedData
      *
      * @return The Help
      */
-    public String getHelp(  )
+    public String getHelp( )
     {
         return _strHelp;
     }
@@ -118,7 +120,8 @@ public class LocalizedData
     /**
      * Sets the Help
      *
-     * @param strHelp The Help
+     * @param strHelp
+     *            The Help
      */
     public void setHelp( String strHelp )
     {

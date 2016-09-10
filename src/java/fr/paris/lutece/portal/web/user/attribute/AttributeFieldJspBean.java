@@ -54,7 +54,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  * AttributeFieldJspBean
  */
@@ -94,12 +93,14 @@ public class AttributeFieldJspBean extends AdminFeaturesPageJspBean
     // JSP
     private static final String JSP_MODIFY_ATTRIBUTE = "ModifyAttribute.jsp";
     private static final String JSP_URL_REMOVE_ATTRIBUTE_FIELD = "jsp/admin/user/attribute/DoRemoveAttributeField.jsp";
-    private static final AttributeService _attributeService = AttributeService.getInstance(  );
-    private static final AttributeFieldService _attributeFieldService = AttributeFieldService.getInstance(  );
+    private static final AttributeService _attributeService = AttributeService.getInstance( );
+    private static final AttributeFieldService _attributeFieldService = AttributeFieldService.getInstance( );
 
     /**
      * Create attribute field
-     * @param request HttpServletRequest
+     * 
+     * @param request
+     *            HttpServletRequest
      * @return the html form
      */
     public String getCreateAttributeField( HttpServletRequest request )
@@ -109,20 +110,21 @@ public class AttributeFieldJspBean extends AdminFeaturesPageJspBean
         String strIdAttribute = request.getParameter( PARAMETER_ID_ATTRIBUTE );
         int nIdAttribute = Integer.parseInt( strIdAttribute );
 
-        IAttribute attribute = _attributeService.getAttributeWithoutFields( nIdAttribute, getLocale(  ) );
+        IAttribute attribute = _attributeService.getAttributeWithoutFields( nIdAttribute, getLocale( ) );
 
         HtmlTemplate template;
-        Map<String, Object> model = new HashMap<String, Object>(  );
+        Map<String, Object> model = new HashMap<String, Object>( );
         model.put( MARK_ATTRIBUTE, attribute );
 
-        template = AppTemplateService.getTemplate( TEMPLATE_CREATE_ATTRIBUTE_FIELD, getLocale(  ), model );
+        template = AppTemplateService.getTemplate( TEMPLATE_CREATE_ATTRIBUTE_FIELD, getLocale( ), model );
 
-        return getAdminPage( template.getHtml(  ) );
+        return getAdminPage( template.getHtml( ) );
     }
 
     /**
      *
-     * @param request the HttpServletRequest
+     * @param request
+     *            the HttpServletRequest
      * @return Url
      */
     public String doCreateAttributeField( HttpServletRequest request )
@@ -146,12 +148,12 @@ public class AttributeFieldJspBean extends AdminFeaturesPageJspBean
                 return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
             }
 
-            AttributeField attributeField = new AttributeField(  );
+            AttributeField attributeField = new AttributeField( );
             attributeField.setTitle( strTitle );
             attributeField.setValue( strValue );
             attributeField.setDefaultValue( strDefaultValue != null );
 
-            IAttribute attribute = _attributeService.getAttributeWithoutFields( nIdAttribute, getLocale(  ) );
+            IAttribute attribute = _attributeService.getAttributeWithoutFields( nIdAttribute, getLocale( ) );
             attributeField.setAttribute( attribute );
             _attributeFieldService.createAttributeField( attributeField );
         }
@@ -163,7 +165,9 @@ public class AttributeFieldJspBean extends AdminFeaturesPageJspBean
 
     /**
      * Modify an attribute field
-     * @param request HttpServletRequest
+     * 
+     * @param request
+     *            HttpServletRequest
      * @return the html form
      */
     public String getModifyAttributeField( HttpServletRequest request )
@@ -175,23 +179,25 @@ public class AttributeFieldJspBean extends AdminFeaturesPageJspBean
         String strIdAttribute = request.getParameter( PARAMETER_ID_ATTRIBUTE );
         int nIdAttribute = Integer.parseInt( strIdAttribute );
 
-        IAttribute attribute = _attributeService.getAttributeWithoutFields( nIdAttribute, getLocale(  ) );
+        IAttribute attribute = _attributeService.getAttributeWithoutFields( nIdAttribute, getLocale( ) );
 
         AttributeField attributeField = _attributeFieldService.getAttributeField( nIdField );
 
         HtmlTemplate template;
-        Map<String, Object> model = new HashMap<String, Object>(  );
+        Map<String, Object> model = new HashMap<String, Object>( );
         model.put( MARK_ATTRIBUTE_FIELD, attributeField );
         model.put( MARK_ATTRIBUTE, attribute );
 
-        template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_ATTRIBUTE_FIELD, getLocale(  ), model );
+        template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_ATTRIBUTE_FIELD, getLocale( ), model );
 
-        return getAdminPage( template.getHtml(  ) );
+        return getAdminPage( template.getHtml( ) );
     }
 
     /**
      * Modify an attribute field
-     * @param request HttpServletRequest
+     * 
+     * @param request
+     *            HttpServletRequest
      * @return The Jsp URL of the process result
      */
     public String doModifyAttributeField( HttpServletRequest request )
@@ -216,7 +222,7 @@ public class AttributeFieldJspBean extends AdminFeaturesPageJspBean
                 return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
             }
 
-            AttributeField attributeField = new AttributeField(  );
+            AttributeField attributeField = new AttributeField( );
             attributeField.setIdField( nIdField );
             attributeField.setTitle( strTitle );
             attributeField.setValue( strValue );
@@ -229,25 +235,29 @@ public class AttributeFieldJspBean extends AdminFeaturesPageJspBean
 
     /**
      * Confirm the removal of the attribute field
-     * @param request HttpServletRequest
+     * 
+     * @param request
+     *            HttpServletRequest
      * @return the html form
      */
     public String doConfirmRemoveAttributeField( HttpServletRequest request )
     {
         String strIdAttribute = request.getParameter( PARAMETER_ID_ATTRIBUTE );
         String strIdField = request.getParameter( PARAMETER_ID_FIELD );
-        String strUrlRemove = JSP_URL_REMOVE_ATTRIBUTE_FIELD + QUESTION_MARK + PARAMETER_ID_ATTRIBUTE + EQUAL +
-            strIdAttribute + AMPERSAND + PARAMETER_ID_FIELD + EQUAL + strIdField;
+        String strUrlRemove = JSP_URL_REMOVE_ATTRIBUTE_FIELD + QUESTION_MARK + PARAMETER_ID_ATTRIBUTE + EQUAL + strIdAttribute + AMPERSAND + PARAMETER_ID_FIELD
+                + EQUAL + strIdField;
 
-        String strUrl = AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_CONFIRM_REMOVE_ATTRIBUTE_FIELD,
-                strUrlRemove, AdminMessage.TYPE_CONFIRMATION );
+        String strUrl = AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_CONFIRM_REMOVE_ATTRIBUTE_FIELD, strUrlRemove,
+                AdminMessage.TYPE_CONFIRMATION );
 
         return strUrl;
     }
 
     /**
      * Remove the attribute field
-     * @param request HttpServletRequest
+     * 
+     * @param request
+     *            HttpServletRequest
      * @return The Jsp URL of the process result
      */
     public String doRemoveAttributeField( HttpServletRequest request )
@@ -268,7 +278,9 @@ public class AttributeFieldJspBean extends AdminFeaturesPageJspBean
 
     /**
      * Move up the position of the attribute field
-     * @param request HttpServletRequest
+     * 
+     * @param request
+     *            HttpServletRequest
      * @return The Jsp URL of the process result
      */
     public String doMoveUpAttributeField( HttpServletRequest request )
@@ -276,32 +288,32 @@ public class AttributeFieldJspBean extends AdminFeaturesPageJspBean
         String strIdAttribute = request.getParameter( PARAMETER_ID_ATTRIBUTE );
         String strIdField = request.getParameter( PARAMETER_ID_FIELD );
 
-        if ( StringUtils.isNotBlank( strIdField ) && StringUtils.isNumeric( strIdField ) &&
-                StringUtils.isNotBlank( strIdAttribute ) && StringUtils.isNumeric( strIdAttribute ) )
+        if ( StringUtils.isNotBlank( strIdField ) && StringUtils.isNumeric( strIdField ) && StringUtils.isNotBlank( strIdAttribute )
+                && StringUtils.isNumeric( strIdAttribute ) )
         {
             int nIdAttribute = Integer.parseInt( strIdAttribute );
             int nIdField = Integer.parseInt( strIdField );
 
-            IAttribute attribute = _attributeService.getAttributeWithFields( nIdAttribute, getLocale(  ) );
-            List<AttributeField> listAttributeFields = attribute.getListAttributeFields(  );
+            IAttribute attribute = _attributeService.getAttributeWithFields( nIdAttribute, getLocale( ) );
+            List<AttributeField> listAttributeFields = attribute.getListAttributeFields( );
 
-            if ( listAttributeFields.size(  ) > 0 )
+            if ( listAttributeFields.size( ) > 0 )
             {
                 AttributeField previousField = null;
                 AttributeField currentField = null;
 
-                Iterator<AttributeField> it = listAttributeFields.iterator(  );
-                previousField = it.next(  );
-                currentField = it.next(  );
+                Iterator<AttributeField> it = listAttributeFields.iterator( );
+                previousField = it.next( );
+                currentField = it.next( );
 
-                while ( it.hasNext(  ) && ( currentField.getIdField(  ) != nIdField ) )
+                while ( it.hasNext( ) && ( currentField.getIdField( ) != nIdField ) )
                 {
                     previousField = currentField;
-                    currentField = it.next(  );
+                    currentField = it.next( );
                 }
 
-                int previousFieldPosition = previousField.getPosition(  );
-                int currentFieldPosition = currentField.getPosition(  );
+                int previousFieldPosition = previousField.getPosition( );
+                int currentFieldPosition = currentField.getPosition( );
                 previousField.setPosition( currentFieldPosition );
                 currentField.setPosition( previousFieldPosition );
                 _attributeFieldService.updateAttributeField( previousField );
@@ -314,7 +326,9 @@ public class AttributeFieldJspBean extends AdminFeaturesPageJspBean
 
     /**
      * Move down the position of the attribute field
-     * @param request HttpServletRequest
+     * 
+     * @param request
+     *            HttpServletRequest
      * @return The Jsp URL of the process result
      */
     public String doMoveDownAttributeField( HttpServletRequest request )
@@ -322,32 +336,32 @@ public class AttributeFieldJspBean extends AdminFeaturesPageJspBean
         String strIdAttribute = request.getParameter( PARAMETER_ID_ATTRIBUTE );
         String strIdField = request.getParameter( PARAMETER_ID_FIELD );
 
-        if ( StringUtils.isNotBlank( strIdField ) && StringUtils.isNumeric( strIdField ) &&
-                StringUtils.isNotBlank( strIdAttribute ) && StringUtils.isNumeric( strIdAttribute ) )
+        if ( StringUtils.isNotBlank( strIdField ) && StringUtils.isNumeric( strIdField ) && StringUtils.isNotBlank( strIdAttribute )
+                && StringUtils.isNumeric( strIdAttribute ) )
         {
             int nIdAttribute = Integer.parseInt( strIdAttribute );
             int nIdField = Integer.parseInt( strIdField );
 
-            IAttribute attribute = _attributeService.getAttributeWithFields( nIdAttribute, getLocale(  ) );
-            List<AttributeField> listAttributeFields = attribute.getListAttributeFields(  );
+            IAttribute attribute = _attributeService.getAttributeWithFields( nIdAttribute, getLocale( ) );
+            List<AttributeField> listAttributeFields = attribute.getListAttributeFields( );
 
-            if ( listAttributeFields.size(  ) > 0 )
+            if ( listAttributeFields.size( ) > 0 )
             {
                 AttributeField currentField = null;
                 AttributeField nextField = null;
 
-                Iterator<AttributeField> it = listAttributeFields.iterator(  );
-                currentField = it.next(  );
-                nextField = it.next(  );
+                Iterator<AttributeField> it = listAttributeFields.iterator( );
+                currentField = it.next( );
+                nextField = it.next( );
 
-                while ( it.hasNext(  ) && ( currentField.getIdField(  ) != nIdField ) )
+                while ( it.hasNext( ) && ( currentField.getIdField( ) != nIdField ) )
                 {
                     currentField = nextField;
-                    nextField = it.next(  );
+                    nextField = it.next( );
                 }
 
-                int nextFieldPosition = nextField.getPosition(  );
-                int currentFieldPosition = currentField.getPosition(  );
+                int nextFieldPosition = nextField.getPosition( );
+                int currentFieldPosition = currentField.getPosition( );
                 nextField.setPosition( currentFieldPosition );
                 currentField.setPosition( nextFieldPosition );
 

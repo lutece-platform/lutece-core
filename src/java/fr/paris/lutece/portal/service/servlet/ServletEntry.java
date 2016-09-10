@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -36,9 +36,9 @@ package fr.paris.lutece.portal.service.servlet;
 import java.util.HashMap;
 import java.util.Map;
 
-
 /**
  * Servlet Entry used to load servlet from the plugin XML file
+ * 
  * @since v 3.0
  */
 public class ServletEntry
@@ -46,14 +46,14 @@ public class ServletEntry
     private String _strName;
     private String _strServletClass;
     private String _strMapping;
-    private Map<String, String> _mapInitParameters = new HashMap<String, String>(  );
+    private Map<String, String> _mapInitParameters = new HashMap<String, String>( );
 
     /**
      * Returns the Name
      *
      * @return The Name
      */
-    public String getName(  )
+    public String getName( )
     {
         return _strName;
     }
@@ -61,7 +61,8 @@ public class ServletEntry
     /**
      * Sets the Name
      *
-     * @param strName The Name
+     * @param strName
+     *            The Name
      */
     public void setName( String strName )
     {
@@ -73,7 +74,7 @@ public class ServletEntry
      *
      * @return The servlet
      */
-    public String getServletClass(  )
+    public String getServletClass( )
     {
         return _strServletClass;
     }
@@ -81,7 +82,8 @@ public class ServletEntry
     /**
      * Sets the servlet.
      *
-     * @param strServletClass the new servlet class
+     * @param strServletClass
+     *            the new servlet class
      */
     public void setServletClass( String strServletClass )
     {
@@ -93,7 +95,7 @@ public class ServletEntry
      *
      * @return The Mapping
      */
-    public String getMappingUrlPattern(  )
+    public String getMappingUrlPattern( )
     {
         return _strMapping;
     }
@@ -101,7 +103,8 @@ public class ServletEntry
     /**
      * Sets the Mapping
      *
-     * @param strMapping The Mapping
+     * @param strMapping
+     *            The Mapping
      */
     public void setMappingUrlPattern( String strMapping )
     {
@@ -110,8 +113,11 @@ public class ServletEntry
 
     /**
      * Add an init parameter
-     * @param strName The parameter name
-     * @param strValue The parameter value
+     * 
+     * @param strName
+     *            The parameter name
+     * @param strValue
+     *            The parameter value
      */
     public void addParameter( String strName, String strValue )
     {
@@ -120,9 +126,10 @@ public class ServletEntry
 
     /**
      * Returns init parameters
+     * 
      * @return Init parameters in a map object
      */
-    public Map<String, String> getInitParameters(  )
+    public Map<String, String> getInitParameters( )
     {
         return _mapInitParameters;
     }

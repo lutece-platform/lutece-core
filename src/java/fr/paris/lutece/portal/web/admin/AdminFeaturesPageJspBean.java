@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -61,7 +61,6 @@ import javax.servlet.http.HttpServletRequest;
 
 import javax.validation.ConstraintViolation;
 
-
 /**
  * Provides generic methods for jspBeans
  */
@@ -99,44 +98,48 @@ public abstract class AdminFeaturesPageJspBean implements Serializable
     private AdminUser _user;
 
     /**
-     * Initialize the jspbean data
-     * Allows to set the feature url and feature title associated
-     * @param request the HTTP request
-     * @param strRight The right
-     * @throws AccessDeniedException Access denied exception
-     * @throws PasswordResetException Password reset exception
+     * Initialize the jspbean data Allows to set the feature url and feature title associated
+     * 
+     * @param request
+     *            the HTTP request
+     * @param strRight
+     *            The right
+     * @throws AccessDeniedException
+     *             Access denied exception
+     * @throws PasswordResetException
+     *             Password reset exception
      */
-    public void init( HttpServletRequest request, String strRight )
-        throws AccessDeniedException, PasswordResetException
+    public void init( HttpServletRequest request, String strRight ) throws AccessDeniedException, PasswordResetException
     {
         _user = AdminUserService.getAdminUser( request );
 
         if ( !_user.checkRight( strRight ) )
         {
-            throw new AccessDeniedException( "User " + _user.getAccessCode(  ) + " does not have " + strRight +
-                " right." );
+            throw new AccessDeniedException( "User " + _user.getAccessCode( ) + " does not have " + strRight + " right." );
         }
 
-        if ( _user.isPasswordReset(  ) )
+        if ( _user.isPasswordReset( ) )
         {
             throw new PasswordResetException( PROPERTY_RESET_EXCEPTION_MESSAGE );
         }
 
         // get the locale
-        _locale = _user.getLocale(  );
+        _locale = _user.getLocale( );
 
         Right right = RightHome.findByPrimaryKey( strRight );
         right.setLocale( _locale );
-        _strFeatureLabel = right.getName(  );
-        _strFeatureUrl = right.getUrl(  );
-        _strFeatureIcon = right.getIconUrl(  );
-        _strFeatureDocumentation = right.getDocumentationUrl(  );
-        _strFeatureGroup = right.getFeatureGroup(  );
+        _strFeatureLabel = right.getName( );
+        _strFeatureUrl = right.getUrl( );
+        _strFeatureIcon = right.getIconUrl( );
+        _strFeatureDocumentation = right.getDocumentationUrl( );
+        _strFeatureGroup = right.getFeatureGroup( );
     }
 
     /**
      * Set the page title property
-     * @param strPageTitleKey The page title property
+     * 
+     * @param strPageTitleKey
+     *            The page title property
      */
     public void setPageTitleProperty( String strPageTitleKey )
     {
@@ -145,11 +148,12 @@ public abstract class AdminFeaturesPageJspBean implements Serializable
 
     /**
      * Get the page title
+     * 
      * @return The page title
      */
-    public String getPageTitle(  )
+    public String getPageTitle( )
     {
-        return ( _strPageTitleKey != null ) ? I18nService.getLocalizedString( _strPageTitleKey, getLocale(  ) ) : "";
+        return ( _strPageTitleKey != null ) ? I18nService.getLocalizedString( _strPageTitleKey, getLocale( ) ) : "";
     }
 
     /**
@@ -157,7 +161,7 @@ public abstract class AdminFeaturesPageJspBean implements Serializable
      *
      * @return The Locale
      */
-    public Locale getLocale(  )
+    public Locale getLocale( )
     {
         return _locale;
     }
@@ -167,14 +171,16 @@ public abstract class AdminFeaturesPageJspBean implements Serializable
      *
      * @return The AdminUser
      */
-    public AdminUser getUser(  )
+    public AdminUser getUser( )
     {
         return _user;
     }
 
     /**
      * Returns the feature home Url
-     * @param request The HTTP request
+     * 
+     * @param request
+     *            The HTTP request
      * @return The feature home Url
      */
     public String getHomeUrl( HttpServletRequest request )
@@ -184,16 +190,19 @@ public abstract class AdminFeaturesPageJspBean implements Serializable
 
     /**
      * Returns the feature icon Url
+     * 
      * @return The feature icon Url
      */
-    public String getFeatureIcon(  )
+    public String getFeatureIcon( )
     {
         return _strFeatureIcon;
     }
 
     /**
      * Sets the feature icon url
-     * @param strFeatureIcon the feature icon url
+     * 
+     * @param strFeatureIcon
+     *            the feature icon url
      */
     public void setFeatureIcon( String strFeatureIcon )
     {
@@ -202,7 +211,9 @@ public abstract class AdminFeaturesPageJspBean implements Serializable
 
     /**
      * Sets the feature group
-     * @param strFeatureGroup the feature group
+     * 
+     * @param strFeatureGroup
+     *            the feature group
      */
     public void setFeatureGroup( String strFeatureGroup )
     {
@@ -213,17 +224,17 @@ public abstract class AdminFeaturesPageJspBean implements Serializable
      * Get the admin page from a content data
      *
      * @return the html code for the admin page for the given content
-     * @param strContent the data to load in the admin page
+     * @param strContent
+     *            the data to load in the admin page
      */
     public String getAdminPage( String strContent )
     {
-        Map<String, String> rootModel = new HashMap<String, String>(  );
+        Map<String, String> rootModel = new HashMap<String, String>( );
 
         rootModel.put( MARK_FEATURE_URL, _strFeatureUrl );
         rootModel.put( MARK_FEATURE_TITLE, _strFeatureLabel );
 
-        String strIconUrl = ( _strFeatureIcon != null ) ? _strFeatureIcon
-                                                        : AppPropertiesService.getProperty( PROPERTY_DEFAULT_FEATURE_ICON );
+        String strIconUrl = ( _strFeatureIcon != null ) ? _strFeatureIcon : AppPropertiesService.getProperty( PROPERTY_DEFAULT_FEATURE_ICON );
         rootModel.put( MARK_FEATURE_ICON, strIconUrl );
 
         String strDocumentationUrl = null;
@@ -236,18 +247,21 @@ public abstract class AdminFeaturesPageJspBean implements Serializable
         rootModel.put( MARK_FEATURE_DOCUMENTATION, strDocumentationUrl );
         rootModel.put( MARK_FEATURE_GROUP, _strFeatureGroup );
 
-        rootModel.put( MARK_PAGE_TITLE, getPageTitle(  ) );
+        rootModel.put( MARK_PAGE_TITLE, getPageTitle( ) );
         rootModel.put( MARK_PAGE_CONTENT, strContent );
 
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MAIN, getLocale(  ), rootModel );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MAIN, getLocale( ), rootModel );
 
-        return template.getHtml(  );
+        return template.getHtml( );
     }
 
     /**
      * Populate a bean using parameters in http request
-     * @param bean bean to populate
-     * @param request http request
+     * 
+     * @param bean
+     *            bean to populate
+     * @param request
+     *            http request
      */
     protected void populate( Object bean, HttpServletRequest request )
     {
@@ -257,8 +271,10 @@ public abstract class AdminFeaturesPageJspBean implements Serializable
     /**
      * Validates a bean.
      *
-     * @param <T> the bean type
-     * @param bean the bean to validate
+     * @param <T>
+     *            the bean type
+     * @param bean
+     *            the bean to validate
      * @return the sets of constraints that has been violated
      */
     public <T> Set<ConstraintViolation<T>> validate( T bean )
@@ -268,25 +284,33 @@ public abstract class AdminFeaturesPageJspBean implements Serializable
 
     /**
      * Validates a bean
-     * @param <T> The bean type
-     * @param bean The bean to validate
-     * @param strFieldsKeyPrefix The fields keys prefix in resources files
+     * 
+     * @param <T>
+     *            The bean type
+     * @param bean
+     *            The bean to validate
+     * @param strFieldsKeyPrefix
+     *            The fields keys prefix in resources files
      * @return The error list
      */
     public <T> List<ValidationError> validate( T bean, String strFieldsKeyPrefix )
     {
-        return BeanValidationUtil.validate( bean, getLocale(  ), strFieldsKeyPrefix );
+        return BeanValidationUtil.validate( bean, getLocale( ), strFieldsKeyPrefix );
     }
 
     /**
      * Validates a bean
-     * @param <T> The bean type
-     * @param bean The bean to validate
-     * @param config  The config for Error validation rendering
+     * 
+     * @param <T>
+     *            The bean type
+     * @param bean
+     *            The bean to validate
+     * @param config
+     *            The config for Error validation rendering
      * @return The error list
      */
     public <T> List<ValidationError> validate( T bean, ValidationErrorConfig config )
     {
-        return BeanValidationUtil.validate( bean, getLocale(  ), config );
+        return BeanValidationUtil.validate( bean, getLocale( ), config );
     }
 }

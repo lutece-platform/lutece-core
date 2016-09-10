@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -37,7 +37,6 @@ import fr.paris.lutece.portal.service.spring.SpringContextService;
 
 import java.util.Collection;
 
-
 /**
  * Rich text editor home
  */
@@ -48,24 +47,26 @@ public final class RichTextEditorHome
     /**
      * Instantiates a new rich text editor home.
      */
-    private RichTextEditorHome(  )
+    private RichTextEditorHome( )
     {
     }
 
     /**
      * Get collection of RichTextEditor for back office
+     * 
      * @return The collection of RichTextEditor for back office
      */
-    public static Collection<RichTextEditor> findListEditorsForBackOffice(  )
+    public static Collection<RichTextEditor> findListEditorsForBackOffice( )
     {
         return _dao.findEditors( Boolean.TRUE );
     }
 
     /**
      * Get the collection of RichTextEditor for front office
+     * 
      * @return The collection of RichTextEditor for front office
      */
-    public static Collection<RichTextEditor> findListEditorsForFrontOffice(  )
+    public static Collection<RichTextEditor> findListEditorsForFrontOffice( )
     {
         return _dao.findEditors( Boolean.FALSE );
     }

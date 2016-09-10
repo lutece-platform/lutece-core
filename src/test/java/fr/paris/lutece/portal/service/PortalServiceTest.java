@@ -42,7 +42,6 @@ import fr.paris.lutece.portal.service.portal.PortalService;
 import fr.paris.lutece.portal.web.LocalVariables;
 import fr.paris.lutece.test.LuteceTestCase;
 
-
 public class PortalServiceTest extends LuteceTestCase
 {
 
@@ -50,7 +49,7 @@ public class PortalServiceTest extends LuteceTestCase
     protected void setUp( ) throws Exception
     {
         super.setUp( );
-        LocalVariables.setLocal( new MockServletConfig( ), new MockHttpServletRequest(  ), new MockHttpServletResponse( ) );
+        LocalVariables.setLocal( new MockServletConfig( ), new MockHttpServletRequest( ), new MockHttpServletResponse( ) );
     }
 
     @Override
@@ -60,7 +59,7 @@ public class PortalServiceTest extends LuteceTestCase
         super.tearDown( );
     }
 
-    public void testGetDefaultPage(  ) throws SiteMessageException
+    public void testGetDefaultPage( ) throws SiteMessageException
     {
         int nMode = 0;
 

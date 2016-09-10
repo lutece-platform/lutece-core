@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -38,7 +38,6 @@ import fr.paris.lutece.util.password.IPassword;
 
 import java.sql.Date;
 
-
 /**
  * Admin user implementation for database authentication module
  */
@@ -53,15 +52,18 @@ public class LuteceDefaultAdminUser extends AdminUser
     /**
      * Constructor
      */
-    public LuteceDefaultAdminUser(  )
+    public LuteceDefaultAdminUser( )
     {
-        super(  );
+        super( );
     }
 
     /**
      * Constructor
-     * @param strUserName The user
-     * @param authenticationService The authentication service
+     * 
+     * @param strUserName
+     *            The user
+     * @param authenticationService
+     *            The authentication service
      */
     public LuteceDefaultAdminUser( String strUserName, AdminAuthentication authenticationService )
     {
@@ -70,16 +72,19 @@ public class LuteceDefaultAdminUser extends AdminUser
 
     /**
      * Returns the Password
+     * 
      * @return The Password.
      */
-    public IPassword getPassword(  )
+    public IPassword getPassword( )
     {
         return _password;
     }
 
     /**
      * Sets the password
-     * @param strPassword The Password
+     * 
+     * @param strPassword
+     *            The Password
      */
     public void setPassword( IPassword password )
     {
@@ -88,16 +93,19 @@ public class LuteceDefaultAdminUser extends AdminUser
 
     /**
      * Returns the password validity date
+     * 
      * @return The password validity date
      */
-    public Date getDateValidityPassword(  )
+    public Date getDateValidityPassword( )
     {
         return _dateValidityPassword;
     }
 
     /**
      * Sets the password validity date
-     * @param dateValidityPassword The password validity date
+     * 
+     * @param dateValidityPassword
+     *            The password validity date
      */
     public void setDateValidityPassword( Date dateValidityPassword )
     {
@@ -106,16 +114,19 @@ public class LuteceDefaultAdminUser extends AdminUser
 
     /**
      * Returns the Last Password.
+     * 
      * @return The Last Password.
      */
-    public String getLastPassword(  )
+    public String getLastPassword( )
     {
         return _strLastPassword;
     }
 
     /**
      * Sets the Last Password.
-     * @param strLastPassword The Last Password.
+     * 
+     * @param strLastPassword
+     *            The Last Password.
      */
     public void setLastPassword( String strLastPassword )
     {

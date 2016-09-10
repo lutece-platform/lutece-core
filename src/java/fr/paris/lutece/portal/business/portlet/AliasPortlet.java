@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -40,28 +40,28 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  * This class represents business objects AliasPortlet
  */
 public class AliasPortlet extends Portlet
 {
-    /////////////////////////////////////////////////////////////////////////////////
+    // ///////////////////////////////////////////////////////////////////////////////
     // Constants
     private int _nAliasId;
 
     /**
      * Sets the identifier of the portlet type to the value specified in the AliasPortletHome class
      */
-    public AliasPortlet(  )
+    public AliasPortlet( )
     {
-        setPortletTypeId( AliasPortletHome.getInstance(  ).getPortletTypeId(  ) );
+        setPortletTypeId( AliasPortletHome.getInstance( ).getPortletTypeId( ) );
     }
 
     /**
      * Sets the alias identifier of the portlet with the specified int value
      *
-     * @param nAliasId the Alias identifier
+     * @param nAliasId
+     *            the Alias identifier
      */
     public void setAliasId( int nAliasId )
     {
@@ -73,7 +73,7 @@ public class AliasPortlet extends Portlet
      *
      * @return the Alias identifier
      */
-    public int getAliasId(  )
+    public int getAliasId( )
     {
         return _nAliasId;
     }
@@ -81,43 +81,45 @@ public class AliasPortlet extends Portlet
     /**
      * Returns the Xml code of the Alias portlet without XML heading
      *
-     * @param request The HTTP servlet request
+     * @param request
+     *            The HTTP servlet request
      * @return the Xml code of the Alias portlet content
-     * @throws SiteMessageException occurs when a site message need to be displayed
+     * @throws SiteMessageException
+     *             occurs when a site message need to be displayed
      */
-    public String getXml( HttpServletRequest request )
-        throws SiteMessageException
+    public String getXml( HttpServletRequest request ) throws SiteMessageException
     {
-        int nAliasId = AliasPortletHome.getAliasId( getId(  ) );
+        int nAliasId = AliasPortletHome.getAliasId( getId( ) );
 
-        //gets the portlet parent
+        // gets the portlet parent
         Portlet portlet = PortletHome.findByPrimaryKey( nAliasId );
         String strXmlAlias = portlet.getXml( request );
         String strTagPortletName = "</" + TAG_PORTLET_NAME + ">";
         int indexDeb = strXmlAlias.indexOf( strTagPortletName );
         int indexFin = strXmlAlias.indexOf( "</" + TAG_PORTLET + ">" );
-        strXmlAlias = strXmlAlias.substring( indexDeb + strTagPortletName.length(  ), indexFin );
+        strXmlAlias = strXmlAlias.substring( indexDeb + strTagPortletName.length( ), indexFin );
 
-        StringBuffer buffXml = new StringBuffer(  );
+        StringBuffer buffXml = new StringBuffer( );
         XmlUtil.beginElement( buffXml, TAG_PORTLET );
-        XmlUtil.addElement( buffXml, TAG_PORTLET_NAME, getName(  ) );
+        XmlUtil.addElement( buffXml, TAG_PORTLET_NAME, getName( ) );
         buffXml.append( strXmlAlias );
         XmlUtil.endElement( buffXml, TAG_PORTLET );
 
-        return buffXml.toString(  );
+        return buffXml.toString( );
     }
 
     /**
      * Returns the Xml code of the Alias portlet with XML heading
      *
-     * @param request The HTTP Servlet request
+     * @param request
+     *            The HTTP Servlet request
      * @return the Xml code of the Alias portlet
-     * @throws SiteMessageException occurs when a site message need to be displayed
+     * @throws SiteMessageException
+     *             occurs when a site message need to be displayed
      */
-    public String getXmlDocument( HttpServletRequest request )
-        throws SiteMessageException
+    public String getXmlDocument( HttpServletRequest request ) throws SiteMessageException
     {
-        return XmlUtil.getXmlHeader(  ) + getXml( request );
+        return XmlUtil.getXmlHeader( ) + getXml( request );
     }
 
     /**
@@ -125,29 +127,29 @@ public class AliasPortlet extends Portlet
      *
      * @return the Xsl params
      */
-    public Map<String, String> getXslParams(  )
+    public Map<String, String> getXslParams( )
     {
-        int nIdAlias = AliasPortletHome.getAliasId( getId(  ) );
+        int nIdAlias = AliasPortletHome.getAliasId( getId( ) );
 
-        //gets the portlet parent
+        // gets the portlet parent
         Portlet portlet = PortletHome.findByPrimaryKey( nIdAlias );
 
-        return portlet.getXslParams(  );
+        return portlet.getXslParams( );
     }
 
     /**
      * Updates the current instance of the AliasPortlet object
      */
-    public void update(  )
+    public void update( )
     {
-        AliasPortletHome.getInstance(  ).update( this );
+        AliasPortletHome.getInstance( ).update( this );
     }
 
     /**
      * Removes the current instance of the AliasPortlet object
      */
-    public void remove(  )
+    public void remove( )
     {
-        AliasPortletHome.getInstance(  ).remove( this );
+        AliasPortletHome.getInstance( ).remove( this );
     }
 }

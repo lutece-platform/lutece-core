@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -37,7 +37,6 @@ import org.jsoup.Jsoup;
 
 import org.jsoup.safety.Whitelist;
 
-
 /**
  *
  * This class is an implementation of IHtmlCleaner using the JTidy library
@@ -51,7 +50,7 @@ public class JSoupHtmlCleaner implements IHtmlCleaner
     @Override
     public String clean( String strSource ) throws HtmlCleanerException
     {
-        String strSafe = Jsoup.clean( strSource, Whitelist.relaxed(  ) );
+        String strSafe = Jsoup.clean( strSource, Whitelist.relaxed( ) );
 
         return strSafe;
     }
@@ -60,7 +59,7 @@ public class JSoupHtmlCleaner implements IHtmlCleaner
      * {@inheritDoc}
      */
     @Override
-    public void init(  )
+    public void init( )
     {
     }
 }

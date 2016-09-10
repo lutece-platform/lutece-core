@@ -38,7 +38,6 @@ import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.MokeHttpServletRequest;
 
-
 /**
  * SystemJspBean Test Class
  *
@@ -48,14 +47,14 @@ public class CacheJspBeanTest extends LuteceTestCase
     /**
      * Test of getManageCaches method, of class fr.paris.lutece.portal.web.system.SystemJspBean.
      */
-    public void testGetManageCaches(  ) throws AccessDeniedException
+    public void testGetManageCaches( ) throws AccessDeniedException
     {
         System.out.println( "getManageCaches" );
 
-        MokeHttpServletRequest request = new MokeHttpServletRequest(  );
-        request.registerAdminUserWithRigth( new AdminUser(  ), CacheJspBean.RIGHT_CACHE_MANAGEMENT );
+        MokeHttpServletRequest request = new MokeHttpServletRequest( );
+        request.registerAdminUserWithRigth( new AdminUser( ), CacheJspBean.RIGHT_CACHE_MANAGEMENT );
 
-        CacheJspBean instance = new CacheJspBean(  );
+        CacheJspBean instance = new CacheJspBean( );
         instance.init( request, CacheJspBean.RIGHT_CACHE_MANAGEMENT );
         instance.getManageCaches( request );
     }
@@ -63,26 +62,26 @@ public class CacheJspBeanTest extends LuteceTestCase
     /**
      * Test of doResetCaches method, of class fr.paris.lutece.portal.web.system.SystemJspBean.
      */
-    public void testDoResetCaches(  )
+    public void testDoResetCaches( )
     {
         System.out.println( "doResetCaches" );
 
-        MokeHttpServletRequest request = new MokeHttpServletRequest(  );
-        request.registerAdminUserWithRigth( new AdminUser(  ), CacheJspBean.RIGHT_CACHE_MANAGEMENT );
+        MokeHttpServletRequest request = new MokeHttpServletRequest( );
+        request.registerAdminUserWithRigth( new AdminUser( ), CacheJspBean.RIGHT_CACHE_MANAGEMENT );
         CacheJspBean.doResetCaches( request );
     }
 
     /**
      * Test of doReloadProperties method, of class fr.paris.lutece.portal.web.system.SystemJspBean.
      */
-    public void testDoReloadProperties(  )
+    public void testDoReloadProperties( )
     {
         System.out.println( "doReloadProperties" );
 
-        MokeHttpServletRequest request = new MokeHttpServletRequest(  );
-        request.registerAdminUserWithRigth( new AdminUser(  ), CacheJspBean.RIGHT_CACHE_MANAGEMENT );
+        MokeHttpServletRequest request = new MokeHttpServletRequest( );
+        request.registerAdminUserWithRigth( new AdminUser( ), CacheJspBean.RIGHT_CACHE_MANAGEMENT );
 
-        CacheJspBean instance = new CacheJspBean(  );
-        instance.doReloadProperties(  );
+        CacheJspBean instance = new CacheJspBean( );
+        instance.doReloadProperties( );
     }
 }

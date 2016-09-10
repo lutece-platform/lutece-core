@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -36,7 +36,6 @@ package fr.paris.lutece.portal.service.workgroup;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.util.RemovalListenerService;
 
-
 /**
  * WorkgroupRemovalListenerService
  */
@@ -47,15 +46,16 @@ public final class WorkgroupRemovalListenerService
     /**
      * Private constructor
      */
-    private WorkgroupRemovalListenerService(  )
+    private WorkgroupRemovalListenerService( )
     {
     }
 
     /**
      * Returns the removal service
+     * 
      * @return The removal service
      */
-    public static RemovalListenerService getService(  )
+    public static RemovalListenerService getService( )
     {
         return (RemovalListenerService) SpringContextService.getBean( BEAN_WORKGROUP_REMOVAL_SERVICE );
     }

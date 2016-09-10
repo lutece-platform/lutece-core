@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -39,29 +39,29 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Locale;
 
-
 /**
  * This class represents business objects feature group
  */
 public class FeatureGroup
 {
-    /////////////////////////////////////////////////////////////////////////////////
+    // ///////////////////////////////////////////////////////////////////////////////
     // Constants
     private static final String EMPTY_STRING = "";
 
-    /////////////////////////////////////////////////////////////////////////////////
+    // ///////////////////////////////////////////////////////////////////////////////
     // Variables
     private String _strId;
     private String _strDescriptionKey;
     private String _strLabelKey;
     private int _nOrder;
-    private Collection<Right> _aFeaturesList = new ArrayList<Right>(  );
+    private Collection<Right> _aFeaturesList = new ArrayList<Right>( );
     private Locale _locale;
 
     /**
      * Sets the locale to use
      *
-     * @param locale the locale to use
+     * @param locale
+     *            the locale to use
      */
     public void setLocale( Locale locale )
     {
@@ -73,7 +73,7 @@ public class FeatureGroup
      *
      * @return the identifier of this feature group
      */
-    public String getId(  )
+    public String getId( )
     {
         return _strId;
     }
@@ -81,7 +81,8 @@ public class FeatureGroup
     /**
      * Sets the identifier of the feature group to the specified string.
      *
-     * @param strId the new identifier
+     * @param strId
+     *            the new identifier
      */
     public void setId( String strId )
     {
@@ -93,16 +94,17 @@ public class FeatureGroup
      *
      * @return the feature group label
      */
-    public String getLabelKey(  )
+    public String getLabelKey( )
     {
         return _strLabelKey;
     }
 
     /**
      * Returns the label of this feature group.
+     * 
      * @return the feature group label
      */
-    public String getLabel(  )
+    public String getLabel( )
     {
         return I18nService.getLocalizedString( _strLabelKey, _locale );
     }
@@ -110,7 +112,8 @@ public class FeatureGroup
     /**
      * Sets the label of the feature group to the specified string.
      *
-     * @param strLabelKey the new label
+     * @param strLabelKey
+     *            the new label
      */
     public void setLabelKey( String strLabelKey )
     {
@@ -122,7 +125,7 @@ public class FeatureGroup
      *
      * @return the feature group order
      */
-    public int getOrder(  )
+    public int getOrder( )
     {
         return _nOrder;
     }
@@ -130,7 +133,8 @@ public class FeatureGroup
     /**
      * Sets the order of the feature group to the specified int.
      *
-     * @param nOrder the new level
+     * @param nOrder
+     *            the new level
      */
     public void setOrder( int nOrder )
     {
@@ -142,7 +146,7 @@ public class FeatureGroup
      *
      * @return the feature group description
      */
-    public String getDescriptionKey(  )
+    public String getDescriptionKey( )
     {
         return _strDescriptionKey;
     }
@@ -152,7 +156,7 @@ public class FeatureGroup
      *
      * @return the feature group description
      */
-    public String getDescription(  )
+    public String getDescription( )
     {
         return I18nService.getLocalizedString( _strDescriptionKey, _locale );
     }
@@ -160,7 +164,8 @@ public class FeatureGroup
     /**
      * Sets the description of the feature group to the specified string.
      *
-     * @param strDescriptionKey the new description
+     * @param strDescriptionKey
+     *            the new description
      */
     public void setDescriptionKey( String strDescriptionKey )
     {
@@ -169,7 +174,9 @@ public class FeatureGroup
 
     /**
      * Add a feature to the group
-     * @param right The feature to add
+     * 
+     * @param right
+     *            The feature to add
      */
     public void addFeature( Right right )
     {
@@ -178,18 +185,20 @@ public class FeatureGroup
 
     /**
      * Tells whether or not the feature list is empty
+     * 
      * @return _aFeaturesList
      */
-    public boolean isEmpty(  )
+    public boolean isEmpty( )
     {
-        return _aFeaturesList.isEmpty(  );
+        return _aFeaturesList.isEmpty( );
     }
 
     /**
      * Returns all features affected to the group
+     * 
      * @return a collection
      */
-    public Collection<Right> getFeatures(  )
+    public Collection<Right> getFeatures( )
     {
         return _aFeaturesList;
     }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -38,59 +38,61 @@ import fr.paris.lutece.util.sql.DAOUtil;
 import java.util.ArrayList;
 import java.util.Collection;
 
-
 /**
  * This class provides Data Access methods for right objects
  */
 public final class RightDAO implements IRightDAO
 {
     // Constants
-    private static final String SQL_QUERY_SELECT = " SELECT id_right, name, level_right, " +
-        " admin_url, description, plugin_name, id_feature_group, icon_url, documentation_url, id_order " +
-        " FROM core_admin_right " + " WHERE id_right = ? ";
-    private static final String SQL_QUERY_INSERT = " INSERT INTO core_admin_right ( id_right , name, level_right, admin_url , " +
-        " description, plugin_name, id_feature_group, icon_url, documentation_url, id_order ) " +
-        " VALUES ( ?, ?, ?, ? , ?, ?, ?, ?, ?, ? )";
-    private static final String SQL_QUERY_UPDATE = " UPDATE core_admin_right SET name = ?, admin_url = ? , description = ? , " +
-        " plugin_name = ?, id_feature_group = ?, icon_url = ?, level_right = ?, documentation_url = ?, id_order = ? WHERE id_right = ?";
-    private static final String SQL_QUERY_SELECTALL = " SELECT id_right, name, level_right, admin_url, description, plugin_name, id_feature_group, icon_url, documentation_url, id_order " +
-        " FROM core_admin_right WHERE level_right >= ? ORDER BY id_order ASC, id_right ASC";
-    private static final String SQL_QUERY_SELECTALL_FOR_FEATUREGROUP = " SELECT id_right, name, level_right, admin_url, description, plugin_name, id_feature_group, icon_url, documentation_url, id_order " +
-        " FROM core_admin_right WHERE id_feature_group = ? ORDER BY id_order ASC, id_right ASC";
-    private static final String SQL_QUERY_SELECTALL_FOR_FEATUREGROUP_IS_NULL = " SELECT id_right, name, level_right, admin_url, description, plugin_name, id_feature_group, icon_url, documentation_url, id_order " +
-        " FROM core_admin_right WHERE id_feature_group IS null ORDER BY id_order ASC, id_right ASC";
+    private static final String SQL_QUERY_SELECT = " SELECT id_right, name, level_right, "
+            + " admin_url, description, plugin_name, id_feature_group, icon_url, documentation_url, id_order " + " FROM core_admin_right "
+            + " WHERE id_right = ? ";
+    private static final String SQL_QUERY_INSERT = " INSERT INTO core_admin_right ( id_right , name, level_right, admin_url , "
+            + " description, plugin_name, id_feature_group, icon_url, documentation_url, id_order ) " + " VALUES ( ?, ?, ?, ? , ?, ?, ?, ?, ?, ? )";
+    private static final String SQL_QUERY_UPDATE = " UPDATE core_admin_right SET name = ?, admin_url = ? , description = ? , "
+            + " plugin_name = ?, id_feature_group = ?, icon_url = ?, level_right = ?, documentation_url = ?, id_order = ? WHERE id_right = ?";
+    private static final String SQL_QUERY_SELECTALL = " SELECT id_right, name, level_right, admin_url, description, plugin_name, id_feature_group, icon_url, documentation_url, id_order "
+            + " FROM core_admin_right WHERE level_right >= ? ORDER BY id_order ASC, id_right ASC";
+    private static final String SQL_QUERY_SELECTALL_FOR_FEATUREGROUP = " SELECT id_right, name, level_right, admin_url, description, plugin_name, id_feature_group, icon_url, documentation_url, id_order "
+            + " FROM core_admin_right WHERE id_feature_group = ? ORDER BY id_order ASC, id_right ASC";
+    private static final String SQL_QUERY_SELECTALL_FOR_FEATUREGROUP_IS_NULL = " SELECT id_right, name, level_right, admin_url, description, plugin_name, id_feature_group, icon_url, documentation_url, id_order "
+            + " FROM core_admin_right WHERE id_feature_group IS null ORDER BY id_order ASC, id_right ASC";
     private static final String SQL_QUERY_DELETE_USERRIGHT = " DELETE FROM core_user_right WHERE id_right = ?";
     private static final String SQL_QUERY_DELETE_ADMINRIGHT = " DELETE FROM core_admin_right WHERE id_right = ?";
 
-    ///////////////////////////////////////////////////////////////////////////////////////
-    //Access methods to data
+    // /////////////////////////////////////////////////////////////////////////////////////
+    // Access methods to data
 
     /**
      * Insert a new record in the table.
-     * @param right instance of the right to insert
+     * 
+     * @param right
+     *            instance of the right to insert
      */
     public void insert( Right right )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT );
 
-        daoUtil.setString( 1, right.getId(  ) );
-        daoUtil.setString( 2, right.getNameKey(  ) );
-        daoUtil.setInt( 3, right.getLevel(  ) );
-        daoUtil.setString( 4, right.getUrl(  ) );
-        daoUtil.setString( 5, right.getDescriptionKey(  ) );
-        daoUtil.setString( 6, right.getPluginName(  ) );
-        daoUtil.setString( 7, right.getFeatureGroup(  ) );
-        daoUtil.setString( 8, right.getIconUrl(  ) );
-        daoUtil.setString( 9, right.getDocumentationUrl(  ) );
-        daoUtil.setInt( 10, right.getOrder(  ) );
+        daoUtil.setString( 1, right.getId( ) );
+        daoUtil.setString( 2, right.getNameKey( ) );
+        daoUtil.setInt( 3, right.getLevel( ) );
+        daoUtil.setString( 4, right.getUrl( ) );
+        daoUtil.setString( 5, right.getDescriptionKey( ) );
+        daoUtil.setString( 6, right.getPluginName( ) );
+        daoUtil.setString( 7, right.getFeatureGroup( ) );
+        daoUtil.setString( 8, right.getIconUrl( ) );
+        daoUtil.setString( 9, right.getDocumentationUrl( ) );
+        daoUtil.setInt( 10, right.getOrder( ) );
 
-        daoUtil.executeUpdate(  );
-        daoUtil.free(  );
+        daoUtil.executeUpdate( );
+        daoUtil.free( );
     }
 
     /**
      * load the data of the right from the table
-     * @param strId The identifier of the admin right
+     * 
+     * @param strId
+     *            The identifier of the admin right
      * @return The instance of the admin right
      */
     public Right load( String strId )
@@ -99,11 +101,11 @@ public final class RightDAO implements IRightDAO
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT );
         daoUtil.setString( 1, strId );
 
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
-        if ( daoUtil.next(  ) )
+        if ( daoUtil.next( ) )
         {
-            right = new Right(  );
+            right = new Right( );
             right.setId( daoUtil.getString( 1 ) );
             right.setNameKey( daoUtil.getString( 2 ) );
             right.setLevel( daoUtil.getInt( 3 ) );
@@ -116,79 +118,84 @@ public final class RightDAO implements IRightDAO
             right.setOrder( daoUtil.getInt( 10 ) );
         }
 
-        daoUtil.free(  );
+        daoUtil.free( );
 
         return right;
     }
 
     /**
      * Delete a record from the table
-     * @param strIdRight string identifier of the admin right to delete
+     * 
+     * @param strIdRight
+     *            string identifier of the admin right to delete
      */
     public void delete( String strIdRight )
     {
         // Clear user right
         DAOUtil daoUtilUser = new DAOUtil( SQL_QUERY_DELETE_USERRIGHT );
         daoUtilUser.setString( 1, strIdRight );
-        daoUtilUser.executeUpdate(  );
-        daoUtilUser.free(  );
+        daoUtilUser.executeUpdate( );
+        daoUtilUser.free( );
 
         // Clear admin right
         DAOUtil daoUtilAdmin = new DAOUtil( SQL_QUERY_DELETE_ADMINRIGHT );
         daoUtilAdmin.setString( 1, strIdRight );
-        daoUtilAdmin.executeUpdate(  );
-        daoUtilAdmin.free(  );
+        daoUtilAdmin.executeUpdate( );
+        daoUtilAdmin.free( );
     }
 
     /**
      * Update the record in the table
-     * @param right the reference of the admin right
+     * 
+     * @param right
+     *            the reference of the admin right
      */
     public void store( Right right )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE );
 
-        daoUtil.setString( 1, right.getNameKey(  ) );
-        daoUtil.setString( 2, right.getUrl(  ) );
-        daoUtil.setString( 3, right.getDescriptionKey(  ) );
-        daoUtil.setString( 4, right.getPluginName(  ) );
-        daoUtil.setString( 5, right.getFeatureGroup(  ) );
-        daoUtil.setString( 6, right.getIconUrl(  ) );
-        daoUtil.setInt( 7, right.getLevel(  ) );
-        daoUtil.setString( 8, right.getDocumentationUrl(  ) );
-        daoUtil.setInt( 9, right.getOrder(  ) );
-        daoUtil.setString( 10, right.getId(  ) );
+        daoUtil.setString( 1, right.getNameKey( ) );
+        daoUtil.setString( 2, right.getUrl( ) );
+        daoUtil.setString( 3, right.getDescriptionKey( ) );
+        daoUtil.setString( 4, right.getPluginName( ) );
+        daoUtil.setString( 5, right.getFeatureGroup( ) );
+        daoUtil.setString( 6, right.getIconUrl( ) );
+        daoUtil.setInt( 7, right.getLevel( ) );
+        daoUtil.setString( 8, right.getDocumentationUrl( ) );
+        daoUtil.setInt( 9, right.getOrder( ) );
+        daoUtil.setString( 10, right.getId( ) );
 
-        daoUtil.executeUpdate(  );
-        daoUtil.free(  );
+        daoUtil.executeUpdate( );
+        daoUtil.free( );
     }
 
     /**
      * Loads the data of all the rights and returns them in form of a collection
+     * 
      * @return the collection which contains the data of all the rights
      */
-    public Collection<Right> selectRightsList(  )
+    public Collection<Right> selectRightsList( )
     {
         return selectRightsList( 0 );
     }
 
     /**
-     * Loads the data of all the rights with level greater or equal than nLevel
-     * and returns them in form of a collection
+     * Loads the data of all the rights with level greater or equal than nLevel and returns them in form of a collection
      *
-     * @param nLevel The right level
+     * @param nLevel
+     *            The right level
      * @return the collection which contains the data of all the rights
      */
     public Collection<Right> selectRightsList( int nLevel )
     {
-        Collection<Right> rightList = new ArrayList<Right>(  );
+        Collection<Right> rightList = new ArrayList<Right>( );
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL );
         daoUtil.setInt( 1, nLevel );
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
-        while ( daoUtil.next(  ) )
+        while ( daoUtil.next( ) )
         {
-            Right right = new Right(  );
+            Right right = new Right( );
 
             right.setId( daoUtil.getString( 1 ) );
             right.setNameKey( daoUtil.getString( 2 ) );
@@ -204,21 +211,21 @@ public final class RightDAO implements IRightDAO
             rightList.add( right );
         }
 
-        daoUtil.free(  );
+        daoUtil.free( );
 
         return rightList;
     }
 
     /**
-     * Loads the data of all the rights with the specified feature group
-     * and returns them in form of a collection
+     * Loads the data of all the rights with the specified feature group and returns them in form of a collection
      *
-     * @param strFeatureGroup the name of the feature group
+     * @param strFeatureGroup
+     *            the name of the feature group
      * @return the collection which contains the data of all the rights
      */
     public Collection<Right> selectRightsList( String strFeatureGroup )
     {
-        Collection<Right> rightList = new ArrayList<Right>(  );
+        Collection<Right> rightList = new ArrayList<Right>( );
         String strQuery = SQL_QUERY_SELECTALL_FOR_FEATUREGROUP;
 
         if ( strFeatureGroup == null )
@@ -233,11 +240,11 @@ public final class RightDAO implements IRightDAO
             daoUtil.setString( 1, strFeatureGroup );
         }
 
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
-        while ( daoUtil.next(  ) )
+        while ( daoUtil.next( ) )
         {
-            Right right = new Right(  );
+            Right right = new Right( );
 
             right.setId( daoUtil.getString( 1 ) );
             right.setNameKey( daoUtil.getString( 2 ) );
@@ -253,7 +260,7 @@ public final class RightDAO implements IRightDAO
             rightList.add( right );
         }
 
-        daoUtil.free(  );
+        daoUtil.free( );
 
         return rightList;
     }

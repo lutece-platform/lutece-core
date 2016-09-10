@@ -60,12 +60,10 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-
 /**
- * This class delivers Extra pages (xpages) to web components. An XPage is a page where the content is provided by a
- * specific class, but should be integrated into the portal struture and design. XPageApps are identified by a key
- * name.
- * To display an XPage into the portal just call the following url :<br><code>
+ * This class delivers Extra pages (xpages) to web components. An XPage is a page where the content is provided by a specific class, but should be integrated
+ * into the portal struture and design. XPageApps are identified by a key name. To display an XPage into the portal just call the following url :<br>
+ * <code>
  * Portal.jsp?page=<i>keyname</i>&amp;param1=value1&amp; ...&amp;paramN=valueN </code>
  *
  * @see fr.paris.lutece.portal.web.xpages.XPage
@@ -76,53 +74,50 @@ public class XPageAppService extends ContentService
     private static final String CONTENT_SERVICE_NAME = "XPageAppService";
     private static final String MESSAGE_ERROR_APP_BODY = "portal.util.message.errorXpageApp";
     private static final String ATTRIBUTE_XPAGE = "LUTECE_XPAGE_";
-    private static Map<String, XPageApplicationEntry> _mapApplications = new HashMap<String, XPageApplicationEntry>(  );
+    private static Map<String, XPageApplicationEntry> _mapApplications = new HashMap<String, XPageApplicationEntry>( );
 
     /**
      * Register an application by its entry defined in the plugin xml file
-     * @param entry The application entry
-     * @throws LuteceInitException If an error occured
+     * 
+     * @param entry
+     *            The application entry
+     * @throws LuteceInitException
+     *             If an error occured
      */
-    public static void registerXPageApplication( XPageApplicationEntry entry )
-        throws LuteceInitException
+    public static void registerXPageApplication( XPageApplicationEntry entry ) throws LuteceInitException
     {
         try
         {
-            if ( entry.getClassName(  ) == null )
+            if ( entry.getClassName( ) == null )
             {
-                String applicationBeanName = entry.getPluginName(  ) + ".xpage." + entry.getId(  );
+                String applicationBeanName = entry.getPluginName( ) + ".xpage." + entry.getId( );
 
-                if ( !SpringContextService.getContext(  ).containsBean( applicationBeanName ) )
+                if ( !SpringContextService.getContext( ).containsBean( applicationBeanName ) )
                 {
-                    throw new LuteceInitException( "Error instantiating XPageApplication : " + entry.getId(  ) +
-                        " - Could not find bean named " + applicationBeanName,
-                        new NoSuchBeanDefinitionException( applicationBeanName ) );
+                    throw new LuteceInitException( "Error instantiating XPageApplication : " + entry.getId( ) + " - Could not find bean named "
+                            + applicationBeanName, new NoSuchBeanDefinitionException( applicationBeanName ) );
                 }
             }
             else
             {
                 // check that the class can be found
-                Class.forName( entry.getClassName(  ) ).newInstance(  );
+                Class.forName( entry.getClassName( ) ).newInstance( );
             }
 
-            _mapApplications.put( entry.getId(  ), entry );
-            AppLogService.info( "New XPage application registered : " + entry.getId(  )
-                    + ( entry.isEnabled(  ) ? "" : " (disabled)" ) );
+            _mapApplications.put( entry.getId( ), entry );
+            AppLogService.info( "New XPage application registered : " + entry.getId( ) + ( entry.isEnabled( ) ? "" : " (disabled)" ) );
         }
-        catch ( ClassNotFoundException e )
+        catch( ClassNotFoundException e )
         {
-            throw new LuteceInitException( "Error instantiating XPageApplication : " + entry.getId(  ) + " - " +
-                e.getCause(  ), e );
+            throw new LuteceInitException( "Error instantiating XPageApplication : " + entry.getId( ) + " - " + e.getCause( ), e );
         }
-        catch ( InstantiationException e )
+        catch( InstantiationException e )
         {
-            throw new LuteceInitException( "Error instantiating XPageApplication : " + entry.getId(  ) + " - " +
-                e.getCause(  ), e );
+            throw new LuteceInitException( "Error instantiating XPageApplication : " + entry.getId( ) + " - " + e.getCause( ), e );
         }
-        catch ( IllegalAccessException e )
+        catch( IllegalAccessException e )
         {
-            throw new LuteceInitException( "Error instantiating XPageApplication : " + entry.getId(  ) + " - " +
-                e.getCause(  ), e );
+            throw new LuteceInitException( "Error instantiating XPageApplication : " + entry.getId( ) + " - " + e.getCause( ), e );
         }
     }
 
@@ -132,7 +127,7 @@ public class XPageAppService extends ContentService
      * @return The name as a String
      */
     @Override
-    public String getName(  )
+    public String getName( )
     {
         return CONTENT_SERVICE_NAME;
     }
@@ -140,7 +135,8 @@ public class XPageAppService extends ContentService
     /**
      * Analyzes request parameters to see if the request should be handled by the current Content Service
      *
-     * @param request The HTTP request
+     * @param request
+     *            The HTTP request
      * @return true if this ContentService should handle this request
      */
     @Override
@@ -148,7 +144,7 @@ public class XPageAppService extends ContentService
     {
         String strXPage = request.getParameter( PARAM_XPAGE_APP );
 
-        if ( ( strXPage != null ) && ( strXPage.length(  ) > 0 ) )
+        if ( ( strXPage != null ) && ( strXPage.length( ) > 0 ) )
         {
             return true;
         }
@@ -159,7 +155,8 @@ public class XPageAppService extends ContentService
     /**
      * Enable or disable the cache feature.
      *
-     * @param bCache true to enable the cache, false to disable
+     * @param bCache
+     *            true to enable the cache, false to disable
      */
     public void setCache( boolean bCache )
     {
@@ -171,7 +168,7 @@ public class XPageAppService extends ContentService
      * @return true if enable, otherwise false
      */
     @Override
-    public boolean isCacheEnable(  )
+    public boolean isCacheEnable( )
     {
         return false;
     }
@@ -180,7 +177,7 @@ public class XPageAppService extends ContentService
      * Reset the cache.
      */
     @Override
-    public void resetCache(  )
+    public void resetCache( )
     {
     }
 
@@ -190,7 +187,7 @@ public class XPageAppService extends ContentService
      * @return the number of item currently in the cache.
      */
     @Override
-    public int getCacheSize(  )
+    public int getCacheSize( )
     {
         return 0;
     }
@@ -198,15 +195,18 @@ public class XPageAppService extends ContentService
     /**
      * Build the XPage content.
      *
-     * @param request The HTTP request.
-     * @param nMode The current mode.
+     * @param request
+     *            The HTTP request.
+     * @param nMode
+     *            The current mode.
      * @return The HTML code of the page.
-     * @throws UserNotSignedException The User Not Signed Exception
-     * @throws SiteMessageException occurs when a site message need to be displayed
+     * @throws UserNotSignedException
+     *             The User Not Signed Exception
+     * @throws SiteMessageException
+     *             occurs when a site message need to be displayed
      */
     @Override
-    public String getPage( HttpServletRequest request, int nMode )
-        throws UserNotSignedException, SiteMessageException
+    public String getPage( HttpServletRequest request, int nMode ) throws UserNotSignedException, SiteMessageException
     {
         // Gets XPage info from the lutece.properties
         String strName = request.getParameter( PARAM_XPAGE_APP );
@@ -214,14 +214,14 @@ public class XPageAppService extends ContentService
         XPageApplicationEntry entry = getApplicationEntry( strName );
 
         // TODO : Handle entry == null
-        if ( ( entry != null ) && ( entry.isEnable(  ) ) )
+        if ( ( entry != null ) && ( entry.isEnable( ) ) )
         {
             XPage page = null;
-            List<String> listRoles = entry.getRoles(  );
+            List<String> listRoles = entry.getRoles( );
 
-            if ( SecurityService.isAuthenticationEnable(  ) && ( listRoles.size(  ) > 0 ) )
+            if ( SecurityService.isAuthenticationEnable( ) && ( listRoles.size( ) > 0 ) )
             {
-                LuteceUser user = SecurityService.getInstance(  ).getRegisteredUser( request );
+                LuteceUser user = SecurityService.getInstance( ).getRegisteredUser( request );
 
                 if ( user != null )
                 {
@@ -229,7 +229,7 @@ public class XPageAppService extends ContentService
 
                     for ( String strRole : listRoles )
                     {
-                        if ( SecurityService.getInstance(  ).isUserInRole( request, strRole ) )
+                        if ( SecurityService.getInstance( ).isUserInRole( request, strRole ) )
                         {
                             bAutorized = true;
                         }
@@ -238,56 +238,55 @@ public class XPageAppService extends ContentService
                     if ( bAutorized )
                     {
                         XPageApplication application = getXPageSessionInstance( request, entry );
-                        page = application.getPage( request, nMode, entry.getPlugin(  ) );
+                        page = application.getPage( request, nMode, entry.getPlugin( ) );
                     }
                     else
                     {
                         // The user doesn't have the correct role
-                        String strAccessDeniedTemplate = SecurityService.getInstance(  ).getAccessDeniedTemplate(  );
+                        String strAccessDeniedTemplate = SecurityService.getInstance( ).getAccessDeniedTemplate( );
                         HtmlTemplate tAccessDenied = AppTemplateService.getTemplate( strAccessDeniedTemplate );
-                        page = new XPage(  );
-                        page.setContent( tAccessDenied.getHtml(  ) );
+                        page = new XPage( );
+                        page.setContent( tAccessDenied.getHtml( ) );
                     }
                 }
                 else
                 {
-                    throw new UserNotSignedException(  );
+                    throw new UserNotSignedException( );
                 }
             }
             else
             {
                 XPageApplication application = getXPageSessionInstance( request, entry );
-                page = application.getPage( request, nMode, entry.getPlugin(  ) );
+                page = application.getPage( request, nMode, entry.getPlugin( ) );
             }
 
-            if ( page.isStandalone(  ) )
+            if ( page.isStandalone( ) )
             {
-                return page.getContent(  );
+                return page.getContent( );
             }
 
-            PageData data = new PageData(  );
+            PageData data = new PageData( );
 
-            data.setContent( page.getContent(  ) );
-            data.setName( page.getTitle(  ) );
+            data.setContent( page.getContent( ) );
+            data.setName( page.getTitle( ) );
 
             // set the page path. Done by adding the extra-path information to the pathLabel.
-            String strXml = page.getXmlExtendedPathLabel(  );
+            String strXml = page.getXmlExtendedPathLabel( );
 
             if ( strXml == null )
             {
-                data.setPagePath( PortalService.getXPagePathContent( page.getPathLabel(  ), 0, request ) );
+                data.setPagePath( PortalService.getXPagePathContent( page.getPathLabel( ), 0, request ) );
             }
             else
             {
-                data.setPagePath( PortalService.getXPagePathContent( page.getPathLabel(  ), 0, strXml, request ) );
+                data.setPagePath( PortalService.getXPagePathContent( page.getPathLabel( ), 0, strXml, request ) );
             }
 
             return PortalService.buildPageContent( data, nMode, request );
         }
         else
         {
-            AppLogService.error( "The specified Xpage '" + strName +
-                "' cannot be retrieved. Check installation of your Xpage application." );
+            AppLogService.error( "The specified Xpage '" + strName + "' cannot be retrieved. Check installation of your Xpage application." );
             SiteMessageService.setMessage( request, MESSAGE_ERROR_APP_BODY, SiteMessage.TYPE_ERROR );
 
             return null; // unreachable because SiteMessageService.setMessage throws
@@ -296,7 +295,9 @@ public class XPageAppService extends ContentService
 
     /**
      * Gets Application entry by name
-     * @param strName The application's name
+     * 
+     * @param strName
+     *            The application's name
      * @return The entry
      */
     public static XPageApplicationEntry getApplicationEntry( String strName )
@@ -306,31 +307,34 @@ public class XPageAppService extends ContentService
 
     /**
      * Gets applications list
+     * 
      * @return A collection of applications
      */
-    public static Collection<XPageApplicationEntry> getXPageApplicationsList(  )
+    public static Collection<XPageApplicationEntry> getXPageApplicationsList( )
     {
-        return _mapApplications.values(  );
+        return _mapApplications.values( );
     }
 
     /**
      * Return an instance of the XPage attached to the current Http Session
-     * @param request The HTTP request
-     * @param entry The XPage entry
+     * 
+     * @param request
+     *            The HTTP request
+     * @param entry
+     *            The XPage entry
      * @return The XPage instance
      */
     private static XPageApplication getXPageSessionInstance( HttpServletRequest request, XPageApplicationEntry entry )
     {
         HttpSession session = request.getSession( true );
-        String strAttribute = ATTRIBUTE_XPAGE + entry.getId(  );
+        String strAttribute = ATTRIBUTE_XPAGE + entry.getId( );
         XPageApplication application = (XPageApplication) session.getAttribute( strAttribute );
 
         if ( application == null )
         {
             application = getApplicationInstance( entry );
             session.setAttribute( strAttribute, application );
-            AppLogService.debug( "New XPage instance of " + entry.getClassName(  ) +
-                " created and attached to session " + session );
+            AppLogService.debug( "New XPage instance of " + entry.getClassName( ) + " created and attached to session " + session );
         }
 
         return application;
@@ -338,7 +342,9 @@ public class XPageAppService extends ContentService
 
     /**
      * Get an XPage instance
-     * @param entry The Xpage entry
+     * 
+     * @param entry
+     *            The Xpage entry
      * @return An instance of a given XPage
      */
     public static XPageApplication getApplicationInstance( XPageApplicationEntry entry )
@@ -347,19 +353,18 @@ public class XPageAppService extends ContentService
 
         try
         {
-            if ( entry.getClassName(  ) == null )
+            if ( entry.getClassName( ) == null )
             {
-                application = SpringContextService.getBean( entry.getPluginName(  ) + ".xpage." + entry.getId(  ) );
+                application = SpringContextService.getBean( entry.getPluginName( ) + ".xpage." + entry.getId( ) );
             }
             else
             {
-                application = (XPageApplication) Class.forName( entry.getClassName(  ) ).newInstance(  );
+                application = (XPageApplication) Class.forName( entry.getClassName( ) ).newInstance( );
             }
         }
-        catch ( Exception e )
+        catch( Exception e )
         {
-            throw new AppException( "Error instantiating XPageApplication : " + entry.getId(  ) + " - " +
-                e.getCause(  ), e );
+            throw new AppException( "Error instantiating XPageApplication : " + entry.getId( ) + " - " + e.getCause( ), e );
         }
 
         return application;

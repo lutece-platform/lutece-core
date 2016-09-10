@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -43,12 +43,9 @@ import org.apache.commons.lang.StringUtils;
 
 import java.util.Locale;
 
-
 /**
- * This class is used for rbac control configuration.
- * A role is associated to controls (given by the permission key) on resources
- * (identified by a resource type and a resource id).
- * Wilcards can be used for resource ids and permission keys.
+ * This class is used for rbac control configuration. A role is associated to controls (given by the permission key) on resources (identified by a resource type
+ * and a resource id). Wilcards can be used for resource ids and permission keys.
  */
 public class RBAC implements Localizable
 {
@@ -63,7 +60,9 @@ public class RBAC implements Localizable
 
     /**
      * Implements Localizable
-     * @param locale The current locale
+     * 
+     * @param locale
+     *            The current locale
      */
     public void setLocale( Locale locale )
     {
@@ -72,16 +71,19 @@ public class RBAC implements Localizable
 
     /**
      * Returns the RBAC ID
+     * 
      * @return The RBAC ID
      */
-    public int getRBACId(  )
+    public int getRBACId( )
     {
         return _nRBACId;
     }
 
     /**
      * Sets the RBAC ID
-     * @param nRBACId The RBAC Id to set
+     * 
+     * @param nRBACId
+     *            The RBAC Id to set
      */
     public void setRBACId( int nRBACId )
     {
@@ -90,16 +92,19 @@ public class RBAC implements Localizable
 
     /**
      * Returns the Permission Key
+     * 
      * @return The Permission Key
      */
-    public String getPermissionKey(  )
+    public String getPermissionKey( )
     {
         return _strPermissionKey;
     }
 
     /**
      * Sets the Permission Key
-     * @param strPermissionKey The Permission Key to set
+     * 
+     * @param strPermissionKey
+     *            The Permission Key to set
      */
     public void setPermissionKey( String strPermissionKey )
     {
@@ -108,16 +113,19 @@ public class RBAC implements Localizable
 
     /**
      * Returns the Resource Id
+     * 
      * @return The Resource Id
      */
-    public String getResourceId(  )
+    public String getResourceId( )
     {
         return _strResourceId;
     }
 
     /**
      * Sets the Resource Id
-     * @param strResourceId The Resource Id to set
+     * 
+     * @param strResourceId
+     *            The Resource Id to set
      */
     public void setResourceId( String strResourceId )
     {
@@ -126,16 +134,19 @@ public class RBAC implements Localizable
 
     /**
      * Returns the Resource Type Key
+     * 
      * @return The Resource Type Key.
      */
-    public String getResourceTypeKey(  )
+    public String getResourceTypeKey( )
     {
         return _strResourceTypeKey;
     }
 
     /**
      * Sets the Resource Type Key
-     * @param strResourceTypeKey The Resource Type Key to set.
+     * 
+     * @param strResourceTypeKey
+     *            The Resource Type Key to set.
      */
     public void setResourceTypeKey( String strResourceTypeKey )
     {
@@ -144,16 +155,19 @@ public class RBAC implements Localizable
 
     /**
      * Returns the Role Key.
+     * 
      * @return The Role Key.
      */
-    public String getRoleKey(  )
+    public String getRoleKey( )
     {
         return _strRoleKey;
     }
 
     /**
      * Sets the Role Key
-     * @param strRoleKey The Role Key to set.
+     * 
+     * @param strRoleKey
+     *            The Role Key to set.
      */
     public void setRoleKey( String strRoleKey )
     {
@@ -162,15 +176,16 @@ public class RBAC implements Localizable
 
     /**
      * Retrieve the label of the resource type from the resource type key
+     * 
      * @return the label of the resource type
      */
-    public String getResourceTypeLabel(  )
+    public String getResourceTypeLabel( )
     {
-        ResourceType resourceType = ResourceTypeManager.getResourceType( getResourceTypeKey(  ) );
+        ResourceType resourceType = ResourceTypeManager.getResourceType( getResourceTypeKey( ) );
 
         if ( resourceType != null )
         {
-            return resourceType.getResourceTypeLabel(  );
+            return resourceType.getResourceTypeLabel( );
         }
 
         return StringUtils.EMPTY;
@@ -178,26 +193,27 @@ public class RBAC implements Localizable
 
     /**
      * Retrieve the label of the resource from the resource id
+     * 
      * @return the label of the resource
      */
-    public String getResourceIdLabel(  )
+    public String getResourceIdLabel( )
     {
-        if ( getResourceId(  ).equals( WILDCARD_RESOURCES_ID ) )
+        if ( getResourceId( ).equals( WILDCARD_RESOURCES_ID ) )
         {
             return WILDCARD_RESOURCES_ID;
         }
         else
         {
-            ResourceType resourceType = ResourceTypeManager.getResourceType( getResourceTypeKey(  ) );
+            ResourceType resourceType = ResourceTypeManager.getResourceType( getResourceTypeKey( ) );
 
             if ( resourceType != null )
             {
-                ResourceIdService resourceManagerService = resourceType.getResourceIdService(  );
-                String strTitle = StringUtils.EMPTY ;
-                
-                if ( resourceManagerService!= null )
+                ResourceIdService resourceManagerService = resourceType.getResourceIdService( );
+                String strTitle = StringUtils.EMPTY;
+
+                if ( resourceManagerService != null )
                 {
-                	strTitle = resourceManagerService.getTitle( getResourceId(  ), _locale );
+                    strTitle = resourceManagerService.getTitle( getResourceId( ), _locale );
                 }
                 if ( strTitle != null && StringUtils.isNotEmpty( strTitle ) )
                 {
@@ -205,7 +221,7 @@ public class RBAC implements Localizable
                 }
                 else
                 {
-                    return getResourceId(  );
+                    return getResourceId( );
                 }
             }
 
@@ -215,27 +231,28 @@ public class RBAC implements Localizable
 
     /**
      * Retrieve the label of the permission from the permission key
+     * 
      * @return the label of the permission
      */
-    public String getPermissionLabel(  )
+    public String getPermissionLabel( )
     {
-        if ( getPermissionKey(  ).equals( WILDCARD_PERMISSIONS_KEY ) )
+        if ( getPermissionKey( ).equals( WILDCARD_PERMISSIONS_KEY ) )
         {
             return WILDCARD_PERMISSIONS_KEY;
         }
         else
         {
-            ResourceType resourceType = ResourceTypeManager.getResourceType( getResourceTypeKey(  ) );
+            ResourceType resourceType = ResourceTypeManager.getResourceType( getResourceTypeKey( ) );
             if ( resourceType != null )
             {
-            	Permission permission = resourceType.getPermission( getPermissionKey(  ) );
-            	if ( permission != null )
-            	{
-            		permission.setLocale( _locale );
-            		return  permission.getPermissionTitle(  );
-            	}
+                Permission permission = resourceType.getPermission( getPermissionKey( ) );
+                if ( permission != null )
+                {
+                    permission.setLocale( _locale );
+                    return permission.getPermissionTitle( );
+                }
             }
         }
-        return StringUtils.EMPTY ;
+        return StringUtils.EMPTY;
     }
 }

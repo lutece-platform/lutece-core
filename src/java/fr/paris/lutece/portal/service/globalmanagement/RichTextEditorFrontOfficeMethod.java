@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -37,7 +37,6 @@ import freemarker.template.TemplateMethodModel;
 
 import java.util.List;
 
-
 /**
  *
  * RichTextEditorFrontOfficeMethod
@@ -47,12 +46,14 @@ public class RichTextEditorFrontOfficeMethod implements TemplateMethodModel
 {
     /**
      * Get the name of the default editor for front office. This class should only be used inside a freemarker template.
-     * @param arg0 Unused
+     * 
+     * @param arg0
+     *            Unused
      * @return The name of the default editor for front office.
      */
     @Override
     public Object exec( List arg0 )
     {
-        return RichTextEditorService.getFrontOfficeDefaultEditor(  );
+        return RichTextEditorService.getFrontOfficeDefaultEditor( );
     }
 }

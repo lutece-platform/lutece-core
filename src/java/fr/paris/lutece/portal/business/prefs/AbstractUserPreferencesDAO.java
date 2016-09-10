@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -38,37 +38,28 @@ import fr.paris.lutece.util.sql.DAOUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
  * User Preferences DAO
  */
 public abstract class AbstractUserPreferencesDAO implements IPreferencesDAO
 {
-    private final String _strSqlSelect = "SELECT pref_value FROM " + getPreferencesTable(  ) +
-        " WHERE id_user = ? AND pref_key = ?";
-    private final String _strSqlInsert = "INSERT INTO " + getPreferencesTable(  ) +
-        " ( pref_value , id_user, pref_key ) VALUES ( ?, ?, ? ) ";
-    private final String _strSqlUpdate = "UPDATE " + getPreferencesTable(  ) +
-        " SET pref_value = ? WHERE id_user = ? AND pref_key = ?";
-    private final String _strSqlDelete = "DELETE FROM " + getPreferencesTable(  ) + " WHERE id_user = ? ";
-    private final String _strSqlSelectAll = "SELECT pref_key FROM " + getPreferencesTable(  ) + " WHERE id_user = ?";
-    private final String _strSqlSelectByValue = "SELECT id_user FROM " + getPreferencesTable(  ) +
-        " WHERE pref_key = ? AND pref_value = ? ";
-    private final String _strSqlDeleteKey = "DELETE FROM " + getPreferencesTable(  ) +
-        " WHERE id_user = ? AND pref_key = ? ";
-    private final String _strSqlDeleteKeyPrefix = "DELETE FROM " + getPreferencesTable(  ) +
-        " WHERE id_user = ? AND pref_key LIKE ? ";
-    private final String _strSqlSelectCount = "SELECT COUNT(*) FROM " + getPreferencesTable(  ) +
-        " WHERE id_user = ? AND pref_key = ?";
-    private final String _strSqlSelectCountPrefValue = "SELECT COUNT(*) FROM " + getPreferencesTable(  ) +
-            " WHERE pref_key = ? AND pref_value = ?";
-        
+    private final String _strSqlSelect = "SELECT pref_value FROM " + getPreferencesTable( ) + " WHERE id_user = ? AND pref_key = ?";
+    private final String _strSqlInsert = "INSERT INTO " + getPreferencesTable( ) + " ( pref_value , id_user, pref_key ) VALUES ( ?, ?, ? ) ";
+    private final String _strSqlUpdate = "UPDATE " + getPreferencesTable( ) + " SET pref_value = ? WHERE id_user = ? AND pref_key = ?";
+    private final String _strSqlDelete = "DELETE FROM " + getPreferencesTable( ) + " WHERE id_user = ? ";
+    private final String _strSqlSelectAll = "SELECT pref_key FROM " + getPreferencesTable( ) + " WHERE id_user = ?";
+    private final String _strSqlSelectByValue = "SELECT id_user FROM " + getPreferencesTable( ) + " WHERE pref_key = ? AND pref_value = ? ";
+    private final String _strSqlDeleteKey = "DELETE FROM " + getPreferencesTable( ) + " WHERE id_user = ? AND pref_key = ? ";
+    private final String _strSqlDeleteKeyPrefix = "DELETE FROM " + getPreferencesTable( ) + " WHERE id_user = ? AND pref_key LIKE ? ";
+    private final String _strSqlSelectCount = "SELECT COUNT(*) FROM " + getPreferencesTable( ) + " WHERE id_user = ? AND pref_key = ?";
+    private final String _strSqlSelectCountPrefValue = "SELECT COUNT(*) FROM " + getPreferencesTable( ) + " WHERE pref_key = ? AND pref_value = ?";
 
     /**
      * Gets the preferences table
+     * 
      * @return The table name that stores preferences
      */
-    abstract String getPreferencesTable(  );
+    abstract String getPreferencesTable( );
 
     /**
      * {@inheritDoc }
@@ -79,16 +70,16 @@ public abstract class AbstractUserPreferencesDAO implements IPreferencesDAO
         DAOUtil daoUtil = new DAOUtil( _strSqlSelect );
         daoUtil.setString( 1, strUserId );
         daoUtil.setString( 2, strKey );
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
         String strValue = strDefault;
 
-        if ( daoUtil.next(  ) )
+        if ( daoUtil.next( ) )
         {
             strValue = ( daoUtil.getString( 1 ) );
         }
 
-        daoUtil.free(  );
+        daoUtil.free( );
 
         return strValue;
     }
@@ -99,18 +90,18 @@ public abstract class AbstractUserPreferencesDAO implements IPreferencesDAO
     @Override
     public List<String> getUserId( String strKey, String strValue )
     {
-        List<String> listUserId = new ArrayList<String>(  );
+        List<String> listUserId = new ArrayList<String>( );
         DAOUtil daoUtil = new DAOUtil( _strSqlSelectByValue );
         daoUtil.setString( 1, strKey );
         daoUtil.setString( 2, strValue );
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
-        while ( daoUtil.next(  ) )
+        while ( daoUtil.next( ) )
         {
             listUserId.add( daoUtil.getString( 1 ) );
         }
 
-        daoUtil.free(  );
+        daoUtil.free( );
 
         return listUserId;
     }
@@ -134,8 +125,8 @@ public abstract class AbstractUserPreferencesDAO implements IPreferencesDAO
         daoUtil.setString( 2, strUserId );
         daoUtil.setString( 3, strKey );
 
-        daoUtil.executeUpdate(  );
-        daoUtil.free(  );
+        daoUtil.executeUpdate( );
+        daoUtil.free( );
     }
 
     /**
@@ -144,17 +135,17 @@ public abstract class AbstractUserPreferencesDAO implements IPreferencesDAO
     @Override
     public List<String> keys( String strUserId )
     {
-        List<String> list = new ArrayList<String>(  );
+        List<String> list = new ArrayList<String>( );
         DAOUtil daoUtil = new DAOUtil( _strSqlSelectAll );
         daoUtil.setString( 1, strUserId );
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
-        while ( daoUtil.next(  ) )
+        while ( daoUtil.next( ) )
         {
             list.add( daoUtil.getString( 1 ) );
         }
 
-        daoUtil.free(  );
+        daoUtil.free( );
 
         return list;
     }
@@ -167,8 +158,8 @@ public abstract class AbstractUserPreferencesDAO implements IPreferencesDAO
     {
         DAOUtil daoUtil = new DAOUtil( _strSqlDelete );
         daoUtil.setString( 1, strUserId );
-        daoUtil.executeUpdate(  );
-        daoUtil.free(  );
+        daoUtil.executeUpdate( );
+        daoUtil.free( );
     }
 
     /**
@@ -180,8 +171,8 @@ public abstract class AbstractUserPreferencesDAO implements IPreferencesDAO
         DAOUtil daoUtil = new DAOUtil( _strSqlDeleteKey );
         daoUtil.setString( 1, strUserId );
         daoUtil.setString( 2, strKey );
-        daoUtil.executeUpdate(  );
-        daoUtil.free(  );
+        daoUtil.executeUpdate( );
+        daoUtil.free( );
     }
 
     /**
@@ -193,8 +184,8 @@ public abstract class AbstractUserPreferencesDAO implements IPreferencesDAO
         DAOUtil daoUtil = new DAOUtil( _strSqlDeleteKeyPrefix );
         daoUtil.setString( 1, strUserId );
         daoUtil.setString( 2, "%" + strKeyPrefix );
-        daoUtil.executeUpdate(  );
-        daoUtil.free(  );
+        daoUtil.executeUpdate( );
+        daoUtil.free( );
     }
 
     /**
@@ -206,39 +197,39 @@ public abstract class AbstractUserPreferencesDAO implements IPreferencesDAO
         DAOUtil daoUtil = new DAOUtil( _strSqlSelectCount );
         daoUtil.setString( 1, strUserId );
         daoUtil.setString( 2, strKey );
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
         int nValue = 0;
 
-        if ( daoUtil.next(  ) )
+        if ( daoUtil.next( ) )
         {
             nValue = ( daoUtil.getInt( 1 ) );
         }
 
-        daoUtil.free(  );
+        daoUtil.free( );
 
         return ( nValue != 0 );
     }
-    
+
     /**
      * {@inheritDoc }
      */
     @Override
-    public boolean existsValueForKey( String strKey,String strValue )
+    public boolean existsValueForKey( String strKey, String strValue )
     {
         DAOUtil daoUtil = new DAOUtil( _strSqlSelectCountPrefValue );
         daoUtil.setString( 1, strKey );
         daoUtil.setString( 2, strValue );
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
         int nValue = 0;
 
-        if ( daoUtil.next(  ) )
+        if ( daoUtil.next( ) )
         {
             nValue = ( daoUtil.getInt( 1 ) );
         }
 
-        daoUtil.free(  );
+        daoUtil.free( );
 
         return ( nValue != 0 );
     }

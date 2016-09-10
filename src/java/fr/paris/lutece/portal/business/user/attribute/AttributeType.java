@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -37,7 +37,6 @@ import fr.paris.lutece.portal.service.i18n.I18nService;
 
 import java.util.Locale;
 
-
 /**
  *
  * AttributeType
@@ -51,16 +50,19 @@ public class AttributeType
 
     /**
      * Get label type
+     * 
      * @return label type
      */
-    public String getLabelType(  )
+    public String getLabelType( )
     {
         return _strLabelType;
     }
 
     /**
      * Set label type
-     * @param strLabelType label type
+     * 
+     * @param strLabelType
+     *            label type
      */
     public void setLabelType( String strLabelType )
     {
@@ -72,23 +74,26 @@ public class AttributeType
      *
      * @return the name
      */
-    public String getName(  )
+    public String getName( )
     {
         return I18nService.getLocalizedString( _strLabelType, _locale );
     }
 
     /**
      * Get class name
+     * 
      * @return class name
      */
-    public String getClassName(  )
+    public String getClassName( )
     {
         return _strClassName;
     }
 
     /**
      * Set class name
-     * @param strClassName class name
+     * 
+     * @param strClassName
+     *            class name
      */
     public void setClassName( String strClassName )
     {
@@ -97,7 +102,9 @@ public class AttributeType
 
     /**
      * Set locale
-     * @param locale Locale
+     * 
+     * @param locale
+     *            Locale
      */
     public void setLocale( Locale locale )
     {
@@ -106,9 +113,10 @@ public class AttributeType
 
     /**
      * Get locale
+     * 
      * @return Locale
      */
-    public Locale getLocale(  )
+    public Locale getLocale( )
     {
         return _locale;
     }

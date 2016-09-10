@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -35,7 +35,6 @@ package fr.paris.lutece.portal.business.mail;
 
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 
-
 /**
  * This class provides Data Access methods for MailItemQueue objects
  */
@@ -47,13 +46,15 @@ public final class MailItemQueueHome
     /**
      * Creates a new MailItemQueueHome object.
      */
-    private MailItemQueueHome(  )
+    private MailItemQueueHome( )
     {
     }
 
     /**
      * Insert a new mail item in the database queue.
-     * @param mailItemQueue the mail item to insert
+     * 
+     * @param mailItemQueue
+     *            the mail item to insert
      */
     public static void create( MailItemQueue mailItemQueue )
     {
@@ -61,8 +62,10 @@ public final class MailItemQueueHome
     }
 
     /**
-     * Delete  the mail item record in the table
-     * @param nIdMailItemQueue The indentifier of the mail item to remove
+     * Delete the mail item record in the table
+     * 
+     * @param nIdMailItemQueue
+     *            The indentifier of the mail item to remove
      */
     public static void delete( int nIdMailItemQueue )
     {
@@ -71,16 +74,17 @@ public final class MailItemQueueHome
 
     /**
      * Return the first mail item in the queue
+     * 
      * @return the first mail item in the queue
      */
-    public static MailItemQueue getNextMailItemQueue(  )
+    public static MailItemQueue getNextMailItemQueue( )
     {
-        //get the id of the next mail item queue
-        int nIdMailItemQueue = _dao.nextMailItemQueueId(  );
+        // get the id of the next mail item queue
+        int nIdMailItemQueue = _dao.nextMailItemQueueId( );
 
         if ( nIdMailItemQueue != -1 )
         {
-            //lock the mail item queue before getting mailItemQueue Object
+            // lock the mail item queue before getting mailItemQueue Object
             _dao.lockMailItemQueue( nIdMailItemQueue );
 
             return _dao.load( nIdMailItemQueue );
@@ -93,8 +97,8 @@ public final class MailItemQueueHome
      *
      * @return the number of mail item present in the queue
      */
-    public static int getMailItemNumber(  )
+    public static int getMailItemNumber( )
     {
-        return _dao.getCountMailItem(  );
+        return _dao.getCountMailItem( );
     }
 }

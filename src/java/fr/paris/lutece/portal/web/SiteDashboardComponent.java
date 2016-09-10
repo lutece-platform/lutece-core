@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -50,14 +50,13 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  * SiteDashboardComponent
  */
 public class SiteDashboardComponent extends DashboardComponent
 {
     // CONSTANTS
-    //    private static final int ZONE_1 = 1;
+    // private static final int ZONE_1 = 1;
     private static final String BEAN_PAGE_SERVICE = "pageService";
 
     // MARKS
@@ -73,32 +72,34 @@ public class SiteDashboardComponent extends DashboardComponent
 
     /**
      * The HTML code of the component
-     * @param user The Admin User
-     * @param request HttpServletRequest
+     * 
+     * @param user
+     *            The Admin User
+     * @param request
+     *            HttpServletRequest
      * @return The dashboard component
      */
     @Override
     public String getDashboardData( AdminUser user, HttpServletRequest request )
     {
-        Right right = RightHome.findByPrimaryKey( getRight(  ) );
-        Map<String, Object> model = new HashMap<String, Object>(  );
-        model.put( MARK_URL, right.getUrl(  ) );
-        model.put( MARK_ICON, right.getIconUrl(  ) );
+        Right right = RightHome.findByPrimaryKey( getRight( ) );
+        Map<String, Object> model = new HashMap<String, Object>( );
+        model.put( MARK_URL, right.getUrl( ) );
+        model.put( MARK_ICON, right.getIconUrl( ) );
 
         PageService pageService = (PageService) SpringContextService.getBean( BEAN_PAGE_SERVICE );
-        Page page = PageHome.getLastModifiedPage(  );
+        Page page = PageHome.getLastModifiedPage( );
         model.put( MARK_LAST_MODIFIED_PAGE, page );
-        model.put( MARK_LAST_MODIFIED_PORTLET, PortletHome.getLastModifiedPortlet(  ) );
-        model.put( MARK_PAGES_COUNT, PageHome.getAllPages(  ).size(  ) );
+        model.put( MARK_LAST_MODIFIED_PORTLET, PortletHome.getLastModifiedPortlet( ) );
+        model.put( MARK_PAGES_COUNT, PageHome.getAllPages( ).size( ) );
 
         if ( page != null )
         {
-            model.put( MARK_IMAGE_THUMBNAIL_PAGE_URL,
-                pageService.getResourceImagePage( String.valueOf( page.getId(  ) ) ) );
+            model.put( MARK_IMAGE_THUMBNAIL_PAGE_URL, pageService.getResourceImagePage( String.valueOf( page.getId( ) ) ) );
         }
 
-        HtmlTemplate t = AppTemplateService.getTemplate( TEMPLATE_DASHBOARD, user.getLocale(  ), model );
+        HtmlTemplate t = AppTemplateService.getTemplate( TEMPLATE_DASHBOARD, user.getLocale( ), model );
 
-        return t.getHtml(  );
+        return t.getHtml( );
     }
 }

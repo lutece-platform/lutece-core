@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -40,26 +40,27 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-
 /**
  * Site Properties Service
  */
 public final class SitePropertiesService
 {
     /** Private constructor */
-    private SitePropertiesService(  )
+    private SitePropertiesService( )
     {
     }
 
     /**
      * Gets an localized instance of all groups and properties
-     * @param locale The Locale
+     * 
+     * @param locale
+     *            The Locale
      * @return The list
      */
     public static List<LocalizedDataGroup> getGroups( Locale locale )
     {
         List<ILocalizedSitePropertiesGroup> listGroups = SpringContextService.getBeansOfType( ILocalizedSitePropertiesGroup.class );
-        List<LocalizedDataGroup> listGroup = new ArrayList<LocalizedDataGroup>(  );
+        List<LocalizedDataGroup> listGroup = new ArrayList<LocalizedDataGroup>( );
 
         for ( ILocalizedSitePropertiesGroup group : listGroups )
         {

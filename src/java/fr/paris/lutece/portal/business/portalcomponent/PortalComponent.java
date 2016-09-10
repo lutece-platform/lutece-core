@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,7 +33,6 @@
  */
 package fr.paris.lutece.portal.business.portalcomponent;
 
-
 /**
  * This class reprsents business objects PortalComponent
  */
@@ -47,7 +46,7 @@ public class PortalComponent
      *
      * @return the portal component identifier
      */
-    public int getId(  )
+    public int getId( )
     {
         return _nId;
     }
@@ -55,7 +54,8 @@ public class PortalComponent
     /**
      * Sets the portal component identifier to the specified int
      *
-     * @param nId the portal component identifier
+     * @param nId
+     *            the portal component identifier
      */
     public void setId( int nId )
     {
@@ -67,7 +67,7 @@ public class PortalComponent
      *
      * @return the portal component name
      */
-    public String getName(  )
+    public String getName( )
     {
         return _strName;
     }
@@ -75,7 +75,8 @@ public class PortalComponent
     /**
      * Sets the name of the portal component
      *
-     * @param strName the portal component name
+     * @param strName
+     *            the portal component name
      */
     public void setName( String strName )
     {

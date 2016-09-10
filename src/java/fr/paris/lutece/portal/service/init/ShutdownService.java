@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -35,7 +35,6 @@ package fr.paris.lutece.portal.service.init;
 
 import fr.paris.lutece.portal.service.util.LuteceService;
 
-
 /**
  * Shutdown Service Interface
  */
@@ -44,5 +43,5 @@ public interface ShutdownService extends LuteceService
     /**
      * Run the service
      */
-    void process(  );
+    void process( );
 }

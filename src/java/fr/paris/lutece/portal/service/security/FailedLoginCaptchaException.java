@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -35,7 +35,6 @@ package fr.paris.lutece.portal.service.security;
 
 import javax.security.auth.login.FailedLoginException;
 
-
 /**
  * This Exception should be thrown when an IP failed to login several times, and the authentication service wants to enable Captcha.
  */
@@ -46,18 +45,23 @@ public final class FailedLoginCaptchaException extends FailedLoginException
 
     /**
      * Creates a new instance of FailedLoginCaptchaException
-     * @param bEnableCaptcha True if the captcha should be enabled, false otherwise
+     * 
+     * @param bEnableCaptcha
+     *            True if the captcha should be enabled, false otherwise
      */
     public FailedLoginCaptchaException( boolean bEnableCaptcha )
     {
-        super(  );
+        super( );
         _bEnableCaptcha = bEnableCaptcha;
     }
 
     /**
      * Creates a new instance of FailedLoginCaptchaException
-     * @param strMessage The detail message
-     * @param bEnableCaptcha True if the captcha should be enabled, false otherwise
+     * 
+     * @param strMessage
+     *            The detail message
+     * @param bEnableCaptcha
+     *            True if the captcha should be enabled, false otherwise
      */
     public FailedLoginCaptchaException( String strMessage, boolean bEnableCaptcha )
     {
@@ -67,9 +71,10 @@ public final class FailedLoginCaptchaException extends FailedLoginException
 
     /**
      * Check if the captcha should be enabled
+     * 
      * @return True if the captcha should be enabled, false otherwise
      */
-    public boolean isCaptchaEnabled(  )
+    public boolean isCaptchaEnabled( )
     {
         return _bEnableCaptcha;
     }

@@ -38,7 +38,6 @@ import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.MokeHttpServletRequest;
 
-
 /**
  * SearchIndexationJspBean Test Class
  *
@@ -48,14 +47,14 @@ public class SearchIndexationJspBeanTest extends LuteceTestCase
     /**
      * Test of getIndexingProperties method, of class fr.paris.lutece.portal.web.search.SearchIndexationJspBean.
      */
-    public void testGetIndexingProperties(  ) throws AccessDeniedException
+    public void testGetIndexingProperties( ) throws AccessDeniedException
     {
         System.out.println( "getIndexingProperties" );
 
-        MokeHttpServletRequest request = new MokeHttpServletRequest(  );
-        request.registerAdminUserWithRigth( new AdminUser(  ), SearchIndexationJspBean.RIGHT_INDEXER );
+        MokeHttpServletRequest request = new MokeHttpServletRequest( );
+        request.registerAdminUserWithRigth( new AdminUser( ), SearchIndexationJspBean.RIGHT_INDEXER );
 
-        SearchIndexationJspBean instance = new SearchIndexationJspBean(  );
+        SearchIndexationJspBean instance = new SearchIndexationJspBean( );
         instance.init( request, SearchIndexationJspBean.RIGHT_INDEXER );
         instance.getIndexingProperties( request );
     }
@@ -63,14 +62,14 @@ public class SearchIndexationJspBeanTest extends LuteceTestCase
     /**
      * Test of doIndexing method, of class fr.paris.lutece.portal.web.search.SearchIndexationJspBean.
      */
-    public void testDoIndexing(  ) throws AccessDeniedException
+    public void testDoIndexing( ) throws AccessDeniedException
     {
         System.out.println( "doIndexing" );
 
-        MokeHttpServletRequest request = new MokeHttpServletRequest(  );
-        SearchIndexationJspBean instance = new SearchIndexationJspBean(  );
+        MokeHttpServletRequest request = new MokeHttpServletRequest( );
+        SearchIndexationJspBean instance = new SearchIndexationJspBean( );
 
-        request.registerAdminUserWithRigth( new AdminUser(  ), SearchIndexationJspBean.RIGHT_INDEXER );
+        request.registerAdminUserWithRigth( new AdminUser( ), SearchIndexationJspBean.RIGHT_INDEXER );
         instance.init( request, SearchIndexationJspBean.RIGHT_INDEXER );
         instance.doIndexing( request );
     }

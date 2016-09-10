@@ -36,11 +36,11 @@ package fr.paris.lutece.util.html;
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
- * Paginator provides a way to display a collection of items on severals pages.
- * <strong>This implementation requires all items</strong>
- * @param <E> Item of the list
+ * Paginator provides a way to display a collection of items on severals pages. <strong>This implementation requires all items</strong>
+ * 
+ * @param <E>
+ *            Item of the list
  */
 public class Paginator<E> extends AbstractPaginator<E>
 {
@@ -48,17 +48,22 @@ public class Paginator<E> extends AbstractPaginator<E>
 
     /**
      * Creates a new instance of Paginator
-     * @param list The collection to paginate
-     * @param nItemPerPage Number of items to display per page
-     * @param strBaseUrl The base Url for build links on each page link
-     * @param strPageIndexParameterName The parameter name for the page index
-     * @param strPageIndex The current page index
+     * 
+     * @param list
+     *            The collection to paginate
+     * @param nItemPerPage
+     *            Number of items to display per page
+     * @param strBaseUrl
+     *            The base Url for build links on each page link
+     * @param strPageIndexParameterName
+     *            The parameter name for the page index
+     * @param strPageIndex
+     *            The current page index
      */
-    public Paginator( List<E> list, int nItemPerPage, String strBaseUrl, String strPageIndexParameterName,
-        String strPageIndex )
+    public Paginator( List<E> list, int nItemPerPage, String strBaseUrl, String strPageIndexParameterName, String strPageIndex )
     {
         _list = list;
-        _nItemsCount = _list.size(  );
+        _nItemsCount = _list.size( );
         _nItemPerPage = ( nItemPerPage <= 0 ) ? 1 : nItemPerPage;
         _strBaseUrl = strBaseUrl;
         _strPageIndexParameterName = strPageIndexParameterName;
@@ -68,13 +73,13 @@ public class Paginator<E> extends AbstractPaginator<E>
         {
             _nPageCurrent = Integer.parseInt( strPageIndex );
         }
-        catch ( NumberFormatException e )
+        catch( NumberFormatException e )
         {
             // strPageIndex invalid, use 1 as default page index.
             _nPageCurrent = 1;
         }
 
-        if ( _nPageCurrent > getPagesCount(  ) )
+        if ( _nPageCurrent > getPagesCount( ) )
         {
             _nPageCurrent = 1;
         }
@@ -82,16 +87,22 @@ public class Paginator<E> extends AbstractPaginator<E>
 
     /**
      * Creates a new instance of Paginator
-     * @param list The collection to paginate
-     * @param nItemPerPage Number of items to display per page
-     * @param strBaseUrl The base Url for build links on each page link
-     * @param strPageIndexParameterName The parameter name for the page index
-     * @param strPageIndex The current page index
-     * @param strItemsPerPageParameterName The parameter name of the number
-     *            items per page
+     * 
+     * @param list
+     *            The collection to paginate
+     * @param nItemPerPage
+     *            Number of items to display per page
+     * @param strBaseUrl
+     *            The base Url for build links on each page link
+     * @param strPageIndexParameterName
+     *            The parameter name for the page index
+     * @param strPageIndex
+     *            The current page index
+     * @param strItemsPerPageParameterName
+     *            The parameter name of the number items per page
      */
-    public Paginator( List<E> list, int nItemPerPage, String strBaseUrl, String strPageIndexParameterName,
-        String strPageIndex, String strItemsPerPageParameterName )
+    public Paginator( List<E> list, int nItemPerPage, String strBaseUrl, String strPageIndexParameterName, String strPageIndex,
+            String strItemsPerPageParameterName )
     {
         this( list, nItemPerPage, strBaseUrl, strPageIndexParameterName, strPageIndex );
         _strItemsPerPageParameterName = strItemsPerPageParameterName;
@@ -101,7 +112,7 @@ public class Paginator<E> extends AbstractPaginator<E>
      * {@inheritDoc}
      */
     @Override
-    public List<E> getPageItems(  )
+    public List<E> getPageItems( )
     {
         int nStartIndex = ( _nPageCurrent - 1 ) * _nItemPerPage;
         int nMax = _nItemsCount;
@@ -112,7 +123,7 @@ public class Paginator<E> extends AbstractPaginator<E>
             nMax = nMaxPage;
         }
 
-        List<E> list = new ArrayList<E>(  );
+        List<E> list = new ArrayList<E>( );
 
         for ( int i = nStartIndex; i < nMax; i++ )
         {

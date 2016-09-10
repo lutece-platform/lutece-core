@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -47,7 +47,6 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
 /**
  * MainFilter
  */
@@ -58,97 +57,100 @@ public class MainFilter implements Filter
      */
     public void init( FilterConfig config ) throws ServletException
     {
-        FilterService.setServletContext( config.getServletContext(  ) );
+        FilterService.setServletContext( config.getServletContext( ) );
     }
 
     /**
      * {@inheritDoc}
      */
-    public void doFilter( ServletRequest requestServlet, ServletResponse responseServlet, FilterChain chain )
-        throws IOException, ServletException
+    public void doFilter( ServletRequest requestServlet, ServletResponse responseServlet, FilterChain chain ) throws IOException, ServletException
     {
         AppLogService.debug( "MainFilter : doFilter()" );
 
         HttpServletRequest request = (HttpServletRequest) requestServlet;
         HttpServletResponse response = (HttpServletResponse) responseServlet;
-        LuteceFilterChain chainPluginsFilters = new LuteceFilterChain(  );
+        LuteceFilterChain chainPluginsFilters = new LuteceFilterChain( );
 
-        for ( LuteceFilter filter : FilterService.getInstance(  ).getFilters(  ) )
+        for ( LuteceFilter filter : FilterService.getInstance( ).getFilters( ) )
         {
-            AppLogService.debug( "PluginFilter : " + filter.getName(  ) + " - url pattern : " +
-                filter.getMappingUrlPattern(  ) );
+            AppLogService.debug( "PluginFilter : " + filter.getName( ) + " - url pattern : " + filter.getMappingUrlPattern( ) );
 
             // Catch exception for each filter to execute all chain
             try
             {
                 // Checks mapping and plugin status
-                if ( matchMapping( filter, request ) && filter.getPlugin(  ).isInstalled(  ) )
+                if ( matchMapping( filter, request ) && filter.getPlugin( ).isInstalled( ) )
                 {
                     chainPluginsFilters.setFollowChain( false );
-                    filter.getFilter(  ).doFilter( request, response, chainPluginsFilters );
+                    filter.getFilter( ).doFilter( request, response, chainPluginsFilters );
 
-                    if ( !chainPluginsFilters.shouldFollowChain(  ) )
+                    if ( !chainPluginsFilters.shouldFollowChain( ) )
                     {
                         // The filter didn't call chain.doFilter so the chain should be interrupted
                         return;
                     }
 
                     // the filter may have changed (wrapped) the request [like CAS filter] or the response
-                    request = (HttpServletRequest) chainPluginsFilters.getRequest(  );
-                    response = (HttpServletResponse) chainPluginsFilters.getResponse(  );
+                    request = (HttpServletRequest) chainPluginsFilters.getRequest( );
+                    response = (HttpServletResponse) chainPluginsFilters.getResponse( );
                 }
             }
-            catch ( Exception e )
+            catch( Exception e )
             {
-                AppLogService.error( "Error execution doFilter method - Filter " + filter.getName(  ), e );
+                AppLogService.error( "Error execution doFilter method - Filter " + filter.getName( ), e );
             }
         }
 
         // Follow the standard filters chain
         chain.doFilter( request, response );
         // We check that some transactions is not still running for the current thread
-        TransactionManager.rollBackEveryTransaction(  );
+        TransactionManager.rollBackEveryTransaction( );
     }
 
     /**
      * {@inheritDoc}
      */
-    public void destroy(  )
+    public void destroy( )
     {
-        for ( LuteceFilter filter : FilterService.getInstance(  ).getFilters(  ) )
+        for ( LuteceFilter filter : FilterService.getInstance( ).getFilters( ) )
         {
             // Catch exception for each filter to execute all chain
             try
             {
                 // Checks mapping and plugin status
-                if ( filter.getPlugin(  ).isInstalled(  ) )
+                if ( filter.getPlugin( ).isInstalled( ) )
                 {
-                    filter.getFilter(  ).destroy(  );
+                    filter.getFilter( ).destroy( );
                 }
             }
-            catch ( Exception e )
+            catch( Exception e )
             {
-                AppLogService.error( "Error execution destroy() method - Filter " + filter.getName(  ), e );
+                AppLogService.error( "Error execution destroy() method - Filter " + filter.getName( ), e );
             }
         }
     }
 
     /**
      * Check the mapping of the request with an url pattern
-     * @param filter The filter
-     * @param request The request
+     * 
+     * @param filter
+     *            The filter
+     * @param request
+     *            The request
      * @return True if the request match the url pattern
      */
     boolean matchMapping( LuteceFilter filter, HttpServletRequest request )
     {
-        return matchFilterUrl( filter.getMappingUrlPattern(  ), request.getServletPath(  ) );
+        return matchFilterUrl( filter.getMappingUrlPattern( ), request.getServletPath( ) );
     }
 
     /**
-     * Check the mapping of the request with an url pattern according servlet
-     * specifications 2.3 rules
-     * @param strUrlPattern The filter url pattern
-     * @param strRequestUrl The request Url
+     * Check the mapping of the request with an url pattern according servlet specifications 2.3 rules
+     * 
+     * @param strUrlPattern
+     *            The filter url pattern
+     * @param strRequestUrl
+     *            The request Url
      * @return True if the request match the url pattern
      *
      *         Algorithm comming from tomcat6
@@ -172,16 +174,17 @@ public class MainFilter implements Filter
 
         if ( strUrlPattern.endsWith( "/*" ) )
         {
-            if ( strUrlPattern.regionMatches( 0, strRequestUrl, 0, strUrlPattern.length(  ) - 2 ) )
+            if ( strUrlPattern.regionMatches( 0, strRequestUrl, 0, strUrlPattern.length( ) - 2 ) )
             {
-                if ( strRequestUrl.length(  ) == ( strUrlPattern.length(  ) - 2 ) )
+                if ( strRequestUrl.length( ) == ( strUrlPattern.length( ) - 2 ) )
                 {
                     return ( true );
                 }
-                else if ( '/' == strRequestUrl.charAt( strUrlPattern.length(  ) - 2 ) )
-                {
-                    return ( true );
-                }
+                else
+                    if ( '/' == strRequestUrl.charAt( strUrlPattern.length( ) - 2 ) )
+                    {
+                        return ( true );
+                    }
             }
 
             return ( false );
@@ -193,10 +196,10 @@ public class MainFilter implements Filter
             int slash = strRequestUrl.lastIndexOf( '/' );
             int period = strRequestUrl.lastIndexOf( '.' );
 
-            if ( ( slash >= 0 ) && ( period > slash ) && ( period != ( strRequestUrl.length(  ) - 1 ) ) &&
-                    ( ( strRequestUrl.length(  ) - period ) == ( strUrlPattern.length(  ) - 1 ) ) )
+            if ( ( slash >= 0 ) && ( period > slash ) && ( period != ( strRequestUrl.length( ) - 1 ) )
+                    && ( ( strRequestUrl.length( ) - period ) == ( strUrlPattern.length( ) - 1 ) ) )
             {
-                return ( strUrlPattern.regionMatches( 2, strRequestUrl, period + 1, strUrlPattern.length(  ) - 2 ) );
+                return ( strUrlPattern.regionMatches( 2, strRequestUrl, period + 1, strUrlPattern.length( ) - 2 ) );
             }
         }
 

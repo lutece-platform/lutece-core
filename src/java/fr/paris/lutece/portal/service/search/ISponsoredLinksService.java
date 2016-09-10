@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -35,7 +35,6 @@ package fr.paris.lutece.portal.service.search;
 
 import java.util.Locale;
 
-
 /**
  * Interface sponsored links service
  */
@@ -43,8 +42,11 @@ public interface ISponsoredLinksService
 {
     /**
      * Computes a set of sponsored links from the request and translates it to html code.
-     * @param strRequest the request to search sponsored links from
-     * @param locale The locale
+     * 
+     * @param strRequest
+     *            the request to search sponsored links from
+     * @param locale
+     *            The locale
      * @return the html code of the computed set
      */
     String getHtmlCode( String strRequest, Locale locale );

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -56,10 +56,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
- * Provides technical admin dashboard managements and display. Display is NOT
- * managed as an admin feature (no right required).
+ * Provides technical admin dashboard managements and display. Display is NOT managed as an admin feature (no right required).
  *
  */
 public class DashboardJspBean extends AdminFeaturesPageJspBean
@@ -89,38 +87,42 @@ public class DashboardJspBean extends AdminFeaturesPageJspBean
 
     // JSP
     private static final String JSP_MANAGE_DASHBOARDS = "ManageDashboards.jsp";
-    private DashboardService _service = DashboardService.getInstance(  );
+    private DashboardService _service = DashboardService.getInstance( );
 
     /**
      * Manages dashboard
-     * @param request the request
+     * 
+     * @param request
+     *            the request
      * @return html code
      */
     public String getManageDashboards( HttpServletRequest request )
     {
         AdminUser user = AdminUserService.getAdminUser( request );
 
-        Map<String, Object> model = new HashMap<String, Object>(  );
+        Map<String, Object> model = new HashMap<String, Object>( );
 
-        Map<String, List<IDashboardComponent>> mapDashboards = _service.getAllSetDashboards( getUser(  ) );
+        Map<String, List<IDashboardComponent>> mapDashboards = _service.getAllSetDashboards( getUser( ) );
         model.put( MARK_MAP_DASHBOARDS, mapDashboards );
 
-        List<IDashboardComponent> listNotSetDashboards = _service.getNotSetDashboards(  );
+        List<IDashboardComponent> listNotSetDashboards = _service.getNotSetDashboards( );
         model.put( MARK_NOT_SET_DASHBOARDS, listNotSetDashboards );
 
-        model.put( MARK_COLUMN_COUNT, _service.getColumnCount(  ) );
-        model.put( MARK_MAP_AVAILABLE_ORDERS, _service.getMapAvailableOrders(  ) );
-        model.put( MARK_LIST_AVAILABLE_COLUMNS, _service.getListAvailableColumns(  ) );
-        model.put( MARK_MAP_COLUMN_ORDER_STATUS, _service.getOrderedColumnsStatus(  ) );
+        model.put( MARK_COLUMN_COUNT, _service.getColumnCount( ) );
+        model.put( MARK_MAP_AVAILABLE_ORDERS, _service.getMapAvailableOrders( ) );
+        model.put( MARK_LIST_AVAILABLE_COLUMNS, _service.getListAvailableColumns( ) );
+        model.put( MARK_MAP_COLUMN_ORDER_STATUS, _service.getOrderedColumnsStatus( ) );
 
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_DASHBOARDS, user.getLocale(  ), model );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_DASHBOARDS, user.getLocale( ), model );
 
-        return getAdminPage( template.getHtml(  ) );
+        return getAdminPage( template.getHtml( ) );
     }
 
     /**
      * Reorders columns
-     * @param request the request
+     * 
+     * @param request
+     *            the request
      * @return url
      */
     public String doReorderColumn( HttpServletRequest request )
@@ -138,9 +140,9 @@ public class DashboardJspBean extends AdminFeaturesPageJspBean
         {
             nColumn = Integer.parseInt( strColumnName );
         }
-        catch ( NumberFormatException nfe )
+        catch( NumberFormatException nfe )
         {
-            AppLogService.error( "DashboardJspBean.doReorderColumn : " + nfe.getMessage(  ), nfe );
+            AppLogService.error( "DashboardJspBean.doReorderColumn : " + nfe.getMessage( ), nfe );
 
             return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
         }
@@ -152,7 +154,9 @@ public class DashboardJspBean extends AdminFeaturesPageJspBean
 
     /**
      * Moves the dashboard
-     * @param request the request
+     * 
+     * @param request
+     *            the request
      * @return url
      */
     public String doMoveDashboard( HttpServletRequest request )
@@ -174,10 +178,9 @@ public class DashboardJspBean extends AdminFeaturesPageJspBean
         {
             bCreate = true;
 
-            if ( AppLogService.isDebugEnabled(  ) )
+            if ( AppLogService.isDebugEnabled( ) )
             {
-                AppLogService.debug( "Dashboard " + strDashboardName +
-                    " has no property set. Retrieving from SpringContext" );
+                AppLogService.debug( "Dashboard " + strDashboardName + " has no property set. Retrieving from SpringContext" );
             }
 
             dashboard = DashboardFactory.getDashboardComponent( strDashboardName );
@@ -189,8 +192,8 @@ public class DashboardJspBean extends AdminFeaturesPageJspBean
         }
         else
         {
-            nOldOrder = dashboard.getOrder(  );
-            nOldColumn = dashboard.getZone(  );
+            nOldOrder = dashboard.getOrder( );
+            nOldColumn = dashboard.getZone( );
         }
 
         // set order and column

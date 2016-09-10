@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -37,9 +37,9 @@ import fr.paris.lutece.util.ReferenceList;
 
 import java.util.Collection;
 
-
 /**
  * This class provides Data Access methods for Theme objects
+ * 
  * @deprecated Use the plugin-theme instead
  */
 public interface IThemeDAO
@@ -47,14 +47,16 @@ public interface IThemeDAO
     /**
      * Insert a new record in the table.
      *
-     * @param mode The mode object
+     * @param mode
+     *            The mode object
      */
     void insert( Theme mode );
 
     /**
      * load the data of Level from the table
      *
-     * @param strCodeTheme The indentifier of the object Theme
+     * @param strCodeTheme
+     *            The indentifier of the object Theme
      * @return The Instance of the object Theme
      */
     Theme load( String strCodeTheme );
@@ -62,14 +64,16 @@ public interface IThemeDAO
     /**
      * Delete a record from the table
      *
-     * @param strCodeTheme The indentifier of the object Theme
+     * @param strCodeTheme
+     *            The indentifier of the object Theme
      */
     void delete( String strCodeTheme );
 
     /**
      * Update the record in the table
      *
-     * @param theme The instance of the Theme to update
+     * @param theme
+     *            The instance of the Theme to update
      */
     void store( Theme theme );
 
@@ -78,24 +82,27 @@ public interface IThemeDAO
      *
      * @return A collection of themes objects
      */
-    Collection<Theme> selectThemesList(  );
+    Collection<Theme> selectThemesList( );
 
     /**
      * Returns the list of the themes in form of a reference list
      *
      * @return the themes list in form of a ReferenceList object
      */
-    ReferenceList getThemesList(  );
+    ReferenceList getThemesList( );
 
     /**
      * Sets the global theme
-     * @param strGlobalTheme The Global Theme
+     * 
+     * @param strGlobalTheme
+     *            The Global Theme
      */
     void setGlobalTheme( String strGlobalTheme );
 
     /**
      * Returns the global theme
+     * 
      * @return The Global Theme
      */
-    String getGlobalTheme(  );
+    String getGlobalTheme( );
 }

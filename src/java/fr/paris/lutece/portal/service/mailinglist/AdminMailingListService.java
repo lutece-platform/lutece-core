@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -49,7 +49,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-
 /**
  * AdminMailingListService
  */
@@ -60,31 +59,33 @@ public final class AdminMailingListService
     /**
      * Private COnstructor
      */
-    private AdminMailingListService(  )
+    private AdminMailingListService( )
     {
     }
 
     /**
      * Initialize
      */
-    public static void init(  )
+    public static void init( )
     {
         // Initialize mailing list
-        MailingList.init(  );
+        MailingList.init( );
     }
 
     /**
      * Returns a list of all mailing list visible by the user
-     * @param user The user
+     * 
+     * @param user
+     *            The user
      * @return The list as a ReferenceList
      */
     public static ReferenceList getMailingLists( AdminUser user )
     {
-        ReferenceList list = new ReferenceList(  );
+        ReferenceList list = new ReferenceList( );
 
         for ( MailingList mailinglist : getUserMailingLists( user ) )
         {
-            list.addItem( mailinglist.getId(  ), mailinglist.getName(  ) );
+            list.addItem( mailinglist.getId( ), mailinglist.getName( ) );
         }
 
         return list;
@@ -92,12 +93,14 @@ public final class AdminMailingListService
 
     /**
      * Returns a list of all mailing list visible by the user
-     * @param user The user
+     * 
+     * @param user
+     *            The user
      * @return The list as a mailinglist Collection
      */
     public static Collection<MailingList> getUserMailingLists( AdminUser user )
     {
-        Collection<MailingList> listMailinglists = new ArrayList<MailingList>(  );
+        Collection<MailingList> listMailinglists = new ArrayList<MailingList>( );
 
         // Add all global mailing lists
         listMailinglists.addAll( MailingListHome.findByWorkgroup( AdminWorkgroupService.ALL_GROUPS ) );
@@ -107,7 +110,7 @@ public final class AdminMailingListService
 
         for ( ReferenceItem workgroup : listWorkgroups )
         {
-            listMailinglists.addAll( MailingListHome.findByWorkgroup( workgroup.getCode(  ) ) );
+            listMailinglists.addAll( MailingListHome.findByWorkgroup( workgroup.getCode( ) ) );
         }
 
         return listMailinglists;
@@ -116,8 +119,10 @@ public final class AdminMailingListService
     /**
      * Gets the user mailing lists by filter.
      *
-     * @param user the user
-     * @param filter the filter
+     * @param user
+     *            the user
+     * @param filter
+     *            the filter
      * @return the user mailing lists by filter
      */
     public static List<MailingList> getUserMailingListsByFilter( AdminUser user, MailingListFilter filter )
@@ -134,7 +139,7 @@ public final class AdminMailingListService
         for ( ReferenceItem workgroup : listWorkgroups )
         {
             mailingListFilter = new MailingListFilter( filter );
-            mailingListFilter.setWorkgroup( workgroup.getCode(  ) );
+            mailingListFilter.setWorkgroup( workgroup.getCode( ) );
             listMailingLists.addAll( MailingListHome.findsByFilter( mailingListFilter ) );
         }
 
@@ -143,19 +148,21 @@ public final class AdminMailingListService
 
     /**
      * Returns all the recipient of a given mailing list
-     * @param nIdMailingList The mailing list Id
+     * 
+     * @param nIdMailingList
+     *            The mailing list Id
      * @return The list
      */
     public static Collection<Recipient> getRecipients( int nIdMailingList )
     {
-        Collection<Recipient> listRecipients = new ArrayList<Recipient>(  );
+        Collection<Recipient> listRecipients = new ArrayList<Recipient>( );
         MailingList mailinglist = MailingListHome.findByPrimaryKey( nIdMailingList );
 
         if ( mailinglist != null )
         {
-            for ( MailingListUsersFilter filter : mailinglist.getFilters(  ) )
+            for ( MailingListUsersFilter filter : mailinglist.getFilters( ) )
             {
-                listRecipients.addAll( getRecipients( filter.getWorkgroup(  ), filter.getRole(  ) ) );
+                listRecipients.addAll( getRecipients( filter.getWorkgroup( ), filter.getRole( ) ) );
             }
         }
 
@@ -164,13 +171,16 @@ public final class AdminMailingListService
 
     /**
      * Gets all recipients corresponding to a filter based on a Workgroup and a role
-     * @param strWorkgroup The workgroup
-     * @param strRole The role
+     * 
+     * @param strWorkgroup
+     *            The workgroup
+     * @param strRole
+     *            The role
      * @return A collection of recipient
      */
     public static Collection<Recipient> getRecipients( String strWorkgroup, String strRole )
     {
-        Collection<Recipient> listRecipients = new ArrayList<Recipient>(  );
+        Collection<Recipient> listRecipients = new ArrayList<Recipient>( );
         Collection<AdminUser> listUsers;
 
         if ( ( strWorkgroup != null ) && ( !strWorkgroup.equals( AdminWorkgroupService.ALL_GROUPS ) ) )
@@ -179,7 +189,7 @@ public final class AdminMailingListService
         }
         else
         {
-            listUsers = AdminUserHome.findUserList(  );
+            listUsers = AdminUserHome.findUserList( );
         }
 
         for ( AdminUser user : listUsers )
@@ -193,9 +203,9 @@ public final class AdminMailingListService
                 }
             }
 
-            Recipient recipient = new Recipient(  );
-            recipient.setName( user.getFirstName(  ) + " " + user.getLastName(  ) );
-            recipient.setEmail( user.getEmail(  ) );
+            Recipient recipient = new Recipient( );
+            recipient.setName( user.getFirstName( ) + " " + user.getLastName( ) );
+            recipient.setEmail( user.getEmail( ) );
             listRecipients.add( recipient );
         }
 
@@ -204,8 +214,11 @@ public final class AdminMailingListService
 
     /**
      * Check if the filter already exists or not in a mailing list
-     * @param filter the filter
-     * @param nIdMailingList the id mailing list
+     * 
+     * @param filter
+     *            the filter
+     * @param nIdMailingList
+     *            the id mailing list
      * @return true if it already exists, false otherwise
      */
     public static boolean checkFilter( MailingListUsersFilter filter, int nIdMailingList )

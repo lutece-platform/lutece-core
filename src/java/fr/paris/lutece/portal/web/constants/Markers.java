@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,7 +33,6 @@
  */
 package fr.paris.lutece.portal.web.constants;
 
-
 /**
  * This class provides the Markers interface which contains the common Freemarker markers
  */
@@ -60,7 +59,7 @@ public final class Markers
     public static final String WEBAPP_PATH_FOR_LINKSERVICE = "webapp_path_for_linkservice";
 
     /** Private constructor */
-    private Markers(  )
+    private Markers( )
     {
     }
 }

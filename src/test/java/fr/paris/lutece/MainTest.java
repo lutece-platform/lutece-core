@@ -40,7 +40,6 @@
  */
 package fr.paris.lutece;
 
-
 /**
  * The main class for unit tests
  */
@@ -48,10 +47,12 @@ public final class MainTest
 {
     /**
      * The main method
-     * @param args the arguments of the main method
+     * 
+     * @param args
+     *            the arguments of the main method
      */
-    public static void main( String[] args )
+    public static void main( String [ ] args )
     {
-        junit.textui.TestRunner.run( AllTests.suite(  ) );
+        junit.textui.TestRunner.run( AllTests.suite( ) );
     }
 }

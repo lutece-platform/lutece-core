@@ -37,7 +37,6 @@ import fr.paris.lutece.test.LuteceTestCase;
 
 import java.util.List;
 
-
 /**
  * UserPreferencesDAOTest
  */
@@ -48,9 +47,9 @@ public class UserPreferencesDAOTest extends LuteceTestCase
     private final static String DEFAULT = "default";
     private final static String VALUE1 = "Value 1";
 
-    public void testBusinessLevel(  )
+    public void testBusinessLevel( )
     {
-        UserPreferencesDAO dao = new UserPreferencesDAO(  );
+        UserPreferencesDAO dao = new UserPreferencesDAO( );
 
         dao.remove( USER_ID_1 );
 
@@ -63,6 +62,6 @@ public class UserPreferencesDAOTest extends LuteceTestCase
 
         // List Test
         List list = dao.keys( USER_ID_1 );
-        assertTrue( list.size(  ) > 0 );
+        assertTrue( list.size( ) > 0 );
     }
 }

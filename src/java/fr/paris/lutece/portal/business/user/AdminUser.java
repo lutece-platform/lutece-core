@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -51,7 +51,6 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-
 /**
  * This Interface defines all methods required for an admin user implementation
  */
@@ -80,16 +79,14 @@ public class AdminUser implements Serializable, AdminWorkgroupResource
     private String _strWorkgroupKey;
 
     /**
-     * User's rights. We use a HashMap instead of a Map so that the field is
-     * forced to be serializable.
+     * User's rights. We use a HashMap instead of a Map so that the field is forced to be serializable.
      */
-    private HashMap<String, Right> _rights = new HashMap<String, Right>(  );
+    private HashMap<String, Right> _rights = new HashMap<String, Right>( );
 
     /**
-     * User's roles. We use a HashMap instead of a Map so that the field is
-     * forced to be serializable.
+     * User's roles. We use a HashMap instead of a Map so that the field is forced to be serializable.
      */
-    private HashMap<String, AdminRole> _roles = new HashMap<String, AdminRole>(  );
+    private HashMap<String, AdminRole> _roles = new HashMap<String, AdminRole>( );
 
     /** Authentication Service */
     private String _strAuthenticationService;
@@ -103,45 +100,51 @@ public class AdminUser implements Serializable, AdminWorkgroupResource
     /**
      * Constructor
      */
-    public AdminUser(  )
+    public AdminUser( )
     {
     }
 
     /**
      * Constructor
-     * @param stAccessCode The User Name
-     * @param authenticationService The PortalAuthentication object
+     * 
+     * @param stAccessCode
+     *            The User Name
+     * @param authenticationService
+     *            The PortalAuthentication object
      */
     public AdminUser( String stAccessCode, AdminAuthentication authenticationService )
     {
         _strAccessCode = stAccessCode;
-        _strAuthenticationService = authenticationService.getAuthServiceName(  );
+        _strAuthenticationService = authenticationService.getAuthServiceName( );
     }
 
     /**
      * Init
      */
-    public static synchronized void init(  )
+    public static synchronized void init( )
     {
         if ( _listenerRegularExpression == null )
         {
-            _listenerRegularExpression = new EmailPatternRegularExpressionRemovalListener(  );
-            RegularExpressionRemovalListenerService.getService(  ).registerListener( _listenerRegularExpression );
+            _listenerRegularExpression = new EmailPatternRegularExpressionRemovalListener( );
+            RegularExpressionRemovalListenerService.getService( ).registerListener( _listenerRegularExpression );
         }
     }
 
     /**
      * Get the user's Locale
+     * 
      * @return The user's locale
      */
-    public Locale getLocale(  )
+    public Locale getLocale( )
     {
-        return ( _locale == null ) ? LocaleService.getDefault(  ) : _locale;
+        return ( _locale == null ) ? LocaleService.getDefault( ) : _locale;
     }
 
     /**
      * Set the user Locale
-     * @param locale The locale
+     * 
+     * @param locale
+     *            The locale
      */
     public void setLocale( Locale locale )
     {
@@ -150,16 +153,19 @@ public class AdminUser implements Serializable, AdminWorkgroupResource
 
     /**
      * Return the user's id
+     * 
      * @return The user id
      */
-    public int getUserId(  )
+    public int getUserId( )
     {
         return _nUserId;
     }
 
     /**
      * Sets the user's id
-     * @param nUserId The User id
+     * 
+     * @param nUserId
+     *            The User id
      */
     public void setUserId( int nUserId )
     {
@@ -167,13 +173,12 @@ public class AdminUser implements Serializable, AdminWorkgroupResource
     }
 
     /**
-     * @return Returns the status. Only ACTIVE_CODE, NOT_ACTIVE_CODE or
-     *         ANONYMIZED_CODE are returned.
-     *         If the status in an other status, then its equivalent is returned
+     * @return Returns the status. Only ACTIVE_CODE, NOT_ACTIVE_CODE or ANONYMIZED_CODE are returned. If the status in an other status, then its equivalent is
+     *         returned
      */
-    public int getStatus(  )
+    public int getStatus( )
     {
-        switch ( _nStatus )
+        switch( _nStatus )
         {
             case ACTIVE_CODE:
             case ANONYMIZED_CODE:
@@ -191,13 +196,14 @@ public class AdminUser implements Serializable, AdminWorkgroupResource
     /**
      * @return Returns the real status of the user.
      */
-    public int getRealStatus(  )
+    public int getRealStatus( )
     {
         return _nStatus;
     }
 
     /**
-     * @param nStatus The _nStatus to set.
+     * @param nStatus
+     *            The _nStatus to set.
      */
     public void setStatus( int nStatus )
     {
@@ -206,18 +212,20 @@ public class AdminUser implements Serializable, AdminWorkgroupResource
 
     /**
      * Tells whether the current user is active or not
+     * 
      * @return true if active, false otherwise
      */
-    public boolean isStatusActive(  )
+    public boolean isStatusActive( )
     {
         return ( _nStatus == ACTIVE_CODE );
     }
 
     /**
      * Tells whether the current user is anonymized
+     * 
      * @return true if anonymized, false otherwise
      */
-    public boolean isStatusAnonymized(  )
+    public boolean isStatusAnonymized( )
     {
         return ( _nStatus == ANONYMIZED_CODE );
     }
@@ -227,7 +235,7 @@ public class AdminUser implements Serializable, AdminWorkgroupResource
      *
      * @return the user last name
      */
-    public String getLastName(  )
+    public String getLastName( )
     {
         return _strLastName;
     }
@@ -235,7 +243,8 @@ public class AdminUser implements Serializable, AdminWorkgroupResource
     /**
      * Sets the last name of the user to the specified string.
      *
-     * @param strLastName the new last name
+     * @param strLastName
+     *            the new last name
      */
     public void setLastName( String strLastName )
     {
@@ -247,7 +256,7 @@ public class AdminUser implements Serializable, AdminWorkgroupResource
      *
      * @return the user first name
      */
-    public String getFirstName(  )
+    public String getFirstName( )
     {
         return _strFirstName;
     }
@@ -255,7 +264,8 @@ public class AdminUser implements Serializable, AdminWorkgroupResource
     /**
      * Sets the first name of the user to the specified string.
      *
-     * @param strFirstName the new first name
+     * @param strFirstName
+     *            the new first name
      */
     public void setFirstName( String strFirstName )
     {
@@ -267,7 +277,7 @@ public class AdminUser implements Serializable, AdminWorkgroupResource
      *
      * @return the user email
      */
-    public String getEmail(  )
+    public String getEmail( )
     {
         return _strEmail;
     }
@@ -275,7 +285,8 @@ public class AdminUser implements Serializable, AdminWorkgroupResource
     /**
      * Sets the email of the user to the specified string.
      *
-     * @param strEmail the new email
+     * @param strEmail
+     *            the new email
      */
     public void setEmail( String strEmail )
     {
@@ -285,13 +296,14 @@ public class AdminUser implements Serializable, AdminWorkgroupResource
     /**
      * @return Returns the _strAccessCode.
      */
-    public String getAccessCode(  )
+    public String getAccessCode( )
     {
         return _strAccessCode;
     }
 
     /**
-     * @param strAccessCode The _strAccessCode to set.
+     * @param strAccessCode
+     *            The _strAccessCode to set.
      */
     public void setAccessCode( String strAccessCode )
     {
@@ -300,17 +312,19 @@ public class AdminUser implements Serializable, AdminWorkgroupResource
 
     /**
      * Get the maximum valid date of the password of the user
+     * 
      * @return The maximum valid date of the password of the user
      */
-    public Timestamp getPasswordMaxValidDate(  )
+    public Timestamp getPasswordMaxValidDate( )
     {
         return _passwordMaxValidDate;
     }
 
     /**
      * Set the maximum valid date of the password of the user
-     * @param passwordMaxValidDate The new maximum valid date of the password of
-     *            the user, or null if it doesn't have any.
+     * 
+     * @param passwordMaxValidDate
+     *            The new maximum valid date of the password of the user, or null if it doesn't have any.
      */
     public void setPasswordMaxValidDate( Timestamp passwordMaxValidDate )
     {
@@ -319,17 +333,19 @@ public class AdminUser implements Serializable, AdminWorkgroupResource
 
     /**
      * Get the expiration date of the user account.
-     * @return The expiration date of the user account, or null if it doesn't
-     *         have any.
+     * 
+     * @return The expiration date of the user account, or null if it doesn't have any.
      */
-    public Timestamp getAccountMaxValidDate(  )
+    public Timestamp getAccountMaxValidDate( )
     {
         return _accountMaxValidDate;
     }
 
     /**
      * Set the expiration date of the user account.
-     * @param accountMaxValidDate The new expiration date of the user account.
+     * 
+     * @param accountMaxValidDate
+     *            The new expiration date of the user account.
      */
     public void setAccountMaxValidDate( Timestamp accountMaxValidDate )
     {
@@ -338,16 +354,19 @@ public class AdminUser implements Serializable, AdminWorkgroupResource
 
     /**
      * Returns user's roles
+     * 
      * @return Returns user's roles
      */
-    public Map<String, AdminRole> getRoles(  )
+    public Map<String, AdminRole> getRoles( )
     {
         return _roles;
     }
 
     /**
      * add user's roles
-     * @param roles The User roles
+     * 
+     * @param roles
+     *            The User roles
      */
     public void addRoles( Map<String, AdminRole> roles )
     {
@@ -356,19 +375,22 @@ public class AdminUser implements Serializable, AdminWorkgroupResource
 
     /**
      * Defines user's roles
-     * @param roles The User roles
+     * 
+     * @param roles
+     *            The User roles
      */
     public void setRoles( Map<String, AdminRole> roles )
     {
-        _roles.clear(  );
+        _roles.clear( );
         _roles.putAll( roles );
     }
 
     /**
      * Returns user's rights
+     * 
      * @return Returns user's rights
      */
-    public Map<String, Right> getRights(  )
+    public Map<String, Right> getRights( )
     {
         return _rights;
     }
@@ -376,7 +398,8 @@ public class AdminUser implements Serializable, AdminWorkgroupResource
     /**
      * Verify user rights on a given functionality
      *
-     * @param strRightCode right code which corresponding to the functionality
+     * @param strRightCode
+     *            right code which corresponding to the functionality
      * @return true if user have this authorisation and false otherwise
      */
     public boolean checkRight( String strRightCode )
@@ -386,11 +409,13 @@ public class AdminUser implements Serializable, AdminWorkgroupResource
 
     /**
      * Defines user's rights
-     * @param rights The User rights
+     * 
+     * @param rights
+     *            The User rights
      */
     public void setRights( Map<String, Right> rights )
     {
-        _rights.clear(  );
+        _rights.clear( );
         _rights.putAll( rights );
     }
 
@@ -399,7 +424,9 @@ public class AdminUser implements Serializable, AdminWorkgroupResource
 
     /**
      * Defines the authentification service that had authentified the user
-     * @param strAuthenticationService The authentification service
+     * 
+     * @param strAuthenticationService
+     *            The authentification service
      */
     public void setAuthenticationService( String strAuthenticationService )
     {
@@ -408,16 +435,19 @@ public class AdminUser implements Serializable, AdminWorkgroupResource
 
     /**
      * Returns the authentification service that had authentified the user
+     * 
      * @return the authentification service that had authentified the user
      */
-    public String getAuthenticationService(  )
+    public String getAuthenticationService( )
     {
         return _strAuthenticationService;
     }
 
     /**
      * Defines the authentification type that had authentified the user
-     * @param strAuthenticationType The authentification type
+     * 
+     * @param strAuthenticationType
+     *            The authentification type
      */
     public void setAuthenticationType( String strAuthenticationType )
     {
@@ -426,16 +456,19 @@ public class AdminUser implements Serializable, AdminWorkgroupResource
 
     /**
      * Returns the authentification type that had authentified the user
+     * 
      * @return the authentification type that had authentified the user
      */
-    public String getAuthenticationType(  )
+    public String getAuthenticationType( )
     {
         return _strAuthenticationType;
     }
 
     /**
      * Defines the user level
-     * @param nUserLevel the user level
+     * 
+     * @param nUserLevel
+     *            the user level
      */
     public void setUserLevel( int nUserLevel )
     {
@@ -444,26 +477,31 @@ public class AdminUser implements Serializable, AdminWorkgroupResource
 
     /**
      * Returns the user level
+     * 
      * @return the user level
      */
-    public int getUserLevel(  )
+    public int getUserLevel( )
     {
         return _nUserLevel;
     }
 
     /**
      * Check if current user has rights over user
-     * @param user the user to check
+     * 
+     * @param user
+     *            the user to check
      * @return true if current user has higher level than user
      */
     public boolean isParent( AdminUser user )
     {
-        return _nUserLevel < user.getUserLevel(  );
+        return _nUserLevel < user.getUserLevel( );
     }
 
     /**
      * Check if current user has rights depending on level
-     * @param level a level id
+     * 
+     * @param level
+     *            a level id
      * @return true if current user has higher level than level
      */
     public boolean hasRights( int level )
@@ -473,40 +511,45 @@ public class AdminUser implements Serializable, AdminWorkgroupResource
 
     /**
      * Check if this user has admin rights
+     * 
      * @return true if user has admin rights
      */
-    public boolean isAdmin(  )
+    public boolean isAdmin( )
     {
         return _nUserLevel == 0;
     }
 
     /**
      * Check if this user has a given role
-     * @param strRole The role key
+     * 
+     * @param strRole
+     *            The role key
      * @return true if user has the role
      */
     public boolean isInRole( String strRole )
     {
         // Reload roles because roles are only load by the bind and should not be accessible
         // through users list for security reasons
-        Map<String, AdminRole> roles = AdminUserHome.getRolesListForUser( getUserId(  ) );
+        Map<String, AdminRole> roles = AdminUserHome.getRolesListForUser( getUserId( ) );
 
         return roles.containsKey( strRole );
     }
 
     /**
      * Check if the password has been reinitialized
+     * 
      * @return true if it has been reinitialized, false otherwise
      */
-    public boolean isPasswordReset(  )
+    public boolean isPasswordReset( )
     {
         return _bIsPasswordReset;
     }
 
     /**
      * Set pwd reseted
-     * @param bIsPasswordReset true if it has been reinitialized, false
-     *            otherwise
+     * 
+     * @param bIsPasswordReset
+     *            true if it has been reinitialized, false otherwise
      */
     public void setPasswordReset( boolean bIsPasswordReset )
     {
@@ -515,7 +558,9 @@ public class AdminUser implements Serializable, AdminWorkgroupResource
 
     /**
      * Set the accessibility mode
-     * @param bAccessibilityMode true if the mode is accessible, false otherwise
+     * 
+     * @param bAccessibilityMode
+     *            true if the mode is accessible, false otherwise
      */
     public void setAccessibilityMode( boolean bAccessibilityMode )
     {
@@ -524,25 +569,29 @@ public class AdminUser implements Serializable, AdminWorkgroupResource
 
     /**
      * Return the accessibility mode
+     * 
      * @return true if the mode is accessible, false otherwise
      */
-    public boolean getAccessibilityMode(  )
+    public boolean getAccessibilityMode( )
     {
         return _bAccessibilityMode;
     }
 
     /**
      * Get the last login date of the user
+     * 
      * @return The last login date of the user
      */
-    public Timestamp getDateLastLogin(  )
+    public Timestamp getDateLastLogin( )
     {
         return _dateLastLogin;
     }
 
     /**
      * Set the last login date of the user
-     * @param dateLastLogin The last login date of the user
+     * 
+     * @param dateLastLogin
+     *            The last login date of the user
      */
     public void setDateLastLogin( Timestamp dateLastLogin )
     {
@@ -552,13 +601,14 @@ public class AdminUser implements Serializable, AdminWorkgroupResource
     /**
      * @return the _strWorkgroupKey
      */
-    public String getWorkgroupKey(  )
+    public String getWorkgroupKey( )
     {
         return _strWorkgroupKey;
     }
 
     /**
-     * @param strWorkgroupKey the _strWorkgroupKey to set
+     * @param strWorkgroupKey
+     *            the _strWorkgroupKey to set
      */
     public void setWorkgroupKey( String strWorkgroupKey )
     {
@@ -566,7 +616,7 @@ public class AdminUser implements Serializable, AdminWorkgroupResource
     }
 
     @Override
-    public String getWorkgroup(  )
+    public String getWorkgroup( )
     {
         return _strWorkgroupKey;
     }

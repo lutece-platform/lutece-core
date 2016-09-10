@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -50,7 +50,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  *
  * Site message pages provider service.
@@ -93,8 +92,8 @@ public class SiteMessageHandler implements ISiteMessageHandler
     @Override
     public String getPage( HttpServletRequest request, int nMode )
     {
-        Locale locale = request.getLocale(  );
-        Map<String, Object> model = new HashMap<String, Object>(  );
+        Locale locale = request.getLocale( );
+        Map<String, Object> model = new HashMap<String, Object>( );
 
         SiteMessage message = SiteMessageService.getMessage( request );
 
@@ -102,18 +101,18 @@ public class SiteMessageHandler implements ISiteMessageHandler
 
         if ( message == null )
         {
-            message = new SiteMessage( Messages.MESSAGE_ERROR_SESSION, null, PROPERTY_TITLE_ERROR, url.getUrl(  ), "",
-                    SiteMessage.TYPE_ERROR, SiteMessage.TYPE_BUTTON_HIDDEN, null, null );
+            message = new SiteMessage( Messages.MESSAGE_ERROR_SESSION, null, PROPERTY_TITLE_ERROR, url.getUrl( ), "", SiteMessage.TYPE_ERROR,
+                    SiteMessage.TYPE_BUTTON_HIDDEN, null, null );
         }
 
         model.put( MARK_MESSAGE, message );
         model.put( MARK_TEXT, message.getText( locale ) );
         model.put( MARK_TITLE, message.getTitle( locale ) );
-        model.put( MARK_URL, message.getUrl(  ) );
-        model.put( MARK_TARGET, message.getTarget(  ) );
-        model.put( MARK_CANCEL_BUTTON, message.getTypeButton(  ) );
-        model.put( MARK_REQUEST_PARAMETERS, message.getRequestParameters(  ) );
-        model.put( MARK_BACK_URL, message.getBackUrl(  ) );
+        model.put( MARK_URL, message.getUrl( ) );
+        model.put( MARK_TARGET, message.getTarget( ) );
+        model.put( MARK_CANCEL_BUTTON, message.getTypeButton( ) );
+        model.put( MARK_REQUEST_PARAMETERS, message.getRequestParameters( ) );
+        model.put( MARK_BACK_URL, message.getBackUrl( ) );
 
         // Delete message in session
         SiteMessageService.cleanMessageSession( request );
@@ -121,11 +120,11 @@ public class SiteMessageHandler implements ISiteMessageHandler
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MESSAGE, locale, model );
 
         // Fill a PageData structure for those elements
-        PageData data = new PageData(  );
+        PageData data = new PageData( );
         data.setName( message.getTitle( locale ) );
         // FIXME Cannot set the page path when app run in standalone mode (cannot connect to database). The page path is now not set.
-        //        data.setPagePath( PortalService.getXPagePathContent( message.getTitle( locale ), nMode, request ) );
-        data.setContent( template.getHtml(  ) );
+        // data.setPagePath( PortalService.getXPagePathContent( message.getTitle( locale ), nMode, request ) );
+        data.setContent( template.getHtml( ) );
 
         return buildPageContent( data, nMode, request );
     }
@@ -133,31 +132,34 @@ public class SiteMessageHandler implements ISiteMessageHandler
     /**
      * Returns the html code which represents the page content
      *
-     * @param data The structure which contains the informations about the page
-     * @param nMode The mode in which displaying the page : normal or administration
-     * @param request The request
+     * @param data
+     *            The structure which contains the informations about the page
+     * @param nMode
+     *            The mode in which displaying the page : normal or administration
+     * @param request
+     *            The request
      * @return The html code of a page
      */
     private static String buildPageContent( PageData data, int nMode, HttpServletRequest request )
     {
         Locale locale = null;
-        HashMap<String, Object> model = new HashMap<String, Object>(  );
+        HashMap<String, Object> model = new HashMap<String, Object>( );
 
         if ( request != null )
         {
-            locale = request.getLocale(  );
+            locale = request.getLocale( );
         }
 
-        List<PageInclude> listIncludes = PageIncludeService.getIncludes(  );
+        List<PageInclude> listIncludes = PageIncludeService.getIncludes( );
 
         for ( PageInclude pic : listIncludes )
         {
             pic.fillTemplate( model, data, nMode, request );
         }
 
-        model.put( Markers.PAGE_NAME, ( data.getName(  ) == null ) ? "" : data.getName(  ) );
-        model.put( Markers.PAGE_TITLE, ( data.getName(  ) == null ) ? "" : data.getName(  ) );
-        model.put( Markers.PAGE_CONTENT, ( data.getContent(  ) == null ) ? "" : data.getContent(  ) );
+        model.put( Markers.PAGE_NAME, ( data.getName( ) == null ) ? "" : data.getName( ) );
+        model.put( Markers.PAGE_TITLE, ( data.getName( ) == null ) ? "" : data.getName( ) );
+        model.put( Markers.PAGE_CONTENT, ( data.getContent( ) == null ) ? "" : data.getContent( ) );
 
         String strBaseUrl = ( request != null ) ? AppPathService.getBaseUrl( request ) : ""; // request could be null (method called by daemons or batch)
 
@@ -166,8 +168,9 @@ public class SiteMessageHandler implements ISiteMessageHandler
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_PAGE_SITE_MESSAGE, locale, model );
 
-        template.substitute( BOOKMARK_BASE_URL, ( request != null ) ? AppPathService.getBaseUrl( request ) : "" ); // request could be null (method called by daemons or batch)
+        template.substitute( BOOKMARK_BASE_URL, ( request != null ) ? AppPathService.getBaseUrl( request ) : "" ); // request could be null (method called by
+                                                                                                                   // daemons or batch)
 
-        return template.getHtml(  );
+        return template.getHtml( );
     }
 }

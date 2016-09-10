@@ -44,10 +44,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 
-
 /**
- * This class is used to normalize the file names.
- * This class  override the method getName () of FileItem
+ * This class is used to normalize the file names. This class override the method getName () of FileItem
  */
 public class NormalizeFileItem implements FileItem
 {
@@ -57,7 +55,8 @@ public class NormalizeFileItem implements FileItem
     /**
      * Instantiates a new normalize file item.
      *
-     * @param item the item
+     * @param item
+     *            the item
      */
     public NormalizeFileItem( FileItem item )
     {
@@ -68,81 +67,81 @@ public class NormalizeFileItem implements FileItem
      * {@inheritDoc}
      */
     @Override
-    public void delete(  )
+    public void delete( )
     {
-        _item.delete(  );
+        _item.delete( );
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public byte[] get(  )
+    public byte [ ] get( )
     {
-        return _item.get(  );
+        return _item.get( );
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public String getContentType(  )
+    public String getContentType( )
     {
-        return _item.getContentType(  );
+        return _item.getContentType( );
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public String getFieldName(  )
+    public String getFieldName( )
     {
-        return _item.getFieldName(  );
+        return _item.getFieldName( );
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public InputStream getInputStream(  ) throws IOException
+    public InputStream getInputStream( ) throws IOException
     {
-        return _item.getInputStream(  );
+        return _item.getInputStream( );
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public String getName(  )
+    public String getName( )
     {
-        return UploadUtil.cleanFileName( FilenameUtils.getName( _item.getName(  ) ) );
+        return UploadUtil.cleanFileName( FilenameUtils.getName( _item.getName( ) ) );
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public OutputStream getOutputStream(  ) throws IOException
+    public OutputStream getOutputStream( ) throws IOException
     {
-        return _item.getOutputStream(  );
+        return _item.getOutputStream( );
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public long getSize(  )
+    public long getSize( )
     {
-        return _item.getSize(  );
+        return _item.getSize( );
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public String getString(  )
+    public String getString( )
     {
-        return _item.getString(  );
+        return _item.getString( );
     }
 
     /**
@@ -158,18 +157,18 @@ public class NormalizeFileItem implements FileItem
      * {@inheritDoc}
      */
     @Override
-    public boolean isFormField(  )
+    public boolean isFormField( )
     {
-        return _item.isFormField(  );
+        return _item.isFormField( );
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public boolean isInMemory(  )
+    public boolean isInMemory( )
     {
-        return _item.isInMemory(  );
+        return _item.isInMemory( );
     }
 
     /**

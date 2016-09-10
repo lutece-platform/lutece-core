@@ -35,7 +35,6 @@ package fr.paris.lutece.portal.service.html;
 
 import fr.paris.lutece.test.LuteceTestCase;
 
-
 /**
  * EncodingService Test Class
  */
@@ -44,7 +43,7 @@ public class EncodingServiceTest extends LuteceTestCase
     /**
      * Test of encodeUrl method, of class fr.paris.lutece.portal.service.html.EncodingService.
      */
-    public void testEncodeUrl(  )
+    public void testEncodeUrl( )
     {
         System.out.println( "encodeUrl" );
 
@@ -58,11 +57,11 @@ public class EncodingServiceTest extends LuteceTestCase
     /**
      * Test of getEncoding method, of class fr.paris.lutece.portal.service.html.EncodingService.
      */
-    public void testGetEncoding(  )
+    public void testGetEncoding( )
     {
         System.out.println( "getEncoding" );
 
-        String result = EncodingService.getEncoding(  );
+        String result = EncodingService.getEncoding( );
         assertNotNull( result );
     }
 }

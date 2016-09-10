@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -37,7 +37,6 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  * Interface for captcha validator
  */
@@ -45,33 +44,39 @@ public interface ICaptchaService
 {
     /**
      * Validate the captcha field
-     * @param request The HTTP request
+     * 
+     * @param request
+     *            The HTTP request
      * @return True if OK, otherwise false
      */
     boolean validate( HttpServletRequest request );
 
     /**
      * Gets the captcha HTML code
+     * 
      * @return The captcha HTML code
      */
-    String getHtmlCode(  );
+    String getHtmlCode( );
 
     /**
      * Get the list of captcha providers
+     * 
      * @return The list of captcha providers
      */
-    List<String> getCaptchaEngineNameList(  );
+    List<String> getCaptchaEngineNameList( );
 
     /**
      * Get the default captcha engine to use
+     * 
      * @return The name of the default captcha engine
      */
-    String getDefaultCaptchaEngineName(  );
+    String getDefaultCaptchaEngineName( );
 
     /**
      * Set the default captcha engine to use
-     * @param strDefaultCaptchaEngine the name of the default captcha engine to
-     *            use
+     * 
+     * @param strDefaultCaptchaEngine
+     *            the name of the default captcha engine to use
      */
     void setDefaultCaptchaEngineName( String strDefaultCaptchaEngine );
 }

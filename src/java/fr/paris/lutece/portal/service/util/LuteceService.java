@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,7 +33,6 @@
  */
 package fr.paris.lutece.portal.service.util;
 
-
 /**
  * Base interface of Lutece services
  */
@@ -44,5 +43,5 @@ public interface LuteceService
      *
      * @return The name as a String
      */
-    String getName(  );
+    String getName( );
 }

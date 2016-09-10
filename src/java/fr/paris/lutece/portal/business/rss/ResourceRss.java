@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,10 +33,8 @@
  */
 package fr.paris.lutece.portal.business.rss;
 
-
 /**
- * ResourceRss that provides the resources rss.
- * Implementations should override {@link #getFeed()}.
+ * ResourceRss that provides the resources rss. Implementations should override {@link #getFeed()}.
  */
 public abstract class ResourceRss implements IResourceRss
 {
@@ -49,18 +47,21 @@ public abstract class ResourceRss implements IResourceRss
     private int _nMaxItems;
 
     /**
-    * Get the rss id
-    * @return the rss Id
-    */
+     * Get the rss id
+     * 
+     * @return the rss Id
+     */
     @Override
-    public int getId(  )
+    public int getId( )
     {
         return _nId;
     }
 
     /**
      * Set the rss id
-     * @param nId the rss id
+     * 
+     * @param nId
+     *            the rss id
      */
     @Override
     public void setId( int nId )
@@ -69,18 +70,21 @@ public abstract class ResourceRss implements IResourceRss
     }
 
     /**
-    * Get Rss resource Description
-    * @return the description
-    */
+     * Get Rss resource Description
+     * 
+     * @return the description
+     */
     @Override
-    public String getDescription(  )
+    public String getDescription( )
     {
         return _strDescription;
     }
 
     /**
      * Set the RSS resource description
-     * @param strDescription the description
+     * 
+     * @param strDescription
+     *            the description
      */
     @Override
     public void setDescription( String strDescription )
@@ -89,18 +93,21 @@ public abstract class ResourceRss implements IResourceRss
     }
 
     /**
-    * Get The RSS resource name
-    * @return the name
-    */
+     * Get The RSS resource name
+     * 
+     * @return the name
+     */
     @Override
-    public String getName(  )
+    public String getName( )
     {
         return _strName;
     }
 
     /**
      * Set the RSS resource name
-     * @param strName the name
+     * 
+     * @param strName
+     *            the name
      */
     @Override
     public void setName( String strName )
@@ -110,10 +117,11 @@ public abstract class ResourceRss implements IResourceRss
 
     /**
      * Get the RSS Resource Type
+     * 
      * @return the ResourceRssType Object
      */
     @Override
-    public IResourceRssType getResourceRssType(  )
+    public IResourceRssType getResourceRssType( )
     {
         return _taskType;
     }
@@ -121,7 +129,8 @@ public abstract class ResourceRss implements IResourceRss
     /**
      * Set the ResourceRssType object.
      *
-     * @param taskType the new resource rss type
+     * @param taskType
+     *            the new resource rss type
      */
     @Override
     public void setResourceRssType( IResourceRssType taskType )
@@ -131,17 +140,17 @@ public abstract class ResourceRss implements IResourceRss
 
     /**
      *
-     *{@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
-    public String getFeedType(  )
+    public String getFeedType( )
     {
         return _strFeedType;
     }
 
     /**
      *
-     *{@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void setFeedType( String strFeedType )
@@ -150,19 +159,19 @@ public abstract class ResourceRss implements IResourceRss
     }
 
     /**
-    *
-    *{@inheritDoc}
-    */
+     *
+     * {@inheritDoc}
+     */
     @Override
-    public String getEncoding(  )
+    public String getEncoding( )
     {
         return _strEncoding;
     }
 
     /**
-    *
-    *{@inheritDoc}
-    */
+     *
+     * {@inheritDoc}
+     */
     @Override
     public void setEncoding( String strEncoding )
     {
@@ -171,17 +180,17 @@ public abstract class ResourceRss implements IResourceRss
 
     /**
      *
-     *{@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
-    public int getMaxItems(  )
+    public int getMaxItems( )
     {
         return _nMaxItems;
     }
 
     /**
      *
-     *{@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public void setMaxItems( int nMaxItems )
@@ -195,7 +204,7 @@ public abstract class ResourceRss implements IResourceRss
      * @return the feed
      */
     @Override
-    public IFeedResource getFeed(  )
+    public IFeedResource getFeed( )
     {
         return null;
     }
@@ -207,7 +216,7 @@ public abstract class ResourceRss implements IResourceRss
      */
     @Override
     @Deprecated
-    public String createHtmlRss(  )
+    public String createHtmlRss( )
     {
         return null;
     }

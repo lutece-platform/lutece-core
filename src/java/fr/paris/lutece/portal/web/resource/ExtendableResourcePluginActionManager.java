@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -43,12 +43,9 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  *
- * This manager is used to fill the model with the actions
- * that interact with extend.
- * <br />
+ * This manager is used to fill the model with the actions that interact with extend. <br />
  * It uses the method fillModel of the manager {@link PluginActionManager}.
  *
  */
@@ -66,32 +63,34 @@ public final class ExtendableResourcePluginActionManager
     /**
      * Instantiates a new extendable resource plugin action manager.
      */
-    private ExtendableResourcePluginActionManager(  )
+    private ExtendableResourcePluginActionManager( )
     {
     }
 
     /**
-     * Fill the model with all actions and adds the list to the given marker.
-     * It also add the mapParameter to the model.
+     * Fill the model with all actions and adds the list to the given marker. It also add the mapParameter to the model.
      *
-     * @param request the request
-     * @param adminUser the admin user
-     * @param model the model
-     * @param strIdExtendableResource the str id extendable resource
-     * @param strExtendableResourceType the str extendable resource type
+     * @param request
+     *            the request
+     * @param adminUser
+     *            the admin user
+     * @param model
+     *            the model
+     * @param strIdExtendableResource
+     *            the str id extendable resource
+     * @param strExtendableResourceType
+     *            the str extendable resource type
      */
-    public static void fillModel( HttpServletRequest request, AdminUser adminUser, Map<String, Object> model,
-        String strIdExtendableResource, String strExtendableResourceType )
+    public static void fillModel( HttpServletRequest request, AdminUser adminUser, Map<String, Object> model, String strIdExtendableResource,
+            String strExtendableResourceType )
     {
-        Map<String, Object> modelTmp = new HashMap<String, Object>(  );
+        Map<String, Object> modelTmp = new HashMap<String, Object>( );
         modelTmp.put( MARK_ID_EXTENDABLE_RESOURCE, strIdExtendableResource );
         modelTmp.put( MARK_EXTENDABLE_RESOURCE_TYPE, strExtendableResourceType );
-        PluginActionManager.fillModel( request, adminUser, modelTmp, IExtendableResourcePluginAction.class,
-            MARK_LIST_EXTENDABLE_RESOURCE_ACTIONS );
+        PluginActionManager.fillModel( request, adminUser, modelTmp, IExtendableResourcePluginAction.class, MARK_LIST_EXTENDABLE_RESOURCE_ACTIONS );
 
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_EXTENDABLE_RESOURCE_ACTION,
-                request.getLocale(  ), modelTmp );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_EXTENDABLE_RESOURCE_ACTION, request.getLocale( ), modelTmp );
 
-        model.put( MARK_EXTENDABLE_RESOURCE_ACTIONS_HTML, template.getHtml(  ) );
+        model.put( MARK_EXTENDABLE_RESOURCE_ACTIONS_HTML, template.getHtml( ) );
     }
 }

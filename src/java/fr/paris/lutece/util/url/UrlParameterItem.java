@@ -33,13 +33,12 @@
  */
 package fr.paris.lutece.util.url;
 
-
 /**
  * This class provides utility methods to manipulate an url parameter
  */
 public class UrlParameterItem
 {
-    ////////////////////////////////////////////////////////////////////////////
+    // //////////////////////////////////////////////////////////////////////////
     // Attributes
 
     /** the name of the parameter. */
@@ -48,13 +47,16 @@ public class UrlParameterItem
     /** the value of the parameter. */
     private String _strValue;
 
-    ////////////////////////////////////////////////////////////////////////////
+    // //////////////////////////////////////////////////////////////////////////
     // Constructors
 
     /**
      * Constructs a UrlParameterItem.
-     * @param strName The name of the parameter.
-     * @param strValue The value of the parameter.
+     * 
+     * @param strName
+     *            The name of the parameter.
+     * @param strValue
+     *            The value of the parameter.
      */
     public UrlParameterItem( String strName, String strValue )
     {
@@ -64,8 +66,11 @@ public class UrlParameterItem
 
     /**
      * Constructs a UrlParameterItem.
-     * @param strName The name of the parameter.
-     * @param nValue The value of the parameter.
+     * 
+     * @param strName
+     *            The name of the parameter.
+     * @param nValue
+     *            The value of the parameter.
      */
     public UrlParameterItem( String strName, int nValue )
     {
@@ -73,13 +78,14 @@ public class UrlParameterItem
         _strValue = Integer.toString( nValue );
     }
 
-    ////////////////////////////////////////////////////////////////////////////
+    // //////////////////////////////////////////////////////////////////////////
     // public method
 
     /**
      * Return the string to insert the parameter in the url.
      *
-     * @param bFirst True if this is the first url parameter.
+     * @param bFirst
+     *            True if this is the first url parameter.
      * @return String The string to insert in the url.
      */
     public String getCode( boolean bFirst )
@@ -90,7 +96,8 @@ public class UrlParameterItem
     /**
      * Return the string to insert the parameter in the url.
      *
-     * @param bFirst True if this is the first url parameter.
+     * @param bFirst
+     *            True if this is the first url parameter.
      * @return String The string to insert in the url.
      */
     public String getCodeEntity( boolean bFirst )

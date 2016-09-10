@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -37,7 +37,6 @@ import fr.paris.lutece.portal.service.dashboard.IDashboardComponent;
 
 import java.util.List;
 
-
 /**
  *
  * IDashboardDAO
@@ -48,22 +47,25 @@ public interface IDashboardDAO
     /**
      * Insert a new record in the table.
      *
-     * @param dashboardComponent instance of the dashboardComponent object to insert
+     * @param dashboardComponent
+     *            instance of the dashboardComponent object to insert
      */
     void insert( IDashboardComponent dashboardComponent );
 
     /**
-     * Load the data of the IndexerAction  from the table
+     * Load the data of the IndexerAction from the table
      *
-     * @param strBeanName The identifier of the action
-     * @return the instance of the  IndexerAction
+     * @param strBeanName
+     *            The identifier of the action
+     * @return the instance of the IndexerAction
      */
     IDashboardComponent load( String strBeanName );
 
     /**
      * Delete a record from the table
      *
-     * @param strBeanName The identifier of the dashboard
+     * @param strBeanName
+     *            The identifier of the dashboard
      */
     void delete( String strBeanName );
 
@@ -71,44 +73,52 @@ public interface IDashboardDAO
      * Delete all record from the table
      *
      */
-    void deleteAll(  );
+    void deleteAll( );
 
     /**
      * Update the dashboardComponent in the table
      *
-     * @param dashboardComponent instance of the IDashboardComponent object to update
+     * @param dashboardComponent
+     *            instance of the IDashboardComponent object to update
      */
     void store( IDashboardComponent dashboardComponent );
 
     /**
      * Finds all DashboardComponent
+     * 
      * @return all DashboardComponent
      */
-    List<IDashboardComponent> selectAllDashboardComponents(  );
+    List<IDashboardComponent> selectAllDashboardComponents( );
 
     /**
      * Finds all dashboard components matching filter
-     * @param filter the filter
+     * 
+     * @param filter
+     *            the filter
      * @return all dashboard components matching filter
      */
     List<IDashboardComponent> selectDashboardComponents( DashboardFilter filter );
 
     /**
      * Returns the max order value, for all columns
+     * 
      * @return the max order
      */
-    int selectMaxOrder(  );
+    int selectMaxOrder( );
 
     /**
      * Returns the max order value, for the given column
-     * @param nColumn the column
+     * 
+     * @param nColumn
+     *            the column
      * @return the max order
      */
     int selectMaxOrder( int nColumn );
 
     /**
      * Returns the columns list
+     * 
      * @return the columns list
      */
-    List<Integer> selectColumns(  );
+    List<Integer> selectColumns( );
 }

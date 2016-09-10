@@ -39,10 +39,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-
 /**
- * This class provides the structure for a list of references values Each
- * element includes a code and a name
+ * This class provides the structure for a list of references values Each element includes a code and a name
  */
 public class ReferenceList extends ArrayList<ReferenceItem>
 {
@@ -54,14 +52,16 @@ public class ReferenceList extends ArrayList<ReferenceItem>
     /**
      * Default constructor.
      */
-    public ReferenceList(  )
+    public ReferenceList( )
     {
-        super(  );
+        super( );
     }
 
     /**
      * Creates a new reference list with a specified initial capacity.
-     * @param nInitialCapacity The initial capacity of the collection
+     * 
+     * @param nInitialCapacity
+     *            The initial capacity of the collection
      */
     public ReferenceList( int nInitialCapacity )
     {
@@ -71,28 +71,30 @@ public class ReferenceList extends ArrayList<ReferenceItem>
     /**
      * This method adds a new element (code, name) to the list
      *
-     * @param strCode The code as a String
-     * @param strName The name corresponding to the code as a String
+     * @param strCode
+     *            The code as a String
+     * @param strName
+     *            The name corresponding to the code as a String
      */
     public void addItem( String strCode, String strName )
     {
-        ReferenceItem item = new ReferenceItem(  );
+        ReferenceItem item = new ReferenceItem( );
         item.setCode( strCode );
         item.setName( strName );
         add( item );
     }
 
     /**
-     * This method converts the int code specified in parameter as a String and
-     * adds a new element (code, name) to the
-     * list
+     * This method converts the int code specified in parameter as a String and adds a new element (code, name) to the list
      *
-     * @param nCode The code to convert an add
-     * @param strName The name corresponding to the code as a String
+     * @param nCode
+     *            The code to convert an add
+     * @param strName
+     *            The name corresponding to the code as a String
      */
     public void addItem( int nCode, String strName )
     {
-        ReferenceItem item = new ReferenceItem(  );
+        ReferenceItem item = new ReferenceItem( );
         String strCode = String.valueOf( nCode );
         item.setCode( strCode );
         item.setName( strName );
@@ -101,24 +103,23 @@ public class ReferenceList extends ArrayList<ReferenceItem>
 
     /**
      * Converts a collection to a ReferenceList
-     * @param collection The collection to convert
-     * @param strCodeAttribute The name of the code attribute. Ex : "id" to call
-     *            getId()
-     * @param strNameAttribute The name of the code attribute. Ex : "name" to
-     *            call getName()
-     * @param bNumericCode true if the code getter returns an Integer, false
-     *            otherwise
+     * 
+     * @param collection
+     *            The collection to convert
+     * @param strCodeAttribute
+     *            The name of the code attribute. Ex : "id" to call getId()
+     * @param strNameAttribute
+     *            The name of the code attribute. Ex : "name" to call getName()
+     * @param bNumericCode
+     *            true if the code getter returns an Integer, false otherwise
      * @return The ReferenceList filled
      * @since v1.1
      */
-    public static ReferenceList convert( Collection collection, String strCodeAttribute, String strNameAttribute,
-        boolean bNumericCode )
+    public static ReferenceList convert( Collection collection, String strCodeAttribute, String strNameAttribute, boolean bNumericCode )
     {
-        ReferenceList list = new ReferenceList(  );
-        String strCodeGetter = "get" + Character.toUpperCase( strCodeAttribute.charAt( 0 ) ) +
-            strCodeAttribute.substring( 1 );
-        String strNameGetter = "get" + Character.toUpperCase( strNameAttribute.charAt( 0 ) ) +
-            strNameAttribute.substring( 1 );
+        ReferenceList list = new ReferenceList( );
+        String strCodeGetter = "get" + Character.toUpperCase( strCodeAttribute.charAt( 0 ) ) + strCodeAttribute.substring( 1 );
+        String strNameGetter = "get" + Character.toUpperCase( strNameAttribute.charAt( 0 ) ) + strNameAttribute.substring( 1 );
         String strCode;
         String strName;
 
@@ -129,21 +130,19 @@ public class ReferenceList extends ArrayList<ReferenceItem>
                 // build getter method name
                 if ( bNumericCode )
                 {
-                    Integer nCode = (Integer) o.getClass(  ).getMethod( strCodeGetter, (Class[]) null )
-                                               .invoke( o, (Object[]) null );
-                    strCode = nCode.toString(  );
+                    Integer nCode = (Integer) o.getClass( ).getMethod( strCodeGetter, (Class [ ]) null ).invoke( o, (Object [ ]) null );
+                    strCode = nCode.toString( );
                 }
                 else
                 {
-                    strCode = (String) o.getClass(  ).getMethod( strCodeGetter, (Class[]) null )
-                                        .invoke( o, (Object[]) null );
+                    strCode = (String) o.getClass( ).getMethod( strCodeGetter, (Class [ ]) null ).invoke( o, (Object [ ]) null );
                 }
 
-                strName = (String) o.getClass(  ).getMethod( strNameGetter, (Class[]) null ).invoke( o, (Object[]) null );
+                strName = (String) o.getClass( ).getMethod( strNameGetter, (Class [ ]) null ).invoke( o, (Object [ ]) null );
                 list.addItem( strCode, strName );
             }
         }
-        catch ( Exception ex )
+        catch( Exception ex )
         {
             return null;
         }
@@ -153,18 +152,20 @@ public class ReferenceList extends ArrayList<ReferenceItem>
 
     /**
      * Convert a Map<String, String> into a ReferenceList
-     * @param map the map to convert
+     * 
+     * @param map
+     *            the map to convert
      * @return the converted ReferenceList
      */
     public static ReferenceList convert( Map<String, String> map )
     {
         if ( map != null )
         {
-            ReferenceList list = new ReferenceList(  );
+            ReferenceList list = new ReferenceList( );
 
-            for ( Entry<String, String> param : map.entrySet(  ) )
+            for ( Entry<String, String> param : map.entrySet( ) )
             {
-                list.addItem( param.getKey(  ), param.getValue(  ) );
+                list.addItem( param.getKey( ), param.getValue( ) );
             }
 
             return list;
@@ -175,17 +176,18 @@ public class ReferenceList extends ArrayList<ReferenceItem>
 
     /**
      * Convert the ReferenceList into a map
+     * 
      * @return the converted map
      */
-    public Map<String, String> toMap(  )
+    public Map<String, String> toMap( )
     {
-        Map<String, String> map = new HashMap<String, String>(  );
+        Map<String, String> map = new HashMap<String, String>( );
 
-        if ( !this.isEmpty(  ) )
+        if ( !this.isEmpty( ) )
         {
             for ( ReferenceItem item : this )
             {
-                map.put( item.getCode(  ), item.getName(  ) );
+                map.put( item.getCode( ), item.getName( ) );
             }
         }
 
@@ -194,15 +196,17 @@ public class ReferenceList extends ArrayList<ReferenceItem>
 
     /**
      * CheckItems when are selected
-     * @param valuesToCheck The list of string
+     * 
+     * @param valuesToCheck
+     *            The list of string
      */
-    public void checkItems( String[] valuesToCheck )
+    public void checkItems( String [ ] valuesToCheck )
     {
         for ( int i = 0; i < valuesToCheck.length; i++ )
         {
             for ( ReferenceItem item : this )
             {
-                if ( item.getCode(  ).equals( valuesToCheck[i] ) )
+                if ( item.getCode( ).equals( valuesToCheck [i] ) )
                 {
                     item.setChecked( true );
                 }

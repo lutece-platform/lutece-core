@@ -41,7 +41,6 @@ import java.util.Map.Entry;
 
 import javax.validation.ConstraintViolation;
 
-
 /**
  * ValidationError Utils
  */
@@ -50,57 +49,66 @@ public final class ValidationErrorUtil
     /**
      * Private constructor
      */
-    private ValidationErrorUtil(  )
+    private ValidationErrorUtil( )
     {
         // Nothing to do
     }
 
     /**
      * Return the attribute's value to set as the value#1 of the message
-     * @param constraintViolation The Constraint violation
-     * @param config The config
+     * 
+     * @param constraintViolation
+     *            The Constraint violation
+     * @param config
+     *            The config
      * @return The value
      */
     public static String getValue1( ConstraintViolation constraintViolation, ValidationErrorConfig config )
     {
-        return getValue( constraintViolation, config, config.getValue1Attributes(  ) );
+        return getValue( constraintViolation, config, config.getValue1Attributes( ) );
     }
 
     /**
      * Return the attribute's value to set as the value#2 of the message
-     * @param constraintViolation The Constraint violation
-     * @param config The config
+     * 
+     * @param constraintViolation
+     *            The Constraint violation
+     * @param config
+     *            The config
      * @return The value
      */
     public static String getValue2( ConstraintViolation constraintViolation, ValidationErrorConfig config )
     {
-        return getValue( constraintViolation, config, config.getValue2Attributes(  ) );
+        return getValue( constraintViolation, config, config.getValue2Attributes( ) );
     }
 
     /**
      * Return the field name as it will appear in the message
-     * @param constraintViolation The Constraint violation
-     * @param config The config
-     * @param locale The locale
+     * 
+     * @param constraintViolation
+     *            The Constraint violation
+     * @param config
+     *            The config
+     * @param locale
+     *            The locale
      * @return The field name
      */
-    public static String getFieldname( ConstraintViolation constraintViolation, ValidationErrorConfig config,
-        Locale locale )
+    public static String getFieldname( ConstraintViolation constraintViolation, ValidationErrorConfig config, Locale locale )
     {
-        String strField = constraintViolation.getPropertyPath(  ).toString(  );
+        String strField = constraintViolation.getPropertyPath( ).toString( );
 
         // remove the variable prefix
-        String[] prefix = config.getVariablesPrefix(  );
+        String [ ] prefix = config.getVariablesPrefix( );
 
         for ( int i = 0; i < prefix.length; i++ )
         {
-            strField = removePrefix( strField, prefix[i] );
+            strField = removePrefix( strField, prefix [i] );
         }
 
         // set first letter in lower case
-        strField = strField.substring( 0, 1 ).toLowerCase(  ) + strField.substring( 1 );
+        strField = strField.substring( 0, 1 ).toLowerCase( ) + strField.substring( 1 );
 
-        String strKey = config.getFieldKeysPrefix(  ) + strField;
+        String strKey = config.getFieldKeysPrefix( ) + strField;
 
         String strFieldName = I18nService.getLocalizedString( strKey, locale );
 
@@ -111,15 +119,18 @@ public final class ValidationErrorUtil
             strFieldName = "[" + strKey + "]";
         }
 
-        strFieldName = config.getFieldWrapperBegin(  ) + strFieldName + config.getFieldWrapperEnd(  );
+        strFieldName = config.getFieldWrapperBegin( ) + strFieldName + config.getFieldWrapperEnd( );
 
         return strFieldName;
     }
 
     /**
      * Remove the variable prefix
-     * @param strSource The source
-     * @param strPrefix The prefix
+     * 
+     * @param strSource
+     *            The source
+     * @param strPrefix
+     *            The prefix
      * @return The string with the prefix removed
      */
     private static String removePrefix( String strSource, String strPrefix )
@@ -128,7 +139,7 @@ public final class ValidationErrorUtil
 
         if ( strSource.startsWith( strPrefix ) )
         {
-            strReturn = strSource.substring( strPrefix.length(  ) );
+            strReturn = strSource.substring( strPrefix.length( ) );
         }
 
         return strReturn;
@@ -136,23 +147,26 @@ public final class ValidationErrorUtil
 
     /**
      * Return the attribute's value to set as value the of the message
-     * @param constraintViolation The Constraint violation
-     * @param config The config
-     * @param strAttributes The attributes names list
+     * 
+     * @param constraintViolation
+     *            The Constraint violation
+     * @param config
+     *            The config
+     * @param strAttributes
+     *            The attributes names list
      * @return The value
      */
-    private static String getValue( ConstraintViolation constraintViolation, ValidationErrorConfig config,
-        String strAttributes )
+    private static String getValue( ConstraintViolation constraintViolation, ValidationErrorConfig config, String strAttributes )
     {
         String strValue = "";
 
-        Map<String, Object> mapAttributes = constraintViolation.getConstraintDescriptor(  ).getAttributes(  );
+        Map<String, Object> mapAttributes = constraintViolation.getConstraintDescriptor( ).getAttributes( );
 
-        for ( Entry<String, Object> entry : mapAttributes.entrySet(  ) )
+        for ( Entry<String, Object> entry : mapAttributes.entrySet( ) )
         {
-            if ( strAttributes.contains( entry.getKey(  ) ) )
+            if ( strAttributes.contains( entry.getKey( ) ) )
             {
-                strValue = getValue( entry.getValue(  ) );
+                strValue = getValue( entry.getValue( ) );
             }
         }
 
@@ -161,7 +175,9 @@ public final class ValidationErrorUtil
 
     /**
      * Convert an unkown type value to a String value
-     * @param value The valus
+     * 
+     * @param value
+     *            The valus
      * @return The value as a String
      */
     private static String getValue( Object value )

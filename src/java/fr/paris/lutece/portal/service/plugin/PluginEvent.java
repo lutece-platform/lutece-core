@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,7 +33,6 @@
  */
 package fr.paris.lutece.portal.service.plugin;
 
-
 /**
  * Plugin Event used to notify PluginEvent Listeners
  */
@@ -47,9 +46,13 @@ public class PluginEvent
     private Plugin _plugin;
     private int _nType;
 
-    /** Creates a new instance of PluginEvent
-     * @param plugin The plugin
-     * @param nType The event type
+    /**
+     * Creates a new instance of PluginEvent
+     * 
+     * @param plugin
+     *            The plugin
+     * @param nType
+     *            The event type
      */
     public PluginEvent( Plugin plugin, int nType )
     {
@@ -62,7 +65,7 @@ public class PluginEvent
      *
      * @return The EventType
      */
-    public int getEventType(  )
+    public int getEventType( )
     {
         return _nType;
     }
@@ -72,7 +75,7 @@ public class PluginEvent
      *
      * @return The Plugin
      */
-    public Plugin getPlugin(  )
+    public Plugin getPlugin( )
     {
         return _plugin;
     }

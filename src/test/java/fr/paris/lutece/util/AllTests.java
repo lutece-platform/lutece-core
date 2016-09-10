@@ -43,7 +43,6 @@ import fr.paris.lutece.util.url.UrlItemTest;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-
 /**
  * This class is the main test suite for the package fr.paris.lutece.util
  */
@@ -53,19 +52,20 @@ public final class AllTests
      * Constructor
      *
      */
-    private AllTests(  )
+    private AllTests( )
     {
     }
 
     /**
      * A set of tests
+     * 
      * @return Test the tests
      */
-    public static Test suite(  )
+    public static Test suite( )
     {
         TestSuite suite = new TestSuite( "*** Tests Lutece utils" );
 
-        //$JUnit-BEGIN$
+        // $JUnit-BEGIN$
         suite.addTest( new TestSuite( DateUtilTest.class ) );
         suite.addTest( new TestSuite( StringUtilTest.class ) );
         suite.addTest( new TestSuite( FileSystemUtilTest.class ) );
@@ -75,7 +75,7 @@ public final class AllTests
         suite.addTest( new TestSuite( PropertiesServiceTest.class ) );
         suite.addTest( new TestSuite( ReferenceListTest.class ) );
 
-        //$JUnit-END$
+        // $JUnit-END$
         return suite;
     }
 }

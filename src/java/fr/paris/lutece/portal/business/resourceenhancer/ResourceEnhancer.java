@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -40,7 +40,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  * ResourceEnhancer : handles {@link IResourceDisplayManager} and {@link IResourceManager}
  */
@@ -49,7 +48,7 @@ public final class ResourceEnhancer
     /**
      * Empty constructor
      */
-    private ResourceEnhancer(  )
+    private ResourceEnhancer( )
     {
         // nothing
     }
@@ -58,9 +57,13 @@ public final class ResourceEnhancer
 
     /**
      * Add to the the XML String additional datas
-     * @param strXml The xml string use by stylesheet
-     * @param strResourceType the resource type
-     * @param nResourceId The resource Id
+     * 
+     * @param strXml
+     *            The xml string use by stylesheet
+     * @param strResourceType
+     *            the resource type
+     * @param nResourceId
+     *            The resource Id
      */
     public static void getXmlAddOn( StringBuffer strXml, String strResourceType, int nResourceId )
     {
@@ -75,14 +78,18 @@ public final class ResourceEnhancer
     /**
      * Add datas to the model use by document template
      *
-     * @param model The model use by document template
-     * @param strResourceType the ressource Type
-     * @param nIdResource The resource id
-     * @param strPortletId The portlet ID
-     * @param request The HTTP Request
+     * @param model
+     *            The model use by document template
+     * @param strResourceType
+     *            the ressource Type
+     * @param nIdResource
+     *            The resource id
+     * @param strPortletId
+     *            The portlet ID
+     * @param request
+     *            The HTTP Request
      */
-    public static void buildPageAddOn( Map<String, Object> model, String strResourceType, int nIdResource,
-        String strPortletId, HttpServletRequest request )
+    public static void buildPageAddOn( Map<String, Object> model, String strResourceType, int nIdResource, String strPortletId, HttpServletRequest request )
     {
         List<IResourceDisplayManager> managers = SpringContextService.getBeansOfType( IResourceDisplayManager.class );
 
@@ -96,7 +103,9 @@ public final class ResourceEnhancer
 
     /**
      * Add datas to the create document model use in the template
-     * @param model the map use in the template
+     * 
+     * @param model
+     *            the map use in the template
      */
     public static void getCreateResourceModelAddOn( Map<String, Object> model )
     {
@@ -110,9 +119,13 @@ public final class ResourceEnhancer
 
     /**
      * Perform actions associated to the document creation
-     * @param request The HTTP request
-     * @param strResourceType the resource type
-     * @param nResourceId the resource id
+     * 
+     * @param request
+     *            The HTTP request
+     * @param strResourceType
+     *            the resource type
+     * @param nResourceId
+     *            the resource id
      */
     public static void doCreateResourceAddOn( HttpServletRequest request, String strResourceType, int nResourceId )
     {
@@ -126,9 +139,13 @@ public final class ResourceEnhancer
 
     /**
      * Add datas to the modify document model use in the template
-     * @param model the map use in the template
-     * @param strResourceType the resource type
-     * @param nResourceId the resource id
+     * 
+     * @param model
+     *            the map use in the template
+     * @param strResourceType
+     *            the resource type
+     * @param nResourceId
+     *            the resource id
      */
     public static void getModifyResourceModelAddOn( Map<String, Object> model, String strResourceType, int nResourceId )
     {
@@ -142,9 +159,13 @@ public final class ResourceEnhancer
 
     /**
      * Perform actions associated to the document modification
-     * @param request The HTTP request
-     * @param strResourceType the resource type
-     * @param nResourceId the resource id
+     * 
+     * @param request
+     *            The HTTP request
+     * @param strResourceType
+     *            the resource type
+     * @param nResourceId
+     *            the resource id
      */
     public static void doModifyResourceAddOn( HttpServletRequest request, String strResourceType, int nResourceId )
     {
@@ -158,9 +179,13 @@ public final class ResourceEnhancer
 
     /**
      * Perform actions associated to the document deletion
-     * @param request The HTTP request
-     * @param strResourceType the resource type
-     * @param nResourceId the resource id
+     * 
+     * @param request
+     *            The HTTP request
+     * @param strResourceType
+     *            the resource type
+     * @param nResourceId
+     *            the resource id
      */
     public static void doDeleteResourceAddOn( HttpServletRequest request, String strResourceType, int nResourceId )
     {
@@ -174,9 +199,13 @@ public final class ResourceEnhancer
 
     /**
      * Perform actions associated to the document download
-     * @param request The HTTP request
-     * @param strResourceType the resource type
-     * @param nResourceId the resource id
+     * 
+     * @param request
+     *            The HTTP request
+     * @param strResourceType
+     *            the resource type
+     * @param nResourceId
+     *            the resource id
      */
     public static void doDownloadResourceAddOn( HttpServletRequest request, String strResourceType, int nResourceId )
     {

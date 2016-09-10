@@ -43,31 +43,42 @@ public interface ILuteceDefaultAdminUserDAO
 {
     /**
      * Load the stored password
-     * @param strAccessCode The name of the user
+     * 
+     * @param strAccessCode
+     *            The name of the user
      * @return the stored password
      */
     IPassword loadPassword( String strAccessCode );
 
     /**
-     * load the data of an user from the table provided by the database authentication module
-     * This only provides data specific to the database authentication module.
-     * @param strAccessCode The access code of user
-     * @param authenticationService The AdminAuthentication
+     * load the data of an user from the table provided by the database authentication module This only provides data specific to the database authentication
+     * module.
+     * 
+     * @param strAccessCode
+     *            The access code of user
+     * @param authenticationService
+     *            The AdminAuthentication
      * @return user The instance of an LuteceDefaultAdminUser's object
      */
     LuteceDefaultAdminUser load( String strAccessCode, AdminAuthentication authenticationService );
 
     /**
      * Set the reset password attribute of the user
-     * @param user User to update
-     * @param bIsPasswordReset New value of the reset password attribute
+     * 
+     * @param user
+     *            User to update
+     * @param bIsPasswordReset
+     *            New value of the reset password attribute
      */
     void updateResetPassword( LuteceDefaultAdminUser user, boolean bIsPasswordReset );
 
     /**
      * Store the user password
-     * @param strAccessCode The name of the user
-     * @param password the password to store
+     * 
+     * @param strAccessCode
+     *            The name of the user
+     * @param password
+     *            the password to store
      */
     void store( String strAccessCode, IPassword password );
 }

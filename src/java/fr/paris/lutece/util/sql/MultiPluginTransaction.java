@@ -40,11 +40,9 @@ import org.apache.commons.lang.NotImplementedException;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-
 /**
- * Class to represents transactions that are shared between plugins. Such
- * transactions will be shared by each plugin using the same pool than the one
- * that created the transaction.
+ * Class to represents transactions that are shared between plugins. Such transactions will be shared by each plugin using the same pool than the one that
+ * created the transaction.
  */
 public class MultiPluginTransaction extends Transaction
 {
@@ -53,15 +51,17 @@ public class MultiPluginTransaction extends Transaction
     /**
      * Constructor
      */
-    public MultiPluginTransaction(  )
+    public MultiPluginTransaction( )
     {
-        super(  );
+        super( );
         _nNbTransactionsOpened = 1;
     }
 
     /**
      * Constructor
-     * @param plugin The plugin owner of the transaction
+     * 
+     * @param plugin
+     *            The plugin owner of the transaction
      */
     public MultiPluginTransaction( Plugin plugin )
     {
@@ -70,31 +70,28 @@ public class MultiPluginTransaction extends Transaction
     }
 
     /**
-     * Get the number of transactions that plugins tried to open simultaneously
-     * on the same pool. If the number if 1, then the transaction can be safely
-     * committed. If it is more than 1, then this number should be decremented
-     * and the transaction should not be committed.
+     * Get the number of transactions that plugins tried to open simultaneously on the same pool. If the number if 1, then the transaction can be safely
+     * committed. If it is more than 1, then this number should be decremented and the transaction should not be committed.
+     * 
      * @return The number of transactions that was required
      */
-    public int getNbTransactionsOpened(  )
+    public int getNbTransactionsOpened( )
     {
         return _nNbTransactionsOpened;
     }
 
     /**
-     * Increment the number of transactions by one. See
-     * {@link #getNbTransactionsOpened()} for more details.
+     * Increment the number of transactions by one. See {@link #getNbTransactionsOpened()} for more details.
      */
-    public void incrementNbTransactionsOpened(  )
+    public void incrementNbTransactionsOpened( )
     {
         _nNbTransactionsOpened++;
     }
 
     /**
-     * Decrement the number of transactions by one. See
-     * {@link #getNbTransactionsOpened()} for more details.
+     * Decrement the number of transactions by one. See {@link #getNbTransactionsOpened()} for more details.
      */
-    public void decrementNbTransactionsOpened(  )
+    public void decrementNbTransactionsOpened( )
     {
         _nNbTransactionsOpened--;
     }
@@ -103,38 +100,35 @@ public class MultiPluginTransaction extends Transaction
      * {@inheritDoc}
      */
     @Override
-    public PreparedStatement prepareStatement( String strSQL )
-        throws SQLException
+    public PreparedStatement prepareStatement( String strSQL ) throws SQLException
     {
-        // Get a new statement 
-        if ( getConnection(  ) == null )
+        // Get a new statement
+        if ( getConnection( ) == null )
         {
-            throw new SQLException( 
-                "MultiPluginTransaction - Connection has been closed. The new prepared statement can not be created : " +
-                strSQL );
+            throw new SQLException( "MultiPluginTransaction - Connection has been closed. The new prepared statement can not be created : " + strSQL );
         }
 
-        return getConnection(  ).prepareStatement( strSQL );
+        return getConnection( ).prepareStatement( strSQL );
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void executeStatement(  ) throws SQLException
+    public void executeStatement( ) throws SQLException
     {
-        throw new NotImplementedException( 
-            "The method executeStatement( ) of class MultiPluginTransaction must not be called. Use manually PreparedStatement.executeQuery() instead." );
+        throw new NotImplementedException(
+                "The method executeStatement( ) of class MultiPluginTransaction must not be called. Use manually PreparedStatement.executeQuery() instead." );
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void commit(  )
+    public void commit( )
     {
         _nNbTransactionsOpened = 0;
-        super.commit(  );
+        super.commit( );
     }
 
     /**

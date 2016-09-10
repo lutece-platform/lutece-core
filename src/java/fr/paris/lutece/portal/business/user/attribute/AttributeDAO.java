@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -42,7 +42,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-
 /**
  *
  * AttributeDAO
@@ -57,22 +56,22 @@ public class AttributeDAO implements IAttributeDAO
     private static final String SQL_QUERY_NEW_POSITION = "SELECT MAX(attribute_position)" + " FROM core_attribute ";
 
     // SELECT
-    private static final String SQL_QUERY_SELECT = " SELECT type_class_name, id_attribute, title, help_message, is_mandatory, is_shown_in_search, is_shown_in_result_list, is_field_in_line, attribute_position, plugin_name " +
-        " FROM core_attribute WHERE id_attribute = ? ";
-    private static final String SQL_QUERY_SELECT_ALL = " SELECT type_class_name, id_attribute, title, help_message, is_mandatory, is_shown_in_search, is_shown_in_result_list, is_field_in_line, attribute_position, anonymize, plugin_name " +
-        " FROM core_attribute ORDER BY attribute_position ASC ";
-    private static final String SQL_QUERY_SELECT_PLUGIN_ATTRIBUTES = " SELECT type_class_name, id_attribute, title, help_message, is_mandatory, is_shown_in_search, is_shown_in_result_list, is_field_in_line, attribute_position " +
-        " FROM core_attribute WHERE plugin_name = ? ORDER BY attribute_position ASC ";
-    private static final String SQL_QUERY_SELECT_CORE_ATTRIBUTES = " SELECT type_class_name, id_attribute, title, help_message, is_mandatory, is_shown_in_search, is_shown_in_result_list, is_field_in_line, attribute_position " +
-        " FROM core_attribute WHERE plugin_name IS NULL OR plugin_name = '' ORDER BY attribute_position ASC ";
+    private static final String SQL_QUERY_SELECT = " SELECT type_class_name, id_attribute, title, help_message, is_mandatory, is_shown_in_search, is_shown_in_result_list, is_field_in_line, attribute_position, plugin_name "
+            + " FROM core_attribute WHERE id_attribute = ? ";
+    private static final String SQL_QUERY_SELECT_ALL = " SELECT type_class_name, id_attribute, title, help_message, is_mandatory, is_shown_in_search, is_shown_in_result_list, is_field_in_line, attribute_position, anonymize, plugin_name "
+            + " FROM core_attribute ORDER BY attribute_position ASC ";
+    private static final String SQL_QUERY_SELECT_PLUGIN_ATTRIBUTES = " SELECT type_class_name, id_attribute, title, help_message, is_mandatory, is_shown_in_search, is_shown_in_result_list, is_field_in_line, attribute_position "
+            + " FROM core_attribute WHERE plugin_name = ? ORDER BY attribute_position ASC ";
+    private static final String SQL_QUERY_SELECT_CORE_ATTRIBUTES = " SELECT type_class_name, id_attribute, title, help_message, is_mandatory, is_shown_in_search, is_shown_in_result_list, is_field_in_line, attribute_position "
+            + " FROM core_attribute WHERE plugin_name IS NULL OR plugin_name = '' ORDER BY attribute_position ASC ";
 
     // INSERT
-    private static final String SQL_QUERY_INSERT = " INSERT INTO core_attribute (id_attribute, type_class_name, title, help_message, is_mandatory, is_shown_in_search, is_shown_in_result_list, is_field_in_line, attribute_position)" +
-        " VALUES (?,?,?,?,?,?,?,?,?) ";
+    private static final String SQL_QUERY_INSERT = " INSERT INTO core_attribute (id_attribute, type_class_name, title, help_message, is_mandatory, is_shown_in_search, is_shown_in_result_list, is_field_in_line, attribute_position)"
+            + " VALUES (?,?,?,?,?,?,?,?,?) ";
 
     // UPDATE
-    private static final String SQL_QUERY_UPDATE = " UPDATE core_attribute SET title = ?, help_message = ?, is_mandatory = ?, is_shown_in_search = ?, is_shown_in_result_list = ?, is_field_in_line = ?, attribute_position = ? " +
-        " WHERE id_attribute = ? ";
+    private static final String SQL_QUERY_UPDATE = " UPDATE core_attribute SET title = ?, help_message = ?, is_mandatory = ?, is_shown_in_search = ?, is_shown_in_result_list = ?, is_field_in_line = ?, attribute_position = ? "
+            + " WHERE id_attribute = ? ";
     private static final String SQL_QUERY_UPDATE_ANONYMIZATION = " UPDATE core_attribute SET anonymize = ? WHERE id_attribute = ? ";
 
     // DELETE
@@ -81,83 +80,88 @@ public class AttributeDAO implements IAttributeDAO
     // NEW PK
     /**
      * Generate a new PK
+     * 
      * @return The new ID
      */
-    private int newPrimaryKey(  )
+    private int newPrimaryKey( )
     {
         StringBuilder sbSQL = new StringBuilder( SQL_QUERY_NEW_PK );
-        DAOUtil daoUtil = new DAOUtil( sbSQL.toString(  ) );
-        daoUtil.executeQuery(  );
+        DAOUtil daoUtil = new DAOUtil( sbSQL.toString( ) );
+        daoUtil.executeQuery( );
 
         int nKey = 1;
 
-        if ( daoUtil.next(  ) )
+        if ( daoUtil.next( ) )
         {
             nKey = daoUtil.getInt( 1 ) + 1;
         }
 
-        daoUtil.free(  );
+        daoUtil.free( );
 
         return nKey;
     }
 
     /**
-    * Generates a new field position
-    * @return the new entry position
-    */
-    private int newPosition(  )
+     * Generates a new field position
+     * 
+     * @return the new entry position
+     */
+    private int newPosition( )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_NEW_POSITION );
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
         int nPos;
 
-        if ( !daoUtil.next(  ) )
+        if ( !daoUtil.next( ) )
         {
             // if the table is empty
             nPos = 1;
         }
 
         nPos = daoUtil.getInt( 1 ) + 1;
-        daoUtil.free(  );
+        daoUtil.free( );
 
         return nPos;
     }
 
     /**
      * Load attribute
-     * @param nIdAttribute ID
-     * @param locale Locale
+     * 
+     * @param nIdAttribute
+     *            ID
+     * @param locale
+     *            Locale
      * @return Attribute
      */
     public IAttribute load( int nIdAttribute, Locale locale )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT );
         daoUtil.setInt( 1, nIdAttribute );
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
         IAttribute attribute = null;
 
-        if ( daoUtil.next(  ) )
+        if ( daoUtil.next( ) )
         {
             int nIndex = 1;
 
             try
             {
-                attribute = (IAttribute) Class.forName( daoUtil.getString( nIndex++ ) ).newInstance(  );
+                attribute = (IAttribute) Class.forName( daoUtil.getString( nIndex++ ) ).newInstance( );
             }
-            catch ( ClassNotFoundException e )
+            catch( ClassNotFoundException e )
             {
                 // class doesn't exist
                 AppLogService.error( e );
             }
-            catch ( InstantiationException e )
+            catch( InstantiationException e )
             {
                 // Class is abstract or is an interface or haven't accessible
                 // builder
                 AppLogService.error( e );
             }
-            catch ( IllegalAccessException e )
+            catch( IllegalAccessException e )
             {
                 // can't access to rhe class
                 AppLogService.error( e );
@@ -177,103 +181,111 @@ public class AttributeDAO implements IAttributeDAO
             attribute.setPlugin( plugin );
         }
 
-        daoUtil.free(  );
+        daoUtil.free( );
 
         return attribute;
     }
 
     /**
      * Insert a new attribute
-     * @param attribute the attribute
+     * 
+     * @param attribute
+     *            the attribute
      * @return new PK
      */
     public int insert( IAttribute attribute )
     {
         int nIndex = 1;
-        int nNewPrimaryKey = newPrimaryKey(  );
+        int nNewPrimaryKey = newPrimaryKey( );
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT );
         daoUtil.setInt( nIndex++, nNewPrimaryKey );
-        daoUtil.setString( nIndex++, attribute.getClass(  ).getName(  ) );
-        daoUtil.setString( nIndex++, attribute.getTitle(  ) );
-        daoUtil.setString( nIndex++, attribute.getHelpMessage(  ) );
-        daoUtil.setBoolean( nIndex++, attribute.isMandatory(  ) );
-        daoUtil.setBoolean( nIndex++, attribute.isShownInSearch(  ) );
-        daoUtil.setBoolean( nIndex++, attribute.isShownInResultList(  ) );
-        daoUtil.setBoolean( nIndex++, attribute.isFieldInLine(  ) );
-        daoUtil.setInt( nIndex++, newPosition(  ) );
+        daoUtil.setString( nIndex++, attribute.getClass( ).getName( ) );
+        daoUtil.setString( nIndex++, attribute.getTitle( ) );
+        daoUtil.setString( nIndex++, attribute.getHelpMessage( ) );
+        daoUtil.setBoolean( nIndex++, attribute.isMandatory( ) );
+        daoUtil.setBoolean( nIndex++, attribute.isShownInSearch( ) );
+        daoUtil.setBoolean( nIndex++, attribute.isShownInResultList( ) );
+        daoUtil.setBoolean( nIndex++, attribute.isFieldInLine( ) );
+        daoUtil.setInt( nIndex++, newPosition( ) );
 
-        daoUtil.executeUpdate(  );
-        daoUtil.free(  );
+        daoUtil.executeUpdate( );
+        daoUtil.free( );
 
         return nNewPrimaryKey;
     }
 
     /**
      * Update an attribute
-     * @param attribute the attribute
+     * 
+     * @param attribute
+     *            the attribute
      */
     public void store( IAttribute attribute )
     {
         int nIndex = 1;
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE );
-        daoUtil.setString( nIndex++, attribute.getTitle(  ) );
-        daoUtil.setString( nIndex++, attribute.getHelpMessage(  ) );
-        daoUtil.setBoolean( nIndex++, attribute.isMandatory(  ) );
-        daoUtil.setBoolean( nIndex++, attribute.isShownInSearch(  ) );
-        daoUtil.setBoolean( nIndex++, attribute.isShownInResultList(  ) );
-        daoUtil.setBoolean( nIndex++, attribute.isFieldInLine(  ) );
-        daoUtil.setInt( nIndex++, attribute.getPosition(  ) );
-        daoUtil.setInt( nIndex++, attribute.getIdAttribute(  ) );
+        daoUtil.setString( nIndex++, attribute.getTitle( ) );
+        daoUtil.setString( nIndex++, attribute.getHelpMessage( ) );
+        daoUtil.setBoolean( nIndex++, attribute.isMandatory( ) );
+        daoUtil.setBoolean( nIndex++, attribute.isShownInSearch( ) );
+        daoUtil.setBoolean( nIndex++, attribute.isShownInResultList( ) );
+        daoUtil.setBoolean( nIndex++, attribute.isFieldInLine( ) );
+        daoUtil.setInt( nIndex++, attribute.getPosition( ) );
+        daoUtil.setInt( nIndex++, attribute.getIdAttribute( ) );
 
-        daoUtil.executeUpdate(  );
-        daoUtil.free(  );
+        daoUtil.executeUpdate( );
+        daoUtil.free( );
     }
 
     /**
      * Delete an attribute
-     * @param nIdAttribute The Id of the attribute
+     * 
+     * @param nIdAttribute
+     *            The Id of the attribute
      */
     public void delete( int nIdAttribute )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE );
         daoUtil.setInt( 1, nIdAttribute );
 
-        daoUtil.executeUpdate(  );
-        daoUtil.free(  );
+        daoUtil.executeUpdate( );
+        daoUtil.free( );
     }
 
     /**
      * Load every attributes
-     * @param locale locale
+     * 
+     * @param locale
+     *            locale
      * @return list of attributes
      */
     public List<IAttribute> selectAll( Locale locale )
     {
-        List<IAttribute> listAttributes = new ArrayList<IAttribute>(  );
+        List<IAttribute> listAttributes = new ArrayList<IAttribute>( );
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_ALL );
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
-        while ( daoUtil.next(  ) )
+        while ( daoUtil.next( ) )
         {
             int nIndex = 1;
             IAttribute attribute = null;
 
             try
             {
-                attribute = (IAttribute) Class.forName( daoUtil.getString( nIndex++ ) ).newInstance(  );
+                attribute = (IAttribute) Class.forName( daoUtil.getString( nIndex++ ) ).newInstance( );
             }
-            catch ( ClassNotFoundException e )
+            catch( ClassNotFoundException e )
             {
                 // class doesn't exist
                 AppLogService.error( e );
             }
-            catch ( InstantiationException e )
+            catch( InstantiationException e )
             {
                 // Class is abstract or is an interface or haven't accessible
                 // builder
                 AppLogService.error( e );
             }
-            catch ( IllegalAccessException e )
+            catch( IllegalAccessException e )
             {
                 // can't access to the class
                 AppLogService.error( e );
@@ -296,26 +308,29 @@ public class AttributeDAO implements IAttributeDAO
             listAttributes.add( attribute );
         }
 
-        daoUtil.free(  );
+        daoUtil.free( );
 
         return listAttributes;
     }
 
     /**
      * Load every attributes from plugin name
-     * @param strPluginName plugin name
-     * @param locale locale
+     * 
+     * @param strPluginName
+     *            plugin name
+     * @param locale
+     *            locale
      * @return list of attributes
      */
     public List<IAttribute> selectPluginAttributes( String strPluginName, Locale locale )
     {
         int nIndex = 1;
-        List<IAttribute> listAttributes = new ArrayList<IAttribute>(  );
+        List<IAttribute> listAttributes = new ArrayList<IAttribute>( );
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_PLUGIN_ATTRIBUTES );
         daoUtil.setString( 1, strPluginName );
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
-        while ( daoUtil.next(  ) )
+        while ( daoUtil.next( ) )
         {
             nIndex = 1;
 
@@ -323,20 +338,20 @@ public class AttributeDAO implements IAttributeDAO
 
             try
             {
-                attribute = (IAttribute) Class.forName( daoUtil.getString( nIndex++ ) ).newInstance(  );
+                attribute = (IAttribute) Class.forName( daoUtil.getString( nIndex++ ) ).newInstance( );
             }
-            catch ( ClassNotFoundException e )
+            catch( ClassNotFoundException e )
             {
                 // class doesn't exist
                 AppLogService.error( e );
             }
-            catch ( InstantiationException e )
+            catch( InstantiationException e )
             {
                 // Class is abstract or is an interface or haven't accessible
                 // builder
                 AppLogService.error( e );
             }
-            catch ( IllegalAccessException e )
+            catch( IllegalAccessException e )
             {
                 // can't access to rhe class
                 AppLogService.error( e );
@@ -358,43 +373,45 @@ public class AttributeDAO implements IAttributeDAO
             listAttributes.add( attribute );
         }
 
-        daoUtil.free(  );
+        daoUtil.free( );
 
         return listAttributes;
     }
 
     /**
      * Load every attributes that do not come from a plugin
-     * @param locale locale
+     * 
+     * @param locale
+     *            locale
      * @return list of attributes
      */
     public List<IAttribute> selectCoreAttributes( Locale locale )
     {
-        List<IAttribute> listAttributes = new ArrayList<IAttribute>(  );
+        List<IAttribute> listAttributes = new ArrayList<IAttribute>( );
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_CORE_ATTRIBUTES );
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
-        while ( daoUtil.next(  ) )
+        while ( daoUtil.next( ) )
         {
             int nIndex = 1;
             IAttribute attribute = null;
 
             try
             {
-                attribute = (IAttribute) Class.forName( daoUtil.getString( nIndex++ ) ).newInstance(  );
+                attribute = (IAttribute) Class.forName( daoUtil.getString( nIndex++ ) ).newInstance( );
             }
-            catch ( ClassNotFoundException e )
+            catch( ClassNotFoundException e )
             {
                 // class doesn't exist
                 AppLogService.error( e );
             }
-            catch ( InstantiationException e )
+            catch( InstantiationException e )
             {
                 // Class is abstract or is an interface or haven't accessible
                 // builder
                 AppLogService.error( e );
             }
-            catch ( IllegalAccessException e )
+            catch( IllegalAccessException e )
             {
                 // can't access to rhe class
                 AppLogService.error( e );
@@ -413,23 +430,25 @@ public class AttributeDAO implements IAttributeDAO
             listAttributes.add( attribute );
         }
 
-        daoUtil.free(  );
+        daoUtil.free( );
 
         return listAttributes;
     }
 
     /**
      * Update the anonymization status of the attribute.
-     * @param nIdAttribute Id of the attribute
-     * @param bAnonymize New value of the anonymization status. True means the
-     *            attribute should be anonymize, false means it doesn't.
+     * 
+     * @param nIdAttribute
+     *            Id of the attribute
+     * @param bAnonymize
+     *            New value of the anonymization status. True means the attribute should be anonymize, false means it doesn't.
      */
     public void updateAttributeAnonymization( int nIdAttribute, boolean bAnonymize )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE_ANONYMIZATION );
         daoUtil.setBoolean( 1, bAnonymize );
         daoUtil.setInt( 2, nIdAttribute );
-        daoUtil.executeUpdate(  );
-        daoUtil.free(  );
+        daoUtil.executeUpdate( );
+        daoUtil.free( );
     }
 }

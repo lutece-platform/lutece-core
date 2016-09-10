@@ -43,12 +43,9 @@ import org.apache.commons.lang.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
- * A rewrite of the multipart filter from the com.oreilly.servlet package. The
- * rewrite allows us to use initialization parameters specified in the Lutece
- * configuration files.
- * This filter concern site (front office) jsp pages
+ * A rewrite of the multipart filter from the com.oreilly.servlet package. The rewrite allows us to use initialization parameters specified in the Lutece
+ * configuration files. This filter concern site (front office) jsp pages
  */
 public class UploadFilterSite extends UploadFilter
 {
@@ -56,8 +53,7 @@ public class UploadFilterSite extends UploadFilter
      * {@inheritDoc}
      */
     @Override
-    protected String getMessageRelativeUrl( HttpServletRequest request, String strMessageKey, Object[] messageArgs,
-        String strTitleKey )
+    protected String getMessageRelativeUrl( HttpServletRequest request, String strMessageKey, Object [ ] messageArgs, String strTitleKey )
     {
         // Fetch the upload filter site next url
         String strNextUrl = PortalJspBean.getUploadFilterSiteNextUrl( request );
@@ -68,17 +64,15 @@ public class UploadFilterSite extends UploadFilter
             {
                 // If there is a next url from the session, then use this site message
                 PortalJspBean.removeUploadFilterSiteNextUrl( request );
-                SiteMessageService.setMessage( request, strMessageKey, messageArgs, strTitleKey, null, "",
-                    SiteMessage.TYPE_STOP, null, strNextUrl );
+                SiteMessageService.setMessage( request, strMessageKey, messageArgs, strTitleKey, null, "", SiteMessage.TYPE_STOP, null, strNextUrl );
             }
             else
             {
                 // Otherwise, use the old site message
-                SiteMessageService.setMessage( request, strMessageKey, messageArgs, strTitleKey, null, "",
-                    SiteMessage.TYPE_STOP );
+                SiteMessageService.setMessage( request, strMessageKey, messageArgs, strTitleKey, null, "", SiteMessage.TYPE_STOP );
             }
         }
-        catch ( SiteMessageException lme )
+        catch( SiteMessageException lme )
         {
             return AppPathService.getSiteMessageUrl( request );
         }

@@ -40,7 +40,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
  * Class to manage filter panel
  */
@@ -51,18 +50,20 @@ public class FilterPanel implements Serializable
     public static final String PARAM_RESET_FILTERS = "resetFilters";
     private static final long serialVersionUID = 761740458592056772L;
     private String _strFormUrl;
-    private ArrayList<DataTableFilter> _listFilter = new ArrayList<DataTableFilter>(  );
+    private ArrayList<DataTableFilter> _listFilter = new ArrayList<DataTableFilter>( );
 
     /**
      * Instantiates a new filter panel.
      */
-    protected FilterPanel(  )
+    protected FilterPanel( )
     {
     }
 
     /**
      * Creates a new FilterPanel.
-     * @param strFormUrl The url to validate the form of filters
+     * 
+     * @param strFormUrl
+     *            The url to validate the form of filters
      */
     public FilterPanel( String strFormUrl )
     {
@@ -71,10 +72,16 @@ public class FilterPanel implements Serializable
 
     /**
      * Add a filter to this filter panel
-     * @param filterType data type of the filter. For drop down list, use {@link FilterPanel#addDropDownListFilter(String, String, ReferenceList) addDropDownListFilter} instead
-     * @param strParameterName Name of the parameter of the object to filter.<br/>
-     * For example, if this filter should be applied on the parameter "title" of a class named "Data", then the value of the parameter <i>strParameterName</i> should be "title".
-     * @param strFilterLabel Label describing the filter
+     * 
+     * @param filterType
+     *            data type of the filter. For drop down list, use {@link FilterPanel#addDropDownListFilter(String, String, ReferenceList)
+     *            addDropDownListFilter} instead
+     * @param strParameterName
+     *            Name of the parameter of the object to filter.<br/>
+     *            For example, if this filter should be applied on the parameter "title" of a class named "Data", then the value of the parameter
+     *            <i>strParameterName</i> should be "title".
+     * @param strFilterLabel
+     *            Label describing the filter
      */
     public void addFilter( DataTableFilterType filterType, String strParameterName, String strFilterLabel )
     {
@@ -83,10 +90,15 @@ public class FilterPanel implements Serializable
 
     /**
      * Add a drop down list filter.
-     * @param strParameterName Name of the parameter of the object to filter.<br/>
-     * For example, if this filter should be applied on the parameter "title" of a class named "Data", then the value of the parameter <i>strParameterName</i> should be "title".
-     * @param strFilterLabel Label describing the filter
-     * @param refList Reference list containing data of the drop down list
+     * 
+     * @param strParameterName
+     *            Name of the parameter of the object to filter.<br/>
+     *            For example, if this filter should be applied on the parameter "title" of a class named "Data", then the value of the parameter
+     *            <i>strParameterName</i> should be "title".
+     * @param strFilterLabel
+     *            Label describing the filter
+     * @param refList
+     *            Reference list containing data of the drop down list
      */
     public void addDropDownListFilter( String strParameterName, String strFilterLabel, ReferenceList refList )
     {
@@ -97,16 +109,19 @@ public class FilterPanel implements Serializable
 
     /**
      * Get the url of the action of the form
+     * 
      * @return The url of the action of the form
      */
-    public String getFormUrl(  )
+    public String getFormUrl( )
     {
         return _strFormUrl;
     }
 
     /**
      * Set the url of the action of the form
-     * @param strFormUrl The url of the action of the form
+     * 
+     * @param strFormUrl
+     *            The url of the action of the form
      */
     public void setFormUrl( String strFormUrl )
     {
@@ -115,9 +130,10 @@ public class FilterPanel implements Serializable
 
     /**
      * Get the list of filters of the FilterPanel
+     * 
      * @return The list of filters of the FilterPanel
      */
-    public List<DataTableFilter> getListFilter(  )
+    public List<DataTableFilter> getListFilter( )
     {
         return _listFilter;
     }

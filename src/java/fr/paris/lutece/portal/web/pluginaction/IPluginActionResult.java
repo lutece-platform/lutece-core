@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,7 +33,6 @@
  */
 package fr.paris.lutece.portal.web.pluginaction;
 
-
 /**
  * Result of an action. <br>
  * Use :
@@ -48,37 +47,46 @@ public interface IPluginActionResult
 {
     /**
      * Returns the redirect url, <code>null</code> otherwise.
+     * 
      * @return the redirect url, <code>null</code> otherwise
      */
-    String getRedirect(  );
+    String getRedirect( );
 
     /**
      * Sets the redirect url, <code>null</code> otherwise.
-     * @param strRedirect the redirect url, <code>null</code> otherwise.
+     * 
+     * @param strRedirect
+     *            the redirect url, <code>null</code> otherwise.
      */
     void setRedirect( String strRedirect );
 
     /**
      * Returns <code>true</code> if no operation needed, <code>false</code> otherwise.
+     * 
      * @return <code>true</code> if no operation needed, <code>false</code> otherwise.
      */
-    boolean isNoop(  );
+    boolean isNoop( );
 
     /**
      * Set to <code>true</code> if no operation needed, <code>false</code> otherwise.
-     * @param bNoop <code>true</code> if no operation needed, <code>false</code> otherwise.
+     * 
+     * @param bNoop
+     *            <code>true</code> if no operation needed, <code>false</code> otherwise.
      */
     void setNoop( boolean bNoop );
 
     /**
      * Returns the html content if any, <code>null</code> otherwise
+     * 
      * @return the html content if any, <code>null</code> otherwise
      */
-    String getHtmlContent(  );
+    String getHtmlContent( );
 
     /**
      * Sets the html content if any, <code>null</code> otherwise
-     * @param strHtmlContent the html content if any, <code>null</code> otherwise
+     * 
+     * @param strHtmlContent
+     *            the html content if any, <code>null</code> otherwise
      */
     void setHtmlContent( String strHtmlContent );
 }

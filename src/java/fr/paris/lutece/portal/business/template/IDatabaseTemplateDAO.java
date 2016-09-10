@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,9 +33,9 @@
  */
 package fr.paris.lutece.portal.business.template;
 
-
 /**
  * Interface of DAO allowing to manage templates stored in the database
+ * 
  * @author vbroussard
  *
  */
@@ -43,15 +43,20 @@ public interface IDatabaseTemplateDAO
 {
     /**
      * Get a template in the database from its key
-     * @param strKey The key of the template to get
+     * 
+     * @param strKey
+     *            The key of the template to get
      * @return The template loaded from the database
      */
     String getTemplateFromKey( String strKey );
 
     /**
      * Update a template in the database
-     * @param strKey The key of the template
-     * @param strValue The new value of the template
+     * 
+     * @param strKey
+     *            The key of the template
+     * @param strValue
+     *            The new value of the template
      */
     void updateTemplate( String strKey, String strValue );
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -36,7 +36,6 @@ package fr.paris.lutece.portal.service.user.attribute;
 import fr.paris.lutece.portal.business.user.attribute.AttributeField;
 import fr.paris.lutece.portal.business.user.attribute.AttributeFieldHome;
 
-
 /**
  *
  * AttributeFieldService
@@ -49,19 +48,20 @@ public final class AttributeFieldService
     /**
      * Private constructor
      */
-    private AttributeFieldService(  )
+    private AttributeFieldService( )
     {
     }
 
     /**
      * Get an instance of {@link AttributeFieldService}
+     * 
      * @return the instance of {@link AttributeFieldService}
      */
-    public static synchronized AttributeFieldService getInstance(  )
+    public static synchronized AttributeFieldService getInstance( )
     {
         if ( _singleton == null )
         {
-            _singleton = new AttributeFieldService(  );
+            _singleton = new AttributeFieldService( );
         }
 
         return _singleton;
@@ -69,7 +69,9 @@ public final class AttributeFieldService
 
     /**
      * Get the attribute field from a given attribute field ID
-     * @param nIdAttributeField the attribute field ID
+     * 
+     * @param nIdAttributeField
+     *            the attribute field ID
      * @return the {@link AttributeField}
      */
     public AttributeField getAttributeField( int nIdAttributeField )
@@ -79,11 +81,13 @@ public final class AttributeFieldService
 
     /**
      * Create a new attribute field
-     * @param attributeField the attribute field
+     * 
+     * @param attributeField
+     *            the attribute field
      */
     public void createAttributeField( AttributeField attributeField )
     {
-        if ( ( attributeField != null ) && ( attributeField.getAttribute(  ) != null ) )
+        if ( ( attributeField != null ) && ( attributeField.getAttribute( ) != null ) )
         {
             AttributeFieldHome.create( attributeField );
         }
@@ -91,7 +95,9 @@ public final class AttributeFieldService
 
     /**
      * Update an attribute field
-     * @param attributeField the attribute field
+     * 
+     * @param attributeField
+     *            the attribute field
      */
     public void updateAttributeField( AttributeField attributeField )
     {
@@ -104,7 +110,8 @@ public final class AttributeFieldService
     /**
      * Remove the attribute field from a given attribute field.
      *
-     * @param nIdAttributeField the n id attribute field
+     * @param nIdAttributeField
+     *            the n id attribute field
      */
     public void removeAttributeFieldFromIdField( int nIdAttributeField )
     {
@@ -113,7 +120,9 @@ public final class AttributeFieldService
 
     /**
      * Remove the attribute fields from a given id attribute
-     * @param nIdAttribute the ID attribute
+     * 
+     * @param nIdAttribute
+     *            the ID attribute
      */
     public void removeAttributeFieldsFromIdAttribute( int nIdAttribute )
     {

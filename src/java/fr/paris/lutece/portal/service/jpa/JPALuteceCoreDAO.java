@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,20 +33,21 @@
  */
 package fr.paris.lutece.portal.service.jpa;
 
-
 /**
  * Generic JPA DAO for Lutece core components
- * @param <K> Type of the entity's key
- * @param <E> Type of the entity
+ * 
+ * @param <K>
+ *            Type of the entity's key
+ * @param <E>
+ *            Type of the entity
  */
 public abstract class JPALuteceCoreDAO<K, E> extends JPALuteceDAO<K, E>
 {
     /**
-     * Overridden method for core components
-     * {@inheritDoc }
+     * Overridden method for core components {@inheritDoc }
      */
     @Override
-    public String getPluginName(  )
+    public String getPluginName( )
     {
         return "core";
     }

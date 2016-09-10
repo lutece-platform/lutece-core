@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -45,7 +45,6 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
 /**
  * MainServlet
  */
@@ -63,30 +62,28 @@ public class MainServlet implements Servlet
      * {@inheritDoc}
      */
     @Override
-    public void service( ServletRequest requestServlet, ServletResponse responseServlet )
-        throws ServletException, IOException
+    public void service( ServletRequest requestServlet, ServletResponse responseServlet ) throws ServletException, IOException
     {
         AppLogService.debug( "MainServlet : service()" );
 
         HttpServletRequest request = (HttpServletRequest) requestServlet;
         HttpServletResponse response = (HttpServletResponse) responseServlet;
 
-        for ( LuteceServlet servlet : ServletService.getInstance(  ).getServlets(  ) )
+        for ( LuteceServlet servlet : ServletService.getInstance( ).getServlets( ) )
         {
-            AppLogService.debug( "PluginServlet : " + servlet.getName(  ) + " - url pattern : " +
-                servlet.getMappingUrlPattern(  ) );
+            AppLogService.debug( "PluginServlet : " + servlet.getName( ) + " - url pattern : " + servlet.getMappingUrlPattern( ) );
 
             try
             {
                 // Checks mapping and plugin status
-                if ( matchMapping( servlet, request ) && servlet.getPlugin(  ).isInstalled(  ) )
+                if ( matchMapping( servlet, request ) && servlet.getPlugin( ).isInstalled( ) )
                 {
-                    servlet.getServlet(  ).service( request, response );
+                    servlet.getServlet( ).service( request, response );
                 }
             }
-            catch ( Exception e )
+            catch( Exception e )
             {
-                AppLogService.error( "Error execution 'service' method - Servlet " + servlet.getName(  ), e );
+                AppLogService.error( "Error execution 'service' method - Servlet " + servlet.getName( ), e );
             }
         }
     }
@@ -95,45 +92,50 @@ public class MainServlet implements Servlet
      * {@inheritDoc}
      */
     @Override
-    public void destroy(  )
+    public void destroy( )
     {
-        for ( LuteceServlet servlet : ServletService.getInstance(  ).getServlets(  ) )
+        for ( LuteceServlet servlet : ServletService.getInstance( ).getServlets( ) )
         {
             // Catch exception for each servlet to execute all chain
             try
             {
                 // Checks mapping and plugin status
-                if ( servlet.getPlugin(  ).isInstalled(  ) )
+                if ( servlet.getPlugin( ).isInstalled( ) )
                 {
-                    servlet.getServlet(  ).destroy(  );
+                    servlet.getServlet( ).destroy( );
                 }
             }
-            catch ( Exception e )
+            catch( Exception e )
             {
-                AppLogService.error( "Error execution destroy() method - Servlet " + servlet.getName(  ), e );
+                AppLogService.error( "Error execution destroy() method - Servlet " + servlet.getName( ), e );
             }
         }
     }
 
     /**
      * Check the mapping of the request with an url pattern
-     * @param servlet The servlet
-     * @param request The request
+     * 
+     * @param servlet
+     *            The servlet
+     * @param request
+     *            The request
      * @return True if the request match the url pattern
      */
     private boolean matchMapping( LuteceServlet servlet, HttpServletRequest request )
     {
-        return matchUrl( servlet.getMappingUrlPattern(  ), request.getServletPath(  ) + request.getPathInfo(  ) );
+        return matchUrl( servlet.getMappingUrlPattern( ), request.getServletPath( ) + request.getPathInfo( ) );
     }
 
     /**
-     * Check the mapping of the request with an url pattern according servlet
-     * specifications 2.3 rules
-     * @param strUrlPattern The servlet url pattern
-     * @param strRequestUrl The request Url
+     * Check the mapping of the request with an url pattern according servlet specifications 2.3 rules
+     * 
+     * @param strUrlPattern
+     *            The servlet url pattern
+     * @param strRequestUrl
+     *            The request Url
      * @return True if the request match the url pattern
      *
-     * Algorithm comming from tomcat6
+     *         Algorithm comming from tomcat6
      */
     private boolean matchUrl( String strUrlPattern, String strRequestUrl )
     {
@@ -144,7 +146,7 @@ public class MainServlet implements Servlet
      * {@inheritDoc}
      */
     @Override
-    public ServletConfig getServletConfig(  )
+    public ServletConfig getServletConfig( )
     {
         throw new UnsupportedOperationException( "Not supported yet." );
     }
@@ -153,7 +155,7 @@ public class MainServlet implements Servlet
      * {@inheritDoc}
      */
     @Override
-    public String getServletInfo(  )
+    public String getServletInfo( )
     {
         throw new UnsupportedOperationException( "Not supported yet." );
     }

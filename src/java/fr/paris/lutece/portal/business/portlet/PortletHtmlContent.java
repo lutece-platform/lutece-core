@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -37,15 +37,13 @@ import fr.paris.lutece.portal.service.message.SiteMessageException;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  * Class that allow templates to generate content without using XML and XSL.
  */
 public abstract class PortletHtmlContent extends Portlet
 {
     /**
-     * {@inheritDoc}
-     * Force to override the default implementation
+     * {@inheritDoc} Force to override the default implementation
      */
     @Override
     public abstract String getHtmlContent( HttpServletRequest request );
@@ -54,8 +52,7 @@ public abstract class PortletHtmlContent extends Portlet
      * {@inheritDoc}
      */
     @Override
-    public String getXml( HttpServletRequest request )
-        throws SiteMessageException
+    public String getXml( HttpServletRequest request ) throws SiteMessageException
     {
         return null;
     }
@@ -64,8 +61,7 @@ public abstract class PortletHtmlContent extends Portlet
      * {@inheritDoc}
      */
     @Override
-    public String getXmlDocument( HttpServletRequest request )
-        throws SiteMessageException
+    public String getXmlDocument( HttpServletRequest request ) throws SiteMessageException
     {
         return null;
     }
@@ -74,7 +70,7 @@ public abstract class PortletHtmlContent extends Portlet
      * {@inheritDoc}
      */
     @Override
-    public boolean isContentGeneratedByXmlAndXsl(  )
+    public boolean isContentGeneratedByXmlAndXsl( )
     {
         return false;
     }

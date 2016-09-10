@@ -74,17 +74,17 @@ final class PasswordFactory implements IPasswordFactory
             throw new IllegalArgumentException( strStoredPassword );
         }
         String storageType = strStoredPassword.substring( 0, storageTypeSeparatorIndex );
-        String password = strStoredPassword.substring( storageTypeSeparatorIndex  + 1 );
-        switch ( storageType )
+        String password = strStoredPassword.substring( storageTypeSeparatorIndex + 1 );
+        switch( storageType )
         {
-        case PLAINTEXT_STORAGE_TYPE:
-            return new PlaintextPassword( password );
-        case PBKDF2_STORAGE_TYPE:
-            return new PBKDF2Password( password );
-        case DUMMY_STORAGE_TYPE:
-            return new DummyPassword(  );
-        default:
-            return new DigestPassword( storageType, password );
+            case PLAINTEXT_STORAGE_TYPE:
+                return new PlaintextPassword( password );
+            case PBKDF2_STORAGE_TYPE:
+                return new PBKDF2Password( password );
+            case DUMMY_STORAGE_TYPE:
+                return new DummyPassword( );
+            default:
+                return new DigestPassword( storageType, password );
         }
     }
 
@@ -107,13 +107,11 @@ final class PasswordFactory implements IPasswordFactory
     {
 
         /**
-         * Enum to specify if the password is constructed from
-         * cleartext or hashed form
+         * Enum to specify if the password is constructed from cleartext or hashed form
          */
         static enum PASSWORD_REPRESENTATION
         {
-            CLEARTEXT,
-            STORABLE
+            CLEARTEXT, STORABLE
         }
 
         /** Storage format : iterations:hex(salt):hex(hash) */
@@ -126,8 +124,9 @@ final class PasswordFactory implements IPasswordFactory
             Random rand;
             try
             {
-                rand = SecureRandom.getInstance("SHA1PRNG");
-            } catch ( NoSuchAlgorithmException e )
+                rand = SecureRandom.getInstance( "SHA1PRNG" );
+            }
+            catch( NoSuchAlgorithmException e )
             {
                 AppLogService.error( "SHA1PRNG is not availabled. Picking the default SecureRandom.", e );
                 rand = new SecureRandom( );
@@ -141,75 +140,83 @@ final class PasswordFactory implements IPasswordFactory
         /** number of iterations */
         private final int _iterations;
         /** salt */
-        private final byte[] _salt;
+        private final byte [ ] _salt;
         /** hashed password */
-        private final byte[] _hash;
+        private final byte [ ] _hash;
 
         /**
          * Construct a password from the stored representation
-         * @param strStoredPassword the stored representation
+         * 
+         * @param strStoredPassword
+         *            the stored representation
          */
         public PBKDF2Password( String strStoredPassword )
         {
-            this( strStoredPassword, PASSWORD_REPRESENTATION.STORABLE);
+            this( strStoredPassword, PASSWORD_REPRESENTATION.STORABLE );
         }
 
         /**
          * Construct a password
-         * @param strPassword the password text
-         * @param representation representation of strPassword
+         * 
+         * @param strPassword
+         *            the password text
+         * @param representation
+         *            representation of strPassword
          */
         public PBKDF2Password( String strPassword, PASSWORD_REPRESENTATION representation )
         {
-            switch ( representation )
+            switch( representation )
             {
-            case CLEARTEXT:
-                _iterations = AppPropertiesService.getPropertyInt( PROPERTY_PASSWORD_HASH_ITERATIONS, 40000 );
-                int hashLength = AppPropertiesService.getPropertyInt( PROPERTY_PASSWORD_HASH_LENGTH, 128 );
-                try
-                {
-                    _salt = new byte[16];
-                    RANDOM.nextBytes(_salt);
-                    PBEKeySpec spec = new PBEKeySpec(strPassword.toCharArray( ), _salt, _iterations, hashLength * 8);
-                    SecretKeyFactory skf = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
-                    _hash = skf.generateSecret(spec).getEncoded();
-                } catch ( NoSuchAlgorithmException | InvalidKeySpecException e )
-                {
-                    throw new RuntimeException( e ); // should not happen
-                }
-                break;
-            case STORABLE:
-                Matcher matcher = FORMAT.matcher( strPassword );
+                case CLEARTEXT:
+                    _iterations = AppPropertiesService.getPropertyInt( PROPERTY_PASSWORD_HASH_ITERATIONS, 40000 );
+                    int hashLength = AppPropertiesService.getPropertyInt( PROPERTY_PASSWORD_HASH_LENGTH, 128 );
+                    try
+                    {
+                        _salt = new byte [ 16];
+                        RANDOM.nextBytes( _salt );
+                        PBEKeySpec spec = new PBEKeySpec( strPassword.toCharArray( ), _salt, _iterations, hashLength * 8 );
+                        SecretKeyFactory skf = SecretKeyFactory.getInstance( "PBKDF2WithHmacSHA1" );
+                        _hash = skf.generateSecret( spec ).getEncoded( );
+                    }
+                    catch( NoSuchAlgorithmException | InvalidKeySpecException e )
+                    {
+                        throw new RuntimeException( e ); // should not happen
+                    }
+                    break;
+                case STORABLE:
+                    Matcher matcher = FORMAT.matcher( strPassword );
 
-                if ( !matcher.matches( ) || matcher.groupCount( ) != 3)
-                {
-                    throw new IllegalArgumentException( "Invalid stored password " + strPassword );
-                }
-                _iterations = Integer.valueOf( matcher.group( 1 ) );
-                try
-                {
-                    _salt = Hex.decodeHex( matcher.group( 2 ).toCharArray( ) );
-                    _hash = Hex.decodeHex( matcher.group( 3 ).toCharArray( ) );
-                } catch ( DecoderException e )
-                {
-                    throw new IllegalArgumentException( "Invalid stored password " + strPassword );
-                }
-                break;
-            default:
-                throw new IllegalArgumentException( representation.toString( ) );
+                    if ( !matcher.matches( ) || matcher.groupCount( ) != 3 )
+                    {
+                        throw new IllegalArgumentException( "Invalid stored password " + strPassword );
+                    }
+                    _iterations = Integer.valueOf( matcher.group( 1 ) );
+                    try
+                    {
+                        _salt = Hex.decodeHex( matcher.group( 2 ).toCharArray( ) );
+                        _hash = Hex.decodeHex( matcher.group( 3 ).toCharArray( ) );
+                    }
+                    catch( DecoderException e )
+                    {
+                        throw new IllegalArgumentException( "Invalid stored password " + strPassword );
+                    }
+                    break;
+                default:
+                    throw new IllegalArgumentException( representation.toString( ) );
             }
         }
 
         @Override
         public boolean check( String strCleartextPassword )
         {
-            PBEKeySpec spec = new PBEKeySpec( strCleartextPassword.toCharArray( ), _salt, _iterations, _hash.length * 8);
+            PBEKeySpec spec = new PBEKeySpec( strCleartextPassword.toCharArray( ), _salt, _iterations, _hash.length * 8 );
             try
             {
-                SecretKeyFactory skf = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
-                byte[] testHash = skf.generateSecret( spec ).getEncoded( );
+                SecretKeyFactory skf = SecretKeyFactory.getInstance( "PBKDF2WithHmacSHA1" );
+                byte [ ] testHash = skf.generateSecret( spec ).getEncoded( );
                 return Arrays.equals( _hash, testHash );
-            } catch ( NoSuchAlgorithmException | InvalidKeySpecException e )
+            }
+            catch( NoSuchAlgorithmException | InvalidKeySpecException e )
             {
                 throw new RuntimeException( e ); // should not happen
             }
@@ -239,15 +246,14 @@ final class PasswordFactory implements IPasswordFactory
     }
 
     /**
-     * Dummy password which never matches a user password, but takes
-     * the same time as the PBKDF2Password to do so.
+     * Dummy password which never matches a user password, but takes the same time as the PBKDF2Password to do so.
      */
     private static final class DummyPassword extends PBKDF2Password
     {
-        DummyPassword(  )
+        DummyPassword( )
         {
             // take the same time to construct as a proper PBKDF2Password
-            super("", PASSWORD_REPRESENTATION.CLEARTEXT);
+            super( "", PASSWORD_REPRESENTATION.CLEARTEXT );
         }
 
         @Override
@@ -272,6 +278,7 @@ final class PasswordFactory implements IPasswordFactory
     {
         /**
          * Legacy passwords are legacy
+         * 
          * @return <code>true</code>
          */
         @Override
@@ -282,6 +289,7 @@ final class PasswordFactory implements IPasswordFactory
 
         /**
          * Legacy passwords must not be stored.
+         * 
          * @return never returns
          * @throws UnsupportedOperationException
          */
@@ -304,7 +312,9 @@ final class PasswordFactory implements IPasswordFactory
 
         /**
          * Constructor
-         * @param strStoredPassword the stored password
+         * 
+         * @param strStoredPassword
+         *            the stored password
          */
         public PlaintextPassword( String strStoredPassword )
         {
@@ -331,8 +341,11 @@ final class PasswordFactory implements IPasswordFactory
 
         /**
          * Constructor
-         * @param strAlgorithm the digest algorithm
-         * @param strStoredPassword the stored password
+         * 
+         * @param strAlgorithm
+         *            the digest algorithm
+         * @param strStoredPassword
+         *            the stored password
          */
         public DigestPassword( String strAlgorithm, String strStoredPassword )
         {
@@ -341,7 +354,8 @@ final class PasswordFactory implements IPasswordFactory
             try
             {
                 MessageDigest.getInstance( strAlgorithm );
-            } catch ( NoSuchAlgorithmException e )
+            }
+            catch( NoSuchAlgorithmException e )
             {
                 throw new IllegalArgumentException( e );
             }

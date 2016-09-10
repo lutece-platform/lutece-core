@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -38,7 +38,6 @@ import fr.paris.lutece.util.ReferenceList;
 import java.util.List;
 import java.util.Locale;
 
-
 /**
  * IPortletTypeDAO Interface
  *
@@ -48,14 +47,16 @@ public interface IPortletTypeDAO
     /**
      * Insert a new record in the table PortletType
      *
-     * @param portletType The portlet Type object
+     * @param portletType
+     *            The portlet Type object
      */
     void insert( PortletType portletType );
 
     /**
-     * Load the data of PortletType  from the table
+     * Load the data of PortletType from the table
      *
-     * @param strPortletTypeId The identifier of PortletType
+     * @param strPortletTypeId
+     *            The identifier of PortletType
      * @return The instance of the PortletType
      */
     PortletType load( String strPortletTypeId );
@@ -63,14 +64,16 @@ public interface IPortletTypeDAO
     /**
      * Delete a record from the table
      *
-     * @param strPortletTypeId The POrtletTYpe identifier
+     * @param strPortletTypeId
+     *            The POrtletTYpe identifier
      */
     void delete( String strPortletTypeId );
 
     /**
      * Returns the portlet type identifier
      *
-     * @param strPluginHomeClass the name of the portlet type
+     * @param strPluginHomeClass
+     *            the name of the portlet type
      * @return the identifier of the portlet type
      */
     String selectPortletTypeId( String strPluginHomeClass );
@@ -78,14 +81,17 @@ public interface IPortletTypeDAO
     /**
      * Returns the portlet count for a given provider
      *
-     * @param strPortletTypeId The provider's identifier
+     * @param strPortletTypeId
+     *            The provider's identifier
      * @return nCount
      */
     int selectNbPortletTypeByPortlet( String strPortletTypeId );
 
     /**
      * Return a Reference List of portletType
-     * @param locale The locale
+     * 
+     * @param locale
+     *            The locale
      * @return list The reference List
      */
     ReferenceList selectPortletsTypesList( Locale locale );
@@ -95,5 +101,5 @@ public interface IPortletTypeDAO
      *
      * @return the list of the portlet types
      */
-    List<PortletType> selectPortletTypesList(  );
+    List<PortletType> selectPortletTypesList( );
 }

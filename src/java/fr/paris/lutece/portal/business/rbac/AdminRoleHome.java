@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -38,7 +38,6 @@ import fr.paris.lutece.util.ReferenceList;
 
 import java.util.Collection;
 
-
 /**
  * This class provides instances management methods (create, find, ...) for AdminRole objects
  */
@@ -50,15 +49,16 @@ public final class AdminRoleHome
     /**
      * Private constructor - this class need not be instantiated
      */
-    private AdminRoleHome(  )
+    private AdminRoleHome( )
     {
     }
 
     /**
      * Creation of an instance of role
      *
-     * @param role The instance of the role which contains the informations to store
-     * @return The  instance of role which has been created with its primary key.
+     * @param role
+     *            The instance of the role which contains the informations to store
+     * @return The instance of role which has been created with its primary key.
      */
     public static AdminRole create( AdminRole role )
     {
@@ -69,9 +69,12 @@ public final class AdminRoleHome
 
     /**
      * Update of the role which is specified in parameter
-     * @param strRoleKey the key of the role to update
-     * @param role The instance of the role which contains the new data to store
-     * @return The instance of the  role which has been updated
+     * 
+     * @param strRoleKey
+     *            the key of the role to update
+     * @param role
+     *            The instance of the role which contains the new data to store
+     * @return The instance of the role which has been updated
      */
     public static AdminRole update( String strRoleKey, AdminRole role )
     {
@@ -83,20 +86,22 @@ public final class AdminRoleHome
     /**
      * Remove the AdminRole whose identifier is specified in parameter
      *
-     * @param strRoleKey The AdminRole object to remove
+     * @param strRoleKey
+     *            The AdminRole object to remove
      */
     public static void remove( String strRoleKey )
     {
         _dao.delete( strRoleKey );
     }
 
-    ///////////////////////////////////////////////////////////////////////////
+    // /////////////////////////////////////////////////////////////////////////
     // Finders
 
     /**
      * Returns an instance of a role whose identifier is specified in parameter
      *
-     * @param strRoleKey The Primary key of the role
+     * @param strRoleKey
+     *            The Primary key of the role
      * @return An instance of role
      */
     public static AdminRole findByPrimaryKey( String strRoleKey )
@@ -109,9 +114,9 @@ public final class AdminRoleHome
      *
      * @return A collection of roles
      */
-    public static Collection<AdminRole> findAll(  )
+    public static Collection<AdminRole> findAll( )
     {
-        return _dao.selectRoleList(  );
+        return _dao.selectRoleList( );
     }
 
     /**
@@ -119,14 +124,14 @@ public final class AdminRoleHome
      *
      * @return A collection of roles
      */
-    public static ReferenceList getRolesList(  )
+    public static ReferenceList getRolesList( )
     {
-        ReferenceList list = new ReferenceList(  );
-        Collection<AdminRole> listRoles = _dao.selectRoleList(  );
+        ReferenceList list = new ReferenceList( );
+        Collection<AdminRole> listRoles = _dao.selectRoleList( );
 
         for ( AdminRole role : listRoles )
         {
-            list.addItem( role.getKey(  ), role.getDescription(  ) );
+            list.addItem( role.getKey( ), role.getDescription( ) );
         }
 
         return list;
@@ -135,7 +140,8 @@ public final class AdminRoleHome
     /**
      * Check that the given key points to an existing role
      *
-     * @param strRoleKey The role key
+     * @param strRoleKey
+     *            The role key
      * @return true if the role exists, false otherwise
      */
     public static boolean checkExistRole( String strRoleKey )

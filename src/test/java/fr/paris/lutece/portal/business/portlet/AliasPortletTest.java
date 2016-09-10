@@ -35,34 +35,33 @@ package fr.paris.lutece.portal.business.portlet;
 
 import fr.paris.lutece.test.LuteceTestCase;
 
-
 /**
  * AliasPortletTest Test Class
  *
  */
 public class AliasPortletTest extends LuteceTestCase
 {
-    private static final int TEST_PORTLET_ID = 1; // portlet 
+    private static final int TEST_PORTLET_ID = 1; // portlet
     private static final int TEST_PORTLET_ALIAS_ID = 2; // portlet alias
-    private static final String TEST_PORTLET_TYPE_ID = "HTML_PORTLET"; // html portlet 
+    private static final String TEST_PORTLET_TYPE_ID = "HTML_PORTLET"; // html portlet
 
-    public void testBusinessAliasPortlet(  )
+    public void testBusinessAliasPortlet( )
     {
         // Initialize an object
-        AliasPortlet aliasPortlet = new AliasPortlet(  );
+        AliasPortlet aliasPortlet = new AliasPortlet( );
 
         aliasPortlet.setAliasId( TEST_PORTLET_ALIAS_ID );
         aliasPortlet.setId( TEST_PORTLET_ID );
         aliasPortlet.setAcceptAlias( 1 );
 
-        aliasPortlet.update(  );
-        aliasPortlet.remove(  );
+        aliasPortlet.update( );
+        aliasPortlet.remove( );
 
-        AliasPortletHome instance = new AliasPortletHome(  );
-        instance.getPortletTypeId(  );
+        AliasPortletHome instance = new AliasPortletHome( );
+        instance.getPortletTypeId( );
 
         AliasPortletHome.getAliasId( TEST_PORTLET_ID );
-        AliasPortletHome.getAcceptAliasPortletList(  );
+        AliasPortletHome.getAcceptAliasPortletList( );
         AliasPortletHome.getPortletsByTypeList( TEST_PORTLET_TYPE_ID );
     }
 }

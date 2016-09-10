@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -47,13 +47,12 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  * This class provides the user interface to manage Alias Portlet
  */
 public class AliasPortletJspBean extends PortletJspBean
 {
-    ////////////////////////////////////////////////////////////////////////////
+    // //////////////////////////////////////////////////////////////////////////
     // Constants
 
     // Right
@@ -70,16 +69,17 @@ public class AliasPortletJspBean extends PortletJspBean
     /**
      * Process portlet's creation
      *
-     * @param request The Http request
+     * @param request
+     *            The Http request
      * @return The management url
      */
     @Override
     public String doCreate( HttpServletRequest request )
     {
-        AliasPortlet aliasPortlet = new AliasPortlet(  );
+        AliasPortlet aliasPortlet = new AliasPortlet( );
         String strAliasId = request.getParameter( PARAM_ALIAS_ID );
 
-        //if no portlet has the accept alias field true
+        // if no portlet has the accept alias field true
         if ( strAliasId == null )
         {
             return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
@@ -89,7 +89,7 @@ public class AliasPortletJspBean extends PortletJspBean
         String strName = request.getParameter( PARAM_PORTLET_NAME );
 
         // mandatory field
-        if ( ( strName == null ) || strName.trim(  ).equals( "" ) )
+        if ( ( strName == null ) || strName.trim( ).equals( "" ) )
         {
             return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
         }
@@ -111,12 +111,12 @@ public class AliasPortletJspBean extends PortletJspBean
         aliasPortlet.setPageId( nPageId );
         aliasPortlet.setAliasId( nAliasId );
 
-        //gets the style of the parent portlet
+        // gets the style of the parent portlet
         Portlet portlet = PortletHome.findByPrimaryKey( nAliasId );
-        aliasPortlet.setStyleId( portlet.getStyleId(  ) );
+        aliasPortlet.setStyleId( portlet.getStyleId( ) );
 
         // creates the alias portlet
-        AliasPortletHome.getInstance(  ).create( aliasPortlet );
+        AliasPortletHome.getInstance( ).create( aliasPortlet );
 
         // Displays the page with the new portlet
         return getPageUrl( nPageId );
@@ -125,7 +125,8 @@ public class AliasPortletJspBean extends PortletJspBean
     /**
      * Process portlet's modification
      *
-     * @param request The http request
+     * @param request
+     *            The http request
      * @return Management's Url
      */
     @Override
@@ -144,7 +145,7 @@ public class AliasPortletJspBean extends PortletJspBean
         int nColumn = Integer.parseInt( strColumn );
 
         // mandatory field
-        if ( ( strName == null ) || strName.trim(  ).equals( "" ) )
+        if ( ( strName == null ) || strName.trim( ).equals( "" ) )
         {
             return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
         }
@@ -158,19 +159,20 @@ public class AliasPortletJspBean extends PortletJspBean
         portlet.setAliasId( nIdAlias );
 
         Portlet rub = PortletHome.findByPrimaryKey( nIdAlias );
-        portlet.setStyleId( rub.getStyleId(  ) );
+        portlet.setStyleId( rub.getStyleId( ) );
 
         // updates the portlet
-        portlet.update(  );
+        portlet.update( );
 
         // Displays the page with the portlet updated
-        return getPageUrl( portlet.getPageId(  ) );
+        return getPageUrl( portlet.getPageId( ) );
     }
 
     /**
      * Returns the Alias portlet creation form
      *
-     * @param request The http request
+     * @param request
+     *            The http request
      * @return The HTML form
      */
     @Override
@@ -178,18 +180,19 @@ public class AliasPortletJspBean extends PortletJspBean
     {
         String strIdPage = request.getParameter( PARAMETER_PAGE_ID );
         String strIdPortletType = request.getParameter( PARAMETER_PORTLET_TYPE_ID );
-        Map<String, Object> model = new HashMap<String, Object>(  );
-        model.put( MARK_ALIAS_PORTLETS_LIST, AliasPortletHome.getAcceptAliasPortletList(  ) );
+        Map<String, Object> model = new HashMap<String, Object>( );
+        model.put( MARK_ALIAS_PORTLETS_LIST, AliasPortletHome.getAcceptAliasPortletList( ) );
 
         HtmlTemplate template = getCreateTemplate( strIdPage, strIdPortletType, model );
 
-        return template.getHtml(  );
+        return template.getHtml( );
     }
 
     /**
      * Returns the Alias portlet modification form
      *
-     * @param request The Http request
+     * @param request
+     *            The Http request
      * @return The HTML form
      */
     @Override
@@ -199,12 +202,12 @@ public class AliasPortletJspBean extends PortletJspBean
         int idPortlet = Integer.parseInt( strIdPortlet );
         Portlet portlet = PortletHome.findByPrimaryKey( idPortlet );
         AliasPortlet aliasPortlet = (AliasPortlet) portlet;
-        Map<String, Object> model = new HashMap<String, Object>(  );
-        model.put( MARK_ALIAS_PORTLETS_LIST, AliasPortletHome.getAcceptAliasPortletList(  ) );
-        model.put( MARK_ALIAS_PORTLET, aliasPortlet.getAliasId(  ) );
+        Map<String, Object> model = new HashMap<String, Object>( );
+        model.put( MARK_ALIAS_PORTLETS_LIST, AliasPortletHome.getAcceptAliasPortletList( ) );
+        model.put( MARK_ALIAS_PORTLET, aliasPortlet.getAliasId( ) );
 
         HtmlTemplate template = getModifyTemplate( portlet, model );
 
-        return template.getHtml(  );
+        return template.getHtml( );
     }
 }

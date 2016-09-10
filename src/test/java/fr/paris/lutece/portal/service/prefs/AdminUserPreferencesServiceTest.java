@@ -39,7 +39,6 @@ import static junit.framework.Assert.assertTrue;
 
 import java.util.List;
 
-
 /**
  * User Preferences Service Test
  */
@@ -57,9 +56,9 @@ public class AdminUserPreferencesServiceTest extends LuteceTestCase
     private static final boolean BOOL_VALUE = false;
     private static final String NICKNAME = "nickname";
 
-    public void testBusinessLevel(  )
+    public void testBusinessLevel( )
     {
-        IUserPreferencesService service = UserPreferencesService.instance(  );
+        IUserPreferencesService service = UserPreferencesService.instance( );
 
         service.clear( USER_ID_1 );
 
@@ -83,6 +82,6 @@ public class AdminUserPreferencesServiceTest extends LuteceTestCase
 
         // List Test
         List list = service.keys( USER_ID_1 );
-        assertTrue( list.size(  ) > 0 );
+        assertTrue( list.size( ) > 0 );
     }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -35,7 +35,6 @@ package fr.paris.lutece.portal.service.util;
 
 import java.util.Locale;
 
-
 /**
  * RemovalListener
  */
@@ -43,15 +42,20 @@ public interface RemovalListener
 {
     /**
      * Check if the object can be safely removed
-     * @param id The object id
+     * 
+     * @param id
+     *            The object id
      * @return true if the pbject can be removed otherwise false
      */
     boolean canBeRemoved( String id );
 
     /**
      * Gives a message explaining why the object can't be removed
-     * @param id The object id
-     * @param locale The current locale
+     * 
+     * @param id
+     *            The object id
+     * @param locale
+     *            The current locale
      * @return The message
      */
     String getRemovalRefusedMessage( String id, Locale locale );

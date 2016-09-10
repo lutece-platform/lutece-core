@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,11 +33,8 @@
  */
 package fr.paris.lutece.portal.service.util;
 
-
 /**
- * This kind of exception is thrown when the application encounters a critical
- * problem. This class extends RuntimeException in order to avoid try/catch
- * blocks
+ * This kind of exception is thrown when the application encounters a critical problem. This class extends RuntimeException in order to avoid try/catch blocks
  */
 public class AppException extends RuntimeException
 {
@@ -51,7 +48,8 @@ public class AppException extends RuntimeException
     /**
      * Constructor 1
      *
-     * @param strMessage The error message
+     * @param strMessage
+     *            The error message
      */
     public AppException( String strMessage )
     {
@@ -62,73 +60,80 @@ public class AppException extends RuntimeException
     /**
      * Constructor 2
      *
-     * @param strMessage The error message
-     * @param e The initial exception
+     * @param strMessage
+     *            The error message
+     * @param e
+     *            The initial exception
      */
     public AppException( String strMessage, Exception e )
     {
         _strMessage = strMessage;
         _exception = e;
-        AppLogService.error( getAppMessage(  ), e );
+        AppLogService.error( getAppMessage( ), e );
     }
 
     /**
      * Constructor 3
      */
-    public AppException(  )
+    public AppException( )
     {
     }
 
     /**
      * Returns the initial exception.
+     * 
      * @return The initial exception.
      */
-    public Exception getInitialException(  )
+    public Exception getInitialException( )
     {
         return _exception;
     }
 
     /**
      * Overides getMessage method
+     * 
      * @return strMessage The error message
      */
     @Override
-    public String getMessage(  )
+    public String getMessage( )
     {
-        return getAppMessage(  );
+        return getAppMessage( );
     }
 
     /**
      * Get the exception's printstack and returns it as a string
-     * @param e The Exception.
-     * @return  The printstack as a String
+     * 
+     * @param e
+     *            The Exception.
+     * @return The printstack as a String
      */
     private String getPrintStack( Exception e )
     {
-        java.io.CharArrayWriter cw = new java.io.CharArrayWriter(  );
+        java.io.CharArrayWriter cw = new java.io.CharArrayWriter( );
         java.io.PrintWriter pw = new java.io.PrintWriter( cw, true );
         e.printStackTrace( pw );
 
-        return cw.toString(  );
+        return cw.toString( );
     }
 
     /**
      * Overides getMessage method
+     * 
      * @return strMessage The error message
      */
-    private String getAppMessage(  )
+    private String getAppMessage( )
     {
-        StringBuffer strMessage = new StringBuffer(  );
+        StringBuffer strMessage = new StringBuffer( );
         strMessage.append( _strMessage );
         strMessage.append( "\n" );
 
         /* Selects the initial exception, if it exists */
-        if ( getInitialException(  ) != null )
+        if ( getInitialException( ) != null )
         {
             strMessage.append( "Initial error print stack : \n" );
-            strMessage.append( getPrintStack( getInitialException(  ) ) );
+            strMessage.append( getPrintStack( getInitialException( ) ) );
         }
 
-        return strMessage.toString(  );
+        return strMessage.toString( );
     }
 }

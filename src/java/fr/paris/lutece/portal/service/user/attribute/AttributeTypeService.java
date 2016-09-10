@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -41,7 +41,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-
 /**
  *
  * AttributeTypeService
@@ -55,19 +54,20 @@ public final class AttributeTypeService
     /**
      * Private constructor
      */
-    private AttributeTypeService(  )
+    private AttributeTypeService( )
     {
     }
 
     /**
      * Get an instance of {@link AttributeTypeService}
+     * 
      * @return the instance of {@link AttributeTypeService}
      */
-    public static synchronized AttributeTypeService getInstance(  )
+    public static synchronized AttributeTypeService getInstance( )
     {
         if ( _singleton == null )
         {
-            _singleton = new AttributeTypeService(  );
+            _singleton = new AttributeTypeService( );
         }
 
         return _singleton;
@@ -75,23 +75,25 @@ public final class AttributeTypeService
 
     /**
      * Get the list of attribute types defined the core_context.xml
-     * @param locale the {@link Locale}
+     * 
+     * @param locale
+     *            the {@link Locale}
      * @return a list of {@link AttributeType}
      */
     public List<AttributeType> getAttributeTypes( Locale locale )
     {
         if ( _listAttributeTypes == null )
         {
-            synchronized ( this )
+            synchronized( this )
             {
                 if ( _listAttributeTypes == null )
                 {
-                    List<AttributeType> listAttributTypes = new ArrayList<AttributeType>(  );
+                    List<AttributeType> listAttributTypes = new ArrayList<AttributeType>( );
 
                     for ( IAttribute attribute : SpringContextService.getBeansOfType( IAttribute.class ) )
                     {
                         attribute.setAttributeType( locale );
-                        listAttributTypes.add( attribute.getAttributeType(  ) );
+                        listAttributTypes.add( attribute.getAttributeType( ) );
                     }
 
                     _listAttributeTypes = listAttributTypes;

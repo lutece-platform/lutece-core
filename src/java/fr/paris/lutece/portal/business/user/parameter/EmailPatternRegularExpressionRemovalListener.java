@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -43,7 +43,6 @@ import org.apache.commons.lang.StringUtils;
 import java.util.List;
 import java.util.Locale;
 
-
 /**
  * UserRegularExpressionRemovalListener
  */
@@ -52,10 +51,12 @@ public class EmailPatternRegularExpressionRemovalListener implements RemovalList
     private static final String PROPERTY_REGULAR_EXPRESSION_CANNOT_BE_REMOVED = "portal.users.message.emailPattern.regularExpressionCanNotBeRemoved";
 
     /**
-    * Check if the object can be safely removed
-    * @param strId The object id
-    * @return true if the object can be removed otherwise false
-    */
+     * Check if the object can be safely removed
+     * 
+     * @param strId
+     *            The object id
+     * @return true if the object can be removed otherwise false
+     */
     public boolean canBeRemoved( String strId )
     {
         boolean bCanBeRemoved = true;
@@ -63,11 +64,11 @@ public class EmailPatternRegularExpressionRemovalListener implements RemovalList
         if ( StringUtils.isNotBlank( strId ) && StringUtils.isNumeric( strId ) )
         {
             int nId = Integer.parseInt( strId );
-            List<RegularExpression> listRegularExpressions = AdminUserService.getSelectedRegularExpressions(  );
+            List<RegularExpression> listRegularExpressions = AdminUserService.getSelectedRegularExpressions( );
 
             for ( RegularExpression regularExpression : listRegularExpressions )
             {
-                if ( nId == regularExpression.getIdExpression(  ) )
+                if ( nId == regularExpression.getIdExpression( ) )
                 {
                     bCanBeRemoved = false;
 
@@ -81,13 +82,16 @@ public class EmailPatternRegularExpressionRemovalListener implements RemovalList
 
     /**
      * Gives a message explaining why the object can't be removed
-     * @param strId The object id
-     * @param locale The current locale
+     * 
+     * @param strId
+     *            The object id
+     * @param locale
+     *            The current locale
      * @return The message
      */
     public String getRemovalRefusedMessage( String strId, Locale locale )
     {
-        // Build a message 
+        // Build a message
         return I18nService.getLocalizedString( PROPERTY_REGULAR_EXPRESSION_CANNOT_BE_REMOVED, locale );
     }
 }

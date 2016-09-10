@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,11 +33,9 @@
  */
 package fr.paris.lutece.portal.service.resource;
 
-
 /**
  *
- * This interface represents resources that are eligible to
- * the extend functionalities.
+ * This interface represents resources that are eligible to the extend functionalities.
  *
  */
 public interface IExtendableResource
@@ -47,35 +45,33 @@ public interface IExtendableResource
      *
      * @return The id
      */
-    String getIdExtendableResource(  );
+    String getIdExtendableResource( );
 
     /**
      * Gets the resource type.
      *
      * @return The resource type
      */
-    String getExtendableResourceType(  );
+    String getExtendableResourceType( );
 
     /**
      * Gets the name.
      *
      * @return The name
      */
-    String getExtendableResourceName(  );
+    String getExtendableResourceName( );
 
     /**
      * Gets the name.
      *
      * @return The name
      */
-    String getExtendableResourceDescription(  );
+    String getExtendableResourceDescription( );
 
     /**
-     * Gets the URL of the image describing the resource.
-     * If the given URL does NOT starts with <i>http://</i>, then the base URL
-     * will be prefixed.
-     * @return The URL of the image describing the resource, or null if not
-     *         image is associated to this resource
+     * Gets the URL of the image describing the resource. If the given URL does NOT starts with <i>http://</i>, then the base URL will be prefixed.
+     * 
+     * @return The URL of the image describing the resource, or null if not image is associated to this resource
      */
-    String getExtendableResourceImageUrl(  );
+    String getExtendableResourceImageUrl( );
 }

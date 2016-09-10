@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -76,7 +76,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  * This class is the general plugin element
  */
@@ -133,82 +132,82 @@ public abstract class Plugin implements Comparable<Plugin>
     private List<DaemonEntry> _listDaemons;
     private List<String> _listFreemarkerMacrosFiles;
 
-    //hashtable which contains all the params described in the xml plugin file
-    private Map<String, String> _mapParams = new HashMap<String, String>(  );
+    // hashtable which contains all the params described in the xml plugin file
+    private Map<String, String> _mapParams = new HashMap<String, String>( );
     private PluginConnectionService _connectionService;
 
     /**
      * Initializes the plugin at the first load
      *
      */
-    public abstract void init(  );
+    public abstract void init( );
 
     /**
      * Load plugin's data from the plugin's xml file.
      *
-     * @param pluginFile The plugin file object
-     * @throws LuteceInitException If an error occured
+     * @param pluginFile
+     *            The plugin file object
+     * @throws LuteceInitException
+     *             If an error occured
      */
     void load( PluginFile pluginFile ) throws LuteceInitException
     {
         try
         {
-            _strName = pluginFile.getName(  );
-            _strVersion = pluginFile.getVersion(  );
-            _strDescription = pluginFile.getDescription(  );
-            _strProvider = pluginFile.getProvider(  );
-            _strProviderUrl = pluginFile.getProviderUrl(  );
+            _strName = pluginFile.getName( );
+            _strVersion = pluginFile.getVersion( );
+            _strDescription = pluginFile.getDescription( );
+            _strProvider = pluginFile.getProvider( );
+            _strProviderUrl = pluginFile.getProviderUrl( );
 
             String strDefaultIconUrl = AppPropertiesService.getProperty( PROPERTY_DEFAULT_ICON_URL );
-            _strIconUrl = pluginFile.getIconUrl(  ).equals( "" ) ? strDefaultIconUrl : pluginFile.getIconUrl(  );
-            _strDocumentationUrl = pluginFile.getDocumentationUrl(  );
-            _strCopyright = pluginFile.getCopyright(  );
-            _strPluginClass = pluginFile.getPluginClass(  );
-            _strMinCoreVersion = pluginFile.getMinCoreVersion(  );
-            _strMaxCoreVersion = pluginFile.getMaxCoreVersion(  );
-            _listXPageApplications = pluginFile.getXPageApplications(  );
-            _listFilters = pluginFile.getFilters(  );
-            _listServlets = pluginFile.getServlets(  );
-            _listListeners = pluginFile.getListeners(  );
-            _listRights = pluginFile.getRights(  );
-            _listPortletTypes = pluginFile.getPortletTypes(  );
-            _listContentServices = pluginFile.getContentServices(  );
-            _listInsertServices = pluginFile.getInsertServices(  );
-            _listSearchIndexers = pluginFile.getSearchIndexers(  );
-            _listPageIncludes = pluginFile.getPageIncludes(  );
-            _listDashboardComponents = pluginFile.getDashboardComponents(  );
-            _listAdminDashboardComponents = pluginFile.getAdminDashboardComponents(  );
-            _listRBACResourceTypes = pluginFile.getRBACResourceTypes(  );
-            _listDaemons = pluginFile.getDaemons(  );
-            _mapParams = pluginFile.getParams(  );
-            _bDbPoolRequired = pluginFile.isDbPoolRequired(  );
+            _strIconUrl = pluginFile.getIconUrl( ).equals( "" ) ? strDefaultIconUrl : pluginFile.getIconUrl( );
+            _strDocumentationUrl = pluginFile.getDocumentationUrl( );
+            _strCopyright = pluginFile.getCopyright( );
+            _strPluginClass = pluginFile.getPluginClass( );
+            _strMinCoreVersion = pluginFile.getMinCoreVersion( );
+            _strMaxCoreVersion = pluginFile.getMaxCoreVersion( );
+            _listXPageApplications = pluginFile.getXPageApplications( );
+            _listFilters = pluginFile.getFilters( );
+            _listServlets = pluginFile.getServlets( );
+            _listListeners = pluginFile.getListeners( );
+            _listRights = pluginFile.getRights( );
+            _listPortletTypes = pluginFile.getPortletTypes( );
+            _listContentServices = pluginFile.getContentServices( );
+            _listInsertServices = pluginFile.getInsertServices( );
+            _listSearchIndexers = pluginFile.getSearchIndexers( );
+            _listPageIncludes = pluginFile.getPageIncludes( );
+            _listDashboardComponents = pluginFile.getDashboardComponents( );
+            _listAdminDashboardComponents = pluginFile.getAdminDashboardComponents( );
+            _listRBACResourceTypes = pluginFile.getRBACResourceTypes( );
+            _listDaemons = pluginFile.getDaemons( );
+            _mapParams = pluginFile.getParams( );
+            _bDbPoolRequired = pluginFile.isDbPoolRequired( );
 
-            _listCssStyleSheets = pluginFile.getCssStyleSheetsForAllModes(  );
-            _strCssStylesheetsScope = ( pluginFile.getCssStylesheetsScope(  ) != null )
-                ? pluginFile.getCssStylesheetsScope(  ) : SCOPE_XPAGE;
-            _listJavascriptFiles = pluginFile.getJavascriptFilesForAllModes(  );
-            _strJavascriptFilesScope = ( pluginFile.getJavascriptFilesScope(  ) != null )
-                ? pluginFile.getJavascriptFilesScope(  ) : SCOPE_XPAGE;
-            _listFreemarkerMacrosFiles = pluginFile.getFreemarkerMacrosFiles(  );
-            _listAdminCssStyleSheets = pluginFile.getAdminCssStyleSheets(  );
-            _listAdminJavascriptFiles = pluginFile.getAdminJavascriptFiles(  );
+            _listCssStyleSheets = pluginFile.getCssStyleSheetsForAllModes( );
+            _strCssStylesheetsScope = ( pluginFile.getCssStylesheetsScope( ) != null ) ? pluginFile.getCssStylesheetsScope( ) : SCOPE_XPAGE;
+            _listJavascriptFiles = pluginFile.getJavascriptFilesForAllModes( );
+            _strJavascriptFilesScope = ( pluginFile.getJavascriptFilesScope( ) != null ) ? pluginFile.getJavascriptFilesScope( ) : SCOPE_XPAGE;
+            _listFreemarkerMacrosFiles = pluginFile.getFreemarkerMacrosFiles( );
+            _listAdminCssStyleSheets = pluginFile.getAdminCssStyleSheets( );
+            _listAdminJavascriptFiles = pluginFile.getAdminJavascriptFiles( );
             // Register plugin components
-            registerXPageApplications(  );
-            registerFilters(  );
-            registerServlets(  );
-            registerListeners(  );
-            registerContentServices(  );
-            registerInsertServices(  );
-            registerSearchIndexers(  );
-            registerPageIncludes(  );
-            registerDashboardComponents(  );
-            registerAdminDashboardComponents(  );
-            registerRBACResourceTypes(  );
-            registerDaemons(  );
+            registerXPageApplications( );
+            registerFilters( );
+            registerServlets( );
+            registerListeners( );
+            registerContentServices( );
+            registerInsertServices( );
+            registerSearchIndexers( );
+            registerPageIncludes( );
+            registerDashboardComponents( );
+            registerAdminDashboardComponents( );
+            registerRBACResourceTypes( );
+            registerDaemons( );
         }
-        catch ( Exception e )
+        catch( Exception e )
         {
-            throw new LuteceInitException( "Error loading plugin : " + e.getMessage(  ), e );
+            throw new LuteceInitException( "Error loading plugin : " + e.getMessage( ), e );
         }
     }
 
@@ -216,7 +215,7 @@ public abstract class Plugin implements Comparable<Plugin>
      *
      * @return the content service
      */
-    public ContentService getContentService(  )
+    public ContentService getContentService( )
     {
         return _contentService;
     }
@@ -226,9 +225,9 @@ public abstract class Plugin implements Comparable<Plugin>
      *
      * @return true if the plugin contains one or more portlet
      */
-    public boolean hasPortlets(  )
+    public boolean hasPortlets( )
     {
-        return ( _listPortletTypes.size(  ) > 0 );
+        return ( _listPortletTypes.size( ) > 0 );
     }
 
     /**
@@ -236,9 +235,9 @@ public abstract class Plugin implements Comparable<Plugin>
      *
      * @return true if the plugin contains one or more daemon
      */
-    public boolean hasDaemons(  )
+    public boolean hasDaemons( )
     {
-        return ( _listDaemons.size(  ) > 0 );
+        return ( _listDaemons.size( ) > 0 );
     }
 
     /**
@@ -246,7 +245,7 @@ public abstract class Plugin implements Comparable<Plugin>
      *
      * @return The daemons list of the plugin
      */
-    public List<DaemonEntry> getDaemons(  )
+    public List<DaemonEntry> getDaemons( )
     {
         return _listDaemons;
     }
@@ -254,7 +253,7 @@ public abstract class Plugin implements Comparable<Plugin>
     /**
      * Updates the plg file
      */
-    protected void update(  )
+    protected void update( )
     {
         PluginService.updatePluginData( this );
     }
@@ -262,7 +261,8 @@ public abstract class Plugin implements Comparable<Plugin>
     /**
      * Modify the plugin status
      *
-     * @param bStatus true installed, false uninstalled
+     * @param bStatus
+     *            true installed, false uninstalled
      */
     public void setStatus( boolean bStatus )
     {
@@ -271,20 +271,24 @@ public abstract class Plugin implements Comparable<Plugin>
 
     /**
      * Updates a database connection pool associated to the plugin and stores it
-     * @param strPoolName the name of the pool
+     * 
+     * @param strPoolName
+     *            the name of the pool
      */
     public void updatePoolName( String strPoolName )
     {
         _strDbPoolName = strPoolName;
         _connectionService.setPool( strPoolName );
-        update(  );
+        update( );
 
         notifyListeners( PluginEvent.PLUGIN_POOL_CHANGED );
     }
 
     /**
      * Updates a database connection pool associated to the plugin and stores it
-     * @param strPoolName The name of the pool
+     * 
+     * @param strPoolName
+     *            The name of the pool
      */
     public void setPoolName( String strPoolName )
     {
@@ -293,9 +297,10 @@ public abstract class Plugin implements Comparable<Plugin>
 
     /**
      * Gets the current database connection pool associated to the plugin
+     * 
      * @return The name of the database for the pool checked
      */
-    public String getDbPoolName(  )
+    public String getDbPoolName( )
     {
         return _strDbPoolName;
     }
@@ -303,13 +308,13 @@ public abstract class Plugin implements Comparable<Plugin>
     /**
      * Creates a new right in the rights set
      */
-    protected void registerRights(  )
+    protected void registerRights( )
     {
         for ( Right right : _listRights )
         {
-            RightHome.remove( right.getId(  ) );
+            RightHome.remove( right.getId( ) );
 
-            if ( !( right.getId(  ).equals( "" ) ) )
+            if ( !( right.getId( ).equals( "" ) ) )
             {
                 RightHome.create( right );
             }
@@ -319,13 +324,13 @@ public abstract class Plugin implements Comparable<Plugin>
     /**
      * Remove a right from the rights set.
      */
-    protected void unregisterRights(  )
+    protected void unregisterRights( )
     {
         for ( Right right : _listRights )
         {
-            if ( ( right != null ) && ( !( right.getId(  ).equals( "" ) ) ) )
+            if ( ( right != null ) && ( !( right.getId( ).equals( "" ) ) ) )
             {
-                RightHome.remove( right.getId(  ) );
+                RightHome.remove( right.getId( ) );
             }
         }
     }
@@ -333,13 +338,13 @@ public abstract class Plugin implements Comparable<Plugin>
     /**
      * Creates a new portlet in the portlets type set
      */
-    protected void registerPortlets(  )
+    protected void registerPortlets( )
     {
         for ( PortletType portletType : _listPortletTypes )
         {
-            PortletTypeHome.remove( portletType.getId(  ) );
+            PortletTypeHome.remove( portletType.getId( ) );
 
-            if ( ( portletType.getHomeClass(  ) != null ) && ( !( portletType.getHomeClass(  ).equals( "" ) ) ) )
+            if ( ( portletType.getHomeClass( ) != null ) && ( !( portletType.getHomeClass( ).equals( "" ) ) ) )
             {
                 PortletTypeHome.create( portletType );
             }
@@ -349,56 +354,64 @@ public abstract class Plugin implements Comparable<Plugin>
     /**
      * Remove a portlet from the portlets type set.
      */
-    protected void unregisterPortlets(  )
+    protected void unregisterPortlets( )
     {
         for ( PortletType portletType : _listPortletTypes )
         {
-            PortletTypeHome.remove( portletType.getId(  ) );
+            PortletTypeHome.remove( portletType.getId( ) );
         }
     }
 
     /**
      * Register XPage applications
-     * @throws LuteceInitException If an error occurs
+     * 
+     * @throws LuteceInitException
+     *             If an error occurs
      */
-    protected void registerXPageApplications(  ) throws LuteceInitException
+    protected void registerXPageApplications( ) throws LuteceInitException
     {
         for ( XPageApplicationEntry entry : _listXPageApplications )
         {
-            entry.setPluginName( getName(  ) );
+            entry.setPluginName( getName( ) );
             XPageAppService.registerXPageApplication( entry );
         }
     }
 
     /**
      * Register Filters
-     * @throws LuteceInitException If an error occurs
+     * 
+     * @throws LuteceInitException
+     *             If an error occurs
      */
-    protected void registerFilters(  ) throws LuteceInitException
+    protected void registerFilters( ) throws LuteceInitException
     {
         for ( FilterEntry entry : _listFilters )
         {
-            FilterService.getInstance(  ).registerFilter( entry, this );
+            FilterService.getInstance( ).registerFilter( entry, this );
         }
     }
 
     /**
      * Register Servlets
-     * @throws LuteceInitException If an error occurs
+     * 
+     * @throws LuteceInitException
+     *             If an error occurs
      */
-    protected void registerServlets(  ) throws LuteceInitException
+    protected void registerServlets( ) throws LuteceInitException
     {
         for ( ServletEntry entry : _listServlets )
         {
-            ServletService.getInstance(  ).registerServlet( entry, this );
+            ServletService.getInstance( ).registerServlet( entry, this );
         }
     }
 
     /**
      * Register listeners
-     * @throws LuteceInitException if an error occurs
+     * 
+     * @throws LuteceInitException
+     *             if an error occurs
      */
-    protected void registerListeners(  ) throws LuteceInitException
+    protected void registerListeners( ) throws LuteceInitException
     {
         for ( HttpSessionListenerEntry entry : _listListeners )
         {
@@ -408,119 +421,132 @@ public abstract class Plugin implements Comparable<Plugin>
 
     /**
      * Register Content Services
-     * @throws LuteceInitException If an error occurs
+     * 
+     * @throws LuteceInitException
+     *             If an error occurs
      */
-    protected void registerContentServices(  ) throws LuteceInitException
+    protected void registerContentServices( ) throws LuteceInitException
     {
         for ( ContentServiceEntry entry : _listContentServices )
         {
             try
             {
-                ContentService cs = (ContentService) Class.forName( entry.getClassName(  ) ).newInstance(  );
+                ContentService cs = (ContentService) Class.forName( entry.getClassName( ) ).newInstance( );
 
-                cs.setPluginName( getName(  ) );
+                cs.setPluginName( getName( ) );
 
-                PortalService.registerContentService( cs.getName(  ), cs );
+                PortalService.registerContentService( cs.getName( ), cs );
             }
-            catch ( IllegalAccessException e )
+            catch( IllegalAccessException e )
             {
-                throw new LuteceInitException( e.getMessage(  ), e );
+                throw new LuteceInitException( e.getMessage( ), e );
             }
-            catch ( ClassNotFoundException e )
+            catch( ClassNotFoundException e )
             {
-                throw new LuteceInitException( e.getMessage(  ), e );
+                throw new LuteceInitException( e.getMessage( ), e );
             }
-            catch ( InstantiationException e )
+            catch( InstantiationException e )
             {
-                throw new LuteceInitException( e.getMessage(  ), e );
+                throw new LuteceInitException( e.getMessage( ), e );
             }
         }
     }
 
     /**
      * Register Insert Services
-     * @throws LuteceInitException If an error occurs
+     * 
+     * @throws LuteceInitException
+     *             If an error occurs
      */
-    protected void registerInsertServices(  ) throws LuteceInitException
+    protected void registerInsertServices( ) throws LuteceInitException
     {
         for ( InsertService is : _listInsertServices )
         {
-            is.setPluginName( getName(  ) );
+            is.setPluginName( getName( ) );
             InsertServiceManager.registerInsertService( is );
         }
     }
 
     /**
      * Register Search Indexers
-     * @throws LuteceInitException If an error occurs
+     * 
+     * @throws LuteceInitException
+     *             If an error occurs
      */
-    protected void registerSearchIndexers(  ) throws LuteceInitException
+    protected void registerSearchIndexers( ) throws LuteceInitException
     {
         for ( SearchIndexerEntry entry : _listSearchIndexers )
         {
             try
             {
-                SearchIndexer indexer = (SearchIndexer) Class.forName( entry.getClassName(  ) ).newInstance(  );
+                SearchIndexer indexer = (SearchIndexer) Class.forName( entry.getClassName( ) ).newInstance( );
                 IndexationService.registerIndexer( indexer );
             }
-            catch ( IllegalAccessException e )
+            catch( IllegalAccessException e )
             {
-                throw new LuteceInitException( e.getMessage(  ), e );
+                throw new LuteceInitException( e.getMessage( ), e );
             }
-            catch ( ClassNotFoundException e )
+            catch( ClassNotFoundException e )
             {
-                throw new LuteceInitException( e.getMessage(  ), e );
+                throw new LuteceInitException( e.getMessage( ), e );
             }
-            catch ( InstantiationException e )
+            catch( InstantiationException e )
             {
-                throw new LuteceInitException( e.getMessage(  ), e );
+                throw new LuteceInitException( e.getMessage( ), e );
             }
         }
     }
 
     /**
      * Register Page Includes
-     * @throws LuteceInitException If an error occured
+     * 
+     * @throws LuteceInitException
+     *             If an error occured
      */
-    protected void registerPageIncludes(  ) throws LuteceInitException
+    protected void registerPageIncludes( ) throws LuteceInitException
     {
         for ( PageIncludeEntry entry : _listPageIncludes )
         {
-            entry.setPluginName( getName(  ) );
+            entry.setPluginName( getName( ) );
             PageIncludeService.registerPageInclude( entry );
         }
     }
 
     /**
      * Register Dashboard Components
-     * @throws LuteceInitException If an error occured
+     * 
+     * @throws LuteceInitException
+     *             If an error occured
      */
-    protected void registerDashboardComponents(  ) throws LuteceInitException
+    protected void registerDashboardComponents( ) throws LuteceInitException
     {
         for ( DashboardComponentEntry entry : _listDashboardComponents )
         {
-            DashboardService.getInstance(  ).registerDashboardComponent( entry, this );
+            DashboardService.getInstance( ).registerDashboardComponent( entry, this );
         }
     }
 
     /**
      * Register Admin Dashboard Components
-     * @throws LuteceInitException If an error occured
+     * 
+     * @throws LuteceInitException
+     *             If an error occured
      */
-    protected void registerAdminDashboardComponents(  )
-        throws LuteceInitException
+    protected void registerAdminDashboardComponents( ) throws LuteceInitException
     {
         for ( DashboardComponentEntry entry : _listAdminDashboardComponents )
         {
-            AdminDashboardService.getInstance(  ).registerDashboardComponent( entry, this );
+            AdminDashboardService.getInstance( ).registerDashboardComponent( entry, this );
         }
     }
 
     /**
      * Register RBAC Resource Types
-     * @throws LuteceInitException If an error occurs
+     * 
+     * @throws LuteceInitException
+     *             If an error occurs
      */
-    protected void registerRBACResourceTypes(  ) throws LuteceInitException
+    protected void registerRBACResourceTypes( ) throws LuteceInitException
     {
         for ( RBACResourceTypeEntry entry : _listRBACResourceTypes )
         {
@@ -528,34 +554,36 @@ public abstract class Plugin implements Comparable<Plugin>
 
             try
             {
-                ris = (ResourceIdService) Class.forName( entry.getClassName(  ) ).newInstance(  );
+                ris = (ResourceIdService) Class.forName( entry.getClassName( ) ).newInstance( );
                 // Each resource id service should register itself and its permissions
-                ris.register(  );
+                ris.register( );
             }
-            catch ( IllegalAccessException e )
+            catch( IllegalAccessException e )
             {
-                throw new LuteceInitException( e.getMessage(  ), e );
+                throw new LuteceInitException( e.getMessage( ), e );
             }
-            catch ( ClassNotFoundException e )
+            catch( ClassNotFoundException e )
             {
-                throw new LuteceInitException( e.getMessage(  ), e );
+                throw new LuteceInitException( e.getMessage( ), e );
             }
-            catch ( InstantiationException e )
+            catch( InstantiationException e )
             {
-                throw new LuteceInitException( e.getMessage(  ), e );
+                throw new LuteceInitException( e.getMessage( ), e );
             }
         }
     }
 
     /**
      * Register Daemons
-     * @throws LuteceInitException If an error occurs
+     * 
+     * @throws LuteceInitException
+     *             If an error occurs
      */
-    protected void registerDaemons(  ) throws LuteceInitException
+    protected void registerDaemons( ) throws LuteceInitException
     {
         for ( DaemonEntry entry : _listDaemons )
         {
-            entry.setPluginName( getName(  ) );
+            entry.setPluginName( getName( ) );
             AppDaemonService.registerDaemon( entry );
         }
     }
@@ -563,16 +591,16 @@ public abstract class Plugin implements Comparable<Plugin>
     /**
      * Installs a Plugin
      */
-    public void install(  )
+    public void install( )
     {
         // Register a new right for the plugin
-        registerRights(  );
+        registerRights( );
 
         // Register a new portlets as plugin
-        registerPortlets(  );
+        registerPortlets( );
 
         _bIsInstalled = true;
-        update(  );
+        update( );
 
         notifyListeners( PluginEvent.PLUGIN_INSTALLED );
     }
@@ -580,22 +608,24 @@ public abstract class Plugin implements Comparable<Plugin>
     /**
      * Uninstalls a Plugin
      */
-    public void uninstall(  )
+    public void uninstall( )
     {
         // Unregister a new right for the plugin
-        unregisterRights(  );
+        unregisterRights( );
 
         // Unregister a new portlets as plugin
-        unregisterPortlets(  );
+        unregisterPortlets( );
         _bIsInstalled = false;
-        update(  );
+        update( );
 
         notifyListeners( PluginEvent.PLUGIN_UNINSTALLED );
     }
 
     /**
      * Notifiy Listener
-     * @param nEventType The event type
+     * 
+     * @param nEventType
+     *            The event type
      */
     private void notifyListeners( int nEventType )
     {
@@ -608,37 +638,37 @@ public abstract class Plugin implements Comparable<Plugin>
      *
      * @return the plugin type as a int
      */
-    public int getType(  )
+    public int getType( )
     {
         // Load the Type
         int nPluginTypeFlags = 0;
 
-        if ( ( _listXPageApplications != null ) && ( _listXPageApplications.size(  ) > 0 ) )
+        if ( ( _listXPageApplications != null ) && ( _listXPageApplications.size( ) > 0 ) )
         {
             nPluginTypeFlags |= PLUGIN_TYPE_APPLICATION;
         }
 
-        if ( ( _listPortletTypes != null ) && ( _listPortletTypes.size(  ) > 0 ) )
+        if ( ( _listPortletTypes != null ) && ( _listPortletTypes.size( ) > 0 ) )
         {
             nPluginTypeFlags |= PLUGIN_TYPE_PORTLET;
         }
 
-        if ( ( _listRights != null ) && ( _listRights.size(  ) > 0 ) )
+        if ( ( _listRights != null ) && ( _listRights.size( ) > 0 ) )
         {
             nPluginTypeFlags |= PLUGIN_TYPE_FEATURE;
         }
 
-        if ( ( _listInsertServices != null ) && ( _listInsertServices.size(  ) > 0 ) )
+        if ( ( _listInsertServices != null ) && ( _listInsertServices.size( ) > 0 ) )
         {
             nPluginTypeFlags |= PLUGIN_TYPE_INSERTSERVICE;
         }
 
-        if ( ( _listContentServices != null ) && ( _listContentServices.size(  ) > 0 ) )
+        if ( ( _listContentServices != null ) && ( _listContentServices.size( ) > 0 ) )
         {
             nPluginTypeFlags |= PLUGIN_TYPE_CONTENTSERVICE;
         }
 
-        if ( ( _listDaemons != null ) && ( !_listDaemons.isEmpty(  ) ) )
+        if ( ( _listDaemons != null ) && ( !_listDaemons.isEmpty( ) ) )
         {
             nPluginTypeFlags |= PLUGIN_TYPE_DAEMON;
         }
@@ -651,7 +681,7 @@ public abstract class Plugin implements Comparable<Plugin>
      *
      * @return the plugin list of ContentServiceEntry
      */
-    public List<InsertService> getInsertServices(  )
+    public List<InsertService> getInsertServices( )
     {
         return _listInsertServices;
     }
@@ -661,7 +691,7 @@ public abstract class Plugin implements Comparable<Plugin>
      *
      * @return the plugin list of ContentServiceEntry
      */
-    public List<ContentServiceEntry> getContentServices(  )
+    public List<ContentServiceEntry> getContentServices( )
     {
         return _listContentServices;
     }
@@ -671,7 +701,7 @@ public abstract class Plugin implements Comparable<Plugin>
      *
      * @return the plugin list of XPageApplicationEntry
      */
-    public List<XPageApplicationEntry> getApplications(  )
+    public List<XPageApplicationEntry> getApplications( )
     {
         return _listXPageApplications;
     }
@@ -681,7 +711,7 @@ public abstract class Plugin implements Comparable<Plugin>
      *
      * @return the plugin list of portlet type
      */
-    public List<PortletType> getPortletTypes(  )
+    public List<PortletType> getPortletTypes( )
     {
         return _listPortletTypes;
     }
@@ -689,7 +719,8 @@ public abstract class Plugin implements Comparable<Plugin>
     /**
      * Sets the list of portlet type
      *
-     * @param listPortletTypes The portlet type list
+     * @param listPortletTypes
+     *            The portlet type list
      */
     public void setPortletTypes( List<PortletType> listPortletTypes )
     {
@@ -701,7 +732,7 @@ public abstract class Plugin implements Comparable<Plugin>
      *
      * @return the plugin list of rights
      */
-    public List<Right> getRights(  )
+    public List<Right> getRights( )
     {
         return _listRights;
     }
@@ -709,7 +740,8 @@ public abstract class Plugin implements Comparable<Plugin>
     /**
      * Sets plugin rights list
      *
-     * @param listRights The rights list
+     * @param listRights
+     *            The rights list
      */
     public void setRights( List<Right> listRights )
     {
@@ -721,7 +753,7 @@ public abstract class Plugin implements Comparable<Plugin>
      *
      * @return the plugin name as a String
      */
-    public String getName(  )
+    public String getName( )
     {
         return _strName;
     }
@@ -729,7 +761,8 @@ public abstract class Plugin implements Comparable<Plugin>
     /**
      * Sets the name of the plugin
      *
-     * @param strName The plugin name
+     * @param strName
+     *            The plugin name
      */
     public void setName( String strName )
     {
@@ -741,14 +774,16 @@ public abstract class Plugin implements Comparable<Plugin>
      *
      * @return the plugin version as a String
      */
-    public String getVersion(  )
+    public String getVersion( )
     {
         return _strVersion;
     }
 
     /**
      * Sets the version plugin name
-     * @param strVersion The version
+     * 
+     * @param strVersion
+     *            The version
      */
     public void setVersion( String strVersion )
     {
@@ -760,7 +795,7 @@ public abstract class Plugin implements Comparable<Plugin>
      *
      * @return the plugin description as a String
      */
-    public String getDescription(  )
+    public String getDescription( )
     {
         return _strDescription;
     }
@@ -768,7 +803,8 @@ public abstract class Plugin implements Comparable<Plugin>
     /**
      * Sets the description of the plugin
      *
-     * @param strDescription The description
+     * @param strDescription
+     *            The description
      */
     public void setDescription( String strDescription )
     {
@@ -780,7 +816,7 @@ public abstract class Plugin implements Comparable<Plugin>
      *
      * @return the plugin Provider as a String
      */
-    public String getProvider(  )
+    public String getProvider( )
     {
         return _strProvider;
     }
@@ -788,7 +824,8 @@ public abstract class Plugin implements Comparable<Plugin>
     /**
      * Sets the provider name
      *
-     * @param strProvider The provider name
+     * @param strProvider
+     *            The provider name
      */
     public void setProvider( String strProvider )
     {
@@ -800,7 +837,7 @@ public abstract class Plugin implements Comparable<Plugin>
      *
      * @return the plugin Provider's URL as a String
      */
-    public String getProviderUrl(  )
+    public String getProviderUrl( )
     {
         return _strProviderUrl;
     }
@@ -808,7 +845,8 @@ public abstract class Plugin implements Comparable<Plugin>
     /**
      * Sets the provider url
      *
-     * @param strProviderUrl the name of the provider
+     * @param strProviderUrl
+     *            the name of the provider
      */
     public void setProviderUrl( String strProviderUrl )
     {
@@ -820,7 +858,7 @@ public abstract class Plugin implements Comparable<Plugin>
      *
      * @return the plugin Icon's URL as a String
      */
-    public String getIconUrl(  )
+    public String getIconUrl( )
     {
         return _strIconUrl;
     }
@@ -828,7 +866,8 @@ public abstract class Plugin implements Comparable<Plugin>
     /**
      * Sets the url of the plugin's icon
      *
-     * @param strIconUrl The url of icon
+     * @param strIconUrl
+     *            The url of icon
      */
     public void setIconUrl( String strIconUrl )
     {
@@ -840,7 +879,7 @@ public abstract class Plugin implements Comparable<Plugin>
      *
      * @return the plugin Documentation's URL as a String
      */
-    public String getDocumentationUrl(  )
+    public String getDocumentationUrl( )
     {
         return _strDocumentationUrl;
     }
@@ -848,7 +887,8 @@ public abstract class Plugin implements Comparable<Plugin>
     /**
      * Sets the url of the plugin's Documentation
      *
-     * @param strDocumentationUrl The documentation Url
+     * @param strDocumentationUrl
+     *            The documentation Url
      */
     public void setDocumentationUrl( String strDocumentationUrl )
     {
@@ -860,7 +900,7 @@ public abstract class Plugin implements Comparable<Plugin>
      *
      * @return the plugin Copyright as a String
      */
-    public String getCopyright(  )
+    public String getCopyright( )
     {
         return _strCopyright;
     }
@@ -868,7 +908,8 @@ public abstract class Plugin implements Comparable<Plugin>
     /**
      * Sets the copyright
      *
-     * @param strCopyright The copyright
+     * @param strCopyright
+     *            The copyright
      */
     public void setCopyright( String strCopyright )
     {
@@ -880,7 +921,7 @@ public abstract class Plugin implements Comparable<Plugin>
      *
      * @return the Class as a String
      */
-    public String getServiceClass(  )
+    public String getServiceClass( )
     {
         return _strPluginClass;
     }
@@ -888,7 +929,8 @@ public abstract class Plugin implements Comparable<Plugin>
     /**
      * Sets the class service of plugin
      *
-     * @param strPluginClass The plugin class
+     * @param strPluginClass
+     *            The plugin class
      */
     public void setServiceClass( String strPluginClass )
     {
@@ -900,7 +942,7 @@ public abstract class Plugin implements Comparable<Plugin>
      *
      * @return the installation status as an int
      */
-    public boolean isInstalled(  )
+    public boolean isInstalled( )
     {
         return _bIsInstalled;
     }
@@ -908,7 +950,8 @@ public abstract class Plugin implements Comparable<Plugin>
     /**
      * Sets the boolean which shows if the plugin is installed
      *
-     * @param bIsInstalled The installed boolean
+     * @param bIsInstalled
+     *            The installed boolean
      */
     public void setIsInstalled( boolean bIsInstalled )
     {
@@ -920,7 +963,7 @@ public abstract class Plugin implements Comparable<Plugin>
      *
      * @return the min core version as a String
      */
-    public String getMinCoreVersion(  )
+    public String getMinCoreVersion( )
     {
         return _strMinCoreVersion;
     }
@@ -928,7 +971,8 @@ public abstract class Plugin implements Comparable<Plugin>
     /**
      * Sets the the min core version compatibility for the plugin
      *
-     * @param strMinCoreVersion The min core version
+     * @param strMinCoreVersion
+     *            The min core version
      */
     public void setMinCoreVersion( String strMinCoreVersion )
     {
@@ -940,7 +984,7 @@ public abstract class Plugin implements Comparable<Plugin>
      *
      * @return the max core version as a String
      */
-    public String getMaxCoreVersion(  )
+    public String getMaxCoreVersion( )
     {
         return _strMaxCoreVersion;
     }
@@ -948,7 +992,8 @@ public abstract class Plugin implements Comparable<Plugin>
     /**
      * Sets the the max core version compatibility for the plugin
      *
-     * @param strMaxCoreVersion The max core version
+     * @param strMaxCoreVersion
+     *            The max core version
      */
     public void setMaxCoreVersion( String strMaxCoreVersion )
     {
@@ -960,7 +1005,7 @@ public abstract class Plugin implements Comparable<Plugin>
      *
      * @return <b>true</b> if the plugin needs a database connection pool, otherwise <b>false</b>
      */
-    public boolean isDbPoolRequired(  )
+    public boolean isDbPoolRequired( )
     {
         return _bDbPoolRequired;
     }
@@ -968,7 +1013,8 @@ public abstract class Plugin implements Comparable<Plugin>
     /**
      * Sets the boolean which shows if a pool is required
      *
-     * @param bDbPoolRequired The dbpool boolean
+     * @param bDbPoolRequired
+     *            The dbpool boolean
      */
     public void setIsDbPoolRequired( boolean bDbPoolRequired )
     {
@@ -977,9 +1023,10 @@ public abstract class Plugin implements Comparable<Plugin>
 
     /**
      * Returns a Connection Service associated to the plugin
+     * 
      * @return _connectionService The connection service
      */
-    public PluginConnectionService getConnectionService(  )
+    public PluginConnectionService getConnectionService( )
     {
         return _connectionService;
     }
@@ -987,7 +1034,8 @@ public abstract class Plugin implements Comparable<Plugin>
     /**
      * Sets the connection service
      *
-     * @param connectionService The connection Service object
+     * @param connectionService
+     *            The connection Service object
      */
     public void setConnectionService( PluginConnectionService connectionService )
     {
@@ -997,7 +1045,8 @@ public abstract class Plugin implements Comparable<Plugin>
     /**
      * Initializes the plugin's ConnectionService
      *
-     * @param strPoolName The pool name
+     * @param strPoolName
+     *            The pool name
      */
     public void initConnectionService( String strPoolName )
     {
@@ -1006,16 +1055,19 @@ public abstract class Plugin implements Comparable<Plugin>
 
     /**
      * Gets plugin's parameters
+     * 
      * @return _mapParams The hastable of parameters
      */
-    public Map<String, String> getParams(  )
+    public Map<String, String> getParams( )
     {
         return _mapParams;
     }
 
     /**
      * Gets a parameter value for a given parameter name
-     * @param strParamName The name of the parameter
+     * 
+     * @param strParamName
+     *            The name of the parameter
      * @return null
      */
     public String getParamValue( String strParamName )
@@ -1030,7 +1082,9 @@ public abstract class Plugin implements Comparable<Plugin>
 
     /**
      * Sets parameters values with an hashtable
-     * @param mapParams The parameter map
+     * 
+     * @param mapParams
+     *            The parameter map
      */
     public void setParams( Map<String, String> mapParams )
     {
@@ -1039,8 +1093,11 @@ public abstract class Plugin implements Comparable<Plugin>
 
     /**
      * Sets a parameter value for a given parameter name
-     * @param strParamName The name of the parameter
-     * @param strParamValue The value of the parameter
+     * 
+     * @param strParamName
+     *            The name of the parameter
+     * @param strParamValue
+     *            The value of the parameter
      */
     public void setParamValue( String strParamName, String strParamValue )
     {
@@ -1052,7 +1109,9 @@ public abstract class Plugin implements Comparable<Plugin>
 
     /**
      * Implementation of the Comparable interface.
-     * @param plugin A plugin Object
+     * 
+     * @param plugin
+     *            A plugin Object
      * @return 1, 0 ou -1 according the plugin name
      */
     @Override
@@ -1060,7 +1119,7 @@ public abstract class Plugin implements Comparable<Plugin>
     {
         Comparator<String> comparator = String.CASE_INSENSITIVE_ORDER;
 
-        return comparator.compare( getName(  ), plugin.getName(  ) );
+        return comparator.compare( getName( ), plugin.getName( ) );
     }
 
     /**
@@ -1079,15 +1138,16 @@ public abstract class Plugin implements Comparable<Plugin>
 
     /**
      * Returns all CSS Style Sheets of the plugin with no mode associated
+     * 
      * @return The list of CSS Style Sheets with no mode associated
      */
-    public List<String> getCssStyleSheets(  )
+    public List<String> getCssStyleSheets( )
     {
         List<String> res = _listCssStyleSheets.get( null );
 
         if ( res == null )
         {
-            return Collections.emptyList(  );
+            return Collections.emptyList( );
         }
 
         return res;
@@ -1095,7 +1155,9 @@ public abstract class Plugin implements Comparable<Plugin>
 
     /**
      * Returns all CSS Style Sheets of the plugin associated with a mode
-     * @param mode the mode
+     * 
+     * @param mode
+     *            the mode
      * @return The list of CSS Style Sheets associated with the mode
      * @since 5.1.0
      */
@@ -1105,7 +1167,7 @@ public abstract class Plugin implements Comparable<Plugin>
 
         if ( res == null )
         {
-            return Collections.emptyList(  );
+            return Collections.emptyList( );
         }
 
         return res;
@@ -1113,7 +1175,9 @@ public abstract class Plugin implements Comparable<Plugin>
 
     /**
      * Returns the theme the plugin use for rendering a Xpage
-     * @param request The HttpServletRequest
+     * 
+     * @param request
+     *            The HttpServletRequest
      * @return The theme
      */
     public Theme getXPageTheme( HttpServletRequest request )
@@ -1123,7 +1187,9 @@ public abstract class Plugin implements Comparable<Plugin>
 
     /**
      * Add an Javascript File to the plugin definition, not associated with a mode
-     * @param strJavascriptFile The Javascript File path
+     * 
+     * @param strJavascriptFile
+     *            The Javascript File path
      */
     public void addJavascriptFile( String strJavascriptFile )
     {
@@ -1131,7 +1197,7 @@ public abstract class Plugin implements Comparable<Plugin>
 
         if ( files == null )
         {
-            files = new ArrayList<String>(  );
+            files = new ArrayList<String>( );
             _listJavascriptFiles.put( null, files );
         }
 
@@ -1140,15 +1206,16 @@ public abstract class Plugin implements Comparable<Plugin>
 
     /**
      * Returns all Javascript File of the plugin with no mode associated
+     * 
      * @return The list of Javascript File with no mode associated
      */
-    public List<String> getJavascriptFiles(  )
+    public List<String> getJavascriptFiles( )
     {
         List<String> res = _listJavascriptFiles.get( null );
 
         if ( res == null )
         {
-            return Collections.emptyList(  );
+            return Collections.emptyList( );
         }
 
         return res;
@@ -1156,7 +1223,9 @@ public abstract class Plugin implements Comparable<Plugin>
 
     /**
      * Returns all Javascript File of the plugin associated with a mode
-     * @param mode the mode
+     * 
+     * @param mode
+     *            the mode
      * @return The list of Javascript File with associated with the mode
      * @since 5.1.0
      */
@@ -1166,7 +1235,7 @@ public abstract class Plugin implements Comparable<Plugin>
 
         if ( res == null )
         {
-            return Collections.emptyList(  );
+            return Collections.emptyList( );
         }
 
         return res;
@@ -1174,63 +1243,71 @@ public abstract class Plugin implements Comparable<Plugin>
 
     /**
      * Give the scope of css stylesheets
+     * 
      * @return true if scope is portal otherwise false
      */
-    public boolean isCssStylesheetsScopePortal(  )
+    public boolean isCssStylesheetsScopePortal( )
     {
         return ( ( _strCssStylesheetsScope != null ) && _strCssStylesheetsScope.equalsIgnoreCase( SCOPE_PORTAL ) );
     }
 
     /**
      * Give the scope of css stylesheets
+     * 
      * @return true if scope is portal otherwise false
      */
-    public boolean isCssStylesheetsScopeXPage(  )
+    public boolean isCssStylesheetsScopeXPage( )
     {
         return ( ( _strCssStylesheetsScope != null ) && _strCssStylesheetsScope.equalsIgnoreCase( SCOPE_XPAGE ) );
     }
 
     /**
      * Give the scope of javascripts
+     * 
      * @return true if scope is portal otherwise false
      */
-    public boolean isJavascriptFilesScopePortal(  )
+    public boolean isJavascriptFilesScopePortal( )
     {
         return ( ( _strJavascriptFilesScope != null ) && _strJavascriptFilesScope.equalsIgnoreCase( SCOPE_PORTAL ) );
     }
 
     /**
      * Give the scope of javascripts
+     * 
      * @return true if scope is portal otherwise false
      */
-    public boolean isJavascriptFilesScopeXPage(  )
+    public boolean isJavascriptFilesScopeXPage( )
     {
         return ( ( _strJavascriptFilesScope != null ) && _strJavascriptFilesScope.equalsIgnoreCase( SCOPE_XPAGE ) );
     }
 
     /**
      * Return the list of stylesheets that should be used in the Back Office
+     * 
      * @return the list of stylesheets that should be used in the Back Office
      * @since 5.1
      */
-    public List<String> getAdminCssStyleSheets(  )
+    public List<String> getAdminCssStyleSheets( )
     {
         return _listAdminCssStyleSheets;
     }
 
     /**
      * Return the list of Javascript Files that should be used in the Back Office
+     * 
      * @return the list of Javascript Files that should be used in the Back Office
      * @since 5.1
      */
-    public List<String> getAdminJavascriptFiles(  )
+    public List<String> getAdminJavascriptFiles( )
     {
         return _listAdminJavascriptFiles;
     }
 
     /**
      * Adds a that file that will be autoincluded in freemarker templates
-     * @param strMacroFileName the file name
+     * 
+     * @param strMacroFileName
+     *            the file name
      */
     public void addFreemarkerMacrosFile( String strMacroFileName )
     {
@@ -1242,7 +1319,7 @@ public abstract class Plugin implements Comparable<Plugin>
      *
      * @return the free marker macros files
      */
-    public List<String> getFreeMarkerMacrosFiles(  )
+    public List<String> getFreeMarkerMacrosFiles( )
     {
         return _listFreemarkerMacrosFiles;
     }
@@ -1253,22 +1330,22 @@ public abstract class Plugin implements Comparable<Plugin>
      * @return The plugin object in String format
      */
     @Override
-    public String toString(  )
+    public String toString( )
     {
-        return getName(  );
+        return getName( );
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public int hashCode(  )
+    public int hashCode( )
     {
-        if ( getName(  ) == null )
+        if ( getName( ) == null )
         {
             return 0;
         }
 
-        return getName(  ).toLowerCase(  ).hashCode(  );
+        return getName( ).toLowerCase( ).hashCode( );
     }
 }

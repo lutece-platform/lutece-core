@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -36,21 +36,22 @@ package fr.paris.lutece.portal.service.mail;
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
  * MemoryQueue
  */
 public class MemoryQueue implements IMailQueue
 {
-    private List<MailItem> _listMails = new ArrayList<MailItem>(  );
+    private List<MailItem> _listMails = new ArrayList<MailItem>( );
 
     /**
      * Put a mail item into the list of the queue
-     * @param item The mail item to add to the queue
+     * 
+     * @param item
+     *            The mail item to add to the queue
      */
     public void send( MailItem item )
     {
-        synchronized ( _listMails )
+        synchronized( _listMails )
         {
             _listMails.add( item );
         }
@@ -58,15 +59,16 @@ public class MemoryQueue implements IMailQueue
 
     /**
      * Get a mail item from the list and remove it from the queue
+     * 
      * @return The older mail item of the queue
      */
-    public MailItem consume(  )
+    public MailItem consume( )
     {
         MailItem item = null;
 
-        synchronized ( _listMails )
+        synchronized( _listMails )
         {
-            if ( _listMails.size(  ) > 0 )
+            if ( _listMails.size( ) > 0 )
             {
                 item = _listMails.get( 0 );
                 _listMails.remove( 0 );
@@ -78,10 +80,11 @@ public class MemoryQueue implements IMailQueue
 
     /**
      * get the MemoryQueue size
+     * 
      * @return the MemoryQueue size
      */
-    public int size(  )
+    public int size( )
     {
-        return _listMails.size(  );
+        return _listMails.size( );
     }
 }

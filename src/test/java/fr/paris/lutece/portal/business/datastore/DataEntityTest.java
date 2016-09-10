@@ -37,7 +37,6 @@ import fr.paris.lutece.test.LuteceTestCase;
 
 import java.util.Collection;
 
-
 /**
  * DataEntity Test
  */
@@ -47,7 +46,7 @@ public class DataEntityTest extends LuteceTestCase
     private final static String VALUE1 = "DataEntity value1 JUnit";
     private final static String VALUE2 = "DataEntity 2 value JUnit";
 
-    public void testBusinessDataEntity(  )
+    public void testBusinessDataEntity( )
     {
         // Initialize an object
         DataEntity entity = new DataEntity( KEY1, VALUE1 );
@@ -55,23 +54,23 @@ public class DataEntityTest extends LuteceTestCase
         // Create test
         DataEntityHome.create( entity );
 
-        DataEntity entityStored = DataEntityHome.findByPrimaryKey( entity.getKey(  ) );
-        assertEquals( entityStored.getValue(  ), entity.getValue(  ) );
+        DataEntity entityStored = DataEntityHome.findByPrimaryKey( entity.getKey( ) );
+        assertEquals( entityStored.getValue( ), entity.getValue( ) );
 
         // Update test
         entity.setValue( VALUE2 );
 
         DataEntityHome.update( entity );
-        entityStored = DataEntityHome.findByPrimaryKey( entity.getKey(  ) );
-        assertEquals( entityStored.getValue(  ), entity.getValue(  ) );
+        entityStored = DataEntityHome.findByPrimaryKey( entity.getKey( ) );
+        assertEquals( entityStored.getValue( ), entity.getValue( ) );
 
         // List Test
-        Collection list = DataEntityHome.findAll(  );
-        assertTrue( list.size(  ) > 0 );
+        Collection list = DataEntityHome.findAll( );
+        assertTrue( list.size( ) > 0 );
 
         // Delete test
-        DataEntityHome.remove( entity.getKey(  ) );
-        entityStored = DataEntityHome.findByPrimaryKey( entity.getKey(  ) );
+        DataEntityHome.remove( entity.getKey( ) );
+        entityStored = DataEntityHome.findByPrimaryKey( entity.getKey( ) );
         assertNull( entityStored );
     }
 }

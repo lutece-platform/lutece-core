@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,7 +33,6 @@
  */
 package fr.paris.lutece.portal.service.security;
 
-
 /**
  * Basic Lutece User
  */
@@ -41,8 +40,11 @@ public class BasicLuteceUser extends LuteceUser
 {
     /**
      * Constructor
-     * @param strUserName The User Name
-     * @param authenticationService The PortalAuthentication object
+     * 
+     * @param strUserName
+     *            The User Name
+     * @param authenticationService
+     *            The PortalAuthentication object
      */
     public BasicLuteceUser( String strUserName, LuteceAuthentication authenticationService )
     {

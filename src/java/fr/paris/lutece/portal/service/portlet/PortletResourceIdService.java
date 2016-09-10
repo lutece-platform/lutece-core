@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -44,7 +44,6 @@ import fr.paris.lutece.util.ReferenceList;
 
 import java.util.Locale;
 
-
 /**
  * Resource Id service for RBAC features to control access to portlet
  */
@@ -59,19 +58,19 @@ public class PortletResourceIdService extends ResourceIdService
     /**
      * Initializes the service
      */
-    public void register(  )
+    public void register( )
     {
-        ResourceType rt = new ResourceType(  );
-        rt.setResourceIdServiceClass( PortletResourceIdService.class.getName(  ) );
+        ResourceType rt = new ResourceType( );
+        rt.setResourceIdServiceClass( PortletResourceIdService.class.getName( ) );
         rt.setResourceTypeKey( PortletType.RESOURCE_TYPE );
         rt.setResourceTypeLabelKey( PROPERTY_LABEL_RESOURCE_TYPE );
 
-        Permission p = new Permission(  );
+        Permission p = new Permission( );
         p.setPermissionKey( PERMISSION_CREATE );
         p.setPermissionTitleKey( PROPERTY_LABEL_CREATE );
         rt.registerPermission( p );
 
-        p = new Permission(  );
+        p = new Permission( );
         p.setPermissionKey( PERMISSION_MANAGE );
         p.setPermissionTitleKey( PROPERTY_LABEL_MANAGE );
         rt.registerPermission( p );
@@ -81,7 +80,9 @@ public class PortletResourceIdService extends ResourceIdService
 
     /**
      * Returns a list of resource ids
-     * @param locale The current locale
+     * 
+     * @param locale
+     *            The current locale
      * @return A list of resource ids
      */
     public ReferenceList getResourceIdList( Locale locale )
@@ -91,8 +92,11 @@ public class PortletResourceIdService extends ResourceIdService
 
     /**
      * Returns the Title of a given resource
-     * @param strPortletTypeId The Id of the resource
-     * @param locale The current locale
+     * 
+     * @param strPortletTypeId
+     *            The Id of the resource
+     * @param locale
+     *            The current locale
      * @return The Title of a given resource
      */
     public String getTitle( String strPortletTypeId, Locale locale )
@@ -100,6 +104,6 @@ public class PortletResourceIdService extends ResourceIdService
         PortletType portletType = PortletHome.getPortletType( strPortletTypeId );
         portletType.setLocale( locale );
 
-        return portletType.getName(  );
+        return portletType.getName( );
     }
 }

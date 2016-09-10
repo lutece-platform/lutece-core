@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -40,19 +40,18 @@ import java.util.List;
 
 import javax.servlet.http.HttpSessionListener;
 
-
 /**
  * Listener service : provides registered listener access.
  *
  */
 public final class HttpSessionListenerService
 {
-    private static final List<HttpSessionListener> LIST_LISTENERS = new ArrayList<HttpSessionListener>(  );
+    private static final List<HttpSessionListener> LIST_LISTENERS = new ArrayList<HttpSessionListener>( );
 
     /**
      * Private constructor
      */
-    private HttpSessionListenerService(  )
+    private HttpSessionListenerService( )
     {
         // nothing
     }
@@ -60,37 +59,39 @@ public final class HttpSessionListenerService
     /**
      * Registers a listener.
      *
-     * @param entry the entry
+     * @param entry
+     *            the entry
      */
     public static void registerListener( HttpSessionListenerEntry entry )
     {
-        String strListenerClass = entry.getListenerClass(  );
+        String strListenerClass = entry.getListenerClass( );
 
         try
         {
-            HttpSessionListener listener = (HttpSessionListener) Class.forName( strListenerClass ).newInstance(  );
+            HttpSessionListener listener = (HttpSessionListener) Class.forName( strListenerClass ).newInstance( );
             LIST_LISTENERS.add( listener );
             AppLogService.info( "New Listener registered : " + strListenerClass );
         }
-        catch ( InstantiationException e )
+        catch( InstantiationException e )
         {
-            AppLogService.error( "Error registering the listener " + strListenerClass + " : " + e.getMessage(  ), e );
+            AppLogService.error( "Error registering the listener " + strListenerClass + " : " + e.getMessage( ), e );
         }
-        catch ( IllegalAccessException e )
+        catch( IllegalAccessException e )
         {
-            AppLogService.error( "Error registering the listener " + strListenerClass + " : " + e.getMessage(  ), e );
+            AppLogService.error( "Error registering the listener " + strListenerClass + " : " + e.getMessage( ), e );
         }
-        catch ( ClassNotFoundException e )
+        catch( ClassNotFoundException e )
         {
-            AppLogService.error( "Error registering the listener " + strListenerClass + " : " + e.getMessage(  ), e );
+            AppLogService.error( "Error registering the listener " + strListenerClass + " : " + e.getMessage( ), e );
         }
     }
 
     /**
      * Get all registered listeners
+     * 
      * @return all registered listeners
      */
-    public static List<HttpSessionListener> getListeners(  )
+    public static List<HttpSessionListener> getListeners( )
     {
         return LIST_LISTENERS;
     }

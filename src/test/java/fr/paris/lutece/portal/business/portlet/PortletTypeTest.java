@@ -36,7 +36,6 @@ package fr.paris.lutece.portal.business.portlet;
 import fr.paris.lutece.portal.web.l10n.LocaleService;
 import fr.paris.lutece.test.LuteceTestCase;
 
-
 /**
  * PortletType Test Class
  */
@@ -57,10 +56,10 @@ public class PortletTypeTest extends LuteceTestCase
     private static final String MODIFY_SPECIFIC = "/templates/modify_specific.html";
     private static final String MODIFY_SPECIFIC_FORM = "/templates/modify_specific_form.html";
 
-    public void testBusinessPortletType(  )
+    public void testBusinessPortletType( )
     {
         // Create Test
-        PortletType pt = new PortletType(  );
+        PortletType pt = new PortletType( );
         pt.setId( ID );
         pt.setNameKey( NAMEKEY );
         pt.setUrlCreation( CREATION_URL );
@@ -80,23 +79,23 @@ public class PortletTypeTest extends LuteceTestCase
 
         // Update test
         PortletType ptStored = PortletTypeHome.findByPrimaryKey( ID );
-        assertEquals( ptStored.getId(  ), pt.getId(  ) );
-        assertEquals( ptStored.getNameKey(  ), pt.getNameKey(  ) );
-        assertEquals( ptStored.getUrlCreation(  ), pt.getUrlCreation(  ) );
-        assertEquals( ptStored.getUrlUpdate(  ), pt.getUrlUpdate(  ) );
-        assertEquals( ptStored.getPluginName(  ), pt.getPluginName(  ) );
-        assertEquals( ptStored.getHomeClass(  ), pt.getHomeClass(  ) );
-        assertEquals( ptStored.getDoCreateUrl(  ), pt.getDoCreateUrl(  ) );
-        assertEquals( ptStored.getCreateScriptTemplate(  ), pt.getCreateScriptTemplate(  ) );
-        assertEquals( ptStored.getCreateSpecificTemplate(  ), pt.getCreateSpecificTemplate(  ) );
-        assertEquals( ptStored.getCreateSpecificFormTemplate(  ), pt.getCreateSpecificFormTemplate(  ) );
-        assertEquals( ptStored.getDoModifyUrl(  ), pt.getDoModifyUrl(  ) );
-        assertEquals( ptStored.getModifyScriptTemplate(  ), pt.getModifyScriptTemplate(  ) );
-        assertEquals( ptStored.getModifySpecificTemplate(  ), pt.getModifySpecificTemplate(  ) );
-        assertEquals( ptStored.getModifySpecificFormTemplate(  ), pt.getModifySpecificFormTemplate(  ) );
+        assertEquals( ptStored.getId( ), pt.getId( ) );
+        assertEquals( ptStored.getNameKey( ), pt.getNameKey( ) );
+        assertEquals( ptStored.getUrlCreation( ), pt.getUrlCreation( ) );
+        assertEquals( ptStored.getUrlUpdate( ), pt.getUrlUpdate( ) );
+        assertEquals( ptStored.getPluginName( ), pt.getPluginName( ) );
+        assertEquals( ptStored.getHomeClass( ), pt.getHomeClass( ) );
+        assertEquals( ptStored.getDoCreateUrl( ), pt.getDoCreateUrl( ) );
+        assertEquals( ptStored.getCreateScriptTemplate( ), pt.getCreateScriptTemplate( ) );
+        assertEquals( ptStored.getCreateSpecificTemplate( ), pt.getCreateSpecificTemplate( ) );
+        assertEquals( ptStored.getCreateSpecificFormTemplate( ), pt.getCreateSpecificFormTemplate( ) );
+        assertEquals( ptStored.getDoModifyUrl( ), pt.getDoModifyUrl( ) );
+        assertEquals( ptStored.getModifyScriptTemplate( ), pt.getModifyScriptTemplate( ) );
+        assertEquals( ptStored.getModifySpecificTemplate( ), pt.getModifySpecificTemplate( ) );
+        assertEquals( ptStored.getModifySpecificFormTemplate( ), pt.getModifySpecificFormTemplate( ) );
 
         // List test
-        PortletTypeHome.getPortletTypesList( LocaleService.getDefault(  ) );
+        PortletTypeHome.getPortletTypesList( LocaleService.getDefault( ) );
 
         // Delete Test
         PortletTypeHome.remove( ID );

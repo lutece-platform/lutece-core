@@ -43,7 +43,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 
-
 /**
  * Utility class used to generate random passwords
  */
@@ -55,10 +54,9 @@ public final class PasswordUtil
     private static final int CONSTANT_ASCII_CODE_A_UPPERCASE = 65;
     private static final int CONSTANT_ASCII_CODE_A_LOWERCASE = 97;
     private static final int CONSTANT_ASCII_CODE_ZERO = 48;
-    private static final char[] CONSTANT_SPECIAL_CHARACTERS = 
-        {
+    private static final char [ ] CONSTANT_SPECIAL_CHARACTERS = {
             '!', ',', ':', '?', '$', '-', '@', '}', '{', '(', ')', '*', '+', '=', '[', ']', '%', '.',
-        };
+    };
     private static final String CONSTANT_PASSWORD_BEGIN_REGEX = "^";
     private static final String CONSTANT_PASSWORD_REGEX_NUM = "(?=.*[0-9])";
     private static final String CONSTANT_PASSWORD_REGEX_SPECIAL = "(?=.*[^a-zA-Z0-9])";
@@ -67,15 +65,16 @@ public final class PasswordUtil
     private static final String PARAMETER_PASSWORD_MINIMUM_LENGTH = "password_minimum_length";
 
     /** Private Constructor */
-    private PasswordUtil(  )
+    private PasswordUtil( )
     {
     }
 
     /**
      * Generate a new random password
+     * 
      * @return the new password
      */
-    public static String makePassword(  )
+    public static String makePassword( )
     {
         // reinitialize password
         int nPasswordSize = AppPropertiesService.getPropertyInt( PROPERTY_PASSWORD_SIZE, 8 );
@@ -91,19 +90,22 @@ public final class PasswordUtil
 
     /**
      * Generate a new random password
-     * @param nPasswordSize the password size
-     * @param bUpperAndLowerCase true if the password must contain upper and
-     *            lower case
-     * @param bNumbers if the password must contain numbers
-     * @param bSpecialCaracters if the password must contain special characters
+     * 
+     * @param nPasswordSize
+     *            the password size
+     * @param bUpperAndLowerCase
+     *            true if the password must contain upper and lower case
+     * @param bNumbers
+     *            if the password must contain numbers
+     * @param bSpecialCaracters
+     *            if the password must contain special characters
      *
      * @return the new password
      */
-    public static String makePassword( int nPasswordSize, boolean bUpperAndLowerCase, boolean bNumbers,
-        boolean bSpecialCaracters )
+    public static String makePassword( int nPasswordSize, boolean bUpperAndLowerCase, boolean bNumbers, boolean bSpecialCaracters )
     {
         // reinitialize password
-        Random r = new Random(  );
+        Random r = new Random( );
 
         ArrayList<Character> listCharacters = new ArrayList<Character>( nPasswordSize );
 
@@ -111,13 +113,16 @@ public final class PasswordUtil
         int nNumCapitalLetters = bUpperAndLowerCase ? ( r.nextInt( nPasswordSize - 3 ) + 1 ) : 0; // choose a number between 1 and CONSTANT_PASSWORD_SIZE -1
 
         // no on special characters
-        int nNumSpecial = bSpecialCaracters ? ( r.nextInt( nPasswordSize - 2 - nNumCapitalLetters ) + 1 ) : 0; // choose a number beetwen 1 and CONSTANT_PASSWORD_SIZE - a1
+        int nNumSpecial = bSpecialCaracters ? ( r.nextInt( nPasswordSize - 2 - nNumCapitalLetters ) + 1 ) : 0; // choose a number beetwen 1 and
+                                                                                                               // CONSTANT_PASSWORD_SIZE - a1
 
         // no of nos
-        int nNumNumbers = bNumbers ? ( r.nextInt( nPasswordSize - 1 - nNumCapitalLetters - nNumSpecial ) + 1 ) : 0; // choose a number to complete list of CONSTANT_PASSWORD_SIZE characters
+        int nNumNumbers = bNumbers ? ( r.nextInt( nPasswordSize - 1 - nNumCapitalLetters - nNumSpecial ) + 1 ) : 0; // choose a number to complete list of
+                                                                                                                    // CONSTANT_PASSWORD_SIZE characters
 
         // no of small
-        int nNumSmallLetters = nPasswordSize - nNumCapitalLetters - nNumSpecial - nNumNumbers; // choose a number to complete list of CONSTANT_PASSWORD_SIZE characters
+        int nNumSmallLetters = nPasswordSize - nNumCapitalLetters - nNumSpecial - nNumNumbers; // choose a number to complete list of CONSTANT_PASSWORD_SIZE
+                                                                                               // characters
 
         for ( int j = 0; j < nNumCapitalLetters; j++ )
         {
@@ -139,26 +144,27 @@ public final class PasswordUtil
 
         for ( int j = 0; j < nNumSpecial; j++ )
         {
-            char c1 = CONSTANT_SPECIAL_CHARACTERS[r.nextInt( CONSTANT_SPECIAL_CHARACTERS.length )];
+            char c1 = CONSTANT_SPECIAL_CHARACTERS [r.nextInt( CONSTANT_SPECIAL_CHARACTERS.length )];
             listCharacters.add( Character.valueOf( c1 ) );
         }
 
         Collections.shuffle( listCharacters );
 
-        StringBuilder sbPassword = new StringBuilder( listCharacters.size(  ) );
+        StringBuilder sbPassword = new StringBuilder( listCharacters.size( ) );
 
         for ( Character myChar : listCharacters )
         {
             sbPassword.append( myChar );
         }
 
-        return sbPassword.toString(  );
+        return sbPassword.toString( );
     }
 
     /**
-     * Check whether a password contains upper and lower case letters, special
-     * characters and numbers.
-     * @param strPassword The password to check
+     * Check whether a password contains upper and lower case letters, special characters and numbers.
+     * 
+     * @param strPassword
+     *            The password to check
      * @return True if the password format is correct, false otherwise
      */
     public static boolean checkPasswordFormat( String strPassword )
@@ -167,19 +173,22 @@ public final class PasswordUtil
     }
 
     /**
-     * Check whether a password contains upper and lower case letters, special
-     * characters and numbers.
-     * @param strPassword The password to check
-     * @param bUpperAndLowerCase true if the password must contain upper and lower case
-     * @param bNumero if the password must contain numero
-     * @param bSpecialCaracters if the password must contain special characters
+     * Check whether a password contains upper and lower case letters, special characters and numbers.
+     * 
+     * @param strPassword
+     *            The password to check
+     * @param bUpperAndLowerCase
+     *            true if the password must contain upper and lower case
+     * @param bNumero
+     *            if the password must contain numero
+     * @param bSpecialCaracters
+     *            if the password must contain special characters
      *
      * @return True if the password format is correct, false otherwise
      */
-    public static boolean checkPasswordFormat( String strPassword, boolean bUpperAndLowerCase, boolean bNumero,
-        boolean bSpecialCaracters )
+    public static boolean checkPasswordFormat( String strPassword, boolean bUpperAndLowerCase, boolean bNumero, boolean bSpecialCaracters )
     {
-        if ( ( strPassword == null ) || strPassword.isEmpty(  ) )
+        if ( ( strPassword == null ) || strPassword.isEmpty( ) )
         {
             return false;
         }
@@ -203,13 +212,14 @@ public final class PasswordUtil
 
         sbRegex.append( CONSTANT_PASSWORD_END_REGEX );
 
-        return strPassword.matches( sbRegex.toString(  ) );
+        return strPassword.matches( sbRegex.toString( ) );
     }
 
     /**
-     * Get the maximum valid date of a password starting from now with the given
-     * number of days.
-     * @param nNumberDay The number of days the password is valid
+     * Get the maximum valid date of a password starting from now with the given number of days.
+     * 
+     * @param nNumberDay
+     *            The number of days the password is valid
      * @return The maximum valid date of a password
      */
     public static Timestamp getPasswordMaxValidDate( int nNumberDay )
@@ -220,7 +230,7 @@ public final class PasswordUtil
         }
 
         long nMilliSeconds = DateUtil.convertDaysInMiliseconds( nNumberDay );
-        Timestamp maxValidDate = new Timestamp( new java.util.Date(  ).getTime(  ) + nMilliSeconds );
+        Timestamp maxValidDate = new Timestamp( new java.util.Date( ).getTime( ) + nMilliSeconds );
 
         return maxValidDate;
     }

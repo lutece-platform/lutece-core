@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -46,13 +46,12 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  * This class reprsents business objects Page
  */
 public class Page implements RBACResource, IExtendableResource
 {
-    /////////////////////////////////////////////////////////////////////////////////
+    // ///////////////////////////////////////////////////////////////////////////////
     // Constants
     public static final String RESOURCE_TYPE = "PAGE";
     public static final String IMAGE_RESOURCE_TYPE_ID = "page_thumbnail";
@@ -79,9 +78,9 @@ public class Page implements RBACResource, IExtendableResource
     private String _strDescription;
     private String _strTemplate;
     private String _strCodeTheme;
-    private byte[] _strImageContent;
+    private byte [ ] _strImageContent;
     private Timestamp _dateUpdate;
-    private List<Portlet> _listPortlets = new ArrayList<Portlet>(  );
+    private List<Portlet> _listPortlets = new ArrayList<Portlet>( );
     private String _strMetaKeywords;
     private String _strMetaDescription;
     private Integer _nIdAuthorizationNode;
@@ -90,22 +89,16 @@ public class Page implements RBACResource, IExtendableResource
      * Initialize the Page
      */
 
-    /* FIXME PageRoleRemovalListener should not be registered here
-        public static void init(  )
-        {
-            // Create removal listeners and register them
-            if ( _listenerRole == null )
-            {
-                _listenerRole = new PageRoleRemovalListener(  );
-                RoleRemovalListenerService.getService(  ).registerListener( _listenerRole );
-            }
-        }
-    */
+    /*
+     * FIXME PageRoleRemovalListener should not be registered here public static void init( ) { // Create removal listeners and register them if ( _listenerRole
+     * == null ) { _listenerRole = new PageRoleRemovalListener( ); RoleRemovalListenerService.getService( ).registerListener( _listenerRole ); } }
+     */
 
     /**
      * Sets the identifier of the page
      *
-     * @param nId the page identifier
+     * @param nId
+     *            the page identifier
      */
     public void setId( int nId )
     {
@@ -117,7 +110,7 @@ public class Page implements RBACResource, IExtendableResource
      *
      * @return page identifier
      */
-    public int getId(  )
+    public int getId( )
     {
         return _nId;
     }
@@ -125,7 +118,8 @@ public class Page implements RBACResource, IExtendableResource
     /**
      * Sets the identifier of the parent current page
      *
-     * @param nParentPageId the parent page identifier
+     * @param nParentPageId
+     *            the parent page identifier
      */
     public void setParentPageId( int nParentPageId )
     {
@@ -137,16 +131,16 @@ public class Page implements RBACResource, IExtendableResource
      *
      * @return the parent page identifier
      */
-    public int getParentPageId(  )
+    public int getParentPageId( )
     {
         return _nParentPageId;
     }
 
     /**
-     * Sets the identifier of the parent page as stored
-     * in the db. Only settable by the DAO
+     * Sets the identifier of the parent page as stored in the db. Only settable by the DAO
      *
-     * @param nParentPageId the parent page identifier
+     * @param nParentPageId
+     *            the parent page identifier
      * @since 5.1.0
      */
     void setOrigParentPageId( int nParentPageId )
@@ -155,13 +149,12 @@ public class Page implements RBACResource, IExtendableResource
     }
 
     /**
-     * Returns the identifier of the parent page as
-     * loaded from the db
+     * Returns the identifier of the parent page as loaded from the db
      *
      * @return the parent page identifier
      * @since 5.1.0
      */
-    public int getOrigParentPageId(  )
+    public int getOrigParentPageId( )
     {
         return _nOrigParentPageId;
     }
@@ -171,7 +164,7 @@ public class Page implements RBACResource, IExtendableResource
      *
      * @return The ImageContent
      */
-    public byte[] getImageContent(  )
+    public byte [ ] getImageContent( )
     {
         return _strImageContent;
     }
@@ -179,9 +172,10 @@ public class Page implements RBACResource, IExtendableResource
     /**
      * Sets the ImageContent
      *
-     * @param strImageContent The ImageContent
+     * @param strImageContent
+     *            The ImageContent
      */
-    public void setImageContent( byte[] strImageContent )
+    public void setImageContent( byte [ ] strImageContent )
     {
         _strImageContent = strImageContent;
     }
@@ -191,7 +185,7 @@ public class Page implements RBACResource, IExtendableResource
      *
      * @return The MimeType
      */
-    public String getMimeType(  )
+    public String getMimeType( )
     {
         return _strMimeType;
     }
@@ -199,7 +193,8 @@ public class Page implements RBACResource, IExtendableResource
     /**
      * Sets the MimeType
      *
-     * @param strMimeType The MimeType
+     * @param strMimeType
+     *            The MimeType
      */
     public void setMimeType( String strMimeType )
     {
@@ -209,7 +204,8 @@ public class Page implements RBACResource, IExtendableResource
     /**
      * Sets the name of the page
      *
-     * @param strName The page name
+     * @param strName
+     *            The page name
      */
     public void setName( String strName )
     {
@@ -221,7 +217,7 @@ public class Page implements RBACResource, IExtendableResource
      *
      * @return the page name
      */
-    public String getName(  )
+    public String getName( )
     {
         return _strName;
     }
@@ -229,7 +225,8 @@ public class Page implements RBACResource, IExtendableResource
     /**
      * Sets the identifier of the template for the page-setting
      *
-     * @param nPageTemplateId the template identifier
+     * @param nPageTemplateId
+     *            the template identifier
      */
     public void setPageTemplateId( int nPageTemplateId )
     {
@@ -241,7 +238,7 @@ public class Page implements RBACResource, IExtendableResource
      *
      * @return the template identifier
      */
-    public int getPageTemplateId(  )
+    public int getPageTemplateId( )
     {
         return _nPageTemplateId;
     }
@@ -249,7 +246,8 @@ public class Page implements RBACResource, IExtendableResource
     /**
      * Sets the name of the template file for page-setting
      *
-     * @param strTemplate the template filename
+     * @param strTemplate
+     *            the template filename
      */
     public void setTemplate( String strTemplate )
     {
@@ -261,7 +259,7 @@ public class Page implements RBACResource, IExtendableResource
      *
      * @return the template filename
      */
-    public String getTemplate(  )
+    public String getTemplate( )
     {
         return _strTemplate;
     }
@@ -269,7 +267,8 @@ public class Page implements RBACResource, IExtendableResource
     /**
      * Sets the position of the current page into a portlet child pages
      *
-     * @param nOrder the current page position into a portlet child pages
+     * @param nOrder
+     *            the current page position into a portlet child pages
      */
     public void setOrder( int nOrder )
     {
@@ -281,7 +280,7 @@ public class Page implements RBACResource, IExtendableResource
      *
      * @return the current page position
      */
-    public int getOrder(  )
+    public int getOrder( )
     {
         return _nOrder;
     }
@@ -289,7 +288,8 @@ public class Page implements RBACResource, IExtendableResource
     /**
      * Sets the status of the current page (active or not active)
      *
-     * @param nStatus the page status
+     * @param nStatus
+     *            the page status
      */
     public void setStatus( int nStatus )
     {
@@ -301,7 +301,7 @@ public class Page implements RBACResource, IExtendableResource
      *
      * @return the current page status
      */
-    public int getStatus(  )
+    public int getStatus( )
     {
         return _nStatus;
     }
@@ -309,7 +309,8 @@ public class Page implements RBACResource, IExtendableResource
     /**
      * Sets the description of the page
      *
-     * @param strDescription the page description
+     * @param strDescription
+     *            the page description
      */
     public void setDescription( String strDescription )
     {
@@ -321,7 +322,7 @@ public class Page implements RBACResource, IExtendableResource
      *
      * @return the description page
      */
-    public String getDescription(  )
+    public String getDescription( )
     {
         return _strDescription;
     }
@@ -329,7 +330,8 @@ public class Page implements RBACResource, IExtendableResource
     /**
      * Sets the node_status of the page
      *
-     * @param nNodeStatus the node status
+     * @param nNodeStatus
+     *            the node status
      */
     public void setNodeStatus( int nNodeStatus )
     {
@@ -341,7 +343,7 @@ public class Page implements RBACResource, IExtendableResource
      *
      * @return the NodeStatus page
      */
-    public int getNodeStatus(  )
+    public int getNodeStatus( )
     {
         return _nNodeStatus;
     }
@@ -351,7 +353,7 @@ public class Page implements RBACResource, IExtendableResource
      *
      * @return the portlets list
      */
-    public List<Portlet> getPortlets(  )
+    public List<Portlet> getPortlets( )
     {
         return _listPortlets;
     }
@@ -359,7 +361,8 @@ public class Page implements RBACResource, IExtendableResource
     /**
      * Sets the date to which the portlets list has been modified
      *
-     * @param listPortlets the portlet list
+     * @param listPortlets
+     *            the portlet list
      */
     public void setPortlets( List<Portlet> listPortlets )
     {
@@ -369,7 +372,8 @@ public class Page implements RBACResource, IExtendableResource
     /**
      * Sets the date to which the content page has been modified
      *
-     * @param dateUpdate the date of modification
+     * @param dateUpdate
+     *            the date of modification
      */
     public void setDateUpdate( Timestamp dateUpdate )
     {
@@ -381,24 +385,27 @@ public class Page implements RBACResource, IExtendableResource
      *
      * @return the date of modification
      */
-    public Timestamp getDateUpdate(  )
+    public Timestamp getDateUpdate( )
     {
         return _dateUpdate;
     }
 
     /**
      * Gets the page role
+     * 
      * @return page's role as a String
      * @since v1.1
      */
-    public String getRole(  )
+    public String getRole( )
     {
         return _strRole;
     }
 
     /**
      * Sets the page's role
-     * @param strRole The role
+     * 
+     * @param strRole
+     *            The role
      * @since v1.1
      */
     public void setRole( String strRole )
@@ -411,7 +418,7 @@ public class Page implements RBACResource, IExtendableResource
      *
      * @return The theme of the page as a string.
      */
-    public String getCodeTheme(  )
+    public String getCodeTheme( )
     {
         return _strCodeTheme;
     }
@@ -419,7 +426,8 @@ public class Page implements RBACResource, IExtendableResource
     /**
      * Sets the Theme of the page to the specified string.
      *
-     * @param strCodeTheme The new Theme of the page.
+     * @param strCodeTheme
+     *            The new Theme of the page.
      */
     public void setCodeTheme( String strCodeTheme )
     {
@@ -428,58 +436,64 @@ public class Page implements RBACResource, IExtendableResource
 
     /**
      * Checks if the page is visible for the current user
-     * @param request The HTTP request
+     * 
+     * @param request
+     *            The HTTP request
      * @return true if the page could be shown to the user
      * @since v1.3.1
      */
     public boolean isVisible( HttpServletRequest request )
     {
-        if ( SecurityService.isAuthenticationEnable(  ) )
+        if ( SecurityService.isAuthenticationEnable( ) )
         {
-            if ( !getRole(  ).equals( ROLE_NONE ) )
+            if ( !getRole( ).equals( ROLE_NONE ) )
             {
-                return SecurityService.getInstance(  ).isUserInRole( request, getRole(  ) );
+                return SecurityService.getInstance( ).isUserInRole( request, getRole( ) );
             }
         }
 
         return true;
     }
 
-    ////////////////////////////////////////////////////////////////////////////
+    // //////////////////////////////////////////////////////////////////////////
     // RBAC Resource implementation
 
     /**
      * Returns the Resource Type Code that identify the resource type
+     * 
      * @return The Resource Type Code
      */
     @Override
-    public String getResourceTypeCode(  )
+    public String getResourceTypeCode( )
     {
         return RESOURCE_TYPE;
     }
 
     /**
      * Returns the resource Id of the current object
+     * 
      * @return The resource Id of the current object
      */
     @Override
-    public String getResourceId(  )
+    public String getResourceId( )
     {
-        return "" + getId(  );
+        return "" + getId( );
     }
 
     /**
-    *
-    * @return the META Name associate to the page
-    */
-    public String getMetaKeywords(  )
+     *
+     * @return the META Name associate to the page
+     */
+    public String getMetaKeywords( )
     {
         return _strMetaKeywords;
     }
 
     /**
      * set the META name
-     * @param strMetaKeywords the META name
+     * 
+     * @param strMetaKeywords
+     *            the META name
      */
     public void setMetaKeywords( String strMetaKeywords )
     {
@@ -487,17 +501,19 @@ public class Page implements RBACResource, IExtendableResource
     }
 
     /**
-    *
-    * @return the META description associate to the page
-    */
-    public String getMetaDescription(  )
+     *
+     * @return the META description associate to the page
+     */
+    public String getMetaDescription( )
     {
         return _strMetaDescription;
     }
 
     /**
      * set the META description
-     * @param strMetaDescription  the META description
+     * 
+     * @param strMetaDescription
+     *            the META description
      */
     public void setMetaDescription( String strMetaDescription )
     {
@@ -506,7 +522,9 @@ public class Page implements RBACResource, IExtendableResource
 
     /**
      * set the id of the authorization node
-     * @param nIdAutorizationNode The authorization node ID
+     * 
+     * @param nIdAutorizationNode
+     *            The authorization node ID
      */
     public void setIdAuthorizationNode( Integer nIdAutorizationNode )
     {
@@ -515,9 +533,10 @@ public class Page implements RBACResource, IExtendableResource
 
     /**
      * get the id of the authorization node
+     * 
      * @return the authorization node id
      */
-    public Integer getIdAuthorizationNode(  )
+    public Integer getIdAuthorizationNode( )
     {
         return _nIdAuthorizationNode;
     }
@@ -526,7 +545,7 @@ public class Page implements RBACResource, IExtendableResource
      * {@inheritDoc}
      */
     @Override
-    public String getIdExtendableResource(  )
+    public String getIdExtendableResource( )
     {
         return Integer.toString( _nId );
     }
@@ -535,7 +554,7 @@ public class Page implements RBACResource, IExtendableResource
      * {@inheritDoc}
      */
     @Override
-    public String getExtendableResourceType(  )
+    public String getExtendableResourceType( )
     {
         return RESOURCE_TYPE;
     }
@@ -544,16 +563,16 @@ public class Page implements RBACResource, IExtendableResource
      * {@inheritDoc}
      */
     @Override
-    public String getExtendableResourceName(  )
+    public String getExtendableResourceName( )
     {
-        return ( _nId == 1 ) ? PortalService.getSiteName(  ) : _strName;
+        return ( _nId == 1 ) ? PortalService.getSiteName( ) : _strName;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public String getExtendableResourceDescription(  )
+    public String getExtendableResourceDescription( )
     {
         return _strDescription;
     }
@@ -562,7 +581,7 @@ public class Page implements RBACResource, IExtendableResource
      * {@inheritDoc}
      */
     @Override
-    public String getExtendableResourceImageUrl(  )
+    public String getExtendableResourceImageUrl( )
     {
         if ( ( _strImageContent != null ) && ( _strImageContent.length > 0 ) )
         {
@@ -576,7 +595,7 @@ public class Page implements RBACResource, IExtendableResource
             sbUrl.append( CONSTANT_EQUALS );
             sbUrl.append( _nId );
 
-            return sbUrl.toString(  );
+            return sbUrl.toString( );
         }
         else
         {

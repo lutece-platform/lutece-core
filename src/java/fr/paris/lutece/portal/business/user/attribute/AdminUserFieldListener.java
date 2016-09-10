@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -39,35 +39,46 @@ import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
- * Attributes managed with AdminUserFieldListener Can NOT be exported nor
- * imported. To import or export them, use {@link SimpleAdminUserFieldListener}.
+ * Attributes managed with AdminUserFieldListener Can NOT be exported nor imported. To import or export them, use {@link SimpleAdminUserFieldListener}.
  */
 public interface AdminUserFieldListener
 {
     /**
      * Create user fields
-     * @param user Adminuser
-     * @param request HttpServletRequest
-     * @param locale locale
+     * 
+     * @param user
+     *            Adminuser
+     * @param request
+     *            HttpServletRequest
+     * @param locale
+     *            locale
      */
     void doCreateUserFields( AdminUser user, HttpServletRequest request, Locale locale );
 
     /**
      * Modify user fields
-     * @param user Adminuser
-     * @param request HttpServletRequest
-     * @param locale locale
-     * @param currentUser current user
+     * 
+     * @param user
+     *            Adminuser
+     * @param request
+     *            HttpServletRequest
+     * @param locale
+     *            locale
+     * @param currentUser
+     *            current user
      */
     void doModifyUserFields( AdminUser user, HttpServletRequest request, Locale locale, AdminUser currentUser );
 
     /**
      * Remove user fields
-     * @param user Adminuser
-     * @param request HttpServletRequest
-     * @param locale locale
+     * 
+     * @param user
+     *            Adminuser
+     * @param request
+     *            HttpServletRequest
+     * @param locale
+     *            locale
      */
     void doRemoveUserFields( AdminUser user, HttpServletRequest request, Locale locale );
 }

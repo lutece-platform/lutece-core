@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -38,35 +38,38 @@ import fr.paris.lutece.portal.service.util.AppLogService;
 import java.util.HashMap;
 import java.util.Map;
 
-
 /**
  * ImageResourceManager
  */
 public final class ImageResourceManager
 {
     /** resource type registry */
-    private static Map<String, ImageResourceProvider> _mapResourceTypes = new HashMap<String, ImageResourceProvider>(  );
+    private static Map<String, ImageResourceProvider> _mapResourceTypes = new HashMap<String, ImageResourceProvider>( );
 
     /** Private constructor */
-    private ImageResourceManager(  )
+    private ImageResourceManager( )
     {
     }
 
     /**
      * Registers a new resource type
      *
-     * @param resourceProvider the resource type to register
+     * @param resourceProvider
+     *            the resource type to register
      */
     public static void registerProvider( ImageResourceProvider resourceProvider )
     {
-        _mapResourceTypes.put( resourceProvider.getResourceTypeId(  ), resourceProvider );
-        AppLogService.info( "New ImageResourceType registered : " + resourceProvider.getClass(  ).getName(  ) );
+        _mapResourceTypes.put( resourceProvider.getResourceTypeId( ), resourceProvider );
+        AppLogService.info( "New ImageResourceType registered : " + resourceProvider.getClass( ).getName( ) );
     }
 
     /**
      * Gets an image resource
-     * @param strResourceTypeId The resource's type ID
-     * @param nResourceId The resource ID
+     * 
+     * @param strResourceTypeId
+     *            The resource's type ID
+     * @param nResourceId
+     *            The resource ID
      * @return ImageResource
      */
     public static ImageResource getImageResource( String strResourceTypeId, int nResourceId )

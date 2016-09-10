@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -37,7 +37,6 @@ import fr.paris.lutece.portal.service.datastore.DatastoreService;
 
 import org.apache.commons.lang.StringUtils;
 
-
 /**
  * The Class DefaultUserParameterHome.
  */
@@ -47,14 +46,15 @@ public final class DefaultUserParameterHome
     /**
      * Instantiates a new default user parameter home.
      */
-    private DefaultUserParameterHome(  )
+    private DefaultUserParameterHome( )
     {
     }
 
     /**
      * Load the parameter value.
      *
-     * @param strParameterKey the parameter key
+     * @param strParameterKey
+     *            the parameter key
      * @return The parameter value
      */
     public static String findByKey( String strParameterKey )
@@ -64,8 +64,11 @@ public final class DefaultUserParameterHome
 
     /**
      * Update the parameter value.
-     * @param strParameterKey The User key
-     * @param strParameterValue the value
+     * 
+     * @param strParameterKey
+     *            The User key
+     * @param strParameterValue
+     *            the value
      */
     public static void update( String strParameterKey, String strParameterValue )
     {

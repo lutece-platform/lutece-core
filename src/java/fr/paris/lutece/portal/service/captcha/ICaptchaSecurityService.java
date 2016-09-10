@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -35,7 +35,6 @@ package fr.paris.lutece.portal.service.captcha;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  * The interface for Captcha security service
  */
@@ -45,35 +44,40 @@ public interface ICaptchaSecurityService
 
     /**
      * Return an EMPTY_STRING if service is not available nor active
+     * 
      * @return the html code of a captcha
      */
-    String getHtmlCode(  );
+    String getHtmlCode( );
 
     /**
      * @return the html code used by an admin to activate the captcha
      */
-    String getActiveBlockHtml(  );
+    String getActiveBlockHtml( );
 
     /**
      * Validates a captcha only if the service is available and active
-     * @param request the request, which must contain the parameter j_captcha_response
+     * 
+     * @param request
+     *            the request, which must contain the parameter j_captcha_response
      * @return true if captcha is valid or service is not available
      */
     boolean validate( HttpServletRequest request );
 
     /**
      * Activate the service for the current client
-     * @param bActive True to activate, otherwise false
+     * 
+     * @param bActive
+     *            True to activate, otherwise false
      */
     void setActive( boolean bActive );
 
     /**
      * @return true if a captcha security service is loaded
      */
-    boolean isAvailable(  );
+    boolean isAvailable( );
 
     /**
      * @return true if the service is active for the current client
      */
-    boolean isActive(  );
+    boolean isActive( );
 }

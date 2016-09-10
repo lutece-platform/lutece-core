@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -45,7 +45,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  * The Class EditorChoiceLutecePanelJspBean.
  */
@@ -68,37 +67,36 @@ public class EditorChoiceLutecePanelJspBean extends AbstractGMLutecePanel
      * {@inheritDoc}
      */
     @Override
-    public String getPanelContent(  )
+    public String getPanelContent( )
     {
-        Map<String, Object> model = new HashMap<String, Object>(  );
-        model.put( MARK_LIST_EDITORS_BACK_OFFICE,
-            RichTextEditorService.getListEditorsForBackOffice( AdminUserService.getLocale( getRequest(  ) ) ) );
-        model.put( MARK_CURRENT_EDITOR_BACK_OFFICE, RichTextEditorService.getBackOfficeDefaultEditor(  ) );
+        Map<String, Object> model = new HashMap<String, Object>( );
+        model.put( MARK_LIST_EDITORS_BACK_OFFICE, RichTextEditorService.getListEditorsForBackOffice( AdminUserService.getLocale( getRequest( ) ) ) );
+        model.put( MARK_CURRENT_EDITOR_BACK_OFFICE, RichTextEditorService.getBackOfficeDefaultEditor( ) );
 
-        model.put( MARK_LIST_EDITORS_FRONT_OFFICE,
-            RichTextEditorService.getListEditorsForFrontOffice( AdminUserService.getLocale( getRequest(  ) ) ) );
-        model.put( MARK_CURRENT_EDITOR_FRONT_OFFICE, RichTextEditorService.getFrontOfficeDefaultEditor(  ) );
+        model.put( MARK_LIST_EDITORS_FRONT_OFFICE, RichTextEditorService.getListEditorsForFrontOffice( AdminUserService.getLocale( getRequest( ) ) ) );
+        model.put( MARK_CURRENT_EDITOR_FRONT_OFFICE, RichTextEditorService.getFrontOfficeDefaultEditor( ) );
 
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_EDITOR_CHOICE_PANEL, getLocale(  ), model );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_EDITOR_CHOICE_PANEL, getLocale( ), model );
 
-        return template.getHtml(  );
+        return template.getHtml( );
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public String getPanelKey(  )
+    public String getPanelKey( )
     {
         return LABEL_TITLE_EDITOR_CHOICE;
     }
 
     /**
      * Returns the panel's order. This panel is a first panel.
+     * 
      * @return 1
      */
     @Override
-    public int getPanelOrder(  )
+    public int getPanelOrder( )
     {
         return 1;
     }
@@ -107,15 +105,16 @@ public class EditorChoiceLutecePanelJspBean extends AbstractGMLutecePanel
      * {@inheritDoc}
      */
     @Override
-    public String getPanelTitle(  )
+    public String getPanelTitle( )
     {
-        return I18nService.getLocalizedString( LABEL_TITLE_EDITOR_CHOICE, AdminUserService.getLocale( getRequest(  ) ) );
+        return I18nService.getLocalizedString( LABEL_TITLE_EDITOR_CHOICE, AdminUserService.getLocale( getRequest( ) ) );
     }
 
     /**
      * Do update back office editor.
      *
-     * @param request the request
+     * @param request
+     *            the request
      * @return the string
      */
     public String doUpdateBackOfficeEditor( HttpServletRequest request )
@@ -129,7 +128,8 @@ public class EditorChoiceLutecePanelJspBean extends AbstractGMLutecePanel
     /**
      * Do update front office editor.
      *
-     * @param request the request
+     * @param request
+     *            the request
      * @return the string
      */
     public String doUpdateFrontOfficeEditor( HttpServletRequest request )

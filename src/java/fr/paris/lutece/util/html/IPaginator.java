@@ -37,10 +37,11 @@ import java.io.Serializable;
 
 import java.util.List;
 
-
 /**
  * Handles paging
- * @param <E> the type
+ * 
+ * @param <E>
+ *            the type
  */
 public interface IPaginator<E> extends Serializable
 {
@@ -56,128 +57,142 @@ public interface IPaginator<E> extends Serializable
 
     /**
      * Gets the number of pages
+     * 
      * @return the number of pages
      */
-    int getPagesCount(  );
+    int getPagesCount( );
 
     /**
      * Returns the List
      *
      * @return The List
      */
-    List<E> getPageItems(  );
+    List<E> getPageItems( );
 
     /**
      * Returns the current page index
      *
      * @return The current page index
      */
-    int getPageCurrent(  );
+    int getPageCurrent( );
 
     /**
      * Returns the previous page link
      *
      * @return The previous page link
      */
-    String getFirstPageLink(  );
+    String getFirstPageLink( );
 
     /**
      * Returns the previous page link
      *
      * @return The previous page link
      */
-    String getPreviousPageLink(  );
+    String getPreviousPageLink( );
 
     /**
      * Returns the previous page link
      *
      * @return The previous page link
      */
-    String getLastPageLink(  );
+    String getLastPageLink( );
 
     /**
      * Returns the previous page link
      *
      * @return The previous page link
      */
-    String getNextPageLink(  );
+    String getNextPageLink( );
 
     /**
      * Returns Pages Links
      *
      * @return Pages Links
      */
-    List<PaginatorPage> getPagesLinks(  );
+    List<PaginatorPage> getPagesLinks( );
 
     /**
      * Returns the index of the first item of the current page range
+     * 
      * @return The index of the first item of the current page range
      */
-    int getRangeMin(  );
+    int getRangeMin( );
 
     /**
      * Returns the index of the last item of the current page range
+     * 
      * @return The index of the last item of the current page range
      */
-    int getRangeMax(  );
+    int getRangeMax( );
 
     /**
      * Returns the number of items in the collection
+     * 
      * @return The number of items in the collection
      */
-    int getItemsCount(  );
+    int getItemsCount( );
 
     /**
      * Get First label
+     * 
      * @return The Label
      */
-    String getLabelFirst(  );
+    String getLabelFirst( );
 
     /**
      * Get Previous label
+     * 
      * @return The Label
      */
-    String getLabelPrevious(  );
+    String getLabelPrevious( );
 
     /**
      * Get Next label
+     * 
      * @return The Label
      */
-    String getLabelNext(  );
+    String getLabelNext( );
 
     /**
      * Get First label
+     * 
      * @return The Label
      */
-    String getLabelLast(  );
+    String getLabelLast( );
 
     /**
      * Get Item Count label
+     * 
      * @return The Label
      */
-    String getLabelItemCount(  );
+    String getLabelItemCount( );
 
     /**
      * Get Item Count per page label
+     * 
      * @return The Label
      */
-    String getLabelItemCountPerPage(  );
+    String getLabelItemCountPerPage( );
 
     /**
      * Get the parameter name of the <code>items_per_page</code>
+     * 
      * @return the parameter name
      */
-    String getItemsPerPageParameterName(  );
+    String getItemsPerPageParameterName( );
 
     /**
      * Set the parameter name of the <code>items_per_page</code>
-     * @param strItemsPerPageParameterName the parameter name
+     * 
+     * @param strItemsPerPageParameterName
+     *            the parameter name
      */
     void setItemsPerPageParameterName( String strItemsPerPageParameterName );
 
     /**
      * Gets the items count per page.
+     * 
      * @return items count per page.
      */
-    int getItemsPerPage(  );
+    int getItemsPerPage( );
 }

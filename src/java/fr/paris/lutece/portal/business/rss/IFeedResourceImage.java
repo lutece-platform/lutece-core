@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,7 +33,6 @@
  */
 package fr.paris.lutece.portal.business.rss;
 
-
 /**
  * Feed image.
  * <ul>
@@ -46,37 +45,46 @@ public interface IFeedResourceImage
 {
     /**
      * The image URL
+     * 
      * @return the url
      */
-    String getUrl(  );
+    String getUrl( );
 
     /**
      * Sets the url
-     * @param strUrl the url
+     * 
+     * @param strUrl
+     *            the url
      */
     void setUrl( String strUrl );
 
     /**
      * The title
+     * 
      * @return the title
      */
-    String getTitle(  );
+    String getTitle( );
 
     /**
      * The image title
-     * @param strTitle the title
+     * 
+     * @param strTitle
+     *            the title
      */
     void setTitle( String strTitle );
 
     /**
      * The image link - usually site url
+     * 
      * @return the link
      */
-    String getLink(  );
+    String getLink( );
 
     /**
      * Sets the image link - usually site url
-     * @param strLink the link
+     * 
+     * @param strLink
+     *            the link
      */
     void setLink( String strLink );
 }

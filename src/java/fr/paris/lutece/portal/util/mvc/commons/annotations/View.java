@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -52,9 +52,10 @@ public @interface View
     /**
      * The View name
      */
-    String value(  );
+    String value( );
+
     /**
      * If the view is the default view. One and only one view should set this value to true.
      */
-    boolean defaultView(  ) default false;
+    boolean defaultView( ) default false;
 }

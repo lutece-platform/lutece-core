@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -37,14 +37,13 @@ import fr.paris.lutece.portal.service.spring.SpringContextService;
 
 import java.util.Collection;
 
-
 /**
  * This class provides instances management methods (create, find, ...) for Right objects
  */
 public final class RightHome
 {
-    //Constants
-    private static final int CONSTANT_ERROR_ORDER = -2; //this value must be negative
+    // Constants
+    private static final int CONSTANT_ERROR_ORDER = -2; // this value must be negative
     private static final int CONSTANT_STEP_ORDER = 1;
     private static final int CONSTANT_FIRST_ID_ORDER = 1;
 
@@ -54,19 +53,20 @@ public final class RightHome
     /**
      * Creates a new RightHome object.
      */
-    private RightHome(  )
+    private RightHome( )
     {
     }
 
     /**
      * Creation of an instance of an admin right
      *
-     * @param right An instance of an admin right which contains the informations to store
+     * @param right
+     *            An instance of an admin right which contains the informations to store
      * @return The instance of an admin right which has been created with its primary key.
      */
     public static Right create( Right right )
     {
-        right.setOrder( getRightsList( right.getFeatureGroup(  ) ).size(  ) + CONSTANT_STEP_ORDER );
+        right.setOrder( getRightsList( right.getFeatureGroup( ) ).size( ) + CONSTANT_STEP_ORDER );
         _dao.insert( right );
 
         return right;
@@ -75,12 +75,13 @@ public final class RightHome
     /**
      * Update of the admin right which is specified
      *
-     * @param right The instance of the admin right which contains the data to store
+     * @param right
+     *            The instance of the admin right which contains the data to store
      * @return The instance of the admin right which has been updated
      */
     public static Right update( Right right )
     {
-        Right oldRight = findByPrimaryKey( right.getId(  ) );
+        Right oldRight = findByPrimaryKey( right.getId( ) );
 
         if ( oldRight == null )
         {
@@ -88,19 +89,19 @@ public final class RightHome
         }
 
         // The feature group have changed
-        if ( ( ( right.getFeatureGroup(  ) != null ) &&
-                !right.getFeatureGroup(  ).equals( oldRight.getFeatureGroup(  ) ) ) ||
-                ( ( right.getFeatureGroup(  ) == null ) && ( oldRight.getFeatureGroup(  ) != null ) ) )
+        if ( ( ( right.getFeatureGroup( ) != null ) && !right.getFeatureGroup( ).equals( oldRight.getFeatureGroup( ) ) )
+                || ( ( right.getFeatureGroup( ) == null ) && ( oldRight.getFeatureGroup( ) != null ) ) )
         {
-            deleteEntryFromList( oldRight.getFeatureGroup(  ), oldRight.getOrder(  ) );
-            right.setOrder( getRightsList( right.getFeatureGroup(  ) ).size(  ) + CONSTANT_STEP_ORDER );
+            deleteEntryFromList( oldRight.getFeatureGroup( ), oldRight.getOrder( ) );
+            right.setOrder( getRightsList( right.getFeatureGroup( ) ).size( ) + CONSTANT_STEP_ORDER );
         }
 
         // The order have changed
-        else if ( right.getOrder(  ) != oldRight.getOrder(  ) )
-        {
-            right.setOrder( changeRightOrder( oldRight, right.getOrder(  ) ) );
-        }
+        else
+            if ( right.getOrder( ) != oldRight.getOrder( ) )
+            {
+                right.setOrder( changeRightOrder( oldRight, right.getOrder( ) ) );
+            }
 
         _dao.store( right );
 
@@ -110,7 +111,8 @@ public final class RightHome
     /**
      * Remove the admin right whose identifier is specified in parameter
      *
-     * @param strId The identifier of the admin right to remove
+     * @param strId
+     *            The identifier of the admin right to remove
      */
     public static void remove( String strId )
     {
@@ -118,19 +120,20 @@ public final class RightHome
 
         if ( oldRight != null )
         {
-            deleteEntryFromList( oldRight.getFeatureGroup(  ), oldRight.getOrder(  ) );
+            deleteEntryFromList( oldRight.getFeatureGroup( ), oldRight.getOrder( ) );
         }
 
         _dao.delete( strId );
     }
 
-    ///////////////////////////////////////////////////////////////////////////
+    // /////////////////////////////////////////////////////////////////////////
     // Finders
 
     /**
      * Returns an instance of an admin right whose identifier is specified in parameter
      *
-     * @param strKey The admin right primary key
+     * @param strKey
+     *            The admin right primary key
      * @return an instance of an admin right
      */
     public static Right findByPrimaryKey( String strKey )
@@ -143,15 +146,16 @@ public final class RightHome
      *
      * @return the collection which contains the data of all the rights
      */
-    public static Collection<Right> getRightsList(  )
+    public static Collection<Right> getRightsList( )
     {
-        return _dao.selectRightsList(  );
+        return _dao.selectRightsList( );
     }
 
     /**
-     * Loads the data of all the rights with level greater or equal than nLevel
-     * and returns them in form of a collection
-     * @param nLevel The right's level
+     * Loads the data of all the rights with level greater or equal than nLevel and returns them in form of a collection
+     * 
+     * @param nLevel
+     *            The right's level
      *
      * @return the collection which contains the data of all the rights
      */
@@ -161,10 +165,10 @@ public final class RightHome
     }
 
     /**
-     * Loads the data of all the rights with the specified feature group
-     * and returns them in form of a collection
+     * Loads the data of all the rights with the specified feature group and returns them in form of a collection
      *
-     * @param strFeatureGroup the name of the feature group
+     * @param strFeatureGroup
+     *            the name of the feature group
      * @return the collection which contains the data of all the rights
      */
     public static Collection<Right> getRightsList( String strFeatureGroup )
@@ -175,8 +179,10 @@ public final class RightHome
     /**
      * Change the order in a {@link Right}
      *
-     * @param right The right to update order
-     * @param nNewOrder The new place in the list or END_OF_LIST to place Right at the end
+     * @param right
+     *            The right to update order
+     * @param nNewOrder
+     *            The new place in the list or END_OF_LIST to place Right at the end
      * @return The new order
      */
     public static int changeRightOrder( Right right, int nNewOrder )
@@ -186,46 +192,50 @@ public final class RightHome
             return CONSTANT_ERROR_ORDER;
         }
 
-        if ( nNewOrder < right.getOrder(  ) )
+        if ( nNewOrder < right.getOrder( ) )
         {
-            for ( Right rightGroup : getRightsList( right.getFeatureGroup(  ) ) )
+            for ( Right rightGroup : getRightsList( right.getFeatureGroup( ) ) )
             {
-                int nRightToUpdateOrder = rightGroup.getOrder(  );
+                int nRightToUpdateOrder = rightGroup.getOrder( );
 
-                if ( ( nRightToUpdateOrder >= nNewOrder ) && ( nRightToUpdateOrder < right.getOrder(  ) ) )
+                if ( ( nRightToUpdateOrder >= nNewOrder ) && ( nRightToUpdateOrder < right.getOrder( ) ) )
                 {
                     rightGroup.setOrder( nRightToUpdateOrder + CONSTANT_STEP_ORDER );
                     _dao.store( rightGroup );
                 }
             }
         }
-        else if ( nNewOrder > right.getOrder(  ) )
-        {
-            for ( Right rightGroup : getRightsList( right.getFeatureGroup(  ) ) )
+        else
+            if ( nNewOrder > right.getOrder( ) )
             {
-                int nRightToUpdateOrder = rightGroup.getOrder(  );
-
-                if ( ( nRightToUpdateOrder <= nNewOrder ) && ( nRightToUpdateOrder > right.getOrder(  ) ) )
+                for ( Right rightGroup : getRightsList( right.getFeatureGroup( ) ) )
                 {
-                    rightGroup.setOrder( nRightToUpdateOrder - CONSTANT_STEP_ORDER );
-                    _dao.store( rightGroup );
+                    int nRightToUpdateOrder = rightGroup.getOrder( );
+
+                    if ( ( nRightToUpdateOrder <= nNewOrder ) && ( nRightToUpdateOrder > right.getOrder( ) ) )
+                    {
+                        rightGroup.setOrder( nRightToUpdateOrder - CONSTANT_STEP_ORDER );
+                        _dao.store( rightGroup );
+                    }
                 }
             }
-        }
 
         return nNewOrder;
     }
 
     /**
      * Delete entry (specify by nOrderId)
-     * @param strFeatureGroup The {@link FeatureGroup} impacted
-     * @param nOrderId The order to delete
+     * 
+     * @param strFeatureGroup
+     *            The {@link FeatureGroup} impacted
+     * @param nOrderId
+     *            The order to delete
      */
     public static void deleteEntryFromList( String strFeatureGroup, int nOrderId )
     {
         for ( Right rightGroup : getRightsList( strFeatureGroup ) )
         {
-            int nRightToUpdateOrder = rightGroup.getOrder(  );
+            int nRightToUpdateOrder = rightGroup.getOrder( );
 
             if ( ( nRightToUpdateOrder > nOrderId ) )
             {
@@ -238,7 +248,8 @@ public final class RightHome
     /**
      * Reinitialize feature order groups
      *
-     * @param strFeatureGroup The feature group key
+     * @param strFeatureGroup
+     *            The feature group key
      */
     public static void reinitFeatureOrders( String strFeatureGroup )
     {
@@ -259,7 +270,8 @@ public final class RightHome
     /**
      * Check feature orders and return false if at least one order is twice
      *
-     * @param strFeatureGroup The feature group key
+     * @param strFeatureGroup
+     *            The feature group key
      * @return true if order list is ok, false else.
      */
     public static boolean checkFeatureOrders( String strFeatureGroup )
@@ -273,7 +285,7 @@ public final class RightHome
 
         for ( Right rightGroup : getRightsList( strFeatureGroup ) )
         {
-            if ( nOrder != rightGroup.getOrder(  ) )
+            if ( nOrder != rightGroup.getOrder( ) )
             {
                 return false;
             }

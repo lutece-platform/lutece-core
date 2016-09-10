@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -35,7 +35,6 @@ package fr.paris.lutece.portal.business.portlet;
 
 import fr.paris.lutece.util.ReferenceList;
 
-
 /**
  * @author lenaini
  *
@@ -45,21 +44,24 @@ public interface IAliasPortletDAO extends IPortletInterfaceDAO
     /**
      * Insert a new record in the table. NB : The portlet identifier will already been obtained by the portlet girl
      *
-     * @param portlet the portlet to insert in the database
+     * @param portlet
+     *            the portlet to insert in the database
      */
     void insert( Portlet portlet );
 
     /**
      * Delete a record from the table
      *
-     * @param nPortletId the identifier of the portlet to be deleted
+     * @param nPortletId
+     *            the identifier of the portlet to be deleted
      */
     void delete( int nPortletId );
 
     /**
      * Load the data of a portlet from the database
      *
-     * @param nPortletId the portlet identifier
+     * @param nPortletId
+     *            the portlet identifier
      * @return the object Portlet initialized with the data of the database
      */
     Portlet load( int nPortletId );
@@ -67,27 +69,33 @@ public interface IAliasPortletDAO extends IPortletInterfaceDAO
     /**
      * Update the record in the table
      *
-     * @param portlet the portlet reference
+     * @param portlet
+     *            the portlet reference
      */
     void store( Portlet portlet );
 
     /**
      * Select portlets by type
-     * @param strPortletTypeId The type Id
+     * 
+     * @param strPortletTypeId
+     *            The type Id
      * @return A list of portlets
      */
     ReferenceList selectPortletsByTypeList( String strPortletTypeId );
 
     /**
      * Select the Alias Id
-     * @param nIdPortlet The portlet Id
-     * @return  The alias Id
+     * 
+     * @param nIdPortlet
+     *            The portlet Id
+     * @return The alias Id
      */
     int selectAliasId( int nIdPortlet );
 
     /**
      * Select all portlets that accept alias
+     * 
      * @return A reference list
      */
-    ReferenceList selectAcceptAliasPortletList(  );
+    ReferenceList selectAcceptAliasPortletList( );
 }

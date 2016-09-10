@@ -21,16 +21,15 @@ import javax.validation.constraints.Past;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
-
 /**
  *
  * @author pierre
  */
 public class BeanDefaultMessages implements Bean
 {
-    // Variables declarations 
+    // Variables declarations
     private int _nIdObject;
-    @NotEmpty(  )
+    @NotEmpty( )
     @Pattern( regexp = "[a-z-A-Z]" )
     @Size( max = 5 )
     private String _strName;
@@ -38,11 +37,11 @@ public class BeanDefaultMessages implements Bean
     private String _strDescription;
     @Min( value = 5 )
     private int _nAge;
-    @Email(  )
+    @Email( )
     private String _strEmail;
-    @Past(  )
+    @Past( )
     private Date _dateBirth;
-    @Future(  )
+    @Future( )
     private Date _dateEndOfWorld;
     @DecimalMin( value = "1500.0" )
     private BigDecimal _salary;
@@ -50,7 +49,7 @@ public class BeanDefaultMessages implements Bean
     private BigDecimal _percent;
     @Digits( integer = 15, fraction = 2 )
     private String _strCurrency;
-    @URL(  )
+    @URL( )
     private String _strUrl;
 
     /**
@@ -59,7 +58,7 @@ public class BeanDefaultMessages implements Bean
      * @return The IdObject
      */
     @Override
-    public int getIdObject(  )
+    public int getIdObject( )
     {
         return _nIdObject;
     }
@@ -67,7 +66,8 @@ public class BeanDefaultMessages implements Bean
     /**
      * Sets the IdObject
      *
-     * @param nIdObject The IdObject
+     * @param nIdObject
+     *            The IdObject
      */
     @Override
     public void setIdObject( int nIdObject )
@@ -81,7 +81,7 @@ public class BeanDefaultMessages implements Bean
      * @return The Name
      */
     @Override
-    public String getName(  )
+    public String getName( )
     {
         return _strName;
     }
@@ -89,7 +89,8 @@ public class BeanDefaultMessages implements Bean
     /**
      * Sets the Name
      *
-     * @param strName The Name
+     * @param strName
+     *            The Name
      */
     @Override
     public void setName( String strName )
@@ -103,7 +104,7 @@ public class BeanDefaultMessages implements Bean
      * @return The Description
      */
     @Override
-    public String getDescription(  )
+    public String getDescription( )
     {
         return _strDescription;
     }
@@ -111,7 +112,8 @@ public class BeanDefaultMessages implements Bean
     /**
      * Sets the Description
      *
-     * @param strDescription The Description
+     * @param strDescription
+     *            The Description
      */
     @Override
     public void setDescription( String strDescription )
@@ -125,7 +127,7 @@ public class BeanDefaultMessages implements Bean
      * @return The Age
      */
     @Override
-    public int getAge(  )
+    public int getAge( )
     {
         return _nAge;
     }
@@ -133,7 +135,8 @@ public class BeanDefaultMessages implements Bean
     /**
      * Sets the Age
      *
-     * @param nAge The Age
+     * @param nAge
+     *            The Age
      */
     @Override
     public void setAge( int nAge )
@@ -147,7 +150,7 @@ public class BeanDefaultMessages implements Bean
      * @return The Email
      */
     @Override
-    public String getEmail(  )
+    public String getEmail( )
     {
         return _strEmail;
     }
@@ -155,7 +158,8 @@ public class BeanDefaultMessages implements Bean
     /**
      * Sets the Email
      *
-     * @param strEmail The Email
+     * @param strEmail
+     *            The Email
      */
     @Override
     public void setEmail( String strEmail )
@@ -167,13 +171,14 @@ public class BeanDefaultMessages implements Bean
      * @return the _dateBirth
      */
     @Override
-    public Date getDateBirth(  )
+    public Date getDateBirth( )
     {
         return _dateBirth;
     }
 
     /**
-     * @param dateBirth the _dateBirth to set
+     * @param dateBirth
+     *            the _dateBirth to set
      */
     @Override
     public void setDateBirth( Date dateBirth )
@@ -185,13 +190,14 @@ public class BeanDefaultMessages implements Bean
      * @return the _dateEndOfWorld
      */
     @Override
-    public Date getDateEndOfWorld(  )
+    public Date getDateEndOfWorld( )
     {
         return _dateEndOfWorld;
     }
 
     /**
-     * @param dateEndOfWorld the _dateEndOfWorld to set
+     * @param dateEndOfWorld
+     *            the _dateEndOfWorld to set
      */
     @Override
     public void setDateEndOfWorld( Date dateEndOfWorld )
@@ -203,13 +209,14 @@ public class BeanDefaultMessages implements Bean
      * @return the _salary
      */
     @Override
-    public BigDecimal getSalary(  )
+    public BigDecimal getSalary( )
     {
         return _salary;
     }
 
     /**
-     * @param salary the _salary to set
+     * @param salary
+     *            the _salary to set
      */
     @Override
     public void setSalary( BigDecimal salary )
@@ -221,13 +228,14 @@ public class BeanDefaultMessages implements Bean
      * @return the _percent
      */
     @Override
-    public BigDecimal getPercent(  )
+    public BigDecimal getPercent( )
     {
         return _percent;
     }
 
     /**
-     * @param percent the _percent to set
+     * @param percent
+     *            the _percent to set
      */
     @Override
     public void setPercent( BigDecimal percent )
@@ -239,13 +247,14 @@ public class BeanDefaultMessages implements Bean
      * @return the _strCurrency
      */
     @Override
-    public String getCurrency(  )
+    public String getCurrency( )
     {
         return _strCurrency;
     }
 
     /**
-     * @param strCurrency the _strCurrency to set
+     * @param strCurrency
+     *            the _strCurrency to set
      */
     @Override
     public void setCurrency( String strCurrency )
@@ -257,13 +266,14 @@ public class BeanDefaultMessages implements Bean
      * @return the _strUrl
      */
     @Override
-    public String getUrl(  )
+    public String getUrl( )
     {
         return _strUrl;
     }
 
     /**
-     * @param strUrl the _strUrl to set
+     * @param strUrl
+     *            the _strUrl to set
      */
     @Override
     public void setUrl( String strUrl )

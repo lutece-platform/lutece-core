@@ -50,7 +50,6 @@ import java.util.HashMap;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
 /**
  * @deprecated As of 2.4.3. Use plugin-theme instead.
  */
@@ -93,26 +92,28 @@ public class ThemesJspBean extends AdminFeaturesPageJspBean
     /**
      * Returns the list of Themes
      *
-     * @param request The Http request
+     * @param request
+     *            The Http request
      * @return the html code for display the manage themes page
      */
     public String getManageThemes( HttpServletRequest request )
     {
-        HashMap<String, Object> model = new HashMap<String, Object>(  );
+        HashMap<String, Object> model = new HashMap<String, Object>( );
 
-        model.put( MARK_THEMES_LIST, ThemeHome.getThemesList(  ) );
-        model.put( MARK_THEME, ThemesService.getGlobalThemeObject(  ) );
+        model.put( MARK_THEMES_LIST, ThemeHome.getThemesList( ) );
+        model.put( MARK_THEME, ThemesService.getGlobalThemeObject( ) );
         model.put( BASE_URL, AppPathService.getBaseUrl( request ) );
 
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_THEMES, getLocale(  ), model );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_THEMES, getLocale( ), model );
 
-        return getAdminPage( template.getHtml(  ) );
+        return getAdminPage( template.getHtml( ) );
     }
 
     /**
      * Modify the global theme
      *
-     * @param request The Http request
+     * @param request
+     *            The Http request
      * @return the html code for display the manage themes page
      */
     public String doModifyGlobalTheme( HttpServletRequest request )
@@ -126,8 +127,10 @@ public class ThemesJspBean extends AdminFeaturesPageJspBean
     /**
      * Modify the User theme
      *
-     * @param request The Http request
-     * @param response The Http response
+     * @param request
+     *            The Http request
+     * @param response
+     *            The Http response
      * @return the html code for display the manage themes page
      */
     public String doModifyUserTheme( HttpServletRequest request, HttpServletResponse response )
@@ -147,40 +150,43 @@ public class ThemesJspBean extends AdminFeaturesPageJspBean
 
     /**
      *
-     * @param request The HttpServletRequest
+     * @param request
+     *            The HttpServletRequest
      * @return the html code to create a theme
      */
     public String getCreateTheme( HttpServletRequest request )
     {
-        HashMap<String, Object> model = new HashMap<String, Object>(  );
+        HashMap<String, Object> model = new HashMap<String, Object>( );
         model.put( BASE_URL, AppPathService.getBaseUrl( request ) );
 
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CREATE_THEME, getLocale(  ), model );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CREATE_THEME, getLocale( ), model );
 
-        return getAdminPage( template.getHtml(  ) );
+        return getAdminPage( template.getHtml( ) );
     }
 
     /**
      *
-     * @param request The HttpServletRequest
+     * @param request
+     *            The HttpServletRequest
      * @return the html page to modifiy a theme
      */
     public String getModifyTheme( HttpServletRequest request )
     {
         Theme themeToModify = ThemeHome.findByPrimaryKey( request.getParameter( CODE_THEME ) );
 
-        HashMap<String, Object> model = new HashMap<String, Object>(  );
+        HashMap<String, Object> model = new HashMap<String, Object>( );
         model.put( BASE_URL, AppPathService.getBaseUrl( request ) );
         model.put( PARAMETER_THEME, themeToModify );
 
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_THEME, getLocale(  ), model );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_THEME, getLocale( ), model );
 
-        return getAdminPage( template.getHtml(  ) );
+        return getAdminPage( template.getHtml( ) );
     }
 
     /**
      *
-     * @param request The HttpServletRequest
+     * @param request
+     *            The HttpServletRequest
      * @return the html code for the theme list
      */
     public String doModifyTheme( HttpServletRequest request )
@@ -200,7 +206,8 @@ public class ThemesJspBean extends AdminFeaturesPageJspBean
 
     /**
      *
-     * @param request The HttpServletRequest
+     * @param request
+     *            The HttpServletRequest
      * @return the html code for the theme list
      */
     public String doCreateTheme( HttpServletRequest request )
@@ -220,12 +227,13 @@ public class ThemesJspBean extends AdminFeaturesPageJspBean
 
     /**
      *
-     * @param request The HttpServletRequest
+     * @param request
+     *            The HttpServletRequest
      * @return the theme object from request parameter
      */
     private Theme getThemeFromRequest( HttpServletRequest request )
     {
-        Theme theme = new Theme(  );
+        Theme theme = new Theme( );
 
         theme.setCodeTheme( request.getParameter( CODE_THEME ) );
         theme.setThemeDescription( request.getParameter( THEME_DESCRIPTION ) );
@@ -241,13 +249,14 @@ public class ThemesJspBean extends AdminFeaturesPageJspBean
     }
 
     /**
-     * @param request The HttpServletRequest
+     * @param request
+     *            The HttpServletRequest
      * @return true if 1 field is missing
      */
     private boolean isMissingFields( HttpServletRequest request )
     {
-        return request.getParameter( CODE_THEME ).equals( "" ) ||
-        request.getParameter( THEME_DESCRIPTION ).equals( "" ) || request.getParameter( PATH_IMAGES ).equals( "" ) ||
-        request.getParameter( PATH_CSS ).equals( "" ) || request.getParameter( PATH_JS ).equals( "" );
+        return request.getParameter( CODE_THEME ).equals( "" ) || request.getParameter( THEME_DESCRIPTION ).equals( "" )
+                || request.getParameter( PATH_IMAGES ).equals( "" ) || request.getParameter( PATH_CSS ).equals( "" )
+                || request.getParameter( PATH_JS ).equals( "" );
     }
 }

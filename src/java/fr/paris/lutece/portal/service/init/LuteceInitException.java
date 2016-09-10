@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -35,7 +35,6 @@ package fr.paris.lutece.portal.service.init;
 
 import fr.paris.lutece.portal.service.util.AppLogService;
 
-
 /**
  * Exception during Lutece loading
  */
@@ -48,8 +47,11 @@ public class LuteceInitException extends Exception
 
     /**
      * Creates a new instance of LuteceInitException
-     * @param strMessage The exception message
-     * @param e The cause exception
+     * 
+     * @param strMessage
+     *            The exception message
+     * @param e
+     *            The cause exception
      */
     public LuteceInitException( String strMessage, Exception e )
     {

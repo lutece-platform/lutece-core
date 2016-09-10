@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -40,7 +40,6 @@ import java.io.Serializable;
 
 import java.util.Locale;
 
-
 /**
  * This class represents business objects right
  */
@@ -48,7 +47,7 @@ public class Right implements Localizable, Comparable<Right>, Serializable
 {
     private static final long serialVersionUID = 4075896005615205007L;
 
-    /////////////////////////////////////////////////////////////////////////////////
+    // ///////////////////////////////////////////////////////////////////////////////
     // Constants
     private static final String EMPTY_STRING = "";
     private String _strId;
@@ -65,7 +64,9 @@ public class Right implements Localizable, Comparable<Right>, Serializable
 
     /**
      * Set the local used by this right
-     * @param locale the local to use
+     * 
+     * @param locale
+     *            the local to use
      */
     @Override
     public void setLocale( Locale locale )
@@ -78,7 +79,7 @@ public class Right implements Localizable, Comparable<Right>, Serializable
      *
      * @return the identifier of this right
      */
-    public String getId(  )
+    public String getId( )
     {
         return _strId;
     }
@@ -86,7 +87,8 @@ public class Right implements Localizable, Comparable<Right>, Serializable
     /**
      * Sets the identifier of the right to the specified string.
      *
-     * @param strId the new identifier
+     * @param strId
+     *            the new identifier
      */
     public void setId( String strId )
     {
@@ -98,7 +100,7 @@ public class Right implements Localizable, Comparable<Right>, Serializable
      *
      * @return the right name
      */
-    public String getNameKey(  )
+    public String getNameKey( )
     {
         return _strNameKey;
     }
@@ -108,7 +110,7 @@ public class Right implements Localizable, Comparable<Right>, Serializable
      *
      * @return the right name
      */
-    public String getName(  )
+    public String getName( )
     {
         return I18nService.getLocalizedString( _strNameKey, _locale );
     }
@@ -116,7 +118,8 @@ public class Right implements Localizable, Comparable<Right>, Serializable
     /**
      * Sets the name of the right to the specified string.
      *
-     * @param strNameKey the new name
+     * @param strNameKey
+     *            the new name
      */
     public void setNameKey( String strNameKey )
     {
@@ -128,7 +131,7 @@ public class Right implements Localizable, Comparable<Right>, Serializable
      *
      * @return the right level
      */
-    public int getLevel(  )
+    public int getLevel( )
     {
         return _nLevel;
     }
@@ -136,7 +139,8 @@ public class Right implements Localizable, Comparable<Right>, Serializable
     /**
      * Sets the level of the right to the specified int.
      *
-     * @param nLevel the new level
+     * @param nLevel
+     *            the new level
      */
     public void setLevel( int nLevel )
     {
@@ -148,7 +152,7 @@ public class Right implements Localizable, Comparable<Right>, Serializable
      *
      * @return the right url function
      */
-    public String getUrl(  )
+    public String getUrl( )
     {
         return _strUrl;
     }
@@ -156,7 +160,8 @@ public class Right implements Localizable, Comparable<Right>, Serializable
     /**
      * Sets the url of the right to the specified string.
      *
-     * @param strUrl the new url
+     * @param strUrl
+     *            the new url
      */
     public void setUrl( String strUrl )
     {
@@ -168,7 +173,7 @@ public class Right implements Localizable, Comparable<Right>, Serializable
      *
      * @return the right description
      */
-    public String getDescriptionKey(  )
+    public String getDescriptionKey( )
     {
         return _strDescriptionKey;
     }
@@ -178,7 +183,7 @@ public class Right implements Localizable, Comparable<Right>, Serializable
      *
      * @return the right description
      */
-    public String getDescription(  )
+    public String getDescription( )
     {
         return I18nService.getLocalizedString( _strDescriptionKey, _locale );
     }
@@ -186,7 +191,8 @@ public class Right implements Localizable, Comparable<Right>, Serializable
     /**
      * Sets the description of the right to the specified string.
      *
-     * @param strDescriptionKey the new description
+     * @param strDescriptionKey
+     *            the new description
      */
     public void setDescriptionKey( String strDescriptionKey )
     {
@@ -198,7 +204,7 @@ public class Right implements Localizable, Comparable<Right>, Serializable
      *
      * @return the is_upda
      */
-    public String getPluginName(  )
+    public String getPluginName( )
     {
         return _strPluginName;
     }
@@ -206,7 +212,8 @@ public class Right implements Localizable, Comparable<Right>, Serializable
     /**
      * Sets the name of the right to the specified string.
      *
-     * @param strPluginName the new name
+     * @param strPluginName
+     *            the new name
      */
     public void setPluginName( String strPluginName )
     {
@@ -217,9 +224,9 @@ public class Right implements Localizable, Comparable<Right>, Serializable
      * Returns the feature group of this right.
      *
      * @return the right feature group
-         * @since 1.1.1
+     * @since 1.1.1
      */
-    public String getFeatureGroup(  )
+    public String getFeatureGroup( )
     {
         return _strFeatureGroup;
     }
@@ -227,8 +234,9 @@ public class Right implements Localizable, Comparable<Right>, Serializable
     /**
      * Sets the feature group of the right to the specified string.
      *
-     * @param strFeatureGroup the new feature group
-         * @since 1.1.1
+     * @param strFeatureGroup
+     *            the new feature group
+     * @since 1.1.1
      */
     public void setFeatureGroup( String strFeatureGroup )
     {
@@ -240,7 +248,7 @@ public class Right implements Localizable, Comparable<Right>, Serializable
      *
      * @return the icon url
      */
-    public String getIconUrl(  )
+    public String getIconUrl( )
     {
         return _strIconUrl;
     }
@@ -248,7 +256,8 @@ public class Right implements Localizable, Comparable<Right>, Serializable
     /**
      * Sets the url of the icon associated to the right.
      *
-     * @param strIconUrl the new url
+     * @param strIconUrl
+     *            the new url
      */
     public void setIconUrl( String strIconUrl )
     {
@@ -260,7 +269,7 @@ public class Right implements Localizable, Comparable<Right>, Serializable
      *
      * @return the _strDocumentationUrl
      */
-    public String getDocumentationUrl(  )
+    public String getDocumentationUrl( )
     {
         return _strDocumentationUrl;
     }
@@ -268,7 +277,8 @@ public class Right implements Localizable, Comparable<Right>, Serializable
     /**
      * Sets the url of the documentation associated to the right.
      *
-     * @param strDocumentationUrl the _strDocumentationUrl to set
+     * @param strDocumentationUrl
+     *            the _strDocumentationUrl to set
      */
     public void setDocumentationUrl( String strDocumentationUrl )
     {
@@ -277,16 +287,19 @@ public class Right implements Localizable, Comparable<Right>, Serializable
 
     /**
      * Get the right order
+     * 
      * @return the _order
      */
-    public int getOrder(  )
+    public int getOrder( )
     {
         return _nIdOrder;
     }
 
     /**
      * Set the right order in feature group
-     * @param nOrder the _order to set
+     * 
+     * @param nOrder
+     *            the _order to set
      */
     public void setOrder( int nOrder )
     {
@@ -295,24 +308,27 @@ public class Right implements Localizable, Comparable<Right>, Serializable
 
     /**
      * Compare the right with the specified right
-     * @param o The right to be compared with the instanced right
+     * 
+     * @param o
+     *            The right to be compared with the instanced right
      * @return The result of comparison
      */
     @Override
     public int compareTo( Right o )
     {
-        if ( this.getOrder(  ) > o.getOrder(  ) )
+        if ( this.getOrder( ) > o.getOrder( ) )
         {
             return 1;
         }
-        else if ( this.getOrder(  ) < o.getOrder(  ) )
-        {
-            return -1;
-        }
         else
-        {
-            return this.getId(  ).compareTo( o.getId(  ) );
-        }
+            if ( this.getOrder( ) < o.getOrder( ) )
+            {
+                return -1;
+            }
+            else
+            {
+                return this.getId( ).compareTo( o.getId( ) );
+            }
     }
 
     /**
@@ -333,10 +349,10 @@ public class Right implements Localizable, Comparable<Right>, Serializable
      * {@inheritDoc}
      */
     @Override
-    public int hashCode(  )
+    public int hashCode( )
     {
-        int nIdHash = ( getId(  ) == null ) ? 0 : getId(  ).hashCode(  );
+        int nIdHash = ( getId( ) == null ) ? 0 : getId( ).hashCode( );
 
-        return ( getOrder(  ) * 100 ) + nIdHash;
+        return ( getOrder( ) * 100 ) + nIdHash;
     }
 }

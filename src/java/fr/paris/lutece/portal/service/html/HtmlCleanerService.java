@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -35,7 +35,6 @@ package fr.paris.lutece.portal.service.html;
 
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 
-
 /**
  * This class provides management methods for cleaner
  */
@@ -46,27 +45,27 @@ public final class HtmlCleanerService
     private static boolean _bInit;
 
     /**
-     * Constructor.
-     * Creates a new HtmlCleanerService object.
+     * Constructor. Creates a new HtmlCleanerService object.
      */
-    private HtmlCleanerService(  )
+    private HtmlCleanerService( )
     {
     }
 
     /**
      * Clean HTML code and converts it to XHTML
      *
-     * @param strSource The input string to clean
+     * @param strSource
+     *            The input string to clean
      * @return The cleaned string
-     * @throws HtmlCleanerException the HtmlCleanerException
+     * @throws HtmlCleanerException
+     *             the HtmlCleanerException
      */
-    public static synchronized String clean( String strSource )
-        throws HtmlCleanerException
+    public static synchronized String clean( String strSource ) throws HtmlCleanerException
     {
-        //init htmlCleaner
+        // init htmlCleaner
         if ( !_bInit )
         {
-            _htmlCleaner.init(  );
+            _htmlCleaner.init( );
             _bInit = true;
         }
 

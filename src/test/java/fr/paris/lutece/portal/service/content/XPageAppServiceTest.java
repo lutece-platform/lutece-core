@@ -49,20 +49,19 @@ import fr.paris.lutece.portal.web.xpages.XPageApplication;
 import fr.paris.lutece.portal.web.xpages.XPageApplicationEntry;
 import fr.paris.lutece.test.LuteceTestCase;
 
-
 public class XPageAppServiceTest extends LuteceTestCase
 {
-    public void testGetXPageApplicationsList(  )
+    public void testGetXPageApplicationsList( )
     {
-        Collection<XPageApplicationEntry> listXPageApps = XPageAppService.getXPageApplicationsList(  );
+        Collection<XPageApplicationEntry> listXPageApps = XPageAppService.getXPageApplicationsList( );
         // Assert default XPages are loaded
-        assertTrue( listXPageApps.size(  ) >= 2 );
+        assertTrue( listXPageApps.size( ) >= 2 );
     }
 
-    public void testEnabledState(  ) throws LuteceInitException
+    public void testEnabledState( ) throws LuteceInitException
     {
-        XPageApplicationEntry entry = new XPageApplicationEntry(  );
-        entry.setClassName( TestXPageApplication.class.getName(  ) );
+        XPageApplicationEntry entry = new XPageApplicationEntry( );
+        entry.setClassName( TestXPageApplication.class.getName( ) );
         entry.setId( "testEnableXPageApplication" );
         entry.setPluginName( "core" ); // core is an always enabled plugin
 
@@ -92,7 +91,8 @@ public class XPageAppServiceTest extends LuteceTestCase
         {
             cs.getPage( request, 0 );
             return true;
-        } catch ( UserNotSignedException | SiteMessageException e )
+        }
+        catch( UserNotSignedException | SiteMessageException e )
         {
             return false;
         }
@@ -103,8 +103,7 @@ public class XPageAppServiceTest extends LuteceTestCase
     {
 
         @Override
-        public XPage getPage( HttpServletRequest request, int nMode, Plugin plugin ) throws UserNotSignedException,
-                SiteMessageException
+        public XPage getPage( HttpServletRequest request, int nMode, Plugin plugin ) throws UserNotSignedException, SiteMessageException
         {
             return new XPage( );
         }

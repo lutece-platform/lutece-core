@@ -53,7 +53,6 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
 /**
  * Upload filter
  */
@@ -73,14 +72,17 @@ public abstract class UploadFilter implements Filter
     /**
      * Forward the error message url depends site or admin implementation.
      *
-     * @param request The http request
-     * @param strMessageKey the str message key
-     * @param messageArgs the message args
-     * @param strTitleKey the str title key
+     * @param request
+     *            The http request
+     * @param strMessageKey
+     *            the str message key
+     * @param messageArgs
+     *            the message args
+     * @param strTitleKey
+     *            the str title key
      * @return Message
      */
-    protected abstract String getMessageRelativeUrl( HttpServletRequest request, String strMessageKey,
-        Object[] messageArgs, String strTitleKey );
+    protected abstract String getMessageRelativeUrl( HttpServletRequest request, String strMessageKey, Object [ ] messageArgs, String strTitleKey );
 
     /**
      * @see javax.servlet.Filter#init(javax.servlet.FilterConfig)
@@ -117,16 +119,15 @@ public abstract class UploadFilter implements Filter
                 _bActivateNormalizeFileName = Boolean.valueOf( paramValue );
             }
         }
-        catch ( NumberFormatException ex )
+        catch( NumberFormatException ex )
         {
-            AppLogService.error( ex.getMessage(  ), ex );
-            throw new ServletException( ex.getMessage(  ), ex );
+            AppLogService.error( ex.getMessage( ), ex );
+            throw new ServletException( ex.getMessage( ), ex );
         }
     }
 
     /**
-     * @see javax.servlet.Filter#doFilter(javax.servlet.ServletRequest,
-     *      javax.servlet.ServletResponse, javax.servlet.FilterChain)
+     * @see javax.servlet.Filter#doFilter(javax.servlet.ServletRequest, javax.servlet.ServletResponse, javax.servlet.FilterChain)
      * @param request
      *            The ServletRequest
      * @param response
@@ -139,8 +140,7 @@ public abstract class UploadFilter implements Filter
      *             The SerletException
      */
     @Override
-    public void doFilter( ServletRequest request, ServletResponse response, FilterChain chain )
-        throws IOException, ServletException
+    public void doFilter( ServletRequest request, ServletResponse response, FilterChain chain ) throws IOException, ServletException
     {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
 
@@ -152,21 +152,23 @@ public abstract class UploadFilter implements Filter
         {
             try
             {
-                MultipartHttpServletRequest multiHtppRequest = MultipartUtil.convert( _nSizeThreshold,
-                        _nRequestSizeMax, _bActivateNormalizeFileName, httpRequest );
+                MultipartHttpServletRequest multiHtppRequest = MultipartUtil.convert( _nSizeThreshold, _nRequestSizeMax, _bActivateNormalizeFileName,
+                        httpRequest );
                 chain.doFilter( multiHtppRequest, response );
             }
-            catch ( SizeLimitExceededException e )
+            catch( SizeLimitExceededException e )
             {
-                AppLogService.error( e.getMessage(  ), e );
+                AppLogService.error( e.getMessage( ), e );
 
-                Object[] args = { getDisplaySize(  ) };
-                ( (HttpServletResponse) response ).sendRedirect( getMessageRelativeUrl( httpRequest,
-                        PROPERTY_MESSAGE_FILE_SIZE_LIMIT_EXCEEDED, args, PROPERTY_TITLE_FILE_SIZE_LIMIT_EXCEEDED ) );
+                Object [ ] args = {
+                    getDisplaySize( )
+                };
+                ( (HttpServletResponse) response ).sendRedirect( getMessageRelativeUrl( httpRequest, PROPERTY_MESSAGE_FILE_SIZE_LIMIT_EXCEEDED, args,
+                        PROPERTY_TITLE_FILE_SIZE_LIMIT_EXCEEDED ) );
             }
-            catch ( FileUploadException e )
+            catch( FileUploadException e )
             {
-                AppLogService.error( e.getMessage(  ), e );
+                AppLogService.error( e.getMessage( ), e );
                 throw new ServletException( "Unkown error occured during the upload", e );
             }
         }
@@ -177,7 +179,7 @@ public abstract class UploadFilter implements Filter
      *
      * @return The max size
      */
-    public long getRequestSizeMax(  )
+    public long getRequestSizeMax( )
     {
         return _nRequestSizeMax;
     }
@@ -186,7 +188,7 @@ public abstract class UploadFilter implements Filter
      * Default implementation for subclasses
      */
     @Override
-    public void destroy(  )
+    public void destroy( )
     {
         // Do nothing
     }
@@ -195,14 +197,13 @@ public abstract class UploadFilter implements Filter
      *
      * @return the size of the request to display in the error message
      */
-    private String getDisplaySize(  )
+    private String getDisplaySize( )
     {
-        long lSizeMax = getRequestSizeMax(  );
-        DecimalFormat decimalFormat = (DecimalFormat) DecimalFormat.getInstance(  );
+        long lSizeMax = getRequestSizeMax( );
+        DecimalFormat decimalFormat = (DecimalFormat) DecimalFormat.getInstance( );
         decimalFormat.applyPattern( "#" );
 
-        String strMessage = ( lSizeMax >= KILO_BYTE ) ? ( String.valueOf( lSizeMax / KILO_BYTE ) )
-                                                      : ( decimalFormat.format( lSizeMax / KILO_BYTE ) );
+        String strMessage = ( lSizeMax >= KILO_BYTE ) ? ( String.valueOf( lSizeMax / KILO_BYTE ) ) : ( decimalFormat.format( lSizeMax / KILO_BYTE ) );
 
         return strMessage;
     }

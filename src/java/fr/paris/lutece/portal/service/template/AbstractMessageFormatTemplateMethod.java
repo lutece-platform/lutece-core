@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -47,22 +47,20 @@ import java.text.MessageFormat;
 import java.util.List;
 import java.util.Locale;
 
-
 public abstract class AbstractMessageFormatTemplateMethod implements TemplateMethodModelEx
 {
     @Override
-    public Object exec( @SuppressWarnings( "rawtypes" )
-    List arguments ) throws TemplateModelException
+    public Object exec( @SuppressWarnings( "rawtypes" ) List arguments ) throws TemplateModelException
     {
-        int argsSize = arguments.size(  );
+        int argsSize = arguments.size( );
 
         if ( argsSize < 1 )
         {
             throw new TemplateModelException( "Must be called with at least one argument (the message key)" );
         }
 
-        String key = ( (TemplateScalarModel) arguments.get( 0 ) ).getAsString(  );
-        Object[] args = new Object[argsSize - 1];
+        String key = ( (TemplateScalarModel) arguments.get( 0 ) ).getAsString( );
+        Object [ ] args = new Object [ argsSize - 1];
 
         for ( int i = 1; i < argsSize; i++ )
         {
@@ -70,23 +68,25 @@ public abstract class AbstractMessageFormatTemplateMethod implements TemplateMet
 
             if ( arg instanceof TemplateScalarModel )
             {
-                args[i - 1] = ( (TemplateScalarModel) arg ).getAsString(  );
-            }
-            else if ( arg instanceof TemplateNumberModel )
-            {
-                args[i - 1] = ( (TemplateNumberModel) arg ).getAsNumber(  );
-            }
-            else if ( arg instanceof TemplateDateModel )
-            {
-                args[i - 1] = ( (TemplateDateModel) arg ).getAsDate(  );
+                args [i - 1] = ( (TemplateScalarModel) arg ).getAsString( );
             }
             else
-            {
-                throw new TemplateModelException( "Unsupported argument type : " + arg );
-            }
+                if ( arg instanceof TemplateNumberModel )
+                {
+                    args [i - 1] = ( (TemplateNumberModel) arg ).getAsNumber( );
+                }
+                else
+                    if ( arg instanceof TemplateDateModel )
+                    {
+                        args [i - 1] = ( (TemplateDateModel) arg ).getAsDate( );
+                    }
+                    else
+                    {
+                        throw new TemplateModelException( "Unsupported argument type : " + arg );
+                    }
         }
 
-        return MessageFormat.format( getPattern( key, Environment.getCurrentEnvironment(  ).getLocale(  ) ), args );
+        return MessageFormat.format( getPattern( key, Environment.getCurrentEnvironment( ).getLocale( ) ), args );
     }
 
     protected abstract String getPattern( String key, Locale locale );

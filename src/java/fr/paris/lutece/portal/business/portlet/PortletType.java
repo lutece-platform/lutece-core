@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -39,13 +39,12 @@ import fr.paris.lutece.portal.service.rbac.RBACResource;
 
 import java.util.Locale;
 
-
 /**
  * This class represents business objects PortletType
  */
 public class PortletType implements RBACResource, Localizable
 {
-    /////////////////////////////////////////////////////////////////////////////////
+    // ///////////////////////////////////////////////////////////////////////////////
     // Constants
     public static final String RESOURCE_TYPE = "PORTLET_TYPE";
     private static final String EMPTY_STRING = "";
@@ -70,7 +69,7 @@ public class PortletType implements RBACResource, Localizable
      *
      * @return the Portlet Type identifier
      */
-    public String getId(  )
+    public String getId( )
     {
         return _strId;
     }
@@ -78,7 +77,8 @@ public class PortletType implements RBACResource, Localizable
     /**
      * Sets the identifier of the portlet type
      *
-     * @param strId the Portlet Type identifier
+     * @param strId
+     *            the Portlet Type identifier
      */
     public void setId( String strId )
     {
@@ -88,7 +88,8 @@ public class PortletType implements RBACResource, Localizable
     /**
      * Sets the name key of the Portlet Type
      *
-     * @param strNameKey the Portlet type Name key
+     * @param strNameKey
+     *            the Portlet type Name key
      */
     public void setNameKey( String strNameKey )
     {
@@ -100,7 +101,7 @@ public class PortletType implements RBACResource, Localizable
      *
      * @return the Portlet type name key
      */
-    public String getNameKey(  )
+    public String getNameKey( )
     {
         return _strNameKey;
     }
@@ -110,7 +111,7 @@ public class PortletType implements RBACResource, Localizable
      *
      * @return the Portlet type name
      */
-    public String getName(  )
+    public String getName( )
     {
         return I18nService.getLocalizedString( _strNameKey, _locale );
     }
@@ -118,7 +119,8 @@ public class PortletType implements RBACResource, Localizable
     /**
      * Sets the url of the program which manages the creation of this portlet type
      *
-     * @param strUrlCreation the url to create the current portlet type
+     * @param strUrlCreation
+     *            the url to create the current portlet type
      */
     public void setUrlCreation( String strUrlCreation )
     {
@@ -130,7 +132,7 @@ public class PortletType implements RBACResource, Localizable
      *
      * @return the url of creation
      */
-    public String getUrlCreation(  )
+    public String getUrlCreation( )
     {
         return _strUrlCreation;
     }
@@ -138,7 +140,8 @@ public class PortletType implements RBACResource, Localizable
     /**
      * Sets the url of the program which manages the update of this portlet type
      *
-     * @param strUrlUpdate the url to update the current portlet type
+     * @param strUrlUpdate
+     *            the url to update the current portlet type
      */
     public void setUrlUpdate( String strUrlUpdate )
     {
@@ -150,7 +153,7 @@ public class PortletType implements RBACResource, Localizable
      *
      * @return the url of update
      */
-    public String getUrlUpdate(  )
+    public String getUrlUpdate( )
     {
         return _strUrlUpdate;
     }
@@ -158,7 +161,8 @@ public class PortletType implements RBACResource, Localizable
     /**
      * Sets the home class path of the program which manages the update of this portlet type
      *
-     * @param strHomeClass the path to update the current portlet type
+     * @param strHomeClass
+     *            the path to update the current portlet type
      */
     public void setHomeClass( String strHomeClass )
     {
@@ -170,7 +174,7 @@ public class PortletType implements RBACResource, Localizable
      *
      * @return the home class path of update
      */
-    public String getHomeClass(  )
+    public String getHomeClass( )
     {
         return _strHomeClass;
     }
@@ -178,7 +182,8 @@ public class PortletType implements RBACResource, Localizable
     /**
      * Sets the plugin name of the Portlet Type
      *
-     * @param strPluginName the Portlet type Plugin Name
+     * @param strPluginName
+     *            the Portlet type Plugin Name
      */
     public void setPluginName( String strPluginName )
     {
@@ -188,46 +193,51 @@ public class PortletType implements RBACResource, Localizable
     /**
      * Returns the plugin name of the Portlet Type
      *
-     * @return the Portlet type  plugin name
+     * @return the Portlet type plugin name
      */
-    public String getPluginName(  )
+    public String getPluginName( )
     {
         return _strPluginName;
     }
 
-    ////////////////////////////////////////////////////////////////////////////
+    // //////////////////////////////////////////////////////////////////////////
     // RBAC Resource implementation
 
     /**
      * Returns the Resource Type Code that identify the resource type
+     * 
      * @return The Resource Type Code
      */
-    public String getResourceTypeCode(  )
+    public String getResourceTypeCode( )
     {
         return RESOURCE_TYPE;
     }
 
     /**
      * Returns the resource Id of the current object
+     * 
      * @return The resource Id of the current object
      */
-    public String getResourceId(  )
+    public String getResourceId( )
     {
-        return "" + getId(  );
+        return "" + getId( );
     }
 
     /**
      * Return the DoCreate Url
+     * 
      * @return The DoCreate Url
      */
-    public String getDoCreateUrl(  )
+    public String getDoCreateUrl( )
     {
         return _strDoCreateUrl;
     }
 
     /**
      * Sets the DoCreate Url
-     * @param strDoCreateUrl The DoCreate Url
+     * 
+     * @param strDoCreateUrl
+     *            The DoCreate Url
      */
     public void setDoCreateUrl( String strDoCreateUrl )
     {
@@ -236,7 +246,9 @@ public class PortletType implements RBACResource, Localizable
 
     /**
      * Sets the CreateScript
-     * @param strCreateScript The CreateScript
+     * 
+     * @param strCreateScript
+     *            The CreateScript
      */
     public void setCreateScriptTemplate( String strCreateScript )
     {
@@ -245,7 +257,9 @@ public class PortletType implements RBACResource, Localizable
 
     /**
      * Sets the CreateSpecific
-     * @param strCreateSpecific The CreateSpecific
+     * 
+     * @param strCreateSpecific
+     *            The CreateSpecific
      */
     public void setCreateSpecificTemplate( String strCreateSpecific )
     {
@@ -254,7 +268,9 @@ public class PortletType implements RBACResource, Localizable
 
     /**
      * Sets the CreateSpecificForm
-     * @param strCreateSpecificForm The CreateSpecificForm
+     * 
+     * @param strCreateSpecificForm
+     *            The CreateSpecificForm
      */
     public void setCreateSpecificFormTemplate( String strCreateSpecificForm )
     {
@@ -263,70 +279,79 @@ public class PortletType implements RBACResource, Localizable
 
     /**
      * Return a script to include in the create form
+     * 
      * @return the script to include in the create form
      */
-    public String getCreateScriptTemplate(  )
+    public String getCreateScriptTemplate( )
     {
         return _strCreateScriptTemplate;
     }
 
     /**
      * Return html code to include in the create form
+     * 
      * @return html code to include in the create form
      */
-    public String getCreateSpecificTemplate(  )
+    public String getCreateSpecificTemplate( )
     {
         return _strCreateSpecificTemplate;
     }
 
     /**
      * Return html code to add another form to the create page
+     * 
      * @return html code to add another form to the create page
      */
-    public String getCreateSpecificFormTemplate(  )
+    public String getCreateSpecificFormTemplate( )
     {
         return _strCreateSpecificFormTemplate;
     }
 
     /**
      * Return the Modify Url
+     * 
      * @return The Modify Url
      */
-    public String getDoModifyUrl(  )
+    public String getDoModifyUrl( )
     {
         return _strDoModifyUrl;
     }
 
     /**
      * Return a script to include in the modify form
+     * 
      * @return the script to include in the modify form
      */
-    public String getModifyScriptTemplate(  )
+    public String getModifyScriptTemplate( )
     {
         return _strModifyScriptTemplate;
     }
 
     /**
      * Return html code to include in the modify form
+     * 
      * @return html code to include in the modify form
      */
-    public String getModifySpecificTemplate(  )
+    public String getModifySpecificTemplate( )
     {
         return _strModifySpecificTemplate;
     }
 
     /**
      * Return html code to add another form to the modify page
+     * 
      * @return html code to add another form to the modify page
      */
-    public String getModifySpecificFormTemplate(  )
+    public String getModifySpecificFormTemplate( )
     {
         return _strModifySpecificFormTemplate;
     }
 
     /**
      * Sets the DoModify Url
-     * @param strDoModifyUrl The DoModify Url
+     * 
+     * @param strDoModifyUrl
+     *            The DoModify Url
      */
     public void setDoModifyUrl( String strDoModifyUrl )
     {
@@ -335,7 +360,9 @@ public class PortletType implements RBACResource, Localizable
 
     /**
      * Sets the ModifyScript
-     * @param strModifyScript The ModifyScript
+     * 
+     * @param strModifyScript
+     *            The ModifyScript
      */
     public void setModifyScriptTemplate( String strModifyScript )
     {
@@ -344,7 +371,9 @@ public class PortletType implements RBACResource, Localizable
 
     /**
      * Sets the ModifySpecific
-     * @param strModifySpecific The ModifySpecific
+     * 
+     * @param strModifySpecific
+     *            The ModifySpecific
      */
     public void setModifySpecificTemplate( String strModifySpecific )
     {
@@ -353,7 +382,9 @@ public class PortletType implements RBACResource, Localizable
 
     /**
      * Sets the ModifySpecificForm
-     * @param strModifySpecificForm The ModifySpecificForm
+     * 
+     * @param strModifySpecificForm
+     *            The ModifySpecificForm
      */
     public void setModifySpecificFormTemplate( String strModifySpecificForm )
     {
@@ -362,7 +393,9 @@ public class PortletType implements RBACResource, Localizable
 
     /**
      * Implements Localizable
-     * @param locale The current locale
+     * 
+     * @param locale
+     *            The current locale
      */
     public void setLocale( Locale locale )
     {

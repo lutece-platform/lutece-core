@@ -78,18 +78,18 @@ public class AdminPageJspBeanTest extends LuteceTestCase
         assertNotNull( message );
         assertEquals( AdminMessage.TYPE_ERROR, message.getType( ) );
         // valid page
-        String randomPageName = "page" + new SecureRandom(  ).nextLong(  );
+        String randomPageName = "page" + new SecureRandom( ).nextLong( );
         Page page = null;
         IPageService pageService = (IPageService) SpringContextService.getBean( "pageService" );
         try
         {
-            page = new Page(  );
-            page.setParentPageId( PortalService.getRootPageId(  ) );
-            page.setPageTemplateId( PageTemplateHome.getPageTemplatesList(  ).get( 0 ).getId(  ) );
+            page = new Page( );
+            page.setParentPageId( PortalService.getRootPageId( ) );
+            page.setPageTemplateId( PageTemplateHome.getPageTemplatesList( ).get( 0 ).getId( ) );
             page.setName( randomPageName );
             pageService.createPage( page );
             request = new MockHttpServletRequest( );
-            request.addParameter( Parameters.PAGE_ID,  Integer.toString( page.getId( ) ) );
+            request.addParameter( Parameters.PAGE_ID, Integer.toString( page.getId( ) ) );
             bean.getRemovePage( request );
             message = AdminMessageService.getMessage( request );
             assertNotNull( message );
@@ -99,20 +99,22 @@ public class AdminPageJspBeanTest extends LuteceTestCase
             {
                 assertTrue( message.getText( new Locale( lang.getCode( ) ) ).contains( randomPageName ) );
             }
-        } finally
+        }
+        finally
         {
             if ( page != null )
             {
                 try
                 {
                     pageService.removePage( page.getId( ) );
-                } finally
+                }
+                finally
                 {
                 }
             }
         }
     }
-    
+
     public void testDoRemovePage( )
     {
         AdminPageJspBean bean = new AdminPageJspBean( );
@@ -137,25 +139,25 @@ public class AdminPageJspBeanTest extends LuteceTestCase
         assertNotNull( message );
         assertEquals( AdminMessage.TYPE_ERROR, message.getType( ) );
         // valid page with child
-        String randomPageName = "page" + new SecureRandom(  ).nextLong(  );
+        String randomPageName = "page" + new SecureRandom( ).nextLong( );
         String childPageName = randomPageName + "-child";
         Page page = null;
         Page childPage = null;
         IPageService pageService = (IPageService) SpringContextService.getBean( "pageService" );
         try
         {
-            page = new Page(  );
-            page.setParentPageId( PortalService.getRootPageId(  ) );
-            page.setPageTemplateId( PageTemplateHome.getPageTemplatesList(  ).get( 0 ).getId(  ) );
+            page = new Page( );
+            page.setParentPageId( PortalService.getRootPageId( ) );
+            page.setPageTemplateId( PageTemplateHome.getPageTemplatesList( ).get( 0 ).getId( ) );
             page.setName( randomPageName );
             pageService.createPage( page );
-            childPage = new Page(  );
+            childPage = new Page( );
             childPage.setParentPageId( page.getId( ) );
-            childPage.setPageTemplateId( PageTemplateHome.getPageTemplatesList(  ).get( 0 ).getId(  ) );
+            childPage.setPageTemplateId( PageTemplateHome.getPageTemplatesList( ).get( 0 ).getId( ) );
             childPage.setName( childPageName );
             pageService.createPage( childPage );
             request = new MockHttpServletRequest( );
-            request.addParameter( Parameters.PAGE_ID,  Integer.toString( page.getId( ) ) );
+            request.addParameter( Parameters.PAGE_ID, Integer.toString( page.getId( ) ) );
             bean.doRemovePage( request );
             message = AdminMessageService.getMessage( request );
             assertNotNull( message );
@@ -167,17 +169,19 @@ public class AdminPageJspBeanTest extends LuteceTestCase
             }
             // valid page without child
             request = new MockHttpServletRequest( );
-            request.addParameter( Parameters.PAGE_ID,  Integer.toString( childPage.getId( ) ) );
+            request.addParameter( Parameters.PAGE_ID, Integer.toString( childPage.getId( ) ) );
             bean.doRemovePage( request );
             assertFalse( PageHome.checkPageExist( childPage.getId( ) ) );
-        } finally
+        }
+        finally
         {
             if ( page != null )
             {
                 try
                 {
                     pageService.removePage( page.getId( ) );
-                } finally
+                }
+                finally
                 {
                 }
             }
@@ -186,7 +190,8 @@ public class AdminPageJspBeanTest extends LuteceTestCase
                 try
                 {
                     pageService.removePage( childPage.getId( ) );
-                } finally
+                }
+                finally
                 {
                 }
             }

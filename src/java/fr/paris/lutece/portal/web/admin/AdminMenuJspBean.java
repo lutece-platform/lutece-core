@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -76,13 +76,12 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  * This class provides the user interface to manage admin features ( manage, create, modify, remove)
  */
 public class AdminMenuJspBean implements Serializable
 {
-    /////////////////////////////////////////////////////////////////////////////////
+    // ///////////////////////////////////////////////////////////////////////////////
     // Constants
     public static final String PROPERTY_LOGOUT_URL = "lutece.admin.logout.url";
     public static final String PROPERTY_MENU_DEFAULT_POS = "top";
@@ -131,7 +130,7 @@ public class AdminMenuJspBean implements Serializable
     private static final String PASSWORD_ERROR = "portal.users.message.password.wrong.current";
     private static final String PASSWORD_CURRENT_ERROR = "portal.users.message.password.new.equals.current";
     private static final String MESSAGE_PASSWORD_REDIRECT = "portal.users.message.password.ok.redirect";
-    
+
     private static String _strStylesheets;
     private static String _strJavascripts;
     private boolean _bAdminAvatar = PluginService.isPluginEnable( "adminavatar" );
@@ -139,28 +138,28 @@ public class AdminMenuJspBean implements Serializable
     /**
      * Returns the Administration header menu
      *
-     * @param request The HttpServletRequest
+     * @param request
+     *            The HttpServletRequest
      * @return The html code of the header
      */
     public String getAdminMenuHeader( HttpServletRequest request )
     {
-        Map<String, Object> model = new HashMap<String, Object>(  );
-        String strVersion = AppInfo.getVersion(  );
-        String strSiteName = PortalService.getSiteName(  );
+        Map<String, Object> model = new HashMap<String, Object>( );
+        String strVersion = AppInfo.getVersion( );
+        String strSiteName = PortalService.getSiteName( );
         AdminUser user = AdminUserService.getAdminUser( request );
-        Locale locale = user.getLocale(  );
+        Locale locale = user.getLocale( );
         List<FeatureGroup> aFeaturesGroupList = getFeatureGroupsList( user );
 
         // Displays the menus accroding to the rights of the users
         model.put( Markers.VERSION, strVersion );
         model.put( MARK_SITE_NAME, strSiteName );
-        model.put( MARK_MENU_POS,
-            DatastoreService.getInstanceDataValue( PROPERTY_MENU_DATASTORE_POS, PROPERTY_MENU_DEFAULT_POS ) );
+        model.put( MARK_MENU_POS, DatastoreService.getInstanceDataValue( PROPERTY_MENU_DATASTORE_POS, PROPERTY_MENU_DEFAULT_POS ) );
         model.put( MARK_FEATURE_GROUP_LIST, aFeaturesGroupList );
-        model.put( MARK_ADMIN_URL, AppPathService.getBaseUrl( request ) + AppPathService.getAdminMenuUrl(  ) );
+        model.put( MARK_ADMIN_URL, AppPathService.getBaseUrl( request ) + AppPathService.getAdminMenuUrl( ) );
         model.put( MARK_USER, user );
         model.put( MARK_LANGUAGES_LIST, I18nService.getAdminLocales( locale ) );
-        model.put( MARK_CURRENT_LANGUAGE, locale.getLanguage(  ) );
+        model.put( MARK_CURRENT_LANGUAGE, locale.getLanguage( ) );
 
         String strLogoutUrl = AppPropertiesService.getProperty( PROPERTY_LOGOUT_URL );
         model.put( MARK_ADMIN_LOGOUT_URL, ( strLogoutUrl == null ) ? "" : strLogoutUrl );
@@ -170,139 +169,147 @@ public class AdminMenuJspBean implements Serializable
 
         int nZoneMax = AppPropertiesService.getPropertyInt( PROPERTY_DASHBOARD_ZONES, PROPERTY_DASHBOARD_ZONES_DEFAULT );
         setDashboardData( model, user, request, nZoneMax );
-        
-        model.put( MARK_ADMIN_AVATAR , _bAdminAvatar );
 
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_MENU_HEADER, user.getLocale(  ), model );
+        model.put( MARK_ADMIN_AVATAR, _bAdminAvatar );
 
-        return template.getHtml(  );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_MENU_HEADER, user.getLocale( ), model );
+
+        return template.getHtml( );
     }
 
     /**
      * Returns the Administration footer menu
      *
-     * @param request The HttpServletRequest
+     * @param request
+     *            The HttpServletRequest
      * @return The html code of the header
      */
     public String getAdminMenuFooter( HttpServletRequest request )
     {
-        Map<String, Object> model = new HashMap<String, Object>(  );
-        String strFooterVersion = AppInfo.getVersion(  );
-        String strFooterSiteName = PortalService.getSiteName(  );
+        Map<String, Object> model = new HashMap<String, Object>( );
+        String strFooterVersion = AppInfo.getVersion( );
+        String strFooterSiteName = PortalService.getSiteName( );
         AdminUser user = AdminUserService.getAdminUser( request );
-        Locale locale = ( user != null ) ? user.getLocale(  ) : LocaleService.getDefault(  );
+        Locale locale = ( user != null ) ? user.getLocale( ) : LocaleService.getDefault( );
         model.put( Markers.VERSION, strFooterVersion );
         model.put( MARK_SITE_NAME, strFooterSiteName );
-        model.put( MARK_JAVASCRIPT_FILES, getAdminJavascripts(  ) );
+        model.put( MARK_JAVASCRIPT_FILES, getAdminJavascripts( ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_MENU_FOOTER, locale, model );
 
-        return template.getHtml(  );
+        return template.getHtml( );
     }
 
     /**
      * Returns the html code of the menu of the users
-     * @param request The Http request
+     * 
+     * @param request
+     *            The Http request
      * @return The html code of the users menu
      */
     public String getAdminMenuUser( HttpServletRequest request )
     {
         AdminUser user = AdminUserService.getAdminUser( request );
 
-        Locale locale = user.getLocale(  );
+        Locale locale = user.getLocale( );
 
         // Displays the menus according to the users rights
         List<FeatureGroup> listFeatureGroups = getFeatureGroupsList( user );
 
-        Map<String, Object> model = new HashMap<String, Object>(  );
+        Map<String, Object> model = new HashMap<String, Object>( );
 
         model.put( MARK_FEATURE_GROUP_LIST, listFeatureGroups );
         model.put( MARK_USER, user );
         model.put( MARK_LANGUAGES_LIST, I18nService.getAdminLocales( locale ) );
-        model.put( MARK_CURRENT_LANGUAGE, locale.getLanguage(  ) );
-        model.put( MARK_MODIFY_PASSWORD_URL, AdminAuthenticationService.getInstance(  ).getChangePasswordPageUrl(  ) );
+        model.put( MARK_CURRENT_LANGUAGE, locale.getLanguage( ) );
+        model.put( MARK_MODIFY_PASSWORD_URL, AdminAuthenticationService.getInstance( ).getChangePasswordPageUrl( ) );
 
         setDashboardData( model, user, request );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_HOME, locale, model );
 
-        return template.getHtml(  );
+        return template.getHtml( );
     }
 
     /**
      * Add dashboard data to the template's model
-     * @param model The template's model
-     * @param user The Admin User
-     * @param request HttpServletRequest
+     * 
+     * @param model
+     *            The template's model
+     * @param user
+     *            The Admin User
+     * @param request
+     *            HttpServletRequest
      */
     private void setDashboardData( Map<String, Object> model, AdminUser user, HttpServletRequest request )
     {
-        List<IDashboardComponent> listDashboards = DashboardService.getInstance(  ).getDashboards( user, request );
+        List<IDashboardComponent> listDashboards = DashboardService.getInstance( ).getDashboards( user, request );
         int nZoneMax = AppPropertiesService.getPropertyInt( PROPERTY_DASHBOARD_ZONES, PROPERTY_DASHBOARD_ZONES_DEFAULT );
 
-        if ( ( listDashboards != null ) && ( listDashboards.size(  ) > 0 ) )
+        if ( ( listDashboards != null ) && ( listDashboards.size( ) > 0 ) )
         {
-            int nColumnCount = DashboardService.getInstance(  ).getColumnCount(  );
+            int nColumnCount = DashboardService.getInstance( ).getColumnCount( );
 
             // Personnalized dashboards for the nColumnCount first zones
             for ( int i = 1; i <= nColumnCount; i++ )
             {
-                model.put( MARK_DASHBOARD_ZONE + i,
-                    DashboardService.getInstance(  ).getDashboardData( listDashboards, user, i, request ) );
+                model.put( MARK_DASHBOARD_ZONE + i, DashboardService.getInstance( ).getDashboardData( listDashboards, user, i, request ) );
             }
 
             // Default dashboards for the nColumnCount to nZoneMax zones
             for ( int i = nColumnCount + 1; i < nZoneMax; i++ )
             {
-                model.put( MARK_DASHBOARD_ZONE + i,
-                    DashboardService.getInstance(  ).getDashboardData( user, i, request ) );
+                model.put( MARK_DASHBOARD_ZONE + i, DashboardService.getInstance( ).getDashboardData( user, i, request ) );
             }
         }
         else
         {
             for ( int i = 1; i < nZoneMax; i++ )
             {
-                model.put( MARK_DASHBOARD_ZONE + i,
-                    DashboardService.getInstance(  ).getDashboardData( user, i, request ) );
+                model.put( MARK_DASHBOARD_ZONE + i, DashboardService.getInstance( ).getDashboardData( user, i, request ) );
             }
         }
     }
 
     /**
      * Add a specific dashboard data to the template's model
-     * @param model The template's model
-     * @param user The Admin User
-     * @param request HttpServletRequest
-     * @param nDashboardZone the dashboard zone
+     * 
+     * @param model
+     *            The template's model
+     * @param user
+     *            The Admin User
+     * @param request
+     *            HttpServletRequest
+     * @param nDashboardZone
+     *            the dashboard zone
      */
-    private void setDashboardData( Map<String, Object> model, AdminUser user, HttpServletRequest request,
-        int nDashboardZone )
+    private void setDashboardData( Map<String, Object> model, AdminUser user, HttpServletRequest request, int nDashboardZone )
     {
-        model.put( MARK_DASHBOARD_ZONE + nDashboardZone,
-            DashboardService.getInstance(  ).getDashboardData( user, nDashboardZone, request ) );
+        model.put( MARK_DASHBOARD_ZONE + nDashboardZone, DashboardService.getInstance( ).getDashboardData( user, nDashboardZone, request ) );
     }
 
     /**
      * Returns an array that contains all feature groups corresponding to the user
      *
-     * @param user The Admin user
+     * @param user
+     *            The Admin user
      * @return An array of FeatureGroup objects
      */
     private List<FeatureGroup> getFeatureGroupsList( AdminUser user )
     {
         // structure that will be returned
-        ArrayList<FeatureGroup> aOutFeatureGroupList = new ArrayList<FeatureGroup>(  );
+        ArrayList<FeatureGroup> aOutFeatureGroupList = new ArrayList<FeatureGroup>( );
 
         // get the list of user's features
-        Map<String, Right> featuresMap = user.getRights(  );
-        List<Right> features = new ArrayList<Right>( featuresMap.values(  ) );
+        Map<String, Right> featuresMap = user.getRights( );
+        List<Right> features = new ArrayList<Right>( featuresMap.values( ) );
 
-        List<Right> rightsToDelete = new ArrayList<Right>(  );
+        List<Right> rightsToDelete = new ArrayList<Right>( );
 
-        //delete features which have a null URL : these features does not have to be displayed in the menu
+        // delete features which have a null URL : these features does not have to be displayed in the menu
         for ( Right right : features )
         {
-            if ( right.getUrl(  ) == null )
+            if ( right.getUrl( ) == null )
             {
                 rightsToDelete.add( right );
             }
@@ -313,18 +320,18 @@ public class AdminMenuJspBean implements Serializable
         Collections.sort( features );
 
         // for each group, load the features
-        for ( FeatureGroup featureGroup : FeatureGroupHome.getFeatureGroupsList(  ) )
+        for ( FeatureGroup featureGroup : FeatureGroupHome.getFeatureGroupsList( ) )
         {
-            ArrayList<Right> aLeftFeatures = new ArrayList<Right>(  );
+            ArrayList<Right> aLeftFeatures = new ArrayList<Right>( );
 
             for ( Right right : features )
             {
-                right.setLocale( user.getLocale(  ) );
+                right.setLocale( user.getLocale( ) );
                 right.setIconUrl( getFeatureIcon( right ) );
 
-                String strFeatureGroup = right.getFeatureGroup(  );
+                String strFeatureGroup = right.getFeatureGroup( );
 
-                if ( featureGroup.getId(  ).equalsIgnoreCase( strFeatureGroup ) )
+                if ( featureGroup.getId( ).equalsIgnoreCase( strFeatureGroup ) )
                 {
                     featureGroup.addFeature( right );
                 }
@@ -334,9 +341,9 @@ public class AdminMenuJspBean implements Serializable
                 }
             }
 
-            if ( !featureGroup.isEmpty(  ) )
+            if ( !featureGroup.isEmpty( ) )
             {
-                featureGroup.setLocale( user.getLocale(  ) );
+                featureGroup.setLocale( user.getLocale( ) );
                 aOutFeatureGroupList.add( featureGroup );
             }
 
@@ -344,15 +351,15 @@ public class AdminMenuJspBean implements Serializable
         }
 
         // add the features with no group to the last group
-        if ( aOutFeatureGroupList.size(  ) > 0 )
+        if ( aOutFeatureGroupList.size( ) > 0 )
         {
-            FeatureGroup lastFeatureGroup = aOutFeatureGroupList.get( aOutFeatureGroupList.size(  ) - 1 );
+            FeatureGroup lastFeatureGroup = aOutFeatureGroupList.get( aOutFeatureGroupList.size( ) - 1 );
 
             for ( Right right : features )
             {
                 lastFeatureGroup.addFeature( right );
 
-                // FIXME ????         itFeatures.remove(  );
+                // FIXME ???? itFeatures.remove( );
             }
         }
 
@@ -362,7 +369,8 @@ public class AdminMenuJspBean implements Serializable
     /**
      * Change the current language of the user
      *
-     * @param request The HTTP request
+     * @param request
+     *            The HTTP request
      * @return The forward Url
      */
     public String doChangeLanguage( HttpServletRequest request )
@@ -373,30 +381,32 @@ public class AdminMenuJspBean implements Serializable
         user.setLocale( locale );
         AppPathService.getBaseUrl( request );
 
-        return AppPathService.getBaseUrl( request ) + AppPathService.getAdminMenuUrl(  );
+        return AppPathService.getBaseUrl( request ) + AppPathService.getAdminMenuUrl( );
     }
 
     /**
      * Gets the feature icon
-     * @param right The right
+     * 
+     * @param right
+     *            The right
      * @return The icon
      */
     private String getFeatureIcon( Right right )
     {
         String strIconUrl = AppPropertiesService.getProperty( PROPERTY_DEFAULT_FEATURE_ICON );
 
-        if ( ( right.getIconUrl(  ) != null ) && ( !right.getIconUrl(  ).equals( "" ) ) )
+        if ( ( right.getIconUrl( ) != null ) && ( !right.getIconUrl( ).equals( "" ) ) )
         {
-            strIconUrl = right.getIconUrl(  );
+            strIconUrl = right.getIconUrl( );
         }
         else
         {
-            String strPluginName = right.getPluginName(  );
+            String strPluginName = right.getPluginName( );
             Plugin plugin = PluginService.getPlugin( strPluginName );
 
             if ( plugin != null )
             {
-                strIconUrl = plugin.getIconUrl(  );
+                strIconUrl = plugin.getIconUrl( );
             }
         }
 
@@ -404,26 +414,26 @@ public class AdminMenuJspBean implements Serializable
     }
 
     /**
-     * Display the modification form for user password.
-     * This is used only by the default module.
-     * For other modules, custom implementation should be provided.
-     * @param request the http request
+     * Display the modification form for user password. This is used only by the default module. For other modules, custom implementation should be provided.
+     * 
+     * @param request
+     *            the http request
      * @return the form allowing the modification of the user's password
      */
     public String getModifyDefaultAdminUserPassword( HttpServletRequest request )
     {
         AdminUser user = AdminUserService.getAdminUser( request );
-        Locale locale = user.getLocale(  );
+        Locale locale = user.getLocale( );
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_PASSWORD_DEFAULT_MODULE, locale );
 
-        return template.getHtml(  );
+        return template.getHtml( );
     }
 
     /**
-     * Perform the user password modification.
-     * This is used only by the default module.
-     * For other modules, custom implementation should be provided.
-     * @param request the http request
+     * Perform the user password modification. This is used only by the default module. For other modules, custom implementation should be provided.
+     * 
+     * @param request
+     *            the http request
      * @return the form allowing the modification of the user's password
      */
     public String doModifyDefaultAdminUserPassword( HttpServletRequest request )
@@ -434,9 +444,9 @@ public class AdminMenuJspBean implements Serializable
         String strNewPassword = request.getParameter( Parameters.NEW_PASSWORD );
         String strConfirmNewPassword = request.getParameter( Parameters.CONFIRM_NEW_PASSWORD );
 
-        LuteceDefaultAdminUser userStored = AdminUserHome.findLuteceDefaultAdminUserByPrimaryKey( user.getUserId(  ) );
+        LuteceDefaultAdminUser userStored = AdminUserHome.findLuteceDefaultAdminUserByPrimaryKey( user.getUserId( ) );
 
-        IPassword password = userStored.getPassword(  );
+        IPassword password = userStored.getPassword( );
 
         // Mandatory Fields
         if ( StringUtils.isEmpty( strCurrentPassword ) || StringUtils.isEmpty( strNewPassword ) || StringUtils.isEmpty( strConfirmNewPassword ) )
@@ -447,11 +457,10 @@ public class AdminMenuJspBean implements Serializable
         // Test the difference between the two fields of new password
         if ( !strNewPassword.equals( strConfirmNewPassword ) )
         {
-            return AdminMessageService.getMessageUrl( request, MESSAGE_CONTROL_PASSWORD_NO_CORRESPONDING,
-                AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrl( request, MESSAGE_CONTROL_PASSWORD_NO_CORRESPONDING, AdminMessage.TYPE_STOP );
         }
 
-        String strUrl = AdminUserService.checkPassword( request, strNewPassword, user.getUserId(  ) );
+        String strUrl = AdminUserService.checkPassword( request, strNewPassword, user.getUserId( ) );
 
         if ( StringUtils.isNotEmpty( strUrl ) )
         {
@@ -474,17 +483,19 @@ public class AdminMenuJspBean implements Serializable
         IPasswordFactory passwordFactory = SpringContextService.getBean( IPasswordFactory.BEAN_NAME );
         userStored.setPassword( passwordFactory.getPasswordFromCleartext( strNewPassword ) );
         userStored.setPasswordReset( Boolean.FALSE );
-        userStored.setPasswordMaxValidDate( AdminUserService.getPasswordMaxValidDate(  ) );
+        userStored.setPasswordMaxValidDate( AdminUserService.getPasswordMaxValidDate( ) );
         AdminUserHome.update( userStored );
-        AdminUserHome.insertNewPasswordInHistory( userStored.getPassword(  ), userStored.getUserId(  ) );
+        AdminUserHome.insertNewPasswordInHistory( userStored.getPassword( ), userStored.getUserId( ) );
 
-        return AdminMessageService.getMessageUrl( request, MESSAGE_PASSWORD_REDIRECT,
-            AppPropertiesService.getProperty( PROPERTY_JSP_URL_ADMIN_LOGOUT ), AdminMessage.TYPE_INFO );
+        return AdminMessageService.getMessageUrl( request, MESSAGE_PASSWORD_REDIRECT, AppPropertiesService.getProperty( PROPERTY_JSP_URL_ADMIN_LOGOUT ),
+                AdminMessage.TYPE_INFO );
     }
 
     /**
      * Change the mode accessibility
-     * @param request {@link HttpServletRequest}
+     * 
+     * @param request
+     *            {@link HttpServletRequest}
      * @return The forward Url
      */
     public String doModifyAccessibilityMode( HttpServletRequest request )
@@ -493,7 +504,7 @@ public class AdminMenuJspBean implements Serializable
 
         if ( user != null )
         {
-            boolean bIsAccessible = !user.getAccessibilityMode(  );
+            boolean bIsAccessible = !user.getAccessibilityMode( );
             user.setAccessibilityMode( bIsAccessible );
             AdminUserHome.update( user );
         }
@@ -505,39 +516,39 @@ public class AdminMenuJspBean implements Serializable
             return strReferer;
         }
 
-        return AppPathService.getBaseUrl( request ) + AppPathService.getAdminMenuUrl(  );
+        return AppPathService.getBaseUrl( request ) + AppPathService.getAdminMenuUrl( );
     }
 
     /**
      * Return the stylesheets block to include in the footer
+     * 
      * @return the stylesheets files block to include in the footer
      * @since 5.1
      */
-    public String getAdminStyleSheets(  )
+    public String getAdminStyleSheets( )
     {
         if ( _strStylesheets == null )
         {
-            StringBuilder sbCssLinks = new StringBuilder(  );
-            List<Plugin> listPlugins = new ArrayList<Plugin>(  );
-            listPlugins.add( PluginService.getCore(  ) );
-            listPlugins.addAll( PluginService.getPluginList(  ) );
+            StringBuilder sbCssLinks = new StringBuilder( );
+            List<Plugin> listPlugins = new ArrayList<Plugin>( );
+            listPlugins.add( PluginService.getCore( ) );
+            listPlugins.addAll( PluginService.getPluginList( ) );
 
             for ( Plugin plugin : listPlugins )
             {
-                if ( plugin.getAdminCssStyleSheets(  ) != null )
+                if ( plugin.getAdminCssStyleSheets( ) != null )
                 {
-                    for ( String strStyleSheet : plugin.getAdminCssStyleSheets(  ) )
+                    for ( String strStyleSheet : plugin.getAdminCssStyleSheets( ) )
                     {
-                        Map<String, Object> model = new HashMap<String, Object>(  );
+                        Map<String, Object> model = new HashMap<String, Object>( );
                         model.put( MARK_URL_CSS, strStyleSheet );
-                        model.put( MARK_PLUGIN_NAME, plugin.getName(  ) );
-                        sbCssLinks.append( AppTemplateService.getTemplate( TEMPLATE_STYLESHEET_LINK,
-                                LocaleService.getDefault(  ), model ).getHtml(  ) );
+                        model.put( MARK_PLUGIN_NAME, plugin.getName( ) );
+                        sbCssLinks.append( AppTemplateService.getTemplate( TEMPLATE_STYLESHEET_LINK, LocaleService.getDefault( ), model ).getHtml( ) );
                     }
                 }
             }
 
-            _strStylesheets = sbCssLinks.toString(  );
+            _strStylesheets = sbCssLinks.toString( );
         }
 
         return _strStylesheets;
@@ -545,34 +556,34 @@ public class AdminMenuJspBean implements Serializable
 
     /**
      * Return the javascript files block to include in the footer
+     * 
      * @return the javascript files block to include in the footer
      * @since 5.1
      */
-    private String getAdminJavascripts(  )
+    private String getAdminJavascripts( )
     {
         if ( _strJavascripts == null )
         {
-            StringBuilder sbJavascripts = new StringBuilder(  );
-            List<Plugin> listPlugins = new ArrayList<Plugin>(  );
-            listPlugins.add( PluginService.getCore(  ) );
-            listPlugins.addAll( PluginService.getPluginList(  ) );
+            StringBuilder sbJavascripts = new StringBuilder( );
+            List<Plugin> listPlugins = new ArrayList<Plugin>( );
+            listPlugins.add( PluginService.getCore( ) );
+            listPlugins.addAll( PluginService.getPluginList( ) );
 
             for ( Plugin plugin : listPlugins )
             {
-                if ( plugin.getAdminJavascriptFiles(  ) != null )
+                if ( plugin.getAdminJavascriptFiles( ) != null )
                 {
-                    for ( String strJavascript : plugin.getAdminJavascriptFiles(  ) )
+                    for ( String strJavascript : plugin.getAdminJavascriptFiles( ) )
                     {
-                        Map<String, Object> model = new HashMap<String, Object>(  );
+                        Map<String, Object> model = new HashMap<String, Object>( );
                         model.put( MARK_JAVASCRIPT_FILE, strJavascript );
-                        model.put( MARK_PLUGIN_NAME, plugin.getName(  ) );
-                        sbJavascripts.append( AppTemplateService.getTemplate( TEMPLATE_JAVASCRIPT_FILE,
-                                LocaleService.getDefault(  ), model ).getHtml(  ) );
+                        model.put( MARK_PLUGIN_NAME, plugin.getName( ) );
+                        sbJavascripts.append( AppTemplateService.getTemplate( TEMPLATE_JAVASCRIPT_FILE, LocaleService.getDefault( ), model ).getHtml( ) );
                     }
                 }
             }
 
-            _strJavascripts = sbJavascripts.toString(  );
+            _strJavascripts = sbJavascripts.toString( );
         }
 
         return _strJavascripts;

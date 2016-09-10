@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -37,30 +37,31 @@ import javax.servlet.ServletConfig;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
 /**
- * Tools class to transmit config, request and response servlet parameters
- * using {@link java.lang.ThreadLocal}.
+ * Tools class to transmit config, request and response servlet parameters using {@link java.lang.ThreadLocal}.
  */
 public final class LocalVariables
 {
-    private static ThreadLocal<ServletConfig> _tlConfig = new ThreadLocal<ServletConfig>(  );
-    private static ThreadLocal<HttpServletRequest> _tlRequest = new ThreadLocal<HttpServletRequest>(  );
-    private static ThreadLocal<HttpServletResponse> _tlResponse = new ThreadLocal<HttpServletResponse>(  );
+    private static ThreadLocal<ServletConfig> _tlConfig = new ThreadLocal<ServletConfig>( );
+    private static ThreadLocal<HttpServletRequest> _tlRequest = new ThreadLocal<HttpServletRequest>( );
+    private static ThreadLocal<HttpServletResponse> _tlResponse = new ThreadLocal<HttpServletResponse>( );
 
     /**
      * Utility classes have no constructor
      */
-    private LocalVariables(  )
+    private LocalVariables( )
     {
     }
 
     /**
      * Initialize thread locals variables
      *
-     * @param config Current <code>ServletConfig</code> to associate to the thread
-     * @param request Current <code>HttpServletRequest</code> to associate to the thread
-     * @param response Current <code>HttpServletResponse</code> to associate to the thread
+     * @param config
+     *            Current <code>ServletConfig</code> to associate to the thread
+     * @param request
+     *            Current <code>HttpServletRequest</code> to associate to the thread
+     * @param response
+     *            Current <code>HttpServletResponse</code> to associate to the thread
      */
     public static void setLocal( ServletConfig config, HttpServletRequest request, HttpServletResponse response )
     {
@@ -74,9 +75,9 @@ public final class LocalVariables
      *
      * @return the <code>ServletConfig</code> associate to the current thread
      */
-    public static ServletConfig getConfig(  )
+    public static ServletConfig getConfig( )
     {
-        return _tlConfig.get(  );
+        return _tlConfig.get( );
     }
 
     /**
@@ -84,9 +85,9 @@ public final class LocalVariables
      *
      * @return the <code>HttpServletRequest</code> associate to the current thread
      */
-    public static HttpServletRequest getRequest(  )
+    public static HttpServletRequest getRequest( )
     {
-        return _tlRequest.get(  );
+        return _tlRequest.get( );
     }
 
     /**
@@ -94,8 +95,8 @@ public final class LocalVariables
      *
      * @return the <code>HttpServletResponse</code> associate to the current thread
      */
-    public static HttpServletResponse getResponse(  )
+    public static HttpServletResponse getResponse( )
     {
-        return _tlResponse.get(  );
+        return _tlResponse.get( );
     }
 }

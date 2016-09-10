@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -39,25 +39,26 @@ import fr.paris.lutece.util.ReferenceList;
 
 import java.util.Map;
 
-
 /**
  * This class provides instances management methods (update, find, ...) for search parameters
  */
 public final class SearchParameterHome
 {
-    //Static variable pointed at the DAO instance
+    // Static variable pointed at the DAO instance
     private static ISearchParameterDAO _dao = (ISearchParameterDAO) SpringContextService.getBean( "searchParameterDAO" );
 
     /**
      * Instantiates a new search parameter home.
      */
-    private SearchParameterHome(  )
+    private SearchParameterHome( )
     {
     }
 
     /**
      * Loads a search parameter
-     * @param strParameterKey the parameter key
+     * 
+     * @param strParameterKey
+     *            the parameter key
      * @return the found parameter
      */
     public static ReferenceItem findByKey( String strParameterKey )
@@ -67,7 +68,9 @@ public final class SearchParameterHome
 
     /**
      * Updates a search parameter
-     * @param param the parameter to update
+     * 
+     * @param param
+     *            the parameter to update
      */
     public static void update( ReferenceItem param )
     {
@@ -76,19 +79,21 @@ public final class SearchParameterHome
 
     /**
      * Finds all search parameters
+     * 
      * @return all the parameter as a Map
      */
-    public static Map<String, String> findAll(  )
+    public static Map<String, String> findAll( )
     {
-        return _dao.findAll(  );
+        return _dao.findAll( );
     }
 
     /**
      * Finds all search parameters
+     * 
      * @return all the parameter as a ReferenceList
      */
-    public static ReferenceList findParametersList(  )
+    public static ReferenceList findParametersList( )
     {
-        return _dao.selectParametersList(  );
+        return _dao.selectParametersList( );
     }
 }

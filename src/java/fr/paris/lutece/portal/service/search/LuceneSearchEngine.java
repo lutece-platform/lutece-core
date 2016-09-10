@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -70,7 +70,6 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  * LuceneSearchEngine
  */
@@ -87,18 +86,20 @@ public class LuceneSearchEngine implements SearchEngine
     /**
      * Return search results
      *
-     * @param strQuery The search query
-     * @param request The HTTP request
+     * @param strQuery
+     *            The search query
+     * @param request
+     *            The HTTP request
      * @return Results as a collection of SearchResult
      */
     public List<SearchResult> getSearchResults( String strQuery, HttpServletRequest request )
     {
-        ArrayList<SearchItem> listResults = new ArrayList<SearchItem>(  );
-        ArrayList<Filter> listFilter = new ArrayList<Filter>(  );
+        ArrayList<SearchItem> listResults = new ArrayList<SearchItem>( );
+        ArrayList<Filter> listFilter = new ArrayList<Filter>( );
         IndexSearcher searcher = null;
         boolean bFilterResult = false;
         LuteceUser user = null;
-        String[] typeFilter = request.getParameterValues( PARAMETER_TYPE_FILTER );
+        String [ ] typeFilter = request.getParameterValues( PARAMETER_TYPE_FILTER );
         String strDateAfter = request.getParameter( PARAMETER_DATE_AFTER );
         String strDateBefore = request.getParameter( PARAMETER_DATE_BEFORE );
         boolean bDateAfter = false;
@@ -106,24 +107,24 @@ public class LuceneSearchEngine implements SearchEngine
         Filter allFilter = null;
         String strTagFilter = request.getParameter( PARAMETER_TAG_FILTER );
 
-        if ( SecurityService.isAuthenticationEnable(  ) )
+        if ( SecurityService.isAuthenticationEnable( ) )
         {
-            user = SecurityService.getInstance(  ).getRegisteredUser( request );
+            user = SecurityService.getInstance( ).getRegisteredUser( request );
 
-            Filter[] filtersRole = null;
+            Filter [ ] filtersRole = null;
 
             if ( user != null )
             {
-                String[] userRoles = SecurityService.getInstance(  ).getRolesByUser( user );
+                String [ ] userRoles = SecurityService.getInstance( ).getRolesByUser( user );
 
                 if ( userRoles != null )
                 {
-                    filtersRole = new Filter[userRoles.length + 1];
+                    filtersRole = new Filter [ userRoles.length + 1];
 
                     for ( int i = 0; i < userRoles.length; i++ )
                     {
-                        Query queryRole = new TermQuery( new Term( SearchItem.FIELD_ROLE, userRoles[i] ) );
-                        filtersRole[i] = new CachingWrapperFilter( new QueryWrapperFilter( queryRole ) );
+                        Query queryRole = new TermQuery( new Term( SearchItem.FIELD_ROLE, userRoles [i] ) );
+                        filtersRole [i] = new CachingWrapperFilter( new QueryWrapperFilter( queryRole ) );
                     }
                 }
                 else
@@ -133,13 +134,13 @@ public class LuceneSearchEngine implements SearchEngine
             }
             else
             {
-                filtersRole = new Filter[1];
+                filtersRole = new Filter [ 1];
             }
 
             if ( !bFilterResult )
             {
                 Query queryRole = new TermQuery( new Term( SearchItem.FIELD_ROLE, Page.ROLE_NONE ) );
-                filtersRole[filtersRole.length - 1] = new CachingWrapperFilter( new QueryWrapperFilter( queryRole ) );
+                filtersRole [filtersRole.length - 1] = new CachingWrapperFilter( new QueryWrapperFilter( queryRole ) );
                 listFilter.add( new ChainedFilter( filtersRole, ChainedFilter.OR ) );
             }
         }
@@ -151,14 +152,14 @@ public class LuceneSearchEngine implements SearchEngine
 
             if ( StringUtils.isNotBlank( strDateAfter ) )
             {
-                Date dateAfter = DateUtil.formatDate( strDateAfter, request.getLocale(  ) );
+                Date dateAfter = DateUtil.formatDate( strDateAfter, request.getLocale( ) );
                 strAfter = new BytesRef( DateTools.dateToString( dateAfter, Resolution.DAY ) );
                 bDateAfter = true;
             }
 
             if ( StringUtils.isNotBlank( strDateBefore ) )
             {
-                Date dateBefore = DateUtil.formatDate( strDateBefore, request.getLocale(  ) );
+                Date dateBefore = DateUtil.formatDate( strDateBefore, request.getLocale( ) );
                 strBefore = new BytesRef( DateTools.dateToString( dateBefore, Resolution.DAY ) );
                 bDateBefore = true;
             }
@@ -167,43 +168,40 @@ public class LuceneSearchEngine implements SearchEngine
             listFilter.add( new CachingWrapperFilter( new QueryWrapperFilter( queryDate ) ) );
         }
 
-        if ( ( typeFilter != null ) && ( typeFilter.length > 0 ) &&
-                !typeFilter[0].equals( SearchService.TYPE_FILTER_NONE ) )
+        if ( ( typeFilter != null ) && ( typeFilter.length > 0 ) && !typeFilter [0].equals( SearchService.TYPE_FILTER_NONE ) )
         {
-            Filter[] filtersType = new Filter[typeFilter.length];
+            Filter [ ] filtersType = new Filter [ typeFilter.length];
 
             for ( int i = 0; i < typeFilter.length; i++ )
             {
-                Query queryType = new TermQuery( new Term( SearchItem.FIELD_TYPE, typeFilter[i] ) );
-                filtersType[i] = new CachingWrapperFilter( new QueryWrapperFilter( queryType ) );
+                Query queryType = new TermQuery( new Term( SearchItem.FIELD_TYPE, typeFilter [i] ) );
+                filtersType [i] = new CachingWrapperFilter( new QueryWrapperFilter( queryType ) );
             }
 
             listFilter.add( new ChainedFilter( filtersType, ChainedFilter.OR ) );
         }
 
-        if ( !listFilter.isEmpty(  ) )
+        if ( !listFilter.isEmpty( ) )
         {
-            allFilter = new ChainedFilter( listFilter.toArray( new Filter[1] ), ChainedFilter.AND );
+            allFilter = new ChainedFilter( listFilter.toArray( new Filter [ 1] ), ChainedFilter.AND );
         }
 
         try
         {
-            IndexReader ir = DirectoryReader.open( IndexationService.getDirectoryIndex(  ) );
+            IndexReader ir = DirectoryReader.open( IndexationService.getDirectoryIndex( ) );
             searcher = new IndexSearcher( ir );
 
             Query query = null;
 
             if ( StringUtils.isNotBlank( strTagFilter ) )
             {
-                BooleanQuery bQuery = new BooleanQuery(  );
-                QueryParser parser = new QueryParser( IndexationService.LUCENE_INDEX_VERSION,
-                        SearchItem.FIELD_METADATA, IndexationService.getAnalyser(  ) );
+                BooleanQuery bQuery = new BooleanQuery( );
+                QueryParser parser = new QueryParser( IndexationService.LUCENE_INDEX_VERSION, SearchItem.FIELD_METADATA, IndexationService.getAnalyser( ) );
 
                 Query queryMetaData = parser.parse( ( strQuery != null ) ? strQuery : "" );
                 bQuery.add( queryMetaData, BooleanClause.Occur.SHOULD );
 
-                parser = new QueryParser( IndexationService.LUCENE_INDEX_VERSION, SearchItem.FIELD_SUMMARY,
-                        IndexationService.getAnalyser(  ) );
+                parser = new QueryParser( IndexationService.LUCENE_INDEX_VERSION, SearchItem.FIELD_SUMMARY, IndexationService.getAnalyser( ) );
 
                 Query querySummary = parser.parse( ( strQuery != null ) ? strQuery : "" );
                 bQuery.add( querySummary, BooleanClause.Occur.SHOULD );
@@ -211,8 +209,7 @@ public class LuceneSearchEngine implements SearchEngine
             }
             else
             {
-                QueryParser parser = new QueryParser( IndexationService.LUCENE_INDEX_VERSION,
-                        SearchItem.FIELD_CONTENTS, IndexationService.getAnalyser(  ) );
+                QueryParser parser = new QueryParser( IndexationService.LUCENE_INDEX_VERSION, SearchItem.FIELD_CONTENTS, IndexationService.getAnalyser( ) );
 
                 String operator = request.getParameter( PARAMETER_DEFAULT_OPERATOR );
 
@@ -226,24 +223,24 @@ public class LuceneSearchEngine implements SearchEngine
 
             // Get results documents
             TopDocs topDocs = searcher.search( query, allFilter, MAX_RESPONSES );
-            ScoreDoc[] hits = topDocs.scoreDocs;
+            ScoreDoc [ ] hits = topDocs.scoreDocs;
 
             for ( int i = 0; i < hits.length; i++ )
             {
-                int docId = hits[i].doc;
+                int docId = hits [i].doc;
                 Document document = searcher.doc( docId );
                 SearchItem si = new SearchItem( document );
 
-                if ( ( !bFilterResult ) || ( si.getRole(  ).equals( Page.ROLE_NONE ) ) ||
-                        ( SecurityService.getInstance(  ).isUserInRole( request, si.getRole(  ) ) ) )
+                if ( ( !bFilterResult ) || ( si.getRole( ).equals( Page.ROLE_NONE ) )
+                        || ( SecurityService.getInstance( ).isUserInRole( request, si.getRole( ) ) ) )
                 {
                     listResults.add( si );
                 }
             }
         }
-        catch ( Exception e )
+        catch( Exception e )
         {
-            AppLogService.error( e.getMessage(  ), e );
+            AppLogService.error( e.getMessage( ), e );
         }
 
         return convertList( listResults );
@@ -251,32 +248,33 @@ public class LuceneSearchEngine implements SearchEngine
 
     /**
      * Convert a list of Lucene items into a list of generic search items
-     * @param listSource The list of Lucene items
+     * 
+     * @param listSource
+     *            The list of Lucene items
      * @return A list of generic search items
      */
     private List<SearchResult> convertList( List<SearchItem> listSource )
     {
-        List<SearchResult> listDest = new ArrayList<SearchResult>(  );
+        List<SearchResult> listDest = new ArrayList<SearchResult>( );
 
         for ( SearchItem item : listSource )
         {
-            SearchResult result = new SearchResult(  );
-            result.setId( item.getId(  ) );
+            SearchResult result = new SearchResult( );
+            result.setId( item.getId( ) );
 
             try
             {
-                result.setDate( DateTools.stringToDate( item.getDate(  ) ) );
+                result.setDate( DateTools.stringToDate( item.getDate( ) ) );
             }
-            catch ( ParseException e )
+            catch( ParseException e )
             {
-                AppLogService.error( "Bad Date Format for indexed item \"" + item.getTitle(  ) + "\" : " +
-                    e.getMessage(  ) );
+                AppLogService.error( "Bad Date Format for indexed item \"" + item.getTitle( ) + "\" : " + e.getMessage( ) );
             }
 
-            result.setUrl( item.getUrl(  ) );
-            result.setTitle( item.getTitle(  ) );
-            result.setSummary( item.getSummary(  ) );
-            result.setType( item.getType(  ) );
+            result.setUrl( item.getUrl( ) );
+            result.setTitle( item.getTitle( ) );
+            result.setSummary( item.getSummary( ) );
+            result.setType( item.getType( ) );
             listDest.add( result );
         }
 

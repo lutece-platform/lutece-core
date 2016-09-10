@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,7 +33,6 @@
  */
 package fr.paris.lutece.portal.business.right;
 
-
 /**
  * This class reprsents business objects Mode
  */
@@ -47,7 +46,7 @@ public class Level
      *
      * @return the level right identifier
      */
-    public int getId(  )
+    public int getId( )
     {
         return _nId;
     }
@@ -55,7 +54,8 @@ public class Level
     /**
      * Sets the level right identifier
      *
-     * @param nId the level right identifier
+     * @param nId
+     *            the level right identifier
      */
     public void setId( int nId )
     {
@@ -67,7 +67,7 @@ public class Level
      *
      * @return the level right name
      */
-    public String getName(  )
+    public String getName( )
     {
         return _strName;
     }
@@ -75,7 +75,8 @@ public class Level
     /**
      * Sets the name of the level right
      *
-     * @param strName the level right name
+     * @param strName
+     *            the level right name
      */
     public void setName( String strName )
     {

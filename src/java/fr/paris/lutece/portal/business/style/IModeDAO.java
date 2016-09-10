@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -37,7 +37,6 @@ import fr.paris.lutece.util.ReferenceList;
 
 import java.util.Collection;
 
-
 /**
  *
  * @author LEVY
@@ -47,7 +46,8 @@ public interface IModeDAO
     /**
      * Delete a record from the table
      *
-     * @param nModeId The indentifier of the object Mode
+     * @param nModeId
+     *            The indentifier of the object Mode
      */
     void delete( int nModeId );
 
@@ -57,12 +57,13 @@ public interface IModeDAO
      *
      * @return the modes list in form of a ReferenceList object
      */
-    ReferenceList getModesList(  );
+    ReferenceList getModesList( );
 
     /**
      * Insert a new record in the table.
      *
-     * @param mode The mode object
+     * @param mode
+     *            The mode object
      */
     void insert( Mode mode );
 
@@ -70,7 +71,8 @@ public interface IModeDAO
      * load the data of Level from the table
      *
      *
-     * @param nIdMode The indentifier of the object Mode
+     * @param nIdMode
+     *            The indentifier of the object Mode
      * @return The Instance of the object Mode
      */
     Mode load( int nIdMode );
@@ -80,12 +82,13 @@ public interface IModeDAO
      *
      * @return A collection of modes objects
      */
-    Collection<Mode> selectModesList(  );
+    Collection<Mode> selectModesList( );
 
     /**
      * Update the record in the table
      *
-     * @param mode The instance of the Mode to update
+     * @param mode
+     *            The instance of the Mode to update
      */
     void store( Mode mode );
 }

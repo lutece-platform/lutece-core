@@ -35,7 +35,6 @@ package fr.paris.lutece.portal.web.system;
 
 import java.util.Date;
 
-
 /**
  * Utility class for SystemJspBean
  */
@@ -49,16 +48,19 @@ public class SystemFile
 
     /**
      * Gets the name
+     * 
      * @return The name
      */
-    public String getName(  )
+    public String getName( )
     {
         return _strName;
     }
 
     /**
      * Sets the name
-     * @param strName The name
+     * 
+     * @param strName
+     *            The name
      */
     public void setName( String strName )
     {
@@ -67,16 +69,19 @@ public class SystemFile
 
     /**
      * Gets the description
+     * 
      * @return The description
      */
-    public String getDescription(  )
+    public String getDescription( )
     {
         return _strDescription;
     }
 
     /**
      * Sets the description
-     * @param strDescription The description
+     * 
+     * @param strDescription
+     *            The description
      */
     public void setDescription( String strDescription )
     {
@@ -85,16 +90,19 @@ public class SystemFile
 
     /**
      * Gets the directory
+     * 
      * @return The directory
      */
-    public String getDirectory(  )
+    public String getDirectory( )
     {
         return _strDirectory;
     }
 
     /**
      * Sets the directory
-     * @param strDirectory The directory
+     * 
+     * @param strDirectory
+     *            The directory
      */
     public void setDirectory( String strDirectory )
     {
@@ -103,16 +111,19 @@ public class SystemFile
 
     /**
      * Gets the date
+     * 
      * @return The date
      */
-    public Date getDate(  )
+    public Date getDate( )
     {
         return _date;
     }
 
     /**
      * Sets the date
-     * @param date The date
+     * 
+     * @param date
+     *            The date
      */
     public void setDate( Date date )
     {
@@ -121,16 +132,19 @@ public class SystemFile
 
     /**
      * Gets the size
+     * 
      * @return The size
      */
-    public int getSize(  )
+    public int getSize( )
     {
         return _size;
     }
 
     /**
      * Sets the size
-     * @param size The size
+     * 
+     * @param size
+     *            The size
      */
     public void setSize( int size )
     {

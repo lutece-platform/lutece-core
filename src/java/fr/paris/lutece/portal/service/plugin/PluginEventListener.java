@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,7 +33,6 @@
  */
 package fr.paris.lutece.portal.service.plugin;
 
-
 /**
  * PluginEventListener
  */
@@ -41,7 +40,9 @@ public interface PluginEventListener
 {
     /**
      * Process a plugin event
-     * @param event The event to process
+     * 
+     * @param event
+     *            The event to process
      */
     void processPluginEvent( PluginEvent event );
 }

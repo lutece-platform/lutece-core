@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -38,20 +38,19 @@ import fr.paris.lutece.portal.service.cache.ICacheKeyService;
 
 import java.util.HashMap;
 
-
 /**
  * MailAttachment CacheService
  */
 public final class MailAttachmentCacheService extends AbstractCacheableService
 {
     private static volatile MailAttachmentCacheService _singleton;
-    private static ICacheKeyService _cksMailAttachment = new MailAttachmentCacheKeyService(  );
+    private static ICacheKeyService _cksMailAttachment = new MailAttachmentCacheKeyService( );
     private static final String SERVICE_NAME = "Mail Attachment Cache Service";
 
     /**
      * Instantiates a new mail attachment cache service.
      */
-    private MailAttachmentCacheService(  )
+    private MailAttachmentCacheService( )
     {
     }
 
@@ -59,7 +58,7 @@ public final class MailAttachmentCacheService extends AbstractCacheableService
      * {@inheritDoc}
      */
     @Override
-    public String getName(  )
+    public String getName( )
     {
         return SERVICE_NAME;
     }
@@ -68,14 +67,14 @@ public final class MailAttachmentCacheService extends AbstractCacheableService
      *
      * @return an instance of MailAttachmentCacheService
      */
-    public static MailAttachmentCacheService getInstance(  )
+    public static MailAttachmentCacheService getInstance( )
     {
         if ( _singleton == null )
         {
-            synchronized ( MailAttachmentCacheService.class )
+            synchronized( MailAttachmentCacheService.class )
             {
-                MailAttachmentCacheService service = new MailAttachmentCacheService(  );
-                service.initCache(  );
+                MailAttachmentCacheService service = new MailAttachmentCacheService( );
+                service.initCache( );
                 _singleton = service;
             }
         }
@@ -85,12 +84,14 @@ public final class MailAttachmentCacheService extends AbstractCacheableService
 
     /**
      * return the cache key associated to the url value
-     * @param strValue the value
+     * 
+     * @param strValue
+     *            the value
      * @return the cache key associated to the url value
      */
     public String getKey( String strValue )
     {
-        HashMap<String, String> htParam = new HashMap<String, String>(  );
+        HashMap<String, String> htParam = new HashMap<String, String>( );
         htParam.put( MailAttachmentCacheKeyService.MARK_URL, strValue );
 
         return _cksMailAttachment.getKey( htParam, 0, null );

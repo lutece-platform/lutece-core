@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,7 +33,6 @@
  */
 package fr.paris.lutece.portal.business.editor;
 
-
 /**
  *
  * ParserElement Class
@@ -41,16 +40,18 @@ package fr.paris.lutece.portal.business.editor;
  */
 public class ParserElement
 {
-    //the element to search
+    // the element to search
     private String _strCode;
 
-    //the replacement value 
+    // the replacement value
     private String _strValue;
 
     /**
      *
-     * @param strCode the code of the element
-     * @param strValue the value of the element
+     * @param strCode
+     *            the code of the element
+     * @param strValue
+     *            the value of the element
      */
     public ParserElement( String strCode, String strValue )
     {
@@ -62,14 +63,15 @@ public class ParserElement
      *
      * @return code the code of the element
      */
-    public String getCode(  )
+    public String getCode( )
     {
         return _strCode;
     }
 
     /**
      *
-     * @param strCode the code of the element
+     * @param strCode
+     *            the code of the element
      */
     public void setCode( String strCode )
     {
@@ -80,14 +82,15 @@ public class ParserElement
      *
      * @return the value the value of the element
      */
-    public String getValue(  )
+    public String getValue( )
     {
         return _strValue;
     }
 
     /**
      *
-     * @param strValue the value the value of the element
+     * @param strValue
+     *            the value the value of the element
      */
     public void setValue( String strValue )
     {

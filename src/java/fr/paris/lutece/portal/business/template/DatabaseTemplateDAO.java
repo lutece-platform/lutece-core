@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -37,9 +37,9 @@ import fr.paris.lutece.util.sql.DAOUtil;
 
 import org.apache.commons.lang.StringUtils;
 
-
 /**
  * Implementation of interface IDatabaseTemplateDAO
+ * 
  * @author vbroussard
  *
  */
@@ -59,14 +59,14 @@ public class DatabaseTemplateDAO implements IDatabaseTemplateDAO
 
         String strTemplate = StringUtils.EMPTY;
 
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
-        if ( daoUtil.next(  ) )
+        if ( daoUtil.next( ) )
         {
             strTemplate = daoUtil.getString( 1 );
         }
 
-        daoUtil.free(  );
+        daoUtil.free( );
 
         return strTemplate;
     }
@@ -81,8 +81,8 @@ public class DatabaseTemplateDAO implements IDatabaseTemplateDAO
         daoUtil.setString( 1, strValue );
         daoUtil.setString( 2, strKey );
 
-        daoUtil.executeUpdate(  );
+        daoUtil.executeUpdate( );
 
-        daoUtil.free(  );
+        daoUtil.free( );
     }
 }

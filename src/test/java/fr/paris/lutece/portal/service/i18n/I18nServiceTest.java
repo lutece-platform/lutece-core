@@ -54,7 +54,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Properties;
 
-
 /**
  * I18nService Test Class
  *
@@ -64,7 +63,7 @@ public class I18nServiceTest extends LuteceTestCase
     /**
      * Test of localize method, of class fr.paris.lutece.portal.service.i18n.I18nService.
      */
-    public void testLocalize(  )
+    public void testLocalize( )
     {
         System.out.println( "localize" );
 
@@ -79,7 +78,7 @@ public class I18nServiceTest extends LuteceTestCase
     /**
      * Test of getLocalizedString method, of class fr.paris.lutece.portal.service.i18n.I18nService.
      */
-    public void testGetLocalizedString(  )
+    public void testGetLocalizedString( )
     {
         System.out.println( "getLocalizedString" );
 
@@ -94,7 +93,7 @@ public class I18nServiceTest extends LuteceTestCase
     /**
      * Test of getLocalizedDate method, of class fr.paris.lutece.portal.service.i18n.I18nService.
      */
-    public void testGetLocalizedDate(  )
+    public void testGetLocalizedDate( )
     {
         System.out.println( "getLocalizedDate" );
 
@@ -110,7 +109,7 @@ public class I18nServiceTest extends LuteceTestCase
     /**
      * Test of getLocalizedDateTime method, of class fr.paris.lutece.portal.service.i18n.I18nService.
      */
-    public void testGetLocalizedDateTime(  )
+    public void testGetLocalizedDateTime( )
     {
         System.out.println( "getLocalizedDateTime" );
 
@@ -120,61 +119,61 @@ public class I18nServiceTest extends LuteceTestCase
         int nTimeFormat = DateFormat.SHORT;
 
         String expResult = "01/01/70 01:00";
-        String result = fr.paris.lutece.portal.service.i18n.I18nService.getLocalizedDateTime( date, locale,
-                nDateFormat, nTimeFormat );
+        String result = fr.paris.lutece.portal.service.i18n.I18nService.getLocalizedDateTime( date, locale, nDateFormat, nTimeFormat );
         assertEquals( expResult, result );
     }
 
     /**
      * Test of getAdminAvailableLocales method, of class fr.paris.lutece.portal.service.i18n.I18nService.
      */
-    public void testGetAdminAvailableLocales(  )
+    public void testGetAdminAvailableLocales( )
     {
         System.out.println( "getAdminAvailableLocales" );
 
-        List<Locale> result = fr.paris.lutece.portal.service.i18n.I18nService.getAdminAvailableLocales(  );
-        assertTrue( result.size(  ) >= 2 );
+        List<Locale> result = fr.paris.lutece.portal.service.i18n.I18nService.getAdminAvailableLocales( );
+        assertTrue( result.size( ) >= 2 );
     }
 
     /**
      * Test of getAdminLocales method, of class fr.paris.lutece.portal.service.i18n.I18nService.
      */
-    public void testGetAdminLocales(  )
+    public void testGetAdminLocales( )
     {
         System.out.println( "getAdminLocales" );
 
         Locale locale = Locale.FRENCH;
 
         ReferenceList result = fr.paris.lutece.portal.service.i18n.I18nService.getAdminLocales( locale );
-        assertTrue( result.size(  ) >= 2 );
+        assertTrue( result.size( ) >= 2 );
     }
 
     /**
      * Test of resetCache method, of class fr.paris.lutece.portal.service.i18n.I18nService.
+     * 
      * @throws IOException
      */
-    public void testResetCache(  ) throws IOException
+    public void testResetCache( ) throws IOException
     {
         // get a message
         String message = I18nService.getLocalizedString( "portal.admin.admin_home.password", Locale.FRENCH );
 
         // change the message
-        File propertiesFile = new ClassPathResource( "fr/paris/lutece/portal/resources/admin_messages_fr.properties" ).getFile(  );
-        Properties resources = new Properties(  );
+        File propertiesFile = new ClassPathResource( "fr/paris/lutece/portal/resources/admin_messages_fr.properties" ).getFile( );
+        Properties resources = new Properties( );
         InputStream is = new FileInputStream( propertiesFile );
         resources.load( is );
-        is.close(  );
+        is.close( );
 
-        String newValue = "junit" + new SecureRandom(  ).nextLong(  );
+        String newValue = "junit" + new SecureRandom( ).nextLong( );
         resources.setProperty( "admin_home.password", newValue );
 
         OutputStream os = new FileOutputStream( propertiesFile );
         resources.store( os, null );
-        os.close(  );
+        os.close( );
         // read the value again
         assertEquals( message, I18nService.getLocalizedString( "portal.admin.admin_home.password", Locale.FRENCH ) );
         // clear the cache and read again
-        I18nService.resetCache(  );
+        I18nService.resetCache( );
         assertEquals( newValue, I18nService.getLocalizedString( "portal.admin.admin_home.password", Locale.FRENCH ) );
     }
 }

@@ -44,13 +44,12 @@ import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  * This class provides the user interface to manage the launching of the indexing of the site pages
  */
 public class SearchIndexationJspBean extends AdminFeaturesPageJspBean
 {
-    ////////////////////////////////////////////////////////////////////////////
+    // //////////////////////////////////////////////////////////////////////////
     // Constantes
     /**
      * Right to manage indexation
@@ -65,29 +64,31 @@ public class SearchIndexationJspBean extends AdminFeaturesPageJspBean
     /**
      * Displays the indexing parameters
      *
-     * @param request the http request
+     * @param request
+     *            the http request
      * @return the html code which displays the parameters page
      */
     public String getIndexingProperties( HttpServletRequest request )
     {
-        HashMap<String, Collection<SearchIndexer>> model = new HashMap<String, Collection<SearchIndexer>>(  );
-        Collection<SearchIndexer> listIndexers = IndexationService.getIndexers(  );
+        HashMap<String, Collection<SearchIndexer>> model = new HashMap<String, Collection<SearchIndexer>>( );
+        Collection<SearchIndexer> listIndexers = IndexationService.getIndexers( );
         model.put( MARK_INDEXERS_LIST, listIndexers );
 
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_INDEXER, getLocale(  ), model );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_INDEXER, getLocale( ), model );
 
-        return getAdminPage( template.getHtml(  ) );
+        return getAdminPage( template.getHtml( ) );
     }
 
     /**
      * Calls the indexing process
      *
-     * @param request the http request
+     * @param request
+     *            the http request
      * @return the result of the indexing process
      */
     public String doIndexing( HttpServletRequest request )
     {
-        HashMap<String, Object> model = new HashMap<String, Object>(  );
+        HashMap<String, Object> model = new HashMap<String, Object>( );
         String strLogs;
 
         if ( request.getParameter( "incremental" ) != null )
@@ -103,6 +104,6 @@ public class SearchIndexationJspBean extends AdminFeaturesPageJspBean
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_INDEXER_LOGS, null, model );
 
-        return getAdminPage( template.getHtml(  ) );
+        return getAdminPage( template.getHtml( ) );
     }
 }

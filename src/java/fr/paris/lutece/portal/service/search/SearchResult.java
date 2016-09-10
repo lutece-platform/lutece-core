@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -36,7 +36,6 @@ package fr.paris.lutece.portal.service.search;
 import java.util.Date;
 import java.util.List;
 
-
 /**
  * SearchResult
  */
@@ -56,7 +55,7 @@ public class SearchResult
      *
      * @return The Id
      */
-    public String getId(  )
+    public String getId( )
     {
         return _strId;
     }
@@ -64,7 +63,8 @@ public class SearchResult
     /**
      * Sets the Id
      *
-     * @param strId The Id
+     * @param strId
+     *            The Id
      */
     public void setId( String strId )
     {
@@ -76,7 +76,7 @@ public class SearchResult
      *
      * @return The Date
      */
-    public Date getDate(  )
+    public Date getDate( )
     {
         return _date;
     }
@@ -84,7 +84,8 @@ public class SearchResult
     /**
      * Sets the Date
      *
-     * @param date The Date
+     * @param date
+     *            The Date
      */
     public void setDate( Date date )
     {
@@ -96,7 +97,7 @@ public class SearchResult
      *
      * @return The Url
      */
-    public String getUrl(  )
+    public String getUrl( )
     {
         return _strUrl;
     }
@@ -104,7 +105,8 @@ public class SearchResult
     /**
      * Sets the Url
      *
-     * @param strUrl The Url
+     * @param strUrl
+     *            The Url
      */
     public void setUrl( String strUrl )
     {
@@ -116,7 +118,7 @@ public class SearchResult
      *
      * @return The Title
      */
-    public String getTitle(  )
+    public String getTitle( )
     {
         return _strTitle;
     }
@@ -124,7 +126,8 @@ public class SearchResult
     /**
      * Sets the Title
      *
-     * @param strTitle The Title
+     * @param strTitle
+     *            The Title
      */
     public void setTitle( String strTitle )
     {
@@ -136,7 +139,7 @@ public class SearchResult
      *
      * @return The Summary
      */
-    public String getSummary(  )
+    public String getSummary( )
     {
         return _strSummary;
     }
@@ -144,7 +147,8 @@ public class SearchResult
     /**
      * Sets the Summary
      *
-     * @param strSummary The Summary
+     * @param strSummary
+     *            The Summary
      */
     public void setSummary( String strSummary )
     {
@@ -156,7 +160,7 @@ public class SearchResult
      *
      * @return The Type
      */
-    public String getType(  )
+    public String getType( )
     {
         return _strType;
     }
@@ -164,7 +168,8 @@ public class SearchResult
     /**
      * Sets the Type
      *
-     * @param strType The Type
+     * @param strType
+     *            The Type
      */
     public void setType( String strType )
     {
@@ -173,16 +178,19 @@ public class SearchResult
 
     /**
      * Return the list of roles
+     * 
      * @return the list of roles
      */
-    public List<String> getRoles(  )
+    public List<String> getRoles( )
     {
         return _listRoles;
     }
 
     /**
      * Sets the list of roles
-     * @param listRoles the list of roles
+     * 
+     * @param listRoles
+     *            the list of roles
      */
     public void setRole( List<String> listRoles )
     {

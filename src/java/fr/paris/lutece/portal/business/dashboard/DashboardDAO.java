@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -40,7 +40,6 @@ import fr.paris.lutece.util.sql.DAOUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
  *
  * DashboardDAO
@@ -54,17 +53,14 @@ public class DashboardDAO implements IDashboardDAO
     private static final String SQL_QUERY_DELETE_BY_NAME = SQL_QUERY_DELETE + " WHERE dashboard_name = ? ";
     private static final String SQL_QUERY_SELECT = "SELECT dashboard_name, dashboard_order, dashboard_column  FROM core_dashboard ";
     private static final String SQL_QUERY_ORDER_BY_COLUMN_AND_ORDER = " ORDER BY dashboard_column, dashboard_order";
-    private static final String SQL_QUERY_SELECT_ALL = SQL_QUERY_SELECT + " WHERE dashboard_column != - 1 " +
-        SQL_QUERY_ORDER_BY_COLUMN_AND_ORDER;
+    private static final String SQL_QUERY_SELECT_ALL = SQL_QUERY_SELECT + " WHERE dashboard_column != - 1 " + SQL_QUERY_ORDER_BY_COLUMN_AND_ORDER;
     private static final String SQL_QUERY_SELECT_COLUMNS = "SELECT dashboard_column FROM core_dashboard GROUP BY dashboard_column";
     private static final String SQL_QUERY_FILTER_COLUMN = " dashboard_column = ? ";
     private static final String SQL_QUERY_FILTER_ORDER = " dashboard_order = ? ";
     private static final String SQL_QUERY_FILTER_NAME = " dashboard_name = ? ";
     private static final String SQL_QUERY_SELECT_BY_PRIMARY_KEY = SQL_QUERY_SELECT + " WHERE " + SQL_QUERY_FILTER_NAME;
-    private static final String SQL_QUERY_INSERT = "INSERT INTO core_dashboard( dashboard_name, dashboard_order, dashboard_column ) " +
-        " VALUES(?,?,?)";
-    private static final String SQL_QUERY_UPDATE = "UPDATE core_dashboard " +
-        " SET dashboard_order = ?, dashboard_column = ? WHERE dashboard_name = ?";
+    private static final String SQL_QUERY_INSERT = "INSERT INTO core_dashboard( dashboard_name, dashboard_order, dashboard_column ) " + " VALUES(?,?,?)";
+    private static final String SQL_QUERY_UPDATE = "UPDATE core_dashboard " + " SET dashboard_order = ?, dashboard_column = ? WHERE dashboard_name = ?";
     private static final String SQL_QUERY_KEYWORD_WHERE = "  WHERE ";
     private static final String SQL_QUERY_KEYWORD_AND = " AND ";
 
@@ -78,22 +74,22 @@ public class DashboardDAO implements IDashboardDAO
 
         daoUtil.setString( 1, strBeanName );
 
-        daoUtil.executeUpdate(  );
+        daoUtil.executeUpdate( );
 
-        daoUtil.free(  );
+        daoUtil.free( );
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public void deleteAll(  )
+    public void deleteAll( )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE );
 
-        daoUtil.executeUpdate(  );
+        daoUtil.executeUpdate( );
 
-        daoUtil.free(  );
+        daoUtil.free( );
     }
 
     /**
@@ -104,17 +100,19 @@ public class DashboardDAO implements IDashboardDAO
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT );
 
-        daoUtil.setString( 1, dashboardComponent.getName(  ) );
+        daoUtil.setString( 1, dashboardComponent.getName( ) );
         setInsertOrUpdateValues( 2, dashboardComponent, daoUtil );
 
-        daoUtil.executeUpdate(  );
+        daoUtil.executeUpdate( );
 
-        daoUtil.free(  );
+        daoUtil.free( );
     }
 
     /**
      * Loads the dashboard from the factory
-     * @param strBeanName the dashboard name
+     * 
+     * @param strBeanName
+     *            the dashboard name
      * @return the dashboard found
      * @see DashboardFactory#getDashboardComponent(String)
      */
@@ -133,11 +131,11 @@ public class DashboardDAO implements IDashboardDAO
 
         daoUtil.setString( 1, strClassName );
 
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
         IDashboardComponent dashboardComponent = null;
 
-        if ( daoUtil.next(  ) )
+        if ( daoUtil.next( ) )
         {
             String strBeanName = daoUtil.getString( 1 );
 
@@ -153,7 +151,7 @@ public class DashboardDAO implements IDashboardDAO
             }
         }
 
-        daoUtil.free(  );
+        daoUtil.free( );
 
         return dashboardComponent;
     }
@@ -162,15 +160,15 @@ public class DashboardDAO implements IDashboardDAO
      * {@inheritDoc}
      */
     @Override
-    public List<IDashboardComponent> selectAllDashboardComponents(  )
+    public List<IDashboardComponent> selectAllDashboardComponents( )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_ALL );
 
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
-        List<IDashboardComponent> listDashboards = new ArrayList<IDashboardComponent>(  );
+        List<IDashboardComponent> listDashboards = new ArrayList<IDashboardComponent>( );
 
-        while ( daoUtil.next(  ) )
+        while ( daoUtil.next( ) )
         {
             IDashboardComponent dashboardComponent = null;
 
@@ -189,7 +187,7 @@ public class DashboardDAO implements IDashboardDAO
             }
         }
 
-        daoUtil.free(  );
+        daoUtil.free( );
 
         return listDashboards;
     }
@@ -198,20 +196,20 @@ public class DashboardDAO implements IDashboardDAO
      * {@inheritDoc}
      */
     @Override
-    public int selectMaxOrder(  )
+    public int selectMaxOrder( )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_MAX_ORDER );
 
         int nMaxOrder = 0;
 
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
-        if ( daoUtil.next(  ) )
+        if ( daoUtil.next( ) )
         {
             nMaxOrder = daoUtil.getInt( 1 );
         }
 
-        daoUtil.free(  );
+        daoUtil.free( );
 
         return nMaxOrder;
     }
@@ -228,14 +226,14 @@ public class DashboardDAO implements IDashboardDAO
 
         daoUtil.setInt( 1, nColumn );
 
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
-        if ( daoUtil.next(  ) )
+        if ( daoUtil.next( ) )
         {
             nMaxOrder = daoUtil.getInt( 1 );
         }
 
-        daoUtil.free(  );
+        daoUtil.free( );
 
         return nMaxOrder;
     }
@@ -250,15 +248,15 @@ public class DashboardDAO implements IDashboardDAO
         buildSQLFilter( sbSQL, filter );
         sbSQL.append( SQL_QUERY_ORDER_BY_COLUMN_AND_ORDER );
 
-        DAOUtil daoUtil = new DAOUtil( sbSQL.toString(  ) );
+        DAOUtil daoUtil = new DAOUtil( sbSQL.toString( ) );
 
         applySQLFilter( daoUtil, 1, filter );
 
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
-        List<IDashboardComponent> listDashboards = new ArrayList<IDashboardComponent>(  );
+        List<IDashboardComponent> listDashboards = new ArrayList<IDashboardComponent>( );
 
-        while ( daoUtil.next(  ) )
+        while ( daoUtil.next( ) )
         {
             IDashboardComponent dashboardComponent = null;
 
@@ -277,7 +275,7 @@ public class DashboardDAO implements IDashboardDAO
             }
         }
 
-        daoUtil.free(  );
+        daoUtil.free( );
 
         return listDashboards;
     }
@@ -291,39 +289,42 @@ public class DashboardDAO implements IDashboardDAO
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE );
 
         int nIndex = setInsertOrUpdateValues( 1, dashboardComponent, daoUtil );
-        daoUtil.setString( nIndex, dashboardComponent.getName(  ) );
+        daoUtil.setString( nIndex, dashboardComponent.getName( ) );
 
-        daoUtil.executeUpdate(  );
+        daoUtil.executeUpdate( );
 
-        daoUtil.free(  );
+        daoUtil.free( );
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public List<Integer> selectColumns(  )
+    public List<Integer> selectColumns( )
     {
-        List<Integer> listColumns = new ArrayList<Integer>(  );
+        List<Integer> listColumns = new ArrayList<Integer>( );
 
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_COLUMNS );
 
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
-        while ( daoUtil.next(  ) )
+        while ( daoUtil.next( ) )
         {
             listColumns.add( daoUtil.getInt( 1 ) );
         }
 
-        daoUtil.free(  );
+        daoUtil.free( );
 
         return listColumns;
     }
 
     /**
      * Loads compenent data from daoUtil
-     * @param component the component
-     * @param daoUtil the daoutil
+     * 
+     * @param component
+     *            the component
+     * @param daoUtil
+     *            the daoutil
      */
     private void load( IDashboardComponent component, DAOUtil daoUtil )
     {
@@ -335,40 +336,47 @@ public class DashboardDAO implements IDashboardDAO
 
     /**
      * Sets daoUtil values from componnet
-     * @param nStartIndex the start index
-     * @param component the component
-     * @param daoUtil daoutil
+     * 
+     * @param nStartIndex
+     *            the start index
+     * @param component
+     *            the component
+     * @param daoUtil
+     *            daoutil
      * @return the end index
      */
     private int setInsertOrUpdateValues( int nStartIndex, IDashboardComponent component, DAOUtil daoUtil )
     {
         int nIndex = nStartIndex;
-        daoUtil.setInt( nIndex++, component.getOrder(  ) );
-        daoUtil.setInt( nIndex++, component.getZone(  ) );
+        daoUtil.setInt( nIndex++, component.getOrder( ) );
+        daoUtil.setInt( nIndex++, component.getZone( ) );
 
         return nIndex;
     }
 
     /**
      * Builds sql filter
-     * @param sbSQL the buffer
-     * @param filter the filter
+     * 
+     * @param sbSQL
+     *            the buffer
+     * @param filter
+     *            the filter
      */
     private void buildSQLFilter( StringBuilder sbSQL, DashboardFilter filter )
     {
-        List<String> listFilters = new ArrayList<String>(  );
+        List<String> listFilters = new ArrayList<String>( );
 
-        if ( filter.containsFilterOrder(  ) )
+        if ( filter.containsFilterOrder( ) )
         {
             listFilters.add( SQL_QUERY_FILTER_ORDER );
         }
 
-        if ( filter.containsFilterColumn(  ) )
+        if ( filter.containsFilterColumn( ) )
         {
             listFilters.add( SQL_QUERY_FILTER_COLUMN );
         }
 
-        if ( !listFilters.isEmpty(  ) )
+        if ( !listFilters.isEmpty( ) )
         {
             sbSQL.append( SQL_QUERY_KEYWORD_WHERE );
 
@@ -392,23 +400,27 @@ public class DashboardDAO implements IDashboardDAO
 
     /**
      * Add daoUtil parameters
-     * @param daoUtil daoUtil
-     * @param nStartIndex start index
-     * @param filter the filter to apply
+     * 
+     * @param daoUtil
+     *            daoUtil
+     * @param nStartIndex
+     *            start index
+     * @param filter
+     *            the filter to apply
      * @return end index
      */
     private int applySQLFilter( DAOUtil daoUtil, int nStartIndex, DashboardFilter filter )
     {
         int nIndex = nStartIndex;
 
-        if ( filter.containsFilterOrder(  ) )
+        if ( filter.containsFilterOrder( ) )
         {
-            daoUtil.setInt( nIndex++, filter.getFilterOrder(  ) );
+            daoUtil.setInt( nIndex++, filter.getFilterOrder( ) );
         }
 
-        if ( filter.containsFilterColumn(  ) )
+        if ( filter.containsFilterColumn( ) )
         {
-            daoUtil.setInt( nIndex++, filter.getFilterColumn(  ) );
+            daoUtil.setInt( nIndex++, filter.getFilterColumn( ) );
         }
 
         return nIndex;

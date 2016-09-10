@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -41,7 +41,6 @@ import java.util.Map;
 
 import javax.persistence.EntityManagerFactory;
 
-
 /**
  * Class EntityManagerService
  */
@@ -52,7 +51,9 @@ public class EntityManagerService
 
     /**
      * Sets the map of factories (injected in core_context.xml)
-     * @param mapFactories The factories map
+     * 
+     * @param mapFactories
+     *            The factories map
      */
     public void setMapFactories( Map<String, EntityManagerFactory> mapFactories )
     {
@@ -61,16 +62,19 @@ public class EntityManagerService
 
     /**
      * Returns all factories
+     * 
      * @return all factories
      */
-    public Map<String, EntityManagerFactory> getEntityManagerFactories(  )
+    public Map<String, EntityManagerFactory> getEntityManagerFactories( )
     {
         return _mapFactories;
     }
 
     /**
      * Gets an Entity Manager Factory for a given pool name
-     * @param strPoolName The name of the persistence pool name
+     * 
+     * @param strPoolName
+     *            The name of the persistence pool name
      * @return An Entity Manager Factory
      */
     public EntityManagerFactory getEntityManagerFactory( String strPoolName )

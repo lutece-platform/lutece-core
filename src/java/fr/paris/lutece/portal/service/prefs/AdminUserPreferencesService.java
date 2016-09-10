@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -35,7 +35,6 @@ package fr.paris.lutece.portal.service.prefs;
 
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 
-
 /**
  * AdminUser Preferences Service
  */
@@ -45,15 +44,16 @@ public final class AdminUserPreferencesService
     private static IUserPreferencesService _singleton;
 
     /** private constructor */
-    private AdminUserPreferencesService(  )
+    private AdminUserPreferencesService( )
     {
     }
 
     /**
      * Return the unique instance
+     * 
      * @return The instance
      */
-    public static synchronized IUserPreferencesService instance(  )
+    public static synchronized IUserPreferencesService instance( )
     {
         if ( _singleton == null )
         {

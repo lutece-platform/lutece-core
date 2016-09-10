@@ -52,9 +52,9 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-
 /**
  * Uses {@link AnnotationDB} from scannotation.
+ * 
  * @see #init()
  */
 public class ScannotationDB implements IAnnotationDB
@@ -72,23 +72,26 @@ public class ScannotationDB implements IAnnotationDB
     /**
      * Constructor.
      */
-    public ScannotationDB(  )
+    public ScannotationDB( )
     {
-        _db = new AnnotationDB(  );
+        _db = new AnnotationDB( );
     }
 
     /**
      * Gets the filename filter
+     * 
      * @return the filename filter
      */
-    public String getFileFilter(  )
+    public String getFileFilter( )
     {
         return _strFileFilter;
     }
 
     /**
      * Sets the filename filter
-     * @param strFileFilter the filename filter
+     * 
+     * @param strFileFilter
+     *            the filename filter
      */
     public void setFileFilter( String strFileFilter )
     {
@@ -96,58 +99,56 @@ public class ScannotationDB implements IAnnotationDB
     }
 
     /**
-     * Scans the WEB-INF/classes and WEB-INF/lib using {@link #getFileFilter()}
-     * to filter jars.
+     * Scans the WEB-INF/classes and WEB-INF/lib using {@link #getFileFilter()} to filter jars.
      */
     @Override
-    public void init(  )
+    public void init( )
     {
         AppLogService.info( "ScannotationDB Scanning classpath..." );
 
-        if ( getFileFilter(  ) == null )
+        if ( getFileFilter( ) == null )
         {
             setFileFilter( CONSTANT_DEFAULT_FILENAME_FILTER );
             AppLogService.info( "Using default filename filter" );
         }
         else
         {
-            AppLogService.info( "Using " + getFileFilter(  ) + " as filename filter" );
+            AppLogService.info( "Using " + getFileFilter( ) + " as filename filter" );
         }
 
-        Date start = new Date(  );
-        File libDirectory = new File( AppPathService.getWebAppPath(  ) + CONSTANT_WEB_INF_LIB );
+        Date start = new Date( );
+        File libDirectory = new File( AppPathService.getWebAppPath( ) + CONSTANT_WEB_INF_LIB );
 
-        String[] allJars = libDirectory.list( new FilenameFilter(  )
-                {
-                    /**
-                     * {@inheritDoc}
-                     */
-                    @Override
-                    public boolean accept( File dir, String name )
-                    {
-                        return name.matches( _strFileFilter );
-                    }
-                } );
+        String [ ] allJars = libDirectory.list( new FilenameFilter( )
+        {
+            /**
+             * {@inheritDoc}
+             */
+            @Override
+            public boolean accept( File dir, String name )
+            {
+                return name.matches( _strFileFilter );
+            }
+        } );
 
         for ( String strJar : allJars )
         {
             try
             {
-                if ( AppLogService.isDebugEnabled(  ) )
+                if ( AppLogService.isDebugEnabled( ) )
                 {
                     AppLogService.debug( "Scanning " + strJar );
                 }
 
-                _db.scanArchives( new URL( "file:///" + AppPathService.getWebAppPath(  ) + CONSTANT_WEB_INF_LIB +
-                        strJar ) );
+                _db.scanArchives( new URL( "file:///" + AppPathService.getWebAppPath( ) + CONSTANT_WEB_INF_LIB + strJar ) );
             }
-            catch ( MalformedURLException e )
+            catch( MalformedURLException e )
             {
-                AppLogService.error( e.getMessage(  ), e );
+                AppLogService.error( e.getMessage( ), e );
             }
-            catch ( IOException e )
+            catch( IOException e )
             {
-                AppLogService.error( e.getMessage(  ), e );
+                AppLogService.error( e.getMessage( ), e );
             }
         }
 
@@ -155,28 +156,27 @@ public class ScannotationDB implements IAnnotationDB
 
         try
         {
-            _db.scanArchives( new URL( "file:///" + AppPathService.getWebAppPath(  ) + CONSTANT_WEB_INF_CLASS ) );
+            _db.scanArchives( new URL( "file:///" + AppPathService.getWebAppPath( ) + CONSTANT_WEB_INF_CLASS ) );
         }
-        catch ( MalformedURLException e )
+        catch( MalformedURLException e )
         {
-            AppLogService.error( e.getMessage(  ), e );
+            AppLogService.error( e.getMessage( ), e );
         }
-        catch ( IOException e )
+        catch( IOException e )
         {
-            AppLogService.error( e.getMessage(  ), e );
+            AppLogService.error( e.getMessage( ), e );
         }
 
-        AppLogService.info( "ScannotationDB Classpath scanned in " + ( new Date(  ).getTime(  ) - start.getTime(  ) ) +
-            "ms" );
+        AppLogService.info( "ScannotationDB Classpath scanned in " + ( new Date( ).getTime( ) - start.getTime( ) ) + "ms" );
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Set<String> getClassesName( Class<?extends Annotation> annotationType )
+    public Set<String> getClassesName( Class<? extends Annotation> annotationType )
     {
-        return getClassesName( annotationType.getName(  ) );
+        return getClassesName( annotationType.getName( ) );
     }
 
     /**
@@ -185,13 +185,13 @@ public class ScannotationDB implements IAnnotationDB
     @Override
     public Set<String> getClassesName( String strAnnotationType )
     {
-        Map<String, Set<String>> index = _db.getAnnotationIndex(  );
+        Map<String, Set<String>> index = _db.getAnnotationIndex( );
 
         Set<String> setClasses = index.get( strAnnotationType );
 
         if ( setClasses == null )
         {
-            setClasses = new HashSet<String>(  );
+            setClasses = new HashSet<String>( );
         }
 
         return setClasses;

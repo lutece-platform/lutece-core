@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -37,18 +37,19 @@ import fr.paris.lutece.portal.business.user.AdminUser;
 
 import java.util.List;
 
-
 /**
- * Interface of attributes that contains only interger, boolean or string
- * values.
+ * Interface of attributes that contains only interger, boolean or string values.
  */
 public interface ISimpleValuesAttributes extends IAttribute
 {
     /**
      * Get the data of the user fields
-     * @param strValues Values
-     * @param user user
+     * 
+     * @param strValues
+     *            Values
+     * @param user
+     *            user
      * @return user field data
      */
-    List<AdminUserField> getUserFieldsData( String[] strValues, AdminUser user );
+    List<AdminUserField> getUserFieldsData( String [ ] strValues, AdminUser user );
 }

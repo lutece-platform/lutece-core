@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -41,37 +41,37 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
 /**
  * Factory for {@link IAdminDashboardComponent}
  *
  */
 public final class AdminDashboardFactory
 {
-    private static Map<String, IAdminDashboardComponent> _mapAdminDashboardComponents = new HashMap<String, IAdminDashboardComponent>(  );
+    private static Map<String, IAdminDashboardComponent> _mapAdminDashboardComponents = new HashMap<String, IAdminDashboardComponent>( );
 
     /**
      * Empty constructor
      */
-    private AdminDashboardFactory(  )
+    private AdminDashboardFactory( )
     {
         // nothing
     }
 
     /**
      * Registers the new component. Name must be unique
-     * @param adminDashboardComponent the component to register
+     * 
+     * @param adminDashboardComponent
+     *            the component to register
      * @return <code>true</code> if registered, <code>false</code> otherwise.
      */
     public static boolean registerDashboardComponent( IAdminDashboardComponent adminDashboardComponent )
     {
-        String strName = adminDashboardComponent.getName(  );
+        String strName = adminDashboardComponent.getName( );
 
         if ( _mapAdminDashboardComponents.containsKey( strName ) )
         {
-            AppLogService.error( "Error while registering admin dashboard for " + strName + " class=" +
-                adminDashboardComponent.getClass(  ) + ", factory already contains class=" +
-                _mapAdminDashboardComponents.get( strName ) );
+            AppLogService.error( "Error while registering admin dashboard for " + strName + " class=" + adminDashboardComponent.getClass( )
+                    + ", factory already contains class=" + _mapAdminDashboardComponents.get( strName ) );
 
             return false;
         }
@@ -83,7 +83,9 @@ public final class AdminDashboardFactory
 
     /**
      * Gets the {@link IAdminDashboardComponent} for the given name
-     * @param strName the name
+     * 
+     * @param strName
+     *            the name
      * @return The component found, <code>null</code> otherwise.
      */
     public static IAdminDashboardComponent getDashboardComponent( String strName )
@@ -93,10 +95,11 @@ public final class AdminDashboardFactory
 
     /**
      * Finds all registered admin dashboards
+     * 
      * @return the list
      */
-    public static List<IAdminDashboardComponent> getAllAdminDashboardComponents(  )
+    public static List<IAdminDashboardComponent> getAllAdminDashboardComponents( )
     {
-        return new ArrayList<IAdminDashboardComponent>( _mapAdminDashboardComponents.values(  ) );
+        return new ArrayList<IAdminDashboardComponent>( _mapAdminDashboardComponents.values( ) );
     }
 }

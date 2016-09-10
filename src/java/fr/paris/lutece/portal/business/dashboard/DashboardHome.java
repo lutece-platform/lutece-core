@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -38,7 +38,6 @@ import fr.paris.lutece.portal.service.spring.SpringContextService;
 
 import java.util.List;
 
-
 /**
  *
  * DashboardHome
@@ -52,14 +51,15 @@ public final class DashboardHome
     /**
      * Private constructor - this class need not be instantiated
      */
-    private DashboardHome(  )
+    private DashboardHome( )
     {
     }
 
     /**
      * Creation of an instance of DashboardComponent
      *
-     * @param dashboardComponent The instance of the DashboardComponent which contains the informations to store
+     * @param dashboardComponent
+     *            The instance of the DashboardComponent which contains the informations to store
      *
      */
     public static void create( IDashboardComponent dashboardComponent )
@@ -70,7 +70,8 @@ public final class DashboardHome
     /**
      * Update of the DashboardComponent which is specified in parameter
      *
-     * @param dashboardComponent The instance of the DashboardComponent which contains the informations to update
+     * @param dashboardComponent
+     *            The instance of the DashboardComponent which contains the informations to update
      *
      */
     public static void update( IDashboardComponent dashboardComponent )
@@ -81,7 +82,8 @@ public final class DashboardHome
     /**
      * Remove the DashboardComponent whose identifier is specified in parameter
      *
-     * @param strBeanName The DashboardComponent id
+     * @param strBeanName
+     *            The DashboardComponent id
      */
     public static void remove( String strBeanName )
     {
@@ -92,9 +94,9 @@ public final class DashboardHome
      * Remove the DashboardComponent whose identifier is specified in parameter
      *
      */
-    public static void removeAll(  )
+    public static void removeAll( )
     {
-        _dao.deleteAll(  );
+        _dao.deleteAll( );
     }
 
     // /////////////////////////////////////////////////////////////////////////
@@ -103,7 +105,8 @@ public final class DashboardHome
     /**
      * Returns an instance of a DashboardComponent whose identifier is specified in parameter
      *
-     * @param strBeanName The DashboardComponent primary key
+     * @param strBeanName
+     *            The DashboardComponent primary key
      * @return an instance of DashboardComponent
      */
     public static IDashboardComponent findByPrimaryKey( String strBeanName )
@@ -116,14 +119,16 @@ public final class DashboardHome
      *
      * @return the list which contains the data of all the IDashboardComponent
      */
-    public static List<IDashboardComponent> findAll(  )
+    public static List<IDashboardComponent> findAll( )
     {
-        return _dao.selectAllDashboardComponents(  );
+        return _dao.selectAllDashboardComponents( );
     }
 
     /**
      * Loads the data of all the IDashboardComponent
-     * @param filter the filter
+     * 
+     * @param filter
+     *            the filter
      * @return the list which contains the data of all the IDashboardComponent
      */
     public static List<IDashboardComponent> findByFilter( DashboardFilter filter )
@@ -133,16 +138,19 @@ public final class DashboardHome
 
     /**
      * Finds the max order for all columns.
+     * 
      * @return the max order
      */
-    public static int findMaxOrder(  )
+    public static int findMaxOrder( )
     {
-        return _dao.selectMaxOrder(  );
+        return _dao.selectMaxOrder( );
     }
 
     /**
      * Finds the max order for the column.
-     * @param nColumn the column
+     * 
+     * @param nColumn
+     *            the column
      * @return the max order
      */
     public static int findMaxOrder( int nColumn )
@@ -152,10 +160,11 @@ public final class DashboardHome
 
     /**
      * Finds all columns
+     * 
      * @return the list of columns
      */
-    public static List<Integer> findColumns(  )
+    public static List<Integer> findColumns( )
     {
-        return _dao.selectColumns(  );
+        return _dao.selectColumns( );
     }
 }

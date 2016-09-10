@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -45,13 +45,10 @@ import org.springframework.transaction.TransactionException;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.DefaultTransactionStatus;
 
-
 /**
- * Lutece transaction manager. This TM use Lutece's specific pool transaction
- * manager with the class {@link TransactionManager}. It allow plugins to use
- * multi plugin transactions, and nested transactions. Note that nested
- * transactions does not create savepoints : if a nested transaction is roll
- * backed, then the whole transaction is roll backed.
+ * Lutece transaction manager. This TM use Lutece's specific pool transaction manager with the class {@link TransactionManager}. It allow plugins to use multi
+ * plugin transactions, and nested transactions. Note that nested transactions does not create savepoints : if a nested transaction is roll backed, then the
+ * whole transaction is roll backed.
  */
 public class LuteceTransactionManager implements PlatformTransactionManager
 {
@@ -60,16 +57,19 @@ public class LuteceTransactionManager implements PlatformTransactionManager
 
     /**
      * Gets the plugin name
+     * 
      * @return the plugin name
      */
-    public String getPluginName(  )
+    public String getPluginName( )
     {
         return _strPluginName;
     }
 
     /**
      * Sets the plugin name
-     * @param strPluginName the plugin name
+     * 
+     * @param strPluginName
+     *            the plugin name
      */
     public void setPluginName( String strPluginName )
     {
@@ -80,11 +80,10 @@ public class LuteceTransactionManager implements PlatformTransactionManager
      * {@inheritDoc}
      */
     @Override
-    public TransactionStatus getTransaction( TransactionDefinition definition )
-        throws TransactionException
+    public TransactionStatus getTransaction( TransactionDefinition definition ) throws TransactionException
     {
         TransactionStatus trStatus = new DefaultTransactionStatus( null, true, false, false, false, null );
-        TransactionManager.beginTransaction( getPlugin(  ) );
+        TransactionManager.beginTransaction( getPlugin( ) );
 
         return trStatus;
     }
@@ -95,7 +94,7 @@ public class LuteceTransactionManager implements PlatformTransactionManager
     @Override
     public void commit( TransactionStatus status ) throws TransactionException
     {
-        TransactionManager.commitTransaction( getPlugin(  ) );
+        TransactionManager.commitTransaction( getPlugin( ) );
     }
 
     /**
@@ -104,10 +103,10 @@ public class LuteceTransactionManager implements PlatformTransactionManager
     @Override
     public void rollback( TransactionStatus status ) throws TransactionException
     {
-        TransactionManager.rollBack( getPlugin(  ) );
+        TransactionManager.rollBack( getPlugin( ) );
     }
 
-    private Plugin getPlugin(  )
+    private Plugin getPlugin( )
     {
         if ( _plugin == null )
         {
@@ -117,7 +116,7 @@ public class LuteceTransactionManager implements PlatformTransactionManager
             }
             else
             {
-                _plugin = PluginService.getCore(  );
+                _plugin = PluginService.getCore( );
             }
         }
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,7 +33,6 @@
  */
 package fr.paris.lutece.portal.business.user.attribute;
 
-
 /**
  *
  * AttributeField
@@ -54,7 +53,9 @@ public class AttributeField
 
     /**
      * Set ID field
-     * @param nIdField ID Field
+     * 
+     * @param nIdField
+     *            ID Field
      */
     public void setIdField( int nIdField )
     {
@@ -63,16 +64,19 @@ public class AttributeField
 
     /**
      * Get ID Field
+     * 
      * @return ID Field
      */
-    public int getIdField(  )
+    public int getIdField( )
     {
         return _nIdField;
     }
 
     /**
      * Set attribute
-     * @param attribute attribute
+     * 
+     * @param attribute
+     *            attribute
      */
     public void setAttribute( IAttribute attribute )
     {
@@ -81,9 +85,10 @@ public class AttributeField
 
     /**
      * Get attribute
+     * 
      * @return attribute
      */
-    public IAttribute getAttribute(  )
+    public IAttribute getAttribute( )
     {
         return _attribute;
     }
@@ -92,14 +97,16 @@ public class AttributeField
      *
      * @return the title of the field
      */
-    public String getTitle(  )
+    public String getTitle( )
     {
         return _strTitle;
     }
 
     /**
      * set the title of the field
-     * @param title the title of the field
+     * 
+     * @param title
+     *            the title of the field
      */
     public void setTitle( String title )
     {
@@ -110,14 +117,16 @@ public class AttributeField
      *
      * @return the value of the field
      */
-    public String getValue(  )
+    public String getValue( )
     {
         return _strValue;
     }
 
     /**
      * set the value of the field
-     * @param value the value of the field
+     * 
+     * @param value
+     *            the value of the field
      */
     public void setValue( String value )
     {
@@ -128,14 +137,16 @@ public class AttributeField
      *
      * @return true if the field is a default field of the entry
      */
-    public boolean isDefaultValue(  )
+    public boolean isDefaultValue( )
     {
         return _bDefaultValue;
     }
 
     /**
      * set true if the field is a default field of the entry
-     * @param defaultValue true if the field is a default field of the entry
+     * 
+     * @param defaultValue
+     *            true if the field is a default field of the entry
      */
     public void setDefaultValue( boolean defaultValue )
     {
@@ -146,14 +157,16 @@ public class AttributeField
      *
      * @return the position of the field in the list of the entry's fields
      */
-    public int getPosition(  )
+    public int getPosition( )
     {
         return _nPosition;
     }
 
     /**
      * set the position of the field in the list of the entry's fields
-     * @param position the position of the field in the list of fields
+     * 
+     * @param position
+     *            the position of the field in the list of fields
      */
     public void setPosition( int position )
     {
@@ -162,16 +175,19 @@ public class AttributeField
 
     /**
      * Get height
+     * 
      * @return height
      */
-    public int getHeight(  )
+    public int getHeight( )
     {
         return _nHeight;
     }
 
     /**
      * Set height
-     * @param nHeight Height
+     * 
+     * @param nHeight
+     *            Height
      */
     public void setHeight( int nHeight )
     {
@@ -180,16 +196,19 @@ public class AttributeField
 
     /**
      * Get width
+     * 
      * @return width
      */
-    public int getWidth(  )
+    public int getWidth( )
     {
         return _nWidth;
     }
 
     /**
      * Set width
-     * @param nWidth width
+     * 
+     * @param nWidth
+     *            width
      */
     public void setWidth( int nWidth )
     {
@@ -198,16 +217,19 @@ public class AttributeField
 
     /**
      * Get max size enter
+     * 
      * @return max size enter
      */
-    public int getMaxSizeEnter(  )
+    public int getMaxSizeEnter( )
     {
         return _nMaxSizeEnter;
     }
 
     /**
      * Set max size enter
-     * @param nMaxSizeEnter max size enter
+     * 
+     * @param nMaxSizeEnter
+     *            max size enter
      */
     public void setMaxSizeEnter( int nMaxSizeEnter )
     {
@@ -216,16 +238,19 @@ public class AttributeField
 
     /**
      * Check if the attribute is multiple
+     * 
      * @return true if it is multiple, false otherwise
      */
-    public boolean isMultiple(  )
+    public boolean isMultiple( )
     {
         return _bMultiple;
     }
 
     /**
      * Set the multiple
-     * @param bMultiple mutiple
+     * 
+     * @param bMultiple
+     *            mutiple
      */
     public void setMultiple( boolean bMultiple )
     {

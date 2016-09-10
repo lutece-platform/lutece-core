@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -38,7 +38,6 @@ import fr.paris.lutece.portal.service.spring.SpringContextService;
 import java.util.List;
 import java.util.Locale;
 
-
 /**
  *
  * AttributeHome
@@ -51,14 +50,17 @@ public final class AttributeHome
     /**
      * Private constructor
      */
-    private AttributeHome(  )
+    private AttributeHome( )
     {
     }
 
     /**
      * Load attribute
-     * @param nIdAttribute ID Attribute
-     * @param locale Locale
+     * 
+     * @param nIdAttribute
+     *            ID Attribute
+     * @param locale
+     *            Locale
      * @return Attribute
      */
     public static IAttribute findByPrimaryKey( int nIdAttribute, Locale locale )
@@ -68,7 +70,9 @@ public final class AttributeHome
 
     /**
      * Insert an new attribute
-     * @param attribute attribute
+     * 
+     * @param attribute
+     *            attribute
      * @return new PK
      */
     public static int create( IAttribute attribute )
@@ -78,7 +82,9 @@ public final class AttributeHome
 
     /**
      * Update an attribute
-     * @param attribute the attribute
+     * 
+     * @param attribute
+     *            the attribute
      */
     public static void update( IAttribute attribute )
     {
@@ -87,7 +93,9 @@ public final class AttributeHome
 
     /**
      * Delete an attribute
-     * @param nIdAttribute The id of the attribute
+     * 
+     * @param nIdAttribute
+     *            The id of the attribute
      */
     public static void remove( int nIdAttribute )
     {
@@ -96,7 +104,9 @@ public final class AttributeHome
 
     /**
      * Load every attributes
-     * @param locale locale
+     * 
+     * @param locale
+     *            locale
      * @return list of attributes
      */
     public static List<IAttribute> findAll( Locale locale )
@@ -106,8 +116,11 @@ public final class AttributeHome
 
     /**
      * Load every attributes associated to a plugin
-     * @param strPluginName plugin name
-     * @param locale locale
+     * 
+     * @param strPluginName
+     *            plugin name
+     * @param locale
+     *            locale
      * @return list of attributes
      */
     public static List<IAttribute> findPluginAttributes( String strPluginName, Locale locale )
@@ -117,7 +130,9 @@ public final class AttributeHome
 
     /**
      * Load every attributes that do not come from a plugin
-     * @param locale locale
+     * 
+     * @param locale
+     *            locale
      * @return list of attributes
      */
     public static List<IAttribute> findCoreAttributes( Locale locale )
@@ -127,9 +142,11 @@ public final class AttributeHome
 
     /**
      * Update the anonymization status of the attribute.
-     * @param nIdAttribute Id of the attribute
-     * @param bAnonymize New value of the anonymization status. True means the
-     *            attribute should be anonymize, false means it doesn't.
+     * 
+     * @param nIdAttribute
+     *            Id of the attribute
+     * @param bAnonymize
+     *            New value of the anonymization status. True means the attribute should be anonymize, false means it doesn't.
      */
     public static void updateAttributeAnonymization( int nIdAttribute, boolean bAnonymize )
     {

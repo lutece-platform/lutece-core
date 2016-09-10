@@ -53,24 +53,25 @@ import java.util.Properties;
 
 import javax.sql.DataSource;
 
-
 /**
- * This class can manages a set of database connections pools. It's implemented as a singleton. It provides methods to
- * get or release a connection from a given pool.
+ * This class can manages a set of database connections pools. It's implemented as a singleton. It provides methods to get or release a connection from a given
+ * pool.
  */
 public final class PoolManager
 {
     private static final String LOGGER_NAME = "lutece.pool";
     private static PoolManager _instance;
     private Logger _logger;
-    private Map<String, ConnectionService> _pools = new HashMap<String, ConnectionService>(  );
+    private Map<String, ConnectionService> _pools = new HashMap<String, ConnectionService>( );
 
     /**
      * Creates a new PoolManager object.
      *
      *
-     * @param isDbProperties A properties file containing pools parameters.
-     * @throws LuteceInitException If any error occured
+     * @param isDbProperties
+     *            A properties file containing pools parameters.
+     * @throws LuteceInitException
+     *             If any error occured
      */
     private PoolManager( InputStream isDbProperties ) throws LuteceInitException
     {
@@ -81,11 +82,12 @@ public final class PoolManager
      * This method returns the unique instance of the PoolManager.
      *
      * @return The unique instance of Poolmanager.
-     * @param isDbProperties An InputStream on a db.properties File to initialiaze the pool if it's not already created.
-     * @throws LuteceInitException  If any error occured
+     * @param isDbProperties
+     *            An InputStream on a db.properties File to initialiaze the pool if it's not already created.
+     * @throws LuteceInitException
+     *             If any error occured
      */
-    public static synchronized PoolManager getInstance( InputStream isDbProperties )
-        throws LuteceInitException
+    public static synchronized PoolManager getInstance( InputStream isDbProperties ) throws LuteceInitException
     {
         if ( _instance == null )
         {
@@ -98,23 +100,24 @@ public final class PoolManager
     /**
      * Initializes pools with parameters defined in a db.properties File.
      *
-     * @param is An InputStream on a db.properties File.
-     * @throws LuteceInitException If any error occured
+     * @param is
+     *            An InputStream on a db.properties File.
+     * @throws LuteceInitException
+     *             If any error occured
      */
     private void init( InputStream is ) throws LuteceInitException
     {
         _logger = Logger.getLogger( LOGGER_NAME );
 
-        Properties dbProps = new Properties(  );
+        Properties dbProps = new Properties( );
 
         try
         {
             dbProps.load( is );
         }
-        catch ( Exception e )
+        catch( Exception e )
         {
-            throw new LuteceInitException( "Can't read the properties file. Make sure db.properties is in the CLASSPATH",
-                e );
+            throw new LuteceInitException( "Can't read the properties file. Make sure db.properties is in the CLASSPATH", e );
         }
 
         createPools( dbProps );
@@ -123,31 +126,33 @@ public final class PoolManager
     /**
      * Creates all pools defined in a properties file.
      *
-     * @param props A properties file containing pools parameters.
-     * @throws LuteceInitException  If any error occured
+     * @param props
+     *            A properties file containing pools parameters.
+     * @throws LuteceInitException
+     *             If any error occured
      */
     private void createPools( Properties props ) throws LuteceInitException
     {
-        Enumeration propNames = props.propertyNames(  );
+        Enumeration propNames = props.propertyNames( );
         String strPoolName = "";
 
-        Hashtable<String, Hashtable<String, String>> htPools = new Hashtable<String, Hashtable<String, String>>(  );
+        Hashtable<String, Hashtable<String, String>> htPools = new Hashtable<String, Hashtable<String, String>>( );
 
-        while ( propNames.hasMoreElements(  ) )
+        while ( propNames.hasMoreElements( ) )
         {
-            String name = (String) propNames.nextElement(  );
+            String name = (String) propNames.nextElement( );
 
             try
             {
                 strPoolName = name.substring( 0, name.lastIndexOf( '.' ) );
 
-                //tests if the pool has yet somme of its porperties stored in the hatsable
+                // tests if the pool has yet somme of its porperties stored in the hatsable
                 Hashtable<String, String> htParamsPool;
 
-                //if the pool has not yet property
+                // if the pool has not yet property
                 if ( htPools.get( strPoolName ) == null )
                 {
-                    htParamsPool = new Hashtable<String, String>(  );
+                    htParamsPool = new Hashtable<String, String>( );
                 }
                 else
                 {
@@ -160,22 +165,21 @@ public final class PoolManager
                 _logger.debug( "property " + name );
                 _logger.debug( "pool name " + strPoolName );
             }
-            catch ( Exception e )
+            catch( Exception e )
             {
-                throw new LuteceInitException( 
-                    "Invalid initialization of the pools. Problem encoutered with the property :  " + name, e );
+                throw new LuteceInitException( "Invalid initialization of the pools. Problem encoutered with the property :  " + name, e );
             }
         }
 
-        Enumeration enumKeys = htPools.keys(  );
+        Enumeration enumKeys = htPools.keys( );
 
-        while ( enumKeys.hasMoreElements(  ) )
+        while ( enumKeys.hasMoreElements( ) )
         {
             String key = "";
 
             try
             {
-                key = (String) enumKeys.nextElement(  );
+                key = (String) enumKeys.nextElement( );
 
                 Hashtable<String, String> htParamsPool = htPools.get( key );
                 ConnectionService cs = null;
@@ -184,13 +188,13 @@ public final class PoolManager
                 {
                     String strConnectionService = htParamsPool.get( key + ".poolservice" );
 
-                    cs = (ConnectionService) Class.forName( strConnectionService ).newInstance(  );
+                    cs = (ConnectionService) Class.forName( strConnectionService ).newInstance( );
                 }
-                catch ( NullPointerException nullEx )
+                catch( NullPointerException nullEx )
                 {
-                    cs = new LuteceConnectionService(  );
+                    cs = new LuteceConnectionService( );
                 }
-                catch ( Exception e )
+                catch( Exception e )
                 {
                     throw new LuteceInitException( "Exception when getting the property poolservice", e );
                 }
@@ -203,10 +207,9 @@ public final class PoolManager
                     _pools.put( key, cs );
                 }
             }
-            catch ( Exception e )
+            catch( Exception e )
             {
-                throw new LuteceInitException( "Exception when getting the pool '" + key +
-                    "'. Please check your '/WEB-INF/conf/db.properties' file.", e );
+                throw new LuteceInitException( "Exception when getting the pool '" + key + "'. Please check your '/WEB-INF/conf/db.properties' file.", e );
             }
         }
     }
@@ -214,7 +217,8 @@ public final class PoolManager
     /**
      * Returns an available connection from the pool.
      *
-     * @param strPoolName The pool name
+     * @param strPoolName
+     *            The pool name
      * @return A connection
      */
     public Connection getConnection( String strPoolName )
@@ -224,7 +228,7 @@ public final class PoolManager
 
         if ( pool != null )
         {
-            conn = pool.getConnection(  );
+            conn = pool.getConnection( );
         }
 
         return conn;
@@ -233,8 +237,10 @@ public final class PoolManager
     /**
      * Returns a connection to pool.
      *
-     * @param strPoolName Pool's name
-     * @param con A released connection
+     * @param strPoolName
+     *            Pool's name
+     * @param con
+     *            A released connection
      */
     public void freeConnection( String strPoolName, Connection con )
     {
@@ -249,42 +255,39 @@ public final class PoolManager
     /**
      * Releases all connections from all the pool.
      */
-    public synchronized void release(  )
+    public synchronized void release( )
     {
-        for ( ConnectionService pool : _pools.values(  ) )
+        for ( ConnectionService pool : _pools.values( ) )
         {
-            pool.release(  );
+            pool.release( );
         }
     }
 
     /**
      * Returns all pools available
+     * 
      * @return The list of available pools
      */
-    public Collection<ConnectionService> getPools(  )
+    public Collection<ConnectionService> getPools( )
     {
-        return _pools.values(  );
+        return _pools.values( );
     }
 
     /**
      * Returns pool's infos (currently opened connections)
+     * 
      * @return The pool's infos
      */
-    public ReferenceList getPoolsInfos(  )
+    public ReferenceList getPoolsInfos( )
     {
-        ReferenceList listPoolsInfos = new ReferenceList(  );
-        Collection<ConnectionService> listPools = getPools(  );
+        ReferenceList listPoolsInfos = new ReferenceList( );
+        Collection<ConnectionService> listPools = getPools( );
 
         for ( ConnectionService cs : listPools )
         {
-            String strCurrentConnections = ( cs.getCurrentConnections(  ) == cs.INFO_NOT_AVAILABLE ) ? "-"
-                                                                                                     : ( "" +
-                cs.getCurrentConnections(  ) );
-            String strMaxConnections = ( cs.getMaxConnections(  ) == cs.INFO_NOT_AVAILABLE ) ? "-"
-                                                                                             : ( "" +
-                cs.getMaxConnections(  ) );
-            listPoolsInfos.addItem( cs.getPoolName(  ),
-                strCurrentConnections + " / " + strMaxConnections + " (" + cs.getPoolProvider(  ) + ")" );
+            String strCurrentConnections = ( cs.getCurrentConnections( ) == cs.INFO_NOT_AVAILABLE ) ? "-" : ( "" + cs.getCurrentConnections( ) );
+            String strMaxConnections = ( cs.getMaxConnections( ) == cs.INFO_NOT_AVAILABLE ) ? "-" : ( "" + cs.getMaxConnections( ) );
+            listPoolsInfos.addItem( cs.getPoolName( ), strCurrentConnections + " / " + strMaxConnections + " (" + cs.getPoolProvider( ) + ")" );
         }
 
         return listPoolsInfos;
@@ -292,11 +295,13 @@ public final class PoolManager
 
     /**
      * Returns the datasource for a given pool name
-     * @param strPoolName The Pool name
+     * 
+     * @param strPoolName
+     *            The Pool name
      * @return A data source object
      */
     public DataSource getDataSource( String strPoolName )
     {
-        return _pools.get( strPoolName ).getDataSource(  );
+        return _pools.get( strPoolName ).getDataSource( );
     }
 }

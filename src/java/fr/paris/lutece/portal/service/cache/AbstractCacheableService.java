@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -46,7 +46,6 @@ import org.apache.log4j.Logger;
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
  * Base implementation for a cacheable service
  */
@@ -59,14 +58,16 @@ public abstract class AbstractCacheableService implements CacheableService, Cach
     /**
      * Init the cache. Should be called by the service at its initialization.
      */
-    public void initCache(  )
+    public void initCache( )
     {
-        initCache( getName(  ) );
+        initCache( getName( ) );
     }
 
     /**
      * Init the cache. Should be called by the service at its initialization.
-     * @param strCacheName The cache name
+     * 
+     * @param strCacheName
+     *            The cache name
      */
     public void initCache( String strCacheName )
     {
@@ -77,22 +78,27 @@ public abstract class AbstractCacheableService implements CacheableService, Cach
 
     /**
      * Create a cache
-     * @param strCacheName The cache name
+     * 
+     * @param strCacheName
+     *            The cache name
      */
     private void createCache( String strCacheName )
     {
-        _cache = CacheService.getInstance(  ).createCache( strCacheName );
-        _cache.getCacheEventNotificationService(  ).registerListener( this );
+        _cache = CacheService.getInstance( ).createCache( strCacheName );
+        _cache.getCacheEventNotificationService( ).registerListener( this );
     }
 
     /**
      * Put an object into the cache
-     * @param strKey The key of the object to put into the cache
-     * @param object The object to put into the cache
+     * 
+     * @param strKey
+     *            The key of the object to put into the cache
+     * @param object
+     *            The object to put into the cache
      */
     public void putInCache( String strKey, Object object )
     {
-        if ( ( _cache != null ) && isCacheEnable(  ) )
+        if ( ( _cache != null ) && isCacheEnable( ) )
         {
             Element element = new Element( strKey, object );
             _cache.put( element );
@@ -101,20 +107,22 @@ public abstract class AbstractCacheableService implements CacheableService, Cach
 
     /**
      * Gets an object from the cache
-     * @param strKey The key of the object to retrieve from the cache
+     * 
+     * @param strKey
+     *            The key of the object to retrieve from the cache
      * @return The object from the cache
      */
     public Object getFromCache( String strKey )
     {
         Object object = null;
 
-        if ( ( _cache != null ) && isCacheEnable(  ) )
+        if ( ( _cache != null ) && isCacheEnable( ) )
         {
             Element element = _cache.get( strKey );
 
             if ( element != null )
             {
-                object = element.getObjectValue(  );
+                object = element.getObjectValue( );
             }
         }
 
@@ -127,7 +135,7 @@ public abstract class AbstractCacheableService implements CacheableService, Cach
      * @return true if enable, otherwise false
      */
     @Override
-    public boolean isCacheEnable(  )
+    public boolean isCacheEnable( )
     {
         return _bEnable;
     }
@@ -142,12 +150,12 @@ public abstract class AbstractCacheableService implements CacheableService, Cach
 
         if ( ( !_bEnable ) && ( _cache != null ) )
         {
-            _cache.removeAll(  );
+            _cache.removeAll( );
         }
 
         if ( ( _bEnable ) && ( _cache == null ) )
         {
-            createCache( getName(  ) );
+            createCache( getName( ) );
         }
 
         CacheService.updateCacheStatus( this );
@@ -157,22 +165,22 @@ public abstract class AbstractCacheableService implements CacheableService, Cach
      * Reset the cache.
      */
     @Override
-    public void resetCache(  )
+    public void resetCache( )
     {
         try
         {
             if ( _cache != null )
             {
-                _cache.removeAll(  );
+                _cache.removeAll( );
             }
         }
-        catch ( IllegalStateException e )
+        catch( IllegalStateException e )
         {
-            AppLogService.error( e.getMessage(  ), e );
+            AppLogService.error( e.getMessage( ), e );
         }
-        catch ( CacheException e )
+        catch( CacheException e )
         {
-            AppLogService.error( e.getMessage(  ), e );
+            AppLogService.error( e.getMessage( ), e );
         }
     }
 
@@ -182,16 +190,17 @@ public abstract class AbstractCacheableService implements CacheableService, Cach
      * @return the number of item currently in the cache.
      */
     @Override
-    public int getCacheSize(  )
+    public int getCacheSize( )
     {
-        return ( _cache != null ) ? _cache.getSize(  ) : 0;
+        return ( _cache != null ) ? _cache.getSize( ) : 0;
     }
 
     /**
      * Return a cache object
+     * 
      * @return cache object
      */
-    public Cache getCache(  )
+    public Cache getCache( )
     {
         return _cache;
     }
@@ -200,48 +209,48 @@ public abstract class AbstractCacheableService implements CacheableService, Cach
      * {@inheritDoc }
      */
     @Override
-    public List<String> getKeys(  )
+    public List<String> getKeys( )
     {
         if ( _cache != null )
         {
-            return _cache.getKeys(  );
+            return _cache.getKeys( );
         }
 
-        return new ArrayList<String>(  );
+        return new ArrayList<String>( );
     }
 
     /**
-    *  {@inheritDoc }
-    */
-    @Override
-    public int getMaxElements(  )
-    {
-        return _cache.getCacheConfiguration(  ).getMaxElementsInMemory(  );
-    }
-
-    /**
-     *  {@inheritDoc }
+     * {@inheritDoc }
      */
     @Override
-    public long getTimeToLive(  )
+    public int getMaxElements( )
     {
-        return _cache.getCacheConfiguration(  ).getTimeToLiveSeconds(  );
+        return _cache.getCacheConfiguration( ).getMaxElementsInMemory( );
     }
 
     /**
-     *  {@inheritDoc }
+     * {@inheritDoc }
      */
     @Override
-    public long getMemorySize(  )
+    public long getTimeToLive( )
     {
-        return _cache.calculateInMemorySize(  );
+        return _cache.getCacheConfiguration( ).getTimeToLiveSeconds( );
     }
 
     /**
-     *  {@inheritDoc }
+     * {@inheritDoc }
      */
     @Override
-    public String getInfos(  )
+    public long getMemorySize( )
+    {
+        return _cache.calculateInMemorySize( );
+    }
+
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public String getInfos( )
     {
         return CacheService.getInfos( _cache );
     }
@@ -253,7 +262,7 @@ public abstract class AbstractCacheableService implements CacheableService, Cach
      * @return the instance
      */
     @Override
-    public Object clone(  )
+    public Object clone( )
     {
         throw new RuntimeException( "This class shouldn't be cloned" );
     }
@@ -265,16 +274,15 @@ public abstract class AbstractCacheableService implements CacheableService, Cach
     public void notifyElementExpired( Ehcache cache, Element element )
     {
         // Remove the element from the cache
-        _cache.remove( element.getKey(  ) );
-        _logger.debug( "Object removed from the cache : " + cache.getName(  ) + " - key : " + element.getKey(  ) );
+        _cache.remove( element.getKey( ) );
+        _logger.debug( "Object removed from the cache : " + cache.getName( ) + " - key : " + element.getKey( ) );
     }
 
     /**
      * {@inheritDoc }
      */
     @Override
-    public void notifyElementRemoved( Ehcache ehch, Element elmnt )
-        throws CacheException
+    public void notifyElementRemoved( Ehcache ehch, Element elmnt ) throws CacheException
     {
         // Do nothing
     }
@@ -301,8 +309,7 @@ public abstract class AbstractCacheableService implements CacheableService, Cach
      * {@inheritDoc }
      */
     @Override
-    public void notifyElementPut( Ehcache ehch, Element elmnt )
-        throws CacheException
+    public void notifyElementPut( Ehcache ehch, Element elmnt ) throws CacheException
     {
         // Do nothing
     }
@@ -311,8 +318,7 @@ public abstract class AbstractCacheableService implements CacheableService, Cach
      * {@inheritDoc }
      */
     @Override
-    public void notifyElementUpdated( Ehcache ehch, Element elmnt )
-        throws CacheException
+    public void notifyElementUpdated( Ehcache ehch, Element elmnt ) throws CacheException
     {
         // Do nothing
     }
@@ -321,17 +327,19 @@ public abstract class AbstractCacheableService implements CacheableService, Cach
      * {@inheritDoc }
      */
     @Override
-    public void dispose(  )
+    public void dispose( )
     {
         // Do nothing
     }
 
     /**
      * Remove a key from the cache
-     * @param strKey The key to remove
+     * 
+     * @param strKey
+     *            The key to remove
      */
     public void removeKey( String strKey )
     {
-        getCache(  ).remove( strKey );
+        getCache( ).remove( strKey );
     }
 }

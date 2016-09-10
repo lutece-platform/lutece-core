@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,7 +33,6 @@
  */
 package fr.paris.lutece.portal.business.indexeraction;
 
-
 /**
  *
  * class IndexerActionFilter
@@ -46,16 +45,18 @@ public class IndexerActionFilter
 
     /**
      *
-     * @return  the task id insert in the filter
+     * @return the task id insert in the filter
      */
-    public int getIdTask(  )
+    public int getIdTask( )
     {
         return _nIdTask;
     }
 
     /**
-     * set  the task id  in the filter
-     * @param idTask the task id to insert in the filter
+     * set the task id in the filter
+     * 
+     * @param idTask
+     *            the task id to insert in the filter
      */
     public void setIdTask( int idTask )
     {
@@ -67,7 +68,7 @@ public class IndexerActionFilter
      * @return true if the filter contain a task id
      *
      */
-    public boolean containsIdTask(  )
+    public boolean containsIdTask( )
     {
         return ( _nIdTask != ALL_INT );
     }

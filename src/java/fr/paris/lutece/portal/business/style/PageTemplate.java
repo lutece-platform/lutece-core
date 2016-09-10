@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,7 +33,6 @@
  */
 package fr.paris.lutece.portal.business.style;
 
-
 /**
  * This class reprsents business objects PageTemplate
  */
@@ -49,7 +48,7 @@ public class PageTemplate
      *
      * @return the page template identifier
      */
-    public int getId(  )
+    public int getId( )
     {
         return _nId;
     }
@@ -57,7 +56,8 @@ public class PageTemplate
     /**
      * Sets the page template identifier
      *
-     * @param nId the page template identifier
+     * @param nId
+     *            the page template identifier
      */
     public void setId( int nId )
     {
@@ -69,7 +69,7 @@ public class PageTemplate
      *
      * @return page template description
      */
-    public String getDescription(  )
+    public String getDescription( )
     {
         return _strDescription;
     }
@@ -77,7 +77,8 @@ public class PageTemplate
     /**
      * Sets the description of the page template
      *
-     * @param strDescription the page template description
+     * @param strDescription
+     *            the page template description
      */
     public void setDescription( String strDescription )
     {
@@ -89,7 +90,7 @@ public class PageTemplate
      *
      * @return the name of the html page
      */
-    public String getFile(  )
+    public String getFile( )
     {
         return _strFile;
     }
@@ -97,7 +98,8 @@ public class PageTemplate
     /**
      * Sets the name of the html page which manages this type of page template
      *
-     * @param strFile The file name
+     * @param strFile
+     *            The file name
      */
     public void setFile( String strFile )
     {
@@ -109,7 +111,7 @@ public class PageTemplate
      *
      * @return The name of the picture as a string
      */
-    public String getPicture(  )
+    public String getPicture( )
     {
         return _strPicture;
     }
@@ -117,7 +119,8 @@ public class PageTemplate
     /**
      * Sets the name of the picture associated to the page template type in the administration unit
      *
-     * @param strPicture The picture name
+     * @param strPicture
+     *            The picture name
      */
     public void setPicture( String strPicture )
     {

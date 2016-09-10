@@ -61,7 +61,6 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
 /**
  * Filter to prevent unauthenticated access to admin
  */
@@ -87,7 +86,7 @@ public class AuthenticationFilter implements Filter
      * {@inheritDoc}
      */
     @Override
-    public void destroy(  )
+    public void destroy( )
     {
         // Do nothing
     }
@@ -96,8 +95,7 @@ public class AuthenticationFilter implements Filter
      * {@inheritDoc}
      */
     @Override
-    public void doFilter( ServletRequest request, ServletResponse response, FilterChain chain )
-        throws IOException, ServletException
+    public void doFilter( ServletRequest request, ServletResponse response, FilterChain chain ) throws IOException, ServletException
     {
         HttpServletRequest req = (HttpServletRequest) request;
         HttpServletResponse resp = (HttpServletResponse) response;
@@ -110,49 +108,45 @@ public class AuthenticationFilter implements Filter
             {
                 filterAccess( req );
             }
-            catch ( UserNotSignedException e )
+            catch( UserNotSignedException e )
             {
-                AdminAuthenticationService.getInstance(  ).setLoginNextUrl( req );
+                AdminAuthenticationService.getInstance( ).setLoginNextUrl( req );
 
                 String strRedirectUrl = null;
 
-                if ( AdminAuthenticationService.getInstance(  ).isExternalAuthentication(  ) )
+                if ( AdminAuthenticationService.getInstance( ).isExternalAuthentication( ) )
                 {
-                    AppLogService.debug( LOGGER_NAME,
-                        "New session behind external authentication : " + getResquestedUrl( req ) );
+                    AppLogService.debug( LOGGER_NAME, "New session behind external authentication : " + getResquestedUrl( req ) );
 
-                    strRedirectUrl = AdminMessageService.getMessageUrl( req, Messages.MESSAGE_USER_NEW_SESSION,
-                            AppPathService.getAdminMenuUrl(  ), AdminMessage.TYPE_INFO );
+                    strRedirectUrl = AdminMessageService.getMessageUrl( req, Messages.MESSAGE_USER_NEW_SESSION, AppPathService.getAdminMenuUrl( ),
+                            AdminMessage.TYPE_INFO );
                 }
                 else
                 {
                     AppLogService.debug( LOGGER_NAME, "Access NOT granted to url : " + getResquestedUrl( req ) );
 
-                    strRedirectUrl = AdminMessageService.getMessageUrl( req, Messages.MESSAGE_USER_NOT_AUTHENTICATED,
-                            getRedirectUrl( req ), AdminMessage.TYPE_WARNING );
+                    strRedirectUrl = AdminMessageService.getMessageUrl( req, Messages.MESSAGE_USER_NOT_AUTHENTICATED, getRedirectUrl( req ),
+                            AdminMessage.TYPE_WARNING );
                 }
 
                 resp.sendRedirect( getAbsoluteUrl( req, strRedirectUrl ) );
 
                 return;
             }
-            catch ( AccessDeniedException e )
+            catch( AccessDeniedException e )
             {
                 AppLogService.debug( LOGGER_NAME, "Access NOT granted to url : " + getResquestedUrl( req ) );
 
-                String strRedirectUrl = AdminMessageService.getMessageUrl( req, Messages.MESSAGE_AUTH_FAILURE,
-                        getRedirectUrl( req ), AdminMessage.TYPE_ERROR );
+                String strRedirectUrl = AdminMessageService.getMessageUrl( req, Messages.MESSAGE_AUTH_FAILURE, getRedirectUrl( req ), AdminMessage.TYPE_ERROR );
                 resp.sendRedirect( getAbsoluteUrl( req, strRedirectUrl ) );
 
                 return;
             }
-            catch ( PasswordResetException e )
+            catch( PasswordResetException e )
             {
-                if ( !getResquestedUrl( req ).equals( getChangePasswordUrl( req ) ) &&
-                        !getResquestedUrl( req ).equals( getLoginUrl( req ) ) )
+                if ( !getResquestedUrl( req ).equals( getChangePasswordUrl( req ) ) && !getResquestedUrl( req ).equals( getLoginUrl( req ) ) )
                 {
-                    String strRedirectUrl = AdminMessageService.getMessageUrl( req,
-                            Messages.MESSAGE_USER_MUST_CHANGE_PASSWORD, getChangePasswordUrl( req ),
+                    String strRedirectUrl = AdminMessageService.getMessageUrl( req, Messages.MESSAGE_USER_MUST_CHANGE_PASSWORD, getChangePasswordUrl( req ),
                             AdminMessage.TYPE_ERROR );
                     resp.sendRedirect( getAbsoluteUrl( req, strRedirectUrl ) );
 
@@ -165,22 +159,23 @@ public class AuthenticationFilter implements Filter
     }
 
     /**
-     * Build the url to redirect to if not logged.
-     * This is actually the login page of the authentication module, completed with the request parameters.
-     * @param request the http request
+     * Build the url to redirect to if not logged. This is actually the login page of the authentication module, completed with the request parameters.
+     * 
+     * @param request
+     *            the http request
      * @return the string representation of the redirection url - absolute - with request parameters.
      */
     private String getRedirectUrl( HttpServletRequest request )
     {
         UrlItem url = new UrlItem( getLoginUrl( request ) );
 
-        Enumeration<String> enumParams = request.getParameterNames(  );
+        Enumeration<String> enumParams = request.getParameterNames( );
 
         String strParamName;
 
-        while ( enumParams.hasMoreElements(  ) )
+        while ( enumParams.hasMoreElements( ) )
         {
-            strParamName = enumParams.nextElement(  );
+            strParamName = enumParams.nextElement( );
 
             if ( !strParamName.equals( Parameters.ACCESS_CODE ) && !strParamName.equals( Parameters.PASSWORD ) )
             {
@@ -188,19 +183,20 @@ public class AuthenticationFilter implements Filter
             }
         }
 
-        return url.getUrl(  );
+        return url.getUrl( );
     }
 
     /**
      * Get the absolute login url
      *
-     * @param request the http request
+     * @param request
+     *            the http request
      * @return the login url, in its absolute form
      *
      * */
     private String getLoginUrl( HttpServletRequest request )
     {
-        String strLoginUrl = AdminAuthenticationService.getInstance(  ).getLoginPageUrl(  );
+        String strLoginUrl = AdminAuthenticationService.getInstance( ).getLoginPageUrl( );
 
         return getAbsoluteUrl( request, strLoginUrl );
     }
@@ -208,7 +204,8 @@ public class AuthenticationFilter implements Filter
     /**
      * Gets the logout url.
      *
-     * @param request the request
+     * @param request
+     *            the request
      * @return the logout url
      */
     private String getLogoutUrl( HttpServletRequest request )
@@ -219,22 +216,24 @@ public class AuthenticationFilter implements Filter
     /**
      * Get the absolute login url
      *
-     * @param request the http request
+     * @param request
+     *            the http request
      * @return the login url, in its absolute form
      *
      * */
     private String getChangePasswordUrl( HttpServletRequest request )
     {
-        String strChangePasswordUrl = AdminAuthenticationService.getInstance(  ).getChangePasswordPageUrl(  );
+        String strChangePasswordUrl = AdminAuthenticationService.getInstance( ).getChangePasswordPageUrl( );
 
         return getAbsoluteUrl( request, strChangePasswordUrl );
     }
 
     /**
-     * Check wether a given url is to be considered as private (ie that
-     * needs a successful authentication to be accessed) or public (ie that
-     * can be access without being authenticated)
-     * @param request the http request
+     * Check wether a given url is to be considered as private (ie that needs a successful authentication to be accessed) or public (ie that can be access
+     * without being authenticated)
+     * 
+     * @param request
+     *            the http request
      * @return true if the url needs to be authenticated, false otherwise
      *
      * */
@@ -247,39 +246,43 @@ public class AuthenticationFilter implements Filter
         {
             bIsRestricted = false;
         }
-        else if ( isInPublicUrlList( request, strUrl ) )
-        {
-            bIsRestricted = false;
-        }
+        else
+            if ( isInPublicUrlList( request, strUrl ) )
+            {
+                bIsRestricted = false;
+            }
 
         return bIsRestricted;
     }
 
     /**
      * check that the access is granted
-     *  @param request The HTTP request
-     *  @throws AccessDeniedException If the user is not allowed
-     *  @throws UserNotSignedException If the user is not signed
+     * 
+     * @param request
+     *            The HTTP request
+     * @throws AccessDeniedException
+     *             If the user is not allowed
+     * @throws UserNotSignedException
+     *             If the user is not signed
      *
      **/
-    private static void filterAccess( HttpServletRequest request )
-        throws UserNotSignedException, AccessDeniedException
+    private static void filterAccess( HttpServletRequest request ) throws UserNotSignedException, AccessDeniedException
     {
-        if ( AdminAuthenticationService.getInstance(  ).isExternalAuthentication(  ) )
+        if ( AdminAuthenticationService.getInstance( ).isExternalAuthentication( ) )
         {
             // The authentication is external
             // Should register the user if it's not already done
-            AdminAuthenticationService.getInstance(  ).getRemoteUser( request );
+            AdminAuthenticationService.getInstance( ).getRemoteUser( request );
         }
         else
         {
-            if ( AdminAuthenticationService.getInstance(  ).getRegisteredUser( request ) == null )
+            if ( AdminAuthenticationService.getInstance( ).getRegisteredUser( request ) == null )
             {
                 // Authentication is required to access to the admin
-                throw new UserNotSignedException(  );
+                throw new UserNotSignedException( );
             }
 
-            if ( AdminUserService.getAdminUser( request ).isPasswordReset(  ) )
+            if ( AdminUserService.getAdminUser( request ).isPasswordReset( ) )
             {
                 throw new PasswordResetException( PROPERTY_RESET_EXCEPTION_MESSAGE );
             }
@@ -287,10 +290,12 @@ public class AuthenticationFilter implements Filter
     }
 
     /**
-     * Checks if the requested is in the list of urls that are under
-     * jsp/admin but shouldn't be protected
-     * @param request the http request (provides the base path if needed)
-     * @param strRequestedUrl the url to test : it should start with "http://" is absolute, or should be relative to the webapp root otherwise
+     * Checks if the requested is in the list of urls that are under jsp/admin but shouldn't be protected
+     * 
+     * @param request
+     *            the http request (provides the base path if needed)
+     * @param strRequestedUrl
+     *            the url to test : it should start with "http://" is absolute, or should be relative to the webapp root otherwise
      * @return true if the url is in the list, false otherwise
      *
      * */
@@ -302,9 +307,9 @@ public class AuthenticationFilter implements Filter
         // extracts each item (separated by a comma) from the includes list
         StringTokenizer strTokens = new StringTokenizer( strList, CONSTANT_LIST_SEPARATOR );
 
-        while ( strTokens.hasMoreTokens(  ) )
+        while ( strTokens.hasMoreTokens( ) )
         {
-            String strName = strTokens.nextToken(  );
+            String strName = strTokens.nextToken( );
             String strUrl = AppPropertiesService.getProperty( PROPERTY_URL_PREFIX + strName );
             strUrl = getAbsoluteUrl( request, strUrl );
 
@@ -318,11 +323,13 @@ public class AuthenticationFilter implements Filter
     }
 
     /**
-     * Returns the absolute url corresponding to the given one, if the later
-     * was found to be relative. An url starting with "http://" is absolute.
-     * A relative url should be given relatively to the webapp root.
-     * @param request the http request (provides the base path if needed)
-     * @param strUrl the url to transform
+     * Returns the absolute url corresponding to the given one, if the later was found to be relative. An url starting with "http://" is absolute. A relative
+     * url should be given relatively to the webapp root.
+     * 
+     * @param request
+     *            the http request (provides the base path if needed)
+     * @param strUrl
+     *            the url to transform
      * @return the corresponding absolute url
      *
      * */
@@ -338,12 +345,14 @@ public class AuthenticationFilter implements Filter
 
     /**
      * Return the absolute representation of the requested url
-     * @param request the http request (provides the base path if needed)
+     * 
+     * @param request
+     *            the http request (provides the base path if needed)
      * @return the requested url has a string
      *
      * */
     private String getResquestedUrl( HttpServletRequest request )
     {
-        return AppPathService.getBaseUrl( request ) + request.getServletPath(  ).substring( 1 );
+        return AppPathService.getBaseUrl( request ) + request.getServletPath( ).substring( 1 );
     }
 }

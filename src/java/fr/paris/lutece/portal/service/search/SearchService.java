@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -44,7 +44,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  * The Class SearchService.
  */
@@ -60,22 +59,24 @@ public final class SearchService
     /**
      * Instantiates a new search service.
      */
-    private SearchService(  )
+    private SearchService( )
     {
     }
 
     /**
      * Build the advanced parameters management.
      *
-     * @param user the current admin user
-     * @param request the request
+     * @param user
+     *            the current admin user
+     * @param request
+     *            the request
      * @return the model for the advanced parameters
      */
     public static Map<String, Object> getManageAdvancedParameters( AdminUser user, HttpServletRequest request )
     {
-        Map<String, Object> model = new HashMap<String, Object>(  );
-        model.putAll( SearchParameterHome.findAll(  ) );
-        model.put( MARK_LOCALE, user.getLocale(  ) );
+        Map<String, Object> model = new HashMap<String, Object>( );
+        model.putAll( SearchParameterHome.findAll( ) );
+        model.put( MARK_LOCALE, user.getLocale( ) );
         model.put( MARK_WEBAPP_URL, AppPathService.getBaseUrl( request ) );
 
         return model;
@@ -83,25 +84,26 @@ public final class SearchService
 
     /**
      * Find types managed by each registered indexer and the link to their specific search page
+     * 
      * @return the model for this list of types and links
      */
-    public static List<Map<String, Object>> getSearchTypesAndLinks(  )
+    public static List<Map<String, Object>> getSearchTypesAndLinks( )
     {
-        List<Map<String, Object>> listTypesAndLinks = new ArrayList<Map<String, Object>>(  );
-        Map<String, Object> model = new HashMap<String, Object>(  );
+        List<Map<String, Object>> listTypesAndLinks = new ArrayList<Map<String, Object>>( );
+        Map<String, Object> model = new HashMap<String, Object>( );
         model.put( MARK_TYPE, TYPE_FILTER_NONE );
         model.put( MARK_LINK, null );
         listTypesAndLinks.add( model );
 
-        List<SearchIndexer> listIndexer = new ArrayList<SearchIndexer>( IndexationService.getIndexers(  ) );
+        List<SearchIndexer> listIndexer = new ArrayList<SearchIndexer>( IndexationService.getIndexers( ) );
 
         for ( SearchIndexer indexer : listIndexer )
         {
-            String strLink = indexer.getSpecificSearchAppUrl(  );
+            String strLink = indexer.getSpecificSearchAppUrl( );
 
-            for ( String strType : indexer.getListType(  ) )
+            for ( String strType : indexer.getListType( ) )
             {
-                model = new HashMap<String, Object>(  );
+                model = new HashMap<String, Object>( );
                 model.put( MARK_TYPE, strType );
                 model.put( MARK_LINK, strLink );
                 listTypesAndLinks.add( model );

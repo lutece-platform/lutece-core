@@ -39,13 +39,12 @@ import org.apache.commons.lang.StringUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
  * This class provides utility methods for the generation of Url String
  */
 public class UrlItem
 {
-    ////////////////////////////////////////////////////////////////////////////
+    // //////////////////////////////////////////////////////////////////////////
     // Constants
     private static final String ANCHOR_DELIMITER = "#";
 
@@ -53,12 +52,14 @@ public class UrlItem
     private String _strRoot;
 
     /** the list of parameters. */
-    private List<UrlParameterItem> _listParameters = new ArrayList<UrlParameterItem>(  );
+    private List<UrlParameterItem> _listParameters = new ArrayList<UrlParameterItem>( );
     private String _strAnchor;
 
     /**
      * Constructs an url with no parameters.
-     * @param strRoot The url's root.
+     * 
+     * @param strRoot
+     *            The url's root.
      */
     public UrlItem( String strRoot )
     {
@@ -67,8 +68,11 @@ public class UrlItem
 
     /**
      * Add a Parameter to the url.
-     * @param strName The name of the parameter.
-     * @param strValue The value of the parameter.
+     * 
+     * @param strName
+     *            The name of the parameter.
+     * @param strValue
+     *            The value of the parameter.
      */
     public void addParameter( String strName, String strValue )
     {
@@ -77,8 +81,11 @@ public class UrlItem
 
     /**
      * Add a Parameter to the url.
-     * @param strName The name of the parameter.
-     * @param nValue The value of the parameter.
+     * 
+     * @param strName
+     *            The name of the parameter.
+     * @param nValue
+     *            The value of the parameter.
      */
     public void addParameter( String strName, int nValue )
     {
@@ -87,9 +94,10 @@ public class UrlItem
 
     /**
      * Return the url string.
+     * 
      * @return String The url string.
      */
-    public String getUrl(  )
+    public String getUrl( )
     {
         StringBuilder urlCode = new StringBuilder( _strRoot );
 
@@ -102,20 +110,21 @@ public class UrlItem
             bFirst = false;
         }
 
-        if ( ( getAnchor(  ) != null ) && !getAnchor(  ).equals( StringUtils.EMPTY ) )
+        if ( ( getAnchor( ) != null ) && !getAnchor( ).equals( StringUtils.EMPTY ) )
         {
             urlCode.append( ANCHOR_DELIMITER );
-            urlCode.append( getAnchor(  ) );
+            urlCode.append( getAnchor( ) );
         }
 
-        return urlCode.toString(  );
+        return urlCode.toString( );
     }
 
     /**
      * Return the url string.
+     * 
      * @return String The url string with entity code.
      */
-    public String getUrlWithEntity(  )
+    public String getUrlWithEntity( )
     {
         StringBuilder urlCode = new StringBuilder( _strRoot );
 
@@ -128,26 +137,29 @@ public class UrlItem
             bFirst = false;
         }
 
-        if ( StringUtils.isNotEmpty( getAnchor(  ) ) )
+        if ( StringUtils.isNotEmpty( getAnchor( ) ) )
         {
-            urlCode.append( ANCHOR_DELIMITER + getAnchor(  ) );
+            urlCode.append( ANCHOR_DELIMITER + getAnchor( ) );
         }
 
-        return urlCode.toString(  );
+        return urlCode.toString( );
     }
 
     /**
      * Get the anchor
+     * 
      * @return the _srtAnchor
      */
-    public String getAnchor(  )
+    public String getAnchor( )
     {
         return _strAnchor;
     }
 
     /**
      * Set the anchor
-     * @param strAnchorName the _srtAnchor to set
+     * 
+     * @param strAnchorName
+     *            the _srtAnchor to set
      */
     public void setAnchor( String strAnchorName )
     {
@@ -158,8 +170,8 @@ public class UrlItem
      * {@inheritDoc}
      */
     @Override
-    public String toString(  )
+    public String toString( )
     {
-        return getUrl(  );
+        return getUrl( );
     }
 }

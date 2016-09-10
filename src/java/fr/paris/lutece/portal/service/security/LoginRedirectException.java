@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,30 +33,32 @@
  */
 package fr.paris.lutece.portal.service.security;
 
-
 /**
- * This Exception should be thrown when the Authentication service wants to redirect
- * the login on a specific URL
+ * This Exception should be thrown when the Authentication service wants to redirect the login on a specific URL
  */
 public class LoginRedirectException extends Exception
 {
     private static final long serialVersionUID = -7833180892056881199L;
     private final String _strRedirectUrl;
 
-    /** Creates a new instance of LoginRedirectException
-     * @param strRedirectUrl The Url wished for the redirection
+    /**
+     * Creates a new instance of LoginRedirectException
+     * 
+     * @param strRedirectUrl
+     *            The Url wished for the redirection
      */
     public LoginRedirectException( String strRedirectUrl )
     {
-        super(  );
+        super( );
         _strRedirectUrl = strRedirectUrl;
     }
 
     /**
      * Return the redirect url
+     * 
      * @return The redirect url
      */
-    public String getRedirectUrl(  )
+    public String getRedirectUrl( )
     {
         return _strRedirectUrl;
     }

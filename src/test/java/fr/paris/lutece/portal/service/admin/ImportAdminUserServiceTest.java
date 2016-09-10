@@ -14,36 +14,33 @@ import fr.paris.lutece.test.LuteceTestCase;
 
 public class ImportAdminUserServiceTest extends LuteceTestCase
 {
-    public void testReadLineOfCSVFileForPassword(  )
+    public void testReadLineOfCSVFileForPassword( )
     {
-        String[] lineData = new String[] {
+        String [ ] lineData = new String [ ] {
                 "user" + new SecureRandom( ).nextLong( ), // accessCode
-                "lastName",
-                "firstName",
-                "email",
-                Integer.toString( AdminUser.ACTIVE_CODE ),
-                "fr",
-                Integer.toString( 3 ), // level
+                "lastName", "firstName", "email", Integer.toString( AdminUser.ACTIVE_CODE ), "fr", Integer.toString( 3 ), // level
                 "", // resetpassword
                 "false", // accessibility mode
                 "", // passwordmaxvaliddate
                 "", // accountmaxvaliddate
                 "", // datelastlogin
-                
+
         };
         ImportAdminUserService importAdminuser = new ImportAdminUserService( );
         MockHttpServletRequest request = new MockHttpServletRequest( );
-        List<CSVMessageDescriptor> messages = importAdminuser.readLineOfCSVFile( lineData, 1, AdminUserService.getLocale( request ), AppPathService.getBaseUrl( request ) );
+        List<CSVMessageDescriptor> messages = importAdminuser.readLineOfCSVFile( lineData, 1, AdminUserService.getLocale( request ),
+                AppPathService.getBaseUrl( request ) );
         assertNotNull( messages );
         assertTrue( messages.isEmpty( ) );
-        AdminUser user = AdminUserHome.findUserByLogin( lineData[0] );
+        AdminUser user = AdminUserHome.findUserByLogin( lineData [0] );
         assertNotNull( user );
         try
         {
             LuteceDefaultAdminUser luteceDefaultAdminUser = AdminUserHome.findLuteceDefaultAdminUserByPrimaryKey( user.getUserId( ) );
             assertNotNull( luteceDefaultAdminUser );
             assertFalse( luteceDefaultAdminUser.getPassword( ).isLegacy( ) );
-        } finally
+        }
+        finally
         {
             AdminUserHome.remove( user.getUserId( ) );
         }

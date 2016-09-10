@@ -39,26 +39,25 @@ import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.MokeHttpServletRequest;
 
-
 /**
  * LevelsJspBeanTest Test Class
  *
  */
 public class LevelsJspBeanTest extends LuteceTestCase
 {
-    private static final String TEST_LEVEL_ID = "0"; // administrator level_right 
+    private static final String TEST_LEVEL_ID = "0"; // administrator level_right
 
     /**
      * Test of getManageLevels method, of class fr.paris.lutece.portal.web.features.LevelsJspBean.
      */
-    public void testGetManageLevels(  ) throws AccessDeniedException
+    public void testGetManageLevels( ) throws AccessDeniedException
     {
         System.out.println( "getManageLevels" );
 
-        MokeHttpServletRequest request = new MokeHttpServletRequest(  );
-        request.registerAdminUserWithRigth( new AdminUser(  ), LevelsJspBean.RIGHT_MANAGE_LEVELS );
+        MokeHttpServletRequest request = new MokeHttpServletRequest( );
+        request.registerAdminUserWithRigth( new AdminUser( ), LevelsJspBean.RIGHT_MANAGE_LEVELS );
 
-        LevelsJspBean instance = new LevelsJspBean(  );
+        LevelsJspBean instance = new LevelsJspBean( );
         instance.init( request, LevelsJspBean.RIGHT_MANAGE_LEVELS );
         instance.getManageLevels( request );
     }
@@ -66,14 +65,14 @@ public class LevelsJspBeanTest extends LuteceTestCase
     /**
      * Test of getCreateLevel method, of class fr.paris.lutece.portal.web.features.LevelsJspBean.
      */
-    public void testGetCreateLevel(  ) throws AccessDeniedException
+    public void testGetCreateLevel( ) throws AccessDeniedException
     {
         System.out.println( "getCreateLevel" );
 
-        MokeHttpServletRequest request = new MokeHttpServletRequest(  );
-        request.registerAdminUserWithRigth( new AdminUser(  ), LevelsJspBean.RIGHT_MANAGE_LEVELS );
+        MokeHttpServletRequest request = new MokeHttpServletRequest( );
+        request.registerAdminUserWithRigth( new AdminUser( ), LevelsJspBean.RIGHT_MANAGE_LEVELS );
 
-        LevelsJspBean instance = new LevelsJspBean(  );
+        LevelsJspBean instance = new LevelsJspBean( );
         instance.init( request, LevelsJspBean.RIGHT_MANAGE_LEVELS );
         instance.getCreateLevel( request );
     }
@@ -81,7 +80,7 @@ public class LevelsJspBeanTest extends LuteceTestCase
     /**
      * Test of doCreateLevel method, of class fr.paris.lutece.portal.web.features.LevelsJspBean.
      */
-    public void testDoCreateLevel(  )
+    public void testDoCreateLevel( )
     {
         System.out.println( "doCreateLevel" );
 
@@ -91,15 +90,15 @@ public class LevelsJspBeanTest extends LuteceTestCase
     /**
      * Test of getModifyLevel method, of class fr.paris.lutece.portal.web.features.LevelsJspBean.
      */
-    public void testGetModifyLevel(  ) throws AccessDeniedException
+    public void testGetModifyLevel( ) throws AccessDeniedException
     {
         System.out.println( "getModifyLevel" );
 
-        MokeHttpServletRequest request = new MokeHttpServletRequest(  );
+        MokeHttpServletRequest request = new MokeHttpServletRequest( );
         request.addMokeParameters( Parameters.LEVEL_ID, TEST_LEVEL_ID );
-        request.registerAdminUserWithRigth( new AdminUser(  ), LevelsJspBean.RIGHT_MANAGE_LEVELS );
+        request.registerAdminUserWithRigth( new AdminUser( ), LevelsJspBean.RIGHT_MANAGE_LEVELS );
 
-        LevelsJspBean instance = new LevelsJspBean(  );
+        LevelsJspBean instance = new LevelsJspBean( );
         instance.init( request, LevelsJspBean.RIGHT_MANAGE_LEVELS );
         instance.getModifyLevel( request );
     }
@@ -107,7 +106,7 @@ public class LevelsJspBeanTest extends LuteceTestCase
     /**
      * Test of doModifyLevel method, of class fr.paris.lutece.portal.web.features.LevelsJspBean.
      */
-    public void testDoModifyLevel(  )
+    public void testDoModifyLevel( )
     {
         System.out.println( "doModifyLevel" );
 

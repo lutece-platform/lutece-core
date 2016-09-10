@@ -37,7 +37,6 @@ import fr.paris.lutece.test.LuteceTestCase;
 
 import java.util.Collection;
 
-
 public class AdminRoleTest extends LuteceTestCase
 {
     private final static String ROLEKEY1 = "RoleKey1";
@@ -45,32 +44,32 @@ public class AdminRoleTest extends LuteceTestCase
     private final static String ROLEDESCRIPTION1 = "RoleDescription 1";
     private final static String ROLEDESCRIPTION2 = "RoleDescription 2";
 
-    public void testBusiness(  )
+    public void testBusiness( )
     {
         // Initialize an object
-        AdminRole adminRole = new AdminRole(  );
+        AdminRole adminRole = new AdminRole( );
         adminRole.setKey( ROLEKEY1 );
         adminRole.setDescription( ROLEDESCRIPTION1 );
 
         // Create test
         AdminRoleHome.create( adminRole );
 
-        AdminRole adminRoleStored = AdminRoleHome.findByPrimaryKey( adminRole.getKey(  ) );
-        assertEquals( adminRoleStored.getKey(  ), adminRole.getKey(  ) );
-        assertEquals( adminRoleStored.getDescription(  ), adminRole.getDescription(  ) );
+        AdminRole adminRoleStored = AdminRoleHome.findByPrimaryKey( adminRole.getKey( ) );
+        assertEquals( adminRoleStored.getKey( ), adminRole.getKey( ) );
+        assertEquals( adminRoleStored.getDescription( ), adminRole.getDescription( ) );
 
         // Update test
         adminRole.setKey( ROLEKEY2 );
         adminRole.setDescription( ROLEDESCRIPTION2 );
 
-        AdminRoleHome.update( adminRoleStored.getKey(  ), adminRole );
-        adminRoleStored = AdminRoleHome.findByPrimaryKey( adminRole.getKey(  ) );
-        assertEquals( adminRoleStored.getKey(  ), adminRole.getKey(  ) );
-        assertEquals( adminRoleStored.getDescription(  ), adminRole.getDescription(  ) );
+        AdminRoleHome.update( adminRoleStored.getKey( ), adminRole );
+        adminRoleStored = AdminRoleHome.findByPrimaryKey( adminRole.getKey( ) );
+        assertEquals( adminRoleStored.getKey( ), adminRole.getKey( ) );
+        assertEquals( adminRoleStored.getDescription( ), adminRole.getDescription( ) );
 
-        //list test
-        Collection list = AdminRoleHome.findAll(  );
-        assertTrue( list.size(  ) > 0 );
+        // list test
+        Collection list = AdminRoleHome.findAll( );
+        assertTrue( list.size( ) > 0 );
 
         // check exist Test
         boolean bCheck = AdminRoleHome.checkExistRole( ROLEKEY2 );
@@ -79,8 +78,8 @@ public class AdminRoleTest extends LuteceTestCase
         assertFalse( bCheck );
 
         // Delete test
-        AdminRoleHome.remove( adminRole.getKey(  ) );
-        adminRoleStored = AdminRoleHome.findByPrimaryKey( adminRole.getKey(  ) );
+        AdminRoleHome.remove( adminRole.getKey( ) );
+        adminRoleStored = AdminRoleHome.findByPrimaryKey( adminRole.getKey( ) );
         assertNull( adminRoleStored );
     }
 }

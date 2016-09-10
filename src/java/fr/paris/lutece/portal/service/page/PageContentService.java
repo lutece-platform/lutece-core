@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -41,7 +41,6 @@ import fr.paris.lutece.portal.web.constants.Parameters;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  *
  * @author pierre
@@ -55,8 +54,7 @@ public class PageContentService extends ContentService
      * {@inheritDoc }
      */
     @Override
-    public String getPage( HttpServletRequest request, int nMode )
-        throws UserNotSignedException, SiteMessageException
+    public String getPage( HttpServletRequest request, int nMode ) throws UserNotSignedException, SiteMessageException
     {
         return _pageService.getPage( request, nMode );
     }
@@ -68,7 +66,7 @@ public class PageContentService extends ContentService
     {
         String strPageId = request.getParameter( Parameters.PAGE_ID );
 
-        if ( ( strPageId != null ) && ( strPageId.length(  ) > 0 ) )
+        if ( ( strPageId != null ) && ( strPageId.length( ) > 0 ) )
         {
             return true;
         }
@@ -79,7 +77,7 @@ public class PageContentService extends ContentService
     /**
      * {@inheritDoc }
      */
-    public String getName(  )
+    public String getName( )
     {
         return SERVICE_NAME;
     }

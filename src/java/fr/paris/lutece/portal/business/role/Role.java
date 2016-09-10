@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -36,7 +36,6 @@ package fr.paris.lutece.portal.business.role;
 import fr.paris.lutece.portal.service.rbac.RBACResource;
 import fr.paris.lutece.portal.service.workgroup.AdminWorkgroupResource;
 
-
 /**
  * This class represents business objects role
  */
@@ -49,16 +48,19 @@ public class Role implements RBACResource, AdminWorkgroupResource
 
     /**
      * Gets the role name
+     * 
      * @return the role name
      */
-    public String getRole(  )
+    public String getRole( )
     {
         return _strRole;
     }
 
     /**
      * Sets the role name
-     * @param strRole the role name
+     * 
+     * @param strRole
+     *            the role name
      */
     public void setRole( String strRole )
     {
@@ -67,16 +69,19 @@ public class Role implements RBACResource, AdminWorkgroupResource
 
     /**
      * Gets the role description
+     * 
      * @return the role description
      */
-    public String getRoleDescription(  )
+    public String getRoleDescription( )
     {
         return _strRoleDescription;
     }
 
     /**
      * Sets the role description
-     * @param strRoleDescription the role description
+     * 
+     * @param strRoleDescription
+     *            the role description
      */
     public void setRoleDescription( String strRoleDescription )
     {
@@ -85,34 +90,39 @@ public class Role implements RBACResource, AdminWorkgroupResource
 
     /**
      * RBAC resource implmentation
+     * 
      * @return The resource type code
      */
-    public String getResourceTypeCode(  )
+    public String getResourceTypeCode( )
     {
         return RESOURCE_TYPE;
     }
 
     /**
      * RBAC resource implmentation
+     * 
      * @return The resourceId
      */
-    public String getResourceId(  )
+    public String getResourceId( )
     {
         return _strRole;
     }
 
     /**
      * Get workgroup key
+     * 
      * @return workgroup key
      */
-    public String getWorkgroup(  )
+    public String getWorkgroup( )
     {
         return _strWorkgroupKey;
     }
 
     /**
      * Set workgroup key
-     * @param strWorkgroupKey workgroup key
+     * 
+     * @param strWorkgroupKey
+     *            workgroup key
      */
     public void setWorkgroup( String strWorkgroupKey )
     {

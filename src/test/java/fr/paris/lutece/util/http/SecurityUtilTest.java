@@ -38,7 +38,6 @@ import org.junit.Test;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.MokeHttpServletRequest;
 
-
 /**
  *
  */
@@ -48,11 +47,11 @@ public class SecurityUtilTest extends LuteceTestCase
      * Test of containsCleanParameters method, of class SecurityUtil.
      */
     @Test
-    public void testContainsCleanParameters(  )
+    public void testContainsCleanParameters( )
     {
         System.out.println( "containsCleanParameters" );
 
-        MokeHttpServletRequest request = new MokeHttpServletRequest(  );
+        MokeHttpServletRequest request = new MokeHttpServletRequest( );
         request.addMokeParameters( "param1", "AZ" );
         request.addMokeParameters( "param2", "09" );
         request.addMokeParameters( "param3", "az" );

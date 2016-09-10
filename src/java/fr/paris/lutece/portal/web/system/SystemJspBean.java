@@ -63,10 +63,8 @@ import java.util.StringTokenizer;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
- * This class provides the user interface to manage system features ( manage
- * logs, view system files, ... ).
+ * This class provides the user interface to manage system features ( manage logs, view system files, ... ).
  */
 public class SystemJspBean extends AdminFeaturesPageJspBean
 {
@@ -86,7 +84,7 @@ public class SystemJspBean extends AdminFeaturesPageJspBean
     private static final String MARK_FILES_SYSTEM_NAME = "file_system_name";
     private static final String MARK_FILE_SYSTEM_DATA = "file_system_data";
 
-    //    private static final String MARK_WEBMASTER_PROPERTIES = "webmaster_properties";
+    // private static final String MARK_WEBMASTER_PROPERTIES = "webmaster_properties";
     private static final String MARK_PROPERTIES_GROUPS_LIST = "groups_list";
 
     // Template Files path
@@ -94,7 +92,7 @@ public class SystemJspBean extends AdminFeaturesPageJspBean
     private static final String TEMPLATE_VIEW_FILES_SYSTEM = "admin/system/view_files_system.html";
     private static final String TEMPLATE_VIEW_FILE = "admin/system/view_file.html";
 
-    //    private static final String TEMPLATE_MANAGE_PROPERTIES = "admin/system/manage_properties.html";
+    // private static final String TEMPLATE_MANAGE_PROPERTIES = "admin/system/manage_properties.html";
     private static final String TEMPLATE_MODIFY_PROPERTIES = "admin/system/modify_properties.html";
 
     // Parameters
@@ -115,7 +113,8 @@ public class SystemJspBean extends AdminFeaturesPageJspBean
     /**
      * Returns ViewLogs page
      *
-     * @param request The HTTP request.
+     * @param request
+     *            The HTTP request.
      * @return The HTML code
      */
     public String getManageFilesSystem( HttpServletRequest request )
@@ -123,31 +122,31 @@ public class SystemJspBean extends AdminFeaturesPageJspBean
         setPageTitleProperty( PROPERTY_TITLE_MANAGE_FILES_SYSTEM );
 
         StringTokenizer st = new StringTokenizer( AppPropertiesService.getProperty( PROPERTY_FILES_SYSTEM_LIST ), "," );
-        ArrayList<SystemFile> list = new ArrayList<SystemFile>(  );
+        ArrayList<SystemFile> list = new ArrayList<SystemFile>( );
 
-        while ( st.hasMoreElements(  ) )
+        while ( st.hasMoreElements( ) )
         {
-            String strFileSystemName = st.nextToken(  ).trim(  );
-            SystemFile file = new SystemFile(  );
-            file.setName( I18nService.getLocalizedString( PROPERTY_FILE_NAME + strFileSystemName, request.getLocale(  ) ) );
-            file.setDescription( I18nService.getLocalizedString( PROPERTY_FILE_DESCRIPTION + strFileSystemName,
-                    request.getLocale(  ) ) );
+            String strFileSystemName = st.nextToken( ).trim( );
+            SystemFile file = new SystemFile( );
+            file.setName( I18nService.getLocalizedString( PROPERTY_FILE_NAME + strFileSystemName, request.getLocale( ) ) );
+            file.setDescription( I18nService.getLocalizedString( PROPERTY_FILE_DESCRIPTION + strFileSystemName, request.getLocale( ) ) );
             file.setDirectory( AppPropertiesService.getProperty( "system." + strFileSystemName + ".directory" ) );
             list.add( file );
         }
 
-        HashMap<String, Collection<SystemFile>> model = new HashMap<String, Collection<SystemFile>>(  );
+        HashMap<String, Collection<SystemFile>> model = new HashMap<String, Collection<SystemFile>>( );
         model.put( MARK_FILES_LIST, list );
 
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_FILES_SYSTEM, getLocale(  ), model );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_FILES_SYSTEM, getLocale( ), model );
 
-        return getAdminPage( template.getHtml(  ) );
+        return getAdminPage( template.getHtml( ) );
     }
 
     /**
      * Get directory list
      *
-     * @param request The request
+     * @param request
+     *            The request
      * @return The html code
      */
     public String getManageFilesSystemDir( HttpServletRequest request )
@@ -161,10 +160,10 @@ public class SystemJspBean extends AdminFeaturesPageJspBean
 
         boolean bDirIsValid = false;
 
-        while ( st.hasMoreElements(  ) )
+        while ( st.hasMoreElements( ) )
         {
             // The dir param is valid, if and only if it's equal to a property value
-            String strFileSystemName = st.nextToken(  ).trim(  );
+            String strFileSystemName = st.nextToken( ).trim( );
             String strDirectory = AppPropertiesService.getProperty( "system." + strFileSystemName + ".directory" );
 
             if ( strDirectory.equals( strDir ) )
@@ -180,75 +179,76 @@ public class SystemJspBean extends AdminFeaturesPageJspBean
             return getManageFilesSystem( request );
         }
 
-        String strDirectory = AppPathService.getWebAppPath(  ) + strDir;
+        String strDirectory = AppPathService.getWebAppPath( ) + strDir;
         File directoryLog = new File( strDirectory );
-        File[] fileLog = directoryLog.listFiles(  );
+        File [ ] fileLog = directoryLog.listFiles( );
 
         // Creating names array
         int nLogNumber = fileLog.length;
-        String[] arrayLog = new String[nLogNumber];
-        ArrayList<SystemFile> list = new ArrayList<SystemFile>(  );
+        String [ ] arrayLog = new String [ nLogNumber];
+        ArrayList<SystemFile> list = new ArrayList<SystemFile>( );
 
         for ( int i = 0; i < nLogNumber; i++ )
         {
-            arrayLog[i] = fileLog[i].getName(  );
+            arrayLog [i] = fileLog [i].getName( );
         }
 
-        //defines the order of the logs
-        File[] screenArrayLog = new File[nLogNumber];
+        // defines the order of the logs
+        File [ ] screenArrayLog = new File [ nLogNumber];
         String name;
 
         for ( int i = 0; i < nLogNumber; i++ )
         {
             int numero = i;
-            name = arrayLog[i];
+            name = arrayLog [i];
 
             for ( int a = 0; a < nLogNumber; a++ )
             {
-                String strNameTemp = arrayLog[a];
+                String strNameTemp = arrayLog [a];
 
-                if ( name.toLowerCase(  ).trim(  ).compareTo( strNameTemp.toLowerCase(  ).trim(  ) ) > 0 )
+                if ( name.toLowerCase( ).trim( ).compareTo( strNameTemp.toLowerCase( ).trim( ) ) > 0 )
                 {
                     name = strNameTemp;
                     numero = a;
                 }
             }
 
-            screenArrayLog[i] = fileLog[numero];
-            arrayLog[numero] = "{";
+            screenArrayLog [i] = fileLog [numero];
+            arrayLog [numero] = "{";
         }
 
         for ( int i = 0; i < nLogNumber; i++ )
         {
-            File file = screenArrayLog[i];
-            SystemFile f = new SystemFile(  );
-            f.setName( file.getName(  ) );
+            File file = screenArrayLog [i];
+            SystemFile f = new SystemFile( );
+            f.setName( file.getName( ) );
             f.setDirectory( strDir );
-            f.setSize( (int) ( file.length(  ) / 1000 ) + 1 );
-            f.setDate( new Date( file.lastModified(  ) ) );
+            f.setSize( (int) ( file.length( ) / 1000 ) + 1 );
+            f.setDate( new Date( file.lastModified( ) ) );
             list.add( f );
         }
 
-        Map<String, Serializable> model = new HashMap<String, Serializable>(  );
+        Map<String, Serializable> model = new HashMap<String, Serializable>( );
         model.put( MARK_FILES_LIST, list );
         model.put( MARK_FILES_SYSTEM_DIRECTORY, strDir );
 
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_VIEW_FILES_SYSTEM, getLocale(  ), model );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_VIEW_FILES_SYSTEM, getLocale( ), model );
 
-        return getAdminPage( template.getHtml(  ) );
+        return getAdminPage( template.getHtml( ) );
     }
 
-    ////////////////////////////////////////////////////////////////////////////
+    // //////////////////////////////////////////////////////////////////////////
     // Methods to display a system file
     /**
      * Returns a FileView page
      *
-     * @param request The HTTP request.
+     * @param request
+     *            The HTTP request.
      * @return The HTML code
      */
     public String getFileView( HttpServletRequest request )
     {
-        HashMap<String, Object> model = new HashMap<String, Object>(  );
+        HashMap<String, Object> model = new HashMap<String, Object>( );
         setPageTitleProperty( PROPERTY_TITLE_VIEW_FILE );
 
         String strFilePath;
@@ -263,7 +263,7 @@ public class SystemJspBean extends AdminFeaturesPageJspBean
         }
         else
         {
-            strFilePath = AppPathService.getWebAppPath(  );
+            strFilePath = AppPathService.getWebAppPath( );
 
             if ( strFilePath == null )
             {
@@ -280,53 +280,55 @@ public class SystemJspBean extends AdminFeaturesPageJspBean
         model.put( MARK_FILE_SYSTEM_DATA, strFileData );
         model.put( MARK_FILES_SYSTEM_DIRECTORY, strDirectory );
 
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_VIEW_FILE, getLocale(  ), model );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_VIEW_FILE, getLocale( ), model );
 
-        return getAdminPage( template.getHtml(  ) );
+        return getAdminPage( template.getHtml( ) );
     }
 
     /**
      * Returns the form to update info about the webmaster.properties
      *
-     * @param request The Http request
+     * @param request
+     *            The Http request
      * @return The HTML form to update info
      */
     public String getManageProperties( HttpServletRequest request )
     {
-        HashMap<String, Object> model = new HashMap<String, Object>(  );
+        HashMap<String, Object> model = new HashMap<String, Object>( );
         // Insert the rows in the list
-        model.put( MARK_PROPERTIES_GROUPS_LIST, SitePropertiesService.getGroups( getLocale(  ) ) );
+        model.put( MARK_PROPERTIES_GROUPS_LIST, SitePropertiesService.getGroups( getLocale( ) ) );
         model.put( MARK_WEBAPP_URL, AppPathService.getBaseUrl( request ) );
-        model.put( MARK_LOCALE, getLocale(  ).getLanguage(  ) );
+        model.put( MARK_LOCALE, getLocale( ).getLanguage( ) );
 
-        HtmlTemplate templateList = AppTemplateService.getTemplate( TEMPLATE_MODIFY_PROPERTIES, getLocale(  ), model );
+        HtmlTemplate templateList = AppTemplateService.getTemplate( TEMPLATE_MODIFY_PROPERTIES, getLocale( ), model );
 
-        return getAdminPage( templateList.getHtml(  ) );
+        return getAdminPage( templateList.getHtml( ) );
     }
 
     /**
      * Process the change form of the webmaster.properties
      *
-     * @param request The Http request
-     * @param context The context
+     * @param request
+     *            The Http request
+     * @param context
+     *            The context
      * @return The Jsp URL of the process result
      */
     public static String doModifyProperties( HttpServletRequest request, ServletContext context )
     {
-        List<LocalizedDataGroup> groups = SitePropertiesService.getGroups( AdminUserService.getAdminUser( request )
-                                                                                           .getLocale(  ) );
+        List<LocalizedDataGroup> groups = SitePropertiesService.getGroups( AdminUserService.getAdminUser( request ).getLocale( ) );
 
         for ( LocalizedDataGroup group : groups )
         {
-            List<LocalizedData> datas = group.getLocalizedDataList(  );
+            List<LocalizedData> datas = group.getLocalizedDataList( );
 
             for ( LocalizedData data : datas )
             {
-                String strValue = request.getParameter( data.getKey(  ) );
+                String strValue = request.getParameter( data.getKey( ) );
 
-                if ( ( strValue != null ) && !data.getValue(  ).equals( strValue ) )
+                if ( ( strValue != null ) && !data.getValue( ).equals( strValue ) )
                 {
-                    DatastoreService.setDataValue( data.getKey(  ), strValue );
+                    DatastoreService.setDataValue( data.getKey( ), strValue );
                 }
             }
         }
@@ -335,17 +337,18 @@ public class SystemJspBean extends AdminFeaturesPageJspBean
         return JSP_MANAGE_PROPERTIES;
     }
 
-    ///////////////////////////////////////////////////////////////////////////////
+    // /////////////////////////////////////////////////////////////////////////////
     // Private Implementation
     /**
      * Returns the content of a file.
      *
-     * @param strFilePath The file Path
+     * @param strFilePath
+     *            The file Path
      * @return The content of the file.
      */
     private static String getFileData( String strFilePath )
     {
-        StringBuilder sbData = new StringBuilder(  );
+        StringBuilder sbData = new StringBuilder( );
 
         FileInputStream is = null;
 
@@ -357,18 +360,18 @@ public class SystemJspBean extends AdminFeaturesPageJspBean
 
             while ( chr != -1 )
             {
-                chr = is.read(  );
+                chr = is.read( );
                 sbData.append( (char) chr );
             }
 
-            //we delete the end of file character
-            sbData.setLength( sbData.length(  ) - 1 );
+            // we delete the end of file character
+            sbData.setLength( sbData.length( ) - 1 );
         }
-        catch ( FileNotFoundException e )
+        catch( FileNotFoundException e )
         {
             sbData.append( "File " ).append( strFilePath ).append( " not found" );
         }
-        catch ( IOException e )
+        catch( IOException e )
         {
             sbData.append( "Error reading the file : " );
             sbData.append( strFilePath );
@@ -379,15 +382,15 @@ public class SystemJspBean extends AdminFeaturesPageJspBean
             {
                 try
                 {
-                    is.close(  );
+                    is.close( );
                 }
-                catch ( IOException e )
+                catch( IOException e )
                 {
-                    AppLogService.error( e.getMessage(  ), e );
+                    AppLogService.error( e.getMessage( ), e );
                 }
             }
         }
 
-        return sbData.toString(  );
+        return sbData.toString( );
     }
 }

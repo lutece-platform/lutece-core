@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -35,7 +35,6 @@ package fr.paris.lutece.portal.business.right;
 
 import java.util.Collection;
 
-
 /**
  * RightDAO Interface
  */
@@ -44,21 +43,24 @@ public interface IRightDAO
     /**
      * Delete a record from the table
      *
-     * @param strIdRight string identifier of the admin right to delete
+     * @param strIdRight
+     *            string identifier of the admin right to delete
      */
     void delete( String strIdRight );
 
     /**
      * Insert a new record in the table.
      *
-     * @param right instance of the right to insert
+     * @param right
+     *            instance of the right to insert
      */
     void insert( Right right );
 
     /**
      * load the data of the right from the table
      *
-     * @param strId The identifier of the admin right
+     * @param strId
+     *            The identifier of the admin right
      * @return The instance of the admin right
      */
     Right load( String strId );
@@ -68,29 +70,30 @@ public interface IRightDAO
      *
      * @return the collection which contains the data of all the rights
      */
-    Collection<Right> selectRightsList(  );
+    Collection<Right> selectRightsList( );
 
     /**
      * Update the record in the table
      *
-     * @param right the reference of the admin right
+     * @param right
+     *            the reference of the admin right
      */
     void store( Right right );
 
     /**
-     * Loads the data of all the rights with level greater or equal than nLevel
-     * and returns them in form of a collection
+     * Loads the data of all the rights with level greater or equal than nLevel and returns them in form of a collection
      *
-     * @param nLevel The right's level
+     * @param nLevel
+     *            The right's level
      * @return the collection which contains the data of all the rights
      */
     Collection<Right> selectRightsList( int nLevel );
 
     /**
-     * Loads the data of all the rights with the specified feature group
-     * and returns them in form of a collection
+     * Loads the data of all the rights with the specified feature group and returns them in form of a collection
      *
-     * @param strFeatureGroup the name of the feature group
+     * @param strFeatureGroup
+     *            the name of the feature group
      * @return the collection which contains the data of all the rights
      */
     Collection<Right> selectRightsList( String strFeatureGroup );

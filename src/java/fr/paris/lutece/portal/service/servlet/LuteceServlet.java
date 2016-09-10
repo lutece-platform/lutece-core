@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -39,7 +39,6 @@ import java.util.Map;
 
 import javax.servlet.Servlet;
 
-
 /**
  * LuteceServlet
  */
@@ -53,14 +52,19 @@ public class LuteceServlet
 
     /**
      * Constructor
-     * @param strName The name
-     * @param servlet The servlet class
-     * @param strMapping The mapping url pattern
-     * @param plugin The plugin
-     * @param mapInitParameters Init parameters as a map
+     * 
+     * @param strName
+     *            The name
+     * @param servlet
+     *            The servlet class
+     * @param strMapping
+     *            The mapping url pattern
+     * @param plugin
+     *            The plugin
+     * @param mapInitParameters
+     *            Init parameters as a map
      */
-    public LuteceServlet( String strName, Servlet servlet, String strMapping, Plugin plugin,
-        Map<String, String> mapInitParameters )
+    public LuteceServlet( String strName, Servlet servlet, String strMapping, Plugin plugin, Map<String, String> mapInitParameters )
     {
         _strName = strName;
         _servlet = servlet;
@@ -74,7 +78,7 @@ public class LuteceServlet
      *
      * @return The Name
      */
-    public String getName(  )
+    public String getName( )
     {
         return _strName;
     }
@@ -84,7 +88,7 @@ public class LuteceServlet
      *
      * @return The servlet
      */
-    public Servlet getServlet(  )
+    public Servlet getServlet( )
     {
         return _servlet;
     }
@@ -94,37 +98,39 @@ public class LuteceServlet
      *
      * @return The Mapping
      */
-    public String getMappingUrlPattern(  )
+    public String getMappingUrlPattern( )
     {
         return _strMapping;
     }
 
     /**
-         * Returns the Plugin
-         *
-         * @return The Plugin
-         */
-    public Plugin getPlugin(  )
+     * Returns the Plugin
+     *
+     * @return The Plugin
+     */
+    public Plugin getPlugin( )
     {
         return _plugin;
     }
 
     /**
-    * Returns init parameters
-    * @return Init parameters in a map object
-    */
-    public Map<String, String> getInitParameters(  )
+     * Returns init parameters
+     * 
+     * @return Init parameters in a map object
+     */
+    public Map<String, String> getInitParameters( )
     {
         return _mapInitParameters;
     }
 
     /**
      * for debug purpose
+     * 
      * @return The name of the servlet
      */
     @Override
-    public String toString(  )
+    public String toString( )
     {
-        return getName(  );
+        return getName( );
     }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -37,10 +37,8 @@ import fr.paris.lutece.util.ReferenceList;
 
 import java.util.Locale;
 
-
 /**
- * This class gives the methods to implement in order to allow the restitution of the ids and labels
- * for a given resource type.
+ * This class gives the methods to implement in order to allow the restitution of the ids and labels for a given resource type.
  */
 public abstract class ResourceIdService
 {
@@ -50,13 +48,14 @@ public abstract class ResourceIdService
     /**
      * This method should register permissions and resource type
      */
-    public abstract void register(  );
+    public abstract void register( );
 
     /**
      * Provide the list of all resources (id - label)
      *
      * @return the list of all resources available for restricted access
-     * @param locale The locale
+     * @param locale
+     *            The locale
      */
     public abstract ReferenceList getResourceIdList( Locale locale );
 
@@ -64,14 +63,18 @@ public abstract class ResourceIdService
      * Provide the title of a resource given its id
      *
      * @return the title the corresponding label
-     * @param locale The locale
-     * @param strId the id of the resource
+     * @param locale
+     *            The locale
+     * @param strId
+     *            the id of the resource
      */
     public abstract String getTitle( String strId, Locale locale );
 
     /**
      * Sets the name of the plugin associated
-     * @param strPluginName the plugin name
+     * 
+     * @param strPluginName
+     *            the plugin name
      */
     public void setPluginName( String strPluginName )
     {
@@ -80,9 +83,10 @@ public abstract class ResourceIdService
 
     /**
      * Gets the name of the plugin associated
+     * 
      * @return the plugin name
      */
-    public String getPluginName(  )
+    public String getPluginName( )
     {
         return _strPluginName;
     }

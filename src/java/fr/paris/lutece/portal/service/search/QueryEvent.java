@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -35,7 +35,6 @@ package fr.paris.lutece.portal.service.search;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  * QueryEvent
  */
@@ -51,7 +50,7 @@ public class QueryEvent
      *
      * @return The Query
      */
-    public String getQuery(  )
+    public String getQuery( )
     {
         return _strQuery;
     }
@@ -59,7 +58,8 @@ public class QueryEvent
     /**
      * Sets the Query
      *
-     * @param strQuery The Query
+     * @param strQuery
+     *            The Query
      */
     public void setQuery( String strQuery )
     {
@@ -71,7 +71,7 @@ public class QueryEvent
      *
      * @return The ResultsCount
      */
-    public int getResultsCount(  )
+    public int getResultsCount( )
     {
         return _nResultsCount;
     }
@@ -79,7 +79,8 @@ public class QueryEvent
     /**
      * Sets the ResultsCount
      *
-     * @param nResultsCount The ResultsCount
+     * @param nResultsCount
+     *            The ResultsCount
      */
     public void setResultsCount( int nResultsCount )
     {
@@ -91,7 +92,7 @@ public class QueryEvent
      *
      * @return The request
      */
-    public HttpServletRequest getRequest(  )
+    public HttpServletRequest getRequest( )
     {
         return _request;
     }
@@ -99,7 +100,8 @@ public class QueryEvent
     /**
      * Sets the request
      *
-     * @param request The request
+     * @param request
+     *            The request
      */
     public void setRequest( HttpServletRequest request )
     {

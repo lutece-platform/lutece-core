@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -38,7 +38,6 @@ import fr.paris.lutece.util.sql.DAOUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
  * This class provides Data Access methods for Entity objects
  */
@@ -53,23 +52,27 @@ public final class DataEntityDAO implements IDataEntityDAO
 
     /**
      * Insert a new record in the table.
-     * @param entity instance of the Entity object to insert
+     * 
+     * @param entity
+     *            instance of the Entity object to insert
      */
     @Override
     public void insert( DataEntity entity )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT );
 
-        daoUtil.setString( 1, entity.getKey(  ) );
-        daoUtil.setString( 2, entity.getValue(  ) );
+        daoUtil.setString( 1, entity.getKey( ) );
+        daoUtil.setString( 2, entity.getValue( ) );
 
-        daoUtil.executeUpdate(  );
-        daoUtil.free(  );
+        daoUtil.executeUpdate( );
+        daoUtil.free( );
     }
 
     /**
      * Load the data of the entity from the table
-     * @param strKey The identifier of the entity
+     * 
+     * @param strKey
+     *            The identifier of the entity
      * @return the instance of the Entity
      */
     @Override
@@ -77,66 +80,71 @@ public final class DataEntityDAO implements IDataEntityDAO
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT );
         daoUtil.setString( 1, strKey );
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
         DataEntity entity = null;
 
-        if ( daoUtil.next(  ) )
+        if ( daoUtil.next( ) )
         {
-            entity = new DataEntity(  );
+            entity = new DataEntity( );
 
             entity.setKey( daoUtil.getString( 1 ) );
             entity.setValue( daoUtil.getString( 2 ) );
         }
 
-        daoUtil.free(  );
+        daoUtil.free( );
 
         return entity;
     }
 
     /**
      * Delete a record from the table
-     * @param strKey The identifier of the entity
+     * 
+     * @param strKey
+     *            The identifier of the entity
      */
     @Override
     public void delete( String strKey )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE );
         daoUtil.setString( 1, strKey );
-        daoUtil.executeUpdate(  );
-        daoUtil.free(  );
+        daoUtil.executeUpdate( );
+        daoUtil.free( );
     }
 
     /**
      * Update the record in the table
-     * @param entity The reference of the entity
+     * 
+     * @param entity
+     *            The reference of the entity
      */
     @Override
     public void store( DataEntity entity )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE );
 
-        daoUtil.setString( 1, entity.getValue(  ) );
-        daoUtil.setString( 2, entity.getKey(  ) );
+        daoUtil.setString( 1, entity.getValue( ) );
+        daoUtil.setString( 2, entity.getKey( ) );
 
-        daoUtil.executeUpdate(  );
-        daoUtil.free(  );
+        daoUtil.executeUpdate( );
+        daoUtil.free( );
     }
 
     /**
      * Load the data of all the entitys and returns them as a List
+     * 
      * @return The List which contains the data of all the entitys
      */
     @Override
-    public List<DataEntity> selectEntitiesList(  )
+    public List<DataEntity> selectEntitiesList( )
     {
-        List<DataEntity> entityList = new ArrayList<DataEntity>(  );
+        List<DataEntity> entityList = new ArrayList<DataEntity>( );
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL );
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
-        while ( daoUtil.next(  ) )
+        while ( daoUtil.next( ) )
         {
-            DataEntity entity = new DataEntity(  );
+            DataEntity entity = new DataEntity( );
 
             entity.setKey( daoUtil.getString( 1 ) );
             entity.setValue( daoUtil.getString( 2 ) );
@@ -144,7 +152,7 @@ public final class DataEntityDAO implements IDataEntityDAO
             entityList.add( entity );
         }
 
-        daoUtil.free(  );
+        daoUtil.free( );
 
         return entityList;
     }

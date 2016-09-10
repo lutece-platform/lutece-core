@@ -38,9 +38,9 @@ import fr.paris.lutece.portal.service.message.AdminMessageService;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  * This class extends SafeRequestFilter and use AdminMessageService for display error Message
+ * 
  * @author merlinfe
  *
  */
@@ -50,8 +50,7 @@ public class SafeRequestFilterAdmin extends SafeRequestFilter
      * {@inheritDoc}
      */
     @Override
-    protected String getMessageUrl( HttpServletRequest request, String strMessageKey, Object[] messageArgs,
-        String strTitleKey )
+    protected String getMessageUrl( HttpServletRequest request, String strMessageKey, Object [ ] messageArgs, String strTitleKey )
     {
         return AdminMessageService.getMessageUrl( request, strMessageKey, messageArgs, AdminMessage.TYPE_STOP );
     }

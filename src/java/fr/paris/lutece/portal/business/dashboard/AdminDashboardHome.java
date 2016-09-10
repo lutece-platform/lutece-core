@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -38,7 +38,6 @@ import fr.paris.lutece.portal.service.spring.SpringContextService;
 
 import java.util.List;
 
-
 /**
  *
  * AdminDashboardHome
@@ -52,14 +51,15 @@ public final class AdminDashboardHome
     /**
      * Private constructor - this class need not be instantiated
      */
-    private AdminDashboardHome(  )
+    private AdminDashboardHome( )
     {
     }
 
     /**
      * Creation of an instance of adminDashboardComponent
      *
-     * @param adminDashboardComponent The instance of the adminDashboardComponent which contains the informations to store
+     * @param adminDashboardComponent
+     *            The instance of the adminDashboardComponent which contains the informations to store
      *
      */
     public static void create( IAdminDashboardComponent adminDashboardComponent )
@@ -70,7 +70,8 @@ public final class AdminDashboardHome
     /**
      * Update of the adminDashboardComponent which is specified in parameter
      *
-     * @param adminDashboardComponent The instance of the adminDashboardComponent which contains the informations to update
+     * @param adminDashboardComponent
+     *            The instance of the adminDashboardComponent which contains the informations to update
      *
      */
     public static void update( IAdminDashboardComponent adminDashboardComponent )
@@ -81,7 +82,8 @@ public final class AdminDashboardHome
     /**
      * Remove the adminDashboardComponent whose identifier is specified in parameter
      *
-     * @param strBeanName The adminDashboardComponent id
+     * @param strBeanName
+     *            The adminDashboardComponent id
      */
     public static void remove( String strBeanName )
     {
@@ -92,9 +94,9 @@ public final class AdminDashboardHome
      * Remove the adminDashboardComponent whose identifier is specified in parameter
      *
      */
-    public static void removeAll(  )
+    public static void removeAll( )
     {
-        _dao.deleteAll(  );
+        _dao.deleteAll( );
     }
 
     // /////////////////////////////////////////////////////////////////////////
@@ -103,7 +105,8 @@ public final class AdminDashboardHome
     /**
      * Returns an instance of a adminDashboardComponent whose identifier is specified in parameter
      *
-     * @param strBeanName The adminDashboardComponent primary key
+     * @param strBeanName
+     *            The adminDashboardComponent primary key
      * @return an instance of adminDashboardComponent
      */
     public static IAdminDashboardComponent findByPrimaryKey( String strBeanName )
@@ -116,14 +119,16 @@ public final class AdminDashboardHome
      *
      * @return the list which contains the data of all the IAdminDashboardComponent
      */
-    public static List<IAdminDashboardComponent> findAll(  )
+    public static List<IAdminDashboardComponent> findAll( )
     {
-        return _dao.selectAllDashboardComponents(  );
+        return _dao.selectAllDashboardComponents( );
     }
 
     /**
      * Loads the data of all the IAdminDashboardComponent
-     * @param filter a search by criteria
+     * 
+     * @param filter
+     *            a search by criteria
      * @return the list which contains the data of all the IAdminDashboardComponent
      */
     public static List<IAdminDashboardComponent> findByFilter( AdminDashboardFilter filter )
@@ -133,16 +138,19 @@ public final class AdminDashboardHome
 
     /**
      * Finds the max order for all columns.
+     * 
      * @return the max order
      */
-    public static int findMaxOrder(  )
+    public static int findMaxOrder( )
     {
-        return _dao.selectMaxOrder(  );
+        return _dao.selectMaxOrder( );
     }
 
     /**
      * Finds the max order for the column.
-     * @param nColumn the column
+     * 
+     * @param nColumn
+     *            the column
      * @return the max order
      */
     public static int findMaxOrder( int nColumn )
@@ -155,8 +163,8 @@ public final class AdminDashboardHome
      *
      * @return the list
      */
-    public static List<Integer> findColumns(  )
+    public static List<Integer> findColumns( )
     {
-        return _dao.selectColumns(  );
+        return _dao.selectColumns( );
     }
 }

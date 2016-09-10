@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -57,13 +57,12 @@ import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  * Class of the StandaloneAppJspBean object.
  */
 public class StandaloneAppJspBean
 {
-    ////////////////////////////////////////////////////////////////////////////
+    // //////////////////////////////////////////////////////////////////////////
     // Constants
     private static final int MODE_HTML = 0;
     private static final String TEMPLATE_STANDALONE = "skin/site/standalone_app.html";
@@ -73,32 +72,35 @@ public class StandaloneAppJspBean
     private static final String BEAN_SITE_MESSAGE_HANDLER = "siteMessageHandler";
 
     /**
-     * Returns the content of a page according to the parameters found in the http request. One distinguishes article,
-     * page and xpage and the mode.
+     * Returns the content of a page according to the parameters found in the http request. One distinguishes article, page and xpage and the mode.
      *
-     * @param request The http request
+     * @param request
+     *            The http request
      * @return the html code for the display of a page of a site
-     * @throws UserNotSignedException The UserNotSignedException
-     * @throws SiteMessageException occurs when a site message need to be displayed
+     * @throws UserNotSignedException
+     *             The UserNotSignedException
+     * @throws SiteMessageException
+     *             occurs when a site message need to be displayed
      */
-    public String getContent( HttpServletRequest request )
-        throws UserNotSignedException, SiteMessageException
+    public String getContent( HttpServletRequest request ) throws UserNotSignedException, SiteMessageException
     {
         return getContent( request, MODE_HTML );
     }
 
     /**
-     * Returns the content of a page according to the parameters found in the http request. One distinguishes article,
-     * page and xpage and the mode.
+     * Returns the content of a page according to the parameters found in the http request. One distinguishes article, page and xpage and the mode.
      *
-     * @param request The http request
-     * @param nMode The mode (normal or administration)
+     * @param request
+     *            The http request
+     * @param nMode
+     *            The mode (normal or administration)
      * @return the html code for the display of a page of a site
-     * @throws UserNotSignedException The UserNotSignedException
-     * @throws SiteMessageException occurs when a site message need to be displayed
+     * @throws UserNotSignedException
+     *             The UserNotSignedException
+     * @throws SiteMessageException
+     *             occurs when a site message need to be displayed
      */
-    public String getContent( HttpServletRequest request, int nMode )
-        throws UserNotSignedException, SiteMessageException
+    public String getContent( HttpServletRequest request, int nMode ) throws UserNotSignedException, SiteMessageException
     {
         // Handle site messages first
         ISiteMessageHandler handlerSiteMessage = (ISiteMessageHandler) SpringContextService.getBean( BEAN_SITE_MESSAGE_HANDLER );
@@ -108,7 +110,7 @@ public class StandaloneAppJspBean
             return handlerSiteMessage.getPage( request, nMode );
         }
 
-        ContentService csStandalone = new StandaloneAppService(  );
+        ContentService csStandalone = new StandaloneAppService( );
         String htmlPage = csStandalone.getPage( request, nMode );
 
         if ( htmlPage == null )
@@ -123,26 +125,27 @@ public class StandaloneAppJspBean
     /**
      * Display the list of plugins app installed on the instance of lutece
      *
-     * @param request The HTTP request
+     * @param request
+     *            The HTTP request
      * @return the list
      */
     public String getPluginList( HttpServletRequest request )
     {
-        HashMap<String, Object> modelList = new HashMap<String, Object>(  );
-        Collection<XPageApplicationEntry> entryList = new ArrayList<XPageApplicationEntry>(  );
-        Locale locale = ( request == null ) ? null : request.getLocale(  );
+        HashMap<String, Object> modelList = new HashMap<String, Object>( );
+        Collection<XPageApplicationEntry> entryList = new ArrayList<XPageApplicationEntry>( );
+        Locale locale = ( request == null ) ? null : request.getLocale( );
 
-        Collection<XPageApplicationEntry> applications = XPageAppService.getXPageApplicationsList(  );
-        Comparator<XPageApplicationEntry> comparator = new Comparator<XPageApplicationEntry>(  )
+        Collection<XPageApplicationEntry> applications = XPageAppService.getXPageApplicationsList( );
+        Comparator<XPageApplicationEntry> comparator = new Comparator<XPageApplicationEntry>( )
+        {
+            public int compare( XPageApplicationEntry c1, XPageApplicationEntry c2 )
             {
-                public int compare( XPageApplicationEntry c1, XPageApplicationEntry c2 )
-                {
-                    Plugin p1 = ( c1.getPlugin(  ) == null ) ? PluginService.getCore(  ) : c1.getPlugin(  );
-                    Plugin p2 = ( c2.getPlugin(  ) == null ) ? PluginService.getCore(  ) : c2.getPlugin(  );
+                Plugin p1 = ( c1.getPlugin( ) == null ) ? PluginService.getCore( ) : c1.getPlugin( );
+                Plugin p2 = ( c2.getPlugin( ) == null ) ? PluginService.getCore( ) : c2.getPlugin( );
 
-                    return p1.getName(  ).compareTo( p2.getName(  ) );
-                }
-            };
+                return p1.getName( ).compareTo( p2.getName( ) );
+            }
+        };
 
         List<XPageApplicationEntry> applicationsSorted = new ArrayList<XPageApplicationEntry>( applications );
         Collections.sort( applicationsSorted, comparator );
@@ -150,7 +153,7 @@ public class StandaloneAppJspBean
         // Scan of the list
         for ( XPageApplicationEntry entry : applicationsSorted )
         {
-            if ( entry.isEnable(  ) )
+            if ( entry.isEnable( ) )
             {
                 entryList.add( entry );
             }
@@ -159,10 +162,10 @@ public class StandaloneAppJspBean
         // Insert the rows in the list
         modelList.put( MARK_ENTRY_LIST, entryList );
         modelList.put( MARK_BASE_URL, AppPathService.getBaseUrl( request ) );
-        modelList.put( MARK_CORE_PLUGIN, PluginService.getCore(  ) );
+        modelList.put( MARK_CORE_PLUGIN, PluginService.getCore( ) );
 
         HtmlTemplate templateList = AppTemplateService.getTemplate( TEMPLATE_STANDALONE, locale, modelList );
 
-        return templateList.getHtml(  );
+        return templateList.getHtml( );
     }
 }

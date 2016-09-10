@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -49,7 +49,6 @@ import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  * Base class for InsertServiceJspBean
  */
@@ -68,9 +67,13 @@ public abstract class InsertServiceJspBean implements Serializable
 
     /**
      * Build the Url to insert HTML code into the current rich text editor
-     * @param request The HTTP request
-     * @param strInput The rich text input field
-     * @param strInsert The code to insert
+     * 
+     * @param request
+     *            The HTTP request
+     * @param strInput
+     *            The rich text input field
+     * @param strInsert
+     *            The code to insert
      * @return The Url that will provide the insertion
      */
     protected String insertUrl( HttpServletRequest request, String strInput, String strInsert )
@@ -80,23 +83,27 @@ public abstract class InsertServiceJspBean implements Serializable
         strCleanInsert = strCleanInsert.replaceAll( "\r", "" );
 
         // Encode the HTML code to insert
-        //        String strEncodedInsert = EncodingService.encodeUrl( strCleanInsert );
+        // String strEncodedInsert = EncodingService.encodeUrl( strCleanInsert );
 
         // Build the url to make the insert
         UrlItem urlDoInsert = new UrlItem( AppPathService.getBaseUrl( request ) + JSP_DO_INSERT );
         urlDoInsert.addParameter( PARAMETER_INPUT, strInput );
-        request.getSession(  ).setAttribute( InsertServiceSelectorJspBean.SESSION_INSERT, strCleanInsert );
-        //        urlDoInsert.addParameter( PARAMETER_INSERT, strEncodedInsert );
+        request.getSession( ).setAttribute( InsertServiceSelectorJspBean.SESSION_INSERT, strCleanInsert );
+        // urlDoInsert.addParameter( PARAMETER_INSERT, strEncodedInsert );
         urlDoInsert.addParameter( PARAMETER_MODE, 1 );
 
-        return urlDoInsert.getUrl(  );
+        return urlDoInsert.getUrl( );
     }
 
     /**
      * Build the Url to insert HTML code into the current rich text editor
-     * @param request The HTTP request
-     * @param strInput The rich text input field
-     * @param strInsert The code to insert
+     * 
+     * @param request
+     *            The HTTP request
+     * @param strInput
+     *            The rich text input field
+     * @param strInsert
+     *            The code to insert
      * @return The Url that will provide the insertion
      */
     protected String insertUrlWithoutEscape( HttpServletRequest request, String strInput, String strInsert )
@@ -109,36 +116,42 @@ public abstract class InsertServiceJspBean implements Serializable
         urlDoInsert.addParameter( PARAMETER_INSERT, strInsertTmp );
         urlDoInsert.addParameter( PARAMETER_MODE, 2 );
 
-        return urlDoInsert.getUrl(  );
+        return urlDoInsert.getUrl( );
     }
 
     /**
      * Build an HTML link
-     * @param strText The text of the link
-     * @param strUrl The Url of the link
-     * @param strTitle The title of the link
-     * @param strTarget The target window
+     * 
+     * @param strText
+     *            The text of the link
+     * @param strUrl
+     *            The Url of the link
+     * @param strTitle
+     *            The title of the link
+     * @param strTarget
+     *            The target window
      * @return The HTML link
      */
     protected String buildLink( String strText, String strUrl, String strTitle, String strTarget )
     {
-        HashMap<String, Object> model = new HashMap<String, Object>(  );
+        HashMap<String, Object> model = new HashMap<String, Object>( );
         model.put( MARK_TEXT, StringEscapeUtils.escapeHtml( strText ) );
         model.put( MARK_URL, strUrl );
         model.put( MARK_TITLE, StringEscapeUtils.escapeHtml( strTitle ) );
         model.put( MARK_TARGET, strTarget );
 
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_LINK, LocaleService.getDefault(  ), model );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_LINK, LocaleService.getDefault( ), model );
 
-        return template.getHtml(  );
+        return template.getHtml( );
     }
 
     /**
      * List of supported sub categories that may be used to filter resources.
+     * 
      * @return the list. Default is an empty list.
      */
-    public ReferenceList getSubCategories(  )
+    public ReferenceList getSubCategories( )
     {
-        return new ReferenceList(  );
+        return new ReferenceList( );
     }
 }

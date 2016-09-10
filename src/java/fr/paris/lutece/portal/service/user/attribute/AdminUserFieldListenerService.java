@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -44,7 +44,6 @@ import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  *
  * AdminUserFieldListenerService
@@ -52,11 +51,13 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class AdminUserFieldListenerService
 {
-    private List<AdminUserFieldListener> _listRegisteredListeners = new ArrayList<AdminUserFieldListener>(  );
+    private List<AdminUserFieldListener> _listRegisteredListeners = new ArrayList<AdminUserFieldListener>( );
 
     /**
      * Register a new Removal listener
-     * @param listener The listener to register
+     * 
+     * @param listener
+     *            The listener to register
      */
     public void registerListener( AdminUserFieldListener listener )
     {
@@ -65,9 +66,13 @@ public class AdminUserFieldListenerService
 
     /**
      * Create user fields
-     * @param user AdminUser
-     * @param request HttpServletRequest
-     * @param locale locale
+     * 
+     * @param user
+     *            AdminUser
+     * @param request
+     *            HttpServletRequest
+     * @param locale
+     *            locale
      */
     public void doCreateUserFields( AdminUser user, HttpServletRequest request, Locale locale )
     {
@@ -79,10 +84,15 @@ public class AdminUserFieldListenerService
 
     /**
      * Modify user fields
-     * @param user AdminUser
-     * @param request HttpServletRequest
-     * @param locale locale
-     * @param currentUser current user
+     * 
+     * @param user
+     *            AdminUser
+     * @param request
+     *            HttpServletRequest
+     * @param locale
+     *            locale
+     * @param currentUser
+     *            current user
      */
     public void doModifyUserFields( AdminUser user, HttpServletRequest request, Locale locale, AdminUser currentUser )
     {
@@ -94,9 +104,13 @@ public class AdminUserFieldListenerService
 
     /**
      * Remove user fields
-     * @param user Adminuser
-     * @param request HttpServletRequest
-     * @param locale locale
+     * 
+     * @param user
+     *            Adminuser
+     * @param request
+     *            HttpServletRequest
+     * @param locale
+     *            locale
      */
     public void doRemoveUserFields( AdminUser user, HttpServletRequest request, Locale locale )
     {
@@ -108,9 +122,13 @@ public class AdminUserFieldListenerService
 
     /**
      * Create user fields
-     * @param user AdminUser
-     * @param listUserFields The list of user fields to create
-     * @param locale locale
+     * 
+     * @param user
+     *            AdminUser
+     * @param listUserFields
+     *            The list of user fields to create
+     * @param locale
+     *            locale
      */
     public void doCreateUserFields( AdminUser user, List<AdminUserField> listUserFields, Locale locale )
     {
@@ -125,28 +143,34 @@ public class AdminUserFieldListenerService
 
     /**
      * Modify user fields
-     * @param user AdminUser
-     * @param listUserFields The list of user fields to modify
-     * @param locale locale
-     * @param currentUser current user
+     * 
+     * @param user
+     *            AdminUser
+     * @param listUserFields
+     *            The list of user fields to modify
+     * @param locale
+     *            locale
+     * @param currentUser
+     *            current user
      */
-    public void doModifyUserFields( AdminUser user, List<AdminUserField> listUserFields, Locale locale,
-        AdminUser currentUser )
+    public void doModifyUserFields( AdminUser user, List<AdminUserField> listUserFields, Locale locale, AdminUser currentUser )
     {
         for ( AdminUserFieldListener listener : _listRegisteredListeners )
         {
             if ( listener instanceof SimpleAdminUserFieldListener )
             {
-                ( (SimpleAdminUserFieldListener) listener ).doModifyUserFields( user, listUserFields, locale,
-                    currentUser );
+                ( (SimpleAdminUserFieldListener) listener ).doModifyUserFields( user, listUserFields, locale, currentUser );
             }
         }
     }
 
     /**
      * Remove user fields
-     * @param user Adminuser
-     * @param locale locale
+     * 
+     * @param user
+     *            Adminuser
+     * @param locale
+     *            locale
      */
     public void doRemoveUserFields( AdminUser user, Locale locale )
     {

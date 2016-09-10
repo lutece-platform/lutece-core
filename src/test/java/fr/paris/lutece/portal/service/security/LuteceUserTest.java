@@ -37,7 +37,6 @@ import fr.paris.lutece.test.LuteceTestCase;
 
 import java.util.ArrayList;
 
-
 /**
  * LuteceUserTest
  */
@@ -48,27 +47,27 @@ public class LuteceUserTest extends LuteceTestCase
     private static final String ROLE2 = "ROLE2";
     private static final String EMAIL = "EMAIL";
 
-    public void testLuteceUser(  )
+    public void testLuteceUser( )
     {
-        MokeLuteceAuthentication auth = new MokeLuteceAuthentication(  );
+        MokeLuteceAuthentication auth = new MokeLuteceAuthentication( );
 
         MokeLuteceUser user = new MokeLuteceUser( NAME, auth );
         user.setName( NAME );
 
-        ArrayList<String> listRoles = new ArrayList(  );
+        ArrayList<String> listRoles = new ArrayList( );
         listRoles.add( ROLE1 );
         listRoles.add( ROLE2 );
         user.setRoles( listRoles );
         user.setUserInfo( LuteceUser.BUSINESS_INFO_ONLINE_EMAIL, EMAIL );
-        assertEquals( user.getName(  ), NAME );
+        assertEquals( user.getName( ), NAME );
 
-        String[] roles = user.getRoles(  );
+        String [ ] roles = user.getRoles( );
         assertTrue( roles.length == 2 );
 
         String strEmail = user.getUserInfo( LuteceUser.BUSINESS_INFO_ONLINE_EMAIL );
         assertEquals( strEmail, EMAIL );
-        user.getUserInfos(  );
-        user.getAuthenticationService(  );
-        user.getAuthenticationType(  );
+        user.getUserInfos( );
+        user.getAuthenticationService( );
+        user.getAuthenticationType( );
     }
 }

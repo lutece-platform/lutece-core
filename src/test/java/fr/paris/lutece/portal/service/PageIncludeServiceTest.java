@@ -42,21 +42,20 @@ import fr.paris.lutece.test.MokeHttpServletRequest;
 import java.util.Collection;
 import java.util.HashMap;
 
-
 public class PageIncludeServiceTest extends LuteceTestCase
 {
-    public void testPageIncludes(  )
+    public void testPageIncludes( )
     {
-        Collection<PageInclude> listIncludes = PageIncludeService.getIncludes(  );
+        Collection<PageInclude> listIncludes = PageIncludeService.getIncludes( );
         // Assert default includes are loaded
-        assertTrue( listIncludes.size(  ) > 2 );
+        assertTrue( listIncludes.size( ) > 2 );
 
         for ( PageInclude pis : listIncludes )
         {
-            //HtmlTemplate template = new HtmlTemplate( "Dummy Template ");
-            HashMap<String, Object> mapTemplate = new HashMap<String, Object>(  );
-            PageData pageData = new PageData(  );
-            MokeHttpServletRequest request = new MokeHttpServletRequest(  );
+            // HtmlTemplate template = new HtmlTemplate( "Dummy Template ");
+            HashMap<String, Object> mapTemplate = new HashMap<String, Object>( );
+            PageData pageData = new PageData( );
+            MokeHttpServletRequest request = new MokeHttpServletRequest( );
             pis.fillTemplate( mapTemplate, pageData, 0, request );
         }
     }

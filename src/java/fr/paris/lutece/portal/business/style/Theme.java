@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -35,7 +35,6 @@ package fr.paris.lutece.portal.business.style;
 
 import java.io.Serializable;
 
-
 /**
  * This class represents business objects Mode
  */
@@ -58,7 +57,7 @@ public class Theme implements Serializable
      *
      * @return the _strCodeTheme
      */
-    public String getCodeTheme(  )
+    public String getCodeTheme( )
     {
         return _strCodeTheme;
     }
@@ -66,7 +65,8 @@ public class Theme implements Serializable
     /**
      * Sets the _strCodeTheme
      *
-     * @param strCodeTheme the _strCodeTheme to set
+     * @param strCodeTheme
+     *            the _strCodeTheme to set
      */
     public void setCodeTheme( String strCodeTheme )
     {
@@ -78,7 +78,7 @@ public class Theme implements Serializable
      *
      * @return the _strThemeDescription
      */
-    public String getThemeDescription(  )
+    public String getThemeDescription( )
     {
         return _strThemeDescription;
     }
@@ -86,7 +86,8 @@ public class Theme implements Serializable
     /**
      * Sets the _strThemeDescription
      *
-     * @param strThemeDescription the _strThemeDescription to set
+     * @param strThemeDescription
+     *            the _strThemeDescription to set
      */
     public void setThemeDescription( String strThemeDescription )
     {
@@ -98,7 +99,7 @@ public class Theme implements Serializable
      *
      * @return the _strPathImages
      */
-    public String getPathImages(  )
+    public String getPathImages( )
     {
         return _strPathImages;
     }
@@ -106,7 +107,8 @@ public class Theme implements Serializable
     /**
      * Sets the _strPathImages
      *
-     * @param strPathImages the _strPathImages to set
+     * @param strPathImages
+     *            the _strPathImages to set
      */
     public void setPathImages( String strPathImages )
     {
@@ -118,7 +120,7 @@ public class Theme implements Serializable
      *
      * @return the _strPathCss
      */
-    public String getPathCss(  )
+    public String getPathCss( )
     {
         return _strPathCss;
     }
@@ -126,7 +128,8 @@ public class Theme implements Serializable
     /**
      * Sets the _strPathCss
      *
-     * @param strPathCss the _strPathCss to set
+     * @param strPathCss
+     *            the _strPathCss to set
      */
     public void setPathCss( String strPathCss )
     {
@@ -138,7 +141,7 @@ public class Theme implements Serializable
      *
      * @return the _strPathJs
      */
-    public String getPathJs(  )
+    public String getPathJs( )
     {
         return _strPathJs;
     }
@@ -146,7 +149,8 @@ public class Theme implements Serializable
     /**
      * Sets the _strPathJs
      *
-     * @param strPathJs the _strPathJs to set
+     * @param strPathJs
+     *            the _strPathJs to set
      */
     public void setPathJs( String strPathJs )
     {
@@ -158,7 +162,7 @@ public class Theme implements Serializable
      *
      * @return the _strThemeAuthor
      */
-    public String getThemeAuthor(  )
+    public String getThemeAuthor( )
     {
         return _strThemeAuthor;
     }
@@ -166,7 +170,8 @@ public class Theme implements Serializable
     /**
      * Sets the _strThemeAuthor
      *
-     * @param strThemeAuthor the _strThemeAuthor to set
+     * @param strThemeAuthor
+     *            the _strThemeAuthor to set
      */
     public void setThemeAuthor( String strThemeAuthor )
     {
@@ -178,7 +183,7 @@ public class Theme implements Serializable
      *
      * @return the _strThemeAuthorUrl
      */
-    public String getThemeAuthorUrl(  )
+    public String getThemeAuthorUrl( )
     {
         return _strThemeAuthorUrl;
     }
@@ -186,7 +191,8 @@ public class Theme implements Serializable
     /**
      * Sets the _strThemeAuthorUrl
      *
-     * @param strThemeAuthorUrl the _strThemeAuthorUrl to set
+     * @param strThemeAuthorUrl
+     *            the _strThemeAuthorUrl to set
      */
     public void setThemeAuthorUrl( String strThemeAuthorUrl )
     {
@@ -198,7 +204,7 @@ public class Theme implements Serializable
      *
      * @return the _strThemeVersion
      */
-    public String getThemeVersion(  )
+    public String getThemeVersion( )
     {
         return _strThemeVersion;
     }
@@ -206,7 +212,8 @@ public class Theme implements Serializable
     /**
      * Sets the _strThemeVersion
      *
-     * @param strThemeVersion the _strThemeVersion to set
+     * @param strThemeVersion
+     *            the _strThemeVersion to set
      */
     public void setThemeVersion( String strThemeVersion )
     {
@@ -218,7 +225,7 @@ public class Theme implements Serializable
      *
      * @return the _strThemeLicence
      */
-    public String getThemeLicence(  )
+    public String getThemeLicence( )
     {
         return _strThemeLicence;
     }
@@ -226,7 +233,8 @@ public class Theme implements Serializable
     /**
      * Sets the _strThemeLicence
      *
-     * @param strThemeLicence the _strThemeLicence to set
+     * @param strThemeLicence
+     *            the _strThemeLicence to set
      */
     public void setThemeLicence( String strThemeLicence )
     {

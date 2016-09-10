@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -52,7 +52,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  * Dashboard Service
  */
@@ -67,50 +66,54 @@ public final class DashboardService
     private static final String ORDER = "order";
     private static final int CONSTANTE_FIRST_ORDER = 1;
     private static final int CONSTANTE_DEFAULT_COLUMN_COUNT = 3;
-    private static DashboardService _singleton = new DashboardService(  );
+    private static DashboardService _singleton = new DashboardService( );
 
     /**
      * Private Constructor
      */
-    private DashboardService(  )
+    private DashboardService( )
     {
     }
 
     /**
      * Return the unique instance
+     * 
      * @return The instance
      */
-    public static DashboardService getInstance(  )
+    public static DashboardService getInstance( )
     {
         return _singleton;
     }
 
     /**
-         * Returns the column count, with {@link DashboardService#PROPERTY_COLUMN_COUNT}. Default is {@link DashboardService#CONSTANTE_DEFAULT_COLUMN_COUNT}
-         * @return the column count
-         */
-    public int getColumnCount(  )
+     * Returns the column count, with {@link DashboardService#PROPERTY_COLUMN_COUNT}. Default is {@link DashboardService#CONSTANTE_DEFAULT_COLUMN_COUNT}
+     * 
+     * @return the column count
+     */
+    public int getColumnCount( )
     {
         return AppPropertiesService.getPropertyInt( PROPERTY_COLUMN_COUNT, CONSTANTE_DEFAULT_COLUMN_COUNT );
     }
 
     /**
      * All known dashboards as declared in SpringContext
+     * 
      * @return dashboards list
      */
-    public List<IDashboardComponent> getAllDashboardComponents(  )
+    public List<IDashboardComponent> getAllDashboardComponents( )
     {
-        return DashboardFactory.getAllDashboardComponents(  );
+        return DashboardFactory.getAllDashboardComponents( );
     }
 
     /**
      *
-     * @param nColumn the column id
+     * @param nColumn
+     *            the column id
      * @return all dashboards for this column
      */
     public List<IDashboardComponent> getDashboardComponents( int nColumn )
     {
-        DashboardFilter filter = new DashboardFilter(  );
+        DashboardFilter filter = new DashboardFilter( );
         filter.setFilterColumn( nColumn );
 
         List<IDashboardComponent> dashboardComponents = DashboardHome.findByFilter( filter );
@@ -120,74 +123,81 @@ public final class DashboardService
 
     /**
      * Register a Dashboard Component
-     * @param entry The DashboardComponent entry defined in the plugin's XML file
-     * @param plugin The plugin
+     * 
+     * @param entry
+     *            The DashboardComponent entry defined in the plugin's XML file
+     * @param plugin
+     *            The plugin
      */
     public void registerDashboardComponent( DashboardComponentEntry entry, Plugin plugin )
     {
         try
         {
-            DashboardComponent dc = (DashboardComponent) Class.forName( entry.getComponentClass(  ) ).newInstance(  );
+            DashboardComponent dc = (DashboardComponent) Class.forName( entry.getComponentClass( ) ).newInstance( );
 
-            dc.setName( entry.getName(  ) );
-            dc.setRight( entry.getRight(  ) );
+            dc.setName( entry.getName( ) );
+            dc.setRight( entry.getRight( ) );
             dc.setPlugin( plugin );
 
             boolean bRegistered = DashboardFactory.registerDashboardComponent( dc );
 
             if ( bRegistered )
             {
-                AppLogService.info( "New Dashboard Component registered : " + entry.getName(  ) );
+                AppLogService.info( "New Dashboard Component registered : " + entry.getName( ) );
             }
             else
             {
-                AppLogService.error( " Dashboard Component not registered : " + entry.getName(  ) + " : " +
-                    entry.getComponentClass(  ) );
+                AppLogService.error( " Dashboard Component not registered : " + entry.getName( ) + " : " + entry.getComponentClass( ) );
             }
         }
-        catch ( InstantiationException e )
+        catch( InstantiationException e )
         {
-            AppLogService.error( "Error registering a DashboardComponent : " + e.getMessage(  ), e );
+            AppLogService.error( "Error registering a DashboardComponent : " + e.getMessage( ), e );
         }
-        catch ( IllegalAccessException e )
+        catch( IllegalAccessException e )
         {
-            AppLogService.error( "Error registering a DashboardComponent : " + e.getMessage(  ), e );
+            AppLogService.error( "Error registering a DashboardComponent : " + e.getMessage( ), e );
         }
-        catch ( ClassNotFoundException e )
+        catch( ClassNotFoundException e )
         {
-            AppLogService.error( "Error registering a DashboardComponent : " + e.getMessage(  ), e );
+            AppLogService.error( "Error registering a DashboardComponent : " + e.getMessage( ), e );
         }
     }
 
     /**
-         * Moves the dashboard.
-         * @param dashboard to move, with new values
-         * @param nOldColumn previous column id
-         * @param nOldOrder previous order
-         * @param bCreate <code>true</code> if this is a new dashboard, <code>false</code> otherwise.
-         */
+     * Moves the dashboard.
+     * 
+     * @param dashboard
+     *            to move, with new values
+     * @param nOldColumn
+     *            previous column id
+     * @param nOldOrder
+     *            previous order
+     * @param bCreate
+     *            <code>true</code> if this is a new dashboard, <code>false</code> otherwise.
+     */
     public void doMoveDashboard( IDashboardComponent dashboard, int nOldColumn, int nOldOrder, boolean bCreate )
     {
-        int nColumn = dashboard.getZone(  );
-        int nOrder = dashboard.getOrder(  );
+        int nColumn = dashboard.getZone( );
+        int nOrder = dashboard.getOrder( );
 
         // find the dashboard already with this order and column
-        DashboardFilter filter = new DashboardFilter(  );
+        DashboardFilter filter = new DashboardFilter( );
         filter.setFilterColumn( nColumn );
 
         List<IDashboardComponent> listColumnDashboards = DashboardHome.findByFilter( filter );
 
-        if ( ( listColumnDashboards != null ) && !listColumnDashboards.isEmpty(  ) )
+        if ( ( listColumnDashboards != null ) && !listColumnDashboards.isEmpty( ) )
         {
-            if ( AppLogService.isDebugEnabled(  ) )
+            if ( AppLogService.isDebugEnabled( ) )
             {
-                AppLogService.debug( "Reordering  dashboard column " + dashboard.getZone(  ) );
+                AppLogService.debug( "Reordering  dashboard column " + dashboard.getZone( ) );
             }
 
             // sort by order
             Collections.sort( listColumnDashboards );
 
-            int nMaxOrder = listColumnDashboards.get( listColumnDashboards.size(  ) - 1 ).getOrder(  );
+            int nMaxOrder = listColumnDashboards.get( listColumnDashboards.size( ) - 1 ).getOrder( );
 
             if ( ( nOldColumn == 0 ) || ( nOldColumn != nColumn ) )
             {
@@ -202,7 +212,7 @@ public final class DashboardService
                     {
                         if ( !dc.equals( dashboard ) )
                         {
-                            int nCurrentOrder = dc.getOrder(  );
+                            int nCurrentOrder = dc.getOrder( );
 
                             if ( ( nCurrentOrder >= nOrder ) && ( nCurrentOrder < nOldOrder ) )
                             {
@@ -212,22 +222,23 @@ public final class DashboardService
                         }
                     }
                 }
-                else if ( nOrder > nOldOrder )
-                {
-                    for ( IDashboardComponent dc : listColumnDashboards )
+                else
+                    if ( nOrder > nOldOrder )
                     {
-                        if ( !dc.equals( dashboard ) )
+                        for ( IDashboardComponent dc : listColumnDashboards )
                         {
-                            int nCurrentOrder = dc.getOrder(  );
-
-                            if ( ( nCurrentOrder <= nOrder ) && ( nCurrentOrder > nOldOrder ) )
+                            if ( !dc.equals( dashboard ) )
                             {
-                                dc.setOrder( nCurrentOrder - 1 );
-                                DashboardHome.update( dc );
+                                int nCurrentOrder = dc.getOrder( );
+
+                                if ( ( nCurrentOrder <= nOrder ) && ( nCurrentOrder > nOldOrder ) )
+                                {
+                                    dc.setOrder( nCurrentOrder - 1 );
+                                    DashboardHome.update( dc );
+                                }
                             }
                         }
                     }
-                }
 
                 // dashboard are singletons, values are modified by getting it from database
                 dashboard.setOrder( nOrder );
@@ -253,14 +264,15 @@ public final class DashboardService
 
     /**
      * Returns all dashboards with no column/order set
+     * 
      * @return all dashboards with no column/order set
      */
-    public List<IDashboardComponent> getNotSetDashboards(  )
+    public List<IDashboardComponent> getNotSetDashboards( )
     {
-        List<IDashboardComponent> listDashboards = DashboardHome.findAll(  );
-        List<IDashboardComponent> listSpringDashboards = getAllDashboardComponents(  );
+        List<IDashboardComponent> listDashboards = DashboardHome.findAll( );
+        List<IDashboardComponent> listSpringDashboards = getAllDashboardComponents( );
 
-        List<IDashboardComponent> listUnsetDashboards = new ArrayList<IDashboardComponent>(  );
+        List<IDashboardComponent> listUnsetDashboards = new ArrayList<IDashboardComponent>( );
 
         for ( IDashboardComponent dashboard : listSpringDashboards )
         {
@@ -275,20 +287,21 @@ public final class DashboardService
 
     /**
      * Finds all dashboard with column and order set.
-     * @param user the current user
+     * 
+     * @param user
+     *            the current user
      * @return a map where key is the column id, and value is the column's dashboard list.
      */
     public Map<String, List<IDashboardComponent>> getAllSetDashboards( AdminUser user )
     {
-        Map<String, List<IDashboardComponent>> mapDashboardComponents = new HashMap<String, List<IDashboardComponent>>(  );
+        Map<String, List<IDashboardComponent>> mapDashboardComponents = new HashMap<String, List<IDashboardComponent>>( );
 
-        List<IDashboardComponent> listDashboards = DashboardHome.findAll(  );
+        List<IDashboardComponent> listDashboards = DashboardHome.findAll( );
 
         for ( IDashboardComponent dashboard : listDashboards )
         {
-            int nColumn = dashboard.getZone(  );
-            boolean bRight = user.checkRight( dashboard.getRight(  ) ) ||
-                dashboard.getRight(  ).equalsIgnoreCase( ALL );
+            int nColumn = dashboard.getZone( );
+            boolean bRight = user.checkRight( dashboard.getRight( ) ) || dashboard.getRight( ).equalsIgnoreCase( ALL );
 
             if ( !bRight )
             {
@@ -303,7 +316,7 @@ public final class DashboardService
             if ( listDashboardsColumn == null )
             {
                 // the list does not exist, create it
-                listDashboardsColumn = new ArrayList<IDashboardComponent>(  );
+                listDashboardsColumn = new ArrayList<IDashboardComponent>( );
                 mapDashboardComponents.put( strColumn, listDashboardsColumn );
             }
 
@@ -316,41 +329,47 @@ public final class DashboardService
 
     /**
      * Gets Data from all components of the zone
-     * @param user The user
-     * @param nZone The dasboard zone
-     * @param request HttpServletRequest
+     * 
+     * @param user
+     *            The user
+     * @param nZone
+     *            The dasboard zone
+     * @param request
+     *            HttpServletRequest
      * @return Data of all components of the zone
      */
     public String getDashboardData( AdminUser user, int nZone, HttpServletRequest request )
     {
-        StringBuffer sbDashboardData = new StringBuffer(  );
+        StringBuffer sbDashboardData = new StringBuffer( );
 
         for ( IDashboardComponent dc : getDashboardComponents( nZone ) )
         {
-            boolean bRight = user.checkRight( dc.getRight(  ) ) || dc.getRight(  ).equalsIgnoreCase( ALL );
+            boolean bRight = user.checkRight( dc.getRight( ) ) || dc.getRight( ).equalsIgnoreCase( ALL );
 
-            if ( ( dc.getZone(  ) == nZone ) && dc.isEnabled(  ) && bRight )
+            if ( ( dc.getZone( ) == nZone ) && dc.isEnabled( ) && bRight )
             {
                 sbDashboardData.append( dc.getDashboardData( user, request ) );
             }
         }
 
-        return sbDashboardData.toString(  );
+        return sbDashboardData.toString( );
     }
 
     /**
      * Get the list of dashboard from plugins
-     * @param user the current user
-     * @param request HttpServletRequest
+     * 
+     * @param user
+     *            the current user
+     * @param request
+     *            HttpServletRequest
      * @return the list of dashboards
      */
     public List<IDashboardComponent> getDashboards( AdminUser user, HttpServletRequest request )
     {
-        List<IDashboardComponent> listDashboards = new ArrayList<IDashboardComponent>(  );
+        List<IDashboardComponent> listDashboards = new ArrayList<IDashboardComponent>( );
 
         // Attributes associated to the plugins
-        for ( DashboardListenerService dashboardListenerService : SpringContextService.getBeansOfType( 
-                DashboardListenerService.class ) )
+        for ( DashboardListenerService dashboardListenerService : SpringContextService.getBeansOfType( DashboardListenerService.class ) )
         {
             dashboardListenerService.getDashboardComponents( listDashboards, user, request );
         }
@@ -360,20 +379,24 @@ public final class DashboardService
 
     /**
      * Gets Data from all components of the zone
-     * @param listDashboards the list of dashboards
-     * @param user The user
-     * @param nZone The dasboard zone
-     * @param request HttpServletRequest
+     * 
+     * @param listDashboards
+     *            the list of dashboards
+     * @param user
+     *            The user
+     * @param nZone
+     *            The dasboard zone
+     * @param request
+     *            HttpServletRequest
      * @return Data of all components of the zone
      */
-    public String getDashboardData( List<IDashboardComponent> listDashboards, AdminUser user, int nZone,
-        HttpServletRequest request )
+    public String getDashboardData( List<IDashboardComponent> listDashboards, AdminUser user, int nZone, HttpServletRequest request )
     {
-        List<IDashboardComponent> listDashboardComponents = new ArrayList<IDashboardComponent>(  );
+        List<IDashboardComponent> listDashboardComponents = new ArrayList<IDashboardComponent>( );
 
         for ( IDashboardComponent dc : listDashboards )
         {
-            if ( dc.getZone(  ) == nZone )
+            if ( dc.getZone( ) == nZone )
             {
                 listDashboardComponents.add( dc );
             }
@@ -381,25 +404,27 @@ public final class DashboardService
 
         Collections.sort( listDashboardComponents, new AttributeComparator( ORDER, true ) );
 
-        StringBuffer sbDashboardData = new StringBuffer(  );
+        StringBuffer sbDashboardData = new StringBuffer( );
 
         for ( IDashboardComponent dc : listDashboardComponents )
         {
-            boolean bRight = user.checkRight( dc.getRight(  ) ) || dc.getRight(  ).equalsIgnoreCase( ALL );
+            boolean bRight = user.checkRight( dc.getRight( ) ) || dc.getRight( ).equalsIgnoreCase( ALL );
 
-            if ( ( dc.getZone(  ) == nZone ) && dc.isEnabled(  ) && bRight )
+            if ( ( dc.getZone( ) == nZone ) && dc.isEnabled( ) && bRight )
             {
                 sbDashboardData.append( dc.getDashboardData( user, request ) );
             }
         }
 
-        return sbDashboardData.toString(  );
+        return sbDashboardData.toString( );
     }
 
     /**
-         * Reorders column's dashboard
-         * @param nColumn the column to reorder
-         */
+     * Reorders column's dashboard
+     * 
+     * @param nColumn
+     *            the column to reorder
+     */
     public void doReorderColumn( int nColumn )
     {
         int nOrder = CONSTANTE_FIRST_ORDER;
@@ -413,16 +438,17 @@ public final class DashboardService
 
     /**
      * Builds the map to with column id as key, and <code>true</code> as value if column is well ordered, <code>false</code> otherwise.
+     * 
      * @return the map
      */
-    public Map<String, Boolean> getOrderedColumnsStatus(  )
+    public Map<String, Boolean> getOrderedColumnsStatus( )
     {
-        Map<String, Boolean> mapOrderedStatus = new HashMap<String, Boolean>(  );
-        List<Integer> listColumns = DashboardHome.findColumns(  );
+        Map<String, Boolean> mapOrderedStatus = new HashMap<String, Boolean>( );
+        List<Integer> listColumns = DashboardHome.findColumns( );
 
         for ( Integer nIdColumn : listColumns )
         {
-            mapOrderedStatus.put( nIdColumn.toString(  ), isWellOrdered( nIdColumn ) );
+            mapOrderedStatus.put( nIdColumn.toString( ), isWellOrdered( nIdColumn ) );
         }
 
         return mapOrderedStatus;
@@ -430,7 +456,9 @@ public final class DashboardService
 
     /**
      * Determines if the column is well ordered
-     * @param nColumn the column id
+     * 
+     * @param nColumn
+     *            the column id
      * @return true if well ordered, <code>false</code> otherwise.
      */
     private boolean isWellOrdered( int nColumn )
@@ -439,7 +467,7 @@ public final class DashboardService
 
         for ( IDashboardComponent dc : getDashboardComponents( nColumn ) )
         {
-            if ( nOrder != dc.getOrder(  ) )
+            if ( nOrder != dc.getOrder( ) )
             {
                 return false;
             }
@@ -452,16 +480,17 @@ public final class DashboardService
 
     /**
      * Returns list with available column
+     * 
      * @return all available columns
      */
-    public ReferenceList getListAvailableColumns(  )
+    public ReferenceList getListAvailableColumns( )
     {
-        ReferenceList refList = new ReferenceList(  );
+        ReferenceList refList = new ReferenceList( );
 
         // add empty item
         refList.addItem( EMPTY_STRING, EMPTY_STRING );
 
-        for ( int nColumnIndex = 1; nColumnIndex <= getColumnCount(  ); nColumnIndex++ )
+        for ( int nColumnIndex = 1; nColumnIndex <= getColumnCount( ); nColumnIndex++ )
         {
             refList.addItem( nColumnIndex, Integer.toString( nColumnIndex ) );
         }
@@ -471,17 +500,18 @@ public final class DashboardService
 
     /**
      * Builds all refList order for all columns
+     * 
      * @return the map with column id as key
      */
-    public Map<String, ReferenceList> getMapAvailableOrders(  )
+    public Map<String, ReferenceList> getMapAvailableOrders( )
     {
-        Map<String, ReferenceList> mapAvailableOrders = new HashMap<String, ReferenceList>(  );
+        Map<String, ReferenceList> mapAvailableOrders = new HashMap<String, ReferenceList>( );
 
         // get columns
-        for ( Integer nColumn : DashboardHome.findColumns(  ) )
+        for ( Integer nColumn : DashboardHome.findColumns( ) )
         {
             // get orders
-            mapAvailableOrders.put( nColumn.toString(  ), getListAvailableOrders( nColumn ) );
+            mapAvailableOrders.put( nColumn.toString( ), getListAvailableOrders( nColumn ) );
         }
 
         return mapAvailableOrders;
@@ -489,12 +519,14 @@ public final class DashboardService
 
     /**
      * Orders reference list for the given column
-     * @param nColumn column
+     * 
+     * @param nColumn
+     *            column
      * @return the refList
      */
     public ReferenceList getListAvailableOrders( int nColumn )
     {
-        ReferenceList refList = new ReferenceList(  );
+        ReferenceList refList = new ReferenceList( );
 
         // add empty item
         refList.addItem( EMPTY_STRING, EMPTY_STRING );

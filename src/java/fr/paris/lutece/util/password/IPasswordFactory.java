@@ -42,23 +42,27 @@ public interface IPasswordFactory
 
     /**
      * Get a password for the stored representation
-     * @param strStoredPassword the stored password
+     * 
+     * @param strStoredPassword
+     *            the stored password
      * @return the password
      */
     IPassword getPassword( String strStoredPassword );
 
     /**
      * Get a password for cleartext password
-     * @param strUserPassword the cleartext password
+     * 
+     * @param strUserPassword
+     *            the cleartext password
      * @return the password
      */
     IPassword getPasswordFromCleartext( String strUserPassword );
 
     /**
-     * Get a password which should never match,
-     * to be used for timing attack resistance
+     * Get a password which should never match, to be used for timing attack resistance
+     * 
      * @return a dummy password
      */
-    IPassword getDummyPassword(  );
+    IPassword getDummyPassword( );
 
 }

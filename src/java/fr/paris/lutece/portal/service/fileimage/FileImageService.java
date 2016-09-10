@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -42,35 +42,36 @@ import fr.paris.lutece.portal.service.image.ImageResourceManager;
 import fr.paris.lutece.portal.service.image.ImageResourceProvider;
 import fr.paris.lutece.portal.service.init.LuteceInitException;
 
-
 /**
  * Service for Url entry types. Provide ImageResource management
  */
 public final class FileImageService implements ImageResourceProvider
 {
-    private static FileImageService _singleton = new FileImageService(  );
+    private static FileImageService _singleton = new FileImageService( );
     private static final String IMAGE_RESOURCE_TYPE_ID = "core_attribute_img";
 
     /**
      * Creates a new instance of FileImgService
      */
-    private FileImageService(  )
+    private FileImageService( )
     {
     }
 
     /**
      * Init
-     * @throws LuteceInitException if an error occurs
+     * 
+     * @throws LuteceInitException
+     *             if an error occurs
      */
-    public static synchronized void init(  ) throws LuteceInitException
+    public static synchronized void init( ) throws LuteceInitException
     {
-        getInstance(  ).register(  );
+        getInstance( ).register( );
     }
 
     /**
      * Initializes the service
      */
-    public void register(  )
+    public void register( )
     {
         ImageResourceManager.registerProvider( this );
     }
@@ -80,27 +81,29 @@ public final class FileImageService implements ImageResourceProvider
      *
      * @return The unique instance
      */
-    public static FileImageService getInstance(  )
+    public static FileImageService getInstance( )
     {
         return _singleton;
     }
 
     /**
-    * Return the Resource id
-    * @param nIdResource The resource identifier
-    * @return The Resource Image
-    */
+     * Return the Resource id
+     * 
+     * @param nIdResource
+     *            The resource identifier
+     * @return The Resource Image
+     */
     public ImageResource getImageResource( int nIdResource )
     {
         File file = FileHome.findByPrimaryKey( nIdResource );
-        PhysicalFile physicalFile = ( file.getPhysicalFile(  ) != null )
-            ? PhysicalFileHome.findByPrimaryKey( file.getPhysicalFile(  ).getIdPhysicalFile(  ) ) : null;
+        PhysicalFile physicalFile = ( file.getPhysicalFile( ) != null ) ? PhysicalFileHome.findByPrimaryKey( file.getPhysicalFile( ).getIdPhysicalFile( ) )
+                : null;
 
         if ( physicalFile != null )
         {
-            ImageResource imageResource = new ImageResource(  );
-            imageResource.setImage( physicalFile.getValue(  ) );
-            imageResource.setMimeType( file.getMimeType(  ) );
+            ImageResource imageResource = new ImageResource( );
+            imageResource.setImage( physicalFile.getValue( ) );
+            imageResource.setMimeType( file.getMimeType( ) );
 
             return imageResource;
         }
@@ -110,9 +113,10 @@ public final class FileImageService implements ImageResourceProvider
 
     /**
      * Return the Resource Type id
+     * 
      * @return The Resource Type Id
      */
-    public String getResourceTypeId(  )
+    public String getResourceTypeId( )
     {
         return IMAGE_RESOURCE_TYPE_ID;
     }

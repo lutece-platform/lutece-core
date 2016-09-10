@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -35,7 +35,6 @@ package fr.paris.lutece.portal.business.portalcomponent;
 
 import fr.paris.lutece.portal.business.stylesheet.StyleSheet;
 
-
 /**
  * IPortalComponentDAO Interface
  */
@@ -43,34 +42,44 @@ public interface IPortalComponentDAO
 {
     /**
      * Insert a new record in the table.
-     * @param portalComponent component The Instance of the object PortalComponent
+     * 
+     * @param portalComponent
+     *            component The Instance of the object PortalComponent
      */
     void insert( PortalComponent portalComponent );
 
     /**
      * load the data of PortalComponent from the table
-     * @param nPortalComponentId The indentifier of the object PortalComponent
+     * 
+     * @param nPortalComponentId
+     *            The indentifier of the object PortalComponent
      * @return The Instance of the object PortalComponent
      */
     PortalComponent load( int nPortalComponentId );
 
     /**
      * Delete a record from the table
-     * @param nPortalComponentId The indentifier of the object PortalComponent
+     * 
+     * @param nPortalComponentId
+     *            The indentifier of the object PortalComponent
      */
     void delete( int nPortalComponentId );
 
     /**
      * Update the record in the table
-     * @param portalComponent The instance of the PortalComponent to update
+     * 
+     * @param portalComponent
+     *            The instance of the PortalComponent to update
      */
     void store( PortalComponent portalComponent );
 
     /**
      * Returns the stylesheet of the portlet according to the mode
      *
-     * @param nPortalComponentId the identifier of the portlet
-     * @param nIdMode the selected mode
+     * @param nPortalComponentId
+     *            the identifier of the portlet
+     * @param nIdMode
+     *            the selected mode
      * @return the stylesheet
      */
     StyleSheet selectXslFile( int nPortalComponentId, int nIdMode );

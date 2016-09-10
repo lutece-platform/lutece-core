@@ -41,20 +41,21 @@ import org.codehaus.jackson.map.ObjectMapper;
 
 import java.io.IOException;
 
-
 /**
  *
- *JsonUtil
+ * JsonUtil
  *
  */
 public class JsonUtil
 {
-    //ObjectMapper
-    private static final ObjectMapper _mapper = new ObjectMapper(  );
+    // ObjectMapper
+    private static final ObjectMapper _mapper = new ObjectMapper( );
 
     /**
      * return a string containing the JSON flow
-     * @param jsonResponse the JSON Response Object
+     * 
+     * @param jsonResponse
+     *            the JSON Response Object
      * @return return a string containing the JSON flow
      */
     public static String buildJsonResponse( AbstractJsonResponse jsonResponse )
@@ -65,15 +66,15 @@ public class JsonUtil
         {
             strJsonResponse = _mapper.writeValueAsString( jsonResponse );
         }
-        catch ( JsonGenerationException e )
+        catch( JsonGenerationException e )
         {
             AppLogService.error( e );
         }
-        catch ( JsonMappingException e )
+        catch( JsonMappingException e )
         {
             AppLogService.error( e );
         }
-        catch ( IOException e )
+        catch( IOException e )
         {
             AppLogService.error( e );
         }

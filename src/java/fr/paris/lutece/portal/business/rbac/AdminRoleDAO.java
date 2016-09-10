@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -38,7 +38,6 @@ import fr.paris.lutece.util.sql.DAOUtil;
 import java.util.ArrayList;
 import java.util.Collection;
 
-
 /**
  * This class provides Data Access methods for AdminRole objects
  */
@@ -54,117 +53,127 @@ public final class AdminRoleDAO implements IAdminRoleDAO
     /**
      * Insert a new record in the table.
      *
-     * @param role The role object
+     * @param role
+     *            The role object
      */
     public void insert( AdminRole role )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT );
-        daoUtil.setString( 1, role.getKey(  ) );
-        daoUtil.setString( 2, role.getDescription(  ) );
+        daoUtil.setString( 1, role.getKey( ) );
+        daoUtil.setString( 2, role.getDescription( ) );
 
-        daoUtil.executeUpdate(  );
-        daoUtil.free(  );
+        daoUtil.executeUpdate( );
+        daoUtil.free( );
     }
 
     /**
      * Load the data of AdminRole from the table
      *
-     * @param strRoleKey The identifier of AdminRole
+     * @param strRoleKey
+     *            The identifier of AdminRole
      * @return the instance of the AdminRole
      */
     public AdminRole load( String strRoleKey )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT );
         daoUtil.setString( 1, strRoleKey );
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
         AdminRole role = null;
 
-        if ( daoUtil.next(  ) )
+        if ( daoUtil.next( ) )
         {
-            role = new AdminRole(  );
+            role = new AdminRole( );
             role.setKey( daoUtil.getString( 1 ) );
             role.setDescription( daoUtil.getString( 2 ) );
         }
 
-        daoUtil.free(  );
+        daoUtil.free( );
 
         return role;
     }
 
     /**
      * Delete a record from the table
-     * @param strRoleKey The role key
+     * 
+     * @param strRoleKey
+     *            The role key
      */
     public void delete( String strRoleKey )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE );
         daoUtil.setString( 1, strRoleKey );
 
-        daoUtil.executeUpdate(  );
-        daoUtil.free(  );
+        daoUtil.executeUpdate( );
+        daoUtil.free( );
     }
 
     /**
      * Update the record identified by the given role key with the given role in the table
-     * @param strRoleKey the key of the role to modify
-     * @param role The reference of role to be the new one
+     * 
+     * @param strRoleKey
+     *            the key of the role to modify
+     * @param role
+     *            The reference of role to be the new one
      */
     public void store( String strRoleKey, AdminRole role )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE );
-        daoUtil.setString( 1, role.getKey(  ) );
-        daoUtil.setString( 2, role.getDescription(  ) );
+        daoUtil.setString( 1, role.getKey( ) );
+        daoUtil.setString( 2, role.getDescription( ) );
         daoUtil.setString( 3, strRoleKey );
 
-        daoUtil.executeUpdate(  );
-        daoUtil.free(  );
+        daoUtil.executeUpdate( );
+        daoUtil.free( );
     }
 
     /**
      * Load the list of roles
+     * 
      * @return The Collection of the Roles
      */
-    public Collection<AdminRole> selectRoleList(  )
+    public Collection<AdminRole> selectRoleList( )
     {
-        Collection<AdminRole> listRoles = new ArrayList<AdminRole>(  );
+        Collection<AdminRole> listRoles = new ArrayList<AdminRole>( );
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL );
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
-        while ( daoUtil.next(  ) )
+        while ( daoUtil.next( ) )
         {
-            AdminRole role = new AdminRole(  );
+            AdminRole role = new AdminRole( );
             role.setKey( daoUtil.getString( 1 ) );
             role.setDescription( daoUtil.getString( 2 ) );
 
             listRoles.add( role );
         }
 
-        daoUtil.free(  );
+        daoUtil.free( );
 
         return listRoles;
     }
 
     /**
      * Check that the given key points to an existing role
-     * @param strRoleKey the role key
+     * 
+     * @param strRoleKey
+     *            the role key
      * @return true if the role exists, false otherwise
      */
     public boolean checkExistRole( String strRoleKey )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT );
         daoUtil.setString( 1, strRoleKey );
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
-        if ( daoUtil.next(  ) )
+        if ( daoUtil.next( ) )
         {
-            daoUtil.free(  );
+            daoUtil.free( );
 
             return true;
         }
         else
         {
-            daoUtil.free(  );
+            daoUtil.free( );
 
             return false;
         }

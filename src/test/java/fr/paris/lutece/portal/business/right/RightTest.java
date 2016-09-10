@@ -37,7 +37,6 @@ import fr.paris.lutece.test.LuteceTestCase;
 
 import java.util.Collection;
 
-
 public class RightTest extends LuteceTestCase
 {
     private static final String RIGHT_ID = "JUNIT_TEST_RIGHT";
@@ -56,10 +55,10 @@ public class RightTest extends LuteceTestCase
     private final static String ICONURL1 = "IconUrl 1";
     private final static String ICONURL2 = "IconUrl 2";
 
-    public void testBusinessRight(  )
+    public void testBusinessRight( )
     {
         // Initialize an object
-        Right right = new Right(  );
+        Right right = new Right( );
         right.setId( RIGHT_ID );
         right.setNameKey( NAMEKEY1 );
         right.setDescriptionKey( DESCRIPTIONKEY1 );
@@ -72,14 +71,14 @@ public class RightTest extends LuteceTestCase
         // Create test
         RightHome.create( right );
 
-        Right rightStored = RightHome.findByPrimaryKey( right.getId(  ) );
-        assertEquals( rightStored.getNameKey(  ), right.getNameKey(  ) );
-        assertEquals( rightStored.getDescriptionKey(  ), right.getDescriptionKey(  ) );
-        assertEquals( rightStored.getLevel(  ), right.getLevel(  ) );
-        assertEquals( rightStored.getUrl(  ), right.getUrl(  ) );
-        assertEquals( rightStored.getPluginName(  ), right.getPluginName(  ) );
-        assertEquals( rightStored.getFeatureGroup(  ), right.getFeatureGroup(  ) );
-        assertEquals( rightStored.getIconUrl(  ), right.getIconUrl(  ) );
+        Right rightStored = RightHome.findByPrimaryKey( right.getId( ) );
+        assertEquals( rightStored.getNameKey( ), right.getNameKey( ) );
+        assertEquals( rightStored.getDescriptionKey( ), right.getDescriptionKey( ) );
+        assertEquals( rightStored.getLevel( ), right.getLevel( ) );
+        assertEquals( rightStored.getUrl( ), right.getUrl( ) );
+        assertEquals( rightStored.getPluginName( ), right.getPluginName( ) );
+        assertEquals( rightStored.getFeatureGroup( ), right.getFeatureGroup( ) );
+        assertEquals( rightStored.getIconUrl( ), right.getIconUrl( ) );
 
         // Update test
         right.setNameKey( NAMEKEY2 );
@@ -90,22 +89,22 @@ public class RightTest extends LuteceTestCase
         right.setFeatureGroup( FEATUREGROUP2 );
         right.setIconUrl( ICONURL2 );
         RightHome.update( right );
-        rightStored = RightHome.findByPrimaryKey( right.getId(  ) );
-        assertEquals( rightStored.getNameKey(  ), right.getNameKey(  ) );
-        assertEquals( rightStored.getDescriptionKey(  ), right.getDescriptionKey(  ) );
-        assertEquals( rightStored.getLevel(  ), right.getLevel(  ) );
-        assertEquals( rightStored.getUrl(  ), right.getUrl(  ) );
-        assertEquals( rightStored.getPluginName(  ), right.getPluginName(  ) );
-        assertEquals( rightStored.getFeatureGroup(  ), right.getFeatureGroup(  ) );
-        assertEquals( rightStored.getIconUrl(  ), right.getIconUrl(  ) );
+        rightStored = RightHome.findByPrimaryKey( right.getId( ) );
+        assertEquals( rightStored.getNameKey( ), right.getNameKey( ) );
+        assertEquals( rightStored.getDescriptionKey( ), right.getDescriptionKey( ) );
+        assertEquals( rightStored.getLevel( ), right.getLevel( ) );
+        assertEquals( rightStored.getUrl( ), right.getUrl( ) );
+        assertEquals( rightStored.getPluginName( ), right.getPluginName( ) );
+        assertEquals( rightStored.getFeatureGroup( ), right.getFeatureGroup( ) );
+        assertEquals( rightStored.getIconUrl( ), right.getIconUrl( ) );
 
         // List Test
-        Collection listRights = RightHome.getRightsList(  );
-        assertTrue( listRights.size(  ) > 0 );
+        Collection listRights = RightHome.getRightsList( );
+        assertTrue( listRights.size( ) > 0 );
 
         // Delete test
-        RightHome.remove( right.getId(  ) );
-        rightStored = RightHome.findByPrimaryKey( right.getId(  ) );
+        RightHome.remove( right.getId( ) );
+        rightStored = RightHome.findByPrimaryKey( right.getId( ) );
         assertNull( rightStored );
     }
 }

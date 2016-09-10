@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -35,7 +35,6 @@ package fr.paris.lutece.portal.service.page;
 
 import java.util.EventListener;
 
-
 /**
  * Interface for page changes listeners
  */
@@ -43,7 +42,9 @@ public interface PageEventListener extends EventListener
 {
     /**
      * Process a page event
-     * @param event The event to process
+     * 
+     * @param event
+     *            The event to process
      */
     void processPageEvent( PageEvent event );
 }

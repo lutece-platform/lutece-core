@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -41,7 +41,6 @@ import java.util.Locale;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-
 /**
  * LocaleService
  */
@@ -55,15 +54,17 @@ public final class LocaleService
     /**
      * Private constructor
      */
-    private LocaleService(  )
+    private LocaleService( )
     {
     }
 
     /**
-     * Set the locale selected by the user in the front office. The user may select a language
-     * without been authenticated.
-     * @param request The request
-     * @param locale The locale
+     * Set the locale selected by the user in the front office. The user may select a language without been authenticated.
+     * 
+     * @param request
+     *            The request
+     * @param locale
+     *            The locale
      */
     public static void setUserSelectedLocale( HttpServletRequest request, Locale locale )
     {
@@ -73,13 +74,15 @@ public final class LocaleService
 
     /**
      * Get a Locale selected by the user in front office
-     * @param request The HTTP request
+     * 
+     * @param request
+     *            The HTTP request
      * @return The locale selected, or the default jvm locale if no locale has been selected
      */
     public static Locale getUserSelectedLocale( HttpServletRequest request )
     {
-        Locale locale = LocaleService.getDefault(  );
-        HttpSession session = request.getSession(  );
+        Locale locale = LocaleService.getDefault( );
+        HttpSession session = request.getSession( );
 
         if ( session != null )
         {
@@ -96,15 +99,16 @@ public final class LocaleService
 
     /**
      * Return a Lutece defined default Locale
+     * 
      * @return The locale
      */
-    public static Locale getDefault(  )
+    public static Locale getDefault( )
     {
         if ( _locale == null )
         {
             String strCountry = DatastoreService.getInstanceDataValue( DSKEY_LANGUAGE_DEFAULT, LANGUAGE_DEFAULT );
 
-            for ( String strISOContry : Locale.getISOCountries(  ) )
+            for ( String strISOContry : Locale.getISOCountries( ) )
             {
                 if ( strISOContry.equalsIgnoreCase( strCountry ) )
                 {
@@ -115,9 +119,8 @@ public final class LocaleService
                 }
             }
 
-            _locale = Locale.getDefault(  );
-            AppLogService.error( "LocaleService : invalid defined locale " + strCountry + " - default set to " +
-                LANGUAGE_DEFAULT );
+            _locale = Locale.getDefault( );
+            AppLogService.error( "LocaleService : invalid defined locale " + strCountry + " - default set to " + LANGUAGE_DEFAULT );
         }
 
         return _locale;

@@ -40,7 +40,6 @@ import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.MokeHttpServletRequest;
 
-
 /**
  * StyleSheetJspBean Test Class
  *
@@ -50,14 +49,14 @@ public class StyleSheetJspBeanTest extends LuteceTestCase
     /**
      * Test of getManageStyleSheet method, of class fr.paris.lutece.portal.web.stylesheet.StyleSheetJspBean.
      */
-    public void testGetStyleSheetManagement(  ) throws AccessDeniedException
+    public void testGetStyleSheetManagement( ) throws AccessDeniedException
     {
         System.out.println( "getManageStyleSheet" );
 
-        MokeHttpServletRequest request = new MokeHttpServletRequest(  );
-        request.registerAdminUserWithRigth( new AdminUser(  ), StyleSheetJspBean.RIGHT_MANAGE_STYLESHEET );
+        MokeHttpServletRequest request = new MokeHttpServletRequest( );
+        request.registerAdminUserWithRigth( new AdminUser( ), StyleSheetJspBean.RIGHT_MANAGE_STYLESHEET );
 
-        StyleSheetJspBean instance = new StyleSheetJspBean(  );
+        StyleSheetJspBean instance = new StyleSheetJspBean( );
         instance.init( request, StyleSheetJspBean.RIGHT_MANAGE_STYLESHEET );
         instance.getManageStyleSheet( request );
     }
@@ -65,15 +64,15 @@ public class StyleSheetJspBeanTest extends LuteceTestCase
     /**
      * Test of getCreateStyleSheet method, of class fr.paris.lutece.portal.web.stylesheet.StyleSheetJspBean.
      */
-    public void testGetCreateStyleSheet(  ) throws AccessDeniedException
+    public void testGetCreateStyleSheet( ) throws AccessDeniedException
     {
         System.out.println( "getCreateStyleSheet" );
 
-        MokeHttpServletRequest request = new MokeHttpServletRequest(  );
+        MokeHttpServletRequest request = new MokeHttpServletRequest( );
         request.addMokeParameters( Parameters.MODE_ID, "0" );
-        request.registerAdminUserWithRigth( new AdminUser(  ), StyleSheetJspBean.RIGHT_MANAGE_STYLESHEET );
+        request.registerAdminUserWithRigth( new AdminUser( ), StyleSheetJspBean.RIGHT_MANAGE_STYLESHEET );
 
-        StyleSheetJspBean instance = new StyleSheetJspBean(  );
+        StyleSheetJspBean instance = new StyleSheetJspBean( );
         instance.init( request, StyleSheetJspBean.RIGHT_MANAGE_STYLESHEET );
         instance.getCreateStyleSheet( request );
     }
@@ -81,7 +80,7 @@ public class StyleSheetJspBeanTest extends LuteceTestCase
     /**
      * Test of doCreateStyleSheet method, of class fr.paris.lutece.portal.web.stylesheet.StyleSheetJspBean.
      */
-    public void testDoCreateStyleSheet(  )
+    public void testDoCreateStyleSheet( )
     {
         System.out.println( "doCreateStyleSheet" );
 
@@ -91,19 +90,19 @@ public class StyleSheetJspBeanTest extends LuteceTestCase
     /**
      * Test of getModifyStyleSheet method, of class fr.paris.lutece.portal.web.stylesheet.StyleSheetJspBean.
      */
-    public void testGetModifyStyleSheet(  ) throws AccessDeniedException
+    public void testGetModifyStyleSheet( ) throws AccessDeniedException
     {
         System.out.println( "getModifyStyleSheet" );
 
-        if ( StyleSheetHome.getStyleSheetList( 0 ).size(  ) > 0 )
+        if ( StyleSheetHome.getStyleSheetList( 0 ).size( ) > 0 )
         {
-            int nStyleSheetId = StyleSheetHome.getStyleSheetList( 0 ).iterator(  ).next(  ).getId(  );
-            MokeHttpServletRequest request = new MokeHttpServletRequest(  );
+            int nStyleSheetId = StyleSheetHome.getStyleSheetList( 0 ).iterator( ).next( ).getId( );
+            MokeHttpServletRequest request = new MokeHttpServletRequest( );
             request.addMokeParameters( Parameters.STYLESHEET_ID, "" + nStyleSheetId );
             System.out.println( "-> using stylesheet ID : " + nStyleSheetId );
-            request.registerAdminUserWithRigth( new AdminUser(  ), StyleSheetJspBean.RIGHT_MANAGE_STYLESHEET );
+            request.registerAdminUserWithRigth( new AdminUser( ), StyleSheetJspBean.RIGHT_MANAGE_STYLESHEET );
 
-            StyleSheetJspBean instance = new StyleSheetJspBean(  );
+            StyleSheetJspBean instance = new StyleSheetJspBean( );
             instance.init( request, StyleSheetJspBean.RIGHT_MANAGE_STYLESHEET );
             instance.getModifyStyleSheet( request );
         }
@@ -112,7 +111,7 @@ public class StyleSheetJspBeanTest extends LuteceTestCase
     /**
      * Test of doModifyStyleSheet method, of class fr.paris.lutece.portal.web.stylesheet.StyleSheetJspBean.
      */
-    public void testDoModifyStyleSheet(  )
+    public void testDoModifyStyleSheet( )
     {
         System.out.println( "doModifyStyleSheet" );
 
@@ -122,19 +121,19 @@ public class StyleSheetJspBeanTest extends LuteceTestCase
     /**
      * Test of getConfirmRemoveStyleSheet method, of class fr.paris.lutece.portal.web.stylesheet.StyleSheetJspBean.
      */
-    public void testGetConfirmRemoveStyleSheet(  ) throws AccessDeniedException
+    public void testGetConfirmRemoveStyleSheet( ) throws AccessDeniedException
     {
         System.out.println( "getConfirmRemoveStyleSheet" );
 
-        if ( StyleSheetHome.getStyleSheetList( 0 ).size(  ) > 0 )
+        if ( StyleSheetHome.getStyleSheetList( 0 ).size( ) > 0 )
         {
-            int nStyleSheetId = StyleSheetHome.getStyleSheetList( 0 ).iterator(  ).next(  ).getId(  );
-            MokeHttpServletRequest request = new MokeHttpServletRequest(  );
+            int nStyleSheetId = StyleSheetHome.getStyleSheetList( 0 ).iterator( ).next( ).getId( );
+            MokeHttpServletRequest request = new MokeHttpServletRequest( );
             request.addMokeParameters( Parameters.STYLESHEET_ID, "" + nStyleSheetId );
             System.out.println( "-> using stylesheet ID : " + nStyleSheetId );
-            request.registerAdminUserWithRigth( new AdminUser(  ), StyleSheetJspBean.RIGHT_MANAGE_STYLESHEET );
+            request.registerAdminUserWithRigth( new AdminUser( ), StyleSheetJspBean.RIGHT_MANAGE_STYLESHEET );
 
-            StyleSheetJspBean instance = new StyleSheetJspBean(  );
+            StyleSheetJspBean instance = new StyleSheetJspBean( );
             instance.init( request, StyleSheetJspBean.RIGHT_MANAGE_STYLESHEET );
             instance.getRemoveStyleSheet( request );
         }
@@ -143,7 +142,7 @@ public class StyleSheetJspBeanTest extends LuteceTestCase
     /**
      * Test of doRemoveStyleSheet method, of class fr.paris.lutece.portal.web.stylesheet.StyleSheetJspBean.
      */
-    public void testDoRemoveStyleSheet(  )
+    public void testDoRemoveStyleSheet( )
     {
         System.out.println( "doRemoveStyleSheet" );
 

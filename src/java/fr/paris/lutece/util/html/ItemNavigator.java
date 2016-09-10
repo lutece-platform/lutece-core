@@ -41,7 +41,6 @@ import java.io.Serializable;
 
 import java.util.List;
 
-
 /**
  *
  * ItemNavigation provides a way to navigate between items
@@ -57,10 +56,15 @@ public class ItemNavigator implements Serializable
 
     /**
      * Create a new instance of ItemNavigator
-     * @param listItems the list of item
-     * @param nCurrentItemId The current map key
-     * @param strBaseUrl The base url
-     * @param strParameterName The parameter name
+     * 
+     * @param listItems
+     *            the list of item
+     * @param nCurrentItemId
+     *            The current map key
+     * @param strBaseUrl
+     *            The base url
+     * @param strParameterName
+     *            The parameter name
      */
     public ItemNavigator( List<String> listItems, int nCurrentItemId, String strBaseUrl, String strParameterName )
     {
@@ -72,14 +76,15 @@ public class ItemNavigator implements Serializable
 
     /**
      * Set the current item id given the content of the item
-     * @param strItem the item
+     * 
+     * @param strItem
+     *            the item
      */
     public void setCurrentItemId( String strItem )
     {
         int nCurrentItemId = _nCurrentItemId;
 
-        if ( ( strItem != null ) && ( _listItems != null ) && !_listItems.isEmpty(  ) &&
-                !strItem.equals( _listItems.get( _nCurrentItemId ) ) )
+        if ( ( strItem != null ) && ( _listItems != null ) && !_listItems.isEmpty( ) && !strItem.equals( _listItems.get( _nCurrentItemId ) ) )
         {
             int nPreviousItemId = _nCurrentItemId - 1;
             int nNextItemId = _nCurrentItemId + 1;
@@ -89,24 +94,25 @@ public class ItemNavigator implements Serializable
                 // Check if it is the previous item
                 nCurrentItemId = nPreviousItemId;
             }
-            else if ( ( nNextItemId < _listItems.size(  ) ) && strItem.equals( _listItems.get( nNextItemId ) ) )
-            {
-                // Check if it is the next item
-                nCurrentItemId = nNextItemId;
-            }
             else
-            {
-                // No choice, have to check every items
-                for ( int nIndex = 0; nIndex < _listItems.size(  ); nIndex++ )
+                if ( ( nNextItemId < _listItems.size( ) ) && strItem.equals( _listItems.get( nNextItemId ) ) )
                 {
-                    if ( strItem.equals( _listItems.get( nIndex ) ) )
+                    // Check if it is the next item
+                    nCurrentItemId = nNextItemId;
+                }
+                else
+                {
+                    // No choice, have to check every items
+                    for ( int nIndex = 0; nIndex < _listItems.size( ); nIndex++ )
                     {
-                        nCurrentItemId = nIndex;
+                        if ( strItem.equals( _listItems.get( nIndex ) ) )
+                        {
+                            nCurrentItemId = nIndex;
 
-                        break;
+                            break;
+                        }
                     }
                 }
-            }
         }
 
         _nCurrentItemId = nCurrentItemId;
@@ -114,18 +120,19 @@ public class ItemNavigator implements Serializable
 
     /**
      * Get the previous page link of the item
+     * 
      * @return the previous page link of the item
      */
-    public String getPreviousPageLink(  )
+    public String getPreviousPageLink( )
     {
         int nPreviousItemId = _nCurrentItemId - 1;
 
-        if ( ( _listItems != null ) && !_listItems.isEmpty(  ) && ( nPreviousItemId >= 0 ) )
+        if ( ( _listItems != null ) && !_listItems.isEmpty( ) && ( nPreviousItemId >= 0 ) )
         {
             UrlItem url = new UrlItem( _strBaseUrl );
             url.addParameter( _strParameterName, _listItems.get( nPreviousItemId ) );
 
-            return url.getUrl(  );
+            return url.getUrl( );
         }
 
         return StringUtils.EMPTY;
@@ -133,18 +140,19 @@ public class ItemNavigator implements Serializable
 
     /**
      * Get the next page link of the item
+     * 
      * @return the next page link of the item
      */
-    public String getNextPageLink(  )
+    public String getNextPageLink( )
     {
         int nNextItemId = _nCurrentItemId + 1;
 
-        if ( ( _listItems != null ) && !_listItems.isEmpty(  ) && ( nNextItemId < _listItems.size(  ) ) )
+        if ( ( _listItems != null ) && !_listItems.isEmpty( ) && ( nNextItemId < _listItems.size( ) ) )
         {
             UrlItem url = new UrlItem( _strBaseUrl );
             url.addParameter( _strParameterName, _listItems.get( nNextItemId ) );
 
-            return url.getUrl(  );
+            return url.getUrl( );
         }
 
         return StringUtils.EMPTY;
@@ -152,16 +160,19 @@ public class ItemNavigator implements Serializable
 
     /**
      * Get the Url of he navigator
+     * 
      * @return The Url of the navigator
      */
-    public String getBaseUrl(  )
+    public String getBaseUrl( )
     {
         return _strBaseUrl;
     }
 
     /**
      * Set the Url of he navigator
-     * @param strBaseUrl The new Url of the navigator
+     * 
+     * @param strBaseUrl
+     *            The new Url of the navigator
      */
     public void setBaseUrl( String strBaseUrl )
     {
@@ -170,13 +181,14 @@ public class ItemNavigator implements Serializable
 
     /**
      * Get the size of the item list
+     * 
      * @return the size of the item list
      */
-    public int getListItemSize(  )
+    public int getListItemSize( )
     {
         if ( _listItems != null )
         {
-            return _listItems.size(  );
+            return _listItems.size( );
         }
 
         return 0;
@@ -184,9 +196,10 @@ public class ItemNavigator implements Serializable
 
     /**
      * Get the current item map key
+     * 
      * @return the current item map key
      */
-    public int getCurrentItemId(  )
+    public int getCurrentItemId( )
     {
         return _nCurrentItemId;
     }

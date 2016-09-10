@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -48,7 +48,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  *
  */
@@ -67,33 +66,34 @@ public class AdminMessageJspBean
 
     /**
      * Retrieve a message stored into a request
-     * @param request The HTTP request
+     * 
+     * @param request
+     *            The HTTP request
      * @return The HTML code of the message
      */
     public String getMessage( HttpServletRequest request )
     {
         Locale locale = AdminUserService.getLocale( request );
-        Map<String, Object> model = new HashMap<String, Object>(  );
+        Map<String, Object> model = new HashMap<String, Object>( );
         AdminMessage message = AdminMessageService.getMessage( request );
 
         if ( message == null )
         {
             message = new AdminMessage( Messages.MESSAGE_ERROR_SESSION, null, PROPERTY_TITLE_ERROR,
-                    AdminAuthenticationService.getInstance(  ).getLoginPageUrl(  ), "", AdminMessage.TYPE_ERROR, false,
-                    null );
+                    AdminAuthenticationService.getInstance( ).getLoginPageUrl( ), "", AdminMessage.TYPE_ERROR, false, null );
         }
 
         model.put( MARK_MESSAGE, message );
         model.put( MARK_TEXT, message.getText( locale ) );
         model.put( MARK_TITLE, message.getTitle( locale ) );
-        model.put( MARK_URL, message.getUrl(  ) );
-        model.put( MARK_TARGET, message.getTarget(  ) );
-        model.put( MARK_REQUEST_PARAMETERS, message.getRequestParameters(  ) );
-        model.put( MARK_BACK_URL, message.getBackUrl(  ) );
-        model.put( MARK_ADMIN_URL, AppPathService.getAdminMenuUrl(  ) );
+        model.put( MARK_URL, message.getUrl( ) );
+        model.put( MARK_TARGET, message.getTarget( ) );
+        model.put( MARK_REQUEST_PARAMETERS, message.getRequestParameters( ) );
+        model.put( MARK_BACK_URL, message.getBackUrl( ) );
+        model.put( MARK_ADMIN_URL, AppPathService.getAdminMenuUrl( ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MESSAGE, locale, model );
 
-        return template.getHtml(  );
+        return template.getHtml( );
     }
 }

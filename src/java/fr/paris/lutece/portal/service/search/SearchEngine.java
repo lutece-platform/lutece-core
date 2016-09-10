@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -37,7 +37,6 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  * SearchEngine
  */
@@ -45,8 +44,11 @@ public interface SearchEngine
 {
     /**
      * Return search results
-     * @param strQuery The search query
-     * @param request The HTTP request
+     * 
+     * @param strQuery
+     *            The search query
+     * @param request
+     *            The HTTP request
      * @return Results as a collection of SearchResult
      */
     List<SearchResult> getSearchResults( String strQuery, HttpServletRequest request );

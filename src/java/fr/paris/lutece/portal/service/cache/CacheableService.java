@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -37,7 +37,6 @@ import fr.paris.lutece.portal.service.util.LuteceService;
 
 import java.util.List;
 
-
 /**
  * Base interface of Lutece services that provide a cache
  */
@@ -48,53 +47,60 @@ public interface CacheableService extends LuteceService
      *
      * @return true if enable, otherwise false
      */
-    boolean isCacheEnable(  );
+    boolean isCacheEnable( );
 
     /**
      * Gets the number of item currently in the cache.
      *
      * @return the number of item currently in the cache.
      */
-    int getCacheSize(  );
+    int getCacheSize( );
 
     /**
      * Reset the cache.
      */
-    void resetCache(  );
+    void resetCache( );
 
     /**
      * Enable the cache
-     * @param bEnable true to enable, false to disable
+     * 
+     * @param bEnable
+     *            true to enable, false to disable
      */
     void enableCache( boolean bEnable );
 
     /**
      * Gets all keys in the cache
+     * 
      * @return The List
      */
-    List<String> getKeys(  );
+    List<String> getKeys( );
 
     /**
      * Returns maximum elements accepted into the cache
+     * 
      * @return The max elements
      */
-    int getMaxElements(  );
+    int getMaxElements( );
 
     /**
      * Returns the time to live for objects in the cache
+     * 
      * @return The time to live in seconds
      */
-    long getTimeToLive(  );
+    long getTimeToLive( );
 
     /**
      * Return the memory size
+     * 
      * @return the memory size
      */
-    long getMemorySize(  );
+    long getMemorySize( );
 
     /**
      * Returns cache infos
+     * 
      * @return cache infos
      */
-    String getInfos(  );
+    String getInfos( );
 }

@@ -35,11 +35,11 @@ package fr.paris.lutece.util.html;
 
 import java.util.List;
 
-
 /**
- * This paginator should be used with already paged list, and the items count.
- * <strong>This implementation requires the items count and the page items</strong>
- * @param <E> the type
+ * This paginator should be used with already paged list, and the items count. <strong>This implementation requires the items count and the page items</strong>
+ * 
+ * @param <E>
+ *            the type
  */
 public class DelegatePaginator<E> extends AbstractPaginator<E>
 {
@@ -48,15 +48,20 @@ public class DelegatePaginator<E> extends AbstractPaginator<E>
     /**
      * Creates a new instance of Paginator.
      *
-     * @param list The collection to paginate
-     * @param nItemPerPage Number of items to display per page
-     * @param strBaseUrl The base Url for build links on each page link
-     * @param strPageIndexParameterName The parameter name for the page index
-     * @param strPageIndex The current page index
-     * @param nItemsCount the item count
+     * @param list
+     *            The collection to paginate
+     * @param nItemPerPage
+     *            Number of items to display per page
+     * @param strBaseUrl
+     *            The base Url for build links on each page link
+     * @param strPageIndexParameterName
+     *            The parameter name for the page index
+     * @param strPageIndex
+     *            The current page index
+     * @param nItemsCount
+     *            the item count
      */
-    public DelegatePaginator( List<E> list, int nItemPerPage, String strBaseUrl, String strPageIndexParameterName,
-        String strPageIndex, int nItemsCount )
+    public DelegatePaginator( List<E> list, int nItemPerPage, String strBaseUrl, String strPageIndexParameterName, String strPageIndex, int nItemsCount )
     {
         _nItemsCount = nItemsCount;
         _list = list;
@@ -69,13 +74,13 @@ public class DelegatePaginator<E> extends AbstractPaginator<E>
         {
             _nPageCurrent = Integer.parseInt( strPageIndex );
         }
-        catch ( NumberFormatException e )
+        catch( NumberFormatException e )
         {
             // strPageIndex invalid, use 1 as default page index.
             _nPageCurrent = 1;
         }
 
-        if ( _nPageCurrent > getPagesCount(  ) )
+        if ( _nPageCurrent > getPagesCount( ) )
         {
             _nPageCurrent = 1;
         }
@@ -83,16 +88,24 @@ public class DelegatePaginator<E> extends AbstractPaginator<E>
 
     /**
      * Creates a new instance of Paginator
-     * @param list The collection to paginate
-     * @param nItemPerPage Number of items to display per page
-     * @param strBaseUrl The base Url for build links on each page link
-     * @param strPageIndexParameterName The parameter name for the page index
-     * @param strPageIndex The current page index
-     * @param nItemsCount the item count
-     * @param strItemsPerPageParameterName The parameter name of the number items per page
+     * 
+     * @param list
+     *            The collection to paginate
+     * @param nItemPerPage
+     *            Number of items to display per page
+     * @param strBaseUrl
+     *            The base Url for build links on each page link
+     * @param strPageIndexParameterName
+     *            The parameter name for the page index
+     * @param strPageIndex
+     *            The current page index
+     * @param nItemsCount
+     *            the item count
+     * @param strItemsPerPageParameterName
+     *            The parameter name of the number items per page
      */
-    public DelegatePaginator( List<E> list, int nItemPerPage, String strBaseUrl, String strPageIndexParameterName,
-        String strPageIndex, int nItemsCount, String strItemsPerPageParameterName )
+    public DelegatePaginator( List<E> list, int nItemPerPage, String strBaseUrl, String strPageIndexParameterName, String strPageIndex, int nItemsCount,
+            String strItemsPerPageParameterName )
     {
         this( list, nItemPerPage, strBaseUrl, strPageIndexParameterName, strPageIndex, nItemsCount );
         _strItemsPerPageParameterName = strItemsPerPageParameterName;
@@ -104,7 +117,7 @@ public class DelegatePaginator<E> extends AbstractPaginator<E>
      * @return The List
      */
     @Override
-    public List<E> getPageItems(  )
+    public List<E> getPageItems( )
     {
         return _list;
     }

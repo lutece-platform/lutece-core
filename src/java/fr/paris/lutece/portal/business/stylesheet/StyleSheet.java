@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,7 +33,6 @@
  */
 package fr.paris.lutece.portal.business.stylesheet;
 
-
 /**
  * This class represents business StyleSheet objects
  */
@@ -45,7 +44,7 @@ public class StyleSheet
     private int _nModeId;
     private String _strDescription;
     private String _strFile;
-    private byte[] _strSource;
+    private byte [ ] _strSource;
     private String _strPath;
 
     /**
@@ -53,7 +52,7 @@ public class StyleSheet
      *
      * @return this StyleSheet identifier
      */
-    public int getId(  )
+    public int getId( )
     {
         return _nId;
     }
@@ -61,7 +60,8 @@ public class StyleSheet
     /**
      * Sets this identifier to the int value specified in parameter.
      *
-     * @param nId The new identifier value
+     * @param nId
+     *            The new identifier value
      */
     public void setId( int nId )
     {
@@ -73,7 +73,7 @@ public class StyleSheet
      *
      * @return the Style identifier of this StyleSheet
      */
-    public int getStyleId(  )
+    public int getStyleId( )
     {
         return _nStyleId;
     }
@@ -81,7 +81,8 @@ public class StyleSheet
     /**
      * Sets the Style identifier of this StyleSheet to the int value specified in parameter.
      *
-     * @param nStyleId The new identifier value
+     * @param nStyleId
+     *            The new identifier value
      */
     public void setStyleId( int nStyleId )
     {
@@ -93,7 +94,7 @@ public class StyleSheet
      *
      * @return the Mode identifier of this StyleSheet
      */
-    public int getModeId(  )
+    public int getModeId( )
     {
         return _nModeId;
     }
@@ -101,7 +102,8 @@ public class StyleSheet
     /**
      * Sets the Mode identifier of this StyleSheet to the int value specified in parameter.
      *
-     * @param nModeId The new identifier value
+     * @param nModeId
+     *            The new identifier value
      */
     public void setModeId( int nModeId )
     {
@@ -113,7 +115,7 @@ public class StyleSheet
      *
      * @return the description of this StyleSheet
      */
-    public String getDescription(  )
+    public String getDescription( )
     {
         return _strDescription;
     }
@@ -121,7 +123,8 @@ public class StyleSheet
     /**
      * Sets the description of this StyleSheet to the String value specified in parameter.
      *
-     * @param strDescription The new description value
+     * @param strDescription
+     *            The new description value
      */
     public void setDescription( String strDescription )
     {
@@ -133,7 +136,7 @@ public class StyleSheet
      *
      * @return the file name of this StyleSheet
      */
-    public String getFile(  )
+    public String getFile( )
     {
         return _strFile;
     }
@@ -141,7 +144,8 @@ public class StyleSheet
     /**
      * Sets the file name of this StyleSheet to the String value specified in parameter, "" if null.
      *
-     * @param strFile The new file name value
+     * @param strFile
+     *            The new file name value
      */
     public void setFile( String strFile )
     {
@@ -153,7 +157,7 @@ public class StyleSheet
      *
      * @return the file source of this StyleSheet
      */
-    public byte[] getSource(  )
+    public byte [ ] getSource( )
     {
         return _strSource;
     }
@@ -161,9 +165,10 @@ public class StyleSheet
     /**
      * Sets the file source of this StyleSheet to the String value specified in parameter.
      *
-     * @param strSource The new file source value
+     * @param strSource
+     *            The new file source value
      */
-    public void setSource( byte[] strSource )
+    public void setSource( byte [ ] strSource )
     {
         _strSource = strSource;
     }
@@ -171,7 +176,8 @@ public class StyleSheet
     /**
      * Sets the path of the stylesheet according to their mode
      *
-     * @param strPath the path
+     * @param strPath
+     *            the path
      */
     public void setPath( String strPath )
     {
@@ -183,7 +189,7 @@ public class StyleSheet
      *
      * @return path
      */
-    public String getPath(  )
+    public String getPath( )
     {
         return _strPath;
     }

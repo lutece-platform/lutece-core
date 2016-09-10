@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -39,9 +39,9 @@ import org.springframework.beans.factory.InitializingBean;
 
 import java.util.List;
 
-
 /**
  * Abstract User Preferences Service
+ * 
  * @since 4.0
  */
 public class BaseUserPreferencesServiceImpl implements IUserPreferencesService, InitializingBean
@@ -54,13 +54,15 @@ public class BaseUserPreferencesServiceImpl implements IUserPreferencesService, 
     /**
      * Constructor
      */
-    protected BaseUserPreferencesServiceImpl(  )
+    protected BaseUserPreferencesServiceImpl( )
     {
     }
 
     /**
      * Sets the DAO
-     * @param dao The DAO
+     * 
+     * @param dao
+     *            The DAO
      */
     public void setDao( IPreferencesDAO dao )
     {
@@ -196,21 +198,22 @@ public class BaseUserPreferencesServiceImpl implements IUserPreferencesService, 
      * {@inheritDoc}
      */
     @Override
-    public void afterPropertiesSet(  ) throws Exception
+    public void afterPropertiesSet( ) throws Exception
     {
-        synchronized ( BaseUserPreferencesServiceImpl.class )
+        synchronized( BaseUserPreferencesServiceImpl.class )
         {
             if ( _cache == null )
             {
-                _cache = new BaseUserPreferencesCacheService(  );
-                _cache.initCache(  );
+                _cache = new BaseUserPreferencesCacheService( );
+                _cache.initCache( );
             }
         }
     }
 
-	@Override
-	public boolean existsValueForKey(String strKey, String strValue) {
-		
-		return _dao.existsValueForKey(strKey, strValue);
-	}
+    @Override
+    public boolean existsValueForKey( String strKey, String strValue )
+    {
+
+        return _dao.existsValueForKey( strKey, strValue );
+    }
 }

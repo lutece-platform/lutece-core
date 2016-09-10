@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -36,7 +36,6 @@ package fr.paris.lutece.portal.business.mailinglist;
 import java.util.Collection;
 import java.util.List;
 
-
 /**
  * IMailingListDAO Interface
  */
@@ -44,31 +43,36 @@ public interface IMailingListDAO
 {
     /**
      * Insert a new record in the table.
-     * @param mailingList instance of the MailingList object to inssert
+     * 
+     * @param mailingList
+     *            instance of the MailingList object to inssert
      */
     void insert( MailingList mailingList );
 
     /**
      * Update the record in the table
      *
-     * @param mailingList the reference of the MailingList
+     * @param mailingList
+     *            the reference of the MailingList
      */
     void store( MailingList mailingList );
 
     /**
      * Delete a record from the table
      *
-     * @param nIdMailingList int identifier of the MailingList to delete
+     * @param nIdMailingList
+     *            int identifier of the MailingList to delete
      */
     void delete( int nIdMailingList );
 
-    ///////////////////////////////////////////////////////////////////////////
+    // /////////////////////////////////////////////////////////////////////////
     // Finders
 
     /**
      * load the data of the right from the table
      *
-     * @param nKey The identifier of the mailingList
+     * @param nKey
+     *            The identifier of the mailingList
      * @return The instance of the mailingList
      */
     MailingList load( int nKey );
@@ -78,34 +82,44 @@ public interface IMailingListDAO
      *
      * @return the collection which contains the data of all the mailingLists
      */
-    Collection<MailingList> selectAll(  );
+    Collection<MailingList> selectAll( );
 
     /**
      * Returns all mailing lists having a scope restricted to a given workgroup
      *
-     * @param strWorkgroup The workgroup
+     * @param strWorkgroup
+     *            The workgroup
      * @return the collection which contains the data of all the mailingLists
      */
     Collection<MailingList> selectByWorkgroup( String strWorkgroup );
 
     /**
      * Add an users filter to the mailing list
-     * @param filter the filter to add
-     * @param nId The Id of the mailing list
+     * 
+     * @param filter
+     *            the filter to add
+     * @param nId
+     *            The Id of the mailing list
      */
     void insertFilter( MailingListUsersFilter filter, int nId );
 
     /**
      * Remove an users filter from the mailing list
-     * @param filter the filter to remove
-     * @param nId The Id of the mailing list
+     * 
+     * @param filter
+     *            the filter to remove
+     * @param nId
+     *            The Id of the mailing list
      */
     void deleteFilter( MailingListUsersFilter filter, int nId );
 
     /**
      * Check if the filter already exists or not in the mailing list
-     * @param filter the filter
-     * @param nId the id mailing list
+     * 
+     * @param filter
+     *            the filter
+     * @param nId
+     *            the id mailing list
      * @return true if it already exists, false otherwise
      */
     boolean checkFilter( MailingListUsersFilter filter, int nId );
@@ -113,7 +127,8 @@ public interface IMailingListDAO
     /**
      * Select by filter.
      *
-     * @param filter the filter
+     * @param filter
+     *            the filter
      * @return the list
      */
     List<MailingList> selectByFilter( MailingListFilter filter );

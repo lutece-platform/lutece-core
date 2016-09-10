@@ -43,7 +43,6 @@ import java.util.Enumeration;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  * Security utils
  *
@@ -55,19 +54,20 @@ public final class SecurityUtil
     private static final String PATTERN_IP_ADDRESS = "^([0-9]{1,3}\\.){3}[0-9]{1,3}$";
     private static final String CONSTANT_COMMA = ",";
 
-    //private static final String PATTERN_CLEAN_PARAMETER = "^[\\w/]+$+";
+    // private static final String PATTERN_CLEAN_PARAMETER = "^[\\w/]+$+";
 
     /**
      * Private Constructor
      */
-    private SecurityUtil(  )
+    private SecurityUtil( )
     {
     }
 
     /**
      * Scan request parameters to see if there no malicious code.
      *
-     * @param request The HTTP request
+     * @param request
+     *            The HTTP request
      * @return true if all parameters don't contains any special characters
      */
     public static boolean containsCleanParameters( HttpServletRequest request )
@@ -78,27 +78,29 @@ public final class SecurityUtil
     /**
      * Scan request parameters to see if there no malicious code.
      *
-     * @param request The HTTP request
-     * @param strXssCharacters a String wich contain a list of Xss characters to check in strValue
+     * @param request
+     *            The HTTP request
+     * @param strXssCharacters
+     *            a String wich contain a list of Xss characters to check in strValue
      * @return true if all parameters don't contains any special characters
      */
     public static boolean containsCleanParameters( HttpServletRequest request, String strXssCharacters )
     {
         String key;
-        String[] values;
+        String [ ] values;
 
-        Enumeration<String> e = request.getParameterNames(  );
+        Enumeration<String> e = request.getParameterNames( );
 
-        while ( e.hasMoreElements(  ) )
+        while ( e.hasMoreElements( ) )
         {
-            key = e.nextElement(  );
+            key = e.nextElement( );
             values = request.getParameterValues( key );
 
             int length = values.length;
 
             for ( int i = 0; i < length; i++ )
             {
-                if ( SecurityUtil.containsXssCharacters( request, values[i], strXssCharacters ) )
+                if ( SecurityUtil.containsXssCharacters( request, values [i], strXssCharacters ) )
                 {
                     Logger logger = Logger.getLogger( LOGGER_NAME );
                     logger.warn( "SECURITY WARNING : INVALID REQUEST PARAMETERS" + dumpRequest( request ) );
@@ -112,11 +114,12 @@ public final class SecurityUtil
     }
 
     /**
-     * Checks if a String contains characters that could be used for a
-     * cross-site scripting attack.
+     * Checks if a String contains characters that could be used for a cross-site scripting attack.
      *
-     * @param request The HTTP request
-     * @param strString a character String
+     * @param request
+     *            The HTTP request
+     * @param strString
+     *            a character String
      * @return true if the String contains illegal characters
      */
     public static boolean containsXssCharacters( HttpServletRequest request, String strString )
@@ -125,18 +128,20 @@ public final class SecurityUtil
     }
 
     /**
-     * Checks if a String contains characters that could be used for a
-     * cross-site scripting attack.
+     * Checks if a String contains characters that could be used for a cross-site scripting attack.
      *
-     * @param request The HTTP request
-     * @param strValue a character String
-     * @param strXssCharacters a String wich contain a list of Xss characters to check in strValue
+     * @param request
+     *            The HTTP request
+     * @param strValue
+     *            a character String
+     * @param strXssCharacters
+     *            a String wich contain a list of Xss characters to check in strValue
      * @return true if the String contains illegal characters
      */
     public static boolean containsXssCharacters( HttpServletRequest request, String strValue, String strXssCharacters )
     {
-        boolean bContains = ( strXssCharacters == null ) ? StringUtil.containsXssCharacters( strValue )
-                                                         : StringUtil.containsXssCharacters( strValue, strXssCharacters );
+        boolean bContains = ( strXssCharacters == null ) ? StringUtil.containsXssCharacters( strValue ) : StringUtil.containsXssCharacters( strValue,
+                strXssCharacters );
 
         if ( bContains )
         {
@@ -149,7 +154,9 @@ public final class SecurityUtil
 
     /**
      * Dump all request info
-     * @param request The HTTP request
+     * 
+     * @param request
+     *            The HTTP request
      * @return A report containing all request info
      */
     public static String dumpRequest( HttpServletRequest request )
@@ -162,13 +169,14 @@ public final class SecurityUtil
         dumpTitle( sbDump, "Request headers" );
         dumpHeaders( sbDump, request );
 
-        return sbDump.toString(  );
+        return sbDump.toString( );
     }
 
     /**
-     * Get the IP of the user from a request. If the user is behind an apache
-     * server, return the ip of the user instead of the ip of the server.
-     * @param request The request
+     * Get the IP of the user from a request. If the user is behind an apache server, return the ip of the user instead of the ip of the server.
+     * 
+     * @param request
+     *            The request
      * @return The IP of the user that made the request
      */
     public static String getRealIp( HttpServletRequest request )
@@ -182,8 +190,7 @@ public final class SecurityUtil
             while ( !strIPAddress.matches( PATTERN_IP_ADDRESS ) && strIPAddress.contains( CONSTANT_COMMA ) )
             {
                 strIpForwarded = strIPAddress.substring( 0, strIPAddress.indexOf( CONSTANT_COMMA ) );
-                strIPAddress = strIPAddress.substring( strIPAddress.indexOf( CONSTANT_COMMA ) )
-                                           .replaceFirst( CONSTANT_COMMA, StringUtils.EMPTY ).trim(  );
+                strIPAddress = strIPAddress.substring( strIPAddress.indexOf( CONSTANT_COMMA ) ).replaceFirst( CONSTANT_COMMA, StringUtils.EMPTY ).trim( );
 
                 if ( ( strIpForwarded != null ) && strIpForwarded.matches( PATTERN_IP_ADDRESS ) )
                 {
@@ -193,12 +200,12 @@ public final class SecurityUtil
 
             if ( !strIPAddress.matches( PATTERN_IP_ADDRESS ) )
             {
-                strIPAddress = request.getRemoteAddr(  );
+                strIPAddress = request.getRemoteAddr( );
             }
         }
         else
         {
-            strIPAddress = request.getRemoteAddr(  );
+            strIPAddress = request.getRemoteAddr( );
         }
 
         return strIPAddress;
@@ -206,8 +213,11 @@ public final class SecurityUtil
 
     /**
      * Write a title into the dump stringbuffer
-     * @param sbDump The dump stringbuffer
-     * @param strTitle The title
+     * 
+     * @param sbDump
+     *            The dump stringbuffer
+     * @param strTitle
+     *            The title
      */
     private static void dumpTitle( StringBuffer sbDump, String strTitle )
     {
@@ -218,81 +228,94 @@ public final class SecurityUtil
 
     /**
      * Write request variables into the dump stringbuffer
-     * @param sb The dump stringbuffer
-     * @param request The HTTP request
+     * 
+     * @param sb
+     *            The dump stringbuffer
+     * @param request
+     *            The HTTP request
      */
     private static void dumpVariables( StringBuffer sb, HttpServletRequest request )
     {
-        dumpVariable( sb, "AUTH_TYPE", request.getAuthType(  ) );
-        dumpVariable( sb, "REQUEST_METHOD", request.getMethod(  ) );
-        dumpVariable( sb, "PATH_INFO", request.getPathInfo(  ) );
-        dumpVariable( sb, "PATH_TRANSLATED", request.getPathTranslated(  ) );
-        dumpVariable( sb, "QUERY_STRING", request.getQueryString(  ) );
-        dumpVariable( sb, "REQUEST_URI", request.getRequestURI(  ) );
-        dumpVariable( sb, "SCRIPT_NAME", request.getServletPath(  ) );
-        dumpVariable( sb, "LOCAL_ADDR", request.getLocalAddr(  ) );
-        dumpVariable( sb, "SERVER_PROTOCOL", request.getProtocol(  ) );
-        dumpVariable( sb, "REMOTE_ADDR", request.getRemoteAddr(  ) );
-        dumpVariable( sb, "REMOTE_HOST", request.getRemoteHost(  ) );
-        dumpVariable( sb, "HTTPS", request.getScheme(  ) );
-        dumpVariable( sb, "SERVER_NAME", request.getServerName(  ) );
-        dumpVariable( sb, "SERVER_PORT", String.valueOf( request.getServerPort(  ) ) );
+        dumpVariable( sb, "AUTH_TYPE", request.getAuthType( ) );
+        dumpVariable( sb, "REQUEST_METHOD", request.getMethod( ) );
+        dumpVariable( sb, "PATH_INFO", request.getPathInfo( ) );
+        dumpVariable( sb, "PATH_TRANSLATED", request.getPathTranslated( ) );
+        dumpVariable( sb, "QUERY_STRING", request.getQueryString( ) );
+        dumpVariable( sb, "REQUEST_URI", request.getRequestURI( ) );
+        dumpVariable( sb, "SCRIPT_NAME", request.getServletPath( ) );
+        dumpVariable( sb, "LOCAL_ADDR", request.getLocalAddr( ) );
+        dumpVariable( sb, "SERVER_PROTOCOL", request.getProtocol( ) );
+        dumpVariable( sb, "REMOTE_ADDR", request.getRemoteAddr( ) );
+        dumpVariable( sb, "REMOTE_HOST", request.getRemoteHost( ) );
+        dumpVariable( sb, "HTTPS", request.getScheme( ) );
+        dumpVariable( sb, "SERVER_NAME", request.getServerName( ) );
+        dumpVariable( sb, "SERVER_PORT", String.valueOf( request.getServerPort( ) ) );
     }
 
     /**
      * Write request headers infos into the dump stringbuffer
-     * @param sb The dump stringbuffer
-     * @param request The HTTP request
+     * 
+     * @param sb
+     *            The dump stringbuffer
+     * @param request
+     *            The HTTP request
      */
     private static void dumpHeaders( StringBuffer sb, HttpServletRequest request )
     {
         Enumeration<String> values;
         String key;
-        Enumeration<String> headers = request.getHeaderNames(  );
+        Enumeration<String> headers = request.getHeaderNames( );
 
-        while ( headers.hasMoreElements(  ) )
+        while ( headers.hasMoreElements( ) )
         {
-            key = headers.nextElement(  );
+            key = headers.nextElement( );
             values = request.getHeaders( key );
 
-            while ( values.hasMoreElements(  ) )
+            while ( values.hasMoreElements( ) )
             {
-                dumpVariable( sb, key, values.nextElement(  ) );
+                dumpVariable( sb, key, values.nextElement( ) );
             }
         }
     }
 
     /**
      * Write request parameters infos into the dump stringbuffer
-     * @param sb The dump stringbuffer
-     * @param request The HTTP request
+     * 
+     * @param sb
+     *            The dump stringbuffer
+     * @param request
+     *            The HTTP request
      */
     private static void dumpParameters( StringBuffer sb, HttpServletRequest request )
     {
         String key;
-        String[] values;
+        String [ ] values;
 
-        Enumeration<String> e = request.getParameterNames(  );
+        Enumeration<String> e = request.getParameterNames( );
 
-        while ( e.hasMoreElements(  ) )
+        while ( e.hasMoreElements( ) )
         {
-            key = e.nextElement(  );
+            key = e.nextElement( );
             values = request.getParameterValues( key );
 
             int length = values.length;
 
             for ( int i = 0; i < length; i++ )
             {
-                dumpVariable( sb, key, values[i] );
+                dumpVariable( sb, key, values [i] );
             }
         }
     }
 
     /**
      * Write name / value infos into the dump stringbuffer
-     * @param sb The dump string buffer
-     * @param strName The info name
-     * @param strValue The info value
+     * 
+     * @param sb
+     *            The dump string buffer
+     * @param strName
+     *            The info name
+     * @param strValue
+     *            The info value
      */
     private static void dumpVariable( StringBuffer sb, String strName, String strValue )
     {

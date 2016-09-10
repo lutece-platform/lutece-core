@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -44,13 +44,12 @@ import java.io.InputStream;
 
 import java.sql.Connection;
 
-
 /**
  * This class provides a Database Connection Service based on pooled connections.
  */
 public final class AppConnectionService
 {
-    ////////////////////////////////////////////////////////////////////////////
+    // //////////////////////////////////////////////////////////////////////////
     // Constants
     public static final String NO_POOL_DEFINED = "none";
     public static final String DEFAULT_POOL_NAME = "portal";
@@ -60,31 +59,34 @@ public final class AppConnectionService
     /**
      * Creates a new AppConnectionService object.
      */
-    private AppConnectionService(  )
+    private AppConnectionService( )
     {
     }
 
     /**
      * Initializes the connection pool and sets the pool manager instance
      *
-     * @param strConfigPath The relative Config path
-     * @param strConfigFilename The config file name
-     * @param strPoolName The pool name
-     * @throws LuteceInitException If an error occured
+     * @param strConfigPath
+     *            The relative Config path
+     * @param strConfigFilename
+     *            The config file name
+     * @param strPoolName
+     *            The pool name
+     * @throws LuteceInitException
+     *             If an error occured
      */
-    public static void init( String strConfigPath, String strConfigFilename, String strPoolName )
-        throws LuteceInitException
+    public static void init( String strConfigPath, String strConfigFilename, String strPoolName ) throws LuteceInitException
     {
         try
         {
             InputStream is = AppPathService.getResourceAsStream( strConfigPath, strConfigFilename );
             _poolManager = PoolManager.getInstance( is );
             _connectionService = new PluginConnectionService( strPoolName );
-            is.close(  );
+            is.close( );
         }
-        catch ( Exception e )
+        catch( Exception e )
         {
-            throw new LuteceInitException( "Error initializing pool : " + e.getMessage(  ), e );
+            throw new LuteceInitException( "Error initializing pool : " + e.getMessage( ), e );
         }
     }
 
@@ -93,14 +95,14 @@ public final class AppConnectionService
      *
      * @return a connection to database from the pool
      */
-    public static Connection getConnection(  )
+    public static Connection getConnection( )
     {
         if ( _poolManager == null )
         {
             throw new RuntimeException( "* Erreur * getConnection : Le pool de connexion n'est pas initialise !" );
         }
 
-        Connection conn = _connectionService.getConnection(  );
+        Connection conn = _connectionService.getConnection( );
 
         return conn;
     }
@@ -108,7 +110,8 @@ public final class AppConnectionService
     /**
      * Releases a connection and replaces it in the pool
      *
-     * @param conn The connection to realease
+     * @param conn
+     *            The connection to realease
      */
     public static void freeConnection( Connection conn )
     {
@@ -118,9 +121,9 @@ public final class AppConnectionService
     /**
      * Releases all the connections on all the pools
      */
-    public static void releasePool(  )
+    public static void releasePool( )
     {
-        _poolManager.release(  );
+        _poolManager.release( );
     }
 
     /**
@@ -128,7 +131,7 @@ public final class AppConnectionService
      *
      * @return The current Pool Manager
      */
-    public static PoolManager getPoolManager(  )
+    public static PoolManager getPoolManager( )
     {
         if ( _poolManager == null )
         {
@@ -141,21 +144,23 @@ public final class AppConnectionService
     /**
      * Gets the list of all pools defined in the db.properties file
      *
-     * @param list The Reference List
+     * @param list
+     *            The Reference List
      */
     public static void getPoolList( ReferenceList list )
     {
-        for ( ConnectionService cs : _poolManager.getPools(  ) )
+        for ( ConnectionService cs : _poolManager.getPools( ) )
         {
-            list.addItem( cs.getPoolName(  ), cs.getPoolName(  ) );
+            list.addItem( cs.getPoolName( ), cs.getPoolName( ) );
         }
     }
 
     /**
      * Returns a default Plugin Connection Service
-     * @return  The connection Service
+     * 
+     * @return The connection Service
      */
-    public static PluginConnectionService getDefaultConnectionService(  )
+    public static PluginConnectionService getDefaultConnectionService( )
     {
         return _connectionService;
     }

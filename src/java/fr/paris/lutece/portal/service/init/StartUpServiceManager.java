@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -38,7 +38,6 @@ import fr.paris.lutece.portal.service.util.AppLogService;
 
 import java.util.List;
 
-
 /**
  * StartUpServiceManager
  */
@@ -47,14 +46,14 @@ public final class StartUpServiceManager
     /**
      * Private constructor
      */
-    private StartUpServiceManager(  )
+    private StartUpServiceManager( )
     {
     }
 
     /**
      * Runs all StartUp Services
      */
-    public static void init(  )
+    public static void init( )
     {
         // Get all beans from the global ApplicationContext
         List<StartUpService> listServices = SpringContextService.getBeansOfType( StartUpService.class );
@@ -64,12 +63,12 @@ public final class StartUpServiceManager
         {
             try
             {
-                AppLogService.info( "Processing StartUp service : " + service.getName(  ) );
-                service.process(  );
+                AppLogService.info( "Processing StartUp service : " + service.getName( ) );
+                service.process( );
             }
-            catch ( Exception e )
+            catch( Exception e )
             {
-                AppLogService.error( "Error while processing StartUp service : " + service.getName(  ), e );
+                AppLogService.error( "Error while processing StartUp service : " + service.getName( ), e );
             }
         }
     }

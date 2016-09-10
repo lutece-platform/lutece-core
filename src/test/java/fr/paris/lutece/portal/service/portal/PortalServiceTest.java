@@ -38,12 +38,11 @@ import fr.paris.lutece.test.MokeHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 public class PortalServiceTest extends LuteceTestCase
 {
-    public void testGetDefaultPage(  )
+    public void testGetDefaultPage( )
     {
-        HttpServletRequest request = new MokeHttpServletRequest(  );
+        HttpServletRequest request = new MokeHttpServletRequest( );
         int nMode = 0;
 
         // PortalService.getDefaultPage( request, nMode );

@@ -38,7 +38,6 @@ import junit.framework.TestSuite;
 
 import org.apache.log4j.Logger;
 
-
 /**
  * This Class is the main Test Suite class to launch all the unit tests of Lutece
  */
@@ -50,15 +49,16 @@ public final class AllTests
      * Constructor
      *
      */
-    private AllTests(  )
+    private AllTests( )
     {
     }
 
     /**
      * A set of tests
+     * 
      * @return Test the tests
      */
-    public static Test suite(  )
+    public static Test suite( )
     {
         _logger.info( "UNIT TESTS FOR LUTECE" );
         _logger.info( "=====================" );
@@ -66,13 +66,13 @@ public final class AllTests
 
         TestSuite suite = new TestSuite( "Lutece JUnit tests" );
 
-        //$JUnit-BEGIN$
-        suite.addTest( fr.paris.lutece.util.AllTests.suite(  ) );
-        suite.addTest( fr.paris.lutece.portal.AllTests.suite(  ) );
+        // $JUnit-BEGIN$
+        suite.addTest( fr.paris.lutece.util.AllTests.suite( ) );
+        suite.addTest( fr.paris.lutece.portal.AllTests.suite( ) );
 
-        //suite.addTest( fr.paris.lutece.plugins.AllTests.suite(  ) );
+        // suite.addTest( fr.paris.lutece.plugins.AllTests.suite( ) );
 
-        //$JUnit-END$
+        // $JUnit-END$
         return suite;
     }
 }

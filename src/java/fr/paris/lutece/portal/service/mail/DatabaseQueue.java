@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -36,7 +36,6 @@ package fr.paris.lutece.portal.service.mail;
 import fr.paris.lutece.portal.business.mail.MailItemQueue;
 import fr.paris.lutece.portal.business.mail.MailItemQueueHome;
 
-
 /**
  * DatabaseQueue
  */
@@ -44,30 +43,33 @@ public class DatabaseQueue implements IMailQueue
 {
     /**
      * Put a mail item into the database queue
-     * @param item The mail item to add to the queue
+     * 
+     * @param item
+     *            The mail item to add to the queue
      */
     @Override
     public synchronized void send( MailItem item )
     {
-        MailItemQueue mailQueue = new MailItemQueue(  );
+        MailItemQueue mailQueue = new MailItemQueue( );
         mailQueue.setMailItem( item );
         MailItemQueueHome.create( mailQueue );
     }
 
     /**
      * Get a mail item from the database queue and remove it from the queue
+     * 
      * @return The older mail item of the queue
      */
     @Override
-    public synchronized MailItem consume(  )
+    public synchronized MailItem consume( )
     {
-        MailItemQueue mailItemQueue = MailItemQueueHome.getNextMailItemQueue(  );
+        MailItemQueue mailItemQueue = MailItemQueueHome.getNextMailItemQueue( );
 
         if ( mailItemQueue != null )
         {
-            MailItemQueueHome.delete( mailItemQueue.getIdMailItemQueue(  ) );
+            MailItemQueueHome.delete( mailItemQueue.getIdMailItemQueue( ) );
 
-            return mailItemQueue.getMailItem(  );
+            return mailItemQueue.getMailItem( );
         }
 
         return null;
@@ -75,11 +77,12 @@ public class DatabaseQueue implements IMailQueue
 
     /**
      * get the DatabaseQueue size
+     * 
      * @return the DatabaseQueue size
      */
     @Override
-    public int size(  )
+    public int size( )
     {
-        return MailItemQueueHome.getMailItemNumber(  );
+        return MailItemQueueHome.getMailItemNumber( );
     }
 }

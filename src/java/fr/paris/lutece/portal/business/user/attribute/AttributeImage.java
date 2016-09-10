@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -62,7 +62,6 @@ import javax.imageio.ImageIO;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  *
  * AttributeComboBox
@@ -101,92 +100,100 @@ public class AttributeImage extends AbstractAttribute
     /**
      * Constructor
      */
-    public AttributeImage(  )
+    public AttributeImage( )
     {
         setAttributeImage( true );
     }
 
     /**
      * Get the template create an attribute
+     * 
      * @return The URL of the template
      */
     @Override
-    public String getTemplateCreateAttribute(  )
+    public String getTemplateCreateAttribute( )
     {
         return TEMPLATE_CREATE_ATTRIBUTE;
     }
 
     /**
      * Get the template modify an attribute
+     * 
      * @return The URL of the template
      */
     @Override
-    public String getTemplateModifyAttribute(  )
+    public String getTemplateModifyAttribute( )
     {
         return TEMPLATE_MODIFY_ATTRIBUTE;
     }
 
     /**
      * Get the template html form attribute
+     * 
      * @return the template
      */
     @Override
-    public String getTemplateHtmlFormAttribute(  )
+    public String getTemplateHtmlFormAttribute( )
     {
         return TEMPLATE_HTML_FORM_ATTRIBUTE;
     }
 
     /**
      * Get the template html form search attribute
+     * 
      * @return the template
      */
     @Override
-    public String getTemplateHtmlFormSearchAttribute(  )
+    public String getTemplateHtmlFormSearchAttribute( )
     {
         return EMPTY_STRING;
     }
 
     /**
      * Get the template html for the value of the attribute
+     * 
      * @return the template
      */
     @Override
-    public String getTemplateHtmlValue(  )
+    public String getTemplateHtmlValue( )
     {
         return TEMPLATE_HTML_VALUE;
     }
 
     /**
      * Get page title for create page
+     * 
      * @return page title
      */
     @Override
-    public String getPropertyCreatePageTitle(  )
+    public String getPropertyCreatePageTitle( )
     {
         return PROPERTY_CREATE_IMAGE_PAGETITLE;
     }
 
     /**
      * Get page title for modify page
+     * 
      * @return page title
      */
     @Override
-    public String getPropertyModifyPageTitle(  )
+    public String getPropertyModifyPageTitle( )
     {
         return PROPERTY_MODIFY_IMAGE_PAGETITLE;
     }
 
     /**
      * Set the data of the attribute
-     * @param request HttpServletRequest
+     * 
+     * @param request
+     *            HttpServletRequest
      * @return null if there are no errors
      */
     @Override
     public String setAttributeData( HttpServletRequest request )
     {
         String strTitle = request.getParameter( PARAMETER_TITLE );
-        String strHelpMessage = ( request.getParameter( PARAMETER_HELP_MESSAGE ) != null )
-            ? request.getParameter( PARAMETER_HELP_MESSAGE ).trim(  ) : null;
+        String strHelpMessage = ( request.getParameter( PARAMETER_HELP_MESSAGE ) != null ) ? request.getParameter( PARAMETER_HELP_MESSAGE ).trim( ) : null;
         String strMandatory = request.getParameter( PARAMETER_MANDATORY );
         String strWidth = request.getParameter( PARAMETER_WIDTH );
         String strHeight = request.getParameter( PARAMETER_HEIGHT );
@@ -203,16 +210,16 @@ public class AttributeImage extends AbstractAttribute
             // Never show an image in the search box
             setShownInSearch( false );
 
-            if ( getListAttributeFields(  ) == null )
+            if ( getListAttributeFields( ) == null )
             {
-                List<AttributeField> listAttributeFields = new ArrayList<AttributeField>(  );
-                AttributeField attributeField = new AttributeField(  );
+                List<AttributeField> listAttributeFields = new ArrayList<AttributeField>( );
+                AttributeField attributeField = new AttributeField( );
                 listAttributeFields.add( attributeField );
                 setListAttributeFields( listAttributeFields );
             }
 
-            if ( ( StringUtils.isNotBlank( strWidth ) && !strWidth.matches( REGEX_ID ) ) ||
-                    ( StringUtils.isNotBlank( strHeight ) && !strHeight.matches( REGEX_ID ) ) )
+            if ( ( StringUtils.isNotBlank( strWidth ) && !strWidth.matches( REGEX_ID ) )
+                    || ( StringUtils.isNotBlank( strHeight ) && !strHeight.matches( REGEX_ID ) ) )
             {
                 strError = PROPERTY_MESSAGE_NO_ARITHMETICAL_CHARACTERS;
             }
@@ -222,21 +229,21 @@ public class AttributeImage extends AbstractAttribute
                 if ( StringUtils.isNotBlank( strWidth ) && strWidth.matches( REGEX_ID ) )
                 {
                     int nWidth = Integer.parseInt( strWidth );
-                    getListAttributeFields(  ).get( 0 ).setWidth( nWidth );
+                    getListAttributeFields( ).get( 0 ).setWidth( nWidth );
                 }
                 else
                 {
-                    getListAttributeFields(  ).get( 0 ).setWidth( -1 );
+                    getListAttributeFields( ).get( 0 ).setWidth( -1 );
                 }
 
                 if ( StringUtils.isNotBlank( strHeight ) && strHeight.matches( REGEX_ID ) )
                 {
                     int nHeight = Integer.parseInt( strHeight );
-                    getListAttributeFields(  ).get( 0 ).setHeight( nHeight );
+                    getListAttributeFields( ).get( 0 ).setHeight( nHeight );
                 }
                 else
                 {
-                    getListAttributeFields(  ).get( 0 ).setHeight( -1 );
+                    getListAttributeFields( ).get( 0 ).setHeight( -1 );
                 }
 
                 return null;
@@ -252,62 +259,64 @@ public class AttributeImage extends AbstractAttribute
 
     /**
      * Set attribute type
-     * @param locale locale
+     * 
+     * @param locale
+     *            locale
      */
     @Override
     public void setAttributeType( Locale locale )
     {
-        AttributeType attributeType = new AttributeType(  );
+        AttributeType attributeType = new AttributeType( );
         attributeType.setLocale( locale );
-        attributeType.setClassName( this.getClass(  ).getName(  ) );
+        attributeType.setClassName( this.getClass( ).getName( ) );
         attributeType.setLabelType( PROPERTY_TYPE_IMAGE );
         setAttributeType( attributeType );
     }
 
     /**
      * Get the data of the user fields
-     * @param request HttpServletRequest
-     * @param user user
+     * 
+     * @param request
+     *            HttpServletRequest
+     * @param user
+     *            user
      * @return user field data
      */
     @Override
     public List<AdminUserField> getUserFieldsData( HttpServletRequest request, AdminUser user )
     {
-        String strUpdateAttribute = request.getParameter( PARAMETER_UPDATE_ATTRIBUTE + CONSTANT_UNDERSCORE +
-                getIdAttribute(  ) );
-        List<AdminUserField> listUserFields = new ArrayList<AdminUserField>(  );
+        String strUpdateAttribute = request.getParameter( PARAMETER_UPDATE_ATTRIBUTE + CONSTANT_UNDERSCORE + getIdAttribute( ) );
+        List<AdminUserField> listUserFields = new ArrayList<AdminUserField>( );
 
         try
         {
             if ( StringUtils.isNotBlank( strUpdateAttribute ) )
             {
                 MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
-                FileItem fileItem = multipartRequest.getFile( PARAMETER_ATTRIBUTE + CONSTANT_UNDERSCORE +
-                        getIdAttribute(  ) );
+                FileItem fileItem = multipartRequest.getFile( PARAMETER_ATTRIBUTE + CONSTANT_UNDERSCORE + getIdAttribute( ) );
 
-                if ( ( fileItem != null ) && ( fileItem.getName(  ) != null ) &&
-                        !EMPTY_STRING.equals( fileItem.getName(  ) ) )
+                if ( ( fileItem != null ) && ( fileItem.getName( ) != null ) && !EMPTY_STRING.equals( fileItem.getName( ) ) )
                 {
-                    File file = new File(  );
-                    PhysicalFile physicalFile = new PhysicalFile(  );
-                    physicalFile.setValue( fileItem.get(  ) );
+                    File file = new File( );
+                    PhysicalFile physicalFile = new PhysicalFile( );
+                    physicalFile.setValue( fileItem.get( ) );
                     file.setTitle( FileUploadService.getFileNameOnly( fileItem ) );
-                    file.setSize( (int) fileItem.getSize(  ) );
+                    file.setSize( (int) fileItem.getSize( ) );
                     file.setPhysicalFile( physicalFile );
                     file.setMimeType( FileSystemUtil.getMIMEType( FileUploadService.getFileNameOnly( fileItem ) ) );
 
-                    //verify that the file is an image
-                    ImageIO.read( new ByteArrayInputStream( file.getPhysicalFile(  ).getValue(  ) ) );
+                    // verify that the file is an image
+                    ImageIO.read( new ByteArrayInputStream( file.getPhysicalFile( ).getValue( ) ) );
 
-                    AdminUserField userField = new AdminUserField(  );
+                    AdminUserField userField = new AdminUserField( );
                     userField.setUser( user );
                     userField.setAttribute( this );
 
-                    AttributeService.getInstance(  ).setAttributeField( this );
+                    AttributeService.getInstance( ).setAttributeField( this );
 
-                    if ( ( getListAttributeFields(  ) != null ) && ( getListAttributeFields(  ).size(  ) > 0 ) )
+                    if ( ( getListAttributeFields( ) != null ) && ( getListAttributeFields( ).size( ) > 0 ) )
                     {
-                        userField.setAttributeField( getListAttributeFields(  ).get( 0 ) );
+                        userField.setAttributeField( getListAttributeFields( ).get( 0 ) );
                         userField.setFile( file );
                     }
 
@@ -316,8 +325,8 @@ public class AttributeImage extends AbstractAttribute
             }
             else
             {
-                AdminUserFieldFilter auFieldFilter = new AdminUserFieldFilter(  );
-                auFieldFilter.setIdAttribute( getIdAttribute(  ) );
+                AdminUserFieldFilter auFieldFilter = new AdminUserFieldFilter( );
+                auFieldFilter.setIdAttribute( getIdAttribute( ) );
 
                 String strIdUser = request.getParameter( PARAMETER_ID_USER );
 
@@ -330,19 +339,19 @@ public class AttributeImage extends AbstractAttribute
 
                 for ( AdminUserField userField : listUserFields )
                 {
-                    if ( userField.getFile(  ) != null )
+                    if ( userField.getFile( ) != null )
                     {
-                        File file = FileHome.findByPrimaryKey( userField.getFile(  ).getIdFile(  ) );
+                        File file = FileHome.findByPrimaryKey( userField.getFile( ).getIdFile( ) );
                         userField.setFile( file );
 
-                        int nIdPhysicalFile = file.getPhysicalFile(  ).getIdPhysicalFile(  );
+                        int nIdPhysicalFile = file.getPhysicalFile( ).getIdPhysicalFile( );
                         PhysicalFile physicalFile = PhysicalFileHome.findByPrimaryKey( nIdPhysicalFile );
-                        userField.getFile(  ).setPhysicalFile( physicalFile );
+                        userField.getFile( ).setPhysicalFile( physicalFile );
                     }
                 }
             }
         }
-        catch ( IOException e )
+        catch( IOException e )
         {
             AppLogService.error( e );
         }
@@ -352,10 +361,11 @@ public class AttributeImage extends AbstractAttribute
 
     /**
      * Get whether the attribute is anonymizable.
+     * 
      * @return True if the attribute can be anonymized, false otherwise.
      */
     @Override
-    public boolean isAnonymizable(  )
+    public boolean isAnonymizable( )
     {
         return false;
     }

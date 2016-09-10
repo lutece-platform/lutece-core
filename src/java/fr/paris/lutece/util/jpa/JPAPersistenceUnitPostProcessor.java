@@ -54,7 +54,6 @@ import javax.persistence.Embeddable;
 import javax.persistence.Entity;
 import javax.persistence.MappedSuperclass;
 
-
 /**
  *
  * JPAPersistenceUnitPostProcessor : adds classpath entities to the PersistenceUnitInfo and finds *.orm.xml.
@@ -69,37 +68,38 @@ public class JPAPersistenceUnitPostProcessor implements PersistenceUnitPostProce
     /**
      * Scans for *.orm.xml and adds Entites from classpath.
      *
-     * @param pui the pui
+     * @param pui
+     *            the pui
      */
     @Override
     public void postProcessPersistenceUnitInfo( MutablePersistenceUnitInfo pui )
     {
         _Log.info( "Scanning for JPA orm.xml files" );
 
-        for ( File ormFile : getListORMFiles(  ) )
+        for ( File ormFile : getListORMFiles( ) )
         {
-            String ormAbsolutePath = ormFile.getAbsolutePath(  );
+            String ormAbsolutePath = ormFile.getAbsolutePath( );
             _Log.info( "Found ORM file : " + ormAbsolutePath );
             pui.addMappingFileName( ormAbsolutePath.substring( ormAbsolutePath.indexOf( CLASSPATH_PATH_IDENTIFIER ) ) );
         }
 
         _Log.info( "Scanning for JPA entities..." );
 
-        Set<String> entityClasses = AnnotationUtil.find( Entity.class.getName(  ) );
-        entityClasses.addAll( AnnotationUtil.find( Embeddable.class.getName(  ) ) );
-        entityClasses.addAll( AnnotationUtil.find( MappedSuperclass.class.getName(  ) ) );
+        Set<String> entityClasses = AnnotationUtil.find( Entity.class.getName( ) );
+        entityClasses.addAll( AnnotationUtil.find( Embeddable.class.getName( ) ) );
+        entityClasses.addAll( AnnotationUtil.find( MappedSuperclass.class.getName( ) ) );
 
         for ( String strClass : entityClasses )
         {
             _Log.info( "Found entity class : " + strClass );
 
-            if ( !pui.getManagedClassNames(  ).contains( strClass ) )
+            if ( !pui.getManagedClassNames( ).contains( strClass ) )
             {
                 pui.addManagedClassName( strClass );
             }
         }
 
-        if ( _Log.isDebugEnabled(  ) )
+        if ( _Log.isDebugEnabled( ) )
         {
             dumpPersistenceUnitInfo( pui );
         }
@@ -107,35 +107,37 @@ public class JPAPersistenceUnitPostProcessor implements PersistenceUnitPostProce
 
     /**
      * Search for <code>WEB-INF/conf/plugins/*.orm.xml</code>.
+     * 
      * @return list of files found
      */
-    private Collection<File> getListORMFiles(  )
+    private Collection<File> getListORMFiles( )
     {
         String strConfPath = AppPathService.getAbsolutePathFromRelativePath( PATH_CONF );
         File dirConfPlugins = new File( strConfPath );
 
-        return FileUtils.listFiles( dirConfPlugins, FileFilterUtils.suffixFileFilter( SUFFIX_ORM_XML ),
-            TrueFileFilter.INSTANCE );
+        return FileUtils.listFiles( dirConfPlugins, FileFilterUtils.suffixFileFilter( SUFFIX_ORM_XML ), TrueFileFilter.INSTANCE );
     }
 
     /**
      * Show PUI infos
-     * @param pui PersistenceUnitInfo
+     * 
+     * @param pui
+     *            PersistenceUnitInfo
      */
     private void dumpPersistenceUnitInfo( MutablePersistenceUnitInfo pui )
     {
-        _Log.debug( "Dumping content for PersistenceUnitInfo of " + pui.getPersistenceUnitName(  ) );
+        _Log.debug( "Dumping content for PersistenceUnitInfo of " + pui.getPersistenceUnitName( ) );
 
-        _Log.debug( "** getTransactionType : " + pui.getTransactionType(  ) );
-        _Log.debug( "** getPersistenceProviderClassName : " + pui.getPersistenceProviderClassName(  ) );
-        _Log.debug( "** getPersistenceProviderPackageName : " + pui.getPersistenceProviderPackageName(  ) );
-        _Log.debug( "** getPersistenceUnitName : " + pui.getPersistenceUnitName(  ) );
-        _Log.debug( "** getPersistenceXMLSchemaVersion : " + pui.getPersistenceXMLSchemaVersion(  ) );
-        _Log.debug( "** getJtaDataSource : " + pui.getJtaDataSource(  ) );
-        _Log.debug( "** getManagedClassNames : " + pui.getManagedClassNames(  ) );
-        _Log.debug( "** getMappingFileNames : " + pui.getMappingFileNames(  ) );
-        _Log.debug( "** getNonJtaDataSource : " + pui.getNonJtaDataSource(  ) );
-        _Log.debug( "** getPersistenceUnitRootUrl :" + pui.getPersistenceUnitRootUrl(  ) );
-        _Log.debug( "** getProperties : " + pui.getProperties(  ) );
+        _Log.debug( "** getTransactionType : " + pui.getTransactionType( ) );
+        _Log.debug( "** getPersistenceProviderClassName : " + pui.getPersistenceProviderClassName( ) );
+        _Log.debug( "** getPersistenceProviderPackageName : " + pui.getPersistenceProviderPackageName( ) );
+        _Log.debug( "** getPersistenceUnitName : " + pui.getPersistenceUnitName( ) );
+        _Log.debug( "** getPersistenceXMLSchemaVersion : " + pui.getPersistenceXMLSchemaVersion( ) );
+        _Log.debug( "** getJtaDataSource : " + pui.getJtaDataSource( ) );
+        _Log.debug( "** getManagedClassNames : " + pui.getManagedClassNames( ) );
+        _Log.debug( "** getMappingFileNames : " + pui.getMappingFileNames( ) );
+        _Log.debug( "** getNonJtaDataSource : " + pui.getNonJtaDataSource( ) );
+        _Log.debug( "** getPersistenceUnitRootUrl :" + pui.getPersistenceUnitRootUrl( ) );
+        _Log.debug( "** getProperties : " + pui.getProperties( ) );
     }
 }

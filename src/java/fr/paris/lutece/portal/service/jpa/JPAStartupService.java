@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -65,7 +65,6 @@ import javax.persistence.EntityManagerFactory;
 
 import javax.sql.DataSource;
 
-
 /**
  * JPAStartupService
  */
@@ -76,40 +75,41 @@ public class JPAStartupService implements StartUpService
     private static Logger _log = Logger.getLogger( JPAConstants.JPA_LOGGER );
 
     /**
-     * Initialize JPA objects (Datasource, Persistence Unit Manager, Entity Manager Factory,
-     * Transaction Manager) for each pool.
+     * Initialize JPA objects (Datasource, Persistence Unit Manager, Entity Manager Factory, Transaction Manager) for each pool.
      */
-    public void process(  )
+    public void process( )
     {
-        ReferenceList list = new ReferenceList(  );
+        ReferenceList list = new ReferenceList( );
         AppConnectionService.getPoolList( list );
 
-        Map<String, EntityManagerFactory> mapFactories = new HashMap<String, EntityManagerFactory>(  );
-        List<PlatformTransactionManager> listTransactionManagers = new ArrayList<PlatformTransactionManager>(  );
+        Map<String, EntityManagerFactory> mapFactories = new HashMap<String, EntityManagerFactory>( );
+        List<PlatformTransactionManager> listTransactionManagers = new ArrayList<PlatformTransactionManager>( );
         _log.info( "JPA Startup Service : Initializing JPA objects ..." );
 
         String strDialectProperty = AppPropertiesService.getProperty( JPA_DIALECT_PROPERTY );
 
         for ( ReferenceItem poolItem : list )
         {
-            String strPoolname = poolItem.getCode(  );
+            String strPoolname = poolItem.getCode( );
 
-            DataSource ds = AppConnectionService.getPoolManager(  ).getDataSource( strPoolname );
+            DataSource ds = AppConnectionService.getPoolManager( ).getDataSource( strPoolname );
             _log.info( "JPA Startup Service : DataSource retrieved for pool : " + strPoolname );
-            _log.debug( "> DS : " + ds.toString(  ) );
+            _log.debug( "> DS : " + ds.toString( ) );
 
-            DefaultPersistenceUnitManager pum = new DefaultPersistenceUnitManager(  );
+            DefaultPersistenceUnitManager pum = new DefaultPersistenceUnitManager( );
             pum.setDefaultDataSource( ds );
 
-            PersistenceUnitPostProcessor[] postProcessors = { new JPAPersistenceUnitPostProcessor(  ) };
+            PersistenceUnitPostProcessor [ ] postProcessors = {
+                new JPAPersistenceUnitPostProcessor( )
+            };
             pum.setPersistenceUnitPostProcessors( postProcessors );
 
-            pum.afterPropertiesSet(  );
+            pum.afterPropertiesSet( );
 
             _log.info( "JPA Startup Service : Persistence Unit Manager for pool : " + strPoolname );
-            _log.debug( "> PUM : " + pum.toString(  ) );
+            _log.debug( "> PUM : " + pum.toString( ) );
 
-            LocalContainerEntityManagerFactoryBean lcemfb = new LocalContainerEntityManagerFactoryBean(  );
+            LocalContainerEntityManagerFactoryBean lcemfb = new LocalContainerEntityManagerFactoryBean( );
             lcemfb.setDataSource( ds );
             lcemfb.setPersistenceUnitManager( pum );
             lcemfb.setPersistenceUnitName( "jpaLuteceUnit" );
@@ -120,7 +120,7 @@ public class JPAStartupService implements StartUpService
             Map mapJpaProperties = (Map) SpringContextService.getBean( "jpaPropertiesMap" );
             lcemfb.setJpaPropertyMap( mapJpaProperties );
 
-            String strDialect = AppPropertiesService.getProperty( poolItem.getName(  ) + ".dialect" );
+            String strDialect = AppPropertiesService.getProperty( poolItem.getName( ) + ".dialect" );
 
             // replace default dialect if <poolname>.dialect is specified
             if ( StringUtils.isNotBlank( strDialect ) )
@@ -128,25 +128,24 @@ public class JPAStartupService implements StartUpService
                 mapJpaProperties.put( strDialectProperty, strDialect );
             }
 
-            _log.debug( "Using dialect " + mapJpaProperties.get( strDialectProperty ) + " for pool " +
-                poolItem.getName(  ) );
+            _log.debug( "Using dialect " + mapJpaProperties.get( strDialectProperty ) + " for pool " + poolItem.getName( ) );
 
             JpaVendorAdapter jpaVendorAdapter = (JpaVendorAdapter) SpringContextService.getBean( "jpaVendorAdapter" );
             lcemfb.setJpaVendorAdapter( jpaVendorAdapter );
 
-            lcemfb.afterPropertiesSet(  );
+            lcemfb.afterPropertiesSet( );
 
-            EntityManagerFactory emf = lcemfb.getNativeEntityManagerFactory(  );
+            EntityManagerFactory emf = lcemfb.getNativeEntityManagerFactory( );
             _log.info( "JPA Startup Service : EntityManagerFactory created for pool : " + strPoolname );
-            _log.debug( "> EMF : " + emf.toString(  ) );
+            _log.debug( "> EMF : " + emf.toString( ) );
 
-            JpaTransactionManager tm = new JpaTransactionManager(  );
+            JpaTransactionManager tm = new JpaTransactionManager( );
             tm.setEntityManagerFactory( emf );
             tm.setJpaDialect( jpaDialect );
             _log.debug( "> JpaDialect " + jpaDialect );
-            tm.afterPropertiesSet(  );
+            tm.afterPropertiesSet( );
             _log.info( "JPA Startup Service : JPA TransactionManager created for pool : " + strPoolname );
-            _log.debug( "> TM : " + tm.toString(  ) );
+            _log.debug( "> TM : " + tm.toString( ) );
 
             mapFactories.put( strPoolname, emf );
             listTransactionManagers.add( tm );
@@ -162,9 +161,10 @@ public class JPAStartupService implements StartUpService
 
     /**
      * {@inheritDoc }
+     * 
      * @return
      */
-    public String getName(  )
+    public String getName( )
     {
         return ( "JPA Startup Service" );
     }

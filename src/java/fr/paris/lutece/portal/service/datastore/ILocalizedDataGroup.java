@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,7 +33,6 @@
  */
 package fr.paris.lutece.portal.service.datastore;
 
-
 /**
  * ISitePropertiesGroup interface
  */
@@ -44,19 +43,19 @@ public interface ILocalizedDataGroup
      *
      * @return The Name Key
      */
-    String getNameKey(  );
+    String getNameKey( );
 
     /**
      * Returns the Description Key
      *
      * @return The Description Key
      */
-    String getDescriptionKey(  );
+    String getDescriptionKey( );
 
     /**
      * Returns the DataStore Keys Prefix
      *
      * @return The DataStore Keys Prefix
      */
-    String getDatastoreKeysPrefix(  );
+    String getDatastoreKeysPrefix( );
 }

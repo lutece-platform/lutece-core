@@ -59,7 +59,7 @@ import fr.paris.lutece.util.password.IPasswordFactory;
 
 public class AdminUserJspBeanTest extends LuteceTestCase
 {
-    public void testDoCreateAdminUser(  ) throws PasswordResetException, AccessDeniedException, UserNotSignedException
+    public void testDoCreateAdminUser( ) throws PasswordResetException, AccessDeniedException, UserNotSignedException
     {
         AdminUserJspBean bean = new AdminUserJspBean( );
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -132,7 +132,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
             request.addParameter( "email", randomUserName + "@lutece.fr" );
             request.addParameter( "user_level", "0" );
             request.getSession( true ).setAttribute( "lutece_admin_user", getLevel1AdminUserWithCORE_USERS_MANAGEMENTRight( ) );
-            bean.init( request, "CORE_USERS_MANAGEMENT" ) ;
+            bean.init( request, "CORE_USERS_MANAGEMENT" );
             bean.doCreateAdminUser( request );
             message = AdminMessageService.getMessage( request );
             assertNotNull( message );
@@ -145,7 +145,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
             request.addParameter( "email", randomUserName + "@lutece.fr" );
             request.addParameter( "user_level", "0" );
             AdminAuthenticationService.getInstance( ).registerUser( request, AdminUserHome.findUserByLogin( "admin" ) );
-            bean.init( request, "CORE_USERS_MANAGEMENT" ) ;
+            bean.init( request, "CORE_USERS_MANAGEMENT" );
             bean.doCreateAdminUser( request );
             message = AdminMessageService.getMessage( request );
             assertNotNull( message );
@@ -159,7 +159,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
             request.addParameter( "user_level", "0" );
             request.addParameter( "first_password", randomUserName );
             AdminAuthenticationService.getInstance( ).registerUser( request, AdminUserHome.findUserByLogin( "admin" ) );
-            bean.init( request, "CORE_USERS_MANAGEMENT" ) ;
+            bean.init( request, "CORE_USERS_MANAGEMENT" );
             bean.doCreateAdminUser( request );
             message = AdminMessageService.getMessage( request );
             assertNotNull( message );
@@ -173,7 +173,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
             request.addParameter( "user_level", "0" );
             request.addParameter( "first_password", randomUserName );
             AdminAuthenticationService.getInstance( ).registerUser( request, AdminUserHome.findUserByLogin( "admin" ) );
-            bean.init( request, "CORE_USERS_MANAGEMENT" ) ;
+            bean.init( request, "CORE_USERS_MANAGEMENT" );
             bean.doCreateAdminUser( request );
             message = AdminMessageService.getMessage( request );
             assertNotNull( message );
@@ -190,7 +190,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
             request.addParameter( "status", Integer.toString( AdminUser.ACTIVE_CODE ) ); // NPE if absent
             request.addParameter( "language", "fr" ); // NPE if absent
             AdminAuthenticationService.getInstance( ).registerUser( request, AdminUserHome.findUserByLogin( "admin" ) );
-            bean.init( request, "CORE_USERS_MANAGEMENT" ) ;
+            bean.init( request, "CORE_USERS_MANAGEMENT" );
             bean.doCreateAdminUser( request );
             message = AdminMessageService.getMessage( request );
             assertNull( message );
@@ -199,7 +199,8 @@ public class AdminUserJspBeanTest extends LuteceTestCase
             LuteceDefaultAdminUser createdUserWithPassword = AdminUserHome.findLuteceDefaultAdminUserByPrimaryKey( createdUser.getUserId( ) );
             assertNotNull( createdUserWithPassword );
             assertTrue( createdUserWithPassword.getPassword( ).check( randomUserName ) );
-        } finally
+        }
+        finally
         {
             AdminUser user = AdminUserHome.findUserByLogin( randomUserName );
             if ( user != null )
@@ -213,13 +214,13 @@ public class AdminUserJspBeanTest extends LuteceTestCase
     {
         AdminUser user = new AdminUser( );
         user.setUserLevel( 1 );
-        Map<String, Right> rights = new HashMap<String, Right>(1);
+        Map<String, Right> rights = new HashMap<String, Right>( 1 );
         rights.put( "CORE_USERS_MANAGEMENT", new Right( ) );
         user.setRights( rights );
         return user;
     }
 
-    public void testDoModifyAdminUser(  ) throws AccessDeniedException, UserNotSignedException
+    public void testDoModifyAdminUser( ) throws AccessDeniedException, UserNotSignedException
     {
         AdminUser userToModify = getUserToModify( );
         try
@@ -232,7 +233,8 @@ public class AdminUserJspBeanTest extends LuteceTestCase
             {
                 bean.doModifyAdminUser( request );
                 fail( "Should not be able to modify a user with a lower level" );
-            } catch (AccessDeniedException e)
+            }
+            catch( AccessDeniedException e )
             {
             }
 
@@ -373,7 +375,8 @@ public class AdminUserJspBeanTest extends LuteceTestCase
             assertEquals( modifiedName, modifiedUser.getFirstName( ) );
             assertEquals( modifiedName + "@lutece.fr", modifiedUser.getEmail( ) );
             assertTrue( modifiedUser.getPassword( ).check( modifiedName ) );
-        } finally
+        }
+        finally
         {
             AdminUserHome.remove( userToModify.getUserId( ) );
         }
@@ -396,7 +399,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
     }
 
     // FIXME : this only tests that passwords are unchanged
-    public void testDoUseAdvancedSecurityParameters(  )
+    public void testDoUseAdvancedSecurityParameters( )
     {
         boolean bUseAdvancesSecurityParameters = AdminUserService.getBooleanSecurityParameter( AdminUserService.DSKEY_USE_ADVANCED_SECURITY_PARAMETERS );
         AdminUserJspBean bean = new AdminUserJspBean( );
@@ -407,7 +410,8 @@ public class AdminUserJspBeanTest extends LuteceTestCase
             bean.doUseAdvancedSecurityParameters( new MockHttpServletRequest( ) );
             admin = AdminUserHome.findLuteceDefaultAdminUserByPrimaryKey( 1 );
             assertTrue( admin.getPassword( ).check( "adminadmin" ) );
-        } finally
+        }
+        finally
         {
             if ( !bUseAdvancesSecurityParameters )
             {

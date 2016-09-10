@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -40,7 +40,6 @@ import java.util.Map;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletContext;
 
-
 /**
  *
  */
@@ -52,9 +51,13 @@ public class LuteceServletConfig implements ServletConfig
 
     /**
      * Constructor
-     * @param strName The name
-     * @param context The servlet context
-     * @param mapInitParameters Init parameters as a Map
+     * 
+     * @param strName
+     *            The name
+     * @param context
+     *            The servlet context
+     * @param mapInitParameters
+     *            Init parameters as a Map
      */
     public LuteceServletConfig( String strName, ServletContext context, Map<String, String> mapInitParameters )
     {
@@ -66,7 +69,7 @@ public class LuteceServletConfig implements ServletConfig
     /**
      * {@inheritDoc}
      */
-    public String getServletName(  )
+    public String getServletName( )
     {
         return _strName;
     }
@@ -74,7 +77,7 @@ public class LuteceServletConfig implements ServletConfig
     /**
      * {@inheritDoc}
      */
-    public ServletContext getServletContext(  )
+    public ServletContext getServletContext( )
     {
         return _context;
     }
@@ -89,10 +92,11 @@ public class LuteceServletConfig implements ServletConfig
 
     /**
      * {@inheritDoc}
+     * 
      * @return
      */
-    public Enumeration<String> getInitParameterNames(  )
+    public Enumeration<String> getInitParameterNames( )
     {
-        return Collections.enumeration( _mapInitParameters.keySet(  ) );
+        return Collections.enumeration( _mapInitParameters.keySet( ) );
     }
 }

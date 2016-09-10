@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -37,9 +37,8 @@ import fr.paris.lutece.util.date.DateUtil;
 
 import java.util.Date;
 
-
 /**
- *  this class is used to manage daemons declaration
+ * this class is used to manage daemons declaration
  */
 public final class DaemonEntry
 {
@@ -61,7 +60,7 @@ public final class DaemonEntry
     /**
      * Constructor
      */
-    public DaemonEntry(  )
+    public DaemonEntry( )
     {
         _thread = new DaemonThread( this );
     }
@@ -71,7 +70,7 @@ public final class DaemonEntry
      *
      * @return The Id
      */
-    public String getId(  )
+    public String getId( )
     {
         return _strId;
     }
@@ -79,7 +78,8 @@ public final class DaemonEntry
     /**
      * Sets the Id
      *
-     * @param strId The Id
+     * @param strId
+     *            The Id
      */
     public void setId( String strId )
     {
@@ -91,7 +91,7 @@ public final class DaemonEntry
      *
      * @return The NameKey
      */
-    public String getNameKey(  )
+    public String getNameKey( )
     {
         return _strNameKey;
     }
@@ -99,7 +99,8 @@ public final class DaemonEntry
     /**
      * Sets the NameKey
      *
-     * @param strNameKey The NameKey
+     * @param strNameKey
+     *            The NameKey
      */
     public void setNameKey( String strNameKey )
     {
@@ -111,7 +112,7 @@ public final class DaemonEntry
      *
      * @return The DescriptionKey
      */
-    public String getDescriptionKey(  )
+    public String getDescriptionKey( )
     {
         return _strDescriptionKey;
     }
@@ -119,7 +120,8 @@ public final class DaemonEntry
     /**
      * Sets the DescriptionKey
      *
-     * @param strDescriptionKey The DescriptionKey
+     * @param strDescriptionKey
+     *            The DescriptionKey
      */
     public void setDescriptionKey( String strDescriptionKey )
     {
@@ -131,7 +133,7 @@ public final class DaemonEntry
      *
      * @return The ClassName
      */
-    public String getClassName(  )
+    public String getClassName( )
     {
         return _strClassName;
     }
@@ -139,7 +141,8 @@ public final class DaemonEntry
     /**
      * Sets the ClassName
      *
-     * @param strClassName The ClassName
+     * @param strClassName
+     *            The ClassName
      */
     public void setClassName( String strClassName )
     {
@@ -149,13 +152,16 @@ public final class DaemonEntry
     /**
      * Load the daemon
      *
-     * @throws ClassNotFoundException If an error occured
-     * @throws InstantiationException If an error occured
-     * @throws IllegalAccessException If an error occured
+     * @throws ClassNotFoundException
+     *             If an error occured
+     * @throws InstantiationException
+     *             If an error occured
+     * @throws IllegalAccessException
+     *             If an error occured
      */
-    public void loadDaemon(  ) throws ClassNotFoundException, InstantiationException, IllegalAccessException
+    public void loadDaemon( ) throws ClassNotFoundException, InstantiationException, IllegalAccessException
     {
-        _daemon = (Daemon) Class.forName( _strClassName ).newInstance(  );
+        _daemon = (Daemon) Class.forName( _strClassName ).newInstance( );
     }
 
     /**
@@ -163,50 +169,56 @@ public final class DaemonEntry
      *
      * @return The daemon
      */
-    protected Daemon getDaemon(  )
+    protected Daemon getDaemon( )
     {
         return _daemon;
     }
 
     /**
      * Returns the thread which start the daemon task
+     * 
      * @return The thread
      */
-    public DaemonThread getDaemonThread(  )
+    public DaemonThread getDaemonThread( )
     {
         return _thread;
     }
 
     /**
      * Returns the Interval of time in seconds between two executions
+     * 
      * @return _lInterval the interval of time
      */
-    public long getInterval(  )
+    public long getInterval( )
     {
         return _lInterval;
     }
 
     /**
      * Indicates if the daemon must be process on system startup
+     * 
      * @return _bOnStartup
      */
-    public boolean onStartup(  )
+    public boolean onStartup( )
     {
         return _bOnStartup;
     }
 
     /**
      * Checks if the daemon is running
+     * 
      * @return True if the thread is running, otherwise false
      */
-    public boolean isRunning(  )
+    public boolean isRunning( )
     {
         return _bIsRunning;
     }
 
     /**
      * Set running daemon status
-     * @param bIsRunning True if the thread is running, otherwise false
+     * 
+     * @param bIsRunning
+     *            True if the thread is running, otherwise false
      */
     public void setIsRunning( boolean bIsRunning )
     {
@@ -218,7 +230,7 @@ public final class DaemonEntry
      *
      * @return The PluginName
      */
-    public String getPluginName(  )
+    public String getPluginName( )
     {
         return _strPluginName;
     }
@@ -226,7 +238,8 @@ public final class DaemonEntry
     /**
      * Sets the PluginName
      *
-     * @param strPluginName The PluginName
+     * @param strPluginName
+     *            The PluginName
      */
     public void setPluginName( String strPluginName )
     {
@@ -238,15 +251,16 @@ public final class DaemonEntry
      *
      * @return The LastRunDate
      */
-    public String getLastRunDate(  )
+    public String getLastRunDate( )
     {
-        return ( _dateLastRunDate != null ) ? DateUtil.getDateTimeString( _dateLastRunDate.getTime(  ) ) : "";
+        return ( _dateLastRunDate != null ) ? DateUtil.getDateTimeString( _dateLastRunDate.getTime( ) ) : "";
     }
 
     /**
      * Sets the LastRunDate
      *
-     * @param dateLastRunDate The LastRunDate
+     * @param dateLastRunDate
+     *            The LastRunDate
      */
     public void setLastRunDate( Date dateLastRunDate )
     {
@@ -258,7 +272,7 @@ public final class DaemonEntry
      *
      * @return The LastRunLogs
      */
-    public String getLastRunLogs(  )
+    public String getLastRunLogs( )
     {
         return ( _strLastRunLogs != null ) ? _strLastRunLogs : "";
     }
@@ -266,7 +280,8 @@ public final class DaemonEntry
     /**
      * Sets the LastRunLogs
      *
-     * @param strLastRunLogs The LastRunLogs
+     * @param strLastRunLogs
+     *            The LastRunLogs
      */
     public void setLastRunLogs( String strLastRunLogs )
     {
@@ -275,7 +290,9 @@ public final class DaemonEntry
 
     /**
      * Sets the interval
-     * @param lInterval The interval
+     * 
+     * @param lInterval
+     *            The interval
      */
     public void setInterval( long lInterval )
     {
@@ -284,7 +301,9 @@ public final class DaemonEntry
 
     /**
      * Sets the OnStartUp property
-     * @param bOnStartup True if the daemon should be launched on startup, otherwise false
+     * 
+     * @param bOnStartup
+     *            True if the daemon should be launched on startup, otherwise false
      */
     public void setOnStartUp( boolean bOnStartup )
     {

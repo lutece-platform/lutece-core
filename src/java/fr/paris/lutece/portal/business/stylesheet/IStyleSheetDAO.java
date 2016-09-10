@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -35,7 +35,6 @@ package fr.paris.lutece.portal.business.stylesheet;
 
 import java.util.Collection;
 
-
 /**
  *
  * @author LEVY
@@ -43,33 +42,35 @@ import java.util.Collection;
 public interface IStyleSheetDAO
 {
     /**
-     * Delete the StyleSheet from the database whose identifier is specified
-     * in parameter
+     * Delete the StyleSheet from the database whose identifier is specified in parameter
      *
-     * @param nIdStylesheet the identifier of the StyleSheet to delete
+     * @param nIdStylesheet
+     *            the identifier of the StyleSheet to delete
      */
     void delete( int nIdStylesheet );
 
     /**
      * Insert a new record in the table.
      *
-     * @param stylesheet The StyleSheet object
+     * @param stylesheet
+     *            The StyleSheet object
      */
     void insert( StyleSheet stylesheet );
 
     /**
      * Load the data of Stylesheet from the table
      *
-     * @param nIdStylesheet the identifier of the Stylesheet to load
+     * @param nIdStylesheet
+     *            the identifier of the Stylesheet to load
      * @return stylesheet
      */
     StyleSheet load( int nIdStylesheet );
 
     /**
-     * Returns the identifier of the mode of the stylesheet whose identifier
-     * is specified in parameter
+     * Returns the identifier of the mode of the stylesheet whose identifier is specified in parameter
      *
-     * @param nIdStylesheet the identifier of the stylesheet
+     * @param nIdStylesheet
+     *            the identifier of the stylesheet
      * @return the identifier of the mode
      */
     int selectModeId( int nIdStylesheet );
@@ -77,17 +78,19 @@ public interface IStyleSheetDAO
     /**
      * Load the list of stylesheet
      *
-     * @param nModeId The Mode identifier
+     * @param nModeId
+     *            The Mode identifier
      * @return the list of the StyleSheet in form of a collection of StyleSheet objects
      */
     Collection<StyleSheet> selectStyleSheetList( int nModeId );
 
     /**
-     * Returns the number of stylesheets associated to the style and the mode
-     * specified in parameter
+     * Returns the number of stylesheets associated to the style and the mode specified in parameter
      *
-     * @param nStyleId the style id
-     * @param nModeId the mode id
+     * @param nStyleId
+     *            the style id
+     * @param nModeId
+     *            the mode id
      * @return the number of stylesheet associated
      */
     int selectStyleSheetNbPerStyleMode( int nStyleId, int nModeId );
@@ -95,7 +98,8 @@ public interface IStyleSheetDAO
     /**
      * Update the record in the table
      *
-     * @param stylesheet The stylesheet to store
+     * @param stylesheet
+     *            The stylesheet to store
      */
     void store( StyleSheet stylesheet );
 }

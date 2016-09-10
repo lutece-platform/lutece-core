@@ -51,22 +51,23 @@ public class PageDAOTest extends LuteceTestCase
 {
     public void testGetPagesByRoleKey( )
     {
-        SecureRandom rnd = new SecureRandom(  );
+        SecureRandom rnd = new SecureRandom( );
         Role role = null;
         Page page = null;
-        try {
+        try
+        {
             // create a role
-            String randomRoleName = "role" + rnd.nextLong(  );
+            String randomRoleName = "role" + rnd.nextLong( );
             role = new Role( );
             role.setRole( randomRoleName );
             role.setRoleDescription( randomRoleName );
             role.setWorkgroup( AdminWorkgroupService.ALL_GROUPS );
             RoleHome.create( role );
             // create a page
-            String randomPageName = "page" + rnd.nextLong(  );
-            page = new Page(  );
-            page.setParentPageId( PortalService.getRootPageId(  ) );
-            page.setPageTemplateId( PageTemplateHome.getPageTemplatesList(  ).get( 0 ).getId(  ) );
+            String randomPageName = "page" + rnd.nextLong( );
+            page = new Page( );
+            page.setParentPageId( PortalService.getRootPageId( ) );
+            page.setPageTemplateId( PageTemplateHome.getPageTemplatesList( ).get( 0 ).getId( ) );
             page.setName( randomPageName );
             page.setRole( randomRoleName );
             IPageService pageService = (IPageService) SpringContextService.getBean( "pageService" );
@@ -75,7 +76,7 @@ public class PageDAOTest extends LuteceTestCase
             PageDAO dao = new PageDAO( );
             Collection<Page> pages = dao.getPagesByRoleKey( randomRoleName );
             assertNotNull( pages );
-            for ( Page p : pages)
+            for ( Page p : pages )
             {
                 if ( p.getName( ).equals( randomPageName ) )
                 {
@@ -83,14 +84,17 @@ public class PageDAOTest extends LuteceTestCase
                 }
             }
             Assert.fail( "could not find the page " + randomPageName );
-        } finally {
+        }
+        finally
+        {
             // cleanup
             if ( role != null )
             {
                 try
                 {
                     RoleHome.remove( role.getRole( ) );
-                } finally
+                }
+                finally
                 {
                 }
             }
@@ -99,11 +103,12 @@ public class PageDAOTest extends LuteceTestCase
                 try
                 {
                     PageHome.remove( page.getId( ) );
-                } finally
+                }
+                finally
                 {
                 }
             }
         }
-        
+
     }
 }

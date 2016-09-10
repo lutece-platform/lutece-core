@@ -35,7 +35,6 @@ package fr.paris.lutece.util.mail;
 
 import java.io.Serializable;
 
-
 /**
  *
  * File Attachement Object
@@ -44,18 +43,21 @@ import java.io.Serializable;
 public class FileAttachment implements Serializable
 {
     private static final long serialVersionUID = 9072808576472163734L;
-    private String _strFileName; //file-name
-    private byte[] _data; // data
+    private String _strFileName; // file-name
+    private byte [ ] _data; // data
     private String _strType; // Content-type
 
     /**
-    * Creates a new FileAttachement object.
-    *
-    * @param fileName the file name
-    * @param data The data
-    * @param type The file Content-type
-    */
-    public FileAttachment( String fileName, byte[] data, String type )
+     * Creates a new FileAttachement object.
+     *
+     * @param fileName
+     *            the file name
+     * @param data
+     *            The data
+     * @param type
+     *            The file Content-type
+     */
+    public FileAttachment( String fileName, byte [ ] data, String type )
     {
         _strFileName = fileName;
         _data = data;
@@ -66,16 +68,18 @@ public class FileAttachment implements Serializable
      *
      * @return the content of the fileAttachement object
      */
-    public byte[] getData(  )
+    public byte [ ] getData( )
     {
         return _data;
     }
 
     /**
      * set the content of the fileAttachement object
-     * @param data the content of the fileAttachement object
+     * 
+     * @param data
+     *            the content of the fileAttachement object
      */
-    public void setData( byte[] data )
+    public void setData( byte [ ] data )
     {
         _data = data;
     }
@@ -84,14 +88,16 @@ public class FileAttachment implements Serializable
      *
      * @return the file name
      */
-    public String getFileName(  )
+    public String getFileName( )
     {
         return _strFileName;
     }
 
     /**
      * set the file name
-     * @param fileName  the file name
+     * 
+     * @param fileName
+     *            the file name
      */
     public void setFileName( String fileName )
     {
@@ -100,16 +106,19 @@ public class FileAttachment implements Serializable
 
     /**
      * return the file content-type
+     * 
      * @return Content-type
      */
-    public String getType(  )
+    public String getType( )
     {
         return _strType;
     }
 
     /**
      * set the file content-type
-     * @param type the file content-type
+     * 
+     * @param type
+     *            the file content-type
      */
     public void setType( String type )
     {

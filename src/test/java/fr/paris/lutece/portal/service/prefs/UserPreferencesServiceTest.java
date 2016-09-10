@@ -37,7 +37,6 @@ import fr.paris.lutece.test.LuteceTestCase;
 
 import java.util.List;
 
-
 /**
  * User Preferences Service Test
  */
@@ -55,9 +54,9 @@ public class UserPreferencesServiceTest extends LuteceTestCase
     private static final boolean BOOL_VALUE = false;
     private static final String NICKNAME = "nickname";
 
-    public void testBusinessLevel(  )
+    public void testBusinessLevel( )
     {
-        IPortalUserPreferencesService service = UserPreferencesService.instance(  );
+        IPortalUserPreferencesService service = UserPreferencesService.instance( );
 
         service.clear( USER_ID_1 );
 
@@ -84,13 +83,13 @@ public class UserPreferencesServiceTest extends LuteceTestCase
 
         // List Test
         List list = service.keys( USER_ID_1 );
-        assertTrue( list.size(  ) == 4 );
+        assertTrue( list.size( ) == 4 );
 
         assertTrue( service.existsKey( USER_ID_1, KEY1 ) );
         service.clearKey( USER_ID_1, KEY1 );
         assertTrue( !service.existsKey( USER_ID_1, KEY1 ) );
         service.clearKeyPrefix( USER_ID_1, KEY2 );
         list = service.keys( USER_ID_1 );
-        assertTrue( list.size(  ) == 2 );
+        assertTrue( list.size( ) == 2 );
     }
 }

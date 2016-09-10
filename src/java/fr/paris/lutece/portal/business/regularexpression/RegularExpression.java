@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,7 +33,6 @@
  */
 package fr.paris.lutece.portal.business.regularexpression;
 
-
 /**
  *
  * RegularExpression
@@ -49,17 +48,20 @@ public class RegularExpression
     private String _strValidExemple;
 
     /**
-     *return the id of the regular expression
+     * return the id of the regular expression
+     * 
      * @return the id of the regular expression
      */
-    public int getIdExpression(  )
+    public int getIdExpression( )
     {
         return _nIdExpression;
     }
 
     /**
      * set the id of the regular expression
-     * @param idExpression the id of the regular expression
+     * 
+     * @param idExpression
+     *            the id of the regular expression
      */
     public void setIdExpression( int idExpression )
     {
@@ -68,16 +70,19 @@ public class RegularExpression
 
     /**
      * return the error message
+     * 
      * @return the error message
      */
-    public String getErrorMessage(  )
+    public String getErrorMessage( )
     {
         return _strErrorMessage;
     }
 
     /**
      * set the error message
-     * @param errorMessage the error message
+     * 
+     * @param errorMessage
+     *            the error message
      */
     public void setErrorMessage( String errorMessage )
     {
@@ -87,16 +92,19 @@ public class RegularExpression
     /**
      *
      * return a valid exemple which is validate by the regular expression
+     * 
      * @return a valid exemple
      */
-    public String getValidExemple(  )
+    public String getValidExemple( )
     {
         return _strValidExemple;
     }
 
     /**
      * set a valid exemple which is validate by the regular expression
-     * @param exempleValide a valid exemple
+     * 
+     * @param exempleValide
+     *            a valid exemple
      */
     public void setValidExemple( String exempleValide )
     {
@@ -104,17 +112,20 @@ public class RegularExpression
     }
 
     /**
-     *return the information message
+     * return the information message
+     * 
      * @return the information message
      */
-    public String getInformationMessage(  )
+    public String getInformationMessage( )
     {
         return _strInformationMessage;
     }
 
     /**
      * set the information message
-     * @param informationMessage the information message
+     * 
+     * @param informationMessage
+     *            the information message
      */
     public void setInformationMessage( String informationMessage )
     {
@@ -123,16 +134,19 @@ public class RegularExpression
 
     /**
      * return the title of the regular expression
+     * 
      * @return the title of the regular expression
      */
-    public String getTitle(  )
+    public String getTitle( )
     {
         return _strTitle;
     }
 
     /**
      * set the title of the regular expression
-     * @param title the title of the regular expression
+     * 
+     * @param title
+     *            the title of the regular expression
      */
     public void setTitle( String title )
     {
@@ -141,16 +155,19 @@ public class RegularExpression
 
     /**
      * return the value of the regular expression
+     * 
      * @return the value of the regular expression
      */
-    public String getValue(  )
+    public String getValue( )
     {
         return _strValue;
     }
 
     /**
      * set the value of the regular expression
-     * @param value the value of the regular expression
+     * 
+     * @param value
+     *            the value of the regular expression
      */
     public void setValue( String value )
     {
@@ -158,12 +175,13 @@ public class RegularExpression
     }
 
     /**
-     * @param obj the object to compare
+     * @param obj
+     *            the object to compare
      * @return true if the regularExpression in parameter is the same regularExpression
      */
     public boolean equals( Object obj )
     {
-        if ( obj instanceof RegularExpression && ( ( (RegularExpression) obj ).getIdExpression(  ) == _nIdExpression ) )
+        if ( obj instanceof RegularExpression && ( ( (RegularExpression) obj ).getIdExpression( ) == _nIdExpression ) )
         {
             return true;
         }
@@ -174,7 +192,7 @@ public class RegularExpression
     /**
      * @return the id of the expression
      */
-    public int hashCode(  )
+    public int hashCode( )
     {
         return _nIdExpression;
     }

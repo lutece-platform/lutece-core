@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -39,7 +39,6 @@ import fr.paris.lutece.util.date.DateUtil;
 
 import java.util.Locale;
 
-
 /**
  * Template service based on the Freemarker template engine
  */
@@ -47,21 +46,21 @@ public class FreeMarkerTemplateService extends AbstractFreeMarkerTemplateService
 {
     public static final String BEAN_SERVICE = "freeMarkerTemplateService";
     private static final String PROPERTY_TEMPLATE_UPDATE_DELAY = "service.freemarker.templateUpdateDelay";
-    private static final int TEMPLATE_UPDATE_DELAY = AppPropertiesService.getPropertyInt( PROPERTY_TEMPLATE_UPDATE_DELAY,
-            5 );
+    private static final int TEMPLATE_UPDATE_DELAY = AppPropertiesService.getPropertyInt( PROPERTY_TEMPLATE_UPDATE_DELAY, 5 );
     private static volatile IFreeMarkerTemplateService _singleton;
 
     /**
      * Get the instance of the freemarker template service
+     * 
      * @return the instance of the freemarker template service
      */
-    public static IFreeMarkerTemplateService getInstance(  )
+    public static IFreeMarkerTemplateService getInstance( )
     {
         if ( _singleton == null )
         {
-            synchronized ( FreeMarkerTemplateService.class )
+            synchronized( FreeMarkerTemplateService.class )
             {
-                FreeMarkerTemplateService service = new FreeMarkerTemplateService(  );
+                FreeMarkerTemplateService service = new FreeMarkerTemplateService( );
                 service.setTemplateUpdateDelay( TEMPLATE_UPDATE_DELAY );
                 _singleton = service;
             }

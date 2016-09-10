@@ -46,7 +46,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-
 /**
  * Transaction
  */
@@ -92,14 +91,16 @@ public class Transaction
     /**
      * Constructor
      */
-    public Transaction(  )
+    public Transaction( )
     {
         beginTransaction( null );
     }
 
     /**
      * Constructor
-     * @param plugin The plugin owner of the transaction
+     * 
+     * @param plugin
+     *            The plugin owner of the transaction
      */
     public Transaction( Plugin plugin )
     {
@@ -108,26 +109,27 @@ public class Transaction
 
     /**
      * Gets a prepared statement
-     * @param strSQL The SQL statement
+     * 
+     * @param strSQL
+     *            The SQL statement
      * @return The prepared statement
-     * @throws SQLException If an SQL error occurs
+     * @throws SQLException
+     *             If an SQL error occurs
      */
-    public PreparedStatement prepareStatement( String strSQL )
-        throws SQLException
+    public PreparedStatement prepareStatement( String strSQL ) throws SQLException
     {
         // Close the previous statement if exists
         if ( _statement != null )
         {
-            _statement.close(  );
+            _statement.close( );
         }
 
-        // Get a new statement 
+        // Get a new statement
         _strSQL = strSQL;
 
         if ( _connection == null )
         {
-            throw new SQLException( "Plugin : '" + _strPluginName +
-                "' - Connection has been closed. The new prepared statement can not be created : " + strSQL );
+            throw new SQLException( "Plugin : '" + _strPluginName + "' - Connection has been closed. The new prepared statement can not be created : " + strSQL );
         }
 
         _statement = _connection.prepareStatement( _strSQL );
@@ -137,41 +139,43 @@ public class Transaction
 
     /**
      * The current prepared statement
+     * 
      * @return The current statement
      */
-    public PreparedStatement getStatement(  )
+    public PreparedStatement getStatement( )
     {
         return _statement;
     }
 
     /**
      * Execute the current statement
-     * @throws SQLException If an SQL error occurs
+     * 
+     * @throws SQLException
+     *             If an SQL error occurs
      */
-    public void executeStatement(  ) throws SQLException
+    public void executeStatement( ) throws SQLException
     {
         _logger.debug( "Plugin : '" + _strPluginName + "' - EXECUTE STATEMENT : " + _strSQL );
-        _statement.executeUpdate(  );
+        _statement.executeUpdate( );
     }
 
     /**
      * Commit the transaction
      */
-    public void commit(  )
+    public void commit( )
     {
         try
         {
             if ( _connection == null )
             {
-                throw new SQLException( "Plugin : '" + _strPluginName +
-                    "' - Transaction has already been closed and can not be committed" );
+                throw new SQLException( "Plugin : '" + _strPluginName + "' - Transaction has already been closed and can not be committed" );
             }
 
-            _connection.commit(  );
+            _connection.commit( );
             _logger.debug( "Plugin : '" + _strPluginName + "' - COMMIT TRANSACTION" );
             closeTransaction( COMMITTED );
         }
-        catch ( SQLException e )
+        catch( SQLException e )
         {
             rollback( e );
         }
@@ -180,27 +184,29 @@ public class Transaction
     /**
      * Rollback the transaction
      */
-    public void rollback(  )
+    public void rollback( )
     {
         rollback( null );
     }
 
     /**
      * Rollback the transaction
-     * @param e The exception that cause the rollback
+     * 
+     * @param e
+     *            The exception that cause the rollback
      */
     public void rollback( Exception e )
     {
         if ( e != null )
         {
-            _logger.error( "Transaction Error - Rollback in progress " + e.getMessage(  ), e.getCause(  ) );
+            _logger.error( "Transaction Error - Rollback in progress " + e.getMessage( ), e.getCause( ) );
         }
 
         try
         {
             if ( _connection != null )
             {
-                _connection.rollback(  );
+                _connection.rollback( );
                 _logger.debug( "Plugin : '" + _strPluginName + "' - ROLLBACK TRANSACTION" );
             }
             else
@@ -208,9 +214,9 @@ public class Transaction
                 _logger.debug( "Plugin : '" + _strPluginName + "' - TRANSACTION HAS ALREADY BEEN ROLLED BACK" );
             }
         }
-        catch ( SQLException ex )
+        catch( SQLException ex )
         {
-            _logger.error( "Transaction Error - Rollback error : " + ex.getMessage(  ), ex.getCause(  ) );
+            _logger.error( "Transaction Error - Rollback error : " + ex.getMessage( ), ex.getCause( ) );
         }
         finally
         {
@@ -220,38 +226,41 @@ public class Transaction
 
     /**
      * Return the transaction status
+     * 
      * @return The transaction status
      */
-    public int getStatus(  )
+    public int getStatus( )
     {
         return _nStatus;
     }
 
     /**
      * Get the underlying connection.
-     * @return The connection of this transaction. If the transaction has not
-     *         begin, then return null.
+     * 
+     * @return The connection of this transaction. If the transaction has not begin, then return null.
      */
-    protected Connection getConnection(  )
+    protected Connection getConnection( )
     {
         return _connection;
     }
 
     /**
      * Begin a transaction
-     * @param plugin The plugin owner of the transaction
+     * 
+     * @param plugin
+     *            The plugin owner of the transaction
      */
     protected void beginTransaction( Plugin plugin )
     {
         if ( plugin != null )
         {
-            _strPluginName = plugin.getName(  );
-            _connectionService = plugin.getConnectionService(  );
+            _strPluginName = plugin.getName( );
+            _connectionService = plugin.getConnectionService( );
         }
         else
         {
             _strPluginName = DEFAULT_MODULE_NAME;
-            _connectionService = AppConnectionService.getDefaultConnectionService(  );
+            _connectionService = AppConnectionService.getDefaultConnectionService( );
         }
 
         if ( _connectionService == null )
@@ -264,13 +273,13 @@ public class Transaction
 
         try
         {
-            _connection = _connectionService.getConnection(  );
+            _connection = _connectionService.getConnection( );
 
             // Save the autocommit configuration of the connection
-            _bAutoCommit = _connection.getAutoCommit(  );
+            _bAutoCommit = _connection.getAutoCommit( );
             _connection.setAutoCommit( false );
         }
-        catch ( SQLException e )
+        catch( SQLException e )
         {
             rollback( e );
         }
@@ -278,7 +287,9 @@ public class Transaction
 
     /**
      * Close the transaction
-     * @param nStatus The status of the transaction
+     * 
+     * @param nStatus
+     *            The status of the transaction
      */
     private void closeTransaction( int nStatus )
     {
@@ -288,7 +299,7 @@ public class Transaction
         {
             if ( _statement != null )
             {
-                _statement.close(  );
+                _statement.close( );
             }
 
             // Restore the autocommit configuration of the connection
@@ -297,9 +308,9 @@ public class Transaction
                 _connection.setAutoCommit( _bAutoCommit );
             }
         }
-        catch ( SQLException ex )
+        catch( SQLException ex )
         {
-            _logger.error( "Transaction Error - Unable to close transaction " + ex.getMessage(  ), ex.getCause(  ) );
+            _logger.error( "Transaction Error - Unable to close transaction " + ex.getMessage( ), ex.getCause( ) );
         }
         finally
         {
@@ -309,12 +320,11 @@ public class Transaction
     }
 
     /**
-     * Checks that the transaction has been committed (or rolled back) before
-     * being destroyed and release all transaction resources (statement,
-     * connection, ...) if not. {@inheritDoc }
+     * Checks that the transaction has been committed (or rolled back) before being destroyed and release all transaction resources (statement, connection, ...)
+     * if not. {@inheritDoc }
      */
     @Override
-    protected void finalize(  ) throws Throwable
+    protected void finalize( ) throws Throwable
     {
         if ( _nStatus == OPENED )
         {
@@ -322,6 +332,6 @@ public class Transaction
             closeTransaction( OPENED );
         }
 
-        super.finalize(  );
+        super.finalize( );
     }
 }

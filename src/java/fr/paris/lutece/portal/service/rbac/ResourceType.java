@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -42,12 +42,9 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-
 /**
- * This class provides the methods for resource types.
- * It gives the key and label of the resource type
- * It allows to define and access to the permissions available.
- * It links with the resourceIdService class that retrieves specific data to be managed.
+ * This class provides the methods for resource types. It gives the key and label of the resource type It allows to define and access to the permissions
+ * available. It links with the resourceIdService class that retrieves specific data to be managed.
  */
 public class ResourceType implements Localizable
 {
@@ -61,14 +58,16 @@ public class ResourceType implements Localizable
     /**
      *
      */
-    public ResourceType(  )
+    public ResourceType( )
     {
-        _mapPermissions = new HashMap<String, Permission>(  );
+        _mapPermissions = new HashMap<String, Permission>( );
     }
 
     /**
      * Implements Localizable
-     * @param locale The current locale
+     * 
+     * @param locale
+     *            The current locale
      */
     public void setLocale( Locale locale )
     {
@@ -78,11 +77,12 @@ public class ResourceType implements Localizable
     /**
      * Registers a permission
      *
-     * @param permission the permission object to register
+     * @param permission
+     *            the permission object to register
      */
     public void registerPermission( Permission permission )
     {
-        _mapPermissions.put( permission.getPermissionKey(  ), permission );
+        _mapPermissions.put( permission.getPermissionKey( ), permission );
     }
 
     /**
@@ -90,15 +90,16 @@ public class ResourceType implements Localizable
      *
      * @return A collection containing all registered permissions
      */
-    public Collection<Permission> getPermissionList(  )
+    public Collection<Permission> getPermissionList( )
     {
-        return _mapPermissions.values(  );
+        return _mapPermissions.values( );
     }
 
     /**
      * Get a particular permission
      *
-     * @param strPermissionId Identifier of the seeked permission
+     * @param strPermissionId
+     *            Identifier of the seeked permission
      * @return the selected resource type
      */
     public Permission getPermission( String strPermissionId )
@@ -108,16 +109,19 @@ public class ResourceType implements Localizable
 
     /**
      * Returns the resource type Key
+     * 
      * @return Returns the _strResourceTypeKey.
      */
-    public String getResourceTypeKey(  )
+    public String getResourceTypeKey( )
     {
         return _strResourceTypeKey;
     }
 
     /**
-     *  Sets the resource type Key
-     * @param strResourceTypeCode The _strResourceTypeKey to set.
+     * Sets the resource type Key
+     * 
+     * @param strResourceTypeCode
+     *            The _strResourceTypeKey to set.
      */
     public void setResourceTypeKey( String strResourceTypeCode )
     {
@@ -125,17 +129,20 @@ public class ResourceType implements Localizable
     }
 
     /**
-     *  Returns the resource type label
+     * Returns the resource type label
+     * 
      * @return Returns the _strResourceTypeLabel.
      */
-    public String getResourceTypeLabel(  )
+    public String getResourceTypeLabel( )
     {
         return I18nService.getLocalizedString( _strResourceTypeLabel, _locale );
     }
 
     /**
-     *  Sets the resource type label
-     * @param strResourceTypeLabel The _strResourceTypeLabel to set.
+     * Sets the resource type label
+     * 
+     * @param strResourceTypeLabel
+     *            The _strResourceTypeLabel to set.
      */
     public void setResourceTypeLabelKey( String strResourceTypeLabel )
     {
@@ -143,17 +150,20 @@ public class ResourceType implements Localizable
     }
 
     /**
-     *  Returns the name of the resourceIdService class
+     * Returns the name of the resourceIdService class
+     * 
      * @return Returns the _strResourceIdServiceClass.
      */
-    public String getResourceIdServiceClass(  )
+    public String getResourceIdServiceClass( )
     {
         return _strResourceIdServiceClass;
     }
 
     /**
      * Sets the name of the resourceIdService class
-     * @param strResourceIdServiceClass The _strResourceIdServiceClass to set.
+     * 
+     * @param strResourceIdServiceClass
+     *            The _strResourceIdServiceClass to set.
      */
     public void setResourceIdServiceClass( String strResourceIdServiceClass )
     {
@@ -162,30 +172,31 @@ public class ResourceType implements Localizable
 
     /**
      * Returns an instance of the resourceIdService class
+     * 
      * @return a ResourceIdService object with the plugin name initialised
      */
-    public ResourceIdService getResourceIdService(  )
+    public ResourceIdService getResourceIdService( )
     {
         try
         {
-            ResourceIdService service = (ResourceIdService) Class.forName( getResourceIdServiceClass(  ) ).newInstance(  );
+            ResourceIdService service = (ResourceIdService) Class.forName( getResourceIdServiceClass( ) ).newInstance( );
             if ( service != null )
             {
-            	service.setPluginName( getPluginName(  ) );
-            	return service;
+                service.setPluginName( getPluginName( ) );
+                return service;
             }
         }
-        catch ( InstantiationException e )
+        catch( InstantiationException e )
         {
-            AppLogService.error( e.getMessage(  ), e );
+            AppLogService.error( e.getMessage( ), e );
         }
-        catch ( IllegalAccessException e )
+        catch( IllegalAccessException e )
         {
-            AppLogService.error( e.getMessage(  ), e );
+            AppLogService.error( e.getMessage( ), e );
         }
-        catch ( ClassNotFoundException e )
+        catch( ClassNotFoundException e )
         {
-            AppLogService.error( e.getMessage(  ), e );
+            AppLogService.error( e.getMessage( ), e );
         }
 
         return null;
@@ -193,7 +204,9 @@ public class ResourceType implements Localizable
 
     /**
      * Sets the plugin name
-     * @param strPluginName The __strPluginName to set.
+     * 
+     * @param strPluginName
+     *            The __strPluginName to set.
      */
     public void setPluginName( String strPluginName )
     {
@@ -202,9 +215,10 @@ public class ResourceType implements Localizable
 
     /**
      * Returns the plugin name
+     * 
      * @return Returns the __strPluginName.
      */
-    public String getPluginName(  )
+    public String getPluginName( )
     {
         return _strPluginName;
     }

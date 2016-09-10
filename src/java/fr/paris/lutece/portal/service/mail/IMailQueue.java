@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,7 +33,6 @@
  */
 package fr.paris.lutece.portal.service.mail;
 
-
 /**
  * IMailQueue interface
  */
@@ -41,13 +40,16 @@ public interface IMailQueue
 {
     /**
      * Get a mail item from the list and remove it from the queue
+     * 
      * @return The older mail item of the queue
      */
-    MailItem consume(  );
+    MailItem consume( );
 
     /**
      * Put a mail item into the list of the queue
-     * @param item The mail item to add to the queue
+     * 
+     * @param item
+     *            The mail item to add to the queue
      */
     void send( MailItem item );
 
@@ -55,5 +57,5 @@ public interface IMailQueue
      *
      * @return the number of mail item present in the queue
      */
-    int size(  );
+    int size( );
 }

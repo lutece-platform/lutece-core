@@ -47,7 +47,6 @@ import java.util.TreeSet;
 
 import javax.activation.MimetypesFileTypeMap;
 
-
 /**
  * This Service is used to manipulate Files and Directories in the File System.
  */
@@ -60,23 +59,25 @@ public final class FileSystemUtil
     /**
      * Private constructor
      */
-    private FileSystemUtil(  )
+    private FileSystemUtil( )
     {
     }
 
     /**
      * Returns the sub-directories of a directory.
      *
-     * @param strRoot the root directory.
-     * @param strDirectoryRelativePath the parent directory.
-     * @throws DirectoryNotFoundException if the directory does not exist.
+     * @param strRoot
+     *            the root directory.
+     * @param strDirectoryRelativePath
+     *            the parent directory.
+     * @throws DirectoryNotFoundException
+     *             if the directory does not exist.
      * @return The list of sub-directories.
      */
-    public static List<File> getSubDirectories( String strRoot, String strDirectoryRelativePath )
-        throws DirectoryNotFoundException
+    public static List<File> getSubDirectories( String strRoot, String strDirectoryRelativePath ) throws DirectoryNotFoundException
     {
         // Files' list init
-        ArrayList<File> listFiles = new ArrayList<File>(  );
+        ArrayList<File> listFiles = new ArrayList<File>( );
 
         // Directory path
         String strDirectory = strRoot + strDirectoryRelativePath;
@@ -84,18 +85,18 @@ public final class FileSystemUtil
         // Directory
         File fDirectory = new File( strDirectory );
 
-        if ( !fDirectory.exists(  ) )
+        if ( !fDirectory.exists( ) )
         {
-            throw new DirectoryNotFoundException(  );
+            throw new DirectoryNotFoundException( );
         }
 
-        File[] files = fDirectory.listFiles(  );
+        File [ ] files = fDirectory.listFiles( );
 
         for ( int i = 0; i < files.length; i++ )
         {
-            File file = files[i];
+            File file = files [i];
 
-            if ( file.isDirectory(  ) )
+            if ( file.isDirectory( ) )
             {
                 listFiles.add( file );
             }
@@ -107,16 +108,18 @@ public final class FileSystemUtil
     /**
      * Returns the files of a directory, alphabetically ordered.
      *
-     * @param strRoot The root directory
-     * @param strDirectoryRelativePath The directory's path relative to the root directory.
-     * @throws DirectoryNotFoundException if the directory does not exist.
+     * @param strRoot
+     *            The root directory
+     * @param strDirectoryRelativePath
+     *            The directory's path relative to the root directory.
+     * @throws DirectoryNotFoundException
+     *             if the directory does not exist.
      * @return The list of files.
      */
-    public static List<File> getFiles( String strRoot, String strDirectoryRelativePath )
-        throws DirectoryNotFoundException
+    public static List<File> getFiles( String strRoot, String strDirectoryRelativePath ) throws DirectoryNotFoundException
     {
         // Use a treeset to order files with a comparator
-        TreeSet<File> set = new TreeSet<File>( new FileNameComparator(  ) );
+        TreeSet<File> set = new TreeSet<File>( new FileNameComparator( ) );
 
         // Directory path
         String strDirectory = strRoot + strDirectoryRelativePath;
@@ -124,18 +127,18 @@ public final class FileSystemUtil
         // Directory
         File fDirectory = new File( strDirectory );
 
-        if ( !fDirectory.exists(  ) )
+        if ( !fDirectory.exists( ) )
         {
-            throw new DirectoryNotFoundException(  );
+            throw new DirectoryNotFoundException( );
         }
 
-        File[] files = fDirectory.listFiles(  );
+        File [ ] files = fDirectory.listFiles( );
 
         for ( int i = 0; i < files.length; i++ )
         {
-            File file = files[i];
+            File file = files [i];
 
-            if ( file.isFile(  ) )
+            if ( file.isFile( ) )
             {
                 set.add( file );
             }
@@ -147,19 +150,20 @@ public final class FileSystemUtil
 
     /**
      * Return the mimetype of the file depending of his extension and the mime.types file
-     * @param strFilename the file name
+     * 
+     * @param strFilename
+     *            the file name
      * @return the file mime type
      */
     public static String getMIMEType( String strFilename )
     {
         try
         {
-            MimetypesFileTypeMap mimeTypeMap = new MimetypesFileTypeMap( AppPathService.getWebAppPath(  ) +
-                    File.separator + FILE_MIME_TYPE );
+            MimetypesFileTypeMap mimeTypeMap = new MimetypesFileTypeMap( AppPathService.getWebAppPath( ) + File.separator + FILE_MIME_TYPE );
 
-            return mimeTypeMap.getContentType( strFilename.toLowerCase(  ) );
+            return mimeTypeMap.getContentType( strFilename.toLowerCase( ) );
         }
-        catch ( IOException e )
+        catch( IOException e )
         {
             AppLogService.error( e );
 

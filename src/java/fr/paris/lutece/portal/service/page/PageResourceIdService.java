@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -43,7 +43,6 @@ import fr.paris.lutece.util.ReferenceList;
 
 import java.util.Locale;
 
-
 /**
  * Resource Id service for RBAC features to control access to portlet
  */
@@ -58,19 +57,19 @@ public class PageResourceIdService extends ResourceIdService
     /**
      * Initializes the service
      */
-    public void register(  )
+    public void register( )
     {
-        ResourceType rt = new ResourceType(  );
-        rt.setResourceIdServiceClass( PageResourceIdService.class.getName(  ) );
+        ResourceType rt = new ResourceType( );
+        rt.setResourceIdServiceClass( PageResourceIdService.class.getName( ) );
         rt.setResourceTypeKey( Page.RESOURCE_TYPE );
         rt.setResourceTypeLabelKey( PROPERTY_LABEL_RESOURCE_TYPE );
 
-        Permission p = new Permission(  );
+        Permission p = new Permission( );
         p.setPermissionKey( PERMISSION_VIEW );
         p.setPermissionTitleKey( PROPERTY_LABEL_VIEW );
         rt.registerPermission( p );
 
-        p = new Permission(  );
+        p = new Permission( );
         p.setPermissionKey( PERMISSION_MANAGE );
         p.setPermissionTitleKey( PROPERTY_LABEL_MANAGE );
         rt.registerPermission( p );
@@ -80,24 +79,29 @@ public class PageResourceIdService extends ResourceIdService
 
     /**
      * Returns a list of resource ids
-     * @param locale the Locale
+     * 
+     * @param locale
+     *            the Locale
      * @return A list of resource ids
      */
     public ReferenceList getResourceIdList( Locale locale )
     {
-        return PageHome.getPagesList(  );
+        return PageHome.getPagesList( );
     }
 
     /**
      * Returns the Title of a given resource
-     * @param strPageId The Id of the resource
-     * @param locale the Locale
+     * 
+     * @param strPageId
+     *            The Id of the resource
+     * @param locale
+     *            the Locale
      * @return The Title of a given resource
      */
     public String getTitle( String strPageId, Locale locale )
     {
         Page page = PageHome.findByPrimaryKey( Integer.parseInt( strPageId ) );
 
-        return page.getName(  );
+        return page.getName( );
     }
 }

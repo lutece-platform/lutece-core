@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -37,7 +37,6 @@ import fr.paris.lutece.util.ErrorMessage;
 
 import java.io.Serializable;
 
-
 /**
  * MVCMessage
  */
@@ -48,13 +47,15 @@ public class MVCMessage implements ErrorMessage, Serializable
     /**
      * Basic constructor
      */
-    public MVCMessage(  )
+    public MVCMessage( )
     {
     }
 
     /**
      * Constructor
-     * @param strMessage The message
+     * 
+     * @param strMessage
+     *            The message
      */
     public MVCMessage( String strMessage )
     {
@@ -65,14 +66,16 @@ public class MVCMessage implements ErrorMessage, Serializable
      * {@inheritDoc}
      */
     @Override
-    public String getMessage(  )
+    public String getMessage( )
     {
         return _strMessage;
     }
 
     /**
      * Set the content of this error message
-     * @param message the message to set
+     * 
+     * @param message
+     *            the message to set
      */
     public void setMessage( String message )
     {

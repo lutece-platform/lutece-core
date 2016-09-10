@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -40,13 +40,15 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-
 /**
  * The Class AbstractLuteceHome.
  *
- * @param <K> the key type
- * @param <E> the element type
- * @param <DAO> the generic type
+ * @param <K>
+ *            the key type
+ * @param <E>
+ *            the element type
+ * @param <DAO>
+ *            the generic type
  */
 public abstract class AbstractLuteceHome<K, E, DAO extends IGenericDAO<K, E>> implements IGenericHome<K, E>
 {
@@ -55,7 +57,8 @@ public abstract class AbstractLuteceHome<K, E, DAO extends IGenericDAO<K, E>> im
     /**
      * Sets the dao.
      *
-     * @param dao the new dao
+     * @param dao
+     *            the new dao
      */
     public void setDao( DAO dao )
     {
@@ -67,56 +70,56 @@ public abstract class AbstractLuteceHome<K, E, DAO extends IGenericDAO<K, E>> im
      *
      * @return the dao
      */
-    public DAO getDao(  )
+    public DAO getDao( )
     {
         return _dao;
     }
 
     /**
-     *{@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     @Transactional
     public void create( E entityBean )
     {
-        getDao(  ).create( entityBean );
+        getDao( ).create( entityBean );
     }
 
     /**
-     *{@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     @Transactional
     public void remove( K key )
     {
-        getDao(  ).remove( key );
+        getDao( ).remove( key );
     }
 
     /**
-     *{@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     public E findByPrimaryKey( K key )
     {
-        return getDao(  ).findById( key );
+        return getDao( ).findById( key );
     }
 
     /**
-     *{@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
     @Transactional
     public void update( E entityBean )
     {
-        getDao(  ).update( entityBean );
+        getDao( ).update( entityBean );
     }
 
     /**
-     *{@inheritDoc}
+     * {@inheritDoc}
      */
     @Override
-    public List<E> findAll(  )
+    public List<E> findAll( )
     {
-        return getDao(  ).findAll(  );
+        return getDao( ).findAll( );
     }
 }

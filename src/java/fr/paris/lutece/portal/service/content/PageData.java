@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,13 +33,12 @@
  */
 package fr.paris.lutece.portal.service.content;
 
-
 /**
  * This class provides a structure to build portal pages.
  */
 public class PageData
 {
-    ////////////////////////////////////////////////////////////////////////////
+    // //////////////////////////////////////////////////////////////////////////
     // Constants
     private static final String EMPTY_STRING = "";
     private String _strName;
@@ -65,7 +64,7 @@ public class PageData
      *
      * @return The name of the page as a string.
      */
-    public String getName(  )
+    public String getName( )
     {
         return _strName;
     }
@@ -73,7 +72,8 @@ public class PageData
     /**
      * Sets the name of the page to the specified string.
      *
-     * @param strName The new name of the page.
+     * @param strName
+     *            The new name of the page.
      */
     public void setName( String strName )
     {
@@ -85,7 +85,7 @@ public class PageData
      *
      * @return The favourite of the page as a string.
      */
-    public String getFavourite(  )
+    public String getFavourite( )
     {
         return _strFavourite;
     }
@@ -93,7 +93,8 @@ public class PageData
     /**
      * Sets the favourite of the page to the specified string.
      *
-     * @param strFavourite The new favourite of the page.
+     * @param strFavourite
+     *            The new favourite of the page.
      */
     public void setFavourite( String strFavourite )
     {
@@ -105,7 +106,7 @@ public class PageData
      *
      * @return the URL of the Cascading Style Sheet associated to this page as a String.
      */
-    public String getCssUrl(  )
+    public String getCssUrl( )
     {
         return _strCssUrl;
     }
@@ -113,7 +114,8 @@ public class PageData
     /**
      * Sets the URL of the Cascading Style Sheet associated to this page
      *
-     * @param strCssUrl  Sets the URL of the Cascading Style Sheet associated to this page to the specified string.
+     * @param strCssUrl
+     *            Sets the URL of the Cascading Style Sheet associated to this page to the specified string.
      */
     public void setCssUrl( String strCssUrl )
     {
@@ -125,7 +127,7 @@ public class PageData
      *
      * @return the URL of the Customize Cascading Style Sheet associated to this page as a String.
      */
-    public String getCustomizeCssUrl(  )
+    public String getCustomizeCssUrl( )
     {
         return _strCustomizeCssUrl;
     }
@@ -133,8 +135,8 @@ public class PageData
     /**
      * Sets the URL of the Customize Cascading Style Sheet associated to this page
      *
-     * @param strCustomizeCssUrl  Sets the URL of the Customize Cascading Style Sheet associated to this page to the
-     *        specified string.
+     * @param strCustomizeCssUrl
+     *            Sets the URL of the Customize Cascading Style Sheet associated to this page to the specified string.
      */
     public void setCustomizeCssUrl( String strCustomizeCssUrl )
     {
@@ -146,7 +148,7 @@ public class PageData
      *
      * @return the URL of the Plugins Cascading Style Sheet associated to this page as a String.
      */
-    public String getPluginsCssUrl(  )
+    public String getPluginsCssUrl( )
     {
         return _strPluginsCssUrl;
     }
@@ -154,8 +156,8 @@ public class PageData
     /**
      * Sets the URL of the Plugins Cascading Style Sheet associated to this page
      *
-     * @param strPluginsCssUrl  Sets the URL of the Plugins Cascading Style Sheet associated to this page to the
-     *        specified string.
+     * @param strPluginsCssUrl
+     *            Sets the URL of the Plugins Cascading Style Sheet associated to this page to the specified string.
      */
     public void setPluginsCssUrl( String strPluginsCssUrl )
     {
@@ -167,7 +169,7 @@ public class PageData
      *
      * @return Author to mention in the META tags of the page as a String.
      */
-    public String getMetaAuthor(  )
+    public String getMetaAuthor( )
     {
         return _strMetaAuthor;
     }
@@ -175,7 +177,8 @@ public class PageData
     /**
      * Sets Author to mention in the META tags of the page.
      *
-     * @param strMetaAuthor The Author to mention in the META tags of the page
+     * @param strMetaAuthor
+     *            The Author to mention in the META tags of the page
      */
     public void setMetaAuthor( String strMetaAuthor )
     {
@@ -187,7 +190,7 @@ public class PageData
      *
      * @return Copyright to mention in the META tags of the page as a String.
      */
-    public String getMetaCopyright(  )
+    public String getMetaCopyright( )
     {
         return _strMetaCopyright;
     }
@@ -195,7 +198,8 @@ public class PageData
     /**
      * Sets Copyright to mention in the META tags of the page.
      *
-     * @param strMetaCopyright The Copyright to mention in the META tags of the page
+     * @param strMetaCopyright
+     *            The Copyright to mention in the META tags of the page
      */
     public void setMetaCopyright( String strMetaCopyright )
     {
@@ -207,7 +211,7 @@ public class PageData
      *
      * @return Keywords to mention in the META tags of the page as a String.
      */
-    public String getMetaKeywords(  )
+    public String getMetaKeywords( )
     {
         return _strMetaKeywords;
     }
@@ -215,7 +219,8 @@ public class PageData
     /**
      * Sets Keywords to mention in the META tags of the page.
      *
-     * @param strMetaKeywords The Keywords to mention in the META tags of the page.
+     * @param strMetaKeywords
+     *            The Keywords to mention in the META tags of the page.
      */
     public void setMetaKeywords( String strMetaKeywords )
     {
@@ -227,7 +232,7 @@ public class PageData
      *
      * @return Description to mention in the META tags of the page as a String.
      */
-    public String getMetaDescription(  )
+    public String getMetaDescription( )
     {
         return _strMetaDescription;
     }
@@ -235,7 +240,8 @@ public class PageData
     /**
      * Sets Description to mention in the META tags of the page.
      *
-     * @param strMetaDescription The Description to mention in the META tags of the page.
+     * @param strMetaDescription
+     *            The Description to mention in the META tags of the page.
      */
     public void setMetaDescription( String strMetaDescription )
     {
@@ -247,7 +253,7 @@ public class PageData
      *
      * @return The header HTML code as a String.
      */
-    public String getHeader(  )
+    public String getHeader( )
     {
         return _strHeader;
     }
@@ -255,7 +261,8 @@ public class PageData
     /**
      * Sets the header to display at the top of the page.
      *
-     * @param strHeader Sets the header to display at the top of the page.
+     * @param strHeader
+     *            Sets the header to display at the top of the page.
      */
     public void setHeader( String strHeader )
     {
@@ -267,7 +274,7 @@ public class PageData
      *
      * @return The HTML code of the menu associated to the page as a String
      */
-    public String getMenu(  )
+    public String getMenu( )
     {
         return _strMenu;
     }
@@ -275,7 +282,8 @@ public class PageData
     /**
      * Sets the menu associated to the page
      *
-     * @param strMenu The HTML code of the menu to associate to the page as a String
+     * @param strMenu
+     *            The HTML code of the menu to associate to the page as a String
      */
     public void setMenu( String strMenu )
     {
@@ -287,7 +295,7 @@ public class PageData
      *
      * @return the page path.
      */
-    public String getPagePath(  )
+    public String getPagePath( )
     {
         return _strPagePath;
     }
@@ -295,7 +303,8 @@ public class PageData
     /**
      * Set the page path.
      *
-     * @param strPagePath the page path
+     * @param strPagePath
+     *            the page path
      */
     public void setPagePath( String strPagePath )
     {
@@ -307,7 +316,7 @@ public class PageData
      *
      * @return the page path.
      */
-    public String getTreeMenu(  )
+    public String getTreeMenu( )
     {
         return _strTreeMenu;
     }
@@ -315,7 +324,8 @@ public class PageData
     /**
      * Set the page path.
      *
-     * @param strTreeMenu the page path
+     * @param strTreeMenu
+     *            the page path
      */
     public void setTreeMenu( String strTreeMenu )
     {
@@ -327,7 +337,7 @@ public class PageData
      *
      * @return The HTML code of the page content as a String.
      */
-    public String getContent(  )
+    public String getContent( )
     {
         return _strContent;
     }
@@ -335,7 +345,8 @@ public class PageData
     /**
      * Sets the page content.
      *
-     * @param strContent The HTML code of the page content as a String.
+     * @param strContent
+     *            The HTML code of the page content as a String.
      */
     public void setContent( String strContent )
     {
@@ -347,7 +358,7 @@ public class PageData
      *
      * @return The favicon of the page as a string.
      */
-    public String getFavicon(  )
+    public String getFavicon( )
     {
         return _strFavicon;
     }
@@ -355,7 +366,8 @@ public class PageData
     /**
      * Sets the Favicon of the page to the specified string.
      *
-     * @param strFavicon The new Favicon of the page.
+     * @param strFavicon
+     *            The new Favicon of the page.
      */
     public void setFavicon( String strFavicon )
     {
@@ -367,7 +379,7 @@ public class PageData
      *
      * @return The theme of the page as a string.
      */
-    public String getTheme(  )
+    public String getTheme( )
     {
         return _strTheme;
     }
@@ -375,7 +387,8 @@ public class PageData
     /**
      * Sets the Theme of the page to the specified string.
      *
-     * @param strTheme The new Theme of the page.
+     * @param strTheme
+     *            The new Theme of the page.
      */
     public void setTheme( String strTheme )
     {
@@ -387,7 +400,7 @@ public class PageData
      *
      * @return true if the page is an homepage, otherwise false.
      */
-    public boolean isHomePage(  )
+    public boolean isHomePage( )
     {
         return _bIsHomePage;
     }
@@ -395,7 +408,8 @@ public class PageData
     /**
      * Sets the homepage indicator.
      *
-     * @param bHomePage Should be true if the page is an homepage, otherwise false.
+     * @param bHomePage
+     *            Should be true if the page is an homepage, otherwise false.
      */
     public void setHomePage( boolean bHomePage )
     {

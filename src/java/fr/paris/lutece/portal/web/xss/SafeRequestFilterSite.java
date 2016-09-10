@@ -40,9 +40,9 @@ import fr.paris.lutece.portal.service.util.AppPathService;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  * This class extends SafeRequestFilter and use SiteMessageService for display error Message
+ * 
  * @author merlinfe
  *
  */
@@ -52,15 +52,13 @@ public class SafeRequestFilterSite extends SafeRequestFilter
      * {@inheritDoc}
      */
     @Override
-    public String getMessageUrl( HttpServletRequest request, String strMessageKey, Object[] messageArgs,
-        String strTitleKey )
+    public String getMessageUrl( HttpServletRequest request, String strMessageKey, Object [ ] messageArgs, String strTitleKey )
     {
         try
         {
-            SiteMessageService.setMessage( request, strMessageKey, messageArgs, strTitleKey, null, "",
-                SiteMessage.TYPE_STOP );
+            SiteMessageService.setMessage( request, strMessageKey, messageArgs, strTitleKey, null, "", SiteMessage.TYPE_STOP );
         }
-        catch ( SiteMessageException lme )
+        catch( SiteMessageException lme )
         {
             return AppPathService.getSiteMessageUrl( request );
         }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,7 +33,6 @@
  */
 package fr.paris.lutece.portal.service.dashboard;
 
-
 /**
  * Dashboard Component Entry
  */
@@ -47,16 +46,19 @@ public class DashboardComponentEntry
 
     /**
      * Returns the Name
+     * 
      * @return The Name
      */
-    public String getName(  )
+    public String getName( )
     {
         return _strName;
     }
 
     /**
      * Sets the Name
-     * @param strName The Name
+     * 
+     * @param strName
+     *            The Name
      */
     public void setName( String strName )
     {
@@ -65,16 +67,19 @@ public class DashboardComponentEntry
 
     /**
      * Returns the ComponentClass
+     * 
      * @return The ComponentClass
      */
-    public String getComponentClass(  )
+    public String getComponentClass( )
     {
         return _strComponentClass;
     }
 
     /**
      * Sets the ComponentClass
-     * @param strComponentClass The ComponentClass
+     * 
+     * @param strComponentClass
+     *            The ComponentClass
      */
     public void setComponentClass( String strComponentClass )
     {
@@ -83,16 +88,19 @@ public class DashboardComponentEntry
 
     /**
      * Returns the Right
+     * 
      * @return The Right
      */
-    public String getRight(  )
+    public String getRight( )
     {
         return _strRight;
     }
 
     /**
      * Sets the Right
-     * @param strRight The Right
+     * 
+     * @param strRight
+     *            The Right
      */
     public void setRight( String strRight )
     {
@@ -101,16 +109,19 @@ public class DashboardComponentEntry
 
     /**
      * Returns the Zone
+     * 
      * @return The Zone
      */
-    public int getZone(  )
+    public int getZone( )
     {
         return _nZone;
     }
 
     /**
      * Sets the Zone
-     * @param nZone The Zone
+     * 
+     * @param nZone
+     *            The Zone
      */
     public void setZone( int nZone )
     {
@@ -119,16 +130,19 @@ public class DashboardComponentEntry
 
     /**
      * Returns the Order
+     * 
      * @return The Order
      */
-    public int getOrder(  )
+    public int getOrder( )
     {
         return _nOrder;
     }
 
     /**
      * Sets the Order
-     * @param nOrder The Order
+     * 
+     * @param nOrder
+     *            The Order
      */
     public void setOrder( int nOrder )
     {

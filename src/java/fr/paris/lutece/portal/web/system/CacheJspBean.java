@@ -48,7 +48,6 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  * This class provides the user interface to manage system features ( manage logs, view system files, ... ).
  */
@@ -71,23 +70,26 @@ public class CacheJspBean extends AdminFeaturesPageJspBean
 
     /**
      * Returns the page to manage caches
-     * @param request The HttpServletRequest
+     * 
+     * @param request
+     *            The HttpServletRequest
      * @return The HTML code.
      */
     public String getManageCaches( HttpServletRequest request )
     {
-        HashMap<String, Collection<CacheableService>> model = new HashMap<String, Collection<CacheableService>>(  );
-        model.put( MARK_SERVICES_LIST, CacheService.getCacheableServicesList(  ) );
+        HashMap<String, Collection<CacheableService>> model = new HashMap<String, Collection<CacheableService>>( );
+        model.put( MARK_SERVICES_LIST, CacheService.getCacheableServicesList( ) );
 
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_CACHES, getLocale(  ), model );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_CACHES, getLocale( ), model );
 
-        return getAdminPage( template.getHtml(  ) );
+        return getAdminPage( template.getHtml( ) );
     }
 
     /**
      * Process cache resetting
      *
-     * @param request The HTTP request
+     * @param request
+     *            The HTTP request
      * @return The URL to display when the process is done.
      */
     public static String doResetCaches( HttpServletRequest request )
@@ -97,14 +99,14 @@ public class CacheJspBean extends AdminFeaturesPageJspBean
         if ( strCacheIndex != null )
         {
             int nCacheIndex = Integer.parseInt( strCacheIndex );
-            CacheableService cs = CacheService.getCacheableServicesList(  ).get( nCacheIndex );
-            cs.resetCache(  );
+            CacheableService cs = CacheService.getCacheableServicesList( ).get( nCacheIndex );
+            cs.resetCache( );
         }
         else
         {
-            CacheService.resetCaches(  );
-            AppTemplateService.resetCache(  );
-            I18nService.resetCache(  );
+            CacheService.resetCaches( );
+            AppTemplateService.resetCache( );
+            I18nService.resetCache( );
         }
 
         return JSP_MANAGE_CACHES;
@@ -115,16 +117,18 @@ public class CacheJspBean extends AdminFeaturesPageJspBean
      *
      * @return The URL to display when the process is done.
      */
-    public String doReloadProperties(  )
+    public String doReloadProperties( )
     {
-        AppPropertiesService.reloadAll(  );
+        AppPropertiesService.reloadAll( );
 
         return JSP_MANAGE_CACHES;
     }
 
     /**
      * Gets cache infos for all caches
-     * @param request The HTTP request
+     * 
+     * @param request
+     *            The HTTP request
      * @return HTML formated cache infos
      */
     public String getCacheInfos( HttpServletRequest request )
@@ -135,27 +139,28 @@ public class CacheJspBean extends AdminFeaturesPageJspBean
         if ( strCacheIndex != null )
         {
             int nCacheIndex = Integer.parseInt( strCacheIndex );
-            CacheableService cs = CacheService.getCacheableServicesList(  ).get( nCacheIndex );
-            list = new ArrayList<CacheableService>(  );
+            CacheableService cs = CacheService.getCacheableServicesList( ).get( nCacheIndex );
+            list = new ArrayList<CacheableService>( );
             list.add( cs );
         }
         else
         {
-            list = CacheService.getCacheableServicesList(  );
+            list = CacheService.getCacheableServicesList( );
         }
 
-        HashMap<String, Collection<CacheableService>> model = new HashMap<String, Collection<CacheableService>>(  );
+        HashMap<String, Collection<CacheableService>> model = new HashMap<String, Collection<CacheableService>>( );
         model.put( MARK_SERVICES_LIST, list );
 
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CACHE_INFOS, getLocale(  ), model );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CACHE_INFOS, getLocale( ), model );
 
-        return getAdminPage( template.getHtml(  ) );
+        return getAdminPage( template.getHtml( ) );
     }
 
     /**
      * Process cache toggle on/off
      *
-     * @param request The HTTP request
+     * @param request
+     *            The HTTP request
      * @return The URL to display when the process is done.
      */
     public static String doToggleCache( HttpServletRequest request )
@@ -165,8 +170,8 @@ public class CacheJspBean extends AdminFeaturesPageJspBean
         if ( strCacheIndex != null )
         {
             int nCacheIndex = Integer.parseInt( strCacheIndex );
-            CacheableService cs = CacheService.getCacheableServicesList(  ).get( nCacheIndex );
-            cs.enableCache( !cs.isCacheEnable(  ) );
+            CacheableService cs = CacheService.getCacheableServicesList( ).get( nCacheIndex );
+            cs.enableCache( !cs.isCacheEnable( ) );
         }
 
         return JSP_MANAGE_CACHES;

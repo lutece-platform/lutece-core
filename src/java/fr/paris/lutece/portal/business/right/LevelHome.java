@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -37,7 +37,6 @@ import fr.paris.lutece.portal.service.spring.SpringContextService;
 
 import java.util.Collection;
 
-
 /**
  * This class provides instances management methods (create, find, ...) for Level right objects
  */
@@ -49,14 +48,15 @@ public final class LevelHome
     /**
      * Creates a new LevelHome object.
      */
-    private LevelHome(  )
+    private LevelHome( )
     {
     }
 
     /**
      * Creation of an instance of a mode
      *
-     * @param mode An instance of a mode which contains the informations to store
+     * @param mode
+     *            An instance of a mode which contains the informations to store
      * @return The instance of a mode which has been created with its primary key.
      */
     public static Level create( Level mode )
@@ -69,7 +69,8 @@ public final class LevelHome
     /**
      * Update of the mode which is specified
      *
-     * @param mode The instance of the mode which contains the data to store
+     * @param mode
+     *            The instance of the mode which contains the data to store
      * @return The instance of the mode which has been updated
      */
     public static Level update( Level mode )
@@ -82,20 +83,22 @@ public final class LevelHome
     /**
      * Remove the mode whose identifier is specified in parameter
      *
-     * @param nId The identifier of the mode to remove
+     * @param nId
+     *            The identifier of the mode to remove
      */
     public static void remove( int nId )
     {
         _dao.delete( nId );
     }
 
-    ///////////////////////////////////////////////////////////////////////////
+    // /////////////////////////////////////////////////////////////////////////
     // Finders
 
     /**
      * Returns an instance of an mode whose identifier is specified in parameter
      *
-     * @param nKey The mode primary key
+     * @param nKey
+     *            The mode primary key
      * @return an instance of a mode
      */
     public static Level findByPrimaryKey( int nKey )
@@ -108,8 +111,8 @@ public final class LevelHome
      *
      * @return A collection of modes objects
      */
-    public static Collection<Level> getLevelsList(  )
+    public static Collection<Level> getLevelsList( )
     {
-        return _dao.selectLevelsList(  );
+        return _dao.selectLevelsList( );
     }
 }

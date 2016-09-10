@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -69,7 +69,6 @@ import java.util.Map.Entry;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
 /**
  * MVC Admin JspBean implementation let use MVC model to develop admin feature.
  */
@@ -78,27 +77,30 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean implements 
     private static final String MARK_ERRORS = "errors";
     private static final String MARK_INFOS = "infos";
     private static final String MARK_WARNINGS = "warnings";
-    private static Logger _logger = MVCUtils.getLogger(  );
-    private List<ErrorMessage> _listErrors = new ArrayList<ErrorMessage>(  );
-    private List<ErrorMessage> _listInfos = new ArrayList<ErrorMessage>(  );
-    private List<ErrorMessage> _listWarnings = new ArrayList<ErrorMessage>(  );
-    private Controller _controller = getClass(  ).getAnnotation( Controller.class );
+    private static Logger _logger = MVCUtils.getLogger( );
+    private List<ErrorMessage> _listErrors = new ArrayList<ErrorMessage>( );
+    private List<ErrorMessage> _listInfos = new ArrayList<ErrorMessage>( );
+    private List<ErrorMessage> _listWarnings = new ArrayList<ErrorMessage>( );
+    private Controller _controller = getClass( ).getAnnotation( Controller.class );
     private HttpServletResponse _response;
 
     /**
      * Process request as a controller
-     * @param request The HTTP request
-     * @param response The HTTP response
+     * 
+     * @param request
+     *            The HTTP request
+     * @param response
+     *            The HTTP response
      * @return The page content
-     * @throws AccessDeniedException If the user's has no right
+     * @throws AccessDeniedException
+     *             If the user's has no right
      */
-    public String processController( HttpServletRequest request, HttpServletResponse response )
-        throws AccessDeniedException
+    public String processController( HttpServletRequest request, HttpServletResponse response ) throws AccessDeniedException
     {
         _response = response;
-        init( request, _controller.right(  ) );
+        init( request, _controller.right( ) );
 
-        Method[] methods = ReflectionUtils.getAllDeclaredMethods( getClass(  ) );
+        Method [ ] methods = ReflectionUtils.getAllDeclaredMethods( getClass( ) );
 
         try
         {
@@ -123,27 +125,29 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean implements 
 
             return (String) m.invoke( this, request );
         }
-        catch ( InvocationTargetException e )
+        catch( InvocationTargetException e )
         {
-            if ( e.getTargetException(  ) instanceof AccessDeniedException )
+            if ( e.getTargetException( ) instanceof AccessDeniedException )
             {
-                throw (AccessDeniedException) e.getTargetException(  );
+                throw (AccessDeniedException) e.getTargetException( );
             }
 
             throw new AppException( "MVC Error dispaching view and action ", e );
         }
-        catch ( IllegalAccessException e )
+        catch( IllegalAccessException e )
         {
             throw new AppException( "MVC Error dispaching view and action ", e );
         }
     }
 
-    ////////////////////////////////////////////////////////////////////////////
-    // Page utils 
+    // //////////////////////////////////////////////////////////////////////////
+    // Page utils
 
     /**
      * Add an error message
-     * @param strMessage The message
+     * 
+     * @param strMessage
+     *            The message
      */
     protected void addError( String strMessage )
     {
@@ -152,8 +156,11 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean implements 
 
     /**
      * Add an error message
-     * @param strMessageKey The message
-     * @param locale The locale
+     * 
+     * @param strMessageKey
+     *            The message
+     * @param locale
+     *            The locale
      */
     protected void addError( String strMessageKey, Locale locale )
     {
@@ -162,7 +169,9 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean implements 
 
     /**
      * Add a warning message
-     * @param strMessage The message
+     * 
+     * @param strMessage
+     *            The message
      */
     protected void addWarning( String strMessage )
     {
@@ -171,8 +180,11 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean implements 
 
     /**
      * Add an warning message
-     * @param strMessageKey The message
-     * @param locale The locale
+     * 
+     * @param strMessageKey
+     *            The message
+     * @param locale
+     *            The locale
      */
     protected void addWarning( String strMessageKey, Locale locale )
     {
@@ -181,7 +193,9 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean implements 
 
     /**
      * Add an info message
-     * @param strMessage The message
+     * 
+     * @param strMessage
+     *            The message
      */
     protected void addInfo( String strMessage )
     {
@@ -190,8 +204,11 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean implements 
 
     /**
      * Add an info message
-     * @param strMessageKey The message key
-     * @param locale The locale
+     * 
+     * @param strMessageKey
+     *            The message key
+     * @param locale
+     *            The locale
      */
     protected void addInfo( String strMessageKey, Locale locale )
     {
@@ -199,9 +216,11 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean implements 
     }
 
     /**
-    * Fill the model with commons objects used in templates
-    * @param model The model
-    */
+     * Fill the model with commons objects used in templates
+     * 
+     * @param model
+     *            The model
+     */
     protected void fillCommons( Map<String, Object> model )
     {
         List<ErrorMessage> listErrors = new ArrayList<ErrorMessage>( _listErrors );
@@ -210,18 +229,19 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean implements 
         model.put( MARK_ERRORS, listErrors );
         model.put( MARK_INFOS, listInfos );
         model.put( MARK_WARNINGS, listWarnings );
-        _listErrors.clear(  );
-        _listInfos.clear(  );
-        _listWarnings.clear(  );
+        _listErrors.clear( );
+        _listInfos.clear( );
+        _listWarnings.clear( );
     }
 
     /**
      * Get a model Object filled with default values
+     * 
      * @return The model
      */
-    protected Map<String, Object> getModel(  )
+    protected Map<String, Object> getModel( )
     {
-        Map<String, Object> model = new HashMap<String, Object>(  );
+        Map<String, Object> model = new HashMap<String, Object>( );
         fillCommons( model );
 
         return model;
@@ -229,95 +249,112 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean implements 
 
     /**
      * Return the page content
-     * @param strTemplate The template
+     * 
+     * @param strTemplate
+     *            The template
      * @return The page
      */
     protected String getPage( String strTemplate )
     {
-        String strPageTitleProperty = _controller.pageTitleProperty(  );
+        String strPageTitleProperty = _controller.pageTitleProperty( );
 
-        return getPage( strPageTitleProperty, strTemplate, getModel(  ) );
+        return getPage( strPageTitleProperty, strTemplate, getModel( ) );
     }
 
     /**
      * Return the page content
-     * @param strPageTitleProperty The page title property
-     * @param strTemplate The template
+     * 
+     * @param strPageTitleProperty
+     *            The page title property
+     * @param strTemplate
+     *            The template
      * @return The page
      */
     protected String getPage( String strPageTitleProperty, String strTemplate )
     {
-        return getPage( strPageTitleProperty, strTemplate, getModel(  ) );
+        return getPage( strPageTitleProperty, strTemplate, getModel( ) );
     }
 
     /**
      * Return the page content
-     * @param strPageTitleProperty The page title property
-     * @param strTemplate The template
-     * @param model The model
+     * 
+     * @param strPageTitleProperty
+     *            The page title property
+     * @param strTemplate
+     *            The template
+     * @param model
+     *            The model
      * @return The page
      */
     protected String getPage( String strPageTitleProperty, String strTemplate, Map<String, Object> model )
     {
         setPageTitleProperty( strPageTitleProperty );
 
-        HtmlTemplate template = AppTemplateService.getTemplate( strTemplate, getLocale(  ), model );
+        HtmlTemplate template = AppTemplateService.getTemplate( strTemplate, getLocale( ), model );
 
-        return getAdminPage( template.getHtml(  ) );
+        return getAdminPage( template.getHtml( ) );
     }
 
     /**
      * Validate a bean
-     * @param <T> The bean class
-     * @param bean The bean
-     * @param strPrefix The prefix
+     * 
+     * @param <T>
+     *            The bean class
+     * @param bean
+     *            The bean
+     * @param strPrefix
+     *            The prefix
      * @return true if validated otherwise false
      */
     protected <T> boolean validateBean( T bean, String strPrefix )
     {
         List<ValidationError> errors = validate( bean, strPrefix );
 
-        if ( errors.isEmpty(  ) )
+        if ( errors.isEmpty( ) )
         {
             return true;
         }
 
         for ( ValidationError errorValidation : errors )
         {
-            MVCMessage error = new MVCMessage(  );
-            error.setMessage( errorValidation.getMessage(  ) );
+            MVCMessage error = new MVCMessage( );
+            error.setMessage( errorValidation.getMessage( ) );
             _listErrors.add( error );
         }
 
         return false;
     }
 
-    ////////////////////////////////////////////////////////////////////////////
+    // //////////////////////////////////////////////////////////////////////////
     // Redirect utils
 
     /**
      * Return the JSP name used as controller
+     * 
      * @return The JSP name
      */
-    protected String getControllerJsp(  )
+    protected String getControllerJsp( )
     {
-        return _controller.controllerJsp(  );
+        return _controller.controllerJsp( );
     }
 
     /**
      * Return the path of the JSP used as controller
+     * 
      * @return The controller path
      */
-    protected String getControllerPath(  )
+    protected String getControllerPath( )
     {
-        return _controller.controllerPath(  );
+        return _controller.controllerPath( );
     }
 
     /**
      * Redirect to requested page
      *
-     * @param request the http request
-     * @param strTarget the targeted page
+     * @param request
+     *            the http request
+     * @param strTarget
+     *            the targeted page
      * @return null. The page should be redirected
      */
     protected String redirect( HttpServletRequest request, String strTarget )
@@ -327,9 +364,9 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean implements 
             _logger.debug( "Redirect :" + strTarget );
             _response.sendRedirect( strTarget );
         }
-        catch ( IOException e )
+        catch( IOException e )
         {
-            _logger.error( "Unable to redirect : " + strTarget + " : " + e.getMessage(  ), e );
+            _logger.error( "Unable to redirect : " + strTarget + " : " + e.getMessage( ), e );
         }
 
         return null;
@@ -337,10 +374,15 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean implements 
 
     /**
      * Redirect to an url defined by given parameters
-     * @param request The HTTP request
-     * @param strView The View name
-     * @param strParameter The additional parameter
-     * @param nValue The additional parameter's value
+     * 
+     * @param request
+     *            The HTTP request
+     * @param strView
+     *            The View name
+     * @param strParameter
+     *            The additional parameter
+     * @param nValue
+     *            The additional parameter's value
      * @return The redirection result
      */
     protected String redirect( HttpServletRequest request, String strView, String strParameter, int nValue )
@@ -348,36 +390,44 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean implements 
         UrlItem url = new UrlItem( getViewUrl( strView ) );
         url.addParameter( strParameter, nValue );
 
-        return redirect( request, url.getUrl(  ) );
+        return redirect( request, url.getUrl( ) );
     }
 
     /**
      * Redirect to an url defined by given parameters
-     * @param request The HTTP request
-     * @param strView The View name
-     * @param strParameter1 The first additional parameter
-     * @param nValue1 The first additional parameter's value
-     * @param strParameter2 The second additionnal parameter
-     * @param nValue2 The second additionnal parameter's value
+     * 
+     * @param request
+     *            The HTTP request
+     * @param strView
+     *            The View name
+     * @param strParameter1
+     *            The first additional parameter
+     * @param nValue1
+     *            The first additional parameter's value
+     * @param strParameter2
+     *            The second additionnal parameter
+     * @param nValue2
+     *            The second additionnal parameter's value
      * @return The redirection result
      */
-    protected String redirect( HttpServletRequest request, String strView, String strParameter1, int nValue1,
-        String strParameter2, int nValue2 )
+    protected String redirect( HttpServletRequest request, String strView, String strParameter1, int nValue1, String strParameter2, int nValue2 )
     {
         UrlItem url = new UrlItem( getViewUrl( strView ) );
         url.addParameter( strParameter1, nValue1 );
         url.addParameter( strParameter2, nValue2 );
 
-        return redirect( request, url.getUrl(  ) );
+        return redirect( request, url.getUrl( ) );
     }
 
     /**
      * Redirect to an url defined by given parameters
-     * @param request The HTTP request
-     * @param strView The View name
-     * @param additionalParameters A map containing parameters to add to the
-     *            URL. Keys of the map are parameters name, and values are
-     *            parameters values
+     * 
+     * @param request
+     *            The HTTP request
+     * @param strView
+     *            The View name
+     * @param additionalParameters
+     *            A map containing parameters to add to the URL. Keys of the map are parameters name, and values are parameters values
      * @return The XPage redirected
      */
     protected String redirect( HttpServletRequest request, String strView, Map<String, String> additionalParameters )
@@ -386,20 +436,22 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean implements 
 
         if ( additionalParameters != null )
         {
-            for ( Entry<String, String> entry : additionalParameters.entrySet(  ) )
+            for ( Entry<String, String> entry : additionalParameters.entrySet( ) )
             {
-                url.addParameter( entry.getKey(  ), entry.getValue(  ) );
+                url.addParameter( entry.getKey( ), entry.getValue( ) );
             }
         }
 
-        return redirect( request, url.getUrl(  ) );
+        return redirect( request, url.getUrl( ) );
     }
 
     /**
      * Redirect to requested view
      *
-     * @param request the http request
-     * @param strView the targeted view
+     * @param request
+     *            the http request
+     * @param strView
+     *            the targeted view
      * @return The redirection result
      */
     protected String redirectView( HttpServletRequest request, String strView )
@@ -409,45 +461,55 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean implements 
 
     /**
      * Get a View URL
-     * @param strView The view name
+     * 
+     * @param strView
+     *            The view name
      * @return The URL
      */
     protected String getViewUrl( String strView )
     {
-        UrlItem url = new UrlItem( getControllerJsp(  ) );
+        UrlItem url = new UrlItem( getControllerJsp( ) );
         url.addParameter( MVCUtils.PARAMETER_VIEW, strView );
 
-        return url.getUrl(  );
+        return url.getUrl( );
     }
 
     /**
      * Gets the view URL with the JSP path
-     * @param strView The view
+     * 
+     * @param strView
+     *            The view
      * @return The URL
      */
     protected String getViewFullUrl( String strView )
     {
-        return getControllerPath(  ) + getViewUrl( strView );
+        return getControllerPath( ) + getViewUrl( strView );
     }
 
     /**
      * Get Action URL
-     * @param strAction The view name
+     * 
+     * @param strAction
+     *            The view name
      * @return The URL
      */
     protected String getActionUrl( String strAction )
     {
-        UrlItem url = new UrlItem( getControllerPath(  ) + getControllerJsp(  ) );
+        UrlItem url = new UrlItem( getControllerPath( ) + getControllerJsp( ) );
         url.addParameter( MVCUtils.PARAMETER_ACTION, strAction );
 
-        return url.getUrl(  );
+        return url.getUrl( );
     }
 
     /**
      * Initiates a file download
-     * @param strData Data of the file to download
-     * @param strFilename Name of file
-     * @param strContentType content type to set to the response
+     * 
+     * @param strData
+     *            Data of the file to download
+     * @param strFilename
+     *            Name of file
+     * @param strContentType
+     *            content type to set to the response
      */
     protected void download( String strData, String strFilename, String strContentType )
     {
@@ -458,29 +520,33 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean implements 
 
         try
         {
-            out = response.getWriter(  );
+            out = response.getWriter( );
             out.print( strData );
         }
-        catch ( IOException e )
+        catch( IOException e )
         {
-            AppLogService.error( e.getStackTrace(  ), e );
+            AppLogService.error( e.getStackTrace( ), e );
         }
         finally
         {
             if ( out != null )
             {
-                out.close(  );
+                out.close( );
             }
         }
     }
 
     /**
      * Initiates a download of a byte array
-     * @param data Data to download
-     * @param strFilename Name of the downloaded file
-     * @param strContentType Content type to set to the response
+     * 
+     * @param data
+     *            Data to download
+     * @param strFilename
+     *            Name of the downloaded file
+     * @param strContentType
+     *            Content type to set to the response
      */
-    protected void download( byte[] data, String strFilename, String strContentType )
+    protected void download( byte [ ] data, String strFilename, String strContentType )
     {
         HttpServletResponse response = _response;
         OutputStream os;
@@ -488,13 +554,13 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean implements 
 
         try
         {
-            os = response.getOutputStream(  );
+            os = response.getOutputStream( );
             os.write( data );
-            os.close(  );
+            os.close( );
         }
-        catch ( IOException e )
+        catch( IOException e )
         {
-            AppLogService.error( e.getStackTrace(  ), e );
+            AppLogService.error( e.getStackTrace( ), e );
         }
     }
 }

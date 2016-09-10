@@ -46,10 +46,8 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
 /**
- * A rewrite of the HttpServletRequestWrapper for escaping xss characters which
- * could be contained inside the request
+ * A rewrite of the HttpServletRequestWrapper for escaping xss characters which could be contained inside the request
  */
 public abstract class SafeRequestFilter implements Filter
 {
@@ -83,7 +81,7 @@ public abstract class SafeRequestFilter implements Filter
      * {@inheritDoc}
      */
     @Override
-    public void destroy(  )
+    public void destroy( )
     {
         // Do nothing
     }
@@ -92,17 +90,15 @@ public abstract class SafeRequestFilter implements Filter
      * {@inheritDoc}
      */
     @Override
-    public void doFilter( ServletRequest request, ServletResponse response, FilterChain chain )
-        throws IOException, ServletException
+    public void doFilter( ServletRequest request, ServletResponse response, FilterChain chain ) throws IOException, ServletException
     {
         HttpServletRequest httpRequest = (HttpServletRequest) request;
 
-        if ( _bActivateXssFilter && ( _strXssCharacters != null ) && !_strXssCharacters.trim(  ).equals( "" ) &&
-                !SecurityUtil.containsCleanParameters( httpRequest, _strXssCharacters ) )
+        if ( _bActivateXssFilter && ( _strXssCharacters != null ) && !_strXssCharacters.trim( ).equals( "" )
+                && !SecurityUtil.containsCleanParameters( httpRequest, _strXssCharacters ) )
         {
             HttpServletResponse httpServletResponse = (HttpServletResponse) response;
-            httpServletResponse.sendRedirect( getMessageUrl( httpRequest,
-                    PROPERTY_REQUEST_PARAMETERS_CONTAINS_XSS_CHARACTERS, null,
+            httpServletResponse.sendRedirect( getMessageUrl( httpRequest, PROPERTY_REQUEST_PARAMETERS_CONTAINS_XSS_CHARACTERS, null,
                     PROPERTY_TITLE_REQUEST_PARAMETERS_CONTAINS_XSS_CHARACTERS ) );
         }
         else
@@ -113,12 +109,16 @@ public abstract class SafeRequestFilter implements Filter
 
     /**
      * Forward the error message url depends site or admin implementation
-     * @param request @HttpServletRequest
-     * @param strMessageKey the message key
-     * @param messageArgs the message args
-     * @param strTitleKey the title of the message
+     * 
+     * @param request
+     *            @HttpServletRequest
+     * @param strMessageKey
+     *            the message key
+     * @param messageArgs
+     *            the message args
+     * @param strTitleKey
+     *            the title of the message
      * @return url
      */
-    protected abstract String getMessageUrl( HttpServletRequest request, String strMessageKey, Object[] messageArgs,
-        String strTitleKey );
+    protected abstract String getMessageUrl( HttpServletRequest request, String strMessageKey, Object [ ] messageArgs, String strTitleKey );
 }

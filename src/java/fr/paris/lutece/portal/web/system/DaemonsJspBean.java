@@ -47,7 +47,6 @@ import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  *
  */
@@ -69,22 +68,26 @@ public class DaemonsJspBean extends AdminPageJspBean
 
     /**
      * Build the manage daemon page
-     * @param request The HTTP request
+     * 
+     * @param request
+     *            The HTTP request
      * @return The Manage daemon page
      */
     public String getManageDaemons( HttpServletRequest request )
     {
-        HashMap<String, Object> model = new HashMap<String, Object>(  );
-        model.put( MARK_DAEMONS_LIST, AppDaemonService.getDaemonEntries(  ) );
+        HashMap<String, Object> model = new HashMap<String, Object>( );
+        model.put( MARK_DAEMONS_LIST, AppDaemonService.getDaemonEntries( ) );
 
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_DAEMONS, getLocale(  ), model );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_DAEMONS, getLocale( ), model );
 
-        return getAdminPage( template.getHtml(  ) );
+        return getAdminPage( template.getHtml( ) );
     }
 
     /**
      * Process the daemon action
-     * @param request The HTTP request
+     * 
+     * @param request
+     *            The HTTP request
      * @return The forward URL
      */
     public String doDaemonAction( HttpServletRequest request )
@@ -96,35 +99,39 @@ public class DaemonsJspBean extends AdminPageJspBean
         {
             AppDaemonService.startDaemon( strDaemonKey );
         }
-        else if ( strAction.equalsIgnoreCase( ACTION_STOP ) )
-        {
-            AppDaemonService.stopDaemon( strDaemonKey );
-        }
-
-        else if ( strAction.equalsIgnoreCase( ACTION_UPDATE_INTERVAL ) )
-        {
-            String strErrorMessage = null;
-            String strDaemonInterval = request.getParameter( PARAMETER_INTERVAL );
-
-            Object[] tabFieldInterval = { I18nService.getLocalizedString( PROPERTY_FIELD_INTERVAL, getLocale(  ) ) };
-
-            if ( StringUtils.isEmpty( strDaemonInterval ) )
+        else
+            if ( strAction.equalsIgnoreCase( ACTION_STOP ) )
             {
-                strErrorMessage = MESSAGE_MANDATORY_FIELD;
-            }
-            else if ( !StringUtils.isNumeric( strDaemonInterval ) )
-            {
-                strErrorMessage = MESSAGE_NUMERIC_FIELD;
+                AppDaemonService.stopDaemon( strDaemonKey );
             }
 
-            if ( strErrorMessage != null )
-            {
-                return AdminMessageService.getMessageUrl( request, strErrorMessage, tabFieldInterval,
-                    AdminMessage.TYPE_STOP );
-            }
+            else
+                if ( strAction.equalsIgnoreCase( ACTION_UPDATE_INTERVAL ) )
+                {
+                    String strErrorMessage = null;
+                    String strDaemonInterval = request.getParameter( PARAMETER_INTERVAL );
 
-            AppDaemonService.modifyDaemonInterval( strDaemonKey, strDaemonInterval );
-        }
+                    Object [ ] tabFieldInterval = {
+                        I18nService.getLocalizedString( PROPERTY_FIELD_INTERVAL, getLocale( ) )
+                    };
+
+                    if ( StringUtils.isEmpty( strDaemonInterval ) )
+                    {
+                        strErrorMessage = MESSAGE_MANDATORY_FIELD;
+                    }
+                    else
+                        if ( !StringUtils.isNumeric( strDaemonInterval ) )
+                        {
+                            strErrorMessage = MESSAGE_NUMERIC_FIELD;
+                        }
+
+                    if ( strErrorMessage != null )
+                    {
+                        return AdminMessageService.getMessageUrl( request, strErrorMessage, tabFieldInterval, AdminMessage.TYPE_STOP );
+                    }
+
+                    AppDaemonService.modifyDaemonInterval( strDaemonKey, strDaemonInterval );
+                }
 
         return getHomeUrl( request );
     }

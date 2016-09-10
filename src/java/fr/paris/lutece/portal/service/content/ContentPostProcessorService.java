@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -38,7 +38,6 @@ import fr.paris.lutece.portal.service.util.AppLogService;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  * Content Post Processor Service
  */
@@ -47,35 +46,38 @@ public final class ContentPostProcessorService
     /**
      * Instantiates a new content post processor service.
      */
-    private ContentPostProcessorService(  )
+    private ContentPostProcessorService( )
     {
     }
 
     /**
      * Initialize the service
      */
-    public static void init(  )
+    public static void init( )
     {
         for ( ContentPostProcessor processor : SpringContextService.getBeansOfType( ContentPostProcessor.class ) )
         {
-            AppLogService.info( "New Content Post Processor registered : " + processor.getName(  ) );
+            AppLogService.info( "New Content Post Processor registered : " + processor.getName( ) );
         }
     }
 
     /**
-     * Has processor registered. Use this method before processing for
-     * performance issue.
+     * Has processor registered. Use this method before processing for performance issue.
+     * 
      * @return True if there at least one processor registered
      */
-    public static boolean hasProcessor(  )
+    public static boolean hasProcessor( )
     {
-        return !SpringContextService.getBeansOfType( ContentPostProcessor.class ).isEmpty(  );
+        return !SpringContextService.getBeansOfType( ContentPostProcessor.class ).isEmpty( );
     }
 
     /**
      * Process a content
-     * @param request The HTTP Request
-     * @param strContent The content to process
+     * 
+     * @param request
+     *            The HTTP Request
+     * @param strContent
+     *            The content to process
      * @return The processed content
      */
     public static String process( HttpServletRequest request, String strContent )

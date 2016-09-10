@@ -38,7 +38,6 @@ import fr.paris.lutece.test.MokeHttpServletRequest;
 
 import javax.security.auth.login.*;
 
-
 /**
  * This class tests the class fr.paris.lutece.portal.service.SecurityService
  */
@@ -46,32 +45,33 @@ public class SecurityServiceTest extends LuteceTestCase
 {
     /**
      * Tests LoginUser
+     * 
      * @throws LoginException
      */
-    public void testLoginUser(  ) throws LoginException
+    public void testLoginUser( ) throws LoginException
     {
-        MokeHttpServletRequest request = new MokeHttpServletRequest(  );
+        MokeHttpServletRequest request = new MokeHttpServletRequest( );
         String strUserName = "";
         String strPassword = "";
 
         try
         {
-            SecurityService.getInstance(  ).loginUser( request, strUserName, strPassword );
+            SecurityService.getInstance( ).loginUser( request, strUserName, strPassword );
 
             // Exception should be thrown before this assertion
             assertTrue( false );
         }
-        catch ( LoginException e )
+        catch( LoginException e )
         {
-            assertEquals( e.getClass(  ), FailedLoginException.class );
+            assertEquals( e.getClass( ), FailedLoginException.class );
         }
-        catch ( NullPointerException e )
+        catch( NullPointerException e )
         {
-            assertEquals( e.getClass(  ), NullPointerException.class );
+            assertEquals( e.getClass( ), NullPointerException.class );
         }
-        catch ( LoginRedirectException e )
+        catch( LoginRedirectException e )
         {
-            assertEquals( e.getClass(  ), LoginRedirectException.class );
+            assertEquals( e.getClass( ), LoginRedirectException.class );
         }
     }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -42,34 +42,34 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-
 /**
  * Manager of the ResourceType. Responsible for (un)registering them.
  */
 public final class ResourceTypeManager
 {
     /** resource type registry */
-    private static Map<String, ResourceType> _mapResourceTypes = new HashMap<String, ResourceType>(  );
+    private static Map<String, ResourceType> _mapResourceTypes = new HashMap<String, ResourceType>( );
 
-    ////////////////////////////////////////////////////////////////////////////
+    // //////////////////////////////////////////////////////////////////////////
     // Methods
 
     /**
      * Creates a new ResourceTypeManager object
      */
-    private ResourceTypeManager(  )
+    private ResourceTypeManager( )
     {
     }
 
     /**
      * Registers a new resource type
      *
-     * @param rt the resource type to register
+     * @param rt
+     *            the resource type to register
      */
     public static void registerResourceType( ResourceType rt )
     {
-        _mapResourceTypes.put( rt.getResourceTypeKey(  ), rt );
-        AppLogService.info( "New RBAC resource type registered : " + rt.getResourceTypeKey(  ) );
+        _mapResourceTypes.put( rt.getResourceTypeKey( ), rt );
+        AppLogService.info( "New RBAC resource type registered : " + rt.getResourceTypeKey( ) );
     }
 
     /**
@@ -77,15 +77,16 @@ public final class ResourceTypeManager
      *
      * @return A collection containing all registered resource types
      */
-    public static Collection<ResourceType> getResourceTypeList(  )
+    public static Collection<ResourceType> getResourceTypeList( )
     {
-        return _mapResourceTypes.values(  );
+        return _mapResourceTypes.values( );
     }
 
     /**
      * Get a particular resource type
      *
-     * @param strId Identifier of the seeked resource type
+     * @param strId
+     *            Identifier of the seeked resource type
      * @return the selected resource type
      */
     public static ResourceType getResourceType( String strId )
@@ -96,7 +97,8 @@ public final class ResourceTypeManager
     /**
      * Registers a collection of resource type
      *
-     * @param resourceTypeList The resource type list
+     * @param resourceTypeList
+     *            The resource type list
      */
     public static void registerList( Collection<ResourceType> resourceTypeList )
     {
@@ -106,8 +108,10 @@ public final class ResourceTypeManager
     /**
      * Registers a collection of resource type
      *
-     * @param listResourcesType  The resource type list
-     * @param strPluginName The plugin name
+     * @param listResourcesType
+     *            The resource type list
+     * @param strPluginName
+     *            The plugin name
      */
     public static void registerList( Collection<ResourceType> listResourcesType, String strPluginName )
     {
@@ -120,20 +124,23 @@ public final class ResourceTypeManager
 
     /**
      * Gets a localized list of permission for a given resource type
-     * @param strResourceType The resource type
-     * @param locale The Locale
+     * 
+     * @param strResourceType
+     *            The resource type
+     * @param locale
+     *            The Locale
      * @return A list of permission
      */
     public static ReferenceList getPermissionsList( String strResourceType, Locale locale )
     {
-        ReferenceList list = new ReferenceList(  );
+        ReferenceList list = new ReferenceList( );
         ResourceType resourceType = getResourceType( strResourceType );
-        Collection<Permission> listPermissions = resourceType.getPermissionList(  );
+        Collection<Permission> listPermissions = resourceType.getPermissionList( );
         I18nService.localizeCollection( listPermissions, locale );
 
         for ( Permission permission : listPermissions )
         {
-            list.addItem( permission.getPermissionKey(  ), permission.getPermissionTitle(  ) );
+            list.addItem( permission.getPermissionKey( ), permission.getPermissionTitle( ) );
         }
 
         return list;

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -35,7 +35,6 @@ package fr.paris.lutece.portal.service.search;
 
 import org.apache.lucene.document.Document;
 
-
 /**
  * Search Item
  */
@@ -67,7 +66,9 @@ public class SearchItem
 
     /**
      * Constructor
-     * @param document The document retrieved by the search
+     * 
+     * @param document
+     *            The document retrieved by the search
      */
     public SearchItem( Document document )
     {
@@ -87,7 +88,7 @@ public class SearchItem
      *
      * @return The Id
      */
-    public String getId(  )
+    public String getId( )
     {
         return _strId;
     }
@@ -95,7 +96,8 @@ public class SearchItem
     /**
      * Sets the Id
      *
-     * @param strId The Id
+     * @param strId
+     *            The Id
      */
     public void setId( String strId )
     {
@@ -107,7 +109,7 @@ public class SearchItem
      *
      * @return The DocPortletId
      */
-    public String getDocPortletId(  )
+    public String getDocPortletId( )
     {
         return _strDocPortletId;
     }
@@ -115,7 +117,8 @@ public class SearchItem
     /**
      * Sets the DocPortletId
      *
-     * @param strDocPortletId The DocPortletId
+     * @param strDocPortletId
+     *            The DocPortletId
      */
     public void setDocPortletId( String strDocPortletId )
     {
@@ -127,7 +130,7 @@ public class SearchItem
      *
      * @return The Title
      */
-    public String getTitle(  )
+    public String getTitle( )
     {
         return _strTitle;
     }
@@ -135,7 +138,8 @@ public class SearchItem
     /**
      * Sets the Title
      *
-     * @param strTitle The Title
+     * @param strTitle
+     *            The Title
      */
     public void setTitle( String strTitle )
     {
@@ -147,7 +151,7 @@ public class SearchItem
      *
      * @return The Summary
      */
-    public String getSummary(  )
+    public String getSummary( )
     {
         return ( _strSummary != null ) ? _strSummary : "";
     }
@@ -155,7 +159,8 @@ public class SearchItem
     /**
      * Sets the Summary
      *
-     * @param strSummary The Summary
+     * @param strSummary
+     *            The Summary
      */
     public void setSummary( String strSummary )
     {
@@ -167,7 +172,7 @@ public class SearchItem
      *
      * @return The meta data
      */
-    public String getMetadata(  )
+    public String getMetadata( )
     {
         return ( _strMetadata != null ) ? _strMetadata : "";
     }
@@ -175,7 +180,8 @@ public class SearchItem
     /**
      * Sets the meta data
      *
-     * @param strMetadata The meta data
+     * @param strMetadata
+     *            The meta data
      */
     public void setMetadata( String strMetadata )
     {
@@ -187,7 +193,7 @@ public class SearchItem
      *
      * @return The Url
      */
-    public String getUrl(  )
+    public String getUrl( )
     {
         return _strUrl;
     }
@@ -195,7 +201,8 @@ public class SearchItem
     /**
      * Sets the Url
      *
-     * @param strUrl The Url
+     * @param strUrl
+     *            The Url
      */
     public void setUrl( String strUrl )
     {
@@ -207,7 +214,7 @@ public class SearchItem
      *
      * @return The LastModifiedDate
      */
-    public String getDate(  )
+    public String getDate( )
     {
         return ( _strLastModifiedDate != null ) ? _strLastModifiedDate : "";
     }
@@ -215,7 +222,8 @@ public class SearchItem
     /**
      * Sets the LastModifiedDate
      *
-     * @param strLastModifiedDate The LastModifiedDate
+     * @param strLastModifiedDate
+     *            The LastModifiedDate
      */
     public void setDate( String strLastModifiedDate )
     {
@@ -227,7 +235,7 @@ public class SearchItem
      *
      * @return The Type
      */
-    public String getType(  )
+    public String getType( )
     {
         return _strType;
     }
@@ -235,7 +243,8 @@ public class SearchItem
     /**
      * Sets the Type
      *
-     * @param strType The Type
+     * @param strType
+     *            The Type
      */
     public void setType( String strType )
     {
@@ -244,16 +253,19 @@ public class SearchItem
 
     /**
      * Return the role of the document
+     * 
      * @return the role of the document
      */
-    public String getRole(  )
+    public String getRole( )
     {
         return _strRole;
     }
 
     /**
      * Sets the role of the document
-     * @param role the role of the document
+     * 
+     * @param role
+     *            the role of the document
      */
     public void setRole( String role )
     {
@@ -262,16 +274,19 @@ public class SearchItem
 
     /**
      * Return the state of the document
+     * 
      * @return the state of the document
      */
-    public String getState(  )
+    public String getState( )
     {
         return _strState;
     }
 
     /**
      * Sets the state of the document
-     * @param state of the document
+     * 
+     * @param state
+     *            of the document
      */
     public void setState( String state )
     {

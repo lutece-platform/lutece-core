@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -35,7 +35,6 @@ package fr.paris.lutece.portal.service.message;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  * ISiteMessageHandler
  */
@@ -44,8 +43,10 @@ public interface ISiteMessageHandler
     /**
      * Returns the content of a page that display the message
      *
-     * @param request The http request
-     * @param nMode The mode
+     * @param request
+     *            The http request
+     * @param nMode
+     *            The mode
      * @return the html code for the display of a page of a site
      */
     String getPage( HttpServletRequest request, int nMode );
@@ -53,7 +54,8 @@ public interface ISiteMessageHandler
     /**
      * Analyzes request parameters to see if the request should be handled
      *
-     * @param request The HTTP request
+     * @param request
+     *            The HTTP request
      * @return true if it should handle this request
      */
     boolean hasMessage( HttpServletRequest request );

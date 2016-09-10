@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,7 +33,6 @@
  */
 package fr.paris.lutece.portal.service.site.properties;
 
-
 /**
  * Site Properties Group
  */
@@ -45,36 +44,40 @@ public class SitePropertiesGroup implements ILocalizedSitePropertiesGroup
 
     /**
      * {@inheritDoc }
+     * 
      * @return
      */
     @Override
-    public String getNameKey(  )
+    public String getNameKey( )
     {
         return _strNameKey;
     }
 
     /**
      * {@inheritDoc }
+     * 
      * @return
      */
     @Override
-    public String getDescriptionKey(  )
+    public String getDescriptionKey( )
     {
         return _strDescriptionKey;
     }
 
     /**
      * {@inheritDoc }
+     * 
      * @return
      */
     @Override
-    public String getDatastoreKeysPrefix(  )
+    public String getDatastoreKeysPrefix( )
     {
         return _strKeysPrefix;
     }
 
     /**
-     * @param strNameKey the key for the name to set
+     * @param strNameKey
+     *            the key for the name to set
      */
     public void setNameKey( String strNameKey )
     {
@@ -82,7 +85,8 @@ public class SitePropertiesGroup implements ILocalizedSitePropertiesGroup
     }
 
     /**
-     * @param strDescriptionKey the key for the descriptionKey
+     * @param strDescriptionKey
+     *            the key for the descriptionKey
      */
     public void setDescriptionKey( String strDescriptionKey )
     {
@@ -90,7 +94,8 @@ public class SitePropertiesGroup implements ILocalizedSitePropertiesGroup
     }
 
     /**
-     * @param strKeysPrefix the prefix for keys
+     * @param strKeysPrefix
+     *            the prefix for keys
      */
     public void setKeysPrefix( String strKeysPrefix )
     {

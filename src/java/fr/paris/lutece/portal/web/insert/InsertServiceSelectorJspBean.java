@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -50,7 +50,6 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
  * Provides the generic interface to choose a particular link service
  */
@@ -87,7 +86,8 @@ public class InsertServiceSelectorJspBean extends AdminFeaturesPageJspBean
     /**
      * build the insert service selection page
      *
-     * @param request HTTP request
+     * @param request
+     *            HTTP request
      * @return HTML code of the page as String
      */
     public String getServicesListPage( HttpServletRequest request )
@@ -98,24 +98,24 @@ public class InsertServiceSelectorJspBean extends AdminFeaturesPageJspBean
         // Encode the HTML code to insert
         strText = EncodingService.encodeUrl( strText );
 
-        Collection<InsertService> listServices = InsertServiceManager.getInsertServicesList(  );
+        Collection<InsertService> listServices = InsertServiceManager.getInsertServicesList( );
 
         // building from a template
-        Map<String, Object> model = new HashMap<String, Object>(  );
-        model.put( MARK_INSERT_SERVICES_LIST,
-            RBACService.getAuthorizedCollection( listServices, InsertResourceIdService.PERMISSION_USE, getUser(  ) ) );
+        Map<String, Object> model = new HashMap<String, Object>( );
+        model.put( MARK_INSERT_SERVICES_LIST, RBACService.getAuthorizedCollection( listServices, InsertResourceIdService.PERMISSION_USE, getUser( ) ) );
         model.put( MARK_SELECTED_TEXT, strText );
         model.put( MARK_INPUT, strInput );
 
-        HtmlTemplate t = AppTemplateService.getTemplate( TEMPLATE_INSERT_TYPE_PAGE, getLocale(  ), model );
+        HtmlTemplate t = AppTemplateService.getTemplate( TEMPLATE_INSERT_TYPE_PAGE, getLocale( ), model );
 
-        return t.getHtml(  );
+        return t.getHtml( );
     }
 
     /**
      * Call the selected service selection UI
      *
-     * @param request HTTP request
+     * @param request
+     *            HTTP request
      * @return the HTML code of the selection page for selected service
      */
     public String displayService( HttpServletRequest request )
@@ -137,23 +137,24 @@ public class InsertServiceSelectorJspBean extends AdminFeaturesPageJspBean
     /**
      * Build the JSP that provides the HTML code insertion into the Editor via a javascript call
      *
-     * @param request HTTP request
+     * @param request
+     *            HTTP request
      * @return the HTML code of the page that insert code into the editor
      */
     public String doInsertIntoElement( HttpServletRequest request )
     {
         String strMode = request.getParameter( PARAMETER_MODE );
         String strInput = request.getParameter( PARAMETER_INPUT );
-        String strInsert = (String) request.getSession(  ).getAttribute( SESSION_INSERT );
+        String strInsert = (String) request.getSession( ).getAttribute( SESSION_INSERT );
 
         if ( strInsert == null )
         {
             strInsert = request.getParameter( PARAMETER_INSERT );
         }
 
-        request.getSession(  ).removeAttribute( SESSION_INSERT );
+        request.getSession( ).removeAttribute( SESSION_INSERT );
 
-        Map<String, String> model = new HashMap<String, String>(  );
+        Map<String, String> model = new HashMap<String, String>( );
         model.put( MARK_INPUT, strInput );
         model.put( MARK_INSERT, strInsert );
 
@@ -161,13 +162,13 @@ public class InsertServiceSelectorJspBean extends AdminFeaturesPageJspBean
 
         if ( strMode.compareTo( "2" ) == 0 )
         {
-            template = AppTemplateService.getTemplate( TEMPLATE_INSERT_INTO_ELEMENT2, getLocale(  ), model );
+            template = AppTemplateService.getTemplate( TEMPLATE_INSERT_INTO_ELEMENT2, getLocale( ), model );
         }
         else
         {
-            template = AppTemplateService.getTemplate( TEMPLATE_INSERT_INTO_ELEMENT, getLocale(  ), model );
+            template = AppTemplateService.getTemplate( TEMPLATE_INSERT_INTO_ELEMENT, getLocale( ), model );
         }
 
-        return template.getHtml(  );
+        return template.getHtml( );
     }
 }

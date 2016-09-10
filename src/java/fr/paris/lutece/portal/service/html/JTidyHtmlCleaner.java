@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -42,7 +42,6 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
 
-
 /**
  *
  * This class is an implementation of IHtmlCleaner using the JTidy library
@@ -64,32 +63,32 @@ public class JTidyHtmlCleaner implements IHtmlCleaner
         String strOutput = "";
 
         StringReader sr = new StringReader( strCleanedSource );
-        StringWriter sw = new StringWriter(  );
-        //      Convert to XHTML using Tidy
+        StringWriter sw = new StringWriter( );
+        // Convert to XHTML using Tidy
         _tidy.parse( sr, sw );
 
         _strContent = strCleanedSource;
-        strOutput = sw.toString(  );
+        strOutput = sw.toString( );
 
         // Verify the content of html editor after using tidy
-        if ( _strContent.length(  ) != strOutput.length(  ) )
+        if ( _strContent.length( ) != strOutput.length( ) )
         {
-            if ( strOutput.length(  ) == 0 )
+            if ( strOutput.length( ) == 0 )
             {
-                throw new HtmlCleanerException(  );
+                throw new HtmlCleanerException( );
             }
         }
 
-        sr.close(  );
-        sw.flush(  );
+        sr.close( );
+        sw.flush( );
 
         try
         {
-            sw.close(  );
+            sw.close( );
         }
-        catch ( IOException e )
+        catch( IOException e )
         {
-            AppLogService.error( e.getMessage(  ), e );
+            AppLogService.error( e.getMessage( ), e );
         }
 
         return strOutput;
@@ -98,9 +97,9 @@ public class JTidyHtmlCleaner implements IHtmlCleaner
     /**
      * {@inheritDoc}
      */
-    public void init(  )
+    public void init( )
     {
-        _tidy = new Tidy(  );
+        _tidy = new Tidy( );
         _tidy.setConfigurationFromFile( AppPropertiesService.getProperty( PROPERTY_JTIDY_FILE_PATH ) );
     }
 }

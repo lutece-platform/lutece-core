@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,7 +33,6 @@
  */
 package fr.paris.lutece.portal.business.style;
 
-
 /**
  * This class represents style business objects
  */
@@ -52,7 +51,7 @@ public class Style
      *
      * @return the identifier of the style
      */
-    public int getId(  )
+    public int getId( )
     {
         return _nId;
     }
@@ -60,7 +59,8 @@ public class Style
     /**
      * Sets the identifier of this style with the int value specified in parameter
      *
-     * @param nId the new identifier
+     * @param nId
+     *            the new identifier
      */
     public void setId( int nId )
     {
@@ -72,7 +72,7 @@ public class Style
      *
      * @return the identifier of the portlet type style
      */
-    public String getPortletTypeId(  )
+    public String getPortletTypeId( )
     {
         return _strPortletTypeId;
     }
@@ -80,7 +80,8 @@ public class Style
     /**
      * Sets the identifier of the portlet type of this style with the int value specified in parameter
      *
-     * @param strPortletTypeId the identifier of portlet type of the style
+     * @param strPortletTypeId
+     *            the identifier of portlet type of the style
      */
     public void setPortletTypeId( String strPortletTypeId )
     {
@@ -92,7 +93,7 @@ public class Style
      *
      * @return the identifier of the portal component's style
      */
-    public int getPortalComponentId(  )
+    public int getPortalComponentId( )
     {
         return _nPortalComponentId;
     }
@@ -100,7 +101,8 @@ public class Style
     /**
      * Sets the identifier of the portal component of this style with the int value specified in parameter
      *
-     * @param nPortalComponentId the identifier of portal component of the style
+     * @param nPortalComponentId
+     *            the identifier of portal component of the style
      */
     public void setPortalComponentId( int nPortalComponentId )
     {
@@ -112,7 +114,7 @@ public class Style
      *
      * @return the description of this style
      */
-    public String getDescription(  )
+    public String getDescription( )
     {
         return _strDescription;
     }
@@ -120,7 +122,8 @@ public class Style
     /**
      * Sets the description of this style with the String value specified in parameter or "" otherwise
      *
-     * @param strDescription the identifier of portlet type of the style
+     * @param strDescription
+     *            the identifier of portlet type of the style
      */
     public void setDescription( String strDescription )
     {
@@ -132,7 +135,7 @@ public class Style
      *
      * @return the portlet type name of this style
      */
-    public String getPortletTypeName(  )
+    public String getPortletTypeName( )
     {
         return _strPortletTypeName;
     }
@@ -140,7 +143,8 @@ public class Style
     /**
      * Sets the portlet type name of this style with the String value specified in parameter
      *
-     * @param strPortletTypeName the new portlet type name
+     * @param strPortletTypeName
+     *            the new portlet type name
      */
     public void setPortletTypeName( String strPortletTypeName )
     {
@@ -152,7 +156,7 @@ public class Style
      *
      * @return the portal component name of this style
      */
-    public String getPortalComponentName(  )
+    public String getPortalComponentName( )
     {
         return _strPortalComponentName;
     }
@@ -160,7 +164,8 @@ public class Style
     /**
      * Sets the portlet type name of this style with the String value specified in parameter
      *
-     * @param strPortalComponentName the new portlet type name
+     * @param strPortalComponentName
+     *            the new portlet type name
      */
     public void setPortalComponentName( String strPortalComponentName )
     {

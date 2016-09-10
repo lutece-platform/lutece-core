@@ -79,10 +79,8 @@ import javax.security.auth.login.LoginException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-
 /**
- * This class provides the user interface to manage login features ( login,
- * logout, ... )
+ * This class provides the user interface to manage login features ( login, logout, ... )
  */
 public class AdminLoginJspBean implements Serializable
 {
@@ -145,40 +143,41 @@ public class AdminLoginJspBean implements Serializable
     /**
      * Returns the view of login form
      *
-     * @param request The request
+     * @param request
+     *            The request
      * @return The HTML form
      */
     public String getLogin( HttpServletRequest request )
     {
-        HashMap<String, Object> model = new HashMap<String, Object>(  );
+        HashMap<String, Object> model = new HashMap<String, Object>( );
 
         // Invalidate a previous session
-        HttpSession session = request.getSession(  );
+        HttpSession session = request.getSession( );
 
         if ( session != null )
         {
             session.removeAttribute( SESSION_ATTRIBUTE_USER );
             // Put real base url in session
-            request.getSession(  ).setAttribute( AppPathService.SESSION_BASE_URL, AppPathService.getBaseUrl( request ) );
+            request.getSession( ).setAttribute( AppPathService.SESSION_BASE_URL, AppPathService.getBaseUrl( request ) );
         }
 
         Locale locale = AdminUserService.getLocale( request );
 
-        Enumeration<String> enumParams = request.getParameterNames(  );
-        ReferenceList listParams = new ReferenceList(  );
+        Enumeration<String> enumParams = request.getParameterNames( );
+        ReferenceList listParams = new ReferenceList( );
         String strParamName;
 
-        while ( enumParams.hasMoreElements(  ) )
+        while ( enumParams.hasMoreElements( ) )
         {
-            strParamName = enumParams.nextElement(  );
+            strParamName = enumParams.nextElement( );
 
             String strParamValue = request.getParameter( strParamName );
             listParams.addItem( strParamName, strParamValue );
         }
 
-        StringBuilder sbUrl = new StringBuilder(  );
+        StringBuilder sbUrl = new StringBuilder( );
 
-        if ( AppHTTPSService.isHTTPSSupportEnabled(  ) )
+        if ( AppHTTPSService.isHTTPSSupportEnabled( ) )
         {
             sbUrl.append( AppHTTPSService.getHTTPSUrl( request ) );
         }
@@ -187,37 +186,38 @@ public class AdminLoginJspBean implements Serializable
             sbUrl.append( AppPathService.getBaseUrl( request ) );
         }
 
-        if ( !sbUrl.toString(  ).endsWith( CONSTANT_SLASH ) )
+        if ( !sbUrl.toString( ).endsWith( CONSTANT_SLASH ) )
         {
             sbUrl.append( CONSTANT_SLASH );
         }
 
         sbUrl.append( JSP_URL_DO_ADMIN_LOGIN );
 
-        model.put( MARK_PARAM_VERSION, AppInfo.getVersion(  ) );
-        model.put( MARK_SITE_NAME, PortalService.getSiteName(  ) );
+        model.put( MARK_PARAM_VERSION, AppInfo.getVersion( ) );
+        model.put( MARK_SITE_NAME, PortalService.getSiteName( ) );
         model.put( MARK_PARAMS_LIST, listParams );
-        model.put( MARK_FORGOT_PASSWORD_URL, AdminAuthenticationService.getInstance(  ).getLostPasswordPageUrl(  ) );
-        model.put( MARK_FORGOT_LOGIN_URL, AdminAuthenticationService.getInstance(  ).getLostLoginPageUrl(  ) );
-        model.put( MARK_DO_ADMIN_LOGIN_URL, sbUrl.toString(  ) );
+        model.put( MARK_FORGOT_PASSWORD_URL, AdminAuthenticationService.getInstance( ).getLostPasswordPageUrl( ) );
+        model.put( MARK_FORGOT_LOGIN_URL, AdminAuthenticationService.getInstance( ).getLostLoginPageUrl( ) );
+        model.put( MARK_DO_ADMIN_LOGIN_URL, sbUrl.toString( ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_LOGIN, locale, model );
 
-        return template.getHtml(  );
+        return template.getHtml( );
     }
 
     /**
      * Returns the view of forgot password form
      *
-     * @param request The request
+     * @param request
+     *            The request
      * @return The HTML form
      */
     public String getForgotPassword( HttpServletRequest request )
     {
-        Map<String, Object> model = new HashMap<String, Object>(  );
+        Map<String, Object> model = new HashMap<String, Object>( );
 
         // Invalidate a previous session
-        HttpSession session = request.getSession(  );
+        HttpSession session = request.getSession( );
 
         if ( session != null )
         {
@@ -226,38 +226,39 @@ public class AdminLoginJspBean implements Serializable
 
         Locale locale = AdminUserService.getLocale( request );
 
-        Enumeration<String> enumParams = request.getParameterNames(  );
-        ReferenceList listParams = new ReferenceList(  );
+        Enumeration<String> enumParams = request.getParameterNames( );
+        ReferenceList listParams = new ReferenceList( );
         String strParamName;
 
-        while ( enumParams.hasMoreElements(  ) )
+        while ( enumParams.hasMoreElements( ) )
         {
-            strParamName = enumParams.nextElement(  );
+            strParamName = enumParams.nextElement( );
 
             String strParamValue = request.getParameter( strParamName );
             listParams.addItem( strParamName, strParamValue );
         }
 
-        model.put( MARK_PARAM_VERSION, AppInfo.getVersion(  ) );
+        model.put( MARK_PARAM_VERSION, AppInfo.getVersion( ) );
         model.put( MARK_PARAMS_LIST, listParams );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_FORGOT_PASSWORD, locale, model );
 
-        return template.getHtml(  );
+        return template.getHtml( );
     }
 
     /**
      * Returns the view of forgot password form
      *
-     * @param request The request
+     * @param request
+     *            The request
      * @return The HTML form
      */
     public String getForgotLogin( HttpServletRequest request )
     {
-        Map<String, Object> model = new HashMap<String, Object>(  );
+        Map<String, Object> model = new HashMap<String, Object>( );
 
         // Invalidate a previous session
-        HttpSession session = request.getSession(  );
+        HttpSession session = request.getSession( );
 
         if ( session != null )
         {
@@ -266,37 +267,39 @@ public class AdminLoginJspBean implements Serializable
 
         Locale locale = AdminUserService.getLocale( request );
 
-        Enumeration<String> enumParams = request.getParameterNames(  );
-        ReferenceList listParams = new ReferenceList(  );
+        Enumeration<String> enumParams = request.getParameterNames( );
+        ReferenceList listParams = new ReferenceList( );
         String strParamName;
 
-        while ( enumParams.hasMoreElements(  ) )
+        while ( enumParams.hasMoreElements( ) )
         {
-            strParamName = enumParams.nextElement(  );
+            strParamName = enumParams.nextElement( );
 
             String strParamValue = request.getParameter( strParamName );
             listParams.addItem( strParamName, strParamValue );
         }
 
-        model.put( MARK_PARAM_VERSION, AppInfo.getVersion(  ) );
+        model.put( MARK_PARAM_VERSION, AppInfo.getVersion( ) );
         model.put( MARK_PARAMS_LIST, listParams );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_FORGOT_LOGIN, locale, model );
 
-        return template.getHtml(  );
+        return template.getHtml( );
     }
 
     /**
      * Get the admin contact form
-     * @param request The Http request
+     * 
+     * @param request
+     *            The Http request
      * @return The HTML form
      */
     public String getFormContact( HttpServletRequest request )
     {
-        HashMap<String, Object> model = new HashMap<String, Object>(  );
+        HashMap<String, Object> model = new HashMap<String, Object>( );
 
         // Invalidate a previous session
-        HttpSession session = request.getSession(  );
+        HttpSession session = request.getSession( );
 
         if ( session != null )
         {
@@ -305,24 +308,25 @@ public class AdminLoginJspBean implements Serializable
 
         Locale locale = AdminUserService.getLocale( request );
 
-        model.put( MARK_PARAM_VERSION, AppInfo.getVersion(  ) );
+        model.put( MARK_PARAM_VERSION, AppInfo.getVersion( ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_FORM_CONTACT, locale, model );
 
-        return template.getHtml(  );
+        return template.getHtml( );
     }
 
     /**
      * Process the login of user
      *
-     * @param request The HTTP Request
+     * @param request
+     *            The HTTP Request
      * @return The Jsp URL of the process result
-     * @throws Exception The exception
+     * @throws Exception
+     *             The exception
      */
-    public String doLogin( HttpServletRequest request )
-        throws Exception
+    public String doLogin( HttpServletRequest request ) throws Exception
     {
-        if ( request.getScheme(  ).equals( CONSTANT_HTTP ) && AppHTTPSService.isHTTPSSupportEnabled(  ) )
+        if ( request.getScheme( ).equals( CONSTANT_HTTP ) && AppHTTPSService.isHTTPSSupportEnabled( ) )
         {
             return JSP_URL_ADMIN_LOGIN;
         }
@@ -331,8 +335,7 @@ public class AdminLoginJspBean implements Serializable
         String strAccessCode = request.getParameter( Parameters.ACCESS_CODE );
         String strPassword = request.getParameter( Parameters.PASSWORD );
 
-
-        if (strAccessCode == null || strPassword == null)
+        if ( strAccessCode == null || strPassword == null )
         {
             // TIME RESISTANT ATTACK
             // Computation time is equal to the time needed by a legitimate user
@@ -340,47 +343,44 @@ public class AdminLoginJspBean implements Serializable
             strPassword = "";
         }
 
-        String strLoginUrl = AdminAuthenticationService.getInstance(  ).getLoginPageUrl(  );
+        String strLoginUrl = AdminAuthenticationService.getInstance( ).getLoginPageUrl( );
 
         try
         {
-            AdminAuthenticationService.getInstance(  ).loginUser( request, strAccessCode, strPassword );
+            AdminAuthenticationService.getInstance( ).loginUser( request, strAccessCode, strPassword );
         }
-        catch ( FailedLoginException ex )
+        catch( FailedLoginException ex )
         {
             // Creating a record of connections log
-            UserLog userLog = new UserLog(  );
+            UserLog userLog = new UserLog( );
             userLog.setAccessCode( strAccessCode );
             userLog.setIpAddress( SecurityUtil.getRealIp( request ) );
-            userLog.setDateLogin( new java.sql.Timestamp( new java.util.Date(  ).getTime(  ) ) );
+            userLog.setDateLogin( new java.sql.Timestamp( new java.util.Date( ).getTime( ) ) );
             userLog.setLoginStatus( UserLog.LOGIN_DENIED ); // will be inserted only if access denied
             UserLogHome.addUserLog( userLog );
 
-            return AdminMessageService.getMessageUrl( request, Messages.MESSAGE_AUTH_FAILURE, strLoginUrl,
-                AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrl( request, Messages.MESSAGE_AUTH_FAILURE, strLoginUrl, AdminMessage.TYPE_STOP );
         }
-        catch ( LoginException ex )
+        catch( LoginException ex )
         {
             AppLogService.error( "Error during connection for user access code :" + strAccessCode, ex );
 
-            return AdminMessageService.getMessageUrl( request, Messages.MESSAGE_AUTH_FAILURE, strLoginUrl,
-                AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrl( request, Messages.MESSAGE_AUTH_FAILURE, strLoginUrl, AdminMessage.TYPE_STOP );
         }
 
         UrlItem url;
 
         AdminUser user = AdminUserHome.findUserByLogin( strAccessCode );
 
-        if ( user.isPasswordReset(  ) )
+        if ( user.isPasswordReset( ) )
         {
-            String strRedirectUrl = AdminMessageService.getMessageUrl( request,
-                    Messages.MESSAGE_USER_MUST_CHANGE_PASSWORD, JSP_URL_MODIFY_DEFAULT_USER_PASSOWRD,
-                    AdminMessage.TYPE_ERROR );
+            String strRedirectUrl = AdminMessageService.getMessageUrl( request, Messages.MESSAGE_USER_MUST_CHANGE_PASSWORD,
+                    JSP_URL_MODIFY_DEFAULT_USER_PASSOWRD, AdminMessage.TYPE_ERROR );
             url = new UrlItem( strRedirectUrl );
         }
         else
         {
-            String strNextUrl = AdminAuthenticationService.getInstance(  ).getLoginNextUrl( request );
+            String strNextUrl = AdminAuthenticationService.getInstance( ).getLoginNextUrl( request );
 
             if ( StringUtils.isNotBlank( strNextUrl ) )
             {
@@ -388,22 +388,23 @@ public class AdminLoginJspBean implements Serializable
             }
             else
             {
-                url = AppPathService.resolveRedirectUrl( request, AppPathService.getAdminMenuUrl(  ) );
+                url = AppPathService.resolveRedirectUrl( request, AppPathService.getAdminMenuUrl( ) );
             }
         }
 
-        return url.getUrl(  );
+        return url.getUrl( );
     }
 
     /**
      * Process the sending to user password
      *
-     * @param request The HTTP Request
+     * @param request
+     *            The HTTP Request
      * @return The Jsp URL of the process result
-     * @throws Exception The exception
+     * @throws Exception
+     *             The exception
      */
-    public String doForgotPassword( HttpServletRequest request )
-        throws Exception
+    public String doForgotPassword( HttpServletRequest request ) throws Exception
     {
         // get mail from user
         String strAccessCode = request.getParameter( Parameters.ACCESS_CODE );
@@ -416,25 +417,25 @@ public class AdminLoginJspBean implements Serializable
 
         if ( locale == null )
         {
-            locale = LocaleService.getDefault(  );
+            locale = LocaleService.getDefault( );
         }
 
         // if user or mail not found, send admin message
         AdminUser user = AdminUserHome.findUserByLogin( strAccessCode );
 
-        if ( ( user == null ) || StringUtils.isEmpty( user.getEmail(  ) ) )
+        if ( ( user == null ) || StringUtils.isEmpty( user.getEmail( ) ) )
         {
             return JSP_URL_FORM_CONTACT;
         }
 
         // make password
-        String strPassword = AdminUserService.makePassword(  );
+        String strPassword = AdminUserService.makePassword( );
 
         // update password
         if ( StringUtils.isNotEmpty( strPassword ) )
         {
-            LuteceDefaultAdminUser userStored = AdminUserHome.findLuteceDefaultAdminUserByPrimaryKey( user.getUserId(  ) );
-            userStored.setPasswordMaxValidDate( AdminUserService.getPasswordMaxValidDate(  ) );
+            LuteceDefaultAdminUser userStored = AdminUserHome.findLuteceDefaultAdminUserByPrimaryKey( user.getUserId( ) );
+            userStored.setPasswordMaxValidDate( AdminUserService.getPasswordMaxValidDate( ) );
             IPasswordFactory passwordFactory = SpringContextService.getBean( IPasswordFactory.BEAN_NAME );
             userStored.setPassword( passwordFactory.getPasswordFromCleartext( strPassword ) );
 
@@ -448,31 +449,30 @@ public class AdminLoginJspBean implements Serializable
         }
 
         // send password by e-mail
-        String strSenderEmail = MailService.getNoReplyEmail(  );
+        String strSenderEmail = MailService.getNoReplyEmail( );
         String strEmailSubject = I18nService.getLocalizedString( MESSAGE_EMAIL_SUBJECT, locale );
-        HashMap<String, Object> model = new HashMap<String, Object>(  );
+        HashMap<String, Object> model = new HashMap<String, Object>( );
         model.put( MARK_NEW_PASSWORD, strPassword );
-        model.put( MARK_LOGIN_URL,
-            AppPathService.getBaseUrl( request ) + AdminAuthenticationService.getInstance(  ).getLoginPageUrl(  ) );
+        model.put( MARK_LOGIN_URL, AppPathService.getBaseUrl( request ) + AdminAuthenticationService.getInstance( ).getLoginPageUrl( ) );
         model.put( MARK_SITE_LINK, MailService.getSiteLink( AppPathService.getBaseUrl( request ), false ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_EMAIL_FORGOT_PASSWORD, locale, model );
 
-        MailService.sendMailHtml( user.getEmail(  ), strSenderEmail, strSenderEmail, strEmailSubject,
-            template.getHtml(  ) );
+        MailService.sendMailHtml( user.getEmail( ), strSenderEmail, strSenderEmail, strEmailSubject, template.getHtml( ) );
 
-        return AdminMessageService.getMessageUrl( request, MESSAGE_SENDING_SUCCESS, JSP_URL_ADMIN_LOGIN,
-            AdminMessage.TYPE_INFO );
+        return AdminMessageService.getMessageUrl( request, MESSAGE_SENDING_SUCCESS, JSP_URL_ADMIN_LOGIN, AdminMessage.TYPE_INFO );
     }
 
     /**
      * Process the sending of the login
-     * @param request The HTTP Request
+     * 
+     * @param request
+     *            The HTTP Request
      * @return The Jsp URL of the process result
-     * @throws Exception The exception
+     * @throws Exception
+     *             The exception
      */
-    public String doForgotLogin( HttpServletRequest request )
-        throws Exception
+    public String doForgotLogin( HttpServletRequest request ) throws Exception
     {
         String strEmail = request.getParameter( Parameters.EMAIL );
         Locale locale = AdminUserService.getLocale( request );
@@ -489,7 +489,7 @@ public class AdminLoginJspBean implements Serializable
 
         if ( locale == null )
         {
-            locale = LocaleService.getDefault(  );
+            locale = LocaleService.getDefault( );
         }
 
         // if access code not found, send admin message
@@ -501,24 +501,25 @@ public class AdminLoginJspBean implements Serializable
         }
 
         // send access code by e-mail
-        String strSenderEmail = MailService.getNoReplyEmail(  );
+        String strSenderEmail = MailService.getNoReplyEmail( );
         String strEmailSubject = I18nService.getLocalizedString( MESSAGE_FORGOT_LOGIN_EMAIL_SUBJECT, locale );
-        HashMap<String, Object> model = new HashMap<String, Object>(  );
+        HashMap<String, Object> model = new HashMap<String, Object>( );
         model.put( MARK_LOGIN, strAccessCode );
-        model.put( MARK_LOGIN_URL,
-            AppPathService.getBaseUrl( request ) + AdminAuthenticationService.getInstance(  ).getLoginPageUrl(  ) );
+        model.put( MARK_LOGIN_URL, AppPathService.getBaseUrl( request ) + AdminAuthenticationService.getInstance( ).getLoginPageUrl( ) );
         model.put( MARK_SITE_LINK, MailService.getSiteLink( AppPathService.getBaseUrl( request ), false ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_EMAIL_FORGOT_LOGIN, locale, model );
 
-        MailService.sendMailHtml( strEmail, strSenderEmail, strSenderEmail, strEmailSubject, template.getHtml(  ) );
+        MailService.sendMailHtml( strEmail, strSenderEmail, strSenderEmail, strEmailSubject, template.getHtml( ) );
 
         return AdminMessageService.getMessageUrl( request, MESSAGE_FORGOT_LOGIN_SENDING_SUCCESS, AdminMessage.TYPE_INFO );
     }
 
     /**
      * Send the message to the adminsitrator(s)
-     * @param request The {@link HttpServletRequest}
+     * 
+     * @param request
+     *            The {@link HttpServletRequest}
      * @return an adminMessage
      */
     public String doFormContact( HttpServletRequest request )
@@ -535,7 +536,7 @@ public class AdminLoginJspBean implements Serializable
 
         if ( locale == null )
         {
-            locale = LocaleService.getDefault(  );
+            locale = LocaleService.getDefault( );
         }
 
         // send mail to admin wich have level
@@ -552,43 +553,44 @@ public class AdminLoginJspBean implements Serializable
 
         for ( AdminUser adminUser : adminUserList )
         {
-            if ( StringUtil.checkEmail( adminUser.getEmail(  ) ) )
+            if ( StringUtil.checkEmail( adminUser.getEmail( ) ) )
             {
-                sbMailsTo.append( adminUser.getEmail(  ) ).append( CONSTANT_EMAIL_DELIMITER );
+                sbMailsTo.append( adminUser.getEmail( ) ).append( CONSTANT_EMAIL_DELIMITER );
             }
         }
 
-        String strMailsTo = sbMailsTo.toString(  );
+        String strMailsTo = sbMailsTo.toString( );
 
         if ( !strMailsTo.equals( CONSTANT_EMPTY_STRING ) )
         {
-            String strSenderEmail = MailService.getNoReplyEmail(  );
+            String strSenderEmail = MailService.getNoReplyEmail( );
             String strEmailSubject = I18nService.getLocalizedString( MESSAGE_EMAIL_ADMIN_SUBJECT, locale );
 
             MailService.sendMailHtml( strMailsTo, strSenderEmail, strSenderEmail, strEmailSubject, strMessage );
         }
 
-        return AdminMessageService.getMessageUrl( request, MESSAGE_ADMIN_SENDING_SUCCESS,
-            AdminAuthenticationService.getInstance(  ).getLoginPageUrl(  ), AdminMessage.TYPE_INFO );
+        return AdminMessageService.getMessageUrl( request, MESSAGE_ADMIN_SENDING_SUCCESS, AdminAuthenticationService.getInstance( ).getLoginPageUrl( ),
+                AdminMessage.TYPE_INFO );
     }
 
     /**
      * Process the logout of user
      *
-     * @param request Http request
+     * @param request
+     *            Http request
      * @return The Jsp URL of the process result
      */
     public String doLogout( HttpServletRequest request )
     {
         // Invalidation of the session
-        HttpSession session = request.getSession(  );
+        HttpSession session = request.getSession( );
 
         if ( session != null )
         {
-            session.invalidate(  );
+            session.invalidate( );
         }
 
-        String strLoginUrl = AdminAuthenticationService.getInstance(  ).getLoginPageUrl(  );
+        String strLoginUrl = AdminAuthenticationService.getInstance( ).getLoginPageUrl( );
 
         return AdminMessageService.getMessageUrl( request, Messages.MESSAGE_LOGOUT, strLoginUrl, AdminMessage.TYPE_INFO );
     }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -35,7 +35,6 @@ package fr.paris.lutece.portal.business.xsl;
 
 import fr.paris.lutece.portal.business.file.File;
 
-
 /**
  *
  * class DirectoryXsl
@@ -65,14 +64,16 @@ public class XslExport
      *
      * @return the id of the directory xsl
      */
-    public int getIdXslExport(  )
+    public int getIdXslExport( )
     {
         return _nIdXslExport;
     }
 
     /**
      * set the id of the directory xsl
-     * @param idExport the id of the directory xsl
+     * 
+     * @param idExport
+     *            the id of the directory xsl
      */
     public void setIdXslExport( int idExport )
     {
@@ -83,14 +84,16 @@ public class XslExport
      *
      * @return the description of the directory xsl
      */
-    public String getDescription(  )
+    public String getDescription( )
     {
         return _strDescription;
     }
 
     /**
      * set the description of the directory xsl
-     * @param description the description of the directory xsl
+     * 
+     * @param description
+     *            the description of the directory xsl
      */
     public void setDescription( String description )
     {
@@ -101,14 +104,16 @@ public class XslExport
      *
      * @return the title of the directory xsl
      */
-    public String getTitle(  )
+    public String getTitle( )
     {
         return _strTitle;
     }
 
     /**
      * set the title of the directory xsl
-     * @param title the title of the directory xsl
+     * 
+     * @param title
+     *            the title of the directory xsl
      */
     public void setTitle( String title )
     {
@@ -119,14 +124,16 @@ public class XslExport
      *
      * @return the xsl file of the directory xsl
      */
-    public File getFile(  )
+    public File getFile( )
     {
         return _file;
     }
 
     /**
      * set the xsl file of the directory xsl
-     * @param file the xsl file of the directory xsl
+     * 
+     * @param file
+     *            the xsl file of the directory xsl
      */
     public void setFile( File file )
     {
@@ -135,16 +142,19 @@ public class XslExport
 
     /**
      * get the extension of the output file generate by the xsl
+     * 
      * @return the extension of the out put file
      */
-    public String getExtension(  )
+    public String getExtension( )
     {
         return _strExtension;
     }
 
     /**
      * set the extension of the output file generate by the xsl
-     * @param extension the extension of the out put file
+     * 
+     * @param extension
+     *            the extension of the out put file
      */
     public void setExtension( String extension )
     {
@@ -153,16 +163,19 @@ public class XslExport
 
     /**
      * Get the name of the plugin associated with this XSL
+     * 
      * @return The name of the plugin
      */
-    public String getPlugin(  )
+    public String getPlugin( )
     {
         return _strPlugin;
     }
 
     /**
      * Set the name of the plugin associated with this XSL
-     * @param strPlugin The name of the plugin
+     * 
+     * @param strPlugin
+     *            The name of the plugin
      */
     public void setPlugin( String strPlugin )
     {

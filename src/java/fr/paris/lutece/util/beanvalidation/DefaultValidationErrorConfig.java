@@ -33,7 +33,6 @@
  */
 package fr.paris.lutece.util.beanvalidation;
 
-
 /**
  * Default ValidationError Config implementation
  */
@@ -41,7 +40,9 @@ public class DefaultValidationErrorConfig implements ValidationErrorConfig
 {
     private static final String VALUE1_ATTRIBUTES = "value,regexp,min,integer";
     private static final String VALUE2_ATTRIBUTES = "max,fraction";
-    private static final String[] VARIABLES_PREFIX = { "_str", "_n", "_l", "_" };
+    private static final String [ ] VARIABLES_PREFIX = {
+            "_str", "_n", "_l", "_"
+    };
     private static final String DEFAULT_WRAPPER_BEGIN = "<strong>";
     private static final String DEFAULT_WRAPPER_END = "</strong>";
     private String _strFieldKeysPrefix;
@@ -50,7 +51,7 @@ public class DefaultValidationErrorConfig implements ValidationErrorConfig
      * {@inheritDoc }
      */
     @Override
-    public String getValue1Attributes(  )
+    public String getValue1Attributes( )
     {
         return VALUE1_ATTRIBUTES;
     }
@@ -59,7 +60,7 @@ public class DefaultValidationErrorConfig implements ValidationErrorConfig
      * {@inheritDoc }
      */
     @Override
-    public String getValue2Attributes(  )
+    public String getValue2Attributes( )
     {
         return VALUE2_ATTRIBUTES;
     }
@@ -68,7 +69,7 @@ public class DefaultValidationErrorConfig implements ValidationErrorConfig
      * {@inheritDoc }
      */
     @Override
-    public String[] getVariablesPrefix(  )
+    public String [ ] getVariablesPrefix( )
     {
         return VARIABLES_PREFIX;
     }
@@ -77,13 +78,14 @@ public class DefaultValidationErrorConfig implements ValidationErrorConfig
      * {@inheritDoc }
      */
     @Override
-    public String getFieldKeysPrefix(  )
+    public String getFieldKeysPrefix( )
     {
         return _strFieldKeysPrefix;
     }
 
     /**
-     * @param strFieldKeysPrefix the _strFieldKeysPrefix to set
+     * @param strFieldKeysPrefix
+     *            the _strFieldKeysPrefix to set
      */
     public void setFieldKeysPrefix( String strFieldKeysPrefix )
     {
@@ -94,7 +96,7 @@ public class DefaultValidationErrorConfig implements ValidationErrorConfig
      * {@inheritDoc }
      */
     @Override
-    public String getFieldWrapperBegin(  )
+    public String getFieldWrapperBegin( )
     {
         return DEFAULT_WRAPPER_BEGIN;
     }
@@ -103,7 +105,7 @@ public class DefaultValidationErrorConfig implements ValidationErrorConfig
      * {@inheritDoc }
      */
     @Override
-    public String getFieldWrapperEnd(  )
+    public String getFieldWrapperEnd( )
     {
         return DEFAULT_WRAPPER_END;
     }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -35,7 +35,6 @@ package fr.paris.lutece.portal.business.mail;
 
 import fr.paris.lutece.portal.service.mail.MailItem;
 
-
 /**
  * This class describes a mail item insert in the queue
  */
@@ -48,14 +47,15 @@ public class MailItemQueue
      *
      * @return the mail item associate to the MailItemObject
      */
-    public MailItem getMailItem(  )
+    public MailItem getMailItem( )
     {
         return _mailItem;
     }
 
     /**
      *
-     * @param item the mail item associate to the MailItemObject
+     * @param item
+     *            the mail item associate to the MailItemObject
      */
     public void setMailItem( MailItem item )
     {
@@ -66,14 +66,16 @@ public class MailItemQueue
      *
      * @return the id of the MailItemObject
      */
-    public int getIdMailItemQueue(  )
+    public int getIdMailItemQueue( )
     {
         return _nIdMailItemQueue;
     }
 
     /**
      * set the id of the MailItemObject
-     * @param idMailItemQueue the id of the MailItemObject
+     * 
+     * @param idMailItemQueue
+     *            the id of the MailItemObject
      */
     public void setIdMailItemQueue( int idMailItemQueue )
     {

@@ -58,20 +58,20 @@ public class AdminLoginJspBeanTest extends LuteceTestCase
     public void testDoLogin( ) throws Exception
     {
         AdminLoginJspBean bean = new AdminLoginJspBean( );
-        MockHttpServletRequest request = new MockHttpServletRequest( );        
+        MockHttpServletRequest request = new MockHttpServletRequest( );
         bean.doLogin( request );
         AdminMessage message = AdminMessageService.getMessage( request );
         assertNotNull( message );
         assertEquals( I18nService.getLocalizedString( Messages.MESSAGE_AUTH_FAILURE, Locale.FRENCH ), message.getText( Locale.FRENCH ) );
 
-        request = new MockHttpServletRequest( );        
+        request = new MockHttpServletRequest( );
         request.addParameter( Parameters.ACCESS_CODE, "admin" );
         bean.doLogin( request );
         message = AdminMessageService.getMessage( request );
         assertNotNull( message );
         assertEquals( I18nService.getLocalizedString( Messages.MESSAGE_AUTH_FAILURE, Locale.FRENCH ), message.getText( Locale.FRENCH ) );
 
-        request = new MockHttpServletRequest( );        
+        request = new MockHttpServletRequest( );
         request.addParameter( Parameters.ACCESS_CODE, "admin" );
         request.addParameter( Parameters.PASSWORD, "adminadmin" );
         bean.doLogin( request );
@@ -91,13 +91,13 @@ public class AdminLoginJspBeanTest extends LuteceTestCase
     public void testDoForgotPassword( ) throws Exception
     {
         AdminLoginJspBean bean = new AdminLoginJspBean( );
-        MockHttpServletRequest request = new MockHttpServletRequest( );        
+        MockHttpServletRequest request = new MockHttpServletRequest( );
         bean.doForgotPassword( request );
         AdminMessage message = AdminMessageService.getMessage( request );
         assertNotNull( message );
         assertEquals( I18nService.getLocalizedString( Messages.MANDATORY_FIELDS, Locale.FRENCH ), message.getText( Locale.FRENCH ) );
 
-        request = new MockHttpServletRequest( );  
+        request = new MockHttpServletRequest( );
         request.addParameter( Parameters.ACCESS_CODE, "DOES_NOT_EXIST" );
         String url = bean.doForgotPassword( request );
         assertEquals( "AdminFormContact.jsp", url );
@@ -107,7 +107,7 @@ public class AdminLoginJspBeanTest extends LuteceTestCase
         String password = "Pa55word!";
         IPasswordFactory passwordFactory = SpringContextService.getBean( IPasswordFactory.BEAN_NAME );
 
-        LuteceDefaultAdminUser user = new LuteceDefaultAdminUser( randomUsername, new LuteceDefaultAdminAuthentication( ) );   
+        LuteceDefaultAdminUser user = new LuteceDefaultAdminUser( randomUsername, new LuteceDefaultAdminAuthentication( ) );
         user.setPassword( passwordFactory.getPasswordFromCleartext( password ) );
         user.setFirstName( randomUsername );
         user.setLastName( randomUsername );
@@ -115,23 +115,25 @@ public class AdminLoginJspBeanTest extends LuteceTestCase
         adminUserDAO.insert( user );
         try
         {
-            request = new MockHttpServletRequest( );  
+            request = new MockHttpServletRequest( );
             request.addParameter( Parameters.ACCESS_CODE, randomUsername );
             url = bean.doForgotPassword( request );
             assertEquals( "AdminFormContact.jsp", url );
 
             user.setEmail( randomUsername + "@lutece.fr" );
             adminUserDAO.store( user );
-            request = new MockHttpServletRequest( );  
+            request = new MockHttpServletRequest( );
             request.addParameter( Parameters.ACCESS_CODE, randomUsername );
             bean.doForgotPassword( request );
             message = AdminMessageService.getMessage( request );
             assertNotNull( message );
-            assertEquals( I18nService.getLocalizedString( "portal.admin.message.admin_forgot_password.sendingSuccess", Locale.FRENCH ), message.getText( Locale.FRENCH ) );
+            assertEquals( I18nService.getLocalizedString( "portal.admin.message.admin_forgot_password.sendingSuccess", Locale.FRENCH ),
+                    message.getText( Locale.FRENCH ) );
             LuteceDefaultAdminUser storedUser = adminUserDAO.loadDefaultAdminUser( user.getUserId( ) );
             assertNotNull( storedUser );
             assertFalse( storedUser.getPassword( ).check( password ) );
-        } finally
+        }
+        finally
         {
             AdminUserHome.remove( user.getUserId( ) );
         }

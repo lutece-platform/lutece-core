@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -35,7 +35,6 @@ package fr.paris.lutece.portal.business.rss;
 
 import java.util.Date;
 
-
 /**
  *
  * An feed Item used by Rss resources.
@@ -51,61 +50,76 @@ public interface IFeedResourceItem
 {
     /**
      * Gets the item title
+     * 
      * @return the item title
      */
-    String getTitle(  );
+    String getTitle( );
 
     /**
      * Sets the item title
-     * @param strTitle the item title
+     * 
+     * @param strTitle
+     *            the item title
      */
     void setTitle( String strTitle );
 
     /**
      * Gets the item link
+     * 
      * @return the link
      */
-    String getLink(  );
+    String getLink( );
 
     /**
      * Sets the item link
-     * @param strLink the item link
+     * 
+     * @param strLink
+     *            the item link
      */
     void setLink( String strLink );
 
     /**
      * Gets the item description
+     * 
      * @return the description
      */
-    String getDescription(  );
+    String getDescription( );
 
     /**
      * Sets the description
-     * @param strDescription the description
+     * 
+     * @param strDescription
+     *            the description
      */
     void setDescription( String strDescription );
 
     /**
      * Gets the item id
+     * 
      * @return the item id
      */
-    String getGUID(  );
+    String getGUID( );
 
     /**
      * Sets the item guid
-     * @param strGUID the item guid
+     * 
+     * @param strGUID
+     *            the item guid
      */
     void setGUID( String strGUID );
 
     /**
      * Gets the item publishing date
+     * 
      * @return the date
      */
-    Date getDate(  );
+    Date getDate( );
 
     /**
      * Set the item publishing date
-     * @param date the date
+     * 
+     * @param date
+     *            the date
      */
     void setDate( Date date );
 }

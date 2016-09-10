@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -42,7 +42,6 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletResponse;
 
-
 /**
  * Encoding filter
  */
@@ -52,28 +51,36 @@ public class EncodingFilter implements javax.servlet.Filter
 
     /**
      * Initializes the filter
-     * @param filterConfig The filter config
-     * @throws ServletException If an error occured
+     * 
+     * @param filterConfig
+     *            The filter config
+     * @throws ServletException
+     *             If an error occured
      */
     public void init( FilterConfig filterConfig ) throws ServletException
     {
         // This would be a good place to collect a parameterized
-        // default encoding type.  For brevity, we're going to
+        // default encoding type. For brevity, we're going to
         // use a hard-coded value in this example.
     }
 
     /**
      * Apply the filter
-     * @param request The HTTP request
-     * @param response The HTTP response
-     * @param filterChain The Filter Chain
-     * @throws IOException If an error occured
-     * @throws ServletException If an error occured
+     * 
+     * @param request
+     *            The HTTP request
+     * @param response
+     *            The HTTP response
+     * @param filterChain
+     *            The Filter Chain
+     * @throws IOException
+     *             If an error occured
+     * @throws ServletException
+     *             If an error occured
      */
-    public void doFilter( ServletRequest request, ServletResponse response, FilterChain filterChain )
-        throws IOException, ServletException
+    public void doFilter( ServletRequest request, ServletResponse response, FilterChain filterChain ) throws IOException, ServletException
     {
-        // Wrap the response object.  You should create a mechanism
+        // Wrap the response object. You should create a mechanism
         // to ensure the response object only gets wrapped once.
         // In this example, the response object will inappropriately
         // get wrapped multiple times during a forward.
@@ -89,7 +96,7 @@ public class EncodingFilter implements javax.servlet.Filter
     /**
      * Destroy the filter
      */
-    public void destroy(  )
+    public void destroy( )
     {
         // no-op
     }

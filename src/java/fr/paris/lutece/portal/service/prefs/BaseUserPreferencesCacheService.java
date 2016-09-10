@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -40,7 +40,6 @@ import org.apache.commons.lang.StringUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
  * Cache service for {@link BaseUserPreferencesServiceImpl}
  */
@@ -53,15 +52,18 @@ public class BaseUserPreferencesCacheService extends AbstractCacheableService
      * {@inheritDoc}
      */
     @Override
-    public String getName(  )
+    public String getName( )
     {
         return CACHE_SERVICE_NAME;
     }
 
     /**
      * Get the key in the cache of a preference of a user
-     * @param strUserId The id of the user
-     * @param strKey The preference key
+     * 
+     * @param strUserId
+     *            The id of the user
+     * @param strKey
+     *            The preference key
      * @return The key in the cache of the preference of the user
      */
     public String getCacheKey( String strUserId, String strKey )
@@ -71,16 +73,18 @@ public class BaseUserPreferencesCacheService extends AbstractCacheableService
 
     /**
      * Remove every values stored in cache for a given user
-     * @param strUserId The user id to remove from cache
+     * 
+     * @param strUserId
+     *            The user id to remove from cache
      */
     public void removeCacheValuesOfUser( String strUserId )
     {
         if ( StringUtils.isNotEmpty( strUserId ) )
         {
             String strPrefix = strUserId + CONSTANT_UNDERSCORE;
-            List<String> listKeysToRemove = new ArrayList<String>(  );
+            List<String> listKeysToRemove = new ArrayList<String>( );
 
-            for ( String strKey : getKeys(  ) )
+            for ( String strKey : getKeys( ) )
             {
                 if ( strKey.startsWith( strPrefix ) )
                 {

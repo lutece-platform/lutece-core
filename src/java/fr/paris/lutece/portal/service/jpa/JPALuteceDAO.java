@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -41,11 +41,13 @@ import fr.paris.lutece.util.jpa.JPAGenericDAO;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Query;
 
-
 /**
  * Generic JPA DAO for Lutece components
- * @param <K> Type of the entity's key
- * @param <E> Type of the entity
+ * 
+ * @param <K>
+ *            Type of the entity's key
+ * @param <E>
+ *            Type of the entity
  */
 public abstract class JPALuteceDAO<K, E> extends JPAGenericDAO<K, E>
 {
@@ -53,24 +55,25 @@ public abstract class JPALuteceDAO<K, E> extends JPAGenericDAO<K, E>
     private static final String DEFAULT_PERSISTENCE_UNIT = "portal";
 
     /**
-     * Gets the plugin name.
-     * Override this method to define the plugin associated to this DAO
+     * Gets the plugin name. Override this method to define the plugin associated to this DAO
+     * 
      * @return The plugin name
      */
-    public abstract String getPluginName(  );
+    public abstract String getPluginName( );
 
     /**
      * Gets the entity manager to use with this DAO
+     * 
      * @return The appropriate entity manager delivered by the EntityManagerService
      */
-    public EntityManagerFactory getEntityManagerFactory(  )
+    public EntityManagerFactory getEntityManagerFactory( )
     {
         String strPersistenceUnit = DEFAULT_PERSISTENCE_UNIT;
-        Plugin plugin = PluginService.getPlugin( getPluginName(  ) );
+        Plugin plugin = PluginService.getPlugin( getPluginName( ) );
 
         if ( plugin != null )
         {
-            strPersistenceUnit = plugin.getDbPoolName(  );
+            strPersistenceUnit = plugin.getDbPoolName( );
         }
 
         EntityManagerService ems = (EntityManagerService) SpringContextService.getBean( BEAN_ENTITY_MANAGER_SERVICE );
@@ -80,11 +83,12 @@ public abstract class JPALuteceDAO<K, E> extends JPAGenericDAO<K, E>
 
     /**
      *
-     * @param strSQL The SQL query
+     * @param strSQL
+     *            The SQL query
      * @return query
      */
     protected Query createNativeQuery( String strSQL )
     {
-        return getEM(  ).createNativeQuery( strSQL );
+        return getEM( ).createNativeQuery( strSQL );
     }
 }

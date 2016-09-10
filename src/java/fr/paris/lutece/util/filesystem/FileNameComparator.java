@@ -38,7 +38,6 @@ import java.io.Serializable;
 
 import java.util.Comparator;
 
-
 /**
  * Comparator to order files by filenames
  */
@@ -48,13 +47,16 @@ public class FileNameComparator implements Comparator<File>, Serializable
 
     /**
      * Compare filenames
-     * @param file1 File1
-     * @param file2 File2
+     * 
+     * @param file1
+     *            File1
+     * @param file2
+     *            File2
      * @return The result of the comparaison
      */
     @Override
     public int compare( File file1, File file2 )
     {
-        return String.CASE_INSENSITIVE_ORDER.compare( file1.getName(  ), file2.getName(  ) );
+        return String.CASE_INSENSITIVE_ORDER.compare( file1.getName( ), file2.getName( ) );
     }
 }

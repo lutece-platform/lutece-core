@@ -42,7 +42,6 @@ import java.sql.Timestamp;
 
 import javax.inject.Inject;
 
-
 /**
  * This class provides Data Access methods for LuteceDefaultAdminUser objects
  */
@@ -60,21 +59,24 @@ public class LuteceDefaultAdminUserDAO implements ILuteceDefaultAdminUserDAO
     // Access methods to data
 
     /**
-     * load the data of an user from the table provided by the database authentication module This only provides data specific to the database authentication module.
+     * load the data of an user from the table provided by the database authentication module This only provides data specific to the database authentication
+     * module.
      *
-     * @param strAccessCode The access code of user
-     * @param authenticationService The AdminAuthentication
+     * @param strAccessCode
+     *            The access code of user
+     * @param authenticationService
+     *            The AdminAuthentication
      * @return user The instance of an LuteceDefaultAdminUser's object
      */
     public LuteceDefaultAdminUser load( String strAccessCode, AdminAuthentication authenticationService )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_LOAD_USER );
         daoUtil.setString( 1, strAccessCode );
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
-        if ( !daoUtil.next(  ) )
+        if ( !daoUtil.next( ) )
         {
-            daoUtil.free(  );
+            daoUtil.free( );
             throw new AppException( "The line doesn't exist " );
         }
 
@@ -91,23 +93,26 @@ public class LuteceDefaultAdminUserDAO implements ILuteceDefaultAdminUserDAO
         }
 
         user.setEmail( daoUtil.getString( 5 ) );
-        daoUtil.free(  );
+        daoUtil.free( );
 
         return user;
     }
 
     /**
      * Set the reset password attribute of the user
-     * @param user User to update
-     * @param bIsPasswordReset New value of the reset password attribute
+     * 
+     * @param user
+     *            User to update
+     * @param bIsPasswordReset
+     *            New value of the reset password attribute
      */
     public void updateResetPassword( LuteceDefaultAdminUser user, boolean bIsPasswordReset )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE_PASSWORD_RESET );
         daoUtil.setBoolean( 1, bIsPasswordReset );
-        daoUtil.setInt( 2, user.getUserId(  ) );
-        daoUtil.executeUpdate(  );
-        daoUtil.free(  );
+        daoUtil.setInt( 2, user.getUserId( ) );
+        daoUtil.executeUpdate( );
+        daoUtil.free( );
     }
 
     @Override
@@ -115,22 +120,24 @@ public class LuteceDefaultAdminUserDAO implements ILuteceDefaultAdminUserDAO
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_LOAD_PASSWORD );
         daoUtil.setString( 1, strAccessCode );
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
         IPassword storedPassword;
         try
         {
-            if ( daoUtil.next(  ) )
+            if ( daoUtil.next( ) )
             {
                 storedPassword = _passwordFactory.getPassword( daoUtil.getString( 1 ) );
-            } else
+            }
+            else
             {
                 // timing resistance
-                storedPassword = _passwordFactory.getDummyPassword(  );
+                storedPassword = _passwordFactory.getDummyPassword( );
             }
-        } finally
+        }
+        finally
         {
-            daoUtil.free(  );
+            daoUtil.free( );
         }
 
         return storedPassword;
@@ -146,12 +153,13 @@ public class LuteceDefaultAdminUserDAO implements ILuteceDefaultAdminUserDAO
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE_PASSWORD );
         try
         {
-            daoUtil.setString( 1, password.getStorableRepresentation(  ) );
+            daoUtil.setString( 1, password.getStorableRepresentation( ) );
             daoUtil.setString( 2, strAccessCode );
-            daoUtil.executeUpdate(  );
-        } finally
+            daoUtil.executeUpdate( );
+        }
+        finally
         {
-            daoUtil.free(  );
+            daoUtil.free( );
         }
     }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,7 +33,6 @@
  */
 package fr.paris.lutece.portal.web.pluginaction;
 
-
 /**
  * Result of an action. <br>
  * Use :
@@ -52,17 +51,20 @@ public class DefaultPluginActionResult implements IPluginActionResult
 
     /**
      * Returns the redirect url, <code>null</code> otherwise.
+     * 
      * @return the redirect url, <code>null</code> otherwise
      */
     @Override
-    public String getRedirect(  )
+    public String getRedirect( )
     {
         return _strRedirect;
     }
 
     /**
      * Sets the redirect url, <code>null</code> otherwise.
-     * @param strRedirect the redirect url, <code>null</code> otherwise.
+     * 
+     * @param strRedirect
+     *            the redirect url, <code>null</code> otherwise.
      */
     @Override
     public void setRedirect( String strRedirect )
@@ -72,17 +74,20 @@ public class DefaultPluginActionResult implements IPluginActionResult
 
     /**
      * Returns <code>true</code> if no operation needed, <code>false</code> otherwise.
+     * 
      * @return <code>true</code> if no operation needed, <code>false</code> otherwise.
      */
     @Override
-    public boolean isNoop(  )
+    public boolean isNoop( )
     {
         return _bNoop;
     }
 
     /**
      * Set to <code>true</code> if no operation needed, <code>false</code> otherwise.
-     * @param bNoop <code>true</code> if no operation needed, <code>false</code> otherwise.
+     * 
+     * @param bNoop
+     *            <code>true</code> if no operation needed, <code>false</code> otherwise.
      */
     @Override
     public void setNoop( boolean bNoop )
@@ -92,17 +97,20 @@ public class DefaultPluginActionResult implements IPluginActionResult
 
     /**
      * Returns the html content if any, <code>null</code> otherwise
+     * 
      * @return the html content if any, <code>null</code> otherwise
      */
     @Override
-    public String getHtmlContent(  )
+    public String getHtmlContent( )
     {
         return _strHtmlContent;
     }
 
     /**
      * Sets the html content if any, <code>null</code> otherwise
-     * @param strHtmlContent the html content if any, <code>null</code> otherwise
+     * 
+     * @param strHtmlContent
+     *            the html content if any, <code>null</code> otherwise
      */
     @Override
     public void setHtmlContent( String strHtmlContent )

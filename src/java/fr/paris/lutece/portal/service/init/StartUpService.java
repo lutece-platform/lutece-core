@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -35,17 +35,16 @@ package fr.paris.lutece.portal.service.init;
 
 import fr.paris.lutece.portal.service.util.LuteceService;
 
-
 /**
- * StartUp Service Interface.
- * <br>
- * <strong>WARNING</strong> A StartupService <i>can't</i> be prefixed by its plugin's name in the plugin Spring context, because plugins are instanciated <i>after</i> startup services.
- * If the bean is prefixed by the plugin's name, it won't be run. The name should still contains plugin's name to avoid bean names collisions.
+ * StartUp Service Interface. <br>
+ * <strong>WARNING</strong> A StartupService <i>can't</i> be prefixed by its plugin's name in the plugin Spring context, because plugins are instanciated
+ * <i>after</i> startup services. If the bean is prefixed by the plugin's name, it won't be run. The name should still contains plugin's name to avoid bean
+ * names collisions.
  */
 public interface StartUpService extends LuteceService
 {
     /**
      * Run the service
      */
-    void process(  );
+    void process( );
 }

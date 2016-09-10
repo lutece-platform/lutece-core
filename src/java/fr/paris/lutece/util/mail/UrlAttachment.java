@@ -37,7 +37,6 @@ import java.io.Serializable;
 
 import java.net.URL;
 
-
 /**
  *
  * UrlAttachement Object
@@ -46,15 +45,17 @@ import java.net.URL;
 public class UrlAttachment implements Serializable
 {
     private static final long serialVersionUID = 5638898463494932360L;
-    private String _strContentLocation; //content location
-    private URL _urlData; //the url data
+    private String _strContentLocation; // content location
+    private URL _urlData; // the url data
 
     /**
-    * Creates a new UrlAttachement object.
-    *
-    * @param strContentLocation the content location
-    * @param urlData the url Data
-    */
+     * Creates a new UrlAttachement object.
+     *
+     * @param strContentLocation
+     *            the content location
+     * @param urlData
+     *            the url Data
+     */
     public UrlAttachment( String strContentLocation, URL urlData )
     {
         _strContentLocation = strContentLocation;
@@ -65,14 +66,16 @@ public class UrlAttachment implements Serializable
      *
      * @return the content-location
      */
-    public String getContentLocation(  )
+    public String getContentLocation( )
     {
         return _strContentLocation;
     }
 
     /**
      * set the content-location
-     * @param contentLocation the content-location
+     * 
+     * @param contentLocation
+     *            the content-location
      */
     public void setContentLocation( String contentLocation )
     {
@@ -83,14 +86,16 @@ public class UrlAttachment implements Serializable
      *
      * @return the URL of data
      */
-    public URL getUrlData(  )
+    public URL getUrlData( )
     {
         return _urlData;
     }
 
     /**
      * set the URL of data
-     * @param data the URL of data
+     * 
+     * @param data
+     *            the URL of data
      */
     public void setUrlData( URL data )
     {

@@ -45,7 +45,6 @@ import java.io.UnsupportedEncodingException;
 
 import javax.activation.DataSource;
 
-
 /**
  * This class is used by MailUtil.
  */
@@ -56,27 +55,29 @@ public class ByteArrayDataSource implements DataSource, Serializable
          */
     private static final long serialVersionUID = 3706343218798831522L;
     private static final String PROPERTY_CHARSET = "mail.charset";
-    private byte[] _data; // data
+    private byte [ ] _data; // data
     private String _type; // content-type
 
     /**
      * Creates a new ByteArrayDataSource object.
      *
-     * @param data The data
-     * @param type The parameters
+     * @param data
+     *            The data
+     * @param type
+     *            The parameters
      */
     public ByteArrayDataSource( String data, String type )
     {
         try
         {
             // Assumption that the string contains only ASCII
-            // characters!  Otherwise just pass a charset into this
+            // characters! Otherwise just pass a charset into this
             // constructor and use it in getBytes()
             _data = data.getBytes( AppPropertiesService.getProperty( PROPERTY_CHARSET ) );
         }
-        catch ( UnsupportedEncodingException uex )
+        catch( UnsupportedEncodingException uex )
         {
-            throw new AppException( uex.toString(  ) );
+            throw new AppException( uex.toString( ) );
         }
 
         _type = type;
@@ -84,25 +85,28 @@ public class ByteArrayDataSource implements DataSource, Serializable
 
     /**
      * Creates a new ByteArrayDataSource object.
-    *
-    * @param data The data
-    * @param type The parameters
-    */
-    public ByteArrayDataSource( byte[] data, String type )
+     *
+     * @param data
+     *            The data
+     * @param type
+     *            The parameters
+     */
+    public ByteArrayDataSource( byte [ ] data, String type )
     {
         _data = data;
         _type = type;
     }
 
-    ////////////////////////////////////////////////////////////////////////////
+    // //////////////////////////////////////////////////////////////////////////
     // DataSource interface implementation
 
     /**
      *
      * @return The input stream
-     * @throws IOException The IO exception
+     * @throws IOException
+     *             The IO exception
      */
-    public InputStream getInputStream(  ) throws IOException
+    public InputStream getInputStream( ) throws IOException
     {
         if ( _data == null )
         {
@@ -115,9 +119,10 @@ public class ByteArrayDataSource implements DataSource, Serializable
     /**
      *
      * @return The output stream
-     * @throws IOException The IO exception
+     * @throws IOException
+     *             The IO exception
      */
-    public OutputStream getOutputStream(  ) throws IOException
+    public OutputStream getOutputStream( ) throws IOException
     {
         throw new IOException( "cannot do this" );
     }
@@ -126,7 +131,7 @@ public class ByteArrayDataSource implements DataSource, Serializable
      *
      * @return The content type
      */
-    public String getContentType(  )
+    public String getContentType( )
     {
         return _type;
     }
@@ -135,7 +140,7 @@ public class ByteArrayDataSource implements DataSource, Serializable
      *
      * @return The Name
      */
-    public String getName(  )
+    public String getName( )
     {
         return "dummy";
     }

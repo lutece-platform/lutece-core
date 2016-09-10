@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -45,7 +45,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
-
 /**
  * This class provides instances management methods (create, find, ...) for AdminUser objects
  */
@@ -57,13 +56,15 @@ public final class AdminUserHome
     /**
      * Private constructor
      */
-    private AdminUserHome(  )
+    private AdminUserHome( )
     {
     }
 
     /**
      * Get the user infos from the access code.
-     * @param strUserLogin the login
+     * 
+     * @param strUserLogin
+     *            the login
      * @return user info
      */
     public static AdminUser findUserByLogin( String strUserLogin )
@@ -73,7 +74,9 @@ public final class AdminUserHome
 
     /**
      * Get the user access code from its email.
-     * @param strEmail The email
+     * 
+     * @param strEmail
+     *            The email
      * @return The access code of the user with the given email, or null if no user has been found
      */
     public static String findUserByEmail( String strEmail )
@@ -83,7 +86,9 @@ public final class AdminUserHome
 
     /**
      * Get the user infos from user id
-     * @param nUserId the user identifier
+     * 
+     * @param nUserId
+     *            the user identifier
      * @return The user
      */
     public static AdminUser findByPrimaryKey( int nUserId )
@@ -94,13 +99,14 @@ public final class AdminUserHome
     /**
      * @return the user list
      */
-    public static Collection<AdminUser> findUserList(  )
+    public static Collection<AdminUser> findUserList( )
     {
-        return _dao.selectUserList(  );
+        return _dao.selectUserList( );
     }
 
     /**
-     * @param user The AdminUser
+     * @param user
+     *            The AdminUser
      */
     public static void create( AdminUser user )
     {
@@ -108,7 +114,8 @@ public final class AdminUserHome
     }
 
     /**
-     * @param user The AdminUser
+     * @param user
+     *            The AdminUser
      */
     public static void update( AdminUser user )
     {
@@ -116,7 +123,8 @@ public final class AdminUserHome
     }
 
     /**
-     * @param nUserId the user identifier
+     * @param nUserId
+     *            the user identifier
      */
     public static void remove( int nUserId )
     {
@@ -125,7 +133,9 @@ public final class AdminUserHome
 
     /**
      * Get the right list associated to a given user id
-     * @param nUserId the id of the user to retrieve rights
+     * 
+     * @param nUserId
+     *            the id of the user to retrieve rights
      * @return the right list
      */
     public static Map<String, Right> getRightsListForUser( int nUserId )
@@ -134,8 +144,10 @@ public final class AdminUserHome
     }
 
     /**
-     * @param nUserId The user identifier
-     * @param strRightId The right identifier
+     * @param nUserId
+     *            The user identifier
+     * @param strRightId
+     *            The right identifier
      */
     public static void createRightForUser( int nUserId, String strRightId )
     {
@@ -143,7 +155,8 @@ public final class AdminUserHome
     }
 
     /**
-     * @param nUserId The user identifier
+     * @param nUserId
+     *            The user identifier
      */
     public static void removeAllRightsForUser( int nUserId )
     {
@@ -151,24 +164,28 @@ public final class AdminUserHome
     }
 
     /**
-     * @param user The Admin User object
+     * @param user
+     *            The Admin User object
      */
     public static void removeAllDelegatedRightsForUser( AdminUser user )
     {
-        _dao.deleteAllDelegatedRightsForUser( user.getUserId(  ), user.getUserLevel(  ) );
+        _dao.deleteAllDelegatedRightsForUser( user.getUserId( ), user.getUserLevel( ) );
     }
 
     /**
-     * @param user The Admin User object
+     * @param user
+     *            The Admin User object
      */
     public static void removeAllOwnRightsForUser( AdminUser user )
     {
-        _dao.deleteAllOwnRightsForUser( user.getUserId(  ), user.getUserLevel(  ) );
+        _dao.deleteAllOwnRightsForUser( user.getUserId( ), user.getUserLevel( ) );
     }
 
     /**
      * Get the role list associated to a given user id
-     * @param nUserId the id of the user to retrieve rights
+     * 
+     * @param nUserId
+     *            the id of the user to retrieve rights
      * @return the role list
      */
     public static Map<String, AdminRole> getRolesListForUser( int nUserId )
@@ -177,8 +194,10 @@ public final class AdminUserHome
     }
 
     /**
-     * @param nUserId the id of the user
-     * @param strRightId the right identifier
+     * @param nUserId
+     *            the id of the user
+     * @param strRightId
+     *            the right identifier
      */
     public static void createRoleForUser( int nUserId, String strRightId )
     {
@@ -186,7 +205,8 @@ public final class AdminUserHome
     }
 
     /**
-     * @param nUserId the user identifier
+     * @param nUserId
+     *            the user identifier
      */
     public static void removeAllRolesForUser( int nUserId )
     {
@@ -195,7 +215,9 @@ public final class AdminUserHome
 
     /**
      * Checks wether the role is in use or not
-     * @param strRoleKey the role key to check
+     * 
+     * @param strRoleKey
+     *            the role key to check
      * @return true if the role is attributed, false otherwise
      */
     public static boolean checkRoleAttributed( String strRoleKey )
@@ -205,7 +227,9 @@ public final class AdminUserHome
 
     /**
      * Checks if a given login is already in use
-     * @param strAccessCode The login
+     * 
+     * @param strAccessCode
+     *            The login
      * @return user ID if the access code is already used by another user, -1 otherwise
      */
     public static int checkAccessCodeAlreadyInUse( String strAccessCode )
@@ -215,7 +239,9 @@ public final class AdminUserHome
 
     /**
      * Checks if a given email is already in use
-     * @param strEmail The email
+     * 
+     * @param strEmail
+     *            The email
      * @return user ID if the email is already used by another user, -1 otherwise
      */
     public static int checkEmailAlreadyInUse( String strEmail )
@@ -225,19 +251,25 @@ public final class AdminUserHome
 
     /**
      * Check if the user has the role
-     * @param user The AdminUser
-     * @param strRoleKey The role Key
+     * 
+     * @param user
+     *            The AdminUser
+     * @param strRoleKey
+     *            The role Key
      * @return true if the user has the role
      */
     public static boolean hasRole( AdminUser user, String strRoleKey )
     {
-        return _dao.hasRole( user.getUserId(  ), strRoleKey );
+        return _dao.hasRole( user.getUserId( ), strRoleKey );
     }
 
     /**
      * Remove role for an user
-     * @param nUserId The ID of the user
-     * @param strRoleKey The role key
+     * 
+     * @param nUserId
+     *            The ID of the user
+     * @param strRoleKey
+     *            The role key
      */
     public static void removeRoleForUser( int nUserId, String strRoleKey )
     {
@@ -248,7 +280,8 @@ public final class AdminUserHome
     // / for no-module mode
 
     /**
-     * @param user the LuteceDefaultAdminUSer
+     * @param user
+     *            the LuteceDefaultAdminUSer
      */
     public static void create( LuteceDefaultAdminUser user )
     {
@@ -256,7 +289,8 @@ public final class AdminUserHome
     }
 
     /**
-     * @param user the LuteceDefaultAdminUSer
+     * @param user
+     *            the LuteceDefaultAdminUSer
      */
     public static void update( LuteceDefaultAdminUser user )
     {
@@ -265,7 +299,9 @@ public final class AdminUserHome
 
     /**
      * Get the user infos from user id
-     * @param nUserId the user identifier
+     * 
+     * @param nUserId
+     *            the user identifier
      * @return the delfault admin user
      */
     public static LuteceDefaultAdminUser findLuteceDefaultAdminUserByPrimaryKey( int nUserId )
@@ -275,7 +311,9 @@ public final class AdminUserHome
 
     /**
      * Get all users having a given role
-     * @param strRoleKey The role key
+     * 
+     * @param strRoleKey
+     *            The role key
      * @return A collection of AdminUser
      */
     public static Collection<AdminUser> findByRole( String strRoleKey )
@@ -285,7 +323,9 @@ public final class AdminUserHome
 
     /**
      * Get all users having a given level
-     * @param nIdLevel The level
+     * 
+     * @param nIdLevel
+     *            The level
      * @return A collection of AdminUser
      */
     public static Collection<AdminUser> findByLevel( int nIdLevel )
@@ -295,8 +335,11 @@ public final class AdminUserHome
 
     /**
      * Update role key if role key name has change
-     * @param strOldRoleKey The old role key name
-     * @param role The new role
+     * 
+     * @param strOldRoleKey
+     *            The old role key name
+     * @param role
+     *            The new role
      */
     public static void updateUsersRole( String strOldRoleKey, AdminRole role )
     {
@@ -305,7 +348,9 @@ public final class AdminUserHome
 
     /**
      * Get all users by using a filter.
-     * @param auFilter The filter
+     * 
+     * @param auFilter
+     *            The filter
      * @return A collection of AdminUser
      */
     public static Collection<AdminUser> findUserByFilter( AdminUserFilter auFilter )
@@ -315,7 +360,9 @@ public final class AdminUserHome
 
     /**
      * Get all users having a given right
-     * @param strIdRight The ID right
+     * 
+     * @param strIdRight
+     *            The ID right
      * @return A collection of AdminUser
      */
     public static Collection<AdminUser> findByRight( String strIdRight )
@@ -325,19 +372,25 @@ public final class AdminUserHome
 
     /**
      * Check if the user has the given right
-     * @param user The Admin User
-     * @param strIdRight The ID right
+     * 
+     * @param user
+     *            The Admin User
+     * @param strIdRight
+     *            The ID right
      * @return true if the user has the right
      */
     public static boolean hasRight( AdminUser user, String strIdRight )
     {
-        return _dao.hasRight( user.getUserId(  ), strIdRight );
+        return _dao.hasRight( user.getUserId( ), strIdRight );
     }
 
     /**
      * Remove a right for an user
-     * @param nUserId The user ID
-     * @param strIdRight The right ID
+     * 
+     * @param nUserId
+     *            The user ID
+     * @param strIdRight
+     *            The right ID
      */
     public static void removeRightForUser( int nUserId, String strIdRight )
     {
@@ -346,7 +399,9 @@ public final class AdminUserHome
 
     /**
      * Gets the history of password of the given user
-     * @param nUserID Id of the user
+     * 
+     * @param nUserID
+     *            Id of the user
      * @return The collection of recent passwords used by the user.
      */
     public static List<IPassword> selectUserPasswordHistory( int nUserID )
@@ -356,8 +411,11 @@ public final class AdminUserHome
 
     /**
      * Get the number of password change done by a user since the given date.
-     * @param minDate Minimum date to consider.
-     * @param nUserId Id of the user
+     * 
+     * @param minDate
+     *            Minimum date to consider.
+     * @param nUserId
+     *            Id of the user
      * @return The number of password change done by the user since the given date.
      */
     public static int countUserPasswordHistoryFromDate( Timestamp minDate, int nUserId )
@@ -367,8 +425,11 @@ public final class AdminUserHome
 
     /**
      * Log a password change in the password history
-     * @param password New password of the user
-     * @param nUserId Id of the user
+     * 
+     * @param password
+     *            New password of the user
+     * @param nUserId
+     *            Id of the user
      */
     public static void insertNewPasswordInHistory( IPassword password, int nUserId )
     {
@@ -377,7 +438,9 @@ public final class AdminUserHome
 
     /**
      * Remove every password saved in the password history for a user.
-     * @param nUserId Id of the user
+     * 
+     * @param nUserId
+     *            Id of the user
      */
     public static void removeAllPasswordHistoryForUser( int nUserId )
     {
@@ -386,17 +449,21 @@ public final class AdminUserHome
 
     /**
      * Get a map of anonymization status of a user field.
+     * 
      * @return A map containing the associations of user field name and a boolean describing whether the field should be anonymized.
      */
-    public static Map<String, Boolean> getAnonymizationStatusUserStaticField(  )
+    public static Map<String, Boolean> getAnonymizationStatusUserStaticField( )
     {
-        return _dao.selectAnonymizationStatusUserStaticField(  );
+        return _dao.selectAnonymizationStatusUserStaticField( );
     }
 
     /**
      * Update the anonymization status of a user field.
-     * @param strFieldName Name of the field to update
-     * @param bAnonymizeFiled True if the field should be anonymize, false otherwise
+     * 
+     * @param strFieldName
+     *            Name of the field to update
+     * @param bAnonymizeFiled
+     *            True if the field should be anonymize, false otherwise
      */
     public static void updateAnonymizationStatusUserStaticField( String strFieldName, boolean bAnonymizeFiled )
     {
@@ -405,16 +472,19 @@ public final class AdminUserHome
 
     /**
      * Get the list of id of user with the expired status.
+     * 
      * @return The list of if of user with the expired status.
      */
-    public static List<Integer> findAllExpiredUserId(  )
+    public static List<Integer> findAllExpiredUserId( )
     {
-        return _dao.findAllExpiredUserId(  );
+        return _dao.findAllExpiredUserId( );
     }
 
     /**
      * Get the list of id of users that have an expired time life but not the expired status
-     * @param currentTimestamp Timestamp describing the current time.
+     * 
+     * @param currentTimestamp
+     *            Timestamp describing the current time.
      * @return the list of id of users with expired time life
      */
     public static List<Integer> getIdUsersWithExpiredLifeTimeList( Timestamp currentTimestamp )
@@ -424,7 +494,9 @@ public final class AdminUserHome
 
     /**
      * Get the list of id of users that need to receive their first alert
-     * @param firstAlertMaxDate The maximum expiration date to send first alert.
+     * 
+     * @param firstAlertMaxDate
+     *            The maximum expiration date to send first alert.
      * @return the list of id of users that need to receive their first alert
      */
     public static List<Integer> getIdUsersToSendFirstAlert( Timestamp firstAlertMaxDate )
@@ -434,20 +506,25 @@ public final class AdminUserHome
 
     /**
      * Get the list of id of users that need to receive their first alert
-     * @param alertMaxDate The maximum date to send alerts.
-     * @param timeBetweenAlerts Timestamp describing the time between two alerts.
-     * @param maxNumberAlerts Maximum number of alerts to send to a user
+     * 
+     * @param alertMaxDate
+     *            The maximum date to send alerts.
+     * @param timeBetweenAlerts
+     *            Timestamp describing the time between two alerts.
+     * @param maxNumberAlerts
+     *            Maximum number of alerts to send to a user
      * @return the list of id of users that need to receive their first alert
      */
-    public static List<Integer> getIdUsersToSendOtherAlert( Timestamp alertMaxDate, Timestamp timeBetweenAlerts,
-        int maxNumberAlerts )
+    public static List<Integer> getIdUsersToSendOtherAlert( Timestamp alertMaxDate, Timestamp timeBetweenAlerts, int maxNumberAlerts )
     {
         return _dao.getIdUsersToSendOtherAlert( alertMaxDate, timeBetweenAlerts, maxNumberAlerts );
     }
 
     /**
      * Get the list of id of users that have an expired password but not the change password flag
-     * @param currentTimestamp Timestamp describing the current time.
+     * 
+     * @param currentTimestamp
+     *            Timestamp describing the current time.
      * @return the list of id of users with expired passwords
      */
     public static List<Integer> getIdUsersWithExpiredPasswordsList( Timestamp currentTimestamp )
@@ -457,8 +534,11 @@ public final class AdminUserHome
 
     /**
      * Update status of a list of user accounts
-     * @param listIdUser List of user accounts to update
-     * @param nNewStatus New status of the user
+     * 
+     * @param listIdUser
+     *            List of user accounts to update
+     * @param nNewStatus
+     *            New status of the user
      */
     public static void updateUserStatus( List<Integer> listIdUser, int nNewStatus )
     {
@@ -467,7 +547,9 @@ public final class AdminUserHome
 
     /**
      * Increment the number of alert send to users by 1
-     * @param listIdUser The list of users to update
+     * 
+     * @param listIdUser
+     *            The list of users to update
      */
     public static void updateNbAlert( List<Integer> listIdUser )
     {
@@ -476,7 +558,9 @@ public final class AdminUserHome
 
     /**
      * Set the "change password" flag of users to true
-     * @param listIdUser The list of users to update
+     * 
+     * @param listIdUser
+     *            The list of users to update
      */
     public static void updateChangePassword( List<Integer> listIdUser )
     {
@@ -485,8 +569,11 @@ public final class AdminUserHome
 
     /**
      * Update the admin user expiration date with the new values. Also update his alert account to 0
-     * @param nIdUser Id of the admin user to update
-     * @param newExpirationDate Id of the user to update
+     * 
+     * @param nIdUser
+     *            Id of the admin user to update
+     * @param newExpirationDate
+     *            Id of the user to update
      */
     public static void updateUserExpirationDate( int nIdUser, Timestamp newExpirationDate )
     {
@@ -495,8 +582,11 @@ public final class AdminUserHome
 
     /**
      * Update the admin user last login date.
-     * @param nIdUser Id of the admin user to update
-     * @param dateLastLogin New last login date of the user
+     * 
+     * @param nIdUser
+     *            Id of the admin user to update
+     * @param dateLastLogin
+     *            New last login date of the user
      */
     public static void updateDateLastLogin( int nIdUser, Timestamp dateLastLogin )
     {

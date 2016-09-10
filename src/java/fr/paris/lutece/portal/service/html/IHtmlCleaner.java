@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,24 +33,25 @@
  */
 package fr.paris.lutece.portal.service.html;
 
-
 /**
  * This Interface provides methods for HTML cleaner
  */
 public interface IHtmlCleaner
 {
     /**
-    * Clean HTML code
-    *
-    * @param strSource The input string to clean
-    * @return The cleaned string
-    * @throws HtmlCleanerException the HtmlCleanerException
-    */
+     * Clean HTML code
+     *
+     * @param strSource
+     *            The input string to clean
+     * @return The cleaned string
+     * @throws HtmlCleanerException
+     *             the HtmlCleanerException
+     */
     String clean( String strSource ) throws HtmlCleanerException;
 
     /**
-    * init HTML cleaner
-    *
-    */
-    void init(  );
+     * init HTML cleaner
+     *
+     */
+    void init( );
 }

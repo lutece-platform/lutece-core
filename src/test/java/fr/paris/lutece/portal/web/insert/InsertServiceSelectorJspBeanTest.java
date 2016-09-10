@@ -36,7 +36,6 @@ package fr.paris.lutece.portal.web.insert;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.MokeHttpServletRequest;
 
-
 /**
  * InsertServiceSelectorJspBean Test Class
  */
@@ -45,15 +44,15 @@ public class InsertServiceSelectorJspBeanTest extends LuteceTestCase
     /**
      * Test of getServicesListPage method, of class fr.paris.lutece.portal.web.insertservice.InsertServiceSelectorJspBean.
      */
-    public void testGetServicesListPage(  )
+    public void testGetServicesListPage( )
     {
         System.out.println( "getServicesListPage" );
 
-        MokeHttpServletRequest request = new MokeHttpServletRequest(  );
+        MokeHttpServletRequest request = new MokeHttpServletRequest( );
         request.addMokeParameters( "input", "text" );
         request.addMokeParameters( "selected_text", "selected_text" );
 
-        InsertServiceSelectorJspBean instance = new InsertServiceSelectorJspBean(  );
+        InsertServiceSelectorJspBean instance = new InsertServiceSelectorJspBean( );
 
         String result = instance.getServicesListPage( request );
     }
@@ -61,12 +60,12 @@ public class InsertServiceSelectorJspBeanTest extends LuteceTestCase
     /**
      * Test of displayService method, of class fr.paris.lutece.portal.web.insertservice.InsertServiceSelectorJspBean.
      */
-    public void testDisplayService(  )
+    public void testDisplayService( )
     {
         System.out.println( "displayService" );
 
-        MokeHttpServletRequest request = new MokeHttpServletRequest(  );
-        InsertServiceSelectorJspBean instance = new InsertServiceSelectorJspBean(  );
+        MokeHttpServletRequest request = new MokeHttpServletRequest( );
+        InsertServiceSelectorJspBean instance = new InsertServiceSelectorJspBean( );
 
         String result = instance.displayService( request );
     }

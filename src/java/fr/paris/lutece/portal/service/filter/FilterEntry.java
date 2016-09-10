@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -36,7 +36,6 @@ package fr.paris.lutece.portal.service.filter;
 import java.util.HashMap;
 import java.util.Map;
 
-
 /**
  * Filter Entry used to load filter from the plugin XML file
  */
@@ -46,7 +45,7 @@ public class FilterEntry
     private String _strName;
     private String _strFilterClass;
     private String _strMapping;
-    private Map<String, String> _mapInitParameters = new HashMap<String, String>(  );
+    private Map<String, String> _mapInitParameters = new HashMap<String, String>( );
     private int _nOrder = ORDER_NOT_DEFINED;
 
     /**
@@ -54,7 +53,7 @@ public class FilterEntry
      *
      * @return The Name
      */
-    public String getName(  )
+    public String getName( )
     {
         return _strName;
     }
@@ -62,7 +61,8 @@ public class FilterEntry
     /**
      * Sets the Name
      *
-     * @param strName The Name
+     * @param strName
+     *            The Name
      */
     public void setName( String strName )
     {
@@ -74,7 +74,7 @@ public class FilterEntry
      *
      * @return The filter
      */
-    public String getFilterClass(  )
+    public String getFilterClass( )
     {
         return _strFilterClass;
     }
@@ -82,7 +82,8 @@ public class FilterEntry
     /**
      * Sets the filter
      *
-     * @param strFilterClass The filter
+     * @param strFilterClass
+     *            The filter
      */
     public void setFilterClass( String strFilterClass )
     {
@@ -94,7 +95,7 @@ public class FilterEntry
      *
      * @return The Mapping
      */
-    public String getMappingUrlPattern(  )
+    public String getMappingUrlPattern( )
     {
         return _strMapping;
     }
@@ -102,7 +103,8 @@ public class FilterEntry
     /**
      * Sets the Mapping
      *
-     * @param strMapping The Mapping
+     * @param strMapping
+     *            The Mapping
      */
     public void setMappingUrlPattern( String strMapping )
     {
@@ -111,8 +113,11 @@ public class FilterEntry
 
     /**
      * Add an init parameter
-     * @param strName The parameter name
-     * @param strValue The parameter value
+     * 
+     * @param strName
+     *            The parameter name
+     * @param strValue
+     *            The parameter value
      */
     public void addParameter( String strName, String strValue )
     {
@@ -121,27 +126,30 @@ public class FilterEntry
 
     /**
      * Returns init parameters
+     * 
      * @return Init parameters in a map object
      */
-    public Map<String, String> getInitParameters(  )
+    public Map<String, String> getInitParameters( )
     {
         return _mapInitParameters;
     }
 
     /**
      *
-     * Returns the order.
-     * {@link #getOrder()} == {@value #ORDER_NOT_DEFINED} means there is no priority set for the filter
+     * Returns the order. {@link #getOrder()} == {@value #ORDER_NOT_DEFINED} means there is no priority set for the filter
+     * 
      * @return the order
      */
-    public int getOrder(  )
+    public int getOrder( )
     {
         return _nOrder;
     }
 
     /**
-     * nOrder ==  == {@value #ORDER_NOT_DEFINED} means there is no priority set for the filter
-     * @param nOrder the order
+     * nOrder == == {@value #ORDER_NOT_DEFINED} means there is no priority set for the filter
+     * 
+     * @param nOrder
+     *            the order
      */
     public void setOrder( int nOrder )
     {

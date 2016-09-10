@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -32,7 +32,6 @@
  * License 1.0
  */
 package fr.paris.lutece.portal.web.constants;
-
 
 /**
  * This class provides the Parameters interface which contains the common parameters
@@ -102,14 +101,14 @@ public final class Parameters
     public static final String LEVEL_ID = "level_id";
     public static final String LEVEL_NAME = "level_name";
 
-    //Styles - Portlets
+    // Styles - Portlets
     public static final String PORTLET_TYPE = "portlet_type";
     public static final String STYLE_ID = "style_id";
     public static final String STYLE_NAME = "style_name";
     public static final String STYLES = "styles";
     public static final String PORTAL_COMPONENT = "portal_component";
 
-    //Modes
+    // Modes
     public static final String MODE_ID = "mode_id";
     public static final String MODE_DESCRIPTION = "mode_description";
     public static final String MODE_PATH = "mode_path";
@@ -121,17 +120,17 @@ public final class Parameters
     public static final String MODE_OUTPUT_XSL_OMIT_XML_DECLARATION = "mode_output_xsl_omit_xml_declaration"; /* Since v1.2 */
     public static final String MODE_OUTPUT_XSL_STANDALONE = "mode_output_xsl_standalone"; /* Since v1.2 */
 
-    //Image Servlet
+    // Image Servlet
     public static final String IMAGE_SERVLET = "image";
     public static final String RESOURCE_ID = "id";
     public static final String RESOURCE_TYPE = "resource_type";
 
-    //Sorted list
+    // Sorted list
     public static final String SORTED_ATTRIBUTE_NAME = "sorted_attribute_name";
     public static final String SORTED_ASC = "asc_sort";
 
     /** Private constructor */
-    private Parameters(  )
+    private Parameters( )
     {
     }
 }

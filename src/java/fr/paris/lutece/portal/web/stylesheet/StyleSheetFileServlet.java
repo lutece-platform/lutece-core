@@ -48,7 +48,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
 /**
  * StyleSheetFile Servlet
  */
@@ -61,13 +60,17 @@ public class StyleSheetFileServlet extends HttpServlet
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
-     * @param request servlet request
-     * @param response servlet response
-         * @throws ServletException the servlet Exception
-         * @throws IOException the io exception
+     * 
+     * @param request
+     *            servlet request
+     * @param response
+     *            servlet response
+     * @throws ServletException
+     *             the servlet Exception
+     * @throws IOException
+     *             the io exception
      */
-    protected void processRequest( HttpServletRequest request, HttpServletResponse response )
-        throws ServletException, IOException
+    protected void processRequest( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException
     {
         AdminUser user = AdminUserService.getAdminUser( request );
 
@@ -82,15 +85,15 @@ public class StyleSheetFileServlet extends HttpServlet
 
                 StyleSheet stylesheet = StyleSheetHome.findByPrimaryKey( nStyleSheetId );
 
-                ServletContext context = getServletConfig(  ).getServletContext(  );
-                String strMimetype = context.getMimeType( stylesheet.getFile(  ) );
+                ServletContext context = getServletConfig( ).getServletContext( );
+                String strMimetype = context.getMimeType( stylesheet.getFile( ) );
                 response.setContentType( ( strMimetype != null ) ? strMimetype : "application/octet-stream" );
-                response.setHeader( "Content-Disposition", "attachement; filename=\"" + stylesheet.getFile(  ) + "\"" );
+                response.setHeader( "Content-Disposition", "attachement; filename=\"" + stylesheet.getFile( ) + "\"" );
 
-                OutputStream out = response.getOutputStream(  );
-                out.write( stylesheet.getSource(  ) );
-                out.flush(  );
-                out.close(  );
+                OutputStream out = response.getOutputStream( );
+                out.write( stylesheet.getSource( ) );
+                out.flush( );
+                out.close( );
             }
         }
     }
@@ -99,8 +102,7 @@ public class StyleSheetFileServlet extends HttpServlet
      * {@inheritDoc}
      */
     @Override
-    protected void doGet( HttpServletRequest request, HttpServletResponse response )
-        throws ServletException, IOException
+    protected void doGet( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException
     {
         processRequest( request, response );
     }
@@ -109,8 +111,7 @@ public class StyleSheetFileServlet extends HttpServlet
      * {@inheritDoc}
      */
     @Override
-    protected void doPost( HttpServletRequest request, HttpServletResponse response )
-        throws ServletException, IOException
+    protected void doPost( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException
     {
         processRequest( request, response );
     }
@@ -119,7 +120,7 @@ public class StyleSheetFileServlet extends HttpServlet
      * {@inheritDoc}
      */
     @Override
-    public String getServletInfo(  )
+    public String getServletInfo( )
     {
         return "Servlet serving stylesheets";
     }

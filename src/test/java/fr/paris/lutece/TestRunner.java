@@ -36,7 +36,6 @@ package fr.paris.lutece;
 import fr.paris.lutece.portal.service.daemon.AppDaemonService;
 import fr.paris.lutece.portal.service.database.AppConnectionService;
 
-
 /**
  * The main class for unit tests
  */
@@ -44,13 +43,15 @@ public final class TestRunner
 {
     /**
      * The main method
-     * @param args the arguments of the main method
+     * 
+     * @param args
+     *            the arguments of the main method
      */
-    public static void main( String[] args )
+    public static void main( String [ ] args )
     {
-        junit.textui.TestRunner.run( AllTests.suite(  ) );
-        AppDaemonService.shutdown(  );
-        AppConnectionService.releasePool(  );
+        junit.textui.TestRunner.run( AllTests.suite( ) );
+        AppDaemonService.shutdown( );
+        AppConnectionService.releasePool( );
         System.out.println( "Lutece services shutdown" );
         System.exit( 0 );
     }

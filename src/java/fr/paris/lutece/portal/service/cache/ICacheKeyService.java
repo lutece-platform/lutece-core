@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -38,7 +38,6 @@ import fr.paris.lutece.portal.service.security.LuteceUser;
 import java.util.List;
 import java.util.Map;
 
-
 /**
  * Interface for cache key builders
  */
@@ -46,22 +45,30 @@ public interface ICacheKeyService
 {
     /**
      * Build a key from input parameters
-     * @param mapParams The Map params
-     * @param nMode The current mode.
-     * @param user Current Lutece user
+     * 
+     * @param mapParams
+     *            The Map params
+     * @param nMode
+     *            The current mode.
+     * @param user
+     *            Current Lutece user
      * @return The key
      */
     String getKey( Map<String, String> mapParams, int nMode, LuteceUser user );
 
     /**
      * Sets the list of allowed parameters to include into the cache key
-     * @param list The list
+     * 
+     * @param list
+     *            The list
      */
     void setAllowedParametersList( List<String> list );
 
     /**
      * Sets the list of ignored parameters not to include into the cache key
-     * @param list The list
+     * 
+     * @param list
+     *            The list
      */
     void setIgnoredParametersList( List<String> list );
 }

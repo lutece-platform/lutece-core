@@ -45,7 +45,6 @@ import javax.naming.InitialContext;
 
 import javax.sql.DataSource;
 
-
 /**
  * This class provides a ConnectionService based on Tomcat
  */
@@ -58,7 +57,7 @@ public class TomcatConnectionService implements ConnectionService
     /**
      * {@inheritDoc}
      */
-    public Connection getConnection(  )
+    public Connection getConnection( )
     {
         Connection conn = null;
 
@@ -66,7 +65,7 @@ public class TomcatConnectionService implements ConnectionService
         {
             if ( _ds != null )
             {
-                conn = _ds.getConnection(  );
+                conn = _ds.getConnection( );
 
                 if ( conn != null )
                 {
@@ -74,9 +73,9 @@ public class TomcatConnectionService implements ConnectionService
                 }
             }
         }
-        catch ( Exception e )
+        catch( Exception e )
         {
-            _logger.error( "Erreur when getting the connexion with the pool : " + getPoolName(  ), e );
+            _logger.error( "Erreur when getting the connexion with the pool : " + getPoolName( ), e );
         }
 
         return conn;
@@ -89,15 +88,15 @@ public class TomcatConnectionService implements ConnectionService
     {
         try
         {
-            conn.close(  );
+            conn.close( );
         }
-        catch ( SQLException e )
+        catch( SQLException e )
         {
-            _logger.error( "SQL error when releasing the connexion with the pool : " + getPoolName(  ), e );
+            _logger.error( "SQL error when releasing the connexion with the pool : " + getPoolName( ), e );
         }
-        catch ( Exception e )
+        catch( Exception e )
         {
-            _logger.error( "Error while releasing the connexion with the pool : " + getPoolName(  ), e );
+            _logger.error( "Error while releasing the connexion with the pool : " + getPoolName( ), e );
         }
     }
 
@@ -108,17 +107,17 @@ public class TomcatConnectionService implements ConnectionService
     {
         try
         {
-            String strDs = htParamsConnectionPool.get( getPoolName(  ) + ".ds" );
-            Context ctx = new InitialContext(  );
+            String strDs = htParamsConnectionPool.get( getPoolName( ) + ".ds" );
+            Context ctx = new InitialContext( );
 
             _ds = (DataSource) ctx.lookup( "java:comp/env/" + strDs );
         }
-        catch ( Exception e )
+        catch( Exception e )
         {
-            _logger.error( "Error while initializing the pool " + getPoolName(  ), e );
+            _logger.error( "Error while initializing the pool " + getPoolName( ), e );
         }
 
-        _logger.info( "Initialization of the pool " + getPoolName(  ) );
+        _logger.info( "Initialization of the pool " + getPoolName( ) );
     }
 
     /**
@@ -132,14 +131,16 @@ public class TomcatConnectionService implements ConnectionService
     /**
      * {@inheritDoc}
      */
-    public String getPoolName(  )
+    public String getPoolName( )
     {
         return _strPoolName;
     }
 
     /**
      * Sets the logger
-     * @param logger The logger
+     * 
+     * @param logger
+     *            The logger
      */
     public void setLogger( Logger logger )
     {
@@ -149,7 +150,7 @@ public class TomcatConnectionService implements ConnectionService
     /**
      * {@inheritDoc}
      */
-    public Logger getLogger(  )
+    public Logger getLogger( )
     {
         return _logger;
     }
@@ -157,7 +158,7 @@ public class TomcatConnectionService implements ConnectionService
     /**
      * {@inheritDoc}
      */
-    public void release(  )
+    public void release( )
     {
         // Nothing to do
     }
@@ -165,7 +166,7 @@ public class TomcatConnectionService implements ConnectionService
     /**
      * {@inheritDoc}
      */
-    public int getCurrentConnections(  )
+    public int getCurrentConnections( )
     {
         return ConnectionService.INFO_NOT_AVAILABLE;
     }
@@ -173,7 +174,7 @@ public class TomcatConnectionService implements ConnectionService
     /**
      * {@inheritDoc}
      */
-    public int getMaxConnections(  )
+    public int getMaxConnections( )
     {
         return ConnectionService.INFO_NOT_AVAILABLE;
     }
@@ -181,7 +182,7 @@ public class TomcatConnectionService implements ConnectionService
     /**
      * {@inheritDoc }
      */
-    public String getPoolProvider(  )
+    public String getPoolProvider( )
     {
         return "Tomcat";
     }
@@ -189,7 +190,7 @@ public class TomcatConnectionService implements ConnectionService
     /**
      * {@inheritDoc }
      */
-    public DataSource getDataSource(  )
+    public DataSource getDataSource( )
     {
         return _ds;
     }

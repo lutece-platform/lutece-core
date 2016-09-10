@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -35,7 +35,6 @@ package fr.paris.lutece.portal.business.physicalfile;
 
 import java.io.Serializable;
 
-
 /**
  *
  * class PhysicalFile
@@ -45,21 +44,22 @@ public class PhysicalFile implements Serializable
 {
     private static final long serialVersionUID = 2417106117403081560L;
     private int _nIdPhysicalFile;
-    private byte[] _byValue;
+    private byte [ ] _byValue;
 
     /**
      *
      * @return the id of the physical file
      */
-    public int getIdPhysicalFile(  )
+    public int getIdPhysicalFile( )
     {
         return _nIdPhysicalFile;
     }
 
     /**
-    *
-    * @param nIdPhysicalFile the id of the physical file
-    */
+     *
+     * @param nIdPhysicalFile
+     *            the id of the physical file
+     */
     public void setIdPhysicalFile( int nIdPhysicalFile )
     {
         _nIdPhysicalFile = nIdPhysicalFile;
@@ -69,16 +69,18 @@ public class PhysicalFile implements Serializable
      *
      * @return the value of the file
      */
-    public byte[] getValue(  )
+    public byte [ ] getValue( )
     {
         return _byValue;
     }
 
     /**
      * set the value of the file
-     * @param value the value of the file
+     * 
+     * @param value
+     *            the value of the file
      */
-    public void setValue( byte[] value )
+    public void setValue( byte [ ] value )
     {
         _byValue = value;
     }

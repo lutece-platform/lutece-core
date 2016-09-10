@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,9 +33,8 @@
  */
 package fr.paris.lutece.portal.service.init;
 
-
 /**
- *  this class provides informations about application version
+ * this class provides informations about application version
  */
 public final class AppInfo
 {
@@ -45,15 +44,16 @@ public final class AppInfo
     /**
      * Creates a new AppInfo object.
      */
-    private AppInfo(  )
+    private AppInfo( )
     {
     }
 
     /**
      * Returns the current version of the application
+     * 
      * @return APP_VERSION The current version of the application
      */
-    public static String getVersion(  )
+    public static String getVersion( )
     {
         return APP_VERSION;
     }

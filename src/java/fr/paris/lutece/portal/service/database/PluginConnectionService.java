@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -37,7 +37,6 @@ import fr.paris.lutece.util.pool.PoolManager;
 
 import java.sql.Connection;
 
-
 /**
  * Class for Plugins connection services.
  */
@@ -48,7 +47,8 @@ public class PluginConnectionService
     /**
      * Creates a new PluginConnectionService object.
      *
-     * @param strPoolName Rhe name of the pool
+     * @param strPoolName
+     *            Rhe name of the pool
      */
     public PluginConnectionService( String strPoolName )
     {
@@ -58,7 +58,8 @@ public class PluginConnectionService
     /**
      * Sets the pool to be used by this Connection Service
      *
-     * @param strPoolName The name of the pool
+     * @param strPoolName
+     *            The name of the pool
      */
     public final void setPool( String strPoolName )
     {
@@ -70,9 +71,9 @@ public class PluginConnectionService
      *
      * @return a connection to database from the pool
      */
-    public Connection getConnection(  )
+    public Connection getConnection( )
     {
-        PoolManager poolManager = AppConnectionService.getPoolManager(  );
+        PoolManager poolManager = AppConnectionService.getPoolManager( );
         Connection conn = poolManager.getConnection( _strPoolName );
 
         return conn;
@@ -81,19 +82,21 @@ public class PluginConnectionService
     /**
      * Releases a connection and replaces it in the pool
      *
-     * @param conn The connection to realease
+     * @param conn
+     *            The connection to realease
      */
     public void freeConnection( Connection conn )
     {
-        PoolManager poolManager = AppConnectionService.getPoolManager(  );
+        PoolManager poolManager = AppConnectionService.getPoolManager( );
         poolManager.freeConnection( _strPoolName, conn );
     }
 
     /**
      * Gets the pool name
+     * 
      * @return the pool name
      */
-    public String getPoolName(  )
+    public String getPoolName( )
     {
         return _strPoolName;
     }

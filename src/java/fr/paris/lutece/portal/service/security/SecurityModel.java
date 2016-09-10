@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,7 +33,6 @@
  */
 package fr.paris.lutece.portal.service.security;
 
-
 /**
  * This class defines security models available for authentication.
  */
@@ -45,18 +44,20 @@ public final class SecurityModel
     /**
      * Creates a new SecurityModel object.
      */
-    private SecurityModel(  )
+    private SecurityModel( )
     {
     }
 
     /**
      * This method checks a security model value
-     * @param nSecurityModel The value to check
+     * 
+     * @param nSecurityModel
+     *            The value to check
      * @return true if the value is valid otherwise false
      */
     public static boolean isValid( int nSecurityModel )
     {
-        switch ( nSecurityModel )
+        switch( nSecurityModel )
         {
             case NO_AUTHENTICATION:
             case AUTHENTICATION_REQUIRED:

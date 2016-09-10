@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -36,22 +36,21 @@ package fr.paris.lutece.portal.service.fileupload;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.io.FilenameUtils;
 
-
 /**
- * This service provides utils to extract parameters from multipart request
- * using Jakarta Commons FileUpload.
+ * This service provides utils to extract parameters from multipart request using Jakarta Commons FileUpload.
  */
 public final class FileUploadService
 {
     /** Creates a new instance of FileUploadService */
-    private FileUploadService(  )
+    private FileUploadService( )
     {
     }
 
     /**
-     * Return the file name, without its whole path, from the file item.
-     * This should be used has FileItem.getName can return the whole path.
-     * @param fileItem the fileItem to process
+     * Return the file name, without its whole path, from the file item. This should be used has FileItem.getName can return the whole path.
+     * 
+     * @param fileItem
+     *            the fileItem to process
      * @return the name of the file associated
      */
     public static String getFileNameOnly( FileItem fileItem )
@@ -60,7 +59,7 @@ public final class FileUploadService
 
         if ( fileItem != null )
         {
-            strFileName = fileItem.getName(  );
+            strFileName = fileItem.getName( );
 
             if ( strFileName != null )
             {

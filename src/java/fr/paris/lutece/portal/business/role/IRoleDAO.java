@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -37,7 +37,6 @@ import fr.paris.lutece.util.ReferenceList;
 
 import java.util.Collection;
 
-
 /**
  *
  * @author LEVY
@@ -47,21 +46,24 @@ public interface IRoleDAO
     /**
      * Delete a record from the table
      *
-     * @param strRole The indentifier of the object Role
+     * @param strRole
+     *            The indentifier of the object Role
      */
     void delete( String strRole );
 
     /**
      * Insert a new record in the table.
      *
-     * @param role The Instance of the object Role
+     * @param role
+     *            The Instance of the object Role
      */
     void insert( Role role );
 
     /**
      * load the data of Role from the table
      *
-     * @param strRole The indentifier of the object Role
+     * @param strRole
+     *            The indentifier of the object Role
      * @return The Instance of the object Role
      */
     Role load( String strRole );
@@ -71,18 +73,20 @@ public interface IRoleDAO
      *
      * @return A ReferenceList of role objects
      */
-    ReferenceList selectRolesList(  );
+    ReferenceList selectRolesList( );
 
     /**
      * Load the list of roles
+     * 
      * @return The Collection of the Roles
      */
-    Collection<Role> selectAll(  );
+    Collection<Role> selectAll( );
 
     /**
      * Update the record in the table
      *
-     * @param role The instance of the Role to update
+     * @param role
+     *            The instance of the Role to update
      */
     void store( Role role );
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -35,12 +35,11 @@ package fr.paris.lutece.portal.business.event;
 
 import fr.paris.lutece.portal.service.search.IndexationService;
 
-
 /**
-*
-* ResourceEvent
-*
-*/
+ *
+ * ResourceEvent
+ *
+ */
 public class ResourceEvent
 {
     private String _strIdResource;
@@ -50,15 +49,19 @@ public class ResourceEvent
     /**
      * default constructor
      */
-    public ResourceEvent(  )
+    public ResourceEvent( )
     {
     }
 
     /**
      * Constructor with fields
-     * @param strIdDocument the resource identifier
-     * @param strTypeResource the type of the resource
-     * @param nIdPortlet the portlet identifier of the resource
+     * 
+     * @param strIdDocument
+     *            the resource identifier
+     * @param strTypeResource
+     *            the type of the resource
+     * @param nIdPortlet
+     *            the portlet identifier of the resource
      */
     public ResourceEvent( String strIdDocument, String strTypeResource, int nIdPortlet )
     {
@@ -69,16 +72,19 @@ public class ResourceEvent
 
     /**
      * Gets the resource identifier
+     * 
      * @return the resource identifier
      */
-    public String getIdResource(  )
+    public String getIdResource( )
     {
         return _strIdResource;
     }
 
     /**
      * Sets the resource identifier
-     * @param strIdDocument the resource identifier
+     * 
+     * @param strIdDocument
+     *            the resource identifier
      */
     public void setIdResource( String strIdDocument )
     {
@@ -87,16 +93,19 @@ public class ResourceEvent
 
     /**
      * Gets the type of the resource
+     * 
      * @return the type of the resource
      */
-    public String getTypeResource(  )
+    public String getTypeResource( )
     {
         return _strTypeResource;
     }
 
     /**
      * Sets the type of the resource
-     * @param indexerName the type of the resource
+     * 
+     * @param indexerName
+     *            the type of the resource
      */
     public void setTypeResource( String indexerName )
     {
@@ -105,16 +114,19 @@ public class ResourceEvent
 
     /**
      * Gets the portlet identifier of the resource
+     * 
      * @return the portlet identifier of the resource
      */
-    public int getIdPortlet(  )
+    public int getIdPortlet( )
     {
         return _nIdPortlet;
     }
 
     /**
      * Sets the portlet identifier of the resource
-     * @param nIdPortlet the portlet identifier of the resource
+     * 
+     * @param nIdPortlet
+     *            the portlet identifier of the resource
      */
     public void setIdPortlet( int nIdPortlet )
     {

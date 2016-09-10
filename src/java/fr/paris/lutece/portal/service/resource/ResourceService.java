@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -43,10 +43,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.StringTokenizer;
 
-
 /**
- * This abstract Class provides a standard way for application to deliver resources
- * using multiple loaders and an optional cache.
+ * This abstract Class provides a standard way for application to deliver resources using multiple loaders and an optional cache.
+ * 
  * @since v1.4.1
  */
 public abstract class ResourceService extends AbstractCacheableService
@@ -57,20 +56,20 @@ public abstract class ResourceService extends AbstractCacheableService
 
     // Variables
     private String _strName = UNDEFINED_SERVICE_NAME;
-    private List<ResourceLoader> _listLoaders = new ArrayList<ResourceLoader>(  );
+    private List<ResourceLoader> _listLoaders = new ArrayList<ResourceLoader>( );
 
     /**
      *
      */
-    protected ResourceService(  )
+    protected ResourceService( )
     {
-        String strLoadersProperty = getLoadersProperty(  );
+        String strLoadersProperty = getLoadersProperty( );
 
         if ( ( strLoadersProperty != null ) && ( !strLoadersProperty.equals( "" ) ) )
         {
             initLoaders( strLoadersProperty );
 
-            //            initCache( getName() );
+            // initCache( getName() );
         }
         else
         {
@@ -81,29 +80,34 @@ public abstract class ResourceService extends AbstractCacheableService
     // Methods to overide
     /**
      * Gets the name of the property that list all loaders
+     * 
      * @return The property key
      */
-    protected abstract String getLoadersProperty(  );
+    protected abstract String getLoadersProperty( );
 
     /**
      * Initialize loaders
-     * @param strKey The property key that contains all loaders class
+     * 
+     * @param strKey
+     *            The property key that contains all loaders class
      */
     protected void initLoaders( String strKey )
     {
         String strLoaders = AppPropertiesService.getProperty( strKey );
         StringTokenizer st = new StringTokenizer( strLoaders, DELIMITER );
 
-        while ( st.hasMoreTokens(  ) )
+        while ( st.hasMoreTokens( ) )
         {
-            String strLoaderClassName = st.nextToken(  );
+            String strLoaderClassName = st.nextToken( );
             addLoader( strLoaderClassName );
         }
     }
 
     /**
      * Set the service name
-     * @param strName The service name
+     * 
+     * @param strName
+     *            The service name
      */
     protected void setName( String strName )
     {
@@ -112,16 +116,19 @@ public abstract class ResourceService extends AbstractCacheableService
 
     /**
      * Get the service name
+     * 
      * @return The service name
      */
-    public String getName(  )
+    public String getName( )
     {
         return _strName;
     }
 
     /**
      * Set the service name by reading a property
-     * @param strKey The name key
+     * 
+     * @param strKey
+     *            The name key
      */
     protected void setNameKey( String strKey )
     {
@@ -130,7 +137,9 @@ public abstract class ResourceService extends AbstractCacheableService
 
     /**
      * Defines whether the cache is enable or disable reading a property
-     * @param strKey The key name of the cache
+     * 
+     * @param strKey
+     *            The key name of the cache
      */
     protected void setCacheKey( String strKey )
     {
@@ -138,45 +147,49 @@ public abstract class ResourceService extends AbstractCacheableService
 
         if ( strCache.equals( "true" ) )
         {
-            initCache( getName(  ) );
+            initCache( getName( ) );
         }
     }
 
     /**
      * Add a new loader to the service
-     * @param strLoaderClassName The loader class name
+     * 
+     * @param strLoaderClassName
+     *            The loader class name
      */
     protected void addLoader( String strLoaderClassName )
     {
         try
         {
-            ResourceLoader loader = (ResourceLoader) Class.forName( strLoaderClassName ).newInstance(  );
+            ResourceLoader loader = (ResourceLoader) Class.forName( strLoaderClassName ).newInstance( );
             _listLoaders.add( loader );
         }
-        catch ( IllegalAccessException e )
+        catch( IllegalAccessException e )
         {
-            AppLogService.error( e.getMessage(  ), e );
+            AppLogService.error( e.getMessage( ), e );
         }
-        catch ( InstantiationException e )
+        catch( InstantiationException e )
         {
-            AppLogService.error( e.getMessage(  ), e );
+            AppLogService.error( e.getMessage( ), e );
         }
-        catch ( ClassNotFoundException e )
+        catch( ClassNotFoundException e )
         {
-            AppLogService.error( e.getMessage(  ), e );
+            AppLogService.error( e.getMessage( ), e );
         }
     }
 
     /**
      * Returns a resource by its Id
-     * @param strId The resource Id
+     * 
+     * @param strId
+     *            The resource Id
      * @return A resource
      */
     protected Resource getResource( String strId )
     {
         Resource resource = null;
 
-        if ( isCacheEnable(  ) )
+        if ( isCacheEnable( ) )
         {
             resource = (Resource) getFromCache( strId );
 
@@ -200,17 +213,19 @@ public abstract class ResourceService extends AbstractCacheableService
 
     /**
      * Load a resource by its Id
-     * @param strId The resource Id
+     * 
+     * @param strId
+     *            The resource Id
      * @return A resource
      */
     private Resource loadResource( String strId )
     {
         Resource resource = null;
-        Iterator<ResourceLoader> i = _listLoaders.iterator(  );
+        Iterator<ResourceLoader> i = _listLoaders.iterator( );
 
-        while ( i.hasNext(  ) && ( resource == null ) )
+        while ( i.hasNext( ) && ( resource == null ) )
         {
-            ResourceLoader loader = (ResourceLoader) i.next(  );
+            ResourceLoader loader = (ResourceLoader) i.next( );
             resource = loader.getResource( strId );
         }
 
@@ -219,22 +234,23 @@ public abstract class ResourceService extends AbstractCacheableService
 
     /**
      * Load all resources
+     * 
      * @return A collection of resources
      */
-    protected Collection<Resource> getResources(  )
+    protected Collection<Resource> getResources( )
     {
-        List<Resource> listResources = new ArrayList<Resource>(  );
-        Iterator<ResourceLoader> i = _listLoaders.iterator(  );
+        List<Resource> listResources = new ArrayList<Resource>( );
+        Iterator<ResourceLoader> i = _listLoaders.iterator( );
 
-        while ( i.hasNext(  ) )
+        while ( i.hasNext( ) )
         {
-            ResourceLoader loader = (ResourceLoader) i.next(  );
-            Collection<Resource> colResources = loader.getResources(  );
-            Iterator<Resource> j = colResources.iterator(  );
+            ResourceLoader loader = (ResourceLoader) i.next( );
+            Collection<Resource> colResources = loader.getResources( );
+            Iterator<Resource> j = colResources.iterator( );
 
-            while ( j.hasNext(  ) )
+            while ( j.hasNext( ) )
             {
-                Resource resource = (Resource) j.next(  );
+                Resource resource = (Resource) j.next( );
                 listResources.add( resource );
             }
         }

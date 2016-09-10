@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -44,7 +44,6 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 
-
 /**
  * The class provides a bean to hold message box informations
  */
@@ -66,24 +65,33 @@ public class SiteMessage implements Serializable
     private String _strTarget;
     private int _nTypeButton;
     private int _nType;
-    private String[] _messageArgs;
+    private String [ ] _messageArgs;
     private Map<String, String> _requestParameters;
     private String _strBackUrl;
 
     /**
-    *
-    * @param strTextKey I18n key for the message body
-    * @param messageArgs Arguments for the strTextKey or null
-    * @param strTitleKey I18n key for the message title
-    * @param strUrl The url for the Ok button
-    * @param strTarget Target for the form (_blank, _self, ...)
-    * @param nType Message type (TYPE_INFO, TYPE_QUESTION, ...)
-    * @param nTypeButton Type of Cancel button
-    * @param requestParameters Request parameters as a Map
-    * @param strBackUrl the back url
-    */
-    public SiteMessage( String strTextKey, Object[] messageArgs, String strTitleKey, String strUrl, String strTarget,
-        int nType, int nTypeButton, Map<String, Object> requestParameters, String strBackUrl )
+     *
+     * @param strTextKey
+     *            I18n key for the message body
+     * @param messageArgs
+     *            Arguments for the strTextKey or null
+     * @param strTitleKey
+     *            I18n key for the message title
+     * @param strUrl
+     *            The url for the Ok button
+     * @param strTarget
+     *            Target for the form (_blank, _self, ...)
+     * @param nType
+     *            Message type (TYPE_INFO, TYPE_QUESTION, ...)
+     * @param nTypeButton
+     *            Type of Cancel button
+     * @param requestParameters
+     *            Request parameters as a Map
+     * @param strBackUrl
+     *            the back url
+     */
+    public SiteMessage( String strTextKey, Object [ ] messageArgs, String strTitleKey, String strUrl, String strTarget, int nType, int nTypeButton,
+            Map<String, Object> requestParameters, String strBackUrl )
     {
         _strTextKey = strTextKey;
         _strTitleKey = strTitleKey;
@@ -96,40 +104,45 @@ public class SiteMessage implements Serializable
         // Object message conversion into String values
         if ( messageArgs != null )
         {
-            _messageArgs = new String[messageArgs.length];
+            _messageArgs = new String [ messageArgs.length];
 
             for ( int i = 0; i < messageArgs.length; i++ )
             {
-                _messageArgs[i] = ( messageArgs[i] == null ) ? null : messageArgs[i].toString(  );
+                _messageArgs [i] = ( messageArgs [i] == null ) ? null : messageArgs [i].toString( );
             }
         }
 
         // Object message conversion into String values for map of parameters
         if ( requestParameters != null )
         {
-            _requestParameters = new HashMap<String, String>(  );
+            _requestParameters = new HashMap<String, String>( );
 
-            for ( Entry<String, Object> entry : requestParameters.entrySet(  ) )
+            for ( Entry<String, Object> entry : requestParameters.entrySet( ) )
             {
-                _requestParameters.put( entry.getKey(  ),
-                    ( entry.getValue(  ) == null ) ? null : entry.getValue(  ).toString(  ) );
+                _requestParameters.put( entry.getKey( ), ( entry.getValue( ) == null ) ? null : entry.getValue( ).toString( ) );
             }
         }
     }
 
     /**
-    *
-    * @param strTextKey I18n key for the message body
-    * @param messageArgs Arguments for the strTextKey or null
-    * @param strTitleKey I18n key for the message title
-    * @param strUrl The url for the Ok button
-    * @param strTarget Target for the form (_blank, _self, ...)
-    * @param nType Message type (TYPE_INFO, TYPE_QUESTION, ...)
-    * @param bCancelButton True if Cancel button is necessary
-    * @deprecated
-    */
-    public SiteMessage( String strTextKey, Object[] messageArgs, String strTitleKey, String strUrl, String strTarget,
-        int nType, boolean bCancelButton )
+     *
+     * @param strTextKey
+     *            I18n key for the message body
+     * @param messageArgs
+     *            Arguments for the strTextKey or null
+     * @param strTitleKey
+     *            I18n key for the message title
+     * @param strUrl
+     *            The url for the Ok button
+     * @param strTarget
+     *            Target for the form (_blank, _self, ...)
+     * @param nType
+     *            Message type (TYPE_INFO, TYPE_QUESTION, ...)
+     * @param bCancelButton
+     *            True if Cancel button is necessary
+     * @deprecated
+     */
+    public SiteMessage( String strTextKey, Object [ ] messageArgs, String strTitleKey, String strUrl, String strTarget, int nType, boolean bCancelButton )
     {
         this( strTextKey, messageArgs, strTitleKey, strUrl, strTarget, nType, ( bCancelButton ) ? 1 : 0, null, null );
     }
@@ -139,25 +152,27 @@ public class SiteMessage implements Serializable
      *
      * @return The message type
      */
-    public int getType(  )
+    public int getType( )
     {
         return _nType;
     }
 
     /**
      * return True if button is required
+     * 
      * @return True if button is required in message
      * @deprecated
      */
-    public boolean isCancel(  )
+    public boolean isCancel( )
     {
-        return ( getTypeButton(  ) == TYPE_BUTTON_HIDDEN ) ? false : true;
+        return ( getTypeButton( ) == TYPE_BUTTON_HIDDEN ) ? false : true;
     }
 
     /**
      * set cancel button value
      *
-     * @param bCancel True if Cancel button is required (set with default type)
+     * @param bCancel
+     *            True if Cancel button is required (set with default type)
      * @deprecated
      */
     public void setCancel( boolean bCancel )
@@ -174,7 +189,9 @@ public class SiteMessage implements Serializable
 
     /**
      * Returns the localized text of the message
-     * @param locale The current locale
+     * 
+     * @param locale
+     *            The current locale
      * @return The localized text of the message
      */
     public String getText( Locale locale )
@@ -183,7 +200,7 @@ public class SiteMessage implements Serializable
 
         if ( _messageArgs != null )
         {
-            strText = MessageFormat.format( strText, (Object[]) _messageArgs );
+            strText = MessageFormat.format( strText, (Object [ ]) _messageArgs );
         }
 
         return strText;
@@ -191,7 +208,9 @@ public class SiteMessage implements Serializable
 
     /**
      * Returns the localized text of the message
-     * @param locale The current locale
+     * 
+     * @param locale
+     *            The current locale
      * @return The localized text of the message
      */
     public String getTitle( Locale locale )
@@ -201,18 +220,20 @@ public class SiteMessage implements Serializable
 
     /**
      * Returns the Url of the message box Ok button
+     * 
      * @return the Url of the Ok button
      */
-    public String getUrl(  )
+    public String getUrl( )
     {
         return _strUrl;
     }
 
     /**
-         * Returns the Url of the message box Ok button
-         * @return the Url of the Ok button
-         */
-    public String getTarget(  )
+     * Returns the Url of the message box Ok button
+     * 
+     * @return the Url of the Ok button
+     */
+    public String getTarget( )
     {
         return _strTarget;
     }
@@ -221,14 +242,15 @@ public class SiteMessage implements Serializable
      *
      * @return type of button
      */
-    public int getTypeButton(  )
+    public int getTypeButton( )
     {
         return _nTypeButton;
     }
 
     /**
      *
-     * @param nTypeButton The Type of cancel button
+     * @param nTypeButton
+     *            The Type of cancel button
      */
     public void setTypeButton( int nTypeButton )
     {
@@ -239,14 +261,16 @@ public class SiteMessage implements Serializable
      *
      * @return the request parameters.
      */
-    public Map<String, String> getRequestParameters(  )
+    public Map<String, String> getRequestParameters( )
     {
         return _requestParameters;
     }
 
     /**
      * set the back url
-     * @param strBackUrl the back url
+     * 
+     * @param strBackUrl
+     *            the back url
      */
     public void setBackUrl( String strBackUrl )
     {
@@ -257,7 +281,7 @@ public class SiteMessage implements Serializable
      *
      * @return back url
      */
-    public String getBackUrl(  )
+    public String getBackUrl( )
     {
         return _strBackUrl;
     }

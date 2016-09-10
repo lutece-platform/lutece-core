@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,7 +33,6 @@
  */
 package fr.paris.lutece.portal.service.search;
 
-
 /**
  * This Class is used to load Search Indexer Service from the XML plugin file.
  */
@@ -46,7 +45,7 @@ public class SearchIndexerEntry
      *
      * @return The ClassName
      */
-    public String getClassName(  )
+    public String getClassName( )
     {
         return _strClassName;
     }
@@ -54,7 +53,8 @@ public class SearchIndexerEntry
     /**
      * Sets the ClassName
      *
-     * @param strClassName The ClassName
+     * @param strClassName
+     *            The ClassName
      */
     public void setClassName( String strClassName )
     {

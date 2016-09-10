@@ -35,7 +35,6 @@ package fr.paris.lutece.portal.business.portalcomponent;
 
 import fr.paris.lutece.test.LuteceTestCase;
 
-
 public class PortalComponentTest extends LuteceTestCase
 {
     private static final int PORTAL_COMPONENT_ID = -99;
@@ -44,29 +43,29 @@ public class PortalComponentTest extends LuteceTestCase
     private final static String STRNAME1 = "StrName 1";
     private final static String STRNAME2 = "StrName 2";
 
-    public void testBusinessPortalComponent(  )
+    public void testBusinessPortalComponent( )
     {
         // Initialize an object
-        PortalComponent portalComponent = new PortalComponent(  );
+        PortalComponent portalComponent = new PortalComponent( );
         portalComponent.setId( PORTAL_COMPONENT_ID );
         portalComponent.setName( STRNAME1 );
 
         // Create test
         PortalComponentHome.create( portalComponent );
 
-        PortalComponent portalComponentStored = PortalComponentHome.findByPrimaryKey( portalComponent.getId(  ) );
-        assertEquals( portalComponentStored.getName(  ), portalComponent.getName(  ) );
+        PortalComponent portalComponentStored = PortalComponentHome.findByPrimaryKey( portalComponent.getId( ) );
+        assertEquals( portalComponentStored.getName( ), portalComponent.getName( ) );
 
         // Update test
         portalComponent.setName( STRNAME2 );
 
         PortalComponentHome.update( portalComponent );
-        portalComponentStored = PortalComponentHome.findByPrimaryKey( portalComponent.getId(  ) );
-        assertEquals( portalComponentStored.getName(  ), portalComponent.getName(  ) );
+        portalComponentStored = PortalComponentHome.findByPrimaryKey( portalComponent.getId( ) );
+        assertEquals( portalComponentStored.getName( ), portalComponent.getName( ) );
 
         // Delete test
-        PortalComponentHome.remove( portalComponent.getId(  ) );
-        portalComponentStored = PortalComponentHome.findByPrimaryKey( portalComponent.getId(  ) );
+        PortalComponentHome.remove( portalComponent.getId( ) );
+        portalComponentStored = PortalComponentHome.findByPrimaryKey( portalComponent.getId( ) );
         assertNull( portalComponentStored );
 
         // getXsl test

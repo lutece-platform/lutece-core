@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -38,7 +38,6 @@ import fr.paris.lutece.portal.business.physicalfile.PhysicalFile;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
-
 /**
  *
  * class File
@@ -59,14 +58,16 @@ public class File implements Serializable
      *
      * @return the id of the file
      */
-    public int getIdFile(  )
+    public int getIdFile( )
     {
         return _nIdFile;
     }
 
     /**
      * set the id of the file
-     * @param idFile id of the file
+     * 
+     * @param idFile
+     *            id of the file
      */
     public void setIdFile( int idFile )
     {
@@ -77,14 +78,16 @@ public class File implements Serializable
      *
      * @return the title of the file
      */
-    public String getTitle(  )
+    public String getTitle( )
     {
         return _strTitle;
     }
 
     /**
      * set the title of the file
-     * @param title the title of the file
+     * 
+     * @param title
+     *            the title of the file
      */
     public void setTitle( String title )
     {
@@ -95,14 +98,16 @@ public class File implements Serializable
      *
      * @return the size of the file
      */
-    public int getSize(  )
+    public int getSize( )
     {
         return _nSize;
     }
 
     /**
      * set the size of the file
-     * @param size the size of the file
+     * 
+     * @param size
+     *            the size of the file
      */
     public void setSize( int size )
     {
@@ -113,14 +118,16 @@ public class File implements Serializable
      *
      * @return the extension of the file
      */
-    public String getExtension(  )
+    public String getExtension( )
     {
         return _strExtension;
     }
 
     /**
      * set the extension of the file
-     * @param extension the title of the file
+     * 
+     * @param extension
+     *            the title of the file
      */
     public void setExtension( String extension )
     {
@@ -131,14 +138,16 @@ public class File implements Serializable
      *
      * @return the extension of the file
      */
-    public String getMimeType(  )
+    public String getMimeType( )
     {
         return _strMimeType;
     }
 
     /**
      * set the mime type of the file
-     * @param mimeType the mime type of the file
+     * 
+     * @param mimeType
+     *            the mime type of the file
      */
     public void setMimeType( String mimeType )
     {
@@ -149,37 +158,40 @@ public class File implements Serializable
      *
      * @return the PhysicalFile associate to the file
      */
-    public PhysicalFile getPhysicalFile(  )
+    public PhysicalFile getPhysicalFile( )
     {
         return _physicalFile;
     }
 
     /**
      * set the PhysicalFile associate to the file
-     * @param file PhysicalFile
+     * 
+     * @param file
+     *            PhysicalFile
      */
     public void setPhysicalFile( PhysicalFile file )
     {
         _physicalFile = file;
     }
-    
+
     /**
      *
      * @return the creation date of the file
      */
-    public Timestamp getDateCreation(  )
+    public Timestamp getDateCreation( )
     {
         return _dateCreation;
     }
 
     /**
      * set the creation date of the file
-     * @param dateCreation the creation date of the file
+     * 
+     * @param dateCreation
+     *            the creation date of the file
      */
     public void setDateCreation( Timestamp dateCreation )
     {
         _dateCreation = dateCreation;
     }
-    
-    
+
 }

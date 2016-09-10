@@ -35,53 +35,66 @@ package fr.paris.lutece.util.jpa;
 
 import java.util.List;
 
-
 /**
  * Class GenericDAO
- * @param <K> Type of the entity's key
- * @param <E> Type of the entity
+ * 
+ * @param <K>
+ *            Type of the entity's key
+ * @param <E>
+ *            Type of the entity
  */
 public interface IGenericDAO<K, E>
 {
     /**
      * Create an entity
-     * @param entity The entity to create
+     * 
+     * @param entity
+     *            The entity to create
      */
     void create( E entity );
 
     /**
      * Update an entity
-     * @param entity An entity that contains new values
+     * 
+     * @param entity
+     *            An entity that contains new values
      */
     void update( E entity );
 
     /**
      * Remove an entity
-     * @param key The key of the entity to remove
+     * 
+     * @param key
+     *            The key of the entity to remove
      */
     void remove( K key );
 
     /**
      * Find an entity by its Id
-     * @param key The entity key
+     * 
+     * @param key
+     *            The entity key
      * @return The entity object
      */
     E findById( K key );
 
     /**
      * Find all entities
+     * 
      * @return A list of entities
      */
-    List<E> findAll(  );
+    List<E> findAll( );
 
     /**
      * Synchronize the persistence context to the underlying database.
      */
-    void flush(  );
+    void flush( );
 
     /**
      * Remove the given entity from the persistence context, causing a managed entity to become detached.
-     * @param entity the entity
+     * 
+     * @param entity
+     *            the entity
      */
     void detach( E entity );
 }

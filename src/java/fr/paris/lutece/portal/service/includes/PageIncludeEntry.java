@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -36,7 +36,6 @@ package fr.paris.lutece.portal.service.includes;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.plugin.PluginService;
 
-
 /**
  * PageInclude Entry used by XML plugin file
  */
@@ -54,7 +53,7 @@ public class PageIncludeEntry
      *
      * @return The Id
      */
-    public String getId(  )
+    public String getId( )
     {
         return _strId;
     }
@@ -62,7 +61,8 @@ public class PageIncludeEntry
     /**
      * Sets the Id
      *
-     * @param strId The Id
+     * @param strId
+     *            The Id
      */
     public void setId( String strId )
     {
@@ -74,7 +74,7 @@ public class PageIncludeEntry
      *
      * @return The ClassName
      */
-    public String getClassName(  )
+    public String getClassName( )
     {
         return _strClassName;
     }
@@ -82,7 +82,8 @@ public class PageIncludeEntry
     /**
      * Sets the ClassName
      *
-     * @param strClassName The ClassName
+     * @param strClassName
+     *            The ClassName
      */
     public void setClassName( String strClassName )
     {
@@ -94,7 +95,7 @@ public class PageIncludeEntry
      *
      * @return The name of the plugin
      */
-    public String getPluginName(  )
+    public String getPluginName( )
     {
         return _strPluginName;
     }
@@ -102,7 +103,8 @@ public class PageIncludeEntry
     /**
      * Set the plugin name
      *
-     * @param strPluginName the plugin name
+     * @param strPluginName
+     *            the plugin name
      */
     public void setPluginName( String strPluginName )
     {
@@ -111,7 +113,9 @@ public class PageIncludeEntry
 
     /**
      * Sets the enabled state of this PageInclude
-     * @param enabled <code>true</code> if this PageInclude is enabled, <code>false</code> otherwise
+     * 
+     * @param enabled
+     *            <code>true</code> if this PageInclude is enabled, <code>false</code> otherwise
      * @since 5.1
      */
     public void setEnabled( boolean enabled )
@@ -121,21 +125,21 @@ public class PageIncludeEntry
 
     /**
      * Tells if the PageInclude is enabled, independently of the plugin's status
+     * 
      * @return <code>true</code> if this PageInclude is enabled, <code>false</code> otherwise
      * @since 5.1
      */
-    public boolean isEnabled(  )
+    public boolean isEnabled( )
     {
         return _bEnabled;
     }
 
     /**
-     * Tells if the PageInclude is enabled (plugin enabled and this
-     * particular PageInclude is enabled)
+     * Tells if the PageInclude is enabled (plugin enabled and this particular PageInclude is enabled)
      *
      * @return True if the PageInclude is enabled, otherwise false
      */
-    public boolean isEnable(  )
+    public boolean isEnable( )
     {
         return PluginService.isPluginEnable( _strPluginName ) && _bEnabled;
     }
@@ -145,14 +149,16 @@ public class PageIncludeEntry
      *
      * @return the plugin
      */
-    public Plugin getPlugin(  )
+    public Plugin getPlugin( )
     {
         return PluginService.getPlugin( _strPluginName );
     }
 
     /**
      * Sets the PageInclude object
-     * @param pageInclude the PageInclude object
+     * 
+     * @param pageInclude
+     *            the PageInclude object
      */
     public void setPageInclude( PageInclude pageInclude )
     {
@@ -161,9 +167,10 @@ public class PageIncludeEntry
 
     /**
      * Gets the PageInclude object
+     * 
      * @return The PageInclude object
      */
-    public PageInclude getPageInclude(  )
+    public PageInclude getPageInclude( )
     {
         return _pageInclude;
     }

@@ -35,7 +35,6 @@ package fr.paris.lutece.portal.service.util;
 
 import fr.paris.lutece.test.LuteceTestCase;
 
-
 /**
  * AppLogService Test Class
  */
@@ -44,7 +43,7 @@ public class AppLogServiceTest extends LuteceTestCase
     /**
      * Test of init method, of class AppLogService.
      */
-    public void testInit(  )
+    public void testInit( )
     {
         System.out.println( "init" );
 
@@ -57,7 +56,7 @@ public class AppLogServiceTest extends LuteceTestCase
     /**
      * Test of debug method, of class AppLogService.
      */
-    public void testDebug(  )
+    public void testDebug( )
     {
         System.out.println( "debug" );
 
@@ -69,7 +68,7 @@ public class AppLogServiceTest extends LuteceTestCase
     /**
      * Test of error method, of class AppLogService.
      */
-    public void testError(  )
+    public void testError( )
     {
         System.out.println( "error" );
 
@@ -81,7 +80,7 @@ public class AppLogServiceTest extends LuteceTestCase
     /**
      * Test of info method, of class AppLogService.
      */
-    public void testInfo(  )
+    public void testInfo( )
     {
         System.out.println( "info" );
 

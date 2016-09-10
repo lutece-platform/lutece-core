@@ -35,7 +35,6 @@ package fr.paris.lutece.util.json;
 
 import java.io.Serializable;
 
-
 /**
  *
  * AbstractJsonResponse
@@ -50,7 +49,9 @@ public abstract class AbstractJsonResponse implements Serializable
 
     /**
      * AbstractJsonResponse constructor
-     * @param strStatus the response status
+     * 
+     * @param strStatus
+     *            the response status
      */
     public AbstractJsonResponse( String strStatus )
     {
@@ -61,7 +62,7 @@ public abstract class AbstractJsonResponse implements Serializable
      *
      * @return the response status
      */
-    public String getStatus(  )
+    public String getStatus( )
     {
         return _strStatus;
     }

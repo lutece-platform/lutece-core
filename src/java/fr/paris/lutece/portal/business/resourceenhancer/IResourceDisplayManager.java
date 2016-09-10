@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -37,31 +37,38 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-
 /**
-*
-*Interface IResourceDisplayManager : enhance portlet XML or model with additionnel info
-*
-*/
+ *
+ * Interface IResourceDisplayManager : enhance portlet XML or model with additionnel info
+ *
+ */
 public interface IResourceDisplayManager
 {
     /**
      * Add to the the XML String additional datas
-     * @param strXml The xml string use by stylesheet
-     * @param strResourceType the resource type
-     * @param nResourceId The resource Id
+     * 
+     * @param strXml
+     *            The xml string use by stylesheet
+     * @param strResourceType
+     *            the resource type
+     * @param nResourceId
+     *            The resource Id
      */
     void getXmlAddOn( StringBuffer strXml, String strResourceType, int nResourceId );
 
     /**
      * Add datas to the model use by document template
      *
-     * @param model The model use by document template
-     * @param strResourceType the ressource Type
-     * @param nIdResource The resource id
-     * @param strPortletId The portlet ID
-     * @param request The HTTP Request
+     * @param model
+     *            The model use by document template
+     * @param strResourceType
+     *            the ressource Type
+     * @param nIdResource
+     *            The resource id
+     * @param strPortletId
+     *            The portlet ID
+     * @param request
+     *            The HTTP Request
      */
-    void buildPageAddOn( Map<String, Object> model, String strResourceType, int nIdResource, String strPortletId,
-        HttpServletRequest request );
+    void buildPageAddOn( Map<String, Object> model, String strResourceType, int nIdResource, String strPortletId, HttpServletRequest request );
 }

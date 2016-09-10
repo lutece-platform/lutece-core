@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -35,24 +35,26 @@ package fr.paris.lutece.portal.service.resource;
 
 import java.util.Collection;
 
-
 /**
- * This interface provides an abstract layer for an application to load its
- * resources. <br />
+ * This interface provides an abstract layer for an application to load its resources. <br />
  * Ressources can be loaded from a database, a properties file or any other way.
+ * 
  * @since v1.4.1
  */
 public interface ResourceLoader
 {
     /**
      * Load all resources available for this loader
+     * 
      * @return A collection of resources
      */
-    Collection getResources(  );
+    Collection getResources( );
 
     /**
      * Load a resource by its Id
-     * @param strId The Id of the resource
+     * 
+     * @param strId
+     *            The Id of the resource
      * @return The resource
      */
     Resource getResource( String strId );

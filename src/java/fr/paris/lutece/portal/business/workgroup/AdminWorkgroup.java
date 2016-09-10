@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -35,7 +35,6 @@ package fr.paris.lutece.portal.business.workgroup;
 
 import fr.paris.lutece.portal.service.workgroup.AdminWorkgroupResource;
 
-
 /**
  * This class describes a workgroup used by the administration
  */
@@ -46,9 +45,10 @@ public class AdminWorkgroup implements AdminWorkgroupResource
 
     /**
      * Gets the workgroup key
+     * 
      * @return Returns the Key.
      */
-    public String getKey(  )
+    public String getKey( )
     {
         return _strKey;
     }
@@ -56,7 +56,8 @@ public class AdminWorkgroup implements AdminWorkgroupResource
     /**
      * Sets the workgroup key
      *
-     * @param strKey The Key
+     * @param strKey
+     *            The Key
      */
     public void setKey( String strKey )
     {
@@ -65,9 +66,10 @@ public class AdminWorkgroup implements AdminWorkgroupResource
 
     /**
      * Returns the workgroup's description
+     * 
      * @return Returns the Description.
      */
-    public String getDescription(  )
+    public String getDescription( )
     {
         return _strDescription;
     }
@@ -75,7 +77,8 @@ public class AdminWorkgroup implements AdminWorkgroupResource
     /**
      * Sets the workgroup's description
      *
-     * @param strDescription The workgroup's description
+     * @param strDescription
+     *            The workgroup's description
      */
     public void setDescription( String strDescription )
     {
@@ -87,8 +90,8 @@ public class AdminWorkgroup implements AdminWorkgroupResource
      *
      * @return The workgroup key
      */
-    public String getWorkgroup(  )
+    public String getWorkgroup( )
     {
-        return getKey(  );
+        return getKey( );
     }
 }
