@@ -57,13 +57,13 @@ import javax.persistence.Query;
  */
 public abstract class JPAGenericDAO<K, E> implements IGenericDAO<K, E>
 {
-    private static final Logger _log = Logger.getLogger( JPAConstants.JPA_LOGGER );
+    private static final Logger LOG = Logger.getLogger( JPAConstants.JPA_LOGGER );
     private Class<E> _entityClass;
+    private EntityManager _defaultEM;
 
     /**
      * Constructor
      */
-    @SuppressWarnings( "unchecked" )
     public JPAGenericDAO(  )
     {
         _entityClass = (Class<E>) ( (ParameterizedType) getClass(  ).getGenericSuperclass(  ) ).getActualTypeArguments(  )[1];
@@ -110,12 +110,12 @@ public abstract class JPAGenericDAO<K, E> implements IGenericDAO<K, E>
 
                 if ( em == null )
                 {
-                    _log.error( 
+                    LOG.error( 
                         "getEM(  ) : no EntityManager found. Will use native entity manager factory [Transaction will not be supported]" );
                 }
                 else
                 {
-                    _log.debug( "EntityManager found for the current transaction : " + em.toString(  ) +
+                    LOG.debug( "EntityManager found for the current transaction : " + em.toString(  ) +
                         " - using Factory : " + emf.toString(  ) );
 
                     return em;
@@ -123,58 +123,74 @@ public abstract class JPAGenericDAO<K, E> implements IGenericDAO<K, E>
             }
             catch ( DataAccessResourceFailureException ex )
             {
-                _log.error( ex );
+                LOG.error( ex );
             }
         }
 
-        _log.error( 
+        LOG.error( 
             "getEM(  ) : no EntityManager found. Will use native entity manager factory [Transaction will not be supported]" );
 
-        return emf.createEntityManager(  );
+        if( _defaultEM == null )
+        {
+            _defaultEM = emf.createEntityManager(  );
+        }
+        return _defaultEM;
     }
 
     /**
      * {@inheritDoc }
      */
+    @Override
     public void create( E entity )
     {
-        _log.debug( "Creating entity : " + entity.toString(  ) );
+        LOG.debug( "Creating entity : " + entity.toString(  ) );
 
         EntityManager em = getEM(  );
+        
+        if( em == _defaultEM ) em.getTransaction().begin();
         em.persist( entity );
-        _log.debug( "Entity created : " + entity.toString(  ) );
+        if( em == _defaultEM ) em.getTransaction().commit();
+
+        LOG.debug( "Entity created : " + entity.toString(  ) );
     }
 
     /**
      * {@inheritDoc }
      */
+    @Override
     public void remove( K key )
     {
         EntityManager em = getEM(  );
         E entity = em.find( _entityClass, key );
-        _log.debug( "Removing entity : " + entity.toString(  ) );
+        LOG.debug( "Removing entity : " + entity.toString(  ) );
+        if( em == _defaultEM ) em.getTransaction().begin();
         em.remove( entity );
-        _log.debug( "Entity removed : " + entity.toString(  ) );
+        if( em == _defaultEM ) em.getTransaction().commit();
+        LOG.debug( "Entity removed : " + entity.toString(  ) );
     }
 
     /**
      * {@inheritDoc }
      */
+    @Override
     public void update( E entity )
     {
-        _log.debug( "Updating entity : " + entity.toString(  ) );
+        LOG.debug( "Updating entity : " + entity.toString(  ) );
 
         EntityManager em = getEM(  );
+        if( em == _defaultEM ) em.getTransaction().begin();
         em.merge( entity );
-        _log.debug( "Entity Updated : " + entity.toString(  ) );
+        if( em == _defaultEM ) em.getTransaction().commit();
+        LOG.debug( "Entity Updated : " + entity.toString(  ) );
     }
 
     /**
      * {@inheritDoc }
      */
+    @Override
     public E findById( K key )
     {
-        _log.debug( "Selecting entity " + getEntityClassName(  ) + " by ID : " + key.toString(  ) );
+        LOG.debug( "Selecting entity " + getEntityClassName(  ) + " by ID : " + key.toString(  ) );
 
         return (E) getEM(  ).find( _entityClass, key );
     }
@@ -182,9 +198,10 @@ public abstract class JPAGenericDAO<K, E> implements IGenericDAO<K, E>
     /**
      * {@inheritDoc }
      */
+    @Override
     public List<E> findAll(  )
     {
-        _log.debug( "Selecting all entities of type : " + getEntityClassName(  ) );
+        LOG.debug( "Selecting all entities of type : " + getEntityClassName(  ) );
 
         Query query = getEM(  ).createQuery( "SELECT e FROM " + getEntityClassName(  ) + " e " );
 
@@ -195,6 +212,7 @@ public abstract class JPAGenericDAO<K, E> implements IGenericDAO<K, E>
      *
      *{@inheritDoc}
      */
+    @Override
     public void flush(  )
     {
         getEM(  ).flush(  );
@@ -204,6 +222,7 @@ public abstract class JPAGenericDAO<K, E> implements IGenericDAO<K, E>
      *
      *{@inheritDoc}
      */
+    @Override
     public void detach( E entity )
     {
         getEM(  ).detach( entity );
