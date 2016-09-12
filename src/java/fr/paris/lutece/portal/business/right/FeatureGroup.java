@@ -34,6 +34,7 @@
 package fr.paris.lutece.portal.business.right;
 
 import fr.paris.lutece.portal.service.i18n.I18nService;
+import fr.paris.lutece.util.ReferenceItem;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -193,4 +194,20 @@ public class FeatureGroup
     {
         return _aFeaturesList;
     }
+    
+    /**
+     * Returns a reference item for the feature group
+     * 
+     * @return a reference item
+     */
+    public ReferenceItem getReferenceItem(  )
+    {
+        ReferenceItem item = new ReferenceItem(  );
+        item.setCode( _strId );
+        item.setName( getLabel(  ) );
+        item.setChecked( true );
+        return item;
+    }
+    
+    
 }

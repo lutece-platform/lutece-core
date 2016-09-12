@@ -1,0 +1,17 @@
+<@rowBoxHeader i18nTitleKey="portal.features.external_features.modify_external_feature.pageTitle">
+    <form class="form-horizontal" method="post" name="modify_external_feature" action="jsp/admin/features/DoModifyExternalFeature.jsp">
+        <@messages errors=errors />     
+        <@fieldInputText i18nLabelKey="portal.features.external_features.create_external_features.name_key" inputName="name_key" mandatory=true value=external_feature.nameKey i18nHelpBlockKey="portal.features.external_features.create_external_features.name_key.help" />
+        <@fieldInputText i18nLabelKey="portal.features.external_features.create_external_features.url" inputName="url" mandatory=true value=external_feature.url i18nHelpBlockKey="portal.features.external_features.create_external_features.url.help" />
+        <@fieldInputText i18nLabelKey="portal.features.external_features.create_external_features.description_key" inputName="description_key" mandatory=true value=external_feature.descriptionKey i18nHelpBlockKey="portal.features.external_features.create_external_features.description_key.help" />
+        <#if right_levels_labels_list?has_content>
+            <@fieldInputCombo i18nLabelKey="portal.features.external_features.create_external_features.level" inputName="level_id" items=right_levels_labels_list mandatory=true value=external_feature.level?string i18nHelpBlockKey="portal.features.external_features.create_external_features.level.help" />
+        </#if>
+        <#if features_groups_labels_list?has_content>
+            <@fieldInputCombo i18nLabelKey="portal.features.external_features.create_external_features.feature_group" inputName="feature_group_id" items=features_groups_labels_list mandatory=true value=external_feature.featureGroup i18nHelpBlockKey="portal.features.external_features.create_external_features.feature_group.help" />
+        </#if>
+        <@fieldInputText i18nLabelKey="portal.features.external_features.create_external_features.icon_url" inputName="icon_url" mandatory=false value=external_feature.iconUrl i18nHelpBlockKey="portal.features.external_features.create_external_features.icon_url.help" />
+        <@fieldInputText i18nLabelKey="portal.features.external_features.create_external_features.documentation_url" inputName="documentation_url" mandatory=false value=external_feature.documentationUrl i18nHelpBlockKey="portal.features.external_features.create_external_features.documentation_url.help" />
+        <@actionButtons button1Name="modifyExternalFeature" button2Name="cancelModifyExternalFeature"/>
+    </form>
+</@rowBoxHeader>

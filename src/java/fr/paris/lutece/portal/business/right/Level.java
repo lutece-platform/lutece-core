@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.business.right;
 
+import fr.paris.lutece.util.ReferenceItem;
 
 /**
  * This class reprsents business objects Mode
@@ -80,5 +81,19 @@ public class Level
     public void setName( String strName )
     {
         _strName = strName;
+    }
+    
+    /**
+     * Return a reference Item for this level
+     *
+     * @return a reference item for this level
+     */
+    public ReferenceItem getReferenceItem(  )
+    {
+        ReferenceItem referenceItem = new ReferenceItem(  );
+        referenceItem.setCode( Integer.toString( _nId ) );
+        referenceItem.setName( _strName );
+        referenceItem.setChecked( true );
+        return referenceItem;
     }
 }

@@ -64,7 +64,7 @@ public class AdminUserDAO implements IAdminUserDAO
     private static final String SQL_QUERY_SELECT_USER_FROM_USER_ID = "SELECT id_user , access_code, last_name , first_name, email, status, password, locale, level_user, reset_password, accessibility_mode, password_max_valid_date, account_max_valid_date, workgroup_key FROM core_admin_user WHERE id_user = ? ";
     private static final String SQL_QUERY_SELECT_USER_FROM_ACCESS_CODE = "SELECT id_user, access_code, last_name, first_name, email, status, locale, level_user, reset_password, accessibility_mode, password_max_valid_date, last_login FROM core_admin_user  WHERE access_code = ? ";
     private static final String SQL_QUERY_SELECT_USER_FROM_EMAIL = "SELECT access_code FROM core_admin_user  WHERE email = ? ";
-    private static final String SQL_QUERY_SELECT_RIGHTS_FROM_USER_ID = " SELECT a.id_right , a.name, a.admin_url , a.description , a.plugin_name, a.id_feature_group, a.icon_url, a.level_right, a.documentation_url, a.id_order " +
+    private static final String SQL_QUERY_SELECT_RIGHTS_FROM_USER_ID = " SELECT a.id_right , a.name, a.admin_url , a.description , a.plugin_name, a.id_feature_group, a.icon_url, a.level_right, a.documentation_url, a.id_order, a.is_external_feature " +
         " FROM core_admin_right a , core_user_right b " + " WHERE a.id_right = b.id_right " + " AND b.id_user = ? " +
         " ORDER BY a.id_order ASC, a.id_right ASC ";
     private static final String SQL_QUERY_UPDATE = "UPDATE core_admin_user SET access_code = ? , last_name = ? , first_name = ?, email = ?, status = ?, locale = ?, reset_password = ?, accessibility_mode = ?, password_max_valid_date = ? WHERE id_user = ?  ";
@@ -383,6 +383,7 @@ public class AdminUserDAO implements IAdminUserDAO
             right.setLevel( daoUtil.getInt( 8 ) );
             right.setDocumentationUrl( daoUtil.getString( 9 ) );
             right.setOrder( daoUtil.getInt( 10 ) );
+            right.setExternalFeature( daoUtil.getBoolean( 11 ) );
             rightsMap.put( right.getId(  ), right );
         }
 
