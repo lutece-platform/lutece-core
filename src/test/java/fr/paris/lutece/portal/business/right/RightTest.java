@@ -54,6 +54,8 @@ public class RightTest extends LuteceTestCase
     private final static String FEATUREGROUP2 = "FeatureGroup 2";
     private final static String ICONURL1 = "IconUrl 1";
     private final static String ICONURL2 = "IconUrl 2";
+    private final static boolean IS_EXTERNAL_FEATURE1 = false;
+    private final static boolean IS_EXTERNAL_FEATURE2 = true;
 
     public void testBusinessRight( )
     {
@@ -67,6 +69,7 @@ public class RightTest extends LuteceTestCase
         right.setPluginName( PLUGINNAME1 );
         right.setFeatureGroup( FEATUREGROUP1 );
         right.setIconUrl( ICONURL1 );
+        right.setExternalFeature( IS_EXTERNAL_FEATURE1 );
 
         // Create test
         RightHome.create( right );
@@ -79,6 +82,7 @@ public class RightTest extends LuteceTestCase
         assertEquals( rightStored.getPluginName( ), right.getPluginName( ) );
         assertEquals( rightStored.getFeatureGroup( ), right.getFeatureGroup( ) );
         assertEquals( rightStored.getIconUrl( ), right.getIconUrl( ) );
+        assertEquals( rightStored.isExternalFeature(  ), right.isExternalFeature(  ) );
 
         // Update test
         right.setNameKey( NAMEKEY2 );
@@ -88,6 +92,7 @@ public class RightTest extends LuteceTestCase
         right.setPluginName( PLUGINNAME2 );
         right.setFeatureGroup( FEATUREGROUP2 );
         right.setIconUrl( ICONURL2 );
+        right.setExternalFeature( IS_EXTERNAL_FEATURE2 );
         RightHome.update( right );
         rightStored = RightHome.findByPrimaryKey( right.getId( ) );
         assertEquals( rightStored.getNameKey( ), right.getNameKey( ) );
@@ -97,11 +102,16 @@ public class RightTest extends LuteceTestCase
         assertEquals( rightStored.getPluginName( ), right.getPluginName( ) );
         assertEquals( rightStored.getFeatureGroup( ), right.getFeatureGroup( ) );
         assertEquals( rightStored.getIconUrl( ), right.getIconUrl( ) );
+        assertEquals( rightStored.isExternalFeature(  ), right.isExternalFeature(  ) );
 
         // List Test
         Collection listRights = RightHome.getRightsList( );
         assertTrue( listRights.size( ) > 0 );
-
+        
+        //List external features tests
+        listRights = RightHome.getExternalRightList(  );
+        assertTrue( listRights.size( ) > 0 );
+        
         // Delete test
         RightHome.remove( right.getId( ) );
         rightStored = RightHome.findByPrimaryKey( right.getId( ) );

@@ -34,8 +34,10 @@
 package fr.paris.lutece.portal.business.right;
 
 import fr.paris.lutece.portal.service.spring.SpringContextService;
+import fr.paris.lutece.util.ReferenceList;
 
 import java.util.List;
+import java.util.Locale;
 
 /**
  * This class provides instances management methods (create, find, ...) for feature groups objects
@@ -159,6 +161,23 @@ public final class FeatureGroupHome
     {
         return _dao.selectFeatureGroupsList( );
     }
+  
+    /**
+     * Loads the data of all the feature groups and returns them in form of a reference list
+     *
+     * @return the reference list of all the feature groups
+     */
+    public static ReferenceList getFeatureGroupsReferenceList(  )
+    {
+        ReferenceList featuresGroupsReferenceList = new ReferenceList(  );
+        for ( FeatureGroup featureGroup : getFeatureGroupsList(  ) )
+        {
+            featuresGroupsReferenceList.add( featureGroup.getReferenceItem(  ) );
+        }
+        
+        return featuresGroupsReferenceList;
+    }
+    
 
     /**
      * Gets the count of groups

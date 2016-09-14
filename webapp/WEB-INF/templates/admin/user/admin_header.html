@@ -21,7 +21,11 @@
                    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel${feature_group.id}Header">
                      <#list feature_group.features as feature>
                        <li class="menu">
-                         <a href="${feature.url}?plugin_name=${feature.pluginName}">${feature.name}</a>
+                         <#if !feature.externalFeature>
+                            <a href="${feature.url}?plugin_name=${feature.pluginName}">${feature.name}</a>
+                         <#else>
+                             <a href="${feature.url}"><#if feature.iconUrl?has_content><i class="${feature.iconUrl}"></i></#if> ${feature.name}</a>
+                      </#if>
                        </li>
                      </#list>
                    </ul>
@@ -29,7 +33,11 @@
                <#else>
                  <#list feature_group.features as feature>
                    <li>
-                      <a href="${feature.url}?plugin_name=${feature.pluginName}">${feature.name}</a>
+                      <#if !feature.externalFeature>
+                         <a href="${feature.url}?plugin_name=${feature.pluginName}">${feature.name}</a>
+                      <#else>
+                        <a href="${feature.url}"><#if feature.iconUrl?has_content><i class="${feature.iconUrl}"></i></#if>${feature.name}</a>
+                      </#if>
                     </li>
                    </#list>
                  </#if>

@@ -48,6 +48,7 @@ CREATE TABLE core_admin_right (
 	icon_url varchar(255) default NULL,
 	documentation_url varchar(255) default NULL,
 	id_order int default NULL,
+	is_external_feature boolean default NULL,
 	PRIMARY KEY (id_right)
 );
 

@@ -61,6 +61,7 @@ public class Right implements Localizable, Comparable<Right>, Serializable
     private String _strDocumentationUrl;
     private Locale _locale;
     private int _nIdOrder;
+    private boolean _bIsExternalFeature;
 
     /**
      * Set the local used by this right
@@ -106,13 +107,18 @@ public class Right implements Localizable, Comparable<Right>, Serializable
     }
 
     /**
-     * Returns the name of this right.
+     * Returns the name of this right if the i18n key exists; else return the i18n key.
      *
      * @return the right name
      */
     public String getName( )
     {
-        return I18nService.getLocalizedString( _strNameKey, _locale );
+        String strReturn = I18nService.getLocalizedString( _strNameKey, _locale );
+        if ( !strReturn.equals( "" ) )
+        {
+            return I18nService.getLocalizedString( _strNameKey, _locale );
+        }
+        else return _strNameKey;
     }
 
     /**
@@ -179,13 +185,18 @@ public class Right implements Localizable, Comparable<Right>, Serializable
     }
 
     /**
-     * Returns the description of this right.
+     * Returns the description of this right if the i18nk exists; else return the key.
      *
      * @return the right description
      */
     public String getDescription( )
     {
-        return I18nService.getLocalizedString( _strDescriptionKey, _locale );
+        String strReturn = I18nService.getLocalizedString( _strDescriptionKey, _locale );
+        if ( !strReturn.equals( "" ) )
+        {
+            return I18nService.getLocalizedString( _strDescriptionKey, _locale );
+        }
+        else return _strDescriptionKey;
     }
 
     /**
@@ -304,6 +315,24 @@ public class Right implements Localizable, Comparable<Right>, Serializable
     public void setOrder( int nOrder )
     {
         this._nIdOrder = nOrder;
+    }
+    
+    /**
+     * Get the external feature boolean
+     * @return the _isExternalFeature
+     */
+    public boolean isExternalFeature(  )
+    {
+        return _bIsExternalFeature;
+    }
+
+    /**
+     * Set the external feature boolean
+     * @param bExternalFeature the _isExternalFeature to set
+     */
+    public void setExternalFeature( boolean bExternalFeature )
+    {
+        this._bIsExternalFeature = bExternalFeature;
     }
 
     /**
