@@ -404,9 +404,12 @@ public class DAOUtil
      *
      * @see PreparedStatement#setDate(int, Date, Calendar)
      * @since 5.1.1
-     * @param nIndex parameter index
-     * @param date date value
-     * @param calendar the calendar
+     * @param nIndex
+     *            parameter index
+     * @param date
+     *            date value
+     * @param calendar
+     *            the calendar
      */
     public void setDate( int nIndex, Date date, Calendar calendar )
     {
@@ -414,9 +417,9 @@ public class DAOUtil
         {
             _statement.setDate( nIndex, date, calendar );
         }
-        catch ( SQLException e )
+        catch( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
@@ -447,9 +450,12 @@ public class DAOUtil
      *
      * @see PreparedStatement#setTime(int, Time, Calendar)
      * @since 5.1.1
-     * @param nIndex parameter index
-     * @param time time value
-     * @param calendar the calendat
+     * @param nIndex
+     *            parameter index
+     * @param time
+     *            time value
+     * @param calendar
+     *            the calendat
      */
     public void setTime( int nIndex, Time time, Calendar calendar )
     {
@@ -457,9 +463,9 @@ public class DAOUtil
         {
             _statement.setTime( nIndex, time, calendar );
         }
-        catch ( SQLException e )
+        catch( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
@@ -489,12 +495,15 @@ public class DAOUtil
 
     /**
      * Fills the prepared statement with a binary value stream
+     * 
      * @see PreparedStatement#setBinaryStream(int, InputStream, long)
      * @since 5.1.1
-     * @param nIndex parameter index
-     * @param iStream the java input stream which contains the binary parameter
-     *            value
-     * @param nBlength the number of bytes in the stream
+     * @param nIndex
+     *            parameter index
+     * @param iStream
+     *            the java input stream which contains the binary parameter value
+     * @param nBlength
+     *            the number of bytes in the stream
      */
     public void setBinaryStream( int nIndex, InputStream iStream, long nBlength )
     {
@@ -502,20 +511,22 @@ public class DAOUtil
         {
             _statement.setBinaryStream( nIndex, iStream, nBlength );
         }
-        catch ( SQLException e )
+        catch( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
 
     /**
      * Fills the prepared statement with a binary value stream
+     * 
      * @see PreparedStatement#setBinaryStream(int, InputStream)
      * @since 5.1.1
-     * @param nIndex parameter index
-     * @param iStream the java input stream which contains the binary parameter
-     *            value
+     * @param nIndex
+     *            parameter index
+     * @param iStream
+     *            the java input stream which contains the binary parameter value
      */
     public void setBinaryStream( int nIndex, InputStream iStream )
     {
@@ -523,9 +534,9 @@ public class DAOUtil
         {
             _statement.setBinaryStream( nIndex, iStream );
         }
-        catch ( SQLException e )
+        catch( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
@@ -593,10 +604,13 @@ public class DAOUtil
 
     /**
      * Fills the prepared statement with a blob value from a stream
+     * 
      * @see PreparedStatement#setBlob(int, InputStream)
      * @since 5.1.1
-     * @param nIndex the index
-     * @param stream the value
+     * @param nIndex
+     *            the index
+     * @param stream
+     *            the value
      */
     public void setBlob( int nIndex, InputStream stream )
     {
@@ -604,20 +618,24 @@ public class DAOUtil
         {
             _statement.setBlob( nIndex, stream );
         }
-        catch ( SQLException e )
+        catch( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
 
     /**
      * Fills the prepared statement with a blob value from a stream
+     * 
      * @see PreparedStatement#setBlob(int, InputStream, long)
      * @since 5.1.1
-     * @param nIndex the index
-     * @param stream the value
-     * @param nLength the number of bytes to read
+     * @param nIndex
+     *            the index
+     * @param stream
+     *            the value
+     * @param nLength
+     *            the number of bytes to read
      */
     public void setBlob( int nIndex, InputStream stream, long nLength )
     {
@@ -625,19 +643,22 @@ public class DAOUtil
         {
             _statement.setBlob( nIndex, stream, nLength );
         }
-        catch ( SQLException e )
+        catch( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
 
     /**
      * Fills the prepared statement with a blob value
+     * 
      * @see PreparedStatement#setBlob(int, InputStream)
      * @since 5.1.1
-     * @param nIndex the index
-     * @param blob the value
+     * @param nIndex
+     *            the index
+     * @param blob
+     *            the value
      */
     public void setBlob( int nIndex, Blob blob )
     {
@@ -645,9 +666,9 @@ public class DAOUtil
         {
             _statement.setBlob( nIndex, blob );
         }
-        catch ( SQLException e )
+        catch( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
@@ -699,7 +720,8 @@ public class DAOUtil
      *
      * @see ResultSet#getByte(int)
      * @since 5.1.1
-     * @param nIndex column index
+     * @param nIndex
+     *            column index
      * @return byte instance
      */
     public byte getByte( int nIndex )
@@ -708,9 +730,9 @@ public class DAOUtil
         {
             return _resultSet.getByte( nIndex );
         }
-        catch ( SQLException e )
+        catch( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
@@ -720,7 +742,8 @@ public class DAOUtil
      *
      * @see ResultSet#getByte(int)
      * @since 5.1.1
-     * @param strColumnName column name
+     * @param strColumnName
+     *            column name
      * @return byte instance
      */
     public byte getByte( String strColumnName )
@@ -729,9 +752,9 @@ public class DAOUtil
         {
             return _resultSet.getByte( strColumnName );
         }
-        catch ( SQLException e )
+        catch( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
@@ -786,10 +809,13 @@ public class DAOUtil
 
     /**
      * Fills the prepared statement with a byte value
+     * 
      * @see PreparedStatement#setByte(int, byte)
      * @since 5.1.1
-     * @param nIndex parameter index in the prepared statement
-     * @param bValue byte value
+     * @param nIndex
+     *            parameter index in the prepared statement
+     * @param bValue
+     *            byte value
      */
     public void setByte( int nIndex, byte bValue )
     {
@@ -797,9 +823,9 @@ public class DAOUtil
         {
             _statement.setByte( nIndex, bValue );
         }
-        catch ( SQLException e )
+        catch( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
@@ -877,9 +903,12 @@ public class DAOUtil
      *
      * @see PreparedStatement#setTimestamp(int, Timestamp, Calendar)
      * @since 5.1.1
-     * @param nIndex parameter index in the prepared statement
-     * @param ts timestamp value
-     * @param calendar the calendar
+     * @param nIndex
+     *            parameter index in the prepared statement
+     * @param ts
+     *            timestamp value
+     * @param calendar
+     *            the calendar
      */
     public void setTimestamp( int nIndex, Timestamp ts, Calendar calendar )
     {
@@ -887,9 +916,9 @@ public class DAOUtil
         {
             _statement.setTimestamp( nIndex, ts, calendar );
         }
-        catch ( SQLException e )
+        catch( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
@@ -977,16 +1006,15 @@ public class DAOUtil
     }
 
     /**
-     * Gets the value of the designated column in the current row of this
-     * ResultSet
-     * object as a java.sql.Date object in the Java programming language.
+     * Gets the value of the designated column in the current row of this ResultSet object as a java.sql.Date object in the Java programming language.
      *
      * @see ResultSet#getDate(int, Calendar)
      * @since 5.1.1
-     * @param nIndex the first column is 1, the second is 2, ...
-     * @param calendar the calendar
-     * @return the column value; if the value is SQL NULL, the value returned is
-     *         null
+     * @param nIndex
+     *            the first column is 1, the second is 2, ...
+     * @param calendar
+     *            the calendar
+     * @return the column value; if the value is SQL NULL, the value returned is null
      */
     public Date getDate( int nIndex, Calendar calendar )
     {
@@ -1002,16 +1030,15 @@ public class DAOUtil
     }
 
     /**
-     * Gets the value of the designated column in the current row of this
-     * ResultSet
-     * object as a java.sql.Date object in the Java programming language.
+     * Gets the value of the designated column in the current row of this ResultSet object as a java.sql.Date object in the Java programming language.
      *
      * @see ResultSet#getDate(String, Calendar)
      * @since 5.1.1
-     * @param strColumnName name of the column, ...
-     * @param calendar the calendar
-     * @return the column value; if the value is SQL NULL, the value returned is
-     *         null
+     * @param strColumnName
+     *            name of the column, ...
+     * @param calendar
+     *            the calendar
+     * @return the column value; if the value is SQL NULL, the value returned is null
      */
     public Date getDate( String strColumnName, Calendar calendar )
     {
@@ -1027,15 +1054,12 @@ public class DAOUtil
     }
 
     /**
-     * Gets the value of the designated column in the current row of this
-     * ResultSet
-     * object as a java.sql.Time object in the Java programming language.
+     * Gets the value of the designated column in the current row of this ResultSet object as a java.sql.Time object in the Java programming language.
      *
      * @param nIndex
      *            the first column is 1, the second is 2, ...
      *
-     * @return the column value; if the value is SQL NULL, the value returned is
-     *         null
+     * @return the column value; if the value is SQL NULL, the value returned is null
      */
     public Time getTime( int nIndex )
     {
@@ -1051,14 +1075,12 @@ public class DAOUtil
     }
 
     /**
-     * Gets the value of the designated column in the current row of this
-     * ResultSet
-     * object as a java.sql.Time object in the Java programming language.
+     * Gets the value of the designated column in the current row of this ResultSet object as a java.sql.Time object in the Java programming language.
      *
-     * @param strColumnName name of the column, ...
+     * @param strColumnName
+     *            name of the column, ...
      *
-     * @return the column value; if the value is SQL NULL, the value returned is
-     *         null
+     * @return the column value; if the value is SQL NULL, the value returned is null
      */
     public Time getTime( String strColumnName )
     {
@@ -1074,16 +1096,15 @@ public class DAOUtil
     }
 
     /**
-     * Gets the value of the designated column in the current row of this
-     * ResultSet
-     * object as a java.sql.Time object in the Java programming language.
+     * Gets the value of the designated column in the current row of this ResultSet object as a java.sql.Time object in the Java programming language.
      *
      * @see ResultSet#getTime(int, Calendar)
      * @since 5.1.1
-     * @param nIndex the first column is 1, the second is 2, ...
-     * @param calendar the calendar
-     * @return the column value; if the value is SQL NULL, the value returned is
-     *         null
+     * @param nIndex
+     *            the first column is 1, the second is 2, ...
+     * @param calendar
+     *            the calendar
+     * @return the column value; if the value is SQL NULL, the value returned is null
      */
     public Time getTime( int nIndex, Calendar calendar )
     {
@@ -1099,16 +1120,15 @@ public class DAOUtil
     }
 
     /**
-     * Gets the value of the designated column in the current row of this
-     * ResultSet
-     * object as a java.sql.Time object in the Java programming language.
+     * Gets the value of the designated column in the current row of this ResultSet object as a java.sql.Time object in the Java programming language.
      *
      * @see ResultSet#getTime(String, Calendar)
      * @since 5.1.1
-     * @param strColumnName name of the column, ...
-     * @param calendar the calendar
-     * @return the column value; if the value is SQL NULL, the value returned is
-     *         null
+     * @param strColumnName
+     *            name of the column, ...
+     * @param calendar
+     *            the calendar
+     * @return the column value; if the value is SQL NULL, the value returned is null
      */
     public Time getTime( String strColumnName, Calendar calendar )
     {
@@ -1124,15 +1144,12 @@ public class DAOUtil
     }
 
     /**
-     * Gets the value of the designated column in the current row of this
-     * ResultSet
-     * object as a int
+     * Gets the value of the designated column in the current row of this ResultSet object as a int
      *
      * @param nIndex
      *            the first column is 1, the second is 2, ...
      *
-     * @return the column value; if the value is SQL NULL, the value returned is
-     *         0
+     * @return the column value; if the value is SQL NULL, the value returned is 0
      */
     public int getInt( int nIndex )
     {
@@ -1148,15 +1165,12 @@ public class DAOUtil
     }
 
     /**
-     * Gets the value of the designated column in the current row of this
-     * ResultSet
-     * object as a int
+     * Gets the value of the designated column in the current row of this ResultSet object as a int
      *
      * @param strColumnName
      *            column name
      *
-     * @return the column value; if the value is SQL NULL, the value returned is
-     *         0
+     * @return the column value; if the value is SQL NULL, the value returned is 0
      */
     public int getInt( String strColumnName )
     {
@@ -1172,15 +1186,12 @@ public class DAOUtil
     }
 
     /**
-     * Gets the value of the designated column in the current row of this
-     * ResultSet
-     * object as a Boolean
+     * Gets the value of the designated column in the current row of this ResultSet object as a Boolean
      *
      * @param nIndex
      *            the first column is 1, the second is 2, ...
      *
-     * @return the column value; if the value is SQL NULL, the value returned is
-     *         FALSE
+     * @return the column value; if the value is SQL NULL, the value returned is FALSE
      */
     public boolean getBoolean( int nIndex )
     {
@@ -1196,15 +1207,12 @@ public class DAOUtil
     }
 
     /**
-     * Gets the value of the designated column in the current row of this
-     * ResultSet
-     * object as a Boolean
+     * Gets the value of the designated column in the current row of this ResultSet object as a Boolean
      *
      * @param strColumnName
      *            column name
      *
-     * @return the column value; if the value is SQL NULL, the value returned is
-     *         FALSE
+     * @return the column value; if the value is SQL NULL, the value returned is FALSE
      */
     public boolean getBoolean( String strColumnName )
     {
@@ -1220,14 +1228,12 @@ public class DAOUtil
     }
 
     /**
-     * Gets the value of the designated column in the current row of this
-     * ResultSet
-     * object as a string
+     * Gets the value of the designated column in the current row of this ResultSet object as a string
      *
-     * @param nIndex the first column is 1, the second is 2, ...
+     * @param nIndex
+     *            the first column is 1, the second is 2, ...
      *
-     * @return the column value; if the value is SQL NULL, the value returned is
-     *         NULL
+     * @return the column value; if the value is SQL NULL, the value returned is NULL
      */
     public String getString( int nIndex )
     {
@@ -1235,22 +1241,20 @@ public class DAOUtil
         {
             return _resultSet.getString( nIndex );
         }
-        catch ( SQLException e )
+        catch( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
 
     /**
-     * Gets the value of the designated column in the current row of this
-     * ResultSet
-     * object as a string
+     * Gets the value of the designated column in the current row of this ResultSet object as a string
      *
-     * @param strColumnName column name
+     * @param strColumnName
+     *            column name
      *
-     * @return the column value; if the value is SQL NULL, the value returned is
-     *         NULL
+     * @return the column value; if the value is SQL NULL, the value returned is NULL
      */
     public String getString( String strColumnName )
     {
@@ -1258,22 +1262,20 @@ public class DAOUtil
         {
             return _resultSet.getString( strColumnName );
         }
-        catch ( SQLException e )
+        catch( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
 
     /**
-     * Gets the value of the designated column in the current row of this
-     * ResultSet
-     * object as a timestamp
+     * Gets the value of the designated column in the current row of this ResultSet object as a timestamp
      *
-     * @param nIndex the first column is 1, the second is 2, ...
+     * @param nIndex
+     *            the first column is 1, the second is 2, ...
      *
-     * @return the column value; if the value is SQL NULL, the value returned is
-     *         NULL
+     * @return the column value; if the value is SQL NULL, the value returned is NULL
      */
     public Timestamp getTimestamp( int nIndex )
     {
@@ -1281,22 +1283,20 @@ public class DAOUtil
         {
             return _resultSet.getTimestamp( nIndex );
         }
-        catch ( SQLException e )
+        catch( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
 
     /**
-     * Gets the value of the designated column in the current row of this
-     * ResultSet
-     * object as a Timestamp
+     * Gets the value of the designated column in the current row of this ResultSet object as a Timestamp
      *
-     * @param strColumnName column name
+     * @param strColumnName
+     *            column name
      *
-     * @return the column value; if the value is SQL NULL, the value returned is
-     *         NULL
+     * @return the column value; if the value is SQL NULL, the value returned is NULL
      */
     public Timestamp getTimestamp( String strColumnName )
     {
@@ -1304,24 +1304,23 @@ public class DAOUtil
         {
             return _resultSet.getTimestamp( strColumnName );
         }
-        catch ( SQLException e )
+        catch( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
 
     /**
-     * Gets the value of the designated column in the current row of this
-     * ResultSet
-     * object as a timestamp
+     * Gets the value of the designated column in the current row of this ResultSet object as a timestamp
      *
      * @see ResultSet#getTimestamp(int, Calendar)
      * @since 5.1.1
-     * @param nIndex the first column is 1, the second is 2, ...
-     * @param calendar the calendar
-     * @return the column value; if the value is SQL NULL, the value returned is
-     *         NULL
+     * @param nIndex
+     *            the first column is 1, the second is 2, ...
+     * @param calendar
+     *            the calendar
+     * @return the column value; if the value is SQL NULL, the value returned is NULL
      */
     public Timestamp getTimestamp( int nIndex, Calendar calendar )
     {
@@ -1329,24 +1328,23 @@ public class DAOUtil
         {
             return _resultSet.getTimestamp( nIndex, calendar );
         }
-        catch ( SQLException e )
+        catch( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
 
     /**
-     * Gets the value of the designated column in the current row of this
-     * ResultSet
-     * object as a Timestamp
+     * Gets the value of the designated column in the current row of this ResultSet object as a Timestamp
      *
      * @see ResultSet#getTimestamp(String, Calendar)
      * @since 5.1.1
-     * @param strColumnName column name
-     * @param calendar the calendar
-     * @return the column value; if the value is SQL NULL, the value returned is
-     *         NULL
+     * @param strColumnName
+     *            column name
+     * @param calendar
+     *            the calendar
+     * @return the column value; if the value is SQL NULL, the value returned is NULL
      */
     public Timestamp getTimestamp( String strColumnName, Calendar calendar )
     {
@@ -1354,20 +1352,19 @@ public class DAOUtil
         {
             return _resultSet.getTimestamp( strColumnName, calendar );
         }
-        catch ( SQLException e )
+        catch( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
 
     /**
-     * Gets the value of the designated column in the current row of this
-     * ResultSet
-     * object as a double
-     * @param strColumnName column name
-     * @return the column value; if the value is SQL NULL, the value returned is
-     *         NULL
+     * Gets the value of the designated column in the current row of this ResultSet object as a double
+     * 
+     * @param strColumnName
+     *            column name
+     * @return the column value; if the value is SQL NULL, the value returned is NULL
      */
     public double getDouble( String strColumnName )
     {
@@ -1425,16 +1422,15 @@ public class DAOUtil
     }
 
     /**
-     * Gets the value of the designated column in the current row of this
-     * ResultSet
-     * object as a Object
+     * Gets the value of the designated column in the current row of this ResultSet object as a Object
      *
      * @see ResultSet#getObject(int, Class)
      * @since 5.1.1
-     * @param nIndex the first column is 1, the second is 2, ...
-     * @param type the type
-     * @return the column value; if the value is SQL NULL, the value returned is
-     *         NULL
+     * @param nIndex
+     *            the first column is 1, the second is 2, ...
+     * @param type
+     *            the type
+     * @return the column value; if the value is SQL NULL, the value returned is NULL
      */
     public <T> T getObject( int nIndex, Class<T> type )
     {
@@ -1442,34 +1438,33 @@ public class DAOUtil
         {
             return _resultSet.getObject( nIndex, type );
         }
-        catch ( SQLException e )
+        catch( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
 
     /**
-     * Gets the value of the designated column in the current row of this
-     * ResultSet
-     * object as a Object
+     * Gets the value of the designated column in the current row of this ResultSet object as a Object
      *
      * @see ResultSet#getObject(int, java.util.Map<String,Class<?>>)
      * @since 5.1.1
-     * @param nIndex the first column is 1, the second is 2, ...
-     * @param map the type map
-     * @return the column value; if the value is SQL NULL, the value returned is
-     *         NULL
+     * @param nIndex
+     *            the first column is 1, the second is 2, ...
+     * @param map
+     *            the type map
+     * @return the column value; if the value is SQL NULL, the value returned is NULL
      */
-    public Object getObject( int nIndex, java.util.Map<String,Class<?>> map )
+    public Object getObject( int nIndex, java.util.Map<String, Class<?>> map )
     {
         try
         {
             return _resultSet.getObject( nIndex, map );
         }
-        catch ( SQLException e )
+        catch( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
@@ -1506,17 +1501,16 @@ public class DAOUtil
     }
 
     /**
-     * Gets the value of the designated column in the current row of this
-     * ResultSet
-     * object as an Object
+     * Gets the value of the designated column in the current row of this ResultSet object as an Object
      *
      * @see ResultSet#getObject(String, Class)
      * @since 5.1.1
-     * @param strColumnName column name
-     * @param type the type
+     * @param strColumnName
+     *            column name
+     * @param type
+     *            the type
      *
-     * @return the column value; if the value is SQL NULL, the value returned is
-     *         NULL
+     * @return the column value; if the value is SQL NULL, the value returned is NULL
      */
     public <T> T getObject( String strColumnName, Class<T> type )
     {
@@ -1524,34 +1518,33 @@ public class DAOUtil
         {
             return _resultSet.getObject( strColumnName, type );
         }
-        catch ( SQLException e )
+        catch( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
 
     /**
-     * Gets the value of the designated column in the current row of this
-     * ResultSet
-     * object as an Object
+     * Gets the value of the designated column in the current row of this ResultSet object as an Object
      *
      * @see ResultSet#getObject(String, java.util.Map)
      * @since 5.1.1
-     * @param strColumnName column name
-     * @param map type map
-     * @return the column value; if the value is SQL NULL, the value returned is
-     *         NULL
+     * @param strColumnName
+     *            column name
+     * @param map
+     *            type map
+     * @return the column value; if the value is SQL NULL, the value returned is NULL
      */
-    public Object getObject( String strColumnName, java.util.Map<String,Class<?>> map )
+    public Object getObject( String strColumnName, java.util.Map<String, Class<?>> map )
     {
         try
         {
             return _resultSet.getObject( strColumnName, map );
         }
-        catch ( SQLException e )
+        catch( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
@@ -1679,27 +1672,33 @@ public class DAOUtil
      * @see Connection#createArrayOf(String, Object[])
      * @see PreparedStatement#setArray(int, Array)
      * @since 5.1.1
-     * @param nIndex the index
-     * @param strTypename the type SQL name
-     * @param elements the array value
+     * @param nIndex
+     *            the index
+     * @param strTypename
+     *            the type SQL name
+     * @param elements
+     *            the array value
      */
-    public void setArray(int nIndex, String strTypename, Object[] elements)
+    public void setArray( int nIndex, String strTypename, Object [ ] elements )
     {
         try
         {
             Array x = _connection.createArrayOf( strTypename, elements );
             registerArray( x );
             _statement.setArray( nIndex, x );
-        } catch ( SQLException e)
+        }
+        catch( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
 
     /**
      * Register an SQL Array to be able to free it later
-     * @param array the array to register
+     * 
+     * @param array
+     *            the array to register
      */
     private void registerArray( Array array )
     {
@@ -1712,9 +1711,11 @@ public class DAOUtil
 
     /**
      * Get an Array value
+     * 
      * @see ResultSet#getArray(int)
      * @since 5.1.1
-     * @param nIndex the index
+     * @param nIndex
+     *            the index
      * @return the array value
      */
     public Array getArray( int nIndex )
@@ -1725,18 +1726,20 @@ public class DAOUtil
             registerArray( res );
             return res;
         }
-        catch ( SQLException e )
+        catch( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
 
     /**
      * Get an Array value
+     * 
      * @see ResultSet#getArray(String)
      * @since 5.1.1
-     * @param strColumnName the column name
+     * @param strColumnName
+     *            the column name
      * @return the array value
      */
     public Array getArray( String strColumnName )
@@ -1747,19 +1750,22 @@ public class DAOUtil
             registerArray( res );
             return res;
         }
-        catch ( SQLException e )
+        catch( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
 
     /**
      * Fills the prepared statement with an ascii value stream
+     * 
      * @see PreparedStatement#setAsciiStream(int, InputStream)
      * @since 5.1.1
-     * @param nIndex the index
-     * @param stream the stream
+     * @param nIndex
+     *            the index
+     * @param stream
+     *            the stream
      */
     public void setAsciiStream( int nIndex, InputStream stream )
     {
@@ -1767,60 +1773,70 @@ public class DAOUtil
         {
             _statement.setAsciiStream( nIndex, stream );
         }
-        catch ( SQLException e )
+        catch( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
 
     /**
      * Fills the prepared statement with an ascii value stream
+     * 
      * @see PreparedStatement#setAsciiStream(int, InputStream, int)
      * @since 5.1.1
-     * @param nIndex the index
-     * @param stream the stream
-     * @param nLength the number of bytes to read
+     * @param nIndex
+     *            the index
+     * @param stream
+     *            the stream
+     * @param nLength
+     *            the number of bytes to read
      */
-    public void setAsciiStream( int nIndex, InputStream stream, int nLength)
+    public void setAsciiStream( int nIndex, InputStream stream, int nLength )
     {
         try
         {
             _statement.setAsciiStream( nIndex, stream, nLength );
         }
-        catch ( SQLException e )
+        catch( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
 
     /**
      * Fills the prepared statement with an ascii value stream
+     * 
      * @see PreparedStatement#setAsciiStream(int, InputStream, long)
      * @since 5.1.1
-     * @param nIndex the index
-     * @param stream the stream
-     * @param lLength the number of bytes to read
+     * @param nIndex
+     *            the index
+     * @param stream
+     *            the stream
+     * @param lLength
+     *            the number of bytes to read
      */
-    public void setAsciiStream( int nIndex, InputStream stream, long lLength)
+    public void setAsciiStream( int nIndex, InputStream stream, long lLength )
     {
         try
         {
             _statement.setAsciiStream( nIndex, stream, lLength );
         }
-        catch ( SQLException e )
+        catch( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
 
     /**
      * Get an ascii value stream
+     * 
      * @see ResultSet#getAsciiStream(int)
      * @since 5.1.1
-     * @param nIndex the index
+     * @param nIndex
+     *            the index
      * @return the ascii stream
      */
     public InputStream getAsciiString( int nIndex )
@@ -1829,18 +1845,20 @@ public class DAOUtil
         {
             return _resultSet.getAsciiStream( nIndex );
         }
-        catch ( SQLException e )
+        catch( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
 
     /**
      * Get an ascii value stream
+     * 
      * @see ResultSet#getAsciiStream(String)
      * @since 5.1.1
-     * @param strColumnName the column name
+     * @param strColumnName
+     *            the column name
      * @return the ascii stream
      */
     public InputStream getAsciiString( String strColumnName )
@@ -1849,19 +1867,22 @@ public class DAOUtil
         {
             return _resultSet.getAsciiStream( strColumnName );
         }
-        catch ( SQLException e )
+        catch( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
 
     /**
      * Fills the prepared Statement with a BigDecimal value
+     * 
      * @see PreparedStatement#setBigDecimal(int, BigDecimal)
      * @since 5.1.1
-     * @param nIndex the index
-     * @param value the value
+     * @param nIndex
+     *            the index
+     * @param value
+     *            the value
      */
     public void setBigDecimal( int nIndex, BigDecimal value )
     {
@@ -1869,18 +1890,20 @@ public class DAOUtil
         {
             _statement.setBigDecimal( nIndex, value );
         }
-        catch ( SQLException e )
+        catch( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
 
     /**
      * Get a BigDecimal value
+     * 
      * @see ResultSet#getBigDecimal(int)
      * @since 5.1.1
-     * @param nIndex the index
+     * @param nIndex
+     *            the index
      * @return the value
      */
     public BigDecimal getBigDecimal( int nIndex )
@@ -1889,18 +1912,20 @@ public class DAOUtil
         {
             return _resultSet.getBigDecimal( nIndex );
         }
-        catch ( SQLException e )
+        catch( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
 
     /**
      * Get a BigDecimal value
+     * 
      * @see ResultSet#getBigDecimal(String)
      * @since 5.1.1
-     * @param strColumnName the column name
+     * @param strColumnName
+     *            the column name
      * @return the value
      */
     public BigDecimal getBigDecimal( String strColumnName )
@@ -1909,9 +1934,9 @@ public class DAOUtil
         {
             return _resultSet.getBigDecimal( strColumnName );
         }
-        catch ( SQLException e )
+        catch( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
@@ -1921,8 +1946,10 @@ public class DAOUtil
      *
      * @see PreparedStatement#setCharacterStream(int, Reader)
      * @since 5.1.1
-     * @param nIndex the index
-     * @param stream the stream
+     * @param nIndex
+     *            the index
+     * @param stream
+     *            the stream
      */
     public void setCharacterStream( int nIndex, Reader stream )
     {
@@ -1930,9 +1957,9 @@ public class DAOUtil
         {
             _statement.setCharacterStream( nIndex, stream );
         }
-        catch ( SQLException e )
+        catch( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
@@ -1942,9 +1969,12 @@ public class DAOUtil
      *
      * @see PreparedStatement#setCharacterStream(int, Reader, int)
      * @since 5.1.1
-     * @param nIndex the index
-     * @param stream the stream
-     * @param nLength the number of bytes to read
+     * @param nIndex
+     *            the index
+     * @param stream
+     *            the stream
+     * @param nLength
+     *            the number of bytes to read
      */
     public void setCharacterStream( int nIndex, Reader stream, int nLength )
     {
@@ -1952,9 +1982,9 @@ public class DAOUtil
         {
             _statement.setCharacterStream( nIndex, stream, nLength );
         }
-        catch ( SQLException e )
+        catch( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
@@ -1964,9 +1994,12 @@ public class DAOUtil
      *
      * @see PreparedStatement#setCharacterStream(int, Reader, long)
      * @since 5.1.1
-     * @param nIndex the index
-     * @param stream the stream
-     * @param nLength the number of bytes to read
+     * @param nIndex
+     *            the index
+     * @param stream
+     *            the stream
+     * @param nLength
+     *            the number of bytes to read
      */
     public void setCharacterStream( int nIndex, Reader stream, long nLength )
     {
@@ -1974,9 +2007,9 @@ public class DAOUtil
         {
             _statement.setCharacterStream( nIndex, stream, nLength );
         }
-        catch ( SQLException e )
+        catch( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
@@ -1986,7 +2019,8 @@ public class DAOUtil
      *
      * @see ResultSet#getCharacterStream(int)
      * @since 5.1.1
-     * @param nIndex the column index
+     * @param nIndex
+     *            the column index
      * @return the stream value
      */
     public Reader getCharacterStream( int nIndex )
@@ -1995,9 +2029,9 @@ public class DAOUtil
         {
             return _resultSet.getCharacterStream( nIndex );
         }
-        catch ( SQLException e )
+        catch( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
@@ -2007,7 +2041,8 @@ public class DAOUtil
      *
      * @see ResultSet#getCharacterStream(String)
      * @since 5.1.1
-     * @param strColumnName the column index
+     * @param strColumnName
+     *            the column index
      * @return the stream value
      */
     public Reader getCharacterStream( String strColumnName )
@@ -2016,9 +2051,9 @@ public class DAOUtil
         {
             return _resultSet.getCharacterStream( strColumnName );
         }
-        catch ( SQLException e )
+        catch( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
@@ -2028,8 +2063,10 @@ public class DAOUtil
      *
      * @see PreparedStatement#setClob(int, Reader)
      * @since 5.1.1
-     * @param nIndex the index
-     * @param stream the value
+     * @param nIndex
+     *            the index
+     * @param stream
+     *            the value
      */
     public void setClob( int nIndex, Reader stream )
     {
@@ -2037,9 +2074,9 @@ public class DAOUtil
         {
             _statement.setClob( nIndex, stream );
         }
-        catch ( SQLException e )
+        catch( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
@@ -2049,9 +2086,12 @@ public class DAOUtil
      *
      * @see PreparedStatement#setClob(int, Reader, long)
      * @since 5.1.1
-     * @param nIndex the index
-     * @param stream the value
-     * @param nLength the number of bytes to read
+     * @param nIndex
+     *            the index
+     * @param stream
+     *            the value
+     * @param nLength
+     *            the number of bytes to read
      */
     public void setClob( int nIndex, Reader stream, long nLength )
     {
@@ -2059,9 +2099,9 @@ public class DAOUtil
         {
             _statement.setClob( nIndex, stream, nLength );
         }
-        catch ( SQLException e )
+        catch( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
@@ -2071,8 +2111,10 @@ public class DAOUtil
      *
      * @see PreparedStatement#setClob(int, Clob)
      * @since 5.1.1
-     * @param nIndex the index
-     * @param clob the value
+     * @param nIndex
+     *            the index
+     * @param clob
+     *            the value
      */
     public void setClob( int nIndex, Clob clob )
     {
@@ -2080,9 +2122,9 @@ public class DAOUtil
         {
             _statement.setClob( nIndex, clob );
         }
-        catch ( SQLException e )
+        catch( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
@@ -2092,7 +2134,8 @@ public class DAOUtil
      *
      * @see ResultSet#getClob(int)
      * @since 5.1.1
-     * @param nIndex the column index
+     * @param nIndex
+     *            the column index
      * @return the value
      */
     public Clob getClob( int nIndex )
@@ -2101,9 +2144,9 @@ public class DAOUtil
         {
             return _resultSet.getClob( nIndex );
         }
-        catch ( SQLException e )
+        catch( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
@@ -2113,7 +2156,8 @@ public class DAOUtil
      *
      * @see ResultSet#getClob(String)
      * @since 5.1.1
-     * @param nIndex the column index
+     * @param nIndex
+     *            the column index
      * @return the value
      */
     public Clob getClob( String strColumnName )
@@ -2122,9 +2166,9 @@ public class DAOUtil
         {
             return _resultSet.getClob( strColumnName );
         }
-        catch ( SQLException e )
+        catch( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
@@ -2134,8 +2178,10 @@ public class DAOUtil
      *
      * @see PreparedStatement#setNClob(int, Reader)
      * @since 5.1.1
-     * @param nIndex the index
-     * @param stream the value
+     * @param nIndex
+     *            the index
+     * @param stream
+     *            the value
      */
     public void setNClob( int nIndex, Reader stream )
     {
@@ -2143,9 +2189,9 @@ public class DAOUtil
         {
             _statement.setNClob( nIndex, stream );
         }
-        catch ( SQLException e )
+        catch( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
@@ -2155,9 +2201,12 @@ public class DAOUtil
      *
      * @see PreparedStatement#setNClob(int, Reader, long)
      * @since 5.1.1
-     * @param nIndex the index
-     * @param stream the value
-     * @param nLength the number of bytes to read
+     * @param nIndex
+     *            the index
+     * @param stream
+     *            the value
+     * @param nLength
+     *            the number of bytes to read
      */
     public void setNClob( int nIndex, Reader stream, long nLength )
     {
@@ -2165,9 +2214,9 @@ public class DAOUtil
         {
             _statement.setNClob( nIndex, stream, nLength );
         }
-        catch ( SQLException e )
+        catch( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
@@ -2177,8 +2226,10 @@ public class DAOUtil
      *
      * @see PreparedStatement#setNClob(int, NClob)
      * @since 5.1.1
-     * @param nIndex the index
-     * @param clob the value
+     * @param nIndex
+     *            the index
+     * @param clob
+     *            the value
      */
     public void setClob( int nIndex, NClob clob )
     {
@@ -2186,9 +2237,9 @@ public class DAOUtil
         {
             _statement.setNClob( nIndex, clob );
         }
-        catch ( SQLException e )
+        catch( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
@@ -2198,7 +2249,8 @@ public class DAOUtil
      *
      * @see ResultSet#getNClob(int)
      * @since 5.1.1
-     * @param nIndex the column index
+     * @param nIndex
+     *            the column index
      * @return the value
      */
     public NClob getNClob( int nIndex )
@@ -2207,9 +2259,9 @@ public class DAOUtil
         {
             return _resultSet.getNClob( nIndex );
         }
-        catch ( SQLException e )
+        catch( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
@@ -2219,7 +2271,8 @@ public class DAOUtil
      *
      * @see ResultSet#getClob(String)
      * @since 5.1.1
-     * @param nIndex the column index
+     * @param nIndex
+     *            the column index
      * @return the value
      */
     public NClob getNClob( String strColumnName )
@@ -2228,9 +2281,9 @@ public class DAOUtil
         {
             return _resultSet.getNClob( strColumnName );
         }
-        catch ( SQLException e )
+        catch( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
@@ -2240,8 +2293,10 @@ public class DAOUtil
      *
      * @see PreparedStatement#setFloat(int, float)
      * @since 5.1.1
-     * @param nIndex the index
-     * @param fValue the value
+     * @param nIndex
+     *            the index
+     * @param fValue
+     *            the value
      */
     public void setFloat( int nIndex, float fValue )
     {
@@ -2249,9 +2304,9 @@ public class DAOUtil
         {
             _statement.setFloat( nIndex, fValue );
         }
-        catch ( SQLException e )
+        catch( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
@@ -2261,7 +2316,8 @@ public class DAOUtil
      *
      * @see ResultSet#getFloat(String)
      * @since 5.1.1
-     * @param strColumnName the column name
+     * @param strColumnName
+     *            the column name
      * @return the value
      */
     public float getFloat( String strColumnName )
@@ -2270,9 +2326,9 @@ public class DAOUtil
         {
             return _resultSet.getFloat( strColumnName );
         }
-        catch ( SQLException e )
+        catch( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
@@ -2282,7 +2338,8 @@ public class DAOUtil
      *
      * @see ResultSet#getFloat(int)
      * @since 5.1.1
-     * @param nIndex the column index
+     * @param nIndex
+     *            the column index
      * @return the value
      */
     public float getFloat( int nIndex )
@@ -2291,9 +2348,9 @@ public class DAOUtil
         {
             return _resultSet.getFloat( nIndex );
         }
-        catch ( SQLException e )
+        catch( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
@@ -2303,18 +2360,20 @@ public class DAOUtil
      *
      * @see PreparedStatement#setNCharacterStream(int, Reader)
      * @since 5.1.1
-     * @param nIndex the index
-     * @param stream the stream
+     * @param nIndex
+     *            the index
+     * @param stream
+     *            the stream
      */
-    public void setNCharacterStream(int nIndex, Reader stream )
+    public void setNCharacterStream( int nIndex, Reader stream )
     {
         try
         {
             _statement.setNCharacterStream( nIndex, stream );
         }
-        catch ( SQLException e )
+        catch( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
@@ -2324,19 +2383,22 @@ public class DAOUtil
      *
      * @see PreparedStatement#setNCharacterStream(int, Reader, long)
      * @since 5.1.1
-     * @param nIndex the index
-     * @param stream the stream
-     * @param nLength the number of characters to read
+     * @param nIndex
+     *            the index
+     * @param stream
+     *            the stream
+     * @param nLength
+     *            the number of characters to read
      */
-    public void setNCharacterStream(int nIndex, Reader stream, long nLength )
+    public void setNCharacterStream( int nIndex, Reader stream, long nLength )
     {
         try
         {
             _statement.setNCharacterStream( nIndex, stream, nLength );
         }
-        catch ( SQLException e )
+        catch( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
@@ -2346,7 +2408,8 @@ public class DAOUtil
      *
      * @see ResultSet#getNCharacterStream(int)
      * @since 5.1.1
-     * @param nIndex the index
+     * @param nIndex
+     *            the index
      * @return the stream
      */
     public Reader getNCharacterStream( int nIndex )
@@ -2355,9 +2418,9 @@ public class DAOUtil
         {
             return _resultSet.getNCharacterStream( nIndex );
         }
-        catch ( SQLException e )
+        catch( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
@@ -2367,7 +2430,8 @@ public class DAOUtil
      *
      * @see ResultSet#getNCharacterStream(String)
      * @since 5.1.1
-     * @param strColumnName the column name
+     * @param strColumnName
+     *            the column name
      * @return the stream
      */
     public Reader getNCharacterStream( String strColumnName )
@@ -2376,9 +2440,9 @@ public class DAOUtil
         {
             return _resultSet.getNCharacterStream( strColumnName );
         }
-        catch ( SQLException e )
+        catch( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
@@ -2388,18 +2452,20 @@ public class DAOUtil
      *
      * @see PreparedStatement#setNString(int, String)
      * @since 5.1.1
-     * @param nIndex the index
-     * @param strValue the value
+     * @param nIndex
+     *            the index
+     * @param strValue
+     *            the value
      */
-    public void setNString(int nIndex, String strValue )
+    public void setNString( int nIndex, String strValue )
     {
         try
         {
             _statement.setNString( nIndex, strValue );
         }
-        catch ( SQLException e )
+        catch( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
@@ -2409,7 +2475,8 @@ public class DAOUtil
      *
      * @see ResultSet#getNString(int)
      * @since 5.1.1
-     * @param nIndex the index
+     * @param nIndex
+     *            the index
      * @return the String
      */
     public String getNString( int nIndex )
@@ -2418,9 +2485,9 @@ public class DAOUtil
         {
             return _resultSet.getNString( nIndex );
         }
-        catch ( SQLException e )
+        catch( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
@@ -2430,7 +2497,8 @@ public class DAOUtil
      *
      * @see ResultSet#getNString(String)
      * @since 5.1.1
-     * @param strColumnName the column name
+     * @param strColumnName
+     *            the column name
      * @return the stream
      */
     public String getNString( String strColumnName )
@@ -2439,9 +2507,9 @@ public class DAOUtil
         {
             return _resultSet.getNString( strColumnName );
         }
-        catch ( SQLException e )
+        catch( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
@@ -2451,8 +2519,10 @@ public class DAOUtil
      *
      * @see PreparedStatement#setNull(int, int)
      * @since 5.1.1
-     * @param nIndex the index
-     * @param nType the SQL type code defined in java.sql.Types
+     * @param nIndex
+     *            the index
+     * @param nType
+     *            the SQL type code defined in java.sql.Types
      */
     public void setNull( int nIndex, int nType )
     {
@@ -2460,9 +2530,9 @@ public class DAOUtil
         {
             _statement.setNull( nIndex, nType );
         }
-        catch ( SQLException e )
+        catch( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
@@ -2472,19 +2542,22 @@ public class DAOUtil
      *
      * @see PreparedStatement#setNull(int, int, String)
      * @since 5.1.1
-     * @param nIndex the index
-     * @param nType the SQL type code defined in java.sql.Types
-     * @param strTypeName the type name
+     * @param nIndex
+     *            the index
+     * @param nType
+     *            the SQL type code defined in java.sql.Types
+     * @param strTypeName
+     *            the type name
      */
-    public void setNull( int nIndex, int nType, String strTypeName)
+    public void setNull( int nIndex, int nType, String strTypeName )
     {
         try
         {
             _statement.setNull( nIndex, nType, strTypeName );
         }
-        catch ( SQLException e )
+        catch( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
@@ -2494,8 +2567,10 @@ public class DAOUtil
      *
      * @see PreparedStatement#setObject(int, Object)
      * @since 5.1.1
-     * @param nIndex the index
-     * @param value the value
+     * @param nIndex
+     *            the index
+     * @param value
+     *            the value
      */
     public void setObject( int nIndex, Object value )
     {
@@ -2503,9 +2578,9 @@ public class DAOUtil
         {
             _statement.setObject( nIndex, value );
         }
-        catch ( SQLException e )
+        catch( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
@@ -2515,9 +2590,12 @@ public class DAOUtil
      *
      * @see PreparedStatement#setObject(int, Object, int)
      * @since 5.1.1
-     * @param nIndex the index
-     * @param value the value
-     * @param nType the target SQL type (as defined in java.sql.Types)
+     * @param nIndex
+     *            the index
+     * @param value
+     *            the value
+     * @param nType
+     *            the target SQL type (as defined in java.sql.Types)
      */
     public void setObject( int nIndex, Object value, int nType )
     {
@@ -2525,9 +2603,9 @@ public class DAOUtil
         {
             _statement.setObject( nIndex, value, nType );
         }
-        catch ( SQLException e )
+        catch( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
@@ -2537,10 +2615,14 @@ public class DAOUtil
      *
      * @see PreparedStatement#setObject(int, Object, int, int)
      * @since 5.1.1
-     * @param nIndex the index
-     * @param value the value
-     * @param nType the target SQL type (as defined in java.sql.Types)
-     * @param nScaleOrLength the scale or length
+     * @param nIndex
+     *            the index
+     * @param value
+     *            the value
+     * @param nType
+     *            the target SQL type (as defined in java.sql.Types)
+     * @param nScaleOrLength
+     *            the scale or length
      */
     public void setObject( int nIndex, Object value, int nType, int nScaleOrLength )
     {
@@ -2548,9 +2630,9 @@ public class DAOUtil
         {
             _statement.setObject( nIndex, value, nType, nScaleOrLength );
         }
-        catch ( SQLException e )
+        catch( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
@@ -2560,7 +2642,8 @@ public class DAOUtil
      *
      * @see ResultSet#getRef(int)
      * @since 5.1.1
-     * @param nIndex the index
+     * @param nIndex
+     *            the index
      * @return the ref
      */
     public Ref getRef( int nIndex )
@@ -2569,9 +2652,9 @@ public class DAOUtil
         {
             return _resultSet.getRef( nIndex );
         }
-        catch ( SQLException e )
+        catch( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
@@ -2581,7 +2664,8 @@ public class DAOUtil
      *
      * @see ResultSet#getRef(String)
      * @since 5.1.1
-     * @param strColumnName the column name
+     * @param strColumnName
+     *            the column name
      * @return the ref
      */
     public Ref getRef( String strColumnName )
@@ -2590,9 +2674,9 @@ public class DAOUtil
         {
             return _resultSet.getRef( strColumnName );
         }
-        catch ( SQLException e )
+        catch( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
@@ -2602,7 +2686,8 @@ public class DAOUtil
      *
      * @see PreparedStatement#setRef(int, Ref)
      * @since 5.1.1
-     * @param ref the Ref
+     * @param ref
+     *            the Ref
      */
     public void setRef( int nIndex, Ref ref )
     {
@@ -2610,9 +2695,9 @@ public class DAOUtil
         {
             _statement.setRef( nIndex, ref );
         }
-        catch ( SQLException e )
+        catch( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
@@ -2622,8 +2707,10 @@ public class DAOUtil
      *
      * @see PreparedStatement#setRowId(int, RowId)
      * @since 5.1.1
-     * @param nIndex the index
-     * @param rowId the value
+     * @param nIndex
+     *            the index
+     * @param rowId
+     *            the value
      */
     public void setRowId( int nIndex, RowId rowId )
     {
@@ -2631,9 +2718,9 @@ public class DAOUtil
         {
             _statement.setRowId( nIndex, rowId );
         }
-        catch ( SQLException e )
+        catch( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
@@ -2643,7 +2730,8 @@ public class DAOUtil
      *
      * @see ResultSet#getRowId(int)
      * @since 5.1.1
-     * @param nIndex the index
+     * @param nIndex
+     *            the index
      * @return the rowId
      */
     public RowId getRowId( int nIndex )
@@ -2652,9 +2740,9 @@ public class DAOUtil
         {
             return _resultSet.getRowId( nIndex );
         }
-        catch ( SQLException e )
+        catch( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
@@ -2664,7 +2752,8 @@ public class DAOUtil
      *
      * @see ResultSet#getRowId(String)
      * @since 5.1.1
-     * @param strColumnName the column name
+     * @param strColumnName
+     *            the column name
      * @return the rowId
      */
     public RowId getRowId( String strColumnName )
@@ -2673,9 +2762,9 @@ public class DAOUtil
         {
             return _resultSet.getRowId( strColumnName );
         }
-        catch ( SQLException e )
+        catch( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
@@ -2685,8 +2774,10 @@ public class DAOUtil
      *
      * @see PreparedStatement#setShort(int, short)
      * @since 5.1.1
-     * @param nIndex the index
-     * @param shortValue the value
+     * @param nIndex
+     *            the index
+     * @param shortValue
+     *            the value
      */
     public void setShort( int nIndex, short shortValue )
     {
@@ -2694,9 +2785,9 @@ public class DAOUtil
         {
             _statement.setShort( nIndex, shortValue );
         }
-        catch ( SQLException e )
+        catch( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
@@ -2706,7 +2797,8 @@ public class DAOUtil
      *
      * @see ResultSet#getShort(String)
      * @since 5.1.1
-     * @param strColumnName the column name
+     * @param strColumnName
+     *            the column name
      * @return the value
      */
     public short getShort( String strColumnName )
@@ -2715,9 +2807,9 @@ public class DAOUtil
         {
             return _resultSet.getShort( strColumnName );
         }
-        catch ( SQLException e )
+        catch( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
@@ -2727,7 +2819,8 @@ public class DAOUtil
      *
      * @see ResultSet#getShort(int)
      * @since 5.1.1
-     * @param nIndex the column index
+     * @param nIndex
+     *            the column index
      * @return the value
      */
     public short getShort( int nIndex )
@@ -2736,9 +2829,9 @@ public class DAOUtil
         {
             return _resultSet.getShort( nIndex );
         }
-        catch ( SQLException e )
+        catch( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
@@ -2748,8 +2841,10 @@ public class DAOUtil
      *
      * @see PreparedStatement#setSQLXML(int, SQLXML)
      * @since 5.1.1
-     * @param nIndex the index
-     * @param value the value
+     * @param nIndex
+     *            the index
+     * @param value
+     *            the value
      */
     public void setSQLXML( int nIndex, SQLXML value )
     {
@@ -2757,9 +2852,9 @@ public class DAOUtil
         {
             _statement.setSQLXML( nIndex, value );
         }
-        catch ( SQLException e )
+        catch( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
@@ -2769,7 +2864,8 @@ public class DAOUtil
      *
      * @see ResultSet#getSQLXML(String)
      * @since 5.1.1
-     * @param strColumnName the column name
+     * @param strColumnName
+     *            the column name
      * @return the value
      */
     public SQLXML getSQLXML( String strColumnName )
@@ -2778,9 +2874,9 @@ public class DAOUtil
         {
             return _resultSet.getSQLXML( strColumnName );
         }
-        catch ( SQLException e )
+        catch( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
@@ -2790,7 +2886,8 @@ public class DAOUtil
      *
      * @see ResultSet#getSQLXML(int)
      * @since 5.1.1
-     * @param nIndex the column index
+     * @param nIndex
+     *            the column index
      * @return the value
      */
     public SQLXML getSQLXML( int nIndex )
@@ -2799,9 +2896,9 @@ public class DAOUtil
         {
             return _resultSet.getSQLXML( nIndex );
         }
-        catch ( SQLException e )
+        catch( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
@@ -2811,8 +2908,10 @@ public class DAOUtil
      *
      * @see PreparedStatement#setURL(int, URL)
      * @since 5.1.1
-     * @param nIndex the index
-     * @param url the URL
+     * @param nIndex
+     *            the index
+     * @param url
+     *            the URL
      */
     public void setURL( int nIndex, URL url )
     {
@@ -2820,9 +2919,9 @@ public class DAOUtil
         {
             _statement.setURL( nIndex, url );
         }
-        catch ( SQLException e )
+        catch( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
@@ -2832,7 +2931,8 @@ public class DAOUtil
      *
      * @see ResultSet#getURL(String)
      * @since 5.1.1
-     * @param strColumnName the column name
+     * @param strColumnName
+     *            the column name
      * @return the value
      */
     public URL getURL( String strColumnName )
@@ -2841,9 +2941,9 @@ public class DAOUtil
         {
             return _resultSet.getURL( strColumnName );
         }
-        catch ( SQLException e )
+        catch( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
@@ -2853,7 +2953,8 @@ public class DAOUtil
      *
      * @see ResultSet#getURL(int)
      * @since 5.1.1
-     * @param nIndex the column index
+     * @param nIndex
+     *            the column index
      * @return the value
      */
     public URL getURL( int nIndex )
@@ -2862,9 +2963,9 @@ public class DAOUtil
         {
             return _resultSet.getURL( nIndex );
         }
-        catch ( SQLException e )
+        catch( SQLException e )
         {
-            free(  );
+            free( );
             throw new AppException( getErrorMessage( e ), e );
         }
     }
