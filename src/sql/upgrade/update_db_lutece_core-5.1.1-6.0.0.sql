@@ -19,14 +19,3 @@ DELETE FROM core_datastore WHERE entity_key = 'core.advanced_parameters.encrypti
 DELETE FROM core_datastore WHERE entity_key = 'core.advanced_parameters.enable_password_encryption';
 
 DELETE FROM core_admin_role_resource WHERE resource_type = 'ADMIN_USER' AND permission = 'MANAGE_ENCRYPTED_PASSWORD';
-
--- updating core_admin_right and core_user_right for external features management 
-
--- on core_admin_right 
-ALTER TABLE core_admin_right ADD COLUMN is_external_feature BOOLEAN DEFAULT NULL;
-UPDATE core_admin_right SET is_external_feature = false ;
-INSERT INTO core_admin_right VALUES ('CORE_EXTERNAL_FEATURES_MANAGEMENT', 'portal.system.adminFeature.external_features_management.name', 1, 'jsp/admin/features/ManageExternalFeatures.jsp', 'portal.system.adminFeature.external_features_management.description', 1, NULL, 'SYSTEM', NULL, NULL, 11, false);
-
--- on core_user_right
-INSERT INTO core_user_right VALUES ('CORE_EXTERNAL_FEATURES_MANAGEMENT',1);
-INSERT INTO core_user_right VALUES ('CORE_EXTERNAL_FEATURES_MANAGEMENT',2);
