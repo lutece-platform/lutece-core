@@ -401,7 +401,7 @@ public class AdminUser implements Serializable, AdminWorkgroupResource
     public void updateRight( Right rightToUpdate){
         for ( Right right : _rights.values() ){
             if ( right.getId(  ).equals( rightToUpdate.getId(  ) ) ){
-                _rights.replace( right.getId(  ) , rightToUpdate );
+                _rights.put( right.getId(  ) , rightToUpdate );
             }
         }
      }
