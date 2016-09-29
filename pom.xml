@@ -2,7 +2,7 @@
     <parent>
         <artifactId>lutece-global-pom</artifactId>
         <groupId>fr.paris.lutece.tools</groupId>
-        <version>4.0.0-RC-03</version>
+        <version>4.0.0-RC-04</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
@@ -16,7 +16,7 @@
     <properties>
         <jiraProjectName>LUTECE</jiraProjectName>
         <jiraComponentId>10000</jiraComponentId>
-        <springVersion>3.1.0.RELEASE</springVersion>
+        <springVersion>4.3.3.RELEASE</springVersion>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <github.project>lutece-platform/lutece-core</github.project>
         <twitter.account>LuteceFoundry</twitter.account>
@@ -129,7 +129,7 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>5.1.18</version>
+            <version>5.1.40</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
