@@ -36,6 +36,7 @@ package fr.paris.lutece.portal.web.upload;
 import fr.paris.lutece.util.filesystem.UploadUtil;
 
 import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.FileItemHeaders;
 import org.apache.commons.io.FilenameUtils;
 
 import java.io.File;
@@ -196,5 +197,21 @@ public class NormalizeFileItem implements FileItem
     public void write( File file ) throws Exception
     {
         _item.write( file );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public FileItemHeaders getHeaders( ) {
+        return _item.getHeaders( );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void setHeaders( FileItemHeaders headers ) {
+        _item.setHeaders( headers );
     }
 }
