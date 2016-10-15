@@ -39,6 +39,7 @@
             </list>
         </property>
     </bean>
+    <bean id="pathCacheService" class="fr.paris.lutece.portal.service.cache.PathCacheService" />
 
     <bean id="pageCacheService" class="fr.paris.lutece.portal.service.page.PageCacheService" />
     <bean id="portletCacheService" class="fr.paris.lutece.portal.service.page.PortletCacheService" />
