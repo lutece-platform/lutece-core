@@ -1,0 +1,7 @@
+<ul class="breadcrumb">
+	<li><?xml version="1.0" encoding="UTF-8"?>
+<a href="jsp/site/Portal.jsp?page_id=1" target="_top">Home</a> &gt;
+		
+<a href="jsp/site/Portal.jsp?page_id=junit" target="_top">junit</a> &gt;
+		</li>
+</ul>
