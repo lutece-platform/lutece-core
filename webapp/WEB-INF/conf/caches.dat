@@ -19,3 +19,4 @@ BaseUserPreferencesCacheService.enabled=1
 BaseUserPreferencesCacheService.maxElementsInMemory=1000
 LuteceUserCacheService.enabled=1
 LuteceUserCacheService.maxElementsInMemory=1000
+pathCacheService.enabled=1
