@@ -43,6 +43,7 @@ import fr.paris.lutece.portal.business.style.ModeHome;
 import fr.paris.lutece.portal.business.stylesheet.StyleSheet;
 import fr.paris.lutece.portal.service.cache.CacheService;
 import fr.paris.lutece.portal.service.cache.CacheableService;
+import fr.paris.lutece.portal.service.cache.IPathCacheService;
 import fr.paris.lutece.portal.service.content.ContentService;
 import fr.paris.lutece.portal.service.content.PageData;
 import fr.paris.lutece.portal.service.datastore.DatastoreService;
@@ -441,6 +442,17 @@ public final class PortalService
      */
     public static String getXPagePathContent( String strXPageName, int nMode, HttpServletRequest request )
     {
+        final IPathCacheService pathCacheService = SpringContextService.getBean( IPathCacheService.BEAN_NAME );
+
+        final String strKey = pathCacheService.getKey( strXPageName, nMode, request );
+
+        String strRes = pathCacheService.getFromCache( strKey );
+
+        if ( strRes != null )
+        {
+            return strRes;
+        }
+
         // Added in v1.3
         StyleSheet xslSource;
 
@@ -499,7 +511,11 @@ public final class PortalService
         XmlTransformerService xmlTransformerService = new XmlTransformerService( );
         String strPath = xmlTransformerService.transformBySourceWithXslCache( strXml, xslSource, mapXslParams, outputProperties );
 
-        return formatPath( strPath, nMode, request );
+        strRes = formatPath( strPath, nMode, request );
+
+        pathCacheService.putInCache( strKey, strRes );
+
+        return strRes;
     }
 
     /**
@@ -671,6 +687,17 @@ public final class PortalService
      */
     public static String getXPagePathContent( String strXPageName, int nMode, String strTitlesUrls, HttpServletRequest request )
     {
+        final IPathCacheService pathCacheService = SpringContextService.getBean( IPathCacheService.BEAN_NAME );
+
+        final String strKey = pathCacheService.getKey( strXPageName, nMode, strTitlesUrls, request );
+
+        String strRes = pathCacheService.getFromCache( strKey );
+
+        if ( strRes != null )
+        {
+            return strRes;
+        }
+
         // Selection of the XSL stylesheet
         StyleSheet xslSource;
 
@@ -699,7 +726,11 @@ public final class PortalService
         XmlTransformerService xmlTransformerService = new XmlTransformerService( );
         String strPath = xmlTransformerService.transformBySourceWithXslCache( strXml, xslSource, mapXslParams );
 
-        return formatPath( strPath, nMode, request );
+        strRes = formatPath( strPath, nMode, request );
+
+        pathCacheService.putInCache( strKey, strRes );
+
+        return strRes;
     }
 
     /**

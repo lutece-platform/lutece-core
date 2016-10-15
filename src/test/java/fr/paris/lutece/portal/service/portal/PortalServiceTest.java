@@ -33,19 +33,144 @@
  */
 package fr.paris.lutece.portal.service.portal;
 
+import java.io.IOException;
+import java.util.List;
+import java.util.Scanner;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.mock.web.MockHttpServletRequest;
 
+import fr.paris.lutece.portal.business.page.Page;
+import fr.paris.lutece.portal.service.cache.CacheService;
+import fr.paris.lutece.portal.service.cache.CacheableService;
+import fr.paris.lutece.portal.service.cache.IPathCacheService;
+import fr.paris.lutece.portal.service.page.IPageService;
+import fr.paris.lutece.portal.service.spring.SpringContextService;
+import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.test.LuteceTestCase;
 
 public class PortalServiceTest extends LuteceTestCase
 {
+    private static final int MODE_NORMAL = 0;
+    private static final int MODE_ADMIN = 1;
+
+    IPathCacheService pathCacheService;
+    boolean bPathCacheServiceEnabled;
+
+    @Override
+    protected void setUp( ) throws Exception
+    {
+        super.setUp( );
+        pathCacheService = null;
+        List<CacheableService> serviceList = CacheService.getCacheableServicesList( );
+        for ( CacheableService aService : serviceList )
+        {
+            if ( aService instanceof IPathCacheService )
+            {
+                pathCacheService = ( IPathCacheService ) aService;
+                bPathCacheServiceEnabled = aService.isCacheEnable( );
+                aService.enableCache( true );
+                aService.resetCache( );
+                break;
+            }
+        }
+        assertNotNull( pathCacheService );
+    }
+
+    @Override
+    protected void tearDown( ) throws Exception
+    {
+        List<CacheableService> serviceList = CacheService.getCacheableServicesList( );
+        for ( CacheableService aService : serviceList )
+        {
+            if ( aService == pathCacheService )
+            {
+                aService.resetCache( );
+                aService.enableCache( bPathCacheServiceEnabled );
+                break;
+            }
+        }
+        pathCacheService = null;
+        super.tearDown( );
+    }
+
     public void testGetDefaultPage( )
     {
         HttpServletRequest request = new MockHttpServletRequest( );
         int nMode = 0;
 
         // PortalService.getDefaultPage( request, nMode );
+    }
+
+    public void testGetXPagePathContent( ) throws IOException
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        String strPath_normal = PortalService.getXPagePathContent( "junit", MODE_NORMAL, request );
+        assertEquals( loadExpected( "getXPagePathContent_1.txt" ), strPath_normal );
+        assertSame( strPath_normal, PortalService.getXPagePathContent( "junit", MODE_NORMAL, request ) );
+
+        String strPath_admin = PortalService.getXPagePathContent( "junit", MODE_ADMIN, request );
+        assertEquals( loadExpected( "getXPagePathContent_1.txt" ), strPath_normal );
+        assertNotSame( strPath_admin, strPath_normal );
+        assertSame( strPath_admin, PortalService.getXPagePathContent( "junit", MODE_ADMIN, request ) );
+
+        int nPageId = createPage( );
+        try
+        {
+            MockHttpServletRequest request2 = new MockHttpServletRequest( );
+            request2.setParameter( Parameters.PAGE_ID, Integer.toString( nPageId ) );
+            String strPath_pageid = PortalService.getXPagePathContent( "junit", MODE_NORMAL, request2 );
+            assertEquals( loadExpected( "getXPagePathContent_2.txt" ), strPath_pageid );
+            assertNotSame( strPath_pageid, strPath_normal );
+            assertNotSame( strPath_pageid, strPath_admin );
+            assertSame( strPath_pageid, PortalService.getXPagePathContent( "junit", MODE_NORMAL, request2 ) );
+        } finally
+        {
+            removePage( nPageId );
+        }
+    }
+
+    public void testGetXPagePathContentWithTitleUrls( ) throws IOException
+    {
+        String strTitleUrls = "<page><page-id>junit</page-id><page-name>junit</page-name></page>";
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        String strPath_normal = PortalService.getXPagePathContent( "junit", MODE_NORMAL, strTitleUrls, request );
+        assertEquals( loadExpected( "getXPagePathContentWithTitleUrls_1.txt" ), strPath_normal );
+        assertSame( strPath_normal, PortalService.getXPagePathContent( "junit", MODE_NORMAL, strTitleUrls, request ) );
+
+        String strPath_admin = PortalService.getXPagePathContent( "junit", MODE_ADMIN, strTitleUrls, request );
+        assertEquals( loadExpected( "getXPagePathContentWithTitleUrls_1.txt" ), strPath_normal );
+        assertNotSame( strPath_admin, strPath_normal );
+        assertSame( strPath_admin, PortalService.getXPagePathContent( "junit", MODE_ADMIN, strTitleUrls, request ) );
+    }
+
+    private void removePage( int nPageId )
+    {
+        IPageService pageService = SpringContextService.getBean( "pageService" );
+        pageService.removePage( nPageId );
+    }
+
+    private int createPage( )
+    {
+        IPageService pageService = SpringContextService.getBean( "pageService" );
+        Page page = new Page( );
+        page.setName( "junit2" );
+        page.setDescription( "junit2" );
+        page.setParentPageId( PortalService.getRootPageId( ) );
+        pageService.createPage( page );
+        return page.getId( );
+    }
+
+    private String loadExpected( String strExpectedFileName ) throws IOException
+    {
+        try ( Scanner s = new Scanner(
+                this.getClass( ).getResourceAsStream( this.getClass( ).getSimpleName( ) + "_" + strExpectedFileName ),
+                "UTF-8" ) )
+        {
+            Scanner delimited = s.useDelimiter( "\\A" );
+            return delimited.hasNext( ) ? delimited.next( ) : "";
+        }
+
     }
 }
