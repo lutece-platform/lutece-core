@@ -29,15 +29,22 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label for="password" class="col-xs-12 col-sm-12 col-md-12">#i18n{portal.users.modify_user.labelFirstPassword}</label>
+                                    <label for="first_password" class="col-xs-12 col-sm-12 col-md-12">#i18n{portal.users.modify_user.labelFirstPassword}</label>
                                     <div class="col-xs-12 col-sm-12 col-md-12">
-                                        <input type="password" class="form-control" id="password" name="first_password" maxlength="100" value="">
-                                    </div>
+                                        <input type="password" class="form-control" id="first_password" name="first_password" maxlength="100" value="" aria-describedby="passwordMinLengthHelp">
+                                        <p class="help-block" id="passwordMinLengthHelp">${i18n("portal.users.message.password.minimumPasswordLength",minimumPasswordSize)}</p>
+                                    </div> 
                                 </div>
                                 <div class="form-group">
                                     <label for="second_password" class="col-xs-12 col-sm-12 col-md-12">#i18n{portal.users.modify_user.labelSecondPassword}</label>
                                     <div class="col-xs-12 col-sm-12 col-md-12">
                                         <input type="password" class="form-control" id="second_password" name="second_password" maxlength="100" value="">
+                                        <p class="help-block">#i18n{portal.users.create_user.passwordComplexity}</p>
+                                        <div class="progress">
+                                        	<div id="progressbar" class="progress-bar progress-bar-striped col-md-5" role="progressbar">
+                                        		<div id="complexity">0%</div>
+                                        	</div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -147,3 +154,14 @@
         </div>
     </div>
 </div>
+<script src="js/jquery.complexify.js"></script>
+<script>
+$(document).ready(function(){	
+	$("#first_password").complexify({}, function (valid, complexity) {
+		var progressBar = $('#progressbar');
+		progressBar.toggleClass('progress-bar-success', valid);
+		progressBar.toggleClass('progress-bar-danger', !valid);
+		progressBar.css({'width': complexity + '%'});
+		$('#complexity').html(Math.round(complexity) + '%');
+	});
+})</script>
