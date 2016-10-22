@@ -202,7 +202,7 @@
 <script>
 $(document).ready(function(){	
 	$("#generate_password").click(function(){
-		var pwd = $.password(8, true);
+		var pwd = $.password(${randomPasswordSize}, true);
 		$("#first_password").val(pwd);
 		$("#second_password").val(pwd);
 		$("#first_password").complexify({}, function (valid, complexity) {

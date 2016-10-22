@@ -86,6 +86,7 @@ import fr.paris.lutece.util.filesystem.FileSystemUtil;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.html.ItemNavigator;
 import fr.paris.lutece.util.html.Paginator;
+import fr.paris.lutece.util.password.PasswordUtil;
 import fr.paris.lutece.util.sort.AttributeComparator;
 import fr.paris.lutece.util.string.StringUtil;
 import fr.paris.lutece.util.url.UrlItem;
@@ -326,6 +327,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     private static final String MARK_DEFAULT_VALUE_WORKGROUP_KEY = "workgroup_key_default_value";
     private static final String MARK_WORKGROUP_KEY_LIST = "workgroup_key_list";
     private static final String MARK_ADMIN_AVATAR = "adminAvatar";
+    private static final String MARK_RANDOM_PASSWORD_SIZE = "randomPasswordSize";
 
     private static final String CONSTANT_EMAIL_TYPE_FIRST = "first";
     private static final String CONSTANT_EMAIL_TYPE_OTHER = "other";
@@ -573,6 +575,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             model.put( MARK_LOCALE, getLocale( ) );
             model.put( MARK_DEFAULT_VALUE_WORKGROUP_KEY, AdminWorkgroupService.ALL_GROUPS );
             model.put( MARK_WORKGROUP_KEY_LIST, AdminWorkgroupService.getUserWorkgroups( getUser( ), getLocale( ) ) );
+            model.put( MARK_RANDOM_PASSWORD_SIZE, AppPropertiesService.getPropertyInt( PasswordUtil.PROPERTY_PASSWORD_SIZE, PasswordUtil.CONSTANT_DEFAULT_RANDOM_PASSWORD_SIZE ) );
 
             template = AppTemplateService.getTemplate( TEMPLATE_DEFAULT_CREATE_USER, getLocale( ), model );
         }

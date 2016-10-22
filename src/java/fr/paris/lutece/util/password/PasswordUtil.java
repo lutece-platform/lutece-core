@@ -48,7 +48,8 @@ import java.util.Random;
  */
 public final class PasswordUtil
 {
-    private static final String PROPERTY_PASSWORD_SIZE = "randomPassword.size";
+    public static final String PROPERTY_PASSWORD_SIZE = "randomPassword.size";
+    public static final int CONSTANT_DEFAULT_RANDOM_PASSWORD_SIZE = 16;
     private static final int CONSTANT_NUMBER_LETTERS = 26;
     private static final int CONSTANT_NUMBER_NUMBERS_BASE10 = 10;
     private static final int CONSTANT_ASCII_CODE_A_UPPERCASE = 65;
@@ -77,7 +78,7 @@ public final class PasswordUtil
     public static String makePassword( )
     {
         // reinitialize password
-        int nPasswordSize = AppPropertiesService.getPropertyInt( PROPERTY_PASSWORD_SIZE, 8 );
+        int nPasswordSize = AppPropertiesService.getPropertyInt( PROPERTY_PASSWORD_SIZE, CONSTANT_DEFAULT_RANDOM_PASSWORD_SIZE );
         int nMinPasswordSize = AdminUserService.getIntegerSecurityParameter( PARAMETER_PASSWORD_MINIMUM_LENGTH );
 
         if ( nMinPasswordSize > nPasswordSize )
