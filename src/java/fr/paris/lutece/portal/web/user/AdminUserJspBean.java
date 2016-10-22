@@ -834,6 +834,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         model.put( MARK_LOCALE, getLocale( ) );
         model.put( MARK_MAP_LIST_ATTRIBUTE_DEFAULT_VALUES, map );
         model.put( MARK_WORKGROUP_KEY_LIST, AdminWorkgroupService.getUserWorkgroups( getUser( ), getLocale( ) ) );
+        model.put( MARK_MINIMUM_PASSWORD_SIZE, AdminUserService.getIntegerSecurityParameter( AdminUserService.DSKEY_PASSWORD_MINIMUM_LENGTH ) );
 
         template = AppTemplateService.getTemplate( strTemplateUrl, getLocale( ), model );
 
