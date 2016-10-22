@@ -37,6 +37,7 @@ import fr.paris.lutece.portal.service.admin.AdminUserService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.date.DateUtil;
 
+import java.security.SecureRandom;
 import java.sql.Timestamp;
 
 import java.util.ArrayList;
@@ -106,7 +107,7 @@ public final class PasswordUtil
     public static String makePassword( int nPasswordSize, boolean bUpperAndLowerCase, boolean bNumbers, boolean bSpecialCaracters )
     {
         // reinitialize password
-        Random r = new Random( );
+        Random r = new SecureRandom( );
 
         ArrayList<Character> listCharacters = new ArrayList<Character>( nPasswordSize );
 
@@ -149,7 +150,7 @@ public final class PasswordUtil
             listCharacters.add( Character.valueOf( c1 ) );
         }
 
-        Collections.shuffle( listCharacters );
+        Collections.shuffle( listCharacters, r );
 
         StringBuilder sbPassword = new StringBuilder( listCharacters.size( ) );
 
