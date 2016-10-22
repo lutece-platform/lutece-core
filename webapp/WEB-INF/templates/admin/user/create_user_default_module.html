@@ -205,22 +205,14 @@ $(document).ready(function(){
 		var pwd = $.password(${randomPasswordSize}, true);
 		$("#first_password").val(pwd);
 		$("#second_password").val(pwd);
-		$("#first_password").complexify({}, function (valid, complexity) {
-			if (!valid) {
-				$('#progressbar').css({'width':complexity + '%'}).removeClass('progress-bar progress-bar-success').addClass('progress-bar progress-bar-danger');
-			} else {
-				$('#progressbar').css({'width':complexity + '%'}).removeClass('progress-bar progress-bar-danger').addClass('progress-bar progress-bar-success');
-				}
-			$('#complexity').html(Math.round(complexity) + '%');
-		});
+		$("#first_password").trigger("propertychange");
     });
 
 	$("#first_password").complexify({}, function (valid, complexity) {
-		if (!valid) {
-			$('#progressbar').css({'width':complexity + '%'}).removeClass('progress-bar progress-bar-success').addClass('progress-bar progress-bar-danger');
-		} else {
-			$('#progressbar').css({'width':complexity + '%'}).removeClass('progress-bar progress-bar-danger').addClass('progress-bar progress-bar-success');
-			}
+		var progressBar = $('#progressbar');
+		progressBar.toggleClass('progress-bar-success', valid);
+		progressBar.toggleClass('progress-bar-danger', !valid);
+		progressBar.css({'width': complexity + '%'});
 		$('#complexity').html(Math.round(complexity) + '%');
 	});
 })</script>
