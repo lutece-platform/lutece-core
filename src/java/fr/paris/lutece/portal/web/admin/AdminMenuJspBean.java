@@ -105,6 +105,7 @@ public class AdminMenuJspBean implements Serializable
     private static final String MARK_JAVASCRIPT_FILES = "javascript_files";
     private static final String MARK_PLUGIN_NAME = "plugin_name";
     private static final String MARK_ADMIN_AVATAR = "adminAvatar";
+    private static final String MARK_MINIMUM_PASSWORD_SIZE = "minimumPasswordSize";
 
     // Templates
     private static final String TEMPLATE_ADMIN_HOME = "admin/user/admin_home.html";
@@ -424,7 +425,9 @@ public class AdminMenuJspBean implements Serializable
     {
         AdminUser user = AdminUserService.getAdminUser( request );
         Locale locale = user.getLocale( );
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_PASSWORD_DEFAULT_MODULE, locale );
+        Map<String, Object> model = new HashMap<>( );
+        model.put( MARK_MINIMUM_PASSWORD_SIZE, AdminUserService.getIntegerSecurityParameter( AdminUserService.DSKEY_PASSWORD_MINIMUM_LENGTH ) );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_PASSWORD_DEFAULT_MODULE, locale, model  );
 
         return template.getHtml( );
     }
