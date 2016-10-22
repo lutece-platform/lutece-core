@@ -328,6 +328,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     private static final String MARK_WORKGROUP_KEY_LIST = "workgroup_key_list";
     private static final String MARK_ADMIN_AVATAR = "adminAvatar";
     private static final String MARK_RANDOM_PASSWORD_SIZE = "randomPasswordSize";
+    private static final String MARK_MINIMUM_PASSWORD_SIZE = "minimumPasswordSize";
 
     private static final String CONSTANT_EMAIL_TYPE_FIRST = "first";
     private static final String CONSTANT_EMAIL_TYPE_OTHER = "other";
@@ -576,6 +577,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             model.put( MARK_DEFAULT_VALUE_WORKGROUP_KEY, AdminWorkgroupService.ALL_GROUPS );
             model.put( MARK_WORKGROUP_KEY_LIST, AdminWorkgroupService.getUserWorkgroups( getUser( ), getLocale( ) ) );
             model.put( MARK_RANDOM_PASSWORD_SIZE, AppPropertiesService.getPropertyInt( PasswordUtil.PROPERTY_PASSWORD_SIZE, PasswordUtil.CONSTANT_DEFAULT_RANDOM_PASSWORD_SIZE ) );
+            model.put( MARK_MINIMUM_PASSWORD_SIZE, AdminUserService.getIntegerSecurityParameter( AdminUserService.DSKEY_PASSWORD_MINIMUM_LENGTH ) );
 
             template = AppTemplateService.getTemplate( TEMPLATE_DEFAULT_CREATE_USER, getLocale( ), model );
         }
