@@ -37,15 +37,21 @@ import java.io.UnsupportedEncodingException;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Random;
+
+import fr.paris.lutece.portal.service.datastore.DatastoreService;
+import java.security.SecureRandom;
 
 /**
  * The Class CryptoService.
  */
 public final class CryptoService
 {
+    private static final int CONSTANT_CRYPTOKEY_LENGTH_BYTES = 32;
     // Properties
     private static final String PROPERTY_ENCODING = "lutece.encoding";
-    private static final String PROPERTY_CRYPTO_KEY = "crypto.key";
+    static final String PROPERTY_CRYPTO_KEY = "crypto.key";
+    static final String DSKEY_CRYPTO_KEY = "core." + PROPERTY_CRYPTO_KEY;
 
     /**
      * Private constructor
@@ -96,7 +102,22 @@ public final class CryptoService
      */
     public static String getCryptoKey( )
     {
-        return AppPropertiesService.getProperty( PROPERTY_CRYPTO_KEY );
+        String strKey = DatastoreService.getDataValue( DSKEY_CRYPTO_KEY, null );
+        if ( strKey == null )
+        {
+            // no key as been generated for this application
+            strKey = AppPropertiesService.getProperty( PROPERTY_CRYPTO_KEY );
+            if ( strKey == null )
+            {
+                // no legacy key exists. Generate a random one
+                Random random = new SecureRandom( );
+                byte[ ] bytes = new byte[ CONSTANT_CRYPTOKEY_LENGTH_BYTES ];
+                random.nextBytes( bytes );
+                strKey = byteToHex( bytes );
+            }
+            DatastoreService.setDataValue( DSKEY_CRYPTO_KEY, strKey );
+        }
+        return strKey;
     }
 
     /**
