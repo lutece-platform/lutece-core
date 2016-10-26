@@ -60,7 +60,8 @@ import fr.paris.lutece.util.password.IPasswordFactory;
 final class PasswordFactory implements IPasswordFactory
 {
     // storage types
-    private static final String PBKDF2_STORAGE_TYPE = "PBKDF2";
+    private static final String PBKDF2WITHHMACSHA1_STORAGE_TYPE = "PBKDF2";
+    private static final String PBKDF2WITHHMACSHA512_STORAGE_STYPE = "PBKDF2WITHHMACSHA512";
     private static final String PLAINTEXT_STORAGE_TYPE = "PLAINTEXT";
     private static final String DUMMY_STORAGE_TYPE = "\0DUMMY\0";
     private static final String DUMMY_STORED_PASSWORD = DUMMY_STORAGE_TYPE + ":\0";
@@ -79,8 +80,10 @@ final class PasswordFactory implements IPasswordFactory
         {
             case PLAINTEXT_STORAGE_TYPE:
                 return new PlaintextPassword( password );
-            case PBKDF2_STORAGE_TYPE:
-                return new PBKDF2Password( password );
+            case PBKDF2WITHHMACSHA1_STORAGE_TYPE:
+                return new PBKDF2WithHmacSHA1Password( password );
+            case PBKDF2WITHHMACSHA512_STORAGE_STYPE:
+                return new PBKDF2WithHmacSHA512Password( password );
             case DUMMY_STORAGE_TYPE:
                 return new DummyPassword( );
             default:
@@ -91,7 +94,7 @@ final class PasswordFactory implements IPasswordFactory
     @Override
     public IPassword getPasswordFromCleartext( String strUserPassword )
     {
-        return new PBKDF2Password( strUserPassword, PBKDF2Password.PASSWORD_REPRESENTATION.CLEARTEXT );
+        return new PBKDF2WithHmacSHA512Password( strUserPassword, PBKDF2Password.PASSWORD_REPRESENTATION.CLEARTEXT );
     }
 
     @Override
@@ -101,9 +104,9 @@ final class PasswordFactory implements IPasswordFactory
     }
 
     /**
-     * A Password stored using PBKDF2WithHmacSHA1
+     * A Password stored using PBKDF2
      */
-    private static class PBKDF2Password implements IPassword
+    private static abstract class PBKDF2Password implements IPassword
     {
 
         /**
@@ -175,7 +178,7 @@ final class PasswordFactory implements IPasswordFactory
                         _salt = new byte [ 16];
                         RANDOM.nextBytes( _salt );
                         PBEKeySpec spec = new PBEKeySpec( strPassword.toCharArray( ), _salt, _iterations, hashLength * 8 );
-                        SecretKeyFactory skf = SecretKeyFactory.getInstance( "PBKDF2WithHmacSHA1" );
+                        SecretKeyFactory skf = SecretKeyFactory.getInstance( getAlgorithm( ) );
                         _hash = skf.generateSecret( spec ).getEncoded( );
                     }
                     catch( NoSuchAlgorithmException | InvalidKeySpecException e )
@@ -206,13 +209,19 @@ final class PasswordFactory implements IPasswordFactory
             }
         }
 
+        /**
+         * Get the PBKDF2 algorithm
+         * @return the PBKDF2 algorithm to use
+         */
+        abstract protected String getAlgorithm( );
+
         @Override
         public boolean check( String strCleartextPassword )
         {
             PBEKeySpec spec = new PBEKeySpec( strCleartextPassword.toCharArray( ), _salt, _iterations, _hash.length * 8 );
             try
             {
-                SecretKeyFactory skf = SecretKeyFactory.getInstance( "PBKDF2WithHmacSHA1" );
+                SecretKeyFactory skf = SecretKeyFactory.getInstance( getAlgorithm( ) );
                 byte [ ] testHash = skf.generateSecret( spec ).getEncoded( );
                 return Arrays.equals( _hash, testHash );
             }
@@ -223,21 +232,16 @@ final class PasswordFactory implements IPasswordFactory
         }
 
         /**
-         * {@inheritDoc}
-         *
-         * Only implementation which is not legacy.
+         * Get the storage type identifier
+         * @return the storage type identifier
          */
-        @Override
-        public final boolean isLegacy( )
-        {
-            return false;
-        }
+        abstract protected String getStorageType( );
 
         @Override
         public String getStorableRepresentation( )
         {
             StringBuilder sb = new StringBuilder( );
-            sb.append( PBKDF2_STORAGE_TYPE ).append( ':' );
+            sb.append( getStorageType( ) ).append( ':' );
             sb.append( _iterations ).append( ':' ).append( Hex.encodeHex( _salt ) );
             sb.append( ':' ).append( Hex.encodeHex( _hash ) );
             return sb.toString( );
@@ -246,9 +250,108 @@ final class PasswordFactory implements IPasswordFactory
     }
 
     /**
+     * A Password stored using PBKDF2WithHmacSHA1
+     */
+    private static final class PBKDF2WithHmacSHA1Password extends PBKDF2Password
+    {
+
+        /**
+         * Construct a password from the stored representation
+         * 
+         * @param strStoredPassword
+         *            the stored representation
+         */
+        public PBKDF2WithHmacSHA1Password( String strStoredPassword )
+        {
+            super( strStoredPassword );
+        }
+
+        @Override
+        public boolean isLegacy( )
+        {
+            return true;
+        }
+
+        @Override
+        protected String getAlgorithm( )
+        {
+            return "PBKDF2WithHmacSHA1";
+        }
+
+        @Override
+        protected String getStorageType( )
+        {
+            return PBKDF2WITHHMACSHA1_STORAGE_TYPE;
+        }
+
+        /**
+         * Legacy passwords must not be stored.
+         * 
+         * @return never returns
+         * @throws UnsupportedOperationException
+         */
+        @Override
+        public String getStorableRepresentation( )
+        {
+            throw new UnsupportedOperationException( "Must not store a legacy password" );
+        }
+
+    }
+
+    /**
+     * A Password stored using PBKDF2WithHmacSHA256
+     */
+    private static class PBKDF2WithHmacSHA512Password extends PBKDF2Password
+    {
+
+        /**
+         * Construct a password from the stored representation
+         * 
+         * @param strStoredPassword
+         *            the stored representation
+         */
+        public PBKDF2WithHmacSHA512Password( String strStoredPassword )
+        {
+            super( strStoredPassword );
+        }
+
+        /**
+         * Construct a password
+         * 
+         * @param strPassword
+         *            the password text
+         * @param representation
+         *            representation of strPassword
+         */
+        public PBKDF2WithHmacSHA512Password( String strStoredPassword, PASSWORD_REPRESENTATION representation )
+        {
+            super( strStoredPassword, representation );
+        }
+
+        @Override
+        public boolean isLegacy( )
+        {
+            return false;
+        }
+
+        @Override
+        protected String getAlgorithm( )
+        {
+            return "PBKDF2WithHmacSHA512";
+        }
+
+        @Override
+        protected String getStorageType( )
+        {
+            return PBKDF2WITHHMACSHA512_STORAGE_STYPE;
+        }
+
+    }
+
+    /**
      * Dummy password which never matches a user password, but takes the same time as the PBKDF2Password to do so.
      */
-    private static final class DummyPassword extends PBKDF2Password
+    private static final class DummyPassword extends PBKDF2WithHmacSHA512Password
     {
         DummyPassword( )
         {
