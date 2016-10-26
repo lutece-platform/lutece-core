@@ -23,8 +23,7 @@
 							<a href="admin-user-security.html#parametres_de_securite_avances">Paramètres de sécurité avancés</a>
 						</li>
 						<li>
-							<a
-								href="admin-user-security.html#activation_parametres_de_securite_avances">Activation des paramètres de sécurité avancés</a>
+							<a href="admin-user-security.html#activation_parametres_de_securite_avances">Activation des paramètres de sécurité avancés</a>
 						</li>
 					</ol>
 					<li>
@@ -46,7 +45,9 @@
 					</li>
 					<ol>
 						<li>
-							<a href="admin-user-security.html#tentatives_connection">Tentatives de connexion au Back Office</a>
+						<a href="admin-user-security.html#tentatives_connection">Tentatives de connexion au
+							Back Office
+						</a>
 						</li>
 						<li>
 							<a href="admin-user-security.html#duree_de_vie">Durée de vie d'un compte utilisateur</a>
@@ -59,17 +60,19 @@
 			</OL>
 			<subsection name="1.1 Introduction">
 				<p>
-					Depuis la page de Gestion des utilisateurs, l'administrateur
-					technique a la possibilité de définir un certain nombre de
-					paramètres de sécurité de l'application. Ces différents paramètres
-					s'appliquent uniquement aux utilisateurs du back office. 
+					Depuis la page de Gestion des utilisateurs du back office,
+					l'administrateur technique a la possibilité de définir un certain
+					nombre de paramètres de sécurité de l'application. Ces différents
+					paramètres s'appliquent uniquement aux utilisateurs du back office.
 				</p>
 				<p>
 					Pour accéder à la gestion des paramètres de sécurité,
-					sélectionner dans le bandeau supérieur "Gestionnaire > Gestion des
-					utilisateurs", puis cliquer sur le bouton "Paramètres avancés" en
-					haut à droite de l'écran. Les paramètres de sécurité sont regroupés
-					dans le cadre intitulé "Modification des paramètres de sécurité"
+					sélectionner dans le bandeau supérieur
+					"Gestionnaire > Gestion des utilisateurs",
+					puis cliquer sur le bouton "Paramètres avancés" en haut à
+					droite de l'écran. Les paramètres de sécurité sont regroupés
+					dans le cadre intitulé "Modification des paramètres de
+					sécurité"
 				</p>
 				<center>
 					<img alt="Paramètres avancés" src="images/param_secu.gif" />
@@ -87,7 +90,7 @@
 				<p>
 					Les paramètres de sécurité dits "de base" sont toujours pris en
 					compte, alors que les paramètres de sécurité avancés peuvent être
-					activés ou désactivés par un administrateur technique. 
+					activés ou désactivés par un administrateur technique.
 				</p>
 				<p>
 					Les paramètres de sécurité avancés ne sont donc visibles que
@@ -145,7 +148,7 @@
 					Si la case "Mots de passe avec majuscules, minuscules, nombres et
 					caractères spéciaux" est cochée, alors les mots de passe des
 					utilisateurs devront obligatoirement contenir au moins une
-					majuscule, une minuscule, un caractère spécial et un nombre.  
+					majuscule, une minuscule, un caractère spécial et un nombre.
 				</p>
 				<p>
 					<strong>Attention, la modification de ces valeurs n'oblige pas les
@@ -264,7 +267,7 @@
 					Les notifications envoyées sont paramétrables. Pour les modifier,
 					il suffit de choisir dans la liste déroulante du cadre
 					"Notifications" le mail à éditer, et de cliquer sur le bouton
-					"Modifier l'email". 
+					"Modifier l'email".
 				</p>
 				<p>
 					Il est possible de définir le titre du mail, son expéditeur et son
@@ -282,19 +285,18 @@
 					données d'un compte anonymisé ne sont plus lisibles, et
 					l'utilisateur ne peut plus l'utiliser. L'écran de gestion des
 					attributs d'un utilisateur à anonymiser, accessible depuis l'écran
-					de gestion des utilisateurs ("Gestionnaire > Gestion des
-					utilisateurs"), permet à un administrateur de choisir les
-					informations d'un compte qui doivent être supprimées lors de
-					l'anonymisation.
+					de gestion des utilisateurs
+					("Gestionnaire > Gestion des utilisateurs"),
+					permet à un administrateur de choisir les informations d'un
+					compte qui doivent être supprimées lors de l'anonymisation.
 				</p>
 				<p>
 					Il est également possible d'anonymiser un compte utilisateur depuis
 					l'écran de gestion des utilisateurs (accessible via le menu
-					"Gestionnaire > Gestion des utilisateurs") en cliquant sur le
-					bouton "Anonymiser".
+					"Gestionnaire > Gestion des utilisateurs")
+					en cliquant sur le bouton "Anonymiser".
 				</p>
 			</subsection>
 		</section>
 	</body>
-</document>       
-             
+</document>
