@@ -105,19 +105,9 @@
 					de gestion des paramètres avancés.
 				</p>
 				<p>
-					L'activation des paramètres de sécurité avancés active si besoin
-					le cryptage des mots de passe avec l'algorithme "SHA-256". Lors de
-					l'activation, si cet algorithme n'était pas utilisé, alors les mots
-					de
-					passe de tous les utilisateurs sont réinitialisés et envoyés par
-					mail.
-				</p>
-				<p>
 					Lorsque les paramètres de sécurité avancés sont activés, il
 					devient possible de modifier ces paramètres dans le cadre intitulé
-					"Modification des paramètres de sécurité". En revanche, il n'est
-					alors plus possible de changer l'algorithme de cryptage des mots de
-					passe.
+					"Modification des paramètres de sécurité".
 				</p>
 				<p>
 					Tous les paramètres peuvent être désactivés en supprimant leur

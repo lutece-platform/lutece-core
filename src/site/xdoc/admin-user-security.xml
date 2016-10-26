@@ -103,17 +103,9 @@
 					button.
 				</p>
 				<p>
-					When advanced security parameters are turned on, password
-					encryption is set on, and the encryption algorithm is set to
-					"SHA-256". If the algorithm was not "SHA-256", then every user's
-					password is reinitialized and sent by email.
-				</p>
-				<p>
-					While advanced security parameters are on, the encryption
-					algorithm can not be changed, nor the password encryption can be
-					disabled. Although, it is possible to modify advanced security
-					parameters in the "Modification of security parameters values"
-					panel.
+					While advanced security parameters are on, it is possible to
+					modify advanced security parameters in the "Modification of
+					security parameters values" panel.
 				</p>
 				<p>
 					Security parameters can be deactivated by deleting their value,
