@@ -61,7 +61,7 @@ final class PasswordFactory implements IPasswordFactory
 {
     // storage types
     private static final String PBKDF2WITHHMACSHA1_STORAGE_TYPE = "PBKDF2";
-    private static final String PBKDF2WITHHMACSHA512_STORAGE_STYPE = "PBKDF2WITHHMACSHA512";
+    private static final String PBKDF2WITHHMACSHA512_STORAGE_TYPE = "PBKDF2WITHHMACSHA512";
     private static final String PLAINTEXT_STORAGE_TYPE = "PLAINTEXT";
     private static final String DUMMY_STORAGE_TYPE = "\0DUMMY\0";
     private static final String DUMMY_STORED_PASSWORD = DUMMY_STORAGE_TYPE + ":\0";
@@ -82,7 +82,7 @@ final class PasswordFactory implements IPasswordFactory
                 return new PlaintextPassword( password );
             case PBKDF2WITHHMACSHA1_STORAGE_TYPE:
                 return new PBKDF2WithHmacSHA1Password( password );
-            case PBKDF2WITHHMACSHA512_STORAGE_STYPE:
+            case PBKDF2WITHHMACSHA512_STORAGE_TYPE:
                 return new PBKDF2WithHmacSHA512Password( password );
             case DUMMY_STORAGE_TYPE:
                 return new DummyPassword( );
@@ -299,7 +299,7 @@ final class PasswordFactory implements IPasswordFactory
     }
 
     /**
-     * A Password stored using PBKDF2WithHmacSHA256
+     * A Password stored using PBKDF2WithHmacSHA512
      */
     private static class PBKDF2WithHmacSHA512Password extends PBKDF2Password
     {
@@ -343,7 +343,7 @@ final class PasswordFactory implements IPasswordFactory
         @Override
         protected String getStorageType( )
         {
-            return PBKDF2WITHHMACSHA512_STORAGE_STYPE;
+            return PBKDF2WITHHMACSHA512_STORAGE_TYPE;
         }
 
     }
