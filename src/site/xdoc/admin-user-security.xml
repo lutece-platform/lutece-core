@@ -193,7 +193,7 @@
 					allowed to change their passwords once a day.
 				</p>
 			</subsection>
-			<subsection name="1.4 Gestion des comptes utilisateur">
+			<subsection name="1.4 User Accounts Management">
 				<a name="tentatives_connection" />
 				<h4>1.4.1 Back office connections</h4>
 				<p>
@@ -255,7 +255,7 @@
 				<p>
 					When an account expires, it is anonymized. Data of an anonymized
 					account are encrypted, and it can not be used anymore. Attributes
-					to anonymized can be chosen from the the anonymization management
+					to anonymized can be chosen from the anonymization management
 					page, accessible from the user management page
 					("Managers > Users management").
 				</p>
