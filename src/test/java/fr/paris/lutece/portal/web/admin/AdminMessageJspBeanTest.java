@@ -33,15 +33,17 @@
  */
 package fr.paris.lutece.portal.web.admin;
 
+import java.util.Locale;
+
+import javax.servlet.http.HttpSession;
+
+import org.springframework.mock.web.MockHttpServletRequest;
+
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.test.LuteceTestCase;
-import fr.paris.lutece.test.MokeHttpServletRequest;
-
-import java.util.Locale;
-
-import javax.servlet.http.HttpSession;
+import fr.paris.lutece.test.Utils;
 
 /**
  * AdminMessageJspBeanTest Test Class
@@ -56,11 +58,11 @@ public class AdminMessageJspBeanTest extends LuteceTestCase
     {
         System.out.println( "getMessage" );
 
-        MokeHttpServletRequest request = new MokeHttpServletRequest( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
 
         AdminUser user = new AdminUser( );
         user.setLocale( Locale.FRANCE );
-        request.registerAdminUser( user );
+        Utils.registerAdminUser( request, user );
 
         String strTitle = "WARNING_MESSAGE";
         boolean bCancelButton = false;
