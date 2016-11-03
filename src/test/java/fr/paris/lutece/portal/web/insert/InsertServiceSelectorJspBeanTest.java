@@ -33,8 +33,9 @@
  */
 package fr.paris.lutece.portal.web.insert;
 
+import org.springframework.mock.web.MockHttpServletRequest;
+
 import fr.paris.lutece.test.LuteceTestCase;
-import fr.paris.lutece.test.MokeHttpServletRequest;
 
 /**
  * InsertServiceSelectorJspBean Test Class
@@ -48,9 +49,9 @@ public class InsertServiceSelectorJspBeanTest extends LuteceTestCase
     {
         System.out.println( "getServicesListPage" );
 
-        MokeHttpServletRequest request = new MokeHttpServletRequest( );
-        request.addMokeParameters( "input", "text" );
-        request.addMokeParameters( "selected_text", "selected_text" );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.addParameter( "input", "text" );
+        request.addParameter( "selected_text", "selected_text" );
 
         InsertServiceSelectorJspBean instance = new InsertServiceSelectorJspBean( );
 
@@ -64,7 +65,7 @@ public class InsertServiceSelectorJspBeanTest extends LuteceTestCase
     {
         System.out.println( "displayService" );
 
-        MokeHttpServletRequest request = new MokeHttpServletRequest( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
         InsertServiceSelectorJspBean instance = new InsertServiceSelectorJspBean( );
 
         String result = instance.displayService( request );
