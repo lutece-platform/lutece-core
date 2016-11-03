@@ -33,10 +33,12 @@
  */
 package fr.paris.lutece.portal.web.features;
 
+import org.springframework.mock.web.MockHttpServletRequest;
+
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.test.LuteceTestCase;
-import fr.paris.lutece.test.MokeHttpServletRequest;
+import fr.paris.lutece.test.Utils;
 
 /**
  * FeaturesGroupJspBeanTest Test Class
@@ -54,8 +56,8 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
     {
         System.out.println( "getManageFeatures" );
 
-        MokeHttpServletRequest request = new MokeHttpServletRequest( );
-        request.registerAdminUserWithRigth( new AdminUser( ), FeaturesGroupJspBean.RIGHT_FEATURES_MANAGEMENT );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        Utils.registerAdminUserWithRigth( request, new AdminUser( ), FeaturesGroupJspBean.RIGHT_FEATURES_MANAGEMENT );
 
         FeaturesGroupJspBean instance = new FeaturesGroupJspBean( );
         instance.init( request, FeaturesGroupJspBean.RIGHT_FEATURES_MANAGEMENT );
@@ -69,8 +71,8 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
     {
         System.out.println( "getManageGroups" );
 
-        MokeHttpServletRequest request = new MokeHttpServletRequest( );
-        request.registerAdminUserWithRigth( new AdminUser( ), FeaturesGroupJspBean.RIGHT_FEATURES_MANAGEMENT );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        Utils.registerAdminUserWithRigth( request, new AdminUser( ), FeaturesGroupJspBean.RIGHT_FEATURES_MANAGEMENT );
 
         FeaturesGroupJspBean instance = new FeaturesGroupJspBean( );
         instance.init( request, FeaturesGroupJspBean.RIGHT_FEATURES_MANAGEMENT );
@@ -84,8 +86,8 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
     {
         System.out.println( "getDispatchFeatures" );
 
-        MokeHttpServletRequest request = new MokeHttpServletRequest( );
-        request.registerAdminUserWithRigth( new AdminUser( ), FeaturesGroupJspBean.RIGHT_FEATURES_MANAGEMENT );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        Utils.registerAdminUserWithRigth( request, new AdminUser( ), FeaturesGroupJspBean.RIGHT_FEATURES_MANAGEMENT );
 
         FeaturesGroupJspBean instance = new FeaturesGroupJspBean( );
         instance.init( request, FeaturesGroupJspBean.RIGHT_FEATURES_MANAGEMENT );
@@ -109,8 +111,8 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
     {
         System.out.println( "getCreateGroup" );
 
-        MokeHttpServletRequest request = new MokeHttpServletRequest( );
-        request.registerAdminUserWithRigth( new AdminUser( ), FeaturesGroupJspBean.RIGHT_FEATURES_MANAGEMENT );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        Utils.registerAdminUserWithRigth( request, new AdminUser( ), FeaturesGroupJspBean.RIGHT_FEATURES_MANAGEMENT );
 
         FeaturesGroupJspBean instance = new FeaturesGroupJspBean( );
         instance.init( request, FeaturesGroupJspBean.RIGHT_FEATURES_MANAGEMENT );
@@ -124,9 +126,9 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
     {
         System.out.println( "getModifyGroup" );
 
-        MokeHttpServletRequest request = new MokeHttpServletRequest( );
-        request.addMokeParameters( PARAMETER_GROUP_ID, TEST_GROUP_ID );
-        request.registerAdminUserWithRigth( new AdminUser( ), FeaturesGroupJspBean.RIGHT_FEATURES_MANAGEMENT );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.addParameter( PARAMETER_GROUP_ID, TEST_GROUP_ID );
+        Utils.registerAdminUserWithRigth( request, new AdminUser( ), FeaturesGroupJspBean.RIGHT_FEATURES_MANAGEMENT );
 
         FeaturesGroupJspBean instance = new FeaturesGroupJspBean( );
         instance.init( request, FeaturesGroupJspBean.RIGHT_FEATURES_MANAGEMENT );
@@ -160,9 +162,9 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
     {
         System.out.println( "getRemoveGroup" );
 
-        MokeHttpServletRequest request = new MokeHttpServletRequest( );
-        request.addMokeParameters( PARAMETER_GROUP_ID, TEST_GROUP_ID );
-        request.registerAdminUserWithRigth( new AdminUser( ), FeaturesGroupJspBean.RIGHT_FEATURES_MANAGEMENT );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.addParameter( PARAMETER_GROUP_ID, TEST_GROUP_ID );
+        Utils.registerAdminUserWithRigth( request, new AdminUser( ), FeaturesGroupJspBean.RIGHT_FEATURES_MANAGEMENT );
 
         FeaturesGroupJspBean instance = new FeaturesGroupJspBean( );
         instance.init( request, FeaturesGroupJspBean.RIGHT_FEATURES_MANAGEMENT );
