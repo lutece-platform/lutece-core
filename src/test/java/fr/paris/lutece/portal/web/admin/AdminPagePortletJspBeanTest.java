@@ -8,6 +8,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.mock.web.MockHttpServletRequest;
+
 import fr.paris.lutece.portal.business.portlet.AliasPortlet;
 import fr.paris.lutece.portal.business.portlet.AliasPortletHome;
 import fr.paris.lutece.portal.business.portlet.IPortletInterfaceDAO;
@@ -28,9 +30,8 @@ import fr.paris.lutece.portal.service.portlet.PortletRemovalListenerService;
 import fr.paris.lutece.portal.service.portlet.PortletResourceIdService;
 import fr.paris.lutece.portal.service.util.RemovalListener;
 import fr.paris.lutece.portal.web.constants.Parameters;
-import fr.paris.lutece.portal.web.portlet.AliasPortletJspBean;
 import fr.paris.lutece.test.LuteceTestCase;
-import fr.paris.lutece.test.MokeHttpServletRequest;
+import fr.paris.lutece.test.Utils;
 import fr.paris.lutece.util.ReferenceItem;
 import fr.paris.lutece.util.ReferenceList;
 
@@ -52,7 +53,7 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
     public void testGetModifyPortletStatusNoParam( ) throws AccessDeniedException
     {
         AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
-        MokeHttpServletRequest request = new MokeHttpServletRequest( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
         String url = bean.getModifyPortletStatus( request );
         assertNotNull( url );
         AdminMessage message = AdminMessageService.getMessage( request );
@@ -69,8 +70,8 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
     public void testGetModifyPortletStatusNoStatusParam( ) throws AccessDeniedException
     {
         AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
-        MokeHttpServletRequest request = new MokeHttpServletRequest( );
-        request.addMokeParameters( Parameters.PORTLET_ID, "1" );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.addParameter( Parameters.PORTLET_ID, "1" );
         String url = bean.getModifyPortletStatus( request );
         assertNotNull( url );
         AdminMessage message = AdminMessageService.getMessage( request );
@@ -87,8 +88,8 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
     public void testGetModifyPortletStatusNoPortletParam( ) throws AccessDeniedException
     {
         AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
-        MokeHttpServletRequest request = new MokeHttpServletRequest( );
-        request.addMokeParameters( PORTLET_STATUS, Integer.toString( Portlet.STATUS_PUBLISHED ) );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.addParameter( PORTLET_STATUS, Integer.toString( Portlet.STATUS_PUBLISHED ) );
         String url = bean.getModifyPortletStatus( request );
         assertNotNull( url );
         AdminMessage message = AdminMessageService.getMessage( request );
@@ -105,12 +106,12 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
     public void testGetModifyPortletStatusInvalidStatus( ) throws AccessDeniedException
     {
         AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
-        MokeHttpServletRequest request = new MokeHttpServletRequest( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
         Portlet portlet = getPortlet( );
         try
         {
-            request.addMokeParameters( Parameters.PORTLET_ID, Integer.toString( portlet.getId( ) ) );
-            request.addMokeParameters( PORTLET_STATUS, "999999999" );
+            request.addParameter( Parameters.PORTLET_ID, Integer.toString( portlet.getId( ) ) );
+            request.addParameter( PORTLET_STATUS, "999999999" );
             String url = bean.getModifyPortletStatus( request );
             assertNotNull( url );
             AdminMessage message = AdminMessageService.getMessage( request );
@@ -132,9 +133,9 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
     public void testGetModifyPortletStatusInvalidPortletID( ) throws AccessDeniedException
     {
         AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
-        MokeHttpServletRequest request = new MokeHttpServletRequest( );
-        request.addMokeParameters( Parameters.PORTLET_ID, "NOT_NUMERIC" );
-        request.addMokeParameters( PORTLET_STATUS, Integer.toString( Portlet.STATUS_PUBLISHED ) );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.addParameter( Parameters.PORTLET_ID, "NOT_NUMERIC" );
+        request.addParameter( PORTLET_STATUS, Integer.toString( Portlet.STATUS_PUBLISHED ) );
         String url = bean.getModifyPortletStatus( request );
         assertNotNull( url );
         AdminMessage message = AdminMessageService.getMessage( request );
@@ -151,12 +152,12 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
     public void testGetModifyPortletStatusInexistantPortletID( ) throws AccessDeniedException
     {
         AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
-        MokeHttpServletRequest request = new MokeHttpServletRequest( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
         Portlet portlet = getPortlet( );
         try
         {
-            request.addMokeParameters( Parameters.PORTLET_ID, "31415925" );
-            request.addMokeParameters( PORTLET_STATUS, Integer.toString( Portlet.STATUS_PUBLISHED ) );
+            request.addParameter( Parameters.PORTLET_ID, "31415925" );
+            request.addParameter( PORTLET_STATUS, Integer.toString( Portlet.STATUS_PUBLISHED ) );
             String url = bean.getModifyPortletStatus( request );
             assertNotNull( url );
             AdminMessage message = AdminMessageService.getMessage( request );
@@ -175,13 +176,13 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
     public void testGetModifyPortletStatusNoRight( )
     {
         AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
-        MokeHttpServletRequest request = new MokeHttpServletRequest( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
         Portlet portlet = getPortlet( );
         try
         {
-            request.addMokeParameters( Parameters.PORTLET_ID, Integer.toString( portlet.getId( ) ) );
-            request.addMokeParameters( PORTLET_STATUS, Integer.toString( Portlet.STATUS_PUBLISHED ) );
-            request.registerAdminUser( new AdminUser( ) );
+            request.addParameter( Parameters.PORTLET_ID, Integer.toString( portlet.getId( ) ) );
+            request.addParameter( PORTLET_STATUS, Integer.toString( Portlet.STATUS_PUBLISHED ) );
+            Utils.registerAdminUser( request, new AdminUser( ) );
             bean.getModifyPortletStatus( request );
             fail( "Should not have been able to modify the portlet" );
         }
@@ -203,16 +204,16 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
     public void testGetModifyPortletStatus( ) throws AccessDeniedException
     {
         AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
-        MokeHttpServletRequest request = new MokeHttpServletRequest( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
         Portlet portlet = null;
         AdminUser user = null;
         try
         {
             portlet = getPortlet( );
             user = getAdminUser( );
-            request.addMokeParameters( Parameters.PORTLET_ID, Integer.toString( portlet.getId( ) ) );
-            request.addMokeParameters( PORTLET_STATUS, Integer.toString( Portlet.STATUS_PUBLISHED ) );
-            request.registerAdminUser( user );
+            request.addParameter( Parameters.PORTLET_ID, Integer.toString( portlet.getId( ) ) );
+            request.addParameter( PORTLET_STATUS, Integer.toString( Portlet.STATUS_PUBLISHED ) );
+            Utils.registerAdminUser( request, user );
             String url = bean.getModifyPortletStatus( request );
             assertNotNull( url );
             AdminMessage message = AdminMessageService.getMessage( request );
@@ -241,7 +242,7 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
     public void testDoModifyPortletStatusNoParam( ) throws AccessDeniedException
     {
         AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
-        MokeHttpServletRequest request = new MokeHttpServletRequest( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
         String url = bean.doModifyPortletStatus( request );
         assertNotNull( url );
         AdminMessage message = AdminMessageService.getMessage( request );
@@ -258,8 +259,8 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
     public void testDoModifyPortletStatusNoStatusParam( ) throws AccessDeniedException
     {
         AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
-        MokeHttpServletRequest request = new MokeHttpServletRequest( );
-        request.addMokeParameters( Parameters.PORTLET_ID, "1" );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.addParameter( Parameters.PORTLET_ID, "1" );
         String url = bean.doModifyPortletStatus( request );
         assertNotNull( url );
         AdminMessage message = AdminMessageService.getMessage( request );
@@ -276,8 +277,8 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
     public void testDoModifyPortletStatusNoPortletParam( ) throws AccessDeniedException
     {
         AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
-        MokeHttpServletRequest request = new MokeHttpServletRequest( );
-        request.addMokeParameters( PORTLET_STATUS, Integer.toString( Portlet.STATUS_PUBLISHED ) );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.addParameter( PORTLET_STATUS, Integer.toString( Portlet.STATUS_PUBLISHED ) );
         String url = bean.doModifyPortletStatus( request );
         assertNotNull( url );
         AdminMessage message = AdminMessageService.getMessage( request );
@@ -294,12 +295,12 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
     public void testDoModifyPortletStatusInvalidStatus( ) throws AccessDeniedException
     {
         AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
-        MokeHttpServletRequest request = new MokeHttpServletRequest( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
         Portlet portlet = getPortlet( );
         try
         {
-            request.addMokeParameters( Parameters.PORTLET_ID, Integer.toString( portlet.getId( ) ) );
-            request.addMokeParameters( PORTLET_STATUS, "999999999" );
+            request.addParameter( Parameters.PORTLET_ID, Integer.toString( portlet.getId( ) ) );
+            request.addParameter( PORTLET_STATUS, "999999999" );
             String url = bean.doModifyPortletStatus( request );
             assertNotNull( url );
             AdminMessage message = AdminMessageService.getMessage( request );
@@ -321,9 +322,9 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
     public void testDoModifyPortletStatusInvalidPortletID( ) throws AccessDeniedException
     {
         AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
-        MokeHttpServletRequest request = new MokeHttpServletRequest( );
-        request.addMokeParameters( Parameters.PORTLET_ID, "NOT_NUMERIC" );
-        request.addMokeParameters( PORTLET_STATUS, Integer.toString( Portlet.STATUS_PUBLISHED ) );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.addParameter( Parameters.PORTLET_ID, "NOT_NUMERIC" );
+        request.addParameter( PORTLET_STATUS, Integer.toString( Portlet.STATUS_PUBLISHED ) );
         String url = bean.doModifyPortletStatus( request );
         assertNotNull( url );
         AdminMessage message = AdminMessageService.getMessage( request );
@@ -340,12 +341,12 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
     public void testDoModifyPortletStatusInexistantPortletID( ) throws AccessDeniedException
     {
         AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
-        MokeHttpServletRequest request = new MokeHttpServletRequest( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
         Portlet portlet = getPortlet( );
         try
         {
-            request.addMokeParameters( Parameters.PORTLET_ID, "31415925" );
-            request.addMokeParameters( PORTLET_STATUS, Integer.toString( Portlet.STATUS_PUBLISHED ) );
+            request.addParameter( Parameters.PORTLET_ID, "31415925" );
+            request.addParameter( PORTLET_STATUS, Integer.toString( Portlet.STATUS_PUBLISHED ) );
             String url = bean.doModifyPortletStatus( request );
             assertNotNull( url );
             AdminMessage message = AdminMessageService.getMessage( request );
@@ -364,13 +365,13 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
     public void testDoModifyPortletStatusNoRight( )
     {
         AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
-        MokeHttpServletRequest request = new MokeHttpServletRequest( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
         Portlet portlet = getPortlet( );
         try
         {
-            request.addMokeParameters( Parameters.PORTLET_ID, Integer.toString( portlet.getId( ) ) );
-            request.addMokeParameters( PORTLET_STATUS, Integer.toString( Portlet.STATUS_PUBLISHED ) );
-            request.registerAdminUser( new AdminUser( ) );
+            request.addParameter( Parameters.PORTLET_ID, Integer.toString( portlet.getId( ) ) );
+            request.addParameter( PORTLET_STATUS, Integer.toString( Portlet.STATUS_PUBLISHED ) );
+            Utils.registerAdminUser( request, new AdminUser( ) );
             bean.doModifyPortletStatus( request );
             fail( "Should not have been able to modify the portlet" );
         }
@@ -392,7 +393,7 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
     public void testDoModifyPortletStatus( ) throws AccessDeniedException
     {
         AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
-        MokeHttpServletRequest request = new MokeHttpServletRequest( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
         Portlet portlet = null;
         AdminUser user = null;
         try
@@ -401,9 +402,9 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
             int nStatus = portlet.getStatus( );
             int nNewStatus = nStatus == Portlet.STATUS_PUBLISHED ? Portlet.STATUS_UNPUBLISHED : Portlet.STATUS_PUBLISHED;
             user = getAdminUser( );
-            request.addMokeParameters( Parameters.PORTLET_ID, Integer.toString( portlet.getId( ) ) );
-            request.addMokeParameters( PORTLET_STATUS, Integer.toString( nNewStatus ) );
-            request.registerAdminUser( user );
+            request.addParameter( Parameters.PORTLET_ID, Integer.toString( portlet.getId( ) ) );
+            request.addParameter( PORTLET_STATUS, Integer.toString( nNewStatus ) );
+            Utils.registerAdminUser( request, user );
             String url = bean.doModifyPortletStatus( request );
             assertNotNull( url );
             AdminMessage message = AdminMessageService.getMessage( request );
@@ -434,7 +435,7 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
     public void testGetRemovePortletNoParam( ) throws AccessDeniedException
     {
         AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
-        MokeHttpServletRequest request = new MokeHttpServletRequest( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
         String url = bean.getRemovePortlet( request );
         assertNotNull( url );
         AdminMessage message = AdminMessageService.getMessage( request );
@@ -451,8 +452,8 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
     public void testGetRemovePortletInvalidPortletID( ) throws AccessDeniedException
     {
         AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
-        MokeHttpServletRequest request = new MokeHttpServletRequest( );
-        request.addMokeParameters( Parameters.PORTLET_ID, "NOT_NUMERIC" );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.addParameter( Parameters.PORTLET_ID, "NOT_NUMERIC" );
         String url = bean.getRemovePortlet( request );
         assertNotNull( url );
         AdminMessage message = AdminMessageService.getMessage( request );
@@ -469,11 +470,11 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
     public void testGetRemovePortletInexistantPortletID( ) throws AccessDeniedException
     {
         AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
-        MokeHttpServletRequest request = new MokeHttpServletRequest( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
         Portlet portlet = getPortlet( );
         try
         {
-            request.addMokeParameters( Parameters.PORTLET_ID, "31415925" );
+            request.addParameter( Parameters.PORTLET_ID, "31415925" );
             String url = bean.getRemovePortlet( request );
             assertNotNull( url );
             AdminMessage message = AdminMessageService.getMessage( request );
@@ -492,12 +493,12 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
     public void testGetRemovePortletNoRight( )
     {
         AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
-        MokeHttpServletRequest request = new MokeHttpServletRequest( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
         Portlet portlet = getPortlet( );
         try
         {
-            request.addMokeParameters( Parameters.PORTLET_ID, Integer.toString( portlet.getId( ) ) );
-            request.registerAdminUser( new AdminUser( ) );
+            request.addParameter( Parameters.PORTLET_ID, Integer.toString( portlet.getId( ) ) );
+            Utils.registerAdminUser( request, new AdminUser( ) );
             bean.getRemovePortlet( request );
             fail( "Should not have been able to modify the portlet" );
         }
@@ -519,15 +520,15 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
     public void testGetRemovePortlet( ) throws AccessDeniedException
     {
         AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
-        MokeHttpServletRequest request = new MokeHttpServletRequest( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
         Portlet portlet = null;
         AdminUser user = null;
         try
         {
             portlet = getPortlet( );
             user = getAdminUser( );
-            request.addMokeParameters( Parameters.PORTLET_ID, Integer.toString( portlet.getId( ) ) );
-            request.registerAdminUser( user );
+            request.addParameter( Parameters.PORTLET_ID, Integer.toString( portlet.getId( ) ) );
+            Utils.registerAdminUser( request, user );
             String url = bean.getRemovePortlet( request );
             assertNotNull( url );
             AdminMessage message = AdminMessageService.getMessage( request );
@@ -561,7 +562,7 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
     public void testGetRemovePortletWithAlias( ) throws AccessDeniedException
     {
         AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
-        MokeHttpServletRequest request = new MokeHttpServletRequest( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
         Portlet portlet = null;
         AdminUser user = null;
         try
@@ -569,8 +570,8 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
             portlet = getPortlet( );
             getAlias( portlet );
             user = getAdminUser( );
-            request.addMokeParameters( Parameters.PORTLET_ID, Integer.toString( portlet.getId( ) ) );
-            request.registerAdminUser( user );
+            request.addParameter( Parameters.PORTLET_ID, Integer.toString( portlet.getId( ) ) );
+            Utils.registerAdminUser( request, user );
             String url = bean.getRemovePortlet( request );
             assertNotNull( url );
             AdminMessage message = AdminMessageService.getMessage( request );
@@ -604,15 +605,15 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
     public void testGetRemovePortletWithPortletRemovalListener( ) throws AccessDeniedException
     {
         AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
-        MokeHttpServletRequest request = new MokeHttpServletRequest( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
         Portlet portlet = null;
         AdminUser user = null;
         try
         {
             portlet = getPortlet( );
             user = getAdminUser( );
-            request.addMokeParameters( Parameters.PORTLET_ID, Integer.toString( portlet.getId( ) ) );
-            request.registerAdminUser( user );
+            request.addParameter( Parameters.PORTLET_ID, Integer.toString( portlet.getId( ) ) );
+            Utils.registerAdminUser( request, user );
             final int nPortletId = portlet.getId( );
             final String removalRefusedMessage = "REMOVAL_REFUSED_" + nPortletId;
             PortletRemovalListenerService.getService( ).registerListener( new RemovalListener( )
@@ -669,7 +670,7 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
     public void testDoRemovePortletNoParam( ) throws AccessDeniedException
     {
         AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
-        MokeHttpServletRequest request = new MokeHttpServletRequest( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
         String url = bean.doRemovePortlet( request );
         assertNotNull( url );
         AdminMessage message = AdminMessageService.getMessage( request );
@@ -686,8 +687,8 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
     public void testDoRemovePortletInvalidPortletID( ) throws AccessDeniedException
     {
         AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
-        MokeHttpServletRequest request = new MokeHttpServletRequest( );
-        request.addMokeParameters( Parameters.PORTLET_ID, "NOT_NUMERIC" );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.addParameter( Parameters.PORTLET_ID, "NOT_NUMERIC" );
         String url = bean.doRemovePortlet( request );
         assertNotNull( url );
         AdminMessage message = AdminMessageService.getMessage( request );
@@ -704,11 +705,11 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
     public void testDoRemovePortletInexistantPortletID( ) throws AccessDeniedException
     {
         AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
-        MokeHttpServletRequest request = new MokeHttpServletRequest( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
         Portlet portlet = getPortlet( );
         try
         {
-            request.addMokeParameters( Parameters.PORTLET_ID, "31415925" );
+            request.addParameter( Parameters.PORTLET_ID, "31415925" );
             String url = bean.doRemovePortlet( request );
             assertNotNull( url );
             AdminMessage message = AdminMessageService.getMessage( request );
@@ -727,12 +728,12 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
     public void testDoRemovePortletNoRight( )
     {
         AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
-        MokeHttpServletRequest request = new MokeHttpServletRequest( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
         Portlet portlet = getPortlet( );
         try
         {
-            request.addMokeParameters( Parameters.PORTLET_ID, Integer.toString( portlet.getId( ) ) );
-            request.registerAdminUser( new AdminUser( ) );
+            request.addParameter( Parameters.PORTLET_ID, Integer.toString( portlet.getId( ) ) );
+            Utils.registerAdminUser( request, new AdminUser( ) );
             bean.doRemovePortlet( request );
             fail( "Should not have been able to modify the portlet" );
         }
@@ -754,15 +755,15 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
     public void testDoRemovePortlet( ) throws AccessDeniedException
     {
         AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
-        MokeHttpServletRequest request = new MokeHttpServletRequest( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
         Portlet portlet = null;
         AdminUser user = null;
         try
         {
             portlet = getPortlet( );
             user = getAdminUser( );
-            request.addMokeParameters( Parameters.PORTLET_ID, Integer.toString( portlet.getId( ) ) );
-            request.registerAdminUser( user );
+            request.addParameter( Parameters.PORTLET_ID, Integer.toString( portlet.getId( ) ) );
+            Utils.registerAdminUser( request, user );
             String url = bean.doRemovePortlet( request );
             assertNotNull( url );
             AdminMessage message = AdminMessageService.getMessage( request );
