@@ -33,6 +33,14 @@
  */
 package fr.paris.lutece.portal.service.page;
 
+import java.util.List;
+
+import javax.servlet.http.HttpServletResponse;
+
+import org.junit.Test;
+import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.mock.web.MockHttpServletResponse;
+
 import fr.paris.lutece.portal.service.cache.CacheService;
 import fr.paris.lutece.portal.service.cache.CacheableService;
 import fr.paris.lutece.portal.service.message.SiteMessageException;
@@ -40,21 +48,6 @@ import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.web.LocalVariables;
 import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.test.LuteceTestCase;
-import fr.paris.lutece.test.MokeHttpServletRequest;
-
-import org.junit.Test;
-import org.springframework.mock.web.MockHttpServletResponse;
-
-import java.io.IOException;
-import java.io.PrintWriter;
-
-import java.util.Collection;
-import java.util.List;
-import java.util.Locale;
-
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletResponse;
 
 public class PageServiceTest extends LuteceTestCase
 {
@@ -110,46 +103,21 @@ public class PageServiceTest extends LuteceTestCase
         IPageService pageService = (IPageService) SpringContextService.getBean( "pageService" );
         HttpServletResponse response = new MockHttpServletResponse( );
 
-        // FIXME : rework when LUTECE-1837 is resolved
-        MokeHttpServletRequest request = new MokeHttpServletRequest( )
-        {
-            @Override
-            public Object getAttribute( String string )
-            {
-                return null;
-            }
-        };
-        request.setServerName("");
-        request.setServerPort(0);
-        request.setScheme("");
+        MockHttpServletRequest request = new MockHttpServletRequest( );
 
         LocalVariables.setLocal( null, request, response );
-        request.addMokeParameters( Parameters.PAGE_ID, "1" );
+        request.addParameter( Parameters.PAGE_ID, "1" );
 
         String pageContent = pageService.getPage( request, 0 );
-        assertTrue( pageContent.contains( "<base href=\"://:0/\">" ) );
+        assertTrue( pageContent.contains( "<base href=\"http://localhost/\">" ) );
 
         // change server name and thus base_url
-        request = new MokeHttpServletRequest( )
-        {
-            @Override
-            public String getServerName( )
-            {
-                return "junit";
-            }
+        request = new MockHttpServletRequest( );
+        request.setServerName( "junit" );
 
-            // FIXME : rework when LUTECE-1837 is resolved
-            @Override
-            public Object getAttribute( String string )
-            {
-                return null;
-            }
-        };
-        request.setServerPort(0);
-        request.setScheme("");
         LocalVariables.setLocal( null, request, response );
-        request.addMokeParameters( Parameters.PAGE_ID, "1" );
+        request.addParameter( Parameters.PAGE_ID, "1" );
         pageContent = pageService.getPage( request, 0 );
-        assertTrue( pageContent.contains( "<base href=\"://junit:0/\">" ) );
+        assertTrue( pageContent.contains( "<base href=\"http://junit/\">" ) );
     }
 }

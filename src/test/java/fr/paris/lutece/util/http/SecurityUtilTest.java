@@ -34,9 +34,9 @@
 package fr.paris.lutece.util.http;
 
 import org.junit.Test;
+import org.springframework.mock.web.MockHttpServletRequest;
 
 import fr.paris.lutece.test.LuteceTestCase;
-import org.springframework.mock.web.MockHttpServletRequest;
 
 /**
  *
@@ -52,12 +52,13 @@ public class SecurityUtilTest extends LuteceTestCase
         System.out.println( "containsCleanParameters" );
 
         MockHttpServletRequest request = new MockHttpServletRequest( );
-        request.addParameter( "param1", "AZ" );
-        request.addParameter( "param2", "09" );
-        request.addParameter( "param3", "az" );
-        request.addParameter( "param4", "/" );
+        request.setParameter( "param1", "AZ" );
+        request.setParameter( "param2", "09" );
+        request.setParameter( "param3", "az" );
+        request.setParameter( "param4", "/" );
 
         assertTrue( SecurityUtil.containsCleanParameters( request ) );
+
         request.setParameter( "param4", "%" );
         assertTrue( SecurityUtil.containsCleanParameters( request ) );
         request.setParameter( "param4", ">" );
