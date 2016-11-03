@@ -33,15 +33,15 @@
  */
 package fr.paris.lutece.portal.web.features;
 
+import org.junit.Test;
+import org.springframework.mock.web.MockHttpServletRequest;
+
 import fr.paris.lutece.portal.business.right.Right;
 import fr.paris.lutece.portal.business.right.RightHome;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.test.LuteceTestCase;
-import org.junit.Test;
-import fr.paris.lutece.test.MokeHttpServletRequest;
-import org.junit.After;
-import org.junit.Before;
+import fr.paris.lutece.test.Utils;
 
 public class ExternalFeaturesJspBeanTest extends LuteceTestCase {
     
@@ -67,8 +67,8 @@ public class ExternalFeaturesJspBeanTest extends LuteceTestCase {
     {
         System.out.println( "getManageExternalFeatures" );
 
-        MokeHttpServletRequest request = new MokeHttpServletRequest(  );
-        request.registerAdminUserWithRigth( new AdminUser(  ), ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
+        MockHttpServletRequest request = new MockHttpServletRequest(  );
+        Utils.registerAdminUserWithRigth( request, new AdminUser(  ), ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
 
         ExternalFeaturesJspBean instance = new ExternalFeaturesJspBean(  );
         instance.init( request, ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
@@ -84,8 +84,8 @@ public class ExternalFeaturesJspBeanTest extends LuteceTestCase {
     {
         System.out.println( "getCreateExternalFeatures" );
 
-        MokeHttpServletRequest request = new MokeHttpServletRequest(  );
-        request.registerAdminUserWithRigth( new AdminUser(  ), ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
+        MockHttpServletRequest request = new MockHttpServletRequest(  );
+        Utils.registerAdminUserWithRigth( request, new AdminUser(  ), ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
 
         ExternalFeaturesJspBean instance = new ExternalFeaturesJspBean(  );
         instance.init( request, ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
@@ -113,9 +113,9 @@ public class ExternalFeaturesJspBeanTest extends LuteceTestCase {
         right.setExternalFeature( IS_EXTERNAL_FEATURE );
         RightHome.create( right );
         
-        MokeHttpServletRequest request = new MokeHttpServletRequest(  );
-        request.addMokeParameters( PARAMETER_ID_EXTERNAL_FEAUTRE, TEST_EXTERNAL_FEATURE_ID );
-        request.registerAdminUserWithRigth( new AdminUser(  ), ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
+        MockHttpServletRequest request = new MockHttpServletRequest(  );
+        request.addParameter( PARAMETER_ID_EXTERNAL_FEAUTRE, TEST_EXTERNAL_FEATURE_ID );
+        Utils.registerAdminUserWithRigth( request, new AdminUser(  ), ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
 
         ExternalFeaturesJspBean instance = new ExternalFeaturesJspBean(  );
         instance.init( request, ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
@@ -164,9 +164,9 @@ public class ExternalFeaturesJspBeanTest extends LuteceTestCase {
         right.setExternalFeature( IS_EXTERNAL_FEATURE );
         RightHome.create( right );
         
-        MokeHttpServletRequest request = new MokeHttpServletRequest(  );
-        request.addMokeParameters( PARAMETER_ID_EXTERNAL_FEAUTRE, TEST_EXTERNAL_FEATURE_ID );
-        request.registerAdminUserWithRigth( new AdminUser(  ), ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
+        MockHttpServletRequest request = new MockHttpServletRequest(  );
+        request.addParameter( PARAMETER_ID_EXTERNAL_FEAUTRE, TEST_EXTERNAL_FEATURE_ID );
+        Utils.registerAdminUserWithRigth( request, new AdminUser(  ), ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
         
         ExternalFeaturesJspBean instance = new ExternalFeaturesJspBean(  );
         instance.init( request, ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
