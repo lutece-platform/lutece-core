@@ -1,3 +1,5 @@
+body {font-size:150%;}
+
 /* Apply contrasted colors to links and features titles */ 
 a{color: #363636;}
 legend small{color:#363636;}
@@ -10,7 +12,7 @@ legend small{color:#363636;}
 .navbar-inverse .nav-collapse .dropdown-menu a { color: #363636;}
 
 /* Apply inverse style to primary */ 
-.btn-primary {
+.btn  {
   color: #ffffff;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
   background-color: #363636;
@@ -26,16 +28,13 @@ legend small{color:#363636;}
   filter: progid:dximagetransform.microsoft.gradient(startColorstr='#ff444444', endColorstr='#ff222222', GradientType=0);
   filter: progid:dximagetransform.microsoft.gradient(enabled=false);
 }
-.btn-primary:hover,
-.btn-primary:active,
-.btn-primary.active,
-.btn-primary.disabled,
-.btn-primary[disabled] {
+.btn:hover,
+.btn:active,
+.btn.active,
+.btn.disabled,
+.btn[disabled] {
   color: #ffffff;
   background-color: #222222;
-  *background-color: #151515;
 }
-.btn-primary:active,
-.btn-primary.active {
-  background-color: #080808 \9;
-}
+
+.navbar, .box {background-color:#222222;}
