@@ -33,11 +33,12 @@
  */
 package fr.paris.lutece.portal.service.message;
 
+import org.springframework.mock.web.MockHttpServletRequest;
+
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.portal.web.l10n.LocaleService;
 import fr.paris.lutece.test.LuteceTestCase;
-import fr.paris.lutece.test.MokeHttpServletRequest;
 
 /**
  * AdminMessageService Test Class
@@ -52,7 +53,7 @@ public class AdminMessageServiceTest extends LuteceTestCase
     {
         System.out.println( "getMessageUrl" );
 
-        MokeHttpServletRequest request = new MokeHttpServletRequest( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
         String strMessageKey = Messages.MANDATORY_FIELDS;
         String strButtonUrl = "url";
         String strTarget = "target";
@@ -76,7 +77,7 @@ public class AdminMessageServiceTest extends LuteceTestCase
     {
         System.out.println( "getMessage" );
 
-        MokeHttpServletRequest request = new MokeHttpServletRequest( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
         String strMessageKey = Messages.MANDATORY_FIELDS;
         String strButtonUrl = "url";
         String strTarget = "target";
