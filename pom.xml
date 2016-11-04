@@ -50,10 +50,18 @@
             <artifactId>commons-beanutils</artifactId>
             <version>1.9.3</version>
         </dependency>
+        <!-- commons-digester deprecated, use commons-digester3 instead. To be removed in the future -->
+        <!-- Not upgrading to 2.1 because for new projects we should use digester3, and for old projects -->
+        <!-- compilation can be broken by digester's new usage of generics -->
         <dependency>
             <groupId>commons-digester</groupId>
             <artifactId>commons-digester</artifactId>
             <version>1.8.1</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-digester3</artifactId>
+            <version>3.2</version>
         </dependency>
         <dependency>
             <groupId>commons-fileupload</groupId>
