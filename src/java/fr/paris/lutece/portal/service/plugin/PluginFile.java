@@ -49,11 +49,12 @@ import fr.paris.lutece.portal.service.sessionlistener.HttpSessionListenerEntry;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.web.xpages.XPageApplicationEntry;
 
-import org.apache.commons.digester.Digester;
-import org.apache.commons.digester.Substitutor;
-import org.apache.commons.digester.substitution.MultiVariableExpander;
-import org.apache.commons.digester.substitution.VariableSubstitutor;
-import org.apache.commons.digester.xmlrules.DigesterLoader;
+import org.apache.commons.digester3.Digester;
+import org.apache.commons.digester3.Substitutor;
+import org.apache.commons.digester3.substitution.MultiVariableExpander;
+import org.apache.commons.digester3.substitution.VariableSubstitutor;
+import org.apache.commons.digester3.xmlrules.FromXmlRulesModule;
+import org.apache.commons.digester3.binder.DigesterLoader;
 
 import org.xml.sax.SAXException;
 
@@ -128,12 +129,18 @@ public class PluginFile
     public void load( String strFilename ) throws LuteceInitException
     {
         // Configure Digester from XML ruleset
-        URL rules = getClass( ).getResource( FILE_RULES );
-        Digester digester = DigesterLoader.createDigester( rules );
+        DigesterLoader digesterLoader = DigesterLoader.newLoader(new FromXmlRulesModule() {
+            @Override
+            protected void loadRules() {
+                loadXMLRules( getClass( ).getResource( FILE_RULES ) );
+            }
+        });
+
+        Digester digester = digesterLoader.newDigester( );
 
         // Allow variables in plugin files
         MultiVariableExpander expander = new MultiVariableExpander( );
-        expander.addSource( "$", AppPropertiesService.getPropertiesAsMap( ) );
+        expander.addSource( "$", ((Map) AppPropertiesService.getPropertiesAsMap( )) );
 
         Substitutor substitutor = new VariableSubstitutor( expander );
         digester.setSubstitutor( substitutor );
