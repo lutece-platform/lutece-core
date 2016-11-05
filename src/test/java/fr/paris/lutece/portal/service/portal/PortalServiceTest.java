@@ -33,16 +33,17 @@
  */
 package fr.paris.lutece.portal.service.portal;
 
-import fr.paris.lutece.test.LuteceTestCase;
-import fr.paris.lutece.test.MokeHttpServletRequest;
-
 import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.mock.web.MockHttpServletRequest;
+
+import fr.paris.lutece.test.LuteceTestCase;
 
 public class PortalServiceTest extends LuteceTestCase
 {
     public void testGetDefaultPage( )
     {
-        HttpServletRequest request = new MokeHttpServletRequest( );
+        HttpServletRequest request = new MockHttpServletRequest( );
         int nMode = 0;
 
         // PortalService.getDefaultPage( request, nMode );
