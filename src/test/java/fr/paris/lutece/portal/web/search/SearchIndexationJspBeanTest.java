@@ -33,10 +33,12 @@
  */
 package fr.paris.lutece.portal.web.search;
 
+import org.springframework.mock.web.MockHttpServletRequest;
+
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.test.LuteceTestCase;
-import fr.paris.lutece.test.MokeHttpServletRequest;
+import fr.paris.lutece.test.Utils;
 
 /**
  * SearchIndexationJspBean Test Class
@@ -51,8 +53,8 @@ public class SearchIndexationJspBeanTest extends LuteceTestCase
     {
         System.out.println( "getIndexingProperties" );
 
-        MokeHttpServletRequest request = new MokeHttpServletRequest( );
-        request.registerAdminUserWithRigth( new AdminUser( ), SearchIndexationJspBean.RIGHT_INDEXER );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        Utils.registerAdminUserWithRigth( request, new AdminUser( ), SearchIndexationJspBean.RIGHT_INDEXER );
 
         SearchIndexationJspBean instance = new SearchIndexationJspBean( );
         instance.init( request, SearchIndexationJspBean.RIGHT_INDEXER );
@@ -66,10 +68,10 @@ public class SearchIndexationJspBeanTest extends LuteceTestCase
     {
         System.out.println( "doIndexing" );
 
-        MokeHttpServletRequest request = new MokeHttpServletRequest( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
         SearchIndexationJspBean instance = new SearchIndexationJspBean( );
 
-        request.registerAdminUserWithRigth( new AdminUser( ), SearchIndexationJspBean.RIGHT_INDEXER );
+        Utils.registerAdminUserWithRigth( request, new AdminUser( ), SearchIndexationJspBean.RIGHT_INDEXER );
         instance.init( request, SearchIndexationJspBean.RIGHT_INDEXER );
         instance.doIndexing( request );
     }
