@@ -33,11 +33,13 @@
  */
 package fr.paris.lutece.portal.web.style;
 
+import org.springframework.mock.web.MockHttpServletRequest;
+
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.test.LuteceTestCase;
-import fr.paris.lutece.test.MokeHttpServletRequest;
+import fr.paris.lutece.test.Utils;
 
 /**
  * ModeJspBeanTest Test Class
@@ -54,8 +56,8 @@ public class ModesJspBeanTest extends LuteceTestCase
     {
         System.out.println( "getManageModes" );
 
-        MokeHttpServletRequest request = new MokeHttpServletRequest( );
-        request.registerAdminUserWithRigth( new AdminUser( ), ModesJspBean.RIGHT_MANAGE_MODES );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        Utils.registerAdminUserWithRigth( request, new AdminUser( ), ModesJspBean.RIGHT_MANAGE_MODES );
 
         ModesJspBean instance = new ModesJspBean( );
         instance.init( request, ModesJspBean.RIGHT_MANAGE_MODES );
@@ -69,8 +71,8 @@ public class ModesJspBeanTest extends LuteceTestCase
     {
         System.out.println( "getCreateMode" );
 
-        MokeHttpServletRequest request = new MokeHttpServletRequest( );
-        request.registerAdminUserWithRigth( new AdminUser( ), ModesJspBean.RIGHT_MANAGE_MODES );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        Utils.registerAdminUserWithRigth( request, new AdminUser( ), ModesJspBean.RIGHT_MANAGE_MODES );
 
         ModesJspBean instance = new ModesJspBean( );
         instance.init( request, ModesJspBean.RIGHT_MANAGE_MODES );
@@ -94,9 +96,9 @@ public class ModesJspBeanTest extends LuteceTestCase
     {
         System.out.println( "testGetModifyMode" );
 
-        MokeHttpServletRequest request = new MokeHttpServletRequest( );
-        request.addMokeParameters( Parameters.MODE_ID, TEST_MODE_ID );
-        request.registerAdminUserWithRigth( new AdminUser( ), ModesJspBean.RIGHT_MANAGE_MODES );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.addParameter( Parameters.MODE_ID, TEST_MODE_ID );
+        Utils.registerAdminUserWithRigth( request, new AdminUser( ), ModesJspBean.RIGHT_MANAGE_MODES );
 
         ModesJspBean instance = new ModesJspBean( );
         instance.init( request, ModesJspBean.RIGHT_MANAGE_MODES );
@@ -120,9 +122,9 @@ public class ModesJspBeanTest extends LuteceTestCase
     {
         System.out.println( "testGetModeView" );
 
-        MokeHttpServletRequest request = new MokeHttpServletRequest( );
-        request.addMokeParameters( Parameters.MODE_ID, TEST_MODE_ID );
-        request.registerAdminUserWithRigth( new AdminUser( ), ModesJspBean.RIGHT_MANAGE_MODES );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.addParameter( Parameters.MODE_ID, TEST_MODE_ID );
+        Utils.registerAdminUserWithRigth( request, new AdminUser( ), ModesJspBean.RIGHT_MANAGE_MODES );
 
         ModesJspBean instance = new ModesJspBean( );
         instance.init( request, ModesJspBean.RIGHT_MANAGE_MODES );
