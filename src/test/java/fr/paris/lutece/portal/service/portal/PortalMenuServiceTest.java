@@ -33,6 +33,21 @@
  */
 package fr.paris.lutece.portal.service.portal;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.security.SecureRandom;
+import java.util.Arrays;
+import java.util.Properties;
+import java.util.Random;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.mock.web.MockHttpServletRequest;
+
 import fr.paris.lutece.portal.business.page.Page;
 import fr.paris.lutece.portal.service.init.LuteceInitException;
 import fr.paris.lutece.portal.service.page.IPageService;
@@ -42,22 +57,6 @@ import fr.paris.lutece.portal.service.security.SecurityService;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.test.LuteceTestCase;
-import fr.paris.lutece.test.MokeHttpServletRequest;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-
-import java.security.SecureRandom;
-
-import java.util.Arrays;
-import java.util.Properties;
-import java.util.Random;
-
-import javax.servlet.http.HttpServletRequest;
 
 public class PortalMenuServiceTest extends LuteceTestCase
 {
@@ -66,7 +65,7 @@ public class PortalMenuServiceTest extends LuteceTestCase
 
     public void testGetMenuContent( )
     {
-        HttpServletRequest request = new MokeHttpServletRequest( );
+        HttpServletRequest request = new MockHttpServletRequest( );
 
         // determine a random page name
         String randomPageName = "page" + new SecureRandom( ).nextLong( );
@@ -116,7 +115,7 @@ public class PortalMenuServiceTest extends LuteceTestCase
             for ( int i = 0; i < 2; i++ )
             {
                 // test menu content with no user
-                HttpServletRequest request = new MokeHttpServletRequest( );
+                HttpServletRequest request = new MockHttpServletRequest( );
                 String menu = PortalMenuService.getInstance( ).getMenuContent( 0, PortalMenuService.MODE_NORMAL, PortalMenuService.MENU_MAIN, request );
                 assertTrue( "Portal menu should contain page not associated with a role named " + pageNoRole.getName( ) + " (call " + ( i + 1 ) + ")",
                         menu.contains( pageNoRole.getName( ) ) );
