@@ -33,6 +33,21 @@
  */
 package fr.paris.lutece.portal.web.xpages;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.security.SecureRandom;
+import java.util.Arrays;
+import java.util.Properties;
+import java.util.Random;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.mock.web.MockHttpServletRequest;
+
 import fr.paris.lutece.portal.business.page.Page;
 import fr.paris.lutece.portal.business.style.PageTemplateHome;
 import fr.paris.lutece.portal.service.init.LuteceInitException;
@@ -45,22 +60,6 @@ import fr.paris.lutece.portal.service.security.SecurityService;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.test.LuteceTestCase;
-import fr.paris.lutece.test.MokeHttpServletRequest;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-
-import java.security.SecureRandom;
-
-import java.util.Arrays;
-import java.util.Properties;
-import java.util.Random;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * SiteMap Test Class
@@ -77,7 +76,7 @@ public class SiteMapAppTest extends LuteceTestCase
     {
         System.out.println( "getPage" );
 
-        MokeHttpServletRequest request = new MokeHttpServletRequest( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
 
         int nMode = 0;
         Plugin plugin = null;
@@ -89,7 +88,7 @@ public class SiteMapAppTest extends LuteceTestCase
 
     public void testGetPageMod( )
     {
-        HttpServletRequest request = new MokeHttpServletRequest( );
+        HttpServletRequest request = new MockHttpServletRequest( );
 
         // determine a random page name
         String randomPageName = "page" + new SecureRandom( ).nextLong( );
@@ -143,7 +142,7 @@ public class SiteMapAppTest extends LuteceTestCase
             for ( int i = 0; i < 2; i++ )
             {
                 // test menu content with no user
-                HttpServletRequest request = new MokeHttpServletRequest( );
+                HttpServletRequest request = new MockHttpServletRequest( );
                 XPage sitemap = instance.getPage( request, 0, null );
                 assertTrue( "Site map should contain page not associated with a role named " + pageNoRole.getName( ) + " (call " + ( i + 1 ) + ")", sitemap
                         .getContent( ).contains( pageNoRole.getName( ) ) );
