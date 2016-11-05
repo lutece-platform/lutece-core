@@ -33,15 +33,14 @@
  */
 package fr.paris.lutece.portal.web;
 
-import fr.paris.lutece.portal.service.security.SecurityService;
-import fr.paris.lutece.test.LuteceTestCase;
-import fr.paris.lutece.test.MokeHttpServletRequest;
-
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.mock.web.MockServletConfig;
+
+import fr.paris.lutece.portal.service.security.SecurityService;
+import fr.paris.lutece.test.LuteceTestCase;
 
 /**
  * PortalJspBean Test Class
@@ -70,7 +69,7 @@ public class PortalJspBeanTest extends LuteceTestCase
     {
         System.out.println( "getStartUpFailurePage" );
 
-        HttpServletRequest request = new MokeHttpServletRequest( );
+        HttpServletRequest request = new MockHttpServletRequest( );
         PortalJspBean instance = new PortalJspBean( );
         String result = instance.getStartUpFailurePage( request );
     }
@@ -82,7 +81,7 @@ public class PortalJspBeanTest extends LuteceTestCase
     {
         System.out.println( "getError500Page" );
 
-        HttpServletRequest request = new MokeHttpServletRequest( );
+        HttpServletRequest request = new MockHttpServletRequest( );
         PortalJspBean instance = new PortalJspBean( );
         String result = instance.getError500Page( request, "Cause" );
     }
@@ -94,7 +93,7 @@ public class PortalJspBeanTest extends LuteceTestCase
     {
         System.out.println( "getError404Page" );
 
-        HttpServletRequest request = new MokeHttpServletRequest( );
+        HttpServletRequest request = new MockHttpServletRequest( );
         PortalJspBean instance = new PortalJspBean( );
         String result = instance.getError404Page( request );
     }
@@ -106,7 +105,7 @@ public class PortalJspBeanTest extends LuteceTestCase
     {
         System.out.println( "getCredits" );
 
-        HttpServletRequest request = new MokeHttpServletRequest( );
+        HttpServletRequest request = new MockHttpServletRequest( );
         PortalJspBean instance = new PortalJspBean( );
         String result = instance.getCredits( request );
     }
@@ -118,7 +117,7 @@ public class PortalJspBeanTest extends LuteceTestCase
     {
         System.out.println( "getLegalInfos" );
 
-        HttpServletRequest request = new MokeHttpServletRequest( );
+        HttpServletRequest request = new MockHttpServletRequest( );
         PortalJspBean instance = new PortalJspBean( );
         String result = instance.getLegalInfos( request );
     }
@@ -132,7 +131,7 @@ public class PortalJspBeanTest extends LuteceTestCase
 
         if ( SecurityService.isAuthenticationEnable( ) )
         {
-            HttpServletRequest request = new MokeHttpServletRequest( );
+            HttpServletRequest request = new MockHttpServletRequest( );
             PortalJspBean instance = new PortalJspBean( );
             String result = instance.redirectLogin( request );
         }
@@ -147,7 +146,7 @@ public class PortalJspBeanTest extends LuteceTestCase
 
         if ( SecurityService.isAuthenticationEnable( ) )
         {
-            HttpServletRequest request = new MokeHttpServletRequest( );
+            HttpServletRequest request = new MockHttpServletRequest( );
             PortalJspBean.getLoginNextUrl( request );
         }
     }
