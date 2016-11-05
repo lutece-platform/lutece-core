@@ -33,10 +33,12 @@
  */
 package fr.paris.lutece.portal.web.system;
 
+import org.springframework.mock.web.MockHttpServletRequest;
+
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.test.LuteceTestCase;
-import fr.paris.lutece.test.MokeHttpServletRequest;
+import fr.paris.lutece.test.Utils;
 
 /**
  * SystemJspBean Test Class
@@ -57,8 +59,8 @@ public class SystemJspBeanTest extends LuteceTestCase
     {
         System.out.println( "getManageFilesSystem" );
 
-        MokeHttpServletRequest request = new MokeHttpServletRequest( );
-        request.registerAdminUserWithRigth( new AdminUser( ), SystemJspBean.RIGHT_PROPERTIES_MANAGEMENT );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        Utils.registerAdminUserWithRigth( request, new AdminUser( ), SystemJspBean.RIGHT_PROPERTIES_MANAGEMENT );
 
         SystemJspBean instance = new SystemJspBean( );
         instance.init( request, SystemJspBean.RIGHT_PROPERTIES_MANAGEMENT );
@@ -72,9 +74,9 @@ public class SystemJspBeanTest extends LuteceTestCase
     {
         System.out.println( "getManageFilesSystemDir" );
 
-        MokeHttpServletRequest request = new MokeHttpServletRequest( );
-        request.registerAdminUserWithRigth( new AdminUser( ), SystemJspBean.RIGHT_PROPERTIES_MANAGEMENT );
-        request.addMokeParameters( PARAMETER_DIR, PARAMETER_DIR_VALUE );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        Utils.registerAdminUserWithRigth( request, new AdminUser( ), SystemJspBean.RIGHT_PROPERTIES_MANAGEMENT );
+        request.addParameter( PARAMETER_DIR, PARAMETER_DIR_VALUE );
 
         SystemJspBean instance = new SystemJspBean( );
         instance.init( request, SystemJspBean.RIGHT_PROPERTIES_MANAGEMENT );
@@ -88,10 +90,10 @@ public class SystemJspBeanTest extends LuteceTestCase
     {
         System.out.println( "getFileView" );
 
-        MokeHttpServletRequest request = new MokeHttpServletRequest( );
-        request.registerAdminUserWithRigth( new AdminUser( ), SystemJspBean.RIGHT_PROPERTIES_MANAGEMENT );
-        request.addMokeParameters( PARAMETER_DIRECTORY, PARAMETER_DIR_VALUE );
-        request.addMokeParameters( PARAMETER_FILE, PARAMETER_FILE_VALUE );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        Utils.registerAdminUserWithRigth( request, new AdminUser( ), SystemJspBean.RIGHT_PROPERTIES_MANAGEMENT );
+        request.addParameter( PARAMETER_DIRECTORY, PARAMETER_DIR_VALUE );
+        request.addParameter( PARAMETER_FILE, PARAMETER_FILE_VALUE );
 
         SystemJspBean instance = new SystemJspBean( );
         instance.init( request, SystemJspBean.RIGHT_PROPERTIES_MANAGEMENT );
@@ -107,8 +109,8 @@ public class SystemJspBeanTest extends LuteceTestCase
 
         // Check user rights
         SystemJspBean instance = new SystemJspBean( );
-        MokeHttpServletRequest request = new MokeHttpServletRequest( );
-        request.registerAdminUserWithRigth( new AdminUser( ), SystemJspBean.RIGHT_PROPERTIES_MANAGEMENT );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        Utils.registerAdminUserWithRigth( request, new AdminUser( ), SystemJspBean.RIGHT_PROPERTIES_MANAGEMENT );
         instance.init( request, SystemJspBean.RIGHT_PROPERTIES_MANAGEMENT );
         instance.getManageProperties( request );
     }
