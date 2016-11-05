@@ -33,12 +33,14 @@
  */
 package fr.paris.lutece.portal.web.style;
 
+import org.springframework.mock.web.MockHttpServletRequest;
+
 import fr.paris.lutece.portal.business.style.StyleHome;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.test.LuteceTestCase;
-import fr.paris.lutece.test.MokeHttpServletRequest;
+import fr.paris.lutece.test.Utils;
 
 /**
  * StylesJspBeanTest Test Class
@@ -53,8 +55,8 @@ public class StylesJspBeanTest extends LuteceTestCase
     {
         System.out.println( "getStylesManagement" );
 
-        MokeHttpServletRequest request = new MokeHttpServletRequest( );
-        request.registerAdminUserWithRigth( new AdminUser( ), StylesJspBean.RIGHT_MANAGE_STYLE );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        Utils.registerAdminUserWithRigth( request, new AdminUser( ), StylesJspBean.RIGHT_MANAGE_STYLE );
 
         StylesJspBean instance = new StylesJspBean( );
         instance.init( request, StylesJspBean.RIGHT_MANAGE_STYLE );
@@ -68,8 +70,8 @@ public class StylesJspBeanTest extends LuteceTestCase
     {
         System.out.println( "getCreateStyle" );
 
-        MokeHttpServletRequest request = new MokeHttpServletRequest( );
-        request.registerAdminUserWithRigth( new AdminUser( ), StylesJspBean.RIGHT_MANAGE_STYLE );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        Utils.registerAdminUserWithRigth( request, new AdminUser( ), StylesJspBean.RIGHT_MANAGE_STYLE );
 
         StylesJspBean instance = new StylesJspBean( );
         instance.init( request, StylesJspBean.RIGHT_MANAGE_STYLE );
@@ -96,9 +98,9 @@ public class StylesJspBeanTest extends LuteceTestCase
         if ( StyleHome.getStylesList( ).size( ) > 0 )
         {
             int nStyleId = StyleHome.getStylesList( ).iterator( ).next( ).getId( );
-            MokeHttpServletRequest request = new MokeHttpServletRequest( );
-            request.addMokeParameters( Parameters.STYLE_ID, "" + nStyleId );
-            request.registerAdminUserWithRigth( new AdminUser( ), StylesJspBean.RIGHT_MANAGE_STYLE );
+            MockHttpServletRequest request = new MockHttpServletRequest( );
+            request.addParameter( Parameters.STYLE_ID, "" + nStyleId );
+            Utils.registerAdminUserWithRigth( request, new AdminUser( ), StylesJspBean.RIGHT_MANAGE_STYLE );
 
             StylesJspBean instance = new StylesJspBean( );
             instance.init( request, StylesJspBean.RIGHT_MANAGE_STYLE );
@@ -126,9 +128,9 @@ public class StylesJspBeanTest extends LuteceTestCase
         if ( StyleHome.getStylesList( ).size( ) > 0 )
         {
             int nStyleId = StyleHome.getStylesList( ).iterator( ).next( ).getId( );
-            MokeHttpServletRequest request = new MokeHttpServletRequest( );
-            request.addMokeParameters( Parameters.STYLE_ID, "" + nStyleId );
-            request.registerAdminUserWithRigth( new AdminUser( ), StylesJspBean.RIGHT_MANAGE_STYLE );
+            MockHttpServletRequest request = new MockHttpServletRequest( );
+            request.addParameter( Parameters.STYLE_ID, "" + nStyleId );
+            Utils.registerAdminUserWithRigth( request, new AdminUser( ), StylesJspBean.RIGHT_MANAGE_STYLE );
 
             StylesJspBean instance = new StylesJspBean( );
             instance.init( request, StylesJspBean.RIGHT_MANAGE_STYLE );
