@@ -33,11 +33,13 @@
  */
 package fr.paris.lutece.portal.web.features;
 
+import org.springframework.mock.web.MockHttpServletRequest;
+
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.test.LuteceTestCase;
-import fr.paris.lutece.test.MokeHttpServletRequest;
+import fr.paris.lutece.test.Utils;
 
 /**
  * LevelsJspBeanTest Test Class
@@ -54,8 +56,8 @@ public class LevelsJspBeanTest extends LuteceTestCase
     {
         System.out.println( "getManageLevels" );
 
-        MokeHttpServletRequest request = new MokeHttpServletRequest( );
-        request.registerAdminUserWithRigth( new AdminUser( ), LevelsJspBean.RIGHT_MANAGE_LEVELS );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        Utils.registerAdminUserWithRigth( request, new AdminUser( ), LevelsJspBean.RIGHT_MANAGE_LEVELS );
 
         LevelsJspBean instance = new LevelsJspBean( );
         instance.init( request, LevelsJspBean.RIGHT_MANAGE_LEVELS );
@@ -69,8 +71,8 @@ public class LevelsJspBeanTest extends LuteceTestCase
     {
         System.out.println( "getCreateLevel" );
 
-        MokeHttpServletRequest request = new MokeHttpServletRequest( );
-        request.registerAdminUserWithRigth( new AdminUser( ), LevelsJspBean.RIGHT_MANAGE_LEVELS );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        Utils.registerAdminUserWithRigth( request, new AdminUser( ), LevelsJspBean.RIGHT_MANAGE_LEVELS );
 
         LevelsJspBean instance = new LevelsJspBean( );
         instance.init( request, LevelsJspBean.RIGHT_MANAGE_LEVELS );
@@ -94,9 +96,9 @@ public class LevelsJspBeanTest extends LuteceTestCase
     {
         System.out.println( "getModifyLevel" );
 
-        MokeHttpServletRequest request = new MokeHttpServletRequest( );
-        request.addMokeParameters( Parameters.LEVEL_ID, TEST_LEVEL_ID );
-        request.registerAdminUserWithRigth( new AdminUser( ), LevelsJspBean.RIGHT_MANAGE_LEVELS );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.addParameter( Parameters.LEVEL_ID, TEST_LEVEL_ID );
+        Utils.registerAdminUserWithRigth( request, new AdminUser( ), LevelsJspBean.RIGHT_MANAGE_LEVELS );
 
         LevelsJspBean instance = new LevelsJspBean( );
         instance.init( request, LevelsJspBean.RIGHT_MANAGE_LEVELS );
