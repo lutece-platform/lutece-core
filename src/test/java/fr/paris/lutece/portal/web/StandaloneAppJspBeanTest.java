@@ -33,10 +33,11 @@
  */
 package fr.paris.lutece.portal.web;
 
-import fr.paris.lutece.test.LuteceTestCase;
-import fr.paris.lutece.test.MokeHttpServletRequest;
-
 import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.mock.web.MockHttpServletRequest;
+
+import fr.paris.lutece.test.LuteceTestCase;
 
 /**
  * StandaloneAppJspBeanTest Test Class
@@ -51,7 +52,7 @@ public class StandaloneAppJspBeanTest extends LuteceTestCase
     {
         System.out.println( "getContent" );
 
-        HttpServletRequest request = new MokeHttpServletRequest( );
+        HttpServletRequest request = new MockHttpServletRequest( );
         StandaloneAppJspBean instance = new StandaloneAppJspBean( );
 
         String result = instance.getContent( request );
@@ -61,7 +62,7 @@ public class StandaloneAppJspBeanTest extends LuteceTestCase
     {
         System.out.println( "getPluginList" );
 
-        HttpServletRequest request = new MokeHttpServletRequest( );
+        HttpServletRequest request = new MockHttpServletRequest( );
         StandaloneAppJspBean instance = new StandaloneAppJspBean( );
 
         /*
