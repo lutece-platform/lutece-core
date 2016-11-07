@@ -1,4 +1,4 @@
-body {font-size:150%;}
+body, h1, h2, h3, h4, h5, h6, .info-box-text, .info-box-number {font-size:200%;}
 
 /* Apply contrasted colors to links and features titles */ 
 a{color: #363636;}
@@ -16,7 +16,6 @@ legend small{color:#363636;}
   color: #ffffff;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
   background-color: #363636;
-  *background-color: #222222;
   background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#444444), to(#222222));
   background-image: -webkit-linear-gradient(top, #444444, #222222);
   background-image: -o-linear-gradient(top, #444444, #222222);
@@ -37,4 +36,10 @@ legend small{color:#363636;}
   background-color: #222222;
 }
 
-.navbar, .box {background-color:#222222;}
+.box.box-solid > .box-header {
+    color: #000;
+    background: #e2e2e2;
+    background-color: #e2e2e2;
+}
+
+.navbar {background-color:#222222;}
