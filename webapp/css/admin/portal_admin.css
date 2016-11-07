@@ -143,14 +143,6 @@ li.portlet-type a:hover{background:#6D84CB url();color:#fff;}
 .dropdown-menu p{padding: 3px 20px;}
 .submenu-left{right:100% !important;left:auto !important;}
 
-/* Plugin THEME
----------------------------- */
-#preview-frame-container{display:none;}
-#back-to-preview{position:fixed;background: #000;box-shadow: 0 0 10px #000;left:0;top:150px;width:auto;z-index:99;}
-#back-to-preview a {display: block;float:left; margin:2px; padding: 5px 20px; background: #FFCC00;color:#000;text-decoration: none;}
-#back-to-preview a:hover { color: #fff;}
-#preview-frame{position:fixed;background:#000;box-shadow:10px #000;margin:5px;width:98%;height:100%;top:60px;left:0; overflow: auto; z-index: 99;}
-.oyh {overflow-y: hidden;}
 
 /* 	Plugin DIGG
 ----------------------------
@@ -180,6 +172,117 @@ div.box-upload {min-height:100px;}
 /* SWFUpload Object Styles 	*/
 .swfupload {vertical-align : top;position : absolute;z-index : 1;}
 
+/* Plugin THEME
+---------------------------- */
+#preview-frame-container{display:none;}
+#back-to-preview{ position:fixed; right:150px; top:80px; z-index:999 }
+#back-to-preview a {
+  display: block; padding:15px 20px; background: #000;color: #FFF; text-decoration: none;
+  border-radius: 100px; -moz-border-radius: 100px; -webkit-border-radius: 100px
+}
+#preview-frame{
+  border-radius: 50px ;
+  -moz-border-radius: 50px;
+  -webkit-border-radius: 50px;
+  border: 8px solid #7c7c7c;
+  position:fixed;
+  background:#7c7c7c;
+  width:90%; height:800px;
+  top:60px; left:60px;
+  overflow: auto;
+  z-index: 999;
+  box-shadow: -3px 3px 50px #7c7c7c;
+  -webkit-box-shadow: -3px 3px 50px #7c7c7c;
+  -moz-box-shadow: -3px 3px 50px #7c7c7c;
+  padding: 20px
+}
+.oyh {overflow-y: hidden;}
+
+.callout-theme{	padding: 6px 30px 6px 15px; margin-right: 15px }
+
+.card {
+  overflow: hidden;
+  position: relative;
+  border: 1px solid #CCC;
+  border-radius: 8px;
+  text-align: center;
+  padding: 0;
+  background-color: #3C8DBC;
+  color: #FFF;
+  margin: 15px auto;
+}
+
+.card .header-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 70px;
+  border-bottom: 1px #FFF solid;
+  z-index: 1;
+}
+
+.card.default-theme {
+  border: 1px solid #3C763D;
+}
+
+.card .avatar {
+  position: relative;
+  padding: 15px 0;
+  z-index: 100;
+}
+
+.card .card-content{
+  padding: 20px 0;
+}
+
+.card .card-content h2{
+  padding: 20px 0 10px 0;
+  font-weight: bold;
+  border-bottom: 2px solid #fff
+}
+
+.card ul li{
+  margin-left: 20%;
+  text-align: left;
+}
+.card li a{color: #fff}
+
+.card .avatar img {
+  width: 100px;
+  height: 100px;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
+  border: 5px solid rgba(0,0,30,0.8);
+}
+
+.card.default-theme .avatar img {
+    border-color:  #3C763D;
+}
+
+.theme-selected{ display: none }
+
+.card.default-theme .theme-selected{
+  display: block;
+  width: 200px;
+  background: #3C763D;
+  top: 25px;
+  left: -50px;
+  text-align: center;
+  line-height: 50px;
+  letter-spacing: 1px;
+  font-weight: bold;
+  font-size: 16px;
+  color: #fff;
+  box-shadow: 0 0 3px rgba(0,0,0,.3);
+  position: absolute;
+  top: 25px;
+  right: -50px;
+  left: auto;
+  transform: rotate(45deg);
+  -webkit-transform: rotate(45deg);
+}
 
 /*==================================================
 =            Bootstrap 3 Media Queries             =
