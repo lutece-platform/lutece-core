@@ -107,7 +107,15 @@ public class FeatureGroup
      */
     public String getLabel( )
     {
-        return I18nService.getLocalizedString( _strLabelKey, _locale );
+        String strLocalizedLabel = I18nService.getLocalizedString( _strLabelKey, _locale );
+        if ( !strLocalizedLabel.isEmpty(  ) )
+        {
+            return strLocalizedLabel;
+        }
+        else
+        {
+            return _strLabelKey;
+        }
     }
 
     /**
@@ -159,7 +167,15 @@ public class FeatureGroup
      */
     public String getDescription( )
     {
-        return I18nService.getLocalizedString( _strDescriptionKey, _locale );
+        String strLocalizedDescription = I18nService.getLocalizedString( _strDescriptionKey, _locale );
+        if ( !strLocalizedDescription.isEmpty(  ) )
+        {
+            return strLocalizedDescription;
+        }
+        else
+        {
+            return _strDescriptionKey;
+        }
     }
 
     /**
