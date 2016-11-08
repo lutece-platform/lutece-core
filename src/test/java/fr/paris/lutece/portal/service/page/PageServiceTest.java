@@ -119,6 +119,9 @@ public class PageServiceTest extends LuteceTestCase
                 return null;
             }
         };
+        request.setServerName("");
+        request.setServerPort(0);
+        request.setScheme("");
 
         LocalVariables.setLocal( null, request, response );
         request.addMokeParameters( Parameters.PAGE_ID, "1" );
@@ -142,6 +145,8 @@ public class PageServiceTest extends LuteceTestCase
                 return null;
             }
         };
+        request.setServerPort(0);
+        request.setScheme("");
         LocalVariables.setLocal( null, request, response );
         request.addMokeParameters( Parameters.PAGE_ID, "1" );
         pageContent = pageService.getPage( request, 0 );
