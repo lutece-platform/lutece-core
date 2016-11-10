@@ -113,6 +113,11 @@ public class CryptoServiceTest extends LuteceTestCase
         AppPropertiesService.reloadAll( );
     }
 
+    public void testHmacSHA256( )
+    {
+        System.out.println( CryptoService.hmacSHA256( "message" ) );
+    }
+
     @Override
     protected void tearDown( ) throws Exception
     {
@@ -125,4 +130,5 @@ public class CryptoServiceTest extends LuteceTestCase
         }
         super.tearDown( );
     }
+
 }

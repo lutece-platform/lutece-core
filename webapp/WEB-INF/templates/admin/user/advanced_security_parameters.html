@@ -67,6 +67,14 @@
 							<@checkBox name='force_change_password_reinit' id='force_change_password_reinit' value='true' checked=checked />
 						</@formGroup>
 
+						<@formGroup labelKey='#i18n{portal.users.manage_advanced_parameters.labelResetTokenValidity}' labelFor='reset_token_validity'>
+							<@input type='number' name='reset_token_validity' id='reset_token_validity' value='${reset_token_validity!}' />
+						</@formGroup>
+
+						<@formGroup labelKey='#i18n{portal.users.manage_advanced_parameters.labelLockResetTokenToSession}' labelFor='lock_reset_token_to_session'>
+							<@checkBox name='lock_reset_token_to_session' id='lock_reset_token_to_session' value='true' checked=lock_reset_token_to_session/>
+						</@formGroup>
+
 						<#if use_advanced_security_parameters>
 						<@formGroup labelKey='#i18n{portal.users.manage_advanced_parameters.labelPasswordHistorySize}' labelFor='password_history_size'>
 							<@input type='text' name='password_history_size' id='password_history_size' value='${password_history_size!}' />

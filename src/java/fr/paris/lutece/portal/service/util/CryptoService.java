@@ -34,13 +34,16 @@
 package fr.paris.lutece.portal.service.util;
 
 import java.io.UnsupportedEncodingException;
-
+import java.security.InvalidKeyException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Random;
 
 import fr.paris.lutece.portal.service.datastore.DatastoreService;
 import java.security.SecureRandom;
+
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
 
 /**
  * The Class CryptoService.
@@ -118,6 +121,47 @@ public final class CryptoService
             DatastoreService.setDataValue( DSKEY_CRYPTO_KEY, strKey );
         }
         return strKey;
+    }
+
+    /**
+     * Get the HmacSHA256 of a message using the app crypto key.
+     * The UTF-8 representation of the key is used.
+     * @param message the message. The mac is calculated from the UTF-8 representation
+     * @return the hmac as hex
+     * @since 6.0.0
+     */
+    public static String hmacSHA256( String message )
+    {
+        byte[] keyBytes;
+        try
+        {
+            keyBytes = getCryptoKey( ).getBytes( "UTF-8" );
+        } catch ( UnsupportedEncodingException e )
+        {
+            throw new AppException( "UTF-8 should be supported", e );
+        }
+        final String strAlg = "HmacSHA256";
+        SecretKeySpec key = new SecretKeySpec( keyBytes, strAlg );
+
+        try
+        {
+            Mac mac = Mac.getInstance( strAlg );
+            mac.init( key );
+
+            return byteToHex( mac.doFinal( message.getBytes( "UTF-8" ) ) );
+        } catch ( NoSuchAlgorithmException e )
+        {
+            throw new AppException( "Could not find " + strAlg + " algorithm which is supposed to be supported by Java", e );
+        } catch ( InvalidKeyException e )
+        {
+            throw new AppException( "The key should be valid", e );
+        } catch ( IllegalStateException e )
+        {
+            throw new AppException( e.getMessage( ), e );
+        } catch ( UnsupportedEncodingException e )
+        {
+            throw new AppException( "UTF-8 should be supported", e );
+        }
     }
 
     /**

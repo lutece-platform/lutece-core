@@ -127,6 +127,8 @@ public final class AdminUserService
     public static final String DSKEY_DEFAULT_USER_NOTIFICATION = "core.advanced_parameters.default_user_notification";
     public static final String DSKEY_DEFAULT_USER_LEVEL = "core.advanced_parameters.default_user_level";
     public static final String DSKEY_USE_ADVANCED_SECURITY_PARAMETERS = "core.advanced_parameters.use_advanced_security_parameters";
+    public static final String DSKEY_RESET_TOKEN_VALIDITY = "core.advanced_parameters.reset_token_validity";
+    public static final String DSKEY_LOCK_RESET_TOKEN_TO_SESSION = "core.advanced_parameters.lock_reset_token_to_session";
 
     // Parameter
     private static final String PARAMETER_ACCESS_CODE = "access_code";
@@ -179,6 +181,8 @@ public final class AdminUserService
     private static final String MARK_USER = "user";
     private static final String MARK_SITE_LINK = "site_link";
     private static final String MARK_LOGIN_URL = "login_url";
+    private static final String MARK_RESET_TOKEN_VALIDITY = "reset_token_validity";
+    private static final String MARK_LOCK_RESET_TOKEN_TO_SESSION = "lock_reset_token_to_session";
 
     // Properties
     private static final String PROPERTY_ADMINISTRATOR = "right.administrator";
@@ -454,6 +458,9 @@ public final class AdminUserService
 
             model.put( MARK_FORCE_CHANGE_PASSWORD_REINIT, getBooleanSecurityParameter( DSKEY_FORCE_CHANGE_PASSWORD_REINIT ) );
             model.put( MARK_PASSWORD_MINIMUM_LENGTH, getIntegerSecurityParameter( DSKEY_PASSWORD_MINIMUM_LENGTH ) );
+
+            model.put( MARK_RESET_TOKEN_VALIDITY, getIntegerSecurityParameter( DSKEY_RESET_TOKEN_VALIDITY ) );
+            model.put( MARK_LOCK_RESET_TOKEN_TO_SESSION, getBooleanSecurityParameter( DSKEY_LOCK_RESET_TOKEN_TO_SESSION ) );
 
             if ( bUseAdvancesSecurityParameters )
             {
@@ -1565,6 +1572,23 @@ public final class AdminUserService
         XmlUtil.endElement( sbXml, CONSTANT_XML_USER );
 
         return sbXml.toString( );
+    }
+
+    /**
+     * Get a user reset password token
+     * @param user the user
+     * @param timestamp the timestamp of the token
+     * @param request he request
+     * @return the reset password token
+     */
+    public static String getUserPasswordResetToken( AdminUser user, Date timestamp, HttpServletRequest request )
+    {
+        String strSessionId = null;
+        if ( getBooleanSecurityParameter( DSKEY_LOCK_RESET_TOKEN_TO_SESSION ) )
+        {
+            strSessionId = request.getSession( ).getId( );
+        }
+        return AdminUserHome.getUserPasswordResetToken( user.getUserId( ), timestamp, strSessionId );
     }
 
 }

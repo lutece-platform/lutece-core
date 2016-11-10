@@ -19,3 +19,6 @@ DELETE FROM core_datastore WHERE entity_key = 'core.advanced_parameters.encrypti
 DELETE FROM core_datastore WHERE entity_key = 'core.advanced_parameters.enable_password_encryption';
 
 DELETE FROM core_admin_role_resource WHERE resource_type = 'ADMIN_USER' AND permission = 'MANAGE_ENCRYPTED_PASSWORD';
+
+INSERT INTO core_datastore VALUES ('core.advanced_parameters.reset_token_validity', '60');
+INSERT INTO core_datastore VALUES ('core.advanced_parameters.lock_reset_token_to_session', 'false');
