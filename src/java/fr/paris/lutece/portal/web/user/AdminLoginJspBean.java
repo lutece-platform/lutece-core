@@ -38,7 +38,6 @@ import fr.paris.lutece.portal.business.user.AdminUserHome;
 import fr.paris.lutece.portal.business.user.authentication.LuteceDefaultAdminUser;
 import fr.paris.lutece.portal.business.user.log.UserLog;
 import fr.paris.lutece.portal.business.user.log.UserLogHome;
-import fr.paris.lutece.portal.business.user.parameter.DefaultUserParameterHome;
 import fr.paris.lutece.portal.service.admin.AdminAuthenticationService;
 import fr.paris.lutece.portal.service.admin.AdminUserService;
 import fr.paris.lutece.portal.service.i18n.I18nService;
@@ -49,6 +48,7 @@ import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.portal.PortalService;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
+import fr.paris.lutece.portal.service.util.AppException;
 import fr.paris.lutece.portal.service.util.AppHTTPSService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
@@ -68,6 +68,7 @@ import org.apache.commons.lang.StringUtils;
 import java.io.Serializable;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Locale;
@@ -84,6 +85,7 @@ import javax.servlet.http.HttpSession;
  */
 public class AdminLoginJspBean implements Serializable
 {
+
     /**
      * Serial version UID
      */
@@ -106,6 +108,7 @@ public class AdminLoginJspBean implements Serializable
     // Templates
     private static final String TEMPLATE_ADMIN_LOGIN = "admin/admin_login.html";
     private static final String TEMPLATE_ADMIN_FORGOT_PASSWORD = "admin/admin_forgot_password.html";
+    private static final String TEMPLATE_ADMIN_RESET_PASSWORD = "admin/admin_reset_password.html";
     private static final String TEMPLATE_ADMIN_FORGOT_LOGIN = "admin/admin_forgot_login.html";
     private static final String TEMPLATE_ADMIN_FORM_CONTACT = "admin/admin_form_contact.html";
     private static final String TEMPLATE_ADMIN_EMAIL_FORGOT_PASSWORD = "admin/admin_email_forgot_password.html";
@@ -117,16 +120,21 @@ public class AdminLoginJspBean implements Serializable
     private static final String MARK_FORGOT_LOGIN_URL = "forgot_login_url";
     private static final String MARK_PARAM_VERSION = "version";
     private static final String MARK_SITE_NAME = "site_name";
-    private static final String MARK_NEW_PASSWORD = "new_password";
     private static final String MARK_LOGIN_URL = "login_url";
     private static final String MARK_DO_ADMIN_LOGIN_URL = "do_admin_login_url";
     private static final String MARK_SITE_LINK = "site_link";
     private static final String MARK_LOGIN = "login";
+    private static final String MARK_USER_ID = "user_id";
+    private static final String MARK_TOKEN = "token";
+    private static final String MARK_TIMESTAMP = "timestamp";
+    private static final String MARK_RESET_TOKEN_VALIDITY = "reset_password_validity";
+    private static final String MARK_LOCK_RESET_TOKEN_TO_SESSION = "lock_reset_token_to_session";
     private static final String SESSION_ATTRIBUTE_USER = "lutece_admin_user"; // Used by all JSP
 
     // parameters
     private static final String PARAMETER_MESSAGE = "message_contact";
-    private static final String PARAMETER_FORCE_CHANGE_PASSWORD_REINIT = "force_change_password_reinit";
+    private static final String PARAMETER_TOKEN = "token";
+    private static final String PARAMETER_TIMESTAMP = "ts";
 
     // I18n message keys
     private static final String MESSAGE_SENDING_SUCCESS = "portal.admin.message.admin_forgot_password.sendingSuccess";
@@ -136,6 +144,10 @@ public class AdminLoginJspBean implements Serializable
     private static final String MESSAGE_FORGOT_LOGIN_SENDING_SUCCESS = "portal.admin.message.admin_forgot_login.sendingSuccess";
     private static final String MESSAGE_EMAIL_ADMIN_SUBJECT = "portal.admin.admin_form_contact.email.subject";
     private static final String MESSAGE_WRONG_EMAIL_FORMAT = "portal.admin.message.admin_forgot_login.wrongEmailFormat";
+    private static final String MESSAGE_CONTROL_PASSWORD_NO_CORRESPONDING = "portal.users.message.password.confirm.error";
+    private static final String MESSAGE_INVALID_RESET_TOKEN = "portal.admin.message.invalid.reset.token";
+    private static final String MESSAGE_EXPIRED_RESET_TOKEN = "portal.admin.message.expired.reset.token";
+    private static final String MESSAGE_RESET_PASSORWD_SUCCESS = "portal.admin.message.reset.password.success";
 
     // Properties
     private static final String PROPERTY_LEVEL = "askPasswordReinitialization.admin.level";
@@ -242,6 +254,29 @@ public class AdminLoginJspBean implements Serializable
         model.put( MARK_PARAMS_LIST, listParams );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_FORGOT_PASSWORD, locale, model );
+
+        return template.getHtml( );
+    }
+
+    public String getResetPassword( HttpServletRequest request )
+    {
+        // Invalidate a previous session
+        HttpSession session = request.getSession( false );
+
+        if ( session != null )
+        {
+            session.removeAttribute( SESSION_ATTRIBUTE_USER );
+        }
+
+        Map<String, Object> model = new HashMap<String, Object>( );
+
+        model.put( Parameters.USER_ID , request.getParameter( Parameters.USER_ID ) );
+        model.put( PARAMETER_TIMESTAMP, request.getParameter( PARAMETER_TIMESTAMP ) );
+        model.put( PARAMETER_TOKEN, request.getParameter( PARAMETER_TOKEN ) );
+
+        Locale locale = AdminUserService.getLocale( request );
+
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_RESET_PASSWORD, locale, model );
 
         return template.getHtml( );
     }
@@ -428,39 +463,107 @@ public class AdminLoginJspBean implements Serializable
             return JSP_URL_FORM_CONTACT;
         }
 
-        // make password
-        String strPassword = AdminUserService.makePassword( );
+        // make password reset token
+        Date timestamp = new Date( );
+        String strToken = AdminUserService.getUserPasswordResetToken( user, timestamp, request );
 
-        // update password
-        if ( StringUtils.isNotEmpty( strPassword ) )
-        {
-            LuteceDefaultAdminUser userStored = AdminUserHome.findLuteceDefaultAdminUserByPrimaryKey( user.getUserId( ) );
-            userStored.setPasswordMaxValidDate( AdminUserService.getPasswordMaxValidDate( ) );
-            IPasswordFactory passwordFactory = SpringContextService.getBean( IPasswordFactory.BEAN_NAME );
-            userStored.setPassword( passwordFactory.getPasswordFromCleartext( strPassword ) );
-
-            if ( Boolean.valueOf( DefaultUserParameterHome.findByKey( PARAMETER_FORCE_CHANGE_PASSWORD_REINIT ) ) )
-            {
-                userStored.setPasswordReset( Boolean.TRUE );
-            }
-
-            AdminUserHome.update( userStored );
-
-        }
-
-        // send password by e-mail
+        // send password rest token by e-mail
         String strSenderEmail = MailService.getNoReplyEmail( );
         String strEmailSubject = I18nService.getLocalizedString( MESSAGE_EMAIL_SUBJECT, locale );
         HashMap<String, Object> model = new HashMap<String, Object>( );
-        model.put( MARK_NEW_PASSWORD, strPassword );
-        model.put( MARK_LOGIN_URL, AppPathService.getBaseUrl( request ) + AdminAuthenticationService.getInstance( ).getLoginPageUrl( ) );
+        model.put( MARK_TOKEN, strToken );
+        model.put( MARK_TIMESTAMP, timestamp.getTime( ) );
+        model.put( MARK_USER_ID, user.getUserId( ) );
+        model.put( MARK_LOGIN_URL, AppPathService.getBaseUrl( request ) + "jsp/admin/AdminResetPassword.jsp" );
         model.put( MARK_SITE_LINK, MailService.getSiteLink( AppPathService.getBaseUrl( request ), false ) );
-
+        Date tokenExpiryDate = new Date( timestamp.getTime( ) + ( 1000L * 60 * AdminUserService.getIntegerSecurityParameter( AdminUserService.DSKEY_RESET_TOKEN_VALIDITY ) ) );
+        model.put( MARK_RESET_TOKEN_VALIDITY, tokenExpiryDate );
+        model.put( MARK_LOCK_RESET_TOKEN_TO_SESSION, AdminUserService.getBooleanSecurityParameter( AdminUserService.DSKEY_LOCK_RESET_TOKEN_TO_SESSION ) );
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_EMAIL_FORGOT_PASSWORD, locale, model );
 
         MailService.sendMailHtml( user.getEmail( ), strSenderEmail, strSenderEmail, strEmailSubject, template.getHtml( ) );
 
         return AdminMessageService.getMessageUrl( request, MESSAGE_SENDING_SUCCESS, JSP_URL_ADMIN_LOGIN, AdminMessage.TYPE_INFO );
+    }
+
+    public String doResetPassword( HttpServletRequest request )
+    {
+        if ( !"POST".equals( request.getMethod( ) ) )
+        {
+            throw new AppException( "This method should requested via POST" );
+        }
+
+        String strUserId = request.getParameter( Parameters.USER_ID );
+
+        if ( !StringUtils.isNumeric( strUserId ) || StringUtils.isBlank( strUserId ) )
+        {
+            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
+        }
+
+        String strTimestamp = request.getParameter( PARAMETER_TIMESTAMP );
+
+        if ( !StringUtils.isNumeric( strTimestamp ) )
+        {
+            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
+        }
+
+        String strToken = request.getParameter( PARAMETER_TOKEN );
+
+        if ( StringUtils.isEmpty( strToken ) )
+        {
+            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
+        }
+
+        String strNewPassword = request.getParameter( Parameters.NEW_PASSWORD );
+        String strConfirmNewPassword = request.getParameter( Parameters.CONFIRM_NEW_PASSWORD );
+
+        if ( StringUtils.isEmpty( strNewPassword ) || StringUtils.isEmpty( strConfirmNewPassword ) )
+        {
+            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
+        }
+
+        if ( !strNewPassword.equals( strConfirmNewPassword ) )
+        {
+            return AdminMessageService.getMessageUrl( request, MESSAGE_CONTROL_PASSWORD_NO_CORRESPONDING, AdminMessage.TYPE_STOP );
+        }
+
+        LuteceDefaultAdminUser user = AdminUserHome.findLuteceDefaultAdminUserByPrimaryKey( Integer.parseInt( strUserId ) );
+
+        if ( user == null )
+        {
+            user = new LuteceDefaultAdminUser( );
+        }
+
+        Date timestamp = new Date( Long.valueOf( strTimestamp ) );
+
+        String strSystemToken = AdminUserService.getUserPasswordResetToken( user, timestamp, request );
+
+        if ( !strSystemToken.equals( strToken ) )
+        {
+            return AdminMessageService.getMessageUrl( request, MESSAGE_INVALID_RESET_TOKEN, AdminMessage.TYPE_STOP );
+        }
+
+        long lTokenAge = new Date( ).getTime( ) - timestamp.getTime( );
+
+        if ( lTokenAge < 0 || lTokenAge > ( 1000L * 60 * AdminUserService.getIntegerSecurityParameter( AdminUserService.DSKEY_RESET_TOKEN_VALIDITY ) ) )
+        {
+            return AdminMessageService.getMessageUrl( request, MESSAGE_EXPIRED_RESET_TOKEN, AdminMessage.TYPE_STOP );
+        }
+
+        String strUrl = AdminUserService.checkPassword( request, strNewPassword, user.getUserId( ) );
+        if ( StringUtils.isNotEmpty( strUrl ) )
+        {
+            return strUrl;
+        }
+
+        // all checks are OK. Proceed to password change
+        user.setPasswordMaxValidDate( AdminUserService.getPasswordMaxValidDate( ) );
+        IPasswordFactory passwordFactory = SpringContextService.getBean( IPasswordFactory.BEAN_NAME );
+        user.setPassword( passwordFactory.getPasswordFromCleartext( strNewPassword ) );
+        AdminUserHome.update( user );
+        AdminUserHome.insertNewPasswordInHistory( user.getPassword( ), user.getUserId( ) );
+
+        return AdminMessageService.getMessageUrl( request, MESSAGE_RESET_PASSORWD_SUCCESS, JSP_URL_ADMIN_LOGIN, AdminMessage.TYPE_INFO );
     }
 
     /**

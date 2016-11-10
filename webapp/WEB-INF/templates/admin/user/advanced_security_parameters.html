@@ -51,6 +51,18 @@
 				<input type="checkbox" name="force_change_password_reinit" id="force_change_password_reinit" value="true" <#if force_change_password_reinit>checked="checked"</#if>>
 			</div>
 		</div>
+		<div class="form-group">
+			<label class="control-label col-xs-12 col-sm-3" for="reset_token_validity">#i18n{portal.users.manage_advanced_parameters.labelResetTokenValidity} :</label>
+			<div class="col-xs-12 col-sm-9">
+				<input type="number" name="reset_token_validity" id="reset_token_validity" value="${reset_token_validity!}" class="form-control" min=0 >
+			</div>
+		</div>
+		<div class="form-group">
+			<label class="control-label col-xs-12 col-sm-3" for="lock_reset_token_to_session">#i18n{portal.users.manage_advanced_parameters.labelLockResetTokenToSession} : </label>
+			<div class="col-xs-12 col-sm-9">
+				<input type="checkbox" name="lock_reset_token_to_session" id="lock_reset_token_to_session" value="true" <#if lock_reset_token_to_session>checked="checked"</#if>>
+			</div>
+		</div>
 		<#if use_advanced_security_parameters>
 			<div class="form-group">
 				<label class="control-label col-xs-12 col-sm-3" for="password_history_size">#i18n{portal.users.manage_advanced_parameters.labelPasswordHistorySize} : </label>
