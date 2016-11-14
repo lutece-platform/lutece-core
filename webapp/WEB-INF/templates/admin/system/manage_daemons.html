@@ -31,7 +31,18 @@
                 </td>
                 <td>
                   <#if daemon.running>
-                    ${daemon.interval}
+                    ${daemon.interval} #i18n{portal.system.manage_daemons.unit.sec} &nbsp;
+                    <small>
+                    <#if daemon.interval gte 3600 >
+                       <#assign hour = daemon.interval / 3600 />
+                         ( ${hour} #i18n{portal.system.manage_daemons.unit.hour} )
+                    <#else>
+                        <#if daemon.interval gte 60>
+                           <#assign mn = daemon.interval / 60 />
+                             ( ${mn} #i18n{portal.system.manage_daemons.unit.mn} )
+                        </#if>
+                    </#if>
+                    </small>
                   <#else>
                       <form method="post" action="jsp/admin/system/DoDaemonAction.jsp" class="form-inline">
                       <input type="hidden" name="daemon" value="${daemon.id}">
