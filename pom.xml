@@ -257,10 +257,16 @@
             <version>20160810</version>
         </dependency>
 
+        <!-- jackson 1.x (org.codehaus.jackson) deprecated, use jackson 2.x (com.fasterxml.jackson) instead. To be removed in the future -->
         <dependency>
             <groupId>org.codehaus.jackson</groupId>
             <artifactId>jackson-mapper-asl</artifactId>
             <version>1.9.13</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.8.4</version>
         </dependency>
         
         <!-- @Inject API -->
