@@ -35,11 +35,8 @@ package fr.paris.lutece.util.json;
 
 import fr.paris.lutece.portal.service.util.AppLogService;
 
-import org.codehaus.jackson.JsonGenerationException;
-import org.codehaus.jackson.map.JsonMappingException;
-import org.codehaus.jackson.map.ObjectMapper;
-
-import java.io.IOException;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  *
@@ -66,15 +63,7 @@ public class JsonUtil
         {
             strJsonResponse = _mapper.writeValueAsString( jsonResponse );
         }
-        catch( JsonGenerationException e )
-        {
-            AppLogService.error( e );
-        }
-        catch( JsonMappingException e )
-        {
-            AppLogService.error( e );
-        }
-        catch( IOException e )
+        catch( JsonProcessingException e )
         {
             AppLogService.error( e );
         }
