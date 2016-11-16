@@ -152,6 +152,50 @@ public class UploadServletTest extends LuteceTestCase {
         assertEquals( objectNodeRef, objectNodeJson );
     }
 
+    public void testDoPost_NoFiles_Handler2( ) throws Exception {
+        final String BEAN_NAME = "testAsyncUpMap";
+        MockHttpServletRequest request = new MockHttpServletRequest();
+        MockHttpServletResponse response = new MockHttpServletResponse();
+        Map<String, List<FileItem>> mapFiles = new HashMap<>();
+        Map<String, String[]> mapParameters = new HashMap<>();
+        mapParameters.put("handler", new String[] { BEAN_NAME } );
+        MultipartHttpServletRequest multipartRequest = new MultipartHttpServletRequest( request, mapFiles, mapParameters);
+
+        clearLuteceSpringCache();
+        ConfigurableListableBeanFactory beanFactory = ((ConfigurableApplicationContext) SpringContextService.getContext()).getBeanFactory();
+        beanFactory.registerSingleton(BEAN_NAME, new IAsynchronousUploadHandler2() {
+            @Override
+            public void process( HttpServletRequest request, HttpServletResponse response, Map<String, Object> mainObject, List<FileItem> fileItems ) {
+                mainObject.clear();
+                mainObject.put("testmap", "valuetestmap");
+            }
+
+            @Override
+            public boolean isInvoked( HttpServletRequest request ) {
+                return BEAN_NAME.equals(request.getParameter("handler"));
+            }
+        });
+
+        try {
+            new UploadServlet().doPost( multipartRequest, response );
+        } catch(Exception e) {
+            throw new RuntimeException(e);
+        } finally {
+            ((DefaultListableBeanFactory) beanFactory).destroySingleton(BEAN_NAME);
+            clearLuteceSpringCache();
+        }
+
+        String strResponseJson = response.getContentAsString();
+        System.out.println(strResponseJson);
+
+        String strRefJson = "{\"testmap\":\"valuetestmap\"}";
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode objectNodeRef = objectMapper.readTree( strRefJson );
+        JsonNode objectNodeJson = objectMapper.readTree( strResponseJson );
+
+        assertEquals( objectNodeRef, objectNodeJson );
+    }
+
     private void clearLuteceSpringCache() {
         // hack plugin installed event to clear the SpringContextService cache
         // TODO have a better way to do this ???

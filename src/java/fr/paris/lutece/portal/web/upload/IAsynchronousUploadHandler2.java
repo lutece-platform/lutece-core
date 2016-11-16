@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2014, Mairie de Paris
+ * Copyright (c) 2002-2016, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,29 +33,25 @@
  */
 package fr.paris.lutece.portal.web.upload;
 
-import net.sf.json.JSONObject;
-
-import org.apache.commons.fileupload.FileItem;
-
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.fileupload.FileItem;
+
 /**
  *
- * Handler for the asynchronous upload.
- * @deprecated This interface uses objects of an external library (net.sf json-lib)
- * This library is becoming obsolete. Use IAsynchronousUploadHandler2 instead.
- * Will be removed in future versions.
+ * Handler for the asynchronous upload. New version not tied to net.sf json-lib.
+ * the JSONObject is replaced with a java Map.
  *
  */
-@Deprecated
-public interface IAsynchronousUploadHandler
+public interface IAsynchronousUploadHandler2
 {
     /**
      * Processes asynchronous upload. May fill <code>mainObject</code> with plugin specific values.
-     * 
+     *
      * @param request
      *            request
      * @param response
@@ -65,11 +61,11 @@ public interface IAsynchronousUploadHandler
      * @param fileItems
      *            uploaded fileItems
      */
-    void process( HttpServletRequest request, HttpServletResponse response, JSONObject mainObject, List<FileItem> fileItems );
+    void process( HttpServletRequest request, HttpServletResponse response, Map<String, Object> mainObject, List<FileItem> fileItems );
 
     /**
      * Defines if this handler is invoked. A parameter (like page=plugin-name) should be found in the request.
-     * 
+     *
      * @param request
      *            request
      * @return <code>true</code> if invoked, <code>false</code> otherwise.
