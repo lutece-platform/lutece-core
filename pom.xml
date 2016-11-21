@@ -2,7 +2,7 @@
     <parent>
         <artifactId>lutece-global-pom</artifactId>
         <groupId>fr.paris.lutece.tools</groupId>
-        <version>4.0.0-RC-04</version>
+        <version>4.0.0-RC-05</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
@@ -280,12 +280,12 @@
         <dependency>
             <groupId>javax.validation</groupId>
             <artifactId>validation-api</artifactId>
-            <version>1.0.0.GA</version>
+            <version>1.1.0.Final</version>
         </dependency>
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-validator</artifactId>
-            <version>4.2.0.Final</version>
+            <version>5.3.2.Final</version>
         </dependency>
         
         <!-- Dozer - Java Bean to Java Bean -->
