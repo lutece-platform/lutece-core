@@ -37,6 +37,8 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
+import fr.paris.lutece.test.LuteceTestCase;
+
 import java.math.BigDecimal;
 
 import java.sql.Date;
@@ -49,7 +51,7 @@ import javax.validation.Validator;
 /**
  * BeanValidationUtilTest
  */
-public class BeanValidationUtilTest
+public class BeanValidationUtilTest extends LuteceTestCase
 {
     /**
      * Test of validate method, of class BeanValidationUtil.
