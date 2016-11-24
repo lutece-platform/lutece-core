@@ -1,7 +1,7 @@
 <#if portletType.modifyScriptTemplate != "" ><#include portletType.modifyScriptTemplate /></#if>
 <div class="row">
 	<div class="col-md-12">
-		<form method="post" id="form-portlet" name="form" action="${portletType.doModifyUrl}" target="_top" role="form">
+		<form method="post" id="form-portlet" name="form" action="jsp/admin/${portletType.doModifyUrl}" target="_top" role="form">
 		<input type="hidden" name="portlet_id" value="${portlet.id}" />
 		<input type="hidden" name="portlet_type_id" value="${portletType.id}" />
 		<fieldset>

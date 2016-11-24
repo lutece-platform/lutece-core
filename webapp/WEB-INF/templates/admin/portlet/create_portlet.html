@@ -1,7 +1,7 @@
 <#if portletType.createScriptTemplate != "" ><#include portletType.createScriptTemplate! /></#if>
 <div class="row">
 	<div class="col-md-12">
-		<form method="post" name="form" action="${portletType.doCreateUrl}" target="_top" role="form">  
+		<form method="post" name="form" action="jsp/admin/${portletType.doCreateUrl}" target="_top" role="form">  
 		<input type="hidden" name="page_id" value="${portlet_page_id}">
 		<input type="hidden" name="portlet_type_id" value="${portletType.id}">
 		<fieldset>     
@@ -95,7 +95,7 @@
 							<i class="glyphicon glyphicon-ok"></i>&nbsp;
 							<span class="hidden-phone" >#i18n{portal.site.create_portlet.buttonValidate}</span>
 						</button>                       
-						<a href="site/AdminSite.jsp" class="btn btn-default btn-sm" target="_top">            
+						<a href="jsp/admin/site/AdminSite.jsp" class="btn btn-default btn-sm" target="_top">            
 							<i class="glyphicon glyphicon-remove-circle"></i>&nbsp;<span class="hidden-phone">#i18n{portal.site.create_portlet.buttonBack}</span>
 						</a>
 					</div> 
