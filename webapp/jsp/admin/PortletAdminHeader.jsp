@@ -27,4 +27,6 @@
 <style>body{padding-top:0;}</style>
 </head>
 <body class="portlet">
+<div id="wrapper">
 <div id="admin-wrapper">
+<section>
