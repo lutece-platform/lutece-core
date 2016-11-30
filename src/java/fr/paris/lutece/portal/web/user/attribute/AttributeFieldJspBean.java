@@ -222,11 +222,15 @@ public class AttributeFieldJspBean extends AdminFeaturesPageJspBean
                 return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
             }
 
+            AttributeField currentAttributeField = _attributeFieldService.getAttributeField( nIdField );
+            int nPosition = currentAttributeField.getPosition( );
+
             AttributeField attributeField = new AttributeField( );
             attributeField.setIdField( nIdField );
             attributeField.setTitle( strTitle );
             attributeField.setValue( strValue );
             attributeField.setDefaultValue( strDefaultValue != null );
+            attributeField.setPosition( nPosition );
             _attributeFieldService.updateAttributeField( attributeField );
         }
 
