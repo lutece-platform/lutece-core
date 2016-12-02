@@ -243,20 +243,12 @@
         </dependency>
 
         <!-- JSON -->
-        <!-- net.sf.json-lib deprecated, use org.json.json instead. To be removed in the future -->
-        <!-- Package renamed from net.sf.json.* to org.json.* -->
         <dependency>
             <groupId>net.sf.json-lib</groupId>
             <artifactId>json-lib</artifactId>
             <version>2.4</version>
             <classifier>jdk15</classifier>
         </dependency>
-        <dependency>
-            <groupId>org.json</groupId>
-            <artifactId>json</artifactId>
-            <version>20160810</version>
-        </dependency>
-
         <!-- jackson 1.x (org.codehaus.jackson) deprecated, use jackson 2.x (com.fasterxml.jackson) instead. To be removed in the future -->
         <dependency>
             <groupId>org.codehaus.jackson</groupId>
