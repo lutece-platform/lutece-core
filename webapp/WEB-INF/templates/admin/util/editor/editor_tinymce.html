@@ -1,5 +1,5 @@
 <script type="text/javascript" src="${webapp_url}js/editors/tinymce/tinymce.min.js"></script>
-<#macro initEditor editorWidth=450 cssFiles="">
+<#macro initEditor editorWidth=450 cssFiles="" type=''>
 <#assign editorLocale="" />
 <#-- We only have the language pack for French (France) installed in webapp/js/editors/tinymce/langs -->
 <#-- Some lutece plugins pass locale.getLanguage() (="fr"), some pass the locale object (toString="fr_FR", or more complicated...) -->
@@ -11,6 +11,28 @@
 	<#assign cssFiles="editor.css, page_template_styles.css" />
 </#if>
 <script type="text/javascript">
+  <#if type == 'inlite'>
+	tinymce.init({
+		selector: 'div.richtext',
+		theme: 'inlite',
+		document_base_url : "${webapp_url}",
+		plugins: 'image table link paste contextmenu textpattern autolink lutece',
+		insert_toolbar: 'quickimage quicktable link lutece',
+		selection_toolbar: 'bold italic | quicklink h2 h3 blockquote',
+		paste_as_text: true,
+		paste_word_valid_elements: "b,strong,i,em,h1,h2,h3,p,br",
+		content_css: "${cssFiles}",
+		style_formats: [
+			{title: "H2", format: "h2"},
+			{title: "H3", format: "h3"},
+			{title: "Paragraphe", format: "p"},
+			{title: 'Listes puces', selector: 'ul', classes: 'liste-puces'}
+		],
+		inline: true,
+		<#if editorLocale != "">language : '${editorLocale}',</#if>
+			paste_data_images: true
+		});
+	<#else>
 	tinyMCE.init({
 		// General options ${editorLocale}
 		selector : "textarea.richtext",
@@ -38,5 +60,6 @@
 		toolbar: "undo redo | paste | styleselect | bold italic  | forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | lutece link media | print preview fullscreen code",
 		contextmenu: "lutece link image | paste copy cut | inserttable | cell row column deletetable",
 	});
+	</#if>
 </script>
 </#macro>
