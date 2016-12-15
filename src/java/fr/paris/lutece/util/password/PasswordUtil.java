@@ -37,6 +37,7 @@ import fr.paris.lutece.portal.service.admin.AdminUserService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.date.DateUtil;
 
+import java.security.SecureRandom;
 import java.sql.Timestamp;
 
 import java.util.ArrayList;
@@ -48,7 +49,8 @@ import java.util.Random;
  */
 public final class PasswordUtil
 {
-    private static final String PROPERTY_PASSWORD_SIZE = "randomPassword.size";
+    public static final String PROPERTY_PASSWORD_SIZE = "randomPassword.size";
+    public static final int CONSTANT_DEFAULT_RANDOM_PASSWORD_SIZE = 16;
     private static final int CONSTANT_NUMBER_LETTERS = 26;
     private static final int CONSTANT_NUMBER_NUMBERS_BASE10 = 10;
     private static final int CONSTANT_ASCII_CODE_A_UPPERCASE = 65;
@@ -77,7 +79,7 @@ public final class PasswordUtil
     public static String makePassword( )
     {
         // reinitialize password
-        int nPasswordSize = AppPropertiesService.getPropertyInt( PROPERTY_PASSWORD_SIZE, 8 );
+        int nPasswordSize = AppPropertiesService.getPropertyInt( PROPERTY_PASSWORD_SIZE, CONSTANT_DEFAULT_RANDOM_PASSWORD_SIZE );
         int nMinPasswordSize = AdminUserService.getIntegerSecurityParameter( PARAMETER_PASSWORD_MINIMUM_LENGTH );
 
         if ( nMinPasswordSize > nPasswordSize )
@@ -105,7 +107,7 @@ public final class PasswordUtil
     public static String makePassword( int nPasswordSize, boolean bUpperAndLowerCase, boolean bNumbers, boolean bSpecialCaracters )
     {
         // reinitialize password
-        Random r = new Random( );
+        Random r = new SecureRandom( );
 
         ArrayList<Character> listCharacters = new ArrayList<Character>( nPasswordSize );
 
@@ -148,7 +150,7 @@ public final class PasswordUtil
             listCharacters.add( Character.valueOf( c1 ) );
         }
 
-        Collections.shuffle( listCharacters );
+        Collections.shuffle( listCharacters, r );
 
         StringBuilder sbPassword = new StringBuilder( listCharacters.size( ) );
 

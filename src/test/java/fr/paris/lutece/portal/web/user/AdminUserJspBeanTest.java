@@ -144,8 +144,8 @@ public class AdminUserJspBeanTest extends LuteceTestCase
             request.addParameter( "first_name", randomUserName );
             request.addParameter( "email", randomUserName + "@lutece.fr" );
             request.addParameter( "user_level", "0" );
-            AdminAuthenticationService.getInstance( ).registerUser( request, AdminUserHome.findUserByLogin( "admin" ) );
-            bean.init( request, "CORE_USERS_MANAGEMENT" );
+            request.getSession( true ).setAttribute( "lutece_admin_user", getLevel0AdminUserWithCORE_USERS_MANAGEMENTRight( ) );
+            bean.init( request, "CORE_USERS_MANAGEMENT" ) ;
             bean.doCreateAdminUser( request );
             message = AdminMessageService.getMessage( request );
             assertNotNull( message );
@@ -158,8 +158,8 @@ public class AdminUserJspBeanTest extends LuteceTestCase
             request.addParameter( "email", randomUserName + "@lutece.fr" );
             request.addParameter( "user_level", "0" );
             request.addParameter( "first_password", randomUserName );
-            AdminAuthenticationService.getInstance( ).registerUser( request, AdminUserHome.findUserByLogin( "admin" ) );
-            bean.init( request, "CORE_USERS_MANAGEMENT" );
+            request.getSession( true ).setAttribute( "lutece_admin_user", getLevel0AdminUserWithCORE_USERS_MANAGEMENTRight( ) );
+            bean.init( request, "CORE_USERS_MANAGEMENT" ) ;
             bean.doCreateAdminUser( request );
             message = AdminMessageService.getMessage( request );
             assertNotNull( message );
@@ -172,8 +172,8 @@ public class AdminUserJspBeanTest extends LuteceTestCase
             request.addParameter( "email", randomUserName + "@lutece.fr" );
             request.addParameter( "user_level", "0" );
             request.addParameter( "first_password", randomUserName );
-            AdminAuthenticationService.getInstance( ).registerUser( request, AdminUserHome.findUserByLogin( "admin" ) );
-            bean.init( request, "CORE_USERS_MANAGEMENT" );
+            request.getSession( true ).setAttribute( "lutece_admin_user", getLevel0AdminUserWithCORE_USERS_MANAGEMENTRight( ) );
+            bean.init( request, "CORE_USERS_MANAGEMENT" ) ;
             bean.doCreateAdminUser( request );
             message = AdminMessageService.getMessage( request );
             assertNotNull( message );
@@ -189,8 +189,8 @@ public class AdminUserJspBeanTest extends LuteceTestCase
             request.addParameter( "second_password", randomUserName );
             request.addParameter( "status", Integer.toString( AdminUser.ACTIVE_CODE ) ); // NPE if absent
             request.addParameter( "language", "fr" ); // NPE if absent
-            AdminAuthenticationService.getInstance( ).registerUser( request, AdminUserHome.findUserByLogin( "admin" ) );
-            bean.init( request, "CORE_USERS_MANAGEMENT" );
+            request.getSession( true ).setAttribute( "lutece_admin_user", getLevel0AdminUserWithCORE_USERS_MANAGEMENTRight( ) );
+            bean.init( request, "CORE_USERS_MANAGEMENT" ) ;
             bean.doCreateAdminUser( request );
             message = AdminMessageService.getMessage( request );
             assertNull( message );
@@ -220,14 +220,24 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         return user;
     }
 
-    public void testDoModifyAdminUser( ) throws AccessDeniedException, UserNotSignedException
+    private AdminUser getLevel0AdminUserWithCORE_USERS_MANAGEMENTRight( )
+    {
+        AdminUser user = new AdminUser( );
+        user.setUserLevel( 0 );
+        Map<String, Right> rights = new HashMap<String, Right>(1);
+        rights.put( "CORE_USERS_MANAGEMENT", new Right( ) );
+        user.setRights( rights );
+        return user;
+    }
+
+    public void testDoModifyAdminUser(  ) throws AccessDeniedException, UserNotSignedException
     {
         AdminUser userToModify = getUserToModify( );
         try
         {
             AdminUserJspBean bean = new AdminUserJspBean( );
             MockHttpServletRequest request = new MockHttpServletRequest( );
-            AdminAuthenticationService.getInstance( ).registerUser( request, AdminUserHome.findUserByLogin( "lutece" ) );
+            request.getSession( true ).setAttribute( "lutece_admin_user", getLevel1AdminUserWithCORE_USERS_MANAGEMENTRight( ) );
             request.addParameter( "id_user", Integer.toString( userToModify.getUserId( ) ) );
             try
             {
