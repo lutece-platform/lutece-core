@@ -253,6 +253,8 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     private static final String PARAMETER_EXPORT_ATTRIBUTES = "export_attributes";
     private static final String PARAMETER_EXPORT_RIGHTS = "export_rights";
     private static final String PARAMETER_EXPORT_WORKGROUPS = "export_workgroups";
+    private static final String PARAMETER_RESET_TOKEN_VALIDITY = "reset_token_validity";
+    private static final String PARAMETER_LOCK_RESET_TOKEN_TO_SESSION = "lock_reset_token_to_session";
 
     // Jsp url
     private static final String JSP_MANAGE_USER_RIGHTS = "ManageUserRights.jsp";
@@ -1858,6 +1860,9 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
         // Parameter password length
         AdminUserService.updateSecurityParameter( AdminUserService.DSKEY_PASSWORD_MINIMUM_LENGTH, request.getParameter( PARAMETER_PASSWORD_MINIMUM_LENGTH ) );
+
+        AdminUserService.updateSecurityParameter( AdminUserService.DSKEY_RESET_TOKEN_VALIDITY, request.getParameter( PARAMETER_RESET_TOKEN_VALIDITY ) );
+        AdminUserService.updateSecurityParameter( AdminUserService.DSKEY_LOCK_RESET_TOKEN_TO_SESSION, request.getParameter( PARAMETER_LOCK_RESET_TOKEN_TO_SESSION ) );
 
         boolean bUseAdvancedSecurityParameter = AdminUserService.getBooleanSecurityParameter( AdminUserService.DSKEY_USE_ADVANCED_SECURITY_PARAMETERS );
 

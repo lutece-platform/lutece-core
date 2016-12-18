@@ -187,6 +187,8 @@ INSERT INTO core_datastore VALUES ('core.advanced_parameters.access_failures_cap
 INSERT INTO core_datastore VALUES ('core.advanced_parameters.notify_user_password_expired', '');
 INSERT INTO core_datastore VALUES ('core.advanced_parameters.password_expired_mail_sender', 'lutece@nowhere.com');
 INSERT INTO core_datastore VALUES ('core.advanced_parameters.password_expired_mail_subject', 'Votre mot de passe a expiré');
+INSERT INTO core_datastore VALUES ('core.advanced_parameters.reset_token_validity', '60');
+INSERT INTO core_datastore VALUES ('core.advanced_parameters.lock_reset_token_to_session', 'false');
 INSERT INTO core_datastore VALUES ('core.backOffice.defaultEditor', 'tinymce');
 INSERT INTO core_datastore VALUES ('core.frontOffice.defaultEditor', 'markitupbbcode');
 INSERT INTO core_datastore VALUES ('core_banned_domain_names', 'yopmail.com');

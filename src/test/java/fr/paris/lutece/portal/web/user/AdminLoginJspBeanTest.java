@@ -34,6 +34,8 @@
 package fr.paris.lutece.portal.web.user;
 
 import java.security.SecureRandom;
+import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
@@ -44,17 +46,50 @@ import fr.paris.lutece.portal.business.user.AdminUserDAO;
 import fr.paris.lutece.portal.business.user.AdminUserHome;
 import fr.paris.lutece.portal.business.user.authentication.LuteceDefaultAdminAuthentication;
 import fr.paris.lutece.portal.business.user.authentication.LuteceDefaultAdminUser;
+import fr.paris.lutece.portal.service.admin.AdminUserService;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
+import fr.paris.lutece.portal.service.util.AppException;
 import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.test.LuteceTestCase;
+import fr.paris.lutece.util.password.IPassword;
 import fr.paris.lutece.util.password.IPasswordFactory;
 
 public class AdminLoginJspBeanTest extends LuteceTestCase
 {
+    private static final String NEW_PASSWORD = "password";
+    private static final String PASSWORD = "Pa55word!";
+    private LuteceDefaultAdminUser user;
+
+    @Override
+    public void setUp( ) throws Exception
+    {
+        super.setUp( );
+
+        assertFalse( PASSWORD.equals( NEW_PASSWORD ) );
+
+        AdminUserDAO adminUserDAO = getAdminUserDAO( );
+        String randomUsername = "user" + new SecureRandom( ).nextLong( );
+        IPasswordFactory passwordFactory = SpringContextService.getBean( IPasswordFactory.BEAN_NAME );
+
+        user = new LuteceDefaultAdminUser( randomUsername, new LuteceDefaultAdminAuthentication( ) );
+        user.setPassword( passwordFactory.getPasswordFromCleartext( PASSWORD ) );
+        user.setFirstName( randomUsername );
+        user.setLastName( randomUsername );
+        user.setEmail( randomUsername + "@lutece.fr" );
+        adminUserDAO.insert( user );
+    }
+
+    @Override
+    public void tearDown( ) throws Exception
+    {
+        AdminUserHome.remove( user.getUserId( ) );
+        super.tearDown( );
+    }
+
     public void testDoLogin( ) throws Exception
     {
         AdminLoginJspBean bean = new AdminLoginJspBean( );
@@ -88,7 +123,7 @@ public class AdminLoginJspBeanTest extends LuteceTestCase
         return adminUserDAO;
     }
 
-    public void testDoForgotPassword( ) throws Exception
+    public void testDoForgotPasswordNoParam( ) throws Exception
     {
         AdminLoginJspBean bean = new AdminLoginJspBean( );
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -96,46 +131,437 @@ public class AdminLoginJspBeanTest extends LuteceTestCase
         AdminMessage message = AdminMessageService.getMessage( request );
         assertNotNull( message );
         assertEquals( I18nService.getLocalizedString( Messages.MANDATORY_FIELDS, Locale.FRENCH ), message.getText( Locale.FRENCH ) );
+    }
 
-        request = new MockHttpServletRequest( );
+    public void testDoForgotPasswordDoesNotExist( ) throws Exception
+    {
+        AdminLoginJspBean bean = new AdminLoginJspBean( );
+
+        MockHttpServletRequest request = new MockHttpServletRequest( );
         request.addParameter( Parameters.ACCESS_CODE, "DOES_NOT_EXIST" );
         String url = bean.doForgotPassword( request );
         assertEquals( "AdminFormContact.jsp", url );
+    }
 
-        AdminUserDAO adminUserDAO = getAdminUserDAO( );
-        String randomUsername = "user" + new SecureRandom( ).nextLong( );
-        String password = "Pa55word!";
-        IPasswordFactory passwordFactory = SpringContextService.getBean( IPasswordFactory.BEAN_NAME );
+    public void testDoForgotPasswordNoEmail( ) throws Exception
+    {
+        user.setEmail( null );
+        getAdminUserDAO( ).store( user );
 
-        LuteceDefaultAdminUser user = new LuteceDefaultAdminUser( randomUsername, new LuteceDefaultAdminAuthentication( ) );
-        user.setPassword( passwordFactory.getPasswordFromCleartext( password ) );
-        user.setFirstName( randomUsername );
-        user.setLastName( randomUsername );
-        user.setEmail( "" );
-        adminUserDAO.insert( user );
+        AdminLoginJspBean bean = new AdminLoginJspBean( );
+
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.addParameter( Parameters.ACCESS_CODE, user.getAccessCode( ) );
+        String url = bean.doForgotPassword( request );
+        assertEquals( "AdminFormContact.jsp", url );
+    }
+
+    public void testDoForgotPassword( ) throws Exception
+    {
+        AdminLoginJspBean bean = new AdminLoginJspBean( );
+
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.addParameter( Parameters.ACCESS_CODE, user.getAccessCode( ) );
+        bean.doForgotPassword( request );
+        AdminMessage message = AdminMessageService.getMessage( request );
+        assertNotNull( message );
+        assertEquals( I18nService.getLocalizedString( "portal.admin.message.admin_forgot_password.sendingSuccess", Locale.FRENCH ),
+                message.getText( Locale.FRENCH ) );
+        LuteceDefaultAdminUser storedUser = getAdminUserDAO( ).loadDefaultAdminUser( user.getUserId( ) );
+        assertNotNull( storedUser );
+        assertTrue( storedUser.getPassword( ).check( PASSWORD ) );
+    }
+
+    public void testDoResetPasswordNoSessionLock( )
+    {
+        boolean previousSessionLockParam = setSessionLock( false );
+
         try
         {
-            request = new MockHttpServletRequest( );
-            request.addParameter( Parameters.ACCESS_CODE, randomUsername );
-            url = bean.doForgotPassword( request );
-            assertEquals( "AdminFormContact.jsp", url );
-
-            user.setEmail( randomUsername + "@lutece.fr" );
-            adminUserDAO.store( user );
-            request = new MockHttpServletRequest( );
-            request.addParameter( Parameters.ACCESS_CODE, randomUsername );
-            bean.doForgotPassword( request );
-            message = AdminMessageService.getMessage( request );
-            assertNotNull( message );
-            assertEquals( I18nService.getLocalizedString( "portal.admin.message.admin_forgot_password.sendingSuccess", Locale.FRENCH ),
-                    message.getText( Locale.FRENCH ) );
-            LuteceDefaultAdminUser storedUser = adminUserDAO.loadDefaultAdminUser( user.getUserId( ) );
-            assertNotNull( storedUser );
-            assertFalse( storedUser.getPassword( ).check( password ) );
-        }
-        finally
+            doResetPasswordTest( );
+        } finally
         {
-            AdminUserHome.remove( user.getUserId( ) );
+            restoreSessionLock( previousSessionLockParam );
         }
+    }
+
+    public void testDoResetPasswordSessionLock( )
+    {
+        boolean previousSessionLockParam = setSessionLock( true );
+
+        try
+        {
+            doResetPasswordTest( );
+        } finally
+        {
+            restoreSessionLock( previousSessionLockParam );
+        }
+    }
+
+    private void doResetPasswordTest( )
+    {
+        AdminLoginJspBean bean = new AdminLoginJspBean( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setMethod( "POST" );
+        request.setParameter( Parameters.USER_ID, Integer.toString( user.getUserId( ) ) );
+        Date timestamp = new Date( );
+        String token = AdminUserService.getUserPasswordResetToken( user, timestamp, request );
+        request.setParameter( "ts", Long.toString( timestamp.getTime( ) ) );
+        request.setParameter( "token", token );
+        request.setParameter( Parameters.NEW_PASSWORD, NEW_PASSWORD );
+        request.setParameter( Parameters.CONFIRM_NEW_PASSWORD, NEW_PASSWORD );
+
+        String res = bean.doResetPassword( request );
+        assertNotNull( res );
+        AdminMessage message = AdminMessageService.getMessage( request );
+        assertNotNull( message );
+        assertEquals( AdminMessage.TYPE_INFO, message.getType( ) );
+        LuteceDefaultAdminUser storedUser = getAdminUserDAO( ).loadDefaultAdminUser( user.getUserId( ) );
+        assertNotNull( storedUser );
+        assertFalse( storedUser.getPassword( ).check( PASSWORD ) );
+        assertTrue( storedUser.getPassword( ).check( NEW_PASSWORD ) );
+        List<IPassword> passwordHistory = AdminUserHome.selectUserPasswordHistory( user.getUserId( ) );
+        boolean found = false;
+        for ( IPassword password : passwordHistory )
+        {
+            if ( password.check( NEW_PASSWORD ) )
+            {
+                found = true;
+                break;
+            }
+        }
+        assertTrue( found );
+    }
+
+    public void testDoResetPasswordSessionLockDifferentSessions( )
+    {
+        boolean previousSessionLockParam = setSessionLock( true );
+
+        try
+        {
+            AdminLoginJspBean bean = new AdminLoginJspBean( );
+            MockHttpServletRequest request = new MockHttpServletRequest( );
+            request.setMethod( "POST" );
+            request.setParameter( Parameters.USER_ID, Integer.toString( user.getUserId( ) ) );
+            Date timestamp = new Date( );
+            String token = AdminUserService.getUserPasswordResetToken( user, timestamp, request );
+            request.changeSessionId( );
+            request.setParameter( "ts", Long.toString( timestamp.getTime( ) ) );
+            request.setParameter( "token", token );
+            request.setParameter( Parameters.NEW_PASSWORD, NEW_PASSWORD );
+            request.setParameter( Parameters.CONFIRM_NEW_PASSWORD, NEW_PASSWORD );
+
+            String res = bean.doResetPassword( request );
+            assertNotNull( res );
+            AdminMessage message = AdminMessageService.getMessage( request );
+            assertNotNull( message );
+            assertEquals( AdminMessage.TYPE_STOP, message.getType( ) );
+            LuteceDefaultAdminUser storedUser = getAdminUserDAO( ).loadDefaultAdminUser( user.getUserId( ) );
+            assertNotNull( storedUser );
+            assertTrue( storedUser.getPassword( ).check( PASSWORD ) );
+        } finally
+        {
+            restoreSessionLock( previousSessionLockParam );
+        }
+    }
+
+    private boolean setSessionLock( boolean locked )
+    {
+        boolean previous = AdminUserService.getBooleanSecurityParameter( AdminUserService.DSKEY_LOCK_RESET_TOKEN_TO_SESSION );
+        AdminUserService.updateSecurityParameter( AdminUserService.DSKEY_LOCK_RESET_TOKEN_TO_SESSION, Boolean.valueOf( locked ).toString( ) );
+        return previous;
+    }
+
+    private void restoreSessionLock( boolean previousSessionLockParam )
+    {
+        AdminUserService.updateSecurityParameter( AdminUserService.DSKEY_LOCK_RESET_TOKEN_TO_SESSION, Boolean.valueOf( previousSessionLockParam ).toString( ) );
+    }
+
+    public void testDoResetPasswordShortPassword( )
+    {
+        AdminLoginJspBean bean = new AdminLoginJspBean( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setMethod( "POST" );
+        request.setParameter( Parameters.USER_ID, Integer.toString( user.getUserId( ) ) );
+        Date timestamp = new Date( );
+        String token = AdminUserService.getUserPasswordResetToken( user, timestamp, request );
+        request.setParameter( "ts", Long.toString( timestamp.getTime( ) ) );
+        request.setParameter( "token", token );
+        String newPassword = "p";
+        request.setParameter( Parameters.NEW_PASSWORD, newPassword );
+        request.setParameter( Parameters.CONFIRM_NEW_PASSWORD, newPassword );
+
+        String res = bean.doResetPassword( request );
+        assertNotNull( res );
+        AdminMessage message = AdminMessageService.getMessage( request );
+        assertNotNull( message );
+        assertEquals( AdminMessage.TYPE_STOP, message.getType( ) );
+        LuteceDefaultAdminUser storedUser = getAdminUserDAO( ).loadDefaultAdminUser( user.getUserId( ) );
+        assertNotNull( storedUser );
+        assertTrue( storedUser.getPassword( ).check( PASSWORD ) );
+    }
+
+    public void testDoResetPasswordChangedPassword( )
+    {
+        AdminLoginJspBean bean = new AdminLoginJspBean( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setMethod( "POST" );
+        request.setParameter( Parameters.USER_ID, Integer.toString( user.getUserId( ) ) );
+        Date timestamp = new Date( );
+        String token = AdminUserService.getUserPasswordResetToken( user, timestamp, request );
+        request.setParameter( "ts", Long.toString( timestamp.getTime( ) ) );
+        request.setParameter( "token", token );
+        request.setParameter( Parameters.NEW_PASSWORD, NEW_PASSWORD );
+        request.setParameter( Parameters.CONFIRM_NEW_PASSWORD, NEW_PASSWORD );
+
+        IPasswordFactory passwordFactory = SpringContextService.getBean( IPasswordFactory.BEAN_NAME );
+        final String changedPassword = PASSWORD + "_changed";
+        assertFalse( PASSWORD.equals( changedPassword ) );
+        assertFalse( NEW_PASSWORD.equals( changedPassword ) );
+        user.setPassword( passwordFactory.getPasswordFromCleartext( changedPassword ) );
+        getAdminUserDAO( ).store( user );
+
+        String res = bean.doResetPassword( request );
+        assertNotNull( res );
+        AdminMessage message = AdminMessageService.getMessage( request );
+        assertNotNull( message );
+        assertEquals( AdminMessage.TYPE_STOP, message.getType( ) );
+        LuteceDefaultAdminUser storedUser = getAdminUserDAO( ).loadDefaultAdminUser( user.getUserId( ) );
+        assertNotNull( storedUser );
+        assertTrue( storedUser.getPassword( ).check( changedPassword ) );
+    }
+
+    public void testDoResetPasswordExpiredToken( )
+    {
+        AdminLoginJspBean bean = new AdminLoginJspBean( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setMethod( "POST" );
+        request.setParameter( Parameters.USER_ID, Integer.toString( user.getUserId( ) ) );
+        Date timestamp = new Date( new Date( ).getTime( ) + 1 + ( 1000L * 60 * AdminUserService.getIntegerSecurityParameter( AdminUserService.DSKEY_RESET_TOKEN_VALIDITY ) ) );
+        String token = AdminUserService.getUserPasswordResetToken( user, timestamp, request );
+        request.setParameter( "ts", Long.toString( timestamp.getTime( ) ) );
+        request.setParameter( "token", token );
+        request.setParameter( Parameters.NEW_PASSWORD, NEW_PASSWORD );
+        request.setParameter( Parameters.CONFIRM_NEW_PASSWORD, NEW_PASSWORD );
+
+        String res = bean.doResetPassword( request );
+        assertNotNull( res );
+        AdminMessage message = AdminMessageService.getMessage( request );
+        assertNotNull( message );
+        assertEquals( AdminMessage.TYPE_STOP, message.getType( ) );
+        LuteceDefaultAdminUser storedUser = getAdminUserDAO( ).loadDefaultAdminUser( user.getUserId( ) );
+        assertNotNull( storedUser );
+        assertTrue( storedUser.getPassword( ).check( PASSWORD ) );
+    }
+
+    public void testDoResetPasswordNonexistentUser( )
+    {
+        AdminLoginJspBean bean = new AdminLoginJspBean( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setMethod( "POST" );
+        request.setParameter( Parameters.USER_ID, Integer.toString( Integer.MAX_VALUE ) );
+        Date timestamp = new Date( );
+        String token = AdminUserHome.getUserPasswordResetToken( Integer.MAX_VALUE, timestamp, AdminUserService.getBooleanSecurityParameter( AdminUserService.DSKEY_LOCK_RESET_TOKEN_TO_SESSION )?request.getSession( ).getId( ):null );
+        request.setParameter( "ts", Long.toString( timestamp.getTime( ) ) );
+        request.setParameter( "token", token );
+        request.setParameter( Parameters.NEW_PASSWORD, NEW_PASSWORD );
+        request.setParameter( Parameters.CONFIRM_NEW_PASSWORD, NEW_PASSWORD );
+
+        String res = bean.doResetPassword( request );
+        assertNotNull( res );
+        AdminMessage message = AdminMessageService.getMessage( request );
+        assertNotNull( message );
+        assertEquals( AdminMessage.TYPE_STOP, message.getType( ) );
+    }
+
+    public void testDoResetPasswordBadToken( )
+    {
+        AdminLoginJspBean bean = new AdminLoginJspBean( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setMethod( "POST" );
+        request.setParameter( Parameters.USER_ID, Integer.toString( user.getUserId( ) ) );
+        Date timestamp = new Date( );
+        String token = AdminUserService.getUserPasswordResetToken( user, timestamp, request );
+        request.setParameter( "ts", Long.toString( timestamp.getTime( ) ) );
+        char[ ] tokenCharacters = token.toCharArray( );
+        tokenCharacters[0] += 1;
+        request.setParameter( "token", new String( tokenCharacters ) );
+        request.setParameter( Parameters.NEW_PASSWORD, NEW_PASSWORD );
+        request.setParameter( Parameters.CONFIRM_NEW_PASSWORD, NEW_PASSWORD );
+
+        String res = bean.doResetPassword( request );
+        assertNotNull( res );
+        AdminMessage message = AdminMessageService.getMessage( request );
+        assertNotNull( message );
+        assertEquals( AdminMessage.TYPE_STOP, message.getType( ) );
+        LuteceDefaultAdminUser storedUser = getAdminUserDAO( ).loadDefaultAdminUser( user.getUserId( ) );
+        assertNotNull( storedUser );
+        assertTrue( storedUser.getPassword( ).check( PASSWORD ) );
+    }
+
+    public void testDoResetPasswordDifferentPasswords( )
+    {
+        AdminLoginJspBean bean = new AdminLoginJspBean( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setMethod( "POST" );
+        request.setParameter( Parameters.USER_ID, Integer.toString( user.getUserId( ) ) );
+        Date timestamp = new Date( );
+        String token = AdminUserService.getUserPasswordResetToken( user, timestamp, request );
+        request.setParameter( "ts", Long.toString( timestamp.getTime( ) ) );
+        request.setParameter( "token", token );
+        request.setParameter( Parameters.NEW_PASSWORD, NEW_PASSWORD );
+        request.setParameter( Parameters.CONFIRM_NEW_PASSWORD, NEW_PASSWORD + "diff" );
+
+        String res = bean.doResetPassword( request );
+        assertNotNull( res );
+        AdminMessage message = AdminMessageService.getMessage( request );
+        assertNotNull( message );
+        assertEquals( AdminMessage.TYPE_STOP, message.getType( ) );
+        LuteceDefaultAdminUser storedUser = getAdminUserDAO( ).loadDefaultAdminUser( user.getUserId( ) );
+        assertNotNull( storedUser );
+        assertTrue( storedUser.getPassword( ).check( PASSWORD ) );
+    }
+
+    public void testDoResetPasswordNoNewPassword( )
+    {
+        AdminLoginJspBean bean = new AdminLoginJspBean( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setMethod( "POST" );
+        request.setParameter( Parameters.USER_ID, Integer.toString( user.getUserId( ) ) );
+        Date timestamp = new Date( );
+        String token = AdminUserService.getUserPasswordResetToken( user, timestamp, request );
+        request.setParameter( "ts", Long.toString( timestamp.getTime( ) ) );
+        request.setParameter( "token", token );
+        request.setParameter( Parameters.CONFIRM_NEW_PASSWORD, NEW_PASSWORD );
+
+        String res = bean.doResetPassword( request );
+        assertNotNull( res );
+        AdminMessage message = AdminMessageService.getMessage( request );
+        assertNotNull( message );
+        assertEquals( I18nService.getLocalizedString( Messages.MANDATORY_FIELDS, Locale.FRENCH ), message.getText( Locale.FRENCH ) );
+        LuteceDefaultAdminUser storedUser = getAdminUserDAO( ).loadDefaultAdminUser( user.getUserId( ) );
+        assertNotNull( storedUser );
+        assertTrue( storedUser.getPassword( ).check( PASSWORD ) );
+    }
+
+    public void testDoResetPasswordNoConfirmPassword( )
+    {
+        AdminLoginJspBean bean = new AdminLoginJspBean( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setMethod( "POST" );
+        request.setParameter( Parameters.USER_ID, Integer.toString( user.getUserId( ) ) );
+        Date timestamp = new Date( );
+        String token = AdminUserService.getUserPasswordResetToken( user, timestamp, request );
+        request.setParameter( "ts", Long.toString( timestamp.getTime( ) ) );
+        request.setParameter( "token", token );
+        request.setParameter( Parameters.NEW_PASSWORD, NEW_PASSWORD );
+
+        String res = bean.doResetPassword( request );
+        assertNotNull( res );
+        AdminMessage message = AdminMessageService.getMessage( request );
+        assertNotNull( message );
+        assertEquals( I18nService.getLocalizedString( Messages.MANDATORY_FIELDS, Locale.FRENCH ), message.getText( Locale.FRENCH ) );
+        LuteceDefaultAdminUser storedUser = getAdminUserDAO( ).loadDefaultAdminUser( user.getUserId( ) );
+        assertNotNull( storedUser );
+        assertTrue( storedUser.getPassword( ).check( PASSWORD ) );
+    }
+
+    public void testDoResetPasswordGET( )
+    {
+        AdminLoginJspBean bean = new AdminLoginJspBean( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setMethod( "GET" );
+        request.setParameter( Parameters.USER_ID, Integer.toString( user.getUserId( ) ) );
+        Date timestamp = new Date( );
+        String token = AdminUserService.getUserPasswordResetToken( user, timestamp, request );
+        request.setParameter( "ts", Long.toString( timestamp.getTime( ) ) );
+        request.setParameter( "token", token );
+        request.setParameter( Parameters.NEW_PASSWORD, NEW_PASSWORD );
+        request.setParameter( Parameters.CONFIRM_NEW_PASSWORD, NEW_PASSWORD );
+
+        try
+        {
+            bean.doResetPassword( request );
+            fail( "should have thrown" );
+        } catch ( AppException e )
+        {
+        }
+        LuteceDefaultAdminUser storedUser = getAdminUserDAO( ).loadDefaultAdminUser( user.getUserId( ) );
+        assertNotNull( storedUser );
+        assertTrue( storedUser.getPassword( ).check( PASSWORD ) );
+    }
+
+    public void testDoResetPasswordNoTimestamp( )
+    {
+        AdminLoginJspBean bean = new AdminLoginJspBean( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setMethod( "POST" );
+        request.setParameter( Parameters.USER_ID, Integer.toString( user.getUserId( ) ) );
+        Date timestamp = new Date( );
+        String token = AdminUserService.getUserPasswordResetToken( user, timestamp, request );
+        request.setParameter( "token", token );
+        request.setParameter( Parameters.NEW_PASSWORD, NEW_PASSWORD );
+        request.setParameter( Parameters.CONFIRM_NEW_PASSWORD, NEW_PASSWORD );
+
+        String res = bean.doResetPassword( request );
+        assertNotNull( res );
+        AdminMessage message = AdminMessageService.getMessage( request );
+        assertNotNull( message );
+        assertEquals( I18nService.getLocalizedString( Messages.MANDATORY_FIELDS, Locale.FRENCH ), message.getText( Locale.FRENCH ) );
+        LuteceDefaultAdminUser storedUser = getAdminUserDAO( ).loadDefaultAdminUser( user.getUserId( ) );
+        assertNotNull( storedUser );
+        assertTrue( storedUser.getPassword( ).check( PASSWORD ) );
+    }
+
+    public void testDoResetPasswordNoUserId( )
+    {
+        AdminLoginJspBean bean = new AdminLoginJspBean( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setMethod( "POST" );
+        Date timestamp = new Date( );
+        String token = AdminUserService.getUserPasswordResetToken( user, timestamp, request );
+        request.setParameter( "ts", Long.toString( timestamp.getTime( ) ) );
+        request.setParameter( "token", token );
+        request.setParameter( Parameters.NEW_PASSWORD, NEW_PASSWORD );
+        request.setParameter( Parameters.CONFIRM_NEW_PASSWORD, NEW_PASSWORD );
+
+        String res = bean.doResetPassword( request );
+        assertNotNull( res );
+        AdminMessage message = AdminMessageService.getMessage( request );
+        assertNotNull( message );
+        assertEquals( I18nService.getLocalizedString( Messages.MANDATORY_FIELDS, Locale.FRENCH ), message.getText( Locale.FRENCH ) );
+        LuteceDefaultAdminUser storedUser = getAdminUserDAO( ).loadDefaultAdminUser( user.getUserId( ) );
+        assertNotNull( storedUser );
+        assertTrue( storedUser.getPassword( ).check( PASSWORD ) );
+    }
+
+    public void testDoResetPasswordNoToken( )
+    {
+        AdminLoginJspBean bean = new AdminLoginJspBean( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setMethod( "POST" );
+        request.setParameter( Parameters.USER_ID, Integer.toString( user.getUserId( ) ) );
+        Date timestamp = new Date( );
+        request.setParameter( "ts", Long.toString( timestamp.getTime( ) ) );
+        request.setParameter( Parameters.NEW_PASSWORD, NEW_PASSWORD );
+        request.setParameter( Parameters.CONFIRM_NEW_PASSWORD, NEW_PASSWORD );
+
+        String res = bean.doResetPassword( request );
+        assertNotNull( res );
+        AdminMessage message = AdminMessageService.getMessage( request );
+        assertNotNull( message );
+        assertEquals( I18nService.getLocalizedString( Messages.MANDATORY_FIELDS, Locale.FRENCH ), message.getText( Locale.FRENCH ) );
+        LuteceDefaultAdminUser storedUser = getAdminUserDAO( ).loadDefaultAdminUser( user.getUserId( ) );
+        assertNotNull( storedUser );
+        assertTrue( storedUser.getPassword( ).check( PASSWORD ) );
+    }
+
+    public void testGetResetPasswordNoRequestParameters( )
+    {
+        AdminLoginJspBean bean = new AdminLoginJspBean( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+
+        bean.getResetPassword( request );
+        assertTrue( "The template failed", true );
     }
 }

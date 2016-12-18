@@ -37,11 +37,13 @@ import fr.paris.lutece.portal.business.rbac.AdminRole;
 import fr.paris.lutece.portal.business.right.Right;
 import fr.paris.lutece.portal.business.user.authentication.LuteceDefaultAdminUser;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
+import fr.paris.lutece.portal.service.util.CryptoService;
 import fr.paris.lutece.util.password.IPassword;
 
 import java.sql.Timestamp;
 
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -591,5 +593,32 @@ public final class AdminUserHome
     public static void updateDateLastLogin( int nIdUser, Timestamp dateLastLogin )
     {
         _dao.updateDateLastLogin( nIdUser, dateLastLogin );
+    }
+
+    /**
+     * Construct a password reset token. User the numerical userId as it does not change.
+     * Use the stored password, so that the token is invalidated if the password is changed.
+     * Use a timestamp to allow limiting the validity of the token in time. Optionally bind the
+     * token to the user session. Finally return an HMAC of this info using the application crypto key.
+     * @param nIdUser the user ID
+     * @param timestamp the timestamp
+     * @param strSessionId the session ID
+     * @return the password reset token
+     */
+    public static String getUserPasswordResetToken( int nIdUser, Date timestamp, String strSessionId )
+    {
+        LuteceDefaultAdminUser user = _dao.loadDefaultAdminUser( nIdUser );
+        StringBuilder builder = new StringBuilder( );
+        builder.append( "userId:" ).append( nIdUser );
+        if ( user.getPassword( ) != null )
+        {
+            builder.append( ":password:" ).append( user.getPassword( ).getStorableRepresentation( ) );
+        }
+        builder.append( ":timestamp:" ).append( timestamp.getTime( ) );
+        if ( strSessionId != null )
+        {
+            builder.append( ":sessionId:" ).append( strSessionId );
+        }
+        return CryptoService.hmacSHA256( builder.toString( ) );
     }
 }
