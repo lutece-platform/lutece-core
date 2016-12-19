@@ -1,105 +1,84 @@
-<div class="row">
-  <div class="col-xs-12 col-sm-3">
-    <div class="box box-success">
-      <div class="box-header">
-        <h3 class="box-title">#i18n{portal.rbac.modify_role.titleModifyRole}</h3>
-      </div>
-      <div class="box-body">
-        <form class="form-horizontal" method="post" action="jsp/admin/rbac/DoModifyRole.jsp" name="modify_role">
-          <input type="hidden" name="role_key_previous" value="${role.key}">
-          <div class="form-group">
-            <label class="control-label col-xs-12 col-sm-3 col-md-3" for="role_key">#i18n{portal.rbac.modify_role.labelKey}&nbsp;*</label>
-            <div class="col-xs-12 col-sm-9">
-              <input type="text" id="role_key" name="role_key" class="form-control input-normal uneditable-input" value="${role.key}">
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="control-label col-xs-12 col-sm-3 col-md-3" for="role_description">#i18n{portal.rbac.modify_role.labelDescription}&nbsp;*</label>
-            <div class="col-xs-12 col-sm-9">
-              <input type="text" class="form-control" id="role_description" name="role_description" value="${role.description}" size="100" maxlength="255">
-            </div>
-          </div>
-          <div class="form-group">
-            <div class="col-xs-12 col-sm-offset-3 col-sm-6 col-md-offset-3 col-md-6">
-              <button class="btn btn-primary btn-flat" type="submit" name="apply">
-                <i class="fa fa-check"></i>&nbsp;#i18n{portal.util.labelValidate}
-              </button>
-              <a class="btn btn-default btn-flat" href="jsp/admin/rbac/ViewRoleDescription.jsp?role_key=${role.key}">
-                <i class="fa fa-remove"></i> #i18n{portal.admin.message.buttonCancel}
-              </a>
-            </div>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-  <div class="col-xs-12 col-sm-9">
-    <div class="box box-success">
-      <div class="box-header">
-        <h3 class="box-title">
-          <strong>${role.key} - ${role.description}</strong>
-        </h3>
-        <div class="box-tools">
-          <!--
-          <form class="form-inline pull-right spaced" role="form" method="post" action="jsp/admin/rbac/ModifyRole.jsp">
-            <input type="hidden" name="role_key" value="${role.key}">
-            <button class="btn btn-primary btn-xs btn-flat" type="submit">
-              <i class="fa fa-pencil"></i>
-              <span class="hidden-xs">&nbsp;#i18n{portal.rbac.view_role_description.buttonLabelModify}</span>
-            </button>
-          </form>
-        -->
-          <form class="form-inline" method="post" action="jsp/admin/rbac/AddControlToRole.jsp">
-            <input type="hidden" name="role_key" value="${role.key}">
-            <div class="input-group">
-              <select class="form-control input-xs" name="resource_type">
-                <#list resource_type_list?sort_by( "resourceTypeLabel") as resource_type>
-                  <option value="${resource_type.resourceTypeKey}">${resource_type.resourceTypeLabel}</option>
-                </#list>
-              </select>
-              <span class="input-group-btn">
-                <button class="btn btn-primary btn-xs btn-flat" type="submit" title="#i18n{portal.rbac.view_role_description.buttonLabelAddControl}">
-                  <i class="fa fa-plus"></i> <span class="hidden-xs">#i18n{portal.rbac.view_role_description.buttonLabelAddControl}</span>
-                </button>
-              </span>
-            </div>
-          </form>
-        </div>
-      </div>
-      <div class="box-body">
-        <table class="table table-hover table-striped">
-          <tr>
-            <th>#i18n{portal.rbac.view_role_description.columnTitleResourceType}</th>
-            <th>#i18n{portal.rbac.view_role_description.columnTitleResourceId}</th>
-            <th>#i18n{portal.rbac.view_role_description.columnTitlePermission}</th>
-            <th>#i18n{portal.rbac.view_role_description.columnTitleDeleteControl}</th>
-          </tr>
-          <#assign previousResourceTypeKey="">
-            <#list controled_resource_list as controled_resource>
-              <tr>
-                <#if controled_resource.resourceTypeKey!=previousResourceTypeKey>
-                  <td>
-                    <strong>${controled_resource.resourceTypeLabel} (${controled_resource.resourceTypeKey})</strong>
-                  </td>
-                  <#else>
-                    <td>&nbsp;</td>
-                </#if>
-                <!--<td>${controled_resource.resourceTypeLabel} (${controled_resource.resourceTypeKey})</td>-->
-                <td>${controled_resource.resourceIdLabel} (${controled_resource.resourceId})</td>
-                <td>${controled_resource.permissionLabel} (${controled_resource.permissionKey})</td>
-                <td>
-                  <form class="form-inline" method="post" action="jsp/admin/rbac/DoConfirmRemoveControlFromRole.jsp">
-                    <input type="hidden" name="rbac_id" value="${controled_resource.RBACId}">
-                    <button class="btn btn-danger btn-xs btn-flat" type="submit" title="#i18n{portal.rbac.view_role_description.buttonLabelDeleteControl}">
-                      <i class="fa fa-trash"></i>
-                    </button>
-                  </form>
-                </td>
-              </tr>
-              <#assign previousResourceTypeKey=controled_resource.resourceTypeKey>
-            </#list>
-        </table>
-      </div>
-    </div>
-  </div>
-</div>
+<@row>
+	<@columns sm=3 md=3 lg=3>
+    <@box color='success'>
+      <@boxHeader title='#i18n{portal.rbac.modify_role.titleModifyRole}' />
+			<@boxBody>
+				<@tform method='post' action='jsp/admin/rbac/DoModifyRole.jsp' name='modify_role'>
+				  <input type="hidden" name="role_key_previous" value="${role.key}">
+				  <@formGroup labelKey='#i18n{portal.rbac.modify_role.labelKey}' labelFor='role_key' mandatory=true rows=2>
+					<@input type='text' id='role_key' name='role_key' value='${role.key}' disabled=true />
+				  </@formGroup>
+				   <@formGroup labelKey='#i18n{portal.rbac.modify_role.labelDescription}' labelFor='role_description' mandatory=true rows=2>
+					<@input type='text' id='role_description' name='role_description' value='${role.description}' inputSize=100 maxlength=255 />
+				  </@formGroup>
+				  <@formGroup rows=2>
+					<@button type='submit' name='apply' title='#i18n{portal.util.labelValidate}' buttonIcon='check' size='' />
+					<@aButton href='jsp/admin/rbac/ViewRoleDescription.jsp?role_key=${role.key}' title='#i18n{portal.admin.message.buttonCancel}' buttonIcon='times' size='' color='btn-secondary' />
+				  </@formGroup>
+				</@tform>
+			</@boxBody>
+    </@box>
+	</@columns>
+	
+	<@columns sm=9 md=9 lg=9>
+    <@box color='success'>
+      <@boxHeader title='${role.key} - ${role.description}' boxTools=true>
+				<!--
+				  <form class="form-inline pull-right spaced" role="form" method="post" action="jsp/admin/rbac/ModifyRole.jsp">
+					<input type="hidden" name="role_key" value="${role.key}">
+					<button class="btn btn-primary btn-xs btn-flat" type="submit">
+					  <i class="fa fa-pencil"></i>
+					  <span class="hidden-xs">&nbsp;#i18n{portal.rbac.view_role_description.buttonLabelModify}</span>
+					</button>
+				  </form>
+				-->
+				<@tform class='form-inline' method='post' action='jsp/admin/rbac/AddControlToRole.jsp'>
+					<input type="hidden" name="role_key" value="${role.key}">
+					<@inputGroup>
+						<@select name='resource_type'>
+							<#list resource_type_list?sort_by('resourceTypeLabel') as resource_type>
+							  <option value="${resource_type.resourceTypeKey}">${resource_type.resourceTypeLabel}</option>
+							</#list>
+						</@select>
+						<@inputGroupItem>
+							<@button type='submit' title='#i18n{portal.rbac.view_role_description.buttonLabelAddControl}' showTitle=false buttonIcon='plus' />
+						</@inputGroupItem>
+					</@inputGroup>
+				</@tform>
+			</@boxHeader>
+			
+			<@boxBody>
+				<@table>
+				  <tr>
+					<th>#i18n{portal.rbac.view_role_description.columnTitleResourceType}</th>
+					<th>#i18n{portal.rbac.view_role_description.columnTitleResourceId}</th>
+					<th>#i18n{portal.rbac.view_role_description.columnTitlePermission}</th>
+					<th>#i18n{portal.rbac.view_role_description.columnTitleDeleteControl}</th>
+				  </tr>
+				  <#assign previousResourceTypeKey="">
+					<#list controled_resource_list as controled_resource>
+					  <tr>
+						<#if controled_resource.resourceTypeKey!=previousResourceTypeKey>
+						  <td>
+							<strong>${controled_resource.resourceTypeLabel} (${controled_resource.resourceTypeKey})</strong>
+						  </td>
+						  <#else>
+							<td>&nbsp;</td>
+						</#if>
+						<!--<td>${controled_resource.resourceTypeLabel} (${controled_resource.resourceTypeKey})</td>-->
+						<td>${controled_resource.resourceIdLabel} (${controled_resource.resourceId})</td>
+						<td>${controled_resource.permissionLabel} (${controled_resource.permissionKey})</td>
+						<td>
+							<@tform method='post' action='jsp/admin/rbac/DoConfirmRemoveControlFromRole.jsp'>
+								<input type="hidden" name="rbac_id" value="${controled_resource.RBACId}">
+								<@button type='submit' title='#i18n{portal.rbac.view_role_description.buttonLabelDeleteControl}' buttonIcon='trash' showTitle=false color='btn-danger' />
+							</@tform>
+						</td>
+					  </tr>
+					  <#assign previousResourceTypeKey=controled_resource.resourceTypeKey>
+					</#list>
+				</@table>
+			</@boxBody>
+		</@box>
+  </@columns>
+</@row>

@@ -1,76 +1,75 @@
-<div class="row">
-	<div class="col-xs-12 col-sm-12 col-md-12">
-		<div class="box box-success">
-			<div class="box-header">
-				<h3 class="box-title">#i18n{portal.users.anonymize_user.titleAnonymizeUser}</h3>
-			</div>
-			<div class="box-body">
-				<form class="form-horizontal" role="form" method="post" name="anonymize_user" action="jsp/admin/user/DoChangeFieldAnonymizeAdminUsers.jsp" >
+<@row>
+	<@columns>
+		<@tform role='form' method='post' name='anonymize_user' action='jsp/admin/user/DoChangeFieldAnonymizeAdminUsers.jsp'>
+		<@box color='success'>
+			<@boxHeader title='#i18n{portal.users.anonymize_user.titleAnonymizeUser}' boxTools=true>
+				<@button type='submit' buttonIcon='check' title='#i18n{portal.users.anonymize_user.buttonSave}'  size='' />
+			</@boxHeader>
+		</@box>
+		<@box color='success'>
+			<@boxHeader title='#i18n{portal.users.create_user.labelIdentity}' boxTools=true>
+				<@button style='btn-box-tool' params='data-widget="collapse"' buttonIcon='minus' />
+			</@boxHeader>
+			<@boxBody>
 					<fieldset>
-						<legend>#i18n{portal.users.create_user.labelIdentity}</legend>
-						<div class="form-group">
-							<label class="control-label col-xs-12 col-sm-3 col-md-3" for="access_code" ></label>
-							<div class="col-xs-12 col-sm-9 col-md-9">
-								<div class="checkbox">
-									<input type="checkbox" id="access_code" name="access_code" value="true" <#if access_code?? && access_code>checked="checked"</#if>>
-									#i18n{portal.users.create_user.labelAccessCode} 
-								</div>
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="control-label col-xs-12 col-sm-3 col-md-3" for="last_name" ></label>
-							<div class="col-xs-12 col-sm-9 col-md-9">
-								<div class="checkbox">
-									<input type="checkbox"  id="last_name" name="last_name" value="true" <#if last_name?? && last_name>checked="checked"</#if>>
-									#i18n{portal.users.create_user.labelLastName} 
-								</div>
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="control-label col-xs-12 col-sm-3 col-md-3" for="first_name"></label>
-							<div class="col-xs-12 col-sm-9 col-md-9">
-								<div class="checkbox">
-									<input type="checkbox" id="first_name" name="first_name" value="true" <#if first_name?? && first_name>checked="checked"</#if>>
-									#i18n{portal.users.create_user.labelFirstName} 
-								</div>
-							</div>
-						</div>
-						<div class="form-group">
-							<label class="control-label col-xs-12 col-sm-3 col-md-3" for="email"></label>
-							<div class="col-xs-12 col-sm-9 col-md-9">
-								<div class="checkbox">
-									<input type="checkbox" id="email" name="email" value="true" <#if email?? && email>checked="checked"</#if>>
-									#i18n{portal.users.create_user.labelEmail} 
-								</div>
-							</div>
-						</div>
+						<@formGroup>
+							<#if access_code?? && access_code>
+								<#assign checked = true>
+							<#else>
+								<#assign checked = false>
+							</#if>
+							<@checkBox id='access_code' name='access_code' value='true' checked=checked labelKey='#i18n{portal.users.create_user.labelAccessCode}' labelFor='access_code' />
+						</@formGroup>
+						<@formGroup>
+							<#if last_name?? && last_name>
+								<#assign checked = true>
+							<#else>
+								<#assign checked = false>
+							</#if>
+							<@checkBox id='last_name' name='last_name' value='true' checked=checked labelKey='#i18n{portal.users.create_user.labelLastName}' labelFor='last_name' />
+						</@formGroup>
+						<@formGroup>
+							<#if first_name?? && first_name>
+								<#assign checked = true>
+							<#else>
+								<#assign checked = false>
+							</#if>
+							<@checkBox id='first_name' name='first_name' value='true' checked=checked labelKey='#i18n{portal.users.create_user.labelFirstName}' labelFor='first_name' />
+						</@formGroup>
+						<@formGroup>
+							<#if email?? && email>
+								<#assign checked = true>
+							<#else>
+								<#assign checked = false>
+							</#if>
+							<@checkBox id='email' name='email' value='true' checked=checked labelKey='#i18n{portal.users.create_user.labelEmail}' labelFor='email' />
+						</@formGroup>
 					</fieldset>	
-					<#if attributes_list?has_content>
-						<fieldset>
-							<legend>#i18n{portal.users.create_user.labelComplementaryAttributes}</legend>
-							<#list attributes_list as attribute>
-								<#if !attribute.plugin?exists || ( attribute.plugin?exists && attribute.plugin.name != "profiles" )>
-								<div class="form-group">
-									<label class="control-label col-xs-12 col-sm-3 col-md-3" for="attribute_${attribute.idAttribute}">${attribute.title} :</label>
-									<div class="col-xs-12 col-sm-9 col-md-9">
-										<div class="checkbox">
-											<input type="checkbox" value="true" name="attribute_${attribute.idAttribute}" id="attribute_${attribute.idAttribute}" <#if attribute.anonymize >checked="checked"</#if>>
-										</div>
-									</div>
-								</div>
-								</#if>
-							</#list>
-						<fieldset>
-					</#if>
-					<div class="form-group">
-						<div class="col-xs-12 col-sm-offset-3 col-sm-9 col-md-offset-3 col-md-9">
-							<button class="btn btn-primary btn-flat" type="submit">
-								<i class="glyphicon glyphicon-ok"></i><span class="hidden-xs"> #i18n{portal.users.anonymize_user.buttonSave}</span>
-							</button>
-						</div>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
-</div>
+			</@boxBody>
+		</@box>
+		<#if attributes_list?has_content>
+		<@box color='success'>
+			<@boxHeader title='#i18n{portal.users.create_user.labelComplementaryAttributes}' boxTools=true>
+				<@button style='btn-box-tool' params='data-widget="collapse"' buttonIcon='minus' />
+			</@boxHeader>
+			<@boxBody>
+				<fieldset>
+					<#list attributes_list as attribute>
+						<#if !attribute.plugin?exists || ( attribute.plugin?exists && attribute.plugin.name != "profiles" )>
+						<@formGroup labelFor='attribute_${attribute.idAttribute}' labelKey='${attribute.title}'>
+							<#if attribute.anonymize>
+								<#assign checked = true>
+							<#else>
+								<#assign checked = false>
+							</#if>
+							<@checkBox id='attribute_${attribute.idAttribute}' name='attribute_${attribute.idAttribute}' value='true' checked=checked />
+						</@formGroup>
+						</#if>
+					</#list>
+				<fieldset>
+			</@boxBody>
+		</@box>			
+		</#if>
+	</@tform>
+	</@columns>
+</@row>

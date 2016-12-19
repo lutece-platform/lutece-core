@@ -1,15 +1,12 @@
-<div class="row">
-	<div class="col-xs-12 col-sm-12 col-md-12">
-		<div class="box box-success">
-			<div class="box-header">
-				<h3 class="box-title">#i18n{portal.mailinglist.view_users.boxTitle}</h3>
-				<div class="box-tools"></div>
-			</div>
-			<div class="box-body table-responsive no-padding">
-				<table class="table table-hover table-striped">
+<@row>
+	<@columns>
+		<@box color='success'>
+			<@boxHeader title='#i18n{portal.mailinglist.view_users.boxTitle}' />
+			<@boxBody>
+				<@table>
 					<tr>
-						<th >#i18n{portal.mailinglist.view_users.columnTitleName}</th>
-						<th >#i18n{portal.mailinglist.view_users.columnTitleEmail}</th>
+						<th>#i18n{portal.mailinglist.view_users.columnTitleName}</th>
+						<th>#i18n{portal.mailinglist.view_users.columnTitleEmail}</th>
 					</tr>
 					<#list recipients_list as recipient>
 						<tr>
@@ -17,14 +14,11 @@
 							<td>${recipient.email}</td>
 						</tr>
 					</#list>
-				</table>
-				<p class="text-center">
-					<button class="btn btn-default btn-flat" onclick="javascript:window.history.back();">
-						<i class="fa fa-remove"></i>&nbsp;#i18n{portal.util.labelBack}
-					</button>
-				</p>
-				<br>
-			</div>
-		</div>
-	</div>
-</div>
+				</@table>
+				<@formGroup rows=2>
+					<@button type='submit' buttonIcon='remove' title='#i18n{portal.util.labelBack}'  size='' color='btn-secondary' params='onclick="javascript:window.history.back();"' />
+				</@formGroup>
+			</@boxBody>
+		</@box>
+  </@columns>
+</@row>

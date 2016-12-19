@@ -1,48 +1,27 @@
-<div class="row">
-	<div class="col-xs-12 col-sm-12 col-md-12">
-		<div class="box box-success">
-			<div class="box-header">
-				<h3 class="box-title">#i18n{portal.features.modify_group.title}</h3>
-				<div class="box-tools"></div>
-			</div>
-			<div class="box-body">
-				<form method="post" class="form-horizontal" action="jsp/admin/features/DoModifyGroup.jsp">
-					<div class="form-group">
-						<label class="control-label col-xs-12 col-sm-3 col-md-3" for="group_id">#i18n{portal.features.modify_group.labelId}</label>
-						<div class="col-xs-12 col-sm-6 col-md-6">
-							<input type="text" id="group_id" name="group_id" value="${feature_group.id?html}" class="form-control">
-						</div>	
-					</div>	
-					<div class="form-group">
-						<label class="control-label col-xs-12 col-sm-3 col-md-3" for="group_name">#i18n{portal.features.modify_group.labelName}</label>
-						<div class="col-xs-12 col-sm-6 col-md-6">
-							<input type="text" id="group_name" name="group_name" value="${feature_group.labelKey?html}" class="form-control">
-						</div>	
-					</div>
-					<div class="form-group">
-						<label class="control-label col-xs-12 col-sm-3 col-md-3" for="group_description">#i18n{portal.features.modify_group.labelDescription}</label>
-						<div class="col-xs-12 col-sm-6 col-md-6">
-							<input type="text" id="group_description" name="group_description" value="${feature_group.descriptionKey?html}" class="form-control">
-						</div>	
-					</div>
-					<div class="form-group">
-						<label class="control-label col-xs-12 col-sm-3 col-md-3" for="group_order">#i18n{portal.features.modify_group.labelOrder}</label>
-						<div class="col-xs-12 col-sm-6 col-md-6">
-							<@comboSortedWithParams name="group_order" default_value="${feature_group.order}" additionalParameters="class='form-control input-sm'" items=order_list />
-						</div>	
-					</div>
-					<div class="form-group">
-						<div class="col-xs-12 col-sm-offset-3 col-sm-6 col-md-offset-3 col-md-6">
-							<button class="btn btn-flat btn-primary" type="submit">
-								<i class="glyphicon glyphicon-ok"></i>&nbsp;#i18n{portal.features.modify_group.buttonModify}
-							</button>
-							<a class="btn btn-default btn-flat" href="jsp/admin/features/ManageGroups.jsp">
-								<i class="glyphicon glyphicon-remove-circle"></i>&nbsp;#i18n{portal.util.labelCancel}
-							</a>
-						</div>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
-</div>
+<@row>
+	<@columns>
+		<@box color='success'>
+			<@boxHeader title='#i18n{portal.features.modify_group.title}' />
+			<@boxBody>
+				<@tform method='post' action='jsp/admin/features/DoModifyGroup.jsp'>
+					<@formGroup labelFor='group_id' labelKey='#i18n{portal.features.modify_group.labelId}' mandatory=true>
+						<@input type='text' id='group_id' name='group_id' value='${feature_group.id?html}' />
+					</@formGroup>	
+					<@formGroup labelFor='group_name' labelKey='#i18n{portal.features.modify_group.labelName}' mandatory=true>
+						<@input type='text' id='group_name' name='group_name' value='${feature_group.labelKey?html}' />
+					</@formGroup>
+					<@formGroup labelFor='group_description' labelKey='#i18n{portal.features.modify_group.labelDescription}' mandatory=true>
+						<@input type='text' id='group_description' name='group_description' value='${feature_group.descriptionKey?html}' />
+					</@formGroup>
+					<@formGroup labelFor='group_order' labelKey='#i18n{portal.features.modify_group.labelOrder}'>
+						<@select name='group_order' default_value='feature_group.order' items=order_list list=true sort=true />
+					</@formGroup>
+					<@formGroup>
+						<@button type='submit' buttonIcon='check' title='#i18n{portal.features.modify_group.buttonModify}'  size='' />
+						<@aButton href='jsp/admin/features/ManageGroups.jsp' buttonIcon='close' title='#i18n{portal.util.labelCancel}'  size='' color='btn-secondary' />
+					</@formGroup>
+				</@tform>
+			</@boxBody>
+		</@box>
+	</@columns>
+</@row>

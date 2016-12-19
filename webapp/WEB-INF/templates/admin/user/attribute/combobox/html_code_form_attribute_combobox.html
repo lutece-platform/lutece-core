@@ -27,39 +27,33 @@
     </#list>
     <#return false>
 </#function>
-<div class="form-group">
-    <label class="col-xs-12 col-sm-12 col-md-12" for="attribute_${attribute.idAttribute}">
-        ${attribute.title?html}
-    <#if attribute.mandatory>
-        *
+<#if !attribute.mandatory>
+	<#assign mandatory = false>
+</#if>
+
+<#if attribute.helpMessage?exists&&attribute.helpMessage!=''>
+	<#assign helpKey = attribute.helpMessage>
+</#if>
+<@formGroup labelKey='${attribute.title?html}' labelFor='attribute_${attribute.idAttribute}' helpKey=helpKey mandatory=mandatory rows=2>
+	<#if isMultiple( attribute.listAttributeFields )>
+		<#assign multiple = 10>
     </#if>
-        : 
-    </label>
-    <div class="col-xs-12 col-sm-12 col-md-12">
-        <select class="form-control input-sm" name="attribute_${attribute.idAttribute}" id="attribute_${attribute.idAttribute}"
-            <#if isMultiple( attribute.listAttributeFields ) >
-                    multiple="multiple" size="10"
-            </#if>
-        >
-            <#if !attribute.mandatory>
-                <option value="">
-                    #i18n{portal.users.attribute.labelNone}
+	<@select name='attribute_${attribute.idAttribute}' id='attribute_${attribute.idAttribute}' multiple=multiple>
+		<#if !attribute.mandatory>
+            <option value="">
+				#i18n{portal.users.attribute.labelNone}
+            </option>
+        </#if>
+        <#list attribute.listAttributeFields as attributeField>
+            <#if attributeField.title?exists && attributeField.value != "">
+                <option value="${attributeField.idField}" title="${attributeField.title?html}"
+                    <#if default_values_list?has_content && isSelected(attributeField.idField default_values_list)>
+                        selected="selected"  
+                    </#if>
+                >
+                    ${attributeField.title?html}
                 </option>
             </#if>
-            <#list attribute.listAttributeFields as attributeField>
-                <#if attributeField.title?exists && attributeField.value != "">
-                    <option value="${attributeField.idField}" title="${attributeField.title?html}"
-                        <#if default_values_list?has_content && isSelected(attributeField.idField default_values_list) >
-                            selected="selected"  
-                        </#if>
-                        >
-                            ${attributeField.title?html}
-                    </option>
-                </#if>
-            </#list>
-        </select>
-        <#if attribute.helpMessage?exists&&attribute.helpMessage!=''>
-        <span class="help-block">${attribute.helpMessage}</span>
-        </#if>
-    </div>
-</div>
+		</#list>
+	</@select>
+</@formGroup>

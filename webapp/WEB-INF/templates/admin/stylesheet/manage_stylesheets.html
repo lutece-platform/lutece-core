@@ -1,62 +1,52 @@
-<div class="row">
-  <div class="col-xs-12 col-sm-12 col-md-12">
-    <div class="box box-info">
-      <div class="box-header">
-        <h3 class="box-title">
-          #i18n{portal.style.manage_stylesheets.title}
-        </h3>
-        <div class="box-tools">
-          <form class="form-inline pull-left" method="post">
-            <label for="mode_id">#i18n{portal.style.manage_stylesheets.labelSortByMode}</label>
-            <div class="input-group">
-              <@comboSortedWithParams name="mode_id" default_value="${mode_id}" additionalParameters=" class=\"form-control input-xs\"" items=mode_list />
-              <span class="input-group-btn">
-                <button class="btn btn-primary btn-xs btn-flat" type="submit">
-                  <i class="fa fa-filter"></i>#i18n{portal.util.labelFilter}
-                </button>
-              </span>
-            </div>
-          </form>
-          <form class="form-inline pull-left spaced" method="post" action="jsp/admin/style/CreateStyleSheet.jsp">
-            <input type="hidden" name="mode_id" value="${mode_id}">
-            <button class="btn btn-primary btn-xs btn-flat" type="submit">
-              <i class="fa fa-plus"></i> <span class="hidden-xs">#i18n{portal.style.manage_stylesheets.buttonAdd}</span>
-            </button>
-          </form>
-        </div>
-      </div>
-      <div class="box-body table-responsive">
-        <table class="table table-hover table-striped">
-          <thead>
-            <tr>
-              <th>
-                #i18n{portal.style.manage_stylesheets.columnName}
-                <@sort jsp_url="jsp/admin/style/ManageStyleSheets.jsp" attribute="description" />
-              </th>
-              <th>#i18n{portal.style.manage_stylesheets.columnFilename}
-                <@sort jsp_url="jsp/admin/style/ManageStyleSheets.jsp" attribute="file" />
-              </th>
-              <th>#i18n{portal.util.labelActions}</th>
-            </tr>
-          </thead>
-          <tbody>
-            <#list stylesheet_list as stylesheet>
-              <tr>
-                <td>${stylesheet.description}</td>
-                <td>${stylesheet.file}</td>
-                <td>
-                  <a href="jsp/admin/style/ModifyStyleSheet.jsp?stylesheet_id=${stylesheet.id}" class="btn btn-primary btn-xs btn-flat">
-                    <i class="fa fa-pencil"></i>
-                  </a>
-                </td>
-              </tr>
-            </#list>
-          </tbody>
-        </table>
-      </div>
-      <div class="box-footer">
-        <@paginationAdmin paginator=paginator combo=1 />
-      </div>
-    </div>
-  </div>
-</div>
+<@row>
+	<@columns>
+		<@box color='info'>
+			<@boxHeader title='#i18n{portal.style.manage_stylesheets.title}' boxTools=true>
+				<@tform class='pull-right spaced' method='post' action='jsp/admin/style/CreateStyleSheet.jsp'>
+					<input type="hidden" name="mode_id" value="${mode_id}">
+					<@button type='submit' buttonIcon='plus' title='#i18n{portal.style.manage_stylesheets.buttonAdd}' size='' />
+				</@tform>
+				<@tform method='post' class='form-inline pull-right'>
+					<@formGroup formStyle='inline' labelKey='#i18n{portal.style.manage_stylesheets.labelSortByMode}' labelFor='mode_id'>
+						<@inputGroup>
+							<@select name='mode_id' default_value='${mode_id}' items=mode_list list=true />
+							<@inputGroupItem>
+								<@button type='submit' buttonIcon='filter' title='#i18n{portal.util.labelFilter}' showTitle=false size='' />
+							</@inputGroupItem>
+						</@inputGroup>
+					</@formGroup>
+				</@tform>
+			</@boxHeader>
+			<@boxBody>
+				<@table>
+				  <thead>
+					<tr>
+					  <th>
+						#i18n{portal.style.manage_stylesheets.columnName}
+						<@sort jsp_url="jsp/admin/style/ManageStyleSheets.jsp" attribute="description" />
+					  </th>
+					  <th>#i18n{portal.style.manage_stylesheets.columnFilename}
+						<@sort jsp_url="jsp/admin/style/ManageStyleSheets.jsp" attribute="file" />
+					  </th>
+					  <th>#i18n{portal.util.labelActions}</th>
+					</tr>
+				  </thead>
+				  <tbody>
+					<#list stylesheet_list as stylesheet>
+					  <tr>
+						<td>${stylesheet.description}</td>
+						<td>${stylesheet.file}</td>
+						<td>
+							<@aButton href='jsp/admin/style/ModifyStyleSheet.jsp?stylesheet_id=${stylesheet.id}' buttonIcon='pencil' showTitle=false />
+						</td>
+					  </tr>
+					</#list>
+				  </tbody>
+				</@table>
+			</@boxBody>
+			<@boxFooter>
+				<@paginationAdmin paginator=paginator combo=1 />
+			</@boxFooter>
+		</@box>
+	</@columns>
+</@row>

@@ -1,90 +1,50 @@
-<div class="row">
-	<div class="col-md-12">
-		<div class="box box-info">
-			<div class="box-header">
-				<h3 class="box-title">#i18n{portal.style.modify_mode.boxTitle} <small>${mode.description}</small></h3>
-			</div>
-			<div class="box-body">
-				<form class="form-horizontal" method="post" action="jsp/admin/style/DoModifyMode.jsp" name="modify_mode" role="form">
-				<input type="hidden" name="mode_id" value="${mode.id}" >
-					<div class="form-group">
-						<label class="control-label col-xs-12 col-sm-2" > #i18n{portal.style.modify_mode.labelId}&nbsp;*&nbsp;</label>
-						<div class="col-xs-12 col-sm-10">
-							<p class="form-control-static">${mode.id}</p>
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="control-label col-xs-12 col-sm-2" for="mode_description" >#i18n{portal.style.modify_mode.labelDescription}</label>
-						<div class="col-xs-12 col-sm-10">
-							<input type="text" id="mode_description" name="mode_description" value="${mode.description?html}" class="form-control" maxlength="50">
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="control-label col-xs-12 col-sm-2"> #i18n{portal.style.modify_mode.labelXslPath}</label>
-						<div class="col-xs-12 col-sm-10">
-							<pre class="form-control-static">${mode.path}</pre>
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="control-label col-xs-12 col-sm-2"></label>
-						<div class="col-xs-12 col-sm-4">
-							<p class="form-control-static"><strong>#i18n{portal.style.modify_mode.xslParameterValues}</strong></p>
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="control-label col-xs-12 col-sm-2" for="mode_output_xsl_method" >#i18n{portal.style.modify_mode.labelMethod}</label>
-						<div class="col-xs-12 col-sm-10">
-							<input type="text" id="mode_output_xsl_method" name="mode_output_xsl_method" value="${mode.outputXslPropertyMethod?html}" class="form-control" maxlength="50">
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="control-label col-xs-12 col-sm-2" for="mode_output_xsl_version" >#i18n{portal.style.modify_mode.labelVersion}</label>
-						<div class="col-xs-12 col-sm-10">
-							<input type="text" id="mode_output_xsl_version" name="mode_output_xsl_version" value="${mode.outputXslPropertyVersion?html}" class="form-control" maxlength="50">
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="control-label col-xs-12 col-sm-2" for="mode_output_xsl_mediatype" >#i18n{portal.style.modify_mode.labelMediaType}</label>
-						<div class="col-xs-12 col-sm-10">
-							<input type="text" id="mode_output_xsl_mediatype" name="mode_output_xsl_mediatype" value="${mode.outputXslPropertyMediaType?html}" class="form-control" maxlength="50">
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="control-label col-xs-12 col-sm-2" for="mode_output_xsl_encoding" >#i18n{portal.style.modify_mode.labelEncoding}</label>
-						<div class="col-xs-12 col-sm-10">
-							<input type="text" id="mode_output_xsl_encoding" name="mode_output_xsl_encoding" value="${mode.outputXslPropertyEncoding?html}" class="form-control" maxlength="50">
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="control-label col-xs-12 col-sm-2" for="mode_output_xsl_indent" >#i18n{portal.style.modify_mode.labelIndent}</label>
-						<div class="col-xs-12 col-sm-10">
-							<input type="text" id="mode_output_xsl_indent" name="mode_output_xsl_indent" value="${mode.outputXslPropertyIndent?html}" class="form-control" maxlength="50">
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="control-label col-xs-12 col-sm-2" for="mode_output_xsl_omitxmldeclaration" >#i18n{portal.style.modify_mode.labelOmitXmlDeclaration}</label>
-						<div class="col-xs-12 col-sm-10">
-							<input type="text" id="mode_output_xsl_omitxmldeclaration" name="mode_output_xsl_omitxmldeclaration" value="${mode.outputXslPropertyOmitXmlDeclaration?html}" class="form-control" maxlength="50">
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="control-label col-xs-12 col-sm-2" for="mode_output_xsl_standalone" >#i18n{portal.style.modify_mode.labelStandalone}</label>
-						<div class="col-xs-12 col-sm-10">
-							<input type="text" id="mode_output_xsl_standalone" name="mode_output_xsl_standalone" value="${mode.outputXslPropertyStandalone?html}" class="form-control" maxlength="50">
-						</div>
-					</div>
-					<div class="form-group">
-						 <div class="col-xs-12 col-md-offset-2 col-sm-10">
-							<button class="btn btn-primary btn-flat" type="submit" >
-								<i class="fa fa-check"></i> #i18n{portal.style.modify_mode.buttonLabelValidate}
-							</button>
-							<a class="btn btn-default btn-flat" href="jsp/admin/style/ManageModes.jsp" >
-								<i class="fa fa-remove"></i> #i18n{portal.util.labelCancel}
-							</a>
-						</div>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
-</div>
+<@row>
+	<@columns>
+		<@box color='info'>
+			<@boxHeader title='#i18n{portal.style.modify_mode.boxTitle} <small>${mode.description}</small>' />
+			<@boxBody>
+				<@tform method='post' action='jsp/admin/style/DoModifyMode.jsp' name='modify_mode'>
+					<input type="hidden" name="mode_id" value="${mode.id}">
+					<@formGroup labelKey='#i18n{portal.style.modify_mode.labelId}' mandatory=true>
+						<@staticText>${mode.id}</@staticText>
+					</@formGroup>
+					<@formGroup labelKey='#i18n{portal.style.modify_mode.labelDescription}' labelFor='mode_description'>
+						<@input type='text' name='mode_description' id='mode_description' value='${mode.description?html}' maxlength=50 />
+					</@formGroup>
+					<@formGroup labelKey='#i18n{portal.style.modify_mode.labelXslPath}' labelFor='xsl_path'>
+						<@input type='text' name='xsl_path' id='xsl_path' value='${mode.path}' disabled=true />
+					</@formGroup>
+					<fieldset>
+					<legend>#i18n{portal.style.modify_mode.xslParameterValues}</legend>
+					<@formGroup labelKey='#i18n{portal.style.modify_mode.labelMethod}' labelFor='mode_output_xsl_method'>
+						<@input type='text' name='mode_output_xsl_method' id='mode_output_xsl_method' value='${mode.outputXslPropertyMethod?html}' maxlength=50 />
+					</@formGroup>
+					<@formGroup labelKey='#i18n{portal.style.modify_mode.labelVersion}' labelFor='mode_output_xsl_method'>
+						<@input type='text' name='mode_output_xsl_version' id='mode_output_xsl_version' value='${mode.outputXslPropertyVersion?html}' maxlength=50 />
+					</@formGroup>
+					<@formGroup labelKey='#i18n{portal.style.modify_mode.labelMediaType}' labelFor='mode_output_xsl_mediatype'>
+						<@input type='text' name='mode_output_xsl_mediatype' id='mode_output_xsl_mediatype' value='${mode.outputXslPropertyMediaType?html}' maxlength=50 />
+					</@formGroup>
+					<@formGroup labelKey='#i18n{portal.style.modify_mode.labelEncoding}' labelFor='mode_output_xsl_encoding'>
+						<@input type='text' name='mode_output_xsl_encoding' id='mode_output_xsl_encoding' value='${mode.outputXslPropertyEncoding?html}' maxlength=50 />
+					</@formGroup>
+					<@formGroup labelKey='#i18n{portal.style.modify_mode.labelIndent}' labelFor='mode_output_xsl_encoding'>
+						<@input type='text' name='mode_output_xsl_indent' id='mode_output_xsl_indent' value='${mode.outputXslPropertyIndent?html}' maxlength=50 />
+					</@formGroup>
+					<@formGroup labelKey='#i18n{portal.style.modify_mode.labelOmitXmlDeclaration}' labelFor='mode_output_xsl_omitxmldeclaration'>
+						<@input type='text' name='mode_output_xsl_omitxmldeclaration' id='mode_output_xsl_omitxmldeclaration' value='${mode.outputXslPropertyOmitXmlDeclaration?html}' maxlength=50 />
+					</@formGroup>
+					<@formGroup labelKey='#i18n{portal.style.modify_mode.labelStandalone}' labelFor='mode_output_xsl_standalone'>
+						<@input type='text' name='mode_output_xsl_standalone' id='mode_output_xsl_standalone' value='${mode.outputXslPropertyStandalone?html}' maxlength=50 />
+					</@formGroup>
+					</fieldset>
+					
+					<@formGroup>
+						<@button type='submit' buttonIcon='check' title='#i18n{portal.style.modify_mode.buttonLabelValidate}'  size='' />
+						<@aButton href='jsp/admin/style/ManageModes.jsp' buttonIcon='times' title='#i18n{portal.util.labelCancel}'  size='' color='btn-secondary' />
+					</@formGroup>
+				</@tform>
+			</@boxBody>
+        </@box>
+    </@columns>
+</@row>

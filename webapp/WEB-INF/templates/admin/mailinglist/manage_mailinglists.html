@@ -18,61 +18,49 @@
 </#if>
 <#return sortSearchAttribute + "&amp;session=sesssion" />
 </#function>
-<div class="row">
-    <div class="col-xs-12 col-sm-12 col-md-12">
-        <div class="box box-success">
-            <div class="box-header">
-                <h3 class="box-title hidden-xs">#i18n{portal.mailinglist.manage_mailinglists.boxTitle}</h3>
-                <div class="box-tools">
-                    <form class="form-inline pull-right spaced" role="form" method="post"  action="jsp/admin/mailinglist/CreateMailingList.jsp">
-                      <button class="btn btn-primary btn-xs btn-flat" type="submit" title="#i18n{portal.mailinglist.manage_mailinglists.buttonLabelCreate}">
-                        <i class="fa fa-plus" ></i>
-                        <span class="hidden-xs">#i18n{portal.mailinglist.manage_mailinglists.buttonLabelCreate}</span>
-                      </button>
-                    </form>
-                    <form class="form-inline pull-right" role="form" method="post" name="search_mailinglist" action="jsp/admin/mailinglist/ManageMailingLists.jsp" >
-                      <label for="name" class="hidden-xs">#i18n{portal.mailinglist.manage_mailinglists.labelName}</label>
-                      <div class="input-group">
-                        <input type="text" class="form-control input-xs" id="name" name="name" value="${mailinglistFilter.name!}" maxlength="100">
-                        <span class="input-group-btn">
-                          <button class="btn btn-primary btn-xs btn-flat" type="submit" title="#i18n{portal.mailinglist.manage_mailinglists.buttonSearch}">
-                            <i class="fa fa-search"></i> <span class="hidden-xs"> #i18n{portal.mailinglist.manage_mailinglists.buttonSearch}</span>
-                          </button>
-                        </span>
-                      </div>
-                    </form>
-                </div>
-            </div>
-            <div class="box-body table-responsive">
-                <#assign sortSearchAttribute = buildSortSearchAttribute( mailinglistFilter! ) />
-                <table class="table table-hover table-striped">
-                  <tr>
-                    <th>#i18n{portal.mailinglist.manage_mailinglists.columnTitleName} <@sort jsp_url="jsp/admin/mailinglist/ManageMailingLists.jsp" attribute="name${sortSearchAttribute!}" /> </th>
-                    <th class="hidden-xs">#i18n{portal.mailinglist.manage_mailinglists.columnTitleDescription} <@sort jsp_url="jsp/admin/mailinglist/ManageMailingLists.jsp" attribute="description${sortSearchAttribute!}" /></th>
-                    <th class="hidden-xs">#i18n{portal.mailinglist.manage_mailinglists.columnTitleWorkgroup}</th>
-                    <th>#i18n{portal.mailinglist.manage_mailinglists.columnTitleActions}</th>
-                  </tr>
-                  <#list mailinglists_list as mailinglist>
-                  <tr>
-                    <td>${mailinglist.name}</td>
-                    <td class="hidden-xs">${mailinglist.description}</td>
-                    <td class="hidden-xs">${mailinglist.workgroup}</td>
-                    <td>
-                      <a class="btn btn-primary btn-xs btn-flat" href="jsp/admin/mailinglist/ModifyMailingList.jsp?id_mailinglist=${mailinglist.id}" title="#i18n{portal.mailinglist.modify_mailinglist.buttonModify} (${mailinglist.name?html})">
-                        <i class="fa fa-pencil"></i>
-                      </a>
-                      <a class="btn btn-primary btn-xs btn-flat" href="jsp/admin/mailinglist/ViewUsers.jsp?id_mailinglist=${mailinglist.id}" title="#i18n{portal.mailinglist.modify_mailinglist.linkLabelViewUsers} (${mailinglist.name?html})">
-                        <i class="fa fa-user"></i>
-                      </a>
-                      <a class="btn btn-danger btn-xs btn-flat" href="jsp/admin/mailinglist/RemoveMailingList.jsp?id_mailinglist=${mailinglist.id}" title="#i18n{portal.mailinglist.modify_mailinglist.linkLabelRemove} (${mailinglist.name?html})">
-                        <i class="fa fa-trash"></i>
-                      </a>
-                    </td>
-                  </tr>
-                  </#list>
-                </table>
-                <@paginationAdmin paginator=paginator combo=1 />
-            </div>
-        </div>
-    </div>
-</div>
+
+<@row>
+	<@columns>
+		<@box color='success'>
+			<@boxHeader title='#i18n{portal.mailinglist.manage_mailinglists.boxTitle}' boxTools=true>
+				<@tform class='form-inline pull-right spaced' method='post' action='jsp/admin/mailinglist/CreateMailingList.jsp'>
+					<@button type='submit' buttonIcon='plus' title='#i18n{portal.mailinglist.manage_mailinglists.buttonLabelCreate}' size='' showTitleXs=false />
+				</@tform>
+				<@tform class='form-inline pull-right spaced' method='post' name='search_mailinglist' action='jsp/admin/mailinglist/ManageMailingLists.jsp'>
+					<@formGroup labelKey='#i18n{portal.mailinglist.manage_mailinglists.labelName}' labelFor='name' formStyle='inline'>
+						<@inputGroup>
+							<@input type='text' id='name' name='name' value='${mailinglistFilter.name!}' maxlength=100 />
+							<@inputGroupItem>
+								<@button type='submit' buttonIcon='search' title='#i18n{portal.mailinglist.manage_mailinglists.buttonSearch}' showTitle=false size=''/>
+							</@inputGroupItem>
+						</@inputGroup>
+					</@formGroup>
+				</@tform>
+			</@boxHeader>
+			<@boxBody>
+				<#assign sortSearchAttribute = buildSortSearchAttribute( mailinglistFilter! ) />
+				<@table>
+					<tr>
+						<th>#i18n{portal.mailinglist.manage_mailinglists.columnTitleName} <@sort jsp_url="jsp/admin/mailinglist/ManageMailingLists.jsp" attribute="name${sortSearchAttribute!}" /> </th>
+						<th class="hidden-xs">#i18n{portal.mailinglist.manage_mailinglists.columnTitleDescription} <@sort jsp_url="jsp/admin/mailinglist/ManageMailingLists.jsp" attribute="description${sortSearchAttribute!}" /></th>
+						<th class="hidden-xs">#i18n{portal.mailinglist.manage_mailinglists.columnTitleWorkgroup}</th>
+            <th>#i18n{portal.mailinglist.manage_mailinglists.columnTitleActions}</th>
+					</tr>
+					<#list mailinglists_list as mailinglist>
+					<tr>
+						<td>${mailinglist.name}</td>
+						<td class="hidden-xs">${mailinglist.description}</td>
+						<td class="hidden-xs">${mailinglist.workgroup}</td>
+						<td>
+							<@aButton href='jsp/admin/mailinglist/ModifyMailingList.jsp?id_mailinglist=${mailinglist.id}' buttonIcon='edit' title='#i18n{portal.mailinglist.modify_mailinglist.buttonModify} (${mailinglist.name?html})' showTitle=false />
+							<@aButton href='jsp/admin/mailinglist/ViewUsers.jsp?id_mailinglist=${mailinglist.id}' buttonIcon='user' title='#i18n{portal.mailinglist.modify_mailinglist.linkLabelViewUsers} (${mailinglist.name?html})' showTitle=false />
+							<@aButton href='jsp/admin/mailinglist/RemoveMailingList.jsp?id_mailinglist=${mailinglist.id}' buttonIcon='trash' title='#i18n{portal.mailinglist.modify_mailinglist.linkLabelRemove} (${mailinglist.name?html})' showTitle=false color='btn-danger' />
+						</td>
+					</tr>
+				</#list>
+				</@table>
+				<@paginationAdmin paginator=paginator combo=1 />
+			</@boxBody>
+		</@box>
+	</@columns>
+</@row>

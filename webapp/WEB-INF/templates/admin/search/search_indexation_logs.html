@@ -1,17 +1,11 @@
-<div class="row">
-  <div class="col-xs-12 col-sm-12 col-md-12">
-    <div class="box box-danger">
-      <div class="box-header">
-        <h3 class="box-title">#i18n{portal.search.indexer_logs.titleIndexerLogs}</h3>
-      </div>
-      <div class="box-body">
-        <div class="jumbotron">
-          <pre class="">${logs}</pre>
-          <button class="btn btn-default" type="button" onclick="javascript:window.history.back();">
-            <span class="fa fa-remove"></span> #i18n{portal.util.labelBack}
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+<@row>
+	<@columns>
+		<@box color='danger'>
+			<@boxHeader title='#i18n{portal.search.indexer_logs.titleIndexerLogs}' />
+			<@boxBody>
+				<pre class="">${logs}</pre>
+				<@button type='button' buttonIcon='times' title='#i18n{portal.util.labelBack}'  size='' color='btn-secondary' params='onclick="javascript:window.history.back();"' />
+			</@boxBody>
+		</@box>
+	</@columns>
+</@row>

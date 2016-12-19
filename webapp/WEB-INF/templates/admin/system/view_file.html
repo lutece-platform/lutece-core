@@ -1,19 +1,14 @@
-<div class="row">
-	<div class="col-md-12">
-		<div class="box box-danger">
-			<div class="box-header">
-				<h3 class="box-title">
-					#i18n{portal.system.view_file.boxTitle}  
-					<a class="btn btn-primary btn-xs btn-flat" href="jsp/admin/system/ManageFilesSytemDir.jsp?dir=${files_system_directory}">
-						${files_system_directory}
-					</a>
-				</h3>
-			</div><!-- /.box-header -->
-			<div class="box-body">
+<@row>
+	<@columns>
+		<@box color='danger'>
+			<#assign path>
+				<@aButton href='jsp/admin/system/ManageFilesSytemDir.jsp?dir=${files_system_directory}'  title='${files_system_directory}' />
+			</#assign>
+      <@boxHeader title='#i18n{portal.system.view_file.boxTitle} ${path}' />
+			<@boxBody>
 				<p><strong>#i18n{portal.system.view_file.labelFile} </strong>&nbsp;&nbsp;${file_system_name}</p>
 				<pre>${file_system_data?html}</pre>
-			</div>
-		</div>
-    </div>
-</div>
-
+			</@boxBody>
+		</@box>
+	</@columns>
+</@row>

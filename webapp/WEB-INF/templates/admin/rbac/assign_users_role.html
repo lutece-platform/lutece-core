@@ -1,33 +1,20 @@
-<div class="row">
-	<div class="col-xs-12 col-sm-12 col-md-12">
-		<div class="box box-success">
-			<div class="box-header">
-				<h3 class="box-title">
-					#i18n{portal.rbac.assign_users.role.name} :<strong title="#i18n{portal.rbac.assign_users.role.description} : ${role.description} "> ${role.key}</strong>
-					<small class="spaced"><i class="glyphicon glyphicon-user"></i>&nbsp;#i18n{portal.rbac.assign_users.role.number_user} : <span class="badge">${assigned_users_number}</span></small>
-
-				</h3>
-				<div class="box-tools">
-					<span class="pull-right">
-						<a class="btn btn-primary btn-xs btn-flat" href="jsp/admin/rbac/ViewRoleDescription.jsp?role_key=${role.key}" title="#i18n{portal.rbac.modify_role.buttonLabelModify}" >
-							<i class="glyphicon glyphicon-edit"></i><span class="hidden-xs"> #i18n{portal.rbac.modify_role.buttonLabelModify}</span>
-						</a>
-						<a class="btn btn-danger btn-xs btn-flat" href="jsp/admin/rbac/DoConfirmRemoveRole.jsp?role_key=${role.key}" title="#i18n{portal.rbac.manage_roles.buttonLabelDelete}" >
-							<i class="glyphicon glyphicon-trash"></i><span class="hidden-xs">#i18n{portal.rbac.manage_roles.buttonLabelDelete}</span>
-						</a>
-					</span>
-					<small class="pull-left" style="color:#000;"><@item_navigation item_navigator=item_navigator /></small>
-
-				</div>
-			</div>
-			<div class="box-body">
+<@row>
+	<@columns>
+    <@box color='success' collapsed=true>
+			<@boxHeader title='#i18n{portal.rbac.assign_users.role.name} :<strong title="#i18n{portal.rbac.assign_users.role.description} : ${role.description} "> ${role.key}</strong> <small class="spaced"><i class="glyphicon glyphicon-user"></i>&nbsp;#i18n{portal.rbac.assign_users.role.number_user} : <span class="badge">${assigned_users_number}</span></small>' boxTools=true>
+				<@aButton href='jsp/admin/rbac/ViewRoleDescription.jsp?role_key=${role.key}" title="#i18n{portal.rbac.modify_role.buttonLabelModify}' title='#i18n{portal.rbac.modify_role.buttonLabelModify}' buttonIcon='edit' size='' />
+				<@aButton href='jsp/admin/rbac/DoConfirmRemoveRole.jsp?role_key=${role.key}' title='#i18n{portal.rbac.manage_roles.buttonLabelDelete}' buttonIcon='trash' color='btn-danger' size='' />
+				<@item_navigation item_navigator=item_navigator />
+				<@button style='btn-box-tool' params='data-widget="collapse"' buttonIcon='plus' />
+			</@boxHeader>
+			<@boxBody>
 				<#if assigned_users_list?size &gt; 0 || search_is_search >
-					<form class="form-inline" method="post" name="search_users" action="jsp/admin/rbac/AssignUsersRole.jsp">
+					<@tform method='post' name='search_users' action='jsp/admin/rbac/AssignUsersRole.jsp'>
 						<input type="hidden" name="role_key" value="${role.key}">
 						<#if (user_levels?has_content)>
-							<label for="user_level">#i18n{portal.users.manage_users.search_users.userLevelLabel} </label>
-							<select id="user_level" name="search_user_level" class="form-control input-xs">
-								<#if (search_admin_user_filter.userLevel > -1) >
+							<@formGroup labelKey='#i18n{portal.users.manage_users.search_users.userLevelLabel}' labelFor='user_level'>
+								<@select id='user_level' name='search_user_level'>
+									<#if (search_admin_user_filter.userLevel > -1) >
 									<option value="noValue" >#i18n{portal.users.manage_users.search_users.labelAllLevels}</option>
 									<#list user_levels as user_level>
 										<#if (search_admin_user_filter.userLevel == user_level.id) >
@@ -42,17 +29,21 @@
 										<option value="${user_level.id}" >${user_level.name}</option>
 									</#list>
 								</#if>
-							</select>
+								</@select>
+							</@formGroup>
 						</#if>
-						<label for="access_code">#i18n{portal.users.manage_users.search_users.labelAccessCode}</label>
-						<input type="text" id="access_code" name="search_access_code" value="${search_admin_user_filter.accessCode}" class="form-control input-xs">
-						<label for="last_name" >#i18n{portal.users.manage_users.search_users.labelLastName} </label>
-						<input type="text"  id="last_name" name="search_last_name" value="${search_admin_user_filter.lastName}" maxlength="100" class="form-control input-xs" />
-						<label for="email">#i18n{portal.users.manage_users.search_users.labelEmail}</label>
-						<input type="text" id="email" name="search_email" value="${search_admin_user_filter.email}" maxlength="100" class="form-control input-xs" />
-						<label for="status">#i18n{portal.users.manage_users.search_users.labelStatus}</label>
-						<select id="status" name="search_status" class="form-control input-xs">
-							<#switch search_admin_user_filter.status >
+						<@formGroup labelKey='#i18n{portal.users.manage_users.search_users.labelAccessCode}' labelFor='access_code'>
+							<@input type='text' id='access_code' name='search_access_code' value='${search_admin_user_filter.accessCode}' />
+						</@formGroup>
+						<@formGroup labelKey='#i18n{portal.users.manage_users.search_users.labelLastName}' labelFor='last_name'>
+							<@input type='text' id='last_name' name='search_last_name' value='${search_admin_user_filter.lastName}' maxlength=100 />
+						</@formGroup>
+						<@formGroup labelKey='#i18n{portal.users.manage_users.search_users.labelEmail}' labelFor='email'>
+							<@input type='email' id='email' name='search_email' value='${search_admin_user_filter.email}' maxlength=100 />
+						</@formGroup>
+						<@formGroup labelKey='#i18n{portal.users.manage_users.search_users.labelStatus}' labelFor='status'>
+							<@select id='status' name='search_status'>
+								<#switch search_admin_user_filter.status >
 								<#case 0 >
 									<option value="noValue" >#i18n{portal.users.manage_users.search_users.labelAllStatus}</option>
 									<option value="0" selected="selected" >#i18n{portal.users.create_user.statusLabelEnabled}</option>
@@ -68,60 +59,54 @@
 									<option value="0" >#i18n{portal.users.create_user.statusLabelEnabled}</option>
 									<option value="1" >#i18n{portal.users.create_user.statusLabelDisabled}</option>
 								<#break>
-							</#switch>
-						</select>
+								</#switch>
+							</@select>
+						</@formGroup>
 						<#list attributes_list as attribute>
 							<#if attribute.shownInSearch>
 								${attribute.getHtmlFormSearchAttribute( search_admin_user_field_filter, locale )}
 							</#if>
 						</#list>
-						<button class="btn btn-primary btn-xs btn-flat" type="submit" name="search_is_search">
-							<i class="glyphicon glyphicon-search"></i>&nbsp;#i18n{portal.users.manage_users.search_users.buttonSearch}
-						</button>
-					</form>
-					<hr>
+						<@formGroup>
+							<@button type='submit' name='search_is_search' buttonIcon='search' title='#i18n{portal.users.manage_users.search_users.buttonSearch}'  />
+						</@formGroup>
+					</@tform>
 				</#if>
-			</div>
-        </div>
-	</div>
-</div>
-<div class="row">
-	<div class="col-xs-12 col-sm-6 col-md-6">
-        <div class="box">
-			<div class="box-header">
-				<h3 class="box-title">#i18n{portal.rbac.assign_users.labelAvailableUser}</h3>
-				<div class="box-tools pull-right"><@item_navigation item_navigator=item_navigator /></div>
-			</div>
-			<div class="box-body">
+			</@boxBody>
+    </@box>
+  </@columns>
+</@row>
+<@row>
+    <@columns sm=3 md=3 lg=3>
+        <@box color='solid'>
+            <@boxHeader title='#i18n{portal.rbac.assign_users.labelAvailableUser}' />
+			<@boxBody>
 				<#if available_users_list?size &gt; 0 >
-					<form class="form" name="assignUser" method="post" action="jsp/admin/rbac/DoAssignUsersRole.jsp">
+					<@tform name='assignUser' method='post' action='jsp/admin/rbac/DoAssignUsersRole.jsp'>
 						<input type="hidden" name="role_key" value="${role.key}">
-						<@comboWithParamsAndLength name="available_users_list" default_value="" additionalParameters="multiple='multiple' size='10' style='width:100%;'" items=available_users_list max_length=175 /></td>
-						<button class="btn btn-primary btn-flat btn-block" type="submit" >
-							<i class="glyphicon glyphicon-ok"></i>&nbsp;#i18n{portal.rbac.assign_users.labelButtonValidate}
-						</button>
-					</form>
+						<@select name='available_users_list' default_value='' items=available_users_list list=true multiple=15 />
+						<@button style='btn-block' type='submit' buttonIcon='check' title='#i18n{portal.rbac.assign_users.labelButtonValidate}' size=''  />
+					</@tform>
 				<#else>
-						<div class="callout callout-warning"><i class="fa fa-warning"></i>#i18n{portal.rbac.assign_users.noUserToAssign}</div>
+					<@callOut color='warning'>
+						<@icon style='exclamation-triangle' />
+						#i18n{portal.rbac.assign_users.noUserToAssign}
+					</@callOut>
 				</#if>
-			</div>
-		</div>
-	</div>
-	<div class="col-xs-12 col-sm-6 col-md-6">
-        <div class="box">
-			<div class="box-header">
-				<h3 class="box-title">#i18n{portal.rbac.assign_users.labelAssignedUser}</h3>
-				<div class="box-tools pull-right"><@item_navigation item_navigator=item_navigator /></div>
-			</div>
-			<div class="box-body">
+			</@boxBody>
+		</@box>
+	</@columns>
+	<@columns sm=9 md=9 lg=9>
+		<@box color='solid'>
+			<@boxHeader title='#i18n{portal.rbac.assign_users.labelAssignedUser}' />
+			<@boxBody>
 				<#if assigned_users_list?size &gt; 0 || search_is_search >
-					<form method="post" action="jsp/admin/rbac/AssignUsersRole.jsp">
+					<@tform action='jsp/admin/rbac/AssignUsersRole.jsp'>
 						<#if search_is_search >
 							<input type="hidden" name="search_is_search" value="true">
 							<input type="hidden" name="search_user_level" value="${search_admin_user_filter.userLevel}">
 							<input type="hidden" name="search_access_code" value="${search_admin_user_filter.accessCode}">
 							<input type="hidden" name="search_last_name" value="${search_admin_user_filter.lastName}">
-							<input type="hidden" name="search_first_name" value="${search_admin_user_filter.firstName}">
 							<input type="hidden" name="search_email" value="${search_admin_user_filter.email}">
 							<input type="hidden" name="search_status" value="${search_admin_user_filter.status}">
 						</#if>
@@ -135,8 +120,8 @@
 							</#list>
 						</#if>
 						<input type="hidden" name="role_key" value="${role.key}">
-					</form>
-					<table class="table table-hover table-condensed">
+					</@tform>
+					<@table>
 						<tr>
 							<th>#i18n{portal.users.manage_users.columnTitleLastName}<@sort jsp_url="jsp/admin/rbac/AssignUsersRole.jsp" attribute="lastName&role_key=${role.key}${sort_search_attribute}" /></th>
 								<th>#i18n{portal.users.manage_users.columnTitleFirstName}<@sort jsp_url="jsp/admin/rbac/AssignUsersRole.jsp" attribute="firstName&role_key=${role.key}${sort_search_attribute}" /></th>
@@ -155,28 +140,27 @@
 									<td>${assigned_user.firstName}</td>
 									<td><em>${assigned_user.accessCode}</em></td>
 									<td>
-										<a class="btn btn-link" href="mailto:${assigned_user.email}"  title="${assigned_user.email}">${assigned_user.email}</a>							</a>
+										<a href="mailto:${assigned_user.email}" title="${assigned_user.email}">
+											${assigned_user.email}
+										</a>
 									</td>
 									<td>
-										<a class="btn btn-primary btn-xs btn-flat" href="jsp/admin/user/ModifyUser.jsp?id_user=${assigned_user.userId}"  title="#i18n{portal.rbac.assign_users.actionModify}" >
-											<i class="glyphicon glyphicon-edit"></i>
-										</a>
-										<a class="btn btn-danger btn-xs btn-flat" href="jsp/admin/rbac/DoUnassignUserRole.jsp?id_user=${assigned_user.userId}&amp;role_key=${role.key}&anchor=anchor-${anchor}"  title="#i18n{portal.rbac.assign_users.actionUnassign}" >
-											<i class="glyphicon glyphicon-trash"></i>
-										</a>
+										<@aButton href='jsp/admin/user/ModifyUser.jsp?id_user=${assigned_user.userId}' title='#i18n{portal.rbac.assign_users.actionModify}' showTitle=false buttonIcon='edit' />
+										<@aButton href='jsp/admin/rbac/DoUnassignUserRole.jsp?id_user=${assigned_user.userId}&amp;role_key=${role.key}&anchor=anchor-${anchor}' title='#i18n{portal.rbac.assign_users.actionUnassign}' showTitle=false buttonIcon='trash' color='btn-danger' />
 									</td>
 								</tr>
-							</#list>
-						</table>
-						<#if assigned_users_list?size &gt; 8>
-							<@paginationAdmin paginator=paginator combo=1 form=0 />
-						</#if>
-					</div>
-					<#else>
-						<div class="callout callout-warning"><i class="fa fa-warning"></i>#i18n{portal.rbac.assign_users.noAssignedList}</div>
+						</#list>
+					</@table>
+					<#if assigned_users_list?size &gt; 8>
+						<@paginationAdmin paginator=paginator combo=1 form=0 />
 					</#if>
-				</div>
-			</div>
-		</div>
-    </div>
-</div>
+				<#else>
+					<@callOut color='warning'>
+						<@icon style='exclamation-triangle' />
+						#i18n{portal.rbac.assign_users.noAssignedList}
+					</@callOut>
+				</#if>
+			</@boxBody>
+		</@box>
+	</@columns>
+</@row>

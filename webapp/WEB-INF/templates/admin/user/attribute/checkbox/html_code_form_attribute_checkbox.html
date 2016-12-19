@@ -8,42 +8,26 @@
 	</#if>
 	<#return false>
 </#function>
-<div class="form-group">
-	<label class="col-xs-12 col-sm-12 col-md-12">
-		${attribute.title?html}
-	<#if attribute.mandatory>
-		*
-	</#if>
-		: 
-	</label>
-		<div class="col-xs-12 col-sm-12 col-md-12">
+<#if !attribute.mandatory>
+	<#assign mandatory = false>
+<#else>
+	<#assign mandatory = true>
+</#if>
+<#if attribute.helpMessage?exists&&attribute.helpMessage!=''>
+	<#assign helpKey = attribute.helpMessage>
+</#if>
+	
+<@formGroup labelKey='${attribute.title?html}' mandatory=mandatory rows=2>
 	<#list attribute.listAttributeFields as attributeField>
 		<#if attributeField.title?exists && attributeField.value != "">
-	<#if attribute.fieldInLine>
-			<label class="checkbox-inline">
-	</#if>
-			<#if !attribute.fieldInLine>
-					<div class="checkbox">
-						<label>
-			</#if>
-							<input type="checkbox" name="attribute_${attribute.idAttribute}" value="${attributeField.idField}"
-				<#if attributeField.defaultValue >
-					checked="checked"
-				</#if>
-			/> ${attributeField.title}
-			
-			<#if !attribute.fieldInLine>
-						</label>
-					</div>
-			</#if>
 			<#if attribute.fieldInLine>
-			</label>
+				<#assign orientation = 'horizontal'>
 			</#if>
+			<#if attributeField.defaultValue >
+				<#assign checked = true>
+			</#if>
+			
+			<@checkBox name='attribute_${attribute.idAttribute}' value='${attributeField.idField}' checked=checked labelKey='${attributeField.title}' orientation=orientation />
 		</#if>
 	</#list>
-
-	<#if attribute.helpMessage?exists&&attribute.helpMessage!=''>
-		<span class="help-block">${attribute.helpMessage}</span>
-	</#if>
-	</div>
-</div>
+</@formGroup>

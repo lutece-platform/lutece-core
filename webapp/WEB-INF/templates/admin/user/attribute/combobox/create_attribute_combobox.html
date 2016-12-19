@@ -1,82 +1,37 @@
-<div class="row">
-	<div class="col-xs-12 col-sm-12 col-md-12">
-		<div class="box box-success">
-			<div class="box-header">
-				<h3 class="box-title">#i18n{portal.users.create_attribute.pageTitleAttributeComboBox}</h3>
-			</div>
-			<div class="box-body">
-				<form class="form-horizontal" action="jsp/admin/user/attribute/DoCreateAttribute.jsp" method="post">
-					<div class="form-group">
-						<label class="control-label col-xs-12 col-sm-3 col-md-3" for="attr_title">#i18n{portal.users.create_attribute.labelTitle} * </label>
-						<div class="col-xs-12 col-sm-9 col-md-9">
-							<input type="text" class="form-control input-sm" name="title" id="attr_title" size="80" value=""  maxlength="255">
-							<span class="help-block">#i18n{portal.users.create_attribute.labelTitleComment}</span>
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="control-label col-xs-12 col-sm-3 col-md-3" for="help_message"> #i18n{portal.users.create_attribute.labelHelpMessage} </label>
-						<div class="col-xs-12 col-sm-9 col-md-9">
-							<textarea name="help_message" class="form-control input-sm" id="help_message" cols="80" rows="5"></textarea>
-							<span class="help-block">#i18n{portal.users.create_attribute.labelHelpMessageComment}</span>
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="control-label col-xs-12 col-sm-3 col-md-3"></label>
-						<div class="col-xs-12 col-sm-9 col-md-9">
-							<div class="checkbox">
-								<label>
-									<input name="is_shown_in_search" value="1" type="checkbox">&nbsp;#i18n{portal.users.create_attribute.labelIsShownInSearch}
-								</label>
-							</div>
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="control-label col-xs-12 col-sm-3 col-md-3"></label>
-						<div class="col-xs-12 col-sm-9 col-md-9">
-							<div class="checkbox">
-								<label>
-								<input name="is_shown_in_result_list" value="1" type="checkbox">&nbsp;#i18n{portal.users.create_attribute.labelIsShownInResultList}
-								</label>
-							</div>
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="control-label col-xs-12 col-sm-3 col-md-3"></label>
-						<div class="col-xs-12 col-sm-9 col-md-9">
-							<div class="checkbox">
-								<label>
-									<input name="mandatory" value="1" type="checkbox">&nbsp;#i18n{portal.users.create_attribute.labelMandatory}
-								</label>
-							</div>
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="control-label col-xs-12 col-sm-3 col-md-3"></label>
-						<div class="col-xs-12 col-sm-9 col-md-9">
-							<div class="checkbox">
-								<label>
-								<input name="multiple" value="1" type="checkbox">&nbsp;#i18n{portal.users.create_attribute.labelMultiple}
-								</label>
-							</div>
-							<span class="help-block">#i18n{portal.users.create_attribute.labelMultipleComment}</span>
-						</div>
-					</div>
-					<div class="form-group">
-						<div class="col-xs-12 col-sm-offset-3 col-sm-9 col-md-offset-3 col-md-9">
-							<input name="attribute_type_class_name" value="${attribute_type.className}" type="hidden"> 
-							<button class="btn btn-primary btn-flat" type="submit" name="validate" value="validate" >
-								<i class="glyphicon glyphicon-ok"></i>&nbsp;#i18n{portal.users.create_attribute.buttonValidate}
-							</button>
-							<button class="btn btn-primary btn-flat" type="submit" name="apply" value="apply" >
-								<i class="glyphicon glyphicon-ok-circle"></i>&nbsp;#i18n{portal.users.create_attribute.buttonApply}
-							</button>
-							<button class="btn btn-default btn-flat" type="submit" name="cancel" value="cancel" >
-								<i class="glyphicon glyphicon-remove-circle"></i>&nbsp;#i18n{portal.admin.message.buttonCancel}
-							</button>
-						</div>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
-</div>
+<@row>
+	<@columns>
+    <@box color='success'>
+      <@boxHeader title='#i18n{portal.users.create_attribute.pageTitleAttributeComboBox}' />
+		<@boxBody>
+				<@tform action='jsp/admin/user/attribute/DoCreateAttribute.jsp' method='post'>
+					<@formGroup labelKey='#i18n{portal.users.create_attribute.labelTitle} *' labelFor='attr_title' helpKey='#i18n{portal.users.create_attribute.labelTitleComment}'  mandatory=true>
+						<@input type='text' name='title' id='attr_title' maxlength=255 inputSize=80 />	
+					</@formGroup>
+					<@formGroup labelKey='#i18n{portal.users.modify_attribute.labelHelpMessage}' labelFor='help_message' helpKey='#i18n{portal.users.modify_attribute.labelHelpMessageComment}'>
+						<@input type='textarea' name='help_message' id='help_message' cols=80 rows=5 />
+					</@formGroup>
+					<@formGroup>
+						<@checkBox labelKey='#i18n{portal.users.create_attribute.labelIsShownInSearch}' name='is_shown_in_search' value='1' />
+					</@formGroup>
+					<@formGroup>
+						<@checkBox labelKey='#i18n{portal.users.create_attribute.labelIsShownInResultList}' name='is_shown_in_result_list' value='1' />
+					</@formGroup>
+					<@formGroup>
+						<@checkBox labelKey='#i18n{portal.users.create_attribute.labelMandatory}' name='mandatory' value='1' />
+					</@formGroup>
+					<@formGroup helpKey='#i18n{portal.users.create_attribute.labelMultipleComment}'>
+						<@checkBox labelKey='#i18n{portal.users.create_attribute.labelMultiple}' name='multiple' value='1' />
+					</@formGroup>
+					<@formGroup>
+						<input name="attribute_type_class_name" value="${attribute_type.className}" type="hidden">
+						<@button type='submit' name='validate' value='validate' buttonIcon='check' title='#i18n{portal.users.create_attribute.buttonValidate}'  size='' />
+						
+						<@button type='submit' name='apply' value='apply' buttonIcon='check-circle-o' title='#i18n{portal.users.create_attribute.buttonApply}'  size='' />
+						
+						<@button type='submit' name='cancel' value='cancel' buttonIcon='times' title='#i18n{portal.admin.message.buttonCancel}'  color='btn-secondary' size='' />
+					</@formGroup>
+				</@tform>
+			</@boxBody>
+		</@box>
+	</@columns>
+</@row>

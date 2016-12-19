@@ -1,29 +1,25 @@
-<div class="row">
-	<div class="col-md-12">
-		<div class="box box-danger">
-			<div class="box-header">
-				<h3 class="box-title">#i18n{portal.system.manage_files_system.boxTitle}</h3>
-			</div><!-- /.box-header -->
-			<div class="box-body table-responsive no-padding">
-				<table class="table table-hover table-condensed">
-                    <tr>
-                        <th>#i18n{portal.system.manage_files_system.labelCategory}</th>
-                        <th>#i18n{portal.system.manage_files_system.labelDescription}</th>
-                        <th>#i18n{portal.system.manage_files_system.labelView}</th>
-                    </tr>
-                    <#list files_list as file >
-                    <tr>
-                        <td>${file.name}</td>
-                        <td>${file.description}</td>
-                        <td>
-                            <a href="jsp/admin/system/ManageFilesSytemDir.jsp?dir=${file.directory}" class="btn btn-primary btn-xs btn-flat" title="#i18n{portal.system.files_system.view} ${file.name}">
-                                <i class="glyphicon glyphicon-eye-open"></i>
-                            </a>
-                        </td>
-                    </tr>
-                    </#list>
-				</table>
-			</div>
-		</div>
-    </div>
-</div>
+<@row>
+	<@columns>
+		<@box color='danger'>
+			<@boxHeader title='#i18n{portal.system.manage_files_system.boxTitle}' />
+			<@boxBody>
+				<@table>
+					<tr>
+						<th>#i18n{portal.system.manage_files_system.labelCategory}</th>
+						<th>#i18n{portal.system.manage_files_system.labelDescription}</th>
+						<th>#i18n{portal.system.manage_files_system.labelView}</th>
+					</tr>
+					<#list files_list as file >
+					<tr>
+						<td>${file.name}</td>
+						<td>${file.description}</td>
+						<td>
+							<@aButton href='jsp/admin/system/ManageFilesSytemDir.jsp?dir=${file.directory}' buttonIcon='eye' title='#i18n{portal.system.files_system.view} ${file.name}' showTitle=false />
+            </td>
+					</tr>
+					</#list>
+				</@table>
+			</@boxBody>
+		</@box>
+  </@columns>
+</@row>

@@ -1,60 +1,47 @@
-<div class="row">
-  <div class="col-xs-12 col-sm-12 col-md-12">
-    <div class="box box-success">
-      <div class="box-header">
-        <h3 class="box-title">#i18n{portal.rbac.manage_roles.pageTitle}</h3>
-        <div class="box-tools pull-right">
-          <form class="form-inline" method="post" action="jsp/admin/rbac/CreateRole.jsp">
-            <button class="btn btn-primary btn-xs btn-flat" type="submit">
-              <i class="fa fa-plus"></i>
-              <span class="hidden-xs">#i18n{portal.rbac.manage_roles.buttonLabelNewRole}</span>
-            </button>
-          </form>
-        </div>
-      </div>
-      <!-- /.box-header -->
-      <div class="box-body table-responsive no-padding">
-        <table class="table table-hover table-striped">
-          <thead>
-            <tr>
-              <th>
-                #i18n{portal.rbac.manage_roles.columnTitleKey}
-                <@sort jsp_url="jsp/admin/rbac/ManageRoles.jsp" attribute="key" />
-              </th>
-              <th>
-                #i18n{portal.rbac.manage_roles.columnTitleDescription}
-                <@sort jsp_url="jsp/admin/rbac/ManageRoles.jsp" attribute="description" />
-              </th>
-              <th>#i18n{portal.rbac.manage_roles.columnTitleActions}</th>
-            </tr>
-          </thead>
-          <tbody>
-            <#list role_list as role>
-              <tr>
-                <td>${role.key}
-                </td>
-                <td>${role.description}</td>
-                <td>
-                  <a class="btn btn-primary btn-xs btn-flat" href="jsp/admin/rbac/ViewRoleDescription.jsp?role_key=${role.key}" title="#i18n{portal.rbac.view_role_description.labelDescription} (${role.description})">
-                    <i class="fa fa-pencil"></i>
-                  </a>
-                  <a class="btn btn-primary btn-xs btn-flat" href="jsp/admin/rbac/AssignUsersRole.jsp?role_key=${role.key}" title="#i18n{portal.rbac.manage_roles.buttonLabelAssignUsers} (${role.description})">
-                    <i class="fa fa-user"></i>
-                  </a>
-
-                  <a class="btn btn-danger btn-xs btn-flat" href="jsp/admin/rbac/DoConfirmRemoveRole.jsp?role_key=${role.key}" title="#i18n{portal.rbac.manage_roles.buttonLabelDelete} (${role.description})">
-                    <i class="fa fa-trash"></i>
-                  </a>
-
-                </td>
-              </tr>
-            </#list>
-          </tbody>
-        </table>
-      </div>
-      <div class="box-header">
-        <@paginationAdmin paginator=paginator combo=1 />
-      </div>
-    </div>
-  </div>
-</div>
+<@row>
+	<@columns>
+    <@box color='success'>
+      <@boxHeader title='#i18n{portal.rbac.manage_roles.pageTitle}' boxTools=true>
+				<@tform class='form-inline' method='post' action='jsp/admin/rbac/CreateRole.jsp'>
+					<@button type='submit' buttonIcon='plus' title='#i18n{portal.rbac.manage_roles.buttonLabelNewRole}' size='' showTitleXs=false showTitleSm=false />
+				</@tform>
+			</@boxHeader>
+      <@boxBody>
+				<@table>
+					<thead>
+						<tr>
+						  <th>
+							#i18n{portal.rbac.manage_roles.columnTitleKey}
+							<@sort jsp_url="jsp/admin/rbac/ManageRoles.jsp" attribute="key" />
+						  </th>
+						  <th>
+							#i18n{portal.rbac.manage_roles.columnTitleDescription}
+							<@sort jsp_url="jsp/admin/rbac/ManageRoles.jsp" attribute="description" />
+						  </th>
+						  <th>#i18n{portal.rbac.manage_roles.columnTitleActions}</th>
+						</tr>
+					</thead>
+					<tbody>
+						<#list role_list as role>
+						  <tr>
+							<td>${role.key}
+							</td>
+							<td>${role.description}</td>
+							<td>
+								<@aButton href='jsp/admin/rbac/ViewRoleDescription.jsp?role_key=${role.key}' title='#i18n{portal.rbac.view_role_description.labelDescription} (${role.description})' buttonIcon='pencil' showTitle=false/>
+								
+								<@aButton href='jsp/admin/rbac/AssignUsersRole.jsp?role_key=${role.key}' title='#i18n{portal.rbac.manage_roles.buttonLabelAssignUsers} (${role.description})' buttonIcon='user' showTitle=false/>
+								
+								<@aButton color='btn-danger' href='jsp/admin/rbac/DoConfirmRemoveRole.jsp?role_key=${role.key}' title='#i18n{portal.rbac.manage_roles.buttonLabelDelete} (${role.description})' buttonIcon='trash' showTitle=false/>
+							</td>
+						  </tr>
+						</#list>
+					</tbody>
+				</@table>
+				<@boxHeader boxTools=true>
+					<@paginationAdmin paginator=paginator combo=1 />
+				</@boxHeader>
+			</@boxBody>
+    </@box>
+  </@columns>
+</@row>

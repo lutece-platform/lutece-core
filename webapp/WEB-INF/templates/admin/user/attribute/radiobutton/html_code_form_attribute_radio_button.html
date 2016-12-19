@@ -18,65 +18,39 @@
 	</#if>
 	<#return false>
 </#function>
-<div class="form-group">
-	<label class="col-xs-12 col-sm-12 col-md-12">
-		${attribute.title?html}
-	<#if attribute.mandatory>
-		*
+<#if attribute.mandatory>
+	<#assign mandatory = true>
+<#else>
+	<#assign mandatory = false>
+</#if>
+<#if attribute.helpMessage?exists&&attribute.helpMessage!=''>
+	<#assign helpKey = attribute.helpMessage>
+</#if>
+
+<@formGroup labelKey='${attribute.title?html}' rows=2 helpKey=helpKey mandatory=mandatory>
+	<#if attribute.fieldInLine>
+		<#assign orientation = 'horizontal'>
+	<#else>
+		<#assign orientation = 'vertical'>
 	</#if>
-		: 
-	</label>
 	
-	
-	<div class="col-xs-12 col-sm-12 col-md-12">
-		
 	<#if !attribute.mandatory>
-		<#if !attribute.fieldInLine >
-			<div class="radio">
-			<label>
+		<#if default_values_list?has_content && !hasElement( default_values_list )>
+			<#assign checked = true>
+		<#else>
+			<#assign checked = false>
 		</#if>
-		<#if attribute.fieldInLine >
-			<label class="radio-inline">
-		</#if>
-			<input type="radio" name="attribute_${attribute.idAttribute}" value="" 
-			<#if default_values_list?has_content && !hasElement( default_values_list )>
-				checked="checked"
-			</#if>
-		/> #i18n{portal.users.attribute.labelNone}
-		<#if !attribute.fieldInLine >
-			</label>
-			</div>
-		</#if>
-		<#if attribute.fieldInLine >
-			</label>
-		</#if>
+		<@radioButton name='attribute_${attribute.idAttribute}' value='' checked=checked labelKey='#i18n{portal.users.attribute.labelNone}' orientation=orientation />
 	</#if>
 	
 	<#list attribute.listAttributeFields as attributeField>
 		<#if attributeField.title?exists && attributeField.value != "">
-			<#if !attribute.fieldInLine >
-			<div class="radio">
-			<label>
+			<#if attributeField.defaultValue>
+				<#assign checked = true>
+			<#else>
+				<#assign checked = false>
 			</#if>
-			<#if attribute.fieldInLine >
-			<label class="radio-inline">
-			</#if>
-				<input type="radio" name="attribute_${attribute.idAttribute}" value="${attributeField.idField}" 
-					<#if attributeField.defaultValue >
-						checked="checked"
-					</#if>
-				/> ${attributeField.title}
-			<#if !attribute.fieldInLine >
-			</label>
-			</div>
-			</#if>
-			<#if attribute.fieldInLine >
-			</label>
-			</#if>
+			<@radioButton name='attribute_${attribute.idAttribute}' value='${attributeField.idField}' checked=checked labelKey='${attributeField.title}' orientation=orientation />
 		</#if>
 	</#list>
-	<#if attribute.helpMessage?exists&&attribute.helpMessage!=''>
-		<span class="help-block">${attribute.helpMessage}</span>
-	</#if>
-</div>
-</div>
+</@formGroup>

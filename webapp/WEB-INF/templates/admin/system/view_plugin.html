@@ -1,129 +1,117 @@
-<div class="row">
-    <div class="col-md-12">    
-         <div class="box box-danger">
-			<div class="box-header">
-				<div class="box-title">
-					<a href="jsp/admin/system/ManagePlugins.jsp#${name}" title="${name}" >
-						<img src="${iconUrl}" alt="" title="" class="thumbnails thumb-list"> #i18n{portal.system.view_plugin.boxTitlePluginDetail} "${name}"
-					</a>
-				</div>
-			</div><!-- /.box-header -->
-			<div class="box-body">
-                <p>#i18n{portal.system.view_plugin.labelVersion} ${version}</p>
-                <p>#i18n{portal.system.view_plugin.labelDescription} #i18n{${description}}</p>
-                <p>#i18n{portal.system.view_plugin.labelAuthor} #i18n{${provider}}</p>
-                <p>#i18n{portal.system.view_plugin.labelProvider} <a href="${providerUrl}" target="_blank">${providerUrl}</a></p>
-                <p>#i18n{portal.system.view_plugin.labelCoreCompatibility} min : ${minCoreVersion?default("")} - max : ${maxCoreVersion?default("")}</p>
-            </div>
-        </div>
-    </div>
-</div>
+<@row>
+	<@columns>
+    <@box color='danger'>
+      <@boxHeader title='
+				<a href="jsp/admin/system/ManagePlugins.jsp#${name}" title="${name}" >
+					<img src="${iconUrl}" alt="" title=""> #i18n{portal.system.view_plugin.boxTitlePluginDetail} "${name}"
+				</a>' />
+			<@boxBody>
+				<p>#i18n{portal.system.view_plugin.labelVersion} ${version}</p>
+        <p>#i18n{portal.system.view_plugin.labelDescription} #i18n{${description}}</p>
+        <p>#i18n{portal.system.view_plugin.labelAuthor} #i18n{${provider}}</p>
+        <p>#i18n{portal.system.view_plugin.labelProvider} <a href="${providerUrl}" target="_blank">${providerUrl}</a></p>
+        <p>#i18n{portal.system.view_plugin.labelCoreCompatibility} min : ${minCoreVersion?default("")} - max : ${maxCoreVersion?default("")}</p>
+      </@boxBody>
+    </@box>
+  </@columns>
+</@row>
 
 <#if rights?has_content>
-    <div class="row">
-        <div class="col-md-12">
-            <div class="box box-danger">
-				<div class="box-header">
-					<div class="box-title">#i18n{portal.system.view_plugin.boxTitleAdministrationFunctionnalities}</div>
-				</div><!-- /.box-header -->
-				<div class="box-body">	
-                <ul>
-                    <#list rights as feature >
-                    <li>
-                        <#if feature.iconUrl?exists>
-							<img src="${feature.iconUrl}" alt="" title="" class="thumbnails thumb-list" />
-                        </#if>
-                        <h3>${feature.name}</h3>
-                        <p>${feature.description}</p>
-                    </li>
-                    </#list>
-                </ul>
-				</div>
-			</div>
-		</div>
-    </div>
+<@row>
+	<@columns>
+		<@box color='danger'>
+			<@boxHeader title='#i18n{portal.system.view_plugin.boxTitleAdministrationFunctionnalities}' />
+			<@boxBody>
+				<ul>
+					<#list rights as feature>
+					<li>
+						<#if feature.iconUrl?exists>
+						<img src="${feature.iconUrl}" alt="" title="" />
+						</#if>
+						<h3>${feature.name}</h3>
+						<p>${feature.description}</p>
+					</li>
+					</#list>
+				</ul>
+			</@boxBody>
+    </@box>
+  </@columns>
+</@row>
 </#if>
 
 <#if portletTypes?has_content>
-    <div class="row">
-        <div class="col-md-12">
-            <div class="box box-danger">
-				<div class="box-header">
-					<div class="box-title">#i18n{portal.system.view_plugin.boxTitlePortletsType}</div>
-				</div><!-- /.box-header -->
-				<div class="box-body">	
+<@row>
+	<@columns>
+    <@box color='danger'>
+      <@boxHeader title='#i18n{portal.system.view_plugin.boxTitlePortletsType}' />
+			<@boxBody>
 				<ul>
-                    <#list portletTypes as portlet >
-                    <li>
-                        <h3>${portlet.name}</h3>
-                    </li>		
-                    </#list>
-                </ul>
-            </div>      
-       </div>      
-	</div>      
+          <#list portletTypes as portlet >
+          <li>
+            <h3>${portlet.name}</h3>
+          </li>		
+          </#list>
+        </ul>
+      </@boxBody>
+    </@box>
+  </@columns>
+</@row>     
 </#if> 
 
 <#if applications?has_content>
-    <div class="row">
-        <div class="col-md-12">
-            <div class="box box-danger">
-				<div class="box-header">
-					<div class="box-title">#i18n{portal.system.view_plugin.boxTitleXpageApplications}</div>
-				</div><!-- /.box-header -->
-				<div class="box-body">	
+<@row>
+	<@columns>
+		<@box color='danger'>
+      <@boxHeader title='#i18n{portal.system.view_plugin.boxTitleXpageApplications}' />
+			<@boxBody>
 				<ul>
-                    <#list applications as application >
-                    <li>
-                        <h3>${application.id}<#if !application.enabled> <span class="badge"><i class="fa fa-ban"></i> ${i18n("portal.system.view_plugin.disabled")}</span></#if></h3>
-                        <p>${application.className!}</p>
-                    </li>		
-                    </#list>
-                </ul>
-				</div>      
-            </div>      
-		</div>      
-	</div>      
+					<#list applications as application >
+						<li>
+							<h3>${application.id}<#if !application.enabled> <span class="badge"><i class="fa fa-ban"></i> ${i18n("portal.system.view_plugin.disabled")}</span></#if></h3>
+							<p>${application.className!}</p>
+						</li>		
+					</#list>
+				</ul>
+			</@boxBody>
+		</@box>
+  </@columns>
+</@row>      
 </#if> 
 
 <#if contentServices?has_content>
-    <div class="row">
-        <div class="col-md-12">
-            <div class="box box-danger">
-				<div class="box-header">
-					<div class="box-title">#i18n{portal.system.view_plugin.boxTitleContentServices}</div>
-					</div><!-- /.box-header -->
-				<div class="box-body">		
-                <ul>
-                    <#list contentServices as contentService >
-                    <li>
-                        <h3>${contentService.className}</h3>
-                    </li>		
-                    </#list>
-                </ul>
-				</div>      
-            </div>      
-        </div>      
-    </div>      
+<@row>
+	<@columns>
+		<@box color='danger'>
+			<@boxHeader title='#i18n{portal.system.view_plugin.boxTitleContentServices}' />
+			<@boxBody>
+				<ul>
+					<#list contentServices as contentService >
+					<li>
+						<h3>${contentService.className}</h3>
+					</li>		
+					</#list>
+				</ul>
+			</@boxBody>
+		</@box>
+	</@columns>
+</@row>        
 </#if> 
 
 <#if insertServices?has_content>
-    <div class="row">
-        <div class="col-md-12">
-            <div class="box box-danger">
-				<div class="box-header">
-					<div class="box-title">#i18n{portal.system.view_plugin.boxTitleInsertServices}</div>
-				</div><!-- /.box-header -->
-				<div class="box-body">	
-					<ul>
-                    <#list insertServices as insertService >
-                    <li>
-                        <h3>${insertService.name}</h3>
-                    </li>		
-                    </#list>
-					</ul>
-				</div>      
-            </div>      
-        </div>      
-    </div>      
-</#if>       
+<@row>
+	<@columns>
+		<@box color='danger'>
+			<@boxHeader title='#i18n{portal.system.view_plugin.boxTitleInsertServices}' />
+			<@boxBody>
+				<ul>
+					<#list insertServices as insertService >
+					<li>
+						<h3>${insertService.name}</h3>
+					</li>		
+					</#list>
+				</ul>
+			</@boxBody>
+    </@box>
+  </@columns>
+</@row>   
+</#if>

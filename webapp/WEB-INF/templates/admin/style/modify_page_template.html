@@ -1,57 +1,32 @@
-<div class="row">
-	<div class="col-md-12">
-		<div class="box box-info">
-			<div class="box-header">
-				<h3 class="box-title">#i18n{portal.style.modify_page_template.boxTitle} <small>${page_template.description}</small></h3>
-			</div>
-			<div class="box-body">
-				<form class="form-horizontal" method="post" enctype="multipart/form-data" action="jsp/admin/style/DoModifyPageTemplate.jsp" name="modify_page_template" role="form">
+<@row>
+	<@columns>
+		<@box color='info'>
+			<@boxHeader title='#i18n{portal.style.modify_page_template.boxTitle} <small>${page_template.description}</small>' />
+			<@boxBody>
+				<@tform method='post' params='enctype="multipart/form-data"' action='jsp/admin/style/DoModifyPageTemplate.jsp' name='modify_page_template'>
 					<input type="hidden" name="page_template_id" value="${page_template.id}" />
-					<div class="form-group">
-						<label class="control-label col-xs-12 col-sm-2" for="page_template_description"> #i18n{portal.style.modify_page_template.labelDescription}</label>
-						<div class="col-xs-12 col-sm-10">
-							<input type="text" id="page_template_description" name="page_template_description" value="${page_template.description?html}"  maxlength="50">
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="control-label col-sm-2" for="page_template_file">#i18n{portal.style.modify_page_template.labelFileTitle}</label>
-						<div class="col-xs-12 col-sm-10">
-							<input type="file" id="page_template_file" name="page_template_file" class="form-control">
-							<div class="checkbox">
-								<label>
-									<input type="checkbox" name="update_file"> #i18n{portal.style.modify_page_template.labelReloadFile}
-								</label>
-							</div>
-							<p class="help-block" >#i18n{portal.style.modify_page_template.labelCurrentFile} ${page_template.file}</p>
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="control-label col-sm-2" for="page_template_picture">#i18n{portal.style.modify_page_template.labelPictureTitle}</label>
-						<div class="col-sm-10">
-							<input type="file" id="page_template_picture" name="page_template_picture" class="form-control">
-							<div class="checkbox">
-								<label>
-									<input type="checkbox" name="update_image"> #i18n{portal.style.modify_page_template.labelReloadPicture}
-								</label>
-							</div>
-							<p class="help-text" >
-								#i18n{portal.style.modify_page_template.labelCurrentPicture}
-								<img src="images/admin/page_templates/${page_template.picture}" class="img-responsive" alt="${i18n("portal.style.manage_page_templates.picturealt",page_template.description?html)}">
-							</p>
-						</div>
-					</div>
-					 <div class="form-group">
-						<div class="col-xs-12 col-sm-offset-2 col-sm-2">
-							<button class="btn btn-primary btn-flat" type="submit" >
-								<i class="fa fa-check"></i> #i18n{portal.style.modify_mode.buttonLabelValidate}
-							</button>
-							<a href="jsp/admin/style/ManagePageTemplates.jsp" class="btn btn-default btn-flat">
-								<i class="fa fa-remove"></i> #i18n{portal.util.labelCancel}
-							</a>
-						</div>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
-</div>
+					<@formGroup labelKey='#i18n{portal.style.modify_page_template.labelDescription}' labelFor='page_template_description' mandatory=true>
+						<@input type='text' name='page_template_description' id='page_template_description' value='${page_template.description?html}' maxlength=50 />
+					</@formGroup>
+					<@formGroup labelKey='#i18n{portal.style.modify_page_template.labelFileTitle}' labelFor='page_template_file' helpKey='#i18n{portal.style.modify_page_template.labelCurrentFile} ${page_template.file}' mandatory=true>
+						<@input type='file' name='page_template_file' id='page_template_file' />
+						<@checkBox name='update_file' labelKey='#i18n{portal.style.modify_page_template.labelReloadFile}' />
+					</@formGroup>
+					<#assign imageHelpKey>
+						#i18n{portal.style.modify_page_template.labelCurrentPicture}
+								<img src="images/admin/skin/page_templates/${page_template.picture}" class="img-responsive" alt="" title="${i18n("portal.style.manage_page_templates.picturealt",page_template.description?html)}" />
+					</#assign>
+					<@formGroup labelKey='#i18n{portal.style.modify_page_template.labelPictureTitle}' labelFor='page_template_picture' helpKey=imageHelpKey mandatory=true>
+						<@input type='file' name='page_template_picture' id='page_template_picture' />
+						<@checkBox name='update_image' labelKey='#i18n{portal.style.modify_page_template.labelReloadPicture}' />
+					</@formGroup>
+					
+					<@formGroup>
+						<@button type='submit' buttonIcon='check' title='#i18n{portal.style.modify_mode.buttonLabelValidate}'  size='' />
+						<@aButton href='jsp/admin/style/ManagePageTemplates.jsp' buttonIcon='times' title='#i18n{portal.util.labelCancel}'  size='' color='btn-secondary' />
+					</@formGroup>
+				</@tform>
+			</@boxBody>
+    </@box>
+  </@columns>
+</@row>

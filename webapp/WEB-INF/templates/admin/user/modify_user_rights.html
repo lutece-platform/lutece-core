@@ -1,73 +1,58 @@
-<div class="row">
-    <div class="col-xs-12 col-sm-12 col-md-12">
-        <div class="box box-success">
-            <div class="box-header">
-                <h3 class="box-title">
-                    <i class="glyphicon glyphicon-user"></i>&nbsp;${user.lastName} ${user.firstName}
-                </h3>
-                <@item_navigation item_navigator=item_navigator />
-                <div class="box-tools">
-                    <#if can_delegate = 'true'><p>#i18n{portal.users.modify_user_rights.informationRightModification}</p></#if>
-                    <form method="post"  action="jsp/admin/user/ModifyUserRights.jsp" class="form-inline pull-right spaced">	
-                        <input type="hidden" name="delegate_rights" value="${can_delegate}">
-                        <input type="hidden" name="id_user" value="${user.userId}">
-                        <input type="hidden" name="select" value="all">
-                        <button type="submit" class="btn btn-primary btn-xs btn-flat">
-                            <i class="glyphicon glyphicon-filter"></i>#i18n{portal.users.modify_user_rights.buttonLabelSelectAll}
-                        </button>
-                    </form>
-                </div>
-            </div>
-            <div class="box-body content-padding">
-                <ul class="nav nav-tabs">
-                    <li>
-                        <a href="jsp/admin/user/ModifyUser.jsp?id_user=${user.userId}" >#i18n{portal.users.actions.labelUser}</a>
-                    </li>
-                    <li class="active"><a href="jsp/admin/user/ModifyUserRights.jsp?id_user=${user.userId}">#i18n{portal.users.actions.labelRights}</a></li>
-                    <li><a href="jsp/admin/user/ModifyUserRoles.jsp?id_user=${user.userId}">#i18n{portal.users.actions.labelRoles}</a></li>
-                    <li><a href="jsp/admin/user/ModifyUserWorkgroups.jsp?id_user=${user.userId}">#i18n{portal.users.actions.labelWorkgroups}</a></li>
-                </ul>
-
-                <form method="post" action="jsp/admin/user/DoModifyUserRights.jsp" class="form-horizontal"> 
-                    <input type="hidden" name="delegate_rights" value="${can_delegate}">
-                    <input type="hidden" name="id_user" value="${user.userId}">
-
-                    <div class="form-group">
-                        <div class="col-xs-12 col-sm-12 col-md-12">
-                            <ul class="list-group">
-                                <#list all_right_list?sort_by('name') as right>
-                                <#if select_all = true >
-                                <#assign checked >checked="checked"</#assign>
-                                <#else>
-                                <#assign checked = "" >
-                                <#list user_right_list as user_right>
-                                <#if user_right.id = right.id >
-                                <#assign checked >checked="checked"</#assign>
-                                <#break>
-                                </#if>
-                                </#list>
-                                </#if>
-                                <li class="list-group-item">
-                                    <div class="checkbox">
-                                        <label>
-                                            <input class="checkbox" type="checkbox" name="right" value="${right.id}" ${checked}>
-                                            ${right.name} (#i18n{portal.users.modify_user_rights.labelLevel} ${right.level}) - ${right.description}
-                                        </label>
-                                    </div>
-                                </li>
-                                </#list>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="col-xs-12 col-sm-12 col-md-12">
-                            <button type="submit" class="btn btn-primary btn-flat">
-                                <i class="glyphicon glyphicon-ok"></i>&nbsp;#i18n{portal.users.modify_user_rights.buttonLabelModifyRights}
-                            </button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
+<@row>
+	<@columns>
+		<@box color='success'>
+			<@boxHeader title='<i class="glyphicon glyphicon-user"></i>&nbsp;${user.lastName} ${user.firstName}' boxTools=true>
+				<#if can_delegate = 'true'><p>#i18n{portal.users.modify_user_rights.informationRightModification}</p></#if>
+				<div class="pull-right spaced"><@item_navigation item_navigator=item_navigator /></div>
+				<@tform class='pull-right spaced' method='post' action='jsp/admin/user/ModifyUserRights.jsp'>	
+					<input type="hidden" name="delegate_rights" value="${can_delegate}">
+					<input type="hidden" name="id_user" value="${user.userId}">
+					<input type="hidden" name="select" value="all">
+					<@button type='submit' size='' buttonIcon='filter' title='#i18n{portal.users.modify_user_rights.buttonLabelSelectAll}' showTitleXs=false showTitleSm=false  />
+				</@tform>
+			</@boxHeader>
+		<@boxBody>
+			<@tabs>
+				<@listTabs>
+					<li><a href="jsp/admin/user/ModifyUser.jsp?id_user=${user.userId}">#i18n{portal.users.actions.labelUser}</a></li>
+					<li class="active"><a href="jsp/admin/user/ModifyUserRights.jsp?id_user=${user.userId}">#i18n{portal.users.actions.labelRights}</a></li>
+					<li><a href="jsp/admin/user/ModifyUserRoles.jsp?id_user=${user.userId}">#i18n{portal.users.actions.labelRoles}</a></li>
+					<li><a href="jsp/admin/user/ModifyUserWorkgroups.jsp?id_user=${user.userId}">#i18n{portal.users.actions.labelWorkgroups}</a></li>
+				</@listTabs>
+				<@tabContent>
+					<@tform method='post' action='jsp/admin/user/DoModifyUserRights.jsp'>
+						<input type="hidden" name="delegate_rights" value="${can_delegate}">
+							<input type="hidden" name="id_user" value="${user.userId}">
+							<@row>
+								<@columns>
+									<@listGroup>
+										<#list all_right_list?sort_by('name') as right>
+										<#if select_all = true>
+										<#assign checked = true>
+										<#else>
+										<#assign checked = false>
+										<#list user_right_list as user_right>
+										<#if user_right.id = right.id >
+										<#assign checked = true>
+										<#break>
+										</#if>
+										</#list>
+										</#if>
+										<li class="${liClass}">
+											<@checkBox labelKey='${right.name} (#i18n{portal.users.modify_user_rights.labelLevel} ${right.level}) - ${right.description}' value='${right.id}' name='right' checked=checked mandatory=false />
+										</li>
+										</#list>
+									</@listGroup>
+								</@columns>
+							</@row>
+							<@formGroup rows=2>
+								<@button type='submit' buttonIcon='check' title='#i18n{portal.users.modify_user_rights.buttonLabelModifyRights}'  size='' />
+								<@aButton size='' href='jsp/admin/user/ManageUsers.jsp' color='btn-secondary' buttonIcon='times' title='#i18n{portal.util.labelBack}'  />
+							</@formGroup>
+						</@tform>
+					</@tabContent>
+				</@tabs>
+            </@boxBody>
+        </@box>
+    </@columns>
+</@row>

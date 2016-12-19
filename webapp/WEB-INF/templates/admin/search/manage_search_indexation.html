@@ -1,22 +1,14 @@
-<div class="row">
-	<div class="col-xs-12 col-sm-12 col-md-12">
-		<div class="box box-danger">
-			<div class="box-header">
-				<h3 class="box-title hidden-xs">#i18n{portal.search.manage_indexer.labelIndexersList}</h3>
-				<div class="box-tools">
-					<form method="get" name="doIndexing" action="jsp/admin/search/DoIndexing.jsp" class="form-inline pull-right">
-						<button class="btn btn-primary btn-xs btn-flat" type="submit" name="total">
-							<i class="fa fa-repeat"></i> #i18n{portal.search.manage_indexer.buttonDoIndex}
-						</button>
-						<button class="btn btn-primary btn-xs btn-flat" type="submit" name="incremental">
-							<i class="fa fa-refresh"></i> #i18n{portal.search.manage_indexer.buttonDoIncrementalIndex}
-						</button>
-					</form>
-				</div>
-			</div>
-			<!-- /.box-header -->
-			<div class="box-body table-responsive no-padding">
-				<table class="table table-hover table-striped">
+<@row>
+	<@columns>
+		<@box color='danger'>
+			<@boxHeader title='#i18n{portal.search.manage_indexer.labelIndexersList}' boxTools=true>
+				<@tform method='get' name='doIndexing' action='jsp/admin/search/DoIndexing.jsp' class='pull-right'>
+					<@button type='submit' buttonIcon='repeat' title='#i18n{portal.search.manage_indexer.buttonDoIndex}' name='total' size='' />
+					<@button type='submit' buttonIcon='refresh' title='#i18n{portal.search.manage_indexer.buttonDoIncrementalIndex}' name='incremental' size='' />
+				</@tform>
+			</@boxHeader>
+		<@boxBody>
+			<@table>
 					<tr>
 						<th>#i18n{portal.search.manage_indexer.columnIndexerName}</th>
 						<th>#i18n{portal.search.manage_indexer.columnIndexerVersion}</th>
@@ -26,22 +18,21 @@
 						<tr>
 							<td>
 								<#if indexer.enable>
-									<span class="label label-success" title="${indexer.name} #i18n{portal.search.manage_indexer.IndexerEnable}">
-										<i class="fa fa-check"></i>
-									</span>
+									<@tag color='success' title='${indexer.name} #i18n{portal.search.manage_indexer.IndexerEnable}'>
+										<@icon style='check' />
+									</@tag>
 								<#else>
-									<span class="label label-important" title="${indexer.name} #i18n{portal.search.manage_indexer.IndexerDisable}">
-										<i class="fa fa-remove" title="${indexer.name} #i18n{portal.search.manage_indexer.IndexerDisable}"></i>
-									</span>
+									<@tag color='important' title='${indexer.name} #i18n{portal.search.manage_indexer.IndexerDisable}'>
+										<@icon style='times' />
+									</@tag>
 								</#if>&nbsp;${indexer.name}
 							</td>
 							<td>${indexer.version}</td>
 							<td>${indexer.description}</td>
-
 						</tr>
 					</#list>
-				</table>
-			</div>
-		</div>
-	</div>
-</div>
+				</@table>
+			</@boxBody>
+		</@box>
+	</@columns>
+</@row>

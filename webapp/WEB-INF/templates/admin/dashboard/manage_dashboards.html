@@ -1,24 +1,24 @@
 <#macro dashboardTable items=[] list_available_orders_column=[] order=true>
-  <#if items?exists && items?size &gt; 0>
-    <table class="table table-hover table-striped">
-      <tr>
-        <#-- header -->
+	<#if items?exists && items?size &gt; 0>
+		<@table>
+			<tr>
+				<#-- header -->
         <th>#i18n{portal.dashboard.table.title.name}</th>
         <#-- name -->
         <th>#i18n{portal.dashboard.table.title.column}</th>
         <#-- column -->
         <#if order>
-          <th>#i18n{portal.dashboard.table.title.order}</th>
+        <th>#i18n{portal.dashboard.table.title.order}</th>
         </#if>
         <#-- order -->
       </tr>
       <#list items as dashboard>
         <tr>
-          <td>${dashboard.name}</td>
+          <@td xs=6 sm=6>${dashboard.name}</@td>
           <#-- name -->
-          <td>
+          <@td xs=3 sm=3>
           <#-- column -->
-          <form action="jsp/admin/dashboard/DoMoveDashboard.jsp" method="post" class="form-inline">
+          <@tform action='jsp/admin/dashboard/DoMoveDashboard.jsp' method='post' class='form-inline'>
             <input type="hidden" name="dashboard_name" value="${dashboard.name}">
             <#if !dashboard.order?exists || dashboard.order==0>
               <#assign dashboard_order=1/>
@@ -26,21 +26,21 @@
               <#assign dashboard_order=dashboard.order/>
             </#if>
             <input type="hidden" name="dashboard_order" value="${dashboard_order}">
-            <div class="input-group">
-              <@comboSortedWithParams name="dashboard_column" id="dashboard_column-${dashboard.name}" default_value="${dashboard.zone!}" additionalParameters="class=\"form-control input-xs\"" items=list_available_columns />
-              <span class="input-group-btn">
-                <button type="submit" class="btn btn-primary btn-xs btn-flat">
-                  <i class="fa fa-check"></i> #i18n{portal.dashboard.table.action.setColumn}
-                </button>
-              </span>
-            </div>
-          </form>
-          </td>
+						<@formGroup formStyle='inline' rows=2>
+									<@inputGroup>
+										<@select name='dashboard_column' id='dashboard_column-${dashboard.name}' default_value='${dashboard.zone!}' items=list_available_columns list=true />
+										<@inputGroupItem>
+											<@button type='submit' buttonIcon='check' title='#i18n{portal.dashboard.table.action.setColumn}' showTitle=false />
+										</@inputGroupItem>
+									</@inputGroup>
+						</@formGroup>
+          </@tform>
+          </@td>
           <#-- /column -->
           <#if order>
-            <td>
+            <@td xs=3 sm=3>
               <#-- order -->
-              <form action="jsp/admin/dashboard/DoMoveDashboard.jsp" method="post" class="form-inline">
+              <@tform action='jsp/admin/dashboard/DoMoveDashboard.jsp' method='post' class='form-inline'>
                 <input type="hidden" name="dashboard_name" value="${dashboard.name}" />
                 <#if !dashboard.zone?exists || dashboard.zone==0>
                   <#assign dashboard_column=1 />
@@ -48,54 +48,48 @@
                   <#assign dashboard_column=dashboard.zone />
                 </#if>
                 <input type="hidden" name="dashboard_column" value="${dashboard_column}">
-                <div class="input-group">
-                  <@comboSortedWithParams name="dashboard_order" id="dashboard_order-${dashboard.name}" default_value="${dashboard.order!}" additionalParameters="class=\"form-control input-xs\"" items=list_available_orders_column />
-                  <span class="input-group-btn">
-                    <button type="submit" class="btn btn-primary btn-xs btn-flat"><i class="fa fa-arrows-v"></i>&nbsp;&nbsp;#i18n{portal.dashboard.table.action.move}</button>
-                  </span>
-                </div>
-                </form>
-              </td>
+								<@formGroup formStyle='inline' rows=2>
+                <@inputGroup>
+									<@select name='dashboard_order' id='dashboard_order-${dashboard.name}' default_value='${dashboard.order!}' items=list_available_orders_column list=true sort=true />
+									<@inputGroupItem>
+										<@button type='submit' buttonIcon='arrows-v' title='#i18n{portal.dashboard.table.action.move}' showTitle=false />
+                  </@inputGroupItem>
+                </@inputGroup>
+								</@formGroup>
+                </@tform>
+              </@td>
               <#-- /order -->
             </#if>
           </tr>
-        </#list>
-      </table>
+      </#list>
+		</@table>
     <#else>
-      <div class="callout callout-info">
-        <i class="fa fa-info"></i>&nbsp;&nbsp;#i18n{portal.dashboard.message.emptyGroup}
-      </div>
+		<@callOut color='warning'>#i18n{portal.dashboard.message.emptyGroup}</@callOut>
     </#if>
 </#macro>
-<div class="row">
-  <div class="col-xs-12 col-sm-12 col-md-12">
-    <div class="box box-danger">
-      <div class="box-header">
-        <h3 class="box-title">#i18n{portal.dashboard.title.manage}</h3>
-        <div class="box-tools">
-        </div>
-      </div>
-      <!-- /.box-header -->
-      <div class="box-body table-responsive">
-        <#-- column lists -->
-          <#list list_available_columns as column_refItem>
-            <#if column_refItem.code !=''>
-              <#assign column_key=column_refItem.code />
-              <h3>#i18n{portal.dashboard.title.column} ${column_key}
-                <#if map_column_order_status[column_key]?exists && !map_column_order_status[column_key]>
-                  <a class="btn btn-warning btn-xs btn-flat pull-right" href="jsp/admin/dashboard/DoReorderColumn.jsp?column=${column_key}" title="#i18n{portal.dashboard.action.reorder}">
-                    <i class="fa fa-arrows-v"></i> #i18n{portal.dashboard.action.reorder}
-                  </a>
-                </#if>
-              </h3>
-              <@dashboardTable items=map_dashboards[column_key] list_available_orders_column=map_available_orders[column_key] />
-              <#-- suggest reorder if the column is not well ordered -->
-            </#if>
-          </#list>
-          <#-- not set list -->
-          <h3>#i18n{portal.dashboard.title.notSetDashboard}</h3>
-          <@dashboardTable items=not_set_dashboards order=false/>
-      </div>
-    </div>
-  </div>
-</div>
+
+<@row>
+    <@columns>
+        <@box color='danger'>
+            <@boxHeader title='#i18n{portal.dashboard.title.manage}' />
+			<@boxBody>
+				<#-- column lists -->
+				<#list list_available_columns as column_refItem>
+				<#if column_refItem.code !=''>
+					<#assign column_key=column_refItem.code />
+					<h3>#i18n{portal.dashboard.title.column} ${column_key}
+					<#if map_column_order_status[column_key]?exists && !map_column_order_status[column_key]>
+						<@aButton href='jsp/admin/dashboard/DoReorderColumn.jsp?column=${column_key}' title='#i18n{portal.dashboard.action.reorder}' buttonIcon='arrows' color='btn-warning' />
+					</#if>
+					</h3>
+					<@dashboardTable items=map_dashboards[column_key] list_available_orders_column=map_available_orders[column_key] />
+					<#-- suggest reorder if the column is not well ordered -->
+				</#if>
+				</#list>
+				<#-- not set list -->
+				<h3>#i18n{portal.dashboard.title.notSetDashboard}</h3>
+				<@dashboardTable items=not_set_dashboards order=false/>
+			</@boxBody>
+        </@box>
+    </@columns>
+</@row>

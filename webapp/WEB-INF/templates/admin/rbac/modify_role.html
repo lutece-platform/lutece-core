@@ -1,36 +1,22 @@
-<div class="row">
-  <div class="col-xs-12 col-sm-12 col-md-12">
-    <div class="box box-success">
-      <div class="box-header">
-        <h3 class="box-title">#i18n{portal.rbac.modify_role.titleModifyRole}</h3>
-      </div>
-      <div class="box-body">
-        <form class="form-horizontal" method="post" action="jsp/admin/rbac/DoModifyRole.jsp" name="modify_role">
-          <input type="hidden" name="role_key_previous" value="${role.key}">
-          <div class="form-group">
-            <label class="control-label col-xs-12 col-sm-3 col-md-3" for="role_key">#i18n{portal.rbac.modify_role.labelKey}&nbsp;*</label>
-            <div class="col-xs-12 col-sm-6 col-md-6">
-              <input type="text" class="form-control" id="role_key" name="role_key" class="input-normal uneditable-input" value="${role.key}">
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="control-label col-xs-12 col-sm-3 col-md-3" for="role_description">#i18n{portal.rbac.modify_role.labelDescription}&nbsp;*</label>
-            <div class="col-xs-12 col-sm-6 col-md-6">
-              <input type="text" class="form-control" id="role_description" name="role_description" value="${role.description}" size="100" maxlength="255">
-            </div>
-          </div>
-          <div class="form-group">
-            <div class="col-xs-12 col-sm-offset-3 col-sm-6 col-md-offset-3 col-md-6">
-              <button class="btn btn-primary btn-flat" type="submit">
-                <i class="fa fa-check"></i>&nbsp;#i18n{portal.util.labelValidate}
-              </button>
-              <a class="btn btn-default btn-flat" href="jsp/admin/rbac/ViewRoleDescription.jsp?role_key=${role.key}">
-                <i class="fa fa-remove"></i> #i18n{portal.admin.message.buttonCancel}
-              </a>
-            </div>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
+<@row>
+	<@columns>
+		<@box color='success'>
+      <@boxHeader title='#i18n{portal.rbac.modify_role.titleModifyRole}' />
+			<@boxBody>
+				<@tform method='post' action='jsp/admin/rbac/DoModifyRole.jsp' name='modify_role'>
+					<input type="hidden" name="role_key_previous" value="${role.key}">
+					<@formGroup labelKey='#i18n{portal.rbac.modify_role.labelKey}' labelFor='role_key' mandatory=true>
+						<@input type='text' id='role_key' name='role_key' value='${role.key}' />
+					</@formGroup>
+					<@formGroup labelKey='#i18n{portal.rbac.modify_role.labelDescription}' labelFor='role_description' mandatory=true>
+						<@input type='text' id='role_description' name='role_description' value='${role.description}' inputSize=100 maxlength=255 />
+					</@formGroup>
+					<@formGroup>
+						<@button type='submit' buttonIcon='check' title='#i18n{portal.util.labelValidate}' size='' />
+						<@aButton href='jsp/admin/rbac/ViewRoleDescription.jsp?role_key=${role.key}' buttonIcon='remove' title='#i18n{portal.admin.message.buttonCancel}' size='' color='btn-secondary' />
+					</@formGroup>
+				</@tform>
+			</@boxBody>
+		</@box>
+  </@columns>
+</@row>

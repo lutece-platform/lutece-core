@@ -6,36 +6,19 @@
 	</#list>
 	<#return false>
 </#function>
-<div class="form-group">
-<label class="col-xs-12 col-sm-12 col-md-12">
-	${attribute.title?html} : 
-</label>
-	<div class="col-xs-12 col-sm-12 col-md-12">
 
-<#list attribute.listAttributeFields as attributeField>
-	<#if attributeField.title?exists && attributeField.value != "">
-		<#if !attribute.fieldInLine>
-	    <div class="checkbox">
-		<label>
-		</#if>
-		<#if attribute.fieldInLine>
-	    <label class="checkbox-inline">
-		</#if>
-
-		<input type="checkbox" name="attribute_${attribute.idAttribute}" value="${attributeField.idField}"
-			<#if default_values_list?has_content && isSelected( attributeField.idField,default_values_list ) >
-				checked="checked"
+<@formGroup labelKey='${attribute.title?html}' rows=2>
+	<#list attribute.listAttributeFields as attributeField>
+		<#if attributeField.title?exists && attributeField.value != "">
+			<#if attribute.fieldInLine>
+				<#assign orientation = horizontal>
+			<#else>
+				<#assign orientation = vertical>
 			</#if>
-		/> ${attributeField.title}
-		
-		<#if !attribute.fieldInLine >
-			</label>
-			</div>
+			<#if default_values_list?has_content && isSelected( attributeField.idField,default_values_list ) >
+				<#assign checked = true>
+			</#if>
+			<@checkBox labelKey='${attributeField.title}' name='attribute_${attribute.idAttribute}' value='${attributeField.idField}' checked=checked />
 		</#if>
-		<#if attribute.fieldInLine >
-			</label>
-		</#if>
-	</#if>
-</#list>
-	</div>
-</div>
+	</#list>
+</@formGroup>

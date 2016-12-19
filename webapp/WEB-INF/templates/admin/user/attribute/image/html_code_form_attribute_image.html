@@ -1,25 +1,22 @@
-<div class="form-group">
-	<label class="col-xs-12 col-sm-12 col-md-12" for="attribute_${attribute.idAttribute}">
-		${attribute.title?html}
-		<#if attribute.mandatory>
-			*
-		</#if>
-		 : 
-	</label>
-	<div class="col-xs-12 col-sm-12 col-md-12">
-		<#if default_values_list??>
-			<#assign file = default_values_list>
-			<img src="image?resource_type=core_attribute_img&id=${file.idFile}" height="40"> 
-		<#else>
-			<input type="hidden" name="update_attribute_${attribute.idAttribute}" value="true">
-		</#if>
-		<input type="file" name="attribute_${attribute.idAttribute}" id="attribute_${attribute.idAttribute}">
-		<#if default_values_list??>
-			<br />
-			#i18n{portal.users.attribute.labelUpdate} : <div class="checkbox"><label><input class="checkbox" type="checkbox" name="update_attribute_${attribute.idAttribute}"></label></div>
-		</#if>
-		<#if attribute.helpMessage?exists&&attribute.helpMessage!=''>
-			<span class="help-block">${attribute.helpMessage}</span>
-		</#if>
-	</div>
-</div>
+<#if attribute.mandatory>
+	<#assign mandatory = true>
+<#else>
+	<#assign mandatory = false>
+</#if>
+<#if attribute.helpMessage?exists&&attribute.helpMessage!=''>
+	<#assign helpKey = attribute.helpMessage>
+</#if>
+<@formGroup labelKey='${attribute.title?html}' labelFor='attribute_${attribute.idAttribute}' helpKey=helpKey rows=2 mandatory=mandatory>
+	<#if default_values_list??>
+		<#assign file = default_values_list>
+		<img src="image?resource_type=core_attribute_img&id=${file.idFile}" height="40"> 
+	<#else>
+		<input type="hidden" name="update_attribute_${attribute.idAttribute}" value="true">
+	</#if>
+	
+	<input type="file" name="attribute_${attribute.idAttribute}" id="attribute_${attribute.idAttribute}">
+	<#if default_values_list??>
+		<br />
+		#i18n{portal.users.attribute.labelUpdate} : <div class="checkbox"><label><input class="checkbox" type="checkbox" name="update_attribute_${attribute.idAttribute}"></label></div>
+	</#if>
+</@formGroup>

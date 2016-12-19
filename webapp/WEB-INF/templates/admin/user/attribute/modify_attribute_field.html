@@ -1,52 +1,32 @@
-<div class="row">
-	<div class="col-xs-12 col-sm-12 col-md-12">
-		<div class="box box-success">
-			<div class="box-header">
-				<h3 class="box-title">#i18n{portal.users.modify_attribute_field.pageTitle} : '${attribute.title?html}'</h3>
-			</div>
-			<div class="box-body">
-				<form class="form-horizontal" role="form" action="jsp/admin/user/attribute/DoModifyAttributeField.jsp#list" method="post">
-					<div class="form-group">
-						<label class="control-label col-xs-12 col-sm-3 col-md-3" for="attr_title">#i18n{portal.users.modify_attribute_field.labelTitle} * </label>
-						<div class="col-xs-12 col-sm-9 col-md-9">
-							<input type="text" name="title" id="attr_title" class="form-control"  value="${attribute_field.title?html}"  maxlength="255">
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="control-label col-xs-12 col-sm-3 col-md-3" for="value">#i18n{portal.users.modify_attribute_field.labelValue} * </label>
-						<div class="col-xs-12 col-sm-9 col-md-9">
-							<input type="text" name="value" id="value" class="form-control"  value="${attribute_field.value?html}">
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="control-label col-xs-12 col-sm-3 col-md-3"></label>
-						<div class="col-xs-12 col-sm-9 col-md-9">
-							<div class="checkbox">
-								<label>
-									<#if attribute_field.defaultValue>
-										<input name="default_value" value="1" type="checkbox" checked="checked">&nbsp;
-									<#else>
-											<input name="default_value" value="1" type="checkbox">&nbsp;
-									</#if>
-									#i18n{portal.users.modify_attribute_field.labelDefaultValue}
-								</label>
-							</div>
-						</div>
-					</div>
-					<div class="form-group">
-						<div class="col-xs-12 col-sm-offset-3 col-sm-9 col-md-offset-3 col-md-9">
-							<input type="hidden" value="${attribute.idAttribute}" name="id_attribute">
-							<input type="hidden" value="${attribute_field.idField}" name="id_field">
-							<button type="submit" value="#i18n{portal.users.modify_attribute_field.buttonSave}" class="btn btn-primary btn-flat" name="save" >
-								<i class="glyphicon glyphicon-ok">&nbsp;</i>&nbsp;#i18n{portal.users.modify_attribute_field.buttonSave}
-							</button>
-							<button type="submit" value="#i18n{portal.admin.message.buttonCancel}" class="btn btn-default btn-flat" name="cancel" >
-								<i class="glyphicon glyphicon-remove-circle">&nbsp;</i>&nbsp;#i18n{portal.admin.message.buttonCancel}
-							</button>
-						</div>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
-</div>
+<@row>
+	<@columns>
+		<@box color='success'>
+      <@boxHeader title='#i18n{portal.users.modify_attribute_field.pageTitle} : ${attribute.title?html}' />
+      <@boxBody>
+				<@tform role='form' action='jsp/admin/user/attribute/DoModifyAttributeField.jsp#list' method='post'>
+					<@formGroup labelKey='#i18n{portal.users.modify_attribute_field.labelTitle} *' labelFor='attr_title' mandatory=true>
+						<@input type='text' name='title' id='attr_title' value='${attribute_field.title?html}' maxlength=255 />
+					</@formGroup>
+					<@formGroup labelKey='#i18n{portal.users.modify_attribute_field.labelValue} *' labelFor='value' mandatory=true>
+						<@input type='text' name='value' id='value' value='${attribute_field.value?html}' />
+					</@formGroup>
+					<@formGroup>
+						<#if attribute_field.defaultValue>
+							<#assign checked = true>
+						<#else>
+							<#assign checked = false>
+						</#if>
+						<@checkBox name='default_value' value='1' checked=checked labelKey='#i18n{portal.users.modify_attribute_field.labelDefaultValue}' />
+					</@formGroup>
+					<@formGroup>
+						<input type="hidden" value="${attribute.idAttribute}" name="id_attribute">
+						<input type="hidden" value="${attribute_field.idField}" name="id_field">
+						<@button type='submit' value='#i18n{portal.users.modify_attribute_field.buttonSave}' name='save' buttonIcon='check' title='#i18n{portal.users.modify_attribute_field.buttonSave}'  size='' />
+						
+						<@button type='submit' value='#i18n{portal.admin.message.buttonCancel}' name='cancel' buttonIcon='times' title='#i18n{portal.admin.message.buttonCancel}'  size='' color='btn-secondary' />
+					</@formGroup>
+				</@tform>
+			</@boxBody>
+		</@box>
+	</@columns>
+</@row>

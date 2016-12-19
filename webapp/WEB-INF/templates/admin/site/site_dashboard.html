@@ -1,67 +1,48 @@
 <#if last_modified_page??>
-	<div class="box box-solid box-primary">
-		<div class="box-header">
-			<h3 class="box-title">#i18n{portal.site.adminFeature.admin_site.name}</h3>
-			<div class="box-tools">
-				<button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-				<button class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
-			</div>
-		</div>
-		<div class="box-body">
-			<strong class="clearfix">#i18n{portal.site.dashboard.columnLastModifiedPage} </strong>
-			<span class="label label-info" title="#i18n{portal.site.dashboard.labelPageId} ">${last_modified_page.id}</span>
-			<span title="${i18n( 'portal.site.dashboard.labelDateModification', last_modified_page.dateUpdate)}"><#if last_modified_page.name?length &gt; 35>${last_modified_page.name?substring(0,35)}...<#else>${last_modified_page.name}</#if> </span>
+	<@box color='primary box-solid'>
+		<@boxHeader title='#i18n{portal.site.adminFeature.admin_site.name}' boxTools=true>
+			<@button style='btn-box-tool' params='data-widget="collapse"' buttonIcon='minus' />
+			<@button style='btn-box-tool' params='data-widget="remove"' buttonIcon='close' />
+		</@boxHeader>
+		<@boxBody>
+			<strong class="clearfix">#i18n{portal.site.dashboard.columnLastModifiedPage}</strong>
+			<@tag color='info' title='#i18n{portal.site.dashboard.labelPageId}'>${last_modified_page.id}</@tag>&#160; <span title="${i18n( 'portal.site.dashboard.labelDateModification', last_modified_page.dateUpdate)}"><#if last_modified_page.name?length &gt; 35>${last_modified_page.name?substring(0,35)}...<#else>${last_modified_page.name}</#if> </span>
 			<p class="pull-right">
-				<a class="btn btn-xs btn-success btn-flat" href="jsp/admin/site/AdminSite.jsp?page_id=${last_modified_page.id}&amp;param_block=5" title="#i18n{portal.site.admin_page.titleAddChildPage}" >
-					<i class="fa fa-plus"></i>
-				</a>
-				<a class="btn btn-xs btn-primary btn-flat" href="jsp/admin/site/AdminSite.jsp?page_id=${last_modified_page.id}" title="#i18n{portal.site.admin_page.tabPageManagement}" >
-					<i class="fa fa-pencil"></i>
-				</a>
-				<a class="btn btn-xs btn-primary btn-flat" href="jsp/admin/site/AdminSite.jsp?page_id=${last_modified_page.id}&amp;param_block=2" title="#i18n{portal.site.admin_page.titlePageProperties}">
-					<i class="fa fa-wrench"></i>
-				</a>
+				<@aButton href='jsp/admin/site/AdminSite.jsp?page_id=${last_modified_page.id}&amp;param_block=5' title='#i18n{portal.site.admin_page.titleAddChildPage}' buttonIcon='plus' color='btn-success' showTitle=false />
+				<@aButton href='jsp/admin/site/AdminSite.jsp?page_id=${last_modified_page.id}' title='#i18n{portal.site.admin_page.tabPageManagement}' buttonIcon='pencil' showTitle=false />
+				<@aButton href='jsp/admin/site/AdminSite.jsp?page_id=${last_modified_page.id}&amp;param_block=2' title='#i18n{portal.site.admin_page.titlePageProperties}' buttonIcon='wrench' showTitle=false />
 			</p>
-		</div><!-- /.box-body -->
-		<div class="box-footer text-center">
+		</@boxBody>
+		<@boxFooter class='text-center'>
+			<a href="${url}" title="#i18n{portal.site.adminFeature.admin_site.name}">
+				#i18n{portal.site.adminFeature.admin_site.name} <@icon style='arrow-circle-right' />
+			</a>
+		</@boxFooter>
+	</@box>
+</#if>
+<#if last_modified_portlet??>
+	<@box color='primary box-solid'>
+		<@boxHeader title='#i18n{portal.site.adminFeature.admin_site.name}' boxTools=true>
+			<@button style='btn-box-tool' params='data-widget="collapse"' buttonIcon='minus' />
+			<@button style='btn-box-tool' params='data-widget="remove"' buttonIcon='close' />
+		</@boxHeader>
+		<@boxBody>
+			<strong class="clearfix">#i18n{portal.site.dashboard.columnLastModifiedPortlet}</strong>
+				<p>
+				<#if last_modified_portlet.status = 0>
+					<@tag color='success' title='#i18n{portal.site.dashboard.publishedStatus}'><@icon style='thumbs-up' /></@tag>&#160;
+				<#else>
+					<@tag color='warning' title='#i18n{portal.site.dashboard.unpublishedStatus}'><@icon style='thumbs-down' /></@tag>&#160;
+				</#if>
+				&nbsp;
+				<span title="Portlet Id: ${last_modified_portlet.id}">${last_modified_portlet.name} - #i18n{${last_modified_portlet.portletTypeName}}</span>
+				<@aButton href='jsp/admin/DoModifyPortlet.jsp?portlet_id=${last_modified_portlet.id}' title='${last_modified_portlet.name} - #i18n{portal.site.dashboard.labelDateModification} : ${last_modified_portlet.dateUpdate}' buttonIcon='pencil' showTitle=false class='pull-right' />
+			</p>
+		</@boxBody>
+		<@boxFooter class='text-center'>
 			<a href="${url}" title="#i18n{portal.site.adminFeature.admin_site.name}">
 				#i18n{portal.site.adminFeature.admin_site.name} <i class="fa fa-arrow-circle-right"></i>
 			</a>
-		</div><!-- /.box-footer-->
-	</div>
-</#if>
-<#if last_modified_portlet??>
-<div class="box box-solid box-primary">
-	<div class="box-header">
-		<h3 class="box-title">#i18n{portal.site.adminFeature.admin_site.name}</h3>
-		<div class="box-tools">
-			<button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-			<button class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
-		</div>
-  </div>
-  <div class="box-body">
-		<strong class="clearfix">#i18n{portal.site.dashboard.columnLastModifiedPortlet}</strong>
-		<p>
-			<#if last_modified_portlet.status = 0>
-				<span class="label label-success" title="#i18n{portal.site.dashboard.publishedStatus}">
-					<i class="fa fa-thumbs-up"></i>
-				</span>
-			<#else>
-				<span class="label label-important" title="#i18n{portal.site.dashboard.unpublishedStatus}">
-					<i class="fa fa-thumbs-down"></i>
-				</span>
-			</#if>
-			&nbsp;
-			<span title="Portlet Id: ${last_modified_portlet.id}">${last_modified_portlet.name} - #i18n{${last_modified_portlet.portletTypeName}}</span>
-			<a class="pull-right btn btn-xs btn-primary btn-flat" href="jsp/admin/DoModifyPortlet.jsp?portlet_id=${last_modified_portlet.id}" title="${last_modified_portlet.name} - #i18n{portal.site.dashboard.labelDateModification} : ${last_modified_portlet.dateUpdate}">
-				<i class="fa fa-pencil"></i>
-			</a>
-		</p>
-	</div><!-- /.box-body -->
-    <div class="box-footer text-center">
-		<a href="${url}" title="#i18n{portal.site.adminFeature.admin_site.name}">
-			#i18n{portal.site.adminFeature.admin_site.name} <i class="fa fa-arrow-circle-right"></i>
-		</a>
-	</div><!-- /.box-footer-->
-</div>
+		</@boxFooter>
+	</@box>
 </#if>

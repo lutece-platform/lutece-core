@@ -1,7 +1,6 @@
-<div class="form-group">
-	<label for="alias_id">#i18n{portal.portlet_alias.labelResourcePortlet}</label>
-	<@comboWithParams name="alias_id" default_value=alias_portlet?string additionalParameters="class=\"form-control\"" items=alias_portlets_list />
-</div>
+<@formGroup labelFor='alias_id' labelKey='#i18n{portal.portlet_alias.labelResourcePortlet}' rows=2 showLabel=false>
+	<@select name='alias_id' default_value=alias_portlet?string items=alias_portlets_list list=true />
+</@formGroup>
 <input type="hidden" name="accept_alias" value="0" />
 <script language="javascript">
 document.form.accept_alias[0].disabled = true;

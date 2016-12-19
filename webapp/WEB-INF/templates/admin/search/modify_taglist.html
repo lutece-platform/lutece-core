@@ -1,45 +1,32 @@
-<div class="row">
-	<div class="col-xs-12 col-sm-12 col-md-12">
-		<div class="box box-danger">
-			<div class="box-header">
-				<h3 class="box-title">#i18n{portal.search.modify_taglist.tableLabel}</h3>
-				<div class="box-tools"></div>
-			</div><!-- /.box-header -->
-			<div class="box-body">
-				<form method="post" action="jsp/admin/search/DoModifyTagList.jsp" enctype="multipart/form-data" name="modify_taglist" class="form-horizontal" role="form">
+<@row>
+	<@columns>
+		<@box color='danger'>
+			<@boxHeader title='#i18n{portal.search.modify_taglist.tableLabel}' />
+			<@boxBody>
+				<@tform action='jsp/admin/search/DoModifyTagList.jsp' params='enctype="multipart/form-data"' name='modify_taglist'>
 					<fieldset>
-					<legend>#i18n{portal.system.modify_properties.boxTitle}</legend>  
-					<div class="form-group">
-						<label for="taglist" class="col-sm-2 control-label">#i18n{portal.search.modify_taglist.labelName}&nbsp;:&nbsp;</label>
-						<div class="col-sm-10">
-							<input type="text" value="${(taglist!)?html}" class="form-control input-sm" id="taglist" name="taglist" maxlength="255">
-						</div>
-                    </div>
+					<legend>#i18n{portal.system.modify_properties.boxTitle}</legend>
+					<@formGroup labelKey='#i18n{portal.search.modify_taglist.labelName}' labelFor='taglist'>
+						<@input type='text' name='taglist' id='taglist' value='${(taglist!)?html}' maxlength=255 />
+					</@formGroup>
+
 					<#if tag_filter = "0">
-						<div class="form-group">
-							<div class="col-sm-offset-2 col-sm-10">
-								<p class="label label-warning"><em>#i18n{portal.search.modify_taglist.unactiveFilter}</em></p>
-							</div>
-                        </div>	
-                       <div class="form-group">
-							<div class="col-sm-offset-2 col-sm-10">
-								<a href="jsp/admin/search/ManageSearch.jsp" name="cancel" class="btn btn-default btn-sm">
-									<i class="glyphicon glyphicon-remove-circle"></i>&nbsp;#i18n{portal.search.modify_taglist.buttonCancel}
-								</a>
-							</div>
-                        </div>
+						<@formGroup>
+							<@tag color='warning' type='p'>
+								<em>#i18n{portal.search.modify_taglist.unactiveFilter}</em>
+							</@tag>
+						</@formGroup>
+						<@formGroup>
+							<@aButton href='jsp/admin/search/ManageSearch.jsp' name='cancel' buttonIcon='close' title='#i18n{portal.search.modify_taglist.buttonCancel}' color='btn-secondary' />
+						</@formGroup>
                     <#else>
-                       <div class="form-group">
-							<div class="col-sm-offset-2 col-sm-10">
-								<button type="submit" name="submit" class="btn btn-primary btn-sm">
-									<i class="glyphicon glyphicon-ok"></i>&nbsp;#i18n{portal.search.modify_taglist.buttonValidate}
-								</button>
-							</div>
-                        </div>
-                    </#if>
+						<@formGroup>
+							<@button type='submit' name='submit' buttonIcon='check' title='#i18n{portal.search.modify_taglist.buttonValidate}' />
+						</@formGroup>
+					</#if>
 					</fieldset>
-                </form>
-			</div>
-		</div>
-	</div>
-</div>
+				</@tform>
+			</@boxBody>
+		</@box>
+	</@columns>
+</@row>

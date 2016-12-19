@@ -295,23 +295,13 @@
 
 
 <#macro item_navigation item_navigator id="item-navigator">
-<nav id="${id}">
-  <ul class="pager">
-	<#if (item_navigator.currentItemId > 0)>
-		<li class="previous">
-		<a href="${item_navigator.previousPageLink?xhtml}" title="#i18n{portal.util.labelPrevious}">
-	        <span aria-hidden="true">&larr;</span> #i18n{portal.util.labelPrevious}
-	    </a>
-		</li>
-	</#if>
-	<#if (item_navigator.currentItemId < item_navigator.listItemSize - 1) >
-		<li class="next">
-			<a href="${item_navigator.nextPageLink?xhtml}" title="#i18n{portal.util.labelNext}">
-				#i18n{portal.util.labelNext} <span aria-hidden="true">&rarr;</span>
-			</a>
-	    </li>
-	</#if>
-  </ul>
+<nav id="${id}" style="display:inline;">
+<#if (item_navigator.currentItemId > 0)>
+	<@aButton size='' href='${item_navigator.previousPageLink?xhtml}' title='#i18n{portal.util.labelPrevious}' buttonIcon='arrow-left' color='btn-info' showTitleXs=false showTitleSm=false />
+</#if>
+<#if (item_navigator.currentItemId < item_navigator.listItemSize - 1) >
+	<@aButton size='' href='${item_navigator.nextPageLink?xhtml}' title='#i18n{portal.util.labelNext}' buttonIcon='arrow-right' color='btn-info' showTitleXs=false showTitleSm=false />
+</#if>
 </nav>
 </#macro>
 
@@ -623,23 +613,10 @@
 </div>
 </#macro>
 
-<#macro boxHeader i18nTitleKey>
-    <div class="box-header">
-        <h3 class="box-title">#i18n{${i18nTitleKey}}</h3>
-        <#nested>
-    </div>
-</#macro>
-
-<#macro boxBody>
-    <div class="box-body">
-        <#nested>
-    </div>
-</#macro>
-
 <#macro boxSized col i18nTitleKey boxClass='box-primary' >
     <div class="col-md-${col}">
         <div class="box ${boxClass}">
-            <@boxHeader i18nTitleKey=i18nTitleKey />
+            <@boxHeader title=i18nTitleKey />
             <div class="box-body">
                 <#nested>
             </div>
@@ -659,7 +636,7 @@
 
 <#macro rowBoxHeader i18nTitleKey boxClass='box-primary' col=12>
 <@rowBox boxClass=boxClass col=col >
-    <@boxHeader i18nTitleKey=i18nTitleKey />
+    <@boxHeader title=i18nTitleKey />
     <div class="box-body">
         <#nested>
     </div>
@@ -672,17 +649,620 @@
 </div>
 </#macro>
 
-<#macro table>
-<div class="table-responsive">
-    <table class="table table-hover table-condensed">
-        <thead>
-        <#nested>
-        </body>
-    </table>
-</div>
-</#macro>
-
 <#macro tableHeadBodySeparator>
     </thead>
     <tbody>
+</#macro>
+
+
+<#---------------------------NEW MACROS------------------------------>
+	
+<#-- TABLE -->
+<#-- class: striped/bordered/hover/condensed -->
+<#macro table responsive=true class='' id='' params=''>
+	<#if responsive>
+	<div class="table-responsive">
+	</#if>
+	<table class="table table-hover table-condensed<#if class!=''> table-${class}</#if>" id="${id}"<#if params!=''> ${params}</#if>>
+			<#nested>
+		</table>
+	<#if responsive>
+	</div>
+	</#if>
+</#macro>
+
+<#macro td xs=0 sm=0 md=0 lg=0 xl=0 class='' id=''>
+	<td class="<#if xs!=0>col-xs-${xs}</#if><#if sm!=0> col-sm-${sm}</#if><#if md!=0> col-md-${md}</#if><#if lg!=0> col-lg-${lg}</#if><#if xl!=0> col-xl-${xl}</#if><#if class!=''>${class}</#if><#if id!=''> ${id}</#if>">
+		<#nested>
+	</td>
+</#macro>
+
+<#--- MACRO SELECT (TO REPLACE "COMBO" MACROS) --->
+<#macro select name items=0 default_value=0 id=name size='' sort=false list=false multiple=0 params='' title=''>
+	<select id="${id}" name="${name}" class="form-control<#if size!=''> input-${size}</#if>" <#if (multiple &gt; 0)>multiple size="${multiple}"</#if><#if params!=''> ${params}</#if><#if title!=''> ${title}</#if>>
+	<#if list>
+		<#if sort=true>
+			<#list items?sort_by("name") as item>
+			<#if default_value="${item.code}">
+			<option selected="selected" value="${item.code}" <#if !item.name?has_content>label="${i18n("portal.util.labelEmpty")}"</#if>>${item.name}</option>
+			<#else>
+			<option value="${item.code}" <#if !item.name?has_content>label="${i18n("portal.util.labelEmpty")}"</#if>>${item.name}</option>
+			</#if>
+			</#list>
+		<#else>
+			<#list items as item>
+			<#if default_value="${item.code}">
+			<option selected="selected" value="${item.code}" <#if !item.name?has_content>label="${i18n("portal.util.labelEmpty")}"</#if>>${item.name}</option>
+			<#else>
+			<option value="${item.code}" <#if !item.name?has_content>label="${i18n("portal.util.labelEmpty")}"</#if>>${item.name}</option>
+			</#if>
+			</#list>
+		</#if>
+	<#else>
+		<#nested>
+	</#if>
+	</select>
+</#macro>
+
+<#-- ICONS -->
+<#-- Icons from FontAwesome -->
+<#macro icon prefix='fa fa-' style='' class=''>
+  <i class="${prefix}${style}<#if class!=''> ${class}</#if>" aria-hidden="true"></i>
+</#macro>
+
+<#-- FORM -->
+<#-- class: form-inline/form-horizontal/navbar-form/navbar-left/search-form... Default is horizontal -->
+<#macro tform class='form-horizontal' class='' action='' method='post' name='' id='' role='form' params=''>
+	<form class="${class}"<#if id!=''> id="${id}"</#if><#if action!=''> action="${action}"</#if><#if method!=''> method="${method}"</#if><#if name!=''> name="${name}"</#if><#if role!=''> role="${role}"</#if><#if params!=''> ${params}</#if>>
+		<#nested>
+	</form>
+</#macro>
+
+<#-- FORM ELEMENT STRUCTURE -->
+<#-- formStyle values: empty/inline/horizontal/navbar-form/navbar-left... Default is horizontal -->
+<#-- groupStyle: success/warning/error... -->
+
+<#macro formGroup formStyle='horizontal' class='' groupStyle='' rows=1 labelKey='' labelFor='' helpKey='' id='' mandatory=false showLabel=true>
+	<div class="form-group<#if groupStyle!=''> has-${groupStyle} has-feedback</#if><#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if>>
+		<#if rows=1>
+			<#if labelKey!='' && formStyle='horizontal'>
+				<#assign labelClass = "col-xs-12 col-sm-3 col-md-3 col-lg-3 control-label">
+				<#assign divClass = "col-xs-12 col-sm-9 col-md-6 col-lg-6">
+			<#elseif formStyle = 'inline'>
+				<#assign labelClass = ''>
+			<#else>
+				<#assign divClass="col-xs-12 col-sm-offset-3 col-sm-6 col-md-offset-3 col-md-6 col-lg-offset-3 col-lg-6">
+			</#if>
+		<#else>
+			<#assign labelClass = "col-xs-12 col-sm-12 col-md-12 col-lg-12">
+			<#assign divClass = "col-xs-12 col-sm-12 col-md-12 col-lg-12">
+		</#if>
+		<#if labelKey!=''>
+		<label class="${labelClass}<#if showLabel=false> sr-only</#if>" for="${labelFor}">
+			${labelKey}
+			<#if mandatory=false>
+				&#160;(facultatif)
+			<#elseif mandatory=true>
+				&#160;<@icon style='asterisk' />
+			</#if>
+		</label>
+		</#if>
+		<#if formStyle="horizontal">
+		<div class="${divClass}">
+		</#if>
+			<#assign mandatory = mandatory>
+			<#nested>
+			<#if class='success'>
+				<@icon style='check' class='form-control-feedback' />
+			<#elseif class='warning'>
+				<@icon style='warning' class='form-control-feedback' />
+			<#elseif class='error'>
+				<@icon style='close' class='form-control-feedback' />
+			</#if>
+		<#if helpKey!='' && formStyle!='inline'><span class="help-block">${helpKey}</span></#if>
+		<#if formStyle="horizontal">
+		</div>
+		</#if>
+	</div>
+</#macro>
+
+<#-- INPUT TEXT/TEXTAREA/SEARCH/PASSWORD/EMAIL/FILE -->
+<#-- type : text/textarea/password/email/file. Default is text -->
+<#-- size: input-xs/input-sm/input-lg -->
+<#-- incoming Bootstrap 4 size: form-control-sm/form-control-lg or empty for the normal size -->
+<#-- pattern: [A-F][0-9]{5} -->
+<#macro input name type='text' value='' class='' size='' inputSize=0 maxlength=0 placeHolder='' rows=4 cols=40 tabIndex='' id='' mandatory=mandatory disabled=false readonly=false pattern='' params='' title=''>
+	<#if type='textarea'>
+		<textarea name="${name}" class="form-control<#if size!=''> ${size}</#if><#if class!=''> ${class}</#if>" rows="${rows}" cols="${cols}"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}"</#if><#if title!=''> title="${title}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if mandatory> required</#if>><#nested></textarea>
+	<#elseif type='text' || type='search' || type='password' || type='email' || type='file'>
+		<input class="form-control<#if size!=''> ${size}</#if><#if class!=''> ${class}</#if> " id="${id}" name="${name}" type="${type}" value="${value}"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}"</#if><#if title!=''> title="${title}"</#if><#if maxlength &gt; 0> maxlength="${maxlength}"</#if><#if inputSize!=0> size="${inputSize}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if mandatory> required</#if> />
+	</#if>
+</#macro>
+
+<#-- STATIC TEXT -->
+<#-- Bootstrap colors: muted/primary/success/info/warning/danger -->
+<#-- AdminLTE colors: red/yellow/aqua/blue/black/light-blue/green/gray/navy/teal/olive/lime/orange/fuchsia/purple/maroon -->
+<#macro staticText inForm=true color=''>
+    <p class="<#if inForm>form-control-static</#if><#if color!=''> text-${color}</#if>">
+        <#nested>
+    </p>
+</#macro>
+
+<#-- CHECKBOX -->
+<#-- orientation: vertical/horizontal. Default is vertical -->
+<#macro checkBox name id='' labelKey='' labelFor='' orientation='vertical' value='' tabIndex='' title='' disabled=false checked=false mandatory=mandatory>
+	<#if orientation='vertical'>
+	<div class="checkbox">
+	</#if>
+	<label<#if orientation='horizontal'> class="checkbox-inline"</#if><#if labelFor!=''> for="${labelFor}"</#if>>
+		<input type="checkbox" id="${id}" name="${name}" value="${value}"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if checked> checked</#if><#if disabled> disabled</#if><#if mandatory> required</#if>>
+		<#if labelKey!=''>
+			${labelKey}
+		<#else>
+			&#160;
+		</#if>
+	</label>
+	<#if orientation='vertical'></div></#if>
+</#macro>
+
+<#-- RADIO BUTTON -->
+<#-- orientation: vertical/horizontal. Default is vertical -->
+<#macro radioButton name id='' value='' labelKey='' helpKey='' orientation='vertical' tabIndex='' title='' disabled=false checked=false>
+	<#if orientation='vertical'>
+		<div class="radio">
+	</#if>
+			<label<#if orientation='horizontal'> class="radio-inline"</#if>>
+				<input type="radio" id="${id}" name="${name}" value="${value}"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if checked> checked</#if><#if disabled> disabled</#if>>
+			<#if labelKey!=''>
+					${labelKey}
+			<#else>
+					&#160;
+			</#if>
+			</label>
+<#if orientation='vertical'></div></#if>
+</#macro>
+
+
+<#-- INPUT-GROUP -->
+<#-- size: sm/lg/no size-->
+<#macro inputGroup size=''>
+	<div class="input-group<#if size!=''> input-group-${size}</#if>">
+		<#nested>
+	</div>
+</#macro>
+
+<#macro inputGroupItem type='btn'>
+<#-- type: btn/addon-->
+	<span class="input-group-${type}">
+		<#nested>
+	</span>
+</#macro>
+
+<#-- DROPDOWN MENU -->
+<#-- class: dropdown-menu-right -->
+<#-- Expected content : <li><a>Your link here</a></li> -->
+<#macro dropdownMenu class=''>
+	<ul class="dropdown-menu ${class}">
+		<#nested>
+	</ul>
+</#macro>
+
+<#-- ROW -->
+<#macro row class='' id=''>
+	<div class="row<#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if>>
+		<#nested>
+	</div>
+</#macro>
+
+<#-- COLUMNS -->
+<#-- cols = col-xs- (<544px)/col-sm- (>=544px)/col-md- (>=768px)/col-lg- (>=992px)/col-xl- (>=1200px) -->
+<#macro columns offsetXs=0 offsetSm=0 offsetMd=0 offsetLg=0 offsetXl=0 pushXs=0 pushSm=0 pushMd=0 pushLg=0 pushXl=0 xs=12 sm=12 md=12 lg=12 xl=12 id='' class=''>
+	<div class="col-xs-${xs} col-sm-${sm} col-md-${md} col-lg-${lg}
+	<#if offsetXs!=0> col-xs-offset-${offsetXs}</#if>
+	<#if offsetSm!=0> col-sm-offset-${offsetSm}</#if>
+	<#if offsetMd!=0> col-md-offset-${offsetMd}</#if>
+	<#if offsetLg!=0> col-lg-offset-${offsetLg}</#if>
+	<#if offsetXl!=0> col-xl-offset-${offsetXl}</#if>
+	<#if pushXs!=0> col-xs-push-${pushXs}</#if>
+	<#if pushSm!=0> col-sm-push-${pushSm}</#if>
+	<#if pushMd!=0> col-md-push-${pushMd}</#if>
+	<#if pushLg!=0> col-lg-push-${pushLg}</#if>
+	<#if pushXl!=0> col-xl-push-${pushXl}</#if>
+	<#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if>>
+		<#nested>
+	</div>
+</#macro>
+
+<#-- TABS -->
+
+<#-- TAB Custom AdminLTE -->
+<#macro tabs color=''>
+	<div class="nav-tabs-custom<#if color!=''> ${color}</#if>">
+		<#nested>
+	</div>
+</#macro>
+
+<#-- Bootstrap UL tabs -->
+<#-- type: tabs/tabs nav-justified/pills/pills nav-stacked/pills nav-justified -->
+<#macro listTabs type='tabs'>
+		<ul class="nav nav-${type}">
+			<#nested>
+		</ul>
+</#macro>
+
+<#-- TAB Content AdminLTE -->
+<#macro tabContent>
+		<div class="tab-content">
+			<#nested>
+		</div>
+</#macro>
+
+
+<#-- ACCORDION --> 
+<#-- The accordionContainer is the container for accordionPanel, which itself is the container for accordionHeader and accordionBody -->
+<#-- The childId argument in accordionPanel is meant to be used in the two sub-macros: accordionHeader and accordionBody -->
+<#macro accordionContainer id=''>
+	<div class="box-group" id="${id}">
+		<#assign parentId = id>
+		<#nested>
+	</div>
+</#macro>
+
+<#macro accordionPanel color='' collapsed=true childId=''>
+	<div class="panel box box-${color}">
+		<#if collapsed = true>
+			<#assign aClass = 'collapsed'>
+			<#assign expanded = 'false'>
+			<#assign childClass = 'panel-collapse collapse'>
+		<#else>
+			<#assign aClass = ''>
+			<#assign expanded = 'true'>
+			<#assign childClass = 'panel-collapse collapse in'>
+		</#if>
+			<#assign childId = childId>
+		<#nested>
+	</div>
+</#macro>
+
+<#-- ACCORDION ELEMENT --> 
+<#macro accordionHeader title='' parentId=parentId childId=childId boxTools=false>
+		<div class="box-header with-border">
+			<h2 class="box-title">
+				<a class="${aClass}" data-toggle="collapse" data-parent="#${parentId}" href="#${childId}" aria-expanded="${expanded}">
+					${title}
+				</a>
+			</h2>
+			<#if boxTools=true>
+			<div class="box-tools">
+				<#nested>
+			</div>
+			</#if>
+		</div>
+</#macro>
+
+<#macro accordionBody id=childId class=childClass expanded=expanded>
+		<div id="${id}" class="${class}" aria-expanded="${expanded}">
+			<@boxBody>
+				<#nested>
+			</@boxBody>
+		</div>
+</#macro>
+
+<#macro progressBar description=''>
+	<div class="progress">
+		<div id="progressbar" class="progress-bar progress-bar-striped" role="progressbar">
+			<div id="complexity">0%</div>
+		</div>
+	</div>
+	<#if description!=''>
+		<span class="progress-description">${description}</span>
+	</#if>
+</#macro>
+
+
+
+
+<#-- INFO-BOX AdminTLE (widget) -->
+<#-- color: only for the left side showing the icon. -->
+<#-- bgColor: for the right side containing the text -->
+<#macro infoBox color='' boxText='' boxIcon='' boxNumber='' unit='' bgColor='' progressBar='' progressDescription=''>
+	<div class="info-box<#if bgColor!=''> ${bgColor}</#if>">
+		<span class="info-box-icon<#if color!=''> ${color}</#if>"><@icon style=boxIcon /></span>
+		<div class="info-box-content">
+			<span class="info-box-text">${boxText}</span>
+			<span class="info-box-number">${boxNumber?string(",000")}<#if unit!=''> <small>${unit}</small></#if></span>
+			<#if bgColor!='' && progressBar!=''>
+			<div class="progress">
+				<div class="progress-bar" style="width: ${progressBar}%"></div>
+			</div>
+			</#if>
+			<#if progressDescription!=''>
+			<span class="progress-description">${progressDescription}</span>
+			</#if>
+		</div>
+	</div>
+</#macro>
+
+<#-- TAG -->
+<#-- color: default/primary/success/info/warning/danger/ -->
+<#macro tag color='default' title='' type='span'>
+	<${type} class="label label-${color}"<#if title!=''>title='${title}'</#if>>
+		<#nested>
+	</${type}>
+</#macro>
+
+<#-- BUTTON -->
+<#-- bootstrap 3 : size: btn-xs/btn-sm/btn-lg -->
+<#-- upcoming bootstrap 4 : size: btn-sm for small buttons/empty for medium buttons/btn-lg for large buttons -->
+<#-- color: btn-default[bootstrap4 : btn-secondary]/btn-primary/btn-success/btn-warning/btn-danger/btn-info/bg-purple/bg-blue/bg-navy/bg-teal/bg-maroon/bg-black/bg-gray/bg-olive/bg-lime/bg-orange/bg-fuchsia -->
+<#-- color (upcoming bootstrap 4): btn-outline-default/btn-outline-primary/btn-outline-success/btn-outline-warning/btn-outline-danger/btn-outline-info/ -->
+<#-- style: btn-block/btn-flat/close/navbar-toggle/collapsed... -->
+<#-- type: button/submit/reset -->
+<#-- params: data-toggle/data-target/data-dismiss... -->
+<#-- buttonIcon: icon name ex: info/check/comment/envelope... -->
+<#-- iconPosition: left/right -->
+<#-- titleVisibility: hide the title for reponsive mode ex: hidden-xs, hidden-sm -->
+<#macro button size='sm' color='btn-primary' style='btn-flat' class='' type='button' params='' title='' showTitle=true showTitleXs=true showTitleSm=true showTitleMd=true showTitleLg=true titleVisibility='hidden-xs' name='' buttonIcon='' dropdownMenu=false disabled=false id='' value='' iconPosition='left'>
+	<#-- Bootstrap 4 transition -->
+	<#if color='btn-secondary'>
+		<#assign color_temp='btn-default'>
+	<#else>
+		<#assign color_temp=color>
+	</#if>
+	
+	<#-- Visibility of button title -->
+	<#assign showTitleClass = '' />
+	<#if showTitle = false><#assign showTitleClass = 'sr-only' /></#if>
+	<#if showTitleXs = false><#assign showTitleClass = showTitleClass + 'hidden-xs' /></#if>
+	<#if showTitleSm = false><#assign showTitleClass = showTitleClass + ' ' + 'hidden-sm' /></#if>
+	<#if showTitleMd = false><#assign showTitleClass = showTitleClass + ' ' + 'hidden-md' /></#if>
+	<#if showTitleLg = false><#assign showTitleClass = showTitleClass + ' ' + 'hidden-lg' /></#if>
+	
+	<button class="<#if style!='close'>btn</#if><#if size!='' && style!='btn-box-tool'> btn-${size}</#if><#if color_temp!='' && style!='btn-box-tool'> ${color_temp}</#if><#if style!=''> ${style}</#if><#if dropdownMenu> dropdown-toggle</#if><#if class!=''> ${class}</#if>" type="${type}"<#if title!=''> title="${title}"</#if><#if name!=''> name="${name}"</#if><#if id!=''> id="${id}"</#if><#if value!=''> value="${value}"</#if><#if params!=''> ${params}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if>>
+		<#if buttonIcon!='' && iconPosition='left'><@icon style=buttonIcon /></#if>
+		<#if showTitleClass!='' && style!='btn-box-tool'><span class="${showTitleClass}"></#if>${title}<#if showTitleClass!='' && style!='btn-box-tool'></span></#if>
+		<#if buttonIcon!='' && iconPosition='right'><@icon style=buttonIcon /></#if>
+		<#if dropdownMenu>
+		&#160;<@icon style='caret-down' />
+		</#if>
+	</button>
+</#macro>
+
+<#-- A BUTTON (LINK STYLED AS A BUTTON) -->
+<#-- size: btn-xs/btn-sm/btn-lg -->
+<#-- color: btn-default/btn-primary/btn-success/btn-warning/btn-danger/btn-info/bg-purple/bg-blue/bg-navy/bg-teal/bg-maroon/bg-black/bg-gray/bg-olive/bg-lime/bg-orange/bg-fuchsia -->
+<#-- style: btn-block/btn-flat/disabled/btn-app -->
+<#-- icon: icon name ex: info/check/comment/envelope... -->
+<#-- titleVisibility: hide the title for reponsive mode ex: hidden-xs, hidden-sm -->
+<#macro aButton name='' id='' size='sm' color='btn-primary' style='btn-flat' class='' href='' title='' showTitle=true showTitleXs=true showTitleSm=true showTitleMd=true showTitleLg=true buttonIcon='' titleVisibility='hidden-xs' params='' dropdownMenu=false disabled=false iconPosition='left'>
+	<#-- Bootstrap 4 transition -->
+	<#if color='btn-secondary'>
+		<#assign color_temp='btn-default'>
+	<#else>
+		<#assign color_temp=color>
+	</#if>
+	
+	<#-- Visibility of button title -->
+	<#assign showTitleClass = '' />
+	<#if showTitle = false><#assign showTitleClass = 'sr-only' /></#if>
+	<#if showTitleXs = false><#assign showTitleClass = showTitleClass + 'hidden-xs' /></#if>
+	<#if showTitleSm = false><#assign showTitleClass = showTitleClass + ' ' + 'hidden-sm' /></#if>
+	<#if showTitleMd = false><#assign showTitleClass = showTitleClass + ' ' + 'hidden-md' /></#if>
+	<#if showTitleLg = false><#assign showTitleClass = showTitleClass + ' ' + 'hidden-lg' /></#if>
+	
+	<a class="btn<#if size!=''> btn-${size}</#if><#if color_temp!=''> ${color_temp}</#if><#if style!=''> ${style}</#if><#if class!=''> ${class}</#if>"<#if name!=''> name="${name}"</#if><#if id!=''> id="${id}"</#if> href="${href}" title="${title}"<#if params!=''> ${params}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if>>
+		<#if buttonIcon!='' && iconPosition='left'><@icon style=buttonIcon /></#if>
+		<span class="${showTitleClass}">${title}</span>
+		<#if buttonIcon!='' && iconPosition='right'><@icon style=buttonIcon /></#if>
+		<#if dropdownMenu>
+		&#160;<@icon style='caret-down' />
+		</#if>
+		<#nested>
+	</a>
+</#macro>
+
+<#-- BTN TOOLBAR -->
+<#macro btnToolbar id='' params='' ariaLabel=''>
+	<div class="btn-toolbar" role="toolbar"<#if ariaLabel!=''> aria-label="${ariaLabel}"</#if><#if id!=''> ${id}</#if><#if params!=''> ${params}</#if>>
+		<#nested>
+	</div>
+</#macro>
+
+<#-- BTN GROUP -->
+<#-- size: sm/empty/lg -->
+<#macro btnGroup size='sm' class='' id='' params='' ariaLabel=''>
+	<div class="btn-group<#if size!=''> btn-group-${size}</#if><#if class!=''> ${class}</#if>" role="group"<#if ariaLabel!=''> aria-label="${ariaLabel}"</#if><#if id!=''> ${id}</#if><#if params!=''> ${params}</#if>>
+		<#nested>
+	</div>
+</#macro>
+
+<#-- MODAL -->
+<#-- bgColor: modal-default/modal-primary/modal-info/modal-warning/modal-danger -->
+<#macro modal id bgColor=''>
+<div class="modal ${bgColor} fade" tabindex="-1" role="dialog" id="${id}" data-toggle="modal">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<#nested>
+		</div>
+	</div>
+</div>
+</#macro>
+
+<#macro modalHeader titleLevel='h4' modalTitle=''>
+<div class="modal-header">
+	<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		<span aria-hidden="true">&times;</span>
+	</button>
+	<${titleLevel} class="modal-title">${modalTitle}</${titleLevel}>
+</div>
+</#macro>
+
+<#macro modalBody>
+<div class="modal-body">
+	<#nested>
+</div>
+</#macro>
+
+<#macro modalFooter>
+<div class="modal-footer">
+	<#nested>
+</div>
+</#macro>
+
+<#-- BREADCRUMBS -->
+<#macro breadcrumbs id=''>
+<ol class="breadcrumb" id="${id}">
+	<#nested>
+</ol>
+</#macro>
+
+<#-- CALLOUT -->
+<#-- AdminLTE classes: info/warning/danger/success -->
+<#macro callOut color='' titleLevel='h3' title='' id='' callOutIcon=''>
+<div class="callout callout-${color}"<#if id!=''> id="${id}"</#if>>
+	<#if title!=''><${titleLevel}><@icon style=callOutIcon /> ${title}</${titleLevel}></#if>
+	<#nested>
+</div>
+</#macro>
+
+<#-- ALERT -->
+<#-- classes: alert-success/alert-info/alert-warning/alert-danger + alert-dismissible -->
+<#macro alert class='' titleLevel='h3' title='' iconTitle='' id='' dismissible=false>
+<div class="alert ${class}"<#if id!=''> id="${id}"</#if>>
+	<#if dismissible>
+		<@button color='' size='' style='close' params='data-dismiss="alert" aria-hidden="true"'>
+			&times;
+		</@button>
+	</#if>
+	<#if title!=''>
+	<${titleLevel}>
+		<#if iconTitle!=''><@icon style=iconTitle /></#if>
+		${title}
+	</${titleLevel}>
+	</#if>
+	<#nested>
+</div>
+</#macro>
+
+
+<#---------------------------------------->
+<#-- AdminLTE Box -->
+<#-- color: default/primary/info/success/warning/danger -->
+<#-- style: solid (no top border) -->
+<#-- collapsed: true/false -->
+<#macro box color='' id='' style='' class='' params='' collapsed=false>
+<div class="box<#if color!=''> box-${color}</#if><#if style!=''> box-${style}</#if><#if class!=''> ${class}</#if><#if collapsed> collapsed-box</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+	<#nested>
+</div>
+</#macro>
+
+<#macro boxHeader title='' showTitle=true id='' boxTools=false titleLevel='h2'>
+<div class="box-header with-border"<#if id!=''> id="${id}"</#if>>
+<${titleLevel} class="box-title<#if showTitle=false> sr-only</#if>">${title}</${titleLevel}>
+	<#if boxTools>
+	<div class="box-tools">
+		<#nested>
+	</div>
+	</#if>
+</div>
+</#macro>
+
+<#macro boxBody class='' id=''>
+<div class="box-body<#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if>>
+	<#nested>
+</div>
+</#macro>
+
+<#macro boxFooter id='' class=''>
+<div class="box-footer<#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if>>
+	<#nested>
+</div>
+</#macro>
+<#---------------------------------------->
+	
+	
+
+<#-- AdminLTE Small Box -->
+<#-- color:Bootstrap + AdminLTE colors -->
+<#-- unit: %,... -->
+<#macro smallBox color='' title='' text='' boxIcon='' titleLevel='h3' unit='' url='' urlText='' id=''>
+<div class="small-box<#if color!=''> ${color}</#if>"<#if id!=''> id="${id}"</#if>>
+	<div class="inner">
+		<${titleLevel}>${title}<#if unit!=''><sup style="font-size:20px;">${unit}</sup></#if></${titleLevel}>
+		<p>${text}</p>
+	</div>
+	<div class="icon">
+		<@icon style=boxIcon />
+	</div>
+	<#if url!=''>
+	<a class="small-box-footer" href="${url}">${urlText} <@icon style='arrow-circle-right' /></a>
+	</#if>
+</div>
+</#macro>
+
+<#-- AdminLTE Error Page -->
+<#-- Error Type: 500,404... -->
+<#-- Color: primary/blue/navy/aqua/teal/green/orange/yellow/red/purple/maroon/gray/black... -->
+<#macro errorPage color='' errorType='' id=''>
+<div class="error-page"<#if id!=''> id="${id}"</#if>>
+	<h2 class="headline text-${color}">${errorType}</h2>
+	<div class="error-content">
+		<h3>
+			<@icon style='warning' class='text-${color}' />
+			<#if errorType=='404'>
+				#i18n{portal.util.error404.title}
+			<#elseif errorType='500'>
+				#i18n{portal.util.error500.title}
+			<#else>...
+			</#if>
+		</h3>
+		<p>
+			<#if errorType=='404'>
+				#i18n{portal.util.error404.text} 
+			<#elseif errorType='500'>
+				#i18n{portal.util.error500.text} 
+			<#else>...
+			</#if>
+		</p>
+		<@aButton href='' size='' color='bg-${color}' style='btn-flat'>
+			<@icon style='home' />
+			#i18n{portal.util.labelBackHome}
+		</@aButton>
+	</div>
+</div>
+</#macro>
+
+<#-- CONTEXTUAL BACKGROUND P-->
+<#-- Bootstrap colors: primary/success/info/warning/danger -->
+<#-- AdminTLE colors: gray/gray-light/black/red/yellow/aqua/blue/light-blue/green/navy/teal/olive/lime/orange/fuchsia/purple/maroon -->
+<#macro coloredBg color='' type='p'>
+	<${type} class="bg-${color}"><#nested></${type}>
+</#macro>
+
+<#macro listGroup>
+	<ul class="list-group">
+	<#assign liClass = "list-group-item">
+	<#nested>
+	</ul>
+</#macro>
+
+<#macro unstyledList>
+	<ul class="unstyled">
+	<#assign liClass = "margin">
+	<#nested>
+	</ul>
+</#macro>
+
+<#-- DROPDOWN MENU LIST -->
+<#macro dropdownList params=''>
+	<ul class="dropdown-menu"<#if params!=''> ${params}</#if>>
+		<#nested>
+	</ul>
+</#macro>
+
+<#-- Will no longer exist in Boostrap 4. Use label/tag + .tag-pill instead -->
+<#macro badge>
+	<span class="badge">
+		<#nested>
+	</span>
 </#macro>

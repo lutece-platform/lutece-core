@@ -1,12 +1,9 @@
-<div class="row">
-	<div class="col-xs-12 col-sm-12 col-md-12">
-		<div class="box box-success">
-			<div class="box-header">
-				<h3 class="box-title">#i18n{portal.rbac.select_permissions.titleSelectPermissions}</h3>
-				<div class="box-tools"></div>
-			</div><!-- /.box-header -->
-			<div class="box-body">
-				<form class="form-horizontal" role="form" method="post"  action="jsp/admin/rbac/DoSelectPermissions.jsp" name="add_control">
+<@row>
+	<@columns>
+		<@box color='success'>
+      <@boxHeader title='#i18n{portal.rbac.select_permissions.titleSelectPermissions}' />
+			<@boxBody>
+				<@tform method='post' action='jsp/admin/rbac/DoSelectPermissions.jsp' name='add_control'>
 					<input type="hidden" name="role_key" value="${role_key}">
 					<input type="hidden" name="resource_type" value="${resource_type}">
 					<input type="hidden" name="select_resources" value="${select_resources}">
@@ -15,58 +12,28 @@
 							<input type="hidden" name="resource_id" value="${resource_id}">
 						</#list>
 					</#if>
-					<div class="form-group">
-						<div class="col-xs-12 col-sm-offset-2 col-sm-10">
-							<div class="radio">
-								<label>
-									<input type="radio" name="select_permissions" id="select_all" value="all" checked="checked" >
-									#i18n{portal.rbac.select_permissions.labelSelectAllPermissions}
-								</label>
-							</div>
-							<div class="radio">
-								<label>
-									<input type="radio" name="select_permissions" id="select_choose" value="choose">
-									#i18n{portal.rbac.select_permissions.labelSelectPermissionsFromList}
-								</label>
-							</div>
-						</div>
-					</div>
-					<div class="form-group">
-						<div class="col-xs-12 col-sm-offset-2 col-sm-10">
-							<blockquote>
-							<#list permissions_list as item>
-								<div class="checkbox">
-								<#if item.checked >
-									<label>
-										<input type="checkbox" name="permission_key" value="${item.code}">
-										${item.name}
-									</label>
-								<#else>
-									<label>
-										<input type="checkbox" name="permission_key" value="${item.code}">
-										${item.name}
-									</label>
-								</#if>
-								</div>
-							</#list>
-							</blockquote>
-						</div>
-					</div>
-					<div class="form-group">
-						<div class="col-sm-offset-2 col-sm-10">
-							<button class="btn btn-primary btn-flat" type="submit" >
-								<i class="fa fa-check"></i>&nbsp;#i18n{portal.rbac.select_permissions.buttonLabelValidate}
-							</button>
-							<a class="btn btn-default btn-flat" href="jsp/admin/rbac/AddControlToRole.jsp?role_key=${role_key}&amp;resource_type=${resource_type}" >
-								<i class="fa fa-remove"></i>&nbsp;#i18n{portal.rbac.select_permissions.buttonLabelCancel}
-							</a>
-						</div>
-					</div>
-				</form>
-			</div>
-		</div>
-    </div>
-</div>
+					<@formGroup>
+						<@radioButton name='select_permissions' id='select_all' value='all' labelKey='#i18n{portal.rbac.select_permissions.labelSelectAllPermissions}' checked=true />
+						<@radioButton name='select_permissions' id='select_choose' value='choose' labelKey='#i18n{portal.rbac.select_permissions.labelSelectPermissionsFromList}' />
+					</@formGroup>
+					<@formGroup>
+						<#list permissions_list as item>
+							<#if item.checked >
+								<@checkBox name='permission_key' value='${item.code}' labelKey='${item.name}' />
+							<#else>
+								<@checkBox name='permission_key' value='${item.code}' labelKey='${item.name}' />
+							</#if>
+						</#list>
+					</@formGroup>
+					<@formGroup>
+						<@aButton href='jsp/admin/rbac/AddControlToRole.jsp?role_key=${role_key}&amp;resource_type=${resource_type}' buttonIcon='arrow-left' title='#i18n{portal.rbac.select_permissions.buttonLabelCancel}' size='' color='btn-secondary' />
+						<@button type='submit' buttonIcon='check' title='#i18n{portal.rbac.select_permissions.buttonLabelValidate}' size='' />
+					</@formGroup>
+				</@tform>
+			</@boxBody>
+		</@box>
+  </@columns>
+</@row>
 <script>
 jQuery( document ).ready(function( $ ) {
 	$(":checkbox").click( function(){
@@ -77,6 +44,9 @@ jQuery( document ).ready(function( $ ) {
 			$("#select_choose").prop( "checked", false );
 			$("#select_all").prop("checked", true );
 		}
+	});
+	$("#select_all").click(function() {
+		$(":checkbox").prop("checked",false);
 	});
 });
 </script>

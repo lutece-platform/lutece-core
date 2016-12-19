@@ -1,117 +1,82 @@
 <#if portletType.createScriptTemplate != "" ><#include portletType.createScriptTemplate! /></#if>
-<div class="row">
-	<div class="col-md-12">
-		<form method="post" name="form" action="jsp/admin/${portletType.doCreateUrl}" target="_top" role="form">  
+	
+	<@tform method='post' name='form' action='jsp/admin/${portletType.doCreateUrl}' params='target="_top"'>  
 		<input type="hidden" name="page_id" value="${portlet_page_id}">
 		<input type="hidden" name="portlet_type_id" value="${portletType.id}">
 		<fieldset>     
-			<legend>&nbsp;#i18n{portal.site.portletType.labelCreate} ${portletType.name}</legend>
-			<div class="row">
-				<div id="panel" class="col-md-3">
-					<div class="well">
-						<div class="form-group">
-							<label for="column">#i18n{portal.site.create_portlet.labelColumn}</label>
-							<@comboWithParams name="column" default_value="1" additionalParameters="class=\"form-control\"" items=portlet_columns_combo />
-						</div>
-						<div class="form-group">
-							<label for="order">#i18n{portal.site.create_portlet.labelOrder} </label>
-							<@comboWithParams name="order" default_value="1" additionalParameters="class=\"form-control\"" items=portlet_order_combo />
-						</div>
-						<#if portletType.id != "ALIAS_PORTLET">
-							<div class="form-group">
-								<label for="style">#i18n{portal.site.create_portlet.labelStyle} </label>
-								<@comboSortedWithParams name="style" default_value="0" additionalParameters="class=\"form-control\"" items=portlet_style_combo />
-							</div>
+			<legend>#i18n{portal.site.portletType.labelCreate} &nbsp;${portletType.name}</legend>
+				<@row>
+					<@columns sm=3 md=3 lg=3>
+						<@box color='default box-solid'>
+							<@boxHeader title='' />
+							<@boxBody>
+								<@formGroup labelFor='column' labelKey='#i18n{portal.site.create_portlet.labelColumn}' rows=2>
+									<@select name='column' default_value='1' items=portlet_columns_combo list=true />
+								</@formGroup>
+								<@formGroup labelFor='order' labelKey='#i18n{portal.site.create_portlet.labelOrder}' rows=2>
+									<@select name='order' default_value='1' items=portlet_order_combo list=true />
+								</@formGroup>
+								<#if portletType.id != "ALIAS_PORTLET">
+									<@formGroup labelFor='style' labelKey='#i18n{portal.site.create_portlet.labelStyle}' rows=2>
+										<@select name='style' default_value='0' items=portlet_style_combo list=true />
+									</@formGroup>
+								</#if>
+								<@formGroup class='pull-right'>
+									<@button type='button' id='bt-toggle' buttonIcon='chevron-down' color='btn-secondary' />
+								</@formGroup>
+										
+								<div id="params" style="clear:both;">
+									<fieldset>
+										<legend>#i18n{portal.site.admin_page.labelAdvancedParameters}</legend>
+										<@formGroup labelFor='role' labelKey='#i18n{portal.site.create_portlet.labelRole}' rows=2>
+											<@select name='role' default_value='none' items=portlet_role_combo list=true />
+										</@formGroup>
+										<@formGroup labelKey='#i18n{portal.site.create_portlet.labelAlias}' rows=2>
+											<@radioButton orientation='horizontal' name='accept_alias' value='1' labelKey='#i18n{portal.util.labelYes}' />
+											<@radioButton orientation='horizontal' name='accept_alias' value='0' labelKey='#i18n{portal.util.labelNo}' checked=true />
+										</@formGroup>
+										<@formGroup labelKey='#i18n{portal.site.create_portlet.labelDisplayOnDevice}' rows=2>
+											<@checkBox labelFor='display_on_small_device' name='display_on_small_device' value='1' checked=true labelKey='#i18n{portal.site.create_portlet.checkboxSmallDevice}' />
+											<@checkBox labelFor='display_on_normal_device' name='display_on_normal_device' value='1' checked=true labelKey='#i18n{portal.site.create_portlet.checkboxNormalDevice}' />
+											<@checkBox labelFor='display_on_large_device' name='display_on_large_device' value='1' checked=true labelKey='#i18n{portal.site.create_portlet.checkboxLargeDevice}' />
+											<@checkBox labelFor='display_on_xlarge_device' name='display_on_xlarge_device' value='1' checked=true labelKey='#i18n{portal.site.create_portlet.checkboxXLargeDevice}' />
+										</@formGroup>
+									</fieldset>
+								</div>
+							</@boxBody>
+						</@box>
+					</@columns>
+
+					<@columns sm=9 md=9 lg=9 id='content'>
+						<@formGroup labelKey='#i18n{portal.site.create_portlet.labelPortletTitle}' labelFor='portlet_name' mandatory=true rows=2>
+							<@input type='text' name='portlet_name' value='' maxlength=70 />
+						</@formGroup>
+						<@formGroup rows=2>
+							<@radioButton orientation='horizontal' name='display_portlet_title' value='0' checked=true labelKey='#i18n{portal.site.create_portlet.radioButtonDisplayPortletTitleYes}' />
+							<@radioButton orientation='horizontal' name='display_portlet_title' value='1' labelKey='#i18n{portal.site.create_portlet.radioButtonDisplayPortletTitleNo}' />
+						</@formGroup>
+						<#if portletType.createSpecificTemplate != "" >
+							<#include portletType.createSpecificTemplate />
 						</#if>
-						<fieldset>
-							<legend id="adv_param">#i18n{portal.site.admin_page.labelAdvancedParameters} <span id="bt-toggle" class="glyphicon glyphicon-chevron-down pull-right"></span></legend>
-							<div id="params">
-								<div class="form-group">
-									<label for="role">#i18n{portal.site.create_portlet.labelRole}<br /></label>
-									<@comboSortedWithParams name="role" default_value="none" additionalParameters="class=\"form-control\"" items=portlet_role_combo />
-								</div>
-								<div class="form-group">
-									<label>#i18n{portal.site.create_portlet.labelAlias}</label>
-									<label class="radio-inline" >
-										<input class="radio" type="radio" name="accept_alias" value="1" > #i18n{portal.util.labelYes}
-									</label>
-									<label class="radio-inline">
-										<input class="radio" type="radio" name="accept_alias" value="0" checked > #i18n{portal.util.labelNo}
-									</label>
-								</div>
-								<div class="form-group">
-									<label>#i18n{portal.site.create_portlet.labelDisplayOnDevice}</label>
-									<div class="checkbox">
-										<label for="display_on_small_device">
-											<input class="checkbox" type="checkbox" name="display_on_small_device" value="1" checked="checked">
-											&nbsp;#i18n{portal.site.create_portlet.checkboxSmallDevice}
-										</label> 
-									</div>
-									<div class="checkbox">
-										<label for="display_on_normal_device">
-											<input class="checkbox" type="checkbox" name="display_on_normal_device" value="1" checked="checked">
-											&nbsp;#i18n{portal.site.create_portlet.checkboxNormalDevice}
-										</label>
-									</div>
-									<div class="checkbox">
-										<label for="display_on_large_device">
-											<input class="checkbox" type="checkbox" name="display_on_large_device" value="1" checked="checked">
-											&nbsp;#i18n{portal.site.create_portlet.checkboxLargeDevice} &nbsp;
-										</label>
-									</div>
-									<div class="checkbox">
-										<label for="display_on_xlarge_device">
-									       <input class="checkbox" type="checkbox" name="display_on_xlarge_device" value="1" checked="checked">
-											&nbsp;#i18n{portal.site.create_portlet.checkboxXLargeDevice} &nbsp;
-								        </label>
-								    </div>
-								</div>
-							</div>
-						</fieldset>
-					</div>
-				</div>
-				<div id="content" class="col-md-9">
-					<div class="form-group">
-						<label for="portlet_name">#i18n{portal.site.create_portlet.labelPortletTitle}</label> 
-						<input type="text" name="portlet_name" value="" class="form-control" maxlength="70">
-					</div>
-					 <div class="form-group">
-						<label for="">&nbsp;</label> 
-						<label class="radio-inline">
-							<input type="radio" name="display_portlet_title" value="0"checked="checked">&nbsp;#i18n{portal.site.create_portlet.radioButtonDisplayPortletTitleYes}                      
-						</label>
-						<label class="radio-inline">
-							<input type="radio" name="display_portlet_title" value="1" >&nbsp;#i18n{portal.site.create_portlet.radioButtonDisplayPortletTitleNo}
-						</label>
-					</div>
-					<#if portletType.createSpecificTemplate != "" >
-						<#include portletType.createSpecificTemplate />
-					</#if>
-					<#if portletType.createSpecificFormTemplate != "" >
-						<#include portletType.createSpecificFormTemplate />
-					</#if>
-					<div class="form-group">
-						<button type="submit" class="btn btn-primary btn-sm">
-							<i class="glyphicon glyphicon-ok"></i>&nbsp;
-							<span class="hidden-phone" >#i18n{portal.site.create_portlet.buttonValidate}</span>
-						</button>                       
-						<a href="jsp/admin/site/AdminSite.jsp" class="btn btn-default btn-sm" target="_top">            
-							<i class="glyphicon glyphicon-remove-circle"></i>&nbsp;<span class="hidden-phone">#i18n{portal.site.create_portlet.buttonBack}</span>
-						</a>
-					</div> 
-				</div> 
-			</div> 
+						<#if portletType.createSpecificFormTemplate != "" >
+							<#include portletType.createSpecificFormTemplate />
+						</#if>
+						<@formGroup rows=2>
+							<@button type='submit' buttonIcon='check' title='#i18n{portal.site.create_portlet.buttonValidate}' size='' />
+							<@aButton href='jsp/admin/site/AdminSite.jsp' params='target="_top"' buttonIcon='close' title='#i18n{portal.site.create_portlet.buttonBack}' color='btn-secondary' size='' />
+						</@formGroup>
+				</@columns> 
+			</@row> 
 		</fieldset>
-		</form>
-	</div>
-</div>
+	</@tform>
+
 <script type="text/javascript">
 $(document).ready(function(){
 	$("#params").toggle();
-	$("#adv_param").click(function(){
+	$("#bt-toggle").click(function(){
 		$("#params").toggle();
-		$("#bt-toggle").toggleClass("glyphicon-chevron-down");
-		$("#bt-toggle").toggleClass("glyphicon-chevron-up");
+		$("#bt-toggle > i").toggleClass("fa fa-chevron-down");
+		$("#bt-toggle > i").toggleClass("fa fa-chevron-up");
 	});
 });
 </script>

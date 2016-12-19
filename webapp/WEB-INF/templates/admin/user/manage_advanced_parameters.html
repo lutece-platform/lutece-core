@@ -1,24 +1,15 @@
-<div class="row">
-	<div class="col-xs-12 col-sm-12 col-md-12">
-		<div class="box box-success">
-			<div class="box-header">
-				<h3 class="box-title">#i18n{portal.users.manage_advanced_parameters.pageTitle}</h3>
-				<div class="box-tools">
-					<form class="form-inline pull-right" method="post" action="jsp/admin/user/attribute/ManageAttributes.jsp">
-						<button class="btn btn-primary btn-xs btn-flat" type="submit" >
-							<i class="fa fa-list-alt"></i>&nbsp;<span class="hidden-xs" >#i18n{portal.users.manage_advanced_parameters.buttonLabelAttributeManagement}</span>
-						</button>
-					</form>
-					<form class="form-inline pull-right spaced" method="post" action="jsp/admin/user/ChangeFieldAnonymizeAdminUsers.jsp">
-						<button class="btn btn-primary  btn-xs btn-flat" type="submit" >
-							<i class="fa fa-user-secret"></i>&nbsp;<span class="hidden-xs" >&nbsp;#i18n{portal.users.manage_advanced_parameters.buttonLabelAnonymizationOptions}</span>
-						</button>
-					</form>
-				</div>
-			</div>
-			<div class="box-body">
-				<#include "advanced_parameters.html" />
-			</div>
-		</div>
-	</div>
-</div>
+<@row>
+	<@columns>
+		<@box color='success'>
+			<@boxHeader title='#i18n{portal.users.manage_advanced_parameters.pageTitle}' boxTools=true>
+				<@tform method='post' action='jsp/admin/user/attribute/ManageAttributes.jsp' class='form-inline' class='pull-right spaced'>
+					<@button type='submit' buttonIcon='list' title='#i18n{portal.users.manage_advanced_parameters.buttonLabelAttributeManagement}' size='' showTitleXs=false showTitleSm=false />
+				</@tform>
+				<@tform method='post' action='jsp/admin/user/ChangeFieldAnonymizeAdminUsers.jsp' class='form-inline' class='pull-right spaced'>
+					<@button type='submit' buttonIcon='user-secret' title='#i18n{portal.users.manage_advanced_parameters.buttonLabelAnonymizationOptions}' size='' showTitleXs=false showTitleSm=false />
+				</@tform>
+			</@boxHeader>
+		</@box>
+		<#include "advanced_parameters.html" />
+	</@columns>
+</@row>

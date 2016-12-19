@@ -1,35 +1,21 @@
-<div class="row">
-	<div class="col-xs-12 col-sm-12 col-md-12">
-		<div class="box box-success">
-			<div class="box-header">
-				<h3 class="box-title">#i18n{portal.rbac.create_role.titleCreateRole}</h3>
-			</div>
-			<div class="box-body">
-				<form class="form-horizontal" role="form" method="post" action="jsp/admin/rbac/DoCreateRole.jsp" name="create_role">
-					<div class="form-group">
-						<label class="control-label col-xs-12 col-sm-3 col-md-3" for="role_key">#i18n{portal.rbac.create_role.labelKey}&nbsp;*</label>
-						<div class="col-xs-12 col-sm-6 col-md-6">
-							<input type="text" class="form-control" id="role_key" name="role_key" maxlength="255">
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="control-label col-xs-12 col-sm-3 col-md-3" for="role_description">#i18n{portal.rbac.create_role.labelDescription}&nbsp;*</label>
-						<div class="col-xs-12 col-sm-6 col-md-6">
-							<input type="text" class="form-control" id="role_description" name="role_description" maxlength="255">
-						</div>
-					</div>
-					<div class="form-group">
-						<div class="col-xs-12 col-sm-offset-3 col-sm-6 col-md-offset-3 col-md-6">
-							<button class="btn btn-flat btn-primary" type="submit">
-								<i class="fa fa-check"></i>&nbsp;#i18n{portal.rbac.create_role.buttonLabelCreate}
-							</button>
-							<a class="btn btn-default btn-flat" href="jsp/admin/rbac/ManageRoles.jsp" title="#i18n{portal.admin.message.buttonCancel}">
-								<i class="fa fa-remove"></i>&nbsp;#i18n{portal.admin.message.buttonCancel}
-							</a>
-						</div>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
-</div>
+<@row>
+	<@columns>
+    <@box color='success'>
+      <@boxHeader title='#i18n{portal.rbac.create_role.titleCreateRole}' />
+			<@boxBody>
+				<@tform method='post' action='jsp/admin/rbac/DoCreateRole.jsp' name='create_role'>
+					<@formGroup labelKey='#i18n{portal.rbac.create_role.labelKey}' labelFor='role_key' mandatory=true>
+						<@input type='text' id='role_key' name='role_key' maxlength=255 />
+					</@formGroup>
+					<@formGroup labelKey='#i18n{portal.rbac.create_role.labelDescription}' labelFor='role_description' mandatory=true>
+						<@input type='text' id='role_description' name='role_description' maxlength=255 />
+					</@formGroup>
+					<@formGroup>
+						<@button type='submit' buttonIcon='check' title='#i18n{portal.rbac.create_role.buttonLabelCreate}' size=''  />
+						<@aButton href='jsp/admin/rbac/ManageRoles.jsp' buttonIcon='times' color='btn-secondary' title='#i18n{portal.admin.message.buttonCancel}' size=''  />
+					</@formGroup>
+				</@tform>
+			</@boxBody>
+    </@box>
+  </@columns>
+</@row>

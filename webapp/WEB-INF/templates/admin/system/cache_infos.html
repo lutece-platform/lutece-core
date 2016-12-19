@@ -1,23 +1,15 @@
-<div class="row">
-	<div class="col-xs-12 col-sm-12 col-md-12">
-		<#list services_list as service>
-		<div class="box box-danger">
-			<div class="box-header">
-				<h3 class="box-title">${service.name}</h3>
-			</div><!-- /.box-header -->
-			<div class="box-body">
-				<blockquote>
-					<h4>Configuration</h4>
-					<blockquote>
-						<pre>${service.infos}</pre>
-					</blockquote>
-					<h4>Keys</h4>
-					<blockquote>
-						<#list service.keys as key >${key}<br/></#list>
-					</blockquote>
-				</blockquote>
-			</div>
-		</div>
-		</#list>
-	</div>
-</div>
+<@row>
+  <#list services_list as service>
+  <@columns sm=6 md=6 lg=6>
+		<@box color='danger'>
+			<@boxHeader title='${service.name}' />
+			<@boxBody>
+				<h4>Configuration</h4>
+					<pre>${service.infos}</pre>
+				<h4>Keys</h4>
+				<#list service.keys as key >${key}<br/></#list>
+			</@boxBody>
+    </@box>
+	</@columns>
+	</#list>
+</@row>

@@ -1,58 +1,32 @@
-<div class="row">
-  <div class="col-xs-12 col-sm-12 col-md-12">
-    <div class="box box-info">
-      <div class="box-header">
-        <h3 class="box-title">
-          #i18n{portal.style.modify_stylesheet.title}
-        </h3>
-        <div class="box-tools pull-right">
-          <form class="form-inline" method="post" action="ViewStyleSheetFile" name="modify_stylesheet">
-            <input type="hidden" name="stylesheet_id" value="${stylesheet.id}">
-            <button class="btn btn-primary btn-xs btn-flat" type="submit">
-              <i class="fa fa-download"></i>&nbsp;<span class="hidden-xs">#i18n{portal.style.modify_stylesheet.buttonView}</span>
-            </button>
-          </form>
-        </div>
-      </div>
-      <div class="box-body">
-        <form class="form-horizontal" method="post" action="jsp/admin/style/DoModifyStyleSheet.jsp" enctype="multipart/form-data" name="modify_stylesheet">
-          <div class="form-group">
-            <label class="control-label col-xs-12 col-sm-3 col-md-3" for="stylesheet_name">#i18n{portal.style.modify_stylesheet.labelName}&nbsp;*&nbsp;:</label>
-            <input type="hidden" name="stylesheet_id" value="${stylesheet.id}">
-            <div class="col-xs-12 col-sm-6 col-md-6">
-              <input type="text" class="form-control" id="stylesheet_name" name="stylesheet_name" value="${stylesheet.description?html}" maxlength="255">
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="control-label col-xs-12 col-sm-3 col-md-3" for="stylesheet_source">#i18n{portal.style.modify_stylesheet.labelFilename}&nbsp;*&nbsp;:</label>
-            <div class="col-xs-12 col-sm-6 col-md-6">
-              <input type="file" class="form-control" id="stylesheet_source" name="stylesheet_source">
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="control-label col-xs-12 col-sm-3 col-md-3" for="styles">#i18n{portal.style.modify_stylesheet.labelStyle}&nbsp;*&nbsp;:</label>
-            <div class="col-xs-12 col-sm-6 col-md-6">
-              <@comboSortedWithParams name="styles" default_value="${stylesheet.styleId}" additionalParameters=" class=\"form-control\" " items=style_list />
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="control-label col-xs-12 col-sm-3 col-md-3" for="mode_stylesheet">#i18n{portal.style.modify_stylesheet.labelMode}&nbsp;*&nbsp;:</label>
-            <div class="col-xs-12 col-sm-6 col-md-6">
-              <@comboSortedWithParams name="mode_stylesheet" default_value="${stylesheet.modeId}" additionalParameters=" class=\"form-control\" " items=mode_list />
-            </div>
-          </div>
-          <div class="form-group">
-            <div class="col-xs-12 col-sm-offset-3 col-sm-6 col-md-offset-3 col-md-6">
-              <button class="btn btn-primary btn-flat" type="submit">
-                <i class="fa fa-check"></i>&nbsp;#i18n{portal.style.modify_stylesheet.buttonModify}
-              </button>
-              <a href="jsp/admin/style/ManageStyleSheets.jsp" class="btn btn-default btn-flat">
-                <i class="fa fa-remove"></i>&nbsp;#i18n{portal.admin.message.buttonCancel}
-              </a>
-            </div>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
+<@row>
+	<@columns>
+		<@box color='info'>
+			<@boxHeader title='#i18n{portal.style.modify_stylesheet.title}' boxTools=true>
+				<@tform method='post' action='ViewStyleSheetFile' name='modify_stylesheet'>
+					<input type="hidden" name="stylesheet_id" value="${stylesheet.id}">
+					<@button type='submit' buttonIcon='download' title='#i18n{portal.style.modify_stylesheet.buttonView}' size='' />
+				</@tform>
+			</@boxHeader>
+			<@boxBody>
+				<@tform method='post' action='jsp/admin/style/DoModifyStyleSheet.jsp' params='enctype="multipart/form-data"' name='modify_stylesheet'>
+					<@formGroup labelKey='#i18n{portal.style.modify_stylesheet.labelName}' labelFor='stylesheet_name' mandatory=true>
+						<@input type='text' name='stylesheet_name' id='stylesheet_name' value='${stylesheet.description?html}' maxlength=255 />
+					</@formGroup>
+					<@formGroup labelKey='#i18n{portal.style.modify_stylesheet.labelFilename}' labelFor='stylesheet_source' mandatory=true>
+						<@input type='file' name='stylesheet_source' id='stylesheet_source' />
+					</@formGroup>
+					<@formGroup labelKey='#i18n{portal.style.modify_stylesheet.labelStyle}' labelFor='styles' mandatory=true>
+						<@select name='styles' default_value='${stylesheet.styleId}' items=style_list list=true />
+					</@formGroup>
+					<@formGroup labelKey='#i18n{portal.style.modify_stylesheet.labelMode}' labelFor='mode_stylesheet' mandatory=true>
+						<@select name='mode_stylesheet' default_value='${stylesheet.modeId}' items=mode_list list=true />
+					</@formGroup>
+					<@formGroup>
+						<@button type='submit' buttonIcon='check' title='#i18n{portal.style.modify_stylesheet.buttonModify}'  size='' />
+						<@aButton href='jsp/admin/style/ManageStyleSheets.jsp' buttonIcon='times' title='#i18n{portal.admin.message.buttonCancel}'  size='' color='btn-secondary' />
+					</@formGroup>
+				</@tform>
+			</@boxBody>
+		</@box>
+	</@columns>
+</@row>

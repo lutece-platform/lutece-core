@@ -1,58 +1,43 @@
-<div class="row">
-    <div class="col-xs-12 col-sm-12 col-md-12">
-        <div class="box box-success">
-            <div class="box-header">
-                <h3 class="box-title">
-                    <i class="glyphicon glyphicon-user"></i>&nbsp;${user.lastName} ${user.firstName}
-                    <small><@item_navigation item_navigator=item_navigator /></small>
-                </h3>
-                <div class="box-tools">
-                    <form method="post" name="modifyform" action="jsp/admin/user/ModifyUserRoles.jsp" class="form-inline pull-right">               
-                        <input type="hidden" name="id_user" value="${user.userId}" />
-                        <input type="hidden" name="delegate_rights" value="false"/>
-                        <#if can_modify>
-                        <button type="submit"class="btn btn-primary btn-xs btn-flat" ><i class="glyphicon glyphicon-edit"></i>&nbsp;#i18n{portal.users.manage_user_roles.buttonLabelModifyRoles}</button>
-                        </#if>
-                        <#if can_delegate>
-                        <button type="submit" class="btn btn-primary btn-xs btn-flat" ><i class="glyphicon glyphicon-share"></i>&nbsp;#i18n{portal.users.manage_user_roles.buttonLabelDelegateRoles}</button>      
-                        </#if>
-                    </form>
-                </div>
-            </div>
-            <div class="box-body">
-                <ul class="nav nav-tabs">
-                    <li>
-                        <a href="jsp/admin/user/ModifyUser.jsp?id_user=${user.userId}" >#i18n{portal.users.actions.labelUser}</a>
-                    </li>
-                    <li><a href="jsp/admin/user/ManageUserRights.jsp?id_user=${user.userId}">#i18n{portal.users.actions.labelRights}</a></li>
-                    <li class="active"><a href="jsp/admin/user/ModifyUserRoles.jsp?id_user=${user.userId}">#i18n{portal.users.actions.labelRoles}</a></li>
-                    <li><a href="jsp/admin/user/ModifyUserWorkgroups.jsp?id_user=${user.userId}">#i18n{portal.users.actions.labelWorkgroups}</a></li>
-                </ul>
-
-            </div>
-        </div>
-    </div>
-</div>
-<div class="row">
-    <div class="col-xs-12 col-sm-12 col-md-12">
-        <div class="box box-success">
-            <div class="box-header">
-                <h3 class="box-title">#i18n{portal.users.manage_user_roles.titleRoleList}</h3> 
-            </div>
-            <div class="box-body table-responsive">
-                <table class="table table-hover table-condensed">
-                    <tr>
-                        <th>#i18n{portal.users.manage_user_roles.columnTitleKey}</th>
-                        <th>#i18n{portal.users.manage_user_roles.columnTitleDescription}</th>
-                    </tr>
-                    <#list user_role_list?sort_by('key') as role>
-                    <tr>
-                        <td>${role.key}</td>
-                        <td>${role.description}</td>			
-                    </tr>
-                    </#list>		
-                </table>
-            </div>
-        </div>
-    </div>
-</div>
+<@row>
+	<@columns>
+		<@box color='success'>
+			<@boxHeader title='#i18n{portal.users.manage_user_roles.titleRoleList} : <i class="glyphicon glyphicon-user"></i>&nbsp;${user.lastName} ${user.firstName}' boxTools=true>
+				<div class="pull-right spaced"><@item_navigation item_navigator=item_navigator /></div>
+					<@tform class='pull-right spaced' method='post' name='modifyform' action='jsp/admin/user/ModifyUserRoles.jsp'>
+						<input type="hidden" name="id_user" value="${user.userId}" />
+						<input type="hidden" name="delegate_rights" value="false"/>
+						<#if can_modify>
+							<@button type='submit' buttonIcon='edit' title='#i18n{portal.users.manage_user_roles.buttonLabelModifyRoles}' size='' showTitleXs=false showTitleSm=false />
+						</#if>
+						<#if can_delegate>
+							<@button type='submit' buttonIcon='share' title='#i18n{portal.users.manage_user_roles.buttonLabelDelegateRoles}' size='' showTitleXs=false showTitleSm=false />
+						</#if>
+          </@tform>
+			</@boxHeader>
+			<@boxBody>
+				<@tabs>
+          <@listTabs>
+						<li><a href="jsp/admin/user/ModifyUser.jsp?id_user=${user.userId}" >#i18n{portal.users.actions.labelUser}</a></li>
+						<li><a href="jsp/admin/user/ManageUserRights.jsp?id_user=${user.userId}">#i18n{portal.users.actions.labelRights}</a></li>
+            <li class="active"><a href="jsp/admin/user/ModifyUserRoles.jsp?id_user=${user.userId}">#i18n{portal.users.actions.labelRoles}</a></li>
+            <li><a href="jsp/admin/user/ModifyUserWorkgroups.jsp?id_user=${user.userId}">#i18n{portal.users.actions.labelWorkgroups}</a></li>
+          </@listTabs>
+          <@tabContent>
+            <@table>
+							<tr>
+                <th>#i18n{portal.users.manage_user_roles.columnTitleKey}</th>
+                <th>#i18n{portal.users.manage_user_roles.columnTitleDescription}</th>
+              </tr>
+              <#list user_role_list?sort_by('key') as role>
+								<tr>
+									<td>${role.key}</td>
+                  <td>${role.description}</td>            
+                </tr>
+							</#list>
+            </@table>
+          </@tabContent>
+				</@tabs>
+			</@boxBody>
+    </@box>
+  </@columns>
+</@row>

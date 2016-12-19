@@ -1,15 +1,12 @@
-<div class="row">
-	<div class="col-md-12">
-		<div class="box box-danger">
-			<div class="box-header">
-				<h3 class="box-title">
-					#i18n{portal.system.view_files_system.boxTitle} 
-					<a class="btn btn-primary btn-xs btn-flat" href="jsp/admin/system/ManageFilesSystem.jsp">${files_system_directory}</a>
-				</h3>
-			</div><!-- /.box-header -->
-			
-            <div class="box-body table-responsive no-padding">
-				<table class="table table-hover table-condensed">
+<@row>
+	<@columns>
+		<@box color='danger'>
+			<#assign path>
+				<@aButton href='jsp/admin/system/ManageFilesSystem.jsp'  title='${files_system_directory}' />
+			</#assign>
+            <@boxHeader title='#i18n{portal.system.view_files_system.boxTitle} ${path}' />
+			<@boxBody>
+				<@table class="table table-hover table-condensed">
 				<tr>
 					<th>#i18n{portal.system.view_files_system.labelName}</th>
 					<th>#i18n{portal.system.view_files_system.labelDate}</th>
@@ -22,14 +19,12 @@
 					<td>${file.date?datetime?string.medium_short}</td>
 					<td>${file.size} Ko</td>
 					<td>
-						<a class="btn btn-primary btn-xs btn-flat" href="jsp/admin/system/ViewFile.jsp?directory=${file.directory}&amp;file=${file.name}" title="#i18n{portal.system.view_files_system.Display} ${file.name}">
-							 <i class="glyphicon glyphicon-eye-open"></i>
-						</a>
+						<@aButton href='jsp/admin/system/ViewFile.jsp?directory=${file.directory}&amp;file=${file.name}' buttonIcon='eye' title='#i18n{portal.system.view_files_system.Display} ${file.name}' showTitle=false />
 					</td>
 				</tr>	
 				</#list>			
-            	</table>
-			</div>
-		</div>
-	</div>
-</div>
+				</@table>
+			</@boxBody>
+		</@box>
+	</@columns>
+</@row>

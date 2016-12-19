@@ -1,82 +1,45 @@
-<div class="row">
-	<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-		<div class="box box-success">
-			<div class="box-body">
-				<form class="form-horizontal" method="post" name="import_users_from_file" action="jsp/admin/user/DoExportUsers.jsp">
-					<ul class="nav nav-tabs">
-						<li class="active">
-							<a href="jsp/admin/user/ExportUsers.jsp">#i18n{portal.users.export_users.labelExportUsers}</a>
-						</li>
-						<li>
-							<a href="jsp/admin/user/ImportUsersFromFile.jsp" >#i18n{portal.users.import_users_from_file.labelImportUsers}</a>
-						</li>
-					</ul>
-					<div class="form-group">
-						<label class="control-label col-xs-12 col-sm-12 col-md-2 col-lg-3" for="xsl_export_id">#i18n{portal.users.export_users.labelXslt}</label>
-						<div class="col-xs-12 col-sm-12 col-md-10 col-lg-9">
-							<select id="xsl_export_id" name="xsl_export_id" class="form-control input-sm">
-								<#list refListXsl as xsl>
-									<option value="${xsl.code}" >${xsl.name}</option>
-								</#list>
-							</select>
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="col-xs-12 col-sm-12 col-md-2 col-lg-3" for="export_attributes">#i18n{portal.users.export_users.labelExportAttributes}</label>
-						<div class="col-xs-12 col-sm-12 col-md-10 col-lg-9">
-							<label class="checkbox-inline">
-								<input type="checkbox" id="export_attributes" name="export_attributes" checked="checked">
-								<span class="help-block">#i18n{portal.users.export_users.labelHelpExportAttributes}</span>
-							</label>
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="col-xs-12 col-sm-12 col-md-2 col-lg-3" for="export_roles">#i18n{portal.users.export_users.labelExportRoles}</label>
-						<div class="col-xs-12 col-sm-12 col-md-10 col-lg-9">
-							<label class="checkbox-inline">
-								<input type="checkbox" id="export_roles" name="export_roles" checked="checked">
-								<span class="help-block">#i18n{portal.users.export_users.labelHelpExportRoles}</span>
-							</label>
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="col-xs-12 col-sm-12 col-md-2 col-lg-3" for="export_rights">#i18n{portal.users.export_users.labelExportRights}</label>
-						<div class="col-xs-12 col-sm-12 col-md-2 col-lg-3">
-							<label class="checkbox-inline">
-								<input type="checkbox" id="export_rights" name="export_rights" checked="checked">
-								<span class="help-block">#i18n{portal.users.export_users.labelHelpExportRights}</span>
-							</label>
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="col-xs-12 col-sm-12 col-md-2 col-lg-3" for="export_workgroups">#i18n{portal.users.export_users.labelExportWorkgroups}</label>
-						<div class="col-xs-12 col-sm-12 col-md-10 col-lg-9">
-							<label class="checkbox-inline">
-								<input type="checkbox" id="export_workgroups" name="export_workgroups" checked="checked">
-								<span class="help-block">#i18n{portal.users.export_users.labelHelpExportWorkgroups}</span>
-							</label>
-						</div>
-					</div>
-					<div class="form-group">
-						<div class="col-xs-12 col-sm-12 col-md-offset-2 col-lg-offset-3">
-							<button class="btn btn-primary btn-sm" type="submit">
-								<i class="glyphicon glyphicon-ok"></i>
-								#i18n{portal.util.labelValidate}
-							</button>
-							<a class="btn btn-default btn-sm" href="jsp/admin/user/ManageUsers.jsp">
-								<i class="glyphicon glyphicon-remove-circle"></i>
-								 #i18n{portal.util.labelBack}
-							</a>
-						</div>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
-</div>
-
-
-	    
-	    
-	    
-	
+<@row>
+	<@columns>
+		<@box color='success'>
+			<@boxHeader title='#i18n{portal.users.import_users_from_file.labelImportUsers}, #i18n{portal.users.export_users.labelExportUsers}' />
+		</@box>
+		
+		<@tform method='post' name='import_users_from_file' action='jsp/admin/user/DoExportUsers.jsp'>
+			<@tabs>
+				<@listTabs>
+					<li class="active">
+						<a href="jsp/admin/user/ExportUsers.jsp">#i18n{portal.users.export_users.labelExportUsers}</a>
+					</li>
+					<li>
+						<a href="jsp/admin/user/ImportUsersFromFile.jsp" >#i18n{portal.users.import_users_from_file.labelImportUsers}</a>
+					</li>
+				</@listTabs>
+				<@tabContent>
+					<@formGroup labelKey='#i18n{portal.users.export_users.labelXslt}' labelFor='xsl_export_id'>
+						<@select id='xsl_export_id' name='xsl_export_id'>
+							<#list refListXsl as xsl>
+								<option value="${xsl.code}" >${xsl.name}</option>
+							</#list>
+						</@select>
+					</@formGroup>
+					<@formGroup labelKey='#i18n{portal.users.export_users.labelExportAttributes}' labelFor='export_attributes' helpKey='#i18n{portal.users.export_users.labelHelpExportAttributes}'>
+						<@checkBox id='export_attributes' name='export_attributes' checked=true />
+					</@formGroup>
+					<@formGroup labelKey='#i18n{portal.users.export_users.labelExportRoles}' labelFor='export_roles' helpKey='#i18n{portal.users.export_users.labelHelpExportRoles}'>
+						<@checkBox id='export_roles' name='export_roles' checked=true />
+					</@formGroup>
+					<@formGroup labelKey='#i18n{portal.users.export_users.labelExportRights}' labelFor='export_rights' helpKey='#i18n{portal.users.export_users.labelHelpExportRights}'>
+						<@checkBox id='export_rights' name='export_rights' checked=true />
+					</@formGroup>
+					<@formGroup labelKey='#i18n{portal.users.export_users.labelExportWorkgroups}' labelFor='export_workgroups' helpKey='#i18n{portal.users.export_users.labelHelpExportWorkgroups}'>
+						<@checkBox id='export_workgroups' name='export_workgroups' checked=true />
+					</@formGroup>
+					<@formGroup>
+						<@button type='submit' title='#i18n{portal.util.labelValidate}'  buttonIcon='check' size='' />
+						<@aButton color='btn-secondary' href='jsp/admin/user/ManageUsers.jsp' title='#i18n{portal.util.labelBack}'  buttonIcon='times' size='' />
+					</@formGroup>
+				</@tabContent>
+			</@tabs>
+		</@tform>
+	</@columns>
+</@row>

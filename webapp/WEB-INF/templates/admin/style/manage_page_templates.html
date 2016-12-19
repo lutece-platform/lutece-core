@@ -1,20 +1,13 @@
-<div class="row">
-  <div class="col-xs-12 col-sm-12 col-md-12">
-    <div class="box box-info">
-      <div class="box-header">
-        <h3 class="box-title">#i18n{portal.style.manage_page_templates.pageTitle}</h3>
-        <div class="box-tools pull-right">
-          <form class="form-inline" method="post" action="jsp/admin/style/CreatePageTemplate.jsp">
-            <button class="btn btn-primary btn-xs btn-flat" type="submit">
-              <i class="fa fa-plus"></i>
-              <span class="hidden-xs">#i18n{portal.style.manage_page_templates.buttonLabelCreate}</span>
-            </button>
-          </form>
-        </div>
-      </div>
-      <!-- /.box-header -->
-      <div class="box-body table-responsive no-padding">
-        <table class="table table-hover table-striped">
+<@row>
+	<@columns>
+		<@box color='info'>
+			<@boxHeader title='#i18n{portal.style.manage_page_templates.pageTitle}' boxTools=true>
+				<@tform method='post' action='jsp/admin/style/CreatePageTemplate.jsp'>
+					<@button type='submit' buttonIcon='plus' title='#i18n{portal.style.manage_page_templates.buttonLabelCreate}' size='' />
+				</@tform>
+			</@boxHeader>
+			<@boxBody>
+        <@table>
           <thead>
             <tr>
               <th>#i18n{portal.style.manage_page_templates.columnTitleDescription}</th>
@@ -32,17 +25,14 @@
                   <img src="images/admin/skin/page_templates/${page_templates.picture}" class="img-responsive" alt="${i18n("portal.style.manage_page_templates.picturealt",page_templates.description?html)}">
                 </td>
                 <td>
-                  <a class="btn btn-primary btn-xs btn-flat" href="jsp/admin/style/ModifyPageTemplate.jsp?page_template_id=${page_templates.id}" title="#i18n{portal.util.labelModify}">
-                    <i class="fa fa-pencil"></i></a>
-                  <a class="btn btn-danger btn-xs btn-flat" href="jsp/admin/style/RemovePageTemplate.jsp?page_template_id=${page_templates.id}" title="#i18n{portal.style.manage_styles.actionDelete}">
-                    <i class="fa fa-trash"></i>
-                  </a>
+									<@aButton href='jsp/admin/style/ModifyPageTemplate.jsp?page_template_id=${page_templates.id}' buttonIcon='edit' title='#i18n{portal.util.labelModify}' showTitle=false />
+									<@aButton href='jsp/admin/style/RemovePageTemplate.jsp?page_template_id=${page_templates.id}' buttonIcon='trash' title='#i18n{portal.style.manage_styles.actionDelete}' showTitle=false color='btn-danger' />
                 </td>
               </tr>
             </#list>
           </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
-</div>
+        </@table>
+			</@boxBody>
+		</@box>
+	</@columns>
+</@row>

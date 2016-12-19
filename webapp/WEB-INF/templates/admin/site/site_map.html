@@ -1,39 +1,37 @@
-<div class="row">
-	<div class="col-xs-12 col-sm-12 col-md-12">
-		<div class="box">
-			<div class="box-header" >
-				<h3 class="box-title">#i18n{portal.site.admin_page.tabAdminMapSite} :	<span class="badge badge-primary" title="${page.id} - ${page.name}">${page.id}</span>  ${page.name}</h3>
-				<div class="box-tools btn-toolbar" role="toolbar" style="position:fixed;left:80%;top:120px">
-					<div class="btn-group" >
-						<form method="post" action="jsp/admin/site/AdminSite.jsp" class="form-inline pull-right" role="search" >
-							<label class="sr-only">#i18n{portal.site.admin_page.buttonSearchPage}</label>
-							<div class="input-group">
-								<input type="text" class="form-control input-xs" id="tree_search" class="form-control" placeholder="#i18n{portal.site.admin_page.buttonSearchPage}">
-								<span class="input-group-btn">
-									<button class="btn btn-default btn-xs btn-flat" id="btn-tree_search" type="submit" title="#i18n{portal.site.admin_page.buttonSearchPage}">
-										<i class="fa fa-search"></i>
-									</button>
-								</span>
-							</div>
-						</form>
-					</div>
-				</div>
-			</div><!-- /.box-header -->
-			<div class="box-body sitemap">
-				<div class="row">
-					<div class="col-xs-12 col-sm-12 col-md-offset-1 col-md-10">
+<@row>
+  <@columns>
+    <@box>
+			<#assign title>
+				#i18n{portal.site.admin_page.tabAdminMapSite} :	<@tag color='primary' title='${page.id} - ${page.name}'>${page.id}</@tag>&#160;${page.name}
+			</#assign>
+      <@boxHeader title=title boxTools=true>
+				<@tform method='post' action='jsp/admin/site/AdminSite.jsp' class='form-inline pull-right' role='search'>
+					<@formGroup formStyle='inline' labelKey='#i18n{portal.site.admin_page.buttonSearchPage}' showLabel=false>
+						<@inputGroup>
+							<@input type='text' id='tree_search' name='' placeHolder='#i18n{portal.site.admin_page.buttonSearchPage}' />
+							<@inputGroupItem>
+								<@button id='btn-tree_search' type='submit' title='#i18n{portal.site.admin_page.buttonSearchPage}' buttonIcon='search' showTitle=false />
+							</@inputGroupItem>
+						</@inputGroup>
+					</@formGroup>
+				</@tform>
+			</@boxHeader>
+			<@boxBody class='sitemap'>
+				<@row>
+					<@columns offsetMd=1 md=10 offsetLg=1 lg=10>
 						<div id="map" class="clearfix">
 							<a href="jsp/admin/site/AdminSite.jsp?page_id=1">
-								<i class="fa fa-map-marker" ></i> Accueil
+								<@icon style='map-marker' /> Accueil
 							</a>
 							${map_site}
 						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</div>
+					</@columns>
+				</@row>
+			</@boxBody>
+    </@box>
+	</@columns>
+</@row>
+
 <script src="js/jquery/plugins/ui/jstree/jquery.cookie.js"></script>
 <script src="js/jquery/plugins/ui/jstree/jquery.jstree.js"></script>
 <script type="text/javascript">

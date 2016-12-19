@@ -1,25 +1,21 @@
-<div class="row">
-	<div class="col-xs-12 col-sm-12 col-md-12">
-		<div class="box box-danger">
-			<div class="box-header">
-				<h3 class="box-title"> #i18n{portal.search.manage_search.tableLabel}</h3>
-				<div class="box-tools pull-right">
-					<#if permission_manage_advanced_parameters>
-						<a href="jsp/admin/search/ManageAdvancedParameters.jsp" class="btn btn-primary btn-xs btn-flat">
-							<i class="fa fa-cog"></i> #i18n{portal.search.manage_search.button_manage_advanced_parameters}
-						</a>
-          </#if>
-				</div>
-			</div><!-- /.box-header -->
-			<div class="box-body">
-				<ul class="list-unstyled">
-        	<li class="margin">
-          	<a href="jsp/admin/search/ModifyTagList.jsp" class="btn btn-default btn-lg">
+<@row>
+	<@columns>
+		<@box color='danger'>
+			<@boxHeader title='#i18n{portal.search.manage_search.tableLabel}' boxTools=true>
+				<#if permission_manage_advanced_parameters>
+					<@aButton href='jsp/admin/search/ManageAdvancedParameters.jsp' buttonIcon='cog' title='#i18n{portal.search.manage_search.button_manage_advanced_parameters}' showTitle=false size='' />
+				</#if>
+			</@boxHeader>
+		<@boxBody>
+			<@unstyledList>
+					<li class="${liClass}">
+						<#assign title>
 							#i18n{portal.search.manage_search.tagsManagment.label} [ #i18n{portal.search.manage_search.tagsManagement.description} <#if tag_filter = "0"> <em>(#i18n{portal.search.manage_search.tagsManagement.unactiveFilter})</em> ]</#if>
-						</a>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</div>
+						</#assign>
+						<@aButton href='jsp/admin/search/ModifyTagList.jsp' title=title  size='lg' color='btn-secondary' />
+					</li>
+			</@unstyledList>
+		</@boxBody>
+		</@box>
+	</@columns>
+</@row>

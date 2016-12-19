@@ -1,24 +1,15 @@
-<div class="row">
-    <div class="col-md-12">
-		<div class="box box-danger">
-			<div class="box-header">
-				<h3 class="box-title"> #i18n{portal.system.manage_caches.titleCacheList}</h3>
-				<div class="box-tools">
-					<form method="post" action="jsp/admin/system/DoReloadProperties.jsp" class="form-inline pull-right">
-						<button class="btn btn-primary btn-xs" type="submit" id="reload" title="#i18n{portal.system.manage_caches.titleReloadProperties}">
-							<i class="fa fa-refresh"></i><span class="hidden-xs">&nbsp;<!-- #i18n{portal.system.manage_caches.buttonReload} -->#i18n{portal.system.manage_caches.titleReloadProperties}</span>
-						</button>
-						<a class="btn btn-primary btn-xs" href="jsp/admin/system/CacheInfos.jsp">
-							<i class="fa fa-eye-open"></i><span class="hidden-xs">&nbsp;#i18n{portal.system.manage_caches.buttonViewKeys}</span>
-						</a>
-						<a class="btn btn-danger btn-xs" href="jsp/admin/system/DoResetCaches.jsp">
-							<i class="fa fa-trash "></i><span class="hidden-xs">&nbsp;#i18n{portal.system.manage_caches.buttonFlush}</span>
-						</a>
-					</form>
-				</div>
-			</div><!-- /.box-header -->
-			<div class="box-body table-responsive no-padding">
-				<table class="table table-hover">
+<@row>
+    <@columns>
+        <@box color='danger'>
+            <@boxHeader title='#i18n{portal.system.manage_caches.titleCacheList}' boxTools=true>
+				<@tform method='post' action='jsp/admin/system/DoReloadProperties.jsp' class='pull-right'>
+					<@button type='submit' buttonIcon='refresh' title='#i18n{portal.system.manage_caches.titleReloadProperties}' id='reload' size='' showTitleXs=false showTitleSm=false />
+					<@aButton href='jsp/admin/system/CacheInfos.jsp' buttonIcon='key' title='#i18n{portal.system.manage_caches.buttonViewKeys}' size='' showTitleXs=false showTitleSm=false />
+					<@aButton href='jsp/admin/system/DoResetCaches.jsp' buttonIcon='trash' title='#i18n{portal.system.manage_caches.buttonFlush}' size='' color='btn-danger' showTitleXs=false showTitleSm=false />
+				</@tform>
+			</@boxHeader>
+			<@boxBody>
+				<@table>
 					<tr>
 						<th>#i18n{portal.system.manage_caches.columnTitleName}</th>
 						<th class="hidden-xs hidden-sm"></th>
@@ -30,31 +21,16 @@
 					<#list services_list as service>
 					<tr>
 						<td>
-							<#if service.cacheEnable >
-							<span class="label label-success" title="#i18n{portal.system.manage_caches.imgAltEnable}"><i class="glyphicon glyphicon-ok-sign"></i></span>
+							<#if service.cacheEnable>
+							<@tag color='success' title='#i18n{portal.system.manage_caches.imgAltEnable}'>
+								<@icon style='check' />
+							</@tag>
 							<#else>
-							<span class="label label-danger" title="#i18n{portal.system.manage_caches.imgAltDisable}"><i class="glyphicon glyphicon-remove-sign"></i></span>
+							<@tag color='danger' title='#i18n{portal.system.manage_caches.imgAltDisable}'>
+								<@icon style='times' />
+							</@tag>
 							</#if>
 							&nbsp;<strong>${service.name}</strong>
-							<div class="visible-xs">
-							<blockquote>
-								<#if service.cacheEnable >
-									<a href="jsp/admin/system/DoToggleCache.jsp?id_cache=${id}" class="btn btn-danger btn-xs" title="#i18n{portal.system.manage_caches.actionDisable}">
-										<i class="fa fa-stop"></i>
-									</a>
-								<#else>
-									<a href="jsp/admin/system/DoToggleCache.jsp?id_cache=${id}" class="btn btn-success btn-xs" title="#i18n{portal.system.manage_caches.actionEnable}">
-										<i class="fa fa-play"></i>
-									</a>
-								</#if>
-								<a href="jsp/admin/system/CacheInfos.jsp?id_cache=${id}" class="btn btn-primary btn-xs" title="#i18n{portal.system.manage_caches.actionViewKeys}">
-									<i class="fa fa-eye"></i>
-								</a>
-								<a class="btn btn-danger btn-xs" href="jsp/admin/system/DoResetCaches.jsp?id_cache=${id}" title="#i18n{portal.system.manage_caches.actionClear}">
-									<i class="fa fa-trash"></i>
-								</a>
-							</blockquote>
-							</div>
 						</td>
 						<td class="hidden-xs hidden-sm">
 							[
@@ -65,28 +41,19 @@
 						<td class="hidden-xs">${service.cacheSize}</td>
 						<td class="hidden-xs">${service.memorySize}</td>
 						<td>
-							<#if service.cacheEnable >
-								<a href="jsp/admin/system/DoToggleCache.jsp?id_cache=${id}" class="btn btn-danger btn-xs" title="#i18n{portal.system.manage_caches.actionDisable}">
-									<i class="fa fa-stop"></i>
-								</a>
+							<#if service.cacheEnable>
+								<@aButton href='jsp/admin/system/DoToggleCache.jsp?id_cache=${id}' buttonIcon='stop' title='#i18n{portal.system.manage_caches.actionDisable}' showTitle=false color='btn-danger' />
 							<#else>
-								<a href="jsp/admin/system/DoToggleCache.jsp?id_cache=${id}" class="btn btn-success btn-xs" title="#i18n{portal.system.manage_caches.actionEnable}">
-									<i class="fa fa-play"></i>
-								</a>
+								<@aButton href='jsp/admin/system/DoToggleCache.jsp?id_cache=${id}' buttonIcon='play' title='#i18n{portal.system.manage_caches.actionEnable}' showTitle=false color='btn-success' />
 							</#if>
-							<a href="jsp/admin/system/CacheInfos.jsp?id_cache=${id}" class="btn btn-primary btn-xs" title="#i18n{portal.system.manage_caches.actionViewKeys}">
-								<i class="fa fa-eye"></i>
-							</a>
-							<a class="btn btn-danger btn-xs" href="jsp/admin/system/DoResetCaches.jsp?id_cache=${id}" title="#i18n{portal.system.manage_caches.actionClear}">
-								<i class="fa fa-trash"></i>
-							</a>
-
+							<@aButton href='jsp/admin/system/CacheInfos.jsp?id_cache=${id}' buttonIcon='eye' title='#i18n{portal.system.manage_caches.actionViewKeys}' showTitle=false />
+							<@aButton href='jsp/admin/system/DoResetCaches.jsp?id_cache=${id}' buttonIcon='trash' title='#i18n{portal.system.manage_caches.actionClear}' showTitle=false color='btn-danger' />
 						</td>
 					</tr>
 					<#assign id = id + 1>
 					</#list>
-				</table>
-			</div>
-		</div>
-    </div>
-</div>
+				</@table>
+			</@boxBody>
+		</@box>
+  </@columns>
+</@row>

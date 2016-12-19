@@ -1,51 +1,30 @@
-<div class="row">
-    <div class="col-xs-12 col-sm-12 col-md-12">
-        <div class="box box-danger">
-			<div class="box-header">
-				<h3 class="box-title">#i18n{portal.xsl.create_xsl_export.title}</h3>
-			</div><!-- /.box-header -->
-			<div class="box-body">
-				<form class="form-horizontal" method="post" action="jsp/admin/xsl/DoCreateXslExport.jsp" enctype="multipart/form-data">
-					<div class="form-group">
-						<label class="control-label col-xs-12 col-sm-3 col-md-3" for="xsl_title" >#i18n{portal.xsl.create_xsl_export.label_title} *</label>
-						<div class="col-xs-12 col-sm-6 col-md-6">
-							<input type="text" class="form-control" id="xsl_title" name="title" maxlength="255">
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="control-label col-xs-12 col-sm-3 col-md-3" for="description" >#i18n{portal.xsl.create_xsl_export.label_description} *</label>
-						<div class="col-xs-12 col-sm-6 col-md-6">
-							<input type="text" class="form-control" id="description" name="description" maxlength="255" value="">
-						</div>
-					</div>	
-					<div class="form-group">
-						<label class="control-label col-xs-12 col-sm-3 col-md-3" for="extension" >#i18n{portal.xsl.create_xsl_export.label_extension} (*)</label>
-						<div class="col-xs-12 col-sm-6 col-md-6">
-							<input type="text" class="form-control" id="extension" name="extension" maxlength="10" value="">
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="control-label col-xs-12 col-sm-3 col-md-3" for="plugin" >#i18n{portal.xsl.create_xsl_export.label_plugin} * </label>
-						<div class="col-xs-12 col-sm-6 col-md-6">
-							<@comboSortedWithParams name="plugin" additionalParameters="class='form-control'" items=list_plugins default_value="" />
-						</div>
-					</div>	
-					<div class="form-group">
-						<label class="control-label col-xs-12 col-sm-3 col-md-3" for="id_file" >#i18n{portal.xsl.create_xsl_export.label_file} * </label>
-						<div class="col-xs-12 col-sm-6 col-md-6">
-							<input type="file" id="id_file" name="id_file">
-						</div>
-					</div>
-					<div class="form-group">
-						<div class="col-xs-12 col-sm-offset-3 col-sm-6 col-md-offset-3 col-md-6">
-							<button class="btn btn-primary btn-flat" type="submit"><i class="glyphicon glyphicon-ok"></i>&nbsp;#i18n{portal.xsl.create_xsl_export.button_save}</button>
-							<a class="btn btn-default btn-flat" href="jsp/admin/xsl/ManageXslExport.jsp">
-								<i class="glyphicon glyphicon-remove-circle"></i>&nbsp;#i18n{portal.xsl.create_xsl_export.button_cancel}
-							</a>
-						</div>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
-</div>
+<@row>
+  <@columns>
+    <@box color='danger'>
+      <@boxHeader title='#i18n{portal.xsl.create_xsl_export.title}' />
+			<@boxBody>
+				<@tform method='post' action='jsp/admin/xsl/DoCreateXslExport.jsp' params='enctype="multipart/form-data"'>
+					<@formGroup labelFor='xsl_title' labelKey='#i18n{portal.xsl.create_xsl_export.label_title}' mandatory=true>
+						<@input type='text' id='xsl_title' name='title' maxlength=255 />
+					</@formGroup>
+					<@formGroup labelFor='description' labelKey='#i18n{portal.xsl.create_xsl_export.label_description}' mandatory=true>
+						<@input type='text' id='description' name='description' maxlength=255 />
+					</@formGroup>
+					<@formGroup labelFor='extension' labelKey='#i18n{portal.xsl.create_xsl_export.label_extension}' mandatory=true>
+						<@input type='text' id='extension' name='extension' maxlength=10 value='' />
+					</@formGroup>
+					<@formGroup labelFor='plugin' labelKey='#i18n{portal.xsl.create_xsl_export.label_plugin}' mandatory=true>
+						<@select name='plugin' items=list_plugins default_value='' list=true  sort=true />
+					</@formGroup>	
+					<@formGroup labelFor='id_file' labelKey='#i18n{portal.xsl.create_xsl_export.label_file}' mandatory=true>
+						<@input type='file' id='id_file' name='id_file' />
+					</@formGroup>
+					<@formGroup>
+						<@button type='submit' buttonIcon='check' title='#i18n{portal.xsl.create_xsl_export.button_save}' size='' />
+						<@aButton href='jsp/admin/xsl/ManageXslExport.jsp' buttonIcon='close' title='#i18n{portal.xsl.create_xsl_export.button_cancel}' color='btn-secondary' size='' />
+					</@formGroup>
+				</@tform>
+			</@boxBody>
+    </@box>
+	</@columns>
+</@row>

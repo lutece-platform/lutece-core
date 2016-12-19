@@ -1,28 +1,17 @@
-<div class="row">
-	<div class="col-xs-12 col-sm-12 col-md-12">
-		<div class="box box-success">
-			<div class="box-header">
-				<h3 class="box-title">#i18n{portal.features.create_level.boxTitle}</h3>
-				<div class="box-tools"></div>
-			</div><!-- /.box-header -->
-			<div class="box-body">
-				<form method="post" class="form-horizontal" role="form" name="create_mode" action="jsp/admin/features/DoCreateLevel.jsp">		
-				<div class="form-group">
-					<label class="control-label col-xs-12 col-sm-3 col-md-3" for="level_name">#i18n{portal.features.create_level.labelName} </label>
-					<div class="col-xs-12 col-sm-6 col-md-6">
-						<input type="text" name="level_name" id="level_name" value="" class="form-control" maxlength="80" >
-					</div>
-				</div>
-				<div class="form-group">
-					<div class="col-xs-12 col-sm-offset-3 col-sm-6 col-md-offset-3 col-md-6">
-						<button type="submit"  class="btn btn-primary btn-flat">
-							<i class="glyphicon glyphicon-edit"></i>
-							<span class="hidden-xs">&nbsp;#i18n{portal.features.create_level.buttonLabelValidate}</span>
-						</button>
-					</div>
-				</div>
-				</form>
-			</div>
-		</div>
-    </div>
-</div>
+<@row>
+	<@columns>
+		<@box color='success'>
+			<@boxHeader title='#i18n{portal.features.create_level.boxTitle}' />
+			<@boxBody>
+				<@tform method='post' name='create_mode' action='jsp/admin/features/DoCreateLevel.jsp'>
+					<@formGroup labelKey='#i18n{portal.features.create_level.labelName}' labelFor='level_name' mandatory=true>
+						<@input type='text' name='level_name' id='level_name' value='' maxlength=80 />
+					</@formGroup>
+					<@formGroup>
+						<@button type='submit' buttonIcon='edit' title='#i18n{portal.features.create_level.buttonLabelValidate}'  size='' />
+					</@formGroup>
+				</@tform>
+			</@boxBody>
+		</@box>
+	</@columns>
+</@row>

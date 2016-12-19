@@ -11,192 +11,153 @@
 	</#if>
 	<#return false>
 </#function>
-<div class="row">
-	<div class="col-xs-12 col-sm-12 col-md-12">
-		<div class="box box-success">
-			<div class="box-body">
-				<form class="form-horizontal" method="post" name="create_user" action="jsp/admin/user/DoCreateUser.jsp" enctype="multipart/form-data" >
-				  <div class="row">
-						<div class="col-xs-12 col-sm-12 col-md-4">
-							<fieldset>			
+<@row>
+	<@columns>
+		<@box color='success'>
+			<@boxBody>
+				<@tform method='post' name='create_user' action='jsp/admin/user/DoCreateUser.jsp' params='enctype="multipart/form-data"'>
+					<@row>
+						<@columns md='4' lg='4'>
+							<fieldset>		
 							<legend>#i18n{portal.users.create_user.labelIdentity}</legend>
-							<div class="form-group">
-								<label class="col-xs-12 col-sm-12 col-md-12" for="last_name">#i18n{portal.users.create_user.labelLastName} * </label>
-								<div class="col-xs-12 col-sm-12 col-md-12">
-									<div class="input-group input-group-sm">
-										<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-										<input type="text" id="last_name" class="form-control input-sm" name="last_name" value="" maxlength="100">
-									</div>
-								</div>
-							</div>
-							<div class="form-group">
-								<label class="col-xs-12 col-sm-12 col-md-12" for="first_name">#i18n{portal.users.create_user.labelFirstName} * </label>
-								<div class="col-xs-12 col-sm-12 col-md-12">
-									<div class="input-group input-group-sm">
-										<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-									<input type="text" id="first_name" name="first_name" value="" maxlength="100" class="form-control input-sm">
-									</div>
-								</div>
-							</div>
-							<div class="form-group">
-								<label class="col-xs-12 col-sm-12 col-md-12" for="email">#i18n{portal.users.create_user.labelEmail} * </label>
-								<div class="col-xs-12 col-sm-12 col-md-12">
-									<div class="input-group input-group-sm">
-										<span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
-									<input type="text" id="email" name="email" value="" maxlength="100" class="form-control input-sm">
-									</div>
-								</div>
-							</div>
+							<@formGroup labelKey='#i18n{portal.users.create_user.labelLastName}' labelFor='last_name' rows=2 mandatory=true>
+								<@inputGroup>
+									<@inputGroupItem type='addon'>
+										<@icon style='user' />
+									</@inputGroupItem>
+									<@input type='text' id='last_name' name='last_name' value='' maxlength=100 />
+								</@inputGroup>
+							</@formGroup>
+							<@formGroup labelKey='#i18n{portal.users.create_user.labelFirstName}' labelFor='first_name' rows=2 mandatory=true>
+								<@inputGroup>
+									<@inputGroupItem type='addon'>
+										<@icon style='user' />
+									</@inputGroupItem>
+									<@input type='text' id='first_name' name='first_name' value='' maxlength=100 />
+								</@inputGroup>
+							</@formGroup>
+							<@formGroup labelKey='#i18n{portal.users.create_user.labelEmail}' labelFor='email' rows=2 mandatory=true>
+								<@inputGroup>
+									<@inputGroupItem type='addon'>
+										<@icon style='envelope' />
+									</@inputGroupItem>
+									<@input type='text' id='email' name='email' value='' maxlength=100 />
+								</@inputGroup>
+							</@formGroup>
 							</fieldset>
-						</div>
-						<div class="col-xs-12 col-sm-12 col-md-4">
+						</@columns>
+						<@columns md='4' lg='4'>
 							<fieldset>
-								<legend>#i18n{portal.users.create_user.labelAccount}</legend>
-								<div class="form-group">
-									<label class="col-xs-12 col-sm-12 col-md-12" for="access_code">#i18n{portal.users.create_user.labelAccessCode} *</label>
-									<div class="col-xs-12 col-sm-12 col-md-12">
-										<div class="input-group input-group-sm">
-											<span class="input-group-addon"><i class="glyphicon glyphicon-star"></i></span>
-										<input type="text"  id="access_code" name="access_code" value="" maxlength="100" class="form-control input-sm">		
-										</div>
-									</div>
-								</div>
-								<div class="form-group">
-									<label class="col-xs-12 col-sm-12 col-md-12" for="first_password">#i18n{portal.users.create_user.labelFirstPassword} *</label>
-									<div class="col-xs-12 col-sm-12 col-md-12">
-										<div class="input-group input-group-sm">
-											<span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-											<input type="password" id="first_password" name="first_password" maxlength="100" class="form-control input-sm" value="">
-											<span class="input-group-btn"><button type="button" class="btn btn-default" id="generate_password" title="#i18n{portal.users.create_user.buttonLabelGeneratePassword}">
-											<i class="glyphicon glyphicon-cog"></i></button></span>
-										</div>
-									</div>
-								</div>
-								<div class="form-group">
-									<label class="col-xs-12 col-sm-12 col-md-12" for="second_password">#i18n{portal.users.create_user.labelSecondPassword} * </label>
-									<div class="col-xs-12 col-sm-12 col-md-12">
-										<div class="input-group input-group-sm">
-											<span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-											<input type="password" id="second_password" name="second_password" maxlength="100" class="form-control input-sm" value="">
-										</div>
-										<p class="help-block">#i18n{portal.users.create_user.passwordComplexity}</p>
-										<div class="progress">
-											<div id="progressbar" class="progress-bar progress-bar-striped col-md-5" role="progressbar">
-												<div id="complexity">0%</div>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="clearfix">&nbsp;</div>
-								<div class="form-group">
-									<label class="col-xs-12 col-sm-12 col-md-12">#i18n{portal.users.create_user.labelNotify}</label>
-									<div class="col-xs-12 col-sm-12 col-md-12">
-										<#if default_user_notification = 1>
-											<label class="radio-inline">
-												<input type="radio" name="notify_user" value="1" checked="checked" />#i18n{portal.util.labelYes}
-											</label>
-											<label class="radio-inline">
-												<input type="radio" name="notify_user" value="0">#i18n{portal.util.labelNo}
-											</label>
-										<#else>
-											<label class="radio-inline">
-												<input type="radio" name="notify_user" value="1">#i18n{portal.util.labelYes}
-											</label>
-											<label class="radio-inline">
-												<input type="radio" name="notify_user" value="0" checked="checked">#i18n{portal.util.labelNo}
-											</label>
-										</#if>
-									</div>
-								</div>
+							<legend>#i18n{portal.users.create_user.labelAccount}</legend>
+							<@formGroup labelKey='#i18n{portal.users.create_user.labelAccessCode}' labelFor='access_code' rows=2 mandatory=true>
+								<@inputGroup>
+									<@inputGroupItem type='addon'>
+										<@icon style='star' />
+									</@inputGroupItem>
+									<@input type='text' id='access_code' name='access_code' value='' maxlength=100 />
+								</@inputGroup>
+							</@formGroup>
+							<@formGroup labelKey='#i18n{portal.users.create_user.labelFirstPassword}' labelFor='first_password' rows=2 mandatory=true>
+								<@inputGroup>
+									<@inputGroupItem type='addon'>
+										<@icon style='lock' />
+									</@inputGroupItem>
+									<@input type='password' id='first_password' name='first_password' maxlength=100 value='' />
+									<@inputGroupItem type='btn'>
+										<@button color='btn-secondary' id='generate_password' title='#i18n{portal.users.create_user.buttonLabelGeneratePassword}' buttonIcon='cog' showTitle=false />
+									</@inputGroupItem>
+								</@inputGroup>
+							</@formGroup>
+							<@formGroup labelKey='#i18n{portal.users.create_user.labelSecondPassword}' labelFor='second_password' rows=2 helpKey='#i18n{portal.users.create_user.passwordComplexity}' mandatory=true>
+								<@inputGroup>
+									<@inputGroupItem type='addon'>
+										<@icon style='lock' />
+									</@inputGroupItem>
+									<@input type='password' id='second_password' name='second_password' maxlength=100 value='' />
+								</@inputGroup>
+							</@formGroup>
+							<@formGroup rows=2>
+								<@progressBar />
+							</@formGroup>
+							<div class="clearfix">&nbsp;</div>
+							<@formGroup labelKey='#i18n{portal.users.create_user.labelNotify}' rows=2>
+								<#if default_user_notification = 1>
+									<@radioButton orientation='horizontal' labelKey='#i18n{portal.util.labelYes}' name='notify_user' value=1 checked=true />
+									<@radioButton orientation='horizontal' labelKey='#i18n{portal.util.labelNo}' name='notify_user' value=0 />
+								<#else>
+									<@radioButton orientation='horizontal' labelKey='#i18n{portal.util.labelYes}' name='notify_user' value=1 />
+									<@radioButton orientation='horizontal' labelKey='#i18n{portal.util.labelNo}' name='notify_user' value=0 checked=true />
+								 </#if>								
+							</@formGroup>
 							</fieldset>
-						</div>
-						<div class="col-xs-12 col-sm-12 col-md-4">
+						</@columns>
+						<@columns md='4' lg='4'>
 						<fieldset>
 							<legend>#i18n{portal.users.create_user.labelComplementaryAttributes}</legend>
-							<div class="form-group">
-								<label class="col-xs-12 col-sm-12 col-md-12 inline" for="status">#i18n{portal.users.create_user.labelStatus}</label>
-								<div class="col-xs-12 col-sm-12 col-md-12">
-									<select id="status" class="form-control input-sm" name="status">
-										<#if default_user_status = 1>
-										<option value="0">#i18n{portal.users.create_user.statusLabelEnabled}</option>
-										<option value="1" selected="selected">#i18n{portal.users.create_user.statusLabelDisabled}</option>
-										<#else>
-										<option value="0" selected="selected">#i18n{portal.users.create_user.statusLabelEnabled}</option>
-										<option value="1">#i18n{portal.users.create_user.statusLabelDisabled}</option>
-										</#if>
-									</select>
-								</div>
-							</div>
-								<#if displayFieldset( user_levels attributes_list )>
-									<#if (user_levels?has_content)>
-										<div class="form-group">
-											<label class="col-xs-12 col-sm-12 col-md-12" for="user_level">#i18n{portal.users.create_user.userLevelLabel} :</label>
-											<div class="col-xs-12 col-sm-12 col-md-12">
-												<select class="form-control input-sm" id="user_level" name="user_level">
-													<#list user_levels as user_level>
-													<#if user_level.id = default_user_level.id>
-													<option value="${user_level.id}" selected="selected">${user_level.name}</option>
-													<#else>
-													<option value="${user_level.id}">${user_level.name}</option>
-													</#if>
-													</#list>
-												</select>
-											</div>
-										</div>            
-										<div class="form-group">
-											<label class="col-xs-12 col-sm-12 col-md-12"> #i18n{portal.role.create_role.labelWorkgroupKey} * :</label>
-											<div class="col-xs-12 col-sm-12 col-md-12">
-												<@comboSortedWithParams name="workgroup_key" default_value="${workgroup_key_default_value}" additionalParameters="class=\"form-control input-sm\"" items=workgroup_key_list />
-											</div>
-										</div>
-										<div class="form-group">
-											<label class="col-xs-12 col-sm-12 col-md-12" for="language">#i18n{portal.users.create_user.labelLanguage} :</label>
-											<div class="col-xs-12 col-sm-12 col-md-12">
-											<@comboSortedWithParams name="language" default_value="${default_user_language}" additionalParameters="class=\"form-control input-sm\"" items=languages_list />
-											</div>
-										</div>
+							<@formGroup labelKey='#i18n{portal.users.create_user.labelStatus}' labelFor='status' rows=2>
+								<@select id='status' name='status'>
+									<#if default_user_status = 1>
+									<option value="0">#i18n{portal.users.create_user.statusLabelEnabled}</option>
+									<option value="1" selected="selected">#i18n{portal.users.create_user.statusLabelDisabled}</option>
+									<#else>
+									<option value="0" selected="selected">#i18n{portal.users.create_user.statusLabelEnabled}</option>
+									<option value="1">#i18n{portal.users.create_user.statusLabelDisabled}</option>
 									</#if>
-									<#list attributes_list as attribute>
-										<#if attribute.plugin?exists && attribute.plugin.name =="profiles">
-											${attribute.getHtmlFormAttribute( locale )}
-											<#break>
-										</#if>
-									</#list>
+								</@select>
+							</@formGroup>
+							<#if displayFieldset( user_levels attributes_list )>
+								<#if (user_levels?has_content)>
+									<@formGroup labelKey='#i18n{portal.users.create_user.userLevelLabel}' labelFor='user_level' rows=2>
+										<@select name='user_level'>
+											<#list user_levels as user_level>
+												<#if user_level.id = default_user_level.id>
+												<option value="${user_level.id}" selected="selected">${user_level.name}</option>
+												<#else>
+												<option value="${user_level.id}">${user_level.name}</option>
+												</#if>
+											</#list>
+										</@select>
+									</@formGroup>
+									<@formGroup labelKey='#i18n{portal.role.create_role.labelWorkgroupKey}' rows=2 mandatory=true>
+										<@select name='workgroup_key' default_value='${workgroup_key_default_value}' items=workgroup_key_list list=true sort=true />
+									</@formGroup>
+									<@formGroup labelKey='#i18n{portal.users.create_user.labelLanguage}' labelFor='language' rows=2>
+										<@select name='language' default_value='${default_user_language}' items=languages_list list=true sort=true />									
+									</@formGroup>
 								</#if>
-								<#if attributes_list?has_content>
-									<#list attributes_list as attribute>
-										<#if !attribute.plugin?exists || ( attribute.plugin?exists && attribute.plugin.name !="profiles" )>
-											${attribute.getHtmlFormAttribute( locale )}
-										</#if>
-									</#list>
-								</#if>
-								<div class="form-group">
-									<label class="col-xs-12 col-sm-12 col-md-12 checkbox" for="accessibility_mode">
-									#i18n{portal.users.create_user.labelTheme} :
-									</label>
-									<div class="col-xs-12 col-sm-12 col-md-12">
-										<label class="checkbox-inline">
-											<input type="checkbox" id="accessibility_mode" name="accessibility_mode" value="1">
-											#i18n{portal.users.create_user.labelAccessibilityMode}
-										</label>
-									</div>
-								</div>
+								<#list attributes_list as attribute>
+									<#if attribute.plugin?exists && attribute.plugin.name =="profiles">
+										${attribute.getHtmlFormAttribute( locale )}
+										<#break>
+									</#if>
+								</#list>
+							</#if>
+							<#if attributes_list?has_content>
+								<#list attributes_list as attribute>
+									<#if !attribute.plugin?exists || ( attribute.plugin?exists && attribute.plugin.name !="profiles" )>
+										${attribute.getHtmlFormAttribute( locale )}
+									</#if>
+								</#list>
+							</#if>
+							<@formGroup labelKey='#i18n{portal.users.create_user.labelTheme}' labelFor='accessibility_mode' rows=2>
+								<@checkBox name='accessibility_mode' id='accessibility_mode' orientation='horizontal' value='1' labelKey='#i18n{portal.users.create_user.labelAccessibilityMode}' />
+							</@formGroup>
 						</fieldset>
-						</div>
-					</div>
-					<div class="row">
-							<div class="col-xs-12 col-sm-12 col-md-offset-4 col-md-4 ">
-								<button type="submit" class="btn btn-primary btn-block">
-								<i class="glyphicon glyphicon-ok"></i>
-									#i18n{portal.users.manage_users.buttonLabelAddUser}
-								</button> 
-							</div>
-					</div>
-				</form>	
-			</div>
-		</div>
-	</div>
-</div>
+						</@columns>
+					</@row>
+					<@row>
+						<@columns md=4 lg=4>
+							<@formGroup rows=2>
+								<@button size='' type='submit' buttonIcon='check' title='#i18n{portal.users.manage_users.buttonLabelAddUser}'  />
+								<@aButton size='' href='jsp/admin/user/ManageUsers.jsp' color='btn-secondary' buttonIcon='times' title='#i18n{portal.util.labelBack}'  />
+							</@formGroup>
+						</@columns>
+					</@row>
+				</@tform>	
+			</@boxBody>
+		</@box>
+	</@columns>
+</@row>
 <script src="js/jquery.complexify.js"></script>
 <script src="js/jquery/plugins/generatepassword/jquery.password.min.js"></script>
 <script>

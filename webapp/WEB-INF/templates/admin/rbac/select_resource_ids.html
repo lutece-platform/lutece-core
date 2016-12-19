@@ -1,46 +1,26 @@
-<div class="row">
-	<div class="col-xs-12 col-sm-12 col-md-12">
-		<div class="box box-success">
-			<div class="box-header">
-				<h3 class="box-title">#i18n{portal.rbac.select_resource_ids.titleSelectIds}</h3>
-				<div class="box-tools"></div>
-			</div><!-- /.box-header -->
-			<div class="box-body">
-				<form class="form-horizontal" role="form" method="post"  action="jsp/admin/rbac/DoSelectResourcesFromIdsList.jsp" name="ids">
+<@row>
+	<@columns>
+		<@box color='success'>
+      <@boxHeader title='#i18n{portal.rbac.select_resource_ids.titleSelectIds}' />
+			<@boxBody>
+				<@tform method='post' action='jsp/admin/rbac/DoSelectResourcesFromIdsList.jsp' name='ids'>
 					<input type="hidden" name="role_key" value="${role_key}">
 					<input type="hidden" name="resource_type" value="${resource_type}">
 					<input type="hidden" name="select_resources" value="${select_resources}">
-					<div class="form-group">
-						<div class="col-xs-12 col-sm-offset-2 col-sm-10">
-							<p class="control-static">#i18n{portal.rbac.select_resource_ids.labelSelectIdsFromList}</p>
-						</div>
-					</div>
-					<div class="form-group">
-						<div class="col-xs-12 col-sm-offset-2 col-sm-10">
+					<@formGroup>
+						<label id="resourceList">#i18n{portal.rbac.select_resource_ids.labelSelectIdsFromList}</label>
+						<div aria-labelledby="resourceList">
 						<#list resource_id_list as item>
-							<div class="checkbox">
-								<label>
-									<input class="checkbox" type="checkbox" name="resource_id" value="${item.code}">
-									${item.name}
-								</label>
-							</div>
+							<@checkBox name='resource_id' value='${item.code}' labelKey='${item.name}' />
 						</#list>
 						</div>
-					</div>
-					<div class="form-group">
-						<div class="col-xs-12 col-sm-offset-2 col-sm-10">
-							<button class="btn btn-primary btn-flat" type="submit" >
-								<i class="fa fa-check"></i>&nbsp;
-								#i18n{portal.rbac.select_permissions.buttonLabelValidate}
-							</button>
-							<a class="btn btn-default btn-flat" href="jsp/admin/rbac/AddControlToRole.jsp?role_key=${role_key}&amp;resource_type=${resource_type}" >
-								<i class="fa fa-remove"></i>&nbsp;
-								#i18n{portal.rbac.select_permissions.buttonLabelCancel}
-							</a>
-						</div>
-					</div>
-				</form>
-			</div>
-		</div>
-    </div>
-</div>
+					</@formGroup>
+					<@formGroup>
+						<@aButton href='jsp/admin/rbac/AddControlToRole.jsp?role_key=${role_key}&amp;resource_type=${resource_type}' buttonIcon='arrow-left' size='' color='btn-secondary' title='#i18n{portal.rbac.select_permissions.buttonLabelCancel}' />
+						<@button type='submit' buttonIcon='arrow-right' title='#i18n{portal.rbac.select_permissions.buttonLabelValidate}' size='' iconPosition='right' />
+					</@formGroup>
+				</@tform>
+			</@boxBody>
+    </@box>
+  </@columns>
+</@row>
