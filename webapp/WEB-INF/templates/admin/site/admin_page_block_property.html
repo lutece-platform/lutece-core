@@ -6,8 +6,9 @@
 				<@button style='btn-box-tool' params='data-widget="collapse"' buttonIcon='minus' />
 			</@boxHeader>
 			<@boxBody>
-				<@tform method='post' params='enctype="multipart/form-data"' action='jsp/admin/site/DoModifyPage.jsp'>
-					<input type="hidden" name="page_id" value="${page.id}" >
+				<@tform method='post'  action='jsp/admin/site/DoModifyPage.jsp' params='enctype="multipart/form-data"'>
+					<input type="hidden" name="page_id" value="${page.id}">
+
 					<@row>
 						<#if authorization != "1">    
 							<@columns sm=6 md=4 lg=4 id='create'>
@@ -66,7 +67,7 @@
 										<@formGroup rows=2>
 											<@row>
 											<@columns xs=10 sm=10 md=10 lg=10>
-												<@checkBox name='update_image' id='update_image' labelKey='												#i18n{portal.site.admin_page.checkedUpdateImage}' />
+												<@checkBox name='update_image' id='update_image' labelKey='#i18n{portal.site.admin_page.checkedUpdateImage}' />
 											</@columns>
 											<@columns xs=2 sm=2 md=2 lg=2>
 												<img src="${image_url}" class="img-thumbnail" alt="">
@@ -84,13 +85,14 @@
 									<@boxHeader title='#i18n{portal.site.admin_page.labelMetadata}' />
 									<@boxBody>
 										<fieldset>
-											<legend>#i18n{portal.site.admin_page.labelMetadata}</legend>
+											<legend class="sr-only">#i18n{portal.site.admin_page.labelMetadata}</legend>
 											<@formGroup labelFor='meta_keywords' labelKey='#i18n{portal.site.admin_page.labelMetaKeywords}' rows=2>
 												<#if page.metaKeywords?exists && page.metaKeywords?has_content>
 													<#assign value='${page.metaKeywords}'>
 												<#else>
 													<#assign value=''>
 												</#if>
+
 												<@input type='text' name='meta_keywords' maxlength=250 value=value />
 											</@formGroup>
 											<@formGroup labelFor='meta_description' labelKey='#i18n{portal.site.admin_page.labelMetaDescription}' helpKey='#i18n{portal.site.admin_page.labelMetaDescriptionInfo}' rows=2>
@@ -107,46 +109,46 @@
 								<@box color='default box-solid'>
 									<@boxHeader title='' />
 									<@boxBody>
+									<fieldset>
 										<@formGroup labelFor='theme' labelKey='#i18n{portal.site.admin_page.labelTheme}' rows=2>
 											<@select name='theme' default_value='${page.codeTheme}' items=page_themes_list list=true />
 										</@formGroup>
 										
 										<@formGroup labelFor='roles_list' labelKey='#i18n{portal.site.admin_page.labelRole}' rows=2>
-											<@select name='role' default_value='${page.role}' items=page_roles_list list=true />
+											<@select name='role' default_value='${page.role}' items=page_roles_list list=true sort=true />
 										</@formGroup>
 										
-										<@formGroup labelFor='roles_list' labelKey='#i18n{portal.site.admin_page.labelNodeStatus}' rows=2>
+										<@formGroup labelFor='node_status' labelKey='#i18n{portal.site.admin_page.labelNodeStatus}' rows=2>
 											<#if page.nodeStatus = 0>
 												<@select name='node_status'>
 													<option value="0" selected="selected">#i18n{portal.site.admin_page.labelNodeStatus0}</option>
 													<option value="1">#i18n{portal.site.admin_page.labelNodeStatus1}</option>
 												</@select>
 											<#else>
-												<@select name='node_status'>
+												<@select name="node_status">
 													<option value="0" >#i18n{portal.site.admin_page.labelNodeStatus0}</option>
 													<option value="1" selected="selected">#i18n{portal.site.admin_page.labelNodeStatus1}</option>
 												</@select>
 											</#if>
 										</@formGroup>
+									</fieldset>
 								</@boxBody>
 							</@box>
 						</@columns>
 					</@row>
-					<@row>	
-						<@columns sm=6 md=3 lg=3>
-							
-						</@columns>
+					<@row>
 						
-						<@columns class="clearfix">
+						<@columns>
 							<@formGroup rows=2>
-								<@button type='submit' title='#i18n{portal.site.admin_page.buttonModify}' buttonIcon='check' title='#i18n{portal.site.admin_page.buttonModify}'  size='' />
+								<@button type='submit' buttonIcon='check'
+									title='#i18n{portal.site.admin_page.buttonModify}' size='' />
 								<@aButton href='jsp/admin/site/AdminSite.jsp?page_id=${page.id}' buttonIcon='close' title='#i18n{portal.site.admin_page.buttonClosed}'  size='' color='btn-secondary' />
 							</@formGroup>
 						</@columns>
 					</@row>
 				</@tform>
 			</@boxBody>
-    </@box>
+		</@box>
 	</@columns>
 </@row>
 
@@ -154,13 +156,13 @@
 	$().ready( function(){
 		$("#adv_param").toggle();
 		$("#btn-params").click( function(){
-		$("#create, #layout, #image").toggleClass("col-md-4 col-md-3").toggleClass("col-lg-4 col-lg-3");
+			$("#create, #layout, #image").toggleClass("col-md-4 col-md-3").toggleClass("col-lg-4 col-lg-3");
 
-		$("#adv_param").fadeToggle();
-		$("#btn-params > i").toggleClass("fa-chevron-left");
-		$("#btn-params > i").toggleClass("fa-chevron-right");
+			$("#adv_param").fadeToggle();
+			$("#btn-params > i").toggleClass("fa-chevron-left");
+			$("#btn-params > i").toggleClass("fa-chevron-right");
+		});
+
+		$("#image_content").change( function(){ $("#update_image").prop("checked","checked"); });
 	});
-	
-	$("#image_content").change( function(){ $("#update_image").prop("checked","checked"); });
-});
 </script>
