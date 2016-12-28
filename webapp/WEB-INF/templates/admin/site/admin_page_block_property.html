@@ -87,21 +87,10 @@
 										<fieldset>
 											<legend class="sr-only">#i18n{portal.site.admin_page.labelMetadata}</legend>
 											<@formGroup labelFor='meta_keywords' labelKey='#i18n{portal.site.admin_page.labelMetaKeywords}' rows=2>
-												<#if page.metaKeywords?exists && page.metaKeywords?has_content>
-													<#assign value='${page.metaKeywords}'>
-												<#else>
-													<#assign value=''>
-												</#if>
-
-												<@input type='text' name='meta_keywords' maxlength=250 value=value />
+												<@input type='text' name='meta_keywords' maxlength=250 value=page.metaKeywords! />
 											</@formGroup>
 											<@formGroup labelFor='meta_description' labelKey='#i18n{portal.site.admin_page.labelMetaDescription}' helpKey='#i18n{portal.site.admin_page.labelMetaDescriptionInfo}' rows=2>
-												<#if page.metaDescription?exists && page.metaDescription?has_content>
-													<#assign value='${page.metaDescription}'>
-												<#else>
-													<#assign value=''>
-												</#if>
-												<@input type='text' name='meta_description' maxlength=250 value=value />
+												<@input type='text' name='meta_description' maxlength=250 value=page.metaDescription! />
 											</@formGroup>
 										</fieldset>
 									</@boxBody>
