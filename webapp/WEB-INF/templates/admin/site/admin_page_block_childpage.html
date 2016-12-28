@@ -106,20 +106,6 @@
 									<@formGroup labelFor='roles_list' labelKey='#i18n{portal.site.admin_page.labelRole}' rows=2>
 										<@select name='role' default_value='${page.role}' items=page_roles_list list=true sort=true />
 									</@formGroup>
-											
-									<@formGroup labelFor='node_status' labelKey='#i18n{portal.site.admin_page.labelNodeStatus}' rows=2>
-										<#if page.nodeStatus = 0>
-											<@select name='node_status'>
-												<option value="0" selected="selected">#i18n{portal.site.admin_page.labelNodeStatus0}</option>
-												<option value="1">#i18n{portal.site.admin_page.labelNodeStatus1}</option>
-											</@select>
-										<#else>
-											<@select name="node_status">
-												<option value="0" >#i18n{portal.site.admin_page.labelNodeStatus0}</option>
-												<option value="1" selected="selected">#i18n{portal.site.admin_page.labelNodeStatus1}</option>
-											</@select>
-										</#if>
-									</@formGroup>
 								</fieldset>
 							</@boxBody>
 						</@box>
