@@ -276,7 +276,7 @@ public class PageIndexer implements SearchIndexer
 
         if ( sbFieldMetadata.length( ) > 0 )
         {
-            doc.add( new StringField( SearchItem.FIELD_METADATA, sbFieldMetadata.toString( ), Field.Store.NO ) );
+            doc.add( new Field( SearchItem.FIELD_METADATA, sbFieldMetadata.toString( ), TextField.TYPE_NOT_STORED ) );
         }
 
         // Add the title as a separate Text field, so that it can be searched
