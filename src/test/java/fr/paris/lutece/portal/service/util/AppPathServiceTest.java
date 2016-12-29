@@ -33,14 +33,15 @@
  */
 package fr.paris.lutece.portal.service.util;
 
-import fr.paris.lutece.test.LuteceTestCase;
-import fr.paris.lutece.test.MokeHttpServletRequest;
-import fr.paris.lutece.util.ReferenceList;
-
 import java.io.FileInputStream;
 import java.io.IOException;
 
 import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.mock.web.MockHttpServletRequest;
+
+import fr.paris.lutece.test.LuteceTestCase;
+import fr.paris.lutece.util.ReferenceList;
 
 /**
  * AppPathService Test Class
@@ -174,14 +175,14 @@ public class AppPathServiceTest extends LuteceTestCase
     {
         System.out.println( "getVirtualHostKey" );
 
-        MokeHttpServletRequest request = new MokeHttpServletRequest( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
         String strParameter = AppPropertiesService.getProperty( PROPERTY_VIRTUAL_HOST_KEY_PARAMETER );
         ReferenceList listKeys = AppPathService.getAvailableVirtualHosts( );
 
         if ( listKeys != null )
         {
             String strKey = listKeys.get( 0 ).getCode( );
-            request.addMokeParameters( strParameter, strKey );
+            request.addParameter( strParameter, strKey );
 
             String expResult = strKey;
             String result = AppPathService.getVirtualHostKey( request );

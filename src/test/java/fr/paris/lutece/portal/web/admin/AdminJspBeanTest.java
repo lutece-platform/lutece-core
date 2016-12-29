@@ -48,7 +48,7 @@ import fr.paris.lutece.portal.service.message.SiteMessageException;
 import fr.paris.lutece.portal.service.security.UserNotSignedException;
 import fr.paris.lutece.portal.web.LocalVariables;
 import fr.paris.lutece.test.LuteceTestCase;
-import fr.paris.lutece.test.MokeHttpServletRequest;
+import fr.paris.lutece.test.Utils;
 
 /**
  * AdminJspBeanTest Test Class
@@ -67,9 +67,9 @@ public class AdminJspBeanTest extends LuteceTestCase
     {
         System.out.println( "getAdminPage" );
 
-        MokeHttpServletRequest request = new MokeHttpServletRequest( );
-        request.addMokeParameters( PARAMETER_PAGE_ID, TEST_PAGE_ID );
-        request.registerAdminUserWithRigth( new AdminUser( ), AdminPageJspBean.RIGHT_MANAGE_ADMIN_SITE );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.addParameter( PARAMETER_PAGE_ID, TEST_PAGE_ID );
+        Utils.registerAdminUserWithRigth( request, new AdminUser( ), AdminPageJspBean.RIGHT_MANAGE_ADMIN_SITE );
 
         AdminPageJspBean instance = new AdminPageJspBean( );
         instance.init( request, AdminPageJspBean.RIGHT_MANAGE_ADMIN_SITE );

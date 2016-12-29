@@ -33,10 +33,12 @@
  */
 package fr.paris.lutece.portal.web.system;
 
+import org.springframework.mock.web.MockHttpServletRequest;
+
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.test.LuteceTestCase;
-import fr.paris.lutece.test.MokeHttpServletRequest;
+import fr.paris.lutece.test.Utils;
 
 /**
  * SystemJspBean Test Class
@@ -51,8 +53,8 @@ public class CacheJspBeanTest extends LuteceTestCase
     {
         System.out.println( "getManageCaches" );
 
-        MokeHttpServletRequest request = new MokeHttpServletRequest( );
-        request.registerAdminUserWithRigth( new AdminUser( ), CacheJspBean.RIGHT_CACHE_MANAGEMENT );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        Utils.registerAdminUserWithRigth( request, new AdminUser( ), CacheJspBean.RIGHT_CACHE_MANAGEMENT );
 
         CacheJspBean instance = new CacheJspBean( );
         instance.init( request, CacheJspBean.RIGHT_CACHE_MANAGEMENT );
@@ -66,8 +68,8 @@ public class CacheJspBeanTest extends LuteceTestCase
     {
         System.out.println( "doResetCaches" );
 
-        MokeHttpServletRequest request = new MokeHttpServletRequest( );
-        request.registerAdminUserWithRigth( new AdminUser( ), CacheJspBean.RIGHT_CACHE_MANAGEMENT );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        Utils.registerAdminUserWithRigth( request, new AdminUser( ), CacheJspBean.RIGHT_CACHE_MANAGEMENT );
         CacheJspBean.doResetCaches( request );
     }
 
@@ -78,8 +80,8 @@ public class CacheJspBeanTest extends LuteceTestCase
     {
         System.out.println( "doReloadProperties" );
 
-        MokeHttpServletRequest request = new MokeHttpServletRequest( );
-        request.registerAdminUserWithRigth( new AdminUser( ), CacheJspBean.RIGHT_CACHE_MANAGEMENT );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        Utils.registerAdminUserWithRigth( request, new AdminUser( ), CacheJspBean.RIGHT_CACHE_MANAGEMENT );
 
         CacheJspBean instance = new CacheJspBean( );
         instance.doReloadProperties( );

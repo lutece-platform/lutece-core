@@ -33,10 +33,12 @@
  */
 package fr.paris.lutece.portal.web.rbac;
 
+import org.springframework.mock.web.MockHttpServletRequest;
+
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.test.LuteceTestCase;
-import fr.paris.lutece.test.MokeHttpServletRequest;
+import fr.paris.lutece.test.Utils;
 
 /**
  * StyleSheetJspBean Test Class
@@ -54,8 +56,8 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
     {
         System.out.println( "getManageRoles" );
 
-        MokeHttpServletRequest request = new MokeHttpServletRequest( );
-        request.registerAdminUserWithRigth( new AdminUser( ), RoleManagementJspBean.RIGHT_MANAGE_ROLES );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        Utils.registerAdminUserWithRigth( request, new AdminUser( ), RoleManagementJspBean.RIGHT_MANAGE_ROLES );
 
         RoleManagementJspBean instance = new RoleManagementJspBean( );
         instance.init( request, RoleManagementJspBean.RIGHT_MANAGE_ROLES );
@@ -69,9 +71,9 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
     {
         System.out.println( "getCreateRole" );
 
-        MokeHttpServletRequest request = new MokeHttpServletRequest( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
 
-        request.registerAdminUserWithRigth( new AdminUser( ), RoleManagementJspBean.RIGHT_MANAGE_ROLES );
+        Utils.registerAdminUserWithRigth( request, new AdminUser( ), RoleManagementJspBean.RIGHT_MANAGE_ROLES );
 
         RoleManagementJspBean instance = new RoleManagementJspBean( );
         instance.init( request, RoleManagementJspBean.RIGHT_MANAGE_ROLES );

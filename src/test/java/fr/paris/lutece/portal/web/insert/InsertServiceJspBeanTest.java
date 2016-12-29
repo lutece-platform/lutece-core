@@ -33,8 +33,9 @@
  */
 package fr.paris.lutece.portal.web.insert;
 
+import org.springframework.mock.web.MockHttpServletRequest;
+
 import fr.paris.lutece.test.LuteceTestCase;
-import fr.paris.lutece.test.MokeHttpServletRequest;
 
 /**
  * InsertServiceJspBean Test Class
@@ -48,7 +49,7 @@ public class InsertServiceJspBeanTest extends LuteceTestCase
     {
         System.out.println( "insertUrl" );
 
-        MokeHttpServletRequest request = new MokeHttpServletRequest( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
         String strInput = "Input";
         String strInsert = "Insert";
         MokeInsertServiceJspBean instance = new MokeInsertServiceJspBean( );

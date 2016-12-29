@@ -33,12 +33,14 @@
  */
 package fr.paris.lutece.portal.web.stylesheet;
 
+import org.springframework.mock.web.MockHttpServletRequest;
+
 import fr.paris.lutece.portal.business.stylesheet.StyleSheetHome;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.test.LuteceTestCase;
-import fr.paris.lutece.test.MokeHttpServletRequest;
+import fr.paris.lutece.test.Utils;
 
 /**
  * StyleSheetJspBean Test Class
@@ -53,8 +55,8 @@ public class StyleSheetJspBeanTest extends LuteceTestCase
     {
         System.out.println( "getManageStyleSheet" );
 
-        MokeHttpServletRequest request = new MokeHttpServletRequest( );
-        request.registerAdminUserWithRigth( new AdminUser( ), StyleSheetJspBean.RIGHT_MANAGE_STYLESHEET );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        Utils.registerAdminUserWithRigth( request, new AdminUser( ), StyleSheetJspBean.RIGHT_MANAGE_STYLESHEET );
 
         StyleSheetJspBean instance = new StyleSheetJspBean( );
         instance.init( request, StyleSheetJspBean.RIGHT_MANAGE_STYLESHEET );
@@ -68,9 +70,9 @@ public class StyleSheetJspBeanTest extends LuteceTestCase
     {
         System.out.println( "getCreateStyleSheet" );
 
-        MokeHttpServletRequest request = new MokeHttpServletRequest( );
-        request.addMokeParameters( Parameters.MODE_ID, "0" );
-        request.registerAdminUserWithRigth( new AdminUser( ), StyleSheetJspBean.RIGHT_MANAGE_STYLESHEET );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.addParameter( Parameters.MODE_ID, "0" );
+        Utils.registerAdminUserWithRigth( request, new AdminUser( ), StyleSheetJspBean.RIGHT_MANAGE_STYLESHEET );
 
         StyleSheetJspBean instance = new StyleSheetJspBean( );
         instance.init( request, StyleSheetJspBean.RIGHT_MANAGE_STYLESHEET );
@@ -97,10 +99,10 @@ public class StyleSheetJspBeanTest extends LuteceTestCase
         if ( StyleSheetHome.getStyleSheetList( 0 ).size( ) > 0 )
         {
             int nStyleSheetId = StyleSheetHome.getStyleSheetList( 0 ).iterator( ).next( ).getId( );
-            MokeHttpServletRequest request = new MokeHttpServletRequest( );
-            request.addMokeParameters( Parameters.STYLESHEET_ID, "" + nStyleSheetId );
+            MockHttpServletRequest request = new MockHttpServletRequest( );
+            request.addParameter( Parameters.STYLESHEET_ID, "" + nStyleSheetId );
             System.out.println( "-> using stylesheet ID : " + nStyleSheetId );
-            request.registerAdminUserWithRigth( new AdminUser( ), StyleSheetJspBean.RIGHT_MANAGE_STYLESHEET );
+            Utils.registerAdminUserWithRigth( request, new AdminUser( ), StyleSheetJspBean.RIGHT_MANAGE_STYLESHEET );
 
             StyleSheetJspBean instance = new StyleSheetJspBean( );
             instance.init( request, StyleSheetJspBean.RIGHT_MANAGE_STYLESHEET );
@@ -128,10 +130,10 @@ public class StyleSheetJspBeanTest extends LuteceTestCase
         if ( StyleSheetHome.getStyleSheetList( 0 ).size( ) > 0 )
         {
             int nStyleSheetId = StyleSheetHome.getStyleSheetList( 0 ).iterator( ).next( ).getId( );
-            MokeHttpServletRequest request = new MokeHttpServletRequest( );
-            request.addMokeParameters( Parameters.STYLESHEET_ID, "" + nStyleSheetId );
+            MockHttpServletRequest request = new MockHttpServletRequest( );
+            request.addParameter( Parameters.STYLESHEET_ID, "" + nStyleSheetId );
             System.out.println( "-> using stylesheet ID : " + nStyleSheetId );
-            request.registerAdminUserWithRigth( new AdminUser( ), StyleSheetJspBean.RIGHT_MANAGE_STYLESHEET );
+            Utils.registerAdminUserWithRigth( request, new AdminUser( ), StyleSheetJspBean.RIGHT_MANAGE_STYLESHEET );
 
             StyleSheetJspBean instance = new StyleSheetJspBean( );
             instance.init( request, StyleSheetJspBean.RIGHT_MANAGE_STYLESHEET );

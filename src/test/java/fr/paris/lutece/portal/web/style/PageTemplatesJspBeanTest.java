@@ -33,11 +33,13 @@
  */
 package fr.paris.lutece.portal.web.style;
 
+import org.springframework.mock.web.MockHttpServletRequest;
+
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.test.LuteceTestCase;
-import fr.paris.lutece.test.MokeHttpServletRequest;
+import fr.paris.lutece.test.Utils;
 
 /**
  * PageTemplatesJspBeanTest Test Class
@@ -54,8 +56,8 @@ public class PageTemplatesJspBeanTest extends LuteceTestCase
     {
         System.out.println( "getManagePageTemplate" );
 
-        MokeHttpServletRequest request = new MokeHttpServletRequest( );
-        request.registerAdminUserWithRigth( new AdminUser( ), PageTemplatesJspBean.RIGHT_MANAGE_PAGE_TEMPLATES );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        Utils.registerAdminUserWithRigth( request, new AdminUser( ), PageTemplatesJspBean.RIGHT_MANAGE_PAGE_TEMPLATES );
 
         PageTemplatesJspBean instance = new PageTemplatesJspBean( );
         instance.init( request, PageTemplatesJspBean.RIGHT_MANAGE_PAGE_TEMPLATES );
@@ -69,8 +71,8 @@ public class PageTemplatesJspBeanTest extends LuteceTestCase
     {
         System.out.println( "getCreatePageTemplate" );
 
-        MokeHttpServletRequest request = new MokeHttpServletRequest( );
-        request.registerAdminUserWithRigth( new AdminUser( ), PageTemplatesJspBean.RIGHT_MANAGE_PAGE_TEMPLATES );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        Utils.registerAdminUserWithRigth( request, new AdminUser( ), PageTemplatesJspBean.RIGHT_MANAGE_PAGE_TEMPLATES );
 
         PageTemplatesJspBean instance = new PageTemplatesJspBean( );
         instance.init( request, PageTemplatesJspBean.RIGHT_MANAGE_PAGE_TEMPLATES );
@@ -94,9 +96,9 @@ public class PageTemplatesJspBeanTest extends LuteceTestCase
     {
         System.out.println( "getModifyPageTemplate" );
 
-        MokeHttpServletRequest request = new MokeHttpServletRequest( );
-        request.addMokeParameters( Parameters.PAGE_TEMPLATE_ID, TEST_PAGE_TEMPLATE_ID );
-        request.registerAdminUserWithRigth( new AdminUser( ), PageTemplatesJspBean.RIGHT_MANAGE_PAGE_TEMPLATES );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.addParameter( Parameters.PAGE_TEMPLATE_ID, TEST_PAGE_TEMPLATE_ID );
+        Utils.registerAdminUserWithRigth( request, new AdminUser( ), PageTemplatesJspBean.RIGHT_MANAGE_PAGE_TEMPLATES );
 
         PageTemplatesJspBean instance = new PageTemplatesJspBean( );
         instance.init( request, PageTemplatesJspBean.RIGHT_MANAGE_PAGE_TEMPLATES );

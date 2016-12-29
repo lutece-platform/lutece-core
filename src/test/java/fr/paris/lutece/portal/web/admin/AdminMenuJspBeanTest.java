@@ -49,7 +49,7 @@ import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.test.LuteceTestCase;
-import fr.paris.lutece.test.MokeHttpServletRequest;
+import fr.paris.lutece.test.Utils;
 import fr.paris.lutece.util.password.IPassword;
 import fr.paris.lutece.util.password.IPasswordFactory;
 
@@ -88,9 +88,9 @@ public class AdminMenuJspBeanTest extends LuteceTestCase
     {
         System.out.println( "getAdminMenuHeader" );
 
-        MokeHttpServletRequest request = new MokeHttpServletRequest( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
         getUser( request );
-        request.registerAdminUser( _user );
+        Utils.registerAdminUser( request, _user );
 
         AdminMenuJspBean instance = new AdminMenuJspBean( );
         instance.getAdminMenuHeader( request );
@@ -103,9 +103,9 @@ public class AdminMenuJspBeanTest extends LuteceTestCase
     {
         System.out.println( "getAdminMenuUser" );
 
-        MokeHttpServletRequest request = new MokeHttpServletRequest( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
         getUser( request );
-        request.registerAdminUser( _user );
+        Utils.registerAdminUser( request, _user );
 
         AdminMenuJspBean instance = new AdminMenuJspBean( );
         instance.getAdminMenuUser( request );
@@ -118,11 +118,11 @@ public class AdminMenuJspBeanTest extends LuteceTestCase
     {
         System.out.println( "doChangeLanguage" );
 
-        MokeHttpServletRequest request = new MokeHttpServletRequest( );
-        request.addMokeParameters( PARAMETER_LANGUAGE, TEST_LANGUAGE );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.addParameter( PARAMETER_LANGUAGE, TEST_LANGUAGE );
 
         getUser( request );
-        request.registerAdminUser( _user );
+        Utils.registerAdminUser( request, _user );
         _user.setLocale( Locale.FRANCE );
 
         Locale localeSTored = _user.getLocale( );
@@ -132,7 +132,7 @@ public class AdminMenuJspBeanTest extends LuteceTestCase
         assertNotSame( localeSTored.getLanguage( ), _user.getLocale( ).getLanguage( ) );
     }
 
-    private void getUser( MokeHttpServletRequest request )
+    private void getUser( MockHttpServletRequest request )
     {
         try
         {

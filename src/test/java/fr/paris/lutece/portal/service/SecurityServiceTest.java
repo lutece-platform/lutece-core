@@ -33,12 +33,14 @@
  */
 package fr.paris.lutece.portal.service;
 
+import javax.security.auth.login.FailedLoginException;
+import javax.security.auth.login.LoginException;
+
+import org.springframework.mock.web.MockHttpServletRequest;
+
 import fr.paris.lutece.portal.service.security.LoginRedirectException;
 import fr.paris.lutece.portal.service.security.SecurityService;
 import fr.paris.lutece.test.LuteceTestCase;
-import fr.paris.lutece.test.MokeHttpServletRequest;
-
-import javax.security.auth.login.*;
 
 /**
  * This class tests the class fr.paris.lutece.portal.service.SecurityService
@@ -52,7 +54,7 @@ public class SecurityServiceTest extends LuteceTestCase
      */
     public void testLoginUser( ) throws LoginException
     {
-        MokeHttpServletRequest request = new MokeHttpServletRequest( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
         String strUserName = "";
         String strPassword = "";
 

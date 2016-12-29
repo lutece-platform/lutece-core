@@ -33,14 +33,15 @@
  */
 package fr.paris.lutece.portal.service;
 
+import java.util.Collection;
+import java.util.HashMap;
+
+import org.springframework.mock.web.MockHttpServletRequest;
+
 import fr.paris.lutece.portal.service.content.PageData;
 import fr.paris.lutece.portal.service.includes.PageInclude;
 import fr.paris.lutece.portal.service.includes.PageIncludeService;
 import fr.paris.lutece.test.LuteceTestCase;
-import fr.paris.lutece.test.MokeHttpServletRequest;
-
-import java.util.Collection;
-import java.util.HashMap;
 
 public class PageIncludeServiceTest extends LuteceTestCase
 {
@@ -55,7 +56,7 @@ public class PageIncludeServiceTest extends LuteceTestCase
             // HtmlTemplate template = new HtmlTemplate( "Dummy Template ");
             HashMap<String, Object> mapTemplate = new HashMap<String, Object>( );
             PageData pageData = new PageData( );
-            MokeHttpServletRequest request = new MokeHttpServletRequest( );
+            MockHttpServletRequest request = new MockHttpServletRequest( );
             pis.fillTemplate( mapTemplate, pageData, 0, request );
         }
     }
