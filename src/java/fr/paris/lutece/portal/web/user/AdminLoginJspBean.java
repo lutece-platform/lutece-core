@@ -252,6 +252,7 @@ public class AdminLoginJspBean implements Serializable
 
         model.put( MARK_PARAM_VERSION, AppInfo.getVersion( ) );
         model.put( MARK_PARAMS_LIST, listParams );
+        model.put( MARK_SITE_NAME, PortalService.getSiteName( ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_FORGOT_PASSWORD, locale, model );
 
@@ -270,11 +271,24 @@ public class AdminLoginJspBean implements Serializable
 
         Map<String, Object> model = new HashMap<String, Object>( );
 
-        model.put( Parameters.USER_ID , request.getParameter( Parameters.USER_ID ) );
-        model.put( PARAMETER_TIMESTAMP, request.getParameter( PARAMETER_TIMESTAMP ) );
-        model.put( PARAMETER_TOKEN, request.getParameter( PARAMETER_TOKEN ) );
-
         Locale locale = AdminUserService.getLocale( request );
+
+        Enumeration<String> enumParams = request.getParameterNames( );
+        ReferenceList listParams = new ReferenceList( );
+        String strParamName;
+
+        while ( enumParams.hasMoreElements( ) )
+        {
+            strParamName = enumParams.nextElement( );
+
+            String strParamValue = request.getParameter( strParamName );
+            listParams.addItem( strParamName, strParamValue );
+        }
+
+        model.put( MARK_PARAM_VERSION, AppInfo.getVersion( ) );
+        model.put( MARK_PARAMS_LIST, listParams );
+        model.put( MARK_SITE_NAME, PortalService.getSiteName( ) );
+
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_RESET_PASSWORD, locale, model );
 
@@ -316,6 +330,7 @@ public class AdminLoginJspBean implements Serializable
 
         model.put( MARK_PARAM_VERSION, AppInfo.getVersion( ) );
         model.put( MARK_PARAMS_LIST, listParams );
+        model.put( MARK_SITE_NAME, PortalService.getSiteName( ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_FORGOT_LOGIN, locale, model );
 
