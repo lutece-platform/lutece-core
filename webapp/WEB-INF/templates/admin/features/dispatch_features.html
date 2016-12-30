@@ -49,7 +49,7 @@
 								<input type="hidden" name="right_id" value="${right.id}">
 								<@formGroup rows=2>
 									<@inputGroup>
-									  <@select id='group_name-${right.id}' name='group_name' title=''>
+									  <@select id='group_name-${right.id}' name='group_name' title='' size='sm'>
 										<#if right.featureGroup?if_exists = no_group.feature_group.id?if_exists>
 											<option selected="selected" label="${i18n(no_group.feature_group.descriptionKey)?html}" value="${no_group.feature_group.id?if_exists}" >#i18n{${no_group.feature_group.labelKey}}</option>
 											<#else>
@@ -64,7 +64,7 @@
 										</#list>
 									  </@select>
 								  <@inputGroupItem>
-									<@button type='submit' title='#i18n{portal.features.dispatch_features_row.buttonSetGroup}' showTitle=false buttonIcon='check' size='' />
+									<@button type='submit' title='#i18n{portal.features.dispatch_features_row.buttonSetGroup}' showTitle=false buttonIcon='check' />
 								  </@inputGroupItem>
 								</@inputGroup>
 							  </@formGroup>
@@ -77,7 +77,7 @@
 								<input type="hidden" name="group_name" value="${right.featureGroup?if_exists}">
 								<@formGroup rows=2>
 								  <@inputGroup>
-									<@select name='order_id' id='order_id-${right.id}' title='#i18n{portal.features.dispatch_features.tableLabelOrder}'>
+									<@select name='order_id' id='order_id-${right.id}' title='#i18n{portal.features.dispatch_features.tableLabelOrder}' size='sm'>
 										<#list 1..groupDisplay.feature_list?size as i>
 											<#if "${right.order}" == "${i}">
 											<option selected="selected" value="${i}" >${i}</option>
@@ -88,7 +88,7 @@
 									</@select>
 									
 									<@inputGroupItem>
-										<@button type='submit' title='#i18n{portal.features.dispatch_features_row.buttonSetOrder}' buttonIcon='refresh' showTitle=false size='' />
+										<@button type='submit' title='#i18n{portal.features.dispatch_features_row.buttonSetOrder}' buttonIcon='refresh' showTitle=false />
 									</@inputGroupItem>
 								  </@inputGroup>
 								</@formGroup>

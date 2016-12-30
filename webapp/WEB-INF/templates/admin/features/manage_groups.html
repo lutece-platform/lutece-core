@@ -38,7 +38,7 @@
 							  <@formGroup rows=2>
 								<@inputGroup>
 								  <@inputGroupItem>
-									<@select name='order_id' id='order_id-${group.id?html}' default_value=group.order?string items=order_list list=true sort=true />
+									<@select name='order_id' id='order_id-${group.id?html}' default_value=group.order?string items=order_list list=true sort=true size='sm' />
 									<@button type='submit' title='#i18n{portal.features.manage_groups.buttonChangeOrder}' showTitle=false buttonIcon='refresh' />
 								  </@inputGroupItem>
 								</@inputGroup>
