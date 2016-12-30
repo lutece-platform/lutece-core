@@ -596,7 +596,7 @@ public final class AdminUserHome
     }
 
     /**
-     * Construct a password reset token. User the numerical userId as it does not change.
+     * Construct a password reset token. Use the numerical userId as it does not change.
      * Use the stored password, so that the token is invalidated if the password is changed.
      * Use a timestamp to allow limiting the validity of the token in time. Optionally bind the
      * token to the user session. Finally return an HMAC of this info using the application crypto key.
@@ -610,9 +610,17 @@ public final class AdminUserHome
         LuteceDefaultAdminUser user = _dao.loadDefaultAdminUser( nIdUser );
         StringBuilder builder = new StringBuilder( );
         builder.append( "userId:" ).append( nIdUser );
-        if ( user.getPassword( ) != null )
+        IPassword password = user.getPassword( );
+        if ( password != null )
         {
-            builder.append( ":password:" ).append( user.getPassword( ).getStorableRepresentation( ) );
+            builder.append( ":password:" );
+            if ( password.isLegacy( ) )
+            {
+                builder.append( "legacy" );
+            } else
+            {
+                builder.append( password.getStorableRepresentation( ) );
+            }
         }
         builder.append( ":timestamp:" ).append( timestamp.getTime( ) );
         if ( strSessionId != null )
