@@ -208,4 +208,5 @@
     
     <bean id="core.xpage.search" class="fr.paris.lutece.portal.web.search.SearchApp" scope="session" />
 
+    <bean id="daemonThread" class="fr.paris.lutece.portal.service.daemon.DaemonThread" scope="prototype" />
 </beans>

@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.service.daemon;
 
+import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.util.date.DateUtil;
 
 import java.util.Date;
@@ -52,7 +53,7 @@ public final class DaemonEntry
     private boolean _bOnStartup;
     private boolean _bIsRunning;
     private Daemon _daemon;
-    private DaemonThread _thread;
+    private final DaemonThread _thread;
     private String _strPluginName;
 
     // Variables declarations
@@ -62,7 +63,8 @@ public final class DaemonEntry
      */
     public DaemonEntry( )
     {
-        _thread = new DaemonThread( this );
+        _thread = SpringContextService.getBean( DaemonThread.DEAMON_THREAD_BEAN_NAME );
+        _thread.setDaemonEntry( this );
     }
 
     /**

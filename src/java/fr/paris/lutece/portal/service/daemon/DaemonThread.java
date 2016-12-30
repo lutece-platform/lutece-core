@@ -41,20 +41,30 @@ import java.util.Date;
 /**
  * This class performs methods to manage threads of execution for a given daemon instance
  */
-public final class DaemonThread implements Runnable
+public class DaemonThread implements Runnable
 {
+    static final String DEAMON_THREAD_BEAN_NAME = "daemonThread";
+
     private DaemonEntry _entry;
     private String _strDaemonName;
 
     /**
-     * Constructor Creates the thread of execution from informations contained in DaemonEntry structure
-     * 
+     * Sets the daemon entry
      * @param entry
      *            The entry
      */
-    public DaemonThread( DaemonEntry entry )
+    public void setDaemonEntry( DaemonEntry entry )
     {
         _entry = entry;
+    }
+
+    /**
+     * Get the daemon name
+     * @return the daemon name
+     */
+    public String getDaemonName( )
+    {
+        return _strDaemonName;
     }
 
     /**
