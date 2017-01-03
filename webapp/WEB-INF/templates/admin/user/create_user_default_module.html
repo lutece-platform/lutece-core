@@ -57,18 +57,17 @@
 									<@input type='text' id='access_code' name='access_code' value='' maxlength=100 />
 								</@inputGroup>
 							</@formGroup>
-							<div class="form-group">
-								<label class="col-xs-12 col-sm-12 col-md-12" for="first_password">#i18n{portal.users.create_user.labelFirstPassword} *</label>
-								<div class="col-xs-12 col-sm-12 col-md-12">
-									<div class="input-group input-group-sm">
-										<span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-										<input type="password" id="first_password" name="first_password" maxlength="100" class="form-control input-sm" value="" aria-describedby="passwordMinLengthHelp">
-										<span class="input-group-btn"><button type="button" class="btn btn-default" id="generate_password" title="#i18n{portal.users.create_user.buttonLabelGeneratePassword}">
-										<i class="glyphicon glyphicon-cog"></i></button></span>
-									</div>
-									<p class="help-block" id="passwordMinLengthHelp">${i18n("portal.users.message.password.minimumPasswordLength",minimumPasswordSize)}</p>
-								</div>
-							</div>
+							<@formGroup labelFor='first_password' labelKey='#i18n{portal.users.create_user.labelFirstPassword}' helpKey='${i18n("portal.users.message.password.minimumPasswordLength",minimumPasswordSize)}' mandatory=true rows=2>
+								<@inputGroup>
+									<@inputGroupItem type='addon'>
+										<@icon style='lock' />
+									</@inputGroupItem>
+									<@input type='password' id='first_password' name='first_password' maxlength=100 value='' />
+									<@inputGroupItem>
+										<@button type='button' id='generate_password' title='#i18n{portal.users.create_user.buttonLabelGeneratePassword}' showTitle=false buttonIcon='cog' size='' color='btn-secondary' />
+									</@inputGroupItem>
+								</@inputGroup>
+							</@formGroup>
 							<@formGroup labelKey='#i18n{portal.users.create_user.labelSecondPassword}' labelFor='second_password' rows=2 helpKey='#i18n{portal.users.create_user.passwordComplexity}' mandatory=true>
 								<@inputGroup>
 									<@inputGroupItem type='addon'>
