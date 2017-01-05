@@ -590,12 +590,12 @@
 		<#if url1 != ''>
 			<@aButton href=url1 title='#i18n{${i18nValue1Key}}' buttonIcon=icon1 size='' />
 		<#else>
-			<@button type='submit' title='#i18n{${i18nValue1Key}}' buttonIcon=icon1 size='' />
+			<@button type='submit' title='#i18n{${i18nValue1Key}}' buttonIcon=icon1 size='' name=button1Name />
 		</#if>
 		<#if url2 != ''>
 			<@aButton href=url2 title='#i18n{${i18nValue2Key}}' buttonIcon=icon2 size='' color='btn-secondary' />
 		<#else>
-			<@button type='submit' title='#i18n{${i18nValue2Key}}' buttonIcon=icon2 size='' color='btn-secondary' />
+			<@button type='submit' title='#i18n{${i18nValue2Key}}' buttonIcon=icon2 size='' color='btn-secondary' name='button2Name' />
 		</#if>
 	</@formGroup>
 </#macro>
@@ -778,12 +778,12 @@
 
 <#-- CHECKBOX -->
 <#-- orientation: vertical/horizontal. Default is vertical -->
-<#macro checkBox name id='' labelKey='' labelFor='' orientation='vertical' value='' tabIndex='' title='' disabled=false checked=false mandatory=mandatory>
+<#macro checkBox name id='' labelKey='' labelFor='' orientation='vertical' value='' tabIndex='' title='' disabled=false checked=false mandatory=mandatory params=''>
 	<#if orientation='vertical'>
 	<div class="checkbox">
 	</#if>
 	<label<#if orientation='horizontal'> class="checkbox-inline"</#if><#if labelFor!=''> for="${labelFor}"</#if>>
-		<input type="checkbox" id="${id}" name="${name}" value="${value}"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if checked> checked</#if><#if disabled> disabled</#if><#if mandatory> required</#if>>
+		<input type="checkbox" id="${id}" name="${name}" value="${value}"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if checked> checked</#if><#if disabled> disabled</#if><#if mandatory> required</#if><#if params!=''> ${params}</#if>>
 		<#if labelKey!=''>
 			${labelKey}
 		<#else>
