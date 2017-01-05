@@ -161,7 +161,7 @@ INSERT INTO core_datastore VALUES ('core.advanced_parameters.default_user_status
 INSERT INTO core_datastore VALUES ('core.advanced_parameters.email_pattern', /*E*/'^[\\w_.\\-!\\#\\$\\%\\&''\\*\\+\\/\\=\\?\\^\\\`\\}\\{\\|\\~]+@[\\w_.\\-]+\\.[\\w]+$');
 INSERT INTO core_datastore VALUES ('core.advanced_parameters.email_pattern_verify_by', '');
 INSERT INTO core_datastore VALUES ('core.advanced_parameters.force_change_password_reinit', 'false');
-INSERT INTO core_datastore VALUES ('core.advanced_parameters.password_minimum_length', '10');
+INSERT INTO core_datastore VALUES ('core.advanced_parameters.password_minimum_length', '8');
 INSERT INTO core_datastore VALUES ('core.advanced_parameters.password_format_upper_lower_case', 'false');
 INSERT INTO core_datastore VALUES ('core.advanced_parameters.password_format_numero', 'false');
 INSERT INTO core_datastore VALUES ('core.advanced_parameters.password_format_special_characters', 'false');
