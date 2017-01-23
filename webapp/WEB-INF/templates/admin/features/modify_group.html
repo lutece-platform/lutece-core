@@ -14,7 +14,7 @@
 						<@input type='text' id='group_description' name='group_description' value='${feature_group.descriptionKey?html}' />
 					</@formGroup>
 					<@formGroup labelFor='group_order' labelKey='#i18n{portal.features.modify_group.labelOrder}'>
-						<@select name='group_order' default_value='feature_group.order' items=order_list list=true sort=true />
+						<@select name='group_order' default_value='feature_group.order' items=order_list sort=true />
 					</@formGroup>
 					<@formGroup>
 						<@button type='submit' buttonIcon='check' title='#i18n{portal.features.modify_group.buttonModify}'  size='' />

@@ -11,14 +11,14 @@
 							<@boxHeader title='' />
 							<@boxBody>
 								<@formGroup labelFor='column' labelKey='#i18n{portal.site.create_portlet.labelColumn}' rows=2>
-									<@select name='column' default_value='1' items=portlet_columns_combo list=true />
+									<@select name='column' default_value='1' items=portlet_columns_combo />
 								</@formGroup>
 								<@formGroup labelFor='order' labelKey='#i18n{portal.site.create_portlet.labelOrder}' rows=2>
-									<@select name='order' default_value='1' items=portlet_order_combo list=true />
+									<@select name='order' default_value='1' items=portlet_order_combo />
 								</@formGroup>
 								<#if portletType.id != "ALIAS_PORTLET">
 									<@formGroup labelFor='style' labelKey='#i18n{portal.site.create_portlet.labelStyle}' rows=2>
-										<@select name='style' default_value='0' items=portlet_style_combo list=true />
+										<@select name='style' default_value='0' items=portlet_style_combo />
 									</@formGroup>
 								</#if>
 								<@formGroup class='pull-right'>
@@ -29,7 +29,7 @@
 									<fieldset>
 										<legend>#i18n{portal.site.admin_page.labelAdvancedParameters}</legend>
 										<@formGroup labelFor='role' labelKey='#i18n{portal.site.create_portlet.labelRole}' rows=2>
-											<@select name='role' default_value='none' items=portlet_role_combo list=true />
+											<@select name='role' default_value='none' items=portlet_role_combo />
 										</@formGroup>
 										<@formGroup labelKey='#i18n{portal.site.create_portlet.labelAlias}' rows=2>
 											<@radioButton orientation='horizontal' name='accept_alias' value='1' labelKey='#i18n{portal.util.labelYes}' />

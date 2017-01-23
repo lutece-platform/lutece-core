@@ -7,11 +7,11 @@
 					<input type="hidden" name="id_mailinglist" value="${mailinglist.id}">
 					
 					<@formGroup labelKey='#i18n{portal.mailinglist.add_users.labelWorkgroup}' labelFor='workgroup' mandatory=true>
-						<@select name='workgroup' default_value='all' items=workgroups_list list=true sort=true />
+						<@select name='workgroup' default_value='all' items=workgroups_list sort=true />
 					</@formGroup>
 					
 					<@formGroup labelKey='#i18n{portal.mailinglist.add_users.labelRole}' labelFor='role' mandatory=true>
-						<@select name='role' default_value='none' items=roles_list list=true sort=true />
+						<@select name='role' default_value='none' items=roles_list sort=true />
 					</@formGroup>
 					
 					<@formGroup>

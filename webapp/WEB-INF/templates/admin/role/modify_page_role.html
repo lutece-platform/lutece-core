@@ -9,7 +9,7 @@
 						<@input type='text' name='role_description' value='${role.roleDescription}' maxlength=50 />
 					</@formGroup>
 					<@formGroup labelKey='#i18n{portal.role.modify_role.labelWorkgroupKey}' mandatory=true>
-						<@select name='workgroup_key' default_value='${role.workgroup}' items=workgroup_key_list list=true sort=true />
+						<@select name='workgroup_key' default_value='${role.workgroup}' items=workgroup_key_list sort=true />
 					</@formGroup>
 					<@formGroup>
 						<@button type='submit' buttonIcon='check' title='#i18n{portal.role.modify_role.buttonLabelValidate}' size='' />

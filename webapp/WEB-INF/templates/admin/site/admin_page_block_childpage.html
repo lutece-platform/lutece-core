@@ -38,7 +38,7 @@
 												${page_templates_list}
 											</@formGroup>
 											<@formGroup labelFor='page_order_list' labelKey='#i18n{portal.site.admin_page.labelOrderPage}' rows=2>
-												<@select name='order' default_value='${page.order}' items=page_order_list list=true />
+												<@select name='order' default_value='${page.order}' items=page_order_list />
 											</@formGroup>
 										</fieldset>
 									</@boxBody>
@@ -89,11 +89,11 @@
 								<@boxBody>
 								<fieldset>
 									<@formGroup labelFor='theme' labelKey='#i18n{portal.site.admin_page.labelTheme}' rows=2>
-										<@select name='theme' default_value='${page.codeTheme}' items=page_themes_list list=true />
+										<@select name='theme' default_value='${page.codeTheme}' items=page_themes_list />
 									</@formGroup>
 											
 									<@formGroup labelFor='roles_list' labelKey='#i18n{portal.site.admin_page.labelRole}' rows=2>
-										<@select name='role' default_value='${page.role}' items=page_roles_list list=true sort=true />
+										<@select name='role' default_value='${page.role}' items=page_roles_list sort=true />
 									</@formGroup>
 								</fieldset>
 							</@boxBody>

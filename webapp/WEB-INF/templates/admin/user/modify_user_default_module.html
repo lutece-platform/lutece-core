@@ -67,7 +67,7 @@
 											<@staticText>${level.name}</@staticText>
 										</@formGroup>
 										<@formGroup labelKey='#i18n{portal.role.create_role.labelWorkgroupKey}' labelFor='workgroup_key' rows=2 mandatory=true>
-											<@select name='workgroup_key' default_value='${user.workgroupKey}' items=workgroup_key_list sort=true list=true />
+											<@select name='workgroup_key' default_value='${user.workgroupKey}' items=workgroup_key_list sort=true />
 										</@formGroup>
 										<@formGroup labelKey='#i18n{portal.users.modify_user.labelStatus}' labelFor='status' rows=2>
 											<@select id='status' name='status'>
@@ -81,7 +81,7 @@
 											</@select>
 										</@formGroup>
 										<@formGroup labelKey='#i18n{portal.users.modify_user.labelLanguage}' labelFor='language' rows=2>
-											<@select name='language' default_value='${current_language}' items=languages_list list=true sort=true />
+											<@select name='language' default_value='${current_language}' items=languages_list sort=true />
 										</@formGroup>
 										<@formGroup labelKey='#i18n{portal.users.create_user.labelTheme}' labelFor='' rows=2>
 											<#if user.accessibilityMode>

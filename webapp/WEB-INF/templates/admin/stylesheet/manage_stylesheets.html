@@ -9,7 +9,7 @@
 				<@tform method='post' class='form-inline pull-right'>
 					<@formGroup formStyle='inline' labelKey='#i18n{portal.style.manage_stylesheets.labelSortByMode}' labelFor='mode_id'>
 						<@inputGroup>
-							<@select name='mode_id' default_value='${mode_id}' items=mode_list list=true />
+							<@select name='mode_id' default_value='${mode_id}' items=mode_list />
 							<@inputGroupItem>
 								<@button type='submit' buttonIcon='filter' title='#i18n{portal.util.labelFilter}' showTitle=false size='' />
 							</@inputGroupItem>

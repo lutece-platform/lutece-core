@@ -12,7 +12,7 @@
 						<@input type='text' name='description' id='description' value='${mailinglist.description?html}' />
 					</@formGroup>
 					<@formGroup labelKey='#i18n{portal.mailinglist.modify_mailinglist.labelWorkgroup}' labelFor='workgroup' mandatory=true rows=2>
-						<@select name='workgroup' id='workgroup' default_value='${mailinglist.workgroup}' items=workgroups_list list=true sort=true />
+						<@select name='workgroup' id='workgroup' default_value='${mailinglist.workgroup}' items=workgroups_list sort=true />
 					</@formGroup>
 					<@formGroup rows=2>
 						<@button type='submit' buttonIcon='pencil' title='#i18n{portal.mailinglist.modify_mailinglist.buttonModify}' size=''  />

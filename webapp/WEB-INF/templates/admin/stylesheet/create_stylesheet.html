@@ -11,10 +11,10 @@
 						<@input type='file' name='stylesheet_source' id='stylesheet_source' />
 					</@formGroup>
 					<@formGroup labelKey='#i18n{portal.style.create_stylesheet.labelStyle}' labelFor='styles' mandatory=true>
-						<@select name='styles' default_value='0' items=style_list list=true />
+						<@select name='styles' default_value='0' items=style_list />
 					</@formGroup>
 					<@formGroup labelKey='#i18n{portal.style.create_stylesheet.labelMode}' labelFor='mode_stylesheet' mandatory=true>
-						<@select name='mode_stylesheet' default_value='${mode_id}' items=mode_list list=true sort=true />
+						<@select name='mode_stylesheet' default_value='${mode_id}' items=mode_list sort=true />
 					</@formGroup>
 					<@formGroup>
 						<@button type='submit' buttonIcon='plus' title='#i18n{portal.style.create_stylesheet.buttonCreate}'  size='' />

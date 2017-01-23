@@ -30,7 +30,7 @@
 				<@tform method='post' name='FilterPluginsForm' action='jsp/admin/system/ManagePlugins.jsp' class='form-inline pull-right hidden-xs spaced'>
 					<@formGroup labelKey='#i18n{portal.system.manage_plugins.labelComboFilter}' labelFor='plugin_type' showLabel=false formStyle='inline'>
 						<@inputGroup>
-							<@select list=true sort=true name='plugin_type' default_value='${current_filter}' items=filter_list />
+							<@select sort=true name='plugin_type' default_value='${current_filter}' items=filter_list />
 							<@inputGroupItem>
 							<@button type='submit' buttonIcon='search' title='Search' showTitle=false />
 							</@inputGroupItem>
@@ -79,7 +79,7 @@
 								<#if plugin.installed>
 									<#if plugin.dbPoolRequired>
 								<@tform method='post' class='form-inline pull-right' action='jsp/admin/system/DoModifyPluginPool.jsp#plugin_${plugin.name}_${plugin.version}'>
-									<@select name='db_pool_name' default_value='${plugin.dbPoolName}' items=pools_list list=true sort=true />
+									<@select name='db_pool_name' default_value='${plugin.dbPoolName}' items=pools_list sort=true />
 									<input type="hidden" name="plugin_name" value="${plugin.name}">
 									<@button type='submit' title='#i18n{portal.system.manage_plugins.buttonModifyDbPool}' buttonIcon='check' showTitle=false />
                 </@tform>

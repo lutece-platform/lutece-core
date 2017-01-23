@@ -12,11 +12,11 @@
 					</@formGroup>
 					<@formGroup labelKey='#i18n{portal.style.modify_style.labelComponentType}' labelFor='portal_component'>
 						<#assign javascriptComboParams>onChange="javascript:if( document.modify_style.portal_component.value == '0' ) {document.modify_style.portlet_type.disabled=false;} else {document.modify_style.portlet_type.disabled=true;}"</#assign>
-						<@select name='portal_component' default_value='${style.portalComponentId}' items=portal_component_list list=true params='${javascriptComboParams}' />
+						<@select name='portal_component' default_value='${style.portalComponentId}' items=portal_component_list params='${javascriptComboParams}' />
 					</@formGroup>
 					<#if style.portletTypeId??>
 					<@formGroup labelKey='#i18n{portal.style.modify_style.labelPortletType}' labelFor='portlet_type'>
-						<@select name='portlet_type' default_value='${style.portletTypeId}' items=portlet_type_list list=true />
+						<@select name='portlet_type' default_value='${style.portletTypeId}' items=portlet_type_list />
 					</@formGroup>
 					</#if>
 					<@formGroup>

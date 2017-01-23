@@ -13,14 +13,14 @@
 									<@input type='text' name='page_id' value='${portlet.pageId}' />
 								</@formGroup>
 								<@formGroup labelFor='column' labelKey='#i18n{portal.site.create_portlet.labelColumn}' rows=2>
-									<@select name='column' default_value='${portlet.column}' items=portlet_columns_combo list=true />
+									<@select name='column' default_value='${portlet.column}' items=portlet_columns_combo />
 								</@formGroup>
 								<@formGroup labelFor='order' labelKey='#i18n{portal.site.create_portlet.labelOrder}' rows=2>
-									<@select name='order' default_value='${portlet.order}' items=portlet_order_combo list=true />
+									<@select name='order' default_value='${portlet.order}' items=portlet_order_combo />
 								</@formGroup>
 								<#if portletType.id != "ALIAS_PORTLET">
 								<@formGroup labelFor='style' labelKey='#i18n{portal.site.create_portlet.labelStyle}' rows=2>
-									<@select name='style' default_value='${portlet.styleId}' items=portlet_style_combo list=true />
+									<@select name='style' default_value='${portlet.styleId}' items=portlet_style_combo />
 								</@formGroup>
 								</#if>
 								<@formGroup rows=2 class='pull-right'>
@@ -31,7 +31,7 @@
 									<fieldset>
 										<legend>#i18n{portal.site.admin_page.labelAdvancedParameters}</legend>
 										<@formGroup labelFor='role' labelKey='#i18n{portal.site.create_portlet.labelRole}' rows=2>
-											<@select name='role' default_value='${portlet.role}' items=portlet_role_combo list=true />
+											<@select name='role' default_value='${portlet.role}' items=portlet_role_combo />
 										</@formGroup>
 										
 										<@formGroup labelKey='#i18n{portal.site.create_portlet.labelAlias}' rows=2>

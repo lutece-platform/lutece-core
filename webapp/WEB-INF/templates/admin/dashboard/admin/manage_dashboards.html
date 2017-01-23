@@ -28,7 +28,7 @@
 						<input type="hidden" name="dashboard_order" value="${dashboard_order}">
 						<@formGroup formStyle='inline' rows=2>
 							<@inputGroup>
-								<@select name='dashboard_column' id='dashboard_column-${dashboard.name}' default_value='${dashboard.zone!}' items=list_available_columns list=true />
+								<@select name='dashboard_column' id='dashboard_column-${dashboard.name}' default_value='${dashboard.zone!}' items=list_available_columns />
 
 								<@inputGroupItem>
 									<@button type='submit' buttonIcon='check' title='#i18n{portal.dashboard.table.action.setColumn}' showTitle=false />
@@ -51,7 +51,7 @@
 					<@formGroup formStyle='inline' rows=2>
 						<input type="hidden" name="dashboard_column" value="${dashboard_column}">
 						<@inputGroup>
-							<@select name='dashboard_order' id='dashboard_order-${dashboard.name}' default_value='${dashboard.order!}' items=list_available_orders_column list=true />
+							<@select name='dashboard_order' id='dashboard_order-${dashboard.name}' default_value='${dashboard.order!}' items=list_available_orders_column />
 							<@inputGroupItem>
 								<@button type='submit' buttonIcon='arrows-v' title='#i18n{portal.dashboard.table.action.move}' showTitle=false />
 							</@inputGroupItem>

@@ -119,10 +119,10 @@
 										</@select>
 									</@formGroup>
 									<@formGroup labelKey='#i18n{portal.role.create_role.labelWorkgroupKey}' rows=2 mandatory=true>
-										<@select name='workgroup_key' default_value='${workgroup_key_default_value}' items=workgroup_key_list list=true sort=true />
+										<@select name='workgroup_key' default_value='${workgroup_key_default_value}' items=workgroup_key_list sort=true />
 									</@formGroup>
 									<@formGroup labelKey='#i18n{portal.users.create_user.labelLanguage}' labelFor='language' rows=2>
-										<@select name='language' default_value='${default_user_language}' items=languages_list list=true sort=true />									
+										<@select name='language' default_value='${default_user_language}' items=languages_list sort=true />									
 									</@formGroup>
 								</#if>
 								<#list attributes_list as attribute>

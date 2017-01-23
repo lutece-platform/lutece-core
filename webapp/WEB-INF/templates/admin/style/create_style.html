@@ -12,10 +12,10 @@
 					</@formGroup>
 					<@formGroup labelKey='#i18n{portal.style.create_style.labelComponentType}' labelFor='portal_component'>
 						<#assign javascriptComboParams>onChange="javascript:if( document.create_style.portal_component.value == '0' ) {document.create_style.portlet_type.disabled=false;} else {document.create_style.portlet_type.disabled=true;}"</#assign>
-						<@select name='portal_component' default_value='0' items=portal_component_list list=true params='${javascriptComboParams}' />
+						<@select name='portal_component' default_value='0' items=portal_component_list params='${javascriptComboParams}' />
 					</@formGroup>
 					<@formGroup labelKey='#i18n{portal.style.create_style.labelPortletType}' labelFor='portlet_type'>
-						<@select name='portlet_type' default_value='0' items=portlet_type_list list=true />
+						<@select name='portlet_type' default_value='0' items=portlet_type_list />
 					</@formGroup>
 					<@formGroup>
 						<@button type='submit' buttonIcon='plus' title='#i18n{portal.style.create_style.buttonCreate}'  size='' />

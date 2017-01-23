@@ -101,7 +101,7 @@
           <@tform name='assignUser' method='post' action='jsp/admin/features/DoAssignUsersRight.jsp'>
             <input type="hidden" name="id_right" value="${right.id}" />
 						<@formGroup rows=2 labelKey='#i18n{portal.features.assign_users.labelAvailableUser}' labelFor='available_users_list'>
-							<@select name='available_users_list' default_value='' multiple=10 items=available_users_list list=true />
+							<@select name='available_users_list' default_value='' multiple=10 items=available_users_list />
 						</@formGroup>
 						<@formGroup rows=2>
 							<@button type='submit' buttonIcon='check' title='#i18n{portal.features.assign_users.labelButtonValidate}'  size='' style='btn-block' />

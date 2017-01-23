@@ -31,7 +31,7 @@
 
 						<!-- USER LANGUAGE -->
 						<@formGroup labelKey='#i18n{portal.users.manage_advanced_parameters.labelLanguage}' labelFor='language'>
-							<@select name='language' default_value='${default_user_language}' items=languages_list list=true sort=true />
+							<@select name='language' default_value='${default_user_language}' items=languages_list sort=true />
 						</@formGroup>
 
 						<!-- USER STATUS -->
@@ -95,7 +95,7 @@
 				<fieldset>
 					<legend>#i18n{portal.users.manage_advanced_parameters.labelRegularExpression}</legend>
 					<@formGroup labelKey='#i18n{portal.users.manage_advanced_parameters.labelRegularExpression}' labelFor='id_expression'>
-						<@select name='id_expression' items=available_regularexpressions default_value=-1 list=true sort=true />
+						<@select name='id_expression' items=available_regularexpressions default_value=-1 sort=true />
 					</@formGroup>
 					<@formGroup helpKey='#i18n{portal.users.manage_advanced_parameters.labelInsertComment}'>
 						<@button type='submit' title='#i18n{portal.users.manage_advanced_parameters.buttonInsert}' size=''  />

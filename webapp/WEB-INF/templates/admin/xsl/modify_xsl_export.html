@@ -15,7 +15,7 @@
 						<@input type='text' id='extension' name='extension' maxlength=10 value='${xsl_export.extension?html}' />
 					</@formGroup>
 					<@formGroup labelFor='plugin' labelKey='#i18n{portal.xsl.create_xsl_export.label_plugin}' mandatory=true>
-						<@select name='plugin' items=list_plugins default_value=xsl_export.plugin list=true />
+						<@select name='plugin' items=list_plugins default_value=xsl_export.plugin />
 					</@formGroup>
 					<@formGroup labelFor='id_file' labelKey='#i18n{portal.xsl.create_xsl_export.label_file}' mandatory=true>
 						<@input type='file' id='id_file' name='id_file' />

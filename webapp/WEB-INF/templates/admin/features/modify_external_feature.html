@@ -20,13 +20,13 @@
 					
 					<#if right_levels_labels_list?has_content>
 						<@formGroup labelKey='#i18n{portal.features.external_features.create_external_features.level}' mandatory=true helpKey='#i18n{portal.features.external_features.create_external_features.level.help}'>
-							<@select name='level_id' items=right_levels_labels_list default_value=external_feature.level?string list=true />
+							<@select name='level_id' items=right_levels_labels_list default_value=external_feature.level?string />
 						</@formGroup>
 					</#if>
 									
 					<#if features_groups_labels_list?has_content>
 						<@formGroup labelKey='#i18n{portal.features.external_features.create_external_features.feature_group}' mandatory=true helpKey='#i18n{portal.features.external_features.create_external_features.feature_group.help}'>
-							<@select name='feature_group_id' items=right_levels_labels_list default_value=external_feature.featureGroup items=features_groups_labels_list list=true />
+							<@select name='feature_group_id' items=right_levels_labels_list default_value=external_feature.featureGroup items=features_groups_labels_list />
 						</@formGroup>
 					</#if>
 					
