@@ -34,7 +34,7 @@
 											<@select name='role' default_value='${portlet.role}' items=portlet_role_combo />
 										</@formGroup>
 										
-										<@formGroup labelKey='#i18n{portal.site.create_portlet.labelAlias}' rows=2>
+										<@formGroup formStyle='inline' labelKey='#i18n{portal.site.create_portlet.labelAlias}' rows=2>
 											<#if portlet.acceptAlias = 1>
 												<#assign checked = true>
 											<#else>
