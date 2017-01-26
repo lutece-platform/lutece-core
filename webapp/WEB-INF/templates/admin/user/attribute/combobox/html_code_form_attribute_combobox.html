@@ -27,14 +27,12 @@
     </#list>
     <#return false>
 </#function>
-<#if !attribute.mandatory>
-	<#assign mandatory = false>
-</#if>
 
 <#if attribute.helpMessage?exists&&attribute.helpMessage!=''>
 	<#assign helpKey = attribute.helpMessage>
 </#if>
-<@formGroup labelKey='${attribute.title?html}' labelFor='attribute_${attribute.idAttribute}' helpKey=helpKey mandatory=mandatory rows=2>
+
+<@formGroup labelKey='${attribute.title?html}' labelFor='attribute_${attribute.idAttribute}' helpKey=helpKey mandatory=attribute.mandatory rows=2>
 	<#if isMultiple( attribute.listAttributeFields )>
 		<#assign multiple = 10>
     </#if>

@@ -11,12 +11,7 @@
 						<@input type='text' name='value' id='value' value='${attribute_field.value?html}' />
 					</@formGroup>
 					<@formGroup>
-						<#if attribute_field.defaultValue>
-							<#assign checked = true>
-						<#else>
-							<#assign checked = false>
-						</#if>
-						<@checkBox name='default_value' value='1' checked=checked labelKey='#i18n{portal.users.modify_attribute_field.labelDefaultValue}' />
+						<@checkBox name='default_value' value='1' checked=attribute_field.defaultValue labelKey='#i18n{portal.users.modify_attribute_field.labelDefaultValue}' />
 					</@formGroup>
 					<@formGroup>
 						<input type="hidden" value="${attribute.idAttribute}" name="id_attribute">

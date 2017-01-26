@@ -18,16 +18,12 @@
 	</#if>
 	<#return false>
 </#function>
-<#if attribute.mandatory>
-	<#assign mandatory = true>
-<#else>
-	<#assign mandatory = false>
-</#if>
+	
 <#if attribute.helpMessage?exists&&attribute.helpMessage!=''>
 	<#assign helpKey = attribute.helpMessage>
 </#if>
 
-<@formGroup labelKey='${attribute.title?html}' rows=2 helpKey=helpKey mandatory=mandatory>
+<@formGroup labelKey='${attribute.title?html}' rows=2 helpKey=helpKey mandatory=attribute.mandatory>
 	<#if attribute.fieldInLine>
 		<#assign orientation = 'horizontal'>
 	<#else>
@@ -45,12 +41,7 @@
 	
 	<#list attribute.listAttributeFields as attributeField>
 		<#if attributeField.title?exists && attributeField.value != "">
-			<#if attributeField.defaultValue>
-				<#assign checked = true>
-			<#else>
-				<#assign checked = false>
-			</#if>
-			<@radioButton name='attribute_${attribute.idAttribute}' value='${attributeField.idField}' checked=checked labelKey='${attributeField.title}' orientation=orientation />
+			<@radioButton name='attribute_${attribute.idAttribute}' value='${attributeField.idField}' checked=attributeField.defaultValue labelKey='${attributeField.title}' orientation=orientation />
 		</#if>
 	</#list>
 </@formGroup>

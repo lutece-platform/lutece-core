@@ -13,44 +13,22 @@
 						<@input type='textarea' name='help_message' id='help_message' cols=80 rows=5>${attribute.helpMessage?html}</@input>
 					</@formGroup>
 					<@formGroup>
-						<#if attribute.shownInSearch = false>
-							<#assign checked = false>
-						<#else>
-							<#assign checked = true>
-						</#if>
-						<@checkBox name='is_shown_in_search' value='1' checked=checked labelKey='#i18n{portal.users.modify_attribute.labelIsShownInSearch}' />
+						<@checkBox name='is_shown_in_search' value='1' checked=attribute.shownInSearch labelKey='#i18n{portal.users.modify_attribute.labelIsShownInSearch}' />
 					</@formGroup>
 					<@formGroup>
-						<#if attribute.shownInResultList = false>
-							<#assign checked = false>
-						<#else>
-							<#assign checked = true>
-						</#if>
-						<@checkBox name='is_shown_in_result_list' value='1' checked=checked labelKey='#i18n{portal.users.modify_attribute.labelIsShownInResultList}' />
+						<@checkBox name='is_shown_in_result_list' value='1' checked=attribute.shownInResultList labelKey='#i18n{portal.users.modify_attribute.labelIsShownInResultList}' />
 					</@formGroup>
 					<@formGroup>
-						<#if attribute.mandatory = false>
-							<#assign checked = false>
-						<#else>
-							<#assign checked = true>
-						</#if>
-						<@checkBox name='mandatory' value='1' checked=checked labelKey='#i18n{portal.users.modify_attribute.labelMandatory}' />
+						<@checkBox name='mandatory' value='1' checked=attribute.mandatory labelKey='#i18n{portal.users.modify_attribute.labelMandatory}' />
 					</@formGroup>
 					<@formGroup helpKey='#i18n{portal.users.create_attribute.labelIsFieldInLineComment}'>
-						<#if attribute.fieldInLine = false>
-							<#assign checked = false>
-						<#else>
-							<#assign checked = true>
-						</#if>
-						<@checkBox name='is_field_in_line' value='1' checked=checked labelKey='#i18n{portal.users.create_attribute.labelIsFieldInLine}' />
+						<@checkBox name='is_field_in_line' value='1' checked=attribute.fieldInLine labelKey='#i18n{portal.users.create_attribute.labelIsFieldInLine}' />
 					</@formGroup>
 					<@formGroup>
 						<input type="hidden" name="id_attribute" value="${attribute.idAttribute}">
 						<input type="hidden" name="position" value="${attribute.position}">
 						<@button type='submit' name='validate' value='#i18n{portal.users.modify_attribute.buttonValidate}' buttonIcon='check' title='#i18n{portal.users.modify_attribute.buttonValidate}' size='' showTitleXs=false />
-						
 						<@button type='submit' name='apply' value='#i18n{portal.users.modify_attribute.buttonApply}' buttonIcon='check-circle-o' title='#i18n{portal.users.modify_attribute.buttonApply}' size='' showTitleXs=false />
-						
 						<@button type='submit' name='cancel' value='#i18n{portal.admin.message.buttonCancel}' buttonIcon='times' title='#i18n{portal.admin.message.buttonCancel}' size='' color='btn-secondary' showTitleXs=false />
 					</@formGroup>
 				</@tform>

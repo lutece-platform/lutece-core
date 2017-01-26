@@ -1,13 +1,8 @@
-<#if attribute.mandatory>
-	<#assign mandatory = true>
-<#else>
-	<#assign mandatory = false>
-</#if>
 <#if attribute.helpMessage?exists&&attribute.helpMessage!=''>
 	<#assign helpKey = attribute.helpMessage>
 </#if>
 
-<@formGroup labelKey='${attribute.title?html}' labelFor='attribute_${attribute.idAttribute}' mandatory=mandatory helpKey=helpKey rows=2>
+<@formGroup labelKey='${attribute.title?html}' labelFor='attribute_${attribute.idAttribute}' mandatory=attribute.mandatory helpKey=helpKey rows=2>
 	<#list attribute.listAttributeFields as attributeField>
 		<#if attributeField.width?? && ( attributeField.width > 0 )>
 			<#assign size = 'attributeField.width'>

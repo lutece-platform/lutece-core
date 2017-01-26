@@ -13,28 +13,13 @@
 						<@input type='textarea' name='help_message' id='help_message' cols=80 rows=5>${attribute.helpMessage?html}</@input>
 					</@formGroup>
 					<@formGroup>
-						<#if attribute.shownInSearch = false>
-							<#assign checked = false>
-						<#else>
-							<#assign checked = true>
-						</#if>
-						<@checkBox name='is_shown_in_search' value='1' checked=checked labelKey='#i18n{portal.users.modify_attribute.labelIsShownInSearch}' />
+						<@checkBox name='is_shown_in_search' value='1' checked=attribute.shownInSearch labelKey='#i18n{portal.users.modify_attribute.labelIsShownInSearch}' />
 					</@formGroup>
 					<@formGroup>
-						<#if attribute.shownInResultList = false>
-							<#assign checked = false>
-						<#else>
-							<#assign checked = true>
-						</#if>
-						<@checkBox name='is_shown_in_result_list' value='1' checked=checked labelKey='#i18n{portal.users.modify_attribute.labelIsShownInResultList}' />
+						<@checkBox name='is_shown_in_result_list' value='1' checked=attribute.shownInResultList labelKey='#i18n{portal.users.modify_attribute.labelIsShownInResultList}' />
 					</@formGroup>
 					<@formGroup>
-						<#if attribute.mandatory = false>
-							<#assign checked = false>
-						<#else>
-							<#assign checked = true>
-						</#if>
-						<@checkBox name='mandatory' value='1' checked=checked labelKey='#i18n{portal.users.modify_attribute.labelMandatory}' />
+						<@checkBox name='mandatory' value='1' checked=attribute.mandatory labelKey='#i18n{portal.users.modify_attribute.labelMandatory}' />
 					</@formGroup>
 					<@formGroup helpKey='#i18n{portal.users.create_attribute.labelMultipleComment}'>
 						<#list attribute_fields_list as attribute_field>
@@ -61,9 +46,9 @@
   </@columns>
 </@row>
 <@row>
-    <@columns>
-        <@box color='success'>
-            <@boxHeader title='<a name="list"></a>#i18n{portal.users.modify_attribute.listAssociatedFields}' boxTools=true>
+	<@columns>
+		<@box color='success'>
+			<@boxHeader title='<a name="list"></a>#i18n{portal.users.modify_attribute.listAssociatedFields}' boxTools=true>
 				<@tform method='post' action='jsp/admin/user/attribute/CreateAttributeField.jsp'>
 					<input type="hidden" value="${attribute.idAttribute}" name="id_attribute">
 					<@button type='submit' name='create' value='#i18n{portal.users.modify_attribute.buttonCreateField}' buttonIcon='plus' title='#i18n{portal.users.modify_attribute.buttonCreateField}' />

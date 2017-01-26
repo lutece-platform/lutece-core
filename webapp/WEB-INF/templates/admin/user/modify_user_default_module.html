@@ -84,10 +84,7 @@
 											<@select name='language' default_value='${current_language}' items=languages_list sort=true />
 										</@formGroup>
 										<@formGroup labelKey='#i18n{portal.users.create_user.labelTheme}' labelFor='' rows=2>
-											<#if user.accessibilityMode>
-												<#assign checked = true>
-											</#if>
-											<@checkBox labelKey='#i18n{portal.users.create_user.labelAccessibilityMode}' labelFor='accessility_mode' id='accessibility_mode' name='accessibility_mode' value='1' checked=checked />
+											<@checkBox labelKey='#i18n{portal.users.create_user.labelAccessibilityMode}' labelFor='accessility_mode' id='accessibility_mode' name='accessibility_mode' value='1' checked=user.accessibilityMode />
 										</@formGroup>
 									</fieldset>
 								</@columns>

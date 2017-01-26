@@ -20,13 +20,8 @@
 								<@columns>
 									<@listGroup>
 										<#list all_workgroup_list?sort_by('code') as workgroup>
-										<#if workgroup.checked>
-										<#assign checked = true>
-										<#else>
-										<#assign checked = false>
-										</#if>
 										<li class="${listElementClass}">
-											<@checkBox name='workgroup' value='${workgroup.code}' checked=checked labelKey='${workgroup.name}' mandatory=false />
+											<@checkBox name='workgroup' value='${workgroup.code}' checked=workgroup.checked labelKey='${workgroup.name}' mandatory=false />
 										</li>
 										</#list>        
 									</@listGroup>	

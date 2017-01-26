@@ -16,28 +16,13 @@
 						</#list>
 					</@formGroup>
 					<@formGroup>
-						<#if attribute.shownInSearch = false>
-							<#assign checked = false>
-						<#else>
-							<#assign checked = true>
-						</#if>
-						<@checkBox name='is_shown_in_search' value='1' checked=checked labelKey='#i18n{portal.users.modify_attribute.labelIsShownInSearch}' />
+						<@checkBox name='is_shown_in_search' value='1' checked=attribute.shownInSearch labelKey='#i18n{portal.users.modify_attribute.labelIsShownInSearch}' />
 					</@formGroup>
 					<@formGroup>
-						<#if attribute.shownInResultList = false>
-							<#assign checked = false>
-						<#else>
-							<#assign checked = true>
-						</#if>
-						<@checkBox name='is_shown_in_result_list' value='1' checked=checked labelKey='#i18n{portal.users.modify_attribute.labelIsShownInResultList}' />
+						<@checkBox name='is_shown_in_result_list' value='1' checked=attribute.shownInResultList labelKey='#i18n{portal.users.modify_attribute.labelIsShownInResultList}' />
 					</@formGroup>
 					<@formGroup>
-						<#if attribute.mandatory = false>
-							<#assign checked = false>
-						<#else>
-							<#assign checked = true>
-						</#if>
-						<@checkBox name='mandatory' value='1' checked=checked labelKey='#i18n{portal.users.modify_attribute.labelMandatory}' />
+						<@checkBox name='mandatory' value='1' checked=attribute.mandatory labelKey='#i18n{portal.users.modify_attribute.labelMandatory}' />
 					</@formGroup>
 					<@formGroup labelKey='#i18n{portal.users.modify_attribute.labelWidth} *' labelFor='width'>
 						<#list attribute_fields_list as attribute_field>

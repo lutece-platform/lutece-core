@@ -16,36 +16,16 @@
 						<@staticText>${attribute.attributeType.name}</@staticText>
 					</@formGroup>
 					<@formGroup>
-						<#if attribute.shownInSearch = false>
-							<#assign checked = false>
-						<#else>
-							<#assign checked = true>
-						</#if>
-						<@checkBox name='is_shown_in_search' value='1' checked=checked labelKey='#i18n{portal.users.modify_attribute.labelIsShownInSearch}' />
+						<@checkBox name='is_shown_in_search' value='1' checked=attribute.shownInSearch labelKey='#i18n{portal.users.modify_attribute.labelIsShownInSearch}' />
 					</@formGroup>
 					<@formGroup>
-						<#if attribute.shownInResultList = false>
-							<#assign checked = false>
-						<#else>
-							<#assign checked = true>
-						</#if>
-						<@checkBox name='is_shown_in_result_list' value='1' checked=checked labelKey='#i18n{portal.users.modify_attribute.labelIsShownInResultList}' />
+						<@checkBox name='is_shown_in_result_list' value='1' checked=attribute.shownInResultList labelKey='#i18n{portal.users.modify_attribute.labelIsShownInResultList}' />
 					</@formGroup>
 					<@formGroup>
-						<#if attribute.mandatory = false>
-							<#assign checked = false>
-						<#else>
-							<#assign checked = true>
-						</#if>
-						<@checkBox name='mandatory' value='1' checked=checked labelKey='#i18n{portal.users.modify_attribute.labelMandatory}' />
+						<@checkBox name='mandatory' value='1' checked=attribute.mandatory labelKey='#i18n{portal.users.modify_attribute.labelMandatory}' />
 					</@formGroup>
 					<@formGroup helpKey='#i18n{portal.users.create_attribute.labelIsFieldInLineComment}'>
-						<#if attribute.fieldInLine = false>
-							<#assign checked = false>
-						<#else>
-							<#assign checked = true>
-						</#if>
-						<@checkBox name='is_field_in_line' value='1' checked=checked labelKey='#i18n{portal.users.create_attribute.labelIsFieldInLine}' />
+						<@checkBox name='is_field_in_line' value='1' checked=attribute.fieldInLine labelKey='#i18n{portal.users.create_attribute.labelIsFieldInLine}' />
 					</@formGroup>
 					<@formGroup>
 						<input type="hidden" name="id_attribute" value="${attribute.idAttribute}">
@@ -62,14 +42,14 @@
     </@columns>
 </@row>
 <@row>
-    <@columns>
-        <@box color='success'>
-            <@boxHeader title='<a name="list"></a>#i18n{portal.users.modify_attribute.listAssociatedFields}' boxTools=true>
-					<@tform method='post' action='jsp/admin/user/attribute/CreateAttributeField.jsp'>
-						<input type="hidden" value="${attribute.idAttribute}" name="id_attribute">
-						<@button type='submit' name='create' value='#i18n{portal.users.modify_attribute.buttonCreateField}' buttonIcon='plus' title='#i18n{portal.users.modify_attribute.buttonCreateField}' />
-						<@button style='btn-box-tool' params='data-widget="collapse"' buttonIcon='minus' />
-					</@tform>
+	<@columns>
+		<@box color='success'>
+			<@boxHeader title='<a name="list"></a>#i18n{portal.users.modify_attribute.listAssociatedFields}' boxTools=true>
+				<@tform method='post' action='jsp/admin/user/attribute/CreateAttributeField.jsp'>
+					<input type="hidden" value="${attribute.idAttribute}" name="id_attribute">
+					<@button type='submit' name='create' value='#i18n{portal.users.modify_attribute.buttonCreateField}' buttonIcon='plus' title='#i18n{portal.users.modify_attribute.buttonCreateField}' />
+					<@button style='btn-box-tool' params='data-widget="collapse"' buttonIcon='minus' />
+				</@tform>
 			</@boxHeader>
 			<@boxBody>
 				<@table id='list'>
@@ -111,6 +91,6 @@
 					</#list>
 				</@table>
 			</@boxBody>
-        </@box>
-    </@columns>
+		</@box>
+	</@columns>
 </@row>

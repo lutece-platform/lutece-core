@@ -1,12 +1,8 @@
-<#if attribute.mandatory>
-	<#assign mandatory = true>
-<#else>
-	<#assign mandatory = false>
-</#if>
 <#if attribute.helpMessage?exists&&attribute.helpMessage!=''>
 	<#assign helpKey = attribute.helpMessage>
 </#if>
-<@formGroup labelKey='${attribute.title?html}' labelFor='attribute_${attribute.idAttribute}' helpKey=helpKey rows=2 mandatory=mandatory>
+
+<@formGroup labelKey='${attribute.title?html}' labelFor='attribute_${attribute.idAttribute}' helpKey=helpKey rows=2 mandatory=attribute.mandatory>
 	<#if default_values_list??>
 		<#assign file = default_values_list>
 		<img src="image?resource_type=core_attribute_img&id=${file.idFile}" height="40"> 
