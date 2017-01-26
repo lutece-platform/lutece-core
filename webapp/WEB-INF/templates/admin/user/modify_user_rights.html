@@ -38,7 +38,7 @@
 										</#if>
 										</#list>
 										</#if>
-										<li class="${liClass!}">
+										<li class="${listElementClass}">
 											<@checkBox labelKey='${right.name} (#i18n{portal.users.modify_user_rights.labelLevel} ${right.level}) - ${right.description}' value='${right.id}' name='right' checked=checked mandatory=false />
 										</li>
 										</#list>
