@@ -13,36 +13,16 @@
 			<@boxBody>
 					<fieldset>
 						<@formGroup>
-							<#if access_code?? && access_code>
-								<#assign checked = true>
-							<#else>
-								<#assign checked = false>
-							</#if>
-							<@checkBox id='access_code' name='access_code' value='true' checked=checked labelKey='#i18n{portal.users.create_user.labelAccessCode}' labelFor='access_code' />
+							<@checkBox id='access_code' name='access_code' value='true' checked=access_code??&&access_code labelKey='#i18n{portal.users.create_user.labelAccessCode}' labelFor='access_code' />
 						</@formGroup>
 						<@formGroup>
-							<#if last_name?? && last_name>
-								<#assign checked = true>
-							<#else>
-								<#assign checked = false>
-							</#if>
-							<@checkBox id='last_name' name='last_name' value='true' checked=checked labelKey='#i18n{portal.users.create_user.labelLastName}' labelFor='last_name' />
+							<@checkBox id='last_name' name='last_name' value='true' checked=last_name??&&last_name labelKey='#i18n{portal.users.create_user.labelLastName}' labelFor='last_name' />
 						</@formGroup>
 						<@formGroup>
-							<#if first_name?? && first_name>
-								<#assign checked = true>
-							<#else>
-								<#assign checked = false>
-							</#if>
-							<@checkBox id='first_name' name='first_name' value='true' checked=checked labelKey='#i18n{portal.users.create_user.labelFirstName}' labelFor='first_name' />
+							<@checkBox id='first_name' name='first_name' value='true' checked=first_name??&&first_name labelKey='#i18n{portal.users.create_user.labelFirstName}' labelFor='first_name' />
 						</@formGroup>
 						<@formGroup>
-							<#if email?? && email>
-								<#assign checked = true>
-							<#else>
-								<#assign checked = false>
-							</#if>
-							<@checkBox id='email' name='email' value='true' checked=checked labelKey='#i18n{portal.users.create_user.labelEmail}' labelFor='email' />
+							<@checkBox id='email' name='email' value='true' checked=email??&&email labelKey='#i18n{portal.users.create_user.labelEmail}' labelFor='email' />
 						</@formGroup>
 					</fieldset>	
 			</@boxBody>
@@ -56,13 +36,8 @@
 				<fieldset>
 					<#list attributes_list as attribute>
 						<#if !attribute.plugin?exists || ( attribute.plugin?exists && attribute.plugin.name != "profiles" )>
-						<@formGroup labelFor='attribute_${attribute.idAttribute}' labelKey='${attribute.title}'>
-							<#if attribute.anonymize>
-								<#assign checked = true>
-							<#else>
-								<#assign checked = false>
-							</#if>
-							<@checkBox id='attribute_${attribute.idAttribute}' name='attribute_${attribute.idAttribute}' value='true' checked=checked />
+						<@formGroup>
+							<@checkBox id='attribute_${attribute.idAttribute}' name='attribute_${attribute.idAttribute}' value='true' checked=attribute.anonymize labelFor='attribute_${attribute.idAttribute}' labelKey='${attribute.title}' />
 						</@formGroup>
 						</#if>
 					</#list>

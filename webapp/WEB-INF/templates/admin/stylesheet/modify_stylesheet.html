@@ -17,10 +17,10 @@
 						<@input type='file' name='stylesheet_source' id='stylesheet_source' />
 					</@formGroup>
 					<@formGroup labelKey='#i18n{portal.style.modify_stylesheet.labelStyle}' labelFor='styles' mandatory=true>
-						<@comboSortedWithParams name="styles" default_value="${stylesheet.styleId}" additionalParameters=" class=\"form-control\" " items=style_list />
+						<@select name='styles' default_value='${stylesheet.styleId}' items=style_list />
 					</@formGroup>
 					<@formGroup labelKey='#i18n{portal.style.modify_stylesheet.labelMode}' labelFor='mode_stylesheet' mandatory=true>
-						<@comboSortedWithParams name="mode_stylesheet" default_value="${stylesheet.modeId}" additionalParameters=" class=\"form-control\" " items=mode_list />
+						<@select name='mode_stylesheet' default_value='${stylesheet.modeId}' items=mode_list />
 					</@formGroup>
 					<@formGroup>
 						<@button type='submit' buttonIcon='check' title='#i18n{portal.style.modify_stylesheet.buttonModify}'  size='' />

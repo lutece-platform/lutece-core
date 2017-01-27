@@ -8,16 +8,12 @@
 	</#if>
 	<#return false>
 </#function>
-<#if !attribute.mandatory>
-	<#assign mandatory = false>
-<#else>
-	<#assign mandatory = true>
-</#if>
+	
 <#if attribute.helpMessage?exists&&attribute.helpMessage!=''>
 	<#assign helpKey = attribute.helpMessage>
 </#if>
 	
-<@formGroup labelKey='${attribute.title?html}' mandatory=mandatory rows=2>
+<@formGroup labelKey='${attribute.title?html}' mandatory=attribute.mandatory rows=2>
 	<#list attribute.listAttributeFields as attributeField>
 		<#if attributeField.title?exists && attributeField.value != "">
 			<#if attribute.fieldInLine>
@@ -26,7 +22,7 @@
 			<#if attributeField.defaultValue >
 				<#assign checked = true>
 			</#if>
-			
+		
 			<@checkBox name='attribute_${attribute.idAttribute}' value='${attributeField.idField}' checked=checked labelKey='${attributeField.title}' orientation=orientation />
 		</#if>
 	</#list>

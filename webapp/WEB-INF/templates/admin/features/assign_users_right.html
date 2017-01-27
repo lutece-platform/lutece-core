@@ -1,11 +1,6 @@
 <@row>
   <@columns>
-		<#if assigned_users_list?size &gt; 10 || search_is_search >
-			<#assign collapsed=true>
-		<#else>
-			<#assign collapsed=false>
-		</#if>
-    <@box color='success' collapsed=collapsed>
+    <@box color='success' collapsed=assigned_users_list?size&gt;10||search_is_search>
       <@boxHeader title='${right.name}
 				<small class="spaced">
 						&nbsp;#i18n{portal.features.assign_users.right.level} <span class="badge">${right.level} </span>
