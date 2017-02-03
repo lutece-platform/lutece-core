@@ -694,7 +694,7 @@
 <#-- ICONS -->
 <#-- Icons from FontAwesome -->
 <#macro icon prefix='fa fa-' style='' class='' title='' id='' params=''>
-  <i class="${prefix}${style}<#if class!=''> ${class}</#if>" aria-hidden="true"<#if title!=''> title='${title}'</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params</#if>></i>
+  <i class="${prefix}${style}<#if class!=''> ${class}</#if>" aria-hidden="true"<#if title!=''> title='${title}'</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>></i>
 </#macro>
 
 <#-- FORM -->
@@ -710,7 +710,7 @@
 <#-- groupStyle: success/warning/error... -->
 
 <#macro formGroup formStyle='horizontal' class='' groupStyle='' rows=1 labelKey='' labelFor='' helpKey='' id='' mandatory=false showLabel=true params=''>
-	<div class="form-group<#if groupStyle!=''> has-${groupStyle} has-feedback</#if><#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params</#if>>
+	<div class="form-group<#if groupStyle!=''> has-${groupStyle} has-feedback</#if><#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>>
 		<#if rows=1>
 			<#if labelKey!='' && formStyle='horizontal'>
 				<#assign labelClass = "col-xs-12 col-sm-3 col-md-3 col-lg-3 control-label">
@@ -773,7 +773,7 @@
 <#-- Bootstrap colors: muted/primary/success/info/warning/danger -->
 <#-- AdminLTE colors: red/yellow/aqua/blue/black/light-blue/green/gray/navy/teal/olive/lime/orange/fuchsia/purple/maroon -->
 <#macro staticText inForm=true color='' id='' params=''>
-    <p class="<#if inForm>form-control-static</#if><#if color!=''> text-${color}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params</#if>>
+    <p class="<#if inForm>form-control-static</#if><#if color!=''> text-${color}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>>
         <#nested>
     </p>
 </#macro>
@@ -816,14 +816,14 @@
 <#-- INPUT-GROUP -->
 <#-- size: sm/lg/no size-->
 <#macro inputGroup size='' id='' params=''>
-	<div class="input-group<#if size!=''> input-group-${size}</#if>" <#if id!=''> id="${id}"</#if><#if params!=''> ${params</#if>>
+	<div class="input-group<#if size!=''> input-group-${size}</#if>" <#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>>
 		<#nested>
 	</div>
 </#macro>
 
 <#macro inputGroupItem type='btn' id='' params=''>
 <#-- type: btn/addon. default is btn-->
-	<span class="input-group-${type}"<#if id!=''> id="${id}"</#if><#if params!=''> ${params</#if>>
+	<span class="input-group-${type}"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>>
 		<#nested>
 	</span>
 </#macro>
@@ -832,7 +832,7 @@
 <#-- class: dropdown-menu-right -->
 <#-- Expected content : <li><a>Your link here</a></li> -->
 <#macro dropdownMenu class='' id='' params=''>
-	<ul class="dropdown-menu ${class}"<#if id!=''> id="${id}"</#if><#if params!=''> ${params</#if>>
+	<ul class="dropdown-menu ${class}"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>>
 		<#nested>
 	</ul>
 </#macro>
@@ -858,7 +858,7 @@
 	<#if pushMd!=0> col-md-push-${pushMd}</#if>
 	<#if pushLg!=0> col-lg-push-${pushLg}</#if>
 	<#if pushXl!=0> col-xl-push-${pushXl}</#if>
-	<#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params</#if>>
+	<#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>>
 		<#nested>
 	</div>
 </#macro>
@@ -867,7 +867,7 @@
 
 <#-- TAB Custom AdminLTE -->
 <#macro tabs color='' id='' params=''>
-	<div class="nav-tabs-custom<#if color!=''> ${color}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params</#if>>
+	<div class="nav-tabs-custom<#if color!=''> ${color}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>>
 		<#nested>
 	</div>
 </#macro>
@@ -875,14 +875,14 @@
 <#-- Bootstrap UL tabs -->
 <#-- type: tabs/tabs nav-justified/pills/pills nav-stacked/pills nav-justified -->
 <#macro listTabs type='tabs' id='' params=''>
-		<ul class="nav nav-${type}"<#if id!=''> id="${id}"</#if><#if params!=''> ${params</#if>>
+		<ul class="nav nav-${type}"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>>
 			<#nested>
 		</ul>
 </#macro>
 
 <#-- TAB Content AdminLTE -->
 <#macro tabContent id='' params=''>
-		<div class="tab-content"<#if id!=''> id="${id}"</#if><#if params!=''> ${params</#if>>
+		<div class="tab-content"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>>
 			<#nested>
 		</div>
 </#macro>
@@ -892,14 +892,14 @@
 <#-- The accordionContainer is the container for accordionPanel, which itself is the container for accordionHeader and accordionBody -->
 <#-- The childId argument in accordionPanel is meant to be used in the two sub-macros: accordionHeader and accordionBody -->
 <#macro accordionContainer id='' params=''>
-	<div class="box-group"<#if id!=''> id="${id}"</#if><#if params!=''> ${params</#if>>
+	<div class="box-group"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>>
 		<#assign parentId = id>
 		<#nested>
 	</div>
 </#macro>
 
 <#macro accordionPanel color='' collapsed=true childId='' id='' params=''>
-	<div class="panel box box-${color}"<#if id!=''> id="${id}"</#if><#if params!=''> ${params</#if>>
+	<div class="panel box box-${color}"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>>
 		<#if collapsed = true>
 			<#assign aClass = 'collapsed'>
 			<#assign expanded = 'false'>
@@ -916,7 +916,7 @@
 
 <#-- ACCORDION ELEMENT --> 
 <#macro accordionHeader title='' parentId=parentId childId=childId boxTools=false id='' params=''>
-		<div class="box-header with-border"<#if id!=''> id="${id}"</#if><#if params!=''> ${params</#if>>
+		<div class="box-header with-border"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>>
 			<h2 class="box-title">
 				<a class="${aClass}" data-toggle="collapse" data-parent="#${parentId}" href="#${childId}" aria-expanded="${expanded}">
 					${title}
@@ -931,7 +931,7 @@
 </#macro>
 
 <#macro accordionBody id=childId class=childClass expanded=expanded params=''>
-		<div id="${id}" class="${class}" aria-expanded="${expanded}"<#if params!=''> ${params</#if>>
+		<div id="${id}" class="${class}" aria-expanded="${expanded}"<#if params!=''> ${params}</#if>>>
 			<@boxBody>
 				<#nested>
 			</@boxBody>
@@ -939,7 +939,7 @@
 </#macro>
 
 <#macro progressBar description='' id='' params=''>
-	<div class="progress"<#if id!=''> id="${id}"</#if><#if params!=''> ${params</#if>>
+	<div class="progress"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>>
 		<div id="progressbar" class="progress-bar progress-bar-striped" role="progressbar">
 			<div id="complexity">0%</div>
 		</div>
@@ -956,7 +956,7 @@
 <#-- color: only for the left side showing the icon. -->
 <#-- bgColor: for the right side containing the text -->
 <#macro infoBox color='' boxText='' boxIcon='' boxNumber='' unit='' bgColor='' progressBar='' progressDescription='' id='' params=''>
-	<div class="info-box<#if bgColor!=''> ${bgColor}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params</#if>>
+	<div class="info-box<#if bgColor!=''> ${bgColor}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>>
 		<span class="info-box-icon<#if color!=''> ${color}</#if>"><@icon style=boxIcon /></span>
 		<div class="info-box-content">
 			<span class="info-box-text">${boxText}</span>
