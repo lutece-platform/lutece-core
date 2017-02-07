@@ -718,13 +718,15 @@ public final class PortalService
 
         String strXml = getXmlPagesListExtended( strTitlesUrls );
 
+        Properties outputProperties = ModeHome.getOuputXslProperties( nMode );
+
         // Added in v1.3
         // Add a path param for choose url to use in admin or normal mode
         Map<String, String> mapXslParams = new HashMap<String, String>( );
         setXslPortalPath( mapXslParams, nMode );
 
         XmlTransformerService xmlTransformerService = new XmlTransformerService( );
-        String strPath = xmlTransformerService.transformBySourceWithXslCache( strXml, xslSource, mapXslParams );
+        String strPath = xmlTransformerService.transformBySourceWithXslCache( strXml, xslSource, mapXslParams, outputProperties );
 
         strRes = formatPath( strPath, nMode, request );
 
