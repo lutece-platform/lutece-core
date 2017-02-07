@@ -48,6 +48,7 @@ import java.util.concurrent.ConcurrentMap;
 
 import javax.xml.transform.Result;
 import javax.xml.transform.Source;
+import javax.xml.transform.Templates;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
@@ -63,19 +64,22 @@ public final class XmlTransformer
     public static final String PROPERTY_TRANSFORMER_POOL_SIZE = "service.xmlTransformer.transformerPoolSize";
     public static final int TRANSFORMER_POOL_SIZE = AppPropertiesService.getPropertyInt( PROPERTY_TRANSFORMER_POOL_SIZE, 2 );
     public static final int MAX_TRANSFORMER_SIZE = 1000;
-    private static final List<ConcurrentMap<String, Transformer>> transformerPoolList = new ArrayList<ConcurrentMap<String, Transformer>>(
+    private static final List<ConcurrentMap<String, Templates>> transformersPoolList = new ArrayList<ConcurrentMap<String, Templates>>(
             TRANSFORMER_POOL_SIZE );
 
     static
     {
         for ( int i = 0; i < TRANSFORMER_POOL_SIZE; i++ )
         {
-            transformerPoolList.add( new ConcurrentHashMap<String, Transformer>( MAX_TRANSFORMER_SIZE ) );
+            transformersPoolList.add( new ConcurrentHashMap<String, Templates>( MAX_TRANSFORMER_SIZE ) );
         }
     }
 
     /**
-     * This method try to get a transformer instance from cache or create a new one if can't
+     * This method try to get a templates instance from cache or create a new one if can't.
+     *
+     * Previously (before 6.0.0) it returned directly a transformer,
+     * now it returns a templates which can create transformers cheaply.
      * 
      * @param stylesheet
      *            The XML document content
@@ -85,9 +89,9 @@ public final class XmlTransformer
      * @throws Exception
      *             the exception
      */
-    private Transformer getTransformer( Source stylesheet, String strStyleSheetId ) throws Exception
+    private Templates getTemplates( Source stylesheet, String strStyleSheetId ) throws Exception
     {
-        Transformer result = null;
+        Templates result = null;
 
         if ( TRANSFORMER_POOL_SIZE > 0 )
         {
@@ -95,7 +99,7 @@ public final class XmlTransformer
 
             do
             {
-                result = transformerPoolList.get( nTransformerListIndex ).remove( strStyleSheetId );
+                result = transformersPoolList.get( nTransformerListIndex ).remove( strStyleSheetId );
                 nTransformerListIndex++;
             }
             while ( ( result == null ) && ( nTransformerListIndex < TRANSFORMER_POOL_SIZE ) );
@@ -106,8 +110,8 @@ public final class XmlTransformer
             // only one thread can use transformer
             try
             {
-                result = TransformerFactory.newInstance( ).newTransformer( stylesheet );
-                AppLogService.debug( " --  XML Transformer instantiation : strStyleSheetId=" + strStyleSheetId );
+                result = TransformerFactory.newInstance( ).newTemplates( stylesheet );
+                AppLogService.debug( " --  XML Templates instantiation : strStyleSheetId=" + strStyleSheetId );
             }
             catch( TransformerConfigurationException e )
             {
@@ -125,29 +129,23 @@ public final class XmlTransformer
                 throw new Exception( "Error transforming document XSLT : " + e.getMessage( ), e );
             }
         }
-        else
-        {
-            // AppLogService.debug("Get XML Transformer from cache : strStyleSheetId=" + strStyleSheetId);
-            result.clearParameters( );
-            result.setOutputProperties( null );
-        }
 
         return result;
     }
 
     /**
-     * Remove all Transformer instance from cache
+     * Remove all Templates instance from cache. Previously (before 6.0.0) the cache stored transformers, now it stores templates.
      */
     public static void cleanTransformerList( )
     {
-        for ( ConcurrentMap<String, Transformer> transformerList : transformerPoolList )
+        for ( ConcurrentMap<String, Templates> transformerList : transformersPoolList )
         {
             transformerList.clear( );
         }
     }
 
     /**
-     * Gets the number of transformers
+     * Gets the number of templates. Previously (before 6.0.0) the cache stored transformers, now it stores templates.
      * 
      * @return the transformers count
      */
@@ -155,7 +153,7 @@ public final class XmlTransformer
     {
         int nCount = 0;
 
-        for ( ConcurrentMap<String, Transformer> transformerList : transformerPoolList )
+        for ( ConcurrentMap<String, Templates> transformerList : transformersPoolList )
         {
             nCount += transformerList.size( );
         }
@@ -164,30 +162,30 @@ public final class XmlTransformer
     }
 
     /**
-     * Release Transformer instance in cache
+     * Release Transformer instance in cache. Previously (before 6.0.0) the cache stored transformers, now it stores templates.
      * 
-     * @param transformer
-     *            The XML transformer
+     * @param templates
+     *            The XML templates
      * @param strStyleSheetId
      *            The StyleSheet Id
      */
-    private void releaseTransformer( Transformer transformer, String strStyleSheetId )
+    private void releaseTemplates( Templates templates, String strStyleSheetId )
     {
         if ( TRANSFORMER_POOL_SIZE > 0 )
         {
-            Transformer result = null;
-            ConcurrentMap<String, Transformer> transformerList = null;
+            Templates result = null;
+            ConcurrentMap<String, Templates> transformerList = null;
             int nTransformerListIndex = 0;
 
             do
             {
-                transformerList = transformerPoolList.get( nTransformerListIndex );
+                transformerList = transformersPoolList.get( nTransformerListIndex );
                 nTransformerListIndex++;
 
                 // This set of action is not performed atomically but it can not cause problems
                 if ( transformerList.size( ) < MAX_TRANSFORMER_SIZE )
                 {
-                    result = transformerList.putIfAbsent( strStyleSheetId, transformer );
+                    result = transformerList.putIfAbsent( strStyleSheetId, templates );
                 }
                 else
                 {
@@ -221,7 +219,8 @@ public final class XmlTransformer
     public String transform( Source source, Source stylesheet, String strStyleSheetId, Map<String, String> params, Properties outputProperties )
             throws Exception
     {
-        Transformer transformer = this.getTransformer( stylesheet, strStyleSheetId );
+        Templates templates = this.getTemplates( stylesheet, strStyleSheetId );
+        Transformer transformer = templates.newTransformer( );
 
         if ( outputProperties != null )
         {
@@ -258,7 +257,7 @@ public final class XmlTransformer
         }
         finally
         {
-            this.releaseTransformer( transformer, strStyleSheetId );
+            this.releaseTemplates( templates, strStyleSheetId );
         }
 
         return sw.toString( );
