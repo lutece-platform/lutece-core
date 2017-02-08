@@ -289,6 +289,7 @@ final class PasswordFactory implements IPasswordFactory
          * 
          * @return never returns
          * @throws UnsupportedOperationException
+         *             Always thrown because Legacy passwords must not be stored.
          */
         @Override
         public String getStorableRepresentation( )
@@ -318,7 +319,7 @@ final class PasswordFactory implements IPasswordFactory
         /**
          * Construct a password
          * 
-         * @param strPassword
+         * @param strStoredPassword
          *            the password text
          * @param representation
          *            representation of strPassword
@@ -395,6 +396,7 @@ final class PasswordFactory implements IPasswordFactory
          * 
          * @return never returns
          * @throws UnsupportedOperationException
+         *             Always thrown because Legacy passwords must not be stored.
          */
         @Override
         public final String getStorableRepresentation( )

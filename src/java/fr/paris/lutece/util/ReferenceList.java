@@ -151,7 +151,7 @@ public class ReferenceList extends ArrayList<ReferenceItem>
     }
 
     /**
-     * Convert a Map<String, String> into a ReferenceList
+     * Convert a Map&lt;String, String&gt; into a ReferenceList
      * 
      * @param map
      *            the map to convert

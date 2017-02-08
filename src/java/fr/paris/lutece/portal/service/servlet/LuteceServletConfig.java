@@ -93,7 +93,7 @@ public class LuteceServletConfig implements ServletConfig
     /**
      * {@inheritDoc}
      * 
-     * @return
+     * @return the init parameter names
      */
     public Enumeration<String> getInitParameterNames( )
     {

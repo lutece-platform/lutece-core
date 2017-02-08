@@ -488,7 +488,7 @@ public final class AdminUserService
     }
 
     /**
-     * Check if the given email is valid or not. <br />
+     * Check if the given email is valid or not. <br>
      * The given email is compared to the value of the parameter <i>'core_user_parameter.email_pattern'</i>.
      *
      * @param strEmail
@@ -745,7 +745,7 @@ public final class AdminUserService
     }
 
     /**
-     * Get the AdminUser email pattern that is stored in <b>'core_user_parameter.email_pattern'</b>. <br />
+     * Get the AdminUser email pattern that is stored in <b>'core_user_parameter.email_pattern'</b>. <br>
      * If it does not exist, then it will retrieve the value in the <b>lutece.properties</b> file (parameter <b>email.pattern</b>)
      * 
      * @return the AdminUser email pattern
@@ -1400,43 +1400,43 @@ public final class AdminUserService
     }
 
     /**
-     * Get a XML string describing a user.<br />
-     * The XML is constructed as follow :<br />
-     * <b>&lt;user&gt;</b><br />
-     * &nbsp;&nbsp;<b>&lt;access_code&gt;</b>value<b>&lt;/value&gt;</b><br />
-     * &nbsp;&nbsp;<b>&lt;last_name&gt;</b>value<b>&gt;/user&gt;</b><br />
-     * &nbsp;&nbsp;<b>&lt;first_name&gt;</b>value<b>&lt;/value&gt;</b><br />
-     * &nbsp;&nbsp;<b>&lt;email&gt;</b>value<b>&lt;/email&gt;</b><br />
-     * &nbsp;&nbsp;<b>&lt;status&gt;</b>value<b>&lt;/status&gt;</b><br />
-     * &nbsp;&nbsp;<b>&lt;locale&gt;</b>value<b>&lt;/locale&gt;</b><br />
-     * &nbsp;&nbsp;<b>&lt;level&gt;</b>value<b>&lt;/level&gt;</b><br />
-     * &nbsp;&nbsp;<b>&lt;must_change_password&gt;</b>value<b>&lt; must_change_password&gt;</b><br />
-     * &nbsp;&nbsp;<b>&lt;accessibility_mode&gt;</b>value<b>&lt; accessibility_mode&gt;</b><br />
-     * &nbsp;&nbsp;<b>&lt;password_max_valid_date&gt;</b>value<b>&lt; password_max_valid_date&gt;</b><br />
-     * &nbsp;&nbsp;<b>&lt;account_max_valid_date&gt;</b>value<b>&lt; account_max_valid_date&gt;</b><br />
-     * &nbsp;&nbsp;<b>&lt;date_last_login&gt;</b>value<b>&lt;/date_last_login&gt ;</b><br />
-     * &nbsp;&nbsp;<b>&lt;roles&gt;</b><br />
-     * &nbsp;&nbsp;&nbsp;&nbsp;<b>&lt;role&gt;</b>value<b>&lt;/role&gt;</b><br />
-     * &nbsp;&nbsp;&nbsp;&nbsp;...<br />
-     * &nbsp;&nbsp;<b>&lt;/roles&gt;</b><br />
-     * &nbsp;&nbsp;<b>&lt;rights&gt;</b><br />
-     * &nbsp;&nbsp;&nbsp;&nbsp;<b>&lt;right&gt;</b>value<b>&lt;/right&gt;</b><br />
-     * &nbsp;&nbsp;&nbsp;&nbsp;...<br />
-     * &nbsp;&nbsp;<b>&lt;/rights&gt;</b><br />
-     * &nbsp;&nbsp;<b>&lt;workspaces&gt;</b><br />
-     * &nbsp;&nbsp;&nbsp;&nbsp;<b>&lt;workspace&gt;</b>value<b>&lt;/workspace&gt ;</b><br />
-     * &nbsp;&nbsp;&nbsp;&nbsp;...<br />
-     * &nbsp;&nbsp;<b>&lt;/workspaces&gt;</b><br />
-     * &nbsp;&nbsp;<b>&lt;attributes&gt;</b><br />
-     * &nbsp;&nbsp;&nbsp;&nbsp;<b>&lt;attribute&gt;</b><br />
-     * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>&lt;attribute-id&gt;</b>value<b>& lt;/attribute-id&gt;</b><br />
-     * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>&lt;attribute-field-id&gt;</b> value<b>&lt;/attribute-id&gt;</b><br />
-     * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>&lt;attribute-value&gt;</b>value<b >&lt;/attribute-value&gt;</b><br />
-     * &nbsp;&nbsp;&nbsp;&nbsp;<b>&lt;/attribute&gt;</b><br />
-     * &nbsp;&nbsp;&nbsp;&nbsp;...<br />
-     * &nbsp;&nbsp;<b>&lt;/attributes&gt;</b><br />
-     * <b>&lt;/user&gt;</b><br />
-     * <br />
+     * Get a XML string describing a user.<br>
+     * The XML is constructed as follow :<br>
+     * <b>&lt;user&gt;</b><br>
+     * &nbsp;&nbsp;<b>&lt;access_code&gt;</b>value<b>&lt;/value&gt;</b><br>
+     * &nbsp;&nbsp;<b>&lt;last_name&gt;</b>value<b>&gt;/user&gt;</b><br>
+     * &nbsp;&nbsp;<b>&lt;first_name&gt;</b>value<b>&lt;/value&gt;</b><br>
+     * &nbsp;&nbsp;<b>&lt;email&gt;</b>value<b>&lt;/email&gt;</b><br>
+     * &nbsp;&nbsp;<b>&lt;status&gt;</b>value<b>&lt;/status&gt;</b><br>
+     * &nbsp;&nbsp;<b>&lt;locale&gt;</b>value<b>&lt;/locale&gt;</b><br>
+     * &nbsp;&nbsp;<b>&lt;level&gt;</b>value<b>&lt;/level&gt;</b><br>
+     * &nbsp;&nbsp;<b>&lt;must_change_password&gt;</b>value<b>&lt; must_change_password&gt;</b><br>
+     * &nbsp;&nbsp;<b>&lt;accessibility_mode&gt;</b>value<b>&lt; accessibility_mode&gt;</b><br>
+     * &nbsp;&nbsp;<b>&lt;password_max_valid_date&gt;</b>value<b>&lt; password_max_valid_date&gt;</b><br>
+     * &nbsp;&nbsp;<b>&lt;account_max_valid_date&gt;</b>value<b>&lt; account_max_valid_date&gt;</b><br>
+     * &nbsp;&nbsp;<b>&lt;date_last_login&gt;</b>value<b>&lt;/date_last_login&gt;</b><br>
+     * &nbsp;&nbsp;<b>&lt;roles&gt;</b><br>
+     * &nbsp;&nbsp;&nbsp;&nbsp;<b>&lt;role&gt;</b>value<b>&lt;/role&gt;</b><br>
+     * &nbsp;&nbsp;&nbsp;&nbsp;...<br>
+     * &nbsp;&nbsp;<b>&lt;/roles&gt;</b><br>
+     * &nbsp;&nbsp;<b>&lt;rights&gt;</b><br>
+     * &nbsp;&nbsp;&nbsp;&nbsp;<b>&lt;right&gt;</b>value<b>&lt;/right&gt;</b><br>
+     * &nbsp;&nbsp;&nbsp;&nbsp;...<br>
+     * &nbsp;&nbsp;<b>&lt;/rights&gt;</b><br>
+     * &nbsp;&nbsp;<b>&lt;workspaces&gt;</b><br>
+     * &nbsp;&nbsp;&nbsp;&nbsp;<b>&lt;workspace&gt;</b>value<b>&lt;/workspace&gt;</b><br>
+     * &nbsp;&nbsp;&nbsp;&nbsp;...<br>
+     * &nbsp;&nbsp;<b>&lt;/workspaces&gt;</b><br>
+     * &nbsp;&nbsp;<b>&lt;attributes&gt;</b><br>
+     * &nbsp;&nbsp;&nbsp;&nbsp;<b>&lt;attribute&gt;</b><br>
+     * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>&lt;attribute-id&gt;</b>value<b>&lt;/attribute-id&gt;</b><br>
+     * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>&lt;attribute-field-id&gt;</b> value<b>&lt;/attribute-id&gt;</b><br>
+     * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>&lt;attribute-value&gt;</b>value<b >&lt;/attribute-value&gt;</b><br>
+     * &nbsp;&nbsp;&nbsp;&nbsp;<b>&lt;/attribute&gt;</b><br>
+     * &nbsp;&nbsp;&nbsp;&nbsp;...<br>
+     * &nbsp;&nbsp;<b>&lt;/attributes&gt;</b><br>
+     * <b>&lt;/user&gt;</b><br>
+     * <br>
      * Sections <b>roles</b>, <b>rights</b>, <b>workspaces</b> and <b>attributes</b> are not included if data are not imported
      * 
      * @param user

@@ -48,7 +48,7 @@ import javax.servlet.http.HttpServletResponse;
  * <li>{@link #fillModel(HttpServletRequest, AdminUser, Map)} is called by the JspBean to add additionnal data in the main model
  * <li>{@link #getButtonTemplate()} is used to display buttons.
  * <li>{@link #isInvoked(HttpServletRequest)} is used by a JspBean to detect the invoked action.
- * <li>{@link #process(HttpServletRequest, HttpServletResponse, AdminUser, IPluginActionFields)} is called by the JspBean to process the invoked action. The
+ * <li>{@link #process(HttpServletRequest, HttpServletResponse, AdminUser, Object)} is called by the JspBean to process the invoked action. The
  * {@link IPluginActionResult} may contain html content or a redirect url or a noop as a result of the action processing.
  * <li>{@link #getName()} is mainly for debbuging purpose
  * </ul>

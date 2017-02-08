@@ -162,7 +162,7 @@ public class JPAStartupService implements StartUpService
     /**
      * {@inheritDoc }
      * 
-     * @return
+     * @return the name
      */
     public String getName( )
     {

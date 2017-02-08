@@ -94,7 +94,7 @@ public final class AttributeFieldHome
      * 
      * @param attributeField
      *            the attribute field
-     * @return @return new PK
+     * @return new PK
      */
     public static int create( AttributeField attributeField )
     {

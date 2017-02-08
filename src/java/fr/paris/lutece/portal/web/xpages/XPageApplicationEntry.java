@@ -192,7 +192,7 @@ public class XPageApplicationEntry
     /**
      * Sets the enabled state of this XPageApplication
      * 
-     * @param enabled
+     * @param bEnabled
      *            <code>true</code> if this XPageApplication is enabled, <code>false</code> otherwise
      * @since 5.1
      */

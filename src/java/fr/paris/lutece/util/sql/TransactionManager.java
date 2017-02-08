@@ -60,7 +60,7 @@ public final class TransactionManager
 
     /**
      * Begin a transaction for the current thread using the pool of a specific plugin with the default transaction isolation. The default transaction isolation
-     * is {@link Connection#TRANSACTION_READ_COMMITTED }.<br />
+     * is {@link Connection#TRANSACTION_READ_COMMITTED }.<br>
      * Note that only one transaction may be active at a time by pool for each thread.
      * 
      * @param plugin

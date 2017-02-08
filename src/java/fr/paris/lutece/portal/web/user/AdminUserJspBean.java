@@ -1248,6 +1248,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
      *            The Http Request
      * @return the confirmation url
      * @throws AccessDeniedException
+     *            When not authorized
      */
     public String doConfirmRemoveAdminUser( HttpServletRequest request ) throws AccessDeniedException
     {

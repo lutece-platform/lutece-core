@@ -200,7 +200,7 @@ public class MailSenderDaemon extends Daemon
      * @param sbLogsLine
      *            the log line
      * @throws MessagingException
-     *             @see MessagingException
+     *             See {@link MessagingException}
      */
     private void sendMail( MailItem mail, String strHost, Transport transportSmtp, Session session, StringBuilder sbLogsLine ) throws MessagingException
     {

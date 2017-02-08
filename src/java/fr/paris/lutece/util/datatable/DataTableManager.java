@@ -128,7 +128,7 @@ public class DataTableManager<T> implements Serializable
      * @param strColumnTitle
      *            I18n key of the title of the column
      * @param strObjectName
-     *            Name of the property of objects that should be displayed in this column.<br />
+     *            Name of the property of objects that should be displayed in this column.<br>
      *            For example, if a class "Data" contains a property named "title", then the value of the parameter <i>strObjectName</i> should be "title".
      * @param bSortable
      *            True if the column is sortable, false otherwise
@@ -144,7 +144,7 @@ public class DataTableManager<T> implements Serializable
      * @param strColumnTitle
      *            I18n key of the title of the column
      * @param strObjectName
-     *            Name of the property of objects that should be displayed in this column. This properties must be i18n keys.<br />
+     *            Name of the property of objects that should be displayed in this column. This properties must be i18n keys.<br>
      *            For example, if a class "Data" contains a property named "title", then the value of the parameter <i>strObjectName</i> should be "title".
      * @param bSortable
      *            True if the column is sortable, false otherwise
@@ -173,7 +173,7 @@ public class DataTableManager<T> implements Serializable
      * @param strColumnTitle
      *            I18n key of the title of the column
      * @param strObjectName
-     *            Name of the property of objects that should be displayed in this column.<br />
+     *            Name of the property of objects that should be displayed in this column.<br>
      *            For example, if a class "Data" contains a property named "title", then the value of the parameter <i>strObjectName</i> should be "title".
      * @param strLabelTrue
      *            I18n key of the label to display when the value is true
@@ -191,7 +191,7 @@ public class DataTableManager<T> implements Serializable
      * @param strColumnTitle
      *            I18n key of the title of the column
      * @param strFreemarkerMacroName
-     *            Name of the freemarker macro that will display the content of the column.<br />
+     *            Name of the freemarker macro that will display the content of the column.<br>
      *            The macro must have a single parameter named <i>item</i> of type T that will contain the object associated with a row of the table.
      */
     public void addFreeColumn( String strColumnTitle, String strFreemarkerMacroName )
@@ -205,7 +205,7 @@ public class DataTableManager<T> implements Serializable
      * @param strColumnTitle
      *            I18n key of the title of the column
      * @param strObjectName
-     *            Name of the property of objects that should be displayed in this column.<br />
+     *            Name of the property of objects that should be displayed in this column.<br>
      *            For example, if a class "Data" contains a property named "title", then the value of the parameter <i>strObjectName</i> should be "title".
      * @param bSortable
      *            True if the column is sortable, false otherwise
@@ -222,7 +222,7 @@ public class DataTableManager<T> implements Serializable
      *            data type of the filter. For drop down list, use {@link DataTableManager#addDropDownListFilter(String, String, ReferenceList)
      *            addDropDownListFilter} instead
      * @param strParameterName
-     *            Name of the parameter of the object to filter.<br/>
+     *            Name of the parameter of the object to filter.<br>
      *            For example, if this filter should be applied on the parameter "title" of a class named "Data", then the value of the parameter
      *            <i>strParameterName</i> should be "title".
      * @param strFilterLabel
@@ -237,7 +237,7 @@ public class DataTableManager<T> implements Serializable
      * Add a drop down list filter to the filter panel of this DataTableManager
      * 
      * @param strParameterName
-     *            Name of the parameter of the object to filter.<br/>
+     *            Name of the parameter of the object to filter.<br>
      *            For example, if this filter should be applied on the parameter "title" of a class named "Data", then the value of the parameter
      *            <i>strParameterName</i> should be "title".
      * @param strFilterLabel
@@ -498,7 +498,8 @@ public class DataTableManager<T> implements Serializable
     }
 
     /**
-     * Internal method. Get the paginator.<br/>
+     * Internal method. Get the paginator.
+     *
      * Do not use this method, use {@link DataTableManager#getAndUpdatePaginator(HttpServletRequest ) getAndUpdatePaginator} instead to get up to date values !
      * 
      * @return The paginator

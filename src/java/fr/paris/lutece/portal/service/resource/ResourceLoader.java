@@ -36,7 +36,7 @@ package fr.paris.lutece.portal.service.resource;
 import java.util.Collection;
 
 /**
- * This interface provides an abstract layer for an application to load its resources. <br />
+ * This interface provides an abstract layer for an application to load its resources. <br>
  * Ressources can be loaded from a database, a properties file or any other way.
  * 
  * @since v1.4.1

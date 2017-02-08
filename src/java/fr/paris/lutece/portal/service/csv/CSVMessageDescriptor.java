@@ -132,12 +132,12 @@ public class CSVMessageDescriptor implements Comparable<CSVMessageDescriptor>
     }
 
     /**
-     * compare this CSVMessageDescriptor with another.<br />
+     * compare this CSVMessageDescriptor with another.<br>
      * <b>This method returns 0 for objects that are not equals ! Use with care in collections !</b>
      * 
      * @param o
      *            Object to compare to
-     * @return Returns :<br />
+     * @return Returns :<br>
      *         <ul>
      *         <li>
      *         -1 if the line number of this object is greater than the line number of the other object, or if this object has an {@link CSVMessageLevel#INFO

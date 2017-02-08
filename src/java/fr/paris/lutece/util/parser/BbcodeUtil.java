@@ -318,7 +318,7 @@ public final class BbcodeUtil
         }
 
         /**
-         * @return @see java.lang.CharSequence#length()
+         * @return see {@link java.lang.CharSequence#length()}
          */
         @Override
         public int length( )
@@ -329,7 +329,7 @@ public final class BbcodeUtil
         /**
          * @param index
          *            index
-         * @return @see java.lang.CharSequence#charAt(int)
+         * @return see {@link java.lang.CharSequence#charAt(int)}
          */
         @Override
         public char charAt( int index )
@@ -342,7 +342,7 @@ public final class BbcodeUtil
          *            pStart
          * @param end
          *            end
-         * @return @see java.lang.CharSequence#subSequence(int, int)
+         * @return see {@link java.lang.CharSequence#subSequence(int, int)}
          */
         @Override
         public CharSequence subSequence( int pStart, int end )
@@ -372,7 +372,7 @@ public final class BbcodeUtil
 
         /**
          *
-         * @return @see java.lang.Object#toString()
+         * @return see {@link java.lang.Object#toString()}
          */
         @Override
         public String toString( )

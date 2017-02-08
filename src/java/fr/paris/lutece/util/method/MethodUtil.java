@@ -56,8 +56,8 @@ public final class MethodUtil
     }
 
     /**
-     * Sets the attribute. <br />
-     * <strong>Warning :</warning> This method does not handle setter that :
+     * Sets the attribute. <br>
+     * <strong>Warning :</strong> This method does not handle setter that :
      * <ul>
      * <li>has no parameter or has more than one parameter</li>
      * <li>has array parameter (ie : String[] or int[] ...)</li>

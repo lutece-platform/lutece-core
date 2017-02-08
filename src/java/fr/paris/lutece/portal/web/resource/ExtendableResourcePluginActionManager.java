@@ -45,7 +45,7 @@ import javax.servlet.http.HttpServletRequest;
 
 /**
  *
- * This manager is used to fill the model with the actions that interact with extend. <br />
+ * This manager is used to fill the model with the actions that interact with extend. <br>
  * It uses the method fillModel of the manager {@link PluginActionManager}.
  *
  */

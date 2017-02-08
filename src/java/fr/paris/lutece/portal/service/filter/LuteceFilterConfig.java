@@ -93,7 +93,7 @@ public class LuteceFilterConfig implements FilterConfig
     /**
      * {@inheritDoc}
      * 
-     * @return
+     * @return the init parameters names
      */
     public Enumeration<String> getInitParameterNames( )
     {

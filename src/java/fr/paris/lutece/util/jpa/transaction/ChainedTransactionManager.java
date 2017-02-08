@@ -50,7 +50,7 @@ import java.util.List;
  *
  * Manages multi transaction
  * 
- * @see {@link http://www.javaworld.com/javaworld/jw-01-2009/jw-01-spring-transactions.html?page=6}
+ * @see <a href="http://www.javaworld.com/javaworld/jw-01-2009/jw-01-spring-transactions.html?page=6">spring transactions</a>
  *
  */
 public class ChainedTransactionManager implements PlatformTransactionManager

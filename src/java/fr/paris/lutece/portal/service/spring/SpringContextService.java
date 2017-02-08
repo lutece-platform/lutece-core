@@ -85,7 +85,7 @@ public final class SpringContextService implements PluginEventListener
 
     /**
      * Return an instance, which may be shared or independent, of the given bean name. This method allows a Spring BeanFactory to be used as a replacement for
-     * the Singleton or Prototype design pattern.<br />
+     * the Singleton or Prototype design pattern.<br>
      * The bean is retreived from the main context defined in the WEB-INF/conf/core_context.xml.
      *
      * @param <T>

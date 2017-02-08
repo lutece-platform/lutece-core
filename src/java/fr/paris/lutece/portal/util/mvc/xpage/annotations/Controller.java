@@ -51,26 +51,36 @@ public @interface Controller
 {
     /**
      * The XPage name as it is called in the URL
+     *
+     * @return the xpage name
      */
     String xpageName( );
 
     /**
      * The default page title property
+     *
+     * @return the property for the page title
      */
     String pageTitleProperty( ) default "";
 
     /**
      * The default page path property
+     *
+     * @return the property for the page path
      */
     String pagePathProperty( ) default "";
 
     /**
-     * The default page title property
+     * The default page title i18n key
+     *
+     * @return the i18n key for the page title
      */
     String pageTitleI18nKey( ) default "";
 
     /**
-     * The default page path property
+     * The default page path i18n key
+     *
+     * @return the i18n key for the page path
      */
     String pagePathI18nKey( ) default "";
 }

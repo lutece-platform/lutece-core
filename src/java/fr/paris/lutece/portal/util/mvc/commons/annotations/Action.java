@@ -51,6 +51,8 @@ public @interface Action
 {
     /**
      * The action code
+     *
+     * @return the value
      */
     String value( );
 }

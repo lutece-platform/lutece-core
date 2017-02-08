@@ -77,7 +77,7 @@ public class FilterPanel implements Serializable
      *            data type of the filter. For drop down list, use {@link FilterPanel#addDropDownListFilter(String, String, ReferenceList)
      *            addDropDownListFilter} instead
      * @param strParameterName
-     *            Name of the parameter of the object to filter.<br/>
+     *            Name of the parameter of the object to filter.<br>
      *            For example, if this filter should be applied on the parameter "title" of a class named "Data", then the value of the parameter
      *            <i>strParameterName</i> should be "title".
      * @param strFilterLabel
@@ -92,7 +92,7 @@ public class FilterPanel implements Serializable
      * Add a drop down list filter.
      * 
      * @param strParameterName
-     *            Name of the parameter of the object to filter.<br/>
+     *            Name of the parameter of the object to filter.<br>
      *            For example, if this filter should be applied on the parameter "title" of a class named "Data", then the value of the parameter
      *            <i>strParameterName</i> should be "title".
      * @param strFilterLabel

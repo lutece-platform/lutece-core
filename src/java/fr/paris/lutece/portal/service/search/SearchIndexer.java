@@ -47,7 +47,7 @@ import java.util.List;
 public interface SearchIndexer
 {
     /**
-     * Index all lucene documents from the plugin, replace List<Document> getDocuments( ) method
+     * Index all lucene documents from the plugin, replace List&lt;Document&gt; getDocuments( ) method
      * 
      * @throws IOException
      *             If an IO error occured

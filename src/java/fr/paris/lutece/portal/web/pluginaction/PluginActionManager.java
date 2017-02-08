@@ -67,7 +67,7 @@ public final class PluginActionManager
     }
 
     /**
-     * Gets the list of {@link IDirectoryAction}.
+     * Gets the list of {@link IPluginAction}.
      *
      * @param <A>
      *            the generic type

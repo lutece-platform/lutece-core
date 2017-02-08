@@ -83,7 +83,7 @@ public class LuteceDefaultAdminUser extends AdminUser
     /**
      * Sets the password
      * 
-     * @param strPassword
+     * @param password
      *            The Password
      */
     public void setPassword( IPassword password )

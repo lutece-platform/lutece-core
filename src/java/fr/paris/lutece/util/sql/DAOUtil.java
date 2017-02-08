@@ -1422,7 +1422,7 @@ public class DAOUtil
     }
 
     /**
-     * Gets the value of the designated column in the current row of this ResultSet object as a Object
+     * Gets the value of the designated column in the current row of this ResultSet object as a T
      *
      * @see ResultSet#getObject(int, Class)
      * @since 5.1.1
@@ -1430,6 +1430,8 @@ public class DAOUtil
      *            the first column is 1, the second is 2, ...
      * @param type
      *            the type
+     * @param <T>
+     *            the return type
      * @return the column value; if the value is SQL NULL, the value returned is NULL
      */
     public <T> T getObject( int nIndex, Class<T> type )
@@ -1448,7 +1450,7 @@ public class DAOUtil
     /**
      * Gets the value of the designated column in the current row of this ResultSet object as a Object
      *
-     * @see ResultSet#getObject(int, java.util.Map<String,Class<?>>)
+     * @see ResultSet#getObject(int, java.util.Map)
      * @since 5.1.1
      * @param nIndex
      *            the first column is 1, the second is 2, ...
@@ -1509,6 +1511,8 @@ public class DAOUtil
      *            column name
      * @param type
      *            the type
+     * @param <T>
+     *            the return type
      *
      * @return the column value; if the value is SQL NULL, the value returned is NULL
      */
@@ -2156,7 +2160,7 @@ public class DAOUtil
      *
      * @see ResultSet#getClob(String)
      * @since 5.1.1
-     * @param nIndex
+     * @param strColumnName
      *            the column index
      * @return the value
      */
@@ -2271,7 +2275,7 @@ public class DAOUtil
      *
      * @see ResultSet#getClob(String)
      * @since 5.1.1
-     * @param nIndex
+     * @param strColumnName
      *            the column index
      * @return the value
      */
@@ -2686,6 +2690,8 @@ public class DAOUtil
      *
      * @see PreparedStatement#setRef(int, Ref)
      * @since 5.1.1
+     * @param nIndex
+     *            the index
      * @param ref
      *            the Ref
      */

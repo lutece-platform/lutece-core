@@ -648,10 +648,10 @@ public abstract class Portlet implements XmlContent
 
     /**
      * Check if the content of the portlet can be put in cache if the current user is not authenticated. If a cache is disabled for a portlet, then every page
-     * that contains a portlet of this type will NOT use the page cache, and portlet contents of this portlet type will not be saved into portlet cache.<br />
+     * that contains a portlet of this type will NOT use the page cache, and portlet contents of this portlet type will not be saved into portlet cache.<br>
      * WARNING : Overrides this method with extreme care : disabling page cache can cause severe performance issues !
      * 
-     * @return True if the content of the portlet can be put in cache if the user is not authenticated, false otherwise.<br />
+     * @return True if the content of the portlet can be put in cache if the user is not authenticated, false otherwise.<br>
      *         The default value is true.
      * @see #canBeCachedForConnectedUsers() {@link #canBeCachedForConnectedUsers()} for cache for authenticated users
      */
@@ -662,10 +662,10 @@ public abstract class Portlet implements XmlContent
 
     /**
      * Check if the content of the portlet can be put in cache if the current user is authenticated. If a cache is disabled for a portlet, then every page that
-     * contains a portlet of this type will NOT use the page cache, and portlet contents of this portlet type will not be saved into portlet cache.<br />
+     * contains a portlet of this type will NOT use the page cache, and portlet contents of this portlet type will not be saved into portlet cache.<br>
      * WARNING : Overrides this method with extreme care : disabling page cache can cause severe performance issues !
      * 
-     * @return True if the content of the portlet can be put in cache if the user is authenticated, false otherwise.<br />
+     * @return True if the content of the portlet can be put in cache if the user is authenticated, false otherwise.<br>
      *         The default value is true.
      * @see #canBeCachedForAnonymousUsers() {@link #canBeCachedForAnonymousUsers()} for cache for anonymous users
      */

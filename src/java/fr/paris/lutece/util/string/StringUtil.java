@@ -105,7 +105,7 @@ public final class StringUtil
     }
 
     /**
-     * Checks if a string literal contains any HTML special characters (&, ", ' <, >).
+     * Checks if a string literal contains any HTML special characters (&amp;, ", ' &lt;, &gt;).
      * 
      * @param strValue
      *            The string literal to check
@@ -284,7 +284,7 @@ public final class StringUtil
     }
 
     /**
-     * Check a code key.<br />
+     * Check a code key.<br>
      * Return true if each character of String is
      * <ul>
      * <li>number</li>

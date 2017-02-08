@@ -45,7 +45,7 @@ public class SitePropertiesGroup implements ILocalizedSitePropertiesGroup
     /**
      * {@inheritDoc }
      * 
-     * @return
+     * @return the name key
      */
     @Override
     public String getNameKey( )
@@ -56,7 +56,7 @@ public class SitePropertiesGroup implements ILocalizedSitePropertiesGroup
     /**
      * {@inheritDoc }
      * 
-     * @return
+     * @return the description key
      */
     @Override
     public String getDescriptionKey( )
@@ -67,7 +67,7 @@ public class SitePropertiesGroup implements ILocalizedSitePropertiesGroup
     /**
      * {@inheritDoc }
      * 
-     * @return
+     * @return the datastore keys prefix
      */
     @Override
     public String getDatastoreKeysPrefix( )

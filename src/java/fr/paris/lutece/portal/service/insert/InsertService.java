@@ -205,10 +205,10 @@ public class InsertService implements RBACResource, Localizable
     }
 
     /**
-     * Returns the name of the Bean to select an object
+     * Returns the Bean to select an object
      *
      * @return an Instance of the Bean
-     * @see fr.paris.lutece.portal.service.LinkService#getActionBean()
+     * @see #getActionBeanString()
      */
     public InsertServiceSelectionBean getSelectionActionBean( )
     {

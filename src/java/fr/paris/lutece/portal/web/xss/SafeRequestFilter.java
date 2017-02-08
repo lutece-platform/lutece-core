@@ -111,7 +111,7 @@ public abstract class SafeRequestFilter implements Filter
      * Forward the error message url depends site or admin implementation
      * 
      * @param request
-     *            @HttpServletRequest
+     *            the request {@link HttpServletRequest}
      * @param strMessageKey
      *            the message key
      * @param messageArgs

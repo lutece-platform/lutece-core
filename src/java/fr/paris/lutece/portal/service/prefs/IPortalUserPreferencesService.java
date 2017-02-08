@@ -73,7 +73,7 @@ public interface IPortalUserPreferencesService extends IUserPreferencesService
      * 
      * @param strNickname
      *            The nickname
-     *
+     * @return true if the nickname already exist
      */
     boolean existsNickname( String strNickname );
 }

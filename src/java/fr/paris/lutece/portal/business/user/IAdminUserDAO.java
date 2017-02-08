@@ -85,7 +85,7 @@ public interface IAdminUserDAO
     void delete( int nUserId );
 
     /**
-     * Deletes rights delegated by user ie rights with level < userlevel
+     * Deletes rights delegated by user ie rights with level &lt; userlevel
      * 
      * @param nUserId
      *            the user id
@@ -95,7 +95,7 @@ public interface IAdminUserDAO
     void deleteAllDelegatedRightsForUser( int nUserId, int nUserLevel );
 
     /**
-     * Deletes all rights owned by user ie rights with level >= userlevel
+     * Deletes all rights owned by user ie rights with level &gt;= userlevel
      * 
      * @param nUserId
      *            the user id

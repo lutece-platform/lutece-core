@@ -213,7 +213,7 @@ public final class AppTemplateService
     /**
      * Returns a reference on a template object
      *
-     * <br />
+     * <br>
      * <b>Deprecated</b> Using Freemarker without cache is huge CPU consuming
      *
      * @param strFreemarkerTemplateData
@@ -267,7 +267,7 @@ public final class AppTemplateService
     /**
      * Load the template from the file WARNING : This method must not be used in front office (no cache management available).
      *
-     * <br />
+     * <br>
      * <b>Deprecated</b> Using Freemarker without cache is huge CPU consuming
      *
      * @param strTemplateData

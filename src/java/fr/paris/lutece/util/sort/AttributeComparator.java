@@ -84,7 +84,7 @@ public class AttributeComparator implements Comparator<Object>, Serializable
      *            Object
      * @param o2
      *            Object
-     * @return < 0 if o1 is before o2 in the alphabetical order 0 if o1 equals o2 > 0 if o1 is after o2
+     * @return &lt; 0 if o1 is before o2 in the alphabetical order 0 if o1 equals o2 &gt; 0 if o1 is after o2
      */
     @Override
     public int compare( Object o1, Object o2 )

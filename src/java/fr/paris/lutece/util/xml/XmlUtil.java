@@ -84,7 +84,7 @@ public final class XmlUtil
     }
 
     /**
-     * This method performs XSL Transformation. <br />
+     * This method performs XSL Transformation. <br>
      * <b>Deprecated use XmlTransformer.transform</b>
      * 
      * @param source
@@ -184,7 +184,7 @@ public final class XmlUtil
     }
 
     /**
-     * Add an empty element (< />) to an XML document buffer.
+     * Add an empty element (&lt; /&gt;) to an XML document buffer.
      *
      * @param strXmlBuffer
      *            The XML document buffer

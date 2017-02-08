@@ -51,11 +51,15 @@ public @interface View
 {
     /**
      * The View name
+     *
+     * @return the value
      */
     String value( );
 
     /**
      * If the view is the default view. One and only one view should set this value to true.
+     *
+     * @return true if it is the default view
      */
     boolean defaultView( ) default false;
 }

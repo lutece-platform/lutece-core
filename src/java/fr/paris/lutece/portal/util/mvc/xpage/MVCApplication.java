@@ -346,7 +346,7 @@ public abstract class MVCApplication implements XPageApplication
     }
 
     /**
-     * Validate a bean. If the validation failed, error messages of this MVCApplication are updated.< br/>
+     * Validate a bean. If the validation failed, error messages of this MVCApplication are updated.<br>
      * This method should be used only if error messages of constraints of the bean are NOT i18n Keys. If they are I18n keys, the method
      * {@link #validateBean(Object, Locale)} should be used instead.
      * 
@@ -376,7 +376,7 @@ public abstract class MVCApplication implements XPageApplication
     }
 
     /**
-     * Validate a bean. If the validation failed, error messages of this MVCApplication are updated.< br/>
+     * Validate a bean. If the validation failed, error messages of this MVCApplication are updated.<br>
      * This method should be used only if error messages of constraints of the bean are i18n Keys. If they are not I18n keys, the method
      * {@link #validateBean(Object)} should be used instead.
      * 

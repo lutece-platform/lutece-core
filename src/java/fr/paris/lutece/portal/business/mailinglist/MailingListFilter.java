@@ -266,7 +266,7 @@ public class MailingListFilter implements Serializable
     }
 
     /**
-     * Add a <b>WHERE</b> or a <b>OR</b> depending of the index. <br/>
+     * Add a <b>WHERE</b> or a <b>OR</b> depending of the index. <br>
      * <ul>
      * <li>if <code>nIndex</code> == 1, then we add a <b>WHERE</b></li>
      * <li>if <code>nIndex</code> != 1, then we add a <b>OR</b> or a <b>AND</b> depending of the wide search characteristic</li>

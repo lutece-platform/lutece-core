@@ -39,7 +39,7 @@ import javax.servlet.http.HttpSessionListener;
 /**
  * Delegates all operations to all registered plugin-listeners.
  * 
- * @see {@link HttpSessionListenerService#getListeners}.
+ * @see HttpSessionListenerService#getListeners()
  */
 public class MainHttpSessionListener implements HttpSessionListener
 {

@@ -37,7 +37,7 @@ import fr.paris.lutece.portal.service.resource.IExtendableResource;
 import fr.paris.lutece.portal.web.pluginaction.IPluginAction;
 
 /**
- * This interface represents back office actions that interact with extend. <br />
+ * This interface represents back office actions that interact with extend. <br>
  * For instance, an action to add an extender, or to view the information of an extender...
  */
 public interface IExtendableResourcePluginAction extends IPluginAction<IExtendableResource>
