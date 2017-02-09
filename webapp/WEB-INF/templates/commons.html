@@ -728,7 +728,7 @@
 		<label class="${labelClass}<#if showLabel=false> sr-only</#if>" for="${labelFor}">
 			${labelKey}
 			<#if mandatory=false>
-				&#160;(facultatif)
+				&#160;
 			<#elseif mandatory=true>
 				&#160;<@icon style='asterisk' />
 			</#if>
@@ -1118,7 +1118,7 @@
 <#-- ALERT -->
 <#-- classes: alert-success/alert-info/alert-warning/alert-danger + alert-dismissible -->
 <#macro alert class='' titleLevel='h3' title='' iconTitle='' dismissible=false id='' params=''>
-<div class="alert ${class}"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<div class="alert alert-${class}"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 	<#if dismissible>
 		<@button color='' size='' style='close' params='data-dismiss="alert" aria-hidden="true"'>
 			&times;
