@@ -26,7 +26,7 @@ public class ImportAdminUserServiceTest extends LuteceTestCase
                 "", // datelastlogin
 
         };
-        ImportAdminUserService importAdminuser = new ImportAdminUserService( );
+        ImportAdminUserService importAdminuser = new DefaultImportAdminUserService( );
         MockHttpServletRequest request = new MockHttpServletRequest( );
         List<CSVMessageDescriptor> messages = importAdminuser.readLineOfCSVFile( lineData, 1, AdminUserService.getLocale( request ),
                 AppPathService.getBaseUrl( request ) );
