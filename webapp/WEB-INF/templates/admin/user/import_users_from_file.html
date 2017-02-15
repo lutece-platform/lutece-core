@@ -27,13 +27,13 @@
 						<@checkBox id='update_existing_users' name='update_existing_users' labelKey='#i18n{portal.users.import_users_from_file.labelUpdateExistingUsers}'/>
 					</@formGroup>
 
-					<#if messages?? && messages?has_content>
-						<#list messages as message>
-							<#if message.messageLevel?string == "ERROR">
+					<#if csv_messages?? && csv_messages?has_content>
+						<#list csv_messages as csv_message>
+							<#if csv_message.messageLevel?string == "ERROR">
 								<#assign alertClass="alert-danger">
 							</#if>
 							<@alert class=alertClass>
-								<#if 0 < message.lineNumber >#i18n{portal.users.import_users_from_file.lineNumber} ${message.lineNumber} - </#if>${message.messageContent}
+								<#if 0 < csv_message.lineNumber >#i18n{portal.users.import_users_from_file.lineNumber} ${csv_message.lineNumber} - </#if>${csv_message.messageContent}
 							</@alert>
 						</#list>
 					</#if>
