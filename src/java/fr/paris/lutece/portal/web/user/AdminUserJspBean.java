@@ -62,6 +62,7 @@ import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.rbac.RBACService;
 import fr.paris.lutece.portal.service.security.UserNotSignedException;
+import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.template.DatabaseTemplateService;
 import fr.paris.lutece.portal.service.user.AdminUserResourceIdService;
@@ -125,6 +126,9 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
     // I18n message keys
     private static final String MESSAGE_EMAIL_SUBJECT = "portal.admin.admin_forgot_password.email.subject";
+    
+    //Beans
+    private static final String BEAN_IMPORT_ADMIN_USER_SERVICE = "adminUserImportService";
 
     // Templates
     private static final String TEMPLATE_MANAGE_USERS = "admin/user/manage_users.html";
@@ -145,7 +149,6 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     private static final String TEMPLATE_ADMIN_EMAIL_FORGOT_PASSWORD = "admin/admin_email_forgot_password.html";
     private static final String TEMPLATE_FIELD_ANONYMIZE_ADMIN_USER = "admin/user/field_anonymize_admin_user.html";
     private static final String TEMPLATE_ACCOUNT_LIFE_TIME_EMAIL = "admin/user/account_life_time_email.html";
-    private static final String TEMPLATE_IMPORT_USERS_FROM_FILE = "admin/user/import_users_from_file.html";
     private static final String TEMPLATE_EXPORT_USERS_FROM_FILE = "admin/user/export_users.html";
 
     // Messages
@@ -318,7 +321,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     private static final String MARK_EMAIL_LABEL = "emailLabel";
     private static final String MARK_WEBAPP_URL = "webapp_url";
     private static final String MARK_SITE_LINK = "site_link";
-    private static final String MARK_LIST_MESSAGES = "messages";
+    private static final String MARK_LIST_MESSAGES = "csv_messages";
     private static final String MARK_CSV_SEPARATOR = "csv_separator";
     private static final String MARK_CSV_ESCAPE = "csv_escape";
     private static final String MARK_ATTRIBUTES_SEPARATOR = "attributes_separator";
@@ -345,7 +348,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     private static final String CONSTANT_ATTACHEMENT_DISPOSITION = "Content-Disposition";
     private static final String CONSTANT_XML_USERS = "users";
 
-    private static ImportAdminUserService _importAdminUserService = new ImportAdminUserService( );
+    private ImportAdminUserService _importAdminUserService;
     private boolean _bAdminAvatar = PluginService.isPluginEnable( "adminavatar" );
 
     private int _nItemsPerPage;
@@ -1011,6 +1014,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
      */
     public String getImportUsersFromFile( HttpServletRequest request )
     {
+        _importAdminUserService = (ImportAdminUserService) SpringContextService.getBean( BEAN_IMPORT_ADMIN_USER_SERVICE );
         if ( !RBACService.isAuthorized( AdminUser.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID, AdminUserResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS,
                 getUser( ) ) )
         {
@@ -1030,7 +1034,8 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         model.put( MARK_CSV_ESCAPE, strCsvEscapeCharacter );
         model.put( MARK_ATTRIBUTES_SEPARATOR, strAttributesSeparator );
 
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_IMPORT_USERS_FROM_FILE, AdminUserService.getLocale( request ), model );
+        String strTemplate = _importAdminUserService.getImportFromFileTemplate( );
+        HtmlTemplate template = AppTemplateService.getTemplate( strTemplate, AdminUserService.getLocale( request ), model );
 
         return getAdminPage( template.getHtml( ) );
     }
