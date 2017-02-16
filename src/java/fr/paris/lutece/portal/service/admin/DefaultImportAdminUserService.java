@@ -70,7 +70,6 @@ import org.apache.commons.lang.StringUtils;
 public class DefaultImportAdminUserService extends ImportAdminUserService
 {
 
-    private static final String MESSAGE_USERS_IMPORTED = "portal.users.import_users_from_file.usersImported";
     private static final String CONSTANT_RIGHT = "right";
     private static final String CONSTANT_ROLE = "role";
     private static final String CONSTANT_WORKGROUP = "workgroup";
@@ -79,6 +78,7 @@ public class DefaultImportAdminUserService extends ImportAdminUserService
     private static final String MESSAGE_ERROR_IMPORTING_ATTRIBUTES = "portal.users.import_users_from_file.errorImportingAttributes";
     private static final String MESSAGE_NO_LEVEL = "portal.users.import_users_from_file.importNoLevel";
     private static final String MESSAGE_NO_STATUS = "portal.users.import_users_from_file.importNoStatus";
+    private static final int CONSTANT_MINIMUM_COLUMNS_PER_LINE = 12;
     
     //Template 
     private static final String TEMPLATE_DEFAULT_IMPORT_USERS_FROM_FILE = "admin/user/import_users_from_file.html";
@@ -408,25 +408,35 @@ public class DefaultImportAdminUserService extends ImportAdminUserService
      * {@inheritDoc}
      */
     @Override
-    protected List<CSVMessageDescriptor> getEndOfProcessMessages( int nNbLineParses, int nNbLinesWithoutErrors, Locale locale )
+    public String getImportFromFileTemplate( )
     {
-        List<CSVMessageDescriptor> listMessages = new ArrayList<CSVMessageDescriptor>( );
-        Object [ ] args = {
-                nNbLineParses, nNbLinesWithoutErrors
-        };
-        String strMessageContent = I18nService.getLocalizedString( MESSAGE_USERS_IMPORTED, args, locale );
-        CSVMessageDescriptor message = new CSVMessageDescriptor( CSVMessageLevel.INFO, 0, strMessageContent );
-        listMessages.add( message );
-
-        return listMessages;
+        return TEMPLATE_DEFAULT_IMPORT_USERS_FROM_FILE;
     }
     
     /**
      * {@inheritDoc}
      */
     @Override
-    public String getImportFromFileTemplate( )
+    public int getNbMinColumns( )
     {
-        return TEMPLATE_DEFAULT_IMPORT_USERS_FROM_FILE;
+        return CONSTANT_MINIMUM_COLUMNS_PER_LINE;
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getAccessCode( String [ ] strLineDataArray )
+    {
+        return strLineDataArray [0];
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getEmail( String [ ] strLineDataArray )
+    {
+        return strLineDataArray [3];
     }
 }

@@ -54,15 +54,12 @@ public abstract class ImportAdminUserService extends CSVReaderService
     private static final String MESSAGE_ERROR_MIN_NUMBER_COLUMNS = "portal.users.import_users_from_file.messageErrorMinColumnNumber";
     private static final String PROPERTY_IMPORT_EXPORT_USER_SEPARATOR = "lutece.importExportUser.defaultSeparator";
     private static final String CONSTANT_DEFAULT_IMPORT_EXPORT_USER_SEPARATOR = ":";
-    private static final int CONSTANT_MINIMUM_COLUMNS_PER_LINE = 12;
+    private static final String MESSAGE_USERS_IMPORTED = "portal.users.import_users_from_file.usersImported";
+    
     private Character _strAttributesSeparator;
     private boolean _bUpdateExistingUsers;
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    protected abstract List<CSVMessageDescriptor> readLineOfCSVFile( String [ ] strLineDataArray, int nLineNumber, Locale locale, String strBaseUrl );
+
 
     /**
      * {@inheritDoc}
@@ -70,10 +67,10 @@ public abstract class ImportAdminUserService extends CSVReaderService
     @Override
     protected List<CSVMessageDescriptor> checkLineOfCSVFile( String [ ] strLineDataArray, int nLineNumber, Locale locale )
     {
-        int nMinColumnNumber = CONSTANT_MINIMUM_COLUMNS_PER_LINE;
         List<CSVMessageDescriptor> listMessages = new ArrayList<CSVMessageDescriptor>( );
-
-        if ( ( strLineDataArray == null ) || ( strLineDataArray.length < nMinColumnNumber ) )
+        
+        int nbMinColumns = getNbMinColumns( );
+        if ( ( strLineDataArray == null ) || ( strLineDataArray.length < nbMinColumns ) )
         {
             int nNbCol;
 
@@ -87,7 +84,7 @@ public abstract class ImportAdminUserService extends CSVReaderService
             }
 
             Object [ ] args = {
-                    nNbCol, nMinColumnNumber
+                    nNbCol, nbMinColumns
             };
             String strErrorMessage = I18nService.getLocalizedString( MESSAGE_ERROR_MIN_NUMBER_COLUMNS, args, locale );
             CSVMessageDescriptor error = new CSVMessageDescriptor( CSVMessageLevel.ERROR, nLineNumber, strErrorMessage );
@@ -98,8 +95,8 @@ public abstract class ImportAdminUserService extends CSVReaderService
 
         if ( !getUpdateExistingUsers( ) )
         {
-            String strAccessCode = strLineDataArray [0];
-            String strEmail = strLineDataArray [3];
+            String strAccessCode = getAccessCode( strLineDataArray );
+            String strEmail = getEmail( strLineDataArray );
 
             if ( AdminUserHome.checkAccessCodeAlreadyInUse( strAccessCode ) > 0 )
             {
@@ -125,8 +122,19 @@ public abstract class ImportAdminUserService extends CSVReaderService
      * {@inheritDoc}
      */
     @Override
-    protected abstract List<CSVMessageDescriptor> getEndOfProcessMessages( int nNbLineParses, int nNbLinesWithoutErrors, Locale locale );
+    protected List<CSVMessageDescriptor> getEndOfProcessMessages( int nNbLineParses, int nNbLinesWithoutErrors, Locale locale )
+    {
+        List<CSVMessageDescriptor> listMessages = new ArrayList<CSVMessageDescriptor>( );
+        Object [ ] args = {
+                nNbLineParses, nNbLinesWithoutErrors
+        };
+        String strMessageContent = I18nService.getLocalizedString( MESSAGE_USERS_IMPORTED, args, locale );
+        CSVMessageDescriptor message = new CSVMessageDescriptor( CSVMessageLevel.INFO, 0, strMessageContent );
+        listMessages.add( message );
 
+        return listMessages;
+    }
+    
     /**
      * Get the separator used for attributes of admin users.
      * 
@@ -170,5 +178,28 @@ public abstract class ImportAdminUserService extends CSVReaderService
      * @return the template path
      */
     public abstract String getImportFromFileTemplate( );
+    
+    /**
+     * Get the number min of CSV columns
+     * 
+     * @return the min number of columns
+     */
+    public abstract int getNbMinColumns( );
+    
+    /**
+     * Get the access code from data array
+     * 
+     * @param strLineDataArray the data array
+     * @return the access code
+     */
+    public abstract String getAccessCode( String [ ] strLineDataArray );
+    
+    /**
+     * Get the email from CSV columns
+     * 
+     * @param strLineDataArray the data array
+     * @return the email
+     */
+    public abstract String getEmail( String [ ] strLineDataArray );
 
 }
