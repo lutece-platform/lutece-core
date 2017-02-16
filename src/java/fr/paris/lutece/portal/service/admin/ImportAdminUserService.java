@@ -201,5 +201,12 @@ public abstract class ImportAdminUserService extends CSVReaderService
      * @return the email
      */
     public abstract String getEmail( String [ ] strLineDataArray );
+    
+    /**
+     * {@inheritDoc}
+     */
+    //Reexport this method for visibility in this package
+    @Override
+    protected abstract List<CSVMessageDescriptor> readLineOfCSVFile( String [ ] strLineDataArray, int nLineNumber, Locale locale, String strBaseUrl );
 
 }
