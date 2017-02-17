@@ -53,6 +53,7 @@ public final class RBACDAO implements IRBACDAO
     private static final String SQL_QUERY_SELECT_BY_ROLE = " SELECT rbac_id, role_key, resource_type, resource_id, permission FROM core_admin_role_resource WHERE role_key = ?  ORDER BY resource_type,resource_id,permission ";
     private static final String SQL_QUERY_UPDATE_ROLES = " UPDATE core_admin_role_resource SET  role_key = ? WHERE role_key = ?  ";
     private static final String SQL_QUERY_DELETE_FOR_ROLE_KEY = " DELETE FROM core_admin_role_resource WHERE role_key = ? ";
+    private static final String SQL_QUERY_DELETE_BY_RESOURCE_TYPE_AND_RESOURCE_ID = " DELETE FROM core_admin_role_resource WHERE resource_type = ? AND resource_id = ? ";
 
     // query used to retrieve the roles associeted with a resource
     private static final String SQL_QUERY_SELECT_ROLE_KEYS = " SELECT DISTINCT role_key FROM core_admin_role_resource " + " WHERE resource_type = ? AND "
@@ -293,5 +294,19 @@ public final class RBACDAO implements IRBACDAO
         daoUtil.free( );
 
         return listRoleKeys;
+    }
+    
+    /**
+     *{@inheritDoc }
+     */
+    @Override
+    public void deleteForResourceTypeAndId( String strResourceType, String strResourceId )
+    {
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE_BY_RESOURCE_TYPE_AND_RESOURCE_ID );
+        daoUtil.setString( 1, strResourceType );
+        daoUtil.setString( 2, strResourceId );
+
+        daoUtil.executeUpdate( );
+        daoUtil.free( );
     }
 }
