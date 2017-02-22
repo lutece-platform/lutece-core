@@ -1060,11 +1060,21 @@
 
 <#-- BTN GROUP -->
 <#-- size: sm/empty/lg -->
-<#macro btnGroup size='sm' class='' id='' params='' ariaLabel=''>
+<#macro btnGroup size='' class='' id='' params='' ariaLabel=''>
 	<div class="btn-group<#if size!=''> btn-group-${size}</#if><#if class!=''> ${class}</#if>" role="group"<#if ariaLabel!=''> aria-label="${ariaLabel}"</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 		<#nested>
 	</div>
 </#macro>
+
+<#-- Radio button/Checkbox as buttons (to use with btnGroup)  -->
+<#-- type: radio/checkbox -->
+<#macro btnGroupRadioCheckbox type='checkbox' color='primary' size='' name='' id='' params='' ariaLabel='' labelFor='' labelKey='' labelParams='' tabIndex='' value=''>
+	<label class="btn btn-${color}<#if size!=''> btn-${size}</#if>" for="${labelFor}"<#if labelParams!=''> ${labelParams}</#if>>
+	<input type="${type}" name="${name}" id="${id}" autocomplete="off"<#if value!=''> value="${value}"</#if><#if params!=''> ${params}</#if><#if tabIndex!=''> tabindex="${tabIndex}"</#if> /><#if labelKey!=''>${labelKey}</#if>
+	</label>
+</#macro>
+
+
 
 <#-- MODAL -->
 <#-- bgColor: modal-default/modal-primary/modal-info/modal-warning/modal-danger -->
@@ -1146,9 +1156,9 @@
 </div>
 </#macro>
 
-<#macro boxHeader title='' showTitle=true id='' params='' boxTools=false titleLevel='h2'>
+<#macro boxHeader title='' i18nTitleKey='' showTitle=true id='' params='' boxTools=false titleLevel='h2'>
 <div class="box-header with-border"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
-<${titleLevel} class="box-title<#if showTitle=false> sr-only</#if>">${title}</${titleLevel}>
+<${titleLevel} class="box-title<#if showTitle=false> sr-only</#if>"><#if title!=''>${title}</#if><#if i18nTitleKey!=''>#i18n{${i18nTitleKey}}</#if></${titleLevel}>
 	<#if boxTools>
 	<div class="box-tools">
 		<#nested>
