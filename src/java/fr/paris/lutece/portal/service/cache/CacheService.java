@@ -92,6 +92,7 @@ public final class CacheService
     private static final String DISABLED = "0";
     private static final String NOT_FOUND = "NOT FOUND";
     private static final String PREFIX_DEFAULT = "lutece.cache.default";
+    private static final String LUTECE_CACHEMANAGER_NAME = "LuteceCacheManager";
     private static CacheService _singleton;
     private static CacheManager _manager;
 
@@ -138,6 +139,7 @@ public final class CacheService
     private void init(  )
     {
         _manager = CacheManager.create(  );
+        _manager.setName( LUTECE_CACHEMANAGER_NAME );
         loadDefaults(  );
         loadCachesConfig(  );
 
