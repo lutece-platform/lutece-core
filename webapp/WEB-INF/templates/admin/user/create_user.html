@@ -29,7 +29,7 @@
 									</div>
 								</div>
 							</fieldset>
-							<fieldset>			
+							<fieldset>
 							<legend>#i18n{portal.users.create_user.labelIdentity}</legend>
 							<div class="form-group">
 								<label class="col-xs-12 col-sm-12 col-md-12" for="last_name">#i18n{portal.users.create_user.labelLastName} * </label>
@@ -58,13 +58,11 @@
 									</div>
 								</div>
 							</div>
-							
-							
 							</fieldset>
 						</div>
 						<div class="col-xs-12 col-sm-12 col-md-4">
 							<fieldset>
-							<legend>#i18n{portal.users.create_user.labelComplementaryAttributes}</legend>
+							<legend>#i18n{portal.users.create_user.labelAttributes}</legend>
 							<#if displayFieldset( user_levels attributes_list )>
 								<#if (user_levels?has_content)>
 									<div class="form-group">
@@ -80,7 +78,7 @@
 												</#list>
 											</select>
 										</div>
-									</div>            
+									</div>
 									<div class="form-group">
 										<label class="col-xs-12 col-sm-12 col-md-12"> #i18n{portal.role.create_role.labelWorkgroupKey} * :</label>
 										<div class="col-xs-12 col-sm-12 col-md-12">
@@ -140,7 +138,7 @@
 										</#if>
 									</#list>
 								</#if>
-								
+
 						</fieldset>
 						</div>
 					</div>
@@ -149,10 +147,10 @@
 								<button type="submit" class="btn btn-primary btn-block">
 								<i class="glyphicon glyphicon-ok"></i>
 									#i18n{portal.users.manage_users.buttonLabelAddUser}
-								</button> 
+								</button>
 							</div>
 					</div>
-				</form>	
+				</form>
 			</div>
 		</div>
 		<#else>
@@ -192,7 +190,7 @@
 						</#if>
 						</#list>
 					</select>
-				</#if>      
+				</#if>
 				<div class="form-group">
 					<label class="control-label col-xs-12 col-sm-3 col-md-3"> #i18n{portal.role.create_role.labelWorkgroupKey} * :</label>
 					<div class="col-xs-12 col-sm-6 col-md-6">
@@ -242,7 +240,7 @@
 			<button type="submit" class="btn btn-primary btn-sm">
 				<i class="glyphicon glyphicon-plus-sign"></i>
 				<span class="hidden-phone">#i18n{portal.users.create_user.buttonLabelCreate}</span>
-			</button> 
+			</button>
 		</form>
     <#else>
 		<div class="alert alert-danger">#i18n{portal.users.create_user.error.accessCodeNotFound}</div>
