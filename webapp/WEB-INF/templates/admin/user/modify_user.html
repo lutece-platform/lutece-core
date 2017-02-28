@@ -1,1 +1,149 @@
-<div class="row">    <div class="col-xs-12 col-sm-12 col-md-12">        <div class="box box-success">            <div class="box-header">                <h3 class="box-title">                    <i class="glyphicon glyphicon-user"></i>&nbsp;${user.lastName} ${user.firstName}                </h3>                <@item_navigation item_navigator=item_navigator />            </div>            <div class="box-body content-padding">                <ul class="nav nav-tabs">                    <li class="active">                        <a href="jsp/admin/user/ModifyUser.jsp?id_user=${user.userId}" >#i18n{portal.users.actions.labelUser}</a>                    </li>                    <li><a href="jsp/admin/user/ModifyUserRights.jsp?id_user=${user.userId}">#i18n{portal.users.actions.labelRights}</a></li>                    <li><a href="jsp/admin/user/ModifyUserRoles.jsp?id_user=${user.userId}">#i18n{portal.users.actions.labelRoles}</a></li>                    <li><a href="jsp/admin/user/ModifyUserWorkgroups.jsp?id_user=${user.userId}">#i18n{portal.users.actions.labelWorkgroups}</a></li>                </ul>                <form method="post" class="form-horizontal" role="form" name="modify_user" action="jsp/admin/user/DoModifyUser.jsp" enctype="multipart/form-data">                    <div class="row">                        <div class="col-xs-12 <#if attributes_list?has_content>col-sm-4 col-md-4<#else>col-sm-6 col-md-6</#if>">                            <input type="hidden" name="id_user" value="${user.userId}" />                                <fieldset>                                <legend>#i18n{portal.users.modify_user.labelIdentity}</legend>                                <div class="form-group">                                    <label for="access_code" class="col-xs-12 col-sm-12 col-md-12">#i18n{portal.users.modify_user.labelAccessCode} *</label>                                    <div class="col-xs-12 col-sm-12 col-md-12">                                        <input type="text" class="form-control" id="access_code" name="access_code" maxlength="100" value="${user.accessCode}">                                    </div>                                </div>                                <div class="form-group">                                    <label for="password" class="col-xs-12 col-sm-12 col-md-12">#i18n{portal.users.modify_user.labelFirstPassword}</label>                                    <div class="col-xs-12 col-sm-12 col-md-12">                                        <input type="password" class="form-control" id="password" name="first_password" maxlength="100" value="">                                    </div>                                </div>                                <div class="form-group">                                    <label for="second_password" class="col-xs-12 col-sm-12 col-md-12">#i18n{portal.users.modify_user.labelSecondPassword}</label>                                    <div class="col-xs-12 col-sm-12 col-md-12">                                        <input type="password" class="form-control" id="second_password" name="second_password" maxlength="100" value="">                                    </div>                                </div>                                <div class="form-group">                                    <label for="last_name" class="col-xs-12 col-sm-12 col-md-12">#i18n{portal.users.modify_user.labelLastName} *</label>                                    <div class="col-xs-12 col-sm-12 col-md-12">                                        <input type="text" class="form-control" id="last_name" name="last_name" maxlength="100" value="${user.lastName}">                                    </div>                                </div>                                <div class="form-group">                                    <label for="first_name" class="col-xs-12 col-sm-12 col-md-12">#i18n{portal.users.modify_user.labelFirstName} *</label>                                    <div class="col-xs-12 col-sm-12 col-md-12">                                        <input type="text" class="form-control" id="first_name" name="first_name" maxlength="100" value="${user.firstName}">                                    </div>                                </div>                                <div class="form-group">                                    <label for="email" class="col-xs-12 col-sm-12 col-md-12">#i18n{portal.users.modify_user.labelEmail} *</label>                                    <div class="col-xs-12 col-sm-12 col-md-12">                                        <input type="email" class="form-control" id="email" name="email" maxlength="100" value="${user.email}">                                    </div>                                </div>                            </fieldset>                        </div>                        <div class="col-xs-12 <#if attributes_list?has_content>col-sm-4 col-md-4<#else>col-sm-6 col-md-6</#if>">                            <fieldset>                                <legend>#i18n{portal.users.modify_user.labelAttributes} </legend>                                <div class="form-group">                                    <label class="col-xs-12 col-sm-12 col-md-12">#i18n{portal.users.create_user.userLevelLabel}</label>                                    <div class="col-xs-12 col-sm-12 col-md-12">                                        <p class="form-control-static">${level.name}</p>                                    </div>						                                </div>						                                <div class="form-group">                                    <label for="workgroup_key" class="col-xs-12 col-sm-12 col-md-12">#i18n{portal.role.create_role.labelWorkgroupKey} *</label>                                    <div class="col-xs-12 col-sm-12 col-md-12">                                        <@comboSortedWithParams name="workgroup_key" default_value="${user.workgroupKey!}" additionalParameters="class=\"form-control\"" items=workgroup_key_list />                                    </div>                                </div>                                <div class="form-group">                                    <label for="status" class="col-xs-12 col-sm-12 col-md-12">#i18n{portal.users.modify_user.labelStatus}</label>                                    <div class="col-xs-12 col-sm-12 col-md-12">                                        <select id="status" name="status" class="form-control">                                            <#if user.status == 0 >                                            <option value="0" selected="selected" >#i18n{portal.users.modify_user.statusLabelEnabled}</option>                                            <option value="1" >#i18n{portal.users.modify_user.statusLabelDisabled}</option>                                            <#else>                                            <option value="0" >#i18n{portal.users.modify_user.statusLabelEnabled}</option>                                            <option value="1" selected="selected" >#i18n{portal.users.modify_user.statusLabelDisabled}</option>                                            </#if>                                        </select>                                    </div>                                </div>                                <div class="form-group">                                    <label for="language" class="col-xs-12 col-sm-12 col-md-12">#i18n{portal.users.modify_user.labelLanguage}</label>                                    <div class="col-xs-12 col-sm-12 col-md-12">                                        <@comboSortedWithParams name="language" default_value="${current_language}" additionalParameters="class='form-control'" items=languages_list />                                    </div>                                </div>                                <div class="form-group">                                    <label class="col-xs-12 col-sm-12 col-md-12">#i18n{portal.users.create_user.labelTheme}</label>                                    <div class="col-xs-12 col-sm-12 col-md-12">                                        <div class="checkbox">                                            <label for="accessibility_mode">                                                <input type="checkbox" id="accessibility_mode" name="accessibility_mode" value="1" <#if user.accessibilityMode>checked="checked"</#if> />                                                       #i18n{portal.users.create_user.labelAccessibilityMode}                                            </label>                                        </div>                                    </div>                                </div>                            </fieldset>                        </div>                        <#if attributes_list?has_content>                        <div class="col-xs-12 col-sm-4 col-md-4">                            <fieldset>                                <legend>#i18n{portal.users.modify_user.labelComplementaryAttributes}</legend>                                <div class="form-group">                                    <div class="col-xs-12 col-sm-12 col-md-12">                                        <#list attributes_list as attribute>                                        <#if !attribute.plugin?exists || ( attribute.plugin?exists && attribute.plugin.name != "profiles" )>                                        <#assign idAttribute = "" + attribute.idAttribute>                                        ${attribute.getHtmlFormAttribute( locale, map_list_attribute_default_values[idAttribute] )}                                        </#if>                                        </#list>                                    </div>                                    <div class="col-xs-12 col-sm-12 col-md-12">                                        <#list attributes_list as attribute>                                        <#if attribute.plugin?exists && attribute.plugin.name == "profiles">                                        <#assign idAttribute = "" + attribute.idAttribute>                                        ${attribute.getHtmlFormAttribute( locale, map_list_attribute_default_values[idAttribute] )}                                        <#break>                                        </#if>                                        </#list>                                    </div>                                </div>                            </fieldset>                        </div>                        </#if>                    </div>                     <div class="row">                        <div class="col-xs-12 col-sm-12 col-md-offset-4 col-md-4 ">                            <button type="submit" class="btn btn-primary btn-block">                                <i class="glyphicon glyphicon-ok"></i>&nbsp;#i18n{portal.users.modify_user.buttonLabelModify}                            </button>                         </div>                       </div>                   </form>            </div>        </div>     </div></div>
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12">
+        <div class="box box-success">
+            <div class="box-header">
+                <h3 class="box-title">
+                    <i class="glyphicon glyphicon-user"></i>&nbsp;${user.lastName} ${user.firstName}
+                </h3>
+                <@item_navigation item_navigator=item_navigator />
+            </div>
+            <div class="box-body content-padding">
+                <ul class="nav nav-tabs">
+                    <li class="active">
+                        <a href="jsp/admin/user/ModifyUser.jsp?id_user=${user.userId}" >#i18n{portal.users.actions.labelUser}</a>
+                    </li>
+                    <li><a href="jsp/admin/user/ModifyUserRights.jsp?id_user=${user.userId}">#i18n{portal.users.actions.labelRights}</a></li>
+                    <li><a href="jsp/admin/user/ModifyUserRoles.jsp?id_user=${user.userId}">#i18n{portal.users.actions.labelRoles}</a></li>
+                    <li><a href="jsp/admin/user/ModifyUserWorkgroups.jsp?id_user=${user.userId}">#i18n{portal.users.actions.labelWorkgroups}</a></li>
+                </ul>
+                <form method="post" class="form-horizontal" role="form" name="modify_user" action="jsp/admin/user/DoModifyUser.jsp" enctype="multipart/form-data">
+                    <div class="row">
+                        <div class="col-xs-12 <#if attributes_list?has_content>col-sm-4 col-md-4<#else>col-sm-6 col-md-6</#if>">
+                            <input type="hidden" name="id_user" value="${user.userId}" />    
+                            <fieldset>
+                                <legend>#i18n{portal.users.modify_user.labelIdentity}</legend>
+                                <div class="form-group">
+                                    <label for="access_code" class="col-xs-12 col-sm-12 col-md-12">#i18n{portal.users.modify_user.labelAccessCode} *</label>
+                                    <div class="col-xs-12 col-sm-12 col-md-12">
+                                        <input type="text" class="form-control" id="access_code" name="access_code" maxlength="100" value="${user.accessCode}">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="password" class="col-xs-12 col-sm-12 col-md-12">#i18n{portal.users.modify_user.labelFirstPassword}</label>
+                                    <div class="col-xs-12 col-sm-12 col-md-12">
+                                        <input type="password" class="form-control" id="password" name="first_password" maxlength="100" value="">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="second_password" class="col-xs-12 col-sm-12 col-md-12">#i18n{portal.users.modify_user.labelSecondPassword}</label>
+                                    <div class="col-xs-12 col-sm-12 col-md-12">
+                                        <input type="password" class="form-control" id="second_password" name="second_password" maxlength="100" value="">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="last_name" class="col-xs-12 col-sm-12 col-md-12">#i18n{portal.users.modify_user.labelLastName} *</label>
+                                    <div class="col-xs-12 col-sm-12 col-md-12">
+                                        <input type="text" class="form-control" id="last_name" name="last_name" maxlength="100" value="${user.lastName}">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="first_name" class="col-xs-12 col-sm-12 col-md-12">#i18n{portal.users.modify_user.labelFirstName} *</label>
+                                    <div class="col-xs-12 col-sm-12 col-md-12">
+                                        <input type="text" class="form-control" id="first_name" name="first_name" maxlength="100" value="${user.firstName}">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="email" class="col-xs-12 col-sm-12 col-md-12">#i18n{portal.users.modify_user.labelEmail} *</label>
+                                    <div class="col-xs-12 col-sm-12 col-md-12">
+                                        <input type="email" class="form-control" id="email" name="email" maxlength="100" value="${user.email}">
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </div>
+                        <div class="col-xs-12 <#if attributes_list?has_content>col-sm-4 col-md-4<#else>col-sm-6 col-md-6</#if>">
+                            <fieldset>
+                                <legend>#i18n{portal.users.modify_user.labelAttributes} </legend>
+                                <div class="form-group">
+                                    <label class="col-xs-12 col-sm-12 col-md-12">#i18n{portal.users.create_user.userLevelLabel}</label>
+                                    <div class="col-xs-12 col-sm-12 col-md-12">
+                                        <p class="form-control-static">${level.name}</p>
+                                    </div>						
+                                </div>						
+                                <div class="form-group">
+                                    <label for="workgroup_key" class="col-xs-12 col-sm-12 col-md-12">#i18n{portal.role.create_role.labelWorkgroupKey} *</label>
+                                    <div class="col-xs-12 col-sm-12 col-md-12">
+                                        <@comboSortedWithParams name="workgroup_key" default_value="${user.workgroupKey!}" additionalParameters="class=\"form-control\"" items=workgroup_key_list />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="status" class="col-xs-12 col-sm-12 col-md-12">#i18n{portal.users.modify_user.labelStatus}</label>
+                                    <div class="col-xs-12 col-sm-12 col-md-12">
+                                        <select id="status" name="status" class="form-control">
+                                            <#if user.status == 0 >
+                                            <option value="0" selected="selected" >#i18n{portal.users.modify_user.statusLabelEnabled}</option>
+                                            <option value="1" >#i18n{portal.users.modify_user.statusLabelDisabled}</option>
+                                            <#else>
+                                            <option value="0" >#i18n{portal.users.modify_user.statusLabelEnabled}</option>
+                                            <option value="1" selected="selected" >#i18n{portal.users.modify_user.statusLabelDisabled}</option>
+                                            </#if>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="language" class="col-xs-12 col-sm-12 col-md-12">#i18n{portal.users.modify_user.labelLanguage}</label>
+                                    <div class="col-xs-12 col-sm-12 col-md-12">
+                                        <@comboSortedWithParams name="language" default_value="${current_language}" additionalParameters="class='form-control'" items=languages_list />
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="col-xs-12 col-sm-12 col-md-12">#i18n{portal.users.create_user.labelTheme}</label>
+                                    <div class="col-xs-12 col-sm-12 col-md-12">
+                                        <div class="checkbox">
+                                            <label for="accessibility_mode">
+                                                <input type="checkbox" id="accessibility_mode" name="accessibility_mode" value="1" <#if user.accessibilityMode>checked="checked"</#if> />
+                                                       #i18n{portal.users.create_user.labelAccessibilityMode}
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </div>
+                        <#if attributes_list?has_content>
+                        <div class="col-xs-12 col-sm-4 col-md-4">
+                            <fieldset>
+                                <legend>#i18n{portal.users.modify_user.labelComplementaryAttributes}</legend>
+                                <div class="form-group">
+                                    <div class="col-xs-12 col-sm-12 col-md-12">
+                                        <#list attributes_list as attribute>
+                                        <#if !attribute.plugin?exists || ( attribute.plugin?exists && attribute.plugin.name != "profiles" )>
+                                        <#assign idAttribute = "" + attribute.idAttribute>
+                                        ${attribute.getHtmlFormAttribute( locale, map_list_attribute_default_values[idAttribute] )}
+                                        </#if>
+                                        </#list>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-12">
+                                        <#list attributes_list as attribute>
+                                        <#if attribute.plugin?exists && attribute.plugin.name == "profiles">
+                                        <#assign idAttribute = "" + attribute.idAttribute>
+                                        ${attribute.getHtmlFormAttribute( locale, map_list_attribute_default_values[idAttribute] )}
+                                        <#break>
+                                        </#if>
+                                        </#list>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </div>
+                        </#if>
+                    </div> 
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-offset-4 col-md-4 ">
+                            <button type="submit" class="btn btn-primary btn-block">
+                                <i class="glyphicon glyphicon-ok"></i>&nbsp;#i18n{portal.users.modify_user.buttonLabelModify}
+                            </button> 
+                        </div>   
+                    </div>   
+                </form>
+            </div>
+        </div> 
+    </div>
+</div>
