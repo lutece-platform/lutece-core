@@ -60,6 +60,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.apache.commons.lang.StringUtils;
 
 /**
  * Filter to prevent unauthenticated access to admin
@@ -118,7 +119,7 @@ public class AuthenticationFilter implements Filter
                 {
                     AppLogService.debug( LOGGER_NAME, "New session behind external authentication : " + getResquestedUrl( req ) );
 
-                    strRedirectUrl = AdminMessageService.getMessageUrl( req, Messages.MESSAGE_USER_NEW_SESSION, AppPathService.getAdminMenuUrl( ),
+                    strRedirectUrl = AdminMessageService.getMessageUrl( req, Messages.MESSAGE_USER_NEW_SESSION, getRedirectUrlExternalAuthentication( req ),
                             AdminMessage.TYPE_INFO );
                 }
                 else
@@ -185,7 +186,7 @@ public class AuthenticationFilter implements Filter
 
         return url.getUrl( );
     }
-
+    
     /**
      * Get the absolute login url
      *
@@ -354,5 +355,24 @@ public class AuthenticationFilter implements Filter
     private String getResquestedUrl( HttpServletRequest request )
     {
         return AppPathService.getBaseUrl( request ) + request.getServletPath( ).substring( 1 );
+    }
+    
+     /**
+     * Build the url to redirect after opening a new session when using external admin authentication. This is actually the requested url if provided; else the admin autentication admin menu.
+     * 
+     * @param request
+     *            the http request
+     * @return the string representation of the redirection url - absolute - when using external admin authentication.
+     */
+    private String getRedirectUrlExternalAuthentication( HttpServletRequest request )
+    {
+        String strNextUrl = AdminAuthenticationService.getInstance( ).getLoginNextUrl( request ); 
+        
+        if ( StringUtils.isEmpty( strNextUrl ) )
+        {
+            strNextUrl = AppPathService.getAdminMenuUrl( ); 
+        }
+
+        return strNextUrl;
     }
 }
