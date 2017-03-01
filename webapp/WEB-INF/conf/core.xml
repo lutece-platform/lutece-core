@@ -3,7 +3,7 @@
     <!-- Plugin Informations -->
     <name>core</name>
     <class>fr.paris.lutece.portal.service.plugin.PluginDefaultImplementation</class>
-    <version>6.0.0-RC-01</version>
+    <version>6.0.0-RC-03</version>
     <description>portal.system.core_components.description</description>
     <documentation/>
     <installation/>
