@@ -41,6 +41,8 @@ import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.config.CacheConfiguration;
+import net.sf.ehcache.config.Configuration;
+import net.sf.ehcache.config.ConfigurationFactory;
 import net.sf.ehcache.management.ManagementService;
 
 import java.io.File;
@@ -136,8 +138,9 @@ public final class CacheService
      */
     private void init( )
     {
-        _manager = CacheManager.create( );
-        _manager.setName( LUTECE_CACHEMANAGER_NAME );
+        Configuration configuration = ConfigurationFactory.parseConfiguration( );
+        configuration.setName( LUTECE_CACHEMANAGER_NAME );
+        _manager = CacheManager.create( configuration );
         loadDefaults( );
         loadCachesConfig( );
 
