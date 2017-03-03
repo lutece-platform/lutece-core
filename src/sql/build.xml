@@ -70,7 +70,7 @@
 
     <regexp id="regexp.postgresql.url" pattern="(.*)/([^?]*)\??" />
     
-    <target name="init" description="Prepare the database by creating it and inserting data">
+    <target name="init" description="Prepare the database by creating it and inserting data" extensionOf="init_ep">
         <echo message="Preparing the database(s) by creating it and inserting data" />
         
         <!-- Property file -->
@@ -250,7 +250,7 @@
         </fileset>	
         <pathconvert refid="sql.core.files" setonempty="false" property="exists.sql.core.files"/>
     </target>
-    <target name="db_core_init" if="exists.sql.core.files" depends="core_files">
+    <target name="db_core_init" if="exists.sql.core.files" depends="core_files" extensionOf="db_core_init_ep">
         <echo message="Preparing the core database" />
         <runsql sql.driver="${portal.driver}"
                 sql.url="${portal.url}"

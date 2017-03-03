@@ -2,8 +2,9 @@
 <project name="build-all" default="db_plugin_init" basedir=".">
     
     
-    <!-- Target to init plugin specific database -->
-    <target name="plugin_init_plugins_files" if="contrib.jar.present" depends="db_core_init">	
+	<extension-point name="db_core_init_ep" />
+	<!-- Target to init plugin specific database -->
+    <target name="plugin_init_plugins_files" if="contrib.jar.present" depends="db_core_init_ep">
         <fileset id="sql.plugin.files" dir="${basedir}">
             <include name="plugins/**/plugin/*.sql" />
         </fileset>	

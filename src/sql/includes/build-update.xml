@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="build-update" default="db_plugins_specific_database_update" basedir=".">
-    <!-- init the list spesifics pools for update -->
-    <target name="init_list_db_plugins_specific_database_update" if="contrib.jar.present" depends="init">
+
+	<extension-point name="init_ep" />
+	<!-- init the list spesifics pools for update -->
+    <target name="init_list_db_plugins_specific_database_update" if="contrib.jar.present" depends="init_ep">
         
         <property name="list_plugins" value=""/>	
         <property name="before_pool" value=""/>
