@@ -95,7 +95,7 @@
 								<#assign checked = false>
 							</#if>
 							<@radioButton orientation='horizontal' name='display_portlet_title' value='0' checked=checked labelKey='#i18n{portal.site.create_portlet.radioButtonDisplayPortletTitleYes}' />
-							<#if portlet.displayPortletTitle = 0>
+							<#if portlet.displayPortletTitle = 1>
 								<#assign checked = true>
 							<#else>
 								<#assign checked = false>
