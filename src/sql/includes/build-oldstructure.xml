@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="build-oldstructure" default="db_init_old_structure" basedir=".">
     
-    <!-- Target to be used with old sql directory structure --> 
-    <target name="db_init_old_structure" unless="contrib.jar.present" depends="db_core_init">
+	<extension-point name="db_core_init_ep" />
+	<!-- Target to be used with old sql directory structure -->
+    <target name="db_init_old_structure" unless="contrib.jar.present" depends="db_core_init_ep">
         <echo message="Preparing unique database for all plugins." />
         <fileset dir="${basedir}" refid="sql.plugin.files">
             <include name="plugins/**/*.sql" />

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="build-specific" default="db_plugins_specific_database_init" basedir=".">
     <!-- init the list specifics pools -->
-    <target name="init_list_db_plugins_specific_database" if="contrib.jar.present" depends="db_core_init" >
+	<extension-point name="db_core_init_ep" />
+	<target name="init_list_db_plugins_specific_database" if="contrib.jar.present" depends="db_core_init_ep" >
         
         <property name="list_plugins" value=""/>	
         <property name="before_pool" value=""/>
