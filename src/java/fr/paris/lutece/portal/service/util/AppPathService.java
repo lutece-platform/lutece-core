@@ -581,7 +581,7 @@ public final class AppPathService
             strParamName = (String) enumParams.nextElement( );
 
             if ( !strParamName.equals( Parameters.REDIRECT_URL ) && !strParamName.equals( Parameters.ACCESS_CODE )
-                    && !strParamName.equals( Parameters.PASSWORD ) )
+                    && !strParamName.equals( Parameters.PASSWORD ) && !strParamName.equals( Parameters.NEW_SESSION ) )
             {
                 url.addParameter( strParamName, request.getParameter( strParamName ) );
             }
