@@ -451,7 +451,7 @@ public final class AdminAuthenticationService
             String strParamName = (String) enumParams.nextElement( );
             url.addParameter( strParamName, request.getParameter( strParamName ) );
         }
-        
+
         HttpSession session = request.getSession( true );
         session.setAttribute( ATTRIBUTE_ADMIN_LOGIN_NEXT_URL, url.getUrl( ) );
     }

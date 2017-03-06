@@ -162,11 +162,11 @@ public class AdminLoginJspBean implements Serializable
      * @param response
      *           The response
      * @return The HTML form
-     * @throws IOException 
+     * @throws IOException
      *          when redirection doesn't work
      */
     public String getLogin( HttpServletRequest request, HttpServletResponse response ) throws IOException
-    {     
+    {
         HashMap<String, Object> model = new HashMap<String, Object>( );
 
         HttpSession session = request.getSession( );
@@ -190,50 +190,50 @@ public class AdminLoginJspBean implements Serializable
             }
 
         }
-     
+
         Locale locale = AdminUserService.getLocale( request );
 
-            Enumeration<String> enumParams = request.getParameterNames( );
-            ReferenceList listParams = new ReferenceList( );
-            String strParamName;
+        Enumeration<String> enumParams = request.getParameterNames( );
+        ReferenceList listParams = new ReferenceList( );
+        String strParamName;
 
-            while ( enumParams.hasMoreElements( ) )
-            {
-                strParamName = enumParams.nextElement( );
+        while ( enumParams.hasMoreElements( ) )
+        {
+            strParamName = enumParams.nextElement( );
 
-                String strParamValue = request.getParameter( strParamName );
-                listParams.addItem( strParamName, strParamValue );
-            }
-
-            StringBuilder sbUrl = new StringBuilder( );
-
-            if ( AppHTTPSService.isHTTPSSupportEnabled( ) )
-            {
-                sbUrl.append( AppHTTPSService.getHTTPSUrl( request ) );
-            }
-            else
-            {
-                sbUrl.append( AppPathService.getBaseUrl( request ) );
-            }
-
-            if ( !sbUrl.toString( ).endsWith( CONSTANT_SLASH ) )
-            {
-                sbUrl.append( CONSTANT_SLASH );
-            }
-
-            sbUrl.append( JSP_URL_DO_ADMIN_LOGIN );
-
-            model.put( MARK_PARAM_VERSION, AppInfo.getVersion( ) );
-            model.put( MARK_SITE_NAME, PortalService.getSiteName( ) );
-            model.put( MARK_PARAMS_LIST, listParams );
-            model.put( MARK_FORGOT_PASSWORD_URL, AdminAuthenticationService.getInstance( ).getLostPasswordPageUrl( ) );
-            model.put( MARK_FORGOT_LOGIN_URL, AdminAuthenticationService.getInstance( ).getLostLoginPageUrl( ) );
-            model.put( MARK_DO_ADMIN_LOGIN_URL, sbUrl.toString( ) );
-
-            HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_LOGIN, locale, model );
-
-            return template.getHtml( );       
+            String strParamValue = request.getParameter( strParamName );
+            listParams.addItem( strParamName, strParamValue );
         }
+
+        StringBuilder sbUrl = new StringBuilder( );
+
+        if ( AppHTTPSService.isHTTPSSupportEnabled( ) )
+        {
+            sbUrl.append( AppHTTPSService.getHTTPSUrl( request ) );
+        }
+        else
+        {
+            sbUrl.append( AppPathService.getBaseUrl( request ) );
+        }
+
+        if ( !sbUrl.toString( ).endsWith( CONSTANT_SLASH ) )
+        {
+            sbUrl.append( CONSTANT_SLASH );
+        }
+
+        sbUrl.append( JSP_URL_DO_ADMIN_LOGIN );
+
+        model.put( MARK_PARAM_VERSION, AppInfo.getVersion( ) );
+        model.put( MARK_SITE_NAME, PortalService.getSiteName( ) );
+        model.put( MARK_PARAMS_LIST, listParams );
+        model.put( MARK_FORGOT_PASSWORD_URL, AdminAuthenticationService.getInstance( ).getLostPasswordPageUrl( ) );
+        model.put( MARK_FORGOT_LOGIN_URL, AdminAuthenticationService.getInstance( ).getLostLoginPageUrl( ) );
+        model.put( MARK_DO_ADMIN_LOGIN_URL, sbUrl.toString( ) );
+
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_LOGIN, locale, model );
+
+        return template.getHtml( );
+    }
 
     /**
      * Returns the view of forgot password form

@@ -71,7 +71,7 @@ public final class Parameters
 
     // url parameter for redirection after admin
     public static final String REDIRECT_URL = "redirectUrl";
-    
+
     // Stylesheet
     public static final String STYLESHEET_NAME = "stylesheet_name";
     public static final String STYLESHEET_FILE = "stylesheet_file";
