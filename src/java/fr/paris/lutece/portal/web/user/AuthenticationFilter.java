@@ -73,6 +73,7 @@ public class AuthenticationFilter implements Filter
     private static final String LOGGER_NAME = "lutece.authentication";
     private static final String PROPERTY_RESET_EXCEPTION_MESSAGE = "User must reset his password.";
     private static final String PROPERTY_JSP_URL_ADMIN_LOGOUT = "lutece.admin.logout.url";
+    private static final String JSP_URL_ADMIN_LOGIN = "jsp/admin/AdminLogin.jsp";
 
     /**
      * {@inheritDoc}
@@ -249,7 +250,9 @@ public class AuthenticationFilter implements Filter
         boolean bIsRestricted = true;
         String strUrl = getResquestedUrl( request );
 
-        if ( strUrl.equals( getLoginUrl( request ) ) || strUrl.equals( getLogoutUrl( request ) ) )
+        String strUrlDefaultAdminLogin = getAbsoluteUrl( request, JSP_URL_ADMIN_LOGIN );
+
+        if ( strUrl.equals ( strUrlDefaultAdminLogin ) || strUrl.equals( getLoginUrl( request ) ) || strUrl.equals( getLogoutUrl( request ) ) )
         {
             bIsRestricted = false;
         }

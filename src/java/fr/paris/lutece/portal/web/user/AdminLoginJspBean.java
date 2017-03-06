@@ -173,36 +173,22 @@ public class AdminLoginJspBean implements Serializable
 
         if ( session != null )
         {
-            if ( !AdminAuthenticationService.getInstance( ).isExternalAuthentication( ) )
-            {
-                // Invalidate a previous session
-                session.removeAttribute( SESSION_ATTRIBUTE_USER );
-            }
-            else
-            {         
-                boolean bExternalAuthWorking = session.getAttribute( SESSION_ATTRIBUTE_USER ) != null ;
-
-                if ( request.getParameter( Parameters.NEW_SESSION ) == null )
-                {
-                    //Invalidate a previous session unless it was just created
-                    //after the authentication filter which sets the new_session parameter
-                    session.removeAttribute( SESSION_ATTRIBUTE_USER );
-                }
-                
-                if ( bExternalAuthWorking )
-                {
-                        response.sendRedirect( AppPathService.resolveRedirectUrl( request, AppPathService.getAdminMenuUrl( ) ).toString( ) );
-                }
-                else 
-                {
-                        response.sendRedirect( AdminMessageService.getMessageUrl(
-                                request, Messages.MESSAGE_AUTH_FAILURE, JSP_URL_ADMIN_LOGIN , AdminMessage.TYPE_ERROR ) );
-                }
-            }
-
+            // Invalidate a previous session
+            session.removeAttribute( SESSION_ATTRIBUTE_USER );
 
             // Put real base url in session
             request.getSession( ).setAttribute( AppPathService.SESSION_BASE_URL, AppPathService.getBaseUrl( request ) );
+
+            if ( !JSP_URL_ADMIN_LOGIN.equals( AdminAuthenticationService.getInstance( ).getLoginPageUrl( ) ) )
+            {
+                String strRedirectUrl = AdminAuthenticationService.getInstance( ).getLoginPageUrl( );
+                if ( strRedirectUrl == null ) {
+                    strRedirectUrl = AppPathService.getAdminMenuUrl( );
+                }
+                response.sendRedirect( AppPathService.resolveRedirectUrl( request, strRedirectUrl ).getUrl( ) );
+                return null;
+            }
+
         }
      
         Locale locale = AdminUserService.getLocale( request );

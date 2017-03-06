@@ -41,7 +41,6 @@ import fr.paris.lutece.portal.service.init.LuteceInitException;
 import fr.paris.lutece.portal.service.security.UserNotSignedException;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.util.AppLogService;
-import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.util.url.UrlItem;
 
 import org.apache.commons.lang.StringUtils;
@@ -63,7 +62,6 @@ public final class AdminAuthenticationService
      * Session attribute that stores the AdminUser object attached to the session
      */
     private static final String ATTRIBUTE_ADMIN_USER = "lutece_admin_user";
-    private static final String JSP_URL_ADMIN_LOGIN = "jsp/admin/AdminLogin.jsp";
     private static final String ATTRIBUTE_ADMIN_LOGIN_NEXT_URL = "luteceAdminLoginNextUrl";
     private static final String BEAN_ADMIN_AUTHENTICATION_MODULE = "adminAuthenticationModule";
     private static AdminAuthenticationService _singleton = new AdminAuthenticationService( );
@@ -454,13 +452,6 @@ public final class AdminAuthenticationService
             url.addParameter( strParamName, request.getParameter( strParamName ) );
         }
         
-        //Used to not immediatly destroy the created session in case we redirect
-        //to AdminLogin.jsp
-        if ( strNextUrl.endsWith( JSP_URL_ADMIN_LOGIN ) )
-        {
-           url.addParameter( Parameters.NEW_SESSION, "1" ); 
-        }
-
         HttpSession session = request.getSession( true );
         session.setAttribute( ATTRIBUTE_ADMIN_LOGIN_NEXT_URL, url.getUrl( ) );
     }
