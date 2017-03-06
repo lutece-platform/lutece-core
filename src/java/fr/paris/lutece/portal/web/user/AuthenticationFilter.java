@@ -168,7 +168,13 @@ public class AuthenticationFilter implements Filter
      */
     private String getRedirectUrl( HttpServletRequest request )
     {
-        UrlItem url = new UrlItem( getLoginUrl( request ) );
+        String strLoginUrl = getLoginUrl( request );
+
+        if ( strLoginUrl == null ) {
+            return null;
+        }
+
+        UrlItem url = new UrlItem( strLoginUrl );
 
         Enumeration<String> enumParams = request.getParameterNames( );
 
