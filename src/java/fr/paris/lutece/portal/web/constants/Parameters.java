@@ -71,7 +71,8 @@ public final class Parameters
 
     // url parameter for redirection after admin
     public static final String REDIRECT_URL = "redirectUrl";
-
+    public static final String NEW_SESSION = "lutece_new_session";
+    
     // Stylesheet
     public static final String STYLESHEET_NAME = "stylesheet_name";
     public static final String STYLESHEET_FILE = "stylesheet_file";

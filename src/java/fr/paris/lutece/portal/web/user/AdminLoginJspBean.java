@@ -62,6 +62,7 @@ import fr.paris.lutece.util.http.SecurityUtil;
 import fr.paris.lutece.util.password.IPasswordFactory;
 import fr.paris.lutece.util.string.StringUtil;
 import fr.paris.lutece.util.url.UrlItem;
+import java.io.IOException;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -78,6 +79,7 @@ import javax.security.auth.login.FailedLoginException;
 import javax.security.auth.login.LoginException;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
@@ -157,65 +159,95 @@ public class AdminLoginJspBean implements Serializable
      *
      * @param request
      *            The request
+     * @param response
+     *           The response
      * @return The HTML form
+     * @throws IOException 
+     *          when redirection doesn't work
      */
-    public String getLogin( HttpServletRequest request )
-    {
+    public String getLogin( HttpServletRequest request, HttpServletResponse response ) throws IOException
+    {     
         HashMap<String, Object> model = new HashMap<String, Object>( );
 
-        // Invalidate a previous session
         HttpSession session = request.getSession( );
 
         if ( session != null )
         {
-            session.removeAttribute( SESSION_ATTRIBUTE_USER );
+            if ( !AdminAuthenticationService.getInstance( ).isExternalAuthentication( ) )
+            {
+                // Invalidate a previous session
+                session.removeAttribute( SESSION_ATTRIBUTE_USER );
+            }
+            else
+            {         
+                boolean bExternalAuthWorking = session.getAttribute( SESSION_ATTRIBUTE_USER ) != null ;
+
+                if ( request.getParameter( Parameters.NEW_SESSION ) == null )
+                {
+                    //Invalidate a previous session unless it was just created
+                    //after the authentication filter which sets the new_session parameter
+                    session.removeAttribute( SESSION_ATTRIBUTE_USER );
+                }
+                
+                if ( bExternalAuthWorking )
+                {
+                        response.sendRedirect( AppPathService.resolveRedirectUrl( request, AppPathService.getAdminMenuUrl( ) ).toString( ) );
+                }
+                else 
+                {
+                        response.sendRedirect( AdminMessageService.getMessageUrl(
+                                request, Messages.MESSAGE_AUTH_FAILURE, JSP_URL_ADMIN_LOGIN , AdminMessage.TYPE_ERROR ) );
+                }
+            }
+
+
             // Put real base url in session
             request.getSession( ).setAttribute( AppPathService.SESSION_BASE_URL, AppPathService.getBaseUrl( request ) );
         }
-
+     
         Locale locale = AdminUserService.getLocale( request );
 
-        Enumeration<String> enumParams = request.getParameterNames( );
-        ReferenceList listParams = new ReferenceList( );
-        String strParamName;
+            Enumeration<String> enumParams = request.getParameterNames( );
+            ReferenceList listParams = new ReferenceList( );
+            String strParamName;
 
-        while ( enumParams.hasMoreElements( ) )
-        {
-            strParamName = enumParams.nextElement( );
+            while ( enumParams.hasMoreElements( ) )
+            {
+                strParamName = enumParams.nextElement( );
 
-            String strParamValue = request.getParameter( strParamName );
-            listParams.addItem( strParamName, strParamValue );
+                String strParamValue = request.getParameter( strParamName );
+                listParams.addItem( strParamName, strParamValue );
+            }
+
+            StringBuilder sbUrl = new StringBuilder( );
+
+            if ( AppHTTPSService.isHTTPSSupportEnabled( ) )
+            {
+                sbUrl.append( AppHTTPSService.getHTTPSUrl( request ) );
+            }
+            else
+            {
+                sbUrl.append( AppPathService.getBaseUrl( request ) );
+            }
+
+            if ( !sbUrl.toString( ).endsWith( CONSTANT_SLASH ) )
+            {
+                sbUrl.append( CONSTANT_SLASH );
+            }
+
+            sbUrl.append( JSP_URL_DO_ADMIN_LOGIN );
+
+            model.put( MARK_PARAM_VERSION, AppInfo.getVersion( ) );
+            model.put( MARK_SITE_NAME, PortalService.getSiteName( ) );
+            model.put( MARK_PARAMS_LIST, listParams );
+            model.put( MARK_FORGOT_PASSWORD_URL, AdminAuthenticationService.getInstance( ).getLostPasswordPageUrl( ) );
+            model.put( MARK_FORGOT_LOGIN_URL, AdminAuthenticationService.getInstance( ).getLostLoginPageUrl( ) );
+            model.put( MARK_DO_ADMIN_LOGIN_URL, sbUrl.toString( ) );
+
+            HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_LOGIN, locale, model );
+
+            return template.getHtml( );       
         }
-
-        StringBuilder sbUrl = new StringBuilder( );
-
-        if ( AppHTTPSService.isHTTPSSupportEnabled( ) )
-        {
-            sbUrl.append( AppHTTPSService.getHTTPSUrl( request ) );
-        }
-        else
-        {
-            sbUrl.append( AppPathService.getBaseUrl( request ) );
-        }
-
-        if ( !sbUrl.toString( ).endsWith( CONSTANT_SLASH ) )
-        {
-            sbUrl.append( CONSTANT_SLASH );
-        }
-
-        sbUrl.append( JSP_URL_DO_ADMIN_LOGIN );
-
-        model.put( MARK_PARAM_VERSION, AppInfo.getVersion( ) );
-        model.put( MARK_SITE_NAME, PortalService.getSiteName( ) );
-        model.put( MARK_PARAMS_LIST, listParams );
-        model.put( MARK_FORGOT_PASSWORD_URL, AdminAuthenticationService.getInstance( ).getLostPasswordPageUrl( ) );
-        model.put( MARK_FORGOT_LOGIN_URL, AdminAuthenticationService.getInstance( ).getLostLoginPageUrl( ) );
-        model.put( MARK_DO_ADMIN_LOGIN_URL, sbUrl.toString( ) );
-
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_LOGIN, locale, model );
-
-        return template.getHtml( );
-    }
 
     /**
      * Returns the view of forgot password form

@@ -3,6 +3,6 @@
 
 <jsp:useBean id="login" scope="request" class="fr.paris.lutece.portal.web.user.AdminLoginJspBean" />
 
-<%= login.getLogin( request ) %>
+<%= login.getLogin( request, response ) %>
 
 
