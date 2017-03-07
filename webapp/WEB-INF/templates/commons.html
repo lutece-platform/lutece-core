@@ -709,7 +709,7 @@
 <#-- formStyle values: empty/inline/horizontal/navbar-form/navbar-left... Default is horizontal -->
 <#-- groupStyle: success/warning/error... -->
 
-<#macro formGroup formStyle='horizontal' class='' groupStyle='' rows=1 labelKey='' labelFor='' helpKey='' id='' mandatory=false showLabel=true params=''>
+<#macro formGroup formStyle='horizontal' class='' groupStyle='' rows=1 labelKey='' labelFor='' labelId='' helpKey='' id='' mandatory=false showLabel=true params=''>
 	<div class="form-group<#if groupStyle!=''> has-${groupStyle} has-feedback</#if><#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 		<#if rows=1>
 			<#if labelKey!='' && formStyle='horizontal'>
@@ -725,7 +725,7 @@
 			<#assign divClass = "col-xs-12 col-sm-12 col-md-12 col-lg-12">
 		</#if>
 		<#if labelKey!=''>
-		<label class="${labelClass}<#if showLabel=false> sr-only</#if>" for="${labelFor}">
+		<label class="${labelClass}<#if showLabel=false> sr-only</#if>" for="${labelFor}"<#if labelId!=''> id="${labelId}"</#if>>
 			${labelKey}
 			<#if mandatory=false>
 				&#160;
@@ -846,8 +846,12 @@
 
 <#-- COLUMNS -->
 <#-- cols = col-xs- (<544px)/col-sm- (>=544px)/col-md- (>=768px)/col-lg- (>=992px)/col-xl- (>=1200px) -->
-<#macro columns offsetXs=0 offsetSm=0 offsetMd=0 offsetLg=0 offsetXl=0 pushXs=0 pushSm=0 pushMd=0 pushLg=0 pushXl=0 xs=12 sm=12 md=12 lg=12 xl=12 id='' class='' params=''>
-	<div class="col-xs-${xs} col-sm-${sm} col-md-${md} col-lg-${lg}
+<#macro columns offsetXs=0 offsetSm=0 offsetMd=0 offsetLg=0 offsetXl=0 pushXs=0 pushSm=0 pushMd=0 pushLg=0 pushXl=0 pullXs=0 pullSm=0 pullMd=0 pullLg=0 pullXl=0 xs=12 sm=0 md=0 lg=0 xl=0 id='' class='' params=''>
+	<div class="col-xs-${xs}
+	<#if sm!=0> col-sm-${sm}</#if>
+	<#if md!=0> col-md-${md}</#if>
+	<#if lg!=0> col-lg-${lg}</#if>
+	<#if xl!=0> col-xl-${xl}</#if>
 	<#if offsetXs!=0> col-xs-offset-${offsetXs}</#if>
 	<#if offsetSm!=0> col-sm-offset-${offsetSm}</#if>
 	<#if offsetMd!=0> col-md-offset-${offsetMd}</#if>
@@ -858,6 +862,11 @@
 	<#if pushMd!=0> col-md-push-${pushMd}</#if>
 	<#if pushLg!=0> col-lg-push-${pushLg}</#if>
 	<#if pushXl!=0> col-xl-push-${pushXl}</#if>
+	<#if pullXs!=0> col-xs-pull-${pullXs}</#if>
+	<#if pullSm!=0> col-sm-pull-${pullSm}</#if>
+	<#if pullMd!=0> col-md-pull-${pullMd}</#if>
+	<#if pullLg!=0> col-lg-pull-${pullLg}</#if>
+	<#if pullXl!=0> col-xl-pull-${pullXl}</#if>
 	<#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 		<#nested>
 	</div>
