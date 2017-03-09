@@ -136,11 +136,15 @@ public class PortalServiceTest extends LuteceTestCase
         String strTitleUrls = "<page><page-id>junit</page-id><page-name>junit</page-name></page>";
         MockHttpServletRequest request = new MockHttpServletRequest( );
         String strPath_normal = PortalService.getXPagePathContent( "junit", MODE_NORMAL, strTitleUrls, request );
-        assertEquals( loadExpected( "getXPagePathContentWithTitleUrls_1.txt" ), strPath_normal );
+        //XPagePath with title is non deterministic in lutece 5.. Fixed in lutece6
+        String strPath_normal_safe = strPath_normal.replace("<?xml version=\"1.0\" encoding=\"UTF-8\"?>","");
+        assertEquals( loadExpected( "getXPagePathContentWithTitleUrls_1.txt" ), strPath_normal_safe );
         assertSame( strPath_normal, PortalService.getXPagePathContent( "junit", MODE_NORMAL, strTitleUrls, request ) );
 
         String strPath_admin = PortalService.getXPagePathContent( "junit", MODE_ADMIN, strTitleUrls, request );
-        assertEquals( loadExpected( "getXPagePathContentWithTitleUrls_1_admin.txt" ), strPath_admin );
+        //XPagePath with title is non deterministic in lutece 5.. Fixed in lutece6
+        String strPath_admin_safe = strPath_admin.replace("<?xml version=\"1.0\" encoding=\"UTF-8\"?>","");
+        assertEquals( loadExpected( "getXPagePathContentWithTitleUrls_1_admin.txt" ), strPath_admin_safe );
         assertNotSame( strPath_admin, strPath_normal );
         assertSame( strPath_admin, PortalService.getXPagePathContent( "junit", MODE_ADMIN, strTitleUrls, request ) );
     }
