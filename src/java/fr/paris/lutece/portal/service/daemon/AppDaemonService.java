@@ -234,7 +234,27 @@ public final class AppDaemonService
      */
     public static boolean signalDaemon( String strDaemonKey )
     {
-        return _executor.enqueue( _mapDaemonEntries.get( strDaemonKey ) );
+        return signalDaemon( strDaemonKey, 0L, TimeUnit.MILLISECONDS );
+    }
+
+    /**
+     * Signal a daemon for execution in the immediate future.
+     * <p>
+     * This can fail is resources are limited, which should be exceptional.
+     *
+     * @param strDaemonKey
+     *            the daemon key
+     * @param nDelay
+     *            the delay before execution
+     * @param unit
+     *            the unit of <code>nDelay</code> argument
+     * @return <code>true</code> if the daemon was successfully signaled,
+     *         <code>false</code> otherwise
+     * @since 6.0.0
+     */
+    public static boolean signalDaemon( String strDaemonKey, long nDelay, TimeUnit unit )
+    {
+        return _executor.enqueue( _mapDaemonEntries.get( strDaemonKey ), nDelay, unit );
     }
 
     /**

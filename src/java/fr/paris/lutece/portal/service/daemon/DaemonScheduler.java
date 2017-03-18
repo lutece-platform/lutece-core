@@ -89,14 +89,35 @@ class DaemonScheduler implements Runnable, IDaemonScheduler
     }
 
     @Override
-    public boolean enqueue( DaemonEntry entry )
+    public boolean enqueue( DaemonEntry entry, long nDelay, TimeUnit unit )
     {
-        boolean queued = _queue.offer( entry );
-        if ( !queued )
+        if ( nDelay == 0L )
         {
-            AppLogService.error( "Failed to enqueue a run of daemon " + entry.getId( ) );
+            boolean queued = _queue.offer( entry );
+            if ( !queued )
+            {
+                AppLogService.error( "Failed to enqueue a run of daemon " + entry.getId( ) );
+            }
+            return queued;
         }
-        return queued;
+        try
+        {
+            _scheduledDaemonsTimer.schedule( new DaemonTimerTask( entry ), unit.toMillis( nDelay ) );
+            return true;
+        }
+        catch ( IllegalStateException e )
+        {
+            return false;
+        }
+    }
+
+    /**
+     * Enqueue without delay
+     * @param entry the daemon entry
+     */
+    private void enqueue( DaemonEntry entry )
+    {
+        enqueue( entry, 0L, TimeUnit.MILLISECONDS );
     }
 
     @Override
@@ -299,5 +320,4 @@ class DaemonScheduler implements Runnable, IDaemonScheduler
         }
 
     }
-
 }

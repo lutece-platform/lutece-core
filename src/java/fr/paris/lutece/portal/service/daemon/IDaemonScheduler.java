@@ -50,11 +50,15 @@ public interface IDaemonScheduler
      * 
      * @param entry
      *            the daemon entry
+     * @param unit
+     *            the delay before execution
+     * @param nDelay
+     *            the unit of <code>nDelay</code> argument
      * @return <code>true</code> if the daemon was successfully queued,
      *         <code>false</code> otherwise, for instance if the underlying
      *         queue is over capacity
      */
-    boolean enqueue( DaemonEntry entry );
+    boolean enqueue( DaemonEntry entry, long nDelay, TimeUnit unit );
 
     /**
      * Schedule a daemon execution.

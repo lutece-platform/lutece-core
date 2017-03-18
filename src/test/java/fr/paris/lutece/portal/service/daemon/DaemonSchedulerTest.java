@@ -144,11 +144,66 @@ public class DaemonSchedulerTest extends LuteceTestCase
             DaemonEntry entry = getDaemonEntry( "JUNIT" );
             TestDaemon testDaemon = ( TestDaemon ) entry.getDaemon( );
             testDaemon.setRunThrows( shouldThrow );
-            scheduler.enqueue( entry );
+            scheduler.enqueue( entry, 0L, TimeUnit.MILLISECONDS );
             assertFalse( testDaemon.hasRun( ) );
-            testDaemon.go( );
+            testDaemon.go( 250L, TimeUnit.MILLISECONDS );
             testDaemon.waitForCompletion( );
             assertTrue( testDaemon.hasRun( ) );
+        }
+        finally
+        {
+            scheduler.shutdown( );
+        }
+    }
+
+    public void testEnqueueDelay( ) throws ClassNotFoundException, InstantiationException, IllegalAccessException,
+            InterruptedException, BrokenBarrierException, TimeoutException
+    {
+        testEnqueueDelay( false );
+    }
+
+    public void testEnqueueDelayDaemonThrows( ) throws ClassNotFoundException, InstantiationException,
+            IllegalAccessException, InterruptedException, BrokenBarrierException, TimeoutException
+    {
+        testEnqueueDelay( true );
+    }
+
+    private void testEnqueueDelay( boolean shouldThrow ) throws ClassNotFoundException, InstantiationException,
+            IllegalAccessException, InterruptedException, BrokenBarrierException, TimeoutException
+    {
+        BlockingQueue<DaemonEntry> queue = new LinkedBlockingQueue<>( );
+        ExecutorService executor = Executors.newSingleThreadExecutor( );
+        DaemonScheduler scheduler = new DaemonScheduler( queue, executor );
+        try
+        {
+            DaemonEntry entry = getDaemonEntry( "JUNIT" );
+            TestDaemon testDaemon = ( TestDaemon ) entry.getDaemon( );
+            testDaemon.setRunThrows( shouldThrow );
+            Instant start = Instant.now( );
+            assertTrue( scheduler.enqueue( entry, 500L, TimeUnit.MILLISECONDS ) );
+            assertFalse( testDaemon.hasRun( ) );
+            testDaemon.go( );
+            assertTrue( 500L <= Duration.between( start, Instant.now( ) ).toMillis( ) );
+            testDaemon.waitForCompletion( );
+            assertTrue( testDaemon.hasRun( ) );
+        }
+        finally
+        {
+            scheduler.shutdown( );
+        }
+    }
+
+    public void testEnqueueDelayIllegalState( ) throws ClassNotFoundException, InstantiationException,
+            IllegalAccessException, InterruptedException, BrokenBarrierException, TimeoutException
+    {
+        BlockingQueue<DaemonEntry> queue = new LinkedBlockingQueue<>( );
+        ExecutorService executor = Executors.newSingleThreadExecutor( );
+        DaemonScheduler scheduler = new DaemonScheduler( queue, executor );
+        scheduler.shutdown( );
+        try
+        {
+            DaemonEntry entry = getDaemonEntry( "JUNIT" );
+            assertFalse( scheduler.enqueue( entry, 500L, TimeUnit.MILLISECONDS ) );
         }
         finally
         {
@@ -194,14 +249,14 @@ public class DaemonSchedulerTest extends LuteceTestCase
             DaemonEntry executing = getDaemonEntry( "JUNIT-executing" );
             TestDaemon executingDaemon = ( TestDaemon ) executing.getDaemon( );
             executingDaemon.setRunThrows( shouldThrow );
-            assertTrue( scheduler.enqueue( executing ) );
+            assertTrue( scheduler.enqueue( executing, 0L, TimeUnit.MILLISECONDS ) );
             executingDaemon.go( );
             DaemonEntry inqueue = getDaemonEntry( "JUNIT-inqueue" );
             TestDaemon inqueueDaemon = ( TestDaemon ) inqueue.getDaemon( );
             inqueueDaemon.setRunThrows( shouldThrow );
-            assertTrue( scheduler.enqueue( inqueue ) );
+            assertTrue( scheduler.enqueue( inqueue, 0L, TimeUnit.MILLISECONDS ) );
             DaemonEntry refused = getDaemonEntry( "JUNIT-refused" );
-            assertFalse( scheduler.enqueue( refused ) );
+            assertFalse( scheduler.enqueue( refused, 0L, TimeUnit.MILLISECONDS ) );
             executingDaemon.waitForCompletion( );
             inqueueDaemon.go( );
             inqueueDaemon.waitForCompletion( );
@@ -419,9 +474,9 @@ public class DaemonSchedulerTest extends LuteceTestCase
             DaemonEntry executing = getDaemonEntry( "JUNIT-executing" );
             TestDaemon executingDaemon = ( TestDaemon ) executing.getDaemon( );
             executingDaemon.setRunThrows( shouldThrow );
-            assertTrue( scheduler.enqueue( executing ) );
+            assertTrue( scheduler.enqueue( executing, 0L, TimeUnit.MILLISECONDS ) );
             executingDaemon.go( );
-            assertTrue( scheduler.enqueue( executing ) );
+            assertTrue( scheduler.enqueue( executing, 0L, TimeUnit.MILLISECONDS ) );
             try
             {
                 executingDaemon.go( 200, TimeUnit.MILLISECONDS );
@@ -464,13 +519,13 @@ public class DaemonSchedulerTest extends LuteceTestCase
             DaemonEntry executing = getDaemonEntry( "JUNIT-executing" );
             TestDaemon executingDaemon = ( TestDaemon ) executing.getDaemon( );
             executingDaemon.setRunThrows( shouldThrow );
-            assertTrue( scheduler.enqueue( executing ) );
+            assertTrue( scheduler.enqueue( executing, 0L, TimeUnit.MILLISECONDS ) );
             executingDaemon.go( );
             DaemonEntry inqueue = getDaemonEntry( "JUNIT-inqueue" );
             TestDaemon inqueueDaemon = ( TestDaemon ) inqueue.getDaemon( );
             inqueueDaemon.setRunThrows( shouldThrow );
-            assertTrue( scheduler.enqueue( inqueue ) );
-            assertTrue( scheduler.enqueue( inqueue ) );
+            assertTrue( scheduler.enqueue( inqueue, 0L, TimeUnit.MILLISECONDS ) );
+            assertTrue( scheduler.enqueue( inqueue, 0L, TimeUnit.MILLISECONDS ) );
             executingDaemon.waitForCompletion( );
             inqueueDaemon.go( );
             inqueueDaemon.waitForCompletion( );
