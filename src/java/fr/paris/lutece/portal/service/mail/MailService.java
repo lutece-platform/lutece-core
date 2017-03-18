@@ -60,6 +60,16 @@ public final class MailService
     }
 
     /**
+     * Enqueues a mail item to be sent
+     * @param item the mail item to enqueue
+     */
+    private static void enqueue( MailItem item )
+    {
+        getQueue( ).send( item );
+        AppDaemonService.signalDaemon( MailSenderDaemon.DAEMON_ID );
+    }
+
+    /**
      * Send a message asynchronously. The message is queued until a daemon thread send all awaiting messages
      * 
      * @param strRecipient
@@ -157,8 +167,7 @@ public final class MailService
         item.setFormat( MailItem.FORMAT_HTML );
         item.setUniqueRecipientTo( bUniqueRecipientTo );
 
-        IMailQueue queue = (IMailQueue) SpringContextService.getBean( BEAN_MAIL_QUEUE );
-        queue.send( item );
+        enqueue( item );
     }
 
     /**
@@ -256,8 +265,7 @@ public final class MailService
         item.setFilesAttachement( filesAttachement );
         item.setUniqueRecipientTo( bUniqueRecipientTo );
 
-        IMailQueue queue = (IMailQueue) SpringContextService.getBean( BEAN_MAIL_QUEUE );
-        queue.send( item );
+        enqueue( item );
     }
 
     /**
@@ -353,8 +361,7 @@ public final class MailService
         item.setFormat( MailItem.FORMAT_CALENDAR );
         item.setUniqueRecipientTo( bUniqueRecipientTo );
 
-        IMailQueue queue = (IMailQueue) SpringContextService.getBean( BEAN_MAIL_QUEUE );
-        queue.send( item );
+        enqueue( item );
     }
 
     /**
@@ -434,8 +441,7 @@ public final class MailService
         item.setFormat( MailItem.FORMAT_TEXT );
         item.setUniqueRecipientTo( bUniqueRecipientTo );
 
-        IMailQueue queue = (IMailQueue) SpringContextService.getBean( BEAN_MAIL_QUEUE );
-        queue.send( item );
+        enqueue( item );
     }
 
     /**
@@ -524,8 +530,7 @@ public final class MailService
         item.setFilesAttachement( filesAttachement );
         item.setUniqueRecipientTo( bUniqueRecipientTo );
 
-        IMailQueue queue = (IMailQueue) SpringContextService.getBean( BEAN_MAIL_QUEUE );
-        queue.send( item );
+        enqueue( item );
     }
 
     /**
@@ -534,7 +539,7 @@ public final class MailService
     public static void shutdown( )
     {
         // if there is mails that have not been sent call the daemon to flush the list
-        Daemon daemon = AppDaemonService.getDaemon( "mailSender" );
+        Daemon daemon = AppDaemonService.getDaemon( MailSenderDaemon.DAEMON_ID );
 
         if ( daemon != null )
         {
