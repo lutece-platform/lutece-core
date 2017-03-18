@@ -429,4 +429,13 @@ public class AdminUserJspBeanTest extends LuteceTestCase
             }
         }
     }
+
+    public void testGetCreateAdminUserTEMPLATE_DEFAULT_CREATE_USER( ) throws PasswordResetException, AccessDeniedException
+    {
+        AdminUserJspBean bean = new AdminUserJspBean( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.getSession( true ).setAttribute( "lutece_admin_user", getLevel1AdminUserWithCORE_USERS_MANAGEMENTRight( ) );
+        bean.init( request, "CORE_USERS_MANAGEMENT" );
+        bean.getCreateAdminUser( request ); // should not throw
+    }
 }
