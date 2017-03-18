@@ -17,7 +17,7 @@
 			<@boxBody>
 				<@tform method='post' name='create_user' action='jsp/admin/user/DoCreateUser.jsp' params='enctype="multipart/form-data"'>
 					<@row>
-						<@columns md='4' lg='4'>
+						<@columns md=4 lg=4>
 							<fieldset>		
 							<legend>#i18n{portal.users.create_user.labelIdentity}</legend>
 							<@formGroup labelKey='#i18n{portal.users.create_user.labelLastName}' labelFor='last_name' rows=2 mandatory=true>
@@ -46,7 +46,7 @@
 							</@formGroup>
 							</fieldset>
 						</@columns>
-						<@columns md='4' lg='4'>
+						<@columns md=4 lg=4>
 							<fieldset>
 							<legend>#i18n{portal.users.create_user.labelAccount}</legend>
 							<@formGroup labelKey='#i18n{portal.users.create_user.labelAccessCode}' labelFor='access_code' rows=2 mandatory=true>
@@ -82,16 +82,16 @@
 							<div class="clearfix">&nbsp;</div>
 							<@formGroup labelKey='#i18n{portal.users.create_user.labelNotify}' rows=2>
 								<#if default_user_notification = 1>
-									<@radioButton orientation='horizontal' labelKey='#i18n{portal.util.labelYes}' name='notify_user' value=1 checked=true />
-									<@radioButton orientation='horizontal' labelKey='#i18n{portal.util.labelNo}' name='notify_user' value=0 />
+									<@radioButton orientation='horizontal' labelKey='#i18n{portal.util.labelYes}' name='notify_user' value='1' checked=true />
+									<@radioButton orientation='horizontal' labelKey='#i18n{portal.util.labelNo}' name='notify_user' value='0' />
 								<#else>
-									<@radioButton orientation='horizontal' labelKey='#i18n{portal.util.labelYes}' name='notify_user' value=1 />
-									<@radioButton orientation='horizontal' labelKey='#i18n{portal.util.labelNo}' name='notify_user' value=0 checked=true />
+									<@radioButton orientation='horizontal' labelKey='#i18n{portal.util.labelYes}' name='notify_user' value='1' />
+									<@radioButton orientation='horizontal' labelKey='#i18n{portal.util.labelNo}' name='notify_user' value='0' checked=true />
 								 </#if>								
 							</@formGroup>
 							</fieldset>
 						</@columns>
-						<@columns md='4' lg='4'>
+						<@columns md=4 lg=4>
 						<fieldset>
 							<legend>#i18n{portal.users.create_user.labelComplementaryAttributes}</legend>
 							<@formGroup labelKey='#i18n{portal.users.create_user.labelStatus}' labelFor='status' rows=2>
