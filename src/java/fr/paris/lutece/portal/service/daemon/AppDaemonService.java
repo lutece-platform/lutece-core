@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2016, Mairie de Paris
+ * Copyright (c) 2002-2017, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,20 +33,17 @@
  */
 package fr.paris.lutece.portal.service.daemon;
 
-import fr.paris.lutece.portal.service.datastore.DatastoreService;
-import fr.paris.lutece.portal.service.init.LuteceInitException;
-import fr.paris.lutece.portal.service.util.AppLogService;
-import fr.paris.lutece.portal.service.util.AppPropertiesService;
-
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledFuture;
-import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+
+import fr.paris.lutece.portal.service.datastore.DatastoreService;
+import fr.paris.lutece.portal.service.init.LuteceInitException;
+import fr.paris.lutece.portal.service.spring.SpringContextService;
+import fr.paris.lutece.portal.service.util.AppLogService;
+import fr.paris.lutece.portal.service.util.AppPropertiesService;
 
 /**
  * this class provides methods to manage daemons services
@@ -54,20 +51,13 @@ import java.util.concurrent.TimeUnit;
 public final class AppDaemonService
 {
     private static final String PROPERTY_MAX_INITIAL_START_DELAY = "daemon.maxInitialStartDelay";
-    private static final String PROPERTY_MAX_AWAIT_TERMINATION_DELAY = "daemon.maxAwaitTerminationDelay";
-    private static final String PROPERTY_SCHEDULED_THREAD_CORE_POOL_SIZE = "daemon.ScheduledThreadCorePoolSize";
     private static final String PROPERTY_DAEMON_ON_STARTUP = ".onStartUp";
     private static final String PROPERTY_DAEMON_INTERVAL = ".interval";
     private static final String KEY_DAEMON_PREFIX = "core.daemon.";
-    private static final int MAX_INITIAL_START_DELAY = AppPropertiesService.getPropertyInt( PROPERTY_MAX_INITIAL_START_DELAY, 30 );
-    private static final int MAX_AWAIT_TERMINATION_DELAY = AppPropertiesService.getPropertyInt( PROPERTY_MAX_AWAIT_TERMINATION_DELAY, 15 );
-    private static final int DAEMON_CORE_POOL_SIZE = AppPropertiesService.getPropertyInt( PROPERTY_SCHEDULED_THREAD_CORE_POOL_SIZE, 30 );
     private static final Map<String, DaemonEntry> _mapDaemonEntries = new HashMap<String, DaemonEntry>( );
-    private static final ScheduledThreadPoolExecutor _scheduler = (ScheduledThreadPoolExecutor) Executors.newScheduledThreadPool( DAEMON_CORE_POOL_SIZE,
-            new DaemonThreadFactory( ) );
-    private static ConcurrentHashMap<String, ScheduledFuture<?>> _lRunningThread = new ConcurrentHashMap<String, ScheduledFuture<?>>( );
     private static final Random _random = new Random( );
     private static boolean _bInit;
+    private static IDaemonScheduler _executor;
 
     /** Private constructor */
     private AppDaemonService( )
@@ -88,6 +78,8 @@ public final class AppDaemonService
             return;
         }
 
+        _executor = SpringContextService.getBean( IDaemonScheduler.BEAN_NAME );
+
         if ( _mapDaemonEntries.size( ) > 0 )
         {
             // Unsynchronized daemon start
@@ -101,11 +93,11 @@ public final class AppDaemonService
                 }
             }
 
-            int nDelay = MAX_INITIAL_START_DELAY;
+            int nDelay = AppPropertiesService.getPropertyInt( PROPERTY_MAX_INITIAL_START_DELAY, 30 );
 
             if ( nInitialDaemon > 0 )
             {
-                nDelay = MAX_INITIAL_START_DELAY / nInitialDaemon;
+                nDelay = nDelay / nInitialDaemon;
             }
 
             int nInitialDelay = 0;
@@ -230,6 +222,22 @@ public final class AppDaemonService
     }
 
     /**
+     * Signal a daemon for execution in the immediate future.
+     * <p>
+     * This can fail is resources are limited, which should be exceptional.
+     *
+     * @param strDaemonKey
+     *            the daemon key
+     * @return <code>true</code> if the daemon was successfully signaled,
+     *         <code>false</code> otherwise
+     * @since 6.0.0
+     */
+    public static boolean signalDaemon( String strDaemonKey )
+    {
+        return _executor.enqueue( _mapDaemonEntries.get( strDaemonKey ) );
+    }
+
+    /**
      * modify daemon interval
      * 
      * @param strDaemonKey
@@ -256,7 +264,7 @@ public final class AppDaemonService
      */
     private static void scheduleThread( DaemonEntry entry )
     {
-        scheduleThread( entry, _random.nextInt( MAX_INITIAL_START_DELAY ) );
+        scheduleThread( entry, _random.nextInt( AppPropertiesService.getPropertyInt( PROPERTY_MAX_INITIAL_START_DELAY, 30 ) ) );
     }
 
     /**
@@ -269,16 +277,7 @@ public final class AppDaemonService
      */
     private static void scheduleThread( DaemonEntry entry, int nInitialDelay )
     {
-        ScheduledFuture<?> result = _lRunningThread.get( entry.getId( ) );
-
-        if ( result == null )
-        {
-            ScheduledFuture<?> task = _scheduler.scheduleAtFixedRate( entry.getDaemonThread( ), nInitialDelay, entry.getInterval( ), TimeUnit.SECONDS );
-
-            _lRunningThread.putIfAbsent( entry.getId( ), task );
-            AppLogService.info( "Starting daemon '" + entry.getId( ) + "'" );
-        }
-
+        _executor.schedule( entry, nInitialDelay, TimeUnit.SECONDS );
         entry.setIsRunning( true );
         // update onStartup property
         DatastoreService.setInstanceDataValue( getOnStartupKey( entry.getId( ) ), DatastoreService.VALUE_TRUE );
@@ -307,15 +306,7 @@ public final class AppDaemonService
      */
     protected static void cancelScheduledThread( String strEntryId )
     {
-        ScheduledFuture<?> task = _lRunningThread.get( strEntryId );
-
-        if ( task != null )
-        {
-            task.cancel( false );
-            _scheduler.remove( (Runnable) task );
-            _scheduler.purge( );
-            _lRunningThread.remove( strEntryId );
-        }
+        _executor.unSchedule( _mapDaemonEntries.get( strEntryId ) );
     }
 
     /**
@@ -333,41 +324,7 @@ public final class AppDaemonService
      */
     public static void shutdown( )
     {
-        AppLogService.info( "Lutece daemons scheduler stop requested : trying to terminate gracefully daemons list (max wait " + MAX_AWAIT_TERMINATION_DELAY
-                + " s)." );
-        _scheduler.setExecuteExistingDelayedTasksAfterShutdownPolicy( false );
-        _scheduler.setContinueExistingPeriodicTasksAfterShutdownPolicy( false );
-        _scheduler.shutdown( );
-
-        try
-        {
-            if ( _scheduler.awaitTermination( MAX_AWAIT_TERMINATION_DELAY, TimeUnit.SECONDS ) )
-            {
-                AppLogService.info( "All daemons shutdown successfully." );
-            }
-            else
-            {
-                AppLogService.info( _scheduler.getActiveCount( ) + " daemons still running, trying to interrupt them..." );
-                _scheduler.shutdownNow( );
-
-                if ( _scheduler.awaitTermination( 1, TimeUnit.SECONDS ) )
-                {
-                    AppLogService.info( "All running daemons successfully interrupted." );
-                }
-                else
-                {
-                    AppLogService.error( "Interrupt failed : " + _scheduler.getActiveCount( ) + " daemons still running." );
-                }
-            }
-        }
-        catch( InterruptedException e )
-        {
-            AppLogService.error( "Error during waiting for daemons termination", e );
-        }
-        finally
-        {
-            _scheduler.purge( );
-        }
+        _executor.shutdown( );
     }
 
     /**

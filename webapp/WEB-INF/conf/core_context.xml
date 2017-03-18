@@ -205,5 +205,22 @@
     <bean id="sitePropertiesGroup" class="fr.paris.lutece.portal.service.site.properties.DefaultSitePropertiesGroup" />
     
     <bean id="core.xpage.search" class="fr.paris.lutece.portal.web.search.SearchApp" scope="session" />
+    
+    <!-- Daemon management -->
+    <bean id="daemonQueue" class="java.util.concurrent.LinkedBlockingQueue"/>
+    <bean id="daemonExecutorQueue" class="java.util.concurrent.LinkedBlockingQueue"/>
+    <bean id="daemonThreadFactory" class="fr.paris.lutece.portal.service.daemon.DaemonThreadFactory"/>
+    <bean id="daemonExecutor" class="java.util.concurrent.ThreadPoolExecutor">
+    	<constructor-arg index="0" value="${daemon.ScheduledThreadCorePoolSize:30}"/> <!-- corePoolSize -->
+    	<constructor-arg index="1" value="${daemon.maximumPoolSize:30}"/> <!-- maximumPoolSize -->
+    	<constructor-arg index="2" value="${daemon.keepAliveTime:0}"/> <!-- keepAliveTime -->
+    	<constructor-arg index="3" value="${daemon.timeUnit:MILLISECONDS}"/> <!-- unit -->
+    	<constructor-arg index="4" ref="daemonExecutorQueue"/> <!-- workQueue -->
+    	<constructor-arg index="5" ref="daemonThreadFactory"/> <!-- threadFactory -->
+    </bean>
+    <bean id="daemonScheduler" class="fr.paris.lutece.portal.service.daemon.DaemonScheduler">
+    	<constructor-arg ref="daemonQueue"/>
+    	<constructor-arg ref="daemonExecutor"/>
+    </bean>
 
 </beans>
