@@ -49,6 +49,43 @@ import java.util.Map.Entry;
  */
 public class ThreadLauncherDaemon extends Daemon
 {
+    private static final String THREAD_LAUNCHER_DAEMON_ID = "threadLauncherDaemon";
+
+    /**
+     * Runnable wrapper to signal the daemon on processing end
+     */
+    private class RunnableWrapper implements Runnable
+    {
+        private final Runnable _wrapped;
+
+        /**
+         * Constructor
+         * 
+         * @param wrapped
+         *            the wrapped Runnable
+         */
+        public RunnableWrapper( Runnable wrapped )
+        {
+            _wrapped = wrapped;
+        }
+
+        @Override
+        public void run( )
+        {
+            try
+            {
+                _wrapped.run( );
+            }
+            finally
+            {
+                // will clean up the dead thread
+                // and permit execution of blocked tasks
+                AppDaemonService.signalDaemon( THREAD_LAUNCHER_DAEMON_ID );
+            }
+        }
+
+    }
+
     private static final String PROPERTY_MAX_NUMBER_THREAD = "daemon.threadLauncherDaemon.maxNumberOfThread";
     private static Deque<RunnableQueueItem> _stackItems = new ArrayDeque<RunnableQueueItem>( );
     private Map<String, Thread> _mapThreadByKey = new HashMap<String, Thread>( );
@@ -89,6 +126,12 @@ public class ThreadLauncherDaemon extends Daemon
             }
         }
 
+        String logs = "";
+
+        if ( !listDeadThreads.isEmpty( ) )
+        {
+            logs = "Releasing " + listDeadThreads.size( ) + " dead threads.\n";
+        }
         for ( Thread thread : listDeadThreads )
         {
             _listThread.remove( thread );
@@ -116,8 +159,7 @@ public class ThreadLauncherDaemon extends Daemon
                     {
                         // Dead threads are removed from collections at the beginning of the run of the daemon
                         // We still check again that the thread is alive just in case it died during the run
-                        thread = new Thread( item.getRunnable( ) );
-                        thread.start( );
+                        thread = getThread( item );
                         _mapThreadByKey.put( item.computeKey( ), thread );
 
                         // We do not increase the number of running threads, because we removed and add one
@@ -125,9 +167,7 @@ public class ThreadLauncherDaemon extends Daemon
                 }
                 else
                 {
-                    // We start a new thread, and increase the current number of running threads
-                    thread = new Thread( item.getRunnable( ) );
-                    thread.start( );
+                    thread = getThread( item );
                     _mapThreadByKey.put( item.computeKey( ), thread );
                     nCurrentNumberRunningThreads++;
                 }
@@ -135,8 +175,7 @@ public class ThreadLauncherDaemon extends Daemon
             else
             {
                 // If it has no key, or if the plugin has not been set, we create a thread in the keyless collection
-                Thread thread = new Thread( item.getRunnable( ) );
-                thread.start( );
+                Thread thread = getThread( item );
                 _mapThreadByKey.put( item.computeKey( ), thread );
                 nCurrentNumberRunningThreads++;
             }
@@ -151,12 +190,18 @@ public class ThreadLauncherDaemon extends Daemon
         // If the maximum number of running threads has been reached, we end this run
         if ( nCurrentNumberRunningThreads >= nMaxNumberThread )
         {
-            setLastRunLogs( "Every threads are running. Daemon execution ending." );
-
+            setLastRunLogs( logs + "Every threads are running. Daemon execution ending." );
             return;
         }
 
-        setLastRunLogs( "There is no more runnable to launch." );
+        setLastRunLogs( logs + "There is no more runnable to launch." );
+    }
+
+    private Thread getThread( RunnableQueueItem item )
+    {
+        Thread thread = new Thread( new RunnableWrapper( item.getRunnable( ) ) );
+        thread.start( );
+        return thread;
     }
 
     /**
@@ -177,6 +222,8 @@ public class ThreadLauncherDaemon extends Daemon
         {
             _stackItems.addLast( runnableItem );
         }
+
+        AppDaemonService.signalDaemon( THREAD_LAUNCHER_DAEMON_ID );
     }
 
     /**
