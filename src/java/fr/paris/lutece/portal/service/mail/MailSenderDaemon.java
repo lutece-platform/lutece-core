@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.service.mail;
 
+import fr.paris.lutece.portal.service.daemon.AppDaemonService;
 import fr.paris.lutece.portal.service.daemon.Daemon;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
@@ -41,6 +42,7 @@ import org.apache.log4j.Logger;
 
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.mail.MessagingException;
 import javax.mail.NoSuchProviderException;
@@ -54,12 +56,16 @@ import javax.mail.internet.AddressException;
  */
 public class MailSenderDaemon extends Daemon
 {
+    protected static final String DAEMON_ID = "mailSender";
+
     private static final String PROPERTY_MAIL_HOST = "mail.server";
     private static final String PROPERTY_MAIL_PORT = "mail.server.port";
     private static final String PROPERTY_MAIL_DEAMON_WAITTIME = "mail.daemon.waittime";
     private static final String PROPERTY_MAIL_DEAMON_COUNT = "mail.daemon.count";
     private static final String PROPERTY_MAIL_USERNAME = "mail.username";
     private static final String PROPERTY_MAIL_PASSWORD = "mail.password";
+    private static final String PROPERTY_MAIL_DAEMON_RETRYONERROR_WAITTIME = "mail.daemon.retryonerror.waittime";
+    private static final String PROPERTY_MAIL_DAEMON_RETRYONERROR_WAITTIME_UNIT = "mail.daemon.retryonerror.waittime.unit";
     private static final int DEFAULT_SMTP_PORT = 25;
 
     /**
@@ -77,6 +83,8 @@ public class MailSenderDaemon extends Daemon
         int nStmpPort = AppPropertiesService.getPropertyInt( PROPERTY_MAIL_PORT, DEFAULT_SMTP_PORT );
         int nWaitTime = AppPropertiesService.getPropertyInt( PROPERTY_MAIL_DEAMON_WAITTIME, 1 );
         int nCount = AppPropertiesService.getPropertyInt( PROPERTY_MAIL_DEAMON_COUNT, 1000 );
+        long nRetryWaitTime = AppPropertiesService.getPropertyLong( PROPERTY_MAIL_DAEMON_RETRYONERROR_WAITTIME, 60L );
+        TimeUnit retryWaitTimeUnit = TimeUnit.valueOf( AppPropertiesService.getProperty( PROPERTY_MAIL_DAEMON_RETRYONERROR_WAITTIME_UNIT, "SECONDS" ) );
 
         // Initializes a mail session with the SMTP server
         StringBuilder sbLogs = new StringBuilder( );
@@ -141,7 +149,8 @@ public class MailSenderDaemon extends Daemon
                             // if the connection is dead or not in the connected state
                             // we put the mail in the queue before end process
                             queue.send( mail );
-
+                            AppLogService.error( "Error while sending a message. Will schedule a retry", e );
+                            AppDaemonService.signalDaemon( DAEMON_ID, nRetryWaitTime, retryWaitTimeUnit );
                             break;
                         }
 
@@ -153,8 +162,8 @@ public class MailSenderDaemon extends Daemon
                         if ( ( count % nCount ) == 0 )
                         {
                             transportSmtp.close( );
-                            wait( nWaitTime );
-                            transportSmtp.connect( );
+                            AppDaemonService.signalDaemon( DAEMON_ID, nWaitTime, TimeUnit.MILLISECONDS );
+                            break;
                         }
                     }
 
