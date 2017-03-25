@@ -85,6 +85,7 @@
 							<input type="hidden" name="daemon" value="${daemon.id}">
 							<#if daemon.running>
 								<@button type='submit' title='#i18n{portal.system.manage_daemons.buttonStop} ${daemon.id}' name='action' value='STOP' buttonIcon='stop' color='btn-danger' showTitle=false />
+								<@button type='submit' title='#i18n{portal.system.manage_daemons.buttonRun} ${daemon.id}' name='action' value='RUN' buttonIcon='play' color='btn-success' showTitle=false />
 							  <#else>
 								<@button type='submit' title='#i18n{portal.system.manage_daemons.buttonStart} ${daemon.id}' name='action' value='START' buttonIcon='play' color='btn-success' showTitle=false />
 							</#if>

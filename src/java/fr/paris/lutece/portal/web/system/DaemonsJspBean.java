@@ -38,6 +38,7 @@ import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
+import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.web.admin.AdminPageJspBean;
 import fr.paris.lutece.util.html.HtmlTemplate;
 
@@ -61,6 +62,7 @@ public class DaemonsJspBean extends AdminPageJspBean
     private static final String PARAMETER_INTERVAL = "interval";
     private static final String ACTION_START = "START";
     private static final String ACTION_STOP = "STOP";
+    private static final String ACTION_RUN = "RUN";
     private static final String ACTION_UPDATE_INTERVAL = "UPDATE_INTERVAL";
     private static final String PROPERTY_FIELD_INTERVAL = "portal.system.manage_daemons.columnTitleInterval";
     private static final String MESSAGE_MANDATORY_FIELD = "portal.util.message.mandatoryField";
@@ -95,43 +97,45 @@ public class DaemonsJspBean extends AdminPageJspBean
         String strAction = request.getParameter( PARAMETER_ACTION );
         String strDaemonKey = request.getParameter( PARAMETER_DAEMON );
 
-        if ( strAction.equalsIgnoreCase( ACTION_START ) )
+        switch ( strAction )
         {
+        case ACTION_START:
             AppDaemonService.startDaemon( strDaemonKey );
-        }
-        else
-            if ( strAction.equalsIgnoreCase( ACTION_STOP ) )
+            break;
+        case ACTION_STOP:
+            AppDaemonService.stopDaemon( strDaemonKey );
+            break;
+        case ACTION_RUN:
+            AppDaemonService.signalDaemon( strDaemonKey );
+            break;
+        case ACTION_UPDATE_INTERVAL:
+            String strErrorMessage = null;
+            String strDaemonInterval = request.getParameter( PARAMETER_INTERVAL );
+
+            Object [ ] tabFieldInterval = {
+                I18nService.getLocalizedString( PROPERTY_FIELD_INTERVAL, getLocale( ) )
+            };
+
+            if ( StringUtils.isEmpty( strDaemonInterval ) )
             {
-                AppDaemonService.stopDaemon( strDaemonKey );
+                strErrorMessage = MESSAGE_MANDATORY_FIELD;
+            }
+            else
+                if ( !StringUtils.isNumeric( strDaemonInterval ) )
+                {
+                    strErrorMessage = MESSAGE_NUMERIC_FIELD;
+                }
+
+            if ( strErrorMessage != null )
+            {
+                return AdminMessageService.getMessageUrl( request, strErrorMessage, tabFieldInterval, AdminMessage.TYPE_STOP );
             }
 
-            else
-                if ( strAction.equalsIgnoreCase( ACTION_UPDATE_INTERVAL ) )
-                {
-                    String strErrorMessage = null;
-                    String strDaemonInterval = request.getParameter( PARAMETER_INTERVAL );
-
-                    Object [ ] tabFieldInterval = {
-                        I18nService.getLocalizedString( PROPERTY_FIELD_INTERVAL, getLocale( ) )
-                    };
-
-                    if ( StringUtils.isEmpty( strDaemonInterval ) )
-                    {
-                        strErrorMessage = MESSAGE_MANDATORY_FIELD;
-                    }
-                    else
-                        if ( !StringUtils.isNumeric( strDaemonInterval ) )
-                        {
-                            strErrorMessage = MESSAGE_NUMERIC_FIELD;
-                        }
-
-                    if ( strErrorMessage != null )
-                    {
-                        return AdminMessageService.getMessageUrl( request, strErrorMessage, tabFieldInterval, AdminMessage.TYPE_STOP );
-                    }
-
-                    AppDaemonService.modifyDaemonInterval( strDaemonKey, strDaemonInterval );
-                }
+            AppDaemonService.modifyDaemonInterval( strDaemonKey, strDaemonInterval );
+            break;
+        default:
+            AppLogService.error( "Unknown daemon action : " + strAction );
+        }
 
         return getHomeUrl( request );
     }
