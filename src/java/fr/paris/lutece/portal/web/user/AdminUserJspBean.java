@@ -42,6 +42,7 @@ import fr.paris.lutece.portal.business.right.Right;
 import fr.paris.lutece.portal.business.right.RightHome;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.business.user.AdminUserHome;
+import fr.paris.lutece.portal.business.user.PasswordUpdateMode;
 import fr.paris.lutece.portal.business.user.attribute.IAttribute;
 import fr.paris.lutece.portal.business.user.attribute.ISimpleValuesAttributes;
 import fr.paris.lutece.portal.business.user.authentication.LuteceDefaultAdminUser;
@@ -61,6 +62,7 @@ import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.rbac.RBACService;
+import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.security.UserNotSignedException;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
@@ -68,6 +70,7 @@ import fr.paris.lutece.portal.service.template.DatabaseTemplateService;
 import fr.paris.lutece.portal.service.user.AdminUserResourceIdService;
 import fr.paris.lutece.portal.service.user.attribute.AdminUserFieldService;
 import fr.paris.lutece.portal.service.user.attribute.AttributeService;
+import fr.paris.lutece.portal.service.util.AppException;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
@@ -142,6 +145,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     private static final String TEMPLATE_IMPORT_USER = "admin/user/import_module_user.html";
     private static final String TEMPLATE_DEFAULT_CREATE_USER = "admin/user/create_user_default_module.html";
     private static final String TEMPLATE_DEFAULT_MODIFY_USER = "admin/user/modify_user_default_module.html";
+    private static final String TEMPLATE_DEFAULT_MODIFY_USER_PASSWORD = "admin/user/modify_user_password_default_module.html";
     private static final String TEMPLATE_MANAGE_USER_WORKGROUPS = "admin/user/manage_user_workgroups.html";
     private static final String TEMPLATE_MODIFY_USER_WORKGROUPS = "admin/user/modify_user_workgroups.html";
     private static final String TEMPLATE_ADMIN_EMAIL_CHANGE_STATUS = "admin/user/user_email_change_status.html";
@@ -155,6 +159,8 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     // Messages
     private static final String PROPERTY_MANAGE_USERS_PAGETITLE = "portal.users.manage_users.pageTitle";
     private static final String PROPERTY_MODIFY_USER_PAGETITLE = "portal.users.modify_user.pageTitle";
+    private static final String PROPERTY_MODIFY_USER_PASSWORD_PAGETITLE = "portal.users.modify_user_password.pageTitle";
+    private static final String PROPERTY_LABEL_FIRST_PASSWORD = "portal.users.modify_password_default_module.form.password.new";
     private static final String PROPERTY_CREATE_USER_PAGETITLE = "portal.users.create_user.pageTitle";
     private static final String PROPERTY_IMPORT_MODULE_USER_PAGETITLE = "portal.users.import_module_user.pageTitle";
     private static final String PROPERTY_MANAGE_USER_RIGHTS_PAGETITLE = "portal.users.manage_user_rights.pageTitle";
@@ -334,6 +340,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     private static final String MARK_ADMIN_AVATAR = "adminAvatar";
     private static final String MARK_RANDOM_PASSWORD_SIZE = "randomPasswordSize";
     private static final String MARK_MINIMUM_PASSWORD_SIZE = "minimumPasswordSize";
+    private static final String MARK_DEFAULT_MODE_USED = "defaultModeUsed";
 
     private static final String CONSTANT_EMAIL_TYPE_FIRST = "first";
     private static final String CONSTANT_EMAIL_TYPE_OTHER = "other";
@@ -462,6 +469,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         model.put( MARK_PERMISSION_ADVANCED_PARAMETER, bPermissionAdvancedParameter );
         model.put( MARK_PERMISSION_IMPORT_EXPORT_USERS, bPermissionImportExportUsers );
         model.put( MARK_ADMIN_AVATAR, _bAdminAvatar );
+        model.put( MARK_DEFAULT_MODE_USED, AdminAuthenticationService.getInstance( ).isDefaultModuleUsed( ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_USERS, getLocale( ), model );
 
@@ -920,41 +928,6 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         {
             LuteceDefaultAdminUser user = AdminUserHome.findLuteceDefaultAdminUserByPrimaryKey( nUserId );
 
-            String strFirstPassword = request.getParameter( PARAMETER_FIRST_PASSWORD );
-            String strSecondPassword = request.getParameter( PARAMETER_SECOND_PASSWORD );
-
-            if ( StringUtils.isEmpty( strFirstPassword ) && StringUtils.isNotEmpty( strSecondPassword ) )
-            {
-                // First password is empty but second password is filled
-                return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_DIFFERENTS_PASSWORD, AdminMessage.TYPE_STOP );
-            }
-
-            if ( StringUtils.isEmpty( strSecondPassword ) && StringUtils.isNotEmpty( strFirstPassword ) )
-            {
-                // First password is filled but second password is empty
-                return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_DIFFERENTS_PASSWORD, AdminMessage.TYPE_STOP );
-            }
-
-            if ( !StringUtils.equals( strFirstPassword, strSecondPassword ) )
-            {
-                // First and second password are filled but there are different
-                return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_DIFFERENTS_PASSWORD, AdminMessage.TYPE_STOP );
-            }
-
-            if ( StringUtils.isNotEmpty( strFirstPassword ) )
-            {
-                String strUrl = AdminUserService.checkPassword( request, strFirstPassword, nUserId, Boolean.TRUE );
-
-                if ( StringUtils.isNotEmpty( strUrl ) )
-                {
-                    return strUrl;
-                }
-
-                user.setPassword( AdminUserService.encryptPassword( strFirstPassword ) );
-                user.setPasswordReset( Boolean.FALSE );
-                user.setPasswordMaxValidDate( AdminUserService.getPasswordMaxValidDate( ) );
-            }
-
             user.setUserId( nUserId );
             user.setAccessCode( strAccessCode );
             user.setLastName( strLastName );
@@ -981,7 +954,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
                 return strError;
             }
 
-            AdminUserHome.update( user );
+            AdminUserHome.update( user, PasswordUpdateMode.IGNORE );
 
             AdminUserFieldService.doModifyUserFields( user, request, getLocale( ), getUser( ) );
         }
@@ -1008,6 +981,135 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             AdminUserHome.update( user );
 
             AdminUserFieldService.doModifyUserFields( user, request, getLocale( ), getUser( ) );
+        }
+
+        return JSP_MANAGE_USER;
+    }
+
+    /**
+     * Returns the form to update password of AppUser
+     *
+     * @param request
+     *            The Http request
+     * @return The HTML form to update info
+     * @throws AccessDeniedException
+     *             If the current user is not authorized to modify the user
+     */
+    public String getModifyUserPassword( HttpServletRequest request ) throws AccessDeniedException
+    {
+        setPageTitleProperty( PROPERTY_MODIFY_USER_PASSWORD_PAGETITLE );
+
+        String strUserId = request.getParameter( PARAMETER_USER_ID );
+
+        int nUserId = Integer.parseInt( strUserId );
+
+        Map<String, Object> model = new HashMap<String, Object>( );
+        HtmlTemplate template;
+
+        AdminUser user = null;
+        String strTemplateUrl = "";
+
+        // creation in no-module mode : load form with password modification field and login modification field
+        if ( AdminAuthenticationService.getInstance( ).isDefaultModuleUsed( ) )
+        {
+            user = AdminUserHome.findLuteceDefaultAdminUserByPrimaryKey( nUserId );
+            strTemplateUrl = TEMPLATE_DEFAULT_MODIFY_USER_PASSWORD;
+        }
+        else
+        {
+            throw new AppException( "Cannot modify password when not in DeafultModuleUsed mode" );
+        }
+
+        if ( ( user == null ) || ( user.getUserId( ) == 0 ) )
+        {
+            throw new AppException( "User to modify password for not found" );
+        }
+
+        AdminUser currentUser = AdminUserService.getAdminUser( request );
+
+        if ( !isUserAuthorizedToModifyUser( currentUser, user ) )
+        {
+            throw new AccessDeniedException( MESSAGE_NOT_AUTHORIZED );
+        }
+
+        // ITEM NAVIGATION
+        setItemNavigator( user.getUserId( ), AppPathService.getBaseUrl( request ) + JSP_URL_MODIFY_USER );
+
+        model.put( MARK_USER, user );
+        model.put( MARK_ITEM_NAVIGATOR, _itemNavigator );
+        model.put( MARK_MINIMUM_PASSWORD_SIZE, AdminUserService.getIntegerSecurityParameter( AdminUserService.DSKEY_PASSWORD_MINIMUM_LENGTH ) );
+        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, PROPERTY_MODIFY_USER_PASSWORD_PAGETITLE ) );
+
+        template = AppTemplateService.getTemplate( strTemplateUrl, getLocale( ), model );
+
+        return getAdminPage( template.getHtml( ) );
+    }
+
+    /**
+     * Process the change form of an appUser password
+     *
+     * @param request
+     *            The Http request
+     * @return The Jsp URL of the process result
+     * @throws AccessDeniedException
+     *             If the current user is not authorized to modify the user
+     */
+    public String doModifyAdminUserPassword( HttpServletRequest request ) throws AccessDeniedException
+    {
+        if ( !SecurityTokenService.getInstance( ).validate( request, PROPERTY_MODIFY_USER_PASSWORD_PAGETITLE ) )
+        {
+            throw new AccessDeniedException( "Invalid security token" );
+        }
+        String strUserId = request.getParameter( PARAMETER_USER_ID );
+
+        int nUserId = Integer.parseInt( strUserId );
+
+        AdminUser userToModify = AdminUserHome.findByPrimaryKey( nUserId );
+
+        if ( userToModify == null )
+        {
+            throw new AppException( "User " + strUserId + " not found" );
+        }
+
+        AdminUser currentUser = AdminUserService.getAdminUser( request );
+
+        if ( !isUserAuthorizedToModifyUser( currentUser, userToModify ) )
+        {
+            throw new AccessDeniedException( MESSAGE_NOT_AUTHORIZED );
+        }
+
+        // modification in no-module mode : we manage the password
+        if ( AdminAuthenticationService.getInstance( ).isDefaultModuleUsed( ) )
+        {
+            LuteceDefaultAdminUser user = AdminUserHome.findLuteceDefaultAdminUserByPrimaryKey( nUserId );
+
+            String strFirstPassword = request.getParameter( PARAMETER_FIRST_PASSWORD );
+            String strSecondPassword = request.getParameter( PARAMETER_SECOND_PASSWORD );
+
+            if (StringUtils.isEmpty( strFirstPassword ) )
+            {
+                return AdminMessageService.getMessageUrl( request, MESSAGE_MANDATORY_FIELD, new String[] { I18nService.getLocalizedString( PROPERTY_LABEL_FIRST_PASSWORD, getLocale( ) ) }, AdminMessage.TYPE_STOP );
+            }
+
+            if ( !StringUtils.equals( strFirstPassword, strSecondPassword ) )
+            {
+                // First and second password are filled but there are different
+                return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_DIFFERENTS_PASSWORD, AdminMessage.TYPE_STOP );
+            }
+
+            String strUrl = AdminUserService.checkPassword( request, strFirstPassword, nUserId, Boolean.TRUE );
+
+            if ( StringUtils.isNotEmpty( strUrl ) )
+            {
+                return strUrl;
+            }
+
+            user.setPassword( AdminUserService.encryptPassword( strFirstPassword ) );
+            user.setPasswordReset( Boolean.FALSE );
+            user.setPasswordMaxValidDate( AdminUserService.getPasswordMaxValidDate( ) );
+
+            AdminUserHome.update( user, PasswordUpdateMode.UPDATE );
+
         }
 
         return JSP_MANAGE_USER;
@@ -1453,6 +1555,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         model.put( MARK_ALL_WORKSGROUP_LIST, assignableWorkspaces );
         model.put( MARK_CAN_DELEGATE, String.valueOf( bDelegateWorkgroups ) );
         model.put( MARK_ITEM_NAVIGATOR, _itemNavigator );
+        model.put( MARK_DEFAULT_MODE_USED, Boolean.valueOf( AdminAuthenticationService.getInstance( ).isDefaultModuleUsed( ) ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_USER_WORKGROUPS, getLocale( ), model );
 
@@ -1525,6 +1628,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         model.put( MARK_CAN_DELEGATE, String.valueOf( bDelegateRights ) );
         model.put( MARK_SELECT_ALL, bSelectAll );
         model.put( MARK_ITEM_NAVIGATOR, _itemNavigator );
+        model.put( MARK_DEFAULT_MODE_USED, Boolean.valueOf( AdminAuthenticationService.getInstance( ).isDefaultModuleUsed( ) ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_USER_RIGHTS, getLocale( ), model );
 
@@ -1686,6 +1790,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         model.put( MARK_USER_ROLE_LIST, roleList );
         model.put( MARK_ALL_ROLE_LIST, assignableRoleList );
         model.put( MARK_ITEM_NAVIGATOR, _itemNavigator );
+        model.put( MARK_DEFAULT_MODE_USED, Boolean.valueOf( AdminAuthenticationService.getInstance( ).isDefaultModuleUsed( ) ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_USER_ROLES, getLocale( ), model );
 

@@ -112,11 +112,10 @@ public class AdminUserHomeTest extends LuteceTestCase
         assertNotNull( strToken );
         IPasswordFactory passwordFactory = SpringContextService.getBean( IPasswordFactory.BEAN_NAME );
         user.setPassword( passwordFactory.getPasswordFromCleartext( LEGACY_PASSWORD ) );
-        getAdminUserDAO( ).store( user );
+        getAdminUserDAO( ).store( user, PasswordUpdateMode.UPDATE );
         String strTokenUpdatedPassword = AdminUserHome.getUserPasswordResetToken( user.getUserId( ), timestamp, null );
         assertNotNull( strTokenUpdatedPassword );
         assertFalse( strToken.equals( strTokenUpdatedPassword ) );
-
     }
 
 }

@@ -144,6 +144,7 @@
               </#list>
             <td>
 							<@aButton href='jsp/admin/user/ModifyUser.jsp?id_user=${user.userId}' title='#i18n{portal.users.actions.labelUpdate}' buttonIcon='pencil' showTitle=false />
+							<#if defaultModeUsed><@aButton href='jsp/admin/user/ModifyUserPassword.jsp?id_user=${user.userId}' title='#i18n{portal.users.actions.labelPassword}' buttonIcon='key' showTitle=false /></#if>
 							<@aButton href='jsp/admin/user/ModifyUserRights.jsp?id_user=${user.userId}' title='#i18n{portal.users.actions.labelRights}' buttonIcon='lock' showTitle=false />
 							<@aButton href='jsp/admin/user/ModifyUserRoles.jsp?id_user=${user.userId}' title='#i18n{portal.users.actions.labelRoles}' buttonIcon='list-alt' showTitle=false />
 							<@aButton href='jsp/admin/user/ModifyUserWorkgroups.jsp?id_user=${user.userId}' title='#i18n{portal.users.actions.labelWorkgroups}' buttonIcon='group' showTitle=false />

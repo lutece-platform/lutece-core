@@ -44,6 +44,7 @@ import org.springframework.mock.web.MockHttpServletRequest;
 
 import fr.paris.lutece.portal.business.user.AdminUserDAO;
 import fr.paris.lutece.portal.business.user.AdminUserHome;
+import fr.paris.lutece.portal.business.user.PasswordUpdateMode;
 import fr.paris.lutece.portal.business.user.authentication.LuteceDefaultAdminAuthentication;
 import fr.paris.lutece.portal.business.user.authentication.LuteceDefaultAdminUser;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
@@ -400,7 +401,7 @@ public class AdminLoginJspBeanTest extends LuteceTestCase
         assertFalse( PASSWORD.equals( changedPassword ) );
         assertFalse( NEW_PASSWORD.equals( changedPassword ) );
         user.setPassword( passwordFactory.getPasswordFromCleartext( changedPassword ) );
-        getAdminUserDAO( ).store( user );
+        getAdminUserDAO( ).store( user, PasswordUpdateMode.UPDATE );
 
         String res = bean.doResetPassword( request );
         assertNotNull( res );

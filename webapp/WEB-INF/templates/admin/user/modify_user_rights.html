@@ -15,6 +15,7 @@
 			<@tabs>
 				<@listTabs>
 					<li><a href="jsp/admin/user/ModifyUser.jsp?id_user=${user.userId}">#i18n{portal.users.actions.labelUser}</a></li>
+					<#if defaultModeUsed><li><a href="jsp/admin/user/ModifyUserPassword.jsp?id_user=${user.userId}">#i18n{portal.users.actions.labelPassword}</a></li></#if>
 					<li class="active"><a href="jsp/admin/user/ModifyUserRights.jsp?id_user=${user.userId}">#i18n{portal.users.actions.labelRights}</a></li>
 					<li><a href="jsp/admin/user/ModifyUserRoles.jsp?id_user=${user.userId}">#i18n{portal.users.actions.labelRoles}</a></li>
 					<li><a href="jsp/admin/user/ModifyUserWorkgroups.jsp?id_user=${user.userId}">#i18n{portal.users.actions.labelWorkgroups}</a></li>

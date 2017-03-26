@@ -10,6 +10,7 @@
 						<li class="active">
               <a href="jsp/admin/user/ModifyUser.jsp?id_user=${user.userId}" >#i18n{portal.users.actions.labelUser}</a>
             </li>
+            <li><a href="jsp/admin/user/ModifyUserPassword.jsp?id_user=${user.userId}">#i18n{portal.users.actions.labelPassword}</a>
             <li><a href="jsp/admin/user/ModifyUserRights.jsp?id_user=${user.userId}">#i18n{portal.users.actions.labelRights}</a></li>
             <li><a href="jsp/admin/user/ModifyUserRoles.jsp?id_user=${user.userId}">#i18n{portal.users.actions.labelRoles}</a></li>
             <li><a href="jsp/admin/user/ModifyUserWorkgroups.jsp?id_user=${user.userId}">#i18n{portal.users.actions.labelWorkgroups}</a></li>
@@ -32,22 +33,6 @@
 										<legend>#i18n{portal.users.modify_user.labelIdentity}</legend>
 										<@formGroup labelKey='#i18n{portal.users.modify_user.labelAccessCode}' labelFor='access_code' rows=2 mandatory=true>
 											<@input type='text' id='access_code' name='access_code' maxlength=100 value='${user.accessCode}' />
-										</@formGroup>
-										<@formGroup labelFor='first_password' labelKey='#i18n{portal.users.modify_user.labelFirstPassword}' helpKey='${i18n("portal.users.message.password.minimumPasswordLength",minimumPasswordSize)}' mandatory=true rows=2>
-											<@inputGroup>
-												<@inputGroupItem type='addon'>
-													<@icon style='lock' />
-												</@inputGroupItem>
-												<@input type='password' id='first_password' name='first_password' maxlength=100 value='' />
-											</@inputGroup>
-										</@formGroup>
-										<@formGroup labelKey='#i18n{portal.users.modify_user.labelSecondPassword}' labelFor='second_password' mandatory=true rows=2>
-											<@inputGroup>
-												<@inputGroupItem type='addon'>
-													<@icon style='lock' />
-												</@inputGroupItem>
-												<@input type='password' id='second_password' name='second_password' maxlength=100 value='' />
-											</@inputGroup>
 										</@formGroup>
 										<@formGroup labelKey='#i18n{portal.users.modify_user.labelLastName}' labelFor='last_name' rows=2 mandatory=true>
 											<@input type='text' id='last_name' name='last_name' maxlength=100 value='${user.lastName}' />

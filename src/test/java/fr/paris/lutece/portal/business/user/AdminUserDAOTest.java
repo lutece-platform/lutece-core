@@ -127,7 +127,7 @@ public class AdminUserDAOTest extends LuteceTestCase
             storedUser.setEmail( changedRandomUsername + "@lutece.fr" );
             storedUser.setPassword( passwordFactory.getPasswordFromCleartext( changedRandomUsername ) );
 
-            adminUserDAO.store( storedUser );
+            adminUserDAO.store( storedUser, PasswordUpdateMode.UPDATE );
 
             storedUser = adminUserDAO.loadDefaultAdminUser( user.getUserId( ) );
 
@@ -136,6 +136,45 @@ public class AdminUserDAOTest extends LuteceTestCase
             assertEquals( changedRandomUsername, storedUser.getLastName( ) );
             assertEquals( changedRandomUsername + "@lutece.fr", storedUser.getEmail( ) );
             assertTrue( storedUser.getPassword( ).check( changedRandomUsername ) );
+        }
+        finally
+        {
+            adminUserDAO.delete( user.getUserId( ) );
+        }
+    }
+    
+    public void testStoreLuteceDefaultAdminUserIgnorePassword( )
+    {
+        AdminUserDAO adminUserDAO = getAdminUserDAO( );
+        String randomUsername = "user" + new SecureRandom( ).nextLong( );
+        IPasswordFactory passwordFactory = SpringContextService.getBean( IPasswordFactory.BEAN_NAME );
+
+        LuteceDefaultAdminUser user = new LuteceDefaultAdminUser( randomUsername, new LuteceDefaultAdminAuthentication( ) );
+        user.setPassword( passwordFactory.getPasswordFromCleartext( randomUsername ) );
+        user.setFirstName( randomUsername );
+        user.setLastName( randomUsername );
+        user.setEmail( randomUsername + "@lutece.fr" );
+        adminUserDAO.insert( user );
+
+        try
+        {
+            LuteceDefaultAdminUser storedUser = adminUserDAO.loadDefaultAdminUser( user.getUserId( ) );
+            String changedRandomUsername = randomUsername + "_2";
+            storedUser.setAccessCode( changedRandomUsername );
+            storedUser.setFirstName( changedRandomUsername );
+            storedUser.setLastName( changedRandomUsername );
+            storedUser.setEmail( changedRandomUsername + "@lutece.fr" );
+            storedUser.setPassword( passwordFactory.getPasswordFromCleartext( changedRandomUsername ) );
+
+            adminUserDAO.store( storedUser, PasswordUpdateMode.IGNORE );
+
+            storedUser = adminUserDAO.loadDefaultAdminUser( user.getUserId( ) );
+
+            assertEquals( changedRandomUsername, storedUser.getAccessCode( ) );
+            assertEquals( changedRandomUsername, storedUser.getFirstName( ) );
+            assertEquals( changedRandomUsername, storedUser.getLastName( ) );
+            assertEquals( changedRandomUsername + "@lutece.fr", storedUser.getEmail( ) );
+            assertTrue( storedUser.getPassword( ).check( randomUsername ) );
         }
         finally
         {
