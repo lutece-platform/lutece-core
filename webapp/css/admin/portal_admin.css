@@ -45,7 +45,7 @@ body > .header .navbar span#zone4{ min-width:180px;display:inline-block;}
 .nav-tabs-custom.top-danger > .nav-tabs > li.active { border-top-color: #dd4b39 }
 
 /*  Login page*/
-#login-page {margin: 0px -15px;padding: 9em 0px 2em;background: #fff url("../../images/admin/skin/bg_login1.jpg");background-size: cover;background-attachment: fixed;min-height: 922px;overflow: hidden;}
+#login-page {margin: 0px -15px;padding: 9em 0px 2em;background: #fff url("../../images/admin/skin/bg_login1.jpg");background-size: cover;background-attachment: fixed;min-height: 922px;height: 100vh;overflow: hidden;}
 #login-page img#logoLogin {position:absolute;top:50px;left:50px;}
 .login-box .login-logo{margin-bottom: 0;color:#fff}
 .login-box .login-logo a{color:#fff}
