@@ -84,6 +84,7 @@ public class AdminUserDAO implements IAdminUserDAO
     private static final String SQL_CHECK_EMAIL_IN_USE = " SELECT id_user FROM core_admin_user WHERE email = ?";
     private static final String SQL_QUERY_INSERT_DEFAULT_USER = " INSERT INTO core_admin_user ( id_user, access_code, last_name, first_name, email, status, password, locale, level_user, accessibility_mode, reset_password, password_max_valid_date, account_max_valid_date, last_login, workgroup_key )  VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ) ";
     private static final String SQL_QUERY_UPDATE_DEFAULT_USER = " UPDATE core_admin_user SET access_code = ?, last_name = ?, first_name = ?, email = ?, status = ?, password = ?, locale = ?, reset_password = ?, accessibility_mode = ?, password_max_valid_date = ?, workgroup_key = ? WHERE id_user = ?  ";
+    private static final String SQL_QUERY_UPDATE_DEFAULT_USER_IGNORE_PASSWORD = " UPDATE core_admin_user SET access_code = ?, last_name = ?, first_name = ?, email = ?, status = ?, locale = ?, reset_password = ?, accessibility_mode = ?, password_max_valid_date = ?, workgroup_key = ? WHERE id_user = ?  ";
     private static final String SQL_QUERY_SELECT_USERS_ID_BY_ROLES = " SELECT a.id_user , a.access_code, a.last_name , a.first_name, a.email, a.status, a.locale, a.accessibility_mode, a.password_max_valid_date "
             + " FROM core_admin_user a, core_user_role b WHERE a.id_user = b.id_user AND b.role_key = ? ";
     private static final String SQL_QUERY_SELECT_USER_RIGHTS_OWN = " SELECT DISTINCT b.id_right FROM core_admin_right a , core_user_right b WHERE b.id_user = ? and a.id_right = b.id_right and a.level_right >= ?";
@@ -581,23 +582,32 @@ public class AdminUserDAO implements IAdminUserDAO
      * {@inheritDoc}
      */
     @Override
-    public void store( LuteceDefaultAdminUser user )
+    public void store( LuteceDefaultAdminUser user, PasswordUpdateMode passwordMode ) 
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE_DEFAULT_USER );
+        String query = SQL_QUERY_UPDATE_DEFAULT_USER_IGNORE_PASSWORD;
+        if ( PasswordUpdateMode.UPDATE.equals( passwordMode ) )
+        {
+            query = SQL_QUERY_UPDATE_DEFAULT_USER;
+        }
+        DAOUtil daoUtil = new DAOUtil( query );
 
-        daoUtil.setString( 1, user.getAccessCode( ) );
-        daoUtil.setString( 2, user.getLastName( ) );
-        daoUtil.setString( 3, user.getFirstName( ) );
-        daoUtil.setString( 4, user.getEmail( ) );
-        daoUtil.setInt( 5, user.getStatus( ) );
-        daoUtil.setString( 6, user.getPassword( ).getStorableRepresentation( ) );
-        daoUtil.setString( 7, user.getLocale( ).toString( ) );
-        daoUtil.setBoolean( 8, user.isPasswordReset( ) );
-        daoUtil.setBoolean( 9, user.getAccessibilityMode( ) );
-        daoUtil.setTimestamp( 10, user.getPasswordMaxValidDate( ) );
-        daoUtil.setString( 11, user.getWorkgroupKey( ) );
+        int nArgIndex = 1;
+        daoUtil.setString( nArgIndex++, user.getAccessCode( ) );
+        daoUtil.setString( nArgIndex++, user.getLastName( ) );
+        daoUtil.setString( nArgIndex++, user.getFirstName( ) );
+        daoUtil.setString( nArgIndex++, user.getEmail( ) );
+        daoUtil.setInt( nArgIndex++, user.getStatus( ) );
+        if ( PasswordUpdateMode.UPDATE.equals( passwordMode ) )
+        {
+            daoUtil.setString( nArgIndex++, user.getPassword( ).getStorableRepresentation( ) );
+        }
+        daoUtil.setString( nArgIndex++, user.getLocale( ).toString( ) );
+        daoUtil.setBoolean( nArgIndex++, user.isPasswordReset( ) );
+        daoUtil.setBoolean( nArgIndex++, user.getAccessibilityMode( ) );
+        daoUtil.setTimestamp( nArgIndex++, user.getPasswordMaxValidDate( ) );
+        daoUtil.setString( nArgIndex++, user.getWorkgroupKey( ) );
 
-        daoUtil.setInt( 12, user.getUserId( ) );
+        daoUtil.setInt( nArgIndex++, user.getUserId( ) );
 
         daoUtil.executeUpdate( );
         daoUtil.free( );

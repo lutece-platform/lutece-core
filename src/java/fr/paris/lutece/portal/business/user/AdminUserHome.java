@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2016, Mairie de Paris
+ * Copyright (c) 2002-2017, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -296,7 +296,18 @@ public final class AdminUserHome
      */
     public static void update( LuteceDefaultAdminUser user )
     {
-        _dao.store( user );
+        update( user, PasswordUpdateMode.UPDATE );
+    }
+
+    /**
+     * @param user
+     *            the LuteceDefaultAdminUSer
+     * @param passwordMode
+     *            should the password be updated or not
+     */
+    public static void update( LuteceDefaultAdminUser user, PasswordUpdateMode passwordMode )
+    {
+        _dao.store( user, passwordMode );
     }
 
     /**

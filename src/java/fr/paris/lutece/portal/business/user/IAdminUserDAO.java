@@ -246,8 +246,10 @@ public interface IAdminUserDAO
      * 
      * @param user
      *            The AdminUser
+     * @param passwordMode
+     *            Should the password be updated or not
      */
-    void store( LuteceDefaultAdminUser user );
+    void store( LuteceDefaultAdminUser user, PasswordUpdateMode passwordMode );
 
     /**
      * Select all user that own a given level
