@@ -38,6 +38,7 @@ import fr.paris.lutece.portal.business.user.AdminUserHome;
 import fr.paris.lutece.portal.business.user.authentication.LuteceDefaultAdminUser;
 import fr.paris.lutece.portal.business.user.log.UserLog;
 import fr.paris.lutece.portal.business.user.log.UserLogHome;
+import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.admin.AdminAuthenticationService;
 import fr.paris.lutece.portal.service.admin.AdminUserService;
 import fr.paris.lutece.portal.service.i18n.I18nService;
@@ -46,6 +47,7 @@ import fr.paris.lutece.portal.service.mail.MailService;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.portal.PortalService;
+import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppException;
@@ -67,7 +69,6 @@ import java.io.IOException;
 import org.apache.commons.lang.StringUtils;
 
 import java.io.Serializable;
-
 import java.util.Collection;
 import java.util.Date;
 import java.util.Enumeration;
@@ -229,6 +230,7 @@ public class AdminLoginJspBean implements Serializable
         model.put( MARK_FORGOT_PASSWORD_URL, AdminAuthenticationService.getInstance( ).getLostPasswordPageUrl( ) );
         model.put( MARK_FORGOT_LOGIN_URL, AdminAuthenticationService.getInstance( ).getLostLoginPageUrl( ) );
         model.put( MARK_DO_ADMIN_LOGIN_URL, sbUrl.toString( ) );
+        model.put( MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_ADMIN_LOGIN ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_LOGIN, locale, model );
 
@@ -397,6 +399,10 @@ public class AdminLoginJspBean implements Serializable
         if ( request.getScheme( ).equals( CONSTANT_HTTP ) && AppHTTPSService.isHTTPSSupportEnabled( ) )
         {
             return JSP_URL_ADMIN_LOGIN;
+        }
+        if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_ADMIN_LOGIN ) )
+        {
+            throw new AccessDeniedException( "Invalid security token" );
         }
 
         // recovery of the login attributes
