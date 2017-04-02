@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2016, Mairie de Paris
+ * Copyright (c) 2002-2017, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,6 +33,18 @@
  */
 package fr.paris.lutece.portal.web.includes;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
+
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+
 import fr.paris.lutece.portal.business.style.Theme;
 import fr.paris.lutece.portal.service.content.PageData;
 import fr.paris.lutece.portal.service.includes.PageInclude;
@@ -40,21 +52,18 @@ import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.portal.PortalService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
+import fr.paris.lutece.portal.service.util.AppLogService;
+import fr.paris.lutece.portal.service.util.CryptoService;
 import fr.paris.lutece.portal.web.xpages.XPageApplicationEntry;
 import fr.paris.lutece.util.html.HtmlTemplate;
-
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * Page include that insert links into the head part of HTML pages
  */
 public class LinksInclude implements PageInclude
 {
+    private static final String ALGORITHM = "SHA-256";
+
     // Parameters
     private static final String PARAMETER_PAGE = "page";
 
@@ -66,13 +75,12 @@ public class LinksInclude implements PageInclude
     private static final String MARK_PLUGINS_JAVASCRIPT_LINKS = "plugins_javascript_links";
     private static final String MARK_PLUGIN_CSS_STYLESHEET = "plugin_css_stylesheet";
     private static final String MARK_PLUGIN_JAVASCRIPT_FILE = "plugin_javascript_file";
-    private static final String MARK_CSS_PREFIX = "css_prefix";
 
     // Templates
     private static final String TEMPLATE_PLUGIN_CSS_LINK = "skin/site/plugin_css_link.html";
     private static final String TEMPLATE_PLUGIN_JAVASCRIPT_LINK = "skin/site/plugin_javascript_link.html";
     private static final String PREFIX_PLUGINS_CSS = "css/plugins/";
-    private static final String ABSOLUTE_URL = "http://";
+    private static final String PREFIX_PLUGINS_JAVASCRIPT = "js/plugins/";
 
     /**
      * Substitue specific bookmarks in the page template.
@@ -129,12 +137,12 @@ public class LinksInclude implements PageInclude
                     {
                         for ( String strCssStyleSheet : plugin.getCssStyleSheets( ) )
                         {
-                            appendStyleSheet( sbCssLinks, strCssStyleSheet, locale );
+                            appendStyleSheet( request.getServletContext( ), sbCssLinks, strCssStyleSheet, locale );
                         }
 
                         for ( String strCssStyleSheet : plugin.getCssStyleSheets( nMode ) )
                         {
-                            appendStyleSheet( sbCssLinks, strCssStyleSheet, locale );
+                            appendStyleSheet( request.getServletContext( ), sbCssLinks, strCssStyleSheet, locale );
                         }
                     }
 
@@ -142,12 +150,12 @@ public class LinksInclude implements PageInclude
                     {
                         for ( String strJavascriptFile : plugin.getJavascriptFiles( ) )
                         {
-                            appendJavascriptFile( sbJsLinks, strJavascriptFile, locale );
+                            appendJavascriptFile( request.getServletContext( ), sbJsLinks, strJavascriptFile, locale );
                         }
 
                         for ( String strJavascriptFile : plugin.getJavascriptFiles( nMode ) )
                         {
-                            appendJavascriptFile( sbJsLinks, strJavascriptFile, locale );
+                            appendJavascriptFile( request.getServletContext( ), sbJsLinks, strJavascriptFile, locale );
                         }
                     }
                 }
@@ -161,6 +169,8 @@ public class LinksInclude implements PageInclude
     /**
      * Append a script to the links
      * 
+     * @param servletContext
+     *            servlet context
      * @param sbJsLinks
      *            links in construction
      * @param strJavascriptFile
@@ -168,10 +178,17 @@ public class LinksInclude implements PageInclude
      * @param locale
      *            the locale
      */
-    private void appendJavascriptFile( StringBuilder sbJsLinks, String strJavascriptFile, Locale locale )
+    private void appendJavascriptFile( ServletContext servletContext, StringBuilder sbJsLinks, String strJavascriptFile, Locale locale )
     {
+        URI javascripFileURI = getURI( servletContext, strJavascriptFile, PREFIX_PLUGINS_JAVASCRIPT );
+
+        if ( javascripFileURI == null )
+        {
+            return;
+        }
+
         Map<String, String> model = new HashMap<String, String>( 1 );
-        model.put( MARK_PLUGIN_JAVASCRIPT_FILE, strJavascriptFile );
+        model.put( MARK_PLUGIN_JAVASCRIPT_FILE, javascripFileURI.toString( ) );
 
         HtmlTemplate tJs = AppTemplateService.getTemplate( TEMPLATE_PLUGIN_JAVASCRIPT_LINK, locale, model );
         sbJsLinks.append( tJs.getHtml( ) );
@@ -180,6 +197,8 @@ public class LinksInclude implements PageInclude
     /**
      * Append a css to the stylesheets
      * 
+     * @param servletContext
+     *            servlet context
      * @param sbCssLinks
      *            stylesheets in construction
      * @param strCssStyleSheet
@@ -187,16 +206,74 @@ public class LinksInclude implements PageInclude
      * @param locale
      *            the locale
      */
-    private void appendStyleSheet( StringBuilder sbCssLinks, String strCssStyleSheet, Locale locale )
+    private void appendStyleSheet( ServletContext servletContext, StringBuilder sbCssLinks, String strCssStyleSheet, Locale locale )
     {
-        String strPrefix = ( strCssStyleSheet.startsWith( ABSOLUTE_URL ) ) ? "" : PREFIX_PLUGINS_CSS;
+        URI styleSheetURI = getURI( servletContext, strCssStyleSheet, PREFIX_PLUGINS_CSS );
+
+        if ( styleSheetURI == null )
+        {
+            return;
+        }
 
         Map<String, String> model = new HashMap<String, String>( 2 );
-        model.put( MARK_PLUGIN_CSS_STYLESHEET, strCssStyleSheet );
-        model.put( MARK_CSS_PREFIX, strPrefix );
+        model.put( MARK_PLUGIN_CSS_STYLESHEET, styleSheetURI.toString( ) );
 
         HtmlTemplate tCss = AppTemplateService.getTemplate( TEMPLATE_PLUGIN_CSS_LINK, locale, model );
         sbCssLinks.append( tCss.getHtml( ) );
+    }
+
+    /**
+     * Get a URI for a resource. If the resource is provided by this site, a
+     * hash of its content is added as query parameter so that changes to the
+     * content are picked up by browsers.
+     * 
+     * @param servletContext
+     *            the servlet context
+     * @param strResourceURI
+     *            the resource URI as string
+     * @param strURIPrefix
+     *            a prefix to add to the URI if it is not absolute
+     * @return the URI or <code>null</code> if it cannot be parsed
+     */
+    private URI getURI( ServletContext servletContext, String strResourceURI, String strURIPrefix )
+    {
+        try
+        {
+            URI resourceURI = new URI( strResourceURI );
+            if ( !resourceURI.isAbsolute( ) && resourceURI.getHost( ) == null )
+            {
+                if ( strURIPrefix != null )
+                {
+                    resourceURI = new URI( strURIPrefix + strResourceURI );
+                }
+                try ( InputStream inputStream = servletContext.getResourceAsStream( resourceURI.getPath( ) ) )
+                {
+                    if ( inputStream != null )
+                    {
+                        String hash = CryptoService.digest( inputStream, ALGORITHM );
+                        if ( hash != null )
+                        {
+                            char separator = '?';
+                            if ( resourceURI.getQuery( ) != null )
+                            {
+                                separator = '&';
+                            }
+                            resourceURI = new URI( resourceURI.toString( ) + separator + "lutece_h=" + hash );
+                        }
+                    }
+                }
+                catch ( IOException e )
+                {
+                    AppLogService.error( "Error while closing stream for " + strResourceURI, e );
+                }
+            }
+            return resourceURI;
+        }
+        catch ( URISyntaxException e )
+        {
+            AppLogService.error( "Invalid cssStyleSheetURI : " + strResourceURI, e );
+            return null;
+        }
     }
 
     /**
