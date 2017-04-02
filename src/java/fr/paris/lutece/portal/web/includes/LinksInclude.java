@@ -51,6 +51,7 @@ import fr.paris.lutece.portal.service.includes.PageInclude;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.portal.PortalService;
+import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.CryptoService;
@@ -96,20 +97,49 @@ public class LinksInclude implements PageInclude
      */
     public void fillTemplate( Map<String, Object> rootModel, PageData data, int nMode, HttpServletRequest request )
     {
-        if ( request != null )
+        if ( request == null )
         {
-            // Add links coming from the data object
-            String strFavourite = ( data.getFavourite( ) != null ) ? data.getFavourite( ) : PortalService.getSiteName( );
-            String strPortalName = PortalService.getSiteName( );
-            rootModel.put( MARK_FAVOURITE, strFavourite );
-            rootModel.put( MARK_PORTAL_NAME, strPortalName );
+            return;
+        }
+        // Add links coming from the data object
+        String strFavourite = ( data.getFavourite( ) != null ) ? data.getFavourite( ) : PortalService.getSiteName( );
+        String strPortalName = PortalService.getSiteName( );
+        rootModel.put( MARK_FAVOURITE, strFavourite );
+        rootModel.put( MARK_PORTAL_NAME, strPortalName );
 
-            Locale locale = request.getLocale( );
+        Locale locale = request.getLocale( );
 
-            // Add CSS links coming from plugins
-            Collection<Plugin> listPlugins = PluginService.getPluginList( );
-            listPlugins.add( PluginService.getCore( ) );
+        // Add CSS links coming from plugins
+        Collection<Plugin> listPlugins = PluginService.getPluginList( );
+        listPlugins.add( PluginService.getCore( ) );
 
+        String strPage = request.getParameter( PARAMETER_PAGE );
+
+        for ( Plugin plugin : listPlugins )
+        {
+            if ( plugin.isInstalled( ) )
+            {
+                Theme xpageTheme = plugin.getXPageTheme( request );
+
+                if ( ( strPage != null ) && ( xpageTheme != null ) )
+                {
+                    for ( XPageApplicationEntry entry : plugin.getApplications( ) )
+                    {
+                        if ( strPage.equals( entry.getId( ) ) )
+                        {
+                            rootModel.put( MARK_PLUGIN_THEME_CSS, xpageTheme );
+                        }
+                    }
+                }
+            }
+        }
+
+        LinksIncludeCacheService cacheService = SpringContextService.getBean( LinksIncludeCacheService.SERVICE_NAME );
+        String strKey = cacheService.getCacheKey( nMode, strPage, locale );
+        @SuppressWarnings( "unchecked" )
+        Map<String, Object> links = ( Map<String, Object> ) cacheService.getFromCache( strKey );
+        if ( links == null )
+        {
             StringBuilder sbCssLinks = new StringBuilder( );
             StringBuilder sbJsLinks = new StringBuilder( );
 
@@ -117,20 +147,6 @@ public class LinksInclude implements PageInclude
             {
                 if ( plugin.isInstalled( ) )
                 {
-                    String strPage = request.getParameter( PARAMETER_PAGE );
-                    Theme xpageTheme = plugin.getXPageTheme( request );
-
-                    if ( ( strPage != null ) && ( xpageTheme != null ) )
-                    {
-                        for ( XPageApplicationEntry entry : plugin.getApplications( ) )
-                        {
-                            if ( strPage.equals( entry.getId( ) ) )
-                            {
-                                rootModel.put( MARK_PLUGIN_THEME_CSS, xpageTheme );
-                            }
-                        }
-                    }
-
                     boolean bXPage = isPluginXPage( strPage, plugin );
 
                     if ( plugin.isCssStylesheetsScopePortal( ) || ( bXPage && plugin.isCssStylesheetsScopeXPage( ) ) )
@@ -161,9 +177,12 @@ public class LinksInclude implements PageInclude
                 }
             }
 
-            rootModel.put( MARK_PLUGINS_CSS_LINKS, sbCssLinks.toString( ) );
-            rootModel.put( MARK_PLUGINS_JAVASCRIPT_LINKS, sbJsLinks.toString( ) );
+            links = new HashMap<>( 2 );
+            links.put( MARK_PLUGINS_CSS_LINKS, sbCssLinks.toString( ) );
+            links.put( MARK_PLUGINS_JAVASCRIPT_LINKS, sbJsLinks.toString( ) );
+            cacheService.putInCache( strKey, links );
         }
+        rootModel.putAll( links );
     }
 
     /**
