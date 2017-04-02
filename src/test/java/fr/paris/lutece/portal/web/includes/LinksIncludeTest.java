@@ -18,14 +18,19 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockServletContext;
 
+import fr.paris.lutece.portal.service.cache.CacheService;
+import fr.paris.lutece.portal.service.cache.CacheableService;
 import fr.paris.lutece.portal.service.content.PageData;
 import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.test.LuteceTestCase;
 
-public class LinksIncludeTest extends LuteceTestCase
+public abstract class LinksIncludeTest extends LuteceTestCase
 {
     private static final String PLUGIN_NAME = "linksIncludeTestPlugin";
+    private boolean bOrigCacheEnabled;
+
+    public abstract boolean enableCache( );
 
     @Override
     protected void setUp( ) throws Exception
@@ -41,18 +46,43 @@ public class LinksIncludeTest extends LuteceTestCase
         }
         PluginService.init( );
         PluginService.getPlugin( PLUGIN_NAME ).install( );
-
+        List<CacheableService> caches = CacheService.getCacheableServicesList( );
+        for ( CacheableService cacheService : caches )
+        {
+            if ( LinksIncludeCacheService.SERVICE_NAME.equals( cacheService.getName( ) ) )
+            {
+                bOrigCacheEnabled = cacheService.isCacheEnable( );
+                cacheService.enableCache( enableCache( ) );
+                break;
+            }
+        }
     }
 
     @Override
     protected void tearDown( ) throws Exception
     {
+        List<CacheableService> caches = CacheService.getCacheableServicesList( );
+        for ( CacheableService cacheService : caches )
+        {
+            if ( LinksIncludeCacheService.SERVICE_NAME.equals( cacheService.getName( ) ) )
+            {
+                cacheService.enableCache( bOrigCacheEnabled );
+                break;
+            }
+        }
         PluginService.getPlugin( PLUGIN_NAME ).uninstall( );
         File dirPlugin = new File( AppPathService.getPath( "path.plugins" ) );
         File testPluginFile = new File( dirPlugin, PLUGIN_NAME + ".xml" );
         testPluginFile.delete( );
         PluginService.init( );
         super.tearDown( );
+    }
+
+    public void testFillTemplateNull( )
+    {
+        LinksInclude include = new LinksInclude( );
+        include.fillTemplate( null, null, 0, null );
+        // did not throw
     }
 
     public void testGetURICssAddPrefix( )
@@ -186,10 +216,17 @@ public class LinksIncludeTest extends LuteceTestCase
             include.fillTemplate( rootModel, data, nMode, request );
             String cssLinks2 = ( String ) rootModel.get( "plugins_css_links" );
             assertNotNull( cssLinks2 );
-            assertFalse( cssLinks.equals( cssLinks2 ) );
-            assertEquals(
-                    "<link rel=\"stylesheet\"  href=\"css/plugins/linksIncludeTestPlugin/junithashed.css?lutece_h=531ba794ef006cd3d69cf1acb33ddeccf8d6c655fb08f469335f8c2c32e2ab68\" type=\"text/css\"  media=\"screen\" />\n",
-                    cssLinks2 );
+            if ( enableCache( ) )
+            {
+                assertSame( cssLinks, cssLinks2 );
+            }
+            else
+            {
+                assertFalse( cssLinks.equals( cssLinks2 ) );
+                assertEquals(
+                        "<link rel=\"stylesheet\"  href=\"css/plugins/linksIncludeTestPlugin/junithashed.css?lutece_h=531ba794ef006cd3d69cf1acb33ddeccf8d6c655fb08f469335f8c2c32e2ab68\" type=\"text/css\"  media=\"screen\" />\n",
+                        cssLinks2 );
+            }
         }
         finally
         {
@@ -514,10 +551,17 @@ public class LinksIncludeTest extends LuteceTestCase
             include.fillTemplate( rootModel, data, nMode, request );
             String cssLinks2 = ( String ) rootModel.get( "plugins_javascript_links" );
             assertNotNull( cssLinks2 );
-            assertFalse( cssLinks.equals( cssLinks2 ) );
-            assertEquals(
-                    "<script src=\"js/plugins/linksIncludeTestPlugin/scripthashed.js?lutece_h=531ba794ef006cd3d69cf1acb33ddeccf8d6c655fb08f469335f8c2c32e2ab68\" type=\"text/javascript\" ></script>",
-                    cssLinks2 );
+            if ( enableCache( ) )
+            {
+                assertSame( cssLinks, cssLinks2 );
+            }
+            else
+            {
+                assertFalse( cssLinks.equals( cssLinks2 ) );
+                assertEquals(
+                        "<script src=\"js/plugins/linksIncludeTestPlugin/scripthashed.js?lutece_h=531ba794ef006cd3d69cf1acb33ddeccf8d6c655fb08f469335f8c2c32e2ab68\" type=\"text/javascript\" ></script>",
+                        cssLinks2 );
+            }
         }
         finally
         {

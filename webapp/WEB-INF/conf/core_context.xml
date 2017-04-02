@@ -44,6 +44,8 @@
     <bean id="pageCacheService" class="fr.paris.lutece.portal.service.page.PageCacheService" />
     <bean id="portletCacheService" class="fr.paris.lutece.portal.service.page.PortletCacheService" />
 
+    <bean id="LinksIncludeCacheService" class="fr.paris.lutece.portal.web.includes.LinksIncludeCacheService" />
+
 	<!-- since the PageService constructor initializes the two above caches, we choose to inject them through the constructor -->
     <bean id="pageService" class="fr.paris.lutece.portal.service.page.PageService" autowire="constructor">
         <property name="pageCacheKeyService" ref="pageCacheKeyService" />
