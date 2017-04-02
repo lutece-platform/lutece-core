@@ -9,6 +9,7 @@
           <p class="text-center">#i18n{portal.admin.admin_login.boxTitle}</p>
     	  </div>
         <form method="post" name="login" id="login" action="${do_admin_login_url}" class="form" role="form">
+        	<input type="hidden" name="token" value="${token}">
         	<#list params_list as param><input type="hidden" name="${param.code}" value="${param.name}"></#list>
         			<div class="form-group">
         				<div class="input-group">
