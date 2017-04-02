@@ -190,6 +190,7 @@ public class C3p0ConnectionService implements ConnectionService
      */
     public void release( )
     {
+        _dataSource.close( );
     }
 
     /**
