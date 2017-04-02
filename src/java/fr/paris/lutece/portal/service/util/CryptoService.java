@@ -33,6 +33,8 @@
  */
 package fr.paris.lutece.portal.service.util;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
 import java.security.MessageDigest;
@@ -96,6 +98,47 @@ public final class CryptoService
         }
 
         return hash;
+    }
+
+    /**
+     * Get a digest of the content of a stream
+     * 
+     * @param stream
+     *            the stream containing the data to digest
+     * @param strAlgorithm
+     *            the digest Algorithm
+     * @return hex encoded digest string
+     * @see MessageDigest
+     * @since 6.0.0
+     */
+    public static String digest( InputStream stream, String strAlgorithm )
+    {
+        MessageDigest digest;
+        try
+        {
+            digest = MessageDigest.getInstance( strAlgorithm );
+        }
+        catch ( NoSuchAlgorithmException e )
+        {
+            AppLogService.error( strAlgorithm + " not found", e );
+            return null;
+        }
+        byte[ ] buffer = new byte[ 1024 ];
+        try
+        {
+            int nNumBytesRead = stream.read( buffer );
+            while ( nNumBytesRead != -1 )
+            {
+                digest.update( buffer, 0, nNumBytesRead );
+                nNumBytesRead = stream.read( buffer );
+            }
+        }
+        catch ( IOException e )
+        {
+            AppLogService.error( "Error reading stream", e );
+            return null;
+        }
+        return byteToHex( digest.digest( ) );
     }
 
     /**
