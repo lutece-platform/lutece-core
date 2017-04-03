@@ -1,6 +1,6 @@
 package fr.paris.lutece.portal.web.includes;
 
-public class LinksIncludeTestCacheEnabled extends LinksIncludeTest
+public class LinksIncludeCacheEnabledTest extends LinksIncludeTest
 {
 
     @Override
