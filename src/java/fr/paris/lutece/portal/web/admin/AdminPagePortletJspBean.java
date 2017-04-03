@@ -45,13 +45,16 @@ import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.portlet.PortletRemovalListenerService;
 import fr.paris.lutece.portal.service.portlet.PortletResourceIdService;
 import fr.paris.lutece.portal.service.rbac.RBACService;
+import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.util.url.UrlItem;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -167,13 +170,17 @@ public class AdminPagePortletJspBean extends AdminFeaturesPageJspBean
             throw new AccessDeniedException( "User " + user + " is not authorized to permission " + PortletResourceIdService.PERMISSION_MANAGE + " on portlet "
                     + nPortletId );
         }
-        String strUrl = JSP_REMOVE_PORTLET + "?portlet_id=" + strPortletId;
+        String strUrl = JSP_REMOVE_PORTLET;
         String strTarget = "_top";
+        Map<String, Object> parameters = new HashMap<>( );
+        parameters.put( Parameters.PORTLET_ID, strPortletId );
+        parameters.put( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, JSP_REMOVE_PORTLET ) );
+
         if ( PortletHome.hasAlias( nPortletId ) )
         {
             return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_WARNING_PORTLET_ALIAS, new Object [ ] {
                 portlet.getName( )
-            }, null, strUrl, strTarget, AdminMessage.TYPE_CONFIRMATION );
+            }, null, strUrl, strTarget, AdminMessage.TYPE_CONFIRMATION, parameters );
         }
 
         ArrayList<String> listErrors = new ArrayList<String>( );
@@ -186,12 +193,12 @@ public class AdminPagePortletJspBean extends AdminFeaturesPageJspBean
             };
 
             return AdminMessageService.getMessageUrl( request, MESSAGE_CANNOT_REMOVE_PORTLET, args, MESSAGE_CANNOT_REMOVE_PORTLET_TITLE, strUrl, strTarget,
-                    AdminMessage.TYPE_STOP );
+                    AdminMessage.TYPE_STOP, parameters );
         }
 
         return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_CONFIRM_REMOVE_PORTLET, new Object [ ] {
             portlet.getName( )
-        }, null, strUrl, strTarget, AdminMessage.TYPE_CONFIRMATION );
+        }, null, strUrl, strTarget, AdminMessage.TYPE_CONFIRMATION, parameters );
     }
 
     /**
@@ -225,6 +232,10 @@ public class AdminPagePortletJspBean extends AdminFeaturesPageJspBean
             return AdminMessageService.getMessageUrl( request, Messages.MESSAGE_INVALID_ENTRY, new Object [ ] {
                 nPortletId
             }, AdminMessage.TYPE_ERROR );
+        }
+        if ( !SecurityTokenService.getInstance( ).validate( request, JSP_REMOVE_PORTLET ) )
+        {
+            throw new AccessDeniedException( "Invalid security token" );
         }
         AdminUser user = AdminUserService.getAdminUser( request );
         if ( !RBACService.isAuthorized( PortletType.RESOURCE_TYPE, portlet.getPortletTypeId( ), PortletResourceIdService.PERMISSION_MANAGE, user ) )
@@ -290,10 +301,14 @@ public class AdminPagePortletJspBean extends AdminFeaturesPageJspBean
             throw new AccessDeniedException( "User " + user + " is not authorized to permission " + PortletResourceIdService.PERMISSION_MANAGE + " on portlet "
                     + nPortletId );
         }
-        String strUrl = JSP_DO_MODIFY_STATUS + "?portlet_id=" + strPortletId + "&status=" + strStatus;
+        String strUrl = JSP_DO_MODIFY_STATUS;
         String strTarget = "_top";
 
-        return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_CONFIRM_MODIFY_STATUS, strUrl, strTarget, AdminMessage.TYPE_CONFIRMATION );
+        Map<String, Object> parameters = new HashMap<>( );
+        parameters.put( Parameters.PORTLET_ID, strPortletId );
+        parameters.put( PORTLET_STATUS, strStatus );
+        parameters.put( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, JSP_DO_MODIFY_STATUS ) );
+        return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_CONFIRM_MODIFY_STATUS, null, null, strUrl, strTarget, AdminMessage.TYPE_CONFIRMATION, parameters );
     }
 
     /**
@@ -307,6 +322,10 @@ public class AdminPagePortletJspBean extends AdminFeaturesPageJspBean
      */
     public String doModifyPortletStatus( HttpServletRequest request ) throws AccessDeniedException
     {
+        if ( !SecurityTokenService.getInstance( ).validate( request, JSP_DO_MODIFY_STATUS ) )
+        {
+            throw new AccessDeniedException( "Invalid security token" );
+        }
         String strPortletId = request.getParameter( Parameters.PORTLET_ID );
         String strStatus = request.getParameter( PORTLET_STATUS );
         if ( !StringUtils.isNumeric( strPortletId ) || !StringUtils.isNumeric( strStatus ) )
