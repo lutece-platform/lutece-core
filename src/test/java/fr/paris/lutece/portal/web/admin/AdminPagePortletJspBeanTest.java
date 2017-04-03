@@ -28,6 +28,7 @@ import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.message.SiteMessageException;
 import fr.paris.lutece.portal.service.portlet.PortletRemovalListenerService;
 import fr.paris.lutece.portal.service.portlet.PortletResourceIdService;
+import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.util.RemovalListener;
 import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.test.LuteceTestCase;
@@ -218,6 +219,7 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
             assertNotNull( url );
             AdminMessage message = AdminMessageService.getMessage( request );
             assertNotNull( message );
+            assertNotNull( message.getRequestParameters( ).get( SecurityTokenService.PARAMETER_TOKEN ) );
             assertEquals( message.getType( ), AdminMessage.TYPE_CONFIRMATION );
         }
         finally
@@ -243,6 +245,7 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
     {
         AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/site/DoModifyPortletStatus.jsp" ) );
         String url = bean.doModifyPortletStatus( request );
         assertNotNull( url );
         AdminMessage message = AdminMessageService.getMessage( request );
@@ -260,6 +263,7 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
     {
         AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/site/DoModifyPortletStatus.jsp" ) );
         request.addParameter( Parameters.PORTLET_ID, "1" );
         String url = bean.doModifyPortletStatus( request );
         assertNotNull( url );
@@ -279,6 +283,7 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
         AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.addParameter( PORTLET_STATUS, Integer.toString( Portlet.STATUS_PUBLISHED ) );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/site/DoModifyPortletStatus.jsp" ) );
         String url = bean.doModifyPortletStatus( request );
         assertNotNull( url );
         AdminMessage message = AdminMessageService.getMessage( request );
@@ -299,6 +304,7 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
         Portlet portlet = getPortlet( );
         try
         {
+            request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/site/DoModifyPortletStatus.jsp" ) );
             request.addParameter( Parameters.PORTLET_ID, Integer.toString( portlet.getId( ) ) );
             request.addParameter( PORTLET_STATUS, "999999999" );
             String url = bean.doModifyPortletStatus( request );
@@ -323,6 +329,7 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
     {
         AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/site/DoModifyPortletStatus.jsp" ) );
         request.addParameter( Parameters.PORTLET_ID, "NOT_NUMERIC" );
         request.addParameter( PORTLET_STATUS, Integer.toString( Portlet.STATUS_PUBLISHED ) );
         String url = bean.doModifyPortletStatus( request );
@@ -345,6 +352,7 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
         Portlet portlet = getPortlet( );
         try
         {
+            request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/site/DoModifyPortletStatus.jsp" ) );
             request.addParameter( Parameters.PORTLET_ID, "31415925" );
             request.addParameter( PORTLET_STATUS, Integer.toString( Portlet.STATUS_PUBLISHED ) );
             String url = bean.doModifyPortletStatus( request );
@@ -369,6 +377,7 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
         Portlet portlet = getPortlet( );
         try
         {
+            request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/site/DoModifyPortletStatus.jsp" ) );
             request.addParameter( Parameters.PORTLET_ID, Integer.toString( portlet.getId( ) ) );
             request.addParameter( PORTLET_STATUS, Integer.toString( Portlet.STATUS_PUBLISHED ) );
             Utils.registerAdminUser( request, new AdminUser( ) );
@@ -402,6 +411,7 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
             int nStatus = portlet.getStatus( );
             int nNewStatus = nStatus == Portlet.STATUS_PUBLISHED ? Portlet.STATUS_UNPUBLISHED : Portlet.STATUS_PUBLISHED;
             user = getAdminUser( );
+            request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/site/DoModifyPortletStatus.jsp" ) );
             request.addParameter( Parameters.PORTLET_ID, Integer.toString( portlet.getId( ) ) );
             request.addParameter( PORTLET_STATUS, Integer.toString( nNewStatus ) );
             Utils.registerAdminUser( request, user );
@@ -412,6 +422,95 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
             Portlet storedPortlet = PortletHome.findByPrimaryKey( portlet.getId( ) );
             assertNotNull( storedPortlet );
             assertEquals( nNewStatus, storedPortlet.getStatus( ) );
+        }
+        finally
+        {
+            if ( portlet != null )
+            {
+                removePortlet( portlet );
+            }
+            if ( user != null )
+            {
+                removeUser( user );
+            }
+        }
+    }
+
+    /**
+     * Test when no token
+     * 
+     * @throws AccessDeniedException
+     *             should not happen
+     */
+    public void testDoModifyPortletStatusNoCSRFToken( ) throws AccessDeniedException
+    {
+        AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        Portlet portlet = null;
+        AdminUser user = null;
+        int nStatus = 0;
+        try
+        {
+            portlet = getPortlet( );
+            nStatus = portlet.getStatus( );
+            int nNewStatus = nStatus == Portlet.STATUS_PUBLISHED ? Portlet.STATUS_UNPUBLISHED : Portlet.STATUS_PUBLISHED;
+            user = getAdminUser( );
+            request.addParameter( Parameters.PORTLET_ID, Integer.toString( portlet.getId( ) ) );
+            request.addParameter( PORTLET_STATUS, Integer.toString( nNewStatus ) );
+            Utils.registerAdminUser( request, user );
+            bean.doModifyPortletStatus( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e)
+        {
+            Portlet storedPortlet = PortletHome.findByPrimaryKey( portlet.getId( ) );
+            assertNotNull( storedPortlet );
+            assertEquals( nStatus, storedPortlet.getStatus( ) );
+        }
+        finally
+        {
+            if ( portlet != null )
+            {
+                removePortlet( portlet );
+            }
+            if ( user != null )
+            {
+                removeUser( user );
+            }
+        }
+    }
+
+    /**
+     * Test when invalid token
+     * 
+     * @throws AccessDeniedException
+     *             should not happen
+     */
+    public void testDoModifyPortletStatusInvalidCSRFToken( ) throws AccessDeniedException
+    {
+        AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        Portlet portlet = null;
+        AdminUser user = null;
+        int nStatus = 0;
+        try
+        {
+            portlet = getPortlet( );
+            nStatus = portlet.getStatus( );
+            int nNewStatus = nStatus == Portlet.STATUS_PUBLISHED ? Portlet.STATUS_UNPUBLISHED : Portlet.STATUS_PUBLISHED;
+            user = getAdminUser( );
+            request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/site/DoModifyPortletStatus.jsp" ) + "b" );
+            request.addParameter( Parameters.PORTLET_ID, Integer.toString( portlet.getId( ) ) );
+            request.addParameter( PORTLET_STATUS, Integer.toString( nNewStatus ) );
+            Utils.registerAdminUser( request, user );
+            bean.doModifyPortletStatus( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e)
+        {
+            Portlet storedPortlet = PortletHome.findByPrimaryKey( portlet.getId( ) );
+            assertNotNull( storedPortlet );
+            assertEquals( nStatus, storedPortlet.getStatus( ) );
         }
         finally
         {
@@ -534,6 +633,7 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
             AdminMessage message = AdminMessageService.getMessage( request );
             assertNotNull( message );
             assertEquals( message.getType( ), AdminMessage.TYPE_CONFIRMATION );
+            assertNotNull( message.getRequestParameters( ).get( SecurityTokenService.PARAMETER_TOKEN ) );
             ReferenceList listLanguages = I18nService.getAdminLocales( Locale.FRANCE );
             for ( ReferenceItem lang : listLanguages )
             {
@@ -576,6 +676,7 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
             assertNotNull( url );
             AdminMessage message = AdminMessageService.getMessage( request );
             assertNotNull( message );
+            assertNotNull( message.getRequestParameters( ).get( SecurityTokenService.PARAMETER_TOKEN ) );
             assertEquals( message.getType( ), AdminMessage.TYPE_CONFIRMATION );
             ReferenceList listLanguages = I18nService.getAdminLocales( Locale.FRANCE );
             for ( ReferenceItem lang : listLanguages )
@@ -640,6 +741,7 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
             assertNotNull( url );
             AdminMessage message = AdminMessageService.getMessage( request );
             assertNotNull( message );
+            assertNotNull( message.getRequestParameters( ).get( SecurityTokenService.PARAMETER_TOKEN ) );
             assertEquals( message.getType( ), AdminMessage.TYPE_STOP );
             ReferenceList listLanguages = I18nService.getAdminLocales( Locale.FRANCE );
             for ( ReferenceItem lang : listLanguages )
@@ -671,6 +773,7 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
     {
         AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/site/DoRemovePortlet.jsp" ) );
         String url = bean.doRemovePortlet( request );
         assertNotNull( url );
         AdminMessage message = AdminMessageService.getMessage( request );
@@ -688,6 +791,7 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
     {
         AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/site/DoRemovePortlet.jsp" ) );
         request.addParameter( Parameters.PORTLET_ID, "NOT_NUMERIC" );
         String url = bean.doRemovePortlet( request );
         assertNotNull( url );
@@ -710,6 +814,7 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
         try
         {
             request.addParameter( Parameters.PORTLET_ID, "31415925" );
+            request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/site/DoRemovePortlet.jsp" ) );
             String url = bean.doRemovePortlet( request );
             assertNotNull( url );
             AdminMessage message = AdminMessageService.getMessage( request );
@@ -733,6 +838,7 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
         try
         {
             request.addParameter( Parameters.PORTLET_ID, Integer.toString( portlet.getId( ) ) );
+            request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/site/DoRemovePortlet.jsp" ) );
             Utils.registerAdminUser( request, new AdminUser( ) );
             bean.doRemovePortlet( request );
             fail( "Should not have been able to modify the portlet" );
@@ -763,6 +869,7 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
             portlet = getPortlet( );
             user = getAdminUser( );
             request.addParameter( Parameters.PORTLET_ID, Integer.toString( portlet.getId( ) ) );
+            request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/site/DoRemovePortlet.jsp" ) );
             Utils.registerAdminUser( request, user );
             String url = bean.doRemovePortlet( request );
             assertNotNull( url );
@@ -777,6 +884,81 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
             {
                 portlet = null;
             }
+        }
+        finally
+        {
+            if ( portlet != null )
+            {
+                removePortlet( portlet );
+            }
+            if ( user != null )
+            {
+                removeUser( user );
+            }
+        }
+    }
+
+    /**
+     * Test when no CSRF token
+     * 
+     * @throws AccessDeniedException
+     *             should not happen
+     */
+    public void testDoRemovePortletNoCSRFToken( ) throws AccessDeniedException
+    {
+        AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        Portlet portlet = null;
+        AdminUser user = null;
+        try
+        {
+            portlet = getPortlet( );
+            user = getAdminUser( );
+            request.addParameter( Parameters.PORTLET_ID, Integer.toString( portlet.getId( ) ) );
+            Utils.registerAdminUser( request, user );
+            bean.doRemovePortlet( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e ) {
+            assertNotNull( PortletHome.findByPrimaryKey( portlet.getId( ) ) );
+        }
+        finally
+        {
+            if ( portlet != null )
+            {
+                removePortlet( portlet );
+            }
+            if ( user != null )
+            {
+                removeUser( user );
+            }
+        }
+    }
+
+    /**
+     * Test when invalid CSRF token
+     * 
+     * @throws AccessDeniedException
+     *             should not happen
+     */
+    public void testDoRemovePortletInvalidCSRFToken( ) throws AccessDeniedException
+    {
+        AdminPagePortletJspBean bean = new AdminPagePortletJspBean( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        Portlet portlet = null;
+        AdminUser user = null;
+        try
+        {
+            portlet = getPortlet( );
+            user = getAdminUser( );
+            request.addParameter( Parameters.PORTLET_ID, Integer.toString( portlet.getId( ) ) );
+            request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/site/DoRemovePortlet.jsp" ) + "b" );
+            Utils.registerAdminUser( request, user );
+            bean.doRemovePortlet( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e ) {
+            assertNotNull( PortletHome.findByPrimaryKey( portlet.getId( ) ) );
         }
         finally
         {
