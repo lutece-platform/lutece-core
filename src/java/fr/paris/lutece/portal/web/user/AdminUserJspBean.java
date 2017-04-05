@@ -2242,6 +2242,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         model.put( MARK_ATTRIBUTES_LIST, listAttributesText );
 
         model.putAll( AdminUserHome.getAnonymizationStatusUserStaticField( ) );
+        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_FIELD_ANONYMIZE_ADMIN_USER ) );
 
         setPageTitleProperty( PROPERTY_MESSAGE_TITLE_CHANGE_ANONYMIZE_USER );
 
@@ -2256,12 +2257,18 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
      * @param request
      *            The request
      * @return the Jsp URL of the process result
+     * @throws AccessDeniedException
+     *            If the security token is invalid
      */
-    public String doChangeFieldAnonymizeAdminUsers( HttpServletRequest request )
+    public String doChangeFieldAnonymizeAdminUsers( HttpServletRequest request ) throws AccessDeniedException
     {
         if ( request.getParameter( PARAMETER_CANCEL ) != null )
         {
             return JSP_MANAGE_ADVANCED_PARAMETERS;
+        }
+        if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_FIELD_ANONYMIZE_ADMIN_USER ) )
+        {
+            throw new AccessDeniedException( "Invalid security token" );
         }
 
         AdminUserHome.updateAnonymizationStatusUserStaticField( PARAMETER_ACCESS_CODE, Boolean.valueOf( request.getParameter( PARAMETER_ACCESS_CODE ) ) );

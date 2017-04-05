@@ -1,6 +1,7 @@
 <@row>
 	<@columns>
 		<@tform role='form' method='post' name='anonymize_user' action='jsp/admin/user/DoChangeFieldAnonymizeAdminUsers.jsp'>
+		<input type="hidden" name="token" value="${token}">
 		<@box color='success'>
 			<@boxHeader title='#i18n{portal.users.anonymize_user.titleAnonymizeUser}' boxTools=true>
 				<@button type='submit' buttonIcon='check' title='#i18n{portal.users.anonymize_user.buttonSave}'  size='' />
