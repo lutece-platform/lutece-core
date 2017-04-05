@@ -2315,12 +2315,14 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_USER_ERROR_SESSION, AdminMessage.TYPE_ERROR );
         }
 
-        UrlItem url = new UrlItem( JSP_URL_ANONYMIZE_ADMIN_USER );
-        url.addParameter( PARAMETER_USER_ID, strAdminUserId );
+        String strUrl = JSP_URL_ANONYMIZE_ADMIN_USER;
+        Map< String, Object > parameters = new HashMap<>( );
+        parameters.put( PARAMETER_USER_ID, strAdminUserId );
+        parameters.put( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, JSP_URL_ANONYMIZE_ADMIN_USER ) );
 
         return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_CONFIRM_ANONYMIZE_USER, new Object [ ] {
                 user.getFirstName( ), user.getLastName( ), user.getAccessCode( )
-        }, url.getUrl( ), AdminMessage.TYPE_CONFIRMATION );
+        }, null, strUrl, null, AdminMessage.TYPE_CONFIRMATION, parameters );
     }
 
     /**
@@ -2329,8 +2331,10 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
      * @param request
      *            The request
      * @return The Jsp URL of the process result
+     * @throws AccessDeniedException
+     *             in case of invalid security token
      */
-    public String doAnonymizeAdminUser( HttpServletRequest request )
+    public String doAnonymizeAdminUser( HttpServletRequest request ) throws AccessDeniedException
     {
         String strAdminUserId = request.getParameter( PARAMETER_USER_ID );
 
@@ -2345,6 +2349,10 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         if ( user == null )
         {
             return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_USER_ERROR_SESSION, AdminMessage.TYPE_ERROR );
+        }
+        if ( !SecurityTokenService.getInstance( ).validate( request, JSP_URL_ANONYMIZE_ADMIN_USER ) )
+        {
+            throw new AccessDeniedException( "Invalid security token" );
         }
 
         AdminUserService.anonymizeUser( nUserId, getLocale( ) );
