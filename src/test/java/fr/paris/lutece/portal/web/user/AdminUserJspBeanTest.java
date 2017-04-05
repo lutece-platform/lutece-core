@@ -48,6 +48,8 @@ import fr.paris.lutece.portal.business.role.RoleHome;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.business.user.AdminUserHome;
 import fr.paris.lutece.portal.business.user.authentication.LuteceDefaultAdminUser;
+import fr.paris.lutece.portal.business.workgroup.AdminWorkgroup;
+import fr.paris.lutece.portal.business.workgroup.AdminWorkgroupHome;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.admin.AdminAuthenticationService;
 import fr.paris.lutece.portal.service.admin.AdminUserService;
@@ -1073,4 +1075,115 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
     }
 
+    public void testDoModifyAdminUserWorkgroups( ) throws AccessDeniedException, UserNotSignedException
+    {
+        AdminUserJspBean bean = new AdminUserJspBean( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUser user = getUserToModify( );
+        AdminWorkgroup workgroup = null;
+        try
+        {
+            workgroup = new AdminWorkgroup( );
+            workgroup.setKey( user.getAccessCode( ) );
+            workgroup.setDescription( user.getAccessCode( ) );
+            AdminWorkgroupHome.create( workgroup );
+            assertFalse( AdminWorkgroupHome.isUserInWorkgroup( user, workgroup.getKey( ) ) );
+            AdminAuthenticationService.getInstance( ).registerUser( request, user );
+            bean.init( request, "CORE_USERS_MANAGEMENT" );
+            request.setParameter( "id_user", Integer.toString( user.getUserId( ) ) );
+            request.setParameter( "workgroup", workgroup.getKey( ) );
+            request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/user/ManageUserWorkgroups.jsp" ) );
+            bean.doModifyAdminUserWorkgroups( request );
+            assertNull( AdminMessageService.getMessage( request ) );
+            assertTrue( AdminWorkgroupHome.isUserInWorkgroup( user, workgroup.getKey( ) ) );
+        }
+        finally
+        {
+            if ( workgroup != null )
+            {
+                AdminWorkgroupHome.removeAllUsersForWorkgroup( workgroup.getKey( ) );
+                AdminWorkgroupHome.remove( workgroup.getKey( ) );
+            }
+            AdminUserHome.removeAllOwnRightsForUser( user ); 
+            AdminUserHome.remove( user.getUserId( ) );
+        }
+
+    }
+
+    public void testDoModifyAdminUserWorkgroupsInvalidToken( ) throws AccessDeniedException, UserNotSignedException
+    {
+        AdminUserJspBean bean = new AdminUserJspBean( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUser user = getUserToModify( );
+        AdminWorkgroup workgroup = null;
+        try
+        {
+            workgroup = new AdminWorkgroup( );
+            workgroup.setKey( user.getAccessCode( ) );
+            workgroup.setDescription( user.getAccessCode( ) );
+            AdminWorkgroupHome.create( workgroup );
+            assertFalse( AdminWorkgroupHome.isUserInWorkgroup( user, workgroup.getKey( ) ) );
+            AdminAuthenticationService.getInstance( ).registerUser( request, user );
+            bean.init( request, "CORE_USERS_MANAGEMENT" );
+            request.setParameter( "id_user", Integer.toString( user.getUserId( ) ) );
+            request.setParameter( "workgroup", workgroup.getKey( ) );
+            request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/user/ManageUserWorkgroups.jsp" ) + "b" );
+            bean.doModifyAdminUserWorkgroups( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            assertNull( AdminMessageService.getMessage( request ) );
+            assertFalse( AdminWorkgroupHome.isUserInWorkgroup( user, workgroup.getKey( ) ) );
+        }
+        finally
+        {
+            if ( workgroup != null )
+            {
+                AdminWorkgroupHome.removeAllUsersForWorkgroup( workgroup.getKey( ) );
+                AdminWorkgroupHome.remove( workgroup.getKey( ) );
+            }
+            AdminUserHome.removeAllOwnRightsForUser( user ); 
+            AdminUserHome.remove( user.getUserId( ) );
+        }
+
+    }
+
+    public void testDoModifyAdminUserWorkgroupsNoToken( ) throws AccessDeniedException, UserNotSignedException
+    {
+        AdminUserJspBean bean = new AdminUserJspBean( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUser user = getUserToModify( );
+        AdminWorkgroup workgroup = null;
+        try
+        {
+            workgroup = new AdminWorkgroup( );
+            workgroup.setKey( user.getAccessCode( ) );
+            workgroup.setDescription( user.getAccessCode( ) );
+            AdminWorkgroupHome.create( workgroup );
+            assertFalse( AdminWorkgroupHome.isUserInWorkgroup( user, workgroup.getKey( ) ) );
+            AdminAuthenticationService.getInstance( ).registerUser( request, user );
+            bean.init( request, "CORE_USERS_MANAGEMENT" );
+            request.setParameter( "id_user", Integer.toString( user.getUserId( ) ) );
+            request.setParameter( "workgroup", workgroup.getKey( ) );
+            bean.doModifyAdminUserWorkgroups( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            assertNull( AdminMessageService.getMessage( request ) );
+            assertFalse( AdminWorkgroupHome.isUserInWorkgroup( user, workgroup.getKey( ) ) );
+        }
+        finally
+        {
+            if ( workgroup != null )
+            {
+                AdminWorkgroupHome.removeAllUsersForWorkgroup( workgroup.getKey( ) );
+                AdminWorkgroupHome.remove( workgroup.getKey( ) );
+            }
+            AdminUserHome.removeAllOwnRightsForUser( user ); 
+            AdminUserHome.remove( user.getUserId( ) );
+        }
+
+    }
 }
