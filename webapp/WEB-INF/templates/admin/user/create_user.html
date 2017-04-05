@@ -17,6 +17,7 @@
 		<div class="box box-success">
 			<div class="box-body">
 				<form class="form-horizontal" method="post" name="create_user" action="jsp/admin/user/DoCreateUser.jsp" enctype="multipart/form-data" >
+				  <input type="hidden" name="token" value="${token}">
 				  <div class="row">
 						<div class="col-xs-12 col-sm-12 col-md-4">
 							<fieldset>

@@ -73,6 +73,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
     {
         AdminUserJspBean bean = new AdminUserJspBean( );
         MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/user/CreateUser.jsp" ) );
         bean.doCreateAdminUser( request );
         AdminMessage message = AdminMessageService.getMessage( request );
         assertNotNull( message );
@@ -83,6 +84,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         {
             request = new MockHttpServletRequest( );
             request.addParameter( "access_code", randomUserName );
+            request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/user/CreateUser.jsp" ) );
             bean.doCreateAdminUser( request );
             message = AdminMessageService.getMessage( request );
             assertNotNull( message );
@@ -91,6 +93,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
             request = new MockHttpServletRequest( );
             request.addParameter( "access_code", randomUserName );
             request.addParameter( "last_name", randomUserName );
+            request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/user/CreateUser.jsp" ) );
             bean.doCreateAdminUser( request );
             message = AdminMessageService.getMessage( request );
             assertNotNull( message );
@@ -100,6 +103,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
             request.addParameter( "access_code", randomUserName );
             request.addParameter( "last_name", randomUserName );
             request.addParameter( "first_name", randomUserName );
+            request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/user/CreateUser.jsp" ) );
             bean.doCreateAdminUser( request );
             message = AdminMessageService.getMessage( request );
             assertNotNull( message );
@@ -110,6 +114,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
             request.addParameter( "last_name", randomUserName );
             request.addParameter( "first_name", randomUserName );
             request.addParameter( "email", "   " );
+            request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/user/CreateUser.jsp" ) );
             bean.doCreateAdminUser( request );
             message = AdminMessageService.getMessage( request );
             assertNotNull( message );
@@ -120,6 +125,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
             request.addParameter( "last_name", randomUserName );
             request.addParameter( "first_name", randomUserName );
             request.addParameter( "email", randomUserName + "@lutece.fr" );
+            request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/user/CreateUser.jsp" ) );
             bean.doCreateAdminUser( request );
             message = AdminMessageService.getMessage( request );
             assertNotNull( message );
@@ -130,6 +136,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
             request.addParameter( "last_name", randomUserName );
             request.addParameter( "first_name", randomUserName );
             request.addParameter( "email", "admin@lutece.fr" );
+            request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/user/CreateUser.jsp" ) );
             bean.doCreateAdminUser( request );
             message = AdminMessageService.getMessage( request );
             assertNotNull( message );
@@ -142,6 +149,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
             request.addParameter( "email", randomUserName + "@lutece.fr" );
             request.addParameter( "user_level", "0" );
             request.getSession( true ).setAttribute( "lutece_admin_user", getLevel1AdminUserWithCORE_USERS_MANAGEMENTRight( ) );
+            request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/user/CreateUser.jsp" ) );
             bean.init( request, "CORE_USERS_MANAGEMENT" );
             bean.doCreateAdminUser( request );
             message = AdminMessageService.getMessage( request );
@@ -155,6 +163,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
             request.addParameter( "email", randomUserName + "@lutece.fr" );
             request.addParameter( "user_level", "0" );
             request.getSession( true ).setAttribute( "lutece_admin_user", getLevel0AdminUserWithCORE_USERS_MANAGEMENTRight( ) );
+            request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/user/CreateUser.jsp" ) );
             bean.init( request, "CORE_USERS_MANAGEMENT" ) ;
             bean.doCreateAdminUser( request );
             message = AdminMessageService.getMessage( request );
@@ -169,6 +178,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
             request.addParameter( "user_level", "0" );
             request.addParameter( "first_password", randomUserName );
             request.getSession( true ).setAttribute( "lutece_admin_user", getLevel0AdminUserWithCORE_USERS_MANAGEMENTRight( ) );
+            request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/user/CreateUser.jsp" ) );
             bean.init( request, "CORE_USERS_MANAGEMENT" ) ;
             bean.doCreateAdminUser( request );
             message = AdminMessageService.getMessage( request );
@@ -183,6 +193,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
             request.addParameter( "user_level", "0" );
             request.addParameter( "first_password", randomUserName );
             request.getSession( true ).setAttribute( "lutece_admin_user", getLevel0AdminUserWithCORE_USERS_MANAGEMENTRight( ) );
+            request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/user/CreateUser.jsp" ) );
             bean.init( request, "CORE_USERS_MANAGEMENT" ) ;
             bean.doCreateAdminUser( request );
             message = AdminMessageService.getMessage( request );
@@ -200,6 +211,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
             request.addParameter( "status", Integer.toString( AdminUser.ACTIVE_CODE ) ); // NPE if absent
             request.addParameter( "language", "fr" ); // NPE if absent
             request.getSession( true ).setAttribute( "lutece_admin_user", getLevel0AdminUserWithCORE_USERS_MANAGEMENTRight( ) );
+            request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/user/CreateUser.jsp" ) );
             bean.init( request, "CORE_USERS_MANAGEMENT" ) ;
             bean.doCreateAdminUser( request );
             message = AdminMessageService.getMessage( request );
@@ -209,6 +221,83 @@ public class AdminUserJspBeanTest extends LuteceTestCase
             LuteceDefaultAdminUser createdUserWithPassword = AdminUserHome.findLuteceDefaultAdminUserByPrimaryKey( createdUser.getUserId( ) );
             assertNotNull( createdUserWithPassword );
             assertTrue( createdUserWithPassword.getPassword( ).check( randomUserName ) );
+        }
+        finally
+        {
+            AdminUser user = AdminUserHome.findUserByLogin( randomUserName );
+            if ( user != null )
+            {
+                AdminUserHome.remove( user.getUserId( ) );
+            }
+        }
+    }
+
+    public void testDoCreateAdminUserInvalidToken( ) throws PasswordResetException, AccessDeniedException, UserNotSignedException
+    {
+        AdminUserJspBean bean = new AdminUserJspBean( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        String randomUserName = "User_" + new SecureRandom( ).nextLong( );
+        try
+        {
+            request.addParameter( "access_code", randomUserName );
+            request.addParameter( "last_name", randomUserName );
+            request.addParameter( "first_name", randomUserName );
+            request.addParameter( "email", randomUserName + "@lutece.fr" );
+            request.addParameter( "user_level", "0" );
+            request.addParameter( "first_password", randomUserName );
+            request.addParameter( "second_password", randomUserName );
+            request.addParameter( "status", Integer.toString( AdminUser.ACTIVE_CODE ) ); // NPE if absent
+            request.addParameter( "language", "fr" ); // NPE if absent
+            request.getSession( true ).setAttribute( "lutece_admin_user", getLevel0AdminUserWithCORE_USERS_MANAGEMENTRight( ) );
+            request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/user/CreateUser.jsp" ) + "b" );
+            bean.init( request, "CORE_USERS_MANAGEMENT" ) ;
+            bean.doCreateAdminUser( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            AdminMessage message = AdminMessageService.getMessage( request );
+            assertNull( message );
+            AdminUser createdUser = AdminUserHome.findUserByLogin( randomUserName );
+            assertNull( createdUser );
+        }
+        finally
+        {
+            AdminUser user = AdminUserHome.findUserByLogin( randomUserName );
+            if ( user != null )
+            {
+                AdminUserHome.remove( user.getUserId( ) );
+            }
+        }
+    }
+
+    public void testDoCreateAdminUserNoToken( ) throws PasswordResetException, AccessDeniedException, UserNotSignedException
+    {
+        AdminUserJspBean bean = new AdminUserJspBean( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        String randomUserName = "User_" + new SecureRandom( ).nextLong( );
+        try
+        {
+            request.addParameter( "access_code", randomUserName );
+            request.addParameter( "last_name", randomUserName );
+            request.addParameter( "first_name", randomUserName );
+            request.addParameter( "email", randomUserName + "@lutece.fr" );
+            request.addParameter( "user_level", "0" );
+            request.addParameter( "first_password", randomUserName );
+            request.addParameter( "second_password", randomUserName );
+            request.addParameter( "status", Integer.toString( AdminUser.ACTIVE_CODE ) ); // NPE if absent
+            request.addParameter( "language", "fr" ); // NPE if absent
+            request.getSession( true ).setAttribute( "lutece_admin_user", getLevel0AdminUserWithCORE_USERS_MANAGEMENTRight( ) );
+            bean.init( request, "CORE_USERS_MANAGEMENT" ) ;
+            bean.doCreateAdminUser( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            AdminMessage message = AdminMessageService.getMessage( request );
+            assertNull( message );
+            AdminUser createdUser = AdminUserHome.findUserByLogin( randomUserName );
+            assertNull( createdUser );
         }
         finally
         {

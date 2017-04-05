@@ -591,6 +591,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             model.put( MARK_WORKGROUP_KEY_LIST, AdminWorkgroupService.getUserWorkgroups( getUser( ), getLocale( ) ) );
             model.put( MARK_RANDOM_PASSWORD_SIZE, AppPropertiesService.getPropertyInt( PasswordUtil.PROPERTY_PASSWORD_SIZE, PasswordUtil.CONSTANT_DEFAULT_RANDOM_PASSWORD_SIZE ) );
             model.put( MARK_MINIMUM_PASSWORD_SIZE, AdminUserService.getIntegerSecurityParameter( AdminUserService.DSKEY_PASSWORD_MINIMUM_LENGTH ) );
+            model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, JSP_URL_CREATE_USER ) );
 
             template = AppTemplateService.getTemplate( TEMPLATE_DEFAULT_CREATE_USER, getLocale( ), model );
         }
@@ -622,6 +623,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
                 model.put( MARK_LOCALE, getLocale( ) );
                 model.put( MARK_DEFAULT_VALUE_WORKGROUP_KEY, AdminWorkgroupService.ALL_GROUPS );
                 model.put( MARK_WORKGROUP_KEY_LIST, AdminWorkgroupService.getUserWorkgroups( getUser( ), getLocale( ) ) );
+                model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, JSP_URL_CREATE_USER ) );
             }
 
             template = AppTemplateService.getTemplate( TEMPLATE_CREATE_USER, getLocale( ), model );
@@ -636,8 +638,10 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
      * @param request
      *            The HTTP Request
      * @return The Jsp URL of the process result
+     * @throws AccessDeniedException
+     *             If the security token is invalid
      */
-    public String doCreateAdminUser( HttpServletRequest request )
+    public String doCreateAdminUser( HttpServletRequest request ) throws AccessDeniedException
     {
         String strAccessCode = request.getParameter( PARAMETER_ACCESS_CODE );
         String strLastName = request.getParameter( PARAMETER_LAST_NAME );
@@ -742,7 +746,10 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             {
                 return strError;
             }
-
+            if ( !SecurityTokenService.getInstance( ).validate( request, JSP_URL_CREATE_USER ) )
+            {
+                throw new AccessDeniedException( "Invalid security token" );
+            }
             AdminUserHome.create( user );
             AdminUserFieldService.doCreateUserFields( user, request, getLocale( ) );
 
@@ -772,6 +779,10 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             if ( strError != null )
             {
                 return strError;
+            }
+            if ( !SecurityTokenService.getInstance( ).validate( request, JSP_URL_CREATE_USER ) )
+            {
+                throw new AccessDeniedException( "Invalid security token" );
             }
 
             AdminUserHome.create( user );
