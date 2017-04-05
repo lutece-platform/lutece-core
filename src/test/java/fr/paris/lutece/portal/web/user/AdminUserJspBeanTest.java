@@ -1186,4 +1186,103 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
 
     }
+
+    public void testGetAnonymizeAdminUser( )
+    {
+        AdminUserJspBean bean = new AdminUserJspBean( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUser user = getUserToModify( );
+        try
+        {
+            request.addParameter( "id_user", Integer.toString( user.getUserId( ) ) );
+            bean.getAnonymizeAdminUser( request );
+            AdminMessage message = AdminMessageService.getMessage( request );
+            assertNotNull( message );
+            assertTrue( message.getRequestParameters( ).containsKey( SecurityTokenService.PARAMETER_TOKEN ) );
+        }
+        finally
+        {
+            AdminUserHome.removeAllOwnRightsForUser( user ); 
+            AdminUserHome.remove( user.getUserId( ) );
+        }
+    }
+
+    public void testDoAnonymizeAdminUser( ) throws AccessDeniedException
+    {
+        AdminUserJspBean bean = new AdminUserJspBean( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUser user = getUserToModify( );
+        try
+        {
+            request.addParameter( "id_user", Integer.toString( user.getUserId( ) ) );
+            request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/user/DoAnonymizeAdminUser.jsp" ) );
+            bean.doAnonymizeAdminUser( request );
+            assertNull( AdminMessageService.getMessage( request ) );
+            AdminUser stored = AdminUserHome.findByPrimaryKey( user.getUserId( ) );
+            assertFalse( user.getAccessCode( ).equals( stored.getAccessCode( ) ) );
+            assertFalse( user.getFirstName( ).equals( stored.getFirstName( ) ) );
+            assertFalse( user.getLastName( ).equals( stored.getLastName( ) ) );
+            assertFalse( user.getEmail( ).equals( stored.getEmail( ) ) );
+        }
+        finally
+        {
+            AdminUserHome.removeAllOwnRightsForUser( user ); 
+            AdminUserHome.remove( user.getUserId( ) );
+        }  
+    }
+
+    public void testDoAnonymizeAdminUserInvalidToken( ) throws AccessDeniedException
+    {
+        AdminUserJspBean bean = new AdminUserJspBean( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUser user = getUserToModify( );
+        try
+        {
+            request.addParameter( "id_user", Integer.toString( user.getUserId( ) ) );
+            request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/user/DoAnonymizeAdminUser.jsp" ) + "b" );
+            bean.doAnonymizeAdminUser( request );
+            fail( "Should have thrown" );
+        }
+        catch (AccessDeniedException e )
+        {
+            assertNull( AdminMessageService.getMessage( request ) );
+            AdminUser stored = AdminUserHome.findByPrimaryKey( user.getUserId( ) );
+            assertEquals( user.getAccessCode( ), stored.getAccessCode( ) );
+            assertEquals( user.getFirstName( ), stored.getFirstName( ) );
+            assertEquals( user.getLastName( ), stored.getLastName( ) );
+            assertEquals( user.getEmail( ), stored.getEmail( ) );
+        }
+        finally
+        {
+            AdminUserHome.removeAllOwnRightsForUser( user ); 
+            AdminUserHome.remove( user.getUserId( ) );
+        }  
+    }
+
+    public void testDoAnonymizeAdminUserNoToken( ) throws AccessDeniedException
+    {
+        AdminUserJspBean bean = new AdminUserJspBean( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUser user = getUserToModify( );
+        try
+        {
+            request.addParameter( "id_user", Integer.toString( user.getUserId( ) ) );
+            bean.doAnonymizeAdminUser( request );
+            fail( "Should have thrown" );
+        }
+        catch (AccessDeniedException e )
+        {
+            assertNull( AdminMessageService.getMessage( request ) );
+            AdminUser stored = AdminUserHome.findByPrimaryKey( user.getUserId( ) );
+            assertEquals( user.getAccessCode( ), stored.getAccessCode( ) );
+            assertEquals( user.getFirstName( ), stored.getFirstName( ) );
+            assertEquals( user.getLastName( ), stored.getLastName( ) );
+            assertEquals( user.getEmail( ), stored.getEmail( ) );
+        }
+        finally
+        {
+            AdminUserHome.removeAllOwnRightsForUser( user ); 
+            AdminUserHome.remove( user.getUserId( ) );
+        }  
+    }
 }
