@@ -42,6 +42,7 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import fr.paris.lutece.portal.business.right.Right;
+import fr.paris.lutece.portal.business.right.RightHome;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.business.user.AdminUserHome;
 import fr.paris.lutece.portal.business.user.authentication.LuteceDefaultAdminUser;
@@ -811,6 +812,145 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         catch ( AccessDeniedException e )
         {
             assertFalse( AdminUserHome.findLuteceDefaultAdminUserByPrimaryKey( user.getUserId( ) ).getPassword( ).check( password ) );
+        }
+        finally
+        {
+            AdminUserHome.removeAllOwnRightsForUser( user ); 
+            AdminUserHome.remove( user.getUserId( ) );
+        }
+    }
+
+    public void testDoModifyAdminUserRights( ) throws AccessDeniedException, UserNotSignedException
+    {
+        AdminUserJspBean bean = new AdminUserJspBean( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUser user = getUserToModify( );
+        try
+        {
+            for ( Right right : RightHome.getRightsList( ) )
+            {
+                if ( "CORE_USERS_MANAGEMENT".equals( right.getId( ) ) )
+                {
+                    assertTrue( AdminUserHome.hasRight( user, right.getId( ) ) );
+                }
+                else
+                {
+                    assertFalse( AdminUserHome.hasRight( user, right.getId( ) ) );
+                }
+            }
+            AdminAuthenticationService.getInstance( ).registerUser( request, user );
+            request.setParameter( "id_user", Integer.toString( user.getUserId( ) ) );
+            for ( Right right : RightHome.getRightsList( ) )
+            {
+                request.addParameter( "right", right.getId( ) );
+            }
+            request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/user/ManageUserRights.jsp" ) );
+            bean.doModifyAdminUserRights( request );
+            assertNull( AdminMessageService.getMessage( request ) );
+            AdminUser stored = AdminUserHome.findByPrimaryKey( user.getUserId( ) );
+            for ( Right right : RightHome.getRightsList( ) )
+            {
+                assertTrue( AdminUserHome.hasRight( stored, right.getId( ) ) );
+            }
+        }
+        finally
+        {
+            AdminUserHome.removeAllOwnRightsForUser( user ); 
+            AdminUserHome.remove( user.getUserId( ) );
+        }
+    }
+
+    public void testDoModifyAdminUserRightsInvalidToken( ) throws AccessDeniedException, UserNotSignedException
+    {
+        AdminUserJspBean bean = new AdminUserJspBean( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUser user = getUserToModify( );
+        try
+        {
+            for ( Right right : RightHome.getRightsList( ) )
+            {
+                if ( "CORE_USERS_MANAGEMENT".equals( right.getId( ) ) )
+                {
+                    assertTrue( AdminUserHome.hasRight( user, right.getId( ) ) );
+                }
+                else
+                {
+                    assertFalse( AdminUserHome.hasRight( user, right.getId( ) ) );
+                }
+            }
+            AdminAuthenticationService.getInstance( ).registerUser( request, user );
+            request.setParameter( "id_user", Integer.toString( user.getUserId( ) ) );
+            for ( Right right : RightHome.getRightsList( ) )
+            {
+                request.addParameter( "right", right.getId( ) );
+            }
+            request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/user/ManageUserRights.jsp" ) + "b" );
+            bean.doModifyAdminUserRights( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            AdminUser stored = AdminUserHome.findByPrimaryKey( user.getUserId( ) );
+            for ( Right right : RightHome.getRightsList( ) )
+            {
+                if ( "CORE_USERS_MANAGEMENT".equals( right.getId( ) ) )
+                {
+                    assertTrue( AdminUserHome.hasRight( stored, right.getId( ) ) );
+                }
+                else
+                {
+                    assertFalse( AdminUserHome.hasRight( stored, right.getId( ) ) );
+                }
+            }
+        }
+        finally
+        {
+            AdminUserHome.removeAllOwnRightsForUser( user ); 
+            AdminUserHome.remove( user.getUserId( ) );
+        }
+    }
+
+    public void testDoModifyAdminUserRightsNoToken( ) throws AccessDeniedException, UserNotSignedException
+    {
+        AdminUserJspBean bean = new AdminUserJspBean( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUser user = getUserToModify( );
+        try
+        {
+            for ( Right right : RightHome.getRightsList( ) )
+            {
+                if ( "CORE_USERS_MANAGEMENT".equals( right.getId( ) ) )
+                {
+                    assertTrue( AdminUserHome.hasRight( user, right.getId( ) ) );
+                }
+                else
+                {
+                    assertFalse( AdminUserHome.hasRight( user, right.getId( ) ) );
+                }
+            }
+            AdminAuthenticationService.getInstance( ).registerUser( request, user );
+            request.setParameter( "id_user", Integer.toString( user.getUserId( ) ) );
+            for ( Right right : RightHome.getRightsList( ) )
+            {
+                request.addParameter( "right", right.getId( ) );
+            }
+            bean.doModifyAdminUserRights( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            AdminUser stored = AdminUserHome.findByPrimaryKey( user.getUserId( ) );
+            for ( Right right : RightHome.getRightsList( ) )
+            {
+                if ( "CORE_USERS_MANAGEMENT".equals( right.getId( ) ) )
+                {
+                    assertTrue( AdminUserHome.hasRight( stored, right.getId( ) ) );
+                }
+                else
+                {
+                    assertFalse( AdminUserHome.hasRight( stored, right.getId( ) ) );
+                }
+            }
         }
         finally
         {

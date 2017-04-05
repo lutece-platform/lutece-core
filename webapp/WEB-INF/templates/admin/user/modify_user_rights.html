@@ -24,6 +24,7 @@
 					<@tform method='post' action='jsp/admin/user/DoModifyUserRights.jsp'>
 						<input type="hidden" name="delegate_rights" value="${can_delegate}">
 							<input type="hidden" name="id_user" value="${user.userId}">
+							<input type="hidden" name="token" value="${token}">
 							<@row>
 								<@columns>
 									<@listGroup>
