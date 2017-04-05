@@ -1633,6 +1633,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         model.put( MARK_SELECT_ALL, bSelectAll );
         model.put( MARK_ITEM_NAVIGATOR, _itemNavigator );
         model.put( MARK_DEFAULT_MODE_USED, Boolean.valueOf( AdminAuthenticationService.getInstance( ).isDefaultModuleUsed( ) ) );
+        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, JSP_URL_MANAGE_USER_RIGHTS ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_USER_RIGHTS, getLocale( ), model );
 
@@ -1650,6 +1651,10 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
      */
     public String doModifyAdminUserRights( HttpServletRequest request ) throws AccessDeniedException
     {
+        if ( !SecurityTokenService.getInstance( ).validate( request, JSP_URL_MANAGE_USER_RIGHTS ) )
+        {
+            throw new AccessDeniedException( "Invalid security token" );
+        }
         String strUserId = request.getParameter( PARAMETER_USER_ID );
         int nUserId = Integer.parseInt( strUserId );
 
