@@ -16,6 +16,7 @@
 					<@tabContent>
 						<@tform role='form' method='post' action='jsp/admin/user/DoModifyUserRoles.jsp'>
 							<input type="hidden" name="id_user" value="${user.userId}">
+							<input type="hidden" name="token" value="${token}">
 							<@row>
 								<@columns>
 									<@listGroup>

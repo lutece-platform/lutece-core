@@ -43,6 +43,8 @@ import org.springframework.test.util.ReflectionTestUtils;
 
 import fr.paris.lutece.portal.business.right.Right;
 import fr.paris.lutece.portal.business.right.RightHome;
+import fr.paris.lutece.portal.business.role.Role;
+import fr.paris.lutece.portal.business.role.RoleHome;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.business.user.AdminUserHome;
 import fr.paris.lutece.portal.business.user.authentication.LuteceDefaultAdminUser;
@@ -958,4 +960,117 @@ public class AdminUserJspBeanTest extends LuteceTestCase
             AdminUserHome.remove( user.getUserId( ) );
         }
     }
+
+    public void testDoModifyAdminUserRoles( ) throws AccessDeniedException, UserNotSignedException
+    {
+        AdminUserJspBean bean = new AdminUserJspBean( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUser user = getUserToModify( );
+        try
+        {
+            for ( Role role : RoleHome.findAll( ) )
+            {
+                assertFalse( AdminUserHome.hasRole( user, role.getRole( ) ) );
+            }
+            AdminAuthenticationService.getInstance( ).registerUser( request, user );
+            request.setParameter( "id_user", Integer.toString( user.getUserId( ) ) );
+            assertFalse( RoleHome.findAll( ).isEmpty( ) );
+            for ( Role role : RoleHome.findAll( ) )
+            {
+                request.addParameter( "roles", role.getRole( ) );
+            }
+            request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/user/ManageUserRoles.jsp" ) );
+            bean.doModifyAdminUserRoles( request );
+            assertNull( AdminMessageService.getMessage( request ) );
+            AdminUser stored = AdminUserHome.findByPrimaryKey( user.getUserId( ) );
+            for ( Role role : RoleHome.findAll( ) )
+            {
+                assertTrue( AdminUserHome.hasRole( stored, role.getRole( ) ) );
+            }
+        }
+        finally
+        {
+            AdminUserHome.removeAllRolesForUser( user.getUserId( ) );
+            AdminUserHome.removeAllOwnRightsForUser( user ); 
+            AdminUserHome.remove( user.getUserId( ) );
+        }
+    }
+
+    public void testDoModifyAdminUserRolesInvladidToken( ) throws AccessDeniedException, UserNotSignedException
+    {
+        AdminUserJspBean bean = new AdminUserJspBean( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUser user = getUserToModify( );
+        try
+        {
+            for ( Role role : RoleHome.findAll( ) )
+            {
+                assertFalse( AdminUserHome.hasRole( user, role.getRole( ) ) );
+            }
+            AdminAuthenticationService.getInstance( ).registerUser( request, user );
+            request.setParameter( "id_user", Integer.toString( user.getUserId( ) ) );
+            assertFalse( RoleHome.findAll( ).isEmpty( ) );
+            for ( Role role : RoleHome.findAll( ) )
+            {
+                request.addParameter( "roles", role.getRole( ) );
+            }
+            request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/user/ManageUserRoles.jsp" ) + "b" );
+            bean.doModifyAdminUserRoles( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            assertNull( AdminMessageService.getMessage( request ) );
+            AdminUser stored = AdminUserHome.findByPrimaryKey( user.getUserId( ) );
+            for ( Role role : RoleHome.findAll( ) )
+            {
+                assertFalse( AdminUserHome.hasRole( stored, role.getRole( ) ) );
+            }
+        }
+        finally
+        {
+            AdminUserHome.removeAllRolesForUser( user.getUserId( ) );
+            AdminUserHome.removeAllOwnRightsForUser( user ); 
+            AdminUserHome.remove( user.getUserId( ) );
+        }
+    }
+
+    public void testDoModifyAdminUserRolesNoToken( ) throws AccessDeniedException, UserNotSignedException
+    {
+        AdminUserJspBean bean = new AdminUserJspBean( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUser user = getUserToModify( );
+        try
+        {
+            for ( Role role : RoleHome.findAll( ) )
+            {
+                assertFalse( AdminUserHome.hasRole( user, role.getRole( ) ) );
+            }
+            AdminAuthenticationService.getInstance( ).registerUser( request, user );
+            request.setParameter( "id_user", Integer.toString( user.getUserId( ) ) );
+            assertFalse( RoleHome.findAll( ).isEmpty( ) );
+            for ( Role role : RoleHome.findAll( ) )
+            {
+                request.addParameter( "roles", role.getRole( ) );
+            }
+            bean.doModifyAdminUserRoles( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            assertNull( AdminMessageService.getMessage( request ) );
+            AdminUser stored = AdminUserHome.findByPrimaryKey( user.getUserId( ) );
+            for ( Role role : RoleHome.findAll( ) )
+            {
+                assertFalse( AdminUserHome.hasRole( stored, role.getRole( ) ) );
+            }
+        }
+        finally
+        {
+            AdminUserHome.removeAllRolesForUser( user.getUserId( ) );
+            AdminUserHome.removeAllOwnRightsForUser( user ); 
+            AdminUserHome.remove( user.getUserId( ) );
+        }
+    }
+
 }
