@@ -1379,11 +1379,14 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             throw new fr.paris.lutece.portal.service.admin.AccessDeniedException( MESSAGE_NOT_AUTHORIZED );
         }
 
-        String strUrlRemove = JSP_URL_REMOVE_USER + "?" + PARAMETER_USER_ID + "=" + nUserId;
+        String strUrlRemove = JSP_URL_REMOVE_USER;
+        Map< String, Object > parameters = new HashMap<>( );
+        parameters.put( PARAMETER_USER_ID, strUserId );
+        parameters.put( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, JSP_URL_REMOVE_USER ) );
 
         String strUrl = AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_CONFIRM_REMOVE, new Object [ ] {
                 user.getFirstName( ), user.getLastName( ), user.getAccessCode( )
-        }, strUrlRemove, AdminMessage.TYPE_CONFIRMATION );
+        }, null, strUrlRemove, null, AdminMessage.TYPE_CONFIRMATION, parameters );
 
         return strUrl;
     }
@@ -1406,6 +1409,10 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         if ( user == null )
         {
             return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_USER_ERROR_SESSION, AdminMessage.TYPE_ERROR );
+        }
+        if ( !SecurityTokenService.getInstance( ).validate( request, JSP_URL_REMOVE_USER ) )
+        {
+            throw new AccessDeniedException( "Invalid security token" );
         }
 
         AdminUser currentUser = AdminUserService.getAdminUser( request );

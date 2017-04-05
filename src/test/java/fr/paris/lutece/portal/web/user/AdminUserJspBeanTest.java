@@ -1374,4 +1374,102 @@ public class AdminUserJspBeanTest extends LuteceTestCase
             }
         }
     }
+
+    public void testDoConfirmRemoveAdminUser( ) throws AccessDeniedException, UserNotSignedException
+    {
+        AdminUserJspBean bean = new AdminUserJspBean( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUser user = getUserToModify( );
+        try
+        {
+            request.addParameter( "id_user", Integer.toString( user.getUserId( ) ) );
+            AdminAuthenticationService.getInstance( ).registerUser( request, user );
+            bean.init( request, "CORE_USERS_MANAGEMENT" );
+            bean.doConfirmRemoveAdminUser( request );
+            AdminMessage message = AdminMessageService.getMessage( request );
+            assertNotNull( message );
+            assertTrue( message.getRequestParameters( ).containsKey( SecurityTokenService.PARAMETER_TOKEN ) );
+        }
+        finally
+        {
+            AdminUserHome.removeAllOwnRightsForUser( user ); 
+            AdminUserHome.remove( user.getUserId( ) );
+        }  
+    }
+
+    public void testDoRemoveAdminUser( ) throws AccessDeniedException, UserNotSignedException
+    {
+        AdminUserJspBean bean = new AdminUserJspBean( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUser user = getUserToModify( );
+        try
+        {
+            request.addParameter( "id_user", Integer.toString( user.getUserId( ) ) );
+            request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/user/DoRemoveUser.jsp" ) );
+            AdminAuthenticationService.getInstance( ).registerUser( request, user );
+            bean.init( request, "CORE_USERS_MANAGEMENT" );
+            bean.doRemoveAdminUser( request );
+            assertNull( AdminMessageService.getMessage( request ) );
+            AdminUser stored = AdminUserHome.findByPrimaryKey( user.getUserId( ) );
+            assertNull( stored );
+        }
+        finally
+        {
+            AdminUserHome.removeAllOwnRightsForUser( user ); 
+            AdminUserHome.remove( user.getUserId( ) );
+        }  
+    }
+
+    public void testDoRemoveAdminUserInvalidToken( ) throws AccessDeniedException, UserNotSignedException
+    {
+        AdminUserJspBean bean = new AdminUserJspBean( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUser user = getUserToModify( );
+        try
+        {
+            request.addParameter( "id_user", Integer.toString( user.getUserId( ) ) );
+            request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/user/DoRemoveUser.jsp" ) + "b" );
+            AdminAuthenticationService.getInstance( ).registerUser( request, user );
+            bean.init( request, "CORE_USERS_MANAGEMENT" );
+            bean.doRemoveAdminUser( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            assertNull( AdminMessageService.getMessage( request ) );
+            AdminUser stored = AdminUserHome.findByPrimaryKey( user.getUserId( ) );
+            assertNotNull( stored );
+        }
+        finally
+        {
+            AdminUserHome.removeAllOwnRightsForUser( user ); 
+            AdminUserHome.remove( user.getUserId( ) );
+        }  
+    }
+
+    public void testDoRemoveAdminUserNoToken( ) throws AccessDeniedException, UserNotSignedException
+    {
+        AdminUserJspBean bean = new AdminUserJspBean( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUser user = getUserToModify( );
+        try
+        {
+            request.addParameter( "id_user", Integer.toString( user.getUserId( ) ) );
+            AdminAuthenticationService.getInstance( ).registerUser( request, user );
+            bean.init( request, "CORE_USERS_MANAGEMENT" );
+            bean.doRemoveAdminUser( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            assertNull( AdminMessageService.getMessage( request ) );
+            AdminUser stored = AdminUserHome.findByPrimaryKey( user.getUserId( ) );
+            assertNotNull( stored );
+        }
+        finally
+        {
+            AdminUserHome.removeAllOwnRightsForUser( user ); 
+            AdminUserHome.remove( user.getUserId( ) );
+        }  
+    }
 }
