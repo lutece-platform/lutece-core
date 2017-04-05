@@ -37,6 +37,7 @@ import java.security.SecureRandom;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.test.util.ReflectionTestUtils;
@@ -1284,5 +1285,93 @@ public class AdminUserJspBeanTest extends LuteceTestCase
             AdminUserHome.removeAllOwnRightsForUser( user ); 
             AdminUserHome.remove( user.getUserId( ) );
         }  
+    }
+
+    public void testDoChangeFieldAnonymizeAdminUsers( ) throws AccessDeniedException
+    {
+        AdminUserJspBean bean = new AdminUserJspBean( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        Map<String, Boolean> origStatusMap = AdminUserHome.getAnonymizationStatusUserStaticField( );
+        try
+        {
+            for ( Entry<String, Boolean> entry : origStatusMap.entrySet( ) )
+            {
+                assertTrue( entry.getValue( ) );
+            }
+            request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "admin/user/field_anonymize_admin_user.html" ) );
+            bean.doChangeFieldAnonymizeAdminUsers( request );
+            for ( Entry<String, Boolean> entry : AdminUserHome.getAnonymizationStatusUserStaticField( ).entrySet( ) )
+            {
+                assertFalse( entry.getValue( ) );
+            }
+        }
+        finally
+        {
+            for ( Entry<String, Boolean> entry : origStatusMap.entrySet( ) )
+            {
+                AdminUserHome.updateAnonymizationStatusUserStaticField( entry.getKey( ), entry.getValue( ) );
+            }
+        }
+    }
+
+    public void testDoChangeFieldAnonymizeAdminUsersInvalidToken( ) throws AccessDeniedException
+    {
+        AdminUserJspBean bean = new AdminUserJspBean( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        Map<String, Boolean> origStatusMap = AdminUserHome.getAnonymizationStatusUserStaticField( );
+        try
+        {
+            for ( Entry<String, Boolean> entry : origStatusMap.entrySet( ) )
+            {
+                assertTrue( entry.getValue( ) );
+            }
+            request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "admin/user/field_anonymize_admin_user.html" ) + "b" );
+            bean.doChangeFieldAnonymizeAdminUsers( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            for ( Entry<String, Boolean> entry : AdminUserHome.getAnonymizationStatusUserStaticField( ).entrySet( ) )
+            {
+                assertTrue( entry.getValue( ) );
+            }
+        }
+        finally
+        {
+            for ( Entry<String, Boolean> entry : origStatusMap.entrySet( ) )
+            {
+                AdminUserHome.updateAnonymizationStatusUserStaticField( entry.getKey( ), entry.getValue( ) );
+            }
+        }
+    }
+
+    public void testDoChangeFieldAnonymizeAdminUsersNoToken( ) throws AccessDeniedException
+    {
+        AdminUserJspBean bean = new AdminUserJspBean( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        Map<String, Boolean> origStatusMap = AdminUserHome.getAnonymizationStatusUserStaticField( );
+        try
+        {
+            for ( Entry<String, Boolean> entry : origStatusMap.entrySet( ) )
+            {
+                assertTrue( entry.getValue( ) );
+            }
+            bean.doChangeFieldAnonymizeAdminUsers( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            for ( Entry<String, Boolean> entry : AdminUserHome.getAnonymizationStatusUserStaticField( ).entrySet( ) )
+            {
+                assertTrue( entry.getValue( ) );
+            }
+        }
+        finally
+        {
+            for ( Entry<String, Boolean> entry : origStatusMap.entrySet( ) )
+            {
+                AdminUserHome.updateAnonymizationStatusUserStaticField( entry.getKey( ), entry.getValue( ) );
+            }
+        }
     }
 }
