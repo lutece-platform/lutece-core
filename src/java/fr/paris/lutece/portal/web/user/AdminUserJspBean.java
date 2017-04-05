@@ -845,7 +845,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         model.put( MARK_LOCALE, getLocale( ) );
         model.put( MARK_MAP_LIST_ATTRIBUTE_DEFAULT_VALUES, map );
         model.put( MARK_WORKGROUP_KEY_LIST, AdminWorkgroupService.getUserWorkgroups( getUser( ), getLocale( ) ) );
-        model.put( MARK_MINIMUM_PASSWORD_SIZE, AdminUserService.getIntegerSecurityParameter( AdminUserService.DSKEY_PASSWORD_MINIMUM_LENGTH ) );
+        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, JSP_URL_MODIFY_USER ) );
 
         template = AppTemplateService.getTemplate( strTemplateUrl, getLocale( ), model );
 
@@ -921,6 +921,10 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         if ( ( checkCode != -1 ) && ( checkCode != nUserId ) )
         {
             return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_EMAIL_ALREADY_USED, AdminMessage.TYPE_STOP );
+        }
+        if ( !SecurityTokenService.getInstance( ).validate( request, JSP_URL_MODIFY_USER ) )
+        {
+            throw new AccessDeniedException( "Invalid security token" );
         }
 
         // modification in no-module mode : we manage the password

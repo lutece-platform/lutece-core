@@ -28,7 +28,8 @@
 									<#assign lg = 6>
 								</#if>
 								<@columns sm=sm md=md lg=lg>
-									<input type="hidden" name="id_user" value="${user.userId}" />    
+									<input type="hidden" name="id_user" value="${user.userId}" />
+									<input type="hidden" name="token" value="${token}">
 									<fieldset>
 										<legend>#i18n{portal.users.modify_user.labelIdentity}</legend>
 										<@formGroup labelKey='#i18n{portal.users.modify_user.labelAccessCode}' labelFor='access_code' rows=2 mandatory=true>

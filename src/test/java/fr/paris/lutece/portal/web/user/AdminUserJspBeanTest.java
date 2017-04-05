@@ -57,6 +57,7 @@ import fr.paris.lutece.portal.service.security.UserNotSignedException;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.util.AppException;
 import fr.paris.lutece.portal.web.constants.Messages;
+import fr.paris.lutece.portal.web.l10n.LocaleService;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.util.password.IPasswordFactory;
 
@@ -259,6 +260,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
             request = new MockHttpServletRequest( );
             AdminAuthenticationService.getInstance( ).registerUser( request, AdminUserHome.findUserByLogin( "admin" ) );
             request.addParameter( "id_user", Integer.toString( userToModify.getUserId( ) ) );
+            request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/user/ModifyUser.jsp" ) );
             bean.doModifyAdminUser( request );
             AdminMessage message = AdminMessageService.getMessage( request );
             assertNotNull( message );
@@ -270,6 +272,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
             AdminAuthenticationService.getInstance( ).registerUser( request, AdminUserHome.findUserByLogin( "admin" ) );
             request.addParameter( "id_user", Integer.toString( userToModify.getUserId( ) ) );
             request.addParameter( "access_code", modifiedName );
+            request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/user/ModifyUser.jsp" ) );
             bean.doModifyAdminUser( request );
             message = AdminMessageService.getMessage( request );
             assertNotNull( message );
@@ -280,6 +283,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
             request.addParameter( "id_user", Integer.toString( userToModify.getUserId( ) ) );
             request.addParameter( "access_code", modifiedName );
             request.addParameter( "last_name", modifiedName );
+            request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/user/ModifyUser.jsp" ) );
             bean.doModifyAdminUser( request );
             message = AdminMessageService.getMessage( request );
             assertNotNull( message );
@@ -291,6 +295,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
             request.addParameter( "access_code", modifiedName );
             request.addParameter( "last_name", modifiedName );
             request.addParameter( "first_name", modifiedName );
+            request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/user/ModifyUser.jsp" ) );
             bean.doModifyAdminUser( request );
             message = AdminMessageService.getMessage( request );
             assertNotNull( message );
@@ -303,6 +308,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
             request.addParameter( "last_name", modifiedName );
             request.addParameter( "first_name", modifiedName );
             request.addParameter( "email", "  " );
+            request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/user/ModifyUser.jsp" ) );
             bean.doModifyAdminUser( request );
             message = AdminMessageService.getMessage( request );
             assertNotNull( message );
@@ -315,6 +321,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
             request.addParameter( "last_name", modifiedName );
             request.addParameter( "first_name", modifiedName );
             request.addParameter( "email", modifiedName + "@lutece.fr" );
+            request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/user/ModifyUser.jsp" ) );
             bean.doModifyAdminUser( request );
             message = AdminMessageService.getMessage( request );
             assertNotNull( message );
@@ -327,11 +334,123 @@ public class AdminUserJspBeanTest extends LuteceTestCase
             request.addParameter( "last_name", modifiedName );
             request.addParameter( "first_name", modifiedName );
             request.addParameter( "email", "admin@lutece.fr" );
+            request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/user/ModifyUser.jsp" ) );
             bean.doModifyAdminUser( request );
             message = AdminMessageService.getMessage( request );
             assertNotNull( message );
             assertEquals( I18nService.getLocalizedString( "portal.users.message.user.accessEmailUsed", Locale.FRENCH ), message.getText( Locale.FRENCH ) );
          }
+        finally
+        {
+            AdminUserHome.removeAllOwnRightsForUser( userToModify ); 
+            AdminUserHome.remove( userToModify.getUserId( ) );
+        }
+    }
+
+    public void testDoModifyAdminUserSuccess( ) throws AccessDeniedException, UserNotSignedException
+    {
+        AdminUser userToModify = getUserToModify( );
+        try
+        {
+            AdminUserJspBean bean = new AdminUserJspBean( );
+            MockHttpServletRequest request = new MockHttpServletRequest( );
+            request = new MockHttpServletRequest( );
+            AdminAuthenticationService.getInstance( ).registerUser( request, AdminUserHome.findUserByLogin( "admin" ) );
+            request.addParameter( "id_user", Integer.toString( userToModify.getUserId( ) ) );
+            final String modifiedName = userToModify.getAccessCode( ) + "_mod";
+            request.addParameter( "access_code", modifiedName );
+            request.addParameter( "last_name", modifiedName );
+            request.addParameter( "first_name", modifiedName );
+            request.addParameter( "email", userToModify.getEmail( ) );
+            request.addParameter( "status", Integer.toString( AdminUser.NOT_ACTIVE_CODE ) );
+            request.addParameter( "language", Locale.KOREA.toString( ) );
+            request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/user/ModifyUser.jsp" ) );
+            bean.doModifyAdminUser( request );
+            AdminMessage message = AdminMessageService.getMessage( request );
+            assertNull( message );
+            AdminUser stored = AdminUserHome.findByPrimaryKey( userToModify.getUserId( ) );
+            assertNotNull( stored );
+            assertEquals( modifiedName, stored.getAccessCode( ) );
+            assertEquals( modifiedName, stored.getFirstName( ) );
+            assertEquals( modifiedName, stored.getLastName( ) );
+            assertEquals( AdminUser.NOT_ACTIVE_CODE, stored.getStatus( ) );
+            assertEquals( Locale.KOREA.toString( ).toLowerCase( ), stored.getLocale( ).toString( ).toLowerCase( ) );
+        }
+        finally
+        {
+            AdminUserHome.removeAllOwnRightsForUser( userToModify ); 
+            AdminUserHome.remove( userToModify.getUserId( ) );
+        }
+    }
+
+    public void testDoModifyAdminUserNoToken( ) throws AccessDeniedException, UserNotSignedException
+    {
+        AdminUser userToModify = getUserToModify( );
+        try
+        {
+            AdminUserJspBean bean = new AdminUserJspBean( );
+            MockHttpServletRequest request = new MockHttpServletRequest( );
+            request = new MockHttpServletRequest( );
+            AdminAuthenticationService.getInstance( ).registerUser( request, AdminUserHome.findUserByLogin( "admin" ) );
+            request.addParameter( "id_user", Integer.toString( userToModify.getUserId( ) ) );
+            final String modifiedName = userToModify.getAccessCode( ) + "_mod";
+            request.addParameter( "access_code", modifiedName );
+            request.addParameter( "last_name", modifiedName );
+            request.addParameter( "first_name", modifiedName );
+            request.addParameter( "email", userToModify.getEmail( ) );
+            request.addParameter( "status", Integer.toString( AdminUser.NOT_ACTIVE_CODE ) );
+            request.addParameter( "language", Locale.KOREA.toString( ) );
+            bean.doModifyAdminUser( request );
+            fail( "Should have thrown ");
+        }
+        catch ( AccessDeniedException e )
+        {
+            AdminUser stored = AdminUserHome.findByPrimaryKey( userToModify.getUserId( ) );
+            assertNotNull( stored );
+            assertEquals( userToModify.getAccessCode( ), stored.getAccessCode( ) );
+            assertEquals( userToModify.getFirstName( ), stored.getFirstName( ) );
+            assertEquals( userToModify.getLastName( ), stored.getLastName( ) );
+            assertEquals( AdminUser.ACTIVE_CODE, stored.getStatus( ) );
+            assertEquals( LocaleService.getDefault( ), stored.getLocale( ) );
+        }
+        finally
+        {
+            AdminUserHome.removeAllOwnRightsForUser( userToModify ); 
+            AdminUserHome.remove( userToModify.getUserId( ) );
+        }
+    }
+
+    public void testDoModifyAdminUserInvalidToken( ) throws AccessDeniedException, UserNotSignedException
+    {
+        AdminUser userToModify = getUserToModify( );
+        try
+        {
+            AdminUserJspBean bean = new AdminUserJspBean( );
+            MockHttpServletRequest request = new MockHttpServletRequest( );
+            request = new MockHttpServletRequest( );
+            AdminAuthenticationService.getInstance( ).registerUser( request, AdminUserHome.findUserByLogin( "admin" ) );
+            request.addParameter( "id_user", Integer.toString( userToModify.getUserId( ) ) );
+            final String modifiedName = userToModify.getAccessCode( ) + "_mod";
+            request.addParameter( "access_code", modifiedName );
+            request.addParameter( "last_name", modifiedName );
+            request.addParameter( "first_name", modifiedName );
+            request.addParameter( "email", userToModify.getEmail( ) );
+            request.addParameter( "status", Integer.toString( AdminUser.NOT_ACTIVE_CODE ) );
+            request.addParameter( "language", Locale.KOREA.toString( ) );
+            request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/user/ModifyUser.jsp" ) + "b" );
+            bean.doModifyAdminUser( request );
+            fail( "Should have thrown ");
+        }
+        catch ( AccessDeniedException e )
+        {
+            AdminUser stored = AdminUserHome.findByPrimaryKey( userToModify.getUserId( ) );
+            assertNotNull( stored );
+            assertEquals( userToModify.getAccessCode( ), stored.getAccessCode( ) );
+            assertEquals( userToModify.getFirstName( ), stored.getFirstName( ) );
+            assertEquals( userToModify.getLastName( ), stored.getLastName( ) );
+            assertEquals( AdminUser.ACTIVE_CODE, stored.getStatus( ) );
+            assertEquals( LocaleService.getDefault( ), stored.getLocale( ) );
+        }
         finally
         {
             AdminUserHome.removeAllOwnRightsForUser( userToModify ); 
@@ -586,7 +705,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
             AdminUserHome.remove( user.getUserId( ) );
         }
     }
-    
+
     public void testDoModifyAdminUserPasswordDifferentSecond( ) throws AccessDeniedException, UserNotSignedException
     {
         AdminUserJspBean bean = new AdminUserJspBean( );
@@ -614,7 +733,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
             AdminUserHome.remove( user.getUserId( ) );
         }
     }
-    
+
     public void testDoModifyAdminUserPasswordWeak( ) throws AccessDeniedException, UserNotSignedException
     {
         AdminUserJspBean bean = new AdminUserJspBean( );
@@ -642,7 +761,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
             AdminUserHome.remove( user.getUserId( ) );
         }
     }
-    
+
     public void testDoModifyAdminUserPasswordNoToken( ) throws AccessDeniedException, UserNotSignedException
     {
         AdminUserJspBean bean = new AdminUserJspBean( );
@@ -670,7 +789,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
             AdminUserHome.remove( user.getUserId( ) );
         }
     }
-    
+
     public void testDoModifyAdminUserPasswordInvalidToken( ) throws AccessDeniedException, UserNotSignedException
     {
         AdminUserJspBean bean = new AdminUserJspBean( );
