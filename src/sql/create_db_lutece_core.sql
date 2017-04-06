@@ -539,7 +539,7 @@ DROP TABLE IF EXISTS core_user_password_history;
 CREATE  TABLE core_user_password_history (
   id_user INT NOT NULL ,
   password LONG VARCHAR NOT NULL ,
-  date_password_change TIMESTAMP DEFAULT NOW() NOT NULL,
+  date_password_change TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
   PRIMARY KEY (id_user, date_password_change)
   );
   
