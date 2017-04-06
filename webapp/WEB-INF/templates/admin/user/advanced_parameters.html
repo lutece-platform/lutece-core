@@ -92,6 +92,7 @@
 						
 			<#if plugin_regularexpression && !is_email_pattern_set_manually>
 			<@tform method='post' action='jsp/admin/user/DoInsertRegularExpression.jsp#list-regularexpressions'>
+				<input type="hidden" name="token" value="${token}">
 				<fieldset>
 					<legend>#i18n{portal.users.manage_advanced_parameters.labelRegularExpression}</legend>
 					<@formGroup labelKey='#i18n{portal.users.manage_advanced_parameters.labelRegularExpression}' labelFor='id_expression'>

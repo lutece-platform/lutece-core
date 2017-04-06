@@ -1688,5 +1688,66 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
     }
 
+    public void testDoInsertRegularExpression( ) throws AccessDeniedException, UserNotSignedException
+    {
+        AdminUserJspBean bean = new AdminUserJspBean( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminAuthenticationService.getInstance( ).registerUser( request, AdminUserHome.findUserByLogin( "admin" ) );
+        request.setParameter( "id_expression", "1" );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "ManageAdvancedParameters.jsp" ) );
+        bean.init( request, "CORE_USERS_MANAGEMENT" );
+        try
+        {
+            bean.doInsertRegularExpression( request ); // FIXME not really testing this plugin-regularexpression is not there
+        }
+        finally
+        {
+            AdminUserService.doRemoveRegularExpression( 1 );
+        }
+    }
 
+    public void testDoInsertRegularExpressionInvalidToken( ) throws AccessDeniedException, UserNotSignedException
+    {
+        AdminUserJspBean bean = new AdminUserJspBean( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminAuthenticationService.getInstance( ).registerUser( request, AdminUserHome.findUserByLogin( "admin" ) );
+        request.setParameter( "id_expression", "1" );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "ManageAdvancedParameters.jsp" ) + "b" );
+        bean.init( request, "CORE_USERS_MANAGEMENT" );
+        try
+        {
+            bean.doInsertRegularExpression( request ); // FIXME not really testing this plugin-regularexpression is not there
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            // OK
+        }
+        finally
+        {
+            AdminUserService.doRemoveRegularExpression( 1 );
+        }
+    }
+
+    public void testDoInsertRegularExpressionNoToken( ) throws AccessDeniedException, UserNotSignedException
+    {
+        AdminUserJspBean bean = new AdminUserJspBean( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminAuthenticationService.getInstance( ).registerUser( request, AdminUserHome.findUserByLogin( "admin" ) );
+        request.setParameter( "id_expression", "1" );
+        bean.init( request, "CORE_USERS_MANAGEMENT" );
+        try
+        {
+            bean.doInsertRegularExpression( request ); // FIXME not really testing this plugin-regularexpression is not there
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            // OK
+        }
+        finally
+        {
+            AdminUserService.doRemoveRegularExpression( 1 );
+        }
+    }
 }
