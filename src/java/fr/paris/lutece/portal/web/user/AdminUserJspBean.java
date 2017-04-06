@@ -1965,6 +1965,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         setPageTitleProperty( PROPERTY_MANAGE_ADVANCED_PARAMETERS_PAGETITLE );
 
         Map<String, Object> model = AdminUserService.getManageAdvancedParameters( getUser( ) );
+        model.put( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, JSP_MANAGE_ADVANCED_PARAMETERS ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_ADVANCED_PARAMETERS, getUser( ).getLocale( ), model );
 
@@ -2150,6 +2151,10 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
      */
     public String doInsertRegularExpression( HttpServletRequest request ) throws AccessDeniedException
     {
+        if ( !SecurityTokenService.getInstance( ).validate( request, JSP_MANAGE_ADVANCED_PARAMETERS ) )
+        {
+            throw new AccessDeniedException( "Invalid security token" );
+        }
         if ( !RBACService.isAuthorized( AdminUser.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID, AdminUserResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS,
                 getUser( ) ) )
         {
