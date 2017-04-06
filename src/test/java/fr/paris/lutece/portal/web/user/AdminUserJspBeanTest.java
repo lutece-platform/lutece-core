@@ -57,6 +57,7 @@ import fr.paris.lutece.portal.business.role.RoleHome;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.business.user.AdminUserHome;
 import fr.paris.lutece.portal.business.user.authentication.LuteceDefaultAdminUser;
+import fr.paris.lutece.portal.business.user.parameter.DefaultUserParameterHome;
 import fr.paris.lutece.portal.business.workgroup.AdminWorkgroup;
 import fr.paris.lutece.portal.business.workgroup.AdminWorkgroupHome;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
@@ -1837,6 +1838,109 @@ public class AdminUserJspBeanTest extends LuteceTestCase
             AdminUserService.updateSecurityParameter( "core.advanced_parameters.first_alert_mail_sender", origEmailSender );
             AdminUserService.updateSecurityParameter( "core.advanced_parameters.first_alert_mail_subject", origEmailSubject );
             DatabaseTemplateService.updateTemplate( "core_first_alert_mail", origEmailBody );
+        }
+    }
+
+    public void testDoModifyDefaultUserParameterValues( ) throws AccessDeniedException, UserNotSignedException
+    {
+        String origDefaultStatus = DefaultUserParameterHome.findByKey( AdminUserService.DSKEY_DEFAULT_USER_STATUS );
+        String origDefaultLevel = DefaultUserParameterHome.findByKey( AdminUserService.DSKEY_DEFAULT_USER_LEVEL );
+        String origDefaultNotification = DefaultUserParameterHome.findByKey( AdminUserService.DSKEY_DEFAULT_USER_NOTIFICATION );
+        String origDefaultLanguage = DefaultUserParameterHome.findByKey( AdminUserService.DSKEY_DEFAULT_USER_LANGUAGE );
+        AdminUserJspBean bean = new AdminUserJspBean( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminAuthenticationService.getInstance( ).registerUser( request, AdminUserHome.findUserByLogin( "admin" ) );
+        bean.init( request, "CORE_USERS_MANAGEMENT" );
+        request.setParameter( "status", Integer.toString( AdminUser.ANONYMIZED_CODE ) );
+        request.setParameter( "user_level", "10" );
+        request.setParameter( "notify_user", "false" );
+        request.setParameter( "language", Locale.CANADA_FRENCH.toString( ) );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "ManageAdvancedParameters.jsp" ) );
+        try
+        {
+            bean.doModifyDefaultUserParameterValues( request );
+            assertEquals( Integer.toString( AdminUser.ANONYMIZED_CODE ), DefaultUserParameterHome.findByKey( AdminUserService.DSKEY_DEFAULT_USER_STATUS ) );
+            assertEquals( "10", DefaultUserParameterHome.findByKey( AdminUserService.DSKEY_DEFAULT_USER_LEVEL ) );
+            assertEquals( "false", DefaultUserParameterHome.findByKey( AdminUserService.DSKEY_DEFAULT_USER_NOTIFICATION ) );
+            assertEquals( Locale.CANADA_FRENCH.toString( ), DefaultUserParameterHome.findByKey( AdminUserService.DSKEY_DEFAULT_USER_LANGUAGE ) );
+        }
+        finally
+        {
+            DefaultUserParameterHome.update( AdminUserService.DSKEY_DEFAULT_USER_STATUS, origDefaultStatus);
+            DefaultUserParameterHome.update( AdminUserService.DSKEY_DEFAULT_USER_LEVEL, origDefaultLevel );
+            DefaultUserParameterHome.update( AdminUserService.DSKEY_DEFAULT_USER_NOTIFICATION, origDefaultNotification );
+            DefaultUserParameterHome.update( AdminUserService.DSKEY_DEFAULT_USER_LANGUAGE, origDefaultLanguage );
+        }
+    }
+
+    public void testDoModifyDefaultUserParameterValuesInvalidToken( ) throws AccessDeniedException, UserNotSignedException
+    {
+        String origDefaultStatus = DefaultUserParameterHome.findByKey( AdminUserService.DSKEY_DEFAULT_USER_STATUS );
+        String origDefaultLevel = DefaultUserParameterHome.findByKey( AdminUserService.DSKEY_DEFAULT_USER_LEVEL );
+        String origDefaultNotification = DefaultUserParameterHome.findByKey( AdminUserService.DSKEY_DEFAULT_USER_NOTIFICATION );
+        String origDefaultLanguage = DefaultUserParameterHome.findByKey( AdminUserService.DSKEY_DEFAULT_USER_LANGUAGE );
+        AdminUserJspBean bean = new AdminUserJspBean( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminAuthenticationService.getInstance( ).registerUser( request, AdminUserHome.findUserByLogin( "admin" ) );
+        bean.init( request, "CORE_USERS_MANAGEMENT" );
+        request.setParameter( "status", Integer.toString( AdminUser.ANONYMIZED_CODE ) );
+        request.setParameter( "user_level", "10" );
+        request.setParameter( "notify_user", "false" );
+        request.setParameter( "language", Locale.CANADA_FRENCH.toString( ) );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "ManageAdvancedParameters.jsp" ) + "b" );
+        try
+        {
+            bean.doModifyDefaultUserParameterValues( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            assertEquals( origDefaultStatus, DefaultUserParameterHome.findByKey( AdminUserService.DSKEY_DEFAULT_USER_STATUS ) );
+            assertEquals( origDefaultLevel, DefaultUserParameterHome.findByKey( AdminUserService.DSKEY_DEFAULT_USER_LEVEL ) );
+            assertEquals( origDefaultNotification, DefaultUserParameterHome.findByKey( AdminUserService.DSKEY_DEFAULT_USER_NOTIFICATION ) );
+            assertEquals( origDefaultLanguage, DefaultUserParameterHome.findByKey( AdminUserService.DSKEY_DEFAULT_USER_LANGUAGE ) );
+        }
+        finally
+        {
+            DefaultUserParameterHome.update( AdminUserService.DSKEY_DEFAULT_USER_STATUS, origDefaultStatus);
+            DefaultUserParameterHome.update( AdminUserService.DSKEY_DEFAULT_USER_LEVEL, origDefaultLevel );
+            DefaultUserParameterHome.update( AdminUserService.DSKEY_DEFAULT_USER_NOTIFICATION, origDefaultNotification );
+            DefaultUserParameterHome.update( AdminUserService.DSKEY_DEFAULT_USER_LANGUAGE, origDefaultLanguage );
+        }
+    }
+
+    public void testDoModifyDefaultUserParameterValuesNoToken( ) throws AccessDeniedException, UserNotSignedException
+    {
+        String origDefaultStatus = DefaultUserParameterHome.findByKey( AdminUserService.DSKEY_DEFAULT_USER_STATUS );
+        String origDefaultLevel = DefaultUserParameterHome.findByKey( AdminUserService.DSKEY_DEFAULT_USER_LEVEL );
+        String origDefaultNotification = DefaultUserParameterHome.findByKey( AdminUserService.DSKEY_DEFAULT_USER_NOTIFICATION );
+        String origDefaultLanguage = DefaultUserParameterHome.findByKey( AdminUserService.DSKEY_DEFAULT_USER_LANGUAGE );
+        AdminUserJspBean bean = new AdminUserJspBean( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminAuthenticationService.getInstance( ).registerUser( request, AdminUserHome.findUserByLogin( "admin" ) );
+        bean.init( request, "CORE_USERS_MANAGEMENT" );
+        request.setParameter( "status", Integer.toString( AdminUser.ANONYMIZED_CODE ) );
+        request.setParameter( "user_level", "10" );
+        request.setParameter( "notify_user", "false" );
+        request.setParameter( "language", Locale.CANADA_FRENCH.toString( ) );
+        try
+        {
+            bean.doModifyDefaultUserParameterValues( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            assertEquals( origDefaultStatus, DefaultUserParameterHome.findByKey( AdminUserService.DSKEY_DEFAULT_USER_STATUS ) );
+            assertEquals( origDefaultLevel, DefaultUserParameterHome.findByKey( AdminUserService.DSKEY_DEFAULT_USER_LEVEL ) );
+            assertEquals( origDefaultNotification, DefaultUserParameterHome.findByKey( AdminUserService.DSKEY_DEFAULT_USER_NOTIFICATION ) );
+            assertEquals( origDefaultLanguage, DefaultUserParameterHome.findByKey( AdminUserService.DSKEY_DEFAULT_USER_LANGUAGE ) );
+        }
+        finally
+        {
+            DefaultUserParameterHome.update( AdminUserService.DSKEY_DEFAULT_USER_STATUS, origDefaultStatus);
+            DefaultUserParameterHome.update( AdminUserService.DSKEY_DEFAULT_USER_LEVEL, origDefaultLevel );
+            DefaultUserParameterHome.update( AdminUserService.DSKEY_DEFAULT_USER_NOTIFICATION, origDefaultNotification );
+            DefaultUserParameterHome.update( AdminUserService.DSKEY_DEFAULT_USER_LANGUAGE, origDefaultLanguage );
         }
     }
 }

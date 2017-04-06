@@ -4,6 +4,7 @@
 			<@accordionBody>
 				<!-- DEFAULT USER PARAMETERS -->
 				<@tform method='post' name='default_user_parameters' action='jsp/admin/user/DoModifyDefaultUserParameterValues.jsp'>
+					<input type="hidden" name="token" value="${token}">
 					<fieldset>
 						<!-- USER LEVEL -->
 						<@formGroup labelKey='#i18n{portal.users.manage_advanced_parameters.userLevelLabel}' labelFor='user_level'>
