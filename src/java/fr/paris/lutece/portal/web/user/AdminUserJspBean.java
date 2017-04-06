@@ -2503,6 +2503,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         model.put( MARK_EMAIL_LABEL, strTitle );
         model.put( MARK_WEBAPP_URL, AppPathService.getBaseUrl( request ) );
         model.put( MARK_LOCALE, getLocale( ) );
+        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, JSP_MANAGE_ADVANCED_PARAMETERS ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ACCOUNT_LIFE_TIME_EMAIL, getLocale( ), model );
 
@@ -2515,9 +2516,15 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
      * @param request
      *            The request
      * @return The Jsp URL of the process result
+     * @throws AccessDeniedException
+     *             if the security token is invalid
      */
-    public String doModifyAccountLifeTimeEmails( HttpServletRequest request )
+    public String doModifyAccountLifeTimeEmails( HttpServletRequest request ) throws AccessDeniedException
     {
+        if ( !SecurityTokenService.getInstance( ).validate( request, JSP_MANAGE_ADVANCED_PARAMETERS ) )
+        {
+            throw new AccessDeniedException( "Invalid security token" );
+        }
         String strEmailType = request.getParameter( PARAMETER_EMAIL_TYPE );
 
         String strSenderKey = StringUtils.EMPTY;

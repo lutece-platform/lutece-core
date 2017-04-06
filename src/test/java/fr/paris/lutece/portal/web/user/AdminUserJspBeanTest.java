@@ -69,6 +69,7 @@ import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.security.UserNotSignedException;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
+import fr.paris.lutece.portal.service.template.DatabaseTemplateService;
 import fr.paris.lutece.portal.service.util.AppException;
 import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.portal.web.l10n.LocaleService;
@@ -1748,6 +1749,94 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         finally
         {
             AdminUserService.doRemoveRegularExpression( 1 );
+        }
+    }
+
+    public void testDoModifyAccountLifeTimeEmails( ) throws AccessDeniedException
+    {
+        String origEmailSender = AdminUserService.getSecurityParameter( "core.advanced_parameters.first_alert_mail_sender" );
+        String origEmailSubject = AdminUserService.getSecurityParameter( "core.advanced_parameters.first_alert_mail_subject" );
+        String origEmailBody = DatabaseTemplateService.getTemplateFromKey( "core_first_alert_mail" );
+        AdminUserJspBean bean = new AdminUserJspBean( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( "email_type", "first" );
+        request.setParameter( "email_sender", "junit" );
+        request.setParameter( "email_subject", "junit" );
+        request.setParameter( "email_body", "junit" );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "ManageAdvancedParameters.jsp" ) );
+        try
+        {
+            bean.doModifyAccountLifeTimeEmails( request );
+            assertEquals( "junit", AdminUserService.getSecurityParameter( "core.advanced_parameters.first_alert_mail_sender" ) );
+            assertEquals( "junit", AdminUserService.getSecurityParameter( "core.advanced_parameters.first_alert_mail_subject" ) );
+            assertEquals( "junit", DatabaseTemplateService.getTemplateFromKey( "core_first_alert_mail" ) );
+        }
+        finally
+        {
+            AdminUserService.updateSecurityParameter( "core.advanced_parameters.first_alert_mail_sender", origEmailSender );
+            AdminUserService.updateSecurityParameter( "core.advanced_parameters.first_alert_mail_subject", origEmailSubject );
+            DatabaseTemplateService.updateTemplate( "core_first_alert_mail", origEmailBody );
+        }
+    }
+
+    public void testDoModifyAccountLifeTimeEmailsInvalidToken( )
+    {
+        String origEmailSender = AdminUserService.getSecurityParameter( "core.advanced_parameters.first_alert_mail_sender" );
+        String origEmailSubject = AdminUserService.getSecurityParameter( "core.advanced_parameters.first_alert_mail_subject" );
+        String origEmailBody = DatabaseTemplateService.getTemplateFromKey( "core_first_alert_mail" );
+        AdminUserJspBean bean = new AdminUserJspBean( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( "email_type", "first" );
+        request.setParameter( "email_sender", "junit" );
+        request.setParameter( "email_subject", "junit" );
+        request.setParameter( "email_body", "junit" );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "ManageAdvancedParameters.jsp" ) + "b" );
+        try
+        {
+            bean.doModifyAccountLifeTimeEmails( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            assertEquals( origEmailSender, AdminUserService.getSecurityParameter( "core.advanced_parameters.first_alert_mail_sender" ) );
+            assertEquals( origEmailSubject, AdminUserService.getSecurityParameter( "core.advanced_parameters.first_alert_mail_subject" ) );
+            assertEquals( origEmailBody, DatabaseTemplateService.getTemplateFromKey( "core_first_alert_mail" ) );
+        }
+        finally
+        {
+            AdminUserService.updateSecurityParameter( "core.advanced_parameters.first_alert_mail_sender", origEmailSender );
+            AdminUserService.updateSecurityParameter( "core.advanced_parameters.first_alert_mail_subject", origEmailSubject );
+            DatabaseTemplateService.updateTemplate( "core_first_alert_mail", origEmailBody );
+        }
+    }
+
+    public void testDoModifyAccountLifeTimeEmailsNoToken( )
+    {
+        String origEmailSender = AdminUserService.getSecurityParameter( "core.advanced_parameters.first_alert_mail_sender" );
+        String origEmailSubject = AdminUserService.getSecurityParameter( "core.advanced_parameters.first_alert_mail_subject" );
+        String origEmailBody = DatabaseTemplateService.getTemplateFromKey( "core_first_alert_mail" );
+        AdminUserJspBean bean = new AdminUserJspBean( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( "email_type", "first" );
+        request.setParameter( "email_sender", "junit" );
+        request.setParameter( "email_subject", "junit" );
+        request.setParameter( "email_body", "junit" );
+        try
+        {
+            bean.doModifyAccountLifeTimeEmails( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            assertEquals( origEmailSender, AdminUserService.getSecurityParameter( "core.advanced_parameters.first_alert_mail_sender" ) );
+            assertEquals( origEmailSubject, AdminUserService.getSecurityParameter( "core.advanced_parameters.first_alert_mail_subject" ) );
+            assertEquals( origEmailBody, DatabaseTemplateService.getTemplateFromKey( "core_first_alert_mail" ) );
+        }
+        finally
+        {
+            AdminUserService.updateSecurityParameter( "core.advanced_parameters.first_alert_mail_sender", origEmailSender );
+            AdminUserService.updateSecurityParameter( "core.advanced_parameters.first_alert_mail_subject", origEmailSubject );
+            DatabaseTemplateService.updateTemplate( "core_first_alert_mail", origEmailBody );
         }
     }
 }

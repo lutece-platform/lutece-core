@@ -8,6 +8,7 @@
 			</div><!-- /.box-header -->
 			<div class="box-body">
 				<form class="form-horizontal" method="post" action="jsp/admin/user/DoModifyAccountLifeTimeEmails.jsp">
+					<input type="hidden" name="token" value="${token}">
 					<input type="hidden" name="email_type" value="${email_type}">
 					<div class="form-group">
 						<label class="control-label col-xs-12 col-sm-3 col-md-3" for="email_sender"> #i18n{portal.users.accountLifeTime.labelSenderEmail} : </label>
