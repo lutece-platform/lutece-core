@@ -1158,6 +1158,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         model.put( MARK_CSV_SEPARATOR, strCsvSeparator );
         model.put( MARK_CSV_ESCAPE, strCsvEscapeCharacter );
         model.put( MARK_ATTRIBUTES_SEPARATOR, strAttributesSeparator );
+        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, JSP_URL_IMPORT_USER ) );
 
         String strTemplate = _importAdminUserService.getImportFromFileTemplate( );
         HtmlTemplate template = AppTemplateService.getTemplate( strTemplate, AdminUserService.getLocale( request ), model );
@@ -1170,9 +1171,12 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
      * 
      * @param request
      *            The request
-     * @return A DefaultPluginActionResult with the URL of the page to display, or the HTML content
+     * @return A DefaultPluginActionResult with the URL of the page to display,
+     *         or the HTML content
+     * @throws AccessDeniedException
+     *             if the security token is invalid
      */
-    public DefaultPluginActionResult doImportUsersFromFile( HttpServletRequest request )
+    public DefaultPluginActionResult doImportUsersFromFile( HttpServletRequest request ) throws AccessDeniedException
     {
         DefaultPluginActionResult result = new DefaultPluginActionResult( );
 
@@ -1206,6 +1210,10 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
                 result.setRedirect( AdminMessageService.getMessageUrl( request, MESSAGE_ERROR_CSV_FILE_IMPORT, AdminMessage.TYPE_STOP ) );
 
                 return result;
+            }
+            if ( !SecurityTokenService.getInstance( ).validate( request, JSP_URL_IMPORT_USER ) )
+            {
+                throw new AccessDeniedException( "Invalid security token" );
             }
 
             String strSkipFirstLine = multipartRequest.getParameter( PARAMETER_SKIP_FIRST_LINE );

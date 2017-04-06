@@ -5,6 +5,7 @@
 		</@box>
 		
 		<@tform params='enctype="multipart/form-data"' method='post' name='import_users_from_file' 	action='jsp/admin/user/DoImportUsersFromFile.jsp'>
+			<input type="hidden" name="token" value="${token}">
 			<@tabs>
 				<@listTabs>
 					<li>

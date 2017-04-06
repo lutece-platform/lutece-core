@@ -33,12 +33,20 @@
  */
 package fr.paris.lutece.portal.web.user;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.nio.charset.Charset;
 import java.security.SecureRandom;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.fileupload.disk.DiskFileItem;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.test.util.ReflectionTestUtils;
 
@@ -64,6 +72,7 @@ import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.util.AppException;
 import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.portal.web.l10n.LocaleService;
+import fr.paris.lutece.portal.web.upload.MultipartHttpServletRequest;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.util.password.IPasswordFactory;
 
@@ -1561,4 +1570,123 @@ public class AdminUserJspBeanTest extends LuteceTestCase
             AdminUserHome.remove( user.getUserId( ) );
         }  
     }
+
+    public void testDoImportUsersFromFile( ) throws AccessDeniedException, UserNotSignedException, IOException
+    {
+        AdminUserJspBean bean = new AdminUserJspBean( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/user/ImportUser.jsp" ) );
+        AdminAuthenticationService.getInstance( ).registerUser( request, AdminUserHome.findUserByLogin( "admin" ) );
+        bean.init( request, "CORE_USERS_MANAGEMENT" );
+        Map<String, List<FileItem>> multipartFiles = new HashMap<>( );
+        List<FileItem> fileItems = new ArrayList<>( );
+        FileItem file = new DiskFileItem( "import_file", "application/csv", true, "junit.csv", 1024, new File( System.getProperty( "java.io.tmpdir" ) ) );
+        OutputStreamWriter writer = new OutputStreamWriter( file.getOutputStream( ), Charset.forName( "UTF-8" ) );
+        writer.write( "test;test;test;test@test.fr;" + AdminUser.ACTIVE_CODE + ";" + Locale.FRANCE + ";0;false;false;;;" );
+        writer.close( );
+        fileItems.add( file );
+        multipartFiles.put( "import_file", fileItems );
+        Map<String, String[ ]> parameters = request.getParameterMap( );
+        MultipartHttpServletRequest multipartRequest = new MultipartHttpServletRequest( request, multipartFiles, parameters );
+        bean.getImportUsersFromFile( request ); // initialize _importAdminUserService
+        AdminUser user = null;
+        try
+        {
+            bean.doImportUsersFromFile( multipartRequest );
+            user = AdminUserHome.findUserByLogin( "test" );
+            assertNotNull( user );
+            assertEquals( "test", user.getAccessCode( ) );
+            assertEquals( "test", user.getFirstName( ) );
+            assertEquals( "test", user.getLastName( ) );
+            assertEquals( "test@test.fr", user.getEmail( ) );
+            assertEquals( AdminUser.ACTIVE_CODE, user.getStatus( ) );
+        }
+        finally
+        {
+            if ( user != null )
+            {
+                AdminUserHome.removeAllOwnRightsForUser( user ); 
+                AdminUserHome.remove( user.getUserId( ) );
+            }
+        }
+    }
+
+    public void testDoImportUsersFromFileInvalidToken( ) throws AccessDeniedException, UserNotSignedException, IOException
+    {
+        AdminUserJspBean bean = new AdminUserJspBean( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/user/ImportUser.jsp" ) + "b" );
+        AdminAuthenticationService.getInstance( ).registerUser( request, AdminUserHome.findUserByLogin( "admin" ) );
+        bean.init( request, "CORE_USERS_MANAGEMENT" );
+        Map<String, List<FileItem>> multipartFiles = new HashMap<>( );
+        List<FileItem> fileItems = new ArrayList<>( );
+        FileItem file = new DiskFileItem( "import_file", "application/csv", true, "junit.csv", 1024, new File( System.getProperty( "java.io.tmpdir" ) ) );
+        OutputStreamWriter writer = new OutputStreamWriter( file.getOutputStream( ), Charset.forName( "UTF-8" ) );
+        writer.write( "test;test;test;test@test.fr;" + AdminUser.ACTIVE_CODE + ";" + Locale.FRANCE + ";0;false;false;;;" );
+        writer.close( );
+        fileItems.add( file );
+        multipartFiles.put( "import_file", fileItems );
+        Map<String, String[ ]> parameters = request.getParameterMap( );
+        MultipartHttpServletRequest multipartRequest = new MultipartHttpServletRequest( request, multipartFiles, parameters );
+        bean.getImportUsersFromFile( request ); // initialize _importAdminUserService
+        AdminUser user = null;
+        try
+        {
+            bean.doImportUsersFromFile( multipartRequest );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            user = AdminUserHome.findUserByLogin( "test" );
+            assertNull( user );
+        }
+        finally
+        {
+            if ( user != null )
+            {
+                AdminUserHome.removeAllOwnRightsForUser( user ); 
+                AdminUserHome.remove( user.getUserId( ) );
+            }
+        }
+    }
+
+    public void testDoImportUsersFromFileNoToken( ) throws AccessDeniedException, UserNotSignedException, IOException
+    {
+        AdminUserJspBean bean = new AdminUserJspBean( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminAuthenticationService.getInstance( ).registerUser( request, AdminUserHome.findUserByLogin( "admin" ) );
+        bean.init( request, "CORE_USERS_MANAGEMENT" );
+        Map<String, List<FileItem>> multipartFiles = new HashMap<>( );
+        List<FileItem> fileItems = new ArrayList<>( );
+        FileItem file = new DiskFileItem( "import_file", "application/csv", true, "junit.csv", 1024, new File( System.getProperty( "java.io.tmpdir" ) ) );
+        OutputStreamWriter writer = new OutputStreamWriter( file.getOutputStream( ), Charset.forName( "UTF-8" ) );
+        writer.write( "test;test;test;test@test.fr;" + AdminUser.ACTIVE_CODE + ";" + Locale.FRANCE + ";0;false;false;;;" );
+        writer.close( );
+        fileItems.add( file );
+        multipartFiles.put( "import_file", fileItems );
+        Map<String, String[ ]> parameters = request.getParameterMap( );
+        MultipartHttpServletRequest multipartRequest = new MultipartHttpServletRequest( request, multipartFiles, parameters );
+        bean.getImportUsersFromFile( request ); // initialize _importAdminUserService
+        AdminUser user = null;
+        try
+        {
+            bean.doImportUsersFromFile( multipartRequest );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            user = AdminUserHome.findUserByLogin( "test" );
+            assertNull( user );
+        }
+        finally
+        {
+            if ( user != null )
+            {
+                AdminUserHome.removeAllOwnRightsForUser( user ); 
+                AdminUserHome.remove( user.getUserId( ) );
+            }
+        }
+    }
+
+
 }
