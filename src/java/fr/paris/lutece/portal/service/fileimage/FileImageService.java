@@ -41,6 +41,7 @@ import fr.paris.lutece.portal.service.image.ImageResource;
 import fr.paris.lutece.portal.service.image.ImageResourceManager;
 import fr.paris.lutece.portal.service.image.ImageResourceProvider;
 import fr.paris.lutece.portal.service.init.LuteceInitException;
+import fr.paris.lutece.util.file.FileUtil;
 
 /**
  * Service for Url entry types. Provide ImageResource management
@@ -96,11 +97,10 @@ public final class FileImageService implements ImageResourceProvider
     public ImageResource getImageResource( int nIdResource )
     {
         File file = FileHome.findByPrimaryKey( nIdResource );
-        PhysicalFile physicalFile = ( file.getPhysicalFile( ) != null ) ? PhysicalFileHome.findByPrimaryKey( file.getPhysicalFile( ).getIdPhysicalFile( ) )
-                : null;
 
-        if ( physicalFile != null )
+        if (  ( file.getPhysicalFile( ) != null ) && FileUtil.hasImageExtension( file.getTitle( ) ) )
         {
+            PhysicalFile physicalFile = PhysicalFileHome.findByPrimaryKey( file.getPhysicalFile( ).getIdPhysicalFile( ) );
             ImageResource imageResource = new ImageResource( );
             imageResource.setImage( physicalFile.getValue( ) );
             imageResource.setMimeType( file.getMimeType( ) );
