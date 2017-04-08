@@ -1943,4 +1943,194 @@ public class AdminUserJspBeanTest extends LuteceTestCase
             DefaultUserParameterHome.update( AdminUserService.DSKEY_DEFAULT_USER_LANGUAGE, origDefaultLanguage );
         }
     }
+
+    public void testDoModifyDefaultUserSecurityValues( ) throws AccessDeniedException, UserNotSignedException
+    {
+        assertFalse( "Test does not account for advanced security parameters", AdminUserService.getBooleanSecurityParameter( AdminUserService.DSKEY_USE_ADVANCED_SECURITY_PARAMETERS ) );
+        boolean origForceChangePasswordReinit = Boolean.parseBoolean( DefaultUserParameterHome.findByKey( AdminUserService.DSKEY_FORCE_CHANGE_PASSWORD_REINIT ) );
+        int origPasswordMinimumLength = AdminUserService.getIntegerSecurityParameter( AdminUserService.DSKEY_PASSWORD_MINIMUM_LENGTH );
+        int origResetTokenValidity = AdminUserService.getIntegerSecurityParameter( AdminUserService.DSKEY_RESET_TOKEN_VALIDITY );
+        boolean origLockResetTokenToSession = AdminUserService.getBooleanSecurityParameter( AdminUserService.DSKEY_LOCK_RESET_TOKEN_TO_SESSION );
+        int origAccountLifeTime = AdminUserService.getIntegerSecurityParameter( AdminUserService.DSKEY_ACCOUNT_LIFE_TIME );
+        int origTimeBeforeAlertAccount = AdminUserService.getIntegerSecurityParameter( AdminUserService.DSKEY_TIME_BEFORE_ALERT_ACCOUNT );
+        int origNbAlertAccount = AdminUserService.getIntegerSecurityParameter( AdminUserService.DSKEY_NB_ALERT_ACCOUNT );
+        int origTimeBetweenAlertsAccount = AdminUserService.getIntegerSecurityParameter( AdminUserService.DSKEY_TIME_BETWEEN_ALERTS_ACCOUNT );
+        int origAccessFailuresMax = AdminUserService.getIntegerSecurityParameter( AdminUserService.DSKEY_ACCES_FAILURES_MAX );
+        int origAccessFailuresInterval = AdminUserService.getIntegerSecurityParameter( AdminUserService.DSKEY_ACCES_FAILURES_INTERVAL );
+        String origBannedDomainNames = AdminUserService.getLargeSecurityParameter( AdminUserService.DSKEY_BANNED_DOMAIN_NAMES );
+        AdminUserJspBean bean = new AdminUserJspBean( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminAuthenticationService.getInstance( ).registerUser( request, AdminUserHome.findUserByLogin( "admin" ) );
+        bean.init( request, "CORE_USERS_MANAGEMENT" );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "ManageAdvancedParameters.jsp" ) );
+        request.setParameter( "force_change_password_reinit", origForceChangePasswordReinit?Boolean.FALSE.toString( ):Boolean.TRUE.toString( ) );
+        request.setParameter( "password_minimum_length", Integer.toString( origPasswordMinimumLength + 1 ) );
+        request.setParameter( "reset_token_validity", Integer.toString( origResetTokenValidity + 1 ) );
+        request.setParameter( "lock_reset_token_to_session", origLockResetTokenToSession?Boolean.FALSE.toString( ):Boolean.TRUE.toString( ) );
+        request.setParameter( "account_life_time", Integer.toString( origAccountLifeTime + 1 ) );
+        request.setParameter( "time_before_alert_account", Integer.toString( origTimeBeforeAlertAccount + 1 ) );
+        request.setParameter( "nb_alert_account", Integer.toString( origNbAlertAccount + 1 ) );
+        request.setParameter( "time_between_alerts_account", Integer.toString( origTimeBetweenAlertsAccount + 1 ) );
+        request.setParameter( "access_failures_max", Integer.toString( origAccessFailuresMax + 1 ) );
+        request.setParameter( "access_failures_interval", Integer.toString( origAccessFailuresInterval + 1 ) );
+        request.setParameter( "banned_domain_names", origBannedDomainNames + "b" );
+        try
+        {
+            bean.doModifyDefaultUserSecurityValues( request );
+            assertEquals( !origForceChangePasswordReinit, Boolean.parseBoolean( DefaultUserParameterHome.findByKey( AdminUserService.DSKEY_FORCE_CHANGE_PASSWORD_REINIT ) ) );
+            assertEquals( origPasswordMinimumLength + 1, AdminUserService.getIntegerSecurityParameter( AdminUserService.DSKEY_PASSWORD_MINIMUM_LENGTH ) );
+            assertEquals( origResetTokenValidity + 1, AdminUserService.getIntegerSecurityParameter( AdminUserService.DSKEY_RESET_TOKEN_VALIDITY ) );
+            assertEquals( !origLockResetTokenToSession, AdminUserService.getBooleanSecurityParameter( AdminUserService.DSKEY_LOCK_RESET_TOKEN_TO_SESSION ) );
+            assertEquals( origAccountLifeTime + 1, AdminUserService.getIntegerSecurityParameter( AdminUserService.DSKEY_ACCOUNT_LIFE_TIME ) );
+            assertEquals( origTimeBeforeAlertAccount + 1, AdminUserService.getIntegerSecurityParameter( AdminUserService.DSKEY_TIME_BEFORE_ALERT_ACCOUNT ) );
+            assertEquals( origNbAlertAccount + 1, AdminUserService.getIntegerSecurityParameter( AdminUserService.DSKEY_NB_ALERT_ACCOUNT ) );
+            assertEquals( origTimeBetweenAlertsAccount + 1, AdminUserService.getIntegerSecurityParameter( AdminUserService.DSKEY_TIME_BETWEEN_ALERTS_ACCOUNT ) );
+            assertEquals( origAccessFailuresMax + 1, AdminUserService.getIntegerSecurityParameter( AdminUserService.DSKEY_ACCES_FAILURES_MAX ) );
+            assertEquals( origAccessFailuresInterval + 1, AdminUserService.getIntegerSecurityParameter( AdminUserService.DSKEY_ACCES_FAILURES_INTERVAL ) );
+            assertEquals( origBannedDomainNames + "b", AdminUserService.getLargeSecurityParameter( AdminUserService.DSKEY_BANNED_DOMAIN_NAMES ) );
+        }
+        finally
+        {
+            DefaultUserParameterHome.update( AdminUserService.DSKEY_FORCE_CHANGE_PASSWORD_REINIT, Boolean.toString( origForceChangePasswordReinit ) );
+            AdminUserService.updateSecurityParameter( AdminUserService.DSKEY_PASSWORD_MINIMUM_LENGTH, Integer.toString( origPasswordMinimumLength ) );
+            AdminUserService.updateSecurityParameter( AdminUserService.DSKEY_RESET_TOKEN_VALIDITY, Integer.toString( origResetTokenValidity ) );
+            AdminUserService.updateSecurityParameter( AdminUserService.DSKEY_LOCK_RESET_TOKEN_TO_SESSION, Boolean.toString( origLockResetTokenToSession ) );
+            AdminUserService.updateSecurityParameter( AdminUserService.DSKEY_ACCOUNT_LIFE_TIME, Integer.toString( origAccountLifeTime ) );
+            AdminUserService.updateSecurityParameter( AdminUserService.DSKEY_TIME_BEFORE_ALERT_ACCOUNT, Integer.toString( origTimeBeforeAlertAccount ) );
+            AdminUserService.updateSecurityParameter( AdminUserService.DSKEY_NB_ALERT_ACCOUNT, Integer.toString( origNbAlertAccount ) );
+            AdminUserService.updateSecurityParameter( AdminUserService.DSKEY_TIME_BETWEEN_ALERTS_ACCOUNT, Integer.toString( origTimeBetweenAlertsAccount ) );
+            AdminUserService.updateSecurityParameter( AdminUserService.DSKEY_ACCES_FAILURES_MAX, Integer.toString( origAccessFailuresMax ) );
+            AdminUserService.updateSecurityParameter( AdminUserService.DSKEY_ACCES_FAILURES_INTERVAL, Integer.toString( origAccessFailuresInterval ) );
+            AdminUserService.updateLargeSecurityParameter( AdminUserService.DSKEY_BANNED_DOMAIN_NAMES, origBannedDomainNames );
+        }
+    }
+
+    public void testDoModifyDefaultUserSecurityValuesInvalidToken( ) throws AccessDeniedException, UserNotSignedException
+    {
+        assertFalse( "Test does not account for advanced security parameters", AdminUserService.getBooleanSecurityParameter( AdminUserService.DSKEY_USE_ADVANCED_SECURITY_PARAMETERS ) );
+        boolean origForceChangePasswordReinit = Boolean.parseBoolean( DefaultUserParameterHome.findByKey( AdminUserService.DSKEY_FORCE_CHANGE_PASSWORD_REINIT ) );
+        int origPasswordMinimumLength = AdminUserService.getIntegerSecurityParameter( AdminUserService.DSKEY_PASSWORD_MINIMUM_LENGTH );
+        int origResetTokenValidity = AdminUserService.getIntegerSecurityParameter( AdminUserService.DSKEY_RESET_TOKEN_VALIDITY );
+        boolean origLockResetTokenToSession = AdminUserService.getBooleanSecurityParameter( AdminUserService.DSKEY_LOCK_RESET_TOKEN_TO_SESSION );
+        int origAccountLifeTime = AdminUserService.getIntegerSecurityParameter( AdminUserService.DSKEY_ACCOUNT_LIFE_TIME );
+        int origTimeBeforeAlertAccount = AdminUserService.getIntegerSecurityParameter( AdminUserService.DSKEY_TIME_BEFORE_ALERT_ACCOUNT );
+        int origNbAlertAccount = AdminUserService.getIntegerSecurityParameter( AdminUserService.DSKEY_NB_ALERT_ACCOUNT );
+        int origTimeBetweenAlertsAccount = AdminUserService.getIntegerSecurityParameter( AdminUserService.DSKEY_TIME_BETWEEN_ALERTS_ACCOUNT );
+        int origAccessFailuresMax = AdminUserService.getIntegerSecurityParameter( AdminUserService.DSKEY_ACCES_FAILURES_MAX );
+        int origAccessFailuresInterval = AdminUserService.getIntegerSecurityParameter( AdminUserService.DSKEY_ACCES_FAILURES_INTERVAL );
+        String origBannedDomainNames = AdminUserService.getLargeSecurityParameter( AdminUserService.DSKEY_BANNED_DOMAIN_NAMES );
+        AdminUserJspBean bean = new AdminUserJspBean( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminAuthenticationService.getInstance( ).registerUser( request, AdminUserHome.findUserByLogin( "admin" ) );
+        bean.init( request, "CORE_USERS_MANAGEMENT" );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "ManageAdvancedParameters.jsp" ) + "b" );
+        request.setParameter( "force_change_password_reinit", origForceChangePasswordReinit?Boolean.FALSE.toString( ):Boolean.TRUE.toString( ) );
+        request.setParameter( "password_minimum_length", Integer.toString( origPasswordMinimumLength + 1 ) );
+        request.setParameter( "reset_token_validity", Integer.toString( origResetTokenValidity + 1 ) );
+        request.setParameter( "lock_reset_token_to_session", origLockResetTokenToSession?Boolean.FALSE.toString( ):Boolean.TRUE.toString( ) );
+        request.setParameter( "account_life_time", Integer.toString( origAccountLifeTime + 1 ) );
+        request.setParameter( "time_before_alert_account", Integer.toString( origTimeBeforeAlertAccount + 1 ) );
+        request.setParameter( "nb_alert_account", Integer.toString( origNbAlertAccount + 1 ) );
+        request.setParameter( "time_between_alerts_account", Integer.toString( origTimeBetweenAlertsAccount + 1 ) );
+        request.setParameter( "access_failures_max", Integer.toString( origAccessFailuresMax + 1 ) );
+        request.setParameter( "access_failures_interval", Integer.toString( origAccessFailuresInterval + 1 ) );
+        request.setParameter( "banned_domain_names", origBannedDomainNames + "b" );
+        try
+        {
+            bean.doModifyDefaultUserSecurityValues( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            assertEquals( origForceChangePasswordReinit, Boolean.parseBoolean( DefaultUserParameterHome.findByKey( AdminUserService.DSKEY_FORCE_CHANGE_PASSWORD_REINIT ) ) );
+            assertEquals( origPasswordMinimumLength, AdminUserService.getIntegerSecurityParameter( AdminUserService.DSKEY_PASSWORD_MINIMUM_LENGTH ) );
+            assertEquals( origResetTokenValidity, AdminUserService.getIntegerSecurityParameter( AdminUserService.DSKEY_RESET_TOKEN_VALIDITY ) );
+            assertEquals( origLockResetTokenToSession, AdminUserService.getBooleanSecurityParameter( AdminUserService.DSKEY_LOCK_RESET_TOKEN_TO_SESSION ) );
+            assertEquals( origAccountLifeTime, AdminUserService.getIntegerSecurityParameter( AdminUserService.DSKEY_ACCOUNT_LIFE_TIME ) );
+            assertEquals( origTimeBeforeAlertAccount, AdminUserService.getIntegerSecurityParameter( AdminUserService.DSKEY_TIME_BEFORE_ALERT_ACCOUNT ) );
+            assertEquals( origNbAlertAccount, AdminUserService.getIntegerSecurityParameter( AdminUserService.DSKEY_NB_ALERT_ACCOUNT ) );
+            assertEquals( origTimeBetweenAlertsAccount, AdminUserService.getIntegerSecurityParameter( AdminUserService.DSKEY_TIME_BETWEEN_ALERTS_ACCOUNT ) );
+            assertEquals( origAccessFailuresMax, AdminUserService.getIntegerSecurityParameter( AdminUserService.DSKEY_ACCES_FAILURES_MAX ) );
+            assertEquals( origAccessFailuresInterval, AdminUserService.getIntegerSecurityParameter( AdminUserService.DSKEY_ACCES_FAILURES_INTERVAL ) );
+            assertEquals( origBannedDomainNames, AdminUserService.getLargeSecurityParameter( AdminUserService.DSKEY_BANNED_DOMAIN_NAMES ) );
+        }
+        finally
+        {
+            DefaultUserParameterHome.update( AdminUserService.DSKEY_FORCE_CHANGE_PASSWORD_REINIT, Boolean.toString( origForceChangePasswordReinit ) );
+            AdminUserService.updateSecurityParameter( AdminUserService.DSKEY_PASSWORD_MINIMUM_LENGTH, Integer.toString( origPasswordMinimumLength ) );
+            AdminUserService.updateSecurityParameter( AdminUserService.DSKEY_RESET_TOKEN_VALIDITY, Integer.toString( origResetTokenValidity ) );
+            AdminUserService.updateSecurityParameter( AdminUserService.DSKEY_LOCK_RESET_TOKEN_TO_SESSION, Boolean.toString( origLockResetTokenToSession ) );
+            AdminUserService.updateSecurityParameter( AdminUserService.DSKEY_ACCOUNT_LIFE_TIME, Integer.toString( origAccountLifeTime ) );
+            AdminUserService.updateSecurityParameter( AdminUserService.DSKEY_TIME_BEFORE_ALERT_ACCOUNT, Integer.toString( origTimeBeforeAlertAccount ) );
+            AdminUserService.updateSecurityParameter( AdminUserService.DSKEY_NB_ALERT_ACCOUNT, Integer.toString( origNbAlertAccount ) );
+            AdminUserService.updateSecurityParameter( AdminUserService.DSKEY_TIME_BETWEEN_ALERTS_ACCOUNT, Integer.toString( origTimeBetweenAlertsAccount ) );
+            AdminUserService.updateSecurityParameter( AdminUserService.DSKEY_ACCES_FAILURES_MAX, Integer.toString( origAccessFailuresMax ) );
+            AdminUserService.updateSecurityParameter( AdminUserService.DSKEY_ACCES_FAILURES_INTERVAL, Integer.toString( origAccessFailuresInterval ) );
+            AdminUserService.updateLargeSecurityParameter( AdminUserService.DSKEY_BANNED_DOMAIN_NAMES, origBannedDomainNames );
+        }
+    }
+
+    public void testDoModifyDefaultUserSecurityValuesNoToken( ) throws AccessDeniedException, UserNotSignedException
+    {
+        assertFalse( "Test does not account for advanced security parameters", AdminUserService.getBooleanSecurityParameter( AdminUserService.DSKEY_USE_ADVANCED_SECURITY_PARAMETERS ) );
+        boolean origForceChangePasswordReinit = Boolean.parseBoolean( DefaultUserParameterHome.findByKey( AdminUserService.DSKEY_FORCE_CHANGE_PASSWORD_REINIT ) );
+        int origPasswordMinimumLength = AdminUserService.getIntegerSecurityParameter( AdminUserService.DSKEY_PASSWORD_MINIMUM_LENGTH );
+        int origResetTokenValidity = AdminUserService.getIntegerSecurityParameter( AdminUserService.DSKEY_RESET_TOKEN_VALIDITY );
+        boolean origLockResetTokenToSession = AdminUserService.getBooleanSecurityParameter( AdminUserService.DSKEY_LOCK_RESET_TOKEN_TO_SESSION );
+        int origAccountLifeTime = AdminUserService.getIntegerSecurityParameter( AdminUserService.DSKEY_ACCOUNT_LIFE_TIME );
+        int origTimeBeforeAlertAccount = AdminUserService.getIntegerSecurityParameter( AdminUserService.DSKEY_TIME_BEFORE_ALERT_ACCOUNT );
+        int origNbAlertAccount = AdminUserService.getIntegerSecurityParameter( AdminUserService.DSKEY_NB_ALERT_ACCOUNT );
+        int origTimeBetweenAlertsAccount = AdminUserService.getIntegerSecurityParameter( AdminUserService.DSKEY_TIME_BETWEEN_ALERTS_ACCOUNT );
+        int origAccessFailuresMax = AdminUserService.getIntegerSecurityParameter( AdminUserService.DSKEY_ACCES_FAILURES_MAX );
+        int origAccessFailuresInterval = AdminUserService.getIntegerSecurityParameter( AdminUserService.DSKEY_ACCES_FAILURES_INTERVAL );
+        String origBannedDomainNames = AdminUserService.getLargeSecurityParameter( AdminUserService.DSKEY_BANNED_DOMAIN_NAMES );
+        AdminUserJspBean bean = new AdminUserJspBean( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminAuthenticationService.getInstance( ).registerUser( request, AdminUserHome.findUserByLogin( "admin" ) );
+        bean.init( request, "CORE_USERS_MANAGEMENT" );
+        request.setParameter( "force_change_password_reinit", origForceChangePasswordReinit?Boolean.FALSE.toString( ):Boolean.TRUE.toString( ) );
+        request.setParameter( "password_minimum_length", Integer.toString( origPasswordMinimumLength + 1 ) );
+        request.setParameter( "reset_token_validity", Integer.toString( origResetTokenValidity + 1 ) );
+        request.setParameter( "lock_reset_token_to_session", origLockResetTokenToSession?Boolean.FALSE.toString( ):Boolean.TRUE.toString( ) );
+        request.setParameter( "account_life_time", Integer.toString( origAccountLifeTime + 1 ) );
+        request.setParameter( "time_before_alert_account", Integer.toString( origTimeBeforeAlertAccount + 1 ) );
+        request.setParameter( "nb_alert_account", Integer.toString( origNbAlertAccount + 1 ) );
+        request.setParameter( "time_between_alerts_account", Integer.toString( origTimeBetweenAlertsAccount + 1 ) );
+        request.setParameter( "access_failures_max", Integer.toString( origAccessFailuresMax + 1 ) );
+        request.setParameter( "access_failures_interval", Integer.toString( origAccessFailuresInterval + 1 ) );
+        request.setParameter( "banned_domain_names", origBannedDomainNames + "b" );
+        try
+        {
+            bean.doModifyDefaultUserSecurityValues( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            assertEquals( origForceChangePasswordReinit, Boolean.parseBoolean( DefaultUserParameterHome.findByKey( AdminUserService.DSKEY_FORCE_CHANGE_PASSWORD_REINIT ) ) );
+            assertEquals( origPasswordMinimumLength, AdminUserService.getIntegerSecurityParameter( AdminUserService.DSKEY_PASSWORD_MINIMUM_LENGTH ) );
+            assertEquals( origResetTokenValidity, AdminUserService.getIntegerSecurityParameter( AdminUserService.DSKEY_RESET_TOKEN_VALIDITY ) );
+            assertEquals( origLockResetTokenToSession, AdminUserService.getBooleanSecurityParameter( AdminUserService.DSKEY_LOCK_RESET_TOKEN_TO_SESSION ) );
+            assertEquals( origAccountLifeTime, AdminUserService.getIntegerSecurityParameter( AdminUserService.DSKEY_ACCOUNT_LIFE_TIME ) );
+            assertEquals( origTimeBeforeAlertAccount, AdminUserService.getIntegerSecurityParameter( AdminUserService.DSKEY_TIME_BEFORE_ALERT_ACCOUNT ) );
+            assertEquals( origNbAlertAccount, AdminUserService.getIntegerSecurityParameter( AdminUserService.DSKEY_NB_ALERT_ACCOUNT ) );
+            assertEquals( origTimeBetweenAlertsAccount, AdminUserService.getIntegerSecurityParameter( AdminUserService.DSKEY_TIME_BETWEEN_ALERTS_ACCOUNT ) );
+            assertEquals( origAccessFailuresMax, AdminUserService.getIntegerSecurityParameter( AdminUserService.DSKEY_ACCES_FAILURES_MAX ) );
+            assertEquals( origAccessFailuresInterval, AdminUserService.getIntegerSecurityParameter( AdminUserService.DSKEY_ACCES_FAILURES_INTERVAL ) );
+            assertEquals( origBannedDomainNames, AdminUserService.getLargeSecurityParameter( AdminUserService.DSKEY_BANNED_DOMAIN_NAMES ) );
+        }
+        finally
+        {
+            DefaultUserParameterHome.update( AdminUserService.DSKEY_FORCE_CHANGE_PASSWORD_REINIT, Boolean.toString( origForceChangePasswordReinit ) );
+            AdminUserService.updateSecurityParameter( AdminUserService.DSKEY_PASSWORD_MINIMUM_LENGTH, Integer.toString( origPasswordMinimumLength ) );
+            AdminUserService.updateSecurityParameter( AdminUserService.DSKEY_RESET_TOKEN_VALIDITY, Integer.toString( origResetTokenValidity ) );
+            AdminUserService.updateSecurityParameter( AdminUserService.DSKEY_LOCK_RESET_TOKEN_TO_SESSION, Boolean.toString( origLockResetTokenToSession ) );
+            AdminUserService.updateSecurityParameter( AdminUserService.DSKEY_ACCOUNT_LIFE_TIME, Integer.toString( origAccountLifeTime ) );
+            AdminUserService.updateSecurityParameter( AdminUserService.DSKEY_TIME_BEFORE_ALERT_ACCOUNT, Integer.toString( origTimeBeforeAlertAccount ) );
+            AdminUserService.updateSecurityParameter( AdminUserService.DSKEY_NB_ALERT_ACCOUNT, Integer.toString( origNbAlertAccount ) );
+            AdminUserService.updateSecurityParameter( AdminUserService.DSKEY_TIME_BETWEEN_ALERTS_ACCOUNT, Integer.toString( origTimeBetweenAlertsAccount ) );
+            AdminUserService.updateSecurityParameter( AdminUserService.DSKEY_ACCES_FAILURES_MAX, Integer.toString( origAccessFailuresMax ) );
+            AdminUserService.updateSecurityParameter( AdminUserService.DSKEY_ACCES_FAILURES_INTERVAL, Integer.toString( origAccessFailuresInterval ) );
+            AdminUserService.updateLargeSecurityParameter( AdminUserService.DSKEY_BANNED_DOMAIN_NAMES, origBannedDomainNames );
+        }
+    }
 }
