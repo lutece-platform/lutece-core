@@ -2196,6 +2196,10 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
      */
     public String doRemoveRegularExpression( HttpServletRequest request ) throws AccessDeniedException
     {
+        if ( !SecurityTokenService.getInstance( ).validate( request, JSP_MANAGE_ADVANCED_PARAMETERS ) )
+        {
+            throw new AccessDeniedException( "Invalid security token" );
+        }
         if ( !RBACService.isAuthorized( AdminUser.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID, AdminUserResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS,
                 getUser( ) ) )
         {
