@@ -2488,4 +2488,52 @@ public class AdminUserJspBeanTest extends LuteceTestCase
             }
         }
     }
+    
+    public void testDoRemoveRegularExpression( ) throws AccessDeniedException, UserNotSignedException
+    {
+        AdminUserJspBean bean = new AdminUserJspBean( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminAuthenticationService.getInstance( ).registerUser( request, AdminUserHome.findUserByLogin( "admin" ) );
+        bean.init( request, "CORE_USERS_MANAGEMENT" );
+        request.setParameter( "id_expression", "1" );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "ManageAdvancedParameters.jsp" ) );
+        bean.doRemoveRegularExpression( request ); // FIXME not really testing this plugin-regularexpression is not there
+    }
+
+    public void testDoRemoveRegularExpressionInvalidToken( ) throws AccessDeniedException, UserNotSignedException
+    {
+        AdminUserJspBean bean = new AdminUserJspBean( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminAuthenticationService.getInstance( ).registerUser( request, AdminUserHome.findUserByLogin( "admin" ) );
+        bean.init( request, "CORE_USERS_MANAGEMENT" );
+        request.setParameter( "id_expression", "1" );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "ManageAdvancedParameters.jsp" ) + "b" );
+        try
+        {
+            bean.doRemoveRegularExpression( request ); // FIXME not really testing this plugin-regularexpression is not there
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            // ok
+        }
+    }
+
+    public void testDoRemoveRegularExpressionNoToken( ) throws AccessDeniedException, UserNotSignedException
+    {
+        AdminUserJspBean bean = new AdminUserJspBean( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminAuthenticationService.getInstance( ).registerUser( request, AdminUserHome.findUserByLogin( "admin" ) );
+        bean.init( request, "CORE_USERS_MANAGEMENT" );
+        request.setParameter( "id_expression", "1" );
+        try
+        {
+            bean.doRemoveRegularExpression( request ); // FIXME not really testing this plugin-regularexpression is not there
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            // ok
+        }
+    }
 }
