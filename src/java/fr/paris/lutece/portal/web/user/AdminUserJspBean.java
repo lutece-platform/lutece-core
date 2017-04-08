@@ -2114,6 +2114,10 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
         if ( StringUtils.isNotBlank( strEmailPattern ) )
         {
+            if ( !SecurityTokenService.getInstance( ).validate( request, JSP_MANAGE_ADVANCED_PARAMETERS ) )
+            {
+                throw new AccessDeniedException( "Invalid security token" );
+            }
             AdminUserService.doModifyEmailPattern( strEmailPattern, strSetManually != null );
             strJsp = JSP_MANAGE_ADVANCED_PARAMETERS;
         }
