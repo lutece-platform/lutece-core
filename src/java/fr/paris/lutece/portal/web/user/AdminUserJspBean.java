@@ -2223,13 +2223,16 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
      */
     public String getChangeUseAdvancedSecurityParameters( HttpServletRequest request )
     {
+        Map<String, Object> parameters = new HashMap<>( 1 );
+        parameters.put( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, JSP_MANAGE_ADVANCED_PARAMETERS ) );
+
         if ( AdminUserService.getBooleanSecurityParameter( AdminUserService.DSKEY_USE_ADVANCED_SECURITY_PARAMETERS ) )
         {
             return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_CONFIRM_REMOVE_ASP, JSP_URL_REMOVE_ADVANCED_SECUR_PARAM,
-                    AdminMessage.TYPE_CONFIRMATION );
+                    AdminMessage.TYPE_CONFIRMATION, parameters );
         }
 
-        return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_CONFIRM_USE_ASP, JSP_URL_USE_ADVANCED_SECUR_PARAM, AdminMessage.TYPE_CONFIRMATION );
+        return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_CONFIRM_USE_ASP, JSP_URL_USE_ADVANCED_SECUR_PARAM, AdminMessage.TYPE_CONFIRMATION, parameters );
     }
 
     /**
@@ -2238,9 +2241,15 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
      * @param request
      *            The request
      * @return The Jsp URL of the process result
+     * @throws AccessDeniedException
+     *             if the security token is invalid
      */
-    public String doUseAdvancedSecurityParameters( HttpServletRequest request )
+    public String doUseAdvancedSecurityParameters( HttpServletRequest request ) throws AccessDeniedException
     {
+        if ( !SecurityTokenService.getInstance( ).validate( request, JSP_MANAGE_ADVANCED_PARAMETERS ) )
+        {
+            throw new AccessDeniedException( "Invalid security token" );
+        }
         AdminUserService.useAdvancedSecurityParameters( );
 
         return JSP_MANAGE_ADVANCED_PARAMETERS;
@@ -2252,9 +2261,15 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
      * @param request
      *            The request
      * @return The Jsp URL of the process result
+     * @throws AccessDeniedException
+     *             if the security token is invalid
      */
-    public String doRemoveAdvancedSecurityParameters( HttpServletRequest request )
+    public String doRemoveAdvancedSecurityParameters( HttpServletRequest request ) throws AccessDeniedException
     {
+        if ( !SecurityTokenService.getInstance( ).validate( request, JSP_MANAGE_ADVANCED_PARAMETERS ) )
+        {
+            throw new AccessDeniedException( "Invalid security token" );
+        }
         AdminUserService.removeAdvancedSecurityParameters( );
 
         return JSP_MANAGE_ADVANCED_PARAMETERS;
