@@ -584,8 +584,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         return AdminUserHome.findByPrimaryKey( user.getUserId( ) );
     }
 
-    // FIXME : this only tests that passwords are unchanged
-    public void testDoUseAdvancedSecurityParameters( )
+    public void testDoUseAdvancedSecurityParametersDoNotChangePassword( ) throws AccessDeniedException
     {
         boolean bUseAdvancesSecurityParameters = AdminUserService.getBooleanSecurityParameter( AdminUserService.DSKEY_USE_ADVANCED_SECURITY_PARAMETERS );
         AdminUserJspBean bean = new AdminUserJspBean( );
@@ -593,15 +592,21 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         {
             LuteceDefaultAdminUser admin = AdminUserHome.findLuteceDefaultAdminUserByPrimaryKey( 1 );
             assertTrue( admin.getPassword( ).check( "adminadmin" ) );
-            bean.doUseAdvancedSecurityParameters( new MockHttpServletRequest( ) );
+            MockHttpServletRequest request = new MockHttpServletRequest( );
+            request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "ManageAdvancedParameters.jsp" ) );
+            bean.doUseAdvancedSecurityParameters( request );
             admin = AdminUserHome.findLuteceDefaultAdminUserByPrimaryKey( 1 );
             assertTrue( admin.getPassword( ).check( "adminadmin" ) );
         }
         finally
         {
-            if ( !bUseAdvancesSecurityParameters )
+            if (bUseAdvancesSecurityParameters )
             {
-                bean.doRemoveAdvancedSecurityParameters( new MockHttpServletRequest( ) );
+                AdminUserService.useAdvancedSecurityParameters( );
+            }
+            else
+            {
+                AdminUserService.removeAdvancedSecurityParameters( );
             }
         }
     }
@@ -2265,6 +2270,222 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         finally
         {
             AdminUserService.doModifyEmailPattern( origEmailPattern, isEmailPatternSetManually( ) );
+        }
+    }
+
+    public void testGetChangeUseAdvancedSecurityParametersToFalse( )
+    {
+        boolean origUseAdvancedSecurityParameters = AdminUserService.getBooleanSecurityParameter( AdminUserService.DSKEY_USE_ADVANCED_SECURITY_PARAMETERS );
+        AdminUserService.updateSecurityParameter( AdminUserService.DSKEY_USE_ADVANCED_SECURITY_PARAMETERS, Boolean.TRUE.toString( ) );
+        try
+        {
+            AdminUserJspBean bean = new AdminUserJspBean( );
+            MockHttpServletRequest request = new MockHttpServletRequest( );
+            bean.getChangeUseAdvancedSecurityParameters( request );
+            AdminMessage message = AdminMessageService.getMessage( request );
+            assertNotNull( message );
+            assertTrue( message.getRequestParameters( ).containsKey( SecurityTokenService.PARAMETER_TOKEN ) );
+        }
+        finally
+        {
+            if (origUseAdvancedSecurityParameters )
+            {
+                AdminUserService.useAdvancedSecurityParameters( );
+            }
+            else
+            {
+                AdminUserService.removeAdvancedSecurityParameters( );
+            }
+        }
+    }
+    
+    public void testGetChangeUseAdvancedSecurityParametersToTrue( )
+    {
+        boolean origUseAdvancedSecurityParameters = AdminUserService.getBooleanSecurityParameter( AdminUserService.DSKEY_USE_ADVANCED_SECURITY_PARAMETERS );
+        AdminUserService.updateSecurityParameter( AdminUserService.DSKEY_USE_ADVANCED_SECURITY_PARAMETERS, Boolean.FALSE.toString( ) );
+        try
+        {
+            AdminUserJspBean bean = new AdminUserJspBean( );
+            MockHttpServletRequest request = new MockHttpServletRequest( );
+            bean.getChangeUseAdvancedSecurityParameters( request );
+            AdminMessage message = AdminMessageService.getMessage( request );
+            assertNotNull( message );
+            assertTrue( message.getRequestParameters( ).containsKey( SecurityTokenService.PARAMETER_TOKEN ) );
+        }
+        finally
+        {
+            if (origUseAdvancedSecurityParameters )
+            {
+                AdminUserService.useAdvancedSecurityParameters( );
+            }
+            else
+            {
+                AdminUserService.removeAdvancedSecurityParameters( );
+            }
+        }
+    }
+
+    public void testDoRemoveAdvancedSecurityParameters( ) throws AccessDeniedException
+    {
+        boolean origUseAdvancedSecurityParameters = AdminUserService.getBooleanSecurityParameter( AdminUserService.DSKEY_USE_ADVANCED_SECURITY_PARAMETERS );
+        AdminUserService.updateSecurityParameter( AdminUserService.DSKEY_USE_ADVANCED_SECURITY_PARAMETERS, Boolean.TRUE.toString( ) );
+        try
+        {
+            AdminUserJspBean bean = new AdminUserJspBean( );
+            MockHttpServletRequest request = new MockHttpServletRequest( );
+            request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "ManageAdvancedParameters.jsp" ) );
+            bean.doRemoveAdvancedSecurityParameters( request );
+            assertFalse( AdminUserService.getBooleanSecurityParameter( AdminUserService.DSKEY_USE_ADVANCED_SECURITY_PARAMETERS ) );
+        }
+        finally
+        {
+            if (origUseAdvancedSecurityParameters )
+            {
+                AdminUserService.useAdvancedSecurityParameters( );
+            }
+            else
+            {
+                AdminUserService.removeAdvancedSecurityParameters( );
+            }
+        }
+    }
+
+    public void testDoRemoveAdvancedSecurityParametersInvalidToken( ) throws AccessDeniedException
+    {
+        boolean origUseAdvancedSecurityParameters = AdminUserService.getBooleanSecurityParameter( AdminUserService.DSKEY_USE_ADVANCED_SECURITY_PARAMETERS );
+        AdminUserService.updateSecurityParameter( AdminUserService.DSKEY_USE_ADVANCED_SECURITY_PARAMETERS, Boolean.TRUE.toString( ) );
+        try
+        {
+            AdminUserJspBean bean = new AdminUserJspBean( );
+            MockHttpServletRequest request = new MockHttpServletRequest( );
+            request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "ManageAdvancedParameters.jsp" ) + "b" );
+            bean.doRemoveAdvancedSecurityParameters( request );
+            fail( "should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            assertTrue( AdminUserService.getBooleanSecurityParameter( AdminUserService.DSKEY_USE_ADVANCED_SECURITY_PARAMETERS ) );
+        }
+        finally
+        {
+            if (origUseAdvancedSecurityParameters )
+            {
+                AdminUserService.useAdvancedSecurityParameters( );
+            }
+            else
+            {
+                AdminUserService.removeAdvancedSecurityParameters( );
+            }
+        }
+    }
+
+    public void testDoRemoveAdvancedSecurityParametersNoToken( ) throws AccessDeniedException
+    {
+        boolean origUseAdvancedSecurityParameters = AdminUserService.getBooleanSecurityParameter( AdminUserService.DSKEY_USE_ADVANCED_SECURITY_PARAMETERS );
+        AdminUserService.updateSecurityParameter( AdminUserService.DSKEY_USE_ADVANCED_SECURITY_PARAMETERS, Boolean.TRUE.toString( ) );
+        try
+        {
+            AdminUserJspBean bean = new AdminUserJspBean( );
+            MockHttpServletRequest request = new MockHttpServletRequest( );
+            bean.doRemoveAdvancedSecurityParameters( request );
+            fail( "should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            assertTrue( AdminUserService.getBooleanSecurityParameter( AdminUserService.DSKEY_USE_ADVANCED_SECURITY_PARAMETERS ) );
+        }
+        finally
+        {
+            if (origUseAdvancedSecurityParameters )
+            {
+                AdminUserService.useAdvancedSecurityParameters( );
+            }
+            else
+            {
+                AdminUserService.removeAdvancedSecurityParameters( );
+            }
+        }
+    }
+
+    public void testDoUseAdvancedSecurityParameters( ) throws AccessDeniedException
+    {
+        boolean origUseAdvancedSecurityParameters = AdminUserService.getBooleanSecurityParameter( AdminUserService.DSKEY_USE_ADVANCED_SECURITY_PARAMETERS );
+        AdminUserService.updateSecurityParameter( AdminUserService.DSKEY_USE_ADVANCED_SECURITY_PARAMETERS, Boolean.FALSE.toString( ) );
+        try
+        {
+            AdminUserJspBean bean = new AdminUserJspBean( );
+            MockHttpServletRequest request = new MockHttpServletRequest( );
+            request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "ManageAdvancedParameters.jsp" ) );
+            bean.doUseAdvancedSecurityParameters( request );
+            assertTrue( AdminUserService.getBooleanSecurityParameter( AdminUserService.DSKEY_USE_ADVANCED_SECURITY_PARAMETERS ) );
+        }
+        finally
+        {
+            if (origUseAdvancedSecurityParameters )
+            {
+                AdminUserService.useAdvancedSecurityParameters( );
+            }
+            else
+            {
+                AdminUserService.removeAdvancedSecurityParameters( );
+            }
+        }
+    }
+
+    public void testDoUseAdvancedSecurityParametersInvalidToken( ) throws AccessDeniedException
+    {
+        boolean origUseAdvancedSecurityParameters = AdminUserService.getBooleanSecurityParameter( AdminUserService.DSKEY_USE_ADVANCED_SECURITY_PARAMETERS );
+        AdminUserService.updateSecurityParameter( AdminUserService.DSKEY_USE_ADVANCED_SECURITY_PARAMETERS, Boolean.FALSE.toString( ) );
+        try
+        {
+            AdminUserJspBean bean = new AdminUserJspBean( );
+            MockHttpServletRequest request = new MockHttpServletRequest( );
+            request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "ManageAdvancedParameters.jsp" ) + "b" );
+            bean.doUseAdvancedSecurityParameters( request );
+            fail( "should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            assertFalse( AdminUserService.getBooleanSecurityParameter( AdminUserService.DSKEY_USE_ADVANCED_SECURITY_PARAMETERS ) );
+        }
+        finally
+        {
+            if (origUseAdvancedSecurityParameters )
+            {
+                AdminUserService.useAdvancedSecurityParameters( );
+            }
+            else
+            {
+                AdminUserService.removeAdvancedSecurityParameters( );
+            }
+        }
+    }
+
+    public void testDoUseAdvancedSecurityParametersNoToken( ) throws AccessDeniedException
+    {
+        boolean origUseAdvancedSecurityParameters = AdminUserService.getBooleanSecurityParameter( AdminUserService.DSKEY_USE_ADVANCED_SECURITY_PARAMETERS );
+        AdminUserService.updateSecurityParameter( AdminUserService.DSKEY_USE_ADVANCED_SECURITY_PARAMETERS, Boolean.FALSE.toString( ) );
+        try
+        {
+            AdminUserJspBean bean = new AdminUserJspBean( );
+            MockHttpServletRequest request = new MockHttpServletRequest( );
+            bean.doUseAdvancedSecurityParameters( request );
+            fail( "should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            assertFalse( AdminUserService.getBooleanSecurityParameter( AdminUserService.DSKEY_USE_ADVANCED_SECURITY_PARAMETERS ) );
+        }
+        finally
+        {
+            if (origUseAdvancedSecurityParameters )
+            {
+                AdminUserService.useAdvancedSecurityParameters( );
+            }
+            else
+            {
+                AdminUserService.removeAdvancedSecurityParameters( );
+            }
         }
     }
 }
