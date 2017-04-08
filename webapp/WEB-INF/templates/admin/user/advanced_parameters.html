@@ -74,6 +74,7 @@
 						
 					<#if is_email_pattern_set_manually>
 					<@formGroup labelKey='#i18n{portal.users.manage_advanced_parameters.labelEmailPattern}' labelFor='email_pattern'>
+						<input type="hidden" name="token" value="${token}">
 						<@inputGroup>
 							<@input type='text' id='email_pattern' name='email_pattern' value='${email_pattern?html}' />
 							<@inputGroupItem>
