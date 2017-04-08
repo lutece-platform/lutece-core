@@ -451,8 +451,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
          }
         finally
         {
-            AdminUserHome.removeAllOwnRightsForUser( userToModify ); 
-            AdminUserHome.remove( userToModify.getUserId( ) );
+            disposeOfUser( userToModify );
         }
     }
 
@@ -487,8 +486,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
         finally
         {
-            AdminUserHome.removeAllOwnRightsForUser( userToModify ); 
-            AdminUserHome.remove( userToModify.getUserId( ) );
+            disposeOfUser( userToModify );
         }
     }
 
@@ -524,8 +522,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
         finally
         {
-            AdminUserHome.removeAllOwnRightsForUser( userToModify ); 
-            AdminUserHome.remove( userToModify.getUserId( ) );
+            disposeOfUser( userToModify );
         }
     }
 
@@ -562,8 +559,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
         finally
         {
-            AdminUserHome.removeAllOwnRightsForUser( userToModify ); 
-            AdminUserHome.remove( userToModify.getUserId( ) );
+            disposeOfUser( userToModify );
         }
     }
 
@@ -581,7 +577,15 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         user.setPassword( passwordFactory.getPasswordFromCleartext( "PASSWORD" ) );
         AdminUserHome.create( user );
         AdminUserHome.createRightForUser( user.getUserId( ), "CORE_USERS_MANAGEMENT" );
+        AdminUserHome.createRoleForUser( user.getUserId( ), "all_site_manager" );
         return AdminUserHome.findByPrimaryKey( user.getUserId( ) );
+    }
+
+    private void disposeOfUser( AdminUser user )
+    {
+        AdminUserHome.removeAllRolesForUser( user.getUserId( ) );
+        AdminUserHome.removeAllOwnRightsForUser( user );
+        AdminUserHome.remove( user.getUserId( ) );
     }
 
     public void testDoUseAdvancedSecurityParametersDoNotChangePassword( ) throws AccessDeniedException
@@ -690,8 +694,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
         finally
         {
-            AdminUserHome.removeAllOwnRightsForUser( user ); 
-            AdminUserHome.remove( user.getUserId( ) );
+            disposeOfUser( user );
         }
     }
     
@@ -733,8 +736,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
         finally
         {
-            AdminUserHome.removeAllOwnRightsForUser( user ); 
-            AdminUserHome.remove( user.getUserId( ) );
+            disposeOfUser( user );
         }
     }
     
@@ -761,8 +763,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
         finally
         {
-            AdminUserHome.removeAllOwnRightsForUser( user ); 
-            AdminUserHome.remove( user.getUserId( ) );
+            disposeOfUser( user );
         }
     }
     
@@ -788,8 +789,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
         finally
         {
-            AdminUserHome.removeAllOwnRightsForUser( user ); 
-            AdminUserHome.remove( user.getUserId( ) );
+            disposeOfUser( user );
         }
     }
     
@@ -815,8 +815,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
         finally
         {
-            AdminUserHome.removeAllOwnRightsForUser( user ); 
-            AdminUserHome.remove( user.getUserId( ) );
+            disposeOfUser( user );
         }
     }
 
@@ -843,8 +842,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
         finally
         {
-            AdminUserHome.removeAllOwnRightsForUser( user ); 
-            AdminUserHome.remove( user.getUserId( ) );
+            disposeOfUser( user );
         }
     }
 
@@ -871,8 +869,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
         finally
         {
-            AdminUserHome.removeAllOwnRightsForUser( user ); 
-            AdminUserHome.remove( user.getUserId( ) );
+            disposeOfUser( user );
         }
     }
 
@@ -899,8 +896,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
         finally
         {
-            AdminUserHome.removeAllOwnRightsForUser( user ); 
-            AdminUserHome.remove( user.getUserId( ) );
+            disposeOfUser( user );
         }
     }
 
@@ -928,8 +924,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
         finally
         {
-            AdminUserHome.removeAllOwnRightsForUser( user ); 
-            AdminUserHome.remove( user.getUserId( ) );
+            disposeOfUser( user );
         }
     }
 
@@ -968,8 +963,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
         finally
         {
-            AdminUserHome.removeAllOwnRightsForUser( user ); 
-            AdminUserHome.remove( user.getUserId( ) );
+            disposeOfUser( user );
         }
     }
 
@@ -1018,8 +1012,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
         finally
         {
-            AdminUserHome.removeAllOwnRightsForUser( user ); 
-            AdminUserHome.remove( user.getUserId( ) );
+            disposeOfUser( user );
         }
     }
 
@@ -1067,8 +1060,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
         finally
         {
-            AdminUserHome.removeAllOwnRightsForUser( user ); 
-            AdminUserHome.remove( user.getUserId( ) );
+            disposeOfUser( user );
         }
     }
 
@@ -1101,9 +1093,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
         finally
         {
-            AdminUserHome.removeAllRolesForUser( user.getUserId( ) );
-            AdminUserHome.removeAllOwnRightsForUser( user ); 
-            AdminUserHome.remove( user.getUserId( ) );
+            disposeOfUser( user );
         }
     }
 
@@ -1140,9 +1130,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
         finally
         {
-            AdminUserHome.removeAllRolesForUser( user.getUserId( ) );
-            AdminUserHome.removeAllOwnRightsForUser( user ); 
-            AdminUserHome.remove( user.getUserId( ) );
+            disposeOfUser( user );
         }
     }
 
@@ -1178,9 +1166,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
         finally
         {
-            AdminUserHome.removeAllRolesForUser( user.getUserId( ) );
-            AdminUserHome.removeAllOwnRightsForUser( user ); 
-            AdminUserHome.remove( user.getUserId( ) );
+            disposeOfUser( user );
         }
     }
 
@@ -1213,8 +1199,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
                 AdminWorkgroupHome.removeAllUsersForWorkgroup( workgroup.getKey( ) );
                 AdminWorkgroupHome.remove( workgroup.getKey( ) );
             }
-            AdminUserHome.removeAllOwnRightsForUser( user ); 
-            AdminUserHome.remove( user.getUserId( ) );
+            disposeOfUser( user );
         }
 
     }
@@ -1252,8 +1237,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
                 AdminWorkgroupHome.removeAllUsersForWorkgroup( workgroup.getKey( ) );
                 AdminWorkgroupHome.remove( workgroup.getKey( ) );
             }
-            AdminUserHome.removeAllOwnRightsForUser( user ); 
-            AdminUserHome.remove( user.getUserId( ) );
+            disposeOfUser( user );
         }
 
     }
@@ -1290,8 +1274,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
                 AdminWorkgroupHome.removeAllUsersForWorkgroup( workgroup.getKey( ) );
                 AdminWorkgroupHome.remove( workgroup.getKey( ) );
             }
-            AdminUserHome.removeAllOwnRightsForUser( user ); 
-            AdminUserHome.remove( user.getUserId( ) );
+            disposeOfUser( user );
         }
 
     }
@@ -1311,8 +1294,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
         finally
         {
-            AdminUserHome.removeAllOwnRightsForUser( user ); 
-            AdminUserHome.remove( user.getUserId( ) );
+            disposeOfUser( user );
         }
     }
 
@@ -1335,8 +1317,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
         finally
         {
-            AdminUserHome.removeAllOwnRightsForUser( user ); 
-            AdminUserHome.remove( user.getUserId( ) );
+            disposeOfUser( user );
         }  
     }
 
@@ -1363,8 +1344,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
         finally
         {
-            AdminUserHome.removeAllOwnRightsForUser( user ); 
-            AdminUserHome.remove( user.getUserId( ) );
+            disposeOfUser( user );
         }  
     }
 
@@ -1390,8 +1370,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
         finally
         {
-            AdminUserHome.removeAllOwnRightsForUser( user ); 
-            AdminUserHome.remove( user.getUserId( ) );
+            disposeOfUser( user );
         }  
     }
 
@@ -1500,8 +1479,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
         finally
         {
-            AdminUserHome.removeAllOwnRightsForUser( user ); 
-            AdminUserHome.remove( user.getUserId( ) );
+            disposeOfUser( user );
         }  
     }
 
@@ -1523,8 +1501,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
         finally
         {
-            AdminUserHome.removeAllOwnRightsForUser( user ); 
-            AdminUserHome.remove( user.getUserId( ) );
+            disposeOfUser( user );
         }  
     }
 
@@ -1550,8 +1527,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
         finally
         {
-            AdminUserHome.removeAllOwnRightsForUser( user ); 
-            AdminUserHome.remove( user.getUserId( ) );
+            disposeOfUser( user );
         }  
     }
 
@@ -1576,8 +1552,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
         finally
         {
-            AdminUserHome.removeAllOwnRightsForUser( user ); 
-            AdminUserHome.remove( user.getUserId( ) );
+            disposeOfUser( user );
         }  
     }
 
@@ -1586,7 +1561,8 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         AdminUserJspBean bean = new AdminUserJspBean( );
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/user/ImportUser.jsp" ) );
-        AdminAuthenticationService.getInstance( ).registerUser( request, AdminUserHome.findUserByLogin( "admin" ) );
+        AdminUser user = getUserToModify( );
+        AdminAuthenticationService.getInstance( ).registerUser( request, user );
         bean.init( request, "CORE_USERS_MANAGEMENT" );
         Map<String, List<FileItem>> multipartFiles = new HashMap<>( );
         List<FileItem> fileItems = new ArrayList<>( );
@@ -1599,25 +1575,25 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         Map<String, String[ ]> parameters = request.getParameterMap( );
         MultipartHttpServletRequest multipartRequest = new MultipartHttpServletRequest( request, multipartFiles, parameters );
         bean.getImportUsersFromFile( request ); // initialize _importAdminUserService
-        AdminUser user = null;
+        AdminUser importedUser = null;
         try
         {
             bean.doImportUsersFromFile( multipartRequest );
-            user = AdminUserHome.findUserByLogin( "test" );
-            assertNotNull( user );
-            assertEquals( "test", user.getAccessCode( ) );
-            assertEquals( "test", user.getFirstName( ) );
-            assertEquals( "test", user.getLastName( ) );
-            assertEquals( "test@test.fr", user.getEmail( ) );
-            assertEquals( AdminUser.ACTIVE_CODE, user.getStatus( ) );
+            importedUser = AdminUserHome.findUserByLogin( "test" );
+            assertNotNull( importedUser );
+            assertEquals( "test", importedUser.getAccessCode( ) );
+            assertEquals( "test", importedUser.getFirstName( ) );
+            assertEquals( "test", importedUser.getLastName( ) );
+            assertEquals( "test@test.fr", importedUser.getEmail( ) );
+            assertEquals( AdminUser.ACTIVE_CODE, importedUser.getStatus( ) );
         }
         finally
         {
-            if ( user != null )
+            if ( importedUser != null )
             {
-                AdminUserHome.removeAllOwnRightsForUser( user ); 
-                AdminUserHome.remove( user.getUserId( ) );
+                disposeOfUser( importedUser );
             }
+            disposeOfUser( user );
         }
     }
 
@@ -1626,7 +1602,8 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         AdminUserJspBean bean = new AdminUserJspBean( );
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/user/ImportUser.jsp" ) + "b" );
-        AdminAuthenticationService.getInstance( ).registerUser( request, AdminUserHome.findUserByLogin( "admin" ) );
+        AdminUser user = getUserToModify( );
+        AdminAuthenticationService.getInstance( ).registerUser( request, user );
         bean.init( request, "CORE_USERS_MANAGEMENT" );
         Map<String, List<FileItem>> multipartFiles = new HashMap<>( );
         List<FileItem> fileItems = new ArrayList<>( );
@@ -1639,7 +1616,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         Map<String, String[ ]> parameters = request.getParameterMap( );
         MultipartHttpServletRequest multipartRequest = new MultipartHttpServletRequest( request, multipartFiles, parameters );
         bean.getImportUsersFromFile( request ); // initialize _importAdminUserService
-        AdminUser user = null;
+        AdminUser importedUser = null;
         try
         {
             bean.doImportUsersFromFile( multipartRequest );
@@ -1647,16 +1624,16 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
         catch ( AccessDeniedException e )
         {
-            user = AdminUserHome.findUserByLogin( "test" );
-            assertNull( user );
+            importedUser = AdminUserHome.findUserByLogin( "test" );
+            assertNull( importedUser );
         }
         finally
         {
-            if ( user != null )
+            if ( importedUser != null )
             {
-                AdminUserHome.removeAllOwnRightsForUser( user ); 
-                AdminUserHome.remove( user.getUserId( ) );
+                disposeOfUser( importedUser );
             }
+            disposeOfUser( user );
         }
     }
 
@@ -1664,7 +1641,8 @@ public class AdminUserJspBeanTest extends LuteceTestCase
     {
         AdminUserJspBean bean = new AdminUserJspBean( );
         MockHttpServletRequest request = new MockHttpServletRequest( );
-        AdminAuthenticationService.getInstance( ).registerUser( request, AdminUserHome.findUserByLogin( "admin" ) );
+        AdminUser user = getUserToModify( );
+        AdminAuthenticationService.getInstance( ).registerUser( request, user );
         bean.init( request, "CORE_USERS_MANAGEMENT" );
         Map<String, List<FileItem>> multipartFiles = new HashMap<>( );
         List<FileItem> fileItems = new ArrayList<>( );
@@ -1677,7 +1655,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         Map<String, String[ ]> parameters = request.getParameterMap( );
         MultipartHttpServletRequest multipartRequest = new MultipartHttpServletRequest( request, multipartFiles, parameters );
         bean.getImportUsersFromFile( request ); // initialize _importAdminUserService
-        AdminUser user = null;
+        AdminUser importedUser = null;
         try
         {
             bean.doImportUsersFromFile( multipartRequest );
@@ -1685,16 +1663,16 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         }
         catch ( AccessDeniedException e )
         {
-            user = AdminUserHome.findUserByLogin( "test" );
-            assertNull( user );
+            importedUser = AdminUserHome.findUserByLogin( "test" );
+            assertNull( importedUser );
         }
         finally
         {
-            if ( user != null )
+            if ( importedUser != null )
             {
-                AdminUserHome.removeAllOwnRightsForUser( user ); 
-                AdminUserHome.remove( user.getUserId( ) );
+                disposeOfUser( importedUser );
             }
+            disposeOfUser( user );
         }
     }
 
@@ -1702,7 +1680,8 @@ public class AdminUserJspBeanTest extends LuteceTestCase
     {
         AdminUserJspBean bean = new AdminUserJspBean( );
         MockHttpServletRequest request = new MockHttpServletRequest( );
-        AdminAuthenticationService.getInstance( ).registerUser( request, AdminUserHome.findUserByLogin( "admin" ) );
+        AdminUser user = getUserToModify( );
+        AdminAuthenticationService.getInstance( ).registerUser( request, user );
         request.setParameter( "id_expression", "1" );
         request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "ManageAdvancedParameters.jsp" ) );
         bean.init( request, "CORE_USERS_MANAGEMENT" );
@@ -1713,6 +1692,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         finally
         {
             AdminUserService.doRemoveRegularExpression( 1 );
+            disposeOfUser( user );
         }
     }
 
@@ -1720,7 +1700,8 @@ public class AdminUserJspBeanTest extends LuteceTestCase
     {
         AdminUserJspBean bean = new AdminUserJspBean( );
         MockHttpServletRequest request = new MockHttpServletRequest( );
-        AdminAuthenticationService.getInstance( ).registerUser( request, AdminUserHome.findUserByLogin( "admin" ) );
+        AdminUser user = getUserToModify( );
+        AdminAuthenticationService.getInstance( ).registerUser( request, user );
         request.setParameter( "id_expression", "1" );
         request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "ManageAdvancedParameters.jsp" ) + "b" );
         bean.init( request, "CORE_USERS_MANAGEMENT" );
@@ -1736,6 +1717,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         finally
         {
             AdminUserService.doRemoveRegularExpression( 1 );
+            disposeOfUser( user );
         }
     }
 
@@ -1743,7 +1725,8 @@ public class AdminUserJspBeanTest extends LuteceTestCase
     {
         AdminUserJspBean bean = new AdminUserJspBean( );
         MockHttpServletRequest request = new MockHttpServletRequest( );
-        AdminAuthenticationService.getInstance( ).registerUser( request, AdminUserHome.findUserByLogin( "admin" ) );
+        AdminUser user = getUserToModify( );
+        AdminAuthenticationService.getInstance( ).registerUser( request, user );
         request.setParameter( "id_expression", "1" );
         bean.init( request, "CORE_USERS_MANAGEMENT" );
         try
@@ -1758,6 +1741,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         finally
         {
             AdminUserService.doRemoveRegularExpression( 1 );
+            disposeOfUser( user );
         }
     }
 
@@ -1857,7 +1841,8 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         String origDefaultLanguage = DefaultUserParameterHome.findByKey( AdminUserService.DSKEY_DEFAULT_USER_LANGUAGE );
         AdminUserJspBean bean = new AdminUserJspBean( );
         MockHttpServletRequest request = new MockHttpServletRequest( );
-        AdminAuthenticationService.getInstance( ).registerUser( request, AdminUserHome.findUserByLogin( "admin" ) );
+        AdminUser user = getUserToModify( );
+        AdminAuthenticationService.getInstance( ).registerUser( request, user );
         bean.init( request, "CORE_USERS_MANAGEMENT" );
         request.setParameter( "status", Integer.toString( AdminUser.ANONYMIZED_CODE ) );
         request.setParameter( "user_level", "10" );
@@ -1878,6 +1863,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
             DefaultUserParameterHome.update( AdminUserService.DSKEY_DEFAULT_USER_LEVEL, origDefaultLevel );
             DefaultUserParameterHome.update( AdminUserService.DSKEY_DEFAULT_USER_NOTIFICATION, origDefaultNotification );
             DefaultUserParameterHome.update( AdminUserService.DSKEY_DEFAULT_USER_LANGUAGE, origDefaultLanguage );
+            disposeOfUser( user );
         }
     }
 
@@ -1889,7 +1875,8 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         String origDefaultLanguage = DefaultUserParameterHome.findByKey( AdminUserService.DSKEY_DEFAULT_USER_LANGUAGE );
         AdminUserJspBean bean = new AdminUserJspBean( );
         MockHttpServletRequest request = new MockHttpServletRequest( );
-        AdminAuthenticationService.getInstance( ).registerUser( request, AdminUserHome.findUserByLogin( "admin" ) );
+        AdminUser user = getUserToModify( );
+        AdminAuthenticationService.getInstance( ).registerUser( request, user );
         bean.init( request, "CORE_USERS_MANAGEMENT" );
         request.setParameter( "status", Integer.toString( AdminUser.ANONYMIZED_CODE ) );
         request.setParameter( "user_level", "10" );
@@ -1914,6 +1901,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
             DefaultUserParameterHome.update( AdminUserService.DSKEY_DEFAULT_USER_LEVEL, origDefaultLevel );
             DefaultUserParameterHome.update( AdminUserService.DSKEY_DEFAULT_USER_NOTIFICATION, origDefaultNotification );
             DefaultUserParameterHome.update( AdminUserService.DSKEY_DEFAULT_USER_LANGUAGE, origDefaultLanguage );
+            disposeOfUser( user );
         }
     }
 
@@ -1925,7 +1913,8 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         String origDefaultLanguage = DefaultUserParameterHome.findByKey( AdminUserService.DSKEY_DEFAULT_USER_LANGUAGE );
         AdminUserJspBean bean = new AdminUserJspBean( );
         MockHttpServletRequest request = new MockHttpServletRequest( );
-        AdminAuthenticationService.getInstance( ).registerUser( request, AdminUserHome.findUserByLogin( "admin" ) );
+        AdminUser user = getUserToModify( );
+        AdminAuthenticationService.getInstance( ).registerUser( request, user );
         bean.init( request, "CORE_USERS_MANAGEMENT" );
         request.setParameter( "status", Integer.toString( AdminUser.ANONYMIZED_CODE ) );
         request.setParameter( "user_level", "10" );
@@ -1949,6 +1938,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
             DefaultUserParameterHome.update( AdminUserService.DSKEY_DEFAULT_USER_LEVEL, origDefaultLevel );
             DefaultUserParameterHome.update( AdminUserService.DSKEY_DEFAULT_USER_NOTIFICATION, origDefaultNotification );
             DefaultUserParameterHome.update( AdminUserService.DSKEY_DEFAULT_USER_LANGUAGE, origDefaultLanguage );
+            disposeOfUser( user );
         }
     }
 
@@ -1968,7 +1958,8 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         String origBannedDomainNames = AdminUserService.getLargeSecurityParameter( AdminUserService.DSKEY_BANNED_DOMAIN_NAMES );
         AdminUserJspBean bean = new AdminUserJspBean( );
         MockHttpServletRequest request = new MockHttpServletRequest( );
-        AdminAuthenticationService.getInstance( ).registerUser( request, AdminUserHome.findUserByLogin( "admin" ) );
+        AdminUser user = getUserToModify( );
+        AdminAuthenticationService.getInstance( ).registerUser( request, user );
         bean.init( request, "CORE_USERS_MANAGEMENT" );
         request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "ManageAdvancedParameters.jsp" ) );
         request.setParameter( "force_change_password_reinit", origForceChangePasswordReinit?Boolean.FALSE.toString( ):Boolean.TRUE.toString( ) );
@@ -2010,6 +2001,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
             AdminUserService.updateSecurityParameter( AdminUserService.DSKEY_ACCES_FAILURES_MAX, Integer.toString( origAccessFailuresMax ) );
             AdminUserService.updateSecurityParameter( AdminUserService.DSKEY_ACCES_FAILURES_INTERVAL, Integer.toString( origAccessFailuresInterval ) );
             AdminUserService.updateLargeSecurityParameter( AdminUserService.DSKEY_BANNED_DOMAIN_NAMES, origBannedDomainNames );
+            disposeOfUser( user );
         }
     }
 
@@ -2029,7 +2021,8 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         String origBannedDomainNames = AdminUserService.getLargeSecurityParameter( AdminUserService.DSKEY_BANNED_DOMAIN_NAMES );
         AdminUserJspBean bean = new AdminUserJspBean( );
         MockHttpServletRequest request = new MockHttpServletRequest( );
-        AdminAuthenticationService.getInstance( ).registerUser( request, AdminUserHome.findUserByLogin( "admin" ) );
+        AdminUser user = getUserToModify( );
+        AdminAuthenticationService.getInstance( ).registerUser( request, user );
         bean.init( request, "CORE_USERS_MANAGEMENT" );
         request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "ManageAdvancedParameters.jsp" ) + "b" );
         request.setParameter( "force_change_password_reinit", origForceChangePasswordReinit?Boolean.FALSE.toString( ):Boolean.TRUE.toString( ) );
@@ -2075,6 +2068,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
             AdminUserService.updateSecurityParameter( AdminUserService.DSKEY_ACCES_FAILURES_MAX, Integer.toString( origAccessFailuresMax ) );
             AdminUserService.updateSecurityParameter( AdminUserService.DSKEY_ACCES_FAILURES_INTERVAL, Integer.toString( origAccessFailuresInterval ) );
             AdminUserService.updateLargeSecurityParameter( AdminUserService.DSKEY_BANNED_DOMAIN_NAMES, origBannedDomainNames );
+            disposeOfUser( user );
         }
     }
 
@@ -2094,7 +2088,8 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         String origBannedDomainNames = AdminUserService.getLargeSecurityParameter( AdminUserService.DSKEY_BANNED_DOMAIN_NAMES );
         AdminUserJspBean bean = new AdminUserJspBean( );
         MockHttpServletRequest request = new MockHttpServletRequest( );
-        AdminAuthenticationService.getInstance( ).registerUser( request, AdminUserHome.findUserByLogin( "admin" ) );
+        AdminUser user = getUserToModify( );
+        AdminAuthenticationService.getInstance( ).registerUser( request, user );
         bean.init( request, "CORE_USERS_MANAGEMENT" );
         request.setParameter( "force_change_password_reinit", origForceChangePasswordReinit?Boolean.FALSE.toString( ):Boolean.TRUE.toString( ) );
         request.setParameter( "password_minimum_length", Integer.toString( origPasswordMinimumLength + 1 ) );
@@ -2139,6 +2134,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
             AdminUserService.updateSecurityParameter( AdminUserService.DSKEY_ACCES_FAILURES_MAX, Integer.toString( origAccessFailuresMax ) );
             AdminUserService.updateSecurityParameter( AdminUserService.DSKEY_ACCES_FAILURES_INTERVAL, Integer.toString( origAccessFailuresInterval ) );
             AdminUserService.updateLargeSecurityParameter( AdminUserService.DSKEY_BANNED_DOMAIN_NAMES, origBannedDomainNames );
+            disposeOfUser( user );
         }
     }
 
@@ -2148,7 +2144,8 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         assertTrue( "plugin-regularexpression is not there", isEmailPatternSetManually( ) );
         AdminUserJspBean bean = new AdminUserJspBean( );
         MockHttpServletRequest request = new MockHttpServletRequest( );
-        AdminAuthenticationService.getInstance( ).registerUser( request, AdminUserHome.findUserByLogin( "admin" ) );
+        AdminUser user = getUserToModify( );
+        AdminAuthenticationService.getInstance( ).registerUser( request, user );
         bean.init( request, "CORE_USERS_MANAGEMENT" );
         request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "ManageAdvancedParameters.jsp" ) );
         request.setParameter( "is_email_pattern_set_manually", Boolean.FALSE.toString( ) );
@@ -2162,6 +2159,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         finally
         {
             AdminUserService.doModifyEmailPattern( origEmailPattern, isEmailPatternSetManually( ) );
+            disposeOfUser( user );
         }
     }
 
@@ -2225,7 +2223,8 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         assertTrue( "plugin-regularexpression is not there", isEmailPatternSetManually( ) );
         AdminUserJspBean bean = new AdminUserJspBean( );
         MockHttpServletRequest request = new MockHttpServletRequest( );
-        AdminAuthenticationService.getInstance( ).registerUser( request, AdminUserHome.findUserByLogin( "admin" ) );
+        AdminUser user = getUserToModify( );
+        AdminAuthenticationService.getInstance( ).registerUser( request, user );
         bean.init( request, "CORE_USERS_MANAGEMENT" );
         request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "ManageAdvancedParameters.jsp" ) + "b" );
         request.setParameter( "is_email_pattern_set_manually", Boolean.FALSE.toString( ) );
@@ -2243,6 +2242,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         finally
         {
             AdminUserService.doModifyEmailPattern( origEmailPattern, isEmailPatternSetManually( ) );
+            disposeOfUser( user );
         }
     }
 
@@ -2252,7 +2252,8 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         assertTrue( "plugin-regularexpression is not there", isEmailPatternSetManually( ) );
         AdminUserJspBean bean = new AdminUserJspBean( );
         MockHttpServletRequest request = new MockHttpServletRequest( );
-        AdminAuthenticationService.getInstance( ).registerUser( request, AdminUserHome.findUserByLogin( "admin" ) );
+        AdminUser user = getUserToModify( );
+        AdminAuthenticationService.getInstance( ).registerUser( request, user );
         bean.init( request, "CORE_USERS_MANAGEMENT" );
         request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "ManageAdvancedParameters.jsp" ) + "b" );
         request.setParameter( "is_email_pattern_set_manually", Boolean.FALSE.toString( ) );
@@ -2270,6 +2271,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         finally
         {
             AdminUserService.doModifyEmailPattern( origEmailPattern, isEmailPatternSetManually( ) );
+            disposeOfUser( user );
         }
     }
 
@@ -2493,29 +2495,42 @@ public class AdminUserJspBeanTest extends LuteceTestCase
     {
         AdminUserJspBean bean = new AdminUserJspBean( );
         MockHttpServletRequest request = new MockHttpServletRequest( );
-        AdminAuthenticationService.getInstance( ).registerUser( request, AdminUserHome.findUserByLogin( "admin" ) );
-        bean.init( request, "CORE_USERS_MANAGEMENT" );
-        request.setParameter( "id_expression", "1" );
-        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "ManageAdvancedParameters.jsp" ) );
-        bean.doRemoveRegularExpression( request ); // FIXME not really testing this plugin-regularexpression is not there
+        AdminUser user = getUserToModify( );
+        try
+        {
+            AdminAuthenticationService.getInstance( ).registerUser( request, user );
+            bean.init( request, "CORE_USERS_MANAGEMENT" );
+            request.setParameter( "id_expression", "1" );
+            request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "ManageAdvancedParameters.jsp" ) );
+            bean.doRemoveRegularExpression( request ); // FIXME not really testing this plugin-regularexpression is not there
+        }
+        finally
+        {
+            disposeOfUser( user );
+        }
     }
 
     public void testDoRemoveRegularExpressionInvalidToken( ) throws AccessDeniedException, UserNotSignedException
     {
         AdminUserJspBean bean = new AdminUserJspBean( );
         MockHttpServletRequest request = new MockHttpServletRequest( );
-        AdminAuthenticationService.getInstance( ).registerUser( request, AdminUserHome.findUserByLogin( "admin" ) );
-        bean.init( request, "CORE_USERS_MANAGEMENT" );
-        request.setParameter( "id_expression", "1" );
-        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "ManageAdvancedParameters.jsp" ) + "b" );
+        AdminUser user = getUserToModify( );
         try
         {
+            AdminAuthenticationService.getInstance( ).registerUser( request, user );
+            bean.init( request, "CORE_USERS_MANAGEMENT" );
+            request.setParameter( "id_expression", "1" );
+            request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "ManageAdvancedParameters.jsp" ) + "b" );
             bean.doRemoveRegularExpression( request ); // FIXME not really testing this plugin-regularexpression is not there
             fail( "Should have thrown" );
         }
         catch ( AccessDeniedException e )
         {
             // ok
+        }
+        finally
+        {
+            disposeOfUser( user );
         }
     }
 
@@ -2523,7 +2538,8 @@ public class AdminUserJspBeanTest extends LuteceTestCase
     {
         AdminUserJspBean bean = new AdminUserJspBean( );
         MockHttpServletRequest request = new MockHttpServletRequest( );
-        AdminAuthenticationService.getInstance( ).registerUser( request, AdminUserHome.findUserByLogin( "admin" ) );
+        AdminUser user = getUserToModify( );
+        AdminAuthenticationService.getInstance( ).registerUser( request, user );
         bean.init( request, "CORE_USERS_MANAGEMENT" );
         request.setParameter( "id_expression", "1" );
         try
@@ -2535,22 +2551,27 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         {
             // ok
         }
+        finally
+        {
+            disposeOfUser( user );
+        }
     }
 
     public void testDoModifyEmailPatternReset( ) throws PasswordResetException, AccessDeniedException, UserNotSignedException
     {
         String origEmailPattern = getEmailPattern( );
         assertTrue( "plugin-regularexpression is not there", isEmailPatternSetManually( ) );
-        AdminUserService.doModifyEmailPattern( origEmailPattern + "b", isEmailPatternSetManually( ) );
-        assertEquals( origEmailPattern + "b", getEmailPattern( ) );
-        AdminUserJspBean bean = new AdminUserJspBean( );
-        MockHttpServletRequest request = new MockHttpServletRequest( );
-        AdminAuthenticationService.getInstance( ).registerUser( request, AdminUserHome.findUserByLogin( "admin" ) );
-        bean.init( request, "CORE_USERS_MANAGEMENT" );
-        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "ManageAdvancedParameters.jsp" ) );
-        request.setParameter( "reset", "reset" );
+        AdminUser user = getUserToModify( );
         try
         {
+            AdminUserService.doModifyEmailPattern( origEmailPattern + "b", isEmailPatternSetManually( ) );
+            assertEquals( origEmailPattern + "b", getEmailPattern( ) );
+            AdminUserJspBean bean = new AdminUserJspBean( );
+            MockHttpServletRequest request = new MockHttpServletRequest( );
+            AdminAuthenticationService.getInstance( ).registerUser( request, user );
+            bean.init( request, "CORE_USERS_MANAGEMENT" );
+            request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "ManageAdvancedParameters.jsp" ) );
+            request.setParameter( "reset", "reset" );
             bean.doModifyEmailPattern( request );
             assertEquals( origEmailPattern, getEmailPattern( ) );
             assertTrue( isEmailPatternSetManually( ) );
@@ -2558,6 +2579,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         finally
         {
             AdminUserService.doModifyEmailPattern( origEmailPattern, isEmailPatternSetManually( ) );
+            disposeOfUser( user );
         }
     }
 
