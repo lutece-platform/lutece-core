@@ -265,6 +265,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     private static final String PARAMETER_EXPORT_WORKGROUPS = "export_workgroups";
     private static final String PARAMETER_RESET_TOKEN_VALIDITY = "reset_token_validity";
     private static final String PARAMETER_LOCK_RESET_TOKEN_TO_SESSION = "lock_reset_token_to_session";
+    private static final String PARAMETER_RESET = "reset";
 
     // Jsp url
     private static final String JSP_MANAGE_USER_RIGHTS = "ManageUserRights.jsp";
@@ -2107,7 +2108,14 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             throw new AccessDeniedException( "User " + getUser( ) + " is not authorized to permission "
                     + AdminUserResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS );
         }
-
+        if ( PARAMETER_RESET.equals( request.getParameter( PARAMETER_RESET ) ) )
+        {
+            if ( !SecurityTokenService.getInstance( ).validate( request, JSP_MANAGE_ADVANCED_PARAMETERS ) )
+            {
+                throw new AccessDeniedException( "Invalid security token" );
+            }
+            return doResetEmailPattern( request );
+        }
         String strJsp = StringUtils.EMPTY;
         String strSetManually = request.getParameter( PARAMETER_IS_EMAIL_PATTERN_SET_MANUALLY );
         String strEmailPattern = request.getParameter( PARAMETER_EMAIL_PATTERN );
@@ -2135,18 +2143,9 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
      * @param request
      *            {@link HttpServletRequest}
      * @return the jsp return
-     * @throws AccessDeniedException
-     *             access denied if the AdminUser does not have the permission
      */
-    public String doResetEmailPattern( HttpServletRequest request ) throws AccessDeniedException
+    private String doResetEmailPattern( HttpServletRequest request )
     {
-        if ( !RBACService.isAuthorized( AdminUser.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID, AdminUserResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS,
-                getUser( ) ) )
-        {
-            throw new AccessDeniedException( "User " + getUser( ) + " is not authorized to permission "
-                    + AdminUserResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS );
-        }
-
         AdminUserService.doResetEmailPattern( );
 
         return JSP_MANAGE_ADVANCED_PARAMETERS;

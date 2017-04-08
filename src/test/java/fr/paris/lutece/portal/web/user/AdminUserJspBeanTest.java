@@ -2536,4 +2536,81 @@ public class AdminUserJspBeanTest extends LuteceTestCase
             // ok
         }
     }
+
+    public void testDoModifyEmailPatternReset( ) throws PasswordResetException, AccessDeniedException, UserNotSignedException
+    {
+        String origEmailPattern = getEmailPattern( );
+        assertTrue( "plugin-regularexpression is not there", isEmailPatternSetManually( ) );
+        AdminUserService.doModifyEmailPattern( origEmailPattern + "b", isEmailPatternSetManually( ) );
+        assertEquals( origEmailPattern + "b", getEmailPattern( ) );
+        AdminUserJspBean bean = new AdminUserJspBean( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminAuthenticationService.getInstance( ).registerUser( request, AdminUserHome.findUserByLogin( "admin" ) );
+        bean.init( request, "CORE_USERS_MANAGEMENT" );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "ManageAdvancedParameters.jsp" ) );
+        request.setParameter( "reset", "reset" );
+        try
+        {
+            bean.doModifyEmailPattern( request );
+            assertEquals( origEmailPattern, getEmailPattern( ) );
+            assertTrue( isEmailPatternSetManually( ) );
+        }
+        finally
+        {
+            AdminUserService.doModifyEmailPattern( origEmailPattern, isEmailPatternSetManually( ) );
+        }
+    }
+
+    public void testDoModifyEmailPatternResetInvalidToken( ) throws PasswordResetException, AccessDeniedException, UserNotSignedException
+    {
+        String origEmailPattern = getEmailPattern( );
+        assertTrue( "plugin-regularexpression is not there", isEmailPatternSetManually( ) );
+        AdminUserService.doModifyEmailPattern( origEmailPattern + "b", isEmailPatternSetManually( ) );
+        assertEquals( origEmailPattern + "b", getEmailPattern( ) );
+        AdminUserJspBean bean = new AdminUserJspBean( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminAuthenticationService.getInstance( ).registerUser( request, AdminUserHome.findUserByLogin( "admin" ) );
+        bean.init( request, "CORE_USERS_MANAGEMENT" );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "ManageAdvancedParameters.jsp" ) + "b" );
+        request.setParameter( "reset", "reset" );
+        try
+        {
+            bean.doModifyEmailPattern( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            assertEquals( origEmailPattern + "b", getEmailPattern( ) );
+        }
+        finally
+        {
+            AdminUserService.doModifyEmailPattern( origEmailPattern, isEmailPatternSetManually( ) );
+        }
+    }
+
+    public void testDoModifyEmailPatternResetNoToken( ) throws PasswordResetException, AccessDeniedException, UserNotSignedException
+    {
+        String origEmailPattern = getEmailPattern( );
+        assertTrue( "plugin-regularexpression is not there", isEmailPatternSetManually( ) );
+        AdminUserService.doModifyEmailPattern( origEmailPattern + "b", isEmailPatternSetManually( ) );
+        assertEquals( origEmailPattern + "b", getEmailPattern( ) );
+        AdminUserJspBean bean = new AdminUserJspBean( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminAuthenticationService.getInstance( ).registerUser( request, AdminUserHome.findUserByLogin( "admin" ) );
+        bean.init( request, "CORE_USERS_MANAGEMENT" );
+        request.setParameter( "reset", "reset" );
+        try
+        {
+            bean.doModifyEmailPattern( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            assertEquals( origEmailPattern + "b", getEmailPattern( ) );
+        }
+        finally
+        {
+            AdminUserService.doModifyEmailPattern( origEmailPattern, isEmailPatternSetManually( ) );
+        }
+    }
 }
