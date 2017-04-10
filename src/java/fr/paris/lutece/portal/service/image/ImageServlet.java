@@ -36,6 +36,7 @@ package fr.paris.lutece.portal.service.image;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
+import fr.paris.lutece.portal.web.LocalVariables;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -75,6 +76,11 @@ public class ImageServlet extends HttpServlet
     {
         String strResourceId = request.getParameter( PARAMETER_ID );
         String strResourceTypeId = request.getParameter( PARAMETER_RESOURCE_TYPE );
+
+        //Passing the request through thread local variables to keep binary compatibility
+        //because the ImageResourceProvider doesn't pass it explicitly. When everything
+        //is java8, we could instead use default methods of the interface.
+        LocalVariables.setLocal( getServletConfig(), request, response);
 
         ImageResource image;
 
