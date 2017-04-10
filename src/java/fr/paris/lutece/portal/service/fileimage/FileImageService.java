@@ -95,7 +95,7 @@ public final class FileImageService implements ImageResourceProvider
     {
         File file = FileHome.findByPrimaryKey( nIdResource );
 
-        if (  ( file.getPhysicalFile( ) != null ) && FileUtil.hasImageExtension( file.getTitle( ) ) )
+        if ( ( file != null ) && ( file.getPhysicalFile( ) != null ) && FileUtil.hasImageExtension( file.getTitle( ) ) )
         {
             PhysicalFile physicalFile = PhysicalFileHome.findByPrimaryKey( file.getPhysicalFile( ).getIdPhysicalFile( ) );
             ImageResource imageResource = new ImageResource( );
