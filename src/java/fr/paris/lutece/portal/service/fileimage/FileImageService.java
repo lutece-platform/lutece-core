@@ -33,15 +33,20 @@
  */
 package fr.paris.lutece.portal.service.fileimage;
 
+import javax.servlet.http.HttpServletRequest;
+
 import fr.paris.lutece.portal.business.file.File;
 import fr.paris.lutece.portal.business.file.FileHome;
 import fr.paris.lutece.portal.business.physicalfile.PhysicalFile;
 import fr.paris.lutece.portal.business.physicalfile.PhysicalFileHome;
+import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.business.user.attribute.AdminUserFieldHome;
+import fr.paris.lutece.portal.service.admin.AdminUserService;
 import fr.paris.lutece.portal.service.image.ImageResource;
 import fr.paris.lutece.portal.service.image.ImageResourceManager;
 import fr.paris.lutece.portal.service.image.ImageResourceProvider;
 import fr.paris.lutece.portal.service.init.LuteceInitException;
+import fr.paris.lutece.portal.web.LocalVariables;
 import fr.paris.lutece.util.file.FileUtil;
 
 /**
@@ -97,7 +102,10 @@ public final class FileImageService implements ImageResourceProvider
      */
     public ImageResource getImageResource( int nIdResource )
     {
-        if ( AdminUserFieldHome.existsWithFile( nIdResource ) ) {
+        HttpServletRequest request = LocalVariables.getRequest();
+        AdminUser user = AdminUserService.getAdminUser( request );
+
+        if ( user != null && AdminUserFieldHome.existsWithFile( nIdResource ) ) {
 
             File file = FileHome.findByPrimaryKey( nIdResource );
 
