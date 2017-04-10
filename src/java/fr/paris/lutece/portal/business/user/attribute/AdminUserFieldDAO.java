@@ -73,6 +73,7 @@ public class AdminUserFieldDAO implements IAdminUserFieldDAO
     private static final String SQL_QUERY_SELECT_USERS_BY_FILTER = " SELECT DISTINCT u.id_user, u.access_code, u.last_name, u.first_name, u.email, u.status, u.locale, u.level_user " +
         " FROM core_admin_user u INNER JOIN core_admin_user_field uf ON u.id_user = uf.id_user ";
     private static final String SQL_QUERY_SELECT_ID_USER = " SELECT id_user FROM core_admin_user_field WHERE id_attribute = ? AND id_field = ? AND user_field_value LIKE ? ";
+    private static final String SQL_QUERY_EXISTS_WITH_FILE = " SELECT id_user_field from core_admin_user_field where id_file = ? ";
 
     // INSERT
     private static final String SQL_QUERY_INSERT = " INSERT INTO core_admin_user_field (id_user_field, id_user, id_attribute, id_field, id_file, user_field_value) " +
@@ -614,5 +615,28 @@ public class AdminUserFieldDAO implements IAdminUserFieldDAO
         daoUtil.free(  );
 
         return listUserFields;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean existsWithFile( int nIdFile )
+    {
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_EXISTS_WITH_FILE );
+        daoUtil.setInt( 1, nIdFile );
+        daoUtil.executeQuery( );
+
+        boolean result;
+        try
+        {
+            result = daoUtil.next( );
+        }
+        finally
+        {
+            daoUtil.free( );
+        }
+
+        return result;
     }
 }

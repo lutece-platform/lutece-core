@@ -523,6 +523,7 @@ CREATE TABLE core_admin_user_field (
 	PRIMARY KEY (id_user_field)
 );
 
+CREATE INDEX core_admin_user_field_idx_file on core_admin_user_field (id_file);
 
 --
 -- Table structure for table core_search_parameter
