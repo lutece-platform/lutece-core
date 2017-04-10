@@ -204,4 +204,16 @@ public final class AdminUserFieldHome
             remove( userField );
         }
     }
+
+    /**
+     * Is the file associated with an attribute
+     *
+     * @param nIdFile
+     *            the id file
+     * @return wheter the file is associated with an attribute
+     */
+    public static boolean existsWithFile( int nIdFile ) {
+        return _dao.existsWithFile( nIdFile );
+    }
+
 }

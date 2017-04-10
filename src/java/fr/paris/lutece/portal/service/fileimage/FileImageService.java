@@ -37,6 +37,7 @@ import fr.paris.lutece.portal.business.file.File;
 import fr.paris.lutece.portal.business.file.FileHome;
 import fr.paris.lutece.portal.business.physicalfile.PhysicalFile;
 import fr.paris.lutece.portal.business.physicalfile.PhysicalFileHome;
+import fr.paris.lutece.portal.business.user.attribute.AdminUserFieldHome;
 import fr.paris.lutece.portal.service.image.ImageResource;
 import fr.paris.lutece.portal.service.image.ImageResourceManager;
 import fr.paris.lutece.portal.service.image.ImageResourceProvider;
@@ -44,7 +45,7 @@ import fr.paris.lutece.portal.service.init.LuteceInitException;
 import fr.paris.lutece.util.file.FileUtil;
 
 /**
- * Service for Url entry types. Provide ImageResource management
+ * Service for AdminUser image attributes. Provide ImageResource management
  */
 public final class FileImageService implements ImageResourceProvider
 {
@@ -96,16 +97,19 @@ public final class FileImageService implements ImageResourceProvider
      */
     public ImageResource getImageResource( int nIdResource )
     {
-        File file = FileHome.findByPrimaryKey( nIdResource );
+        if ( AdminUserFieldHome.existsWithFile( nIdResource ) ) {
 
-        if ( ( file != null ) && ( file.getPhysicalFile( ) != null ) && FileUtil.hasImageExtension( file.getTitle( ) ) )
-        {
-            PhysicalFile physicalFile = PhysicalFileHome.findByPrimaryKey( file.getPhysicalFile( ).getIdPhysicalFile( ) );
-            ImageResource imageResource = new ImageResource( );
-            imageResource.setImage( physicalFile.getValue( ) );
-            imageResource.setMimeType( file.getMimeType( ) );
+            File file = FileHome.findByPrimaryKey( nIdResource );
 
-            return imageResource;
+            if ( ( file != null ) && ( file.getPhysicalFile( ) != null ) && FileUtil.hasImageExtension( file.getTitle( ) ) )
+            {
+                PhysicalFile physicalFile = PhysicalFileHome.findByPrimaryKey( file.getPhysicalFile( ).getIdPhysicalFile( ) );
+                ImageResource imageResource = new ImageResource( );
+                imageResource.setImage( physicalFile.getValue( ) );
+                imageResource.setMimeType( file.getMimeType( ) );
+
+                return imageResource;
+            }
         }
 
         return null;

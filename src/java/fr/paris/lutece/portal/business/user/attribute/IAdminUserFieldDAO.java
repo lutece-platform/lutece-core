@@ -129,4 +129,14 @@ public interface IAdminUserFieldDAO
      * @return the list
      */
     List<AdminUserField> selectByFilter( AdminUserFieldFilter auFieldFilter );
+
+    /**
+     * Is the file associated with an attribute
+     *
+     * @param nIdFile
+     *            the id file
+     * @return wheter the file is associated with an attribute
+     */
+    boolean existsWithFile( int nIdFile );
+
 }

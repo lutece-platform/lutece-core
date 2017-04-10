@@ -22,3 +22,5 @@ DELETE FROM core_admin_role_resource WHERE resource_type = 'ADMIN_USER' AND perm
 
 INSERT INTO core_datastore VALUES ('core.advanced_parameters.reset_token_validity', '60');
 INSERT INTO core_datastore VALUES ('core.advanced_parameters.lock_reset_token_to_session', 'false');
+
+CREATE INDEX core_admin_user_field_idx_file on core_admin_user_field (id_file);
