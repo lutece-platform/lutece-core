@@ -197,7 +197,7 @@ public class ImageServlet extends HttpServlet
      */
     private boolean getImageExist( ImageResource image )
     {
-        if ( image.getImage( ) != null )
+        if ( image != null && image.getImage( ) != null )
         {
             int nImageLength = image.getImage( ).length;
 

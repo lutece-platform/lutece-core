@@ -76,6 +76,11 @@ public final class ImageResourceManager
     {
         ImageResourceProvider resourceProvider = (ImageResourceProvider) _mapResourceTypes.get( strResourceTypeId );
 
-        return resourceProvider.getImageResource( nResourceId );
+        if ( resourceProvider != null )
+        {
+            return resourceProvider.getImageResource( nResourceId );
+        }
+
+        return null;
     }
 }
