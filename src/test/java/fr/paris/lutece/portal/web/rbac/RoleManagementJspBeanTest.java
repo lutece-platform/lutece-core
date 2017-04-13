@@ -95,12 +95,73 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
 
     /**
      * Test of doCreateRole method, of class fr.paris.lutece.portal.web.rbac.RoleManagementJspBean.
+     * @throws AccessDeniedException 
      */
-    public void testDoCreateRole( )
+    public void testDoCreateRole( ) throws AccessDeniedException
     {
-        System.out.println( "doCreateRole" );
+        RoleManagementJspBean bean = new RoleManagementJspBean( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        final String roleName = getRandomName( );
+        request.setParameter( "role_key", roleName );
+        request.setParameter( "role_description", roleName );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "admin/rbac/create_role.html" ) );
+        try
+        {
+            assertFalse( AdminRoleHome.checkExistRole( roleName ) );
+            bean.doCreateRole( request );
+            assertTrue( AdminRoleHome.checkExistRole( roleName ) );
+        }
+        finally
+        {
+            AdminRoleHome.remove( roleName );
+        }
+    }
 
-        // Not implemented yet
+    public void testDoCreateRoleInvalidToken( ) throws AccessDeniedException
+    {
+        RoleManagementJspBean bean = new RoleManagementJspBean( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        final String roleName = getRandomName( );
+        request.setParameter( "role_key", roleName );
+        request.setParameter( "role_description", roleName );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "admin/rbac/create_role.html" ) + "b" );
+        try
+        {
+            assertFalse( AdminRoleHome.checkExistRole( roleName ) );
+            bean.doCreateRole( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            assertFalse( AdminRoleHome.checkExistRole( roleName ) );
+        }
+        finally
+        {
+            AdminRoleHome.remove( roleName );
+        }
+    }
+
+    public void testDoCreateRoleNoToken( ) throws AccessDeniedException
+    {
+        RoleManagementJspBean bean = new RoleManagementJspBean( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        final String roleName = getRandomName( );
+        request.setParameter( "role_key", roleName );
+        request.setParameter( "role_description", roleName );
+        try
+        {
+            assertFalse( AdminRoleHome.checkExistRole( roleName ) );
+            bean.doCreateRole( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            assertFalse( AdminRoleHome.checkExistRole( roleName ) );
+        }
+        finally
+        {
+            AdminRoleHome.remove( roleName );
+        }
     }
 
     /**

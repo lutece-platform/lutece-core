@@ -246,19 +246,24 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
     {
         setPageTitleProperty( PROPERTY_ROLE_CREATION_PAGETITLE );
 
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CREATE_ROLE, getLocale( ) );
+        Map<String, Object> model = new HashMap<>( 1 );
+        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_CREATE_ROLE ) );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CREATE_ROLE, getLocale( ), model  );
 
         return getAdminPage( template.getHtml( ) );
     }
 
     /**
-     * Perform the role creation. The role key entered should not already exist. The role key is mandatory.
+     * Perform the role creation. The role key entered should not already exist.
+     * The role key is mandatory.
      * 
      * @param request
      *            the http request
      * @return the url to forward to
+     * @throws AccessDeniedException
+     *             if the security token is invalid
      */
-    public String doCreateRole( HttpServletRequest request )
+    public String doCreateRole( HttpServletRequest request ) throws AccessDeniedException
     {
         String strRoleKey = request.getParameter( PARAMETER_ROLE_KEY );
         String strRoleDescription = request.getParameter( PARAMETER_ROLE_DESCRIPTION );
@@ -267,25 +272,25 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
         {
             return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
         }
-        else
-            if ( AdminRoleHome.checkExistRole( strRoleKey ) )
-            {
-                return AdminMessageService.getMessageUrl( request, PROPERTY_ROLE_ALREADY_EXISTS, AdminMessage.TYPE_STOP );
-            }
-            else
-                if ( !StringUtil.checkCodeKey( strRoleKey ) )
-                {
-                    return AdminMessageService.getMessageUrl( request, MESSAGE_ROLE_SPECIAL_CHARACTER, AdminMessage.TYPE_STOP );
-                }
-                else
-                {
-                    AdminRole role = new AdminRole( );
-                    role.setKey( strRoleKey.trim( ) );
-                    role.setDescription( strRoleDescription );
-                    AdminRoleHome.create( role );
+        if ( AdminRoleHome.checkExistRole( strRoleKey ) )
+        {
+            return AdminMessageService.getMessageUrl( request, PROPERTY_ROLE_ALREADY_EXISTS, AdminMessage.TYPE_STOP );
+        }
+        if ( !StringUtil.checkCodeKey( strRoleKey ) )
+        {
+            return AdminMessageService.getMessageUrl( request, MESSAGE_ROLE_SPECIAL_CHARACTER, AdminMessage.TYPE_STOP );
+        }
+        if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_CREATE_ROLE ) )
+        {
+            throw new AccessDeniedException( "Invalid security token" );
+        }
 
-                    return JSP_URL_ROLE_DESCRIPTION + "?" + PARAMETER_ROLE_KEY + "=" + strRoleKey;
-                }
+        AdminRole role = new AdminRole( );
+        role.setKey( strRoleKey.trim( ) );
+        role.setDescription( strRoleDescription );
+        AdminRoleHome.create( role );
+
+        return JSP_URL_ROLE_DESCRIPTION + "?" + PARAMETER_ROLE_KEY + "=" + strRoleKey;
     }
 
     /**
