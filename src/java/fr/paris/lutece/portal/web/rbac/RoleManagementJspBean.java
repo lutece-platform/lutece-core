@@ -370,8 +370,11 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
     {
         String strRoleKey = request.getParameter( PARAMETER_ROLE_KEY );
 
-        String strDeleteUrl = JSP_URL_REMOVE_ROLE + "?" + PARAMETER_ROLE_KEY + "=" + strRoleKey;
-        String strUrl = AdminMessageService.getMessageUrl( request, PROPERTY_CONFIRM_DELETE_ROLE, strDeleteUrl, AdminMessage.TYPE_CONFIRMATION );
+        String strDeleteUrl = JSP_URL_REMOVE_ROLE;
+        Map<String, Object> parameters = new HashMap<>( 2 );
+        parameters.put( PARAMETER_ROLE_KEY, strRoleKey );
+        parameters.put( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, JSP_URL_REMOVE_ROLE ) );
+        String strUrl = AdminMessageService.getMessageUrl( request, PROPERTY_CONFIRM_DELETE_ROLE, strDeleteUrl, AdminMessage.TYPE_CONFIRMATION, parameters  );
 
         return strUrl;
     }
@@ -382,8 +385,10 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
      * @param request
      *            the http request
      * @return the url of the role management page
+     * @throws AccessDeniedException
+     *             if the security token is invalid
      */
-    public String doRemoveRole( HttpServletRequest request )
+    public String doRemoveRole( HttpServletRequest request ) throws AccessDeniedException
     {
         String strRoleKey = request.getParameter( PARAMETER_ROLE_KEY );
         List<String> listErrors = new ArrayList<String>( );
@@ -393,26 +398,29 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
         {
             return AdminMessageService.getMessageUrl( request, PROPERTY_ROLE_ATTRIBUTED, AdminMessage.TYPE_STOP );
         }
+        if ( !RBACRemovalListenerService.getService( ).checkForRemoval( strRoleKey, listErrors, getLocale( ) ) )
+        {
+            String strCause = AdminMessageService.getFormattedList( listErrors, getLocale( ) );
+            Object [ ] args = {
+                strCause
+            };
+
+            return AdminMessageService.getMessageUrl( request, MESSAGE_CANNOT_REMOVE_ROLE, args, AdminMessage.TYPE_STOP );
+        }
         else
-            if ( !RBACRemovalListenerService.getService( ).checkForRemoval( strRoleKey, listErrors, getLocale( ) ) )
+        {
+            if ( !SecurityTokenService.getInstance( ).validate( request, JSP_URL_REMOVE_ROLE ) )
             {
-                String strCause = AdminMessageService.getFormattedList( listErrors, getLocale( ) );
-                Object [ ] args = {
-                    strCause
-                };
-
-                return AdminMessageService.getMessageUrl( request, MESSAGE_CANNOT_REMOVE_ROLE, args, AdminMessage.TYPE_STOP );
+                throw new AccessDeniedException( "Invalid security token" );
             }
-            else
-            {
-                // remove role
-                AdminRoleHome.remove( strRoleKey );
+            // remove role
+            AdminRoleHome.remove( strRoleKey );
 
-                // remove resources entries for that role
-                RBACHome.removeForRoleKey( strRoleKey );
+            // remove resources entries for that role
+            RBACHome.removeForRoleKey( strRoleKey );
 
-                return JSP_URL_ROLES_MANAGEMENT;
-            }
+            return JSP_URL_ROLES_MANAGEMENT;
+        }
     }
 
     /**

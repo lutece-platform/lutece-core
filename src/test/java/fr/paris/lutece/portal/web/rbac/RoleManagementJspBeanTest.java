@@ -128,19 +128,90 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
      */
     public void testDoConfirmRemoveRole( ) throws AccessDeniedException
     {
-        System.out.println( "doConfirmRemoveRole" );
-
-        // Not implemented yet
+        RoleManagementJspBean bean = new RoleManagementJspBean( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( "role_key", "role" );
+        bean.doConfirmRemoveRole( request );
+        AdminMessage message = AdminMessageService.getMessage( request );
+        assertNotNull( message );
+        assertTrue( message.getRequestParameters( ).containsKey( SecurityTokenService.PARAMETER_TOKEN ) );
     }
 
     /**
      * Test of doRemoveRole method, of class fr.paris.lutece.portal.web.rbac.RoleManagementJspBean.
+     * @throws AccessDeniedException 
      */
-    public void testDoRemoveRole( )
+    public void testDoRemoveRole( ) throws AccessDeniedException
     {
-        System.out.println( "doRemoveRole" );
+        AdminRole role = new AdminRole( );
+        role.setKey( getRandomName( ) );
+        role.setDescription( role.getKey( ) );
+        AdminRoleHome.create( role );
+        RoleManagementJspBean bean = new RoleManagementJspBean( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( "role_key", role.getKey( ) );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/rbac/DoRemoveRole.jsp" ) );
+        try
+        {
+            assertTrue( AdminRoleHome.checkExistRole( role.getKey( ) ) );
+            bean.doRemoveRole( request );
+            assertFalse( AdminRoleHome.checkExistRole( role.getKey( ) ) );
+        }
+        finally
+        {
+            AdminRoleHome.remove( role.getKey( ) );
+        }
+    }
 
-        // Not implemented yet
+    public void testDoRemoveRoleInvalidToken( ) throws AccessDeniedException
+    {
+        AdminRole role = new AdminRole( );
+        role.setKey( getRandomName( ) );
+        role.setDescription( role.getKey( ) );
+        AdminRoleHome.create( role );
+        RoleManagementJspBean bean = new RoleManagementJspBean( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( "role_key", role.getKey( ) );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/rbac/DoRemoveRole.jsp" ) + "b" );
+        try
+        {
+            assertTrue( AdminRoleHome.checkExistRole( role.getKey( ) ) );
+            bean.doRemoveRole( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            assertTrue( AdminRoleHome.checkExistRole( role.getKey( ) ) );
+        }
+        finally
+        {
+            AdminRoleHome.remove( role.getKey( ) );
+        }
+    }
+
+    public void testDoRemoveRoleNoToken( ) throws AccessDeniedException
+    {
+        AdminRole role = new AdminRole( );
+        role.setKey( getRandomName( ) );
+        role.setDescription( role.getKey( ) );
+        AdminRoleHome.create( role );
+        RoleManagementJspBean bean = new RoleManagementJspBean( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( "role_key", role.getKey( ) );
+        try
+        {
+            assertTrue( AdminRoleHome.checkExistRole( role.getKey( ) ) );
+            bean.doRemoveRole( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            assertTrue( AdminRoleHome.checkExistRole( role.getKey( ) ) );
+        }
+        finally
+        {
+            AdminRoleHome.remove( role.getKey( ) );
+        }
     }
 
     /**
