@@ -461,8 +461,11 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
     public String doConfirmRemoveControlFromRole( HttpServletRequest request )
     {
         String strIdControl = request.getParameter( PARAMETER_RBAC_ID );
-        String strDeleteUrl = JSP_URL_REMOVE_CONTROL_FROM_ROLE + "?" + PARAMETER_RBAC_ID + "=" + strIdControl;
-        String strUrl = AdminMessageService.getMessageUrl( request, PROPERTY_CONFIRM_DELETE_CONTROL, strDeleteUrl, AdminMessage.TYPE_CONFIRMATION );
+        String strDeleteUrl = JSP_URL_REMOVE_CONTROL_FROM_ROLE;
+        Map<String, Object> parameters = new HashMap<>( 2 );
+        parameters.put( PARAMETER_RBAC_ID, strIdControl );
+        parameters.put( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, JSP_URL_REMOVE_CONTROL_FROM_ROLE ) );
+        String strUrl = AdminMessageService.getMessageUrl( request, PROPERTY_CONFIRM_DELETE_CONTROL, strDeleteUrl, AdminMessage.TYPE_CONFIRMATION, parameters  );
 
         return strUrl;
     }
@@ -473,9 +476,15 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
      * @param request
      *            the http request
      * @return the url of the role management page
+     * @throws AccessDeniedException
+     *             if the security token is invalid
      */
-    public String doRemoveControlFromRole( HttpServletRequest request )
+    public String doRemoveControlFromRole( HttpServletRequest request ) throws AccessDeniedException
     {
+        if ( !SecurityTokenService.getInstance( ).validate( request, JSP_URL_REMOVE_CONTROL_FROM_ROLE ) )
+        {
+            throw new AccessDeniedException( "Invalid security token" );
+        }
         String strIdControl = request.getParameter( PARAMETER_RBAC_ID );
         int nId = Integer.parseInt( strIdControl );
 

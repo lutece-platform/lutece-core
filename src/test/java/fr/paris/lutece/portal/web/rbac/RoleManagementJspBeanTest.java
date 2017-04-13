@@ -42,9 +42,13 @@ import org.springframework.mock.web.MockHttpServletRequest;
 
 import fr.paris.lutece.portal.business.rbac.AdminRole;
 import fr.paris.lutece.portal.business.rbac.AdminRoleHome;
+import fr.paris.lutece.portal.business.rbac.RBAC;
+import fr.paris.lutece.portal.business.rbac.RBACHome;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.business.user.AdminUserHome;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
+import fr.paris.lutece.portal.service.message.AdminMessage;
+import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.Utils;
@@ -149,24 +153,173 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
         // Not implemented yet
     }
 
-    /**
-     * Test of doConfirmRemoveControlFromRole method, of class fr.paris.lutece.portal.web.rbac.RoleManagementJspBean.
-     */
-    public void testDoConfirmRemoveControlFromRole( ) throws AccessDeniedException
+    public void testDoConfirmRemoveControlFromRole( )
     {
-        System.out.println( "doConfirmRemoveControlFromRole" );
-
-        // Not implemented yet
+        RoleManagementJspBean bean = new RoleManagementJspBean( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( "rbac_id", "1" );
+        bean.doConfirmRemoveControlFromRole( request );
+        AdminMessage message = AdminMessageService.getMessage( request );
+        assertNotNull( message );
+        assertTrue( message.getRequestParameters( ).containsKey( SecurityTokenService.PARAMETER_TOKEN ) );
     }
 
     /**
      * Test of doRemoveControlFromRole method, of class fr.paris.lutece.portal.web.rbac.RoleManagementJspBean.
+     * @throws AccessDeniedException 
      */
-    public void testDoRemoveControlFromRole( )
+    public void testDoRemoveControlFromRole( ) throws AccessDeniedException
     {
-        System.out.println( "doRemoveControlFromRole" );
+        AdminRole role = new AdminRole( );
+        role.setKey( getRandomName( ) );
+        role.setDescription( role.getKey( ) );
+        AdminRoleHome.create( role );
+        RBAC rBAC = new RBAC( );
+        rBAC.setRoleKey( role.getKey( ) );
+        rBAC.setResourceId( "*" );
+        rBAC.setPermissionKey( "*" );
+        rBAC.setResourceTypeKey( "*" );
+        RBACHome.create( rBAC );
+        RoleManagementJspBean bean = new RoleManagementJspBean( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( "rbac_id", Integer.toString( rBAC.getRBACId( ) ) );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/rbac/DoRemoveControlFromRole.jsp" ) );
+        try
+        {
+            Collection<RBAC> rbacs = RBACHome.findResourcesByCode( role.getKey( ) );
+            boolean found = false;
+            for ( RBAC aRBAC : rbacs )
+            {
+                if ( aRBAC.getRBACId( ) == rBAC.getRBACId( ) )
+                {
+                    found = true;
+                    break;
+                }
+            }
+            assertTrue( found );
+            bean.doRemoveControlFromRole( request );
+            rbacs = RBACHome.findResourcesByCode( role.getKey( ) );
+            found = false;
+            for ( RBAC aRBAC : rbacs )
+            {
+                if ( aRBAC.getRBACId( ) == rBAC.getRBACId( ) )
+                {
+                    found = true;
+                    break;
+                }
+            }
+            assertFalse( found );
+        }
+        finally
+        {
+            RBACHome.remove( rBAC.getRBACId( ) );
+            AdminRoleHome.remove( role.getKey( ) );
+        }
+    }
 
-        // Not implemented yet
+    public void testDoRemoveControlFromRoleInvalidToken( ) throws AccessDeniedException
+    {
+        AdminRole role = new AdminRole( );
+        role.setKey( getRandomName( ) );
+        role.setDescription( role.getKey( ) );
+        AdminRoleHome.create( role );
+        RBAC rBAC = new RBAC( );
+        rBAC.setRoleKey( role.getKey( ) );
+        rBAC.setResourceId( "*" );
+        rBAC.setPermissionKey( "*" );
+        rBAC.setResourceTypeKey( "*" );
+        RBACHome.create( rBAC );
+        RoleManagementJspBean bean = new RoleManagementJspBean( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( "rbac_id", Integer.toString( rBAC.getRBACId( ) ) );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/rbac/DoRemoveControlFromRole.jsp" ) + "b" );
+        try
+        {
+            Collection<RBAC> rbacs = RBACHome.findResourcesByCode( role.getKey( ) );
+            boolean found = false;
+            for ( RBAC aRBAC : rbacs )
+            {
+                if ( aRBAC.getRBACId( ) == rBAC.getRBACId( ) )
+                {
+                    found = true;
+                    break;
+                }
+            }
+            assertTrue( found );
+            bean.doRemoveControlFromRole( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            Collection<RBAC> rbacs = RBACHome.findResourcesByCode( role.getKey( ) );
+            boolean found = false;
+            for ( RBAC aRBAC : rbacs )
+            {
+                if ( aRBAC.getRBACId( ) == rBAC.getRBACId( ) )
+                {
+                    found = true;
+                    break;
+                }
+            }
+            assertTrue( found );
+        }
+        finally
+        {
+            RBACHome.remove( rBAC.getRBACId( ) );
+            AdminRoleHome.remove( role.getKey( ) );
+        }
+    }
+
+    public void testDoRemoveControlFromRoleNoToken( ) throws AccessDeniedException
+    {
+        AdminRole role = new AdminRole( );
+        role.setKey( getRandomName( ) );
+        role.setDescription( role.getKey( ) );
+        AdminRoleHome.create( role );
+        RBAC rBAC = new RBAC( );
+        rBAC.setRoleKey( role.getKey( ) );
+        rBAC.setResourceId( "*" );
+        rBAC.setPermissionKey( "*" );
+        rBAC.setResourceTypeKey( "*" );
+        RBACHome.create( rBAC );
+        RoleManagementJspBean bean = new RoleManagementJspBean( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( "rbac_id", Integer.toString( rBAC.getRBACId( ) ) );
+        try
+        {
+            Collection<RBAC> rbacs = RBACHome.findResourcesByCode( role.getKey( ) );
+            boolean found = false;
+            for ( RBAC aRBAC : rbacs )
+            {
+                if ( aRBAC.getRBACId( ) == rBAC.getRBACId( ) )
+                {
+                    found = true;
+                    break;
+                }
+            }
+            assertTrue( found );
+            bean.doRemoveControlFromRole( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            Collection<RBAC> rbacs = RBACHome.findResourcesByCode( role.getKey( ) );
+            boolean found = false;
+            for ( RBAC aRBAC : rbacs )
+            {
+                if ( aRBAC.getRBACId( ) == rBAC.getRBACId( ) )
+                {
+                    found = true;
+                    break;
+                }
+            }
+            assertTrue( found );
+        }
+        finally
+        {
+            RBACHome.remove( rBAC.getRBACId( ) );
+            AdminRoleHome.remove( role.getKey( ) );
+        }
     }
 
     public void testDoAssignUsers( ) throws AccessDeniedException
@@ -280,7 +433,7 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
             AdminRoleHome.remove( role.getKey( ) );
         }
     }
-    
+
     private String getRandomName( )
     {
         Random rand = new SecureRandom( );
