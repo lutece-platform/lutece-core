@@ -33,10 +33,19 @@
  */
 package fr.paris.lutece.portal.web.rbac;
 
+import java.math.BigInteger;
+import java.security.SecureRandom;
+import java.util.Collection;
+import java.util.Random;
+
 import org.springframework.mock.web.MockHttpServletRequest;
 
+import fr.paris.lutece.portal.business.rbac.AdminRole;
+import fr.paris.lutece.portal.business.rbac.AdminRoleHome;
 import fr.paris.lutece.portal.business.user.AdminUser;
+import fr.paris.lutece.portal.business.user.AdminUserHome;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
+import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.Utils;
 
@@ -158,5 +167,124 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
         System.out.println( "doRemoveControlFromRole" );
 
         // Not implemented yet
+    }
+
+    public void testDoAssignUsers( ) throws AccessDeniedException
+    {
+        RoleManagementJspBean bean = new RoleManagementJspBean( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "AssignUsersRole.jsp" ) );
+        Collection<AdminUser> users = AdminUserHome.findUserList( );
+        for ( AdminUser user : users )
+        {
+            request.addParameter( "available_users_list", Integer.toString( user.getUserId( ) ) );
+        }
+        AdminRole role = new AdminRole( );
+        role.setKey( getRandomName( ) );
+        role.setDescription( role.getKey( ) );
+        AdminRoleHome.create( role );
+        request.setParameter( "role_key", role.getKey( ) );
+        try
+        {
+            bean.doAssignUsers( request );
+            users = AdminUserHome.findUserList( );
+            for ( AdminUser user : users )
+            {
+                assertTrue( AdminUserHome.hasRole( user, role.getKey( ) ) );
+            }
+        }
+        finally
+        {
+            users = AdminUserHome.findUserList( );
+            for ( AdminUser user : users )
+            {
+                AdminUserHome.removeRoleForUser( user.getUserId( ), role.getKey( ) );
+            }
+            AdminRoleHome.remove( role.getKey( ) );
+        }
+    }
+
+    public void testDoAssignUsersInvalidToken( ) throws AccessDeniedException
+    {
+        RoleManagementJspBean bean = new RoleManagementJspBean( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "AssignUsersRole.jsp" ) + "b" );
+        Collection<AdminUser> users = AdminUserHome.findUserList( );
+        for ( AdminUser user : users )
+        {
+            request.addParameter( "available_users_list", Integer.toString( user.getUserId( ) ) );
+        }
+        AdminRole role = new AdminRole( );
+        role.setKey( getRandomName( ) );
+        role.setDescription( role.getKey( ) );
+        AdminRoleHome.create( role );
+        request.setParameter( "role_key", role.getKey( ) );
+        try
+        {
+            bean.doAssignUsers( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            users = AdminUserHome.findUserList( );
+            for ( AdminUser user : users )
+            {
+                assertFalse( AdminUserHome.hasRole( user, role.getKey( ) ) );
+            }
+        }
+        finally
+        {
+            users = AdminUserHome.findUserList( );
+            for ( AdminUser user : users )
+            {
+                AdminUserHome.removeRoleForUser( user.getUserId( ), role.getKey( ) );
+            }
+            AdminRoleHome.remove( role.getKey( ) );
+        }
+    }
+
+    public void testDoAssignUsersNoToken( ) throws AccessDeniedException
+    {
+        RoleManagementJspBean bean = new RoleManagementJspBean( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        Collection<AdminUser> users = AdminUserHome.findUserList( );
+        for ( AdminUser user : users )
+        {
+            request.addParameter( "available_users_list", Integer.toString( user.getUserId( ) ) );
+        }
+        AdminRole role = new AdminRole( );
+        role.setKey( getRandomName( ) );
+        role.setDescription( role.getKey( ) );
+        AdminRoleHome.create( role );
+        request.setParameter( "role_key", role.getKey( ) );
+        try
+        {
+            bean.doAssignUsers( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            users = AdminUserHome.findUserList( );
+            for ( AdminUser user : users )
+            {
+                assertFalse( AdminUserHome.hasRole( user, role.getKey( ) ) );
+            }
+        }
+        finally
+        {
+            users = AdminUserHome.findUserList( );
+            for ( AdminUser user : users )
+            {
+                AdminUserHome.removeRoleForUser( user.getUserId( ), role.getKey( ) );
+            }
+            AdminRoleHome.remove( role.getKey( ) );
+        }
+    }
+    
+    private String getRandomName( )
+    {
+        Random rand = new SecureRandom( );
+        BigInteger bigInt = new BigInteger( 128, rand );
+        return "junit" + bigInt.toString( 36 );
     }
 }

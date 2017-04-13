@@ -41,6 +41,7 @@ import fr.paris.lutece.portal.business.right.Level;
 import fr.paris.lutece.portal.business.right.LevelHome;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.business.user.AdminUserHome;
+import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.admin.AdminUserService;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.message.AdminMessage;
@@ -48,6 +49,7 @@ import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.rbac.RBACRemovalListenerService;
 import fr.paris.lutece.portal.service.rbac.ResourceType;
 import fr.paris.lutece.portal.service.rbac.ResourceTypeManager;
+import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
@@ -106,7 +108,6 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
     private static final String PARAMETER_SELECT_PERMISSIONS_METHOD = "select_permissions";
     private static final String PARAMETER_RBAC_ID = "rbac_id";
     private static final String PARAMETER_AVAILABLE_USER_LIST = "available_users_list";
-    private static final String PARAMETER_CANCEL = "cancel";
     private static final String PARAMETER_ID_USER = "id_user";
     private static final String PARAMETER_ANCHOR = "anchor";
 
@@ -930,6 +931,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
         model.put( MARK_ITEM_NAVIGATOR, _itemNavigator );
         model.put( MARK_PAGINATOR, paginator );
         model.put( MARK_NB_ITEMS_PER_PAGE, Integer.toString( _nItemsPerPage ) );
+        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, JSP_ASSIGN_USERS_TO_ROLE ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ASSIGN_USERS, getLocale( ), model );
 
@@ -942,42 +944,34 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
      * @param request
      *            The HTTP Request
      * @return The Jsp URL of the process result
+     * @throws AccessDeniedException if the security token is invalid
      */
-    public String doAssignUsers( HttpServletRequest request )
+    public String doAssignUsers( HttpServletRequest request ) throws AccessDeniedException
     {
-        String strReturn;
-
-        String strActionCancel = request.getParameter( PARAMETER_CANCEL );
-
-        if ( strActionCancel != null )
+        if ( !SecurityTokenService.getInstance( ).validate( request, JSP_ASSIGN_USERS_TO_ROLE ) )
         {
-            strReturn = JSP_URL_ROLES_MANAGEMENT;
+            throw new AccessDeniedException( "Invalid security token" );
         }
-        else
+        String strRoleKey = request.getParameter( PARAMETER_ROLE_KEY );
+
+        // retrieve the selected portlets ids
+        String [ ] arrayUsersIds = request.getParameterValues( PARAMETER_AVAILABLE_USER_LIST );
+
+        if ( ( arrayUsersIds != null ) )
         {
-            String strRoleKey = request.getParameter( PARAMETER_ROLE_KEY );
-
-            // retrieve the selected portlets ids
-            String [ ] arrayUsersIds = request.getParameterValues( PARAMETER_AVAILABLE_USER_LIST );
-
-            if ( ( arrayUsersIds != null ) )
+            for ( int i = 0; i < arrayUsersIds.length; i++ )
             {
-                for ( int i = 0; i < arrayUsersIds.length; i++ )
-                {
-                    int nUserId = Integer.parseInt( arrayUsersIds [i] );
-                    AdminUser user = AdminUserHome.findByPrimaryKey( nUserId );
+                int nUserId = Integer.parseInt( arrayUsersIds [i] );
+                AdminUser user = AdminUserHome.findByPrimaryKey( nUserId );
 
-                    if ( !AdminUserHome.hasRole( user, strRoleKey ) )
-                    {
-                        AdminUserHome.createRoleForUser( user.getUserId( ), strRoleKey );
-                    }
+                if ( !AdminUserHome.hasRole( user, strRoleKey ) )
+                {
+                    AdminUserHome.createRoleForUser( user.getUserId( ), strRoleKey );
                 }
             }
-
-            strReturn = JSP_ASSIGN_USERS_TO_ROLE + "?" + PARAMETER_ROLE_KEY + "=" + strRoleKey;
         }
 
-        return strReturn;
+        return JSP_ASSIGN_USERS_TO_ROLE + "?" + PARAMETER_ROLE_KEY + "=" + strRoleKey;
     }
 
     /**
