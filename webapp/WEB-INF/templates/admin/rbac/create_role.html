@@ -4,6 +4,7 @@
       <@boxHeader title='#i18n{portal.rbac.create_role.titleCreateRole}' />
 			<@boxBody>
 				<@tform method='post' action='jsp/admin/rbac/DoCreateRole.jsp' name='create_role'>
+					<input type="hidden" name="token" value="${token}">
 					<@formGroup labelKey='#i18n{portal.rbac.create_role.labelKey}' labelFor='role_key' mandatory=true>
 						<@input type='text' id='role_key' name='role_key' maxlength=255 />
 					</@formGroup>
