@@ -77,4 +77,30 @@ public class DAOUtilTest extends LuteceTestCase
         }
     }
 
+    public void testDAOUtil_str_FAIL_NO_GENERATED_KEYS( ) {
+        String key = TESTKEY + new SecureRandom( ).nextLong( );
+        DAOUtil daoUtil = new DAOUtil( SQL_INSERT, Statement.NO_GENERATED_KEYS );
+        try
+        {
+            daoUtil.setString( 1, key );
+            daoUtil.setString( 2, TESTVALUE );
+            daoUtil.executeUpdate( );
+        }
+        finally
+        {
+            daoUtil.free( );
+        }
+
+        DAOUtil daoUtildelete = new DAOUtil( SQL_DELETE );
+        try
+        {
+            daoUtildelete.setString( 1, key );
+            daoUtildelete.executeUpdate( );
+        }
+        finally
+        {
+            daoUtildelete.free( );
+        }
+    }
+
 }
