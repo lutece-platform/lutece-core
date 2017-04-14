@@ -741,6 +741,97 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
         }
     }
 
+    public void testDoUnAssignUser( ) throws AccessDeniedException
+    {
+        AdminRole role = new AdminRole( );
+        role.setKey( getRandomName( ) );
+        role.setDescription( role.getKey( ) );
+        AdminRoleHome.create( role );
+        AdminUser user = AdminUserHome.findUserByLogin( "admin" );
+        int userId = user.getUserId( );
+        AdminUserHome.createRoleForUser( userId, role.getKey( ) );
+        RoleManagementJspBean bean = new RoleManagementJspBean( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( "role_key", role.getKey( ) );
+        request.setParameter( "id_user", Integer.toString( userId ) );
+        request.setParameter( "anchor", "anchor" );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "AssignUsersRole.jsp" ) );
+        try
+        {
+            assertTrue( AdminUserHome.hasRole( user, role.getKey( ) ) );
+            bean.doUnAssignUser( request );
+            assertFalse( AdminUserHome.hasRole( user, role.getKey( ) ) );
+        }
+        finally
+        {
+            AdminUserHome.removeRoleForUser( userId, role.getKey( ) );
+            AdminRoleHome.remove( role.getKey( ) );
+        }
+    }
+
+    public void testDoUnAssignUserInvalidToken( ) throws AccessDeniedException
+    {
+        AdminRole role = new AdminRole( );
+        role.setKey( getRandomName( ) );
+        role.setDescription( role.getKey( ) );
+        AdminRoleHome.create( role );
+        AdminUser user = AdminUserHome.findUserByLogin( "admin" );
+        int userId = user.getUserId( );
+        AdminUserHome.createRoleForUser( userId, role.getKey( ) );
+        RoleManagementJspBean bean = new RoleManagementJspBean( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( "role_key", role.getKey( ) );
+        request.setParameter( "id_user", Integer.toString( userId ) );
+        request.setParameter( "anchor", "anchor" );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "AssignUsersRole.jsp" ) + "b" );
+        try
+        {
+            assertTrue( AdminUserHome.hasRole( user, role.getKey( ) ) );
+            bean.doUnAssignUser( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            assertTrue( AdminUserHome.hasRole( user, role.getKey( ) ) );
+        }
+        finally
+        {
+            AdminUserHome.removeRoleForUser( userId, role.getKey( ) );
+            AdminRoleHome.remove( role.getKey( ) );
+        }
+    }
+
+    public void testDoUnAssignUserNoToken( ) throws AccessDeniedException
+    {
+        AdminRole role = new AdminRole( );
+        role.setKey( getRandomName( ) );
+        role.setDescription( role.getKey( ) );
+        AdminRoleHome.create( role );
+        AdminUser user = AdminUserHome.findUserByLogin( "admin" );
+        int userId = user.getUserId( );
+        AdminUserHome.createRoleForUser( userId, role.getKey( ) );
+        RoleManagementJspBean bean = new RoleManagementJspBean( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( "role_key", role.getKey( ) );
+        request.setParameter( "id_user", Integer.toString( userId ) );
+        request.setParameter( "anchor", "anchor" );
+        try
+        {
+            assertTrue( AdminUserHome.hasRole( user, role.getKey( ) ) );
+            bean.doUnAssignUser( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            assertTrue( AdminUserHome.hasRole( user, role.getKey( ) ) );
+        }
+        finally
+        {
+            AdminUserHome.removeRoleForUser( userId, role.getKey( ) );
+            AdminRoleHome.remove( role.getKey( ) );
+        }
+    }
+
     private String getRandomName( )
     {
         Random rand = new SecureRandom( );

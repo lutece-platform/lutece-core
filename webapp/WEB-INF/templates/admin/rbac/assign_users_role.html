@@ -146,8 +146,14 @@
 										</a>
 									</td>
 									<td>
-										<@aButton href='jsp/admin/user/ModifyUser.jsp?id_user=${assigned_user.userId}' title='#i18n{portal.rbac.assign_users.actionModify}' showTitle=false buttonIcon='edit' />
-										<@aButton href='jsp/admin/rbac/DoUnassignUserRole.jsp?id_user=${assigned_user.userId}&amp;role_key=${role.key}&anchor=anchor-${anchor}' title='#i18n{portal.rbac.assign_users.actionUnassign}' showTitle=false buttonIcon='trash' color='btn-danger' />
+										<@tform method='post' action='jsp/admin/rbac/DoUnassignUserRole.jsp'>
+											<input type="hidden" name="token" value="${token}">
+											<input type="hidden" name="id_user" value="${assigned_user.userId?html}">
+											<input type="hidden" name="role_key" value="${role.key?html}">
+											<input type="hidden" name="anchor" value="anchor-${anchor?html}">
+											<@aButton href='jsp/admin/user/ModifyUser.jsp?id_user=${assigned_user.userId}' title='#i18n{portal.rbac.assign_users.actionModify}' showTitle=false buttonIcon='edit' />
+											<@button type='submit' title='#i18n{portal.rbac.assign_users.actionUnassign}' showTitle=false buttonIcon='trash' color='btn-danger' />
+										</@tform>
 									</td>
 								</tr>
 						</#list>
