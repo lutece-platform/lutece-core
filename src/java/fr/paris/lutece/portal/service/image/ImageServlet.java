@@ -82,67 +82,73 @@ public class ImageServlet extends HttpServlet
         //is java8, we could instead use default methods of the interface.
         LocalVariables.setLocal( getServletConfig(), request, response);
 
-        ImageResource image;
+        try {
+            ImageResource image;
 
-        if ( strResourceId != null )
-        {
-            int nResourceId = Integer.parseInt( strResourceId );
-            image = ImageResourceManager.getImageResource( strResourceTypeId, nResourceId );
-
-            // Test the field image value
-            if ( getImageExist( image ) )
+            if ( strResourceId != null )
             {
-                response.setContentType( image.getMimeType( ) );
+                int nResourceId = Integer.parseInt( strResourceId );
+                image = ImageResourceManager.getImageResource( strResourceTypeId, nResourceId );
 
-                OutputStream out = response.getOutputStream( );
-                out.write( image.getImage( ) );
-                out.flush( );
-                out.close( );
-            }
-            else
-            {
-                ServletContext sc = getServletContext( );
-                String strImageUrl = AppPathService.getAbsolutePathFromRelativePath( AppPropertiesService.getProperty( PROPERTY_PATH_IMAGES ) + "/"
-                        + AppPropertiesService.getProperty( PROPERTY_IMAGE_PAGE_DEFAULT ) ); //
-                response.setContentType( sc.getMimeType( strImageUrl ) );
-
-                File file = new File( strImageUrl );
-                response.setContentLength( (int) file.length( ) );
-
-                FileInputStream in = null;
-
-                try
+                // Test the field image value
+                if ( getImageExist( image ) )
                 {
-                    // Open the file and output streams
-                    in = new FileInputStream( file );
+                    response.setContentType( image.getMimeType( ) );
 
                     OutputStream out = response.getOutputStream( );
-
-                    // Copy the contents of the file to the output stream
-                    byte [ ] buf = new byte [ 1024];
-                    int count = 0;
-
-                    while ( ( count = in.read( buf ) ) >= 0 )
-                    {
-                        out.write( buf, 0, count );
-                    }
-
-                    in.close( );
+                    out.write( image.getImage( ) );
+                    out.flush( );
                     out.close( );
                 }
-                catch( IOException e )
+                else
                 {
-                    AppLogService.error( e.getMessage( ), e );
-                    throw e;
-                }
-                finally
-                {
-                    if ( in != null )
+                    ServletContext sc = getServletContext( );
+                    String strImageUrl = AppPathService.getAbsolutePathFromRelativePath( AppPropertiesService.getProperty( PROPERTY_PATH_IMAGES ) + "/"
+                            + AppPropertiesService.getProperty( PROPERTY_IMAGE_PAGE_DEFAULT ) ); //
+                    response.setContentType( sc.getMimeType( strImageUrl ) );
+
+                    File file = new File( strImageUrl );
+                    response.setContentLength( (int) file.length( ) );
+
+                    FileInputStream in = null;
+
+                    try
                     {
+                        // Open the file and output streams
+                        in = new FileInputStream( file );
+
+                        OutputStream out = response.getOutputStream( );
+
+                        // Copy the contents of the file to the output stream
+                        byte [ ] buf = new byte [ 1024];
+                        int count = 0;
+
+                        while ( ( count = in.read( buf ) ) >= 0 )
+                        {
+                            out.write( buf, 0, count );
+                        }
+
                         in.close( );
+                        out.close( );
+                    }
+                    catch( IOException e )
+                    {
+                        AppLogService.error( e.getMessage( ), e );
+                        throw e;
+                    }
+                    finally
+                    {
+                        if ( in != null )
+                        {
+                            in.close( );
+                        }
                     }
                 }
             }
+        }
+        finally
+        {
+            LocalVariables.setLocal( null, null, null );
         }
     }
 
