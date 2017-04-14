@@ -176,12 +176,91 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
 
     /**
      * Test of doModifyRole method, of class fr.paris.lutece.portal.web.rbac.RoleManagementJspBean.
+     * @throws AccessDeniedException 
      */
-    public void testDoModifyRole( )
+    public void testDoModifyRole( ) throws AccessDeniedException
     {
-        System.out.println( "doModifyRole" );
+        AdminRole role = new AdminRole( );
+        role.setKey( getRandomName( ) );
+        role.setDescription( role.getKey( ) );
+        AdminRoleHome.create( role );
+        RoleManagementJspBean bean = new RoleManagementJspBean( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( "role_key", role.getKey( ) );
+        request.setParameter( "role_key_previous", role.getKey( ) );
+        request.setParameter( "role_description", role.getKey( ) + "_mod" );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "admin/rbac/view_role_description.html" ) );
+        try
+        {
+            AdminRole stored = AdminRoleHome.findByPrimaryKey( role.getKey( ) );
+            assertEquals( role.getDescription( ), stored.getDescription( ) );
+            bean.doModifyRole( request );
+            stored = AdminRoleHome.findByPrimaryKey( role.getKey( ) );
+            assertEquals( role.getDescription( ) + "_mod", stored.getDescription( ) );
+        }
+        finally
+        {
+            AdminRoleHome.remove( role.getKey( ) );
+        }
+    }
 
-        // Not implemented yet
+    public void testDoModifyRoleInvalidToken( ) throws AccessDeniedException
+    {
+        AdminRole role = new AdminRole( );
+        role.setKey( getRandomName( ) );
+        role.setDescription( role.getKey( ) );
+        AdminRoleHome.create( role );
+        RoleManagementJspBean bean = new RoleManagementJspBean( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( "role_key", role.getKey( ) );
+        request.setParameter( "role_key_previous", role.getKey( ) );
+        request.setParameter( "role_description", role.getKey( ) + "_mod" );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "admin/rbac/view_role_description.html" ) + "b" );
+        try
+        {
+            AdminRole stored = AdminRoleHome.findByPrimaryKey( role.getKey( ) );
+            assertEquals( role.getDescription( ), stored.getDescription( ) );
+            bean.doModifyRole( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            AdminRole stored = AdminRoleHome.findByPrimaryKey( role.getKey( ) );
+            assertEquals( role.getDescription( ), stored.getDescription( ) );
+        }
+        finally
+        {
+            AdminRoleHome.remove( role.getKey( ) );
+        }
+    }
+
+    public void testDoModifyRoleNoToken( ) throws AccessDeniedException
+    {
+        AdminRole role = new AdminRole( );
+        role.setKey( getRandomName( ) );
+        role.setDescription( role.getKey( ) );
+        AdminRoleHome.create( role );
+        RoleManagementJspBean bean = new RoleManagementJspBean( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( "role_key", role.getKey( ) );
+        request.setParameter( "role_key_previous", role.getKey( ) );
+        request.setParameter( "role_description", role.getKey( ) + "_mod" );
+        try
+        {
+            AdminRole stored = AdminRoleHome.findByPrimaryKey( role.getKey( ) );
+            assertEquals( role.getDescription( ), stored.getDescription( ) );
+            bean.doModifyRole( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            AdminRole stored = AdminRoleHome.findByPrimaryKey( role.getKey( ) );
+            assertEquals( role.getDescription( ), stored.getDescription( ) );
+        }
+        finally
+        {
+            AdminRoleHome.remove( role.getKey( ) );
+        }
     }
 
     /**
