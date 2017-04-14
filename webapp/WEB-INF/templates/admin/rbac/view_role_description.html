@@ -5,8 +5,9 @@
 			<@boxBody>
 				<@tform method='post' action='jsp/admin/rbac/DoModifyRole.jsp' name='modify_role'>
 				  <input type="hidden" name="role_key_previous" value="${role.key}">
+				  <input type="hidden" name="token" value="${token}">
 				  <@formGroup labelKey='#i18n{portal.rbac.modify_role.labelKey}' labelFor='role_key' mandatory=true rows=2>
-					<@input type='text' id='role_key' name='role_key' value='${role.key}' disabled=true />
+					<@input type='text' id='role_key' name='role_key' value='${role.key}' readonly=true />
 				  </@formGroup>
 				   <@formGroup labelKey='#i18n{portal.rbac.modify_role.labelDescription}' labelFor='role_description' mandatory=true rows=2>
 					<@input type='text' id='role_description' name='role_description' value='${role.description}' inputSize=100 maxlength=255 />
@@ -23,15 +24,6 @@
 	<@columns sm=9 md=9 lg=9>
     <@box color='success'>
       <@boxHeader title='${role.key} - ${role.description}' boxTools=true>
-				<!--
-				  <form class="form-inline pull-right spaced" role="form" method="post" action="jsp/admin/rbac/ModifyRole.jsp">
-					<input type="hidden" name="role_key" value="${role.key}">
-					<button class="btn btn-primary btn-xs btn-flat" type="submit">
-					  <i class="fa fa-pencil"></i>
-					  <span class="hidden-xs">&nbsp;#i18n{portal.rbac.view_role_description.buttonLabelModify}</span>
-					</button>
-				  </form>
-				-->
 				<@tform class='form-inline' method='post' action='jsp/admin/rbac/AddControlToRole.jsp'>
 					<input type="hidden" name="role_key" value="${role.key}">
 					<@inputGroup>

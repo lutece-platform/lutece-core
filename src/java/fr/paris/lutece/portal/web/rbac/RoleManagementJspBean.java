@@ -136,7 +136,6 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
     private static final String PROPERTY_ROLE_ALREADY_EXISTS = "portal.rbac.message.roleAlreadyExists";
     private static final String PROPERTY_ROLE_ATTRIBUTED = "portal.rbac.message.roleAttributed";
     private static final String PROPERTY_ROLE_CREATION_PAGETITLE = "portal.rbac.pageTitle.createRole";
-    private static final String PROPERTY_ROLE_MODIFICATION_PAGETITLE = "portal.rbac.pageTitle.modifyRole";
     private static final String PROPERTY_ROLE_DESCRIPTION_PAGETITLE = "portal.rbac.pageTitle.viewRoleDescription";
     private static final String PROPERTY_CHOOSE_RESOURCES_PAGETITLE = "portal.rbac.pageTitle.chooseResources";
     private static final String PROPERTY_SELECT_RESOURCES_IDS_PAGETITLE = "portal.rbac.pageTitle.selectResourceIds";
@@ -154,7 +153,6 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
     // templates
     private static final String TEMPLATE_MANAGE_ROLES = "admin/rbac/manage_roles.html";
     private static final String TEMPLATE_CREATE_ROLE = "admin/rbac/create_role.html";
-    private static final String TEMPLATE_MODIFY_ROLE = "admin/rbac/modify_role.html";
     private static final String TEMPLATE_VIEW_ROLE_DESCRIPTION = "admin/rbac/view_role_description.html";
     private static final String TEMPLATE_ADD_CONTROL_TO_ROLE = "admin/rbac/add_control_to_role.html";
     private static final String TEMPLATE_SELECT_PERMISSIONS = "admin/rbac/select_permissions.html";
@@ -294,35 +292,17 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
     }
 
     /**
-     * Get the role modification page. This corresponds to the modification of the basic information linked to the role : key and description
-     * 
-     * @param request
-     *            the http request
-     * @return the html code for the modification page
-     */
-    public String getModifyRole( HttpServletRequest request )
-    {
-        setPageTitleProperty( PROPERTY_ROLE_MODIFICATION_PAGETITLE );
-
-        String strRoleKey = request.getParameter( PARAMETER_ROLE_KEY );
-
-        HashMap<String, Object> model = new HashMap<String, Object>( );
-        model.put( MARK_ROLE, AdminRoleHome.findByPrimaryKey( strRoleKey ) );
-
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_ROLE, getLocale( ), model );
-
-        return getAdminPage( template.getHtml( ) );
-    }
-
-    /**
-     * Performs the modification of the role's key and description. The role key entered should not already exist. The role key is mandatory. It should update
-     * the key for all the entries in the role-resource association list.
+     * Performs the modification of the role's key and description. The role key
+     * entered should not already exist. The role key is mandatory. It should
+     * update the key for all the entries in the role-resource association list.
      * 
      * @param request
      *            the http request
      * @return the url to forward to
+     * @throws AccessDeniedException
+     *             if the security token is invalid
      */
-    public String doModifyRole( HttpServletRequest request )
+    public String doModifyRole( HttpServletRequest request ) throws AccessDeniedException
     {
         String strOldRoleKey = request.getParameter( PARAMETER_ROLE_KEY_PREVIOUS );
         String strNewRoleKey = request.getParameter( PARAMETER_ROLE_KEY );
@@ -336,6 +316,10 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
 
         if ( strOldRoleKey.equals( strNewRoleKey ) ) // if the key doesn't change, update the description
         {
+            if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_VIEW_ROLE_DESCRIPTION ) )
+            {
+                throw new AccessDeniedException( "Invalid security token" );
+            }
             // update the role
             AdminRole role = AdminRoleHome.findByPrimaryKey( strOldRoleKey );
             role.setKey( strNewRoleKey );
@@ -349,7 +333,11 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
             {
                 return AdminMessageService.getMessageUrl( request, PROPERTY_ROLE_ALREADY_EXISTS, AdminMessage.TYPE_STOP );
             }
-
+            if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_VIEW_ROLE_DESCRIPTION ) )
+            {
+                throw new AccessDeniedException( "Invalid security token" );
+            }
+            
             // update the role
             AdminRole role = AdminRoleHome.findByPrimaryKey( strOldRoleKey );
             role.setKey( strNewRoleKey );
@@ -458,6 +446,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
         model.put( MARK_ROLE, adminRole );
         model.put( MARK_CONTROLED_RESOURCE_LIST, listResources );
         model.put( MARK_RESOURCE_TYPE_LIST, listResourceTypes );
+        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_VIEW_ROLE_DESCRIPTION ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_VIEW_ROLE_DESCRIPTION, getLocale( ), model );
 
