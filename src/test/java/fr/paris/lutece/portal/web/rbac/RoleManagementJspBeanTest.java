@@ -40,6 +40,7 @@ import java.util.Random;
 
 import org.springframework.mock.web.MockHttpServletRequest;
 
+import fr.paris.lutece.portal.business.page.Page;
 import fr.paris.lutece.portal.business.rbac.AdminRole;
 import fr.paris.lutece.portal.business.rbac.AdminRoleHome;
 import fr.paris.lutece.portal.business.rbac.RBAC;
@@ -641,6 +642,101 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
             {
                 AdminUserHome.removeRoleForUser( user.getUserId( ), role.getKey( ) );
             }
+            AdminRoleHome.remove( role.getKey( ) );
+        }
+    }
+
+    public void testDoSelectPermissions( ) throws AccessDeniedException
+    {
+        AdminRole role = new AdminRole( );
+        role.setKey( getRandomName( ) );
+        role.setDescription( role.getKey( ) );
+        AdminRoleHome.create( role );
+        RoleManagementJspBean bean = new RoleManagementJspBean( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( "role_key", role.getKey( ) );
+        request.setParameter( "select_resources", "all" );
+        request.setParameter( "select_permissions", "all" );
+        request.setParameter( "resource_type", Page.RESOURCE_TYPE );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "admin/rbac/select_permissions.html" ) );
+        try
+        {
+            Collection<RBAC> rbacs = RBACHome.findResourcesByCode( role.getKey( ) );
+            assertTrue( rbacs.isEmpty( ) );
+            bean.doSelectPermissions( request );
+            rbacs = RBACHome.findResourcesByCode( role.getKey( ) );
+            assertEquals( 1, rbacs.size( ) );
+            RBAC rbac = rbacs.iterator( ).next( );
+            assertEquals( Page.RESOURCE_TYPE, rbac.getResourceTypeKey( ) );
+            assertEquals( RBAC.WILDCARD_RESOURCES_ID, rbac.getResourceId( ) );
+            assertEquals( RBAC.WILDCARD_PERMISSIONS_KEY, rbac.getPermissionKey( ) );
+        }
+        finally
+        {
+            RBACHome.removeForRoleKey( role.getKey( ) );
+            AdminRoleHome.remove( role.getKey( ) );
+        }
+    }
+
+    public void testDoSelectPermissionsInvalidToken( ) throws AccessDeniedException
+    {
+        AdminRole role = new AdminRole( );
+        role.setKey( getRandomName( ) );
+        role.setDescription( role.getKey( ) );
+        AdminRoleHome.create( role );
+        RoleManagementJspBean bean = new RoleManagementJspBean( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( "role_key", role.getKey( ) );
+        request.setParameter( "select_resources", "all" );
+        request.setParameter( "select_permissions", "all" );
+        request.setParameter( "resource_type", Page.RESOURCE_TYPE );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "admin/rbac/select_permissions.html" ) + "b" );
+        try
+        {
+            Collection<RBAC> rbacs = RBACHome.findResourcesByCode( role.getKey( ) );
+            assertTrue( rbacs.isEmpty( ) );
+            bean.doSelectPermissions( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            Collection<RBAC> rbacs = RBACHome.findResourcesByCode( role.getKey( ) );
+            assertTrue( rbacs.isEmpty( ) );
+        }
+        finally
+        {
+            RBACHome.removeForRoleKey( role.getKey( ) );
+            AdminRoleHome.remove( role.getKey( ) );
+        }
+    }
+
+    public void testDoSelectPermissionsNoToken( ) throws AccessDeniedException
+    {
+        AdminRole role = new AdminRole( );
+        role.setKey( getRandomName( ) );
+        role.setDescription( role.getKey( ) );
+        AdminRoleHome.create( role );
+        RoleManagementJspBean bean = new RoleManagementJspBean( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( "role_key", role.getKey( ) );
+        request.setParameter( "select_resources", "all" );
+        request.setParameter( "select_permissions", "all" );
+        request.setParameter( "resource_type", Page.RESOURCE_TYPE );
+        try
+        {
+            Collection<RBAC> rbacs = RBACHome.findResourcesByCode( role.getKey( ) );
+            assertTrue( rbacs.isEmpty( ) );
+            bean.doSelectPermissions( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            Collection<RBAC> rbacs = RBACHome.findResourcesByCode( role.getKey( ) );
+            assertTrue( rbacs.isEmpty( ) );
+        }
+        finally
+        {
+            RBACHome.removeForRoleKey( role.getKey( ) );
             AdminRoleHome.remove( role.getKey( ) );
         }
     }

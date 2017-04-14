@@ -735,6 +735,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
         model.put( MARK_ROLE_KEY, strRoleKey );
         model.put( MARK_RESOURCE_TYPE, strResourceType );
         model.put( MARK_SELECT_RESOURCES_METHOD, strSelectionMethod );
+        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_SELECT_PERMISSIONS ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_SELECT_PERMISSIONS, getLocale( ), model );
 
@@ -744,12 +745,12 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
     /**
      * Perform the checks on the permission selection and redirects to the description of the role if ok.
      * <ul>
-     * <li>If selection method is global (wilcard selection - parameter "all"), the correspondind entry is stored as a control for all resources previously
+     * <li>If selection method is global (wilcard selection - parameter "all"), the corresponding entry is stored as a control for all resources previously
      * selected. The user is redirected to the role description page.</li>
      * <li>If selection method is specific (id selection - parameter "choose"),
      * <ul>
      * <li>if no permission is found, the user is redirected to an error page.</li>
-     * <li>if at least one permission is found, the correspondind entry is stored as a control for all resources previously selected. The user is redirected to
+     * <li>if at least one permission is found, the corresponding entry is stored as a control for all resources previously selected. The user is redirected to
      * the role description page.</li>
      * </ul>
      * </li>
@@ -759,8 +760,9 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
      * @param request
      *            the http request
      * @return the url of the page to be redirected to
+     * @throws AccessDeniedException if the security token is invalid
      */
-    public String doSelectPermissions( HttpServletRequest request )
+    public String doSelectPermissions( HttpServletRequest request ) throws AccessDeniedException
     {
         String strRoleKey = request.getParameter( PARAMETER_ROLE_KEY );
         String strResourceType = request.getParameter( PARAMETER_RESOURCE_TYPE );
@@ -807,6 +809,11 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
                 {
                     return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_NO_PERMISSION_SELECTION_METHOD, AdminMessage.TYPE_STOP );
                 }
+
+        if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_SELECT_PERMISSIONS ) )
+        {
+            throw new AccessDeniedException( "Invalid security token" );
+        }
 
         // store the selected elements in database
         for ( int i = 0; i < strArrayResourceIds.length; i++ )
