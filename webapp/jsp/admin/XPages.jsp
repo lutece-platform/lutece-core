@@ -20,4 +20,8 @@
 	{
 		response.sendRedirect( request.getRequestURI(  ) );
 	}
+	finally
+	{
+		LocalVariables.setLocal( null, null, null );
+	}
 %>

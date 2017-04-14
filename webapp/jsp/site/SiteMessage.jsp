@@ -32,7 +32,8 @@
 	{
 		response.sendError(response.SC_NOT_FOUND);
 	}
-
+	finally
+	{
+		LocalVariables.setLocal( null, null, null );
+	}
 %>
-
-
