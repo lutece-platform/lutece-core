@@ -122,7 +122,20 @@ public class DAOUtil
      */
     public DAOUtil( String sql )
     {
-        this( sql, null );
+        this( sql, null, null );
+    }
+
+    /**
+     * Creates a new DAOUtil object.
+     *
+     * @param strSQL
+     *            sql query for prepared Statement
+     * @param plugin
+     *            The plugin using this database access
+     */
+    public DAOUtil( String strSQL, Plugin plugin )
+    {
+        this( strSQL, null, plugin );
     }
 
     /**
