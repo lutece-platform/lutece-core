@@ -237,7 +237,10 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
     {
         setPageTitleProperty( PROPERTY_CREATE_WORKGROUP_PAGETITLE );
 
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CREATE_WORKGROUP, getLocale( ) );
+        Map< String, Object > model = new HashMap<>( 1 );
+        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_CREATE_WORKGROUP ) );
+
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CREATE_WORKGROUP, getLocale( ), model );
 
         return getAdminPage( template.getHtml( ) );
     }
@@ -248,8 +251,10 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
      * @param request
      *            The HTTP Request
      * @return The Jsp URL of the process result
+     * @throws AccessDeniedException
+     *             if the security token is invalid
      */
-    public String doCreateWorkgroup( HttpServletRequest request )
+    public String doCreateWorkgroup( HttpServletRequest request ) throws AccessDeniedException
     {
         String strKey = request.getParameter( PARAMETER_WORKGROUP_KEY );
         String strDescription = request.getParameter( PARAMETER_WORKGROUP_DESCRIPTION );
@@ -274,6 +279,10 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
         if ( !StringUtil.checkCodeKey( strKey ) )
         {
             return AdminMessageService.getMessageUrl( request, MESSAGE_WORKGROUP_ACCENTUATED_CHARACTER, AdminMessage.TYPE_STOP );
+        }
+        if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_CREATE_WORKGROUP ) )
+        {
+            throw new AccessDeniedException( "Invalid security token" );
         }
 
         AdminWorkgroup adminWorkgroup = new AdminWorkgroup( );

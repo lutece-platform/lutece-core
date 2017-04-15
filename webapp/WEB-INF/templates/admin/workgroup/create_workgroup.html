@@ -4,6 +4,7 @@
 			<@boxHeader title='#i18n{portal.workgroup.create_workgroup.titleCreationForm}' />
 			<@boxBody>
 				<@tform method='post' action='jsp/admin/workgroup/DoCreateWorkgroup.jsp'>
+					<input type="hidden" name="token" value="${token}">
 					<@formGroup labelKey='#i18n{portal.workgroup.create_workgroup.labelKey}' labelFor='workgroup_key' mandatory=true>
 						<@input type='text' id='workgroup_key' name='workgroup_key' inputSize=20 maxlength=50 />
 					</@formGroup>
