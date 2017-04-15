@@ -5,6 +5,7 @@
 			<@boxBody>
 				<@tform method='post' action='jsp/admin/workgroup/DoModifyWorkgroup.jsp'>
 					<input type="hidden" name="workgroup_key" value="${workgroup.key}" />
+					<input type="hidden" name="token" value="${token}">
 					<@formGroup labelKey='#i18n{portal.workgroup.create_workgroup.labelKey}' labelFor='workgroup_key' mandatory=true>
 						<@input type='text' disabled=true id='workgroup_key' name='old_workgroup_key' value='${workgroup.key?html}' maxlength=50 />
 					</@formGroup>

@@ -197,6 +197,61 @@ public class AdminWorkgroupJspBeanTest extends LuteceTestCase
         AdminWorkgroupHome.remove( key );
     }
 
+    public void testDoModifyWorkgroup( ) throws AccessDeniedException
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( "workgroup_key", adminWorkgroup.getKey( ) );
+        request.setParameter( "workgroup_description", adminWorkgroup.getDescription( ) + "_mod" );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "admin/workgroup/modify_workgroup.html" ) );
+
+        assertEquals( adminWorkgroup.getKey( ), adminWorkgroup.getDescription( ) );
+        bean.doModifyWorkgroup( request );
+        assertEquals( adminWorkgroup.getDescription( ) + "_mod",
+                AdminWorkgroupHome.findByPrimaryKey( adminWorkgroup.getKey( ) ).getDescription( ) );
+    }
+
+    public void testDoModifyWorkgroupInvalidToken( ) throws AccessDeniedException
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( "workgroup_key", adminWorkgroup.getKey( ) );
+        request.setParameter( "workgroup_description", adminWorkgroup.getDescription( ) + "_mod" );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "admin/workgroup/modify_workgroup.html" )
+                        + "b" );
+
+        assertEquals( adminWorkgroup.getKey( ), adminWorkgroup.getDescription( ) );
+        try
+        {
+            bean.doModifyWorkgroup( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            assertEquals( adminWorkgroup.getDescription( ),
+                    AdminWorkgroupHome.findByPrimaryKey( adminWorkgroup.getKey( ) ).getDescription( ) );
+        }
+    }
+
+    public void testDoModifyWorkgroupNoToken( ) throws AccessDeniedException
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( "workgroup_key", adminWorkgroup.getKey( ) );
+        request.setParameter( "workgroup_description", adminWorkgroup.getDescription( ) + "_mod" );
+
+        assertEquals( adminWorkgroup.getKey( ), adminWorkgroup.getDescription( ) );
+        try
+        {
+            bean.doModifyWorkgroup( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            assertEquals( adminWorkgroup.getDescription( ),
+                    AdminWorkgroupHome.findByPrimaryKey( adminWorkgroup.getKey( ) ).getDescription( ) );
+        }
+    }
+
     private String getRandomName( )
     {
         Random rand = new SecureRandom( );
