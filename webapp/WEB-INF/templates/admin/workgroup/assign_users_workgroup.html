@@ -93,6 +93,7 @@
         <#if users_list?size &gt; 0 >
           <@tform name='assignUser' method='post' action='jsp/admin/workgroup/DoAssignUsersWorkgroup.jsp'>
             <input type="hidden" name="workgroup_key" value="${workgroup.key}">
+            <input type="hidden" name="token" value="${token}">
 						<@formGroup labelKey='#i18n{portal.workgroup.assign_users.labelAvailableUser}' rows=2>
 							<@select sort=true name='list_users' default_value='' multiple=10 items=users_list />
 						</@formGroup>
