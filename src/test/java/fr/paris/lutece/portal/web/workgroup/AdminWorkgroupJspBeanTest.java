@@ -46,6 +46,7 @@ import fr.paris.lutece.portal.business.workgroup.AdminWorkgroupHome;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.test.LuteceTestCase;
+import fr.paris.lutece.test.Utils;
 
 public class AdminWorkgroupJspBeanTest extends LuteceTestCase
 {
@@ -124,6 +125,76 @@ public class AdminWorkgroupJspBeanTest extends LuteceTestCase
         {
             assertFalse( AdminWorkgroupHome.isUserInWorkgroup( user, adminWorkgroup.getKey( ) ) );
         }
+    }
+
+    public void testDoCreateWorkgroup( ) throws AccessDeniedException
+    {
+        final String key = getRandomName( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUser user = new AdminUser( );
+        Utils.registerAdminUserWithRigth( request, user, "CORE_WORKGROUPS_MANAGEMENT" );
+        request.setParameter( "workgroup_key", key );
+        request.setParameter( "workgroup_description", key );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "admin/workgroup/create_workgroup.html" ) );
+
+        assertFalse( AdminWorkgroupHome.checkExistWorkgroup( key ) );
+        bean.init( request, "CORE_WORKGROUPS_MANAGEMENT" );
+        bean.doCreateWorkgroup( request );
+        assertTrue( AdminWorkgroupHome.checkExistWorkgroup( key ) );
+
+        AdminWorkgroupHome.remove( key );
+    }
+
+    public void testDoCreateWorkgroupInvalidToken( ) throws AccessDeniedException
+    {
+        final String key = getRandomName( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUser user = new AdminUser( );
+        Utils.registerAdminUserWithRigth( request, user, "CORE_WORKGROUPS_MANAGEMENT" );
+        request.setParameter( "workgroup_key", key );
+        request.setParameter( "workgroup_description", key );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "admin/workgroup/create_workgroup.html" )
+                        + "b" );
+
+        assertFalse( AdminWorkgroupHome.checkExistWorkgroup( key ) );
+        bean.init( request, "CORE_WORKGROUPS_MANAGEMENT" );
+        try
+        {
+            bean.doCreateWorkgroup( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            assertFalse( AdminWorkgroupHome.checkExistWorkgroup( key ) );
+        }
+
+        AdminWorkgroupHome.remove( key );
+    }
+
+    public void testDoCreateWorkgroupNoToken( ) throws AccessDeniedException
+    {
+        final String key = getRandomName( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUser user = new AdminUser( );
+        Utils.registerAdminUserWithRigth( request, user, "CORE_WORKGROUPS_MANAGEMENT" );
+        request.setParameter( "workgroup_key", key );
+        request.setParameter( "workgroup_description", key );
+
+        assertFalse( AdminWorkgroupHome.checkExistWorkgroup( key ) );
+        bean.init( request, "CORE_WORKGROUPS_MANAGEMENT" );
+        try
+        {
+            bean.doCreateWorkgroup( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            assertFalse( AdminWorkgroupHome.checkExistWorkgroup( key ) );
+        }
+
+        AdminWorkgroupHome.remove( key );
     }
 
     private String getRandomName( )
