@@ -37,6 +37,8 @@ import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.Random;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.mock.web.MockHttpServletRequest;
 
 import fr.paris.lutece.portal.business.user.AdminUser;
@@ -44,6 +46,8 @@ import fr.paris.lutece.portal.business.user.AdminUserHome;
 import fr.paris.lutece.portal.business.workgroup.AdminWorkgroup;
 import fr.paris.lutece.portal.business.workgroup.AdminWorkgroupHome;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
+import fr.paris.lutece.portal.service.message.AdminMessage;
+import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.Utils;
@@ -249,6 +253,69 @@ public class AdminWorkgroupJspBeanTest extends LuteceTestCase
         {
             assertEquals( adminWorkgroup.getDescription( ),
                     AdminWorkgroupHome.findByPrimaryKey( adminWorkgroup.getKey( ) ).getDescription( ) );
+        }
+    }
+
+    public void testGetConfirmRemoveWorkgroup( )
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( "workgroup_key", adminWorkgroup.getKey( ) );
+
+        bean.getConfirmRemoveWorkgroup( request );
+
+        AdminMessage message = AdminMessageService.getMessage( request );
+        assertNotNull( message );
+        assertTrue( message.getRequestParameters( ).containsKey( SecurityTokenService.PARAMETER_TOKEN ) );
+        assertTrue( message.getRequestParameters( ).containsKey( "workgroup_key" ) );
+        assertEquals( adminWorkgroup.getKey( ), message.getRequestParameters( ).get( "workgroup_key" ) );
+    }
+
+    public void testDoRemoveWorkgroup( ) throws AccessDeniedException
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( "workgroup_key", adminWorkgroup.getKey( ) );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/workgroup/DoRemoveWorkgroup.jsp" ) );
+
+        assertTrue( AdminWorkgroupHome.checkExistWorkgroup( adminWorkgroup.getKey( ) ) );
+        bean.doRemoveWorkgroup( request );
+        assertFalse( AdminWorkgroupHome.checkExistWorkgroup( adminWorkgroup.getKey( ) ) );
+    }
+
+    public void testDoRemoveWorkgroupInvalidToken( ) throws AccessDeniedException
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( "workgroup_key", adminWorkgroup.getKey( ) );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/workgroup/DoRemoveWorkgroup.jsp" )
+                        + "b" );
+
+        assertTrue( AdminWorkgroupHome.checkExistWorkgroup( adminWorkgroup.getKey( ) ) );
+        try
+        {
+            bean.doRemoveWorkgroup( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            assertTrue( AdminWorkgroupHome.checkExistWorkgroup( adminWorkgroup.getKey( ) ) );
+        }
+    }
+
+    public void testDoRemoveWorkgroupNoToken( ) throws AccessDeniedException
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( "workgroup_key", adminWorkgroup.getKey( ) );
+
+        assertTrue( AdminWorkgroupHome.checkExistWorkgroup( adminWorkgroup.getKey( ) ) );
+        try
+        {
+            bean.doRemoveWorkgroup( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            assertTrue( AdminWorkgroupHome.checkExistWorkgroup( adminWorkgroup.getKey( ) ) );
         }
     }
 
