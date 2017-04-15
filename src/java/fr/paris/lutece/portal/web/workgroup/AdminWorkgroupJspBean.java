@@ -356,9 +356,6 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
 
         String strWorkgroupKey = request.getParameter( PARAMETER_WORKGROUP_KEY );
 
-        HashMap<String, AdminWorkgroup> model = new HashMap<String, AdminWorkgroup>( );
-        HtmlTemplate template;
-
         AdminWorkgroup workgroup = AdminWorkgroupHome.findByPrimaryKey( strWorkgroupKey );
 
         if ( workgroup == null )
@@ -366,8 +363,10 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
             return getManageWorkgroups( request );
         }
 
+        HashMap<String, Object> model = new HashMap<String, Object>( );
         model.put( MARK_WORKGROUP, workgroup );
-        template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_WORKGROUP, getLocale( ), model );
+        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MODIFY_WORKGROUP ) );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_WORKGROUP, getLocale( ), model );
 
         return getAdminPage( template.getHtml( ) );
     }
@@ -378,8 +377,10 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
      * @param request
      *            The HTTP Request
      * @return The Jsp URL of the process result
+     * @throws AccessDeniedException
+     *             if the security token is invalid
      */
-    public String doModifyWorkgroup( HttpServletRequest request )
+    public String doModifyWorkgroup( HttpServletRequest request ) throws AccessDeniedException
     {
         String strWorgroupKey = request.getParameter( PARAMETER_WORKGROUP_KEY );
         String strDescription = request.getParameter( PARAMETER_WORKGROUP_DESCRIPTION );
@@ -387,6 +388,10 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
         if ( StringUtils.isEmpty( strDescription ) )
         {
             return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
+        }
+        if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_MODIFY_WORKGROUP ) )
+        {
+            throw new AccessDeniedException( "Invalid security token" );
         }
 
         AdminWorkgroup adminWorkgroup = new AdminWorkgroup( );
