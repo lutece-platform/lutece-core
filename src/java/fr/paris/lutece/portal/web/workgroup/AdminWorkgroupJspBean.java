@@ -304,9 +304,12 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
     public String getConfirmRemoveWorkgroup( HttpServletRequest request )
     {
         String strWorkgroupKey = request.getParameter( PARAMETER_WORKGROUP_KEY );
-        String strUrlRemove = JSP_URL_REMOVE_WORKGROUP + "?" + PARAMETER_WORKGROUP_KEY + "=" + strWorkgroupKey;
+        String strUrlRemove = JSP_URL_REMOVE_WORKGROUP;
+        Map< String, String > parameters = new HashMap<>( );
+        parameters.put( PARAMETER_WORKGROUP_KEY, strWorkgroupKey );
+        parameters.put( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, JSP_URL_REMOVE_WORKGROUP ) );
 
-        String strUrl = AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_REMOVE, strUrlRemove, AdminMessage.TYPE_CONFIRMATION );
+        String strUrl = AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_REMOVE, strUrlRemove, AdminMessage.TYPE_CONFIRMATION, parameters );
 
         return strUrl;
     }
@@ -317,8 +320,10 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
      * @param request
      *            The Http Request
      * @return the HTML page
+     * @throws AccessDeniedException
+     *             if the security token is invalid
      */
-    public String doRemoveWorkgroup( HttpServletRequest request )
+    public String doRemoveWorkgroup( HttpServletRequest request ) throws AccessDeniedException
     {
         String strWorkgroupKey = request.getParameter( PARAMETER_WORKGROUP_KEY );
         ArrayList<String> listErrors = new ArrayList<String>( );
@@ -336,6 +341,10 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
             };
 
             return AdminMessageService.getMessageUrl( request, MESSAGE_CANNOT_REMOVE_WORKGROUP, args, AdminMessage.TYPE_STOP );
+        }
+        if ( !SecurityTokenService.getInstance( ).validate( request, JSP_URL_REMOVE_WORKGROUP ) )
+        {
+            throw new AccessDeniedException( "Invalid security token" );
         }
 
         AdminWorkgroupHome.remove( strWorkgroupKey );
