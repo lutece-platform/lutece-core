@@ -37,8 +37,6 @@ import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.Random;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.mock.web.MockHttpServletRequest;
 
 import fr.paris.lutece.portal.business.user.AdminUser;
@@ -316,6 +314,67 @@ public class AdminWorkgroupJspBeanTest extends LuteceTestCase
         catch ( AccessDeniedException e )
         {
             assertTrue( AdminWorkgroupHome.checkExistWorkgroup( adminWorkgroup.getKey( ) ) );
+        }
+    }
+
+    public void testDoUnAssignUser( ) throws AccessDeniedException
+    {
+        AdminUser user = AdminUserHome.findUserByLogin( "admin" );
+        AdminWorkgroupHome.addUserForWorkgroup( user, adminWorkgroup.getKey( ) );
+
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( "workgroup_key", adminWorkgroup.getKey( ) );
+        request.setParameter( "id_user", Integer.toString( user.getUserId( ) ) );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( )
+                .getToken( request, "admin/workgroup/assign_users_workgroup.html" ) );
+
+        assertTrue( AdminWorkgroupHome.isUserInWorkgroup( user, adminWorkgroup.getKey( ) ) );
+        bean.doUnAssignUser( request );
+        assertFalse( AdminWorkgroupHome.isUserInWorkgroup( user, adminWorkgroup.getKey( ) ) );
+    }
+
+    public void testDoUnAssignUserInvalidToken( ) throws AccessDeniedException
+    {
+        AdminUser user = AdminUserHome.findUserByLogin( "admin" );
+        AdminWorkgroupHome.addUserForWorkgroup( user, adminWorkgroup.getKey( ) );
+
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( "workgroup_key", adminWorkgroup.getKey( ) );
+        request.setParameter( "id_user", Integer.toString( user.getUserId( ) ) );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "admin/workgroup/assign_users_workgroup.html" )
+                        + "b" );
+
+        assertTrue( AdminWorkgroupHome.isUserInWorkgroup( user, adminWorkgroup.getKey( ) ) );
+        try
+        {
+            bean.doUnAssignUser( request );
+            fail( "Should have Thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            assertTrue( AdminWorkgroupHome.isUserInWorkgroup( user, adminWorkgroup.getKey( ) ) );
+        }
+    }
+
+    public void testDoUnAssignUserNoToken( ) throws AccessDeniedException
+    {
+        AdminUser user = AdminUserHome.findUserByLogin( "admin" );
+        AdminWorkgroupHome.addUserForWorkgroup( user, adminWorkgroup.getKey( ) );
+
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( "workgroup_key", adminWorkgroup.getKey( ) );
+        request.setParameter( "id_user", Integer.toString( user.getUserId( ) ) );
+
+        assertTrue( AdminWorkgroupHome.isUserInWorkgroup( user, adminWorkgroup.getKey( ) ) );
+        try
+        {
+            bean.doUnAssignUser( request );
+            fail( "Should have Thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            assertTrue( AdminWorkgroupHome.isUserInWorkgroup( user, adminWorkgroup.getKey( ) ) );
         }
     }
 
