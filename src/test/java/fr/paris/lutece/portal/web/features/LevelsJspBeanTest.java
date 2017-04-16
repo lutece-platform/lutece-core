@@ -33,10 +33,16 @@
  */
 package fr.paris.lutece.portal.web.features;
 
+import java.math.BigInteger;
+import java.security.SecureRandom;
+import java.util.Random;
+
 import org.springframework.mock.web.MockHttpServletRequest;
 
+import fr.paris.lutece.portal.business.right.LevelHome;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
+import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.Utils;
@@ -48,19 +54,24 @@ import fr.paris.lutece.test.Utils;
 public class LevelsJspBeanTest extends LuteceTestCase
 {
     private static final String TEST_LEVEL_ID = "0"; // administrator level_right
+    private MockHttpServletRequest request;
+    private LevelsJspBean instance;
 
+    @Override
+    protected void setUp( ) throws Exception
+    {
+        super.setUp( );
+        request = new MockHttpServletRequest( );
+        Utils.registerAdminUserWithRigth( request, new AdminUser( ), LevelsJspBean.RIGHT_MANAGE_LEVELS );
+
+        instance = new LevelsJspBean( );
+        instance.init( request, LevelsJspBean.RIGHT_MANAGE_LEVELS );
+    }
     /**
      * Test of getManageLevels method, of class fr.paris.lutece.portal.web.features.LevelsJspBean.
      */
     public void testGetManageLevels( ) throws AccessDeniedException
     {
-        System.out.println( "getManageLevels" );
-
-        MockHttpServletRequest request = new MockHttpServletRequest( );
-        Utils.registerAdminUserWithRigth( request, new AdminUser( ), LevelsJspBean.RIGHT_MANAGE_LEVELS );
-
-        LevelsJspBean instance = new LevelsJspBean( );
-        instance.init( request, LevelsJspBean.RIGHT_MANAGE_LEVELS );
         instance.getManageLevels( request );
     }
 
@@ -69,24 +80,105 @@ public class LevelsJspBeanTest extends LuteceTestCase
      */
     public void testGetCreateLevel( ) throws AccessDeniedException
     {
-        System.out.println( "getCreateLevel" );
-
-        MockHttpServletRequest request = new MockHttpServletRequest( );
-        Utils.registerAdminUserWithRigth( request, new AdminUser( ), LevelsJspBean.RIGHT_MANAGE_LEVELS );
-
-        LevelsJspBean instance = new LevelsJspBean( );
-        instance.init( request, LevelsJspBean.RIGHT_MANAGE_LEVELS );
         instance.getCreateLevel( request );
     }
 
     /**
      * Test of doCreateLevel method, of class fr.paris.lutece.portal.web.features.LevelsJspBean.
+     * @throws AccessDeniedException 
      */
-    public void testDoCreateLevel( )
+    public void testDoCreateLevel( ) throws AccessDeniedException
     {
-        System.out.println( "doCreateLevel" );
+        final String name = getRandomName( );
+        request.setParameter( "level_name", name );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "admin/features/create_level.html" ) );
 
-        // Not implemented yet
+        LevelHome.getLevelsList( ).forEach( level -> {
+            assertFalse( name.equals( level.getName( ) ) );
+        } );
+        try
+        {
+            instance.doCreateLevel( request );
+            assertEquals( 1, LevelHome.getLevelsList( ).stream( ).filter( level -> {
+                return name.equals( level.getName( ) );
+            } ).count( ) );
+        }
+        finally
+        {
+            LevelHome.getLevelsList( ).stream( ).filter( level -> {
+                return name.equals( level.getName( ) );
+            } ).forEach( level -> {
+                LevelHome.remove( level.getId( ) );
+            } );
+        }
+    }
+
+    public void testDoCreateLevelInvalidToken( ) throws AccessDeniedException
+    {
+        final String name = getRandomName( );
+        request.setParameter( "level_name", name );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "admin/features/create_level.html" ) + "b" );
+
+        LevelHome.getLevelsList( ).forEach( level -> {
+            assertFalse( name.equals( level.getName( ) ) );
+        } );
+        try
+        {
+            instance.doCreateLevel( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            LevelHome.getLevelsList( ).forEach( level -> {
+                assertFalse( name.equals( level.getName( ) ) );
+            } );
+        }
+        finally
+        {
+            LevelHome.getLevelsList( ).stream( ).filter( level -> {
+                return name.equals( level.getName( ) );
+            } ).forEach( level -> {
+                LevelHome.remove( level.getId( ) );
+            } );
+        }
+    }
+
+    public void testDoCreateLevelNoToken( ) throws AccessDeniedException
+    {
+        final String name = getRandomName( );
+        request.setParameter( "level_name", name );
+
+        LevelHome.getLevelsList( ).forEach( level -> {
+            assertFalse( name.equals( level.getName( ) ) );
+        } );
+        try
+        {
+            instance.doCreateLevel( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            LevelHome.getLevelsList( ).forEach( level -> {
+                assertFalse( name.equals( level.getName( ) ) );
+            } );
+        }
+        finally
+        {
+            LevelHome.getLevelsList( ).stream( ).filter( level -> {
+                return name.equals( level.getName( ) );
+            } ).forEach( level -> {
+                LevelHome.remove( level.getId( ) );
+            } );
+        }
+    }
+
+    private String getRandomName( )
+    {
+        Random rand = new SecureRandom( );
+        BigInteger bigInt = new BigInteger( 128, rand );
+        return "junit" + bigInt.toString( 36 );
     }
 
     /**
@@ -94,14 +186,8 @@ public class LevelsJspBeanTest extends LuteceTestCase
      */
     public void testGetModifyLevel( ) throws AccessDeniedException
     {
-        System.out.println( "getModifyLevel" );
-
-        MockHttpServletRequest request = new MockHttpServletRequest( );
         request.addParameter( Parameters.LEVEL_ID, TEST_LEVEL_ID );
-        Utils.registerAdminUserWithRigth( request, new AdminUser( ), LevelsJspBean.RIGHT_MANAGE_LEVELS );
 
-        LevelsJspBean instance = new LevelsJspBean( );
-        instance.init( request, LevelsJspBean.RIGHT_MANAGE_LEVELS );
         instance.getModifyLevel( request );
     }
 
