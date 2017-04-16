@@ -35,8 +35,10 @@ package fr.paris.lutece.portal.web.features;
 
 import fr.paris.lutece.portal.business.right.Level;
 import fr.paris.lutece.portal.business.right.LevelHome;
+import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
+import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
 import fr.paris.lutece.portal.web.constants.Messages;
@@ -44,6 +46,7 @@ import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.util.html.HtmlTemplate;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -102,19 +105,24 @@ public class LevelsJspBean extends AdminFeaturesPageJspBean
     {
         setPageTitleProperty( PROPERTY_PAGE_TITLE_CREATE_LEVEL );
 
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CREATE_LEVEL, getLocale( ) );
+        Map< String, Object> model = new HashMap<>( );
+        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_CREATE_LEVEL ) );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CREATE_LEVEL, getLocale( ), model );
 
         return getAdminPage( template.getHtml( ) );
     }
 
     /**
-     * Processes the creation form of a new level by recovering the parameters in the http request
+     * Processes the creation form of a new level by recovering the parameters
+     * in the http request
      *
      * @param request
      *            the http request
      * @return The Jsp URL of the process result
+     * @throws AccessDeniedException
+     *             if the security token is invalid
      */
-    public String doCreateLevel( HttpServletRequest request )
+    public String doCreateLevel( HttpServletRequest request ) throws AccessDeniedException
     {
         String strName = request.getParameter( Parameters.LEVEL_NAME );
 
@@ -123,7 +131,10 @@ public class LevelsJspBean extends AdminFeaturesPageJspBean
         {
             return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
         }
-
+        if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_CREATE_LEVEL ) )
+        {
+            throw new AccessDeniedException( "Invalid security token" );
+        }
         Level level = new Level( );
         level.setName( strName );
         LevelHome.create( level );
