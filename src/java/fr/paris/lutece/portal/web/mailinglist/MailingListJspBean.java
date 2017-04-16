@@ -279,6 +279,7 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
         Map<String, Object> model = new HashMap<String, Object>( );
         model.put( MARK_WORKGROUPS_LIST, listWorkgroups );
         model.put( MARK_MAILINGLIST, mailinglist );
+        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MODIFY_MAILINGLIST ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_MAILINGLIST, getLocale( ), model );
 
@@ -467,9 +468,16 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
      * @param request
      *            The HTTP Request
      * @return The Jsp URL of the process result
+     * @throws AccessDeniedException
+     *             if the security token is invalid
      */
-    public String doDeleteFilter( HttpServletRequest request )
+    public String doDeleteFilter( HttpServletRequest request ) throws AccessDeniedException
     {
+        if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_MODIFY_MAILINGLIST ) )
+        {
+            throw new AccessDeniedException( "Invalid security token" );
+        }
+
         String strId = request.getParameter( PARAMETER_MAILINGLIST_ID );
         String strWorkgroup = request.getParameter( PARAMETER_WORKGROUP );
         String strRole = request.getParameter( PARAMETER_ROLE );
