@@ -165,6 +165,7 @@ public class LevelsJspBean extends AdminFeaturesPageJspBean
 
         HashMap<String, Object> model = new HashMap<String, Object>( );
         model.put( MARK_LEVEL, level );
+        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MODIFY_LEVEL ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_LEVEL, getLocale( ), model );
 
@@ -172,13 +173,16 @@ public class LevelsJspBean extends AdminFeaturesPageJspBean
     }
 
     /**
-     * Processes the updating form of a level whose new parameters are stored in the http request
+     * Processes the updating form of a level whose new parameters are stored in
+     * the http request
      *
      * @param request
      *            The http request
      * @return The Jsp URL of the process result
+     * @throws AccessDeniedException
+     *             if the security token is invalid
      */
-    public String doModifyLevel( HttpServletRequest request )
+    public String doModifyLevel( HttpServletRequest request ) throws AccessDeniedException
     {
         String strId = request.getParameter( Parameters.LEVEL_ID );
         String strName = request.getParameter( Parameters.LEVEL_NAME );
@@ -187,6 +191,10 @@ public class LevelsJspBean extends AdminFeaturesPageJspBean
         if ( strName.equals( "" ) )
         {
             return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
+        }
+        if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_MODIFY_LEVEL ) )
+        {
+            throw new AccessDeniedException( "Invalid security token" );
         }
 
         Level level = LevelHome.findByPrimaryKey( Integer.parseInt( strId ) );
