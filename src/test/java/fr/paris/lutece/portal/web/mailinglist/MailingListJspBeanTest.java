@@ -44,6 +44,8 @@ import fr.paris.lutece.portal.business.mailinglist.MailingListHome;
 import fr.paris.lutece.portal.business.mailinglist.MailingListUsersFilter;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.mailinglist.AdminMailingListService;
+import fr.paris.lutece.portal.service.message.AdminMessage;
+import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.workgroup.AdminWorkgroupService;
 import fr.paris.lutece.test.LuteceTestCase;
@@ -69,11 +71,14 @@ public class MailingListJspBeanTest extends LuteceTestCase
     protected void tearDown( ) throws Exception
     {
         MailingList storedMailinglist = MailingListHome.findByPrimaryKey( mailingList.getId( ) );
-        for ( MailingListUsersFilter filter : storedMailinglist.getFilters( ) )
+        if ( storedMailinglist != null )
         {
-            MailingListHome.deleteFilterToMailingList( filter, mailingList.getId( ) );
+            for ( MailingListUsersFilter filter : storedMailinglist.getFilters( ) )
+            {
+                MailingListHome.deleteFilterToMailingList( filter, mailingList.getId( ) );
+            }
+            MailingListHome.remove( mailingList.getId( ) );
         }
-        MailingListHome.remove( mailingList.getId( ) );
         super.tearDown( );
     }
 
@@ -391,6 +396,69 @@ public class MailingListJspBeanTest extends LuteceTestCase
             storedMailling = MailingListHome.findByPrimaryKey( mailingList.getId( ) );
             assertEquals( mailingList.getName( ), storedMailling.getName( ) );
             assertEquals( mailingList.getDescription( ), storedMailling.getDescription( ) );
+        }
+    }
+
+    public void testGetConfirmRemoveMailingList( )
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( "id_mailinglist", Integer.toString( mailingList.getId( ) ) );
+
+        bean.getConfirmRemoveMailingList( request );
+        AdminMessage message = AdminMessageService.getMessage( request );
+        assertNotNull( message );
+        assertTrue( message.getRequestParameters( ).containsKey( SecurityTokenService.PARAMETER_TOKEN ) );
+        assertTrue( message.getRequestParameters( ).containsKey( "id_mailinglist" ) );
+        assertEquals( Integer.toString( mailingList.getId( ) ),
+                message.getRequestParameters( ).get( "id_mailinglist" ) );
+    }
+
+    public void testDoRemoveMailingList( ) throws AccessDeniedException
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( "id_mailinglist", Integer.toString( mailingList.getId( ) ) );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( )
+                .getToken( request, "jsp/admin/mailinglist/DoRemoveMailingList.jsp" ) );
+
+        assertNotNull( MailingListHome.findByPrimaryKey( mailingList.getId( ) ) );
+        bean.doRemoveMailingList( request );
+        assertNull( MailingListHome.findByPrimaryKey( mailingList.getId( ) ) );
+    }
+
+    public void testDoRemoveMailingListInvalidToken( ) throws AccessDeniedException
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( "id_mailinglist", Integer.toString( mailingList.getId( ) ) );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/mailinglist/DoRemoveMailingList.jsp" )
+                        + "b" );
+
+        assertNotNull( MailingListHome.findByPrimaryKey( mailingList.getId( ) ) );
+        try
+        {
+            bean.doRemoveMailingList( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            assertNotNull( MailingListHome.findByPrimaryKey( mailingList.getId( ) ) );
+        }
+    }
+
+    public void testDoRemoveMailingListNoToken( ) throws AccessDeniedException
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( "id_mailinglist", Integer.toString( mailingList.getId( ) ) );
+
+        assertNotNull( MailingListHome.findByPrimaryKey( mailingList.getId( ) ) );
+        try
+        {
+            bean.doRemoveMailingList( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            assertNotNull( MailingListHome.findByPrimaryKey( mailingList.getId( ) ) );
         }
     }
 }
