@@ -5,7 +5,7 @@
 			<@boxBody>
 				<@tform method='post' action='jsp/admin/mailinglist/DoAddUsers.jsp'>
 					<input type="hidden" name="id_mailinglist" value="${mailinglist.id}">
-					
+					<input type="hidden" name="token" value="${token}">
 					<@formGroup labelKey='#i18n{portal.mailinglist.add_users.labelWorkgroup}' labelFor='workgroup' mandatory=true>
 						<@select name='workgroup' default_value='all' items=workgroups_list sort=true />
 					</@formGroup>

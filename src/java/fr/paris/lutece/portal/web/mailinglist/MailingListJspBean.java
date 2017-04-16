@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2016, Mairie de Paris
+ * Copyright (c) 2002-2017, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -39,10 +39,12 @@ import fr.paris.lutece.portal.business.mailinglist.MailingListHome;
 import fr.paris.lutece.portal.business.mailinglist.MailingListUsersFilter;
 import fr.paris.lutece.portal.business.mailinglist.Recipient;
 import fr.paris.lutece.portal.business.rbac.AdminRoleHome;
+import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.mailinglist.AdminMailingListService;
 import fr.paris.lutece.portal.service.mailinglist.MailingListRemovalListenerService;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
+import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
@@ -407,6 +409,7 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
         model.put( MARK_WORKGROUPS_LIST, listWorkgroups );
         model.put( MARK_ROLES_LIST, listRoles );
         model.put( MARK_MAILINGLIST, mailinglist );
+        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_ADD_USERS ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADD_USERS, getLocale( ), model );
 
@@ -419,8 +422,10 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
      * @param request
      *            The HTTP Request
      * @return The Jsp URL of the process result
+     * @throws AccessDeniedException
+     *             if the security token is invalid
      */
-    public String doAddUsers( HttpServletRequest request )
+    public String doAddUsers( HttpServletRequest request ) throws AccessDeniedException
     {
         String strId = request.getParameter( PARAMETER_MAILINGLIST_ID );
         String strWorkgroup = request.getParameter( PARAMETER_WORKGROUP );
@@ -433,6 +438,10 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
 
         if ( !AdminMailingListService.checkFilter( filter, nId ) )
         {
+            if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_ADD_USERS ) )
+            {
+                throw new AccessDeniedException( "Invalid security token" );
+            }
             MailingListHome.addFilterToMailingList( filter, nId );
 
             // Forward to modify page to enter users filters
