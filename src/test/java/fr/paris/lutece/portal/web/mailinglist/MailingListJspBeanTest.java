@@ -148,4 +148,101 @@ public class MailingListJspBeanTest extends LuteceTestCase
             assertFalse( MailingListHome.checkFilter( filter, mailingList.getId( ) ) );
         }
     }
+
+    public void testDoCreateMailingList( ) throws AccessDeniedException
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        final String name = getRandomName( );
+        request.setParameter( "name", name );
+        request.setParameter( "workgroup", AdminWorkgroupService.ALL_GROUPS );
+        request.setParameter( "description", name );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "admin/mailinglist/create_mailinglist.html" ) );
+
+        MailingListHome.findAll( ).forEach( mailingList -> {
+            assertFalse( name.equals( mailingList.getName( ) ) );
+        } );
+        try
+        {
+            bean.doCreateMailingList( request );
+            assertEquals( 1, MailingListHome.findAll( ).stream( ).filter( mailingList -> {
+                return name.equals( mailingList.getName( ) );
+            } ).count( ) );
+        }
+        finally
+        {
+            MailingListHome.findAll( ).stream( ).filter( mailingList -> {
+                return name.equals( mailingList.getName( ) );
+            } ).forEach( mailingList -> {
+                MailingListHome.remove( mailingList.getId( ) );
+            } );
+        }
+    }
+
+    public void testDoCreateMailingListInvalidToken( ) throws AccessDeniedException
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        final String name = getRandomName( );
+        request.setParameter( "name", name );
+        request.setParameter( "workgroup", AdminWorkgroupService.ALL_GROUPS );
+        request.setParameter( "description", name );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "admin/mailinglist/create_mailinglist.html" )
+                        + "b" );
+
+        MailingListHome.findAll( ).forEach( mailingList -> {
+            assertFalse( name.equals( mailingList.getName( ) ) );
+        } );
+        try
+        {
+            bean.doCreateMailingList( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            MailingListHome.findAll( ).forEach( mailingList -> {
+                assertFalse( name.equals( mailingList.getName( ) ) );
+            } );
+        }
+        finally
+        {
+            MailingListHome.findAll( ).stream( ).filter( mailingList -> {
+                return name.equals( mailingList.getName( ) );
+            } ).forEach( mailingList -> {
+                MailingListHome.remove( mailingList.getId( ) );
+            } );
+        }
+    }
+
+    public void testDoCreateMailingListNoToken( ) throws AccessDeniedException
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        final String name = getRandomName( );
+        request.setParameter( "name", name );
+        request.setParameter( "workgroup", AdminWorkgroupService.ALL_GROUPS );
+        request.setParameter( "description", name );
+
+        MailingListHome.findAll( ).forEach( mailingList -> {
+            assertFalse( name.equals( mailingList.getName( ) ) );
+        } );
+        try
+        {
+            bean.doCreateMailingList( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            MailingListHome.findAll( ).forEach( mailingList -> {
+                assertFalse( name.equals( mailingList.getName( ) ) );
+            } );
+        }
+        finally
+        {
+            MailingListHome.findAll( ).stream( ).filter( mailingList -> {
+                return name.equals( mailingList.getName( ) );
+            } ).forEach( mailingList -> {
+                MailingListHome.remove( mailingList.getId( ) );
+            } );
+        }
+    }
 }
