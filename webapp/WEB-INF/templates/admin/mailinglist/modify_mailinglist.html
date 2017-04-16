@@ -5,6 +5,7 @@
 			 <@boxBody>
 				<@tform method='post' action='jsp/admin/mailinglist/DoModifyMailingList.jsp'>
 					<input type="hidden" id="id_mailinglist" name="id_mailinglist" value="${mailinglist.id}" />
+					<input type="hidden" name="token" value="${token}">
 					<@formGroup labelKey='#i18n{portal.mailinglist.modify_mailinglist.labelName}' labelFor='name' mandatory=true rows=2>
 						<@input type='text' name='name' id='name' value='${mailinglist.name?html}' />
 					</@formGroup>

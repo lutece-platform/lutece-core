@@ -321,4 +321,76 @@ public class MailingListJspBeanTest extends LuteceTestCase
             assertEquals( 1, MailingListHome.findByPrimaryKey( mailingList.getId( ) ).getFilters( ).size( ) );
         }
     }
+
+    public void testDoModifyMailingList( ) throws AccessDeniedException
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( "id_mailinglist", Integer.toString( mailingList.getId( ) ) );
+        request.setParameter( "name", mailingList.getName( ) + "_mod" );
+        request.setParameter( "description", mailingList.getDescription( ) + "_mod" );
+        request.setParameter( "workgroup", AdminWorkgroupService.ALL_GROUPS );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "admin/mailinglist/modify_mailinglist.html" ) );
+
+        MailingList storedMailling = MailingListHome.findByPrimaryKey( mailingList.getId( ) );
+        assertEquals( mailingList.getName( ), storedMailling.getName( ) );
+        assertEquals( mailingList.getDescription( ), storedMailling.getDescription( ) );
+
+        bean.doModifyMailingList( request );
+
+        storedMailling = MailingListHome.findByPrimaryKey( mailingList.getId( ) );
+        assertEquals( mailingList.getName( ) + "_mod", storedMailling.getName( ) );
+        assertEquals( mailingList.getDescription( ) + "_mod", storedMailling.getDescription( ) );
+    }
+
+    public void testDoModifyMailingListInvalidToken( ) throws AccessDeniedException
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( "id_mailinglist", Integer.toString( mailingList.getId( ) ) );
+        request.setParameter( "name", mailingList.getName( ) + "_mod" );
+        request.setParameter( "description", mailingList.getDescription( ) + "_mod" );
+        request.setParameter( "workgroup", AdminWorkgroupService.ALL_GROUPS );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "admin/mailinglist/modify_mailinglist.html" )
+                        + "b" );
+
+        MailingList storedMailling = MailingListHome.findByPrimaryKey( mailingList.getId( ) );
+        assertEquals( mailingList.getName( ), storedMailling.getName( ) );
+        assertEquals( mailingList.getDescription( ), storedMailling.getDescription( ) );
+        try
+        {
+            bean.doModifyMailingList( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            storedMailling = MailingListHome.findByPrimaryKey( mailingList.getId( ) );
+            assertEquals( mailingList.getName( ), storedMailling.getName( ) );
+            assertEquals( mailingList.getDescription( ), storedMailling.getDescription( ) );
+        }
+    }
+
+    public void testDoModifyMailingListNoToken( ) throws AccessDeniedException
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( "id_mailinglist", Integer.toString( mailingList.getId( ) ) );
+        request.setParameter( "name", mailingList.getName( ) + "_mod" );
+        request.setParameter( "description", mailingList.getDescription( ) + "_mod" );
+        request.setParameter( "workgroup", AdminWorkgroupService.ALL_GROUPS );
+
+        MailingList storedMailling = MailingListHome.findByPrimaryKey( mailingList.getId( ) );
+        assertEquals( mailingList.getName( ), storedMailling.getName( ) );
+        assertEquals( mailingList.getDescription( ), storedMailling.getDescription( ) );
+        try
+        {
+            bean.doModifyMailingList( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            storedMailling = MailingListHome.findByPrimaryKey( mailingList.getId( ) );
+            assertEquals( mailingList.getName( ), storedMailling.getName( ) );
+            assertEquals( mailingList.getDescription( ), storedMailling.getDescription( ) );
+        }
+    }
 }

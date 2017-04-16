@@ -292,8 +292,10 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
      * @param request
      *            The HTTP Request
      * @return The Jsp URL of the process result
+     * @throws AccessDeniedException
+     *             if the security token is invalid
      */
-    public String doModifyMailingList( HttpServletRequest request )
+    public String doModifyMailingList( HttpServletRequest request ) throws AccessDeniedException
     {
         String strId = request.getParameter( PARAMETER_MAILINGLIST_ID );
         int nId = Integer.parseInt( strId );
@@ -304,6 +306,10 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
         if ( strErrors != null )
         {
             return AdminMessageService.getMessageUrl( request, strErrors, AdminMessage.TYPE_STOP );
+        }
+        if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_MODIFY_MAILINGLIST ) )
+        {
+            throw new AccessDeniedException( "Invalid security token" );
         }
 
         MailingListHome.update( mailinglist );
