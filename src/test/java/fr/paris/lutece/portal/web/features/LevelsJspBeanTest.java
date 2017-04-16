@@ -39,6 +39,7 @@ import java.util.Random;
 
 import org.springframework.mock.web.MockHttpServletRequest;
 
+import fr.paris.lutece.portal.business.right.Level;
 import fr.paris.lutece.portal.business.right.LevelHome;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
@@ -193,11 +194,77 @@ public class LevelsJspBeanTest extends LuteceTestCase
 
     /**
      * Test of doModifyLevel method, of class fr.paris.lutece.portal.web.features.LevelsJspBean.
+     * @throws AccessDeniedException 
      */
-    public void testDoModifyLevel( )
+    public void testDoModifyLevel( ) throws AccessDeniedException
     {
-        System.out.println( "doModifyLevel" );
+        final String name = getRandomName( );
+        Level level = new Level( );
+        level.setName( name );
+        LevelHome.create( level );
+        request.setParameter( Parameters.LEVEL_ID, Integer.toString( level.getId( ) ) );
+        request.setParameter( Parameters.LEVEL_NAME, name + "_mod" );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "admin/features/modify_level.html" ) );
+        try
+        {
+            assertEquals( name, LevelHome.findByPrimaryKey( level.getId( ) ).getName( ) );
+            instance.doModifyLevel( request );
+            assertEquals( name + "_mod", LevelHome.findByPrimaryKey( level.getId( ) ).getName( ) );
+        }
+        finally
+        {
+            LevelHome.remove( level.getId( ) );
+        }
+    }
 
-        // Not implemented yet
+    public void testDoModifyLevelInvalidToken( ) throws AccessDeniedException
+    {
+        final String name = getRandomName( );
+        Level level = new Level( );
+        level.setName( name );
+        LevelHome.create( level );
+        request.setParameter( Parameters.LEVEL_ID, Integer.toString( level.getId( ) ) );
+        request.setParameter( Parameters.LEVEL_NAME, name + "_mod" );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "admin/features/modify_level.html" ) + "b" );
+        try
+        {
+            assertEquals( name, LevelHome.findByPrimaryKey( level.getId( ) ).getName( ) );
+            instance.doModifyLevel( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            assertEquals( name, LevelHome.findByPrimaryKey( level.getId( ) ).getName( ) );
+        }
+        finally
+        {
+            LevelHome.remove( level.getId( ) );
+        }
+    }
+
+    public void testDoModifyLevelNoToken( ) throws AccessDeniedException
+    {
+        final String name = getRandomName( );
+        Level level = new Level( );
+        level.setName( name );
+        LevelHome.create( level );
+        request.setParameter( Parameters.LEVEL_ID, Integer.toString( level.getId( ) ) );
+        request.setParameter( Parameters.LEVEL_NAME, name + "_mod" );
+        try
+        {
+            assertEquals( name, LevelHome.findByPrimaryKey( level.getId( ) ).getName( ) );
+            instance.doModifyLevel( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            assertEquals( name, LevelHome.findByPrimaryKey( level.getId( ) ).getName( ) );
+        }
+        finally
+        {
+            LevelHome.remove( level.getId( ) );
+        }
     }
 }
