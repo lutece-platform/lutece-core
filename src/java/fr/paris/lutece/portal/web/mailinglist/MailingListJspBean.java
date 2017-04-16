@@ -206,6 +206,7 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
             model.put( MARK_WORKGROUP_SELECTED, listWorkgroups.get( 0 ).getCode( ) );
         }
 
+        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_CREATE_MAILINGLIST ) );
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CREATE_MAILINGLIST, getLocale( ), model );
 
         return getAdminPage( template.getHtml( ) );
@@ -217,8 +218,10 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
      * @param request
      *            The HTTP Request
      * @return The Jsp URL of the process result
+     * @throws AccessDeniedException
+     *             If the security token is invalid
      */
-    public String doCreateMailingList( HttpServletRequest request )
+    public String doCreateMailingList( HttpServletRequest request ) throws AccessDeniedException
     {
         MailingList mailinglist = new MailingList( );
         String strErrors = processFormData( request, mailinglist );
@@ -226,6 +229,10 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
         if ( strErrors != null )
         {
             return AdminMessageService.getMessageUrl( request, strErrors, AdminMessage.TYPE_STOP );
+        }
+        if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_CREATE_MAILINGLIST ) )
+        {
+            throw new AccessDeniedException( "Invalid security token" );
         }
 
         MailingListHome.create( mailinglist );
