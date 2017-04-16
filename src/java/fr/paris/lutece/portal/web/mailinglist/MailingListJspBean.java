@@ -327,10 +327,8 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
     public String getConfirmRemoveMailingList( HttpServletRequest request )
     {
         String strId = request.getParameter( PARAMETER_MAILINGLIST_ID );
-        String strUrlRemove = JSP_URL_REMOVE_MAILINGLIST + "?" + PARAMETER_MAILINGLIST_ID + "=" + strId;
 
         ArrayList<String> listErrors = new ArrayList<String>( );
-        String strUrl = AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_REMOVE, strUrlRemove, AdminMessage.TYPE_CONFIRMATION );
 
         if ( !MailingListRemovalListenerService.getService( ).checkForRemoval( strId, listErrors, getLocale( ) ) )
         {
@@ -338,10 +336,14 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
             Object [ ] args = {
                 strCause
             };
-            strUrl = AdminMessageService.getMessageUrl( request, MESSAGE_CANNOT_REMOVE, args, AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrl( request, MESSAGE_CANNOT_REMOVE, args, AdminMessage.TYPE_STOP );
         }
+        String strUrlRemove = JSP_URL_REMOVE_MAILINGLIST;
+        Map< String, String > parameters = new HashMap<>( );
+        parameters.put( PARAMETER_MAILINGLIST_ID, strId );
+        parameters.put( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, JSP_URL_REMOVE_MAILINGLIST ) );
+        return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_REMOVE, strUrlRemove, AdminMessage.TYPE_CONFIRMATION, parameters );
 
-        return strUrl;
     }
 
     /**
@@ -350,9 +352,15 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
      * @param request
      *            The HTTP Request
      * @return The Jsp URL of the process result
+     * @throws AccessDeniedException
+     *             if the security token is invalid
      */
-    public String doRemoveMailingList( HttpServletRequest request )
+    public String doRemoveMailingList( HttpServletRequest request ) throws AccessDeniedException
     {
+        if ( !SecurityTokenService.getInstance( ).validate( request, JSP_URL_REMOVE_MAILINGLIST ) )
+        {
+            throw new AccessDeniedException( "Invalid security token" );
+        }
         String strId = request.getParameter( PARAMETER_MAILINGLIST_ID );
         int nId = Integer.parseInt( strId );
 
