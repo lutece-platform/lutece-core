@@ -45,8 +45,14 @@
 						<td>${filter.workgroup}</td>
 						<td>${filter.role}</td>
 						<td>
-							<@aButton href='jsp/admin/mailinglist/ViewUsers.jsp?workgroup=${filter.workgroup}&amp;role=${filter.role}' buttonIcon='eye' title='#i18n{portal.mailinglist.modify_mailinglist.linkLabelViewUsers}' showTitle=false />
-							<@aButton href='jsp/admin/mailinglist/DoDeleteFilter.jsp?id_mailinglist=${mailinglist.id}&amp;workgroup=${filter.workgroup}&amp;role=${filter.role}' buttonIcon='trash' title='#i18n{portal.mailinglist.modify_mailinglist.linkLabelRemove}' showTitle=false color='btn-danger' />
+							<@tform method='post' action='jsp/admin/mailinglist/DoDeleteFilter.jsp'>
+								<input type="hidden" name="id_mailinglist" value="${mailinglist.id?html}">
+								<input type="hidden" name="workgroup" value="${filter.workgroup?html}">
+								<input type="hidden" name="role" value="${filter.role?html}">
+								<input type="hidden" name="token" value="${token}">
+								<@aButton href='jsp/admin/mailinglist/ViewUsers.jsp?workgroup=${filter.workgroup}&amp;role=${filter.role}' buttonIcon='eye' title='#i18n{portal.mailinglist.modify_mailinglist.linkLabelViewUsers}' showTitle=false />
+								<@button type='submit' buttonIcon='trash' title='#i18n{portal.mailinglist.modify_mailinglist.linkLabelRemove}' showTitle=false color='btn-danger' />
+							</@tform>
 						</td>
 					</tr>
 					</#list>

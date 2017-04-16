@@ -245,4 +245,80 @@ public class MailingListJspBeanTest extends LuteceTestCase
             } );
         }
     }
+
+    public void testDoDeleteFilter( ) throws AccessDeniedException
+    {
+        assertEquals( 0, MailingListHome.findByPrimaryKey( mailingList.getId( ) ).getFilters( ).size( ) );
+
+        MailingListUsersFilter filter = new MailingListUsersFilter( );
+        filter.setRole( AdminMailingListService.ALL_ROLES );
+        filter.setWorkgroup( AdminWorkgroupService.ALL_GROUPS );
+        MailingListHome.addFilterToMailingList( filter, mailingList.getId( ) );
+
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( "id_mailinglist", Integer.toString( mailingList.getId( ) ) );
+        request.setParameter( "role", AdminMailingListService.ALL_ROLES );
+        request.setParameter( "workgroup", AdminWorkgroupService.ALL_GROUPS );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "admin/mailinglist/modify_mailinglist.html" ) );
+
+        assertEquals( 1, MailingListHome.findByPrimaryKey( mailingList.getId( ) ).getFilters( ).size( ) );
+        bean.doDeleteFilter( request );
+        assertEquals( 0, MailingListHome.findByPrimaryKey( mailingList.getId( ) ).getFilters( ).size( ) );
+    }
+
+    public void testDoDeleteFilterInvalidToken( ) throws AccessDeniedException
+    {
+        assertEquals( 0, MailingListHome.findByPrimaryKey( mailingList.getId( ) ).getFilters( ).size( ) );
+
+        MailingListUsersFilter filter = new MailingListUsersFilter( );
+        filter.setRole( AdminMailingListService.ALL_ROLES );
+        filter.setWorkgroup( AdminWorkgroupService.ALL_GROUPS );
+        MailingListHome.addFilterToMailingList( filter, mailingList.getId( ) );
+
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( "id_mailinglist", Integer.toString( mailingList.getId( ) ) );
+        request.setParameter( "role", AdminMailingListService.ALL_ROLES );
+        request.setParameter( "workgroup", AdminWorkgroupService.ALL_GROUPS );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "admin/mailinglist/modify_mailinglist.html" )
+                        + "b" );
+
+        assertEquals( 1, MailingListHome.findByPrimaryKey( mailingList.getId( ) ).getFilters( ).size( ) );
+        try
+        {
+            bean.doDeleteFilter( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            assertEquals( 1, MailingListHome.findByPrimaryKey( mailingList.getId( ) ).getFilters( ).size( ) );
+        }
+    }
+
+    public void testDoDeleteFilterNoToken( ) throws AccessDeniedException
+    {
+        assertEquals( 0, MailingListHome.findByPrimaryKey( mailingList.getId( ) ).getFilters( ).size( ) );
+
+        MailingListUsersFilter filter = new MailingListUsersFilter( );
+        filter.setRole( AdminMailingListService.ALL_ROLES );
+        filter.setWorkgroup( AdminWorkgroupService.ALL_GROUPS );
+        MailingListHome.addFilterToMailingList( filter, mailingList.getId( ) );
+
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( "id_mailinglist", Integer.toString( mailingList.getId( ) ) );
+        request.setParameter( "role", AdminMailingListService.ALL_ROLES );
+        request.setParameter( "workgroup", AdminWorkgroupService.ALL_GROUPS );
+
+        assertEquals( 1, MailingListHome.findByPrimaryKey( mailingList.getId( ) ).getFilters( ).size( ) );
+        try
+        {
+            bean.doDeleteFilter( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            assertEquals( 1, MailingListHome.findByPrimaryKey( mailingList.getId( ) ).getFilters( ).size( ) );
+        }
+    }
 }
