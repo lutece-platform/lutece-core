@@ -95,6 +95,7 @@
         <#if available_users_list?size &gt; 0 >
           <@tform name='assignUser' method='post' action='jsp/admin/features/DoAssignUsersRight.jsp'>
             <input type="hidden" name="id_right" value="${right.id}" />
+            <input type="hidden" name="token" value="${token}">
 						<@formGroup rows=2 labelKey='#i18n{portal.features.assign_users.labelAvailableUser}' labelFor='available_users_list'>
 							<@select name='available_users_list' default_value='' multiple=10 items=available_users_list />
 						</@formGroup>

@@ -39,8 +39,10 @@ import fr.paris.lutece.portal.business.right.Right;
 import fr.paris.lutece.portal.business.right.RightHome;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.business.user.AdminUserHome;
+import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.admin.AdminUserService;
 import fr.paris.lutece.portal.service.i18n.I18nService;
+import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
@@ -257,6 +259,7 @@ public class RightJspBean extends AdminFeaturesPageJspBean
         model.put( MARK_ITEM_NAVIGATOR, _itemNavigator );
         model.put( MARK_PAGINATOR, paginator );
         model.put( MARK_NB_ITEMS_PER_PAGE, Integer.toString( _nItemsPerPage ) );
+        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_ASSIGN_USERS ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ASSIGN_USERS, getLocale( ), model );
 
@@ -269,42 +272,34 @@ public class RightJspBean extends AdminFeaturesPageJspBean
      * @param request
      *            The HTTP Request
      * @return The Jsp URL of the process result
+     * @throws AccessDeniedException if the security token is invalid
      */
-    public String doAssignUsers( HttpServletRequest request )
+    public String doAssignUsers( HttpServletRequest request ) throws AccessDeniedException
     {
-        String strReturn;
-
-        String strActionCancel = request.getParameter( PARAMETER_CANCEL );
-
-        if ( strActionCancel != null )
+        if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_ASSIGN_USERS ) )
         {
-            strReturn = JSP_URL_RIGHTS_MANAGEMENT;
+            throw new AccessDeniedException( "Invalid security token" );
         }
-        else
+        String strIdRight = request.getParameter( PARAMETER_ID_RIGHT );
+
+        // retrieve the selected portlets ids
+        String[ ] arrayUsersIds = request.getParameterValues( PARAMETER_AVAILABLE_USER_LIST );
+
+        if ( ( arrayUsersIds != null ) )
         {
-            String strIdRight = request.getParameter( PARAMETER_ID_RIGHT );
-
-            // retrieve the selected portlets ids
-            String [ ] arrayUsersIds = request.getParameterValues( PARAMETER_AVAILABLE_USER_LIST );
-
-            if ( ( arrayUsersIds != null ) )
+            for ( int i = 0; i < arrayUsersIds.length; i++ )
             {
-                for ( int i = 0; i < arrayUsersIds.length; i++ )
-                {
-                    int nUserId = Integer.parseInt( arrayUsersIds [i] );
-                    AdminUser user = AdminUserHome.findByPrimaryKey( nUserId );
+                int nUserId = Integer.parseInt( arrayUsersIds[ i ] );
+                AdminUser user = AdminUserHome.findByPrimaryKey( nUserId );
 
-                    if ( !AdminUserHome.hasRight( user, strIdRight ) )
-                    {
-                        AdminUserHome.createRightForUser( nUserId, strIdRight );
-                    }
+                if ( !AdminUserHome.hasRight( user, strIdRight ) )
+                {
+                    AdminUserHome.createRightForUser( nUserId, strIdRight );
                 }
             }
-
-            strReturn = JSP_ASSIGN_USERS_TO_RIGHT + "?" + PARAMETER_ID_RIGHT + "=" + strIdRight;
         }
 
-        return strReturn;
+        return JSP_ASSIGN_USERS_TO_RIGHT + "?" + PARAMETER_ID_RIGHT + "=" + strIdRight;
     }
 
     /**
