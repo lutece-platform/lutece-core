@@ -5,6 +5,7 @@
 			<@boxBody>
 				<@tform name='modify_page_role' action='jsp/admin/role/DoModifyPageRole.jsp'>
 					<input type="hidden" name="role" value="${role.role}">
+					<input type="hidden" name="token" value="${token}">
 					<@formGroup labelKey='#i18n{portal.role.modify_role.labelDescription}' mandatory=true>
 						<@input type='text' name='role_description' value='${role.roleDescription}' maxlength=50 />
 					</@formGroup>

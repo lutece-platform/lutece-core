@@ -56,12 +56,25 @@ public class RoleJspBeanTest extends LuteceTestCase
 {
     private static final String PARAMETER_PAGE_ROLE = "role";
     private RoleJspBean bean;
+    private Role role;
 
     @Override
     protected void setUp( ) throws Exception
     {
         super.setUp( );
         bean = new RoleJspBean( );
+        role = new Role( );
+        role.setRole( getRandomName( ) );
+        role.setRoleDescription( role.getRole( ) );
+        role.setWorkgroup( AdminWorkgroupService.ALL_GROUPS );
+        RoleHome.create( role );
+    }
+
+    @Override
+    protected void tearDown( ) throws Exception
+    {
+        RoleHome.remove( role.getRole( ) );
+        super.tearDown( );
     }
 
     private String getRandomName( )
@@ -84,37 +97,24 @@ public class RoleJspBeanTest extends LuteceTestCase
             assertTrue( message.getText( new Locale( lang.getCode( ) ) ).contains( PARAMETER_PAGE_ROLE ) );
         }
         // invalid arg
-        String randomRoleName = getRandomName( );
         request = new MockHttpServletRequest( );
-        request.addParameter( PARAMETER_PAGE_ROLE, randomRoleName );
+        request.addParameter( PARAMETER_PAGE_ROLE, role.getRole( ) );
         bean.getRemovePageRole( request );
         message = AdminMessageService.getMessage( request );
         assertNotNull( message );
         for ( ReferenceItem lang : listLanguages )
         {
-            assertTrue( message.getText( new Locale( lang.getCode( ) ) ).contains( randomRoleName ) );
+            assertTrue( message.getText( new Locale( lang.getCode( ) ) ).contains( role.getRole( ) ) );
         }
         // valid arg
-        Role role = new Role( );
-        role.setRole( randomRoleName );
-        role.setRoleDescription( randomRoleName );
-        role.setWorkgroup( AdminWorkgroupService.ALL_GROUPS );
-        RoleHome.create( role );
-        try
+        request = new MockHttpServletRequest( );
+        request.addParameter( PARAMETER_PAGE_ROLE, role.getRole( ) );
+        bean.getRemovePageRole( request );
+        message = AdminMessageService.getMessage( request );
+        assertNotNull( message );
+        for ( ReferenceItem lang : listLanguages )
         {
-            request = new MockHttpServletRequest( );
-            request.addParameter( PARAMETER_PAGE_ROLE, randomRoleName );
-            bean.getRemovePageRole( request );
-            message = AdminMessageService.getMessage( request );
-            assertNotNull( message );
-            for ( ReferenceItem lang : listLanguages )
-            {
-                assertTrue( message.getText( new Locale( lang.getCode( ) ) ).contains( randomRoleName ) );
-            }
-        }
-        finally
-        {
-            RoleHome.remove( randomRoleName );
+            assertTrue( message.getText( new Locale( lang.getCode( ) ) ).contains( role.getRole( ) ) );
         }
     }
 
@@ -191,6 +191,63 @@ public class RoleJspBeanTest extends LuteceTestCase
         finally
         {
             RoleHome.remove( name );
+        }
+    }
+
+    public void testDoModifyPageRole( ) throws AccessDeniedException
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( "role", role.getRole( ) );
+        request.setParameter( "role_description", role.getRoleDescription( ) + "_mod" );
+        request.setParameter( "workgroup_key", AdminWorkgroupService.ALL_GROUPS );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "admin/role/modify_page_role.html" ) );
+
+        assertEquals( role.getRoleDescription( ), RoleHome.findByPrimaryKey( role.getRole( ) ).getRoleDescription( ) );
+        bean.doModifyPageRole( request );
+        assertEquals( role.getRoleDescription( ) + "_mod",
+                RoleHome.findByPrimaryKey( role.getRole( ) ).getRoleDescription( ) );
+    }
+
+    public void testDoModifyPageRoleInvalidtoken( ) throws AccessDeniedException
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( "role", role.getRole( ) );
+        request.setParameter( "role_description", role.getRoleDescription( ) + "_mod" );
+        request.setParameter( "workgroup_key", AdminWorkgroupService.ALL_GROUPS );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "admin/role/modify_page_role.html" ) + "b" );
+
+        assertEquals( role.getRoleDescription( ), RoleHome.findByPrimaryKey( role.getRole( ) ).getRoleDescription( ) );
+        try
+        {
+            bean.doModifyPageRole( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            assertEquals( role.getRoleDescription( ),
+                    RoleHome.findByPrimaryKey( role.getRole( ) ).getRoleDescription( ) );
+        }
+    }
+
+    public void testDoModifyPageRoleNotoken( ) throws AccessDeniedException
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( "role", role.getRole( ) );
+        request.setParameter( "role_description", role.getRoleDescription( ) + "_mod" );
+        request.setParameter( "workgroup_key", AdminWorkgroupService.ALL_GROUPS );
+
+        assertEquals( role.getRoleDescription( ), RoleHome.findByPrimaryKey( role.getRole( ) ).getRoleDescription( ) );
+        try
+        {
+            bean.doModifyPageRole( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            assertEquals( role.getRoleDescription( ),
+                    RoleHome.findByPrimaryKey( role.getRole( ) ).getRoleDescription( ) );
         }
     }
 }

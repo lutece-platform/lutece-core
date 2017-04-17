@@ -226,6 +226,7 @@ public class RoleJspBean extends AdminFeaturesPageJspBean
 
         model.put( MARK_ROLE, role );
         model.put( MARK_WORKGROUP_KEY_LIST, AdminWorkgroupService.getUserWorkgroups( getUser( ), getLocale( ) ) );
+        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_PAGE_ROLE_MODIFY ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_PAGE_ROLE_MODIFY, getLocale( ), model );
 
@@ -238,8 +239,9 @@ public class RoleJspBean extends AdminFeaturesPageJspBean
      * @param request
      *            The HTTP request
      * @return String The url page
+     * @throws AccessDeniedException if the security token is invalid
      */
-    public String doModifyPageRole( HttpServletRequest request )
+    public String doModifyPageRole( HttpServletRequest request ) throws AccessDeniedException
     {
         String strPageRole = request.getParameter( PARAMETER_PAGE_ROLE );
         String strPageRoleDescription = request.getParameter( PARAMETER_PAGE_ROLE_DESCRIPTION );
@@ -249,6 +251,11 @@ public class RoleJspBean extends AdminFeaturesPageJspBean
         if ( ( strPageRoleDescription == null ) || strPageRoleDescription.equals( "" ) || ( strPageWorkgroup == null ) )
         {
             return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
+        }
+
+        if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_PAGE_ROLE_MODIFY ) )
+        {
+            throw new AccessDeniedException( "Invalid security token" );
         }
 
         Role role = new Role( );
