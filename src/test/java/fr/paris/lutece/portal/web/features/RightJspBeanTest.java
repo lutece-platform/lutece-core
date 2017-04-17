@@ -125,6 +125,82 @@ public class RightJspBeanTest extends LuteceTestCase
         }
     }
 
+    public void testDoUnAssignUser( ) throws AccessDeniedException
+    {
+        AdminUser user = AdminUserHome.findUserByLogin( "admin" );
+        AdminUserHome.createRightForUser( user.getUserId( ), right.getId( ) );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( "id_right", right.getId( ) );
+        request.setParameter( "id_user", Integer.toString( user.getUserId( ) ) );
+        request.setParameter( "anchor", "anchor" );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "admin/features/assign_users_right.html" ) );
+
+        assertTrue( AdminUserHome.getRightsListForUser( user.getUserId( ) ).keySet( ).contains( right.getId( ) ) );
+        try
+        {
+            bean.doUnAssignUser( request );
+            assertFalse( AdminUserHome.getRightsListForUser( user.getUserId( ) ).keySet( ).contains( right.getId( ) ) );
+        }
+        finally
+        {
+            AdminUserHome.removeRightForUser( user.getUserId( ), right.getId( ) );
+        }
+    }
+
+    public void testDoUnAssignUserInvalidToken( ) throws AccessDeniedException
+    {
+        AdminUser user = AdminUserHome.findUserByLogin( "admin" );
+        AdminUserHome.createRightForUser( user.getUserId( ), right.getId( ) );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( "id_right", right.getId( ) );
+        request.setParameter( "id_user", Integer.toString( user.getUserId( ) ) );
+        request.setParameter( "anchor", "anchor" );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "admin/features/assign_users_right.html" )
+                        + "b" );
+
+        assertTrue( AdminUserHome.getRightsListForUser( user.getUserId( ) ).keySet( ).contains( right.getId( ) ) );
+        try
+        {
+            bean.doUnAssignUser( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            assertTrue( AdminUserHome.getRightsListForUser( user.getUserId( ) ).keySet( ).contains( right.getId( ) ) );
+        }
+        finally
+        {
+            AdminUserHome.removeRightForUser( user.getUserId( ), right.getId( ) );
+        }
+    }
+
+    public void testDoUnAssignUserNoToken( ) throws AccessDeniedException
+    {
+        AdminUser user = AdminUserHome.findUserByLogin( "admin" );
+        AdminUserHome.createRightForUser( user.getUserId( ), right.getId( ) );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( "id_right", right.getId( ) );
+        request.setParameter( "id_user", Integer.toString( user.getUserId( ) ) );
+        request.setParameter( "anchor", "anchor" );
+
+        assertTrue( AdminUserHome.getRightsListForUser( user.getUserId( ) ).keySet( ).contains( right.getId( ) ) );
+        try
+        {
+            bean.doUnAssignUser( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            assertTrue( AdminUserHome.getRightsListForUser( user.getUserId( ) ).keySet( ).contains( right.getId( ) ) );
+        }
+        finally
+        {
+            AdminUserHome.removeRightForUser( user.getUserId( ), right.getId( ) );
+        }
+    }
+
     private String getRandomName( )
     {
         Random rand = new SecureRandom( );
