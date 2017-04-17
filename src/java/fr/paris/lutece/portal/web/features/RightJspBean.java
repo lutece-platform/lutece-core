@@ -308,9 +308,15 @@ public class RightJspBean extends AdminFeaturesPageJspBean
      * @param request
      *            The HttpRequest
      * @return the HTML code of list assignations
+     * @throws AccessDeniedException
+     *             if the security token is invalid
      */
-    public String doUnAssignUser( HttpServletRequest request )
+    public String doUnAssignUser( HttpServletRequest request ) throws AccessDeniedException
     {
+        if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_ASSIGN_USERS ) )
+        {
+            throw new AccessDeniedException( "Invalid security token" );
+        }
         String strIdRight = request.getParameter( PARAMETER_ID_RIGHT );
         int nIdUser = Integer.parseInt( request.getParameter( PARAMETER_ID_USER ) );
         String strAnchor = request.getParameter( PARAMETER_ANCHOR );
