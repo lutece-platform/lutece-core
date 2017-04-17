@@ -116,6 +116,7 @@ public class RoleJspBeanTest extends LuteceTestCase
         {
             assertTrue( message.getText( new Locale( lang.getCode( ) ) ).contains( role.getRole( ) ) );
         }
+        assertTrue( message.getRequestParameters( ).containsKey( SecurityTokenService.PARAMETER_TOKEN ) );
     }
 
     public void testDoCreatePageRole( ) throws AccessDeniedException
@@ -248,6 +249,54 @@ public class RoleJspBeanTest extends LuteceTestCase
         {
             assertEquals( role.getRoleDescription( ),
                     RoleHome.findByPrimaryKey( role.getRole( ) ).getRoleDescription( ) );
+        }
+    }
+
+    public void testDoRemovePageRole( ) throws AccessDeniedException
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( "role", role.getRole( ) );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "DoRemovePageRole.jsp" ) );
+
+        assertNotNull( RoleHome.findByPrimaryKey( role.getRole( ) ) );
+        bean.doRemovePageRole( request );
+        assertNull( RoleHome.findByPrimaryKey( role.getRole( ) ) );
+    }
+
+    public void testDoRemovePageRoleInvalidToken( ) throws AccessDeniedException
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( "role", role.getRole( ) );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "DoRemovePageRole.jsp" ) + "b" );
+
+        assertNotNull( RoleHome.findByPrimaryKey( role.getRole( ) ) );
+        try
+        {
+            bean.doRemovePageRole( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            assertNotNull( RoleHome.findByPrimaryKey( role.getRole( ) ) );
+        }
+    }
+
+    public void testDoRemovePageRoleNoToken( ) throws AccessDeniedException
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( "role", role.getRole( ) );
+
+        assertNotNull( RoleHome.findByPrimaryKey( role.getRole( ) ) );
+        try
+        {
+            bean.doRemovePageRole( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            assertNotNull( RoleHome.findByPrimaryKey( role.getRole( ) ) );
         }
     }
 }
