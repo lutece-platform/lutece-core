@@ -37,6 +37,8 @@ import org.springframework.mock.web.MockHttpServletRequest;
 
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
+import fr.paris.lutece.portal.service.datastore.DatastoreService;
+import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.Utils;
 
@@ -98,5 +100,68 @@ public class SystemJspBeanTest extends LuteceTestCase
     public void testGetManageProperties( ) throws AccessDeniedException
     {
         instance.getManageProperties( request );
+    }
+
+    public void testDoModifyProperties( ) throws AccessDeniedException
+    {
+        final String property = "portal.site.site_property.email";
+        final String origValue = DatastoreService.getDataValue( property, "" );
+        request.setParameter( property, origValue + "_mod" );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "admin/system/modify_properties.html" ) );
+
+        try
+        {
+            SystemJspBean.doModifyProperties( request, request.getServletContext( ) );
+            assertEquals( origValue + "_mod", DatastoreService.getDataValue( property, "" ) );
+        }
+        finally
+        {
+            DatastoreService.setDataValue( property, origValue );
+        }
+    }
+
+    public void testDoModifyPropertiesInvalidToken( ) throws AccessDeniedException
+    {
+        final String property = "portal.site.site_property.email";
+        final String origValue = DatastoreService.getDataValue( property, "" );
+        request.setParameter( property, origValue + "_mod" );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "admin/system/modify_properties.html" ) + "b" );
+
+        try
+        {
+            SystemJspBean.doModifyProperties( request, request.getServletContext( ) );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            assertEquals( origValue, DatastoreService.getDataValue( property, "" ) );
+        }
+        finally
+        {
+            DatastoreService.setDataValue( property, origValue );
+        }
+    }
+
+    public void testDoModifyPropertiesNoToken( ) throws AccessDeniedException
+    {
+        final String property = "portal.site.site_property.email";
+        final String origValue = DatastoreService.getDataValue( property, "" );
+        request.setParameter( property, origValue + "_mod" );
+
+        try
+        {
+            SystemJspBean.doModifyProperties( request, request.getServletContext( ) );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            assertEquals( origValue, DatastoreService.getDataValue( property, "" ) );
+        }
+        finally
+        {
+            DatastoreService.setDataValue( property, origValue );
+        }
     }
 }
