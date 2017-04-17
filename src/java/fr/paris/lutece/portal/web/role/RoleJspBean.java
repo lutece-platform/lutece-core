@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2016, Mairie de Paris
+ * Copyright (c) 2002-2017, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -35,9 +35,11 @@ package fr.paris.lutece.portal.web.role;
 
 import fr.paris.lutece.portal.business.role.Role;
 import fr.paris.lutece.portal.business.role.RoleHome;
+import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.role.RoleRemovalListenerService;
+import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.workgroup.AdminWorkgroupService;
 import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
@@ -147,6 +149,7 @@ public class RoleJspBean extends AdminFeaturesPageJspBean
 
         model.put( MARK_DEFAULT_VALUE_WORKGROUP_KEY, AdminWorkgroupService.ALL_GROUPS );
         model.put( MARK_WORKGROUP_KEY_LIST, AdminWorkgroupService.getUserWorkgroups( getUser( ), getLocale( ) ) );
+        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_CREATE_PAGE_ROLE ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CREATE_PAGE_ROLE, getLocale( ), model );
 
@@ -159,8 +162,10 @@ public class RoleJspBean extends AdminFeaturesPageJspBean
      * @param request
      *            The HTTP request
      * @return String The url page
+     * @throws AccessDeniedException
+     *             if the security token is invalid
      */
-    public String doCreatePageRole( HttpServletRequest request )
+    public String doCreatePageRole( HttpServletRequest request ) throws AccessDeniedException
     {
         String strPageRole = request.getParameter( PARAMETER_PAGE_ROLE );
         String strPageRoleDescription = request.getParameter( PARAMETER_PAGE_ROLE_DESCRIPTION );
@@ -185,6 +190,10 @@ public class RoleJspBean extends AdminFeaturesPageJspBean
             return AdminMessageService.getMessageUrl( request, MESSAGE_ROLE_EXIST, AdminMessage.TYPE_STOP );
         }
 
+        if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_CREATE_PAGE_ROLE ) )
+        {
+            throw new AccessDeniedException( "Invalid security token" );
+        }
         Role role = new Role( );
         role.setRole( strPageRole );
         role.setRoleDescription( strPageRoleDescription );
