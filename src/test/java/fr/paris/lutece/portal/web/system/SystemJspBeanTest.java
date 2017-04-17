@@ -51,19 +51,24 @@ public class SystemJspBeanTest extends LuteceTestCase
     private static final String PARAMETER_DIRECTORY = "directory";
     private static final String PARAMETER_FILE = "file";
     private static final String PARAMETER_FILE_VALUE = "config.properties";
+    private MockHttpServletRequest request;
+    private SystemJspBean instance;
 
+    @Override
+    protected void setUp( ) throws Exception
+    {
+        super.setUp( );
+        request = new MockHttpServletRequest( );
+        Utils.registerAdminUserWithRigth( request, new AdminUser( ), SystemJspBean.RIGHT_PROPERTIES_MANAGEMENT );
+
+        instance = new SystemJspBean( );
+        instance.init( request, SystemJspBean.RIGHT_PROPERTIES_MANAGEMENT );
+    }
     /**
      * Test of getManageFilesSystem method, of class fr.paris.lutece.portal.web.system.SystemJspBean.
      */
     public void testGetManageFilesSystem( ) throws AccessDeniedException
     {
-        System.out.println( "getManageFilesSystem" );
-
-        MockHttpServletRequest request = new MockHttpServletRequest( );
-        Utils.registerAdminUserWithRigth( request, new AdminUser( ), SystemJspBean.RIGHT_PROPERTIES_MANAGEMENT );
-
-        SystemJspBean instance = new SystemJspBean( );
-        instance.init( request, SystemJspBean.RIGHT_PROPERTIES_MANAGEMENT );
         instance.getManageFilesSystem( request );
     }
 
@@ -72,14 +77,7 @@ public class SystemJspBeanTest extends LuteceTestCase
      */
     public void testGetManageFilesSystemDir( ) throws AccessDeniedException
     {
-        System.out.println( "getManageFilesSystemDir" );
-
-        MockHttpServletRequest request = new MockHttpServletRequest( );
-        Utils.registerAdminUserWithRigth( request, new AdminUser( ), SystemJspBean.RIGHT_PROPERTIES_MANAGEMENT );
         request.addParameter( PARAMETER_DIR, PARAMETER_DIR_VALUE );
-
-        SystemJspBean instance = new SystemJspBean( );
-        instance.init( request, SystemJspBean.RIGHT_PROPERTIES_MANAGEMENT );
         instance.getManageFilesSystemDir( request );
     }
 
@@ -88,15 +86,9 @@ public class SystemJspBeanTest extends LuteceTestCase
      */
     public void testGetFileView( ) throws AccessDeniedException
     {
-        System.out.println( "getFileView" );
-
-        MockHttpServletRequest request = new MockHttpServletRequest( );
-        Utils.registerAdminUserWithRigth( request, new AdminUser( ), SystemJspBean.RIGHT_PROPERTIES_MANAGEMENT );
         request.addParameter( PARAMETER_DIRECTORY, PARAMETER_DIR_VALUE );
         request.addParameter( PARAMETER_FILE, PARAMETER_FILE_VALUE );
 
-        SystemJspBean instance = new SystemJspBean( );
-        instance.init( request, SystemJspBean.RIGHT_PROPERTIES_MANAGEMENT );
         instance.getFileView( request );
     }
 
@@ -105,13 +97,6 @@ public class SystemJspBeanTest extends LuteceTestCase
      */
     public void testGetManageProperties( ) throws AccessDeniedException
     {
-        System.out.println( "getManageProperties" );
-
-        // Check user rights
-        SystemJspBean instance = new SystemJspBean( );
-        MockHttpServletRequest request = new MockHttpServletRequest( );
-        Utils.registerAdminUserWithRigth( request, new AdminUser( ), SystemJspBean.RIGHT_PROPERTIES_MANAGEMENT );
-        instance.init( request, SystemJspBean.RIGHT_PROPERTIES_MANAGEMENT );
         instance.getManageProperties( request );
     }
 }
