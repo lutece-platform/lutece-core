@@ -4,6 +4,7 @@
 			<@boxHeader title='#i18n{portal.role.create_role.boxTitle}' />
 			<@boxBody>
 				<@tform action='jsp/admin/role/DoCreatePageRole.jsp' name='create_page_role'>
+					<input type="hidden" name="token" value="${token}">
 					<@formGroup labelKey='#i18n{portal.role.create_role.labelName}' mandatory=true>
 						<@input type='text' name='role' maxlength=50 />
 					</@formGroup>

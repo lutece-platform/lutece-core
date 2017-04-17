@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2015, Mairie de Paris
+ * Copyright (c) 2002-2017, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,16 +33,20 @@
  */
 package fr.paris.lutece.portal.web.role;
 
+import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.Locale;
+import java.util.Random;
 
 import org.springframework.mock.web.MockHttpServletRequest;
 
 import fr.paris.lutece.portal.business.role.Role;
 import fr.paris.lutece.portal.business.role.RoleHome;
+import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
+import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.workgroup.AdminWorkgroupService;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.util.ReferenceItem;
@@ -51,10 +55,24 @@ import fr.paris.lutece.util.ReferenceList;
 public class RoleJspBeanTest extends LuteceTestCase
 {
     private static final String PARAMETER_PAGE_ROLE = "role";
+    private RoleJspBean bean;
+
+    @Override
+    protected void setUp( ) throws Exception
+    {
+        super.setUp( );
+        bean = new RoleJspBean( );
+    }
+
+    private String getRandomName( )
+    {
+        Random rand = new SecureRandom( );
+        BigInteger bigInt = new BigInteger( 128, rand );
+        return "junit" + bigInt.toString( 36 );
+    }
 
     public void testGetRemovePageRole( )
     {
-        RoleJspBean bean = new RoleJspBean( );
         MockHttpServletRequest request = new MockHttpServletRequest( );
         // no args
         bean.getRemovePageRole( request );
@@ -66,7 +84,7 @@ public class RoleJspBeanTest extends LuteceTestCase
             assertTrue( message.getText( new Locale( lang.getCode( ) ) ).contains( PARAMETER_PAGE_ROLE ) );
         }
         // invalid arg
-        String randomRoleName = "role" + new SecureRandom( ).nextLong( );
+        String randomRoleName = getRandomName( );
         request = new MockHttpServletRequest( );
         request.addParameter( PARAMETER_PAGE_ROLE, randomRoleName );
         bean.getRemovePageRole( request );
@@ -97,6 +115,82 @@ public class RoleJspBeanTest extends LuteceTestCase
         finally
         {
             RoleHome.remove( randomRoleName );
+        }
+    }
+
+    public void testDoCreatePageRole( ) throws AccessDeniedException
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        final String name = getRandomName( );
+        request.setParameter( "role", name );
+        request.setParameter( "role_description", name );
+        request.setParameter( "workgroup_key", AdminWorkgroupService.ALL_GROUPS );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "admin/role/create_page_role.html" ) );
+
+        assertNull( RoleHome.findByPrimaryKey( name ) );
+        try
+        {
+            bean.doCreatePageRole( request );
+            Role stored = RoleHome.findByPrimaryKey( name );
+            assertNotNull( stored );
+            assertEquals( name, stored.getRole( ) );
+            assertEquals( name, stored.getRoleDescription( ) );
+            assertEquals( AdminWorkgroupService.ALL_GROUPS, stored.getWorkgroup( ) );
+        }
+        finally
+        {
+            RoleHome.remove( name );
+        }
+    }
+
+    public void testDoCreatePageRoleInvalidToken( ) throws AccessDeniedException
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        final String name = getRandomName( );
+        request.setParameter( "role", name );
+        request.setParameter( "role_description", name );
+        request.setParameter( "workgroup_key", AdminWorkgroupService.ALL_GROUPS );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "admin/role/create_page_role.html" ) + "b" );
+
+        assertNull( RoleHome.findByPrimaryKey( name ) );
+        try
+        {
+            bean.doCreatePageRole( request );
+            fail( "Shoud have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            assertNull( RoleHome.findByPrimaryKey( name ) );
+        }
+        finally
+        {
+            RoleHome.remove( name );
+        }
+    }
+
+    public void testDoCreatePageRoleNoToken( ) throws AccessDeniedException
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        final String name = getRandomName( );
+        request.setParameter( "role", name );
+        request.setParameter( "role_description", name );
+        request.setParameter( "workgroup_key", AdminWorkgroupService.ALL_GROUPS );
+
+        assertNull( RoleHome.findByPrimaryKey( name ) );
+        try
+        {
+            bean.doCreatePageRole( request );
+            fail( "Shoud have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            assertNull( RoleHome.findByPrimaryKey( name ) );
+        }
+        finally
+        {
+            RoleHome.remove( name );
         }
     }
 }
