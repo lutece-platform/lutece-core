@@ -46,7 +46,6 @@ import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
 import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.string.StringUtil;
-import fr.paris.lutece.util.url.UrlItem;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -290,11 +289,14 @@ public class RoleJspBean extends AdminFeaturesPageJspBean
                 strPageRole
             }, AdminMessage.TYPE_STOP );
         }
-        UrlItem url = new UrlItem( PATH_JSP + JSP_REMOVE_ROLE + "?role=" + request.getParameter( PARAMETER_PAGE_ROLE ) );
+        String strURL = PATH_JSP + JSP_REMOVE_ROLE;
+        Map< String, Object > parameters = new HashMap<>( );
+        parameters.put( PARAMETER_PAGE_ROLE, request.getParameter( PARAMETER_PAGE_ROLE ) );
+        parameters.put( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, JSP_REMOVE_ROLE ) );
 
         return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_REMOVE, new Object [ ] {
             strPageRole
-        }, url.getUrl( ), AdminMessage.TYPE_CONFIRMATION );
+        }, null, strURL, null, AdminMessage.TYPE_CONFIRMATION, parameters );
     }
 
     /**
@@ -303,8 +305,10 @@ public class RoleJspBean extends AdminFeaturesPageJspBean
      * @param request
      *            The HTTP request
      * @return String The url page
+     * @throws AccessDeniedException
+     *             if the security token is invalid
      */
-    public String doRemovePageRole( HttpServletRequest request )
+    public String doRemovePageRole( HttpServletRequest request ) throws AccessDeniedException
     {
         String strPageRole = request.getParameter( PARAMETER_PAGE_ROLE );
         ArrayList<String> listErrors = new ArrayList<String>( );
@@ -318,7 +322,10 @@ public class RoleJspBean extends AdminFeaturesPageJspBean
 
             return AdminMessageService.getMessageUrl( request, MESSAGE_CANNOT_REMOVE_ROLE, args, AdminMessage.TYPE_STOP );
         }
-
+        if ( !SecurityTokenService.getInstance( ).validate( request, JSP_REMOVE_ROLE ) )
+        {
+            throw new AccessDeniedException( "Invalid security token" );
+        }
         RoleHome.remove( strPageRole );
 
         return getHomeUrl( request );
