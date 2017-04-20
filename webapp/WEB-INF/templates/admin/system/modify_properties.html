@@ -25,6 +25,13 @@
 								<@input type='textarea' name=property.key id=property.key>${property.value?html}</@input>
 							<#elseif property.key?ends_with( ".htmlblock" )>
 								<@input type='textarea' name=property.key id=property.key class='richtext'>${property.value?html}</@input>
+                                                        <#elseif property.key?ends_with( ".checkbox" )>
+                                                                <#if property.value == "1">
+                                                                    <@checkBox name=property.key id=property.key value='1' checked=true />
+                                                                <#else>
+                                                                    <@checkBox name=property.key id=property.key value='1' checked=false />
+                                                                </#if>
+                                                                <input type="hidden" name="${property.key}" value="0"/>
 							<#else>
 								<@input type='text' name=property.key id=property.key value=property.value?html />
 							</#if>
