@@ -585,7 +585,7 @@
 	</div>
 </#macro>
 
-<#macro actionButtons button1Name='' button2Name='' i18nValue1Key='portal.admin.message.buttonValidate' i18nValue2Key='portal.admin.message.buttonCancel' url1='' url2='' icon1='check' icon2='close'>
+<#macro actionButtons button1Name='' button2Name='' i18nValue1Key='portal.admin.message.buttonValidate' i18nValue2Key='portal.admin.message.buttonCancel' url1='' url2='' icon1='check' icon2='close' offset=''>
 	<@formGroup>
 		<#if url1 != ''>
 			<@aButton href=url1 title='#i18n{${i18nValue1Key}}' buttonIcon=icon1 size='' />
