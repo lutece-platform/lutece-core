@@ -47,15 +47,11 @@ import org.apache.lucene.document.Document;
 import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.Term;
-import org.apache.lucene.queries.ChainedFilter;
 import org.apache.lucene.queryparser.classic.QueryParser;
 import org.apache.lucene.search.BooleanClause;
 import org.apache.lucene.search.BooleanQuery;
-import org.apache.lucene.search.CachingWrapperFilter;
-import org.apache.lucene.search.Filter;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
-import org.apache.lucene.search.QueryWrapperFilter;
 import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.search.TermRangeQuery;
@@ -95,7 +91,7 @@ public class LuceneSearchEngine implements SearchEngine
     public List<SearchResult> getSearchResults( String strQuery, HttpServletRequest request )
     {
         ArrayList<SearchItem> listResults = new ArrayList<SearchItem>( );
-        ArrayList<Filter> listFilter = new ArrayList<Filter>( );
+        ArrayList<Query> listFilter = new ArrayList<Query>( );
         IndexSearcher searcher = null;
         boolean bFilterResult = false;
         LuteceUser user = null;
@@ -104,14 +100,14 @@ public class LuceneSearchEngine implements SearchEngine
         String strDateBefore = request.getParameter( PARAMETER_DATE_BEFORE );
         boolean bDateAfter = false;
         boolean bDateBefore = false;
-        Filter allFilter = null;
+        Query allFilter = null;
         String strTagFilter = request.getParameter( PARAMETER_TAG_FILTER );
 
         if ( SecurityService.isAuthenticationEnable( ) )
         {
             user = SecurityService.getInstance( ).getRegisteredUser( request );
 
-            Filter [ ] filtersRole = null;
+            Query [ ] filtersRole = null;
 
             if ( user != null )
             {
@@ -119,12 +115,12 @@ public class LuceneSearchEngine implements SearchEngine
 
                 if ( userRoles != null )
                 {
-                    filtersRole = new Filter [ userRoles.length + 1];
+                    filtersRole = new Query [ userRoles.length + 1];
 
                     for ( int i = 0; i < userRoles.length; i++ )
                     {
                         Query queryRole = new TermQuery( new Term( SearchItem.FIELD_ROLE, userRoles [i] ) );
-                        filtersRole [i] = new CachingWrapperFilter( new QueryWrapperFilter( queryRole ) );
+                        filtersRole [i] = queryRole;
                     }
                 }
                 else
@@ -134,14 +130,18 @@ public class LuceneSearchEngine implements SearchEngine
             }
             else
             {
-                filtersRole = new Filter [ 1];
+                filtersRole = new Query [ 1];
             }
 
             if ( !bFilterResult )
             {
                 Query queryRole = new TermQuery( new Term( SearchItem.FIELD_ROLE, Page.ROLE_NONE ) );
-                filtersRole [filtersRole.length - 1] = new CachingWrapperFilter( new QueryWrapperFilter( queryRole ) );
-                listFilter.add( new ChainedFilter( filtersRole, ChainedFilter.OR ) );
+                filtersRole [filtersRole.length - 1] = queryRole;
+                BooleanQuery.Builder booleanQueryBuilderRole  = new BooleanQuery.Builder( );
+                for (Query filterRole: filtersRole) {
+                    booleanQueryBuilderRole.add( filterRole , BooleanClause.Occur.SHOULD );
+                }
+                listFilter.add( booleanQueryBuilderRole.build( ) );
             }
         }
 
@@ -165,25 +165,33 @@ public class LuceneSearchEngine implements SearchEngine
             }
 
             Query queryDate = new TermRangeQuery( SearchItem.FIELD_DATE, strAfter, strBefore, bDateAfter, bDateBefore );
-            listFilter.add( new CachingWrapperFilter( new QueryWrapperFilter( queryDate ) ) );
+            listFilter.add( queryDate );
         }
 
         if ( ( typeFilter != null ) && ( typeFilter.length > 0 ) && !typeFilter [0].equals( SearchService.TYPE_FILTER_NONE ) )
         {
-            Filter [ ] filtersType = new Filter [ typeFilter.length];
+            Query [ ] filtersType = new Query [ typeFilter.length];
 
             for ( int i = 0; i < typeFilter.length; i++ )
             {
                 Query queryType = new TermQuery( new Term( SearchItem.FIELD_TYPE, typeFilter [i] ) );
-                filtersType [i] = new CachingWrapperFilter( new QueryWrapperFilter( queryType ) );
+                filtersType [i] = queryType;
             }
 
-            listFilter.add( new ChainedFilter( filtersType, ChainedFilter.OR ) );
+            BooleanQuery.Builder booleanQueryBuilder  = new BooleanQuery.Builder( );
+            for (Query filterType: filtersType) {
+                booleanQueryBuilder.add( filterType, BooleanClause.Occur.SHOULD );
+            }
+            listFilter.add( booleanQueryBuilder.build( ) );
         }
 
         if ( !listFilter.isEmpty( ) )
         {
-            allFilter = new ChainedFilter( listFilter.toArray( new Filter [ 1] ), ChainedFilter.AND );
+            BooleanQuery.Builder booleanQueryBuilder  = new BooleanQuery.Builder( );
+            for (Query filter: listFilter) {
+                booleanQueryBuilder.add( filter, BooleanClause.Occur.MUST );
+            }
+            allFilter = booleanQueryBuilder.build( );
         }
 
         try
@@ -191,25 +199,23 @@ public class LuceneSearchEngine implements SearchEngine
             IndexReader ir = DirectoryReader.open( IndexationService.getDirectoryIndex( ) );
             searcher = new IndexSearcher( ir );
 
-            Query query = null;
+            BooleanQuery.Builder bQueryBuilder = new BooleanQuery.Builder( );
 
             if ( StringUtils.isNotBlank( strTagFilter ) )
             {
-                BooleanQuery bQuery = new BooleanQuery( );
-                QueryParser parser = new QueryParser( IndexationService.LUCENE_INDEX_VERSION, SearchItem.FIELD_METADATA, IndexationService.getAnalyser( ) );
+                QueryParser parser = new QueryParser( SearchItem.FIELD_METADATA, IndexationService.getAnalyser( ) );
 
                 Query queryMetaData = parser.parse( ( strQuery != null ) ? strQuery : "" );
-                bQuery.add( queryMetaData, BooleanClause.Occur.SHOULD );
+                bQueryBuilder.add( queryMetaData, BooleanClause.Occur.SHOULD );
 
-                parser = new QueryParser( IndexationService.LUCENE_INDEX_VERSION, SearchItem.FIELD_SUMMARY, IndexationService.getAnalyser( ) );
+                parser = new QueryParser( SearchItem.FIELD_SUMMARY, IndexationService.getAnalyser( ) );
 
                 Query querySummary = parser.parse( ( strQuery != null ) ? strQuery : "" );
-                bQuery.add( querySummary, BooleanClause.Occur.SHOULD );
-                query = bQuery;
+                bQueryBuilder.add( querySummary, BooleanClause.Occur.SHOULD );
             }
             else
             {
-                QueryParser parser = new QueryParser( IndexationService.LUCENE_INDEX_VERSION, SearchItem.FIELD_CONTENTS, IndexationService.getAnalyser( ) );
+                QueryParser parser = new QueryParser( SearchItem.FIELD_CONTENTS, IndexationService.getAnalyser( ) );
 
                 String operator = request.getParameter( PARAMETER_DEFAULT_OPERATOR );
 
@@ -218,11 +224,17 @@ public class LuceneSearchEngine implements SearchEngine
                     parser.setDefaultOperator( QueryParser.AND_OPERATOR );
                 }
 
-                query = parser.parse( ( StringUtils.isNotBlank( strQuery ) ) ? strQuery : "" );
+                Query queryContent = parser.parse( ( StringUtils.isNotBlank( strQuery ) ) ? strQuery : "" );
+                bQueryBuilder.add ( queryContent, BooleanClause.Occur.SHOULD ) ;
             }
 
+            if ( allFilter != null ) {
+                bQueryBuilder.add( allFilter, BooleanClause.Occur.FILTER );
+            }
+            Query query = bQueryBuilder.build( );
+
             // Get results documents
-            TopDocs topDocs = searcher.search( query, allFilter, MAX_RESPONSES );
+            TopDocs topDocs = searcher.search( query, MAX_RESPONSES );
             ScoreDoc [ ] hits = topDocs.scoreDocs;
 
             for ( int i = 0; i < hits.length; i++ )

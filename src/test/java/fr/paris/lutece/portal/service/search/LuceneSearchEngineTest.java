@@ -19,7 +19,6 @@ import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.index.IndexWriterConfig.OpenMode;
 import org.apache.lucene.store.Directory;
-import org.apache.lucene.util.Version;
 import org.springframework.mock.web.MockHttpServletRequest;
 
 import fr.paris.lutece.portal.service.init.LuteceInitException;
@@ -44,7 +43,7 @@ public class LuceneSearchEngineTest extends LuteceTestCase
     /* mimic initialization in IndexationService.processIndexing */
     private IndexWriter getIndexWriter() throws Exception {
             Directory dir = IndexationService.getDirectoryIndex( );
-            IndexWriterConfig conf = new IndexWriterConfig( Version.LUCENE_46, IndexationService.getAnalyser() );
+            IndexWriterConfig conf = new IndexWriterConfig( IndexationService.getAnalyser() );
             conf.setOpenMode( OpenMode.CREATE );
             return new IndexWriter(dir, conf);
     }

@@ -56,7 +56,7 @@ import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.NIOFSDirectory;
 import org.apache.lucene.util.Version;
 
-import java.io.File;
+import java.nio.file.Paths;
 import java.io.IOException;
 import java.io.Serializable;
 
@@ -79,7 +79,7 @@ public final class IndexationService
     public static final String PATH_INDEX_IN_WEBAPP = "search.lucene.indexInWebapp";
     public static final String PARAM_FORCING = "forcing";
     public static final int ALL_DOCUMENT = -1;
-    public static final Version LUCENE_INDEX_VERSION = Version.LUCENE_46;
+    public static final Version LUCENE_INDEX_VERSION = Version.LUCENE_6_4_2;
     private static final String PARAM_TYPE_PAGE = "Page";
     private static final String PROPERTY_WRITER_MERGE_FACTOR = "search.lucene.writer.mergeFactor";
     private static final String PROPERTY_WRITER_MAX_FIELD_LENGTH = "search.lucene.writer.maxFieldLength";
@@ -189,7 +189,7 @@ public final class IndexationService
             }
 
             Date start = new Date( );
-            IndexWriterConfig conf = new IndexWriterConfig( Version.LUCENE_46, _analyzer );
+            IndexWriterConfig conf = new IndexWriterConfig( _analyzer );
 
             if ( bCreateIndex )
             {
@@ -527,7 +527,7 @@ public final class IndexationService
      */
     public static Directory getDirectoryIndex( ) throws IOException
     {
-        return NIOFSDirectory.open( new File( _strIndex ) );
+        return NIOFSDirectory.open( Paths.get( _strIndex ) );
     }
 
     /**

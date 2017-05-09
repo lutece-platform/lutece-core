@@ -63,6 +63,15 @@
             <artifactId>commons-digester3</artifactId>
             <version>3.2</version>
         </dependency>
+        <!-- cglib is a dependency of commons-digester3, which has a transitive dependency on the old asm:asm artifact -->
+        <!-- Use a newer cglib instead with a correct dependency to the new org.ow2.asm:asm -->
+        <!-- This solves a conflict with tika which has a dependency on asm 5.0.4 -->
+        <!-- All commons-digester3 tests pass with cglib 3.2.5 and asm 5.2 -->
+        <dependency>
+            <groupId>cglib</groupId>
+            <artifactId>cglib</artifactId>
+            <version>3.2.5</version>
+        </dependency>
         <dependency>
             <groupId>commons-fileupload</groupId>
             <artifactId>commons-fileupload</artifactId>
@@ -221,8 +230,15 @@
         <dependency>
             <groupId>fr.paris.lutece.plugins</groupId>
             <artifactId>library-lucene</artifactId>
-            <version>2.0.1</version>
+            <version>3.0.0</version>
             <type>lutece-plugin</type>
+            <exclusions>
+              <exclusion>
+                <!-- renamed to net.sf.ehcache:ehcache -->
+                <groupId>net.sf.ehcache</groupId>
+                <artifactId>ehcache-core</artifactId>
+              </exclusion>
+            </exclusions>
         </dependency>
         
         <!-- Lutece API -->
