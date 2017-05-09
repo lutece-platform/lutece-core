@@ -132,6 +132,16 @@
             <artifactId>log4j</artifactId>
             <version>1.2.17</version>
         </dependency>
+        <!--
+          commons-logging is a transitive dependency of many libraries with different versions.
+          Specify the latest version here to not depend on the order of declaration.
+          When we manage to get rid of commons-logging, we can safely remove this dependency.
+        -->
+        <dependency>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+            <version>1.2</version>
+        </dependency>
         <dependency>
             <groupId>jtidy</groupId>
             <artifactId>jtidy</artifactId>
@@ -216,7 +226,6 @@
         </dependency>
         
         <!-- Lutece API -->
-        
         <dependency>
             <groupId>fr.paris.lutece.plugins</groupId>
             <artifactId>library-rbac-api</artifactId>
@@ -300,6 +309,13 @@
             <groupId>net.sf.dozer</groupId>
             <artifactId>dozer</artifactId>
             <version>5.5.1</version>
+            <exclusions>
+              <exclusion>
+                <!-- Conflicts with the dozen of dependencies requiring commons-logging:commons-logging -->
+                <groupId>org.slf4j</groupId>
+                <artifactId>jcl-over-slf4j</artifactId>
+              </exclusion>
+            </exclusions>
         </dependency>
         
         <!-- Open CSV -->
