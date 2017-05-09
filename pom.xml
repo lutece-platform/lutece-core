@@ -198,17 +198,13 @@
             <artifactId>quartz</artifactId>
             <version>2.2.3</version>
             <!-- c3p0:c3p0 relocated to com.mchange:c3p0 -->
+            <!-- already present as a direct dependency so not redeclared here -->
             <exclusions>
                 <exclusion>
                     <groupId>c3p0</groupId>
                     <artifactId>c3p0</artifactId>
                 </exclusion>
             </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>com.mchange</groupId>
-            <artifactId>c3p0</artifactId>
-            <version>0.9.5.2</version>
         </dependency>
       
         <!-- indexing -->
