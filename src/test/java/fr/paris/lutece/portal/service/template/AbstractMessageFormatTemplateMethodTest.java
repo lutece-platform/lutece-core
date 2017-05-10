@@ -97,6 +97,11 @@ public class AbstractMessageFormatTemplateMethodTest extends LuteceTestCase
         res = FreeMarkerTemplateService.getInstance( ).loadTemplate( template, Locale.FRANCE, model );
         assertNotNull( res );
         assertEquals( "test with quote and arg 02/01/70 11:17", res.getHtml( ) );
+
+        model.put( "arg", new Date( 123456789 ) );
+        res = FreeMarkerTemplateService.getInstance( ).loadTemplate( template, Locale.US, model );
+        assertNotNull( res );
+        assertEquals( "test with quote and arg 1/2/70 11:17 AM", res.getHtml( ) );
     }
 
 }

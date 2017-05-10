@@ -60,11 +60,12 @@ public abstract class AbstractMessageFormatTemplateMethod implements TemplateMet
         }
 
         String key = ( (TemplateScalarModel) arguments.get( 0 ) ).getAsString( );
+        Locale locale = Environment.getCurrentEnvironment(  ).getLocale(  );
 
         if ( argsSize == 1 )
         {
             // no arguments, the message is not a MessageFormat
-            return getPattern( key, Environment.getCurrentEnvironment(  ).getLocale(  ) );
+            return getPattern( key, locale );
         }
 
         Object [ ] args = new Object[ argsSize - 1 ];
@@ -93,7 +94,7 @@ public abstract class AbstractMessageFormatTemplateMethod implements TemplateMet
                     }
         }
 
-        return MessageFormat.format( getPattern( key, Environment.getCurrentEnvironment( ).getLocale( ) ), args );
+        return new MessageFormat( getPattern( key, locale ), locale ).format( args, new StringBuffer( ), null ).toString( );
     }
 
     protected abstract String getPattern( String key, Locale locale );
