@@ -217,10 +217,6 @@
         <servlet-class>fr.paris.lutece.portal.service.image.ImageServlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>DocumentResourceServlet</servlet-name>
-        <servlet-class>fr.paris.lutece.plugins.document.web.DocumentResourceServlet</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>StyleSheetServlet</servlet-name>
         <servlet-class>fr.paris.lutece.portal.web.stylesheet.StyleSheetFileServlet</servlet-class>
     </servlet>
@@ -235,10 +231,6 @@
     <servlet-mapping>
         <servlet-name>ImageServlet</servlet-name>
         <url-pattern>/image</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>DocumentResourceServlet</servlet-name>
-        <url-pattern>/document</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>StyleSheetServlet</servlet-name>

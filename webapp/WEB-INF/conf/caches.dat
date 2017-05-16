@@ -3,7 +3,6 @@
 SiteMapService.enabled=1
 MyPortalWidgetService.enabled=1
 PortalMenuService.enabled=1
-DocumentResourceServletCache.enabled=1
 PageCacheService.enabled=1
 PortletCacheService.enabled=0
 MyPortalWidgetContentService.enabled=1
