@@ -97,20 +97,21 @@ public class DaemonsJspBeanTest extends LuteceTestCase
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.setParameter( "action", "START" );
         request.setParameter( "daemon", JUNIT_DAEMON );
-        bean.doDaemonAction( request );
+        bean.doDaemonAction( request ); // Daemon should run periodically with interval of 1s
         assertTrue( _entry.isRunning( ) );
         TestDaemon daemon = ( TestDaemon ) AppDaemonService.getDaemon( JUNIT_DAEMON );
-        daemon.go( 1500, TimeUnit.MILLISECONDS );
-        daemon.waitForCompletion( );
+        daemon.go( );
+        daemon.waitForCompletion( ); // Complete first run without a timeout
     }
 
     public void testDoDaemonActionStop( ) throws InterruptedException, BrokenBarrierException, TimeoutException
     {
         assertFalse( _entry.isRunning( ) );
-        AppDaemonService.startDaemon( JUNIT_DAEMON );
+        AppDaemonService.startDaemon( JUNIT_DAEMON ); // Daemon should run periodically with interval of 1s
         TestDaemon daemon = ( TestDaemon ) AppDaemonService.getDaemon( JUNIT_DAEMON );
-        daemon.go( 1500, TimeUnit.MILLISECONDS );
+        daemon.go( );
         daemon.waitForCompletion( );
+        //We have about 1 second to stop the daemon
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.setParameter( "action", "STOP" );
         request.setParameter( "daemon", JUNIT_DAEMON );
@@ -118,7 +119,8 @@ public class DaemonsJspBeanTest extends LuteceTestCase
         assertFalse( _entry.isRunning( ) );
         try
         {
-            daemon.go( 1250, TimeUnit.MILLISECONDS );
+            //Here the daemon should not be relaunched after a 1s interval. So wait 2.5 seconds until a timeout.
+            daemon.go( 2500, TimeUnit.MILLISECONDS );
             fail( "Daemon still running after stop" );
         }
         catch ( TimeoutException e )
@@ -131,15 +133,15 @@ public class DaemonsJspBeanTest extends LuteceTestCase
     {
         assertFalse( _entry.isRunning( ) );
         _entry.setInterval( 1000 );
-        AppDaemonService.startDaemon( JUNIT_DAEMON );
+        AppDaemonService.startDaemon( JUNIT_DAEMON ); // Daemon should run periodically with interval of 1000s
         TestDaemon daemon = ( TestDaemon ) AppDaemonService.getDaemon( JUNIT_DAEMON );
-        daemon.go( 1500, TimeUnit.MILLISECONDS );
+        daemon.go( );
         daemon.waitForCompletion( );
         MockHttpServletRequest request = new MockHttpServletRequest( );
-        request.setParameter( "action", "RUN" );
+        request.setParameter( "action", "RUN" ); // Manually do 1 run of the daemon now
         request.setParameter( "daemon", JUNIT_DAEMON );
         bean.doDaemonAction( request );
-        daemon.go( 250, TimeUnit.MILLISECONDS );
+        daemon.go( ); // It should run in less than 1000 seconds !
         daemon.waitForCompletion( );
     }
 
