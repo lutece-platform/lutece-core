@@ -102,6 +102,8 @@ public class DaemonsJspBeanTest extends LuteceTestCase
         TestDaemon daemon = ( TestDaemon ) AppDaemonService.getDaemon( JUNIT_DAEMON );
         daemon.go( );
         daemon.waitForCompletion( ); // Complete first run without a timeout
+        daemon.go( );
+        daemon.waitForCompletion( ); // Complete second run without a timeout. More runs would follow if we continued
     }
 
     public void testDoDaemonActionStop( ) throws InterruptedException, BrokenBarrierException, TimeoutException
