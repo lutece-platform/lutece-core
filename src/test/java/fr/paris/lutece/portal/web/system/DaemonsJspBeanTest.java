@@ -15,6 +15,7 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import fr.paris.lutece.portal.service.daemon.AppDaemonService;
 import fr.paris.lutece.portal.service.daemon.DaemonEntry;
 import fr.paris.lutece.portal.service.daemon.TestDaemon;
+import fr.paris.lutece.portal.service.datastore.DatastoreService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.test.LuteceTestCase;
 
@@ -35,7 +36,8 @@ public class DaemonsJspBeanTest extends LuteceTestCase
         _entry.setId( JUNIT_DAEMON );
         _entry.setClassName( TestDaemon.class.getName( ) );
         _entry.setPluginName( "core" );
-        _entry.setInterval( 1 );
+        //AppDaemonService.registerDaemon will copy this datastore value in the entry.
+        DatastoreService.setInstanceDataValue( "core.daemon." + JUNIT_DAEMON + ".interval", "1");
         AppDaemonService.registerDaemon( _entry );
     }
 
