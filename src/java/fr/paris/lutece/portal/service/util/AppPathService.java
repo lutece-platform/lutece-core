@@ -35,6 +35,7 @@ package fr.paris.lutece.portal.service.util;
 
 import fr.paris.lutece.portal.service.datastore.DatastoreService;
 import fr.paris.lutece.portal.service.message.SiteMessageService;
+import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.web.LocalVariables;
 import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.util.ReferenceList;
@@ -546,7 +547,7 @@ public final class AppPathService
 
     /**
      * Retrieve the url to redirect to after login. It is given by the redirectUrl parameter if found. The request parameters are copied (except the login and
-     * acces code). This is to be used by the doLogin method of AdminLoginJspBean.
+     * acces code and token). This is to be used by the doLogin method of AdminLoginJspBean.
      *
      * @param request
      *            the http request
@@ -581,7 +582,7 @@ public final class AppPathService
             strParamName = (String) enumParams.nextElement( );
 
             if ( !strParamName.equals( Parameters.REDIRECT_URL ) && !strParamName.equals( Parameters.ACCESS_CODE )
-                    && !strParamName.equals( Parameters.PASSWORD ) )
+              && !strParamName.equals( Parameters.PASSWORD ) && !strParamName.equals( SecurityTokenService.PARAMETER_TOKEN ) )
             {
                 url.addParameter( strParamName, request.getParameter( strParamName ) );
             }

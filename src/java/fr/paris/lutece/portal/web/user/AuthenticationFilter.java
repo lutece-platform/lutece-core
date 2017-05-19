@@ -39,6 +39,7 @@ import fr.paris.lutece.portal.service.admin.AdminUserService;
 import fr.paris.lutece.portal.service.admin.PasswordResetException;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
+import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.security.UserNotSignedException;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
@@ -185,7 +186,8 @@ public class AuthenticationFilter implements Filter
         {
             strParamName = enumParams.nextElement( );
 
-            if ( !strParamName.equals( Parameters.ACCESS_CODE ) && !strParamName.equals( Parameters.PASSWORD ) )
+            if ( !strParamName.equals( Parameters.ACCESS_CODE ) && !strParamName.equals( Parameters.PASSWORD )
+              && !strParamName.equals( SecurityTokenService.PARAMETER_TOKEN ) )
             {
                 url.addParameter( strParamName, request.getParameter( strParamName ) );
             }
