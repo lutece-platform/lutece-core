@@ -35,8 +35,10 @@ package fr.paris.lutece.portal.web.style;
 
 import fr.paris.lutece.portal.business.style.Mode;
 import fr.paris.lutece.portal.business.style.ModeHome;
+import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
+import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
@@ -84,6 +86,7 @@ public class ModesJspBean extends AdminFeaturesPageJspBean
     private static final String PROPERTY_PATH_XSL = "path.stylesheet";
 
     // Jsp definition
+    private static final String JSP_PATH = "jsp/admin/style/";
     private static final String JSP_MANAGE_MODES = "ManageModes.jsp";
 
     /**
@@ -116,19 +119,25 @@ public class ModesJspBean extends AdminFeaturesPageJspBean
     {
         setPageTitleProperty( PROPERTY_PAGE_TITLE_CREATE_MODE );
 
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CREATE_MODE, getLocale( ) );
+        HashMap<String, Object> model = new HashMap<String, Object>( );
+        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_CREATE_MODE ) );
+
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CREATE_MODE, getLocale( ), model );
 
         return getAdminPage( template.getHtml( ) );
     }
 
     /**
-     * Processes the creation form of a new mode by recovering the parameters in the http request
+     * Processes the creation form of a new mode by recovering the parameters in
+     * the http request
      *
      * @param request
      *            the http request
      * @return The Jsp URL of the process result
+     * @throws AccessDeniedException
+     *             if the security token is invalid
      */
-    public String doCreateMode( HttpServletRequest request )
+    public String doCreateMode( HttpServletRequest request ) throws AccessDeniedException
     {
         String strDescription = request.getParameter( Parameters.MODE_DESCRIPTION );
         String strPath = request.getParameter( Parameters.MODE_PATH );
@@ -151,9 +160,14 @@ public class ModesJspBean extends AdminFeaturesPageJspBean
             return AdminMessageService.getMessageUrl( request, Messages.PATH_ALREADY_EXISTS, AdminMessage.TYPE_STOP );
         }
 
+        if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_CREATE_MODE ) )
+        {
+            throw new AccessDeniedException( "Invalid security token" );
+        }
+
         if ( !dirPath.mkdir( ) )
         {
-            return AdminMessageService.getMessageUrl( request, Messages.PATH_CREATION_ERROR, AdminMessage.TYPE_ERROR );
+            return AdminMessageService.getMessageUrl( request, Messages.PATH_CREATION_ERROR, JSP_PATH + JSP_MANAGE_MODES, AdminMessage.TYPE_STOP );
         }
 
         Mode mode = new Mode( );

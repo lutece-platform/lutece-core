@@ -33,10 +33,16 @@
  */
 package fr.paris.lutece.portal.web.style;
 
+import java.math.BigInteger;
+import java.security.SecureRandom;
+import java.util.Random;
+
 import org.springframework.mock.web.MockHttpServletRequest;
 
+import fr.paris.lutece.portal.business.style.ModeHome;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
+import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.Utils;
@@ -48,19 +54,24 @@ import fr.paris.lutece.test.Utils;
 public class ModesJspBeanTest extends LuteceTestCase
 {
     private static final String TEST_MODE_ID = "0"; // normal mode
+    private MockHttpServletRequest request;
+    private ModesJspBean instance;
 
+    @Override
+    protected void setUp( ) throws Exception
+    {
+        super.setUp( );
+        request = new MockHttpServletRequest( );
+        Utils.registerAdminUserWithRigth( request, new AdminUser( ), ModesJspBean.RIGHT_MANAGE_MODES );
+
+        instance = new ModesJspBean( );
+        instance.init( request, ModesJspBean.RIGHT_MANAGE_MODES );
+    }
     /**
      * Test of getManageModes method, of class fr.paris.lutece.portal.web.style.ModesJspBean.
      */
     public void testGetManageModes( ) throws AccessDeniedException
     {
-        System.out.println( "getManageModes" );
-
-        MockHttpServletRequest request = new MockHttpServletRequest( );
-        Utils.registerAdminUserWithRigth( request, new AdminUser( ), ModesJspBean.RIGHT_MANAGE_MODES );
-
-        ModesJspBean instance = new ModesJspBean( );
-        instance.init( request, ModesJspBean.RIGHT_MANAGE_MODES );
         instance.getManageModes( request );
     }
 
@@ -69,24 +80,71 @@ public class ModesJspBeanTest extends LuteceTestCase
      */
     public void testGetCreateMode( ) throws AccessDeniedException
     {
-        System.out.println( "getCreateMode" );
-
-        MockHttpServletRequest request = new MockHttpServletRequest( );
-        Utils.registerAdminUserWithRigth( request, new AdminUser( ), ModesJspBean.RIGHT_MANAGE_MODES );
-
-        ModesJspBean instance = new ModesJspBean( );
-        instance.init( request, ModesJspBean.RIGHT_MANAGE_MODES );
         instance.getCreateMode( request );
     }
 
     /**
      * Test of doCreateMode method, of fr.paris.lutece.portal.web.style.ModesJspBean.
+     * @throws AccessDeniedException 
      */
-    public void testDoCreateMode( )
+    public void testDoCreateMode( ) throws AccessDeniedException
     {
-        System.out.println( "doCreateMode" );
+        final String desc = getRandomName( );
+        request.addParameter( Parameters.MODE_DESCRIPTION, desc );
+        request.addParameter( Parameters.MODE_PATH, desc );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "admin/style/create_mode.html" ) );
+        try
+        {
+            instance.doCreateMode( request );
+            assertTrue( ModeHome.getModesList( ).stream( ).anyMatch( m -> m.getDescription( ).equals( desc ) ) );
+        }
+        finally
+        {
+            ModeHome.getModesList( ).stream( ).filter( m -> m.getDescription( ).equals( desc ) ).forEach( m -> ModeHome.remove( m.getId( ) ) );
+        }
+    }
 
-        // Not implemented yet
+    public void testDoCreateModeInvalidToken( ) throws AccessDeniedException
+    {
+        final String desc = getRandomName( );
+        request.addParameter( Parameters.MODE_DESCRIPTION, desc );
+        request.addParameter( Parameters.MODE_PATH, desc );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "admin/style/create_mode.html" ) + "b" );
+
+        try
+        {
+            instance.doCreateMode( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            assertFalse( ModeHome.getModesList( ).stream( ).anyMatch( m -> m.getDescription( ).equals( desc ) ) );
+        }
+        finally
+        {
+            ModeHome.getModesList( ).stream( ).filter( m -> m.getDescription( ).equals( desc ) ).forEach( m -> ModeHome.remove( m.getId( ) ) );
+        }
+    }
+
+    public void testDoCreateModeNoToken( ) throws AccessDeniedException
+    {
+        final String desc = getRandomName( );
+        request.addParameter( Parameters.MODE_DESCRIPTION, desc );
+        request.addParameter( Parameters.MODE_PATH, desc );
+
+        try
+        {
+            instance.doCreateMode( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            assertFalse( ModeHome.getModesList( ).stream( ).anyMatch( m -> m.getDescription( ).equals( desc ) ) );
+        }
+        finally
+        {
+            ModeHome.getModesList( ).stream( ).filter( m -> m.getDescription( ).equals( desc ) ).forEach( m -> ModeHome.remove( m.getId( ) ) );
+        }
     }
 
     /**
@@ -94,14 +152,7 @@ public class ModesJspBeanTest extends LuteceTestCase
      */
     public void testGetModifyMode( ) throws AccessDeniedException
     {
-        System.out.println( "testGetModifyMode" );
-
-        MockHttpServletRequest request = new MockHttpServletRequest( );
         request.addParameter( Parameters.MODE_ID, TEST_MODE_ID );
-        Utils.registerAdminUserWithRigth( request, new AdminUser( ), ModesJspBean.RIGHT_MANAGE_MODES );
-
-        ModesJspBean instance = new ModesJspBean( );
-        instance.init( request, ModesJspBean.RIGHT_MANAGE_MODES );
         instance.getModifyMode( request );
     }
 
@@ -120,13 +171,14 @@ public class ModesJspBeanTest extends LuteceTestCase
      */
     public void testGetModeView( ) throws AccessDeniedException
     {
-        System.out.println( "testGetModeView" );
-
-        MockHttpServletRequest request = new MockHttpServletRequest( );
         request.addParameter( Parameters.MODE_ID, TEST_MODE_ID );
-        Utils.registerAdminUserWithRigth( request, new AdminUser( ), ModesJspBean.RIGHT_MANAGE_MODES );
-
-        ModesJspBean instance = new ModesJspBean( );
         instance.init( request, ModesJspBean.RIGHT_MANAGE_MODES );
+    }
+
+    private String getRandomName( )
+    {
+        Random rand = new SecureRandom( );
+        BigInteger bigInt = new BigInteger( 128, rand );
+        return "junit" + bigInt.toString( 36 );
     }
 }
