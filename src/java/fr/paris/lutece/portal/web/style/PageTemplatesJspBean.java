@@ -50,7 +50,6 @@ import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.portal.web.upload.MultipartHttpServletRequest;
 import fr.paris.lutece.util.file.FileUtil;
 import fr.paris.lutece.util.html.HtmlTemplate;
-import fr.paris.lutece.util.url.UrlItem;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.lang.StringUtils;
@@ -60,6 +59,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -353,10 +353,10 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
                 strPathPageTemplateFile, strPathPictureFile
         };
 
-        UrlItem url = new UrlItem( JSP_DO_REMOVE_PAGE_TEMPLATE );
-        url.addParameter( Parameters.PAGE_TEMPLATE_ID, nId );
-
-        return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_DELETE_PAGE_TEMPLATE, args, url.getUrl( ), AdminMessage.TYPE_CONFIRMATION );
+        Map<String, Object> parameters = new HashMap<>( );
+        parameters.put( Parameters.PAGE_TEMPLATE_ID, strId );
+        parameters.put( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, JSP_DO_REMOVE_PAGE_TEMPLATE ) );
+        return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_DELETE_PAGE_TEMPLATE, args, null, JSP_DO_REMOVE_PAGE_TEMPLATE, null, AdminMessage.TYPE_CONFIRMATION, parameters );
     }
 
     /**
@@ -365,9 +365,15 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
      * @param request
      *            the http request
      * @return The Jsp URL of the process result
+     * @throws AccessDeniedException if the security token is invalid
      */
-    public String doRemovePageTemplate( HttpServletRequest request )
+    public String doRemovePageTemplate( HttpServletRequest request ) throws AccessDeniedException
     {
+        if ( !SecurityTokenService.getInstance( ).validate( request, JSP_DO_REMOVE_PAGE_TEMPLATE ) )
+        {
+            throw new AccessDeniedException( "Invalid security token" );
+        }
+
         String strId = request.getParameter( Parameters.PAGE_TEMPLATE_ID );
         int nId = Integer.parseInt( strId );
 

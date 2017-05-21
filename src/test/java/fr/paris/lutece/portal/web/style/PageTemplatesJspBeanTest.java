@@ -51,6 +51,8 @@ import fr.paris.lutece.portal.business.style.PageTemplate;
 import fr.paris.lutece.portal.business.style.PageTemplateHome;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
+import fr.paris.lutece.portal.service.message.AdminMessage;
+import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.portal.web.upload.MultipartHttpServletRequest;
@@ -279,6 +281,89 @@ public class PageTemplatesJspBeanTest extends LuteceTestCase
         catch ( AccessDeniedException e )
         {
             assertEquals( desc, PageTemplateHome.findByPrimaryKey( pageTemplate.getId( ) ).getDescription( ) );
+        }
+        finally
+        {
+            PageTemplateHome.remove( pageTemplate.getId( ) );
+        }
+    }
+
+    public void testGetConfirmRemovePageTemplate( )
+    {
+        request.addParameter( Parameters.PAGE_TEMPLATE_ID, TEST_PAGE_TEMPLATE_ID );
+        instance.getConfirmRemovePageTemplate( request );
+        AdminMessage message = AdminMessageService.getMessage( request );
+        assertNotNull( message );
+        assertNotNull( message.getRequestParameters( ).get( SecurityTokenService.PARAMETER_TOKEN ) );
+        assertEquals( TEST_PAGE_TEMPLATE_ID, message.getRequestParameters( ).get( Parameters.PAGE_TEMPLATE_ID ) );
+    }
+
+    public void testDoRemovePageTemplate( ) throws AccessDeniedException
+    {
+        final String desc = getRandomName();
+        PageTemplate pageTemplate = new PageTemplate( );
+        pageTemplate.setDescription( desc );
+        pageTemplate.setFile( "junit" );
+        pageTemplate.setPicture( "junit" );
+        PageTemplateHome.create( pageTemplate );
+
+        request.addParameter( Parameters.PAGE_TEMPLATE_ID, Integer.toString( pageTemplate.getId( ) ) );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/style/DoRemovePageTemplate.jsp" ) );
+        try
+        {
+            instance.doRemovePageTemplate( request );
+            assertNull( PageTemplateHome.findByPrimaryKey( pageTemplate.getId( ) ) );
+        }
+        finally
+        {
+            PageTemplateHome.remove( pageTemplate.getId( ) );
+        }
+    }
+
+    public void testDoRemovePageTemplateInvalidToken( ) throws AccessDeniedException
+    {
+        final String desc = getRandomName();
+        PageTemplate pageTemplate = new PageTemplate( );
+        pageTemplate.setDescription( desc );
+        pageTemplate.setFile( "junit" );
+        pageTemplate.setPicture( "junit" );
+        PageTemplateHome.create( pageTemplate );
+
+        request.addParameter( Parameters.PAGE_TEMPLATE_ID, Integer.toString( pageTemplate.getId( ) ) );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/style/DoRemovePageTemplate.jsp" ) + "b" );
+        try
+        {
+            instance.doRemovePageTemplate( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            assertNotNull( PageTemplateHome.findByPrimaryKey( pageTemplate.getId( ) ) );
+        }
+        finally
+        {
+            PageTemplateHome.remove( pageTemplate.getId( ) );
+        }
+    }
+
+    public void testDoRemovePageTemplateNoToken( ) throws AccessDeniedException
+    {
+        final String desc = getRandomName();
+        PageTemplate pageTemplate = new PageTemplate( );
+        pageTemplate.setDescription( desc );
+        pageTemplate.setFile( "junit" );
+        pageTemplate.setPicture( "junit" );
+        PageTemplateHome.create( pageTemplate );
+
+        request.addParameter( Parameters.PAGE_TEMPLATE_ID, Integer.toString( pageTemplate.getId( ) ) );
+        try
+        {
+            instance.doRemovePageTemplate( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            assertNotNull( PageTemplateHome.findByPrimaryKey( pageTemplate.getId( ) ) );
         }
         finally
         {
