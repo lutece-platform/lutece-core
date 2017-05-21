@@ -4,6 +4,7 @@
 			<@boxHeader title='#i18n{portal.style.create_mode.boxTitle}' />
 			<@boxBody>
 				<@tform method='post' action='jsp/admin/style/DoCreateMode.jsp' name='create_mode'>
+					<input type="hidden" name="token" value="${token}">
 					<@formGroup labelFor='mode_description' labelKey='#i18n{portal.style.create_mode.labelModeName}' mandatory=true>
 						<@input type='text' id='mode_description' name='mode_description' maxlength=50 />
 					</@formGroup>
