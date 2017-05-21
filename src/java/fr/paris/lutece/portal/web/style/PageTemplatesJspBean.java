@@ -35,9 +35,11 @@ package fr.paris.lutece.portal.web.style;
 
 import fr.paris.lutece.portal.business.style.PageTemplate;
 import fr.paris.lutece.portal.business.style.PageTemplateHome;
+import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.fileupload.FileUploadService;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
+import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
@@ -144,7 +146,10 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
     {
         setPageTitleProperty( PROPERTY_PAGE_TITLE_CREATE_PAGE_TEMPLATE );
 
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CREATE_PAGE_TEMPLATE, getLocale( ) );
+        HashMap<String, Object> model = new HashMap<String, Object>( );
+        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_CREATE_PAGE_TEMPLATE ) );
+
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CREATE_PAGE_TEMPLATE, getLocale( ), model );
 
         return getAdminPage( template.getHtml( ) );
     }
@@ -155,8 +160,9 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
      * @param request
      *            the http request
      * @return The Jsp URL of the process result
+     * @throws AccessDeniedException if the security token is invalid
      */
-    public String doCreatePageTemplate( HttpServletRequest request )
+    public String doCreatePageTemplate( HttpServletRequest request ) throws AccessDeniedException
     {
         PageTemplate pageTemplate = new PageTemplate( );
 
@@ -189,6 +195,11 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
         if ( !FileUtil.hasImageExtension( strPictureName ) )
         {
             return AdminMessageService.getMessageUrl( request, MESSAGE_WRONG_IMAGE_EXTENSION, AdminMessage.TYPE_STOP );
+        }
+
+        if ( !SecurityTokenService.getInstance( ).validate( multipartRequest, TEMPLATE_CREATE_PAGE_TEMPLATE ) )
+        {
+            throw new AccessDeniedException( "Invalid security token" );
         }
 
         pageTemplate.setFile( AppPropertiesService.getProperty( PROPERTY_PATH_FILE_PAGE_TEMPLATE ) + strFileName );
