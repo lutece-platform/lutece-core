@@ -4,6 +4,7 @@
 			<@boxHeader title='#i18n{portal.style.create_page_template.boxTitle}' />
 			<@boxBody>
 				<@tform method='post' name='create_page_template' params='enctype="multipart/form-data"' action='jsp/admin/style/DoCreatePageTemplate.jsp'>
+					<input type="hidden" name="token" value="${token}">
 					<@formGroup labelKey='#i18n{portal.style.create_page_template.labelDescription}' labelFor='page_template_description' mandatory=true>
 						<@input type='text' name='page_template_description' id='page_template_description' maxlength=50 />
 					</@formGroup>
