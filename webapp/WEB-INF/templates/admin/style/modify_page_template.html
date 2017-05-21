@@ -5,6 +5,7 @@
 			<@boxBody>
 				<@tform method='post' params='enctype="multipart/form-data"' action='jsp/admin/style/DoModifyPageTemplate.jsp' name='modify_page_template'>
 					<input type="hidden" name="page_template_id" value="${page_template.id}" />
+					<input type="hidden" name="token" value="${token}">
 					<@formGroup labelKey='#i18n{portal.style.modify_page_template.labelDescription}' labelFor='page_template_description' mandatory=true>
 						<@input type='text' name='page_template_description' id='page_template_description' value='${page_template.description?html}' maxlength=50 />
 					</@formGroup>

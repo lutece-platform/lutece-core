@@ -231,6 +231,7 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
 
         HashMap<String, Object> model = new HashMap<String, Object>( );
         model.put( MARK_PAGE_TEMPLATE, PageTemplateHome.findByPrimaryKey( Integer.parseInt( strId ) ) );
+        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MODIFY_PAGE_TEMPLATE ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_PAGE_TEMPLATE, getLocale( ), model );
 
@@ -243,8 +244,9 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
      * @param request
      *            The http request
      * @return The Jsp URL of the process result
+     * @throws AccessDeniedException if the security token is invalid
      */
-    public String doModifyPageTemplate( HttpServletRequest request )
+    public String doModifyPageTemplate( HttpServletRequest request ) throws AccessDeniedException
     {
         MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
 
@@ -270,6 +272,10 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
             {
                 bHasError = true;
             }
+            else if ( !FileUtil.hasHtmlExtension( strFileName ) )
+            {
+                return AdminMessageService.getMessageUrl( request, MESSAGE_WRONG_HTML_EXTENSION, AdminMessage.TYPE_STOP );
+            }
 
             bUpdateFile = true;
         }
@@ -280,6 +286,10 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
             {
                 bHasError = true;
             }
+            else if ( !FileUtil.hasImageExtension( strPictureName ) )
+            {
+                return AdminMessageService.getMessageUrl( request, MESSAGE_WRONG_IMAGE_EXTENSION, AdminMessage.TYPE_STOP );
+            }
 
             bUpdatePicture = true;
         }
@@ -289,15 +299,15 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
             return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FILE, AdminMessage.TYPE_STOP );
         }
 
+        if ( !SecurityTokenService.getInstance( ).validate( multipartRequest, TEMPLATE_MODIFY_PAGE_TEMPLATE ) )
+        {
+            throw new AccessDeniedException( "Invalid security token" );
+        }
+
         if ( bUpdateFile )
         {
             new File( AppPathService.getPath( PROPERTY_PATH_TEMPLATE ) + File.separator + pageTemplate.getFile( ) ).delete( );
             pageTemplate.setFile( AppPropertiesService.getProperty( PROPERTY_PATH_FILE_PAGE_TEMPLATE ) + strFileName );
-
-            if ( !FileUtil.hasHtmlExtension( strFileName ) )
-            {
-                return AdminMessageService.getMessageUrl( request, MESSAGE_WRONG_HTML_EXTENSION, AdminMessage.TYPE_STOP );
-            }
 
             writeTemplateFile( strFileName, strPathFilePageTemplate, fileTemplate );
         }
@@ -306,11 +316,6 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
         {
             new File( strPathImagePageTemplate, pageTemplate.getPicture( ) ).delete( );
             pageTemplate.setPicture( strPictureName );
-
-            if ( !FileUtil.hasImageExtension( strPictureName ) )
-            {
-                return AdminMessageService.getMessageUrl( request, MESSAGE_WRONG_IMAGE_EXTENSION, AdminMessage.TYPE_STOP );
-            }
 
             writeTemplateFile( strPictureName, strPathImagePageTemplate, filePicture );
         }
