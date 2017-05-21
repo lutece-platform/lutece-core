@@ -39,6 +39,7 @@ import java.util.Random;
 
 import org.springframework.mock.web.MockHttpServletRequest;
 
+import fr.paris.lutece.portal.business.style.Mode;
 import fr.paris.lutece.portal.business.style.ModeHome;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
@@ -158,12 +159,82 @@ public class ModesJspBeanTest extends LuteceTestCase
 
     /**
      * Test of doModifyMode method, of fr.paris.lutece.portal.web.style.ModesJspBean.
+     * @throws AccessDeniedException 
      */
-    public void testDoModifyMode( )
+    public void testDoModifyMode( ) throws AccessDeniedException
     {
-        System.out.println( "doModifyMode" );
+        final String desc = getRandomName( );
+        Mode mode = new Mode( );
+        mode.setDescription( desc );
+        mode.setPath( desc );
+        ModeHome.create( mode );
 
-        // Not implemented yet
+        request.addParameter( Parameters.MODE_ID, Integer.toString( mode.getId( ) ) );
+        request.addParameter( Parameters.MODE_DESCRIPTION, desc + "_mod" );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "admin/style/modify_mode.html" ) );
+        try
+        {
+            assertEquals( desc, ModeHome.findByPrimaryKey( mode.getId( ) ).getDescription( ) );
+            instance.doModifyMode( request );
+            assertEquals( desc + "_mod", ModeHome.findByPrimaryKey( mode.getId( ) ).getDescription( ) );
+        }
+        finally
+        {
+            ModeHome.remove( mode.getId( ) );
+        }
+    }
+
+    public void testDoModifyModeInvalidToken( ) throws AccessDeniedException
+    {
+        final String desc = getRandomName( );
+        Mode mode = new Mode( );
+        mode.setDescription( desc );
+        mode.setPath( desc );
+        ModeHome.create( mode );
+
+        request.addParameter( Parameters.MODE_ID, Integer.toString( mode.getId( ) ) );
+        request.addParameter( Parameters.MODE_DESCRIPTION, desc + "_mod" );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "admin/style/modify_mode.html" ) + "b" );
+        try
+        {
+            assertEquals( desc, ModeHome.findByPrimaryKey( mode.getId( ) ).getDescription( ) );
+            instance.doModifyMode( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            assertEquals( desc, ModeHome.findByPrimaryKey( mode.getId( ) ).getDescription( ) );
+        }
+        finally
+        {
+            ModeHome.remove( mode.getId( ) );
+        }
+    }
+
+    public void testDoModifyModeNoToken( ) throws AccessDeniedException
+    {
+        final String desc = getRandomName( );
+        Mode mode = new Mode( );
+        mode.setDescription( desc );
+        mode.setPath( desc );
+        ModeHome.create( mode );
+
+        request.addParameter( Parameters.MODE_ID, Integer.toString( mode.getId( ) ) );
+        request.addParameter( Parameters.MODE_DESCRIPTION, desc + "_mod" );
+        try
+        {
+            assertEquals( desc, ModeHome.findByPrimaryKey( mode.getId( ) ).getDescription( ) );
+            instance.doModifyMode( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            assertEquals( desc, ModeHome.findByPrimaryKey( mode.getId( ) ).getDescription( ) );
+        }
+        finally
+        {
+            ModeHome.remove( mode.getId( ) );
+        }
     }
 
     /**
