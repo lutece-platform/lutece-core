@@ -204,6 +204,7 @@ public class ModesJspBean extends AdminFeaturesPageJspBean
 
         HashMap<String, Object> model = new HashMap<String, Object>( );
         model.put( MARK_MODE, ModeHome.findByPrimaryKey( Integer.parseInt( strId ) ) );
+        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MODIFY_MODE ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_MODE, getLocale( ), model );
 
@@ -216,8 +217,9 @@ public class ModesJspBean extends AdminFeaturesPageJspBean
      * @param request
      *            The http request
      * @return The Jsp URL of the process result
+     * @throws AccessDeniedException if the security token is invalid
      */
-    public String doModifyMode( HttpServletRequest request )
+    public String doModifyMode( HttpServletRequest request ) throws AccessDeniedException
     {
         String strId = request.getParameter( Parameters.MODE_ID );
         String strDescription = request.getParameter( Parameters.MODE_DESCRIPTION );
@@ -227,6 +229,10 @@ public class ModesJspBean extends AdminFeaturesPageJspBean
             return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
         }
 
+        if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_MODIFY_MODE ) )
+        {
+            throw new AccessDeniedException( "Invalid securioty token" );
+        }
         Mode mode = ModeHome.findByPrimaryKey( Integer.parseInt( strId ) );
         mode.setDescription( strDescription );
 

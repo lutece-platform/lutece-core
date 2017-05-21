@@ -5,6 +5,7 @@
 			<@boxBody>
 				<@tform method='post' action='jsp/admin/style/DoModifyMode.jsp' name='modify_mode'>
 					<input type="hidden" name="mode_id" value="${mode.id}">
+					<input type="hidden" name="token" value="${token}">
 					<@formGroup labelKey='#i18n{portal.style.modify_mode.labelId}' mandatory=true>
 						<@staticText>${mode.id}</@staticText>
 					</@formGroup>
