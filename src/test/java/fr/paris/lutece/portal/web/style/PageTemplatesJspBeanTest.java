@@ -37,6 +37,7 @@ import java.io.IOException;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,6 +47,7 @@ import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.springframework.mock.web.MockHttpServletRequest;
 
+import fr.paris.lutece.portal.business.style.PageTemplate;
 import fr.paris.lutece.portal.business.style.PageTemplateHome;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
@@ -203,12 +205,85 @@ public class PageTemplatesJspBeanTest extends LuteceTestCase
 
     /**
      * Test of doModifyPageTemplate method, of fr.paris.lutece.portal.web.style.PageTemplatesJspBean.
+     * @throws AccessDeniedException 
      */
-    public void testDoModifyPageTemplate( )
+    public void testDoModifyPageTemplate( ) throws AccessDeniedException
     {
-        System.out.println( "doModifyPageTemplate" );
+        final String desc = getRandomName();
+        PageTemplate pageTemplate = new PageTemplate( );
+        pageTemplate.setDescription( desc );
+        PageTemplateHome.create( pageTemplate );
 
-        // Not implemented yet
+        Map<String, String[ ]> parameters = new HashMap<>( );
+        parameters.put( Parameters.PAGE_TEMPLATE_ID, new String[] { Integer.toString( pageTemplate.getId( ) ) } );
+        parameters.put( Parameters.PAGE_TEMPLATE_DESCRIPTION, new String[] { desc + "mod" } );
+        parameters.put( SecurityTokenService.PARAMETER_TOKEN, new String[] { SecurityTokenService.getInstance( ).getToken( request, "admin/style/modify_page_template.html" ) } );
+        MultipartHttpServletRequest multipartRequest = new MultipartHttpServletRequest( request, Collections.emptyMap( ), parameters );
+        try
+        {
+            assertEquals( desc, PageTemplateHome.findByPrimaryKey( pageTemplate.getId( ) ).getDescription( ) );
+            instance.doModifyPageTemplate( multipartRequest );
+            assertEquals( desc + "mod", PageTemplateHome.findByPrimaryKey( pageTemplate.getId( ) ).getDescription( ) );
+        }
+        finally
+        {
+            PageTemplateHome.remove( pageTemplate.getId( ) );
+        }
+    }
+
+    public void testDoModifyPageTemplateInvalidToken( ) throws AccessDeniedException
+    {
+        final String desc = getRandomName();
+        PageTemplate pageTemplate = new PageTemplate( );
+        pageTemplate.setDescription( desc );
+        PageTemplateHome.create( pageTemplate );
+
+        Map<String, String[ ]> parameters = new HashMap<>( );
+        parameters.put( Parameters.PAGE_TEMPLATE_ID, new String[] { Integer.toString( pageTemplate.getId( ) ) } );
+        parameters.put( Parameters.PAGE_TEMPLATE_DESCRIPTION, new String[] { desc + "mod" } );
+        parameters.put( SecurityTokenService.PARAMETER_TOKEN, new String[] { SecurityTokenService.getInstance( ).getToken( request, "admin/style/modify_page_template.html" ) + "b" } );
+        MultipartHttpServletRequest multipartRequest = new MultipartHttpServletRequest( request, Collections.emptyMap( ), parameters );
+        try
+        {
+            assertEquals( desc, PageTemplateHome.findByPrimaryKey( pageTemplate.getId( ) ).getDescription( ) );
+            instance.doModifyPageTemplate( multipartRequest );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            assertEquals( desc, PageTemplateHome.findByPrimaryKey( pageTemplate.getId( ) ).getDescription( ) );
+        }
+        finally
+        {
+            PageTemplateHome.remove( pageTemplate.getId( ) );
+        }
+    }
+
+    public void testDoModifyPageTemplateNoToken( ) throws AccessDeniedException
+    {
+        final String desc = getRandomName();
+        PageTemplate pageTemplate = new PageTemplate( );
+        pageTemplate.setDescription( desc );
+        PageTemplateHome.create( pageTemplate );
+
+        Map<String, String[ ]> parameters = new HashMap<>( );
+        parameters.put( Parameters.PAGE_TEMPLATE_ID, new String[] { Integer.toString( pageTemplate.getId( ) ) } );
+        parameters.put( Parameters.PAGE_TEMPLATE_DESCRIPTION, new String[] { desc + "mod" } );
+        MultipartHttpServletRequest multipartRequest = new MultipartHttpServletRequest( request, Collections.emptyMap( ), parameters );
+        try
+        {
+            assertEquals( desc, PageTemplateHome.findByPrimaryKey( pageTemplate.getId( ) ).getDescription( ) );
+            instance.doModifyPageTemplate( multipartRequest );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            assertEquals( desc, PageTemplateHome.findByPrimaryKey( pageTemplate.getId( ) ).getDescription( ) );
+        }
+        finally
+        {
+            PageTemplateHome.remove( pageTemplate.getId( ) );
+        }
     }
 
     private String getRandomName( )
