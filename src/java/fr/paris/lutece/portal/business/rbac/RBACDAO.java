@@ -295,9 +295,9 @@ public final class RBACDAO implements IRBACDAO
 
         return listRoleKeys;
     }
-    
+
     /**
-     *{@inheritDoc }
+     * {@inheritDoc }
      */
     @Override
     public void deleteForResourceTypeAndId( String strResourceType, String strResourceId )
