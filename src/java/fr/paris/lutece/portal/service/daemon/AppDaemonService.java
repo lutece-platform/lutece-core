@@ -228,8 +228,7 @@ public final class AppDaemonService
      *
      * @param strDaemonKey
      *            the daemon key
-     * @return <code>true</code> if the daemon was successfully signaled,
-     *         <code>false</code> otherwise
+     * @return <code>true</code> if the daemon was successfully signaled, <code>false</code> otherwise
      * @since 6.0.0
      */
     public static boolean signalDaemon( String strDaemonKey )
@@ -248,8 +247,7 @@ public final class AppDaemonService
      *            the delay before execution
      * @param unit
      *            the unit of <code>nDelay</code> argument
-     * @return <code>true</code> if the daemon was successfully signaled,
-     *         <code>false</code> otherwise
+     * @return <code>true</code> if the daemon was successfully signaled, <code>false</code> otherwise
      * @since 6.0.0
      */
     public static boolean signalDaemon( String strDaemonKey, long nDelay, TimeUnit unit )

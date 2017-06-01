@@ -61,7 +61,9 @@ public final class MailService
 
     /**
      * Enqueues a mail item to be sent
-     * @param item the mail item to enqueue
+     * 
+     * @param item
+     *            the mail item to enqueue
      */
     private static void enqueue( MailItem item )
     {

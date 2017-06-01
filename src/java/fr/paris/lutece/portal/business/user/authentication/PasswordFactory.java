@@ -211,6 +211,7 @@ final class PasswordFactory implements IPasswordFactory
 
         /**
          * Get the PBKDF2 algorithm
+         * 
          * @return the PBKDF2 algorithm to use
          */
         abstract protected String getAlgorithm( );
@@ -233,6 +234,7 @@ final class PasswordFactory implements IPasswordFactory
 
         /**
          * Get the storage type identifier
+         * 
          * @return the storage type identifier
          */
         abstract protected String getStorageType( );

@@ -82,7 +82,7 @@ public class RightTest extends LuteceTestCase
         assertEquals( rightStored.getPluginName( ), right.getPluginName( ) );
         assertEquals( rightStored.getFeatureGroup( ), right.getFeatureGroup( ) );
         assertEquals( rightStored.getIconUrl( ), right.getIconUrl( ) );
-        assertEquals( rightStored.isExternalFeature(  ), right.isExternalFeature(  ) );
+        assertEquals( rightStored.isExternalFeature( ), right.isExternalFeature( ) );
 
         // Update test
         right.setNameKey( NAMEKEY2 );
@@ -102,16 +102,16 @@ public class RightTest extends LuteceTestCase
         assertEquals( rightStored.getPluginName( ), right.getPluginName( ) );
         assertEquals( rightStored.getFeatureGroup( ), right.getFeatureGroup( ) );
         assertEquals( rightStored.getIconUrl( ), right.getIconUrl( ) );
-        assertEquals( rightStored.isExternalFeature(  ), right.isExternalFeature(  ) );
+        assertEquals( rightStored.isExternalFeature( ), right.isExternalFeature( ) );
 
         // List Test
         Collection listRights = RightHome.getRightsList( );
         assertTrue( listRights.size( ) > 0 );
-        
-        //List external features tests
-        listRights = RightHome.getExternalRightList(  );
+
+        // List external features tests
+        listRights = RightHome.getExternalRightList( );
         assertTrue( listRights.size( ) > 0 );
-        
+
         // Delete test
         RightHome.remove( right.getId( ) );
         rightStored = RightHome.findByPrimaryKey( right.getId( ) );

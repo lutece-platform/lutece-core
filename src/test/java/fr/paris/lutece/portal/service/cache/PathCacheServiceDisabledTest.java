@@ -23,7 +23,7 @@ public class PathCacheServiceDisabledTest extends LuteceTestCase
         {
             if ( aService instanceof IPathCacheService )
             {
-                service = ( IPathCacheService ) aService;
+                service = (IPathCacheService) aService;
                 bEnabled = aService.isCacheEnable( );
                 aService.enableCache( false );
                 break;
@@ -67,11 +67,13 @@ public class PathCacheServiceDisabledTest extends LuteceTestCase
     public void testProcessPageEvent( )
     {
         String key = service.getKey( "junit", 0, null );
-        for ( int nEventType : new int[] { PageEvent.PAGE_CONTENT_MODIFIED, PageEvent.PAGE_CREATED, PageEvent.PAGE_DELETED, PageEvent.PAGE_MOVED, PageEvent.PAGE_STATE_CHANGED } )
+        for ( int nEventType : new int [ ] {
+                PageEvent.PAGE_CONTENT_MODIFIED, PageEvent.PAGE_CREATED, PageEvent.PAGE_DELETED, PageEvent.PAGE_MOVED, PageEvent.PAGE_STATE_CHANGED
+        } )
         {
             service.putInCache( key, "junit" );
             PageEvent event = new PageEvent( new Page( ), nEventType );
-            ( ( PathCacheService ) service ).processPageEvent( event );
+            ( (PathCacheService) service ).processPageEvent( event );
             assertNull( service.getFromCache( key ) );
         }
     }

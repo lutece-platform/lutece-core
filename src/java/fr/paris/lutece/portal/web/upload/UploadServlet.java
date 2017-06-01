@@ -68,7 +68,7 @@ public class UploadServlet extends HttpServlet
     private static final String JSON_FILE_NAME = "fileName";
     private static final String JSON_FILES = "files";
     private static final String JSON_UTF8_CONTENT_TYPE = "application/json; charset=UTF-8";
-    private static final ObjectMapper objectMapper = new ObjectMapper();
+    private static final ObjectMapper objectMapper = new ObjectMapper( );
 
     /**
      * {@inheritDoc}
@@ -79,12 +79,12 @@ public class UploadServlet extends HttpServlet
         MultipartHttpServletRequest request = (MultipartHttpServletRequest) req;
 
         List<FileItem> listFileItems = new ArrayList<FileItem>( );
-        //When removing IAsynchronousUploadHandler, remove all the populating of the JSONObject
+        // When removing IAsynchronousUploadHandler, remove all the populating of the JSONObject
         JSONObject json = new JSONObject( );
-        Map<String, Object> mapJson = new HashMap<>();
+        Map<String, Object> mapJson = new HashMap<>( );
         json.element( JSON_FILES, new JSONArray( ) );
-        List<Map<String, Object>> listJsonFileMap = new ArrayList<>();
-        mapJson.put ( JSON_FILES, listJsonFileMap );
+        List<Map<String, Object>> listJsonFileMap = new ArrayList<>( );
+        mapJson.put( JSON_FILES, listJsonFileMap );
 
         for ( Entry<String, List<FileItem>> entry : ( request.getFileListMap( ) ).entrySet( ) )
         {
@@ -93,20 +93,20 @@ public class UploadServlet extends HttpServlet
                 JSONObject jsonFile = new JSONObject( );
                 jsonFile.element( JSON_FILE_NAME, fileItem.getName( ) );
                 jsonFile.element( JSON_FILE_SIZE, fileItem.getSize( ) );
-                Map<String, Object> jsonFileMap = new HashMap<>();
+                Map<String, Object> jsonFileMap = new HashMap<>( );
                 jsonFileMap.put( JSON_FILE_NAME, fileItem.getName( ) );
                 jsonFileMap.put( JSON_FILE_SIZE, fileItem.getSize( ) );
 
                 // add to existing array
                 json.accumulate( JSON_FILES, jsonFile );
-                listJsonFileMap.add(jsonFileMap);
+                listJsonFileMap.add( jsonFileMap );
 
                 listFileItems.add( fileItem );
             }
         }
 
         IAsynchronousUploadHandler2 handler2 = getHandler2( request );
-        //IAsynchronousUploadHandler to be removed in the future
+        // IAsynchronousUploadHandler to be removed in the future
         IAsynchronousUploadHandler handler = null;
         if ( handler2 != null )
         {
@@ -114,12 +114,12 @@ public class UploadServlet extends HttpServlet
         }
         else
         {
-            //The new interface IAsynchronousUploadHandler2 is not implemented yet,
-            //try with the deprecated interface.
+            // The new interface IAsynchronousUploadHandler2 is not implemented yet,
+            // try with the deprecated interface.
             handler = getHandler( request );
 
-            //When removing IAsynchronousUploadHandler in the future, delete this if,
-            //keep only the 'true' block.
+            // When removing IAsynchronousUploadHandler in the future, delete this if,
+            // keep only the 'true' block.
             if ( handler == null )
             {
                 AppLogService.error( "No handler found, removing temporary files" );
@@ -136,12 +136,15 @@ public class UploadServlet extends HttpServlet
             }
         }
 
-        //When removing IAsynchronousUploadHandler in the future, delete this if,
-        //keep only the 'false' block.
+        // When removing IAsynchronousUploadHandler in the future, delete this if,
+        // keep only the 'false' block.
         String strResultJson;
-        if ( handler != null ) {
+        if ( handler != null )
+        {
             strResultJson = json.toString( );
-        } else {
+        }
+        else
+        {
             strResultJson = objectMapper.writeValueAsString( mapJson );
         }
 

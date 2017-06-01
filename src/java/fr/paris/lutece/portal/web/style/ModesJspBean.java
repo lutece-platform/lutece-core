@@ -128,8 +128,7 @@ public class ModesJspBean extends AdminFeaturesPageJspBean
     }
 
     /**
-     * Processes the creation form of a new mode by recovering the parameters in
-     * the http request
+     * Processes the creation form of a new mode by recovering the parameters in the http request
      *
      * @param request
      *            the http request
@@ -217,7 +216,8 @@ public class ModesJspBean extends AdminFeaturesPageJspBean
      * @param request
      *            The http request
      * @return The Jsp URL of the process result
-     * @throws AccessDeniedException if the security token is invalid
+     * @throws AccessDeniedException
+     *             if the security token is invalid
      */
     public String doModifyMode( HttpServletRequest request ) throws AccessDeniedException
     {

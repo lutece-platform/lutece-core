@@ -246,14 +246,13 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
 
         Map<String, Object> model = new HashMap<>( 1 );
         model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_CREATE_ROLE ) );
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CREATE_ROLE, getLocale( ), model  );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CREATE_ROLE, getLocale( ), model );
 
         return getAdminPage( template.getHtml( ) );
     }
 
     /**
-     * Perform the role creation. The role key entered should not already exist.
-     * The role key is mandatory.
+     * Perform the role creation. The role key entered should not already exist. The role key is mandatory.
      * 
      * @param request
      *            the http request
@@ -292,9 +291,8 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
     }
 
     /**
-     * Performs the modification of the role's key and description. The role key
-     * entered should not already exist. The role key is mandatory. It should
-     * update the key for all the entries in the role-resource association list.
+     * Performs the modification of the role's key and description. The role key entered should not already exist. The role key is mandatory. It should update
+     * the key for all the entries in the role-resource association list.
      * 
      * @param request
      *            the http request
@@ -337,7 +335,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
             {
                 throw new AccessDeniedException( "Invalid security token" );
             }
-            
+
             // update the role
             AdminRole role = AdminRoleHome.findByPrimaryKey( strOldRoleKey );
             role.setKey( strNewRoleKey );
@@ -367,7 +365,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
         Map<String, Object> parameters = new HashMap<>( 2 );
         parameters.put( PARAMETER_ROLE_KEY, strRoleKey );
         parameters.put( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, JSP_URL_REMOVE_ROLE ) );
-        String strUrl = AdminMessageService.getMessageUrl( request, PROPERTY_CONFIRM_DELETE_ROLE, strDeleteUrl, AdminMessage.TYPE_CONFIRMATION, parameters  );
+        String strUrl = AdminMessageService.getMessageUrl( request, PROPERTY_CONFIRM_DELETE_ROLE, strDeleteUrl, AdminMessage.TYPE_CONFIRMATION, parameters );
 
         return strUrl;
     }
@@ -467,7 +465,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
         Map<String, Object> parameters = new HashMap<>( 2 );
         parameters.put( PARAMETER_RBAC_ID, strIdControl );
         parameters.put( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, JSP_URL_REMOVE_CONTROL_FROM_ROLE ) );
-        String strUrl = AdminMessageService.getMessageUrl( request, PROPERTY_CONFIRM_DELETE_CONTROL, strDeleteUrl, AdminMessage.TYPE_CONFIRMATION, parameters  );
+        String strUrl = AdminMessageService.getMessageUrl( request, PROPERTY_CONFIRM_DELETE_CONTROL, strDeleteUrl, AdminMessage.TYPE_CONFIRMATION, parameters );
 
         return strUrl;
     }
@@ -760,7 +758,8 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
      * @param request
      *            the http request
      * @return the url of the page to be redirected to
-     * @throws AccessDeniedException if the security token is invalid
+     * @throws AccessDeniedException
+     *             if the security token is invalid
      */
     public String doSelectPermissions( HttpServletRequest request ) throws AccessDeniedException
     {
@@ -962,7 +961,8 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
      * @param request
      *            The HTTP Request
      * @return The Jsp URL of the process result
-     * @throws AccessDeniedException if the security token is invalid
+     * @throws AccessDeniedException
+     *             if the security token is invalid
      */
     public String doAssignUsers( HttpServletRequest request ) throws AccessDeniedException
     {
@@ -998,7 +998,8 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
      * @param request
      *            The HttpRequest
      * @return the HTML code of list assignations
-     * @throws AccessDeniedException if the security token is invalid
+     * @throws AccessDeniedException
+     *             if the security token is invalid
      */
     public String doUnAssignUser( HttpServletRequest request ) throws AccessDeniedException
     {

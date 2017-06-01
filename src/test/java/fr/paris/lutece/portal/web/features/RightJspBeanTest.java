@@ -91,8 +91,7 @@ public class RightJspBeanTest extends LuteceTestCase
         AdminUser user = AdminUserHome.findUserByLogin( "admin" );
         request.setParameter( "available_users_list", Integer.toString( user.getUserId( ) ) );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/features/assign_users_right.html" )
-                        + "b" );
+                SecurityTokenService.getInstance( ).getToken( request, "admin/features/assign_users_right.html" ) + "b" );
 
         assertFalse( AdminUserHome.getRightsListForUser( user.getUserId( ) ).keySet( ).contains( right.getId( ) ) );
         try
@@ -100,7 +99,7 @@ public class RightJspBeanTest extends LuteceTestCase
             bean.doAssignUsers( request );
             fail( "Should have thrown" );
         }
-        catch ( AccessDeniedException e )
+        catch( AccessDeniedException e )
         {
             assertFalse( AdminUserHome.getRightsListForUser( user.getUserId( ) ).keySet( ).contains( right.getId( ) ) );
         }
@@ -119,7 +118,7 @@ public class RightJspBeanTest extends LuteceTestCase
             bean.doAssignUsers( request );
             fail( "Should have thrown" );
         }
-        catch ( AccessDeniedException e )
+        catch( AccessDeniedException e )
         {
             assertFalse( AdminUserHome.getRightsListForUser( user.getUserId( ) ).keySet( ).contains( right.getId( ) ) );
         }
@@ -157,8 +156,7 @@ public class RightJspBeanTest extends LuteceTestCase
         request.setParameter( "id_user", Integer.toString( user.getUserId( ) ) );
         request.setParameter( "anchor", "anchor" );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/features/assign_users_right.html" )
-                        + "b" );
+                SecurityTokenService.getInstance( ).getToken( request, "admin/features/assign_users_right.html" ) + "b" );
 
         assertTrue( AdminUserHome.getRightsListForUser( user.getUserId( ) ).keySet( ).contains( right.getId( ) ) );
         try
@@ -166,7 +164,7 @@ public class RightJspBeanTest extends LuteceTestCase
             bean.doUnAssignUser( request );
             fail( "Should have thrown" );
         }
-        catch ( AccessDeniedException e )
+        catch( AccessDeniedException e )
         {
             assertTrue( AdminUserHome.getRightsListForUser( user.getUserId( ) ).keySet( ).contains( right.getId( ) ) );
         }
@@ -191,7 +189,7 @@ public class RightJspBeanTest extends LuteceTestCase
             bean.doUnAssignUser( request );
             fail( "Should have thrown" );
         }
-        catch ( AccessDeniedException e )
+        catch( AccessDeniedException e )
         {
             assertTrue( AdminUserHome.getRightsListForUser( user.getUserId( ) ).keySet( ).contains( right.getId( ) ) );
         }

@@ -161,23 +161,22 @@ public final class FeatureGroupHome
     {
         return _dao.selectFeatureGroupsList( );
     }
-  
+
     /**
      * Loads the data of all the feature groups and returns them in form of a reference list
      *
      * @return the reference list of all the feature groups
      */
-    public static ReferenceList getFeatureGroupsReferenceList(  )
+    public static ReferenceList getFeatureGroupsReferenceList( )
     {
-        ReferenceList featuresGroupsReferenceList = new ReferenceList(  );
-        for ( FeatureGroup featureGroup : getFeatureGroupsList(  ) )
+        ReferenceList featuresGroupsReferenceList = new ReferenceList( );
+        for ( FeatureGroup featureGroup : getFeatureGroupsList( ) )
         {
-            featuresGroupsReferenceList.add( featureGroup.getReferenceItem(  ) );
+            featuresGroupsReferenceList.add( featureGroup.getReferenceItem( ) );
         }
-        
+
         return featuresGroupsReferenceList;
     }
-    
 
     /**
      * Gets the count of groups

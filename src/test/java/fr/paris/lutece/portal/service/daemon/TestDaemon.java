@@ -27,7 +27,7 @@ public final class TestDaemon extends Daemon
             hasRun = true;
             completionBarrier.await( 10, TimeUnit.SECONDS );
         }
-        catch ( InterruptedException | BrokenBarrierException | TimeoutException e )
+        catch( InterruptedException | BrokenBarrierException | TimeoutException e )
         {
             e.printStackTrace( );
         }
@@ -52,8 +52,7 @@ public final class TestDaemon extends Daemon
         this.go( 10, TimeUnit.SECONDS );
     }
 
-    public void go( long timeout, TimeUnit unit )
-            throws InterruptedException, BrokenBarrierException, TimeoutException
+    public void go( long timeout, TimeUnit unit ) throws InterruptedException, BrokenBarrierException, TimeoutException
     {
         startBarrier.await( timeout, unit );
     }
@@ -63,8 +62,7 @@ public final class TestDaemon extends Daemon
         this.waitForCompletion( 10, TimeUnit.SECONDS );
     }
 
-    public void waitForCompletion( long timeout, TimeUnit unit )
-            throws InterruptedException, BrokenBarrierException, TimeoutException
+    public void waitForCompletion( long timeout, TimeUnit unit ) throws InterruptedException, BrokenBarrierException, TimeoutException
     {
         completionBarrier.await( timeout, unit );
     }

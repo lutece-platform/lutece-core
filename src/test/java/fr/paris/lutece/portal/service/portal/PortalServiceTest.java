@@ -68,7 +68,7 @@ public class PortalServiceTest extends LuteceTestCase
         {
             if ( aService instanceof IPathCacheService )
             {
-                pathCacheService = ( IPathCacheService ) aService;
+                pathCacheService = (IPathCacheService) aService;
                 bPathCacheServiceEnabled = aService.isCacheEnable( );
                 aService.enableCache( true );
                 aService.resetCache( );
@@ -125,7 +125,8 @@ public class PortalServiceTest extends LuteceTestCase
             assertNotSame( strPath_pageid, strPath_normal );
             assertNotSame( strPath_pageid, strPath_admin );
             assertSame( strPath_pageid, PortalService.getXPagePathContent( "junit", MODE_NORMAL, request2 ) );
-        } finally
+        }
+        finally
         {
             removePage( nPageId );
         }
@@ -164,9 +165,7 @@ public class PortalServiceTest extends LuteceTestCase
 
     private String loadExpected( String strExpectedFileName ) throws IOException
     {
-        try ( Scanner s = new Scanner(
-                this.getClass( ).getResourceAsStream( this.getClass( ).getSimpleName( ) + "_" + strExpectedFileName ),
-                "UTF-8" ) )
+        try( Scanner s = new Scanner( this.getClass( ).getResourceAsStream( this.getClass( ).getSimpleName( ) + "_" + strExpectedFileName ), "UTF-8" ) )
         {
             Scanner delimited = s.useDelimiter( "\\A" );
             return delimited.hasNext( ) ? delimited.next( ) : "";

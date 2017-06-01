@@ -160,7 +160,8 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
      * @param request
      *            the http request
      * @return The Jsp URL of the process result
-     * @throws AccessDeniedException if the security token is invalid
+     * @throws AccessDeniedException
+     *             if the security token is invalid
      */
     public String doCreatePageTemplate( HttpServletRequest request ) throws AccessDeniedException
     {
@@ -244,7 +245,8 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
      * @param request
      *            The http request
      * @return The Jsp URL of the process result
-     * @throws AccessDeniedException if the security token is invalid
+     * @throws AccessDeniedException
+     *             if the security token is invalid
      */
     public String doModifyPageTemplate( HttpServletRequest request ) throws AccessDeniedException
     {
@@ -272,10 +274,11 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
             {
                 bHasError = true;
             }
-            else if ( !FileUtil.hasHtmlExtension( strFileName ) )
-            {
-                return AdminMessageService.getMessageUrl( request, MESSAGE_WRONG_HTML_EXTENSION, AdminMessage.TYPE_STOP );
-            }
+            else
+                if ( !FileUtil.hasHtmlExtension( strFileName ) )
+                {
+                    return AdminMessageService.getMessageUrl( request, MESSAGE_WRONG_HTML_EXTENSION, AdminMessage.TYPE_STOP );
+                }
 
             bUpdateFile = true;
         }
@@ -286,10 +289,11 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
             {
                 bHasError = true;
             }
-            else if ( !FileUtil.hasImageExtension( strPictureName ) )
-            {
-                return AdminMessageService.getMessageUrl( request, MESSAGE_WRONG_IMAGE_EXTENSION, AdminMessage.TYPE_STOP );
-            }
+            else
+                if ( !FileUtil.hasImageExtension( strPictureName ) )
+                {
+                    return AdminMessageService.getMessageUrl( request, MESSAGE_WRONG_IMAGE_EXTENSION, AdminMessage.TYPE_STOP );
+                }
 
             bUpdatePicture = true;
         }
@@ -356,7 +360,8 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
         Map<String, Object> parameters = new HashMap<>( );
         parameters.put( Parameters.PAGE_TEMPLATE_ID, strId );
         parameters.put( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, JSP_DO_REMOVE_PAGE_TEMPLATE ) );
-        return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_DELETE_PAGE_TEMPLATE, args, null, JSP_DO_REMOVE_PAGE_TEMPLATE, null, AdminMessage.TYPE_CONFIRMATION, parameters );
+        return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_DELETE_PAGE_TEMPLATE, args, null, JSP_DO_REMOVE_PAGE_TEMPLATE, null,
+                AdminMessage.TYPE_CONFIRMATION, parameters );
     }
 
     /**
@@ -365,7 +370,8 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
      * @param request
      *            the http request
      * @return The Jsp URL of the process result
-     * @throws AccessDeniedException if the security token is invalid
+     * @throws AccessDeniedException
+     *             if the security token is invalid
      */
     public String doRemovePageTemplate( HttpServletRequest request ) throws AccessDeniedException
     {

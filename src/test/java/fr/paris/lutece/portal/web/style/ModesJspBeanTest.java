@@ -68,6 +68,7 @@ public class ModesJspBeanTest extends LuteceTestCase
         instance = new ModesJspBean( );
         instance.init( request, ModesJspBean.RIGHT_MANAGE_MODES );
     }
+
     /**
      * Test of getManageModes method, of class fr.paris.lutece.portal.web.style.ModesJspBean.
      */
@@ -86,7 +87,8 @@ public class ModesJspBeanTest extends LuteceTestCase
 
     /**
      * Test of doCreateMode method, of fr.paris.lutece.portal.web.style.ModesJspBean.
-     * @throws AccessDeniedException 
+     * 
+     * @throws AccessDeniedException
      */
     public void testDoCreateMode( ) throws AccessDeniedException
     {
@@ -110,14 +112,15 @@ public class ModesJspBeanTest extends LuteceTestCase
         final String desc = getRandomName( );
         request.addParameter( Parameters.MODE_DESCRIPTION, desc );
         request.addParameter( Parameters.MODE_PATH, desc );
-        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "admin/style/create_mode.html" ) + "b" );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "admin/style/create_mode.html" )
+                + "b" );
 
         try
         {
             instance.doCreateMode( request );
             fail( "Should have thrown" );
         }
-        catch ( AccessDeniedException e )
+        catch( AccessDeniedException e )
         {
             assertFalse( ModeHome.getModesList( ).stream( ).anyMatch( m -> m.getDescription( ).equals( desc ) ) );
         }
@@ -138,7 +141,7 @@ public class ModesJspBeanTest extends LuteceTestCase
             instance.doCreateMode( request );
             fail( "Should have thrown" );
         }
-        catch ( AccessDeniedException e )
+        catch( AccessDeniedException e )
         {
             assertFalse( ModeHome.getModesList( ).stream( ).anyMatch( m -> m.getDescription( ).equals( desc ) ) );
         }
@@ -159,7 +162,8 @@ public class ModesJspBeanTest extends LuteceTestCase
 
     /**
      * Test of doModifyMode method, of fr.paris.lutece.portal.web.style.ModesJspBean.
-     * @throws AccessDeniedException 
+     * 
+     * @throws AccessDeniedException
      */
     public void testDoModifyMode( ) throws AccessDeniedException
     {
@@ -194,14 +198,15 @@ public class ModesJspBeanTest extends LuteceTestCase
 
         request.addParameter( Parameters.MODE_ID, Integer.toString( mode.getId( ) ) );
         request.addParameter( Parameters.MODE_DESCRIPTION, desc + "_mod" );
-        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "admin/style/modify_mode.html" ) + "b" );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "admin/style/modify_mode.html" )
+                + "b" );
         try
         {
             assertEquals( desc, ModeHome.findByPrimaryKey( mode.getId( ) ).getDescription( ) );
             instance.doModifyMode( request );
             fail( "Should have thrown" );
         }
-        catch ( AccessDeniedException e )
+        catch( AccessDeniedException e )
         {
             assertEquals( desc, ModeHome.findByPrimaryKey( mode.getId( ) ).getDescription( ) );
         }
@@ -227,7 +232,7 @@ public class ModesJspBeanTest extends LuteceTestCase
             instance.doModifyMode( request );
             fail( "Should have thrown" );
         }
-        catch ( AccessDeniedException e )
+        catch( AccessDeniedException e )
         {
             assertEquals( desc, ModeHome.findByPrimaryKey( mode.getId( ) ).getDescription( ) );
         }

@@ -105,7 +105,7 @@ public class LevelsJspBean extends AdminFeaturesPageJspBean
     {
         setPageTitleProperty( PROPERTY_PAGE_TITLE_CREATE_LEVEL );
 
-        Map< String, Object> model = new HashMap<>( );
+        Map<String, Object> model = new HashMap<>( );
         model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_CREATE_LEVEL ) );
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CREATE_LEVEL, getLocale( ), model );
 
@@ -113,8 +113,7 @@ public class LevelsJspBean extends AdminFeaturesPageJspBean
     }
 
     /**
-     * Processes the creation form of a new level by recovering the parameters
-     * in the http request
+     * Processes the creation form of a new level by recovering the parameters in the http request
      *
      * @param request
      *            the http request
@@ -173,8 +172,7 @@ public class LevelsJspBean extends AdminFeaturesPageJspBean
     }
 
     /**
-     * Processes the updating form of a level whose new parameters are stored in
-     * the http request
+     * Processes the updating form of a level whose new parameters are stored in the http request
      *
      * @param request
      *            The http request

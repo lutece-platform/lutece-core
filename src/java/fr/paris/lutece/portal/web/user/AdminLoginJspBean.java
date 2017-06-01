@@ -161,10 +161,10 @@ public class AdminLoginJspBean implements Serializable
      * @param request
      *            The request
      * @param response
-     *           The response
+     *            The response
      * @return The HTML form
      * @throws IOException
-     *          when redirection doesn't work
+     *             when redirection doesn't work
      */
     public String getLogin( HttpServletRequest request, HttpServletResponse response ) throws IOException
     {
@@ -183,7 +183,8 @@ public class AdminLoginJspBean implements Serializable
             if ( !JSP_URL_ADMIN_LOGIN.equals( AdminAuthenticationService.getInstance( ).getLoginPageUrl( ) ) )
             {
                 String strRedirectUrl = AdminAuthenticationService.getInstance( ).getLoginPageUrl( );
-                if ( strRedirectUrl == null ) {
+                if ( strRedirectUrl == null )
+                {
                     strRedirectUrl = AppPathService.getAdminMenuUrl( );
                 }
                 response.sendRedirect( AppPathService.resolveRedirectUrl( request, strRedirectUrl ).getUrl( ) );
@@ -308,7 +309,6 @@ public class AdminLoginJspBean implements Serializable
         model.put( MARK_PARAM_VERSION, AppInfo.getVersion( ) );
         model.put( MARK_PARAMS_LIST, listParams );
         model.put( MARK_SITE_NAME, PortalService.getSiteName( ) );
-
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_RESET_PASSWORD, locale, model );
 
@@ -515,7 +515,8 @@ public class AdminLoginJspBean implements Serializable
         model.put( MARK_USER_ID, user.getUserId( ) );
         model.put( MARK_LOGIN_URL, AppPathService.getBaseUrl( request ) + "jsp/admin/AdminResetPassword.jsp" );
         model.put( MARK_SITE_LINK, MailService.getSiteLink( AppPathService.getBaseUrl( request ), false ) );
-        Date tokenExpiryDate = new Date( timestamp.getTime( ) + ( 1000L * 60 * AdminUserService.getIntegerSecurityParameter( AdminUserService.DSKEY_RESET_TOKEN_VALIDITY ) ) );
+        Date tokenExpiryDate = new Date( timestamp.getTime( )
+                + ( 1000L * 60 * AdminUserService.getIntegerSecurityParameter( AdminUserService.DSKEY_RESET_TOKEN_VALIDITY ) ) );
         model.put( MARK_RESET_TOKEN_VALIDITY, tokenExpiryDate );
         model.put( MARK_LOCK_RESET_TOKEN_TO_SESSION, AdminUserService.getBooleanSecurityParameter( AdminUserService.DSKEY_LOCK_RESET_TOKEN_TO_SESSION ) );
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_EMAIL_FORGOT_PASSWORD, locale, model );

@@ -126,8 +126,7 @@ public class RoleJspBeanTest extends LuteceTestCase
         request.setParameter( "role", name );
         request.setParameter( "role_description", name );
         request.setParameter( "workgroup_key", AdminWorkgroupService.ALL_GROUPS );
-        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/role/create_page_role.html" ) );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "admin/role/create_page_role.html" ) );
 
         assertNull( RoleHome.findByPrimaryKey( name ) );
         try
@@ -152,8 +151,8 @@ public class RoleJspBeanTest extends LuteceTestCase
         request.setParameter( "role", name );
         request.setParameter( "role_description", name );
         request.setParameter( "workgroup_key", AdminWorkgroupService.ALL_GROUPS );
-        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/role/create_page_role.html" ) + "b" );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "admin/role/create_page_role.html" )
+                + "b" );
 
         assertNull( RoleHome.findByPrimaryKey( name ) );
         try
@@ -161,7 +160,7 @@ public class RoleJspBeanTest extends LuteceTestCase
             bean.doCreatePageRole( request );
             fail( "Shoud have thrown" );
         }
-        catch ( AccessDeniedException e )
+        catch( AccessDeniedException e )
         {
             assertNull( RoleHome.findByPrimaryKey( name ) );
         }
@@ -185,7 +184,7 @@ public class RoleJspBeanTest extends LuteceTestCase
             bean.doCreatePageRole( request );
             fail( "Shoud have thrown" );
         }
-        catch ( AccessDeniedException e )
+        catch( AccessDeniedException e )
         {
             assertNull( RoleHome.findByPrimaryKey( name ) );
         }
@@ -201,13 +200,11 @@ public class RoleJspBeanTest extends LuteceTestCase
         request.setParameter( "role", role.getRole( ) );
         request.setParameter( "role_description", role.getRoleDescription( ) + "_mod" );
         request.setParameter( "workgroup_key", AdminWorkgroupService.ALL_GROUPS );
-        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/role/modify_page_role.html" ) );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "admin/role/modify_page_role.html" ) );
 
         assertEquals( role.getRoleDescription( ), RoleHome.findByPrimaryKey( role.getRole( ) ).getRoleDescription( ) );
         bean.doModifyPageRole( request );
-        assertEquals( role.getRoleDescription( ) + "_mod",
-                RoleHome.findByPrimaryKey( role.getRole( ) ).getRoleDescription( ) );
+        assertEquals( role.getRoleDescription( ) + "_mod", RoleHome.findByPrimaryKey( role.getRole( ) ).getRoleDescription( ) );
     }
 
     public void testDoModifyPageRoleInvalidtoken( ) throws AccessDeniedException
@@ -216,8 +213,8 @@ public class RoleJspBeanTest extends LuteceTestCase
         request.setParameter( "role", role.getRole( ) );
         request.setParameter( "role_description", role.getRoleDescription( ) + "_mod" );
         request.setParameter( "workgroup_key", AdminWorkgroupService.ALL_GROUPS );
-        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/role/modify_page_role.html" ) + "b" );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "admin/role/modify_page_role.html" )
+                + "b" );
 
         assertEquals( role.getRoleDescription( ), RoleHome.findByPrimaryKey( role.getRole( ) ).getRoleDescription( ) );
         try
@@ -225,10 +222,9 @@ public class RoleJspBeanTest extends LuteceTestCase
             bean.doModifyPageRole( request );
             fail( "Should have thrown" );
         }
-        catch ( AccessDeniedException e )
+        catch( AccessDeniedException e )
         {
-            assertEquals( role.getRoleDescription( ),
-                    RoleHome.findByPrimaryKey( role.getRole( ) ).getRoleDescription( ) );
+            assertEquals( role.getRoleDescription( ), RoleHome.findByPrimaryKey( role.getRole( ) ).getRoleDescription( ) );
         }
     }
 
@@ -245,10 +241,9 @@ public class RoleJspBeanTest extends LuteceTestCase
             bean.doModifyPageRole( request );
             fail( "Should have thrown" );
         }
-        catch ( AccessDeniedException e )
+        catch( AccessDeniedException e )
         {
-            assertEquals( role.getRoleDescription( ),
-                    RoleHome.findByPrimaryKey( role.getRole( ) ).getRoleDescription( ) );
+            assertEquals( role.getRoleDescription( ), RoleHome.findByPrimaryKey( role.getRole( ) ).getRoleDescription( ) );
         }
     }
 
@@ -256,8 +251,7 @@ public class RoleJspBeanTest extends LuteceTestCase
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.setParameter( "role", role.getRole( ) );
-        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "DoRemovePageRole.jsp" ) );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "DoRemovePageRole.jsp" ) );
 
         assertNotNull( RoleHome.findByPrimaryKey( role.getRole( ) ) );
         bean.doRemovePageRole( request );
@@ -268,8 +262,7 @@ public class RoleJspBeanTest extends LuteceTestCase
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.setParameter( "role", role.getRole( ) );
-        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "DoRemovePageRole.jsp" ) + "b" );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "DoRemovePageRole.jsp" ) + "b" );
 
         assertNotNull( RoleHome.findByPrimaryKey( role.getRole( ) ) );
         try
@@ -277,7 +270,7 @@ public class RoleJspBeanTest extends LuteceTestCase
             bean.doRemovePageRole( request );
             fail( "Should have thrown" );
         }
-        catch ( AccessDeniedException e )
+        catch( AccessDeniedException e )
         {
             assertNotNull( RoleHome.findByPrimaryKey( role.getRole( ) ) );
         }
@@ -294,7 +287,7 @@ public class RoleJspBeanTest extends LuteceTestCase
             bean.doRemovePageRole( request );
             fail( "Should have thrown" );
         }
-        catch ( AccessDeniedException e )
+        catch( AccessDeniedException e )
         {
             assertNotNull( RoleHome.findByPrimaryKey( role.getRole( ) ) );
         }

@@ -21,7 +21,7 @@ public class ThreadLauncherDaemonTest extends LuteceTestCase
             {
                 barrier.await( 10L, TimeUnit.SECONDS );
             }
-            catch ( InterruptedException | BrokenBarrierException | TimeoutException e )
+            catch( InterruptedException | BrokenBarrierException | TimeoutException e )
             {
                 _runnableTimedOut = true;
             }

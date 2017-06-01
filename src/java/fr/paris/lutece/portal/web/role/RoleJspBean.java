@@ -238,7 +238,8 @@ public class RoleJspBean extends AdminFeaturesPageJspBean
      * @param request
      *            The HTTP request
      * @return String The url page
-     * @throws AccessDeniedException if the security token is invalid
+     * @throws AccessDeniedException
+     *             if the security token is invalid
      */
     public String doModifyPageRole( HttpServletRequest request ) throws AccessDeniedException
     {
@@ -290,7 +291,7 @@ public class RoleJspBean extends AdminFeaturesPageJspBean
             }, AdminMessage.TYPE_STOP );
         }
         String strURL = PATH_JSP + JSP_REMOVE_ROLE;
-        Map< String, Object > parameters = new HashMap<>( );
+        Map<String, Object> parameters = new HashMap<>( );
         parameters.put( PARAMETER_PAGE_ROLE, request.getParameter( PARAMETER_PAGE_ROLE ) );
         parameters.put( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, JSP_REMOVE_ROLE ) );
 

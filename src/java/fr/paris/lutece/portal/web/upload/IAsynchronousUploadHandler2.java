@@ -43,8 +43,7 @@ import org.apache.commons.fileupload.FileItem;
 
 /**
  *
- * Handler for the asynchronous upload. New version not tied to net.sf json-lib.
- * the JSONObject is replaced with a java Map.
+ * Handler for the asynchronous upload. New version not tied to net.sf json-lib. the JSONObject is replaced with a java Map.
  *
  */
 public interface IAsynchronousUploadHandler2

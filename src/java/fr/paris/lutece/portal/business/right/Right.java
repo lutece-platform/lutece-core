@@ -118,7 +118,8 @@ public class Right implements Localizable, Comparable<Right>, Serializable
         {
             return I18nService.getLocalizedString( _strNameKey, _locale );
         }
-        else return _strNameKey;
+        else
+            return _strNameKey;
     }
 
     /**
@@ -196,7 +197,8 @@ public class Right implements Localizable, Comparable<Right>, Serializable
         {
             return I18nService.getLocalizedString( _strDescriptionKey, _locale );
         }
-        else return _strDescriptionKey;
+        else
+            return _strDescriptionKey;
     }
 
     /**
@@ -316,19 +318,22 @@ public class Right implements Localizable, Comparable<Right>, Serializable
     {
         this._nIdOrder = nOrder;
     }
-    
+
     /**
      * Get the external feature boolean
+     * 
      * @return the _isExternalFeature
      */
-    public boolean isExternalFeature(  )
+    public boolean isExternalFeature( )
     {
         return _bIsExternalFeature;
     }
 
     /**
      * Set the external feature boolean
-     * @param bExternalFeature the _isExternalFeature to set
+     * 
+     * @param bExternalFeature
+     *            the _isExternalFeature to set
      */
     public void setExternalFeature( boolean bExternalFeature )
     {

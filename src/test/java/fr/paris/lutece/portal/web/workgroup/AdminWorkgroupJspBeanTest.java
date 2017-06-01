@@ -80,8 +80,8 @@ public class AdminWorkgroupJspBeanTest extends LuteceTestCase
         request.setParameter( "workgroup_key", adminWorkgroup.getKey( ) );
         AdminUser user = AdminUserHome.findUserByLogin( "admin" );
         request.setParameter( "list_users", Integer.toString( user.getUserId( ) ) );
-        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( )
-                .getToken( request, "admin/workgroup/assign_users_workgroup.html" ) );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "admin/workgroup/assign_users_workgroup.html" ) );
 
         assertFalse( AdminWorkgroupHome.isUserInWorkgroup( user, adminWorkgroup.getKey( ) ) );
         bean.doAssignUsers( request );
@@ -95,8 +95,7 @@ public class AdminWorkgroupJspBeanTest extends LuteceTestCase
         AdminUser user = AdminUserHome.findUserByLogin( "admin" );
         request.setParameter( "list_users", Integer.toString( user.getUserId( ) ) );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/workgroup/assign_users_workgroup.html" )
-                        + "b" );
+                SecurityTokenService.getInstance( ).getToken( request, "admin/workgroup/assign_users_workgroup.html" ) + "b" );
 
         assertFalse( AdminWorkgroupHome.isUserInWorkgroup( user, adminWorkgroup.getKey( ) ) );
         try
@@ -104,7 +103,7 @@ public class AdminWorkgroupJspBeanTest extends LuteceTestCase
             bean.doAssignUsers( request );
             fail( "Should have thrown" );
         }
-        catch ( AccessDeniedException e )
+        catch( AccessDeniedException e )
         {
             assertFalse( AdminWorkgroupHome.isUserInWorkgroup( user, adminWorkgroup.getKey( ) ) );
         }
@@ -123,7 +122,7 @@ public class AdminWorkgroupJspBeanTest extends LuteceTestCase
             bean.doAssignUsers( request );
             fail( "Should have thrown" );
         }
-        catch ( AccessDeniedException e )
+        catch( AccessDeniedException e )
         {
             assertFalse( AdminWorkgroupHome.isUserInWorkgroup( user, adminWorkgroup.getKey( ) ) );
         }
@@ -157,8 +156,7 @@ public class AdminWorkgroupJspBeanTest extends LuteceTestCase
         request.setParameter( "workgroup_key", key );
         request.setParameter( "workgroup_description", key );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/workgroup/create_workgroup.html" )
-                        + "b" );
+                SecurityTokenService.getInstance( ).getToken( request, "admin/workgroup/create_workgroup.html" ) + "b" );
 
         assertFalse( AdminWorkgroupHome.checkExistWorkgroup( key ) );
         bean.init( request, "CORE_WORKGROUPS_MANAGEMENT" );
@@ -167,7 +165,7 @@ public class AdminWorkgroupJspBeanTest extends LuteceTestCase
             bean.doCreateWorkgroup( request );
             fail( "Should have thrown" );
         }
-        catch ( AccessDeniedException e )
+        catch( AccessDeniedException e )
         {
             assertFalse( AdminWorkgroupHome.checkExistWorkgroup( key ) );
         }
@@ -191,7 +189,7 @@ public class AdminWorkgroupJspBeanTest extends LuteceTestCase
             bean.doCreateWorkgroup( request );
             fail( "Should have thrown" );
         }
-        catch ( AccessDeniedException e )
+        catch( AccessDeniedException e )
         {
             assertFalse( AdminWorkgroupHome.checkExistWorkgroup( key ) );
         }
@@ -209,8 +207,7 @@ public class AdminWorkgroupJspBeanTest extends LuteceTestCase
 
         assertEquals( adminWorkgroup.getKey( ), adminWorkgroup.getDescription( ) );
         bean.doModifyWorkgroup( request );
-        assertEquals( adminWorkgroup.getDescription( ) + "_mod",
-                AdminWorkgroupHome.findByPrimaryKey( adminWorkgroup.getKey( ) ).getDescription( ) );
+        assertEquals( adminWorkgroup.getDescription( ) + "_mod", AdminWorkgroupHome.findByPrimaryKey( adminWorkgroup.getKey( ) ).getDescription( ) );
     }
 
     public void testDoModifyWorkgroupInvalidToken( ) throws AccessDeniedException
@@ -219,8 +216,7 @@ public class AdminWorkgroupJspBeanTest extends LuteceTestCase
         request.setParameter( "workgroup_key", adminWorkgroup.getKey( ) );
         request.setParameter( "workgroup_description", adminWorkgroup.getDescription( ) + "_mod" );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/workgroup/modify_workgroup.html" )
-                        + "b" );
+                SecurityTokenService.getInstance( ).getToken( request, "admin/workgroup/modify_workgroup.html" ) + "b" );
 
         assertEquals( adminWorkgroup.getKey( ), adminWorkgroup.getDescription( ) );
         try
@@ -228,10 +224,9 @@ public class AdminWorkgroupJspBeanTest extends LuteceTestCase
             bean.doModifyWorkgroup( request );
             fail( "Should have thrown" );
         }
-        catch ( AccessDeniedException e )
+        catch( AccessDeniedException e )
         {
-            assertEquals( adminWorkgroup.getDescription( ),
-                    AdminWorkgroupHome.findByPrimaryKey( adminWorkgroup.getKey( ) ).getDescription( ) );
+            assertEquals( adminWorkgroup.getDescription( ), AdminWorkgroupHome.findByPrimaryKey( adminWorkgroup.getKey( ) ).getDescription( ) );
         }
     }
 
@@ -247,10 +242,9 @@ public class AdminWorkgroupJspBeanTest extends LuteceTestCase
             bean.doModifyWorkgroup( request );
             fail( "Should have thrown" );
         }
-        catch ( AccessDeniedException e )
+        catch( AccessDeniedException e )
         {
-            assertEquals( adminWorkgroup.getDescription( ),
-                    AdminWorkgroupHome.findByPrimaryKey( adminWorkgroup.getKey( ) ).getDescription( ) );
+            assertEquals( adminWorkgroup.getDescription( ), AdminWorkgroupHome.findByPrimaryKey( adminWorkgroup.getKey( ) ).getDescription( ) );
         }
     }
 
@@ -285,8 +279,7 @@ public class AdminWorkgroupJspBeanTest extends LuteceTestCase
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.setParameter( "workgroup_key", adminWorkgroup.getKey( ) );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/workgroup/DoRemoveWorkgroup.jsp" )
-                        + "b" );
+                SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/workgroup/DoRemoveWorkgroup.jsp" ) + "b" );
 
         assertTrue( AdminWorkgroupHome.checkExistWorkgroup( adminWorkgroup.getKey( ) ) );
         try
@@ -294,7 +287,7 @@ public class AdminWorkgroupJspBeanTest extends LuteceTestCase
             bean.doRemoveWorkgroup( request );
             fail( "Should have thrown" );
         }
-        catch ( AccessDeniedException e )
+        catch( AccessDeniedException e )
         {
             assertTrue( AdminWorkgroupHome.checkExistWorkgroup( adminWorkgroup.getKey( ) ) );
         }
@@ -311,7 +304,7 @@ public class AdminWorkgroupJspBeanTest extends LuteceTestCase
             bean.doRemoveWorkgroup( request );
             fail( "Should have thrown" );
         }
-        catch ( AccessDeniedException e )
+        catch( AccessDeniedException e )
         {
             assertTrue( AdminWorkgroupHome.checkExistWorkgroup( adminWorkgroup.getKey( ) ) );
         }
@@ -325,8 +318,8 @@ public class AdminWorkgroupJspBeanTest extends LuteceTestCase
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.setParameter( "workgroup_key", adminWorkgroup.getKey( ) );
         request.setParameter( "id_user", Integer.toString( user.getUserId( ) ) );
-        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( )
-                .getToken( request, "admin/workgroup/assign_users_workgroup.html" ) );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "admin/workgroup/assign_users_workgroup.html" ) );
 
         assertTrue( AdminWorkgroupHome.isUserInWorkgroup( user, adminWorkgroup.getKey( ) ) );
         bean.doUnAssignUser( request );
@@ -342,8 +335,7 @@ public class AdminWorkgroupJspBeanTest extends LuteceTestCase
         request.setParameter( "workgroup_key", adminWorkgroup.getKey( ) );
         request.setParameter( "id_user", Integer.toString( user.getUserId( ) ) );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/workgroup/assign_users_workgroup.html" )
-                        + "b" );
+                SecurityTokenService.getInstance( ).getToken( request, "admin/workgroup/assign_users_workgroup.html" ) + "b" );
 
         assertTrue( AdminWorkgroupHome.isUserInWorkgroup( user, adminWorkgroup.getKey( ) ) );
         try
@@ -351,7 +343,7 @@ public class AdminWorkgroupJspBeanTest extends LuteceTestCase
             bean.doUnAssignUser( request );
             fail( "Should have Thrown" );
         }
-        catch ( AccessDeniedException e )
+        catch( AccessDeniedException e )
         {
             assertTrue( AdminWorkgroupHome.isUserInWorkgroup( user, adminWorkgroup.getKey( ) ) );
         }
@@ -372,7 +364,7 @@ public class AdminWorkgroupJspBeanTest extends LuteceTestCase
             bean.doUnAssignUser( request );
             fail( "Should have Thrown" );
         }
-        catch ( AccessDeniedException e )
+        catch( AccessDeniedException e )
         {
             assertTrue( AdminWorkgroupHome.isUserInWorkgroup( user, adminWorkgroup.getKey( ) ) );
         }

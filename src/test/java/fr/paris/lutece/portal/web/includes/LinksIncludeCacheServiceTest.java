@@ -34,11 +34,17 @@ public class LinksIncludeCacheServiceTest extends LuteceTestCase
     public void testGetCacheKey( )
     {
         Set<String> keys = new HashSet<>( );
-        for ( int nMode : new int[ ] { 0, 1 } )
+        for ( int nMode : new int [ ] {
+                0, 1
+        } )
         {
-            for ( String strPage : new String[ ] { null, "test", "test2" } )
+            for ( String strPage : new String [ ] {
+                    null, "test", "test2"
+            } )
             {
-                for ( Locale locale : new Locale[ ] { null, Locale.FRANCE, Locale.FRENCH } )
+                for ( Locale locale : new Locale [ ] {
+                        null, Locale.FRANCE, Locale.FRENCH
+                } )
                 {
                     String key = service.getCacheKey( nMode, strPage, locale );
                     assertTrue( "key " + key + " was already generated", keys.add( key ) );
@@ -53,10 +59,13 @@ public class LinksIncludeCacheServiceTest extends LuteceTestCase
         assertEquals( "value", service.getFromCache( "key" ) );
         service.processPluginEvent( null );
         assertNull( service.getFromCache( "key" ) );
-        for ( Plugin plugin : new Plugin[ ] { null, PluginService.getCore( ) } )
+        for ( Plugin plugin : new Plugin [ ] {
+                null, PluginService.getCore( )
+        } )
         {
-            for ( int eventType : new int[ ] { PluginEvent.PLUGIN_INSTALLED, PluginEvent.PLUGIN_POOL_CHANGED,
-                    PluginEvent.PLUGIN_UNINSTALLED } )
+            for ( int eventType : new int [ ] {
+                    PluginEvent.PLUGIN_INSTALLED, PluginEvent.PLUGIN_POOL_CHANGED, PluginEvent.PLUGIN_UNINSTALLED
+            } )
             {
                 service.putInCache( "key", "value" );
                 assertEquals( "value", service.getFromCache( "key" ) );

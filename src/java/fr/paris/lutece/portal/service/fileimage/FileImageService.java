@@ -102,10 +102,11 @@ public final class FileImageService implements ImageResourceProvider
      */
     public ImageResource getImageResource( int nIdResource )
     {
-        HttpServletRequest request = LocalVariables.getRequest();
+        HttpServletRequest request = LocalVariables.getRequest( );
         AdminUser user = AdminUserService.getAdminUser( request );
 
-        if ( user != null && AdminUserFieldHome.existsWithFile( nIdResource ) ) {
+        if ( user != null && AdminUserFieldHome.existsWithFile( nIdResource ) )
+        {
 
             File file = FileHome.findByPrimaryKey( nIdResource );
 

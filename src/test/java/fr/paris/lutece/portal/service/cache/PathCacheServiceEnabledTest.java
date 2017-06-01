@@ -36,7 +36,7 @@ public class PathCacheServiceEnabledTest extends LuteceTestCase
         {
             if ( aService instanceof IPathCacheService )
             {
-                service = ( IPathCacheService ) aService;
+                service = (IPathCacheService) aService;
                 bEnabled = aService.isCacheEnable( );
                 aService.enableCache( true );
                 aService.resetCache( );
@@ -66,9 +66,13 @@ public class PathCacheServiceEnabledTest extends LuteceTestCase
     public void testGetKey( )
     {
         Set<String> keys = new HashSet<>( );
-        for ( String xpageName : new String[] { "name", "name2" } )
+        for ( String xpageName : new String [ ] {
+                "name", "name2"
+        } )
         {
-            for ( int mode : new int[] { 0, 1, 2} )
+            for ( int mode : new int [ ] {
+                    0, 1, 2
+            } )
             {
                 String key = service.getKey( xpageName, mode, null );
                 checkKey( keys, key );
@@ -103,11 +107,17 @@ public class PathCacheServiceEnabledTest extends LuteceTestCase
     public void testGetKeyWithTitleUrls( )
     {
         Set<String> keys = new HashSet<>( );
-        for ( String xpageName : new String[] { "name", "name2" } )
+        for ( String xpageName : new String [ ] {
+                "name", "name2"
+        } )
         {
-            for ( int mode : new int[] { 0, 1, 2} )
+            for ( int mode : new int [ ] {
+                    0, 1, 2
+            } )
             {
-                for ( String titleUrls : new String[] {null, "title1", "title2" } )
+                for ( String titleUrls : new String [ ] {
+                        null, "title1", "title2"
+                } )
                 {
                     String key = service.getKey( xpageName, mode, titleUrls, null );
                     checkKey( keys, key );
@@ -155,13 +165,15 @@ public class PathCacheServiceEnabledTest extends LuteceTestCase
         String key = service.getKey( "junit", 0, null );
         service.putInCache( key, "junit" );
         PageEvent event = new PageEvent( new Page( ), PageEvent.PAGE_CREATED );
-        ( ( PathCacheService ) service ).processPageEvent( event );
+        ( (PathCacheService) service ).processPageEvent( event );
         assertEquals( "junit", service.getFromCache( key ) );
-        for ( int nEventType : new int[] { PageEvent.PAGE_CONTENT_MODIFIED, PageEvent.PAGE_DELETED, PageEvent.PAGE_MOVED, PageEvent.PAGE_STATE_CHANGED } )
+        for ( int nEventType : new int [ ] {
+                PageEvent.PAGE_CONTENT_MODIFIED, PageEvent.PAGE_DELETED, PageEvent.PAGE_MOVED, PageEvent.PAGE_STATE_CHANGED
+        } )
         {
             service.putInCache( key, "junit" );
             event = new PageEvent( new Page( ), nEventType );
-            ( ( PathCacheService ) service ).processPageEvent( event );
+            ( (PathCacheService) service ).processPageEvent( event );
             assertNull( service.getFromCache( key ) );
         }
     }
@@ -180,14 +192,16 @@ public class PathCacheServiceEnabledTest extends LuteceTestCase
         {
             // FIXME : change when LUTECE-1834 Adding or removing a page blows up all caches
             // is fixed
-            //assertEquals( "junit", service.getFromCache( key ) );
+            // assertEquals( "junit", service.getFromCache( key ) );
             assertNull( service.getFromCache( key ) );
             service.putInCache( key, "junit" );
             page.setDescription( page.getName( ) + page.getName( ) );
             pageService.updatePage( page );
             assertNull( service.getFromCache( key ) );
             service.putInCache( key, "junit" );
-        } finally {
+        }
+        finally
+        {
             pageService.removePage( page.getId( ) );
             assertNull( service.getFromCache( key ) );
         }

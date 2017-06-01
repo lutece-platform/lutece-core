@@ -68,6 +68,7 @@ public class LevelsJspBeanTest extends LuteceTestCase
         instance = new LevelsJspBean( );
         instance.init( request, LevelsJspBean.RIGHT_MANAGE_LEVELS );
     }
+
     /**
      * Test of getManageLevels method, of class fr.paris.lutece.portal.web.features.LevelsJspBean.
      */
@@ -86,14 +87,14 @@ public class LevelsJspBeanTest extends LuteceTestCase
 
     /**
      * Test of doCreateLevel method, of class fr.paris.lutece.portal.web.features.LevelsJspBean.
-     * @throws AccessDeniedException 
+     * 
+     * @throws AccessDeniedException
      */
     public void testDoCreateLevel( ) throws AccessDeniedException
     {
         final String name = getRandomName( );
         request.setParameter( "level_name", name );
-        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/features/create_level.html" ) );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "admin/features/create_level.html" ) );
 
         LevelHome.getLevelsList( ).forEach( level -> {
             assertFalse( name.equals( level.getName( ) ) );
@@ -119,8 +120,8 @@ public class LevelsJspBeanTest extends LuteceTestCase
     {
         final String name = getRandomName( );
         request.setParameter( "level_name", name );
-        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/features/create_level.html" ) + "b" );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "admin/features/create_level.html" )
+                + "b" );
 
         LevelHome.getLevelsList( ).forEach( level -> {
             assertFalse( name.equals( level.getName( ) ) );
@@ -130,7 +131,7 @@ public class LevelsJspBeanTest extends LuteceTestCase
             instance.doCreateLevel( request );
             fail( "Should have thrown" );
         }
-        catch ( AccessDeniedException e )
+        catch( AccessDeniedException e )
         {
             LevelHome.getLevelsList( ).forEach( level -> {
                 assertFalse( name.equals( level.getName( ) ) );
@@ -159,7 +160,7 @@ public class LevelsJspBeanTest extends LuteceTestCase
             instance.doCreateLevel( request );
             fail( "Should have thrown" );
         }
-        catch ( AccessDeniedException e )
+        catch( AccessDeniedException e )
         {
             LevelHome.getLevelsList( ).forEach( level -> {
                 assertFalse( name.equals( level.getName( ) ) );
@@ -194,7 +195,8 @@ public class LevelsJspBeanTest extends LuteceTestCase
 
     /**
      * Test of doModifyLevel method, of class fr.paris.lutece.portal.web.features.LevelsJspBean.
-     * @throws AccessDeniedException 
+     * 
+     * @throws AccessDeniedException
      */
     public void testDoModifyLevel( ) throws AccessDeniedException
     {
@@ -204,8 +206,7 @@ public class LevelsJspBeanTest extends LuteceTestCase
         LevelHome.create( level );
         request.setParameter( Parameters.LEVEL_ID, Integer.toString( level.getId( ) ) );
         request.setParameter( Parameters.LEVEL_NAME, name + "_mod" );
-        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/features/modify_level.html" ) );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "admin/features/modify_level.html" ) );
         try
         {
             assertEquals( name, LevelHome.findByPrimaryKey( level.getId( ) ).getName( ) );
@@ -226,15 +227,15 @@ public class LevelsJspBeanTest extends LuteceTestCase
         LevelHome.create( level );
         request.setParameter( Parameters.LEVEL_ID, Integer.toString( level.getId( ) ) );
         request.setParameter( Parameters.LEVEL_NAME, name + "_mod" );
-        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/features/modify_level.html" ) + "b" );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "admin/features/modify_level.html" )
+                + "b" );
         try
         {
             assertEquals( name, LevelHome.findByPrimaryKey( level.getId( ) ).getName( ) );
             instance.doModifyLevel( request );
             fail( "Should have thrown" );
         }
-        catch ( AccessDeniedException e )
+        catch( AccessDeniedException e )
         {
             assertEquals( name, LevelHome.findByPrimaryKey( level.getId( ) ).getName( ) );
         }
@@ -258,7 +259,7 @@ public class LevelsJspBeanTest extends LuteceTestCase
             instance.doModifyLevel( request );
             fail( "Should have thrown" );
         }
-        catch ( AccessDeniedException e )
+        catch( AccessDeniedException e )
         {
             assertEquals( name, LevelHome.findByPrimaryKey( level.getId( ) ).getName( ) );
         }

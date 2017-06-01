@@ -108,7 +108,7 @@ public class FeatureGroup
     public String getLabel( )
     {
         String strLocalizedLabel = I18nService.getLocalizedString( _strLabelKey, _locale );
-        if ( !strLocalizedLabel.isEmpty(  ) )
+        if ( !strLocalizedLabel.isEmpty( ) )
         {
             return strLocalizedLabel;
         }
@@ -168,7 +168,7 @@ public class FeatureGroup
     public String getDescription( )
     {
         String strLocalizedDescription = I18nService.getLocalizedString( _strDescriptionKey, _locale );
-        if ( !strLocalizedDescription.isEmpty(  ) )
+        if ( !strLocalizedDescription.isEmpty( ) )
         {
             return strLocalizedDescription;
         }
@@ -219,20 +219,19 @@ public class FeatureGroup
     {
         return _aFeaturesList;
     }
-    
+
     /**
      * Returns a reference item for the feature group
      * 
      * @return a reference item
      */
-    public ReferenceItem getReferenceItem(  )
+    public ReferenceItem getReferenceItem( )
     {
-        ReferenceItem item = new ReferenceItem(  );
+        ReferenceItem item = new ReferenceItem( );
         item.setCode( _strId );
-        item.setName( getLabel(  ) );
+        item.setName( getLabel( ) );
         item.setChecked( true );
         return item;
     }
-    
-    
+
 }

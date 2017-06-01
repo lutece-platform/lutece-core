@@ -172,7 +172,8 @@ public class AuthenticationFilter implements Filter
     {
         String strLoginUrl = getLoginUrl( request );
 
-        if ( strLoginUrl == null ) {
+        if ( strLoginUrl == null )
+        {
             return null;
         }
 
@@ -187,7 +188,7 @@ public class AuthenticationFilter implements Filter
             strParamName = enumParams.nextElement( );
 
             if ( !strParamName.equals( Parameters.ACCESS_CODE ) && !strParamName.equals( Parameters.PASSWORD )
-              && !strParamName.equals( SecurityTokenService.PARAMETER_TOKEN ) )
+                    && !strParamName.equals( SecurityTokenService.PARAMETER_TOKEN ) )
             {
                 url.addParameter( strParamName, request.getParameter( strParamName ) );
             }
@@ -195,7 +196,7 @@ public class AuthenticationFilter implements Filter
 
         return url.getUrl( );
     }
-    
+
     /**
      * Get the absolute login url
      *
@@ -254,7 +255,7 @@ public class AuthenticationFilter implements Filter
 
         String strUrlDefaultAdminLogin = getAbsoluteUrl( request, JSP_URL_ADMIN_LOGIN );
 
-        if ( strUrl.equals ( strUrlDefaultAdminLogin ) || strUrl.equals( getLoginUrl( request ) ) || strUrl.equals( getLogoutUrl( request ) ) )
+        if ( strUrl.equals( strUrlDefaultAdminLogin ) || strUrl.equals( getLoginUrl( request ) ) || strUrl.equals( getLogoutUrl( request ) ) )
         {
             bIsRestricted = false;
         }
@@ -367,9 +368,10 @@ public class AuthenticationFilter implements Filter
     {
         return AppPathService.getBaseUrl( request ) + request.getServletPath( ).substring( 1 );
     }
-    
-     /**
-     * Build the url to redirect after opening a new session when using external admin authentication. This is actually the requested url if provided; else the admin autentication admin menu.
+
+    /**
+     * Build the url to redirect after opening a new session when using external admin authentication. This is actually the requested url if provided; else the
+     * admin autentication admin menu.
      * 
      * @param request
      *            the http request
@@ -377,11 +379,11 @@ public class AuthenticationFilter implements Filter
      */
     private String getRedirectUrlExternalAuthentication( HttpServletRequest request )
     {
-        String strNextUrl = AdminAuthenticationService.getInstance( ).getLoginNextUrl( request ); 
-        
+        String strNextUrl = AdminAuthenticationService.getInstance( ).getLoginNextUrl( request );
+
         if ( StringUtils.isEmpty( strNextUrl ) )
         {
-            strNextUrl = AppPathService.getAdminMenuUrl( ); 
+            strNextUrl = AppPathService.getAdminMenuUrl( );
         }
 
         return strNextUrl;

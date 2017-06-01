@@ -115,11 +115,11 @@ public final class JobSchedulerService
             try
             {
                 date = _scheduler.scheduleJob( job, trigger );
-                AppLogService.info( "New job scheduled : " + job.getKey().getName( ) );
+                AppLogService.info( "New job scheduled : " + job.getKey( ).getName( ) );
             }
             catch( SchedulerException e )
             {
-                AppLogService.error( "Error scheduling job " + job.getKey().getName( ), e );
+                AppLogService.error( "Error scheduling job " + job.getKey( ).getName( ), e );
             }
         }
 

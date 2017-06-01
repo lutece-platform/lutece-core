@@ -61,9 +61,13 @@ public class LinksIncludeCacheService extends AbstractCacheableService implement
 
     /**
      * Get a cache key
-     * @param nMode mode
-     * @param strPage page id
-     * @param locale locale
+     * 
+     * @param nMode
+     *            mode
+     * @param strPage
+     *            page id
+     * @param locale
+     *            locale
      * @return a cache key
      */
     public String getCacheKey( int nMode, String strPage, Locale locale )

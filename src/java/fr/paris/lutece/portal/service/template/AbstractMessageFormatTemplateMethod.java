@@ -60,7 +60,7 @@ public abstract class AbstractMessageFormatTemplateMethod implements TemplateMet
         }
 
         String key = ( (TemplateScalarModel) arguments.get( 0 ) ).getAsString( );
-        Locale locale = Environment.getCurrentEnvironment(  ).getLocale(  );
+        Locale locale = Environment.getCurrentEnvironment( ).getLocale( );
 
         if ( argsSize == 1 )
         {
@@ -68,7 +68,7 @@ public abstract class AbstractMessageFormatTemplateMethod implements TemplateMet
             return getPattern( key, locale );
         }
 
-        Object [ ] args = new Object[ argsSize - 1 ];
+        Object [ ] args = new Object [ argsSize - 1];
 
         for ( int i = 1; i < argsSize; i++ )
         {

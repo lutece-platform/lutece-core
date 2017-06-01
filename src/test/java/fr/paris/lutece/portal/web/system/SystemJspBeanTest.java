@@ -66,6 +66,7 @@ public class SystemJspBeanTest extends LuteceTestCase
         instance = new SystemJspBean( );
         instance.init( request, SystemJspBean.RIGHT_PROPERTIES_MANAGEMENT );
     }
+
     /**
      * Test of getManageFilesSystem method, of class fr.paris.lutece.portal.web.system.SystemJspBean.
      */
@@ -134,7 +135,7 @@ public class SystemJspBeanTest extends LuteceTestCase
             SystemJspBean.doModifyProperties( request, request.getServletContext( ) );
             fail( "Should have thrown" );
         }
-        catch ( AccessDeniedException e )
+        catch( AccessDeniedException e )
         {
             assertEquals( origValue, DatastoreService.getDataValue( property, "" ) );
         }
@@ -155,7 +156,7 @@ public class SystemJspBeanTest extends LuteceTestCase
             SystemJspBean.doModifyProperties( request, request.getServletContext( ) );
             fail( "Should have thrown" );
         }
-        catch ( AccessDeniedException e )
+        catch( AccessDeniedException e )
         {
             assertEquals( origValue, DatastoreService.getDataValue( property, "" ) );
         }

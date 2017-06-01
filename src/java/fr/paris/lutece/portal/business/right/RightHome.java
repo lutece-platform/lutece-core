@@ -295,8 +295,9 @@ public final class RightHome
 
         return true;
     }
-    
-    public static Collection<Right> getExternalRightList(  ){
+
+    public static Collection<Right> getExternalRightList( )
+    {
         return _dao.selectExternalRightsList( 0 );
     }
 }

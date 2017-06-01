@@ -46,34 +46,48 @@ public interface IPathCacheService
 
     /**
      * Constructs a cache key
-     * @param strXPageName the XPage name
-     * @param nMode the mode
-     * @param request the request
+     * 
+     * @param strXPageName
+     *            the XPage name
+     * @param nMode
+     *            the mode
+     * @param request
+     *            the request
      * @return the cache key, or <code>null</code> if for instance the cache is not enabled
      */
     String getKey( String strXPageName, int nMode, HttpServletRequest request );
 
     /**
      * Constructs a cache key
-     * @param strXPageName the XPage name
-     * @param nMode the mode
-     * @param strTitlesUrls list of links (url and titles)
-     * @param request the request the request
+     * 
+     * @param strXPageName
+     *            the XPage name
+     * @param nMode
+     *            the mode
+     * @param strTitlesUrls
+     *            list of links (url and titles)
+     * @param request
+     *            the request the request
      * @return the cache key, or <code>null</code> if for instance the cache is not enabled
      */
     String getKey( String strXPageName, int nMode, String strTitlesUrls, HttpServletRequest request );
 
     /**
      * Get the path html from cache
-     * @param strKey the cache key
+     * 
+     * @param strKey
+     *            the cache key
      * @return the path html, or <code>null</code> if it's not in cache or the cache is not enabled
      */
     String getFromCache( String strKey );
 
     /**
      * Put a path in cache
-     * @param strKey the cache key
-     * @param path the path html
+     * 
+     * @param strKey
+     *            the cache key
+     * @param path
+     *            the path html
      */
     void putInCache( String strKey, String path );
 

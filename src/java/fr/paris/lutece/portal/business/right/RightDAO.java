@@ -48,7 +48,8 @@ public final class RightDAO implements IRightDAO
             + " admin_url, description, plugin_name, id_feature_group, icon_url, documentation_url, id_order, is_external_feature " + " FROM core_admin_right "
             + " WHERE id_right = ? ";
     private static final String SQL_QUERY_INSERT = " INSERT INTO core_admin_right ( id_right , name, level_right, admin_url , "
-            + " description, plugin_name, id_feature_group, icon_url, documentation_url, id_order, is_external_feature ) " + " VALUES ( ?, ?, ?, ? , ?, ?, ?, ?, ?, ?, ? )";
+            + " description, plugin_name, id_feature_group, icon_url, documentation_url, id_order, is_external_feature ) "
+            + " VALUES ( ?, ?, ?, ? , ?, ?, ?, ?, ?, ?, ? )";
     private static final String SQL_QUERY_UPDATE = " UPDATE core_admin_right SET name = ?, admin_url = ? , description = ? , "
             + " plugin_name = ?, id_feature_group = ?, icon_url = ?, level_right = ?, documentation_url = ?, id_order = ?, is_external_feature = ? WHERE id_right = ?";
     private static final String SQL_QUERY_SELECTALL_EXTERNAL_FEATURES = " SELECT id_right, name, level_right, admin_url, description, plugin_name, id_feature_group, icon_url, documentation_url, id_order, is_external_feature "
@@ -85,7 +86,7 @@ public final class RightDAO implements IRightDAO
         daoUtil.setString( 8, right.getIconUrl( ) );
         daoUtil.setString( 9, right.getDocumentationUrl( ) );
         daoUtil.setInt( 10, right.getOrder( ) );
-        daoUtil.setBoolean( 11, right.isExternalFeature(  ) );
+        daoUtil.setBoolean( 11, right.isExternalFeature( ) );
 
         daoUtil.executeUpdate( );
         daoUtil.free( );
@@ -119,7 +120,7 @@ public final class RightDAO implements IRightDAO
             right.setIconUrl( daoUtil.getString( 8 ) );
             right.setDocumentationUrl( daoUtil.getString( 9 ) );
             right.setOrder( daoUtil.getInt( 10 ) );
-            right.setExternalFeature( daoUtil.getBoolean( 11 ));
+            right.setExternalFeature( daoUtil.getBoolean( 11 ) );
         }
 
         daoUtil.free( );
@@ -167,7 +168,7 @@ public final class RightDAO implements IRightDAO
         daoUtil.setInt( 7, right.getLevel( ) );
         daoUtil.setString( 8, right.getDocumentationUrl( ) );
         daoUtil.setInt( 9, right.getOrder( ) );
-        daoUtil.setBoolean( 10, right.isExternalFeature(  ) );
+        daoUtil.setBoolean( 10, right.isExternalFeature( ) );
         daoUtil.setString( 11, right.getId( ) );
 
         daoUtil.executeUpdate( );
@@ -217,39 +218,39 @@ public final class RightDAO implements IRightDAO
             rightList.add( right );
         }
 
-        daoUtil.free(  );
+        daoUtil.free( );
 
         return rightList;
     }
-    
+
     /**
      * Loads the data of all the external admin features and returns them in form of a collection
+     * 
      * @return the collection which contains the data of all the external admin features
      */
-    public Collection<Right> selectExternalRightsList(  )
+    public Collection<Right> selectExternalRightsList( )
     {
         return selectExternalRightsList( 0 );
     }
-    
 
     /**
-     * Loads the data of all the external admin features with level greater or equal than nLevel
-     * and returns them in form of a collection
+     * Loads the data of all the external admin features with level greater or equal than nLevel and returns them in form of a collection
      *
-     * @param nLevel The right level
+     * @param nLevel
+     *            The right level
      * @return the collection which contains the data of all the external admin features
      */
     @Override
     public Collection<Right> selectExternalRightsList( int nLevel )
     {
-        Collection<Right> rightList = new ArrayList<Right>(  );
+        Collection<Right> rightList = new ArrayList<Right>( );
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL_EXTERNAL_FEATURES );
         daoUtil.setInt( 1, nLevel );
-        daoUtil.executeQuery(  );
+        daoUtil.executeQuery( );
 
-        while ( daoUtil.next(  ) )
+        while ( daoUtil.next( ) )
         {
-            Right right = new Right(  );
+            Right right = new Right( );
 
             right.setId( daoUtil.getString( 1 ) );
             right.setNameKey( daoUtil.getString( 2 ) );

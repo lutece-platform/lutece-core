@@ -212,7 +212,8 @@ public final class AdminUserFieldHome
      *            the id file
      * @return wheter the file is associated with an attribute
      */
-    public static boolean existsWithFile( int nIdFile ) {
+    public static boolean existsWithFile( int nIdFile )
+    {
         return _dao.existsWithFile( nIdFile );
     }
 

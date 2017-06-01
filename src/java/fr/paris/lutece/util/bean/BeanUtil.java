@@ -108,11 +108,11 @@ public final class BeanUtil
      *            The input map
      * @return The output map
      */
-    public static Map<String, Object> convertMap( Map<String, String[]> mapInput )
+    public static Map<String, Object> convertMap( Map<String, String [ ]> mapInput )
     {
         Map<String, Object> mapOutput = new HashMap<String, Object>( );
 
-        for ( Entry<String, String[]> entry : mapInput.entrySet( ) )
+        for ( Entry<String, String [ ]> entry : mapInput.entrySet( ) )
         {
             mapOutput.put( convertUnderscores( entry.getKey( ) ), entry.getValue( ) );
         }

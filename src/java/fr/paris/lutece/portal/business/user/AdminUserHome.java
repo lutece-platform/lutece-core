@@ -607,13 +607,16 @@ public final class AdminUserHome
     }
 
     /**
-     * Construct a password reset token. Use the numerical userId as it does not change.
-     * Use the stored password, so that the token is invalidated if the password is changed.
-     * Use a timestamp to allow limiting the validity of the token in time. Optionally bind the
-     * token to the user session. Finally return an HMAC of this info using the application crypto key.
-     * @param nIdUser the user ID
-     * @param timestamp the timestamp
-     * @param strSessionId the session ID
+     * Construct a password reset token. Use the numerical userId as it does not change. Use the stored password, so that the token is invalidated if the
+     * password is changed. Use a timestamp to allow limiting the validity of the token in time. Optionally bind the token to the user session. Finally return
+     * an HMAC of this info using the application crypto key.
+     * 
+     * @param nIdUser
+     *            the user ID
+     * @param timestamp
+     *            the timestamp
+     * @param strSessionId
+     *            the session ID
      * @return the password reset token
      */
     public static String getUserPasswordResetToken( int nIdUser, Date timestamp, String strSessionId )
@@ -628,7 +631,8 @@ public final class AdminUserHome
             if ( password.isLegacy( ) )
             {
                 builder.append( "legacy" );
-            } else
+            }
+            else
             {
                 builder.append( password.getStorableRepresentation( ) );
             }

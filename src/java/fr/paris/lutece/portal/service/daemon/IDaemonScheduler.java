@@ -36,8 +36,7 @@ package fr.paris.lutece.portal.service.daemon;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Daemon scheduler. Responsible for ensuring on demand or timely daemon
- * execution.
+ * Daemon scheduler. Responsible for ensuring on demand or timely daemon execution.
  */
 public interface IDaemonScheduler
 {
@@ -54,9 +53,7 @@ public interface IDaemonScheduler
      *            the delay before execution
      * @param nDelay
      *            the unit of <code>nDelay</code> argument
-     * @return <code>true</code> if the daemon was successfully queued,
-     *         <code>false</code> otherwise, for instance if the underlying
-     *         queue is over capacity
+     * @return <code>true</code> if the daemon was successfully queued, <code>false</code> otherwise, for instance if the underlying queue is over capacity
      */
     boolean enqueue( DaemonEntry entry, long nDelay, TimeUnit unit );
 

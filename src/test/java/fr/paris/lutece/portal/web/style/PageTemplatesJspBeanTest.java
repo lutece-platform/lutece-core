@@ -78,6 +78,7 @@ public class PageTemplatesJspBeanTest extends LuteceTestCase
         instance = new PageTemplatesJspBean( );
         instance.init( request, PageTemplatesJspBean.RIGHT_MANAGE_PAGE_TEMPLATES );
     }
+
     /**
      * Test of getManagePageTemplate method, of class fr.paris.lutece.portal.web.style.PageTemplatesJspBean.
      */
@@ -96,25 +97,30 @@ public class PageTemplatesJspBeanTest extends LuteceTestCase
 
     /**
      * Test of doCreatePageTemplate method, of fr.paris.lutece.portal.web.style.PageTemplatesJspBean.
-     * @throws AccessDeniedException 
-     * @throws IOException 
+     * 
+     * @throws AccessDeniedException
+     * @throws IOException
      */
     public void testDoCreatePageTemplate( ) throws AccessDeniedException, IOException
     {
         final String desc = getRandomName( );
-        Map<String, String[ ]> parameters = new HashMap<String, String[]>( );
-        parameters.put( Parameters.PAGE_TEMPLATE_DESCRIPTION, new String[] { desc } );
-        parameters.put( SecurityTokenService.PARAMETER_TOKEN, new String[] { SecurityTokenService.getInstance( ).getToken( request, "admin/style/create_page_template.html" ) } );
+        Map<String, String [ ]> parameters = new HashMap<String, String [ ]>( );
+        parameters.put( Parameters.PAGE_TEMPLATE_DESCRIPTION, new String [ ] {
+            desc
+        } );
+        parameters.put( SecurityTokenService.PARAMETER_TOKEN, new String [ ] {
+            SecurityTokenService.getInstance( ).getToken( request, "admin/style/create_page_template.html" )
+        } );
         DiskFileItemFactory fileItemFactory = new DiskFileItemFactory( );
         Map<String, List<FileItem>> files = new HashMap<>( );
         List<FileItem> pageTemplateFiles = new ArrayList<>( );
         FileItem pageTemplateFile = fileItemFactory.createItem( "page_template_file", "text/html", false, "junit.html" );
-        pageTemplateFile.getOutputStream( ).write( new byte[1] );
+        pageTemplateFile.getOutputStream( ).write( new byte [ 1] );
         pageTemplateFiles.add( pageTemplateFile );
         files.put( "page_template_file", pageTemplateFiles );
         List<FileItem> pageTemplatePictures = new ArrayList<>( );
         FileItem pageTemplatePicture = fileItemFactory.createItem( "page_template_picture", "image/jpg", false, "junit.jpg" );
-        pageTemplatePicture.getOutputStream( ).write( new byte[1] );
+        pageTemplatePicture.getOutputStream( ).write( new byte [ 1] );
         pageTemplatePictures.add( pageTemplatePicture );
         files.put( "page_template_picture", pageTemplatePictures );
         MultipartHttpServletRequest multipartRequest = new MultipartHttpServletRequest( request, files, parameters );
@@ -125,26 +131,31 @@ public class PageTemplatesJspBeanTest extends LuteceTestCase
         }
         finally
         {
-            PageTemplateHome.getPageTemplatesList( ).stream( ).filter( t -> t.getDescription( ).equals( desc ) ).forEach( t -> PageTemplateHome.remove( t.getId( ) ) );
+            PageTemplateHome.getPageTemplatesList( ).stream( ).filter( t -> t.getDescription( ).equals( desc ) )
+                    .forEach( t -> PageTemplateHome.remove( t.getId( ) ) );
         }
     }
 
     public void testDoCreatePageTemplateInvalidToken( ) throws AccessDeniedException, IOException
     {
         final String desc = getRandomName( );
-        Map<String, String[ ]> parameters = new HashMap<String, String[]>( );
-        parameters.put( Parameters.PAGE_TEMPLATE_DESCRIPTION, new String[] { desc } );
-        parameters.put( SecurityTokenService.PARAMETER_TOKEN, new String[] { SecurityTokenService.getInstance( ).getToken( request, "admin/style/create_page_template.html" ) + "b" } );
+        Map<String, String [ ]> parameters = new HashMap<String, String [ ]>( );
+        parameters.put( Parameters.PAGE_TEMPLATE_DESCRIPTION, new String [ ] {
+            desc
+        } );
+        parameters.put( SecurityTokenService.PARAMETER_TOKEN, new String [ ] {
+            SecurityTokenService.getInstance( ).getToken( request, "admin/style/create_page_template.html" ) + "b"
+        } );
         DiskFileItemFactory fileItemFactory = new DiskFileItemFactory( );
         Map<String, List<FileItem>> files = new HashMap<>( );
         List<FileItem> pageTemplateFiles = new ArrayList<>( );
         FileItem pageTemplateFile = fileItemFactory.createItem( "page_template_file", "text/html", false, "junit.html" );
-        pageTemplateFile.getOutputStream( ).write( new byte[1] );
+        pageTemplateFile.getOutputStream( ).write( new byte [ 1] );
         pageTemplateFiles.add( pageTemplateFile );
         files.put( "page_template_file", pageTemplateFiles );
         List<FileItem> pageTemplatePictures = new ArrayList<>( );
         FileItem pageTemplatePicture = fileItemFactory.createItem( "page_template_picture", "image/jpg", false, "junit.jpg" );
-        pageTemplatePicture.getOutputStream( ).write( new byte[1] );
+        pageTemplatePicture.getOutputStream( ).write( new byte [ 1] );
         pageTemplatePictures.add( pageTemplatePicture );
         files.put( "page_template_picture", pageTemplatePictures );
         MultipartHttpServletRequest multipartRequest = new MultipartHttpServletRequest( request, files, parameters );
@@ -153,31 +164,34 @@ public class PageTemplatesJspBeanTest extends LuteceTestCase
             instance.doCreatePageTemplate( multipartRequest );
             fail( "Should have thrown" );
         }
-        catch ( AccessDeniedException e )
+        catch( AccessDeniedException e )
         {
             assertFalse( PageTemplateHome.getPageTemplatesList( ).stream( ).anyMatch( t -> t.getDescription( ).equals( desc ) ) );
         }
         finally
         {
-            PageTemplateHome.getPageTemplatesList( ).stream( ).filter( t -> t.getDescription( ).equals( desc ) ).forEach( t -> PageTemplateHome.remove( t.getId( ) ) );
+            PageTemplateHome.getPageTemplatesList( ).stream( ).filter( t -> t.getDescription( ).equals( desc ) )
+                    .forEach( t -> PageTemplateHome.remove( t.getId( ) ) );
         }
     }
 
     public void testDoCreatePageTemplateNoToken( ) throws AccessDeniedException, IOException
     {
         final String desc = getRandomName( );
-        Map<String, String[ ]> parameters = new HashMap<String, String[]>( );
-        parameters.put( Parameters.PAGE_TEMPLATE_DESCRIPTION, new String[] { desc } );
+        Map<String, String [ ]> parameters = new HashMap<String, String [ ]>( );
+        parameters.put( Parameters.PAGE_TEMPLATE_DESCRIPTION, new String [ ] {
+            desc
+        } );
         DiskFileItemFactory fileItemFactory = new DiskFileItemFactory( );
         Map<String, List<FileItem>> files = new HashMap<>( );
         List<FileItem> pageTemplateFiles = new ArrayList<>( );
         FileItem pageTemplateFile = fileItemFactory.createItem( "page_template_file", "text/html", false, "junit.html" );
-        pageTemplateFile.getOutputStream( ).write( new byte[1] );
+        pageTemplateFile.getOutputStream( ).write( new byte [ 1] );
         pageTemplateFiles.add( pageTemplateFile );
         files.put( "page_template_file", pageTemplateFiles );
         List<FileItem> pageTemplatePictures = new ArrayList<>( );
         FileItem pageTemplatePicture = fileItemFactory.createItem( "page_template_picture", "image/jpg", false, "junit.jpg" );
-        pageTemplatePicture.getOutputStream( ).write( new byte[1] );
+        pageTemplatePicture.getOutputStream( ).write( new byte [ 1] );
         pageTemplatePictures.add( pageTemplatePicture );
         files.put( "page_template_picture", pageTemplatePictures );
         MultipartHttpServletRequest multipartRequest = new MultipartHttpServletRequest( request, files, parameters );
@@ -186,13 +200,14 @@ public class PageTemplatesJspBeanTest extends LuteceTestCase
             instance.doCreatePageTemplate( multipartRequest );
             fail( "Should have thrown" );
         }
-        catch ( AccessDeniedException e )
+        catch( AccessDeniedException e )
         {
             assertFalse( PageTemplateHome.getPageTemplatesList( ).stream( ).anyMatch( t -> t.getDescription( ).equals( desc ) ) );
         }
         finally
         {
-            PageTemplateHome.getPageTemplatesList( ).stream( ).filter( t -> t.getDescription( ).equals( desc ) ).forEach( t -> PageTemplateHome.remove( t.getId( ) ) );
+            PageTemplateHome.getPageTemplatesList( ).stream( ).filter( t -> t.getDescription( ).equals( desc ) )
+                    .forEach( t -> PageTemplateHome.remove( t.getId( ) ) );
         }
     }
 
@@ -207,19 +222,26 @@ public class PageTemplatesJspBeanTest extends LuteceTestCase
 
     /**
      * Test of doModifyPageTemplate method, of fr.paris.lutece.portal.web.style.PageTemplatesJspBean.
-     * @throws AccessDeniedException 
+     * 
+     * @throws AccessDeniedException
      */
     public void testDoModifyPageTemplate( ) throws AccessDeniedException
     {
-        final String desc = getRandomName();
+        final String desc = getRandomName( );
         PageTemplate pageTemplate = new PageTemplate( );
         pageTemplate.setDescription( desc );
         PageTemplateHome.create( pageTemplate );
 
-        Map<String, String[ ]> parameters = new HashMap<>( );
-        parameters.put( Parameters.PAGE_TEMPLATE_ID, new String[] { Integer.toString( pageTemplate.getId( ) ) } );
-        parameters.put( Parameters.PAGE_TEMPLATE_DESCRIPTION, new String[] { desc + "mod" } );
-        parameters.put( SecurityTokenService.PARAMETER_TOKEN, new String[] { SecurityTokenService.getInstance( ).getToken( request, "admin/style/modify_page_template.html" ) } );
+        Map<String, String [ ]> parameters = new HashMap<>( );
+        parameters.put( Parameters.PAGE_TEMPLATE_ID, new String [ ] {
+            Integer.toString( pageTemplate.getId( ) )
+        } );
+        parameters.put( Parameters.PAGE_TEMPLATE_DESCRIPTION, new String [ ] {
+            desc + "mod"
+        } );
+        parameters.put( SecurityTokenService.PARAMETER_TOKEN, new String [ ] {
+            SecurityTokenService.getInstance( ).getToken( request, "admin/style/modify_page_template.html" )
+        } );
         MultipartHttpServletRequest multipartRequest = new MultipartHttpServletRequest( request, Collections.emptyMap( ), parameters );
         try
         {
@@ -235,15 +257,21 @@ public class PageTemplatesJspBeanTest extends LuteceTestCase
 
     public void testDoModifyPageTemplateInvalidToken( ) throws AccessDeniedException
     {
-        final String desc = getRandomName();
+        final String desc = getRandomName( );
         PageTemplate pageTemplate = new PageTemplate( );
         pageTemplate.setDescription( desc );
         PageTemplateHome.create( pageTemplate );
 
-        Map<String, String[ ]> parameters = new HashMap<>( );
-        parameters.put( Parameters.PAGE_TEMPLATE_ID, new String[] { Integer.toString( pageTemplate.getId( ) ) } );
-        parameters.put( Parameters.PAGE_TEMPLATE_DESCRIPTION, new String[] { desc + "mod" } );
-        parameters.put( SecurityTokenService.PARAMETER_TOKEN, new String[] { SecurityTokenService.getInstance( ).getToken( request, "admin/style/modify_page_template.html" ) + "b" } );
+        Map<String, String [ ]> parameters = new HashMap<>( );
+        parameters.put( Parameters.PAGE_TEMPLATE_ID, new String [ ] {
+            Integer.toString( pageTemplate.getId( ) )
+        } );
+        parameters.put( Parameters.PAGE_TEMPLATE_DESCRIPTION, new String [ ] {
+            desc + "mod"
+        } );
+        parameters.put( SecurityTokenService.PARAMETER_TOKEN, new String [ ] {
+            SecurityTokenService.getInstance( ).getToken( request, "admin/style/modify_page_template.html" ) + "b"
+        } );
         MultipartHttpServletRequest multipartRequest = new MultipartHttpServletRequest( request, Collections.emptyMap( ), parameters );
         try
         {
@@ -251,7 +279,7 @@ public class PageTemplatesJspBeanTest extends LuteceTestCase
             instance.doModifyPageTemplate( multipartRequest );
             fail( "Should have thrown" );
         }
-        catch ( AccessDeniedException e )
+        catch( AccessDeniedException e )
         {
             assertEquals( desc, PageTemplateHome.findByPrimaryKey( pageTemplate.getId( ) ).getDescription( ) );
         }
@@ -263,14 +291,18 @@ public class PageTemplatesJspBeanTest extends LuteceTestCase
 
     public void testDoModifyPageTemplateNoToken( ) throws AccessDeniedException
     {
-        final String desc = getRandomName();
+        final String desc = getRandomName( );
         PageTemplate pageTemplate = new PageTemplate( );
         pageTemplate.setDescription( desc );
         PageTemplateHome.create( pageTemplate );
 
-        Map<String, String[ ]> parameters = new HashMap<>( );
-        parameters.put( Parameters.PAGE_TEMPLATE_ID, new String[] { Integer.toString( pageTemplate.getId( ) ) } );
-        parameters.put( Parameters.PAGE_TEMPLATE_DESCRIPTION, new String[] { desc + "mod" } );
+        Map<String, String [ ]> parameters = new HashMap<>( );
+        parameters.put( Parameters.PAGE_TEMPLATE_ID, new String [ ] {
+            Integer.toString( pageTemplate.getId( ) )
+        } );
+        parameters.put( Parameters.PAGE_TEMPLATE_DESCRIPTION, new String [ ] {
+            desc + "mod"
+        } );
         MultipartHttpServletRequest multipartRequest = new MultipartHttpServletRequest( request, Collections.emptyMap( ), parameters );
         try
         {
@@ -278,7 +310,7 @@ public class PageTemplatesJspBeanTest extends LuteceTestCase
             instance.doModifyPageTemplate( multipartRequest );
             fail( "Should have thrown" );
         }
-        catch ( AccessDeniedException e )
+        catch( AccessDeniedException e )
         {
             assertEquals( desc, PageTemplateHome.findByPrimaryKey( pageTemplate.getId( ) ).getDescription( ) );
         }
@@ -300,7 +332,7 @@ public class PageTemplatesJspBeanTest extends LuteceTestCase
 
     public void testDoRemovePageTemplate( ) throws AccessDeniedException
     {
-        final String desc = getRandomName();
+        final String desc = getRandomName( );
         PageTemplate pageTemplate = new PageTemplate( );
         pageTemplate.setDescription( desc );
         pageTemplate.setFile( "junit" );
@@ -308,7 +340,8 @@ public class PageTemplatesJspBeanTest extends LuteceTestCase
         PageTemplateHome.create( pageTemplate );
 
         request.addParameter( Parameters.PAGE_TEMPLATE_ID, Integer.toString( pageTemplate.getId( ) ) );
-        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/style/DoRemovePageTemplate.jsp" ) );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/style/DoRemovePageTemplate.jsp" ) );
         try
         {
             instance.doRemovePageTemplate( request );
@@ -322,7 +355,7 @@ public class PageTemplatesJspBeanTest extends LuteceTestCase
 
     public void testDoRemovePageTemplateInvalidToken( ) throws AccessDeniedException
     {
-        final String desc = getRandomName();
+        final String desc = getRandomName( );
         PageTemplate pageTemplate = new PageTemplate( );
         pageTemplate.setDescription( desc );
         pageTemplate.setFile( "junit" );
@@ -330,13 +363,14 @@ public class PageTemplatesJspBeanTest extends LuteceTestCase
         PageTemplateHome.create( pageTemplate );
 
         request.addParameter( Parameters.PAGE_TEMPLATE_ID, Integer.toString( pageTemplate.getId( ) ) );
-        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/style/DoRemovePageTemplate.jsp" ) + "b" );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/style/DoRemovePageTemplate.jsp" ) + "b" );
         try
         {
             instance.doRemovePageTemplate( request );
             fail( "Should have thrown" );
         }
-        catch ( AccessDeniedException e )
+        catch( AccessDeniedException e )
         {
             assertNotNull( PageTemplateHome.findByPrimaryKey( pageTemplate.getId( ) ) );
         }
@@ -348,7 +382,7 @@ public class PageTemplatesJspBeanTest extends LuteceTestCase
 
     public void testDoRemovePageTemplateNoToken( ) throws AccessDeniedException
     {
-        final String desc = getRandomName();
+        final String desc = getRandomName( );
         PageTemplate pageTemplate = new PageTemplate( );
         pageTemplate.setDescription( desc );
         pageTemplate.setFile( "junit" );
@@ -361,7 +395,7 @@ public class PageTemplatesJspBeanTest extends LuteceTestCase
             instance.doRemovePageTemplate( request );
             fail( "Should have thrown" );
         }
-        catch ( AccessDeniedException e )
+        catch( AccessDeniedException e )
         {
             assertNotNull( PageTemplateHome.findByPrimaryKey( pageTemplate.getId( ) ) );
         }

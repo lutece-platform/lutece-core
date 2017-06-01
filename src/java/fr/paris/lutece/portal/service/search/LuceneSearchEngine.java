@@ -137,9 +137,10 @@ public class LuceneSearchEngine implements SearchEngine
             {
                 Query queryRole = new TermQuery( new Term( SearchItem.FIELD_ROLE, Page.ROLE_NONE ) );
                 filtersRole [filtersRole.length - 1] = queryRole;
-                BooleanQuery.Builder booleanQueryBuilderRole  = new BooleanQuery.Builder( );
-                for (Query filterRole: filtersRole) {
-                    booleanQueryBuilderRole.add( filterRole , BooleanClause.Occur.SHOULD );
+                BooleanQuery.Builder booleanQueryBuilderRole = new BooleanQuery.Builder( );
+                for ( Query filterRole : filtersRole )
+                {
+                    booleanQueryBuilderRole.add( filterRole, BooleanClause.Occur.SHOULD );
                 }
                 listFilter.add( booleanQueryBuilderRole.build( ) );
             }
@@ -178,8 +179,9 @@ public class LuceneSearchEngine implements SearchEngine
                 filtersType [i] = queryType;
             }
 
-            BooleanQuery.Builder booleanQueryBuilder  = new BooleanQuery.Builder( );
-            for (Query filterType: filtersType) {
+            BooleanQuery.Builder booleanQueryBuilder = new BooleanQuery.Builder( );
+            for ( Query filterType : filtersType )
+            {
                 booleanQueryBuilder.add( filterType, BooleanClause.Occur.SHOULD );
             }
             listFilter.add( booleanQueryBuilder.build( ) );
@@ -187,8 +189,9 @@ public class LuceneSearchEngine implements SearchEngine
 
         if ( !listFilter.isEmpty( ) )
         {
-            BooleanQuery.Builder booleanQueryBuilder  = new BooleanQuery.Builder( );
-            for (Query filter: listFilter) {
+            BooleanQuery.Builder booleanQueryBuilder = new BooleanQuery.Builder( );
+            for ( Query filter : listFilter )
+            {
                 booleanQueryBuilder.add( filter, BooleanClause.Occur.MUST );
             }
             allFilter = booleanQueryBuilder.build( );
@@ -225,10 +228,11 @@ public class LuceneSearchEngine implements SearchEngine
                 }
 
                 Query queryContent = parser.parse( ( StringUtils.isNotBlank( strQuery ) ) ? strQuery : "" );
-                bQueryBuilder.add ( queryContent, BooleanClause.Occur.SHOULD ) ;
+                bQueryBuilder.add( queryContent, BooleanClause.Occur.SHOULD );
             }
 
-            if ( allFilter != null ) {
+            if ( allFilter != null )
+            {
                 bQueryBuilder.add( allFilter, BooleanClause.Occur.FILTER );
             }
             Query query = bQueryBuilder.build( );

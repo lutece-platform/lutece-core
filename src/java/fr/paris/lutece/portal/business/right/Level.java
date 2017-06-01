@@ -84,15 +84,15 @@ public class Level
     {
         _strName = strName;
     }
-    
+
     /**
      * Return a reference Item for this level
      *
      * @return a reference item for this level
      */
-    public ReferenceItem getReferenceItem(  )
+    public ReferenceItem getReferenceItem( )
     {
-        ReferenceItem referenceItem = new ReferenceItem(  );
+        ReferenceItem referenceItem = new ReferenceItem( );
         referenceItem.setCode( Integer.toString( _nId ) );
         referenceItem.setName( _strName );
         referenceItem.setChecked( true );

@@ -35,10 +35,10 @@ package fr.paris.lutece.portal.business.user;
 
 /**
  * Should the password be updated or ignored
+ * 
  * @since 6.0.0
  */
 public enum PasswordUpdateMode
 {
-    UPDATE,
-    IGNORE,
+    UPDATE, IGNORE,
 }

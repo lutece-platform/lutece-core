@@ -49,13 +49,11 @@ import fr.paris.lutece.portal.service.util.AppPropertiesService;
 /**
  * Daemon scheduler.
  * <p>
- * Responsible for ensuring on demand or timely daemon execution. Starts a
- * thread which monitor the queue for daemons to execute. A {@link Timer}
- * handles repeating daemons runs.
+ * Responsible for ensuring on demand or timely daemon execution. Starts a thread which monitor the queue for daemons to execute. A {@link Timer} handles
+ * repeating daemons runs.
  * 
  * <p>
- * Daemon run requests are coalesced. If a daemon is already running when a
- * request comes, a new run is scheduled right after the current run ends.
+ * Daemon run requests are coalesced. If a daemon is already running when a request comes, a new run is scheduled right after the current run ends.
  */
 class DaemonScheduler implements Runnable, IDaemonScheduler
 {
@@ -105,7 +103,7 @@ class DaemonScheduler implements Runnable, IDaemonScheduler
             _scheduledDaemonsTimer.schedule( new DaemonTimerTask( entry ), unit.toMillis( nDelay ) );
             return true;
         }
-        catch ( IllegalStateException e )
+        catch( IllegalStateException e )
         {
             return false;
         }
@@ -113,7 +111,9 @@ class DaemonScheduler implements Runnable, IDaemonScheduler
 
     /**
      * Enqueue without delay
-     * @param entry the daemon entry
+     * 
+     * @param entry
+     *            the daemon entry
      */
     private void enqueue( DaemonEntry entry )
     {
@@ -123,7 +123,7 @@ class DaemonScheduler implements Runnable, IDaemonScheduler
     @Override
     public void schedule( DaemonEntry entry, long nInitialDelay, TimeUnit unit )
     {
-        synchronized ( _scheduledDaemons )
+        synchronized( _scheduledDaemons )
         {
             if ( _scheduledDaemons.containsKey( entry.getId( ) ) )
             {
@@ -133,8 +133,7 @@ class DaemonScheduler implements Runnable, IDaemonScheduler
             {
 
                 DaemonTimerTask daemonTimerTask = new DaemonTimerTask( entry );
-                _scheduledDaemonsTimer.scheduleAtFixedRate( daemonTimerTask, unit.toMillis( nInitialDelay ),
-                        entry.getInterval( ) * 1000 );
+                _scheduledDaemonsTimer.scheduleAtFixedRate( daemonTimerTask, unit.toMillis( nInitialDelay ), entry.getInterval( ) * 1000 );
                 _scheduledDaemons.put( entry.getId( ), daemonTimerTask );
             }
         }
@@ -144,7 +143,7 @@ class DaemonScheduler implements Runnable, IDaemonScheduler
     @Override
     public void unSchedule( DaemonEntry entry )
     {
-        synchronized ( _scheduledDaemons )
+        synchronized( _scheduledDaemons )
         {
             DaemonTimerTask daemonTimerTask = _scheduledDaemons.get( entry.getId( ) );
             if ( daemonTimerTask == null )
@@ -173,7 +172,7 @@ class DaemonScheduler implements Runnable, IDaemonScheduler
                 queued.add( _queue.take( ) );
                 _queue.drainTo( queued );
             }
-            catch ( InterruptedException e )
+            catch( InterruptedException e )
             {
                 // We were asked to stop
                 break;
@@ -182,7 +181,7 @@ class DaemonScheduler implements Runnable, IDaemonScheduler
             for ( DaemonEntry entry : queued )
             {
                 RunnableWrapper runnable = null;
-                synchronized ( _executingDaemons )
+                synchronized( _executingDaemons )
                 {
                     runnable = _executingDaemons.get( entry.getId( ) );
                     if ( runnable != null )
@@ -212,9 +211,8 @@ class DaemonScheduler implements Runnable, IDaemonScheduler
     public void shutdown( )
     {
         int maxAwaitTerminationDelay = AppPropertiesService.getPropertyInt( PROPERTY_MAX_AWAIT_TERMINATION_DELAY, 15 );
-        AppLogService
-                .info( "Lutece daemons scheduler stop requested : trying to terminate gracefully daemons list (max wait "
-                        + maxAwaitTerminationDelay + " s)." );
+        AppLogService.info( "Lutece daemons scheduler stop requested : trying to terminate gracefully daemons list (max wait " + maxAwaitTerminationDelay
+                + " s)." );
         _scheduledDaemonsTimer.cancel( );
         _scheduledDaemonsTimer.purge( );
         _coordinatorThread.interrupt( );
@@ -240,15 +238,14 @@ class DaemonScheduler implements Runnable, IDaemonScheduler
                 }
             }
         }
-        catch ( InterruptedException e )
+        catch( InterruptedException e )
         {
             AppLogService.error( "Interruped while waiting for daemons termination", e );
         }
     }
 
     /**
-     * Wrapper for the daemon Runnable which can enqueue a new run when
-     * execution completes
+     * Wrapper for the daemon Runnable which can enqueue a new run when execution completes
      */
     private final class RunnableWrapper implements Runnable
     {
@@ -266,8 +263,7 @@ class DaemonScheduler implements Runnable, IDaemonScheduler
         }
 
         /**
-         * Signals that an execution of the daemon should be enqueued on
-         * completion
+         * Signals that an execution of the daemon should be enqueued on completion
          */
         public void shouldEnqueueAgain( )
         {
@@ -283,7 +279,7 @@ class DaemonScheduler implements Runnable, IDaemonScheduler
             }
             finally
             {
-                synchronized ( _executingDaemons )
+                synchronized( _executingDaemons )
                 {
                     _executingDaemons.remove( _entry.getId( ) );
                 }

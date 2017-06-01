@@ -130,8 +130,8 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
     // I18n message keys
     private static final String MESSAGE_EMAIL_SUBJECT = "portal.admin.admin_forgot_password.email.subject";
-    
-    //Beans
+
+    // Beans
     private static final String BEAN_IMPORT_ADMIN_USER_SERVICE = "adminUserImportService";
 
     // Templates
@@ -590,7 +590,8 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             model.put( MARK_LOCALE, getLocale( ) );
             model.put( MARK_DEFAULT_VALUE_WORKGROUP_KEY, AdminWorkgroupService.ALL_GROUPS );
             model.put( MARK_WORKGROUP_KEY_LIST, AdminWorkgroupService.getUserWorkgroups( getUser( ), getLocale( ) ) );
-            model.put( MARK_RANDOM_PASSWORD_SIZE, AppPropertiesService.getPropertyInt( PasswordUtil.PROPERTY_PASSWORD_SIZE, PasswordUtil.CONSTANT_DEFAULT_RANDOM_PASSWORD_SIZE ) );
+            model.put( MARK_RANDOM_PASSWORD_SIZE,
+                    AppPropertiesService.getPropertyInt( PasswordUtil.PROPERTY_PASSWORD_SIZE, PasswordUtil.CONSTANT_DEFAULT_RANDOM_PASSWORD_SIZE ) );
             model.put( MARK_MINIMUM_PASSWORD_SIZE, AdminUserService.getIntegerSecurityParameter( AdminUserService.DSKEY_PASSWORD_MINIMUM_LENGTH ) );
             model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, JSP_URL_CREATE_USER ) );
 
@@ -1102,9 +1103,11 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             String strFirstPassword = request.getParameter( PARAMETER_FIRST_PASSWORD );
             String strSecondPassword = request.getParameter( PARAMETER_SECOND_PASSWORD );
 
-            if (StringUtils.isEmpty( strFirstPassword ) )
+            if ( StringUtils.isEmpty( strFirstPassword ) )
             {
-                return AdminMessageService.getMessageUrl( request, MESSAGE_MANDATORY_FIELD, new String[] { I18nService.getLocalizedString( PROPERTY_LABEL_FIRST_PASSWORD, getLocale( ) ) }, AdminMessage.TYPE_STOP );
+                return AdminMessageService.getMessageUrl( request, MESSAGE_MANDATORY_FIELD, new String [ ] {
+                    I18nService.getLocalizedString( PROPERTY_LABEL_FIRST_PASSWORD, getLocale( ) )
+                }, AdminMessage.TYPE_STOP );
             }
 
             if ( !StringUtils.equals( strFirstPassword, strSecondPassword ) )
@@ -1172,8 +1175,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
      * 
      * @param request
      *            The request
-     * @return A DefaultPluginActionResult with the URL of the page to display,
-     *         or the HTML content
+     * @return A DefaultPluginActionResult with the URL of the page to display, or the HTML content
      * @throws AccessDeniedException
      *             if the security token is invalid
      */
@@ -1379,7 +1381,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
      *            The Http Request
      * @return the confirmation url
      * @throws AccessDeniedException
-     *            When not authorized
+     *             When not authorized
      */
     public String doConfirmRemoveAdminUser( HttpServletRequest request ) throws AccessDeniedException
     {
@@ -1400,7 +1402,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         }
 
         String strUrlRemove = JSP_URL_REMOVE_USER;
-        Map< String, Object > parameters = new HashMap<>( );
+        Map<String, Object> parameters = new HashMap<>( );
         parameters.put( PARAMETER_USER_ID, strUserId );
         parameters.put( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, JSP_URL_REMOVE_USER ) );
 
@@ -2034,7 +2036,8 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         AdminUserService.updateSecurityParameter( AdminUserService.DSKEY_PASSWORD_MINIMUM_LENGTH, request.getParameter( PARAMETER_PASSWORD_MINIMUM_LENGTH ) );
 
         AdminUserService.updateSecurityParameter( AdminUserService.DSKEY_RESET_TOKEN_VALIDITY, request.getParameter( PARAMETER_RESET_TOKEN_VALIDITY ) );
-        AdminUserService.updateSecurityParameter( AdminUserService.DSKEY_LOCK_RESET_TOKEN_TO_SESSION, request.getParameter( PARAMETER_LOCK_RESET_TOKEN_TO_SESSION ) );
+        AdminUserService.updateSecurityParameter( AdminUserService.DSKEY_LOCK_RESET_TOKEN_TO_SESSION,
+                request.getParameter( PARAMETER_LOCK_RESET_TOKEN_TO_SESSION ) );
 
         boolean bUseAdvancedSecurityParameter = AdminUserService.getBooleanSecurityParameter( AdminUserService.DSKEY_USE_ADVANCED_SECURITY_PARAMETERS );
 
@@ -2235,7 +2238,8 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
                     AdminMessage.TYPE_CONFIRMATION, parameters );
         }
 
-        return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_CONFIRM_USE_ASP, JSP_URL_USE_ADVANCED_SECUR_PARAM, AdminMessage.TYPE_CONFIRMATION, parameters );
+        return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_CONFIRM_USE_ASP, JSP_URL_USE_ADVANCED_SECUR_PARAM, AdminMessage.TYPE_CONFIRMATION,
+                parameters );
     }
 
     /**
@@ -2319,7 +2323,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
      *            The request
      * @return the Jsp URL of the process result
      * @throws AccessDeniedException
-     *            If the security token is invalid
+     *             If the security token is invalid
      */
     public String doChangeFieldAnonymizeAdminUsers( HttpServletRequest request ) throws AccessDeniedException
     {
@@ -2384,7 +2388,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         }
 
         String strUrl = JSP_URL_ANONYMIZE_ADMIN_USER;
-        Map< String, Object > parameters = new HashMap<>( );
+        Map<String, Object> parameters = new HashMap<>( );
         parameters.put( PARAMETER_USER_ID, strAdminUserId );
         parameters.put( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, JSP_URL_ANONYMIZE_ADMIN_USER ) );
 

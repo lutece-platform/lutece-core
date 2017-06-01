@@ -45,9 +45,9 @@ import javax.servlet.http.HttpServletResponse;
 /**
  *
  * Handler for the asynchronous upload.
- * @deprecated This interface uses objects of an external library (net.sf json-lib)
- * This library is becoming obsolete. Use IAsynchronousUploadHandler2 instead.
- * Will be removed in future versions.
+ * 
+ * @deprecated This interface uses objects of an external library (net.sf json-lib) This library is becoming obsolete. Use IAsynchronousUploadHandler2 instead.
+ *             Will be removed in future versions.
  *
  */
 @Deprecated

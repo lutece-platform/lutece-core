@@ -50,6 +50,7 @@ public class DaemonThread implements Runnable
 
     /**
      * Sets the daemon entry
+     * 
      * @param entry
      *            The entry
      */
@@ -60,6 +61,7 @@ public class DaemonThread implements Runnable
 
     /**
      * Get the daemon name
+     * 
      * @return the daemon name
      */
     public String getDaemonName( )

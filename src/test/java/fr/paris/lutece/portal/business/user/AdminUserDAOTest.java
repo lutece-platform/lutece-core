@@ -142,7 +142,7 @@ public class AdminUserDAOTest extends LuteceTestCase
             adminUserDAO.delete( user.getUserId( ) );
         }
     }
-    
+
     public void testStoreLuteceDefaultAdminUserIgnorePassword( )
     {
         AdminUserDAO adminUserDAO = getAdminUserDAO( );

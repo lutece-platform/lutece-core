@@ -237,7 +237,7 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
     {
         setPageTitleProperty( PROPERTY_CREATE_WORKGROUP_PAGETITLE );
 
-        Map< String, Object > model = new HashMap<>( 1 );
+        Map<String, Object> model = new HashMap<>( 1 );
         model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_CREATE_WORKGROUP ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CREATE_WORKGROUP, getLocale( ), model );
@@ -305,7 +305,7 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
     {
         String strWorkgroupKey = request.getParameter( PARAMETER_WORKGROUP_KEY );
         String strUrlRemove = JSP_URL_REMOVE_WORKGROUP;
-        Map< String, String > parameters = new HashMap<>( );
+        Map<String, String> parameters = new HashMap<>( );
         parameters.put( PARAMETER_WORKGROUP_KEY, strWorkgroupKey );
         parameters.put( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, JSP_URL_REMOVE_WORKGROUP ) );
 
@@ -556,13 +556,13 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
         String strWorkgroupKey = request.getParameter( PARAMETER_WORKGROUP_KEY );
 
         // retrieve the selected portlets ids
-        String[ ] arrayUsersIds = request.getParameterValues( PARAMETER_USERS_LIST );
+        String [ ] arrayUsersIds = request.getParameterValues( PARAMETER_USERS_LIST );
 
         if ( ( arrayUsersIds != null ) )
         {
             for ( int i = 0; i < arrayUsersIds.length; i++ )
             {
-                int nUserId = Integer.parseInt( arrayUsersIds[ i ] );
+                int nUserId = Integer.parseInt( arrayUsersIds [i] );
                 AdminUser user = AdminUserHome.findByPrimaryKey( nUserId );
 
                 if ( !AdminWorkgroupHome.isUserInWorkgroup( user, strWorkgroupKey ) )

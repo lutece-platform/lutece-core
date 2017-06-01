@@ -137,7 +137,7 @@ public class LinksInclude implements PageInclude
         LinksIncludeCacheService cacheService = SpringContextService.getBean( LinksIncludeCacheService.SERVICE_NAME );
         String strKey = cacheService.getCacheKey( nMode, strPage, locale );
         @SuppressWarnings( "unchecked" )
-        Map<String, Object> links = ( Map<String, Object> ) cacheService.getFromCache( strKey );
+        Map<String, Object> links = (Map<String, Object>) cacheService.getFromCache( strKey );
         if ( links == null )
         {
             StringBuilder sbCssLinks = new StringBuilder( );
@@ -242,9 +242,8 @@ public class LinksInclude implements PageInclude
     }
 
     /**
-     * Get a URI for a resource. If the resource is provided by this site, a
-     * hash of its content is added as query parameter so that changes to the
-     * content are picked up by browsers.
+     * Get a URI for a resource. If the resource is provided by this site, a hash of its content is added as query parameter so that changes to the content are
+     * picked up by browsers.
      * 
      * @param servletContext
      *            the servlet context
@@ -265,7 +264,7 @@ public class LinksInclude implements PageInclude
                 {
                     resourceURI = new URI( strURIPrefix + strResourceURI );
                 }
-                try ( InputStream inputStream = servletContext.getResourceAsStream( resourceURI.getPath( ) ) )
+                try( InputStream inputStream = servletContext.getResourceAsStream( resourceURI.getPath( ) ) )
                 {
                     if ( inputStream != null )
                     {
@@ -281,14 +280,14 @@ public class LinksInclude implements PageInclude
                         }
                     }
                 }
-                catch ( IOException e )
+                catch( IOException e )
                 {
                     AppLogService.error( "Error while closing stream for " + strResourceURI, e );
                 }
             }
             return resourceURI;
         }
-        catch ( URISyntaxException e )
+        catch( URISyntaxException e )
         {
             AppLogService.error( "Invalid cssStyleSheetURI : " + strResourceURI, e );
             return null;

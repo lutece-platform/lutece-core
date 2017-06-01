@@ -37,8 +37,8 @@ public class DaemonsJspBeanTest extends LuteceTestCase
         _entry.setId( JUNIT_DAEMON );
         _entry.setClassName( TestDaemon.class.getName( ) );
         _entry.setPluginName( "core" );
-        //AppDaemonService.registerDaemon will copy this datastore value in the entry.
-        DatastoreService.setInstanceDataValue( DAEMON_INTERVAL_DSKEY , "1");
+        // AppDaemonService.registerDaemon will copy this datastore value in the entry.
+        DatastoreService.setInstanceDataValue( DAEMON_INTERVAL_DSKEY, "1" );
         AppDaemonService.registerDaemon( _entry );
     }
 
@@ -46,13 +46,13 @@ public class DaemonsJspBeanTest extends LuteceTestCase
     {
         File propertiesFile = new File( getResourcesDir( ) + "/WEB-INF/conf/daemons.properties" );
         Properties props = new Properties( );
-        try ( FileInputStream is = new FileInputStream( propertiesFile ) )
+        try( FileInputStream is = new FileInputStream( propertiesFile ) )
         {
             props.load( is );
         }
         String orig = props.getProperty( "daemon.maxInitialStartDelay" );
         props.setProperty( "daemon.maxInitialStartDelay", "1" );
-        try ( FileOutputStream out = new FileOutputStream( propertiesFile ) )
+        try( FileOutputStream out = new FileOutputStream( propertiesFile ) )
         {
             props.store( out, "junit" );
         }
@@ -74,7 +74,7 @@ public class DaemonsJspBeanTest extends LuteceTestCase
     {
         File propertiesFile = new File( getResourcesDir( ) + "/WEB-INF/conf/daemons.properties" );
         Properties props = new Properties( );
-        try ( FileInputStream is = new FileInputStream( propertiesFile ) )
+        try( FileInputStream is = new FileInputStream( propertiesFile ) )
         {
             props.load( is );
         }
@@ -86,7 +86,7 @@ public class DaemonsJspBeanTest extends LuteceTestCase
         {
             props.setProperty( "daemon.maxInitialStartDelay", orig );
         }
-        try ( FileOutputStream out = new FileOutputStream( propertiesFile ) )
+        try( FileOutputStream out = new FileOutputStream( propertiesFile ) )
         {
             props.store( out, "junit" );
         }
@@ -101,7 +101,7 @@ public class DaemonsJspBeanTest extends LuteceTestCase
         request.setParameter( "daemon", JUNIT_DAEMON );
         bean.doDaemonAction( request ); // Daemon should run periodically with interval of 1s
         assertTrue( _entry.isRunning( ) );
-        TestDaemon daemon = ( TestDaemon ) AppDaemonService.getDaemon( JUNIT_DAEMON );
+        TestDaemon daemon = (TestDaemon) AppDaemonService.getDaemon( JUNIT_DAEMON );
         daemon.go( );
         daemon.waitForCompletion( ); // Complete first run without a timeout
         daemon.go( );
@@ -112,10 +112,10 @@ public class DaemonsJspBeanTest extends LuteceTestCase
     {
         assertFalse( _entry.isRunning( ) );
         AppDaemonService.startDaemon( JUNIT_DAEMON ); // Daemon should run periodically with interval of 1s
-        TestDaemon daemon = ( TestDaemon ) AppDaemonService.getDaemon( JUNIT_DAEMON );
+        TestDaemon daemon = (TestDaemon) AppDaemonService.getDaemon( JUNIT_DAEMON );
         daemon.go( );
         daemon.waitForCompletion( );
-        //We have about 1 second to stop the daemon
+        // We have about 1 second to stop the daemon
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.setParameter( "action", "STOP" );
         request.setParameter( "daemon", JUNIT_DAEMON );
@@ -123,11 +123,11 @@ public class DaemonsJspBeanTest extends LuteceTestCase
         assertFalse( _entry.isRunning( ) );
         try
         {
-            //Here the daemon should not be relaunched after a 1s interval. So wait 2.5 seconds until a timeout.
+            // Here the daemon should not be relaunched after a 1s interval. So wait 2.5 seconds until a timeout.
             daemon.go( 2500, TimeUnit.MILLISECONDS );
             fail( "Daemon still running after stop" );
         }
-        catch ( TimeoutException e )
+        catch( TimeoutException e )
         {
             // ok
         }
@@ -138,7 +138,7 @@ public class DaemonsJspBeanTest extends LuteceTestCase
         assertFalse( _entry.isRunning( ) );
         _entry.setInterval( 1000 );
         AppDaemonService.startDaemon( JUNIT_DAEMON ); // Daemon should run periodically with interval of 1000s
-        TestDaemon daemon = ( TestDaemon ) AppDaemonService.getDaemon( JUNIT_DAEMON );
+        TestDaemon daemon = (TestDaemon) AppDaemonService.getDaemon( JUNIT_DAEMON );
         daemon.go( );
         daemon.waitForCompletion( );
         MockHttpServletRequest request = new MockHttpServletRequest( );

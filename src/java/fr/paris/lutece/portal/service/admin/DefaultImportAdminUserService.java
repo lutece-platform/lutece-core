@@ -79,11 +79,11 @@ public class DefaultImportAdminUserService extends ImportAdminUserService
     private static final String MESSAGE_NO_LEVEL = "portal.users.import_users_from_file.importNoLevel";
     private static final String MESSAGE_NO_STATUS = "portal.users.import_users_from_file.importNoStatus";
     private static final int CONSTANT_MINIMUM_COLUMNS_PER_LINE = 12;
-    
-    //Template 
+
+    // Template
     private static final String TEMPLATE_DEFAULT_IMPORT_USERS_FROM_FILE = "admin/user/import_users_from_file.html";
     private static final AttributeService _attributeService = AttributeService.getInstance( );
-    
+
     /**
      * {@inheritDoc}
      */
@@ -205,7 +205,7 @@ public class DefaultImportAdminUserService extends ImportAdminUserService
         {
             user = new LuteceDefaultAdminUser( );
         }
-        
+
         user.setAccessCode( strAccessCode );
         user.setLastName( strLastName );
         user.setFirstName( strFirstName );
@@ -403,7 +403,7 @@ public class DefaultImportAdminUserService extends ImportAdminUserService
 
         return listMessages;
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -412,7 +412,7 @@ public class DefaultImportAdminUserService extends ImportAdminUserService
     {
         return TEMPLATE_DEFAULT_IMPORT_USERS_FROM_FILE;
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -421,7 +421,7 @@ public class DefaultImportAdminUserService extends ImportAdminUserService
     {
         return CONSTANT_MINIMUM_COLUMNS_PER_LINE;
     }
-    
+
     /**
      * {@inheritDoc}
      */
@@ -430,7 +430,7 @@ public class DefaultImportAdminUserService extends ImportAdminUserService
     {
         return strLineDataArray [0];
     }
-    
+
     /**
      * {@inheritDoc}
      */

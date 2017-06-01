@@ -97,44 +97,44 @@ public class DaemonsJspBean extends AdminPageJspBean
         String strAction = request.getParameter( PARAMETER_ACTION );
         String strDaemonKey = request.getParameter( PARAMETER_DAEMON );
 
-        switch ( strAction )
+        switch( strAction )
         {
-        case ACTION_START:
-            AppDaemonService.startDaemon( strDaemonKey );
-            break;
-        case ACTION_STOP:
-            AppDaemonService.stopDaemon( strDaemonKey );
-            break;
-        case ACTION_RUN:
-            AppDaemonService.signalDaemon( strDaemonKey );
-            break;
-        case ACTION_UPDATE_INTERVAL:
-            String strErrorMessage = null;
-            String strDaemonInterval = request.getParameter( PARAMETER_INTERVAL );
+            case ACTION_START:
+                AppDaemonService.startDaemon( strDaemonKey );
+                break;
+            case ACTION_STOP:
+                AppDaemonService.stopDaemon( strDaemonKey );
+                break;
+            case ACTION_RUN:
+                AppDaemonService.signalDaemon( strDaemonKey );
+                break;
+            case ACTION_UPDATE_INTERVAL:
+                String strErrorMessage = null;
+                String strDaemonInterval = request.getParameter( PARAMETER_INTERVAL );
 
-            Object [ ] tabFieldInterval = {
-                I18nService.getLocalizedString( PROPERTY_FIELD_INTERVAL, getLocale( ) )
-            };
+                Object [ ] tabFieldInterval = {
+                    I18nService.getLocalizedString( PROPERTY_FIELD_INTERVAL, getLocale( ) )
+                };
 
-            if ( StringUtils.isEmpty( strDaemonInterval ) )
-            {
-                strErrorMessage = MESSAGE_MANDATORY_FIELD;
-            }
-            else
-                if ( !StringUtils.isNumeric( strDaemonInterval ) )
+                if ( StringUtils.isEmpty( strDaemonInterval ) )
                 {
-                    strErrorMessage = MESSAGE_NUMERIC_FIELD;
+                    strErrorMessage = MESSAGE_MANDATORY_FIELD;
+                }
+                else
+                    if ( !StringUtils.isNumeric( strDaemonInterval ) )
+                    {
+                        strErrorMessage = MESSAGE_NUMERIC_FIELD;
+                    }
+
+                if ( strErrorMessage != null )
+                {
+                    return AdminMessageService.getMessageUrl( request, strErrorMessage, tabFieldInterval, AdminMessage.TYPE_STOP );
                 }
 
-            if ( strErrorMessage != null )
-            {
-                return AdminMessageService.getMessageUrl( request, strErrorMessage, tabFieldInterval, AdminMessage.TYPE_STOP );
-            }
-
-            AppDaemonService.modifyDaemonInterval( strDaemonKey, strDaemonInterval );
-            break;
-        default:
-            AppLogService.error( "Unknown daemon action : " + strAction );
+                AppDaemonService.modifyDaemonInterval( strDaemonKey, strDaemonInterval );
+                break;
+            default:
+                AppLogService.error( "Unknown daemon action : " + strAction );
         }
 
         return getHomeUrl( request );

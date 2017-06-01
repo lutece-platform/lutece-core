@@ -129,18 +129,20 @@ public class PluginFile
     public void load( String strFilename ) throws LuteceInitException
     {
         // Configure Digester from XML ruleset
-        DigesterLoader digesterLoader = DigesterLoader.newLoader(new FromXmlRulesModule() {
+        DigesterLoader digesterLoader = DigesterLoader.newLoader( new FromXmlRulesModule( )
+        {
             @Override
-            protected void loadRules() {
+            protected void loadRules( )
+            {
                 loadXMLRules( getClass( ).getResource( FILE_RULES ) );
             }
-        });
+        } );
 
         Digester digester = digesterLoader.newDigester( );
 
         // Allow variables in plugin files
         MultiVariableExpander expander = new MultiVariableExpander( );
-        expander.addSource( "$", ((Map) AppPropertiesService.getPropertiesAsMap( )) );
+        expander.addSource( "$", ( (Map) AppPropertiesService.getPropertiesAsMap( ) ) );
 
         Substitutor substitutor = new VariableSubstitutor( expander );
         digester.setSubstitutor( substitutor );

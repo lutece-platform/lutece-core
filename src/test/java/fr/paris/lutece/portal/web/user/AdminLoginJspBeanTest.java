@@ -133,7 +133,7 @@ public class AdminLoginJspBeanTest extends LuteceTestCase
             bean.doLogin( request );
             fail( "Should have thrown" );
         }
-        catch ( AccessDeniedException e )
+        catch( AccessDeniedException e )
         {
             // OK
         }
@@ -151,7 +151,7 @@ public class AdminLoginJspBeanTest extends LuteceTestCase
             bean.doLogin( request );
             fail( "Should have thrown" );
         }
-        catch ( AccessDeniedException e )
+        catch( AccessDeniedException e )
         {
             // OK
         }
@@ -261,7 +261,8 @@ public class AdminLoginJspBeanTest extends LuteceTestCase
         try
         {
             doResetPasswordTest( );
-        } finally
+        }
+        finally
         {
             restoreSessionLock( previousSessionLockParam );
         }
@@ -274,7 +275,8 @@ public class AdminLoginJspBeanTest extends LuteceTestCase
         try
         {
             doResetPasswordTest( );
-        } finally
+        }
+        finally
         {
             restoreSessionLock( previousSessionLockParam );
         }
@@ -341,7 +343,8 @@ public class AdminLoginJspBeanTest extends LuteceTestCase
             LuteceDefaultAdminUser storedUser = getAdminUserDAO( ).loadDefaultAdminUser( user.getUserId( ) );
             assertNotNull( storedUser );
             assertTrue( storedUser.getPassword( ).check( PASSWORD ) );
-        } finally
+        }
+        finally
         {
             restoreSessionLock( previousSessionLockParam );
         }
@@ -419,7 +422,8 @@ public class AdminLoginJspBeanTest extends LuteceTestCase
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.setMethod( "POST" );
         request.setParameter( Parameters.USER_ID, Integer.toString( user.getUserId( ) ) );
-        Date timestamp = new Date( new Date( ).getTime( ) + 1 + ( 1000L * 60 * AdminUserService.getIntegerSecurityParameter( AdminUserService.DSKEY_RESET_TOKEN_VALIDITY ) ) );
+        Date timestamp = new Date( new Date( ).getTime( ) + 1
+                + ( 1000L * 60 * AdminUserService.getIntegerSecurityParameter( AdminUserService.DSKEY_RESET_TOKEN_VALIDITY ) ) );
         String token = AdminUserService.getUserPasswordResetToken( user, timestamp, request );
         request.setParameter( "ts", Long.toString( timestamp.getTime( ) ) );
         request.setParameter( "token", token );
@@ -443,7 +447,8 @@ public class AdminLoginJspBeanTest extends LuteceTestCase
         request.setMethod( "POST" );
         request.setParameter( Parameters.USER_ID, Integer.toString( Integer.MAX_VALUE ) );
         Date timestamp = new Date( );
-        String token = AdminUserHome.getUserPasswordResetToken( Integer.MAX_VALUE, timestamp, AdminUserService.getBooleanSecurityParameter( AdminUserService.DSKEY_LOCK_RESET_TOKEN_TO_SESSION )?request.getSession( ).getId( ):null );
+        String token = AdminUserHome.getUserPasswordResetToken( Integer.MAX_VALUE, timestamp,
+                AdminUserService.getBooleanSecurityParameter( AdminUserService.DSKEY_LOCK_RESET_TOKEN_TO_SESSION ) ? request.getSession( ).getId( ) : null );
         request.setParameter( "ts", Long.toString( timestamp.getTime( ) ) );
         request.setParameter( "token", token );
         request.setParameter( Parameters.NEW_PASSWORD, NEW_PASSWORD );
@@ -465,8 +470,8 @@ public class AdminLoginJspBeanTest extends LuteceTestCase
         Date timestamp = new Date( );
         String token = AdminUserService.getUserPasswordResetToken( user, timestamp, request );
         request.setParameter( "ts", Long.toString( timestamp.getTime( ) ) );
-        char[ ] tokenCharacters = token.toCharArray( );
-        tokenCharacters[0] += 1;
+        char [ ] tokenCharacters = token.toCharArray( );
+        tokenCharacters [0] += 1;
         request.setParameter( "token", new String( tokenCharacters ) );
         request.setParameter( Parameters.NEW_PASSWORD, NEW_PASSWORD );
         request.setParameter( Parameters.CONFIRM_NEW_PASSWORD, NEW_PASSWORD );
@@ -565,7 +570,8 @@ public class AdminLoginJspBeanTest extends LuteceTestCase
         {
             bean.doResetPassword( request );
             fail( "should have thrown" );
-        } catch ( AppException e )
+        }
+        catch( AppException e )
         {
         }
         LuteceDefaultAdminUser storedUser = getAdminUserDAO( ).loadDefaultAdminUser( user.getUserId( ) );

@@ -308,7 +308,8 @@ public class AdminPagePortletJspBean extends AdminFeaturesPageJspBean
         parameters.put( Parameters.PORTLET_ID, strPortletId );
         parameters.put( PORTLET_STATUS, strStatus );
         parameters.put( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, JSP_DO_MODIFY_STATUS ) );
-        return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_CONFIRM_MODIFY_STATUS, null, null, strUrl, strTarget, AdminMessage.TYPE_CONFIRMATION, parameters );
+        return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_CONFIRM_MODIFY_STATUS, null, null, strUrl, strTarget,
+                AdminMessage.TYPE_CONFIRMATION, parameters );
     }
 
     /**

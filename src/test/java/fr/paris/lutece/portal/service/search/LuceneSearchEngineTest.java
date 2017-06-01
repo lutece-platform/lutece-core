@@ -41,20 +41,23 @@ public class LuceneSearchEngineTest extends LuteceTestCase
     private static SearchEngine _engine;
 
     /* mimic initialization in IndexationService.processIndexing */
-    private IndexWriter getIndexWriter() throws Exception {
-            Directory dir = IndexationService.getDirectoryIndex( );
-            IndexWriterConfig conf = new IndexWriterConfig( IndexationService.getAnalyser() );
-            conf.setOpenMode( OpenMode.CREATE );
-            return new IndexWriter(dir, conf);
+    private IndexWriter getIndexWriter( ) throws Exception
+    {
+        Directory dir = IndexationService.getDirectoryIndex( );
+        IndexWriterConfig conf = new IndexWriterConfig( IndexationService.getAnalyser( ) );
+        conf.setOpenMode( OpenMode.CREATE );
+        return new IndexWriter( dir, conf );
     }
 
     @Override
-    protected void setUp() throws Exception {
-        super.setUp();
-        if(firstRun) {
+    protected void setUp( ) throws Exception
+    {
+        super.setUp( );
+        if ( firstRun )
+        {
             firstRun = false;
 
-            _engine = SpringContextService.getBean( BEAN_SEARCH_ENGINE);
+            _engine = SpringContextService.getBean( BEAN_SEARCH_ENGINE );
 
             FieldType ft = new FieldType( StringField.TYPE_STORED );
             ft.setOmitNorms( false );
@@ -66,109 +69,129 @@ public class LuceneSearchEngineTest extends LuteceTestCase
             doc.add( new Field( SearchItem.FIELD_TYPE, "lutecetype", ft ) );
             doc.add( new Field( SearchItem.FIELD_ROLE, "role1", ft ) );
 
-            //Not using IndexationService.write(doc) because it needs to be
-            //called by IndexationService.processIndexing() (or else it throws null pointer exception)
-            IndexWriter indexWriter = getIndexWriter();
-            indexWriter.addDocument(doc);
-            indexWriter.close();
+            // Not using IndexationService.write(doc) because it needs to be
+            // called by IndexationService.processIndexing() (or else it throws null pointer exception)
+            IndexWriter indexWriter = getIndexWriter( );
+            indexWriter.addDocument( doc );
+            indexWriter.close( );
         }
     }
 
-    public void testSearchSimpleMatch() throws Exception {
-        MockHttpServletRequest request = new MockHttpServletRequest();
+    public void testSearchSimpleMatch( ) throws Exception
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
         List<SearchResult> listResults = _engine.getSearchResults( "lutecefoo", request );
-        assertTrue("The search results list should have one element. Got : " + listResults, listResults != null && listResults.size() == 1);
+        assertTrue( "The search results list should have one element. Got : " + listResults, listResults != null && listResults.size( ) == 1 );
     }
 
-    public void testSearchSimpleNoMatch() throws Exception {
-        MockHttpServletRequest request = new MockHttpServletRequest();
+    public void testSearchSimpleNoMatch( ) throws Exception
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
         List<SearchResult> listResults = _engine.getSearchResults( "lutecebadfoo", request );
-        assertTrue("The search results list should have no elements. Got : " + listResults, listResults != null && listResults.size() == 0);
+        assertTrue( "The search results list should have no elements. Got : " + listResults, listResults != null && listResults.size( ) == 0 );
     }
 
-    public void testSearchDateMatch() throws Exception {
-        MockHttpServletRequest request = new MockHttpServletRequest();
-        request.setParameter("date_after","01/01/2014");
-        request.setParameter("date_before","01/10/2015");
+    public void testSearchDateMatch( ) throws Exception
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( "date_after", "01/01/2014" );
+        request.setParameter( "date_before", "01/10/2015" );
         List<SearchResult> listResults = _engine.getSearchResults( "lutecefoo", request );
-        assertTrue("The search results list should have one element. Got : " + listResults, listResults != null && listResults.size() == 1);
+        assertTrue( "The search results list should have one element. Got : " + listResults, listResults != null && listResults.size( ) == 1 );
     }
 
-    public void testSearchDateNoMatch() throws Exception {
-        MockHttpServletRequest request = new MockHttpServletRequest();
-        request.setParameter("date_after","01/01/2010");
-        request.setParameter("date_before","01/10/2011");
+    public void testSearchDateNoMatch( ) throws Exception
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( "date_after", "01/01/2010" );
+        request.setParameter( "date_before", "01/10/2011" );
         List<SearchResult> listResults = _engine.getSearchResults( "lutecefoo", request );
-        assertTrue("The search results list should have no elements. Got : " + listResults, listResults != null && listResults.size() == 0);
+        assertTrue( "The search results list should have no elements. Got : " + listResults, listResults != null && listResults.size( ) == 0 );
     }
 
-    public void testSearchTypeMatch() throws Exception {
-        MockHttpServletRequest request = new MockHttpServletRequest();
-        request.setParameter("type_filter","lutecetype");
+    public void testSearchTypeMatch( ) throws Exception
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( "type_filter", "lutecetype" );
         List<SearchResult> listResults = _engine.getSearchResults( "lutecefoo", request );
-        assertTrue("The search results list should have one element. Got : " + listResults, listResults != null && listResults.size() == 1);
+        assertTrue( "The search results list should have one element. Got : " + listResults, listResults != null && listResults.size( ) == 1 );
     }
 
-    public void testSearchTypeNoMatch() throws Exception {
-        MockHttpServletRequest request = new MockHttpServletRequest();
-        request.setParameter("type_filter","lutecebadtype");
+    public void testSearchTypeNoMatch( ) throws Exception
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( "type_filter", "lutecebadtype" );
         List<SearchResult> listResults = _engine.getSearchResults( "lutecefoo", request );
-        assertTrue("The search results list should have no elements. Got : " + listResults, listResults != null && listResults.size() == 0);
+        assertTrue( "The search results list should have no elements. Got : " + listResults, listResults != null && listResults.size( ) == 0 );
     }
 
-    public void testSearchTagMatch() throws Exception {
-        MockHttpServletRequest request = new MockHttpServletRequest();
-        request.setParameter("tag_filter","lutecetag");
+    public void testSearchTagMatch( ) throws Exception
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( "tag_filter", "lutecetag" );
         List<SearchResult> listResults = _engine.getSearchResults( "lutecetag", request );
-        assertTrue("The search results list should have one element. Got : " + listResults, listResults != null && listResults.size() == 1);
+        assertTrue( "The search results list should have one element. Got : " + listResults, listResults != null && listResults.size( ) == 1 );
     }
 
-    public void testSearchTagNoMatch() throws Exception {
-        MockHttpServletRequest request = new MockHttpServletRequest();
-        request.setParameter("tag_filter","lutecetag");
+    public void testSearchTagNoMatch( ) throws Exception
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( "tag_filter", "lutecetag" );
         List<SearchResult> listResults = _engine.getSearchResults( "lutecebadtag", request );
-        assertTrue("The search results list should have no elements. Got : " + listResults, listResults != null && listResults.size() == 0);
+        assertTrue( "The search results list should have no elements. Got : " + listResults, listResults != null && listResults.size( ) == 0 );
     }
 
-    public void testSearchUserMatch() throws Exception {
+    public void testSearchUserMatch( ) throws Exception
+    {
 
-        //XXX copy pasted from PortalMenuServiceTest
+        // XXX copy pasted from PortalMenuServiceTest
         boolean authStatus;
-        authStatus = enableAuthentication();
-        try {
-            LuteceUser user = new LuteceUser( "junit", SecurityService.getInstance( ).getAuthenticationService( ) ) {};
+        authStatus = enableAuthentication( );
+        try
+        {
+            LuteceUser user = new LuteceUser( "junit", SecurityService.getInstance( ).getAuthenticationService( ) )
+            {
+            };
 
             user.setRoles( Arrays.asList( "role1" ) );
-            MockHttpServletRequest request = new MockHttpServletRequest();
+            MockHttpServletRequest request = new MockHttpServletRequest( );
             request.getSession( ).setAttribute( "lutece_user", user );
 
             List<SearchResult> listResults = _engine.getSearchResults( "lutecefoo", request );
-            assertTrue("The search results list should have one element. Got : " + listResults, listResults != null && listResults.size() == 1);
-        } finally {
+            assertTrue( "The search results list should have one element. Got : " + listResults, listResults != null && listResults.size( ) == 1 );
+        }
+        finally
+        {
             restoreAuthentication( authStatus );
         }
     }
 
-    public void testSearchUserNoMatch() throws Exception {
+    public void testSearchUserNoMatch( ) throws Exception
+    {
 
-        //XXX copy pasted from PortalMenuServiceTest
+        // XXX copy pasted from PortalMenuServiceTest
         boolean authStatus;
-        authStatus = enableAuthentication();
-        try {
-            LuteceUser user = new LuteceUser( "junit", SecurityService.getInstance( ).getAuthenticationService( ) ) {};
+        authStatus = enableAuthentication( );
+        try
+        {
+            LuteceUser user = new LuteceUser( "junit", SecurityService.getInstance( ).getAuthenticationService( ) )
+            {
+            };
 
             user.setRoles( Arrays.asList( "role2" ) );
-            MockHttpServletRequest request = new MockHttpServletRequest();
+            MockHttpServletRequest request = new MockHttpServletRequest( );
             request.getSession( ).setAttribute( "lutece_user", user );
 
             List<SearchResult> listResults = _engine.getSearchResults( "lutecefoo", request );
-            assertTrue("The search results list should have no elements. Got : " + listResults, listResults != null && listResults.size() == 0);
-        } finally {
+            assertTrue( "The search results list should have no elements. Got : " + listResults, listResults != null && listResults.size( ) == 0 );
+        }
+        finally
+        {
             restoreAuthentication( authStatus );
         }
     }
 
-    ///XXX refactor, this is copy pasted from PortalMenuServiceTest
+    // /XXX refactor, this is copy pasted from PortalMenuServiceTest
     private void restoreAuthentication( boolean status ) throws IOException, LuteceInitException
     {
         if ( !status )
@@ -189,7 +212,7 @@ public class LuceneSearchEngineTest extends LuteceTestCase
         }
     }
 
-    ///XXX refactor, this is copy pasted from PortalMenuServiceTest
+    // /XXX refactor, this is copy pasted from PortalMenuServiceTest
     private boolean enableAuthentication( ) throws IOException, LuteceInitException
     {
         boolean status = SecurityService.isAuthenticationEnable( );

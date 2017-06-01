@@ -43,12 +43,13 @@ import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.Utils;
 
-public class ExternalFeaturesJspBeanTest extends LuteceTestCase {
-    
+public class ExternalFeaturesJspBeanTest extends LuteceTestCase
+{
+
     private static final String PARAMETER_ID_EXTERNAL_FEAUTRE = "external_feature_id";
     private static final String TEST_EXTERNAL_FEATURE_ID = "CORE_TEST";
 
-    //To insert moke external feature
+    // To insert moke external feature
     private static final String RIGHT_ID = "CORE_TEST";
     private static final String NAMEKEY = "nameKeyTest";
     private static final String DESCRIPTIONKEY = "descriptionKeyTest";
@@ -63,44 +64,44 @@ public class ExternalFeaturesJspBeanTest extends LuteceTestCase {
      * Test of getManageExternalFeatures method, of class ExternalFeaturesJspBean.
      */
     @Test
-    public void testGetManageExternalFeatures() throws AccessDeniedException 
+    public void testGetManageExternalFeatures( ) throws AccessDeniedException
     {
         System.out.println( "getManageExternalFeatures" );
 
-        MockHttpServletRequest request = new MockHttpServletRequest(  );
-        Utils.registerAdminUserWithRigth( request, new AdminUser(  ), ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        Utils.registerAdminUserWithRigth( request, new AdminUser( ), ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
 
-        ExternalFeaturesJspBean instance = new ExternalFeaturesJspBean(  );
+        ExternalFeaturesJspBean instance = new ExternalFeaturesJspBean( );
         instance.init( request, ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
-        instance.getManageExternalFeatures( request );      
-        
+        instance.getManageExternalFeatures( request );
+
     }
 
     /**
      * Test of getCreateExternalFeature method, of class ExternalFeaturesJspBean.
      */
     @Test
-    public void testGetCreateExternalFeature() throws AccessDeniedException
+    public void testGetCreateExternalFeature( ) throws AccessDeniedException
     {
         System.out.println( "getCreateExternalFeatures" );
 
-        MockHttpServletRequest request = new MockHttpServletRequest(  );
-        Utils.registerAdminUserWithRigth( request, new AdminUser(  ), ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        Utils.registerAdminUserWithRigth( request, new AdminUser( ), ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
 
-        ExternalFeaturesJspBean instance = new ExternalFeaturesJspBean(  );
+        ExternalFeaturesJspBean instance = new ExternalFeaturesJspBean( );
         instance.init( request, ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
-        instance.getManageExternalFeatures( request );  
-        
+        instance.getManageExternalFeatures( request );
+
     }
 
     /**
      * Test of getModifyExternalFeature method, of class ExternalFeaturesJspBean.
      */
     @Test
-    public void testGetModifyExternalFeature() throws AccessDeniedException
+    public void testGetModifyExternalFeature( ) throws AccessDeniedException
     {
         System.out.println( "getModifyExternalFeatures" );
-        
+
         Right right = new Right( );
         right.setId( RIGHT_ID );
         right.setNameKey( NAMEKEY );
@@ -112,46 +113,46 @@ public class ExternalFeaturesJspBeanTest extends LuteceTestCase {
         right.setIconUrl( ICONURL );
         right.setExternalFeature( IS_EXTERNAL_FEATURE );
         RightHome.create( right );
-        
-        MockHttpServletRequest request = new MockHttpServletRequest(  );
-        request.addParameter( PARAMETER_ID_EXTERNAL_FEAUTRE, TEST_EXTERNAL_FEATURE_ID );
-        Utils.registerAdminUserWithRigth( request, new AdminUser(  ), ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
 
-        ExternalFeaturesJspBean instance = new ExternalFeaturesJspBean(  );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.addParameter( PARAMETER_ID_EXTERNAL_FEAUTRE, TEST_EXTERNAL_FEATURE_ID );
+        Utils.registerAdminUserWithRigth( request, new AdminUser( ), ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
+
+        ExternalFeaturesJspBean instance = new ExternalFeaturesJspBean( );
         instance.init( request, ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
-        instance.getModifyExternalFeature( request );  
-        
+        instance.getModifyExternalFeature( request );
+
         RightHome.remove( RIGHT_ID );
     }
 
     /**
      * Test of doModifyExternalFeature method, of class ExternalFeaturesJspBean.
      */
-    @Test 
-    public void testDoModifyExternalFeature() 
+    @Test
+    public void testDoModifyExternalFeature( )
     {
         System.out.println( "doModifyExternalFeatures" );
-        //Not implemented yet
+        // Not implemented yet
     }
-    
+
     /**
      * Test of doCreateExternalFeature method, of class ExternalFeaturesJspBean.
      */
     @Test
-    public void testDoCreateExternalFeature() 
+    public void testDoCreateExternalFeature( )
     {
         System.out.println( "doCreateExternalFeature" );
-        //Not implemented yet
+        // Not implemented yet
     }
 
     /**
      * Test of getRemoveExternalFeature method, of class ExternalFeaturesJspBean.
      */
     @Test
-    public void testGetRemoveExternalFeature() throws AccessDeniedException 
+    public void testGetRemoveExternalFeature( ) throws AccessDeniedException
     {
         System.out.println( "getRemoveExternalFeature" );
-        
+
         Right right = new Right( );
         right.setId( RIGHT_ID );
         right.setNameKey( NAMEKEY );
@@ -163,24 +164,24 @@ public class ExternalFeaturesJspBeanTest extends LuteceTestCase {
         right.setIconUrl( ICONURL );
         right.setExternalFeature( IS_EXTERNAL_FEATURE );
         RightHome.create( right );
-        
-        MockHttpServletRequest request = new MockHttpServletRequest(  );
+
+        MockHttpServletRequest request = new MockHttpServletRequest( );
         request.addParameter( PARAMETER_ID_EXTERNAL_FEAUTRE, TEST_EXTERNAL_FEATURE_ID );
-        Utils.registerAdminUserWithRigth( request, new AdminUser(  ), ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
-        
-        ExternalFeaturesJspBean instance = new ExternalFeaturesJspBean(  );
+        Utils.registerAdminUserWithRigth( request, new AdminUser( ), ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
+
+        ExternalFeaturesJspBean instance = new ExternalFeaturesJspBean( );
         instance.init( request, ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
-        instance.getRemoveExternalFeature( request );      
+        instance.getRemoveExternalFeature( request );
         RightHome.remove( RIGHT_ID );
-    }   
-    
+    }
+
     /**
      * Test of doRemoveExternalFeature method, of class ExternalFeaturesJspBean.
      */
     @Test
-    public void testDoRemoveExternalFeature() 
-    {    
+    public void testDoRemoveExternalFeature( )
+    {
         System.out.println( "doRemoveExternalFeatures" );
-       //Not implemented yet
+        // Not implemented yet
     }
 }

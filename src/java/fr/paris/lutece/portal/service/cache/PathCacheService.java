@@ -103,7 +103,7 @@ public class PathCacheService extends AbstractCacheableService implements IPathC
     @Override
     public String getFromCache( String strKey )
     {
-        return ( String ) super.getFromCache( strKey );
+        return (String) super.getFromCache( strKey );
     }
 
     @Override

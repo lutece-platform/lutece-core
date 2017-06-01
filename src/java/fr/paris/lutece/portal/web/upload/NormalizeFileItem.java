@@ -203,7 +203,8 @@ public class NormalizeFileItem implements FileItem
      * {@inheritDoc}
      */
     @Override
-    public FileItemHeaders getHeaders( ) {
+    public FileItemHeaders getHeaders( )
+    {
         return _item.getHeaders( );
     }
 
@@ -211,7 +212,8 @@ public class NormalizeFileItem implements FileItem
      * {@inheritDoc}
      */
     @Override
-    public void setHeaders( FileItemHeaders headers ) {
+    public void setHeaders( FileItemHeaders headers )
+    {
         _item.setHeaders( headers );
     }
 }

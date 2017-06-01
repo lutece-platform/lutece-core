@@ -272,7 +272,8 @@ public class RightJspBean extends AdminFeaturesPageJspBean
      * @param request
      *            The HTTP Request
      * @return The Jsp URL of the process result
-     * @throws AccessDeniedException if the security token is invalid
+     * @throws AccessDeniedException
+     *             if the security token is invalid
      */
     public String doAssignUsers( HttpServletRequest request ) throws AccessDeniedException
     {
@@ -283,13 +284,13 @@ public class RightJspBean extends AdminFeaturesPageJspBean
         String strIdRight = request.getParameter( PARAMETER_ID_RIGHT );
 
         // retrieve the selected portlets ids
-        String[ ] arrayUsersIds = request.getParameterValues( PARAMETER_AVAILABLE_USER_LIST );
+        String [ ] arrayUsersIds = request.getParameterValues( PARAMETER_AVAILABLE_USER_LIST );
 
         if ( ( arrayUsersIds != null ) )
         {
             for ( int i = 0; i < arrayUsersIds.length; i++ )
             {
-                int nUserId = Integer.parseInt( arrayUsersIds[ i ] );
+                int nUserId = Integer.parseInt( arrayUsersIds [i] );
                 AdminUser user = AdminUserHome.findByPrimaryKey( nUserId );
 
                 if ( !AdminUserHome.hasRight( user, strIdRight ) )

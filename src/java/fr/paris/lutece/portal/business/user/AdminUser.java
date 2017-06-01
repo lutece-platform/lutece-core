@@ -418,20 +418,23 @@ public class AdminUser implements Serializable, AdminWorkgroupResource
         _rights.clear( );
         _rights.putAll( rights );
     }
-    
+
     /**
      * Update user right
-     * @param rightToUpdate to update in _rights for user
+     * 
+     * @param rightToUpdate
+     *            to update in _rights for user
      */
-    public void updateRight( Right rightToUpdate){
-        for ( Right right : _rights.values() ){
-            if ( right.getId(  ).equals( rightToUpdate.getId(  ) ) ){
-                _rights.put( right.getId(  ) , rightToUpdate );
+    public void updateRight( Right rightToUpdate )
+    {
+        for ( Right right : _rights.values( ) )
+        {
+            if ( right.getId( ).equals( rightToUpdate.getId( ) ) )
+            {
+                _rights.put( right.getId( ), rightToUpdate );
             }
         }
-     }
-    
-    
+    }
 
     // //////////////////////////////////////////////////////////////////////////
     // Authentication infos

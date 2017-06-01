@@ -582,7 +582,7 @@ public class AdminUserDAO implements IAdminUserDAO
      * {@inheritDoc}
      */
     @Override
-    public void store( LuteceDefaultAdminUser user, PasswordUpdateMode passwordMode ) 
+    public void store( LuteceDefaultAdminUser user, PasswordUpdateMode passwordMode )
     {
         String query = SQL_QUERY_UPDATE_DEFAULT_USER_IGNORE_PASSWORD;
         if ( PasswordUpdateMode.UPDATE.equals( passwordMode ) )

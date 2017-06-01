@@ -1576,9 +1576,13 @@ public final class AdminUserService
 
     /**
      * Get a user reset password token
-     * @param user the user
-     * @param timestamp the timestamp of the token
-     * @param request he request
+     * 
+     * @param user
+     *            the user
+     * @param timestamp
+     *            the timestamp of the token
+     * @param request
+     *            he request
      * @return the reset password token
      */
     public static String getUserPasswordResetToken( AdminUser user, Date timestamp, HttpServletRequest request )

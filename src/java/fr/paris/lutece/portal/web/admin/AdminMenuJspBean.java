@@ -427,7 +427,7 @@ public class AdminMenuJspBean implements Serializable
         Locale locale = user.getLocale( );
         Map<String, Object> model = new HashMap<>( );
         model.put( MARK_MINIMUM_PASSWORD_SIZE, AdminUserService.getIntegerSecurityParameter( AdminUserService.DSKEY_PASSWORD_MINIMUM_LENGTH ) );
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_PASSWORD_DEFAULT_MODULE, locale, model  );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_PASSWORD_DEFAULT_MODULE, locale, model );
 
         return template.getHtml( );
     }

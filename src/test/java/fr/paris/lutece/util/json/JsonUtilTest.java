@@ -52,17 +52,20 @@ public class JsonUtilTest extends LuteceTestCase
         System.out.println( "errorMessageResponse" );
         AbstractJsonResponse response = new ErrorJsonResponse( "codeValue", "messageValue" );
         String strJson = JsonUtil.buildJsonResponse( response );
-        System.out.println(strJson);
+        System.out.println( strJson );
 
         String strRefJson = "{\"errorCode\":\"codeValue\",\"message\":\"messageValue\",\"status\":\"ERROR\"}";
-        ObjectMapper objectMapper = new ObjectMapper();
+        ObjectMapper objectMapper = new ObjectMapper( );
         JsonNode objectNodeRef;
         JsonNode objectNodeJson;
-        try {
+        try
+        {
             objectNodeRef = objectMapper.readTree( strRefJson );
             objectNodeJson = objectMapper.readTree( strJson );
-        } catch (Exception e) {
-            throw new AssertionError("Should not happen");
+        }
+        catch( Exception e )
+        {
+            throw new AssertionError( "Should not happen" );
         }
 
         assertEquals( objectNodeRef, objectNodeJson );
@@ -76,17 +79,20 @@ public class JsonUtilTest extends LuteceTestCase
         System.out.println( "errorResponse" );
         AbstractJsonResponse response = new ErrorJsonResponse( "codeValue" );
         String strJson = JsonUtil.buildJsonResponse( response );
-        System.out.println(strJson);
+        System.out.println( strJson );
 
         String strRefJson = "{\"errorCode\":\"codeValue\",\"message\":null,\"status\":\"ERROR\"}";
-        ObjectMapper objectMapper = new ObjectMapper();
+        ObjectMapper objectMapper = new ObjectMapper( );
         JsonNode objectNodeRef;
         JsonNode objectNodeJson;
-        try {
+        try
+        {
             objectNodeRef = objectMapper.readTree( strRefJson );
             objectNodeJson = objectMapper.readTree( strJson );
-        } catch (Exception e) {
-            throw new AssertionError("Should not happen");
+        }
+        catch( Exception e )
+        {
+            throw new AssertionError( "Should not happen" );
         }
 
         assertEquals( objectNodeRef, objectNodeJson );
@@ -101,17 +107,20 @@ public class JsonUtilTest extends LuteceTestCase
 
         AbstractJsonResponse response = new JsonResponse( Boolean.TRUE );
         String strJson = JsonUtil.buildJsonResponse( response );
-        System.out.println(strJson);
+        System.out.println( strJson );
 
         String strRefJson = "{\"result\":true,\"status\":\"OK\"}";
-        ObjectMapper objectMapper = new ObjectMapper();
+        ObjectMapper objectMapper = new ObjectMapper( );
         JsonNode objectNodeRef;
         JsonNode objectNodeJson;
-        try {
+        try
+        {
             objectNodeRef = objectMapper.readTree( strRefJson );
             objectNodeJson = objectMapper.readTree( strJson );
-        } catch (Exception e) {
-            throw new AssertionError("Should not happen");
+        }
+        catch( Exception e )
+        {
+            throw new AssertionError( "Should not happen" );
         }
 
         assertEquals( objectNodeRef, objectNodeJson );
@@ -125,24 +134,28 @@ public class JsonUtilTest extends LuteceTestCase
     {
         System.out.println( "response" );
 
-        AbstractJsonResponse response = new JsonResponse( new Object() {
-            @SuppressWarnings("unused")
+        AbstractJsonResponse response = new JsonResponse( new Object( )
+        {
+            @SuppressWarnings( "unused" )
             public String beanstringfield = "Foo";
-            @SuppressWarnings("unused")
+            @SuppressWarnings( "unused" )
             public int beanintfield = 37;
         } );
         String strJson = JsonUtil.buildJsonResponse( response );
-        System.out.println(strJson);
+        System.out.println( strJson );
 
         String strRefJson = "{\"result\":{\"beanstringfield\":\"Foo\", \"beanintfield\":37},\"status\":\"OK\"}";
-        ObjectMapper objectMapper = new ObjectMapper();
+        ObjectMapper objectMapper = new ObjectMapper( );
         JsonNode objectNodeRef;
         JsonNode objectNodeJson;
-        try {
+        try
+        {
             objectNodeRef = objectMapper.readTree( strRefJson );
             objectNodeJson = objectMapper.readTree( strJson );
-        } catch (Exception e) {
-            throw new AssertionError("Should not happen");
+        }
+        catch( Exception e )
+        {
+            throw new AssertionError( "Should not happen" );
         }
 
         assertEquals( objectNodeRef, objectNodeJson );

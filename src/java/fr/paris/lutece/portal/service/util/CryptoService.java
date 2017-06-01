@@ -118,12 +118,12 @@ public final class CryptoService
         {
             digest = MessageDigest.getInstance( strAlgorithm );
         }
-        catch ( NoSuchAlgorithmException e )
+        catch( NoSuchAlgorithmException e )
         {
             AppLogService.error( strAlgorithm + " not found", e );
             return null;
         }
-        byte[ ] buffer = new byte[ 1024 ];
+        byte [ ] buffer = new byte [ 1024];
         try
         {
             int nNumBytesRead = stream.read( buffer );
@@ -133,7 +133,7 @@ public final class CryptoService
                 nNumBytesRead = stream.read( buffer );
             }
         }
-        catch ( IOException e )
+        catch( IOException e )
         {
             AppLogService.error( "Error reading stream", e );
             return null;
@@ -157,7 +157,7 @@ public final class CryptoService
             {
                 // no legacy key exists. Generate a random one
                 Random random = new SecureRandom( );
-                byte[ ] bytes = new byte[ CONSTANT_CRYPTOKEY_LENGTH_BYTES ];
+                byte [ ] bytes = new byte [ CONSTANT_CRYPTOKEY_LENGTH_BYTES];
                 random.nextBytes( bytes );
                 strKey = byteToHex( bytes );
             }
@@ -167,19 +167,21 @@ public final class CryptoService
     }
 
     /**
-     * Get the HmacSHA256 of a message using the app crypto key.
-     * The UTF-8 representation of the key is used.
-     * @param message the message. The mac is calculated from the UTF-8 representation
+     * Get the HmacSHA256 of a message using the app crypto key. The UTF-8 representation of the key is used.
+     * 
+     * @param message
+     *            the message. The mac is calculated from the UTF-8 representation
      * @return the hmac as hex
      * @since 6.0.0
      */
     public static String hmacSHA256( String message )
     {
-        byte[] keyBytes;
+        byte [ ] keyBytes;
         try
         {
             keyBytes = getCryptoKey( ).getBytes( "UTF-8" );
-        } catch ( UnsupportedEncodingException e )
+        }
+        catch( UnsupportedEncodingException e )
         {
             throw new AppException( "UTF-8 should be supported", e );
         }
@@ -192,16 +194,20 @@ public final class CryptoService
             mac.init( key );
 
             return byteToHex( mac.doFinal( message.getBytes( "UTF-8" ) ) );
-        } catch ( NoSuchAlgorithmException e )
+        }
+        catch( NoSuchAlgorithmException e )
         {
             throw new AppException( "Could not find " + strAlg + " algorithm which is supposed to be supported by Java", e );
-        } catch ( InvalidKeyException e )
+        }
+        catch( InvalidKeyException e )
         {
             throw new AppException( "The key should be valid", e );
-        } catch ( IllegalStateException e )
+        }
+        catch( IllegalStateException e )
         {
             throw new AppException( e.getMessage( ), e );
-        } catch ( UnsupportedEncodingException e )
+        }
+        catch( UnsupportedEncodingException e )
         {
             throw new AppException( "UTF-8 should be supported", e );
         }
