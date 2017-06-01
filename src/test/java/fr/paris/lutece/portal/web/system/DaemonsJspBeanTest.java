@@ -22,6 +22,7 @@ import fr.paris.lutece.test.LuteceTestCase;
 public class DaemonsJspBeanTest extends LuteceTestCase
 {
     private static final String JUNIT_DAEMON = "JUNIT";
+    private static final String DAEMON_INTERVAL_DSKEY = "core.daemon." + JUNIT_DAEMON + ".interval";
     private DaemonsJspBean bean;
     private DaemonEntry _entry;
     private String origMaxInitialStartDelay;
@@ -37,7 +38,7 @@ public class DaemonsJspBeanTest extends LuteceTestCase
         _entry.setClassName( TestDaemon.class.getName( ) );
         _entry.setPluginName( "core" );
         //AppDaemonService.registerDaemon will copy this datastore value in the entry.
-        DatastoreService.setInstanceDataValue( "core.daemon." + JUNIT_DAEMON + ".interval", "1");
+        DatastoreService.setInstanceDataValue( DAEMON_INTERVAL_DSKEY , "1");
         AppDaemonService.registerDaemon( _entry );
     }
 
@@ -62,6 +63,7 @@ public class DaemonsJspBeanTest extends LuteceTestCase
     @Override
     protected void tearDown( ) throws Exception
     {
+        DatastoreService.removeInstanceData( DAEMON_INTERVAL_DSKEY );
         AppDaemonService.stopDaemon( JUNIT_DAEMON );
         AppDaemonService.unregisterDaemon( JUNIT_DAEMON );
         restoreInitialStartDelay( origMaxInitialStartDelay );
