@@ -167,4 +167,15 @@ public final class RBACHome
     {
         _dao.deleteForRoleKey( strRoleKey );
     }
+    
+    /**
+     * Remove all the entries of the given resource type and the given resource id
+     * 
+     * @param strResourceType the type of the resource
+     * @param strResourceId the id of the resource
+     */
+    public static void removeForResource( String strResourceType, String strResourceId )
+    {
+        _dao.deleteForResourceTypeAndId( strResourceType, strResourceId );
+    }
 }

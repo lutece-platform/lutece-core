@@ -121,4 +121,12 @@ public interface IRBACDAO
      *            the new role key
      */
     void updateRoleKey( String strOldRoleKey, String strNewRoleKey );
+    
+    /**
+     * Remove all the entries of the given ressource type and ressource id
+     * 
+     * @param strResourceType the resource type
+     * @param strResourceId the resource id
+     */
+    public void deleteForResourceTypeAndId( String strResourceType, String strResourceId );
 }
