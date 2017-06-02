@@ -80,6 +80,11 @@ public final class TestDaemon extends Daemon
         startBarrier.reset( );
     }
 
+    public void resetCompletion( )
+    {
+        completionBarrier.reset( );
+    }
+
     public void go( ) throws InterruptedException, BrokenBarrierException, TimeoutException
     {
         this.go( 10, TimeUnit.SECONDS );

@@ -60,6 +60,7 @@ public class DaemonsJspBeanTest extends LuteceTestCase
     private DaemonsJspBean bean;
     private DaemonEntry _entry;
     private String origMaxInitialStartDelay;
+    private TestDaemon _testDaemon;
 
     @Override
     protected void setUp( ) throws Exception
@@ -74,6 +75,7 @@ public class DaemonsJspBeanTest extends LuteceTestCase
         // AppDaemonService.registerDaemon will copy this datastore value in the entry.
         DatastoreService.setInstanceDataValue( DAEMON_INTERVAL_DSKEY, "1" );
         AppDaemonService.registerDaemon( _entry );
+        _testDaemon = (TestDaemon) AppDaemonService.getDaemon( JUNIT_DAEMON );
     }
 
     private String setInitialStartDelay( ) throws FileNotFoundException, IOException
@@ -97,6 +99,17 @@ public class DaemonsJspBeanTest extends LuteceTestCase
     @Override
     protected void tearDown( ) throws Exception
     {
+        // Attempt to unlock test daemon threads that would be blocked on the barriers, for
+        // example if the test throws an unexpected exception, causing it to not call go() and waitforcompletion() to unlock the barriers.
+        // A stuck thread would make the next test start with the daemon already running
+        // (even though it is unregistered, because the logic to remove running daemons is done at the end of the thread),
+        // so the calls the go() and waitcompletion() could be imbalanced. And it's highly
+        // confusing that the tests keep this kind of state between them.
+        // Note that the thread would die off eventually because the barriers have a timeout, but tests
+        // continue to execute in the mean time and fail with obscure reasons.
+        _testDaemon.resetGo( );
+        _testDaemon.resetCompletion( );
+
         DatastoreService.removeInstanceData( DAEMON_INTERVAL_DSKEY );
         AppDaemonService.stopDaemon( JUNIT_DAEMON );
         AppDaemonService.unregisterDaemon( JUNIT_DAEMON );
@@ -139,21 +152,20 @@ public class DaemonsJspBeanTest extends LuteceTestCase
         bean.doDaemonAction( request ); // Daemon should run periodically with interval of 1s
 
         assertTrue( _entry.isRunning( ) );
-        TestDaemon daemon = (TestDaemon) AppDaemonService.getDaemon( JUNIT_DAEMON );
-        daemon.go( );
+        _testDaemon.go( );
         lScheduledTime = System.nanoTime( );
         AppLogService.info( "Daemon scheduled after " + ( ( lScheduledTime - lReadyTime ) / 1000000 ) + " ms" );
 
-        daemon.waitForCompletion( ); // Complete first run without a timeout
+        _testDaemon.waitForCompletion( ); // Complete first run without a timeout
 
         lReadyTime = System.nanoTime( );
-        daemon.go( );
+        _testDaemon.go( );
         lScheduledTime = System.nanoTime( );
         long lRescheduleDurationMilliseconds = ( ( lScheduledTime - lReadyTime ) / 1000000 );
         long lMarginMilliseconds = 250;
         AppLogService.info( "Daemon scheduled after " + lRescheduleDurationMilliseconds + " ms" );
 
-        daemon.waitForCompletion( ); // Complete second run without a timeout. More runs would follow if we continued
+        _testDaemon.waitForCompletion( ); // Complete second run without a timeout. More runs would follow if we continued
 
         assertTrue(
                 "Daemon should be re-scheduled approximately 1 second after the end of the previous run, but got " + lRescheduleDurationMilliseconds + "ms",
@@ -164,9 +176,8 @@ public class DaemonsJspBeanTest extends LuteceTestCase
     {
         assertFalse( _entry.isRunning( ) );
         AppDaemonService.startDaemon( JUNIT_DAEMON ); // Daemon should run periodically with interval of 1s
-        TestDaemon daemon = (TestDaemon) AppDaemonService.getDaemon( JUNIT_DAEMON );
-        daemon.go( );
-        daemon.waitForCompletion( );
+        _testDaemon.go( );
+        _testDaemon.waitForCompletion( );
         // We have about 1 second to stop the daemon
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.setParameter( "action", "STOP" );
@@ -176,7 +187,7 @@ public class DaemonsJspBeanTest extends LuteceTestCase
         try
         {
             // Here the daemon should not be relaunched after a 1s interval. So wait 2.5 seconds until a timeout.
-            daemon.go( 2500, TimeUnit.MILLISECONDS );
+            _testDaemon.go( 2500, TimeUnit.MILLISECONDS );
             fail( "Daemon still running after stop" );
         }
         catch( TimeoutException e )
@@ -194,12 +205,11 @@ public class DaemonsJspBeanTest extends LuteceTestCase
 
         lReadyTime = System.nanoTime( );
         AppDaemonService.startDaemon( JUNIT_DAEMON ); // Daemon should run periodically with interval of 1000s
-        TestDaemon daemon = (TestDaemon) AppDaemonService.getDaemon( JUNIT_DAEMON );
-        daemon.go( );
+        _testDaemon.go( );
         lScheduledTime = System.nanoTime( );
         AppLogService.info( "Daemon scheduled after " + ( ( lScheduledTime - lReadyTime ) / 1000000 ) + " ms" );
 
-        daemon.waitForCompletion( );
+        _testDaemon.waitForCompletion( );
 
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.setParameter( "action", "RUN" ); // Manually do 1 run of the daemon now
@@ -207,11 +217,11 @@ public class DaemonsJspBeanTest extends LuteceTestCase
         lReadyTime = System.nanoTime( );
         bean.doDaemonAction( request );
 
-        daemon.go( ); // It should run in less than 1000 seconds !
+        _testDaemon.go( ); // It should run in less than 1000 seconds !
         lScheduledTime = System.nanoTime( );
         AppLogService.info( "Daemon scheduled after " + ( ( lScheduledTime - lReadyTime ) / 1000000 ) + " ms" );
 
-        daemon.waitForCompletion( );
+        _testDaemon.waitForCompletion( );
     }
 
     public void testDoDaemonActionUpdateInterval( )
