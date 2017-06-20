@@ -64,7 +64,7 @@ public class AdminUserFieldDAO implements IAdminUserFieldDAO
             + " af.title, af.DEFAULT_value, af.is_DEFAULT_value, af.height, af.width, af.max_size_enter, af.is_multiple, af.field_position "
             + " FROM core_admin_user_field auf "
             + " INNER JOIN core_admin_user au ON auf.id_user = au.id_user "
-            + " INNER JOIN core_attribute a ON auf.id_attribute = a.id_attribute " + " INNER JOIN core_attribute_field af ON auf.id_field = af.id_field ";
+            + " INNER JOIN core_attribute a ON auf.id_attribute = a.id_attribute " + " LEFT JOIN core_attribute_field af ON auf.id_field = af.id_field ";
     private static final String SQL_QUERY_SELECT_USER_FIELDS_BY_ID_USER_ID_ATTRIBUTE = " SELECT auf.id_user_field, auf.id_user, auf.id_attribute, auf.id_field, auf.id_file, auf.user_field_value, "
             + " a.type_class_name, a.title, a.help_message, a.is_mandatory, a.attribute_position "
             + " FROM core_admin_user_field auf "
@@ -188,6 +188,12 @@ public class AdminUserFieldDAO implements IAdminUserFieldDAO
             userField.setAttribute( attribute );
 
             // ATTRIBUTEFIELD
+            // Here the attribute field may not exist (for example when
+            // using an non-mandatory combo box attribute). It will have
+            // and idField of 0.
+            // Use an empty object (with nulls, zeroes and false) because
+            // most of the code relies on this value beeing not null
+            // to access the idField.
             AttributeField attributeField = new AttributeField( );
             attributeField.setIdField( daoUtil.getInt( 4 ) );
             attributeField.setTitle( daoUtil.getString( 19 ) );
@@ -610,6 +616,12 @@ public class AdminUserFieldDAO implements IAdminUserFieldDAO
             userField.setAttribute( attribute );
 
             // ATTRIBUTEFIELD
+            // Here the attribute field may not exist (for example when
+            // using an non-mandatory combo box attribute). It will have
+            // and idField of 0.
+            // Use an empty object (with nulls, zeroes and false) because
+            // most of the code relies on this value beeing not null
+            // to access the idField.
             AttributeField attributeField = new AttributeField( );
             attributeField.setIdField( daoUtil.getInt( 4 ) );
             attributeField.setTitle( daoUtil.getString( 19 ) );
