@@ -46,7 +46,7 @@
 		<#assign multiple = 10>
     </#if>
 	<@select name='attribute_${attribute.idAttribute}' id='attribute_${attribute.idAttribute}' multiple=multiple>
-		<#if !attribute.mandatory>
+		<#if !attribute.mandatory && !isMultiple( attribute.listAttributeFields ) >
             <option value="">
 				#i18n{portal.users.attribute.labelNone}
             </option>
