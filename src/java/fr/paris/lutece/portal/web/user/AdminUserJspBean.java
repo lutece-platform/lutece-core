@@ -935,10 +935,6 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         {
             return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_EMAIL_ALREADY_USED, AdminMessage.TYPE_STOP );
         }
-        if ( !SecurityTokenService.getInstance( ).validate( request, JSP_URL_MODIFY_USER ) )
-        {
-            throw new AccessDeniedException( "Invalid security token" );
-        }
 
         // modification in no-module mode : we manage the password
         if ( AdminAuthenticationService.getInstance( ).isDefaultModuleUsed( ) )
@@ -971,6 +967,11 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
                 return strError;
             }
 
+            if ( !SecurityTokenService.getInstance( ).validate( request, JSP_URL_MODIFY_USER ) )
+            {
+                throw new AccessDeniedException( "Invalid security token" );
+            }
+
             AdminUserHome.update( user, PasswordUpdateMode.IGNORE );
 
             AdminUserFieldService.doModifyUserFields( user, request, getLocale( ), getUser( ) );
@@ -993,6 +994,11 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             if ( strError != null )
             {
                 return strError;
+            }
+
+            if ( !SecurityTokenService.getInstance( ).validate( request, JSP_URL_MODIFY_USER ) )
+            {
+                throw new AccessDeniedException( "Invalid security token" );
             }
 
             AdminUserHome.update( user );
