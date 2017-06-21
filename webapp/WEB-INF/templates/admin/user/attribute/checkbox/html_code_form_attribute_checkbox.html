@@ -41,6 +41,7 @@
             <#assign hasStoredValue = true>
         </#if>
 
+	<#assign checkboxMandatory = (attribute.listAttributeFields?size == 1) && mandatory>
 	<#list attribute.listAttributeFields as attributeField>
 		<#if attributeField.title?exists && attributeField.value != "">
 			<#if attribute.fieldInLine>
@@ -49,7 +50,7 @@
             <#assign selectedStoredAttribute = hasStoredValue && default_values_list?has_content && isSelected(attributeField.idField default_values_list)>
             <#assign selectedDefaultAttribute = !hasStoredValue && attributeField.defaultValue>
             <#assign checked=selectedStoredAttribute || selectedDefaultAttribute>
-			<@checkBox name='attribute_${attribute.idAttribute}' value='${attributeField.idField}' checked=checked labelKey='${attributeField.title}' orientation=orientation />
+			<@checkBox name='attribute_${attribute.idAttribute}' value='${attributeField.idField}' checked=checked labelKey='${attributeField.title}' orientation=orientation mandatory=checkboxMandatory />
 		</#if>
 	</#list>
 </@formGroup>
