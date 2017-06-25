@@ -9,7 +9,7 @@
 					<@formGroup labelKey='#i18n{portal.style.modify_page_template.labelDescription}' labelFor='page_template_description' mandatory=true>
 						<@input type='text' name='page_template_description' id='page_template_description' value='${page_template.description?html}' maxlength=50 />
 					</@formGroup>
-					<@formGroup labelKey='#i18n{portal.style.modify_page_template.labelFileTitle}' labelFor='page_template_file' helpKey='#i18n{portal.style.modify_page_template.labelCurrentFile} ${page_template.file}' mandatory=true>
+					<@formGroup labelKey='#i18n{portal.style.modify_page_template.labelFileTitle}' labelFor='page_template_file' helpKey='#i18n{portal.style.modify_page_template.labelCurrentFile} ${page_template.file}'>
 						<@input type='file' name='page_template_file' id='page_template_file' />
 						<@checkBox name='update_file' labelKey='#i18n{portal.style.modify_page_template.labelReloadFile}' />
 					</@formGroup>
@@ -17,7 +17,7 @@
 						#i18n{portal.style.modify_page_template.labelCurrentPicture}
 								<img src="images/admin/skin/page_templates/${page_template.picture}" class="img-responsive" alt="" title="${i18n("portal.style.manage_page_templates.picturealt",page_template.description?html)}" />
 					</#assign>
-					<@formGroup labelKey='#i18n{portal.style.modify_page_template.labelPictureTitle}' labelFor='page_template_picture' helpKey=imageHelpKey mandatory=true>
+					<@formGroup labelKey='#i18n{portal.style.modify_page_template.labelPictureTitle}' labelFor='page_template_picture' helpKey=imageHelpKey>
 						<@input type='file' name='page_template_picture' id='page_template_picture' />
 						<@checkBox name='update_image' labelKey='#i18n{portal.style.modify_page_template.labelReloadPicture}' />
 					</@formGroup>
