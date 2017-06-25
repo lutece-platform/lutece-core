@@ -295,8 +295,9 @@ public final class AppDaemonService
      */
     private static void scheduleThread( DaemonEntry entry, int nInitialDelay )
     {
-        _executor.schedule( entry, nInitialDelay, TimeUnit.SECONDS );
+        AppLogService.info( "Scheduling daemon " + entry.getId( ) + "; first run in " + nInitialDelay + " seconds" );
         entry.setIsRunning( true );
+        _executor.schedule( entry, nInitialDelay, TimeUnit.SECONDS );
         // update onStartup property
         DatastoreService.setInstanceDataValue( getOnStartupKey( entry.getId( ) ), DatastoreService.VALUE_TRUE );
     }
