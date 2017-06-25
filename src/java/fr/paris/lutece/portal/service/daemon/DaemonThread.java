@@ -113,6 +113,7 @@ public class DaemonThread implements Runnable
         }
         else
         {
+            AppLogService.error( "Daemon's " + _entry.getId( ) + " run not processed because it has been stopped. Will unschedule." );
             AppDaemonService.cancelScheduledThread( _entry.getId( ) );
         }
     }
