@@ -797,12 +797,12 @@
 
 <#-- RADIO BUTTON -->
 <#-- orientation: vertical/horizontal. Default is vertical -->
-<#macro radioButton name id='' value='' labelKey='' labelFor='' helpKey='' orientation='vertical' tabIndex='' title='' disabled=false readonly=false checked=false params=''>
+<#macro radioButton name id='' value='' labelKey='' labelFor='' orientation='vertical' tabIndex='' title='' disabled=false readonly=false checked=false mandatory=mandatory params=''>
 	<#if orientation='vertical'>
 		<div class="radio">
 	</#if>
 			<label<#if orientation='horizontal'> class="radio-inline"</#if>>
-				<input type="radio" id="${id}" name="${name}"<#if value!=''> value="${value}"</#if><#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if checked> checked</#if><#if disabled> disabled</#if><#if readonly> readonly</#if> />
+				<input type="radio" id="${id}" name="${name}"<#if value!=''> value="${value}"</#if><#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if checked> checked</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if mandatory> required</#if><#if params!=''> ${params}</#if> />
 			<#if labelKey!=''>
 					${labelKey}
 			<#else>
@@ -997,6 +997,10 @@
 	<#if showTitleMd = false><#assign showTitleClass = showTitleClass + ' ' + 'hidden-md' /></#if>
 	<#if showTitleLg = false><#assign showTitleClass = showTitleClass + ' ' + 'hidden-lg' /></#if>
 	
+	<#if dropdownMenu>
+	<div class="dropdown">
+	</#if>
+	
 	<button class="<#if style!='close'>btn</#if><#if size!='' && style!='btn-box-tool'> btn-${size}</#if><#if color_temp!='' && style!='btn-box-tool'> ${color_temp}</#if><#if style!=''> ${style}</#if><#if dropdownMenu> dropdown-toggle</#if><#if class!=''> ${class}</#if>" type="${type}"<#if title!=''> title="${title}"</#if><#if name!=''> name="${name}"</#if><#if id!=''> id="${id}"</#if><#if value!=''> value="${value}"</#if><#if params!=''> ${params}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if>>
 		<#if buttonIcon!='' && iconPosition='left'><@icon style=buttonIcon /></#if>
 		<#if showTitleClass!='' && style!='btn-box-tool'><span class="${showTitleClass}"></#if>${title}<#if showTitleClass!='' && style!='btn-box-tool'></span></#if>
@@ -1005,6 +1009,13 @@
 		&#160;<@icon style='caret-down' />
 		</#if>
 	</button>
+	
+	<#if dropdownMenu>
+	<ul class="dropdown-menu"<#if id!=''> aria-labelledby="${id}"</#if>>
+		<#nested>
+	</ul>
+	</div>
+	</#if>
 </#macro>
 
 <#-- A BUTTON (LINK STYLED AS A BUTTON) -->
