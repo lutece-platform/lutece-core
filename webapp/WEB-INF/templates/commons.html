@@ -594,7 +594,7 @@
 		</#if>
 		<#if url2 != ''>
 			<@aButton href=url2 title='#i18n{${i18nValue2Key}}' buttonIcon=icon2 size='' color='btn-secondary' />
-		<#else>
+		<#elseif button2Name != ''>
 			<@button type='submit' title='#i18n{${i18nValue2Key}}' buttonIcon=icon2 size='' color='btn-secondary' name=button2Name />
 		</#if>
 	</@formGroup>
