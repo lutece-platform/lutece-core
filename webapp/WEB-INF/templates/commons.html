@@ -917,6 +917,7 @@
 </#macro>
 
 <#-- ACCORDION ELEMENT --> 
+<#-- The boxTools parameter is unused, kept for backwards compatibility -->
 <#macro accordionHeader title='' parentId=parentId childId=childId boxTools=false id='' params=''>
 		<div class="box-header with-border"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 			<h2 class="box-title">
@@ -924,9 +925,10 @@
 					${title}
 				</a>
 			</h2>
-			<#if boxTools=true>
+			<#local nested><#nested></#local>
+			<#if nested?has_content>
 			<div class="box-tools">
-				<#nested>
+				${nested}
 			</div>
 			</#if>
 		</div>
@@ -1158,12 +1160,14 @@
 </div>
 </#macro>
 
+<#-- The boxTools parameter is unused, kept for backwards compatibility -->
 <#macro boxHeader title='' i18nTitleKey='' showTitle=true id='' params='' boxTools=false titleLevel='h2'>
 <div class="box-header with-border"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 <${titleLevel} class="box-title<#if showTitle=false> sr-only</#if>"><#if title!=''>${title}</#if><#if i18nTitleKey!=''>#i18n{${i18nTitleKey}}</#if></${titleLevel}>
-	<#if boxTools>
+	<#local nested><#nested></#local>
+	<#if nested?has_content>
 	<div class="box-tools">
-		<#nested>
+		${nested}
 	</div>
 	</#if>
 </div>
