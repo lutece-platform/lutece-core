@@ -997,8 +997,7 @@ and is kept only for backwards compatibility
 <#-- params: data-toggle/data-target/data-dismiss... -->
 <#-- buttonIcon: icon name ex: info/check/comment/envelope... -->
 <#-- iconPosition: left/right -->
-<#-- titleVisibility: hide the title for reponsive mode ex: hidden-xs, hidden-sm -->
-<#macro button size='sm' color='btn-primary' style='btn-flat' class='' type='button' id='' params='' title='' showTitle=true showTitleXs=true showTitleSm=true showTitleMd=true showTitleLg=true titleVisibility='hidden-xs' name='' buttonIcon='' dropdownMenu=false disabled=false value='' iconPosition='left' tabIndex=''>
+<#macro button name='' id='' type='button' size='sm' color='btn-primary' style='btn-flat' class='' params='' value='' title='' tabIndex='' showTitle=true showTitleXs=true showTitleSm=true showTitleMd=true showTitleLg=true buttonIcon='' disabled=false iconPosition='left' dropdownMenu=false>
 	<#-- Bootstrap 4 transition -->
 	<#if color='btn-secondary'>
 		<#assign color_temp='btn-default'>
@@ -1040,8 +1039,7 @@ and is kept only for backwards compatibility
 <#-- color: btn-default/btn-primary/btn-success/btn-warning/btn-danger/btn-info/bg-purple/bg-blue/bg-navy/bg-teal/bg-maroon/bg-black/bg-gray/bg-olive/bg-lime/bg-orange/bg-fuchsia -->
 <#-- style: btn-block/btn-flat/disabled/btn-app -->
 <#-- icon: icon name ex: info/check/comment/envelope... -->
-<#-- titleVisibility: hide the title for reponsive mode ex: hidden-xs, hidden-sm -->
-<#macro aButton name='' id='' params='' size='sm' color='btn-primary' style='btn-flat' class='' href='' title='' showTitle=true showTitleXs=true showTitleSm=true showTitleMd=true showTitleLg=true buttonIcon='' titleVisibility='hidden-xs' dropdownMenu=false disabled=false iconPosition='left' tabIndex=''>
+<#macro aButton name='' id='' href='' size='sm' color='btn-primary' style='btn-flat' class='' params='' title='' tabIndex='' showTitle=true showTitleXs=true showTitleSm=true showTitleMd=true showTitleLg=true buttonIcon='' disabled=false iconPosition='left' dropdownMenu=false>
 	<#-- Bootstrap 4 transition -->
 	<#if color='btn-secondary'>
 		<#assign color_temp='btn-default'>
