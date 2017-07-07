@@ -585,19 +585,32 @@
 	</div>
 </#macro>
 
-<#macro actionButtons button1Name='' button2Name='' i18nValue1Key='portal.admin.message.buttonValidate' i18nValue2Key='portal.admin.message.buttonCancel' url1='' url2='' icon1='check' icon2='close' offset=''>
-	<@formGroup>
-		<#if url1 != ''>
-			<@aButton href=url1 title='#i18n{${i18nValue1Key}}' buttonIcon=icon1 size='' />
-		<#else>
-			<@button type='submit' title='#i18n{${i18nValue1Key}}' buttonIcon=icon1 size='' name=button1Name />
-		</#if>
-		<#if url2 != ''>
-			<@aButton href=url2 title='#i18n{${i18nValue2Key}}' buttonIcon=icon2 size='' color='btn-secondary' />
-		<#else>
-			<@button type='submit' title='#i18n{${i18nValue2Key}}' buttonIcon=icon2 size='' color='btn-secondary' name='button2Name' />
-		</#if>
-	</@formGroup>
+<#macro actionButtons button1Name='' button2Name='' i18nValue1Key='portal.admin.message.buttonValidate' i18nValue2Key='portal.admin.message.buttonCancel' url1='' url2='' icon1='fa fa-check' icon2='fa fa-close' offset=3 >
+<#assign col = 11 - offset />
+<div class="form-group">
+    <div class="col-xs-12 col-sm-offset-${offset} col-sm-${col} col-md-offset-${offset} col-md-${col}">
+        <#if url1 != ''>
+			<a class="btn btn-primary" href="${url1}"  >
+				<i class="${icon1}"></i>&nbsp;#i18n{${i18nValue1Key}}
+			</a>
+        <#else>
+			<button  class="btn btn-primary" name="${button1Name}" type="submit">
+				<i class="${icon1}"></i>&nbsp;#i18n{${i18nValue1Key}}
+			</button>
+        </#if>
+        <#if url2 != ''>
+			<a class="btn btn-default" href="${url2}"  >
+				<i class="${icon2}"></i>&nbsp;#i18n{${i18nValue2Key}}
+			</a>
+        <#else>
+            <#if button2Name != ''>
+				<button class="btn btn-default" name="${button2Name}" type="submit" >
+					<i class="${icon2}"></i>&nbsp;#i18n{${i18nValue2Key}}
+				</button>
+            </#if>
+        </#if>
+    </div>
+</div>
 </#macro>
 
 <#macro boxSized col i18nTitleKey boxClass='box-primary' >
@@ -630,10 +643,12 @@
 </@rowBox>
 </#macro>
 
+<#--
+This is now empty because it should not be used anymore
+and is kept only for backwards compatibility
+-->
 <#macro headerButtons>
-<div class="box-tools pull-right">
     <#nested>
-</div>
 </#macro>
 
 <#macro tableHeadBodySeparator>
@@ -904,6 +919,7 @@
 </#macro>
 
 <#-- ACCORDION ELEMENT --> 
+<#-- The boxTools parameter is unused, kept for backwards compatibility -->
 <#macro accordionHeader title='' parentId=parentId childId=childId boxTools=false id='' params=''>
 		<div class="box-header with-border"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 			<h2 class="box-title">
@@ -911,9 +927,10 @@
 					${title}
 				</a>
 			</h2>
-			<#if boxTools=true>
+			<#local nested><#nested></#local>
+			<#if nested?has_content>
 			<div class="box-tools">
-				<#nested>
+				${nested}
 			</div>
 			</#if>
 		</div>
@@ -1156,12 +1173,14 @@
 </div>
 </#macro>
 
+<#-- The boxTools parameter is unused, kept for backwards compatibility -->
 <#macro boxHeader title='' i18nTitleKey='' showTitle=true id='' params='' boxTools=false titleLevel='h2'>
 <div class="box-header with-border"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 <${titleLevel} class="box-title<#if showTitle=false> sr-only</#if>"><#if title!=''>${title}</#if><#if i18nTitleKey!=''>#i18n{${i18nTitleKey}}</#if></${titleLevel}>
-	<#if boxTools>
+	<#local nested><#nested></#local>
+	<#if nested?has_content>
 	<div class="box-tools">
-		<#nested>
+		${nested}
 	</div>
 	</#if>
 </div>

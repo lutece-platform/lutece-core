@@ -2,9 +2,9 @@
 <script type="text/javascript">
 	// TinyMCE insert
 	var textToInsert = document.getElementById("tag").innerHTML.replace(/\r|\n|\r\n/g, "");
-	var t1 = '${input}';
+	var t1 = '${.data_model.input}';
  	if ( t1 !='undefined' ){
-		var elementInput = opener.document.getElementById("${input}");
+		var elementInput = opener.document.getElementById("${.data_model.input}");
 		elementInput.value = textToInsert;
 		window.close();
 	} else {

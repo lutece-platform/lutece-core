@@ -3,7 +3,7 @@
 		<li class="nav-header">#i18n{portal.insert.page_insertservice.labelInsert}</li>
 		<#list insert_services_list as insertservice>
         <li>
-			<a href="jsp/admin/insert/DisplayInsertService.jsp?insert_service_type=${insertservice.id}&amp;plugin_name=${insertservice.pluginName}&amp;input=${input}&amp;selected_text=${selected_text}" >
+			<a href="jsp/admin/insert/DisplayInsertService.jsp?insert_service_type=${insertservice.id}&amp;plugin_name=${insertservice.pluginName}&amp;input=${.data_model.input}&amp;selected_text=${selected_text}" >
 				<i class="glyphicon glyphicon-chevron-right"></i>&nbsp;#i18n{${insertservice.labelKey}}
             </a>
         </li>
