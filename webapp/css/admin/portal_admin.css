@@ -32,7 +32,7 @@ body > .header .navbar span#zone4{ min-width:180px;display:inline-block;}
 .navbar-nav > .tasks-menu > .dropdown-menu > li .menu {margin: 0; padding: 0; list-style: none; overflow-x: hidden;}
 .navbar-nav > .tasks-menu > .dropdown-menu > li .menu > a {display: block; white-space: nowrap; /* Prevent text from breaking */ border-bottom: 1px solid #f4f4f4; padding: 10px;}
 
-/* USER MENU*/
+/* USER MENU */
 .navbar-nav.navbar-right:last-child { margin-right:20px;}
 .navbar-nav > .user-menu > .dropdown-menu {-webkit-border-radius: 0;-moz-border-radius: 0;border-radius: 0;padding: 1px 0 0 0;border-top-width: 0;width: 280px;left:-140px;left:-40px;}
 .navbar-nav > .user-menu > .dropdown-menu li a {color:#000;}
@@ -42,15 +42,25 @@ body > .header .navbar span#zone4{ min-width:180px;display:inline-block;}
 /* MENUS */
 .navbar-toolbar{margin-left:5%;}
 .navbar-toolbar li{margin: 0 -0.5em;}
-.nav-tabs-custom.top-danger > .nav-tabs > li.active { border-top-color: #dd4b39 }
+.nav-tabs-custom.top-danger > .nav-tabs > li.active { border-top-color:#dd4b39;}
+.nav-tabs-custom.top-success > .nav-tabs > li.active { border-top-color:#00a65a;}
+.nav-tabs-custom.top-warning > .nav-tabs > li.active { border-top-color:#f39c12;}
+.nav-tabs-custom.top-aqua > .nav-tabs > li.active { border-top-color:#00c0ef;}
+.nav-tabs-custom.top-gray > .nav-tabs > li.active { border-top-color:#d2d6de;}
+.nav-tabs-custom.top-navy > .nav-tabs > li.active { border-top-color:#001f3f;}
+.nav-tabs-custom.top-teal > .nav-tabs > li.active { border-top-color:#39cccc;}
+.nav-tabs-custom.top-purple > .nav-tabs > li.active { border-top-color:#605ca8;}
+.nav-tabs-custom.top-orange > .nav-tabs > li.active { border-top-color:#ff851b;}
+.nav-tabs-custom.top-maroon > .nav-tabs > li.active { border-top-color:#d81b60;}
+.nav-tabs-custom.top-black > .nav-tabs > li.active { border-top-color:#111111;}
 
-/*  Login page*/
+/* Login page */
 #login-page {margin: 0px -15px;padding: 9em 0px 2em;background: #fff url("../../images/admin/skin/bg_login1.jpg");background-size: cover;background-attachment: fixed;min-height: 922px;height: 100vh;overflow: hidden;}
 #login-page img#logoLogin {position:absolute;top:50px;left:50px;}
 .login-box .login-logo{margin-bottom: 0;color:#fff}
 .login-box .login-logo a{color:#fff}
 
-/*	Header */
+/* Header */
 .home{background-color:#fff !important;color:#fff;margin:0 0 0 0;display:block;}
 .home>a>i{color:#000 !important;}
 
