@@ -61,4 +61,32 @@ public class UrlItemTest extends LuteceTestCase
 
         assertEquals( "http://myhost/mypage.jsp?param2=value2&param=value" , url.toString() );
     }
+
+    /**
+     * Test of addAnchor method, of class fr.paris.lutece.util.url.UrlItem.
+     */
+    public void testAnchorSimple( )
+    {
+        // Add a parameter to an url that have no parameter
+        UrlItem url = new UrlItem( "http://myhost/mypage.jsp" );
+
+        url.setAnchor( "bar" );
+        assertEquals( "http://myhost/mypage.jsp#bar", url.getUrl( ) );
+    }
+
+    /**
+     * Test of addAnchor method, of class fr.paris.lutece.util.url.UrlItem.
+     */
+    public void testAnchor( )
+    {
+        // Add a parameter to an url that have no parameter
+        UrlItem url = new UrlItem( "http://myhost/mypage.jsp" );
+
+        String strName = "param";
+        String strValue = "value";
+
+        url.addParameter( strName, strValue );
+        url.setAnchor( "bar" );
+        assertEquals( "http://myhost/mypage.jsp?param=value#bar", url.getUrl( ) );
+    }
 }
