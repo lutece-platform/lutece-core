@@ -53,12 +53,12 @@ public class UrlItemTest extends LuteceTestCase
         // Add a parameter to an url that have no parameter
         UrlItem url = new UrlItem( "http://myhost/mypage.jsp" );
         url.addParameter( strName, strValue );
-        // assertEquals( "http://myhost/mypage.jsp?param=value" , url.getUrl() );
+        assertEquals( "http://myhost/mypage.jsp?param=value" , url.getUrl() );
 
         // Add a parameter to an url that have already one or more parameters
         url = new UrlItem( "http://myhost/mypage.jsp?param2=value2" );
         url.addParameter( strName, strValue );
 
-        // assertEquals( "http://myhost/mypage.jsp?param2=value2&param=value" , url.toString() );
+        assertEquals( "http://myhost/mypage.jsp?param2=value2&param=value" , url.toString() );
     }
 }
