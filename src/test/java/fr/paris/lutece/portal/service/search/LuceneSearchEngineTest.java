@@ -54,6 +54,7 @@ import org.apache.lucene.index.IndexWriterConfig.OpenMode;
 import org.apache.lucene.store.Directory;
 import org.springframework.mock.web.MockHttpServletRequest;
 
+import fr.paris.lutece.portal.business.page.Page;
 import fr.paris.lutece.portal.service.init.LuteceInitException;
 import fr.paris.lutece.portal.service.security.LuteceUser;
 import fr.paris.lutece.portal.service.security.MokeLuteceAuthentication;
@@ -106,6 +107,13 @@ public class LuceneSearchEngineTest extends LuteceTestCase
             // called by IndexationService.processIndexing() (or else it throws null pointer exception)
             IndexWriter indexWriter = getIndexWriter( );
             indexWriter.addDocument( doc );
+
+            doc = new Document( );
+            doc.add( new Field( SearchItem.FIELD_CONTENTS, "lutecebaz", TextField.TYPE_NOT_STORED ) );
+            doc.add( new Field( SearchItem.FIELD_ROLE, Page.ROLE_NONE, ft ) );
+            indexWriter.addDocument( doc );
+
+
             indexWriter.close( );
         }
     }
@@ -216,6 +224,25 @@ public class LuceneSearchEngineTest extends LuteceTestCase
             request.getSession( ).setAttribute( "lutece_user", user );
 
             List<SearchResult> listResults = _engine.getSearchResults( "lutecefoo", request );
+            assertTrue( "The search results list should have no elements. Got : " + listResults, listResults != null && listResults.size( ) == 0 );
+        }
+        finally
+        {
+            restoreAuthentication( authStatus );
+        }
+    }
+
+    public void testSearchUserNoMatchNoUser( ) throws Exception
+    {
+
+        // XXX copy pasted from PortalMenuServiceTest
+        boolean authStatus;
+        authStatus = enableAuthentication( );
+        try
+        {
+            MockHttpServletRequest request = new MockHttpServletRequest( );
+
+            List<SearchResult> listResults = _engine.getSearchResults( "lutecebadfoo", request );
             assertTrue( "The search results list should have no elements. Got : " + listResults, listResults != null && listResults.size( ) == 0 );
         }
         finally
