@@ -231,11 +231,15 @@ public class LuceneSearchEngine implements SearchEngine
                 bQueryBuilder.add( queryContent, BooleanClause.Occur.SHOULD );
             }
 
+            Query query = bQueryBuilder.build( );
+
             if ( allFilter != null )
             {
-                bQueryBuilder.add( allFilter, BooleanClause.Occur.FILTER );
+                BooleanQuery.Builder bQueryBuilderWithFilter = new BooleanQuery.Builder( );
+                bQueryBuilderWithFilter.add( allFilter, BooleanClause.Occur.FILTER );
+                bQueryBuilderWithFilter.add( query, BooleanClause.Occur.MUST );
+                query = bQueryBuilderWithFilter.build( );
             }
-            Query query = bQueryBuilder.build( );
 
             // Get results documents
             TopDocs topDocs = searcher.search( query, MAX_RESPONSES );
