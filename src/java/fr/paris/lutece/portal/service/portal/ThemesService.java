@@ -42,6 +42,7 @@ import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
+import fr.paris.lutece.util.ReferenceItem;
 import fr.paris.lutece.util.ReferenceList;
 
 import org.apache.commons.lang.StringUtils;
@@ -166,8 +167,28 @@ public final class ThemesService
      */
     public static void setUserTheme( HttpServletRequest request, HttpServletResponse response, String strTheme )
     {
-        Cookie cookie = new Cookie( COOKIE_NAME, strTheme );
-        response.addCookie( cookie );
+        if( isValid( strTheme ))
+        {    
+            Cookie cookie = new Cookie( COOKIE_NAME, strTheme );
+            response.addCookie( cookie );
+        }
+    }
+
+    /**
+     * Check if a given theme code is among valid known theme codes
+     * @param strTheme The theme
+     * @return true if valid
+     */
+    private static boolean isValid( String strTheme )
+    {
+        for( ReferenceItem item : getThemes( ))
+        {
+            if( item.getCode().equals( strTheme ))
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
