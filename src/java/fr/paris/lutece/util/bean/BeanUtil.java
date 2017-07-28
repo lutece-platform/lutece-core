@@ -36,6 +36,8 @@ package fr.paris.lutece.util.bean;
 import fr.paris.lutece.portal.service.util.AppLogService;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.beanutils.SuppressPropertiesBeanIntrospector;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -52,6 +54,10 @@ import javax.servlet.http.HttpServletRequest;
 public final class BeanUtil
 {
     private static final char UNDERSCORE = '_';
+
+    static {
+        PropertyUtils.addBeanIntrospector( SuppressPropertiesBeanIntrospector.SUPPRESS_CLASS );
+    }
 
     /** Private constructor */
     private BeanUtil( )
