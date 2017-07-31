@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.util.http;
 
+import fr.paris.lutece.portal.web.LocalVariables;
 import fr.paris.lutece.util.string.StringUtil;
 
 import org.apache.commons.lang.StringUtils;
@@ -53,6 +54,7 @@ public final class SecurityUtil
     private static final String CONSTANT_HTTP_HEADER_X_FORWARDED_FOR = "X-Forwarded-For";
     private static final String PATTERN_IP_ADDRESS = "^([0-9]{1,3}\\.){3}[0-9]{1,3}$";
     private static final String CONSTANT_COMMA = ",";
+    private static final String[] XXE_TERMS = { "!DOCTYPE" , "!ELEMENT" , "!ENTITY" };
 
     // private static final String PATTERN_CLEAN_PARAMETER = "^[\\w/]+$+";
 
@@ -150,6 +152,25 @@ public final class SecurityUtil
         }
 
         return bContains;
+    }
+    
+    /**
+     * Check if the value contains terms used for XML External Entity Injection
+     * @param strValue The value
+     * @return true if 
+     */
+    public static boolean containsXmlExternalEntityInjectionTerms( String strValue )
+    {
+        for( String strTerm : XXE_TERMS )
+        {
+            if( StringUtils.indexOfIgnoreCase( strValue, strTerm ) >= 0 )
+            {
+                 Logger logger = Logger.getLogger( LOGGER_NAME );
+                logger.warn( "SECURITY WARNING : XXE TERMS DETECTED : " + dumpRequest( LocalVariables.getRequest() ) );
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
