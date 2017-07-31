@@ -42,8 +42,8 @@ import fr.paris.lutece.util.sql.TransactionManager;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import org.apache.commons.io.serialization.ValidatingObjectInputStream;
 
 /**
  * This class provides Data Access methods for MailItemQueue objects
@@ -197,7 +197,8 @@ public class MailItemQueueDAO implements IMailItemQueueDAO
 
             try
             {
-                ObjectInputStream objectInputStream = new ObjectInputStream( inputStream );
+                ValidatingObjectInputStream objectInputStream = new ValidatingObjectInputStream( inputStream );
+                objectInputStream.accept( MailItem.class );
                 mailItem = (MailItem) objectInputStream.readObject( );
                 objectInputStream.close( );
             }
