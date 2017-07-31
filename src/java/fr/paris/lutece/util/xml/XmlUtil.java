@@ -34,6 +34,7 @@
 package fr.paris.lutece.util.xml;
 
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
+import fr.paris.lutece.util.http.SecurityUtil;
 
 import java.io.StringWriter;
 
@@ -167,6 +168,11 @@ public final class XmlUtil
      */
     public static void addElement( StringBuffer strXmlBuffer, String strTag, String strValue )
     {
+        if( SecurityUtil.containsXmlExternalEntityInjectionTerms( strValue ))
+        {
+            return;
+        }
+        
         strXmlBuffer.append( TAG_BEGIN );
         strXmlBuffer.append( strTag );
         strXmlBuffer.append( ">" );
@@ -211,6 +217,11 @@ public final class XmlUtil
      */
     public static void addElement( StringBuffer strXmlBuffer, String strTag, String strValue, Map<?, ?> attrList )
     {
+        if( SecurityUtil.containsXmlExternalEntityInjectionTerms( strValue ))
+        {
+            return;
+        }
+        
         strXmlBuffer.append( TAG_BEGIN );
         strXmlBuffer.append( strTag );
 
@@ -252,6 +263,11 @@ public final class XmlUtil
      */
     public static void addElementHtml( StringBuffer strXmlBuffer, String strTag, String strValue )
     {
+        if( SecurityUtil.containsXmlExternalEntityInjectionTerms( strValue ))
+        {
+            return;
+        }
+        
         strXmlBuffer.append( TAG_BEGIN );
         strXmlBuffer.append( strTag );
         strXmlBuffer.append( "><![CDATA[" );
@@ -271,6 +287,11 @@ public final class XmlUtil
      */
     public static void addElementHtml( StringBuffer strXmlBuffer, String strTag, String strValue, Map<?, ?> attrList )
     {
+        if( SecurityUtil.containsXmlExternalEntityInjectionTerms( strValue ))
+        {
+            return;
+        }
+        
         strXmlBuffer.append( TAG_BEGIN );
         strXmlBuffer.append( strTag );
 
@@ -289,6 +310,7 @@ public final class XmlUtil
         strXmlBuffer.append( "]]></" );
         strXmlBuffer.append( strTag );
         strXmlBuffer.append( TAG_END );
+        
     }
 
     /**
