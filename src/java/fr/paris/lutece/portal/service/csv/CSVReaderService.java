@@ -41,6 +41,7 @@ import fr.paris.lutece.portal.business.physicalfile.PhysicalFileHome;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
+import fr.paris.lutece.util.stream.StreamUtil;
 
 import org.apache.commons.fileupload.FileItem;
 
@@ -389,15 +390,8 @@ public abstract class CSVReaderService
 
                 if ( bExitOnError )
                 {
-                    try
-                    {
-                        csvReader.close(  );
-                        reader.close(  );
-                    }
-                    catch ( IOException ex )
-                    {
-                        AppLogService.error( ex.getMessage(  ), ex );
-                    }
+                    safeClose( csvReader );
+                    StreamUtil.safeClose( reader );
 
                     return listMessages;
                 }
@@ -429,15 +423,8 @@ public abstract class CSVReaderService
 
                     if ( bExitOnError )
                     {
-                        try
-                        {
-                            csvReader.close(  );
-                            reader.close(  );
-                        }
-                        catch ( IOException ex )
-                        {
-                            AppLogService.error( ex.getMessage(  ), ex );
-                        }
+                        safeClose( csvReader );
+                        StreamUtil.safeClose( reader );
 
                         Collections.sort( listMessages );
 
@@ -460,16 +447,8 @@ public abstract class CSVReaderService
                 if ( doesListMessageContainError( listCheckErrors ) )
                 {
                     listCheckErrors.addAll( 0, listMessages );
-
-                    try
-                    {
-                        csvReader.close(  );
-                        reader.close(  );
-                    }
-                    catch ( IOException ex )
-                    {
-                        AppLogService.error( ex.getMessage(  ), ex );
-                    }
+                    safeClose( csvReader );
+                    StreamUtil.safeClose( reader );
 
                     Collections.sort( listMessages );
 
@@ -605,16 +584,8 @@ public abstract class CSVReaderService
                 bHasMoreLines = false;
             }
         }
-
-        try
-        {
-            csvReader.close(  );
-            reader.close(  );
-        }
-        catch ( IOException ex )
-        {
-            AppLogService.error( ex.getMessage(  ), ex );
-        }
+        safeClose( csvReader );
+        StreamUtil.safeClose( reader );
 
         // We incremented the line number for the last line that didn't exist
         nLineNumber--;
@@ -779,5 +750,21 @@ public abstract class CSVReaderService
         }
 
         return false;
+    }
+
+    private void safeClose ( CSVReader csvReader ) {
+        //For lutece 5, can't use StreamUtil.safeClose on csvReader with
+        //opencsv version 1.8 because it doesn't implement Closeable yet.
+        if( csvReader != null )
+        {
+            try
+            {
+                csvReader.close();
+            }
+            catch( IOException ex )
+            {
+                AppLogService.error( "Error closing the stream : " + ex.getMessage(), ex );
+            }
+        }
     }
 }

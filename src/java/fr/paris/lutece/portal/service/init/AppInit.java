@@ -57,6 +57,7 @@ import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.html.HtmlTemplate;
+import fr.paris.lutece.util.stream.StreamUtil;
 
 import java.io.FileInputStream;
 import java.io.FileWriter;
@@ -287,17 +288,7 @@ public final class AppInit
         }
         finally
         {
-            if ( fis != null )
-            {
-                try
-                {
-                    fis.close(  );
-                }
-                catch ( IOException e )
-                {
-                    AppLogService.error( e.getMessage(  ), e );
-                }
-            }
+            StreamUtil.safeClose( fis );
         }
 
         if ( Boolean.parseBoolean( p.getProperty( PROPERTY_AUTOINIT ) ) )
@@ -328,17 +319,7 @@ public final class AppInit
             }
             finally
             {
-                if ( fw != null )
-                {
-                    try
-                    {
-                        fw.close(  );
-                    }
-                    catch ( IOException e )
-                    {
-                        AppLogService.error( e.getMessage(  ), e );
-                    }
-                }
+                StreamUtil.safeClose( fw );
             }
         }
     }

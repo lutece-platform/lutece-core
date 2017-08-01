@@ -37,6 +37,7 @@ import fr.paris.lutece.portal.service.datastore.DatastoreService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
+import fr.paris.lutece.util.stream.StreamUtil;
 
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheManager;
@@ -46,7 +47,6 @@ import net.sf.ehcache.management.ManagementService;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 
 import java.lang.management.ManagementFactory;
 
@@ -96,8 +96,6 @@ public final class CacheService
     private static CacheService _singleton;
     private static CacheManager _manager;
 
-    //    private static Properties _propertiesCacheConfig;
-    // Cacheable Services registry
     private static List<CacheableService> _listCacheableServicesRegistry = new ArrayList<CacheableService>(  );
     private int _nDefaultMaxElementsInMemory;
     private boolean _bDefaultEternal;
@@ -342,17 +340,7 @@ public final class CacheService
         }
         finally
         {
-            if ( fis != null )
-            {
-                try
-                {
-                    fis.close(  );
-                }
-                catch ( IOException e )
-                {
-                    AppLogService.error( e.getMessage(  ), e );
-                }
-            }
+            StreamUtil.safeClose( fis );
         }
     }
 
