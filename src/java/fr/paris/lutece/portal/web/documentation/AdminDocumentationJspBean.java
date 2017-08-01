@@ -46,6 +46,7 @@ import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.util.html.HtmlTemplate;
+import fr.paris.lutece.util.http.SecurityUtil;
 
 import java.io.File;
 
@@ -115,6 +116,11 @@ public class AdminDocumentationJspBean
         throws AccessDeniedException
     {
         String strFeature = request.getParameter( PARAMETER_FEATURE_DOC );
+        
+        if( SecurityUtil.containsPathManipulationChars( request , strFeature ) )
+        {
+            return null;
+        }
 
         AdminUser user = AdminUserService.getAdminUser( request );
         Locale locale = user.getLocale(  );
