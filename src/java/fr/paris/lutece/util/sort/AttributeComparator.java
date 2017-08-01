@@ -41,6 +41,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 import java.util.Comparator;
+import java.util.Locale;
 
 
 /**
@@ -59,8 +60,8 @@ public class AttributeComparator implements Comparator<Object>, Serializable
      */
     public AttributeComparator( String strSortedAttribute, boolean bIsASC )
     {
-        this._strSortedAttribute = strSortedAttribute;
-        this._bIsASC = bIsASC;
+        _strSortedAttribute = strSortedAttribute;
+        _bIsASC = bIsASC;
     }
 
     /**
@@ -69,8 +70,8 @@ public class AttributeComparator implements Comparator<Object>, Serializable
      */
     public AttributeComparator( String strSortedAttribute )
     {
-        this._strSortedAttribute = strSortedAttribute;
-        this._bIsASC = true;
+        _strSortedAttribute = strSortedAttribute;
+        _bIsASC = true;
     }
 
     /**
@@ -94,7 +95,7 @@ public class AttributeComparator implements Comparator<Object>, Serializable
                 Object oRet1 = method1.invoke( o1 );
                 Object oRet2 = method2.invoke( o2 );
 
-                String strReturnType = method1.getReturnType(  ).getName(  ).toString(  );
+                String strReturnType = method1.getReturnType(  ).getName(  );
                 Class<?> returnType = method1.getReturnType(  );
 
                 if ( oRet1 == null )
@@ -118,7 +119,7 @@ public class AttributeComparator implements Comparator<Object>, Serializable
                     {
                         if ( strReturnType.equals( "java.lang.String" ) )
                         {
-                            nStatus = ( (String) oRet1 ).toLowerCase(  ).compareTo( ( (String) oRet2 ).toLowerCase(  ) );
+                            nStatus = ( (String) oRet1 ).toLowerCase( Locale.ENGLISH ).compareTo( ( (String) oRet2 ).toLowerCase( Locale.ENGLISH ) );
                         }
                         else if ( returnType.isPrimitive(  ) || isComparable( returnType ) )
                         {
@@ -131,15 +132,7 @@ public class AttributeComparator implements Comparator<Object>, Serializable
                     }
                 }
             }
-            catch ( IllegalArgumentException e )
-            {
-                AppLogService.error( e );
-            }
-            catch ( IllegalAccessException e )
-            {
-                AppLogService.error( e );
-            }
-            catch ( InvocationTargetException e )
+            catch( IllegalArgumentException | IllegalAccessException | InvocationTargetException e )
             {
                 AppLogService.error( e );
             }

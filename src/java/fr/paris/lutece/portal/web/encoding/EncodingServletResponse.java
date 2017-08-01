@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.web.encoding;
 
+import java.util.Locale;
 import javax.servlet.http.HttpServletResponse;
 
 
@@ -58,6 +59,7 @@ public class EncodingServletResponse extends javax.servlet.http.HttpServletRespo
      * Sets the content type
      * @param type The content type
      */
+    @Override
     public void setContentType( String type )
     {
         String explicitType = type;
@@ -67,10 +69,10 @@ public class EncodingServletResponse extends javax.servlet.http.HttpServletRespo
         // type doesn't explicitly set an encoding, make it UTF-8.
         if ( !_bEncodingSpecified )
         {
-            String lowerType = type.toLowerCase(  );
+            String lowerType = type.toLowerCase( Locale.ENGLISH );
 
             // See if this is a call to explicitly set the character encoding.
-            if ( lowerType.indexOf( "charset" ) < 0 )
+            if ( !lowerType.contains( "charset" ) )
             {
                 // If no character encoding is specified, we still need to
                 // ensure the app is specifying text content.
