@@ -35,6 +35,8 @@ package fr.paris.lutece.portal.business.mail;
 
 import fr.paris.lutece.portal.service.mail.MailItem;
 import fr.paris.lutece.portal.service.util.AppLogService;
+import fr.paris.lutece.util.mail.FileAttachment;
+import fr.paris.lutece.util.mail.UrlAttachment;
 import fr.paris.lutece.util.sql.DAOUtil;
 import fr.paris.lutece.util.sql.Transaction;
 import fr.paris.lutece.util.sql.TransactionManager;
@@ -43,6 +45,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectOutputStream;
+import java.net.URL;
+import java.util.ArrayList;
+
 import org.apache.commons.io.serialization.ValidatingObjectInputStream;
 
 /**
@@ -198,7 +203,8 @@ public class MailItemQueueDAO implements IMailItemQueueDAO
             try
             {
                 ValidatingObjectInputStream objectInputStream = new ValidatingObjectInputStream( inputStream );
-                objectInputStream.accept( MailItem.class );
+                objectInputStream.accept( MailItem.class, ArrayList.class, byte [ ].class, FileAttachment.class, UrlAttachment.class, FileAttachment [ ].class,
+                        UrlAttachment [ ].class, URL.class );
                 mailItem = (MailItem) objectInputStream.readObject( );
                 objectInputStream.close( );
             }
