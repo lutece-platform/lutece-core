@@ -43,6 +43,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringEscapeUtils;
 
 /**
  * Servlet using for BBCODE parsing
@@ -76,7 +77,8 @@ public class ParserBbcodeServlet extends HttpServlet
         throws ServletException, IOException
     {
         String strValue = request.getParameter( PARAMETER_DATA );
-        String strValueReturn = ( strValue != null ) ? EditorBbcodeService.getInstance(  ).parse( strValue ) : "";
+        String strEscaped = StringEscapeUtils.escapeHtml( strValue );
+        String strValueReturn = ( strValue != null ) ? EditorBbcodeService.getInstance(  ).parse( strEscaped ) : "";
         OutputStream out = response.getOutputStream(  );
         out.write( strValueReturn.getBytes( AppPropertiesService.getProperty( PROPERTY_ENCODING ) ) );
         out.flush(  );
