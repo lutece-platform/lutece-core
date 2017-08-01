@@ -37,6 +37,7 @@ import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.web.LocalVariables;
+import fr.paris.lutece.util.stream.StreamUtil;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -69,10 +70,8 @@ public class ImageServlet extends HttpServlet
      *            servlet response
      * @throws ServletException
      *             the servlet Exception
-     * @throws IOException
-     *             the io exception
      */
-    protected void processRequest( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException
+    protected void processRequest( HttpServletRequest request, HttpServletResponse response ) throws ServletException
     {
         String strResourceId = request.getParameter( PARAMETER_ID );
         String strResourceTypeId = request.getParameter( PARAMETER_RESOURCE_TYPE );
@@ -96,10 +95,22 @@ public class ImageServlet extends HttpServlet
                 {
                     response.setContentType( image.getMimeType( ) );
 
-                    OutputStream out = response.getOutputStream( );
-                    out.write( image.getImage( ) );
-                    out.flush( );
-                    out.close( );
+                    OutputStream out = null;
+                    try 
+                    {
+                        out = response.getOutputStream( );
+                        out.write( image.getImage( ) );
+                        out.flush( );
+                        out.close( );
+                    }
+                    catch( IOException ex ) 
+                    {
+                        AppLogService.error( "ImageServlet error : " + ex.getMessage( ), ex );
+                    }
+                    finally
+                    {
+                        StreamUtil.safeClose( out );
+                    }
                 }
                 else
                 {
@@ -112,18 +123,18 @@ public class ImageServlet extends HttpServlet
                     response.setContentLength( (int) file.length( ) );
 
                     FileInputStream in = null;
-
+                    OutputStream out = null;
+                    
                     try
                     {
                         // Open the file and output streams
                         in = new FileInputStream( file );
 
-                        OutputStream out = response.getOutputStream( );
+                        out = response.getOutputStream( );
 
                         // Copy the contents of the file to the output stream
                         byte [ ] buf = new byte [ 1024];
-                        int count = 0;
-
+                        int count;
                         while ( ( count = in.read( buf ) ) >= 0 )
                         {
                             out.write( buf, 0, count );
@@ -132,17 +143,14 @@ public class ImageServlet extends HttpServlet
                         in.close( );
                         out.close( );
                     }
-                    catch( IOException e )
+                    catch( IOException ex )
                     {
-                        AppLogService.error( e.getMessage( ), e );
-                        throw e;
+                        AppLogService.error( "ImageServlet error : " + ex.getMessage( ), ex );
                     }
                     finally
                     {
-                        if ( in != null )
-                        {
-                            in.close( );
-                        }
+                        StreamUtil.safeClose( in );
+                        StreamUtil.safeClose( out );
                     }
                 }
             }

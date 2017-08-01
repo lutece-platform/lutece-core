@@ -39,6 +39,7 @@ import fr.paris.lutece.portal.service.init.LuteceInitException;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.util.filesystem.FileListFilter;
+import fr.paris.lutece.util.stream.StreamUtil;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -317,17 +318,7 @@ public final class PluginService
         }
         finally
         {
-            if ( fis != null )
-            {
-                try
-                {
-                    fis.close( );
-                }
-                catch( IOException e )
-                {
-                    AppLogService.error( e.getMessage( ), e );
-                }
-            }
+            StreamUtil.safeClose( fis );
         }
 
         // If the keys aren't found in the datastore then create a key in it
