@@ -35,12 +35,12 @@ package fr.paris.lutece.util;
 
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
+import fr.paris.lutece.util.stream.StreamUtil;
 
 import org.apache.commons.lang.StringUtils;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import java.util.LinkedHashMap;
@@ -72,11 +72,8 @@ public class PropertiesService
      * Add properties from a properties file
      * @param strRelativePath Relative path from the root path
      * @param strFilename The filename of the properties file (ie: config.properties)
-     * @throws java.io.FileNotFoundException If the file is not found
-     * @throws java.io.IOException If an error occurs reading the file
      */
     public void addPropertiesFile( String strRelativePath, String strFilename )
-        throws FileNotFoundException, IOException
     {
         String strFullPath = _strRootPath +
             ( ( strRelativePath.endsWith( "/" ) ) ? strRelativePath : ( strRelativePath + "/" ) ) + strFilename;
@@ -87,10 +84,8 @@ public class PropertiesService
     /**
      * Add properties from all files found in a given directory
      * @param strRelativePath Relative path from the root path
-     * @throws IOException If an error occurs reading the file
      */
     public void addPropertiesDirectory( String strRelativePath )
-        throws IOException
     {
         File directory = new File( _strRootPath + strRelativePath );
 
@@ -98,10 +93,8 @@ public class PropertiesService
         {
             File[] listFile = directory.listFiles(  );
 
-            for ( int i = 0; i < listFile.length; i++ )
+            for( File file : listFile )
             {
-                File file = listFile[i];
-
                 if ( file.getName(  ).endsWith( ".properties" ) )
                 {
                     String strFullPath = file.getAbsolutePath(  );
@@ -115,10 +108,8 @@ public class PropertiesService
     /**
      * Load properties of a file
      * @param strFullPath The absolute path of the properties file
-     * @throws java.io.IOException If an error occurs reading the file
-     * @throws java.io.FileNotFoundException If the file is not found
      */
-    private void loadFile( String strFullPath ) throws FileNotFoundException, IOException
+    private void loadFile( String strFullPath ) 
     {
         loadFile( strFullPath, _properties );
     }
@@ -127,22 +118,30 @@ public class PropertiesService
      * Load properties of a file
      * @param strFullPath The absolute path of the properties file
      * @param props properties to load into
-     * @throws java.io.IOException If an error occurs reading the file
-     * @throws java.io.FileNotFoundException If the file is not found
      */
     private void loadFile( String strFullPath, Properties props )
-        throws FileNotFoundException, IOException
     {
-        FileInputStream fis = new FileInputStream( new File( strFullPath ) );
-        props.load( fis );
+        FileInputStream fis = null;
+        try
+        {
+            fis = new FileInputStream( new File( strFullPath ) );
+            props.load( fis );
+        }
+        catch( IOException ex )
+        {
+            AppLogService.error( "Error loading property file : " + ex , ex );
+        }
+        finally
+        {
+            StreamUtil.safeClose( fis );
+        }
     }
 
     /**
      * Reload a properties file .
      * @param strFilename The filename of the properties file
-     * @throws IOException If an error occurs reading the file
      */
-    public void reload( String strFilename ) throws IOException
+    public void reload( String strFilename )
     {
         String strFullPath = _mapPropertiesFiles.get( strFilename );
         loadFile( strFullPath );
@@ -150,9 +149,8 @@ public class PropertiesService
 
     /**
      * Reload all properties files
-     * @throws IOException If an error occurs reading the file
      */
-    public void reloadAll(  ) throws IOException
+    public void reloadAll(  )
     {
         Properties newProperties = new Properties(  );
 
