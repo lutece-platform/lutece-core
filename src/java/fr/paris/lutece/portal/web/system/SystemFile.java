@@ -39,7 +39,7 @@ import java.util.Date;
 /**
  * Utility class for SystemJspBean
  */
-public class SystemFile
+public class SystemFile implements Comparable
 {
     private String _strName;
     private String _strDescription;
@@ -135,5 +135,16 @@ public class SystemFile
     public void setSize( int size )
     {
         _size = size;
+    }
+
+    /**
+     * Compare files name in order to sort files by name
+     * @param file The file to compare
+     * @return 
+     */
+    @Override
+    public int compareTo( Object file )
+    {
+        return getName().toLowerCase( ).trim( ).compareTo( ((SystemFile) file).getName().toLowerCase( ).trim( ));
     }
 }
