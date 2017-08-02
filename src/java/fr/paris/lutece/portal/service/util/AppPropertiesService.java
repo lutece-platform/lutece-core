@@ -36,8 +36,6 @@ package fr.paris.lutece.portal.service.util;
 import fr.paris.lutece.portal.service.init.LuteceInitException;
 import fr.paris.lutece.util.PropertiesService;
 
-import java.io.FileNotFoundException;
-import java.io.IOException;
 
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -84,27 +82,16 @@ public final class AppPropertiesService
         _strConfPath = strConfPath;
         _propertiesService = new PropertiesService( AppPathService.getWebAppPath( ) );
 
-        try
-        {
-            _propertiesService.addPropertiesFile( _strConfPath, FILE_PROPERTIES_CONFIG );
-            _propertiesService.addPropertiesFile( _strConfPath, FILE_PROPERTIES_DATABASE );
-            _propertiesService.addPropertiesFile( _strConfPath, FILE_PROPERTIES_LUTECE );
-            _propertiesService.addPropertiesFile( _strConfPath, FILE_PROPERTIES_SEARCH );
-            _propertiesService.addPropertiesFile( _strConfPath, FILE_PROPERTIES_DAEMONS );
-            _propertiesService.addPropertiesFile( _strConfPath, FILE_PROPERTIES_CACHES );
-            _propertiesService.addPropertiesFile( _strConfPath, FILE_PROPERTIES_EDITORS );
-            _propertiesService.addPropertiesDirectory( _strConfPath + PATH_PLUGINS );
-            _propertiesService.addPropertiesDirectory( _strConfPath + PATH_OVERRIDE_CORE );
-            _propertiesService.addPropertiesDirectory( _strConfPath + PATH_OVERRIDE_PLUGINS );
-        }
-        catch( FileNotFoundException e )
-        {
-            throw new LuteceInitException( "AppPropertiesService failed to load : " + e.getMessage( ), e );
-        }
-        catch( IOException e )
-        {
-            throw new LuteceInitException( "AppPropertiesService failed to load : " + e.getMessage( ), e );
-        }
+        _propertiesService.addPropertiesFile( _strConfPath, FILE_PROPERTIES_CONFIG );
+        _propertiesService.addPropertiesFile( _strConfPath, FILE_PROPERTIES_DATABASE );
+        _propertiesService.addPropertiesFile( _strConfPath, FILE_PROPERTIES_LUTECE );
+        _propertiesService.addPropertiesFile( _strConfPath, FILE_PROPERTIES_SEARCH );
+        _propertiesService.addPropertiesFile( _strConfPath, FILE_PROPERTIES_DAEMONS );
+        _propertiesService.addPropertiesFile( _strConfPath, FILE_PROPERTIES_CACHES );
+        _propertiesService.addPropertiesFile( _strConfPath, FILE_PROPERTIES_EDITORS );
+        _propertiesService.addPropertiesDirectory( _strConfPath + PATH_PLUGINS );
+        _propertiesService.addPropertiesDirectory( _strConfPath + PATH_OVERRIDE_CORE );
+        _propertiesService.addPropertiesDirectory( _strConfPath + PATH_OVERRIDE_PLUGINS );
     }
 
     /**
@@ -180,18 +167,7 @@ public final class AppPropertiesService
      */
     public static void reloadAll( )
     {
-        try
-        {
-            _propertiesService.reloadAll( );
-        }
-        catch( FileNotFoundException e )
-        {
-            AppLogService.error( e.getMessage( ), e );
-        }
-        catch( IOException e )
-        {
-            AppLogService.error( e.getMessage( ), e );
-        }
+        _propertiesService.reloadAll( );
     }
 
     /**
@@ -202,18 +178,7 @@ public final class AppPropertiesService
      */
     public static void reload( String strFilename )
     {
-        try
-        {
-            _propertiesService.reload( strFilename );
-        }
-        catch( FileNotFoundException e )
-        {
-            AppLogService.error( e.getMessage( ), e );
-        }
-        catch( IOException e )
-        {
-            AppLogService.error( e.getMessage( ), e );
-        }
+        _propertiesService.reload( strFilename );
     }
 
     /**
@@ -246,7 +211,6 @@ public final class AppPropertiesService
         {
             String name = (String) names.nextElement( );
             res.put( name, properties.getProperty( name ) );
-            ;
         }
 
         return res;

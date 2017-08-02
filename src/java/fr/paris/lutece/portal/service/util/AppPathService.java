@@ -39,6 +39,7 @@ import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.web.LocalVariables;
 import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.util.ReferenceList;
+import fr.paris.lutece.util.stream.StreamUtil;
 import fr.paris.lutece.util.string.StringUtil;
 import fr.paris.lutece.util.url.UrlItem;
 
@@ -181,15 +182,17 @@ public final class AppPathService
     {
         String strFilePath = getWebAppPath( ) + strPath + strFilename;
 
+        FileInputStream fis = null; 
         try
         {
             File file = new File( strFilePath );
-            FileInputStream fis = new FileInputStream( file );
+            fis = new FileInputStream( file );
 
             return fis;
         }
         catch( IOException e )
         {
+            StreamUtil.safeClose( fis );
             throw new AppException( "Unable to get file : " + strFilePath );
         }
     }

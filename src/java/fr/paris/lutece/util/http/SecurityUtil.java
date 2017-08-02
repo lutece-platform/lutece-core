@@ -55,6 +55,8 @@ public final class SecurityUtil
     private static final String PATTERN_IP_ADDRESS = "^([0-9]{1,3}\\.){3}[0-9]{1,3}$";
     private static final String CONSTANT_COMMA = ",";
     private static final String[] XXE_TERMS = { "!DOCTYPE" , "!ELEMENT" , "!ENTITY" };
+    private static final String[] PATH_MANIPULATION = { ".." , "/" , "\\" };
+
 
     // private static final String PATTERN_CLEAN_PARAMETER = "^[\\w/]+$+";
 
@@ -172,6 +174,26 @@ public final class SecurityUtil
         }
         return false;
     }
+    
+    /**
+     * Check if the value contains characters used for Path Manipulation
+     * @param request The Http request
+     * @param strValue The value
+     * @return true if 
+     */
+    public static boolean containsPathManipulationChars( HttpServletRequest request , String strValue )
+    {
+        for( String strTerm : PATH_MANIPULATION )
+        {
+            if( strValue.contains( strTerm ) )
+            {
+                Logger logger = Logger.getLogger( LOGGER_NAME );
+                logger.warn( "SECURITY WARNING : PATH_MANIPULATION DETECTED : " + dumpRequest( request ) );
+                return true;
+            }
+        }
+        return false;
+    }
 
     /**
      * Dump all request info
@@ -206,11 +228,9 @@ public final class SecurityUtil
 
         if ( strIPAddress != null )
         {
-            String strIpForwarded = null;
-
             while ( !strIPAddress.matches( PATTERN_IP_ADDRESS ) && strIPAddress.contains( CONSTANT_COMMA ) )
             {
-                strIpForwarded = strIPAddress.substring( 0, strIPAddress.indexOf( CONSTANT_COMMA ) );
+                String strIpForwarded = strIPAddress.substring( 0, strIPAddress.indexOf( CONSTANT_COMMA ) );
                 strIPAddress = strIPAddress.substring( strIPAddress.indexOf( CONSTANT_COMMA ) ).replaceFirst( CONSTANT_COMMA, StringUtils.EMPTY ).trim( );
 
                 if ( ( strIpForwarded != null ) && strIpForwarded.matches( PATTERN_IP_ADDRESS ) )

@@ -59,6 +59,7 @@ import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.html.Paginator;
 import fr.paris.lutece.util.sort.AttributeComparator;
+import fr.paris.lutece.util.stream.StreamUtil;
 import fr.paris.lutece.util.url.UrlItem;
 
 import org.apache.commons.fileupload.FileItem;
@@ -496,17 +497,7 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
         }
         finally
         {
-            if ( fos != null )
-            {
-                try
-                {
-                    fos.close( );
-                }
-                catch( IOException e )
-                {
-                    AppLogService.error( e.getMessage( ), e );
-                }
-            }
+            StreamUtil.safeClose( fos );
         }
     }
 

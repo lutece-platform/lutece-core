@@ -41,6 +41,7 @@ import fr.paris.lutece.portal.business.physicalfile.PhysicalFileHome;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
+import fr.paris.lutece.util.stream.StreamUtil;
 
 import org.apache.commons.fileupload.FileItem;
 
@@ -362,15 +363,8 @@ public abstract class CSVReaderService
 
                 if ( bExitOnError )
                 {
-                    try
-                    {
-                        csvReader.close( );
-                        reader.close( );
-                    }
-                    catch( IOException ex )
-                    {
-                        AppLogService.error( ex.getMessage( ), ex );
-                    }
+                    StreamUtil.safeClose( csvReader );
+                    StreamUtil.safeClose( reader );
 
                     return listMessages;
                 }
@@ -402,15 +396,8 @@ public abstract class CSVReaderService
 
                     if ( bExitOnError )
                     {
-                        try
-                        {
-                            csvReader.close( );
-                            reader.close( );
-                        }
-                        catch( IOException ex )
-                        {
-                            AppLogService.error( ex.getMessage( ), ex );
-                        }
+                        StreamUtil.safeClose( csvReader );
+                        StreamUtil.safeClose( reader );
 
                         Collections.sort( listMessages );
 
@@ -432,16 +419,8 @@ public abstract class CSVReaderService
                 if ( doesListMessageContainError( listCheckErrors ) )
                 {
                     listCheckErrors.addAll( 0, listMessages );
-
-                    try
-                    {
-                        csvReader.close( );
-                        reader.close( );
-                    }
-                    catch( IOException ex )
-                    {
-                        AppLogService.error( ex.getMessage( ), ex );
-                    }
+                    StreamUtil.safeClose( csvReader );
+                    StreamUtil.safeClose( reader );
 
                     Collections.sort( listMessages );
 
@@ -575,16 +554,8 @@ public abstract class CSVReaderService
                 bHasMoreLines = false;
             }
         }
-
-        try
-        {
-            csvReader.close( );
-            reader.close( );
-        }
-        catch( IOException ex )
-        {
-            AppLogService.error( ex.getMessage( ), ex );
-        }
+        StreamUtil.safeClose( csvReader );
+        StreamUtil.safeClose( reader );
 
         // We incremented the line number for the last line that didn't exist
         nLineNumber--;

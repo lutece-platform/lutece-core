@@ -47,6 +47,7 @@ import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
 import fr.paris.lutece.util.html.HtmlTemplate;
+import fr.paris.lutece.util.stream.StreamUtil;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -387,17 +388,7 @@ public class SystemJspBean extends AdminFeaturesPageJspBean
         }
         finally
         {
-            if ( is != null )
-            {
-                try
-                {
-                    is.close( );
-                }
-                catch( IOException e )
-                {
-                    AppLogService.error( e.getMessage( ), e );
-                }
-            }
+            StreamUtil.safeClose( is );
         }
 
         return sbData.toString( );

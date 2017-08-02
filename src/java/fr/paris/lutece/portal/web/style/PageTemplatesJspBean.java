@@ -50,6 +50,7 @@ import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.portal.web.upload.MultipartHttpServletRequest;
 import fr.paris.lutece.util.file.FileUtil;
 import fr.paris.lutece.util.html.HtmlTemplate;
+import fr.paris.lutece.util.stream.StreamUtil;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.lang.StringUtils;
@@ -109,8 +110,8 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
     private static final String PARAMETER_PAGE_TEMPLATE_PICTURE = "page_template_picture";
     private static final String PARAMETER_PAGE_TEMPLATE_UPDATE_IMAGE = "update_image";
     private static final String PARAMETER_PAGE_TEMPLATE_UPDATE_FILE = "update_file";
-    private static final String strPathImagePageTemplate = AppPathService.getPath( PROPERTY_PATH_IMAGE_PAGE_TEMPLATE ) + File.separator;
-    private static final String strPathFilePageTemplate = AppPathService.getPath( PROPERTY_PATH_TEMPLATE ) + File.separator
+    private static final String PATH_IMAGE_PAGE_TEMPLATE = AppPathService.getPath( PROPERTY_PATH_IMAGE_PAGE_TEMPLATE ) + File.separator;
+    private static final String PATH_TEMPLATE = AppPathService.getPath( PROPERTY_PATH_TEMPLATE ) + File.separator
             + AppPropertiesService.getProperty( PROPERTY_PATH_FILE_PAGE_TEMPLATE );
 
     // JSP
@@ -204,11 +205,11 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
         }
 
         pageTemplate.setFile( AppPropertiesService.getProperty( PROPERTY_PATH_FILE_PAGE_TEMPLATE ) + strFileName );
-        writeTemplateFile( strFileName, strPathFilePageTemplate, fileTemplate );
+        writeTemplateFile( strFileName, PATH_TEMPLATE, fileTemplate );
 
         pageTemplate.setPicture( strPictureName );
 
-        writeTemplateFile( strPictureName, strPathImagePageTemplate, filePicture );
+        writeTemplateFile( strPictureName, PATH_IMAGE_PAGE_TEMPLATE, filePicture );
 
         pageTemplate.setDescription( strDescription );
         PageTemplateHome.create( pageTemplate );
@@ -313,15 +314,15 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
             new File( AppPathService.getPath( PROPERTY_PATH_TEMPLATE ) + File.separator + pageTemplate.getFile( ) ).delete( );
             pageTemplate.setFile( AppPropertiesService.getProperty( PROPERTY_PATH_FILE_PAGE_TEMPLATE ) + strFileName );
 
-            writeTemplateFile( strFileName, strPathFilePageTemplate, fileTemplate );
+            writeTemplateFile( strFileName, PATH_TEMPLATE, fileTemplate );
         }
 
         if ( bUpdatePicture )
         {
-            new File( strPathImagePageTemplate, pageTemplate.getPicture( ) ).delete( );
+            new File( PATH_IMAGE_PAGE_TEMPLATE, pageTemplate.getPicture( ) ).delete( );
             pageTemplate.setPicture( strPictureName );
 
-            writeTemplateFile( strPictureName, strPathImagePageTemplate, filePicture );
+            writeTemplateFile( strPictureName, PATH_IMAGE_PAGE_TEMPLATE, filePicture );
         }
 
         pageTemplate.setDescription( strDescription );
@@ -352,7 +353,7 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
 
         PageTemplate pageTemplate = PageTemplateHome.findByPrimaryKey( Integer.parseInt( strId ) );
         String strPathPageTemplateFile = AppPathService.getPath( PROPERTY_PATH_TEMPLATE ) + File.separator + pageTemplate.getFile( );
-        String strPathPictureFile = strPathImagePageTemplate + pageTemplate.getPicture( );
+        String strPathPictureFile = PATH_IMAGE_PAGE_TEMPLATE + pageTemplate.getPicture( );
         Object [ ] args = {
                 strPathPageTemplateFile, strPathPictureFile
         };
@@ -393,7 +394,7 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
             filePageTemplateToDelete.delete( );
         }
 
-        File filePictureToDelete = new File( strPathImagePageTemplate, pageTemplate.getPicture( ) );
+        File filePictureToDelete = new File( PATH_IMAGE_PAGE_TEMPLATE, pageTemplate.getPicture( ) );
 
         if ( filePictureToDelete.exists( ) )
         {
@@ -442,17 +443,7 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
         }
         finally
         {
-            if ( fosFile != null )
-            {
-                try
-                {
-                    fosFile.close( );
-                }
-                catch( IOException e )
-                {
-                    AppLogService.error( e.getMessage( ), e );
-                }
-            }
+            StreamUtil.safeClose( fosFile );
         }
     }
 }

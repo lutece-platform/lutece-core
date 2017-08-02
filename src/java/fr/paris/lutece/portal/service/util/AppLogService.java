@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.service.util;
 
+import fr.paris.lutece.util.stream.StreamUtil;
 import org.apache.log4j.BasicConfigurator;
 import org.apache.log4j.Logger;
 import org.apache.log4j.PropertyConfigurator;
@@ -88,22 +89,18 @@ public final class AppLogService
     {
         BasicConfigurator.resetConfiguration( );
         // Initialize the logger and configures it with the values of the properties file : config.properties
+        InputStream is = null;
         try
         {
             _loggerEvents.setAdditivity( false );
-
             _loggerDebug.setAdditivity( false );
 
             String strAbsoluteConfigDirectoryPath = AppPathService.getAbsolutePathFromRelativePath( strConfigPath );
-
             String strAlternateFilePath = strAbsoluteConfigDirectoryPath + ( strAbsoluteConfigDirectoryPath.endsWith( "/" ) ? "" : "/" )
                     + ALTERNATE_LOG_OVERRIDE_PATH;
 
             File alternateLogFile = new File( strAlternateFilePath + File.separator + ALTERNATE_LOG_FILE );
-
             boolean bAlternateConfigFile = alternateLogFile.exists( );
-
-            InputStream is;
             String strLog4jConfigFile;
 
             if ( bAlternateConfigFile )
@@ -137,6 +134,10 @@ public final class AppLogService
         catch( Exception e )
         {
             System.err.println( "Bad Configuration of Log4j : " + e );
+        }
+        finally
+        {
+            StreamUtil.safeClose( is );
         }
         info( "Lutece logs initialized, using configured property files to define levels and appenders." );
     }
