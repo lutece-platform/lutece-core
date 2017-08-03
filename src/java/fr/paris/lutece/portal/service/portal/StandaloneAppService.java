@@ -50,6 +50,7 @@ import fr.paris.lutece.portal.web.xpages.XPage;
 import fr.paris.lutece.portal.web.xpages.XPageApplication;
 import fr.paris.lutece.portal.web.xpages.XPageApplicationEntry;
 import fr.paris.lutece.util.html.HtmlTemplate;
+import fr.paris.lutece.util.http.SecurityUtil;
 
 import java.io.File;
 
@@ -80,6 +81,7 @@ public class StandaloneAppService extends ContentService
      *
      * @return The name as a String
      */
+    @Override
     public String getName( )
     {
         return CONTENT_SERVICE_NAME;
@@ -92,16 +94,12 @@ public class StandaloneAppService extends ContentService
      *            The HTTP request
      * @return true if this ContentService should handle this request
      */
+    @Override
     public boolean isInvoked( HttpServletRequest request )
     {
         String strStandaloneApp = request.getParameter( PARAM_STANDALONE_APP );
 
-        if ( ( strStandaloneApp != null ) && ( strStandaloneApp.length( ) > 0 ) )
-        {
-            return true;
-        }
-
-        return false;
+        return ( strStandaloneApp != null ) && ( strStandaloneApp.length( ) > 0 );
     }
 
     /**
@@ -119,6 +117,7 @@ public class StandaloneAppService extends ContentService
      *
      * @return true if enable, otherwise false
      */
+    @Override
     public boolean isCacheEnable( )
     {
         return false;
@@ -127,6 +126,7 @@ public class StandaloneAppService extends ContentService
     /**
      * Reset the cache.
      */
+    @Override
     public void resetCache( )
     {
     }
@@ -136,6 +136,7 @@ public class StandaloneAppService extends ContentService
      *
      * @return the number of item currently in the cache.
      */
+    @Override
     public int getCacheSize( )
     {
         return 0;
@@ -154,6 +155,7 @@ public class StandaloneAppService extends ContentService
      * @throws SiteMessageException
      *             occurs when a site message need to be displayed
      */
+    @Override
     public String getPage( HttpServletRequest request, int nMode ) throws UserNotSignedException, SiteMessageException
     {
         // Gets XPage info from the lutece.properties
@@ -177,7 +179,7 @@ public class StandaloneAppService extends ContentService
         }
         else
         {
-            AppLogService.error( "The specified Xpage '" + strName + "' cannot be retrieved. Check installation of your Xpage application." );
+            AppLogService.error( "The specified Xpage '" + SecurityUtil.logForgingProtect( strName ) + "' cannot be retrieved. Check installation of your Xpage application." );
             SiteMessageService.setMessage( request, MESSAGE_ERROR_APP_BODY, SiteMessage.TYPE_ERROR );
         }
 

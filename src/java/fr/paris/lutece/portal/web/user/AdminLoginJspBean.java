@@ -437,7 +437,7 @@ public class AdminLoginJspBean implements Serializable
         }
         catch( LoginException ex )
         {
-            AppLogService.error( "Error during connection for user access code :" + strAccessCode, ex );
+            AppLogService.error( "Error during connection for user access code :" + SecurityUtil.logForgingProtect( strAccessCode ), ex );
 
             return AdminMessageService.getMessageUrl( request, Messages.MESSAGE_AUTH_FAILURE, strLoginUrl, AdminMessage.TYPE_STOP );
         }

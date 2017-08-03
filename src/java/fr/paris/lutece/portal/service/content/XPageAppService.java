@@ -49,6 +49,7 @@ import fr.paris.lutece.portal.web.xpages.XPage;
 import fr.paris.lutece.portal.web.xpages.XPageApplication;
 import fr.paris.lutece.portal.web.xpages.XPageApplicationEntry;
 import fr.paris.lutece.util.html.HtmlTemplate;
+import fr.paris.lutece.util.http.SecurityUtil;
 
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 
@@ -111,11 +112,7 @@ public class XPageAppService extends ContentService
         {
             throw new LuteceInitException( "Error instantiating XPageApplication : " + entry.getId( ) + " - " + e.getCause( ), e );
         }
-        catch( InstantiationException e )
-        {
-            throw new LuteceInitException( "Error instantiating XPageApplication : " + entry.getId( ) + " - " + e.getCause( ), e );
-        }
-        catch( IllegalAccessException e )
+        catch( InstantiationException | IllegalAccessException e )
         {
             throw new LuteceInitException( "Error instantiating XPageApplication : " + entry.getId( ) + " - " + e.getCause( ), e );
         }
@@ -144,12 +141,7 @@ public class XPageAppService extends ContentService
     {
         String strXPage = request.getParameter( PARAM_XPAGE_APP );
 
-        if ( ( strXPage != null ) && ( strXPage.length( ) > 0 ) )
-        {
-            return true;
-        }
-
-        return false;
+        return ( strXPage != null ) && ( strXPage.length( ) > 0 );
     }
 
     /**
@@ -286,7 +278,7 @@ public class XPageAppService extends ContentService
         }
         else
         {
-            AppLogService.error( "The specified Xpage '" + strName + "' cannot be retrieved. Check installation of your Xpage application." );
+            AppLogService.error( "The specified Xpage '" + SecurityUtil.logForgingProtect( strName ) + "' cannot be retrieved. Check installation of your Xpage application." );
             SiteMessageService.setMessage( request, MESSAGE_ERROR_APP_BODY, SiteMessage.TYPE_ERROR );
 
             return null; // unreachable because SiteMessageService.setMessage throws

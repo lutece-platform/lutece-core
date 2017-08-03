@@ -57,6 +57,7 @@ import fr.paris.lutece.portal.web.util.LocalizedPaginator;
 import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.html.Paginator;
+import fr.paris.lutece.util.http.SecurityUtil;
 import fr.paris.lutece.util.sort.AttributeComparator;
 import fr.paris.lutece.util.url.UrlItem;
 
@@ -261,7 +262,7 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
 
         if ( !StringUtils.isNumeric( strMailingListId ) )
         {
-            AppLogService.error( strMailingListId + " is not a valid mailing list id." );
+            AppLogService.error( SecurityUtil.logForgingProtect( strMailingListId ) + " is not a valid mailing list id." );
 
             return getManageMailinglists( request );
         }
@@ -271,7 +272,7 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
 
         if ( mailinglist == null )
         {
-            AppLogService.error( strMailingListId + " is not a valid mailing list id." );
+            AppLogService.error( SecurityUtil.logForgingProtect( strMailingListId ) + " is not a valid mailing list id." );
 
             return getManageMailinglists( request );
         }

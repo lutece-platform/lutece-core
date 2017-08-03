@@ -58,6 +58,7 @@ public final class SecurityUtil
     private static final String[] PATH_MANIPULATION = { ".." , "/" , "\\" };
 
 
+
     // private static final String PATTERN_CLEAN_PARAMETER = "^[\\w/]+$+";
 
     /**
@@ -252,6 +253,21 @@ public final class SecurityUtil
         return strIPAddress;
     }
 
+    /**
+     * Identify user data saved in log files to prevent Log Forging attacks
+     * @param strUserInputData User Input Data
+     * @return The User Data to log
+     */
+    public static String logForgingProtect( String strUserInputData )
+    {
+        int nCharCount = strUserInputData.length();
+        int nLineCount = StringUtils.countMatches( strUserInputData, "\n" );
+        String strPrefixedLines = strUserInputData.replace( "\n" , "\n** " );
+        String strProtected = "\n** USER INPUT DATA : BEGIN (" + nLineCount + " lines and " + nCharCount + 
+                " chars) ** \n" + strPrefixedLines + "\n** USER INPUT DATA : END\n";
+        return strProtected;
+    }
+    
     /**
      * Write a title into the dump stringbuffer
      * 
