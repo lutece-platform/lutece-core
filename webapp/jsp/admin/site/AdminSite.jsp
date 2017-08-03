@@ -1,5 +1,6 @@
 <%@ page errorPage="../ErrorPage.jsp" %>
 <%@ page import="java.util.Enumeration" %>
+<%@ page import="java.net.URLEncoder" %>
 <jsp:include page="../AdminHeader.jsp" />
 <jsp:useBean id="admin" scope="session" class="fr.paris.lutece.portal.web.admin.AdminPageJspBean" />
 <% admin.init( request , admin.RIGHT_MANAGE_ADMIN_SITE ); %>
@@ -18,7 +19,7 @@
             }
             String strParamName = (String) paramNames.nextElement();
             String strParamValue = request.getParameter( strParamName );
-            strParams += strSeparator + strParamName + "=" + strParamValue;
+            strParams += strSeparator + URLEncoder.encode(strParamName) + "=" + URLEncoder.encode(strParamValue);
 	}
 
     String strClassPreview = "";
