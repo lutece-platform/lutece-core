@@ -58,7 +58,7 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+import java.util.HashMap;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -129,7 +129,7 @@ public class SystemJspBean extends AdminFeaturesPageJspBean
             list.add( file );
         }
 
-        Map<String, Collection<SystemFile>> model = new ConcurrentHashMap<String, Collection<SystemFile>>( );
+        Map<String, Collection<SystemFile>> model = new HashMap<String, Collection<SystemFile>>( );
         model.put( MARK_FILES_LIST, list );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_FILES_SYSTEM, getLocale(  ), model );
@@ -167,7 +167,7 @@ public class SystemJspBean extends AdminFeaturesPageJspBean
         }
         Collections.sort( listFiles );
 
-        Map<String, Serializable> model = new ConcurrentHashMap<String, Serializable>( );
+        Map<String, Serializable> model = new HashMap<String, Serializable>( );
         model.put( MARK_FILES_LIST, listFiles );
         model.put( MARK_FILES_SYSTEM_DIRECTORY, strDir );
 
@@ -186,7 +186,7 @@ public class SystemJspBean extends AdminFeaturesPageJspBean
      */
     public String getFileView( HttpServletRequest request )
     {
-        Map<String, Object> model = new ConcurrentHashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<String, Object>( );
         setPageTitleProperty( PROPERTY_TITLE_VIEW_FILE );
 
         String strFileData;
@@ -232,7 +232,7 @@ public class SystemJspBean extends AdminFeaturesPageJspBean
      */
     public String getManageProperties( HttpServletRequest request )
     {
-        Map<String, Object> model = new ConcurrentHashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<String, Object>( );
         model.put( MARK_PROPERTIES_GROUPS_LIST, SitePropertiesService.getGroups( getLocale(  ) ) );
         model.put( MARK_WEBAPP_URL, AppPathService.getBaseUrl( request ) );
         model.put( MARK_LOCALE, getLocale(  ).getLanguage(  ) );

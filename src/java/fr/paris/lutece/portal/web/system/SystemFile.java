@@ -34,6 +34,7 @@
 package fr.paris.lutece.portal.web.system;
 
 import java.util.Date;
+import java.util.Locale;
 
 
 /**
@@ -145,6 +146,6 @@ public class SystemFile implements Comparable
     @Override
     public int compareTo( Object file )
     {
-        return getName().toLowerCase( ).trim( ).compareTo( ((SystemFile) file).getName().toLowerCase( ).trim( ));
+        return getName().toLowerCase( Locale.ENGLISH ).trim( ).compareTo( ((SystemFile) file).getName().toLowerCase( Locale.ENGLISH ).trim( ));
     }
 }
