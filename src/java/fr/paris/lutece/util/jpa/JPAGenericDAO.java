@@ -151,10 +151,14 @@ public abstract class JPAGenericDAO<K, E> implements IGenericDAO<K, E>
         EntityManager em = getEM( );
 
         if ( em == _defaultEM )
+        {    
             em.getTransaction( ).begin( );
+        }
         em.persist( entity );
         if ( em == _defaultEM )
+        {
             em.getTransaction( ).commit( );
+        }
 
         LOG.debug( "Entity created : " + entity.toString( ) );
     }
@@ -169,10 +173,14 @@ public abstract class JPAGenericDAO<K, E> implements IGenericDAO<K, E>
         E entity = em.find( _entityClass, key );
         LOG.debug( "Removing entity : " + entity.toString( ) );
         if ( em == _defaultEM )
+        {
             em.getTransaction( ).begin( );
+        }
         em.remove( entity );
         if ( em == _defaultEM )
+        {
             em.getTransaction( ).commit( );
+        }
         LOG.debug( "Entity removed : " + entity.toString( ) );
     }
 
@@ -186,10 +194,15 @@ public abstract class JPAGenericDAO<K, E> implements IGenericDAO<K, E>
 
         EntityManager em = getEM( );
         if ( em == _defaultEM )
+        {
             em.getTransaction( ).begin( );
+        }
         em.merge( entity );
         if ( em == _defaultEM )
+        {
             em.getTransaction( ).commit( );
+        }
+        
         LOG.debug( "Entity Updated : " + entity.toString( ) );
     }
 

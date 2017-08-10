@@ -278,7 +278,8 @@ public class XPageAppService extends ContentService
         }
         else
         {
-            AppLogService.error( "The specified Xpage '" + SecurityUtil.logForgingProtect( strName ) + "' cannot be retrieved. Check installation of your Xpage application." );
+            AppLogService.error( "The specified Xpage '" + SecurityUtil.logForgingProtect( strName )
+                    + "' cannot be retrieved. Check installation of your Xpage application." );
             SiteMessageService.setMessage( request, MESSAGE_ERROR_APP_BODY, SiteMessage.TYPE_ERROR );
 
             return null; // unreachable because SiteMessageService.setMessage throws

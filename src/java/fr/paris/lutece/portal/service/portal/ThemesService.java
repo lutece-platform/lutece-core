@@ -173,8 +173,8 @@ public final class ThemesService
      */
     public static void setUserTheme( HttpServletRequest request, HttpServletResponse response, String strTheme )
     {
-        if( isValid( strTheme ))
-        {    
+        if ( isValid( strTheme ) )
+        {
             Cookie cookie = new Cookie( COOKIE_NAME, strTheme );
             cookie.setSecure( true );
             response.addCookie( cookie );
@@ -183,14 +183,16 @@ public final class ThemesService
 
     /**
      * Check if a given theme code is among valid known theme codes
-     * @param strTheme The theme
+     * 
+     * @param strTheme
+     *            The theme
      * @return true if valid
      */
     private static boolean isValid( String strTheme )
     {
-        for( ReferenceItem item : getThemes( ))
+        for ( ReferenceItem item : getThemes( ) )
         {
-            if( item.getCode().equals( strTheme ))
+            if ( item.getCode( ).equals( strTheme ) )
             {
                 return true;
             }

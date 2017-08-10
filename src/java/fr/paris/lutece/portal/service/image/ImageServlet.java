@@ -96,14 +96,14 @@ public class ImageServlet extends HttpServlet
                     response.setContentType( image.getMimeType( ) );
 
                     OutputStream out = null;
-                    try 
+                    try
                     {
                         out = response.getOutputStream( );
                         out.write( image.getImage( ) );
                         out.flush( );
                         out.close( );
                     }
-                    catch( IOException ex ) 
+                    catch( IOException ex )
                     {
                         AppLogService.error( "ImageServlet error : " + ex.getMessage( ), ex );
                     }
@@ -124,7 +124,7 @@ public class ImageServlet extends HttpServlet
 
                     FileInputStream in = null;
                     OutputStream out = null;
-                    
+
                     try
                     {
                         // Open the file and output streams

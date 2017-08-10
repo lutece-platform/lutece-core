@@ -118,8 +118,7 @@ public class Right implements Localizable, Comparable<Right>, Serializable
         {
             return I18nService.getLocalizedString( _strNameKey, _locale );
         }
-        else
-            return _strNameKey;
+        return _strNameKey;
     }
 
     /**
@@ -197,8 +196,7 @@ public class Right implements Localizable, Comparable<Right>, Serializable
         {
             return I18nService.getLocalizedString( _strDescriptionKey, _locale );
         }
-        else
-            return _strDescriptionKey;
+        return _strDescriptionKey;
     }
 
     /**

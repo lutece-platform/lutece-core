@@ -116,8 +116,8 @@ public class AdminDocumentationJspBean
     public String getDocumentation( HttpServletRequest request ) throws AccessDeniedException
     {
         String strFeature = request.getParameter( PARAMETER_FEATURE_DOC );
-        
-        if( SecurityUtil.containsPathManipulationChars( request , strFeature ) )
+
+        if ( SecurityUtil.containsPathManipulationChars( request, strFeature ) )
         {
             return null;
         }

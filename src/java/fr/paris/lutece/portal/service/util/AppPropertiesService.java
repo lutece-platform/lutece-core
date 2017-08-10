@@ -36,7 +36,6 @@ package fr.paris.lutece.portal.service.util;
 import fr.paris.lutece.portal.service.init.LuteceInitException;
 import fr.paris.lutece.util.PropertiesService;
 
-
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;

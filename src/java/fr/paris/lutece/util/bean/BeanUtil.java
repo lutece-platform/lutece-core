@@ -55,7 +55,8 @@ public final class BeanUtil
 {
     private static final char UNDERSCORE = '_';
 
-    static {
+    static
+    {
         PropertyUtils.addBeanIntrospector( SuppressPropertiesBeanIntrospector.SUPPRESS_CLASS );
     }
 

@@ -76,7 +76,7 @@ public class PropertiesService
      * @param strFilename
      *            The filename of the properties file (ie: config.properties)
      */
-    public void addPropertiesFile( String strRelativePath, String strFilename ) 
+    public void addPropertiesFile( String strRelativePath, String strFilename )
     {
         String strFullPath = _strRootPath + ( ( strRelativePath.endsWith( "/" ) ) ? strRelativePath : ( strRelativePath + "/" ) ) + strFilename;
         _mapPropertiesFiles.put( strFilename, strFullPath );
@@ -97,7 +97,7 @@ public class PropertiesService
         {
             File [ ] listFile = directory.listFiles( );
 
-            for( File file : listFile )
+            for ( File file : listFile )
             {
                 if ( file.getName( ).endsWith( ".properties" ) )
                 {
@@ -115,7 +115,7 @@ public class PropertiesService
      * @param strFullPath
      *            The absolute path of the properties file
      */
-    private void loadFile( String strFullPath ) 
+    private void loadFile( String strFullPath )
     {
         loadFile( strFullPath, _properties );
     }
@@ -130,7 +130,7 @@ public class PropertiesService
      * @throws java.io.IOException
      *             If an error occurs reading the file
      */
-    private void loadFile( String strFullPath, Properties props ) 
+    private void loadFile( String strFullPath, Properties props )
     {
         FileInputStream fis = null;
         try
@@ -140,7 +140,7 @@ public class PropertiesService
         }
         catch( IOException ex )
         {
-            AppLogService.error( "Error loading property file : " + ex , ex );
+            AppLogService.error( "Error loading property file : " + ex, ex );
         }
         finally
         {

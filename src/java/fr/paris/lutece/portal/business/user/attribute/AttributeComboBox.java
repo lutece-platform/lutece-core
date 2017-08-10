@@ -278,7 +278,7 @@ public class AttributeComboBox extends AbstractAttribute implements ISimpleValue
                 listUserFields.add( userField );
             }
         }
-        //If the combobox is multiple and nothing is selected, the request will have no paramater at all
+        // If the combobox is multiple and nothing is selected, the request will have no paramater at all
         else
         {
             AdminUserField userField = new AdminUserField( );

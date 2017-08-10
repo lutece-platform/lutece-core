@@ -54,10 +54,12 @@ public final class SecurityUtil
     private static final String CONSTANT_HTTP_HEADER_X_FORWARDED_FOR = "X-Forwarded-For";
     private static final String PATTERN_IP_ADDRESS = "^([0-9]{1,3}\\.){3}[0-9]{1,3}$";
     private static final String CONSTANT_COMMA = ",";
-    private static final String[] XXE_TERMS = { "!DOCTYPE" , "!ELEMENT" , "!ENTITY" };
-    private static final String[] PATH_MANIPULATION = { ".." , "/" , "\\" };
-
-
+    private static final String [ ] XXE_TERMS = {
+            "!DOCTYPE", "!ELEMENT", "!ENTITY"
+    };
+    private static final String [ ] PATH_MANIPULATION = {
+            "..", "/", "\\"
+    };
 
     // private static final String PATTERN_CLEAN_PARAMETER = "^[\\w/]+$+";
 
@@ -156,37 +158,42 @@ public final class SecurityUtil
 
         return bContains;
     }
-    
+
     /**
      * Check if the value contains terms used for XML External Entity Injection
-     * @param strValue The value
-     * @return true if 
+     * 
+     * @param strValue
+     *            The value
+     * @return true if
      */
     public static boolean containsXmlExternalEntityInjectionTerms( String strValue )
     {
-        for( String strTerm : XXE_TERMS )
+        for ( String strTerm : XXE_TERMS )
         {
-            if( StringUtils.indexOfIgnoreCase( strValue, strTerm ) >= 0 )
+            if ( StringUtils.indexOfIgnoreCase( strValue, strTerm ) >= 0 )
             {
-                 Logger logger = Logger.getLogger( LOGGER_NAME );
-                logger.warn( "SECURITY WARNING : XXE TERMS DETECTED : " + dumpRequest( LocalVariables.getRequest() ) );
+                Logger logger = Logger.getLogger( LOGGER_NAME );
+                logger.warn( "SECURITY WARNING : XXE TERMS DETECTED : " + dumpRequest( LocalVariables.getRequest( ) ) );
                 return true;
             }
         }
         return false;
     }
-    
+
     /**
      * Check if the value contains characters used for Path Manipulation
-     * @param request The Http request
-     * @param strValue The value
-     * @return true if 
+     * 
+     * @param request
+     *            The Http request
+     * @param strValue
+     *            The value
+     * @return true if
      */
-    public static boolean containsPathManipulationChars( HttpServletRequest request , String strValue )
+    public static boolean containsPathManipulationChars( HttpServletRequest request, String strValue )
     {
-        for( String strTerm : PATH_MANIPULATION )
+        for ( String strTerm : PATH_MANIPULATION )
         {
-            if( strValue.contains( strTerm ) )
+            if ( strValue.contains( strTerm ) )
             {
                 Logger logger = Logger.getLogger( LOGGER_NAME );
                 logger.warn( "SECURITY WARNING : PATH_MANIPULATION DETECTED : " + dumpRequest( request ) );
@@ -255,19 +262,21 @@ public final class SecurityUtil
 
     /**
      * Identify user data saved in log files to prevent Log Forging attacks
-     * @param strUserInputData User Input Data
+     * 
+     * @param strUserInputData
+     *            User Input Data
      * @return The User Data to log
      */
     public static String logForgingProtect( String strUserInputData )
     {
-        int nCharCount = strUserInputData.length();
+        int nCharCount = strUserInputData.length( );
         int nLineCount = StringUtils.countMatches( strUserInputData, "\n" );
-        String strPrefixedLines = strUserInputData.replace( "\n" , "\n** " );
-        String strProtected = "\n** USER INPUT DATA : BEGIN (" + nLineCount + " lines and " + nCharCount + 
-                " chars) ** \n" + strPrefixedLines + "\n** USER INPUT DATA : END\n";
+        String strPrefixedLines = strUserInputData.replace( "\n", "\n** " );
+        String strProtected = "\n** USER INPUT DATA : BEGIN (" + nLineCount + " lines and " + nCharCount + " chars) ** \n" + strPrefixedLines
+                + "\n** USER INPUT DATA : END\n";
         return strProtected;
     }
-    
+
     /**
      * Write a title into the dump stringbuffer
      * 

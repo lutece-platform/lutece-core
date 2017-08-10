@@ -244,7 +244,7 @@
             <version>1.2.1</version>
             <type>jar</type>
         </dependency>
-		
+
         <!-- Workflow -->
         <dependency>
             <groupId>fr.paris.lutece.plugins</groupId>

@@ -182,7 +182,7 @@ public final class AppPathService
     {
         String strFilePath = getWebAppPath( ) + strPath + strFilename;
 
-        FileInputStream fis = null; 
+        FileInputStream fis = null;
         try
         {
             File file = new File( strFilePath );

@@ -269,7 +269,7 @@ public class AttributeCheckBox extends AbstractAttribute implements ISimpleValue
                 listUserFields.add( userField );
             }
         }
-        //If no checkbox is selected, the request will have no parameter at all
+        // If no checkbox is selected, the request will have no parameter at all
         else
         {
             AdminUserField userField = new AdminUserField( );

@@ -154,12 +154,14 @@ public class SystemFile implements Comparable
 
     /**
      * Compare files name in order to sort files by name
-     * @param file The file to compare
-     * @return 
+     * 
+     * @param file
+     *            The file to compare
+     * @return
      */
     @Override
     public int compareTo( Object file )
     {
-        return getName().toLowerCase( Locale.ENGLISH ).trim( ).compareTo( ((SystemFile) file).getName().toLowerCase( Locale.ENGLISH ).trim( ));
+        return getName( ).toLowerCase( Locale.ENGLISH ).trim( ).compareTo( ( (SystemFile) file ).getName( ).toLowerCase( Locale.ENGLISH ).trim( ) );
     }
 }

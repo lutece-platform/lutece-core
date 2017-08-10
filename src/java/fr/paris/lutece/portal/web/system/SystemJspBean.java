@@ -121,7 +121,7 @@ public class SystemJspBean extends AdminFeaturesPageJspBean
         setPageTitleProperty( PROPERTY_TITLE_MANAGE_FILES_SYSTEM );
         ArrayList<SystemFile> list = new ArrayList<SystemFile>( );
 
-        for( String strDirectory : getDirectories() )
+        for ( String strDirectory : getDirectories( ) )
         {
             SystemFile file = new SystemFile( );
             file.setName( I18nService.getLocalizedString( PROPERTY_FILE_NAME + strDirectory, request.getLocale( ) ) );
@@ -150,7 +150,7 @@ public class SystemJspBean extends AdminFeaturesPageJspBean
         setPageTitleProperty( PROPERTY_TITLE_VIEW_FILES_SYSTEM );
         String strDir = request.getParameter( PARAMETER_DIR );
 
-        if ( ! isValidDirectoryPath( strDir ) )
+        if ( !isValidDirectoryPath( strDir ) )
         {
             return getManageFilesSystem( request );
         }
@@ -158,7 +158,7 @@ public class SystemJspBean extends AdminFeaturesPageJspBean
         String strDirectory = AppPathService.getWebAppPath( ) + strDir;
         File directory = new File( strDirectory );
         ArrayList<SystemFile> listFiles = new ArrayList<SystemFile>( );
-        for( File file : directory.listFiles( ) )
+        for ( File file : directory.listFiles( ) )
         {
             SystemFile sFile = new SystemFile( );
             sFile.setName( file.getName( ) );
@@ -200,23 +200,24 @@ public class SystemJspBean extends AdminFeaturesPageJspBean
         {
             strFileData = "ERROR : No file selected !";
         }
-        else if( ! isValidDirectoryPath( strDirectory ))
-        {
-            strFileData = "ERROR : Invalid directory !";
-        }    
         else
-        {
-            String strFilePath = AppPathService.getWebAppPath( );
-
-            if ( strFilePath != null )
+            if ( !isValidDirectoryPath( strDirectory ) )
             {
-                strFileData = getFileData( strFilePath + strDirectory + strFile );
+                strFileData = "ERROR : Invalid directory !";
             }
             else
             {
-                strFileData = "ERROR : " + strFile + " not found !";
+                String strFilePath = AppPathService.getWebAppPath( );
+
+                if ( strFilePath != null )
+                {
+                    strFileData = getFileData( strFilePath + strDirectory + strFile );
+                }
+                else
+                {
+                    strFileData = "ERROR : " + strFile + " not found !";
+                }
             }
-        }
 
         model.put( MARK_FILES_SYSTEM_NAME, strDirectory + strFile );
         model.put( MARK_FILE_SYSTEM_DATA, strFileData );
@@ -330,24 +331,28 @@ public class SystemJspBean extends AdminFeaturesPageJspBean
 
         return sbData.toString( );
     }
+
     /**
      * Returns all authorized directories
+     * 
      * @return a directories array
      */
-    private String[] getDirectories()
+    private String [ ] getDirectories( )
     {
         String strDirectories = AppPropertiesService.getProperty( PROPERTY_FILES_SYSTEM_LIST );
-        return strDirectories.split(  "," );
+        return strDirectories.split( "," );
     }
-    
+
     /**
      * Checks if a given path is among the authorized list
-     * @param strPath The path to check
+     * 
+     * @param strPath
+     *            The path to check
      * @return true if authorized
      */
     private boolean isValidDirectoryPath( String strPath )
     {
-        for( String strFileSystemName : getDirectories() )
+        for ( String strFileSystemName : getDirectories( ) )
         {
             String strDirectoryPath = AppPropertiesService.getProperty( "system." + strFileSystemName + ".directory" );
 
@@ -358,5 +363,5 @@ public class SystemJspBean extends AdminFeaturesPageJspBean
         }
         return false;
     }
-            
+
 }

@@ -67,7 +67,7 @@ public class DaemonsJspBeanTest extends LuteceTestCase
     {
         super.setUp( );
         origMaxInitialStartDelay = setInitialStartDelay( );
-        assertEquals("Failed to adjust daemon initial start delay", 1, AppPropertiesService.getPropertyInt( "daemon.maxInitialStartDelay", 3000 ) );
+        assertEquals( "Failed to adjust daemon initial start delay", 1, AppPropertiesService.getPropertyInt( "daemon.maxInitialStartDelay", 3000 ) );
         bean = new DaemonsJspBean( );
         _entry = new DaemonEntry( );
         _entry.setId( JUNIT_DAEMON );
@@ -115,7 +115,8 @@ public class DaemonsJspBeanTest extends LuteceTestCase
         AppDaemonService.stopDaemon( JUNIT_DAEMON );
         AppDaemonService.unregisterDaemon( JUNIT_DAEMON );
         restoreInitialStartDelay( origMaxInitialStartDelay );
-        assertEquals("Failed to restore daemon initial start delay", origMaxInitialStartDelay, AppPropertiesService.getProperty( "daemon.maxInitialStartDelay" ) );
+        assertEquals( "Failed to restore daemon initial start delay", origMaxInitialStartDelay,
+                AppPropertiesService.getProperty( "daemon.maxInitialStartDelay" ) );
         super.tearDown( );
     }
 

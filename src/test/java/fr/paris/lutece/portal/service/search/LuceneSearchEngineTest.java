@@ -113,7 +113,6 @@ public class LuceneSearchEngineTest extends LuteceTestCase
             doc.add( new Field( SearchItem.FIELD_ROLE, Page.ROLE_NONE, ft ) );
             indexWriter.addDocument( doc );
 
-
             indexWriter.close( );
         }
     }

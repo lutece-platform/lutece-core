@@ -32,7 +32,6 @@
  * License 1.0
  */
 
-
 package fr.paris.lutece.util.stream;
 
 import fr.paris.lutece.portal.service.util.AppLogService;
@@ -42,30 +41,32 @@ import java.io.IOException;
 /**
  * StreamUtil
  */
-public class StreamUtil 
+public class StreamUtil
 {
     /** Private Constructor */
-    private StreamUtil()
+    private StreamUtil( )
     {
     }
 
     /**
      * Close safely a stream
-     * @param stream The stream
+     * 
+     * @param stream
+     *            The stream
      */
     public static void safeClose( Closeable stream )
     {
-        if( stream != null )
+        if ( stream != null )
         {
             try
             {
-                stream.close();
+                stream.close( );
             }
             catch( IOException ex )
             {
-                AppLogService.error( "Error closing the stream : " + ex.getMessage(), ex );
+                AppLogService.error( "Error closing the stream : " + ex.getMessage( ), ex );
             }
         }
     }
-    
+
 }
