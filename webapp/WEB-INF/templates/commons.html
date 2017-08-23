@@ -997,12 +997,12 @@ and is kept only for backwards compatibility
 <#-- params: data-toggle/data-target/data-dismiss... -->
 <#-- buttonIcon: icon name ex: info/check/comment/envelope... -->
 <#-- iconPosition: left/right -->
-<#macro button name='' id='' type='button' size='sm' color='btn-primary' style='btn-flat' class='' params='' value='' title='' tabIndex='' showTitle=true showTitleXs=true showTitleSm=true showTitleMd=true showTitleLg=true buttonIcon='' disabled=false iconPosition='left' dropdownMenu=false>
-	<#-- Bootstrap 4 transition -->
-	<#if color='btn-secondary'>
-		<#assign color_temp='btn-default'>
-	<#else>
-		<#assign color_temp=color>
+<#-- cancel: switch to true for a cancellation form button. Adds the "formnovalidate" attribute to the button, as well as the right class -->
+<#macro button name='' id='' type='button' size='sm' color='' style='btn-flat' class='' params='' value='' title='' tabIndex='' showTitle=true showTitleXs=true showTitleSm=true showTitleMd=true showTitleLg=true buttonIcon='' disabled=false iconPosition='left' dropdownMenu=false cancel=false>
+	<#if cancel>
+		<#assign buttonColor = 'btn-default' />
+	<#elseif !cancel && color=''>
+		<#assign buttonColor = 'btn-primary' />
 	</#if>
 	
 	<#-- Visibility of button title -->
@@ -1017,7 +1017,7 @@ and is kept only for backwards compatibility
 	<div class="dropdown">
 	</#if>
 	
-	<button class="<#if style!='close'>btn</#if><#if size!='' && style!='btn-box-tool'> btn-${size}</#if><#if color_temp!='' && style!='btn-box-tool'> ${color_temp}</#if><#if style!=''> ${style}</#if><#if dropdownMenu> dropdown-toggle</#if><#if class!=''> ${class}</#if>" type="${type}"<#if title!=''> title="${title}"</#if><#if name!=''> name="${name}"</#if><#if id!=''> id="${id}"</#if><#if value!=''> value="${value}"</#if><#if params!=''> ${params}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if>>
+	<button class="<#if style!='close'>btn</#if><#if size!='' && style!='btn-box-tool'> btn-${size}</#if><#if buttonColor!='' && style!='btn-box-tool'> ${buttonColor}</#if><#if style!=''> ${style}</#if><#if dropdownMenu> dropdown-toggle</#if><#if class!=''> ${class}</#if>" type="${type}"<#if title!=''> title="${title}"</#if><#if name!=''> name="${name}"</#if><#if id!=''> id="${id}"</#if><#if value!=''> value="${value}"</#if><#if params!=''> ${params}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if><#if cancel> formnovalidate</#if>>
 		<#if buttonIcon!='' && iconPosition='left'><@icon style=buttonIcon /></#if>
 		<#if showTitleClass!='' && style!='btn-box-tool'><span class="${showTitleClass}"></#if>${title}<#if showTitleClass!='' && style!='btn-box-tool'></span></#if>
 		<#if buttonIcon!='' && iconPosition='right'><@icon style=buttonIcon /></#if>
