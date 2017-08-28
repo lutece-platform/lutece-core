@@ -1003,6 +1003,8 @@ and is kept only for backwards compatibility
 		<#assign buttonColor = 'btn-default' />
 	<#elseif !cancel && color=''>
 		<#assign buttonColor = 'btn-primary' />
+	<#else>
+		<#assign buttonColor = color />
 	</#if>
 	
 	<#-- Visibility of button title -->
