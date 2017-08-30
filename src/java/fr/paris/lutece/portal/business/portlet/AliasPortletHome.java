@@ -33,6 +33,8 @@
  */
 package fr.paris.lutece.portal.business.portlet;
 
+import java.util.Collection;
+
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.util.ReferenceList;
 
@@ -111,14 +113,24 @@ public class AliasPortletHome extends PortletHome
     }
 
     /**
-     * Returns the list of the portlets which accept an alias
+     * Returns the Reference list of the portlets which accept an alias
      *
      * @return the list of the portlets in form of ReferenceList
      */
-    public static ReferenceList getAcceptAliasPortletList( )
+    public static ReferenceList getAcceptAliasPortletRefList( )
+    {
+        return _dao.selectAcceptAliasPortletRefList( );
+    }
+    
+    /**
+     * Returns the list of the portlets which accept an alias
+     *
+     * @return the list of the portlets
+     */
+    public static Collection<Portlet> getAcceptAliasPortletList( )
     {
         return _dao.selectAcceptAliasPortletList( );
-    }
+    }  
 
     /**
      * Loads the list of the portlets whose type is the same as the one specified in parameter

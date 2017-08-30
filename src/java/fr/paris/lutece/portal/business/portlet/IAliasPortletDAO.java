@@ -33,6 +33,8 @@
  */
 package fr.paris.lutece.portal.business.portlet;
 
+import java.util.Collection;
+
 import fr.paris.lutece.util.ReferenceList;
 
 /**
@@ -97,5 +99,12 @@ public interface IAliasPortletDAO extends IPortletInterfaceDAO
      * 
      * @return A reference list
      */
-    ReferenceList selectAcceptAliasPortletList( );
+    ReferenceList selectAcceptAliasPortletRefList( );
+
+    /**
+     * Select all portlets that accept alias
+     * 
+     * @return A Portlet list
+     */
+    Collection<Portlet> selectAcceptAliasPortletList( );
 }

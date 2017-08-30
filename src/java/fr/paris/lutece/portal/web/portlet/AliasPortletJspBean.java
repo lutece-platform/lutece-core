@@ -37,9 +37,11 @@ import fr.paris.lutece.portal.business.portlet.AliasPortlet;
 import fr.paris.lutece.portal.business.portlet.AliasPortletHome;
 import fr.paris.lutece.portal.business.portlet.Portlet;
 import fr.paris.lutece.portal.business.portlet.PortletHome;
+import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.web.constants.Messages;
+import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.html.HtmlTemplate;
 
 import java.util.HashMap;
@@ -65,6 +67,7 @@ public class AliasPortletJspBean extends PortletJspBean
     private static final String PARAM_ACCEPT_ALIAS = "accept_alias";
     private static final String MARK_ALIAS_PORTLETS_LIST = "alias_portlets_list";
     private static final String MARK_ALIAS_PORTLET = "alias_portlet";
+	private static final String LABEL_ALIAS_PORTLET_NAME = "portal.site.portlet_alias.portlet.name.label";
 
     /**
      * Process portlet's creation
@@ -181,7 +184,7 @@ public class AliasPortletJspBean extends PortletJspBean
         String strIdPage = request.getParameter( PARAMETER_PAGE_ID );
         String strIdPortletType = request.getParameter( PARAMETER_PORTLET_TYPE_ID );
         Map<String, Object> model = new HashMap<String, Object>( );
-        model.put( MARK_ALIAS_PORTLETS_LIST, AliasPortletHome.getAcceptAliasPortletList( ) );
+        model.put( MARK_ALIAS_PORTLETS_LIST, buildAliasPortletList( ) );
 
         HtmlTemplate template = getCreateTemplate( strIdPage, strIdPortletType, model );
 
@@ -203,11 +206,29 @@ public class AliasPortletJspBean extends PortletJspBean
         Portlet portlet = PortletHome.findByPrimaryKey( idPortlet );
         AliasPortlet aliasPortlet = (AliasPortlet) portlet;
         Map<String, Object> model = new HashMap<String, Object>( );
-        model.put( MARK_ALIAS_PORTLETS_LIST, AliasPortletHome.getAcceptAliasPortletList( ) );
+        model.put( MARK_ALIAS_PORTLETS_LIST, buildAliasPortletList( ) );
         model.put( MARK_ALIAS_PORTLET, aliasPortlet.getAliasId( ) );
 
         HtmlTemplate template = getModifyTemplate( portlet, model );
 
         return template.getHtml( );
+    }
+
+    /**
+     * Returns the Reference List of Portlets accepting Alias.
+     *
+     * @return The Reference List
+     */
+    private ReferenceList buildAliasPortletList( )
+    {
+
+        ReferenceList refList = new ReferenceList( );
+
+        for ( Portlet portlet : AliasPortletHome.getAcceptAliasPortletList( ) )
+        {
+            refList.addItem( portlet.getId( ),
+                    I18nService.getLocalizedString(LABEL_ALIAS_PORTLET_NAME, new String [ ] {String.valueOf(portlet.getPageId( ) ), portlet.getName( )} , getLocale( ) ) );
+        }
+        return refList;
     }
 }
