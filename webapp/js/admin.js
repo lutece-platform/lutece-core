@@ -132,8 +132,9 @@ $( function(){
 
 
 	// File Input Style
-	$(":file").addClass("filestyle");
-	$(":file").filestyle({buttonText: "&nbsp;Parcourir"});
+	$(":file").not(".noBootstrapFilestyle")
+                .addClass("filestyle")
+                .filestyle({buttonText: "&nbsp;Parcourir"});
 
 	/** 	MENUS		 **/
 	/** MENU TO ACTIVATE **/
