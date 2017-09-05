@@ -61,6 +61,7 @@ public class AliasPortletTest extends LuteceTestCase
         instance.getPortletTypeId( );
 
         AliasPortletHome.getAliasId( TEST_PORTLET_ID );
+        AliasPortletHome.getAcceptAliasPortletRefList( );
         AliasPortletHome.getAcceptAliasPortletList( );
         AliasPortletHome.getPortletsByTypeList( TEST_PORTLET_TYPE_ID );
     }

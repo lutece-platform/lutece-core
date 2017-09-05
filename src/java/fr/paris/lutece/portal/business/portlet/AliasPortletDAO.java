@@ -33,6 +33,10 @@
  */
 package fr.paris.lutece.portal.business.portlet;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.sql.DAOUtil;
 
@@ -49,6 +53,7 @@ public final class AliasPortletDAO implements IAliasPortletDAO
     private static final String SQL_QUERY_SELECT_PORTLETS_BY_TYPE = "SELECT  id_portlet, name FROM core_portlet WHERE id_portlet_type = ? ORDER BY name";
     private static final String SQL_QUERY_SELECT_ALIAS_ID = "SELECT id_alias FROM core_portlet_alias WHERE id_portlet= ? ";
     private static final String SQL_QUERY_SELECT_ACCEPT_ALIAS_PORTLET_LIST = "SELECT id_portlet, name FROM core_portlet WHERE accept_alias = 1 ";
+    private static final String SQL_QUERY_SELECT_ACCEPT_ALIAS_PORTLET_LIST_DETAIL = "SELECT id_portlet, id_page, name FROM core_portlet WHERE accept_alias = 1 ORDER BY id_page";
 
     // /////////////////////////////////////////////////////////////////////////////////////
     // Access methods to data
@@ -162,7 +167,7 @@ public final class AliasPortletDAO implements IAliasPortletDAO
     /**
      * {@inheritDoc}
      */
-    public ReferenceList selectAcceptAliasPortletList( )
+    public ReferenceList selectAcceptAliasPortletRefList( )
     {
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_ACCEPT_ALIAS_PORTLET_LIST );
         daoUtil.executeQuery( );
@@ -178,4 +183,29 @@ public final class AliasPortletDAO implements IAliasPortletDAO
 
         return list;
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    public Collection<Portlet> selectAcceptAliasPortletList( )
+    {
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_ACCEPT_ALIAS_PORTLET_LIST_DETAIL );
+        daoUtil.executeQuery( );
+
+        List<Portlet> list = new ArrayList<Portlet>( );
+
+        while ( daoUtil.next( ) )
+        {
+            PortletImpl portlet = new PortletImpl( );
+            portlet.setId( daoUtil.getInt( 1 ) );
+            portlet.setPageId( daoUtil.getInt( 2 ) );
+            portlet.setName( daoUtil.getString( 3 ) );
+            list.add( portlet );
+        }
+
+        daoUtil.free( );
+
+        return list;
+    }
+
 }
