@@ -89,10 +89,8 @@ public class AliasPortlet extends Portlet
      */
     public String getXml( HttpServletRequest request ) throws SiteMessageException
     {
-        int nAliasId = AliasPortletHome.getAliasId( getId( ) );
-
         // gets the portlet parent
-        Portlet portlet = PortletHome.findByPrimaryKey( nAliasId );
+        Portlet portlet = PortletHome.findByPrimaryKey( getAliasId( ) );
         String strXmlAlias = portlet.getXml( request );
         String strTagPortletName = "</" + TAG_PORTLET_NAME + ">";
         int indexDeb = strXmlAlias.indexOf( strTagPortletName );
@@ -129,10 +127,9 @@ public class AliasPortlet extends Portlet
      */
     public Map<String, String> getXslParams( )
     {
-        int nIdAlias = AliasPortletHome.getAliasId( getId( ) );
 
         // gets the portlet parent
-        Portlet portlet = PortletHome.findByPrimaryKey( nIdAlias );
+        Portlet portlet = PortletHome.findByPrimaryKey( getAliasId( ) );
 
         return portlet.getXslParams( );
     }
