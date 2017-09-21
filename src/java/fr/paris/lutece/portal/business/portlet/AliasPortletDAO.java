@@ -103,7 +103,9 @@ public final class AliasPortletDAO implements IAliasPortletDAO
         }
 
         daoUtil.free( );
-
+        Portlet portletParent= PortletHome.findByPrimaryKey( portlet.getAliasId( ) );
+        portlet.setContentGeneratedByXmlAndXsl( portletParent.isContentGeneratedByXmlAndXsl( ) );
+        
         return portlet;
     }
 
