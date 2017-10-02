@@ -79,7 +79,7 @@ import javax.sql.DataSource;
  *
  * @since version 1.3
  */
-public class DAOUtil
+public class DAOUtil implements AutoCloseable
 {
     public static final String MSG_EXCEPTION_SELECT_ERROR = "Error selecting row id : ";
     private static final String DEFAULT_MODULE_NAME = "lutece";
@@ -3208,5 +3208,14 @@ public class DAOUtil
         }
 
         super.finalize( );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void close( )
+    {
+        free( );
     }
 }
