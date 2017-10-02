@@ -363,7 +363,10 @@ public class DAOUtil
      */
     public final void free( )
     {
-        writeLogs( );
+        if ( !_bReleased )
+        {
+            writeLogs( );
+        }
 
         try
         {
