@@ -340,10 +340,13 @@ public class DAOUtil
      */
     private void logParameter( Object oName, Object oValue )
     {
-        Object [ ] args = {
-                oName, oValue
-        };
-        log( MessageFormat.format( "\n               Index : ''{0}''       Value : ''{1}'' ", args ) );
+        if ( _logger.isDebugEnabled( ) )
+        {
+            Object [ ] args = {
+                    oName, oValue
+            };
+            log( MessageFormat.format( "\n               Index : ''{0}''       Value : ''{1}'' ", args ) );
+        }
     }
 
     /**
@@ -447,6 +450,7 @@ public class DAOUtil
         try
         {
             _statement.setDate( nIndex, date );
+            logParameter( nIndex, date );
         }
         catch( SQLException e )
         {
@@ -472,6 +476,7 @@ public class DAOUtil
         try
         {
             _statement.setDate( nIndex, date, calendar );
+            logParameter( nIndex, date );
         }
         catch( SQLException e )
         {
@@ -493,6 +498,7 @@ public class DAOUtil
         try
         {
             _statement.setTime( nIndex, time );
+            logParameter( nIndex, time );
         }
         catch( SQLException e )
         {
@@ -518,6 +524,7 @@ public class DAOUtil
         try
         {
             _statement.setTime( nIndex, time, calendar );
+            logParameter( nIndex, time );
         }
         catch( SQLException e )
         {
@@ -828,11 +835,7 @@ public class DAOUtil
         try
         {
             _statement.setInt( nIndex, nValue );
-
-            if ( _logger.isDebugEnabled( ) )
-            {
-                logParameter( nIndex, nValue );
-            }
+            logParameter( nIndex, nValue );
         }
         catch( SQLException e )
         {
@@ -855,6 +858,7 @@ public class DAOUtil
         {
             // _statement.setBoolean( nIndex, bValue.booleanValue( ) );
             _statement.setInt( nIndex, ( bValue ) ? 1 : 0 );
+            logParameter( nIndex, bValue );
         }
         catch( SQLException e )
         {
@@ -878,7 +882,8 @@ public class DAOUtil
         try
         {
             _statement.setByte( nIndex, bValue );
-        }
+             logParameter( nIndex, bValue );
+       }
         catch( SQLException e )
         {
             free( );
@@ -920,11 +925,7 @@ public class DAOUtil
         try
         {
             _statement.setString( nIndex, strValue );
-
-            if ( _logger.isDebugEnabled( ) )
-            {
-                logParameter( nIndex, strValue );
-            }
+            logParameter( nIndex, strValue );
         }
         catch( SQLException e )
         {
@@ -946,6 +947,7 @@ public class DAOUtil
         try
         {
             _statement.setTimestamp( nIndex, ts );
+            logParameter( nIndex, ts );
         }
         catch( SQLException e )
         {
@@ -971,6 +973,7 @@ public class DAOUtil
         try
         {
             _statement.setTimestamp( nIndex, ts, calendar );
+            logParameter( nIndex, ts );
         }
         catch( SQLException e )
         {
@@ -992,6 +995,7 @@ public class DAOUtil
         try
         {
             _statement.setDouble( nIndex, dValue );
+            logParameter( nIndex, dValue );
         }
         catch( SQLException e )
         {
@@ -1011,6 +1015,7 @@ public class DAOUtil
         try
         {
             _statement.setNull( nIndex, Types.DOUBLE );
+            logParameter( nIndex, "null" );
         }
         catch( SQLException e )
         {
@@ -1253,7 +1258,7 @@ public class DAOUtil
     {
         try
         {
-            return ( _resultSet.getInt( nIndex ) == 0 ) ? false : true;
+            return ( _resultSet.getInt( nIndex ) != 0 );
         }
         catch( SQLException e )
         {
@@ -1274,7 +1279,7 @@ public class DAOUtil
     {
         try
         {
-            return ( _resultSet.getInt( strColumnName ) == 0 ) ? false : true;
+            return ( _resultSet.getInt( strColumnName ) != 0 );
         }
         catch( SQLException e )
         {
@@ -1778,6 +1783,7 @@ public class DAOUtil
         try
         {
             _statement.setNull( nIndex, Types.INTEGER );
+            logParameter( nIndex, "null" );
         }
         catch( SQLException e )
         {
@@ -1797,6 +1803,7 @@ public class DAOUtil
         try
         {
             _statement.setNull( nIndex, Types.BIGINT );
+            logParameter( nIndex, "null" );
         }
         catch( SQLException e )
         {
@@ -1818,6 +1825,7 @@ public class DAOUtil
         try
         {
             _statement.setLong( nIndex, lValue );
+            logParameter( nIndex, lValue );
         }
         catch( SQLException e )
         {
@@ -2089,6 +2097,7 @@ public class DAOUtil
         try
         {
             _statement.setBigDecimal( nIndex, value );
+            logParameter( nIndex, value );
         }
         catch( SQLException e )
         {
@@ -2503,6 +2512,7 @@ public class DAOUtil
         try
         {
             _statement.setFloat( nIndex, fValue );
+            logParameter( nIndex, fValue );
         }
         catch( SQLException e )
         {
@@ -2729,6 +2739,7 @@ public class DAOUtil
         try
         {
             _statement.setNull( nIndex, nType );
+            logParameter( nIndex, "null" );
         }
         catch( SQLException e )
         {
@@ -2754,6 +2765,7 @@ public class DAOUtil
         try
         {
             _statement.setNull( nIndex, nType, strTypeName );
+            logParameter( nIndex, "null" );
         }
         catch( SQLException e )
         {
@@ -2777,6 +2789,7 @@ public class DAOUtil
         try
         {
             _statement.setObject( nIndex, value );
+            logParameter( nIndex, value );
         }
         catch( SQLException e )
         {
@@ -2802,6 +2815,7 @@ public class DAOUtil
         try
         {
             _statement.setObject( nIndex, value, nType );
+            logParameter( nIndex, value );
         }
         catch( SQLException e )
         {
@@ -2829,6 +2843,7 @@ public class DAOUtil
         try
         {
             _statement.setObject( nIndex, value, nType, nScaleOrLength );
+            logParameter( nIndex, value );
         }
         catch( SQLException e )
         {
@@ -2896,6 +2911,7 @@ public class DAOUtil
         try
         {
             _statement.setRef( nIndex, ref );
+            logParameter( nIndex, ref );
         }
         catch( SQLException e )
         {
@@ -2919,6 +2935,7 @@ public class DAOUtil
         try
         {
             _statement.setRowId( nIndex, rowId );
+            logParameter( nIndex, rowId );
         }
         catch( SQLException e )
         {
@@ -2986,6 +3003,7 @@ public class DAOUtil
         try
         {
             _statement.setShort( nIndex, shortValue );
+            logParameter( nIndex, shortValue );
         }
         catch( SQLException e )
         {
@@ -3053,6 +3071,7 @@ public class DAOUtil
         try
         {
             _statement.setSQLXML( nIndex, value );
+            logParameter( nIndex, value );
         }
         catch( SQLException e )
         {
@@ -3120,6 +3139,7 @@ public class DAOUtil
         try
         {
             _statement.setURL( nIndex, url );
+            logParameter( nIndex, url );
         }
         catch( SQLException e )
         {
