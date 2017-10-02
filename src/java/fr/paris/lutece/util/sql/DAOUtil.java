@@ -269,8 +269,6 @@ public class DAOUtil
      */
     private String getErrorMessage( Exception e )
     {
-        free( );
-
         StringBuilder sbError = new StringBuilder( "DAOUtil error : " );
         sbError.append( e.getMessage( ) );
         sbError.append( " - SQL statement : " );
