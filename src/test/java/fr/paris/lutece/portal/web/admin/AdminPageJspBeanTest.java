@@ -41,11 +41,13 @@ import org.springframework.mock.web.MockHttpServletRequest;
 import fr.paris.lutece.portal.business.page.Page;
 import fr.paris.lutece.portal.business.page.PageHome;
 import fr.paris.lutece.portal.business.style.PageTemplateHome;
+import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.page.IPageService;
 import fr.paris.lutece.portal.service.portal.PortalService;
+import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.test.LuteceTestCase;
@@ -54,137 +56,140 @@ import fr.paris.lutece.util.ReferenceList;
 
 public class AdminPageJspBeanTest extends LuteceTestCase
 {
-    public void testGetRemovePage( )
+    private String _randomPageName;
+    private Page _page;
+    private AdminPageJspBean _bean;
+
+    @Override
+    protected void setUp( ) throws Exception
     {
-        AdminPageJspBean bean = new AdminPageJspBean( );
-        MockHttpServletRequest request = new MockHttpServletRequest( );
-        // no args
-        bean.getRemovePage( request );
-        AdminMessage message = AdminMessageService.getMessage( request );
-        assertNotNull( message );
-        assertEquals( AdminMessage.TYPE_ERROR, message.getType( ) );
-        // not a number
-        request = new MockHttpServletRequest( );
-        request.addParameter( Parameters.PAGE_ID, "foo" );
-        bean.getRemovePage( request );
-        message = AdminMessageService.getMessage( request );
-        assertNotNull( message );
-        assertEquals( AdminMessage.TYPE_ERROR, message.getType( ) );
-        // not an existing page
-        request = new MockHttpServletRequest( );
-        request.addParameter( Parameters.PAGE_ID, Integer.toString( 314159265 ) );
-        bean.getRemovePage( request );
-        message = AdminMessageService.getMessage( request );
-        assertNotNull( message );
-        assertEquals( AdminMessage.TYPE_ERROR, message.getType( ) );
-        // valid page
-        String randomPageName = "page" + new SecureRandom( ).nextLong( );
-        Page page = null;
-        IPageService pageService = (IPageService) SpringContextService.getBean( "pageService" );
-        try
+        super.setUp( );
+        _randomPageName = "page" + new SecureRandom( ).nextLong( );
+        IPageService pageService = ( IPageService ) SpringContextService.getBean( "pageService" );
+        _page = new Page( );
+        _page.setParentPageId( PortalService.getRootPageId( ) );
+        _page.setPageTemplateId( PageTemplateHome.getPageTemplatesList( ).get( 0 ).getId( ) );
+        _page.setName( _randomPageName );
+        pageService.createPage( _page );
+        _bean = new AdminPageJspBean( );
+    }
+
+    @Override
+    protected void tearDown( )
+    {
+        IPageService pageService = ( IPageService ) SpringContextService.getBean( "pageService" );
+        if ( _page != null )
         {
-            page = new Page( );
-            page.setParentPageId( PortalService.getRootPageId( ) );
-            page.setPageTemplateId( PageTemplateHome.getPageTemplatesList( ).get( 0 ).getId( ) );
-            page.setName( randomPageName );
-            pageService.createPage( page );
-            request = new MockHttpServletRequest( );
-            request.addParameter( Parameters.PAGE_ID, Integer.toString( page.getId( ) ) );
-            bean.getRemovePage( request );
-            message = AdminMessageService.getMessage( request );
-            assertNotNull( message );
-            assertEquals( AdminMessage.TYPE_CONFIRMATION, message.getType( ) );
-            ReferenceList listLanguages = I18nService.getAdminLocales( Locale.FRANCE );
-            for ( ReferenceItem lang : listLanguages )
+            try
             {
-                assertTrue( message.getText( new Locale( lang.getCode( ) ) ).contains( randomPageName ) );
+                pageService.removePage( _page.getId( ) );
             }
-        }
-        finally
-        {
-            if ( page != null )
+            finally
             {
-                try
-                {
-                    pageService.removePage( page.getId( ) );
-                }
-                finally
-                {
-                }
             }
         }
     }
 
-    public void testDoRemovePage( )
+    public void testGetRemovePageNoArgs( )
     {
-        AdminPageJspBean bean = new AdminPageJspBean( );
         MockHttpServletRequest request = new MockHttpServletRequest( );
-        // no args
-        bean.doRemovePage( request );
+        _bean.getRemovePage( request );
         AdminMessage message = AdminMessageService.getMessage( request );
         assertNotNull( message );
         assertEquals( AdminMessage.TYPE_ERROR, message.getType( ) );
-        // not a number
-        request = new MockHttpServletRequest( );
+    }
+
+    public void testGetRemovePageNotANumber( )
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
         request.addParameter( Parameters.PAGE_ID, "foo" );
-        bean.doRemovePage( request );
-        message = AdminMessageService.getMessage( request );
+        _bean.getRemovePage( request );
+        AdminMessage message = AdminMessageService.getMessage( request );
         assertNotNull( message );
         assertEquals( AdminMessage.TYPE_ERROR, message.getType( ) );
-        // not an existing page
-        request = new MockHttpServletRequest( );
+    }
+
+    public void testGetRemovePageNotExisting( )
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
         request.addParameter( Parameters.PAGE_ID, Integer.toString( 314159265 ) );
-        bean.doRemovePage( request );
-        message = AdminMessageService.getMessage( request );
+        _bean.getRemovePage( request );
+        AdminMessage message = AdminMessageService.getMessage( request );
         assertNotNull( message );
         assertEquals( AdminMessage.TYPE_ERROR, message.getType( ) );
-        // valid page with child
-        String randomPageName = "page" + new SecureRandom( ).nextLong( );
-        String childPageName = randomPageName + "-child";
-        Page page = null;
+    }
+
+    public void testGetRemovePage( )
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.addParameter( Parameters.PAGE_ID, Integer.toString( _page.getId( ) ) );
+        _bean.getRemovePage( request );
+        AdminMessage message = AdminMessageService.getMessage( request );
+        assertNotNull( message );
+        assertNotNull( message.getRequestParameters( ).get( SecurityTokenService.PARAMETER_TOKEN ) );
+        assertEquals( AdminMessage.TYPE_CONFIRMATION, message.getType( ) );
+        ReferenceList listLanguages = I18nService.getAdminLocales( Locale.FRANCE );
+        for ( ReferenceItem lang : listLanguages )
+        {
+            assertTrue( message.getText( new Locale( lang.getCode( ) ) ).contains( _randomPageName ) );
+        }
+    }
+
+    public void testDoRemovePageNoArgs( ) throws AccessDeniedException
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        _bean.doRemovePage( request );
+        AdminMessage message = AdminMessageService.getMessage( request );
+        assertNotNull( message );
+        assertEquals( AdminMessage.TYPE_ERROR, message.getType( ) );
+    }
+
+    public void testDoRemovePageNotANumber( ) throws AccessDeniedException
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.addParameter( Parameters.PAGE_ID, "foo" );
+        _bean.doRemovePage( request );
+        AdminMessage message = AdminMessageService.getMessage( request );
+        assertNotNull( message );
+        assertEquals( AdminMessage.TYPE_ERROR, message.getType( ) );
+    }
+
+    public void testDoRemovePageNotExisting( ) throws AccessDeniedException
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.addParameter( Parameters.PAGE_ID, Integer.toString( 314159265 ) );
+        _bean.doRemovePage( request );
+        AdminMessage message = AdminMessageService.getMessage( request );
+        assertNotNull( message );
+        assertEquals( AdminMessage.TYPE_ERROR, message.getType( ) );
+    }
+
+    public void testDoRemovePageWithChild( ) throws AccessDeniedException
+    {
+        String childPageName = _randomPageName + "-child";
         Page childPage = null;
-        IPageService pageService = (IPageService) SpringContextService.getBean( "pageService" );
+        IPageService pageService = ( IPageService ) SpringContextService.getBean( "pageService" );
         try
         {
-            page = new Page( );
-            page.setParentPageId( PortalService.getRootPageId( ) );
-            page.setPageTemplateId( PageTemplateHome.getPageTemplatesList( ).get( 0 ).getId( ) );
-            page.setName( randomPageName );
-            pageService.createPage( page );
             childPage = new Page( );
-            childPage.setParentPageId( page.getId( ) );
+            childPage.setParentPageId( _page.getId( ) );
             childPage.setPageTemplateId( PageTemplateHome.getPageTemplatesList( ).get( 0 ).getId( ) );
             childPage.setName( childPageName );
             pageService.createPage( childPage );
-            request = new MockHttpServletRequest( );
-            request.addParameter( Parameters.PAGE_ID, Integer.toString( page.getId( ) ) );
-            bean.doRemovePage( request );
-            message = AdminMessageService.getMessage( request );
+            MockHttpServletRequest request = new MockHttpServletRequest( );
+            request.addParameter( Parameters.PAGE_ID, Integer.toString( _page.getId( ) ) );
+            _bean.doRemovePage( request );
+            AdminMessage message = AdminMessageService.getMessage( request );
             assertNotNull( message );
             assertEquals( AdminMessage.TYPE_STOP, message.getType( ) );
             ReferenceList listLanguages = I18nService.getAdminLocales( Locale.FRANCE );
             for ( ReferenceItem lang : listLanguages )
             {
-                assertTrue( message.getText( new Locale( lang.getCode( ) ) ).contains( randomPageName ) );
+                assertTrue( message.getText( new Locale( lang.getCode( ) ) ).contains( _randomPageName ) );
             }
-            // valid page without child
-            request = new MockHttpServletRequest( );
-            request.addParameter( Parameters.PAGE_ID, Integer.toString( childPage.getId( ) ) );
-            bean.doRemovePage( request );
-            assertFalse( PageHome.checkPageExist( childPage.getId( ) ) );
         }
         finally
         {
-            if ( page != null )
-            {
-                try
-                {
-                    pageService.removePage( page.getId( ) );
-                }
-                finally
-                {
-                }
-            }
             if ( childPage != null )
             {
                 try
@@ -195,6 +200,48 @@ public class AdminPageJspBeanTest extends LuteceTestCase
                 {
                 }
             }
+        }
+    }
+
+    public void testDoRemovePage( ) throws AccessDeniedException
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.addParameter( Parameters.PAGE_ID, Integer.toString( _page.getId( ) ) );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/site/DoRemovePage.jsp" ) );
+        _bean.doRemovePage( request );
+        assertFalse( PageHome.checkPageExist( _page.getId( ) ) );
+    }
+
+    public void testDoRemovePageNoToken( ) throws AccessDeniedException
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.addParameter( Parameters.PAGE_ID, Integer.toString( _page.getId( ) ) );
+        try
+        {
+            _bean.doRemovePage( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            assertTrue( PageHome.checkPageExist( _page.getId( ) ) );
+        }
+    }
+
+    public void testDoRemovePageInvalidToken( ) throws AccessDeniedException
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.addParameter( Parameters.PAGE_ID, Integer.toString( _page.getId( ) ) );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/site/DoRemovePage.jsp" ) + "b" );
+        try
+        {
+            _bean.doRemovePage( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            assertTrue( PageHome.checkPageExist( _page.getId( ) ) );
         }
     }
 }
