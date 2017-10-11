@@ -41,6 +41,7 @@ import fr.paris.lutece.portal.business.role.RoleHome;
 import fr.paris.lutece.portal.business.style.PageTemplate;
 import fr.paris.lutece.portal.business.style.PageTemplateHome;
 import fr.paris.lutece.portal.business.user.AdminUser;
+import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.content.ContentPostProcessorService;
 import fr.paris.lutece.portal.service.content.ContentService;
 import fr.paris.lutece.portal.service.fileupload.FileUploadService;
@@ -55,6 +56,7 @@ import fr.paris.lutece.portal.service.portal.PortalService;
 import fr.paris.lutece.portal.service.portal.ThemesService;
 import fr.paris.lutece.portal.service.portlet.PortletResourceIdService;
 import fr.paris.lutece.portal.service.rbac.RBACService;
+import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.security.UserNotSignedException;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
@@ -308,12 +310,13 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
         {
             return AdminMessageService.getMessageUrl( request, MESSAGE_INVALID_PAGE_ID, AdminMessage.TYPE_ERROR );
         }
-        UrlItem url = new UrlItem( JSP_REMOVE_PAGE );
-        url.addParameter( Parameters.PAGE_ID, strPageId );
+        Map<String, Object> parameters = new HashMap<>( );
+        parameters.put( Parameters.PAGE_ID, strPageId );
+        parameters.put( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, JSP_REMOVE_PAGE ) );
 
         return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_CONFIRM_REMOVE_PAGE, new Object [ ] {
             page.getName( )
-        }, url.getUrl( ), AdminMessage.TYPE_CONFIRMATION );
+        }, null, JSP_REMOVE_PAGE, null, AdminMessage.TYPE_CONFIRMATION, parameters );
     }
 
     /**
@@ -322,8 +325,9 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
      * @param request
      *            The http request
      * @return The jsp url result of the process
+     * @throws AccessDeniedException if the security token is invalid
      */
-    public String doRemovePage( HttpServletRequest request )
+    public String doRemovePage( HttpServletRequest request ) throws AccessDeniedException
     {
         String strPageId = request.getParameter( Parameters.PAGE_ID );
         if ( !StringUtils.isNumeric( strPageId ) )
@@ -344,6 +348,10 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
             return AdminMessageService.getMessageUrl( request, MESSAGE_CANNOT_REMOVE_CHILDPAGE_EXISTS, new Object [ ] {
                     page.getName( ), list.size( )
             }, JSP_PATH + getUrlPage( nPageId ), AdminMessage.TYPE_STOP );
+        }
+        if ( !SecurityTokenService.getInstance( ).validate( request, JSP_REMOVE_PAGE ) )
+        {
+            throw new AccessDeniedException( "Invalid CSRF token" );
         }
 
         int nParentPageId = page.getParentPageId( );
