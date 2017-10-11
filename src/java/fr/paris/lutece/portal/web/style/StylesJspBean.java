@@ -268,6 +268,7 @@ public class StylesJspBean extends AdminFeaturesPageJspBean
         model.put( MARK_STYLE, StyleHome.findByPrimaryKey( nStyleId ) );
         model.put( MARK_PORTLET_TYPE_LIST, PortletTypeHome.getPortletsTypesList( getLocale( ) ) );
         model.put( MARK_PORTAL_COMPONENT_LIST, StyleHome.getPortalComponentList( ) );
+        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MODIFY_STYLE ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_STYLE, getLocale( ), model );
 
@@ -275,13 +276,16 @@ public class StylesJspBean extends AdminFeaturesPageJspBean
     }
 
     /**
-     * Processes the updating form of a style whose new parameters are stored in the http request
+     * Processes the updating form of a style whose new parameters are stored in
+     * the http request
      * 
      * @param request
      *            The http request
      * @return The Jsp URL of the process result
+     * @throws AccessDeniedException
+     *             if the security token is invalid
      */
-    public String doModifyStyle( HttpServletRequest request )
+    public String doModifyStyle( HttpServletRequest request ) throws AccessDeniedException
     {
         int nStyleId = Integer.parseInt( request.getParameter( Parameters.STYLE_ID ) );
 
@@ -304,6 +308,10 @@ public class StylesJspBean extends AdminFeaturesPageJspBean
                 && ( nPortalComponentId != nPortalComponentOld ) )
         {
             return AdminMessageService.getMessageUrl( request, MESSAGE_CREATE_STYLE_COMPONENT_EXISTS, AdminMessage.TYPE_STOP );
+        }
+        if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_MODIFY_STYLE ) )
+        {
+            throw new AccessDeniedException( "Invalid Security token" );
         }
 
         style.setPortletTypeId( strPortletTypeId );
