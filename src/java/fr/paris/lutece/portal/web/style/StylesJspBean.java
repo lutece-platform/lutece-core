@@ -39,8 +39,10 @@ import fr.paris.lutece.portal.business.portlet.PortletTypeHome;
 import fr.paris.lutece.portal.business.style.Style;
 import fr.paris.lutece.portal.business.style.StyleHome;
 import fr.paris.lutece.portal.business.stylesheet.StyleSheet;
+import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
+import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
@@ -179,6 +181,7 @@ public class StylesJspBean extends AdminFeaturesPageJspBean
         Map<String, Object> model = new HashMap<String, Object>( );
         model.put( MARK_PORTLET_TYPE_LIST, PortletTypeHome.getPortletsTypesList( getLocale( ) ) );
         model.put( MARK_PORTAL_COMPONENT_LIST, StyleHome.getPortalComponentList( ) );
+        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_CREATE_STYLE ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CREATE_STYLE, getLocale( ), model );
 
@@ -186,13 +189,16 @@ public class StylesJspBean extends AdminFeaturesPageJspBean
     }
 
     /**
-     * Processes the creation form of a new style by recovering the parameters in the http request
+     * Processes the creation form of a new style by recovering the parameters
+     * in the http request
      * 
      * @param request
      *            the http request
      * @return The Jsp URL of the process result
+     * @throws AccessDeniedException
+     *             If the security token is invalid
      */
-    public String doCreateStyle( HttpServletRequest request )
+    public String doCreateStyle( HttpServletRequest request ) throws AccessDeniedException
     {
         String strId = request.getParameter( Parameters.STYLE_ID );
 
@@ -225,6 +231,11 @@ public class StylesJspBean extends AdminFeaturesPageJspBean
         if ( StyleHome.checkStylePortalComponent( nPortalComponentId ) && ( nPortalComponentId != PORTAL_COMPONENT_ID_PORTLET ) )
         {
             return AdminMessageService.getMessageUrl( request, MESSAGE_CREATE_STYLE_COMPONENT_EXISTS, AdminMessage.TYPE_STOP );
+        }
+
+        if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_CREATE_STYLE ) )
+        {
+            throw new AccessDeniedException( "Invalid security token" );
         }
 
         // The style doesn't exist in the database, we can create it

@@ -4,6 +4,7 @@
 			<@boxHeader title='#i18n{portal.style.create_style.title}' />
 			<@boxBody>
 				<@tform method='post' name='create_style' action='jsp/admin/style/DoCreateStyle.jsp'>
+					<input type="hidden" name="token" value="${token}">
 					<@formGroup labelKey='#i18n{portal.style.create_style.labelId}' labelFor='style_id' mandatory=true>
 						<@input type='text' name='style_id' id='style_id' inputSize=5 maxlength=10 />
 					</@formGroup>

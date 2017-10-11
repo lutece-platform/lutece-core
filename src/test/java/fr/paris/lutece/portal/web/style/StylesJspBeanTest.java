@@ -33,11 +33,19 @@
  */
 package fr.paris.lutece.portal.web.style;
 
+import java.math.BigInteger;
+import java.security.SecureRandom;
+import java.util.Random;
+
 import org.springframework.mock.web.MockHttpServletRequest;
 
+import fr.paris.lutece.portal.business.style.Style;
 import fr.paris.lutece.portal.business.style.StyleHome;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
+import fr.paris.lutece.portal.service.message.AdminMessage;
+import fr.paris.lutece.portal.service.message.AdminMessageService;
+import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.Utils;
@@ -48,6 +56,28 @@ import fr.paris.lutece.test.Utils;
  */
 public class StylesJspBeanTest extends LuteceTestCase
 {
+    private StylesJspBean instance;
+
+    @Override
+    protected void setUp( ) throws Exception
+    {
+        super.setUp( );
+        instance = new StylesJspBean( );
+    }
+
+    @Override
+    protected void tearDown( ) throws Exception
+    {
+        super.tearDown( );
+    }
+
+    private String getRandomName( )
+    {
+        Random rand = new SecureRandom( );
+        BigInteger bigInt = new BigInteger( 128, rand );
+        return "junit" + bigInt.toString( 36 );
+    }
+
     /**
      * Test of getStylesManagement method, of class fr.paris.lutece.portal.web.style.StylesJspBean.
      */
@@ -58,34 +88,106 @@ public class StylesJspBeanTest extends LuteceTestCase
         MockHttpServletRequest request = new MockHttpServletRequest( );
         Utils.registerAdminUserWithRigth( request, new AdminUser( ), StylesJspBean.RIGHT_MANAGE_STYLE );
 
-        StylesJspBean instance = new StylesJspBean( );
         instance.init( request, StylesJspBean.RIGHT_MANAGE_STYLE );
         instance.getStylesManagement( request );
     }
 
     /**
-     * Test of getCreateStyle method, of class fr.paris.lutece.portal.web.style.StylesJspBean.
+     * Test of getCreateStyle method, of class
+     * fr.paris.lutece.portal.web.style.StylesJspBean.
      */
     public void testGetCreateStyle( ) throws AccessDeniedException
     {
-        System.out.println( "getCreateStyle" );
-
         MockHttpServletRequest request = new MockHttpServletRequest( );
         Utils.registerAdminUserWithRigth( request, new AdminUser( ), StylesJspBean.RIGHT_MANAGE_STYLE );
 
-        StylesJspBean instance = new StylesJspBean( );
         instance.init( request, StylesJspBean.RIGHT_MANAGE_STYLE );
-        instance.getCreateStyle( request );
+        String html = instance.getCreateStyle( request );
+        assertNotNull( html );
     }
 
     /**
-     * Test of doCreateStyle method, of fr.paris.lutece.portal.web.style.StylesJspBean.
+     * Test of doCreateStyle method, of
+     * fr.paris.lutece.portal.web.style.StylesJspBean.
+     * 
+     * @throws AccessDeniedException
      */
-    public void testDoCreateStyle( )
+    public void testDoCreateStyle( ) throws AccessDeniedException
     {
-        System.out.println( "doCreateStyle" );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        int id = StyleHome.getStylesList( ).stream( ).map( style -> style.getId( ) ).max( Integer::max ).get( ) + 1;
+        request.addParameter( Parameters.STYLE_ID, Integer.toString( id ) );
+        String name = getRandomName( );
+        request.addParameter( Parameters.STYLE_NAME, name );
+        String portalComponantId = "1";
+        request.addParameter( Parameters.PORTAL_COMPONENT, portalComponantId );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "admin/style/create_style.html" ) );
+        try
+        {
+            instance.doCreateStyle( request );
+            AdminMessage message = AdminMessageService.getMessage( request );
+            assertNull( message );
+            Style style = StyleHome.findByPrimaryKey( id );
+            assertNotNull( style );
+            assertEquals( id, style.getId( ) );
+        }
+        finally
+        {
+            StyleHome.remove( id );
+        }
+    }
 
-        // Not implemented yet
+    public void testDoCreateStyleInvalidToken( ) throws AccessDeniedException
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        int id = StyleHome.getStylesList( ).stream( ).map( style -> style.getId( ) ).max( Integer::max ).get( ) + 1;
+        request.addParameter( Parameters.STYLE_ID, Integer.toString( id ) );
+        String name = getRandomName( );
+        request.addParameter( Parameters.STYLE_NAME, name );
+        String portalComponantId = "1";
+        request.addParameter( Parameters.PORTAL_COMPONENT, portalComponantId );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "admin/style/create_style.html" ) + "b" );
+        try
+        {
+            instance.doCreateStyle( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            Style style = StyleHome.findByPrimaryKey( id );
+            assertNull( style );
+        }
+        finally
+        {
+            StyleHome.remove( id );
+        }
+    }
+
+    public void testDoCreateStyleNoToken( ) throws AccessDeniedException
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        int id = StyleHome.getStylesList( ).stream( ).map( style -> style.getId( ) ).max( Integer::max ).get( ) + 1;
+        request.addParameter( Parameters.STYLE_ID, Integer.toString( id ) );
+        String name = getRandomName( );
+        request.addParameter( Parameters.STYLE_NAME, name );
+        String portalComponantId = "1";
+        request.addParameter( Parameters.PORTAL_COMPONENT, portalComponantId );
+        try
+        {
+            instance.doCreateStyle( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            Style style = StyleHome.findByPrimaryKey( id );
+            assertNull( style );
+        }
+        finally
+        {
+            StyleHome.remove( id );
+        }
     }
 
     /**
@@ -102,7 +204,6 @@ public class StylesJspBeanTest extends LuteceTestCase
             request.addParameter( Parameters.STYLE_ID, "" + nStyleId );
             Utils.registerAdminUserWithRigth( request, new AdminUser( ), StylesJspBean.RIGHT_MANAGE_STYLE );
 
-            StylesJspBean instance = new StylesJspBean( );
             instance.init( request, StylesJspBean.RIGHT_MANAGE_STYLE );
             instance.getModifyStyle( request );
         }
@@ -132,7 +233,6 @@ public class StylesJspBeanTest extends LuteceTestCase
             request.addParameter( Parameters.STYLE_ID, "" + nStyleId );
             Utils.registerAdminUserWithRigth( request, new AdminUser( ), StylesJspBean.RIGHT_MANAGE_STYLE );
 
-            StylesJspBean instance = new StylesJspBean( );
             instance.init( request, StylesJspBean.RIGHT_MANAGE_STYLE );
             instance.getConfirmRemoveStyle( request );
         }
