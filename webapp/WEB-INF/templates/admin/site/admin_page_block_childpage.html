@@ -9,7 +9,7 @@
 				<@tform method='post'  action='jsp/admin/site/DoCreateChildPage.jsp' params='enctype="multipart/form-data"'>
 					<input type="hidden" name="page_id" value="${page.id}">
 					<input type="hidden" name="node_status" value="1">
-
+					<input type="hidden" name="token" value="${token}">
 					<@row>
 						<@columns sm=6 md=4 lg=4 id='create'>
 							<@box color='default box-solid'>

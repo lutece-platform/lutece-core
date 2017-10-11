@@ -369,13 +369,16 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
     }
 
     /**
-     * Processes the creation of a child page to the page whose identifier is stored in the http request
+     * Processes the creation of a child page to the page whose identifier is
+     * stored in the http request
      *
      * @param request
      *            The http request
      * @return The jsp url result of the process
+     * @throws AccessDeniedException
+     *             If the security token is invalid
      */
-    public String doCreateChildPage( HttpServletRequest request )
+    public String doCreateChildPage( HttpServletRequest request ) throws AccessDeniedException
     {
         MultipartHttpServletRequest mRequest = (MultipartHttpServletRequest) request;
 
@@ -390,6 +393,10 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
         if ( strErrorUrl != null )
         {
             return strErrorUrl;
+        }
+        if ( !SecurityTokenService.getInstance( ).validate( mRequest, TEMPLATE_ADMIN_PAGE_BLOCK_CHILDPAGE ) )
+        {
+            throw new AccessDeniedException( "Invalid security token" );
         }
 
         // Create the page
