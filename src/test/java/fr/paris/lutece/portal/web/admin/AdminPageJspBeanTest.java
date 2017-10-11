@@ -315,7 +315,8 @@ public class AdminPageJspBeanTest extends LuteceTestCase
         Utils.registerAdminUserWithRigth( request, _adminUser, AdminPageJspBean.RIGHT_MANAGE_ADMIN_SITE );
         _bean.init( request, AdminPageJspBean.RIGHT_MANAGE_ADMIN_SITE );
         request.addParameter( "param_block", "2" );
-        _bean.getAdminPage( request );
+        String html = _bean.getAdminPage( request );
+        assertNotNull( html );
     }
 
     public void testDoModifyPage( ) throws AccessDeniedException, SizeLimitExceededException, FileUploadException
@@ -403,7 +404,8 @@ public class AdminPageJspBeanTest extends LuteceTestCase
         Utils.registerAdminUserWithRigth( request, _adminUser, AdminPageJspBean.RIGHT_MANAGE_ADMIN_SITE );
         _bean.init( request, AdminPageJspBean.RIGHT_MANAGE_ADMIN_SITE );
         request.addParameter( "param_block", "5" );
-        _bean.getAdminPage( request );
+        String html = _bean.getAdminPage( request );
+        assertNotNull( html );
     }
 
     public void testDoCreateChildPage( )
