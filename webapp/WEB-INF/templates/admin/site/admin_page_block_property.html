@@ -8,7 +8,7 @@
 			<@boxBody>
 				<@tform method='post'  action='jsp/admin/site/DoModifyPage.jsp' params='enctype="multipart/form-data"'>
 					<input type="hidden" name="page_id" value="${page.id}">
-
+					<input type="hidden" name="token" value="${token}">
 					<@row>
 						<#if authorization != "1">    
 							<@columns sm=6 md=4 lg=4 id='create'>

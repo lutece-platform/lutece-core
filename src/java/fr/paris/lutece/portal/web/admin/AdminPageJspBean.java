@@ -213,8 +213,10 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
      * @param request
      *            The http request
      * @return The jsp url result of the process
+     * @throws AccessDeniedException
+     *             if the security token is invalid
      */
-    public String doModifyPage( HttpServletRequest request )
+    public String doModifyPage( HttpServletRequest request ) throws AccessDeniedException
     {
         MultipartHttpServletRequest mRequest = (MultipartHttpServletRequest) request;
         int nPageId = Integer.parseInt( mRequest.getParameter( Parameters.PAGE_ID ) );
@@ -241,22 +243,6 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
             }
         }
 
-        // set the authorization node
-        if ( page.getNodeStatus( ) != 0 )
-        {
-            Page parentPage = PageHome.getPage( page.getParentPageId( ) );
-            page.setIdAuthorizationNode( parentPage.getIdAuthorizationNode( ) );
-        }
-        else
-        {
-            page.setIdAuthorizationNode( page.getId( ) );
-        }
-
-        if ( ( page.getIdAuthorizationNode( ) == null ) || !page.getIdAuthorizationNode( ).equals( nOldAutorisationNode ) )
-        {
-            PageService.updateChildrenAuthorizationNode( page.getId( ), page.getIdAuthorizationNode( ) );
-        }
-
         String strUpdatePicture = mRequest.getParameter( PARAMETER_PAGE_TEMPLATE_UPDATE_IMAGE );
         FileItem item = mRequest.getFile( PARAMETER_IMAGE_CONTENT );
 
@@ -273,6 +259,26 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
             {
                 bUpdatePicture = true;
             }
+        }
+
+        if ( !SecurityTokenService.getInstance( ).validate( mRequest, TEMPLATE_ADMIN_PAGE_BLOCK_PROPERTY ) )
+        {
+            throw new AccessDeniedException( "Invalid security token" );
+        }
+        // set the authorization node
+        if ( page.getNodeStatus( ) != 0 )
+        {
+            Page parentPage = PageHome.getPage( page.getParentPageId( ) );
+            page.setIdAuthorizationNode( parentPage.getIdAuthorizationNode( ) );
+        }
+        else
+        {
+            page.setIdAuthorizationNode( page.getId( ) );
+        }
+
+        if ( ( page.getIdAuthorizationNode( ) == null ) || !page.getIdAuthorizationNode( ).equals( nOldAutorisationNode ) )
+        {
+            PageService.updateChildrenAuthorizationNode( page.getId( ), page.getIdAuthorizationNode( ) );
         }
 
         if ( bUpdatePicture )
@@ -494,7 +500,7 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
 
             case BLOCK_PROPERTY:
             case BLOCK_CHILDPAGE:
-                model.put( MARK_PAGE_BLOCK, getAdminPageBlockProperty( page, nParamBlock, model ) );
+                model.put( MARK_PAGE_BLOCK, getAdminPageBlockProperty( page, nParamBlock, model, request ) );
 
                 break;
 
@@ -521,10 +527,12 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
      * @param nParamBlock
      *            The id parameter to display
      * @param model
-     *            The HashMap
+     *            The model
+     * @param request
+     *            The request
      * @return The management page of a page
      */
-    private String getAdminPageBlockProperty( Page page, int nParamBlock, Map model )
+    private String getAdminPageBlockProperty( Page page, int nParamBlock, Map<String, Object> model, HttpServletRequest request )
     {
         model.put( MARK_PAGE, page );
         model.put( MARK_PAGE_INIT_ID, page.getId( ) );
@@ -561,6 +569,7 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
         {
             strTemplate = TEMPLATE_ADMIN_PAGE_BLOCK_CHILDPAGE;
         }
+        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, strTemplate ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( strTemplate, getLocale( ), model );
 
