@@ -1,6 +1,6 @@
 <#if portletType.createScriptTemplate != "" ><#include portletType.createScriptTemplate! /></#if>
 	
-	<@tform method='post' name='form' action='jsp/admin/${portletType.doCreateUrl}' params='target="_top"'>  
+	<@tform method='post' name='form' id='form-portlet' action='jsp/admin/${portletType.doCreateUrl}' params='target="_top"'>  
 		<input type="hidden" name="page_id" value="${portlet_page_id}">
 		<input type="hidden" name="portlet_type_id" value="${portletType.id}">
 		<fieldset>     
