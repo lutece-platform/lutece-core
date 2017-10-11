@@ -33,24 +33,38 @@
  */
 package fr.paris.lutece.portal.web.admin;
 
+import java.math.BigInteger;
 import java.security.SecureRandom;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
+import org.apache.commons.fileupload.FileUploadBase.SizeLimitExceededException;
+import org.apache.commons.fileupload.FileUploadException;
 import org.springframework.mock.web.MockHttpServletRequest;
 
 import fr.paris.lutece.portal.business.page.Page;
 import fr.paris.lutece.portal.business.page.PageHome;
+import fr.paris.lutece.portal.business.rbac.AdminRole;
+import fr.paris.lutece.portal.business.rbac.RBAC;
+import fr.paris.lutece.portal.business.rbac.RBACHome;
 import fr.paris.lutece.portal.business.style.PageTemplateHome;
+import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
+import fr.paris.lutece.portal.service.admin.PasswordResetException;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.page.IPageService;
+import fr.paris.lutece.portal.service.page.PageResourceIdService;
 import fr.paris.lutece.portal.service.portal.PortalService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.web.constants.Parameters;
+import fr.paris.lutece.portal.web.upload.MultipartHttpServletRequest;
 import fr.paris.lutece.test.LuteceTestCase;
+import fr.paris.lutece.test.Utils;
 import fr.paris.lutece.util.ReferenceItem;
 import fr.paris.lutece.util.ReferenceList;
 
@@ -59,6 +73,7 @@ public class AdminPageJspBeanTest extends LuteceTestCase
     private String _randomPageName;
     private Page _page;
     private AdminPageJspBean _bean;
+    private AdminUser _adminUser;
 
     @Override
     protected void setUp( ) throws Exception
@@ -70,12 +85,17 @@ public class AdminPageJspBeanTest extends LuteceTestCase
         _page.setParentPageId( PortalService.getRootPageId( ) );
         _page.setPageTemplateId( PageTemplateHome.getPageTemplatesList( ).get( 0 ).getId( ) );
         _page.setName( _randomPageName );
+        _page.setDescription( _randomPageName );
+        _page.setMetaKeywords( "" );
+        _page.setMetaDescription( "" );
+        _page.setNodeStatus( 1 );
         pageService.createPage( _page );
         _bean = new AdminPageJspBean( );
+        _adminUser = getAdminUser( );
     }
 
     @Override
-    protected void tearDown( )
+    protected void tearDown( ) throws Exception
     {
         IPageService pageService = ( IPageService ) SpringContextService.getBean( "pageService" );
         if ( _page != null )
@@ -87,6 +107,42 @@ public class AdminPageJspBeanTest extends LuteceTestCase
             finally
             {
             }
+        }
+        removeUser( _adminUser );
+        super.tearDown( );
+    }
+
+    private AdminUser getAdminUser( )
+    {
+        String strRoleKey = "ROLE_" + new BigInteger( 40, new SecureRandom( ) ).toString( 32 );
+        RBAC rbac = new RBAC( );
+        rbac.setResourceTypeKey( Page.RESOURCE_TYPE );
+        rbac.setPermissionKey( PageResourceIdService.PERMISSION_MANAGE );
+        rbac.setResourceId( RBAC.WILDCARD_RESOURCES_ID );
+        rbac.setRoleKey( strRoleKey );
+        RBACHome.create( rbac );
+        AdminRole role = new AdminRole( );
+        role.setKey( strRoleKey );
+        role.setDescription( strRoleKey );
+        AdminUser user = new AdminUser( );
+        Map<String, AdminRole> roles = new HashMap<>( );
+        roles.put( strRoleKey, role );
+        user.setRoles( roles );
+        return user;
+    }
+
+    /**
+     * Remove objects persisted with the test user
+     * 
+     * @param user
+     *            the test user
+     */
+    private void removeUser( AdminUser user )
+    {
+        Map<String, AdminRole> roles = user.getRoles( );
+        for ( String roleKey : roles.keySet( ) )
+        {
+            RBACHome.removeForRoleKey( roleKey );
         }
     }
 
@@ -242,6 +298,94 @@ public class AdminPageJspBeanTest extends LuteceTestCase
         catch ( AccessDeniedException e )
         {
             assertTrue( PageHome.checkPageExist( _page.getId( ) ) );
+        }
+    }
+
+    public void testGetAdminPageBlockProperty( ) throws PasswordResetException, AccessDeniedException
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        Utils.registerAdminUserWithRigth( request, _adminUser, AdminPageJspBean.RIGHT_MANAGE_ADMIN_SITE );
+        _bean.init( request, AdminPageJspBean.RIGHT_MANAGE_ADMIN_SITE );
+        request.addParameter( "param_block", "2" );
+        _bean.getAdminPage( request );
+    }
+
+    public void testDoModifyPage( ) throws AccessDeniedException, SizeLimitExceededException, FileUploadException
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        String descriptionMod = _page.getDescription( ) + "_mod";
+        assertEquals( _randomPageName, _page.getDescription( ) );
+        Map<String, String[ ]> parameters = new HashMap<>( );
+        parameters.put( Parameters.PAGE_ID, new String[ ] { Integer.toString( _page.getId( ) ) } );
+        parameters.put( Parameters.PAGE_DESCRIPTION, new String[ ] { descriptionMod } );
+        parameters.put( Parameters.PAGE_TEMPLATE_ID, new String[ ] { Integer.toString( _page.getPageTemplateId( ) ) } );
+        parameters.put( Parameters.META_KEYWORDS, new String[ ] { _page.getMetaKeywords( ) } );
+        parameters.put( Parameters.META_DESCRIPTION, new String[ ] { _page.getMetaDescription( ) } );
+        parameters.put( "node_status", new String[ ] { Integer.toString( _page.getNodeStatus( ) ) } );
+        parameters.put( Parameters.PAGE_NAME, new String[ ] { _page.getName( ) } );
+        parameters.put( Parameters.PARENT_ID, new String[ ] { Integer.toString( _page.getParentPageId( ) ) } );
+        parameters.put( SecurityTokenService.PARAMETER_TOKEN, new String[ ] { SecurityTokenService.getInstance( )
+                .getToken( request, "admin/site/admin_page_block_property.html" ) } );
+        _bean.doModifyPage( new MultipartHttpServletRequest( request, Collections.emptyMap( ), parameters ) );
+        AdminMessage message = AdminMessageService.getMessage( request );
+        assertNull( message );
+        Page page = PageHome.findByPrimaryKey( _page.getId( ) );
+        assertEquals( descriptionMod, page.getDescription( ) );
+    }
+
+    public void testDoModifyPageInvalidToken( )
+            throws AccessDeniedException, SizeLimitExceededException, FileUploadException
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        String descriptionMod = _page.getDescription( ) + "_mod";
+        assertEquals( _randomPageName, _page.getDescription( ) );
+        Map<String, String[ ]> parameters = new HashMap<>( );
+        parameters.put( Parameters.PAGE_ID, new String[ ] { Integer.toString( _page.getId( ) ) } );
+        parameters.put( Parameters.PAGE_DESCRIPTION, new String[ ] { descriptionMod } );
+        parameters.put( Parameters.PAGE_TEMPLATE_ID, new String[ ] { Integer.toString( _page.getPageTemplateId( ) ) } );
+        parameters.put( Parameters.META_KEYWORDS, new String[ ] { _page.getMetaKeywords( ) } );
+        parameters.put( Parameters.META_DESCRIPTION, new String[ ] { _page.getMetaDescription( ) } );
+        parameters.put( "node_status", new String[ ] { Integer.toString( _page.getNodeStatus( ) ) } );
+        parameters.put( Parameters.PAGE_NAME, new String[ ] { _page.getName( ) } );
+        parameters.put( Parameters.PARENT_ID, new String[ ] { Integer.toString( _page.getParentPageId( ) ) } );
+        parameters.put( SecurityTokenService.PARAMETER_TOKEN, new String[ ] {
+                SecurityTokenService.getInstance( ).getToken( request, "admin/site/admin_page_block_property.html" )
+                        + "b" } );
+        try
+        {
+            _bean.doModifyPage( new MultipartHttpServletRequest( request, Collections.emptyMap( ), parameters ) );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            Page page = PageHome.findByPrimaryKey( _page.getId( ) );
+            assertEquals( _randomPageName, page.getDescription( ) );
+        }
+    }
+
+    public void testDoModifyPageNoToken( ) throws AccessDeniedException, SizeLimitExceededException, FileUploadException
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        String descriptionMod = _page.getDescription( ) + "_mod";
+        assertEquals( _randomPageName, _page.getDescription( ) );
+        Map<String, String[ ]> parameters = new HashMap<>( );
+        parameters.put( Parameters.PAGE_ID, new String[ ] { Integer.toString( _page.getId( ) ) } );
+        parameters.put( Parameters.PAGE_DESCRIPTION, new String[ ] { descriptionMod } );
+        parameters.put( Parameters.PAGE_TEMPLATE_ID, new String[ ] { Integer.toString( _page.getPageTemplateId( ) ) } );
+        parameters.put( Parameters.META_KEYWORDS, new String[ ] { _page.getMetaKeywords( ) } );
+        parameters.put( Parameters.META_DESCRIPTION, new String[ ] { _page.getMetaDescription( ) } );
+        parameters.put( "node_status", new String[ ] { Integer.toString( _page.getNodeStatus( ) ) } );
+        parameters.put( Parameters.PAGE_NAME, new String[ ] { _page.getName( ) } );
+        parameters.put( Parameters.PARENT_ID, new String[ ] { Integer.toString( _page.getParentPageId( ) ) } );
+        try
+        {
+            _bean.doModifyPage( new MultipartHttpServletRequest( request, Collections.emptyMap( ), parameters ) );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            Page page = PageHome.findByPrimaryKey( _page.getId( ) );
+            assertEquals( _randomPageName, page.getDescription( ) );
         }
     }
 }
