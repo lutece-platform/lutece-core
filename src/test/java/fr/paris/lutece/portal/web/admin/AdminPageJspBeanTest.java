@@ -33,15 +33,21 @@
  */
 package fr.paris.lutece.portal.web.admin;
 
+import java.io.IOException;
 import java.math.BigInteger;
 import java.security.SecureRandom;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileUploadBase.SizeLimitExceededException;
 import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.springframework.mock.web.MockHttpServletRequest;
 
 import fr.paris.lutece.portal.business.page.Page;
@@ -102,6 +108,8 @@ public class AdminPageJspBeanTest extends LuteceTestCase
         {
             try
             {
+                Collection<Page> children = PageHome.getChildPages( _page.getId( ) );
+                children.stream( ).forEach( page -> pageService.removePage( page.getId( ) ) );
                 pageService.removePage( _page.getId( ) );
             }
             finally
@@ -386,6 +394,125 @@ public class AdminPageJspBeanTest extends LuteceTestCase
         {
             Page page = PageHome.findByPrimaryKey( _page.getId( ) );
             assertEquals( _randomPageName, page.getDescription( ) );
+        }
+    }
+
+    public void testGetAdminPageBlockChildPage( ) throws PasswordResetException, AccessDeniedException
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        Utils.registerAdminUserWithRigth( request, _adminUser, AdminPageJspBean.RIGHT_MANAGE_ADMIN_SITE );
+        _bean.init( request, AdminPageJspBean.RIGHT_MANAGE_ADMIN_SITE );
+        request.addParameter( "param_block", "5" );
+        _bean.getAdminPage( request );
+    }
+
+    public void testDoCreateChildPage( )
+            throws AccessDeniedException, SizeLimitExceededException, FileUploadException, IOException
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        Map<String, String[ ]> parameters = new HashMap<>( );
+        parameters.put( Parameters.PAGE_ID, new String[ ] { Integer.toString( _page.getId( ) ) } );
+        parameters.put( Parameters.PAGE_DESCRIPTION, new String[ ] { _page.getDescription( ) } );
+        parameters.put( Parameters.PAGE_TEMPLATE_ID, new String[ ] { Integer.toString( _page.getPageTemplateId( ) ) } );
+        parameters.put( Parameters.META_KEYWORDS, new String[ ] { _page.getMetaKeywords( ) } );
+        parameters.put( Parameters.META_DESCRIPTION, new String[ ] { _page.getMetaDescription( ) } );
+        parameters.put( "node_status", new String[ ] { Integer.toString( _page.getNodeStatus( ) ) } );
+        parameters.put( Parameters.PAGE_NAME, new String[ ] { _page.getName( ) + "_child" } );
+        parameters.put( Parameters.PARENT_ID, new String[ ] { Integer.toString( _page.getParentPageId( ) ) } );
+        parameters.put( SecurityTokenService.PARAMETER_TOKEN, new String[ ] { SecurityTokenService.getInstance( )
+                .getToken( request, "admin/site/admin_page_block_childpage.html" ) } );
+        Collection<Page> children = PageHome.getChildPages( _page.getId( ) );
+        assertNotNull( children );
+        assertTrue( children.isEmpty( ) );
+
+        Map<String, List<FileItem>> fileItems = new HashMap<>( );
+        List<FileItem> listItems = new ArrayList<>( );
+        FileItem pageImageFile = new DiskFileItemFactory( ).createItem( "image_content", "", false, "" );
+        pageImageFile.getOutputStream( ).write( new byte[ 1 ] );
+        listItems.add( pageImageFile );
+        fileItems.put( "image_content", listItems );
+        _bean.doCreateChildPage( new MultipartHttpServletRequest( request, fileItems, parameters ) );
+        AdminMessage message = AdminMessageService.getMessage( request );
+        assertNull( message );
+        children = PageHome.getChildPages( _page.getId( ) );
+        assertNotNull( children );
+        assertFalse( children.isEmpty( ) );
+        assertTrue( children.stream( ).allMatch( page -> page.getParentPageId( ) == _page.getId( )
+                && page.getName( ).equals( _page.getName( ) + "_child" ) ) );
+    }
+
+    public void testDoCreateChildPageInvalidToken( )
+            throws AccessDeniedException, SizeLimitExceededException, FileUploadException, IOException
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        Map<String, String[ ]> parameters = new HashMap<>( );
+        parameters.put( Parameters.PAGE_ID, new String[ ] { Integer.toString( _page.getId( ) ) } );
+        parameters.put( Parameters.PAGE_DESCRIPTION, new String[ ] { _page.getDescription( ) } );
+        parameters.put( Parameters.PAGE_TEMPLATE_ID, new String[ ] { Integer.toString( _page.getPageTemplateId( ) ) } );
+        parameters.put( Parameters.META_KEYWORDS, new String[ ] { _page.getMetaKeywords( ) } );
+        parameters.put( Parameters.META_DESCRIPTION, new String[ ] { _page.getMetaDescription( ) } );
+        parameters.put( "node_status", new String[ ] { Integer.toString( _page.getNodeStatus( ) ) } );
+        parameters.put( Parameters.PAGE_NAME, new String[ ] { _page.getName( ) + "_child" } );
+        parameters.put( Parameters.PARENT_ID, new String[ ] { Integer.toString( _page.getParentPageId( ) ) } );
+        parameters.put( SecurityTokenService.PARAMETER_TOKEN, new String[ ] {
+                SecurityTokenService.getInstance( ).getToken( request, "admin/site/admin_page_block_childpage.html" )
+                        + "b" } );
+        Collection<Page> children = PageHome.getChildPages( _page.getId( ) );
+        assertNotNull( children );
+        assertTrue( children.isEmpty( ) );
+
+        Map<String, List<FileItem>> fileItems = new HashMap<>( );
+        List<FileItem> listItems = new ArrayList<>( );
+        FileItem pageImageFile = new DiskFileItemFactory( ).createItem( "image_content", "", false, "" );
+        pageImageFile.getOutputStream( ).write( new byte[ 1 ] );
+        listItems.add( pageImageFile );
+        fileItems.put( "image_content", listItems );
+        try
+        {
+            _bean.doCreateChildPage( new MultipartHttpServletRequest( request, fileItems, parameters ) );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            children = PageHome.getChildPages( _page.getId( ) );
+            assertNotNull( children );
+            assertTrue( children.isEmpty( ) );
+        }
+    }
+
+    public void testDoCreateChildPageNoToken( )
+            throws AccessDeniedException, SizeLimitExceededException, FileUploadException, IOException
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        Map<String, String[ ]> parameters = new HashMap<>( );
+        parameters.put( Parameters.PAGE_ID, new String[ ] { Integer.toString( _page.getId( ) ) } );
+        parameters.put( Parameters.PAGE_DESCRIPTION, new String[ ] { _page.getDescription( ) } );
+        parameters.put( Parameters.PAGE_TEMPLATE_ID, new String[ ] { Integer.toString( _page.getPageTemplateId( ) ) } );
+        parameters.put( Parameters.META_KEYWORDS, new String[ ] { _page.getMetaKeywords( ) } );
+        parameters.put( Parameters.META_DESCRIPTION, new String[ ] { _page.getMetaDescription( ) } );
+        parameters.put( "node_status", new String[ ] { Integer.toString( _page.getNodeStatus( ) ) } );
+        parameters.put( Parameters.PAGE_NAME, new String[ ] { _page.getName( ) + "_child" } );
+        parameters.put( Parameters.PARENT_ID, new String[ ] { Integer.toString( _page.getParentPageId( ) ) } );
+        Collection<Page> children = PageHome.getChildPages( _page.getId( ) );
+        assertNotNull( children );
+        assertTrue( children.isEmpty( ) );
+
+        Map<String, List<FileItem>> fileItems = new HashMap<>( );
+        List<FileItem> listItems = new ArrayList<>( );
+        FileItem pageImageFile = new DiskFileItemFactory( ).createItem( "image_content", "", false, "" );
+        pageImageFile.getOutputStream( ).write( new byte[ 1 ] );
+        listItems.add( pageImageFile );
+        fileItems.put( "image_content", listItems );
+        try
+        {
+            _bean.doCreateChildPage( new MultipartHttpServletRequest( request, fileItems, parameters ) );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            children = PageHome.getChildPages( _page.getId( ) );
+            assertNotNull( children );
+            assertTrue( children.isEmpty( ) );
         }
     }
 }
