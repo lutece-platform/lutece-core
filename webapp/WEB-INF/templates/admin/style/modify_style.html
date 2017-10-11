@@ -4,6 +4,7 @@
 			<@boxHeader title='#i18n{portal.style.modify_style.title}' />
 			<@boxBody>
 				<@tform method='post' name='modify_style' action='jsp/admin/style/DoModifyStyle.jsp'>
+					<input type="hidden" name="token" value="${token}">
 					<@formGroup labelKey='#i18n{portal.style.modify_style.labelId}' labelFor='style_id' mandatory=true>
 						<@input type='text' name='style_id' id='style_id' readonly=true value='${style.id}' />
 					</@formGroup>
