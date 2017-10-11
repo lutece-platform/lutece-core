@@ -342,6 +342,84 @@ public class AdminPageJspBeanTest extends LuteceTestCase
         assertEquals( descriptionMod, page.getDescription( ) );
     }
 
+    public void testDoModifyPagePageDataError( )
+            throws AccessDeniedException, SizeLimitExceededException, FileUploadException
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        Map<String, String[ ]> parameters = new HashMap<>( );
+        parameters.put( Parameters.PAGE_ID, new String[ ] { Integer.toString( _page.getId( ) ) } );
+        parameters.put( Parameters.PAGE_DESCRIPTION, new String[ ] { _page.getDescription( ) } );
+        parameters.put( Parameters.PAGE_TEMPLATE_ID, new String[ ] { Integer.toString( _page.getPageTemplateId( ) ) } );
+        parameters.put( Parameters.META_KEYWORDS, new String[ ] { _page.getMetaKeywords( ) } );
+        parameters.put( Parameters.META_DESCRIPTION, new String[ ] { _page.getMetaDescription( ) } );
+        parameters.put( "node_status", new String[ ] { Integer.toString( _page.getNodeStatus( ) ) } );
+        // empty page name parameter
+        parameters.put( Parameters.PAGE_NAME, new String[ ] { "" } );
+        parameters.put( Parameters.PARENT_ID, new String[ ] { Integer.toString( _page.getParentPageId( ) ) } );
+        parameters.put( SecurityTokenService.PARAMETER_TOKEN, new String[ ] { SecurityTokenService.getInstance( )
+                .getToken( request, "admin/site/admin_page_block_property.html" ) } );
+        _bean.doModifyPage( new MultipartHttpServletRequest( request, Collections.emptyMap( ), parameters ) );
+        AdminMessage message = AdminMessageService.getMessage( request );
+        assertNotNull( message );
+        assertEquals( AdminMessage.TYPE_STOP, message.getType( ) );
+        Page page = PageHome.findByPrimaryKey( _page.getId( ) );
+        assertEquals( _randomPageName, page.getName( ) );
+    }
+
+    public void testDoModifyPageInexistentParentPage( )
+            throws AccessDeniedException, SizeLimitExceededException, FileUploadException
+    {
+        int origParentPageId = _page.getParentPageId( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        Map<String, String[ ]> parameters = new HashMap<>( );
+        parameters.put( Parameters.PAGE_ID, new String[ ] { Integer.toString( _page.getId( ) ) } );
+        parameters.put( Parameters.PAGE_DESCRIPTION, new String[ ] { _page.getDescription( ) } );
+        parameters.put( Parameters.PAGE_TEMPLATE_ID, new String[ ] { Integer.toString( _page.getPageTemplateId( ) ) } );
+        parameters.put( Parameters.META_KEYWORDS, new String[ ] { _page.getMetaKeywords( ) } );
+        parameters.put( Parameters.META_DESCRIPTION, new String[ ] { _page.getMetaDescription( ) } );
+        parameters.put( "node_status", new String[ ] { Integer.toString( _page.getNodeStatus( ) ) } );
+        parameters.put( Parameters.PAGE_NAME, new String[ ] { _page.getName( ) } );
+        parameters.put( Parameters.PARENT_ID, new String[ ] { "567894535" } );
+        parameters.put( SecurityTokenService.PARAMETER_TOKEN, new String[ ] { SecurityTokenService.getInstance( )
+                .getToken( request, "admin/site/admin_page_block_property.html" ) } );
+        _bean.doModifyPage( new MultipartHttpServletRequest( request, Collections.emptyMap( ), parameters ) );
+        AdminMessage message = AdminMessageService.getMessage( request );
+        assertNotNull( message );
+        assertEquals( AdminMessage.TYPE_STOP, message.getType( ) );
+        Page page = PageHome.findByPrimaryKey( _page.getId( ) );
+        assertEquals( origParentPageId, page.getParentPageId( ) );
+    }
+
+    public void testDoModifyPagePictureError( )
+            throws AccessDeniedException, SizeLimitExceededException, FileUploadException
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        Map<String, String[ ]> parameters = new HashMap<>( );
+        parameters.put( Parameters.PAGE_ID, new String[ ] { Integer.toString( _page.getId( ) ) } );
+        parameters.put( Parameters.PAGE_DESCRIPTION, new String[ ] { _page.getDescription( ) } );
+        parameters.put( Parameters.PAGE_TEMPLATE_ID, new String[ ] { Integer.toString( _page.getPageTemplateId( ) ) } );
+        parameters.put( Parameters.META_KEYWORDS, new String[ ] { _page.getMetaKeywords( ) } );
+        parameters.put( Parameters.META_DESCRIPTION, new String[ ] { _page.getMetaDescription( ) } );
+        parameters.put( "node_status", new String[ ] { Integer.toString( _page.getNodeStatus( ) ) } );
+        parameters.put( Parameters.PAGE_NAME, new String[ ] { _page.getName( ) } );
+        parameters.put( Parameters.PARENT_ID, new String[ ] { Integer.toString( _page.getParentPageId( ) ) } );
+        parameters.put( "update_image", new String[ ] { "update_image" } );
+        parameters.put( SecurityTokenService.PARAMETER_TOKEN, new String[ ] { SecurityTokenService.getInstance( )
+                .getToken( request, "admin/site/admin_page_block_property.html" ) } );
+        Map<String, List<FileItem>> fileItems = new HashMap<>( );
+        List<FileItem> items = new ArrayList<>( );
+        FileItem fileItem = new DiskFileItemFactory( ).createItem( "image_content", "", true, "" );
+        items.add( fileItem );
+        fileItems.put( "image_content", items );
+        _bean.doModifyPage( new MultipartHttpServletRequest( request, fileItems, parameters ) );
+        AdminMessage message = AdminMessageService.getMessage( request );
+        assertNotNull( message );
+        assertEquals( AdminMessage.TYPE_STOP, message.getType( ) );
+        Page page = PageHome.findByPrimaryKey( _page.getId( ) );
+        assertNull( page.getImageContent( ) );
+        assertNull( page.getMimeType( ) );
+    }
+
     public void testDoModifyPageInvalidToken( )
             throws AccessDeniedException, SizeLimitExceededException, FileUploadException
     {

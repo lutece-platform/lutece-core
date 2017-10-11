@@ -218,11 +218,10 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
      */
     public String doModifyPage( HttpServletRequest request ) throws AccessDeniedException
     {
-        MultipartHttpServletRequest mRequest = (MultipartHttpServletRequest) request;
+        MultipartHttpServletRequest mRequest = ( MultipartHttpServletRequest ) request;
         int nPageId = Integer.parseInt( mRequest.getParameter( Parameters.PAGE_ID ) );
 
         Page page = PageHome.getPage( nPageId );
-        Integer nOldAutorisationNode = page.getIdAuthorizationNode( );
 
         String strErrorUrl = getPageData( mRequest, page );
 
@@ -231,41 +230,75 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
             return strErrorUrl;
         }
 
-        int nParentPageId = Integer.parseInt( mRequest.getParameter( Parameters.PARENT_ID ) );
+        strErrorUrl = setParentPageId( mRequest, page );
 
-        if ( nParentPageId != page.getParentPageId( ) )
+        if ( strErrorUrl != null )
         {
-            strErrorUrl = getNewParentPageId( mRequest, page, nParentPageId );
-
-            if ( strErrorUrl != null )
-            {
-                return strErrorUrl;
-            }
+            return strErrorUrl;
         }
 
-        String strUpdatePicture = mRequest.getParameter( PARAMETER_PAGE_TEMPLATE_UPDATE_IMAGE );
-        FileItem item = mRequest.getFile( PARAMETER_IMAGE_CONTENT );
+        strErrorUrl = updatePicture( mRequest, page );
 
-        boolean bUpdatePicture = false;
-        String strPictureName = FileUploadService.getFileNameOnly( item );
-
-        if ( strUpdatePicture != null )
+        if ( strErrorUrl != null )
         {
-            if ( strPictureName.equals( "" ) )
-            {
-                return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FILE, AdminMessage.TYPE_STOP );
-            }
-            else
-            {
-                bUpdatePicture = true;
-            }
+            return strErrorUrl;
         }
 
         if ( !SecurityTokenService.getInstance( ).validate( mRequest, TEMPLATE_ADMIN_PAGE_BLOCK_PROPERTY ) )
         {
             throw new AccessDeniedException( "Invalid security token" );
         }
-        // set the authorization node
+
+        setAuthorizationNode( page );
+
+        // Updates the page
+        _pageService.updatePage( page );
+
+        // Displays again the current page with the modifications
+        return getUrlPage( nPageId );
+    }
+
+    /**
+     * Update the page's picture
+     * 
+     * @param mRequest
+     *            the request
+     * @param page
+     *            the page
+     * @return an error URL, or <code>null</code>
+     */
+    private String updatePicture( MultipartHttpServletRequest mRequest, Page page )
+    {
+        String strUpdatePicture = mRequest.getParameter( PARAMETER_PAGE_TEMPLATE_UPDATE_IMAGE );
+        if ( strUpdatePicture == null )
+        {
+            return null;
+        }
+
+        FileItem item = mRequest.getFile( PARAMETER_IMAGE_CONTENT );
+        String strPictureName = FileUploadService.getFileNameOnly( item );
+
+        if ( strPictureName.equals( "" ) )
+        {
+            return AdminMessageService.getMessageUrl( mRequest, Messages.MANDATORY_FILE, AdminMessage.TYPE_STOP );
+        }
+        byte[ ] bytes = item.get( );
+        String strMimeType = item.getContentType( );
+        page.setImageContent( bytes );
+        page.setMimeType( strMimeType );
+        return null;
+    }
+
+    /**
+     * Sets the authorization node
+     * 
+     * @param page
+     *            the page
+     */
+    private void setAuthorizationNode( Page page )
+    {
+        Integer nOldAutorisationNode = page.getIdAuthorizationNode( );
+
         if ( page.getNodeStatus( ) != 0 )
         {
             Page parentPage = PageHome.getPage( page.getParentPageId( ) );
@@ -275,25 +308,35 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
         {
             page.setIdAuthorizationNode( page.getId( ) );
         }
-
         if ( ( page.getIdAuthorizationNode( ) == null ) || !page.getIdAuthorizationNode( ).equals( nOldAutorisationNode ) )
         {
             PageService.updateChildrenAuthorizationNode( page.getId( ), page.getIdAuthorizationNode( ) );
         }
+    }
 
-        if ( bUpdatePicture )
+    /**
+     * Sets the parent page ID
+     * 
+     * @param mRequest
+     *            the requset
+     * @param page
+     *            the page
+     * @return an error URL, or <code>null</code>
+     */
+    private String setParentPageId( MultipartHttpServletRequest mRequest, Page page )
+    {
+        int nParentPageId = Integer.parseInt( mRequest.getParameter( Parameters.PARENT_ID ) );
+
+        if ( nParentPageId != page.getParentPageId( ) )
         {
-            byte [ ] bytes = item.get( );
-            String strMimeType = item.getContentType( );
-            page.setImageContent( bytes );
-            page.setMimeType( strMimeType );
+            String strErrorUrl = getNewParentPageId( mRequest, page, nParentPageId );
+
+            if ( strErrorUrl != null )
+            {
+                return strErrorUrl;
+            }
         }
-
-        // Updates the page
-        _pageService.updatePage( page );
-
-        // Displays again the current page with the modifications
-        return getUrlPage( nPageId );
+        return null;
     }
 
     /**
