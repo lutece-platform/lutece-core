@@ -48,9 +48,12 @@ import org.springframework.mock.web.MockHttpServletRequest;
 
 import fr.paris.lutece.portal.business.style.Style;
 import fr.paris.lutece.portal.business.style.StyleHome;
+import fr.paris.lutece.portal.business.stylesheet.StyleSheet;
 import fr.paris.lutece.portal.business.stylesheet.StyleSheetHome;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
+import fr.paris.lutece.portal.service.message.AdminMessage;
+import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.portal.web.upload.MultipartHttpServletRequest;
@@ -66,6 +69,7 @@ public class StyleSheetJspBeanTest extends LuteceTestCase
 
     private StyleSheetJspBean instance;
     private Style style;
+    private StyleSheet stylesheet;
 
     @Override
     protected void setUp( ) throws Exception
@@ -78,11 +82,19 @@ public class StyleSheetJspBeanTest extends LuteceTestCase
         style.setDescription( getRandomName( ) );
         style.setPortalComponentId( 2 );
         StyleHome.create( style );
+        stylesheet = new StyleSheet( );
+        stylesheet.setDescription( getRandomName() );
+        stylesheet.setModeId( 1 );
+        stylesheet.setStyleId( style.getId( ) );
+        stylesheet.setFile( "file" );
+        stylesheet.setSource( "<a/>".getBytes( ) );
+        StyleSheetHome.create( stylesheet );
     }
 
     @Override
     protected void tearDown( ) throws Exception
     {
+        StyleSheetHome.remove( stylesheet.getId( ) );
         StyleHome.remove( style.getId( ) );
         super.tearDown( );
     }
@@ -230,29 +242,111 @@ public class StyleSheetJspBeanTest extends LuteceTestCase
     }
 
     /**
-     * Test of getModifyStyleSheet method, of class fr.paris.lutece.portal.web.stylesheet.StyleSheetJspBean.
+     * Test of getModifyStyleSheet method, of class
+     * fr.paris.lutece.portal.web.stylesheet.StyleSheetJspBean.
      */
     public void testGetModifyStyleSheet( ) throws AccessDeniedException
     {
-        if ( StyleSheetHome.getStyleSheetList( 0 ).size( ) > 0 )
-        {
-            int nStyleSheetId = StyleSheetHome.getStyleSheetList( 0 ).iterator( ).next( ).getId( );
-            MockHttpServletRequest request = new MockHttpServletRequest( );
-            request.addParameter( Parameters.STYLESHEET_ID, "" + nStyleSheetId );
-            System.out.println( "-> using stylesheet ID : " + nStyleSheetId );
-            Utils.registerAdminUserWithRigth( request, new AdminUser( ), StyleSheetJspBean.RIGHT_MANAGE_STYLESHEET );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.addParameter( Parameters.STYLESHEET_ID, Integer.toString( stylesheet.getId( ) ) );
+        Utils.registerAdminUserWithRigth( request, new AdminUser( ), StyleSheetJspBean.RIGHT_MANAGE_STYLESHEET );
 
-            instance.init( request, StyleSheetJspBean.RIGHT_MANAGE_STYLESHEET );
-            instance.getModifyStyleSheet( request );
-        }
+        instance.init( request, StyleSheetJspBean.RIGHT_MANAGE_STYLESHEET );
+        assertNotNull( instance.getModifyStyleSheet( request ) );
     }
 
     /**
-     * Test of doModifyStyleSheet method, of class fr.paris.lutece.portal.web.stylesheet.StyleSheetJspBean.
+     * Test of doModifyStyleSheet method, of class
+     * fr.paris.lutece.portal.web.stylesheet.StyleSheetJspBean.
+     * 
+     * @throws AccessDeniedException
+     * @throws IOException
      */
-    public void testDoModifyStyleSheet( )
+    public void testDoModifyStyleSheet( ) throws AccessDeniedException, IOException
     {
-        // Not implemented yet
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        Map<String, String[ ]> parameters = new HashMap<>( );
+        parameters.put( Parameters.STYLESHEET_ID, new String[ ] { Integer.toString( stylesheet.getId( ) ) } );
+        parameters.put( Parameters.STYLESHEET_NAME, new String[ ] { stylesheet.getDescription( ) + "_mod" } );
+        parameters.put( Parameters.STYLES, new String[ ] { Integer.toString( stylesheet.getStyleId( ) ) } );
+        parameters.put( Parameters.MODE_STYLESHEET, new String[ ] { Integer.toString( stylesheet.getModeId( ) ) } );
+        parameters.put( SecurityTokenService.PARAMETER_TOKEN, new String[ ] {
+                SecurityTokenService.getInstance( ).getToken( request, "admin/stylesheet/modify_stylesheet.html" ) } );
+        Map<String, List<FileItem>> multipartFiles = new HashMap<>( );
+        List<FileItem> items = new ArrayList<>( );
+        FileItem source = new DiskFileItemFactory( ).createItem( Parameters.STYLESHEET_SOURCE, "application/xml", true,
+                stylesheet.getDescription( ) );
+        source.getOutputStream( ).write( "<a/>".getBytes( ) );
+        items.add( source );
+        multipartFiles.put( Parameters.STYLESHEET_SOURCE, items );
+        MultipartHttpServletRequest multipart = new MultipartHttpServletRequest( request, multipartFiles, parameters );
+
+        instance.doModifyStyleSheet( multipart );
+        AdminMessage message = AdminMessageService.getMessage( request );
+        assertNull( message );
+        StyleSheet stored = StyleSheetHome.findByPrimaryKey( stylesheet.getId( ) );
+        assertNotNull( stored );
+        assertEquals( stylesheet.getDescription( ) + "_mod", stored.getDescription( ) );
+    }
+
+    public void testDoModifyStyleSheetInvalidToken( ) throws AccessDeniedException, IOException
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        Map<String, String[ ]> parameters = new HashMap<>( );
+        parameters.put( Parameters.STYLESHEET_ID, new String[ ] { Integer.toString( stylesheet.getId( ) ) } );
+        parameters.put( Parameters.STYLESHEET_NAME, new String[ ] { stylesheet.getDescription( ) + "_mod" } );
+        parameters.put( Parameters.STYLES, new String[ ] { Integer.toString( stylesheet.getStyleId( ) ) } );
+        parameters.put( Parameters.MODE_STYLESHEET, new String[ ] { Integer.toString( stylesheet.getModeId( ) ) } );
+        parameters.put( SecurityTokenService.PARAMETER_TOKEN, new String[ ] {
+                SecurityTokenService.getInstance( ).getToken( request, "admin/stylesheet/modify_stylesheet.html" ) + "b" } );
+        Map<String, List<FileItem>> multipartFiles = new HashMap<>( );
+        List<FileItem> items = new ArrayList<>( );
+        FileItem source = new DiskFileItemFactory( ).createItem( Parameters.STYLESHEET_SOURCE, "application/xml", true,
+                stylesheet.getDescription( ) );
+        source.getOutputStream( ).write( "<a/>".getBytes( ) );
+        items.add( source );
+        multipartFiles.put( Parameters.STYLESHEET_SOURCE, items );
+        MultipartHttpServletRequest multipart = new MultipartHttpServletRequest( request, multipartFiles, parameters );
+        try
+        {
+            instance.doModifyStyleSheet( multipart );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            StyleSheet stored = StyleSheetHome.findByPrimaryKey( stylesheet.getId( ) );
+            assertNotNull( stored );
+            assertEquals( stylesheet.getDescription( ), stored.getDescription( ) );
+        }
+    }
+
+    public void testDoModifyStyleSheetNoToken( ) throws AccessDeniedException, IOException
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        Map<String, String[ ]> parameters = new HashMap<>( );
+        parameters.put( Parameters.STYLESHEET_ID, new String[ ] { Integer.toString( stylesheet.getId( ) ) } );
+        parameters.put( Parameters.STYLESHEET_NAME, new String[ ] { stylesheet.getDescription( ) + "_mod" } );
+        parameters.put( Parameters.STYLES, new String[ ] { Integer.toString( stylesheet.getStyleId( ) ) } );
+        parameters.put( Parameters.MODE_STYLESHEET, new String[ ] { Integer.toString( stylesheet.getModeId( ) ) } );
+        Map<String, List<FileItem>> multipartFiles = new HashMap<>( );
+        List<FileItem> items = new ArrayList<>( );
+        FileItem source = new DiskFileItemFactory( ).createItem( Parameters.STYLESHEET_SOURCE, "application/xml", true,
+                stylesheet.getDescription( ) );
+        source.getOutputStream( ).write( "<a/>".getBytes( ) );
+        items.add( source );
+        multipartFiles.put( Parameters.STYLESHEET_SOURCE, items );
+        MultipartHttpServletRequest multipart = new MultipartHttpServletRequest( request, multipartFiles, parameters );
+        try
+        {
+            instance.doModifyStyleSheet( multipart );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            StyleSheet stored = StyleSheetHome.findByPrimaryKey( stylesheet.getId( ) );
+            assertNotNull( stored );
+            assertEquals( stylesheet.getDescription( ), stored.getDescription( ) );
+        }
     }
 
     /**

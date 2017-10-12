@@ -328,6 +328,7 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
         model.put( MARK_STYLE_LIST, getStyleList( ) );
         model.put( MARK_MODE_LIST, ModeHome.getModes( ) );
         model.put( MARK_STYLESHEET, StyleSheetHome.findByPrimaryKey( nId ) );
+        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MODIFY_STYLESHEET ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_STYLESHEET, getLocale( ), model );
 
@@ -362,15 +363,18 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
     }
 
     /**
-     * Processes the updating form of a stylesheet whose new parameters are stored in the http request
+     * Processes the updating form of a stylesheet whose new parameters are
+     * stored in the http request
      * 
      * @param request
      *            The http request
      * @return The Jsp URL of the process result
+     * @throws AccessDeniedException
+     *             if the security token is invalid
      */
-    public String doModifyStyleSheet( HttpServletRequest request )
+    public String doModifyStyleSheet( HttpServletRequest request ) throws AccessDeniedException
     {
-        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+        MultipartHttpServletRequest multipartRequest = ( MultipartHttpServletRequest ) request;
         int nId = Integer.parseInt( multipartRequest.getParameter( Parameters.STYLESHEET_ID ) );
         StyleSheet stylesheet = StyleSheetHome.findByPrimaryKey( nId );
         String strErrorUrl = getData( multipartRequest, stylesheet );
@@ -378,6 +382,10 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
         if ( strErrorUrl != null )
         {
             return strErrorUrl;
+        }
+        if ( !SecurityTokenService.getInstance( ).validate( multipartRequest, TEMPLATE_MODIFY_STYLESHEET ) )
+        {
+            throw new AccessDeniedException( "Invalid security token" );
         }
 
         // Remove the old local file
