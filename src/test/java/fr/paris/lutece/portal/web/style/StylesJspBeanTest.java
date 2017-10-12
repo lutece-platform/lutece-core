@@ -278,31 +278,67 @@ public class StylesJspBeanTest extends LuteceTestCase
     }
 
     /**
-     * Test of getConfirmRemoveStyle method, of class fr.paris.lutece.portal.web.style.StylesJspBean.
+     * Test of getConfirmRemoveStyle method, of class
+     * fr.paris.lutece.portal.web.style.StylesJspBean.
      */
     public void testGetConfirmRemoveStyle( ) throws AccessDeniedException
     {
-        System.out.println( "getConfirmRemoveStyle" );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.addParameter( Parameters.STYLE_ID, Integer.toString( style.getId( ) ) );
+        Utils.registerAdminUserWithRigth( request, new AdminUser( ), StylesJspBean.RIGHT_MANAGE_STYLE );
 
-        if ( StyleHome.getStylesList( ).size( ) > 0 )
-        {
-            int nStyleId = StyleHome.getStylesList( ).iterator( ).next( ).getId( );
-            MockHttpServletRequest request = new MockHttpServletRequest( );
-            request.addParameter( Parameters.STYLE_ID, "" + nStyleId );
-            Utils.registerAdminUserWithRigth( request, new AdminUser( ), StylesJspBean.RIGHT_MANAGE_STYLE );
-
-            instance.init( request, StylesJspBean.RIGHT_MANAGE_STYLE );
-            instance.getConfirmRemoveStyle( request );
-        }
+        instance.init( request, StylesJspBean.RIGHT_MANAGE_STYLE );
+        instance.getConfirmRemoveStyle( request );
+        AdminMessage message = AdminMessageService.getMessage( request );
+        assertNotNull( message );
+        assertTrue( message.getRequestParameters( ).containsKey( SecurityTokenService.PARAMETER_TOKEN ) );
     }
 
     /**
-     * Test of doRemoveStyle method, of fr.paris.lutece.portal.web.style.StylesJspBean.
+     * Test of doRemoveStyle method, of
+     * fr.paris.lutece.portal.web.style.StylesJspBean.
+     * 
+     * @throws AccessDeniedException
      */
-    public void testDoRemoveStyle( )
+    public void testDoRemoveStyle( ) throws AccessDeniedException
     {
-        System.out.println( "doRemoveStyle" );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.addParameter( Parameters.STYLE_ID, Integer.toString( style.getId( ) ) );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/style/DoRemoveStyle.jsp" ) );
+        instance.doRemoveStyle( request );
+        assertNull( StyleHome.findByPrimaryKey( style.getId( ) ) );
+    }
 
-        // Not implemented yet
+    public void testDoRemoveStyleInvalidToken( ) throws AccessDeniedException
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.addParameter( Parameters.STYLE_ID, Integer.toString( style.getId( ) ) );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/style/DoRemoveStyle.jsp" ) + "b" );
+        try
+        {
+            instance.doRemoveStyle( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            assertNotNull( StyleHome.findByPrimaryKey( style.getId( ) ) );
+        }
+    }
+
+    public void testDoRemoveStyleNoToken( ) throws AccessDeniedException
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.addParameter( Parameters.STYLE_ID, Integer.toString( style.getId( ) ) );
+        try
+        {
+            instance.doRemoveStyle( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            assertNotNull( StyleHome.findByPrimaryKey( style.getId( ) ) );
+        }
     }
 }

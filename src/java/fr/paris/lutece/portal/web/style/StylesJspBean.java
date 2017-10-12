@@ -359,10 +359,11 @@ public class StylesJspBean extends AdminFeaturesPageJspBean
             }
         }
 
-        UrlItem url = new UrlItem( JSP_DO_REMOVE_STYLE );
-        url.addParameter( Parameters.STYLE_ID, nId );
+        Map<String, String> parameters = new HashMap<>( );
+        parameters.put( Parameters.STYLE_ID, Integer.toString( nId ) );
+        parameters.put( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, JSP_DO_REMOVE_STYLE ) );
 
-        return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_DELETE_STYLE, url.getUrl( ), AdminMessage.TYPE_CONFIRMATION );
+        return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_DELETE_STYLE, JSP_DO_REMOVE_STYLE, AdminMessage.TYPE_CONFIRMATION, parameters );
     }
 
     /**
@@ -371,9 +372,14 @@ public class StylesJspBean extends AdminFeaturesPageJspBean
      * @param request
      *            the http request
      * @return The Jsp URL of the process result
+     * @throws AccessDeniedException if the security token is invalid
      */
-    public String doRemoveStyle( HttpServletRequest request )
+    public String doRemoveStyle( HttpServletRequest request ) throws AccessDeniedException
     {
+        if ( !SecurityTokenService.getInstance( ).validate( request, JSP_DO_REMOVE_STYLE ) )
+        {
+            throw new AccessDeniedException( "Invalid security token" );
+        }
         String strId = request.getParameter( Parameters.STYLE_ID );
         int nId = Integer.parseInt( strId );
         StyleHome.remove( nId );
