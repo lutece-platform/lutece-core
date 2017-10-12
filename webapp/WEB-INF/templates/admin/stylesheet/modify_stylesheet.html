@@ -10,6 +10,7 @@
 			<@boxBody>
 				<@tform method='post' action='jsp/admin/style/DoModifyStyleSheet.jsp' params='enctype="multipart/form-data"' name='modify_stylesheet'>
 					<input type="hidden" name="stylesheet_id" value="${stylesheet.id}">
+					<input type="hidden" name="token" value="${token}">
 					<@formGroup labelKey='#i18n{portal.style.modify_stylesheet.labelName}' labelFor='stylesheet_name' mandatory=true>
 						<@input type='text' name='stylesheet_name' id='stylesheet_name' value='${stylesheet.description?html}' maxlength=255 />
 					</@formGroup>
