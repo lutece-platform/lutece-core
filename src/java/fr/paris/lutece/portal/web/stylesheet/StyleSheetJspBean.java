@@ -42,10 +42,12 @@ import fr.paris.lutece.portal.business.style.Style;
 import fr.paris.lutece.portal.business.style.StyleHome;
 import fr.paris.lutece.portal.business.stylesheet.StyleSheet;
 import fr.paris.lutece.portal.business.stylesheet.StyleSheetHome;
+import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.fileupload.FileUploadService;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
+import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
@@ -211,6 +213,8 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
         model.put( MARK_STYLE_LIST, getStyleList( ) );
         model.put( MARK_MODE_LIST, ModeHome.getModes( ) );
         model.put( MARK_MODE_ID, strModeId );
+        model.put( SecurityTokenService.MARK_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_CREATE_STYLESHEET ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CREATE_STYLESHEET, getLocale( ), model );
 
@@ -218,21 +222,28 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
     }
 
     /**
-     * Processes the creation form of a new stylesheet by recovering the parameters in the http request
+     * Processes the creation form of a new stylesheet by recovering the
+     * parameters in the http request
      * 
      * @param request
      *            the http request
      * @return The Jsp URL of the process result
+     * @throws AccessDeniedException
+     *             if the security token is invalid
      */
-    public String doCreateStyleSheet( HttpServletRequest request )
+    public String doCreateStyleSheet( HttpServletRequest request ) throws AccessDeniedException
     {
         StyleSheet stylesheet = new StyleSheet( );
-        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
+        MultipartHttpServletRequest multipartRequest = ( MultipartHttpServletRequest ) request;
         String strErrorUrl = getData( multipartRequest, stylesheet );
 
         if ( strErrorUrl != null )
         {
             return strErrorUrl;
+        }
+        if ( !SecurityTokenService.getInstance( ).validate( multipartRequest, TEMPLATE_CREATE_STYLESHEET ) )
+        {
+            throw new AccessDeniedException( "Invalid security token" );
         }
 
         // insert in the table stylesheet of the database
