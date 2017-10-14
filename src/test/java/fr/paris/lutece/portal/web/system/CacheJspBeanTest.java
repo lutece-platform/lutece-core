@@ -245,6 +245,96 @@ public class CacheJspBeanTest extends LuteceTestCase
         }
     }
 
+    public void testDoToggleCache( ) throws AccessDeniedException
+    {
+        int cacheIndex = -1;
+        for ( CacheableService service : CacheService.getCacheableServicesList( ) )
+        {
+            cacheIndex++;
+            if ( service instanceof AbstractCacheableService )
+            {
+                break;
+            }
+        }
+        assertFalse( "There should be at least one active AbstractCacheableService", cacheIndex == -1 );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.addParameter( "id_cache", Integer.toString( cacheIndex ) );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "admin/system/manage_caches.html" ) );
+        try
+        {
+            assertTrue( CacheService.getCacheableServicesList( ).get( cacheIndex ).isCacheEnable( ) );
+            CacheJspBean.doToggleCache( request );
+            assertFalse( CacheService.getCacheableServicesList( ).get( cacheIndex ).isCacheEnable( ) );
+        }
+        finally
+        {
+            CacheService.getCacheableServicesList( ).get( cacheIndex ).enableCache( true );
+        }
+    }
+
+    public void testDoToggleCacheInvalidToken( ) throws AccessDeniedException
+    {
+        int cacheIndex = -1;
+        for ( CacheableService service : CacheService.getCacheableServicesList( ) )
+        {
+            cacheIndex++;
+            if ( service instanceof AbstractCacheableService )
+            {
+                break;
+            }
+        }
+        assertFalse( "There should be at least one active AbstractCacheableService", cacheIndex == -1 );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.addParameter( "id_cache", Integer.toString( cacheIndex ) );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "admin/system/manage_caches.html" ) + "b" );
+        try
+        {
+            assertTrue( CacheService.getCacheableServicesList( ).get( cacheIndex ).isCacheEnable( ) );
+            CacheJspBean.doToggleCache( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            assertTrue( CacheService.getCacheableServicesList( ).get( cacheIndex ).isCacheEnable( ) );
+        }
+        finally
+        {
+            CacheService.getCacheableServicesList( ).get( cacheIndex ).enableCache( true );
+        }
+    }
+
+    public void testDoToggleCacheNoToken( ) throws AccessDeniedException
+    {
+        int cacheIndex = -1;
+        for ( CacheableService service : CacheService.getCacheableServicesList( ) )
+        {
+            cacheIndex++;
+            if ( service instanceof AbstractCacheableService )
+            {
+                break;
+            }
+        }
+        assertFalse( "There should be at least one active AbstractCacheableService", cacheIndex == -1 );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.addParameter( "id_cache", Integer.toString( cacheIndex ) );
+        try
+        {
+            assertTrue( CacheService.getCacheableServicesList( ).get( cacheIndex ).isCacheEnable( ) );
+            CacheJspBean.doToggleCache( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            assertTrue( CacheService.getCacheableServicesList( ).get( cacheIndex ).isCacheEnable( ) );
+        }
+        finally
+        {
+            CacheService.getCacheableServicesList( ).get( cacheIndex ).enableCache( true );
+        }
+    }
+
     /**
      * Test of doReloadProperties method, of class
      * fr.paris.lutece.portal.web.system.SystemJspBean.

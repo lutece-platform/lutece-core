@@ -171,9 +171,15 @@ public class CacheJspBean extends AdminFeaturesPageJspBean
      * @param request
      *            The HTTP request
      * @return The URL to display when the process is done.
+     * @throws AccessDeniedException
+     *             if the security token is invalid
      */
-    public static String doToggleCache( HttpServletRequest request )
+    public static String doToggleCache( HttpServletRequest request ) throws AccessDeniedException
     {
+        if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_MANAGE_CACHES ) )
+        {
+            throw new AccessDeniedException( "Invalid security token" );
+        }
         String strCacheIndex = request.getParameter( PARAMETER_ID_CACHE );
 
         if ( strCacheIndex != null )
