@@ -350,28 +350,79 @@ public class StyleSheetJspBeanTest extends LuteceTestCase
     }
 
     /**
-     * Test of getConfirmRemoveStyleSheet method, of class fr.paris.lutece.portal.web.stylesheet.StyleSheetJspBean.
+     * Test of getConfirmRemoveStyleSheet method, of class
+     * fr.paris.lutece.portal.web.stylesheet.StyleSheetJspBean.
      */
     public void testGetConfirmRemoveStyleSheet( ) throws AccessDeniedException
     {
-        if ( StyleSheetHome.getStyleSheetList( 0 ).size( ) > 0 )
-        {
-            int nStyleSheetId = StyleSheetHome.getStyleSheetList( 0 ).iterator( ).next( ).getId( );
-            MockHttpServletRequest request = new MockHttpServletRequest( );
-            request.addParameter( Parameters.STYLESHEET_ID, "" + nStyleSheetId );
-            System.out.println( "-> using stylesheet ID : " + nStyleSheetId );
-            Utils.registerAdminUserWithRigth( request, new AdminUser( ), StyleSheetJspBean.RIGHT_MANAGE_STYLESHEET );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.addParameter( Parameters.STYLESHEET_ID, Integer.toString( stylesheet.getId( ) ) );
+        request.addParameter( Parameters.STYLE_ID, Integer.toString( style.getId( ) ) );
+        Utils.registerAdminUserWithRigth( request, new AdminUser( ), StyleSheetJspBean.RIGHT_MANAGE_STYLESHEET );
 
-            instance.init( request, StyleSheetJspBean.RIGHT_MANAGE_STYLESHEET );
-            instance.getRemoveStyleSheet( request );
-        }
+        instance.init( request, StyleSheetJspBean.RIGHT_MANAGE_STYLESHEET );
+        instance.getRemoveStyleSheet( request );
+        AdminMessage message = AdminMessageService.getMessage( request );
+        assertNotNull( message );
+        assertTrue( message.getRequestParameters( ).containsKey( SecurityTokenService.PARAMETER_TOKEN ) );
     }
 
     /**
-     * Test of doRemoveStyleSheet method, of class fr.paris.lutece.portal.web.stylesheet.StyleSheetJspBean.
+     * Test of doRemoveStyleSheet method, of class
+     * fr.paris.lutece.portal.web.stylesheet.StyleSheetJspBean.
+     * 
+     * @throws AccessDeniedException
      */
-    public void testDoRemoveStyleSheet( )
+    public void testDoRemoveStyleSheet( ) throws AccessDeniedException
     {
-        // Not implemented yet
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.addParameter( Parameters.STYLESHEET_ID, Integer.toString( stylesheet.getId( ) ) );
+        request.addParameter( Parameters.STYLE_ID, Integer.toString( style.getId( ) ) );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/style/DoRemoveStyleSheet.jsp" ) );
+
+        instance.doRemoveStyleSheet( request );
+        assertNull( StyleSheetHome.findByPrimaryKey( stylesheet.getId( ) ) );
+    }
+
+    public void testDoRemoveStyleSheetInvalidToken( ) throws AccessDeniedException
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.addParameter( Parameters.STYLESHEET_ID, Integer.toString( stylesheet.getId( ) ) );
+        request.addParameter( Parameters.STYLE_ID, Integer.toString( style.getId( ) ) );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/style/DoRemoveStyleSheet.jsp" )
+                        + "b" );
+
+        try
+        {
+            instance.doRemoveStyleSheet( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            StyleSheet stored = StyleSheetHome.findByPrimaryKey( stylesheet.getId( ) );
+            assertNotNull( stored );
+            assertEquals( stylesheet.getId( ), stored.getId( ) );
+        }
+    }
+
+    public void testDoRemoveStyleSheetNoToken( ) throws AccessDeniedException
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.addParameter( Parameters.STYLESHEET_ID, Integer.toString( stylesheet.getId( ) ) );
+        request.addParameter( Parameters.STYLE_ID, Integer.toString( style.getId( ) ) );
+
+        try
+        {
+            instance.doRemoveStyleSheet( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            StyleSheet stored = StyleSheetHome.findByPrimaryKey( stylesheet.getId( ) );
+            assertNotNull( stored );
+            assertEquals( stylesheet.getId( ), stored.getId( ) );
+        }
     }
 }
