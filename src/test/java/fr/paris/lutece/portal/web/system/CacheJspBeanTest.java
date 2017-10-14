@@ -33,6 +33,17 @@
  */
 package fr.paris.lutece.portal.web.system;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.math.BigInteger;
+import java.security.SecureRandom;
+import java.util.Properties;
+import java.util.Random;
+
 import org.springframework.mock.web.MockHttpServletRequest;
 
 import fr.paris.lutece.portal.business.user.AdminUser;
@@ -41,6 +52,7 @@ import fr.paris.lutece.portal.service.cache.AbstractCacheableService;
 import fr.paris.lutece.portal.service.cache.CacheService;
 import fr.paris.lutece.portal.service.cache.CacheableService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
+import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.Utils;
 import net.sf.ehcache.Ehcache;
@@ -338,16 +350,112 @@ public class CacheJspBeanTest extends LuteceTestCase
     /**
      * Test of doReloadProperties method, of class
      * fr.paris.lutece.portal.web.system.SystemJspBean.
+     * 
+     * @throws AccessDeniedException
+     * @throws IOException
      */
-    public void testDoReloadProperties( )
+    public void testDoReloadProperties( ) throws AccessDeniedException, IOException
     {
-        System.out.println( "doReloadProperties" );
+        String property = "junit_testDoReloadProperties";
+        String propertyValue = getRandomName( );
+
+        File luteceProperties = new File( getResourcesDir( ), "WEB-INF/conf/lutece.properties" );
+        Properties props = new Properties( );
+        InputStream is = new FileInputStream( luteceProperties );
+        props.load( is );
+        is.close( );
+        props.setProperty( property, propertyValue );
+
+        OutputStream os = new FileOutputStream( luteceProperties );
+        props.store( os, "saved for junit " + this.getClass( ).getCanonicalName( ) );
+        os.close( );
+
+        assertFalse( propertyValue.equals( AppPropertiesService.getProperty( property ) ) );
+
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        Utils.registerAdminUserWithRigth( request, new AdminUser( ), CacheJspBean.RIGHT_CACHE_MANAGEMENT );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "admin/system/manage_caches.html" ) );
+
+        CacheJspBean instance = new CacheJspBean( );
+        instance.doReloadProperties( request );
+
+        assertEquals( propertyValue, AppPropertiesService.getProperty( property ) );
+    }
+
+    public void testDoReloadPropertiesInvalidToken( ) throws AccessDeniedException, IOException
+    {
+        String property = "junit_testDoReloadProperties";
+        String propertyValue = getRandomName( );
+
+        File luteceProperties = new File( getResourcesDir( ), "WEB-INF/conf/lutece.properties" );
+        Properties props = new Properties( );
+        InputStream is = new FileInputStream( luteceProperties );
+        props.load( is );
+        is.close( );
+        props.setProperty( property, propertyValue );
+
+        OutputStream os = new FileOutputStream( luteceProperties );
+        props.store( os, "saved for junit " + this.getClass( ).getCanonicalName( ) );
+        os.close( );
+
+        assertFalse( propertyValue.equals( AppPropertiesService.getProperty( property ) ) );
+
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        Utils.registerAdminUserWithRigth( request, new AdminUser( ), CacheJspBean.RIGHT_CACHE_MANAGEMENT );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "admin/system/manage_caches.html" ) + "b" );
+
+        CacheJspBean instance = new CacheJspBean( );
+        try
+        {
+            instance.doReloadProperties( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            assertFalse( propertyValue.equals( AppPropertiesService.getProperty( property ) ) );
+        }
+    }
+
+    public void testDoReloadPropertiesNoToken( ) throws AccessDeniedException, IOException
+    {
+        String property = "junit_testDoReloadProperties";
+        String propertyValue = getRandomName( );
+
+        File luteceProperties = new File( getResourcesDir( ), "WEB-INF/conf/lutece.properties" );
+        Properties props = new Properties( );
+        InputStream is = new FileInputStream( luteceProperties );
+        props.load( is );
+        is.close( );
+        props.setProperty( property, propertyValue );
+
+        OutputStream os = new FileOutputStream( luteceProperties );
+        props.store( os, "saved for junit " + this.getClass( ).getCanonicalName( ) );
+        os.close( );
+
+        assertFalse( propertyValue.equals( AppPropertiesService.getProperty( property ) ) );
 
         MockHttpServletRequest request = new MockHttpServletRequest( );
         Utils.registerAdminUserWithRigth( request, new AdminUser( ), CacheJspBean.RIGHT_CACHE_MANAGEMENT );
 
         CacheJspBean instance = new CacheJspBean( );
-        instance.doReloadProperties( );
+        try
+        {
+            instance.doReloadProperties( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            assertFalse( propertyValue.equals( AppPropertiesService.getProperty( property ) ) );
+        }
+    }
+
+    private String getRandomName( )
+    {
+        Random rand = new SecureRandom( );
+        BigInteger bigInt = new BigInteger( 128, rand );
+        return "junit" + bigInt.toString( 36 );
     }
 
     private static final class CacheListener extends CacheEventListenerAdapter

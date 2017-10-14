@@ -3,6 +3,7 @@
         <@box color='danger'>
             <@boxHeader title='#i18n{portal.system.manage_caches.titleCacheList}' boxTools=true>
 				<@tform method='post' action='jsp/admin/system/DoReloadProperties.jsp' class='pull-right'>
+					<input type="hidden" name="token" value="${token}">
 					<@button type='submit' buttonIcon='refresh' title='#i18n{portal.system.manage_caches.titleReloadProperties}' id='reload' size='' showTitleXs=false showTitleSm=false />
 					<@aButton href='jsp/admin/system/CacheInfos.jsp' buttonIcon='key' title='#i18n{portal.system.manage_caches.buttonViewKeys}' size='' showTitleXs=false showTitleSm=false />
 				</@tform>
