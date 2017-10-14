@@ -411,15 +411,17 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
     public String getRemoveStyleSheet( HttpServletRequest request )
     {
         String strId = request.getParameter( Parameters.STYLESHEET_ID );
-        UrlItem url = new UrlItem( JSP_DO_REMOVE_STYLESHEET );
-        url.addParameter( Parameters.STYLESHEET_ID, strId );
 
         StyleSheet stylesheet = StyleSheetHome.findByPrimaryKey( Integer.parseInt( strId ) );
         Object [ ] args = {
             stylesheet.getDescription( )
         };
 
-        return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_DELETE_STYLESHEET, args, url.getUrl( ), AdminMessage.TYPE_CONFIRMATION );
+        Map<String, Object> parameters = new HashMap<>( );
+        parameters.put( Parameters.STYLESHEET_ID, strId );
+        parameters.put( Parameters.STYLE_ID, stylesheet.getStyleId( ) );
+        parameters.put( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, JSP_DO_REMOVE_STYLESHEET ) );
+        return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_DELETE_STYLESHEET, args, null, JSP_DO_REMOVE_STYLESHEET, null, AdminMessage.TYPE_CONFIRMATION, parameters );
     }
 
     /**
@@ -428,9 +430,14 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
      * @param request
      *            the http request
      * @return The Jsp URL of the process result
+     * @throws AccessDeniedException if the security token is invalid
      */
-    public String doRemoveStyleSheet( HttpServletRequest request )
+    public String doRemoveStyleSheet( HttpServletRequest request ) throws AccessDeniedException
     {
+        if ( !SecurityTokenService.getInstance( ).validate( request, JSP_DO_REMOVE_STYLESHEET ) )
+        {
+            throw new AccessDeniedException( "Invalid security token" );
+        }
         int nId = Integer.parseInt( request.getParameter( Parameters.STYLESHEET_ID ) );
         int nIdStyle = Integer.parseInt( request.getParameter( Parameters.STYLE_ID ) );
         StyleSheet stylesheet = StyleSheetHome.findByPrimaryKey( nId );

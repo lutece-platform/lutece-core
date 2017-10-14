@@ -41,6 +41,8 @@ import org.springframework.mock.web.MockHttpServletRequest;
 
 import fr.paris.lutece.portal.business.style.Style;
 import fr.paris.lutece.portal.business.style.StyleHome;
+import fr.paris.lutece.portal.business.stylesheet.StyleSheet;
+import fr.paris.lutece.portal.business.stylesheet.StyleSheetHome;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.message.AdminMessage;
@@ -292,6 +294,35 @@ public class StylesJspBeanTest extends LuteceTestCase
         AdminMessage message = AdminMessageService.getMessage( request );
         assertNotNull( message );
         assertTrue( message.getRequestParameters( ).containsKey( SecurityTokenService.PARAMETER_TOKEN ) );
+    }
+
+    public void testGetConfirmRemoveStyleWithStyleSheet( ) throws AccessDeniedException
+    {
+        StyleSheet stylesheet = new StyleSheet( );
+        String randomName = getRandomName();
+        stylesheet.setDescription( randomName );
+        stylesheet.setModeId( 1 );
+        stylesheet.setStyleId( style.getId( ) );
+        stylesheet.setFile( "file" );
+        stylesheet.setSource( "<a/>".getBytes( ) );
+        StyleSheetHome.create( stylesheet );
+        try
+        {
+            MockHttpServletRequest request = new MockHttpServletRequest( );
+            request.addParameter( Parameters.STYLE_ID, Integer.toString( style.getId( ) ) );
+            request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
+                    SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/style/DoRemoveStyle.jsp" ) );
+            instance.getConfirmRemoveStyle( request );
+            AdminMessage message = AdminMessageService.getMessage( request );
+            assertNotNull( message );
+            assertTrue( message.getRequestParameters( ).containsKey( SecurityTokenService.PARAMETER_TOKEN ) );
+            assertTrue( message.getRequestParameters( ).containsKey( Parameters.STYLESHEET_ID ) );
+            assertEquals( Integer.toString( stylesheet.getId( ) ), message.getRequestParameters( ).get( Parameters.STYLESHEET_ID ) );
+        }
+        finally
+        {
+            StyleSheetHome.remove( stylesheet.getId( ) );
+        }
     }
 
     /**
