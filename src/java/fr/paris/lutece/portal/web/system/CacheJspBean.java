@@ -125,9 +125,14 @@ public class CacheJspBean extends AdminFeaturesPageJspBean
      * Reload all properties files of the application
      *
      * @return The URL to display when the process is done.
+     * @throws AccessDeniedException 
      */
-    public String doReloadProperties( )
+    public String doReloadProperties( HttpServletRequest request ) throws AccessDeniedException
     {
+        if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_MANAGE_CACHES ) )
+        {
+            throw new AccessDeniedException( "Invalid security token" );
+        }
         AppPropertiesService.reloadAll( );
 
         return JSP_MANAGE_CACHES;
