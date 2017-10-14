@@ -33,9 +33,11 @@
  */
 package fr.paris.lutece.portal.web.system;
 
+import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.cache.CacheService;
 import fr.paris.lutece.portal.service.cache.CacheableService;
 import fr.paris.lutece.portal.service.i18n.I18nService;
+import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
@@ -77,8 +79,9 @@ public class CacheJspBean extends AdminFeaturesPageJspBean
      */
     public String getManageCaches( HttpServletRequest request )
     {
-        HashMap<String, Collection<CacheableService>> model = new HashMap<String, Collection<CacheableService>>( );
+        HashMap<String, Object> model = new HashMap<String, Object>( );
         model.put( MARK_SERVICES_LIST, CacheService.getCacheableServicesList( ) );
+        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MANAGE_CACHES ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_CACHES, getLocale( ), model );
 
@@ -91,9 +94,15 @@ public class CacheJspBean extends AdminFeaturesPageJspBean
      * @param request
      *            The HTTP request
      * @return The URL to display when the process is done.
+     * @throws AccessDeniedException
+     *             if the security token is invalid
      */
-    public static String doResetCaches( HttpServletRequest request )
+    public static String doResetCaches( HttpServletRequest request ) throws AccessDeniedException
     {
+        if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_MANAGE_CACHES ) )
+        {
+            throw new AccessDeniedException( "Invalid security token" );
+        }
         String strCacheIndex = request.getParameter( PARAMETER_ID_CACHE );
 
         if ( strCacheIndex != null )

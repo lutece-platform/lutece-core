@@ -5,7 +5,10 @@
 				<@tform method='post' action='jsp/admin/system/DoReloadProperties.jsp' class='pull-right'>
 					<@button type='submit' buttonIcon='refresh' title='#i18n{portal.system.manage_caches.titleReloadProperties}' id='reload' size='' showTitleXs=false showTitleSm=false />
 					<@aButton href='jsp/admin/system/CacheInfos.jsp' buttonIcon='key' title='#i18n{portal.system.manage_caches.buttonViewKeys}' size='' showTitleXs=false showTitleSm=false />
-					<@aButton href='jsp/admin/system/DoResetCaches.jsp' buttonIcon='trash' title='#i18n{portal.system.manage_caches.buttonFlush}' size='' color='btn-danger' showTitleXs=false showTitleSm=false />
+				</@tform>
+				<@tform method='post' action='jsp/admin/system/DoResetCaches.jsp' class='pull-right'>
+					<input type="hidden" name="token" value="${token}">
+					<@button type='submit' buttonIcon='trash' title='#i18n{portal.system.manage_caches.buttonFlush}' size='' color='btn-danger' showTitleXs=false showTitleSm=false />
 				</@tform>
 			</@boxHeader>
 			<@boxBody>
@@ -47,7 +50,11 @@
 								<@aButton href='jsp/admin/system/DoToggleCache.jsp?id_cache=${id}' buttonIcon='play' title='#i18n{portal.system.manage_caches.actionEnable}' showTitle=false color='btn-success' />
 							</#if>
 							<@aButton href='jsp/admin/system/CacheInfos.jsp?id_cache=${id}' buttonIcon='eye' title='#i18n{portal.system.manage_caches.actionViewKeys}' showTitle=false />
-							<@aButton href='jsp/admin/system/DoResetCaches.jsp?id_cache=${id}' buttonIcon='trash' title='#i18n{portal.system.manage_caches.actionClear}' showTitle=false color='btn-danger' />
+							<@tform method='post' action='jsp/admin/system/DoResetCaches.jsp' class="pull-right">
+								<input type="hidden" bame="id_cache" value="${id}">
+								<input type="hidden" name="token" value="${token}">
+								<@button type='submit' buttonIcon='trash' title='#i18n{portal.system.manage_caches.actionClear}' showTitle=false color='btn-danger' />
+							</@tform>
 						</td>
 					</tr>
 					<#assign id = id + 1>
