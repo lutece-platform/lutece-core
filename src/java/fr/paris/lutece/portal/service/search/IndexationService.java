@@ -65,9 +65,9 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * This class provides management methods for indexing
@@ -90,7 +90,7 @@ public final class IndexationService
     private static int _nWriterMergeFactor;
     private static int _nWriterMaxFieldLength;
     private static Analyzer _analyzer;
-    private static Map<String, SearchIndexer> _mapIndexers = new HashMap<String, SearchIndexer>( );
+    private static Map<String, SearchIndexer> _mapIndexers = new ConcurrentHashMap<String, SearchIndexer>( );
     private static IndexWriter _writer;
     private static StringBuffer _sbLogs;
     private static SearchIndexerComparator _comparator = new SearchIndexerComparator( );
@@ -159,6 +159,28 @@ public final class IndexationService
         {
             _mapIndexers.put( indexer.getName( ), indexer );
             AppLogService.info( "New search indexer registered : " + indexer.getName( ) );
+        }
+    }
+
+    /**
+     * Unregister an indexer. The indexer is only removed if its name has not
+     * changed
+     * 
+     * @param indexer
+     *            the indexer to remove from the registry
+     */
+    public static void unregisterIndexer( SearchIndexer indexer )
+    {
+        if ( indexer != null )
+        {
+            if ( _mapIndexers.remove( indexer.getName( ), indexer ) )
+            {
+                AppLogService.info( "Search indexer unregistered : " + indexer.getName( ) );
+            }
+            else
+            {
+                AppLogService.error( "Search indexer " + indexer.getName( ) + " could not be be unregistered" );
+            }
         }
     }
 

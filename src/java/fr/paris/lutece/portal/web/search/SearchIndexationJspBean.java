@@ -33,8 +33,10 @@
  */
 package fr.paris.lutece.portal.web.search;
 
+import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.search.IndexationService;
 import fr.paris.lutece.portal.service.search.SearchIndexer;
+import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
 import fr.paris.lutece.util.html.HtmlTemplate;
@@ -70,9 +72,10 @@ public class SearchIndexationJspBean extends AdminFeaturesPageJspBean
      */
     public String getIndexingProperties( HttpServletRequest request )
     {
-        HashMap<String, Collection<SearchIndexer>> model = new HashMap<String, Collection<SearchIndexer>>( );
+        HashMap<String, Object> model = new HashMap<String, Object>( );
         Collection<SearchIndexer> listIndexers = IndexationService.getIndexers( );
         model.put( MARK_INDEXERS_LIST, listIndexers );
+        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MANAGE_INDEXER ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_INDEXER, getLocale( ), model );
 
@@ -85,9 +88,15 @@ public class SearchIndexationJspBean extends AdminFeaturesPageJspBean
      * @param request
      *            the http request
      * @return the result of the indexing process
+     * @throws AccessDeniedException
+     *             if the security token is invalid
      */
-    public String doIndexing( HttpServletRequest request )
+    public String doIndexing( HttpServletRequest request ) throws AccessDeniedException
     {
+        if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_MANAGE_INDEXER ) )
+        {
+            throw new AccessDeniedException( "Invalid security token" );
+        }
         HashMap<String, Object> model = new HashMap<String, Object>( );
         String strLogs;
 
