@@ -3,6 +3,7 @@
 		<@box color='danger'>
 			<@boxHeader title='#i18n{portal.search.manage_indexer.labelIndexersList}' boxTools=true>
 				<@tform method='get' name='doIndexing' action='jsp/admin/search/DoIndexing.jsp' class='pull-right'>
+					<input type="hidden" name="token" value="${token}">
 					<@button type='submit' buttonIcon='repeat' title='#i18n{portal.search.manage_indexer.buttonDoIndex}' name='total' size='' />
 					<@button type='submit' buttonIcon='refresh' title='#i18n{portal.search.manage_indexer.buttonDoIncrementalIndex}' name='incremental' size='' />
 				</@tform>
