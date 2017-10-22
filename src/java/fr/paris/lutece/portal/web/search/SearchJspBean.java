@@ -41,6 +41,7 @@ import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.rbac.RBACService;
 import fr.paris.lutece.portal.service.search.SearchResourceIdService;
 import fr.paris.lutece.portal.service.search.SearchService;
+import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
 import fr.paris.lutece.portal.web.constants.Messages;
@@ -137,6 +138,7 @@ public class SearchJspBean extends AdminFeaturesPageJspBean
 
         model.put( MARK_TAGLIST, SearchParameterHome.findByKey( PARAMETER_TAGLIST ).getName( ) );
         model.put( MARK_TAG_FILTER, SearchParameterHome.findByKey( PARAMETER_TAG_FILTER ).getName( ) );
+        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MODIFY_TAGLIST ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_TAGLIST, getLocale( ), model );
 
@@ -149,9 +151,15 @@ public class SearchJspBean extends AdminFeaturesPageJspBean
      * @param request
      *            the HTTP request
      * @return the jsp URL of the process result
+     * @throws AccessDeniedException
+     *             if the security token is invalid
      */
-    public String doModifyTagList( HttpServletRequest request )
+    public String doModifyTagList( HttpServletRequest request ) throws AccessDeniedException
     {
+        if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_MODIFY_TAGLIST ) )
+        {
+            throw new AccessDeniedException( "Invalid security token" );
+        }
         if ( request.getParameter( PARAMETER_CANCEL ) == null )
         {
             ReferenceItem param = new ReferenceItem( );
