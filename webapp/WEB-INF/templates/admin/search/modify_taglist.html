@@ -4,6 +4,7 @@
 			<@boxHeader title='#i18n{portal.search.modify_taglist.tableLabel}' />
 			<@boxBody>
 				<@tform action='jsp/admin/search/DoModifyTagList.jsp' params='enctype="multipart/form-data"' name='modify_taglist'>
+					<input type="hidden" name="token" value="${token}">
 					<fieldset>
 					<legend>#i18n{portal.system.modify_properties.boxTitle}</legend>
 					<@formGroup labelKey='#i18n{portal.search.modify_taglist.labelName}' labelFor='taglist'>
