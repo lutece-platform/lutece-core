@@ -191,6 +191,7 @@ public class SearchJspBean extends AdminFeaturesPageJspBean
         setPageTitleProperty( PROPERTY_MANAGE_ADVANCED_PARAMETERS_PAGETITLE );
 
         Map<String, Object> model = SearchService.getManageAdvancedParameters( getUser( ), request );
+        model.put( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MANAGE_ADVANCED_PARAMETERS ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_ADVANCED_PARAMETERS, getLocale( ), model );
 
@@ -213,6 +214,10 @@ public class SearchJspBean extends AdminFeaturesPageJspBean
         {
             throw new AccessDeniedException( "User " + getUser( ) + " is not authorized to permission "
                     + SearchResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS );
+        }
+        if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_MANAGE_ADVANCED_PARAMETERS ) )
+        {
+            throw new AccessDeniedException( "Invalid security token" );
         }
 
         if ( request.getParameter( PARAMETER_CANCEL ) == null )
