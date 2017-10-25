@@ -55,6 +55,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -94,6 +95,7 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
     private static final String PROPERTY_PLUGIN_TYPE_NAME_INSERTSERVICE = "portal.system.pluginType.name.insertService";
     private static final String PROPERTY_PLUGIN_TYPE_NAME_CONTENTSERVICE = "portal.system.pluginType.name.contentService";
     private static final String TEMPLATE_PLUGIN_DETAILS = "/admin/system/view_plugin.html";
+    private static final String JSP_UNINSTALL_PLUGIN = "jsp/admin/system/DoUninstallPlugin.jsp";
 
     /**
      * Returns the plugins management page
@@ -170,9 +172,14 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
      * @param context
      *            The servlet context
      * @return the url of the page containing a log essage
+     * @throws AccessDeniedException if the security token is invalid
      */
-    public String doUninstallPlugin( HttpServletRequest request, ServletContext context )
+    public String doUninstallPlugin( HttpServletRequest request, ServletContext context ) throws AccessDeniedException
     {
+        if ( !SecurityTokenService.getInstance( ).validate( request, JSP_UNINSTALL_PLUGIN ) )
+        {
+            throw new AccessDeniedException( "Invalid security token" );
+        }
         try
         {
             String strPluginName = request.getParameter( PARAM_PLUGIN_NAME );
@@ -200,8 +207,10 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
         Plugin plugin = PluginService.getPlugin( strPluginName );
         Collection<PortletType> listPortletTypes = plugin.getPortletTypes( );
         String strMessageKey = PROPERTY_PLUGIN_MESSAGE;
-        String strUrl = "jsp/admin/system/DoUninstallPlugin.jsp?plugin_name=" + strPluginName;
-        String strAdminMessageUrl = AdminMessageService.getMessageUrl( request, strMessageKey, strUrl, "", AdminMessage.TYPE_CONFIRMATION );
+        Map<String, String> parameters = new HashMap<>( );
+        parameters.put( PARAM_PLUGIN_NAME, strPluginName );
+        parameters.put( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, JSP_UNINSTALL_PLUGIN ) );
+        String strAdminMessageUrl = AdminMessageService.getMessageUrl( request, strMessageKey, JSP_UNINSTALL_PLUGIN, AdminMessage.TYPE_CONFIRMATION, parameters );
 
         for ( PortletType portletType : listPortletTypes )
         {
