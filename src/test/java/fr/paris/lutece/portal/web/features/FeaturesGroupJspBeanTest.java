@@ -41,6 +41,8 @@ import org.springframework.mock.web.MockHttpServletRequest;
 
 import fr.paris.lutece.portal.business.right.FeatureGroup;
 import fr.paris.lutece.portal.business.right.FeatureGroupHome;
+import fr.paris.lutece.portal.business.right.Right;
+import fr.paris.lutece.portal.business.right.RightHome;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
@@ -56,13 +58,37 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
     private static final String PARAMETER_GROUP_ID = "group_id";
     private static final String TEST_GROUP_ID = "CONTENT"; // content feautures_group
     private FeaturesGroupJspBean instance;
+    private FeatureGroup featureGroup;
+    private Right right;
 
     @Override
     protected void setUp( ) throws Exception
     {
         super.setUp( );
         instance = new FeaturesGroupJspBean( );
+        String strGroupName = getRandomName( );
+        featureGroup = new FeatureGroup( );
+        featureGroup.setId( strGroupName );
+        featureGroup.setLabelKey( strGroupName );
+        featureGroup.setDescriptionKey( strGroupName );
+
+        FeatureGroupHome.create( featureGroup );
+
+        right = new Right( );
+        String strRight = getRandomName( );
+        right.setDescriptionKey( strRight );
+        right.setId( strRight );
+        RightHome.create( right );
     }
+
+    @Override
+    protected void tearDown( ) throws Exception
+    {
+        RightHome.remove( right.getId( ) );
+        FeatureGroupHome.remove( featureGroup.getId( ) );
+        super.tearDown( );
+    }
+
     /**
      * Test of getManageFeatures method, of class fr.paris.lutece.portal.web.features.FeaturesGroupJspBean.
      */
@@ -96,14 +122,86 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
         Utils.registerAdminUserWithRigth( request, new AdminUser( ), FeaturesGroupJspBean.RIGHT_FEATURES_MANAGEMENT );
 
         instance.init( request, FeaturesGroupJspBean.RIGHT_FEATURES_MANAGEMENT );
-        instance.getDispatchFeatures( request );
+        assertNotNull( instance.getDispatchFeatures( request ) );
     }
 
     /**
-     * Test of doDispatchFeature method, of class fr.paris.lutece.portal.web.features.FeaturesGroupJspBean.
+     * Test of doDispatchFeature method, of class
+     * fr.paris.lutece.portal.web.features.FeaturesGroupJspBean.
+     * 
+     * @throws AccessDeniedException
      */
-    public void testDoDispatchFeature( )
+    public void testDoDispatchFeature( ) throws AccessDeniedException
     {
+        Right stored = RightHome.findByPrimaryKey( right.getId( ) );
+        assertNotNull( stored );
+        assertNull( stored.getFeatureGroup( ) );
+
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.addParameter( "right_id", right.getId( ) );
+        request.addParameter( "group_name", featureGroup.getId( ) );
+        request.addParameter( "order_id", Integer.toString( stored.getOrder( ) + 1 ) );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "admin/features/dispatch_features.html" ) );
+
+        instance.doDispatchFeature( request );
+        stored = RightHome.findByPrimaryKey( right.getId( ) );
+        assertNotNull( stored );
+        assertEquals( featureGroup.getId( ), stored.getFeatureGroup( ) );
+        assertEquals( stored.getOrder( ) + 1, right.getOrder( ) );
+    }
+
+    public void testDoDispatchFeatureInvalidToken( ) throws AccessDeniedException
+    {
+        Right stored = RightHome.findByPrimaryKey( right.getId( ) );
+        assertNotNull( stored );
+        assertNull( stored.getFeatureGroup( ) );
+
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.addParameter( "right_id", right.getId( ) );
+        request.addParameter( "group_name", featureGroup.getId( ) );
+        request.addParameter( "order_id", Integer.toString( stored.getOrder( ) + 1 ) );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "admin/features/dispatch_features.html" )
+                        + "b" );
+
+        try
+        {
+            instance.doDispatchFeature( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            stored = RightHome.findByPrimaryKey( right.getId( ) );
+            assertNotNull( stored );
+            assertNull( stored.getFeatureGroup( ) );
+            assertEquals( right.getOrder( ), stored.getOrder( ) );
+        }
+    }
+
+    public void testDoDispatchFeatureNoToken( ) throws AccessDeniedException
+    {
+        Right stored = RightHome.findByPrimaryKey( right.getId( ) );
+        assertNotNull( stored );
+        assertNull( stored.getFeatureGroup( ) );
+
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.addParameter( "right_id", right.getId( ) );
+        request.addParameter( "group_name", featureGroup.getId( ) );
+        request.addParameter( "order_id", Integer.toString( stored.getOrder( ) + 1 ) );
+
+        try
+        {
+            instance.doDispatchFeature( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            stored = RightHome.findByPrimaryKey( right.getId( ) );
+            assertNotNull( stored );
+            assertNull( stored.getFeatureGroup( ) );
+            assertEquals( right.getOrder( ), stored.getOrder( ) );
+        }
     }
 
     /**
@@ -222,7 +320,7 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
         BigInteger bigInt = new BigInteger( 128, rand );
         return "junit" + bigInt.toString( 36 );
     }
-    
+
     /**
      * Test of doModifyGroup method, of class fr.paris.lutece.portal.web.features.FeaturesGroupJspBean.
      */
