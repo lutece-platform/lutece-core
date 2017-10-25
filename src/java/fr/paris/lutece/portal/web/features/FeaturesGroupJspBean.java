@@ -37,9 +37,11 @@ import fr.paris.lutece.portal.business.right.FeatureGroup;
 import fr.paris.lutece.portal.business.right.FeatureGroupHome;
 import fr.paris.lutece.portal.business.right.Right;
 import fr.paris.lutece.portal.business.right.RightHome;
+import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
+import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
 import fr.paris.lutece.portal.web.constants.Messages;
@@ -287,6 +289,7 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
         Map<String, Serializable> model = new HashMap<String, Serializable>( );
         model.put( MARK_ORDER_LIST, getOrderRefList( ) );
         model.put( MARK_DEFAULT_ORDER, String.valueOf( nCount ) );
+        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_CREATE_GROUP ) );
 
         HtmlTemplate t = AppTemplateService.getTemplate( TEMPLATE_CREATE_GROUP, getLocale( ), model );
 
@@ -326,8 +329,10 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
      * @param request
      *            The HTTP request
      * @return The next URL to redirect after processing
+     * @throws AccessDeniedException
+     *             if the security token is invalid
      */
-    public String doCreateGroup( HttpServletRequest request )
+    public String doCreateGroup( HttpServletRequest request ) throws AccessDeniedException
     {
         String strGroupId = request.getParameter( PARAMETER_GROUP_ID );
         String strGroupName = request.getParameter( PARAMETER_GROUP_NAME );
@@ -338,6 +343,10 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
         if ( strGroupId.equals( "" ) || strGroupName.equals( "" ) || strGroupDescription.equals( "" ) )
         {
             return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
+        }
+        if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_CREATE_GROUP ) )
+        {
+            throw new AccessDeniedException( "Invalid security token" );
         }
 
         FeatureGroup group = new FeatureGroup( );

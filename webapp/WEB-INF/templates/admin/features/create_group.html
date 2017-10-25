@@ -4,6 +4,7 @@
 			<@boxHeader title='#i18n{portal.features.create_group.title}' />
 			<@boxBody>
 				<@tform method='post' action='jsp/admin/features/DoCreateGroup.jsp'>
+					<input type="hidden" name="token" value="${token}">
 					<@formGroup labelFor='group_id' labelKey='#i18n{portal.features.create_group.labelId}' mandatory=true>
 						<@input type='text' id='group_id' name='group_id' />
 					</@formGroup>	
