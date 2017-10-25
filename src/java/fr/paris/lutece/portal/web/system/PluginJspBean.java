@@ -35,6 +35,7 @@ package fr.paris.lutece.portal.web.system;
 
 import fr.paris.lutece.portal.business.portlet.PortletType;
 import fr.paris.lutece.portal.business.portlet.PortletTypeHome;
+import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.admin.AdminUserService;
 import fr.paris.lutece.portal.service.database.AppConnectionService;
 import fr.paris.lutece.portal.service.i18n.I18nService;
@@ -43,6 +44,7 @@ import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.plugin.PluginService;
+import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
@@ -111,6 +113,7 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
         model.put( MARK_POOLS_LIST, getPoolsList( ) );
         model.put( MARK_FILTER_LIST, getPluginTypeFilterList( locale ) );
         model.put( MARK_CURRENT_FILTER, ( strPluginTypeFilter != null ) ? strPluginTypeFilter : "" );
+        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MANAGE_PLUGINS ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_PLUGINS, locale, model );
 
@@ -125,28 +128,31 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
      * @param context
      *            The servlet context
      * @return the url of the page containing a log essage
+     * @throws AccessDeniedException
+     *             if the security token is invalid
      */
-    public String doInstallPlugin( HttpServletRequest request, ServletContext context )
+    public String doInstallPlugin( HttpServletRequest request, ServletContext context ) throws AccessDeniedException
     {
+        String strPluginName = request.getParameter( PARAM_PLUGIN_NAME );
+        Plugin plugin = PluginService.getPlugin( strPluginName );
+
+        if ( !verifyCoreCompatibility( plugin ) )
+        {
+            Object[ ] args = { plugin.getMinCoreVersion( ), plugin.getMaxCoreVersion( ) };
+
+            return AdminMessageService.getMessageUrl( request, PROPERTY_PLUGIN_NO_CORE_COMPATIBILITY_MESSAGE, args,
+                    AdminMessage.TYPE_STOP );
+
+        }
+        if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_MANAGE_PLUGINS ) )
+        {
+            throw new AccessDeniedException( "Invalid security token" );
+        }
         try
         {
-            String strPluginName = request.getParameter( PARAM_PLUGIN_NAME );
-            Plugin plugin = PluginService.getPlugin( strPluginName );
-
-            if ( verifyCoreCompatibility( plugin ) )
-            {
-                plugin.install( );
-            }
-            else
-            {
-                Object [ ] args = {
-                        plugin.getMinCoreVersion( ), plugin.getMaxCoreVersion( )
-                };
-
-                return AdminMessageService.getMessageUrl( request, PROPERTY_PLUGIN_NO_CORE_COMPATIBILITY_MESSAGE, args, AdminMessage.TYPE_STOP );
-            }
+            plugin.install( );
         }
-        catch( Exception e )
+        catch ( Exception e )
         {
             AppLogService.error( e.getMessage( ), e );
 

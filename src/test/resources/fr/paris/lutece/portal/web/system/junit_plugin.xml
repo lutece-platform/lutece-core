@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<plug-in>
+    <name>junitplugin</name>
+    <class>fr.paris.lutece.portal.service.plugin.PluginDefaultImplementation</class>
+    <icon-url/>
+    <version>JUNIT</version>
+    <description/>
+    <provider/>
+    <provider-url/>
+</plug-in>
