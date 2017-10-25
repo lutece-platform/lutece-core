@@ -43,6 +43,8 @@ import org.springframework.mock.web.MockHttpServletRequest;
 
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
+import fr.paris.lutece.portal.service.message.AdminMessage;
+import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.util.AppPathService;
@@ -192,6 +194,66 @@ public class PluginJspBeanTest extends LuteceTestCase
         catch ( AccessDeniedException e )
         {
             assertNull( PluginService.getPlugin( PLUGIN_NAME ).getDbPoolName( ) );
+        }
+    }
+
+    public void testGetConfirmUninstallPlugin( )
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.addParameter( "plugin_name", PLUGIN_NAME );
+        instance.getConfirmUninstallPlugin( request );
+        AdminMessage message = AdminMessageService.getMessage( request );
+        assertNotNull( message );
+        assertTrue( message.getRequestParameters( ).containsKey( SecurityTokenService.PARAMETER_TOKEN ) );
+    }
+
+    public void testDoUninstallPlugin( ) throws AccessDeniedException
+    {
+        PluginService.getPlugin( PLUGIN_NAME ).install( );
+        assertTrue( PluginService.isPluginEnable( PLUGIN_NAME ) );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.addParameter( "plugin_name", PLUGIN_NAME );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/system/DoUninstallPlugin.jsp" ) );
+        instance.doUninstallPlugin( request, request.getServletContext( ) );
+        assertFalse( PluginService.isPluginEnable( PLUGIN_NAME ) );
+    }
+
+    public void testDoUninstallPluginInvalidToken( ) throws AccessDeniedException
+    {
+        PluginService.getPlugin( PLUGIN_NAME ).install( );
+        assertTrue( PluginService.isPluginEnable( PLUGIN_NAME ) );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.addParameter( "plugin_name", PLUGIN_NAME );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/system/DoUninstallPlugin.jsp" )
+                        + "b" );
+        try
+        {
+            instance.doUninstallPlugin( request, request.getServletContext( ) );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            assertTrue( PluginService.isPluginEnable( PLUGIN_NAME ) );
+        }
+    }
+
+    public void testDoUninstallPluginNoToken( ) throws AccessDeniedException
+    {
+        PluginService.getPlugin( PLUGIN_NAME ).install( );
+        assertTrue( PluginService.isPluginEnable( PLUGIN_NAME ) );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.addParameter( "plugin_name", PLUGIN_NAME );
+
+        try
+        {
+            instance.doUninstallPlugin( request, request.getServletContext( ) );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            assertTrue( PluginService.isPluginEnable( PLUGIN_NAME ) );
         }
     }
 }
