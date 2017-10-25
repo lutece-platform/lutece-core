@@ -226,9 +226,15 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
      * @param request
      *            The http request
      * @return the URL to redirect after this action
+     * @throws AccessDeniedException
+     *             if the security token is invalid
      */
-    public String doModifyPluginPool( HttpServletRequest request )
+    public String doModifyPluginPool( HttpServletRequest request ) throws AccessDeniedException
     {
+        if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_MANAGE_PLUGINS ) )
+        {
+            throw new AccessDeniedException( "Invalid security token" );
+        }
         String strPluginName = request.getParameter( PARAM_PLUGIN_NAME );
         String strDbPoolName = request.getParameter( PARAM_DB_POOL_NAME );
 
