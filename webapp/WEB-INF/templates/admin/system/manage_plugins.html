@@ -99,6 +99,7 @@
                 <#else>
 									<@tform method='post' class='form-inline pull-right spaced' action='jsp/admin/system/DoInstallPlugin.jsp#plugin_${plugin.name}_${plugin.version}'>
 										<input type="hidden" name="plugin_name" value="${plugin.name}" />
+										<input type="hidden" name="token" value="${token}">
 										<@button type='submit' title='#i18n{portal.system.manage_plugins.buttonEnable}' buttonIcon='play' showTitle=false color='btn-success' />
                   </@tform>
 								</#if>
