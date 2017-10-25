@@ -81,6 +81,7 @@
 								<@tform method='post' class='form-inline pull-right' action='jsp/admin/system/DoModifyPluginPool.jsp#plugin_${plugin.name}_${plugin.version}'>
 									<@select name='db_pool_name' default_value='${plugin.dbPoolName}' items=pools_list sort=true />
 									<input type="hidden" name="plugin_name" value="${plugin.name}">
+									<input type="hidden" name="token" value="${token}">
 									<@button type='submit' title='#i18n{portal.system.manage_plugins.buttonModifyDbPool}' buttonIcon='check' showTitle=false />
                 </@tform>
 								&nbsp;
