@@ -273,9 +273,15 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
      * @param request
      *            The {@link HttpServletRequest}
      * @return The next URL to redirect after processing
+     * @throws AccessDeniedException
+     *             if the security token is invalid
      */
-    public String doReinitFeatures( HttpServletRequest request )
+    public String doReinitFeatures( HttpServletRequest request ) throws AccessDeniedException
     {
+        if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_DISPATCH_FEATURES ) )
+        {
+            throw new AccessDeniedException( "Invalid security token" );
+        }
         String strGroupId = request.getParameter( PARAMETER_GROUP_ID );
         RightHome.reinitFeatureOrders( strGroupId );
 

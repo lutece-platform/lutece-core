@@ -20,7 +20,11 @@
 				<#if groupDisplay.feature_list?has_content>
 					<#if groupDisplay.feature_group.order !=0>
 					  <#if groupDisplay.order_list_state==false>
-						<@aButton href='jsp/admin/features/DoReinitFeatures.jsp?group_id=${groupDisplay.feature_group.id?if_exists}' title='#i18n{portal.features.dispatch_features.reinitFeatureOrders}' buttonIcon='refresh' color='btn-warning' />
+					  	<@tform method='post' action='jsp/admin/features/DoReinitFeatures.jsp'>
+					  		<input type="hidden" name="group_id" value="${groupDisplay.feature_group.id?if_exists}">
+					  		<input type="hidden" name="token" value="${token}">
+							<@button type='submit' title='#i18n{portal.features.dispatch_features.reinitFeatureOrders}' buttonIcon='refresh' color='btn-warning' />
+						</@tform>
 					  </#if>
 					</#if>
 				</#if>
