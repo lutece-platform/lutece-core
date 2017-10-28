@@ -46,6 +46,8 @@ import fr.paris.lutece.portal.business.right.Right;
 import fr.paris.lutece.portal.business.right.RightHome;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
+import fr.paris.lutece.portal.service.message.AdminMessage;
+import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.test.LuteceTestCase;
@@ -412,13 +414,63 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
 
         instance.init( request, FeaturesGroupJspBean.RIGHT_FEATURES_MANAGEMENT );
         instance.getRemoveGroup( request );
+        AdminMessage message = AdminMessageService.getMessage( request );
+        assertNotNull( message );
+        assertTrue( message.getRequestParameters( ).containsKey( SecurityTokenService.PARAMETER_TOKEN ) );
     }
 
     /**
-     * Test of doRemoveGroup method, of class fr.paris.lutece.portal.web.features.FeaturesGroupJspBean.
+     * Test of doRemoveGroup method, of class
+     * fr.paris.lutece.portal.web.features.FeaturesGroupJspBean.
+     * 
+     * @throws AccessDeniedException
      */
-    public void testDoRemoveGroup( )
+    public void testDoRemoveGroup( ) throws AccessDeniedException
     {
+        assertNotNull( FeatureGroupHome.findByPrimaryKey( featureGroup.getId( ) ) );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.addParameter( PARAMETER_GROUP_ID, featureGroup.getId( ) );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/features/DoRemoveGroup.jsp" ) );
+
+        instance.doRemoveGroup( request );
+        assertNull( FeatureGroupHome.findByPrimaryKey( featureGroup.getId( ) ) );
+    }
+
+    public void testDoRemoveGroupInvalidToken( ) throws AccessDeniedException
+    {
+        assertNotNull( FeatureGroupHome.findByPrimaryKey( featureGroup.getId( ) ) );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.addParameter( PARAMETER_GROUP_ID, featureGroup.getId( ) );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/features/DoRemoveGroup.jsp" ) + "b" );
+
+        try
+        {
+            instance.doRemoveGroup( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            assertNotNull( FeatureGroupHome.findByPrimaryKey( featureGroup.getId( ) ) );
+        }
+    }
+
+    public void testDoRemoveGroupNoToken( ) throws AccessDeniedException
+    {
+        assertNotNull( FeatureGroupHome.findByPrimaryKey( featureGroup.getId( ) ) );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.addParameter( PARAMETER_GROUP_ID, featureGroup.getId( ) );
+
+        try
+        {
+            instance.doRemoveGroup( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            assertNotNull( FeatureGroupHome.findByPrimaryKey( featureGroup.getId( ) ) );
+        }
     }
 
     public void testDoDispatchFeatureGroup( ) throws AccessDeniedException

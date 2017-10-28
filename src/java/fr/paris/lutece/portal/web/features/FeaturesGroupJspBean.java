@@ -80,6 +80,7 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
     private static final String PARAMETER_RIGHT_ID = "right_id";
     private static final String JSP_DISPATCH_FEATURES = "DispatchFeatures.jsp";
     private static final String JSP_MANAGE_GROUPS = "ManageGroups.jsp";
+    private static final String JSP_REMOVE_GROUPS = "jsp/admin/features/DoRemoveGroup.jsp";
     private static final String MESSAGE_CONFIRM_DELETE = "portal.features.message.confirmDeleteGroup";
     private static final String MESSAGE_RIGHT_ALREADY_ASSIGN = "portal.features.message.rightAlreadyAssign";
     private static final String MARK_GROUPS_LIST = "groups_list";
@@ -446,7 +447,10 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
     {
         String strGroupId = request.getParameter( PARAMETER_GROUP_ID );
 
-        String strUrl = "jsp/admin/features/DoRemoveGroup.jsp?" + PARAMETER_GROUP_ID + "=" + strGroupId;
+        String strUrl = JSP_REMOVE_GROUPS;
+        Map<String, Object> parameters = new HashMap<>( );
+        parameters.put( PARAMETER_GROUP_ID, strGroupId );
+        parameters.put( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, JSP_REMOVE_GROUPS ) );
         FeatureGroup group = FeatureGroupHome.findByPrimaryKey( strGroupId );
         group.setLocale( getUser( ).getLocale( ) );
 
@@ -454,7 +458,7 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
             group.getLabel( )
         };
 
-        return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_DELETE, messageArgs, null, strUrl, "", AdminMessage.TYPE_CONFIRMATION );
+        return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_DELETE, messageArgs, null, strUrl, "", AdminMessage.TYPE_CONFIRMATION, parameters );
     }
 
     /**
@@ -463,14 +467,20 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
      * @param request
      *            The HTTP request
      * @return The next URL to redirect after processing
+     * @throws AccessDeniedException
+     *             if the security token is invalid
      */
-    public String doRemoveGroup( HttpServletRequest request )
+    public String doRemoveGroup( HttpServletRequest request ) throws AccessDeniedException
     {
         String strGroupId = request.getParameter( PARAMETER_GROUP_ID );
 
         if ( RightHome.getRightsList( strGroupId ).size( ) > 0 )
         {
             return AdminMessageService.getMessageUrl( request, MESSAGE_RIGHT_ALREADY_ASSIGN, AdminMessage.TYPE_STOP );
+        }
+        if ( !SecurityTokenService.getInstance( ).validate( request, JSP_REMOVE_GROUPS ) )
+        {
+            throw new AccessDeniedException( "Invalid security token" );
         }
 
         FeatureGroupHome.remove( strGroupId );
