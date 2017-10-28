@@ -226,7 +226,7 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
         Utils.registerAdminUserWithRigth( request, new AdminUser( ), FeaturesGroupJspBean.RIGHT_FEATURES_MANAGEMENT );
 
         instance.init( request, FeaturesGroupJspBean.RIGHT_FEATURES_MANAGEMENT );
-        instance.getModifyGroup( request );
+        assertNotNull( instance.getModifyGroup( request ) );
     }
 
     /**
@@ -322,10 +322,81 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
     }
 
     /**
-     * Test of doModifyGroup method, of class fr.paris.lutece.portal.web.features.FeaturesGroupJspBean.
+     * Test of doModifyGroup method, of class
+     * fr.paris.lutece.portal.web.features.FeaturesGroupJspBean.
+     * 
+     * @throws AccessDeniedException
      */
-    public void testDoModifyGroup( )
+    public void testDoModifyGroup( ) throws AccessDeniedException
     {
+        String strGroupName = getRandomName( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.addParameter( "group_id", featureGroup.getId( ) );
+        request.addParameter( "group_name", strGroupName );
+        request.addParameter( "group_description", strGroupName );
+        request.addParameter( "group_order", Integer.toString( featureGroup.getOrder( ) + 1 ) );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "admin/features/modify_group.html" ) );
+
+        instance.doModifyGroup( request );
+        FeatureGroup group = FeatureGroupHome.findByPrimaryKey( featureGroup.getId( ) );
+        assertNotNull( group );
+        assertEquals( featureGroup.getId( ), group.getId( ) );
+        assertEquals( strGroupName, group.getLabelKey( ) );
+        assertEquals( strGroupName, group.getDescriptionKey( ) );
+        assertEquals( featureGroup.getOrder( ) + 1, group.getOrder( ) );
+    }
+
+    public void testDoModifyGroupInvalidToken( ) throws AccessDeniedException
+    {
+        String strGroupName = getRandomName( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.addParameter( "group_id", featureGroup.getId( ) );
+        request.addParameter( "group_name", strGroupName );
+        request.addParameter( "group_description", strGroupName );
+        request.addParameter( "group_order", Integer.toString( featureGroup.getOrder( ) + 1 ) );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "admin/features/modify_group.html" ) + "b" );
+
+        try
+        {
+            instance.doModifyGroup( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            FeatureGroup group = FeatureGroupHome.findByPrimaryKey( featureGroup.getId( ) );
+            assertNotNull( group );
+            assertEquals( featureGroup.getId( ), group.getId( ) );
+            assertEquals( featureGroup.getLabelKey( ), group.getLabelKey( ) );
+            assertEquals( featureGroup.getDescriptionKey( ), group.getDescriptionKey( ) );
+            assertEquals( featureGroup.getOrder( ), group.getOrder( ) );
+        }
+    }
+
+    public void testDoModifyGroupNoToken( ) throws AccessDeniedException
+    {
+        String strGroupName = getRandomName( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.addParameter( "group_id", featureGroup.getId( ) );
+        request.addParameter( "group_name", strGroupName );
+        request.addParameter( "group_description", strGroupName );
+        request.addParameter( "group_order", Integer.toString( featureGroup.getOrder( ) + 1 ) );
+
+        try
+        {
+            instance.doModifyGroup( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            FeatureGroup group = FeatureGroupHome.findByPrimaryKey( featureGroup.getId( ) );
+            assertNotNull( group );
+            assertEquals( featureGroup.getId( ), group.getId( ) );
+            assertEquals( featureGroup.getLabelKey( ), group.getLabelKey( ) );
+            assertEquals( featureGroup.getDescriptionKey( ), group.getDescriptionKey( ) );
+            assertEquals( featureGroup.getOrder( ), group.getOrder( ) );
+        }
     }
 
     /**
