@@ -123,6 +123,7 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
         Map<String, Object> model = new HashMap<String, Object>( );
         model.put( MARK_ORDER_LIST, getOrderRefList( ) );
         model.put( MARK_GROUPS_LIST, listGroups );
+        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MANAGE_GROUPS ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_GROUPS, getLocale( ), model );
 
@@ -242,9 +243,15 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
      * @param request
      *            The HTTP request
      * @return The next URL to redirect after processing
+     * @throws AccessDeniedException
+     *             if the security token is invalid
      */
-    public String doDispatchFeatureGroup( HttpServletRequest request )
+    public String doDispatchFeatureGroup( HttpServletRequest request ) throws AccessDeniedException
     {
+        if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_MANAGE_GROUPS ) )
+        {
+            throw new AccessDeniedException( "Invalid security token" );
+        }
         String strGroupId = request.getParameter( PARAMETER_GROUP_ID );
         String strOrderId = request.getParameter( PARAMETER_ORDER_ID );
         FeatureGroup featureGroup = FeatureGroupHome.findByPrimaryKey( strGroupId );

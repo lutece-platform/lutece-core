@@ -110,7 +110,7 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
         Utils.registerAdminUserWithRigth( request, new AdminUser( ), FeaturesGroupJspBean.RIGHT_FEATURES_MANAGEMENT );
 
         instance.init( request, FeaturesGroupJspBean.RIGHT_FEATURES_MANAGEMENT );
-        instance.getManageGroups( request );
+        assertNotNull( instance.getManageGroups( request ) );
     }
 
     /**
@@ -346,5 +346,60 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
      */
     public void testDoRemoveGroup( )
     {
+    }
+
+    public void testDoDispatchFeatureGroup( ) throws AccessDeniedException
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.addParameter( "group_id", featureGroup.getId( ) );
+        request.addParameter( "order_id", Integer.toString( featureGroup.getOrder( ) + 1 ) );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "admin/features/manage_groups.html" ) );
+
+        instance.doDispatchFeatureGroup( request );
+        FeatureGroup stored = FeatureGroupHome.findByPrimaryKey( featureGroup.getId( ) );
+        assertNotNull( stored );
+        assertEquals( featureGroup.getOrder( ) + 1, stored.getOrder( ) );
+
+    }
+
+    public void testDoDispatchFeatureGroupInvalidToken( ) throws AccessDeniedException
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.addParameter( "group_id", featureGroup.getId( ) );
+        request.addParameter( "order_id", Integer.toString( featureGroup.getOrder( ) + 1 ) );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "admin/features/manage_groups.html" ) + "b" );
+
+        try
+        {
+            instance.doDispatchFeatureGroup( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            FeatureGroup stored = FeatureGroupHome.findByPrimaryKey( featureGroup.getId( ) );
+            assertNotNull( stored );
+            assertEquals( featureGroup.getOrder( ), stored.getOrder( ) );
+        }
+    }
+
+    public void testDoDispatchFeatureGroupNoToken( ) throws AccessDeniedException
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.addParameter( "group_id", featureGroup.getId( ) );
+        request.addParameter( "order_id", Integer.toString( featureGroup.getOrder( ) + 1 ) );
+
+        try
+        {
+            instance.doDispatchFeatureGroup( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            FeatureGroup stored = FeatureGroupHome.findByPrimaryKey( featureGroup.getId( ) );
+            assertNotNull( stored );
+            assertEquals( featureGroup.getOrder( ), stored.getOrder( ) );
+        }
     }
 }
