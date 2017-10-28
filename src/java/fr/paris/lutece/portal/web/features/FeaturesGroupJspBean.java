@@ -331,6 +331,7 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
         Map<String, Object> model = new HashMap<String, Object>( );
         model.put( MARK_ORDER_LIST, getOrderRefList( ) );
         model.put( MARK_FEATURE_GROUP, group );
+        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MODIFY_GROUP ) );
 
         HtmlTemplate t = AppTemplateService.getTemplate( TEMPLATE_MODIFY_GROUP, getLocale( ), model );
 
@@ -381,8 +382,10 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
      * @param request
      *            The HTTP request
      * @return The next URL to redirect after processing
+     * @throws AccessDeniedException
+     *             is the security token is invalid
      */
-    public String doModifyGroup( HttpServletRequest request )
+    public String doModifyGroup( HttpServletRequest request ) throws AccessDeniedException
     {
         String strGroupId = request.getParameter( PARAMETER_GROUP_ID );
         String strGroupName = request.getParameter( PARAMETER_GROUP_NAME );
@@ -393,6 +396,10 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
         if ( strGroupId.equals( "" ) || strGroupName.equals( "" ) || strGroupDescription.equals( "" ) )
         {
             return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
+        }
+        if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_MODIFY_GROUP ) )
+        {
+            throw new AccessDeniedException( "Invalid Security token" );
         }
 
         FeatureGroup group = FeatureGroupHome.findByPrimaryKey( strGroupId );
