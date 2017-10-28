@@ -41,11 +41,13 @@ import org.springframework.mock.web.MockHttpServletRequest;
 
 import fr.paris.lutece.portal.business.right.FeatureGroup;
 import fr.paris.lutece.portal.business.right.FeatureGroupHome;
+import fr.paris.lutece.portal.business.right.IRightDAO;
 import fr.paris.lutece.portal.business.right.Right;
 import fr.paris.lutece.portal.business.right.RightHome;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
+import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.Utils;
 
@@ -471,6 +473,85 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
             FeatureGroup stored = FeatureGroupHome.findByPrimaryKey( featureGroup.getId( ) );
             assertNotNull( stored );
             assertEquals( featureGroup.getOrder( ), stored.getOrder( ) );
+        }
+    }
+
+    public void testDoReinitFeatures( ) throws AccessDeniedException
+    {
+        right.setFeatureGroup( featureGroup.getId( ) );
+        RightHome.update( right );
+        right.setOrder( 100 );
+        ( ( IRightDAO ) SpringContextService.getBean( "rightDAO" ) ).store( right );
+
+        Right stored = RightHome.findByPrimaryKey( right.getId( ) );
+        assertNotNull( stored );
+        assertEquals( 100, stored.getOrder( ) );
+
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.addParameter( "group_id", featureGroup.getId( ) );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "admin/features/dispatch_features.html" ) );
+
+        instance.doReinitFeatures( request );
+        stored = RightHome.findByPrimaryKey( right.getId( ) );
+        assertNotNull( stored );
+        assertEquals( 1, stored.getOrder( ) );
+    }
+
+    public void testDoReinitFeaturesInvalidToken( ) throws AccessDeniedException
+    {
+        right.setFeatureGroup( featureGroup.getId( ) );
+        RightHome.update( right );
+        right.setOrder( 100 );
+        ( ( IRightDAO ) SpringContextService.getBean( "rightDAO" ) ).store( right );
+
+        Right stored = RightHome.findByPrimaryKey( right.getId( ) );
+        assertNotNull( stored );
+        assertEquals( 100, stored.getOrder( ) );
+
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.addParameter( "group_id", featureGroup.getId( ) );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "admin/features/dispatch_features.html" )
+                        + "b" );
+
+        try
+        {
+            instance.doReinitFeatures( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            stored = RightHome.findByPrimaryKey( right.getId( ) );
+            assertNotNull( stored );
+            assertEquals( 100, stored.getOrder( ) );
+        }
+    }
+
+    public void testDoReinitFeaturesNoToken( ) throws AccessDeniedException
+    {
+        right.setFeatureGroup( featureGroup.getId( ) );
+        RightHome.update( right );
+        right.setOrder( 100 );
+        ( ( IRightDAO ) SpringContextService.getBean( "rightDAO" ) ).store( right );
+
+        Right stored = RightHome.findByPrimaryKey( right.getId( ) );
+        assertNotNull( stored );
+        assertEquals( 100, stored.getOrder( ) );
+
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.addParameter( "group_id", featureGroup.getId( ) );
+
+        try
+        {
+            instance.doReinitFeatures( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            stored = RightHome.findByPrimaryKey( right.getId( ) );
+            assertNotNull( stored );
+            assertEquals( 100, stored.getOrder( ) );
         }
     }
 }
