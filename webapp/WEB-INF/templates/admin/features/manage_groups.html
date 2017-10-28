@@ -35,6 +35,7 @@
 						  <td>
 							<@tform method='post' action='jsp/admin/features/DoDispatchFeatureGroup.jsp' class='form-inline'>
 							  <input type="hidden" name="group_id" value="${group.id?html}">
+							  <input type="hidden" name="token" value="${token}">
 							  <@formGroup rows=2>
 								<@inputGroup>
 								  <@inputGroupItem>
