@@ -16,6 +16,12 @@
 		<#elseif message.type = 4 > 
 			<#assign messageClass = 'success' />
 			<#assign messageIcon = 'check-circle' />
+		<#elseif message.type = 5 > 
+			<#assign messageClass = 'danger' />
+			<#assign messageIcon = 'stop-circle' />
+		<#else> 
+			<#assign messageClass = 'info' />
+			<#assign messageIcon = 'question-circle' />
 		</#if>
 		
 		<div class="alert alert-${messageClass}">
