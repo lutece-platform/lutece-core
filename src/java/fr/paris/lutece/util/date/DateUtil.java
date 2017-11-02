@@ -34,6 +34,7 @@
 package fr.paris.lutece.util.date;
 
 import fr.paris.lutece.portal.service.i18n.I18nService;
+import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.web.l10n.LocaleService;
 
 import java.sql.Timestamp;
@@ -268,7 +269,7 @@ public final class DateUtil
             }
             catch( ParseException e )
             {
-                return null;
+            	 AppLogService.error( "Error parsing date : " + e.getMessage( ), e );
             }
         }
 
