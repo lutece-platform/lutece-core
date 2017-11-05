@@ -45,16 +45,22 @@ import java.util.concurrent.TimeoutException;
 
 import org.springframework.mock.web.MockHttpServletRequest;
 
+import fr.paris.lutece.portal.business.user.AdminUser;
+import fr.paris.lutece.portal.service.admin.AccessDeniedException;
+import fr.paris.lutece.portal.service.admin.PasswordResetException;
 import fr.paris.lutece.portal.service.daemon.AppDaemonService;
 import fr.paris.lutece.portal.service.daemon.DaemonEntry;
 import fr.paris.lutece.portal.service.daemon.TestDaemon;
 import fr.paris.lutece.portal.service.datastore.DatastoreService;
+import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.test.LuteceTestCase;
+import fr.paris.lutece.test.Utils;
 
 public class DaemonsJspBeanTest extends LuteceTestCase
 {
+    private static final String TEMPLATE_MANAGE_DAEMONS = "admin/system/manage_daemons.html";
     private static final String JUNIT_DAEMON = "JUNIT";
     private static final String DAEMON_INTERVAL_DSKEY = "core.daemon." + JUNIT_DAEMON + ".interval";
     private DaemonsJspBean bean;
@@ -71,6 +77,8 @@ public class DaemonsJspBeanTest extends LuteceTestCase
         bean = new DaemonsJspBean( );
         _entry = new DaemonEntry( );
         _entry.setId( JUNIT_DAEMON );
+        _entry.setNameKey( JUNIT_DAEMON );
+        _entry.setDescriptionKey( JUNIT_DAEMON );
         _entry.setClassName( TestDaemon.class.getName( ) );
         _entry.setPluginName( "core" );
         // AppDaemonService.registerDaemon will copy this datastore value in the entry.
@@ -143,7 +151,7 @@ public class DaemonsJspBeanTest extends LuteceTestCase
         AppPropertiesService.reloadAll( );
     }
 
-    public void testDoDaemonActionStart( ) throws InterruptedException, BrokenBarrierException, TimeoutException
+    public void testDoDaemonActionStart( ) throws InterruptedException, BrokenBarrierException, TimeoutException, AccessDeniedException
     {
         long lReadyTime;
         long lScheduledTime;
@@ -151,6 +159,7 @@ public class DaemonsJspBeanTest extends LuteceTestCase
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.setParameter( "action", "START" );
         request.setParameter( "daemon", JUNIT_DAEMON );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MANAGE_DAEMONS ) );
         lReadyTime = System.nanoTime( );
         bean.doDaemonAction( request ); // Daemon should run periodically with interval of 1s
 
@@ -175,31 +184,147 @@ public class DaemonsJspBeanTest extends LuteceTestCase
                 1000 - lMarginMilliseconds <= lRescheduleDurationMilliseconds && lRescheduleDurationMilliseconds <= 1000 + lMarginMilliseconds );
     }
 
-    public void testDoDaemonActionStop( ) throws InterruptedException, BrokenBarrierException, TimeoutException
+    public void testDoDaemonActionStartInvalidToken( ) throws InterruptedException, BrokenBarrierException, TimeoutException, AccessDeniedException
     {
         assertFalse( _entry.isRunning( ) );
-        AppDaemonService.startDaemon( JUNIT_DAEMON ); // Daemon should run periodically with interval of 1s
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( "action", "START" );
+        request.setParameter( "daemon", JUNIT_DAEMON );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MANAGE_DAEMONS ) + "b" );
+        try
+        {
+            bean.doDaemonAction( request ); // Daemon should run periodically with interval of 1s
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            assertFalse( _entry.isRunning( ) );
+            try
+            {
+                // Here the daemon should not be launched 
+                _testDaemon.go( 2500, TimeUnit.MILLISECONDS );
+                fail( "Daemon running be should not" );
+            }
+            catch( TimeoutException te )
+            {
+                // ok
+            }
+        }
+    }
+
+    public void testDoDaemonActionStartNoToken( ) throws InterruptedException, BrokenBarrierException, TimeoutException, AccessDeniedException
+    {
+        assertFalse( _entry.isRunning( ) );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( "action", "START" );
+        request.setParameter( "daemon", JUNIT_DAEMON );
+        try
+        {
+            bean.doDaemonAction( request ); // Daemon should run periodically with interval of 1s
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            assertFalse( _entry.isRunning( ) );
+            try
+            {
+                // Here the daemon should not be launched 
+                _testDaemon.go( 2500, TimeUnit.MILLISECONDS );
+                fail( "Daemon running be should not" );
+            }
+            catch ( TimeoutException te )
+            {
+                // ok
+            }
+        }
+    }
+
+    public void testDoDaemonActionStop( )
+            throws InterruptedException, BrokenBarrierException, TimeoutException, AccessDeniedException
+    {
+        assertFalse( _entry.isRunning( ) );
+        AppDaemonService.startDaemon( JUNIT_DAEMON ); // Daemon should run
+                                                      // periodically with
+                                                      // interval of 1s
         _testDaemon.go( );
         _testDaemon.waitForCompletion( );
         // We have about 1 second to stop the daemon
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.setParameter( "action", "STOP" );
         request.setParameter( "daemon", JUNIT_DAEMON );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MANAGE_DAEMONS ) );
         bean.doDaemonAction( request );
         assertFalse( _entry.isRunning( ) );
         try
         {
-            // Here the daemon should not be relaunched after a 1s interval. So wait 2.5 seconds until a timeout.
+            // Here the daemon should not be relaunched after a 1s interval. So
+            // wait 2.5 seconds until a timeout.
             _testDaemon.go( 2500, TimeUnit.MILLISECONDS );
             fail( "Daemon still running after stop" );
         }
-        catch( TimeoutException e )
+        catch ( TimeoutException e )
         {
             // ok
         }
     }
 
-    public void testDoDaemonActionRun( ) throws InterruptedException, BrokenBarrierException, TimeoutException
+    public void testDoDaemonActionStopInvalidToken( )
+            throws InterruptedException, BrokenBarrierException, TimeoutException, AccessDeniedException
+    {
+        assertFalse( _entry.isRunning( ) );
+        AppDaemonService.startDaemon( JUNIT_DAEMON ); // Daemon should run
+                                                      // periodically with
+                                                      // interval of 1s
+        _testDaemon.go( );
+        _testDaemon.waitForCompletion( );
+        // We have about 1 second to stop the daemon
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( "action", "STOP" );
+        request.setParameter( "daemon", JUNIT_DAEMON );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MANAGE_DAEMONS ) + "b" );
+        try
+        {
+            bean.doDaemonAction( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            assertTrue( _entry.isRunning( ) );
+            _testDaemon.go( );
+            _testDaemon.waitForCompletion( );
+        }
+    }
+
+    public void testDoDaemonActionStopNoToken( )
+            throws InterruptedException, BrokenBarrierException, TimeoutException, AccessDeniedException
+    {
+        assertFalse( _entry.isRunning( ) );
+        AppDaemonService.startDaemon( JUNIT_DAEMON ); // Daemon should run
+                                                      // periodically with
+                                                      // interval of 1s
+        _testDaemon.go( );
+        _testDaemon.waitForCompletion( );
+        // We have about 1 second to stop the daemon
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( "action", "STOP" );
+        request.setParameter( "daemon", JUNIT_DAEMON );
+        try
+        {
+            bean.doDaemonAction( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            assertTrue( _entry.isRunning( ) );
+            _testDaemon.go( );
+            _testDaemon.waitForCompletion( );
+        }
+    }
+
+    public void testDoDaemonActionRun( )
+            throws InterruptedException, BrokenBarrierException, TimeoutException, AccessDeniedException
     {
         long lReadyTime;
         long lScheduledTime;
@@ -207,7 +332,9 @@ public class DaemonsJspBeanTest extends LuteceTestCase
         _entry.setInterval( 1000 );
 
         lReadyTime = System.nanoTime( );
-        AppDaemonService.startDaemon( JUNIT_DAEMON ); // Daemon should run periodically with interval of 1000s
+        AppDaemonService.startDaemon( JUNIT_DAEMON ); // Daemon should run
+                                                      // periodically with
+                                                      // interval of 1000s
         _testDaemon.go( );
         lScheduledTime = System.nanoTime( );
         AppLogService.info( "Daemon scheduled after " + ( ( lScheduledTime - lReadyTime ) / 1000000 ) + " ms" );
@@ -215,8 +342,11 @@ public class DaemonsJspBeanTest extends LuteceTestCase
         _testDaemon.waitForCompletion( );
 
         MockHttpServletRequest request = new MockHttpServletRequest( );
-        request.setParameter( "action", "RUN" ); // Manually do 1 run of the daemon now
+        request.setParameter( "action", "RUN" ); // Manually do 1 run of the
+                                                 // daemon now
         request.setParameter( "daemon", JUNIT_DAEMON );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MANAGE_DAEMONS ) );
         lReadyTime = System.nanoTime( );
         bean.doDaemonAction( request );
 
@@ -227,21 +357,158 @@ public class DaemonsJspBeanTest extends LuteceTestCase
         _testDaemon.waitForCompletion( );
     }
 
-    public void testDoDaemonActionUpdateInterval( )
+    public void testDoDaemonActionRunInvalidToken( )
+            throws InterruptedException, BrokenBarrierException, TimeoutException, AccessDeniedException
+    {
+        long lReadyTime;
+        long lScheduledTime;
+        assertFalse( _entry.isRunning( ) );
+        _entry.setInterval( 1000 );
+
+        lReadyTime = System.nanoTime( );
+        AppDaemonService.startDaemon( JUNIT_DAEMON ); // Daemon should run
+                                                      // periodically with
+                                                      // interval of 1000s
+        _testDaemon.go( );
+        lScheduledTime = System.nanoTime( );
+        AppLogService.info( "Daemon scheduled after " + ( ( lScheduledTime - lReadyTime ) / 1000000 ) + " ms" );
+
+        _testDaemon.waitForCompletion( );
+
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( "action", "RUN" ); // Manually do 1 run of the
+                                                 // daemon now
+        request.setParameter( "daemon", JUNIT_DAEMON );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MANAGE_DAEMONS ) + "b" );
+
+        try
+        {
+            bean.doDaemonAction( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            try
+            {
+                // Here the daemon should not be run
+                _testDaemon.go( 1, TimeUnit.SECONDS );
+                fail( "Daemon should not have run" );
+            }
+            catch ( TimeoutException te )
+            {
+                // ok
+            }
+        }
+    }
+
+    public void testDoDaemonActionRunNoToken( )
+            throws InterruptedException, BrokenBarrierException, TimeoutException, AccessDeniedException
+    {
+        long lReadyTime;
+        long lScheduledTime;
+        assertFalse( _entry.isRunning( ) );
+        _entry.setInterval( 1000 );
+
+        lReadyTime = System.nanoTime( );
+        AppDaemonService.startDaemon( JUNIT_DAEMON ); // Daemon should run
+                                                      // periodically with
+                                                      // interval of 1000s
+        _testDaemon.go( );
+        lScheduledTime = System.nanoTime( );
+        AppLogService.info( "Daemon scheduled after " + ( ( lScheduledTime - lReadyTime ) / 1000000 ) + " ms" );
+
+        _testDaemon.waitForCompletion( );
+
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( "action", "RUN" ); // Manually do 1 run of the
+                                                 // daemon now
+        request.setParameter( "daemon", JUNIT_DAEMON );
+
+        try
+        {
+            bean.doDaemonAction( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            try
+            {
+                // Here the daemon should not be run
+                _testDaemon.go( 1, TimeUnit.SECONDS );
+                fail( "Daemon should not have run" );
+            }
+            catch ( TimeoutException te )
+            {
+                // ok
+            }
+        }
+    }
+
+    public void testDoDaemonActionUpdateInterval( ) throws AccessDeniedException
     {
         final long lTestInterval = 314159L;
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.setParameter( "action", "UPDATE_INTERVAL" );
         request.setParameter( "daemon", JUNIT_DAEMON );
         request.setParameter( "interval", Long.toString( lTestInterval ) );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MANAGE_DAEMONS ) );
         bean.doDaemonAction( request );
         assertEquals( lTestInterval, _entry.getInterval( ) );
     }
 
-    public void testDoDaemonActionUnknown( )
+    public void testDoDaemonActionUpdateIntervalInvalidToken( ) throws AccessDeniedException
+    {
+        final long lTestInterval = 314159L;
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( "action", "UPDATE_INTERVAL" );
+        request.setParameter( "daemon", JUNIT_DAEMON );
+        request.setParameter( "interval", Long.toString( lTestInterval ) );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MANAGE_DAEMONS ) + "b" );
+        try
+        {
+            bean.doDaemonAction( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            assertEquals( 1, _entry.getInterval( ) );
+        }
+    }
+
+    public void testDoDaemonActionUpdateIntervalNoToken( ) throws AccessDeniedException
+    {
+        final long lTestInterval = 314159L;
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( "action", "UPDATE_INTERVAL" );
+        request.setParameter( "daemon", JUNIT_DAEMON );
+        request.setParameter( "interval", Long.toString( lTestInterval ) );
+
+        try
+        {
+            bean.doDaemonAction( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            assertEquals( 1, _entry.getInterval( ) );
+        }
+    }
+
+    public void testDoDaemonActionUnknown( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.setParameter( "action", "UNKNOWN" );
         bean.doDaemonAction( request ); // does not throw
+    }
+
+    public void testGetManageDaemons( ) throws PasswordResetException, AccessDeniedException
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        Utils.registerAdminUserWithRigth( request, new AdminUser( ), DaemonsJspBean.RIGHT_DAEMONS_MANAGEMENT );
+        bean.init( request, DaemonsJspBean.RIGHT_DAEMONS_MANAGEMENT );
+        assertNotNull( bean.getManageDaemons( request ) );
     }
 }

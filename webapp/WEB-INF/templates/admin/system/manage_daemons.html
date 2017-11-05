@@ -44,6 +44,7 @@
 						  <#else>
 							  <@tform method='post' action='jsp/admin/system/DoDaemonAction.jsp' class='form-inline'>
 								  <input type="hidden" name="daemon" value="${daemon.id}">
+								  <input type="hidden" name="token" value="${token}">
 								  <@formGroup labelFor='interval' showLabel=false labelKey='#i18n{portal.system.manage_daemons.columnTitleInterval}' rows=2 formStyle='inline'>
 								  <@inputGroup>
 									<@input type='text' name='interval' id='interval' value='${daemon.interval}' />
@@ -83,6 +84,7 @@
 						  <div class="text-center">
 							<@tform method="post" action="jsp/admin/system/DoDaemonAction.jsp" class="form-inline">
 							<input type="hidden" name="daemon" value="${daemon.id}">
+							<input type="hidden" name="token" value="${token}">
 							<#if daemon.running>
 								<@button type='submit' title='#i18n{portal.system.manage_daemons.buttonStop} ${daemon.id}' name='action' value='STOP' buttonIcon='stop' color='btn-danger' showTitle=false />
 								<@button type='submit' title='#i18n{portal.system.manage_daemons.buttonRun} ${daemon.id}' name='action' value='RUN' buttonIcon='play' color='btn-success' showTitle=false />
