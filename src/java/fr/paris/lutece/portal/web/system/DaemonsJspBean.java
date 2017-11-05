@@ -33,10 +33,12 @@
  */
 package fr.paris.lutece.portal.web.system;
 
+import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.daemon.AppDaemonService;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
+import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.web.admin.AdminPageJspBean;
@@ -79,6 +81,7 @@ public class DaemonsJspBean extends AdminPageJspBean
     {
         HashMap<String, Object> model = new HashMap<String, Object>( );
         model.put( MARK_DAEMONS_LIST, AppDaemonService.getDaemonEntries( ) );
+        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MANAGE_DAEMONS ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_DAEMONS, getLocale( ), model );
 
@@ -91,8 +94,10 @@ public class DaemonsJspBean extends AdminPageJspBean
      * @param request
      *            The HTTP request
      * @return The forward URL
+     * @throws AccessDeniedException
+     *             if the security token is invalid
      */
-    public String doDaemonAction( HttpServletRequest request )
+    public String doDaemonAction( HttpServletRequest request ) throws AccessDeniedException
     {
         String strAction = request.getParameter( PARAMETER_ACTION );
         String strDaemonKey = request.getParameter( PARAMETER_DAEMON );
@@ -100,12 +105,15 @@ public class DaemonsJspBean extends AdminPageJspBean
         switch( strAction )
         {
             case ACTION_START:
+                assertSecurityToken( request );
                 AppDaemonService.startDaemon( strDaemonKey );
                 break;
             case ACTION_STOP:
+                assertSecurityToken( request );
                 AppDaemonService.stopDaemon( strDaemonKey );
                 break;
             case ACTION_RUN:
+                assertSecurityToken( request );
                 AppDaemonService.signalDaemon( strDaemonKey );
                 break;
             case ACTION_UPDATE_INTERVAL:
@@ -131,6 +139,7 @@ public class DaemonsJspBean extends AdminPageJspBean
                     return AdminMessageService.getMessageUrl( request, strErrorMessage, tabFieldInterval, AdminMessage.TYPE_STOP );
                 }
 
+                assertSecurityToken( request );
                 AppDaemonService.modifyDaemonInterval( strDaemonKey, strDaemonInterval );
                 break;
             default:
@@ -138,5 +147,21 @@ public class DaemonsJspBean extends AdminPageJspBean
         }
 
         return getHomeUrl( request );
+    }
+
+    /**
+     * Asserts that the security token is valid
+     * 
+     * @param request
+     *            the request
+     * @throws AccessDeniedException
+     *             if the security token is invalid
+     */
+    private void assertSecurityToken( HttpServletRequest request ) throws AccessDeniedException
+    {
+        if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_MANAGE_DAEMONS ) )
+        {
+            throw new AccessDeniedException( "Invalid security token" );
+        }
     }
 }
