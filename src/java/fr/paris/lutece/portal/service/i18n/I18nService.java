@@ -69,9 +69,9 @@ import java.util.regex.Pattern;
  */
 public final class I18nService
 {
-    private static final String FORMAT_PACKAGE_PORTAL_RESOURCES_LOCATION = "fr.paris.lutece.portal.resources.{0}_messages";
-    private static final String FORMAT_PACKAGE_PLUGIN_RESOURCES_LOCATION = "fr.paris.lutece.plugins.{0}.resources.{0}_messages";
-    private static final String FORMAT_PACKAGE_MODULE_RESOURCES_LOCATION = "fr.paris.lutece.plugins.{0}.modules.{1}.resources.{1}_messages";
+    public static final String FORMAT_PACKAGE_PORTAL_RESOURCES_LOCATION = "lutece.format.package.portal.resources.location";
+    private static final String FORMAT_PACKAGE_PLUGIN_RESOURCES_LOCATION = "lutece.format.package.plugin.resources.location";
+    private static final String FORMAT_PACKAGE_MODULE_RESOURCES_LOCATION = "lutece.format.package.module.resources.location";
     private static final Pattern PATTERN_LOCALIZED_KEY = Pattern.compile( "#i18n\\{(.*?)\\}" );
     private static final String PROPERTY_AVAILABLES_LOCALES = "lutece.i18n.availableLocales";
     private static final Locale LOCALE_DEFAULT = new Locale( "", "", "" );
@@ -199,7 +199,7 @@ public final class I18nService
                 String strBundleKey = strKey.substring( 0, nPos );
                 String strStringKey = strKey.substring( nPos + 1 );
 
-                String strBundle = FORMAT_PACKAGE_PORTAL_RESOURCES_LOCATION;
+                String strBundle = AppPropertiesService.getProperty( FORMAT_PACKAGE_PORTAL_RESOURCES_LOCATION );
 
                 if ( !strBundleKey.equals( "portal" ) )
                 {
@@ -246,7 +246,7 @@ public final class I18nService
         }
         catch( Exception e )
         {
-            String strErrorMessage = "Error localizing key : '" + strKey + "' - " + e.getMessage( );
+             String strErrorMessage = "Error localizing key : '" + strKey + "' - " + e.getMessage( );
 
             if ( e.getCause( ) != null )
             {
@@ -275,7 +275,7 @@ public final class I18nService
             Object [ ] params = {
                 strBundleKey
             };
-            MessageFormat format = new MessageFormat( FORMAT_PACKAGE_PLUGIN_RESOURCES_LOCATION );
+            MessageFormat format = new MessageFormat( AppPropertiesService.getProperty( FORMAT_PACKAGE_PLUGIN_RESOURCES_LOCATION ) );
             strBundle = format.format( params );
             _pluginBundleNames.put( strBundleKey, strBundle );
         }
@@ -302,7 +302,7 @@ public final class I18nService
             Object [ ] params = {
                     strPlugin, strModule
             };
-            MessageFormat format = new MessageFormat( FORMAT_PACKAGE_MODULE_RESOURCES_LOCATION );
+            MessageFormat format = new MessageFormat(  AppPropertiesService.getProperty( FORMAT_PACKAGE_MODULE_RESOURCES_LOCATION ) );
             strBundle = format.format( params );
             _moduleBundleNames.put( key, strBundle );
         }
@@ -326,7 +326,7 @@ public final class I18nService
             Object [ ] params = {
                 strElement
             };
-            MessageFormat format = new MessageFormat( FORMAT_PACKAGE_PORTAL_RESOURCES_LOCATION );
+            MessageFormat format = new MessageFormat( AppPropertiesService.getProperty( FORMAT_PACKAGE_PORTAL_RESOURCES_LOCATION ) );
             strBundle = format.format( params );
             _portalBundleNames.put( strElement, strBundle );
         }
