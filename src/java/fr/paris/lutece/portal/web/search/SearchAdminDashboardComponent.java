@@ -39,6 +39,7 @@ import fr.paris.lutece.portal.service.dashboard.admin.AdminDashboardComponent;
 import fr.paris.lutece.portal.service.rbac.RBACService;
 import fr.paris.lutece.portal.service.search.SearchResourceIdService;
 import fr.paris.lutece.portal.service.search.SearchService;
+import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.util.html.HtmlTemplate;
 
@@ -53,6 +54,7 @@ public class SearchAdminDashboardComponent extends AdminDashboardComponent
 {
     private static final String EMPTY_STRING = "";
     private static final String TEMPLATE_ADMIN_DASHBOARD = "admin/search/search_admindashboard.html";
+    private static final String JSP_MANAGE_ADVANCED_PARAMETERS = "ManageAdvancedParameters.jsp";
 
     /**
      * {@inheritDoc}
@@ -67,6 +69,7 @@ public class SearchAdminDashboardComponent extends AdminDashboardComponent
         }
 
         Map<String, Object> model = SearchService.getManageAdvancedParameters( user, request );
+        model.put( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, JSP_MANAGE_ADVANCED_PARAMETERS ) );
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_DASHBOARD, user.getLocale( ), model );
 
         return template.getHtml( );
