@@ -156,8 +156,10 @@ public class AdminDashboardJspBean extends AdminFeaturesPageJspBean
      * @param request
      *            the request
      * @return url
+     * @throws AccessDeniedException
+     *             if the security token is invalid
      */
-    public String doReorderColumn( HttpServletRequest request )
+    public String doReorderColumn( HttpServletRequest request ) throws AccessDeniedException
     {
         String strColumnName = request.getParameter( PARAMETER_COLUMN );
 
@@ -178,7 +180,10 @@ public class AdminDashboardJspBean extends AdminFeaturesPageJspBean
 
             return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
         }
-
+        if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_MANAGE_DASHBOARDS ) )
+        {
+            throw new AccessDeniedException( "Invalid security token" );
+        }
         _service.doReorderColumn( nColumn );
 
         return JSP_MANAGE_DASHBOARDS;
