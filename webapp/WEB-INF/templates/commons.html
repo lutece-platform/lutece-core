@@ -680,7 +680,7 @@ and is kept only for backwards compatibility
 </#macro>
 
 <#--- MACRO SELECT (TO REPLACE "COMBO" MACROS) --->
-<#macro select name items='' default_value=0 id=name size='' sort=false multiple=0 params='' title=''>
+<#macro select name items='' default_value="" id=name size='' sort=false multiple=0 params='' title=''>
 	<select id="${id}" name="${name}" class="form-control<#if size!=''> input-${size}</#if>" <#if (multiple &gt; 0)>multiple size="${multiple}"</#if><#if params!=''> ${params}</#if><#if title!=''> ${title}</#if>>
 	<#if items?has_content>
 		<#if sort=true>
