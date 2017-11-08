@@ -196,4 +196,93 @@ public class AdminDashboardJspBeanTest extends LuteceTestCase
             assertEquals( 0, stored.getZone( ) );
         }
     }
+
+    public void testDoReorderColumn( ) throws AccessDeniedException
+    {
+        IAdminDashboardComponent stored = AdminDashboardHome.findByPrimaryKey( _dashboard.getName( ) );
+        assertNotNull( stored );
+        assertEquals( 0, stored.getOrder( ) );
+        assertEquals( 0, stored.getZone( ) );
+        int nZone = AdminDashboardHome.findColumns( ).stream( ).max( Integer::compare ).orElse( 1 );
+        stored.setZone( nZone );
+        stored.setOrder( -1 );
+        AdminDashboardHome.update( stored );
+        stored = AdminDashboardHome.findByPrimaryKey( _dashboard.getName( ) );
+        assertEquals( -1, stored.getOrder( ) );
+        assertEquals( nZone, stored.getZone( ) );
+
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( "column", Integer.toString( nZone ) );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( )
+                .getToken( request, "/admin/dashboard/admin/manage_dashboards.html" ) );
+
+        instance.doReorderColumn( request );
+
+        stored = AdminDashboardHome.findByPrimaryKey( _dashboard.getName( ) );
+        assertEquals( 1, stored.getOrder( ) );
+        assertEquals( nZone, stored.getZone( ) );
+    }
+
+    public void testDoReorderColumnInvalidToken( ) throws AccessDeniedException
+    {
+        IAdminDashboardComponent stored = AdminDashboardHome.findByPrimaryKey( _dashboard.getName( ) );
+        assertNotNull( stored );
+        assertEquals( 0, stored.getOrder( ) );
+        assertEquals( 0, stored.getZone( ) );
+        int nZone = AdminDashboardHome.findColumns( ).stream( ).max( Integer::compare ).orElse( 0 ) + 1;
+        stored.setZone( nZone );
+        stored.setOrder( -1 );
+        AdminDashboardHome.update( stored );
+        stored = AdminDashboardHome.findByPrimaryKey( _dashboard.getName( ) );
+        assertEquals( -1, stored.getOrder( ) );
+        assertEquals( nZone, stored.getZone( ) );
+
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( "column", Integer.toString( nZone ) );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "/admin/dashboard/admin/manage_dashboards.html" )
+                        + "b" );
+
+        try
+        {
+            instance.doReorderColumn( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            stored = AdminDashboardHome.findByPrimaryKey( _dashboard.getName( ) );
+            assertEquals( -1, stored.getOrder( ) );
+            assertEquals( nZone, stored.getZone( ) );
+        }
+    }
+
+    public void testDoReorderColumnNoToken( ) throws AccessDeniedException
+    {
+        IAdminDashboardComponent stored = AdminDashboardHome.findByPrimaryKey( _dashboard.getName( ) );
+        assertNotNull( stored );
+        assertEquals( 0, stored.getOrder( ) );
+        assertEquals( 0, stored.getZone( ) );
+        int nZone = AdminDashboardHome.findColumns( ).stream( ).max( Integer::compare ).orElse( 0 ) + 1;
+        stored.setZone( nZone );
+        stored.setOrder( -1 );
+        AdminDashboardHome.update( stored );
+        stored = AdminDashboardHome.findByPrimaryKey( _dashboard.getName( ) );
+        assertEquals( -1, stored.getOrder( ) );
+        assertEquals( nZone, stored.getZone( ) );
+
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( "column", Integer.toString( nZone ) );
+
+        try
+        {
+            instance.doReorderColumn( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            stored = AdminDashboardHome.findByPrimaryKey( _dashboard.getName( ) );
+            assertEquals( -1, stored.getOrder( ) );
+            assertEquals( nZone, stored.getZone( ) );
+        }
+    }
 }
