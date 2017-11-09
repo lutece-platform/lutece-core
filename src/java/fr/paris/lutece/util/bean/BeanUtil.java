@@ -33,16 +33,20 @@
  */
 package fr.paris.lutece.util.bean;
 
+import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 
-import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.beanutils.BeanUtilsBean;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.beanutils.SuppressPropertiesBeanIntrospector;
+import org.apache.commons.beanutils.converters.DateConverter;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 
+import java.sql.Date;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -60,20 +64,53 @@ public final class BeanUtil
         PropertyUtils.addBeanIntrospector( SuppressPropertiesBeanIntrospector.SUPPRESS_CLASS );
     }
 
+    private static Map<String, BeanUtilsBean> mapBeanUtilsBeans;
+
+    /**
+     * BeanUtil initialization, considering Lutèce availables locales and date format properties
+     */
+    public static void init( )
+    {
+        mapBeanUtilsBeans = new HashMap<>( );
+        
+        for ( Locale locale : I18nService.getAdminAvailableLocales( ) )
+        {
+            BeanUtilsBean beanUtilsBean = new BeanUtilsBean( );
+            beanUtilsBean.getPropertyUtils( ).addBeanIntrospector( SuppressPropertiesBeanIntrospector.SUPPRESS_CLASS );
+    
+            DateConverter dateConverter = new DateConverter( null );
+            dateConverter.setPattern( I18nService.getDateFormatShortPattern( locale ) );
+            beanUtilsBean.getConvertUtils( ).register( dateConverter, Date.class );
+            mapBeanUtilsBeans.put( locale.getLanguage( ), beanUtilsBean );
+        }
+    }
+
     /** Private constructor */
     private BeanUtil( )
     {
     }
-
+    
     /**
      * Populate a bean using parameters in http request
+     * 
+     * @param bean
+     * @param request 
+     */
+    public static void populate( Object bean, HttpServletRequest request )
+    {
+        populate( bean, request, null );
+    }
+        
+    /**
+     * Populate a bean using parameters in http request, with locale date format controls
      *
      * @param bean
      *            bean to populate
      * @param request
      *            http request
+     * @param locale
      */
-    public static void populate( Object bean, HttpServletRequest request )
+    public static void populate( Object bean, HttpServletRequest request, Locale locale )
     {
         for ( Field field : bean.getClass( ).getDeclaredFields( ) )
         {
@@ -96,7 +133,17 @@ public final class BeanUtil
 
         try
         {
-            BeanUtils.populate( bean, convertMap( request.getParameterMap( ) ) );
+            BeanUtilsBean beanUtilsBean;
+            if ( locale != null && mapBeanUtilsBeans != null )
+            {
+                beanUtilsBean = mapBeanUtilsBeans.get( locale.getLanguage( ) );
+            }
+            else
+            {
+                beanUtilsBean = BeanUtilsBean.getInstance( );
+            }
+
+            beanUtilsBean.populate( bean, convertMap( request.getParameterMap( ) ) );
         }
         catch( IllegalAccessException e )
         {

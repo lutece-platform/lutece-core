@@ -265,7 +265,22 @@ public abstract class AdminFeaturesPageJspBean implements Serializable
      */
     protected void populate( Object bean, HttpServletRequest request )
     {
-        BeanUtil.populate( bean, request );
+        BeanUtil.populate( bean, request, null);
+    }
+    
+    /**
+     * Populate a bean using parameters in http request, with locale date format controls
+     * 
+     * @param bean
+     *            bean to populate
+     * @param request
+     *            http request
+     * @param locale
+     *            the locale
+     */
+    protected void populate( Object bean, HttpServletRequest request, Locale locale )
+    {
+        BeanUtil.populate( bean, request, locale );
     }
 
     /**

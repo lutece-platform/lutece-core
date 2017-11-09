@@ -56,6 +56,7 @@ import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
+import fr.paris.lutece.util.bean.BeanUtil;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.stream.StreamUtil;
 
@@ -152,6 +153,9 @@ public final class AppInit
             AppLogService.init( strConfPath, FILE_PROPERTIES_CONFIG );
             AppLogService.info( "Starting LUTECE ..." );
             AppLogService.info( "Running version " + AppInfo.getVersion( ) );
+
+            // BeanUtil initialization, considering Lutèce availables locales and date format properties
+            BeanUtil.init( );
 
             // Initializes the connection pools
             AppConnectionService.init( strConfPath, FILE_PROPERTIES_DATABASE, "portal" );
