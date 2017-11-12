@@ -20,6 +20,7 @@
           <#-- column -->
           <@tform action='jsp/admin/dashboard/DoMoveDashboard.jsp' method='post' class='form-inline'>
             <input type="hidden" name="dashboard_name" value="${dashboard.name}">
+            <input type="hidden" name="token" value="${token}">
             <#if !dashboard.order?exists || dashboard.order==0>
               <#assign dashboard_order=1/>
             <#else>
@@ -42,6 +43,7 @@
               <#-- order -->
               <@tform action='jsp/admin/dashboard/DoMoveDashboard.jsp' method='post' class='form-inline'>
                 <input type="hidden" name="dashboard_name" value="${dashboard.name}" />
+                <input type="hidden" name="token" value="${token}">
                 <#if !dashboard.zone?exists || dashboard.zone==0>
                   <#assign dashboard_column=1 />
                 <#else>

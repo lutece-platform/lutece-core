@@ -36,11 +36,13 @@ package fr.paris.lutece.portal.web.dashboard;
 import fr.paris.lutece.portal.business.dashboard.DashboardFactory;
 import fr.paris.lutece.portal.business.dashboard.DashboardHome;
 import fr.paris.lutece.portal.business.user.AdminUser;
+import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.admin.AdminUserService;
 import fr.paris.lutece.portal.service.dashboard.DashboardService;
 import fr.paris.lutece.portal.service.dashboard.IDashboardComponent;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
+import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
@@ -112,6 +114,7 @@ public class DashboardJspBean extends AdminFeaturesPageJspBean
         model.put( MARK_MAP_AVAILABLE_ORDERS, _service.getMapAvailableOrders( ) );
         model.put( MARK_LIST_AVAILABLE_COLUMNS, _service.getListAvailableColumns( ) );
         model.put( MARK_MAP_COLUMN_ORDER_STATUS, _service.getOrderedColumnsStatus( ) );
+        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MANAGE_DASHBOARDS ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_DASHBOARDS, user.getLocale( ), model );
 
@@ -158,8 +161,10 @@ public class DashboardJspBean extends AdminFeaturesPageJspBean
      * @param request
      *            the request
      * @return url
+     * @throws AccessDeniedException
+     *             if the security token is invalid
      */
-    public String doMoveDashboard( HttpServletRequest request )
+    public String doMoveDashboard( HttpServletRequest request ) throws AccessDeniedException
     {
         String strDashboardName = request.getParameter( PARAMETER_DASHBOARD_NAME );
 
@@ -195,7 +200,10 @@ public class DashboardJspBean extends AdminFeaturesPageJspBean
             nOldOrder = dashboard.getOrder( );
             nOldColumn = dashboard.getZone( );
         }
-
+        if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_MANAGE_DASHBOARDS ) )
+        {
+            throw new AccessDeniedException( "Invalid security token" );
+        }
         // set order and column
         String strOrder = request.getParameter( PARAMETER_DASHBOARD_ORDER );
         String strColumn = request.getParameter( PARAMETER_DASHBOARD_COLUMN );
