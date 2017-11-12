@@ -318,6 +318,7 @@ public class XslExportJspBean extends PluginAdminPageJspBean
         }
 
         model.put( MARK_LIST_PLUGINS, refListPlugins );
+        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MODIFY_XSL_EXPORT ) );
 
         setPageTitleProperty( PROPERTY_MODIFY_XSL_EXPORT_TITLE );
 
@@ -352,6 +353,10 @@ public class XslExportJspBean extends PluginAdminPageJspBean
         if ( strError != null )
         {
             return strError;
+        }
+        if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_MODIFY_XSL_EXPORT ) )
+        {
+            throw new AccessDeniedException( "Invalid security token" );
         }
 
         // if xslExport

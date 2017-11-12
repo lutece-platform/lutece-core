@@ -5,6 +5,7 @@
 			<@boxBody>
 				<@tform method='post' action='jsp/admin/xsl/DoModifyXslExport.jsp' params='enctype="multipart/form-data"'>
 					<input name="id_xsl_export" value="${xsl_export.idXslExport}" type="hidden" />
+					<input type="hidden" name="token" value="${token}">
 					<@formGroup labelFor='xsl_title' labelKey='#i18n{portal.xsl.create_xsl_export.label_title}' mandatory=true>
 						<@input type='text' id='xsl_title' name='title' maxlength=255 value='${xsl_export.title?html}' />
 					</@formGroup>
