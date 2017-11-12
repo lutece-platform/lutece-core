@@ -3,6 +3,7 @@
 			<@boxHeader title='#i18n{portal.globalmanagement.editorChoice.editorBackOffice}' />
 			<@boxBody>
 				<@tform action='jsp/admin/globalmanagement/DoUpdateBackOfficeEditor.jsp'>
+					<input type="hidden" name="token" value="${token}">
 					<@formGroup rows=2 labelKey='#i18n{portal.globalmanagement.editorChoice.labelEditorBackOffice}'>
 						<#if !current_editor_back_office??>
 							<#assign current_editor_back_office = "">
@@ -22,6 +23,7 @@
 			<@boxHeader title='#i18n{portal.globalmanagement.editorChoice.editorFrontOffice}' />
 			<@boxBody>
 				<@tform action='jsp/admin/globalmanagement/DoUpdateFrontOfficeEditor.jsp'>
+					<input type="hidden" name="token" value="${token}">
 					<@formGroup rows=2 labelKey='#i18n{portal.globalmanagement.editorChoice.labelEditorFrontOffice}'>
 						<#if !current_editor_front_office??><#assign current_editor_front_office = ""></#if>
 						<@select name='editor_front_office' items=listEditorsFrontOffice default_value=current_editor_front_office />

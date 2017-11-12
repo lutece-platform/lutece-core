@@ -33,9 +33,11 @@
  */
 package fr.paris.lutece.portal.web.globalmanagement;
 
+import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.admin.AdminUserService;
 import fr.paris.lutece.portal.service.globalmanagement.RichTextEditorService;
 import fr.paris.lutece.portal.service.i18n.I18nService;
+import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.util.html.HtmlTemplate;
@@ -75,6 +77,8 @@ public class EditorChoiceLutecePanelJspBean extends AbstractGMLutecePanel
 
         model.put( MARK_LIST_EDITORS_FRONT_OFFICE, RichTextEditorService.getListEditorsForFrontOffice( AdminUserService.getLocale( getRequest( ) ) ) );
         model.put( MARK_CURRENT_EDITOR_FRONT_OFFICE, RichTextEditorService.getFrontOfficeDefaultEditor( ) );
+
+        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( getRequest(), TEMPLATE_EDITOR_CHOICE_PANEL ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_EDITOR_CHOICE_PANEL, getLocale( ), model );
 
@@ -116,9 +120,15 @@ public class EditorChoiceLutecePanelJspBean extends AbstractGMLutecePanel
      * @param request
      *            the request
      * @return the string
+     * @throws AccessDeniedException
+     *             if the security token is invalid
      */
-    public String doUpdateBackOfficeEditor( HttpServletRequest request )
+    public String doUpdateBackOfficeEditor( HttpServletRequest request ) throws AccessDeniedException
     {
+        if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_EDITOR_CHOICE_PANEL ) )
+        {
+            throw new AccessDeniedException( "Invalid security token" );
+        }
         String strEditorName = request.getParameter( PARAM_EDITOR_BACK_OFFICE );
         RichTextEditorService.updateBackOfficeDefaultEditor( strEditorName );
 
@@ -131,9 +141,15 @@ public class EditorChoiceLutecePanelJspBean extends AbstractGMLutecePanel
      * @param request
      *            the request
      * @return the string
+     * @throws AccessDeniedException
+     *             if the security token is invalid
      */
-    public String doUpdateFrontOfficeEditor( HttpServletRequest request )
+    public String doUpdateFrontOfficeEditor( HttpServletRequest request ) throws AccessDeniedException
     {
+        if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_EDITOR_CHOICE_PANEL ) )
+        {
+            throw new AccessDeniedException( "Invalid security token" );
+        }
         String strEditorName = request.getParameter( PARAM_EDITOR_FRONT_OFFICE );
         RichTextEditorService.updateFrontOfficeDefaultEditor( strEditorName );
 
