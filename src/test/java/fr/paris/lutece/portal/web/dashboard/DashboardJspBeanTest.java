@@ -39,8 +39,6 @@ import java.util.Random;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.mock.web.MockHttpServletRequest;
 
 import fr.paris.lutece.portal.business.dashboard.DashboardFactory;
@@ -50,7 +48,6 @@ import fr.paris.lutece.portal.business.right.RightHome;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.admin.PasswordResetException;
-import fr.paris.lutece.portal.service.dashboard.DashboardComponent;
 import fr.paris.lutece.portal.service.dashboard.DashboardService;
 import fr.paris.lutece.portal.service.dashboard.IDashboardComponent;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
@@ -59,17 +56,6 @@ import fr.paris.lutece.test.Utils;
 
 public class DashboardJspBeanTest extends LuteceTestCase
 {
-    private static final class TestDashboardComponent extends DashboardComponent
-    {
-
-        @Override
-        public String getDashboardData( AdminUser user, HttpServletRequest request )
-        {
-            return "<p>JUNIT</p>";
-        }
-
-    }
-
     private DashboardJspBean _instance;
     private IDashboardComponent _dashboard;
     private int _nZone;
