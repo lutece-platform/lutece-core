@@ -81,7 +81,11 @@
 					<#assign column_key=column_refItem.code />
 					<h3>#i18n{portal.dashboard.title.column} ${column_key}
 					<#if map_column_order_status[column_key]?exists && !map_column_order_status[column_key]>
-						<@aButton href='jsp/admin/dashboard/DoReorderColumn.jsp?column=${column_key}' title='#i18n{portal.dashboard.action.reorder}' buttonIcon='arrows' color='btn-warning' />
+						<@tform method='post' action='jsp/admin/dashboard/DoReorderColumn.jsp' class='pull-right'>
+							<input type="hidden" name="column" value="${column_key?html}">
+							<input type="hidden" name="token" value="${token}">
+							<@button type="submit" title='#i18n{portal.dashboard.action.reorder}' buttonIcon='arrows' color='btn-warning' />
+						</@tform>
 					</#if>
 					</h3>
 					<@dashboardTable items=map_dashboards[column_key] list_available_orders_column=map_available_orders[column_key] />
