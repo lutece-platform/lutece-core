@@ -48,6 +48,7 @@ import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.rbac.RBACService;
+import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
@@ -221,6 +222,7 @@ public class XslExportJspBean extends PluginAdminPageJspBean
         }
 
         model.put( MARK_LIST_PLUGINS, refListPlugins );
+        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_CREATE_XSL_EXPORT ) );
 
         if ( !RBACService.isAuthorized( XslExport.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID, XslExportResourceIdService.PERMISSION_CREATE, getUser( ) ) )
         {
@@ -256,6 +258,11 @@ public class XslExportJspBean extends PluginAdminPageJspBean
         if ( strError != null )
         {
             return strError;
+        }
+
+        if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_CREATE_XSL_EXPORT ) )
+        {
+            throw new AccessDeniedException( "Invalid security token" );
         }
 
         if ( xslExport.getFile( ) != null )
