@@ -61,7 +61,6 @@ import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.filesystem.FileSystemUtil;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.html.Paginator;
-import fr.paris.lutece.util.url.UrlItem;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.lang.StringUtils;
@@ -75,6 +74,7 @@ import java.io.OutputStream;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -404,10 +404,12 @@ public class XslExportJspBean extends PluginAdminPageJspBean
 
         String strIdXslExport = request.getParameter( PARAMETER_ID_XSL_EXPORT );
 
-        UrlItem url = new UrlItem( JSP_DO_REMOVE_XSL_EXPORT );
-        url.addParameter( PARAMETER_ID_XSL_EXPORT, strIdXslExport );
+        Map<String, String> parameters = new HashMap<>( );
+        parameters.put( PARAMETER_ID_XSL_EXPORT, strIdXslExport );
+        parameters.put( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, JSP_DO_REMOVE_XSL_EXPORT ) );
 
-        return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_REMOVE_XSL_EXPORT, url.getUrl( ), AdminMessage.TYPE_CONFIRMATION );
+        return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_REMOVE_XSL_EXPORT, JSP_DO_REMOVE_XSL_EXPORT, AdminMessage.TYPE_CONFIRMATION, parameters );
     }
 
     /**
@@ -424,6 +426,10 @@ public class XslExportJspBean extends PluginAdminPageJspBean
         if ( !RBACService.isAuthorized( XslExport.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID, XslExportResourceIdService.PERMISSION_DELETE, getUser( ) ) )
         {
             throw new AccessDeniedException( MESSAGE_PERMISSION_DENIED );
+        }
+        if ( !SecurityTokenService.getInstance( ).validate( request, JSP_DO_REMOVE_XSL_EXPORT ) )
+        {
+            throw new AccessDeniedException( "Invalid security token" );
         }
 
         // ArrayList<String> listErrors = new ArrayList<String>( );
