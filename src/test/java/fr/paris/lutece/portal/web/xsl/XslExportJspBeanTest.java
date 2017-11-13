@@ -57,6 +57,8 @@ import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.business.xsl.XslExport;
 import fr.paris.lutece.portal.business.xsl.XslExportHome;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
+import fr.paris.lutece.portal.service.message.AdminMessage;
+import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.web.upload.MultipartHttpServletRequest;
 import fr.paris.lutece.test.LuteceTestCase;
@@ -94,7 +96,11 @@ public class XslExportJspBeanTest extends LuteceTestCase
     protected void tearDown( ) throws Exception
     {
         XslExportHome.remove( _xslExport.getIdXslExport( ) );
-        FileHome.remove( _xslExport.getFile( ).getIdFile( ) );
+        File file = FileHome.findByPrimaryKey( _xslExport.getFile( ).getIdFile( ) );
+        if ( file != null )
+        {
+            FileHome.remove( file.getIdFile( ) );
+        }
         super.tearDown( );
     }
 
@@ -332,6 +338,90 @@ public class XslExportJspBeanTest extends LuteceTestCase
             assertEquals( _xslExport.getTitle( ), stored.getTitle( ) );
             assertEquals( _xslExport.getDescription( ), stored.getDescription( ) );
             assertEquals( _xslExport.getExtension( ), stored.getExtension( ) );
+        }
+    }
+
+    public void testGetConfirmRemoveXslExport( ) throws AccessDeniedException
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUser user = new AdminUser( );
+        user.setRoles( AdminRoleHome.findAll( ).stream( )
+                .collect( Collectors.toMap( AdminRole::getKey, Function.identity( ) ) ) );
+        Utils.registerAdminUserWithRigth( request, user, XslExportJspBean.RIGHT_MANAGE_XSL_EXPORT );
+
+        request.setParameter( "id_xsl_export", Integer.toString( _xslExport.getIdXslExport( ) ) );
+        _instance.init( request, XslExportJspBean.RIGHT_MANAGE_XSL_EXPORT );
+
+        _instance.getConfirmRemoveXslExport( request );
+        AdminMessage message = AdminMessageService.getMessage( request );
+        assertNotNull( message );
+        assertTrue( message.getRequestParameters( ).containsKey( SecurityTokenService.PARAMETER_TOKEN ) );
+    }
+
+    public void testDoRemoveXslExport( ) throws AccessDeniedException
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUser user = new AdminUser( );
+        user.setRoles( AdminRoleHome.findAll( ).stream( )
+                .collect( Collectors.toMap( AdminRole::getKey, Function.identity( ) ) ) );
+        Utils.registerAdminUserWithRigth( request, user, XslExportJspBean.RIGHT_MANAGE_XSL_EXPORT );
+
+        request.setParameter( "id_xsl_export", Integer.toString( _xslExport.getIdXslExport( ) ) );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/xsl/DoRemoveXslExport.jsp" ) );
+        _instance.init( request, XslExportJspBean.RIGHT_MANAGE_XSL_EXPORT );
+
+        _instance.doRemoveXslExport( request );
+
+        XslExport stored = XslExportHome.findByPrimaryKey( _xslExport.getIdXslExport( ) );
+        assertNull( stored );
+    }
+
+    public void testDoRemoveXslExportInvalidToken( ) throws AccessDeniedException
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUser user = new AdminUser( );
+        user.setRoles( AdminRoleHome.findAll( ).stream( )
+                .collect( Collectors.toMap( AdminRole::getKey, Function.identity( ) ) ) );
+        Utils.registerAdminUserWithRigth( request, user, XslExportJspBean.RIGHT_MANAGE_XSL_EXPORT );
+
+        request.setParameter( "id_xsl_export", Integer.toString( _xslExport.getIdXslExport( ) ) );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/xsl/DoRemoveXslExport.jsp" ) + "b" );
+        _instance.init( request, XslExportJspBean.RIGHT_MANAGE_XSL_EXPORT );
+
+        try
+        {
+            _instance.doRemoveXslExport( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            XslExport stored = XslExportHome.findByPrimaryKey( _xslExport.getIdXslExport( ) );
+            assertNotNull( stored );
+        }
+    }
+
+    public void testDoRemoveXslExportNoToken( ) throws AccessDeniedException
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        AdminUser user = new AdminUser( );
+        user.setRoles( AdminRoleHome.findAll( ).stream( )
+                .collect( Collectors.toMap( AdminRole::getKey, Function.identity( ) ) ) );
+        Utils.registerAdminUserWithRigth( request, user, XslExportJspBean.RIGHT_MANAGE_XSL_EXPORT );
+
+        request.setParameter( "id_xsl_export", Integer.toString( _xslExport.getIdXslExport( ) ) );
+        _instance.init( request, XslExportJspBean.RIGHT_MANAGE_XSL_EXPORT );
+
+        try
+        {
+            _instance.doRemoveXslExport( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            XslExport stored = XslExportHome.findByPrimaryKey( _xslExport.getIdXslExport( ) );
+            assertNotNull( stored );
         }
     }
 }
