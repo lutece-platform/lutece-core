@@ -40,9 +40,11 @@ import fr.paris.lutece.portal.business.right.LevelHome;
 import fr.paris.lutece.portal.business.right.Right;
 import fr.paris.lutece.portal.business.right.RightHome;
 import fr.paris.lutece.portal.business.user.AdminUser;
+import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.admin.AdminUserService;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
+import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
 import fr.paris.lutece.util.ReferenceList;
@@ -135,15 +137,19 @@ public class ExternalFeaturesJspBean extends AdminFeaturesPageJspBean
             rightLevelsReferenceList.add( rightLevel.getReferenceItem( ) );
         }
         model.put( MARK_RIGHT_LEVELS_REFERENCE_LIST, rightLevelsReferenceList );
+        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_CREATE_EXTERNAL_FEATURE ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CREATE_EXTERNAL_FEATURE, getLocale( ), model );
 
         return getAdminPage( template.getHtml( ) );
     }
 
-    public String doCreateExternalFeature( HttpServletRequest request )
+    public String doCreateExternalFeature( HttpServletRequest request ) throws AccessDeniedException
     {
-
+        if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_CREATE_EXTERNAL_FEATURE ) )
+        {
+            throw new AccessDeniedException( "Invalid security token" );
+        }
         _externalFeature = new Right( );
         populate( _externalFeature, request );
         _externalFeature.setFeatureGroup( FeatureGroupHome.findByPrimaryKey( request.getParameter( PARAMETER_ID_FEATURE_GROUP ) ).getId( ) );
