@@ -66,6 +66,31 @@ public class ExternalFeaturesJspBeanTest extends LuteceTestCase
     private static final String FEATUREGROUP = "featureGroupTest";
     private static final String ICONURL = "iconUrlTest";
     private static final boolean IS_EXTERNAL_FEATURE = true;
+    private Right _right;
+
+    @Override
+    protected void setUp( ) throws Exception
+    {
+        super.setUp( );
+        _right = new Right( );
+        _right.setId( RIGHT_ID );
+        _right.setNameKey( NAMEKEY );
+        _right.setDescriptionKey( DESCRIPTIONKEY );
+        _right.setLevel( LEVEL );
+        _right.setUrl( URL );
+        _right.setPluginName( PLUGINNAME );
+        _right.setFeatureGroup( FEATUREGROUP );
+        _right.setIconUrl( ICONURL );
+        _right.setExternalFeature( IS_EXTERNAL_FEATURE );
+        RightHome.create( _right );
+    }
+
+    @Override
+    protected void tearDown( ) throws Exception
+    {
+        RightHome.remove( RIGHT_ID );
+        super.tearDown( );
+    }
 
     /**
      * Test of getManageExternalFeatures method, of class ExternalFeaturesJspBean.
@@ -73,15 +98,12 @@ public class ExternalFeaturesJspBeanTest extends LuteceTestCase
     @Test
     public void testGetManageExternalFeatures( ) throws AccessDeniedException
     {
-        System.out.println( "getManageExternalFeatures" );
-
         MockHttpServletRequest request = new MockHttpServletRequest( );
         Utils.registerAdminUserWithRigth( request, new AdminUser( ), ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
 
         ExternalFeaturesJspBean instance = new ExternalFeaturesJspBean( );
         instance.init( request, ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
         instance.getManageExternalFeatures( request );
-
     }
 
     /**
@@ -104,39 +126,147 @@ public class ExternalFeaturesJspBeanTest extends LuteceTestCase
     @Test
     public void testGetModifyExternalFeature( ) throws AccessDeniedException
     {
-        System.out.println( "getModifyExternalFeatures" );
-
-        Right right = new Right( );
-        right.setId( RIGHT_ID );
-        right.setNameKey( NAMEKEY );
-        right.setDescriptionKey( DESCRIPTIONKEY );
-        right.setLevel( LEVEL );
-        right.setUrl( URL );
-        right.setPluginName( PLUGINNAME );
-        right.setFeatureGroup( FEATUREGROUP );
-        right.setIconUrl( ICONURL );
-        right.setExternalFeature( IS_EXTERNAL_FEATURE );
-        RightHome.create( right );
-
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.addParameter( PARAMETER_ID_EXTERNAL_FEAUTRE, TEST_EXTERNAL_FEATURE_ID );
         Utils.registerAdminUserWithRigth( request, new AdminUser( ), ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
 
         ExternalFeaturesJspBean instance = new ExternalFeaturesJspBean( );
         instance.init( request, ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
-        instance.getModifyExternalFeature( request );
-
-        RightHome.remove( RIGHT_ID );
+        assertNotNull( instance.getModifyExternalFeature( request ) );
     }
 
     /**
      * Test of doModifyExternalFeature method, of class ExternalFeaturesJspBean.
+     * 
+     * @throws AccessDeniedException
      */
     @Test
-    public void testDoModifyExternalFeature( )
+    public void testDoModifyExternalFeature( ) throws AccessDeniedException
     {
-        System.out.println( "doModifyExternalFeatures" );
-        // Not implemented yet
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.addParameter( PARAMETER_ID_EXTERNAL_FEAUTRE, TEST_EXTERNAL_FEATURE_ID );
+        Utils.registerAdminUserWithRigth( request, new AdminUser( ),
+                ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
+
+        ExternalFeaturesJspBean instance = new ExternalFeaturesJspBean( );
+        instance.init( request, ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
+        String strRandom = getRandomName( );
+        request.setParameter( "id", _right.getId( ) );
+        request.setParameter( "nameKey", strRandom );
+        request.setParameter( "descriptionKey", strRandom );
+        request.setParameter( "level_id", "0" );
+        request.setParameter( "url", strRandom );
+        request.setParameter( "pluginName", strRandom );
+        request.setParameter( "feature_group_id", FeatureGroupHome.getFeatureGroupsList( ).get( 0 ).getId( ) );
+        request.setParameter( "iconUrl", strRandom );
+        request.setParameter( "externalFeature", "false" );
+        request.setParameter( "documentationUrl", strRandom );
+
+        instance.getModifyExternalFeature( request );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( )
+                .getToken( request, "admin/features/modify_external_feature.html" ) );
+        instance.doModifyExternalFeature( request );
+
+        Right right = RightHome.findByPrimaryKey( _right.getId( ) );
+        assertNotNull( right );
+        assertEquals( strRandom, right.getNameKey( ) );
+        assertEquals( strRandom, right.getDescriptionKey( ) );
+        assertEquals( 0, right.getLevel( ) );
+        assertEquals( strRandom, right.getUrl( ) );
+        assertEquals( strRandom, right.getPluginName( ) );
+        assertEquals( FeatureGroupHome.getFeatureGroupsList( ).get( 0 ).getId( ), right.getFeatureGroup( ) );
+        assertEquals( strRandom, right.getIconUrl( ) );
+        assertTrue( right.isExternalFeature( ) );
+        assertEquals( strRandom, right.getDocumentationUrl( ) );
+    }
+
+    public void testDoModifyExternalFeatureInvalidToken( ) throws AccessDeniedException
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.addParameter( PARAMETER_ID_EXTERNAL_FEAUTRE, TEST_EXTERNAL_FEATURE_ID );
+        Utils.registerAdminUserWithRigth( request, new AdminUser( ),
+                ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
+
+        ExternalFeaturesJspBean instance = new ExternalFeaturesJspBean( );
+        instance.init( request, ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
+        String strRandom = getRandomName( );
+        request.setParameter( "id", _right.getId( ) );
+        request.setParameter( "nameKey", strRandom );
+        request.setParameter( "descriptionKey", strRandom );
+        request.setParameter( "level_id", "0" );
+        request.setParameter( "url", strRandom );
+        request.setParameter( "pluginName", strRandom );
+        request.setParameter( "feature_group_id", FeatureGroupHome.getFeatureGroupsList( ).get( 0 ).getId( ) );
+        request.setParameter( "iconUrl", strRandom );
+        request.setParameter( "externalFeature", "false" );
+        request.setParameter( "documentationUrl", strRandom );
+
+        instance.getModifyExternalFeature( request );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( )
+                .getToken( request, "admin/features/modify_external_feature.html" ) + "b" );
+        try
+        {
+            instance.doModifyExternalFeature( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            Right right = RightHome.findByPrimaryKey( _right.getId( ) );
+            assertNotNull( right );
+            assertEquals( _right.getNameKey( ), right.getNameKey( ) );
+            assertEquals( _right.getDescriptionKey( ), right.getDescriptionKey( ) );
+            assertEquals( _right.getLevel( ), right.getLevel( ) );
+            assertEquals( _right.getUrl( ), right.getUrl( ) );
+            assertEquals( _right.getPluginName( ), right.getPluginName( ) );
+            assertEquals( _right.getFeatureGroup( ), right.getFeatureGroup( ) );
+            assertEquals( _right.getIconUrl( ), right.getIconUrl( ) );
+            assertTrue( right.isExternalFeature( ) );
+            assertEquals( _right.getDocumentationUrl( ), right.getDocumentationUrl( ) );
+        }
+    }
+
+    public void testDoModifyExternalFeatureNoToken( ) throws AccessDeniedException
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.addParameter( PARAMETER_ID_EXTERNAL_FEAUTRE, TEST_EXTERNAL_FEATURE_ID );
+        Utils.registerAdminUserWithRigth( request, new AdminUser( ),
+                ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
+
+        ExternalFeaturesJspBean instance = new ExternalFeaturesJspBean( );
+        instance.init( request, ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
+        String strRandom = getRandomName( );
+        request.setParameter( "id", _right.getId( ) );
+        request.setParameter( "nameKey", strRandom );
+        request.setParameter( "descriptionKey", strRandom );
+        request.setParameter( "level_id", "0" );
+        request.setParameter( "url", strRandom );
+        request.setParameter( "pluginName", strRandom );
+        request.setParameter( "feature_group_id", FeatureGroupHome.getFeatureGroupsList( ).get( 0 ).getId( ) );
+        request.setParameter( "iconUrl", strRandom );
+        request.setParameter( "externalFeature", "false" );
+        request.setParameter( "documentationUrl", strRandom );
+
+        instance.getModifyExternalFeature( request );
+
+        try
+        {
+            instance.doModifyExternalFeature( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            Right right = RightHome.findByPrimaryKey( _right.getId( ) );
+            assertNotNull( right );
+            assertEquals( _right.getNameKey( ), right.getNameKey( ) );
+            assertEquals( _right.getDescriptionKey( ), right.getDescriptionKey( ) );
+            assertEquals( _right.getLevel( ), right.getLevel( ) );
+            assertEquals( _right.getUrl( ), right.getUrl( ) );
+            assertEquals( _right.getPluginName( ), right.getPluginName( ) );
+            assertEquals( _right.getFeatureGroup( ), right.getFeatureGroup( ) );
+            assertEquals( _right.getIconUrl( ), right.getIconUrl( ) );
+            assertTrue( right.isExternalFeature( ) );
+            assertEquals( _right.getDocumentationUrl( ), right.getDocumentationUrl( ) );
+        }
     }
 
     /**
@@ -281,20 +411,6 @@ public class ExternalFeaturesJspBeanTest extends LuteceTestCase
     @Test
     public void testGetRemoveExternalFeature( ) throws AccessDeniedException
     {
-        System.out.println( "getRemoveExternalFeature" );
-
-        Right right = new Right( );
-        right.setId( RIGHT_ID );
-        right.setNameKey( NAMEKEY );
-        right.setDescriptionKey( DESCRIPTIONKEY );
-        right.setLevel( LEVEL );
-        right.setUrl( URL );
-        right.setPluginName( PLUGINNAME );
-        right.setFeatureGroup( FEATUREGROUP );
-        right.setIconUrl( ICONURL );
-        right.setExternalFeature( IS_EXTERNAL_FEATURE );
-        RightHome.create( right );
-
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.addParameter( PARAMETER_ID_EXTERNAL_FEAUTRE, TEST_EXTERNAL_FEATURE_ID );
         Utils.registerAdminUserWithRigth( request, new AdminUser( ), ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
@@ -302,7 +418,6 @@ public class ExternalFeaturesJspBeanTest extends LuteceTestCase
         ExternalFeaturesJspBean instance = new ExternalFeaturesJspBean( );
         instance.init( request, ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
         instance.getRemoveExternalFeature( request );
-        RightHome.remove( RIGHT_ID );
     }
 
     /**
