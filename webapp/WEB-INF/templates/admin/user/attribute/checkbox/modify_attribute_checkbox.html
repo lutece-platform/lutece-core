@@ -6,6 +6,7 @@
 			</@boxHeader>
 			<@boxBody>
 				<@tform action='jsp/admin/user/attribute/DoModifyAttribute.jsp' method='post'>
+					<input type="hidden" name="token" value="${token}">
 					<@formGroup labelKey='#i18n{portal.users.modify_attribute.labelTitle} *' labelFor='attr_title' helpKey='#i18n{portal.users.modify_attribute.labelTitleComment}' mandatory=true>
 						<@input type='text' name='title' id='attr_title' value='${attribute.title?html}' maxlength=255 />
 					</@formGroup>

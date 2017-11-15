@@ -286,8 +286,10 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
      * @param request
      *            HttpServletRequest
      * @return The Jsp URL of the process result
+     * @throws AccessDeniedException
+     *             if the security token is invalid
      */
-    public String doModifyAttribute( HttpServletRequest request )
+    public String doModifyAttribute( HttpServletRequest request ) throws AccessDeniedException
     {
         String strIdAttribute = request.getParameter( PARAMETER_ID_ATTRIBUTE );
         int nIdAttribute = Integer.parseInt( strIdAttribute );
@@ -305,6 +307,10 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
                 if ( strError != null )
                 {
                     return strError;
+                }
+                if ( !SecurityTokenService.getInstance( ).validate( request, attribute.getTemplateModifyAttribute( ) ) )
+                {
+                    throw new AccessDeniedException( "Invalid security token" );
                 }
 
                 _attributeService.updateAttribute( attribute );
