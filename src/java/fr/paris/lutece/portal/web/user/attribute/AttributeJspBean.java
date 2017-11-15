@@ -35,6 +35,7 @@ package fr.paris.lutece.portal.web.user.attribute;
 
 import fr.paris.lutece.portal.business.user.attribute.AttributeType;
 import fr.paris.lutece.portal.business.user.attribute.IAttribute;
+import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
@@ -169,6 +170,7 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
         HtmlTemplate template;
         Map<String, Object> model = new HashMap<String, Object>( );
         model.put( MARK_ATTRIBUTE_TYPE, attribute.getAttributeType( ) );
+        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, attribute.getTemplateCreateAttribute( ) ) );
 
         template = AppTemplateService.getTemplate( attribute.getTemplateCreateAttribute( ), getLocale( ), model );
 
@@ -181,8 +183,10 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
      * @param request
      *            HttpServletRequest
      * @return The Jsp URL of the process result
+     * @throws AccessDeniedException
+     *             if the security token is invalid
      */
-    public String doCreateAttribute( HttpServletRequest request )
+    public String doCreateAttribute( HttpServletRequest request ) throws AccessDeniedException
     {
         String strAttributeTypeClassName = request.getParameter( PARAMETER_ATTRIBUTE_TYPE_CLASS_NAME );
         String strActionCancel = request.getParameter( PARAMETER_CANCEL );
@@ -223,6 +227,10 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
             if ( StringUtils.isNotBlank( strError ) )
             {
                 return strError;
+            }
+            if ( !SecurityTokenService.getInstance( ).validate( request, attribute.getTemplateCreateAttribute( ) ) )
+            {
+                throw new AccessDeniedException( "Invalid security token" );
             }
 
             _attributeService.createAttribute( attribute );

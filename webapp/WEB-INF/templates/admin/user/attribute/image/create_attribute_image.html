@@ -4,6 +4,7 @@
       <@boxHeader title='#i18n{portal.users.create_attribute.pageTitleAttributeImage}' />
 			<@boxBody>
 				<@tform action='jsp/admin/user/attribute/DoCreateAttribute.jsp' method='post'>
+					<input type="hidden" name="token" value="${token}">
 					<input name="attribute_type_class_name" value="${attribute_type.className}" type="hidden">
 					<@formGroup labelKey='#i18n{portal.users.create_attribute.labelTitle} *' labelFor='attr_title' helpKey='#i18n{portal.users.create_attribute.labelTitleComment}' mandatory=true>
 						<@input type='text' name='title' id='attr_title' maxlength=255 />
