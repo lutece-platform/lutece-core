@@ -46,6 +46,8 @@ import fr.paris.lutece.portal.business.right.RightHome;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.admin.PasswordResetException;
+import fr.paris.lutece.portal.service.message.AdminMessage;
+import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.Utils;
@@ -404,29 +406,96 @@ public class ExternalFeaturesJspBeanTest extends LuteceTestCase
             RightHome.remove( strRandom );
         }
     }
-    
+
     /**
-     * Test of getRemoveExternalFeature method, of class ExternalFeaturesJspBean.
+     * Test of getRemoveExternalFeature method, of class
+     * ExternalFeaturesJspBean.
      */
     @Test
     public void testGetRemoveExternalFeature( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.addParameter( PARAMETER_ID_EXTERNAL_FEAUTRE, TEST_EXTERNAL_FEATURE_ID );
-        Utils.registerAdminUserWithRigth( request, new AdminUser( ), ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
+        Utils.registerAdminUserWithRigth( request, new AdminUser( ),
+                ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
 
         ExternalFeaturesJspBean instance = new ExternalFeaturesJspBean( );
         instance.init( request, ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
         instance.getRemoveExternalFeature( request );
+        AdminMessage message = AdminMessageService.getMessage( request );
+        assertNotNull( message );
+        assertTrue( message.getRequestParameters( ).containsKey( SecurityTokenService.PARAMETER_TOKEN ) );
     }
 
     /**
      * Test of doRemoveExternalFeature method, of class ExternalFeaturesJspBean.
+     * 
+     * @throws AccessDeniedException
+     * @throws PasswordResetException
      */
     @Test
-    public void testDoRemoveExternalFeature( )
+    public void testDoRemoveExternalFeature( ) throws PasswordResetException, AccessDeniedException
     {
-        System.out.println( "doRemoveExternalFeatures" );
-        // Not implemented yet
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.addParameter( PARAMETER_ID_EXTERNAL_FEAUTRE, TEST_EXTERNAL_FEATURE_ID );
+        Utils.registerAdminUserWithRigth( request, new AdminUser( ),
+                ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
+
+        ExternalFeaturesJspBean instance = new ExternalFeaturesJspBean( );
+        instance.init( request, ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
+        instance.getRemoveExternalFeature( request );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( )
+                .getToken( request, "jsp/admin/features/DoRemoveExternalFeature.jsp" ) );
+        instance.doRemoveExternalFeature( request );
+
+        Right right = RightHome.findByPrimaryKey( TEST_EXTERNAL_FEATURE_ID );
+        assertNull( right );
+    }
+
+    public void testDoRemoveExternalFeatureInvalidToken( ) throws PasswordResetException, AccessDeniedException
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.addParameter( PARAMETER_ID_EXTERNAL_FEAUTRE, TEST_EXTERNAL_FEATURE_ID );
+        Utils.registerAdminUserWithRigth( request, new AdminUser( ),
+                ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
+
+        ExternalFeaturesJspBean instance = new ExternalFeaturesJspBean( );
+        instance.init( request, ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
+        instance.getRemoveExternalFeature( request );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( )
+                .getToken( request, "jsp/admin/features/DoRemoveExternalFeature.jsp" ) + "b" );
+        try
+        {
+            instance.doRemoveExternalFeature( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            Right right = RightHome.findByPrimaryKey( TEST_EXTERNAL_FEATURE_ID );
+            assertNotNull( right );
+        }
+    }
+
+    public void testDoRemoveExternalFeatureNoToken( ) throws PasswordResetException, AccessDeniedException
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.addParameter( PARAMETER_ID_EXTERNAL_FEAUTRE, TEST_EXTERNAL_FEATURE_ID );
+        Utils.registerAdminUserWithRigth( request, new AdminUser( ),
+                ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
+
+        ExternalFeaturesJspBean instance = new ExternalFeaturesJspBean( );
+        instance.init( request, ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
+        instance.getRemoveExternalFeature( request );
+
+        try
+        {
+            instance.doRemoveExternalFeature( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            Right right = RightHome.findByPrimaryKey( TEST_EXTERNAL_FEATURE_ID );
+            assertNotNull( right );
+        }
     }
 }

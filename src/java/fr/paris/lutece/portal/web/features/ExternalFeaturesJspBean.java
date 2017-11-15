@@ -165,22 +165,26 @@ public class ExternalFeaturesJspBean extends AdminFeaturesPageJspBean
 
         String strExternalFeatureId = request.getParameter( PARAMETER_ID_EXTERNAL_FEATURE );
 
-        String strUrl = JSP_DELETE_EXTERNAL_FEATURE + "?" + PARAMETER_ID_EXTERNAL_FEATURE + "=" + strExternalFeatureId;
-
         _externalFeature = RightHome.findByPrimaryKey( strExternalFeatureId );
         _externalFeature.setLocale( getUser( ).getLocale( ) );
 
-        Object [ ] messageArgs = {
-            _externalFeature.getName( )
-        };
+        Object[ ] messageArgs = { _externalFeature.getName( ) };
 
-        return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_DELETE, messageArgs, null, strUrl, "", AdminMessage.TYPE_CONFIRMATION );
+        Map<String, Object> parameters = new HashMap<>( );
+        parameters.put( PARAMETER_ID_EXTERNAL_FEATURE, strExternalFeatureId );
+        parameters.put( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, JSP_DELETE_EXTERNAL_FEATURE ) );
 
+        return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_DELETE, messageArgs, null,
+                JSP_DELETE_EXTERNAL_FEATURE, "", AdminMessage.TYPE_CONFIRMATION, parameters );
     }
 
-    public String doRemoveExternalFeature( HttpServletRequest request )
+    public String doRemoveExternalFeature( HttpServletRequest request ) throws AccessDeniedException
     {
-
+        if ( !SecurityTokenService.getInstance( ).validate( request, JSP_DELETE_EXTERNAL_FEATURE ) )
+        {
+            throw new AccessDeniedException( "Invalid security token" );
+        }
         RightHome.remove( _externalFeature.getId( ) );
 
         return JSP_MANAGE_EXTERNAL_FEATURES;
