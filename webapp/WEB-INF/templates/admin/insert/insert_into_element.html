@@ -1,12 +1,33 @@
+<!--  Insert service -->
 <script type="text/javascript">
-		// TinyMCE insert
-		var t1 = '${.data_model.input}';
- 		if ( t1 !='undefined' ){
+$( function(){
+	var isIt = '${.data_model.input}', insertCode='${insert}';
+	switch ( isIt ) {
+		case 'slider-file':
+			sessionStorage.setItem('slidercode', insertCode );
+			window.parent.closeModal( );
+			break;
+		case 'photo-file':
+			var photoUrl = insertCode.match(/("|')(document)((?:\\\1|(?:(?!\1).))*)\1/g);
+			sessionStorage.setItem('photourl', photoUrl );
+			window.parent.closeModal( );
+			break;
+		case 'undefined':
+			parent.tinymce.activeEditor.insertContent( insertCode );
+			parent.tinymce.activeEditor.windowManager.close();
+			break;
+		case 'null':
+			parent.tinymce.activeEditor.insertContent( insertCode );
+			parent.tinymce.activeEditor.windowManager.close();
+			break;
+		case 'tinymce':
+			parent.tinymce.activeEditor.insertContent( insertCode );
+			parent.tinymce.activeEditor.windowManager.close();
+			break;
+		default:
 			var elementInput = opener.document.getElementById("${.data_model.input}");
-			elementInput.value = '${insert}';
+			elementInput.value = insertCode;
 			window.close();
-		} else {
-			parent.tinymce.activeEditor.insertContent('${insert}');
-			parent.tinymce.activeEditor.windowManager.close();	
-		}
+	}
+});
 </script>
