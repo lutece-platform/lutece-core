@@ -4,6 +4,7 @@
       <@boxHeader title='#i18n{portal.features.external_features.create_external_feature.pageTitle}' />
 			<@boxBody>
 			  <@tform method='post' name='create_external_feature' action='jsp/admin/features/DoCreateExternalFeature.jsp'>
+			  	<input type="hidden" name="token" value="${token}">
         <@messages errors=errors />
 				
 				<@formGroup labelKey='#i18n{portal.features.external_features.create_external_features.id}' mandatory=true helpKey='#i18n{portal.features.external_features.create_external_features.id.help}'>
