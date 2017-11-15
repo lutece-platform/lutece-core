@@ -212,15 +212,19 @@ public class ExternalFeaturesJspBean extends AdminFeaturesPageJspBean
             rightLevelsReferenceList.add( rightLevel.getReferenceItem( ) );
         }
         model.put( MARK_RIGHT_LEVELS_REFERENCE_LIST, rightLevelsReferenceList );
+        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MODIFY_EXTERNAL_FEATURE ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_EXTERNAL_FEATURE, getLocale( ), model );
 
         return getAdminPage( template.getHtml( ) );
     }
 
-    public String doModifyExternalFeature( HttpServletRequest request )
+    public String doModifyExternalFeature( HttpServletRequest request ) throws AccessDeniedException
     {
-
+        if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_MODIFY_EXTERNAL_FEATURE ) )
+        {
+            throw new AccessDeniedException( "Invalid security token" );
+        }
         int nIdOrder = _externalFeature.getOrder( );
         String strIdExternalFeature = _externalFeature.getId( );
 
