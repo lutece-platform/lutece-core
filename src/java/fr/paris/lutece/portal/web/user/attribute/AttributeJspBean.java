@@ -335,11 +335,12 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
     public String doConfirmRemoveAttribute( HttpServletRequest request )
     {
         String strIdAttribute = request.getParameter( PARAMETER_ID_ATTRIBUTE );
-        String strUrlRemove = JSP_URL_REMOVE_ATTRIBUTE + QUESTION_MARK + PARAMETER_ID_ATTRIBUTE + EQUAL + strIdAttribute;
 
-        String strUrl = AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_CONFIRM_REMOVE_ATTRIBUTE, strUrlRemove, AdminMessage.TYPE_CONFIRMATION );
+        Map<String, String> parameters = new HashMap<>( );
+        parameters.put( PARAMETER_ID_ATTRIBUTE, strIdAttribute );
+        parameters.put( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, JSP_URL_REMOVE_ATTRIBUTE ) );
 
-        return strUrl;
+        return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_CONFIRM_REMOVE_ATTRIBUTE, JSP_URL_REMOVE_ATTRIBUTE, AdminMessage.TYPE_CONFIRMATION, parameters  );
     }
 
     /**
@@ -348,13 +349,19 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
      * @param request
      *            HttpServletRequest
      * @return The Jsp URL of the process result
+     * @throws AccessDeniedException
+     *             if the security token is invalid
      */
-    public String doRemoveAttribute( HttpServletRequest request )
+    public String doRemoveAttribute( HttpServletRequest request ) throws AccessDeniedException
     {
         String strIdAttribute = request.getParameter( PARAMETER_ID_ATTRIBUTE );
 
         if ( StringUtils.isNotBlank( strIdAttribute ) && StringUtils.isNumeric( strIdAttribute ) )
         {
+            if ( !SecurityTokenService.getInstance( ).validate( request, JSP_URL_REMOVE_ATTRIBUTE ) )
+            {
+                throw new AccessDeniedException( "Invalid security token" );
+            }
             int nIdAttribute = Integer.parseInt( strIdAttribute );
             _attributeService.removeAttribute( nIdAttribute );
         }

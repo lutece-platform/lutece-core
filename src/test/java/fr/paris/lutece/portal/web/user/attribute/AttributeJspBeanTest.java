@@ -50,6 +50,8 @@ import fr.paris.lutece.portal.business.user.attribute.AttributeType;
 import fr.paris.lutece.portal.business.user.attribute.IAttribute;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.admin.PasswordResetException;
+import fr.paris.lutece.portal.service.message.AdminMessage;
+import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.user.attribute.AttributeService;
 import fr.paris.lutece.portal.service.user.attribute.AttributeTypeService;
@@ -378,6 +380,78 @@ public class AttributeJspBeanTest extends LuteceTestCase
                     Locale.FRANCE );
             assertNotNull( stored );
             assertEquals( attribute.getTitle( ), stored.getTitle( ) );
+        }
+    }
+
+    public void testDoConfirmRemoveAttribute( )
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( "id_attribute", Integer.toString( _attributes.values( ).stream( ).findFirst( )
+                .orElseThrow( IllegalStateException::new ).getIdAttribute( ) ) );
+
+        AttributeJspBean instance = new AttributeJspBean( );
+        instance.doConfirmRemoveAttribute( request );
+
+        AdminMessage message = AdminMessageService.getMessage( request );
+        assertNotNull( message );
+        assertTrue( message.getRequestParameters( ).containsKey( SecurityTokenService.PARAMETER_TOKEN ) );
+    }
+
+    public void testDoRemoveAttribute( ) throws AccessDeniedException
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        int idAttribute = _attributes.values( ).stream( ).findFirst( ).orElseThrow( IllegalStateException::new )
+                .getIdAttribute( );
+        request.setParameter( "id_attribute", Integer.toString( idAttribute ) );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( )
+                .getToken( request, "jsp/admin/user/attribute/DoRemoveAttribute.jsp" ) );
+
+        AttributeJspBean instance = new AttributeJspBean( );
+        instance.doRemoveAttribute( request );
+
+        IAttribute stored = AttributeService.getInstance( ).getAttributeWithoutFields( idAttribute, Locale.FRANCE );
+        assertNull( stored );
+    }
+
+    public void testDoRemoveAttributeInvalidToken( ) throws AccessDeniedException
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        int idAttribute = _attributes.values( ).stream( ).findFirst( ).orElseThrow( IllegalStateException::new )
+                .getIdAttribute( );
+        request.setParameter( "id_attribute", Integer.toString( idAttribute ) );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( )
+                .getToken( request, "jsp/admin/user/attribute/DoRemoveAttribute.jsp" ) + "b" );
+
+        AttributeJspBean instance = new AttributeJspBean( );
+        try
+        {
+            instance.doRemoveAttribute( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            IAttribute stored = AttributeService.getInstance( ).getAttributeWithoutFields( idAttribute, Locale.FRANCE );
+            assertNotNull( stored );
+        }
+    }
+
+    public void testDoRemoveAttributeNoToken( ) throws AccessDeniedException
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        int idAttribute = _attributes.values( ).stream( ).findFirst( ).orElseThrow( IllegalStateException::new )
+                .getIdAttribute( );
+        request.setParameter( "id_attribute", Integer.toString( idAttribute ) );
+
+        AttributeJspBean instance = new AttributeJspBean( );
+        try
+        {
+            instance.doRemoveAttribute( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            IAttribute stored = AttributeService.getInstance( ).getAttributeWithoutFields( idAttribute, Locale.FRANCE );
+            assertNotNull( stored );
         }
     }
 
