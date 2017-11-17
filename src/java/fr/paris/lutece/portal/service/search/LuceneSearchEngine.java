@@ -56,6 +56,7 @@ import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.search.TermRangeQuery;
 import org.apache.lucene.search.TopDocs;
+import org.apache.lucene.store.Directory;
 import org.apache.lucene.util.BytesRef;
 
 import java.text.ParseException;
@@ -197,9 +198,8 @@ public class LuceneSearchEngine implements SearchEngine
             allFilter = booleanQueryBuilder.build( );
         }
 
-        try
+        try( Directory directory = IndexationService.getDirectoryIndex( ) ; IndexReader ir = DirectoryReader.open( directory ) ; )
         {
-            IndexReader ir = DirectoryReader.open( IndexationService.getDirectoryIndex( ) );
             searcher = new IndexSearcher( ir );
 
             BooleanQuery.Builder bQueryBuilder = new BooleanQuery.Builder( );
