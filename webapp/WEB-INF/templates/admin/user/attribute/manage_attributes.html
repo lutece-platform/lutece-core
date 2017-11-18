@@ -41,37 +41,37 @@
 						<td>
 							<#if attribute.plugin?exists && attribute.plugin.name != "">
 							<#if cpt != 1>
-							<@tform class='pull-right' method='post' action='jsp/admin/user/attribute/DoMoveUpAttribute.jsp#list'>
+							<@tform class='pull-left spaced' method='post' action='jsp/admin/user/attribute/DoMoveUpAttribute.jsp#list'>
 								<input type="hidden" name="token" value="${token}">
 								<input type="hidden" name="id_attribute" value="${attribute.idAttribute}">
 								<@button type='submit' buttonIcon='chevron-up' title='#i18n{portal.users.modify_attribute.buttonLabelMoveUp}' showTitle=false />
 							</@tform>
 							</#if>
 							<#if attribute_has_next>
-							<@tform class='pull-right' method='post' action='jsp/admin/user/attribute/DoMoveDownAttribute.jsp#list'>
+							<@tform class='pull-left spaced' method='post' action='jsp/admin/user/attribute/DoMoveDownAttribute.jsp#list'>
 								<input type="hidden" name="token" value="${token}">
 								<input type="hidden" name="id_attribute" value="${attribute.idAttribute}">
 								<@button type='submit' buttonIcon='chevron-down' title='#i18n{portal.users.modify_attribute.buttonLabelMoveDown}' showTitle=false />
 							</@tform>
 							</#if>
 							<#else>
-							<@aButton href='jsp/admin/user/attribute/ModifyAttribute.jsp?id_attribute=${attribute.idAttribute}' buttonIcon='edit' title='#i18n{portal.users.manage_attributes.buttonLabelModify} (${attribute.title?html})' showTitle=false />
+							<@aButton class='pull-left spaced' href='jsp/admin/user/attribute/ModifyAttribute.jsp?id_attribute=${attribute.idAttribute}' buttonIcon='edit' title='#i18n{portal.users.manage_attributes.buttonLabelModify} (${attribute.title?html})' showTitle=false />
 
 							<#if cpt != 1>
-							<@tform class='pull-right' method='post' action='jsp/admin/user/attribute/DoMoveUpAttribute.jsp#list'>
+							<@tform class='pull-left spaced' method='post' action='jsp/admin/user/attribute/DoMoveUpAttribute.jsp#list'>
 								<input type="hidden" name="token" value="${token}">
 								<input type="hidden" name="id_attribute" value="${attribute.idAttribute}">
 								<@button type='submit' buttonIcon='chevron-up' title='#i18n{portal.users.modify_attribute.buttonLabelMoveUp}' showTitle=false />
 							</@tform>
 							</#if>
 							<#if attribute_has_next>
-							<@tform class='pull-right' method='post' action='jsp/admin/user/attribute/DoMoveDownAttribute.jsp#list'>
+							<@tform class='pull-left spaced' method='post' action='jsp/admin/user/attribute/DoMoveDownAttribute.jsp#list'>
 								<input type="hidden" name="token" value="${token}">
 								<input type="hidden" name="id_attribute" value="${attribute.idAttribute}">
 								<@button type='submit' buttonIcon='chevron-down' title='#i18n{portal.users.modify_attribute.buttonLabelMoveDown}' showTitle=false />
 							</@tform>
 							</#if>
-							<@aButton color='btn-danger' href='jsp/admin/user/attribute/RemoveAttribute.jsp?id_attribute=${attribute.idAttribute}' buttonIcon='trash' title='#i18n{portal.users.manage_attributes.buttonLabelDelete} (${attribute.title?html})' showTitle=false />
+							<@aButton class='pull-left spaced' color='btn-danger' href='jsp/admin/user/attribute/RemoveAttribute.jsp?id_attribute=${attribute.idAttribute}' buttonIcon='trash' title='#i18n{portal.users.manage_attributes.buttonLabelDelete} (${attribute.title?html})' showTitle=false />
 
 							</#if>
 						</td>
