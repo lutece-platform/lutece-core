@@ -118,6 +118,7 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
         Map<String, Object> model = new HashMap<String, Object>( );
         model.put( MARK_ATTRIBUTES_LIST, listAttributes );
         model.put( MARK_ATTRIBUTE_TYPES_LIST, listAttributeTypes );
+        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MANAGE_ATTRIBUTES ) );
 
         template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_ATTRIBUTES, getLocale( ), model );
 
@@ -416,13 +417,19 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
      * @param request
      *            HttpServletRequest
      * @return The Jsp URL of the process result
+     * @throws AccessDeniedException
+     *             if the security token is invalid
      */
-    public String doMoveDownAttribute( HttpServletRequest request )
+    public String doMoveDownAttribute( HttpServletRequest request ) throws AccessDeniedException
     {
         String strIdAttribute = request.getParameter( PARAMETER_ID_ATTRIBUTE );
 
         if ( StringUtils.isNotBlank( strIdAttribute ) && StringUtils.isNumeric( strIdAttribute ) )
         {
+            if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_MANAGE_ATTRIBUTES ) )
+            {
+                throw new AccessDeniedException( "Invalid security token" );
+            }
             int nIdAttribute = Integer.parseInt( strIdAttribute );
 
             List<IAttribute> listAttributes = _attributeService.getAllAttributesWithoutFields( getLocale( ) );
