@@ -41,7 +41,11 @@
 						<td>
 							<#if attribute.plugin?exists && attribute.plugin.name != "">
 							<#if cpt != 1>
-							<@aButton href='jsp/admin/user/attribute/DoMoveUpAttribute.jsp?id_attribute=${attribute.idAttribute}#list' title='#i18n{portal.users.modify_attribute.buttonLabelMoveUp}' buttonIcon='chevron-up' showTitle=false />
+							<@tform class='pull-right' method='post' action='jsp/admin/user/attribute/DoMoveUpAttribute.jsp#list'>
+								<input type="hidden" name="token" value="${token}">
+								<input type="hidden" name="id_attribute" value="${attribute.idAttribute}">
+								<@button type='submit' buttonIcon='chevron-up' title='#i18n{portal.users.modify_attribute.buttonLabelMoveUp}' showTitle=false />
+							</@tform>
 							</#if>
 							<#if attribute_has_next>
 							<@tform class='pull-right' method='post' action='jsp/admin/user/attribute/DoMoveDownAttribute.jsp#list'>
@@ -54,7 +58,11 @@
 							<@aButton href='jsp/admin/user/attribute/ModifyAttribute.jsp?id_attribute=${attribute.idAttribute}' buttonIcon='edit' title='#i18n{portal.users.manage_attributes.buttonLabelModify} (${attribute.title?html})' showTitle=false />
 
 							<#if cpt != 1>
-							<@aButton href='jsp/admin/user/attribute/DoMoveUpAttribute.jsp?id_attribute=${attribute.idAttribute}#list' buttonIcon='chevron-up' title='#i18n{portal.users.modify_attribute.buttonLabelMoveUp} (${attribute.title?html})' showTitle=false />
+							<@tform class='pull-right' method='post' action='jsp/admin/user/attribute/DoMoveUpAttribute.jsp#list'>
+								<input type="hidden" name="token" value="${token}">
+								<input type="hidden" name="id_attribute" value="${attribute.idAttribute}">
+								<@button type='submit' buttonIcon='chevron-up' title='#i18n{portal.users.modify_attribute.buttonLabelMoveUp}' showTitle=false />
+							</@tform>
 							</#if>
 							<#if attribute_has_next>
 							<@tform class='pull-right' method='post' action='jsp/admin/user/attribute/DoMoveDownAttribute.jsp#list'>
