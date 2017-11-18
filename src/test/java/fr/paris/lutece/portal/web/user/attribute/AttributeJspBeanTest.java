@@ -455,6 +455,105 @@ public class AttributeJspBeanTest extends LuteceTestCase
         }
     }
 
+    public void testGetManageAttributes( ) throws PasswordResetException, AccessDeniedException
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+
+        Utils.registerAdminUserWithRigth( request, new AdminUser( ), "CORE_USERS_MANAGEMENT" );
+        AttributeJspBean instance = new AttributeJspBean( );
+        instance.init( request, "CORE_USERS_MANAGEMENT" );
+
+        assertNotNull( instance.getManageAttributes( request ) );
+    }
+
+    public void testDoMoveDownAttribute( ) throws PasswordResetException, AccessDeniedException
+    {
+        List<IAttribute> listAttributes = AttributeService.getInstance( )
+                .getAllAttributesWithoutFields( Locale.FRANCE );
+        assertTrue( listAttributes.size( ) >= 2 );
+        int nIdAttribute = listAttributes.get( 0 ).getIdAttribute( );
+        int nPosition = listAttributes.get( 0 ).getPosition( );
+
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+
+        Utils.registerAdminUserWithRigth( request, new AdminUser( ), "CORE_USERS_MANAGEMENT" );
+        AttributeJspBean instance = new AttributeJspBean( );
+        instance.init( request, "CORE_USERS_MANAGEMENT" );
+
+        request.setParameter( "id_attribute", Integer.toString( nIdAttribute ) );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( )
+                .getToken( request, "admin/user/attribute/manage_attributes.html" ) );
+
+        instance.doMoveDownAttribute( request );
+
+        IAttribute stored = AttributeService.getInstance( ).getAttributeWithoutFields( nIdAttribute, Locale.FRANCE );
+        assertNotNull( stored );
+        assertEquals( nPosition + 1, stored.getPosition( ) );
+    }
+
+    public void testDoMoveDownAttributeInvalidToken( ) throws PasswordResetException, AccessDeniedException
+    {
+        List<IAttribute> listAttributes = AttributeService.getInstance( )
+                .getAllAttributesWithoutFields( Locale.FRANCE );
+        assertTrue( listAttributes.size( ) >= 2 );
+        int nIdAttribute = listAttributes.get( 0 ).getIdAttribute( );
+        int nPosition = listAttributes.get( 0 ).getPosition( );
+
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+
+        Utils.registerAdminUserWithRigth( request, new AdminUser( ), "CORE_USERS_MANAGEMENT" );
+        AttributeJspBean instance = new AttributeJspBean( );
+        instance.init( request, "CORE_USERS_MANAGEMENT" );
+
+        request.setParameter( "id_attribute", Integer.toString( nIdAttribute ) );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "admin/user/attribute/manage_attributes.html" )
+                        + "b" );
+
+        try
+        {
+            instance.doMoveDownAttribute( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            IAttribute stored = AttributeService.getInstance( ).getAttributeWithoutFields( nIdAttribute,
+                    Locale.FRANCE );
+            assertNotNull( stored );
+            assertEquals( nPosition, stored.getPosition( ) );
+        }
+    }
+
+    public void testDoMoveDownAttributeNoToken( ) throws PasswordResetException, AccessDeniedException
+    {
+        List<IAttribute> listAttributes = AttributeService.getInstance( )
+                .getAllAttributesWithoutFields( Locale.FRANCE );
+        assertTrue( listAttributes.size( ) >= 2 );
+        int nIdAttribute = listAttributes.get( 0 ).getIdAttribute( );
+        int nPosition = listAttributes.get( 0 ).getPosition( );
+
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+
+        Utils.registerAdminUserWithRigth( request, new AdminUser( ), "CORE_USERS_MANAGEMENT" );
+        AttributeJspBean instance = new AttributeJspBean( );
+        instance.init( request, "CORE_USERS_MANAGEMENT" );
+
+        request.setParameter( "id_attribute", Integer.toString( nIdAttribute ) );
+
+        try
+        {
+            instance.doMoveDownAttribute( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            IAttribute stored = AttributeService.getInstance( ).getAttributeWithoutFields( nIdAttribute,
+                    Locale.FRANCE );
+            assertNotNull( stored );
+            assertEquals( nPosition, stored.getPosition( ) );
+        }
+    }
+
     private String getRandomName( )
     {
         Random rand = new SecureRandom( );
