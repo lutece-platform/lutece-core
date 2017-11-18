@@ -376,13 +376,19 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
      * @param request
      *            HttpServletRequest
      * @return The Jsp URL of the process result
+     * @throws AccessDeniedException
+     *             if the security token is invalid
      */
-    public String doMoveUpAttribute( HttpServletRequest request )
+    public String doMoveUpAttribute( HttpServletRequest request ) throws AccessDeniedException
     {
         String strIdAttribute = request.getParameter( PARAMETER_ID_ATTRIBUTE );
 
         if ( StringUtils.isNotBlank( strIdAttribute ) && StringUtils.isNumeric( strIdAttribute ) )
         {
+            if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_MANAGE_ATTRIBUTES ) )
+            {
+                throw new AccessDeniedException( "Invalid security token" );
+            }
             int nIdAttribute = Integer.parseInt( strIdAttribute );
 
             List<IAttribute> listAttributes = _attributeService.getAllAttributesWithoutFields( getLocale( ) );
