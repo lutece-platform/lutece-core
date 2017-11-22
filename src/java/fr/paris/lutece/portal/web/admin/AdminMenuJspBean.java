@@ -509,9 +509,15 @@ public class AdminMenuJspBean implements Serializable
      * @param request
      *            {@link HttpServletRequest}
      * @return The forward Url
+     * @throws AccessDeniedException
+     *             if the security token is invalid
      */
-    public String doModifyAccessibilityMode( HttpServletRequest request )
+    public String doModifyAccessibilityMode( HttpServletRequest request ) throws AccessDeniedException
     {
+        if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_ADMIN_MENU_HEADER ) )
+        {
+            throw new AccessDeniedException( "Invalid security token" );
+        }
         AdminUser user = AdminUserService.getAdminUser( request );
 
         if ( user != null )

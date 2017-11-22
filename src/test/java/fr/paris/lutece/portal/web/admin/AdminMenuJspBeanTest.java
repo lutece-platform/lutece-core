@@ -332,4 +332,76 @@ public class AdminMenuJspBeanTest extends LuteceTestCase
         }
 
     }
+
+    public void testDoModifyAccessibilityMode( ) throws AccessDeniedException
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "admin/user/admin_header.html" ) );
+
+        getUser( request );
+        Utils.registerAdminUser( request, _user );
+        boolean bAccessibilityMode = _user.getAccessibilityMode( );
+        try
+        {
+            AdminMenuJspBean instance = new AdminMenuJspBean( );
+            instance.doModifyAccessibilityMode( request );
+            assertEquals( !bAccessibilityMode, _user.getAccessibilityMode( ) );
+        }
+        finally
+        {
+            _user.setAccessibilityMode( bAccessibilityMode );
+            AdminUserHome.update( _user );
+        }
+    }
+
+    public void testDoModifyAccessibilityModeInvalidToken( ) throws AccessDeniedException
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "admin/user/admin_header.html" ) + "b" );
+
+        getUser( request );
+        Utils.registerAdminUser( request, _user );
+        boolean bAccessibilityMode = _user.getAccessibilityMode( );
+        try
+        {
+            AdminMenuJspBean instance = new AdminMenuJspBean( );
+            instance.doModifyAccessibilityMode( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            assertEquals( bAccessibilityMode, _user.getAccessibilityMode( ) );
+        }
+        finally
+        {
+            _user.setAccessibilityMode( bAccessibilityMode );
+            AdminUserHome.update( _user );
+        }
+    }
+
+    public void testDoModifyAccessibilityModeNoToken( ) throws AccessDeniedException
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+
+        getUser( request );
+        Utils.registerAdminUser( request, _user );
+        boolean bAccessibilityMode = _user.getAccessibilityMode( );
+        try
+        {
+            AdminMenuJspBean instance = new AdminMenuJspBean( );
+            instance.doModifyAccessibilityMode( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            assertEquals( bAccessibilityMode, _user.getAccessibilityMode( ) );
+        }
+        finally
+        {
+            _user.setAccessibilityMode( bAccessibilityMode );
+            AdminUserHome.update( _user );
+        }
+    }
 }

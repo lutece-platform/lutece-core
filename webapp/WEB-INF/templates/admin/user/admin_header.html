@@ -60,15 +60,16 @@
                 <li>
                   <a href="jsp/admin/user/ModifyDefaultUserPassword.jsp"><i class="fa fa-lock"></i>&nbsp;#i18n{portal.admin.admin_home.password}</a>
                 </li>
-                <#if user.accessibilityMode>
-                  <li>
-                    <a href="jsp/admin/DoModifyAccessibilityMode.jsp" title="#i18n{portal.users.admin_header.labelDeactivateAccessibilityMode}"><i class="fa fa-eye"></i>&nbsp;#i18n{portal.users.admin_header.labelDeactivateAccessibilityMode}</a>
-                  </li>
-                  <#else>
-                    <li>
-                      <a href="jsp/admin/DoModifyAccessibilityMode.jsp" title="#i18n{portal.users.admin_header.labelActivateAccessibilityMode}"><i class="fa fa-eye-close"></i>&nbsp;#i18n{portal.users.admin_header.labelActivateAccessibilityMode}</a>
-                    </li>
-                </#if>
+                <li>
+				<@tform method='post' action='jsp/admin/DoModifyAccessibilityMode.jsp' class='form-inline'>
+					<input type="hidden" name="token" value="${token}">
+                  	<#if user.accessibilityMode>
+                  	<@button color='btn-link' size='md' type='submit' buttonIcon='eye' title='#i18n{portal.users.admin_header.labelDeactivateAccessibilityMode}'/>
+                  	<#else>
+					<@button color='btn-link' size='md' type='submit' buttonIcon='eye-slash' title='#i18n{portal.users.admin_header.labelActivateAccessibilityMode}'/>
+					</#if>
+				</@tform>
+                </li>
                 <li class="divider"></li>
                 <li>
                   <a href="javascript:return false;">
