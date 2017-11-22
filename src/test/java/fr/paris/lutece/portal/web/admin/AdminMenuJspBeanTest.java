@@ -44,6 +44,7 @@ import fr.paris.lutece.portal.service.admin.AdminUserService;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
+import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.web.constants.Messages;
@@ -86,14 +87,12 @@ public class AdminMenuJspBeanTest extends LuteceTestCase
      */
     public void testGetAdminMenuHeader( ) throws AccessDeniedException
     {
-        System.out.println( "getAdminMenuHeader" );
-
         MockHttpServletRequest request = new MockHttpServletRequest( );
         getUser( request );
         Utils.registerAdminUser( request, _user );
 
         AdminMenuJspBean instance = new AdminMenuJspBean( );
-        instance.getAdminMenuHeader( request );
+        assertNotNull( instance.getAdminMenuHeader( request ) );
     }
 
     /**
@@ -112,14 +111,15 @@ public class AdminMenuJspBeanTest extends LuteceTestCase
     }
 
     /**
-     * Test of doChangeLanguage method, of class fr.paris.lutece.portal.web.admin.AdminMenuJspBean.
+     * Test of doChangeLanguage method, of class
+     * fr.paris.lutece.portal.web.admin.AdminMenuJspBean.
      */
     public void testDoChangeLanguage( ) throws AccessDeniedException
     {
-        System.out.println( "doChangeLanguage" );
-
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.addParameter( PARAMETER_LANGUAGE, TEST_LANGUAGE );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "admin/user/admin_header.html" ) );
 
         getUser( request );
         Utils.registerAdminUser( request, _user );
@@ -130,6 +130,54 @@ public class AdminMenuJspBeanTest extends LuteceTestCase
         AdminMenuJspBean instance = new AdminMenuJspBean( );
         instance.doChangeLanguage( request );
         assertNotSame( localeSTored.getLanguage( ), _user.getLocale( ).getLanguage( ) );
+    }
+
+    public void testDoChangeLanguageInvalidToken( ) throws AccessDeniedException
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.addParameter( PARAMETER_LANGUAGE, TEST_LANGUAGE );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "admin/user/admin_header.html" ) + "b" );
+
+        getUser( request );
+        Utils.registerAdminUser( request, _user );
+        _user.setLocale( Locale.FRANCE );
+
+        Locale localeSTored = _user.getLocale( );
+
+        AdminMenuJspBean instance = new AdminMenuJspBean( );
+        try
+        {
+            instance.doChangeLanguage( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            assertSame( localeSTored.getLanguage( ), _user.getLocale( ).getLanguage( ) );
+        }
+    }
+
+    public void testDoChangeLanguageNoToken( ) throws AccessDeniedException
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.addParameter( PARAMETER_LANGUAGE, TEST_LANGUAGE );
+
+        getUser( request );
+        Utils.registerAdminUser( request, _user );
+        _user.setLocale( Locale.FRANCE );
+
+        Locale localeSTored = _user.getLocale( );
+
+        AdminMenuJspBean instance = new AdminMenuJspBean( );
+        try
+        {
+            instance.doChangeLanguage( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            assertSame( localeSTored.getLanguage( ), _user.getLocale( ).getLanguage( ) );
+        }
     }
 
     private void getUser( MockHttpServletRequest request )
