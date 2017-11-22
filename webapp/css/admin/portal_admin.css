@@ -38,6 +38,7 @@ body > .header .navbar span#zone4{ min-width:180px;display:inline-block;}
 .navbar-nav > .user-menu > .dropdown-menu li a {color:#000;}
 .navbar-nav > .user-menu > .dropdown-menu li a:hover {color:#fff;}
 .navbar-nav > .user-menu > .dropdown-menu:after {bottom: 100%;right:10px;border: solid transparent;content: " ";height: 0;width: 0;position: absolute;pointer-events: none; border-color: rgba(255, 255, 255, 0); border-bottom-color: #ffffff;border-width: 10px; margin-left: -10px;}
+.navbar-nav > .user-menu > .dropdown-menu ul.list-inline {padding-left:15px}
 
 /* MENUS */
 .navbar-toolbar{margin-left:5%;}
