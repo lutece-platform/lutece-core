@@ -206,7 +206,7 @@ public class AdminMenuJspBeanTest extends LuteceTestCase
         return adminUserDAO;
     }
 
-    public void testDoModifyDefaultAdminUserPassword( )
+    public void testDoModifyDefaultAdminUserPassword( ) throws AccessDeniedException
     {
         AdminUserDAO adminUserDAO = getAdminUserDAO( );
         String randomUsername = "user" + new SecureRandom( ).nextLong( );
@@ -316,6 +316,7 @@ public class AdminMenuJspBeanTest extends LuteceTestCase
             request.addParameter( Parameters.PASSWORD_CURRENT, password );
             request.addParameter( Parameters.NEW_PASSWORD, password + "_mod" );
             request.addParameter( Parameters.CONFIRM_NEW_PASSWORD, password + "_mod" );
+            request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "admin/user/modify_password_default_module.html" ) );
             instance.doModifyDefaultAdminUserPassword( request );
             message = AdminMessageService.getMessage( request );
             assertNotNull( message );
@@ -331,6 +332,81 @@ public class AdminMenuJspBeanTest extends LuteceTestCase
             AdminUserHome.removeAllPasswordHistoryForUser( user.getUserId( ) );
         }
 
+    }
+
+    public void testDoModifyDefaultAdminUserPasswordInvalidToken( ) throws AccessDeniedException
+    {
+        AdminUserDAO adminUserDAO = getAdminUserDAO( );
+        String randomUsername = "user" + new SecureRandom( ).nextLong( );
+        String password = "Pa55word!";
+        IPasswordFactory passwordFactory = SpringContextService.getBean( IPasswordFactory.BEAN_NAME );
+
+        LuteceDefaultAdminUser user = new LuteceDefaultAdminUser( randomUsername,
+                new LuteceDefaultAdminAuthentication( ) );
+        user.setPassword( passwordFactory.getPasswordFromCleartext( password ) );
+        user.setFirstName( randomUsername );
+        user.setLastName( randomUsername );
+        user.setEmail( randomUsername + "@lutece.fr" );
+        adminUserDAO.insert( user );
+        AdminMenuJspBean instance = new AdminMenuJspBean( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.getSession( true ).setAttribute( "lutece_admin_user", user );
+        request = new MockHttpServletRequest( );
+        request.getSession( true ).setAttribute( "lutece_admin_user", user );
+        request.addParameter( Parameters.PASSWORD_CURRENT, password );
+        request.addParameter( Parameters.NEW_PASSWORD, password + "_mod" );
+        request.addParameter( Parameters.CONFIRM_NEW_PASSWORD, password + "_mod" );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( )
+                .getToken( request, "admin/user/modify_password_default_module.html" ) + "b" );
+        try
+        {
+            instance.doModifyDefaultAdminUserPassword( request );
+            fail( "Shoulf have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            List<IPassword> history = AdminUserHome.selectUserPasswordHistory( user.getUserId( ) );
+            assertEquals( 0, history.size( ) );
+            LuteceDefaultAdminUser stored = adminUserDAO.loadDefaultAdminUser( user.getUserId( ) );
+            assertTrue( stored.getPassword( ).check( password ) );
+        }
+    }
+
+    public void testDoModifyDefaultAdminUserPasswordNoToken( ) throws AccessDeniedException
+    {
+        AdminUserDAO adminUserDAO = getAdminUserDAO( );
+        String randomUsername = "user" + new SecureRandom( ).nextLong( );
+        String password = "Pa55word!";
+        IPasswordFactory passwordFactory = SpringContextService.getBean( IPasswordFactory.BEAN_NAME );
+
+        LuteceDefaultAdminUser user = new LuteceDefaultAdminUser( randomUsername,
+                new LuteceDefaultAdminAuthentication( ) );
+        user.setPassword( passwordFactory.getPasswordFromCleartext( password ) );
+        user.setFirstName( randomUsername );
+        user.setLastName( randomUsername );
+        user.setEmail( randomUsername + "@lutece.fr" );
+        adminUserDAO.insert( user );
+        AdminMenuJspBean instance = new AdminMenuJspBean( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.getSession( true ).setAttribute( "lutece_admin_user", user );
+        request = new MockHttpServletRequest( );
+        request.getSession( true ).setAttribute( "lutece_admin_user", user );
+        request.addParameter( Parameters.PASSWORD_CURRENT, password );
+        request.addParameter( Parameters.NEW_PASSWORD, password + "_mod" );
+        request.addParameter( Parameters.CONFIRM_NEW_PASSWORD, password + "_mod" );
+
+        try
+        {
+            instance.doModifyDefaultAdminUserPassword( request );
+            fail( "Shoulf have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            List<IPassword> history = AdminUserHome.selectUserPasswordHistory( user.getUserId( ) );
+            assertEquals( 0, history.size( ) );
+            LuteceDefaultAdminUser stored = adminUserDAO.loadDefaultAdminUser( user.getUserId( ) );
+            assertTrue( stored.getPassword( ).check( password ) );
+        }
     }
 
     public void testDoModifyAccessibilityMode( ) throws AccessDeniedException

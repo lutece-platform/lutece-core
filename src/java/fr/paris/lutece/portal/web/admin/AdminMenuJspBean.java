@@ -436,19 +436,23 @@ public class AdminMenuJspBean implements Serializable
         Locale locale = user.getLocale( );
         Map<String, Object> model = new HashMap<>( );
         model.put( MARK_MINIMUM_PASSWORD_SIZE, AdminUserService.getIntegerSecurityParameter( AdminUserService.DSKEY_PASSWORD_MINIMUM_LENGTH ) );
+        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MODIFY_PASSWORD_DEFAULT_MODULE ) );
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_PASSWORD_DEFAULT_MODULE, locale, model );
 
         return template.getHtml( );
     }
 
     /**
-     * Perform the user password modification. This is used only by the default module. For other modules, custom implementation should be provided.
+     * Perform the user password modification. This is used only by the default
+     * module. For other modules, custom implementation should be provided.
      * 
      * @param request
      *            the http request
      * @return the form allowing the modification of the user's password
+     * @throws AccessDeniedException
+     *             if the security token is invalid
      */
-    public String doModifyDefaultAdminUserPassword( HttpServletRequest request )
+    public String doModifyDefaultAdminUserPassword( HttpServletRequest request ) throws AccessDeniedException
     {
         AdminUser user = AdminUserService.getAdminUser( request );
 
@@ -489,6 +493,10 @@ public class AdminMenuJspBean implements Serializable
         if ( strCurrentPassword.equals( strNewPassword ) )
         {
             return AdminMessageService.getMessageUrl( request, PASSWORD_CURRENT_ERROR, AdminMessage.TYPE_STOP );
+        }
+        if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_MODIFY_PASSWORD_DEFAULT_MODULE ) )
+        {
+            throw new AccessDeniedException( "Invalid security token" );
         }
 
         // Successful tests
