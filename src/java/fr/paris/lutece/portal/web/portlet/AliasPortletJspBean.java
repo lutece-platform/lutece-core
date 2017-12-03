@@ -60,11 +60,7 @@ public class AliasPortletJspBean extends PortletJspBean
     // Right
     public static final String RIGHT_MANAGE_ADMIN_SITE = "CORE_ADMIN_SITE";
     private static final long serialVersionUID = 1894295808070813451L;
-    private static final String PARAM_PORTLET_NAME = "portlet_name";
-    private static final String PARAM_ORDER = "order";
-    private static final String PARAM_COLUMN = "column";
     private static final String PARAM_ALIAS_ID = "alias_id";
-    private static final String PARAM_ACCEPT_ALIAS = "accept_alias";
     private static final String MARK_ALIAS_PORTLETS_LIST = "alias_portlets_list";
     private static final String MARK_ALIAS_PORTLET = "alias_portlet";
     private static final String LABEL_ALIAS_PORTLET_NAME = "portal.site.portlet_alias.portlet.name.label";
@@ -87,33 +83,14 @@ public class AliasPortletJspBean extends PortletJspBean
         {
             return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
         }
-
-        // Gets the parameters of the alias portlet posted in the request
-        String strName = request.getParameter( PARAM_PORTLET_NAME );
-
-        // mandatory field
-        if ( ( strName == null ) || strName.trim( ).equals( "" ) )
+        String strError = setPortletCommonData( request, aliasPortlet );
+        if ( strError != null )
         {
-            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
+            return strError;
         }
 
-        String strOrder = request.getParameter( PARAM_ORDER );
-        int nOrder = Integer.parseInt( strOrder );
-        String strColumn = request.getParameter( PARAM_COLUMN );
-        int nColumn = Integer.parseInt( strColumn );
-        String strAcceptAlias = request.getParameter( PARAM_ACCEPT_ALIAS );
-        int nAcceptAlias = Integer.parseInt( strAcceptAlias );
-        aliasPortlet.setName( strName );
-        aliasPortlet.setOrder( nOrder );
-        aliasPortlet.setColumn( nColumn );
-        aliasPortlet.setAcceptAlias( nAcceptAlias );
-
-        String strPageId = request.getParameter( PARAMETER_PAGE_ID );
-        int nPageId = Integer.parseInt( strPageId );
         int nAliasId = Integer.parseInt( strAliasId );
-        aliasPortlet.setPageId( nPageId );
         aliasPortlet.setAliasId( nAliasId );
-
         // gets the style of the parent portlet
         Portlet portlet = PortletHome.findByPrimaryKey( nAliasId );
         aliasPortlet.setStyleId( portlet.getStyleId( ) );
@@ -122,7 +99,7 @@ public class AliasPortletJspBean extends PortletJspBean
         AliasPortletHome.getInstance( ).create( aliasPortlet );
 
         // Displays the page with the new portlet
-        return getPageUrl( nPageId );
+        return getPageUrl( aliasPortlet.getPageId( ) );
     }
 
     /**
@@ -139,23 +116,13 @@ public class AliasPortletJspBean extends PortletJspBean
         String strPortletId = request.getParameter( PARAMETER_PORTLET_ID );
         int nPortletId = Integer.parseInt( strPortletId );
         AliasPortlet portlet = (AliasPortlet) AliasPortletHome.findByPrimaryKey( nPortletId );
-
-        // Gets the parameters of the alias portlet posted in the request
-        String strName = request.getParameter( PARAM_PORTLET_NAME );
-        String strOrder = request.getParameter( PARAM_ORDER );
-        int nOrder = Integer.parseInt( strOrder );
-        String strColumn = request.getParameter( PARAM_COLUMN );
-        int nColumn = Integer.parseInt( strColumn );
-
-        // mandatory field
-        if ( ( strName == null ) || strName.trim( ).equals( "" ) )
+        // detach from previous portlet. Allows to not care about style id
+        portlet.setAliasId( 0 );
+        String strError = setPortletCommonData( request, portlet );
+        if ( strError != null )
         {
-            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
+            return strError;
         }
-
-        portlet.setName( strName );
-        portlet.setOrder( nOrder );
-        portlet.setColumn( nColumn );
 
         String strIdAlias = request.getParameter( PARAM_ALIAS_ID );
         int nIdAlias = Integer.parseInt( strIdAlias );
