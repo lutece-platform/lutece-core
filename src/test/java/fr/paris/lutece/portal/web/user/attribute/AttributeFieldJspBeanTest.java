@@ -73,11 +73,13 @@ public class AttributeFieldJspBeanTest extends LuteceTestCase
         for ( AttributeType type : types )
         {
             IAttribute attribute = ( IAttribute ) Class.forName( type.getClassName( ) ).newInstance( );
-            attribute.setTitle( getRandomName( ) );
-            attribute.setHelpMessage( attribute.getTitle( ) );
+            String strName = getRandomName( );
+            attribute.setTitle( strName );
+            attribute.setHelpMessage( strName );
             List<AttributeField> listAttributeFields = new ArrayList<AttributeField>( );
             AttributeField attributeField = new AttributeField( );
-            attributeField.setValue( attribute.getTitle( ) );
+            attributeField.setTitle( strName );
+            attributeField.setValue( strName );
             listAttributeFields.add( attributeField );
             attribute.setListAttributeFields( listAttributeFields );
             AttributeService.getInstance( ).createAttribute( attribute );
@@ -307,6 +309,131 @@ public class AttributeFieldJspBeanTest extends LuteceTestCase
         try
         {
             instance.doCreateAttributeField( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            IAttribute stored = AttributeService.getInstance( ).getAttributeWithFields( attribute.getIdAttribute( ),
+                    Locale.FRANCE );
+            assertNotNull( stored );
+            assertEquals( 1, stored.getListAttributeFields( ).size( ) );
+            assertEquals( 0, stored.getListAttributeFields( ).stream( )
+                    .filter( f -> strName.equals( f.getTitle( ) ) && strName.equals( f.getValue( ) ) ).count( ) );
+        }
+    }
+
+    public void testGetModifyAttributeField( ) throws AccessDeniedException
+    {
+        List<AttributeType> types = AttributeTypeService.getInstance( ).getAttributeTypes( Locale.FRANCE );
+        for ( AttributeType type : types )
+        {
+            testGetModifyAttributeField( _attributes.get( type ) );
+        }
+    }
+
+    private void testGetModifyAttributeField( IAttribute attribute )
+            throws PasswordResetException, AccessDeniedException
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( "id_attribute", Integer.toString( attribute.getIdAttribute( ) ) );
+        request.setParameter( "id_field",
+                Integer.toString( attribute.getListAttributeFields( ).get( 0 ).getIdField( ) ) );
+        Utils.registerAdminUserWithRigth( request, new AdminUser( ), "CORE_USERS_MANAGEMENT" );
+        instance.init( request, "CORE_USERS_MANAGEMENT" );
+
+        assertNotNull( instance.getModifyAttributeField( request ) );
+    }
+
+    public void testDoModifyAttributeField( ) throws AccessDeniedException
+    {
+        List<AttributeType> types = AttributeTypeService.getInstance( ).getAttributeTypes( Locale.FRANCE );
+        for ( AttributeType type : types )
+        {
+            testDoModifyAttributeField( _attributes.get( type ) );
+        }
+    }
+
+    private void testDoModifyAttributeField( IAttribute attribute ) throws AccessDeniedException
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( "id_attribute", Integer.toString( attribute.getIdAttribute( ) ) );
+        request.setParameter( "id_field",
+                Integer.toString( attribute.getListAttributeFields( ).get( 0 ).getIdField( ) ) );
+        String strName = getRandomName( );
+        request.setParameter( "title", strName );
+        request.setParameter( "value", strName );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( )
+                .getToken( request, "admin/user/attribute/modify_attribute_field.html" ) );
+
+        instance.doModifyAttributeField( request );
+
+        IAttribute stored = AttributeService.getInstance( ).getAttributeWithFields( attribute.getIdAttribute( ),
+                Locale.FRANCE );
+        assertNotNull( stored );
+        assertEquals( 1, stored.getListAttributeFields( ).size( ) );
+        assertEquals( 1, stored.getListAttributeFields( ).stream( )
+                .filter( f -> strName.equals( f.getTitle( ) ) && strName.equals( f.getValue( ) ) ).count( ) );
+    }
+
+    public void testDoModifyAttributeFieldInvalidToken( ) throws AccessDeniedException
+    {
+        List<AttributeType> types = AttributeTypeService.getInstance( ).getAttributeTypes( Locale.FRANCE );
+        for ( AttributeType type : types )
+        {
+            testDoModifyAttributeFieldInvalidToken( _attributes.get( type ) );
+        }
+    }
+
+    private void testDoModifyAttributeFieldInvalidToken( IAttribute attribute ) throws AccessDeniedException
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( "id_attribute", Integer.toString( attribute.getIdAttribute( ) ) );
+        request.setParameter( "id_field",
+                Integer.toString( attribute.getListAttributeFields( ).get( 0 ).getIdField( ) ) );
+        String strName = getRandomName( );
+        request.setParameter( "title", strName );
+        request.setParameter( "value", strName );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( )
+                .getToken( request, "admin/user/attribute/modify_attribute_field.html" ) + "b" );
+
+        try
+        {
+            instance.doModifyAttributeField( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            IAttribute stored = AttributeService.getInstance( ).getAttributeWithFields( attribute.getIdAttribute( ),
+                    Locale.FRANCE );
+            assertNotNull( stored );
+            assertEquals( 1, stored.getListAttributeFields( ).size( ) );
+            assertEquals( 0, stored.getListAttributeFields( ).stream( )
+                    .filter( f -> strName.equals( f.getTitle( ) ) && strName.equals( f.getValue( ) ) ).count( ) );
+        }
+    }
+
+    public void testDoModifyAttributeFieldNoToken( ) throws AccessDeniedException
+    {
+        List<AttributeType> types = AttributeTypeService.getInstance( ).getAttributeTypes( Locale.FRANCE );
+        for ( AttributeType type : types )
+        {
+            testDoModifyAttributeFieldNoToken( _attributes.get( type ) );
+        }
+    }
+
+    private void testDoModifyAttributeFieldNoToken( IAttribute attribute ) throws AccessDeniedException
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( "id_attribute", Integer.toString( attribute.getIdAttribute( ) ) );
+        request.setParameter( "id_field",
+                Integer.toString( attribute.getListAttributeFields( ).get( 0 ).getIdField( ) ) );
+        String strName = getRandomName( );
+        request.setParameter( "title", strName );
+        request.setParameter( "value", strName );
+
+        try
+        {
+            instance.doModifyAttributeField( request );
             fail( "Should have thrown" );
         }
         catch ( AccessDeniedException e )

@@ -195,6 +195,7 @@ public class AttributeFieldJspBean extends AdminFeaturesPageJspBean
         Map<String, Object> model = new HashMap<String, Object>( );
         model.put( MARK_ATTRIBUTE_FIELD, attributeField );
         model.put( MARK_ATTRIBUTE, attribute );
+        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MODIFY_ATTRIBUTE_FIELD ) );
 
         template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_ATTRIBUTE_FIELD, getLocale( ), model );
 
@@ -207,8 +208,10 @@ public class AttributeFieldJspBean extends AdminFeaturesPageJspBean
      * @param request
      *            HttpServletRequest
      * @return The Jsp URL of the process result
+     * @throws AccessDeniedException
+     *             if the security token is invalid
      */
-    public String doModifyAttributeField( HttpServletRequest request )
+    public String doModifyAttributeField( HttpServletRequest request ) throws AccessDeniedException
     {
         String strTitle = request.getParameter( PARAMETER_TITLE );
         String strValue = request.getParameter( PARAMETER_VALUE );
@@ -230,6 +233,10 @@ public class AttributeFieldJspBean extends AdminFeaturesPageJspBean
                 return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
             }
 
+            if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_MODIFY_ATTRIBUTE_FIELD ) )
+            {
+                throw new AccessDeniedException( "Invalid security token" );
+            }
             AttributeField currentAttributeField = _attributeFieldService.getAttributeField( nIdField );
             int nPosition = currentAttributeField.getPosition( );
 
