@@ -35,8 +35,10 @@ package fr.paris.lutece.portal.web.user.attribute;
 
 import fr.paris.lutece.portal.business.user.attribute.AttributeField;
 import fr.paris.lutece.portal.business.user.attribute.IAttribute;
+import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
+import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.user.attribute.AdminUserFieldService;
 import fr.paris.lutece.portal.service.user.attribute.AttributeFieldService;
@@ -67,7 +69,6 @@ public class AttributeFieldJspBean extends AdminFeaturesPageJspBean
     // CONSTANTS
     private static final String QUESTION_MARK = "?";
     private static final String EQUAL = "=";
-    private static final String AMPERSAND = "&";
 
     // PROPERTIES
     private static final String PROPERTY_CREATE_ATTRIBUTE_FIELDS_PAGETITLE = "portal.users.create_attribute_field.pageTitle";
@@ -248,13 +249,14 @@ public class AttributeFieldJspBean extends AdminFeaturesPageJspBean
     {
         String strIdAttribute = request.getParameter( PARAMETER_ID_ATTRIBUTE );
         String strIdField = request.getParameter( PARAMETER_ID_FIELD );
-        String strUrlRemove = JSP_URL_REMOVE_ATTRIBUTE_FIELD + QUESTION_MARK + PARAMETER_ID_ATTRIBUTE + EQUAL + strIdAttribute + AMPERSAND + PARAMETER_ID_FIELD
-                + EQUAL + strIdField;
 
-        String strUrl = AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_CONFIRM_REMOVE_ATTRIBUTE_FIELD, strUrlRemove,
-                AdminMessage.TYPE_CONFIRMATION );
+        Map<String, String> parameters = new HashMap<>( );
+        parameters.put( PARAMETER_ID_ATTRIBUTE, strIdAttribute );
+        parameters.put( PARAMETER_ID_FIELD, strIdField );
+        parameters.put( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, JSP_URL_REMOVE_ATTRIBUTE_FIELD ) );
 
-        return strUrl;
+        return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_CONFIRM_REMOVE_ATTRIBUTE_FIELD, JSP_URL_REMOVE_ATTRIBUTE_FIELD,
+                AdminMessage.TYPE_CONFIRMATION, parameters  );
     }
 
     /**
@@ -263,12 +265,18 @@ public class AttributeFieldJspBean extends AdminFeaturesPageJspBean
      * @param request
      *            HttpServletRequest
      * @return The Jsp URL of the process result
+     * @throws AccessDeniedException
+     *             if the security token is invalid
      */
-    public String doRemoveAttributeField( HttpServletRequest request )
+    public String doRemoveAttributeField( HttpServletRequest request ) throws AccessDeniedException
     {
         String strIdAttribute = request.getParameter( PARAMETER_ID_ATTRIBUTE );
         String strIdField = request.getParameter( PARAMETER_ID_FIELD );
 
+        if ( !SecurityTokenService.getInstance( ).validate( request, JSP_URL_REMOVE_ATTRIBUTE_FIELD ) )
+        {
+            throw new AccessDeniedException( "Invalid security token" );
+        }
         if ( StringUtils.isNotBlank( strIdField ) && StringUtils.isNumeric( strIdField ) )
         {
             int nIdField = Integer.parseInt( strIdField );
