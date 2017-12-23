@@ -116,6 +116,7 @@ public class AttributeFieldJspBean extends AdminFeaturesPageJspBean
         HtmlTemplate template;
         Map<String, Object> model = new HashMap<String, Object>( );
         model.put( MARK_ATTRIBUTE, attribute );
+        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_CREATE_ATTRIBUTE_FIELD ) );
 
         template = AppTemplateService.getTemplate( TEMPLATE_CREATE_ATTRIBUTE_FIELD, getLocale( ), model );
 
@@ -127,8 +128,10 @@ public class AttributeFieldJspBean extends AdminFeaturesPageJspBean
      * @param request
      *            the HttpServletRequest
      * @return Url
+     * @throws AccessDeniedException
+     *             if the security token is invalid
      */
-    public String doCreateAttributeField( HttpServletRequest request )
+    public String doCreateAttributeField( HttpServletRequest request ) throws AccessDeniedException
     {
         String strIdAttribute = request.getParameter( PARAMETER_ID_ATTRIBUTE );
         int nIdAttribute = Integer.parseInt( strIdAttribute );
@@ -149,6 +152,10 @@ public class AttributeFieldJspBean extends AdminFeaturesPageJspBean
                 return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
             }
 
+            if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_CREATE_ATTRIBUTE_FIELD ) )
+            {
+                throw new AccessDeniedException( "Invalid security token" );
+            }
             AttributeField attributeField = new AttributeField( );
             attributeField.setTitle( strTitle );
             attributeField.setValue( strValue );
