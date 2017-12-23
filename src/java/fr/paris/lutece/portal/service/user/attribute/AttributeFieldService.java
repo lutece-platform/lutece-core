@@ -89,7 +89,8 @@ public final class AttributeFieldService
     {
         if ( ( attributeField != null ) && ( attributeField.getAttribute( ) != null ) )
         {
-            AttributeFieldHome.create( attributeField );
+            int nId = AttributeFieldHome.create( attributeField );
+            attributeField.setIdField( nId );
         }
     }
 
