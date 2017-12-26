@@ -566,4 +566,121 @@ public class AttributeFieldJspBeanTest extends LuteceTestCase
             assertEquals( nOrigPosition, field.getPosition( ) );
         }
     }
+
+    public void testdoMoveUpAttributeField( ) throws AccessDeniedException
+    {
+        List<AttributeType> types = AttributeTypeService.getInstance( ).getAttributeTypes( Locale.FRANCE );
+        for ( AttributeType type : types )
+        {
+            // we load the attribute from db to get all fields including
+            // position
+            IAttribute attribute = AttributeService.getInstance( )
+                    .getAttributeWithFields( _attributes.get( type ).getIdAttribute( ), Locale.FRANCE );
+            testdoMoveUpAttributeField( attribute );
+        }
+    }
+
+    private void testdoMoveUpAttributeField( IAttribute attribute ) throws AccessDeniedException
+    {
+        assertTrue( attribute.getListAttributeFields( ).size( ) > 1 );
+        AttributeField attributeField = attribute.getListAttributeFields( ).get( attribute.getListAttributeFields( ).size( ) - 1 );
+        int nOrigPosition = attributeField.getPosition( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( "id_attribute", Integer.toString( attribute.getIdAttribute( ) ) );
+        request.setParameter( "id_field", Integer.toString( attributeField.getIdField( ) ) );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, attribute.getTemplateModifyAttribute( ) ) );
+
+        instance.doMoveUpAttributeField( request );
+
+        IAttribute stored = AttributeService.getInstance( ).getAttributeWithFields( attribute.getIdAttribute( ),
+                Locale.FRANCE );
+        assertNotNull( stored );
+        AttributeField field = stored.getListAttributeFields( ).stream( )
+                .filter( f -> f.getIdField( ) == attributeField.getIdField( ) ).findFirst( )
+                .orElseThrow( AssertionError::new );
+        assertEquals( "Orig position was " + nOrigPosition + "; expected lower position but got " + field.getPosition( ),
+                nOrigPosition - 1, field.getPosition( ) );
+    }
+
+    public void testdoMoveUpAttributeFieldInvalidToken( ) throws AccessDeniedException
+    {
+        List<AttributeType> types = AttributeTypeService.getInstance( ).getAttributeTypes( Locale.FRANCE );
+        for ( AttributeType type : types )
+        {
+            // we load the attribute from db to get all fields including
+            // position
+            IAttribute attribute = AttributeService.getInstance( )
+                    .getAttributeWithFields( _attributes.get( type ).getIdAttribute( ), Locale.FRANCE );
+            testdoMoveUpAttributeFieldInvalidToken( attribute );
+        }
+    }
+
+    private void testdoMoveUpAttributeFieldInvalidToken( IAttribute attribute ) throws AccessDeniedException
+    {
+        assertTrue( attribute.getListAttributeFields( ).size( ) > 1 );
+        AttributeField attributeField = attribute.getListAttributeFields( ).get( 0 );
+        int nOrigPosition = attributeField.getPosition( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( "id_attribute", Integer.toString( attribute.getIdAttribute( ) ) );
+        request.setParameter( "id_field", Integer.toString( attributeField.getIdField( ) ) );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, attribute.getTemplateModifyAttribute( ) )
+                        + "b" );
+
+        try
+        {
+            instance.doMoveUpAttributeField( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            IAttribute stored = AttributeService.getInstance( ).getAttributeWithFields( attribute.getIdAttribute( ),
+                    Locale.FRANCE );
+            assertNotNull( stored );
+            AttributeField field = stored.getListAttributeFields( ).stream( )
+                    .filter( f -> f.getIdField( ) == attributeField.getIdField( ) ).findFirst( )
+                    .orElseThrow( AssertionError::new );
+            assertEquals( nOrigPosition, field.getPosition( ) );
+        }
+    }
+
+    public void testdoMoveUpAttributeFieldNoToken( ) throws AccessDeniedException
+    {
+        List<AttributeType> types = AttributeTypeService.getInstance( ).getAttributeTypes( Locale.FRANCE );
+        for ( AttributeType type : types )
+        {
+            // we load the attribute from db to get all fields including
+            // position
+            IAttribute attribute = AttributeService.getInstance( )
+                    .getAttributeWithFields( _attributes.get( type ).getIdAttribute( ), Locale.FRANCE );
+            testdoMoveUpAttributeFieldNoToken( attribute );
+        }
+    }
+
+    private void testdoMoveUpAttributeFieldNoToken( IAttribute attribute ) throws AccessDeniedException
+    {
+        assertTrue( attribute.getListAttributeFields( ).size( ) > 1 );
+        AttributeField attributeField = attribute.getListAttributeFields( ).get( 0 );
+        int nOrigPosition = attributeField.getPosition( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( "id_attribute", Integer.toString( attribute.getIdAttribute( ) ) );
+        request.setParameter( "id_field", Integer.toString( attributeField.getIdField( ) ) );
+
+        try
+        {
+            instance.doMoveUpAttributeField( request );
+            fail( "Should have thrown" );
+        }
+        catch ( AccessDeniedException e )
+        {
+            IAttribute stored = AttributeService.getInstance( ).getAttributeWithFields( attribute.getIdAttribute( ),
+                    Locale.FRANCE );
+            assertNotNull( stored );
+            AttributeField field = stored.getListAttributeFields( ).stream( )
+                    .filter( f -> f.getIdField( ) == attributeField.getIdField( ) ).findFirst( )
+                    .orElseThrow( AssertionError::new );
+            assertEquals( nOrigPosition, field.getPosition( ) );
+        }
+    }
 }
