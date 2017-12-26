@@ -356,8 +356,10 @@ public class AttributeFieldJspBean extends AdminFeaturesPageJspBean
      * @param request
      *            HttpServletRequest
      * @return The Jsp URL of the process result
+     * @throws AccessDeniedException
+     *             if the security token is invalid
      */
-    public String doMoveDownAttributeField( HttpServletRequest request )
+    public String doMoveDownAttributeField( HttpServletRequest request ) throws AccessDeniedException
     {
         String strIdAttribute = request.getParameter( PARAMETER_ID_ATTRIBUTE );
         String strIdField = request.getParameter( PARAMETER_ID_FIELD );
@@ -370,7 +372,10 @@ public class AttributeFieldJspBean extends AdminFeaturesPageJspBean
 
             IAttribute attribute = _attributeService.getAttributeWithFields( nIdAttribute, getLocale( ) );
             List<AttributeField> listAttributeFields = attribute.getListAttributeFields( );
-
+            if ( !SecurityTokenService.getInstance( ).validate( request, attribute.getTemplateModifyAttribute( ) ) )
+            {
+                throw new AccessDeniedException( "Invalid security token" );
+            }
             if ( listAttributeFields.size( ) > 0 )
             {
                 AttributeField currentField = null;
