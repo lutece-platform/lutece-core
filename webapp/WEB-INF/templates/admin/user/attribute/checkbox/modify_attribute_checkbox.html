@@ -69,7 +69,12 @@
 								<@aButton href='jsp/admin/user/attribute/ModifyAttributeField.jsp?id_attribute=${attribute.idAttribute}&amp;id_field=${attribute_field.idField}' title='#i18n{portal.users.modify_attribute.buttonLabelModify}' buttonIcon='edit' showTitle=false class='pull-left spaced'/>
 								
 								<#if cpt != 1>
-									<@aButton href='jsp/admin/user/attribute/DoMoveUpAttributeField.jsp?id_attribute=${attribute.idAttribute}&amp;id_field=${attribute_field.idField}#list' title='#i18n{portal.users.modify_attribute.buttonLabelMoveUp}' buttonIcon='chevron-up' showTitle=false class='pull-left spaced'/>
+									<@tform method='post' action='jsp/admin/user/attribute/DoMoveUpAttributeField.jsp#list' class='pull-left spaced'>
+										<input type="hidden" name="id_attribute" value="${attribute.idAttribute?html}">
+										<input type="hidden" name="id_field" value="${attribute_field.idField?html}">
+										<input type="hidden" name="token" value="${token}">
+										<@button type='submit' title='#i18n{portal.users.modify_attribute.buttonLabelMoveUp}' buttonIcon='chevron-up' showTitle=false />
+									</@tform>
 								</#if>
 								
 								<#if attribute_field_has_next>
