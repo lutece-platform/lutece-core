@@ -22,7 +22,7 @@
         				<label class="sr-only" for="password">#i18n{portal.admin.admin_login.passwordLabel}</label>
         				<div class="input-group">
         					<div class="input-group-addon"><span class="fa fa-lock"></span></div>
-        					<input type="password" name="password" class="form-control" placeholder="#i18n{portal.admin.admin_login.passwordLabel}">
+        					<input id="password" type="password" name="password" class="form-control" placeholder="#i18n{portal.admin.admin_login.passwordLabel}">
         				</div>
               </div>
             	<button type="submit" class="btn btn-primary btn-block btn-flat">#i18n{portal.admin.admin_login.buttonConnect}</button>
@@ -48,5 +48,24 @@ $(function() {
   var rndNum = Math.floor(Math.random()*(randomImages.length));
   var bgImg = 'url(' + randomImages[rndNum] + ')';
   $("#login-page").css('background-image', bgImg );
+});
+$(document).ready(function() {
+	var buttonGroup = $("<span class='input-group-btn'><button type='button' class='btn btn-flat' title='${i18n('portal.admin.admin_login.showPassword')?html}'><span class='fa fa-eye'></span><span class='sr-only'>${i18n('portal.admin.admin_login.showPassword')?html}</span></button></span>");
+	var button = buttonGroup.find('button')
+		.click(function() {
+			if ($('#password').attr('type') === 'password') {
+				$('#password').attr('type','text');
+				button.find('span:first-child').removeClass('fa-eye').addClass('fa-eye-slash');
+				button.find('span:last-child').text("${i18n('portal.admin.admin_login.hidePassword')?html}");
+				button.attr('title',"${i18n('portal.admin.admin_login.hidePassword')?html}")
+			} else {
+				$('#password').attr('type','password');
+				button.find('span:first-child').removeClass('fa-eye-slash').addClass('fa-eye');
+				button.find('span:last-child').text("${i18n('portal.admin.admin_login.showPassword')?html}");
+				button.attr('title',"${i18n('portal.admin.admin_login.showPassword')?html}")
+			}
+			$('#password').focus();
+		});
+	$('#password').after(buttonGroup);
 });
 </script>
