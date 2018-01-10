@@ -35,8 +35,6 @@ package fr.paris.lutece.portal.service.html;
 
 import org.jsoup.Jsoup;
 
-import org.jsoup.safety.Whitelist;
-
 /**
  *
  * This class is an implementation of IHtmlCleaner using the JTidy library
@@ -44,15 +42,14 @@ import org.jsoup.safety.Whitelist;
  */
 public class JSoupHtmlCleaner implements IHtmlCleaner
 {
+
     /**
      * {@inheritDoc}
      */
     @Override
     public String clean( String strSource ) throws HtmlCleanerException
     {
-        String strSafe = Jsoup.clean( strSource, Whitelist.relaxed( ) );
-
-        return strSafe;
+        return Jsoup.parseBodyFragment( strSource ).body( ).html( );
     }
 
     /**
