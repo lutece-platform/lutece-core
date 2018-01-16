@@ -60,8 +60,8 @@ public class PageData
     private String _strTreeMenu;
     private String _strTheme;
     private boolean _bIsHomePage;
-	private Timestamp _tsDateUpdate;
-	private boolean _bDisplayDateUpdate;
+    private Timestamp _tsDateUpdate;
+    private boolean _bDisplayDateUpdate;
 
     /**
      * Returns the name of the page
@@ -438,20 +438,19 @@ public class PageData
      */
     public void setDateUpdate( Timestamp tsDateUpdate )
     {
-    	_tsDateUpdate = tsDateUpdate;
+        _tsDateUpdate = tsDateUpdate;
     }
 
-    
     /**
      * Returns the display update date boolean
      *
      * @return The display update date as a boolean.
      */
-	public boolean getDisplayDateUpdate() {
+    public boolean getDisplayDateUpdate( )
+    {
 
-		return _bDisplayDateUpdate;
-	}
-	
+        return _bDisplayDateUpdate;
+    }
 
     /**
      * Sets the display update date boolean.
@@ -461,6 +460,6 @@ public class PageData
      */
     public void setDisplayDateUpdate( boolean bDisplayDateUpdate )
     {
-    	_bDisplayDateUpdate = bDisplayDateUpdate;
+        _bDisplayDateUpdate = bDisplayDateUpdate;
     }
 }

@@ -64,11 +64,13 @@ public final class PageDAO implements IPageDAO
             + "  a.meta_keywords, a.meta_description,a.id_authorization_node FROM core_page a,core_portlet b WHERE a.id_page = b.id_page AND b.id_portlet = ? ";
     private static final String SQL_QUERY_INSERT = "INSERT INTO core_page ( id_page , id_parent , name , description, date_update, "
             + " id_template,  page_order, status, role, date_creation, code_theme , node_status, image_content , mime_type ,  "
-            + " meta_keywords, meta_description,id_authorization_node, display_date_update, is_manual_date_update ) " + " VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )";
+            + " meta_keywords, meta_description,id_authorization_node, display_date_update, is_manual_date_update ) "
+            + " VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )";
     private static final String SQL_QUERY_DELETE = "DELETE FROM core_page WHERE id_page = ?";
     private static final String SQL_QUERY_UPDATE = "UPDATE core_page SET id_parent = ?,  name = ?, description = ? , date_update = ? , "
             + " id_template = ? , page_order = ? , status = ? , role = ? , code_theme = ? , node_status = ? , "
-            + " image_content = ? , mime_type = ? , meta_keywords = ?, meta_description = ? ,id_authorization_node=? ,display_date_update=? ,is_manual_date_update=?" + " WHERE id_page = ?";
+            + " image_content = ? , mime_type = ? , meta_keywords = ?, meta_description = ? ,id_authorization_node=? ,display_date_update=? ,is_manual_date_update=?"
+            + " WHERE id_page = ?";
     private static final String SQL_QUERY_CHECKPK = "SELECT id_page FROM core_page WHERE id_page = ?";
     private static final String SQL_QUERY_CHILDPAGE = "SELECT id_page , id_parent, name, description, "
             + " page_order , status , role, code_theme, image_content, mime_type , meta_keywords, meta_description, date_update,id_authorization_node, display_date_update, is_manual_date_update "
@@ -86,7 +88,8 @@ public final class PageDAO implements IPageDAO
     private static final String SQL_QUERY_CHECK_PAGE_EXIST = "SELECT id_page FROM core_page " + " WHERE id_page = ? ";
     private static final String SQL_QUERY_SELECT_LAST_MODIFIED_PAGE = "SELECT id_page, id_parent, name, description, id_template, "
             + " page_order, status, role , code_theme , node_status , mime_type, "
-            + "  date_update, meta_keywords, meta_description,id_authorization_node, display_date_update, is_manual_date_update  FROM core_page " + " ORDER BY date_update DESC LIMIT 1";
+            + "  date_update, meta_keywords, meta_description,id_authorization_node, display_date_update, is_manual_date_update  FROM core_page "
+            + " ORDER BY date_update DESC LIMIT 1";
 
     // ImageResource queries
     private static final String SQL_QUERY_SELECT_RESOURCE_IMAGE = " SELECT image_content , mime_type FROM core_page " + " WHERE id_page = ? ";
@@ -219,7 +222,7 @@ public final class PageDAO implements IPageDAO
             {
                 page.setIdAuthorizationNode( daoUtil.getInt( 16 ) );
             }
-            
+
             page.setDisplayDateUpdate( daoUtil.getBoolean( 17 ) );
             page.setIsManualDateUpdate( daoUtil.getBoolean( 18 ) );
 
@@ -384,12 +387,11 @@ public final class PageDAO implements IPageDAO
         {
             daoUtil.setIntNull( 15 );
         }
-        
+
         daoUtil.setBoolean( 16, page.getDisplayDateUpdate( ) );
         daoUtil.setBoolean( 17, page.getIsManualDateUpdate( ) );
-        
-        daoUtil.setInt( 18, page.getId( ) );
 
+        daoUtil.setInt( 18, page.getId( ) );
 
         daoUtil.executeUpdate( );
         daoUtil.free( );
@@ -562,7 +564,7 @@ public final class PageDAO implements IPageDAO
             }
             page.setDisplayDateUpdate( daoUtil.getBoolean( 15 ) );
             page.setIsManualDateUpdate( daoUtil.getBoolean( 16 ) );
-            
+
             pageList.add( page );
         }
 
@@ -648,7 +650,7 @@ public final class PageDAO implements IPageDAO
 
             page.setDisplayDateUpdate( daoUtil.getBoolean( 15 ) );
             page.setIsManualDateUpdate( daoUtil.getBoolean( 16 ) );
-            
+
             pageList.add( page );
         }
 

@@ -85,7 +85,7 @@ public class Page implements RBACResource, IExtendableResource
     private String _strMetaDescription;
     private Integer _nIdAuthorizationNode;
     private boolean _bDisplayDateUpdate;
-	private boolean _bIsManualDateUpdate;
+    private boolean _bIsManualDateUpdate;
 
     /**
      * Initialize the Page
@@ -606,42 +606,43 @@ public class Page implements RBACResource, IExtendableResource
         }
     }
 
-    
-	/**
-	 * Get the DisplayDateUpdate
-	 * 
-	 * @return the DisplayDateUpdate boolean
-	 */
-	public Boolean getDisplayDateUpdate() {
-		return _bDisplayDateUpdate;
-	}
+    /**
+     * Get the DisplayDateUpdate
+     * 
+     * @return the DisplayDateUpdate boolean
+     */
+    public Boolean getDisplayDateUpdate( )
+    {
+        return _bDisplayDateUpdate;
+    }
 
-	
-	/**
-	 *  Set DisplayDateUpdate
-	 *  
-	 * @param bDisplayDateUpdate
-	 */
-	public void setDisplayDateUpdate(Boolean bDisplayDateUpdate) {
-		_bDisplayDateUpdate = bDisplayDateUpdate;
-	}
-	
-	/**
-	 * Get the boolean for manual date update
-	 * 
-	 * @return the isManualDateUpdate boolean
-	 */
-	public boolean getIsManualDateUpdate( ) {
-		return _bIsManualDateUpdate;
-	}
+    /**
+     * Set DisplayDateUpdate
+     * 
+     * @param bDisplayDateUpdate
+     */
+    public void setDisplayDateUpdate( Boolean bDisplayDateUpdate )
+    {
+        _bDisplayDateUpdate = bDisplayDateUpdate;
+    }
 
-	
-	/**
-	 *  Set boolean for manual date update
-	 *  
-	 * @param bIsManualDateUpdate
-	 */
-	public void setIsManualDateUpdate( boolean bIsManualDateUpdate ) {
-		_bIsManualDateUpdate = bIsManualDateUpdate;
-	}
+    /**
+     * Get the boolean for manual date update
+     * 
+     * @return the isManualDateUpdate boolean
+     */
+    public boolean getIsManualDateUpdate( )
+    {
+        return _bIsManualDateUpdate;
+    }
+
+    /**
+     * Set boolean for manual date update
+     * 
+     * @param bIsManualDateUpdate
+     */
+    public void setIsManualDateUpdate( boolean bIsManualDateUpdate )
+    {
+        _bIsManualDateUpdate = bIsManualDateUpdate;
+    }
 }

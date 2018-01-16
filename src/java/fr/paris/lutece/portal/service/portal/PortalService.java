@@ -118,8 +118,8 @@ public final class PortalService
     private static final String MARK_LUTECE_USER = "lutece_user";
     private static final String TARGET_TOP = "target='_top'";
     private static final String BOOKMARK_BASE_URL = "@base_url@";
-	private static final String MARK_LAST_MODIFIED = "last_modified";
-	private static final String MARK_DISPLAY_LAST_MODIFIED = "display_last_modified";
+    private static final String MARK_LAST_MODIFIED = "last_modified";
+    private static final String MARK_DISPLAY_LAST_MODIFIED = "display_last_modified";
 
     // Added in v1.3
     private static final int MODE_NORMAL = 0;
@@ -129,7 +129,6 @@ public final class PortalService
     // Content Service registry
     private static Map<String, ContentService> _mapContentServicesRegistry = new HashMap<String, ContentService>( );
     private static IPageService _pageService = (IPageService) SpringContextService.getBean( "pageService" );
-
 
     /**
      * Private Constructor
@@ -342,7 +341,7 @@ public final class PortalService
 
         String strLastModified = DateUtil.getDateString( data.getDateUpdate( ), request.getLocale( ) );
         model.put( MARK_LAST_MODIFIED, strLastModified );
-        
+
         HtmlTemplate tFooter = AppTemplateService.getTemplate( strFooter, locale, model );
 
         HtmlTemplate tToolsMenu = AppTemplateService.getTemplate( strToolsMenu, locale, model );
@@ -372,7 +371,7 @@ public final class PortalService
         model.put( Markers.ENCODING, strEncoding );
 
         model.put( MARK_IS_EXTEND_INSTALLED, isExtendActivated( ) );
-        
+
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_PAGE_FRAMESET, locale, model );
 
         template.substitute( BOOKMARK_BASE_URL, ( request != null ) ? AppPathService.getBaseUrl( request ) : "" ); // request could be null (method called by

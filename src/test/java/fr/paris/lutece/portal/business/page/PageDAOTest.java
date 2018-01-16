@@ -72,8 +72,8 @@ public class PageDAOTest extends LuteceTestCase
             page.setName( randomPageName );
             page.setRole( randomRoleName );
             page.setDateUpdate( new Timestamp( new java.util.Date( ).getTime( ) ) );
-            page.setDisplayDateUpdate( false);
-            page.setIsManualDateUpdate( false);
+            page.setDisplayDateUpdate( false );
+            page.setIsManualDateUpdate( false );
             IPageService pageService = (IPageService) SpringContextService.getBean( "pageService" );
             pageService.createPage( page );
             // get page by role
