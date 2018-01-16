@@ -281,6 +281,8 @@ CREATE TABLE core_page (
 	meta_keywords varchar(255) default NULL,
 	meta_description varchar(255) default NULL,
 	id_authorization_node int default NULL,
+	display_date_update smallint default 0 NOT NULL,
+	is_manual_date_update smallint default 0 NOT NULL,
 	PRIMARY KEY (id_page)
 );
 

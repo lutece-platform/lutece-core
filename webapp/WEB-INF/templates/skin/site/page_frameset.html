@@ -90,6 +90,15 @@ ${page_content}
 </#if>
 ${contextinclude_2!}
 
+<#if display_last_modified?? && display_last_modified >
+	<@row>
+	<div class="col-xs-12 col-sm-12 col-md-12">
+		<p class="text-right">#i18n{portal.site.site_property.page.lastModified} ${last_modified!} </p>
+		</br>
+	</div>
+	</@row>
+</#if>
+
 <!-- container -->
 <br />
 </div>

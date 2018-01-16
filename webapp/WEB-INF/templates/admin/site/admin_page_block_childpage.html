@@ -40,6 +40,27 @@
 											<@formGroup labelFor='page_order_list' labelKey='#i18n{portal.site.admin_page.labelOrderPage}' rows=2>
 												<@select name='order' default_value='${page.order}' items=page_order_list />
 											</@formGroup>
+											<@formGroup rows=2>
+												<@row>
+												<@columns xs=10 sm=10 md=10 lg=10>
+													<@checkBox name='display_update_date' id='display_update_date' labelKey='#i18n{portal.site.admin_page.labelDisplayUpdateDate}' checked=page.displayDateUpdate />
+												</@columns>
+												</@row>
+											</@formGroup>
+											<@formGroup id='specific_date' rows=2>
+												<@row>
+												<@columns xs=10 sm=10 md=10 lg=10>
+													<@checkBox name='enable_manual_update_date' id='enable_manual_update_date' labelKey='#i18n{portal.site.admin_page.labelEnableManualUpdateDate}' checked=page.isManualDateUpdate disabled=!page.displayDateUpdate />
+												</@columns>
+												</@row>
+											</@formGroup>
+											<@formGroup id='specific_date' rows=2>
+												<div class="input-group">
+													<div class="input-group-addon"><i class="fa fa-calendar">&nbsp;</i></div>
+													<input class="form-control" id="manual_update_date" name="manual_update_date" type="text" value='${page_update_date!}' disabled=!page.isManualDateUpdate >
+												</div>
+												<@getDatePickerBootstrap idField="manual_update_date" language='fr' />
+											</@formGroup>
 										</fieldset>
 									</@boxBody>
 								</@box>
@@ -128,5 +149,23 @@
 		});
 
 		$("#image_content").change( function(){ $("#update_image").prop("checked","checked"); });
+		
+		$("#display_update_date").change(function(){			
+			$("#enable_manual_update_date").prop("disabled", !this.checked);
+			if (!this.checked){
+				$("#enable_manual_update_date").prop("checked", false);
+			}
+			if (this.checked && $("#enable_manual_update_date").checked ){
+				$("#manual_update_date").prop("disabled", false);
+				}
+			else{
+				$("#manual_update_date").prop("disabled", true);				
+			}			
+		});
+		
+		$("#enable_manual_update_date").change(function(){
+			$("#manual_update_date").prop("disabled", !this.checked);
+		});		
+		
 	});
 </script>

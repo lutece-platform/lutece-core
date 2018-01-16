@@ -36,6 +36,7 @@ package fr.paris.lutece.portal.web.admin;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.security.SecureRandom;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -95,6 +96,9 @@ public class AdminPageJspBeanTest extends LuteceTestCase
         _page.setMetaKeywords( "" );
         _page.setMetaDescription( "" );
         _page.setNodeStatus( 1 );
+        _page.setDateUpdate( new Timestamp( new java.util.Date( ).getTime( ) ) );
+        _page.setDisplayDateUpdate( true );
+        _page.setIsManualDateUpdate( true );
         pageService.createPage( _page );
         _bean = new AdminPageJspBean( );
         _adminUser = getAdminUser( );
@@ -475,6 +479,31 @@ public class AdminPageJspBeanTest extends LuteceTestCase
             assertEquals( _randomPageName, page.getDescription( ) );
         }
     }
+    
+    public void testDoModifyPageUpdateDateError( )
+            throws AccessDeniedException, SizeLimitExceededException, FileUploadException
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        Map<String, String[ ]> parameters = new HashMap<>( );
+        parameters.put( Parameters.PAGE_ID, new String[ ] { Integer.toString( _page.getId( ) ) } );
+        parameters.put( Parameters.PAGE_DESCRIPTION, new String[ ] { _page.getDescription( ) } );
+        parameters.put( Parameters.PAGE_TEMPLATE_ID, new String[ ] { Integer.toString( _page.getPageTemplateId( ) ) } );
+        parameters.put( Parameters.META_KEYWORDS, new String[ ] { _page.getMetaKeywords( ) } );
+        parameters.put( Parameters.META_DESCRIPTION, new String[ ] { _page.getMetaDescription( ) } );
+        parameters.put( "node_status", new String[ ] { Integer.toString( _page.getNodeStatus( ) ) } );
+        parameters.put( Parameters.PAGE_NAME, new String[ ] { _page.getName( ) } );
+        parameters.put( Parameters.PARENT_ID, new String[ ] { Integer.toString( _page.getParentPageId( ) ) } );
+        parameters.put( SecurityTokenService.PARAMETER_TOKEN, new String[ ] { SecurityTokenService.getInstance( )
+                .getToken( request, "admin/site/admin_page_block_property.html" ) } );
+        parameters.put(Parameters.PARAMETER_DISPLAY_UPDATE_DATE, new String[ ] { Boolean.toString( _page.getDisplayDateUpdate( ) ) });
+        parameters.put(Parameters.PARAMETER_ENABLE_MANUAL_UPDATE_DATE, new String[ ] { Boolean.toString( _page.getIsManualDateUpdate( ) ) });
+        //Missing Update Date value
+        parameters.put(Parameters.PARAMETER_MANUAL_UPDATE_DATE, new String[ ] {""});
+        _bean.doModifyPage( new MultipartHttpServletRequest( request, Collections.emptyMap( ), parameters ) );
+        AdminMessage message = AdminMessageService.getMessage( request );
+        assertNotNull( message );
+        assertEquals( AdminMessage.TYPE_STOP, message.getType( ) );
+    }
 
     public void testGetAdminPageBlockChildPage( ) throws PasswordResetException, AccessDeniedException
     {
@@ -499,8 +528,12 @@ public class AdminPageJspBeanTest extends LuteceTestCase
         parameters.put( "node_status", new String[ ] { Integer.toString( _page.getNodeStatus( ) ) } );
         parameters.put( Parameters.PAGE_NAME, new String[ ] { _page.getName( ) + "_child" } );
         parameters.put( Parameters.PARENT_ID, new String[ ] { Integer.toString( _page.getParentPageId( ) ) } );
+        parameters.put(Parameters.PARAMETER_DISPLAY_UPDATE_DATE, new String[ ] { Boolean.toString( _page.getDisplayDateUpdate( ) ) });
+        parameters.put(Parameters.PARAMETER_ENABLE_MANUAL_UPDATE_DATE, new String[ ] { Boolean.toString( _page.getIsManualDateUpdate( ) ) });
+        parameters.put(Parameters.PARAMETER_MANUAL_UPDATE_DATE, new String[ ] {"01/01/2017"});
         parameters.put( SecurityTokenService.PARAMETER_TOKEN, new String[ ] { SecurityTokenService.getInstance( )
                 .getToken( request, "admin/site/admin_page_block_childpage.html" ) } );
+        
         Collection<Page> children = PageHome.getChildPages( _page.getId( ) );
         assertNotNull( children );
         assertTrue( children.isEmpty( ) );

@@ -33,6 +33,8 @@
  */
 package fr.paris.lutece.portal.service.content;
 
+import java.sql.Timestamp;
+
 /**
  * This class provides a structure to build portal pages.
  */
@@ -58,6 +60,8 @@ public class PageData
     private String _strTreeMenu;
     private String _strTheme;
     private boolean _bIsHomePage;
+	private Timestamp _tsDateUpdate;
+	private boolean _bDisplayDateUpdate;
 
     /**
      * Returns the name of the page
@@ -414,5 +418,49 @@ public class PageData
     public void setHomePage( boolean bHomePage )
     {
         _bIsHomePage = bHomePage;
+    }
+
+    /**
+     * Returns the update date of the page
+     *
+     * @return The favicon of the page as a string.
+     */
+    public Timestamp getDateUpdate( )
+    {
+        return _tsDateUpdate;
+    }
+
+    /**
+     * Sets the update date of the page.
+     *
+     * @param strFavicon
+     *            The new Favicon of the page.
+     */
+    public void setDateUpdate( Timestamp tsDateUpdate )
+    {
+    	_tsDateUpdate = tsDateUpdate;
+    }
+
+    
+    /**
+     * Returns the display update date boolean
+     *
+     * @return The display update date as a boolean.
+     */
+	public boolean getDisplayDateUpdate() {
+
+		return _bDisplayDateUpdate;
+	}
+	
+
+    /**
+     * Sets the display update date boolean.
+     *
+     * @param bDisplayDateUpdate
+     *            The display update date boolean.
+     */
+    public void setDisplayDateUpdate( boolean bDisplayDateUpdate )
+    {
+    	_bDisplayDateUpdate = bDisplayDateUpdate;
     }
 }

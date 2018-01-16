@@ -34,6 +34,7 @@
 package fr.paris.lutece.portal.business.page;
 
 import java.security.SecureRandom;
+import java.sql.Timestamp;
 import java.util.Collection;
 
 import org.junit.Assert;
@@ -70,6 +71,9 @@ public class PageDAOTest extends LuteceTestCase
             page.setPageTemplateId( PageTemplateHome.getPageTemplatesList( ).get( 0 ).getId( ) );
             page.setName( randomPageName );
             page.setRole( randomRoleName );
+            page.setDateUpdate( new Timestamp( new java.util.Date( ).getTime( ) ) );
+            page.setDisplayDateUpdate( false);
+            page.setIsManualDateUpdate( false);
             IPageService pageService = (IPageService) SpringContextService.getBean( "pageService" );
             pageService.createPage( page );
             // get page by role
