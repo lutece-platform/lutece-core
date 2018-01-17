@@ -69,7 +69,7 @@ public final class PageDAO implements IPageDAO
     private static final String SQL_QUERY_DELETE = "DELETE FROM core_page WHERE id_page = ?";
     private static final String SQL_QUERY_UPDATE = "UPDATE core_page SET id_parent = ?,  name = ?, description = ? , date_update = ? , "
             + " id_template = ? , page_order = ? , status = ? , role = ? , code_theme = ? , node_status = ? , "
-            + " image_content = ? , mime_type = ? , meta_keywords = ?, meta_description = ? ,id_authorization_node=? ,display_date_update=? ,is_manual_date_update=?"
+            + " image_content = ? , mime_type = ? , meta_keywords = ?, meta_description = ? , id_authorization_node=? , display_date_update=? , is_manual_date_update=?"
             + " WHERE id_page = ?";
     private static final String SQL_QUERY_CHECKPK = "SELECT id_page FROM core_page WHERE id_page = ?";
     private static final String SQL_QUERY_CHILDPAGE = "SELECT id_page , id_parent, name, description, "
@@ -140,14 +140,13 @@ public final class PageDAO implements IPageDAO
         daoUtil.setInt( 2, page.getParentPageId( ) );
         daoUtil.setString( 3, page.getName( ) );
         daoUtil.setString( 4, page.getDescription( ) );
-        daoUtil.setTimestamp( 5, page.getDateUpdate( ) );
+        daoUtil.setTimestamp( 5, new Timestamp( new java.util.Date( ).getTime( ) ) );
         daoUtil.setInt( 6, page.getPageTemplateId( ) );
         daoUtil.setInt( 7, page.getOrder( ) );
         daoUtil.setInt( 8, page.getStatus( ) );
         daoUtil.setString( 9, page.getRole( ) );
 
-        // For a new object, update time = creation time
-        daoUtil.setTimestamp( 10, page.getDateUpdate( ) );
+        daoUtil.setTimestamp( 10, page.getDateUpdate( ) == null ? new Timestamp( new java.util.Date( ).getTime( ) ) : page.getDateUpdate( ) );
         daoUtil.setString( 11, page.getCodeTheme( ) );
         daoUtil.setInt( 12, page.getNodeStatus( ) );
         daoUtil.setBytes( 13, page.getImageContent( ) );
@@ -351,7 +350,7 @@ public final class PageDAO implements IPageDAO
         daoUtil.setInt( 1, page.getParentPageId( ) );
         daoUtil.setString( 2, page.getName( ) );
         daoUtil.setString( 3, page.getDescription( ) );
-        daoUtil.setTimestamp( 4, page.getDateUpdate( ) );
+        daoUtil.setTimestamp( 4, page.getDateUpdate( ) == null ? new Timestamp( new java.util.Date( ).getTime( ) ) : page.getDateUpdate( ) );
         daoUtil.setInt( 5, page.getPageTemplateId( ) );
         daoUtil.setInt( 6, page.getOrder( ) );
         daoUtil.setInt( 7, page.getStatus( ) );
