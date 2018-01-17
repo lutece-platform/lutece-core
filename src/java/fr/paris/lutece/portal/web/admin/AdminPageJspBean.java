@@ -685,15 +685,15 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
         String strNodeStatus = request.getParameter( PARAMETER_NODE_STATUS );
         int nNodeStatus = Integer.parseInt( strNodeStatus );
 
-        Boolean bDisplayDateUpdate = StringUtils.isNotEmpty( request.getParameter( Parameters.PARAMETER_DISPLAY_UPDATE_DATE ) );
+        boolean bDisplayDateUpdate = StringUtils.isNotEmpty( request.getParameter( Parameters.PARAMETER_DISPLAY_UPDATE_DATE ) );
 
-        Boolean bIsManualDateUpdate = StringUtils.isNotEmpty( request.getParameter( Parameters.PARAMETER_ENABLE_MANUAL_UPDATE_DATE ) );
+        boolean bIsManualDateUpdate = StringUtils.isNotEmpty( request.getParameter( Parameters.PARAMETER_ENABLE_MANUAL_UPDATE_DATE ) );
 
         String strManualDateUpdate = request.getParameter( Parameters.PARAMETER_MANUAL_UPDATE_DATE );
 
         page.setDateUpdate( new Timestamp( new java.util.Date( ).getTime( ) ) );
 
-        if ( BooleanUtils.isTrue( bDisplayDateUpdate ) && BooleanUtils.isTrue( bIsManualDateUpdate ) )
+        if ( bDisplayDateUpdate && bIsManualDateUpdate )
         {
             if ( StringUtils.isNotBlank( strManualDateUpdate ) )
             {

@@ -611,7 +611,7 @@ public class Page implements RBACResource, IExtendableResource
      * 
      * @return the DisplayDateUpdate boolean
      */
-    public Boolean getDisplayDateUpdate( )
+    public boolean getDisplayDateUpdate( )
     {
         return _bDisplayDateUpdate;
     }
@@ -621,7 +621,7 @@ public class Page implements RBACResource, IExtendableResource
      * 
      * @param bDisplayDateUpdate
      */
-    public void setDisplayDateUpdate( Boolean bDisplayDateUpdate )
+    public void setDisplayDateUpdate( boolean bDisplayDateUpdate )
     {
         _bDisplayDateUpdate = bDisplayDateUpdate;
     }
