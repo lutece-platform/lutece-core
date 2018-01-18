@@ -223,7 +223,7 @@ CREATE TABLE core_level_right (
 --
 DROP TABLE IF EXISTS core_mail_queue;
 CREATE TABLE core_mail_queue (
-	id_mail_queue int default 0 NOT NULL,
+	id_mail_queue int AUTO_INCREMENT,
 	is_locked smallint default 0,
 	PRIMARY KEY (id_mail_queue)
 );
