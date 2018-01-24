@@ -223,7 +223,7 @@ CREATE TABLE core_level_right (
 --
 DROP TABLE IF EXISTS core_mail_queue;
 CREATE TABLE core_mail_queue (
-	id_mail_queue int default 0 NOT NULL,
+	id_mail_queue int AUTO_INCREMENT,
 	is_locked smallint default 0,
 	PRIMARY KEY (id_mail_queue)
 );
@@ -281,6 +281,8 @@ CREATE TABLE core_page (
 	meta_keywords varchar(255) default NULL,
 	meta_description varchar(255) default NULL,
 	id_authorization_node int default NULL,
+	display_date_update smallint default 0 NOT NULL,
+	is_manual_date_update smallint default 0 NOT NULL,
 	PRIMARY KEY (id_page)
 );
 

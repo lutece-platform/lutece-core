@@ -42,34 +42,37 @@ public class HtmlCleanerServiceTest extends LuteceTestCase
 {
     /**
      * Test of clean method, of class fr.paris.lutece.portal.service.html.HtmlCleanerService.
+     * 
+     * @throws HtmlCleanerException
+     *             if there is an exception during the test
      */
     public void testClean( ) throws HtmlCleanerException
     {
         System.out.println( "clean" );
 
-        // TODO expression de test en dure...
-        String strSource = "<p><font color=red>Hello, World</font>";
+        String strExpectedResult = "<span style=\"color: red\">Hello, World</span>";
 
-        // Add double quote to attribute's values
-        // Add ending tags
-        String expResult = "<p style=\"color: red\">Hello, World</p>";
+        // Incorrect end tag
+        testClean( "<span style=\"color: red\">Hello, World</spon>", strExpectedResult );
+
+        // Missing end tag
+        testClean( "<span style=\"color: red\">Hello, World", strExpectedResult );
+    }
+
+    /**
+     * Test of clean method, of class fr.paris.lutece.portal.service.html.HtmlCleanerService.
+     * 
+     * @param strSource
+     *            the source String to test
+     * @param strExpectedResult
+     *            the expected result
+     * @throws HtmlCleanerException
+     *             if there is an exception during the test
+     */
+    private void testClean( String strSource, String strExpectedResult ) throws HtmlCleanerException
+    {
         String result = HtmlCleanerService.clean( strSource );
         assertNotNull( result );
-        assertTrue( result.contains( expResult ) );
-
-        strSource = "<invalid tag>";
-
-        boolean bExceptionCaught = false;
-
-        try
-        {
-            result = HtmlCleanerService.clean( strSource );
-        }
-        catch( HtmlCleanerException ex )
-        {
-            bExceptionCaught = true;
-        }
-
-        assertTrue( bExceptionCaught );
+        assertTrue( result.contains( strExpectedResult ) );
     }
 }

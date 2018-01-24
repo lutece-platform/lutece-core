@@ -68,6 +68,9 @@ public final class Parameters
     public static final String DISPLAY_ON_LARGE_DEVICE = "display_on_large_device";
     public static final String DISPLAY_ON_XLARGE_DEVICE = "display_on_xlarge_device";
     public static final String BASE_URL = "base_url"; /* since v5.0.1 */
+    public static final String PARAMETER_DISPLAY_UPDATE_DATE = "display_update_date";
+    public static final String PARAMETER_ENABLE_MANUAL_UPDATE_DATE = "enable_manual_update_date";
+    public static final String PARAMETER_MANUAL_UPDATE_DATE = "manual_update_date";
 
     // url parameter for redirection after admin
     public static final String REDIRECT_URL = "redirectUrl";

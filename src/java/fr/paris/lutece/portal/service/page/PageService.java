@@ -411,6 +411,8 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
         data.setTheme( page.getCodeTheme( ) );
         data.setMetaKeywords( page.getMetaKeywords( ) );
         data.setMetaDescription( page.getMetaDescription( ) );
+        data.setDisplayDateUpdate( page.getDisplayDateUpdate( ) );
+        data.setDateUpdate( page.getDateUpdate( ) );
 
         // Checks the page role (v1.1)
         String strRole = page.getRole( );

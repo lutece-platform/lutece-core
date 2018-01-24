@@ -84,6 +84,8 @@ public class Page implements RBACResource, IExtendableResource
     private String _strMetaKeywords;
     private String _strMetaDescription;
     private Integer _nIdAuthorizationNode;
+    private boolean _bDisplayDateUpdate;
+    private boolean _bIsManualDateUpdate;
 
     /**
      * Initialize the Page
@@ -602,5 +604,45 @@ public class Page implements RBACResource, IExtendableResource
             // No image is associated to this resource
             return null;
         }
+    }
+
+    /**
+     * Get the DisplayDateUpdate
+     * 
+     * @return the DisplayDateUpdate boolean
+     */
+    public boolean getDisplayDateUpdate( )
+    {
+        return _bDisplayDateUpdate;
+    }
+
+    /**
+     * Set DisplayDateUpdate
+     * 
+     * @param bDisplayDateUpdate
+     */
+    public void setDisplayDateUpdate( boolean bDisplayDateUpdate )
+    {
+        _bDisplayDateUpdate = bDisplayDateUpdate;
+    }
+
+    /**
+     * Get the boolean for manual date update
+     * 
+     * @return the isManualDateUpdate boolean
+     */
+    public boolean getIsManualDateUpdate( )
+    {
+        return _bIsManualDateUpdate;
+    }
+
+    /**
+     * Set boolean for manual date update
+     * 
+     * @param bIsManualDateUpdate
+     */
+    public void setIsManualDateUpdate( boolean bIsManualDateUpdate )
+    {
+        _bIsManualDateUpdate = bIsManualDateUpdate;
     }
 }

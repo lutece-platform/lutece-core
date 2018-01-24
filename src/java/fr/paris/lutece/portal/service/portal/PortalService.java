@@ -62,6 +62,7 @@ import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.web.constants.Markers;
 import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.portal.web.l10n.LocaleService;
+import fr.paris.lutece.util.date.DateUtil;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.xml.XmlUtil;
 
@@ -117,6 +118,8 @@ public final class PortalService
     private static final String MARK_LUTECE_USER = "lutece_user";
     private static final String TARGET_TOP = "target='_top'";
     private static final String BOOKMARK_BASE_URL = "@base_url@";
+    private static final String MARK_LAST_MODIFIED = "last_modified";
+    private static final String MARK_DISPLAY_LAST_MODIFIED = "display_last_modified";
 
     // Added in v1.3
     private static final int MODE_NORMAL = 0;
@@ -332,6 +335,12 @@ public final class PortalService
         String strFooter = AppPropertiesService.getProperty( PROPERTY_PORTAL_FOOTER + nMode, TEMPLATE_PORTAL_FOOTER );
         String strToolsMenu = AppPropertiesService.getProperty( PROPERTY_PAGE_TOOLS_MENU + nMode, TEMPLATE_PAGE_TOOLS_MENU );
         model.put( MARK_IS_CONTACT_INSTALLED, isContactActivated( ) );
+
+        boolean bDisplayLastModified = data.getDisplayDateUpdate( );
+        model.put( MARK_DISPLAY_LAST_MODIFIED, bDisplayLastModified );
+
+        String strLastModified = DateUtil.getDateString( data.getDateUpdate( ), request.getLocale( ) );
+        model.put( MARK_LAST_MODIFIED, strLastModified );
 
         HtmlTemplate tFooter = AppTemplateService.getTemplate( strFooter, locale, model );
 

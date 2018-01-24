@@ -67,16 +67,25 @@ import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.portal.web.resource.ExtendableResourcePluginActionManager;
 import fr.paris.lutece.portal.web.upload.MultipartHttpServletRequest;
 import fr.paris.lutece.util.ReferenceList;
+import fr.paris.lutece.util.date.DateUtil;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.string.StringUtil;
 import fr.paris.lutece.util.url.UrlItem;
 
 import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.lang.BooleanUtils;
 import org.apache.commons.lang.StringUtils;
 
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -109,6 +118,7 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
     private static final String MARK_INDEX_ROW = "index_row";
     private static final String MARK_AUTORIZATION = "authorization";
     private static final String MARK_PAGE_BLOCK = "page_block";
+    private static final String MARK_PAGE_UPDATE_DATE = "page_update_date";
 
     // Parameters
     private static final String PARAMETER_IMAGE_CONTENT = "image_content";
@@ -147,6 +157,7 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
     private static final String MESSAGE_INVALID_PAGE_ID = "portal.site.message.pageIdInvalid";
     private static final String MESSAGE_PAGE_ID_CHILDPAGE = "portal.site.message.pageIdChildPage";
     private static final String MESSAGE_SAME_PAGE_ID = "portal.site.message.pageSameId";
+    private static final String MESSAGE_MISSING_MANUAL_UPDATE_DATE = "portal.site.message.missingManualUpdateDate";
     private static IPageService _pageService = (IPageService) SpringContextService.getBean( "pageService" );
 
     /**
@@ -218,7 +229,7 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
      */
     public String doModifyPage( HttpServletRequest request ) throws AccessDeniedException
     {
-        MultipartHttpServletRequest mRequest = ( MultipartHttpServletRequest ) request;
+        MultipartHttpServletRequest mRequest = (MultipartHttpServletRequest) request;
         int nPageId = Integer.parseInt( mRequest.getParameter( Parameters.PAGE_ID ) );
 
         Page page = PageHome.getPage( nPageId );
@@ -282,7 +293,7 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
         {
             return AdminMessageService.getMessageUrl( mRequest, Messages.MANDATORY_FILE, AdminMessage.TYPE_STOP );
         }
-        byte[ ] bytes = item.get( );
+        byte [ ] bytes = item.get( );
         String strMimeType = item.getContentType( );
         page.setImageContent( bytes );
         page.setMimeType( strMimeType );
@@ -374,7 +385,8 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
      * @param request
      *            The http request
      * @return The jsp url result of the process
-     * @throws AccessDeniedException if the security token is invalid
+     * @throws AccessDeniedException
+     *             if the security token is invalid
      */
     public String doRemovePage( HttpServletRequest request ) throws AccessDeniedException
     {
@@ -412,8 +424,7 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
     }
 
     /**
-     * Processes the creation of a child page to the page whose identifier is
-     * stored in the http request
+     * Processes the creation of a child page to the page whose identifier is stored in the http request
      *
      * @param request
      *            The http request
@@ -590,6 +601,7 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
         model.put( MARK_PAGE_ROLES_LIST, RoleHome.getRolesList( getUser( ) ) );
         model.put( MARK_PAGE_THEMES_LIST, ThemesService.getPageThemes( getLocale( ) ) );
         model.put( MARK_IMAGE_URL, getResourceImagePage( page, Integer.toString( page.getId( ) ) ) );
+        model.put( MARK_PAGE_UPDATE_DATE, DateUtil.getDateString( page.getDateUpdate( ), request.getLocale( ) ) );
 
         int nIndexRow = 1;
         StringBuffer strPageTemplatesRow = new StringBuffer( );
@@ -673,6 +685,27 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
         String strNodeStatus = request.getParameter( PARAMETER_NODE_STATUS );
         int nNodeStatus = Integer.parseInt( strNodeStatus );
 
+        boolean bDisplayDateUpdate = StringUtils.isNotEmpty( request.getParameter( Parameters.PARAMETER_DISPLAY_UPDATE_DATE ) );
+
+        boolean bIsManualDateUpdate = StringUtils.isNotEmpty( request.getParameter( Parameters.PARAMETER_ENABLE_MANUAL_UPDATE_DATE ) );
+
+        String strManualDateUpdate = request.getParameter( Parameters.PARAMETER_MANUAL_UPDATE_DATE );
+
+        page.setDateUpdate( new Timestamp( new java.util.Date( ).getTime( ) ) );
+
+        if ( bDisplayDateUpdate && bIsManualDateUpdate )
+        {
+            if ( StringUtils.isNotBlank( strManualDateUpdate ) )
+            {
+                Timestamp tsManualDate = DateUtil.formatTimestamp( strManualDateUpdate, request.getLocale( ) );
+                page.setDateUpdate( tsManualDate );
+            }
+            else
+            {
+                return AdminMessageService.getMessageUrl( request, MESSAGE_MISSING_MANUAL_UPDATE_DATE, AdminMessage.TYPE_STOP );
+            }
+        }
+
         // Checks the description length (150 car. maximum)
         if ( strDescription.length( ) > 150 )
         {
@@ -727,6 +760,8 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
         page.setNodeStatus( nNodeStatus );
         page.setMetaKeywords( strMetaKeywords );
         page.setMetaDescription( strMetaDescription );
+        page.setDisplayDateUpdate( bDisplayDateUpdate );
+        page.setIsManualDateUpdate( bIsManualDateUpdate );
 
         return strErrorUrl;
     }

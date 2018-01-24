@@ -213,12 +213,19 @@ public final class SecurityUtil
     public static String dumpRequest( HttpServletRequest request )
     {
         StringBuffer sbDump = new StringBuffer( "\r\n Request Dump : \r\n" );
-        dumpTitle( sbDump, "Request variables" );
-        dumpVariables( sbDump, request );
-        dumpTitle( sbDump, "Request parameters" );
-        dumpParameters( sbDump, request );
-        dumpTitle( sbDump, "Request headers" );
-        dumpHeaders( sbDump, request );
+        if( request != null )
+        {
+            dumpTitle( sbDump, "Request variables" );
+            dumpVariables( sbDump, request );
+            dumpTitle( sbDump, "Request parameters" );
+            dumpParameters( sbDump, request );
+            dumpTitle( sbDump, "Request headers" );
+            dumpHeaders( sbDump, request );
+        }
+        else
+        {
+            sbDump.append( "no request provided.");
+        }
 
         return sbDump.toString( );
     }

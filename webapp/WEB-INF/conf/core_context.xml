@@ -198,10 +198,10 @@
     <!-- Security Token Service -->
     <bean id="securityTokenService" class="fr.paris.lutece.portal.service.security.SecurityTokenService"/>
     <!-- Cleaner HTML -->
-    <!-- Cleaner Jtidy HTML -->
-    <bean id="htmlCleaner" class="fr.paris.lutece.portal.service.html.JTidyHtmlCleaner" />
+    <!-- Cleaner Jtidy HTML ## DEPRECATED ## -->
+    <!-- <bean id="htmlCleaner" class="fr.paris.lutece.portal.service.html.JTidyHtmlCleaner" /> -->
     <!-- Cleaner Jsoup HTML --> 
-    <!--  <bean id="htmlCleaner" class="fr.paris.lutece.portal.service.html.JSoupHtmlCleaner" /> -->
+    <bean id="htmlCleaner" class="fr.paris.lutece.portal.service.html.JSoupHtmlCleaner" />
     
     <!-- Site Properties Groups -->
     <bean id="sitePropertiesGroup" class="fr.paris.lutece.portal.service.site.properties.DefaultSitePropertiesGroup" />

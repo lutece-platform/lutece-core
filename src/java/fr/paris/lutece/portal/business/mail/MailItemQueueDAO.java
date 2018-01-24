@@ -46,6 +46,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectOutputStream;
 import java.net.URL;
+import java.sql.Statement;
 import java.util.ArrayList;
 
 import org.apache.commons.io.serialization.ValidatingObjectInputStream;
@@ -55,40 +56,14 @@ import org.apache.commons.io.serialization.ValidatingObjectInputStream;
  */
 public class MailItemQueueDAO implements IMailItemQueueDAO
 {
-    private static final String SQL_QUERY_NEW_PK = "SELECT max(id_mail_queue) FROM core_mail_queue";
     private static final String SQL_QUERY_SELECT_NEXT_MAIL_ITEM_QUEUE_ID = "SELECT min(id_mail_queue) FROM core_mail_queue WHERE is_locked=0";
     private static final String SQL_QUERY_SELECT_COUNT = "SELECT COUNT(id_mail_queue) FROM core_mail_queue";
     private static final String SQL_QUERY_LOAD_MAIL_ITEM = "SELECT id_mail_queue,mail_item FROM core_mail_item WHERE id_mail_queue=? ";
-    private static final String SQL_QUERY_INSERT = " INSERT INTO core_mail_queue( id_mail_queue ) VALUES(?) ";
+    private static final String SQL_QUERY_INSERT = " INSERT INTO core_mail_queue( id_mail_queue ) VALUES( DEFAULT ) ";
     private static final String SQL_QUERY_INSERT_MAIL_ITEM = " INSERT INTO core_mail_item(id_mail_queue,mail_item) VALUES(?,?) ";
     private static final String SQL_QUERY_LOCK_MAIL_ITEM = " UPDATE core_mail_queue SET is_locked=1 WHERE id_mail_queue= ? ";
     private static final String SQL_QUERY_DELETE = " DELETE FROM core_mail_queue WHERE id_mail_queue = ?";
     private static final String SQL_QUERY_DELETE_MAIL_ITEM = " DELETE FROM core_mail_item WHERE id_mail_queue = ?";
-
-    /**
-     * Generates a new primary key
-     * 
-     * @return The new primary key
-     */
-    private int newPrimaryKey( )
-    {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_NEW_PK );
-        daoUtil.executeQuery( );
-
-        int nKey;
-
-        if ( !daoUtil.next( ) )
-        {
-            // if the table is empty
-            nKey = 1;
-        }
-
-        nKey = daoUtil.getInt( 1 ) + 1;
-
-        daoUtil.free( );
-
-        return nKey;
-    }
 
     /**
      * return the next mail item queue id
@@ -149,14 +124,13 @@ public class MailItemQueueDAO implements IMailItemQueueDAO
 
             TransactionManager.beginTransaction( null );
 
-            int nNewPrimaryKey = newPrimaryKey( );
-            mailItemQueue.setIdMailItemQueue( nNewPrimaryKey );
-
             try
             {
-                DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT );
-                daoUtil.setInt( 1, nNewPrimaryKey );
+                DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT, Statement.RETURN_GENERATED_KEYS );
                 daoUtil.executeUpdate( );
+                daoUtil.nextGeneratedKey( );
+                int nNewPrimaryKey = daoUtil.getGeneratedKeyInt( 1 );
+                mailItemQueue.setIdMailItemQueue( nNewPrimaryKey );
                 daoUtil.free( );
                 daoUtil = new DAOUtil( SQL_QUERY_INSERT_MAIL_ITEM );
                 daoUtil.setInt( 1, nNewPrimaryKey );

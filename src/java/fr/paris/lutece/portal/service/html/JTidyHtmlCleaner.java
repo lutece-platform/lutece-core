@@ -45,6 +45,8 @@ import java.io.StringWriter;
 /**
  *
  * This class is an implementation of IHtmlCleaner using the JTidy library
+ * 
+ * @deprecated Deprecated because it does not accept HTML5 tags. Use {@link JSoupHtmlCleaner} instead.
  *
  */
 public class JTidyHtmlCleaner implements IHtmlCleaner
