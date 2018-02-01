@@ -65,7 +65,7 @@
 											<@formGroup id='specific_date' rows=2>
 												<div class="input-group">
 													<div class="input-group-addon"><i class="fa fa-calendar">&nbsp;</i></div>
-													<input class="form-control" id="manual_update_date" name="manual_update_date" type="text" value='${page_update_date!}' disabled=!page.isManualDateUpdate >
+													<input class="form-control" id="manual_update_date" name="manual_update_date" type="text" value='${page_update_date!}' <#if !page.isManualDateUpdate>disabled</#if> >
 												</div>
 												<@getDatePickerBootstrap idField="manual_update_date" language='fr' />
 											</@formGroup>
