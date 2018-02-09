@@ -50,19 +50,21 @@ $(function() {
   $("#login-page").css('background-image', bgImg );
 });
 $(document).ready(function() {
-	var buttonGroup = $("<span class='input-group-btn'><button type='button' class='btn btn-flat' title='${i18n('portal.admin.admin_login.showPassword')?html}'><span class='fa fa-eye'></span><span class='sr-only'>${i18n('portal.admin.admin_login.showPassword')?html}</span></button></span>");
+	var showPasswordText = "${i18n('portal.admin.admin_login.showPassword')?html}";
+	var hidePasswordText = "${i18n('portal.admin.admin_login.hidePassword')?html}";
+	var buttonGroup = $("<span class='input-group-btn'><button type='button' class='btn btn-flat' title=\"" + showPasswordText + "\"><span class='fa fa-eye'></span><span class='sr-only'>" + showPasswordText + "</span></button></span>");
 	var button = buttonGroup.find('button')
 		.click(function() {
 			if ($('#password').attr('type') === 'password') {
 				$('#password').attr('type','text');
 				button.find('span:first-child').removeClass('fa-eye').addClass('fa-eye-slash');
-				button.find('span:last-child').text("${i18n('portal.admin.admin_login.hidePassword')?html}");
-				button.attr('title',"${i18n('portal.admin.admin_login.hidePassword')?html}")
+				button.find('span:last-child').text(hidePasswordText);
+				button.attr('title',hidePasswordText)
 			} else {
 				$('#password').attr('type','password');
 				button.find('span:first-child').removeClass('fa-eye-slash').addClass('fa-eye');
-				button.find('span:last-child').text("${i18n('portal.admin.admin_login.showPassword')?html}");
-				button.attr('title',"${i18n('portal.admin.admin_login.showPassword')?html}")
+				button.find('span:last-child').text(showPasswordText);
+				button.attr('title',showPasswordText)
 			}
 			$('#password').focus();
 		});
