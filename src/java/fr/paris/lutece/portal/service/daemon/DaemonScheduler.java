@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.service.daemon;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -65,6 +66,7 @@ class DaemonScheduler implements Runnable, IDaemonScheduler
     private final Timer _scheduledDaemonsTimer;
     private final Map<String, RunnableWrapper> _executingDaemons;
     private final Map<String, DaemonTimerTask> _scheduledDaemons;
+    private volatile boolean _bShuttingDown;
 
     /**
      * Constructor
@@ -84,11 +86,13 @@ class DaemonScheduler implements Runnable, IDaemonScheduler
         _coordinatorThread = new Thread( this, "Lutece-Daemons-Coordinator" );
         _coordinatorThread.setDaemon( true );
         _coordinatorThread.start( );
+        _bShuttingDown = false;
     }
 
     @Override
     public boolean enqueue( DaemonEntry entry, long nDelay, TimeUnit unit )
     {
+        assertNotShuttingDown( );
         if ( nDelay == 0L )
         {
             boolean queued = _queue.offer( entry );
@@ -109,6 +113,14 @@ class DaemonScheduler implements Runnable, IDaemonScheduler
         }
     }
 
+    private void assertNotShuttingDown( )
+    {
+        if ( _bShuttingDown )
+        {
+            throw new IllegalStateException( "DaemonScheduler is shutting down. Enqueing tasks or scheduling tasks is not possible anymore." );
+        }
+    }
+
     /**
      * Enqueue without delay
      * 
@@ -123,6 +135,7 @@ class DaemonScheduler implements Runnable, IDaemonScheduler
     @Override
     public void schedule( DaemonEntry entry, long nInitialDelay, TimeUnit unit )
     {
+        assertNotShuttingDown( );
         synchronized( _scheduledDaemons )
         {
             if ( _scheduledDaemons.containsKey( entry.getId( ) ) )
@@ -155,6 +168,27 @@ class DaemonScheduler implements Runnable, IDaemonScheduler
                 daemonTimerTask.cancel( );
                 _scheduledDaemonsTimer.purge( );
                 _scheduledDaemons.remove( entry.getId( ) );
+            }
+        }
+        boolean bStopScheduled = false;
+        synchronized ( _executingDaemons )
+        {
+            RunnableWrapper runnable = _executingDaemons.get( entry.getId( ) );
+            if ( runnable != null )
+            {
+                runnable.stopDaemonAfterExecution( );
+                bStopScheduled = true;
+            }
+        }
+        if ( !bStopScheduled )
+        {
+            try
+            {
+                entry.getDaemon( ).stop( );
+            }
+            catch ( Throwable t )
+            {
+                AppLogService.error( "Failed to stop daemon " + entry.getId( ), t );
             }
         }
     }
@@ -210,13 +244,19 @@ class DaemonScheduler implements Runnable, IDaemonScheduler
     @Override
     public void shutdown( )
     {
+        _bShuttingDown = true; // prevent future scheduling of daemons
         int maxAwaitTerminationDelay = AppPropertiesService.getPropertyInt( PROPERTY_MAX_AWAIT_TERMINATION_DELAY, 15 );
         AppLogService.info( "Lutece daemons scheduler stop requested : trying to terminate gracefully daemons list (max wait " + maxAwaitTerminationDelay
                 + " s)." );
         _scheduledDaemonsTimer.cancel( );
-        _scheduledDaemonsTimer.purge( );
         _coordinatorThread.interrupt( );
         _executor.shutdown( );
+
+        // make a copy of scheduled daemons so that the list can be modified by
+        // #unSchedule
+        ArrayList<DaemonTimerTask> scheduled = new ArrayList<DaemonTimerTask>( _scheduledDaemons.values( ) );
+        scheduled.forEach( task -> unSchedule( task.getDaemonEntry( ) ) );
+
         try
         {
             if ( _executor.awaitTermination( maxAwaitTerminationDelay, TimeUnit.SECONDS ) )
@@ -252,6 +292,7 @@ class DaemonScheduler implements Runnable, IDaemonScheduler
 
         private final DaemonEntry _entry;
         private volatile boolean _bShouldEnqueueAgain;
+        private volatile boolean _bstopAfterExecution;
 
         /**
          * @param entry
@@ -260,6 +301,11 @@ class DaemonScheduler implements Runnable, IDaemonScheduler
         public RunnableWrapper( DaemonEntry entry )
         {
             _entry = entry;
+        }
+
+        public void stopDaemonAfterExecution( )
+        {
+            _bstopAfterExecution = true;
         }
 
         /**
@@ -283,7 +329,11 @@ class DaemonScheduler implements Runnable, IDaemonScheduler
                 {
                     _executingDaemons.remove( _entry.getId( ) );
                 }
-                if ( _bShouldEnqueueAgain )
+                if ( _bstopAfterExecution)
+                {
+                    _entry.getDaemon( ).stop( );
+                }
+                else if ( _bShouldEnqueueAgain )
                 {
                     enqueue( _entry );
                 }
@@ -313,6 +363,15 @@ class DaemonScheduler implements Runnable, IDaemonScheduler
         public void run( )
         {
             enqueue( _entry );
+        }
+
+        /**
+         * Access the daemon entry
+         * @return the daemon
+         */
+        public DaemonEntry getDaemonEntry( )
+        {
+            return _entry;
         }
 
     }
