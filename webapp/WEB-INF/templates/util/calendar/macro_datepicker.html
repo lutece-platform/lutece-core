@@ -24,7 +24,7 @@
 	<script type="text/javascript" charset="utf-8">
 	$(document).ready( function() {
 		<#-- boostrap version -->
- 		$('#${idField}').datepicker({language: '<@getRegional language=language />'});
+ 		$('#${idField}').datepicker({language: '<@getRegional language=language />', autoclose: true});
 	});
 	</script>
 </#macro>
@@ -35,7 +35,7 @@
 	<script type="text/javascript" charset="utf-8">
 	$(document).ready( function() {
 		<#-- boostrap version -->
- 		$("#${idForm} .dtBootstrap").datepicker({language: '<@getRegional language=language />'});
+ 		$("#${idForm} .dtBootstrap").datepicker({language: '<@getRegional language=language />', autoclose: true});
 	});
 	</script>
 </#macro>
@@ -85,7 +85,7 @@
       </div>
     </div>
     -->
- 		$('.input-daterange').datepicker({language: "<@getRegional language=language />"});
+ 		$('.input-daterange').datepicker({language: "<@getRegional language=language />", autoclose: true});
 	});
 	</script>
 </#macro>
