@@ -2,8 +2,26 @@
 /* SPECIFIC LUTECE DEFAULT THEME STYLES   *
 ******************************************/
 /* CORE STYLES */
-/* Fix for fixed-nav-bar*/
-body{padding-top:60px;}
+html {
+  /* Sticky footer styles */	
+  position: relative;
+  min-height: 100%;
+}
+body {
+  /* Sticky footer styles */
+  /* Margin bottom by footer height */
+  margin-bottom: 60px;
+  /* Fix for fixed-nav-bar*/
+  padding-top:60px;
+}
+#site_footer {
+  /* Sticky footer styles */	
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 60px;
+}
 
 /* img list styles */
 img.thumblist-mini{width:24px;height:24px;}
