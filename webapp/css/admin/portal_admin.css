@@ -1,5 +1,10 @@
 /* WRAPPER */
-#admin-wrapper{ min-height:900px; margin:60px 15px 0 15px }
+#admin-wrapper{ margin:60px 15px 60px 15px }
+html {
+  /* Sticky footer styles */
+  position: relative;
+  min-height: 100%;
+}
 #admin-wrapper.display-nav #canvas { -webkit-transform:translateX(330px);-moz-transform:translateX(330px);-ms-transform:translateX(330px); -o-transform:translateX(330px);transform:translateX(330px);}
 #admin-wrapper .content{padding: 0}
 
@@ -70,7 +75,17 @@ a.dashboard-title{color:#fff !important;}
 a.dashboard-title:hover{}
 
 /* Footer */
-#footer{background: none repeat scroll 0 0 #000;color: #fff;margin-bottom:0;}
+#footer{background: none repeat scroll 0 0 #000;color: #fff;margin-bottom:0;
+  /* Sticky footer styles */
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /*
+   * The height of the footer should be less than 60px because this
+   * is the value of the bottom margin on #admin-wrapper. If needed you can force it.
+   height: 60px;
+  */
+}
 #footer > a{color: #fff;font-size:80%;}
 
 /* 	Helpers classes */
