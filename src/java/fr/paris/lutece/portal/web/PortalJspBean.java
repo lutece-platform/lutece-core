@@ -55,6 +55,7 @@ import fr.paris.lutece.portal.service.security.SecurityService;
 import fr.paris.lutece.portal.service.security.UserNotSignedException;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
+import fr.paris.lutece.portal.service.util.AppException;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
@@ -339,7 +340,10 @@ public class PortalJspBean
      */
     public String getError500Page( HttpServletRequest request, Throwable exception )
     {
-        AppLogService.error( "Error 500 : " + exception.getMessage( ), exception );
+        //AppException calls AppLogService.error in the constructor, so don't call it here again
+        if ( ! ( exception instanceof AppException ) ) {
+            AppLogService.error( "Error 500 : " + exception.getMessage( ), exception );
+        }
 
         String strCause = null;
 
