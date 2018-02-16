@@ -92,9 +92,6 @@ public final class AppLogService
         InputStream is = null;
         try
         {
-            _loggerEvents.setAdditivity( false );
-            _loggerDebug.setAdditivity( false );
-
             String strAbsoluteConfigDirectoryPath = AppPathService.getAbsolutePathFromRelativePath( strConfigPath );
             String strAlternateFilePath = strAbsoluteConfigDirectoryPath + ( strAbsoluteConfigDirectoryPath.endsWith( "/" ) ? "" : "/" )
                     + ALTERNATE_LOG_OVERRIDE_PATH;
