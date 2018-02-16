@@ -9,7 +9,7 @@
     <groupId>fr.paris.lutece</groupId>
     <artifactId>lutece-core</artifactId>
     <packaging>lutece-core</packaging>
-    <version>6.1.0-SNAPSHOT</version>
+    <version>6.1.0</version>
     <name>Lutece</name>
     <url>http://dev.lutece.paris.fr/</url>
 
@@ -337,7 +337,7 @@
         <connection>scm:git:https://github.com/lutece-platform/lutece-core.git</connection>
         <developerConnection>scm:git:https://github.com/lutece-platform/lutece-core.git</developerConnection>
         <url>https://github.com/lutece-platform/lutece-core.git</url>
-        <tag>HEAD</tag>
+        <tag>lutece-core-6.1.0</tag>
     </scm>
 
 </project>
