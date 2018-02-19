@@ -340,8 +340,16 @@ public class PortalJspBean
      */
     public String getError500Page( HttpServletRequest request, Throwable exception )
     {
-        //AppException calls AppLogService.error in the constructor, so don't call it here again
-        if ( ! ( exception instanceof AppException ) ) {
+        if ( exception instanceof AppException )
+        {
+            //AppException calls AppLogService.error( message, this ) in the
+            //constructor, so don't call it here again Call toString to have
+            //the Class and the message to be able to indentify the correct
+            //stacktrace in the preceding logs.
+            AppLogService.error( "Error 500 : Caused by previous Critical AppException" );
+        }
+        else
+        {
             AppLogService.error( "Error 500 : " + exception.getMessage( ), exception );
         }
 

@@ -33,6 +33,8 @@
  */
 package fr.paris.lutece.portal.service.util;
 
+import org.apache.commons.lang3.exception.ExceptionUtils;
+
 /**
  * This kind of exception is thrown when the application encounters a critical problem. This class extends RuntimeException in order to avoid try/catch blocks
  * This class forces to write to the logs immediatly to protect against swallowing exceptions.
@@ -53,7 +55,7 @@ public class AppException extends RuntimeException
     public AppException( String strMessage )
     {
         super( strMessage );
-        AppLogService.error( strMessage, this );
+        writeToLogs( );
     }
 
     /**
@@ -67,7 +69,7 @@ public class AppException extends RuntimeException
     public AppException( String strMessage, Throwable t )
     {
         super( strMessage, t );
-        AppLogService.error( strMessage, this );
+        writeToLogs( );
     }
 
     /**
@@ -88,7 +90,7 @@ public class AppException extends RuntimeException
      */
     public AppException( )
     {
-        AppLogService.error( this );
+        writeToLogs( );
     }
 
     /**
@@ -106,6 +108,30 @@ public class AppException extends RuntimeException
     public AppException( String strMessage, Throwable t, boolean enableSuppression, boolean writableStackTrace )
     {
         super( strMessage, t, enableSuppression, writableStackTrace );
-        AppLogService.error( strMessage, this );
+        writeToLogs( );
+    }
+
+    private void writeToLogs( )
+    {
+        StringBuilder sb = new StringBuilder( "Critical AppException" );
+
+        Throwable strRootCause = ExceptionUtils.getRootCause( this );
+        if ( strRootCause != null )
+        {
+            sb.append ( ", root cause: " );
+            String strShortName = strRootCause.getClass( ).getSimpleName( );
+            sb.append( strShortName );
+        }
+
+        Throwable throwableForMessage = strRootCause == null ? this : strRootCause;
+        String strMessage = throwableForMessage.getMessage( );
+        if ( strMessage != null )
+        {
+            sb.append ( ": " );
+            sb.append( strMessage );
+        }
+
+        String strHeader = sb.toString( );
+        AppLogService.error( strHeader, this );
     }
 }
