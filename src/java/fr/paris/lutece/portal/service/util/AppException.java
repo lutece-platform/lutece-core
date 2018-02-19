@@ -35,6 +35,7 @@ package fr.paris.lutece.portal.service.util;
 
 /**
  * This kind of exception is thrown when the application encounters a critical problem. This class extends RuntimeException in order to avoid try/catch blocks
+ * This class forces to write to the logs immediatly to protect against swallowing exceptions.
  */
 public class AppException extends RuntimeException
 {
@@ -60,13 +61,26 @@ public class AppException extends RuntimeException
      *
      * @param strMessage
      *            The error message
+     * @param t
+     *            The initial throwable
+     */
+    public AppException( String strMessage, Throwable t )
+    {
+        super( strMessage, t );
+        AppLogService.error( strMessage, this );
+    }
+
+    /**
+     * Constructor for backwards binary compatibility, same as AppException( String s, Throwable t )
+     *
+     * @param strMessage
+     *            The error message
      * @param e
      *            The initial exception
      */
     public AppException( String strMessage, Exception e )
     {
-        super( strMessage, e );
-        AppLogService.error( strMessage, this );
+        this( strMessage, (Throwable) e );
     }
 
     /**
@@ -74,5 +88,24 @@ public class AppException extends RuntimeException
      */
     public AppException( )
     {
+        AppLogService.error( this );
+    }
+
+    /**
+     * Constructor 4
+     *
+     * @param strMessage
+     *            The error message
+     * @param e
+     *            The initial exception
+     * @param enableSuppression
+     *            enableSuppresion
+     * @param writableStackTrace
+     *            writableStackTrace
+     */
+    public AppException( String strMessage, Throwable t, boolean enableSuppression, boolean writableStackTrace )
+    {
+        super( strMessage, t, enableSuppression, writableStackTrace );
+        AppLogService.error( strMessage, this );
     }
 }
