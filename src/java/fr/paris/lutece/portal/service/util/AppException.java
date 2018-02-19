@@ -42,8 +42,6 @@ public class AppException extends RuntimeException
      * Generated serialVersionUID
      */
     private static final long serialVersionUID = -742252097057629674L;
-    private Exception _exception; // Initial Exception to embed
-    private String _strMessage; // Error message
 
     /**
      * Constructor 1
@@ -53,8 +51,8 @@ public class AppException extends RuntimeException
      */
     public AppException( String strMessage )
     {
-        _strMessage = strMessage;
-        AppLogService.error( getPrintStack( this ) );
+        super( strMessage );
+        AppLogService.error( strMessage, this );
     }
 
     /**
@@ -67,9 +65,8 @@ public class AppException extends RuntimeException
      */
     public AppException( String strMessage, Exception e )
     {
-        _strMessage = strMessage;
-        _exception = e;
-        AppLogService.error( getAppMessage( ), e );
+        super( strMessage, e );
+        AppLogService.error( strMessage, this );
     }
 
     /**
@@ -77,63 +74,5 @@ public class AppException extends RuntimeException
      */
     public AppException( )
     {
-    }
-
-    /**
-     * Returns the initial exception.
-     * 
-     * @return The initial exception.
-     */
-    public Exception getInitialException( )
-    {
-        return _exception;
-    }
-
-    /**
-     * Overides getMessage method
-     * 
-     * @return strMessage The error message
-     */
-    @Override
-    public String getMessage( )
-    {
-        return getAppMessage( );
-    }
-
-    /**
-     * Get the exception's printstack and returns it as a string
-     * 
-     * @param e
-     *            The Exception.
-     * @return The printstack as a String
-     */
-    private String getPrintStack( Exception e )
-    {
-        java.io.CharArrayWriter cw = new java.io.CharArrayWriter( );
-        java.io.PrintWriter pw = new java.io.PrintWriter( cw, true );
-        e.printStackTrace( pw );
-
-        return cw.toString( );
-    }
-
-    /**
-     * Overides getMessage method
-     * 
-     * @return strMessage The error message
-     */
-    private String getAppMessage( )
-    {
-        StringBuffer strMessage = new StringBuffer( );
-        strMessage.append( _strMessage );
-        strMessage.append( "\n" );
-
-        /* Selects the initial exception, if it exists */
-        if ( getInitialException( ) != null )
-        {
-            strMessage.append( "Initial error print stack : \n" );
-            strMessage.append( getPrintStack( getInitialException( ) ) );
-        }
-
-        return strMessage.toString( );
     }
 }
