@@ -7,6 +7,10 @@
 					<@button type='submit' buttonIcon='refresh' title='#i18n{portal.system.manage_caches.titleReloadProperties}' id='reload' size='' showTitleXs=false showTitleSm=false />
 					<@aButton href='jsp/admin/system/CacheInfos.jsp' buttonIcon='key' title='#i18n{portal.system.manage_caches.buttonViewKeys}' size='' showTitleXs=false showTitleSm=false />
 				</@tform>
+				<@tform method='post' action='jsp/admin/system/DoReloadLogsConfiguration.jsp' class='pull-right spaced'>
+					<input type="hidden" name="token" value="${token}">
+					<@button type='submit' buttonIcon='refresh' title='#i18n{portal.system.manage_caches.titleReloadLogsConfiguration}' id='reloadLogsConf' size='' showTitleXs=false showTitleSm=false />
+				</@tform>
 				<@tform method='post' action='jsp/admin/system/DoResetCaches.jsp' class='pull-right spaced'>
 					<input type="hidden" name="token" value="${token}">
 					<@button type='submit' buttonIcon='trash' title='#i18n{portal.system.manage_caches.buttonFlush}' size='' color='btn-danger' showTitleXs=false showTitleSm=false />

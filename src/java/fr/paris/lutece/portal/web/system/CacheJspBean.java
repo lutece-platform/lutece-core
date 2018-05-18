@@ -39,6 +39,7 @@ import fr.paris.lutece.portal.service.cache.CacheableService;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
+import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
 import fr.paris.lutece.util.html.HtmlTemplate;
@@ -69,6 +70,10 @@ public class CacheJspBean extends AdminFeaturesPageJspBean
     private static final String TEMPLATE_MANAGE_CACHES = "admin/system/manage_caches.html";
     private static final String TEMPLATE_CACHE_INFOS = "admin/system/cache_infos.html";
     private static final String PARAMETER_ID_CACHE = "id_cache";
+
+    // Conf
+    private static final String PATH_CONF = "/WEB-INF/conf/";
+    private static final String FILE_PROPERTIES_CONFIG = "config.properties";
 
     /**
      * Returns the page to manage caches
@@ -137,6 +142,24 @@ public class CacheJspBean extends AdminFeaturesPageJspBean
 
         return JSP_MANAGE_CACHES;
     }
+
+    /**
+     * Reload the logs configuration of the application
+     *
+     * @return The URL to display when the process is done.
+     * @throws AccessDeniedException
+     */
+    public String doReloadLogsConfiguration( HttpServletRequest request ) throws AccessDeniedException
+    {
+        if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_MANAGE_CACHES ) )
+        {
+            throw new AccessDeniedException( "Invalid security token" );
+        }
+        AppLogService.init( PATH_CONF, FILE_PROPERTIES_CONFIG );
+
+        return JSP_MANAGE_CACHES;
+    }
+
 
     /**
      * Gets cache infos for all caches
