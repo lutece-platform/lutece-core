@@ -57,6 +57,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -64,6 +65,9 @@ import java.util.HashMap;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
+
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 /**
  * This class provides the user interface to manage system features ( manage logs, view system files, ... ).
@@ -82,6 +86,7 @@ public class SystemJspBean extends AdminFeaturesPageJspBean
 
     // Markers
     private static final String MARK_FILES_LIST = "files_list";
+    private static final String MARK_LOGGERS_LIST = "loggers_list";
     private static final String MARK_FILES_SYSTEM_DIRECTORY = "files_system_directory";
     private static final String MARK_FILES_SYSTEM_NAME = "file_system_name";
     private static final String MARK_FILE_SYSTEM_DATA = "file_system_data";
@@ -130,8 +135,15 @@ public class SystemJspBean extends AdminFeaturesPageJspBean
             list.add( file );
         }
 
-        Map<String, Collection<SystemFile>> model = new HashMap<String, Collection<SystemFile>>( );
+        Map<String, Object> model = new HashMap<String, Object>( );
         model.put( MARK_FILES_LIST, list );
+
+
+        List<Logger> listLogger = Collections.list( LogManager.getLoggerRepository( ).getCurrentLoggers( ) );
+        listLogger.sort( Comparator.comparing( Logger::getName ) );
+        listLogger.add( 0, LogManager.getRootLogger( ) );
+        model.put( MARK_LOGGERS_LIST, listLogger );
+
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_FILES_SYSTEM, getLocale( ), model );
 

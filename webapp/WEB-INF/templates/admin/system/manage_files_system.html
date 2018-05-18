@@ -22,5 +22,22 @@
 				</@table>
 			</@boxBody>
 		</@box>
+		<@box color='danger'>
+			<@boxHeader title='#i18n{portal.system.manage_files_system.loggerBoxTitle}' />
+			<@boxBody>
+				<@table>
+					<tr>
+						<th>#i18n{portal.system.manage_files_system.labelLoggerLevel}</th>
+						<th>#i18n{portal.system.manage_files_system.labelLoggerName}</th>
+					</tr>
+					<#list loggers_list as logger >
+					<tr>
+						<td>${logger.effectiveLevel}</td>
+						<td>${logger.name}</td>
+					</tr>
+					</#list>
+				</@table>
+			</@boxBody>
+		</@box>
   </@columns>
 </@row>
