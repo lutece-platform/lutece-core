@@ -43,10 +43,10 @@
 
     <filter>
         <filter-name>PageCachingFilter</filter-name>
-        <filter-class>fr.paris.lutece.portal.service.cache.HeadersPageCachingFilter</filter-class>
+        <filter-class>fr.paris.lutece.portal.service.cache.FullPageCachingService</filter-class>
         <init-param>
             <param-name>cacheName</param-name>
-            <param-value>PageCachingFilter</param-value>
+            <param-value>PageCachingFilter (CAUTION : NEVER USE WITH USER DYNAMIC DATA)</param-value>
         </init-param>
         <init-param>
             <param-name>suppressStackTraces</param-name>

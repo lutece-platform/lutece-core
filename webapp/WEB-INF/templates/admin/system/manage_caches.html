@@ -2,17 +2,18 @@
     <@columns>
         <@box color='danger'>
             <@boxHeader title='#i18n{portal.system.manage_caches.titleCacheList}' boxTools=true>
-				<@tform method='post' action='jsp/admin/system/DoReloadProperties.jsp' class='pull-right'>
-					<input type="hidden" name="token" value="${token}">
-					<@button type='submit' buttonIcon='refresh' title='#i18n{portal.system.manage_caches.titleReloadProperties}' id='reload' size='' showTitleXs=false showTitleSm=false />
-					<@aButton href='jsp/admin/system/CacheInfos.jsp' buttonIcon='key' title='#i18n{portal.system.manage_caches.buttonViewKeys}' size='' showTitleXs=false showTitleSm=false />
-				</@tform>
-				<@tform method='post' action='jsp/admin/system/DoResetCaches.jsp' class='pull-right spaced'>
-					<input type="hidden" name="token" value="${token}">
-					<@button type='submit' buttonIcon='trash' title='#i18n{portal.system.manage_caches.buttonFlush}' size='' color='btn-danger' showTitleXs=false showTitleSm=false />
-				</@tform>
-			</@boxHeader>
-			<@boxBody>
+                <@tform method='post' action='jsp/admin/system/DoReloadProperties.jsp' class='pull-right'>
+                        <input type="hidden" name="token" value="${token}">
+                        <@button type='submit' buttonIcon='refresh' title='#i18n{portal.system.manage_caches.titleReloadProperties}' id='reload' size='' showTitleXs=false showTitleSm=false />
+                        <@aButton href='jsp/admin/system/CacheInfos.jsp' buttonIcon='key' title='#i18n{portal.system.manage_caches.buttonViewKeys}' size='' showTitleXs=false showTitleSm=false />
+                </@tform>
+                <@tform method='post' action='jsp/admin/system/DoResetCaches.jsp' class='pull-right spaced'>
+                        <input type="hidden" name="token" value="${token}">
+                        <@button type='submit' buttonIcon='trash' title='#i18n{portal.system.manage_caches.buttonFlush}' size='' color='btn-danger' showTitleXs=false showTitleSm=false />
+                </@tform>
+            </@boxHeader>
+            <@boxBody>
+            <@alert class='danger'>#i18n{portal.system.manage_caches.cautionMessage}</@alert>
 				<@table>
 					<tr>
 						<th>#i18n{portal.system.manage_caches.columnTitleName}</th>
