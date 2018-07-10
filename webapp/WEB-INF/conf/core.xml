@@ -189,7 +189,6 @@
       <admin-css-stylesheet>css/admin/bootstrap.min.css</admin-css-stylesheet>
       <admin-css-stylesheet>css/admin/bootstrap-colorpicker.css</admin-css-stylesheet>
       <admin-css-stylesheet>css/admin/bootstrap-datepicker.min.css</admin-css-stylesheet>
-      <admin-css-stylesheet>css/admin/bootstrap-theme.min.css</admin-css-stylesheet>
       <admin-css-stylesheet>css/admin/jquery-ui.min.css</admin-css-stylesheet>
       <admin-css-stylesheet>css/admin/jquery-ui.structure.min.css</admin-css-stylesheet>
       <admin-css-stylesheet>css/admin/jquery-ui.theme.min.css</admin-css-stylesheet>
