@@ -46,7 +46,7 @@
 						<td class="hidden-xs">${service.cacheSize}</td>
 						<td class="hidden-xs">${service.memorySize}</td>
 						<td>
-							<@tform method='post' action='jsp/admin/system/DoToggleCache.jsp' class="pull-right spaced">
+							<@tform method='post' action='jsp/admin/system/ConfirmToggleCache.jsp' class="pull-right spaced">
 								<input type="hidden" name="id_cache" value="${id}">
 								<input type="hidden" name="token" value="${token}">
 								<#if service.cacheEnable>

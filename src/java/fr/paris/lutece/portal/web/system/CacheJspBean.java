@@ -37,6 +37,8 @@ import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.cache.CacheService;
 import fr.paris.lutece.portal.service.cache.CacheableService;
 import fr.paris.lutece.portal.service.i18n.I18nService;
+import fr.paris.lutece.portal.service.message.AdminMessage;
+import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
@@ -47,6 +49,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -60,6 +63,12 @@ public class CacheJspBean extends AdminFeaturesPageJspBean
 
     // Jsp definition
     public static final String JSP_MANAGE_CACHES = "ManageCaches.jsp";
+
+    private static final String JSP_TOGGLE_CACHE = "jsp/admin/system/DoToggleCache.jsp";
+    private static final String PROPERTY_MESSAGE_CONFIRM_TOOGLE_CACHE = "portal.system.message.confirmToggleCache";
+    private static final String PROPERTY_MESSAGE_CONFIRM_TOOGLE_CACHE_TITLE = "portal.system.message.confirmToggleCacheTitle";
+    private static final String PROPERTY_MESSAGE_INVALID_CACHE_ID = "portal.system.message.invalidCacheId";
+    
     private static final long serialVersionUID = 7010476999488231065L;
 
     // Markers
@@ -124,6 +133,7 @@ public class CacheJspBean extends AdminFeaturesPageJspBean
     /**
      * Reload all properties files of the application
      *
+     * @param request The HTTP request
      * @return The URL to display when the process is done.
      * @throws AccessDeniedException 
      */
@@ -170,6 +180,35 @@ public class CacheJspBean extends AdminFeaturesPageJspBean
         return getAdminPage( template.getHtml( ) );
     }
 
+    
+    
+    /**
+     * Returns the page of confirmation for changing the cache activation
+     *
+     * @param request
+     *            The Http Request
+     * @return the HTML page
+     */
+    public String getConfirmToggleCache( HttpServletRequest request )
+    {
+        String strCacheIndex = request.getParameter( PARAMETER_ID_CACHE );
+        if ( strCacheIndex != null )
+        {
+            int nCacheIndex = Integer.parseInt( strCacheIndex );
+            CacheableService cs = CacheService.getCacheableServicesList( ).get( nCacheIndex );
+            if( cs != null )
+            {
+                Object[] messageArgs = { cs.getName() };
+
+                Map<String, Object> parameters = new HashMap<>( );
+                parameters.put( PARAMETER_ID_CACHE, strCacheIndex );
+                parameters.put( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, JSP_TOGGLE_CACHE ) );
+                return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_CONFIRM_TOOGLE_CACHE, messageArgs, PROPERTY_MESSAGE_CONFIRM_TOOGLE_CACHE_TITLE, JSP_TOGGLE_CACHE, "" ,AdminMessage.TYPE_CONFIRMATION, parameters );
+            }
+        }
+        return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_INVALID_CACHE_ID, JSP_MANAGE_CACHES, AdminMessage.TYPE_ERROR );
+    }
+
     /**
      * Process cache toggle on/off
      *
@@ -181,7 +220,7 @@ public class CacheJspBean extends AdminFeaturesPageJspBean
      */
     public static String doToggleCache( HttpServletRequest request ) throws AccessDeniedException
     {
-        if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_MANAGE_CACHES ) )
+        if ( !SecurityTokenService.getInstance( ).validate( request, JSP_TOGGLE_CACHE ) )
         {
             throw new AccessDeniedException( "Invalid security token" );
         }
@@ -196,4 +235,5 @@ public class CacheJspBean extends AdminFeaturesPageJspBean
 
         return JSP_MANAGE_CACHES;
     }
+    
 }
