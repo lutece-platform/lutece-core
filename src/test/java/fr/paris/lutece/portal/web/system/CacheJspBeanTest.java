@@ -41,6 +41,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.math.BigInteger;
 import java.security.SecureRandom;
+import java.util.Locale;
 import java.util.Properties;
 import java.util.Random;
 
@@ -51,6 +52,9 @@ import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.cache.AbstractCacheableService;
 import fr.paris.lutece.portal.service.cache.CacheService;
 import fr.paris.lutece.portal.service.cache.CacheableService;
+import fr.paris.lutece.portal.service.i18n.I18nService;
+import fr.paris.lutece.portal.service.message.AdminMessage;
+import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.test.LuteceTestCase;
@@ -345,6 +349,37 @@ public class CacheJspBeanTest extends LuteceTestCase
         {
             CacheService.getCacheableServicesList( ).get( cacheIndex ).enableCache( true );
         }
+    }
+
+    public void testGetConfirmToggleCache( )
+    {
+        CacheJspBean instance = new CacheJspBean( );
+        int cacheIndex = -1;
+        for ( CacheableService service : CacheService.getCacheableServicesList( ) )
+        {
+            cacheIndex++;
+            MockHttpServletRequest request = new MockHttpServletRequest( );
+            request.addParameter( "id_cache", Integer.toString( cacheIndex ) );
+            instance.getConfirmToggleCache( request );
+            AdminMessage message = AdminMessageService.getMessage( request );
+            assertNotNull( message );
+            assertEquals( AdminMessage.TYPE_CONFIRMATION, message.getType( ) );
+            for ( Locale locale : I18nService.getAdminAvailableLocales( ) ) 
+            {
+                assertTrue( message.getText( locale ).contains( service.getName( ) ) );
+            }
+            assertTrue( message.getRequestParameters( ).containsKey( SecurityTokenService.PARAMETER_TOKEN ) );
+        }
+    }
+
+    public void testGetConfirmToggleCacheNoParam( )
+    {
+        CacheJspBean instance = new CacheJspBean( );
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        instance.getConfirmToggleCache( request );
+        AdminMessage message = AdminMessageService.getMessage( request );
+        assertNotNull( message );
+        assertEquals( AdminMessage.TYPE_ERROR, message.getType( ) );
     }
 
     /**
