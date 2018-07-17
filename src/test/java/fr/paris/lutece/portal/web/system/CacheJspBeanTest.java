@@ -272,7 +272,7 @@ public class CacheJspBeanTest extends LuteceTestCase
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.addParameter( "id_cache", Integer.toString( cacheIndex ) );
         request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/system/manage_caches.html" ) );
+                SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/system/DoToggleCache.jsp" ) );
         try
         {
             assertTrue( CacheService.getCacheableServicesList( ).get( cacheIndex ).isCacheEnable( ) );
@@ -300,7 +300,7 @@ public class CacheJspBeanTest extends LuteceTestCase
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.addParameter( "id_cache", Integer.toString( cacheIndex ) );
         request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/system/manage_caches.html" ) + "b" );
+                SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/system/DoToggleCache.jsp" ) + "b" );
         try
         {
             assertTrue( CacheService.getCacheableServicesList( ).get( cacheIndex ).isCacheEnable( ) );
