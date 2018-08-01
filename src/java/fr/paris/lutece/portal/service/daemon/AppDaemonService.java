@@ -128,6 +128,11 @@ public final class AppDaemonService
      */
     public static void registerDaemon( DaemonEntry entry ) throws LuteceInitException
     {
+        if ( _mapDaemonEntries.containsKey( entry.getId( ) ) )
+        {
+            AppLogService.error( "Ignoring attempt to register already registered daemon " + entry.getId( ) );
+            return;
+        }
         String strIntervalKey = getIntervalKey( entry.getId( ) );
         String strIntervalKeyDefaultValue = null;
 
