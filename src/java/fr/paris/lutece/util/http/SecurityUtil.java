@@ -33,6 +33,8 @@
  */
 package fr.paris.lutece.util.http;
 
+import fr.paris.lutece.portal.service.util.AppPathService;
+import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.web.LocalVariables;
 import fr.paris.lutece.util.string.StringUtil;
 
@@ -43,6 +45,7 @@ import org.apache.log4j.Logger;
 import java.util.Enumeration;
 
 import javax.servlet.http.HttpServletRequest;
+import org.springframework.util.AntPathMatcher;
 
 /**
  * Security utils
@@ -60,6 +63,8 @@ public final class SecurityUtil
     private static final String [ ] PATH_MANIPULATION = {
             "..", "/", "\\"
     };
+
+    public static final String PROPERTY_REDIRECT_URL_SAFE_PATTERNS = "lutece.security.redirectUrlSafePatterns";
 
     // private static final String PATTERN_CLEAN_PARAMETER = "^[\\w/]+$+";
 
@@ -265,6 +270,82 @@ public final class SecurityUtil
         }
 
         return strIPAddress;
+    }
+    
+    /**
+     * Validate a forward URL to avoid open redirect
+     *  with url safe patterns found in properties 
+     * 
+     * @see SecurityUtil#isInternalRedirectUrlSafe(java.lang.String, javax.servlet.http.HttpServletRequest, java.lang.String) 
+     * 
+     * @param strUrl
+     * @param request
+     * @return true if valid
+     */
+    public static boolean isInternalRedirectUrlSafe( String strUrl, HttpServletRequest request )
+    {
+        String strAntPathMatcherPatternsValues = AppPropertiesService.getProperty( SecurityUtil.PROPERTY_REDIRECT_URL_SAFE_PATTERNS );
+
+        return isInternalRedirectUrlSafe( strUrl, request, strAntPathMatcherPatternsValues );
+    }
+
+
+    /**
+     * Validate an internal redirect URL to avoid internal open redirect.
+     * (Use this function only if the use of internal url redirect keys is not possible.
+     * For external url redirection control, use the plugin plugin-verifybackurl)
+     * 
+     * the url should :
+     *      - not be blank (null or empty string or spaces)
+     *      - not start with "http://" or "https://" or "//" OR match the base URL or any URL in the pattern list 
+     * 
+     * example with a base url "https://lutece.fr/ :
+     *      - valid : myapp/jsp/site/Portal.jsp , Another.jsp , https://lutece.fr/myapp/jsp/site/Portal.jsp
+     *      - invalid : http://anothersite.com , https://anothersite.com , //anothersite.com , file://my.txt , ...
+     * 
+     * 
+     * @param strUrl the Url to validate
+     * @param request the current request (containing the baseUrl)
+     * @param strAntPathMatcherPatterns a comma separated list of AntPathMatcher patterns, as "http://**.lutece.com,https://**.lutece.com"
+     * @return true if valid
+     */
+    public static boolean isInternalRedirectUrlSafe( String strUrl, HttpServletRequest request, String strAntPathMatcherPatterns )
+    {
+
+        if ( StringUtils.isBlank( strUrl ) ) return true ; // this is not a valid redirect Url, but it is not unsafe
+
+        // filter schemes
+        if ( !strUrl.startsWith( "//" )
+                && !strUrl.startsWith("http:" )
+                && !strUrl.startsWith("https:" )
+                && !strUrl.contains( "://" )
+                && !strUrl.startsWith("javascript:" ) )
+            return true ; // should be a relative path
+
+        // compare with current baseUrl
+        if ( strUrl.startsWith( AppPathService.getBaseUrl( request ) ) )
+                return true ;
+
+        // compare with allowed url patterns
+        if ( !StringUtils.isBlank( strAntPathMatcherPatterns ) )
+        {
+            AntPathMatcher pathMatcher = new AntPathMatcher();
+
+            String[] strAntPathMatcherPatternsTab =  strAntPathMatcherPatterns.split( CONSTANT_COMMA ) ;
+            for ( String pattern : strAntPathMatcherPatternsTab )
+            {
+                if ( pattern != null && pathMatcher.match( pattern , strUrl ) )
+                    return true ;
+            }
+        }
+
+
+        // the Url does not match the allowed patterns
+        Logger logger = Logger.getLogger( LOGGER_NAME );
+        logger.warn( "SECURITY WARNING : OPEN_REDIRECT DETECTED : " + dumpRequest( request ) );
+
+        return false;
+
     }
 
     /**
