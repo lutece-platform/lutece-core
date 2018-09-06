@@ -578,3 +578,16 @@ CREATE TABLE core_text_editor (
   backOffice SMALLINT NOT NULL ,
   PRIMARY KEY  (editor_name, backOffice)
 );
+
+--
+-- Table structure for table core_daemon_trigger
+--
+DROP TABLE IF EXISTS core_daemon_trigger;
+CREATE TABLE core_daemon_trigger (
+    id_daemon_trigger int AUTO_INCREMENT,
+    trigger_key VARCHAR(50) DEFAULT '' NOT NULL,
+    trigger_group VARCHAR(50) DEFAULT '' NOT NULL,
+    cron_expression VARCHAR(50) DEFAULT '' NOT NULL,
+    daemon_key VARCHAR(50) DEFAULT '' NOT NULL,
+    PRIMARY KEY (id_daemon_trigger)
+);

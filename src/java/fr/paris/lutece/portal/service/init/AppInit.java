@@ -48,6 +48,7 @@ import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.mailinglist.AdminMailingListService;
 import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.portal.PortalService;
+import fr.paris.lutece.portal.service.scheduler.JobSchedulerService;
 import fr.paris.lutece.portal.service.search.IndexationService;
 import fr.paris.lutece.portal.service.security.SecurityService;
 import fr.paris.lutece.portal.service.servlet.ServletService;
@@ -198,6 +199,9 @@ public final class AppInit
 
             // Initializes the daemons service
             AppDaemonService.init( );
+
+            // Initializes the job scheduler service
+            JobSchedulerService.getInstance( );
 
             // Initializes the admin authentication module
             AdminAuthenticationService.init( );

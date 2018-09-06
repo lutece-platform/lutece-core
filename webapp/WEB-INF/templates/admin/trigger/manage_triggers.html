@@ -1,0 +1,53 @@
+<@row>
+	<@columns>
+		<@box color='danger'>
+            <@boxHeader title='#i18n{portal.system.manage_triggers.title}' boxTools=true>
+                <@tform class='form-inline pull-right' name='manage_trigger' action='jsp/admin/system/ManageTriggers.jsp'>
+                    <@button type='submit' name='view_createTrigger' buttonIcon='plus' title='#i18n{portal.system.manage_triggers.buttonAdd}' />
+                </@tform>
+                <@aButton size='' href='jsp/admin/system/ManageDaemons.jsp' title='#i18n{portal.system.manage_triggers.buttonManageDaemons}' buttonIcon='cogs' showTitleXs=false showTitleSm=false />
+            </@boxHeader>
+            <@boxBody>
+            <@messages infos=infos />
+            <@paginationAdmin paginator=paginator combo=1 />
+            <div class="clearfix"></div>
+            <@table>
+                <tr>
+                    <input type="hidden" id="id" name="id"/>
+                    <th>#i18n{portal.system.manage_triggers.columnKey}</th>
+                    <th>#i18n{portal.system.manage_triggers.columnGroup}</th>
+                    <th>#i18n{portal.system.manage_triggers.columnCronExpression}</th>
+                    <th>#i18n{portal.system.manage_triggers.columnDaemonKey}</th>
+                    <th>#i18n{portal.util.labelActions}</th>
+                </tr>
+                <@tableHeadBodySeparator />
+                    <#list daemon_triggers_list as daemon_trigger >
+                <tr>
+                    <td>
+                        ${daemon_trigger.key}
+                    </td>
+                    <td>
+                        ${daemon_trigger.group}
+                    </td>
+                    <td>
+                        ${daemon_trigger.cronExpression}
+                    </td>
+                    <td>
+                        ${daemon_trigger.daemonKey}
+                    </td>
+                <td>
+                    <@aButton href='jsp/admin/system/ManageTriggers.jsp?view=modifyTrigger&id=${daemon_trigger.id}' title='#i18n{portal.util.labelModify}' buttonIcon='pencil' showTitle=false />
+
+                    <@aButton href='jsp/admin/system/ManageTriggers.jsp?action=confirmRemoveTrigger&id=${daemon_trigger.id}' title='#i18n{portal.util.labelDelete}' buttonIcon='trash' color='btn-danger' showTitle=false />
+
+                </td>
+                </tr>
+                </#list>
+            </@table>
+
+            <@paginationAdmin paginator=paginator />
+
+          </@boxBody>
+        </@box>
+    </@columns>
+</@row>

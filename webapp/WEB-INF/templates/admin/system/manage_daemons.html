@@ -1,7 +1,11 @@
 <@row>
 	<@columns>
 		<@box color='danger'>
-			<@boxHeader title='#i18n{portal.system.manage_daemons.titleCacheList}' />
+			<@boxHeader title='#i18n{portal.system.manage_daemons.titleCacheList}' >
+                <@tform class='form-inline pull-right' name='manage_trigger' action='jsp/admin/system/ManageTriggers.jsp'>
+                    <@button type='submit' name='view_manageTrigger' buttonIcon='cogs' title='#i18n{portal.system.manage_daemons.buttonManageTriggers}' />
+                </@tform>
+            </@boxHeader>
 			<@boxBody>
 				<@table>
 				  <tr>

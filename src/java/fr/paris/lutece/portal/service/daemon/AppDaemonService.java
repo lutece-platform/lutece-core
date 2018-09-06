@@ -339,6 +339,28 @@ public final class AppDaemonService
     }
 
     /**
+     * Check if the daemon key already exists or not
+     *
+     * @param strDaemonKey
+     *            the daemon key
+     * @return true if the daemon key exists, false otherwise
+     */
+    public static boolean checkDaemonKey( String strDaemonKey )
+    {
+        Collection<DaemonEntry> listDaemonEntries = getDaemonEntries( );
+
+        for ( DaemonEntry daemonEntry : listDaemonEntries )
+        {
+            if ( daemonEntry.getId( ).equals( strDaemonKey ) )
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * Performs the shutdown of the DaemonFactory.
      */
     public static void shutdown( )
