@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2018, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -171,6 +171,11 @@ public abstract class JPAGenericDAO<K, E> implements IGenericDAO<K, E>
     {
         EntityManager em = getEM( );
         E entity = em.find( _entityClass, key );
+        if ( entity == null )
+        {
+            LOG.debug( "Did not find entity to remove for key " + key.toString( ) );
+            return;
+        }
         LOG.debug( "Removing entity : " + entity.toString( ) );
         if ( em == _defaultEM )
         {
