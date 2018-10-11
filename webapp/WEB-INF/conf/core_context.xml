@@ -233,4 +233,7 @@
     <bean id="modifyPasswordUserMenuItemProvider" class="fr.paris.lutece.portal.service.user.menu.AdminUserMenuItemProviderRegistrar">
     	<property name="className" value="fr.paris.lutece.portal.business.user.menu.ModifyPasswordAdminUserMenuItemProvider"/>
     </bean>
+    <bean id="accessibilityModeUserMenuItemProvider" class="fr.paris.lutece.portal.service.user.menu.AdminUserMenuItemProviderRegistrar">
+    	<property name="className" value="fr.paris.lutece.portal.business.user.menu.AccessibilityModeAdminUserMenuItemProvider"/>
+    </bean>
 </beans>

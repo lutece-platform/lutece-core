@@ -39,6 +39,7 @@ import fr.paris.lutece.portal.business.right.Right;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.business.user.AdminUserHome;
 import fr.paris.lutece.portal.business.user.authentication.LuteceDefaultAdminUser;
+import fr.paris.lutece.portal.business.user.menu.AccessibilityModeAdminUserMenuItemProvider;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.admin.AdminAuthenticationService;
 import fr.paris.lutece.portal.service.admin.AdminUserService;
@@ -531,7 +532,7 @@ public class AdminMenuJspBean implements Serializable
      */
     public String doModifyAccessibilityMode( HttpServletRequest request ) throws AccessDeniedException
     {
-        if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_ADMIN_MENU_HEADER ) )
+        if ( !SecurityTokenService.getInstance( ).validate( request, AccessibilityModeAdminUserMenuItemProvider.TEMPLATE ) )
         {
             throw new AccessDeniedException( "Invalid security token" );
         }

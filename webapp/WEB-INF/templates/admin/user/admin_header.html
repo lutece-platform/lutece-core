@@ -62,16 +62,6 @@
 					<li class="${item.itemClass?html}">${item.content}</li>
 					</#list>
                 </#if>
-                <li>
-				<@tform method='post' action='jsp/admin/DoModifyAccessibilityMode.jsp' class='form-inline'>
-					<input type="hidden" name="token" value="${token}">
-                  	<#if user.accessibilityMode>
-                  	<@button color='btn-link' size='md' type='submit' buttonIcon='eye' title='#i18n{portal.users.admin_header.labelDeactivateAccessibilityMode}'/>
-                  	<#else>
-					<@button color='btn-link' size='md' type='submit' buttonIcon='eye-slash' title='#i18n{portal.users.admin_header.labelActivateAccessibilityMode}'/>
-					</#if>
-				</@tform>
-                </li>
                 <li class="divider"></li>
                 <li>
                   <a href="javascript:return false;">
