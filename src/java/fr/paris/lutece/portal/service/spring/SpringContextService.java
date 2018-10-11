@@ -117,6 +117,24 @@ public final class SpringContextService implements PluginEventListener
     }
 
     /**
+     * Indicates if a bean, referenced by its name, is part of an enabled
+     * plugin.
+     * 
+     * Per Lutece convention, the plugin is determined from the bean's name
+     * prefix. If no prefix is present, the bean is considered enabled.
+     * 
+     * @param strBeanName
+     *            The bean's name
+     * @return <code>true</code> if the bean is part of an enabled plugin,
+     *         <code>false</code> otherwise
+     */
+    public static boolean isBeanEnabled( String strBeanName )
+    {
+        String strPrefix = getPrefix( strBeanName );
+        return strPrefix == null || isEnabled( strPrefix );
+    }
+
+    /**
      * Initialize a global Application Context containing all beans (core + plugins) Now uses GenericApplicationContext for better performances. A wrong
      * formatted file will not block block context to be built (without the file), but a wrong bean (i.e. cannot be instantiated) will cause a full context
      * failure. Context is less "failure-friendly"
