@@ -230,10 +230,17 @@
     <!-- Admin user menu -->
     <bean id="adminUserMenuService" class="fr.paris.lutece.portal.service.user.menu.AdminUserMenuService" />
 
+    <bean id="dividerUserMenuItemProvider" class="fr.paris.lutece.portal.business.user.menu.DividerAdminUserMenuItemProvider" />
+
     <bean id="modifyPasswordUserMenuItemProvider" class="fr.paris.lutece.portal.service.user.menu.AdminUserMenuItemProviderRegistrar">
     	<property name="className" value="fr.paris.lutece.portal.business.user.menu.ModifyPasswordAdminUserMenuItemProvider"/>
     </bean>
     <bean id="accessibilityModeUserMenuItemProvider" class="fr.paris.lutece.portal.service.user.menu.AdminUserMenuItemProviderRegistrar">
     	<property name="className" value="fr.paris.lutece.portal.business.user.menu.AccessibilityModeAdminUserMenuItemProvider"/>
+    </bean>
+
+    <bean id="divider1UserMenuItemProvider" class="fr.paris.lutece.portal.service.user.menu.AdminUserMenuItemProviderRegistrar">
+    	<property name="provider" ref="dividerUserMenuItemProvider"/>
+    	<property name="insertAfter" value="accessibilityModeUserMenuItemProvider"/>
     </bean>
 </beans>
