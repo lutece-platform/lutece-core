@@ -55,6 +55,7 @@ import fr.paris.lutece.portal.service.portal.PortalService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
+import fr.paris.lutece.portal.service.user.menu.AdminUserMenuService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.web.constants.Markers;
@@ -109,6 +110,7 @@ public class AdminMenuJspBean implements Serializable
     private static final String MARK_PLUGIN_NAME = "plugin_name";
     private static final String MARK_ADMIN_AVATAR = "adminAvatar";
     private static final String MARK_MINIMUM_PASSWORD_SIZE = "minimumPasswordSize";
+    private static final String MARK_USER_MENU_ITEMS = "userMenuItems";
 
     // Templates
     private static final String TEMPLATE_ADMIN_HOME = "admin/user/admin_home.html";
@@ -177,6 +179,8 @@ public class AdminMenuJspBean implements Serializable
         setDashboardData( model, user, request, nZoneMax );
 
         model.put( MARK_ADMIN_AVATAR, _bAdminAvatar );
+        AdminUserMenuService registry = SpringContextService.getBean( AdminUserMenuService.BEAN_NAME );
+        model.put( MARK_USER_MENU_ITEMS, registry.getItems( request ) );
         model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_ADMIN_MENU_HEADER ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_MENU_HEADER, user.getLocale( ), model );

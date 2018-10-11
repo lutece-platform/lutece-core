@@ -57,9 +57,11 @@
                 <span id="zone4" class="hidden-sm hidden-md"> ${dashboard_zone_4}<i class="caret"></i></span>
               </a>
               <ul class="dropdown-menu" role="menu" aria-labelledby="dLabelUserHeader">
-                <li>
-                  <a href="jsp/admin/user/ModifyDefaultUserPassword.jsp"><i class="fa fa-lock"></i>&nbsp;#i18n{portal.admin.admin_home.password}</a>
-                </li>
+                <#if userMenuItems?has_content>
+					<#list userMenuItems as item>
+					<li class="${item.itemClass?html}">${item.content}</li>
+					</#list>
+                </#if>
                 <li>
 				<@tform method='post' action='jsp/admin/DoModifyAccessibilityMode.jsp' class='form-inline'>
 					<input type="hidden" name="token" value="${token}">

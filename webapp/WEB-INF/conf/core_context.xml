@@ -226,4 +226,11 @@
     </bean>
 
     <bean id="daemonThread" class="fr.paris.lutece.portal.service.daemon.DaemonThread" scope="prototype" />
+
+    <!-- Admin user menu -->
+    <bean id="adminUserMenuService" class="fr.paris.lutece.portal.service.user.menu.AdminUserMenuService" />
+
+    <bean id="modifyPasswordUserMenuItemProvider" class="fr.paris.lutece.portal.service.user.menu.AdminUserMenuItemProviderRegistrar">
+    	<property name="className" value="fr.paris.lutece.portal.business.user.menu.ModifyPasswordAdminUserMenuItemProvider"/>
+    </bean>
 </beans>
