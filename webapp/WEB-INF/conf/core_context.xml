@@ -241,9 +241,16 @@
     <bean id="languageUserMenuItemProvider" class="fr.paris.lutece.portal.service.user.menu.AdminUserMenuItemProviderRegistrar">
     	<property name="className" value="fr.paris.lutece.portal.business.user.menu.LanguageAdminUserMenuItemProvider"/>
     </bean>
+    <bean id="technicalUserMenuItemProvider" class="fr.paris.lutece.portal.service.user.menu.AdminUserMenuItemProviderRegistrar">
+    	<property name="className" value="fr.paris.lutece.portal.business.user.menu.TechnicalAdminUserMenuItemProvider"/>
+    </bean>
 
     <bean id="divider1UserMenuItemProvider" class="fr.paris.lutece.portal.service.user.menu.AdminUserMenuItemProviderRegistrar">
     	<property name="provider" ref="dividerUserMenuItemProvider"/>
     	<property name="insertAfter" value="accessibilityModeUserMenuItemProvider"/>
+    </bean>
+    <bean id="divider2UserMenuItemProvider" class="fr.paris.lutece.portal.service.user.menu.AdminUserMenuItemProviderRegistrar">
+    	<property name="provider" ref="dividerUserMenuItemProvider"/>
+    	<property name="insertBefore" value="technicalUserMenuItemProvider"/>
     </bean>
 </beans>

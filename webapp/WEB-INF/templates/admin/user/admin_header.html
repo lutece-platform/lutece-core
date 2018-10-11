@@ -62,14 +62,6 @@
 					<li class="${item.itemClass?html}">${item.content}</li>
 					</#list>
                 </#if>
-                <li class="divider"></li>
-                <#if user.userLevel==0>
-                  <li>
-                    <a href="jsp/admin/AdminTechnicalMenu.jsp" title="#i18n{portal.users.admin_header.title.technicalMenu}">
-                      <i class="fa fa-wrench"></i>&nbsp;#i18n{portal.users.admin_header.technicalMenu}
-                    </a>
-                  </li>
-                </#if>
                 <#if admin_summary_documentation_url?exists>
                   <li>
                     <a href="${admin_summary_documentation_url}" title="#i18n{portal.users.admin_header.title.documentation}">
