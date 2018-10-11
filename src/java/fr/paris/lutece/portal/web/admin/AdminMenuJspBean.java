@@ -40,6 +40,7 @@ import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.business.user.AdminUserHome;
 import fr.paris.lutece.portal.business.user.authentication.LuteceDefaultAdminUser;
 import fr.paris.lutece.portal.business.user.menu.AccessibilityModeAdminUserMenuItemProvider;
+import fr.paris.lutece.portal.business.user.menu.LanguageAdminUserMenuItemProvider;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.admin.AdminAuthenticationService;
 import fr.paris.lutece.portal.service.admin.AdminUserService;
@@ -157,7 +158,6 @@ public class AdminMenuJspBean implements Serializable
         String strVersion = AppInfo.getVersion( );
         String strSiteName = PortalService.getSiteName( );
         AdminUser user = AdminUserService.getAdminUser( request );
-        Locale locale = user.getLocale( );
         List<FeatureGroup> aFeaturesGroupList = getFeatureGroupsList( user );
 
         // Displays the menus accroding to the rights of the users
@@ -167,8 +167,6 @@ public class AdminMenuJspBean implements Serializable
         model.put( MARK_FEATURE_GROUP_LIST, aFeaturesGroupList );
         model.put( MARK_ADMIN_URL, AppPathService.getBaseUrl( request ) + AppPathService.getAdminMenuUrl( ) );
         model.put( MARK_USER, user );
-        model.put( MARK_LANGUAGES_LIST, I18nService.getAdminLocales( locale ) );
-        model.put( MARK_CURRENT_LANGUAGE, locale.getLanguage( ) );
 
         String strLogoutUrl = AppPropertiesService.getProperty( PROPERTY_LOGOUT_URL );
         model.put( MARK_ADMIN_LOGOUT_URL, ( strLogoutUrl == null ) ? "" : strLogoutUrl );
@@ -182,7 +180,6 @@ public class AdminMenuJspBean implements Serializable
         model.put( MARK_ADMIN_AVATAR, _bAdminAvatar );
         AdminUserMenuService registry = SpringContextService.getBean( AdminUserMenuService.BEAN_NAME );
         model.put( MARK_USER_MENU_ITEMS, registry.getItems( request ) );
-        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_ADMIN_MENU_HEADER ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_MENU_HEADER, user.getLocale( ), model );
 
@@ -391,7 +388,7 @@ public class AdminMenuJspBean implements Serializable
      */
     public String doChangeLanguage( HttpServletRequest request ) throws AccessDeniedException
     {
-        if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_ADMIN_MENU_HEADER ) )
+        if ( !SecurityTokenService.getInstance( ).validate( request, LanguageAdminUserMenuItemProvider.TEMPLATE ) )
         {
             throw new AccessDeniedException( "Invalid security token" );
         }

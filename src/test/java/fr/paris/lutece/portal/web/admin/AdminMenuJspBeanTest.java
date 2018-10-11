@@ -39,6 +39,7 @@ import fr.paris.lutece.portal.business.user.AdminUserHome;
 import fr.paris.lutece.portal.business.user.authentication.LuteceDefaultAdminAuthentication;
 import fr.paris.lutece.portal.business.user.authentication.LuteceDefaultAdminUser;
 import fr.paris.lutece.portal.business.user.menu.AccessibilityModeAdminUserMenuItemProvider;
+import fr.paris.lutece.portal.business.user.menu.LanguageAdminUserMenuItemProvider;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.admin.AdminAuthenticationService;
 import fr.paris.lutece.portal.service.admin.AdminUserService;
@@ -120,7 +121,7 @@ public class AdminMenuJspBeanTest extends LuteceTestCase
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.addParameter( PARAMETER_LANGUAGE, TEST_LANGUAGE );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/user/admin_header.html" ) );
+                SecurityTokenService.getInstance( ).getToken( request, LanguageAdminUserMenuItemProvider.TEMPLATE ) );
 
         getUser( request );
         Utils.registerAdminUser( request, _user );
@@ -138,7 +139,7 @@ public class AdminMenuJspBeanTest extends LuteceTestCase
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.addParameter( PARAMETER_LANGUAGE, TEST_LANGUAGE );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/user/admin_header.html" ) + "b" );
+                SecurityTokenService.getInstance( ).getToken( request, LanguageAdminUserMenuItemProvider.TEMPLATE ) + "b" );
 
         getUser( request );
         Utils.registerAdminUser( request, _user );
