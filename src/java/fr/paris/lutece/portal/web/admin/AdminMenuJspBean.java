@@ -42,12 +42,10 @@ import fr.paris.lutece.portal.business.user.authentication.LuteceDefaultAdminUse
 import fr.paris.lutece.portal.business.user.menu.AccessibilityModeAdminUserMenuItemProvider;
 import fr.paris.lutece.portal.business.user.menu.LanguageAdminUserMenuItemProvider;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
-import fr.paris.lutece.portal.service.admin.AdminAuthenticationService;
 import fr.paris.lutece.portal.service.admin.AdminUserService;
 import fr.paris.lutece.portal.service.dashboard.DashboardService;
 import fr.paris.lutece.portal.service.dashboard.IDashboardComponent;
 import fr.paris.lutece.portal.service.datastore.DatastoreService;
-import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.init.AppInfo;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
@@ -96,14 +94,11 @@ public class AdminMenuJspBean implements Serializable
 
     // Markers
     private static final String MARK_FEATURE_GROUP_LIST = "feature_group_list";
-    private static final String MARK_LANGUAGES_LIST = "languages_list";
-    private static final String MARK_CURRENT_LANGUAGE = "current_language";
     private static final String MARK_USER = "user";
     private static final String MARK_ADMIN_URL = "admin_url";
     private static final String MARK_ADMIN_LOGOUT_URL = "admin_logout_url";
     private static final String MARK_SITE_NAME = "site_name";
     private static final String MARK_MENU_POS = "menu_pos";
-    private static final String MARK_MODIFY_PASSWORD_URL = "url_modify_password";
     private static final String MARK_DASHBOARD_ZONE = "dashboard_zone_";
     private static final String MARK_URL_CSS = "css_url";
     private static final String MARK_JAVASCRIPT_FILE = "javascript_file";
@@ -153,13 +148,11 @@ public class AdminMenuJspBean implements Serializable
     public String getAdminMenuHeader( HttpServletRequest request )
     {
         Map<String, Object> model = new HashMap<String, Object>( );
-        String strVersion = AppInfo.getVersion( );
         String strSiteName = PortalService.getSiteName( );
         AdminUser user = AdminUserService.getAdminUser( request );
         List<FeatureGroup> aFeaturesGroupList = getFeatureGroupsList( user );
 
         // Displays the menus accroding to the rights of the users
-        model.put( Markers.VERSION, strVersion );
         model.put( MARK_SITE_NAME, strSiteName );
         model.put( MARK_MENU_POS, DatastoreService.getInstanceDataValue( PROPERTY_MENU_DATASTORE_POS, PROPERTY_MENU_DEFAULT_POS ) );
         model.put( MARK_FEATURE_GROUP_LIST, aFeaturesGroupList );
@@ -217,22 +210,11 @@ public class AdminMenuJspBean implements Serializable
     {
         AdminUser user = AdminUserService.getAdminUser( request );
 
-        Locale locale = user.getLocale( );
-
-        // Displays the menus according to the users rights
-        List<FeatureGroup> listFeatureGroups = getFeatureGroupsList( user );
-
         Map<String, Object> model = new HashMap<String, Object>( );
-
-        model.put( MARK_FEATURE_GROUP_LIST, listFeatureGroups );
-        model.put( MARK_USER, user );
-        model.put( MARK_LANGUAGES_LIST, I18nService.getAdminLocales( locale ) );
-        model.put( MARK_CURRENT_LANGUAGE, locale.getLanguage( ) );
-        model.put( MARK_MODIFY_PASSWORD_URL, AdminAuthenticationService.getInstance( ).getChangePasswordPageUrl( ) );
 
         setDashboardData( model, user, request );
 
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_HOME, locale, model );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_HOME, user.getLocale( ), model );
 
         return template.getHtml( );
     }
