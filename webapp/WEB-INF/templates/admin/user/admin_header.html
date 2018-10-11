@@ -56,20 +56,13 @@
 				</#if>     
                 <span id="zone4" class="hidden-sm hidden-md"> ${dashboard_zone_4}<i class="caret"></i></span>
               </a>
+              <#if userMenuItems?has_content>
               <ul class="dropdown-menu" role="menu" aria-labelledby="dLabelUserHeader">
-                <#if userMenuItems?has_content>
 					<#list userMenuItems as item>
 					<li class="${item.itemClass?html}">${item.content}</li>
 					</#list>
-                </#if>
-                <#if admin_summary_documentation_url?exists>
-                  <li>
-                    <a href="${admin_summary_documentation_url}" title="#i18n{portal.users.admin_header.title.documentation}">
-                      <i class="fa fa-question-circle"></i>&nbsp;#i18n{portal.users.admin_header.documentation}
-                    </a>
-                  </li>
-                </#if>
               </ul>
+              </#if>
             </li>
             <#if admin_logout_url?has_content>
               <li>

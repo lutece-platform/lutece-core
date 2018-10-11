@@ -244,6 +244,9 @@
     <bean id="technicalUserMenuItemProvider" class="fr.paris.lutece.portal.service.user.menu.AdminUserMenuItemProviderRegistrar">
     	<property name="className" value="fr.paris.lutece.portal.business.user.menu.TechnicalAdminUserMenuItemProvider"/>
     </bean>
+    <bean id="documentationUserMenuItemProvider" class="fr.paris.lutece.portal.service.user.menu.AdminUserMenuItemProviderRegistrar">
+    	<property name="className" value="fr.paris.lutece.portal.business.user.menu.DocumentationAdminUserMenuItemProvider"/>
+    </bean>
 
     <bean id="divider1UserMenuItemProvider" class="fr.paris.lutece.portal.service.user.menu.AdminUserMenuItemProviderRegistrar">
     	<property name="provider" ref="dividerUserMenuItemProvider"/>

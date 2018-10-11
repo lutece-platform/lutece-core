@@ -101,7 +101,6 @@ public class AdminMenuJspBean implements Serializable
     private static final String MARK_USER = "user";
     private static final String MARK_ADMIN_URL = "admin_url";
     private static final String MARK_ADMIN_LOGOUT_URL = "admin_logout_url";
-    private static final String MARK_ADMIN_SUMMARY_DOCUMENTATION_URL = "admin_summary_documentation_url";
     private static final String MARK_SITE_NAME = "site_name";
     private static final String MARK_MENU_POS = "menu_pos";
     private static final String MARK_MODIFY_PASSWORD_URL = "url_modify_password";
@@ -127,7 +126,6 @@ public class AdminMenuJspBean implements Serializable
 
     // Properties
     private static final String PROPERTY_DEFAULT_FEATURE_ICON = "lutece.admin.feature.default.icon";
-    private static final String PROPERTY_DOCUMENTATION_SUMMARY_URL = "lutece.documentation.summary.url";
     private static final String PROPERTY_DASHBOARD_ZONES = "lutece.dashboard.zones.count";
     private static final int PROPERTY_DASHBOARD_ZONES_DEFAULT = 4;
     private static final String REFERER = "referer";
@@ -170,9 +168,6 @@ public class AdminMenuJspBean implements Serializable
 
         String strLogoutUrl = AppPropertiesService.getProperty( PROPERTY_LOGOUT_URL );
         model.put( MARK_ADMIN_LOGOUT_URL, ( strLogoutUrl == null ) ? "" : strLogoutUrl );
-
-        String strDocumentationUrl = AppPropertiesService.getProperty( PROPERTY_DOCUMENTATION_SUMMARY_URL );
-        model.put( MARK_ADMIN_SUMMARY_DOCUMENTATION_URL, ( strDocumentationUrl == null ) ? null : strDocumentationUrl );
 
         int nZoneMax = AppPropertiesService.getPropertyInt( PROPERTY_DASHBOARD_ZONES, PROPERTY_DASHBOARD_ZONES_DEFAULT );
         setDashboardData( model, user, request, nZoneMax );
