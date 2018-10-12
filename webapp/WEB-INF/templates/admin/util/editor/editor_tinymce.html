@@ -1,4 +1,4 @@
-<script type="text/javascript" src="${webapp_url}js/editors/tinymce/tinymce.min.js"></script>
+<script type="text/javascript" src="${webapp_url!}js/editors/tinymce/tinymce.min.js"></script>
 <#macro initEditor editorWidth=450 cssFiles="" type=''>
 <#assign editorLocale="" />
 <#-- We only have the language pack for French (France) installed in webapp/js/editors/tinymce/langs -->
@@ -15,7 +15,7 @@
 	tinymce.init({
 		selector: 'div.richtext',
 		theme: 'inlite',
-		document_base_url : "${webapp_url}",
+		document_base_url : "${webapp_url!}",
 		plugins: 'image table link paste contextmenu textpattern autolink lutece',
 		insert_toolbar: 'quickimage quicktable link lutece',
 		selection_toolbar: 'bold italic | quicklink h2 h3 blockquote',
@@ -37,7 +37,7 @@
 		// General options ${editorLocale}
 		selector : "textarea.richtext",
 		theme : "modern",
-		document_base_url : "${webapp_url}",
+		document_base_url : "${webapp_url!}",
 		width : "${editorWidth}",
 		menubar : false,
 		<#if editorLocale != "">language : '${editorLocale}',</#if>
