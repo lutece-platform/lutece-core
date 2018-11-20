@@ -130,7 +130,7 @@ public class ConnectionPool implements DataSource
             }
             catch( SQLException e )
             {
-                throw new AppException( "SQL Error executing command : " + e.toString( ) );
+                throw new AppException( "SQL Error executing command : " + e.toString( ), e );
             }
         }
     }
