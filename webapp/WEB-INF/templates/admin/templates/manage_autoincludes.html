@@ -1,7 +1,22 @@
 <@box>
-	<@boxHeader title='#i18n{portal.templates.manage_autoinclude.title}' boxTools=true>
+    <@boxHeader title='#i18n{portal.templates.manage_autoincludes.commonsInfos} ' >
+    
+    </@boxHeader>
+    <@boxBody>
+    <p>
+        #i18n{portal.templates.manage_autoincludes.commonsName} : <strong><@commonsName/></strong><br>
+        #i18n{portal.templates.manage_autoincludes.commonsFile} : <strong><@commonsFile/></strong><br>
+        #i18n{portal.templates.manage_autoincludes.commonsDescription} : <@commonsDescription/>
+    </p>
+
+    </@boxBody>
+</@box>
+
+
+<@box>
+	<@boxHeader title='#i18n{portal.templates.manage_autoincludes.title}' boxTools=true>
 		<@tform class='form-inline pull-right' name='manage_autoinclude' action='jsp/admin/templates/ManageAutoIncludes.jsp'>
-			<@button type='submit' name='view_createAutoInclude' buttonIcon='plus' title='#i18n{portal.templates.manage_autoincludes.buttonAdd}' />
+			<@button type='submit' name='view_createAutoInclude' buttonIcon='plus' color='primary' title='#i18n{portal.templates.manage_autoincludes.buttonAdd}' />
 		</@tform>
 	</@boxHeader>
 	<@boxBody>    

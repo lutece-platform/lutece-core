@@ -38,6 +38,7 @@ import fr.paris.lutece.portal.business.template.AutoInclude;
 import fr.paris.lutece.portal.business.template.AutoIncludeHome;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
+import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.util.mvc.admin.MVCAdminJspBean;
 import fr.paris.lutece.portal.util.mvc.admin.annotations.Controller;
@@ -46,6 +47,7 @@ import fr.paris.lutece.portal.util.mvc.commons.annotations.View;
 import fr.paris.lutece.portal.web.util.LocalizedPaginator;
 import fr.paris.lutece.util.html.Paginator;
 import fr.paris.lutece.util.url.UrlItem;
+import java.io.File;
 
 import java.util.List;
 import java.util.Map;
@@ -69,6 +71,8 @@ public class AutoIncludeJspBean extends MVCAdminJspBean
     // Markers
     private static final String MARK_PAGINATOR = "paginator";
     private static final String MARK_NB_ITEMS_PER_PAGE = "nb_items_per_page";
+    
+    private static final String PATH_TEMPLATES = "/WEB-INF/templates/";
 
     //Variables
     private int _nDefaultItemsPerPage;
@@ -155,6 +159,13 @@ public class AutoIncludeJspBean extends MVCAdminJspBean
         populate( _autoinclude, request, request.getLocale( ) );
         try
         {
+            String strFilePath = AppPathService.getAbsolutePathFromRelativePath( PATH_TEMPLATES + _autoinclude.getFilePath() );
+            File file = new File( strFilePath );
+            if( ! file.exists() )
+            {
+                addError( "Template not found " + strFilePath );
+                return redirectView( request, VIEW_CREATE_AUTOINCLUDE );
+            }
             AutoIncludeHome.create( _autoinclude );
         }
         catch( RuntimeException e )

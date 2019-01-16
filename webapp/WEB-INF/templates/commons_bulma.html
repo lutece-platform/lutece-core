@@ -6,6 +6,11 @@
 <#include "util/calendar/macro_datepicker.html" />
 <#-- Do not remove this comment -->
 
+<#-- Information about this commons file -->
+<#macro commonsFile>commons_bulma.html</#macro>
+<#macro commonsName>Commons Bulma 0.7.2</#macro>
+<#macro commonsDescription>Freemarker Commons macros powered by Bulma CSS Framework v0.7.2</#macro>
+
 
 <#macro coreAdminCSSLinks>
     <link href="css/admin/style/bulma/bulma.min.css"  rel="stylesheet" > <!-- provided by core -->
@@ -119,10 +124,10 @@
 	</#if>
 	<div class="btn-group" role="group" aria-label="sortButton">
 		<a class="button is-default btn-flat is-small" id="sort${id!}_${attribute!}" href="${sort_url}true#sort${id!}_${attribute!}" title="#i18n{portal.util.sort.asc}" >
-			<i class="fa fa-chevron-up"></i>
+            <span class="icon"><i class="fa fa-chevron-up"></i></span>
 		</a>
 		<a class="button is-default btn-flat is-small" href="${sort_url}false#sort${id!}_${attribute!}" title="#i18n{portal.util.sort.desc}">
-			<i class="fa fa-chevron-down"></i>
+			<span class="icon"><i class="fa fa-chevron-down"></i>
 		</a>
 	</div>
 </#macro>
@@ -142,12 +147,12 @@
 <#if ( paginator.pagesCount > 1 )>
 	<#if ( paginator.pageCurrent - offsetPrev > 1 )>
 		<a href="${paginator.firstPageLink?xhtml}">
-			<i class="fa fa-angle-double-left"></i>&nbsp;#i18n{portal.util.labelFirst}
+			<span class="icon"><i class="fa fa-angle-double-left"></i></span>&nbsp;#i18n{portal.util.labelFirst}
 		</a>
 	</#if>
 	<#if ( paginator.pageCurrent > 1 )>
 		<a href="${paginator.previousPageLink?xhtml}">
-			<i class="fa fa-angle-left"></i>&nbsp;#i18n{portal.util.labelPrevious}
+			<span class="icon"><i class="fa fa-angle-left"></i></span>&nbsp;#i18n{portal.util.labelPrevious}
 		</a>
 	<#else>
 		&nbsp;&nbsp;
@@ -167,11 +172,11 @@
 	</#if>
 	<#if ( paginator.pageCurrent < paginator.pagesCount )>
 		<a href="${paginator.nextPageLink?xhtml}">
-			<i class="fa fa-angle-right"></i>&nbsp;#i18n{portal.util.labelNext}
+            <span class="icon"><i class="fa fa-angle-right"></i></span>&nbsp;#i18n{portal.util.labelNext}
 		</a>
 		<#if ( paginator.pageCurrent + offsetNext < paginator.pagesCount )>
 			<a href="${paginator.lastPageLink?xhtml}">
-				<i class="fa fa-angle-double-right"></i>&nbsp;#i18n{portal.util.labelLast}
+				<span class="icon"><i class="fa fa-angle-double-right"></i></span>&nbsp;#i18n{portal.util.labelLast}
 			</a>
 		</#if>
 	<#else>
@@ -287,7 +292,7 @@
 	  </select>
 	  <span class="input-group-btn">
 		<button class="button is-default is-small" type="submit" title="#i18n{portal.util.labelRefresh}">
-			<i class="fa fa-repeat"></i>
+            <span class="icon"><i class="fa fa-repeat"></i></span>
 		</button>
 	</span>
 </div>
@@ -401,7 +406,7 @@
 		<form class="${formClass}" method="post" action="${dataTableManager.filterPanel.formUrl}" >
 			<fieldset>
 				<#list dataTableManager.filterPanel.listFilter as filter>
-					<div class="field">
+					<div class="field is-horizontal">
 						<label class="col-xs-12 col-sm-3 col-md-3" for="description" >#i18n{${filter.filterLabel}} :</label>
 						<div class="col-xs-12 col-sm-9 col-md-9">
 							<#if filter.filterType = "STRING">
@@ -419,11 +424,11 @@
 						</div>
 					</div>
 				</#list>
-				<div class="field">
+				<div class="field is-horizontal">
 					<input type="hidden" name="${dataTableManager.filterPanelPrefix}updateFilters" id="${dataTableManager.filterPanelPrefix}updateFilters" value="true" />
 					<input type="hidden" name="${dataTableManager.id}" id="${dataTableManager.id}" value="${dataTableManager.id}" />
 					<button class="button is-primary is-medium" type="submit" >
-						<i class="fa fa-search"></i>
+						<span class="icon"><i class="fa fa-search"></i></span>
 						<span class="hidden-xs" >#i18n{portal.util.labelSearch}</span>
 					</button>
 					<#if dataTableManager.filterPanel.formUrl?contains("?")>
@@ -432,7 +437,7 @@
 						<#assign dataTableResetUrl = dataTableManager.filterPanel.formUrl + "?" + dataTableManager.filterPanelPrefix + "resetFilters=true" />
 					</#if>
 					<a class="button is-primary is-medium" href="${dataTableResetUrl}" title="#i18n{portal.util.labelReset}">
-						<i class="fa fa-remove-circle"></i>
+                        <span class="icon"><i class="fa fa-remove-circle"></i></span>
 						<span class="hidden-xs" >#i18n{portal.util.labelReset}</span>
 					</a>
 				</div>
@@ -447,10 +452,10 @@
     <#-- Error messages handling -->
     <#if errors??>
         <#if errors?size &gt; 0 >
-            <div class="${errors_class}" id="messages_errors_div">
-                <a class="close" data-dismiss="alert" href="#">x</a>
+            <div class="notification is-danger" id="messages_errors_div">
+                <button class="delete"></button>
                 <#list errors as error >
-                    <i class="fa fa-exclamation-circle"></i> ${error.message} <br>
+                    <span class="icon"><i class="fa fa-exclamation-circle"></i></span> ${error.message} <br>
                 </#list>
             </div>
         </#if>
@@ -459,10 +464,10 @@
     <#-- Info messages handling -->
     <#if infos??>
         <#if infos?size &gt; 0 >
-            <div class="${infos_class}" id="messages_infos_div" >
-                <a class="close" data-dismiss="alert" href="#">x</a>
+            <div class="notification is-info" id="messages_infos_div" >
+                <button class="delete"></button>
                 <#list infos as info >
-                    <i class="fa fa-info-circle"></i> ${info.message} <br>
+                    <span class="icon"><i class="fa fa-info-circle"></i> ${info.message} <br>
                 </#list>
             </div>
         </#if>
@@ -474,7 +479,7 @@
             <div class="${warnings_class}" id="messages_warnings_div" >
                 <a class="close" data-dismiss="alert" href="#">x</a>
                 <#list warnings as warning >
-                    <i class="fa fa-info-circle"></i> ${warning.message} <br>
+                    <span class="icon"><i class="fa fa-info-circle"></i> ${warning.message} <br>
                 </#list>
             </div>
         </#if>
@@ -482,9 +487,9 @@
 
 </#macro>
 
-<#macro fieldInputText i18nLabelKey inputName mandatory=false value="" maxlength=0 i18nHelpBlockKey='' cssClass='input'>
-	<div class="field">
-		<label class="label" for="${inputName}">#i18n{${i18nLabelKey}}&nbsp;<#if mandatory>*</#if>&nbsp;:</label>
+<#macro fieldInputText i18nLabelKey inputName mandatory=false value="" maxlength=0 i18nHelpBlockKey='' cssClass='input field-body'>
+	<div class="field is-horizontal">
+		<label class="field-label" for="${inputName}">#i18n{${i18nLabelKey}}&nbsp;<#if mandatory>*</#if>&nbsp;:</label>
 		<div class="control">
 			<input class="${cssClass}" id="${inputName}" name="${inputName}" type="text" value="${value}" <#if maxlength &gt; 0>maxlength=${maxlength}</#if> />
 			<#if i18nHelpBlockKey != ''><p class="help-block">#i18n{${i18nHelpBlockKey}}</p></#if>
@@ -492,9 +497,9 @@
 	</div>
 </#macro>
 
-<#macro fieldInputPassword i18nLabelKey inputName mandatory=false value="" maxlength=0 i18nHelpBlockKey='' cssClass='input'>
-	<div class="field">
-		<label class="label" for="${inputName}">#i18n{${i18nLabelKey}}&nbsp;<#if mandatory>*</#if>&nbsp;:</label>
+<#macro fieldInputPassword i18nLabelKey inputName mandatory=false value="" maxlength=0 i18nHelpBlockKey='' cssClass='input field-body'>
+	<div class="field is-horizontal">
+		<label class="field-label" for="${inputName}">#i18n{${i18nLabelKey}}&nbsp;<#if mandatory>*</#if>&nbsp;:</label>
 		<div class="control">
 			<input class="${cssClass}" id="${inputName}" name="${inputName}" type="password" value="${value}" <#if maxlength &gt; 0>maxlength=${maxlength}</#if>>
 			<#if i18nHelpBlockKey != ''><p class="help-block">#i18n{${i18nHelpBlockKey}}</p></#if>
@@ -502,9 +507,9 @@
 	</div>
 </#macro>
 
-<#macro fieldInputWrapper i18nLabelKey inputName mandatory=false value="" maxlength=0 i18nHelpBlockKey='' cssClass='input'>
-	<div class="field">
-		<label class="label" for="${inputName}">#i18n{${i18nLabelKey}}&nbsp;<#if mandatory>*</#if>&nbsp;:</label>
+<#macro fieldInputWrapper i18nLabelKey inputName mandatory=false value="" maxlength=0 i18nHelpBlockKey='' cssClass='input field-body'>
+	<div class="field is-horizontal">
+		<label class="field-label" for="${inputName}">#i18n{${i18nLabelKey}}&nbsp;<#if mandatory>*</#if>&nbsp;:</label>
 		<div class="control">
 			<#nested>
 			<#if i18nHelpBlockKey != ''><p class="help-block">#i18n{${i18nHelpBlockKey}}</p></#if>
@@ -513,8 +518,8 @@
 </#macro>
 
 <#macro fieldStaticText i18nLabelKey cssClass='input' >
-	<div class="field">
-		<label class="label">#i18n{${i18nLabelKey}}&nbsp; :</label>
+	<div class="field is-horizontal">
+		<label class="field-label">#i18n{${i18nLabelKey}}&nbsp; :</label>
 		<div class="control">
                     <p class="field-static">
 			<#nested>
@@ -524,11 +529,11 @@
 </#macro>
 
 <#macro fieldInputCalendar i18nLabelKey inputName mandatory=false value="" i18nHelpBlockKey='' cssClass='input' language='fr'>
-	<div class="field">
-		<label class="label" for="${inputName}">#i18n{${i18nLabelKey}}&nbsp;<#if mandatory>*</#if>&nbsp;:</label>
+	<div class="field is-horizontal">
+		<label class="field-label" for="${inputName}">#i18n{${i18nLabelKey}}&nbsp;<#if mandatory>*</#if>&nbsp;:</label>
 		<div class="control">
 			<div class="input-group">
-				<div class="input-group-addon"><i class="fa fa-calendar">&nbsp;</i></div>
+                <div class="input-group-addon"><span class="icon"><i class="fa fa-calendar">&nbsp;</i></span></div>
 				<input class="${cssClass}" id="${inputName}" name="${inputName}" type="text" value="${value}" >
 			</div>
 			<#if i18nHelpBlockKey != ''><p class="help-block">#i18n{${i18nHelpBlockKey}}</p></#if>
@@ -538,7 +543,7 @@
 </#macro>
 
 <#macro fieldInputCheckBox i18nLabelKey inputName value="" disabled=false checked=false i18nHelpBlockKey='' cssClass='' >
-	<div class="field">
+	<div class="field is-horizontal">
 		<div class="col-xs-12 col-sm-offset-3 col-sm-6 col-md-offset-3 col-md-6 col-lg-offset-3 col-lg-6">
 			<div class="checkbox<#if disabled> disabled</#if> ">
 				<label>
@@ -552,7 +557,7 @@
 </#macro>
 
 <#macro fieldInputRadioBox i18nLabelKey inputName value="" disabled=false checked=false i18nHelpBlockKey='' cssClass='' >
-	<div class="field">
+	<div class="field is-horizontal">
 		<div class="col-xs-12 col-sm-offset-3 col-sm-6 col-md-offset-3 col-md-6 col-lg-offset-3 col-lg-6">
 			<div class="radio<#if disabled> disabled</#if> ">
 				<label>
@@ -578,8 +583,8 @@
 </#macro>
 
 <#macro fieldInputCombo i18nLabelKey inputName items value="" mandatory=false i18nHelpBlockKey='' cssClass='input' >
-	<div class="field">
-		<label class="label" for="${inputName}">#i18n{${i18nLabelKey}}&nbsp;<#if mandatory>*&nbsp;</#if>:</label>
+	<div class="field is-horizontal">
+		<label class="field-label" for="${inputName}">#i18n{${i18nLabelKey}}&nbsp;<#if mandatory>*&nbsp;</#if>:</label>
 		<div class="control">
 			<#assign params = "class='" + cssClass + "'" >
 			<@comboWithParams name=inputName items=items default_value=value additionalParameters=params />
@@ -589,8 +594,8 @@
 </#macro>
 
 <#macro fieldTextArea i18nLabelKey inputName mandatory=false value="" maxlength=0 i18nHelpBlockKey='' cssClass='input'>
-	<div class="field">
-		<label class="label" for="${inputName}">#i18n{${i18nLabelKey}}&nbsp;<#if mandatory>*</#if>&nbsp;:</label>
+	<div class="field is-horizontal">
+		<label class="field-label" for="${inputName}">#i18n{${i18nLabelKey}}&nbsp;<#if mandatory>*</#if>&nbsp;:</label>
 		<div class="control">
 			<textarea class="${cssClass}" id="${inputName}" name="${inputName}" <#if maxlength &gt; 0>maxlength=255</#if> >${value}</textarea>
 			<#if i18nHelpBlockKey != ''><p class="help-block">#i18n{${i18nHelpBlockKey}}</p></#if>
@@ -600,7 +605,7 @@
 
 <#macro actionButtons button1Name='' button2Name='' i18nValue1Key='portal.admin.message.buttonValidate' i18nValue2Key='portal.admin.message.buttonCancel' url1='' url2='' icon1='fa fa-check' icon2='fa fa-close' offset=3 >
 <#assign col = 11 - offset />
-<div class="field">
+<div class="field is-horizontal">
     <div class="col-xs-12 col-sm-offset-${offset} col-sm-${col} col-md-offset-${offset} col-md-${col}">
         <#if url1 != ''>
 			<a class="button is-primary" href="${url1}"  >
@@ -738,19 +743,19 @@ and is kept only for backwards compatibility
 <#-- groupStyle: success/warning/error... -->
 
 <#macro formGroup formStyle='horizontal' class='' groupStyle='' rows=1 labelKey='' labelFor='' labelId='' helpKey='' id='' mandatory=false showLabel=true params=''>
-	<div class="field<#if groupStyle!=''> has-${groupStyle} has-feedback</#if><#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+	<div class="field is-${formStyle} <#if groupStyle!=''> has-${groupStyle} has-feedback</#if><#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 		<#if rows=1>
 			<#if labelKey!='' && formStyle='horizontal'>
-				<#assign labelClass = "col-xs-12 col-sm-3 label">
-				<#assign divClass = "control">
+				<#assign labelClass = "field-label">
+				<#assign divClass = "field-body">
 			<#elseif formStyle = 'inline'>
 				<#assign labelClass = ''>
 			<#else>
 				<#assign divClass="col-xs-12 col-sm-offset-3 col-sm-6">
 			</#if>
 		<#else>
-			<#assign labelClass = "col-xs-12">
-			<#assign divClass = "col-xs-12">
+			<#assign labelClass = "label">
+			<#assign divClass = "">
 		</#if>
 		<#if labelKey!=''>
 		<label class="${labelClass}<#if showLabel=false> sr-only</#if>" for="${labelFor}"<#if labelId!=''> id="${labelId}"</#if>>
@@ -776,11 +781,13 @@ and is kept only for backwards compatibility
 			<#elseif class='error'>
 				<@icon style='close' class='field-feedback' />
 			</#if>
-			<#if helpKey!='' && formStyle!='inline'><span class="help-block" <#if labelFor!=''>id="${labelFor}_help"</#if>>${helpKey}</span></#if>
+			<#if helpKey!='' && formStyle!='inline'><p class="help" <#if labelFor!=''>id="${labelFor}_help"</#if>>${helpKey}</p></#if>
 		<#if formStyle="horizontal">
 		</div>
 		</#if>
+        
 	</div>
+    
 </#macro>
 
 <#-- INPUT TEXT/TEXTAREA/SEARCH/PASSWORD/EMAIL/FILE -->
@@ -792,7 +799,7 @@ and is kept only for backwards compatibility
 	<#if type='textarea'>
 		<textarea name="${name}" class="field<#if size!=''> input-${size}</#if><#if class!=''> ${class}</#if><#if richtext> richtext</#if>" rows="${rows}" cols="${cols}"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}"</#if><#if title!=''> title="${title}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if mandatory && !richtext> required</#if><#if labelFor!='' && helpKey!=''> aria-describedby="${labelFor}_help"</#if>><#nested></textarea>
 	<#elseif type='text' || type='search' || type='password' || type='email' || type='file' || type='number'>
-	<input class="field<#if size!=''> input-${size}</#if><#if class!=''> ${class}</#if> " name="${name}" type="${type}" value="${value}"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}"</#if><#if title!=''> title="${title}"</#if><#if maxlength &gt; 0> maxlength="${maxlength}"</#if><#if inputSize!=0> size="${inputSize}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if min!=0> min="${min}"</#if><#if max!=0> max="${max}"</#if><#if mandatory> required</#if><#if labelFor!='' && helpKey!=''> aria-describedby="${labelFor}_help"</#if> />
+	<input class="input <#if size!=''> input-${size}</#if><#if class!=''> ${class}</#if> " name="${name}" type="${type}" value="${value}"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}"</#if><#if title!=''> title="${title}"</#if><#if maxlength &gt; 0> maxlength="${maxlength}"</#if><#if inputSize!=0> size="${inputSize}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if min!=0> min="${min}"</#if><#if max!=0> max="${max}"</#if><#if mandatory> required</#if><#if labelFor!='' && helpKey!=''> aria-describedby="${labelFor}_help"</#if> />
 	<#else><@icon style='warning' />Type not supported
 	</#if>
 </#macro>
