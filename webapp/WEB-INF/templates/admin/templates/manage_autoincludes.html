@@ -1,0 +1,35 @@
+<@box>
+	<@boxHeader title='#i18n{portal.templates.manage_autoinclude.title}' boxTools=true>
+		<@tform class='form-inline pull-right' name='manage_autoinclude' action='jsp/admin/templates/ManageAutoIncludes.jsp'>
+			<@button type='submit' name='view_createAutoInclude' buttonIcon='plus' title='#i18n{portal.templates.manage_autoincludes.buttonAdd}' />
+		</@tform>
+	</@boxHeader>
+	<@boxBody>    
+    <@messages infos=infos />
+    <@paginationAdmin paginator=paginator combo=1 />
+    <div class="clearfix"></div>
+    <@table>
+        <tr>
+            <input type="hidden" id="id" name="id"/>
+            <th>#i18n{portal.templates.manage_autoincludes.columnFilePath}</th>
+            <th>#i18n{portal.util.labelActions}</th>
+        </tr>
+        <@tableHeadBodySeparator />
+            <#list autoinclude_list as autoinclude >
+        <tr>
+            <input type="hidden" id="id" name="id"/>
+            <td>
+                ${autoinclude.filePath}
+            </td>
+        <td>
+			<@aButton href='jsp/admin/templates/ManageAutoIncludes.jsp?action=confirmRemoveAutoInclude&file_path=${autoinclude.filePath}' title='#i18n{portal.util.labelDelete}' buttonIcon='trash' color='danger' showTitle=false />
+
+        </td>
+        </tr>
+        </#list>
+    </@table>
+
+    <@paginationAdmin paginator=paginator />
+
+  </@boxBody>
+</@box>

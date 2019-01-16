@@ -1,0 +1,16 @@
+<@box>
+	<@boxHeader title='#i18n{portal.templates.create_autoinclude.title}' />
+	<@boxBody>
+    <@tform name='create_autoinclude' action='jsp/admin/templates/ManageAutoIncludes.jsp'>
+
+        <@messages errors=errors />
+        <input type="hidden" id="id" name="id"/>
+        
+				<@formGroup labelKey='#i18n{portal.templates.create_autoinclude.labelFilePath}' helpKey='#i18n{portal.templates.create_autoinclude.labelFilePath.help}' mandatory=true>
+					<@input type='text' name='file_path' value='${autoinclude.filePath!\'\'}' />
+				</@formGroup>
+				
+				<@actionButtons button1Name="action_createAutoInclude" button2Name="view_manageAutoInclude"/>
+    </@tform>
+	</@boxBody>
+</@box>
