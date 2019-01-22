@@ -46,6 +46,7 @@ import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
 import fr.paris.lutece.util.html.HtmlTemplate;
+import fr.paris.lutece.util.http.SecurityUtil;
 import fr.paris.lutece.util.stream.StreamUtil;
 
 import java.io.File;
@@ -209,7 +210,7 @@ public class SystemJspBean extends AdminFeaturesPageJspBean
             {
                 String strFilePath = AppPathService.getWebAppPath( );
 
-                if ( strFilePath != null )
+                if ( strFilePath != null && SecurityUtil.containsPathManipulationChars( request, strFile ))
                 {
                     strFileData = getFileData( strFilePath + strDirectory + strFile );
                 }

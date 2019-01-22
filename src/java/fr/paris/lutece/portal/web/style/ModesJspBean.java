@@ -45,6 +45,7 @@ import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
 import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.util.html.HtmlTemplate;
+import fr.paris.lutece.util.http.SecurityUtil;
 
 import java.io.File;
 
@@ -150,6 +151,11 @@ public class ModesJspBean extends AdminFeaturesPageJspBean
         if ( !strPath.endsWith( "/" ) && !strPath.endsWith( "\\" ) )
         {
             strPath += File.separator;
+        }
+
+        if ( SecurityUtil.containsPathManipulationChars(request, strPath) )
+        {
+            throw new AccessDeniedException( "Invalid path" );
         }
 
         File dirPath = new File( AppPathService.getPath( PROPERTY_PATH_XSL ) + strPath );
