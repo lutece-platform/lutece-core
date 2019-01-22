@@ -14,7 +14,7 @@
 				  </@formGroup>
 				  <@formGroup rows=2>
 					<@button type='submit' name='apply' title='#i18n{portal.util.labelValidate}' buttonIcon='check' size='' />
-					<@aButton href='jsp/admin/rbac/ViewRoleDescription.jsp?role_key=${role.key}' title='#i18n{portal.admin.message.buttonCancel}' buttonIcon='times' size='' color='btn-secondary' />
+					<@aButton href='jsp/admin/rbac/ViewRoleDescription.jsp?role_key=${role.key}' title='#i18n{portal.admin.message.buttonCancel}' buttonIcon='times' size='' color='secondary' />
 				  </@formGroup>
 				</@tform>
 			</@boxBody>
@@ -63,7 +63,7 @@
 						<td>
 							<@tform method='post' action='jsp/admin/rbac/DoConfirmRemoveControlFromRole.jsp'>
 								<input type="hidden" name="rbac_id" value="${controled_resource.RBACId}">
-								<@button type='submit' title='#i18n{portal.rbac.view_role_description.buttonLabelDeleteControl}' buttonIcon='trash' showTitle=false color='btn-danger' />
+								<@button type='submit' title='#i18n{portal.rbac.view_role_description.buttonLabelDeleteControl}' buttonIcon='trash' showTitle=false color='danger' />
 							</@tform>
 						</td>
 					  </tr>

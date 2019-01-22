@@ -2,7 +2,7 @@
   <@columns>
     <@box>
 			<#assign title>
-				<@button type='button' id='fullscreen' params='data-toggle="tooltip" data-placement="bottom"' title='#i18n{portal.site.admin_page.buttonFullscreen}' buttonIcon='arrows-alt fa-fw' showTitle=false color='btn-secondary' />
+				<@button type='button' id='fullscreen' params='data-toggle="tooltip" data-placement="bottom"' title='#i18n{portal.site.admin_page.buttonFullscreen}' buttonIcon='arrows-alt fa-fw' showTitle=false color='secondary' />
 				<a href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}" data-toggle="tooltip" data-placement="bottom"  title="${page.name}">
 					<@tag color='primary' title='${page.id} - ${page.name}'>${page.id}</@tag>&#160;${page.name}
 				</a>
@@ -11,15 +11,15 @@
 				<@btnToolbar>
 				
 					<@btnGroup class='hidden-xs hidden-sm pull-left'>
-						<@aButton href='#' id='display-full' params='data-toggle="tooltip" data-placement="bottom"' title='Ecran large' showTitle=false buttonIcon='desktop fa-fw' color='btn-secondary' />
-						<@aButton href='#' id='display-940' params='data-toggle="tooltip" data-placement="bottom"' title='Tablette - 940px' showTitle=false buttonIcon='tablet fa-fw' color='btn-secondary' />
-						<@aButton href='#' id='display-480' params='data-toggle="tooltip" data-placement="bottom"' title='Smartphone - 480px' showTitle=false buttonIcon='mobile fa-fw' color='btn-secondary' />
+						<@aButton href='#' id='display-full' params='data-toggle="tooltip" data-placement="bottom"' title='Ecran large' showTitle=false buttonIcon='desktop fa-fw' color='secondary' />
+						<@aButton href='#' id='display-940' params='data-toggle="tooltip" data-placement="bottom"' title='Tablette - 940px' showTitle=false buttonIcon='tablet fa-fw' color='secondary' />
+						<@aButton href='#' id='display-480' params='data-toggle="tooltip" data-placement="bottom"' title='Smartphone - 480px' showTitle=false buttonIcon='mobile fa-fw' color='secondary' />
 					</@btnGroup>
 					
 					<@btnGroup>
 						<#if page.id != 1>
-						<@aButton href='jsp/admin/site/AdminSite.jsp?page_id=${page.parentPageId}' color='btn-success' buttonIcon='arrow-up' title='#i18n{portal.site.admin_page.buttonUpToParentPage}' showTitle=false />
-						<@aButton href='jsp/admin/site/RemovePage.jsp?page_id=${page.id}' color='btn-danger' buttonIcon='trash' title='#i18n{portal.site.admin_page.buttonDeletePage}' showTitle=false />
+						<@aButton href='jsp/admin/site/AdminSite.jsp?page_id=${page.parentPageId}' color='success' buttonIcon='arrow-up' title='#i18n{portal.site.admin_page.buttonUpToParentPage}' showTitle=false />
+						<@aButton href='jsp/admin/site/RemovePage.jsp?page_id=${page.id}' color='danger' buttonIcon='trash' title='#i18n{portal.site.admin_page.buttonDeletePage}' showTitle=false />
 						</#if>
 					</@btnGroup>
 

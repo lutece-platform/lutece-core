@@ -3,7 +3,7 @@
     <@box color='success' collapsed=true>
 			<@boxHeader title='#i18n{portal.rbac.assign_users.role.name} :<strong title="#i18n{portal.rbac.assign_users.role.description} : ${role.description} "> ${role.key}</strong> <small class="spaced"><i class="glyphicon glyphicon-user"></i>&nbsp;#i18n{portal.rbac.assign_users.role.number_user} : <span class="badge">${assigned_users_number}</span></small>' boxTools=true>
 				<@aButton href='jsp/admin/rbac/ViewRoleDescription.jsp?role_key=${role.key}" title="#i18n{portal.rbac.modify_role.buttonLabelModify}' title='#i18n{portal.rbac.modify_role.buttonLabelModify}' buttonIcon='edit' size='' />
-				<@aButton href='jsp/admin/rbac/DoConfirmRemoveRole.jsp?role_key=${role.key}' title='#i18n{portal.rbac.manage_roles.buttonLabelDelete}' buttonIcon='trash' color='btn-danger' size='' />
+				<@aButton href='jsp/admin/rbac/DoConfirmRemoveRole.jsp?role_key=${role.key}' title='#i18n{portal.rbac.manage_roles.buttonLabelDelete}' buttonIcon='trash' color='danger' size='' />
 				<@item_navigation item_navigator=item_navigator />
 				<@button style='btn-box-tool' params='data-widget="collapse"' buttonIcon='plus' />
 			</@boxHeader>
@@ -152,7 +152,7 @@
 											<input type="hidden" name="role_key" value="${role.key?html}">
 											<input type="hidden" name="anchor" value="anchor-${anchor?html}">
 											<@aButton href='jsp/admin/user/ModifyUser.jsp?id_user=${assigned_user.userId}' title='#i18n{portal.rbac.assign_users.actionModify}' showTitle=false buttonIcon='edit' />
-											<@button type='submit' title='#i18n{portal.rbac.assign_users.actionUnassign}' showTitle=false buttonIcon='trash' color='btn-danger' />
+											<@button type='submit' title='#i18n{portal.rbac.assign_users.actionUnassign}' showTitle=false buttonIcon='trash' color='danger' />
 										</@tform>
 									</td>
 								</tr>

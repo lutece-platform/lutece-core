@@ -9,7 +9,7 @@
                 </@tform>
                 <@tform method='post' action='jsp/admin/system/DoResetCaches.jsp' class='pull-right spaced'>
                         <input type="hidden" name="token" value="${token}">
-                        <@button type='submit' buttonIcon='trash' title='#i18n{portal.system.manage_caches.buttonFlush}' size='' color='btn-danger' showTitleXs=false showTitleSm=false />
+                        <@button type='submit' buttonIcon='trash' title='#i18n{portal.system.manage_caches.buttonFlush}' size='' color='danger' showTitleXs=false showTitleSm=false />
                 </@tform>
             </@boxHeader>
             <@boxBody>
@@ -50,16 +50,16 @@
 								<input type="hidden" name="id_cache" value="${id}">
 								<input type="hidden" name="token" value="${token}">
 								<#if service.cacheEnable>
-									<@button type='submit' buttonIcon='stop' title='#i18n{portal.system.manage_caches.actionDisable}' showTitle=false color='btn-danger' />
+									<@button type='submit' buttonIcon='stop' title='#i18n{portal.system.manage_caches.actionDisable}' showTitle=false color='danger' />
 								<#else>
-									<@button type='submit' buttonIcon='play' title='#i18n{portal.system.manage_caches.actionEnable}' showTitle=false color='btn-success' />
+									<@button type='submit' buttonIcon='play' title='#i18n{portal.system.manage_caches.actionEnable}' showTitle=false color='success' />
 								</#if>
 							</@tform>
 							<@aButton href='jsp/admin/system/CacheInfos.jsp?id_cache=${id}' buttonIcon='eye' class="pull-right spaced" title='#i18n{portal.system.manage_caches.actionViewKeys}' showTitle=false />
 							<@tform method='post' action='jsp/admin/system/DoResetCaches.jsp' class="pull-right spaced">
 								<input type="hidden" bame="id_cache" value="${id}">
 								<input type="hidden" name="token" value="${token}">
-								<@button type='submit' buttonIcon='trash' title='#i18n{portal.system.manage_caches.actionClear}' showTitle=false color='btn-danger' />
+								<@button type='submit' buttonIcon='trash' title='#i18n{portal.system.manage_caches.actionClear}' showTitle=false color='danger' />
 							</@tform>
 						</td>
 					</tr>

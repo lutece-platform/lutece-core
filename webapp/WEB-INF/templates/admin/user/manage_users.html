@@ -151,7 +151,7 @@
 							<#if !user.statusAnonymized>
 								<@aButton href='jsp/admin/user/AnonymizeAdminUser.jsp?id_user=${user.userId}' title='#i18n{portal.users.actions.labelAnonymize}' buttonIcon='eye-slash' showTitle=false />
 							</#if>
-							<@aButton color='btn-danger' href='jsp/admin/user/RemoveUser.jsp?id_user=${user.userId}' title='#i18n{portal.users.actions.labelDelete}' buttonIcon='trash' showTitle=false />
+							<@aButton color='danger' href='jsp/admin/user/RemoveUser.jsp?id_user=${user.userId}' title='#i18n{portal.users.actions.labelDelete}' buttonIcon='trash' showTitle=false />
 						</td>
 					</tr>
         </#list>
