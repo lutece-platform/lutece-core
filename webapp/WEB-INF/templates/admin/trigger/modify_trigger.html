@@ -1,0 +1,27 @@
+<@row>
+	<@columns>
+		<@box color='danger'>
+            <@boxHeader title='#i18n{portal.system.modify_trigger.title}' />
+            <@boxBody>
+            <@tform class="form-horizontal" method="post" name="modify_trigger" action="jsp/admin/system/ManageTriggers.jsp">
+                <@messages errors=errors />
+                <input type="hidden" name="token" value="${token}">
+                <input type="hidden" name="id" value="${daemon_trigger.id}">
+                <@formGroup labelKey='#i18n{portal.system.modify_trigger.labelKey}' helpKey='#i18n{portal.system.modify_trigger.labelKey.help}' mandatory=true>
+                    <@input type='text' name='key' value='${daemon_trigger.key}' />
+                </@formGroup>
+                <@formGroup labelKey='#i18n{portal.system.modify_trigger.labelGroup}' helpKey='#i18n{portal.system.modify_trigger.labelGroup.help}' mandatory=true>
+                    <@input type='text' name='group' value='${daemon_trigger.group}' />
+                </@formGroup>
+                <@formGroup labelKey='#i18n{portal.system.modify_trigger.labelCronExpression}' helpKey='#i18n{portal.system.modify_trigger.labelCronExpression.help}' mandatory=true>
+                    <@input type='text' name='cron_expression' value='${daemon_trigger.cronExpression}' />
+                </@formGroup>
+                <@formGroup labelKey='#i18n{portal.system.modify_trigger.labelDaemonKey}' helpKey='#i18n{portal.system.modify_trigger.labelDaemonKey.help}' mandatory=true>
+                    <@select name='daemon_key' items=daemons_list default_value='${daemon_trigger.daemonKey}' />
+                </@formGroup>
+                <@actionButtons button1Name="action_modifyTrigger" button2Name="view_manageTrigger"/>
+            </@tform>
+            </@boxBody>
+        </@box>
+    </@columns>
+</@row>

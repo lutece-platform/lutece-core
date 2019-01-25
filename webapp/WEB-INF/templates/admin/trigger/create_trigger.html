@@ -1,0 +1,27 @@
+<@row>
+	<@columns>
+		<@box color='danger'>
+            <@boxHeader title='#i18n{portal.system.create_trigger.title}' />
+            <@boxBody>
+            <@tform name='create_trigger' action='jsp/admin/system/ManageTriggers.jsp'>
+                <@messages errors=errors />
+                <input type="hidden" name="token" value="${token}">
+                <@formGroup labelKey='#i18n{portal.system.create_trigger.labelKey}' helpKey='#i18n{portal.system.create_trigger.labelKey.help}' mandatory=true>
+                    <@input type='text' name='key' value='' />
+                </@formGroup>
+                <@formGroup labelKey='#i18n{portal.system.create_trigger.labelGroup}' helpKey='#i18n{portal.system.create_trigger.labelGroup.help}' mandatory=true>
+                    <@input type='text' name='group' value='' />
+                </@formGroup>
+                <@formGroup labelKey='#i18n{portal.system.create_trigger.labelCronExpression}' helpKey='#i18n{portal.system.create_trigger.labelCronExpression.help}' mandatory=true>
+                    <@input type='text' name='cron_expression' value='' />
+                </@formGroup>
+                <@formGroup labelKey='#i18n{portal.system.create_trigger.labelDaemonKey}' helpKey='#i18n{portal.system.create_trigger.labelDaemonKey.help}' mandatory=true>
+                    <@select name='daemon_key' items=daemons_list default_value='' />
+                </@formGroup>
+
+                <@actionButtons button1Name="action_createTrigger" button2Name="view_manageTrigger"/>
+            </@tform>
+            </@boxBody>
+        </@box>
+    </@columns>
+</@row>
