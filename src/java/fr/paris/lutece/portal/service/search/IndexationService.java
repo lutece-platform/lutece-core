@@ -293,7 +293,7 @@ public final class IndexationService
                     _sbLogs.append( "</strong>\r\n" );
 
                     // the indexer will call write(doc)
-                    indexer.indexDocuments( );
+                    indexer.indexDocuments( _sbLogs );
                 }
             }
             catch( Exception e )
@@ -363,7 +363,7 @@ public final class IndexationService
 
         // reindexing all pages.
         _writer.deleteDocuments( new Term( SearchItem.FIELD_TYPE, PARAM_TYPE_PAGE ) );
-        _mapIndexers.get( PageIndexer.INDEXER_NAME ).indexDocuments( );
+        _mapIndexers.get( PageIndexer.INDEXER_NAME ).indexDocuments( _sbLogs );
     }
 
     /**

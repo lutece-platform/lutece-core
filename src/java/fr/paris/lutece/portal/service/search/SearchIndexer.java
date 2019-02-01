@@ -58,6 +58,21 @@ public interface SearchIndexer
      */
     void indexDocuments( ) throws IOException, InterruptedException, SiteMessageException;
 
+	/**
+     * Index all lucene documents from the plugin, replace List&lt;Document&gt; getDocuments( ) method
+     *
+     * @param sbLogs
+     *          Le logger
+     * @throws IOException
+     *             If an IO error occured
+     * @throws InterruptedException
+     *             If a thread error occured
+     * @throws SiteMessageException
+     *             occurs when a site message need to be displayed
+     */
+    default void indexDocuments( StringBuffer sbLogs ) throws IOException, InterruptedException, SiteMessageException {
+        indexDocuments(  );
+    }
     /**
      * Returns a List of lucene documents to add to the index
      * 
