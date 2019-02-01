@@ -70,7 +70,8 @@ public interface SearchIndexer
      * @throws SiteMessageException
      *             occurs when a site message need to be displayed
      */
-    default void indexDocuments( StringBuffer sbLogs ) throws IOException, InterruptedException, SiteMessageException {
+    default void indexDocuments( StringBuffer sbLogs ) throws IOException, InterruptedException, SiteMessageException 
+	{
         indexDocuments(  );
     }
     /**
