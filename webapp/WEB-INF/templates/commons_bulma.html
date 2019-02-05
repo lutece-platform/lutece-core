@@ -675,7 +675,7 @@ and is kept only for backwards compatibility
 	
 <#-- TABLE -->
 <#-- class: striped/bordered/hover/condensed -->
-<#macro table responsive=true class='has-background-primary' id='' params=''>
+<#macro table responsive=true class='' id='' params=''>
 <table class="table is-fullwidth is-hoverable is-narrow<#if class!=''> ${class}</#if>" id="${id}"<#if params!=''> ${params}</#if>>
 	<#nested>
 </table>
@@ -971,9 +971,9 @@ and is kept only for backwards compatibility
 <#-- cancel: switch to true for a cancellation form button. Adds the "formnovalidate" attribute to the button, as well as the right class -->
 <#macro button name='' id='' type='button' size='' color='' style='' class='' params='' value='' title='' tabIndex='' showTitle=true showTitleXs=true showTitleSm=true showTitleMd=true showTitleLg=true buttonIcon='' disabled=false iconPosition='left' dropdownMenu=false cancel=false>
 <#if cancel>
-	<#assign buttonColor = 'is-default' />
+	<#assign buttonColor = 'default' />
 <#elseif !cancel && color=''>
-	<#assign buttonColor = 'is-primary' />
+	<#assign buttonColor = 'primary' />
 <#else>
 	<#-- v6 compatibility -->
 	<#if color?starts_with( "btn-" )>
@@ -995,7 +995,7 @@ and is kept only for backwards compatibility
 <div class="dropdown">
 </#if>
 	<button class="<#if style!='close'>button</#if><#if size!='' && style!='btn-box-tool'> btn-${size}</#if><#if buttonColor!='' && style!='btn-box-tool'> is-${buttonColor}</#if><#if style!=''> ${style}</#if><#if dropdownMenu> dropdown-toggle</#if><#if class!=''> ${class}</#if>" type="${type}"<#if title!=''> title="${title}"</#if><#if name!=''> name="${name}"</#if><#if id!=''> id="${id}"</#if><#if value!=''> value="${value}"</#if><#if params!=''> ${params}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if><#if cancel> formnovalidate</#if>>
-		<#if buttonIcon!='' && iconPosition='left'><@icon style=buttonIcon /></#if>
+            <#if buttonIcon!='' && iconPosition='left'><@icon style=buttonIcon /> &nbsp;</#if>
 		<#if showTitleClass!='' && style!='btn-box-tool'><span class="${showTitleClass}"></#if>${title}<#if showTitleClass!='' && style!='btn-box-tool'></span></#if>
 		<#if buttonIcon!='' && iconPosition='right'><@icon style=buttonIcon /></#if>
 		<#if dropdownMenu>
@@ -1136,7 +1136,7 @@ and is kept only for backwards compatibility
 <#-- style: solid (no top border) -->
 <#-- collapsed: true/false -->
 <#macro box color='' id='' style='' class='' params='' collapsed=false>
-<div class="card<#if color!=''> has-background-${color}</#if><#if style!=''> box-${style}</#if><#if class!=''> ${class}</#if><#if collapsed> collapsed-box</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<div class="card<#if color!=''> has-${color}</#if><#if style!=''> box-${style}</#if><#if class!=''> ${class}</#if><#if collapsed> collapsed-box</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 	<#nested>
 </div>
 </#macro>
