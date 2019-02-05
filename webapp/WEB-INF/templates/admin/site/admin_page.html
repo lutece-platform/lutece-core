@@ -2,15 +2,9 @@
   	<@columns>
     	<@box>
 			<#assign title>
-<<<<<<< Updated upstream
-				<@button type='button' id='fullscreen' params='data-toggle="tooltip" data-placement="bottom"' title='#i18n{portal.site.admin_page.buttonFullscreen}' buttonIcon='arrows-alt fa-fw' showTitle=false color='secondary' />
-				<a href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}" data-toggle="tooltip" data-placement="bottom"  title="${page.name}">
-					<@tag color='primary' title='${page.id} - ${page.name}'>${page.id}</@tag>&#160;${page.name}
-=======
 				<@button type='button' id='fullscreen' params='data-toggle="tooltip" data-placement="bottom"' title='#i18n{portal.site.admin_page.buttonFullscreen}' buttonIcon='arrows-alt fa-fw' showTitle=false color='btn-secondary' />
 				<a href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}" title="${page.name}">
 					<@tag color='primary' title='${page.id} - ${page.name}'>${page.id}</@tag> ${page.name}
->>>>>>> Stashed changes
 				</a>
 			</#assign>
 			<@boxHeader titleLevel='p' title=title boxTools=true>
