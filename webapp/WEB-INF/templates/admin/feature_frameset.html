@@ -1,19 +1,2 @@
-<section class="content-header">
-	<h1 class="title">
-		<a href="${feature_url}" title="${feature_title}">${feature_title}</a>
-		<#if page_title?has_content><small>${page_title}</small></#if>
-	</h1>
-	<ol class="breadcrumb ${feature_group!?lower_case}">
-       <#if feature_documentation?has_content >
-			<#if feature_documentation?exists>
-			<li>
-				<a target="_blank" href="${feature_documentation}" title="#i18n{portal.features.documentation.help}">
-					<i class="fa fa-life-ring" ></i> #i18n{portal.features.documentation.help}
-				</a>
-			</li>
-			</#if>
-		</#if>
-    </ol>
-</section>
-<section class="content <#if feature_url?ends_with("AdminSite.jsp")>no-padding</#if>">
+<@adminContentHeader />
 ${page_content}

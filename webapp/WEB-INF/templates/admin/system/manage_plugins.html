@@ -1,8 +1,8 @@
 <@row>
 	<@columns>
-		<@box color='primary'>
+		<@box>
 			<#assign logo>
-				<img src="${core.iconUrl}" alt="logo" title="${core.name}">
+				<@img url=core.iconUrl alt='logo' title=core.name />
 			</#assign>
 			<@boxHeader title='#i18n{portal.system.manage_plugins.titleCorePlugin} ${logo} ${core.name} ${core.version}' boxTools=true>
 				<@tform method='post' class='form-inline pull-right' action='jsp/admin/system/ViewPluginDescription.jsp?plugin_name=${core.name}'>
@@ -15,7 +15,7 @@
 		
 <@row>
 	<@columns>
-		<@box color='primary'>
+		<@box>
 			<@boxHeader title='Liste des plugins' boxTools=true>
 				<@tform method='post' class='form-inline pull-left'>
 					<@formGroup labelFor='plugin_type' labelKey='#i18n{portal.system.manage_plugins.buttonFilter}' showLabel=false formStyle='inline'>
@@ -26,7 +26,7 @@
 							</@inputGroupItem>
 						</@inputGroup>
 					</@formGroup>
-        </@tform>
+        		</@tform>
 				<@tform method='post' name='FilterPluginsForm' action='jsp/admin/system/ManagePlugins.jsp' class='form-inline pull-right hidden-xs spaced'>
 					<@formGroup labelKey='#i18n{portal.system.manage_plugins.labelComboFilter}' labelFor='plugin_type' showLabel=false formStyle='inline'>
 						<@inputGroup>
@@ -39,61 +39,53 @@
 					</@formGroup>
 				</@tform>
 			</@boxHeader>
-
       <@boxBody>
        <#if plugins_list?has_content >
 				<@row id='plugins'>
 					<#list plugins_list as plugin >
-          <@columns sm=6 md=4 lg=4 class='plugins'>
+         				<@columns sm=6 md=4 lg=4 class='plugins'>
 						<@box id='plugin_${plugin.name}_${plugin.version}' params='data-plugin="${plugin.name}"' class='plugin-box plugin'>
 							<#assign logo>
-								<img src="${plugin.iconUrl}" alt="logo" title="${plugin.name}" class="thumbnails thumb-list">
+								<@img url='${plugin.iconUrl}' alt='logo' title='${plugin.name}' />
 							</#assign>
-              <@boxHeader title='${logo} ${plugin.name}'boxTools=true>
+              				<@boxHeader title='${logo} ${plugin.name}'boxTools=true>
 								<#if plugin.installed>
 									<@tag color='success' title='#i18n{portal.system.manage_caches.imgAltEnable}'>
 										<@icon style='check-circle' />
 										#i18n{portal.system.manage_caches.imgAltEnable}
 									</@tag>
-                <#else>
+                				<#else>
 									<@tag color='danger' title='#i18n{portal.system.manage_caches.imgAltDisable}'>
 										<@icon style='times-circle' />
 										#i18n{portal.system.manage_caches.imgAltDisable}
 									</@tag>
 								</#if>
 							</@boxHeader>
-              <@boxBody>
+              				<@boxBody>
                                 <p>#i18n{portal.system.manage_plugins.labelVersion}: ${plugin.version}</p>
                                 <p>#i18n{${plugin.description}}</p>
-                                <p>
-                                    <@icon style='user' />&nbsp;
-                                    <em>#i18n{portal.system.manage_plugins.labelAuthor} : #i18n{${plugin.provider}}</em>&nbsp;
-                                </p>	
+                                <p><@icon style='user' /> <em>#i18n{portal.system.manage_plugins.labelAuthor} : #i18n{${plugin.provider}}</em></p>	
                                 <p>	
-                                    <@icon style='globe' />&nbsp;
-                                    <em>#i18n{portal.system.manage_plugins.labelAuthorUrl} : <a href="${plugin.providerUrl}" target="_blank">${plugin.providerUrl}</a></em>
+                                    <@icon style='globe' /> <em>#i18n{portal.system.manage_plugins.labelAuthorUrl} : <a href="${plugin.providerUrl}" target="_blank">${plugin.providerUrl}</a></em>
                                 </p> 
-
-              </@boxBody>
+              				</@boxBody>
 							<@boxFooter>
 								<#if plugin.installed>
 									<#if plugin.dbPoolRequired>
-								<@tform method='post' class='form-inline pull-right' action='jsp/admin/system/DoModifyPluginPool.jsp#plugin_${plugin.name}_${plugin.version}'>
-									<@select name='db_pool_name' default_value='${plugin.dbPoolName}' items=pools_list sort=true />
-									<input type="hidden" name="plugin_name" value="${plugin.name}">
-									<input type="hidden" name="token" value="${token}">
-									<@button type='submit' title='#i18n{portal.system.manage_plugins.buttonModifyDbPool}' buttonIcon='check' showTitle=false />
-                </@tform>
-								&nbsp;
-								</#if>   
+										<@tform method='post' class='form-inline pull-right' action='jsp/admin/system/DoModifyPluginPool.jsp#plugin_${plugin.name}_${plugin.version}'>
+											<@select name='db_pool_name' default_value='${plugin.dbPoolName}' items=pools_list sort=true />
+											<input type="hidden" name="plugin_name" value="${plugin.name}">
+											<input type="hidden" name="token" value="${token}">
+											<@button type='submit' title='#i18n{portal.system.manage_plugins.buttonModifyDbPool}' buttonIcon='check' showTitle=false />
+										</@tform>
+									</#if>   
 								</#if>
-								
-                <@tform method='post' class='form-inline pull-right spaced' action='jsp/admin/system/ViewPluginDescription.jsp?plugin_name=${plugin.name}'>
+								<@tform method='post' class='form-inline pull-right spaced' action='jsp/admin/system/ViewPluginDescription.jsp?plugin_name=${plugin.name}'>
 									<@button type='submit' title='' buttonIcon='info-circle' showTitle=false />
-                 </@tform>
-								
-                <#if plugin.installed >
+                 				</@tform>
+								<#if plugin.installed >
 									<@tform method='post' class='form-inline pull-right spaced' action='jsp/admin/system/ConfirmUninstallPlugin.jsp'>
+<<<<<<< Updated upstream
                     <input type="hidden" name="plugin_name" value="${plugin.name}" />
 										<@button type='submit' title='#i18n{portal.system.manage_plugins.buttonDisable}' buttonIcon='stop' showTitle=false color='danger' />
                   </@tform>
@@ -103,12 +95,23 @@
 										<input type="hidden" name="token" value="${token}">
 										<@button type='submit' title='#i18n{portal.system.manage_plugins.buttonEnable}' buttonIcon='play' showTitle=false color='success' />
                   </@tform>
+=======
+                    					<input type="hidden" name="plugin_name" value="${plugin.name}" />
+										<@button type='submit' title='#i18n{portal.system.manage_plugins.buttonDisable}' buttonIcon='stop' showTitle=false color='btn-danger' />
+									</@tform>
+								<#else>
+									<@tform method='post' class='form-inline pull-right spaced' action='jsp/admin/system/DoInstallPlugin.jsp#plugin_${plugin.name}_${plugin.version}'>
+										<input type="hidden" name="plugin_name" value="${plugin.name}" />
+										<input type="hidden" name="token" value="${token}">
+										<@button type='submit' title='#i18n{portal.system.manage_plugins.buttonEnable}' buttonIcon='play' showTitle=false color='btn-success' />
+                  					</@tform>
+>>>>>>> Stashed changes
 								</#if>
 							</@boxFooter>
 						</@box>
 					</@columns>
-        </#list>	
-      </@row>
+        		</#list>	
+     			</@row>
 			<#else>
 				<@alert class='alert-danger'>#i18n{portal.system.manage_plugins.filterNoResult}</@alert>
 			</#if>
@@ -121,7 +124,7 @@
     function switchList(){
         var addOrRemove;
         $(".plugins").toggleClass("col-xs-12 col-sm-12 col-md-12 col-lg-12", addOrRemove).toggleClass("col-xs-12 col-sm-6 col-md-4 col-lg-4", addOrRemove);
-        $(".box").toggleClass("pull-left", addOrRemove);
+        $(".plugin-box").toggleClass("pull-left", addOrRemove);
         $(".plugin-box").toggleClass("plugin", addOrRemove);
         $(".plugin-box > div").toggleClass("pull-left", addOrRemove).toggleClass("col-xs-12 col-sm-4 col-md-4 col-lg-4", addOrRemove);
     }
@@ -137,17 +140,15 @@
         var search = $("#search_plugins").val();
         $(".plugin-box").each(function (index) {
             var pluginName = $(this).attr("data-plugin");
-            if (pluginName.match(search) == null) {
-                console.log(search + "|" + pluginName + " | " + pluginName.match(search));
+            if ( pluginName.match(search) == null ){
                 $(this).parent().slideUp(200).fadeOut(500);
             } else {
-                console.log(search + "|" + pluginName + " | " + pluginName.match(search));
                 $(this).parent().slideDown(200).fadeIn(500);
             }
         });
     });
     
-    $(document).ready( function(){
+    $( function(){
          switchList();
     });
 </script>

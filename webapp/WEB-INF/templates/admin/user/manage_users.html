@@ -1,6 +1,6 @@
 <@row>
   <@columns>
-    <@box color='success' collapsed=true>
+    <@box color='primary' collapsed=true>
       <@boxHeader title='#i18n{portal.users.manage_users.titleUserList}' boxTools=true>
 				<#if permission_advanced_parameter>
 					<@aButton size='' href='jsp/admin/user/ManageAdvancedParameters.jsp' title='#i18n{portal.users.manage_users.buttonLabelManageAdvancedParameters}' buttonIcon='cog' showTitleXs=false showTitleSm=false />
@@ -9,7 +9,7 @@
 					<@aButton size='' href='jsp/admin/user/ExportUsers.jsp' title='#i18n{portal.users.manage_users.buttonLabelImportExportUsers}' buttonIcon='download' showTitleXs=false showTitleSm=false />
 				</#if>
 				<@aButton size='' href='${url_user_creation}' title='#i18n{portal.users.manage_users.buttonLabelAddUser}' buttonIcon='plus' showTitleXs=false showTitleSm=false />
-				<@button style='btn-box-tool' params='data-widget="collapse"' buttonIcon='plus' />
+				<!-- <@button style='btn-box-tool' params='data-widget="collapse"' buttonIcon='plus' /> -->
       </@boxHeader>
 			<@boxBody>
 				<@tform method='post' name='search_users' action='jsp/admin/user/ManageUsers.jsp'>

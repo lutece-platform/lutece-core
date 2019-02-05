@@ -1,10 +1,16 @@
 <@row>
-  <@columns>
-    <@box>
+  	<@columns>
+    	<@box>
 			<#assign title>
+<<<<<<< Updated upstream
 				<@button type='button' id='fullscreen' params='data-toggle="tooltip" data-placement="bottom"' title='#i18n{portal.site.admin_page.buttonFullscreen}' buttonIcon='arrows-alt fa-fw' showTitle=false color='secondary' />
 				<a href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}" data-toggle="tooltip" data-placement="bottom"  title="${page.name}">
 					<@tag color='primary' title='${page.id} - ${page.name}'>${page.id}</@tag>&#160;${page.name}
+=======
+				<@button type='button' id='fullscreen' params='data-toggle="tooltip" data-placement="bottom"' title='#i18n{portal.site.admin_page.buttonFullscreen}' buttonIcon='arrows-alt fa-fw' showTitle=false color='btn-secondary' />
+				<a href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}" title="${page.name}">
+					<@tag color='primary' title='${page.id} - ${page.name}'>${page.id}</@tag> ${page.name}
+>>>>>>> Stashed changes
 				</a>
 			</#assign>
 			<@boxHeader titleLevel='p' title=title boxTools=true>
@@ -23,34 +29,18 @@
 						</#if>
 					</@btnGroup>
 
-					<!--
 					<@btnGroup class='pull-right hidden-xs'>
-						<@tform method='post' action='sp/admin/site/AdminSite.jsp' class='form-inline pull-right' role='search'>
-							<@formGroup formStyle='inline' labelKey='#i18n{portal.site.admin_page.buttonSearchPage}' showLabel=false>
-								<@inputGroup>
-									<@input type='text' name='page_id' title='#i18n{portal.site.admin_page.buttonSearchPage}' placeHolder='#i18n{portal.site.admin_page.buttonSearchPage}' size='sm' />
-									<@inputGroupItem>
-										<@button type='submit' title='#i18n{portal.site.admin_page.buttonSearchPage}' showTitle=false buttonIcon='search' />
-									</@inputGroupItem>
-								</@inputGroup>
-							</@formGroup>
-							<#if page_message!=""><span class="help-block"><span class="label label-important">${page_message}</span></#if>
-						</@tform>
-					</@btnGroup>
-					-->
-					<@btnGroup class='pull-right hidden-xs'>
-					<form method="post" action="jsp/admin/site/AdminSite.jsp" class="form-inline pull-right" role="search">
-						<label class="sr-only">#i18n{portal.site.admin_page.buttonSearchPage}</label>
-						<div class="input-group">
-							<input type="text" name="page_id" title="#i18n{portal.site.admin_page.buttonSearchPage}" class="form-control input-sm" placeholder="#i18n{portal.site.admin_page.buttonSearchPage}">
-							<span class="input-group-btn">
-								<button class="btn btn-primary btn-sm btn-flat" type="submit" title="#i18n{portal.site.admin_page.buttonSearchPage}">
-									<i class="fa fa-search"></i>
-								</button>
-							</span>
-						</div>
-						<#if page_message!=""><p class="help-block"><span class="label label-important">${page_message}</p></#if>
-					</form>
+					<@tform class="form-inline pull-right" action="jsp/admin/site/AdminSite.jsp" role="search">
+						<@formGroup formStyle='inline' labelFor='page_id' labelKey='${i18n("portal.site.admin_page.buttonSearchPage")}' showLabel=false >
+							<@inputGroup>
+								<@input type='text' name='page_id' id='page_id' placeHolder='${i18n("portal.site.admin_page.buttonSearchPage")}' />
+								<@inputGroupItem type='btn'>
+									<@button type='submit' color='btn-default' title='${i18n("portal.site.admin_page.buttonSearchPage")}' showTitle=false buttonIcon='search' />
+								</@inputGroupItem>
+							</@inputGroup>
+						</@formGroup>
+						<#if page_message!=""><p><@badge type="label" style="important">${page_message}</@badge></p></#if>
+					</@tform>
 					</@btnGroup>
 					
 					<@btnGroup>
@@ -82,8 +72,8 @@
 		</@box>
 			
 		<div id='admin-page-preview'>
-				${page_block}
-				<!-- HTML in jsp/admin/site/AdminSite.jsp -->
+			${page_block}
+			<!-- HTML in jsp/admin/site/AdminSite.jsp -->
 		</div>
 	</@columns>
 </@row>

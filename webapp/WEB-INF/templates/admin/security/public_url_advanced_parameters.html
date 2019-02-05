@@ -1,43 +1,53 @@
-<div class="row">
-  <div class="col-xs-12 col-sm-12 col-md-12">
-    <div class="box">
-      <div class="box-header">
-        <h3 class="box-title"><i class="glyphicon glyphicon-cog"></i>&nbsp;#i18n{portal.security.public_url_advanced_parameters.tableLabel}</h3>
-      </div>
-      <div class="box-body">
-        <#if public_list_url?exists>
-          <#list public_list_url as public_url>
-            <form method="post" action="jsp/admin/security/DoModifyPublicUrl.jsp" class="form">
-              <label class="inline" for="public_url_code">#i18n{portal.security.public_url_advanced_parameters.labelPublicUrlCode}</label>
-              <input type="hidden" name="public_url_code" value="${public_url.code}">
-              <input type="text" name="" value="${public_url.code}" disabled>
-              <label class="inline" for="public_url_value">#i18n{portal.security.public_url_advanced_parameters.labelPublicUrlValue}</label>
-              <input type="text" class="input-sm" name="public_url_value" value="${public_url.name}">
-              <button type="submit" name="submit" class="btn btn-primary btn-xs btn-flat">
-                <i class="fa fa-check"></i>&nbsp;#i18n{portal.security.public_url_advanced_parameters.buttonValidate}
-              </button>
-              <a class="btn btn-danger btn-xs btn-flat" title="Supprimer" href="jsp/admin/security/ConfirmRemovePublicUrl.jsp?public_url_code=${public_url.code}">
-                <i class="fa fa-trash"></i>
-              </a>
-            </form>
-          </#list>
-        </#if>
-        <form method="post" action="jsp/admin/security/DoCreatePublicUrl.jsp" class="form-inline">
-          <label class="inline" for="public_url_code">#i18n{portal.security.public_url_advanced_parameters.labelPublicUrlCode}</label>
-          <input type="text" name="public_url_code" value="">
-          <label class="inline" for="new_public_url_value">#i18n{portal.security.public_url_advanced_parameters.labelPublicUrlValue}</label>
-          <input type="text" class="input-sm" name="public_url_value" value="">
-          <button id="addField" class="btn btn-primary" type="submit">
-            <i class="fa fa-plus"></i> #i18n{portal.security.public_url_advanced_parameters.buttonAddUrl}
-          </button>
-          <p class="help-text">#i18n{portal.security.public_url_advanced_parameters.publicListUrlLabelComment}</p>
-          <div class="form-group">
-            <button type="button" name="cancel" class="btn btn-default btn-sm" onclick="javascript:window.history.back();">
-              <i class="fa fa-remove"></i>&nbsp;#i18n{portal.security.public_url_advanced_parameters.buttonCancel}
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-</div>
+<#assign boxtitle><@icon style="cog" /> #i18n{portal.security.public_url_advanced_parameters.tableLabel}</#assign>
+<@rows>
+    <@columns>
+        <@box color='success'>
+            <@boxHeader title=boxtitle>
+                <@item_navigation item_navigator=item_navigator />
+            </@boxHeader>
+            <@boxBody>
+              <#if public_list_url?exists>
+                <#list public_list_url as public_url>
+                  <@tform class='form' action='jsp/admin/security/DoModifyPublicUrl.jsp' >
+                    <@formGroup formStyle='inline' labelFor='public_url_code' labelKey='${i18n("portal.security.public_url_advanced_parameters.labelPublicUrlCode")}' mandatory=true rows=2>
+                        <input type="hidden" name="public_url_code" value="${public_url.code}">
+                        <@input type='text' name='public_url_code' id='public_url_code' value='${public_url.name!}' disabled/>
+                    </@formGroup>  
+                    <@formGroup formStyle='inline' labelFor='public_url_value' labelKey='${i18n("portal.security.public_url_advanced_parameters.labelPublicUrlValue")}' mandatory=true rows=2>
+                        <@input type='text' name='public_url_value' id='public_url_value' value='${public_url.name!}' />
+                    </@formGroup>  
+                    <@row>
+                      <@columns md=4 offsetMd=4>
+                          <@button type="submit" name="submit" color="btn-primary" >
+                              <@icon style="check" /> #i18n{portal.security.public_url_advanced_parameters.buttonValidate}
+                          </@button> 
+                          <@aButton color='btn-danger' title='Supprimer' href='jsp/admin/security/ConfirmRemovePublicUrl.jsp?public_url_code=${public_url.code}' buttonIcon='trash' />
+                      </@columns>    
+                    </@row> 
+                  </@tform>
+                </#list>
+              </#if>
+              <@tform class='form-inline' action='jsp/admin/security/DoCreatePublicUrl.jsp' >
+                <@formGroup formStyle='inline' labelFor='public_url_code' labelKey='${i18n("portal.security.public_url_advanced_parameters.labelPublicUrlCode")}' mandatory=true rows=2>
+                  <@input type='text' name='public_url_code' id='public_url_code' />
+                </@formGroup>  
+                <@formGroup formStyle='inline' labelFor='new_public_url_value' labelKey='${i18n("portal.security.public_url_advanced_parameters.labelPublicUrlValue")}' mandatory=true rows=2>
+                    <@input type='text' name='new_public_url_value' id='new_public_url_value'  />
+                </@formGroup>
+                <@row>
+                  <@columns md=4 offsetMd=4>
+                      <@button type="submit" color="btn-primary" >
+                          <@icon style="plus" /> #i18n{portal.security.public_url_advanced_parameters.buttonAddUrl}
+                      </@button> 
+                      <p class="help-text">#i18n{portal.security.public_url_advanced_parameters.publicListUrlLabelComment}</p>
+                      <@button color="btn-default" params=' onclick="javascript:window.history.back();" '>
+                          <@icon style="remove" /> #i18n{portal.security.public_url_advanced_parameters.buttonCancel}
+                      </@button> 
+ 
+                  </@columns>    
+                </@row> 
+              </@tform>
+          </@boxBody>
+        </@box>
+    </@columns>
+</@rows>
