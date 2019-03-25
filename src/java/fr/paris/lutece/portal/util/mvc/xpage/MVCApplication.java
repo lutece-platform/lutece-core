@@ -850,7 +850,7 @@ public abstract class MVCApplication implements XPageApplication
      */
     protected Locale getLocale( HttpServletRequest request )
     {
-        return request.getLocale( );
+        return LocaleService.getContextUserLocale( request );
     }
 
     /**
