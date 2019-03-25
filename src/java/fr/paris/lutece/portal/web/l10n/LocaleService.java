@@ -35,6 +35,9 @@ package fr.paris.lutece.portal.web.l10n;
 
 import fr.paris.lutece.portal.service.datastore.DatastoreService;
 import fr.paris.lutece.portal.service.util.AppLogService;
+import fr.paris.lutece.portal.service.util.AppPropertiesService;
+import java.util.ArrayList;
+import java.util.List;
 
 import java.util.Locale;
 
@@ -48,9 +51,10 @@ public final class LocaleService
 {
     private static final String ATTRIBUTE_SELECTED_LOCALE = "LUTECE_ATTRIBUTE_USER_SELECTED_LOCALE";
     private static final String DSKEY_LANGUAGE_DEFAULT = "portal.site.site_property.locale.default";
-    private static final String LANGUAGE_DEFAULT = "en";
+    private static final String PROPERTY_LANG_LIST = "lutece.i18n.availableLocales";
+    private static final String PROPERTY_LANG_DEFAULT = "lutece.i18n.defaultLocale";
     private static Locale _locale;
-
+    private static List<Locale> _supportedLocales;
     /**
      * Private constructor
      */
@@ -104,25 +108,105 @@ public final class LocaleService
      */
     public static Locale getDefault( )
     {
-        if ( _locale == null )
+        if ( _locale != null )
         {
-            String strCountry = DatastoreService.getInstanceDataValue( DSKEY_LANGUAGE_DEFAULT, LANGUAGE_DEFAULT );
-
-            for ( String strISOContry : Locale.getISOCountries( ) )
+            return _locale ;
+        }
+        else
+        {
+            String dsLang = DatastoreService.getInstanceDataValue( DSKEY_LANGUAGE_DEFAULT, null );
+            
+            if ( dsLang != null )
             {
-                if ( strISOContry.equalsIgnoreCase( strCountry ) )
+                for ( String strISOLang : Locale.getISOLanguages( ) )
                 {
-                    _locale = new Locale( strCountry );
-                    AppLogService.info( "LocaleService : default locale set to : " + strCountry );
+                    if ( strISOLang.equals( dsLang ) )
+                    {
+                        _locale = new Locale( dsLang );
+                        AppLogService.info( "LocaleService : default locale set to : " + dsLang );
 
-                    return _locale;
+                        return _locale;
+                    }
                 }
             }
 
-            _locale = Locale.getDefault( );
-            AppLogService.error( "LocaleService : invalid defined locale " + strCountry + " - default set to " + LANGUAGE_DEFAULT );
+            // otherwise, get the default locale from properties
+            _locale = new Locale( AppPropertiesService.getProperty( PROPERTY_LANG_DEFAULT ) );
+            AppLogService.error( "LocaleService : invalid defined locale " + dsLang + " - default set to " + _locale.getLanguage( ) );
+                        
+            return _locale;
         }
+    }
+    
+    /**
+     * Retrieve the best supported locale for the user's session
+     * Priority order :
+     *  1- selected locale session attribute
+     *  2- browser locale (if supported)
+     *  3- default server locale
+     * 
+     * @param request
+     *            The HTTP request
+     * @return The locale 
+     */
+    public static Locale getContextUserLocale( HttpServletRequest request )
+    {
+        Locale locale = null ;
 
-        return _locale;
+        // consider the current session locale
+        locale = getUserSelectedLocale( request );
+        
+        if ( locale == null || !isSupported( locale ) ) 
+        {
+            // consider the browser language
+            locale = new Locale( request.getLocale( ).getLanguage( ).substring( 0, 2 ) );
+            
+            if ( !isSupported( locale ) ) 
+            {
+                // consider the server default
+                locale = getDefault( );
+            }
+        }
+        
+        return locale;
+    }
+    
+    /**
+     * check if Locale is supported
+     * according to locale list in lutece properties
+     * 
+     * @param locale
+     * @return true if supported
+     */
+    public static boolean isSupported( Locale locale )
+    {
+        if ( _supportedLocales == null ) getSupportedLangList ( );
+        
+        // check if the mandatory language is supported
+        for (Locale supportedLocale : _supportedLocales )
+        {
+            if ( supportedLocale.equals( locale ) ) return true;
+        }  
+        
+        return false;
+    }
+    
+    /**
+     * get Supported Lang List
+     * @return the Supported Lang List
+     */
+    public static List<Locale> getSupportedLangList ( )
+    {
+        if ( _supportedLocales == null ) 
+        {
+        String[] strLangList = AppPropertiesService.getProperty( PROPERTY_LANG_LIST ).split(",");
+            _supportedLocales = new ArrayList<>( );
+            for ( String lang : strLangList )
+            {
+                _supportedLocales.add( new Locale( lang ) );
+            }
+        }
+        
+        return _supportedLocales;
     }
 }
