@@ -23,10 +23,10 @@
 					</@formGroup>
 					<@formGroup>
 						<#if xsl_export.file?exists>
-							<@aButton href='jsp/admin/xsl/DoDownloadXslExport.jsp?id_xsl_export=${xsl_export.idXslExport}' title='#i18n{portal.labelDownload} ${xsl_export.file.title?html}' buttonIcon='download' title='${xsl_export.file.title} (${xsl_export.file.size} o)' size='' color='bg-aqua' />
+							<@aButton href='jsp/admin/xsl/DoDownloadXslExport.jsp?id_xsl_export=${xsl_export.idXslExport}' title='#i18n{portal.labelDownload} ${xsl_export.file.title?html}' buttonIcon='download' title='${xsl_export.file.title} (${xsl_export.file.size} o)' size='' color='info' />
 						</#if>
 						<@button type='submit' buttonIcon='check' title='#i18n{portal.xsl.create_xsl_export.button_save}' size='' />
-						<@aButton href='jsp/admin/xsl/ManageXslExport.jsp' buttonIcon='close' title='#i18n{portal.xsl.create_xsl_export.button_cancel}' color='btn-secondary' size='' />
+						<@aButton href='jsp/admin/xsl/ManageXslExport.jsp' buttonIcon='close' title='#i18n{portal.xsl.create_xsl_export.button_cancel}' color='secondary' size='' />
 					</@formGroup>
 				</@tform>
 			</@boxBody>

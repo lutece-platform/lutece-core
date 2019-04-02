@@ -41,6 +41,7 @@ import fr.paris.lutece.portal.business.user.AdminUserHome;
 import fr.paris.lutece.portal.business.user.authentication.LuteceDefaultAdminUser;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.admin.AdminAuthenticationService;
+import fr.paris.lutece.portal.service.admin.AdminThemeService;
 import fr.paris.lutece.portal.service.admin.AdminUserService;
 import fr.paris.lutece.portal.service.dashboard.DashboardService;
 import fr.paris.lutece.portal.service.dashboard.IDashboardComponent;
@@ -103,10 +104,10 @@ public class AdminMenuJspBean implements Serializable
     private static final String MARK_MENU_POS = "menu_pos";
     private static final String MARK_MODIFY_PASSWORD_URL = "url_modify_password";
     private static final String MARK_DASHBOARD_ZONE = "dashboard_zone_";
-    private static final String MARK_URL_CSS = "css_url";
     private static final String MARK_JAVASCRIPT_FILE = "javascript_file";
     private static final String MARK_JAVASCRIPT_FILES = "javascript_files";
     private static final String MARK_PLUGIN_NAME = "plugin_name";
+    private static final String MARK_PLUGINS_LIST = "plugins_list";
     private static final String MARK_ADMIN_AVATAR = "adminAvatar";
     private static final String MARK_MINIMUM_PASSWORD_SIZE = "minimumPasswordSize";
 
@@ -137,6 +138,7 @@ public class AdminMenuJspBean implements Serializable
     private static final String LOGGER_ACCESS = "lutece.adminaccess";
     
     private static String _strStylesheets;
+    private static boolean _bResetAdminStylesheets;
     private static String _strJavascripts;
     private boolean _bAdminAvatar = PluginService.isPluginEnable( "adminavatar" );
     private static Logger _loggerAccess = Logger.getLogger( LOGGER_ACCESS );
@@ -556,35 +558,29 @@ public class AdminMenuJspBean implements Serializable
      * @return the stylesheets files block to include in the footer
      * @since 5.1
      */
-    public String getAdminStyleSheets( )
+    public String getAdminStyleSheets(  )
     {
-        if ( _strStylesheets == null )
+        if ( _strStylesheets == null || _bResetAdminStylesheets )
         {
-            StringBuilder sbCssLinks = new StringBuilder( );
             List<Plugin> listPlugins = new ArrayList<Plugin>( );
             listPlugins.add( PluginService.getCore( ) );
             listPlugins.addAll( PluginService.getPluginList( ) );
 
-            for ( Plugin plugin : listPlugins )
-            {
-                if ( plugin.getAdminCssStyleSheets( ) != null )
-                {
-                    for ( String strStyleSheet : plugin.getAdminCssStyleSheets( ) )
-                    {
-                        Map<String, Object> model = new HashMap<String, Object>( );
-                        model.put( MARK_URL_CSS, strStyleSheet );
-                        model.put( MARK_PLUGIN_NAME, plugin.getName( ) );
-                        sbCssLinks.append( AppTemplateService.getTemplate( TEMPLATE_STYLESHEET_LINK, LocaleService.getDefault( ), model ).getHtml( ) );
-                    }
-                }
-            }
+            Map<String, Object> model = new HashMap<String, Object>( );
+            model.put( MARK_PLUGINS_LIST, listPlugins );
 
-            _strStylesheets = sbCssLinks.toString( );
+            _strStylesheets = AppTemplateService.getTemplate( TEMPLATE_STYLESHEET_LINK, LocaleService.getDefault( ), model ).getHtml( );
+            _bResetAdminStylesheets = false;
         }
 
         return _strStylesheets;
     }
 
+    public static void resetAdminStylesheets()
+    {
+        _bResetAdminStylesheets = true;
+    }
+    
     /**
      * Return the javascript files block to include in the footer
      * 

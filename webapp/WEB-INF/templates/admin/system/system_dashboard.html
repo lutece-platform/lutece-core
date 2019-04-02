@@ -1,18 +1,7 @@
-<!--
-<div class="small-box bg-red">
-	<div class="inner">
-		<h3>${plugins_count}</h3>
-        <p>#i18n{portal.system.dashboard.pluginsCount}</p>
-    </div>
-    <div class="icon">
-		<i class="fa fa-puzzle-piece"></i>
-    </div>
-    <a href="jsp/admin/system/ManagePlugins.jsp" class="small-box-footer">
-		#i18n{portal.system.adminFeature.plugins_management.name} <i class="fa fa-arrow-circle-right"></i>
-    </a>
-</div>
--->
-
+<#--
 <@infoBox color='bg-red' boxText='#i18n{portal.system.dashboard.pluginsCount}' boxNumber=plugins_count boxIcon='puzzle-piece' />
-
-<!-- <@smallBox color='bg-red' boxIcon='puzzle-piece' title='' text='#i18n{portal.system.dashboard.pluginsCount}' url=url urlText='' /> -->
+-->
+<#assign txt>
+#i18n{portal.system.dashboard.pluginsCount} ${plugins_count}
+</#assign>
+<@smallBox color='has-text-danger' boxIcon='puzzle-piece' title='' text=txt url=url urlText='' />

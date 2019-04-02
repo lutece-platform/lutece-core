@@ -30,7 +30,7 @@
 						<input type="hidden" name="position" value="${attribute.position}">
 						<@button type='submit' name='validate' value='#i18n{portal.users.modify_attribute.buttonValidate}' buttonIcon='check' title='#i18n{portal.users.modify_attribute.buttonValidate}' size='' showTitleXs=false />
 						<@button type='submit' name='apply' value='#i18n{portal.users.modify_attribute.buttonApply}' buttonIcon='check-circle-o' title='#i18n{portal.users.modify_attribute.buttonApply}' size='' showTitleXs=false />
-						<@button type='submit' name='cancel' value='#i18n{portal.admin.message.buttonCancel}' buttonIcon='times' title='#i18n{portal.admin.message.buttonCancel}' size='' color='btn-secondary' showTitleXs=false />
+						<@button type='submit' name='cancel' value='#i18n{portal.admin.message.buttonCancel}' buttonIcon='times' title='#i18n{portal.admin.message.buttonCancel}' size='' showTitleXs=false cancel=true />
 					</@formGroup>
 				</@tform>
 			</@boxBody>
@@ -87,7 +87,7 @@
 									</@tform>
 								</#if>
 								
-								<@aButton href='jsp/admin/user/attribute/RemoveAttributeField.jsp?id_attribute=${attribute.idAttribute}&amp;id_field=${attribute_field.idField}' title='#i18n{portal.users.modify_attribute.buttonLabelDelete}' buttonIcon='trash' showTitle=false color='btn-danger'  class='pull-left spaced'/>
+								<@aButton href='jsp/admin/user/attribute/RemoveAttributeField.jsp?id_attribute=${attribute.idAttribute}&amp;id_field=${attribute_field.idField}' title='#i18n{portal.users.modify_attribute.buttonLabelDelete}' buttonIcon='trash' showTitle=false color='danger'  class='pull-left spaced'/>
 							</td>
 						</tr>
 						</#if>
