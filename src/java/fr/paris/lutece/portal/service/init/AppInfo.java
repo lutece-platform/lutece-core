@@ -39,7 +39,16 @@ package fr.paris.lutece.portal.service.init;
 public final class AppInfo
 {
     /** Defines the current version of the application */
-    private static final String APP_VERSION = "6.2.0-SNAPSHOT";
+    private static final String APP_VERSION = "7.0.0-SNAPSHOT";
+    static final String LUTECE_BANNER_VERSION = "\n _      _   _   _____   ___    ___   ___      ____\n" + 
+            "| |    | | | | |_   _| | __|  / __| | __|    |__  |\n" +
+            "| |__  | |_| |   | |   | _|  | (__  | _|       / / \n" +
+            "|____|  \\___/    |_|   |___|  \\___| |___|     /_/  ";
+
+    static final String LUTECE_BANNER_SERVER = "\n _      _   _   _____   ___    ___   ___       ___   ___   ___  __   __  ___   ___ \n" + 
+            "| |    | | | | |_   _| | __|  / __| | __|     / __| | __| | _ \\ \\ \\ / / | __| | _ \\\n" +
+            "| |__  | |_| |   | |   | _|  | (__  | _|      \\__ \\ | _|  |   /  \\ V /  | _|  |   /\n" +
+            "|____|  \\___/    |_|   |___|  \\___| |___|     |___/ |___| |_|_\\   \\_/   |___| |_|_\\";
 
     /**
      * Creates a new AppInfo object.

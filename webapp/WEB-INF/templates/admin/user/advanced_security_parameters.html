@@ -2,9 +2,9 @@
 	<@accordionHeader title='#i18n{portal.users.manage_advanced_parameters.securityParameters}' boxTools=true>
 		<@tform class='form-inline pull-right' action='jsp/admin/user/GetChangeUseAdvancedSecurityParameters.jsp'>
 			<#if use_advanced_security_parameters>
-				<@button type='submit' color='btn-danger' buttonIcon='remove' title='#i18n{portal.users.manage_advanced_parameters.removeAdvancedParameters}' showTitleXs=false showTitleSm=false />
+				<@button type='submit' color='danger' buttonIcon='remove' title='#i18n{portal.users.manage_advanced_parameters.removeAdvancedParameters}' showTitleXs=false showTitleSm=false />
 			<#else>
-				<@button type='submit' color='btn-secondary' buttonIcon='cog' title='#i18n{portal.users.manage_advanced_parameters.useAdvancedParameters}' showTitleXs=false showTitleSm=false />
+				<@button type='submit' color='secondary' buttonIcon='cog' title='#i18n{portal.users.manage_advanced_parameters.useAdvancedParameters}' showTitleXs=false showTitleSm=false />
 			</#if>
 		</@tform>
 	</@accordionHeader>

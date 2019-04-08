@@ -8,7 +8,7 @@
 			<strong class="clearfix">#i18n{portal.site.dashboard.columnLastModifiedPage}</strong>
 			<@tag color='info' title='#i18n{portal.site.dashboard.labelPageId}'>${last_modified_page.id}</@tag>&#160; <span title="${i18n( 'portal.site.dashboard.labelDateModification', last_modified_page.dateUpdate)}"><#if last_modified_page.name?length &gt; 35>${last_modified_page.name?substring(0,35)}...<#else>${last_modified_page.name}</#if> </span>
 			<p class="pull-right">
-				<@aButton href='jsp/admin/site/AdminSite.jsp?page_id=${last_modified_page.id}&amp;param_block=5' title='#i18n{portal.site.admin_page.titleAddChildPage}' buttonIcon='plus' color='btn-success' showTitle=false />
+				<@aButton href='jsp/admin/site/AdminSite.jsp?page_id=${last_modified_page.id}&amp;param_block=5' title='#i18n{portal.site.admin_page.titleAddChildPage}' buttonIcon='plus' color='success' showTitle=false />
 				<@aButton href='jsp/admin/site/AdminSite.jsp?page_id=${last_modified_page.id}' title='#i18n{portal.site.admin_page.tabPageManagement}' buttonIcon='pencil' showTitle=false />
 				<@aButton href='jsp/admin/site/AdminSite.jsp?page_id=${last_modified_page.id}&amp;param_block=2' title='#i18n{portal.site.admin_page.titlePageProperties}' buttonIcon='wrench' showTitle=false />
 			</p>

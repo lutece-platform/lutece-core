@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?><plug-in>
+<?xml version="1.0" encoding="UTF-8"?><plug-in>
     
     <!-- Plugin Informations -->
     <name>core</name>
     <class>fr.paris.lutece.portal.service.plugin.PluginDefaultImplementation</class>
-    <version>6.1.2-SNAPSHOT</version>
+    <version>7.0.0-SNAPSHOT</version>
     <description>portal.system.core_components.description</description>
     <documentation/>
     <installation/>
@@ -131,7 +131,7 @@
             <rbac-resource-type-class>fr.paris.lutece.portal.service.search.SearchResourceIdService</rbac-resource-type-class>
         </rbac-resource-type>
         <rbac-resource-type>
-          	<rbac-resource-type-class>fr.paris.lutece.portal.service.globalmanagement.GlobalManagementResourceIdService</rbac-resource-type-class>
+            <rbac-resource-type-class>fr.paris.lutece.portal.service.globalmanagement.GlobalManagementResourceIdService</rbac-resource-type-class>
         </rbac-resource-type>
         <rbac-resource-type>
             <rbac-resource-type-class>fr.paris.lutece.portal.service.xsl.XslExportResourceIdService</rbac-resource-type-class>
@@ -164,7 +164,7 @@
     
     <!-- Admin Dashboard  components -->
     <admindashboard-components>
-    	<admindashboard-component>
+        <admindashboard-component>
             <dashboard-component-name>usersAdminDashboardComponent</dashboard-component-name>
             <dashboard-component-class>fr.paris.lutece.portal.web.user.UsersAdminDashboardComponent</dashboard-component-class>
         </admindashboard-component>
@@ -175,29 +175,17 @@
     </admindashboard-components>
         
     <freemarker-macro-files>
-    	<freemarker-macro-file>*/commons.html</freemarker-macro-file>
-        <freemarker-macro-file>*/commons_site.html</freemarker-macro-file>
+        <freemarker-macro-file>commons.html</freemarker-macro-file>
+        <freemarker-macro-file>commons_site.html</freemarker-macro-file>
     </freemarker-macro-files>
 
     <css-stylesheets>
-    	<css-stylesheets-scope>portal</css-stylesheets-scope>
-    	<css-stylesheet mode="1">../page_template_styles_admin.css</css-stylesheet>
+        <css-stylesheets-scope>portal</css-stylesheets-scope>
+        <css-stylesheet mode="1">../page_template_styles_admin.css</css-stylesheet>
     </css-stylesheets>
 
-<admin-css-stylesheets>
-      <admin-css-stylesheet>css/admin/bootstrap2-compatibility.css</admin-css-stylesheet>
-      <admin-css-stylesheet>css/admin/bootstrap.min.css</admin-css-stylesheet>
-      <admin-css-stylesheet>css/admin/bootstrap-colorpicker.css</admin-css-stylesheet>
-      <admin-css-stylesheet>css/admin/bootstrap-datepicker.min.css</admin-css-stylesheet>
-      <admin-css-stylesheet>css/admin/jquery-ui.min.css</admin-css-stylesheet>
-      <admin-css-stylesheet>css/admin/jquery-ui.structure.min.css</admin-css-stylesheet>
-      <admin-css-stylesheet>css/admin/jquery-ui.theme.min.css</admin-css-stylesheet>
-      <admin-css-stylesheet>css/admin/font-awesome.min.css</admin-css-stylesheet>
-      <admin-css-stylesheet>css/admin/ionicons.min.css</admin-css-stylesheet>
-      <admin-css-stylesheet>css/admin/bootstrap-clockpicker.css</admin-css-stylesheet>
-      <admin-css-stylesheet>css/admin/AdminLTE.css</admin-css-stylesheet>
-      <admin-css-stylesheet>css/admin/skins/_all-skins.min.css</admin-css-stylesheet>
-      <admin-css-stylesheet>css/admin/portal_admin.css</admin-css-stylesheet>
+    <admin-css-stylesheets>
+        <!-- Default core Admin CSS declaration moved in commons.html @coreAdminCSSLinks macro -->
     </admin-css-stylesheets>
 
     <admin-javascript-files>

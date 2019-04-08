@@ -54,7 +54,7 @@
 						<td>
 							<@aButton href='jsp/admin/mailinglist/ModifyMailingList.jsp?id_mailinglist=${mailinglist.id}' buttonIcon='edit' title='#i18n{portal.mailinglist.modify_mailinglist.buttonModify} (${mailinglist.name?html})' showTitle=false />
 							<@aButton href='jsp/admin/mailinglist/ViewUsers.jsp?id_mailinglist=${mailinglist.id}' buttonIcon='user' title='#i18n{portal.mailinglist.modify_mailinglist.linkLabelViewUsers} (${mailinglist.name?html})' showTitle=false />
-							<@aButton href='jsp/admin/mailinglist/RemoveMailingList.jsp?id_mailinglist=${mailinglist.id}' buttonIcon='trash' title='#i18n{portal.mailinglist.modify_mailinglist.linkLabelRemove} (${mailinglist.name?html})' showTitle=false color='btn-danger' />
+							<@aButton href='jsp/admin/mailinglist/RemoveMailingList.jsp?id_mailinglist=${mailinglist.id}' buttonIcon='trash' title='#i18n{portal.mailinglist.modify_mailinglist.linkLabelRemove} (${mailinglist.name?html})' showTitle=false color='danger' />
 						</td>
 					</tr>
 				</#list>

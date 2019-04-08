@@ -218,7 +218,7 @@ public class PropertiesService
 
         try
         {
-            if ( StringUtils.isNumeric( strValue ) )
+            if ( strValue != null )
             {
                 nValue = Integer.parseInt( strValue );
             }

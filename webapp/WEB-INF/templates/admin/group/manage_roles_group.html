@@ -1,38 +1,44 @@
-<div class="content-box" >
-    <h2>#i18n{portal.group.manage_roles_group.boxTitle}</h2>
-    
-    <form action="jsp/admin/group/DoAssignRoleGroup.jsp">
-        <input type="hidden" name="group_key" value="${group.groupKey}" />
-        <table>
-            <tr>
-                <th>#i18n{portal.group.manage_roles_group.colName}</th>
-                <th>#i18n{portal.group.manage_roles_group.colLabel}</th>
-                <th></th>
-            </tr>
-            <#list role_list as role >
-            <#if role.role != "none">
-            <tr>
-                <td>${role.role}</td>
-                <td>${role.roleDescription}</td>
-                <td>
-                    <#assign checkedString = '' > 
-                    <#list group_role_list as group_role >
-                    <#if group_role.role = role.role >
-                    <#assign checkedString >
-                    checked="checked"
-                    </#assign>
-                    <#break>
-                    </#if>
-                    </#list>
-                    <input class="checkbox" type="checkbox" name="role_key" value="${role.role}" ${checkedString} />
-                       </td>
-            </tr>
-            </#if>
-            </#list>
-        </table>
-        <p>
-            <input type="submit" class="button" value="#i18n{portal.group.manage_roles_group.btnAssign}" />
-            <input class="button" type="button" onclick="javascript:history.go(-1)" value="#i18n{portal.admin.message.buttonCancel}" />
-        </p>
-    </form>
-</div>
+<#assign boxtitle>#i18n{portal.group.manage_roles_group.boxTitle}</#assign>
+<@rows>
+    <@columns>
+        <@box color='success'>
+            <@boxHeader title=boxtitle />
+            <@boxBody>
+                <@tform action='jsp/admin/group/DoAssignRoleGroup.jsp'>
+                    <input type="hidden" name="group_key" value="${group.groupKey}" >
+                    <@table>
+                        <tr>
+                            <th>#i18n{portal.group.manage_roles_group.colName}</th>
+                            <th>#i18n{portal.group.manage_roles_group.colLabel}</th>
+                            <th></th>
+                        </tr>
+                        <#list role_list as role >
+                             <#if role.role != "none">
+                            <tr>
+                                <td>${role.role}</td>
+                                <td>${role.roleDescription}</td>
+                                <td>
+                                    <#assign isChecked=false> 
+                                    <#list group_role_list as group_role >
+                                        <#if group_role.role = role.role >
+                                            <#assign isChecked=true> 
+                                            <#break>
+                                        </#if>
+                                    </#list>
+                                    <@checkBox name='role_key' id='role_key' labelKey='${role.role}' value='${role.role}' labelFor='accessibility_mode' checked=ischecked />
+                                </td>
+                            </tr>
+                            </#if>
+                        </#list>
+                    </@table>
+                    <@formGroup showLabel=false >  
+						<@columns>
+							<@button type='submit' title='${i18n("portal.group.manage_roles_group.btnAssign")}' />
+							<@button  title='${i18n("portal.group.modify_group.buttonCancel")}' params='onclick="javascript:history.go(-1)"' />
+						</@columns>	
+					</@formGroup>	
+                </@tform>
+            </@boxBody>
+        </@box>
+    </@columns>
+</@rows>

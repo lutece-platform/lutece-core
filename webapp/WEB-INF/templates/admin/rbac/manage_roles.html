@@ -32,7 +32,7 @@
 								
 								<@aButton href='jsp/admin/rbac/AssignUsersRole.jsp?role_key=${role.key}' title='#i18n{portal.rbac.manage_roles.buttonLabelAssignUsers} (${role.description})' buttonIcon='user' showTitle=false/>
 								
-								<@aButton color='btn-danger' href='jsp/admin/rbac/DoConfirmRemoveRole.jsp?role_key=${role.key}' title='#i18n{portal.rbac.manage_roles.buttonLabelDelete} (${role.description})' buttonIcon='trash' showTitle=false/>
+								<@aButton color='danger' href='jsp/admin/rbac/DoConfirmRemoveRole.jsp?role_key=${role.key}' title='#i18n{portal.rbac.manage_roles.buttonLabelDelete} (${role.description})' buttonIcon='trash' showTitle=false/>
 							</td>
 						  </tr>
 						</#list>

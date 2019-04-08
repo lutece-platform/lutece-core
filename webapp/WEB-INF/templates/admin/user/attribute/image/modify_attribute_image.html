@@ -41,10 +41,8 @@
 					<@formGroup>
 						<input type="hidden" name="id_attribute" value="${attribute.idAttribute}">
 						<@button type='submit' name='validate' value='validate' buttonIcon='check' title='#i18n{portal.users.modify_attribute.buttonValidate}'  size='' showTitleXs=false />
-						
 						<@button type='submit' name='apply' value='apply' buttonIcon='check-circle-o' title='#i18n{portal.users.modify_attribute.buttonApply}'  size='' showTitleXs=false />
-						
-						<@button type='submit' name='cancel' value='cancel' buttonIcon='times' title='#i18n{portal.admin.message.buttonCancel}'  color='btn-secondary' size='' showTitleXs=false />
+						<@button type='submit' name='cancel' value='cancel' buttonIcon='times' title='#i18n{portal.admin.message.buttonCancel}' cancel=true size='' showTitleXs=false />
 					</@formGroup>
 				</@tform>
 			</@boxBody>
