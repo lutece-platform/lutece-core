@@ -226,4 +226,34 @@
     </bean>
 
     <bean id="daemonThread" class="fr.paris.lutece.portal.service.daemon.DaemonThread" scope="prototype" />
+
+    <!-- Admin user menu -->
+    <bean id="adminUserMenuService" class="fr.paris.lutece.portal.service.user.menu.AdminUserMenuService" />
+
+    <bean id="dividerUserMenuItemProvider" class="fr.paris.lutece.portal.business.user.menu.DividerAdminUserMenuItemProvider" />
+
+    <bean id="modifyPasswordUserMenuItemProvider" class="fr.paris.lutece.portal.service.user.menu.AdminUserMenuItemProviderRegistrar">
+    	<property name="className" value="fr.paris.lutece.portal.business.user.menu.ModifyPasswordAdminUserMenuItemProvider"/>
+    </bean>
+    <bean id="accessibilityModeUserMenuItemProvider" class="fr.paris.lutece.portal.service.user.menu.AdminUserMenuItemProviderRegistrar">
+    	<property name="className" value="fr.paris.lutece.portal.business.user.menu.AccessibilityModeAdminUserMenuItemProvider"/>
+    </bean>
+    <bean id="languageUserMenuItemProvider" class="fr.paris.lutece.portal.service.user.menu.AdminUserMenuItemProviderRegistrar">
+    	<property name="className" value="fr.paris.lutece.portal.business.user.menu.LanguageAdminUserMenuItemProvider"/>
+    </bean>
+    <bean id="technicalUserMenuItemProvider" class="fr.paris.lutece.portal.service.user.menu.AdminUserMenuItemProviderRegistrar">
+    	<property name="className" value="fr.paris.lutece.portal.business.user.menu.TechnicalAdminUserMenuItemProvider"/>
+    </bean>
+    <bean id="documentationUserMenuItemProvider" class="fr.paris.lutece.portal.service.user.menu.AdminUserMenuItemProviderRegistrar">
+    	<property name="className" value="fr.paris.lutece.portal.business.user.menu.DocumentationAdminUserMenuItemProvider"/>
+    </bean>
+
+    <bean id="divider1UserMenuItemProvider" class="fr.paris.lutece.portal.service.user.menu.AdminUserMenuItemProviderRegistrar">
+    	<property name="provider" ref="dividerUserMenuItemProvider"/>
+    	<property name="insertAfter" value="accessibilityModeUserMenuItemProvider"/>
+    </bean>
+    <bean id="divider2UserMenuItemProvider" class="fr.paris.lutece.portal.service.user.menu.AdminUserMenuItemProviderRegistrar">
+    	<property name="provider" ref="dividerUserMenuItemProvider"/>
+    	<property name="insertBefore" value="technicalUserMenuItemProvider"/>
+    </bean>
 </beans>
