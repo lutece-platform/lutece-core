@@ -84,4 +84,67 @@ public class SecurityUtilTest extends LuteceTestCase
         request.setParameter( "param4", "}" );
         assertTrue( SecurityUtil.containsCleanParameters( request ) );
     }
+
+
+    /**
+     * Test of isRedirectUrlSafe method, of class SecurityUtil, to avoid open redirect
+     */
+    @Test
+    public void testIsRedirectUrlSafe( )
+    {
+        System.out.println( "isRedirectUrlSafe" );
+
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+
+        // Assert False
+        String strUrl = "http://anothersite.com";
+        request.setParameter( "url", strUrl );
+        assertFalse( SecurityUtil.isInternalRedirectUrlSafe( strUrl, request ) );
+
+        strUrl = "//anothersite.com";
+        request.setParameter( "url", strUrl );
+        assertFalse( SecurityUtil.isInternalRedirectUrlSafe( strUrl, request ) );
+
+        strUrl = "file://my.txt";
+        request.setParameter( "url", strUrl );
+        assertFalse( SecurityUtil.isInternalRedirectUrlSafe( strUrl, request ) );
+
+        strUrl = "javascript:alert('hello');";
+        request.setParameter( "url", strUrl );
+        assertFalse( SecurityUtil.isInternalRedirectUrlSafe( strUrl, request ) );
+
+        strUrl = "opera-http://anothersite.com";
+        request.setParameter( "url", strUrl );
+        assertFalse( SecurityUtil.isInternalRedirectUrlSafe( strUrl, request ) );
+
+        strUrl = "http://another.subdomain.mylutece.com";
+        request.setParameter( "url", strUrl );
+        String strUrlPatterns="http://**.lutece.com,https://**.lutece.com";
+        assertFalse( SecurityUtil.isInternalRedirectUrlSafe( strUrl, request, strUrlPatterns ) );
+
+        // Assert True
+        strUrl = null;
+        assertTrue( SecurityUtil.isInternalRedirectUrlSafe( strUrl, request) );
+
+        strUrl = "";
+        assertTrue( SecurityUtil.isInternalRedirectUrlSafe( strUrl, request) );
+
+        strUrl = "/jsp/site/Portal.jsp";
+        request.setParameter( "url", strUrl );
+        assertTrue( SecurityUtil.isInternalRedirectUrlSafe( strUrl, request ) );
+
+        strUrl = "Another.jsp";
+        request.setParameter( "url", strUrl );
+        assertTrue( SecurityUtil.isInternalRedirectUrlSafe( strUrl, request ) );
+
+        strUrl = "http://localhost/myapp/jsp/site/Portal.jsp";
+        request.setParameter( "url", strUrl );
+        assertTrue( SecurityUtil.isInternalRedirectUrlSafe( strUrl, request ) );
+
+        strUrl = "http://another.subdomain.lutece.com";
+        request.setParameter( "url", strUrl );
+        strUrlPatterns="http://**.lutece.com/**,https://**.lutece.com/**";
+        assertTrue( SecurityUtil.isInternalRedirectUrlSafe( strUrl, request, strUrlPatterns ) );
+
+    }
 }
