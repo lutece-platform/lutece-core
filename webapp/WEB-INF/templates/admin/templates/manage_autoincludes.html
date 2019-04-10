@@ -12,6 +12,24 @@
     </@boxBody>
 </@box>
 
+<@box>
+    <@boxHeader title='#i18n{portal.templates.manage_autoincludes.commonsChange} ' >
+    
+    </@boxHeader>
+    <@boxBody>
+        <@tform method='post' name='FilterPluginsForm' action='jsp/admin/templates/ManageAutoIncludes.jsp'>
+            <@formGroup labelKey='#i18n{portal.templates.manage_autoincludes.commonsAvailable}' labelFor='commons_key' showLabel=false formStyle='inline'>
+                <input type="hidden" name="action" value="activate" />
+                <@inputGroup>
+                    <@select sort=true name='commons_key' default_value='${current_commons}' items=commons_list />
+                    <@inputGroupItem>
+                    <@button type='submit' buttonIcon='random' title='#i18n{portal.templates.manage_autoincludes.buttonSwitch}' showTitle=false />
+                    </@inputGroupItem>
+                </@inputGroup>
+            </@formGroup>
+        </@tform>
+    </@boxBody>
+</@box>
 
 <@box>
 	<@boxHeader title='#i18n{portal.templates.manage_autoincludes.title}' boxTools=true>

@@ -256,4 +256,24 @@
     	<property name="provider" ref="dividerUserMenuItemProvider"/>
     	<property name="insertBefore" value="technicalUserMenuItemProvider"/>
     </bean>
+    
+    <bean id="commonsDefault" class="fr.paris.lutece.portal.business.template.CommonsInclude">
+        <property name="key" value="default" />
+        <property name="name" value="Bootstap 3.3" />
+        <property name="files" >
+            <list>
+                <value>commons.html</value>
+            </list>
+        </property>
+    </bean>
+    <bean id="commonsBulma" class="fr.paris.lutece.portal.business.template.CommonsInclude">
+        <property name="key" value="bulma" />
+        <property name="name" value="Bulma 0.7" />
+        <property name="files" >
+            <list>
+                <value>commons_bulma.html</value>
+            </list>
+        </property>
+    </bean>
+    
 </beans>

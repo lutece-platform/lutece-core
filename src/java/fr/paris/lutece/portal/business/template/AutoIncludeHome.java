@@ -33,12 +33,8 @@
  */
  package fr.paris.lutece.portal.business.template;
 
-import fr.paris.lutece.portal.service.plugin.Plugin;
-import fr.paris.lutece.portal.service.plugin.PluginService;
-import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.template.FreeMarkerTemplateService;
 import fr.paris.lutece.portal.web.admin.AdminMenuJspBean;
-import fr.paris.lutece.util.ReferenceList;
 import java.util.ArrayList;
 
 import java.util.List;

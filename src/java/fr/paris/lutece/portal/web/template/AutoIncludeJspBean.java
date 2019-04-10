@@ -32,18 +32,20 @@
  * License 1.0
  */
  	
-package fr.paris.lutece.portal.web.templates;
+package fr.paris.lutece.portal.web.template;
 
 import fr.paris.lutece.portal.business.template.AutoInclude;
 import fr.paris.lutece.portal.business.template.AutoIncludeHome;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
+import fr.paris.lutece.portal.service.template.CommonsService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.util.mvc.admin.MVCAdminJspBean;
 import fr.paris.lutece.portal.util.mvc.admin.annotations.Controller;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.Action;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.View;
+import fr.paris.lutece.portal.web.admin.AdminMenuJspBean;
 import fr.paris.lutece.portal.web.util.LocalizedPaginator;
 import fr.paris.lutece.util.html.Paginator;
 import fr.paris.lutece.util.url.UrlItem;
@@ -85,6 +87,7 @@ public class AutoIncludeJspBean extends MVCAdminJspBean
 
     // Parameters
     private static final String PARAMETER_AUTOINCLUDE = "file_path";
+    private static final String PARAMETER_COMMONS_KEY = "commons_key";
 
     // Properties for page titles
     private static final String PROPERTY_PAGE_TITLE_MANAGE_AUTOINCLUDES = "portal.templates.manage_autoincludes.pageTitle";
@@ -93,6 +96,9 @@ public class AutoIncludeJspBean extends MVCAdminJspBean
     // Markers
     private static final String MARK_AUTOINCLUDE_LIST = "autoinclude_list";
     private static final String MARK_AUTOINCLUDE = "autoinclude";
+    private static final String MARK_COMMONS_LIST = "commons_list";
+    private static final String MARK_CURRENT_COMMONS = "current_commons";
+    
 
     private static final String JSP_MANAGE_AUTOINCLUDES = "jsp/admin/templates/ManageAutoIncludes.jsp";
 
@@ -107,10 +113,12 @@ public class AutoIncludeJspBean extends MVCAdminJspBean
     private static final String ACTION_CREATE_AUTOINCLUDE = "createAutoInclude";
     private static final String ACTION_REMOVE_AUTOINCLUDE = "removeAutoInclude";
     private static final String ACTION_CONFIRM_REMOVE_AUTOINCLUDE = "confirmRemoveAutoInclude";
+    private static final String ACTION_ACTIVATE = "activate";
 
     // Infos
     private static final String INFO_AUTOINCLUDE_CREATED = "portal.templates.info.autoinclude.created";
     private static final String INFO_AUTOINCLUDE_REMOVED = "portal.templates.info.autoinclude.removed";
+    private static final String INFO_COMMONS_ACTIVATE = "portal.templates.info.commons.activated";
     
     // Session variable to store working values
     private AutoInclude _autoinclude;
@@ -126,6 +134,9 @@ public class AutoIncludeJspBean extends MVCAdminJspBean
         _autoinclude = null;
         List<AutoInclude> listAutoIncludes = AutoIncludeHome.getAutoIncludesList(  );
         Map<String, Object> model = getPaginatedListModel( request, MARK_AUTOINCLUDE_LIST, listAutoIncludes, JSP_MANAGE_AUTOINCLUDES );
+        
+        model.put( MARK_COMMONS_LIST, CommonsService.getCommonsIncludeList() );
+        model.put( MARK_CURRENT_COMMONS, CommonsService.getCurrentCommonsKey() );
 
         return getPage( PROPERTY_PAGE_TITLE_MANAGE_AUTOINCLUDES, TEMPLATE_MANAGE_AUTOINCLUDES, model );
     }
@@ -213,6 +224,25 @@ public class AutoIncludeJspBean extends MVCAdminJspBean
         return redirectView( request, VIEW_MANAGE_AUTOINCLUDES );
     }
 
+    
+    /**
+     * Activate a commons include
+     *
+     * @param request The Http request
+     * @return the jsp URL to display the form to manage autoincludes
+     */
+    @Action( ACTION_ACTIVATE )
+    public String doActivateCommonsInclude( HttpServletRequest request )
+    {
+        String strCommonsIncludeKey = request.getParameter( PARAMETER_COMMONS_KEY );
+        CommonsService.activateCommons( strCommonsIncludeKey );
+        AdminMenuJspBean.resetAdminStylesheets();
+        addInfo( INFO_COMMONS_ACTIVATE, getLocale(  ) );
+
+        return redirectView( request, VIEW_MANAGE_AUTOINCLUDES );
+    }
+
+    
     /**
      * Return a model that contains the list and paginator infos
      * @param request The HTTP request
