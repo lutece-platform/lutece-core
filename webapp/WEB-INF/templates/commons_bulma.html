@@ -458,10 +458,11 @@ and is kept only for backwards compatibility
 <#macro fieldInputText i18nLabelKey inputName mandatory=false value="" maxlength=0 i18nHelpBlockKey='' cssClass='input field-body'>
 	<div class="field is-horizontal">
 		<label class="field-label" for="${inputName}">#i18n{${i18nLabelKey}}&nbsp;<#if mandatory>*</#if>&nbsp;:</label>
-		<div class="control">
+		<p class="control">
 			<input class="${cssClass}" id="${inputName}" name="${inputName}" type="text" value="${value}" <#if maxlength &gt; 0>maxlength=${maxlength}</#if> />
-			<#if i18nHelpBlockKey != ''><p class="help-block">#i18n{${i18nHelpBlockKey}}</p></#if>
-		</div>
+		</p>
+  	    <#if i18nHelpBlockKey != ''><p class="help-block">#i18n{${i18nHelpBlockKey}}</p></#if>
+       
 	</div>
 </#macro>
 
@@ -758,7 +759,10 @@ and is kept only for backwards compatibility
 		<#assign mandatory = mandatory>
 		<#assign labelFor = labelFor>
 		<#assign helpKey = helpKey>
-		<#nested>
+        <div class="field is-expanded">
+            <p class="control is-expanded">
+        		<#nested>
+            </p>
 		<#if class='success'>
 			<@icon style='check' class='field-feedback' />
 		<#elseif class='warning'>
@@ -766,7 +770,8 @@ and is kept only for backwards compatibility
 		<#elseif class='error'>
 			<@icon style='close' class='field-feedback' />
 		</#if>
-		<#if helpKey!='' && formStyle!='inline'><p class="help" <#if labelFor!=''>id="${labelFor}_help"</#if>>${helpKey}</p></#if>
+		<#if helpKey!='' && formStyle!='inline'><p class="help has-text-grey-light" <#if labelFor!=''>id="${labelFor}_help"</#if>>${helpKey}</p></#if>
+        </div>
 	<#if formStyle="horizontal">
 	</div>
 	</#if>
@@ -780,9 +785,9 @@ and is kept only for backwards compatibility
 <#-- pattern: [A-F][0-9]{5} -->
 <#macro input name type='text' value='' class='' size='' inputSize=0 maxlength=0 placeHolder='' rows=4 cols=40 richtext=false tabIndex='' id='' mandatory=mandatory disabled=false readonly=false pattern='' params='' title='' min=0 max=0>
 <#if type='textarea'>
-	<textarea name="${name}" class="field<#if size!=''> input-${size}</#if><#if class!=''> ${class}</#if><#if richtext> richtext</#if>" rows="${rows}" cols="${cols}"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}"</#if><#if title!=''> title="${title}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if mandatory && !richtext> required</#if><#if labelFor!='' && helpKey!=''> aria-describedby="${labelFor}_help"</#if>><#nested></textarea>
+	<textarea name="${name}" class="input <#if size!=''> input-${size}</#if><#if class!=''> ${class}</#if><#if richtext> richtext</#if>" rows="${rows}" cols="${cols}"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}"</#if><#if title!=''> title="${title}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if mandatory && !richtext> required</#if><#if labelFor!='' && helpKey!=''> aria-describedby="${labelFor}_help"</#if>><#nested></textarea>
 <#elseif type='text' || type='search' || type='password' || type='email' || type='file' || type='number'>
-<input class="input <#if size!=''> input-${size}</#if><#if class!=''> ${class}</#if> " name="${name}" type="${type}" value="${value}"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}"</#if><#if title!=''> title="${title}"</#if><#if maxlength &gt; 0> maxlength="${maxlength}"</#if><#if inputSize!=0> size="${inputSize}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if min!=0> min="${min}"</#if><#if max!=0> max="${max}"</#if><#if mandatory> required</#if><#if labelFor!='' && helpKey!=''> aria-describedby="${labelFor}_help"</#if> />
+    <input class="input <#if size!=''> input-${size}</#if><#if class!=''> ${class}</#if> " name="${name}" type="${type}" value="${value}"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}"</#if><#if title!=''> title="${title}"</#if><#if maxlength &gt; 0> maxlength="${maxlength}"</#if><#if inputSize!=0> size="${inputSize}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if min!=0> min="${min}"</#if><#if max!=0> max="${max}"</#if><#if mandatory> required</#if><#if labelFor!='' && helpKey!=''> aria-describedby="${labelFor}_help"</#if> />
 <#else><@icon style='warning' />Type not supported
 </#if>
 </#macro>
