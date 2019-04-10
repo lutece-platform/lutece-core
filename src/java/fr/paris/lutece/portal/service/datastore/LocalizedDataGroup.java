@@ -38,6 +38,7 @@ import fr.paris.lutece.util.ReferenceItem;
 import fr.paris.lutece.util.ReferenceList;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
@@ -47,6 +48,8 @@ import java.util.Locale;
 public class LocalizedDataGroup
 {
     private static final String SUFFIX_HELP = ".help";
+    private static final String SUFFIX_ORDER = ".order";
+    private static final String DEFAULT_ORDER = "0";
 
     // Variables declarations
     private String _strName;
@@ -76,8 +79,10 @@ public class LocalizedDataGroup
             property.setValue( item.getName( ) );
             property.setLabel( I18nService.getLocalizedString( item.getCode( ), locale ) );
             property.setHelp( I18nService.getLocalizedString( item.getCode( ) + SUFFIX_HELP, locale ) );
+            property.setOrder( I18nService.getLocalizedString( item.getCode( ) + SUFFIX_ORDER, locale ));
             _listLocalizedData.add( property );
         }
+        Collections.sort( _listLocalizedData );
     }
 
     /**

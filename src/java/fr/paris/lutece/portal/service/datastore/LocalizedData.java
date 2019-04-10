@@ -36,20 +36,22 @@ package fr.paris.lutece.portal.service.datastore;
 /**
  * This is the business class for the object SiteProperty
  */
-public class LocalizedData
+public class LocalizedData implements Comparable
 {
+
     // Variables declarations
     private String _strKey;
     private String _strLabel;
     private String _strValue;
     private String _strHelp;
+    private int _nOrder;
 
     /**
      * Returns the Key
      *
      * @return The Key
      */
-    public String getKey( )
+    public String getKey()
     {
         return _strKey;
     }
@@ -57,8 +59,7 @@ public class LocalizedData
     /**
      * Sets the Key
      *
-     * @param strKey
-     *            The Key
+     * @param strKey The Key
      */
     public void setKey( String strKey )
     {
@@ -70,7 +71,7 @@ public class LocalizedData
      *
      * @return The Label
      */
-    public String getLabel( )
+    public String getLabel()
     {
         return _strLabel;
     }
@@ -78,8 +79,7 @@ public class LocalizedData
     /**
      * Sets the Label
      *
-     * @param strLabel
-     *            The Label
+     * @param strLabel The Label
      */
     public void setLabel( String strLabel )
     {
@@ -91,7 +91,7 @@ public class LocalizedData
      *
      * @return The Value
      */
-    public String getValue( )
+    public String getValue()
     {
         return _strValue;
     }
@@ -99,8 +99,7 @@ public class LocalizedData
     /**
      * Sets the Value
      *
-     * @param strValue
-     *            The Value
+     * @param strValue The Value
      */
     public void setValue( String strValue )
     {
@@ -112,7 +111,7 @@ public class LocalizedData
      *
      * @return The Help
      */
-    public String getHelp( )
+    public String getHelp()
     {
         return _strHelp;
     }
@@ -120,11 +119,63 @@ public class LocalizedData
     /**
      * Sets the Help
      *
-     * @param strHelp
-     *            The Help
+     * @param strHelp The Help
      */
     public void setHelp( String strHelp )
     {
         _strHelp = strHelp;
     }
+
+    /**
+     * Returns the Order
+     *
+     * @return The Order
+     */
+    public int getOrder()
+    {
+        return _nOrder;
+    }
+
+    /**
+     * Sets the Order
+     *
+     * @param nOrder The Order
+     */
+    public void setOrder( int nOrder )
+    {
+        _nOrder = nOrder;
+    }
+
+    /**
+     * Sets the Order
+     *
+     * @param strOrder The Order
+     */
+    public void setOrder( String strOrder )
+    {
+        try 
+        {
+            _nOrder = Integer.parseInt( strOrder );
+        }
+        catch( NumberFormatException e )
+        {
+            _nOrder = 0;
+        }
+    }
+
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public int compareTo( Object object )
+    {
+        int nCompare = _nOrder - ((LocalizedData) object ).getOrder();
+        
+        if( nCompare == 0 )
+        {
+            nCompare = _strKey.compareTo( ((LocalizedData) object ).getKey() );
+        }
+        return nCompare;
+    }
+
 }
