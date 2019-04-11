@@ -2,7 +2,7 @@
   	<@columns>
     	<@box>
 			<#assign title>
-				<@button type='button' id='fullscreen' params='data-toggle="tooltip" data-placement="bottom"' title='#i18n{portal.site.admin_page.buttonFullscreen}' buttonIcon='arrows-alt fa-fw' showTitle=false color='btn-secondary' />
+				<@button type='button' id='fullscreen' params='data-toggle="tooltip" data-placement="bottom"' title='#i18n{portal.site.admin_page.buttonFullscreen}' buttonIcon='arrows-alt fa-fw' showTitle=false color='secondary' />
 				<a href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}" title="${page.name}">
 					<@tag color='primary' title='${page.id} - ${page.name}'>${page.id}</@tag> ${page.name}
 				</a>
@@ -29,7 +29,7 @@
 							<@inputGroup>
 								<@input type='text' name='page_id' id='page_id' placeHolder='${i18n("portal.site.admin_page.buttonSearchPage")}' />
 								<@inputGroupItem type='btn'>
-									<@button type='submit' color='btn-default' title='${i18n("portal.site.admin_page.buttonSearchPage")}' showTitle=false buttonIcon='search' />
+									<@button type='submit' color='default' title='${i18n("portal.site.admin_page.buttonSearchPage")}' showTitle=false buttonIcon='search' />
 								</@inputGroupItem>
 							</@inputGroup>
 						</@formGroup>

@@ -112,7 +112,7 @@ public class CommonsService
         return DEFAULT_COMMONS_INCLUDE_KEY;
     }
 
-    private static CommonsInclude getCommonsInclude( String strKey )
+    public static CommonsInclude getCommonsInclude( String strKey )
     {
         for( CommonsInclude ci : getCommonsIncludes() )
         {
@@ -124,7 +124,7 @@ public class CommonsService
         return null;
     }
 
-    private static CommonsInclude getCurrentCommonsInclude()
+    public static CommonsInclude getCurrentCommonsInclude()
     {
         String strCurrentCommonsIncludeKey = DatastoreService.getInstanceDataValue( DSKEY_CURRENT_COMMONS_INCLUDE , DEFAULT_COMMONS_INCLUDE_KEY );
         return getCommonsInclude( strCurrentCommonsIncludeKey );

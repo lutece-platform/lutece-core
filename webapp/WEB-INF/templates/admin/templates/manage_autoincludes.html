@@ -17,6 +17,7 @@
     
     </@boxHeader>
     <@boxBody>
+        <@messages infos=infos />
         <@tform method='post' name='FilterPluginsForm' action='jsp/admin/templates/ManageAutoIncludes.jsp'>
             <@formGroup labelKey='#i18n{portal.templates.manage_autoincludes.commonsAvailable}' labelFor='commons_key' showLabel=false formStyle='inline'>
                 <input type="hidden" name="action" value="activate" />
@@ -32,20 +33,12 @@
 </@box>
 
 <@box>
-	<@boxHeader title='#i18n{portal.templates.manage_autoincludes.title}' boxTools=true>
-		<@tform class='form-inline pull-right' name='manage_autoinclude' action='jsp/admin/templates/ManageAutoIncludes.jsp'>
-			<@button type='submit' name='view_createAutoInclude' buttonIcon='plus' title='#i18n{portal.templates.manage_autoincludes.buttonAdd}' />
-		</@tform>
-	</@boxHeader>
 	<@boxBody>    
-    <@messages infos=infos />
-    <@paginationAdmin paginator=paginator combo=1 />
-    <div class="clearfix"></div>
     <@table>
         <tr>
             <input type="hidden" id="id" name="id"/>
             <th>#i18n{portal.templates.manage_autoincludes.columnFilePath}</th>
-            <th>#i18n{portal.util.labelActions}</th>
+            <th>&nbsp;</th>
         </tr>
        
             <#list autoinclude_list as autoinclude >
@@ -54,15 +47,12 @@
             <td>
                 ${autoinclude.filePath}
             </td>
-        <td>
-			<@aButton href='jsp/admin/templates/ManageAutoIncludes.jsp?action=confirmRemoveAutoInclude&file_path=${autoinclude.filePath}' title='#i18n{portal.util.labelDelete}' buttonIcon='trash' color='danger' showTitle=false />
-
-        </td>
+            <td>
+                <#if autoinclude.owner ??><@tag color='danger' >${autoinclude.owner}</@tag></#if>
+            </td>
         </tr>
         </#list>
     </@table>
-
-    <@paginationAdmin paginator=paginator />
 
   </@boxBody>
 </@box>

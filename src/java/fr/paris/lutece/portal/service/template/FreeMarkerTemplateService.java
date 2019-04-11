@@ -33,9 +33,13 @@
  */
 package fr.paris.lutece.portal.service.template;
 
+import fr.paris.lutece.portal.business.template.AutoInclude;
+import fr.paris.lutece.portal.business.template.CommonsInclude;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.date.DateUtil;
+import java.util.ArrayList;
+import java.util.List;
 
 import java.util.Locale;
 
@@ -47,14 +51,14 @@ public class FreeMarkerTemplateService extends AbstractFreeMarkerTemplateService
     public static final String BEAN_SERVICE = "freeMarkerTemplateService";
     private static final String PROPERTY_TEMPLATE_UPDATE_DELAY = "service.freemarker.templateUpdateDelay";
     private static final int TEMPLATE_UPDATE_DELAY = AppPropertiesService.getPropertyInt( PROPERTY_TEMPLATE_UPDATE_DELAY, 5 );
-    private static volatile IFreeMarkerTemplateService _singleton;
+    private static volatile FreeMarkerTemplateService _singleton;
 
     /**
      * Get the instance of the freemarker template service
      * 
      * @return the instance of the freemarker template service
      */
-    public static IFreeMarkerTemplateService getInstance( )
+    public static FreeMarkerTemplateService getInstance( )
     {
         if ( _singleton == null )
         {
@@ -86,4 +90,29 @@ public class FreeMarkerTemplateService extends AbstractFreeMarkerTemplateService
     {
         return DateUtil.getDefaultPattern( locale );
     }
+    
+    /**
+     * Load the data of all the autoInclude objects and returns them as a list
+     * @return the list which contains the data of all the autoInclude objects
+     */
+    public List<AutoInclude> getAutoIncludesList( )
+    {
+        CommonsInclude ciCurrent = CommonsService.getCurrentCommonsInclude();
+        List<AutoInclude> list = new ArrayList<>();        
+        for( String strAutoIncludePath : getAutoIncludes() )
+        {
+            AutoInclude include = new AutoInclude( strAutoIncludePath );
+            for( String strFile : ciCurrent.getFiles() )
+            {
+                if( strFile.equals( include.getFilePath() ))
+                {
+                    include.setOwner( ciCurrent.getName() );
+                }
+            }
+            list.add( include );
+                    
+        }
+        return list;
+    }
+    
 }

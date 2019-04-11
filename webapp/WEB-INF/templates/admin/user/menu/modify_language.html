@@ -7,9 +7,9 @@
 		<#list languages_list as lang>
 			<li>
 				<#if current_language==lang.code>
-					<#assign languageButtonColor='btn-success'>
+					<#assign languageButtonColor='success'>
 				<#else>
-					<#assign languageButtonColor='btn-default'>
+					<#assign languageButtonColor='default'>
 				</#if>
 				<@button color='${languageButtonColor}' type='submit' name='language' value='${lang.code}' title='${lang.name}'/>
 			</li>

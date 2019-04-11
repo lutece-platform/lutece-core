@@ -33,8 +33,6 @@
  */ 
 package fr.paris.lutece.portal.business.template;
 
-import javax.validation.constraints.Size;
-import org.hibernate.validator.constraints.NotEmpty;
 import java.io.Serializable;
 
 /**
@@ -44,9 +42,8 @@ public class AutoInclude implements Serializable
 {
     private static final long serialVersionUID = 1L;
 
-    @NotEmpty( message = "#i18n{portal.templates.validation.autoinclude.FilePath.notEmpty}" )
-    @Size( max = 255 , message = "#i18n{portal.templates.validation.autoinclude.FilePath.size}" ) 
     private String _strFilePath;
+    private String _strOwner;
 
     /**
      * Constructor
@@ -81,4 +78,23 @@ public class AutoInclude implements Serializable
     {
         _strFilePath = strFilePath;
     }
+
+    /**
+     * Returns the Owner
+     * @return The Owner
+     */
+    public String getOwner( )
+    {
+        return _strOwner;
+    }
+
+    /**
+     * Sets the Owner
+     * @param strOwner The Owner
+     */ 
+    public void setOwner( String strOwner )
+    {
+        _strOwner = strOwner;
+    }
+
 }

@@ -25,31 +25,36 @@
 
 
 <#macro comboWithParams name default_value additionalParameters items >
-<select id="${name}" name="${name}" ${additionalParameters} >
-<#list items as item>
-	<#if default_value="${item.code}">
-		<option selected="selected" value="${item.code}" >${item.name}</option>
-   	<#else>
-   		<option value="${item.code}" >${item.name}</option>
-   	</#if>
-</#list>
-</select>
+<div class="select is-rounded">
+    <select id="${name}" name="${name}" ${additionalParameters}>
+    <#list items as item>
+        <#if default_value="${item.code}">
+            <option selected="selected" value="${item.code}" >${item.name}</option>
+        <#else>
+            <option value="${item.code}" >${item.name}</option>
+        </#if>
+    </#list>
+    </select>
+</div>    
 </#macro>
 
 <#macro comboSortedWithParams name default_value additionalParameters items id=name>
-<select id="${id}" name="${name}" ${additionalParameters} >
-<#list items?sort_by("name") as item>
-	<#if default_value="${item.code}">
-		<option selected="selected" value="${item.code}" <#if !item.name?has_content>label="${i18n("portal.util.labelEmpty")}"</#if>>${item.name}</option>
-   	<#else>
-   		<option value="${item.code}" <#if !item.name?has_content>label="${i18n("portal.util.labelEmpty")}"</#if>>${item.name}</option>
-   	</#if>
-</#list>
-</select>
+<div class="select is-rounded">
+    <select id="${id}" name="${name}" ${additionalParameters}>
+    <#list items?sort_by("name") as item>
+        <#if default_value="${item.code}">
+            <option selected="selected" value="${item.code}" <#if !item.name?has_content>label="${i18n("portal.util.labelEmpty")}"</#if>>${item.name}</option>
+        <#else>
+            <option value="${item.code}" <#if !item.name?has_content>label="${i18n("portal.util.labelEmpty")}"</#if>>${item.name}</option>
+        </#if>
+    </#list>
+    </select>
+</div>
 </#macro>
 
-<#macro comboWithParamsAndLength name default_value additionalParameters items max_length >
-	<select id="${name}" name="${name}" ${additionalParameters} >
+<#macro comboWithParamsAndLength name default_value additionalParameters items max_length class=''>
+<div class="select is-rounded">
+    <select id="${name}" name="${name}" ${additionalParameters}>
 		<#list items as item>
     	    <#if max_length < item.name?length >
             	<#assign item_new = "..." + "${item.name?substring(item.name?length-max_length+3)}" >
@@ -63,6 +68,7 @@
       		</#if>
     	</#list>
 	</select>
+</div>
 </#macro>
 
 <#macro combo name default_value items >
@@ -276,7 +282,8 @@
 <#macro paginationCombo paginator nb_items_per_page=nb_items_per_page showall=0>
 	<label>${paginator.labelItemCountPerPage}</label>
   <div class="input-group">
-	  <select data-max-item="${paginator.itemsCount}" class="input-xs" name="${paginator.itemsPerPageParameterName}" id="${paginator.itemsPerPageParameterName}" title="${paginator.labelItemCountPerPage}">
+      <div class="select is-rounded is-small">
+	  <select data-max-item="${paginator.itemsCount}" name="${paginator.itemsPerPageParameterName}" id="${paginator.itemsPerPageParameterName}" title="${paginator.labelItemCountPerPage}">
   		<#list [ "10" , "20" , "50" , "100" ] as nb>
   			<#if nb_items_per_page = nb >
   				<option selected="selected" value="${nb}">${nb}</option>
@@ -290,6 +297,7 @@
   			</#if>
   		</#if>
 	  </select>
+      </div>
 	  <span class="input-group-btn">
 		<button class="button is-default is-small" type="submit" title="#i18n{portal.util.labelRefresh}">
             <span class="icon"><i class="fa fa-repeat"></i></span>
@@ -315,10 +323,10 @@
 <#macro item_navigation item_navigator id="item-navigator">
 <nav id="${id}" style="display:inline;">
 <#if (item_navigator.currentItemId > 0)>
-	<@aButton size='' href='${item_navigator.previousPageLink?xhtml}' title='#i18n{portal.util.labelPrevious}' buttonIcon='arrow-left' color='btn-info' showTitleXs=false showTitleSm=false />
+	<@aButton size='' href='${item_navigator.previousPageLink?xhtml}' title='#i18n{portal.util.labelPrevious}' buttonIcon='arrow-left' color='info' showTitleXs=false showTitleSm=false />
 </#if>
 <#if (item_navigator.currentItemId < item_navigator.listItemSize - 1) >
-	<@aButton size='' href='${item_navigator.nextPageLink?xhtml}' title='#i18n{portal.util.labelNext}' buttonIcon='arrow-right' color='btn-info' showTitleXs=false showTitleSm=false />
+	<@aButton size='' href='${item_navigator.nextPageLink?xhtml}' title='#i18n{portal.util.labelNext}' buttonIcon='arrow-right' color='info' showTitleXs=false showTitleSm=false />
 </#if>
 </nav>
 </#macro>
@@ -690,29 +698,31 @@ and is kept only for backwards compatibility
 
 <#--- MACRO SELECT (TO REPLACE "COMBO" MACROS) --->
 <#macro select name items='' default_value="" id=name size='' sort=false multiple=0 params='' title='' tabIndex=0>
-<select id="${id}" name="${name}" class="field<#if size!=''> input-${size}</#if>" <#if (multiple &gt; 0)>multiple size="${multiple}"</#if><#if (tabIndex &gt; 0)> tabindex="${tabIndex}"</#if><#if params!=''> ${params}</#if><#if title!=''> ${title}</#if>>
-<#if items?has_content>
-	<#if sort=true>
-		<#list items?sort_by("name") as item>
-			<#if default_value="${item.code}">
-				<option selected="selected" value="${item.code}" <#if !item.name?has_content>label="${i18n("portal.util.labelEmpty")}"</#if>>${item.name}</option>
-			<#else>
-				<option value="${item.code}" <#if !item.name?has_content>label="${i18n("portal.util.labelEmpty")}"</#if>>${item.name}</option>
-			</#if>
-		</#list>
-	<#else>
-		<#list items as item>
-			<#if default_value="${item.code}">
-				<option selected="selected" value="${item.code}" <#if !item.name?has_content>label="${i18n("portal.util.labelEmpty")}"</#if>>${item.name}</option>
-			<#else>
-				<option value="${item.code}" <#if !item.name?has_content>label="${i18n("portal.util.labelEmpty")}"</#if>>${item.name}</option>
-			</#if>
-		</#list>
-	</#if>
-<#else>
-	<#nested>
-</#if>
-</select>
+<div class="select is-rounded">
+    <select id="${id}" name="${name}" class="field<#if size!=''> is-${size}</#if>" <#if (multiple &gt; 0)>multiple size="${multiple}"</#if><#if (tabIndex &gt; 0)> tabindex="${tabIndex}"</#if><#if params!=''> ${params}</#if><#if title!=''> ${title}</#if>>
+    <#if items?has_content>
+        <#if sort=true>
+            <#list items?sort_by("name") as item>
+                <#if default_value="${item.code}">
+                    <option selected="selected" value="${item.code}" <#if !item.name?has_content>label="${i18n("portal.util.labelEmpty")}"</#if>>${item.name}</option>
+                <#else>
+                    <option value="${item.code}" <#if !item.name?has_content>label="${i18n("portal.util.labelEmpty")}"</#if>>${item.name}</option>
+                </#if>
+            </#list>
+        <#else>
+            <#list items as item>
+                <#if default_value="${item.code}">
+                    <option selected="selected" value="${item.code}" <#if !item.name?has_content>label="${i18n("portal.util.labelEmpty")}"</#if>>${item.name}</option>
+                <#else>
+                    <option value="${item.code}" <#if !item.name?has_content>label="${i18n("portal.util.labelEmpty")}"</#if>>${item.name}</option>
+                </#if>
+            </#list>
+        </#if>
+    <#else>
+        <#nested>
+    </#if>
+    </select>
+</div>
 </#macro>
 
 <#-- ICONS -->
@@ -958,7 +968,7 @@ and is kept only for backwards compatibility
 <#-- TAG -->
 <#-- color: default/primary/success/info/warning/danger/ -->
 <#macro tag color='default' title='' type='span' id='' params=''>
-	<${type} class="label label-${color}"<#if title!=''> title='${title}'</#if><#if id!=''>id='${id}'</#if><#if params!=''>${params}</#if>>
+	<${type} class="tag is-${color}"<#if title!=''> title='${title}'</#if><#if id!=''>id='${id}'</#if><#if params!=''>${params}</#if>>
 		<#nested>
 	</${type}>
 </#macro>
@@ -1479,7 +1489,7 @@ $( function() {
 			</div>
 			<#nested>
 			<p class='text-center'>
-				<@aButton href='http://fr.lutece.paris.fr' params='target="_blank"' title='#i18n{portal.site.portal_footer.labelPortal}' showTitle=false color='btn-secondary'>
+				<@aButton href='http://fr.lutece.paris.fr' params='target="_blank"' title='#i18n{portal.site.portal_footer.labelPortal}' showTitle=false color='secondary'>
 					<img src="images/poweredby.jpg" class="thumbnails" alt="logo lutece" title="Lutece">
 				</@aButton>
 			</p>
@@ -1603,7 +1613,7 @@ $(function() {
 <#-- COMPONENTS --> 
 <#--Badge : BS badge + label  -->
 <#macro badge htmlEl='span' type='badge' style='primary' class='' >
-<${htmlEl} class="${type} ${type}-${style}">
+<${htmlEl} class="tag is-${style}">
 	<#nested>
 </${htmlEl}>
 </#macro>
