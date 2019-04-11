@@ -107,6 +107,7 @@ public final class PortalService
     private static final String TEMPLATE_PAGE_TOOLS_MENU = "skin/site/page_menu_tools.html";
     private static final String TEMPLATE_PAGE_PATH = "skin/site/page_path.html";
     private static final String TEMPLATE_PORTAL_FOOTER = "skin/site/portal_footer.html";
+    private static final String TEMPLATE_ADMIN_CSS_LINKS = "admin/stylesheet_link.html";
 
     // Markers
     private static final String MARKER_TARGET = "target";
@@ -793,5 +794,15 @@ public final class PortalService
     public static boolean isContactActivated( )
     {
         return PluginService.isPluginEnable( PLUGIN_CONTACT_NAME );
+    }
+    
+    /**
+     * Get the list of CSS links for session less pages
+     * @return The HTML code providing the list of CSS links.
+     */
+    public static String getAdminCssLinks()
+    {
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_CSS_LINKS );
+        return template.getHtml();
     }
 }

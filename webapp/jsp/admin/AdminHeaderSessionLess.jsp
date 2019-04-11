@@ -20,10 +20,7 @@
 <!-- Set the viewport width to device width for mobile -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- Le styles -->
-<link href="css/admin/bootstrap.min.css" rel="stylesheet">
-<link href="css/admin/font-awesome.min.css"  rel="stylesheet" >
-<link rel="stylesheet" href="css/admin/AdminLTE.css" >
-<link rel="stylesheet" href="css/admin/portal_admin.css" >
+<%= PortalService.getAdminCssLinks() %>
 <style>
 #login-box{-webkit-box-shadow: 0px 1px 5px 1px rgba(50, 50, 50, 0.75);-moz-box-shadow:0px 1px 5px 1px rgba(50, 50, 50, 0.75);box-shadow:0px 1px 5px 1px rgba(50, 50, 50, 0.75);}
 </style>
