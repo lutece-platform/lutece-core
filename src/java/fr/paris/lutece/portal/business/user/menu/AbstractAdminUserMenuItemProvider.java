@@ -74,8 +74,7 @@ public abstract class AbstractAdminUserMenuItemProvider implements IAdminUserMen
      * 
      * @param request
      *            the request
-     * @return <code>true</code> if this item provider should be included,
-     *         <code>false</code> otherwise
+     * @return <code>true</code> if this item provider should be included, <code>false</code> otherwise
      */
     protected abstract boolean isItemProviderInvoked( HttpServletRequest request );
 

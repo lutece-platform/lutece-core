@@ -47,8 +47,7 @@ public interface IAdminUserMenuItemProvider
      * 
      * @param request
      *            the request
-     * @return <code>true</code> if this item should be included,
-     *         <code>false</code> otherwise
+     * @return <code>true</code> if this item should be included, <code>false</code> otherwise
      */
     boolean isInvoked( HttpServletRequest request );
 

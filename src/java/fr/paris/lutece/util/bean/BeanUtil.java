@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -72,12 +72,12 @@ public final class BeanUtil
     public static void init( )
     {
         mapBeanUtilsBeans = new HashMap<>( );
-        
+
         for ( Locale locale : I18nService.getAdminAvailableLocales( ) )
         {
             BeanUtilsBean beanUtilsBean = new BeanUtilsBean( );
             beanUtilsBean.getPropertyUtils( ).addBeanIntrospector( SuppressPropertiesBeanIntrospector.SUPPRESS_CLASS );
-    
+
             DateConverter dateConverter = new DateConverter( null );
             dateConverter.setPattern( I18nService.getDateFormatShortPattern( locale ) );
             beanUtilsBean.getConvertUtils( ).register( dateConverter, Date.class );
@@ -89,18 +89,18 @@ public final class BeanUtil
     private BeanUtil( )
     {
     }
-    
+
     /**
      * Populate a bean using parameters in http request
      * 
      * @param bean
-     * @param request 
+     * @param request
      */
     public static void populate( Object bean, HttpServletRequest request )
     {
         populate( bean, request, null );
     }
-        
+
     /**
      * Populate a bean using parameters in http request, with locale date format controls
      *

@@ -130,8 +130,7 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
     }
 
     /**
-     * Test of doDispatchFeature method, of class
-     * fr.paris.lutece.portal.web.features.FeaturesGroupJspBean.
+     * Test of doDispatchFeature method, of class fr.paris.lutece.portal.web.features.FeaturesGroupJspBean.
      * 
      * @throws AccessDeniedException
      */
@@ -166,15 +165,14 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
         request.addParameter( "group_name", featureGroup.getId( ) );
         request.addParameter( "order_id", Integer.toString( stored.getOrder( ) + 1 ) );
         request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/features/dispatch_features.html" )
-                        + "b" );
+                SecurityTokenService.getInstance( ).getToken( request, "admin/features/dispatch_features.html" ) + "b" );
 
         try
         {
             instance.doDispatchFeature( request );
             fail( "Should have thrown" );
         }
-        catch ( AccessDeniedException e )
+        catch( AccessDeniedException e )
         {
             stored = RightHome.findByPrimaryKey( right.getId( ) );
             assertNotNull( stored );
@@ -199,7 +197,7 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
             instance.doDispatchFeature( request );
             fail( "Should have thrown" );
         }
-        catch ( AccessDeniedException e )
+        catch( AccessDeniedException e )
         {
             stored = RightHome.findByPrimaryKey( right.getId( ) );
             assertNotNull( stored );
@@ -234,8 +232,7 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
     }
 
     /**
-     * Test of doCreateGroup method, of class
-     * fr.paris.lutece.portal.web.features.FeaturesGroupJspBean.
+     * Test of doCreateGroup method, of class fr.paris.lutece.portal.web.features.FeaturesGroupJspBean.
      * 
      * @throws AccessDeniedException
      */
@@ -247,8 +244,7 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
         request.addParameter( "group_name", strGroupName );
         request.addParameter( "group_description", strGroupName );
         request.addParameter( "group_order", "1" );
-        request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/features/create_group.html" ) );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "admin/features/create_group.html" ) );
 
         try
         {
@@ -274,16 +270,16 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
         request.addParameter( "group_name", strGroupName );
         request.addParameter( "group_description", strGroupName );
         request.addParameter( "group_order", "1" );
-        request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/features/create_group.html" ) + "b" );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "admin/features/create_group.html" )
+                + "b" );
 
         try
         {
             instance.doCreateGroup( request );
             fail( "Should have thrown" );
         }
-        catch ( AccessDeniedException e )
-        { 
+        catch( AccessDeniedException e )
+        {
             FeatureGroup group = FeatureGroupHome.findByPrimaryKey( strGroupName );
             assertNull( group );
         }
@@ -307,8 +303,8 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
             instance.doCreateGroup( request );
             fail( "Should have thrown" );
         }
-        catch ( AccessDeniedException e )
-        { 
+        catch( AccessDeniedException e )
+        {
             FeatureGroup group = FeatureGroupHome.findByPrimaryKey( strGroupName );
             assertNull( group );
         }
@@ -326,8 +322,7 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
     }
 
     /**
-     * Test of doModifyGroup method, of class
-     * fr.paris.lutece.portal.web.features.FeaturesGroupJspBean.
+     * Test of doModifyGroup method, of class fr.paris.lutece.portal.web.features.FeaturesGroupJspBean.
      * 
      * @throws AccessDeniedException
      */
@@ -339,8 +334,7 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
         request.addParameter( "group_name", strGroupName );
         request.addParameter( "group_description", strGroupName );
         request.addParameter( "group_order", Integer.toString( featureGroup.getOrder( ) + 1 ) );
-        request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/features/modify_group.html" ) );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "admin/features/modify_group.html" ) );
 
         instance.doModifyGroup( request );
         FeatureGroup group = FeatureGroupHome.findByPrimaryKey( featureGroup.getId( ) );
@@ -359,15 +353,15 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
         request.addParameter( "group_name", strGroupName );
         request.addParameter( "group_description", strGroupName );
         request.addParameter( "group_order", Integer.toString( featureGroup.getOrder( ) + 1 ) );
-        request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/features/modify_group.html" ) + "b" );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "admin/features/modify_group.html" )
+                + "b" );
 
         try
         {
             instance.doModifyGroup( request );
             fail( "Should have thrown" );
         }
-        catch ( AccessDeniedException e )
+        catch( AccessDeniedException e )
         {
             FeatureGroup group = FeatureGroupHome.findByPrimaryKey( featureGroup.getId( ) );
             assertNotNull( group );
@@ -392,7 +386,7 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
             instance.doModifyGroup( request );
             fail( "Should have thrown" );
         }
-        catch ( AccessDeniedException e )
+        catch( AccessDeniedException e )
         {
             FeatureGroup group = FeatureGroupHome.findByPrimaryKey( featureGroup.getId( ) );
             assertNotNull( group );
@@ -420,8 +414,7 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
     }
 
     /**
-     * Test of doRemoveGroup method, of class
-     * fr.paris.lutece.portal.web.features.FeaturesGroupJspBean.
+     * Test of doRemoveGroup method, of class fr.paris.lutece.portal.web.features.FeaturesGroupJspBean.
      * 
      * @throws AccessDeniedException
      */
@@ -450,7 +443,7 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
             instance.doRemoveGroup( request );
             fail( "Should have thrown" );
         }
-        catch ( AccessDeniedException e )
+        catch( AccessDeniedException e )
         {
             assertNotNull( FeatureGroupHome.findByPrimaryKey( featureGroup.getId( ) ) );
         }
@@ -467,7 +460,7 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
             instance.doRemoveGroup( request );
             fail( "Should have thrown" );
         }
-        catch ( AccessDeniedException e )
+        catch( AccessDeniedException e )
         {
             assertNotNull( FeatureGroupHome.findByPrimaryKey( featureGroup.getId( ) ) );
         }
@@ -478,8 +471,7 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.addParameter( "group_id", featureGroup.getId( ) );
         request.addParameter( "order_id", Integer.toString( featureGroup.getOrder( ) + 1 ) );
-        request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/features/manage_groups.html" ) );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "admin/features/manage_groups.html" ) );
 
         instance.doDispatchFeatureGroup( request );
         FeatureGroup stored = FeatureGroupHome.findByPrimaryKey( featureGroup.getId( ) );
@@ -493,15 +485,15 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.addParameter( "group_id", featureGroup.getId( ) );
         request.addParameter( "order_id", Integer.toString( featureGroup.getOrder( ) + 1 ) );
-        request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/features/manage_groups.html" ) + "b" );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "admin/features/manage_groups.html" )
+                + "b" );
 
         try
         {
             instance.doDispatchFeatureGroup( request );
             fail( "Should have thrown" );
         }
-        catch ( AccessDeniedException e )
+        catch( AccessDeniedException e )
         {
             FeatureGroup stored = FeatureGroupHome.findByPrimaryKey( featureGroup.getId( ) );
             assertNotNull( stored );
@@ -520,7 +512,7 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
             instance.doDispatchFeatureGroup( request );
             fail( "Should have thrown" );
         }
-        catch ( AccessDeniedException e )
+        catch( AccessDeniedException e )
         {
             FeatureGroup stored = FeatureGroupHome.findByPrimaryKey( featureGroup.getId( ) );
             assertNotNull( stored );
@@ -533,7 +525,7 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
         right.setFeatureGroup( featureGroup.getId( ) );
         RightHome.update( right );
         right.setOrder( 100 );
-        ( ( IRightDAO ) SpringContextService.getBean( "rightDAO" ) ).store( right );
+        ( (IRightDAO) SpringContextService.getBean( "rightDAO" ) ).store( right );
 
         Right stored = RightHome.findByPrimaryKey( right.getId( ) );
         assertNotNull( stored );
@@ -555,7 +547,7 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
         right.setFeatureGroup( featureGroup.getId( ) );
         RightHome.update( right );
         right.setOrder( 100 );
-        ( ( IRightDAO ) SpringContextService.getBean( "rightDAO" ) ).store( right );
+        ( (IRightDAO) SpringContextService.getBean( "rightDAO" ) ).store( right );
 
         Right stored = RightHome.findByPrimaryKey( right.getId( ) );
         assertNotNull( stored );
@@ -564,15 +556,14 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.addParameter( "group_id", featureGroup.getId( ) );
         request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/features/dispatch_features.html" )
-                        + "b" );
+                SecurityTokenService.getInstance( ).getToken( request, "admin/features/dispatch_features.html" ) + "b" );
 
         try
         {
             instance.doReinitFeatures( request );
             fail( "Should have thrown" );
         }
-        catch ( AccessDeniedException e )
+        catch( AccessDeniedException e )
         {
             stored = RightHome.findByPrimaryKey( right.getId( ) );
             assertNotNull( stored );
@@ -585,7 +576,7 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
         right.setFeatureGroup( featureGroup.getId( ) );
         RightHome.update( right );
         right.setOrder( 100 );
-        ( ( IRightDAO ) SpringContextService.getBean( "rightDAO" ) ).store( right );
+        ( (IRightDAO) SpringContextService.getBean( "rightDAO" ) ).store( right );
 
         Right stored = RightHome.findByPrimaryKey( right.getId( ) );
         assertNotNull( stored );
@@ -599,7 +590,7 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
             instance.doReinitFeatures( request );
             fail( "Should have thrown" );
         }
-        catch ( AccessDeniedException e )
+        catch( AccessDeniedException e )
         {
             stored = RightHome.findByPrimaryKey( right.getId( ) );
             assertNotNull( stored );

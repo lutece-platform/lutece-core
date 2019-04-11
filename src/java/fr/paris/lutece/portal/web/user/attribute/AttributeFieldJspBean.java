@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -270,7 +270,7 @@ public class AttributeFieldJspBean extends AdminFeaturesPageJspBean
         parameters.put( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, JSP_URL_REMOVE_ATTRIBUTE_FIELD ) );
 
         return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_CONFIRM_REMOVE_ATTRIBUTE_FIELD, JSP_URL_REMOVE_ATTRIBUTE_FIELD,
-                AdminMessage.TYPE_CONFIRMATION, parameters  );
+                AdminMessage.TYPE_CONFIRMATION, parameters );
     }
 
     /**

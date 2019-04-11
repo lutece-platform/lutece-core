@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -344,7 +344,7 @@ public abstract class MVCApplication implements XPageApplication
     {
         BeanUtil.populate( bean, request, null );
     }
-    
+
     /**
      * Populate a bean using parameters in http request, with locale date format controls
      * 
@@ -355,7 +355,7 @@ public abstract class MVCApplication implements XPageApplication
      * @param locale
      *            the locale
      */
-    protected void populate( Object bean, HttpServletRequest request , Locale locale)
+    protected void populate( Object bean, HttpServletRequest request, Locale locale )
     {
         BeanUtil.populate( bean, request, locale );
     }

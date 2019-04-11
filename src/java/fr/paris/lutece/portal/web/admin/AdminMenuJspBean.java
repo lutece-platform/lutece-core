@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -134,7 +134,7 @@ public class AdminMenuJspBean implements Serializable
     private static final String PASSWORD_CURRENT_ERROR = "portal.users.message.password.new.equals.current";
     private static final String MESSAGE_PASSWORD_REDIRECT = "portal.users.message.password.ok.redirect";
     private static final String LOGGER_ACCESS = "lutece.adminaccess";
-    
+
     private static String _strStylesheets;
     private static boolean _bResetAdminStylesheets;
     private static String _strJavascripts;
@@ -196,7 +196,7 @@ public class AdminMenuJspBean implements Serializable
         model.put( MARK_JAVASCRIPT_FILES, getAdminJavascripts( ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_MENU_FOOTER, locale, model );
-        
+
         traceAdminAccess( request );
 
         return template.getHtml( );
@@ -430,8 +430,7 @@ public class AdminMenuJspBean implements Serializable
     }
 
     /**
-     * Perform the user password modification. This is used only by the default
-     * module. For other modules, custom implementation should be provided.
+     * Perform the user password modification. This is used only by the default module. For other modules, custom implementation should be provided.
      * 
      * @param request
      *            the http request
@@ -538,7 +537,7 @@ public class AdminMenuJspBean implements Serializable
      * @return the stylesheets files block to include in the footer
      * @since 5.1
      */
-    public String getAdminStyleSheets(  )
+    public String getAdminStyleSheets( )
     {
         if ( _strStylesheets == null || _bResetAdminStylesheets )
         {
@@ -556,11 +555,11 @@ public class AdminMenuJspBean implements Serializable
         return _strStylesheets;
     }
 
-    public static void resetAdminStylesheets()
+    public static void resetAdminStylesheets( )
     {
         _bResetAdminStylesheets = true;
     }
-    
+
     /**
      * Return the javascript files block to include in the footer
      * 
@@ -598,29 +597,26 @@ public class AdminMenuJspBean implements Serializable
 
     /**
      * Trace in a log file URL accessed by the current admin user
-     * @param request The HTTP request
+     * 
+     * @param request
+     *            The HTTP request
      */
     private void traceAdminAccess( HttpServletRequest request )
     {
         AdminUser user = AdminUserService.getAdminUser( request );
-        if( user != null )
+        if ( user != null )
         {
-            StringBuilder sbAccessLog = new StringBuilder();
-            sbAccessLog.append( "USER id:" ).append( user.getUserId()) 
-                    .append( ", name: " ).append( user.getFirstName()).append( " " ).append( user.getLastName() )
-                    .append( ", ip: ").append( request.getRemoteAddr())
-                    .append( ", url: " )
-                    .append( request.getScheme()).append( "://")
-                    .append( request.getServerName()).append( ':')
-                    .append( request.getServerPort() )
-                    .append( request.getRequestURI());
-            String strQuery = request.getQueryString();
-            if( strQuery != null )
+            StringBuilder sbAccessLog = new StringBuilder( );
+            sbAccessLog.append( "USER id:" ).append( user.getUserId( ) ).append( ", name: " ).append( user.getFirstName( ) ).append( " " )
+                    .append( user.getLastName( ) ).append( ", ip: " ).append( request.getRemoteAddr( ) ).append( ", url: " ).append( request.getScheme( ) )
+                    .append( "://" ).append( request.getServerName( ) ).append( ':' ).append( request.getServerPort( ) ).append( request.getRequestURI( ) );
+            String strQuery = request.getQueryString( );
+            if ( strQuery != null )
             {
                 sbAccessLog.append( "?" ).append( strQuery );
             }
-            _loggerAccess.info( sbAccessLog.toString() );
-            
+            _loggerAccess.info( sbAccessLog.toString( ) );
+
         }
     }
 }

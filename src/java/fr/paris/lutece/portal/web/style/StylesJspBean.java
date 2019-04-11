@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -189,8 +189,7 @@ public class StylesJspBean extends AdminFeaturesPageJspBean
     }
 
     /**
-     * Processes the creation form of a new style by recovering the parameters
-     * in the http request
+     * Processes the creation form of a new style by recovering the parameters in the http request
      * 
      * @param request
      *            the http request
@@ -276,8 +275,7 @@ public class StylesJspBean extends AdminFeaturesPageJspBean
     }
 
     /**
-     * Processes the updating form of a style whose new parameters are stored in
-     * the http request
+     * Processes the updating form of a style whose new parameters are stored in the http request
      * 
      * @param request
      *            The http request
@@ -352,10 +350,9 @@ public class StylesJspBean extends AdminFeaturesPageJspBean
                 Map<String, Object> parameters = new HashMap<>( );
                 parameters.put( Parameters.STYLESHEET_ID, Integer.toString( styleSheet.getId( ) ) );
                 parameters.put( Parameters.STYLE_ID, Integer.toString( styleSheet.getStyleId( ) ) );
-                parameters.put( SecurityTokenService.PARAMETER_TOKEN,
-                        SecurityTokenService.getInstance( ).getToken( request, JSP_DO_REMOVE_STYLESHEET ) );
-                return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_DELETE_STYLESHEET, args, null,
-                        JSP_DO_REMOVE_STYLESHEET, null, AdminMessage.TYPE_CONFIRMATION, parameters );
+                parameters.put( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, JSP_DO_REMOVE_STYLESHEET ) );
+                return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_DELETE_STYLESHEET, args, null, JSP_DO_REMOVE_STYLESHEET, null,
+                        AdminMessage.TYPE_CONFIRMATION, parameters );
             }
         }
 
@@ -372,7 +369,8 @@ public class StylesJspBean extends AdminFeaturesPageJspBean
      * @param request
      *            the http request
      * @return The Jsp URL of the process result
-     * @throws AccessDeniedException if the security token is invalid
+     * @throws AccessDeniedException
+     *             if the security token is invalid
      */
     public String doRemoveStyle( HttpServletRequest request ) throws AccessDeniedException
     {

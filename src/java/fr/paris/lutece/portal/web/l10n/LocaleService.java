@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -55,6 +55,7 @@ public final class LocaleService
     private static final String PROPERTY_LANG_DEFAULT = "lutece.i18n.defaultLocale";
     private static Locale _locale;
     private static List<Locale> _supportedLocales;
+
     /**
      * Private constructor
      */
@@ -110,12 +111,12 @@ public final class LocaleService
     {
         if ( _locale != null )
         {
-            return _locale ;
+            return _locale;
         }
         else
         {
             String dsLang = DatastoreService.getInstanceDataValue( DSKEY_LANGUAGE_DEFAULT, null );
-            
+
             if ( dsLang != null )
             {
                 for ( String strISOLang : Locale.getISOLanguages( ) )
@@ -133,80 +134,79 @@ public final class LocaleService
             // otherwise, get the default locale from properties
             _locale = new Locale( AppPropertiesService.getProperty( PROPERTY_LANG_DEFAULT ) );
             AppLogService.error( "LocaleService : invalid defined locale " + dsLang + " - default set to " + _locale.getLanguage( ) );
-                        
+
             return _locale;
         }
     }
-    
+
     /**
-     * Retrieve the best supported locale for the user's session
-     * Priority order :
-     *  1- selected locale session attribute
-     *  2- browser locale (if supported)
-     *  3- default server locale
+     * Retrieve the best supported locale for the user's session Priority order : 1- selected locale session attribute 2- browser locale (if supported) 3-
+     * default server locale
      * 
      * @param request
      *            The HTTP request
-     * @return The locale 
+     * @return The locale
      */
     public static Locale getContextUserLocale( HttpServletRequest request )
     {
-        Locale locale = null ;
+        Locale locale = null;
 
         // consider the current session locale
         locale = getUserSelectedLocale( request );
-        
-        if ( locale == null || !isSupported( locale ) ) 
+
+        if ( locale == null || !isSupported( locale ) )
         {
             // consider the browser language
             locale = new Locale( request.getLocale( ).getLanguage( ).substring( 0, 2 ) );
-            
-            if ( !isSupported( locale ) ) 
+
+            if ( !isSupported( locale ) )
             {
                 // consider the server default
                 locale = getDefault( );
             }
         }
-        
+
         return locale;
     }
-    
+
     /**
-     * check if Locale is supported
-     * according to locale list in lutece properties
+     * check if Locale is supported according to locale list in lutece properties
      * 
      * @param locale
      * @return true if supported
      */
     public static boolean isSupported( Locale locale )
     {
-        if ( _supportedLocales == null ) getSupportedLangList ( );
-        
+        if ( _supportedLocales == null )
+            getSupportedLangList( );
+
         // check if the mandatory language is supported
-        for (Locale supportedLocale : _supportedLocales )
+        for ( Locale supportedLocale : _supportedLocales )
         {
-            if ( supportedLocale.equals( locale ) ) return true;
-        }  
-        
+            if ( supportedLocale.equals( locale ) )
+                return true;
+        }
+
         return false;
     }
-    
+
     /**
      * get Supported Lang List
+     * 
      * @return the Supported Lang List
      */
-    public static List<Locale> getSupportedLangList ( )
+    public static List<Locale> getSupportedLangList( )
     {
-        if ( _supportedLocales == null ) 
+        if ( _supportedLocales == null )
         {
-        String[] strLangList = AppPropertiesService.getProperty( PROPERTY_LANG_LIST ).split(",");
+            String [ ] strLangList = AppPropertiesService.getProperty( PROPERTY_LANG_LIST ).split( "," );
             _supportedLocales = new ArrayList<>( );
             for ( String lang : strLangList )
             {
                 _supportedLocales.add( new Locale( lang ) );
             }
         }
-        
+
         return _supportedLocales;
     }
 }

@@ -113,8 +113,7 @@ public class AdminMenuJspBeanTest extends LuteceTestCase
     }
 
     /**
-     * Test of doChangeLanguage method, of class
-     * fr.paris.lutece.portal.web.admin.AdminMenuJspBean.
+     * Test of doChangeLanguage method, of class fr.paris.lutece.portal.web.admin.AdminMenuJspBean.
      */
     public void testDoChangeLanguage( ) throws AccessDeniedException
     {
@@ -153,7 +152,7 @@ public class AdminMenuJspBeanTest extends LuteceTestCase
             instance.doChangeLanguage( request );
             fail( "Should have thrown" );
         }
-        catch ( AccessDeniedException e )
+        catch( AccessDeniedException e )
         {
             assertSame( localeSTored.getLanguage( ), _user.getLocale( ).getLanguage( ) );
         }
@@ -176,7 +175,7 @@ public class AdminMenuJspBeanTest extends LuteceTestCase
             instance.doChangeLanguage( request );
             fail( "Should have thrown" );
         }
-        catch ( AccessDeniedException e )
+        catch( AccessDeniedException e )
         {
             assertSame( localeSTored.getLanguage( ), _user.getLocale( ).getLanguage( ) );
         }
@@ -318,7 +317,8 @@ public class AdminMenuJspBeanTest extends LuteceTestCase
             request.addParameter( Parameters.PASSWORD_CURRENT, password );
             request.addParameter( Parameters.NEW_PASSWORD, password + "_mod" );
             request.addParameter( Parameters.CONFIRM_NEW_PASSWORD, password + "_mod" );
-            request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "admin/user/modify_password_default_module.html" ) );
+            request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
+                    SecurityTokenService.getInstance( ).getToken( request, "admin/user/modify_password_default_module.html" ) );
             instance.doModifyDefaultAdminUserPassword( request );
             message = AdminMessageService.getMessage( request );
             assertNotNull( message );
@@ -343,8 +343,7 @@ public class AdminMenuJspBeanTest extends LuteceTestCase
         String password = "Pa55word!";
         IPasswordFactory passwordFactory = SpringContextService.getBean( IPasswordFactory.BEAN_NAME );
 
-        LuteceDefaultAdminUser user = new LuteceDefaultAdminUser( randomUsername,
-                new LuteceDefaultAdminAuthentication( ) );
+        LuteceDefaultAdminUser user = new LuteceDefaultAdminUser( randomUsername, new LuteceDefaultAdminAuthentication( ) );
         user.setPassword( passwordFactory.getPasswordFromCleartext( password ) );
         user.setFirstName( randomUsername );
         user.setLastName( randomUsername );
@@ -358,14 +357,14 @@ public class AdminMenuJspBeanTest extends LuteceTestCase
         request.addParameter( Parameters.PASSWORD_CURRENT, password );
         request.addParameter( Parameters.NEW_PASSWORD, password + "_mod" );
         request.addParameter( Parameters.CONFIRM_NEW_PASSWORD, password + "_mod" );
-        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( )
-                .getToken( request, "admin/user/modify_password_default_module.html" ) + "b" );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "admin/user/modify_password_default_module.html" ) + "b" );
         try
         {
             instance.doModifyDefaultAdminUserPassword( request );
             fail( "Shoulf have thrown" );
         }
-        catch ( AccessDeniedException e )
+        catch( AccessDeniedException e )
         {
             List<IPassword> history = AdminUserHome.selectUserPasswordHistory( user.getUserId( ) );
             assertEquals( 0, history.size( ) );
@@ -381,8 +380,7 @@ public class AdminMenuJspBeanTest extends LuteceTestCase
         String password = "Pa55word!";
         IPasswordFactory passwordFactory = SpringContextService.getBean( IPasswordFactory.BEAN_NAME );
 
-        LuteceDefaultAdminUser user = new LuteceDefaultAdminUser( randomUsername,
-                new LuteceDefaultAdminAuthentication( ) );
+        LuteceDefaultAdminUser user = new LuteceDefaultAdminUser( randomUsername, new LuteceDefaultAdminAuthentication( ) );
         user.setPassword( passwordFactory.getPasswordFromCleartext( password ) );
         user.setFirstName( randomUsername );
         user.setLastName( randomUsername );
@@ -402,7 +400,7 @@ public class AdminMenuJspBeanTest extends LuteceTestCase
             instance.doModifyDefaultAdminUserPassword( request );
             fail( "Shoulf have thrown" );
         }
-        catch ( AccessDeniedException e )
+        catch( AccessDeniedException e )
         {
             List<IPassword> history = AdminUserHome.selectUserPasswordHistory( user.getUserId( ) );
             assertEquals( 0, history.size( ) );
@@ -448,7 +446,7 @@ public class AdminMenuJspBeanTest extends LuteceTestCase
             instance.doModifyAccessibilityMode( request );
             fail( "Should have thrown" );
         }
-        catch ( AccessDeniedException e )
+        catch( AccessDeniedException e )
         {
             assertEquals( bAccessibilityMode, _user.getAccessibilityMode( ) );
         }
@@ -472,7 +470,7 @@ public class AdminMenuJspBeanTest extends LuteceTestCase
             instance.doModifyAccessibilityMode( request );
             fail( "Should have thrown" );
         }
-        catch ( AccessDeniedException e )
+        catch( AccessDeniedException e )
         {
             assertEquals( bAccessibilityMode, _user.getAccessibilityMode( ) );
         }

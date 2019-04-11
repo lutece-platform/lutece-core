@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -67,7 +67,7 @@ public class AliasPortletJspBean extends PortletJspBean
     private static final String PARAM_ACCEPT_ALIAS = "accept_alias";
     private static final String MARK_ALIAS_PORTLETS_LIST = "alias_portlets_list";
     private static final String MARK_ALIAS_PORTLET = "alias_portlet";
-	private static final String LABEL_ALIAS_PORTLET_NAME = "portal.site.portlet_alias.portlet.name.label";
+    private static final String LABEL_ALIAS_PORTLET_NAME = "portal.site.portlet_alias.portlet.name.label";
 
     /**
      * Process portlet's creation
@@ -226,8 +226,9 @@ public class AliasPortletJspBean extends PortletJspBean
 
         for ( Portlet portlet : AliasPortletHome.getAcceptAliasPortletList( ) )
         {
-            refList.addItem( portlet.getId( ),
-                    I18nService.getLocalizedString(LABEL_ALIAS_PORTLET_NAME, new String [ ] {String.valueOf(portlet.getPageId( ) ), portlet.getName( )} , getLocale( ) ) );
+            refList.addItem( portlet.getId( ), I18nService.getLocalizedString( LABEL_ALIAS_PORTLET_NAME, new String [ ] {
+                    String.valueOf( portlet.getPageId( ) ), portlet.getName( )
+            }, getLocale( ) ) );
         }
         return refList;
     }

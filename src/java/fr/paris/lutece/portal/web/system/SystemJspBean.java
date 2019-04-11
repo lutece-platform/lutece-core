@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -210,7 +210,7 @@ public class SystemJspBean extends AdminFeaturesPageJspBean
             {
                 String strFilePath = AppPathService.getWebAppPath( );
 
-                if ( strFilePath != null && SecurityUtil.containsPathManipulationChars( request, strFile ))
+                if ( strFilePath != null && SecurityUtil.containsPathManipulationChars( request, strFile ) )
                 {
                     strFileData = getFileData( strFilePath + strDirectory + strFile );
                 }

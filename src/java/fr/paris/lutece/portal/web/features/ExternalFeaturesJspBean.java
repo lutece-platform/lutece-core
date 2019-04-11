@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -168,15 +168,16 @@ public class ExternalFeaturesJspBean extends AdminFeaturesPageJspBean
         _externalFeature = RightHome.findByPrimaryKey( strExternalFeatureId );
         _externalFeature.setLocale( getUser( ).getLocale( ) );
 
-        Object[ ] messageArgs = { _externalFeature.getName( ) };
+        Object [ ] messageArgs = {
+            _externalFeature.getName( )
+        };
 
         Map<String, Object> parameters = new HashMap<>( );
         parameters.put( PARAMETER_ID_EXTERNAL_FEATURE, strExternalFeatureId );
-        parameters.put( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, JSP_DELETE_EXTERNAL_FEATURE ) );
+        parameters.put( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, JSP_DELETE_EXTERNAL_FEATURE ) );
 
-        return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_DELETE, messageArgs, null,
-                JSP_DELETE_EXTERNAL_FEATURE, "", AdminMessage.TYPE_CONFIRMATION, parameters );
+        return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_DELETE, messageArgs, null, JSP_DELETE_EXTERNAL_FEATURE, "",
+                AdminMessage.TYPE_CONFIRMATION, parameters );
     }
 
     public String doRemoveExternalFeature( HttpServletRequest request ) throws AccessDeniedException

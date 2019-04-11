@@ -69,7 +69,7 @@ public class AbstractAdminUserMenuItemProviderTest extends LuteceTestCase
         assertFalse( provider.isInvoked( request ) );
         assertNull( request.getAttribute( "called" ) );
     }
-    
+
     public void testIsInvokedEnabledPlugin( )
     {
         IAdminUserMenuItemProvider provider = new AbstractAdminUserMenuItemProvider( )
@@ -93,7 +93,7 @@ public class AbstractAdminUserMenuItemProviderTest extends LuteceTestCase
 
         HttpServletRequest request = new MockHttpServletRequest( );
         assertTrue( provider.isInvoked( request ) );
-        Boolean called = ( Boolean ) request.getAttribute( "called" );
+        Boolean called = (Boolean) request.getAttribute( "called" );
         assertNotNull( called );
         assertTrue( called.booleanValue( ) );
     }

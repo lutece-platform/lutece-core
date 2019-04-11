@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -129,8 +129,8 @@ public final class AppInit
     {
         try
         {
-            long lStart = System.currentTimeMillis();
-            
+            long lStart = System.currentTimeMillis( );
+
             Thread.currentThread( ).setName( "Lutece-MainThread" );
             // Initializes a very basic logging system (everything to stdout)
             AppLogService.preinit( );
@@ -221,16 +221,16 @@ public final class AppInit
 
             // Start datastore's cache after all processes that may use Datastore
             DatastoreService.startCache( );
-            
-            long lEnd = System.currentTimeMillis();
-            long lTime = 1 + (lEnd - lStart) / 1000;
-                    
-            String strBaseUrl = "http(s)://server:port"+ context.getContextPath() + '/';
+
+            long lEnd = System.currentTimeMillis( );
+            long lTime = 1 + ( lEnd - lStart ) / 1000;
+
+            String strBaseUrl = "http(s)://server:port" + context.getContextPath( ) + '/';
             StringBuilder sbBanner = new StringBuilder( );
             sbBanner.append( AppInfo.LUTECE_BANNER_SERVER ).append( "  started successfully in " ).append( lTime ).append( "s !!!\n" )
-                    .append("\n   Front office ").append( strBaseUrl ).append(AppPathService.getPortalUrl())
-                    .append("\n   Back office  ").append( strBaseUrl ).append(AppPathService.getAdminMenuUrl()).append( "\n");
-            AppLogService.info( sbBanner.toString() );
+                    .append( "\n   Front office " ).append( strBaseUrl ).append( AppPathService.getPortalUrl( ) ).append( "\n   Back office  " )
+                    .append( strBaseUrl ).append( AppPathService.getAdminMenuUrl( ) ).append( "\n" );
+            AppLogService.info( sbBanner.toString( ) );
         }
         catch( LuteceInitException e )
         {

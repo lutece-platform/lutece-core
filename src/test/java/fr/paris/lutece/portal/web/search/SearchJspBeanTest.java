@@ -72,8 +72,7 @@ public class SearchJspBeanTest extends LuteceTestCase
         MockHttpServletRequest request = new MockHttpServletRequest( );
         String taglist = getRandomName( );
         request.addParameter( PARAMETER_TAGLIST, taglist );
-        request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/search/modify_taglist.html" ) );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "admin/search/modify_taglist.html" ) );
 
         assertFalse( taglist.equals( SearchParameterHome.findByKey( PARAMETER_TAGLIST ).getName( ) ) );
 
@@ -87,8 +86,8 @@ public class SearchJspBeanTest extends LuteceTestCase
         MockHttpServletRequest request = new MockHttpServletRequest( );
         String taglist = getRandomName( );
         request.addParameter( PARAMETER_TAGLIST, taglist );
-        request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/search/modify_taglist.html" ) + "b" );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "admin/search/modify_taglist.html" )
+                + "b" );
 
         assertFalse( taglist.equals( SearchParameterHome.findByKey( PARAMETER_TAGLIST ).getName( ) ) );
         try
@@ -96,7 +95,7 @@ public class SearchJspBeanTest extends LuteceTestCase
             _bean.doModifyTagList( request );
             fail( "Should have thrown" );
         }
-        catch ( AccessDeniedException e )
+        catch( AccessDeniedException e )
         {
             assertFalse( taglist.equals( SearchParameterHome.findByKey( PARAMETER_TAGLIST ).getName( ) ) );
         }
@@ -114,7 +113,7 @@ public class SearchJspBeanTest extends LuteceTestCase
             _bean.doModifyTagList( request );
             fail( "Should have thrown" );
         }
-        catch ( AccessDeniedException e )
+        catch( AccessDeniedException e )
         {
             assertFalse( taglist.equals( SearchParameterHome.findByKey( PARAMETER_TAGLIST ).getName( ) ) );
         }
@@ -187,8 +186,8 @@ public class SearchJspBeanTest extends LuteceTestCase
         user.addRoles( roles );
         Utils.registerAdminUserWithRigth( request, user, "CORE_SEARCH_MANAGEMENT" );
         _bean.init( request, "CORE_SEARCH_MANAGEMENT" );
-        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( )
-                .getToken( request, "admin/search/manage_advanced_parameters.html" ) );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "admin/search/manage_advanced_parameters.html" ) );
 
         _bean.doModifyAdvancedParameters( request );
         AdminMessage message = AdminMessageService.getMessage( request );
@@ -269,15 +268,14 @@ public class SearchJspBeanTest extends LuteceTestCase
         Utils.registerAdminUserWithRigth( request, user, "CORE_SEARCH_MANAGEMENT" );
         _bean.init( request, "CORE_SEARCH_MANAGEMENT" );
         request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/search/manage_advanced_parameters.html" )
-                        + "b" );
+                SecurityTokenService.getInstance( ).getToken( request, "admin/search/manage_advanced_parameters.html" ) + "b" );
 
         try
         {
             _bean.doModifyAdvancedParameters( request );
             fail( "Should have thrown" );
         }
-        catch ( AccessDeniedException e )
+        catch( AccessDeniedException e )
         {
             for ( ReferenceItem param : _origSearchParameters )
             {
@@ -351,7 +349,7 @@ public class SearchJspBeanTest extends LuteceTestCase
             _bean.doModifyAdvancedParameters( request );
             fail( "Should have thrown" );
         }
-        catch ( AccessDeniedException e )
+        catch( AccessDeniedException e )
         {
             for ( ReferenceItem param : _origSearchParameters )
             {

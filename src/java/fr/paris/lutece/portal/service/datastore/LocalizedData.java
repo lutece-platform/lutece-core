@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -51,7 +51,7 @@ public class LocalizedData implements Comparable
      *
      * @return The Key
      */
-    public String getKey()
+    public String getKey( )
     {
         return _strKey;
     }
@@ -59,7 +59,8 @@ public class LocalizedData implements Comparable
     /**
      * Sets the Key
      *
-     * @param strKey The Key
+     * @param strKey
+     *            The Key
      */
     public void setKey( String strKey )
     {
@@ -71,7 +72,7 @@ public class LocalizedData implements Comparable
      *
      * @return The Label
      */
-    public String getLabel()
+    public String getLabel( )
     {
         return _strLabel;
     }
@@ -79,7 +80,8 @@ public class LocalizedData implements Comparable
     /**
      * Sets the Label
      *
-     * @param strLabel The Label
+     * @param strLabel
+     *            The Label
      */
     public void setLabel( String strLabel )
     {
@@ -91,7 +93,7 @@ public class LocalizedData implements Comparable
      *
      * @return The Value
      */
-    public String getValue()
+    public String getValue( )
     {
         return _strValue;
     }
@@ -99,7 +101,8 @@ public class LocalizedData implements Comparable
     /**
      * Sets the Value
      *
-     * @param strValue The Value
+     * @param strValue
+     *            The Value
      */
     public void setValue( String strValue )
     {
@@ -111,7 +114,7 @@ public class LocalizedData implements Comparable
      *
      * @return The Help
      */
-    public String getHelp()
+    public String getHelp( )
     {
         return _strHelp;
     }
@@ -119,7 +122,8 @@ public class LocalizedData implements Comparable
     /**
      * Sets the Help
      *
-     * @param strHelp The Help
+     * @param strHelp
+     *            The Help
      */
     public void setHelp( String strHelp )
     {
@@ -131,7 +135,7 @@ public class LocalizedData implements Comparable
      *
      * @return The Order
      */
-    public int getOrder()
+    public int getOrder( )
     {
         return _nOrder;
     }
@@ -139,7 +143,8 @@ public class LocalizedData implements Comparable
     /**
      * Sets the Order
      *
-     * @param nOrder The Order
+     * @param nOrder
+     *            The Order
      */
     public void setOrder( int nOrder )
     {
@@ -149,11 +154,12 @@ public class LocalizedData implements Comparable
     /**
      * Sets the Order
      *
-     * @param strOrder The Order
+     * @param strOrder
+     *            The Order
      */
     public void setOrder( String strOrder )
     {
-        try 
+        try
         {
             _nOrder = Integer.parseInt( strOrder );
         }
@@ -169,11 +175,11 @@ public class LocalizedData implements Comparable
     @Override
     public int compareTo( Object object )
     {
-        int nCompare = _nOrder - ((LocalizedData) object ).getOrder();
-        
-        if( nCompare == 0 )
+        int nCompare = _nOrder - ( (LocalizedData) object ).getOrder( );
+
+        if ( nCompare == 0 )
         {
-            nCompare = _strKey.compareTo( ((LocalizedData) object ).getKey() );
+            nCompare = _strKey.compareTo( ( (LocalizedData) object ).getKey( ) );
         }
         return nCompare;
     }

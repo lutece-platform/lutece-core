@@ -65,8 +65,7 @@ public class DocumentationAdminUserMenuItemProvider extends AbstractAdminUserMen
         AdminUser user = AdminUserService.getAdminUser( request );
 
         Map<String, Object> model = new HashMap<String, Object>( );
-        model.put( MARK_ADMIN_SUMMARY_DOCUMENTATION_URL,
-                AppPropertiesService.getProperty( PROPERTY_DOCUMENTATION_SUMMARY_URL ) );
+        model.put( MARK_ADMIN_SUMMARY_DOCUMENTATION_URL, AppPropertiesService.getProperty( PROPERTY_DOCUMENTATION_SUMMARY_URL ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE, user.getLocale( ), model );
 

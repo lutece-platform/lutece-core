@@ -76,29 +76,29 @@ public class AdminUserMenuService
                 i.add( itemProvider );
             } );
         }
-        else if ( strBeforeName != null )
-        {
-            addItemProviderInPosition( itemProvider, strBeforeName, i -> {
-                if ( i.hasPrevious( ) )
-                {
-                    i.previous( );
-                    i.add( itemProvider );
-                }
-                else
-                {
-                    _itemProviders.add( 0, itemProvider );
-                }
-            } );
-        }
         else
-        {
-            _itemProviders.add( itemProvider );
-        }
+            if ( strBeforeName != null )
+            {
+                addItemProviderInPosition( itemProvider, strBeforeName, i -> {
+                    if ( i.hasPrevious( ) )
+                    {
+                        i.previous( );
+                        i.add( itemProvider );
+                    }
+                    else
+                    {
+                        _itemProviders.add( 0, itemProvider );
+                    }
+                } );
+            }
+            else
+            {
+                _itemProviders.add( itemProvider );
+            }
         AppLogService.info( "New admin user menu item provider registered : " + itemProvider.getName( ) );
     }
 
-    private void addItemProviderInPosition( IAdminUserMenuItemProvider itemProvider, String strRefName,
-            Consumer<ListIterator<IAdminUserMenuItemProvider>> adder )
+    private void addItemProviderInPosition( IAdminUserMenuItemProvider itemProvider, String strRefName, Consumer<ListIterator<IAdminUserMenuItemProvider>> adder )
     {
         ListIterator<IAdminUserMenuItemProvider> iterator = _itemProviders.listIterator( );
         boolean bFound = false;
@@ -114,8 +114,7 @@ public class AdminUserMenuService
         }
         if ( !bFound )
         {
-            AppLogService.error( "Did not find admin user menu item provider named <" + strRefName
-                    + "> when registering <" + itemProvider.getName( ) );
+            AppLogService.error( "Did not find admin user menu item provider named <" + strRefName + "> when registering <" + itemProvider.getName( ) );
             _itemProviders.add( itemProvider );
         }
     }
@@ -129,7 +128,6 @@ public class AdminUserMenuService
      */
     public List<AdminUserMenuItem> getItems( final HttpServletRequest request )
     {
-        return _itemProviders.stream( ).filter( p -> p.isInvoked( request ) ).map( p -> p.getItem( request ) )
-                .collect( Collectors.toList( ) );
+        return _itemProviders.stream( ).filter( p -> p.isInvoked( request ) ).map( p -> p.getItem( request ) ).collect( Collectors.toList( ) );
     }
 }

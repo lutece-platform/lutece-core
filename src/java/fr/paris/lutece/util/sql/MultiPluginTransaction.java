@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -133,7 +133,8 @@ public class MultiPluginTransaction extends Transaction
         // Get a new statement
         if ( getConnection( ) == null )
         {
-            throw new SQLException( "MultiPluginTransaction - Connection has been closed. The new prepared statement can not be created : " + ( bLogQueries?strSQL:"(query log disabled)") );
+            throw new SQLException( "MultiPluginTransaction - Connection has been closed. The new prepared statement can not be created : "
+                    + ( bLogQueries ? strSQL : "(query log disabled)" ) );
         }
 
         Connection connection = getConnection( );

@@ -62,7 +62,7 @@ public class TestAdminUserMenuItemProvider implements IAdminUserMenuItemProvider
         final Object invokedAttr = request.getAttribute( INVOKED_NAME );
         if ( invokedAttr != null )
         {
-            return invokedAttr.equals( getName() );
+            return invokedAttr.equals( getName( ) );
         }
         return true;
     }

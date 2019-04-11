@@ -71,7 +71,7 @@ public class DocumentationAdminUserMenuItemProviderTest extends LuteceTestCase
     private String changeDocumentationURL( String url ) throws IOException
     {
         File file = new File( getResourcesDir( ), "WEB-INF/conf/lutece.properties" );
-        try ( FileInputStream is = new FileInputStream( file ) )
+        try( FileInputStream is = new FileInputStream( file ) )
         {
             Properties properties = new Properties( );
             properties.load( is );
@@ -84,7 +84,7 @@ public class DocumentationAdminUserMenuItemProviderTest extends LuteceTestCase
             {
                 properties.setProperty( PROPERTY_DOCUMENTATION_SUMMARY_URL, url );
             }
-            try ( FileOutputStream os = new FileOutputStream( file ) )
+            try( FileOutputStream os = new FileOutputStream( file ) )
             {
                 properties.store( os, "Junit" );
             }

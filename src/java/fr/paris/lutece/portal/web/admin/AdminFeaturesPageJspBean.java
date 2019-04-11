@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -265,9 +265,9 @@ public abstract class AdminFeaturesPageJspBean implements Serializable
      */
     protected void populate( Object bean, HttpServletRequest request )
     {
-        BeanUtil.populate( bean, request, null);
+        BeanUtil.populate( bean, request, null );
     }
-    
+
     /**
      * Populate a bean using parameters in http request, with locale date format controls
      * 

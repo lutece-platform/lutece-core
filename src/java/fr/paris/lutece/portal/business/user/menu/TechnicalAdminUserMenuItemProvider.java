@@ -54,8 +54,7 @@ public class TechnicalAdminUserMenuItemProvider extends AbstractAdminUserMenuIte
     @Override
     public AdminUserMenuItem getItem( HttpServletRequest request )
     {
-        return new AdminUserMenuItem( AppTemplateService
-                .getTemplate( TEMPLATE, AdminUserService.getAdminUser( request ).getLocale( ) ).getHtml( ) );
+        return new AdminUserMenuItem( AppTemplateService.getTemplate( TEMPLATE, AdminUserService.getAdminUser( request ).getLocale( ) ).getHtml( ) );
     }
 
 }

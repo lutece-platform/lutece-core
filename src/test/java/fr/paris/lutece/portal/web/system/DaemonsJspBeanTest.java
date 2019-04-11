@@ -196,12 +196,12 @@ public class DaemonsJspBeanTest extends LuteceTestCase
             bean.doDaemonAction( request ); // Daemon should run periodically with interval of 1s
             fail( "Should have thrown" );
         }
-        catch ( AccessDeniedException e )
+        catch( AccessDeniedException e )
         {
             assertFalse( _entry.isRunning( ) );
             try
             {
-                // Here the daemon should not be launched 
+                // Here the daemon should not be launched
                 _testDaemon.go( 2500, TimeUnit.MILLISECONDS );
                 fail( "Daemon running be should not" );
             }
@@ -223,24 +223,23 @@ public class DaemonsJspBeanTest extends LuteceTestCase
             bean.doDaemonAction( request ); // Daemon should run periodically with interval of 1s
             fail( "Should have thrown" );
         }
-        catch ( AccessDeniedException e )
+        catch( AccessDeniedException e )
         {
             assertFalse( _entry.isRunning( ) );
             try
             {
-                // Here the daemon should not be launched 
+                // Here the daemon should not be launched
                 _testDaemon.go( 2500, TimeUnit.MILLISECONDS );
                 fail( "Daemon running be should not" );
             }
-            catch ( TimeoutException te )
+            catch( TimeoutException te )
             {
                 // ok
             }
         }
     }
 
-    public void testDoDaemonActionStop( )
-            throws InterruptedException, BrokenBarrierException, TimeoutException, AccessDeniedException
+    public void testDoDaemonActionStop( ) throws InterruptedException, BrokenBarrierException, TimeoutException, AccessDeniedException
     {
         assertFalse( _entry.isRunning( ) );
         AppDaemonService.startDaemon( JUNIT_DAEMON ); // Daemon should run
@@ -252,8 +251,7 @@ public class DaemonsJspBeanTest extends LuteceTestCase
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.setParameter( "action", "STOP" );
         request.setParameter( "daemon", JUNIT_DAEMON );
-        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MANAGE_DAEMONS ) );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MANAGE_DAEMONS ) );
         bean.doDaemonAction( request );
         assertFalse( _entry.isRunning( ) );
         try
@@ -263,14 +261,13 @@ public class DaemonsJspBeanTest extends LuteceTestCase
             _testDaemon.go( 2500, TimeUnit.MILLISECONDS );
             fail( "Daemon still running after stop" );
         }
-        catch ( TimeoutException e )
+        catch( TimeoutException e )
         {
             // ok
         }
     }
 
-    public void testDoDaemonActionStopInvalidToken( )
-            throws InterruptedException, BrokenBarrierException, TimeoutException, AccessDeniedException
+    public void testDoDaemonActionStopInvalidToken( ) throws InterruptedException, BrokenBarrierException, TimeoutException, AccessDeniedException
     {
         assertFalse( _entry.isRunning( ) );
         AppDaemonService.startDaemon( JUNIT_DAEMON ); // Daemon should run
@@ -282,14 +279,13 @@ public class DaemonsJspBeanTest extends LuteceTestCase
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.setParameter( "action", "STOP" );
         request.setParameter( "daemon", JUNIT_DAEMON );
-        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MANAGE_DAEMONS ) + "b" );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MANAGE_DAEMONS ) + "b" );
         try
         {
             bean.doDaemonAction( request );
             fail( "Should have thrown" );
         }
-        catch ( AccessDeniedException e )
+        catch( AccessDeniedException e )
         {
             assertTrue( _entry.isRunning( ) );
             _testDaemon.go( );
@@ -297,8 +293,7 @@ public class DaemonsJspBeanTest extends LuteceTestCase
         }
     }
 
-    public void testDoDaemonActionStopNoToken( )
-            throws InterruptedException, BrokenBarrierException, TimeoutException, AccessDeniedException
+    public void testDoDaemonActionStopNoToken( ) throws InterruptedException, BrokenBarrierException, TimeoutException, AccessDeniedException
     {
         assertFalse( _entry.isRunning( ) );
         AppDaemonService.startDaemon( JUNIT_DAEMON ); // Daemon should run
@@ -315,7 +310,7 @@ public class DaemonsJspBeanTest extends LuteceTestCase
             bean.doDaemonAction( request );
             fail( "Should have thrown" );
         }
-        catch ( AccessDeniedException e )
+        catch( AccessDeniedException e )
         {
             assertTrue( _entry.isRunning( ) );
             _testDaemon.go( );
@@ -323,8 +318,7 @@ public class DaemonsJspBeanTest extends LuteceTestCase
         }
     }
 
-    public void testDoDaemonActionRun( )
-            throws InterruptedException, BrokenBarrierException, TimeoutException, AccessDeniedException
+    public void testDoDaemonActionRun( ) throws InterruptedException, BrokenBarrierException, TimeoutException, AccessDeniedException
     {
         long lReadyTime;
         long lScheduledTime;
@@ -345,8 +339,7 @@ public class DaemonsJspBeanTest extends LuteceTestCase
         request.setParameter( "action", "RUN" ); // Manually do 1 run of the
                                                  // daemon now
         request.setParameter( "daemon", JUNIT_DAEMON );
-        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MANAGE_DAEMONS ) );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MANAGE_DAEMONS ) );
         lReadyTime = System.nanoTime( );
         bean.doDaemonAction( request );
 
@@ -357,8 +350,7 @@ public class DaemonsJspBeanTest extends LuteceTestCase
         _testDaemon.waitForCompletion( );
     }
 
-    public void testDoDaemonActionRunInvalidToken( )
-            throws InterruptedException, BrokenBarrierException, TimeoutException, AccessDeniedException
+    public void testDoDaemonActionRunInvalidToken( ) throws InterruptedException, BrokenBarrierException, TimeoutException, AccessDeniedException
     {
         long lReadyTime;
         long lScheduledTime;
@@ -379,15 +371,14 @@ public class DaemonsJspBeanTest extends LuteceTestCase
         request.setParameter( "action", "RUN" ); // Manually do 1 run of the
                                                  // daemon now
         request.setParameter( "daemon", JUNIT_DAEMON );
-        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MANAGE_DAEMONS ) + "b" );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MANAGE_DAEMONS ) + "b" );
 
         try
         {
             bean.doDaemonAction( request );
             fail( "Should have thrown" );
         }
-        catch ( AccessDeniedException e )
+        catch( AccessDeniedException e )
         {
             try
             {
@@ -395,15 +386,14 @@ public class DaemonsJspBeanTest extends LuteceTestCase
                 _testDaemon.go( 1, TimeUnit.SECONDS );
                 fail( "Daemon should not have run" );
             }
-            catch ( TimeoutException te )
+            catch( TimeoutException te )
             {
                 // ok
             }
         }
     }
 
-    public void testDoDaemonActionRunNoToken( )
-            throws InterruptedException, BrokenBarrierException, TimeoutException, AccessDeniedException
+    public void testDoDaemonActionRunNoToken( ) throws InterruptedException, BrokenBarrierException, TimeoutException, AccessDeniedException
     {
         long lReadyTime;
         long lScheduledTime;
@@ -430,7 +420,7 @@ public class DaemonsJspBeanTest extends LuteceTestCase
             bean.doDaemonAction( request );
             fail( "Should have thrown" );
         }
-        catch ( AccessDeniedException e )
+        catch( AccessDeniedException e )
         {
             try
             {
@@ -438,7 +428,7 @@ public class DaemonsJspBeanTest extends LuteceTestCase
                 _testDaemon.go( 1, TimeUnit.SECONDS );
                 fail( "Daemon should not have run" );
             }
-            catch ( TimeoutException te )
+            catch( TimeoutException te )
             {
                 // ok
             }
@@ -452,8 +442,7 @@ public class DaemonsJspBeanTest extends LuteceTestCase
         request.setParameter( "action", "UPDATE_INTERVAL" );
         request.setParameter( "daemon", JUNIT_DAEMON );
         request.setParameter( "interval", Long.toString( lTestInterval ) );
-        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MANAGE_DAEMONS ) );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MANAGE_DAEMONS ) );
         bean.doDaemonAction( request );
         assertEquals( lTestInterval, _entry.getInterval( ) );
     }
@@ -465,14 +454,13 @@ public class DaemonsJspBeanTest extends LuteceTestCase
         request.setParameter( "action", "UPDATE_INTERVAL" );
         request.setParameter( "daemon", JUNIT_DAEMON );
         request.setParameter( "interval", Long.toString( lTestInterval ) );
-        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MANAGE_DAEMONS ) + "b" );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MANAGE_DAEMONS ) + "b" );
         try
         {
             bean.doDaemonAction( request );
             fail( "Should have thrown" );
         }
-        catch ( AccessDeniedException e )
+        catch( AccessDeniedException e )
         {
             assertEquals( 1, _entry.getInterval( ) );
         }
@@ -491,7 +479,7 @@ public class DaemonsJspBeanTest extends LuteceTestCase
             bean.doDaemonAction( request );
             fail( "Should have thrown" );
         }
-        catch ( AccessDeniedException e )
+        catch( AccessDeniedException e )
         {
             assertEquals( 1, _entry.getInterval( ) );
         }

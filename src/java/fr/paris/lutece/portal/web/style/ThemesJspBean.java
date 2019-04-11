@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -139,8 +139,7 @@ public class ThemesJspBean extends AdminFeaturesPageJspBean
         String strTheme = request.getParameter( PARAMETER_THEME );
         String strForwardUrl = request.getParameter( PARAMETER_URL );
 
-        if ( !SecurityUtil.containsCleanParameters( request )
-                || !SecurityUtil.isInternalRedirectUrlSafe( strForwardUrl, request ) )
+        if ( !SecurityUtil.containsCleanParameters( request ) || !SecurityUtil.isInternalRedirectUrlSafe( strForwardUrl, request ) )
         {
             return AppPathService.getBaseUrl( request );
         }

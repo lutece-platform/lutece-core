@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -406,10 +406,10 @@ public class XslExportJspBean extends PluginAdminPageJspBean
 
         Map<String, String> parameters = new HashMap<>( );
         parameters.put( PARAMETER_ID_XSL_EXPORT, strIdXslExport );
-        parameters.put( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, JSP_DO_REMOVE_XSL_EXPORT ) );
+        parameters.put( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, JSP_DO_REMOVE_XSL_EXPORT ) );
 
-        return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_REMOVE_XSL_EXPORT, JSP_DO_REMOVE_XSL_EXPORT, AdminMessage.TYPE_CONFIRMATION, parameters );
+        return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_REMOVE_XSL_EXPORT, JSP_DO_REMOVE_XSL_EXPORT, AdminMessage.TYPE_CONFIRMATION,
+                parameters );
     }
 
     /**

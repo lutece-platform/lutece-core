@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -79,7 +79,7 @@ public class LocalizedDataGroup
             property.setValue( item.getName( ) );
             property.setLabel( I18nService.getLocalizedString( item.getCode( ), locale ) );
             property.setHelp( I18nService.getLocalizedString( item.getCode( ) + SUFFIX_HELP, locale ) );
-            property.setOrder( I18nService.getLocalizedString( item.getCode( ) + SUFFIX_ORDER, locale ));
+            property.setOrder( I18nService.getLocalizedString( item.getCode( ) + SUFFIX_ORDER, locale ) );
             _listLocalizedData.add( property );
         }
         Collections.sort( _listLocalizedData );

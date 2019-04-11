@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -140,10 +140,11 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
 
         if ( !verifyCoreCompatibility( plugin ) )
         {
-            Object[ ] args = { plugin.getMinCoreVersion( ), plugin.getMaxCoreVersion( ) };
+            Object [ ] args = {
+                    plugin.getMinCoreVersion( ), plugin.getMaxCoreVersion( )
+            };
 
-            return AdminMessageService.getMessageUrl( request, PROPERTY_PLUGIN_NO_CORE_COMPATIBILITY_MESSAGE, args,
-                    AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrl( request, PROPERTY_PLUGIN_NO_CORE_COMPATIBILITY_MESSAGE, args, AdminMessage.TYPE_STOP );
 
         }
         if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_MANAGE_PLUGINS ) )
@@ -154,7 +155,7 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
         {
             plugin.install( );
         }
-        catch ( Exception e )
+        catch( Exception e )
         {
             AppLogService.error( e.getMessage( ), e );
 
@@ -172,7 +173,8 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
      * @param context
      *            The servlet context
      * @return the url of the page containing a log essage
-     * @throws AccessDeniedException if the security token is invalid
+     * @throws AccessDeniedException
+     *             if the security token is invalid
      */
     public String doUninstallPlugin( HttpServletRequest request, ServletContext context ) throws AccessDeniedException
     {
@@ -210,7 +212,8 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
         Map<String, String> parameters = new HashMap<>( );
         parameters.put( PARAM_PLUGIN_NAME, strPluginName );
         parameters.put( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, JSP_UNINSTALL_PLUGIN ) );
-        String strAdminMessageUrl = AdminMessageService.getMessageUrl( request, strMessageKey, JSP_UNINSTALL_PLUGIN, AdminMessage.TYPE_CONFIRMATION, parameters );
+        String strAdminMessageUrl = AdminMessageService
+                .getMessageUrl( request, strMessageKey, JSP_UNINSTALL_PLUGIN, AdminMessage.TYPE_CONFIRMATION, parameters );
 
         for ( PortletType portletType : listPortletTypes )
         {

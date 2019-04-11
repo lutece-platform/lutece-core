@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -117,16 +117,13 @@ public final class SpringContextService implements PluginEventListener
     }
 
     /**
-     * Indicates if a bean, referenced by its name, is part of an enabled
-     * plugin.
+     * Indicates if a bean, referenced by its name, is part of an enabled plugin.
      * 
-     * Per Lutece convention, the plugin is determined from the bean's name
-     * prefix. If no prefix is present, the bean is considered enabled.
+     * Per Lutece convention, the plugin is determined from the bean's name prefix. If no prefix is present, the bean is considered enabled.
      * 
      * @param strBeanName
      *            The bean's name
-     * @return <code>true</code> if the bean is part of an enabled plugin,
-     *         <code>false</code> otherwise
+     * @return <code>true</code> if the bean is part of an enabled plugin, <code>false</code> otherwise
      */
     public static boolean isBeanEnabled( String strBeanName )
     {

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -342,10 +342,10 @@ public class PortalJspBean
     {
         if ( exception instanceof AppException )
         {
-            //AppException calls AppLogService.error( message, this ) in the
-            //constructor, so don't call it here again Call toString to have
-            //the Class and the message to be able to indentify the correct
-            //stacktrace in the preceding logs.
+            // AppException calls AppLogService.error( message, this ) in the
+            // constructor, so don't call it here again Call toString to have
+            // the Class and the message to be able to indentify the correct
+            // stacktrace in the preceding logs.
             AppLogService.error( "Error 500 : Caused by previous Critical AppException" );
         }
         else

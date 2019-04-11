@@ -151,7 +151,7 @@ public abstract class JPAGenericDAO<K, E> implements IGenericDAO<K, E>
         EntityManager em = getEM( );
 
         if ( em == _defaultEM )
-        {    
+        {
             em.getTransaction( ).begin( );
         }
         em.persist( entity );
@@ -207,7 +207,7 @@ public abstract class JPAGenericDAO<K, E> implements IGenericDAO<K, E>
         {
             em.getTransaction( ).commit( );
         }
-        
+
         LOG.debug( "Entity Updated : " + entity.toString( ) );
     }
 

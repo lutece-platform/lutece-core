@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -90,29 +90,30 @@ public class FreeMarkerTemplateService extends AbstractFreeMarkerTemplateService
     {
         return DateUtil.getDefaultPattern( locale );
     }
-    
+
     /**
      * Load the data of all the autoInclude objects and returns them as a list
+     * 
      * @return the list which contains the data of all the autoInclude objects
      */
     public List<AutoInclude> getAutoIncludesList( )
     {
-        CommonsInclude ciCurrent = CommonsService.getCurrentCommonsInclude();
-        List<AutoInclude> list = new ArrayList<>();        
-        for( String strAutoIncludePath : getAutoIncludes() )
+        CommonsInclude ciCurrent = CommonsService.getCurrentCommonsInclude( );
+        List<AutoInclude> list = new ArrayList<>( );
+        for ( String strAutoIncludePath : getAutoIncludes( ) )
         {
             AutoInclude include = new AutoInclude( strAutoIncludePath );
-            for( String strFile : ciCurrent.getFiles() )
+            for ( String strFile : ciCurrent.getFiles( ) )
             {
-                if( strFile.equals( include.getFilePath() ))
+                if ( strFile.equals( include.getFilePath( ) ) )
                 {
-                    include.setOwner( ciCurrent.getName() );
+                    include.setOwner( ciCurrent.getName( ) );
                 }
             }
             list.add( include );
-                    
+
         }
         return list;
     }
-    
+
 }

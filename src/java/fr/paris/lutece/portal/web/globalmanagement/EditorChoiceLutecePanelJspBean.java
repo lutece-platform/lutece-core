@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -78,7 +78,7 @@ public class EditorChoiceLutecePanelJspBean extends AbstractGMLutecePanel
         model.put( MARK_LIST_EDITORS_FRONT_OFFICE, RichTextEditorService.getListEditorsForFrontOffice( AdminUserService.getLocale( getRequest( ) ) ) );
         model.put( MARK_CURRENT_EDITOR_FRONT_OFFICE, RichTextEditorService.getFrontOfficeDefaultEditor( ) );
 
-        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( getRequest(), TEMPLATE_EDITOR_CHOICE_PANEL ) );
+        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( getRequest( ), TEMPLATE_EDITOR_CHOICE_PANEL ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_EDITOR_CHOICE_PANEL, getLocale( ), model );
 

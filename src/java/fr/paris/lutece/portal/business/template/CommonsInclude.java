@@ -32,7 +32,6 @@
  * License 1.0
  */
 
-
 package fr.paris.lutece.portal.business.template;
 
 import java.util.List;
@@ -40,84 +39,95 @@ import java.util.List;
 /**
  * CommonsInclude
  */
-public class CommonsInclude 
+public class CommonsInclude
 {
-        // Variables declarations 
-        private String _strKey;
-        private String _strName;
-        private String _strDescription;
-        private List<String> _listFiles;
-    
-    
-       /**
-        * Returns the Key
-        * @return The Key
-        */ 
-        public String getKey()
-        {
-            return _strKey;
-        }
-    
-       /**
-        * Sets the Key
-        * @param strKey The Key
-        */ 
-        public void setKey( String strKey )
-        {
-            _strKey = strKey;
-        }
-    
-       /**
-        * Returns the Name
-        * @return The Name
-        */ 
-        public String getName()
-        {
-            return _strName;
-        }
-    
-       /**
-        * Sets the Name
-        * @param strName The Name
-        */ 
-        public void setName( String strName )
-        {
-            _strName = strName;
-        }
-    
-       /**
-        * Returns the Description
-        * @return The Description
-        */ 
-        public String getDescription()
-        {
-            return _strDescription;
-        }
-    
-       /**
-        * Sets the Description
-        * @param strDescription The Description
-        */ 
-        public void setDescription( String strDescription )
-        {
-            _strDescription = strDescription;
-        }
-    
-       /**
-        * Returns the Files
-        * @return The Files
-        */ 
-        public List<String> getFiles()
-        {
-            return _listFiles;
-        }
-    
-       /**
-        * Sets the Files
-        * @param listFiles The Files
-        */ 
-        public void setFiles( List<String> listFiles )
-        {
-            _listFiles = listFiles;
-        }
- }
+    // Variables declarations
+    private String _strKey;
+    private String _strName;
+    private String _strDescription;
+    private List<String> _listFiles;
+
+    /**
+     * Returns the Key
+     * 
+     * @return The Key
+     */
+    public String getKey( )
+    {
+        return _strKey;
+    }
+
+    /**
+     * Sets the Key
+     * 
+     * @param strKey
+     *            The Key
+     */
+    public void setKey( String strKey )
+    {
+        _strKey = strKey;
+    }
+
+    /**
+     * Returns the Name
+     * 
+     * @return The Name
+     */
+    public String getName( )
+    {
+        return _strName;
+    }
+
+    /**
+     * Sets the Name
+     * 
+     * @param strName
+     *            The Name
+     */
+    public void setName( String strName )
+    {
+        _strName = strName;
+    }
+
+    /**
+     * Returns the Description
+     * 
+     * @return The Description
+     */
+    public String getDescription( )
+    {
+        return _strDescription;
+    }
+
+    /**
+     * Sets the Description
+     * 
+     * @param strDescription
+     *            The Description
+     */
+    public void setDescription( String strDescription )
+    {
+        _strDescription = strDescription;
+    }
+
+    /**
+     * Returns the Files
+     * 
+     * @return The Files
+     */
+    public List<String> getFiles( )
+    {
+        return _listFiles;
+    }
+
+    /**
+     * Sets the Files
+     * 
+     * @param listFiles
+     *            The Files
+     */
+    public void setFiles( List<String> listFiles )
+    {
+        _listFiles = listFiles;
+    }
+}

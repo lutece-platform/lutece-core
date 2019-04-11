@@ -31,7 +31,7 @@
  *
  * License 1.0
  */
- 	
+
 package fr.paris.lutece.portal.web.template;
 
 import fr.paris.lutece.portal.business.template.AutoInclude;
@@ -55,7 +55,7 @@ public class AutoIncludeJspBean extends MVCAdminJspBean
 {
     // Rights
     public static final String RIGHT_MANAGEAUTOINCLUDES = "CORE_TEMPLATES_AUTO_INCLUDES_MANAGEMENT";
-    
+
     // Templates
     private static final String TEMPLATE_MANAGE_AUTOINCLUDES = "/admin/templates/manage_autoincludes.html";
 
@@ -78,30 +78,32 @@ public class AutoIncludeJspBean extends MVCAdminJspBean
 
     // Infos
     private static final String INFO_COMMONS_ACTIVATE = "portal.templates.info.commons.activated";
-    
+
     /**
      * Build the Manage View
-     * @param request The HTTP request
+     * 
+     * @param request
+     *            The HTTP request
      * @return The page
      */
     @View( value = VIEW_MANAGE_AUTOINCLUDES, defaultView = true )
     public String getManageAutoIncludes( HttpServletRequest request )
     {
-        List<AutoInclude> listAutoIncludes = FreeMarkerTemplateService.getInstance().getAutoIncludesList( );
-        Map<String, Object> model = getModel();
-        model.put( MARK_AUTOINCLUDE_LIST , listAutoIncludes );
-        
-        model.put( MARK_COMMONS_LIST, CommonsService.getCommonsIncludeList() );
-        model.put( MARK_CURRENT_COMMONS, CommonsService.getCurrentCommonsKey() );
+        List<AutoInclude> listAutoIncludes = FreeMarkerTemplateService.getInstance( ).getAutoIncludesList( );
+        Map<String, Object> model = getModel( );
+        model.put( MARK_AUTOINCLUDE_LIST, listAutoIncludes );
+
+        model.put( MARK_COMMONS_LIST, CommonsService.getCommonsIncludeList( ) );
+        model.put( MARK_CURRENT_COMMONS, CommonsService.getCurrentCommonsKey( ) );
 
         return getPage( PROPERTY_PAGE_TITLE_MANAGE_AUTOINCLUDES, TEMPLATE_MANAGE_AUTOINCLUDES, model );
     }
 
-    
     /**
      * Activate a commons include
      *
-     * @param request The Http request
+     * @param request
+     *            The Http request
      * @return the jsp URL to display the form to manage autoincludes
      */
     @Action( ACTION_ACTIVATE )
@@ -109,8 +111,8 @@ public class AutoIncludeJspBean extends MVCAdminJspBean
     {
         String strCommonsIncludeKey = request.getParameter( PARAMETER_COMMONS_KEY );
         CommonsService.activateCommons( strCommonsIncludeKey );
-        AdminMenuJspBean.resetAdminStylesheets();
-        addInfo( INFO_COMMONS_ACTIVATE, getLocale(  ) );
+        AdminMenuJspBean.resetAdminStylesheets( );
+        addInfo( INFO_COMMONS_ACTIVATE, getLocale( ) );
 
         return redirectView( request, VIEW_MANAGE_AUTOINCLUDES );
     }

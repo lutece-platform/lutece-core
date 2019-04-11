@@ -30,14 +30,14 @@
  * POSSIBILITY OF SUCH DAMAGE.
  *
  * License 1.0
- */ 
+ */
 package fr.paris.lutece.portal.business.template;
 
 import java.io.Serializable;
 
 /**
  * This is the business class for the object AutoInclude
- */ 
+ */
 public class AutoInclude implements Serializable
 {
     private static final long serialVersionUID = 1L;
@@ -48,21 +48,24 @@ public class AutoInclude implements Serializable
     /**
      * Constructor
      */
-    public AutoInclude()
+    public AutoInclude( )
     {
     }
-    
+
     /**
      * Constructor
-     * @param strFilePath The autoinclude path 
+     * 
+     * @param strFilePath
+     *            The autoinclude path
      */
     public AutoInclude( String strFilePath )
     {
         _strFilePath = strFilePath;
     }
-    
+
     /**
      * Returns the FilePath
+     * 
      * @return The FilePath
      */
     public String getFilePath( )
@@ -72,8 +75,10 @@ public class AutoInclude implements Serializable
 
     /**
      * Sets the FilePath
-     * @param strFilePath The FilePath
-     */ 
+     * 
+     * @param strFilePath
+     *            The FilePath
+     */
     public void setFilePath( String strFilePath )
     {
         _strFilePath = strFilePath;
@@ -81,6 +86,7 @@ public class AutoInclude implements Serializable
 
     /**
      * Returns the Owner
+     * 
      * @return The Owner
      */
     public String getOwner( )
@@ -90,8 +96,10 @@ public class AutoInclude implements Serializable
 
     /**
      * Sets the Owner
-     * @param strOwner The Owner
-     */ 
+     * 
+     * @param strOwner
+     *            The Owner
+     */
     public void setOwner( String strOwner )
     {
         _strOwner = strOwner;

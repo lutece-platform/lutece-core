@@ -54,8 +54,7 @@ public class AdminUserMenuItemProviderRegistrarTest extends LuteceTestCase
         _instance.setBeanName( "junit" );
     }
 
-    public void testSetClassName( )
-            throws InstantiationException, IllegalAccessException, IllegalStateException, ClassNotFoundException
+    public void testSetClassName( ) throws InstantiationException, IllegalAccessException, IllegalStateException, ClassNotFoundException
     {
         _instance.setClassName( TestAdminUserMenuItemProvider.class.getName( ) );
         _instance.registerAdminUserMenuItemProvider( );
@@ -66,8 +65,8 @@ public class AdminUserMenuItemProviderRegistrarTest extends LuteceTestCase
         assertEquals( TestAdminUserMenuItemProvider.ITEM, items.get( 0 ) );
     }
 
-    public void testSetClassNameProviderAlreadySetDirectly( )
-            throws InstantiationException, IllegalAccessException, IllegalStateException, ClassNotFoundException
+    public void testSetClassNameProviderAlreadySetDirectly( ) throws InstantiationException, IllegalAccessException, IllegalStateException,
+            ClassNotFoundException
     {
         _instance.setProvider( new TestAdminUserMenuItemProvider( ) );
         try
@@ -75,14 +74,14 @@ public class AdminUserMenuItemProviderRegistrarTest extends LuteceTestCase
             _instance.setClassName( TestAdminUserMenuItemProvider.class.getName( ) );
             fail( "Should have thrown" );
         }
-        catch ( IllegalStateException e )
+        catch( IllegalStateException e )
         {
 
         }
     }
 
-    public void testSetClassNameProviderAlreadySetByClassName( )
-            throws InstantiationException, IllegalAccessException, IllegalStateException, ClassNotFoundException
+    public void testSetClassNameProviderAlreadySetByClassName( ) throws InstantiationException, IllegalAccessException, IllegalStateException,
+            ClassNotFoundException
     {
         _instance.setClassName( TestAdminUserMenuItemProvider.class.getName( ) );
         try
@@ -90,14 +89,13 @@ public class AdminUserMenuItemProviderRegistrarTest extends LuteceTestCase
             _instance.setClassName( TestAdminUserMenuItemProvider.class.getName( ) );
             fail( "Should have thrown" );
         }
-        catch ( IllegalStateException e )
+        catch( IllegalStateException e )
         {
 
         }
     }
 
-    public void testSetProvider( )
-            throws InstantiationException, IllegalAccessException, IllegalStateException, ClassNotFoundException
+    public void testSetProvider( ) throws InstantiationException, IllegalAccessException, IllegalStateException, ClassNotFoundException
     {
         _instance.setProvider( new TestAdminUserMenuItemProvider( ) );
         _instance.registerAdminUserMenuItemProvider( );
@@ -108,8 +106,8 @@ public class AdminUserMenuItemProviderRegistrarTest extends LuteceTestCase
         assertEquals( TestAdminUserMenuItemProvider.ITEM, items.get( 0 ) );
     }
 
-    public void testSetProviderProviderAlreadySetDirectly( )
-            throws InstantiationException, IllegalAccessException, IllegalStateException, ClassNotFoundException
+    public void testSetProviderProviderAlreadySetDirectly( ) throws InstantiationException, IllegalAccessException, IllegalStateException,
+            ClassNotFoundException
     {
         _instance.setProvider( new TestAdminUserMenuItemProvider( ) );
         try
@@ -117,14 +115,14 @@ public class AdminUserMenuItemProviderRegistrarTest extends LuteceTestCase
             _instance.setProvider( new TestAdminUserMenuItemProvider( ) );
             fail( "Should have thrown" );
         }
-        catch ( IllegalStateException e )
+        catch( IllegalStateException e )
         {
 
         }
     }
 
-    public void testSetProviderProviderAlreadySetByClassName( )
-            throws InstantiationException, IllegalAccessException, IllegalStateException, ClassNotFoundException
+    public void testSetProviderProviderAlreadySetByClassName( ) throws InstantiationException, IllegalAccessException, IllegalStateException,
+            ClassNotFoundException
     {
         _instance.setClassName( TestAdminUserMenuItemProvider.class.getName( ) );
         try
@@ -132,7 +130,7 @@ public class AdminUserMenuItemProviderRegistrarTest extends LuteceTestCase
             _instance.setProvider( new TestAdminUserMenuItemProvider( ) );
             fail( "Should have thrown" );
         }
-        catch ( IllegalStateException e )
+        catch( IllegalStateException e )
         {
 
         }
@@ -145,7 +143,7 @@ public class AdminUserMenuItemProviderRegistrarTest extends LuteceTestCase
             _instance.registerAdminUserMenuItemProvider( );
             fail( "Should have thrown" );
         }
-        catch ( IllegalStateException e )
+        catch( IllegalStateException e )
         {
 
         }

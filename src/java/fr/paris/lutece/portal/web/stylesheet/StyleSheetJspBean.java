@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -213,8 +213,7 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
         model.put( MARK_STYLE_LIST, getStyleList( ) );
         model.put( MARK_MODE_LIST, ModeHome.getModes( ) );
         model.put( MARK_MODE_ID, strModeId );
-        model.put( SecurityTokenService.MARK_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_CREATE_STYLESHEET ) );
+        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_CREATE_STYLESHEET ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CREATE_STYLESHEET, getLocale( ), model );
 
@@ -222,8 +221,7 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
     }
 
     /**
-     * Processes the creation form of a new stylesheet by recovering the
-     * parameters in the http request
+     * Processes the creation form of a new stylesheet by recovering the parameters in the http request
      * 
      * @param request
      *            the http request
@@ -234,7 +232,7 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
     public String doCreateStyleSheet( HttpServletRequest request ) throws AccessDeniedException
     {
         StyleSheet stylesheet = new StyleSheet( );
-        MultipartHttpServletRequest multipartRequest = ( MultipartHttpServletRequest ) request;
+        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
         String strErrorUrl = getData( multipartRequest, stylesheet );
 
         if ( strErrorUrl != null )
@@ -363,8 +361,7 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
     }
 
     /**
-     * Processes the updating form of a stylesheet whose new parameters are
-     * stored in the http request
+     * Processes the updating form of a stylesheet whose new parameters are stored in the http request
      * 
      * @param request
      *            The http request
@@ -374,7 +371,7 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
      */
     public String doModifyStyleSheet( HttpServletRequest request ) throws AccessDeniedException
     {
-        MultipartHttpServletRequest multipartRequest = ( MultipartHttpServletRequest ) request;
+        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
         int nId = Integer.parseInt( multipartRequest.getParameter( Parameters.STYLESHEET_ID ) );
         StyleSheet stylesheet = StyleSheetHome.findByPrimaryKey( nId );
         String strErrorUrl = getData( multipartRequest, stylesheet );
@@ -421,7 +418,8 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
         parameters.put( Parameters.STYLESHEET_ID, strId );
         parameters.put( Parameters.STYLE_ID, stylesheet.getStyleId( ) );
         parameters.put( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, JSP_DO_REMOVE_STYLESHEET ) );
-        return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_DELETE_STYLESHEET, args, null, JSP_DO_REMOVE_STYLESHEET, null, AdminMessage.TYPE_CONFIRMATION, parameters );
+        return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_DELETE_STYLESHEET, args, null, JSP_DO_REMOVE_STYLESHEET, null,
+                AdminMessage.TYPE_CONFIRMATION, parameters );
     }
 
     /**
@@ -430,7 +428,8 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
      * @param request
      *            the http request
      * @return The Jsp URL of the process result
-     * @throws AccessDeniedException if the security token is invalid
+     * @throws AccessDeniedException
+     *             if the security token is invalid
      */
     public String doRemoveStyleSheet( HttpServletRequest request ) throws AccessDeniedException
     {

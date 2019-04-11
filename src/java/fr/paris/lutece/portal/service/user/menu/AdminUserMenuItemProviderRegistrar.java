@@ -43,10 +43,8 @@ import fr.paris.lutece.portal.business.user.menu.IAdminUserMenuItemProvider;
 /**
  * Admin user menu provider registrar.
  * 
- * Used to add item providers to the admin user menu provider registry. One of
- * <code>className</code> or <code>provider</code> must be set. Ordering can be
- * altered by using <code>insertAfter</code> or <code>insertBefore</code>
- * properties.
+ * Used to add item providers to the admin user menu provider registry. One of <code>className</code> or <code>provider</code> must be set. Ordering can be
+ * altered by using <code>insertAfter</code> or <code>insertBefore</code> properties.
  * 
  * Normally used from Spring.
  * 
@@ -86,11 +84,10 @@ public class AdminUserMenuItemProviderRegistrar implements BeanNameAware
      * @throws ClassNotFoundException
      *             if the class cannot be found
      */
-    public void setClassName( String strClassName )
-            throws InstantiationException, IllegalAccessException, IllegalStateException, ClassNotFoundException
+    public void setClassName( String strClassName ) throws InstantiationException, IllegalAccessException, IllegalStateException, ClassNotFoundException
     {
         assertItemProviderNotSet( );
-        _provider = ( IAdminUserMenuItemProvider ) Class.forName( strClassName ).newInstance( );
+        _provider = (IAdminUserMenuItemProvider) Class.forName( strClassName ).newInstance( );
     }
 
     /**

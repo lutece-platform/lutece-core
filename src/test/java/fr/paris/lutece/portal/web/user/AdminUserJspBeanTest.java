@@ -2626,8 +2626,8 @@ public class AdminUserJspBeanTest extends LuteceTestCase
             MockHttpServletRequest request = new MockHttpServletRequest( );
             AdminAuthenticationService.getInstance( ).registerUser( request, user );
             bean.init( request, "CORE_USERS_MANAGEMENT" );
-            request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
-                    SecurityTokenService.getInstance( ).getToken( request, "ManageAdvancedParameters.jsp" ) + "b" );
+            request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "ManageAdvancedParameters.jsp" )
+                    + "b" );
             request.setParameter( "reset", "reset" );
             bean.doModifyEmailPattern( request );
             fail( "Should have thrown" );

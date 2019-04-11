@@ -74,14 +74,13 @@ public class EditorChoiceLutecePanelJspBeanTest extends LuteceTestCase
     public void testDoUpdateBackOfficeEditor( ) throws AccessDeniedException
     {
         String strBOEditor = RichTextEditorService.getListEditorsForBackOffice( Locale.FRANCE ).stream( )
-                .filter( ref -> !ref.getCode( ).equals( _boDefaultEditor ) ).findFirst( )
-                .orElseThrow( IllegalStateException::new ).getCode( );
+                .filter( ref -> !ref.getCode( ).equals( _boDefaultEditor ) ).findFirst( ).orElseThrow( IllegalStateException::new ).getCode( );
         assertFalse( strBOEditor.equals( RichTextEditorService.getBackOfficeDefaultEditor( ) ) );
 
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.setParameter( "editor_back_office", strBOEditor );
-        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( )
-                .getToken( request, "admin/globalmanagement/panel/editor_choice_panel.html" ) );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "admin/globalmanagement/panel/editor_choice_panel.html" ) );
         _instance.doUpdateBackOfficeEditor( request );
 
         assertEquals( strBOEditor, RichTextEditorService.getBackOfficeDefaultEditor( ) );
@@ -90,20 +89,19 @@ public class EditorChoiceLutecePanelJspBeanTest extends LuteceTestCase
     public void testDoUpdateBackOfficeEditorInvalidToken( ) throws AccessDeniedException
     {
         String strBOEditor = RichTextEditorService.getListEditorsForBackOffice( Locale.FRANCE ).stream( )
-                .filter( ref -> !ref.getCode( ).equals( _boDefaultEditor ) ).findFirst( )
-                .orElseThrow( IllegalStateException::new ).getCode( );
+                .filter( ref -> !ref.getCode( ).equals( _boDefaultEditor ) ).findFirst( ).orElseThrow( IllegalStateException::new ).getCode( );
         assertFalse( strBOEditor.equals( RichTextEditorService.getBackOfficeDefaultEditor( ) ) );
 
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.setParameter( "editor_back_office", strBOEditor );
-        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( )
-                .getToken( request, "admin/globalmanagement/panel/editor_choice_panel.html" ) + "b" );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "admin/globalmanagement/panel/editor_choice_panel.html" ) + "b" );
         try
         {
             _instance.doUpdateBackOfficeEditor( request );
             fail( "Should have thrown" );
         }
-        catch ( AccessDeniedException e )
+        catch( AccessDeniedException e )
         {
             assertEquals( _boDefaultEditor, RichTextEditorService.getBackOfficeDefaultEditor( ) );
         }
@@ -112,8 +110,7 @@ public class EditorChoiceLutecePanelJspBeanTest extends LuteceTestCase
     public void testDoUpdateBackOfficeEditorNoToken( ) throws AccessDeniedException
     {
         String strBOEditor = RichTextEditorService.getListEditorsForBackOffice( Locale.FRANCE ).stream( )
-                .filter( ref -> !ref.getCode( ).equals( _boDefaultEditor ) ).findFirst( )
-                .orElseThrow( IllegalStateException::new ).getCode( );
+                .filter( ref -> !ref.getCode( ).equals( _boDefaultEditor ) ).findFirst( ).orElseThrow( IllegalStateException::new ).getCode( );
         assertFalse( strBOEditor.equals( RichTextEditorService.getBackOfficeDefaultEditor( ) ) );
 
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -124,7 +121,7 @@ public class EditorChoiceLutecePanelJspBeanTest extends LuteceTestCase
             _instance.doUpdateBackOfficeEditor( request );
             fail( "Should have thrown" );
         }
-        catch ( AccessDeniedException e )
+        catch( AccessDeniedException e )
         {
             assertEquals( _boDefaultEditor, RichTextEditorService.getBackOfficeDefaultEditor( ) );
         }
@@ -133,14 +130,13 @@ public class EditorChoiceLutecePanelJspBeanTest extends LuteceTestCase
     public void testDoUpdateFrontOfficeEditor( ) throws AccessDeniedException
     {
         String strFOEditor = RichTextEditorService.getListEditorsForFrontOffice( Locale.FRANCE ).stream( )
-                .filter( ref -> !ref.getCode( ).equals( _foDefaultEditor ) ).findFirst( )
-                .orElseThrow( IllegalStateException::new ).getCode( );
+                .filter( ref -> !ref.getCode( ).equals( _foDefaultEditor ) ).findFirst( ).orElseThrow( IllegalStateException::new ).getCode( );
         assertFalse( strFOEditor.equals( RichTextEditorService.getFrontOfficeDefaultEditor( ) ) );
 
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.setParameter( "editor_front_office", strFOEditor );
-        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( )
-                .getToken( request, "admin/globalmanagement/panel/editor_choice_panel.html" ) );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "admin/globalmanagement/panel/editor_choice_panel.html" ) );
         _instance.doUpdateFrontOfficeEditor( request );
 
         assertEquals( strFOEditor, RichTextEditorService.getFrontOfficeDefaultEditor( ) );
@@ -149,20 +145,19 @@ public class EditorChoiceLutecePanelJspBeanTest extends LuteceTestCase
     public void testDoUpdateFrontOfficeEditorInvalidToken( ) throws AccessDeniedException
     {
         String strFOEditor = RichTextEditorService.getListEditorsForFrontOffice( Locale.FRANCE ).stream( )
-                .filter( ref -> !ref.getCode( ).equals( _foDefaultEditor ) ).findFirst( )
-                .orElseThrow( IllegalStateException::new ).getCode( );
+                .filter( ref -> !ref.getCode( ).equals( _foDefaultEditor ) ).findFirst( ).orElseThrow( IllegalStateException::new ).getCode( );
         assertFalse( strFOEditor.equals( RichTextEditorService.getFrontOfficeDefaultEditor( ) ) );
 
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.setParameter( "editor_front_office", strFOEditor );
-        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( )
-                .getToken( request, "admin/globalmanagement/panel/editor_choice_panel.html" ) + "b" );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "admin/globalmanagement/panel/editor_choice_panel.html" ) + "b" );
         try
         {
             _instance.doUpdateFrontOfficeEditor( request );
             fail( "Should have thrown" );
         }
-        catch ( AccessDeniedException e )
+        catch( AccessDeniedException e )
         {
             assertEquals( _foDefaultEditor, RichTextEditorService.getFrontOfficeDefaultEditor( ) );
         }
@@ -171,8 +166,7 @@ public class EditorChoiceLutecePanelJspBeanTest extends LuteceTestCase
     public void testDoUpdateFrontOfficeEditorNoToken( ) throws AccessDeniedException
     {
         String strFOEditor = RichTextEditorService.getListEditorsForFrontOffice( Locale.FRANCE ).stream( )
-                .filter( ref -> !ref.getCode( ).equals( _foDefaultEditor ) ).findFirst( )
-                .orElseThrow( IllegalStateException::new ).getCode( );
+                .filter( ref -> !ref.getCode( ).equals( _foDefaultEditor ) ).findFirst( ).orElseThrow( IllegalStateException::new ).getCode( );
         assertFalse( strFOEditor.equals( RichTextEditorService.getFrontOfficeDefaultEditor( ) ) );
 
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -183,7 +177,7 @@ public class EditorChoiceLutecePanelJspBeanTest extends LuteceTestCase
             _instance.doUpdateFrontOfficeEditor( request );
             fail( "Should have thrown" );
         }
-        catch ( AccessDeniedException e )
+        catch( AccessDeniedException e )
         {
             assertEquals( _foDefaultEditor, RichTextEditorService.getFrontOfficeDefaultEditor( ) );
         }

@@ -32,7 +32,6 @@
  * License 1.0
  */
 
-
 package fr.paris.lutece.portal.service.template;
 
 import fr.paris.lutece.portal.business.template.CommonsInclude;
@@ -45,26 +44,26 @@ import java.util.List;
 /**
  * CommonsService
  */
-public class CommonsService 
+public class CommonsService
 {
     private static final String DSKEY_CURRENT_COMMONS_INCLUDE = "core.templates.currentCommonsInclude";
     private static final String DEFAULT_COMMONS_INCLUDE_KEY = "default";
-    
-    public static List<CommonsInclude> getCommonsIncludes()
+
+    public static List<CommonsInclude> getCommonsIncludes( )
     {
         return SpringContextService.getBeansOfType( CommonsInclude.class );
     }
-    
+
     public static void activateCommons( String strKey )
     {
         IFreeMarkerTemplateService FMService = FreeMarkerTemplateService.getInstance( );
-        
+
         CommonsInclude ciNew = getCommonsInclude( strKey );
-        
-        if( ciNew != null )
+
+        if ( ciNew != null )
         {
-        
-            CommonsInclude ciCurrent = getCurrentCommonsInclude();
+
+            CommonsInclude ciCurrent = getCurrentCommonsInclude( );
 
             // Remove auto-include of the current commons include
             List<String> listAutoIncludes = FMService.getAutoIncludes( );
@@ -86,37 +85,37 @@ public class CommonsService
                     AppLogService.info( "New Freemarker AutoInclude added : " + strInclude );
                 }
             }
-            
+
             setNewCommonsInclude( ciNew );
         }
-        
+
     }
-    
-    public static ReferenceList getCommonsIncludeList()
+
+    public static ReferenceList getCommonsIncludeList( )
     {
-        ReferenceList list = new ReferenceList();
-        for( CommonsInclude ci : getCommonsIncludes() )
+        ReferenceList list = new ReferenceList( );
+        for ( CommonsInclude ci : getCommonsIncludes( ) )
         {
-            list.addItem( ci.getKey(), ci.getName() );
+            list.addItem( ci.getKey( ), ci.getName( ) );
         }
         return list;
     }
-    
-    public static String getCurrentCommonsKey()
+
+    public static String getCurrentCommonsKey( )
     {
-        CommonsInclude ciCurrent = getCurrentCommonsInclude();
-        if( ciCurrent != null )
+        CommonsInclude ciCurrent = getCurrentCommonsInclude( );
+        if ( ciCurrent != null )
         {
-            return ciCurrent.getKey();
+            return ciCurrent.getKey( );
         }
         return DEFAULT_COMMONS_INCLUDE_KEY;
     }
 
     public static CommonsInclude getCommonsInclude( String strKey )
     {
-        for( CommonsInclude ci : getCommonsIncludes() )
+        for ( CommonsInclude ci : getCommonsIncludes( ) )
         {
-            if( ci.getKey().equals( strKey ))
+            if ( ci.getKey( ).equals( strKey ) )
             {
                 return ci;
             }
@@ -124,16 +123,15 @@ public class CommonsService
         return null;
     }
 
-    public static CommonsInclude getCurrentCommonsInclude()
+    public static CommonsInclude getCurrentCommonsInclude( )
     {
-        String strCurrentCommonsIncludeKey = DatastoreService.getInstanceDataValue( DSKEY_CURRENT_COMMONS_INCLUDE , DEFAULT_COMMONS_INCLUDE_KEY );
+        String strCurrentCommonsIncludeKey = DatastoreService.getInstanceDataValue( DSKEY_CURRENT_COMMONS_INCLUDE, DEFAULT_COMMONS_INCLUDE_KEY );
         return getCommonsInclude( strCurrentCommonsIncludeKey );
     }
 
     private static void setNewCommonsInclude( CommonsInclude ciNew )
     {
-        DatastoreService.setDataValue( DSKEY_CURRENT_COMMONS_INCLUDE, ciNew.getKey() );
+        DatastoreService.setDataValue( DSKEY_CURRENT_COMMONS_INCLUDE, ciNew.getKey( ) );
     }
-    
-    
+
 }

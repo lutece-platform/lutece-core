@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -163,8 +163,7 @@ public final class IndexationService
     }
 
     /**
-     * Unregister an indexer. The indexer is only removed if its name has not
-     * changed
+     * Unregister an indexer. The indexer is only removed if its name has not changed
      * 
      * @param indexer
      *            the indexer to remove from the registry

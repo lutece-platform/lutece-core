@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -121,7 +121,7 @@ public class AliasPortletHome extends PortletHome
     {
         return _dao.selectAcceptAliasPortletRefList( );
     }
-    
+
     /**
      * Returns the list of the portlets which accept an alias
      *
@@ -130,7 +130,7 @@ public class AliasPortletHome extends PortletHome
     public static Collection<Portlet> getAcceptAliasPortletList( )
     {
         return _dao.selectAcceptAliasPortletList( );
-    }  
+    }
 
     /**
      * Loads the list of the portlets whose type is the same as the one specified in parameter
