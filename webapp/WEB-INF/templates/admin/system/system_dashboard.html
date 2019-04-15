@@ -1,7 +1,1 @@
-<#--
-<@infoBox color='bg-red' boxText='#i18n{portal.system.dashboard.pluginsCount}' boxNumber=plugins_count boxIcon='puzzle-piece' />
--->
-<#assign txt>
-#i18n{portal.system.dashboard.pluginsCount} ${plugins_count}
-</#assign>
-<@smallBox color='has-text-danger' boxIcon='puzzle-piece' title='' text=txt url=url urlText='' />
+<@smallBox color='warning' boxIcon='puzzle-piece' title=plugins_count text='#i18n{portal.system.dashboard.pluginsCount}' url='jsp/admin/system/ManagePlugins.jsp' urlText='Gestion des plugins' unit='plugins' />

@@ -1221,11 +1221,11 @@ and is kept only for backwards compatibility
 <#-- AdminLTE Small Box -->
 <#-- color:Bootstrap + AdminLTE colors -->
 <#-- unit: %,... -->
-<#macro smallBox color='' title='' text='' boxIcon='' titleLevel='h3' unit='' url='' urlText='' id='' params=''>
-<div class="small-box<#if color!=''> ${color}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<#macro smallBox color='' title='' text='' boxIcon='' titleLevel='h3' unit='' url='' urlText='' id='' params='' fontSize='40px'>
+<div class="small-box<#if color!=''> bg-${color}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 	<div class="inner">
-		<${titleLevel}>${title}<#if unit!=''><sup style="font-size:20px;">${unit}</sup></#if></${titleLevel}>
 		<p>${text}</p>
+        <${titleLevel} style="font-size:${fontSize};">${title}<#if unit!=''> &nbsp; ${unit}</#if></${titleLevel}>
 	</div>
 	<div class="icon">
 		<@icon style=boxIcon />

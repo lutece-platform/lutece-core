@@ -1009,7 +1009,7 @@ and is kept only for backwards compatibility
 <#if dropdownMenu>
 <div class="dropdown">
 </#if>
-	<button class="<#if style!='close'>button</#if><#if size!='' && style!='btn-box-tool'> btn-${size}</#if><#if buttonColor!='' && style!='btn-box-tool'> is-${buttonColor}</#if><#if style!=''> ${style}</#if><#if dropdownMenu> dropdown-toggle</#if><#if class!=''> ${class}</#if>" type="${type}"<#if title!=''> title="${title}"</#if><#if name!=''> name="${name}"</#if><#if id!=''> id="${id}"</#if><#if value!=''> value="${value}"</#if><#if params!=''> ${params}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if><#if cancel> formnovalidate</#if>>
+	<button class="<#if style!='close'>button</#if><#if size!='' && style!='btn-box-tool'> btn-${size}</#if><#if buttonColor!='' && style!='btn-box-tool'> is-${buttonColor}</#if> is-grouped <#if style!=''> ${style}</#if><#if dropdownMenu> dropdown-toggle</#if><#if class!=''> ${class}</#if>" type="${type}"<#if title!=''> title="${title}"</#if><#if name!=''> name="${name}"</#if><#if id!=''> id="${id}"</#if><#if value!=''> value="${value}"</#if><#if params!=''> ${params}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if><#if cancel> formnovalidate</#if>>
             <#if buttonIcon!='' && iconPosition='left'><@icon style=buttonIcon /> &nbsp;</#if>
 		<#if showTitleClass!='' && style!='btn-box-tool'><span class="${showTitleClass}"></#if>${title}<#if showTitleClass!='' && style!='btn-box-tool'></span></#if>
 		<#if buttonIcon!='' && iconPosition='right'><@icon style=buttonIcon /></#if>
@@ -1046,7 +1046,7 @@ and is kept only for backwards compatibility
 <#if showTitleMd = false><#assign showTitleClass = showTitleClass + ' ' + 'hidden-md' /></#if>
 <#if showTitleLg = false><#assign showTitleClass = showTitleClass + ' ' + 'hidden-lg' /></#if>
 
-<a class="button <#if size!=''>is-${size}</#if><#if color_temp!=''> is-${color_temp}</#if><#if style!=''> ${style}</#if><#if class!=''> ${class}</#if>"<#if name!=''> name="${name}"</#if><#if id!=''> id="${id}"</#if> href="${href}" title="${title}"<#if params!=''> ${params}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if>>
+<a class="button is-grouped <#if size!=''>is-${size}</#if><#if color_temp!=''> is-${color_temp}</#if><#if style!=''> ${style}</#if><#if class!=''> ${class}</#if>"<#if name!=''> name="${name}"</#if><#if id!=''> id="${id}"</#if> href="${href}" title="${title}"<#if params!=''> ${params}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if>>
 	<#if buttonIcon!='' && iconPosition='left'><@icon style=buttonIcon /></#if>
 	<span class="${showTitleClass}">${title}</span><#if buttonIcon!='' && iconPosition='right'><@icon style=buttonIcon /></#if><#if dropdownMenu>&#160;<@icon style='caret-down' /></#if>
 	<#nested>
@@ -1071,7 +1071,7 @@ and is kept only for backwards compatibility
 <#-- Radio button/Checkbox as buttons (to use with btnGroup)  -->
 <#-- type: radio/checkbox -->
 <#macro btnGroupRadioCheckbox type='checkbox' color='primary' size='' name='' id='' params='' ariaLabel='' labelFor='' labelKey='' labelParams='' tabIndex='' value='' checked=false>
-<label class="button btn-${color}<#if size!=''> btn-${size}</#if>" for="${labelFor}"<#if labelParams!=''> ${labelParams}</#if>>
+<label class="button is-${color}<#if size!=''> btn-${size}</#if>" for="${labelFor}"<#if labelParams!=''> ${labelParams}</#if>>
 	<input type="${type}" name="${name}" id="${id}" autocomplete="off"<#if value!=''> value="${value}"</#if><#if params!=''> ${params}</#if><#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if checked> checked</#if> /><#if labelKey!=''>${labelKey}</#if>
 </label>
 </#macro>
@@ -1206,8 +1206,8 @@ and is kept only for backwards compatibility
 <#-- AdminLTE Small Box -->
 <#-- color:Bootstrap + AdminLTE colors -->
 <#-- unit: %,... -->
-<#macro smallBox color='' title='' text='' boxIcon='' titleLevel='h3' unit='' url='' urlText='' id='' params=''>
-<div class="box<#if color!=''> ${color}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<#macro smallBox color='' title='' text='' boxIcon='' titleLevel='h3' unit='' url='' urlText='' id='' params='' fontSize='30px'>
+<div class="box<#if color!=''> has-background-${color}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 	<article class="media">
 		<div class="media-left">
 			<figure class="image is-64x64">
@@ -1216,8 +1216,8 @@ and is kept only for backwards compatibility
 		</div>
 		<div class="media-content">
 		<div class="content">	
-			<${titleLevel}>${title}<#if unit!=''><sup style="font-size:20px;">${unit}</sup></#if></${titleLevel}>
-			<p>${text}</p>
+            <p>${text}</p>
+            <${titleLevel} style="font-size:${fontSize};">${title}<#if unit!=''> &nbsp; ${unit}</#if></${titleLevel}>
 		</div>
 		<#if url!=''>
 		<a class="small-box-footer" href="${url}">${urlText} <@icon style='arrow-circle-right' /></a>
@@ -1250,7 +1250,7 @@ and is kept only for backwards compatibility
 			<#else>...
 			</#if>
 		</p>
-		<@aButton href='' size='' color='bg-${color}' style='btn-flat'>
+		<@aButton href='' size='' color='bg-${color}' style=''>
 			<@icon style='home' />
 			#i18n{portal.util.labelBackHome}
 		</@aButton>
