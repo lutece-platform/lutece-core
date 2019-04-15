@@ -663,7 +663,7 @@ and is kept only for backwards compatibility
 		<div class="notification is-info" id="messages_infos_div" >
 			<button class="delete"></button>
 			<#list infos as info >
-				<span class="icon"><i class="fa fa-info-circle"></i> ${info.message} <br>
+				<span class="icon"><i class="fa fa-info-circle"></i></span> ${info.message} <br>
 			</#list>
 		</div>
 	</#if>
@@ -671,9 +671,9 @@ and is kept only for backwards compatibility
 <#if warnings??>
 	<#if warnings?size &gt; 0 >
 		<div class="${warnings_class}" id="messages_warnings_div" >
-			<a class="close" data-dismiss="alert" href="#">x</a>
+			<a class="delete" data-dismiss="alert" href="#">x</a>
 			<#list warnings as warning >
-				<span class="icon"><i class="fa fa-info-circle"></i> ${warning.message} <br>
+				<span class="icon"><i class="fa fa-info-circle"></i></span> ${warning.message} <br>
 			</#list>
 		</div>
 	</#if>
@@ -976,7 +976,7 @@ and is kept only for backwards compatibility
 <#-- BUTTON -->
 <#-- bootstrap 3 : size: is-small/is-medium/is-large -->
 <#-- upcoming bootstrap 4 : size: is-medium for small buttons/empty for medium buttons/is-large for large buttons -->
-<#-- color: is-default[bootstrap4 : btn-secondary]/is-primary/is-success/is-warning/is-danger/btn-info/bg-purple/bg-blue/bg-navy/bg-teal/bg-maroon/bg-black/bg-gray/bg-olive/bg-lime/bg-orange/bg-fuchsia -->
+<#-- color: default : secondary]/primary/success/warning/danger/info -->
 <#-- color (upcoming bootstrap 4): btn-outline-default/btn-outline-primary/btn-outline-success/btn-outline-warning/btn-outline-danger/btn-outline-info/ -->
 <#-- style: btn-block/btn-flat/close/navbar-toggle/collapsed... -->
 <#-- type: button/submit/reset -->
@@ -1092,7 +1092,7 @@ and is kept only for backwards compatibility
 
 <#macro modalHeader titleLevel='h4' modalTitle='' id='' params=''>
 <div class="modal-header"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
-	<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+	<button type="button" class="delete" data-dismiss="modal" aria-label="Close">
 		<span aria-hidden="true">&times;</span>
 	</button>
 	<${titleLevel} class="modal-title">${modalTitle}</${titleLevel}>
@@ -1128,11 +1128,12 @@ and is kept only for backwards compatibility
 </#macro>
 
 <#-- ALERT -->
-<#-- classes: alert-success/alert-info/alert-warning/alert-danger + alert-dismissible -->
-<#macro alert class='' titleLevel='h3' title='' iconTitle='' dismissible=false id='' params=''>
-<div class="alert alert-${class}"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<#-- class:  -->
+<#-- color: success/info/warning/danger -->
+<#macro alert class='' color='' titleLevel='h3' title='' iconTitle='' dismissible=false id='' params=''>
+<div class="notification ${class} <#if color!=''> is-${color}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 <#if dismissible>
-	<@button color='' size='' style='close' params='data-dismiss="alert" aria-hidden="true"'>&times;</@button>
+	<@button color='' size='' style='close' class='delete' params='data-dismiss="alert" aria-hidden="true"'>&times;</@button>
 </#if>
 <#if title!=''>
 <${titleLevel}>
@@ -1371,9 +1372,9 @@ and is kept only for backwards compatibility
 								<span id="zone4" class="hidden-sm hidden-md"> ${dashboard_zone_4}<i class="caret"></i></span>
 						  	</a>
                             <#if userMenuItems?has_content>   
-                              <ul class="dropdown-menu" role="menu" aria-labelledby="dLabelUserHeader">
+                              <ul class="navbar-dropdown" role="menu" aria-labelledby="dLabelUserHeader">
                                     <#list userMenuItems as item>
-                                        <li class="dropdown-item ${item.itemClass?html}">${item.content}</li>
+                                        <a class="navbar-item ${item.itemClass?html}">${item.content}</a>
                                     </#list>
                               </ul>
                             </#if>

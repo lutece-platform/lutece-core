@@ -642,8 +642,8 @@ and is kept only for backwards compatibility
 <#macro messages errors=[] infos=[] warnings=[] errors_class="alert alert-danger" infos_class="alert alert-info" warnings_class="alert alert-warning">
     <#if errors??>
         <#if errors?size &gt; 0 >
-            <div class="notification is-danger" id="messages_errors_div">
-                <button class="delete"></button>
+            <div class="alert alert-danger" id="messages_errors_div">
+                <button class="close"></button>
                 <#list errors as error >
                     <span class="icon"><i class="fa fa-exclamation-circle"></i></span> ${error.message} <br>
                 </#list>
@@ -652,10 +652,10 @@ and is kept only for backwards compatibility
     </#if>
     <#if infos??>
         <#if infos?size &gt; 0 >
-            <div class="notification is-info" id="messages_infos_div" >
-                <button class="delete"></button>
+            <div class="alert alert-info" id="messages_infos_div" >
+                <button class="close"></button>
                 <#list infos as info >
-                    <span class="icon"><i class="fa fa-info-circle"></i> ${info.message} <br>
+                    <span class="icon"><i class="fa fa-info-circle"></i></span> ${info.message} <br>
                 </#list>
             </div>
         </#if>
@@ -665,7 +665,7 @@ and is kept only for backwards compatibility
             <div class="${warnings_class}" id="messages_warnings_div" >
                 <a class="close" data-dismiss="alert" href="#">x</a>
                 <#list warnings as warning >
-                    <span class="icon"><i class="fa fa-info-circle"></i> ${warning.message} <br>
+                    <span class="icon"><i class="fa fa-info-circle"></i></span> ${warning.message} <br>
                 </#list>
             </div>
         </#if>
@@ -1160,8 +1160,9 @@ and is kept only for backwards compatibility
 
 <#-- ALERT -->
 <#-- classes: alert-success/alert-info/alert-warning/alert-danger + alert-dismissible -->
+<#-- color: primary/success/info/warning/dange r-->
 <#macro alert class='' titleLevel='h3' title='' iconTitle='' dismissible=false id='' params=''>
-<div class="alert alert-${class}"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<div class="alert  ${class} <#if color!=''> alert-${color}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 	<#if dismissible>
 		<@button color='' size='' style='close' params='data-dismiss="alert" aria-hidden="true"'>
 			&times;
