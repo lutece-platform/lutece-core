@@ -19,8 +19,7 @@
 					<input type="hidden" name="token" value="${token}">
 					<@row>
 						<@columns md=4 lg=4>
-							<fieldset>		
-							<legend>#i18n{portal.users.create_user.labelIdentity}</legend>
+							<@fieldSet legend='#i18n{portal.users.create_user.labelIdentity}' >
 							<@formGroup labelKey='#i18n{portal.users.create_user.labelLastName}' labelFor='last_name' rows=2 mandatory=true>
 								<@inputGroup>
 									<@inputGroupItem type='addon'>
@@ -45,11 +44,10 @@
 									<@input type='text' id='email' name='email' value='' maxlength=100 />
 								</@inputGroup>
 							</@formGroup>
-							</fieldset>
+							</@fieldSet>
 						</@columns>
 						<@columns md=4 lg=4>
-							<fieldset>
-							<legend>#i18n{portal.users.create_user.labelAccount}</legend>
+							<@fieldSet legend='#i18n{portal.users.create_user.labelAccount}'>
 							<@formGroup labelKey='#i18n{portal.users.create_user.labelAccessCode}' labelFor='access_code' rows=2 mandatory=true>
 								<@inputGroup>
 									<@inputGroupItem type='addon'>
@@ -90,11 +88,10 @@
 									<@radioButton orientation='horizontal' labelKey='#i18n{portal.util.labelNo}' name='notify_user' value='0' checked=true />
 								 </#if>								
 							</@formGroup>
-							</fieldset>
+							</@fieldSet>
 						</@columns>
 						<@columns md=4 lg=4>
-						<fieldset>
-							<legend>#i18n{portal.users.create_user.labelComplementaryAttributes}</legend>
+						<@fieldSet legend='#i18n{portal.users.create_user.labelComplementaryAttributes}'>
 							<@formGroup labelKey='#i18n{portal.users.create_user.labelStatus}' labelFor='status' rows=2>
 								<@select id='status' name='status'>
 									<#if default_user_status = 1>
@@ -143,7 +140,7 @@
 							<@formGroup labelKey='#i18n{portal.users.create_user.labelTheme}' labelFor='accessibility_mode' rows=2>
 								<@checkBox name='accessibility_mode' id='accessibility_mode' orientation='horizontal' value='1' labelKey='#i18n{portal.users.create_user.labelAccessibilityMode}' />
 							</@formGroup>
-						</fieldset>
+						</@fieldSet>
 						</@columns>
 					</@row>
 					<@row>

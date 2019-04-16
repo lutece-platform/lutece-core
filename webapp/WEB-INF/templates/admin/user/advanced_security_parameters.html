@@ -12,7 +12,7 @@
 	<@accordionBody id=id class=childClass expanded=expanded>
 		<@tform method='post' name='password_global_security' action='jsp/admin/user/DoModifyDefaultUserSecurityParameterValues.jsp#footer'>
 			<input type="hidden" name="token" value="${token}">
-					<fieldset>
+					<@fieldSet>
 						<@formGroup labelKey='#i18n{portal.users.manage_advanced_parameters.labelBannedDomainNames}' labelFor='banned_domain_names'>
 							<@input type='textarea' name='banned_domain_names' id='banned_domain_names'>${banned_domain_names?html}</@input>
 						</@formGroup>
@@ -118,7 +118,7 @@
 							<@button type='submit' buttonIcon='check' title='#i18n{portal.util.labelModify}'  size='' />
 						</@formGroup>
 
-					</fieldset>
+					</@fieldSet>
 			</@tform>
 		</@accordionBody>
 	</@accordionPanel>
@@ -128,7 +128,7 @@
 		<@accordionHeader title='#i18n{portal.users.accountLifeTime.labelLifeTimeNotifications}' />
 		<@accordionBody>
 				<@tform method='post' action='jsp/admin/user/ModifyAccountLifeTimeEmails.jsp'>
-					<fieldset>
+					<@fieldSet> 
 						<@formGroup labelKey='#i18n{portal.users.accountLifeTime.labelSelectEmail}' labelFor='email_type'>
 							<@select name='email_type' id='email_type'>
 								<option value="first" selected="selected">#i18n{portal.users.accountLifeTime.labelFirstEmail}</option>
@@ -141,7 +141,7 @@
 						<@formGroup>
 							<@button type='submit' buttonIcon='check' title='#i18n{portal.users.accountLifeTime.labelEditEmail}'  size='' />
 						</@formGroup>
-					</fieldset>
+					</@fieldSet>
 				</@tform>
 		</@accordionBody>
 	</@accordionPanel>

@@ -11,8 +11,7 @@
 					<@formGroup labelFor='mode_path' labelKey='#i18n{portal.style.create_mode.labelXslDirectory}' helpKey='#i18n{portal.style.create_mode.xslDirectorySampleMessage}' mandatory=true>
 						<@input type='text' id='mode_path' name='mode_path' maxlength=50 />
 					</@formGroup>
-					<fieldset>
-					<legend>#i18n{portal.style.modify_mode.xslParameterValues}</legend>
+					<@fieldSet legend='#i18n{portal.style.modify_mode.xslParameterValues}'>
 					<@formGroup labelFor='mode_output_xsl_method' labelKey='#i18n{portal.style.create_mode.labelMethod}'>
 						<@input type='text' id='mode_output_xsl_method' name='mode_output_xsl_method' maxlength=50 />
 					</@formGroup>
@@ -34,7 +33,7 @@
 					<@formGroup labelFor='mode_output_xsl_standalone' labelKey='#i18n{portal.style.create_mode.labelStandalone}'>
 						<@input type='text' id='mode_output_xsl_standalone' name='mode_output_xsl_standalone' maxlength=50 />
 					</@formGroup>
-					</fieldset>
+					</@fieldSet>
 					
 					<@formGroup>
 						<@button type='submit' buttonIcon='check' title='#i18n{portal.style.create_mode.buttonLabelCreate}'  size='' />

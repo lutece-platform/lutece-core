@@ -12,7 +12,7 @@
 				<@button style='btn-box-tool' params='data-widget="collapse"' buttonIcon='minus' />
 			</@boxHeader>
 			<@boxBody>
-					<fieldset>
+					<@fieldSet> 
 						<@formGroup>
 							<@checkBox id='access_code' name='access_code' value='true' checked=access_code??&&access_code labelKey='#i18n{portal.users.create_user.labelAccessCode}' labelFor='access_code' />
 						</@formGroup>
@@ -25,7 +25,7 @@
 						<@formGroup>
 							<@checkBox id='email' name='email' value='true' checked=email??&&email labelKey='#i18n{portal.users.create_user.labelEmail}' labelFor='email' />
 						</@formGroup>
-					</fieldset>	
+					</@fieldSet>	
 			</@boxBody>
 		</@box>
 		<#if attributes_list?has_content>
@@ -34,7 +34,7 @@
 				<@button style='btn-box-tool' params='data-widget="collapse"' buttonIcon='minus' />
 			</@boxHeader>
 			<@boxBody>
-				<fieldset>
+				<@fieldSet> 
 					<#list attributes_list as attribute>
 						<#if !attribute.plugin?exists || ( attribute.plugin?exists && attribute.plugin.name != "profiles" )>
 						<@formGroup>
@@ -42,7 +42,7 @@
 						</@formGroup>
 						</#if>
 					</#list>
-				<fieldset>
+				</@fieldSet> 
 			</@boxBody>
 		</@box>			
 		</#if>

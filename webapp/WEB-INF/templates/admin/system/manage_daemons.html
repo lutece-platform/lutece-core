@@ -88,8 +88,10 @@
 							<input type="hidden" name="daemon" value="${daemon.id}">
 							<input type="hidden" name="token" value="${token}">
 							<#if daemon.running>
-								<@button type='submit' title='#i18n{portal.system.manage_daemons.buttonStop} ${daemon.id}' name='action' value='STOP' buttonIcon='stop' color='danger' showTitle=false />
-								<@button type='submit' title='#i18n{portal.system.manage_daemons.buttonRun} ${daemon.id}' name='action' value='RUN' buttonIcon='refresh' color='info' showTitle=false />
+                                <@inputGroup>
+                                    <@button type='submit' title='#i18n{portal.system.manage_daemons.buttonStop} ${daemon.id}' name='action' value='STOP' buttonIcon='stop' color='danger' showTitle=false />
+                                    <@button type='submit' title='#i18n{portal.system.manage_daemons.buttonRun} ${daemon.id}' name='action' value='RUN' buttonIcon='refresh' color='info' showTitle=false />
+                                </@inputGroup>
 							  <#else>
 								<@button type='submit' title='#i18n{portal.system.manage_daemons.buttonStart} ${daemon.id}' name='action' value='START' buttonIcon='play' color='success' showTitle=false />
 							</#if>

@@ -128,11 +128,11 @@
 	<#else>
 		<#assign sort_url = jsp_url + "?sorted_attribute_name=" + attribute + "&amp;asc_sort=" />
 	</#if>
-	<div class="btn-group" role="group" aria-label="sortButton">
-		<a class="button is-default btn-flat is-small" id="sort${id!}_${attribute!}" href="${sort_url}true#sort${id!}_${attribute!}" title="#i18n{portal.util.sort.asc}" >
+	<div class="field is-grouped" role="group" aria-label="sortButton">
+		<a class="button is-default is-small" id="sort${id!}_${attribute!}" href="${sort_url}true#sort${id!}_${attribute!}" title="#i18n{portal.util.sort.asc}" >
             <span class="icon"><i class="fa fa-chevron-up"></i></span>
 		</a>
-		<a class="button is-default btn-flat is-small" href="${sort_url}false#sort${id!}_${attribute!}" title="#i18n{portal.util.sort.desc}">
+		<a class="button is-default is-small" href="${sort_url}false#sort${id!}_${attribute!}" title="#i18n{portal.util.sort.desc}">
 			<span class="icon"><i class="fa fa-chevron-down"></i>
 		</a>
 	</div>
@@ -618,9 +618,9 @@ and is kept only for backwards compatibility
 </#macro>
 
 <#macro rowBox boxClass='box-primary' col=12>
-<div class="row">
-    <div class="col-xs-${col} col-sm-${col} col-md-${col}">
-        <div class="box ${boxClass}">
+<div class="columns">
+    <div class="column">
+        <div class="card">
             <#nested>
         </div>
     </div>
@@ -630,7 +630,7 @@ and is kept only for backwards compatibility
 <#macro rowBoxHeader i18nTitleKey boxClass='box-primary' col=12>
 <@rowBox boxClass=boxClass col=col >
     <@boxHeader i18nTitleKey=i18nTitleKey />
-    <div class="box-body">
+    <div class="card-header">
         <#nested>
     </div>
 </@rowBox>
@@ -744,7 +744,12 @@ and is kept only for backwards compatibility
 <#-- groupStyle: success/warning/error... -->
 
 <#macro formGroup formStyle='horizontal' class='' groupStyle='' rows=1 labelKey='' labelFor='' labelId='' helpKey='' id='' mandatory=false showLabel=true params=''>
-<div class="field is-${formStyle} <#if groupStyle!=''> has-${groupStyle} has-feedback</#if><#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<#if class="text-center">
+    <#assign groupClass = "has-text-centered">
+<#else>
+    <#assign groupClass = class>
+</#if>
+<div class="field is-${formStyle} <#if groupStyle!=''> has-${groupStyle} has-feedback</#if><#if groupClass!=''> ${groupClass}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 	<#if rows=1>
 		<#if labelKey!='' && formStyle='horizontal'>
 			<#assign labelClass = "field-label">
@@ -835,18 +840,28 @@ and is kept only for backwards compatibility
 
 
 <#-- INPUT-GROUP -->
-<#-- size: sm/lg/no size-->
+<#-- size: ignored -->
 <#macro inputGroup size='' id='' params=''>
-<div class="input-group<#if size!=''> input-group-${size}</#if>" <#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<div class="field is-grouped has-addons" <#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 	<#nested>
 </div>
 </#macro>
 
 <#macro inputGroupItem type='btn' id='' params=''>
 <#-- type: btn/addon. default is btn-->
-<span class="input-group-${type}"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
-	<#nested>
-</span>
+
+<#-- <div class="field"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>> -->
+     <#if type=="addon">    
+     <div class="control has-icons-left has-icons-right">
+         <span class="icon is-small is-left">
+     </#if>
+	 <#nested>
+
+     <#if type=="addon">    
+        </span>
+    </div>
+    </#if>
+<#-- </div> -->
 </#macro>
 
 <#-- DROPDOWN MENU -->
@@ -880,22 +895,23 @@ and is kept only for backwards compatibility
 
 <#-- TAB Custom AdminLTE -->
 <#macro tabs color='' id='' params=''>
-<div class="tabs<#if color!=''> ${color}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 	<#nested>
-</div>
+
 </#macro>
 
 <#-- Bootstrap UL tabs -->
 <#-- type: tabs/tabs nav-justified/pills/pills nav-stacked/pills nav-justified -->
-<#macro listTabs type='tabs' id='' params=''>
-<ul class="tabs"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<#macro listTabs type='tabs' id='' params='' color=''>
+<div class="tabs<#if color!=''> ${color}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<ul <#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 	<#nested>
 </ul>
+</div>
 </#macro>
 
 <#-- TAB Content AdminLTE -->
 <#macro tabContent id='' params=''>
-<div class="tabs"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<div class="is-clearfix"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 	<#nested>
 </div>
 </#macro>
@@ -978,7 +994,7 @@ and is kept only for backwards compatibility
 <#-- upcoming bootstrap 4 : size: is-medium for small buttons/empty for medium buttons/is-large for large buttons -->
 <#-- color: default : secondary]/primary/success/warning/danger/info -->
 <#-- color (upcoming bootstrap 4): btn-outline-default/btn-outline-primary/btn-outline-success/btn-outline-warning/btn-outline-danger/btn-outline-info/ -->
-<#-- style: btn-block/btn-flat/close/navbar-toggle/collapsed... -->
+<#-- style: close/navbar-toggle/collapsed ignored : btn-block/btn-flat -->
 <#-- type: button/submit/reset -->
 <#-- params: data-toggle/data-target/data-dismiss... -->
 <#-- buttonIcon: icon name ex: info/check/comment/envelope... -->
@@ -1028,9 +1044,9 @@ and is kept only for backwards compatibility
 <#-- A BUTTON (LINK STYLED AS A BUTTON) -->
 <#-- size: small/medium/large -->
 <#-- color: default/primary/success/warning/danger/info/bg-purple/bg-blue/bg-navy/bg-teal/bg-maroon/bg-black/bg-gray/bg-olive/bg-lime/bg-orange/bg-fuchsia -->
-<#-- style: btn-block/btn-flat/disabled/btn-app -->
+<#-- style: disabled ignored : btn-block/btn-flat/btn-app-->
 <#-- icon: icon name ex: info/check/comment/envelope... -->
-<#macro aButton name='' id='' href='' size='' color='primary' style='btn-flat' class='' params='' title='' tabIndex='' showTitle=true showTitleXs=true showTitleSm=true showTitleMd=true showTitleLg=true buttonIcon='' disabled=false iconPosition='left' dropdownMenu=false>
+<#macro aButton name='' id='' href='' size='' color='primary' style='' class='' params='' title='' tabIndex='' showTitle=true showTitleXs=true showTitleSm=true showTitleMd=true showTitleLg=true buttonIcon='' disabled=false iconPosition='left' dropdownMenu=false>
 <#-- Bootstrap 4 transition -->
 <#if color='secondary'>
 	<#assign color_temp=''>
@@ -1478,24 +1494,31 @@ $( function() {
 
 <#-- adminLoginPage  -->
 <#macro adminLoginPage title=''>
-<div id="login-page">
-	<img src="images/logo-header.png" id="logoLogin" title="LUTECE Back-Office" alt="LUTECE Back-Office">
-	<div class="login-box">
-		<div class="login-logo bg-primary">
-		  <a href="jsp/site/Portal.jsp" title="${site_name}">#i18n{portal.admin.admin_login.welcome}<br> <b>${site_name}</b></a>
-		</div>
-		<div class="login-box-body">
-		  	<div class="login-box-header">
-				<p class="text-center">${title}</p>
-			</div>
-			<#nested>
-			<p class='text-center'>
-				<@aButton href='http://fr.lutece.paris.fr' params='target="_blank"' title='#i18n{portal.site.portal_footer.labelPortal}' showTitle=false color='secondary'>
-					<img src="images/poweredby.jpg" class="thumbnails" alt="logo lutece" title="Lutece">
-				</@aButton>
-			</p>
-		</div>
-	</div>
+
+<div class=container" id="login-page">
+    <img src="images/logo-header.png" id="logoLogin" title="LUTECE Back-Office" alt="LUTECE Back-Office">
+    <div class="columns">
+        <div class="column is-4 is-offset-4">
+            <div class="card" >
+                <div class="card-header">
+                    <div class="card-header-title has-background-primary has-text-centered">
+                      <a href="jsp/site/Portal.jsp" title="${site_name}">#i18n{portal.admin.admin_login.welcome}<br> <b>${site_name}</b></a>
+                    </div>
+                </div>
+                <div class="card-content">
+                    <div class="login-box-header">
+                        <p class="text-center">${title}</p>
+                    </div>
+                    <#nested>
+                    <p class='has-text-centered'>
+                        <@aButton href='http://fr.lutece.paris.fr' params='target="_blank"' title='#i18n{portal.site.portal_footer.labelPortal}' showTitle=false color='secondary'>
+                            <img src="images/poweredby.jpg" class="thumbnails" alt="logo lutece" title="Lutece">
+                        </@aButton>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <script>
 $(function() {
@@ -1603,10 +1626,11 @@ $(function() {
 
 <#-- fieldSet  -->
 <#macro fieldSet legend=''>
-<fieldset>
+<fieldset class="box">
 	<#if legend!=''>
-		<legend>${legend}</legend>
+		<legend class="label has-text-centered">${legend}</legend>
 	</#if>
+	<#nested>
 </fieldset>
 </#macro>
 

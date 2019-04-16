@@ -7,8 +7,7 @@
 			</@boxHeader>
       <@boxBody>
 				<@tform method='post' name='search_workgroups' action='jsp/admin/workgroup/ManageWorkgroups.jsp'>
-					<fieldset>
-						<legend class="sr-only">#i18n{portal.workgroup.manage_workgroups.search_workgroups.buttonSearch}</legend>
+					<@fieldSet legend='#i18n{portal.workgroup.manage_workgroups.search_workgroups.buttonSearch}'>
 						<@formGroup labelKey='#i18n{portal.workgroup.manage_workgroups.search_workgroups.labelKey}' labelFor='key'>
 							<@input type='text' id='key' name='search_key' value='${search_admin_workgroup_filter.key}' maxlength=50 inputSize=10 />
 						</@formGroup>
@@ -18,7 +17,7 @@
 						<@formGroup>
 							<@button type='submit' buttonIcon='search' title='#i18n{portal.workgroup.manage_workgroups.search_workgroups.buttonSearch}' />
 						</@formGroup>
-					</fieldset>
+					</@fieldSet>
 				</@tform>
 			</@boxBody>
 		</@box>

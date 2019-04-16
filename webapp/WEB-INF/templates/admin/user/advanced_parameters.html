@@ -5,7 +5,7 @@
 				<!-- DEFAULT USER PARAMETERS -->
 				<@tform method='post' name='default_user_parameters' action='jsp/admin/user/DoModifyDefaultUserParameterValues.jsp'>
 					<input type="hidden" name="token" value="${token}">
-					<fieldset>
+					<@fieldSet> 
 						<!-- USER LEVEL -->
 						<@formGroup labelKey='#i18n{portal.users.manage_advanced_parameters.userLevelLabel}' labelFor='user_level'>
 							<@select id='user_level' name='user_level'>
@@ -51,7 +51,7 @@
 						<@formGroup>
 							<@button type='submit' buttonIcon='check' title='#i18n{portal.users.manage_advanced_parameters.buttonModify}'  size='' />
 						</@formGroup>
-					</fieldset>
+					</@fieldSet>
 				</@tform>
 			</@accordionBody>
 	</@accordionPanel>
@@ -63,7 +63,7 @@
 		<@accordionBody>
 			<@tform method='post' name='email_pattern_form' action='jsp/admin/user/DoModifyEmailPattern.jsp'>
 				<input type="hidden" name="token" value="${token}">
-				<fieldset>
+				<@fieldSet> 
 					<#if plugin_regularexpression>
 					<@formGroup labelKey='#i18n{portal.users.manage_advanced_parameters.labelIsEmailPatternSetManually}' labelFor='is_email_pattern_set_manually'>
 					<#if is_email_pattern_set_manually><#assign checked = true></#if>
@@ -89,21 +89,20 @@
 					<@formGroup>
 						<@button type='submit' buttonIcon='check' title='#i18n{portal.users.manage_advanced_parameters.buttonModify}' size='' />
 					</@formGroup>
-				</fieldset>
+				</@fieldSet>
 			</@tform>
 						
 			<#if plugin_regularexpression && !is_email_pattern_set_manually>
 			<@tform method='post' action='jsp/admin/user/DoInsertRegularExpression.jsp#list-regularexpressions'>
 				<input type="hidden" name="token" value="${token}">
-				<fieldset>
-					<legend>#i18n{portal.users.manage_advanced_parameters.labelRegularExpression}</legend>
+				<@fieldSet legend='#i18n{portal.users.manage_advanced_parameters.labelRegularExpression}'>
 					<@formGroup labelKey='#i18n{portal.users.manage_advanced_parameters.labelRegularExpression}' labelFor='id_expression'>
 						<@select name='id_expression' items=available_regularexpressions default_value="-1" sort=true />
 					</@formGroup>
 					<@formGroup helpKey='#i18n{portal.users.manage_advanced_parameters.labelInsertComment}'>
 						<@button type='submit' title='#i18n{portal.users.manage_advanced_parameters.buttonInsert}' size=''  />
 					</@formGroup>
-				</fieldset>
+				</@fieldSet>
 			</@tform>
 			<a name="list-regularexpressions" id="list-regularexpressions"></a>
 			<@table class='striped'>

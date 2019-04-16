@@ -10,8 +10,7 @@
       <@boxBody>
         <#if assigned_users_list?size &gt; 0 || search_is_search >
         <@tform method='post' name='search_users' action='jsp/admin/workgroup/AssignUsersWorkgroup.jsp'>
-					<fieldset>
-					<legend class="sr-only">#i18n{portal.users.manage_users.search_users.buttonSearch}</legend>
+					<@fieldSet legend='#i18n{portal.users.manage_users.search_users.buttonSearch}'>
 					<#if (user_levels?has_content)>
 						<@formGroup labelKey='#i18n{portal.users.manage_users.search_users.userLevelLabel}' labelFor='user_level'>
 							<@select id='user_level' name='search_user_level'>
@@ -78,7 +77,7 @@
 						<input type="hidden" name="workgroup_key" value="${workgroup.key}">
 						<@button type='submit' name='search_is_search' title='#i18n{portal.users.manage_users.search_users.buttonSearch}' buttonIcon='search' />
 					</@formGroup>
-					</fieldset>
+					</@fieldSet>
         </@tform>
 				</#if>
 			</@boxBody>

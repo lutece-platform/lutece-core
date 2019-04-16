@@ -30,8 +30,7 @@
 								<@columns sm=sm md=md lg=lg>
 									<input type="hidden" name="id_user" value="${user.userId}" />
 									<input type="hidden" name="token" value="${token}">
-									<fieldset>
-										<legend>#i18n{portal.users.modify_user.labelIdentity}</legend>
+									<@fieldSet legend='#i18n{portal.users.modify_user.labelIdentity}'>
 										<@formGroup labelKey='#i18n{portal.users.modify_user.labelAccessCode}' labelFor='access_code' rows=2 mandatory=true>
 											<@input type='text' id='access_code' name='access_code' maxlength=100 value='${user.accessCode}' />
 										</@formGroup>
@@ -44,11 +43,10 @@
 										<@formGroup labelKey='#i18n{portal.users.modify_user.labelEmail}' labelFor='email' rows=2 mandatory=true>
 											<@input type='email' id='email' name='email' maxlength=100 value='${user.email}' />
 										</@formGroup>
-									</fieldset>
+									</@fieldSet>
 								</@columns>
 								<@columns sm=sm md=md lg=lg>
-									<fieldset>
-										<legend>#i18n{portal.users.modify_user.labelAttributes} </legend>
+									<@fieldSet legend='#i18n{portal.users.modify_user.labelAttributes}'>
 										<@formGroup labelKey='#i18n{portal.users.create_user.userLevelLabel}' labelFor='' rows=2>
 											<@staticText>${level.name}</@staticText>
 										</@formGroup>
@@ -72,15 +70,14 @@
 										<@formGroup labelKey='#i18n{portal.users.create_user.labelTheme}' labelFor='' rows=2>
 											<@checkBox labelKey='#i18n{portal.users.create_user.labelAccessibilityMode}' labelFor='accessility_mode' id='accessibility_mode' name='accessibility_mode' value='1' checked=user.accessibilityMode />
 										</@formGroup>
-									</fieldset>
+									</@fieldSet>
 								</@columns>
 								<#if attributes_list?has_content>
 									<#assign sm = 4>
 									<#assign md = 4>
 									<#assign lg = 4>
 								<@columns sm=sm md=md lg=lg>
-									<fieldset>
-										<legend>#i18n{portal.users.modify_user.labelComplementaryAttributes}</legend>
+									<@fieldSet legend='#i18n{portal.users.modify_user.labelComplementaryAttributes}'>
 										<@row>
 											<@columns>
 												<#list attributes_list as attribute>
@@ -100,7 +97,7 @@
 												</#list>
 											</@columns>
 										</@row>
-									</fieldset>
+									</@fieldSet>
 								</@columns>
 								</#if>
 							</@row> 

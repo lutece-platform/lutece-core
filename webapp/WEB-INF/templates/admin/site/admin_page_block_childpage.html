@@ -15,15 +15,14 @@
 							<@box color='default box-solid'>
 									<@boxHeader title='#i18n{portal.site.admin_page.titleAddChildPage}' />
 									<@boxBody>
-										<fieldset>
-											<legend class="sr-only">#i18n{portal.site.admin_page.titleAddChildPage}</legend>
+										<@fieldSet legend='#i18n{portal.site.admin_page.titleAddChildPage}'>
 												<@formGroup labelFor='child_page_name' labelKey='#i18n{portal.site.admin_page.labelChildPageName}' rows=2 mandatory=true>
 													<@input type='text' name='page_name' value='${page.name!}' />
 												</@formGroup>
 												<@formGroup labelFor='child_page_description' labelKey='#i18n{portal.site.admin_page.labelDescription}' rows=2>
 													<@input type='textarea' name='page_description'>${page.description!}</@input>
 												</@formGroup>
-										</fieldset>
+										</@fieldSet>
 									</@boxBody>
 							</@box>
 						</@columns>
@@ -32,8 +31,7 @@
 							<@box color='default box-solid'>
 									<@boxHeader title='#i18n{portal.site.admin_page.labelPageTemplateList}' />
 									<@boxBody>
-										<fieldset>
-											<legend class="sr-only">#i18n{portal.site.admin_page.labelPageTemplateList}</legend>
+										<@fieldSet legend='#i18n{portal.site.admin_page.labelPageTemplateList}'>
 											<@formGroup labelFor='page_order_list' labelKey='#i18n{portal.site.admin_page.labelPageTemplateList}' rows=2>
 												${page_templates_list}
 											</@formGroup>
@@ -61,7 +59,7 @@
 												</div>
 												<@getDatePickerBootstrap idField="manual_update_date" language='fr' />
 											</@formGroup>
-										</fieldset>
+										</@fieldSet>
 									</@boxBody>
 								</@box>
 						</@columns>
@@ -70,8 +68,7 @@
 							<@box color='default box-solid'>
 									<@boxHeader title='#i18n{portal.site.admin_page.titlePictureProperties}' />
 									<@boxBody>
-										<fieldset>
-											<legend class="sr-only">#i18n{portal.site.admin_page.titlePictureProperties}</legend>
+										<@fieldSet legend='#i18n{portal.site.admin_page.titlePictureProperties}'>
 											<@formGroup labelKey='#i18n{portal.site.admin_page.labelNewPicture}' rows=2>
 												<@input type='file' id='image_content'  name='image_content' />
 											</@formGroup>
@@ -85,7 +82,7 @@
 													</@columns>
 												</@row>
 											</@formGroup>
-										</fieldset>
+										</@fieldSet>
 									</@boxBody>
 								</@box>
 						</@columns>
@@ -94,21 +91,20 @@
 							<@box color='default box-solid'>
 								<@boxHeader title='#i18n{portal.site.admin_page.labelMetadata}' />
 								<@boxBody>
-									<fieldset>
-									<legend class="sr-only">#i18n{portal.site.admin_page.labelMetadata}</legend>
+									<@fieldSet legend='#i18n{portal.site.admin_page.labelMetadata}'>
 										<@formGroup labelFor='meta_keywords' labelKey='#i18n{portal.site.admin_page.labelMetaKeywords}' helpKey='#i18n{portal.site.admin_page.labelMetaKeywordsInfo}' rows=2>
 											<@input type='text' name='meta_keywords' maxlength=250 value=page.metaKeywords! />
 										</@formGroup>
 										<@formGroup labelFor='meta_description' labelKey='#i18n{portal.site.admin_page.labelMetaDescription}' rows=2>
 											<@input type='text' name='meta_description' maxlength=250 value=page.metaDescription! />
 										</@formGroup>
-										</fieldset>
+										</@fieldSet>
 									</@boxBody>
 							</@box>
 							<@box color='default box-solid'>
 								<@boxHeader title='' />
 								<@boxBody>
-								<fieldset>
+								<@fieldSet> 
 									<@formGroup labelFor='theme' labelKey='#i18n{portal.site.admin_page.labelTheme}' rows=2>
 										<@select name='theme' default_value='${page.codeTheme}' items=page_themes_list />
 									</@formGroup>
@@ -116,7 +112,7 @@
 									<@formGroup labelFor='roles_list' labelKey='#i18n{portal.site.admin_page.labelRole}' rows=2>
 										<@select name='role' default_value='${page.role}' items=page_roles_list sort=true />
 									</@formGroup>
-								</fieldset>
+								</@fieldSet>
 							</@boxBody>
 						</@box>
 					</@columns>
