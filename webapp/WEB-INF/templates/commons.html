@@ -1478,7 +1478,7 @@ enableBSToppltip: false
 		<a href="${feature_url}" title="${feature_title}">${feature_title}</a>
 		<#if page_title?has_content><small>${page_title}</small></#if>
 	</h1>
-	<@adminContentBreadcrumb />
+	<@adminHeaderDocumentationLink />
 </section>
 <section class="content <#if feature_url?ends_with('AdminSite.jsp')>no-padding</#if>">
 </#macro>
@@ -1515,8 +1515,8 @@ $(function() {
 </#macro>
 
 
-<#-- adminContentBreadcrumb  -->
-<#macro adminContentBreadcrumb >
+<#-- adminHeaderDocumentationLink  -->
+<#macro adminHeaderDocumentationLink >
 <ol class="breadcrumb ${feature_group!?lower_case}">
   <#if feature_documentation?has_content >
 	<#if feature_documentation?exists>

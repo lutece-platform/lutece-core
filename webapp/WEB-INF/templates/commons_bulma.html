@@ -1485,9 +1485,9 @@ $( function() {
 <section class="content-header">
 	<h1>
 		<a href="${feature_url}" title="${feature_title}">${feature_title}</a>
-		<#if page_title?has_content><small>${page_title}</small></#if>
+		<#if page_title?has_content><span class="is-size-4 has-text-grey-light">${page_title}</span></#if>
 	</h1>
-	<@adminContentBreadcrumb />
+	<@adminHeaderDocumentationLink />
 </section>
 <section class="content <#if feature_url?ends_with('AdminSite.jsp')>no-padding</#if>">
 </#macro>
@@ -1531,9 +1531,9 @@ $(function() {
 </#macro>
 
 
-<#-- adminContentBreadcrumb  -->
-<#macro adminContentBreadcrumb >
-<ol class="breadcrumb ${feature_group!?lower_case}">
+<#-- adminHeaderDocumentationLink  -->
+<#macro adminHeaderDocumentationLink >
+<ol class="breadcrumb ${feature_group!?lower_case} is-pulled-right">
   <#if feature_documentation?has_content >
 	<#if feature_documentation?exists>
 		<li>
@@ -1557,32 +1557,38 @@ $(function() {
 
 <#-- adminMessagePage  -->
 <#macro adminMessagePage title=''>
-<#assign alerttype="yellow" />
+<#assign color="info" />
 <#assign icontype="fa-info-circle" />
 <#if message.type == 2 >
-   <#assign alerttype="red" />
+   <#assign color="primary" />
    <#assign icontype="fa-question-circle" />
 <#elseif message.type == 3 >
-   <#assign alerttype="yellow" />
+   <#assign color="danger" />
    <#assign icontype="fa-exclamation-circle" />
 <#elseif message.type == 4 >
-   <#assign alerttype="yellow" />
+   <#assign color="danger" />
    <#assign icontype="fa-question-circle" />
 <#elseif message.type == 5 >
-   <#assign alerttype="red" />
+   <#assign color="danger" />
    <#assign icontype="fa-ban" />
 </#if>
-<div class="login-box" id="message-box">
-	<div class="login-logo bg-${alerttype}">
-		<strong><span class="fa ${icontype}"></span> ${title!"Info"}</strong>
-	</div>
-	<div class="login-box-body bg-${alerttype}">
-		<p class="lead text-center">${text}</p>
-		<div class="footer bg-${alerttype} text-center">
-			<#nested>
-		</div>	
-	</div>	
-</div>	
+<br>
+<br>
+<div class="columns">
+    <div class="column is-4 is-offset-4">
+        <div class="message" id="message-box">
+            <div class="message-header has-background-${color}">
+                <strong><span class="fa ${icontype}"></span> ${title!"Info"}</strong>
+            </div>
+            <div class="message-body has-background-grey-lighter">
+                <p class="lead text-center">${text}</p>
+                <div class="footer text-center  has-background-grey-lighter">
+                    <#nested>
+                </div>	
+            </div>	
+        </div>	
+    </div>
+</div>
 </#macro>
 
 

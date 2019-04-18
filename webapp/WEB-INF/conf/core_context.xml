@@ -259,7 +259,7 @@
     
     <bean id="commonsDefault" class="fr.paris.lutece.portal.business.template.CommonsInclude">
         <property name="key" value="default" />
-        <property name="name" value="Bootstap 3.3" />
+        <property name="name" value="Bootstap 3.3 (Lutece v6.x compatible)" />
         <property name="files" >
             <list>
                 <value>commons.html</value>
@@ -268,7 +268,7 @@
     </bean>
     <bean id="commonsBulma" class="fr.paris.lutece.portal.business.template.CommonsInclude">
         <property name="key" value="bulma" />
-        <property name="name" value="Bulma 0.7" />
+        <property name="name" value="Bulma 0.7 (Experimental)" />
         <property name="files" >
             <list>
                 <value>commons_bulma.html</value>
