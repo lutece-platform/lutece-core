@@ -67,7 +67,6 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
 {
     public static final String RIGHT_FEATURES_MANAGEMENT = "CORE_FEATURES_MANAGEMENT";
     private static final long serialVersionUID = -8573499137269541850L;
-    private static final String TEMPLATE_MANAGE_FEATURES = "admin/features/manage_features.html";
     private static final String TEMPLATE_MANAGE_GROUPS = "admin/features/manage_groups.html";
     private static final String TEMPLATE_DISPATCH_FEATURES = "admin/features/dispatch_features.html";
     private static final String TEMPLATE_CREATE_GROUP = "admin/features/create_group.html";
@@ -96,20 +95,6 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
     private static final int NO_GROUP_ORDER = 0;
     private static final String NO_GROUP_ID = null;
     private static final String REGEX_ID = "^[\\d]+$";
-
-    /**
-     * Returns the Manage Features page
-     * 
-     * @param request
-     *            The HTTP request
-     * @return The HTML page
-     */
-    public String getManageFeatures( HttpServletRequest request )
-    {
-        HtmlTemplate t = AppTemplateService.getTemplate( TEMPLATE_MANAGE_FEATURES );
-
-        return getAdminPage( t.getHtml( ) );
-    }
 
     /**
      * Returns the Manage Groups page

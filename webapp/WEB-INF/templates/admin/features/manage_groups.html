@@ -1,21 +1,20 @@
+<#include 'features_tabs.html' />
 <@row>
 	<@columns>
-		<@tabs color='top-danger'>
+		<@tabs>
 			<@listTabs>
-				<li>
-					<a href="jsp/admin/features/DispatchFeatures.jsp">#i18n{portal.features.manage_features.featureDispatch.label}</a>
-				</li>
-				<li class="active">
-					<a href="jsp/admin/features/ManageGroups.jsp">#i18n{portal.features.manage_features.groupManagement.label}</a>
-				</li>
-				<li class="pull-right">
-					<span>
-						<@aButton href='jsp/admin/features/CreateGroup.jsp' buttonIcon='plus' size='' title='#i18n{portal.features.manage_groups.buttonCreate}'  />
-					</span>
-				</li>
+                <@tabsFeatures tab='groups' />
 			</@listTabs>
 			<@tabContent>
-				<@table>
+                <@boxHeader title='#i18n{portal.features.external_features.manage_external_features.pageTitle}' boxTools=true>
+                    <@tform class='form-inline pull-right' method='post' name='create_external_feature' action='jsp/admin/features/CreateGroup.jsp'>
+                        <@button type='submit' title='#i18n{portal.features.manage_groups.buttonCreate}' buttonIcon='plus' size='' showTitleXs=false showTitleSm=false />
+                    </@tform>
+                </@boxHeader>
+                <p>
+                        <em>#i18n{portal.features.features.manage_groups.featureDescription}</em>
+                </p>
+ 				<@table>
 				  <thead>
 					<tr>
 					  <th class="col-md-5">#i18n{portal.features.manage_groups.labelId}</th>
@@ -23,7 +22,7 @@
 					  <th>#i18n{portal.features.manage_groups.labelActions}</th>
 					</tr>
 				  </thead>
-				  <#list groups_list?sort_by( 'order') as group>
+				  <#list groups_list?sort_by('order') as group>
 					<tbody>
 					  <tr>
 						<td>
@@ -47,11 +46,13 @@
 							</@tform>
 						  </td>
 						  <td>
-							<@aButton href='jsp/admin/features/ModifyGroup.jsp?group_id=${group.id?html}' title='#i18n{portal.util.labelModify} ${group.id?html}' buttonIcon='pencil' showTitle=false />
-							<@tform class='inline' method='post' action='jsp/admin/features/RemoveGroup.jsp'>
-							  <input type="hidden" name="group_id" value="${group.id?html}">
-							  <@button type='submit' title='#i18n{portal.features.manage_groups.buttonDelete}' showTitle=false buttonIcon='trash' color='danger' />
-							</@tform>
+                              <@btnGroup>
+                                    <@aButton href='jsp/admin/features/ModifyGroup.jsp?group_id=${group.id?html}' title='#i18n{portal.util.labelModify} ${group.id?html}' buttonIcon='pencil' showTitle=false />
+                                    <@tform class='inline' method='post' action='jsp/admin/features/RemoveGroup.jsp'>
+                                      <input type="hidden" name="group_id" value="${group.id?html}">
+                                      <@button type='submit' title='#i18n{portal.features.manage_groups.buttonDelete}' showTitle=false buttonIcon='trash' color='danger' />
+                                    </@tform>
+                            </@btnGroup>
 						  </td>
 					  </tr>
 				  </#list>

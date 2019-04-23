@@ -62,7 +62,7 @@ public class ExternalFeaturesJspBean extends AdminFeaturesPageJspBean
 {
 
     // Properties
-    private static final String PROPERTY_MANAGE_EXTERNAL_FEATURES_PAGETITLE = "portal.features.manage_external_features.pageTitle";
+    private static final String PROPERTY_MANAGE_EXTERNAL_FEATURES_PAGETITLE = "adminFeature.features_management.name";
     private static final String PROPERTY_CREATE_EXTERNAL_FEATURE_PAGETITLE = "portal.features.create_external_feature.pageTitle";
     private static final String PROPERTY_MODIFY_EXTERNAL_FEATURE_PAGETITLE = "portal.features.modify_external_feature.pageTitle";
 
@@ -84,15 +84,13 @@ public class ExternalFeaturesJspBean extends AdminFeaturesPageJspBean
     private static final String JSP_DELETE_EXTERNAL_FEATURE = "jsp/admin/features/DoRemoveExternalFeature.jsp";
 
     // Rights
-    public static final String RIGHT_EXTERNAL_FEATURES_MANAGEMENT = "CORE_EXTERNAL_FEATURES_MANAGEMENT";
+    public static final String RIGHT_EXTERNAL_FEATURES_MANAGEMENT = "CORE_FEATURES_MANAGEMENT";
 
     // Markers
     private static final String MARK_EXTERNAL_FEATURE = "external_feature";
     private static final String MARK_EXTERNAL_FEATURES_LIST = "external_features_list";
     private static final String MARK_FEATURES_GROUPS_REFERENCE_LIST = "features_groups_labels_list";
     private static final String MARK_RIGHT_LEVELS_REFERENCE_LIST = "right_levels_labels_list";
-    private static final String MARK_FEATURE_GROUP_CODE = "feature_group_code";
-    private static final String MARK_ID_FEATURE_LEVEL = "id_feature_level";
 
     private Right _externalFeature;
 

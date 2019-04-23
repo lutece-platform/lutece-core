@@ -1,36 +1,45 @@
+<#include 'features_tabs.html' />
 <@row>
-  <@columns>
-    <@box color='danger'>
-      <@boxHeader title='#i18n{portal.features.external_features.manage_external_features.pageTitle}' boxTools=true>
-				<@tform class='form-inline pull-right' method='post' name='create_external_feature' action='jsp/admin/features/CreateExternalFeature.jsp'>
-					<@button type='submit' title='#i18n{portal.features.external_features.manage_external_features.create}' buttonIcon='plus' size='' showTitleXs=false showTitleSm=false />
-				</@tform>
-			</@boxHeader>
-			<@boxBody>
-        <@table>
-					<thead>
-            <tr>
-              <th>#i18n{portal.features.external_features.manage_external_features.name}</th>
-              <th>#i18n{portal.features.external_features.manage_external_features.url}</th>
-              <th>#i18n{portal.features.external_features.manage_external_features.feature_group}</th>
-              <th>#i18n{portal.features.external_features.manage_external_features.actions}</th>
-            </tr>
-					</thead>
-					<tbody>
-            <#list external_features_list as external_feature>
-            <tr>
-              <td>${external_feature.name}</td>
-              <td>${external_feature.url}</td>
-              <td>${external_feature.featureGroup}</td>                      
-              <td>
-								<@aButton href='jsp/admin/features/ModifyExternalFeature.jsp?external_feature_id=${external_feature.id}' title='#i18n{portal.util.labelModify}' buttonIcon='pencil' showTitle=false />
-								<@aButton href='jsp/admin/features/RemoveExternalFeature.jsp?external_feature_id=${external_feature.id}' title='#i18n{portal.util.labelDelete}' buttonIcon='trash' showTitle=false color='danger' />
-							</td>
-						</tr>
-            </#list>
-					</tbody>
-        </@table>
-			</@boxBody>
-    </@box>
+	<@columns>
+		<@tabs>
+			<@listTabs>
+               <@tabsFeatures tab='external' />
+			</@listTabs>
+			<@tabContent>
+                <@boxHeader title='#i18n{portal.features.external_features.manage_external_features.pageTitle}' boxTools=true>
+                    <@tform class='form-inline pull-right' method='post' name='create_external_feature' action='jsp/admin/features/CreateExternalFeature.jsp'>
+                        <@button type='submit' title='#i18n{portal.features.external_features.manage_external_features.create}' buttonIcon='plus' size='' showTitleXs=false showTitleSm=false />
+                    </@tform>
+                </@boxHeader>
+                <@boxBody>
+                    <p>
+                        <em>#i18n{portal.features.external_features.featureDescription}</em>
+                    </p>
+                  <@table>  
+                    <thead>
+                      <tr>
+                        <th>#i18n{portal.features.external_features.manage_external_features.name}</th>
+                        <th>#i18n{portal.features.external_features.manage_external_features.url}</th>
+                        <th>#i18n{portal.features.external_features.manage_external_features.feature_group}</th>
+                        <th>#i18n{portal.features.external_features.manage_external_features.actions}</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <#list external_features_list as external_feature>
+                        <tr>
+                            <td>${external_feature.name}</td>
+                            <td>${external_feature.url}</td>
+                            <td>${external_feature.featureGroup}</td>                      
+                            <td>
+                                <@aButton href='jsp/admin/features/ModifyExternalFeature.jsp?external_feature_id=${external_feature.id}' title='#i18n{portal.util.labelModify}' buttonIcon='pencil' showTitle=false />
+                                <@aButton href='jsp/admin/features/RemoveExternalFeature.jsp?external_feature_id=${external_feature.id}' title='#i18n{portal.util.labelDelete}' buttonIcon='trash' showTitle=false color='danger' />
+                            </td>
+                        </tr>
+                      </#list>
+                    </tbody>
+                  </@table>
+                </@boxBody>
+			</@tabContent>
+        </@tabs>
 	</@columns>
 </@row>

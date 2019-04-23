@@ -23,6 +23,7 @@
     <link href="css/admin/portal_admin.css"  rel="stylesheet" > <!-- provided by core -->
 </#macro>
 
+<#global gClassActive='is-active' />
 
 <#macro comboWithParams name default_value additionalParameters items >
 <div class="select is-rounded">
@@ -1079,7 +1080,7 @@ and is kept only for backwards compatibility
 <#-- BTN GROUP -->
 <#-- size: sm/empty/lg -->
 <#macro btnGroup size='' class='' id='' params='' ariaLabel=''>
-<div class="btn-group<#if size!=''> btn-group-${size}</#if><#if class!=''> ${class}</#if>" role="group"<#if ariaLabel!=''> aria-label="${ariaLabel}"</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<div class="field is-grouped<#if size!=''> btn-group-${size}</#if><#if class!=''> ${class}</#if>" role="group"<#if ariaLabel!=''> aria-label="${ariaLabel}"</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 	<#nested>
 </div>
 </#macro>

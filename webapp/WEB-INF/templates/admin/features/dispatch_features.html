@@ -1,3 +1,5 @@
+<#include 'features_tabs.html' />
+
 <#macro featuresGroupDisplay groupDisplay>
 <@row>
 	<@columns>
@@ -132,26 +134,22 @@
 </#macro>
 
 <@row>
-  <@columns>
-    <@tabs color='top-danger'>
-      <@listTabs>
-        <li class="active">
-          <a href="jsp/admin/features/DispatchFeatures.jsp">
-            #i18n{portal.features.manage_features.featureDispatch.label}
-          </a>
-        </li>
-        <li>
-          <a href="jsp/admin/features/ManageGroups.jsp">#i18n{portal.features.manage_features.groupManagement.label}</a>
-        </li>
-      </@listTabs>
-      <@tabContent>
-		  <#if no_group.feature_list?has_content && no_group.feature_list?size &gt; 1>
-			<@featuresGroupDisplay groupDisplay=no_group />
-		  </#if>
-		  <#list feature_group_list as groupDisplay>
-			<@featuresGroupDisplay groupDisplay=groupDisplay />
-		  </#list>
-		</@tabContent>
-    </@tabs>
-  </@columns>
+	<@columns>
+		<@tabs>
+			<@listTabs>
+                <@tabsFeatures tab='features' />
+            </@listTabs>
+            <p>
+                <em>#i18n{portal.features.dispatch_features.featureDescription}</em>
+            </p>
+			<@tabContent>
+                <#if no_group.feature_list?has_content && no_group.feature_list?size &gt; 1>
+                    <@featuresGroupDisplay groupDisplay=no_group />
+                </#if>
+                <#list feature_group_list as groupDisplay>
+                    <@featuresGroupDisplay groupDisplay=groupDisplay />
+                </#list>
+            </@tabContent>
+        </@tabs>
+    </@columns>
 </@row>

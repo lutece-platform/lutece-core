@@ -1,0 +1,11 @@
+<#macro tabsFeatures tab='features'>
+        <li <#if tab='features'>class="${gClassActive}" </#if>>
+            <a href="jsp/admin/features/DispatchFeatures.jsp">#i18n{portal.features.manage_features.featureDispatch.label}</a>
+        </li>
+        <li <#if tab='groups'>class="${gClassActive}" </#if> >
+            <a href="jsp/admin/features/ManageGroups.jsp">#i18n{portal.features.manage_features.groupManagement.label}</a>
+        </li>
+        <li <#if tab='external'>class="${gClassActive}" </#if>>
+            <a href="jsp/admin/features/ManageExternalFeatures.jsp">#i18n{portal.features.manage_features.externalFeaturesManagement.label}</a>
+        </li>
+</#macro>

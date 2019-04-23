@@ -27,7 +27,6 @@ INSERT INTO core_admin_right VALUES ('CORE_ADMINDASHBOARD_MANAGEMENT', 'portal.a
 INSERT INTO core_admin_right VALUES ('CORE_DASHBOARD_MANAGEMENT', 'portal.dashboard.adminFeature.dashboard_management.name', 0, 'jsp/admin/dashboard/ManageDashboards.jsp', 'portal.dashboard.adminFeature.dashboard_management.description', 0, NULL, 'SYSTEM', 'images/admin/skin/features/manage_dashboards.png', NULL, 9, 0);
 INSERT INTO core_admin_right VALUES ('CORE_XSL_EXPORT_MANAGEMENT', 'portal.xsl.adminFeature.xsl_export_management.name', 2, 'jsp/admin/xsl/ManageXslExport.jsp', 'portal.xsl.adminFeature.xsl_export_management.description', 1, NULL, 'SYSTEM', NULL, NULL, 10, 0);
 INSERT INTO core_admin_right VALUES ('CORE_GLOBAL_MANAGEMENT', 'portal.globalmanagement.adminFeature.global_management.name', 2, 'jsp/admin/globalmanagement/GetGlobalManagement.jsp', 'portal.globalmanagement.adminFeature.global_management.description', 1, NULL, 'SYSTEM', NULL, NULL, 10, 0);
-INSERT INTO core_admin_right VALUES ('CORE_EXTERNAL_FEATURES_MANAGEMENT', 'portal.system.adminFeature.external_features_management.name', 1, 'jsp/admin/features/ManageExternalFeatures.jsp', 'portal.system.adminFeature.external_features_management.description', 1, NULL, 'SYSTEM', NULL, NULL, 11, 0);
 INSERT INTO core_admin_right VALUES ('CORE_TEMPLATES_AUTO_INCLUDES_MANAGEMENT', 'portal.templates.adminFeature.ManageAutoIncludes.name', 1, 'jsp/admin/templates/ManageAutoIncludes.jsp','portal.templates.adminFeature.ManageAutoIncludes.description',1,NULL,'STYLE','images/admin/skin/features/manage_templates.png',NULL,4, 0);
 
 INSERT INTO core_admin_role VALUES ('all_site_manager','Site Manager');
@@ -141,8 +140,6 @@ INSERT INTO core_user_right VALUES ('CORE_USERS_MANAGEMENT',1);
 INSERT INTO core_user_right VALUES ('CORE_USERS_MANAGEMENT',2);
 INSERT INTO core_user_right VALUES ('CORE_WORKGROUPS_MANAGEMENT',1);
 INSERT INTO core_user_right VALUES ('CORE_WORKGROUPS_MANAGEMENT',2);
-INSERT INTO core_user_right VALUES ('CORE_EXTERNAL_FEATURES_MANAGEMENT',1);
-INSERT INTO core_user_right VALUES ('CORE_EXTERNAL_FEATURES_MANAGEMENT',2);
 INSERT INTO core_user_right VALUES ('CORE_RIGHT_MANAGEMENT',1);
 INSERT INTO core_user_right VALUES ('CORE_ADMINDASHBOARD_MANAGEMENT', 1);
 INSERT INTO core_user_right VALUES ('CORE_DASHBOARD_MANAGEMENT', 1);
