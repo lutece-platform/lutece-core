@@ -1,27 +1,25 @@
-<#assign boxTitle>
-#i18n{portal.admin.admin_login.boxTitle}
-</#assign>
+<#assign boxTitle>#i18n{portal.admin.admin_login.boxTitle}</#assign>
 <@adminLoginPage title=boxTitle>
-    <@tform class='form' name='login' id='login' action='${do_admin_login_url}'>
+    <@tform name='login' id='login' action='${do_admin_login_url}'>
     <input type="hidden" name="token" value="${token}">
     <#list params_list as param><input type="hidden" name="${param.code}" value="${param.name}"></#list>
-    <@formGroup labelFor='access_code' labelKey='${i18n("portal.admin.admin_login.loginLabel")}' mandatory=true rows=2>
-        <@inputGroup>
+    <@formGroup labelFor='access_code' labelKey='${i18n("portal.admin.admin_login.loginLabel")}' mandatory=true>
+        <@inputGroup class='mb-3'>
             <@inputGroupItem type='addon'><@icon style='user' /></@inputGroupItem>
             <@input name='access_code' id='access_code' placeHolder='${i18n("portal.admin.admin_login.loginLabel")}' params=' autofocus' />
         </@inputGroup>
     </@formGroup>
-    <@formGroup labelFor='password' labelKey='${i18n("portal.admin.admin_login.passwordLabel")}' mandatory=true rows=2>
+    <@formGroup labelFor='password' labelKey='${i18n("portal.admin.admin_login.passwordLabel")}' mandatory=true>
         <@inputGroup>
             <@inputGroupItem type='addon'><@icon style='lock' /></@inputGroupItem>
             <@input type='password' name='password' id='password' placeHolder='${i18n("portal.admin.admin_login.passwordLabel")}' />
         </@inputGroup>
+        <small class="text-muted text-center">#i18n{portal.admin.admin_login.helpText}</small>
     </@formGroup>
-    <@formGroup class='text-center' rows=2>
+    <@formGroup class='text-center'>
 		<@button type='submit' buttonIcon='check' title='#i18n{portal.admin.admin_login.buttonConnect}' params=' btn-block'  />
 	</@formGroup>
-    <p>#i18n{portal.admin.admin_login.helpText}</p>
-    <p>
+    <p class="text-right mt-3">
         <a href="${forgot_password_url?if_exists}" title="#i18n{portal.admin.admin_login.forgotPassword}">#i18n{portal.admin.admin_login.forgotPassword} ?</a>&nbsp;
         <a href="${forgot_login_url?if_exists}" title="#i18n{portal.admin.admin_login.forgotLogin}"> #i18n{portal.admin.admin_login.forgotLogin} ?</a>
     </p>

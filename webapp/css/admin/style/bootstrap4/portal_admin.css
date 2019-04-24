@@ -1,0 +1,80 @@
+/* WRAPPER */
+/* Login page */
+#login-page {margin: 0px -15px;padding: 9em 0px 2em;background: #fff url("../../images/admin/skin/bg_login1.jpg");background-size: cover;background-attachment: fixed;min-height: 922px;height: 100vh;overflow: hidden;}
+
+/* 	Helpers classes */
+pre {
+ white-space: pre-wrap;       /* css-3 */
+ white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+ white-space: -pre-wrap;      /* Opera 4-6 */
+ white-space: -o-pre-wrap;    /* Opera 7 */
+ word-wrap: break-word;       /* Internet Explorer 5.5+ */
+}
+.fa-hover:hover{cursor: pointer}
+
+/* thumbnail list */
+div.thumbnail img.thumbnail{max-height:80px;min-height:100px;}
+div.thumbnail div.caption{background:#DEDEDE;}
+
+/* Image size for thumbnails */
+.thumbnail-xs{width:16px;}
+.thumbnail-sm{width:32px;}
+.thumblist-md{width:64px;}
+.thumblist-lg{width:128px;}
+
+/* 	Insert services */
+
+/*	Pagination */
+
+/* Plugins list */
+.plugin{min-height:300px;max-height:300px;}
+
+/* Admin Site */
+iframe#preview {display: block;overflow: auto;border: 0;padding: 0;margin:-10px auto;border:2px solid #DEDEDE;max-height:400px}
+
+/* Portlets */
+li.portlet-type a:hover{background:#6D84CB url();color:#fff;}
+#content-portlet{padding:0 10px;}
+#preview{left:0;width:100%;height:850px;min-height:850px;position:relative;z-index:0;}
+.richtext{width:100%;}
+
+/* Menu */
+/* Override color for admin site menu */
+
+/* Site Map */
+.sitemap{border:2px solid #000;min-height:650px;}
+.sitemap #ma	p{margin-top:20px;}
+.jstree-classic a.jstree-search ,.jstree-default a.jstree-search ,.jstree-apple a.jstree-search {background-color:#6277B6 !important;color:#fff !important;font-style:normal;text-decoration:underline;padding:0 10px !important;}
+.jstree-classic .jstree-clicked { padding:0 5px !important;}
+
+/* ----------------------------------------------------------------------
+	PLUGINS ADMIN added styles
+---------------------------------------------------------------------- */
+
+/* Plugin THEME
+---------------------------- */
+#preview-frame-container{ display:none }
+#back-to-preview{ position:fixed; right:150px; top:80px; z-index:999 }
+#back-to-preview a{ display: block; padding:15px 20px; background: #000;color: #FFF; text-decoration: none; border-radius: 100px; -moz-border-radius: 100px; -webkit-border-radius: 100px }
+#preview-frame{ border-radius: 50px ; -moz-border-radius: 50px; -webkit-border-radius: 50px; border: 8px solid #7c7c7c; position:fixed; background:#7c7c7c; width:90%; height:800px;
+ top:60px; left:60px; overflow: auto; z-index: 999; box-shadow: -3px 3px 50px #7c7; -webkit-box-shadow: -3px 3px 50px #7c7; -moz-box-shadow: -3px 3px 50px #7c7; padding: 20px }
+.oyh {overflow-y: hidden }
+.callout-theme{	padding: 6px 30px 6px 15px; margin-right: 15px }
+.card-theme{ overflow: hidden; position: relative; border: 1px solid #CCC; border-radius: 8px; text-align: center; padding: 0; background-color: #3C8DBC; color: #FFF; margin: 15px auto }
+.card-theme.header-bg{ position: absolute; top: 0; left: 0; width: 100%; height: 70px; border-bottom: 1px #FFF solid; z-index: 1 }
+.card-theme .card-header{ border-bottom: 4px solid #000 }
+.card-theme.default-theme .card-header{ border-bottom-color: #3C763D  }
+.card-theme.default-theme { border: 1px solid #3C763D }
+.card-theme .avatar { position: relative; padding: 15px 0; z-index: 100 }
+.card-theme .card-content{ padding: 20px 0 }
+.card-theme .card-content h2{ padding: 10px 0; font-weight: bold; border-bottom: 2px solid #fff; color:#fff }
+.card-theme .card-content h2 a{ color: #fff }
+.card-theme ul li{ margin-left: 20%; text-align: left }
+.card-theme li a{color: #fff}
+.card-theme .avatar img{ width: 100px; height: 100px; -webkit-border-radius: 50%; -moz-border-radius: 50%; border-radius: 50%; border: 5px solid rgba(0,0,30,0.8) }
+.card-theme.default-theme .avatar img{ border-color:  #3C763D }
+.theme-selected{ display: none }
+.card-theme.default-theme .theme-selected{
+  display: block; width: 200px; background: #3C763D; top: 25px; left: -50px; text-align: center; line-height: 50px;  letter-spacing: 1px;
+  font-weight: bold; font-size: 16px; color: #fff; box-shadow: 0 0 3px rgba(0,0,0,.3); position: absolute; top: 25px; right: -50px; left: auto; transform: rotate(45deg); -webkit-transform: rotate(45deg);
+}
