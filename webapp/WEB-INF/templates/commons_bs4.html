@@ -331,42 +331,55 @@
 <#-- class: 						 								-->
 <#-- groupStyle: 						 								-->
 <#macro formGroup formStyle='horizontal' class='' groupStyle='' rows=1 labelKey='' labelFor='' labelId='' helpKey='' id='' mandatory=false showLabel=true params=''>
-	<div class="<#if class!=''>${class}<#else>form-group<#if formStyle='horizontal'> row</#if><#if groupStyle!=''> ${groupStyle}</#if></#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
-		<#if rows=1>
-			<#if labelKey!='' && formStyle='horizontal'>
-				<#assign labelClass = "col-sm-3 col-form-label">
-				<#assign divClass = "col-sm-9">
-			<#elseif formStyle = 'inline'>
-				<#assign labelClass = 'sr-only'>
-				<#assign divClass = "mb-2 mr-sm-2">
-			<#else>
+<#assign mandatory = mandatory>
+<#assign labelFor = labelFor>
+<#assign labelId = labelId>
+<#assign labelKey = labelKey>
+<#assign showLabel = showLabel>
+<#assign helpKey = helpKey>
+
+<div class="<#if class!=''>${class}<#else>form-group<#if formStyle='horizontal'> row</#if><#if groupStyle!=''> ${groupStyle}</#if></#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+	<#if rows=1>
+		<#if labelKey!='' && formStyle='horizontal'>
+			<#assign labelClass = "col-sm-3 col-form-label">
+			<#if showLabel=false>
 				<#assign divClass="col-xs-12 offset-sm-3 col-sm-6">
+			<#else>	
+				<#assign divClass = "col-sm-9">
 			</#if>
+		<#elseif formStyle = 'inline'>
+			<#assign labelClass = 'sr-only'>
+			<#assign divClass = "mb-2 mr-sm-2">
 		<#else>
-			<#assign labelClass = "col-xs-12">
-			<#assign divClass = "col-xs-12">
+				<#assign divClass="col-xs-12 offset-sm-3 col-sm-6">
 		</#if>
-		<#if labelKey!=''>
-			<label class="${labelClass} <#if showLabel=false> sr-only</#if>" for="${labelFor}"<#if labelId!=''> id="${labelId}"</#if><#if mandatory=true>ariaLabel="${labelKey} [#i18n{portal.users.modify_attribute.labelMandatory}]"</#if>>${labelKey}</label>
-		</#if>
-		<#assign mandatory = mandatory>
-		<#assign labelFor = labelFor>
-		<#assign helpKey = helpKey>
-		<#if formStyle !='inline'>
-			<div class="${divClass}">
-		</#if>
-		<#nested>
-		<#if helpKey!=''><span class="text-muted<#if formStyle!='inline'> form-text</#if>" <#if labelFor!=''>aria-describedby="${labelFor}"</#if>>${helpKey}</span></#if>
-		<#if formStyle !='inline'>
-			</div>
-		</#if>
-	</div>
+	<#else>
+		<#assign labelClass = "col-xs-12">
+		<#assign divClass = "col-xs-12">
+	</#if>
+	<#assign labelClass = labelClass>
+	<#if labelKey!=''>
+		<@formLabel class=labelClass labelFor=labelFor labelId=labelId labelKey=labelKey showLabel=showLabel mandatory=mandatory />
+	</#if>
+	<#if formStyle !='inline'>
+		<div class="${divClass}">
+	</#if>
+	<#nested>
+	<#if helpKey!=''><span class="text-muted<#if formStyle!='inline'> form-text</#if>" <#if labelFor!=''>aria-describedby="${labelFor}"</#if>>${helpKey}</span></#if>
+	<#if formStyle !='inline'>
+		</div>
+	</#if>
+</div>
 </#macro>
 
 <#macro formField class=''>
 <div class="form-row ${class}">
 	<#nested>
 </div>
+</#macro>
+
+<#macro formLabel class='' labelFor='' labelId='' labelKey='' showLabel=true mandatory=true >
+	<label class="<#if showLabel=false>sr-only<#elseif class !=''>${class}</#if>" for="${labelFor}" <#if labelId!=''> id="${labelId}"</#if><#if mandatory=true>ariaLabel="${labelKey} [#i18n{portal.users.modify_attribute.labelMandatory}]"</#if>>${labelKey}</label>
 </#macro>
 
 <#-- INPUT TEXT/TEXTAREA/SEARCH/PASSWORD/EMAIL/FILE 																					-->
@@ -657,13 +670,6 @@
 <#-- style: btn-block/btn-flat/disabled/btn-app -->
 <#-- icon: icon name ex: info/check/comment/envelope... -->
 <#macro aButton name='' id='' href='' size='' color='primary' style='btn-flat' class='' params='' title='' tabIndex='' showTitle=true showTitleXs=true showTitleSm=true showTitleMd=true showTitleLg=true buttonIcon='' disabled=false iconPosition='left' dropdownMenu=false>
-	<#-- Bootstrap 4 transition -->
-	<#if color='secondary'>
-		<#assign color_temp='default'>
-	<#else>
-		<#assign color_temp=color>
-	</#if>
-	
 	<#-- Visibility of button title -->
 	<#assign showTitleClass = '' />
 	<#if showTitle = false><#assign showTitleClass = 'sr-only' /></#if>
@@ -672,7 +678,7 @@
 	<#if showTitleMd = false><#assign showTitleClass = showTitleClass + ' ' + 'hidden-md' /></#if>
 	<#if showTitleLg = false><#assign showTitleClass = showTitleClass + ' ' + 'hidden-lg' /></#if>
 	
-	<a class="btn<#if size!=''> btn-${size}</#if><#if color_temp!=''> btn-${color_temp}</#if><#if style!=''> ${style}</#if><#if class!=''> ${class}</#if>"<#if name!=''> name="${name}"</#if><#if id!=''> id="${id}"</#if> href="${href}" title="${title}"<#if params!=''> ${params}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if>>
+	<a class="btn<#if size!=''> btn-${size}</#if><#if color!=''> btn-${color}</#if><#if style!=''> ${style}</#if><#if class!=''> ${class}</#if>"<#if name!=''> name="${name}"</#if><#if id!=''> id="${id}"</#if> href="${href}" title="${title}"<#if params!=''> ${params}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if>>
 		<#if buttonIcon!='' && iconPosition='left'><@icon style=buttonIcon /></#if>
 		<span class="${showTitleClass}">${title}</span>
 		<#if buttonIcon!='' && iconPosition='right'><@icon style=buttonIcon /></#if>
@@ -1075,14 +1081,14 @@ ${javascript_files}
 
 <#-- adminLoginPage  -->
 <#macro adminLoginPage title=''>
-<img src="images/logo-header.png" class="fixed-top ml-2 mt-2" aria-hidden="true" title="LUTECE Back-Office" alt="LUTECE Back-Office">
+<img src="images/logo-header.png" class="fixed-top m-4" aria-hidden="true" title="LUTECE Back-Office" alt="LUTECE Back-Office">
 <section id="login-page">
 		<div class="container">
 			<div class="row">
 				<div class="col-sm-6 offset-sm-3 bg-light rounded">
 					<header>
 						<h1 class="h2 mb-3 text-center">
-							<a class="btn btn-link btn-block " href="jsp/site/Portal.jsp" title="${site_name}">#i18n{portal.admin.admin_login.welcome}<br> <b>${site_name}</b></a>
+							<a class="btn btn-link btn-block " href="jsp/site/Portal.jsp" title="${site_name!'Lutece'}">#i18n{portal.admin.admin_login.welcome}<br> <b>${site_name!'Lutece'}</b></a>
 						</h1>
 						<h2 class="h3 mb-3 text-center">${title}</h2>
 					</header>
@@ -1091,7 +1097,7 @@ ${javascript_files}
 					</main>
 					<footer>
 						<p class="text-center">
-							<@aButton href='http://fr.lutece.paris.fr' params='target="_blank"' title='#i18n{portal.site.portal_footer.labelPortal}' showTitle=false color='secondary'>
+							<@aButton href='http://fr.lutece.paris.fr' params='target="_blank"' title='#i18n{portal.site.portal_footer.labelPortal}' showTitle=false color='link'>
 							<img src="images/poweredby.jpg" class="thumbnails" alt="logo lutece" title="Lutece">
 							</@aButton>
 						</p>
@@ -1129,40 +1135,44 @@ $(function() {
 <#macro adminSiteColumnOutline columnid=''>
 <div class="admin_column_outline">
 	<span class="admin_column_id">${i18n("portal.site.columnId",columnid)}</span>
-	<div>
-		<#nested>
-	</div>
+	<div ><#nested></div>
 </div>
 </#macro>
 
 <#-- adminMessagePage  -->
 <#macro adminMessagePage title=''>
-<#assign alerttype="yellow" />
+<#assign title=title />
+<#assign alerttype="secondary" />
 <#assign icontype="fa-info-circle" />
+<#if title??>
+	<#if title?trim='' >
+		<#assign title="Information" />
+	</#if>		
+</#if>		
 <#if message.type == 2 >
-   <#assign alerttype="red" />
+	 <#assign alerttype="danger" />
    <#assign icontype="fa-question-circle" />
 <#elseif message.type == 3 >
-   <#assign alerttype="yellow" />
+   <#assign alerttype="warning" />
    <#assign icontype="fa-exclamation-circle" />
 <#elseif message.type == 4 >
-   <#assign alerttype="yellow" />
+	 <#assign alerttype="warning" />
    <#assign icontype="fa-question-circle" />
 <#elseif message.type == 5 >
-   <#assign alerttype="red" />
+   <#assign alerttype="danger" />
    <#assign icontype="fa-ban" />
 </#if>
-<div class="login-box" id="message-box">
-	<div class="login-logo bg-${alerttype}">
-		<strong><span class="fa ${icontype}"></span> ${title!"Info"}</strong>
-	</div>
-	<div class="login-box-body bg-${alerttype}">
-		<p class="lead text-center">${text}</p>
-		<div class="footer bg-${alerttype} text-center">
-			<#nested>
-		</div>	
+<div class="container w-25">
+	<div class="row justify-content-center align-items-center min-vh-100">
+		<div class="col">
+			<div class="alert alert-${alerttype} text-center" role="alert">
+				<h1><span class="fas ${icontype}"></span> ${title!}</h1>
+				${text!}
+				<#nested>
+			</div>	
+		</div>
 	</div>	
-</div>	
+</div>
 </#macro>
 
 <#-- fieldSet  -->
@@ -1217,8 +1227,79 @@ $(function() {
 
 <#-- RESPONSIVE -->
 
-
 <#-- HTML ELEMENTS -->
 <#macro img url='' alt='' title='' class='' id='' params=''> 
 <img src="${url}" alt="${alt}" title="${title}" class="thumbnails thumb-list ${class}" id="${id}" ${params}>
+</#macro>
+
+<#-- Email Default Template -->
+<#macro emailTemplate title='Lutece' footerLink='https://fr.lutece.paris.fr'> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width"/>
+    <style type="text/css">
+		* { margin: 0; padding: 0; font-size: 100%; font-family: 'Avenir Next', "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif; line-height: 1.65; }
+		img { max-width: 100%; margin: 0 auto; display: block; }
+		body, .body-wrap { width: 100% !important; height: 100%; background: #f8f8f8; }
+		a { color: #007bff; text-decoration: none; }
+		a:hover { text-decoration: underline; }
+		.text-center { text-align: center; }
+		.text-right { text-align: right; }
+		.text-left { text-align: left; }
+		.button { display: inline-block; color: white; background: #007bff; border: solid #007bff; border-width: 10px 20px 8px; font-weight: bold; border-radius: 4px; }
+		.button:hover { text-decoration: none; }
+		h1, h2, h3, h4, h5, h6 { margin-bottom: 20px; line-height: 1.25; }
+		h1 { font-size: 32px; }
+		h2 { font-size: 28px; }
+		h3 { font-size: 24px; }
+		h4 { font-size: 20px; }
+		h5 { font-size: 16px; }
+		p, ul, ol { font-size: 16px; font-weight: normal; margin-bottom: 20px; }
+		.container { display: block !important; clear: both !important; margin: 0 auto !important; max-width: 580px !important; }
+		.container table { width: 100% !important; border-collapse: collapse; }
+		.container .masthead { padding: 80px 0; background: #007bff; color: white; }
+		.container .masthead h1 { margin: 0 auto !important; max-width: 90%; text-transform: uppercase; }
+		.container .content { background: white; padding: 30px 35px; }
+		.container .content.footer { background: none; }
+		.container .content.footer p { margin-bottom: 0; color: #888; text-align: center; font-size: 14px; }
+		.container .content.footer a { color: #888; text-decoration: none; font-weight: bold; }
+		.container .content.footer a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+<table class="body-wrap">
+	<tr>
+		<td class="container">
+				<!-- Message start -->
+				<table>
+						<tr>
+							<td align="center" class="masthead">
+								<h1>${title}</h1>
+							</td>
+						</tr>
+						<tr>
+							<td class="content">
+								<#nested>
+							</td>
+						</tr>
+				</table>
+		</td>
+	</tr>
+	<tr>
+		<td class="container">
+			<!-- Message start -->
+			<table>
+					<tr>
+						<td class="content footer" align="center">
+								<p><a href="${footer_link}">Lutece</a></p>
+						</td>
+					</tr>
+			</table>
+		</td>
+	</tr>
+</table>
+</body>
+</html>		
 </#macro>

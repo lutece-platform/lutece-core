@@ -1,22 +1,16 @@
-<#assign boxTitle>
-#i18n{portal.admin.admin_forgot_login.boxTitle}
-</#assign>
+<#assign boxTitle>#i18n{portal.admin.admin_forgot_login.boxTitle}</#assign>
 <@adminLoginPage title=boxTitle>
-<@row>
-	<@columns>
-		<@tform name='forgot_login' id='forgot_login' action='jsp/admin/DoAdminForgotLogin.jsp'>
-			<#list params_list as param><input type="hidden" name="${param.code}" value="${param.name}"></#list>
-			<@formGroup labelFor='email' labelKey='#i18n{portal.admin.admin_login.emailLabel}' showLabel=false rows=2>
-				<@inputGroup>
-						<@inputGroupItem type='addon'><span class="fa fa-envelope"></span></@inputGroupItem>
-						<@input type='text' name='email' params='autofocus' placeHolder='#i18n{portal.admin.admin_forgot_login.emailLabel}' />
-				</@inputGroup>
-			</@formGroup>
-			<@formGroup class='text-center' rows=2>
-					<@button type='submit' title='#i18n{portal.admin.admin_forgot_password.buttonSubmit}' buttonIcon='check' size='' />
-					<@aButton href='jsp/admin/AdminLogin.jsp' title='#i18n{portal.admin.message.buttonCancel}' buttonIcon='close' size='' color='secondary' />
-			</@formGroup>
-		</@tform>
-	</@columns>
-</@row>
+<@tform name='forgot_login' id='forgot_login' action='jsp/admin/DoAdminForgotLogin.jsp'>
+	<#list params_list as param><input type="hidden" name="${param.code}" value="${param.name}"></#list>
+	<@formGroup labelFor='email' labelKey='#i18n{portal.admin.admin_login.emailLabel}'>
+		<@inputGroup>
+			<@inputGroupItem type='text'><span class="fa fa-envelope"></span></@inputGroupItem>
+			<@input type='text' name='email' params='autofocus' placeHolder='#i18n{portal.admin.admin_forgot_login.emailLabel}' />
+		</@inputGroup>
+	</@formGroup>
+	<@formGroup class='text-center'>
+		<@button type='submit' title='#i18n{portal.admin.admin_forgot_password.buttonSubmit}' buttonIcon='check' size='' />
+		<@aButton href='jsp/admin/AdminLogin.jsp' title='#i18n{portal.admin.message.buttonCancel}' buttonIcon='close' size='' color='secondary' />
+	</@formGroup>
+</@tform>
 </@adminLoginPage>

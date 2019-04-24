@@ -1,18 +1,12 @@
-<#assign boxTitle>
-#i18n{portal.admin.admin_form_contact.boxTitle}
-</#assign>
+<#assign boxTitle>#i18n{portal.admin.admin_form_contact.boxTitle}</#assign>
 <@adminLoginPage title=boxTitle>
-<@row>
-	<@columns>
-		<@tform name='form_contact' id='form_contact' action='jsp/admin/DoAdminFormContact.jsp'>
-			<p class="form-control-static margin">#i18n{portal.admin.message.admin_form_contact.sendingError}</p>
-			<@formGroup labelFor='message_contact' labelKey='#i18n{portal.admin.admin_forgot_password.loginLabel}' rows=2>
-				<@input type='textarea' name='message_contact' params='required' placeHolder='#i18n{portal.admin.admin_forgot_password.loginLabel}' />
-			</@formGroup>
-			<@formGroup class='text-center' rows=2>
-				<@button type='submit' buttonIcon='envelope' title='#i18n{portal.admin.admin_form_contact.buttonSubmit}' params=' btn-block'/>
-			</@formGroup>
-		</@tform>
-	</@columns>
-</@row>
+<@tform name='form_contact' id='form_contact' action='jsp/admin/DoAdminFormContact.jsp'>
+	<p class="font-weight-bold text-center">#i18n{portal.admin.message.admin_form_contact.sendingError}</p>
+	<@formGroup  labelFor='message_contact' labelKey='#i18n{portal.admin.admin_forgot_password.loginLabel}' showLabel=false>
+		<@input type='textarea' name='message_contact' params='required' placeHolder='#i18n{portal.admin.admin_form_contact.messageContactLabel}' />
+	</@formGroup>
+	<@formGroup class='text-center'>
+		<@button type='submit' buttonIcon='envelope' title='#i18n{portal.admin.admin_form_contact.buttonSubmit}' style='btn-block' />
+	</@formGroup>
+</@tform>
 </@adminLoginPage>	

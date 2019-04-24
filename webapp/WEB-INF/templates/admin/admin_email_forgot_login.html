@@ -1,15 +1,15 @@
-<html>
-    <head>
-    <title>#i18n{portal.admin.admin_forgot_login.email.title}</title>
-    </head>
-    <body>
-    <#if site_link?has_content>
-		<h2>${site_link}</h2>
-	</#if>
-    #i18n{portal.admin.admin_forgot_login.email.textYourLogin} : ${login}<br />
-    ----------------------------------------------------------<br />
-    #i18n{portal.admin.admin_forgot_login.email.textLogin} :<br />
-    <a href="${login_url}">${login_url}</a>
-    </body>
-</html>
-
+<#assign email_title>#i18n{portal.admin.admin_forgot_password.login.title}</#assign>
+<@emailTemplate title=email_title>
+<h2><#if site_name?has_content>${site_name}</#if> <#if site_link?has_content>${site_link}</#if></h2>
+<p>#i18n{portal.admin.admin_forgot_login.email.textYourLogin} : ${login}</p>
+<p>#i18n{portal.admin.admin_forgot_login.email.textLogin} : </p>
+<table>
+    <tr>
+            <td align="center">
+                <p>
+                    <a class="button" href="${login_url}">${login_url}</a>
+                </p>
+            </td>
+        </tr>
+</table>
+</@emailTemplate>  
