@@ -23,6 +23,11 @@
     <link href="css/admin/portal_admin.css"  rel="stylesheet" > <!-- provided by core -->
 </#macro>
 
+<#macro coreAdminJSLinks>
+<script src="js/jquery/jquery-ui.min.js"></script> <!-- provided by core -->
+<script src="js/admin.js"></script> <!-- provided by core -->
+</#macro>
+
 <#global gClassActive='is-active' />
 
 <#macro comboWithParams name default_value additionalParameters items >
@@ -793,6 +798,22 @@ and is kept only for backwards compatibility
 </div>
 </#macro>
 
+<#macro formField class=''>
+<div class="control ${class}">
+	<#nested>
+</div>
+</#macro>
+
+<#macro formLabel class='' labelFor='' labelId='' labelKey='' showLabel=true mandatory=true >
+	<label class="<#if showLabel=false>sr-only<#elseif class !=''>${class}</#if>" for="${labelFor}" <#if labelId!=''> id="${labelId}"</#if><#if mandatory=true>ariaLabel="${labelKey} [#i18n{portal.users.modify_attribute.labelMandatory}]"</#if>>${labelKey}</label>
+</#macro>
+
+<#macro formHelp style='inline' class='' labelFor=''>
+<p class="help<#if class!=''> ${class}</#if>" <#if labelFor!=''>id="${labelFor}_help"</#if>>
+	<#nested>
+</p>
+</#macro>
+
 <#-- INPUT TEXT/TEXTAREA/SEARCH/PASSWORD/EMAIL/FILE -->
 <#-- type : text/textarea/password/email/file/number. Default is text -->
 <#-- size: input-xs/input-sm/input-lg -->
@@ -887,7 +908,7 @@ and is kept only for backwards compatibility
 <div class="col-xs-${xs}<#if sm!=0> col-sm-${sm}</#if><#if md!=0> col-md-${md}</#if><#if lg!=0> col-lg-${lg}</#if><#if xl!=0> col-xl-${xl}</#if><#if offsetXs!=0> col-xs-offset-${offsetXs}</#if><#if offsetSm!=0> col-sm-offset-${offsetSm}</#if><#if offsetMd!=0> col-md-offset-${offsetMd}</#if><#if offsetLg!=0> col-lg-offset-${offsetLg}</#if><#if offsetXl!=0> col-xl-offset-${offsetXl}</#if><#if pushXs!=0> col-xs-push-${pushXs}</#if><#if pushSm!=0> col-sm-push-${pushSm}</#if><#if pushMd!=0> col-md-push-${pushMd}</#if><#if pushLg!=0> col-lg-push-${pushLg}</#if><#if pushXl!=0> col-xl-push-${pushXl}</#if><#if pullXs!=0> col-xs-pull-${pullXs}</#if><#if pullSm!=0> col-sm-pull-${pullSm}</#if><#if pullMd!=0> col-md-pull-${pullMd}</#if><#if pullLg!=0> col-lg-pull-${pullLg}</#if><#if pullXl!=0> col-xl-pull-${pullXl}</#if><#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 -->
 <div class="column<#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
-	<#nested>
+<#nested>
 </div>
 </#macro>
 
@@ -1646,3 +1667,80 @@ $(function() {
 	<#nested>
 </${htmlEl}>
 </#macro>
+
+
+<#-- Email Default Template -->
+<#macro emailTemplate title='Lutece' footerLink='https://fr.lutece.paris.fr'> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width"/>
+    <style type="text/css">
+		* { margin: 0; padding: 0; font-size: 100%; font-family: 'Avenir Next', "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif; line-height: 1.65; }
+		img { max-width: 100%; margin: 0 auto; display: block; }
+		body, .body-wrap { width: 100% !important; height: 100%; background: #f8f8f8; }
+		a { color: #007bff; text-decoration: none; }
+		a:hover { text-decoration: underline; }
+		.text-center { text-align: center; }
+		.text-right { text-align: right; }
+		.text-left { text-align: left; }
+		.button { display: inline-block; color: white; background: #007bff; border: solid #007bff; border-width: 10px 20px 8px; font-weight: bold; border-radius: 4px; }
+		.button:hover { text-decoration: none; }
+		h1, h2, h3, h4, h5, h6 { margin-bottom: 20px; line-height: 1.25; }
+		h1 { font-size: 32px; }
+		h2 { font-size: 28px; }
+		h3 { font-size: 24px; }
+		h4 { font-size: 20px; }
+		h5 { font-size: 16px; }
+		p, ul, ol { font-size: 16px; font-weight: normal; margin-bottom: 20px; }
+		.container { display: block !important; clear: both !important; margin: 0 auto !important; max-width: 580px !important; }
+		.container table { width: 100% !important; border-collapse: collapse; }
+		.container .masthead { padding: 80px 0; background: #007bff; color: white; }
+		.container .masthead h1 { margin: 0 auto !important; max-width: 90%; text-transform: uppercase; }
+		.container .content { background: white; padding: 30px 35px; }
+		.container .content.footer { background: none; }
+		.container .content.footer p { margin-bottom: 0; color: #888; text-align: center; font-size: 14px; }
+		.container .content.footer a { color: #888; text-decoration: none; font-weight: bold; }
+		.container .content.footer a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+<table class="body-wrap">
+	<tr>
+		<td class="container">
+				<!-- Message start -->
+				<table>
+						<tr>
+							<td align="center" class="masthead">
+								<h1>${title}</h1>
+							</td>
+						</tr>
+						<tr>
+							<td class="content">
+								<#nested>
+							</td>
+						</tr>
+				</table>
+		</td>
+	</tr>
+	<tr>
+		<td class="container">
+			<!-- Message start -->
+			<table>
+					<tr>
+						<td class="content footer" align="center">
+								<p><a href="${footer_link}">Lutece</a></p>
+						</td>
+					</tr>
+			</table>
+		</td>
+	</tr>
+</table>
+</body>
+</html>		
+</#macro>
+
+<#function spacing type dir size>
+  <#return type + m + '-' + size>
+</#function>
