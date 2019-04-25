@@ -2,25 +2,11 @@
 /* Login page */
 #login-page {margin: 0px -15px;padding: 9em 0px 2em;background: #fff url("../../images/admin/skin/bg_login1.jpg");background-size: cover;background-attachment: fixed;min-height: 922px;height: 100vh;overflow: hidden;}
 
-/* 	Helpers classes */
-pre {
- white-space: pre-wrap;       /* css-3 */
- white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
- white-space: -pre-wrap;      /* Opera 4-6 */
- white-space: -o-pre-wrap;    /* Opera 7 */
- word-wrap: break-word;       /* Internet Explorer 5.5+ */
+/* NavBar */
+/* Fixed navbar */
+main > .container {
+  padding-top: 60px;
 }
-.fa-hover:hover{cursor: pointer}
-
-/* thumbnail list */
-div.thumbnail img.thumbnail{max-height:80px;min-height:100px;}
-div.thumbnail div.caption{background:#DEDEDE;}
-
-/* Image size for thumbnails */
-.thumbnail-xs{width:16px;}
-.thumbnail-sm{width:32px;}
-.thumblist-md{width:64px;}
-.thumblist-lg{width:128px;}
 
 /* 	Insert services */
 
@@ -37,9 +23,6 @@ li.portlet-type a:hover{background:#6D84CB url();color:#fff;}
 #content-portlet{padding:0 10px;}
 #preview{left:0;width:100%;height:850px;min-height:850px;position:relative;z-index:0;}
 .richtext{width:100%;}
-
-/* Menu */
-/* Override color for admin site menu */
 
 /* Site Map */
 .sitemap{border:2px solid #000;min-height:650px;}

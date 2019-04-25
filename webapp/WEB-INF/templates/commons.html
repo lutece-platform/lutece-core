@@ -13,19 +13,27 @@
 <#macro commonsDescription>Freemarker Commons macros powered by Bootstrap CSS Framework 3.3</#macro>
 
 <#macro coreAdminCSSLinks>
-    <link href="css/admin/bootstrap2-compatibility.css"  rel="stylesheet" > <!-- provided by core -->
-    <link href="css/admin/bootstrap.min.css"  rel="stylesheet" > <!-- provided by core -->
-    <link href="css/admin/bootstrap-colorpicker.css"  rel="stylesheet" > <!-- provided by core -->
-    <link href="css/admin/bootstrap-datepicker.min.css"  rel="stylesheet" > <!-- provided by core -->
-    <link href="css/admin/jquery-ui.min.css"  rel="stylesheet" > <!-- provided by core -->
-    <link href="css/admin/jquery-ui.structure.min.css"  rel="stylesheet" > <!-- provided by core -->
-    <link href="css/admin/jquery-ui.theme.min.css"  rel="stylesheet" > <!-- provided by core -->
-    <link href="css/admin/font-awesome.min.css"  rel="stylesheet" > <!-- provided by core -->
-    <link href="css/admin/ionicons.min.css"  rel="stylesheet" > <!-- provided by core -->
-    <link href="css/admin/bootstrap-clockpicker.css"  rel="stylesheet" > <!-- provided by core -->
-    <link href="css/admin/AdminLTE.css"  rel="stylesheet" > <!-- provided by core -->
-    <link href="css/admin/skins/_all-skins.min.css"  rel="stylesheet" > <!-- provided by core -->
-    <link href="css/admin/portal_admin.css"  rel="stylesheet" > <!-- provided by core -->
+<link href="css/admin/bootstrap2-compatibility.css"  rel="stylesheet" > <!-- provided by core -->
+<link href="css/admin/bootstrap.min.css"  rel="stylesheet" > <!-- provided by core -->
+<link href="css/admin/bootstrap-colorpicker.css"  rel="stylesheet" > <!-- provided by core -->
+<link href="css/admin/bootstrap-datepicker.min.css"  rel="stylesheet" > <!-- provided by core -->
+<link href="css/admin/jquery-ui.min.css"  rel="stylesheet" > <!-- provided by core -->
+<link href="css/admin/jquery-ui.structure.min.css"  rel="stylesheet" > <!-- provided by core -->
+<link href="css/admin/jquery-ui.theme.min.css"  rel="stylesheet" > <!-- provided by core -->
+<link href="css/admin/font-awesome.min.css"  rel="stylesheet" > <!-- provided by core -->
+<link href="css/admin/ionicons.min.css"  rel="stylesheet" > <!-- provided by core -->
+<link href="css/admin/bootstrap-clockpicker.css"  rel="stylesheet" > <!-- provided by core -->
+<link href="css/admin/AdminLTE.css"  rel="stylesheet" > <!-- provided by core -->
+<link href="css/admin/skins/_all-skins.min.css"  rel="stylesheet" > <!-- provided by core -->
+<link href="css/admin/portal_admin.css"  rel="stylesheet" > <!-- provided by core -->
+</#macro>
+
+<#macro coreAdminJSLinks>
+<link href="js/bootstrap.min.js" rel="stylesheet" > <!-- provided by core -->
+<link href="js/jquery/jquery-ui.min.js" rel="stylesheet" > <!-- provided by core -->
+<link href="js/bootstrap-filestyle.min.js" rel="stylesheet" > <!-- provided by core -->
+<link href="js/app.min.js" rel="stylesheet" > <!-- provided by core -->
+<link href="js/admin.js" rel="stylesheet" > <!-- provided by core -->
 </#macro>
 
 <#global gClassActive='active' />
@@ -1424,7 +1432,7 @@ and is kept only for backwards compatibility
 	<div class="navbar-text navbar-right">
 		<a class="navbar-link" href="http://fr.lutece.paris.fr" target="lutece" title="#i18n{portal.site.portal_footer.labelPortal}">
 			<img src="images/poweredby.jpg" alt="#i18n{portal.site.portal_footer.labelMadeBy}">
-			<small>TOTO version ${version}</small>
+			<small>version ${version}</small>
 		</a>
 	</div>
 </nav>
@@ -1433,7 +1441,7 @@ and is kept only for backwards compatibility
 <!-- Le javascript
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
-${javascript_files}
+<@coreAdminJSLinks />
 <script>
 var AdminLTEOptions = {
 //Bootstrap.js tooltip

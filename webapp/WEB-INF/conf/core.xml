@@ -189,11 +189,7 @@
     </admin-css-stylesheets>
 
     <admin-javascript-files>
-        <admin-javascript-file>js/bootstrap.min.js</admin-javascript-file>
-        <admin-javascript-file>js/jquery/jquery-ui.min.js</admin-javascript-file>
-        <admin-javascript-file>js/bootstrap-filestyle.min.js</admin-javascript-file>
-        <admin-javascript-file>js/app.min.js</admin-javascript-file>
-        <admin-javascript-file>js/admin.js</admin-javascript-file>
+        <!-- Default core Admin CSS declaration moved in commons.html @coreAdminJSLinks macro -->
     </admin-javascript-files>
 
 </plug-in>

@@ -21,9 +21,9 @@
 
 <#macro coreAdminJSLinks>
 <link href="css/admin/style/bootstrap4/bootstrap.bundle.min.js" rel="stylesheet"> <!-- Bootstrap 4.3.1 -->
-<link href="css/admin/style/bootstrap4/bootstrap-colorpicker.min.js" rel="stylesheet">
-<link href="css/admin/style/bootstrap4/bootstrap-datepicker.min.js" rel="stylesheet">
-<link href="css/admin/style/bootstrap4/portal_admin.js" rel="stylesheet">
+<!-- <link href="css/admin/style/bootstrap4/bootstrap-colorpicker.min.js" rel="stylesheet">
+<link href="css/admin/style/bootstrap4/bootstrap-datepicker.min.js" rel="stylesheet"> -->
+<!-- <link href="css/admin/style/bootstrap4/portal_admin.js" rel="stylesheet"> -->
 </#macro>
 
 <#global gClassActive='active' />
@@ -337,13 +337,12 @@
 <#assign labelKey = labelKey>
 <#assign showLabel = showLabel>
 <#assign helpKey = helpKey>
-
 <div class="<#if class!=''>${class}<#else>form-group<#if formStyle='horizontal'> row</#if><#if groupStyle!=''> ${groupStyle}</#if></#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 	<#if rows=1>
 		<#if labelKey!='' && formStyle='horizontal'>
 			<#assign labelClass = "col-sm-3 col-form-label">
 			<#if showLabel=false>
-				<#assign divClass="col-xs-12 offset-sm-3 col-sm-6">
+				<#assign divClass="col">
 			<#else>	
 				<#assign divClass = "col-sm-9">
 			</#if>
@@ -920,121 +919,129 @@
 </div>
 </#macro>
 
+<#-- -------------------------------------------------
+-- MACRO ADMIN STRUCTURE - HEADER + NAVBAR + FOOTER -- 
+-------------------------------------------------- -->
 <#-- MACRO adminHeader -->
 <#macro adminHeader >
-<body class="skin-blue-light hold-transition sidebar-mini" data-spy="scroll" data-target="#scrollspy">
-	<div class="wrapper">
-	  <header class="main-header" role="banner" data-menu="${menu_pos}">
-		<nav class="navbar navbar-fixed-top" role="navigation">
-			<div class="navbar-header">
-			  <a href="jsp/site/Portal.jsp" title="#i18n{portal.users.admin_header.title.viewSite} ${site_name}" target="_blank" class="navbar-brand">
-				<img src="#dskey{portal.site.site_property.logo_url}" class="img-responsive"  title="#i18n{portal.users.admin_header.title.viewSite} ${site_name}" alt="${site_name}"><b> <#if site_name?length &gt; 18> ${site_name?substring(0,16)}... <#else> ${site_name}</#if></b>
-			  </a>
-			  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
-				<i class="fa fa-bars"></i>
-			  </button>
-			</div>
+<body class="d-flex flex-column h-100">
+	  <header class="main-header" role="banner">
+		<!-- <nav class="navbar navbar-expand-md navbar-fixed-top bg-primary" role="navigation"> -->
+	  <nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark">
+			<a class="navbar-brand" href="jsp/site/Portal.jsp" title="#i18n{portal.users.admin_header.title.viewSite} ${site_name}" target="_blank" >
+				<img src="#dskey{portal.site.site_property.logo_url}" height="30" class="d-inline-block align-top" aria-hidden="true" title="#i18n{portal.users.admin_header.title.viewSite} ${site_name}" alt="${site_name}">
+				<#if site_name?length &gt; 18> ${site_name?substring(0,16)}... <#else> ${site_name}</#if>
+			</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
 			<div class="collapse navbar-collapse" id="navbar-collapse">
-			  <ul id="top" class="nav navbar-nav">
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						Dropdown
+					</a>
+					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+						<a class="dropdown-item" href="#">Action</a>
+						<a class="dropdown-item" href="#">Another action</a>
+						<div class="dropdown-divider"></div>
+						<a class="dropdown-item" href="#">Something else here</a>
+					</div>
+				</li>
 				<#list feature_group_list as feature_group>
-				   <#if feature_group.features?size &gt; 1>
-					 <li class="dropdown tasks-menu">
-					   <a data-toggle="dropdown" class="dropdown-toggle" id="dLabel${feature_group.id}Header" href="${admin_url}#${feature_group.id}">
-						   ${feature_group.label} <b class="caret"></b>
-					   </a>
-					   <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel${feature_group.id}Header">
-						 <#list feature_group.features as feature>
-						   <li class="menu">
-							 <#if !feature.externalFeature>
-								<a href="${feature.url}?plugin_name=${feature.pluginName}">${feature.name}</a>
-							 <#else>
-								 <a href="${feature.url}"><#if feature.iconUrl?has_content><i class="${feature.iconUrl}"></i></#if> ${feature.name}</a>
-						  </#if>
-						   </li>
-						 </#list>
-					   </ul>
-					 </li>
-				   <#else>
-					 <#list feature_group.features as feature>
-					   <li>
+				  <#if feature_group.features?size &gt; 1>
+					 	<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" id="dLabel${feature_group.id}Header" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="${admin_url}#${feature_group.id}">
+								${feature_group.label} <b class="caret"></b>
+							</a>
+					   <div class="dropdown-menu" role="menu" aria-labelledby="dLabel${feature_group.id}Header">
+						 	<#list feature_group.features as feature>
+								<#if !feature.externalFeature>
+									<a class="dropdown-item" href="${feature.url}?plugin_name=${feature.pluginName}">${feature.name}</a>
+								<#else>
+									<a class="dropdown-item" href="${feature.url}">
+										<#if feature.iconUrl?has_content><i class="${feature.iconUrl}"></i></#if> ${feature.name}
+									</a>
+								</#if>
+						 	</#list>
+							</div>
+					 	</li>
+				  <#else>
+					 	<#list feature_group.features as feature>
+					  	<li class="nav-item">
 						  <#if !feature.externalFeature>
-							 <a href="${feature.url}?plugin_name=${feature.pluginName}">${feature.name}</a>
+								<a class="nav-link" href="${feature.url}?plugin_name=${feature.pluginName}">${feature.name}</a>
 						  <#else>
-							<a href="${feature.url}"><#if feature.iconUrl?has_content><i class="${feature.iconUrl}"></i></#if>${feature.name}</a>
+								<a class="nav-link" href="${feature.url}"><#if feature.iconUrl?has_content><i class="${feature.iconUrl}"></i></#if>${feature.name}</a>
 						  </#if>
-						</li>
+							</li>
 					   </#list>
 					 </#if>
 			   </#list>
 			  </ul>
-			  <ul class="nav navbar-nav navbar-right user">
-				<li class="home">
-				  <a href="${admin_url}" title="#i18n{portal.users.admin_header.homePage}"><i class="fa fa-home"></i></a>
-				</li>
-				<li class="dropdown user-menu">
-				  <a href="#" class="dropdown-toggle" data-toggle="dropdown" id="dLabelUserHeader">
-					<#if adminAvatar> 
-						<img src="servlet/plugins/adminavatar/avatar?id_user=${user.userId}" id="admin-avatar" class="user-image" alt="User's avatar"> 
-					<#else> 
-						<img src="#dskey{portal.site.site_property.avatar_default}" id="admin-avatar" class="user-image" alt="User's avatar"> 
-					</#if>     
-					<span id="zone4" class="hidden-sm hidden-md"> ${dashboard_zone_4}<i class="caret"></i></span>
-				  </a>
-						<#if userMenuItems?has_content>   
-							<ul class="dropdown-menu" role="menu" aria-labelledby="dLabelUserHeader">
-										<#list userMenuItems as item>
-												<li class="${item.itemClass?html}">${item.content}</li>
-										</#list>
-							</ul>
-						</#if>
-				</li>
-				<#if admin_logout_url?has_content>
-				  <li>
-					<a href="${admin_logout_url}" title="#i18n{portal.users.admin_header.deconnectionLink}">
-					  <i class="fa fa-power-off fa-fw"></i> <span class="visible-xs">#i18n{portal.users.admin_header.deconnectionLink}</span>
-					</a>
-				  </li>
-				</#if>
-				<!--
-				<li>
-				  <a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i> </a>
-				</li>
-			  -->
-			  </ul>
-			</div>
-		</nav>
-	  </header>
-	  <!-- Wrapper -->
-	  <div id="admin-wrapper">
-		<section class="content">
-	  <!-- Close in footer -->
+			  <ul class="nav navbar-nav user">
+					<li class="nav-item home">
+						<a class="nav-link" href="${admin_url}" title="#i18n{portal.users.admin_header.homePage}">
+							<i class="fas fa-home"></i>
+						</a>
+					</li>
+					<li class="nav-item dropdown user-menu" hidden>
+						<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" id="dLabelUserHeader">
+							<#if adminAvatar> 
+								<img src="servlet/plugins/adminavatar/avatar?id_user=${user.userId}" height="30" class="d-inline-block align-top" aria-hidden="true" alt="User's avatar"> 
+							<#else> 
+								<img src="#dskey{portal.site.site_property.avatar_default}" height="30" class="d-inline-block align-top" aria-hidden="true"  alt="User's avatar"> 
+							</#if>     
+							${dashboard_zone_4} <b class="caret"></b>
+						</a>
+						<div class="dropdown-menu"  role="menu" aria-labelledby="dLabelUserHeader">
+							<#if userMenuItems?has_content>   
+								<#list userMenuItems as item>
+										<li class="${item.itemClass?html}">${item.content}</li>
+								</#list>
+							</#if>
+						</div>
+					</li>
+					<#if admin_logout_url?has_content>
+						<li class="nav-item">
+							<a class="nav-link" href="${admin_logout_url}" title="#i18n{portal.users.admin_header.deconnectionLink}">
+								<i class="fa fa-power-off fa-fw"></i> <span class="visible-xs">#i18n{portal.users.admin_header.deconnectionLink}</span>
+							</a>
+						</li>
+					</#if>
+		  </ul>
+		</div>
+	</nav>
+</header>
+ <!-- Begin page content -->
+<main role="main" class="flex-shrink-0">
+	<div class="container">
+ 	<!-- Close in footer -->
 </#macro>
 
 <#-- MACRO adminFooter -->
 <#macro adminFooter >
-<!-- end content section -->
-</section>
-<!--  end admin-wrapper -->
-</div>
-<!-- end wrapper -->
-</div>
-<!-- footer menu -->
-<footer class="hidden-xs">
-<nav id="footer" class="navbar navbar-default" role="navigation">
-	<div class="navbar-text navbar-right">
-		<a class="navbar-link" href="http://fr.lutece.paris.fr" target="lutece" title="#i18n{portal.site.portal_footer.labelPortal}">
-			<img src="images/poweredby.jpg" alt="#i18n{portal.site.portal_footer.labelMadeBy}">
-			<small>TOTO version ${version}</small>
-		</a>
 	</div>
-</nav>
+	<!-- end content section -->
+</main>
+<!-- footer menu -->
+<footer class="footer mt-auto py-3">
+	<div class="container">
+		<nav id="footer" class="navbar navbar-default" role="navigation">
+			<div class="navbar-text navbar-right">
+				<a class="navbar-link" href="http://fr.lutece.paris.fr" target="lutece" title="#i18n{portal.site.portal_footer.labelPortal}">
+					<img src="images/poweredby.jpg" alt="#i18n{portal.site.portal_footer.labelMadeBy}">
+					<small>version ${version}</small>
+				</a>
+			</div>
+		</nav>
+	</div>
 </footer>
 <!-- Included JS Files -->
 <!-- Le javascript
-	================================================== -->
+================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
 <@coreAdminJSLinks />
-${javascript_files}
 </#macro>
 
 <#-- MACRO adminHome -->
@@ -1085,7 +1092,7 @@ ${javascript_files}
 <section id="login-page">
 		<div class="container">
 			<div class="row">
-				<div class="col-sm-6 offset-sm-3 bg-light rounded">
+				<div class="col-sm-5 offset-sm-3 bg-light rounded px-5">
 					<header>
 						<h1 class="h2 mb-3 text-center">
 							<a class="btn btn-link btn-block " href="jsp/site/Portal.jsp" title="${site_name!'Lutece'}">#i18n{portal.admin.admin_login.welcome}<br> <b>${site_name!'Lutece'}</b></a>
@@ -1115,7 +1122,6 @@ $(function() {
 });
 </script>
 </#macro>
-
 
 <#-- adminHeaderDocumentationLink  -->
 <#macro adminHeaderDocumentationLink >

@@ -2,15 +2,15 @@
 <@adminLoginPage title=boxTitle>
 <@tform name='forgot_login' id='forgot_login' action='jsp/admin/DoAdminForgotLogin.jsp'>
 	<#list params_list as param><input type="hidden" name="${param.code}" value="${param.name}"></#list>
-	<@formGroup labelFor='email' labelKey='#i18n{portal.admin.admin_login.emailLabel}'>
+	<@formGroup labelFor='email' labelKey='#i18n{portal.admin.admin_login.emailLabel}' showLabel=false >
 		<@inputGroup>
 			<@inputGroupItem type='text'><span class="fa fa-envelope"></span></@inputGroupItem>
 			<@input type='text' name='email' params='autofocus' placeHolder='#i18n{portal.admin.admin_forgot_login.emailLabel}' />
 		</@inputGroup>
 	</@formGroup>
-	<@formGroup class='text-center'>
-		<@button type='submit' title='#i18n{portal.admin.admin_forgot_password.buttonSubmit}' buttonIcon='check' size='' />
-		<@aButton href='jsp/admin/AdminLogin.jsp' title='#i18n{portal.admin.message.buttonCancel}' buttonIcon='close' size='' color='secondary' />
-	</@formGroup>
+	<p class='text-center'>
+		<@button type='submit' title='#i18n{portal.admin.admin_forgot_password.buttonSubmit}' buttonIcon='check'  />
+		<@aButton href='jsp/admin/AdminLogin.jsp' title='#i18n{portal.admin.message.buttonCancel}' buttonIcon='close'  color='secondary' />
+	</p>
 </@tform>
 </@adminLoginPage>
