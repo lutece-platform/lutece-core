@@ -488,10 +488,14 @@
 
 <#-- COLUMNS -->
 <#-- cols = col-xs- (<544px)/col-sm- (>=544px)/col-md- (>=768px)/col-lg- (>=992px)/col-xl- (>=1200px) -->
-<#macro columns offsetXs=0 offsetSm=0 offsetMd=0 offsetLg=0 offsetXl=0 pushXs=0 pushSm=0 pushMd=0 pushLg=0 pushXl=0 pullXs=0 pullSm=0 pullMd=0 pullLg=0 pullXl=0 xs=12 sm=0 md=0 lg=0 xl=0 id='' class='' params=''>
-	<div class="col-xs-${xs}<#if sm!=0> col-sm-${sm}</#if><#if md!=0> col-md-${md}</#if><#if lg!=0> col-lg-${lg}</#if><#if xl!=0> col-xl-${xl}</#if><#if offsetXs!=0> col-xs-offset-${offsetXs}</#if><#if offsetSm!=0> col-sm-offset-${offsetSm}</#if><#if offsetMd!=0> col-md-offset-${offsetMd}</#if><#if offsetLg!=0> col-lg-offset-${offsetLg}</#if><#if offsetXl!=0> col-xl-offset-${offsetXl}</#if><#if pushXs!=0> col-xs-push-${pushXs}</#if><#if pushSm!=0> col-sm-push-${pushSm}</#if><#if pushMd!=0> col-md-push-${pushMd}</#if><#if pushLg!=0> col-lg-push-${pushLg}</#if><#if pushXl!=0> col-xl-push-${pushXl}</#if><#if pullXs!=0> col-xs-pull-${pullXs}</#if><#if pullSm!=0> col-sm-pull-${pullSm}</#if><#if pullMd!=0> col-md-pull-${pullMd}</#if><#if pullLg!=0> col-lg-pull-${pullLg}</#if><#if pullXl!=0> col-xl-pull-${pullXl}</#if><#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
-		<#nested>
-	</div>
+<#macro columns offsetXs=0 offsetSm=0 offsetMd=0 offsetLg=0 offsetXl=0 pushXs=0 pushSm=0 pushMd=0 pushLg=0 pushXl=0 pullXs=0 pullSm=0 pullMd=0 pullLg=0 pullXl=0 xs=12 sm=0 md=0 lg=0 xl=0 id='' class='' auto=0 params=''>
+<#if auto !=0>
+<div class="col<#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<#else>
+<div class="col-xs-${xs}<#if sm!=0> col-sm-${sm}</#if><#if md!=0> col-md-${md}</#if><#if lg!=0> col-lg-${lg}</#if><#if xl!=0> col-xl-${xl}</#if><#if offsetXs!=0> col-xs-offset-${offsetXs}</#if><#if offsetSm!=0> col-sm-offset-${offsetSm}</#if><#if offsetMd!=0> col-md-offset-${offsetMd}</#if><#if offsetLg!=0> col-lg-offset-${offsetLg}</#if><#if offsetXl!=0> col-xl-offset-${offsetXl}</#if><#if pushXs!=0> col-xs-push-${pushXs}</#if><#if pushSm!=0> col-sm-push-${pushSm}</#if><#if pushMd!=0> col-md-push-${pushMd}</#if><#if pushLg!=0> col-lg-push-${pushLg}</#if><#if pushXl!=0> col-xl-push-${pushXl}</#if><#if pullXs!=0> col-xs-pull-${pullXs}</#if><#if pullSm!=0> col-sm-pull-${pullSm}</#if><#if pullMd!=0> col-md-pull-${pullMd}</#if><#if pullLg!=0> col-lg-pull-${pullLg}</#if><#if pullXl!=0> col-xl-pull-${pullXl}</#if><#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+</#if>
+	<#nested>
+</div>
 </#macro>
 
 <#-- TABS -->
@@ -925,9 +929,9 @@
 <#-- MACRO adminHeader -->
 <#macro adminHeader >
 <body class="d-flex flex-column h-100">
-	  <header class="main-header" role="banner">
+	<header class="main-header" role="banner">
 		<!-- <nav class="navbar navbar-expand-md navbar-fixed-top bg-primary" role="navigation"> -->
-	  <nav class="navbar navbar-expand-lg navbar-dark fixed-top bg-dark">
+	  <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
 			<a class="navbar-brand" href="jsp/site/Portal.jsp" title="#i18n{portal.users.admin_header.title.viewSite} ${site_name}" target="_blank" >
 				<img src="#dskey{portal.site.site_property.logo_url}" height="30" class="d-inline-block align-top" aria-hidden="true" title="#i18n{portal.users.admin_header.title.viewSite} ${site_name}" alt="${site_name}">
 				<#if site_name?length &gt; 18> ${site_name?substring(0,16)}... <#else> ${site_name}</#if>
@@ -937,24 +941,13 @@
 			</button>
 			<div class="collapse navbar-collapse" id="navbar-collapse">
 				<ul class="navbar-nav mr-auto">
-					<li class="nav-item dropdown">
-					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						Dropdown
-					</a>
-					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-						<a class="dropdown-item" href="#">Action</a>
-						<a class="dropdown-item" href="#">Another action</a>
-						<div class="dropdown-divider"></div>
-						<a class="dropdown-item" href="#">Something else here</a>
-					</div>
-				</li>
 				<#list feature_group_list as feature_group>
 				  <#if feature_group.features?size &gt; 1>
 					 	<li class="nav-item dropdown">
 							<a class="nav-link dropdown-toggle" id="dLabel${feature_group.id}Header" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="${admin_url}#${feature_group.id}">
-								${feature_group.label} <b class="caret"></b>
+								${feature_group.label}
 							</a>
-					   <div class="dropdown-menu" role="menu" aria-labelledby="dLabel${feature_group.id}Header">
+					   <div class="dropdown-menu" aria-labelledby="dLabel${feature_group.id}Header">
 						 	<#list feature_group.features as feature>
 								<#if !feature.externalFeature>
 									<a class="dropdown-item" href="${feature.url}?plugin_name=${feature.pluginName}">${feature.name}</a>
@@ -985,22 +978,22 @@
 							<i class="fas fa-home"></i>
 						</a>
 					</li>
-					<li class="nav-item dropdown user-menu" hidden>
-						<a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" id="dLabelUserHeader">
+					<li class="nav-item dropdown user-menu">
+						<a href="${admin_url}#user-menu" class="nav-link dropdown-toggle" data-toggle="dropdown" id="dLabelUserHeader">
 							<#if adminAvatar> 
 								<img src="servlet/plugins/adminavatar/avatar?id_user=${user.userId}" height="30" class="d-inline-block align-top" aria-hidden="true" alt="User's avatar"> 
 							<#else> 
 								<img src="#dskey{portal.site.site_property.avatar_default}" height="30" class="d-inline-block align-top" aria-hidden="true"  alt="User's avatar"> 
 							</#if>     
-							${dashboard_zone_4} <b class="caret"></b>
+							${dashboard_zone_4!}
 						</a>
-						<div class="dropdown-menu"  role="menu" aria-labelledby="dLabelUserHeader">
+						<!-- <div class="dropdown-menu"  role="menu" aria-labelledby="dLabelUserHeader">
 							<#if userMenuItems?has_content>   
 								<#list userMenuItems as item>
-										<li class="${item.itemClass?html}">${item.content}</li>
+										<a class="dropdown-menu ${item.itemClass?html}">${item.content}</a>
 								</#list>
 							</#if>
-						</div>
+						</div> -->
 					</li>
 					<#if admin_logout_url?has_content>
 						<li class="nav-item">
@@ -1013,15 +1006,13 @@
 		</div>
 	</nav>
 </header>
- <!-- Begin page content -->
+<!-- Begin page content -->
 <main role="main" class="flex-shrink-0">
-	<div class="container">
  	<!-- Close in footer -->
 </#macro>
 
 <#-- MACRO adminFooter -->
 <#macro adminFooter >
-	</div>
 	<!-- end content section -->
 </main>
 <!-- footer menu -->
@@ -1039,39 +1030,26 @@
 </footer>
 <!-- Included JS Files -->
 <!-- Le javascript
-================================================== -->
+=============================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
 <@coreAdminJSLinks />
 </#macro>
 
 <#-- MACRO adminHome -->
 <#macro adminHome >
-<@row>
-	<@columns class='widget'>
-			<section class="dashboard-widgets">
-				<@row>
-					<@columns sm=4 md=4 lg=4 class='widget lutece-dashboard'>
-						<#if dashboard_zone_1?has_content>
-							${dashboard_zone_1}
-						</#if>
-						<div>&nbsp;</div>
-					</@columns>
-					<@columns sm=4 md=4 lg=4 class='widget lutece-dashboard'>
-						<#if dashboard_zone_2?has_content>
-							${dashboard_zone_2}
-						</#if>
-						<div>&nbsp;</div>
-					</@columns>
-					<@columns sm=4 md=4 lg=4 class='widget lutece-dashboard'>
-						<#if dashboard_zone_3?has_content>
-							${dashboard_zone_3}
-						</#if>
-						<div>&nbsp;</div>
-					</@columns>
-				</@row>
-			</section>
-	</@columns>
-</@row>
+<section class="dashboard-widgets">
+	<@row>
+		<@columns auto=1 class='widget'>
+			${dashboard_zone_1!}
+		</@columns>
+		<@columns auto=1 class='widget'>
+			${dashboard_zone_2!}
+		</@columns>
+		<@columns auto=1 class='widget'>
+			${dashboard_zone_3!}
+		</@columns>
+	</@row>
+</section>
 </#macro>
 
 <#-- adminContentHeader  -->
@@ -1090,27 +1068,27 @@
 <#macro adminLoginPage title=''>
 <img src="images/logo-header.png" class="fixed-top m-4" aria-hidden="true" title="LUTECE Back-Office" alt="LUTECE Back-Office">
 <section id="login-page">
-		<div class="container">
-			<div class="row">
-				<div class="col-sm-5 offset-sm-3 bg-light rounded px-5">
-					<header>
-						<h1 class="h2 mb-3 text-center">
-							<a class="btn btn-link btn-block " href="jsp/site/Portal.jsp" title="${site_name!'Lutece'}">#i18n{portal.admin.admin_login.welcome}<br> <b>${site_name!'Lutece'}</b></a>
-						</h1>
-						<h2 class="h3 mb-3 text-center">${title}</h2>
-					</header>
-					<main>
-						<#nested>
-					</main>
-					<footer>
-						<p class="text-center">
-							<@aButton href='http://fr.lutece.paris.fr' params='target="_blank"' title='#i18n{portal.site.portal_footer.labelPortal}' showTitle=false color='link'>
-							<img src="images/poweredby.jpg" class="thumbnails" alt="logo lutece" title="Lutece">
-							</@aButton>
-						</p>
-					</footer>
-					</div>	
-			</div>
+	<div class="container">
+		<div class="row align-items-center">
+			<div class="col-sm-5 offset-sm-3 bg-light rounded px-5">
+				<header>
+					<h1 class="h2 mb-3 text-center">
+						<a class="btn btn-link btn-block " href="jsp/site/Portal.jsp" title="${site_name!'Lutece'}">#i18n{portal.admin.admin_login.welcome}<br> <b>${site_name!'Lutece'}</b></a>
+					</h1>
+					<h2 class="h3 mb-3 text-center">${title}</h2>
+				</header>
+				<main>
+					<#nested>
+				</main>
+				<footer>
+					<p class="text-center">
+						<@aButton href='http://fr.lutece.paris.fr' params='target="_blank"' title='#i18n{portal.site.portal_footer.labelPortal}' showTitle=false color='link'>
+						<img src="images/poweredby.jpg" class="thumbnails" alt="logo lutece" title="Lutece">
+						</@aButton>
+					</p>
+				</footer>
+				</div>	
+		</div>
 	</div>
 </section>
 <script>
@@ -1175,9 +1153,12 @@ $(function() {
 				<h1><span class="fas ${icontype}"></span> ${title!}</h1>
 				${text!}
 				<#nested>
+				<p class="text-center">
+					<img src="images/poweredby.jpg" class="thumbnails" alt="logo lutece" title="Lutece">
+				</p>
 			</div>	
 		</div>
-	</div>	
+	</div>
 </div>
 </#macro>
 

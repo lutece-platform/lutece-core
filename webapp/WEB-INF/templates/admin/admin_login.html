@@ -4,7 +4,7 @@
     <input type="hidden" name="token" value="${token}">
     <#list params_list as param><input type="hidden" name="${param.code}" value="${param.name}"></#list>
     <@formGroup labelFor='access_code' labelKey='${i18n("portal.admin.admin_login.loginLabel")}' showLabel=false mandatory=true>
-        <@inputGroup class='mb-3'>
+        <@inputGroup>
             <@inputGroupItem type='addon'><@icon style='user' /></@inputGroupItem>
             <@input name='access_code' id='access_code' placeHolder='${i18n("portal.admin.admin_login.loginLabel")}' params=' autofocus' />
         </@inputGroup>

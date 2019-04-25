@@ -1,6 +1,6 @@
 /* WRAPPER */
 /* Login page */
-#login-page {margin: 0px -15px;padding: 9em 0px 2em;background: #fff url("../../images/admin/skin/bg_login1.jpg");background-size: cover;background-attachment: fixed;min-height: 922px;height: 100vh;overflow: hidden;}
+#login-page { background: #fff url("../../images/admin/skin/bg_login1.jpg"); background-size: cover; background-attachment: fixed; min-height: 922px; height: 100vh;overflow: hidden;}
 
 /* NavBar */
 /* Fixed navbar */

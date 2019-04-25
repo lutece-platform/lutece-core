@@ -1386,13 +1386,13 @@ and is kept only for backwards compatibility
 					</#if>     
 					<span id="zone4" class="hidden-sm hidden-md"> ${dashboard_zone_4}<i class="caret"></i></span>
 				  </a>
-                  <#if userMenuItems?has_content>   
-                    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabelUserHeader">
-                          <#list userMenuItems as item>
-                              <li class="${item.itemClass?html}">${item.content}</li>
-                          </#list>
-                    </ul>
-                  </#if>
+					<#if userMenuItems?has_content>   
+						<ul class="dropdown-menu" role="menu" aria-labelledby="dLabelUserHeader">
+									<#list userMenuItems as item>
+											<li class="${item.itemClass?html}">${item.content}</li>
+									</#list>
+						</ul>
+					</#if>
 				</li>
 				<#if admin_logout_url?has_content>
 				  <li>

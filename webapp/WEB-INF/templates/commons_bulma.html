@@ -1409,29 +1409,28 @@ and is kept only for backwards compatibility
 			  <div id="admin-wrapper">
 					<section class="content">
 				  <!-- Close in footer -->
-			
-		</#macro>
+</#macro>
 
 
 <#-- MACRO adminFooter -->
 <#macro adminFooter >
-			<!-- end content section -->
-			</section>
-		<!--  end admin-wrapper -->
-		</div>
-	<!-- end wrapper -->
+		<!-- end content section -->
+		</section>
+	<!--  end admin-wrapper -->
 	</div>
-	<!-- footer menu -->
-	<footer class="footer">
-		<div class="content has-text-centered">
-			<p>
-				<a href="http://fr.lutece.paris.fr" target="lutece" title="#i18n{portal.site.portal_footer.labelPortal}">
-					<img src="images/poweredby.jpg" alt="#i18n{portal.site.portal_footer.labelMadeBy}">
-					<small>version ${version}</small>
-				</a>
-			</p>
-		</div>
-	</footer>
+<!-- end wrapper -->
+</div>
+<!-- footer menu -->
+<footer class="footer">
+	<div class="content has-text-centered">
+		<p>
+			<a href="http://fr.lutece.paris.fr" target="lutece" title="#i18n{portal.site.portal_footer.labelPortal}">
+				<img src="images/poweredby.jpg" alt="#i18n{portal.site.portal_footer.labelMadeBy}">
+				<small>version ${version}</small>
+			</a>
+		</p>
+	</div>
+</footer>
 <!-- Included JS Files -->
 <!-- Le javascript
 ================================================== -->
@@ -1449,33 +1448,32 @@ $( function() {
 </script>
 </#macro>
 
-
 <#-- MACRO adminHome -->
 <#macro adminHome >
 <@row>
 	<@columns class='widget'>
-			<section class="dashboard-widgets">
-				<@row>
-					<@columns sm=4 md=4 lg=4 class='widget lutece-dashboard'>
-						<#if dashboard_zone_1?has_content>
-							${dashboard_zone_1}
-						</#if>
-						<div>&nbsp;</div>
-					</@columns>
-					<@columns sm=4 md=4 lg=4 class='widget lutece-dashboard'>
-						<#if dashboard_zone_2?has_content>
-							${dashboard_zone_2}
-						</#if>
-						<div>&nbsp;</div>
-					</@columns>
-					<@columns sm=4 md=4 lg=4 class='widget lutece-dashboard'>
-						<#if dashboard_zone_3?has_content>
-							${dashboard_zone_3}
-						</#if>
-						<div>&nbsp;</div>
-					</@columns>
-				</@row>
-			</section>
+		<section class="dashboard-widgets">
+			<@row>
+				<@columns sm=4 md=4 lg=4 class='widget lutece-dashboard'>
+					<#if dashboard_zone_1?has_content>
+						${dashboard_zone_1}
+					</#if>
+					<div>&nbsp;</div>
+				</@columns>
+				<@columns sm=4 md=4 lg=4 class='widget lutece-dashboard'>
+					<#if dashboard_zone_2?has_content>
+						${dashboard_zone_2}
+					</#if>
+					<div>&nbsp;</div>
+				</@columns>
+				<@columns sm=4 md=4 lg=4 class='widget lutece-dashboard'>
+					<#if dashboard_zone_3?has_content>
+						${dashboard_zone_3}
+					</#if>
+					<div>&nbsp;</div>
+				</@columns>
+			</@row>
+		</section>
 	</@columns>
 </@row>
 </#macro>
