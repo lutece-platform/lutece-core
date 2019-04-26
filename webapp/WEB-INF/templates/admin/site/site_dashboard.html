@@ -18,12 +18,13 @@
 			</@row>
 		</@boxBody>
 		<@boxFooter class='text-center'>
-			<a class="text-white" href="${url}" title="#i18n{portal.site.adminFeature.admin_site.name}">
+			<a href="${url}" title="#i18n{portal.site.adminFeature.admin_site.name}">
 				#i18n{portal.site.adminFeature.admin_site.name} <@icon style='arrow-circle-right' />
 			</a>
 		</@boxFooter>
 	</@box>
 </#if>
+
 <#if last_modified_portlet??>
 	<@box color='primary box-solid'>
 		<@boxHeader title='#i18n{portal.site.adminFeature.admin_site.name}' boxTools=true>
@@ -45,7 +46,7 @@
 		</@boxBody>
 		<@boxFooter class='text-center'>
 			<a href="${url}" title="#i18n{portal.site.adminFeature.admin_site.name}">
-				#i18n{portal.site.adminFeature.admin_site.name} <@icon="arrow-circle-right" />
+				#i18n{portal.site.adminFeature.admin_site.name} <@icon style='arrow-circle-right' />
 			</a>
 		</@boxFooter>
 	</@box>
