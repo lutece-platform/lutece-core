@@ -275,16 +275,6 @@
             </list>
         </property>
     </bean>
-    <bean id="commonsBulmaExt" class="fr.paris.lutece.portal.business.template.CommonsInclude">
-        <property name="key" value="bulma" />
-        <property name="name" value="Bulma + Fluents (Experimental)" />
-        <property name="files" >
-            <list>
-                <value>commons_bulma.html</value>
-                <value>commons_bulma_fluents.html</value>
-            </list>
-        </property>
-    </bean>
     <bean id="commonsBoostrap4" class="fr.paris.lutece.portal.business.template.CommonsInclude">
         <property name="key" value="Bootstrap4" />
         <property name="name" value="Bootstrap v 4 (Experimental)" />
@@ -295,7 +285,7 @@
             </list>
         </property>
     </bean>
-    <bean id="commonsBS4stisla" class="fr.paris.lutece.portal.business.template.CommonsInclude">
+    <!-- <bean id="commonsBS4stisla" class="fr.paris.lutece.portal.business.template.CommonsInclude">
         <property name="key" value="Stisla" />
         <property name="name" value="Stisla - BS 4 Based (Experimental)" />
         <property name="files" >
@@ -304,6 +294,6 @@
                 <value>commons_stisla.html</value>
             </list>
         </property>
-    </bean>
+    </bean> -->
     
 </beans>

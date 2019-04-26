@@ -1,18 +1,1 @@
-<a href="javascript:return false;">
-	<i class="fa fa-language"></i>&nbsp;#i18n{portal.admin.admin_home.language}
-</a>
-<@tform method='post' action='jsp/admin/DoChangeLanguage.jsp' class='form-inline'>
-	<input type="hidden" name="token" value="${token}">
-	<ul class="list-inline">
-		<#list languages_list as lang>
-			<li>
-				<#if current_language==lang.code>
-					<#assign languageButtonColor='success'>
-				<#else>
-					<#assign languageButtonColor='default'>
-				</#if>
-				<@button color='${languageButtonColor}' type='submit' name='language' value='${lang.code}' title='${lang.name}'/>
-			</li>
-		</#list>
-	</ul>
-</@tform>
+<@adminLanguage languages=languages_list lang=current_language />

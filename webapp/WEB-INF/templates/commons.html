@@ -795,6 +795,22 @@ and is kept only for backwards compatibility
 	</div>
 </#macro>
 
+<#macro formField class=''>
+<div class="row ${class}">
+	<#nested>
+</div>
+</#macro>
+
+<#macro formLabel class='' labelFor='' labelId='' labelKey='' showLabel=true mandatory=true >
+	<label class="<#if showLabel=false>sr-only<#elseif class !=''>${class}</#if>" for="${labelFor}" <#if labelId!=''> id="${labelId}"</#if><#if mandatory=true>ariaLabel="${labelKey} [#i18n{portal.users.modify_attribute.labelMandatory}]"</#if>>${labelKey}</label>
+</#macro>
+
+<#macro formHelp style='inline' class='' labelFor=''>
+<span class="help-block<#if class!=''> ${class}</#if>" <#if labelFor!=''>id="${labelFor}_help"</#if>>
+	<#nested>
+</span>
+</#macro>
+
 <#-- INPUT TEXT/TEXTAREA/SEARCH/PASSWORD/EMAIL/FILE -->
 <#-- type : text/textarea/password/email/file/number. Default is text -->
 <#-- size: input-xs/input-sm/input-lg -->
@@ -887,7 +903,7 @@ and is kept only for backwards compatibility
 
 <#-- COLUMNS -->
 <#-- cols = col-xs- (<544px)/col-sm- (>=544px)/col-md- (>=768px)/col-lg- (>=992px)/col-xl- (>=1200px) -->
-<#macro columns offsetXs=0 offsetSm=0 offsetMd=0 offsetLg=0 offsetXl=0 pushXs=0 pushSm=0 pushMd=0 pushLg=0 pushXl=0 pullXs=0 pullSm=0 pullMd=0 pullLg=0 pullXl=0 xs=12 sm=0 md=0 lg=0 xl=0 id='' auto=0 class='' params=''>
+<#macro columns offsetXs=0 offsetSm=0 offsetMd=0 offsetLg=0 offsetXl=0 pushXs=0 pushSm=0 pushMd=0 pushLg=0 pushXl=0 pullXs=0 pullSm=0 pullMd=0 pullLg=0 pullXl=0 xs=12 sm=0 md=0 lg=0 xl=0 id='' class='' params=''>
 	<div class="col-xs-${xs}<#if sm!=0> col-sm-${sm}</#if><#if md!=0> col-md-${md}</#if><#if lg!=0> col-lg-${lg}</#if><#if xl!=0> col-xl-${xl}</#if><#if offsetXs!=0> col-xs-offset-${offsetXs}</#if><#if offsetSm!=0> col-sm-offset-${offsetSm}</#if><#if offsetMd!=0> col-md-offset-${offsetMd}</#if><#if offsetLg!=0> col-lg-offset-${offsetLg}</#if><#if offsetXl!=0> col-xl-offset-${offsetXl}</#if><#if pushXs!=0> col-xs-push-${pushXs}</#if><#if pushSm!=0> col-sm-push-${pushSm}</#if><#if pushMd!=0> col-md-push-${pushMd}</#if><#if pushLg!=0> col-lg-push-${pushLg}</#if><#if pushXl!=0> col-xl-push-${pushXl}</#if><#if pullXs!=0> col-xs-pull-${pullXs}</#if><#if pullSm!=0> col-sm-pull-${pullSm}</#if><#if pullMd!=0> col-md-pull-${pullMd}</#if><#if pullLg!=0> col-lg-pull-${pullLg}</#if><#if pullXl!=0> col-xl-pull-${pullXl}</#if><#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 		<#nested>
 	</div>
@@ -1171,7 +1187,7 @@ and is kept only for backwards compatibility
 <#-- ALERT -->
 <#-- classes: alert-success/alert-info/alert-warning/alert-danger + alert-dismissible -->
 <#-- color: primary/success/info/warning/dange r-->
-<#macro alert class='' titleLevel='h3' title='' iconTitle='' dismissible=false id='' params=''>
+<#macro alert class='' color='' titleLevel='h3' title='' iconTitle='' dismissible=false id='' params=''>
 <div class="alert  ${class} <#if color!=''> alert-${color}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 	<#if dismissible>
 		<@button color='' size='' style='close' params='data-dismiss="alert" aria-hidden="true"'>
@@ -1187,6 +1203,7 @@ and is kept only for backwards compatibility
 	<#nested>
 </div>
 </#macro>
+
 
 
 <#---------------------------------------->
@@ -1225,8 +1242,6 @@ and is kept only for backwards compatibility
 </div>
 </#macro>
 <#---------------------------------------->
-	
-	
 
 <#-- AdminLTE Small Box -->
 <#-- color:Bootstrap + AdminLTE colors -->
@@ -1635,4 +1650,109 @@ $(function() {
 <#-- HTML ELEMENTS -->
 <#macro img url='' alt='' title='' class='' id='' params=''> 
 <img src="${url}" alt="${alt}" title="${title}" class="thumbnails thumb-list ${class}" id="${id}" ${params}>
+</#macro>
+
+
+<#-- Email Default Template -->
+<#macro emailTemplate title='Lutece' footerLink='https://fr.lutece.paris.fr'> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width"/>
+    <style type="text/css">
+		* { margin: 0; padding: 0; font-size: 100%; font-family: 'Avenir Next', "Helvetica Neue", "Helvetica", Helvetica, Arial, sans-serif; line-height: 1.65; }
+		img { max-width: 100%; margin: 0 auto; display: block; }
+		body, .body-wrap { width: 100% !important; height: 100%; background: #f8f8f8; }
+		a { color: #007bff; text-decoration: none; }
+		a:hover { text-decoration: underline; }
+		.text-center { text-align: center; }
+		.text-right { text-align: right; }
+		.text-left { text-align: left; }
+		.button { display: inline-block; color: white; background: #007bff; border: solid #007bff; border-width: 10px 20px 8px; font-weight: bold; border-radius: 4px; }
+		.button:hover { text-decoration: none; }
+		h1, h2, h3, h4, h5, h6 { margin-bottom: 20px; line-height: 1.25; }
+		h1 { font-size: 32px; }
+		h2 { font-size: 28px; }
+		h3 { font-size: 24px; }
+		h4 { font-size: 20px; }
+		h5 { font-size: 16px; }
+		p, ul, ol { font-size: 16px; font-weight: normal; margin-bottom: 20px; }
+		.container { display: block !important; clear: both !important; margin: 0 auto !important; max-width: 580px !important; }
+		.container table { width: 100% !important; border-collapse: collapse; }
+		.container .masthead { padding: 80px 0; background: #007bff; color: white; }
+		.container .masthead h1 { margin: 0 auto !important; max-width: 90%; text-transform: uppercase; }
+		.container .content { background: white; padding: 30px 35px; }
+		.container .content.footer { background: none; }
+		.container .content.footer p { margin-bottom: 0; color: #888; text-align: center; font-size: 14px; }
+		.container .content.footer a { color: #888; text-decoration: none; font-weight: bold; }
+		.container .content.footer a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+<table class="body-wrap">
+	<tr>
+		<td class="container">
+				<!-- Message start -->
+				<table>
+						<tr>
+							<td align="center" class="masthead">
+								<h1>${title}</h1>
+							</td>
+						</tr>
+						<tr>
+							<td class="content">
+								<#nested>
+							</td>
+						</tr>
+				</table>
+		</td>
+	</tr>
+	<tr>
+		<td class="container">
+			<!-- Message start -->
+			<table>
+					<tr>
+						<td class="content footer" align="center">
+								<p><a href="${footer_link}">Lutece</a></p>
+						</td>
+					</tr>
+			</table>
+		</td>
+	</tr>
+</table>
+</body>
+</html>		
+</#macro>
+
+<#macro adminLanguage languages lang action='jsp/admin/DoChangeLanguage.jsp' >
+<a href="javascript:return false;">
+	<i class="fa fa-language"></i> #i18n{portal.admin.admin_home.language}
+</a>
+<@tform method='post' action=action class='form-inline'>
+<input type="hidden" name="token" value="${token}">
+<ul class="list-inline">
+		<#list languages as language>
+		<li>
+			<#if lang==language.code>
+				<#assign languageButtonColor='success'>
+			<#else>
+				<#assign languageButtonColor='default'>
+			</#if>
+			<@button color='${languageButtonColor}' type='submit' name='language' value='${language.code}' title='${language.name}'/>
+		</li>
+	</#list>
+</ul>
+</@tform>
+</#macro>
+
+<#macro adminAccessibilityMode>
+<@tform method='post' action='jsp/admin/DoModifyAccessibilityMode.jsp' class='form-inline'>
+	<input type="hidden" name="token" value="${token}">
+	<#if user.accessibilityMode>
+		<@button color='link' size='md' type='submit' buttonIcon='eye' title='#i18n{portal.users.admin_header.labelDeactivateAccessibilityMode}'/>
+	<#else>
+		<@button color='link' size='md' type='submit' buttonIcon='eye-slash' title='#i18n{portal.users.admin_header.labelActivateAccessibilityMode}'/>
+	</#if>
+</@tform>
 </#macro>
