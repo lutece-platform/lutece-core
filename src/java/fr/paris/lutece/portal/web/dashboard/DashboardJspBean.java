@@ -40,6 +40,7 @@ import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.admin.AdminUserService;
 import fr.paris.lutece.portal.service.dashboard.DashboardService;
 import fr.paris.lutece.portal.service.dashboard.IDashboardComponent;
+import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
@@ -54,6 +55,7 @@ import org.apache.commons.lang.StringUtils;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -105,6 +107,12 @@ public class DashboardJspBean extends AdminFeaturesPageJspBean
         Map<String, Object> model = new HashMap<String, Object>( );
 
         Map<String, List<IDashboardComponent>> mapDashboards = _service.getAllSetDashboards( getUser( ) );
+        
+        for( List<IDashboardComponent> listComponents : mapDashboards.values() )
+        {
+            listComponents = I18nService.localizeCollection( listComponents, getLocale() );
+        }
+        
         model.put( MARK_MAP_DASHBOARDS, mapDashboards );
 
         List<IDashboardComponent> listNotSetDashboards = _service.getNotSetDashboards( );
@@ -139,7 +147,7 @@ public class DashboardJspBean extends AdminFeaturesPageJspBean
             return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
         }
 
-        int nColumn = 0;
+        int nColumn;
 
         try
         {

@@ -4,6 +4,7 @@
 			<tr>
 				<#-- header -->
         <th>#i18n{portal.dashboard.table.title.name}</th>
+        <th>#i18n{portal.dashboard.table.title.description}</th>
         <#-- name -->
         <th>#i18n{portal.dashboard.table.title.column}</th>
         <#-- column -->
@@ -14,9 +15,10 @@
       </tr>
       <#list items as dashboard>
         <tr>
-          <@td xs=6 sm=6>${dashboard.name}</@td>
+          <@td xs=3 sm=3 >${dashboard.name}  (${dashboard.plugin.name})</@td>
+          <@td xs=5 sm=5 >${dashboard.description}</@td>
           <#-- name -->
-          <@td xs=3 sm=3>
+          <@td xs=2 sm=2>
           <#-- column -->
           <@tform action='jsp/admin/dashboard/DoMoveDashboard.jsp' method='post' class='form-inline'>
             <input type="hidden" name="dashboard_name" value="${dashboard.name}">
@@ -39,7 +41,7 @@
           </@td>
           <#-- /column -->
           <#if order>
-            <@td xs=3 sm=3>
+            <@td xs=2 sm=2>
               <#-- order -->
               <@tform action='jsp/admin/dashboard/DoMoveDashboard.jsp' method='post' class='form-inline'>
                 <input type="hidden" name="dashboard_name" value="${dashboard.name}" />
@@ -75,6 +77,9 @@
         <@box color='danger'>
             <@boxHeader title='#i18n{portal.dashboard.title.manage}' />
 			<@boxBody>
+            <p>
+                #i18n{portal.dashboard.featureDescription}
+            </p>
 				<#-- column lists -->
 				<#list list_available_columns as column_refItem>
 				<#if column_refItem.code !=''>

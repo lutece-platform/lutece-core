@@ -34,6 +34,7 @@
 package fr.paris.lutece.portal.service.dashboard;
 
 import fr.paris.lutece.portal.business.user.AdminUser;
+import fr.paris.lutece.portal.service.i18n.Localizable;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 
 import javax.servlet.http.HttpServletRequest;
@@ -43,7 +44,7 @@ import javax.servlet.http.HttpServletRequest;
  * IDashboardComponent
  *
  */
-public interface IDashboardComponent extends Comparable<IDashboardComponent>
+public interface IDashboardComponent extends Comparable<IDashboardComponent>, Localizable
 {
     /**
      * Gets dashboard data for a given user
@@ -137,4 +138,11 @@ public interface IDashboardComponent extends Comparable<IDashboardComponent>
      * @return true if enabled
      */
     boolean isEnabled( );
+    
+    
+    /**
+     * Returns a localized description 
+     * @return a localized description
+     */
+    String getDescription( );
 }

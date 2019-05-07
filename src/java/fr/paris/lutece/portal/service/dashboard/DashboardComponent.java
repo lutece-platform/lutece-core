@@ -33,8 +33,11 @@
  */
 package fr.paris.lutece.portal.service.dashboard;
 
+import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.plugin.PluginService;
+import fr.paris.lutece.portal.web.l10n.LocaleService;
+import java.util.Locale;
 
 import org.apache.commons.lang.ObjectUtils;
 
@@ -48,6 +51,7 @@ public abstract class DashboardComponent implements IDashboardComponent
     private int _nZone;
     private int _nOrder;
     private Plugin _plugin;
+    private Locale _locale;
 
     /**
      * Returns the Name
@@ -229,5 +233,32 @@ public abstract class DashboardComponent implements IDashboardComponent
     public String toString( )
     {
         return getClass( ).getName( ) + "[name=" + this.getName( ) + ", zone=" + this.getZone( ) + ", order=" + this.getOrder( ) + "]";
+    }
+
+    /**
+     *
+     * {@inheritDoc}
+     */
+    @Override
+    public void setLocale( Locale locale )
+    {
+        _locale = locale;
+    }
+    
+    @Override
+    public String getDescription( )
+    {
+        String strKey;
+        Locale locale = ( _locale != null ) ? _locale : LocaleService.getDefault();
+        
+        if( _plugin == PluginService.getCore() )
+        {
+            strKey = "portal.dashboard.dashboardComponent." + _strName + ".description";
+        }
+        else
+        {
+            strKey = _plugin.getName() + ".dashboardComponent."  + _strName + ".description";
+        }
+        return I18nService.getLocalizedString( strKey, locale );
     }
 }
