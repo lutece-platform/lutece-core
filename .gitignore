@@ -4,3 +4,4 @@
 /.settings
 /nbactions.xml
 /nb-configuration.xml
+webapp/WEB-INF/conf/config.properties
