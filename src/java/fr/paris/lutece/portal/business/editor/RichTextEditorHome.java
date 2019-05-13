@@ -31,19 +31,43 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.portal.service.globalmanagement;
+package fr.paris.lutece.portal.business.editor;
+
+import fr.paris.lutece.portal.service.spring.SpringContextService;
+
+import java.util.Collection;
 
 /**
- *
- * Global management service
- *
+ * Rich text editor home
  */
-public final class GlobalManagementService
+public final class RichTextEditorHome
 {
-    public static final String RESOURCE_TYPE = "GLOBAL_MANAGEMENT_SERVICE";
+    private static IRichTextEditorDAO _dao = SpringContextService.getBean( IRichTextEditorDAO.BEAN_NAME );
 
-    /** Private Constructor */
-    private GlobalManagementService( )
+    /**
+     * Instantiates a new rich text editor home.
+     */
+    private RichTextEditorHome( )
     {
+    }
+
+    /**
+     * Get collection of RichTextEditor for back office
+     * 
+     * @return The collection of RichTextEditor for back office
+     */
+    public static Collection<RichTextEditor> findListEditorsForBackOffice( )
+    {
+        return _dao.findEditors( Boolean.TRUE );
+    }
+
+    /**
+     * Get the collection of RichTextEditor for front office
+     * 
+     * @return The collection of RichTextEditor for front office
+     */
+    public static Collection<RichTextEditor> findListEditorsForFrontOffice( )
+    {
+        return _dao.findEditors( Boolean.FALSE );
     }
 }

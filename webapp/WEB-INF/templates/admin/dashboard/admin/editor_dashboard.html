@@ -1,10 +1,10 @@
 	<@columns xs=12 sm=6 md=6 lg=6>
 		<@box color='danger'>
-			<@boxHeader title='#i18n{portal.globalmanagement.editorChoice.editorBackOffice}' />
+			<@boxHeader title='#i18n{portal.admindashboard.editorChoice.editorBackOffice}' />
 			<@boxBody>
-				<@tform action='jsp/admin/globalmanagement/DoUpdateBackOfficeEditor.jsp'>
+				<@tform action='jsp/admin/admindashboard/DoUpdateBackOfficeEditor.jsp'>
 					<input type="hidden" name="token" value="${token}">
-					<@formGroup rows=2 labelKey='#i18n{portal.globalmanagement.editorChoice.labelEditorBackOffice}'>
+					<@formGroup rows=2 labelKey='#i18n{portal.admindashboard.editorChoice.labelEditorBackOffice}'>
 						<#if !current_editor_back_office??>
 							<#assign current_editor_back_office = "">
 						</#if>
@@ -20,11 +20,11 @@
 	
 	<@columns xs=12 sm=6 md=6 lg=6>
 		<@box color='danger'>
-			<@boxHeader title='#i18n{portal.globalmanagement.editorChoice.editorFrontOffice}' />
+			<@boxHeader title='#i18n{portal.admindashboard.editorChoice.editorFrontOffice}' />
 			<@boxBody>
-				<@tform action='jsp/admin/globalmanagement/DoUpdateFrontOfficeEditor.jsp'>
+				<@tform action='jsp/admin/admindashboard/DoUpdateFrontOfficeEditor.jsp'>
 					<input type="hidden" name="token" value="${token}">
-					<@formGroup rows=2 labelKey='#i18n{portal.globalmanagement.editorChoice.labelEditorFrontOffice}'>
+					<@formGroup rows=2 labelKey='#i18n{portal.admindashboard.editorChoice.labelEditorFrontOffice}'>
 						<#if !current_editor_front_office??><#assign current_editor_front_office = ""></#if>
 						<@select name='editor_front_office' items=listEditorsFrontOffice default_value=current_editor_front_office />
 					</@formGroup>

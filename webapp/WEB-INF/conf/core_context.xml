@@ -162,7 +162,7 @@
     <!--  xsl exports -->
     <bean id="xslExportDAO" class="fr.paris.lutece.portal.business.xsl.XslExportDAO" />
     
-    <bean id="richTextEditorDAO" class="fr.paris.lutece.portal.business.globalmanagement.RichTextEditorDAO" />
+    <bean id="richTextEditorDAO" class="fr.paris.lutece.portal.business.editor.RichTextEditorDAO" />
     
     <!-- annotation db -->
     <!-- scans WEB-INF/lib for classes within jars, and web-inf/classes for .class -->
@@ -182,8 +182,6 @@
     
     <!-- Extendable Resource -->
     <bean id="pageExtendableResourceService" class="fr.paris.lutece.portal.service.page.PageExtendableResourceService" />
-    
-    <bean id="editorChoiceLutecePanelJspBean" class="fr.paris.lutece.portal.web.globalmanagement.EditorChoiceLutecePanelJspBean" />
 
     <!-- Preferences Services -->
     <bean id="userPreferencesDAO" class="fr.paris.lutece.portal.business.prefs.UserPreferencesDAO" />

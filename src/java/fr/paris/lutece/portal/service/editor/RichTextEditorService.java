@@ -31,10 +31,10 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.portal.service.globalmanagement;
+package fr.paris.lutece.portal.service.editor;
 
-import fr.paris.lutece.portal.business.globalmanagement.RichTextEditor;
-import fr.paris.lutece.portal.business.globalmanagement.RichTextEditorHome;
+import fr.paris.lutece.portal.business.editor.RichTextEditor;
+import fr.paris.lutece.portal.business.editor.RichTextEditorHome;
 import fr.paris.lutece.portal.service.datastore.DatastoreService;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;

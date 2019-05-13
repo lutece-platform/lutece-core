@@ -31,23 +31,29 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.portal.business.globalmanagement;
+package fr.paris.lutece.portal.service.editor;
 
-import java.util.Collection;
+import freemarker.template.TemplateMethodModel;
+
+import java.util.List;
 
 /**
- * Interface of RichTextEditorDAO
+ *
+ * RichTextEditorBackOfficeMethod
+ *
  */
-public interface IRichTextEditorDAO
+public class RichTextEditorBackOfficeMethod implements TemplateMethodModel
 {
-    String BEAN_NAME = "richTextEditorDAO";
-
     /**
-     * Get the collection of RichTextEditor for back or front office
+     * Get the name of the default editor for back office. This class should only be used inside a freemarker template.
      * 
-     * @param bBackOffice
-     *            True if the list should contain back office editors, false if it should contain front office editors.
-     * @return The collection of RichTextEditor for back or front office
+     * @param arg0
+     *            Unused
+     * @return The name of the default editor for back office.
      */
-    Collection<RichTextEditor> findEditors( Boolean bBackOffice );
+    @Override
+    public Object exec( List arg0 )
+    {
+        return RichTextEditorService.getBackOfficeDefaultEditor( );
+    }
 }

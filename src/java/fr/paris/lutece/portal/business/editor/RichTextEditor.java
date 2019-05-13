@@ -31,76 +31,77 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.portal.web.globalmanagement;
-
-import fr.paris.lutece.portal.service.panel.LutecePanel;
-import fr.paris.lutece.portal.service.panel.LutecePanelService;
-import fr.paris.lutece.portal.web.admin.PluginAdminPageJspBean;
-
-import java.util.Locale;
-
-import javax.servlet.http.HttpServletRequest;
+package fr.paris.lutece.portal.business.editor;
 
 /**
- * Abstract Lutece Panel JspBean
+ * Rich text editor configuration
  */
-public abstract class AbstractGMLutecePanel extends PluginAdminPageJspBean implements LutecePanel
+public class RichTextEditor
 {
-    private static final String HASH_PANEL = "#panel";
-    private Locale _locale;
-    private HttpServletRequest _request;
+    private String _strEditorName;
+    private String _strDescription;
+    private boolean _bBackOffice;
 
     /**
-     * {@inheritDoc }
+     * Get the name of the editor
+     * 
+     * @return The name of the editor
      */
-    @Override
-    public int getPanelIndex( )
+    public String getEditorName( )
     {
-        return LutecePanelService.instance( AbstractGMLutecePanel.class ).getIndex( getPanelKey( ) );
+        return _strEditorName;
     }
 
     /**
-     * {@inheritDoc }
+     * Set the name of the editor
+     * 
+     * @param strEditorName
+     *            The name of the editor
      */
-    @Override
-    public void setPanelLocale( Locale locale )
+    public void setEditorName( String strEditorName )
     {
-        _locale = locale;
+        _strEditorName = strEditorName;
     }
 
     /**
-     * {@inheritDoc }
+     * Get the description of the editor
+     * 
+     * @return The description of the editor
      */
-    @Override
-    public Locale getPanelLocale( )
+    public String getDescription( )
     {
-        return _locale;
+        return _strDescription;
     }
 
     /**
-     * {@inheritDoc }
+     * Set the description of the editor
+     * 
+     * @param strDescription
+     *            The description of the editor
      */
-    @Override
-    public void setRequest( HttpServletRequest request )
+    public void setDescription( String strDescription )
     {
-        _request = request;
+        _strDescription = strDescription;
     }
 
     /**
-     * {@inheritDoc }
+     * Get a boolean describing of this text editor should be used for back of front office
+     * 
+     * @return True if this editor should be used for back office, false if it should be used for front office.
      */
-    @Override
-    public HttpServletRequest getRequest( )
+    public boolean getBackOffice( )
     {
-        return _request;
+        return _bBackOffice;
     }
 
     /**
-     * {@inheritDoc }
+     * Set a boolean describing of this text editor should be used for back of front office
+     * 
+     * @param bBackOffice
+     *            True if this editor should be used for back office, false if it should be used for front office.
      */
-    @Override
-    public String getHomeUrl( HttpServletRequest request )
+    public void setBackOffice( boolean bBackOffice )
     {
-        return super.getHomeUrl( request ) + HASH_PANEL + getPanelIndex( );
+        _bBackOffice = bBackOffice;
     }
 }

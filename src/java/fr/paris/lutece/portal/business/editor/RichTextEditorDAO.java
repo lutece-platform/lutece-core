@@ -31,43 +31,43 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.portal.business.globalmanagement;
+package fr.paris.lutece.portal.business.editor;
 
-import fr.paris.lutece.portal.service.spring.SpringContextService;
+import fr.paris.lutece.util.sql.DAOUtil;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 /**
- * Rich text editor home
+ * Rich text editor DAO
  */
-public final class RichTextEditorHome
+public class RichTextEditorDAO implements IRichTextEditorDAO
 {
-    private static IRichTextEditorDAO _dao = SpringContextService.getBean( IRichTextEditorDAO.BEAN_NAME );
+    private static final String SQL_QUERY_FIND_EDITORS_BY_TYPE = " select editor_name, editor_description FROM core_text_editor WHERE backOffice = ? ORDER BY editor_name asc ";
 
     /**
-     * Instantiates a new rich text editor home.
+     * {@inheritDoc}
      */
-    private RichTextEditorHome( )
+    @Override
+    public Collection<RichTextEditor> findEditors( Boolean bBackOffice )
     {
-    }
+        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_FIND_EDITORS_BY_TYPE );
+        daoUtil.setBoolean( 1, bBackOffice );
 
-    /**
-     * Get collection of RichTextEditor for back office
-     * 
-     * @return The collection of RichTextEditor for back office
-     */
-    public static Collection<RichTextEditor> findListEditorsForBackOffice( )
-    {
-        return _dao.findEditors( Boolean.TRUE );
-    }
+        Collection<RichTextEditor> listRes = new ArrayList<RichTextEditor>( );
+        daoUtil.executeQuery( );
 
-    /**
-     * Get the collection of RichTextEditor for front office
-     * 
-     * @return The collection of RichTextEditor for front office
-     */
-    public static Collection<RichTextEditor> findListEditorsForFrontOffice( )
-    {
-        return _dao.findEditors( Boolean.FALSE );
+        while ( daoUtil.next( ) )
+        {
+            RichTextEditor editor = new RichTextEditor( );
+            editor.setEditorName( daoUtil.getString( 1 ) );
+            editor.setDescription( daoUtil.getString( 2 ) );
+            editor.setBackOffice( bBackOffice );
+            listRes.add( editor );
+        }
+
+        daoUtil.free( );
+
+        return listRes;
     }
 }

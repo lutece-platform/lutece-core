@@ -31,7 +31,7 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.portal.service.globalmanagement;
+package fr.paris.lutece.portal.service.editor;
 
 import freemarker.template.TemplateMethodModel;
 

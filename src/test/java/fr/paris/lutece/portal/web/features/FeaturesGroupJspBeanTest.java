@@ -93,17 +93,6 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
         super.tearDown( );
     }
 
-    /**
-     * Test of getManageFeatures method, of class fr.paris.lutece.portal.web.features.FeaturesGroupJspBean.
-     */
-    public void testGetManageFeatures( ) throws AccessDeniedException
-    {
-        MockHttpServletRequest request = new MockHttpServletRequest( );
-        Utils.registerAdminUserWithRigth( request, new AdminUser( ), FeaturesGroupJspBean.RIGHT_FEATURES_MANAGEMENT );
-
-        instance.init( request, FeaturesGroupJspBean.RIGHT_FEATURES_MANAGEMENT );
-        instance.getManageFeatures( request );
-    }
 
     /**
      * Test of getManageGroups method, of class fr.paris.lutece.portal.web.features.FeaturesGroupJspBean.
