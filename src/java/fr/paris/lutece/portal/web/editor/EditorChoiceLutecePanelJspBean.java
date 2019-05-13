@@ -47,7 +47,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class EditorChoiceLutecePanelJspBean extends PluginAdminPageJspBean implements Serializable
 {
-    private static final String JSP_URL_TECHNICAL_ADMIN ="jsp/admin/AdminTechnicalMenu.jsp";
+    private static final String JSP_URL_TECHNICAL_ADMIN ="jsp/admin/AdminTechnicalMenu.jsp?#editors";
     
     /**
      * Generated servial UID

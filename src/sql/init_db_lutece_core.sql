@@ -1,6 +1,6 @@
 INSERT INTO core_admin_dashboard(dashboard_name, dashboard_column, dashboard_order) VALUES('usersAdminDashboardComponent', 1, 1);
 INSERT INTO core_admin_dashboard(dashboard_name, dashboard_column, dashboard_order) VALUES('searchAdminDashboardComponent', 1, 2);
-
+INSERT INTO core_admin_dashboard(dashboard_name, dashboard_column, dashboard_order) VALUES('editorAdminDashboardComponent', 1, 3);
 
 INSERT INTO core_admin_right VALUES ('CORE_ADMIN_SITE','portal.site.adminFeature.admin_site.name',2,'jsp/admin/site/AdminSite.jsp','portal.site.adminFeature.admin_site.description',1,NULL,'SITE','images/admin/skin/features/admin_site.png','jsp/admin/documentation/AdminDocumentation.jsp?doc=admin-site',1, 0);
 INSERT INTO core_admin_right VALUES ('CORE_CACHE_MANAGEMENT','portal.system.adminFeature.cache_management.name',0,'jsp/admin/system/ManageCaches.jsp','portal.system.adminFeature.cache_management.description',1,NULL,'SYSTEM','images/admin/skin/features/manage_caches.png',NULL,1, 0);
