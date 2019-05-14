@@ -120,4 +120,12 @@ public abstract class Daemon implements Runnable
     {
         _nResult = nResult;
     }
+
+    /**
+     * Stop the daemon. Clean up allocated resources
+     */
+    protected void stop( )
+    {
+        // nothing by default
+    }
 }

@@ -37,17 +37,25 @@ import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public final class TestDaemon extends Daemon
 {
     CyclicBarrier startBarrier = new CyclicBarrier( 2 );
     CyclicBarrier completionBarrier = new CyclicBarrier( 2 );
     boolean hasRun;
-    boolean shouldThrow;
+    boolean shouldThrowInRun;
+    boolean shouldThrowInStop;
+    private AtomicInteger stopCallNumber = new AtomicInteger( 0 );
 
-    public void setRunThrows( boolean shouldThrow )
+    public void setRunThrows( boolean shouldThrowInRun )
     {
-        this.shouldThrow = shouldThrow;
+        this.shouldThrowInRun = shouldThrowInRun;
+    }
+
+    public void setStopThrows( boolean shouldThrowInStop )
+    {
+        this.shouldThrowInStop = shouldThrowInStop;
     }
 
     @Override
@@ -64,9 +72,9 @@ public final class TestDaemon extends Daemon
         {
             e.printStackTrace( );
         }
-        if ( shouldThrow )
+        if ( shouldThrowInRun )
         {
-            throw new RuntimeException( "I'm a bad daemon" );
+            throw new RuntimeException( "I'm a bad running daemon" );
         }
     }
 
@@ -103,6 +111,22 @@ public final class TestDaemon extends Daemon
     public void waitForCompletion( long timeout, TimeUnit unit ) throws InterruptedException, BrokenBarrierException, TimeoutException
     {
         completionBarrier.await( timeout, unit );
+    }
+
+    @Override
+    protected void stop( )
+    {
+        stopCallNumber.incrementAndGet( );
+        super.stop( );
+        if ( shouldThrowInStop )
+        {
+            throw new RuntimeException( "I'm a bad stopping daemon" );
+        }
+    }
+
+    public int getStopCallNumber( )
+    {
+        return stopCallNumber.get( );
     }
 
 }
