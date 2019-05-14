@@ -225,7 +225,7 @@ public final class AppInit
             long lEnd = System.currentTimeMillis( );
             long lTime = 1 + ( lEnd - lStart ) / 1000;
 
-            String strBaseUrl = "http(s)://server:port" + context.getContextPath( ) + '/';
+            String strBaseUrl = getBaseUrl( context );
             StringBuilder sbBanner = new StringBuilder( );
             sbBanner.append( AppInfo.LUTECE_BANNER_SERVER ).append( "  started successfully in " ).append( lTime ).append( "s !!!\n" )
                     .append( "\n   Front office " ).append( strBaseUrl ).append( AppPathService.getPortalUrl( ) ).append( "\n   Back office  " )
@@ -244,6 +244,23 @@ public final class AppInit
                 cause = cause.getCause( );
             }
         }
+    }
+
+    /**
+     * Get a base url to display in start logs
+     * 
+     * @param context
+     *            the servlet context
+     * @return the base url
+     */
+    private static String getBaseUrl( ServletContext context )
+    {
+        StringBuilder sbBaseUrl = new StringBuilder( "http(s)://server:port" );
+        if ( context != null )
+        {
+            sbBaseUrl.append( context.getContextPath( ) );
+        }
+        return sbBaseUrl.append( '/' ).toString( );
     }
 
     /**
