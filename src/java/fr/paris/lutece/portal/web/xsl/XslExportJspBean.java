@@ -100,18 +100,11 @@ public class XslExportJspBean extends PluginAdminPageJspBean
     private static final long serialVersionUID = -8697851692630602527L;
 
     // templates
-    private static final String TEMPLATE_MANAGE_XSL_EXPORT = "admin/xsl/manage_xsl_export.html";
     private static final String TEMPLATE_CREATE_XSL_EXPORT = "admin/xsl/create_xsl_export.html";
     private static final String TEMPLATE_MODIFY_XSL_EXPORT = "admin/xsl/modify_xsl_export.html";
 
     // Markers
-    private static final String MARK_XSL_EXPORT_LIST = "xsl_export_list";
     private static final String MARK_XSL_EXPORT = "xsl_export";
-    private static final String MARK_PAGINATOR = "paginator";
-    private static final String MARK_NB_ITEMS_PER_PAGE = "nb_items_per_page";
-    private static final String MARK_PERMISSION_CREATE = "right_create";
-    private static final String MARK_PERMISSION_MODIFY = "right_modify";
-    private static final String MARK_PERMISSION_DELETE = "right_delete";
     private static final String MARK_LIST_PLUGINS = "list_plugins";
 
     // parameters form
@@ -120,7 +113,6 @@ public class XslExportJspBean extends PluginAdminPageJspBean
     private static final String PARAMETER_TITLE = "title";
     private static final String PARAMETER_DESCRIPTION = "description";
     private static final String PARAMETER_EXTENSION = "extension";
-    private static final String PARAMETER_PAGE_INDEX = "page_index";
     private static final String PARAMETER_PLUGIN = "plugin";
 
     // other constants
@@ -141,53 +133,13 @@ public class XslExportJspBean extends PluginAdminPageJspBean
     private static final String MESSAGE_PERMISSION_DENIED = "portal.xsl.message.permission_denied";
 
     // properties
-    private static final String PROPERTY_ITEM_PER_PAGE = "paginator.xsl.itemsPerPage";
-    private static final String PROPERTY_MANAGE_XSL_EXPORT_TITLE = "portal.xsl.manage_xsl_export.page_title";
     private static final String PROPERTY_MODIFY_XSL_EXPORT_TITLE = "portal.xsl.modify_xsl_export.title";
     private static final String PROPERTY_CREATE_XSL_EXPORT_TITLE = "portal.xsl.create_xsl_export.title";
 
     // Jsp Definition
-    private static final String JSP_MANAGE_XSL_EXPORT = "jsp/admin/xsl/ManageXslExport.jsp";
+    private static final String JSP_MANAGE_XSL_EXPORT = "jsp/admin/AdminTechnicalMenu.jsp?#xslexport";
     private static final String JSP_DO_REMOVE_XSL_EXPORT = "jsp/admin/xsl/DoRemoveXslExport.jsp";
 
-    // session fields
-    private int _nDefaultItemsPerPage = AppPropertiesService.getPropertyInt( PROPERTY_ITEM_PER_PAGE, 15 );
-    private String _strCurrentPageIndex;
-    private int _nItemsPerPage;
-
-    /**
-     * Return the xsl export management page ( list of export format )
-     * 
-     * @param request
-     *            The Http request
-     * @return Html of the xsl export management page
-     */
-    public String getManageXslExport( HttpServletRequest request )
-    {
-        HashMap<String, Object> model = new HashMap<String, Object>( );
-        List<XslExport> listXslExport = XslExportHome.getList( );
-        _strCurrentPageIndex = Paginator.getPageIndex( request, Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex );
-        _nItemsPerPage = Paginator.getItemsPerPage( request, Paginator.PARAMETER_ITEMS_PER_PAGE, _nItemsPerPage, _nDefaultItemsPerPage );
-
-        model.put( MARK_PERMISSION_CREATE,
-                RBACService.isAuthorized( XslExport.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID, XslExportResourceIdService.PERMISSION_CREATE, getUser( ) ) );
-        model.put( MARK_PERMISSION_MODIFY,
-                RBACService.isAuthorized( XslExport.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID, XslExportResourceIdService.PERMISSION_MODIFY, getUser( ) ) );
-        model.put( MARK_PERMISSION_DELETE,
-                RBACService.isAuthorized( XslExport.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID, XslExportResourceIdService.PERMISSION_DELETE, getUser( ) ) );
-
-        LocalizedPaginator<XslExport> paginator = new LocalizedPaginator<XslExport>( listXslExport, _nItemsPerPage, getJspManageXslExport( request ),
-                PARAMETER_PAGE_INDEX, _strCurrentPageIndex, getLocale( ) );
-
-        model.put( MARK_PAGINATOR, paginator );
-        model.put( MARK_NB_ITEMS_PER_PAGE, EMPTY_STRING + _nItemsPerPage );
-        model.put( MARK_XSL_EXPORT_LIST, paginator.getPageItems( ) );
-        setPageTitleProperty( PROPERTY_MANAGE_XSL_EXPORT_TITLE );
-
-        HtmlTemplate templateList = AppTemplateService.getTemplate( TEMPLATE_MANAGE_XSL_EXPORT, getLocale( ), model );
-
-        return getAdminPage( templateList.getHtml( ) );
-    }
 
     /**
      * Gets the xsl export creation page

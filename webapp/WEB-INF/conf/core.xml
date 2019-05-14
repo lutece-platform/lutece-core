@@ -173,6 +173,10 @@
             <dashboard-component-name>editorAdminDashboardComponent</dashboard-component-name>
             <dashboard-component-class>fr.paris.lutece.portal.web.editor.EditorAdminDashboardComponent</dashboard-component-class>
         </admindashboard-component>
+        <admindashboard-component>
+            <dashboard-component-name>xslExportAdminDashboardComponent</dashboard-component-name>
+            <dashboard-component-class>fr.paris.lutece.portal.web.xsl.XslExportAdminDashboardComponent</dashboard-component-class>
+        </admindashboard-component>
     </admindashboard-components>
         
     <freemarker-macro-files>
