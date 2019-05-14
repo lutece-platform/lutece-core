@@ -47,6 +47,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class EditorChoiceLutecePanelJspBean extends PluginAdminPageJspBean implements Serializable
 {
+    public static final String RIGHT_EDITORS_MANAGEMENT = "CORE_EDITORS_MANAGEMENT";
     private static final String JSP_URL_TECHNICAL_ADMIN ="jsp/admin/AdminTechnicalMenu.jsp?#editors";
     
     /**
