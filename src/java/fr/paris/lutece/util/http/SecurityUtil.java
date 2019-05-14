@@ -38,13 +38,13 @@ import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.web.LocalVariables;
 import fr.paris.lutece.util.string.StringUtil;
 
-import org.apache.commons.lang.StringUtils;
 
 import org.apache.log4j.Logger;
 
 import java.util.Enumeration;
 
 import javax.servlet.http.HttpServletRequest;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.AntPathMatcher;
 
 /**

@@ -58,7 +58,8 @@
             <artifactId>commons-digester</artifactId>
             <version>1.8.1</version>
         </dependency>
-        <dependency>
+
+        <dependency>       
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-digester3</artifactId>
             <version>3.2</version>
@@ -83,12 +84,6 @@
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
             <version>2.5</version>
-        </dependency>
-        <!-- commons-lang deprecated, use commons-lang3 instead. To be removed in the future -->
-        <dependency>
-            <groupId>commons-lang</groupId>
-            <artifactId>commons-lang</artifactId>
-            <version>2.6</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
