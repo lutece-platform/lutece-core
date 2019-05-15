@@ -8,23 +8,17 @@ import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.lang.StringUtils;
 import org.springframework.mock.web.MockHttpServletRequest;
 
 import fr.paris.lutece.portal.business.rbac.AdminRole;
 import fr.paris.lutece.portal.business.rbac.AdminRoleHome;
-import fr.paris.lutece.portal.business.rbac.RBAC;
-import fr.paris.lutece.portal.business.rbac.RBACHome;
 import fr.paris.lutece.portal.business.search.SearchParameterHome;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.admin.PasswordResetException;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
-import fr.paris.lutece.portal.service.search.SearchResourceIdService;
-import fr.paris.lutece.portal.service.search.SearchService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
-import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.Utils;
 import fr.paris.lutece.util.ReferenceItem;
@@ -117,14 +111,6 @@ public class SearchJspBeanTest extends LuteceTestCase
         {
             assertFalse( taglist.equals( SearchParameterHome.findByKey( PARAMETER_TAGLIST ).getName( ) ) );
         }
-    }
-
-    public void testGetManageAdvancedParameters( ) throws PasswordResetException, AccessDeniedException
-    {
-        HttpServletRequest request = new MockHttpServletRequest( );
-        Utils.registerAdminUserWithRigth( request, new AdminUser( ), "CORE_SEARCH_MANAGEMENT" );
-        _bean.init( request, "CORE_SEARCH_MANAGEMENT" );
-        assertNotNull( _bean.getManageAdvancedParameters( request ) );
     }
 
     public void testDoModifyAdvancedParameters( ) throws AccessDeniedException

@@ -73,7 +73,7 @@ public class SearchJspBean extends AdminFeaturesPageJspBean
     private static final String EMPTY_STRING = "";
 
     // Jsp url
-    private static final String JSP_MANAGE_SEARCH = "ManageSearch.jsp";
+    private static final String JSP_MANAGE_SEARCH = "../AdminTechnicalMenu.jsp?#search";
 
     // Markers
     private static final String MARK_PERMISSION_MANAGE_ADVANCED_PARAMETERS = "permission_manage_advanced_parameters";
@@ -90,14 +90,13 @@ public class SearchJspBean extends AdminFeaturesPageJspBean
     private static final String PARAMETER_TYPE_FILTER = "type_filter";
 
     // Properties
-    private static final String PROPERTY_MANAGE_ADVANCED_PARAMETERS_PAGETITLE = "portal.search.manage_advanced_parameters.pageTitle";
     private static final String PROPERTY_MANAGE_SEARCH_PAGETITLE = "portal.search.manage_search.pageTitle";
     private static final String PROPERTY_MODIFY_TAGLIST_PAGETITLE = "portal.search.modify_taglist.pageTitle";
 
     // Template
-    private static final String TEMPLATE_MANAGE_ADVANCED_PARAMETERS = "admin/search/manage_advanced_parameters.html";
     private static final String TEMPLATE_MANAGE_SEARCH = "admin/search/manage_search.html";
     private static final String TEMPLATE_MODIFY_TAGLIST = "admin/search/modify_taglist.html";
+    private static final String TEMPLATE_ADMIN_DASHBOARD = "admin/search/search_admindashboard.html";
 
     /**
      * Builds the search management page
@@ -173,30 +172,6 @@ public class SearchJspBean extends AdminFeaturesPageJspBean
         return JSP_MANAGE_SEARCH;
     }
 
-    /**
-     * Builds the advanced parameters management page. A form to specify search parameters (mainly filter)
-     * 
-     * @param request
-     *            the HTTP request
-     * @return the built page
-     */
-    public String getManageAdvancedParameters( HttpServletRequest request )
-    {
-        if ( !RBACService.isAuthorized( SearchService.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID, SearchResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS,
-                getUser( ) ) )
-        {
-            return getManageSearch( request );
-        }
-
-        setPageTitleProperty( PROPERTY_MANAGE_ADVANCED_PARAMETERS_PAGETITLE );
-
-        Map<String, Object> model = SearchService.getManageAdvancedParameters( getUser( ), request );
-        model.put( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MANAGE_ADVANCED_PARAMETERS ) );
-
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_ADVANCED_PARAMETERS, getLocale( ), model );
-
-        return getAdminPage( template.getHtml( ) );
-    }
 
     /**
      * Processes the data capture form of advanced parameters
@@ -215,7 +190,7 @@ public class SearchJspBean extends AdminFeaturesPageJspBean
             throw new AccessDeniedException( "User " + getUser( ) + " is not authorized to permission "
                     + SearchResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS );
         }
-        if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_MANAGE_ADVANCED_PARAMETERS ) )
+        if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_ADMIN_DASHBOARD ) )
         {
             throw new AccessDeniedException( "Invalid security token" );
         }
