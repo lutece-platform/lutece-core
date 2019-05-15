@@ -1,28 +1,25 @@
-<a name="editors"></a>
-    <@columns xs=12 sm=6 md=6 lg=6>
-		<@box color='danger'>
-			<@boxHeader title='#i18n{portal.admindashboard.editorChoice.editorBackOffice}' />
-			<@boxBody>
-				<@tform action='jsp/admin/admindashboard/DoUpdateBackOfficeEditor.jsp'>
-					<input type="hidden" name="token" value="${token}">
-					<@formGroup rows=2 labelKey='#i18n{portal.admindashboard.editorChoice.labelEditorBackOffice}'>
-						<#if !current_editor_back_office??>
-							<#assign current_editor_back_office = "">
-						</#if>
-						<@select name='editor_back_office' items=listEditorsBackOffice default_value=current_editor_back_office />
-					</@formGroup>
-					<@formGroup rows=2>
-						<@button type='submit' buttonIcon='check' title='#i18n{portal.util.labelModify}' size='' />
-					</@formGroup>
-				</@tform>
-			</@boxBody>
-		</@box>
-	</@columns>
-	
-	<@columns xs=12 sm=6 md=6 lg=6>
-		<@box color='danger'>
-			<@boxHeader title='#i18n{portal.admindashboard.editorChoice.editorFrontOffice}' />
-			<@boxBody>
+<@row>
+  <@columns>
+      	<@accordionContainer id='editors'>
+		<@accordionPanel color='success' collapsed=true childId='editorsChoices'>
+			<@accordionHeader title='#i18n{portal.admindashboard.editorChoice.title}' >
+            </@accordionHeader>
+			<@accordionBody>
+                <@fieldSet legend='#i18n{portal.admindashboard.editorChoice.editorBackOffice}' >
+                    <@tform action='jsp/admin/admindashboard/DoUpdateBackOfficeEditor.jsp'>
+                        <input type="hidden" name="token" value="${token}">
+                        <@formGroup rows=2 labelKey='#i18n{portal.admindashboard.editorChoice.labelEditorBackOffice}'>
+                            <#if !current_editor_back_office??>
+                                <#assign current_editor_back_office = "">
+                            </#if>
+                            <@select name='editor_back_office' items=listEditorsBackOffice default_value=current_editor_back_office />
+                        </@formGroup>
+                        <@formGroup rows=2>
+                            <@button type='submit' buttonIcon='check' title='#i18n{portal.util.labelModify}' size='' />
+                        </@formGroup>
+                    </@tform>
+                </@fieldSet>
+             <@fieldSet legend='#i18n{portal.admindashboard.editorChoice.editorFrontOffice}' >   
 				<@tform action='jsp/admin/admindashboard/DoUpdateFrontOfficeEditor.jsp'>
 					<input type="hidden" name="token" value="${token}">
 					<@formGroup rows=2 labelKey='#i18n{portal.admindashboard.editorChoice.labelEditorFrontOffice}'>
@@ -33,6 +30,9 @@
 						<@button type='submit' buttonIcon='check' title='#i18n{portal.util.labelModify}' size='' />
 					</@formGroup>
 				</@tform>
-			</@boxBody>
-		</@box>
+            </@fieldSet>
+            </@accordionBody>    
+		</@accordionPanel>
+        </@accordionContainer>
 	</@columns>
+</@row>
