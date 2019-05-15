@@ -1,21 +1,16 @@
 <@row>
   <@columns>
-    <@box color='danger'>
-			<#if right_create>
-				<#assign boxTools=true>
-			<#else>
-				<#assign boxTools=false>
-			</#if>
-      <@boxHeader title='#i18n{portal.xsl.manage_xsl_export.title}' id='manage_xsl_export' boxTools=true>
-				<@tform class='form-inline' method='post' action='jsp/admin/xsl/CreateXslExport.jsp'>
-					<@button type='submit' title='#i18n{portal.xsl.manage_xsl_export.button_create}' buttonIcon='plus' size='' />
-				</@tform>
-      </@boxHeader>
-      <@boxBody>
-      	<@accordionContainer id='advanced_parameters'>
-		<@accordionPanel color='success' collapsed=false childId='xslexport'>
-			<@accordionHeader title='#i18n{portal.xsl.manage_xsl_export.page_title}' />
+      	<@accordionContainer id='xslexport'>
+		<@accordionPanel color='success' collapsed=true childId='xslexportManagement'>
+			<@accordionHeader title='#i18n{portal.xsl.manage_xsl_export.page_title}' >
+            </@accordionHeader>
 			<@accordionBody>
+				<@tform class='form-inline' method='post' action='jsp/admin/xsl/CreateXslExport.jsp'>
+                    <@btnGroup align='right'>
+                        <@button type='submit' title='#i18n{portal.xsl.manage_xsl_export.button_create}' buttonIcon='plus' size='' />
+                    </@btnGroup>
+                </@tform>
+                #i18n{portal.xsl.manage_xsl_export.title}
                 <@table params='aria-describedby="manage_xsl_export"'>
                         <caption>&nbsp;</caption>
                         <thead>
@@ -47,8 +42,5 @@
                         </@accordionBody>
                     </@accordionPanel> 
                 </@accordionContainer>
-
-			</@boxBody>
-        </@box>
 	</@columns>
 </@row>
