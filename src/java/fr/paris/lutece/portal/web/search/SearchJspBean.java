@@ -42,16 +42,12 @@ import fr.paris.lutece.portal.service.rbac.RBACService;
 import fr.paris.lutece.portal.service.search.SearchResourceIdService;
 import fr.paris.lutece.portal.service.search.SearchService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
-import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
 import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.util.ReferenceItem;
-import fr.paris.lutece.util.html.HtmlTemplate;
 
 import org.apache.commons.lang.StringUtils;
 
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -75,102 +71,17 @@ public class SearchJspBean extends AdminFeaturesPageJspBean
     // Jsp url
     private static final String JSP_MANAGE_SEARCH = "../AdminTechnicalMenu.jsp?#search";
 
-    // Markers
-    private static final String MARK_PERMISSION_MANAGE_ADVANCED_PARAMETERS = "permission_manage_advanced_parameters";
-    private static final String MARK_TAGLIST = "taglist";
-    private static final String MARK_TAG_FILTER = "tag_filter";
-
     // Parameters
     private static final String PARAMETER_CANCEL = "cancel";
     private static final String PARAMETER_DATE_FILTER = "date_filter";
     private static final String PARAMETER_DEFAULT_OPERATOR = "default_operator";
     private static final String PARAMETER_HELP_MESSAGE = "help_message";
-    private static final String PARAMETER_TAGLIST = "taglist";
     private static final String PARAMETER_TAG_FILTER = "tag_filter";
     private static final String PARAMETER_TYPE_FILTER = "type_filter";
 
-    // Properties
-    private static final String PROPERTY_MANAGE_SEARCH_PAGETITLE = "portal.search.manage_search.pageTitle";
-    private static final String PROPERTY_MODIFY_TAGLIST_PAGETITLE = "portal.search.modify_taglist.pageTitle";
 
     // Template
-    private static final String TEMPLATE_MANAGE_SEARCH = "admin/search/manage_search.html";
-    private static final String TEMPLATE_MODIFY_TAGLIST = "admin/search/modify_taglist.html";
     private static final String TEMPLATE_ADMIN_DASHBOARD = "admin/search/search_admindashboard.html";
-
-    /**
-     * Builds the search management page
-     * 
-     * @param request
-     *            Http request
-     * @return the built page
-     */
-    public String getManageSearch( HttpServletRequest request )
-    {
-        setPageTitleProperty( PROPERTY_MANAGE_SEARCH_PAGETITLE );
-
-        boolean bPermissionManageAdvancedParameters = RBACService.isAuthorized( SearchService.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID,
-                SearchResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS, getUser( ) );
-
-        Map<String, Object> model = new HashMap<String, Object>( );
-
-        model.put( MARK_PERMISSION_MANAGE_ADVANCED_PARAMETERS, bPermissionManageAdvancedParameters );
-        model.put( MARK_TAG_FILTER, SearchParameterHome.findByKey( PARAMETER_TAG_FILTER ).getName( ) );
-
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_SEARCH, getLocale( ), model );
-
-        return getAdminPage( template.getHtml( ) );
-    }
-
-    /**
-     * Builds the form to modify the tag cloud for the tag filter
-     * 
-     * @param request
-     *            Http request
-     * @return the built form
-     */
-    public String getModifyTagList( HttpServletRequest request )
-    {
-        setPageTitleProperty( PROPERTY_MODIFY_TAGLIST_PAGETITLE );
-
-        Map<String, Object> model = new HashMap<String, Object>( );
-
-        model.put( MARK_TAGLIST, SearchParameterHome.findByKey( PARAMETER_TAGLIST ).getName( ) );
-        model.put( MARK_TAG_FILTER, SearchParameterHome.findByKey( PARAMETER_TAG_FILTER ).getName( ) );
-        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MODIFY_TAGLIST ) );
-
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_TAGLIST, getLocale( ), model );
-
-        return getAdminPage( template.getHtml( ) );
-    }
-
-    /**
-     * Processes the data capture form of tag list
-     * 
-     * @param request
-     *            the HTTP request
-     * @return the jsp URL of the process result
-     * @throws AccessDeniedException
-     *             if the security token is invalid
-     */
-    public String doModifyTagList( HttpServletRequest request ) throws AccessDeniedException
-    {
-        if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_MODIFY_TAGLIST ) )
-        {
-            throw new AccessDeniedException( "Invalid security token" );
-        }
-        if ( request.getParameter( PARAMETER_CANCEL ) == null )
-        {
-            ReferenceItem param = new ReferenceItem( );
-            param.setCode( PARAMETER_TAGLIST );
-
-            String strTagList = request.getParameter( PARAMETER_TAGLIST );
-            param.setName( StringUtils.isNotBlank( strTagList ) ? strTagList : EMPTY_STRING );
-            SearchParameterHome.update( param );
-        }
-
-        return JSP_MANAGE_SEARCH;
-    }
 
 
     /**
