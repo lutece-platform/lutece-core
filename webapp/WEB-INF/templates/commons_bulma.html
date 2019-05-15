@@ -30,6 +30,7 @@
 
 <#global gClassActive='is-active' />
 
+
 <#macro comboWithParams name default_value additionalParameters items >
 <div class="select is-rounded">
     <select id="${name}" name="${name}" ${additionalParameters}>
@@ -733,9 +734,22 @@ and is kept only for backwards compatibility
 </#macro>
 
 <#-- FORM -->
-<#-- class: form-inline/form-horizontal/navbar-form/navbar-left/search-form... Default is horizontal -->
-<#macro tform class='form-horizontal' class2='' action='' method='post' name='' id='' role='form' params=''>
-<form class="${class}<#if class2!=''> ${class2}</#if>"<#if id!=''> id="${id}"</#if><#if action!=''> action="${action}"</#if><#if method!=''> method="${method}"</#if><#if name!=''> name="${name}"</#if><#if role!=''> role="${role}"</#if><#if params!=''> ${params}</#if>>
+<#-- type: inline/horizontal/form -->
+<#macro tform type='horizontal' class='' action='' method='post' name='' id='' role='form' params=''>
+<#switch type>
+    <#case 'horizontal'>
+    <#assign typeClass = 'form-horizontal'>
+    <#break>
+
+    <#case 'inline'>
+    <#assign typeClass = 'form-inline'>
+    <#break>
+    
+    <#default>
+    <#assign typeClass = 'form'>
+</#switch>
+
+<form class="${typeClass} ${class}"<#if id!=''> id="${id}"</#if><#if action!=''> action="${action}"</#if><#if method!=''> method="${method}"</#if><#if name!=''> name="${name}"</#if><#if role!=''> role="${role}"</#if><#if params!=''> ${params}</#if>>
 	<#nested>
 </form>
 </#macro>
@@ -970,7 +984,7 @@ and is kept only for backwards compatibility
 	</h2>
 	<#local nested><#nested></#local>
 	<#if nested?has_content>
-	<div class="box-tools">
+	<div class="is-pulled-right">
 		${nested}
 	</div>
 	</#if>
@@ -1108,12 +1122,38 @@ and is kept only for backwards compatibility
 </#macro>
 
 <#-- BTN GROUP -->
-<#-- size: sm/empty/lg -->
-<#macro btnGroup size='' class='' id='' params='' ariaLabel=''>
-<div class="field is-grouped<#if size!=''> btn-group-${size}</#if><#if class!=''> ${class}</#if>" role="group"<#if ariaLabel!=''> aria-label="${ariaLabel}"</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
-	<#nested>
-</div>
+<#-- size: sm/lg -->
+<#-- align: left/center/right -->
+<#macro btnGroup size='' align='' class='' id='' params='' ariaLabel=''>
+
+    <#switch size>
+        <#case 'sm'>
+            <#assign sizeClass='are-small'>
+            <#break>
+        <#case 'lg'>
+            <#assign sizeClass='are-large'>
+            <#break>
+            <#default>
+        <#assign sizeClass=''>
+    </#switch>
+
+    <#switch align>
+        <#case 'right'>
+            <#assign alignClass='is-right'>
+            <#break>
+        <#case 'center'>
+            <#assign alignClass='is-centered'>
+            <#break>
+        <#default>
+        <#assign alignClass=''>
+    </#switch>
+    
+    <div class="buttons ${alignClass} ${sizeClass} <#if class!=''>${class}</#if>" role="group"<#if ariaLabel!=''> aria-label="${ariaLabel}"</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+        <#nested>
+    </div>
 </#macro>
+
+
 
 <#-- Radio button/Checkbox as buttons (to use with btnGroup)  -->
 <#-- type: radio/checkbox -->

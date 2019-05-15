@@ -301,13 +301,27 @@
   <i class="${prefix}${style}<#if class!=''> ${class}</#if>" aria-hidden="true"<#if title!=''> title='${title}'</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>></i>
 </#macro>
 
-<#-- FORM 																	-->
-<#-- class: form-inline  Default is '' 			-->
-<#macro tform class='' class2='' action='' method='post' name='' id='' role='form' params=''>
-	<form <#if class!=''>class="${class}"</#if><#if id!=''> id="${id}"</#if> action="${action}" method="${method}" <#if name!=''> name="${name}"</#if><#if role!=''> role="${role}"</#if><#if params!=''> ${params}</#if>>
-		<#nested>
-	</form>
+<#-- FORM -->
+<#-- type: inline/horizontal/form -->
+<#macro tform type='horizontal' class='' action='' method='post' name='' id='' role='form' params=''>
+<#switch type>
+    <#case 'horizontal'>
+    <#assign typeClass = 'form-horizontal'>
+    <#break>
+
+    <#case 'inline'>
+    <#assign typeClass = 'form-inline'>
+    <#break>
+    
+    <#default>
+    <#assign typeClass = 'form'>
+</#switch>
+
+<form class="${typeClass} ${class}"<#if id!=''> id="${id}"</#if><#if action!=''> action="${action}"</#if><#if method!=''> method="${method}"</#if><#if name!=''> name="${name}"</#if><#if role!=''> role="${role}"</#if><#if params!=''> ${params}</#if>>
+	<#nested>
+</form>
 </#macro>
+
 
 <#-- FORM ELEMENT STRUCTURE 												  								-->
 <#-- formStyle values: horizontal/empty/inline Default is horizontal 	-->
@@ -717,8 +731,9 @@
 
 <#-- BTN GROUP -->
 <#-- size: sm/empty/lg -->
-<#macro btnGroup size='' class='' id='' params='' ariaLabel=''>
-<div class="btn-group<#if size!=''> btn-group-${size}</#if><#if class!=''> ${class}</#if>" role="group"<#if ariaLabel!=''> aria-label="${ariaLabel}"</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<#-- align: left/center/right -->
+<#macro btnGroup align='' size='' class='' id='' params='' ariaLabel=''>
+<div class="btn-group<#if size!=''> btn-group-${size}</#if><#if class!=''> ${class}</#if> <#if align='right'>pull-right</#if>" role="group"<#if ariaLabel!=''> aria-label="${ariaLabel}"</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 	<#nested>
 </div>
 </#macro>
