@@ -49,7 +49,7 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * EditorAdminDashboardComponent
  */
-public class EditorAdminDashboardComponent  extends AdminDashboardComponent
+public class EditorAdminDashboardComponent extends AdminDashboardComponent
 {
     private static final String MARK_LIST_EDITORS_BACK_OFFICE = "listEditorsBackOffice";
     private static final String MARK_LIST_EDITORS_FRONT_OFFICE = "listEditorsFrontOffice";
