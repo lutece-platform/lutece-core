@@ -66,6 +66,8 @@ import javax.validation.ConstraintViolation;
  */
 public abstract class AdminFeaturesPageJspBean implements Serializable
 {
+    protected static final String JSP_TECHNICAL_ADMINISTRATION = "jsp/admin/AdminTechnicalMenu.jsp";
+    
     /**
      * Serial version UID
      */

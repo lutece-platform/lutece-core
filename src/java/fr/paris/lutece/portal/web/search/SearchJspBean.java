@@ -42,6 +42,7 @@ import fr.paris.lutece.portal.service.rbac.RBACService;
 import fr.paris.lutece.portal.service.search.SearchResourceIdService;
 import fr.paris.lutece.portal.service.search.SearchService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
+import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
 import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.util.ReferenceItem;
@@ -69,7 +70,7 @@ public class SearchJspBean extends AdminFeaturesPageJspBean
     private static final String EMPTY_STRING = "";
 
     // Jsp url
-    private static final String JSP_MANAGE_SEARCH = "../AdminTechnicalMenu.jsp?#search";
+    private static final String JSP_MANAGE_SEARCH = JSP_TECHNICAL_ADMINISTRATION + "?#search";
 
     // Parameters
     private static final String PARAMETER_CANCEL = "cancel";
@@ -147,6 +148,6 @@ public class SearchJspBean extends AdminFeaturesPageJspBean
             SearchParameterHome.update( param );
         }
 
-        return JSP_MANAGE_SEARCH;
+        return AppPathService.getBaseUrl( request ) + JSP_MANAGE_SEARCH;
     }
 }
