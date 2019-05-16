@@ -137,7 +137,7 @@ public class XslExportJspBean extends PluginAdminPageJspBean
     private static final String PROPERTY_CREATE_XSL_EXPORT_TITLE = "portal.xsl.create_xsl_export.title";
 
     // Jsp Definition
-    private static final String JSP_MANAGE_XSL_EXPORT = "jsp/admin/AdminTechnicalMenu.jsp?#xslexport";
+    private static final String JSP_MANAGE_XSL_EXPORT = JSP_TECHNICAL_ADMINISTRATION + "?#xslexport";
     private static final String JSP_DO_REMOVE_XSL_EXPORT = "jsp/admin/xsl/DoRemoveXslExport.jsp";
 
 
