@@ -11,7 +11,7 @@
 
 	<@accordionBody id=id class=childClass expanded=expanded>
 		<@tform method='post' name='password_global_security' action='jsp/admin/user/DoModifyDefaultUserSecurityParameterValues.jsp#footer'>
-			<input type="hidden" name="token" value="${token}">
+			<input type="hidden" name="token" value="${token!''}">
 					<@fieldSet>
 						<@formGroup labelKey='#i18n{portal.users.manage_advanced_parameters.labelBannedDomainNames}' labelFor='banned_domain_names'>
 							<@input type='textarea' name='banned_domain_names' id='banned_domain_names'>${banned_domain_names?html}</@input>
