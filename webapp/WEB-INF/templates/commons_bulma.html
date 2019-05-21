@@ -14,6 +14,7 @@
 
 <#macro coreAdminCSSLinks>
 <link href="css/admin/style/bulma/bulma.min.css"  rel="stylesheet" > <!-- provided by core -->
+<link href="css/admin/style/bulma/bulma-accordion.min.css"  rel="stylesheet" > <!-- provided by core -->
 <link href="css/admin/jquery-ui.min.css"  rel="stylesheet" > <!-- provided by core -->
 <link href="css/admin/jquery-ui.structure.min.css"  rel="stylesheet" > <!-- provided by core -->
 <link href="css/admin/jquery-ui.theme.min.css"  rel="stylesheet" > <!-- provided by core -->
@@ -24,6 +25,7 @@
 </#macro>
 
 <#macro coreAdminJSLinks>
+<script src="js/admin/style/bulma/bulma-accordion.min.js"></script> <!-- provided by core -->
 <script src="js/jquery/jquery-ui.min.js"></script> <!-- provided by core -->
 <script src="js/admin.js"></script> <!-- provided by core -->
 </#macro>
@@ -961,20 +963,24 @@ and is kept only for backwards compatibility
 <#-- The accordionContainer is the container for accordionPanel, which itself is the container for accordionHeader and accordionBody -->
 <#-- The childId argument in accordionPanel is meant to be used in the two sub-macros: accordionHeader and accordionBody -->
 <#macro accordionContainer id='' params=''>
-<div class="box-group"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<div class="accordions" <#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 	<#assign parentId = id>
 	<#nested>
 </div>
+<script type='text/javascript'>
+    var accordions = bulmaAccordion.attach();     
+</script>
+    
 </#macro>
 
 <#macro accordionPanel color='' collapsed=true childId='' id='' params=''>
-<div class="panel box box-${color}"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<div class="accordion"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 	<#if collapsed = true>
-		<#assign aClass = 'collapsed'>
+		<#assign aClass = ''>
 		<#assign expanded = 'false'>
 		<#assign childClass = 'panel-collapse collapse'>
 	<#else>
-		<#assign aClass = ''>
+		<#assign aClass = 'is-active'>
 		<#assign expanded = 'true'>
 		<#assign childClass = 'panel-collapse collapse in'>
 	</#if>
@@ -986,12 +992,8 @@ and is kept only for backwards compatibility
 <#-- ACCORDION ELEMENT --> 
 <#-- The boxTools parameter is unused, kept for backwards compatibility -->
 <#macro accordionHeader title='' parentId=parentId childId=childId boxTools=false id='' params=''>
-<div class="box-header with-border"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
-	<h2 class="title">
-		<a class="${aClass}" data-toggle="collapse" data-parent="#${parentId}" href="#${childId}" aria-expanded="${expanded}">
-			${title}
-		</a>
-	</h2>
+<div class="accordion-header toggle has-background-light"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+	<h2 class="title has-text-primary">${title}</h2>
 	<#local nested><#nested></#local>
 	<#if nested?has_content>
 	<div class="is-pulled-right">
@@ -1002,12 +1004,14 @@ and is kept only for backwards compatibility
 </#macro>
 
 <#macro accordionBody id=childId class=childClass expanded=expanded params=''>
-<div id="${id}" class="${class}" aria-expanded="${expanded}"<#if params!=''> ${params}</#if>>
+<div id="${id}" class="accordion-body ${class}" aria-expanded="${expanded}"<#if params!=''> ${params}</#if>>
 	<@boxBody>
 		<#nested>
 	</@boxBody>
 </div>
 </#macro>
+
+
 
 <#macro progressBar description='' id='' params=''>
 <div class="progress"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
