@@ -33,7 +33,6 @@
  */
 package fr.paris.lutece.portal.web.user.attribute;
 
-import fr.paris.lutece.portal.business.user.attribute.AttributeType;
 import fr.paris.lutece.portal.business.user.attribute.IAttribute;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.message.AdminMessage;
@@ -43,7 +42,9 @@ import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.user.attribute.AttributeService;
 import fr.paris.lutece.portal.service.user.attribute.AttributeTypeService;
 import fr.paris.lutece.portal.service.util.AppLogService;
+import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
+import fr.paris.lutece.portal.web.dashboard.AdminDashboardJspBean;
 import fr.paris.lutece.util.html.HtmlTemplate;
 
 import org.apache.commons.lang.StringUtils;
@@ -78,52 +79,20 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
     private static final String PARAMETER_ID_ATTRIBUTE = "id_attribute";
 
     // MARKS
-    private static final String MARK_ATTRIBUTE_TYPES_LIST = "attribute_types_list";
     private static final String MARK_ATTRIBUTE_TYPE = "attribute_type";
-    private static final String MARK_ATTRIBUTES_LIST = "attributes_list";
     private static final String MARK_ATTRIBUTE = "attribute";
     private static final String MARK_ATTRIBUTE_FIELDS_LIST = "attribute_fields_list";
 
     // PROPERTIES
-    private static final String PROPERTY_MANAGE_ATTRIBUTES_PAGETITLE = "portal.users.manage_attributes.pageTitle";
     private static final String PROPERTY_MESSAGE_CONFIRM_REMOVE_ATTRIBUTE = "portal.users.manage_attributes.message.confirmRemoveAttribute";
-
-    // TEMPLATES
-    private static final String TEMPLATE_MANAGE_ATTRIBUTES = "admin/user/attribute/manage_attributes.html";
 
     // JSP
     private static final String JSP_URL_REMOVE_ATTRIBUTE = "jsp/admin/user/attribute/DoRemoveAttribute.jsp";
-    private static final String JSP_MANAGE_ATTRIBUTES = "ManageAttributes.jsp";
+    private static final String JSP_MANAGE_ATTRIBUTES = JSP_TECHNICAL_ADMINISTRATION + "?#attributes_management";
     private static final String JSP_MODIFY_ATTRIBUTE = "ModifyAttribute.jsp";
     private static final AttributeService _attributeService = AttributeService.getInstance( );
     private static final AttributeTypeService _attributeTypeService = AttributeTypeService.getInstance( );
 
-    /**
-     * Get list of user attributes
-     * 
-     * @param request
-     *            HttpServletRequest
-     * @return list of attributes
-     */
-    public String getManageAttributes( HttpServletRequest request )
-    {
-        setPageTitleProperty( PROPERTY_MANAGE_ATTRIBUTES_PAGETITLE );
-
-        List<IAttribute> listAttributes = _attributeService.getAllAttributesWithoutFields( getLocale( ) );
-
-        // ATTRIBUTE TYPES
-        List<AttributeType> listAttributeTypes = _attributeTypeService.getAttributeTypes( getLocale( ) );
-
-        HtmlTemplate template;
-        Map<String, Object> model = new HashMap<String, Object>( );
-        model.put( MARK_ATTRIBUTES_LIST, listAttributes );
-        model.put( MARK_ATTRIBUTE_TYPES_LIST, listAttributeTypes );
-        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MANAGE_ATTRIBUTES ) );
-
-        template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_ATTRIBUTES, getLocale( ), model );
-
-        return getAdminPage( template.getHtml( ) );
-    }
 
     /**
      * Get user attribute creation interface
@@ -161,7 +130,7 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
 
         if ( attribute == null )
         {
-            return getManageAttributes( request );
+            return AppPathService.getBaseUrl( request ) + JSP_MANAGE_ATTRIBUTES;
         }
 
         setPageTitleProperty( attribute.getPropertyCreatePageTitle( ) );
@@ -220,7 +189,7 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
 
             if ( attribute == null )
             {
-                return getManageAttributes( request );
+                return AppPathService.getBaseUrl( request ) + JSP_MANAGE_ATTRIBUTES;
             }
 
             String strError = attribute.setAttributeData( request );
@@ -242,7 +211,7 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
             }
         }
 
-        return JSP_MANAGE_ATTRIBUTES;
+        return AppPathService.getBaseUrl( request ) + JSP_MANAGE_ATTRIBUTES;
     }
 
     /**
@@ -277,7 +246,7 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
         }
 
         // Otherwise, we redirect the user to the attribute management interface
-        return getManageAttributes( request );
+        return AppPathService.getBaseUrl( request ) + JSP_MANAGE_ATTRIBUTES;
     }
 
     /**
@@ -322,7 +291,7 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
             }
         }
 
-        return JSP_MANAGE_ATTRIBUTES;
+        return AppPathService.getBaseUrl( request ) + JSP_MANAGE_ATTRIBUTES;
     }
 
     /**
@@ -367,7 +336,7 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
             _attributeService.removeAttribute( nIdAttribute );
         }
 
-        return JSP_MANAGE_ATTRIBUTES;
+        return AppPathService.getBaseUrl( request ) + JSP_MANAGE_ATTRIBUTES;
     }
 
     /**
@@ -385,7 +354,7 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
 
         if ( StringUtils.isNotBlank( strIdAttribute ) && StringUtils.isNumeric( strIdAttribute ) )
         {
-            if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_MANAGE_ATTRIBUTES ) )
+            if ( !SecurityTokenService.getInstance( ).validate( request, AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) )
             {
                 throw new AccessDeniedException( "Invalid security token" );
             }
@@ -414,7 +383,7 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
             _attributeService.updateAttribute( currentAttribute );
         }
 
-        return JSP_MANAGE_ATTRIBUTES;
+        return AppPathService.getBaseUrl( request ) + JSP_MANAGE_ATTRIBUTES;
     }
 
     /**
@@ -432,7 +401,7 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
 
         if ( StringUtils.isNotBlank( strIdAttribute ) && StringUtils.isNumeric( strIdAttribute ) )
         {
-            if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_MANAGE_ATTRIBUTES ) )
+            if ( !SecurityTokenService.getInstance( ).validate( request, AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) )
             {
                 throw new AccessDeniedException( "Invalid security token" );
             }
@@ -461,6 +430,6 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
             _attributeService.updateAttribute( currentAttribute );
         }
 
-        return JSP_MANAGE_ATTRIBUTES;
+        return AppPathService.getBaseUrl( request ) + JSP_MANAGE_ATTRIBUTES;
     }
 }

@@ -1,10 +1,12 @@
 <@row>
-	<@columns>
-		<@box color='success'>
-			<@boxHeader title='#i18n{portal.users.adminDashboard.pageTitle}' />
-			<@boxBody>
-				<#include "advanced_parameters.html" />
-			</@boxBody>
-    	</@box>
+    <@columns>
+      	<@accordionContainer id='users_advanced_parameters'>
+            <@accordionPanel color='success' collapsed=true childId='users_advanced_parameters_management'>
+                <@accordionHeader title='#i18n{portal.users.adminDashboard.pageTitle}' />
+                <@accordionBody>
+                    <#include "advanced_parameters.html" />
+                </@accordionBody>
+            </@accordionPanel>
+        </@accordionContainer>
 	</@columns>
 </@row>

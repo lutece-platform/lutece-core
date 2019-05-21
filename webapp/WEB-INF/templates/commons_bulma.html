@@ -764,7 +764,17 @@ and is kept only for backwards compatibility
 <#else>
     <#assign groupClass = class>
 </#if>
-<div class="field is-${formStyle} <#if groupStyle!=''> has-${groupStyle} has-feedback</#if><#if groupClass!=''> ${groupClass}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+
+<#switch formStyle>
+    <#case 'horizontal'>
+        <#assign classFormStyle='is-horizontal'>
+        <#break>
+    <#default>
+        <#assign classFormStyle=''>
+        <#break>
+</#switch>
+
+<div class="field ${classFormStyle} <#if groupStyle!=''> has-${groupStyle} has-feedback</#if><#if groupClass!=''> ${groupClass}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 	<#if rows=1>
 		<#if labelKey!='' && formStyle='horizontal'>
 			<#assign labelClass = "field-label">

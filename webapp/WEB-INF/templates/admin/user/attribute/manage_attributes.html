@@ -1,23 +1,24 @@
-<@row>
-	<@columns>
-		<@box color='success'>
-			<@boxHeader title='#i18n{portal.users.manage_attributes.pageTitle}' boxTools=true>
+<@accordionPanel childId='attributes_management' color='success'>
+	<@accordionHeader title='#i18n{portal.users.manage_attributes.pageTitle}' boxTools=true />
+
+	<@accordionBody id=id class=childClass expanded=expanded>
 				<@tform class='form-inline' method='post' action='jsp/admin/user/attribute/CreateAttribute.jsp'>
-					<@formGroup labelKey='#i18n{portal.users.manage_attributes.addNewAttributes}&#160;' labelFor='attribute_type_class_name' formStyle='inline'>
-						<@inputGroup>
-							<@select id='attribute_type_class_name' name='attribute_type_class_name'>
-								<#list attribute_types_list as attribute_type>
-									<option value="${attribute_type.className}">${attribute_type.name}</option>
-								</#list>
-							</@select>
-							<@inputGroupItem>
-							<@button type='submit' buttonIcon='plus' title='#i18n{portal.users.manage_attributes.buttonAdd}' showTitle=false />
-							</@inputGroupItem>
-						</@inputGroup>
+					<@formGroup labelKey='&#160;' labelFor='attribute_type_class_name' formStyle='inline'>
+                        <@btnGroup align='right'>
+                            <@inputGroup>
+                                <@select id='attribute_type_class_name' name='attribute_type_class_name'>
+                                    <#list attribute_types_list as attribute_type>
+                                        <option value="${attribute_type.className}">${attribute_type.name}</option>
+                                    </#list>
+                                </@select>
+                                <@inputGroupItem>
+                                <@button type='submit' buttonIcon='plus' title='#i18n{portal.users.manage_attributes.addNewAttributes} ' showTitle=true />
+                                    
+                                </@inputGroupItem>
+                            </@inputGroup>
+                        </@btnGroup>
 					</@formGroup>
 				</@tform>
-			</@boxHeader>
-			<@boxBody>
 				<@table>
 					<tr>
 						<th>#i18n{portal.users.manage_attributes.columnTitle}</th>
@@ -78,7 +79,5 @@
 					</tr>
 					</#list>
 				</@table>
-			</@boxBody>
-		</@box>
-	</@columns>
-</@row>
+		</@accordionBody>
+	</@accordionPanel>

@@ -65,6 +65,8 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class AdminDashboardJspBean extends AdminFeaturesPageJspBean
 {
+    public static final String TEMPLATE_MANAGE_DASHBOARDS = "/admin/dashboard/admin/manage_dashboards.html";
+
     // Constants
     public static final String RIGHT_MANAGE_ADMINDASHBOARD = "CORE_ADMINDASHBOARD_MANAGEMENT";
 
@@ -88,7 +90,6 @@ public class AdminDashboardJspBean extends AdminFeaturesPageJspBean
 
     // Templates
     private static final String TEMPLATE_VIEW_DASHBOARDS = "/admin/dashboard/admin/view_dashboards.html";
-    private static final String TEMPLATE_MANAGE_DASHBOARDS = "/admin/dashboard/admin/manage_dashboards.html";
 
     // Jsp
     private static final String JSP_MANAGE_DASHBOARDS = "ManageAdminDashboards.jsp";
