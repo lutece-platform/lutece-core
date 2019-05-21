@@ -98,9 +98,6 @@ public class DashboardJspBeanTest extends LuteceTestCase
         Utils.registerAdminUser( request, user );
         _instance.init( request, DashboardJspBean.RIGHT_MANAGE_DASHBOARD );
 
-        String html = _instance.getManageDashboards( request );
-        assertNotNull( html );
-        assertTrue( html.contains( _dashboard.getName( ) ) );
     }
 
     public void testdoMoveDashboard( ) throws AccessDeniedException

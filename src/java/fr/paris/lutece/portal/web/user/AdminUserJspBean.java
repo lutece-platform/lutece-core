@@ -151,7 +151,6 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     private static final String TEMPLATE_MODIFY_USER_WORKGROUPS = "admin/user/modify_user_workgroups.html";
     private static final String TEMPLATE_ADMIN_EMAIL_CHANGE_STATUS = "admin/user/user_email_change_status.html";
     private static final String TEMPLATE_NOTIFY_USER = "admin/user/notify_user_account_created.html";
-    private static final String TEMPLATE_MANAGE_ADVANCED_PARAMETERS = "admin/user/manage_advanced_parameters.html";
     private static final String TEMPLATE_ADMIN_EMAIL_FORGOT_PASSWORD = "admin/admin_email_forgot_password.html";
     private static final String TEMPLATE_FIELD_ANONYMIZE_ADMIN_USER = "admin/user/field_anonymize_admin_user.html";
     private static final String TEMPLATE_ACCOUNT_LIFE_TIME_EMAIL = "admin/user/account_life_time_email.html";
@@ -817,8 +816,8 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         Map<String, Object> model = new HashMap<String, Object>( );
         HtmlTemplate template;
 
-        AdminUser user = null;
-        String strTemplateUrl = "";
+        AdminUser user;
+        String strTemplateUrl;
 
         // creation in no-module mode : load form with password modification field and login modification field
         if ( AdminAuthenticationService.getInstance( ).isDefaultModuleUsed( ) )
@@ -1597,7 +1596,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         model.put( MARK_ALL_WORKSGROUP_LIST, assignableWorkspaces );
         model.put( MARK_CAN_DELEGATE, String.valueOf( bDelegateWorkgroups ) );
         model.put( MARK_ITEM_NAVIGATOR, _itemNavigator );
-        model.put( MARK_DEFAULT_MODE_USED, Boolean.valueOf( AdminAuthenticationService.getInstance( ).isDefaultModuleUsed( ) ) );
+        model.put( MARK_DEFAULT_MODE_USED, AdminAuthenticationService.getInstance( ).isDefaultModuleUsed( ) );
         model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TOKEN_TECHNICAL_ADMIN ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_USER_WORKGROUPS, getLocale( ), model );
@@ -1619,7 +1618,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         boolean bDelegateRights = Boolean.valueOf( request.getParameter( PARAMETER_DELEGATE_RIGHTS ) );
 
         String strSelectAll = request.getParameter( PARAMETER_SELECT );
-        boolean bSelectAll = ( ( strSelectAll != null ) && strSelectAll.equals( PARAMETER_SELECT_ALL ) ) ? true : false;
+        boolean bSelectAll = ( ( strSelectAll != null ) && strSelectAll.equals( PARAMETER_SELECT_ALL ) );
 
         setPageTitleProperty( bDelegateRights ? PROPERTY_DELEGATE_USER_RIGHTS_PAGETITLE : PROPERTY_MODIFY_USER_RIGHTS_PAGETITLE );
 
@@ -1671,7 +1670,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         model.put( MARK_CAN_DELEGATE, String.valueOf( bDelegateRights ) );
         model.put( MARK_SELECT_ALL, bSelectAll );
         model.put( MARK_ITEM_NAVIGATOR, _itemNavigator );
-        model.put( MARK_DEFAULT_MODE_USED, Boolean.valueOf( AdminAuthenticationService.getInstance( ).isDefaultModuleUsed( ) ) );
+        model.put( MARK_DEFAULT_MODE_USED, AdminAuthenticationService.getInstance( ).isDefaultModuleUsed( ) );
         model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TOKEN_TECHNICAL_ADMIN ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_USER_RIGHTS, getLocale( ), model );
@@ -1711,9 +1710,9 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
         if ( arrayRights != null )
         {
-            for ( int i = 0; i < arrayRights.length; i++ )
+            for( String strRight : arrayRights )
             {
-                AdminUserHome.createRightForUser( nUserId, arrayRights [i] );
+                AdminUserHome.createRightForUser( nUserId, strRight );
             }
         }
 
@@ -1723,11 +1722,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             {
                 AdminAuthenticationService.getInstance( ).registerUser( request, user );
             }
-            catch( AccessDeniedException e )
-            {
-                AppLogService.error( e.getMessage( ), e );
-            }
-            catch( UserNotSignedException e )
+            catch( AccessDeniedException | UserNotSignedException e )
             {
                 AppLogService.error( e.getMessage( ), e );
             }
@@ -1838,7 +1833,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         model.put( MARK_USER_ROLE_LIST, roleList );
         model.put( MARK_ALL_ROLE_LIST, assignableRoleList );
         model.put( MARK_ITEM_NAVIGATOR, _itemNavigator );
-        model.put( MARK_DEFAULT_MODE_USED, Boolean.valueOf( AdminAuthenticationService.getInstance( ).isDefaultModuleUsed( ) ) );
+        model.put( MARK_DEFAULT_MODE_USED, AdminAuthenticationService.getInstance( ).isDefaultModuleUsed( ) );
         model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TOKEN_TECHNICAL_ADMIN ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_USER_ROLES, getLocale( ), model );
@@ -1877,9 +1872,9 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
         if ( arrayRoles != null )
         {
-            for ( int i = 0; i < arrayRoles.length; i++ )
+            for( String strRole : arrayRoles )
             {
-                AdminUserHome.createRoleForUser( nUserId, arrayRoles [i] );
+                AdminUserHome.createRoleForUser( nUserId, strRole );
             }
         }
 
@@ -1943,7 +1938,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     {
         ReferenceList workgroups = AdminWorkgroupHome.getUserWorkgroups( user1 );
 
-        if ( workgroups.size( ) == 0 )
+        if ( workgroups.isEmpty() )
         {
             return true;
         }
@@ -1959,30 +1954,6 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         return false;
     }
 
-    /**
-     * Build the advanced parameters management
-     * 
-     * @param request
-     *            HttpServletRequest
-     * @return The options for the advanced parameters
-     */
-    public String getManageAdvancedParameters( HttpServletRequest request )
-    {
-        if ( !RBACService.isAuthorized( AdminUser.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID, AdminUserResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS,
-                getUser( ) ) )
-        {
-            return getManageAdminUsers( request );
-        }
-
-        setPageTitleProperty( PROPERTY_MANAGE_ADVANCED_PARAMETERS_PAGETITLE );
-
-        Map<String, Object> model = AdminUserService.getManageAdvancedParameters( getUser( ) );
-        model.put( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TOKEN_TECHNICAL_ADMIN ) );
-
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_ADVANCED_PARAMETERS, getUser( ).getLocale( ), model );
-
-        return getAdminPage( template.getHtml( ) );
-    }
 
     /**
      * Modify the default user parameter values.
@@ -2451,7 +2422,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     public String reactivateAccount( HttpServletRequest request )
     {
         AdminUser user = AdminUserHome.findByPrimaryKey( AdminUserService.getAdminUser( request ).getUserId( ) );
-        String strUrl = StringUtils.EMPTY;
+        String strUrl;
         int nbDaysBeforeFirstAlert = AdminUserService.getIntegerSecurityParameter( PARAMETER_TIME_BEFORE_ALERT_ACCOUNT );
         Timestamp firstAlertMaxDate = new Timestamp( new java.util.Date( ).getTime( ) + DateUtil.convertDaysInMiliseconds( nbDaysBeforeFirstAlert ) );
 

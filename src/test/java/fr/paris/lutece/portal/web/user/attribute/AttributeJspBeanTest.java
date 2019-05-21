@@ -441,17 +441,6 @@ public class AttributeJspBeanTest extends LuteceTestCase
         }
     }
 
-    public void testGetManageAttributes( ) throws PasswordResetException, AccessDeniedException
-    {
-        MockHttpServletRequest request = new MockHttpServletRequest( );
-
-        Utils.registerAdminUserWithRigth( request, new AdminUser( ), "CORE_USERS_MANAGEMENT" );
-        AttributeJspBean instance = new AttributeJspBean( );
-        instance.init( request, "CORE_USERS_MANAGEMENT" );
-
-        assertNotNull( instance.getManageAttributes( request ) );
-    }
-
     public void testDoMoveDownAttribute( ) throws PasswordResetException, AccessDeniedException
     {
         List<IAttribute> listAttributes = AttributeService.getInstance( ).getAllAttributesWithoutFields( Locale.FRANCE );
