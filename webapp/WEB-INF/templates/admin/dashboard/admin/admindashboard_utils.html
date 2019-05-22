@@ -1,0 +1,16 @@
+
+<#macro adminDashboardPanel title='' parentId='' childId='' icon=''>
+<@row>
+  <@columns>
+      	<@accordionContainer id=parentId>
+		<@accordionPanel color='success' collapsed=true childId=childId >
+			<@accordionHeader title=title headerIcon=icon >
+            </@accordionHeader>
+			<@accordionBody>
+<#nested>
+            </@accordionBody>    
+		</@accordionPanel>
+        </@accordionContainer>
+	</@columns>
+</@row>
+</#macro>

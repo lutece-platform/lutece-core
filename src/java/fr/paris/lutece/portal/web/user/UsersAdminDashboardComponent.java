@@ -59,7 +59,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class UsersAdminDashboardComponent extends AdminDashboardComponent
 {
-    private static final String TEMPLATE_ADMIN_DASHBOARD = "admin/user/user_admindashboard.html";
+    private static final String TEMPLATE_ADMIN_DASHBOARD = "admin/dashboard/admin/user_admindashboard.html";
 
     private static final String EMPTY_STRING = "";
 

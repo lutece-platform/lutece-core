@@ -53,7 +53,7 @@ import javax.servlet.http.HttpServletRequest;
 public class SearchAdminDashboardComponent extends AdminDashboardComponent
 {
     private static final String EMPTY_STRING = "";
-    private static final String TEMPLATE_ADMIN_DASHBOARD = "admin/search/search_admindashboard.html";
+    private static final String TEMPLATE_ADMIN_DASHBOARD = "admin/dashboard/admin/search_admindashboard.html";
 
     /**
      * {@inheritDoc}

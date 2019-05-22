@@ -1,9 +1,7 @@
-<@accordionPanel childId='anonymization_parameters' color='success'>
-	<@accordionHeader title='#i18n{portal.users.anonymize_user.titleAnonymizeUser}' boxTools=true headerIcon='user-secret' />
-	
+<#include "admindashboard_utils.html">
 
-	<@accordionBody id=id class=childClass expanded=expanded>
-		<@tform role='form' method='post' name='anonymize_user' action='jsp/admin/user/DoChangeFieldAnonymizeAdminUsers.jsp'>
+<@adminDashboardPanel title='#i18n{portal.users.anonymize_user.titleAnonymizeUser}' icon='user-secret' parentId='advanced_parameters' childId='anonymization_parameters' >
+	<@tform role='form' method='post' name='anonymize_user' action='jsp/admin/user/DoChangeFieldAnonymizeAdminUsers.jsp'>
 
 		<input type="hidden" name="token" value="${token}">
             <@fieldSet legend='#i18n{portal.users.create_user.labelIdentity}'> 
@@ -33,5 +31,4 @@
 		</#if>
        	<@button type='submit' buttonIcon='check' title='#i18n{portal.util.labelModify}'  size='' />
 	</@tform>
-	</@accordionBody>
-</@accordionPanel>
+</@adminDashboardPanel>    

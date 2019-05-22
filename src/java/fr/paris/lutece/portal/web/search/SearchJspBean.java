@@ -45,6 +45,7 @@ import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
 import fr.paris.lutece.portal.web.constants.Messages;
+import fr.paris.lutece.portal.web.dashboard.AdminDashboardJspBean;
 import fr.paris.lutece.util.ReferenceItem;
 
 import org.apache.commons.lang.StringUtils;
@@ -80,11 +81,6 @@ public class SearchJspBean extends AdminFeaturesPageJspBean
     private static final String PARAMETER_TAG_FILTER = "tag_filter";
     private static final String PARAMETER_TYPE_FILTER = "type_filter";
 
-
-    // Template
-    private static final String TEMPLATE_ADMIN_DASHBOARD = "admin/search/search_admindashboard.html";
-
-
     /**
      * Processes the data capture form of advanced parameters
      * 
@@ -102,7 +98,7 @@ public class SearchJspBean extends AdminFeaturesPageJspBean
             throw new AccessDeniedException( "User " + getUser( ) + " is not authorized to permission "
                     + SearchResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS );
         }
-        if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_ADMIN_DASHBOARD ) )
+        if ( !SecurityTokenService.getInstance( ).validate( request, AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) )
         {
             throw new AccessDeniedException( "Invalid security token" );
         }
