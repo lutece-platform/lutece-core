@@ -1364,9 +1364,11 @@ and is kept only for backwards compatibility
 	  <header class="main-header" role="banner" data-menu="${menu_pos}">
 		<nav class="navbar navbar-fixed-top" role="navigation">
 			<div class="navbar-header">
-			  <a href="jsp/site/Portal.jsp" title="#i18n{portal.users.admin_header.title.viewSite} ${site_name}" target="_blank" class="navbar-brand">
-				<img src="#dskey{portal.site.site_property.logo_url}" class="img-responsive"  title="#i18n{portal.users.admin_header.title.viewSite} ${site_name}" alt="${site_name}"><b> <#if site_name?length &gt; 18> ${site_name?substring(0,16)}... <#else> ${site_name}</#if></b>
-			  </a>
+                <div class="nav-item">
+                    <a href="jsp/site/Portal.jsp" title="#i18n{portal.users.admin_header.title.viewSite} ${site_name}" target="_blank" class="navbar-brand">
+                      <img src="#dskey{portal.site.site_property.logo_url}" class="img-responsive"  title="#i18n{portal.users.admin_header.title.viewSite} ${site_name}" alt="${site_name}"><b> <#if site_name?length &gt; 18> ${site_name?substring(0,16)}... <#else> ${site_name}</#if></b>
+                    </a>
+                </div>
 			  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
 				<i class="fa fa-bars"></i>
 			  </button>
@@ -1408,11 +1410,13 @@ and is kept only for backwards compatibility
 				<li class="home">
 				  <a href="${admin_url}" title="#i18n{portal.users.admin_header.homePage}"><i class="fa fa-home"></i></a>
 				</li>
-                <li>
-                    <a class="home" href="jsp/admin/AdminTechnicalMenu.jsp" title="#i18n{portal.admindashboard.view_dashboards.title}">
+                <#if user.userLevel == 0>
+                <li class="home">
+                    <a href="jsp/admin/AdminTechnicalMenu.jsp" title="#i18n{portal.admindashboard.view_dashboards.title}">
                           <i class="fa fa-cog"></i>
                     </a>
 				</li>
+                </#if>
 				<li class="dropdown user-menu">
 				  <a href="#" class="dropdown-toggle" data-toggle="dropdown" id="dLabelUserHeader">
 					<#if adminAvatar> 
@@ -1424,9 +1428,9 @@ and is kept only for backwards compatibility
 				  </a>
 					<#if userMenuItems?has_content>   
 						<ul class="dropdown-menu" role="menu" aria-labelledby="dLabelUserHeader">
-									<#list userMenuItems as item>
-											<li class="${item.itemClass?html}">${item.content}</li>
-									</#list>
+                            <#list userMenuItems as item>
+                                <li class="${item.itemClass?html}">${item.content}</li>
+                            </#list>
 						</ul>
 					</#if>
 				</li>
@@ -1467,7 +1471,7 @@ and is kept only for backwards compatibility
 <nav id="footer" class="navbar navbar-default" role="navigation">
 	<div class="navbar-text navbar-right">
 		<a class="navbar-link" href="http://fr.lutece.paris.fr" target="lutece" title="#i18n{portal.site.portal_footer.labelPortal}">
-			<img src="images/poweredby.jpg" alt="#i18n{portal.site.portal_footer.labelMadeBy}">
+			<img src="images/poweredby.png" alt="#i18n{portal.site.portal_footer.labelMadeBy}">
 			<small>version ${version}</small>
 		</a>
 	</div>
@@ -1544,7 +1548,7 @@ enableBSToppltip: false
 			<#nested>
 			<p class='text-center'>
 				<@aButton href='http://fr.lutece.paris.fr' params='target="_blank"' title='#i18n{portal.site.portal_footer.labelPortal}' showTitle=false color='secondary'>
-					<img src="images/poweredby.jpg" class="thumbnails" alt="logo lutece" title="Lutece">
+					<img src="images/poweredby.png" class="thumbnails" alt="logo lutece" title="Lutece">
 				</@aButton>
 			</p>
 		</div>

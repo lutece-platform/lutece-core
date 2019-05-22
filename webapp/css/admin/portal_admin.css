@@ -72,6 +72,7 @@ body > .header .navbar span#zone4{ min-width:180px;display:inline-block;}
 /* Header */
 .home{background-color:#fff !important;color:#fff;margin:0 0 0 0;display:block;}
 .home>a>i{color:#000 !important;}
+.user-image{margin-right: 5px}
 
 /* Dashboard */
 div.widget .box-body{max-height: 350px; overflow: overflow-hidden}

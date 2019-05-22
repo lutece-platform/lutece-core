@@ -1006,11 +1006,13 @@
 							<i class="fas fa-home"></i>
 						</a>
 					</li>
+                    <#if user.userLevel == 0>
                     <li class="nav-item home">
                         <a class="nav-link" href="jsp/admin/AdminTechnicalMenu.jsp" title="#i18n{portal.admindashboard.view_dashboards.title}">
                               <i class="fa fa-cog"></i>
                         </a>
                     </li>
+                    </#if>
 					<li class="nav-item dropdown user-menu">
 						<a href="${admin_url}#user-menu" class="nav-link dropdown-toggle" data-toggle="dropdown" id="dLabelUserHeader">
 							<#if adminAvatar> 
@@ -1031,7 +1033,7 @@
 					<#if admin_logout_url?has_content>
 						<li class="nav-item">
 							<a class="nav-link" href="${admin_logout_url}" title="#i18n{portal.users.admin_header.deconnectionLink}">
-								<i class="fa fa-power-off fa-fw"></i> <span class="visible-xs">#i18n{portal.users.admin_header.deconnectionLink}</span>
+								<i class="fa fa-power-off fa-fw"></i>
 							</a>
 						</li>
 					</#if>
@@ -1054,7 +1056,7 @@
 		<nav id="footer" class="navbar navbar-default" role="navigation">
 			<div class="navbar-text navbar-right">
 				<a class="navbar-link" href="http://fr.lutece.paris.fr" target="lutece" title="#i18n{portal.site.portal_footer.labelPortal}">
-					<img src="images/poweredby.jpg" alt="#i18n{portal.site.portal_footer.labelMadeBy}">
+					<img src="images/poweredby.png" alt="#i18n{portal.site.portal_footer.labelMadeBy}">
 					<small>version ${version}</small>
 				</a>
 			</div>
@@ -1120,7 +1122,7 @@
 				<footer>
 					<p class="text-center">
 						<@aButton href='http://fr.lutece.paris.fr' params='target="_blank"' title='#i18n{portal.site.portal_footer.labelPortal}' showTitle=false color='link'>
-						<img src="images/poweredby.jpg" class="thumbnails" alt="logo lutece" title="Lutece">
+						<img src="images/poweredby.png" class="thumbnails" alt="logo lutece" title="Lutece">
 						</@aButton>
 					</p>
 				</footer>
@@ -1189,7 +1191,7 @@ $(function() {
 				${text!}
 				<#nested>
 				<p class="text-center">
-					<img src="images/poweredby.jpg" class="thumbnails" alt="logo lutece" title="Lutece">
+					<img src="images/poweredby.png" class="thumbnails" alt="logo lutece" title="Lutece">
 				</p>
 			</div>	
 		</div>

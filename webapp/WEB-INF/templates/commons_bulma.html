@@ -1460,19 +1460,17 @@ and is kept only for backwards compatibility
 					</div>
 				    <div class="navbar-end user">
 						<div class="navbar-item">
-							<div class="buttons">
-							  <a class="button is-primary" href="${admin_url}" title="#i18n{portal.users.admin_header.homePage}">
-									<i class="fa fa-home"></i>
-							  </a>
-							</div>
+                            <a class="button is-primary" href="${admin_url}" title="#i18n{portal.users.admin_header.homePage}">
+                                  <i class="fa fa-home"></i>
+                            </a>
 						</div>
+                        <#if user.userLevel == 0>
 						<div class="navbar-item">
-							<div class="buttons">
-							  <a class="button is-danger" href="jsp/admin/AdminTechnicalMenu.jsp" title="#i18n{portal.admindashboard.view_dashboards.title}">
-									<i class="fa fa-cog"></i>
-							  </a>
-							</div>
+                            <a class="button is-danger" href="jsp/admin/AdminTechnicalMenu.jsp" title="#i18n{portal.admindashboard.view_dashboards.title}">
+                                  <i class="fa fa-cog"></i>
+                            </a>
 						</div>
+                        </#if>
 						<div class="navbar-item has-dropdown is-hoverable">
 							<a class="navbar-link">
 								<#if adminAvatar> 
@@ -1490,11 +1488,13 @@ and is kept only for backwards compatibility
                               </ul>
                             </#if>
                         </div>
-							<#if admin_logout_url?has_content>
-								<a class="navbar-item"  href="${admin_logout_url}" title="#i18n{portal.users.admin_header.deconnectionLink}">
-								<i class="fa fa-power-off fa-fw"></i> <span class="visible-xs">#i18n{portal.users.admin_header.deconnectionLink}</span>
-								</a>
-							</#if>
+						<#if admin_logout_url?has_content>
+						<div class="navbar-item">
+							<a class="button is-danger"  href="${admin_logout_url}" title="#i18n{portal.users.admin_header.deconnectionLink}">
+								<i class="fa fa-power-off fa-fw"></i> 
+							</a>
+						</div>
+						</#if>
 						</div>
 					</div>
 				</div>
@@ -1520,7 +1520,7 @@ and is kept only for backwards compatibility
 	<div class="content has-text-centered">
 		<p>
 			<a href="http://fr.lutece.paris.fr" target="lutece" title="#i18n{portal.site.portal_footer.labelPortal}">
-				<img src="images/poweredby.jpg" alt="#i18n{portal.site.portal_footer.labelMadeBy}">
+				<img src="images/poweredby.png" alt="#i18n{portal.site.portal_footer.labelMadeBy}">
 				<small>version ${version}</small>
 			</a>
 		</p>
@@ -1605,7 +1605,7 @@ $( function() {
                     <#nested>
                     <p class='has-text-centered'>
                         <@aButton href='http://fr.lutece.paris.fr' params='target="_blank"' title='#i18n{portal.site.portal_footer.labelPortal}' showTitle=false color='secondary'>
-                            <img src="images/poweredby.jpg" class="thumbnails" alt="logo lutece" title="Lutece">
+                            <img src="images/poweredby.png" class="thumbnails" alt="logo lutece" title="Lutece">
                         </@aButton>
                     </p>
                 </div>
