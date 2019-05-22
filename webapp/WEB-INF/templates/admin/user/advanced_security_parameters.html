@@ -1,5 +1,5 @@
 <@accordionPanel childId='advanced_security_parameters' color='success'>
-	<@accordionHeader title='#i18n{portal.users.manage_advanced_parameters.securityParameters}' boxTools=true />
+	<@accordionHeader title='#i18n{portal.users.manage_advanced_parameters.securityParameters}' boxTools=true headerIcon='shield' />
 	
 
 	<@accordionBody id=id class=childClass expanded=expanded>
@@ -128,7 +128,7 @@
 
 	
 	<@accordionPanel color='success' childId='notifications'>
-		<@accordionHeader title='#i18n{portal.users.accountLifeTime.labelLifeTimeNotifications}' />
+		<@accordionHeader title='#i18n{portal.users.accountLifeTime.labelLifeTimeNotifications}' headerIcon='envelope' />
 		<@accordionBody>
 				<@tform method='post' action='jsp/admin/user/ModifyAccountLifeTimeEmails.jsp'>
 					<@fieldSet> 

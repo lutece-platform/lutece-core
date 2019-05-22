@@ -991,9 +991,12 @@ and is kept only for backwards compatibility
 
 <#-- ACCORDION ELEMENT --> 
 <#-- The boxTools parameter is unused, kept for backwards compatibility -->
-<#macro accordionHeader title='' parentId=parentId childId=childId boxTools=false id='' params=''>
+<#macro accordionHeader title='' parentId=parentId childId=childId boxTools=false id='' params='' headerIcon='' >
 <div class="accordion-header toggle has-background-light"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
-	<h2 class="title has-text-primary">${title}</h2>
+	<h2 class="title has-text-primary">
+        <#if headerIcon!=''><@icon style=headerIcon /></#if> &nbsp;
+        ${title}
+    </h2>
 	<#local nested><#nested></#local>
 	<#if nested?has_content>
 	<div class="is-pulled-right">

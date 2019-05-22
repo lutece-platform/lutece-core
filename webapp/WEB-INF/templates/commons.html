@@ -976,10 +976,11 @@ and is kept only for backwards compatibility
 
 <#-- ACCORDION ELEMENT --> 
 <#-- The boxTools parameter is unused, kept for backwards compatibility -->
-<#macro accordionHeader title='' parentId=parentId childId=childId boxTools=false id='' params=''>
+<#macro accordionHeader title='' parentId=parentId childId=childId boxTools=false id='' params='' headerIcon='' >
 <div class="box-header with-border"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 	<h2 class="box-title">
 		<a class="${aClass}" data-toggle="collapse" data-parent="#${parentId}" href="#${childId}" aria-expanded="${expanded}">
+            <#if headerIcon!=''><@icon style=headerIcon /></#if> &nbsp;
 			${title}
 		</a>
 	</h2>

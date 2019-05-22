@@ -1,7 +1,7 @@
 
 <@accordionContainer id='advanced_parameters'>
 		<@accordionPanel color='success' collapsed=false childId='default_user_parameters'>
-			<@accordionHeader title='#i18n{portal.users.manage_advanced_parameters.defaultUserParameterValues}' />
+			<@accordionHeader title='#i18n{portal.users.manage_advanced_parameters.defaultUserParameterValues}' headerIcon='user' />
 			<@accordionBody>
 				<!-- DEFAULT USER PARAMETERS -->
 				<@tform method='post' name='default_user_parameters' action='jsp/admin/user/DoModifyDefaultUserParameterValues.jsp'>
@@ -60,7 +60,7 @@
 	<!-- EMAIL PATTERN -->
 	<#if email_pattern??>
 	<@accordionPanel color='success' childId='email_pattern'>
-		<@accordionHeader title='#i18n{portal.users.manage_advanced_parameters.labelModifyEmailPattern}' />
+		<@accordionHeader title='#i18n{portal.users.manage_advanced_parameters.labelModifyEmailPattern}' headerIcon='at' />
 		<@accordionBody>
 			<@tform method='post' name='email_pattern_form' action='jsp/admin/user/DoModifyEmailPattern.jsp'>
 				<input type="hidden" name="token" value="${token!''}">
@@ -135,6 +135,7 @@
 	<!--  SECURITY PARAMETERS -->
 	<#include "advanced_security_parameters.html" />
     <#include "attribute/manage_attributes.html" />
+    <#include "field_anonymize_admin_user.html" />
 
     
 </@accordionContainer>
