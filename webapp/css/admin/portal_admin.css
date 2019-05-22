@@ -275,7 +275,7 @@ div.box-upload {min-height:100px;}
     .main-header .logo{width:80px}
     .navbar-nav > li > a {padding: 15px 8px;line-height: 20px;font-size:90% }
     .navbar-nav > .user-menu > .dropdown-menu {left: -150px;width: 220px;margin-top: 20px;}
-    .navbar-nav > .user-menu .user-image { width: 15px;height: 15px; margin-right:0;}
+    .navbar-nav > .user-menu .user-image { width: 15px;height: 15px; margin-right: 5px;}
     .navbar-nav.navbar-right:last-child { margin-right:2px;}
 }
 

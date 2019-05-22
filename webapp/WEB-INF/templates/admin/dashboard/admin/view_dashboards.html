@@ -1,13 +1,12 @@
+<h1> <@icon style='cog' /> #i18n{portal.admindashboard.view_dashboards.title}</h1>
 <@row>	
+<@columns>
 <#if column_content_1?has_content>
-	<@columns sm=6>
 		${column_content_1}
-	</@columns>
 </#if>
 <#if column_content_2?has_content>
-	<@columns sm=6>
 		${column_content_2}
-	</@columns>
 </#if>
+</@columns>
 </@row>
 <#-- TEST -->
