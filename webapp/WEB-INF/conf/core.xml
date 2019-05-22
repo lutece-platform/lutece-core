@@ -181,6 +181,10 @@
             <dashboard-component-name>adminHomePageAdminDashboardComponent</dashboard-component-name>
             <dashboard-component-class>fr.paris.lutece.portal.web.dashboard.AdminHomePageManagementComponent</dashboard-component-class>
         </admindashboard-component>
+        <admindashboard-component>
+            <dashboard-component-name>autoIncludesAdminDashboardComponent</dashboard-component-name>
+            <dashboard-component-class>fr.paris.lutece.portal.web.template.AutoIncludeAdminDashboardComponent</dashboard-component-class>
+        </admindashboard-component>
     </admindashboard-components>
         
     <freemarker-macro-files>

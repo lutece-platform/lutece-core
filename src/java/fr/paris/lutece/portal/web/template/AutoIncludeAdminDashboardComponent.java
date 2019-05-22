@@ -33,48 +33,46 @@
  */
 
 
-package fr.paris.lutece.portal.web.editor;
+package fr.paris.lutece.portal.web.template;
 
+import fr.paris.lutece.portal.business.template.AutoInclude;
 import fr.paris.lutece.portal.business.user.AdminUser;
-import fr.paris.lutece.portal.service.admin.AdminUserService;
 import fr.paris.lutece.portal.service.dashboard.admin.AdminDashboardComponent;
-import fr.paris.lutece.portal.service.editor.RichTextEditorService;
-import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
+import fr.paris.lutece.portal.service.template.CommonsService;
+import fr.paris.lutece.portal.service.template.FreeMarkerTemplateService;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * EditorAdminDashboardComponent
+ * AutoIncludeAdminDashboardComponent
  */
-public class EditorAdminDashboardComponent extends AdminDashboardComponent
+public class AutoIncludeAdminDashboardComponent  extends AdminDashboardComponent
 {
-    private static final String MARK_LIST_EDITORS_BACK_OFFICE = "listEditorsBackOffice";
-    private static final String MARK_LIST_EDITORS_FRONT_OFFICE = "listEditorsFrontOffice";
-    private static final String MARK_CURRENT_EDITOR_BACK_OFFICE = "current_editor_back_office";
-    private static final String MARK_CURRENT_EDITOR_FRONT_OFFICE = "current_editor_front_office";
-    private static final String TEMPLATE_EDITOR_CHOICE_PANEL = "admin/dashboard/admin/editor_dashboard.html";
-
+    // Templates
+    private static final String TEMPLATE_MANAGE_AUTOINCLUDES = "/admin/dashboard/admin/autoincludes_dashboard.html";
+    // Markers
+    private static final String MARK_AUTOINCLUDE_LIST = "autoinclude_list";
+    private static final String MARK_COMMONS_LIST = "commons_list";
+    private static final String MARK_CURRENT_COMMONS = "current_commons";
+    
     /**
      * {@inheritDoc}
      */
     @Override
     public String getDashboardData( AdminUser user, HttpServletRequest request )
     {
-        Map<String, Object> model = new HashMap<String, Object>( );
-        model.put( MARK_LIST_EDITORS_BACK_OFFICE, RichTextEditorService.getListEditorsForBackOffice( AdminUserService.getLocale( request ) ) );
-        model.put( MARK_CURRENT_EDITOR_BACK_OFFICE, RichTextEditorService.getBackOfficeDefaultEditor( ) );
-
-        model.put( MARK_LIST_EDITORS_FRONT_OFFICE, RichTextEditorService.getListEditorsForFrontOffice( AdminUserService.getLocale( request ) ) );
-        model.put( MARK_CURRENT_EDITOR_FRONT_OFFICE, RichTextEditorService.getFrontOfficeDefaultEditor( ) );
-
-        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_EDITOR_CHOICE_PANEL ) );
-
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_EDITOR_CHOICE_PANEL, user.getLocale( ), model );
-
-        return template.getHtml( );
+        Map<String, Object> model = new HashMap<>( );
+        List<AutoInclude> listAutoIncludes = FreeMarkerTemplateService.getInstance( ).getAutoIncludesList( );
+        model.put( MARK_AUTOINCLUDE_LIST, listAutoIncludes );
+        model.put( MARK_COMMONS_LIST, CommonsService.getCommonsIncludeList( ) );
+        model.put( MARK_CURRENT_COMMONS, CommonsService.getCurrentCommonsKey( ) );
         
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_AUTOINCLUDES, user.getLocale(), model );
+        return template.getHtml();
     }
+
 }

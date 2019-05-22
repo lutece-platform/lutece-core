@@ -34,17 +34,13 @@
 
 package fr.paris.lutece.portal.web.template;
 
-import fr.paris.lutece.portal.business.template.AutoInclude;
 import fr.paris.lutece.portal.service.template.CommonsService;
-import fr.paris.lutece.portal.service.template.FreeMarkerTemplateService;
+import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.util.mvc.admin.MVCAdminJspBean;
 import fr.paris.lutece.portal.util.mvc.admin.annotations.Controller;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.Action;
-import fr.paris.lutece.portal.util.mvc.commons.annotations.View;
 import fr.paris.lutece.portal.web.admin.AdminMenuJspBean;
 
-import java.util.List;
-import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 /**
@@ -56,48 +52,15 @@ public class AutoIncludeJspBean extends MVCAdminJspBean
     // Rights
     public static final String RIGHT_MANAGEAUTOINCLUDES = "CORE_TEMPLATES_AUTO_INCLUDES_MANAGEMENT";
 
-    // Templates
-    private static final String TEMPLATE_MANAGE_AUTOINCLUDES = "/admin/templates/manage_autoincludes.html";
 
     // Parameters
     private static final String PARAMETER_COMMONS_KEY = "commons_key";
-
-    // Properties for page titles
-    private static final String PROPERTY_PAGE_TITLE_MANAGE_AUTOINCLUDES = "portal.templates.manage_autoincludes.pageTitle";
-
-    // Markers
-    private static final String MARK_AUTOINCLUDE_LIST = "autoinclude_list";
-    private static final String MARK_COMMONS_LIST = "commons_list";
-    private static final String MARK_CURRENT_COMMONS = "current_commons";
-
-    // Views
-    private static final String VIEW_MANAGE_AUTOINCLUDES = "manageAutoIncludes";
 
     // Actions
     private static final String ACTION_ACTIVATE = "activate";
 
     // Infos
     private static final String INFO_COMMONS_ACTIVATE = "portal.templates.info.commons.activated";
-
-    /**
-     * Build the Manage View
-     * 
-     * @param request
-     *            The HTTP request
-     * @return The page
-     */
-    @View( value = VIEW_MANAGE_AUTOINCLUDES, defaultView = true )
-    public String getManageAutoIncludes( HttpServletRequest request )
-    {
-        List<AutoInclude> listAutoIncludes = FreeMarkerTemplateService.getInstance( ).getAutoIncludesList( );
-        Map<String, Object> model = getModel( );
-        model.put( MARK_AUTOINCLUDE_LIST, listAutoIncludes );
-
-        model.put( MARK_COMMONS_LIST, CommonsService.getCommonsIncludeList( ) );
-        model.put( MARK_CURRENT_COMMONS, CommonsService.getCurrentCommonsKey( ) );
-
-        return getPage( PROPERTY_PAGE_TITLE_MANAGE_AUTOINCLUDES, TEMPLATE_MANAGE_AUTOINCLUDES, model );
-    }
 
     /**
      * Activate a commons include
@@ -114,7 +77,7 @@ public class AutoIncludeJspBean extends MVCAdminJspBean
         AdminMenuJspBean.resetAdminStylesheets( );
         addInfo( INFO_COMMONS_ACTIVATE, getLocale( ) );
 
-        return redirectView( request, VIEW_MANAGE_AUTOINCLUDES );
+        return redirect( request, AppPathService.getBaseUrl( request ) + JSP_TECHNICAL_ADMINISTRATION + "?#autoincludes" );
     }
 
 }
