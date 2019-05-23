@@ -42,7 +42,6 @@ import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.user.attribute.AttributeService;
 import fr.paris.lutece.portal.service.user.attribute.AttributeTypeService;
 import fr.paris.lutece.portal.service.util.AppLogService;
-import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
 import fr.paris.lutece.portal.web.dashboard.AdminDashboardJspBean;
 import fr.paris.lutece.util.html.HtmlTemplate;
@@ -88,7 +87,7 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
 
     // JSP
     private static final String JSP_URL_REMOVE_ATTRIBUTE = "jsp/admin/user/attribute/DoRemoveAttribute.jsp";
-    private static final String JSP_MANAGE_ATTRIBUTES = JSP_TECHNICAL_ADMINISTRATION + "?#attributes_management";
+    private static final String ANCHOR_ADMIN_DASHBOARDS = "attributes_management";
     private static final String JSP_MODIFY_ATTRIBUTE = "ModifyAttribute.jsp";
     private static final AttributeService _attributeService = AttributeService.getInstance( );
     private static final AttributeTypeService _attributeTypeService = AttributeTypeService.getInstance( );
@@ -130,7 +129,7 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
 
         if ( attribute == null )
         {
-            return AppPathService.getBaseUrl( request ) + JSP_MANAGE_ATTRIBUTES;
+            return getAdminDashboardsUrl( request , ANCHOR_ADMIN_DASHBOARDS );
         }
 
         setPageTitleProperty( attribute.getPropertyCreatePageTitle( ) );
@@ -189,7 +188,7 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
 
             if ( attribute == null )
             {
-                return AppPathService.getBaseUrl( request ) + JSP_MANAGE_ATTRIBUTES;
+                getAdminDashboardsUrl( request , ANCHOR_ADMIN_DASHBOARDS );
             }
 
             String strError = attribute.setAttributeData( request );
@@ -211,7 +210,7 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
             }
         }
 
-        return AppPathService.getBaseUrl( request ) + JSP_MANAGE_ATTRIBUTES;
+        return getAdminDashboardsUrl( request , ANCHOR_ADMIN_DASHBOARDS );
     }
 
     /**
@@ -246,7 +245,7 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
         }
 
         // Otherwise, we redirect the user to the attribute management interface
-        return AppPathService.getBaseUrl( request ) + JSP_MANAGE_ATTRIBUTES;
+        return getAdminDashboardsUrl( request , ANCHOR_ADMIN_DASHBOARDS );
     }
 
     /**
@@ -291,7 +290,7 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
             }
         }
 
-        return AppPathService.getBaseUrl( request ) + JSP_MANAGE_ATTRIBUTES;
+        return getAdminDashboardsUrl( request , ANCHOR_ADMIN_DASHBOARDS );
     }
 
     /**
@@ -336,7 +335,7 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
             _attributeService.removeAttribute( nIdAttribute );
         }
 
-        return AppPathService.getBaseUrl( request ) + JSP_MANAGE_ATTRIBUTES;
+        return getAdminDashboardsUrl( request , ANCHOR_ADMIN_DASHBOARDS );
     }
 
     /**
@@ -361,8 +360,8 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
             int nIdAttribute = Integer.parseInt( strIdAttribute );
 
             List<IAttribute> listAttributes = _attributeService.getAllAttributesWithoutFields( getLocale( ) );
-            IAttribute previousAttribute = null;
-            IAttribute currentAttribute = null;
+            IAttribute previousAttribute;
+            IAttribute currentAttribute;
 
             Iterator<IAttribute> it = listAttributes.iterator( );
             previousAttribute = it.next( );
@@ -383,7 +382,7 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
             _attributeService.updateAttribute( currentAttribute );
         }
 
-        return AppPathService.getBaseUrl( request ) + JSP_MANAGE_ATTRIBUTES;
+        return getAdminDashboardsUrl( request , ANCHOR_ADMIN_DASHBOARDS );
     }
 
     /**
@@ -430,6 +429,6 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
             _attributeService.updateAttribute( currentAttribute );
         }
 
-        return AppPathService.getBaseUrl( request ) + JSP_MANAGE_ATTRIBUTES;
+        return getAdminDashboardsUrl( request , ANCHOR_ADMIN_DASHBOARDS );
     }
 }

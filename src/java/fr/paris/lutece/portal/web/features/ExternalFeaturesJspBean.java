@@ -46,7 +46,6 @@ import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
-import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
 import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.html.HtmlTemplate;
@@ -88,6 +87,8 @@ public class ExternalFeaturesJspBean extends AdminFeaturesPageJspBean
     private static final String MARK_EXTERNAL_FEATURE = "external_feature";
     private static final String MARK_FEATURES_GROUPS_REFERENCE_LIST = "features_groups_labels_list";
     private static final String MARK_RIGHT_LEVELS_REFERENCE_LIST = "right_levels_labels_list";
+    
+    private static final String ANCHOR_ADMIN_DASHBOARDS = "features_management";
 
     private Right _externalFeature;
 
@@ -152,7 +153,7 @@ public class ExternalFeaturesJspBean extends AdminFeaturesPageJspBean
         _externalFeature.setLevel( Integer.parseInt( request.getParameter( PARAMETER_ID_LEVEL ) ) );
 
         RightHome.create( _externalFeature );
-        return AppPathService.getBaseUrl( request ) + JSP_TECHNICAL_ADMINISTRATION + "?#features_management";
+        return getAdminDashboardsUrl( request , ANCHOR_ADMIN_DASHBOARDS );
     }
 
     public String getRemoveExternalFeature( HttpServletRequest request )
@@ -183,7 +184,7 @@ public class ExternalFeaturesJspBean extends AdminFeaturesPageJspBean
         }
         RightHome.remove( _externalFeature.getId( ) );
 
-        return AppPathService.getBaseUrl( request ) + JSP_TECHNICAL_ADMINISTRATION + "?#features_management";
+        return getAdminDashboardsUrl( request , ANCHOR_ADMIN_DASHBOARDS );
     }
 
     public String getModifyExternalFeature( HttpServletRequest request )
@@ -246,6 +247,6 @@ public class ExternalFeaturesJspBean extends AdminFeaturesPageJspBean
             user.updateRight( _externalFeature );
         }
 
-        return AppPathService.getBaseUrl( request ) + JSP_TECHNICAL_ADMINISTRATION + "?#features_management";
+        return getAdminDashboardsUrl( request , ANCHOR_ADMIN_DASHBOARDS );
     }
 }

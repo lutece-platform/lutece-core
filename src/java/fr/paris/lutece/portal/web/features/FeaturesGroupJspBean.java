@@ -42,7 +42,6 @@ import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
-import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
 import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.portal.web.dashboard.AdminDashboardJspBean;
@@ -79,6 +78,7 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
     private static final String MARK_FEATURE_GROUP = "feature_group";
     private static final String MARK_DEFAULT_ORDER = "order_default";
     private static final String REGEX_ID = "^[\\d]+$";
+    private static final String ANCHOR_ADMIN_DASHBOARDS = "features_management";
 
 
     /**
@@ -377,7 +377,7 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
      */
     private String getDashboardUrl( HttpServletRequest request )
     {
-        return AppPathService.getBaseUrl( request ) + JSP_TECHNICAL_ADMINISTRATION + "?#features_management";
+        return getAdminDashboardsUrl( request , ANCHOR_ADMIN_DASHBOARDS );
     }
     
 }

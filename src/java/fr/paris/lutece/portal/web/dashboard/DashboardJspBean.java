@@ -42,7 +42,6 @@ import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.util.AppLogService;
-import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
 import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.util.string.StringUtil;
@@ -75,7 +74,7 @@ public class DashboardJspBean extends AdminFeaturesPageJspBean
     private static final String TEMPLATE_MANAGE_DASHBOARDS = "/admin/dashboard/manage_dashboards.html";
 
     // JSP
-    private static final String JSP_MANAGE_DASHBOARDS = JSP_TECHNICAL_ADMINISTRATION + "?#adminHomePageManagement";
+    private static final String ANCHOR_ADMIN_DASHBOARDS = "adminHomePageManagement";
     private DashboardService _service = DashboardService.getInstance( );
 
 
@@ -115,7 +114,7 @@ public class DashboardJspBean extends AdminFeaturesPageJspBean
         }
         _service.doReorderColumn( nColumn );
 
-        return AppPathService.getBaseUrl( request ) + JSP_MANAGE_DASHBOARDS;
+        return getAdminDashboardsUrl( request , ANCHOR_ADMIN_DASHBOARDS );
     }
 
     /**
@@ -179,6 +178,6 @@ public class DashboardJspBean extends AdminFeaturesPageJspBean
 
         _service.doMoveDashboard( dashboard, nOldColumn, nOldOrder, bCreate );
 
-        return AppPathService.getBaseUrl( request ) + JSP_MANAGE_DASHBOARDS;
+        return getAdminDashboardsUrl( request , ANCHOR_ADMIN_DASHBOARDS );
     }
 }

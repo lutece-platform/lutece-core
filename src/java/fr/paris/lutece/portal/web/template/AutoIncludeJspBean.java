@@ -35,7 +35,6 @@
 package fr.paris.lutece.portal.web.template;
 
 import fr.paris.lutece.portal.service.template.CommonsService;
-import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.util.mvc.admin.MVCAdminJspBean;
 import fr.paris.lutece.portal.util.mvc.admin.annotations.Controller;
 import fr.paris.lutece.portal.util.mvc.commons.annotations.Action;
@@ -61,6 +60,8 @@ public class AutoIncludeJspBean extends MVCAdminJspBean
 
     // Infos
     private static final String INFO_COMMONS_ACTIVATE = "portal.templates.info.commons.activated";
+    
+    private static final String ANCHOR_ADMIN_DASHBOARDS = "autoincludes";
 
     /**
      * Activate a commons include
@@ -77,7 +78,7 @@ public class AutoIncludeJspBean extends MVCAdminJspBean
         AdminMenuJspBean.resetAdminStylesheets( );
         addInfo( INFO_COMMONS_ACTIVATE, getLocale( ) );
 
-        return redirect( request, AppPathService.getBaseUrl( request ) + JSP_TECHNICAL_ADMINISTRATION + "?#autoincludes" );
+        return redirect( request, getAdminDashboardsUrl( request , ANCHOR_ADMIN_DASHBOARDS ) );
     }
 
 }

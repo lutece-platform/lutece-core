@@ -337,7 +337,7 @@ public abstract class AdminFeaturesPageJspBean implements Serializable
      * @param strAnchor An anchor inside the page
      * @return the URL
      */
-    protected String getAdminDashbordsUrl( HttpServletRequest request , String strAnchor )
+    protected String getAdminDashboardsUrl( HttpServletRequest request , String strAnchor )
     {
         return AppPathService.getBaseUrl( request ) + JSP_TECHNICAL_ADMINISTRATION + "?#" + strAnchor;
     }

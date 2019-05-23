@@ -36,7 +36,6 @@ package fr.paris.lutece.portal.web.editor;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.editor.RichTextEditorService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
-import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.web.admin.PluginAdminPageJspBean;
 import java.io.Serializable;
 
@@ -48,7 +47,7 @@ import javax.servlet.http.HttpServletRequest;
 public class EditorChoiceLutecePanelJspBean extends PluginAdminPageJspBean implements Serializable
 {
     public static final String RIGHT_EDITORS_MANAGEMENT = "CORE_EDITORS_MANAGEMENT";
-    private static final String JSP_URL_TECHNICAL_ADMIN = JSP_TECHNICAL_ADMINISTRATION + "?#editors";
+    private static final String ANCHOR_ADMIN_DASHBOARDS = "editors";
     
     /**
      * Generated servial UID
@@ -77,7 +76,7 @@ public class EditorChoiceLutecePanelJspBean extends PluginAdminPageJspBean imple
         String strEditorName = request.getParameter( PARAM_EDITOR_BACK_OFFICE );
         RichTextEditorService.updateBackOfficeDefaultEditor( strEditorName );
 
-        return AppPathService.getBaseUrl( request ) + JSP_URL_TECHNICAL_ADMIN;
+        return getAdminDashboardsUrl( request , ANCHOR_ADMIN_DASHBOARDS );
     }
 
     /**
@@ -98,6 +97,6 @@ public class EditorChoiceLutecePanelJspBean extends PluginAdminPageJspBean imple
         String strEditorName = request.getParameter( PARAM_EDITOR_FRONT_OFFICE );
         RichTextEditorService.updateFrontOfficeDefaultEditor( strEditorName );
 
-        return AppPathService.getBaseUrl( request ) + JSP_URL_TECHNICAL_ADMIN;
+        return getAdminDashboardsUrl( request , ANCHOR_ADMIN_DASHBOARDS );
     }
 }

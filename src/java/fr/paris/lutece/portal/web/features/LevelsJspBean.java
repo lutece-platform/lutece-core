@@ -117,7 +117,7 @@ public class LevelsJspBean extends AdminFeaturesPageJspBean
         LevelHome.create( level );
 
         // If the process is successfull, redirects towards the theme view
-        return getAdminDashbordsUrl( request, ANCHOR_RIGHT_LEVELS );
+        return getAdminDashboardsUrl( request, ANCHOR_RIGHT_LEVELS );
     }
 
     /**
@@ -137,7 +137,7 @@ public class LevelsJspBean extends AdminFeaturesPageJspBean
 
         if ( level == null )
         {
-            return getAdminDashbordsUrl( request, ANCHOR_RIGHT_LEVELS );
+            return getAdminDashboardsUrl( request, ANCHOR_RIGHT_LEVELS );
         }
 
         HashMap<String, Object> model = new HashMap<String, Object>( );
@@ -178,6 +178,6 @@ public class LevelsJspBean extends AdminFeaturesPageJspBean
         LevelHome.update( level );
 
         // If the process is successfull, redirects towards the level management page
-        return getAdminDashbordsUrl( request, ANCHOR_RIGHT_LEVELS );
+        return getAdminDashboardsUrl( request, ANCHOR_RIGHT_LEVELS );
     }
 }

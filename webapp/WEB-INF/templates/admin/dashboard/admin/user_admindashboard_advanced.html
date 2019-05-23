@@ -1,7 +1,7 @@
 <#include "admindashboard_utils.html">
 
 <!-- DEFAULT USER PARAMETERS -->
-<@adminDashboardPanel title='#i18n{portal.users.manage_advanced_parameters.defaultUserParameterValues}' icon='user' parentId='advanced_parameters' childId='default_user_parameters' >
+<@adminDashboardPanel title='#i18n{portal.users.manage_advanced_parameters.defaultUserParameterValues}' icon='user' parentId='advanced_parameters' childId='default_user_parameters' color='success' >
         <@tform method='post' name='default_user_parameters' action='jsp/admin/user/DoModifyDefaultUserParameterValues.jsp'>
             <input type="hidden" name="token" value="${token!''}">
             <@fieldSet> 
@@ -57,7 +57,7 @@
 
 <!-- EMAIL PATTERN -->
 <#if email_pattern??>
-<@adminDashboardPanel title='#i18n{portal.users.manage_advanced_parameters.labelModifyEmailPattern}' icon='at' parentId='advanced_parameters' childId='email_pattern' >
+<@adminDashboardPanel title='#i18n{portal.users.manage_advanced_parameters.labelModifyEmailPattern}' icon='at' parentId='advanced_parameters' childId='email_pattern' color='success' >
         <@tform method='post' name='email_pattern_form' action='jsp/admin/user/DoModifyEmailPattern.jsp'>
             <input type="hidden" name="token" value="${token!''}">
             <@fieldSet> 

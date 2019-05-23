@@ -1,6 +1,6 @@
 <#include "admindashboard_utils.html">
 
-<@adminDashboardPanel title='#i18n{portal.users.manage_advanced_parameters.securityParameters}' icon='shield' parentId='advanced_parameters' childId='advanced_security_parameters' >
+<@adminDashboardPanel title='#i18n{portal.users.manage_advanced_parameters.securityParameters}' icon='shield' parentId='advanced_parameters' childId='advanced_security_parameters' color='success' >
     <@btnGroup align='right'>
         <@tform action='jsp/admin/user/GetChangeUseAdvancedSecurityParameters.jsp'>
 
@@ -122,7 +122,7 @@
     </@fieldSet>
 </@adminDashboardPanel>
 
-<@adminDashboardPanel title='#i18n{portal.users.accountLifeTime.labelLifeTimeNotifications}' icon='envelope' parentId='advanced_parameters' childId='notifications' >
+<@adminDashboardPanel title='#i18n{portal.users.accountLifeTime.labelLifeTimeNotifications}' icon='envelope' parentId='advanced_parameters' childId='notifications' color='success' >
     <@tform method='post' action='jsp/admin/user/ModifyAccountLifeTimeEmails.jsp'>
         <@fieldSet> 
             <@formGroup labelKey='#i18n{portal.users.accountLifeTime.labelSelectEmail}' labelFor='email_type'>

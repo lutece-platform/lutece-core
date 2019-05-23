@@ -50,17 +50,13 @@ import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.rbac.RBACService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
-import fr.paris.lutece.portal.service.util.AppPathService;
-import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.service.xsl.XslExportResourceIdService;
 import fr.paris.lutece.portal.web.admin.PluginAdminPageJspBean;
 import fr.paris.lutece.portal.web.upload.MultipartHttpServletRequest;
-import fr.paris.lutece.portal.web.util.LocalizedPaginator;
 import fr.paris.lutece.util.ReferenceItem;
 import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.filesystem.FileSystemUtil;
 import fr.paris.lutece.util.html.HtmlTemplate;
-import fr.paris.lutece.util.html.Paginator;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.lang.StringUtils;
@@ -73,7 +69,6 @@ import java.io.OutputStream;
 
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -137,7 +132,7 @@ public class XslExportJspBean extends PluginAdminPageJspBean
     private static final String PROPERTY_CREATE_XSL_EXPORT_TITLE = "portal.xsl.create_xsl_export.title";
 
     // Jsp Definition
-    private static final String JSP_MANAGE_XSL_EXPORT = JSP_TECHNICAL_ADMINISTRATION + "?#xslexport";
+    private static final String ANCHOR_ADMIN_DASHBOARDS = "xslexport";
     private static final String JSP_DO_REMOVE_XSL_EXPORT = "jsp/admin/xsl/DoRemoveXslExport.jsp";
 
 
@@ -555,7 +550,7 @@ public class XslExportJspBean extends PluginAdminPageJspBean
      */
     private String getJspManageXslExport( HttpServletRequest request )
     {
-        return AppPathService.getBaseUrl( request ) + JSP_MANAGE_XSL_EXPORT;
+        return getAdminDashboardsUrl( request , ANCHOR_ADMIN_DASHBOARDS );
     }
 
     /**
