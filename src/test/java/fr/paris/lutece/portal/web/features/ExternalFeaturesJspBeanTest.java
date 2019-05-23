@@ -95,20 +95,6 @@ public class ExternalFeaturesJspBeanTest extends LuteceTestCase
     }
 
     /**
-     * Test of getManageExternalFeatures method, of class ExternalFeaturesJspBean.
-     */
-    @Test
-    public void testGetManageExternalFeatures( ) throws AccessDeniedException
-    {
-        MockHttpServletRequest request = new MockHttpServletRequest( );
-        Utils.registerAdminUserWithRigth( request, new AdminUser( ), ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
-
-        ExternalFeaturesJspBean instance = new ExternalFeaturesJspBean( );
-        instance.init( request, ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
-        instance.getManageExternalFeatures( request );
-    }
-
-    /**
      * Test of getCreateExternalFeature method, of class ExternalFeaturesJspBean.
      */
     @Test
@@ -119,7 +105,7 @@ public class ExternalFeaturesJspBeanTest extends LuteceTestCase
 
         ExternalFeaturesJspBean instance = new ExternalFeaturesJspBean( );
         instance.init( request, ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
-        assertNotNull( instance.getManageExternalFeatures( request ) );
+        assertNotNull( instance.getCreateExternalFeature( request ) );
     }
 
     /**

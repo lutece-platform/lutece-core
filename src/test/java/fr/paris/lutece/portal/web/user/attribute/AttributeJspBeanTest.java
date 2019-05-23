@@ -55,6 +55,7 @@ import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.user.attribute.AttributeService;
 import fr.paris.lutece.portal.service.user.attribute.AttributeTypeService;
+import fr.paris.lutece.portal.web.dashboard.AdminDashboardJspBean;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.Utils;
 
@@ -456,7 +457,7 @@ public class AttributeJspBeanTest extends LuteceTestCase
 
         request.setParameter( "id_attribute", Integer.toString( nIdAttribute ) );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/user/attribute/manage_attributes.html" ) );
+                SecurityTokenService.getInstance( ).getToken( request, AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) );
 
         instance.doMoveDownAttribute( request );
 
@@ -538,7 +539,7 @@ public class AttributeJspBeanTest extends LuteceTestCase
 
         request.setParameter( "id_attribute", Integer.toString( nIdAttribute ) );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/user/attribute/manage_attributes.html" ) );
+                SecurityTokenService.getInstance( ).getToken( request, AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) );
 
         instance.doMoveUpAttribute( request );
 

@@ -185,6 +185,10 @@
             <dashboard-component-name>autoIncludesAdminDashboardComponent</dashboard-component-name>
             <dashboard-component-class>fr.paris.lutece.portal.web.template.AutoIncludeAdminDashboardComponent</dashboard-component-class>
         </admindashboard-component>
+        <admindashboard-component>
+            <dashboard-component-name>featuresAdminDashboardComponent</dashboard-component-name>
+            <dashboard-component-class>fr.paris.lutece.portal.web.features.FeaturesAdminDashboardComponent</dashboard-component-class>
+        </admindashboard-component>
     </admindashboard-components>
         
     <freemarker-macro-files>

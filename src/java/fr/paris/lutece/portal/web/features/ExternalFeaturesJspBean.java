@@ -46,6 +46,7 @@ import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
+import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
 import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.html.HtmlTemplate;
@@ -62,12 +63,10 @@ public class ExternalFeaturesJspBean extends AdminFeaturesPageJspBean
 {
 
     // Properties
-    private static final String PROPERTY_MANAGE_EXTERNAL_FEATURES_PAGETITLE = "adminFeature.features_management.name";
     private static final String PROPERTY_CREATE_EXTERNAL_FEATURE_PAGETITLE = "portal.features.create_external_feature.pageTitle";
     private static final String PROPERTY_MODIFY_EXTERNAL_FEATURE_PAGETITLE = "portal.features.modify_external_feature.pageTitle";
 
     // Templates
-    private static final String TEMPLATE_MANAGE_EXTERNAL_FEATURES = "admin/features/manage_external_features.html";
     private static final String TEMPLATE_CREATE_EXTERNAL_FEATURE = "admin/features/create_external_feature.html";
     private static final String TEMPLATE_MODIFY_EXTERNAL_FEATURE = "admin/features/modify_external_feature.html";
 
@@ -80,7 +79,6 @@ public class ExternalFeaturesJspBean extends AdminFeaturesPageJspBean
     private static final String PARAMETER_ID_LEVEL = "level_id";
 
     // JSP
-    private static final String JSP_MANAGE_EXTERNAL_FEATURES = "ManageExternalFeatures.jsp";
     private static final String JSP_DELETE_EXTERNAL_FEATURE = "jsp/admin/features/DoRemoveExternalFeature.jsp";
 
     // Rights
@@ -88,7 +86,6 @@ public class ExternalFeaturesJspBean extends AdminFeaturesPageJspBean
 
     // Markers
     private static final String MARK_EXTERNAL_FEATURE = "external_feature";
-    private static final String MARK_EXTERNAL_FEATURES_LIST = "external_features_list";
     private static final String MARK_FEATURES_GROUPS_REFERENCE_LIST = "features_groups_labels_list";
     private static final String MARK_RIGHT_LEVELS_REFERENCE_LIST = "right_levels_labels_list";
 
@@ -101,17 +98,17 @@ public class ExternalFeaturesJspBean extends AdminFeaturesPageJspBean
      *            The Http request
      * @return the html code for display the rights list
      */
-    public String getManageExternalFeatures( HttpServletRequest request )
-    {
-        setPageTitleProperty( PROPERTY_MANAGE_EXTERNAL_FEATURES_PAGETITLE );
-
-        Map<String, Object> model = new HashMap<String, Object>( );
-        model.put( MARK_EXTERNAL_FEATURES_LIST, RightHome.getExternalRightList( ) );
-
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_EXTERNAL_FEATURES, getLocale( ), model );
-
-        return getAdminPage( template.getHtml( ) );
-    }
+//    public String getManageExternalFeatures( HttpServletRequest request )
+//    {
+//        setPageTitleProperty( PROPERTY_MANAGE_EXTERNAL_FEATURES_PAGETITLE );
+//
+//        Map<String, Object> model = new HashMap<String, Object>( );
+//        model.put( MARK_EXTERNAL_FEATURES_LIST, RightHome.getExternalRightList( ) );
+//
+//        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_EXTERNAL_FEATURES, getLocale( ), model );
+//
+//        return getAdminPage( template.getHtml( ) );
+//    }
 
     public String getCreateExternalFeature( HttpServletRequest request )
     {
@@ -155,7 +152,7 @@ public class ExternalFeaturesJspBean extends AdminFeaturesPageJspBean
         _externalFeature.setLevel( Integer.parseInt( request.getParameter( PARAMETER_ID_LEVEL ) ) );
 
         RightHome.create( _externalFeature );
-        return JSP_MANAGE_EXTERNAL_FEATURES;
+        return AppPathService.getBaseUrl( request ) + JSP_TECHNICAL_ADMINISTRATION + "?#features_management";
     }
 
     public String getRemoveExternalFeature( HttpServletRequest request )
@@ -186,7 +183,7 @@ public class ExternalFeaturesJspBean extends AdminFeaturesPageJspBean
         }
         RightHome.remove( _externalFeature.getId( ) );
 
-        return JSP_MANAGE_EXTERNAL_FEATURES;
+        return AppPathService.getBaseUrl( request ) + JSP_TECHNICAL_ADMINISTRATION + "?#features_management";
     }
 
     public String getModifyExternalFeature( HttpServletRequest request )
@@ -249,6 +246,6 @@ public class ExternalFeaturesJspBean extends AdminFeaturesPageJspBean
             user.updateRight( _externalFeature );
         }
 
-        return JSP_MANAGE_EXTERNAL_FEATURES;
+        return AppPathService.getBaseUrl( request ) + JSP_TECHNICAL_ADMINISTRATION + "?#features_management";
     }
 }

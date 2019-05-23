@@ -17,6 +17,7 @@ import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
+import fr.paris.lutece.portal.web.dashboard.AdminDashboardJspBean;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.Utils;
 import fr.paris.lutece.util.ReferenceItem;
@@ -112,7 +113,7 @@ public class SearchJspBeanTest extends LuteceTestCase
         Utils.registerAdminUserWithRigth( request, user, "CORE_SEARCH_MANAGEMENT" );
         _bean.init( request, "CORE_SEARCH_MANAGEMENT" );
         request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/search/manage_advanced_parameters.html" ) );
+                SecurityTokenService.getInstance( ).getToken( request, AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) );
 
         _bean.doModifyAdvancedParameters( request );
         AdminMessage message = AdminMessageService.getMessage( request );
