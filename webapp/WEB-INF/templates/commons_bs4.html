@@ -1363,3 +1363,19 @@ $(function() {
 	</#if>
 </@tform>
 </#macro>
+
+<#-- adminContentHeader  -->
+<#macro adminContentHeader >
+<section class="content-header">
+	<h1>
+        <#if feature_url?? >
+            <a href="${feature_url}" title="${feature_title}">${feature_title}</a>
+            <#else>
+                ${feature_title}
+            </#if>
+		<#if page_title?has_content><small>${page_title}</small></#if>
+	</h1>
+	<@adminHeaderDocumentationLink />
+</section>
+<section class="content <#if feature_url?? && feature_url?ends_with('AdminSite.jsp')>no-padding</#if>">
+</#macro>
