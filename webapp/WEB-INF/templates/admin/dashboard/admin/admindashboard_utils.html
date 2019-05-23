@@ -1,9 +1,9 @@
 
-<#macro adminDashboardPanel title='' parentId='' childId='' icon=''>
+<#macro adminDashboardPanel title='' parentId='' childId='' icon='' color='primary'>
 <@row>
   <@columns>
       	<@accordionContainer id=parentId>
-		<@accordionPanel color='success' collapsed=true childId=childId >
+		<@accordionPanel color=color collapsed=true childId=childId >
 			<@accordionHeader title=title headerIcon=icon >
             </@accordionHeader>
 			<@accordionBody>

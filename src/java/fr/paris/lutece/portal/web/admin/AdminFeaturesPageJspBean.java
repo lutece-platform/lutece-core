@@ -330,4 +330,15 @@ public abstract class AdminFeaturesPageJspBean implements Serializable
     {
         return BeanValidationUtil.validate( bean, getLocale( ), config );
     }
+    
+    /**
+     * Return the URL of the technical admin page
+     * @param request The request
+     * @param strAnchor An anchor inside the page
+     * @return the URL
+     */
+    protected String getAdminDashbordsUrl( HttpServletRequest request , String strAnchor )
+    {
+        return AppPathService.getBaseUrl( request ) + JSP_TECHNICAL_ADMINISTRATION + "?#" + strAnchor;
+    }
 }
