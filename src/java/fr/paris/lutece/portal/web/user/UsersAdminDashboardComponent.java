@@ -34,6 +34,7 @@
 package fr.paris.lutece.portal.web.user;
 
 import fr.paris.lutece.portal.business.rbac.RBAC;
+import fr.paris.lutece.portal.business.right.LevelHome;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.business.user.attribute.AttributeType;
 import fr.paris.lutece.portal.business.user.attribute.IAttribute;
@@ -66,6 +67,7 @@ public class UsersAdminDashboardComponent extends AdminDashboardComponent
     // MARKS
     private static final String MARK_ATTRIBUTE_TYPES_LIST = "attribute_types_list";
     private static final String MARK_ATTRIBUTES_LIST = "attributes_list";
+    private static final String MARK_LEVELS_LIST = "levels_list";
     
     private static final AttributeService _attributeService = AttributeService.getInstance( );
     private static final AttributeTypeService _attributeTypeService = AttributeTypeService.getInstance( );
@@ -86,6 +88,7 @@ public class UsersAdminDashboardComponent extends AdminDashboardComponent
             model.put( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) );
             model.put( MARK_ATTRIBUTES_LIST, listAttributes );
             model.put( MARK_ATTRIBUTE_TYPES_LIST, listAttributeTypes );
+            model.put( MARK_LEVELS_LIST, LevelHome.getLevelsList( ) );
             HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_DASHBOARD, user.getLocale( ), model );
 
             return template.getHtml( );
