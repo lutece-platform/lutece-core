@@ -152,7 +152,12 @@ public final class LocaleService
         Locale locale = null;
 
         // consider the current session locale
-        locale = getUserSelectedLocale( request );
+        HttpSession session = request.getSession( false );
+        if ( session != null )
+        {
+            Locale userSessionLocale = (Locale) session.getAttribute( ATTRIBUTE_SELECTED_LOCALE );
+            if ( userSessionLocale != null ) locale = userSessionLocale;
+        }
 
         if ( locale == null || !isSupported( locale ) )
         {
