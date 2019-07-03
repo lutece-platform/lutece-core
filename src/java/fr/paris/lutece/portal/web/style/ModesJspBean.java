@@ -148,15 +148,17 @@ public class ModesJspBean extends AdminFeaturesPageJspBean
             return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
         }
 
-        if ( !strPath.endsWith( "/" ) && !strPath.endsWith( "\\" ) )
+        if ( strPath != null && ( strPath.endsWith( "/" ) || strPath.endsWith( "\\" ) ) )
         {
-            strPath += File.separator;
+            strPath = strPath.substring(0, strPath.length()-1);
         }
 
         if ( SecurityUtil.containsPathManipulationChars(request, strPath) )
         {
             throw new AccessDeniedException( "Invalid path" );
         }
+        
+        strPath += File.separator;
 
         File dirPath = new File( AppPathService.getPath( PROPERTY_PATH_XSL ) + strPath );
 
