@@ -145,7 +145,7 @@ public final class WorkflowService
         {
             Collection<Action> listActions = _service.getActions( nIdResource, strResourceType, nIdWorkflow );
 
-            return _provider.getActions( listActions, user );
+            return _provider.getActions( nIdResource, strResourceType, listActions, user );
         }
 
         return null;
@@ -173,7 +173,7 @@ public final class WorkflowService
         {
             Map<Integer, List<Action>> mapActions = _service.getActions( listIdResource, strResourceType, nIdExternalParentId, nIdWorkflow );
 
-            return _provider.getActions( mapActions, user );
+            return _provider.getActions( strResourceType, mapActions, user );
         }
 
         return null;
@@ -679,7 +679,7 @@ public final class WorkflowService
                     return true;
                 }
 
-                return _provider.canProcessAction( nIdAction, request );
+                return _provider.canProcessAction( nIdResource, strResourceType, nIdAction, request );
             }
         }
 

@@ -55,24 +55,30 @@ public interface IWorkflowProvider
     /**
      * returns a list of actions possible for a given document based on the status of the document in the workflow and the user role.
      *
+     * @param resourceId
+     * 			the id of the document
+     * @param resourceType
+     * 			the type of the document
      * @param listActions
      *            the list actions
      * @param user
      *            the adminUser
      * @return a list of Action
      */
-    Collection<Action> getActions( Collection<Action> listActions, AdminUser user );
+    Collection<Action> getActions( int resourceId, String resourceType, Collection<Action> listActions, AdminUser user );
 
     /**
      * returns a list of actions possible for a given document based on the status of the document in the workflow and the user role.
-     *
+     * 
+     * @param resourceType
+     * 			the type of the document
      * @param mapActions
      *            the map actions
      * @param user
      *            the adminUser
      * @return a list of Action
      */
-    Map<Integer, List<Action>> getActions( Map<Integer, List<Action>> mapActions, AdminUser user );
+    Map<Integer, List<Action>> getActions( String resourceType, Map<Integer, List<Action>> mapActions, AdminUser user );
 
     /**
      * returns the actions history performed on a resource.
@@ -253,13 +259,17 @@ public interface IWorkflowProvider
     /**
      * Check if the action can be proceed for the given resource.
      *
+     * @param resourceId
+     * 			the id of the resource
+     * @param resourceType
+     * 			the type of the resource
      * @param nIdAction
      *            the id action
      * @param request
      *            the HTTP request
      * @return true if the action can proceed, false otherwise
      */
-    boolean canProcessAction( int nIdAction, HttpServletRequest request );
+    boolean canProcessAction( int resourceId, String resourceType, int nIdAction, HttpServletRequest request );
 
     // DO
 
