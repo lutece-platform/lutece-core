@@ -55,9 +55,9 @@ public interface IWorkflowProvider
     /**
      * returns a list of actions possible for a given document based on the status of the document in the workflow and the user role.
      *
-     * @param resourceId
+     * @param nIdResource
      * 			the id of the document
-     * @param resourceType
+     * @param strResourceType
      * 			the type of the document
      * @param listActions
      *            the list actions
@@ -65,12 +65,12 @@ public interface IWorkflowProvider
      *            the adminUser
      * @return a list of Action
      */
-    Collection<Action> getActions( int resourceId, String resourceType, Collection<Action> listActions, AdminUser user );
+    Collection<Action> getActions( int nIdResource, String strResourceType, Collection<Action> listActions, AdminUser user );
 
     /**
      * returns a list of actions possible for a given document based on the status of the document in the workflow and the user role.
      * 
-     * @param resourceType
+     * @param strResourceType
      * 			the type of the document
      * @param mapActions
      *            the map actions
@@ -78,7 +78,7 @@ public interface IWorkflowProvider
      *            the adminUser
      * @return a list of Action
      */
-    Map<Integer, List<Action>> getActions( String resourceType, Map<Integer, List<Action>> mapActions, AdminUser user );
+    Map<Integer, List<Action>> getActions( String strResourceType, Map<Integer, List<Action>> mapActions, AdminUser user );
 
     /**
      * returns the actions history performed on a resource.
@@ -259,9 +259,9 @@ public interface IWorkflowProvider
     /**
      * Check if the action can be proceed for the given resource.
      *
-     * @param resourceId
+     * @param nIdResource
      * 			the id of the resource
-     * @param resourceType
+     * @param strResourceType
      * 			the type of the resource
      * @param nIdAction
      *            the id action
@@ -269,7 +269,7 @@ public interface IWorkflowProvider
      *            the HTTP request
      * @return true if the action can proceed, false otherwise
      */
-    boolean canProcessAction( int resourceId, String resourceType, int nIdAction, HttpServletRequest request );
+    boolean canProcessAction( int nIdResource, String strResourceType, int nIdAction, HttpServletRequest request );
 
     // DO
 
