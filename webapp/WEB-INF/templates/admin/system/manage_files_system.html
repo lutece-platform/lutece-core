@@ -1,3 +1,4 @@
+<#ftl output_format="HTML" auto_esc=true>
 <@row>
 	<@columns>
 		<@box color='danger'>
@@ -16,6 +17,23 @@
 						<td>
 							<@aButton href='jsp/admin/system/ManageFilesSytemDir.jsp?dir=${file.directory}' buttonIcon='eye' title='#i18n{portal.system.manage_files_system.view} ${file.name}' showTitle=false />
             </td>
+					</tr>
+					</#list>
+				</@table>
+			</@boxBody>
+		</@box>
+		<@box color='danger'>
+			<@boxHeader title='#i18n{portal.system.manage_files_system.loggerBoxTitle}' />
+			<@boxBody>
+				<@table>
+					<tr>
+						<th>#i18n{portal.system.manage_files_system.labelLoggerLevel}</th>
+						<th>#i18n{portal.system.manage_files_system.labelLoggerName}</th>
+					</tr>
+					<#list loggers_list as logger >
+					<tr>
+						<td>${logger.effectiveLevel}</td>
+						<td>${logger.name}</td>
 					</tr>
 					</#list>
 				</@table>
