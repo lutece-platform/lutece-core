@@ -33,29 +33,30 @@
  */
 package fr.paris.lutece.portal.service.workflow;
 
-import fr.paris.lutece.plugins.workflowcore.business.action.Action;
-import fr.paris.lutece.plugins.workflowcore.business.state.State;
-import fr.paris.lutece.plugins.workflowcore.service.workflow.IWorkflowService;
-import fr.paris.lutece.portal.business.user.AdminUser;
-import fr.paris.lutece.portal.service.plugin.PluginService;
-import fr.paris.lutece.portal.service.spring.SpringContextService;
-import fr.paris.lutece.portal.service.util.AppException;
-import fr.paris.lutece.portal.service.util.AppLogService;
-import fr.paris.lutece.util.ReferenceList;
-import fr.paris.lutece.util.sql.TransactionManager;
-
-import org.apache.commons.lang.StringUtils;
-
-import org.springframework.beans.factory.BeanDefinitionStoreException;
-import org.springframework.beans.factory.CannotLoadBeanClassException;
-import org.springframework.beans.factory.NoSuchBeanDefinitionException;
-
 import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.BeanDefinitionStoreException;
+import org.springframework.beans.factory.CannotLoadBeanClassException;
+import org.springframework.beans.factory.NoSuchBeanDefinitionException;
+
+import fr.paris.lutece.plugins.workflowcore.business.action.Action;
+import fr.paris.lutece.plugins.workflowcore.business.state.State;
+import fr.paris.lutece.plugins.workflowcore.service.workflow.IWorkflowService;
+import fr.paris.lutece.portal.business.event.ResourceEvent;
+import fr.paris.lutece.portal.business.user.AdminUser;
+import fr.paris.lutece.portal.service.event.ResourceEventManager;
+import fr.paris.lutece.portal.service.plugin.PluginService;
+import fr.paris.lutece.portal.service.spring.SpringContextService;
+import fr.paris.lutece.portal.service.util.AppException;
+import fr.paris.lutece.portal.service.util.AppLogService;
+import fr.paris.lutece.util.ReferenceList;
+import fr.paris.lutece.util.sql.TransactionManager;
 
 /**
  *
@@ -223,6 +224,8 @@ public final class WorkflowService
                 String strUserAccessCode = bIsAutomatic ? null : _provider.getUserAccessCode( request );
                 _service.doProcessAction( nIdResource, strResourceType, nIdAction, nExternalParentId, request, locale, bIsAutomatic, strUserAccessCode );
                 TransactionManager.commitTransaction( null );
+                
+                registerResourceEvent( nIdResource, strResourceType );
             }
             catch( Exception e )
             {
@@ -629,6 +632,8 @@ public final class WorkflowService
             {
                 _service.executeActionAutomatic( nIdResource, strResourceType, nIdWorkflow, nExternalParentId );
                 TransactionManager.commitTransaction( null );
+                
+                registerResourceEvent( nIdResource, strResourceType );
             }
             catch( Exception e )
             {
@@ -711,6 +716,8 @@ public final class WorkflowService
             {
                 _service.doProcessAutomaticReflexiveActions( nIdResource, strResourceType, nIdState, nIdExternalParent, locale );
                 TransactionManager.commitTransaction( null );
+                
+                registerResourceEvent( nIdResource, strResourceType );
             }
             catch( Exception e )
             {
@@ -718,5 +725,19 @@ public final class WorkflowService
                 throw new AppException( e.getMessage( ), e );
             }
         }
+    }
+    
+    /**
+     * Create and process a ResourceEvent.
+     * @param nIdResource
+     * @param strResourceType
+     */
+    private void registerResourceEvent( int nIdResource, String strResourceType )
+    {
+    	ResourceEvent formResponseEvent = new ResourceEvent();
+        formResponseEvent.setIdResource( String.valueOf( nIdResource ) ) ;
+        formResponseEvent.setTypeResource( strResourceType );
+        
+        ResourceEventManager.fireUpdatedResource( formResponseEvent );
     }
 }
