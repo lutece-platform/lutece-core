@@ -44,6 +44,7 @@ public class ResourceEvent
 {
     private String _strIdResource;
     private String _strTypeResource;
+    private IEventParam<?> _param;
     private int _nIdPortlet = IndexationService.ALL_DOCUMENT;
 
     /**
@@ -132,4 +133,22 @@ public class ResourceEvent
     {
         _nIdPortlet = nIdPortlet;
     }
+    
+	/**
+	 * Sets the event Param.
+	 * @param param
+	 */
+	public void setParam( IEventParam<?> param )
+	{
+		_param = param;
+	}
+    
+	/**
+	 * Gets the event param
+	 * @return the param
+	 */
+	public IEventParam<?> getParam( )
+	{
+		return _param;
+	}
 }
