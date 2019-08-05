@@ -1038,10 +1038,13 @@ and is kept only for backwards compatibility
 
 <#-- TAG -->
 <#-- color: default/primary/success/info/warning/danger/ -->
-<#macro tag color='default' title='' type='span' id='' params=''>
-	<${type} class="label label-${color}"<#if title!=''> title='${title}'</#if><#if id!=''>id='${id}'</#if><#if params!=''>${params}</#if>>
+<#macro tag color='default' title='' tagIcon='' id='' params=''>
+	<span class="label label-${color}"<#if title!=''> title='${title}'</#if><#if id!=''>id='${id}'</#if><#if params!=''>${params}</#if>>
+        <#if tagIcon !=''>
+            <@icon style=tagIcon />
+        </#if>
 		<#nested>
-	</${type}>
+	</span>
 </#macro>
 
 <#-- BUTTON -->
@@ -1339,13 +1342,6 @@ and is kept only for backwards compatibility
 </ul>
 </#macro>
 
-<#-- Will no longer exist in Boostrap 4. Use label/tag + .tag-pill instead -->
-<#macro badge id='' params=''>
-<span class="badge"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
-	<#nested>
-</span>
-</#macro>
-
 <#-- CARDS -->
 <#macro card header=false headerTitle='' headerIcon=false headerTitleIcon=''>
 <div class="panel panel-default">
@@ -1525,10 +1521,10 @@ enableBSToppltip: false
 <#macro adminContentHeader >
 <section class="content-header">
 	<h1>
-        <#if feature_url?? >
-            <a href="${feature_url}" title="${feature_title}">${feature_title}</a>
+        <#if feature_url?? && feature_title??>
+            <a href="${feature_url}" title="${feature_title!''}">${feature_title!''}</a>
             <#else>
-                ${feature_title}
+                ${feature_title!''}
             </#if>
 		<#if page_title?has_content><small>${page_title}</small></#if>
 	</h1>
@@ -1634,10 +1630,13 @@ $(function() {
 </#macro>
 
 <#--Badge : BS badge + label  -->
-<#macro badge htmlEl='span' type='badge' style='primary' class='' >
-<${htmlEl} class="${type} ${type}-${style}">
+<#macro badge color='primary' badgeIcon='' title='' htmlEl='deprecated' type='deprecated' style='deprecated' class='deprecated' >
+<span class="badge badge-${color}" <#if title != ''> title="${title}" </#if> >
+    <#if badgeIcon !=''>
+        <@icon style=badgeIcon />
+    </#if>
 	<#nested>
-</${htmlEl}>
+</span>
 </#macro>
 
 

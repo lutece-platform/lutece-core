@@ -631,6 +631,7 @@ and is kept only for backwards compatibility
 </div>
 </#macro>
 
+<#--
 <#macro rowBoxHeader i18nTitleKey boxClass='box-primary' col=12>
 <@rowBox boxClass=boxClass col=col >
     <@boxHeader i18nTitleKey=i18nTitleKey />
@@ -643,6 +644,8 @@ and is kept only for backwards compatibility
 <#macro headerButtons>
 <#nested>
 </#macro>
+
+-->
 
 <#macro tableHeadBodySeparator>
 </thead>
@@ -761,63 +764,20 @@ and is kept only for backwards compatibility
 <#-- groupStyle: success/warning/error... -->
 
 <#macro formGroup formStyle='horizontal' class='' groupStyle='' rows=1 labelKey='' labelFor='' labelId='' helpKey='' id='' mandatory=false showLabel=true params=''>
-<#if class="text-center">
-    <#assign groupClass = "has-text-centered">
-<#else>
-    <#assign groupClass = class>
-</#if>
 
-<#switch formStyle>
-    <#case 'horizontal'>
-        <#assign classFormStyle='is-horizontal'>
-        <#break>
-    <#default>
-        <#assign classFormStyle=''>
-        <#break>
-</#switch>
-
-<div class="field ${classFormStyle} <#if groupStyle!=''> has-${groupStyle} has-feedback</#if><#if groupClass!=''> ${groupClass}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
-	<#if rows=1>
-		<#if labelKey!='' && formStyle='horizontal'>
-			<#assign labelClass = "field-label">
-			<#assign divClass = "field-body">
-		<#elseif formStyle = 'inline'>
-			<#assign labelClass = ''>
-		<#else>
-			<#assign divClass="col-xs-12 col-sm-offset-3 col-sm-6">
-		</#if>
-	<#else>
-		<#assign labelClass = "label">
-		<#assign divClass = "">
-	</#if>
-	<#if labelKey!=''>
-	<label class="${labelClass}<#if showLabel=false> sr-only</#if>" for="${labelFor}"<#if labelId!=''> id="${labelId}"</#if>>
-		${labelKey}<#if mandatory=false>&#160;<#elseif mandatory=true>&#160;<@icon style='asterisk' /></#if>
-	</label>
-	</#if>
-	<#if formStyle="horizontal">
-	<div class="${divClass}">
-	</#if>
-		<#assign mandatory = mandatory>
-		<#assign labelFor = labelFor>
-		<#assign helpKey = helpKey>
-        <div class="field is-expanded">
-            <p class="control is-expanded">
-        		<#nested>
-            </p>
-		<#if class='success'>
-			<@icon style='check' class='field-feedback' />
-		<#elseif class='warning'>
-			<@icon style='warning' class='field-feedback' />
-		<#elseif class='error'>
-			<@icon style='close' class='field-feedback' />
-		</#if>
-		<#if helpKey!='' && formStyle!='inline'><p class="help has-text-grey-light" <#if labelFor!=''>id="${labelFor}_help"</#if>>${helpKey}</p></#if>
-        </div>
-	<#if formStyle="horizontal">
-	</div>
-	</#if>
+<div class="field is-horizontal">
+  <div class="field-label">
+    <label class="label">${labelKey} <#if mandatory=true>*</#if></label>
+  </div>
+  <div class="field-body">
+    <div class="field">
+   		<#assign mandatory = mandatory>
+   		<#nested>
+        <#if helpKey != ''><p class="help">${helpKey}</p></#if>
+    </div>
+  </div>
 </div>
+
 </#macro>
 
 <#macro formField class=''>
@@ -843,9 +803,9 @@ and is kept only for backwards compatibility
 <#-- pattern: [A-F][0-9]{5} -->
 <#macro input name type='text' value='' class='' size='' inputSize=0 maxlength=0 placeHolder='' rows=4 cols=40 richtext=false tabIndex='' id='' mandatory=mandatory disabled=false readonly=false pattern='' params='' title='' min=0 max=0>
 <#if type='textarea'>
-	<textarea name="${name}" class="input <#if size!=''> input-${size}</#if><#if class!=''> ${class}</#if><#if richtext> richtext</#if>" rows="${rows}" cols="${cols}"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}"</#if><#if title!=''> title="${title}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if mandatory && !richtext> required</#if><#if labelFor!='' && helpKey!=''> aria-describedby="${labelFor}_help"</#if>><#nested></textarea>
+	<textarea name="${name}" class="input <#if size!=''> input-${size}</#if><#if class!=''> ${class}</#if><#if richtext> richtext</#if>" rows="${rows}" cols="${cols}"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}"</#if><#if title!=''> title="${title}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if mandatory && !richtext> required</#if>><#nested></textarea>
 <#elseif type='text' || type='search' || type='password' || type='email' || type='file' || type='number'>
-    <input class="input <#if size!=''> input-${size}</#if><#if class!=''> ${class}</#if> " name="${name}" type="${type}" value="${value}"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}"</#if><#if title!=''> title="${title}"</#if><#if maxlength &gt; 0> maxlength="${maxlength}"</#if><#if inputSize!=0> size="${inputSize}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if min!=0> min="${min}"</#if><#if max!=0> max="${max}"</#if><#if mandatory> required</#if><#if labelFor!='' && helpKey!=''> aria-describedby="${labelFor}_help"</#if> />
+    <input class="input <#if size!=''> input-${size}</#if><#if class!=''> ${class}</#if> " name="${name}" type="${type}" value="${value}"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}"</#if><#if title!=''> title="${title}"</#if><#if maxlength &gt; 0> maxlength="${maxlength}"</#if><#if inputSize!=0> size="${inputSize}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if min!=0> min="${min}"</#if><#if max!=0> max="${max}"</#if><#if mandatory> required</#if> />
 <#else><@icon style='warning' />Type not supported
 </#if>
 </#macro>
@@ -1029,10 +989,13 @@ and is kept only for backwards compatibility
 
 <#-- TAG -->
 <#-- color: default/primary/success/info/warning/danger/ -->
-<#macro tag color='default' title='' type='span' id='' params=''>
-	<${type} class="tag is-${color}"<#if title!=''> title='${title}'</#if><#if id!=''>id='${id}'</#if><#if params!=''>${params}</#if>>
+<#macro tag color='default' title='' tagIcon='' id='' params=''>
+	<span class="tag is-${color}"<#if title!=''> title='${title}'</#if><#if id!=''>id='${id}'</#if><#if params!=''>${params}</#if>>
+        <#if tagIcon !=''>
+            <@icon style=tagIcon /> &nbsp;
+        </#if>
 		<#nested>
-	</${type}>
+	</span>
 </#macro>
 
 <#-- BUTTON -->
@@ -1125,8 +1088,8 @@ and is kept only for backwards compatibility
 <#if showTitleLg = false><#assign showTitleClass = showTitleClass + ' ' + 'hidden-lg' /></#if>
 
 <a class="button is-grouped <#if size!=''>is-${size}</#if><#if color_temp!=''> is-${color_temp}</#if><#if style!=''> ${style}</#if><#if class!=''> ${class}</#if>"<#if name!=''> name="${name}"</#if><#if id!=''> id="${id}"</#if> href="${href}" title="${title}"<#if params!=''> ${params}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if>>
-	<#if buttonIcon!='' && iconPosition='left'><@icon style=buttonIcon /></#if>
-	<span class="${showTitleClass}">${title}</span><#if buttonIcon!='' && iconPosition='right'><@icon style=buttonIcon /></#if><#if dropdownMenu>&#160;<@icon style='caret-down' /></#if>
+   <#if buttonIcon!='' && iconPosition='left'><@icon style=buttonIcon /> &nbsp; </#if>
+	<span class="${showTitleClass}">${title}</span><#if buttonIcon!='' && iconPosition='right'> &nbsp; <@icon style=buttonIcon /></#if><#if dropdownMenu>&#160;<@icon style='caret-down' /></#if>
 	<#nested>
 </a>
 </#macro>
@@ -1281,9 +1244,9 @@ and is kept only for backwards compatibility
 </#macro>
 
 <#macro boxFooter class='' id='' params=''>
-<footer class="card-footer"<#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<div class="card-footer"<#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 	<#nested>
-</footer>
+</div>
 </#macro>
 
 <#---------------------------------------->
@@ -1390,13 +1353,6 @@ and is kept only for backwards compatibility
 <ul class="dropdown-menu"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 	<#nested>
 </ul>
-</#macro>
-
-<#-- Will no longer exist in Boostrap 4. Use label/tag + .tag-pill instead -->
-<#macro badge id='' params=''>
-<span class="badge"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
-	<#nested>
-</span>
 </#macro>
 
 <#-- CARDS -->
@@ -1577,12 +1533,12 @@ $( function() {
 <#macro adminContentHeader >
 <section class="content-header">
 	<h1>
-        <#if feature_url?? >
-    		<a href="${feature_url}" title="${feature_title}">${feature_title}</a>
+        <#if feature_url?? && feature_title?? >
+    		<a href="${feature_url}" title="${feature_title!''}">${feature_title!''}</a>
         <#else>
-            ${feature_title}
+            ${feature_title!''}
         </#if>
-		<#if page_title?has_content><span class="is-size-4 has-text-grey-light">${page_title}</span></#if>
+		<#if page_title?? && page_title?has_content><span class="is-size-4 has-text-grey-light">${page_title}</span></#if>
 	</h1>
 	<@adminHeaderDocumentationLink />
 </section>
@@ -1717,10 +1673,13 @@ $(function() {
 
 <#-- COMPONENTS --> 
 <#--Badge : BS badge + label  -->
-<#macro badge htmlEl='span' type='badge' style='primary' class='' >
-<${htmlEl} class="tag is-${style}">
+<#macro badge color='primary' badgeIcon='' title='' htmlEl='deprecated' type='deprecated' style='deprecated' class='deprecated' >
+<span class="tag is-${color}" <#if title != ''> title="${title}" </#if> >
+    <#if badgeIcon !=''>
+        <@icon style=badgeIcon />
+    </#if>
 	<#nested>
-</${htmlEl}>
+</span>
 </#macro>
 
 
