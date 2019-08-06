@@ -1,0 +1,131 @@
+<#include "utils.html">
+<@header title='Create Form'/>
+
+<@row>
+    <@columns>
+        <@box>
+            <@boxHeader title='Title' />
+            <@boxBody>
+                <@tform name='create_mockobject' action='jsp/admin/plugins//ManageMockObjects.jsp'>
+                    <@messages errors=errors />
+                            <@formGroup labelKey='Name' helpKey='Name.help' mandatory=true>
+                                <@input type='text' name='name' value='${mockObject.name!\'\'}' />
+                            </@formGroup>
+
+                            <@formGroup labelKey='Description' helpKey='Description.help' mandatory=true>
+                                <@input type='text' name='description' value='${mockObject.description!\'\'}' />
+                            </@formGroup>
+
+                            <@formGroup labelKey='Enable'>
+                                <@checkBox labelKey='Enable.help' name='enable' value='1' />
+                            </@formGroup>
+
+                            <@formGroup labelKey='Status'>
+                                <@checkBox labelKey='Status.help' name='status' value='1' />
+                            </@formGroup>
+
+                            <@formGroup labelKey='Ratio' helpKey='Ratio.help' mandatory=true>
+                                <@input type='text' name='ratio' value='${mockObject.ratio!\'\'}' />
+                            </@formGroup>
+
+                            <@formGroup labelKey='Password' helpKey='Password.help' mandatory=true>
+                                <@input type='password' name='password' value='${mockObject.password!\'\'}' />
+                            </@formGroup>
+
+                            <@formGroup labelKey='ElapsedTime' helpKey='ElapsedTime.help' mandatory=true>
+                                <@input type='number' name='elapsed_time' value='${mockObject.elapsedTime!\'\'}' />
+                            </@formGroup>
+
+                            <@formGroup labelKey='IdForeign' helpKey='IdForeign.help' mandatory=true>
+                                <@select name='id_foreign' items=id_foreigns_list default_value='${mockObject.idForeign}' />
+                            </@formGroup>
+
+                            <@formGroup labelKey='Email' helpKey='Email.help' mandatory=true>
+                                <@input type='email' name='email' value='${mockObject.email!\'\'}' />
+                            </@formGroup>
+
+                            <@formGroup labelKey='Text' helpKey='Text.help' mandatory=true>
+                                <@input type='textarea' name='text' value='${mockObject.text!\'\'}' />
+                            </@formGroup>
+
+                            <@formGroup labelKey='DateCreated' helpKey='DateCreated.help' mandatory=true>
+                                <@input type='text' name='date_created' value='${mockObject.dateCreated!\'\'}' />
+                            </@formGroup>
+
+                            <@formGroup labelKey='DateUpdated' helpKey='DateUpdated.help' mandatory=true>
+                                <@input type='text' name='date_updated' value='${mockObject.dateUpdated!\'\'}' />
+                            </@formGroup>
+
+                        <@actionButtons button1Name="action_createMockObject" button2Name="view_manageMockObject"/>
+                </@tform>
+            </@boxBody>
+        </@box>
+    </@columns>
+</@row>
+
+
+<pre>
+&lt;@row&gt;
+    &lt;@columns&gt;
+        &lt;@box&gt;
+            &lt;@boxHeader title='Title' /&gt;
+            &lt;@boxBody&gt;
+                &lt;@tform name='create_mockobject' action='jsp/admin/plugins//ManageMockObjects.jsp'&gt;
+                    &lt;@messages errors=errors /&gt;
+                            &lt;@formGroup labelKey='Name' helpKey='Name.help' mandatory=true&gt;
+                                &lt;@input type='text' name='name' value='&dollar;{mockObject.name!\'\'}' /&gt;
+                            &lt;/@formGroup&gt;
+
+                            &lt;@formGroup labelKey='Description' helpKey='Description.help' mandatory=true&gt;
+                                &lt;@input type='text' name='description' value='&dollar;{mockObject.description!\'\'}' /&gt;
+                            &lt;/@formGroup&gt;
+
+                            &lt;@formGroup labelKey='Enable'&gt;
+                                &lt;@checkBox labelKey='Enable.help' name='enable' value='1' /&gt;
+                            &lt;/@formGroup&gt;
+
+                            &lt;@formGroup labelKey='Status'&gt;
+                                &lt;@checkBox labelKey='Status.help' name='status' value='1' /&gt;
+                            &lt;/@formGroup&gt;
+
+                            &lt;@formGroup labelKey='Ratio' helpKey='Ratio.help' mandatory=true&gt;
+                                &lt;@input type='text' name='ratio' value='&dollar;{mockObject.ratio!\'\'}' /&gt;
+                            &lt;/@formGroup&gt;
+
+                            &lt;@formGroup labelKey='Password' helpKey='Password.help' mandatory=true&gt;
+                                &lt;@input type='password' name='password' value='&dollar;{mockObject.password!\'\'}' /&gt;
+                            &lt;/@formGroup&gt;
+
+                            &lt;@formGroup labelKey='ElapsedTime' helpKey='ElapsedTime.help' mandatory=true&gt;
+                                &lt;@input type='number' name='elapsed_time' value='&dollar;{mockObject.elapsedTime!\'\'}' /&gt;
+                            &lt;/@formGroup&gt;
+
+                            &lt;@formGroup labelKey='IdForeign' helpKey='IdForeign.help' mandatory=true&gt;
+                                &lt;@select name='id_foreign' items=id_foreigns_list default_value='&dollar;{mockObject.idForeign}' /&gt;
+                            &lt;/@formGroup&gt;
+
+                            &lt;@formGroup labelKey='Email' helpKey='Email.help' mandatory=true&gt;
+                                &lt;@input type='email' name='email' value='&dollar;{mockObject.email!\'\'}' /&gt;
+                            &lt;/@formGroup&gt;
+
+                            &lt;@formGroup labelKey='Text' helpKey='Text.help' mandatory=true&gt;
+                                &lt;@input type='textarea' name='text' value='&dollar;{mockObject.text!\'\'}' /&gt;
+                            &lt;/@formGroup&gt;
+
+                            &lt;@formGroup labelKey='DateCreated' helpKey='DateCreated.help' mandatory=true&gt;
+                                &lt;@input type='text' name='date_created' value='&dollar;{mockObject.dateCreated!\'\'}' /&gt;
+                            &lt;/@formGroup&gt;
+
+                            &lt;@formGroup labelKey='DateUpdated' helpKey='DateUpdated.help' mandatory=true&gt;
+                                &lt;@input type='text' name='date_updated' value='&dollar;{mockObject.dateUpdated!\'\'}' /&gt;
+                            &lt;/@formGroup&gt;
+
+                        &lt;@actionButtons button1Name="action_createMockObject" button2Name="view_manageMockObject"/&gt;
+                &lt;/@tform&gt;
+            &lt;/@boxBody&gt;
+        &lt;/@box&gt;
+    &lt;/@columns&gt;
+&lt;/@row&gt;
+    
+</pre>
+<@footer />

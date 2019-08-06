@@ -1,0 +1,36 @@
+<#macro header title=''>
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+    <@coreAdminCSSLinks />
+    <script src="js/jquery/jquery.min.js"></script>
+    </head>
+    <body>
+        <div class="container">
+            <h1>${title}</h1>
+            <em>processed with <@commonsName /></em>
+            <hr>
+            <div>
+                <a href="index.html">Documentation</a> / ${title}
+            </div>
+</#macro>
+
+<#macro h1>
+<h1 class="title"> <#nested> </h1>
+<hr>
+</#macro>
+
+
+<#macro h2>
+<br>
+<h2 class="subtitle"> <#nested> </h2>
+<hr>
+</#macro>
+
+
+<#macro footer>
+<@coreAdminJSLinks />
+        </div>
+    </body>
+</html>
+</#macro>

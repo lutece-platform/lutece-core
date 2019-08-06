@@ -2,8 +2,7 @@
  # This macro template can be used to output white-space-sensitive formats (like RSS files).
  # See http://dev.lutece.paris.fr/jira/browse/LUTECE-765
 -->
-<#include "util/standard/macro_standard.html" />
-<#include "util/calendar/macro_datepicker.html" />
+<#include "util/calendar/macro_datepicker.html" ignore_missing=true />
 <#-- Do not remove this comment -->
 
 
@@ -1038,7 +1037,7 @@ and is kept only for backwards compatibility
 
 <#-- TAG -->
 <#-- color: default/primary/success/info/warning/danger/ -->
-<#macro tag color='default' title='' tagIcon='' id='' params=''>
+<#macro tag color='default' size='' title='' tagIcon='' id='' params=''>
 	<span class="label label-${color}"<#if title!=''> title='${title}'</#if><#if id!=''>id='${id}'</#if><#if params!=''>${params}</#if>>
         <#if tagIcon !=''>
             <@icon style=tagIcon />

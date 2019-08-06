@@ -1,0 +1,204 @@
+<#include "utils.html">
+<@header title='Button'/>
+
+<@h2># Colors</@h2>
+
+
+<@row>
+    <@columns>
+    <@button color='default' title='default' />
+    <@button color='primary' title='primary' />
+    <@button color='link' title='link' />
+    <@button color='info' title='info' />
+    <@button color='success' title='success' />
+    <@button color='warning' title='warning' />
+    <@button color='danger' title='danger' />
+    </@columns>
+
+    <@columns>
+    <pre>
+&lt;@button color='default' title='default' /&gt;
+&lt;@button color='primary' title='primary' /&gt;
+&lt;@button color='link' title='link' /&gt;
+&lt;@button color='info' title='info' /&gt;
+&lt;@button color='success' title='success' /&gt;
+&lt;@button color='warning' title='warning' /&gt;
+&lt;@button color='danger' title='danger' /&gt;
+    </pre>
+    </@columns>
+</@row>
+
+
+<@h2># Sizes </@h2>
+<@row>
+    <@columns>
+    <@button size='xs' title='Extra Small' />
+    <@button size='sm' title='Small' />
+    <@button title='Default' />
+    <@button size='md' title='Medium' />
+    <@button size='lg' title='Large' />
+    </@columns>
+
+    <@columns>
+    <pre>
+&lt;@button size='xs' title='Extra Small' /&gt;
+&lt;@button size='sm' title='Small' /&gt;
+&lt;@button title='Default' /&gt;
+&lt;@button size='md' title='Medium' /&gt;
+&lt;@button size='lg' title='Large' /&gt;
+    </pre>
+    </@columns>
+</@row>
+
+
+<@h2># Icons </@h2>
+<@row>
+    <@columns>
+    <@button buttonIcon='github' title='Github' />
+    <@button buttonIcon='twitter' title='Twitter' />
+    <@button buttonIcon='close' title='Cancel' />
+    <@button buttonIcon='check' title='Validate' />
+    <@button buttonIcon='trash' title='Delete' />
+    </@columns>
+
+    <@columns>
+    <pre>
+&lt;@button buttonIcon='github' title='Extra Small' /&gt;
+&lt;@button buttonIcon='twitter' title='Twitter' /&gt;
+&lt;@button buttonIcon='close' title='Cancel' /&gt;
+&lt;@button buttonIcon='check' title='Validate' /&gt;
+&lt;@button buttonIcon='trash' title='Delete' /&gt;
+    </pre>
+    </@columns>
+</@row>
+
+<@h2>Anchor buttons</@h2>
+
+<@h2># Colors</@h2>
+
+<@row>
+    <@columns>
+    <@aButton color='primary' title='primary' />
+    <@aButton color='link' title='link' />
+    <@aButton color='info' title='info' />
+    <@aButton color='success' title='success' />
+    <@aButton color='warning' title='warning' />
+    <@aButton color='danger' title='danger' />
+    </@columns>
+
+    <@columns>
+    <pre> 
+&lt;@aButton color='primary' title='primary' /&gt;
+&lt;@aButton color='link' title='link' /&gt;
+&lt;@aButton color='info' title='info' /&gt;
+&lt;@aButton color='success' title='success' /&gt;
+&lt;@aButton color='warning' title='warning' /&gt;
+&lt;@aButton color='danger' title='danger' /&gt;
+    </pre>
+    </@columns>
+</@row>
+
+
+<@h2># Sizes </@h2>
+<@row>
+    <@columns>
+    <@aButton size='xs' title='Extra Small' />
+    <@aButton size='sm' title='Small' />
+    <@aButton title='Default' />
+    <@aButton size='md' title='Medium' />
+    <@aButton size='lg' title='Large' />
+    </@columns>
+
+    <@columns>
+    <pre>    
+&lt;@aButton size='xs' title='Extra Small' /&gt;
+&lt;@aButton size='sm' title='Small' /&gt;
+&lt;@aButton title='Default' /&gt;
+&lt;@aButton size='md' title='Medium' /&gt;
+&lt;@aButton size='lg' title='Large' /&gt;
+    </pre>
+    </@columns>
+</@row>
+
+
+<@h2># Icons </@h2>
+<@row>
+    <@columns>
+    <@aButton buttonIcon='github' title='Github' />
+    <@aButton buttonIcon='twitter' title='Twitter' />
+    <@aButton buttonIcon='close' title='Cancel' />
+    <@aButton buttonIcon='check' title='Validate' />
+    <@aButton buttonIcon='trash' title='Delete' />
+    </@columns>
+
+    <@columns>
+    <pre>
+&lt;@aButton buttonIcon='github' title='Extra Small' /&gt;
+&lt;@aButton buttonIcon='twitter' title='Twitter' /&gt;
+&lt;@aButton buttonIcon='close' title='Cancel' /&gt;
+&lt;@aButton buttonIcon='check' title='Validate' /&gt;
+&lt;@aButton buttonIcon='trash' title='Delete' /&gt;
+    </pre>
+    </@columns>
+</@row>
+
+
+<@h2>Button group</@h2>
+
+<@h2># Alignment Left</@h2>
+
+<@row>
+    <@columns>
+        <@btnGroup>
+            <@button color='primary' title='Validate' />
+            <@button color='default' title='Cancel' />
+        </@btnGroup>
+    </@columns>
+    <@columns>
+    <pre>
+&lt;@btnGroup &gt;
+    &lt;@button color='primary' title='Validate' /&gt;
+    &lt;@button color='default' title='Cancel' /&gt;
+&lt;/@btnGroup&gt;
+    </pre>
+    </@columns>
+</@row>
+
+<@h2># Alignment Centered</@h2>
+<@row>
+    <@columns>
+        <@btnGroup align='center'>
+            <@button color='primary' title='Validate' />
+            <@button color='default' title='Cancel' />
+        </@btnGroup>
+    </@columns>
+    <@columns>
+    <pre>
+&lt;@btnGroup align='center'&gt;
+    &lt;@button color='primary' title='Validate' /&gt;
+    &lt;@button color='default' title='Cancel' /&gt;
+&lt;/@btnGroup&gt;
+    </pre>
+    </@columns>
+</@row>
+
+<@h2># Alignment Right</@h2>
+
+<@row>
+    <@columns>
+        <@btnGroup align='right'>
+            <@button color='primary' title='Validate' />
+            <@button color='default' title='Cancel' />
+        </@btnGroup>
+    </@columns>
+    <@columns>
+    <pre>
+&lt;@btnGroup align='right'&gt;
+    &lt;@button color='primary' title='Validate' /&gt;
+    &lt;@button color='default' title='Cancel' /&gt;
+&lt;/@btnGroup&gt;
+    </pre>
+    </@columns>
+</@row>
+
+<@footer />

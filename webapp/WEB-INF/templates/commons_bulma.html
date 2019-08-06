@@ -2,8 +2,7 @@
  # This macro template can be used to output white-space-sensitive formats (like RSS files).
  # See http://dev.lutece.paris.fr/jira/browse/LUTECE-765
 -->
-<#include "util/standard/macro_standard.html" />
-<#include "util/calendar/macro_datepicker.html" />
+<#include "util/calendar/macro_datepicker.html"  ignore_missing=true />
 <#-- Do not remove this comment -->
 
 <#-- Information about this commons file -->
@@ -989,8 +988,25 @@ and is kept only for backwards compatibility
 
 <#-- TAG -->
 <#-- color: default/primary/success/info/warning/danger/ -->
-<#macro tag color='default' title='' tagIcon='' id='' params=''>
-	<span class="tag is-${color}"<#if title!=''> title='${title}'</#if><#if id!=''>id='${id}'</#if><#if params!=''>${params}</#if>>
+<#macro tag color='default'  size='' title='' tagIcon='' id='' params=''>
+    <#switch size>
+        <#case 'xs'>
+            <#assign tagSize='is-small'>
+            <#break>
+        <#case 'sm'>
+            <#assign tagSize=''>
+            <#break>
+        <#case 'md'>
+            <#assign tagSize='is-medium'>
+            <#break>
+        <#case 'lg'>
+            <#assign tagSize='is-large'>
+            <#break>
+        <#default>
+            <#assign tagSize='is-normal'>
+    </#switch>
+
+	<span class="tag is-${color} <#if tagSize!=''>${tagSize}</#if>"<#if title!=''> title='${title}'</#if><#if id!=''>id='${id}'</#if><#if params!=''>${params}</#if>>
         <#if tagIcon !=''>
             <@icon style=tagIcon /> &nbsp;
         </#if>
@@ -999,29 +1015,14 @@ and is kept only for backwards compatibility
 </#macro>
 
 <#-- BUTTON -->
-<#-- bootstrap 3 : size: is-small/is-medium/is-large -->
-<#-- upcoming bootstrap 4 : size: is-medium for small buttons/empty for medium buttons/is-large for large buttons -->
-<#-- color: default : secondary]/primary/success/warning/danger/info -->
-<#-- color (upcoming bootstrap 4): btn-outline-default/btn-outline-primary/btn-outline-success/btn-outline-warning/btn-outline-danger/btn-outline-info/ -->
-<#-- style: close/navbar-toggle/collapsed ignored : btn-block/btn-flat -->
+<#-- size: xs/sm/md/lg -->
+<#-- color: default : primary/success/warning/danger/info -->
 <#-- type: button/submit/reset -->
 <#-- params: data-toggle/data-target/data-dismiss... -->
 <#-- buttonIcon: icon name ex: info/check/comment/envelope... -->
 <#-- iconPosition: left/right -->
 <#-- cancel: switch to true for a cancellation form button. Adds the "formnovalidate" attribute to the button, as well as the right class -->
-<#macro button name='' id='' type='button' size='' color='' style='' class='' params='' value='' title='' tabIndex='' showTitle=true showTitleXs=true showTitleSm=true showTitleMd=true showTitleLg=true buttonIcon='' disabled=false iconPosition='left' dropdownMenu=false cancel=false>
-<#if cancel>
-	<#assign buttonColor = 'default' />
-<#elseif !cancel && color=''>
-	<#assign buttonColor = 'primary' />
-<#else>
-	<#-- v6 compatibility -->
-	<#if color?starts_with( "btn-" )>
-		<#assign buttonColor = color?substring(4) />
-	<#else>
-		<#assign buttonColor = color />
-	</#if>
-</#if>
+<#macro button name='' id='' type='button'  buttonIcon='' size='' color='' style='' class='' params='' value='' title='' tabIndex='' showTitle=true showTitleXs=true showTitleSm=true showTitleMd=true showTitleLg=true disabled=false iconPosition='left' dropdownMenu=false>
 
 <#-- Visibility of button title -->
 <#assign showTitleClass = '' />
@@ -1031,26 +1032,27 @@ and is kept only for backwards compatibility
 <#if showTitleMd = false><#assign showTitleClass = showTitleClass + ' ' + 'hidden-md' /></#if>
 <#if showTitleLg = false><#assign showTitleClass = showTitleClass + ' ' + 'hidden-lg' /></#if>
 
-<#if size !=''>
-	<#switch size>
-		<#case 'sm'>
-			<#assign size='small'>
-			<#break>
-		<#case 'md'>
-			<#assign size='normal'>
-			<#break>
-		<#case 'lg'>
-			<#assign size='medium'>
-			<#break>
-		<#default>
-			<#assign size=''>
-	</#switch>
-</#if>
+<#switch size>
+    <#case 'xs'>
+        <#assign buttonSize='is-small'>
+        <#break>
+    <#case 'sm'>
+        <#assign buttonSize=''>
+        <#break>
+    <#case 'md'>
+        <#assign buttonSize='is-medium'>
+        <#break>
+    <#case 'lg'>
+        <#assign buttonSize='is-large'>
+        <#break>
+    <#default>
+        <#assign buttonSize='is-normal'>
+</#switch>
 
 <#if dropdownMenu>
 <div class="dropdown">
 </#if>
-	<button class="<#if style!='close'>button</#if><#if size!='' && style!='btn-box-tool'> is-${size}</#if><#if buttonColor!='' && style!='btn-box-tool'> is-${buttonColor}</#if> is-grouped <#if style!=''> ${style}</#if><#if dropdownMenu> dropdown-toggle</#if><#if class!=''> ${class}</#if>" type="${type}"<#if title!=''> title="${title}"</#if><#if name!=''> name="${name}"</#if><#if id!=''> id="${id}"</#if><#if value!=''> value="${value}"</#if><#if params!=''> ${params}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if><#if cancel> formnovalidate</#if>>
+	<button class="button<#if buttonSize!=''> ${buttonSize}</#if><#if color!=''> is-${color}</#if> <#if dropdownMenu> dropdown-toggle</#if><#if class!=''> ${class}</#if>" type="${type}"<#if title!=''> title="${title}"</#if><#if name!=''> name="${name}"</#if><#if id!=''> id="${id}"</#if><#if value!=''> value="${value}"</#if><#if params!=''> ${params}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if>>
         <#if buttonIcon!='' && iconPosition='left'><@icon style=buttonIcon />&nbsp;</#if>
 		<#if showTitleClass!='' && style!='btn-box-tool'><span class="${showTitleClass}"></#if>${title}<#if showTitleClass!='' && style!='btn-box-tool'></span></#if>
 		<#if buttonIcon!='' && iconPosition='right'>&nbsp;<@icon style=buttonIcon /></#if>
@@ -1200,7 +1202,7 @@ and is kept only for backwards compatibility
 <#macro alert class='' color='' titleLevel='h3' title='' iconTitle='' dismissible=false id='' params=''>
 <div class="notification ${class} <#if color!=''> is-${color}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 <#if dismissible>
-	<@button color='' size='' style='close' class='delete' params='data-dismiss="alert" aria-hidden="true"'>&times;</@button>
+	<@button color='' size='' class='delete' params='data-dismiss="alert" aria-hidden="true"'>&times;</@button>
 </#if>
 <#if title!=''>
 <${titleLevel}>
@@ -1673,8 +1675,8 @@ $(function() {
 
 <#-- COMPONENTS --> 
 <#--Badge : BS badge + label  -->
-<#macro badge color='primary' badgeIcon='' title='' htmlEl='deprecated' type='deprecated' style='deprecated' class='deprecated' >
-<span class="tag is-${color}" <#if title != ''> title="${title}" </#if> >
+<#macro badge color='' badgeIcon='' title='' htmlEl='deprecated' type='deprecated' style='deprecated' class='deprecated' >
+<span class="tag <#if color!=''>is-${color}</#if>" <#if title != ''> title="${title}" </#if> >
     <#if badgeIcon !=''>
         <@icon style=badgeIcon />
     </#if>
