@@ -1,0 +1,165 @@
+<#include "utils.html">
+<@header title='Table' />
+
+<@h2># Default (condensed + hover)</@h2>
+
+<@row>
+    <@columns>
+<@table>
+    <@tr>
+        <@th>#</@th>
+        <@th>Firstnane</@th>
+        <@th>Lastnane</@th>
+        <@th>Age</@th>
+    </@tr>
+    <@tableHeadBodySeparator />
+    <@tr>
+        <@td>1</@td>
+        <@td>John</@td>
+        <@td>Doe</@td>
+        <@td>54</@td>
+    </@tr>
+    <@tr>
+        <@td>2</@td>
+        <@td>Tess</@td>
+        <@td>Asher</@td>
+        <@td>34</@td>
+    </@tr>
+    <@tr>
+        <@td>3</@td>
+        <@td>Todd</@td>
+        <@td>OBrien</@td>
+        <@td>34</@td>
+    </@tr>
+</@table>
+</@columns>
+</@row>
+<@row>
+    <@columns>
+    <pre>
+    &lt;@table&gt;
+        &lt;@tr&gt;
+            &lt;@th&gt;#&lt;/@th&gt;
+            &lt;@th&gt;Firstnane&lt;/@th&gt;
+            &lt;@th&gt;Lastnane&lt;/@th&gt;
+            &lt;@th&gt;Age&lt;/@th&gt;
+        &lt;/@tr&gt;
+        &lt;@tableHeadBodySeparator /&gt;
+        &lt;@tr&gt;
+            &lt;@td&gt;1&lt;/@td&gt;
+            &lt;@td&gt;John&lt;/@td&gt;
+            &lt;@td&gt;Doe&lt;/@td&gt;
+            &lt;@td&gt;54&lt;/@td&gt;
+        &lt;/@tr&gt;
+        &lt;@tr&gt;
+            &lt;@td&gt;2&lt;/@td&gt;
+            &lt;@td&gt;Tess&lt;/@td&gt;
+            &lt;@td&gt;Asher&lt;/@td&gt;
+            &lt;@td&gt;34&lt;/@td&gt;
+        &lt;/@tr&gt;
+        &lt;@tr&gt;
+            &lt;@td&gt;3&lt;/@td&gt;
+            &lt;@td&gt;Todd&lt;/@td&gt;
+            &lt;@td&gt;OBrien&lt;/@td&gt;
+            &lt;@td&gt;34&lt;/@td&gt;
+        &lt;/@tr&gt;
+    &lt;/@table&gt;
+    </pre>
+    </@columns>
+</@row>
+
+
+<@h2># Striped</@h2>
+
+<@row>
+    <@columns>
+        <@table condensed=false hover=false striped=true>
+            <@tr><@th>#</@th><@th>Firstnane</@th><@th>Lastnane</@th><@th>Age</@th></@tr>
+            <@tableHeadBodySeparator />
+            <@tr><@td>1</@td><@td>John</@td><@td>Doe</@td><@td>54</@td></@tr>
+            <@tr><@td>2</@td><@td>Tess</@td><@td>Asher</@td><@td>34</@td></@tr>
+            <@tr><@td>3</@td><@td>Todd</@td><@td>OBrien</@td><@td>34</@td></@tr>
+        </@table>
+    </@columns>
+</@row>
+<@row>
+    <@columns>
+    <pre>
+    &lt;@table condensed=false hover=false striped=true&gt;
+    </pre>
+    </@columns>
+</@row>
+
+
+<@h2># Bordered</@h2>
+
+<@row>
+    <@columns>
+        <@table condensed=false hover=false bordered=true >
+            <@tr><@th>#</@th><@th>Firstnane</@th><@th>Lastnane</@th><@th>Age</@th></@tr>
+            <@tableHeadBodySeparator />
+            <@tr><@td>1</@td><@td>John</@td><@td>Doe</@td><@td>54</@td></@tr>
+            <@tr><@td>2</@td><@td>Tess</@td><@td>Asher</@td><@td>34</@td></@tr>
+            <@tr><@td>3</@td><@td>Todd</@td><@td>OBrien</@td><@td>34</@td></@tr>
+        </@table>
+    </@columns>
+</@row>
+<@row>
+    <@columns>
+    <pre>
+    &lt;@table condensed=false hover=false bordered=true&gt;
+    </pre>
+    </@columns>
+</@row>
+
+<@h2># Condensed</@h2>
+
+<@row>
+    <@columns>
+        <@table condensed=true hover=false>
+            <@tr><@th>#</@th><@th>Firstnane</@th><@th>Lastnane</@th><@th>Age</@th></@tr>
+            <@tableHeadBodySeparator />
+            <@tr><@td>1</@td><@td>John</@td><@td>Doe</@td><@td>54</@td></@tr>
+            <@tr><@td>2</@td><@td>Tess</@td><@td>Asher</@td><@td>34</@td></@tr>
+            <@tr><@td>3</@td><@td>Todd</@td><@td>OBrien</@td><@td>34</@td></@tr>
+        </@table>
+    </@columns>
+</@row>
+<@row>
+    <@columns>
+    <pre>
+    &lt;@table condensed=true hover=false&gt;
+    </pre>
+    </@columns>
+</@row>
+
+
+<@h2># Responsive</@h2>
+<p>
+    Some columns can be hidden according the size of the screen. In the following example, the firstname and age are not displayed for small screens. 
+</p>
+<@row>
+    <@columns>
+        <@table>
+            <@tr><@th>#</@th><@th showXs=false showSm=false >Firstnane</@th><@th>Lastnane</@th><@th showXs=false >Age</@th></@tr>
+            <@tableHeadBodySeparator />
+            <@tr><@td>1</@td><@td showXs=false showSm=false>John</@td><@td>Doe</@td><@td showXs=false>54</@td></@tr>
+            <@tr><@td>2</@td><@td showXs=false showSm=false>Tess</@td><@td>Asher</@td><@td showXs=false>34</@td></@tr>
+            <@tr><@td>3</@td><@td showXs=false showSm=false>Todd</@td><@td>OBrien</@td><@td showXs=false>34</@td></@tr>
+        </@table>
+    </@columns>
+</@row>
+<@row>
+    <@columns>
+    <pre>
+        &lt;@table&gt;
+            &lt;@tr&gt;&lt;@th&gt;#&lt;/@th&gt;&lt;@th showXs=false showSm=false &gt;Firstnane&lt;/@th&gt;&lt;@th&gt;Lastnane&lt;/@th&gt;&lt;@th showXs=false &gt;Age&lt;/@th&gt;&lt;/@tr&gt;
+            &lt;@tableHeadBodySeparator /&gt;
+            &lt;@tr&gt;&lt;@td&gt;1&lt;/@td&gt;&lt;@td showXs=false showSm=false&gt;John&lt;/@td&gt;&lt;@td&gt;Doe&lt;/@td&gt;&lt;@td showXs=false&gt;54&lt;/@td&gt;&lt;/@tr&gt;
+            &lt;@tr&gt;&lt;@td&gt;2&lt;/@td&gt;&lt;@td showXs=false showSm=false&gt;Tess&lt;/@td&gt;&lt;@td&gt;Asher&lt;/@td&gt;&lt;@td showXs=false&gt;34&lt;/@td&gt;&lt;/@tr&gt;
+            &lt;@tr&gt;&lt;@td&gt;3&lt;/@td&gt;&lt;@td showXs=false showSm=false&gt;Todd&lt;/@td&gt;&lt;@td&gt;OBrien&lt;/@td&gt;&lt;@td showXs=false&gt;34&lt;/@td&gt;&lt;/@tr&gt;
+        &lt;/@table&gt;
+    </pre>
+    </@columns>
+</@row>
+<@footer />

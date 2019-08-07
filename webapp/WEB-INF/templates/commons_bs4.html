@@ -258,21 +258,55 @@
 </#macro>
 	
 <#-- TABLE -->
-<#-- class: striped/bordered/hover/condensed -->
-<#macro table responsive=true class='' id='' params=''>
-<#if responsive>
-<div class="table-responsive">
-</#if>
-	<table class="table table-hover table-condensed<#if class!=''> ${class}</#if>" id="${id}"<#if params!=''> ${params}</#if>>
-		<#nested>
-	</table>
-<#if responsive>
-</div>
-</#if>
+<#-- class:  -->
+<#macro table responsive=true condensed=true hover=true striped=false bordered=false narrow=false class='' id='' params=''>
+
+    <#assign tableClass=class />
+    <#if condensed> <#assign tableClass=tableClass + ' table-condensed' /> </#if>
+    <#if hover>     <#assign tableClass=tableClass + ' table-hover' /> </#if>
+    <#if striped>   <#assign tableClass=tableClass + ' table-striped'   /> </#if>
+    <#if bordered>  <#assign tableClass=tableClass + ' table-bordered'  /> </#if>
+    <#if responsive>
+    <div class="table-responsive">
+    </#if>
+        <table class="table ${tableClass}" id="${id}"<#if params!=''> ${params}</#if>>
+            <#nested>
+        </table>
+    <#if responsive>
+    </div>
+    </#if>
 </#macro>
 
-<#macro td xs=0 sm=0 md=0 lg=0 xl=0 class='' id='' params=''>
-<td class="<#if xs!=0>col-xs-${xs}</#if><#if sm!=0> col-sm-${sm}</#if><#if md!=0> col-md-${md}</#if><#if lg!=0> col-lg-${lg}</#if><#if xl!=0> col-xl-${xl}</#if><#if class!=''>${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<#-- MACRO TH -->
+<#macro th class='' showXs=true showSm=true showMd=true showLg=true >
+    <#assign thClass=class />
+    <#if !showXs><#assign thClass=thClass + ' d-none d-sm-block'></#if>
+    <#if !showSm><#assign thClass=thClass + ' d-none d-md-block'></#if>
+    <#if !showMd><#assign thClass=thClass + ' d-none d-lg-block'></#if>
+    <#if !showLg><#assign thClass=thClass + ' d-none d-xl-block'></#if>
+
+    <th <#if thClass != ''>class="${thClass}"</#if>>
+        <#nested>
+    </th>
+</#macro>
+
+
+<#-- MACRO TR -->
+<#macro tr>
+<tr>
+    <#nested>
+</tr>
+</#macro>
+
+<#-- MACRO TD -->
+<#macro td  showXs=true showSm=true showMd=true showLg=true xs=0 sm=0 md=0 lg=0 xl=0 class='' id='' params=''>
+    <#assign tdClass=class />
+    <#if !showXs><#assign tdClass=tdClass + ' d-none d-sm-block'></#if>
+    <#if !showSm><#assign tdClass=tdClass + ' d-none d-md-block'></#if>
+    <#if !showMd><#assign tdClass=tdClass + ' d-none d-lg-block'></#if>
+    <#if !showLg><#assign tdClass=tdClass + ' d-none d-xl-block'></#if>
+
+<td class="<#if tdClass != ''>${tdClass}</#if><#if xs!=0>col-xs-${xs}</#if><#if sm!=0> col-sm-${sm}</#if><#if md!=0> col-md-${md}</#if><#if lg!=0> col-lg-${lg}</#if><#if xl!=0> col-xl-${xl}</#if><#if class!=''>${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 	<#nested>
 </td>
 </#macro>
@@ -675,10 +709,10 @@
 	<#-- Visibility of button title -->
 	<#assign showTitleClass = '' />
 	<#if showTitle = false><#assign showTitleClass = 'sr-only' /></#if>
-	<#if showTitleXs = false><#assign showTitleClass = showTitleClass + 'hidden-xs' /></#if>
-	<#if showTitleSm = false><#assign showTitleClass = showTitleClass + ' ' + 'hidden-sm' /></#if>
-	<#if showTitleMd = false><#assign showTitleClass = showTitleClass + ' ' + 'hidden-md' /></#if>
-	<#if showTitleLg = false><#assign showTitleClass = showTitleClass + ' ' + 'hidden-lg' /></#if>
+	<#if showTitleXs = false><#assign showTitleClass = showTitleClass + ' d-none d-sm-block' /></#if>
+	<#if showTitleSm = false><#assign showTitleClass = showTitleClass + ' d-none d-md-block' /></#if>
+	<#if showTitleMd = false><#assign showTitleClass = showTitleClass + ' d-none d-lg-bloc' /></#if>
+	<#if showTitleLg = false><#assign showTitleClass = showTitleClass + ' d-none d-xl-block' /></#if>
 	
 	<#if dropdownMenu>
 		<div class="dropdown">
@@ -710,10 +744,10 @@
 	<#-- Visibility of button title -->
 	<#assign showTitleClass = '' />
 	<#if showTitle = false><#assign showTitleClass = 'sr-only' /></#if>
-	<#if showTitleXs = false><#assign showTitleClass = showTitleClass + 'hidden-xs' /></#if>
-	<#if showTitleSm = false><#assign showTitleClass = showTitleClass + ' ' + 'hidden-sm' /></#if>
-	<#if showTitleMd = false><#assign showTitleClass = showTitleClass + ' ' + 'hidden-md' /></#if>
-	<#if showTitleLg = false><#assign showTitleClass = showTitleClass + ' ' + 'hidden-lg' /></#if>
+	<#if showTitleXs = false><#assign showTitleClass = showTitleClass + ' d-none d-sm-block' /></#if>
+	<#if showTitleSm = false><#assign showTitleClass = showTitleClass + ' d-none d-md-block' /></#if>
+	<#if showTitleMd = false><#assign showTitleClass = showTitleClass + ' d-none d-lg-block' /></#if>
+	<#if showTitleLg = false><#assign showTitleClass = showTitleClass + ' d-none d-xl-block' /></#if>
 	
 	<a class="${style} <#if size!=''> btn-${size}</#if><#if color!=''> btn-${color}</#if><#if class!=''> ${class}</#if>"<#if name!=''> name="${name}"</#if><#if id!=''> id="${id}"</#if> href="${href}" title="${title}"<#if params!=''> ${params}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if>>
 		<#if buttonIcon!='' && iconPosition='left'><@icon style=buttonIcon /></#if>
