@@ -1069,10 +1069,10 @@ and is kept only for backwards compatibility
 	<#-- Visibility of button title -->
 	<#assign showTitleClass = '' />
 	<#if showTitle = false><#assign showTitleClass = 'sr-only' /></#if>
-	<#if showTitleXs = false><#assign showTitleClass = showTitleClass + 'hidden-xs' /></#if>
-	<#if showTitleSm = false><#assign showTitleClass = showTitleClass + ' ' + 'hidden-sm' /></#if>
-	<#if showTitleMd = false><#assign showTitleClass = showTitleClass + ' ' + 'hidden-md' /></#if>
-	<#if showTitleLg = false><#assign showTitleClass = showTitleClass + ' ' + 'hidden-lg' /></#if>
+	<#if showTitleXs = false><#assign showTitleClass = showTitleClass + ' hidden-xs' /></#if>
+	<#if showTitleSm = false><#assign showTitleClass = showTitleClass + ' hidden-sm' /></#if>
+	<#if showTitleMd = false><#assign showTitleClass = showTitleClass + ' hidden-md' /></#if>
+	<#if showTitleLg = false><#assign showTitleClass = showTitleClass + ' hidden-lg' /></#if>
 	
 	<#if dropdownMenu>
 		<div class="dropdown">
@@ -1111,10 +1111,10 @@ and is kept only for backwards compatibility
 	<#-- Visibility of button title -->
 	<#assign showTitleClass = '' />
 	<#if showTitle = false><#assign showTitleClass = 'sr-only' /></#if>
-	<#if showTitleXs = false><#assign showTitleClass = showTitleClass + 'hidden-xs' /></#if>
-	<#if showTitleSm = false><#assign showTitleClass = showTitleClass + ' ' + 'hidden-sm' /></#if>
-	<#if showTitleMd = false><#assign showTitleClass = showTitleClass + ' ' + 'hidden-md' /></#if>
-	<#if showTitleLg = false><#assign showTitleClass = showTitleClass + ' ' + 'hidden-lg' /></#if>
+	<#if showTitleXs = false><#assign showTitleClass = showTitleClass + ' hidden-xs' /></#if>
+	<#if showTitleSm = false><#assign showTitleClass = showTitleClass + ' hidden-sm' /></#if>
+	<#if showTitleMd = false><#assign showTitleClass = showTitleClass + ' hidden-md' /></#if>
+	<#if showTitleLg = false><#assign showTitleClass = showTitleClass + ' hidden-lg' /></#if>
 	
 	<a class="btn<#if size!=''> btn-${size}</#if><#if color_temp!=''> btn-${color_temp}</#if><#if style!=''> ${style}</#if><#if class!=''> ${class}</#if>"<#if name!=''> name="${name}"</#if><#if id!=''> id="${id}"</#if> href="${href}" title="${title}"<#if params!=''> ${params}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if>>
 		<#if buttonIcon!='' && iconPosition='left'><@icon style=buttonIcon /></#if>

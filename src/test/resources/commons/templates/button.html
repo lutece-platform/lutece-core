@@ -1,13 +1,18 @@
 <#include "utils.html">
 <@header title='Button'/>
 
+<p>
+    These macros allow to display buttons in different sizes, colors with behaviors according to the size of the screen
+</p>
 <@h2># Colors</@h2>
-
-
+<p>
+    Here are the available colors.
+</p>
 <@row>
     <@columns>
     <@button color='default' title='default' />
     <@button color='primary' title='primary' />
+    <@button color='secondary' title='secondary' />
     <@button color='link' title='link' />
     <@button color='info' title='info' />
     <@button color='success' title='success' />
@@ -19,6 +24,7 @@
     <pre>
 &lt;@button color='default' title='default' /&gt;
 &lt;@button color='primary' title='primary' /&gt;
+&lt;@button color='secondary' title='secondary' /&gt;
 &lt;@button color='link' title='link' /&gt;
 &lt;@button color='info' title='info' /&gt;
 &lt;@button color='success' title='success' /&gt;
@@ -30,6 +36,9 @@
 
 
 <@h2># Sizes </@h2>
+<p>
+    Here are the available sizes.
+</p>
 <@row>
     <@columns>
     <@button size='xs' title='Extra Small' />
@@ -52,6 +61,9 @@
 
 
 <@h2># Icons </@h2>
+<p>
+    Here are some examples of icons.
+</p>
 <@row>
     <@columns>
     <@button buttonIcon='github' title='Github' />
@@ -59,6 +71,7 @@
     <@button buttonIcon='close' title='Cancel' />
     <@button buttonIcon='check' title='Validate' />
     <@button buttonIcon='trash' title='Delete' />
+    <@button buttonIcon='external-link-alt' title='External link' iconPosition='right'/>
     </@columns>
 
     <@columns>
@@ -68,137 +81,196 @@
 &lt;@button buttonIcon='close' title='Cancel' /&gt;
 &lt;@button buttonIcon='check' title='Validate' /&gt;
 &lt;@button buttonIcon='trash' title='Delete' /&gt;
+&lt;@button buttonIcon='external-link-alt' title='External link' iconPosition='right' /&gt;
+    </pre>
+    </@columns>
+</@row>
+
+
+
+<@h2># Just icon with tooltip </@h2>
+<p>
+    Display only the icon with a tooltip when the mouse is over the button. Used for toolbar or actions list.
+</p>
+<@row>
+    <@columns>
+    <@button buttonIcon='github' title='Github' showTitle=false />
+    <@button buttonIcon='twitter' title='Twitter' showTitle=false />
+    <@button buttonIcon='close' title='Cancel' showTitle=false />
+    <@button buttonIcon='check' title='Validate' showTitle=false />
+    <@button buttonIcon='trash' title='Delete' showTitle=false />
+    </@columns>
+
+    <@columns>
+    <pre>
+&lt;@button buttonIcon='github' title='Extra Small' showTitle=false /&gt;
+&lt;@button buttonIcon='twitter' title='Twitter' showTitle=false /&gt;
+&lt;@button buttonIcon='close' title='Cancel' showTitle=false /&gt;
+&lt;@button buttonIcon='check' title='Validate' showTitle=false /&gt;
+&lt;@button buttonIcon='trash' title='Delete' showTitle=false /&gt;
+    </pre>
+    </@columns>
+</@row>
+
+<@h2># Responsive </@h2>
+<p>
+    Display or hide labels according the size of the screen
+</p>
+<@row>
+    <@columns>
+    <@button buttonIcon='github' title='Github' showTitleXs=false showTitleSm=false />
+    <@button buttonIcon='twitter' title='Twitter' showTitleXs=false showTitleSm=false />
+    <@button buttonIcon='close' title='Cancel' showTitleXs=false showTitleSm=false />
+    <@button buttonIcon='check' title='Validate' showTitleXs=false showTitleSm=false />
+    <@button buttonIcon='trash' title='Delete' showTitleXs=false showTitleSm=false />
+    </@columns>
+
+    <@columns>
+    <pre>
+&lt;@button buttonIcon='github' title='Extra Small' showTitleXs=false showTitleSm=false /&gt;
+&lt;@button buttonIcon='twitter' title='Twitter' showTitleXs=false showTitleSm=false /&gt;
+&lt;@button buttonIcon='close' title='Cancel' showTitleXs=false showTitleSm=false /&gt;
+&lt;@button buttonIcon='check' title='Validate' showTitleXs=false showTitleSm=false /&gt;
+&lt;@button buttonIcon='trash' title='Delete' showTitleXs=false showTitleSm=false /&gt;
     </pre>
     </@columns>
 </@row>
 
 <@h2>Anchor buttons</@h2>
+<p>
+This macros let display anchor links as buttons. 
+</p>
 
 <@h2># Colors</@h2>
+<p>
+    Here are the available colors.
+</p>
 
 <@row>
     <@columns>
-    <@aButton color='primary' title='primary' />
-    <@aButton color='link' title='link' />
-    <@aButton color='info' title='info' />
-    <@aButton color='success' title='success' />
-    <@aButton color='warning' title='warning' />
-    <@aButton color='danger' title='danger' />
+    <@aButton href='#' title='default' />
+    <@aButton href='#' color='primary' title='primary' />
+    <@aButton href='#' color='secondary' title='secondary' />
+    <@aButton href='#' color='link' title='link' />
+    <@aButton href='#' color='info' title='info' />
+    <@aButton href='#' color='success' title='success' />
+    <@aButton href='#' color='warning' title='warning' />
+    <@aButton href='#' color='danger' title='danger' />
     </@columns>
 
     <@columns>
     <pre> 
-&lt;@aButton color='primary' title='primary' /&gt;
-&lt;@aButton color='link' title='link' /&gt;
-&lt;@aButton color='info' title='info' /&gt;
-&lt;@aButton color='success' title='success' /&gt;
-&lt;@aButton color='warning' title='warning' /&gt;
-&lt;@aButton color='danger' title='danger' /&gt;
+&lt;@aButton href='#' title='default' /&gt;
+&lt;@aButton href='#' color='primary' title='primary' /&gt;
+&lt;@aButton href='#' color='secondary' title='secondary' /&gt;
+&lt;@aButton href='#' color='link' title='link' /&gt;
+&lt;@aButton href='#' color='info' title='info' /&gt;
+&lt;@aButton href='#' color='success' title='success' /&gt;
+&lt;@aButton href='#' color='warning' title='warning' /&gt;
+&lt;@aButton href='#' color='danger' title='danger' /&gt;
     </pre>
     </@columns>
 </@row>
 
 
 <@h2># Sizes </@h2>
+<p>
+    Here are the available sizes.
+</p>
 <@row>
     <@columns>
-    <@aButton size='xs' title='Extra Small' />
-    <@aButton size='sm' title='Small' />
-    <@aButton title='Default' />
-    <@aButton size='md' title='Medium' />
-    <@aButton size='lg' title='Large' />
+    <@aButton href='#' size='xs' title='Extra Small' />
+    <@aButton href='#' size='sm' title='Small' />
+    <@aButton href='#' title='Default' />
+    <@aButton href='#' size='md' title='Medium' />
+    <@aButton href='#' size='lg' title='Large' />
     </@columns>
 
     <@columns>
     <pre>    
-&lt;@aButton size='xs' title='Extra Small' /&gt;
-&lt;@aButton size='sm' title='Small' /&gt;
-&lt;@aButton title='Default' /&gt;
-&lt;@aButton size='md' title='Medium' /&gt;
-&lt;@aButton size='lg' title='Large' /&gt;
+&lt;@aButton href='#' size='xs' title='Extra Small' /&gt;
+&lt;@aButton href='#' size='sm' title='Small' /&gt;
+&lt;@aButton href='#' title='Default' /&gt;
+&lt;@aButton href='#' size='md' title='Medium' /&gt;
+&lt;@aButton href='#' size='lg' title='Large' /&gt;
     </pre>
     </@columns>
 </@row>
 
 
 <@h2># Icons </@h2>
+<p>
+    Here are some examples of icons.
+</p>
 <@row>
     <@columns>
-    <@aButton buttonIcon='github' title='Github' />
-    <@aButton buttonIcon='twitter' title='Twitter' />
-    <@aButton buttonIcon='close' title='Cancel' />
-    <@aButton buttonIcon='check' title='Validate' />
-    <@aButton buttonIcon='trash' title='Delete' />
+    <@aButton href='#' buttonIcon='github' title='Github' />
+    <@aButton href='#' buttonIcon='twitter' title='Twitter' />
+    <@aButton href='#' buttonIcon='close' title='Cancel' />
+    <@aButton href='#' buttonIcon='check' title='Validate' />
+    <@aButton href='#' buttonIcon='trash' title='Delete' />
+    <@aButton href='#' buttonIcon='external-link-alt' title='External link' iconPosition='right'/>
     </@columns>
 
     <@columns>
     <pre>
-&lt;@aButton buttonIcon='github' title='Extra Small' /&gt;
-&lt;@aButton buttonIcon='twitter' title='Twitter' /&gt;
-&lt;@aButton buttonIcon='close' title='Cancel' /&gt;
-&lt;@aButton buttonIcon='check' title='Validate' /&gt;
-&lt;@aButton buttonIcon='trash' title='Delete' /&gt;
+&lt;@aButton href='#' buttonIcon='github' title='Extra Small' /&gt;
+&lt;@aButton href='#' buttonIcon='twitter' title='Twitter' /&gt;
+&lt;@aButton href='#' buttonIcon='close' title='Cancel' /&gt;
+&lt;@aButton href='#' buttonIcon='check' title='Validate' /&gt;
+&lt;@aButton href='#' buttonIcon='trash' title='Delete' /&gt;
+&lt;@aButton href='#' buttonIcon='external-link-alt' title='External link' iconPosition='right' /&gt;
     </pre>
     </@columns>
 </@row>
 
-
-<@h2>Button group</@h2>
-
-<@h2># Alignment Left</@h2>
-
+<@h2># Just icon with tooltip </@h2>
+<p>
+    Display only the icon with a tooltip when the mouse is over the button. Used for toolbar or actions list.
+</p>
 <@row>
     <@columns>
-        <@btnGroup>
-            <@button color='primary' title='Validate' />
-            <@button color='default' title='Cancel' />
-        </@btnGroup>
+    <@aButton href='#' buttonIcon='github' title='Github' showTitle=false />
+    <@aButton href='#' buttonIcon='twitter' title='Twitter' showTitle=false />
+    <@aButton href='#' buttonIcon='close' title='Cancel' showTitle=false />
+    <@aButton href='#' buttonIcon='check' title='Validate' showTitle=false />
+    <@aButton href='#' buttonIcon='trash' title='Delete' showTitle=false />
     </@columns>
+
     <@columns>
     <pre>
-&lt;@btnGroup &gt;
-    &lt;@button color='primary' title='Validate' /&gt;
-    &lt;@button color='default' title='Cancel' /&gt;
-&lt;/@btnGroup&gt;
+&lt;@aButton href='#' buttonIcon='github' title='Extra Small' showTitle=false /&gt;
+&lt;@aButton href='#' buttonIcon='twitter' title='Twitter' showTitle=false /&gt;
+&lt;@aButton href='#' buttonIcon='close' title='Cancel' showTitle=false /&gt;
+&lt;@aButton href='#' buttonIcon='check' title='Validate' showTitle=false /&gt;
+&lt;@aButton href='#' buttonIcon='trash' title='Delete' showTitle=false /&gt;
     </pre>
     </@columns>
 </@row>
 
-<@h2># Alignment Centered</@h2>
+<@h2># Responsive </@h2>
+<p>
+    Display or hide labels according the size of the screen
+</p>
 <@row>
     <@columns>
-        <@btnGroup align='center'>
-            <@button color='primary' title='Validate' />
-            <@button color='default' title='Cancel' />
-        </@btnGroup>
+    <@aButton href='#' buttonIcon='github' title='Github' showTitleXs=false showTitleSm=false />
+    <@aButton href='#' buttonIcon='twitter' title='Twitter' showTitleXs=false showTitleSm=false />
+    <@aButton href='#' buttonIcon='close' title='Cancel' showTitleXs=false showTitleSm=false />
+    <@aButton href='#' buttonIcon='check' title='Validate' showTitleXs=false showTitleSm=false />
+    <@aButton href='#' buttonIcon='trash' title='Delete' showTitleXs=false showTitleSm=false />
     </@columns>
+
     <@columns>
     <pre>
-&lt;@btnGroup align='center'&gt;
-    &lt;@button color='primary' title='Validate' /&gt;
-    &lt;@button color='default' title='Cancel' /&gt;
-&lt;/@btnGroup&gt;
+&lt;@aButton href='#' buttonIcon='github' title='Extra Small' showTitleXs=false showTitleSm=false /&gt;
+&lt;@aButton href='#' buttonIcon='twitter' title='Twitter' showTitleXs=false showTitleSm=false /&gt;
+&lt;@aButton href='#' buttonIcon='close' title='Cancel' showTitleXs=false showTitleSm=false /&gt;
+&lt;@aButton href='#' buttonIcon='check' title='Validate' showTitleXs=false showTitleSm=false /&gt;
+&lt;@aButton href='#' buttonIcon='trash' title='Delete' showTitleXs=false showTitleSm=false /&gt;
     </pre>
     </@columns>
 </@row>
 
-<@h2># Alignment Right</@h2>
-
-<@row>
-    <@columns>
-        <@btnGroup align='right'>
-            <@button color='primary' title='Validate' />
-            <@button color='default' title='Cancel' />
-        </@btnGroup>
-    </@columns>
-    <@columns>
-    <pre>
-&lt;@btnGroup align='right'&gt;
-    &lt;@button color='primary' title='Validate' /&gt;
-    &lt;@button color='default' title='Cancel' /&gt;
-&lt;/@btnGroup&gt;
-    </pre>
-    </@columns>
-</@row>
 
 <@footer />
