@@ -651,6 +651,16 @@
 </#if>
 </#macro>
 
+<#macro progress color='primary' id='' params='' value=0 min=0 max=100 text=''>
+<div class="progress"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+	<div id="progressbar" class="progress-bar  bg-${color}" role="progressbar" style="width: ${value}%;" aria-valuenow="${value}" aria-valuemin="${min}" aria-valuemax="${max}">
+        <#if text=''>${value}%<#else>${text}</#if>
+	</div>
+</div>
+</#macro>
+
+
+
 <#-- INFO-BOX AdminTLE (widget) -->
 <#-- color: only for the left side showing the icon. -->
 <#-- bgColor: for the right side containing the text -->

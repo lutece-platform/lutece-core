@@ -1,0 +1,56 @@
+<#include "utils.html">
+<@header title='Progress' />
+
+<@h2># Samples</@h2>
+
+<@row>
+    <@columns>
+        <@progress value=70 /><br>
+        <@progress color='danger' value=30 /><br>
+        <@progress color='success' value=100 text='completed' /><br>
+    </@columns>
+    <@columns>
+    <pre>
+    &lt;@progress value=70 /&gt;
+    &lt;@progress color='danger' value=30 /&gt;
+    &lt;@progress color='success' value=100 text='completed' /&gt;
+    </pre>
+    </@columns>
+</@row>
+
+<@h2># Reference</@h2>
+
+<@table>
+<@tr>
+    <@th>Parameter</@th>
+    <@th>Value</@th>
+    <@th>Default</@th>
+</@tr>
+<@tr>
+    <@th>color</@th>
+    <@td>primary/info/warning/danger/success</@td>
+    <@td>primary</@td>
+</@tr>
+<@tr>
+    <@th>value</@th>
+    <@td>integer</@td>
+    <@td>0</@td>
+</@tr>
+<@tr>
+    <@th>min</@th>
+    <@td>integer</@td>
+    <@td>0</@td>
+</@tr>
+<@tr>
+    <@th>max</@th>
+    <@td>integer</@td>
+    <@td>100</@td>
+</@tr>
+<@tr>
+    <@th>text</@th>
+    <@td>string</@td>
+    <@td>value%</@td>
+</@tr>
+</@table>
+
+<@footer />

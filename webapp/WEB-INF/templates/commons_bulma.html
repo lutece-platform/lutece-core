@@ -1023,6 +1023,12 @@ and is kept only for backwards compatibility
 </#if>
 </#macro>
 
+
+<#macro progress  color='primary' id='' params='' value=0 min=0 max=100 text=''>
+    <progress class="progress is-${color}" value="${value}" max="${max}"><#if text=''>${value}%<#else>${text}</#if></progress>
+</#macro>
+
+
 <#-- TAG -->
 <#-- color: default/primary/success/info/warning/danger/ -->
 <#macro tag color='default'  size='' title='' tagIcon='' id='' params=''>

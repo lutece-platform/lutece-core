@@ -1,0 +1,39 @@
+<#include "utils.html">
+<@header title='Accordion' />
+
+<@h2># Default accordion with icons</@h2>
+<p>
+    An accordion allows users to toggle the display of sections of content.
+</p>
+<@row>
+  <@columns>
+      	<@accordionContainer id='parent_id'>
+            <@accordionPanel color='primary' collapsed=true childId='child_id' >
+                <@accordionHeader title='Panel 1' headerIcon='users' >
+                </@accordionHeader>
+                <@accordionBody>
+                    <@accordionPanel color='primary' collapsed=true childId='child_id' >
+                        <@accordionHeader title='Subpanel 1.1' headerIcon='user' >
+                        </@accordionHeader>
+                        <@accordionBody>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+        Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, 
+        ultricies sed, dolor. Cras elementum ultrices diam. 
+                        </@accordionBody>    
+                    </@accordionPanel>
+                </@accordionBody>    
+            </@accordionPanel>
+            <@accordionPanel color='primary' collapsed=true childId='child_id' >
+                <@accordionHeader title='Panel 2' headerIcon='cog' >
+                </@accordionHeader>
+                <@accordionBody>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+        Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, 
+        ultricies sed, dolor. Cras elementum ultrices diam. 
+                </@accordionBody>    
+            </@accordionPanel>
+        </@accordionContainer>
+	</@columns>
+</@row>
+
+<@footer />
