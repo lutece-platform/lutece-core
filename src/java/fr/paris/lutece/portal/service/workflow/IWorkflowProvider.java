@@ -51,6 +51,19 @@ import javax.servlet.http.HttpServletRequest;
 public interface IWorkflowProvider
 {
     // GET
+	
+
+    /**
+     * returns a list of actions possible for a given document based on the status of the document in the workflow and the user role.
+     *
+     * @param listActions
+     *            the list actions
+     * @param user
+     *            the adminUser
+     * @return a list of Action
+     */
+	@Deprecated
+     Collection<Action> getActions( Collection<Action> listActions, AdminUser user );
 
     /**
      * returns a list of actions possible for a given document based on the status of the document in the workflow and the user role.
@@ -67,6 +80,17 @@ public interface IWorkflowProvider
      */
     Collection<Action> getActions( int nIdResource, String strResourceType, Collection<Action> listActions, AdminUser user );
 
+    /**
+     * returns a list of actions possible for a given document based on the status of the document in the workflow and the user role.
+     *
+     * @param mapActions
+     *            the map actions
+     * @param user
+     *            the adminUser
+     * @return a list of Action
+     */
+    @Deprecated
+    Map<Integer, List<Action>> getActions( Map<Integer, List<Action>> mapActions, AdminUser user );
     /**
      * returns a list of actions possible for a given document based on the status of the document in the workflow and the user role.
      * 
@@ -255,7 +279,17 @@ public interface IWorkflowProvider
      * @return a list of Action
      */
     boolean isAuthorized( int nIdResource, String strResourceType, int nIdWorkflow, AdminUser user );
-
+    /**
+     * Check if the action can be proceed for the given resource.
+     *
+     * @param nIdAction
+     *            the id action
+     * @param request
+     *            the HTTP request
+     * @return true if the action can proceed, false otherwise
+     */
+    @Deprecated
+    boolean canProcessAction( int nIdAction, HttpServletRequest request );
     /**
      * Check if the action can be proceed for the given resource.
      *
