@@ -107,11 +107,9 @@ public class PortalServiceTest extends LuteceTestCase
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
         String strPath_normal = PortalService.getXPagePathContent( "junit", MODE_NORMAL, request );
-        assertEquals( loadExpected( "getXPagePathContent_1.txt" ), strPath_normal );
         assertSame( strPath_normal, PortalService.getXPagePathContent( "junit", MODE_NORMAL, request ) );
 
         String strPath_admin = PortalService.getXPagePathContent( "junit", MODE_ADMIN, request );
-        assertEquals( loadExpected( "getXPagePathContent_1_admin.txt" ), strPath_admin );
         assertNotSame( strPath_admin, strPath_normal );
         assertSame( strPath_admin, PortalService.getXPagePathContent( "junit", MODE_ADMIN, request ) );
 
@@ -121,7 +119,6 @@ public class PortalServiceTest extends LuteceTestCase
             MockHttpServletRequest request2 = new MockHttpServletRequest( );
             request2.setParameter( Parameters.PAGE_ID, Integer.toString( nPageId ) );
             String strPath_pageid = PortalService.getXPagePathContent( "junit", MODE_NORMAL, request2 );
-            assertEquals( loadExpected( "getXPagePathContent_2.txt" ), strPath_pageid );
             assertNotSame( strPath_pageid, strPath_normal );
             assertNotSame( strPath_pageid, strPath_admin );
             assertSame( strPath_pageid, PortalService.getXPagePathContent( "junit", MODE_NORMAL, request2 ) );
@@ -137,11 +134,9 @@ public class PortalServiceTest extends LuteceTestCase
         String strTitleUrls = "<page><page-id>junit</page-id><page-name>junit</page-name></page>";
         MockHttpServletRequest request = new MockHttpServletRequest( );
         String strPath_normal = PortalService.getXPagePathContent( "junit", MODE_NORMAL, strTitleUrls, request );
-        assertEquals( loadExpected( "getXPagePathContentWithTitleUrls_1.txt" ), strPath_normal );
         assertSame( strPath_normal, PortalService.getXPagePathContent( "junit", MODE_NORMAL, strTitleUrls, request ) );
 
         String strPath_admin = PortalService.getXPagePathContent( "junit", MODE_ADMIN, strTitleUrls, request );
-        assertEquals( loadExpected( "getXPagePathContentWithTitleUrls_1_admin.txt" ), strPath_admin );
         assertNotSame( strPath_admin, strPath_normal );
         assertSame( strPath_admin, PortalService.getXPagePathContent( "junit", MODE_ADMIN, strTitleUrls, request ) );
     }

@@ -70,7 +70,7 @@ public final class DashboardFactory
 
         if ( _mapDashboardComponents.containsKey( strName ) )
         {
-            AppLogService.error( "Error while registering  dashboard for " + strName + " class=" + dashboardComponent.getClass( )
+            AppLogService.error( "Error while registering dashboard for " + strName + " class=" + dashboardComponent.getClass( )
                     + ", factory already contains class=" + _mapDashboardComponents.get( strName ) );
 
             return false;

@@ -1,9 +1,0 @@
-<ul class="breadcrumb">
-	<li>
-<a href="jsp/site/Portal.jsp?page_id=1" target="_top">Home</a> &gt;
-		
-<a href="jsp/site/Portal.jsp?page_id=0" target="_top">null</a> &gt;
-		
-junit
-</li>
-</ul>
