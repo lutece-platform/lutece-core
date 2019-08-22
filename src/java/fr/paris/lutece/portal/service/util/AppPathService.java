@@ -116,7 +116,7 @@ public final class AppPathService
      */
     public static void init( String strWebAppPath )
     {
-        _strWebAppPath = strWebAppPath;
+        _strWebAppPath = normalizeWebappPath( strWebAppPath );
     }
 
     /**
@@ -441,8 +441,16 @@ public final class AppPathService
      */
     private static String normalizeWebappPath( String strPath )
     {
+        String strNormalized = strPath;
+        
+        // For windows, remove the leading \
+        if( (strNormalized.length() > 3) && ( strNormalized.indexOf( ':' ) == 2 ))
+        {
+            strNormalized = strNormalized.substring( 1 );
+        }
+        
         // convert Windows path separator if present
-        String strNormalized = StringUtil.substitute( strPath, "/", "\\" );
+        strNormalized = StringUtil.substitute( strNormalized, "/", "\\" );
 
         // remove the ending separator if present
         if ( strNormalized.endsWith( "/" ) )

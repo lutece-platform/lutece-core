@@ -42,6 +42,9 @@ import org.springframework.mock.web.MockHttpServletRequest;
 
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.util.ReferenceList;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 /**
  * AppPathService Test Class
@@ -53,11 +56,7 @@ public class AppPathServiceTest extends LuteceTestCase
     private static final String PROPERTY_BASE_URL = "lutece.base.url";
     private static final String FRAGMENT_END_PATH_XSL = "/WEB-INF/xsl/";
     private static final String FRAGMENT_END_PATH_CONF = "/WEB-INF/conf/";
-    private static final String FRAGMENT_END_PATH_TEMPLATES = "/WEB-INF/templates";
-
-    // TODO WebApp Path en dur...
-    // private static final String WEBAPP_PATH = "C:/Java/projets/lutece/core/target/lutece/";
-
+    
     /**
      * Test of getPath method, of class fr.paris.lutece.portal.service.util.AppPathService.
      */
@@ -70,22 +69,9 @@ public class AppPathServiceTest extends LuteceTestCase
         String result = AppPathService.getPath( strKey );
         assertNotNull( expResult );
         assertTrue( result.endsWith( expResult ) );
-
-        strKey = "dummy";
-
-        String strException = null;
-
-        try
-        {
-            AppPathService.getPath( strKey );
-        }
-        catch( AppException e )
-        {
-            strException = e.getMessage( );
-        }
-
-        assertNotNull( strException );
+        System.out.println( result ); 
     }
+    
 
     /**
      * Test of getWebAppPath method, of class fr.paris.lutece.portal.service.util.AppPathService. FIXME : uncomment this method when a better way to find real
