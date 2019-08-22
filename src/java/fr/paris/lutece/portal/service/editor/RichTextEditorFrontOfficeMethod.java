@@ -33,7 +33,7 @@
  */
 package fr.paris.lutece.portal.service.editor;
 
-import freemarker.template.TemplateMethodModel;
+import freemarker.template.TemplateMethodModelEx;
 
 import java.util.List;
 
@@ -42,17 +42,17 @@ import java.util.List;
  * RichTextEditorFrontOfficeMethod
  *
  */
-public class RichTextEditorFrontOfficeMethod implements TemplateMethodModel
+public class RichTextEditorFrontOfficeMethod implements TemplateMethodModelEx
 {
     /**
      * Get the name of the default editor for front office. This class should only be used inside a freemarker template.
      * 
-     * @param arg0
+     * @param arguments
      *            Unused
      * @return The name of the default editor for front office.
      */
     @Override
-    public Object exec( List arg0 )
+    public Object exec( List arguments )
     {
         return RichTextEditorService.getFrontOfficeDefaultEditor( );
     }

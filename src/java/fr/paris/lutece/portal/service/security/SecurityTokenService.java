@@ -69,7 +69,7 @@ public class SecurityTokenService implements ISecurityTokenService
      *
      * @return The instance of the singleton
      */
-    public static ISecurityTokenService getInstance( )
+    public static synchronized ISecurityTokenService getInstance( )
     {
         if ( _singleton == null )
         {
