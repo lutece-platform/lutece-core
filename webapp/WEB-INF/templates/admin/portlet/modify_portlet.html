@@ -1,5 +1,6 @@
 <#if portletType.modifyScriptTemplate != "" ><#include portletType.modifyScriptTemplate /></#if>
 	<@tform method='post' id='form-portlet' name='form' action='jsp/admin/${portletType.doModifyUrl}' params='target="_top"'>
+		<input type="hidden" name="token" value="${token}">
 		<input type="hidden" name="portlet_id" value="${portlet.id}" />
 		<input type="hidden" name="portlet_type_id" value="${portletType.id}" />
 		<@fieldSet legend='${portletType.name} #i18n{portal.site.portletType.labelModify}'>

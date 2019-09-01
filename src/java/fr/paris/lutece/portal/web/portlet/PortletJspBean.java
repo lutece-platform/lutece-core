@@ -39,9 +39,12 @@ import fr.paris.lutece.portal.business.portlet.PortletHome;
 import fr.paris.lutece.portal.business.portlet.PortletType;
 import fr.paris.lutece.portal.business.portlet.PortletTypeHome;
 import fr.paris.lutece.portal.business.role.RoleHome;
+import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
+import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
+import fr.paris.lutece.portal.service.util.AppException;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
@@ -56,9 +59,12 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
+
 /**
  * This class represents user interface Portlet. It is the base class of all user interface portlets. It is abstract and the implementation of the interface
- * PortletJspBeanInterface is compulsary.
+ * PortletJspBeanInterface is compulsory.
  */
 public abstract class PortletJspBean extends AdminFeaturesPageJspBean
 {
@@ -240,7 +246,11 @@ public abstract class PortletJspBean extends AdminFeaturesPageJspBean
 
             return AdminMessageService.getMessageUrl( request, MESSAGE_INVALID_PAGE_ID, AdminMessage.TYPE_STOP );
         }
-
+        if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_CREATE_PORTLET ) )
+        {
+            // FIXME we wrap the AccessDeniedException so as to to break the API
+            throw new AppException( "Invalid security token", new AccessDeniedException( "Invalid security token" ) );
+        }
         int nOrder = Integer.parseInt( strOrder );
         int nColumn = Integer.parseInt( strColumn );
         int nAcceptAlias = Integer.parseInt( strAcceptAlias );
@@ -321,6 +331,7 @@ public abstract class PortletJspBean extends AdminFeaturesPageJspBean
         model.put( MARK_PORTLET_COLUMNS_COMBO, getColumnsList( ) );
         model.put( MARK_PORTLET_STYLES_COMBO, PortletHome.getStylesList( strPortletTypeId ) );
         model.put( MARK_PORTLET_ROLES_COMBO, RoleHome.getRolesList( getUser( ) ) );
+        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( getRequest( ), TEMPLATE_CREATE_PORTLET ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CREATE_PORTLET, locale, model );
 
@@ -362,6 +373,7 @@ public abstract class PortletJspBean extends AdminFeaturesPageJspBean
         putCheckBox( model, MARK_NORMAL_CHECKED, portlet.hasDeviceDisplayFlag( Portlet.FLAG_DISPLAY_ON_NORMAL_DEVICE ) );
         putCheckBox( model, MARK_LARGE_CHECKED, portlet.hasDeviceDisplayFlag( Portlet.FLAG_DISPLAY_ON_LARGE_DEVICE ) );
         putCheckBox( model, MARK_XLARGE_CHECKED, portlet.hasDeviceDisplayFlag( Portlet.FLAG_DISPLAY_ON_XLARGE_DEVICE ) );
+        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( getRequest( ), TEMPLATE_CREATE_PORTLET ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_PORTLET, getLocale( ), model );
 
@@ -394,5 +406,16 @@ public abstract class PortletJspBean extends AdminFeaturesPageJspBean
     protected String getPageUrl( int nIdPage )
     {
         return JSP_ADMIN_SITE + "?" + PARAMETER_PAGE_ID + "=" + nIdPage;
+    }
+
+    /**
+     * Gets the current request
+     * 
+     * @return the current request
+     */
+    private HttpServletRequest getRequest( )
+    {
+        ServletRequestAttributes sra = ( ServletRequestAttributes ) RequestContextHolder.getRequestAttributes( );
+        return sra.getRequest( );
     }
 }

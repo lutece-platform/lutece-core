@@ -84,6 +84,12 @@ public class AliasPortlet extends Portlet
     @Override
     public boolean isContentGeneratedByXmlAndXsl( )
     {
+        if ( getAliasId( ) == 0 )
+        {
+            // alias Id not yet set. We don't yet know how we're generated
+            // saying false means we don't yet need a styleId
+            return false;
+        }
         Portlet portletParent = PortletHome.findByPrimaryKey( getAliasId( ) );
         return portletParent.isContentGeneratedByXmlAndXsl( );
     }
