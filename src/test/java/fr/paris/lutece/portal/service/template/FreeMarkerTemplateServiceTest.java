@@ -67,7 +67,7 @@ public class FreeMarkerTemplateServiceTest extends LuteceTestCase
     {
         System.out.println( "loadTemplate" );
 
-        String strPath = "WEB-INF/templates/";
+        String strPath = "/WEB-INF/templates/";
         String strTemplate = "skin/site/portal_footer.html";
 
         Map<String, Object> model = new HashMap<String, Object>( );
