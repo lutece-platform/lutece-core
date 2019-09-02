@@ -2,7 +2,7 @@
     <parent>
         <artifactId>lutece-global-pom</artifactId>
         <groupId>fr.paris.lutece.tools</groupId>
-        <version>4.0.6</version>
+        <version>5.0.0</version>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
@@ -192,6 +192,12 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>org.quartz-scheduler</groupId>
             <artifactId>quartz</artifactId>
             <version>2.2.3</version>
@@ -337,6 +343,14 @@
             <artifactId>library-jmx-api</artifactId>
             <version>1.0.0</version>
         </dependency>
+        
+        <!-- JDK 11 Support -->
+        <dependency>
+            <groupId>org.eclipse.persistence</groupId>
+            <artifactId>javax.persistence</artifactId>
+            <version>2.2.1</version>
+        </dependency>
+
     </dependencies>
 
     <scm>
