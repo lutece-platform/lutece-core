@@ -3,6 +3,7 @@
         <artifactId>lutece-global-pom</artifactId>
         <groupId>fr.paris.lutece.tools</groupId>
         <version>5.0.0</version>
+        <relativePath></relativePath>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
@@ -247,12 +248,6 @@
             <type>jar</type>
         </dependency>
         
-        <!-- JPA 2 spec. -->
-        <dependency>
-            <groupId>org.apache.geronimo.specs</groupId>
-            <artifactId>geronimo-jpa_2.0_spec</artifactId>
-            <version>1.1</version>
-        </dependency>
         <!-- scannotation -->
         <dependency>
             <groupId>org.scannotation</groupId>

@@ -33,7 +33,9 @@
  */
 package fr.paris.lutece.util.jpa;
 
+import java.util.List;
 import java.util.Map;
+import javax.persistence.EntityGraph;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -41,9 +43,12 @@ import javax.persistence.EntityTransaction;
 import javax.persistence.FlushModeType;
 import javax.persistence.LockModeType;
 import javax.persistence.Query;
+import javax.persistence.StoredProcedureQuery;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaDelete;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.CriteriaUpdate;
 import javax.persistence.metamodel.Metamodel;
 
 final class TestEntityManager implements EntityManager
@@ -326,5 +331,79 @@ final class TestEntityManager implements EntityManager
     {
         // TODO Auto-generated method stub
 
+    }
+
+    @Override
+    public Query createQuery( CriteriaUpdate cu )
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public Query createQuery( CriteriaDelete cd )
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public StoredProcedureQuery createNamedStoredProcedureQuery( String string )
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public StoredProcedureQuery createStoredProcedureQuery( String string )
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public StoredProcedureQuery createStoredProcedureQuery( String string, Class... types )
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public StoredProcedureQuery createStoredProcedureQuery( String string, String... strings )
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public boolean isJoinedToTransaction()
+    {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    @Override
+    public <T> EntityGraph<T> createEntityGraph( Class<T> type )
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public EntityGraph<?> createEntityGraph( String string )
+    {
+        throw new UnsupportedOperationException( "Not supported yet." ); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public EntityGraph<?> getEntityGraph( String string )
+    {
+        throw new UnsupportedOperationException( "Not supported yet." ); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public <T> List<EntityGraph<? super T>> getEntityGraphs( Class<T> type )
+    {
+        throw new UnsupportedOperationException( "Not supported yet." ); //To change body of generated methods, choose Tools | Templates.
     }
 }
