@@ -84,7 +84,7 @@ public class HeadersPageCachingFilter extends SimpleCachingHeadersPageCachingFil
     /**
      * Initialization of the filter
      */
-    private void init( )
+    protected void init( )
     {
         // Execute the doInit
         synchronized( HeadersPageCachingFilter.class )
@@ -128,6 +128,16 @@ public class HeadersPageCachingFilter extends SimpleCachingHeadersPageCachingFil
         }
 
         _bInit = true;
+    }
+
+    /**
+     * Returns a boolean describing whether the filter has been initialized
+     *
+     * @return True if the filter is initialized
+     */
+    protected boolean getInit( )
+    {
+        return _bInit;
     }
 
     /**

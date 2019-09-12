@@ -56,6 +56,11 @@ public class FullPageCachingService extends HeadersPageCachingFilter
     protected void doFilter( HttpServletRequest request, HttpServletResponse response, FilterChain chain ) throws AlreadyGzippedException,
             AlreadyCommittedException, FilterNonReentrantException, LockTimeoutException, Exception
     {
+        if ( !getInit( ) )
+        {
+            init( );
+        }
+
         if ( SecurityService.isAuthenticationEnable( ) )
         {
             if ( isCacheEnable( ) )
