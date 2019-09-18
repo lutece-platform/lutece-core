@@ -62,6 +62,8 @@ import java.util.StringTokenizer;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang3.StringUtils;
+
 /**
  * This class provides services for internationalization (i18n)
  * 
@@ -436,7 +438,7 @@ public final class I18nService
     {
         String strAvailableLocales = AppPropertiesService.getProperty( PROPERTY_FORMAT_DATE_SHORT_LIST );
 
-        if ( ( locale != null ) && ( strAvailableLocales != null ) && !strAvailableLocales.equals( "" ) )
+        if ( ( locale != null ) && StringUtils.isNotBlank(strAvailableLocales))
         {
             StringTokenizer strTokens = new StringTokenizer( strAvailableLocales, "," );
             String strToken = null;
