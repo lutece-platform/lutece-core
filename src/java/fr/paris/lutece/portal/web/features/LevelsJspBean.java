@@ -140,7 +140,7 @@ public class LevelsJspBean extends AdminFeaturesPageJspBean
             return getAdminDashboardsUrl( request, ANCHOR_RIGHT_LEVELS );
         }
 
-        HashMap<String, Object> model = new HashMap<String, Object>( );
+        HashMap<String, Object> model = new HashMap<>( );
         model.put( MARK_LEVEL, level );
         model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, AdminDashboardJspBean.JSP_TECHNICAL_ADMINISTRATION ) );
 

@@ -82,7 +82,7 @@ public class FeaturesAdminDashboardComponent extends AdminDashboardComponent
     public String getDashboardData( AdminUser user, HttpServletRequest request )
     {
         List<FeatureGroup> listGroups = FeatureGroupHome.getFeatureGroupsList( );
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<>( );
         model.put( MARK_FEATURE_NO_GROUP, getNoGroup( user.getLocale( ) ) );
         model.put( MARK_FEATURE_GROUP_LIST, getRefListFeatureGroups( user.getLocale( ) ) );
         model.put( MARK_ORDER_LIST, getOrderRefList( ) );
@@ -129,7 +129,7 @@ public class FeaturesAdminDashboardComponent extends AdminDashboardComponent
         noGroup.setDescriptionKey( NO_GROUP_DESCRIPTION );
         noGroup.setLabelKey( NO_GROUP_LABEL );
 
-        Map<String, Object> groupMap = new HashMap<String, Object>( );
+        Map<String, Object> groupMap = new HashMap<>( );
         groupMap.put( MARK_FEATURE_GROUP, noGroup );
         groupMap.put( MARK_RIGHT_LIST, I18nService.localizeCollection( RightHome.getRightsList( noGroup.getId( ) ), locale ) );
         groupMap.put( MARK_ORDER_IS_OK, RightHome.checkFeatureOrders( noGroup.getId( ) ) );
@@ -151,7 +151,7 @@ public class FeaturesAdminDashboardComponent extends AdminDashboardComponent
 
         for ( FeatureGroup fg : colGroups )
         {
-            HashMap<String, Object> groupMap = new HashMap<String, Object>( );
+            HashMap<String, Object> groupMap = new HashMap<>( );
             groupMap.put( MARK_FEATURE_GROUP, fg );
             groupMap.put( MARK_RIGHT_LIST, I18nService.localizeCollection( RightHome.getRightsList( fg.getId( ) ), locale ) );
             groupMap.put( MARK_ORDER_IS_OK, RightHome.checkFeatureOrders( fg.getId( ) ) );

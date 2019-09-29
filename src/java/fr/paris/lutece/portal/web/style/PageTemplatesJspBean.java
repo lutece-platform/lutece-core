@@ -128,7 +128,7 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
     {
         setPageTitleProperty( PROPERTY_PAGE_TITLE_PAGE_TEMPLATE_LIST );
 
-        HashMap<String, Object> model = new HashMap<String, Object>( );
+        HashMap<String, Object> model = new HashMap<>( );
         model.put( MARK_PAGE_TEMPLATES_LIST, PageTemplateHome.getPageTemplatesList( ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_PAGE_TEMPLATES, getLocale( ), model );
@@ -147,7 +147,7 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
     {
         setPageTitleProperty( PROPERTY_PAGE_TITLE_CREATE_PAGE_TEMPLATE );
 
-        HashMap<String, Object> model = new HashMap<String, Object>( );
+        HashMap<String, Object> model = new HashMap<>( );
         model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_CREATE_PAGE_TEMPLATE ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CREATE_PAGE_TEMPLATE, getLocale( ), model );
@@ -231,7 +231,7 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
 
         String strId = request.getParameter( Parameters.PAGE_TEMPLATE_ID );
 
-        HashMap<String, Object> model = new HashMap<String, Object>( );
+        HashMap<String, Object> model = new HashMap<>( );
         model.put( MARK_PAGE_TEMPLATE, PageTemplateHome.findByPrimaryKey( Integer.parseInt( strId ) ) );
         model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MODIFY_PAGE_TEMPLATE ) );
 

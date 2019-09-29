@@ -323,7 +323,7 @@ public abstract class MVCApplication implements XPageApplication
      */
     protected Map<String, Object> getModel( )
     {
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<>( );
         fillCommons( model );
 
         return model;

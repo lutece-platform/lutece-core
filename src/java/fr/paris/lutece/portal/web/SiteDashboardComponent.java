@@ -83,7 +83,7 @@ public class SiteDashboardComponent extends DashboardComponent
     public String getDashboardData( AdminUser user, HttpServletRequest request )
     {
         Right right = RightHome.findByPrimaryKey( getRight( ) );
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<>( );
         model.put( MARK_URL, right.getUrl( ) );
         model.put( MARK_ICON, right.getIconUrl( ) );
 

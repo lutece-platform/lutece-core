@@ -1197,7 +1197,7 @@ public abstract class Plugin implements Comparable<Plugin>
 
         if ( files == null )
         {
-            files = new ArrayList<String>( );
+            files = new ArrayList<>( );
             _listJavascriptFiles.put( null, files );
         }
 

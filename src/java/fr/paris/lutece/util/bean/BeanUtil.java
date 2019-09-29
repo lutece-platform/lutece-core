@@ -164,7 +164,7 @@ public final class BeanUtil
      */
     public static Map<String, Object> convertMap( Map<String, String [ ]> mapInput )
     {
-        Map<String, Object> mapOutput = new HashMap<String, Object>( );
+        Map<String, Object> mapOutput = new HashMap<>( );
 
         for ( Entry<String, String [ ]> entry : mapInput.entrySet( ) )
         {

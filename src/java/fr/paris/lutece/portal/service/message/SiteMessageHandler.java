@@ -93,7 +93,7 @@ public class SiteMessageHandler implements ISiteMessageHandler
     public String getPage( HttpServletRequest request, int nMode )
     {
         Locale locale = request.getLocale( );
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<>( );
 
         SiteMessage message = SiteMessageService.getMessage( request );
 
@@ -143,7 +143,7 @@ public class SiteMessageHandler implements ISiteMessageHandler
     private static String buildPageContent( PageData data, int nMode, HttpServletRequest request )
     {
         Locale locale = null;
-        HashMap<String, Object> model = new HashMap<String, Object>( );
+        HashMap<String, Object> model = new HashMap<>( );
 
         if ( request != null )
         {

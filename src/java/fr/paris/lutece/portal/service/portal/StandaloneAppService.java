@@ -209,7 +209,7 @@ public class StandaloneAppService extends ContentService
         String strPluginPath = "skin/plugins/";
 
         // Load of the templates
-        HashMap<String, Object> model = new HashMap<String, Object>( );
+        HashMap<String, Object> model = new HashMap<>( );
         model.put( Markers.BASE_URL, AppPathService.getBaseUrl( request ) );
         model.put( Markers.PAGE_NAME, data.getName( ) );
         model.put( Markers.PAGE_CONTENT, data.getContent( ) );

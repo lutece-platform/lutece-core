@@ -186,7 +186,7 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
         LocalizedPaginator<StyleSheet> paginator = new LocalizedPaginator<StyleSheet>( listStyleSheets, _nItemsPerPage, strURL, Paginator.PARAMETER_PAGE_INDEX,
                 _strCurrentPageIndex, getLocale( ) );
 
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<>( );
         model.put( MARK_MODE_ID, strModeId );
         model.put( MARK_NB_ITEMS_PER_PAGE, "" + _nItemsPerPage );
         model.put( MARK_PAGINATOR, paginator );
@@ -209,7 +209,7 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
     {
         String strModeId = request.getParameter( Parameters.MODE_ID );
 
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<>( );
         model.put( MARK_STYLE_LIST, getStyleList( ) );
         model.put( MARK_MODE_LIST, ModeHome.getModes( ) );
         model.put( MARK_MODE_ID, strModeId );
@@ -322,7 +322,7 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
         String strStyleSheetId = request.getParameter( Parameters.STYLESHEET_ID );
         int nId = Integer.parseInt( strStyleSheetId );
 
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<>( );
         model.put( MARK_STYLE_LIST, getStyleList( ) );
         model.put( MARK_MODE_LIST, ModeHome.getModes( ) );
         model.put( MARK_STYLESHEET, StyleSheetHome.findByPrimaryKey( nId ) );
@@ -345,7 +345,7 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
 
         for ( Style style : stylesList )
         {
-            HashMap<String, Object> model = new HashMap<String, Object>( );
+            HashMap<String, Object> model = new HashMap<>( );
             model.put( MARK_PORTAL_COMPONENT_NAME, PortalComponentHome.findByPrimaryKey( style.getPortalComponentId( ) ).getName( ) );
 
             PortletType portletType = PortletTypeHome.findByPrimaryKey( style.getPortletTypeId( ) );

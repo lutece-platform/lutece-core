@@ -500,7 +500,7 @@ public final class AdminMessageService
      */
     private static <T> Object [ ] formatConstraintViolations( HttpServletRequest request, Set<ConstraintViolation<T>> constraintViolations )
     {
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<>( );
         model.put( MARK_ERRORS_LIST, constraintViolations );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ERRORS_LIST, request.getLocale( ), model );
@@ -524,7 +524,7 @@ public final class AdminMessageService
      */
     private static <T> Object [ ] formatValidationErrors( HttpServletRequest request, List<? extends ErrorMessage> errors )
     {
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<>( );
         model.put( MARK_ERRORS_LIST, errors );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ERRORS_LIST, request.getLocale( ), model );

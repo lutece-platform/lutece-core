@@ -50,7 +50,7 @@ public class XPageApplicationEntry
     private String _strId;
     private String _strClassName;
     private String _strPluginName;
-    private List<String> _listRoles = new ArrayList<String>( );
+    private List<String> _listRoles = new ArrayList<>( );
     private boolean _bEnabled = true; // defaults to enabled
 
     /**

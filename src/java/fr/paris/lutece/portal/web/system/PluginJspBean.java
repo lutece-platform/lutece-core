@@ -109,7 +109,7 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
         Locale locale = AdminUserService.getLocale( request );
         String strPluginTypeFilter = request.getParameter( PARAM_PLUGIN_TYPE );
         Collection<Plugin> listPlugins = PluginService.getPluginList( );
-        HashMap<String, Object> model = new HashMap<String, Object>( );
+        HashMap<String, Object> model = new HashMap<>( );
         model.put( MARK_PLUGINS_LIST, filterPluginsList( listPlugins, strPluginTypeFilter ) );
         model.put( MARK_CORE, PluginService.getCore( ) );
         model.put( MARK_POOLS_LIST, getPoolsList( ) );

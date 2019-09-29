@@ -634,7 +634,7 @@ public class DataTableManager<T> implements Serializable
         boolean bResetFilter = false;
         boolean bUpdateFilter = false;
 
-        Map<String, Object> mapFilter = new HashMap<String, Object>( );
+        Map<String, Object> mapFilter = new HashMap<>( );
 
         if ( bSubmitedDataTable )
         {

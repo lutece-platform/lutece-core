@@ -82,7 +82,7 @@ public class BaseUserPreferencesCacheService extends AbstractCacheableService
         if ( StringUtils.isNotEmpty( strUserId ) )
         {
             String strPrefix = strUserId + CONSTANT_UNDERSCORE;
-            List<String> listKeysToRemove = new ArrayList<String>( );
+            List<String> listKeysToRemove = new ArrayList<>( );
 
             for ( String strKey : getKeys( ) )
             {

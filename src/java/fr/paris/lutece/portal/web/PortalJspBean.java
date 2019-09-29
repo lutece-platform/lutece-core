@@ -260,7 +260,7 @@ public class PortalJspBean
      */
     public String getStartUpFailurePage( HttpServletRequest request )
     {
-        HashMap<String, Object> model = new HashMap<String, Object>( );
+        HashMap<String, Object> model = new HashMap<>( );
         fillPageModel( request, model );
         model.put( MARK_FAILURE_MESSAGE, AppInit.getLoadingFailureCause( ) );
         model.put( MARK_FAILURE_DETAILS, AppInit.getLoadingFailureDetails( ) );
@@ -280,7 +280,7 @@ public class PortalJspBean
      */
     public String getCredits( HttpServletRequest request )
     {
-        HashMap<String, Object> model = new HashMap<String, Object>( );
+        HashMap<String, Object> model = new HashMap<>( );
         fillPageModel( request, model );
         model.put( MARK_APP_VERSION, AppInfo.getVersion( ) );
         model.put( MARK_PORTAL_DOMAIN, PortalService.getSiteName( ) );
@@ -300,7 +300,7 @@ public class PortalJspBean
      */
     public String getLegalInfos( HttpServletRequest request )
     {
-        HashMap<String, Object> model = new HashMap<String, Object>( );
+        HashMap<String, Object> model = new HashMap<>( );
         fillPageModel( request, model );
         model.put( MARK_ADDRESS_INFOS_CNIL, AppPropertiesService.getProperty( PROPERTY_INFOS_CNIL ) );
         model.put( MARK_PORTAL_DOMAIN, PortalService.getSiteName( ) );
@@ -320,7 +320,7 @@ public class PortalJspBean
      */
     public String getError404Page( HttpServletRequest request )
     {
-        HashMap<String, Object> model = new HashMap<String, Object>( );
+        HashMap<String, Object> model = new HashMap<>( );
         fillPageModel( request, model );
         model.put( Markers.PAGE_TITLE, I18nService.getLocalizedString( PROPERTY_PAGE_TITLE_ERROR404, request.getLocale( ) ) );
 
@@ -379,7 +379,7 @@ public class PortalJspBean
      */
     public String getError500Page( HttpServletRequest request, String strCause )
     {
-        HashMap<String, Object> model = new HashMap<String, Object>( );
+        HashMap<String, Object> model = new HashMap<>( );
         fillPageModel( request, model );
         model.put( Markers.PAGE_TITLE, I18nService.getLocalizedString( PROPERTY_PAGE_TITLE_ERROR500, request.getLocale( ) ) );
         model.put( MARK_ERROR_CAUSE, strCause );
@@ -563,14 +563,14 @@ public class PortalJspBean
         }
 
         String strResourceUrl = resourceService.getResourceUrl( strIdExtendableResource, strExtendableResourceType );
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<>( );
         model.put( MARK_RESOURCE, resource );
         model.put( MARK_RESOURCE_URL, strResourceUrl );
         model.put( Markers.BASE_URL, AppPathService.getBaseUrl( request ) );
 
         if ( ( strSend != null ) && ( strError == null ) )
         {
-            Map<String, Object> mailModel = new HashMap<String, Object>( );
+            Map<String, Object> mailModel = new HashMap<>( );
             mailModel.put( Markers.BASE_URL, AppPathService.getBaseUrl( request ) );
             mailModel.put( MARK_RESOURCE, resource );
             mailModel.put( PARAMETER_SENDER_EMAIL, strSenderEmail );

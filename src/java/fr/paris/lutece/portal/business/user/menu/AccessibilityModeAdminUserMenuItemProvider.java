@@ -63,7 +63,7 @@ public class AccessibilityModeAdminUserMenuItemProvider extends AbstractAdminUse
     {
         AdminUser user = AdminUserService.getAdminUser( request );
 
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<>( );
         model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE ) );
         model.put( MARK_USER, user );
 

@@ -506,7 +506,7 @@ public class AdminUserFieldDAO implements IAdminUserFieldDAO
     public List<AdminUserField> selectByFilter( AdminUserFieldFilter auFieldFilter )
     {
         List<AdminUserField> listUserFields = new ArrayList<AdminUserField>( );
-        List<String> listFilter = new ArrayList<String>( );
+        List<String> listFilter = new ArrayList<>( );
 
         if ( auFieldFilter.containsIdAttribute( ) )
         {

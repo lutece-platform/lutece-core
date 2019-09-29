@@ -273,7 +273,7 @@ public final class RBACDAO implements IRBACDAO
      */
     public Collection<String> selectRoleKeys( String strTypeCode, String strId, String strPermission )
     {
-        Collection<String> listRoleKeys = new ArrayList<String>( );
+        Collection<String> listRoleKeys = new ArrayList<>( );
         DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_ROLE_KEYS );
         daoUtil.setString( 1, strTypeCode );
 

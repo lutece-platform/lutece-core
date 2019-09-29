@@ -678,7 +678,7 @@ final class MailUtil
     public static List<String> getAllStringAdressOfRecipients( String strRecipients )
     {
         StringTokenizer st = new StringTokenizer( strRecipients, AppPropertiesService.getProperty( PROPERTY_MAIL_LIST_SEPARATOR, ";" ) );
-        List<String> listRecipients = new ArrayList<String>( );
+        List<String> listRecipients = new ArrayList<>( );
 
         while ( st.hasMoreTokens( ) )
         {

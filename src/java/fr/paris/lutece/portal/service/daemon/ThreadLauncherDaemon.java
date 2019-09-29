@@ -101,7 +101,7 @@ public class ThreadLauncherDaemon extends Daemon
 
         // We remove dead threads from running thread collections
         RunnableQueueItem item = null;
-        List<String> listDeadThreadKeys = new ArrayList<String>( );
+        List<String> listDeadThreadKeys = new ArrayList<>( );
 
         for ( Entry<String, Thread> threadEntry : _mapThreadByKey.entrySet( ) )
         {

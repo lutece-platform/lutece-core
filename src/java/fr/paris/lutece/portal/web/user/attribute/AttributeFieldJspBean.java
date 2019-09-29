@@ -114,7 +114,7 @@ public class AttributeFieldJspBean extends AdminFeaturesPageJspBean
         IAttribute attribute = _attributeService.getAttributeWithoutFields( nIdAttribute, getLocale( ) );
 
         HtmlTemplate template;
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<>( );
         model.put( MARK_ATTRIBUTE, attribute );
         model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_CREATE_ATTRIBUTE_FIELD ) );
 
@@ -192,7 +192,7 @@ public class AttributeFieldJspBean extends AdminFeaturesPageJspBean
         AttributeField attributeField = _attributeFieldService.getAttributeField( nIdField );
 
         HtmlTemplate template;
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<>( );
         model.put( MARK_ATTRIBUTE_FIELD, attributeField );
         model.put( MARK_ATTRIBUTE, attribute );
         model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MODIFY_ATTRIBUTE_FIELD ) );

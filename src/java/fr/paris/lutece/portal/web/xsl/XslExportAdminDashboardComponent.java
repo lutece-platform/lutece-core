@@ -66,7 +66,7 @@ public class XslExportAdminDashboardComponent  extends AdminDashboardComponent
     @Override
     public String getDashboardData( AdminUser user, HttpServletRequest request )
     {
-        HashMap<String, Object> model = new HashMap<String, Object>( );
+        HashMap<String, Object> model = new HashMap<>( );
         List<XslExport> listXslExport = XslExportHome.getList( );
 
         model.put( MARK_PERMISSION_CREATE,

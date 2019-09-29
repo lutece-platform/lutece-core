@@ -365,7 +365,7 @@ public class AdminDashboardDAO implements IAdminDashboardDAO
      */
     private void buildSQLFilter( StringBuilder sbSQL, AdminDashboardFilter filter )
     {
-        List<String> listFilters = new ArrayList<String>( );
+        List<String> listFilters = new ArrayList<>( );
 
         if ( filter.containsFilterOrder( ) )
         {

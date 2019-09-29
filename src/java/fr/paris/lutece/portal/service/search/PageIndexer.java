@@ -303,7 +303,7 @@ public class PageIndexer implements SearchIndexer
     @Override
     public List<String> getListType( )
     {
-        List<String> listType = new ArrayList<String>( );
+        List<String> listType = new ArrayList<>( );
         listType.add( INDEX_TYPE_PAGE );
 
         return listType;

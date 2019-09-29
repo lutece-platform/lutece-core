@@ -126,7 +126,7 @@ public class RightJspBean extends AdminFeaturesPageJspBean
         // Reinit session
         reinitItemNavigator( );
 
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<>( );
         model.put( MARK_RIGHTS_LIST, I18nService.localizeCollection( RightHome.getRightsList( ), getLocale( ) ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_RIGHTS, getLocale( ), model );
@@ -143,7 +143,7 @@ public class RightJspBean extends AdminFeaturesPageJspBean
      */
     public String getAssignUsers( HttpServletRequest request )
     {
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<>( );
         setPageTitleProperty( PROPERTY_ASSIGN_USERS_PAGETITLE );
 
         String strBaseUrl = AppPathService.getBaseUrl( request ) + JSP_URL_ASSIGN_USERS_TO_RIGHT;
@@ -344,7 +344,7 @@ public class RightJspBean extends AdminFeaturesPageJspBean
     {
         if ( _itemNavigator == null )
         {
-            List<String> listIdsRight = new ArrayList<String>( );
+            List<String> listIdsRight = new ArrayList<>( );
             int nCurrentItemId = 0;
             int nIndex = 0;
 

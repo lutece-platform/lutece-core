@@ -193,7 +193,7 @@ public class AdminDocumentationJspBean
         AdminUser user = AdminUserService.getAdminUser( request );
 
         List<FeatureGroup> listFeatureGroups = getFeatureGroupsList( user );
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<>( );
 
         model.put( BOOKMARK_FEATURE_GROUP_LIST, listFeatureGroups );
         model.put( BOOKMARK_HELP_ICON, IMAGE_HELP_PATH );

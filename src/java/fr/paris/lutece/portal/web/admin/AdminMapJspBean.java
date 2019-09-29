@@ -112,7 +112,7 @@ public class AdminMapJspBean extends AdminFeaturesPageJspBean
 
         Properties outputProperties = ModeHome.getOuputXslProperties( MODE_ADMIN );
 
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<>( );
         XmlTransformerService xmlTransformerService = new XmlTransformerService( );
         String map = xmlTransformerService.transformBySourceWithXslCache( strArborescenceXml.toString( ), xslSource, mapParamRequest, outputProperties );
 

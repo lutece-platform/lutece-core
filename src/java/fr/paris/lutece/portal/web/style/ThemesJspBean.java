@@ -99,7 +99,7 @@ public class ThemesJspBean extends AdminFeaturesPageJspBean
      */
     public String getManageThemes( HttpServletRequest request )
     {
-        HashMap<String, Object> model = new HashMap<String, Object>( );
+        HashMap<String, Object> model = new HashMap<>( );
 
         model.put( MARK_THEMES_LIST, ThemeHome.getThemesList( ) );
         model.put( MARK_THEME, ThemesService.getGlobalThemeObject( ) );
@@ -157,7 +157,7 @@ public class ThemesJspBean extends AdminFeaturesPageJspBean
      */
     public String getCreateTheme( HttpServletRequest request )
     {
-        HashMap<String, Object> model = new HashMap<String, Object>( );
+        HashMap<String, Object> model = new HashMap<>( );
         model.put( BASE_URL, AppPathService.getBaseUrl( request ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CREATE_THEME, getLocale( ), model );
@@ -175,7 +175,7 @@ public class ThemesJspBean extends AdminFeaturesPageJspBean
     {
         Theme themeToModify = ThemeHome.findByPrimaryKey( request.getParameter( CODE_THEME ) );
 
-        HashMap<String, Object> model = new HashMap<String, Object>( );
+        HashMap<String, Object> model = new HashMap<>( );
         model.put( BASE_URL, AppPathService.getBaseUrl( request ) );
         model.put( PARAMETER_THEME, themeToModify );
 

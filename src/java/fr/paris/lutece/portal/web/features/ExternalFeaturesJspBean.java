@@ -103,7 +103,7 @@ public class ExternalFeaturesJspBean extends AdminFeaturesPageJspBean
 //    {
 //        setPageTitleProperty( PROPERTY_MANAGE_EXTERNAL_FEATURES_PAGETITLE );
 //
-//        Map<String, Object> model = new HashMap<String, Object>( );
+//        Map<String, Object> model = new HashMap<>( );
 //        model.put( MARK_EXTERNAL_FEATURES_LIST, RightHome.getExternalRightList( ) );
 //
 //        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_EXTERNAL_FEATURES, getLocale( ), model );
@@ -115,7 +115,7 @@ public class ExternalFeaturesJspBean extends AdminFeaturesPageJspBean
     {
         setPageTitleProperty( PROPERTY_CREATE_EXTERNAL_FEATURE_PAGETITLE );
 
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<>( );
 
         Collection<FeatureGroup> featureGroups = FeatureGroupHome.getFeatureGroupsList( );
         ReferenceList featureGroupsReferenceList = new ReferenceList( );
@@ -191,7 +191,7 @@ public class ExternalFeaturesJspBean extends AdminFeaturesPageJspBean
     {
 
         setPageTitleProperty( PROPERTY_MODIFY_EXTERNAL_FEATURE_PAGETITLE );
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<>( );
 
         String strExternalFeatureId = request.getParameter( PARAMETER_ID_EXTERNAL_FEATURE );
         _externalFeature = RightHome.findByPrimaryKey( strExternalFeatureId );

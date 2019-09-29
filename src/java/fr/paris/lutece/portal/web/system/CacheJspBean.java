@@ -88,7 +88,7 @@ public class CacheJspBean extends AdminFeaturesPageJspBean
      */
     public String getManageCaches( HttpServletRequest request )
     {
-        HashMap<String, Object> model = new HashMap<String, Object>( );
+        HashMap<String, Object> model = new HashMap<>( );
         model.put( MARK_SERVICES_LIST, CacheService.getCacheableServicesList( ) );
         model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MANAGE_CACHES ) );
 

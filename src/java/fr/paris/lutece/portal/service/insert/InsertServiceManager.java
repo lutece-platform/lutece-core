@@ -113,7 +113,7 @@ public final class InsertServiceManager
      */
     public static List<String> getInsertsLabels( )
     {
-        List<String> listInserts = new ArrayList<String>( );
+        List<String> listInserts = new ArrayList<>( );
 
         for ( InsertService ls : getInsertServicesList( ) )
         {

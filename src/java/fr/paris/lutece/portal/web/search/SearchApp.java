@@ -218,7 +218,7 @@ public class SearchApp implements XPageApplication
         Paginator<SearchResult> paginator = new Paginator<SearchResult>( listResults, nNbItemsPerPage, sbUrl.toString( ), PARAMETER_PAGE_INDEX,
                 strCurrentPageIndex );
 
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<>( );
         model.put( MARK_RESULTS_LIST, paginator.getPageItems( ) );
         model.put( MARK_QUERY, strQuery );
         model.put( MARK_PAGINATOR, paginator );

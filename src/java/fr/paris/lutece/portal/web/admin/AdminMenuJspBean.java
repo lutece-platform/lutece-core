@@ -150,7 +150,7 @@ public class AdminMenuJspBean implements Serializable
      */
     public String getAdminMenuHeader( HttpServletRequest request )
     {
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<>( );
         String strSiteName = PortalService.getSiteName( );
         AdminUser user = AdminUserService.getAdminUser( request );
         List<FeatureGroup> aFeaturesGroupList = getFeatureGroupsList( user );
@@ -186,7 +186,7 @@ public class AdminMenuJspBean implements Serializable
      */
     public String getAdminMenuFooter( HttpServletRequest request )
     {
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<>( );
         String strFooterVersion = AppInfo.getVersion( );
         String strFooterSiteName = PortalService.getSiteName( );
         AdminUser user = AdminUserService.getAdminUser( request );
@@ -213,7 +213,7 @@ public class AdminMenuJspBean implements Serializable
     {
         AdminUser user = AdminUserService.getAdminUser( request );
 
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<>( );
 
         setDashboardData( model, user, request );
 
@@ -545,7 +545,7 @@ public class AdminMenuJspBean implements Serializable
             listPlugins.add( PluginService.getCore( ) );
             listPlugins.addAll( PluginService.getPluginList( ) );
 
-            Map<String, Object> model = new HashMap<String, Object>( );
+            Map<String, Object> model = new HashMap<>( );
             model.put( MARK_PLUGINS_LIST, listPlugins );
 
             _strStylesheets = AppTemplateService.getTemplate( TEMPLATE_STYLESHEET_LINK, LocaleService.getDefault( ), model ).getHtml( );
@@ -581,7 +581,7 @@ public class AdminMenuJspBean implements Serializable
                 {
                     for ( String strJavascript : plugin.getAdminJavascriptFiles( ) )
                     {
-                        Map<String, Object> model = new HashMap<String, Object>( );
+                        Map<String, Object> model = new HashMap<>( );
                         model.put( MARK_JAVASCRIPT_FILE, strJavascript );
                         model.put( MARK_PLUGIN_NAME, plugin.getName( ) );
                         sbJavascripts.append( AppTemplateService.getTemplate( TEMPLATE_JAVASCRIPT_FILE, LocaleService.getDefault( ), model ).getHtml( ) );

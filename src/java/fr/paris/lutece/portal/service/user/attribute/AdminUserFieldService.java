@@ -277,7 +277,7 @@ public final class AdminUserFieldService
      */
     public static Map<String, Object> getAdminUserFields( List<IAttribute> listAttributes, int nUserId, Locale locale )
     {
-        Map<String, Object> map = new HashMap<String, Object>( );
+        Map<String, Object> map = new HashMap<>( );
 
         for ( IAttribute attribute : listAttributes )
         {

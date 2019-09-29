@@ -111,7 +111,7 @@ public class XmlTransformerCacheService implements CacheableService
     @Override
     public List<String> getKeys( )
     {
-        List<String> list = new ArrayList<String>( );
+        List<String> list = new ArrayList<>( );
         list.add( MSG_KEYS_NOT_AVAILABLE );
 
         return list;

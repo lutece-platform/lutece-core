@@ -295,7 +295,7 @@ public abstract class PortletJspBean extends AdminFeaturesPageJspBean
      */
     protected HtmlTemplate getCreateTemplate( String strPageId, String strPortletTypeId )
     {
-        return getCreateTemplate( strPageId, strPortletTypeId, new HashMap<String, Object>( ) );
+        return getCreateTemplate( strPageId, strPortletTypeId, new HashMap<>( ) );
     }
 
     /**
@@ -336,7 +336,7 @@ public abstract class PortletJspBean extends AdminFeaturesPageJspBean
      */
     protected HtmlTemplate getModifyTemplate( Portlet portlet )
     {
-        return getModifyTemplate( portlet, new HashMap<String, Object>( ) );
+        return getModifyTemplate( portlet, new HashMap<>( ) );
     }
 
     /**

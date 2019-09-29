@@ -183,7 +183,7 @@ public class AliasPortletJspBean extends PortletJspBean
     {
         String strIdPage = request.getParameter( PARAMETER_PAGE_ID );
         String strIdPortletType = request.getParameter( PARAMETER_PORTLET_TYPE_ID );
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<>( );
         model.put( MARK_ALIAS_PORTLETS_LIST, buildAliasPortletList( ) );
 
         HtmlTemplate template = getCreateTemplate( strIdPage, strIdPortletType, model );
@@ -205,7 +205,7 @@ public class AliasPortletJspBean extends PortletJspBean
         int idPortlet = Integer.parseInt( strIdPortlet );
         Portlet portlet = PortletHome.findByPrimaryKey( idPortlet );
         AliasPortlet aliasPortlet = (AliasPortlet) portlet;
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<>( );
         model.put( MARK_ALIAS_PORTLETS_LIST, buildAliasPortletList( ) );
         model.put( MARK_ALIAS_PORTLET, aliasPortlet.getAliasId( ) );
 

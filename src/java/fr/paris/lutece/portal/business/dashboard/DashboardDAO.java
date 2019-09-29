@@ -364,7 +364,7 @@ public class DashboardDAO implements IDashboardDAO
      */
     private void buildSQLFilter( StringBuilder sbSQL, DashboardFilter filter )
     {
-        List<String> listFilters = new ArrayList<String>( );
+        List<String> listFilters = new ArrayList<>( );
 
         if ( filter.containsFilterOrder( ) )
         {

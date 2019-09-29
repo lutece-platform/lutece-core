@@ -147,7 +147,7 @@ public class XslExportJspBean extends PluginAdminPageJspBean
      */
     public String getCreateXslExport( HttpServletRequest request ) throws AccessDeniedException
     {
-        HashMap<String, Object> model = new HashMap<String, Object>( );
+        HashMap<String, Object> model = new HashMap<>( );
 
         Collection<Plugin> listPlugins = PluginService.getPluginList( );
         ReferenceList refListPlugins = new ReferenceList( );
@@ -240,7 +240,7 @@ public class XslExportJspBean extends PluginAdminPageJspBean
 
         XslExport xslExport;
         String strIdXslExport = request.getParameter( PARAMETER_ID_XSL_EXPORT );
-        HashMap<String, Object> model = new HashMap<String, Object>( );
+        HashMap<String, Object> model = new HashMap<>( );
         int nIdXslExport = Integer.parseInt( strIdXslExport );
         xslExport = XslExportHome.findByPrimaryKey( nIdXslExport );
         model.put( MARK_XSL_EXPORT, xslExport );
@@ -379,7 +379,7 @@ public class XslExportJspBean extends PluginAdminPageJspBean
             throw new AccessDeniedException( "Invalid security token" );
         }
 
-        // ArrayList<String> listErrors = new ArrayList<String>( );
+        // ArrayList<String> listErrors = new ArrayList<>( );
         String strIdXslExport = request.getParameter( PARAMETER_ID_XSL_EXPORT );
         int nIdXslExport = Integer.parseInt( strIdXslExport );
         XslExport xslExport = XslExportHome.findByPrimaryKey( nIdXslExport );

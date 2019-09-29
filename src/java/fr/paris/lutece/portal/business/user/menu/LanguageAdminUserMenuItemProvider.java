@@ -67,7 +67,7 @@ public class LanguageAdminUserMenuItemProvider extends AbstractAdminUserMenuItem
         AdminUser user = AdminUserService.getAdminUser( request );
         Locale locale = user.getLocale( );
 
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<>( );
         model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE ) );
         model.put( MARK_LANGUAGES_LIST, I18nService.getAdminLocales( locale ) );
         model.put( MARK_CURRENT_LANGUAGE, locale.getLanguage( ) );

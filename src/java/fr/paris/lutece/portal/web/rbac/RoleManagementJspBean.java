@@ -223,7 +223,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
         LocalizedPaginator<AdminRole> paginator = new LocalizedPaginator<AdminRole>( listRole, _nItemsPerPage, url.getUrl( ), Paginator.PARAMETER_PAGE_INDEX,
                 _strCurrentPageIndex, getLocale( ) );
 
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<>( );
         model.put( MARK_NB_ITEMS_PER_PAGE, Integer.toString( _nItemsPerPage ) );
         model.put( MARK_PAGINATOR, paginator );
         model.put( MARK_ROLE_LIST, paginator.getPageItems( ) );
@@ -382,7 +382,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
     public String doRemoveRole( HttpServletRequest request ) throws AccessDeniedException
     {
         String strRoleKey = request.getParameter( PARAMETER_ROLE_KEY );
-        List<String> listErrors = new ArrayList<String>( );
+        List<String> listErrors = new ArrayList<>( );
 
         // check that no user has this role
         if ( AdminUserHome.checkRoleAttributed( strRoleKey ) )
@@ -440,7 +440,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
             return getManageRoles( request );
         }
 
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<>( );
         model.put( MARK_ROLE, adminRole );
         model.put( MARK_CONTROLED_RESOURCE_LIST, listResources );
         model.put( MARK_RESOURCE_TYPE_LIST, listResourceTypes );
@@ -511,7 +511,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
     {
         setPageTitleProperty( PROPERTY_CHOOSE_RESOURCES_PAGETITLE );
 
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<>( );
 
         String strRoleKey = request.getParameter( PARAMETER_ROLE_KEY );
         String strResourceType = request.getParameter( PARAMETER_RESOURCE_TYPE );
@@ -593,7 +593,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
 
         ResourceType resourceType = ResourceTypeManager.getResourceType( strResourceType );
 
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<>( );
 
         model.put( MARK_RESOURCE_ID_LIST, resourceType.getResourceIdService( ).getResourceIdList( getLocale( ) ) );
         model.put( MARK_ROLE_KEY, strRoleKey );
@@ -721,7 +721,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
         // load the permission list for permission selection
         ReferenceList listPermissions = ResourceTypeManager.getPermissionsList( strResourceType, getLocale( ) );
 
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<>( );
 
         // forward the resource id list
         model.put( MARK_RESOURCE_ID_LIST, strArrayResourceIds );
@@ -840,7 +840,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
      */
     public String getAssignUsers( HttpServletRequest request )
     {
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<>( );
         setPageTitleProperty( PROPERTY_ASSIGN_USERS_PAGETITLE );
 
         String strBaseUrl = AppPathService.getBaseUrl( request ) + JSP_URL_ASSIGN_USERS_TO_ROLE;
@@ -1033,7 +1033,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
     {
         if ( _itemNavigator == null )
         {
-            List<String> listIdsRight = new ArrayList<String>( );
+            List<String> listIdsRight = new ArrayList<>( );
             int nCurrentItemId = 0;
             int nIndex = 0;
 

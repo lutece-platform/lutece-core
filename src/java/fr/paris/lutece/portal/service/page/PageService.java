@@ -426,7 +426,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
                 // The user is not registered and identify itself with the
                 // Portal authentication
                 String strAccessControledTemplate = SecurityService.getInstance( ).getAccessControledTemplate( );
-                HashMap<String, Object> model = new HashMap<String, Object>( );
+                HashMap<String, Object> model = new HashMap<>( );
                 String strLoginUrl = SecurityService.getInstance( ).getLoginPageUrl( );
                 model.put( MARK_URL_LOGIN, strLoginUrl );
 
@@ -539,7 +539,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
             request.setAttribute( ATTRIBUTE_CORE_CAN_PAGE_BE_CACHED, false );
         }
 
-        Map<String, Object> rootModel = new HashMap<String, Object>( );
+        Map<String, Object> rootModel = new HashMap<>( );
 
         for ( int j = 0; j < MAX_COLUMNS; j++ )
         {
@@ -572,7 +572,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
      */
     private String addColumnOutline( int columnId, String content, Locale locale )
     {
-        Map<String, Object> model = new HashMap<String, Object>( 2 );
+        Map<String, Object> model = new HashMap<>( 2 );
         model.put( MARK_COLUMN_CONTENT, content );
         model.put( MARK_COLUMN_ID, columnId );
 
@@ -999,7 +999,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
                 listCustomActions.add( customAction );
             }
 
-            Map<String, Object> model = new HashMap<String, Object>( );
+            Map<String, Object> model = new HashMap<>( );
             model.put( MARK_PORTLET, portlet );
             model.put( MARK_STATUS_PUBLISHED, Portlet.STATUS_PUBLISHED );
             model.put( MARK_STATUS_UNPUBLISHED, Portlet.STATUS_UNPUBLISHED );

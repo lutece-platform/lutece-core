@@ -101,7 +101,7 @@ public class InsertServiceSelectorJspBean extends AdminFeaturesPageJspBean
         Collection<InsertService> listServices = InsertServiceManager.getInsertServicesList( );
 
         // building from a template
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<>( );
         model.put( MARK_INSERT_SERVICES_LIST, RBACService.getAuthorizedCollection( listServices, InsertResourceIdService.PERMISSION_USE, getUser( ) ) );
         model.put( MARK_SELECTED_TEXT, strText );
         model.put( MARK_INPUT, strInput );

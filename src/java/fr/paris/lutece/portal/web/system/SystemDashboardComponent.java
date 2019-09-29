@@ -63,7 +63,7 @@ public class SystemDashboardComponent extends DashboardComponent
     @Override
     public String getDashboardData( AdminUser user, HttpServletRequest request )
     {
-        HashMap<String, Object> model = new HashMap<String, Object>( );
+        HashMap<String, Object> model = new HashMap<>( );
         model.put( MARK_PLUGINS_COUNT, PluginService.getPluginList( ).size( ) );
 
         HtmlTemplate t = AppTemplateService.getTemplate( TEMPLATE_DASHBOARD, user.getLocale( ), model );

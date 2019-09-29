@@ -183,7 +183,7 @@ public class AdminPagePortletJspBean extends AdminFeaturesPageJspBean
             }, null, strUrl, strTarget, AdminMessage.TYPE_CONFIRMATION, parameters );
         }
 
-        ArrayList<String> listErrors = new ArrayList<String>( );
+        ArrayList<String> listErrors = new ArrayList<>( );
         Locale locale = AdminUserService.getLocale( request );
         if ( !PortletRemovalListenerService.getService( ).checkForRemoval( strPortletId, listErrors, locale ) )
         {
@@ -243,7 +243,7 @@ public class AdminPagePortletJspBean extends AdminFeaturesPageJspBean
             throw new AccessDeniedException( "User " + user + " is not authorized to permission " + PortletResourceIdService.PERMISSION_MANAGE + " on portlet "
                     + nPortletId );
         }
-        ArrayList<String> listErrors = new ArrayList<String>( );
+        ArrayList<String> listErrors = new ArrayList<>( );
         Locale locale = AdminUserService.getLocale( request );
 
         if ( PortletRemovalListenerService.getService( ).checkForRemoval( strPortletId, listErrors, locale ) )

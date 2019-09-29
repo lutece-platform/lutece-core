@@ -137,7 +137,7 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
         attribute.setAttributeType( getLocale( ) );
 
         HtmlTemplate template;
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<>( );
         model.put( MARK_ATTRIBUTE_TYPE, attribute.getAttributeType( ) );
         model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, attribute.getTemplateCreateAttribute( ) ) );
 
@@ -234,7 +234,7 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
             setPageTitleProperty( attribute.getPropertyModifyPageTitle( ) );
 
             HtmlTemplate template;
-            Map<String, Object> model = new HashMap<String, Object>( );
+            Map<String, Object> model = new HashMap<>( );
             model.put( MARK_ATTRIBUTE, attribute );
             model.put( MARK_ATTRIBUTE_FIELDS_LIST, attribute.getListAttributeFields( ) );
             model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, attribute.getTemplateModifyAttribute( ) ) );

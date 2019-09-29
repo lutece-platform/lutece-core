@@ -312,7 +312,7 @@ public final class AppInit
      */
     private static void initProperties( String strRealPath )
     {
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<>( );
         Properties p = new Properties( );
 
         FileInputStream fis = null;

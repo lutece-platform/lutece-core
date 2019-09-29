@@ -106,7 +106,7 @@ public class AdminDashboardJspBean extends AdminFeaturesPageJspBean
     public String getAdminDashboards( HttpServletRequest request )
     {
         AdminUser user = AdminUserService.getAdminUser( request );
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<>( );
 
         // put each column data
         for ( int nColumn = 1; nColumn <= _service.getColumnCount( ); nColumn++ )
@@ -132,7 +132,7 @@ public class AdminDashboardJspBean extends AdminFeaturesPageJspBean
     {
         AdminUser user = AdminUserService.getAdminUser( request );
 
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<>( );
 
         Map<String, List<IAdminDashboardComponent>> mapAdminDashboards = _service.getAllSetDashboards( );
         model.put( MARK_MAP_DASHBOARDS, mapAdminDashboards );

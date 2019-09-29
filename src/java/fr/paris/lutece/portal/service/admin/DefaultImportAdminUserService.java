@@ -254,9 +254,9 @@ public class DefaultImportAdminUserService extends ImportAdminUserService
 
         // We get every attribute, role, right and workgroup of the user
         Map<Integer, List<String>> mapAttributesValues = new HashMap<Integer, List<String>>( );
-        List<String> listAdminRights = new ArrayList<String>( );
-        List<String> listAdminRoles = new ArrayList<String>( );
-        List<String> listAdminWorkgroups = new ArrayList<String>( );
+        List<String> listAdminRights = new ArrayList<>( );
+        List<String> listAdminRoles = new ArrayList<>( );
+        List<String> listAdminWorkgroups = new ArrayList<>( );
 
         while ( nIndex < strLineDataArray.length )
         {
@@ -292,7 +292,7 @@ public class DefaultImportAdminUserService extends ImportAdminUserService
 
                                 if ( listValues == null )
                                 {
-                                    listValues = new ArrayList<String>( );
+                                    listValues = new ArrayList<>( );
                                 }
 
                                 listValues.add( strAttributeValue );

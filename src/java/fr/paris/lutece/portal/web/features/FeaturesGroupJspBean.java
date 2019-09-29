@@ -216,7 +216,7 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
             return getDashboardUrl( request );
         }
 
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<>( );
         model.put( MARK_ORDER_LIST, getOrderRefList( ) );
         model.put( MARK_FEATURE_GROUP, group );
         model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request,  AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) );

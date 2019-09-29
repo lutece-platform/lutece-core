@@ -81,7 +81,7 @@ public class AdminHomePageManagementComponent extends AdminDashboardComponent
     @Override
     public String getDashboardData( AdminUser user, HttpServletRequest request )
     {
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<>( );
 
         Map<String, List<IDashboardComponent>> mapDashboards = _service.getAllSetDashboards( user );
         

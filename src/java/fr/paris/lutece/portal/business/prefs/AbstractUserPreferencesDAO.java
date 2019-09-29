@@ -90,7 +90,7 @@ public abstract class AbstractUserPreferencesDAO implements IPreferencesDAO
     @Override
     public List<String> getUserId( String strKey, String strValue )
     {
-        List<String> listUserId = new ArrayList<String>( );
+        List<String> listUserId = new ArrayList<>( );
         DAOUtil daoUtil = new DAOUtil( _strSqlSelectByValue );
         daoUtil.setString( 1, strKey );
         daoUtil.setString( 2, strValue );
@@ -135,7 +135,7 @@ public abstract class AbstractUserPreferencesDAO implements IPreferencesDAO
     @Override
     public List<String> keys( String strUserId )
     {
-        List<String> list = new ArrayList<String>( );
+        List<String> list = new ArrayList<>( );
         DAOUtil daoUtil = new DAOUtil( _strSqlSelectAll );
         daoUtil.setString( 1, strUserId );
         daoUtil.executeQuery( );

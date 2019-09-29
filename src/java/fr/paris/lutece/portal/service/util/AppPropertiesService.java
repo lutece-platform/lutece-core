@@ -225,7 +225,7 @@ public final class AppPropertiesService
      */
     public static List<String> getKeys( String strPrefix )
     {
-        List<String> listKeys = new ArrayList<String>( );
+        List<String> listKeys = new ArrayList<>( );
         Enumeration eList = _propertiesService.getProperties( ).keys( );
 
         while ( eList.hasMoreElements( ) )

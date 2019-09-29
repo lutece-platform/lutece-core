@@ -417,7 +417,7 @@ public final class AdminUserService
      */
     public static Map<String, Object> getManageAdvancedParameters( AdminUser user )
     {
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<>( );
 
         boolean bPermissionManageAdvancedParameters = RBACService.isAuthorized( AdminUser.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID,
                 AdminUserResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS, user );
@@ -1387,7 +1387,7 @@ public final class AdminUserService
         String strEmailSubject = I18nService.getLocalizedString( strPropertyEmailSubject, new String [ ] {
             strSiteName
         }, locale );
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<>( );
         model.put( MARK_USER, user );
         model.put( MARK_PASSWORD, strPassword );
         model.put( MARK_SITE_NAME, strSiteName );

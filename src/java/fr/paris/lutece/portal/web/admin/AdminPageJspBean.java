@@ -518,7 +518,7 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
      */
     private String getAdminPageBlock( String strPageId, String strParamBlock, String strPortletType, HttpServletRequest request )
     {
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<>( );
 
         Page page = null;
         int nPageId = 1;
@@ -811,7 +811,7 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
      */
     private String getTemplatesPageList( int nTemplatePageId, int nPageTemplatePageId, String nIndexRow )
     {
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<>( );
 
         PageTemplate pageTemplate = PageTemplateHome.findByPrimaryKey( nTemplatePageId );
         model.put( MARK_PAGE_TEMPLATE, pageTemplate );

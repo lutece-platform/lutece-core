@@ -134,7 +134,7 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
      */
     public String getManageMailinglists( HttpServletRequest request )
     {
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<>( );
 
         // Build filter
         if ( StringUtils.isBlank( request.getParameter( PARAMETER_SESSION ) ) )
@@ -198,7 +198,7 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
 
         ReferenceList listWorkgroups = AdminWorkgroupService.getUserWorkgroups( getUser( ), getLocale( ) );
 
-        HashMap<String, Object> model = new HashMap<String, Object>( );
+        HashMap<String, Object> model = new HashMap<>( );
         model.put( MARK_WORKGROUPS_LIST, listWorkgroups );
 
         // LUTECE-890 : the first workgroup will be selected by default
@@ -277,7 +277,7 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
             return getManageMailinglists( request );
         }
 
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<>( );
         model.put( MARK_WORKGROUPS_LIST, listWorkgroups );
         model.put( MARK_MAILINGLIST, mailinglist );
         model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MODIFY_MAILINGLIST ) );
@@ -329,7 +329,7 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
     {
         String strId = request.getParameter( PARAMETER_MAILINGLIST_ID );
 
-        ArrayList<String> listErrors = new ArrayList<String>( );
+        ArrayList<String> listErrors = new ArrayList<>( );
 
         if ( !MailingListRemovalListenerService.getService( ).checkForRemoval( strId, listErrors, getLocale( ) ) )
         {
@@ -381,7 +381,7 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
     {
         setPageTitleProperty( PROPERTY_VIEW_USERS_PAGETITLE );
 
-        HashMap<String, Object> model = new HashMap<String, Object>( );
+        HashMap<String, Object> model = new HashMap<>( );
         Collection<Recipient> listRecipients;
         String strId = request.getParameter( PARAMETER_MAILINGLIST_ID );
 
@@ -428,7 +428,7 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
         ReferenceList listRoles = AdminRoleHome.getRolesList( );
         listRoles.addItem( AdminMailingListService.ALL_ROLES, AdminMailingListService.ALL_ROLES );
 
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<>( );
         model.put( MARK_WORKGROUPS_LIST, listWorkgroups );
         model.put( MARK_ROLES_LIST, listRoles );
         model.put( MARK_MAILINGLIST, mailinglist );

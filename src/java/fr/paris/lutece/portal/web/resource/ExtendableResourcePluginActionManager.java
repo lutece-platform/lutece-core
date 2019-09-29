@@ -84,7 +84,7 @@ public final class ExtendableResourcePluginActionManager
     public static void fillModel( HttpServletRequest request, AdminUser adminUser, Map<String, Object> model, String strIdExtendableResource,
             String strExtendableResourceType )
     {
-        Map<String, Object> modelTmp = new HashMap<String, Object>( );
+        Map<String, Object> modelTmp = new HashMap<>( );
         modelTmp.put( MARK_ID_EXTENDABLE_RESOURCE, strIdExtendableResource );
         modelTmp.put( MARK_EXTENDABLE_RESOURCE_TYPE, strExtendableResourceType );
         PluginActionManager.fillModel( request, adminUser, modelTmp, IExtendableResourcePluginAction.class, MARK_LIST_EXTENDABLE_RESOURCE_ACTIONS );

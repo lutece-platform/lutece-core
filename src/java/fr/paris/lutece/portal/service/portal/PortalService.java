@@ -307,7 +307,7 @@ public final class PortalService
     public static String buildPageContent( int nCurrentPageId, PageData data, int nMode, HttpServletRequest request )
     {
         Locale locale = null;
-        HashMap<String, Object> model = new HashMap<String, Object>( );
+        HashMap<String, Object> model = new HashMap<>( );
         LuteceUser user = null;
         String strWebmasterEmail = DatastoreService.getDataValue( KEY_WEBMASTER_EMAIL, "" );
         model.put( Markers.WEBMASTER_EMAIL, strWebmasterEmail );
@@ -638,7 +638,7 @@ public final class PortalService
      */
     public static String formatPath( String strPath, int nMode, HttpServletRequest request )
     {
-        HashMap<String, Object> model = new HashMap<String, Object>( );
+        HashMap<String, Object> model = new HashMap<>( );
         model.put( Markers.PAGE_PATH, strPath );
 
         List<PageInclude> listIncludes = PageIncludeService.getIncludes( );

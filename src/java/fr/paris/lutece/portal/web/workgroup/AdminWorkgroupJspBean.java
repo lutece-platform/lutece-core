@@ -161,7 +161,7 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
 
         List<AdminWorkgroup> listFilteredWorkgroups = (List<AdminWorkgroup>) AdminWorkgroupHome.findByFilter( awFilter );
 
-        HashMap<String, Object> model = new HashMap<String, Object>( );
+        HashMap<String, Object> model = new HashMap<>( );
 
         if ( !getUser( ).isAdmin( ) )
         {
@@ -326,7 +326,7 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
     public String doRemoveWorkgroup( HttpServletRequest request ) throws AccessDeniedException
     {
         String strWorkgroupKey = request.getParameter( PARAMETER_WORKGROUP_KEY );
-        ArrayList<String> listErrors = new ArrayList<String>( );
+        ArrayList<String> listErrors = new ArrayList<>( );
 
         if ( AdminWorkgroupHome.getUserListForWorkgroup( strWorkgroupKey ).size( ) > 0 )
         {
@@ -372,7 +372,7 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
             return getManageWorkgroups( request );
         }
 
-        HashMap<String, Object> model = new HashMap<String, Object>( );
+        HashMap<String, Object> model = new HashMap<>( );
         model.put( MARK_WORKGROUP, workgroup );
         model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MODIFY_WORKGROUP ) );
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_WORKGROUP, getLocale( ), model );
@@ -420,7 +420,7 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
      */
     public String getAssignUsers( HttpServletRequest request )
     {
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<>( );
         setPageTitleProperty( PROPERTY_ASSIGN_USERS_PAGETITLE );
 
         String strBaseUrl = AppPathService.getBaseUrl( request ) + JSP_URL_ASSIGN_USERS_TO_WORKGROUPS;
@@ -616,7 +616,7 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
     {
         if ( _itemNavigator == null )
         {
-            List<String> listWorkgroupKeys = new ArrayList<String>( );
+            List<String> listWorkgroupKeys = new ArrayList<>( );
             int nCurrentItemId = 0;
             int nIndex = 0;
 

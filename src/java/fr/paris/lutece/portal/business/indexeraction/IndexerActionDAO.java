@@ -182,7 +182,7 @@ public final class IndexerActionDAO implements IIndexerActionDAO
     {
         List<IndexerAction> indexerActionList = new ArrayList<IndexerAction>( );
         IndexerAction indexerAction = null;
-        List<String> listStrFilter = new ArrayList<String>( );
+        List<String> listStrFilter = new ArrayList<>( );
 
         if ( filter.containsIdTask( ) )
         {

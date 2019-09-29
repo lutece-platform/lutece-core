@@ -54,7 +54,7 @@ public class PageIncludeServiceTest extends LuteceTestCase
         for ( PageInclude pis : listIncludes )
         {
             // HtmlTemplate template = new HtmlTemplate( "Dummy Template ");
-            HashMap<String, Object> mapTemplate = new HashMap<String, Object>( );
+            HashMap<String, Object> mapTemplate = new HashMap<>( );
             PageData pageData = new PageData( );
             MockHttpServletRequest request = new MockHttpServletRequest( );
             pis.fillTemplate( mapTemplate, pageData, 0, request );

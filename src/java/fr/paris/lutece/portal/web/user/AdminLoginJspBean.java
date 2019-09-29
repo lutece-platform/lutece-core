@@ -168,7 +168,7 @@ public class AdminLoginJspBean implements Serializable
      */
     public String getLogin( HttpServletRequest request, HttpServletResponse response ) throws IOException
     {
-        HashMap<String, Object> model = new HashMap<String, Object>( );
+        HashMap<String, Object> model = new HashMap<>( );
 
         HttpSession session = request.getSession( );
 
@@ -247,7 +247,7 @@ public class AdminLoginJspBean implements Serializable
      */
     public String getForgotPassword( HttpServletRequest request )
     {
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<>( );
 
         // Invalidate a previous session
         HttpSession session = request.getSession( );
@@ -290,7 +290,7 @@ public class AdminLoginJspBean implements Serializable
             session.removeAttribute( SESSION_ATTRIBUTE_USER );
         }
 
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<>( );
 
         Locale locale = AdminUserService.getLocale( request );
 
@@ -324,7 +324,7 @@ public class AdminLoginJspBean implements Serializable
      */
     public String getForgotLogin( HttpServletRequest request )
     {
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<>( );
 
         // Invalidate a previous session
         HttpSession session = request.getSession( );
@@ -366,7 +366,7 @@ public class AdminLoginJspBean implements Serializable
      */
     public String getFormContact( HttpServletRequest request )
     {
-        HashMap<String, Object> model = new HashMap<String, Object>( );
+        HashMap<String, Object> model = new HashMap<>( );
 
         // Invalidate a previous session
         HttpSession session = request.getSession( );
@@ -509,7 +509,7 @@ public class AdminLoginJspBean implements Serializable
         // send password rest token by e-mail
         String strSenderEmail = MailService.getNoReplyEmail( );
         String strEmailSubject = I18nService.getLocalizedString( MESSAGE_EMAIL_SUBJECT, locale );
-        HashMap<String, Object> model = new HashMap<String, Object>( );
+        HashMap<String, Object> model = new HashMap<>( );
         model.put( MARK_TOKEN, strToken );
         model.put( MARK_TIMESTAMP, timestamp.getTime( ) );
         model.put( MARK_USER_ID, user.getUserId( ) );
@@ -646,7 +646,7 @@ public class AdminLoginJspBean implements Serializable
         // send access code by e-mail
         String strSenderEmail = MailService.getNoReplyEmail( );
         String strEmailSubject = I18nService.getLocalizedString( MESSAGE_FORGOT_LOGIN_EMAIL_SUBJECT, locale );
-        HashMap<String, Object> model = new HashMap<String, Object>( );
+        HashMap<String, Object> model = new HashMap<>( );
         model.put( MARK_LOGIN, strAccessCode );
         model.put( MARK_LOGIN_URL, AppPathService.getBaseUrl( request ) + AdminAuthenticationService.getInstance( ).getLoginPageUrl( ) );
         model.put( MARK_SITE_LINK, MailService.getSiteLink( AppPathService.getBaseUrl( request ), false ) );

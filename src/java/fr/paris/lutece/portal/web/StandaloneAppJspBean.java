@@ -131,7 +131,7 @@ public class StandaloneAppJspBean
      */
     public String getPluginList( HttpServletRequest request )
     {
-        HashMap<String, Object> modelList = new HashMap<String, Object>( );
+        HashMap<String, Object> modelList = new HashMap<>( );
         Collection<XPageApplicationEntry> entryList = new ArrayList<XPageApplicationEntry>( );
         Locale locale = ( request == null ) ? null : request.getLocale( );
 

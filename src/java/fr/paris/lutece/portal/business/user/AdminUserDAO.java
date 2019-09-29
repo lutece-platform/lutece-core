@@ -727,7 +727,7 @@ public class AdminUserDAO implements IAdminUserDAO
     private Collection<String> selectIdRights( int nUserId, int nUserLevel, boolean bDelegated )
     {
         String strSqlQuery = bDelegated ? SQL_QUERY_SELECT_USER_RIGHTS_DELEGATED : SQL_QUERY_SELECT_USER_RIGHTS_OWN;
-        Collection<String> idRightList = new ArrayList<String>( );
+        Collection<String> idRightList = new ArrayList<>( );
         DAOUtil daoUtil = new DAOUtil( strSqlQuery );
         daoUtil.setInt( 1, nUserId );
         daoUtil.setInt( 2, nUserLevel );

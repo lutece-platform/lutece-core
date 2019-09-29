@@ -216,7 +216,7 @@ public abstract class AbstractCacheableService implements CacheableService, Cach
             return _cache.getKeys( );
         }
 
-        return new ArrayList<String>( );
+        return new ArrayList<>( );
     }
 
     /**

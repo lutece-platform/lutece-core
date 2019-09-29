@@ -159,7 +159,7 @@ public class StylesJspBean extends AdminFeaturesPageJspBean
         LocalizedPaginator<Style> paginator = new LocalizedPaginator<Style>( listStyles, _nItemsPerPage, strURL, Paginator.PARAMETER_PAGE_INDEX,
                 _strCurrentPageIndex, getLocale( ) );
 
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<>( );
         model.put( MARK_NB_ITEMS_PER_PAGE, "" + _nItemsPerPage );
         model.put( MARK_PAGINATOR, paginator );
         model.put( MARK_STYLE_LIST, paginator.getPageItems( ) );
@@ -178,7 +178,7 @@ public class StylesJspBean extends AdminFeaturesPageJspBean
      */
     public String getCreateStyle( HttpServletRequest request )
     {
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<>( );
         model.put( MARK_PORTLET_TYPE_LIST, PortletTypeHome.getPortletsTypesList( getLocale( ) ) );
         model.put( MARK_PORTAL_COMPONENT_LIST, StyleHome.getPortalComponentList( ) );
         model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_CREATE_STYLE ) );
@@ -263,7 +263,7 @@ public class StylesJspBean extends AdminFeaturesPageJspBean
         String strIdStyles = request.getParameter( Parameters.STYLE_ID );
         int nStyleId = Integer.parseInt( strIdStyles );
 
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<>( );
         model.put( MARK_STYLE, StyleHome.findByPrimaryKey( nStyleId ) );
         model.put( MARK_PORTLET_TYPE_LIST, PortletTypeHome.getPortletsTypesList( getLocale( ) ) );
         model.put( MARK_PORTAL_COMPONENT_LIST, StyleHome.getPortalComponentList( ) );

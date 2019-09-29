@@ -96,9 +96,9 @@ public class PluginFile
     private boolean _bDbPoolRequired;
     private Map<Integer, List<String>> _listCssStyleSheets = new HashMap<Integer, List<String>>( );
     private Map<Integer, List<String>> _listJavascriptFiles = new HashMap<Integer, List<String>>( );
-    private List<String> _listAdminCssStyleSheets = new ArrayList<String>( );
-    private List<String> _listAdminJavascriptFiles = new ArrayList<String>( );
-    private List<String> _listFreemarkerMacrosFiles = new ArrayList<String>( );
+    private List<String> _listAdminCssStyleSheets = new ArrayList<>( );
+    private List<String> _listAdminJavascriptFiles = new ArrayList<>( );
+    private List<String> _listFreemarkerMacrosFiles = new ArrayList<>( );
     private List<Right> _listRights = new ArrayList<Right>( );
     private List<PortletType> _listPortletTypes = new ArrayList<PortletType>( );
     private List<DaemonEntry> _listDaemons = new ArrayList<DaemonEntry>( );
@@ -471,7 +471,7 @@ public class PluginFile
 
         if ( cssStyleSheets == null )
         {
-            cssStyleSheets = new ArrayList<String>( );
+            cssStyleSheets = new ArrayList<>( );
             _listCssStyleSheets.put( nMode, cssStyleSheets );
         }
 
@@ -558,7 +558,7 @@ public class PluginFile
 
         if ( javascriptFiles == null )
         {
-            javascriptFiles = new ArrayList<String>( );
+            javascriptFiles = new ArrayList<>( );
             _listJavascriptFiles.put( nMode, javascriptFiles );
         }
 

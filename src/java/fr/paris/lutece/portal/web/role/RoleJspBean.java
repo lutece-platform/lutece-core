@@ -123,7 +123,7 @@ public class RoleJspBean extends AdminFeaturesPageJspBean
     {
         setPageTitleProperty( null );
 
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<>( );
         Collection<Role> listRoles = RoleHome.findAll( );
         listRoles = AdminWorkgroupService.getAuthorizedCollection( listRoles, getUser( ) );
         model.put( MARK_ROLES_LIST, listRoles );
@@ -144,7 +144,7 @@ public class RoleJspBean extends AdminFeaturesPageJspBean
     {
         setPageTitleProperty( PROPERTY_PAGE_TITLE_CREATE_ROLE );
 
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<>( );
 
         model.put( MARK_DEFAULT_VALUE_WORKGROUP_KEY, AdminWorkgroupService.ALL_GROUPS );
         model.put( MARK_WORKGROUP_KEY_LIST, AdminWorkgroupService.getUserWorkgroups( getUser( ), getLocale( ) ) );
@@ -212,7 +212,7 @@ public class RoleJspBean extends AdminFeaturesPageJspBean
     {
         setPageTitleProperty( PROPERTY_PAGE_TITLE_MODIFY_ROLE );
 
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<>( );
 
         String strPageRole = request.getParameter( PARAMETER_PAGE_ROLE );
 
@@ -312,7 +312,7 @@ public class RoleJspBean extends AdminFeaturesPageJspBean
     public String doRemovePageRole( HttpServletRequest request ) throws AccessDeniedException
     {
         String strPageRole = request.getParameter( PARAMETER_PAGE_ROLE );
-        ArrayList<String> listErrors = new ArrayList<String>( );
+        ArrayList<String> listErrors = new ArrayList<>( );
 
         if ( !RoleRemovalListenerService.getService( ).checkForRemoval( strPageRole, listErrors, getLocale( ) ) )
         {

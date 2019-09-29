@@ -134,7 +134,7 @@ public abstract class InsertServiceJspBean implements Serializable
      */
     protected String buildLink( String strText, String strUrl, String strTitle, String strTarget )
     {
-        HashMap<String, Object> model = new HashMap<String, Object>( );
+        HashMap<String, Object> model = new HashMap<>( );
         model.put( MARK_TEXT, StringEscapeUtils.escapeHtml( strText ) );
         model.put( MARK_URL, strUrl );
         model.put( MARK_TITLE, StringEscapeUtils.escapeHtml( strTitle ) );

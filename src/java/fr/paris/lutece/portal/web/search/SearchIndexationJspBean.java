@@ -72,7 +72,7 @@ public class SearchIndexationJspBean extends AdminFeaturesPageJspBean
      */
     public String getIndexingProperties( HttpServletRequest request )
     {
-        HashMap<String, Object> model = new HashMap<String, Object>( );
+        HashMap<String, Object> model = new HashMap<>( );
         Collection<SearchIndexer> listIndexers = IndexationService.getIndexers( );
         model.put( MARK_INDEXERS_LIST, listIndexers );
         model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MANAGE_INDEXER ) );
@@ -97,7 +97,7 @@ public class SearchIndexationJspBean extends AdminFeaturesPageJspBean
         {
             throw new AccessDeniedException( "Invalid security token" );
         }
-        HashMap<String, Object> model = new HashMap<String, Object>( );
+        HashMap<String, Object> model = new HashMap<>( );
         String strLogs;
 
         if ( request.getParameter( "incremental" ) != null )
