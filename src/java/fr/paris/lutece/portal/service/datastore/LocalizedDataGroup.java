@@ -49,7 +49,6 @@ public class LocalizedDataGroup
 {
     private static final String SUFFIX_HELP = ".help";
     private static final String SUFFIX_ORDER = ".order";
-    private static final String DEFAULT_ORDER = "0";
 
     // Variables declarations
     private String _strName;

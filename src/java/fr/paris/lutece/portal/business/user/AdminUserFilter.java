@@ -62,7 +62,6 @@ public class AdminUserFilter implements Serializable
     // Parameteres
     private static final String PARAMETER_SEARCH_ACCESS_CODE = "search_access_code";
     private static final String PARAMETER_SEARCH_LAST_NAME = "search_last_name";
-    private static final String PARAMETER_SEARCH_FIRST_NAME = "search_first_name";
     private static final String PARAMETER_SEARCH_EMAIL = "search_email";
     private static final String PARAMETER_SEARCH_STATUS = "search_status";
     private static final String PARAMETER_SEARCH_USER_LEVEL = "search_user_level";
@@ -72,7 +71,6 @@ public class AdminUserFilter implements Serializable
     private static final String PROPERTY_ENCODING_URL = "lutece.encoding.url";
     private String _strAccessCode;
     private String _strLastName;
-    private String _strFirstName;
     private String _strEmail;
     private int _nStatus;
     private int _nUserLevel;
@@ -91,7 +89,6 @@ public class AdminUserFilter implements Serializable
     {
         _strAccessCode = StringUtils.EMPTY;
         _strLastName = StringUtils.EMPTY;
-        _strFirstName = StringUtils.EMPTY;
         _strEmail = StringUtils.EMPTY;
         _nStatus = -1;
         _nUserLevel = -1;
@@ -282,18 +279,21 @@ public class AdminUserFilter implements Serializable
     public String getUrlAttributes( )
     {
         StringBuilder sbUrlAttributes = new StringBuilder( );
-        sbUrlAttributes.append( PARAMETER_SEARCH_IS_SEARCH + CONSTANT_EQUAL + Boolean.TRUE );
-        sbUrlAttributes.append( CONSTANT_AMPERSAND + PARAMETER_SEARCH_USER_LEVEL + CONSTANT_EQUAL + _nUserLevel );
-        sbUrlAttributes.append( CONSTANT_AMPERSAND + PARAMETER_SEARCH_STATUS + CONSTANT_EQUAL + _nStatus );
+        sbUrlAttributes.append( PARAMETER_SEARCH_IS_SEARCH + CONSTANT_EQUAL )
+                .append(Boolean.TRUE)
+                .append(CONSTANT_AMPERSAND + PARAMETER_SEARCH_USER_LEVEL + CONSTANT_EQUAL)
+                .append(_nUserLevel)
+                .append(CONSTANT_AMPERSAND + PARAMETER_SEARCH_STATUS + CONSTANT_EQUAL)
+                .append(_nStatus);
 
         try
         {
-            sbUrlAttributes.append( CONSTANT_AMPERSAND + PARAMETER_SEARCH_ACCESS_CODE + CONSTANT_EQUAL
-                    + URLEncoder.encode( _strAccessCode, AppPropertiesService.getProperty( PROPERTY_ENCODING_URL ) ) );
-            sbUrlAttributes.append( CONSTANT_AMPERSAND + PARAMETER_SEARCH_LAST_NAME + CONSTANT_EQUAL
-                    + URLEncoder.encode( _strLastName, AppPropertiesService.getProperty( PROPERTY_ENCODING_URL ) ) );
-            sbUrlAttributes.append( CONSTANT_AMPERSAND + PARAMETER_SEARCH_EMAIL + CONSTANT_EQUAL
-                    + URLEncoder.encode( _strEmail, AppPropertiesService.getProperty( PROPERTY_ENCODING_URL ) ) );
+            sbUrlAttributes.append( CONSTANT_AMPERSAND + PARAMETER_SEARCH_ACCESS_CODE + CONSTANT_EQUAL )
+                    .append(URLEncoder.encode( _strAccessCode, AppPropertiesService.getProperty( PROPERTY_ENCODING_URL ) ))
+                    .append( CONSTANT_AMPERSAND + PARAMETER_SEARCH_LAST_NAME + CONSTANT_EQUAL )
+                    .append( URLEncoder.encode( _strLastName, AppPropertiesService.getProperty( PROPERTY_ENCODING_URL ) ) )
+                    .append( CONSTANT_AMPERSAND + PARAMETER_SEARCH_EMAIL + CONSTANT_EQUAL )
+                    .append( URLEncoder.encode( _strEmail, AppPropertiesService.getProperty( PROPERTY_ENCODING_URL ) ) );
         }
         catch( UnsupportedEncodingException e )
         {

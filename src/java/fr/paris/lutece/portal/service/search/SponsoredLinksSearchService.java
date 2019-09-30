@@ -47,7 +47,6 @@ import java.util.Locale;
 public class SponsoredLinksSearchService implements ISponsoredLinksSearchService
 {
     private static final String EMPTY_STRING = "";
-    private static final String SPRING_CONTEXT_NAME = "sponsoredlinks";
     private boolean _bAvailable;
     private ISponsoredLinksService _sponsoredLinksService;
 
@@ -64,15 +63,7 @@ public class SponsoredLinksSearchService implements ISponsoredLinksSearchService
             _sponsoredLinksService = SpringContextService.getBean( "sponsoredlinks.sponsoredLinksService" );
             _bAvailable = _sponsoredLinksService != null;
         }
-        catch( BeanDefinitionStoreException e )
-        {
-            _bAvailable = false;
-        }
-        catch( NoSuchBeanDefinitionException e )
-        {
-            _bAvailable = false;
-        }
-        catch( CannotLoadBeanClassException e )
+        catch( BeanDefinitionStoreException | NoSuchBeanDefinitionException | CannotLoadBeanClassException e )
         {
             _bAvailable = false;
         }
@@ -81,6 +72,7 @@ public class SponsoredLinksSearchService implements ISponsoredLinksSearchService
     /**
      * {@inheritDoc}
      */
+    @Override
     public String getHtmlCode( String strRequest, Locale locale )
     {
         if ( _bAvailable )
@@ -96,6 +88,7 @@ public class SponsoredLinksSearchService implements ISponsoredLinksSearchService
     /**
      * {@inheritDoc}
      */
+    @Override
     public boolean isAvailable( )
     {
         return _bAvailable;

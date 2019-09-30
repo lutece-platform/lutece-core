@@ -94,7 +94,6 @@ public class RightJspBean extends AdminFeaturesPageJspBean
 
     // Parameters
     private static final String PARAMETER_ID_RIGHT = "id_right";
-    private static final String PARAMETER_CANCEL = "cancel";
     private static final String PARAMETER_AVAILABLE_USER_LIST = "available_users_list";
     private static final String PARAMETER_ID_USER = "id_user";
     private static final String PARAMETER_ANCHOR = "anchor";
@@ -106,7 +105,6 @@ public class RightJspBean extends AdminFeaturesPageJspBean
     // JSP
     private static final String JSP_URL_ASSIGN_USERS_TO_RIGHT = "jsp/admin/features/AssignUsersRight.jsp";
     private static final String JSP_ASSIGN_USERS_TO_RIGHT = "AssignUsersRight.jsp";
-    private static final String JSP_URL_RIGHTS_MANAGEMENT = "ManageRights.jsp";
     private int _nItemsPerPage;
     private int _nDefaultItemsPerPage;
     private String _strCurrentPageIndex;
@@ -176,7 +174,7 @@ public class RightJspBean extends AdminFeaturesPageJspBean
 
         // AVAILABLE USERS
         ReferenceList listAvailableUsers = new ReferenceList( );
-        ReferenceItem itemUser = null;
+        ReferenceItem itemUser;
         boolean bAssigned;
 
         for ( AdminUser user : AdminUserHome.findUserList( ) )
@@ -288,11 +286,10 @@ public class RightJspBean extends AdminFeaturesPageJspBean
 
         if ( ( arrayUsersIds != null ) )
         {
-            for ( int i = 0; i < arrayUsersIds.length; i++ )
+            for( String arrayUsersId : arrayUsersIds )
             {
-                int nUserId = Integer.parseInt( arrayUsersIds [i] );
+                int nUserId = Integer.parseInt( arrayUsersId );
                 AdminUser user = AdminUserHome.findByPrimaryKey( nUserId );
-
                 if ( !AdminUserHome.hasRight( user, strIdRight ) )
                 {
                     AdminUserHome.createRightForUser( nUserId, strIdRight );

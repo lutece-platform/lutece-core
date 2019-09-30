@@ -90,7 +90,6 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
     private static final String ANCHOR_ADMIN_DASHBOARDS = "attributes_management";
     private static final String JSP_MODIFY_ATTRIBUTE = "ModifyAttribute.jsp";
     private static final AttributeService _attributeService = AttributeService.getInstance( );
-    private static final AttributeTypeService _attributeTypeService = AttributeTypeService.getInstance( );
 
 
     /**

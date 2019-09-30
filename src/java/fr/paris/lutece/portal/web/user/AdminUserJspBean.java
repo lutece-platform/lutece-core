@@ -179,7 +179,6 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     private static final String PROPERTY_MESSAGE_DIFFERENTS_PASSWORD = "portal.users.message.differentsPassword";
     private static final String PROPERTY_MESSAGE_EMAIL_SUBJECT_CHANGE_STATUS = "portal.users.user_change_status.email.subject";
     private static final String PROPERTY_MESSAGE_EMAIL_SUBJECT_NOTIFY_USER = "portal.users.notify_user.email.subject";
-    private static final String PROPERTY_MANAGE_ADVANCED_PARAMETERS_PAGETITLE = "portal.users.manage_advanced_parameters.pageTitle";
     private static final String PROPERTY_MESSAGE_ERROR_EMAIL_PATTERN = "portal.users.manage_advanced_parameters.message.errorEmailPattern";
     private static final String PROPERTY_MESSAGE_CONFIRM_USE_ASP = "portal.users.manage_advanced_parameters.message.confirmUseAdvancedSecurityParameters";
     private static final String PROPERTY_MESSAGE_CONFIRM_REMOVE_ASP = "portal.users.manage_advanced_parameters.message.confirmRemoveAdvancedSecurityParameters";

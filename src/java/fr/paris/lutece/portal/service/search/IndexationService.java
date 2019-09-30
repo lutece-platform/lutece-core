@@ -87,8 +87,6 @@ public final class IndexationService
     private static final int DEFAULT_WRITER_MERGE_FACTOR = 20;
     private static final int DEFAULT_WRITER_MAX_FIELD_LENGTH = 1000000;
     private static String _strIndex;
-    private static int _nWriterMergeFactor;
-    private static int _nWriterMaxFieldLength;
     private static Analyzer _analyzer;
     private static Map<String, SearchIndexer> _mapIndexers = new ConcurrentHashMap<String, SearchIndexer>( );
     private static IndexWriter _writer;
@@ -126,10 +124,6 @@ public final class IndexationService
         {
             throw new LuteceInitException( "Lucene index path not found in lucene.properties", null );
         }
-
-        _nWriterMergeFactor = AppPropertiesService.getPropertyInt( PROPERTY_WRITER_MERGE_FACTOR, DEFAULT_WRITER_MERGE_FACTOR );
-        _nWriterMaxFieldLength = AppPropertiesService.getPropertyInt( PROPERTY_WRITER_MAX_FIELD_LENGTH, DEFAULT_WRITER_MAX_FIELD_LENGTH );
-
         String strAnalyserClassName = AppPropertiesService.getProperty( PROPERTY_ANALYSER_CLASS_NAME );
 
         if ( ( _strIndex == null ) || ( _strIndex.equals( "" ) ) )
