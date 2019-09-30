@@ -111,17 +111,17 @@ public class SecurityTokenService implements ISecurityTokenService
      * {@inheritDoc}
      */
     @Override
-    public boolean validate( HttpServletRequest request, String StrAction )
+    public boolean validate( HttpServletRequest request, String strAction )
     {
         HttpSession session = request.getSession( true );
 
         String strToken = request.getParameter( PARAMETER_TOKEN );
 
         if ( ( session.getAttribute( PARAMETER_SESSION_TOKENS ) != null )
-                && ( (Map<String, Set<String>>) session.getAttribute( PARAMETER_SESSION_TOKENS ) ).containsKey( StrAction )
-                && ( (Map<String, Set<String>>) session.getAttribute( PARAMETER_SESSION_TOKENS ) ).get( StrAction ).contains( strToken ) )
+                && ( (Map<String, Set<String>>) session.getAttribute( PARAMETER_SESSION_TOKENS ) ).containsKey( strAction )
+                && ( (Map<String, Set<String>>) session.getAttribute( PARAMETER_SESSION_TOKENS ) ).get( strAction ).contains( strToken ) )
         {
-            ( (Map<String, Set<String>>) session.getAttribute( PARAMETER_SESSION_TOKENS ) ).get( StrAction ).remove( strToken );
+            ( (Map<String, Set<String>>) session.getAttribute( PARAMETER_SESSION_TOKENS ) ).get( strAction ).remove( strToken );
 
             return true;
         }

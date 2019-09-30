@@ -117,12 +117,10 @@ public class XslExportJspBean extends PluginAdminPageJspBean
     private static final String MESSAGE_CONFIRM_REMOVE_XSL_EXPORT = "portal.xsl.message.confirm_remove_xsl_export";
     private static final String MESSAGE_MANDATORY_FIELD = "portal.util.message.mandatoryField";
 
-    // private static final String MESSAGE_CAN_NOT_REMOVE_XSL_EXPORT = "portal.xsl.message.can_not_remove_xsl_export";
     private static final String FIELD_TITLE = "portal.xsl.create_xsl_export.label_title";
     private static final String FIELD_DESCRIPTION = "portal.xsl.create_xsl_export.label_description";
     private static final String FIELD_EXTENSION = "portal.xsl.create_xsl_export.label_extension";
 
-    // private static final String FIELD_EXTENSION = "portal.xsl.create_xsl_export.label_extension";
     private static final String FIELD_FILE = "portal.xsl.create_xsl_export.label_file";
     private static final String MESSAGE_XML_NOT_VALID = "portal.xsl.message.xml_not_valid";
     private static final String MESSAGE_PERMISSION_DENIED = "portal.xsl.message.permission_denied";
@@ -379,19 +377,10 @@ public class XslExportJspBean extends PluginAdminPageJspBean
             throw new AccessDeniedException( "Invalid security token" );
         }
 
-        // ArrayList<String> listErrors = new ArrayList<>( );
         String strIdXslExport = request.getParameter( PARAMETER_ID_XSL_EXPORT );
         int nIdXslExport = Integer.parseInt( strIdXslExport );
         XslExport xslExport = XslExportHome.findByPrimaryKey( nIdXslExport );
 
-        // if ( !XslExportRemovalListenerService.getService( ).checkForRemoval( strIdXslExport, listErrors, getLocale( ) ) )
-        // {
-        // String strCause = AdminMessageService.getFormattedList( listErrors, getLocale( ) );
-        // Object[] args =
-        // { strCause };
-        //
-        // return AdminMessageService.getMessageUrl( request, MESSAGE_CAN_NOT_REMOVE_XSL_EXPORT, args, AdminMessage.TYPE_STOP );
-        // }
         XslExportHome.remove( nIdXslExport );
 
         if ( xslExport.getFile( ) != null )

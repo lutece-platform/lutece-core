@@ -162,7 +162,6 @@ public final class SpringContextService implements PluginEventListener
             XmlBeanDefinitionReader xmlReader = new XmlBeanDefinitionReader( gwac );
             xmlReader.loadBeanDefinitions( strContextFile );
 
-            // _context = new ClassPathXmlApplicationContext( strContextFile );
             AppLogService.info( "Context file loaded : " + FILE_CORE_CONTEXT );
 
             // Load all context files found in the conf/plugins directory
@@ -265,7 +264,6 @@ public final class SpringContextService implements PluginEventListener
             // Safe loading of plugin context file
             try
             {
-                // _context = new ClassPathXmlApplicationContext( file, _context );
                 xmlReader.loadBeanDefinitions( file );
                 AppLogService.info( "Context file loaded : " + fileContext );
             }

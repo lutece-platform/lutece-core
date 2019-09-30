@@ -92,24 +92,6 @@ public class ExternalFeaturesJspBean extends AdminFeaturesPageJspBean
 
     private Right _externalFeature;
 
-    /**
-     * Returns the list of rights
-     *
-     * @param request
-     *            The Http request
-     * @return the html code for display the rights list
-     */
-//    public String getManageExternalFeatures( HttpServletRequest request )
-//    {
-//        setPageTitleProperty( PROPERTY_MANAGE_EXTERNAL_FEATURES_PAGETITLE );
-//
-//        Map<String, Object> model = new HashMap<>( );
-//        model.put( MARK_EXTERNAL_FEATURES_LIST, RightHome.getExternalRightList( ) );
-//
-//        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_EXTERNAL_FEATURES, getLocale( ), model );
-//
-//        return getAdminPage( template.getHtml( ) );
-//    }
 
     public String getCreateExternalFeature( HttpServletRequest request )
     {

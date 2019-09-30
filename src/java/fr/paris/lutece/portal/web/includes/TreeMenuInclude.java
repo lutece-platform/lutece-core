@@ -225,7 +225,6 @@ public class TreeMenuInclude implements PageInclude
 
         int nParentTree = nParentPageId;
 
-        // while ( nParentPageId != 1 )
         while ( nParentPageId != 0 )
         {
             nParentTree = nParentPageId;

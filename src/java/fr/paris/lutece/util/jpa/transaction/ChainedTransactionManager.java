@@ -114,8 +114,6 @@ public class ChainedTransactionManager implements PlatformTransactionManager
             catch( Exception e )
             {
                 _log.error( e.getMessage( ), e );
-
-                // transactionManager.rollback( transactionStatus );
             }
         }
 

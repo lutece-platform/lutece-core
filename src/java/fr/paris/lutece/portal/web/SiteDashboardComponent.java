@@ -56,7 +56,6 @@ import javax.servlet.http.HttpServletRequest;
 public class SiteDashboardComponent extends DashboardComponent
 {
     // CONSTANTS
-    // private static final int ZONE_1 = 1;
     private static final String BEAN_PAGE_SERVICE = "pageService";
 
     // MARKS

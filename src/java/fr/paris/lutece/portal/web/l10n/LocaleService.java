@@ -156,7 +156,10 @@ public final class LocaleService
         if ( session != null )
         {
             Locale userSessionLocale = (Locale) session.getAttribute( ATTRIBUTE_SELECTED_LOCALE );
-            if ( userSessionLocale != null ) locale = userSessionLocale;
+            if ( userSessionLocale != null )
+            {
+                locale = userSessionLocale;
+            }
         }
 
         if ( locale == null || !isSupported( locale ) )
@@ -183,13 +186,17 @@ public final class LocaleService
     public static boolean isSupported( Locale locale )
     {
         if ( _supportedLocales == null )
+        {
             getSupportedLangList( );
+        }
 
         // check if the mandatory language is supported
         for ( Locale supportedLocale : _supportedLocales )
         {
             if ( supportedLocale.equals( locale ) )
+            {
                 return true;
+            }
         }
 
         return false;

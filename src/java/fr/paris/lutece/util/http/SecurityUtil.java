@@ -66,8 +66,6 @@ public final class SecurityUtil
 
     public static final String PROPERTY_REDIRECT_URL_SAFE_PATTERNS = "lutece.security.redirectUrlSafePatterns";
 
-    // private static final String PATTERN_CLEAN_PARAMETER = "^[\\w/]+$+";
-
     /**
      * Private Constructor
      */
@@ -311,16 +309,22 @@ public final class SecurityUtil
     {
 
         if ( StringUtils.isBlank( strUrl ) )
+        {
             return true; // this is not a valid redirect Url, but it is not unsafe
-
+        }
+        
         // filter schemes
         if ( !strUrl.startsWith( "//" ) && !strUrl.startsWith( "http:" ) && !strUrl.startsWith( "https:" ) && !strUrl.contains( "://" )
                 && !strUrl.startsWith( "javascript:" ) )
+        {
             return true; // should be a relative path
+        }
 
         // compare with current baseUrl
         if ( strUrl.startsWith( AppPathService.getBaseUrl( request ) ) )
+        {
             return true;
+        }
 
         // compare with allowed url patterns
         if ( !StringUtils.isBlank( strAntPathMatcherPatterns ) )
@@ -331,7 +335,9 @@ public final class SecurityUtil
             for ( String pattern : strAntPathMatcherPatternsTab )
             {
                 if ( pattern != null && pathMatcher.match( pattern, strUrl ) )
+                {
                     return true;
+                }
             }
         }
 

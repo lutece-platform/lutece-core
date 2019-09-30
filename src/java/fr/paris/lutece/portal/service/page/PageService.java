@@ -916,9 +916,6 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
     {
         Page page = event.getPage( );
         invalidatePage( page.getId( ) );
-
-        // Clearing ALL cache is not needed anymore
-        // PortalService.resetCache( );
     }
 
     /**

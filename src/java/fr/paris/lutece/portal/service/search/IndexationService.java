@@ -81,11 +81,7 @@ public final class IndexationService
     public static final int ALL_DOCUMENT = -1;
     public static final Version LUCENE_INDEX_VERSION = Version.LATEST;
     private static final String PARAM_TYPE_PAGE = "Page";
-    private static final String PROPERTY_WRITER_MERGE_FACTOR = "search.lucene.writer.mergeFactor";
-    private static final String PROPERTY_WRITER_MAX_FIELD_LENGTH = "search.lucene.writer.maxFieldLength";
     private static final String PROPERTY_ANALYSER_CLASS_NAME = "search.lucene.analyser.className";
-    private static final int DEFAULT_WRITER_MERGE_FACTOR = 20;
-    private static final int DEFAULT_WRITER_MAX_FIELD_LENGTH = 1000000;
     private static String _strIndex;
     private static Analyzer _analyzer;
     private static Map<String, SearchIndexer> _mapIndexers = new ConcurrentHashMap<String, SearchIndexer>( );
@@ -186,7 +182,6 @@ public final class IndexationService
      */
     public static synchronized String processIndexing( boolean bCreate )
     {
-        // String buffer for building the response page;
         _sbLogs = new StringBuffer( );
 
         _writer = null;

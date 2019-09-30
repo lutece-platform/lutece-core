@@ -1531,7 +1531,6 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         // ITEM NAVIGATION
         setItemNavigator( nUserId, AppPathService.getBaseUrl( request ) + JSP_URL_MANAGE_USER_WORKGROUPS );
 
-        // ReferenceList assignableWorkgroupsList = AdminWorkgroupHome.getUserWorkgroups( selectedUser );
         Map<String, Object> model = new HashMap<>( );
         model.put( MARK_CAN_MODIFY, getUser( ).isParent( selectedUser ) || getUser( ).isAdmin( ) );
         model.put( MARK_CAN_DELEGATE, getUser( ).getUserId( ) != nUserId );

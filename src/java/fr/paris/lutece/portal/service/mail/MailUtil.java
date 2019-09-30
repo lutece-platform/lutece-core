@@ -285,7 +285,6 @@ final class MailUtil
 
         // Creation of the html part, the "core" of the message
         BodyPart msgBodyPart = new MimeBodyPart( );
-        // msgBodyPart.setContent( strMessage, BODY_PART_MIME_TYPE );
         msgBodyPart.setDataHandler( new DataHandler( new ByteArrayDataSource( strMessage, AppPropertiesService.getProperty( PROPERTY_MAIL_TYPE_HTML )
                 + AppPropertiesService.getProperty( PROPERTY_CHARSET ) ) ) );
         multipart.addBodyPart( msgBodyPart );
@@ -374,7 +373,6 @@ final class MailUtil
 
         // Creation of the html part, the "core" of the message
         BodyPart msgBodyPart = new MimeBodyPart( );
-        // msgBodyPart.setContent( strMessage, BODY_PART_MIME_TYPE );
         msgBodyPart.setDataHandler( new DataHandler( new ByteArrayDataSource( strMessage, AppPropertiesService.getProperty( PROPERTY_MAIL_TYPE_PLAIN )
                 + AppPropertiesService.getProperty( PROPERTY_CHARSET ) ) ) );
         multipart.addBodyPart( msgBodyPart );
@@ -448,7 +446,6 @@ final class MailUtil
         multipart.addBodyPart( msgBodyPart );
 
         BodyPart calendarBodyPart = new MimeBodyPart( );
-        // calendarBodyPart.addHeader( "Content-Class", "urn:content-classes:calendarmessage" );
         calendarBodyPart.setContent(
                 strCalendarMessage,
                 AppPropertiesService.getProperty( PROPERTY_MAIL_TYPE_CALENDAR ) + AppPropertiesService.getProperty( PROPERTY_CHARSET )

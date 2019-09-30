@@ -454,7 +454,6 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
             fileToDelete.delete( );
         }
 
-        // return getHomeUrl( request );
         return JSP_REMOVE_STYLE + "?" + Parameters.STYLE_ID + "=" + nIdStyle;
     }
 

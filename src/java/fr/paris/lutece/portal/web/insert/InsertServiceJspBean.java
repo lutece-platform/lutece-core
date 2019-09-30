@@ -82,14 +82,10 @@ public abstract class InsertServiceJspBean implements Serializable
         String strCleanInsert = strInsert.replaceAll( "\n", "" );
         strCleanInsert = strCleanInsert.replaceAll( "\r", "" );
 
-        // Encode the HTML code to insert
-        // String strEncodedInsert = EncodingService.encodeUrl( strCleanInsert );
-
         // Build the url to make the insert
         UrlItem urlDoInsert = new UrlItem( AppPathService.getBaseUrl( request ) + JSP_DO_INSERT );
         urlDoInsert.addParameter( PARAMETER_INPUT, strInput );
         request.getSession( ).setAttribute( InsertServiceSelectorJspBean.SESSION_INSERT, strCleanInsert );
-        // urlDoInsert.addParameter( PARAMETER_INSERT, strEncodedInsert );
         urlDoInsert.addParameter( PARAMETER_MODE, 1 );
 
         return urlDoInsert.getUrl( );

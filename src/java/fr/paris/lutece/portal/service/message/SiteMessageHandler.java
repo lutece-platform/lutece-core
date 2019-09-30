@@ -122,8 +122,6 @@ public class SiteMessageHandler implements ISiteMessageHandler
         // Fill a PageData structure for those elements
         PageData data = new PageData( );
         data.setName( message.getTitle( locale ) );
-        // FIXME Cannot set the page path when app run in standalone mode (cannot connect to database). The page path is now not set.
-        // data.setPagePath( PortalService.getXPagePathContent( message.getTitle( locale ), nMode, request ) );
         data.setContent( template.getHtml( ) );
 
         return buildPageContent( data, nMode, request );

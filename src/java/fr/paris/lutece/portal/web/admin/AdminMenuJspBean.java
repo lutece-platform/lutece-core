@@ -349,8 +349,6 @@ public class AdminMenuJspBean implements Serializable
             for ( Right right : features )
             {
                 lastFeatureGroup.addFeature( right );
-
-                // FIXME ???? itFeatures.remove( );
             }
         }
 

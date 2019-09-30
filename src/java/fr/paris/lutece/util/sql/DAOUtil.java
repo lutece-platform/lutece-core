@@ -901,7 +901,6 @@ public class DAOUtil implements AutoCloseable
     {
         try
         {
-            // _statement.setBoolean( nIndex, bValue.booleanValue( ) );
             _statement.setInt( nIndex, ( bValue ) ? 1 : 0 );
             logParameter( nIndex, bValue );
         }

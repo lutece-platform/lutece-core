@@ -45,9 +45,6 @@ import java.util.Collection;
  */
 public final class ThemeHome
 {
-    // Static variable pointed at the DAO instance
-    // private static IThemeDAO _dao = (IThemeDAO) SpringContextService.getBean( "coreThemeDAO" );
-
     /**
      * Creates a new ThemeHome object.
      */
@@ -65,12 +62,6 @@ public final class ThemeHome
     public static Theme create( Theme theme )
     {
         return ThemesService.create( theme );
-
-        /*
-         * _dao.insert( theme );
-         * 
-         * return theme;
-         */
     }
 
     /**
@@ -83,12 +74,6 @@ public final class ThemeHome
     public static Theme update( Theme theme )
     {
         return ThemesService.update( theme );
-
-        /*
-         * _dao.store( theme );
-         * 
-         * return theme;
-         */
     }
 
     /**
@@ -100,8 +85,6 @@ public final class ThemeHome
     public static void remove( String strCodeTheme )
     {
         ThemesService.remove( strCodeTheme );
-
-        // _dao.delete( strCodeTheme );
     }
 
     /**
@@ -114,8 +97,6 @@ public final class ThemeHome
     public static Theme findByPrimaryKey( String strCodeTheme )
     {
         return ThemesService.getGlobalTheme( strCodeTheme );
-
-        // return _dao.load( strCodeTheme );
     }
 
     /**
@@ -126,8 +107,6 @@ public final class ThemeHome
     public static Collection<Theme> getThemesList( )
     {
         return ThemesService.getThemesList( );
-
-        // return _dao.selectThemesList( );
     }
 
     /**
@@ -138,8 +117,6 @@ public final class ThemeHome
     public static ReferenceList getThemes( )
     {
         return ThemesService.getThemes( );
-
-        // return _dao.getThemesList( );
     }
 
     /**
@@ -152,14 +129,6 @@ public final class ThemeHome
     public static boolean isValidTheme( String strCodeTheme )
     {
         return ThemesService.isValidTheme( strCodeTheme );
-
-        /*
-         * Theme theme = ThemeHome.findByPrimaryKey( strCodeTheme );
-         * 
-         * if ( theme != null ) { return true; }
-         * 
-         * return false;
-         */
     }
 
     /**
@@ -171,8 +140,6 @@ public final class ThemeHome
     public static void setGlobalTheme( String strGlobalTheme )
     {
         ThemesService.setGlobalTheme( strGlobalTheme );
-
-        // _dao.setGlobalTheme( strGlobalTheme );
     }
 
     /**
@@ -183,7 +150,5 @@ public final class ThemeHome
     public static String getGlobalTheme( )
     {
         return ThemesService.getGlobalTheme( );
-
-        // return _dao.getGlobalTheme( );
     }
 }

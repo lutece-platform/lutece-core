@@ -169,7 +169,6 @@ public final class PortalMenuService extends AbstractCacheableService implements
         {
             if ( ( menuPage.isVisible( request ) ) || ( nMode == MODE_ADMIN ) )
             {
-                // strCurrentPageId = request.getParameter( PARAMETER_PAGE_ID );
                 XmlUtil.beginElement( strXml, XmlContent.TAG_MENU );
                 XmlUtil.addElement( strXml, XmlContent.TAG_MENU_INDEX, nMenuIndex );
                 XmlUtil.addElement( strXml, XmlContent.TAG_PAGE_ID, menuPage.getId( ) );

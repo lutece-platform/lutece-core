@@ -348,12 +348,6 @@ public final class PortletDAO implements IPortletDAO
             portlet.setRole( daoUtil.getString( 13 ) );
             portlet.setDeviceDisplayFlags( daoUtil.getInt( 14 ) );
 
-            // FIXME Theses attributes concerns PortletType :
-            // portlet.setHomeClassName(daoUtil.getString( 1 ));
-            // portlet.setPluginName(daoUtil.getString( 1 ));
-            // portlet.setPortletTypeName(daoUtil.getString( 1 ));
-            // portlet.setUrlCreation(daoUtil.getString( 1 ));
-            // portlet.setUrlUpdate(daoUtil.getString( 1 ));
             list.add( portlet );
         }
 

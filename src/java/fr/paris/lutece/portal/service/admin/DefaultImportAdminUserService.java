@@ -154,20 +154,14 @@ public class DefaultImportAdminUserService extends ImportAdminUserService
             listMessages.add( message );
         }
 
-        // We ignore the reset password attribute because we set it to true anyway.
-        // String strResetPassword = strLineDataArray[nIndex++];
         nIndex++;
 
         boolean bResetPassword = true;
         String strAccessibilityMode = strLineDataArray [nIndex++];
         boolean bAccessibilityMode = Boolean.parseBoolean( strAccessibilityMode );
-        // We ignore the password max valid date attribute because we changed the password.
-        // String strPasswordMaxValidDate = strLineDataArray[nIndex++];
         nIndex++;
 
         Timestamp passwordMaxValidDate = null;
-        // We ignore the account max valid date attribute
-        // String strAccountMaxValidDate = strLineDataArray[nIndex++];
         nIndex++;
 
         Timestamp accountMaxValidDate = AdminUserService.getAccountMaxValidDate( );

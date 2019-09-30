@@ -87,14 +87,6 @@ public class Page implements RBACResource, IExtendableResource
     private boolean _bDisplayDateUpdate;
     private boolean _bIsManualDateUpdate;
 
-    /**
-     * Initialize the Page
-     */
-
-    /*
-     * FIXME PageRoleRemovalListener should not be registered here public static void init( ) { // Create removal listeners and register them if ( _listenerRole
-     * == null ) { _listenerRole = new PageRoleRemovalListener( ); RoleRemovalListenerService.getService( ).registerListener( _listenerRole ); } }
-     */
 
     /**
      * Sets the identifier of the page
