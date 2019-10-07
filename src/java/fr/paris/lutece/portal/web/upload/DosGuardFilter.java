@@ -34,6 +34,7 @@
 package fr.paris.lutece.portal.web.upload;
 
 import fr.paris.lutece.portal.service.util.AppLogService;
+import fr.paris.lutece.portal.service.util.AppPropertiesService;
 
 import java.io.IOException;
 
@@ -54,6 +55,14 @@ import javax.servlet.ServletResponse;
  */
 public class DosGuardFilter implements Filter
 {
+    // properties
+    private static String PROPERTY_DOSGUARDFILTER_MINCONTENTLENGTH = "lutece.upload.dosguard.minContentLength";
+    private static String PROPERTY_DOSGUARDFILTER_MININTERVAL    = "lutece.upload.dosguard.minInterval";
+
+    // constants
+    private static int CONSTANT_DEFAULT_DOSGUARDFILTER_MINCONTENTLENGTH = 10240 ;
+    private static int CONSTANT_DEFAULT_DOSGUARDFILTER_MININTERVAL = 2000 ;
+
     // Initial capacity of the HashMap
     private static final int INITIAL_CAPACITY = 100;
     private FilterConfig _filterConfig;
@@ -81,28 +90,9 @@ public class DosGuardFilter implements Filter
         _mapLastRequestTimes = new HashMap<String, Long>( INITIAL_CAPACITY );
         _listOrderedRequests = new LinkedList<Entry>( );
 
-        try
-        {
-            String paramValue = _filterConfig.getInitParameter( "minContentLength" );
+        _nMinContentLength = AppPropertiesService.getPropertyInt( PROPERTY_DOSGUARDFILTER_MINCONTENTLENGTH, CONSTANT_DEFAULT_DOSGUARDFILTER_MINCONTENTLENGTH ) ;
+        _nMinInterval = AppPropertiesService.getPropertyInt( PROPERTY_DOSGUARDFILTER_MININTERVAL, CONSTANT_DEFAULT_DOSGUARDFILTER_MININTERVAL ) ;
 
-            if ( paramValue != null )
-            {
-                _nMinContentLength = Integer.parseInt( paramValue );
-            }
-
-            paramValue = _filterConfig.getInitParameter( "minInterval" );
-
-            if ( paramValue != null )
-            {
-                _nMinInterval = Integer.parseInt( paramValue );
-            }
-        }
-        catch( NumberFormatException ex )
-        {
-            ServletException servletEx = new ServletException( ex.getMessage( ) );
-            servletEx.initCause( ex );
-            throw servletEx;
-        }
     }
 
     /**

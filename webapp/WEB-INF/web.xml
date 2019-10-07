@@ -71,16 +71,6 @@
 	<filter>
         <filter-name>dosFilter</filter-name>
         <filter-class>fr.paris.lutece.portal.web.upload.DosGuardFilter</filter-class>
-        <init-param>
-    	<!-- Requests below this size (in bytes) will always be allowed -->
-            <param-name>minContentLength</param-name>
-            <param-value>10240</param-value>
-        </init-param>
-        <init-param>
-      <!-- Minimum interval (in ms) allowed between two requests from the same client -->
-            <param-name>minInterval</param-name>
-            <param-value>2000</param-value>
-        </init-param>
     </filter>
     <filter>
         <filter-name>pluginsFilters</filter-name>
