@@ -72,15 +72,7 @@ public final class HttpSessionListenerService
             LIST_LISTENERS.add( listener );
             AppLogService.info( "New Listener registered : " + strListenerClass );
         }
-        catch( InstantiationException e )
-        {
-            AppLogService.error( "Error registering the listener " + strListenerClass + " : " + e.getMessage( ), e );
-        }
-        catch( IllegalAccessException e )
-        {
-            AppLogService.error( "Error registering the listener " + strListenerClass + " : " + e.getMessage( ), e );
-        }
-        catch( ClassNotFoundException e )
+        catch( InstantiationException | IllegalAccessException | ClassNotFoundException e )
         {
             AppLogService.error( "Error registering the listener " + strListenerClass + " : " + e.getMessage( ), e );
         }

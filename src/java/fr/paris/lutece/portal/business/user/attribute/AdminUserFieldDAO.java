@@ -590,22 +590,14 @@ public class AdminUserFieldDAO implements IAdminUserFieldDAO
             {
                 attribute = (IAttribute) Class.forName( daoUtil.getString( 14 ) ).newInstance( );
             }
-            catch( ClassNotFoundException e )
+            catch( ClassNotFoundException | InstantiationException | IllegalAccessException e )
             {
                 // class doesn't exist
                 AppLogService.error( e );
             }
-            catch( InstantiationException e )
-            {
-                // Class is abstract or is an interface or haven't accessible
-                // builder
-                AppLogService.error( e );
-            }
-            catch( IllegalAccessException e )
-            {
-                // can't access to the class
-                AppLogService.error( e );
-            }
+            // Class is abstract or is an interface or haven't accessible
+            // builder
+            // can't access to the class
 
             attribute.setIdAttribute( daoUtil.getInt( 3 ) );
             attribute.setTitle( daoUtil.getString( 15 ) );

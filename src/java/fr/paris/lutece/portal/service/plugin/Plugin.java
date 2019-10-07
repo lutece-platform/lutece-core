@@ -482,15 +482,7 @@ public abstract class Plugin implements Comparable<Plugin>
                 SearchIndexer indexer = (SearchIndexer) Class.forName( entry.getClassName( ) ).newInstance( );
                 IndexationService.registerIndexer( indexer );
             }
-            catch( IllegalAccessException e )
-            {
-                throw new LuteceInitException( e.getMessage( ), e );
-            }
-            catch( ClassNotFoundException e )
-            {
-                throw new LuteceInitException( e.getMessage( ), e );
-            }
-            catch( InstantiationException e )
+            catch( IllegalAccessException | ClassNotFoundException | InstantiationException e )
             {
                 throw new LuteceInitException( e.getMessage( ), e );
             }

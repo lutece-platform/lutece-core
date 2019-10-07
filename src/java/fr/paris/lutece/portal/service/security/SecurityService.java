@@ -281,15 +281,7 @@ public final class SecurityService
                 authentication = (LuteceAuthentication) Class.forName( strAuthenticationClass ).newInstance( );
                 AppLogService.info( "Authentication service loaded : " + authentication.getAuthServiceName( ) );
             }
-            catch( InstantiationException e )
-            {
-                throw new LuteceInitException( "Error instantiating Authentication Class", e );
-            }
-            catch( IllegalAccessException e )
-            {
-                throw new LuteceInitException( "Error instantiating Authentication Class", e );
-            }
-            catch( ClassNotFoundException e )
+            catch( InstantiationException | IllegalAccessException | ClassNotFoundException e )
             {
                 throw new LuteceInitException( "Error instantiating Authentication Class", e );
             }

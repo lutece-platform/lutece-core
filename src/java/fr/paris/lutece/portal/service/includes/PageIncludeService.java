@@ -74,15 +74,7 @@ public final class PageIncludeService
             _mapPageIncludes.put( entry.getId( ), entry );
             AppLogService.info( "New Page Include Service registered : " + entry.getId( ) + ( ( !entry.isEnabled( ) ) ? " (disabled)" : "" ) );
         }
-        catch( ClassNotFoundException e )
-        {
-            throw new LuteceInitException( e.getMessage( ), e );
-        }
-        catch( IllegalAccessException e )
-        {
-            throw new LuteceInitException( e.getMessage( ), e );
-        }
-        catch( InstantiationException e )
+        catch( ClassNotFoundException | IllegalAccessException | InstantiationException e )
         {
             throw new LuteceInitException( e.getMessage( ), e );
         }

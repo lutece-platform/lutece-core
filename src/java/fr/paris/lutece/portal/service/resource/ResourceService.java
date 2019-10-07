@@ -162,15 +162,7 @@ public abstract class ResourceService extends AbstractCacheableService
             ResourceLoader loader = (ResourceLoader) Class.forName( strLoaderClassName ).newInstance( );
             _listLoaders.add( loader );
         }
-        catch( IllegalAccessException e )
-        {
-            AppLogService.error( e.getMessage( ), e );
-        }
-        catch( InstantiationException e )
-        {
-            AppLogService.error( e.getMessage( ), e );
-        }
-        catch( ClassNotFoundException e )
+        catch( IllegalAccessException | InstantiationException | ClassNotFoundException e )
         {
             AppLogService.error( e.getMessage( ), e );
         }

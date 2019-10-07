@@ -322,15 +322,7 @@ public final class ThemesService
         {
             themeService = SpringContextService.getBean( BEAN_THEME_SERVICE );
         }
-        catch( BeanDefinitionStoreException e )
-        {
-            throw new ThemeNotAvailableException( );
-        }
-        catch( NoSuchBeanDefinitionException e )
-        {
-            throw new ThemeNotAvailableException( );
-        }
-        catch( CannotLoadBeanClassException e )
+        catch( BeanDefinitionStoreException | NoSuchBeanDefinitionException | CannotLoadBeanClassException e )
         {
             throw new ThemeNotAvailableException( );
         }

@@ -186,15 +186,7 @@ public class ResourceType implements Localizable
                 return service;
             }
         }
-        catch( InstantiationException e )
-        {
-            AppLogService.error( e.getMessage( ), e );
-        }
-        catch( IllegalAccessException e )
-        {
-            AppLogService.error( e.getMessage( ), e );
-        }
-        catch( ClassNotFoundException e )
+        catch( InstantiationException | IllegalAccessException | ClassNotFoundException e )
         {
             AppLogService.error( e.getMessage( ), e );
         }

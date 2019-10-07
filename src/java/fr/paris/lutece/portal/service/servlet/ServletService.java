@@ -91,15 +91,7 @@ public final class ServletService
                 AppLogService.info( " * init parameter - name : '" + strKey + "' - value : '" + entry.getInitParameters( ).get( strKey ) + "'" );
             }
         }
-        catch( InstantiationException e )
-        {
-            AppLogService.error( "Error registering a servlet : " + e.getMessage( ), e );
-        }
-        catch( IllegalAccessException e )
-        {
-            AppLogService.error( "Error registering a servlet : " + e.getMessage( ), e );
-        }
-        catch( ClassNotFoundException e )
+        catch( InstantiationException | IllegalAccessException | ClassNotFoundException e )
         {
             AppLogService.error( "Error registering a servlet : " + e.getMessage( ), e );
         }
