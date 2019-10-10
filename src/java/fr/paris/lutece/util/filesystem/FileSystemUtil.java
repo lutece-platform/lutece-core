@@ -119,7 +119,7 @@ public final class FileSystemUtil
     public static List<File> getFiles( String strRoot, String strDirectoryRelativePath ) throws DirectoryNotFoundException
     {
         // Use a treeset to order files with a comparator
-        TreeSet<File> set = new TreeSet<File>( new FileNameComparator( ) );
+        TreeSet<File> set = new TreeSet<>( new FileNameComparator( ) );
 
         // Directory path
         String strDirectory = strRoot + strDirectoryRelativePath;

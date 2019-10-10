@@ -180,11 +180,7 @@ public class MailItemQueueDAO implements IMailItemQueueDAO
                     mailItem = (MailItem) objectInputStream.readObject( );
                     objectInputStream.close( );
                 }
-                catch( IOException e )
-                {
-                    AppLogService.error( e.getMessage( ), e );
-                }
-                catch( ClassNotFoundException e )
+                catch( ClassNotFoundException | IOException e )
                 {
                     AppLogService.error( e.getMessage( ), e );
                 }

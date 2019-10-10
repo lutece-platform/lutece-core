@@ -202,8 +202,6 @@ public abstract class UploadFilter implements Filter
         DecimalFormat decimalFormat = (DecimalFormat) NumberFormat.getInstance( );
         decimalFormat.applyPattern( "#" );
 
-        String strMessage = ( lSizeMax >= KILO_BYTE ) ? ( String.valueOf( lSizeMax / KILO_BYTE ) ) : ( decimalFormat.format( lSizeMax / KILO_BYTE ) );
-
-        return strMessage;
+        return ( lSizeMax >= KILO_BYTE ) ? ( String.valueOf( lSizeMax / KILO_BYTE ) ) : ( decimalFormat.format( lSizeMax / KILO_BYTE ) );
     }
 }

@@ -50,6 +50,8 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
+import org.apache.commons.collections.CollectionUtils;
+
 /**
  * This class porvides Data Access methods for AdminUser objects
  */
@@ -1223,7 +1225,7 @@ public class AdminUserDAO implements IAdminUserDAO
     @Override
     public void updateUserStatus( List<Integer> listIdUser, int nNewStatus )
     {
-        if ( ( listIdUser != null ) && ( listIdUser.size( ) > 0 ) )
+        if ( CollectionUtils.isNotEmpty( listIdUser ) )
         {
             StringBuilder sbSQL = new StringBuilder( );
             sbSQL.append( SQL_QUERY_UPDATE_STATUS );
@@ -1254,7 +1256,7 @@ public class AdminUserDAO implements IAdminUserDAO
     @Override
     public void updateNbAlert( List<Integer> listIdUser )
     {
-        if ( ( listIdUser != null ) && ( listIdUser.size( ) > 0 ) )
+        if ( CollectionUtils.isNotEmpty( listIdUser ) )
         {
             StringBuilder sbSQL = new StringBuilder( );
             sbSQL.append( SQL_QUERY_UPDATE_NB_ALERT );
@@ -1284,7 +1286,7 @@ public class AdminUserDAO implements IAdminUserDAO
     @Override
     public void updateChangePassword( List<Integer> listIdUser )
     {
-        if ( ( listIdUser != null ) && ( listIdUser.size( ) > 0 ) )
+        if ( CollectionUtils.isNotEmpty( listIdUser ) )
         {
             StringBuilder sbSQL = new StringBuilder( );
             sbSQL.append( SQL_QUERY_UPDATE_RESET_PASSWORD_LIST_ID );

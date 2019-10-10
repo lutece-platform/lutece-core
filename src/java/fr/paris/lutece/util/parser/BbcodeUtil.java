@@ -75,7 +75,7 @@ public final class BbcodeUtil
      */
     public static String parse( String value, List<ParserElement> listParserElement, List<ParserComplexElement> listParserComplexElement )
     {
-        StringBuffer buffer = new StringBuffer( value );
+        StringBuilder buffer = new StringBuilder( value );
 
         // complex Element
         if ( listParserComplexElement != null )
@@ -127,7 +127,7 @@ public final class BbcodeUtil
      * @param requiresQuotedParam
      *            requiresQuotedParam
      */
-    private static void processNestedTags( StringBuffer buffer, String tagName, String openSubstWithParam, String closeSubstWithParam,
+    private static void processNestedTags( StringBuilder buffer, String tagName, String openSubstWithParam, String closeSubstWithParam,
             String openSubstWithoutParam, String closeSubstWithoutParam, String internalSubst, boolean processInternalTags, boolean acceptParam,
             boolean requiresQuotedParam )
     {
@@ -377,7 +377,7 @@ public final class BbcodeUtil
         @Override
         public String toString( )
         {
-            StringBuffer sb = new StringBuffer( );
+            StringBuilder sb = new StringBuilder( );
 
             for ( int i = _nStart; i < ( _nStart + _bLength ); i++ )
             {

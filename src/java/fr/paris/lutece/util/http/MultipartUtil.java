@@ -97,7 +97,7 @@ public final class MultipartUtil
      *             exception if an unknown error has occurred
      */
     public static MultipartHttpServletRequest convert( int nSizeThreshold, long nRequestSizeMax, boolean bActivateNormalizeFileName, HttpServletRequest request )
-            throws SizeLimitExceededException, FileUploadException
+            throws FileUploadException
     {
         if ( isMultipart( request ) )
         {

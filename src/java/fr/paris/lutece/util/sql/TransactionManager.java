@@ -48,7 +48,7 @@ import java.util.Map;
 public final class TransactionManager
 {
     private static final String DEFAULT_POOL_NAME = "portal";
-    private static ThreadLocal<Map<String, MultiPluginTransaction>> _tlTransactions = new ThreadLocal<Map<String, MultiPluginTransaction>>( );
+    private static ThreadLocal<Map<String, MultiPluginTransaction>> _tlTransactions = new ThreadLocal<>( );
 
     /**
      * Default constructor

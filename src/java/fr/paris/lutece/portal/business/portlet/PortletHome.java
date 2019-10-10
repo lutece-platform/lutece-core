@@ -77,15 +77,7 @@ public abstract class PortletHome implements PortletHomeInterface
             p = home.getDAO( ).load( nKey );
             p.copy( portlet );
         }
-        catch( InstantiationException e )
-        {
-            AppLogService.error( e.getMessage( ), e );
-        }
-        catch( IllegalAccessException e )
-        {
-            AppLogService.error( e.getMessage( ), e );
-        }
-        catch( ClassNotFoundException e )
+        catch( IllegalAccessException | InstantiationException | ClassNotFoundException e )
         {
             AppLogService.error( e.getMessage( ), e );
         }

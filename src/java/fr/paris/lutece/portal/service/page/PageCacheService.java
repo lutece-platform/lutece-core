@@ -48,7 +48,7 @@ public class PageCacheService extends AbstractCacheableService
     private static final String SERVICE_NAME = "Page Cache Service";
 
     // Performance patch
-    private static ConcurrentHashMap<String, String> _keyMemory = new ConcurrentHashMap<String, String>( );
+    private static ConcurrentHashMap<String, String> _keyMemory = new ConcurrentHashMap<>( );
 
     /**
      * {@inheritDoc }

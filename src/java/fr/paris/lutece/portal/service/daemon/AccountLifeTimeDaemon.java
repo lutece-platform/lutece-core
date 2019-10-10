@@ -40,6 +40,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 
 import fr.paris.lutece.portal.business.user.AdminUser;
@@ -97,7 +98,7 @@ public class AccountLifeTimeDaemon extends Daemon
         List<Integer> accountsToSetAsExpired = AdminUserHome.getIdUsersWithExpiredLifeTimeList( currentTimestamp );
 
         // We first set as expirated user that have reached their life time limit
-        if ( ( accountsToSetAsExpired != null ) && ( accountsToSetAsExpired.size( ) > 0 ) )
+        if ( CollectionUtils.isNotEmpty( accountsToSetAsExpired ) )
         {
             int nbAccountToExpire = accountsToSetAsExpired.size( );
             String strBody = DatabaseTemplateService.getTemplateFromKey( PARAMETER_CORE_EXPIRATION_MAIL );
@@ -161,7 +162,7 @@ public class AccountLifeTimeDaemon extends Daemon
         {
             List<Integer> userIdListToSendFirstAlert = AdminUserHome.getIdUsersToSendFirstAlert( firstAlertMaxDate );
 
-            if ( ( userIdListToSendFirstAlert != null ) && ( userIdListToSendFirstAlert.size( ) > 0 ) )
+            if ( CollectionUtils.isNotEmpty( userIdListToSendFirstAlert ) )
             {
                 int nbFirstAlertSent = userIdListToSendFirstAlert.size( );
                 String strBody = DatabaseTemplateService.getTemplateFromKey( PARAMETER_CORE_FIRST_ALERT_MAIL );
@@ -228,7 +229,7 @@ public class AccountLifeTimeDaemon extends Daemon
         {
             List<Integer> userIdListToSendNextAlert = AdminUserHome.getIdUsersToSendOtherAlert( firstAlertMaxDate, timeBetweenAlerts, maxNumberOfAlerts );
 
-            if ( ( userIdListToSendNextAlert != null ) && ( userIdListToSendNextAlert.size( ) > 0 ) )
+            if ( CollectionUtils.isNotEmpty( userIdListToSendNextAlert ) )
             {
                 int nbOtherAlertSent = userIdListToSendNextAlert.size( );
                 String strBody = DatabaseTemplateService.getTemplateFromKey( PARAMETER_CORE_OTHER_ALERT_MAIL );
@@ -285,7 +286,7 @@ public class AccountLifeTimeDaemon extends Daemon
             // We notify users with expired passwords
             List<Integer> accountsWithPasswordsExpired = AdminUserHome.getIdUsersWithExpiredPasswordsList( currentTimestamp );
 
-            if ( ( accountsWithPasswordsExpired != null ) && ( accountsWithPasswordsExpired.size( ) > 0 ) )
+            if ( CollectionUtils.isNotEmpty( accountsWithPasswordsExpired ) )
             {
                 String strSender = AdminUserService.getSecurityParameter( PARAMETER_PASSWORD_EXPIRED_MAIL_SENDER );
                 String strSubject = AdminUserService.getSecurityParameter( PARAMETER_PASSWORD_EXPIRED_MAIL_SUBJECT );

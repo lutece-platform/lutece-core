@@ -41,6 +41,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.lang.StringUtils;
 
@@ -397,7 +398,7 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
         // Checks that the page has no child
         Collection<Page> list = PageHome.getChildPagesMinimalData( nPageId );
 
-        if ( list.size( ) > 0 )
+        if ( CollectionUtils.isNotEmpty( list ) )
         {
             return AdminMessageService.getMessageUrl( request, MESSAGE_CANNOT_REMOVE_CHILDPAGE_EXISTS, new Object [ ] {
                     page.getName( ), list.size( )
@@ -597,7 +598,7 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
         model.put( MARK_PAGE_UPDATE_DATE, DateUtil.getDateString( page.getDateUpdate( ), request.getLocale( ) ) );
 
         int nIndexRow = 1;
-        StringBuffer strPageTemplatesRow = new StringBuffer( );
+        StringBuilder strPageTemplatesRow = new StringBuilder( );
 
         // Scan of the list
         for ( PageTemplate pageTemplate : PageTemplateHome.getPageTemplatesList( ) )
@@ -640,7 +641,7 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
      *            The HashMap
      * @return The management page of a page
      */
-    private String getAdminPageBlockSearch( int nPageIdInit, Map model )
+    private String getAdminPageBlockSearch( int nPageIdInit, Map<String, Object> model )
     {
         model.put( MARK_PAGE_INIT_ID, Integer.toString( nPageIdInit ) );
 

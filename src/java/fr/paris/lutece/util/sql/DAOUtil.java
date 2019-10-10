@@ -113,7 +113,7 @@ public class DAOUtil implements AutoCloseable
 
     /** The debug logger */
     private Logger _logger;
-    private StringBuffer _sbLogs = new StringBuffer( );
+    private StringBuilder _sbLogs = new StringBuilder( );
 
     /**
      * Creates a new DAOUtil object.

@@ -45,6 +45,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.document.Document;
@@ -82,9 +83,9 @@ public final class IndexationService
     private static final String PROPERTY_ANALYSER_CLASS_NAME = "search.lucene.analyser.className";
     private static String _strIndex;
     private static Analyzer _analyzer;
-    private static Map<String, SearchIndexer> _mapIndexers = new ConcurrentHashMap<String, SearchIndexer>( );
+    private static Map<String, SearchIndexer> _mapIndexers = new ConcurrentHashMap<>( );
     private static IndexWriter _writer;
-    private static StringBuffer _sbLogs;
+    private static StringBuilder _sbLogs;
     private static SearchIndexerComparator _comparator = new SearchIndexerComparator( );
 
     /**
@@ -180,7 +181,7 @@ public final class IndexationService
      */
     public static synchronized String processIndexing( boolean bCreate )
     {
-        _sbLogs = new StringBuffer( );
+        _sbLogs = new StringBuilder( );
 
         _writer = null;
 
@@ -303,7 +304,7 @@ public final class IndexationService
      * @throws SiteMessageException
      *             if an error occurs
      */
-    private static void processIncrementalIndexing( ) throws CorruptIndexException, IOException, InterruptedException, SiteMessageException
+    private static void processIncrementalIndexing( ) throws IOException, InterruptedException, SiteMessageException
     {
         _sbLogs.append( "\r\nIncremental Indexing ...\r\n" );
 
@@ -325,7 +326,7 @@ public final class IndexationService
                 {
                     List<org.apache.lucene.document.Document> luceneDocuments = indexer.getDocuments( action.getIdDocument( ) );
 
-                    if ( ( luceneDocuments != null ) && ( luceneDocuments.size( ) > 0 ) )
+                    if ( CollectionUtils.isNotEmpty( luceneDocuments ) )
                     {
                         for ( org.apache.lucene.document.Document doc : luceneDocuments )
                         {
@@ -362,7 +363,7 @@ public final class IndexationService
      * @throws IOException
      *             if an error occurs
      */
-    private static void deleteDocument( IndexerAction action ) throws CorruptIndexException, IOException
+    private static void deleteDocument( IndexerAction action ) throws IOException
     {
         if ( action.getIdPortlet( ) != ALL_DOCUMENT )
         {
@@ -390,7 +391,7 @@ public final class IndexationService
      * @throws IOException
      *             if an error occurs
      */
-    private static void processDocument( IndexerAction action, Document doc ) throws CorruptIndexException, IOException
+    private static void processDocument( IndexerAction action, Document doc ) throws IOException
     {
         if ( action.getIdTask( ) == IndexerAction.TASK_CREATE )
         {
@@ -424,7 +425,7 @@ public final class IndexationService
      * @throws IOException
      *             i/o exception
      */
-    public static void write( Document doc ) throws CorruptIndexException, IOException
+    public static void write( Document doc ) throws IOException
     {
         _writer.addDocument( doc );
         logDoc( "Indexing ", doc );

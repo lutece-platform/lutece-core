@@ -39,6 +39,8 @@ import fr.paris.lutece.portal.service.util.RemovalListener;
 import java.util.Collection;
 import java.util.Locale;
 
+import org.apache.commons.collections.CollectionUtils;
+
 /**
  * MailingList Removal Listener
  */
@@ -62,7 +64,7 @@ public class MailingListWorkgroupRemovalListener implements RemovalListener
 
         Collection<MailingList> listMailingList = MailingListHome.findByWorkgroup( strId );
 
-        if ( ( listMailingList != null ) && ( listMailingList.size( ) > 0 ) )
+        if ( CollectionUtils.isNotEmpty( listMailingList ) )
         {
             return false;
         }

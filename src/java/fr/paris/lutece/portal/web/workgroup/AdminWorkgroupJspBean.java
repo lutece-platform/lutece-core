@@ -42,6 +42,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 
 import fr.paris.lutece.portal.business.right.Level;
@@ -211,7 +212,7 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
         }
 
         // PAGINATOR
-        LocalizedPaginator<AdminWorkgroup> paginator = new LocalizedPaginator<AdminWorkgroup>( listFilteredWorkgroups, _nItemsPerPage, url.getUrl( ),
+        LocalizedPaginator<AdminWorkgroup> paginator = new LocalizedPaginator<>( listFilteredWorkgroups, _nItemsPerPage, url.getUrl( ),
                 AbstractPaginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex, getLocale( ) );
 
         model.put( MARK_NB_ITEMS_PER_PAGE, "" + _nItemsPerPage );
@@ -309,9 +310,7 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
         parameters.put( PARAMETER_WORKGROUP_KEY, strWorkgroupKey );
         parameters.put( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, JSP_URL_REMOVE_WORKGROUP ) );
 
-        String strUrl = AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_REMOVE, strUrlRemove, AdminMessage.TYPE_CONFIRMATION, parameters );
-
-        return strUrl;
+        return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_REMOVE, strUrlRemove, AdminMessage.TYPE_CONFIRMATION, parameters );
     }
 
     /**
@@ -328,7 +327,7 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
         String strWorkgroupKey = request.getParameter( PARAMETER_WORKGROUP_KEY );
         ArrayList<String> listErrors = new ArrayList<>( );
 
-        if ( AdminWorkgroupHome.getUserListForWorkgroup( strWorkgroupKey ).size( ) > 0 )
+        if ( CollectionUtils.isNotEmpty( AdminWorkgroupHome.getUserListForWorkgroup( strWorkgroupKey ) ) )
         {
             return AdminMessageService.getMessageUrl( request, MESSAGE_WORKGROUP_ALREADY_USED, AdminMessage.TYPE_STOP );
         }
@@ -509,7 +508,7 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
         // PAGINATOR
         url.addParameter( PARAMETER_WORKGROUP_KEY, adminWorkgroup.getKey( ) );
 
-        LocalizedPaginator<AdminUser> paginator = new LocalizedPaginator<AdminUser>( listFilteredUsers, _nItemsPerPage, url.getUrl( ),
+        LocalizedPaginator<AdminUser> paginator = new LocalizedPaginator<>( listFilteredUsers, _nItemsPerPage, url.getUrl( ),
                 AbstractPaginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex, getLocale( ) );
 
         // USER LEVEL

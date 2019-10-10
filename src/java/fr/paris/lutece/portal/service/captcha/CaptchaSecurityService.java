@@ -63,15 +63,7 @@ public class CaptchaSecurityService implements ICaptchaSecurityService
             _captchaService = SpringContextService.getBean( "captcha.captchaService" );
             _bAvailable = _captchaService != null;
         }
-        catch( BeanDefinitionStoreException e )
-        {
-            _bAvailable = false;
-        }
-        catch( NoSuchBeanDefinitionException e )
-        {
-            _bAvailable = false;
-        }
-        catch( CannotLoadBeanClassException e )
+        catch( CannotLoadBeanClassException | NoSuchBeanDefinitionException | BeanDefinitionStoreException e )
         {
             _bAvailable = false;
         }

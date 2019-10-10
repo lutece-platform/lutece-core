@@ -179,20 +179,8 @@ public class AttributeFieldDAO implements IAttributeFieldDAO
                 {
                     attribute = (IAttribute) Class.forName( daoUtil.getString( 1 ) ).newInstance( );
                 }
-                catch( ClassNotFoundException e )
+                catch( IllegalAccessException | InstantiationException | ClassNotFoundException e )
                 {
-                    // class doesn't exist
-                    AppLogService.error( e );
-                }
-                catch( InstantiationException e )
-                {
-                    // Class is abstract or is an interface or haven't accessible
-                    // builder
-                    AppLogService.error( e );
-                }
-                catch( IllegalAccessException e )
-                {
-                    // can't access to rhe class
                     AppLogService.error( e );
                 }
                 if ( attribute != null )

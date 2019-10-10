@@ -40,6 +40,8 @@ import fr.paris.lutece.portal.web.l10n.LocaleService;
 import java.util.List;
 import java.util.Locale;
 
+import org.apache.commons.collections.CollectionUtils;
+
 /**
  * Daemon to anonymize admin users
  */
@@ -59,7 +61,7 @@ public class AnonymizationDaemon extends Daemon
         StringBuilder sbResult = new StringBuilder( );
         List<Integer> expiredUserIdList = AdminUserService.getExpiredUserIdList( );
 
-        if ( ( expiredUserIdList != null ) && ( expiredUserIdList.size( ) > 0 ) )
+        if ( CollectionUtils.isNotEmpty( expiredUserIdList ) )
         {
             int nbUserFound = expiredUserIdList.size( );
             AppLogService.info( CONSTANT_FOUND_EXPIRED_USER_ANONYMIZED_START );

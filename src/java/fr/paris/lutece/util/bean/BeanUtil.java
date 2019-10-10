@@ -145,11 +145,7 @@ public final class BeanUtil
 
             beanUtilsBean.populate( bean, convertMap( request.getParameterMap( ) ) );
         }
-        catch( IllegalAccessException e )
-        {
-            AppLogService.error( "Unable to fetch data from request", e );
-        }
-        catch( InvocationTargetException e )
+        catch( InvocationTargetException | IllegalAccessException e )
         {
             AppLogService.error( "Unable to fetch data from request", e );
         }

@@ -116,9 +116,7 @@ public final class AdminDashboardService
         AdminDashboardFilter filter = new AdminDashboardFilter( );
         filter.setFilterColumn( nColumn );
 
-        List<IAdminDashboardComponent> dashboardComponents = AdminDashboardHome.findByFilter( filter );
-
-        return dashboardComponents;
+        return AdminDashboardHome.findByFilter( filter );
     }
 
     /**
@@ -149,15 +147,7 @@ public final class AdminDashboardService
                 AppLogService.error( " Admin Dashboard Component not registered : " + entry.getName( ) + " : " + entry.getComponentClass( ) );
             }
         }
-        catch( InstantiationException e )
-        {
-            AppLogService.error( "Error registering an Admin DashboardComponent : " + e.getMessage( ), e );
-        }
-        catch( IllegalAccessException e )
-        {
-            AppLogService.error( "Error registering an Admin DashboardComponent : " + e.getMessage( ), e );
-        }
-        catch( ClassNotFoundException e )
+        catch( ClassNotFoundException | InstantiationException | IllegalAccessException e )
         {
             AppLogService.error( "Error registering an Admin DashboardComponent : " + e.getMessage( ), e );
         }

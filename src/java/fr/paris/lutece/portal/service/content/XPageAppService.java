@@ -51,6 +51,7 @@ import fr.paris.lutece.portal.web.xpages.XPageApplicationEntry;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.http.SecurityUtil;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 
 import java.util.Collection;
@@ -109,11 +110,7 @@ public class XPageAppService extends ContentService
             _mapApplications.put( entry.getId( ), entry );
             AppLogService.info( "New XPage application registered : " + entry.getId( ) + ( entry.isEnabled( ) ? "" : " (disabled)" ) );
         }
-        catch( ClassNotFoundException e )
-        {
-            throw new LuteceInitException( "Error instantiating XPageApplication : " + entry.getId( ) + " - " + e.getCause( ), e );
-        }
-        catch( InstantiationException | IllegalAccessException e )
+        catch( ClassNotFoundException | InstantiationException | IllegalAccessException e )
         {
             throw new LuteceInitException( "Error instantiating XPageApplication : " + entry.getId( ) + " - " + e.getCause( ), e );
         }
@@ -212,7 +209,7 @@ public class XPageAppService extends ContentService
             XPage page = null;
             List<String> listRoles = entry.getRoles( );
 
-            if ( SecurityService.isAuthenticationEnable( ) && ( listRoles.size( ) > 0 ) )
+            if ( SecurityService.isAuthenticationEnable( ) && CollectionUtils.isNotEmpty( listRoles ) )
             {
                 LuteceUser user = SecurityService.getInstance( ).getRegisteredUser( request );
 

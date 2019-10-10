@@ -228,11 +228,7 @@ public class PageIndexer implements SearchIndexer
         {
             new HtmlParser( ).parse( new ByteArrayInputStream( strPageContent.getBytes( ) ), handler, metadata, new ParseContext( ) );
         }
-        catch( SAXException e )
-        {
-            throw new AppException( "Error during page parsing." );
-        }
-        catch( TikaException e )
+        catch( TikaException | SAXException e )
         {
             throw new AppException( "Error during page parsing." );
         }

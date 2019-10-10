@@ -77,11 +77,8 @@ public final class AdminAuthenticationService
 
     /**
      * Initialize service
-     * 
-     * @throws LuteceInitException
-     *             If error while initialization
      */
-    public static synchronized void init( ) throws LuteceInitException
+    public static synchronized void init( )
     {
         _authentication = SpringContextService.getBean( BEAN_ADMIN_AUTHENTICATION_MODULE );
         AppLogService.info( "Authentication module loaded : " + _authentication.getAuthServiceName( ) );
@@ -193,11 +190,7 @@ public final class AdminAuthenticationService
         {
             registerUser( request, user );
         }
-        catch( AccessDeniedException e )
-        {
-            throw new LoginException( );
-        }
-        catch( UserNotSignedException e )
+        catch( UserNotSignedException | AccessDeniedException e )
         {
             throw new LoginException( );
         }
@@ -219,11 +212,7 @@ public final class AdminAuthenticationService
         {
             user = getRemoteUser( request );
         }
-        catch( UserNotSignedException e )
-        {
-            return;
-        }
-        catch( AccessDeniedException e )
+        catch( AccessDeniedException | UserNotSignedException e )
         {
             return;
         }

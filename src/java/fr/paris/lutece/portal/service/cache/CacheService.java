@@ -432,9 +432,7 @@ public final class CacheService
             {
                 strValue = DatastoreService.getInstanceDataValue( strKey, strValue );
 
-                int nValue = Integer.parseInt( strValue );
-
-                return nValue;
+                return Integer.parseInt( strValue );
             }
             catch( NumberFormatException e )
             {
@@ -468,9 +466,7 @@ public final class CacheService
             {
                 strValue = DatastoreService.getInstanceDataValue( strKey, strValue );
 
-                long lValue = Integer.parseInt( strValue );
-
-                return lValue;
+                return Integer.parseInt( strValue );
             }
             catch( NumberFormatException e )
             {

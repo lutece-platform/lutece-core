@@ -235,7 +235,7 @@ public class RightJspBean extends AdminFeaturesPageJspBean
         // PAGINATOR
         url.addParameter( PARAMETER_ID_RIGHT, right.getId( ) );
 
-        LocalizedPaginator<AdminUser> paginator = new LocalizedPaginator<AdminUser>( listFilteredUsers, _nItemsPerPage, url.getUrl( ),
+        LocalizedPaginator<AdminUser> paginator = new LocalizedPaginator<>( listFilteredUsers, _nItemsPerPage, url.getUrl( ),
                 AbstractPaginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex, getLocale( ) );
 
         // USER LEVEL

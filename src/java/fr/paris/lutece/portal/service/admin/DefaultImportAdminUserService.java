@@ -62,6 +62,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 
 /**
@@ -326,7 +328,7 @@ public class DefaultImportAdminUserService extends ImportAdminUserService
             {
                 List<String> listValues = mapAttributesValues.get( attribute.getIdAttribute( ) );
 
-                if ( ( listValues != null ) && ( listValues.size( ) > 0 ) )
+                if ( CollectionUtils.isNotEmpty( listValues ) )
                 {
                     int nIdField = 0;
                     boolean bCoreAttribute = ( attribute.getPlugin( ) == null )

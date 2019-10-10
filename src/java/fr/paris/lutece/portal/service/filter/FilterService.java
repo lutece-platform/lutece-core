@@ -93,15 +93,7 @@ public final class FilterService
                 AppLogService.info( " * init parameter - name : '" + strKey + "' - value : '" + entry.getInitParameters( ).get( strKey ) + "'" );
             }
         }
-        catch( InstantiationException e )
-        {
-            AppLogService.error( "Error registering a filter : " + e.getMessage( ), e );
-        }
-        catch( IllegalAccessException e )
-        {
-            AppLogService.error( "Error registering a filter : " + e.getMessage( ), e );
-        }
-        catch( ClassNotFoundException e )
+        catch( ClassNotFoundException | IllegalAccessException | InstantiationException e )
         {
             AppLogService.error( "Error registering a filter : " + e.getMessage( ), e );
         }

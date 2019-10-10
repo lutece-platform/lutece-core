@@ -44,6 +44,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.apache.commons.collections.CollectionUtils;
+
 /**
  * Daemon that manage a pool of threads to launch runnables.
  */
@@ -87,7 +89,7 @@ public class ThreadLauncherDaemon extends Daemon
     }
 
     private static final String PROPERTY_MAX_NUMBER_THREAD = "daemon.threadLauncherDaemon.maxNumberOfThread";
-    private static Deque<RunnableQueueItem> _stackItems = new ArrayDeque<RunnableQueueItem>( );
+    private static Deque<RunnableQueueItem> _stackItems = new ArrayDeque<>( );
     private Map<String, Thread> _mapThreadByKey = new HashMap<>( );
     private List<Thread> _listThread = new ArrayList<>( );
 
@@ -244,7 +246,7 @@ public class ThreadLauncherDaemon extends Daemon
      */
     private static synchronized RunnableQueueItem popItemFromQueue( )
     {
-        if ( _stackItems.size( ) == 0 )
+        if ( CollectionUtils.isEmpty( _stackItems ) )
         {
             return null;
         }

@@ -188,7 +188,7 @@ final class MailUtil
      *             If a messaging error occured
      */
     protected static void sendMessageText( String strRecipientsTo, String strRecipientsCc, String strRecipientsBcc, String strSenderName, String strSenderEmail,
-            String strSubject, String strMessage, Transport transport, Session session ) throws MessagingException, AddressException, SendFailedException
+            String strSubject, String strMessage, Transport transport, Session session ) throws MessagingException
     {
         Message msg = prepareMessage( strRecipientsTo, strRecipientsCc, strRecipientsBcc, strSenderName, strSenderEmail, strSubject, session );
         msg.setDataHandler( new DataHandler( new ByteArrayDataSource( strMessage,
@@ -226,7 +226,7 @@ final class MailUtil
      *             If a messaging error occured
      */
     protected static void sendMessageHtml( String strRecipientsTo, String strRecipientsCc, String strRecipientsBcc, String strSenderName, String strSenderEmail,
-            String strSubject, String strMessage, Transport transport, Session session ) throws MessagingException, AddressException, SendFailedException
+            String strSubject, String strMessage, Transport transport, Session session ) throws MessagingException
     {
         Message msg = prepareMessage( strRecipientsTo, strRecipientsCc, strRecipientsBcc, strSenderName, strSenderEmail, strSubject, session );
 
@@ -272,7 +272,7 @@ final class MailUtil
      */
     protected static void sendMultipartMessageHtml( String strRecipientsTo, String strRecipientsCc, String strRecipientsBcc, String strSenderName,
             String strSenderEmail, String strSubject, String strMessage, List<UrlAttachment> urlAttachements, List<FileAttachment> fileAttachements,
-            Transport transport, Session session ) throws MessagingException, AddressException, SendFailedException
+            Transport transport, Session session ) throws MessagingException
     {
         Message msg = prepareMessage( strRecipientsTo, strRecipientsCc, strRecipientsBcc, strSenderName, strSenderEmail, strSubject, session );
         msg.setHeader( HEADER_NAME, HEADER_VALUE );
@@ -361,7 +361,7 @@ final class MailUtil
      */
     protected static void sendMultipartMessageText( String strRecipientsTo, String strRecipientsCc, String strRecipientsBcc, String strSenderName,
             String strSenderEmail, String strSubject, String strMessage, List<FileAttachment> fileAttachements, Transport transport, Session session )
-            throws MessagingException, AddressException, SendFailedException
+            throws MessagingException
     {
         Message msg = prepareMessage( strRecipientsTo, strRecipientsCc, strRecipientsBcc, strSenderName, strSenderEmail, strSubject, session );
         msg.setHeader( HEADER_NAME, HEADER_VALUE );
@@ -431,7 +431,7 @@ final class MailUtil
      */
     protected static void sendMessageCalendar( String strRecipientsTo, String strRecipientsCc, String strRecipientsBcc, String strSenderName,
             String strSenderEmail, String strSubject, String strMessage, String strCalendarMessage, boolean bCreateEvent, Transport transport, Session session )
-            throws MessagingException, AddressException, SendFailedException
+            throws MessagingException
     {
         Message msg = prepareMessage( strRecipientsTo, strRecipientsCc, strRecipientsBcc, strSenderName, strSenderEmail, strSubject, session );
         msg.setHeader( HEADER_NAME, HEADER_VALUE );
@@ -468,7 +468,7 @@ final class MailUtil
      * @throws AddressException
      *             If invalid address
      */
-    private static void sendMessage( Message msg, Transport transport ) throws MessagingException, AddressException
+    private static void sendMessage( Message msg, Transport transport ) throws MessagingException
     {
         if ( msg.getAllRecipients( ) != null )
         {
@@ -536,7 +536,7 @@ final class MailUtil
      *             If a messaging error occurred
      */
     protected static Message prepareMessage( String strRecipientsTo, String strRecipientsCc, String strRecipientsBcc, String strSenderName,
-            String strSenderEmail, String strSubject, Session session ) throws MessagingException, AddressException
+            String strSenderEmail, String strSubject, Session session ) throws MessagingException
     {
         // Instantiate and initialize a mime message
         Message msg = new MimeMessage( session );

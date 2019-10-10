@@ -442,7 +442,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         }
 
         // PAGINATOR
-        LocalizedPaginator<AdminUser> paginator = new LocalizedPaginator<AdminUser>( listDisplayUsers, _nItemsPerPage, url.getUrl( ),
+        LocalizedPaginator<AdminUser> paginator = new LocalizedPaginator<>( listDisplayUsers, _nItemsPerPage, url.getUrl( ),
                 AbstractPaginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex, getLocale( ) );
 
         // USER LEVEL
@@ -1411,11 +1411,9 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         parameters.put( PARAMETER_USER_ID, strUserId );
         parameters.put( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TOKEN_TECHNICAL_ADMIN ) );
 
-        String strUrl = AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_CONFIRM_REMOVE, new Object [ ] {
+        return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_CONFIRM_REMOVE, new Object [ ] {
                 user.getFirstName( ), user.getLastName( ), user.getAccessCode( )
         }, null, strUrlRemove, null, AdminMessage.TYPE_CONFIRMATION, parameters );
-
-        return strUrl;
     }
 
     /**

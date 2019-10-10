@@ -41,6 +41,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.collections.CollectionUtils;
+
 import fr.paris.lutece.portal.business.portlet.PortletHome;
 import fr.paris.lutece.portal.business.portlet.PortletImpl;
 import fr.paris.lutece.portal.business.portlet.PortletTypeHome;
@@ -154,7 +156,7 @@ public class StylesJspBean extends AdminFeaturesPageJspBean
             strURL += ( "&" + Parameters.SORTED_ASC + "=" + strAscSort );
         }
 
-        LocalizedPaginator<Style> paginator = new LocalizedPaginator<Style>( listStyles, _nItemsPerPage, strURL, AbstractPaginator.PARAMETER_PAGE_INDEX,
+        LocalizedPaginator<Style> paginator = new LocalizedPaginator<>( listStyles, _nItemsPerPage, strURL, AbstractPaginator.PARAMETER_PAGE_INDEX,
                 _strCurrentPageIndex, getLocale( ) );
 
         Map<String, Object> model = new HashMap<>( );
@@ -332,12 +334,12 @@ public class StylesJspBean extends AdminFeaturesPageJspBean
         Collection<PortletImpl> listPortlets = PortletHome.getPortletListByStyle( nId );
         Collection<StyleSheet> listStyleSheets = StyleHome.getStyleSheetList( nId );
 
-        if ( listPortlets.size( ) > 0 )
+        if ( CollectionUtils.isNotEmpty( listPortlets ) )
         {
             return AdminMessageService.getMessageUrl( request, MESSAGE_CANT_DELETE_STYLE_PORTLETS, AdminMessage.TYPE_STOP );
         }
 
-        if ( listStyleSheets.size( ) > 0 )
+        if ( CollectionUtils.isNotEmpty( listStyleSheets ) )
         {
             for ( StyleSheet styleSheet : listStyleSheets )
             {

@@ -232,8 +232,6 @@ public final class PasswordUtil
         }
 
         long nMilliSeconds = DateUtil.convertDaysInMiliseconds( nNumberDay );
-        Timestamp maxValidDate = new Timestamp( new java.util.Date( ).getTime( ) + nMilliSeconds );
-
-        return maxValidDate;
+        return new Timestamp( new java.util.Date( ).getTime( ) + nMilliSeconds );
     }
 }

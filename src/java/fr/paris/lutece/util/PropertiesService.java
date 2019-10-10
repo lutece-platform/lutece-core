@@ -55,7 +55,7 @@ public class PropertiesService
     // Static variables
     private static String _strRootPath;
     private static volatile Properties _properties = new Properties( );
-    private static Map<String, String> _mapPropertiesFiles = new LinkedHashMap<String, String>( );
+    private static Map<String, String> _mapPropertiesFiles = new LinkedHashMap<>( );
 
     /**
      * Constructor should define the base root path for properties files

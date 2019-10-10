@@ -322,9 +322,7 @@ public abstract class PortletJspBean extends AdminFeaturesPageJspBean
         model.put( MARK_PORTLET_STYLES_COMBO, PortletHome.getStylesList( strPortletTypeId ) );
         model.put( MARK_PORTLET_ROLES_COMBO, RoleHome.getRolesList( getUser( ) ) );
 
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CREATE_PORTLET, locale, model );
-
-        return template;
+        return AppTemplateService.getTemplate( TEMPLATE_CREATE_PORTLET, locale, model );
     }
 
     /**
@@ -363,9 +361,7 @@ public abstract class PortletJspBean extends AdminFeaturesPageJspBean
         putCheckBox( model, MARK_LARGE_CHECKED, portlet.hasDeviceDisplayFlag( Portlet.FLAG_DISPLAY_ON_LARGE_DEVICE ) );
         putCheckBox( model, MARK_XLARGE_CHECKED, portlet.hasDeviceDisplayFlag( Portlet.FLAG_DISPLAY_ON_XLARGE_DEVICE ) );
 
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_PORTLET, getLocale( ), model );
-
-        return template;
+        return AppTemplateService.getTemplate( TEMPLATE_MODIFY_PORTLET, getLocale( ), model );
     }
 
     /**

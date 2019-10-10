@@ -64,7 +64,7 @@ public final class XmlTransformer
     public static final String PROPERTY_TRANSFORMER_POOL_SIZE = "service.xmlTransformer.transformerPoolSize";
     public static final int TRANSFORMER_POOL_SIZE = AppPropertiesService.getPropertyInt( PROPERTY_TRANSFORMER_POOL_SIZE, 2 );
     public static final int MAX_TRANSFORMER_SIZE = 1000;
-    private static final List<ConcurrentMap<String, Templates>> transformersPoolList = new ArrayList<ConcurrentMap<String, Templates>>( TRANSFORMER_POOL_SIZE );
+    private static final List<ConcurrentMap<String, Templates>> transformersPoolList = new ArrayList<>( TRANSFORMER_POOL_SIZE );
 
     static
     {

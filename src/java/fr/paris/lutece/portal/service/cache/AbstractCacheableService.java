@@ -174,11 +174,7 @@ public abstract class AbstractCacheableService implements CacheableService, Cach
                 _cache.removeAll( );
             }
         }
-        catch( IllegalStateException e )
-        {
-            AppLogService.error( e.getMessage( ), e );
-        }
-        catch( CacheException e )
+        catch( CacheException | IllegalStateException e )
         {
             AppLogService.error( e.getMessage( ), e );
         }
@@ -282,7 +278,7 @@ public abstract class AbstractCacheableService implements CacheableService, Cach
      * {@inheritDoc }
      */
     @Override
-    public void notifyElementRemoved( Ehcache ehch, Element elmnt ) throws CacheException
+    public void notifyElementRemoved( Ehcache ehch, Element elmnt )
     {
         // Do nothing
     }
@@ -309,7 +305,7 @@ public abstract class AbstractCacheableService implements CacheableService, Cach
      * {@inheritDoc }
      */
     @Override
-    public void notifyElementPut( Ehcache ehch, Element elmnt ) throws CacheException
+    public void notifyElementPut( Ehcache ehch, Element elmnt )
     {
         // Do nothing
     }
@@ -318,7 +314,7 @@ public abstract class AbstractCacheableService implements CacheableService, Cach
      * {@inheritDoc }
      */
     @Override
-    public void notifyElementUpdated( Ehcache ehch, Element elmnt ) throws CacheException
+    public void notifyElementUpdated( Ehcache ehch, Element elmnt )
     {
         // Do nothing
     }

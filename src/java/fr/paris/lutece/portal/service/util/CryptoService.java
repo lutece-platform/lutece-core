@@ -219,11 +219,11 @@ public final class CryptoService
         }
 
         // encod(1_bit) => 2 digits
-        StringBuffer hex = new StringBuffer( bits.length * 2 );
+        StringBuilder hex = new StringBuilder( bits.length * 2 );
 
         for ( int i = 0; i < bits.length; i++ )
         {
-            if ( ((int) bits[i] & 0xff) < 0x10 )
+            if ( ( (int) bits[i] & 0xff ) < 0x10 )
             {
                 // 0 < .. < 9
                 hex.append( "0" );

@@ -70,7 +70,7 @@ public final class FileImageService implements ImageResourceProvider
      * @throws LuteceInitException
      *             if an error occurs
      */
-    public static synchronized void init( ) throws LuteceInitException
+    public static synchronized void init( )
     {
         getInstance( ).register( );
     }

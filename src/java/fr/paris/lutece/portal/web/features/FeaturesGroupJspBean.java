@@ -56,6 +56,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.collections.CollectionUtils;
+
 /**
  * FeaturesGroupJspBean
  */
@@ -356,7 +358,7 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
     {
         String strGroupId = request.getParameter( PARAMETER_GROUP_ID );
 
-        if ( RightHome.getRightsList( strGroupId ).size( ) > 0 )
+        if ( CollectionUtils.isNotEmpty( RightHome.getRightsList( strGroupId ) ) )
         {
             return AdminMessageService.getMessageUrl( request, MESSAGE_RIGHT_ALREADY_ASSIGN, AdminMessage.TYPE_STOP );
         }

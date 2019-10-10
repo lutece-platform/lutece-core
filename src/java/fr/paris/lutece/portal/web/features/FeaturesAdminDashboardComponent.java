@@ -146,7 +146,7 @@ public class FeaturesAdminDashboardComponent extends AdminDashboardComponent
      */
     private Collection<HashMap<String, Object>> getRefListFeatureGroups( Locale locale )
     {
-        Collection<HashMap<String, Object>> colGroupMap = new ArrayList<HashMap<String, Object>>( );
+        Collection<HashMap<String, Object>> colGroupMap = new ArrayList<>( );
         Collection<FeatureGroup> colGroups = FeatureGroupHome.getFeatureGroupsList( );
 
         for ( FeatureGroup fg : colGroups )

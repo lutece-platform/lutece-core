@@ -451,9 +451,7 @@ public class PortalJspBean
     public static String getLoginNextUrl( HttpServletRequest request )
     {
         HttpSession session = request.getSession( );
-        String strNextUrl = (String) session.getAttribute( ATTRIBUTE_LOGIN_NEXT_URL );
-
-        return strNextUrl;
+        return (String) session.getAttribute( ATTRIBUTE_LOGIN_NEXT_URL );
     }
 
     /**
@@ -488,9 +486,7 @@ public class PortalJspBean
     public static String getUploadFilterSiteNextUrl( HttpServletRequest request )
     {
         HttpSession session = request.getSession( );
-        String strNextUrl = (String) session.getAttribute( ATTRIBUTE_UPLOAD_FILTER_SITE_NEXT_URL );
-
-        return strNextUrl;
+        return (String) session.getAttribute( ATTRIBUTE_UPLOAD_FILTER_SITE_NEXT_URL );
     }
 
     /**

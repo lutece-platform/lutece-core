@@ -61,6 +61,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import javax.xml.transform.stream.StreamSource;
 
+import org.apache.commons.collections.CollectionUtils;
+
 /**
  *
  * Classe for display the admin features documentation
@@ -288,7 +290,7 @@ public class AdminDocumentationJspBean
             }
         }
         else
-            if ( ( aOutFeatureGroupList.size( ) > 0 ) && !features.isEmpty( ) )
+            if ( CollectionUtils.isNotEmpty( aOutFeatureGroupList ) )
             {
                 FeatureGroup lastFeatureGroup = aOutFeatureGroupList.get( aOutFeatureGroupList.size( ) - 1 );
 

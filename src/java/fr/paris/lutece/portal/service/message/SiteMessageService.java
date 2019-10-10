@@ -342,9 +342,7 @@ public final class SiteMessageService
     public static SiteMessage getMessage( HttpServletRequest request )
     {
         HttpSession session = request.getSession( true );
-        SiteMessage message = (SiteMessage) session.getAttribute( ATTRIBUTE_MESSAGE );
-
-        return message;
+        return (SiteMessage) session.getAttribute( ATTRIBUTE_MESSAGE );
     }
 
     /**

@@ -116,9 +116,7 @@ public final class DashboardService
         DashboardFilter filter = new DashboardFilter( );
         filter.setFilterColumn( nColumn );
 
-        List<IDashboardComponent> dashboardComponents = DashboardHome.findByFilter( filter );
-
-        return dashboardComponents;
+        return DashboardHome.findByFilter( filter );
     }
 
     /**
@@ -150,15 +148,7 @@ public final class DashboardService
                 AppLogService.error( " Dashboard Component not registered : " + entry.getName( ) + " : " + entry.getComponentClass( ) );
             }
         }
-        catch( InstantiationException e )
-        {
-            AppLogService.error( "Error registering a DashboardComponent : " + e.getMessage( ), e );
-        }
-        catch( IllegalAccessException e )
-        {
-            AppLogService.error( "Error registering a DashboardComponent : " + e.getMessage( ), e );
-        }
-        catch( ClassNotFoundException e )
+        catch( ClassNotFoundException | IllegalAccessException | InstantiationException e )
         {
             AppLogService.error( "Error registering a DashboardComponent : " + e.getMessage( ), e );
         }
@@ -340,7 +330,7 @@ public final class DashboardService
      */
     public String getDashboardData( AdminUser user, int nZone, HttpServletRequest request )
     {
-        StringBuffer sbDashboardData = new StringBuffer( );
+        StringBuilder sbDashboardData = new StringBuilder( );
 
         for ( IDashboardComponent dc : getDashboardComponents( nZone ) )
         {
@@ -404,7 +394,7 @@ public final class DashboardService
 
         Collections.sort( listDashboardComponents, new AttributeComparator( ORDER, true ) );
 
-        StringBuffer sbDashboardData = new StringBuffer( );
+        StringBuilder sbDashboardData = new StringBuilder( );
 
         for ( IDashboardComponent dc : listDashboardComponents )
         {

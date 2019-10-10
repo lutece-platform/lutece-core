@@ -156,19 +156,7 @@ public class PluginFile
             InputStream input = new FileInputStream( strFilename );
             digester.parse( input );
         }
-        catch( FileNotFoundException e )
-        {
-            throw new LuteceInitException( "Error loading plugin file : " + strFilename, e );
-        }
-        catch( SAXException e )
-        {
-            throw new LuteceInitException( "Error loading plugin file : " + strFilename, e );
-        }
-        catch( IllegalArgumentException e )
-        {
-            throw new LuteceInitException( "Error loading plugin file : " + strFilename, e );
-        }
-        catch( IOException e )
+        catch( IOException | IllegalArgumentException | SAXException e )
         {
             throw new LuteceInitException( "Error loading plugin file : " + strFilename, e );
         }

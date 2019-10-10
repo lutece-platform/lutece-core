@@ -215,7 +215,7 @@ public class SearchApp implements XPageApplication
             sbUrl = sbUrl.append( "&default_operator=" + request.getParameter( PARAMETER_DEFAULT_OPERATOR ) );
         }
 
-        Paginator<SearchResult> paginator = new Paginator<SearchResult>( listResults, nNbItemsPerPage, sbUrl.toString( ), PARAMETER_PAGE_INDEX,
+        Paginator<SearchResult> paginator = new Paginator<>( listResults, nNbItemsPerPage, sbUrl.toString( ), PARAMETER_PAGE_INDEX,
                 strCurrentPageIndex );
 
         Map<String, Object> model = new HashMap<>( );

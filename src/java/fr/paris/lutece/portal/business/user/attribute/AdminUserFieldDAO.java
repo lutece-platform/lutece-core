@@ -42,6 +42,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import org.apache.commons.collections.CollectionUtils;
+
 /**
  *
  * AdminUserFieldDAO
@@ -160,20 +162,9 @@ public class AdminUserFieldDAO implements IAdminUserFieldDAO
                 {
                     attribute = (IAttribute) Class.forName( daoUtil.getString( 14 ) ).newInstance( );
                 }
-                catch( ClassNotFoundException e )
+                catch( IllegalAccessException | InstantiationException | ClassNotFoundException e )
                 {
                     // class doesn't exist
-                    AppLogService.error( e );
-                }
-                catch( InstantiationException e )
-                {
-                    // Class is abstract or is an interface or haven't accessible
-                    // builder
-                    AppLogService.error( e );
-                }
-                catch( IllegalAccessException e )
-                {
-                    // can't access to the class
                     AppLogService.error( e );
                 }
 
@@ -384,20 +375,8 @@ public class AdminUserFieldDAO implements IAdminUserFieldDAO
                 {
                     attribute = (IAttribute) Class.forName( daoUtil.getString( 7 ) ).newInstance( );
                 }
-                catch( ClassNotFoundException e )
+                catch( IllegalAccessException | InstantiationException | ClassNotFoundException e )
                 {
-                    // class doesn't exist
-                    AppLogService.error( e );
-                }
-                catch( InstantiationException e )
-                {
-                    // Class is abstract or is an interface or haven't accessible
-                    // builder
-                    AppLogService.error( e );
-                }
-                catch( IllegalAccessException e )
-                {
-                    // can't access to the class
                     AppLogService.error( e );
                 }
 
@@ -435,7 +414,7 @@ public class AdminUserFieldDAO implements IAdminUserFieldDAO
     {
         List<AdminUserField> listUserFields = auFieldFilter.getListUserFields( );
 
-        if ( ( listUserFields == null ) || ( listUserFields.size( ) == 0 ) )
+        if ( CollectionUtils.isEmpty( listUserFields ) )
         {
             return null;
         }
@@ -534,7 +513,7 @@ public class AdminUserFieldDAO implements IAdminUserFieldDAO
 
         StringBuilder sbSQL = new StringBuilder( SQL_QUERY_SELECT );
 
-        if ( listFilter.size( ) > 0 )
+        if ( CollectionUtils.isNotEmpty( listFilter ) )
         {
             boolean bIsFirst = true;
 
@@ -602,12 +581,8 @@ public class AdminUserFieldDAO implements IAdminUserFieldDAO
                 }
                 catch( ClassNotFoundException | InstantiationException | IllegalAccessException e )
                 {
-                    // class doesn't exist
                     AppLogService.error( e );
                 }
-                // Class is abstract or is an interface or haven't accessible
-                // builder
-                // can't access to the class
 
                 if ( attribute != null )
                 {

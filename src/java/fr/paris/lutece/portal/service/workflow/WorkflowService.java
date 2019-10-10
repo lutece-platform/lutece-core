@@ -83,15 +83,7 @@ public final class WorkflowService
             _provider = SpringContextService.getBean( BEAN_WORKFLOW_PROVIDER );
             _bServiceAvailable = ( _service != null ) && ( _provider != null );
         }
-        catch( BeanDefinitionStoreException e )
-        {
-            _bServiceAvailable = false;
-        }
-        catch( NoSuchBeanDefinitionException e )
-        {
-            _bServiceAvailable = false;
-        }
-        catch( CannotLoadBeanClassException e )
+        catch( CannotLoadBeanClassException | NoSuchBeanDefinitionException | BeanDefinitionStoreException e )
         {
             _bServiceAvailable = false;
         }

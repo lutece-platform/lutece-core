@@ -135,9 +135,7 @@ public final class ThemesService
             strTheme = themeTest;
         }
 
-        Theme theme = getGlobalTheme( strTheme );
-
-        return theme;
+        return getGlobalTheme( strTheme );
     }
 
     /**

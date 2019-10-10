@@ -33,18 +33,16 @@
  */
 package fr.paris.lutece.util.jpa.transaction;
 
-import fr.paris.lutece.util.jpa.JPAConstants;
+import java.util.Collections;
+import java.util.List;
 
 import org.apache.log4j.Logger;
-
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.TransactionDefinition;
-import org.springframework.transaction.TransactionException;
 import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.support.TransactionSynchronizationManager;
 
-import java.util.Collections;
-import java.util.List;
+import fr.paris.lutece.util.jpa.JPAConstants;
 
 /**
  *
@@ -68,7 +66,7 @@ public class ChainedTransactionManager implements PlatformTransactionManager
     /**
      * Begin a transaction for all transaction managers {@inheritDoc}
      */
-    public TransactionStatus getTransaction( TransactionDefinition definition ) throws TransactionException
+    public TransactionStatus getTransaction( TransactionDefinition definition )
     {
         if ( _transactionManagers.isEmpty( ) )
         {
@@ -100,7 +98,7 @@ public class ChainedTransactionManager implements PlatformTransactionManager
      *
      * {@inheritDoc}
      */
-    public void commit( TransactionStatus status ) throws TransactionException
+    public void commit( TransactionStatus status )
     {
         for ( PlatformTransactionManager transactionManager : _transactionManagers )
         {
@@ -132,7 +130,7 @@ public class ChainedTransactionManager implements PlatformTransactionManager
      *
      * {@inheritDoc}
      */
-    public void rollback( TransactionStatus status ) throws TransactionException
+    public void rollback( TransactionStatus status )
     {
         for ( PlatformTransactionManager dataSourceManager : _transactionManagers )
         {

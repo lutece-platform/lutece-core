@@ -302,9 +302,7 @@ public final class AdminUserService
         String strRightCode = AppPropertiesService.getProperty( PROPERTY_ADMINISTRATOR );
 
         AdminUser user = getAdminUser( request );
-        boolean bLevelRight = user.checkRight( strRightCode );
-
-        return bLevelRight;
+        return user.checkRight( strRightCode );
     }
 
     /**
@@ -883,9 +881,7 @@ public final class AdminUserService
 
         try
         {
-            int nValue = Integer.parseInt( defaultUserParameter );
-
-            return nValue;
+            return Integer.parseInt( defaultUserParameter );
         }
         catch( NumberFormatException e )
         {
@@ -1011,7 +1007,7 @@ public final class AdminUserService
         if ( ( bUserPasswordFormatUpperLowerCase || bUserPasswordFormatNumero || bUserPasswordFormatSpecialCaracters ) && !PasswordUtil
                 .checkPasswordFormat( strPassword, bUserPasswordFormatUpperLowerCase, bUserPasswordFormatNumero, bUserPasswordFormatSpecialCaracters ) )
         {
-            StringBuffer strParam = new StringBuffer( );
+            StringBuilder strParam = new StringBuilder( );
 
             // Add Message Upper Lower Case
             if ( bUserPasswordFormatUpperLowerCase )

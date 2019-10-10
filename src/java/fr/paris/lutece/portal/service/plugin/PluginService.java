@@ -33,19 +33,9 @@
  */
 package fr.paris.lutece.portal.service.plugin;
 
-import fr.paris.lutece.portal.service.database.AppConnectionService;
-import fr.paris.lutece.portal.service.datastore.DatastoreService;
-import fr.paris.lutece.portal.service.init.LuteceInitException;
-import fr.paris.lutece.portal.service.util.AppLogService;
-import fr.paris.lutece.portal.service.util.AppPathService;
-import fr.paris.lutece.util.filesystem.FileListFilter;
-import fr.paris.lutece.util.stream.StreamUtil;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FilenameFilter;
-import java.io.IOException;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -53,6 +43,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.TreeSet;
+
+import fr.paris.lutece.portal.service.database.AppConnectionService;
+import fr.paris.lutece.portal.service.datastore.DatastoreService;
+import fr.paris.lutece.portal.service.init.LuteceInitException;
+import fr.paris.lutece.portal.service.util.AppLogService;
+import fr.paris.lutece.portal.service.util.AppPathService;
+import fr.paris.lutece.util.filesystem.FileListFilter;
+import fr.paris.lutece.util.stream.StreamUtil;
 
 /**
  * This class provides services and utilities for plugins management
@@ -103,9 +101,7 @@ public final class PluginService
      */
     public static Collection<Plugin> getPluginList( )
     {
-        TreeSet<Plugin> setSorted = new TreeSet<Plugin>( _mapPlugins.values( ) );
-
-        return setSorted;
+        return new TreeSet<>( _mapPlugins.values( ) );
     }
 
     /**

@@ -89,7 +89,7 @@ public final class SearchService
      */
     public static List<Map<String, Object>> getSearchTypesAndLinks( )
     {
-        List<Map<String, Object>> listTypesAndLinks = new ArrayList<Map<String, Object>>( );
+        List<Map<String, Object>> listTypesAndLinks = new ArrayList<>( );
         Map<String, Object> model = new HashMap<>( );
         model.put( MARK_TYPE, TYPE_FILTER_NONE );
         model.put( MARK_LINK, null );

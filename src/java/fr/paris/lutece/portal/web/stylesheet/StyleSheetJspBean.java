@@ -135,8 +135,7 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
      * Displays the stylesheets list
      * 
      * @return the html code for displaying the stylesheets list
-     * @param request
-     *            The request
+     * @param request The request
      */
     public String getManageStyleSheet( HttpServletRequest request )
     {
@@ -165,8 +164,10 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
         }
 
         _nDefaultItemsPerPage = AppPropertiesService.getPropertyInt( PROPERTY_STYLESHEETS_PER_PAGE, 50 );
-        _strCurrentPageIndex = AbstractPaginator.getPageIndex( request, AbstractPaginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex );
-        _nItemsPerPage = AbstractPaginator.getItemsPerPage( request, AbstractPaginator.PARAMETER_ITEMS_PER_PAGE, _nItemsPerPage, _nDefaultItemsPerPage );
+        _strCurrentPageIndex = AbstractPaginator.getPageIndex( request, AbstractPaginator.PARAMETER_PAGE_INDEX,
+                _strCurrentPageIndex );
+        _nItemsPerPage = AbstractPaginator.getItemsPerPage( request, AbstractPaginator.PARAMETER_ITEMS_PER_PAGE,
+                _nItemsPerPage, _nDefaultItemsPerPage );
 
         String strURL = getHomeUrl( request );
 
@@ -180,8 +181,8 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
             strURL += ( "&" + Parameters.SORTED_ASC + "=" + strAscSort );
         }
 
-        LocalizedPaginator<StyleSheet> paginator = new LocalizedPaginator<StyleSheet>( listStyleSheets, _nItemsPerPage, strURL, AbstractPaginator.PARAMETER_PAGE_INDEX,
-                _strCurrentPageIndex, getLocale( ) );
+        LocalizedPaginator<StyleSheet> paginator = new LocalizedPaginator<>( listStyleSheets, _nItemsPerPage,
+                strURL, AbstractPaginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex, getLocale( ) );
 
         Map<String, Object> model = new HashMap<>( );
         model.put( MARK_MODE_ID, strModeId );
@@ -198,8 +199,7 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
     /**
      * Returns the create form of a new stylesheet with the upload field
      * 
-     * @param request
-     *            the http request
+     * @param request the http request
      * @return the html code for the create form of a new stylesheet
      */
     public String getCreateStyleSheet( HttpServletRequest request )
@@ -210,7 +210,8 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
         model.put( MARK_STYLE_LIST, getStyleList( ) );
         model.put( MARK_MODE_LIST, ModeHome.getModes( ) );
         model.put( MARK_MODE_ID, strModeId );
-        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_CREATE_STYLESHEET ) );
+        model.put( SecurityTokenService.MARK_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_CREATE_STYLESHEET ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CREATE_STYLESHEET, getLocale( ), model );
 
@@ -218,13 +219,12 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
     }
 
     /**
-     * Processes the creation form of a new stylesheet by recovering the parameters in the http request
+     * Processes the creation form of a new stylesheet by recovering the parameters
+     * in the http request
      * 
-     * @param request
-     *            the http request
+     * @param request the http request
      * @return The Jsp URL of the process result
-     * @throws AccessDeniedException
-     *             if the security token is invalid
+     * @throws AccessDeniedException if the security token is invalid
      */
     public String doCreateStyleSheet( HttpServletRequest request ) throws AccessDeniedException
     {
@@ -254,10 +254,8 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
     /**
      * Reads stylesheet's data
      * 
-     * @param multipartRequest
-     *            The request
-     * @param stylesheet
-     *            The style sheet
+     * @param multipartRequest The request
+     * @param stylesheet       The style sheet
      * @return An error message URL or null if no error
      */
     private String getData( MultipartHttpServletRequest multipartRequest, StyleSheet stylesheet )
@@ -268,13 +266,14 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
         String strModeId = multipartRequest.getParameter( Parameters.MODE_STYLESHEET );
 
         FileItem fileSource = multipartRequest.getFile( Parameters.STYLESHEET_SOURCE );
-        byte [ ] baXslSource = fileSource.get( );
+        byte[] baXslSource = fileSource.get( );
         String strFilename = FileUploadService.getFileNameOnly( fileSource );
 
         // Mandatory fields
         if ( strDescription.equals( "" ) || ( strFilename == null ) || strFilename.equals( "" ) )
         {
-            return AdminMessageService.getMessageUrl( multipartRequest, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrl( multipartRequest, Messages.MANDATORY_FIELDS,
+                    AdminMessage.TYPE_STOP );
         }
 
         // test the existence of style or mode already associate with this stylesheet
@@ -283,19 +282,20 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
         int nCount = StyleSheetHome.getStyleSheetNbPerStyleMode( nStyleId, nModeId );
 
         // Do not create a stylesheet of there is already one
-        if ( ( nCount >= 1 ) && ( stylesheet.getId( ) == 0 /* creation */) )
+        if ( ( nCount >= 1 ) && ( stylesheet.getId( ) == 0 /* creation */ ) )
         {
-            return AdminMessageService.getMessageUrl( multipartRequest, MESSAGE_STYLESHEET_ALREADY_EXISTS, AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrl( multipartRequest, MESSAGE_STYLESHEET_ALREADY_EXISTS,
+                    AdminMessage.TYPE_STOP );
         }
 
         // Check the XML validity of the XSL stylesheet
         if ( isValid( baXslSource ) != null )
         {
-            Object [ ] args = {
-                isValid( baXslSource )
-            };
+            Object[] args =
+            { isValid( baXslSource ) };
 
-            return AdminMessageService.getMessageUrl( multipartRequest, MESSAGE_STYLESHEET_NOT_VALID, args, AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrl( multipartRequest, MESSAGE_STYLESHEET_NOT_VALID, args,
+                    AdminMessage.TYPE_STOP );
         }
 
         stylesheet.setDescription( strDescription );
@@ -308,10 +308,10 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
     }
 
     /**
-     * Returns the form to update a stylesheet whose identifer is stored in the http request
+     * Returns the form to update a stylesheet whose identifer is stored in the http
+     * request
      * 
-     * @param request
-     *            The http request
+     * @param request The http request
      * @return The html code
      */
     public String getModifyStyleSheet( HttpServletRequest request )
@@ -323,7 +323,8 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
         model.put( MARK_STYLE_LIST, getStyleList( ) );
         model.put( MARK_MODE_LIST, ModeHome.getModes( ) );
         model.put( MARK_STYLESHEET, StyleSheetHome.findByPrimaryKey( nId ) );
-        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MODIFY_STYLESHEET ) );
+        model.put( SecurityTokenService.MARK_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MODIFY_STYLESHEET ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_STYLESHEET, getLocale( ), model );
 
@@ -331,7 +332,8 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
     }
 
     /**
-     * Return a ReferenceList with id style for code and a concatenation of portal name + portlet type name + style description for name.
+     * Return a ReferenceList with id style for code and a concatenation of portal
+     * name + portlet type name + style description for name.
      * 
      * @return The {@link ReferenceList}
      */
@@ -343,11 +345,15 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
         for ( Style style : stylesList )
         {
             HashMap<String, Object> model = new HashMap<>( );
-            model.put( MARK_PORTAL_COMPONENT_NAME, PortalComponentHome.findByPrimaryKey( style.getPortalComponentId( ) ).getName( ) );
+            model.put( MARK_PORTAL_COMPONENT_NAME,
+                    PortalComponentHome.findByPrimaryKey( style.getPortalComponentId( ) ).getName( ) );
 
             PortletType portletType = PortletTypeHome.findByPrimaryKey( style.getPortletTypeId( ) );
 
-            model.put( MARK_PORTLET_TYPE_NAME, ( ( portletType != null ) ? ( I18nService.getLocalizedString( portletType.getNameKey( ), getLocale( ) ) ) : "" ) );
+            model.put( MARK_PORTLET_TYPE_NAME,
+                    ( ( portletType != null )
+                            ? ( I18nService.getLocalizedString( portletType.getNameKey( ), getLocale( ) ) )
+                            : "" ) );
             model.put( MARK_STYLE_DESCRIPTION, style.getDescription( ) );
 
             HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_STYLE_SELECT_OPTION, getLocale( ), model );
@@ -358,13 +364,12 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
     }
 
     /**
-     * Processes the updating form of a stylesheet whose new parameters are stored in the http request
+     * Processes the updating form of a stylesheet whose new parameters are stored
+     * in the http request
      * 
-     * @param request
-     *            The http request
+     * @param request The http request
      * @return The Jsp URL of the process result
-     * @throws AccessDeniedException
-     *             if the security token is invalid
+     * @throws AccessDeniedException if the security token is invalid
      */
     public String doModifyStyleSheet( HttpServletRequest request ) throws AccessDeniedException
     {
@@ -396,10 +401,10 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
     }
 
     /**
-     * Returns the confirm of removing the style whose identifier is in the http request
+     * Returns the confirm of removing the style whose identifier is in the http
+     * request
      *
-     * @param request
-     *            The Http request
+     * @param request The Http request
      * @return the html code for the remove confirmation page
      */
     public String getRemoveStyleSheet( HttpServletRequest request )
@@ -407,26 +412,24 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
         String strId = request.getParameter( Parameters.STYLESHEET_ID );
 
         StyleSheet stylesheet = StyleSheetHome.findByPrimaryKey( Integer.parseInt( strId ) );
-        Object [ ] args = {
-            stylesheet.getDescription( )
-        };
+        Object[] args =
+        { stylesheet.getDescription( ) };
 
         Map<String, Object> parameters = new HashMap<>( );
         parameters.put( Parameters.STYLESHEET_ID, strId );
         parameters.put( Parameters.STYLE_ID, stylesheet.getStyleId( ) );
-        parameters.put( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, JSP_DO_REMOVE_STYLESHEET ) );
-        return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_DELETE_STYLESHEET, args, null, JSP_DO_REMOVE_STYLESHEET, null,
-                AdminMessage.TYPE_CONFIRMATION, parameters );
+        parameters.put( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, JSP_DO_REMOVE_STYLESHEET ) );
+        return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_DELETE_STYLESHEET, args, null,
+                JSP_DO_REMOVE_STYLESHEET, null, AdminMessage.TYPE_CONFIRMATION, parameters );
     }
 
     /**
      * Processes the deletion of a stylesheet
      * 
-     * @param request
-     *            the http request
+     * @param request the http request
      * @return The Jsp URL of the process result
-     * @throws AccessDeniedException
-     *             if the security token is invalid
+     * @throws AccessDeniedException if the security token is invalid
      */
     public String doRemoveStyleSheet( HttpServletRequest request ) throws AccessDeniedException
     {
@@ -463,11 +466,10 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
     /**
      * Use parsing for validate the modify xsl file
      *
-     * @param baXslSource
-     *            The XSL source
+     * @param baXslSource The XSL source
      * @return the message exception when the validation is false
      */
-    private String isValid( byte [ ] baXslSource )
+    private String isValid( byte[] baXslSource )
     {
         String strError = null;
 
@@ -477,8 +479,7 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
             SAXParser analyzer = factory.newSAXParser( );
             InputSource is = new InputSource( new ByteArrayInputStream( baXslSource ) );
             analyzer.getXMLReader( ).parse( is );
-        }
-        catch( Exception e )
+        } catch ( Exception e )
         {
             strError = e.getMessage( );
         }
@@ -489,8 +490,7 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
     /**
      * Create and Update the local download file
      *
-     * @param stylesheet
-     *            The style sheet
+     * @param stylesheet The style sheet
      */
     private void localStyleSheetFile( StyleSheet stylesheet )
     {
@@ -517,12 +517,10 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
             fos = new FileOutputStream( file );
             fos.write( stylesheet.getSource( ) );
             fos.flush( );
-        }
-        catch( IOException e )
+        } catch ( IOException e )
         {
             AppLogService.error( e.getMessage( ), e );
-        }
-        finally
+        } finally
         {
             StreamUtil.safeClose( fos );
         }
@@ -531,8 +529,7 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
     /**
      * remove the xsl file from the tmp directory
      * 
-     * @param nId
-     *            the identifier of the file
+     * @param nId the identifier of the file
      */
     private void removeOldLocalStyleSheet( int nId )
     {

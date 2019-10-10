@@ -33,6 +33,20 @@
  */
 package fr.paris.lutece.portal.web.admin;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
+
 import fr.paris.lutece.portal.business.right.FeatureGroup;
 import fr.paris.lutece.portal.business.right.FeatureGroupHome;
 import fr.paris.lutece.portal.business.right.Right;
@@ -42,8 +56,6 @@ import fr.paris.lutece.portal.business.user.authentication.LuteceDefaultAdminUse
 import fr.paris.lutece.portal.business.user.menu.AccessibilityModeAdminUserMenuItemProvider;
 import fr.paris.lutece.portal.business.user.menu.LanguageAdminUserMenuItemProvider;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
-import fr.paris.lutece.portal.service.admin.AdminAuthenticationService;
-import fr.paris.lutece.portal.service.admin.AdminThemeService;
 import fr.paris.lutece.portal.service.admin.AdminUserService;
 import fr.paris.lutece.portal.service.dashboard.DashboardService;
 import fr.paris.lutece.portal.service.dashboard.IDashboardComponent;
@@ -67,20 +79,6 @@ import fr.paris.lutece.portal.web.l10n.LocaleService;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.password.IPassword;
 import fr.paris.lutece.util.password.IPasswordFactory;
-
-import org.apache.commons.lang.StringUtils;
-
-import java.io.Serializable;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import org.apache.log4j.Logger;
 
 /**
  * This class provides the user interface to manage admin features ( manage, create, modify, remove)
@@ -237,7 +235,7 @@ public class AdminMenuJspBean implements Serializable
         List<IDashboardComponent> listDashboards = DashboardService.getInstance( ).getDashboards( user, request );
         int nZoneMax = AppPropertiesService.getPropertyInt( PROPERTY_DASHBOARD_ZONES, PROPERTY_DASHBOARD_ZONES_DEFAULT );
 
-        if ( ( listDashboards != null ) && ( listDashboards.size( ) > 0 ) )
+        if ( CollectionUtils.isNotEmpty( listDashboards ) )
         {
             int nColumnCount = DashboardService.getInstance( ).getColumnCount( );
 
@@ -342,7 +340,7 @@ public class AdminMenuJspBean implements Serializable
         }
 
         // add the features with no group to the last group
-        if ( aOutFeatureGroupList.size( ) > 0 )
+        if ( CollectionUtils.isNotEmpty( aOutFeatureGroupList ) )
         {
             FeatureGroup lastFeatureGroup = aOutFeatureGroupList.get( aOutFeatureGroupList.size( ) - 1 );
 

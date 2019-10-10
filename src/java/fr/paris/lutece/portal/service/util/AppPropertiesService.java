@@ -73,10 +73,8 @@ public final class AppPropertiesService
      * 
      * @param strConfPath
      *            The configuration path
-     * @throws LuteceInitException
-     *             If an error occured
      */
-    public static void init( String strConfPath ) throws LuteceInitException
+    public static void init( String strConfPath )
     {
         _strConfPath = strConfPath;
         _propertiesService = new PropertiesService( AppPathService.getWebAppPath( ) );

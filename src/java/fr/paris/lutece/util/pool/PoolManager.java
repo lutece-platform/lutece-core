@@ -136,7 +136,7 @@ public final class PoolManager
         Enumeration propNames = props.propertyNames( );
         String strPoolName = "";
 
-        Hashtable<String, Hashtable<String, String>> htPools = new Hashtable<String, Hashtable<String, String>>( );
+        Hashtable<String, Hashtable<String, String>> htPools = new Hashtable<>( );
 
         while ( propNames.hasMoreElements( ) )
         {
@@ -152,7 +152,7 @@ public final class PoolManager
                 // if the pool has not yet property
                 if ( htPools.get( strPoolName ) == null )
                 {
-                    htParamsPool = new Hashtable<String, String>( );
+                    htParamsPool = new Hashtable<>( );
                 }
                 else
                 {

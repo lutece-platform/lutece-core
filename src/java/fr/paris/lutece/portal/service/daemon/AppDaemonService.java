@@ -70,7 +70,7 @@ public final class AppDaemonService
      * @throws LuteceInitException
      *             If an error occurred
      */
-    public static synchronized void init( ) throws LuteceInitException
+    public static synchronized void init( )
     {
         // already initialized
         if ( _bInit )
@@ -169,15 +169,7 @@ public final class AppDaemonService
         {
             entry.loadDaemon( );
         }
-        catch( ClassNotFoundException e )
-        {
-            throw new LuteceInitException( "Couldn't instantiate daemon: " + entry.getId( ), e );
-        }
-        catch( InstantiationException e )
-        {
-            throw new LuteceInitException( "Couldn't instantiate daemon: " + entry.getId( ), e );
-        }
-        catch( IllegalAccessException e )
+        catch( IllegalAccessException | InstantiationException | ClassNotFoundException e )
         {
             throw new LuteceInitException( "Couldn't instantiate daemon: " + entry.getId( ), e );
         }

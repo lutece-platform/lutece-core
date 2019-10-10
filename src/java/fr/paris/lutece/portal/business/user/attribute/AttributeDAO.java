@@ -150,20 +150,8 @@ public class AttributeDAO implements IAttributeDAO
                 {
                     attribute = (IAttribute) Class.forName( daoUtil.getString( nIndex++ ) ).newInstance( );
                 }
-                catch( ClassNotFoundException e )
+                catch( InstantiationException | IllegalAccessException | ClassNotFoundException e )
                 {
-                    // class doesn't exist
-                    AppLogService.error( e );
-                }
-                catch( InstantiationException e )
-                {
-                    // Class is abstract or is an interface or haven't accessible
-                    // builder
-                    AppLogService.error( e );
-                }
-                catch( IllegalAccessException e )
-                {
-                    // can't access to rhe class
                     AppLogService.error( e );
                 }
 
@@ -281,20 +269,8 @@ public class AttributeDAO implements IAttributeDAO
                 {
                     attribute = (IAttribute) Class.forName( daoUtil.getString( nIndex++ ) ).newInstance( );
                 }
-                catch( ClassNotFoundException e )
+                catch( InstantiationException | IllegalAccessException | ClassNotFoundException e )
                 {
-                    // class doesn't exist
-                    AppLogService.error( e );
-                }
-                catch( InstantiationException e )
-                {
-                    // Class is abstract or is an interface or haven't accessible
-                    // builder
-                    AppLogService.error( e );
-                }
-                catch( IllegalAccessException e )
-                {
-                    // can't access to the class
                     AppLogService.error( e );
                 }
 
@@ -351,20 +327,8 @@ public class AttributeDAO implements IAttributeDAO
                 {
                     attribute = (IAttribute) Class.forName( daoUtil.getString( nIndex++ ) ).newInstance( );
                 }
-                catch( ClassNotFoundException e )
+                catch( InstantiationException | IllegalAccessException | ClassNotFoundException e )
                 {
-                    // class doesn't exist
-                    AppLogService.error( e );
-                }
-                catch( InstantiationException e )
-                {
-                    // Class is abstract or is an interface or haven't accessible
-                    // builder
-                    AppLogService.error( e );
-                }
-                catch( IllegalAccessException e )
-                {
-                    // can't access to rhe class
                     AppLogService.error( e );
                 }
 
@@ -415,20 +379,8 @@ public class AttributeDAO implements IAttributeDAO
                 {
                     attribute = (IAttribute) Class.forName( daoUtil.getString( nIndex++ ) ).newInstance( );
                 }
-                catch( ClassNotFoundException e )
+                catch( InstantiationException | IllegalAccessException | ClassNotFoundException e )
                 {
-                    // class doesn't exist
-                    AppLogService.error( e );
-                }
-                catch( InstantiationException e )
-                {
-                    // Class is abstract or is an interface or haven't accessible
-                    // builder
-                    AppLogService.error( e );
-                }
-                catch( IllegalAccessException e )
-                {
-                    // can't access to rhe class
                     AppLogService.error( e );
                 }
 

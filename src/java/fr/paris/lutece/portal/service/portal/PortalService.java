@@ -321,7 +321,7 @@ public final class PortalService
             pic.fillTemplate( model, data, nMode, request );
         }
 
-        String strHeader = (data.isHomePage( ))
+        String strHeader = data.isHomePage( )
                 ? AppPropertiesService.getProperty( PROPERTY_HOME_PAGE_HEADER + nMode, TEMPLATE_HOME_PAGE_HEADER )
                 : AppPropertiesService.getProperty( PROPERTY_INTERNAL_PAGE_HEADER + nMode,
                         TEMPLATE_INTERNAL_PAGE_HEADER );
@@ -345,17 +345,17 @@ public final class PortalService
         HtmlTemplate tToolsMenu = AppTemplateService.getTemplate( strToolsMenu, locale, model );
         model.put( Markers.PAGE_HEADER, tHeader.getHtml( ) );
         model.put( MARKER_PAGE_DATA, data );
-        model.put( Markers.PAGE_NAME, (data.getName( ) == null) ? "" : data.getName( ) );
-        model.put( Markers.PAGE_CONTENT, (data.getContent( ) == null) ? "" : data.getContent( ) );
-        model.put( Markers.PAGE_PATH, (data.getPagePath( ) == null) ? "" : data.getPagePath( ) );
+        model.put( Markers.PAGE_NAME, data.getName( ) == null ? "" : data.getName( ) );
+        model.put( Markers.PAGE_CONTENT, data.getContent( ) == null ? "" : data.getContent( ) );
+        model.put( Markers.PAGE_PATH, data.getPagePath( ) == null ? "" : data.getPagePath( ) );
         model.put( Markers.PAGE_TOOLS_MENU, tToolsMenu.getHtml( ) );
         model.put( Markers.PAGE_ID, nCurrentPageId );
 
         model.put( Markers.PAGE_FOOTER, tFooter.getHtml( ) );
 
-        String strBaseUrl = (request != null) ? AppPathService.getBaseUrl( request ) : ""; // request could be null
-                                                                                           // (method called by daemons
-                                                                                           // or batch)
+        String strBaseUrl = request != null ? AppPathService.getBaseUrl( request ) : ""; // request could be null
+                                                                                         // (method called by daemons
+                                                                                         // or batch)
 
         // for link service
         model.put( Markers.WEBAPP_PATH_FOR_LINKSERVICE, strBaseUrl );
@@ -363,7 +363,7 @@ public final class PortalService
 
         String strEncoding = AppPropertiesService.getProperty( PROPERTY_ENCODING, PROPERTY_ENCODING_DEFAULT );
 
-        if ( (strEncoding == null) || strEncoding.equals( "" ) )
+        if ( strEncoding == null || strEncoding.equals( "" ) )
         {
             strEncoding = PROPERTY_ENCODING_DEFAULT;
         }
@@ -374,16 +374,16 @@ public final class PortalService
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_PAGE_FRAMESET, locale, model );
 
-        template.substitute( BOOKMARK_BASE_URL, (request != null) ? AppPathService.getBaseUrl( request ) : "" ); // request
-                                                                                                                 // could
-                                                                                                                 // be
-                                                                                                                 // null
-                                                                                                                 // (method
-                                                                                                                 // called
-                                                                                                                 // by
-                                                                                                                 // daemons
-                                                                                                                 // or
-                                                                                                                 // batch)
+        template.substitute( BOOKMARK_BASE_URL, request != null ? AppPathService.getBaseUrl( request ) : "" ); // request
+                                                                                                               // could
+                                                                                                               // be
+                                                                                                               // null
+                                                                                                               // (method
+                                                                                                               // called
+                                                                                                               // by
+                                                                                                               // daemons
+                                                                                                               // or
+                                                                                                               // batch)
 
         return template.getHtml( );
     }
@@ -406,7 +406,7 @@ public final class PortalService
 
         // If the current page is the home page or the string strPathOnRoot equals
         // false, not display the path
-        if ( (nPageId == getRootPageId( )) && ((strPathOnRoot == null) || strPathOnRoot.equalsIgnoreCase( "false" )) )
+        if ( nPageId == getRootPageId( ) && ( strPathOnRoot == null || strPathOnRoot.equalsIgnoreCase( "false" ) ) )
         {
             return "";
         }
@@ -593,7 +593,7 @@ public final class PortalService
         {
             int nParentPageId = page.getParentPageId( );
 
-            while ( (nParentPageId > 0) && (nParentPageId != getRootPageId( )) )
+            while ( ( nParentPageId > 0 ) && ( nParentPageId != getRootPageId( ) ) )
             {
                 Page parentPage = PageHome.getPage( nParentPageId );
 
@@ -648,7 +648,7 @@ public final class PortalService
         }
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_PAGE_PATH,
-                (request == null) ? null : request.getLocale( ), model );
+                ( request == null ) ? null : request.getLocale( ), model );
 
         return template.getHtml( );
     }

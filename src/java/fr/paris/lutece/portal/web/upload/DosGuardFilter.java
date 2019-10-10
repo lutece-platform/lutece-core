@@ -48,6 +48,8 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
+import org.apache.commons.collections.CollectionUtils;
+
 /**
  * A rewrite of the multipart filter from the com.oreilly.servlet package. The rewrite allows us to use initialization parameters specified in the Lutece
  * configuration files.
@@ -207,7 +209,7 @@ public class DosGuardFilter implements Filter
     {
         AppLogService.debug( "DosGuard.class : cleanExpiredEntries()" );
 
-        if ( _listOrderedRequests.size( ) != 0 )
+        if ( CollectionUtils.isNotEmpty( _listOrderedRequests ) )
         {
             // Expired entries are those where the IP can't be blocked anymore
             long lMinTime = System.currentTimeMillis( ) - _nMinInterval;
@@ -217,7 +219,7 @@ public class DosGuardFilter implements Filter
             // Read entries from the list, remove them as long as they are expired
             boolean bDone = false;
 
-            while ( !bDone && ( _listOrderedRequests.size( ) > 0 ) )
+            while ( !bDone && CollectionUtils.isNotEmpty( _listOrderedRequests ) )
             {
                 // The list is ordered by arrival time, so the last one is the
                 // oldest

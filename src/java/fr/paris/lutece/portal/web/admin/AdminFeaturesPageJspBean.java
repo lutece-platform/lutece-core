@@ -111,7 +111,7 @@ public abstract class AdminFeaturesPageJspBean implements Serializable
      * @throws PasswordResetException
      *             Password reset exception
      */
-    public void init( HttpServletRequest request, String strRight ) throws AccessDeniedException, PasswordResetException
+    public void init( HttpServletRequest request, String strRight ) throws AccessDeniedException
     {
         _user = AdminUserService.getAdminUser( request );
 

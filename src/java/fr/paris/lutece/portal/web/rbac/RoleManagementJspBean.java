@@ -42,6 +42,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 
 import fr.paris.lutece.portal.business.rbac.AdminRole;
@@ -220,7 +221,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
         }
 
         // PAGINATOR
-        LocalizedPaginator<AdminRole> paginator = new LocalizedPaginator<AdminRole>( listRole, _nItemsPerPage, url.getUrl( ), AbstractPaginator.PARAMETER_PAGE_INDEX,
+        LocalizedPaginator<AdminRole> paginator = new LocalizedPaginator<>( listRole, _nItemsPerPage, url.getUrl( ), AbstractPaginator.PARAMETER_PAGE_INDEX,
                 _strCurrentPageIndex, getLocale( ) );
 
         Map<String, Object> model = new HashMap<>( );
@@ -365,9 +366,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
         Map<String, Object> parameters = new HashMap<>( 2 );
         parameters.put( PARAMETER_ROLE_KEY, strRoleKey );
         parameters.put( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, JSP_URL_REMOVE_ROLE ) );
-        String strUrl = AdminMessageService.getMessageUrl( request, PROPERTY_CONFIRM_DELETE_ROLE, strDeleteUrl, AdminMessage.TYPE_CONFIRMATION, parameters );
-
-        return strUrl;
+        return AdminMessageService.getMessageUrl( request, PROPERTY_CONFIRM_DELETE_ROLE, strDeleteUrl, AdminMessage.TYPE_CONFIRMATION, parameters );
     }
 
     /**
@@ -465,9 +464,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
         Map<String, Object> parameters = new HashMap<>( 2 );
         parameters.put( PARAMETER_RBAC_ID, strIdControl );
         parameters.put( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, JSP_URL_REMOVE_CONTROL_FROM_ROLE ) );
-        String strUrl = AdminMessageService.getMessageUrl( request, PROPERTY_CONFIRM_DELETE_CONTROL, strDeleteUrl, AdminMessage.TYPE_CONFIRMATION, parameters );
-
-        return strUrl;
+        return AdminMessageService.getMessageUrl( request, PROPERTY_CONFIRM_DELETE_CONTROL, strDeleteUrl, AdminMessage.TYPE_CONFIRMATION, parameters );
     }
 
     /**
@@ -521,7 +518,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
         boolean bResourceListAvailable = true;
         ReferenceList listResources = resourceType.getResourceIdService( ).getResourceIdList( getLocale( ) );
 
-        if ( ( listResources == null ) || ( listResources.size( ) == 0 ) )
+        if ( CollectionUtils.isEmpty( listResources ) )
         {
             bResourceListAvailable = false;
         }
@@ -926,7 +923,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
         // PAGINATOR
         url.addParameter( PARAMETER_ROLE_KEY, role.getKey( ) );
 
-        LocalizedPaginator<AdminUser> paginator = new LocalizedPaginator<AdminUser>( listFilteredUsers, _nItemsPerPage, url.getUrl( ),
+        LocalizedPaginator<AdminUser> paginator = new LocalizedPaginator<>( listFilteredUsers, _nItemsPerPage, url.getUrl( ),
                 AbstractPaginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex, getLocale( ) );
 
         // USER LEVEL

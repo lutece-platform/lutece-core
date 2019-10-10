@@ -267,7 +267,7 @@ public final class IndexerActionDAO implements IIndexerActionDAO
      */
     public static String buildRequestWithFilter( String strSelect, List<String> listStrFilter, String strOrder )
     {
-        StringBuffer strBuffer = new StringBuffer( );
+        StringBuilder strBuffer = new StringBuilder( );
         strBuffer.append( strSelect );
 
         int nCount = 0;

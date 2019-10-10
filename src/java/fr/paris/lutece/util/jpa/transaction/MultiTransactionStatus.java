@@ -33,12 +33,11 @@
  */
 package fr.paris.lutece.util.jpa.transaction;
 
-import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.TransactionException;
-import org.springframework.transaction.TransactionStatus;
-
 import java.util.HashMap;
 import java.util.Map;
+
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionStatus;
 
 /**
  * This transaction status wraps several {@link TransactionStatus}
@@ -165,7 +164,7 @@ public class MultiTransactionStatus implements TransactionStatus
      *
      * {@inheritDoc}
      */
-    public Object createSavepoint( ) throws TransactionException
+    public Object createSavepoint( )
     {
         return null;
     }
@@ -174,7 +173,7 @@ public class MultiTransactionStatus implements TransactionStatus
      *
      * {@inheritDoc}
      */
-    public void releaseSavepoint( Object savepoint ) throws TransactionException
+    public void releaseSavepoint( Object savepoint )
     {
         for ( TransactionStatus ts : _transactionStatuses.values( ) )
         {
@@ -186,7 +185,7 @@ public class MultiTransactionStatus implements TransactionStatus
      *
      * {@inheritDoc}
      */
-    public void rollbackToSavepoint( Object savepoint ) throws TransactionException
+    public void rollbackToSavepoint( Object savepoint )
     {
         for ( TransactionStatus ts : _transactionStatuses.values( ) )
         {

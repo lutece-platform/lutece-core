@@ -366,9 +366,7 @@ public final class I18nService
     public static String getLocalizedDate( Date date, Locale locale, int nDateFormat )
     {
         DateFormat dateFormatter = DateFormat.getDateInstance( nDateFormat, locale );
-        String strDate = dateFormatter.format( date );
-
-        return strDate;
+        return dateFormatter.format( date );
     }
 
     /**
@@ -387,9 +385,7 @@ public final class I18nService
     public static String getLocalizedDateTime( Date date, Locale locale, int nDateFormat, int nTimeFormat )
     {
         DateFormat dateFormatter = DateFormat.getDateTimeInstance( nDateFormat, nTimeFormat, locale );
-        String strDate = dateFormatter.format( date );
-
-        return strDate;
+        return dateFormatter.format( date );
     }
 
     /**
