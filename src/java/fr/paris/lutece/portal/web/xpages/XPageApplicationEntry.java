@@ -158,17 +158,6 @@ public class XPageApplicationEntry
     }
 
     /**
-     * Sets the Application
-     *
-     * @deprecated should not be used anymore
-     * @param application
-     *            The Application
-     */
-    public void setApplication( XPageApplication application )
-    {
-    }
-
-    /**
      * Tells if the application is enable (plugin enabled)
      *
      * @return True if the application is enable, otherwise false

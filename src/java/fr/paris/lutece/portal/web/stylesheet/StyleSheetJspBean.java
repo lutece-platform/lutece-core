@@ -181,8 +181,8 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
             strURL += ( "&" + Parameters.SORTED_ASC + "=" + strAscSort );
         }
 
-        LocalizedPaginator<StyleSheet> paginator = new LocalizedPaginator<>( listStyleSheets, _nItemsPerPage,
-                strURL, AbstractPaginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex, getLocale( ) );
+        LocalizedPaginator<StyleSheet> paginator = new LocalizedPaginator<>( listStyleSheets, _nItemsPerPage, strURL,
+                AbstractPaginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex, getLocale( ) );
 
         Map<String, Object> model = new HashMap<>( );
         model.put( MARK_MODE_ID, strModeId );
@@ -479,7 +479,8 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
             SAXParser analyzer = factory.newSAXParser( );
             InputSource is = new InputSource( new ByteArrayInputStream( baXslSource ) );
             analyzer.getXMLReader( ).parse( is );
-        } catch ( Exception e )
+        }
+        catch ( Exception e )
         {
             strError = e.getMessage( );
         }
@@ -517,10 +518,12 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
             fos = new FileOutputStream( file );
             fos.write( stylesheet.getSource( ) );
             fos.flush( );
-        } catch ( IOException e )
+        }
+        catch ( IOException e )
         {
             AppLogService.error( e.getMessage( ), e );
-        } finally
+        }
+        finally
         {
             StreamUtil.safeClose( fos );
         }

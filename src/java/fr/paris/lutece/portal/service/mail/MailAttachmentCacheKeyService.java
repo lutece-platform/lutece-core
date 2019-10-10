@@ -69,6 +69,7 @@ public class MailAttachmentCacheKeyService implements ICacheKeyService
     @Override
     public void setAllowedParametersList( List<String> arg0 )
     {
+        // Do nothing
     }
 
     /**
@@ -77,5 +78,6 @@ public class MailAttachmentCacheKeyService implements ICacheKeyService
     @Override
     public void setIgnoredParametersList( List<String> arg0 )
     {
+        // Do nothing
     }
 }

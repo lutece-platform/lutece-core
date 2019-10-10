@@ -80,6 +80,7 @@ public class AdminUserFilter implements Serializable
      */
     public AdminUserFilter( )
     {
+        // Ctor
     }
 
     /**

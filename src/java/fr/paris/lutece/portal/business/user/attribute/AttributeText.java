@@ -89,6 +89,7 @@ public class AttributeText extends AbstractAttribute implements ISimpleValuesAtt
      */
     public AttributeText( )
     {
+        // Ctor
     }
 
     /**

@@ -51,12 +51,4 @@ public class JSoupHtmlCleaner implements IHtmlCleaner
     {
         return Jsoup.parseBodyFragment( strSource ).body( ).html( );
     }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public void init( )
-    {
-    }
 }

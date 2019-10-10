@@ -83,6 +83,7 @@ public class AttributeCheckBox extends AbstractAttribute implements ISimpleValue
      */
     public AttributeCheckBox( )
     {
+        // Ctor
     }
 
     /**

@@ -110,6 +110,7 @@ public class RoleJspBean extends AdminFeaturesPageJspBean
      */
     public RoleJspBean( )
     {
+        // Ctor
     }
 
     /**

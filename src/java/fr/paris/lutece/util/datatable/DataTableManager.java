@@ -303,7 +303,8 @@ public class DataTableManager<T> implements Serializable
                 }
 
                 filter.setValue( strFilterValue );
-            } else
+            }
+            else
             {
                 strFilterValue = filter.getValue( );
             }
@@ -331,7 +332,8 @@ public class DataTableManager<T> implements Serializable
                             {
                                 bufferList.add( item );
                             }
-                        } catch ( Exception e )
+                        }
+                        catch ( Exception e )
                         {
                             AppLogService.error( e.getMessage( ), e );
                         }
@@ -377,12 +379,14 @@ public class DataTableManager<T> implements Serializable
                 if ( _nItemsPerPage != nOldItemsPerPage )
                 {
                     _strCurrentPageIndex = Integer.toString( 1 );
-                } else
+                }
+                else
                 {
                     _strCurrentPageIndex = AbstractPaginator.getPageIndex( request,
                             AbstractPaginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex );
                 }
-            } else
+            }
+            else
             {
                 _strCurrentPageIndex = Integer.toString( 1 );
                 _nItemsPerPage = filteredSortedPaginatedItems.size( );
@@ -683,7 +687,8 @@ public class DataTableManager<T> implements Serializable
         try
         {
             BeanUtilsBean.getInstance( ).populate( filterObject, mapFilter );
-        } catch ( InvocationTargetException | IllegalAccessException e )
+        }
+        catch ( InvocationTargetException | IllegalAccessException e )
         {
             AppLogService.error( e.getMessage( ), e );
 
@@ -724,7 +729,8 @@ public class DataTableManager<T> implements Serializable
         try
         {
             method = obj.getClass( ).getMethod( strMethodName );
-        } catch ( Exception e )
+        }
+        catch ( Exception e )
         {
             AppLogService.debug( e );
         }

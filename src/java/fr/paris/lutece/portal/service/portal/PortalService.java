@@ -492,7 +492,8 @@ public final class PortalService
         {
             int nPageId = Integer.parseInt( strPageId );
             strXml = getXmlPagesList( getXPagePath( strXPageName, nPageId ) );
-        } else
+        }
+        else
         {
             String strPortletId = request.getParameter( Parameters.PORTLET_ID );
 
@@ -754,7 +755,8 @@ public final class PortalService
         if ( nMode != MODE_ADMIN )
         {
             mapParameters.put( PARAMETER_SITE_PATH, AppPathService.getPortalUrl( ) );
-        } else
+        }
+        else
         {
             mapParameters.put( PARAMETER_SITE_PATH, AppPathService.getAdminPortalUrl( ) );
             mapParameters.put( MARKER_TARGET, TARGET_TOP );

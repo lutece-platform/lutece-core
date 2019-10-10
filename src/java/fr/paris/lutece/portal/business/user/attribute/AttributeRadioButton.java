@@ -83,6 +83,7 @@ public class AttributeRadioButton extends AbstractAttribute implements ISimpleVa
      */
     public AttributeRadioButton( )
     {
+        // Ctor
     }
 
     /**

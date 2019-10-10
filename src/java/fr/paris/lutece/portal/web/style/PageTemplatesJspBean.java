@@ -275,7 +275,8 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
             if ( StringUtils.isEmpty( strFileName ) )
             {
                 bHasError = true;
-            } else if ( !FileUtil.hasHtmlExtension( strFileName ) )
+            }
+            else if ( !FileUtil.hasHtmlExtension( strFileName ) )
             {
                 return AdminMessageService.getMessageUrl( request, MESSAGE_WRONG_HTML_EXTENSION,
                         AdminMessage.TYPE_STOP );
@@ -289,7 +290,8 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
             if ( StringUtils.isEmpty( strPictureName ) )
             {
                 bHasError = true;
-            } else if ( !FileUtil.hasImageExtension( strPictureName ) )
+            }
+            else if ( !FileUtil.hasImageExtension( strPictureName ) )
             {
                 return AdminMessageService.getMessageUrl( request, MESSAGE_WRONG_IMAGE_EXTENSION,
                         AdminMessage.TYPE_STOP );
@@ -451,10 +453,12 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
             fosFile.flush( );
             fosFile.write( fileItem.get( ) );
             fosFile.close( );
-        } catch ( IOException e )
+        }
+        catch ( IOException e )
         {
             AppLogService.error( e.getMessage( ), e );
-        } finally
+        }
+        finally
         {
             StreamUtil.safeClose( fosFile );
         }

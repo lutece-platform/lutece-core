@@ -183,7 +183,8 @@ public final class AppPathService
             fis = new FileInputStream( file );
 
             return fis;
-        } catch ( IOException e )
+        }
+        catch ( IOException e )
         {
             StreamUtil.safeClose( fis );
             throw new AppException( "Unable to get file : " + strFilePath );
@@ -290,7 +291,8 @@ public final class AppPathService
         if ( strBaseUrl == null )
         {
             strBaseUrl = StringUtils.EMPTY;
-        } else
+        }
+        else
         {
             if ( !strBaseUrl.endsWith( SLASH ) )
             {

@@ -174,11 +174,13 @@ public class DAOUtilTransactionManager extends DataSourceTransactionManager impl
         @Override
         public void setLoginTimeout( int seconds ) throws SQLException
         {
+            // Do nothing
         }
 
         @Override
         public void setLogWriter( PrintWriter out ) throws SQLException
         {
+            // Do nothing
         }
 
         @Override

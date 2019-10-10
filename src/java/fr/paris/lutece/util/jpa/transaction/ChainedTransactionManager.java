@@ -61,6 +61,7 @@ public class ChainedTransactionManager implements PlatformTransactionManager
      */
     public ChainedTransactionManager( )
     {
+        // Ctor
     }
 
     /**

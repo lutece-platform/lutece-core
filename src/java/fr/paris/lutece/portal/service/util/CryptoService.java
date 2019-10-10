@@ -80,7 +80,8 @@ public final class CryptoService
         try
         {
             md = MessageDigest.getInstance( strAlgorithm );
-        } catch ( NoSuchAlgorithmException e )
+        }
+        catch ( NoSuchAlgorithmException e )
         {
             AppLogService.error( e.getMessage( ), e );
         }
@@ -91,7 +92,8 @@ public final class CryptoService
             {
                 hash = byteToHex( md
                         .digest( strDataToEncrypt.getBytes( AppPropertiesService.getProperty( PROPERTY_ENCODING ) ) ) );
-            } catch ( UnsupportedEncodingException e )
+            }
+            catch ( UnsupportedEncodingException e )
             {
                 AppLogService.error( e.getMessage( ), e );
             }
@@ -114,7 +116,8 @@ public final class CryptoService
         try
         {
             digest = MessageDigest.getInstance( strAlgorithm );
-        } catch ( NoSuchAlgorithmException e )
+        }
+        catch ( NoSuchAlgorithmException e )
         {
             AppLogService.error( strAlgorithm + " not found", e );
             return null;
@@ -128,7 +131,8 @@ public final class CryptoService
                 digest.update( buffer, 0, nNumBytesRead );
                 nNumBytesRead = stream.read( buffer );
             }
-        } catch ( IOException e )
+        }
+        catch ( IOException e )
         {
             AppLogService.error( "Error reading stream", e );
             return null;
@@ -176,7 +180,8 @@ public final class CryptoService
         try
         {
             keyBytes = getCryptoKey( ).getBytes( "UTF-8" );
-        } catch ( UnsupportedEncodingException e )
+        }
+        catch ( UnsupportedEncodingException e )
         {
             throw new AppException( "UTF-8 should be supported", e );
         }
@@ -189,17 +194,21 @@ public final class CryptoService
             mac.init( key );
 
             return byteToHex( mac.doFinal( message.getBytes( "UTF-8" ) ) );
-        } catch ( NoSuchAlgorithmException e )
+        }
+        catch ( NoSuchAlgorithmException e )
         {
             throw new AppException( "Could not find " + strAlg + " algorithm which is supposed to be supported by Java",
                     e );
-        } catch ( InvalidKeyException e )
+        }
+        catch ( InvalidKeyException e )
         {
             throw new AppException( "The key should be valid", e );
-        } catch ( IllegalStateException e )
+        }
+        catch ( IllegalStateException e )
         {
             throw new AppException( e.getMessage( ), e );
-        } catch ( UnsupportedEncodingException e )
+        }
+        catch ( UnsupportedEncodingException e )
         {
             throw new AppException( "UTF-8 should be supported", e );
         }

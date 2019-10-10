@@ -83,6 +83,7 @@ public class AttributeComboBox extends AbstractAttribute implements ISimpleValue
      */
     public AttributeComboBox( )
     {
+        // Ctor
     }
 
     /**

@@ -143,16 +143,6 @@ public class XPageAppService extends ContentService
     }
 
     /**
-     * Enable or disable the cache feature.
-     *
-     * @param bCache
-     *            true to enable the cache, false to disable
-     */
-    public void setCache( boolean bCache )
-    {
-    }
-
-    /**
      * Gets the current cache status.
      *
      * @return true if enable, otherwise false

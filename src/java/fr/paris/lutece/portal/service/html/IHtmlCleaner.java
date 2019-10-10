@@ -53,5 +53,8 @@ public interface IHtmlCleaner
      * init HTML cleaner
      *
      */
-    void init( );
+    default void init( )
+    {
+        
+    }
 }

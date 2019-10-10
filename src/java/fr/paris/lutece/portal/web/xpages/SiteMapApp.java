@@ -83,6 +83,7 @@ public class SiteMapApp implements XPageApplication
      */
     public SiteMapApp( )
     {
+        // Ctor
     }
 
     /**
