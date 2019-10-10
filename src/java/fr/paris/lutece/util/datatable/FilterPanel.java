@@ -50,7 +50,7 @@ public class FilterPanel implements Serializable
     public static final String PARAM_RESET_FILTERS = "resetFilters";
     private static final long serialVersionUID = 761740458592056772L;
     private String _strFormUrl;
-    private ArrayList<DataTableFilter> _listFilter = new ArrayList<DataTableFilter>( );
+    private ArrayList<DataTableFilter> _listFilter = new ArrayList<>( );
 
     /**
      * Instantiates a new filter panel.

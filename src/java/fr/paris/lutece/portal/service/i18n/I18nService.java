@@ -77,12 +77,12 @@ public final class I18nService
     private static final Locale LOCALE_DEFAULT = new Locale( "", "", "" );
     private static final String PROPERTY_DEFAULT_LOCALE = "lutece.i18n.defaultLocale";
     private static final String PROPERTY_FORMAT_DATE_SHORT_LIST = "lutece.format.date.short";
-    private static Map<String, String> _pluginBundleNames = Collections.synchronizedMap( new HashMap<String, String>( ) );
-    private static Map<String, String> _moduleBundleNames = Collections.synchronizedMap( new HashMap<String, String>( ) );
-    private static Map<String, String> _portalBundleNames = Collections.synchronizedMap( new HashMap<String, String>( ) );
+    private static Map<String, String> _pluginBundleNames = Collections.synchronizedMap( new HashMap<>( ) );
+    private static Map<String, String> _moduleBundleNames = Collections.synchronizedMap( new HashMap<>( ) );
+    private static Map<String, String> _portalBundleNames = Collections.synchronizedMap( new HashMap<>( ) );
     private static final String PROPERTY_PATH_OVERRIDE = "path.i18n.override";
     private static final ClassLoader _overrideLoader;
-    private static final Map<String, ResourceBundle> _resourceBundleCache = Collections.synchronizedMap( new HashMap<String, ResourceBundle>( ) );
+    private static final Map<String, ResourceBundle> _resourceBundleCache = Collections.synchronizedMap( new HashMap<>( ) );
 
     static
     {
@@ -105,7 +105,7 @@ public final class I18nService
             try
             {
                 overrideURL = new URL [ ] {
-                    overridePath.toURI( ).toURL( )
+                        overridePath.toURI( ).toURL( )
                 };
             }
             catch( MalformedURLException e )
@@ -273,7 +273,7 @@ public final class I18nService
         if ( strBundle == null )
         {
             Object [ ] params = {
-                strBundleKey
+                    strBundleKey
             };
             MessageFormat format = new MessageFormat( FORMAT_PACKAGE_PLUGIN_RESOURCES_LOCATION );
             strBundle = format.format( params );
@@ -324,7 +324,7 @@ public final class I18nService
         if ( strBundle == null )
         {
             Object [ ] params = {
-                strElement
+                    strElement
             };
             MessageFormat format = new MessageFormat( FORMAT_PACKAGE_PORTAL_RESOURCES_LOCATION );
             strBundle = format.format( params );
@@ -401,7 +401,7 @@ public final class I18nService
     {
         String strAvailableLocales = AppPropertiesService.getProperty( PROPERTY_AVAILABLES_LOCALES );
         StringTokenizer strTokens = new StringTokenizer( strAvailableLocales, "," );
-        List<Locale> list = new ArrayList<Locale>( );
+        List<Locale> list = new ArrayList<>( );
 
         while ( strTokens.hasMoreTokens( ) )
         {

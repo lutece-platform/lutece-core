@@ -213,8 +213,8 @@ public final class SiteMessageService
      * @throws SiteMessageException
      *             occurs when a site message need to be displayed
      */
-    public static void setMessage( HttpServletRequest request, String strMessageKey, Object [ ] messageArgs, int nMessageType, String strUrl, String strTitleKey )
-            throws SiteMessageException
+    public static void setMessage( HttpServletRequest request, String strMessageKey, Object [ ] messageArgs, int nMessageType, String strUrl,
+            String strTitleKey ) throws SiteMessageException
     {
         setMessage( request, strMessageKey, messageArgs, strTitleKey, strUrl, null, nMessageType );
     }
@@ -237,8 +237,8 @@ public final class SiteMessageService
      * @throws SiteMessageException
      *             occurs when a site message need to be displayed
      */
-    public static void setMessage( HttpServletRequest request, String strMessageKey, int nMessageType, String strUrl, String strTitleKey, Object [ ] messageArgs )
-            throws SiteMessageException
+    public static void setMessage( HttpServletRequest request, String strMessageKey, int nMessageType, String strUrl, String strTitleKey,
+            Object [ ] messageArgs ) throws SiteMessageException
     {
         setMessage( request, strMessageKey, messageArgs, strTitleKey, strUrl, null, nMessageType );
     }

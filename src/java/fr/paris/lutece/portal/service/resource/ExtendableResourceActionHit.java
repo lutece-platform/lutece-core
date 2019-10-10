@@ -127,7 +127,7 @@ public final class ExtendableResourceActionHit
      */
     public Map<String, Integer> getResourceHit( String strExtendableResourceId, String strExtendableResourceType )
     {
-        Map<String, Integer> mapActionHit = new HashMap<String, Integer>( );
+        Map<String, Integer> mapActionHit = new HashMap<>( );
 
         for ( IExtendableResourceActionHitListener listener : SpringContextService.getBeansOfType( IExtendableResourceActionHitListener.class ) )
         {

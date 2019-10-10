@@ -42,7 +42,7 @@ import java.util.Locale;
  */
 public class RemovalListenerService
 {
-    private List<RemovalListener> _listRegisteredListeners = new ArrayList<RemovalListener>( );
+    private List<RemovalListener> _listRegisteredListeners = new ArrayList<>( );
 
     /**
      * Register a new Removal listener

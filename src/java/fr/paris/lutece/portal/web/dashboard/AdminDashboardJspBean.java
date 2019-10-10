@@ -282,7 +282,7 @@ public class AdminDashboardJspBean extends AdminFeaturesPageJspBean
      */
     private Map<String, ReferenceList> getMapAvailableOrders( )
     {
-        Map<String, ReferenceList> mapAvailableOrders = new HashMap<String, ReferenceList>( );
+        Map<String, ReferenceList> mapAvailableOrders = new HashMap<>( );
 
         // get columns
         for ( Integer nColumn : AdminDashboardHome.findColumns( ) )

@@ -272,7 +272,7 @@ public final class DashboardService
         List<IDashboardComponent> listDashboards = DashboardHome.findAll( );
         List<IDashboardComponent> listSpringDashboards = getAllDashboardComponents( );
 
-        List<IDashboardComponent> listUnsetDashboards = new ArrayList<IDashboardComponent>( );
+        List<IDashboardComponent> listUnsetDashboards = new ArrayList<>( );
 
         for ( IDashboardComponent dashboard : listSpringDashboards )
         {
@@ -294,7 +294,7 @@ public final class DashboardService
      */
     public Map<String, List<IDashboardComponent>> getAllSetDashboards( AdminUser user )
     {
-        Map<String, List<IDashboardComponent>> mapDashboardComponents = new HashMap<String, List<IDashboardComponent>>( );
+        Map<String, List<IDashboardComponent>> mapDashboardComponents = new HashMap<>( );
 
         List<IDashboardComponent> listDashboards = DashboardHome.findAll( );
 
@@ -316,7 +316,7 @@ public final class DashboardService
             if ( listDashboardsColumn == null )
             {
                 // the list does not exist, create it
-                listDashboardsColumn = new ArrayList<IDashboardComponent>( );
+                listDashboardsColumn = new ArrayList<>( );
                 mapDashboardComponents.put( strColumn, listDashboardsColumn );
             }
 
@@ -366,7 +366,7 @@ public final class DashboardService
      */
     public List<IDashboardComponent> getDashboards( AdminUser user, HttpServletRequest request )
     {
-        List<IDashboardComponent> listDashboards = new ArrayList<IDashboardComponent>( );
+        List<IDashboardComponent> listDashboards = new ArrayList<>( );
 
         // Attributes associated to the plugins
         for ( DashboardListenerService dashboardListenerService : SpringContextService.getBeansOfType( DashboardListenerService.class ) )
@@ -392,7 +392,7 @@ public final class DashboardService
      */
     public String getDashboardData( List<IDashboardComponent> listDashboards, AdminUser user, int nZone, HttpServletRequest request )
     {
-        List<IDashboardComponent> listDashboardComponents = new ArrayList<IDashboardComponent>( );
+        List<IDashboardComponent> listDashboardComponents = new ArrayList<>( );
 
         for ( IDashboardComponent dc : listDashboards )
         {
@@ -443,7 +443,7 @@ public final class DashboardService
      */
     public Map<String, Boolean> getOrderedColumnsStatus( )
     {
-        Map<String, Boolean> mapOrderedStatus = new HashMap<String, Boolean>( );
+        Map<String, Boolean> mapOrderedStatus = new HashMap<>( );
         List<Integer> listColumns = DashboardHome.findColumns( );
 
         for ( Integer nIdColumn : listColumns )
@@ -505,7 +505,7 @@ public final class DashboardService
      */
     public Map<String, ReferenceList> getMapAvailableOrders( )
     {
-        Map<String, ReferenceList> mapAvailableOrders = new HashMap<String, ReferenceList>( );
+        Map<String, ReferenceList> mapAvailableOrders = new HashMap<>( );
 
         // get columns
         for ( Integer nColumn : DashboardHome.findColumns( ) )

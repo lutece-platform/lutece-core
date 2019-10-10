@@ -72,8 +72,8 @@ public final class PluginService
     private static final String KEY_PLUGINS_STATUS = "core.plugins.status.";
 
     // Variables
-    private static Map<String, Plugin> _mapPlugins = new HashMap<String, Plugin>( );
-    private static List<PluginEventListener> _listPluginEventListeners = new ArrayList<PluginEventListener>( );
+    private static Map<String, Plugin> _mapPlugins = new HashMap<>( );
+    private static List<PluginEventListener> _listPluginEventListeners = new ArrayList<>( );
 
     /**
      * Creates a new PluginService object.

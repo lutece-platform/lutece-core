@@ -75,7 +75,7 @@ public class XPageAppService extends ContentService
     private static final String CONTENT_SERVICE_NAME = "XPageAppService";
     private static final String MESSAGE_ERROR_APP_BODY = "portal.util.message.errorXpageApp";
     private static final String ATTRIBUTE_XPAGE = "LUTECE_XPAGE_";
-    private static Map<String, XPageApplicationEntry> _mapApplications = new HashMap<String, XPageApplicationEntry>( );
+    private static Map<String, XPageApplicationEntry> _mapApplications = new HashMap<>( );
 
     /**
      * Register an application by its entry defined in the plugin xml file
@@ -95,8 +95,9 @@ public class XPageAppService extends ContentService
 
                 if ( !SpringContextService.getContext( ).containsBean( applicationBeanName ) )
                 {
-                    throw new LuteceInitException( "Error instantiating XPageApplication : " + entry.getId( ) + " - Could not find bean named "
-                            + applicationBeanName, new NoSuchBeanDefinitionException( applicationBeanName ) );
+                    throw new LuteceInitException(
+                            "Error instantiating XPageApplication : " + entry.getId( ) + " - Could not find bean named " + applicationBeanName,
+                            new NoSuchBeanDefinitionException( applicationBeanName ) );
                 }
             }
             else

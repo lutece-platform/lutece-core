@@ -49,7 +49,7 @@ import java.util.List;
 public final class PageHome
 {
     // Static variable pointed at the DAO instance
-    private static IPageDAO _dao = (IPageDAO) SpringContextService.getBean( "pageDAO" );
+    private static IPageDAO _dao = SpringContextService.getBean( "pageDAO" );
 
     /**
      * Creates a new PageHome object.

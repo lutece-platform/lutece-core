@@ -90,7 +90,7 @@ public class DefaultImportAdminUserService extends ImportAdminUserService
     @Override
     protected List<CSVMessageDescriptor> readLineOfCSVFile( String [ ] strLineDataArray, int nLineNumber, Locale locale, String strBaseUrl )
     {
-        List<CSVMessageDescriptor> listMessages = new ArrayList<CSVMessageDescriptor>( );
+        List<CSVMessageDescriptor> listMessages = new ArrayList<>( );
         int nIndex = 0;
 
         String strAccessCode = strLineDataArray [nIndex++];
@@ -166,7 +166,7 @@ public class DefaultImportAdminUserService extends ImportAdminUserService
 
         Timestamp accountMaxValidDate = AdminUserService.getAccountMaxValidDate( );
         String strDateLastLogin = strLineDataArray [nIndex++];
-        Timestamp dateLastLogin = new Timestamp( AdminUser.DEFAULT_DATE_LAST_LOGIN.getTime( ) );
+        Timestamp dateLastLogin = AdminUser.getDefaultDateLastLogin( );
 
         if ( StringUtils.isNotBlank( strDateLastLogin ) )
         {
@@ -247,7 +247,7 @@ public class DefaultImportAdminUserService extends ImportAdminUserService
         AdminUserFieldHome.removeByFilter( auFieldFilter );
 
         // We get every attribute, role, right and workgroup of the user
-        Map<Integer, List<String>> mapAttributesValues = new HashMap<Integer, List<String>>( );
+        Map<Integer, List<String>> mapAttributesValues = new HashMap<>( );
         List<String> listAdminRights = new ArrayList<>( );
         List<String> listAdminRoles = new ArrayList<>( );
         List<String> listAdminWorkgroups = new ArrayList<>( );
@@ -357,7 +357,7 @@ public class DefaultImportAdminUserService extends ImportAdminUserService
                         }
 
                         String [ ] strValues = {
-                            strValue
+                                strValue
                         };
 
                         try

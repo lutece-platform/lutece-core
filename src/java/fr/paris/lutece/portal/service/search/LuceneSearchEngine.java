@@ -33,14 +33,14 @@
  */
 package fr.paris.lutece.portal.service.search;
 
-import fr.paris.lutece.portal.business.page.Page;
-import fr.paris.lutece.portal.service.security.LuteceUser;
-import fr.paris.lutece.portal.service.security.SecurityService;
-import fr.paris.lutece.portal.service.util.AppLogService;
-import fr.paris.lutece.util.date.DateUtil;
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
-
 import org.apache.lucene.document.DateTools;
 import org.apache.lucene.document.DateTools.Resolution;
 import org.apache.lucene.document.Document;
@@ -48,6 +48,7 @@ import org.apache.lucene.index.DirectoryReader;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.queryparser.classic.QueryParser;
+import org.apache.lucene.queryparser.classic.QueryParserBase;
 import org.apache.lucene.search.BooleanClause;
 import org.apache.lucene.search.BooleanQuery;
 import org.apache.lucene.search.IndexSearcher;
@@ -59,13 +60,11 @@ import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.util.BytesRef;
 
-import java.text.ParseException;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
+import fr.paris.lutece.portal.business.page.Page;
+import fr.paris.lutece.portal.service.security.LuteceUser;
+import fr.paris.lutece.portal.service.security.SecurityService;
+import fr.paris.lutece.portal.service.util.AppLogService;
+import fr.paris.lutece.util.date.DateUtil;
 
 /**
  * LuceneSearchEngine
@@ -91,8 +90,8 @@ public class LuceneSearchEngine implements SearchEngine
      */
     public List<SearchResult> getSearchResults( String strQuery, HttpServletRequest request )
     {
-        ArrayList<SearchItem> listResults = new ArrayList<SearchItem>( );
-        ArrayList<Query> listFilter = new ArrayList<Query>( );
+        ArrayList<SearchItem> listResults = new ArrayList<>( );
+        ArrayList<Query> listFilter = new ArrayList<>( );
         IndexSearcher searcher = null;
         boolean bFilterResult = false;
         LuteceUser user = null;
@@ -224,7 +223,7 @@ public class LuceneSearchEngine implements SearchEngine
 
                 if ( StringUtils.isNotEmpty( operator ) && operator.equals( PARAMETER_OPERATOR_AND ) )
                 {
-                    parser.setDefaultOperator( QueryParser.AND_OPERATOR );
+                    parser.setDefaultOperator( QueryParserBase.AND_OPERATOR );
                 }
 
                 Query queryContent = parser.parse( ( StringUtils.isNotBlank( strQuery ) ) ? strQuery : "" );
@@ -275,7 +274,7 @@ public class LuceneSearchEngine implements SearchEngine
      */
     private List<SearchResult> convertList( List<SearchItem> listSource )
     {
-        List<SearchResult> listDest = new ArrayList<SearchResult>( );
+        List<SearchResult> listDest = new ArrayList<>( );
 
         for ( SearchItem item : listSource )
         {

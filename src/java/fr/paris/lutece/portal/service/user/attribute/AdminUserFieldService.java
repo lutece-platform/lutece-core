@@ -169,7 +169,7 @@ public final class AdminUserFieldService
     {
         // Attributes created in the Back-Office
         List<IAttribute> listAttributes = _attributeService.getCoreAttributesWithoutFields( locale );
-        Map<Integer, List<AdminUserField>> map = new HashMap<Integer, List<AdminUserField>>( );
+        Map<Integer, List<AdminUserField>> map = new HashMap<>( );
 
         for ( IAttribute attribute : listAttributes )
         {

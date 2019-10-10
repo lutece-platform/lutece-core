@@ -188,7 +188,7 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
     {
         int nCount = FeatureGroupHome.getFeatureGroupsCount( ) + 1;
 
-        Map<String, Serializable> model = new HashMap<String, Serializable>( );
+        Map<String, Serializable> model = new HashMap<>( );
         model.put( MARK_ORDER_LIST, getOrderRefList( ) );
         model.put( MARK_DEFAULT_ORDER, String.valueOf( nCount ) );
         model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request,  AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) );

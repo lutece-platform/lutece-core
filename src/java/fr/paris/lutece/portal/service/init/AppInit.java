@@ -33,6 +33,17 @@
  */
 package fr.paris.lutece.portal.service.init;
 
+import java.io.FileInputStream;
+import java.io.FileWriter;
+import java.text.DateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Properties;
+
+import javax.servlet.ServletContext;
+
 import fr.paris.lutece.portal.service.admin.AdminAuthenticationService;
 import fr.paris.lutece.portal.service.admin.AdminUserService;
 import fr.paris.lutece.portal.service.content.ContentPostProcessorService;
@@ -59,19 +70,6 @@ import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.bean.BeanUtil;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.stream.StreamUtil;
-
-import java.io.FileInputStream;
-import java.io.FileWriter;
-
-import java.text.SimpleDateFormat;
-
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Properties;
-
-import javax.servlet.ServletContext;
 
 /**
  * This class initializes all the application services
@@ -334,7 +332,7 @@ public final class AppInit
         if ( Boolean.parseBoolean( p.getProperty( PROPERTY_AUTOINIT ) ) )
         {
             Object [ ] params = {
-                AppPropertiesService.getProperty( PROPERTY_SITE_NAME )
+                    AppPropertiesService.getProperty( PROPERTY_SITE_NAME )
             };
             String strSendMailSubject = I18nService.getLocalizedString( PROPERTY_SENDMAIL_SUBJECT, params, I18nService.getDefaultLocale( ) );
             model.put( MARK_SENDMAIL_SUBJECT, strSendMailSubject );
@@ -355,7 +353,7 @@ public final class AppInit
             }
             catch( Exception io )
             {
-                io.printStackTrace( );
+                AppLogService.error( "Error reading file", io );
             }
             finally
             {
@@ -369,7 +367,7 @@ public final class AppInit
      */
     private static void logStartupTime( )
     {
-        String strStartupTime = SimpleDateFormat.getDateTimeInstance( ).format( new Date( ) );
+        String strStartupTime = DateFormat.getDateTimeInstance( ).format( new Date( ) );
         DatastoreService.setDataValue( CoreDataKeys.KEY_STARTUP_TIME, strStartupTime );
     }
 }

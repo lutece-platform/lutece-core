@@ -53,7 +53,7 @@ public class LocalizedDataGroup
     // Variables declarations
     private String _strName;
     private String _strDescription;
-    private List<LocalizedData> _listLocalizedData = new ArrayList<LocalizedData>( );
+    private List<LocalizedData> _listLocalizedData = new ArrayList<>( );
 
     /**
      * Constructor

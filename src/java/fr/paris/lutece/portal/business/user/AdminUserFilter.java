@@ -279,17 +279,14 @@ public class AdminUserFilter implements Serializable
     public String getUrlAttributes( )
     {
         StringBuilder sbUrlAttributes = new StringBuilder( );
-        sbUrlAttributes.append( PARAMETER_SEARCH_IS_SEARCH + CONSTANT_EQUAL )
-                .append(Boolean.TRUE)
-                .append(CONSTANT_AMPERSAND + PARAMETER_SEARCH_USER_LEVEL + CONSTANT_EQUAL)
-                .append(_nUserLevel)
-                .append(CONSTANT_AMPERSAND + PARAMETER_SEARCH_STATUS + CONSTANT_EQUAL)
-                .append(_nStatus);
+        sbUrlAttributes.append( PARAMETER_SEARCH_IS_SEARCH + CONSTANT_EQUAL ).append( Boolean.TRUE )
+                .append( CONSTANT_AMPERSAND + PARAMETER_SEARCH_USER_LEVEL + CONSTANT_EQUAL ).append( _nUserLevel )
+                .append( CONSTANT_AMPERSAND + PARAMETER_SEARCH_STATUS + CONSTANT_EQUAL ).append( _nStatus );
 
         try
         {
             sbUrlAttributes.append( CONSTANT_AMPERSAND + PARAMETER_SEARCH_ACCESS_CODE + CONSTANT_EQUAL )
-                    .append(URLEncoder.encode( _strAccessCode, AppPropertiesService.getProperty( PROPERTY_ENCODING_URL ) ))
+                    .append( URLEncoder.encode( _strAccessCode, AppPropertiesService.getProperty( PROPERTY_ENCODING_URL ) ) )
                     .append( CONSTANT_AMPERSAND + PARAMETER_SEARCH_LAST_NAME + CONSTANT_EQUAL )
                     .append( URLEncoder.encode( _strLastName, AppPropertiesService.getProperty( PROPERTY_ENCODING_URL ) ) )
                     .append( CONSTANT_AMPERSAND + PARAMETER_SEARCH_EMAIL + CONSTANT_EQUAL )

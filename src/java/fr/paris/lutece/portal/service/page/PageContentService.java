@@ -48,7 +48,7 @@ import javax.servlet.http.HttpServletRequest;
 public class PageContentService extends ContentService
 {
     private static final String SERVICE_NAME = "Page Content Service";
-    private IPageService _pageService = (IPageService) SpringContextService.getBean( "pageService" );
+    private IPageService _pageService = SpringContextService.getBean( "pageService" );
 
     /**
      * {@inheritDoc }

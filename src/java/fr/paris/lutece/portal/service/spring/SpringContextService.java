@@ -75,7 +75,7 @@ public final class SpringContextService implements PluginEventListener
     private static final String SUFFIX_CONTEXT_FILE = "_context.xml";
     private static final String FILE_CORE_CONTEXT = "core_context.xml";
     private static ApplicationContext _context;
-    private static Map<Class, List> _mapBeansOfType = new HashMap<Class, List>( );
+    private static Map<Class, List> _mapBeansOfType = new HashMap<>( );
     private static SpringContextService _instance = new SpringContextService( );
 
     /** Creates a new instance of SpringContextService */
@@ -300,11 +300,11 @@ public final class SpringContextService implements PluginEventListener
 
         if ( list != null )
         {
-            return new ArrayList<T>( list );
+            return new ArrayList<>( list );
         }
 
         // The list is not in the cache, so we have to build it
-        list = new ArrayList<T>( );
+        list = new ArrayList<>( );
 
         Map<String, T> map = _context.getBeansOfType( classDef );
         String [ ] sBeanNames = map.keySet( ).toArray( new String [ map.size( )] );
@@ -319,7 +319,7 @@ public final class SpringContextService implements PluginEventListener
             }
         }
 
-        _mapBeansOfType.put( classDef, new ArrayList<T>( list ) );
+        _mapBeansOfType.put( classDef, new ArrayList<>( list ) );
 
         return list;
     }

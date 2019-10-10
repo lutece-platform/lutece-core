@@ -86,7 +86,7 @@ public final class TransactionManager
 
         if ( mapTransactions == null )
         {
-            mapTransactions = new HashMap<String, MultiPluginTransaction>( );
+            mapTransactions = new HashMap<>( );
             _tlTransactions.set( mapTransactions );
         }
         else

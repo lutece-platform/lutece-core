@@ -48,7 +48,7 @@ import java.util.Map;
 public final class ResourceTypeManager
 {
     /** resource type registry */
-    private static Map<String, ResourceType> _mapResourceTypes = new HashMap<String, ResourceType>( );
+    private static Map<String, ResourceType> _mapResourceTypes = new HashMap<>( );
 
     // //////////////////////////////////////////////////////////////////////////
     // Methods

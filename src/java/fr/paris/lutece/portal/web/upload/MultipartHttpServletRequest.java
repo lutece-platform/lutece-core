@@ -193,7 +193,7 @@ public class MultipartHttpServletRequest extends HttpServletRequestWrapper
      */
     private Map<String, FileItem> convertFileMap( Map<String, List<FileItem>> multipartFiles )
     {
-        Map<String, FileItem> mapFiles = new HashMap<String, FileItem>( multipartFiles.size( ) );
+        Map<String, FileItem> mapFiles = new HashMap<>( multipartFiles.size( ) );
 
         for ( Entry<String, List<FileItem>> entry : multipartFiles.entrySet( ) )
         {

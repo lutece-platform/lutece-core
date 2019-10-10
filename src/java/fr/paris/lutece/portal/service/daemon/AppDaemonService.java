@@ -47,14 +47,14 @@ import fr.paris.lutece.portal.service.util.AppPropertiesService;
 
 /**
  * this class provides methods to manage daemons services
- * */
+ */
 public final class AppDaemonService
 {
     private static final String PROPERTY_MAX_INITIAL_START_DELAY = "daemon.maxInitialStartDelay";
     private static final String PROPERTY_DAEMON_ON_STARTUP = ".onStartUp";
     private static final String PROPERTY_DAEMON_INTERVAL = ".interval";
     private static final String KEY_DAEMON_PREFIX = "core.daemon.";
-    private static final Map<String, DaemonEntry> _mapDaemonEntries = new HashMap<String, DaemonEntry>( );
+    private static final Map<String, DaemonEntry> _mapDaemonEntries = new HashMap<>( );
     private static final Random _random = new Random( );
     private static boolean _bInit;
     private static IDaemonScheduler _executor;
@@ -153,7 +153,8 @@ public final class AppDaemonService
         // init onStartup value if no exists
         if ( !DatastoreService.existsInstanceKey( strOnStartupKey ) )
         {
-            strOnStartupDefaultValue = AppPropertiesService.getProperty( "daemon." + entry.getId( ) + ".onstartup", "0" ).equals( "1" ) ? DatastoreService.VALUE_TRUE
+            strOnStartupDefaultValue = AppPropertiesService.getProperty( "daemon." + entry.getId( ) + ".onstartup", "0" ).equals( "1" )
+                    ? DatastoreService.VALUE_TRUE
                     : DatastoreService.VALUE_FALSE;
             DatastoreService.setInstanceDataValue( strOnStartupKey, strOnStartupDefaultValue );
         }

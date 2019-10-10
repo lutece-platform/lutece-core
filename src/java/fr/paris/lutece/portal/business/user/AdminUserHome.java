@@ -53,7 +53,7 @@ import java.util.Map;
 public final class AdminUserHome
 {
     // Static variable pointed at the DAO instance
-    private static IAdminUserDAO _dao = (IAdminUserDAO) SpringContextService.getBean( "adminUserDAO" );
+    private static IAdminUserDAO _dao = SpringContextService.getBean( "adminUserDAO" );
 
     /**
      * Private constructor

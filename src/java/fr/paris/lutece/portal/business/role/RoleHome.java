@@ -53,7 +53,7 @@ public final class RoleHome
     private static final String PROPERTY_DEFAULT_ROLE_DESCRIPTION = "defaultRole.description";
 
     // Static variable pointed at the DAO instance
-    private static IRoleDAO _dao = (IRoleDAO) SpringContextService.getBean( "roleDAO" );
+    private static IRoleDAO _dao = SpringContextService.getBean( "roleDAO" );
 
     /**
      * Creates a new RoleHome object.

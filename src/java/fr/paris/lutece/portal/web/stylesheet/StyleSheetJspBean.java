@@ -33,6 +33,23 @@
  */
 package fr.paris.lutece.portal.web.stylesheet;
 
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+
+import org.apache.commons.fileupload.FileItem;
+import org.xml.sax.InputSource;
+
 import fr.paris.lutece.portal.business.portalcomponent.PortalComponentHome;
 import fr.paris.lutece.portal.business.portlet.PortletType;
 import fr.paris.lutece.portal.business.portlet.PortletTypeHome;
@@ -58,31 +75,10 @@ import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.portal.web.upload.MultipartHttpServletRequest;
 import fr.paris.lutece.portal.web.util.LocalizedPaginator;
 import fr.paris.lutece.util.ReferenceList;
+import fr.paris.lutece.util.html.AbstractPaginator;
 import fr.paris.lutece.util.html.HtmlTemplate;
-import fr.paris.lutece.util.html.Paginator;
 import fr.paris.lutece.util.sort.AttributeComparator;
 import fr.paris.lutece.util.stream.StreamUtil;
-import fr.paris.lutece.util.url.UrlItem;
-
-import org.apache.commons.fileupload.FileItem;
-
-import org.xml.sax.InputSource;
-
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
 
 /**
  * This class provides the user interface to manage StyleSheet features
@@ -91,6 +87,7 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
 {
     // //////////////////////////////////////////////////////////////////////////
     // Constants
+    private static final String LOG_ERROR_DELETE_FILE = "Error deleting file";
 
     // Right
     /**
@@ -168,8 +165,8 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
         }
 
         _nDefaultItemsPerPage = AppPropertiesService.getPropertyInt( PROPERTY_STYLESHEETS_PER_PAGE, 50 );
-        _strCurrentPageIndex = Paginator.getPageIndex( request, Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex );
-        _nItemsPerPage = Paginator.getItemsPerPage( request, Paginator.PARAMETER_ITEMS_PER_PAGE, _nItemsPerPage, _nDefaultItemsPerPage );
+        _strCurrentPageIndex = AbstractPaginator.getPageIndex( request, AbstractPaginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex );
+        _nItemsPerPage = AbstractPaginator.getItemsPerPage( request, AbstractPaginator.PARAMETER_ITEMS_PER_PAGE, _nItemsPerPage, _nDefaultItemsPerPage );
 
         String strURL = getHomeUrl( request );
 
@@ -183,7 +180,7 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
             strURL += ( "&" + Parameters.SORTED_ASC + "=" + strAscSort );
         }
 
-        LocalizedPaginator<StyleSheet> paginator = new LocalizedPaginator<StyleSheet>( listStyleSheets, _nItemsPerPage, strURL, Paginator.PARAMETER_PAGE_INDEX,
+        LocalizedPaginator<StyleSheet> paginator = new LocalizedPaginator<StyleSheet>( listStyleSheets, _nItemsPerPage, strURL, AbstractPaginator.PARAMETER_PAGE_INDEX,
                 _strCurrentPageIndex, getLocale( ) );
 
         Map<String, Object> model = new HashMap<>( );
@@ -451,7 +448,10 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
 
         if ( fileToDelete.exists( ) )
         {
-            fileToDelete.delete( );
+            if ( !fileToDelete.delete( ) )
+            {
+                AppLogService.info( LOG_ERROR_DELETE_FILE );
+            }
         }
 
         return JSP_REMOVE_STYLE + "?" + Parameters.STYLE_ID + "=" + nIdStyle;
@@ -508,7 +508,10 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
 
             if ( file.exists( ) )
             {
-                file.delete( );
+                if ( !file.delete( ) )
+                {
+                    AppLogService.info( LOG_ERROR_DELETE_FILE );
+                }
             }
 
             fos = new FileOutputStream( file );
@@ -544,7 +547,10 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
 
         if ( oldFile.exists( ) )
         {
-            oldFile.delete( );
+            if ( !oldFile.delete( ) )
+            {
+                AppLogService.info( LOG_ERROR_DELETE_FILE );
+            }
         }
     }
 }

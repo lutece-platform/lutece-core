@@ -41,7 +41,7 @@ import java.util.List;
  */
 public class MemoryQueue implements IMailQueue
 {
-    private List<MailItem> _listMails = new ArrayList<MailItem>( );
+    private List<MailItem> _listMails = new ArrayList<>( );
 
     /**
      * Put a mail item into the list of the queue

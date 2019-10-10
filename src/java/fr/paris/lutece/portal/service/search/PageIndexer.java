@@ -78,7 +78,7 @@ public class PageIndexer implements SearchIndexer
     protected static final String PROPERTY_SEARCH_PAGE_URL = "search.pageSearch.baseUrl";
     protected static final String PROPERTY_INDEXER_ENABLE = "search.pageIndexer.enable";
     protected static final String PARAMETER_PAGE_ID = "page_id";
-    protected static IPageService _pageService = (IPageService) SpringContextService.getBean( "pageService" );
+    protected static IPageService _pageService = SpringContextService.getBean( "pageService" );
     private static final String INDEXER_DESCRIPTION = "Indexer service for pages";
     private static final String INDEXER_VERSION = "1.0.0";
 
@@ -121,7 +121,7 @@ public class PageIndexer implements SearchIndexer
     @Override
     public List<Document> getDocuments( String nIdDocument ) throws IOException, InterruptedException, SiteMessageException
     {
-        ArrayList<Document> listDocuments = new ArrayList<Document>( );
+        ArrayList<Document> listDocuments = new ArrayList<>( );
         String strPageBaseUrl = AppPropertiesService.getProperty( PROPERTY_PAGE_BASE_URL );
 
         Page page = PageHome.getPage( Integer.parseInt( nIdDocument ) );

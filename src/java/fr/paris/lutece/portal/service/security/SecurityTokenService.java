@@ -91,7 +91,7 @@ public class SecurityTokenService implements ISecurityTokenService
 
         if ( session.getAttribute( PARAMETER_SESSION_TOKENS ) == null )
         {
-            hashTokens = new HashMap<String, Set<String>>( );
+            hashTokens = new HashMap<>( );
             session.setAttribute( PARAMETER_SESSION_TOKENS, hashTokens );
         }
 

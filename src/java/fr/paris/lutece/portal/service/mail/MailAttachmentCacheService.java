@@ -91,7 +91,7 @@ public final class MailAttachmentCacheService extends AbstractCacheableService
      */
     public String getKey( String strValue )
     {
-        HashMap<String, String> htParam = new HashMap<String, String>( );
+        HashMap<String, String> htParam = new HashMap<>( );
         htParam.put( MailAttachmentCacheKeyService.MARK_URL, strValue );
 
         return _cksMailAttachment.getKey( htParam, 0, null );

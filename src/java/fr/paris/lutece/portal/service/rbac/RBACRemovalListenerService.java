@@ -57,6 +57,6 @@ public final class RBACRemovalListenerService
      */
     public static RemovalListenerService getService( )
     {
-        return (RemovalListenerService) SpringContextService.getBean( BEAN_RBAC_REMOVAL_SERVICE );
+        return SpringContextService.getBean( BEAN_RBAC_REMOVAL_SERVICE );
     }
 }

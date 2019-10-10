@@ -44,7 +44,7 @@ import java.util.List;
  */
 public final class AttributeFieldHome
 {
-    private static IAttributeFieldDAO _dao = (IAttributeFieldDAO) SpringContextService.getBean( "attributeFieldDAO" );
+    private static IAttributeFieldDAO _dao = SpringContextService.getBean( "attributeFieldDAO" );
 
     /**
      * Private constructor

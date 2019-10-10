@@ -255,7 +255,10 @@ public abstract class PortletHome implements PortletHomeInterface
     public static void invalidate( int nIdPortlet )
     {
         Portlet portlet = findByPrimaryKey( nIdPortlet );
-        invalidate( portlet );
+        if ( portlet != null )
+        {
+            invalidate( portlet );
+        }
     }
 
     /**

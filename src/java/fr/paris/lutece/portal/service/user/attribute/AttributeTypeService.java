@@ -88,7 +88,7 @@ public final class AttributeTypeService
             {
                 if ( _listAttributeTypes == null )
                 {
-                    List<AttributeType> listAttributTypes = new ArrayList<AttributeType>( );
+                    List<AttributeType> listAttributTypes = new ArrayList<>( );
 
                     for ( IAttribute attribute : SpringContextService.getBeansOfType( IAttribute.class ) )
                     {

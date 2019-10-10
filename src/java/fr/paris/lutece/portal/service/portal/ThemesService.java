@@ -450,7 +450,7 @@ public final class ThemesService
      */
     public static Collection<Theme> getThemesList( )
     {
-        Collection<Theme> listThemes = new ArrayList<Theme>( );
+        Collection<Theme> listThemes = new ArrayList<>( );
 
         try
         {

@@ -148,7 +148,7 @@ public class AdminDocumentationJspBean
 
         String strHtmlDoc = null;
 
-        Map<String, String> params = new HashMap<String, String>( );
+        Map<String, String> params = new HashMap<>( );
         params.put( PARAMS_LOCAL, locale.toString( ) );
         params.put( PARAMS_DEFAULT_LOCAL, LOCAL_DEFAULT );
 
@@ -213,7 +213,7 @@ public class AdminDocumentationJspBean
     private List<FeatureGroup> getFeatureGroupsList( AdminUser user )
     {
         // structure that will be returned
-        ArrayList<FeatureGroup> aOutFeatureGroupList = new ArrayList<FeatureGroup>( );
+        ArrayList<FeatureGroup> aOutFeatureGroupList = new ArrayList<>( );
 
         // get the list of user's features
         Map<String, Right> featuresMap = user.getRights( );
@@ -222,7 +222,7 @@ public class AdminDocumentationJspBean
         // for each group, load the features
         for ( FeatureGroup featureGroup : FeatureGroupHome.getFeatureGroupsList( ) )
         {
-            ArrayList<Right> aLeftFeatures = new ArrayList<Right>( );
+            ArrayList<Right> aLeftFeatures = new ArrayList<>( );
 
             for ( Right right : features )
             {

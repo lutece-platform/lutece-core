@@ -87,7 +87,7 @@ public class LuteceServletConfig implements ServletConfig
      */
     public String getInitParameter( String strKey )
     {
-        return (String) _mapInitParameters.get( strKey );
+        return _mapInitParameters.get( strKey );
     }
 
     /**

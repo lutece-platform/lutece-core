@@ -138,10 +138,10 @@ public interface IDashboardComponent extends Comparable<IDashboardComponent>, Lo
      * @return true if enabled
      */
     boolean isEnabled( );
-    
-    
+
     /**
-     * Returns a localized description 
+     * Returns a localized description
+     * 
      * @return a localized description
      */
     String getDescription( );

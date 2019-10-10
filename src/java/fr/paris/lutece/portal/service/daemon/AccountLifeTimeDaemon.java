@@ -33,6 +33,15 @@
  */
 package fr.paris.lutece.portal.service.daemon;
 
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.lang.StringUtils;
+
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.business.user.AdminUserHome;
 import fr.paris.lutece.portal.business.user.parameter.DefaultUserParameterHome;
@@ -45,18 +54,6 @@ import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.web.l10n.LocaleService;
 import fr.paris.lutece.util.date.DateUtil;
 import fr.paris.lutece.util.html.HtmlTemplate;
-
-import org.apache.commons.lang.StringUtils;
-
-import java.sql.Timestamp;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Daemon to anonymize admin users
@@ -121,7 +118,7 @@ public class AccountLifeTimeDaemon extends Daemon
 
                     if ( ( strUserMail != null ) && StringUtils.isNotBlank( strUserMail ) )
                     {
-                        Map<String, String> model = new HashMap<String, String>( );
+                        Map<String, String> model = new HashMap<>( );
                         addParametersToModel( model, nIdUser );
 
                         HtmlTemplate template = AppTemplateService.getTemplateFromStringFtl( strBody, user.getLocale( ), model );
@@ -185,7 +182,7 @@ public class AccountLifeTimeDaemon extends Daemon
 
                         if ( ( strUserMail != null ) && StringUtils.isNotBlank( strUserMail ) )
                         {
-                            Map<String, String> model = new HashMap<String, String>( );
+                            Map<String, String> model = new HashMap<>( );
                             addParametersToModel( model, nIdUser );
 
                             HtmlTemplate template = AppTemplateService.getTemplateFromStringFtl( strBody, user.getLocale( ), model );
@@ -252,7 +249,7 @@ public class AccountLifeTimeDaemon extends Daemon
 
                         if ( ( strUserMail != null ) && StringUtils.isNotBlank( strUserMail ) )
                         {
-                            Map<String, String> model = new HashMap<String, String>( );
+                            Map<String, String> model = new HashMap<>( );
                             addParametersToModel( model, nIdUser );
 
                             HtmlTemplate template = AppTemplateService.getTemplateFromStringFtl( strBody, user.getLocale( ), model );
@@ -303,7 +300,7 @@ public class AccountLifeTimeDaemon extends Daemon
 
                         if ( StringUtils.isNotBlank( strUserMail ) )
                         {
-                            Map<String, String> model = new HashMap<String, String>( );
+                            Map<String, String> model = new HashMap<>( );
                             addParametersToModel( model, nIdUser );
 
                             HtmlTemplate template = AppTemplateService.getTemplateFromStringFtl( strBody, LocaleService.getDefault( ), model );
@@ -351,7 +348,7 @@ public class AccountLifeTimeDaemon extends Daemon
 
         if ( user.getAccountMaxValidDate( ) != null )
         {
-            DateFormat dateFormat = SimpleDateFormat.getDateInstance( DateFormat.SHORT, LocaleService.getDefault( ) );
+            DateFormat dateFormat = DateFormat.getDateInstance( DateFormat.SHORT, LocaleService.getDefault( ) );
 
             String accountMaxValidDate = dateFormat.format( new Date( user.getAccountMaxValidDate( ).getTime( ) ) );
 

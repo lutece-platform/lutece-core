@@ -139,13 +139,12 @@ public class CSVMessageDescriptor implements Comparable<CSVMessageDescriptor>
      *            Object to compare to
      * @return Returns :<br>
      *         <ul>
-     *         <li>
-     *         -1 if the line number of this object is greater than the line number of the other object, or if this object has an {@link CSVMessageLevel#INFO
-     *         INFO} level and the other one an {@link CSVMessageLevel#ERROR ERROR} level if they have the same line number.</li>
-     *         <li>
-     *         0 if they both have the same line number and level, regardless of their description</li>
+     *         <li>-1 if the line number of this object is greater than the line number of the other object, or if this object has an
+     *         {@link CSVMessageLevel#INFO INFO} level and the other one an {@link CSVMessageLevel#ERROR ERROR} level if they have the same line number.</li>
+     *         <li>0 if they both have the same line number and level, regardless of their description</li>
      *         <li>1 if the other object is null, if its line number if greater than the line number of the current object, or if this object has a
-     *         {@link CSVMessageLevel#ERROR ERROR} level whereas the other has the {@link CSVMessageLevel#INFO INFO} level if they have the same line number.</li>
+     *         {@link CSVMessageLevel#ERROR ERROR} level whereas the other has the {@link CSVMessageLevel#INFO INFO} level if they have the same line
+     *         number.</li>
      *         </ul>
      */
     @Override

@@ -231,7 +231,7 @@ public abstract class AdminFeaturesPageJspBean implements Serializable
      */
     public String getAdminPage( String strContent )
     {
-        Map<String, String> rootModel = new HashMap<String, String>( );
+        Map<String, String> rootModel = new HashMap<>( );
 
         rootModel.put( MARK_FEATURE_URL, _strFeatureUrl );
         rootModel.put( MARK_FEATURE_TITLE, _strFeatureLabel );

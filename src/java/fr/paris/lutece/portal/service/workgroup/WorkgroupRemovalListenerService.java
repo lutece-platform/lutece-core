@@ -57,6 +57,6 @@ public final class WorkgroupRemovalListenerService
      */
     public static RemovalListenerService getService( )
     {
-        return (RemovalListenerService) SpringContextService.getBean( BEAN_WORKGROUP_REMOVAL_SERVICE );
+        return SpringContextService.getBean( BEAN_WORKGROUP_REMOVAL_SERVICE );
     }
 }

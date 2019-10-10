@@ -91,7 +91,7 @@ public final class AdminWorkgroupService
      */
     public static <E extends AdminWorkgroupResource> Collection<E> getAuthorizedCollection( Collection<E> collection, AdminUser user )
     {
-        ArrayList<E> list = new ArrayList<E>( );
+        ArrayList<E> list = new ArrayList<>( );
 
         for ( E resource : collection )
         {

@@ -45,7 +45,7 @@ public class FilterEntry
     private String _strName;
     private String _strFilterClass;
     private String _strMapping;
-    private Map<String, String> _mapInitParameters = new HashMap<String, String>( );
+    private Map<String, String> _mapInitParameters = new HashMap<>( );
     private int _nOrder = ORDER_NOT_DEFINED;
 
     /**

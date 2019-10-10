@@ -59,7 +59,6 @@ public final class AllTests
         TestSuite suite = new TestSuite( "Test for test.fr.paris.lutece.util.date" );
 
         // $JUnit-BEGIN$
-        suite.addTest( new TestSuite( DateUtilTest.class ) );
 
         // $JUnit-END$
         return suite;

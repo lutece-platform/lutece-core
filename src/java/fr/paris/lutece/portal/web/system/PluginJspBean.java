@@ -309,7 +309,7 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
      */
     private Collection<Plugin> filterPluginsList( Collection<Plugin> listPlugins, String strPluginTypeFilter )
     {
-        Collection<Plugin> list = new ArrayList<Plugin>( );
+        Collection<Plugin> list = new ArrayList<>( );
 
         for ( Plugin plugin : listPlugins )
         {

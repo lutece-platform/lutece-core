@@ -218,7 +218,7 @@ public class AttributeText extends AbstractAttribute implements ISimpleValuesAtt
 
                 if ( getListAttributeFields( ) == null )
                 {
-                    List<AttributeField> listAttributeFields = new ArrayList<AttributeField>( );
+                    List<AttributeField> listAttributeFields = new ArrayList<>( );
                     AttributeField attributeField = new AttributeField( );
                     listAttributeFields.add( attributeField );
                     setListAttributeFields( listAttributeFields );
@@ -288,7 +288,7 @@ public class AttributeText extends AbstractAttribute implements ISimpleValuesAtt
     @Override
     public List<AdminUserField> getUserFieldsData( String [ ] strValues, AdminUser user )
     {
-        List<AdminUserField> listUserFields = new ArrayList<AdminUserField>( );
+        List<AdminUserField> listUserFields = new ArrayList<>( );
         AdminUserField userField = new AdminUserField( );
         AttributeService.getInstance( ).setAttributeField( this );
 

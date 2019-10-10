@@ -479,7 +479,7 @@ public final class AdminMessageService
      */
     public static String getFormattedList( List<String> list, Locale locale )
     {
-        Map<String, List<String>> model = new HashMap<String, List<String>>( );
+        Map<String, List<String>> model = new HashMap<>( );
         model.put( MARK_MESSAGES_LIST, list );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_FORMAT_LIST, locale, model );
@@ -505,7 +505,7 @@ public final class AdminMessageService
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ERRORS_LIST, request.getLocale( ), model );
         String [ ] formatedErrors = {
-            template.getHtml( )
+                template.getHtml( )
         };
 
         return formatedErrors;
@@ -529,7 +529,7 @@ public final class AdminMessageService
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ERRORS_LIST, request.getLocale( ), model );
         String [ ] formatedErrors = {
-            template.getHtml( )
+                template.getHtml( )
         };
 
         return formatedErrors;

@@ -57,6 +57,6 @@ public final class RegularExpressionRemovalListenerService
      */
     public static RemovalListenerService getService( )
     {
-        return (RemovalListenerService) SpringContextService.getBean( BEAN_REGULAR_EXPRESSION_REMOVAL_SERVICE );
+        return SpringContextService.getBean( BEAN_REGULAR_EXPRESSION_REMOVAL_SERVICE );
     }
 }

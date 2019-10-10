@@ -74,22 +74,23 @@ public final class RightDAO implements IRightDAO
      */
     public void insert( Right right )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT ) )
+        {
 
-        daoUtil.setString( 1, right.getId( ) );
-        daoUtil.setString( 2, right.getNameKey( ) );
-        daoUtil.setInt( 3, right.getLevel( ) );
-        daoUtil.setString( 4, right.getUrl( ) );
-        daoUtil.setString( 5, right.getDescriptionKey( ) );
-        daoUtil.setString( 6, right.getPluginName( ) );
-        daoUtil.setString( 7, right.getFeatureGroup( ) );
-        daoUtil.setString( 8, right.getIconUrl( ) );
-        daoUtil.setString( 9, right.getDocumentationUrl( ) );
-        daoUtil.setInt( 10, right.getOrder( ) );
-        daoUtil.setBoolean( 11, right.isExternalFeature( ) );
+            daoUtil.setString( 1, right.getId( ) );
+            daoUtil.setString( 2, right.getNameKey( ) );
+            daoUtil.setInt( 3, right.getLevel( ) );
+            daoUtil.setString( 4, right.getUrl( ) );
+            daoUtil.setString( 5, right.getDescriptionKey( ) );
+            daoUtil.setString( 6, right.getPluginName( ) );
+            daoUtil.setString( 7, right.getFeatureGroup( ) );
+            daoUtil.setString( 8, right.getIconUrl( ) );
+            daoUtil.setString( 9, right.getDocumentationUrl( ) );
+            daoUtil.setInt( 10, right.getOrder( ) );
+            daoUtil.setBoolean( 11, right.isExternalFeature( ) );
 
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+            daoUtil.executeUpdate( );
+        }
     }
 
     /**
@@ -102,28 +103,29 @@ public final class RightDAO implements IRightDAO
     public Right load( String strId )
     {
         Right right = null;
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT );
-        daoUtil.setString( 1, strId );
-
-        daoUtil.executeQuery( );
-
-        if ( daoUtil.next( ) )
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT ) )
         {
-            right = new Right( );
-            right.setId( daoUtil.getString( 1 ) );
-            right.setNameKey( daoUtil.getString( 2 ) );
-            right.setLevel( daoUtil.getInt( 3 ) );
-            right.setUrl( daoUtil.getString( 4 ) );
-            right.setDescriptionKey( daoUtil.getString( 5 ) );
-            right.setPluginName( daoUtil.getString( 6 ) );
-            right.setFeatureGroup( daoUtil.getString( 7 ) );
-            right.setIconUrl( daoUtil.getString( 8 ) );
-            right.setDocumentationUrl( daoUtil.getString( 9 ) );
-            right.setOrder( daoUtil.getInt( 10 ) );
-            right.setExternalFeature( daoUtil.getBoolean( 11 ) );
-        }
+            daoUtil.setString( 1, strId );
 
-        daoUtil.free( );
+            daoUtil.executeQuery( );
+
+            if ( daoUtil.next( ) )
+            {
+                right = new Right( );
+                right.setId( daoUtil.getString( 1 ) );
+                right.setNameKey( daoUtil.getString( 2 ) );
+                right.setLevel( daoUtil.getInt( 3 ) );
+                right.setUrl( daoUtil.getString( 4 ) );
+                right.setDescriptionKey( daoUtil.getString( 5 ) );
+                right.setPluginName( daoUtil.getString( 6 ) );
+                right.setFeatureGroup( daoUtil.getString( 7 ) );
+                right.setIconUrl( daoUtil.getString( 8 ) );
+                right.setDocumentationUrl( daoUtil.getString( 9 ) );
+                right.setOrder( daoUtil.getInt( 10 ) );
+                right.setExternalFeature( daoUtil.getBoolean( 11 ) );
+            }
+
+        }
 
         return right;
     }
@@ -137,16 +139,18 @@ public final class RightDAO implements IRightDAO
     public void delete( String strIdRight )
     {
         // Clear user right
-        DAOUtil daoUtilUser = new DAOUtil( SQL_QUERY_DELETE_USERRIGHT );
-        daoUtilUser.setString( 1, strIdRight );
-        daoUtilUser.executeUpdate( );
-        daoUtilUser.free( );
+        try( DAOUtil daoUtilUser = new DAOUtil( SQL_QUERY_DELETE_USERRIGHT ) )
+        {
+            daoUtilUser.setString( 1, strIdRight );
+            daoUtilUser.executeUpdate( );
+        }
 
         // Clear admin right
-        DAOUtil daoUtilAdmin = new DAOUtil( SQL_QUERY_DELETE_ADMINRIGHT );
-        daoUtilAdmin.setString( 1, strIdRight );
-        daoUtilAdmin.executeUpdate( );
-        daoUtilAdmin.free( );
+        try( DAOUtil daoUtilAdmin = new DAOUtil( SQL_QUERY_DELETE_ADMINRIGHT ) )
+        {
+            daoUtilAdmin.setString( 1, strIdRight );
+            daoUtilAdmin.executeUpdate( );
+        }
     }
 
     /**
@@ -157,22 +161,23 @@ public final class RightDAO implements IRightDAO
      */
     public void store( Right right )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE ) )
+        {
 
-        daoUtil.setString( 1, right.getNameKey( ) );
-        daoUtil.setString( 2, right.getUrl( ) );
-        daoUtil.setString( 3, right.getDescriptionKey( ) );
-        daoUtil.setString( 4, right.getPluginName( ) );
-        daoUtil.setString( 5, right.getFeatureGroup( ) );
-        daoUtil.setString( 6, right.getIconUrl( ) );
-        daoUtil.setInt( 7, right.getLevel( ) );
-        daoUtil.setString( 8, right.getDocumentationUrl( ) );
-        daoUtil.setInt( 9, right.getOrder( ) );
-        daoUtil.setBoolean( 10, right.isExternalFeature( ) );
-        daoUtil.setString( 11, right.getId( ) );
+            daoUtil.setString( 1, right.getNameKey( ) );
+            daoUtil.setString( 2, right.getUrl( ) );
+            daoUtil.setString( 3, right.getDescriptionKey( ) );
+            daoUtil.setString( 4, right.getPluginName( ) );
+            daoUtil.setString( 5, right.getFeatureGroup( ) );
+            daoUtil.setString( 6, right.getIconUrl( ) );
+            daoUtil.setInt( 7, right.getLevel( ) );
+            daoUtil.setString( 8, right.getDocumentationUrl( ) );
+            daoUtil.setInt( 9, right.getOrder( ) );
+            daoUtil.setBoolean( 10, right.isExternalFeature( ) );
+            daoUtil.setString( 11, right.getId( ) );
 
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+            daoUtil.executeUpdate( );
+        }
     }
 
     /**
@@ -194,31 +199,32 @@ public final class RightDAO implements IRightDAO
      */
     public Collection<Right> selectRightsList( int nLevel )
     {
-        Collection<Right> rightList = new ArrayList<Right>( );
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL );
-        daoUtil.setInt( 1, nLevel );
-        daoUtil.executeQuery( );
-
-        while ( daoUtil.next( ) )
+        Collection<Right> rightList = new ArrayList<>( );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL ) )
         {
-            Right right = new Right( );
+            daoUtil.setInt( 1, nLevel );
+            daoUtil.executeQuery( );
 
-            right.setId( daoUtil.getString( 1 ) );
-            right.setNameKey( daoUtil.getString( 2 ) );
-            right.setLevel( daoUtil.getInt( 3 ) );
-            right.setUrl( daoUtil.getString( 4 ) );
-            right.setDescriptionKey( daoUtil.getString( 5 ) );
-            right.setPluginName( daoUtil.getString( 6 ) );
-            right.setFeatureGroup( daoUtil.getString( 7 ) );
-            right.setIconUrl( daoUtil.getString( 8 ) );
-            right.setDocumentationUrl( daoUtil.getString( 9 ) );
-            right.setOrder( daoUtil.getInt( 10 ) );
-            right.setExternalFeature( daoUtil.getBoolean( 11 ) );
+            while ( daoUtil.next( ) )
+            {
+                Right right = new Right( );
 
-            rightList.add( right );
+                right.setId( daoUtil.getString( 1 ) );
+                right.setNameKey( daoUtil.getString( 2 ) );
+                right.setLevel( daoUtil.getInt( 3 ) );
+                right.setUrl( daoUtil.getString( 4 ) );
+                right.setDescriptionKey( daoUtil.getString( 5 ) );
+                right.setPluginName( daoUtil.getString( 6 ) );
+                right.setFeatureGroup( daoUtil.getString( 7 ) );
+                right.setIconUrl( daoUtil.getString( 8 ) );
+                right.setDocumentationUrl( daoUtil.getString( 9 ) );
+                right.setOrder( daoUtil.getInt( 10 ) );
+                right.setExternalFeature( daoUtil.getBoolean( 11 ) );
+
+                rightList.add( right );
+            }
+
         }
-
-        daoUtil.free( );
 
         return rightList;
     }
@@ -243,31 +249,32 @@ public final class RightDAO implements IRightDAO
     @Override
     public Collection<Right> selectExternalRightsList( int nLevel )
     {
-        Collection<Right> rightList = new ArrayList<Right>( );
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL_EXTERNAL_FEATURES );
-        daoUtil.setInt( 1, nLevel );
-        daoUtil.executeQuery( );
-
-        while ( daoUtil.next( ) )
+        Collection<Right> rightList = new ArrayList<>( );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL_EXTERNAL_FEATURES ) )
         {
-            Right right = new Right( );
+            daoUtil.setInt( 1, nLevel );
+            daoUtil.executeQuery( );
 
-            right.setId( daoUtil.getString( 1 ) );
-            right.setNameKey( daoUtil.getString( 2 ) );
-            right.setLevel( daoUtil.getInt( 3 ) );
-            right.setUrl( daoUtil.getString( 4 ) );
-            right.setDescriptionKey( daoUtil.getString( 5 ) );
-            right.setPluginName( daoUtil.getString( 6 ) );
-            right.setFeatureGroup( daoUtil.getString( 7 ) );
-            right.setIconUrl( daoUtil.getString( 8 ) );
-            right.setDocumentationUrl( daoUtil.getString( 9 ) );
-            right.setOrder( daoUtil.getInt( 10 ) );
-            right.setExternalFeature( daoUtil.getBoolean( 11 ) );
+            while ( daoUtil.next( ) )
+            {
+                Right right = new Right( );
 
-            rightList.add( right );
+                right.setId( daoUtil.getString( 1 ) );
+                right.setNameKey( daoUtil.getString( 2 ) );
+                right.setLevel( daoUtil.getInt( 3 ) );
+                right.setUrl( daoUtil.getString( 4 ) );
+                right.setDescriptionKey( daoUtil.getString( 5 ) );
+                right.setPluginName( daoUtil.getString( 6 ) );
+                right.setFeatureGroup( daoUtil.getString( 7 ) );
+                right.setIconUrl( daoUtil.getString( 8 ) );
+                right.setDocumentationUrl( daoUtil.getString( 9 ) );
+                right.setOrder( daoUtil.getInt( 10 ) );
+                right.setExternalFeature( daoUtil.getBoolean( 11 ) );
+
+                rightList.add( right );
+            }
+
         }
-
-        daoUtil.free( );
 
         return rightList;
     }
@@ -281,7 +288,7 @@ public final class RightDAO implements IRightDAO
      */
     public Collection<Right> selectRightsList( String strFeatureGroup )
     {
-        Collection<Right> rightList = new ArrayList<Right>( );
+        Collection<Right> rightList = new ArrayList<>( );
         String strQuery = SQL_QUERY_SELECTALL_FOR_FEATUREGROUP;
 
         if ( strFeatureGroup == null )
@@ -289,35 +296,36 @@ public final class RightDAO implements IRightDAO
             strQuery = SQL_QUERY_SELECTALL_FOR_FEATUREGROUP_IS_NULL;
         }
 
-        DAOUtil daoUtil = new DAOUtil( strQuery );
-
-        if ( strFeatureGroup != null )
+        try( DAOUtil daoUtil = new DAOUtil( strQuery ) )
         {
-            daoUtil.setString( 1, strFeatureGroup );
+
+            if ( strFeatureGroup != null )
+            {
+                daoUtil.setString( 1, strFeatureGroup );
+            }
+
+            daoUtil.executeQuery( );
+
+            while ( daoUtil.next( ) )
+            {
+                Right right = new Right( );
+
+                right.setId( daoUtil.getString( 1 ) );
+                right.setNameKey( daoUtil.getString( 2 ) );
+                right.setLevel( daoUtil.getInt( 3 ) );
+                right.setUrl( daoUtil.getString( 4 ) );
+                right.setDescriptionKey( daoUtil.getString( 5 ) );
+                right.setPluginName( daoUtil.getString( 6 ) );
+                right.setFeatureGroup( daoUtil.getString( 7 ) );
+                right.setIconUrl( daoUtil.getString( 8 ) );
+                right.setDocumentationUrl( daoUtil.getString( 9 ) );
+                right.setOrder( daoUtil.getInt( 10 ) );
+                right.setExternalFeature( daoUtil.getBoolean( 11 ) );
+
+                rightList.add( right );
+            }
+
         }
-
-        daoUtil.executeQuery( );
-
-        while ( daoUtil.next( ) )
-        {
-            Right right = new Right( );
-
-            right.setId( daoUtil.getString( 1 ) );
-            right.setNameKey( daoUtil.getString( 2 ) );
-            right.setLevel( daoUtil.getInt( 3 ) );
-            right.setUrl( daoUtil.getString( 4 ) );
-            right.setDescriptionKey( daoUtil.getString( 5 ) );
-            right.setPluginName( daoUtil.getString( 6 ) );
-            right.setFeatureGroup( daoUtil.getString( 7 ) );
-            right.setIconUrl( daoUtil.getString( 8 ) );
-            right.setDocumentationUrl( daoUtil.getString( 9 ) );
-            right.setOrder( daoUtil.getInt( 10 ) );
-            right.setExternalFeature( daoUtil.getBoolean( 11 ) );
-
-            rightList.add( right );
-        }
-
-        daoUtil.free( );
 
         return rightList;
     }

@@ -97,7 +97,7 @@ public final class CacheService
     private static CacheService _singleton;
     private static CacheManager _manager;
 
-    private static List<CacheableService> _listCacheableServicesRegistry = new ArrayList<CacheableService>( );
+    private static List<CacheableService> _listCacheableServicesRegistry = new ArrayList<>( );
     private int _nDefaultMaxElementsInMemory;
     private boolean _bDefaultEternal;
     private long _lDefaultTimeToIdle;
@@ -161,8 +161,8 @@ public final class CacheService
         boolean bRegisterCaches = AppPropertiesService.getProperty( PROPERTY_MONITOR_CACHES, FALSE ).equals( TRUE );
         boolean bRegisterCacheConfigurations = AppPropertiesService.getProperty( PROPERTY_MONITOR_CACHE_CONFIGURATIONS, FALSE ).equals( TRUE );
         boolean bRegisterCacheStatistics = AppPropertiesService.getProperty( PROPERTY_MONITOR_CACHE_STATISTICS, FALSE ).equals( TRUE );
-        ManagementService
-                .registerMBeans( _manager, mBeanServer, bRegisterCacheManager, bRegisterCaches, bRegisterCacheConfigurations, bRegisterCacheStatistics );
+        ManagementService.registerMBeans( _manager, mBeanServer, bRegisterCacheManager, bRegisterCaches, bRegisterCacheConfigurations,
+                bRegisterCacheStatistics );
     }
 
     /**

@@ -115,8 +115,8 @@ public class ImageServlet extends HttpServlet
                 else
                 {
                     ServletContext sc = getServletContext( );
-                    String strImageUrl = AppPathService.getAbsolutePathFromRelativePath( AppPropertiesService.getProperty( PROPERTY_PATH_IMAGES ) + "/"
-                            + AppPropertiesService.getProperty( PROPERTY_IMAGE_PAGE_DEFAULT ) ); //
+                    String strImageUrl = AppPathService.getAbsolutePathFromRelativePath(
+                            AppPropertiesService.getProperty( PROPERTY_PATH_IMAGES ) + "/" + AppPropertiesService.getProperty( PROPERTY_IMAGE_PAGE_DEFAULT ) ); //
                     response.setContentType( sc.getMimeType( strImageUrl ) );
 
                     File file = new File( strImageUrl );

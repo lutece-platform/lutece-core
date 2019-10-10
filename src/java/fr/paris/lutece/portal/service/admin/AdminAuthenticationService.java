@@ -83,7 +83,7 @@ public final class AdminAuthenticationService
      */
     public static synchronized void init( ) throws LuteceInitException
     {
-        _authentication = (AdminAuthentication) SpringContextService.getBean( BEAN_ADMIN_AUTHENTICATION_MODULE );
+        _authentication = SpringContextService.getBean( BEAN_ADMIN_AUTHENTICATION_MODULE );
         AppLogService.info( "Authentication module loaded : " + _authentication.getAuthServiceName( ) );
 
         if ( _authentication.getClass( ).equals( LuteceDefaultAdminAuthentication.class ) )

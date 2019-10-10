@@ -104,7 +104,7 @@ public class SearchJspBeanTest extends LuteceTestCase
         request.addParameter( PARAMETER_DATE_FILTER, strDateFilter );
         request.addParameter( PARAMETER_TAG_FILTER, strTagFilter );
         AdminUser user = new AdminUser( );
-        Map<String, AdminRole> roles = new HashMap<String, AdminRole>( );
+        Map<String, AdminRole> roles = new HashMap<>( );
         for ( AdminRole role : AdminRoleHome.findAll( ) )
         {
             roles.put( role.getKey( ), role );
@@ -185,7 +185,7 @@ public class SearchJspBeanTest extends LuteceTestCase
         request.addParameter( PARAMETER_DATE_FILTER, strDateFilter );
         request.addParameter( PARAMETER_TAG_FILTER, strTagFilter );
         AdminUser user = new AdminUser( );
-        Map<String, AdminRole> roles = new HashMap<String, AdminRole>( );
+        Map<String, AdminRole> roles = new HashMap<>( );
         for ( AdminRole role : AdminRoleHome.findAll( ) )
         {
             roles.put( role.getKey( ), role );
@@ -261,7 +261,7 @@ public class SearchJspBeanTest extends LuteceTestCase
         request.addParameter( PARAMETER_DATE_FILTER, strDateFilter );
         request.addParameter( PARAMETER_TAG_FILTER, strTagFilter );
         AdminUser user = new AdminUser( );
-        Map<String, AdminRole> roles = new HashMap<String, AdminRole>( );
+        Map<String, AdminRole> roles = new HashMap<>( );
         for ( AdminRole role : AdminRoleHome.findAll( ) )
         {
             roles.put( role.getKey( ), role );

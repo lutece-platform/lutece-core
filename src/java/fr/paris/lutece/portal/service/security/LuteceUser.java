@@ -131,11 +131,10 @@ public abstract class LuteceUser implements Principal, Serializable, Cloneable
     public static final String BUSINESS_INFO_ONLINE_EMAIL = "user.business-info.online.email";
     public static final String BUSINESS_INFO_ONLINE_URI = "user.business-info.online.uri";
     public static final String ANONYMOUS_USERNAME = "GUEST";
-    public static final Timestamp DEFAULT_DATE_LAST_LOGIN = Timestamp.valueOf( "1980-01-01 00:00:00" );
     private static final long serialVersionUID = -8733640540563208835L;
 
     /** Map containing users info */
-    private Map<String, String> _mapUserInfo = new HashMap<String, String>( );
+    private Map<String, String> _mapUserInfo = new HashMap<>( );
 
     /** User's name */
     private String _strUserName;

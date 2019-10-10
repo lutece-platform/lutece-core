@@ -488,7 +488,7 @@ public final class SecurityService
 
             while ( enumParams.hasMoreElements( ) )
             {
-                String strRequestParameter = (String) enumParams.nextElement( );
+                String strRequestParameter = enumParams.nextElement( );
 
                 if ( arrayParamValueLoginPageUrl [0].equals( strRequestParameter )
                         && arrayParamValueLoginPageUrl [1].equals( request.getParameter( strRequestParameter ) ) )

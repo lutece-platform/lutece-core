@@ -206,7 +206,7 @@ public class LinksInclude implements PageInclude
             return;
         }
 
-        Map<String, String> model = new HashMap<String, String>( 1 );
+        Map<String, String> model = new HashMap<>( 1 );
         model.put( MARK_PLUGIN_JAVASCRIPT_FILE, javascripFileURI.toString( ) );
 
         HtmlTemplate tJs = AppTemplateService.getTemplate( TEMPLATE_PLUGIN_JAVASCRIPT_LINK, locale, model );
@@ -234,7 +234,7 @@ public class LinksInclude implements PageInclude
             return;
         }
 
-        Map<String, String> model = new HashMap<String, String>( 2 );
+        Map<String, String> model = new HashMap<>( 2 );
         model.put( MARK_PLUGIN_CSS_STYLESHEET, styleSheetURI.toString( ) );
 
         HtmlTemplate tCss = AppTemplateService.getTemplate( TEMPLATE_PLUGIN_CSS_LINK, locale, model );

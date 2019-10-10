@@ -46,7 +46,7 @@ import javax.servlet.http.HttpSessionListener;
  */
 public final class HttpSessionListenerService
 {
-    private static final List<HttpSessionListener> LIST_LISTENERS = new ArrayList<HttpSessionListener>( );
+    private static final List<HttpSessionListener> LIST_LISTENERS = new ArrayList<>( );
 
     /**
      * Private constructor

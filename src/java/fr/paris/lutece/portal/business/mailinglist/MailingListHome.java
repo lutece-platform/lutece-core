@@ -44,7 +44,7 @@ import java.util.List;
 public final class MailingListHome
 {
     // Static variable pointed at the DAO instance
-    private static IMailingListDAO _dao = (IMailingListDAO) SpringContextService.getBean( "mailingListDAO" );
+    private static IMailingListDAO _dao = SpringContextService.getBean( "mailingListDAO" );
 
     /**
      * Private constructor - this class need not be instantiated

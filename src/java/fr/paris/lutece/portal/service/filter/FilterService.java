@@ -51,7 +51,7 @@ public final class FilterService
 {
     private static FilterService _singleton = new FilterService( );
     private static ServletContext _context;
-    private List<LuteceFilter> _listFilters = new ArrayList<LuteceFilter>( );
+    private List<LuteceFilter> _listFilters = new ArrayList<>( );
 
     /**
      * Private constructor

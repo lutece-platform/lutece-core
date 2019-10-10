@@ -33,17 +33,19 @@
  */
 package fr.paris.lutece.portal.service.search;
 
-import fr.paris.lutece.portal.business.indexeraction.IndexerAction;
-import fr.paris.lutece.portal.business.indexeraction.IndexerActionFilter;
-import fr.paris.lutece.portal.business.indexeraction.IndexerActionHome;
-import fr.paris.lutece.portal.service.init.LuteceInitException;
-import fr.paris.lutece.portal.service.message.SiteMessageException;
-import fr.paris.lutece.portal.service.util.AppLogService;
-import fr.paris.lutece.portal.service.util.AppPathService;
-import fr.paris.lutece.portal.service.util.AppPropertiesService;
+import java.io.IOException;
+import java.io.Serializable;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.commons.lang.StringUtils;
-
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.CorruptIndexException;
@@ -53,21 +55,17 @@ import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.index.IndexWriterConfig.OpenMode;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.store.Directory;
-import org.apache.lucene.store.NIOFSDirectory;
+import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.Version;
 
-import java.nio.file.Paths;
-import java.io.IOException;
-import java.io.Serializable;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+import fr.paris.lutece.portal.business.indexeraction.IndexerAction;
+import fr.paris.lutece.portal.business.indexeraction.IndexerActionFilter;
+import fr.paris.lutece.portal.business.indexeraction.IndexerActionHome;
+import fr.paris.lutece.portal.service.init.LuteceInitException;
+import fr.paris.lutece.portal.service.message.SiteMessageException;
+import fr.paris.lutece.portal.service.util.AppLogService;
+import fr.paris.lutece.portal.service.util.AppPathService;
+import fr.paris.lutece.portal.service.util.AppPropertiesService;
 
 /**
  * This class provides management methods for indexing
@@ -537,7 +535,7 @@ public final class IndexationService
      */
     public static Directory getDirectoryIndex( ) throws IOException
     {
-        return NIOFSDirectory.open( Paths.get( _strIndex ) );
+        return FSDirectory.open( Paths.get( _strIndex ) );
     }
 
     /**
@@ -640,7 +638,7 @@ public final class IndexationService
      */
     private static List<SearchIndexer> getIndexerListSortedByName( )
     {
-        List<SearchIndexer> list = new ArrayList<SearchIndexer>( _mapIndexers.values( ) );
+        List<SearchIndexer> list = new ArrayList<>( _mapIndexers.values( ) );
         Collections.sort( list, _comparator );
 
         return list;

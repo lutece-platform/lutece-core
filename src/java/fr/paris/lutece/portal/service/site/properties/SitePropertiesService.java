@@ -60,7 +60,7 @@ public final class SitePropertiesService
     public static List<LocalizedDataGroup> getGroups( Locale locale )
     {
         List<ILocalizedSitePropertiesGroup> listGroups = SpringContextService.getBeansOfType( ILocalizedSitePropertiesGroup.class );
-        List<LocalizedDataGroup> listGroup = new ArrayList<LocalizedDataGroup>( );
+        List<LocalizedDataGroup> listGroup = new ArrayList<>( );
 
         for ( ILocalizedSitePropertiesGroup group : listGroups )
         {

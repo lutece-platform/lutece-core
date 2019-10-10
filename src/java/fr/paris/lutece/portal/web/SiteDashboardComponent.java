@@ -86,7 +86,7 @@ public class SiteDashboardComponent extends DashboardComponent
         model.put( MARK_URL, right.getUrl( ) );
         model.put( MARK_ICON, right.getIconUrl( ) );
 
-        PageService pageService = (PageService) SpringContextService.getBean( BEAN_PAGE_SERVICE );
+        PageService pageService = SpringContextService.getBean( BEAN_PAGE_SERVICE );
         Page page = PageHome.getLastModifiedPage( );
         model.put( MARK_LAST_MODIFIED_PAGE, page );
         model.put( MARK_LAST_MODIFIED_PORTLET, PortletHome.getLastModifiedPortlet( ) );

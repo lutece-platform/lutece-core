@@ -187,13 +187,12 @@ final class MailUtil
      * @throws MessagingException
      *             If a messaging error occured
      */
-    protected static void sendMessageText( String strRecipientsTo, String strRecipientsCc, String strRecipientsBcc, String strSenderName,
-            String strSenderEmail, String strSubject, String strMessage, Transport transport, Session session ) throws MessagingException, AddressException,
-            SendFailedException
+    protected static void sendMessageText( String strRecipientsTo, String strRecipientsCc, String strRecipientsBcc, String strSenderName, String strSenderEmail,
+            String strSubject, String strMessage, Transport transport, Session session ) throws MessagingException, AddressException, SendFailedException
     {
         Message msg = prepareMessage( strRecipientsTo, strRecipientsCc, strRecipientsBcc, strSenderName, strSenderEmail, strSubject, session );
-        msg.setDataHandler( new DataHandler( new ByteArrayDataSource( strMessage, AppPropertiesService.getProperty( PROPERTY_MAIL_TYPE_PLAIN )
-                + AppPropertiesService.getProperty( PROPERTY_CHARSET ) ) ) );
+        msg.setDataHandler( new DataHandler( new ByteArrayDataSource( strMessage,
+                AppPropertiesService.getProperty( PROPERTY_MAIL_TYPE_PLAIN ) + AppPropertiesService.getProperty( PROPERTY_CHARSET ) ) ) );
 
         sendMessage( msg, transport );
     }
@@ -226,16 +225,15 @@ final class MailUtil
      * @throws MessagingException
      *             If a messaging error occured
      */
-    protected static void sendMessageHtml( String strRecipientsTo, String strRecipientsCc, String strRecipientsBcc, String strSenderName,
-            String strSenderEmail, String strSubject, String strMessage, Transport transport, Session session ) throws MessagingException, AddressException,
-            SendFailedException
+    protected static void sendMessageHtml( String strRecipientsTo, String strRecipientsCc, String strRecipientsBcc, String strSenderName, String strSenderEmail,
+            String strSubject, String strMessage, Transport transport, Session session ) throws MessagingException, AddressException, SendFailedException
     {
         Message msg = prepareMessage( strRecipientsTo, strRecipientsCc, strRecipientsBcc, strSenderName, strSenderEmail, strSubject, session );
 
         msg.setHeader( HEADER_NAME, HEADER_VALUE );
         // Message body formated in HTML
-        msg.setDataHandler( new DataHandler( new ByteArrayDataSource( strMessage, AppPropertiesService.getProperty( PROPERTY_MAIL_TYPE_HTML )
-                + AppPropertiesService.getProperty( PROPERTY_CHARSET ) ) ) );
+        msg.setDataHandler( new DataHandler( new ByteArrayDataSource( strMessage,
+                AppPropertiesService.getProperty( PROPERTY_MAIL_TYPE_HTML ) + AppPropertiesService.getProperty( PROPERTY_CHARSET ) ) ) );
 
         sendMessage( msg, transport );
     }
@@ -285,8 +283,8 @@ final class MailUtil
 
         // Creation of the html part, the "core" of the message
         BodyPart msgBodyPart = new MimeBodyPart( );
-        msgBodyPart.setDataHandler( new DataHandler( new ByteArrayDataSource( strMessage, AppPropertiesService.getProperty( PROPERTY_MAIL_TYPE_HTML )
-                + AppPropertiesService.getProperty( PROPERTY_CHARSET ) ) ) );
+        msgBodyPart.setDataHandler( new DataHandler( new ByteArrayDataSource( strMessage,
+                AppPropertiesService.getProperty( PROPERTY_MAIL_TYPE_HTML ) + AppPropertiesService.getProperty( PROPERTY_CHARSET ) ) ) );
         multipart.addBodyPart( msgBodyPart );
 
         if ( urlAttachements != null )
@@ -373,8 +371,8 @@ final class MailUtil
 
         // Creation of the html part, the "core" of the message
         BodyPart msgBodyPart = new MimeBodyPart( );
-        msgBodyPart.setDataHandler( new DataHandler( new ByteArrayDataSource( strMessage, AppPropertiesService.getProperty( PROPERTY_MAIL_TYPE_PLAIN )
-                + AppPropertiesService.getProperty( PROPERTY_CHARSET ) ) ) );
+        msgBodyPart.setDataHandler( new DataHandler( new ByteArrayDataSource( strMessage,
+                AppPropertiesService.getProperty( PROPERTY_MAIL_TYPE_PLAIN ) + AppPropertiesService.getProperty( PROPERTY_CHARSET ) ) ) );
         multipart.addBodyPart( msgBodyPart );
 
         // add File Attachement
@@ -440,14 +438,13 @@ final class MailUtil
 
         MimeMultipart multipart = new MimeMultipart( );
         BodyPart msgBodyPart = new MimeBodyPart( );
-        msgBodyPart.setDataHandler( new DataHandler( new ByteArrayDataSource( strMessage, AppPropertiesService.getProperty( PROPERTY_MAIL_TYPE_HTML )
-                + AppPropertiesService.getProperty( PROPERTY_CHARSET ) ) ) );
+        msgBodyPart.setDataHandler( new DataHandler( new ByteArrayDataSource( strMessage,
+                AppPropertiesService.getProperty( PROPERTY_MAIL_TYPE_HTML ) + AppPropertiesService.getProperty( PROPERTY_CHARSET ) ) ) );
 
         multipart.addBodyPart( msgBodyPart );
 
         BodyPart calendarBodyPart = new MimeBodyPart( );
-        calendarBodyPart.setContent(
-                strCalendarMessage,
+        calendarBodyPart.setContent( strCalendarMessage,
                 AppPropertiesService.getProperty( PROPERTY_MAIL_TYPE_CALENDAR ) + AppPropertiesService.getProperty( PROPERTY_CHARSET )
                         + AppPropertiesService.getProperty( PROPERTY_CALENDAR_SEPARATOR )
                         + AppPropertiesService.getProperty( bCreateEvent ? PROPERTY_CALENDAR_METHOD_CREATE : PROPERTY_CALENDAR_METHOD_CANCEL ) );
@@ -498,7 +495,7 @@ final class MailUtil
      */
     protected static List<UrlAttachment> getUrlAttachmentList( String strHtml, String strBaseUrl, boolean useAbsoluteUrl )
     {
-        List<UrlAttachment> listUrlAttachement = new ArrayList<UrlAttachment>( );
+        List<UrlAttachment> listUrlAttachement = new ArrayList<>( );
         HtmlDocument doc = new HtmlDocument( strHtml, strBaseUrl, useAbsoluteUrl );
         listUrlAttachement.addAll( doc.getAllUrlsAttachement( HtmlDocument.ELEMENT_IMG ) );
         listUrlAttachement.addAll( doc.getAllUrlsAttachement( HtmlDocument.ELEMENT_CSS ) );

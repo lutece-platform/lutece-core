@@ -33,6 +33,23 @@
  */
 package fr.paris.lutece.portal.web.user;
 
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.lang.StringUtils;
+
 import fr.paris.lutece.portal.business.rbac.AdminRole;
 import fr.paris.lutece.portal.business.rbac.AdminRoleHome;
 import fr.paris.lutece.portal.business.rbac.RBAC;
@@ -88,33 +105,14 @@ import fr.paris.lutece.util.ReferenceItem;
 import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.date.DateUtil;
 import fr.paris.lutece.util.filesystem.FileSystemUtil;
+import fr.paris.lutece.util.html.AbstractPaginator;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.html.ItemNavigator;
-import fr.paris.lutece.util.html.Paginator;
 import fr.paris.lutece.util.password.PasswordUtil;
 import fr.paris.lutece.util.sort.AttributeComparator;
 import fr.paris.lutece.util.string.StringUtil;
 import fr.paris.lutece.util.url.UrlItem;
 import fr.paris.lutece.util.xml.XmlUtil;
-
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.lang.StringUtils;
-
-import java.io.IOException;
-import java.io.PrintWriter;
-
-import java.sql.Timestamp;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 /**
  * This class provides the user interface to manage app user features ( manage, create, modify, remove, ... )
@@ -406,7 +404,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         listUsers = AdminWorkgroupService.getAuthorizedCollection( listUsers, getUser( ) );
 
         List<AdminUser> availableUsers = AdminUserService.getFilteredUsersInterface( listUsers, request, model, url );
-        List<AdminUser> listDisplayUsers = new ArrayList<AdminUser>( );
+        List<AdminUser> listDisplayUsers = new ArrayList<>( );
 
         for ( AdminUser user : availableUsers )
         {
@@ -429,9 +427,9 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             Collections.sort( listDisplayUsers, new AttributeComparator( strSortedAttributeName, bIsAscSort ) );
         }
 
-        _strCurrentPageIndex = Paginator.getPageIndex( request, Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex );
+        _strCurrentPageIndex = AbstractPaginator.getPageIndex( request, AbstractPaginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex );
         _nDefaultItemsPerPage = AppPropertiesService.getPropertyInt( PROPERTY_USERS_PER_PAGE, 50 );
-        _nItemsPerPage = Paginator.getItemsPerPage( request, Paginator.PARAMETER_ITEMS_PER_PAGE, _nItemsPerPage, _nDefaultItemsPerPage );
+        _nItemsPerPage = AbstractPaginator.getItemsPerPage( request, AbstractPaginator.PARAMETER_ITEMS_PER_PAGE, _nItemsPerPage, _nDefaultItemsPerPage );
 
         if ( strSortedAttributeName != null )
         {
@@ -445,10 +443,10 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
         // PAGINATOR
         LocalizedPaginator<AdminUser> paginator = new LocalizedPaginator<AdminUser>( listDisplayUsers, _nItemsPerPage, url.getUrl( ),
-                Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex, getLocale( ) );
+                AbstractPaginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex, getLocale( ) );
 
         // USER LEVEL
-        Collection<Level> filteredLevels = new ArrayList<Level>( );
+        Collection<Level> filteredLevels = new ArrayList<>( );
 
         for ( Level level : LevelHome.getLevelsList( ) )
         {
@@ -555,7 +553,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
         HtmlTemplate template;
         AdminUser currentUser = getUser( );
-        Collection<Level> filteredLevels = new ArrayList<Level>( );
+        Collection<Level> filteredLevels = new ArrayList<>( );
 
         for ( Level level : LevelHome.getLevelsList( ) )
         {
@@ -1150,7 +1148,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
      */
     public String getImportUsersFromFile( HttpServletRequest request )
     {
-        _importAdminUserService = (ImportAdminUserService) SpringContextService.getBean( BEAN_IMPORT_ADMIN_USER_SERVICE );
+        _importAdminUserService = SpringContextService.getBean( BEAN_IMPORT_ADMIN_USER_SERVICE );
         if ( !RBACService.isAuthorized( AdminUser.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID, AdminUserResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS,
                 getUser( ) ) )
         {
@@ -1330,7 +1328,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         Collection<AdminUser> listUsers = AdminUserHome.findUserList( );
 
         List<IAttribute> listAttributes = AttributeService.getInstance( ).getAllAttributesWithFields( LocaleService.getDefault( ) );
-        List<IAttribute> listAttributesFiltered = new ArrayList<IAttribute>( );
+        List<IAttribute> listAttributesFiltered = new ArrayList<>( );
 
         for ( IAttribute attribute : listAttributes )
         {
@@ -1642,7 +1640,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         if ( bDelegateRights )
         {
             Map<String, Right> rights = AdminUserHome.getRightsListForUser( currentUser.getUserId( ) );
-            rightList = new ArrayList<Right>( );
+            rightList = new ArrayList<>( );
 
             for ( Right right : rights.values( ) )
             {
@@ -1805,7 +1803,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         if ( bDelegateRoles )
         {
             // assign connected user roles
-            assignableRoleList = new ArrayList<AdminRole>( );
+            assignableRoleList = new ArrayList<>( );
 
             AdminUser currentUser = getUser( );
 
@@ -2272,7 +2270,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         Map<String, Object> model = new HashMap<>( );
 
         List<IAttribute> listAllAttributes = AttributeService.getInstance( ).getAllAttributesWithoutFields( getLocale( ) );
-        List<IAttribute> listAttributesText = new ArrayList<IAttribute>( );
+        List<IAttribute> listAttributesText = new ArrayList<>( );
 
         for ( IAttribute attribut : listAllAttributes )
         {
@@ -2322,7 +2320,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         AttributeService attributeService = AttributeService.getInstance( );
 
         List<IAttribute> listAllAttributes = attributeService.getAllAttributesWithoutFields( getLocale( ) );
-        List<IAttribute> listAttributesText = new ArrayList<IAttribute>( );
+        List<IAttribute> listAttributesText = new ArrayList<>( );
 
         for ( IAttribute attribut : listAllAttributes )
         {

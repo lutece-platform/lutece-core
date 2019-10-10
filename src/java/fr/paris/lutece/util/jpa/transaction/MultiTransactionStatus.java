@@ -58,7 +58,7 @@ public class MultiTransactionStatus implements TransactionStatus
     public MultiTransactionStatus( PlatformTransactionManager mainPTM )
     {
         _mainPTM = mainPTM;
-        _transactionStatuses = new HashMap<PlatformTransactionManager, TransactionStatus>( );
+        _transactionStatuses = new HashMap<>( );
     }
 
     /**

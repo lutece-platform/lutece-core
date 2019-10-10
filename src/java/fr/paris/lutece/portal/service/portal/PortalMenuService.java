@@ -249,7 +249,7 @@ public final class PortalMenuService extends AbstractCacheableService implements
 
         // Added in v1.3
         // Add a path param for choose url to use in admin or normal mode
-        Map<String, String> mapParamRequest = new HashMap<String, String>( );
+        Map<String, String> mapParamRequest = new HashMap<>( );
         PortalService.setXslPortalPath( mapParamRequest, nMode );
 
         XmlTransformerService xmlTransformerService = new XmlTransformerService( );

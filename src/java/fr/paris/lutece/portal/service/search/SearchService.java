@@ -95,7 +95,7 @@ public final class SearchService
         model.put( MARK_LINK, null );
         listTypesAndLinks.add( model );
 
-        List<SearchIndexer> listIndexer = new ArrayList<SearchIndexer>( IndexationService.getIndexers( ) );
+        List<SearchIndexer> listIndexer = new ArrayList<>( IndexationService.getIndexers( ) );
 
         for ( SearchIndexer indexer : listIndexer )
         {

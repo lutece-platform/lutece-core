@@ -215,7 +215,7 @@ public class SiteMapApp implements XPageApplication
 
         // Added in v1.3
         // Add a path param for choose url to use in admin or normal mode
-        Map<String, String> mapParamRequest = new HashMap<String, String>( );
+        Map<String, String> mapParamRequest = new HashMap<>( );
 
         if ( nMode != MODE_ADMIN )
         {

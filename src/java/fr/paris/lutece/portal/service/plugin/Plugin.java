@@ -133,7 +133,7 @@ public abstract class Plugin implements Comparable<Plugin>
     private List<String> _listFreemarkerMacrosFiles;
 
     // hashtable which contains all the params described in the xml plugin file
-    private Map<String, String> _mapParams = new HashMap<String, String>( );
+    private Map<String, String> _mapParams = new HashMap<>( );
     private PluginConnectionService _connectionService;
 
     /**

@@ -64,20 +64,21 @@ public final class ThemeDAO implements IThemeDAO
      */
     public synchronized void insert( Theme theme )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT ) )
+        {
 
-        daoUtil.setString( 1, theme.getCodeTheme( ) );
-        daoUtil.setString( 2, theme.getThemeDescription( ) );
-        daoUtil.setString( 3, theme.getPathImages( ) );
-        daoUtil.setString( 4, theme.getPathCss( ) );
-        daoUtil.setString( 5, theme.getThemeAuthor( ) );
-        daoUtil.setString( 6, theme.getThemeAuthorUrl( ) );
-        daoUtil.setString( 7, theme.getThemeVersion( ) );
-        daoUtil.setString( 8, theme.getThemeLicence( ) );
-        daoUtil.setString( 9, theme.getPathJs( ) );
+            daoUtil.setString( 1, theme.getCodeTheme( ) );
+            daoUtil.setString( 2, theme.getThemeDescription( ) );
+            daoUtil.setString( 3, theme.getPathImages( ) );
+            daoUtil.setString( 4, theme.getPathCss( ) );
+            daoUtil.setString( 5, theme.getThemeAuthor( ) );
+            daoUtil.setString( 6, theme.getThemeAuthorUrl( ) );
+            daoUtil.setString( 7, theme.getThemeVersion( ) );
+            daoUtil.setString( 8, theme.getThemeLicence( ) );
+            daoUtil.setString( 9, theme.getPathJs( ) );
 
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+            daoUtil.executeUpdate( );
+        }
     }
 
     /**
@@ -86,26 +87,27 @@ public final class ThemeDAO implements IThemeDAO
     public Theme load( String strCodeTheme )
     {
         Theme theme = null;
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT );
-        daoUtil.setString( 1, strCodeTheme );
-
-        daoUtil.executeQuery( );
-
-        if ( daoUtil.next( ) )
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT ) )
         {
-            theme = new Theme( );
-            theme.setCodeTheme( daoUtil.getString( 1 ) );
-            theme.setThemeDescription( daoUtil.getString( 2 ) );
-            theme.setPathImages( daoUtil.getString( 3 ) );
-            theme.setPathCss( daoUtil.getString( 4 ) );
-            theme.setThemeAuthor( daoUtil.getString( 5 ) );
-            theme.setThemeAuthorUrl( daoUtil.getString( 6 ) );
-            theme.setThemeVersion( daoUtil.getString( 7 ) );
-            theme.setThemeLicence( daoUtil.getString( 8 ) );
-            theme.setPathJs( daoUtil.getString( 9 ) );
-        }
+            daoUtil.setString( 1, strCodeTheme );
 
-        daoUtil.free( );
+            daoUtil.executeQuery( );
+
+            if ( daoUtil.next( ) )
+            {
+                theme = new Theme( );
+                theme.setCodeTheme( daoUtil.getString( 1 ) );
+                theme.setThemeDescription( daoUtil.getString( 2 ) );
+                theme.setPathImages( daoUtil.getString( 3 ) );
+                theme.setPathCss( daoUtil.getString( 4 ) );
+                theme.setThemeAuthor( daoUtil.getString( 5 ) );
+                theme.setThemeAuthorUrl( daoUtil.getString( 6 ) );
+                theme.setThemeVersion( daoUtil.getString( 7 ) );
+                theme.setThemeLicence( daoUtil.getString( 8 ) );
+                theme.setPathJs( daoUtil.getString( 9 ) );
+            }
+
+        }
 
         return theme;
     }
@@ -115,10 +117,11 @@ public final class ThemeDAO implements IThemeDAO
      */
     public void delete( String strCodeTheme )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE );
-        daoUtil.setString( 1, strCodeTheme );
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE ) )
+        {
+            daoUtil.setString( 1, strCodeTheme );
+            daoUtil.executeUpdate( );
+        }
     }
 
     /**
@@ -126,20 +129,21 @@ public final class ThemeDAO implements IThemeDAO
      */
     public void store( Theme theme )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE ) )
+        {
 
-        daoUtil.setString( 1, theme.getThemeDescription( ) );
-        daoUtil.setString( 2, theme.getPathImages( ) );
-        daoUtil.setString( 3, theme.getPathCss( ) );
-        daoUtil.setString( 4, theme.getThemeAuthor( ) );
-        daoUtil.setString( 5, theme.getThemeAuthorUrl( ) );
-        daoUtil.setString( 6, theme.getThemeVersion( ) );
-        daoUtil.setString( 7, theme.getThemeLicence( ) );
-        daoUtil.setString( 8, theme.getPathJs( ) );
-        daoUtil.setString( 9, theme.getCodeTheme( ) );
+            daoUtil.setString( 1, theme.getThemeDescription( ) );
+            daoUtil.setString( 2, theme.getPathImages( ) );
+            daoUtil.setString( 3, theme.getPathCss( ) );
+            daoUtil.setString( 4, theme.getThemeAuthor( ) );
+            daoUtil.setString( 5, theme.getThemeAuthorUrl( ) );
+            daoUtil.setString( 6, theme.getThemeVersion( ) );
+            daoUtil.setString( 7, theme.getThemeLicence( ) );
+            daoUtil.setString( 8, theme.getPathJs( ) );
+            daoUtil.setString( 9, theme.getCodeTheme( ) );
 
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+            daoUtil.executeUpdate( );
+        }
     }
 
     /**
@@ -147,28 +151,29 @@ public final class ThemeDAO implements IThemeDAO
      */
     public Collection<Theme> selectThemesList( )
     {
-        Collection<Theme> themeList = new ArrayList<Theme>( );
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL );
-        daoUtil.executeQuery( );
-
-        while ( daoUtil.next( ) )
+        Collection<Theme> themeList = new ArrayList<>( );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL ) )
         {
-            Theme theme = new Theme( );
+            daoUtil.executeQuery( );
 
-            theme.setCodeTheme( daoUtil.getString( 1 ) );
-            theme.setThemeDescription( daoUtil.getString( 2 ) );
-            theme.setPathImages( daoUtil.getString( 3 ) );
-            theme.setPathCss( daoUtil.getString( 4 ) );
-            theme.setThemeAuthor( daoUtil.getString( 5 ) );
-            theme.setThemeAuthorUrl( daoUtil.getString( 6 ) );
-            theme.setThemeVersion( daoUtil.getString( 7 ) );
-            theme.setThemeLicence( daoUtil.getString( 8 ) );
-            theme.setPathJs( daoUtil.getString( 9 ) );
+            while ( daoUtil.next( ) )
+            {
+                Theme theme = new Theme( );
 
-            themeList.add( theme );
+                theme.setCodeTheme( daoUtil.getString( 1 ) );
+                theme.setThemeDescription( daoUtil.getString( 2 ) );
+                theme.setPathImages( daoUtil.getString( 3 ) );
+                theme.setPathCss( daoUtil.getString( 4 ) );
+                theme.setThemeAuthor( daoUtil.getString( 5 ) );
+                theme.setThemeAuthorUrl( daoUtil.getString( 6 ) );
+                theme.setThemeVersion( daoUtil.getString( 7 ) );
+                theme.setThemeLicence( daoUtil.getString( 8 ) );
+                theme.setPathJs( daoUtil.getString( 9 ) );
+
+                themeList.add( theme );
+            }
+
         }
-
-        daoUtil.free( );
 
         return themeList;
     }
@@ -179,16 +184,17 @@ public final class ThemeDAO implements IThemeDAO
     public ReferenceList getThemesList( )
     {
         ReferenceList themesList = new ReferenceList( );
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_THEME );
-
-        daoUtil.executeQuery( );
-
-        while ( daoUtil.next( ) )
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_THEME ) )
         {
-            themesList.addItem( daoUtil.getString( 1 ), daoUtil.getString( 2 ) );
-        }
 
-        daoUtil.free( );
+            daoUtil.executeQuery( );
+
+            while ( daoUtil.next( ) )
+            {
+                themesList.addItem( daoUtil.getString( 1 ), daoUtil.getString( 2 ) );
+            }
+
+        }
 
         return themesList;
     }
@@ -198,12 +204,13 @@ public final class ThemeDAO implements IThemeDAO
      */
     public void setGlobalTheme( String strGlobalTheme )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE_GLOBAL_THEME );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE_GLOBAL_THEME ) )
+        {
 
-        daoUtil.setString( 1, strGlobalTheme );
+            daoUtil.setString( 1, strGlobalTheme );
 
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+            daoUtil.executeUpdate( );
+        }
     }
 
     /**
@@ -212,16 +219,17 @@ public final class ThemeDAO implements IThemeDAO
     public String getGlobalTheme( )
     {
         String strGlobalTheme = null;
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_GLOBAL_THEME );
-
-        daoUtil.executeQuery( );
-
-        if ( daoUtil.next( ) )
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_GLOBAL_THEME ) )
         {
-            strGlobalTheme = daoUtil.getString( 1 );
-        }
 
-        daoUtil.free( );
+            daoUtil.executeQuery( );
+
+            if ( daoUtil.next( ) )
+            {
+                strGlobalTheme = daoUtil.getString( 1 );
+            }
+
+        }
 
         return strGlobalTheme;
     }

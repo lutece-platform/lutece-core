@@ -59,13 +59,14 @@ public final class PortalComponentDAO implements IPortalComponentDAO
      */
     public synchronized void insert( PortalComponent portalComponent )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT ) )
+        {
 
-        daoUtil.setInt( 1, portalComponent.getId( ) );
-        daoUtil.setString( 2, portalComponent.getName( ) );
+            daoUtil.setInt( 1, portalComponent.getId( ) );
+            daoUtil.setString( 2, portalComponent.getName( ) );
 
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+            daoUtil.executeUpdate( );
+        }
     }
 
     /**
@@ -74,20 +75,21 @@ public final class PortalComponentDAO implements IPortalComponentDAO
     public PortalComponent load( int nPortalComponentId )
     {
         PortalComponent portalComponent = null;
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT );
-        daoUtil.setInt( 1, nPortalComponentId );
-
-        daoUtil.executeQuery( );
-
-        if ( daoUtil.next( ) )
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT ) )
         {
-            portalComponent = new PortalComponent( );
+            daoUtil.setInt( 1, nPortalComponentId );
 
-            portalComponent.setId( nPortalComponentId );
-            portalComponent.setName( daoUtil.getString( 1 ) );
+            daoUtil.executeQuery( );
+
+            if ( daoUtil.next( ) )
+            {
+                portalComponent = new PortalComponent( );
+
+                portalComponent.setId( nPortalComponentId );
+                portalComponent.setName( daoUtil.getString( 1 ) );
+            }
+
         }
-
-        daoUtil.free( );
 
         return portalComponent;
     }
@@ -97,11 +99,12 @@ public final class PortalComponentDAO implements IPortalComponentDAO
      */
     public void delete( int nPortalComponentId )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE );
-        daoUtil.setInt( 1, nPortalComponentId );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE ) )
+        {
+            daoUtil.setInt( 1, nPortalComponentId );
 
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+            daoUtil.executeUpdate( );
+        }
     }
 
     /**
@@ -109,14 +112,15 @@ public final class PortalComponentDAO implements IPortalComponentDAO
      */
     public void store( PortalComponent portalComponent )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE ) )
+        {
 
-        daoUtil.setInt( 1, portalComponent.getId( ) );
-        daoUtil.setString( 2, portalComponent.getName( ) );
-        daoUtil.setInt( 3, portalComponent.getId( ) );
+            daoUtil.setInt( 1, portalComponent.getId( ) );
+            daoUtil.setString( 2, portalComponent.getName( ) );
+            daoUtil.setInt( 3, portalComponent.getId( ) );
 
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+            daoUtil.executeUpdate( );
+        }
     }
 
     /**
@@ -124,24 +128,24 @@ public final class PortalComponentDAO implements IPortalComponentDAO
      */
     public StyleSheet selectXslFile( int nPortalComponentId, int nIdMode )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTXSL );
-
-        daoUtil.setInt( 1, nPortalComponentId );
-        daoUtil.setInt( 2, nIdMode );
-
-        daoUtil.executeQuery( );
-
         StyleSheet stylesheet = new StyleSheet( );
-
-        if ( daoUtil.next( ) )
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTXSL ) )
         {
-            stylesheet.setId( daoUtil.getInt( 1 ) );
-            stylesheet.setDescription( daoUtil.getString( 2 ) );
-            stylesheet.setFile( daoUtil.getString( 3 ) );
-            stylesheet.setSource( daoUtil.getBytes( 4 ) );
-        }
 
-        daoUtil.free( );
+            daoUtil.setInt( 1, nPortalComponentId );
+            daoUtil.setInt( 2, nIdMode );
+
+            daoUtil.executeQuery( );
+
+            if ( daoUtil.next( ) )
+            {
+                stylesheet.setId( daoUtil.getInt( 1 ) );
+                stylesheet.setDescription( daoUtil.getString( 2 ) );
+                stylesheet.setFile( daoUtil.getString( 3 ) );
+                stylesheet.setSource( daoUtil.getBytes( 4 ) );
+            }
+
+        }
 
         return stylesheet;
     }

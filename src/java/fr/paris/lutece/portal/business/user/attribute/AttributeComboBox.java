@@ -189,7 +189,7 @@ public class AttributeComboBox extends AbstractAttribute implements ISimpleValue
 
             if ( getListAttributeFields( ) == null )
             {
-                List<AttributeField> listAttributeFields = new ArrayList<AttributeField>( );
+                List<AttributeField> listAttributeFields = new ArrayList<>( );
                 AttributeField attributeField = new AttributeField( );
                 listAttributeFields.add( attributeField );
                 setListAttributeFields( listAttributeFields );
@@ -248,7 +248,7 @@ public class AttributeComboBox extends AbstractAttribute implements ISimpleValue
     @Override
     public List<AdminUserField> getUserFieldsData( String [ ] strValues, AdminUser user )
     {
-        List<AdminUserField> listUserFields = new ArrayList<AdminUserField>( );
+        List<AdminUserField> listUserFields = new ArrayList<>( );
 
         if ( strValues != null )
         {

@@ -244,20 +244,20 @@ public abstract class DashboardComponent implements IDashboardComponent
     {
         _locale = locale;
     }
-    
+
     @Override
     public String getDescription( )
     {
         String strKey;
-        Locale locale = ( _locale != null ) ? _locale : LocaleService.getDefault();
-        
-        if( _plugin == PluginService.getCore() )
+        Locale locale = ( _locale != null ) ? _locale : LocaleService.getDefault( );
+
+        if ( _plugin == PluginService.getCore( ) )
         {
             strKey = "portal.dashboard.dashboardComponent." + _strName + ".description";
         }
         else
         {
-            strKey = _plugin.getName() + ".dashboardComponent."  + _strName + ".description";
+            strKey = _plugin.getName( ) + ".dashboardComponent." + _strName + ".description";
         }
         return I18nService.getLocalizedString( strKey, locale );
     }

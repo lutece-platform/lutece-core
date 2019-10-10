@@ -265,7 +265,7 @@ public final class AdminDashboardService
         List<IAdminDashboardComponent> listDashboards = AdminDashboardHome.findAll( );
         List<IAdminDashboardComponent> listSpringDashboards = getAllAdminDashboardComponents( );
 
-        List<IAdminDashboardComponent> listUnsetDashboards = new ArrayList<IAdminDashboardComponent>( );
+        List<IAdminDashboardComponent> listUnsetDashboards = new ArrayList<>( );
 
         for ( IAdminDashboardComponent dashboard : listSpringDashboards )
         {
@@ -285,7 +285,7 @@ public final class AdminDashboardService
      */
     public Map<String, List<IAdminDashboardComponent>> getAllSetDashboards( )
     {
-        Map<String, List<IAdminDashboardComponent>> mapDashboardComponents = new HashMap<String, List<IAdminDashboardComponent>>( );
+        Map<String, List<IAdminDashboardComponent>> mapDashboardComponents = new HashMap<>( );
 
         List<IAdminDashboardComponent> listDashboards = AdminDashboardHome.findAll( );
 
@@ -301,7 +301,7 @@ public final class AdminDashboardService
             if ( listDashboardsColumn == null )
             {
                 // the list does not exist, create it
-                listDashboardsColumn = new ArrayList<IAdminDashboardComponent>( );
+                listDashboardsColumn = new ArrayList<>( );
                 mapDashboardComponents.put( strColumn, listDashboardsColumn );
             }
 
@@ -364,7 +364,7 @@ public final class AdminDashboardService
      */
     public Map<String, Boolean> getOrderedColumnsStatus( )
     {
-        Map<String, Boolean> mapOrderedStatus = new HashMap<String, Boolean>( );
+        Map<String, Boolean> mapOrderedStatus = new HashMap<>( );
         List<Integer> listColumns = AdminDashboardHome.findColumns( );
 
         for ( Integer nIdColumn : listColumns )

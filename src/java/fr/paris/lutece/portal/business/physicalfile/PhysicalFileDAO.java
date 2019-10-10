@@ -53,19 +53,19 @@ public final class PhysicalFileDAO implements IPhysicalFileDAO
     @Override
     public int newPrimaryKey( )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_NEW_PK );
-        daoUtil.executeQuery( );
-
         int nKey;
-
-        if ( !daoUtil.next( ) )
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_NEW_PK ) )
         {
-            // if the table is empty
-            nKey = 1;
-        }
+            daoUtil.executeQuery( );
 
-        nKey = daoUtil.getInt( 1 ) + 1;
-        daoUtil.free( );
+            if ( !daoUtil.next( ) )
+            {
+                // if the table is empty
+                nKey = 1;
+            }
+
+            nKey = daoUtil.getInt( 1 ) + 1;
+        }
 
         return nKey;
     }
@@ -76,13 +76,14 @@ public final class PhysicalFileDAO implements IPhysicalFileDAO
     @Override
     public synchronized int insert( PhysicalFile physicalFile )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT );
-        daoUtil.setBytes( 2, physicalFile.getValue( ) );
-        physicalFile.setIdPhysicalFile( newPrimaryKey( ) );
-        daoUtil.setInt( 1, physicalFile.getIdPhysicalFile( ) );
-        daoUtil.executeUpdate( );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT ) )
+        {
+            daoUtil.setBytes( 2, physicalFile.getValue( ) );
+            physicalFile.setIdPhysicalFile( newPrimaryKey( ) );
+            daoUtil.setInt( 1, physicalFile.getIdPhysicalFile( ) );
+            daoUtil.executeUpdate( );
 
-        daoUtil.free( );
+        }
 
         return physicalFile.getIdPhysicalFile( );
     }
@@ -93,21 +94,21 @@ public final class PhysicalFileDAO implements IPhysicalFileDAO
     @Override
     public PhysicalFile load( int nId )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_FIND_BY_PRIMARY_KEY );
-        daoUtil.setInt( 1, nId );
-        daoUtil.executeQuery( );
-
         PhysicalFile physicalFile = null;
-
-        if ( daoUtil.next( ) )
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_FIND_BY_PRIMARY_KEY ) )
         {
-            int nIndex = 1;
-            physicalFile = new PhysicalFile( );
-            physicalFile.setIdPhysicalFile( daoUtil.getInt( nIndex++ ) );
-            physicalFile.setValue( daoUtil.getBytes( nIndex ) );
-        }
+            daoUtil.setInt( 1, nId );
+            daoUtil.executeQuery( );
 
-        daoUtil.free( );
+            if ( daoUtil.next( ) )
+            {
+                int nIndex = 1;
+                physicalFile = new PhysicalFile( );
+                physicalFile.setIdPhysicalFile( daoUtil.getInt( nIndex++ ) );
+                physicalFile.setValue( daoUtil.getBytes( nIndex ) );
+            }
+
+        }
 
         return physicalFile;
     }
@@ -118,10 +119,11 @@ public final class PhysicalFileDAO implements IPhysicalFileDAO
     @Override
     public void delete( int nIdPhysicalFile )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE );
-        daoUtil.setInt( 1, nIdPhysicalFile );
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE ) )
+        {
+            daoUtil.setInt( 1, nIdPhysicalFile );
+            daoUtil.executeUpdate( );
+        }
     }
 
     /**
@@ -131,11 +133,12 @@ public final class PhysicalFileDAO implements IPhysicalFileDAO
     public void store( PhysicalFile physicalFile )
     {
         int nIndex = 1;
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE );
-        daoUtil.setInt( nIndex++, physicalFile.getIdPhysicalFile( ) );
-        daoUtil.setBytes( nIndex++, physicalFile.getValue( ) );
-        daoUtil.setInt( nIndex, physicalFile.getIdPhysicalFile( ) );
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE ) )
+        {
+            daoUtil.setInt( nIndex++, physicalFile.getIdPhysicalFile( ) );
+            daoUtil.setBytes( nIndex++, physicalFile.getValue( ) );
+            daoUtil.setInt( nIndex, physicalFile.getIdPhysicalFile( ) );
+            daoUtil.executeUpdate( );
+        }
     }
 }

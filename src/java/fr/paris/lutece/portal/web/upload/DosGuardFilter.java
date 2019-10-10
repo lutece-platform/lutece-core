@@ -78,7 +78,7 @@ public class DosGuardFilter implements Filter
     public void init( FilterConfig config ) throws ServletException
     {
         _filterConfig = config;
-        _mapLastRequestTimes = new HashMap<String, Long>( INITIAL_CAPACITY );
+        _mapLastRequestTimes = new HashMap<>( INITIAL_CAPACITY );
         _listOrderedRequests = new LinkedList<Entry>( );
 
         try

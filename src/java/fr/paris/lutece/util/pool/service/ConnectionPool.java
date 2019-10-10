@@ -66,7 +66,7 @@ public class ConnectionPool implements DataSource
     private int _nTimeOut;
     private Logger _logger;
     private int _nCheckedOut;
-    private List<Connection> _freeConnections = new ArrayList<Connection>( );
+    private List<Connection> _freeConnections = new ArrayList<>( );
     private String _strCheckValidConnectionSql; // Added in v1.4
     private PrintWriter _logWriter;
 

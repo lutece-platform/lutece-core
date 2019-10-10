@@ -154,7 +154,7 @@ public class InsertServiceSelectorJspBean extends AdminFeaturesPageJspBean
 
         request.getSession( ).removeAttribute( SESSION_INSERT );
 
-        Map<String, String> model = new HashMap<String, String>( );
+        Map<String, String> model = new HashMap<>( );
         model.put( MARK_INPUT, strInput );
         model.put( MARK_INSERT, strInsert );
 

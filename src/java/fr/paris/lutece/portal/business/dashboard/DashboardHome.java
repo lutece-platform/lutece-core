@@ -46,7 +46,7 @@ import java.util.List;
 public final class DashboardHome
 {
     // Static variable pointed at the DAO instance
-    private static IDashboardDAO _dao = (IDashboardDAO) SpringContextService.getBean( "dashboardDAO" );
+    private static IDashboardDAO _dao = SpringContextService.getBean( "dashboardDAO" );
 
     /**
      * Private constructor - this class need not be instantiated

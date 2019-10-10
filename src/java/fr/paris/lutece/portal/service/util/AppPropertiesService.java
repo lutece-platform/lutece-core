@@ -200,7 +200,7 @@ public final class AppPropertiesService
      */
     public static Map<String, String> getPropertiesAsMap( )
     {
-        Map<String, String> res = new HashMap<String, String>( );
+        Map<String, String> res = new HashMap<>( );
         Properties properties = _propertiesService.getProperties( );
 
         // enumerate over property names to get all properties, including one which are defaults

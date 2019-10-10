@@ -45,7 +45,7 @@ import java.util.Locale;
 public final class FeatureGroupHome
 {
     // Static variable pointed at the DAO instance
-    private static IFeatureGroupDAO _dao = (IFeatureGroupDAO) SpringContextService.getBean( "featureGroupDAO" );
+    private static IFeatureGroupDAO _dao = SpringContextService.getBean( "featureGroupDAO" );
     private static final int CONSTANT_ERROR_ORDER = -2; // this value must be negative
     private static final int CONSTANT_STEP_ORDER = 1;
 

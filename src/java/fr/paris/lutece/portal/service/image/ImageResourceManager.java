@@ -44,7 +44,7 @@ import java.util.Map;
 public final class ImageResourceManager
 {
     /** resource type registry */
-    private static Map<String, ImageResourceProvider> _mapResourceTypes = new HashMap<String, ImageResourceProvider>( );
+    private static Map<String, ImageResourceProvider> _mapResourceTypes = new HashMap<>( );
 
     /** Private constructor */
     private ImageResourceManager( )
@@ -74,7 +74,7 @@ public final class ImageResourceManager
      */
     public static ImageResource getImageResource( String strResourceTypeId, int nResourceId )
     {
-        ImageResourceProvider resourceProvider = (ImageResourceProvider) _mapResourceTypes.get( strResourceTypeId );
+        ImageResourceProvider resourceProvider = _mapResourceTypes.get( strResourceTypeId );
 
         if ( resourceProvider != null )
         {

@@ -86,7 +86,7 @@ public class StatisticsInclude implements PageInclude
             {
                 String strStatisticalIncludeTemplateHead = AppPropertiesService.getProperty( PROPERTY_STATISTICAL_INCLUDE_HEAD_TEMPLATE );
 
-                Map<String, String> model = new HashMap<String, String>( );
+                Map<String, String> model = new HashMap<>( );
                 model.put( MARK_STATISTICAL_SITE_ID, strStatisticalSiteId );
                 model.put( MARK_STATISTICAL_SERVER_URL, strStatisticalServerUrl );
 

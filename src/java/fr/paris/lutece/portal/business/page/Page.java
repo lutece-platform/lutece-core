@@ -80,13 +80,12 @@ public class Page implements RBACResource, IExtendableResource
     private String _strCodeTheme;
     private byte [ ] _strImageContent;
     private Timestamp _dateUpdate;
-    private List<Portlet> _listPortlets = new ArrayList<Portlet>( );
+    private List<Portlet> _listPortlets = new ArrayList<>( );
     private String _strMetaKeywords;
     private String _strMetaDescription;
     private Integer _nIdAuthorizationNode;
     private boolean _bDisplayDateUpdate;
     private boolean _bIsManualDateUpdate;
-
 
     /**
      * Sets the identifier of the page

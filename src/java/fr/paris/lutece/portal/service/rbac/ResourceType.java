@@ -60,7 +60,7 @@ public class ResourceType implements Localizable
      */
     public ResourceType( )
     {
-        _mapPermissions = new HashMap<String, Permission>( );
+        _mapPermissions = new HashMap<>( );
     }
 
     /**

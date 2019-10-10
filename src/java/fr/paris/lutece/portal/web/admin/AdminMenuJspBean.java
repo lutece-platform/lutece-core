@@ -289,13 +289,13 @@ public class AdminMenuJspBean implements Serializable
     private List<FeatureGroup> getFeatureGroupsList( AdminUser user )
     {
         // structure that will be returned
-        ArrayList<FeatureGroup> aOutFeatureGroupList = new ArrayList<FeatureGroup>( );
+        ArrayList<FeatureGroup> aOutFeatureGroupList = new ArrayList<>( );
 
         // get the list of user's features
         Map<String, Right> featuresMap = user.getRights( );
-        List<Right> features = new ArrayList<Right>( featuresMap.values( ) );
+        List<Right> features = new ArrayList<>( featuresMap.values( ) );
 
-        List<Right> rightsToDelete = new ArrayList<Right>( );
+        List<Right> rightsToDelete = new ArrayList<>( );
 
         // delete features which have a null URL : these features does not have to be displayed in the menu
         for ( Right right : features )
@@ -313,7 +313,7 @@ public class AdminMenuJspBean implements Serializable
         // for each group, load the features
         for ( FeatureGroup featureGroup : FeatureGroupHome.getFeatureGroupsList( ) )
         {
-            ArrayList<Right> aLeftFeatures = new ArrayList<Right>( );
+            ArrayList<Right> aLeftFeatures = new ArrayList<>( );
 
             for ( Right right : features )
             {
@@ -539,7 +539,7 @@ public class AdminMenuJspBean implements Serializable
     {
         if ( _strStylesheets == null || _bResetAdminStylesheets )
         {
-            List<Plugin> listPlugins = new ArrayList<Plugin>( );
+            List<Plugin> listPlugins = new ArrayList<>( );
             listPlugins.add( PluginService.getCore( ) );
             listPlugins.addAll( PluginService.getPluginList( ) );
 
@@ -569,7 +569,7 @@ public class AdminMenuJspBean implements Serializable
         if ( _strJavascripts == null )
         {
             StringBuilder sbJavascripts = new StringBuilder( );
-            List<Plugin> listPlugins = new ArrayList<Plugin>( );
+            List<Plugin> listPlugins = new ArrayList<>( );
             listPlugins.add( PluginService.getCore( ) );
             listPlugins.addAll( PluginService.getPluginList( ) );
 

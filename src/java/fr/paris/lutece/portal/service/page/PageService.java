@@ -151,7 +151,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
     private static final String DOCUMENT_IMAGE_URL = "images/admin/skin/actions/publish.png";
     private static final String DOCUMENT_TITLE = "portal.site.portletPreview.buttonManage";
     private static final int MAX_COLUMNS = AppPropertiesService.getPropertyInt( PROPERTY_COLUMN_MAX, DEFAULT_COLUMN_MAX );
-    private static List<PageEventListener> _listEventListeners = new ArrayList<PageEventListener>( );
+    private static List<PageEventListener> _listEventListeners = new ArrayList<>( );
     private ICacheKeyService _cksPage;
     private ICacheKeyService _cksPortlet;
     private PageCacheService _cachePages;
@@ -249,7 +249,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
             {
                 // Get request paramaters and store them in a HashMap
                 Enumeration<?> enumParam = request.getParameterNames( );
-                HashMap<String, String> htParamRequest = new HashMap<String, String>( );
+                HashMap<String, String> htParamRequest = new HashMap<>( );
                 String paramName = "";
 
                 while ( enumParam.hasMoreElements( ) )
@@ -534,7 +534,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
         }
 
         // We save that the page that is generating can not be cached
-        if ( !bCanPageBeCached )
+        if ( !bCanPageBeCached && request != null )
         {
             request.setAttribute( ATTRIBUTE_CORE_CAN_PAGE_BE_CACHED, false );
         }
@@ -596,8 +596,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
      * @throws SiteMessageException
      *             If an error occurs
      */
-    private String getPortletContent( HttpServletRequest request, Portlet portlet, Map<String, String> mapRequestParams, int nMode )
-            throws SiteMessageException
+    private String getPortletContent( HttpServletRequest request, Portlet portlet, Map<String, String> mapRequestParams, int nMode ) throws SiteMessageException
     {
         if ( ( nMode != MODE_ADMIN ) && ( portlet.getStatus( ) == Portlet.STATUS_UNPUBLISHED ) )
         {
@@ -983,7 +982,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
         if ( RBACService.isAuthorized( PortletType.RESOURCE_TYPE, portlet.getPortletTypeId( ), PortletResourceIdService.PERMISSION_MANAGE, user ) )
         {
             Locale locale = user.getLocale( );
-            Collection<PortletCustomAdminAction> listCustomActions = new ArrayList<PortletCustomAdminAction>( );
+            Collection<PortletCustomAdminAction> listCustomActions = new ArrayList<>( );
 
             // TODO : listCustomActions should be provided by PortletType
             // FIXME : Delete plugin-document specifics
@@ -1023,7 +1022,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
      */
     private Map<String, String> getParams( HttpServletRequest request, int nMode, int nIdPage )
     {
-        Map<String, String> mapModifyParam = new HashMap<String, String>( );
+        Map<String, String> mapModifyParam = new HashMap<>( );
         String paramName = "";
 
         // Get request paramaters and store them in a HashMap
@@ -1049,8 +1048,8 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
 
             if ( SecurityService.isAuthenticationEnable( ) )
             {
-                mapModifyParam.put( MARKER_IS_USER_AUTHENTICATED, ( SecurityService.getInstance( ).getRegisteredUser( request ) != null ) ? VALUE_TRUE
-                        : VALUE_FALSE );
+                mapModifyParam.put( MARKER_IS_USER_AUTHENTICATED,
+                        ( SecurityService.getInstance( ).getRegisteredUser( request ) != null ) ? VALUE_TRUE : VALUE_FALSE );
             }
         }
         else

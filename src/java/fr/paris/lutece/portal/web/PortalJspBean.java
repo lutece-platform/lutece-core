@@ -241,7 +241,7 @@ public class PortalJspBean
             return getStartUpFailurePage( request );
         }
 
-        ISiteMessageHandler handler = (ISiteMessageHandler) SpringContextService.getBean( BEAN_SITE_MESSAGE_HANDLER );
+        ISiteMessageHandler handler = SpringContextService.getBean( BEAN_SITE_MESSAGE_HANDLER );
 
         if ( handler.hasMessage( request ) )
         {

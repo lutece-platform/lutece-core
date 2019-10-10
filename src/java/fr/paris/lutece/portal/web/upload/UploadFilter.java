@@ -33,16 +33,9 @@
  */
 package fr.paris.lutece.portal.web.upload;
 
-import fr.paris.lutece.portal.service.util.AppLogService;
-import fr.paris.lutece.portal.service.util.AppPathService;
-import fr.paris.lutece.util.http.MultipartUtil;
-
-import org.apache.commons.fileupload.FileUploadBase.SizeLimitExceededException;
-import org.apache.commons.fileupload.FileUploadException;
-
 import java.io.IOException;
-
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -52,6 +45,12 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.fileupload.FileUploadBase.SizeLimitExceededException;
+import org.apache.commons.fileupload.FileUploadException;
+
+import fr.paris.lutece.portal.service.util.AppLogService;
+import fr.paris.lutece.util.http.MultipartUtil;
 
 /**
  * Upload filter
@@ -200,7 +199,7 @@ public abstract class UploadFilter implements Filter
     private String getDisplaySize( )
     {
         long lSizeMax = getRequestSizeMax( );
-        DecimalFormat decimalFormat = (DecimalFormat) DecimalFormat.getInstance( );
+        DecimalFormat decimalFormat = (DecimalFormat) NumberFormat.getInstance( );
         decimalFormat.applyPattern( "#" );
 
         String strMessage = ( lSizeMax >= KILO_BYTE ) ? ( String.valueOf( lSizeMax / KILO_BYTE ) ) : ( decimalFormat.format( lSizeMax / KILO_BYTE ) );

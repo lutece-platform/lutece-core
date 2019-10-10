@@ -53,8 +53,8 @@ public class FullPageCachingService extends HeadersPageCachingFilter
      * {@inheritDoc }
      */
     @Override
-    protected void doFilter( HttpServletRequest request, HttpServletResponse response, FilterChain chain ) throws AlreadyGzippedException,
-            AlreadyCommittedException, FilterNonReentrantException, LockTimeoutException, Exception
+    protected void doFilter( HttpServletRequest request, HttpServletResponse response, FilterChain chain )
+            throws AlreadyGzippedException, AlreadyCommittedException, FilterNonReentrantException, LockTimeoutException, Exception
     {
         if ( !getInit( ) )
         {
@@ -65,8 +65,8 @@ public class FullPageCachingService extends HeadersPageCachingFilter
         {
             if ( isCacheEnable( ) )
             {
-                AppLogService
-                        .info( "The PageCachingService has been inhibited because MyLutece authentication is enabled. Please disable this service in the Lutece Administration." );
+                AppLogService.info(
+                        "The PageCachingService has been inhibited because MyLutece authentication is enabled. Please disable this service in the Lutece Administration." );
             }
             chain.doFilter( request, response );
         }

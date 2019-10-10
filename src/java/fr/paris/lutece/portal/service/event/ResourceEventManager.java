@@ -47,7 +47,7 @@ import java.util.List;
  */
 public final class ResourceEventManager
 {
-    private static List<EventRessourceListener> _lstListeners = new ArrayList<EventRessourceListener>( );
+    private static List<EventRessourceListener> _lstListeners = new ArrayList<>( );
 
     /**
      * Private constructor - this class need not be instantiated

@@ -76,7 +76,7 @@ public abstract class JPALuteceDAO<K, E> extends JPAGenericDAO<K, E>
             strPersistenceUnit = plugin.getDbPoolName( );
         }
 
-        EntityManagerService ems = (EntityManagerService) SpringContextService.getBean( BEAN_ENTITY_MANAGER_SERVICE );
+        EntityManagerService ems = SpringContextService.getBean( BEAN_ENTITY_MANAGER_SERVICE );
 
         return ems.getEntityManagerFactory( strPersistenceUnit );
     }

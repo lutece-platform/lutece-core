@@ -96,9 +96,9 @@ public abstract class MVCApplication implements XPageApplication
     private static final String CONTENT_TYPE_JSON = "application/json";
     private static final String CONTENT_TYPE_XML = "application/xml";
     private static Logger _logger = MVCUtils.getLogger( );
-    private List<ErrorMessage> _listErrors = new ArrayList<ErrorMessage>( );
-    private List<ErrorMessage> _listInfos = new ArrayList<ErrorMessage>( );
-    private List<ErrorMessage> _listWarnings = new ArrayList<ErrorMessage>( );
+    private List<ErrorMessage> _listErrors = new ArrayList<>( );
+    private List<ErrorMessage> _listInfos = new ArrayList<>( );
+    private List<ErrorMessage> _listWarnings = new ArrayList<>( );
     private MVCMessageBox _messageBox;
     private Controller _controller = getClass( ).getAnnotation( Controller.class );
 
@@ -502,9 +502,9 @@ public abstract class MVCApplication implements XPageApplication
      */
     protected void fillCommons( Map<String, Object> model )
     {
-        List<ErrorMessage> listErrors = new ArrayList<ErrorMessage>( _listErrors );
-        List<ErrorMessage> listInfos = new ArrayList<ErrorMessage>( _listInfos );
-        List<ErrorMessage> listWarnings = new ArrayList<ErrorMessage>( _listWarnings );
+        List<ErrorMessage> listErrors = new ArrayList<>( _listErrors );
+        List<ErrorMessage> listInfos = new ArrayList<>( _listInfos );
+        List<ErrorMessage> listWarnings = new ArrayList<>( _listWarnings );
         model.put( MARK_ERRORS, listErrors );
         model.put( MARK_INFOS, listInfos );
         model.put( MARK_WARNINGS, listWarnings );

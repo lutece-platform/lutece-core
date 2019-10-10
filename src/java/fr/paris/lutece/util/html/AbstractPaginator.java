@@ -156,7 +156,7 @@ public abstract class AbstractPaginator<E> implements IPaginator<E>
     @Override
     public List<PaginatorPage> getPagesLinks( )
     {
-        List<PaginatorPage> list = new ArrayList<PaginatorPage>( );
+        List<PaginatorPage> list = new ArrayList<>( );
 
         // Number of link pages in total
         int nNbLinkPages = getPagesCount( );

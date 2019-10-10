@@ -70,30 +70,33 @@ public class LuteceDefaultAdminUserDAO implements ILuteceDefaultAdminUserDAO
      */
     public LuteceDefaultAdminUser load( String strAccessCode, AdminAuthentication authenticationService )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_LOAD_USER );
-        daoUtil.setString( 1, strAccessCode );
-        daoUtil.executeQuery( );
-
-        if ( !daoUtil.next( ) )
+        LuteceDefaultAdminUser user = new LuteceDefaultAdminUser( );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_LOAD_USER ) )
         {
-            daoUtil.free( );
-            throw new AppException( "The line doesn't exist " );
+            daoUtil.setString( 1, strAccessCode );
+            daoUtil.executeQuery( );
+
+            if ( !daoUtil.next( ) )
+            {
+                daoUtil.free( );
+                throw new AppException( "The line doesn't exist " );
+            }
+
+            String strUserName = daoUtil.getString( 1 );
+            user.setAccessCode( strUserName );
+            user.setAuthenticationService( authenticationService.getAuthServiceName( ) );
+            user.setUserId( daoUtil.getInt( 2 ) );
+            user.setPasswordMaxValidDate( daoUtil.getTimestamp( 3 ) );
+
+            long accountMaxValidDate = daoUtil.getLong( 4 );
+
+            if ( accountMaxValidDate > 0 )
+            {
+                user.setAccountMaxValidDate( new Timestamp( accountMaxValidDate ) );
+            }
+
+            user.setEmail( daoUtil.getString( 5 ) );
         }
-
-        String strUserName = daoUtil.getString( 1 );
-        LuteceDefaultAdminUser user = new LuteceDefaultAdminUser( strUserName, authenticationService );
-        user.setUserId( daoUtil.getInt( 2 ) );
-        user.setPasswordMaxValidDate( daoUtil.getTimestamp( 3 ) );
-
-        long accountMaxValidDate = daoUtil.getLong( 4 );
-
-        if ( accountMaxValidDate > 0 )
-        {
-            user.setAccountMaxValidDate( new Timestamp( accountMaxValidDate ) );
-        }
-
-        user.setEmail( daoUtil.getString( 5 ) );
-        daoUtil.free( );
 
         return user;
     }
@@ -108,23 +111,23 @@ public class LuteceDefaultAdminUserDAO implements ILuteceDefaultAdminUserDAO
      */
     public void updateResetPassword( LuteceDefaultAdminUser user, boolean bIsPasswordReset )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE_PASSWORD_RESET );
-        daoUtil.setBoolean( 1, bIsPasswordReset );
-        daoUtil.setInt( 2, user.getUserId( ) );
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE_PASSWORD_RESET ) )
+        {
+            daoUtil.setBoolean( 1, bIsPasswordReset );
+            daoUtil.setInt( 2, user.getUserId( ) );
+            daoUtil.executeUpdate( );
+        }
     }
 
     @Override
     public IPassword loadPassword( String strAccessCode )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_LOAD_PASSWORD );
-        daoUtil.setString( 1, strAccessCode );
-        daoUtil.executeQuery( );
-
         IPassword storedPassword;
-        try
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_LOAD_PASSWORD ) )
         {
+            daoUtil.setString( 1, strAccessCode );
+            daoUtil.executeQuery( );
+
             if ( daoUtil.next( ) )
             {
                 storedPassword = _passwordFactory.getPassword( daoUtil.getString( 1 ) );
@@ -134,10 +137,6 @@ public class LuteceDefaultAdminUserDAO implements ILuteceDefaultAdminUserDAO
                 // timing resistance
                 storedPassword = _passwordFactory.getDummyPassword( );
             }
-        }
-        finally
-        {
-            daoUtil.free( );
         }
 
         return storedPassword;
@@ -150,16 +149,11 @@ public class LuteceDefaultAdminUserDAO implements ILuteceDefaultAdminUserDAO
         {
             throw new IllegalArgumentException( "Should not store password in legacy format " + password.getClass( ).getCanonicalName( ) );
         }
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE_PASSWORD );
-        try
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE_PASSWORD ) )
         {
             daoUtil.setString( 1, password.getStorableRepresentation( ) );
             daoUtil.setString( 2, strAccessCode );
             daoUtil.executeUpdate( );
-        }
-        finally
-        {
-            daoUtil.free( );
         }
     }
 }

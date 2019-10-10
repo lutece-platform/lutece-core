@@ -138,7 +138,7 @@ public class AliasPortletJspBean extends PortletJspBean
         // recovers portlet attributes
         String strPortletId = request.getParameter( PARAMETER_PORTLET_ID );
         int nPortletId = Integer.parseInt( strPortletId );
-        AliasPortlet portlet = (AliasPortlet) AliasPortletHome.findByPrimaryKey( nPortletId );
+        AliasPortlet portlet = (AliasPortlet) PortletHome.findByPrimaryKey( nPortletId );
 
         // Gets the parameters of the alias portlet posted in the request
         String strName = request.getParameter( PARAM_PORTLET_NAME );

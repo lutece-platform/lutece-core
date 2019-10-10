@@ -41,7 +41,7 @@ import fr.paris.lutece.portal.service.spring.SpringContextService;
 public final class UserLogHome
 {
     // Static variable pointed at the DAO instance
-    private static IUserLogDAO _dao = (IUserLogDAO) SpringContextService.getBean( "userLogDAO" );
+    private static IUserLogDAO _dao = SpringContextService.getBean( "userLogDAO" );
 
     /**
      * Creates a new UserLogHome object.

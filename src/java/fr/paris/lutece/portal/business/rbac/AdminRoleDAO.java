@@ -58,12 +58,13 @@ public final class AdminRoleDAO implements IAdminRoleDAO
      */
     public void insert( AdminRole role )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT );
-        daoUtil.setString( 1, role.getKey( ) );
-        daoUtil.setString( 2, role.getDescription( ) );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT ) )
+        {
+            daoUtil.setString( 1, role.getKey( ) );
+            daoUtil.setString( 2, role.getDescription( ) );
 
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+            daoUtil.executeUpdate( );
+        }
     }
 
     /**
@@ -75,20 +76,20 @@ public final class AdminRoleDAO implements IAdminRoleDAO
      */
     public AdminRole load( String strRoleKey )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT );
-        daoUtil.setString( 1, strRoleKey );
-        daoUtil.executeQuery( );
-
         AdminRole role = null;
-
-        if ( daoUtil.next( ) )
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT ) )
         {
-            role = new AdminRole( );
-            role.setKey( daoUtil.getString( 1 ) );
-            role.setDescription( daoUtil.getString( 2 ) );
-        }
+            daoUtil.setString( 1, strRoleKey );
+            daoUtil.executeQuery( );
 
-        daoUtil.free( );
+            if ( daoUtil.next( ) )
+            {
+                role = new AdminRole( );
+                role.setKey( daoUtil.getString( 1 ) );
+                role.setDescription( daoUtil.getString( 2 ) );
+            }
+
+        }
 
         return role;
     }
@@ -101,11 +102,12 @@ public final class AdminRoleDAO implements IAdminRoleDAO
      */
     public void delete( String strRoleKey )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE );
-        daoUtil.setString( 1, strRoleKey );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE ) )
+        {
+            daoUtil.setString( 1, strRoleKey );
 
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+            daoUtil.executeUpdate( );
+        }
     }
 
     /**
@@ -118,13 +120,14 @@ public final class AdminRoleDAO implements IAdminRoleDAO
      */
     public void store( String strRoleKey, AdminRole role )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE );
-        daoUtil.setString( 1, role.getKey( ) );
-        daoUtil.setString( 2, role.getDescription( ) );
-        daoUtil.setString( 3, strRoleKey );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE ) )
+        {
+            daoUtil.setString( 1, role.getKey( ) );
+            daoUtil.setString( 2, role.getDescription( ) );
+            daoUtil.setString( 3, strRoleKey );
 
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+            daoUtil.executeUpdate( );
+        }
     }
 
     /**
@@ -134,20 +137,21 @@ public final class AdminRoleDAO implements IAdminRoleDAO
      */
     public Collection<AdminRole> selectRoleList( )
     {
-        Collection<AdminRole> listRoles = new ArrayList<AdminRole>( );
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL );
-        daoUtil.executeQuery( );
-
-        while ( daoUtil.next( ) )
+        Collection<AdminRole> listRoles = new ArrayList<>( );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL ) )
         {
-            AdminRole role = new AdminRole( );
-            role.setKey( daoUtil.getString( 1 ) );
-            role.setDescription( daoUtil.getString( 2 ) );
+            daoUtil.executeQuery( );
 
-            listRoles.add( role );
+            while ( daoUtil.next( ) )
+            {
+                AdminRole role = new AdminRole( );
+                role.setKey( daoUtil.getString( 1 ) );
+                role.setDescription( daoUtil.getString( 2 ) );
+
+                listRoles.add( role );
+            }
+
         }
-
-        daoUtil.free( );
 
         return listRoles;
     }
@@ -161,21 +165,18 @@ public final class AdminRoleDAO implements IAdminRoleDAO
      */
     public boolean checkExistRole( String strRoleKey )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT );
-        daoUtil.setString( 1, strRoleKey );
-        daoUtil.executeQuery( );
-
-        if ( daoUtil.next( ) )
+        boolean check = false;
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT ) )
         {
-            daoUtil.free( );
+            daoUtil.setString( 1, strRoleKey );
+            daoUtil.executeQuery( );
 
-            return true;
+            if ( daoUtil.next( ) )
+            {
+                check = true;
+            }
         }
-        else
-        {
-            daoUtil.free( );
 
-            return false;
-        }
+        return check;
     }
 }

@@ -212,7 +212,7 @@ public class AttributeImage extends AbstractAttribute
 
             if ( getListAttributeFields( ) == null )
             {
-                List<AttributeField> listAttributeFields = new ArrayList<AttributeField>( );
+                List<AttributeField> listAttributeFields = new ArrayList<>( );
                 AttributeField attributeField = new AttributeField( );
                 listAttributeFields.add( attributeField );
                 setListAttributeFields( listAttributeFields );
@@ -286,7 +286,7 @@ public class AttributeImage extends AbstractAttribute
     public List<AdminUserField> getUserFieldsData( HttpServletRequest request, AdminUser user )
     {
         String strUpdateAttribute = request.getParameter( PARAMETER_UPDATE_ATTRIBUTE + CONSTANT_UNDERSCORE + getIdAttribute( ) );
-        List<AdminUserField> listUserFields = new ArrayList<AdminUserField>( );
+        List<AdminUserField> listUserFields = new ArrayList<>( );
 
         try
         {
