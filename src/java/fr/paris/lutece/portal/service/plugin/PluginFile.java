@@ -33,6 +33,25 @@
  */
 package fr.paris.lutece.portal.service.plugin;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.validation.constraints.NotNull;
+
+import org.apache.commons.digester3.Digester;
+import org.apache.commons.digester3.Substitutor;
+import org.apache.commons.digester3.binder.DigesterLoader;
+import org.apache.commons.digester3.substitution.MultiVariableExpander;
+import org.apache.commons.digester3.substitution.VariableSubstitutor;
+import org.apache.commons.digester3.xmlrules.FromXmlRulesModule;
+import org.xml.sax.SAXException;
+
 import fr.paris.lutece.portal.business.portlet.PortletType;
 import fr.paris.lutece.portal.business.right.Right;
 import fr.paris.lutece.portal.service.content.ContentServiceEntry;
@@ -48,30 +67,6 @@ import fr.paris.lutece.portal.service.servlet.ServletEntry;
 import fr.paris.lutece.portal.service.sessionlistener.HttpSessionListenerEntry;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.web.xpages.XPageApplicationEntry;
-
-import org.apache.commons.digester3.Digester;
-import org.apache.commons.digester3.Substitutor;
-import org.apache.commons.digester3.substitution.MultiVariableExpander;
-import org.apache.commons.digester3.substitution.VariableSubstitutor;
-import org.apache.commons.digester3.xmlrules.FromXmlRulesModule;
-import org.apache.commons.digester3.binder.DigesterLoader;
-
-import org.xml.sax.SAXException;
-
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-
-import java.net.URL;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.validation.constraints.NotNull;
 
 /**
  * This class is the plugin file element

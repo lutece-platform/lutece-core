@@ -46,7 +46,8 @@ import java.io.StringWriter;
  *
  * This class is an implementation of IHtmlCleaner using the JTidy library
  * 
- * @deprecated Deprecated because it does not accept HTML5 tags. Use {@link JSoupHtmlCleaner} instead.
+ * @deprecated Deprecated because it does not accept HTML5 tags. Use
+ *             {@link JSoupHtmlCleaner} instead.
  *
  */
 public class JTidyHtmlCleaner implements IHtmlCleaner
@@ -73,12 +74,9 @@ public class JTidyHtmlCleaner implements IHtmlCleaner
         strOutput = sw.toString( );
 
         // Verify the content of html editor after using tidy
-        if ( _strContent.length( ) != strOutput.length( ) )
+        if ( _strContent.length( ) != strOutput.length( ) && strOutput.length( ) == 0 )
         {
-            if ( strOutput.length( ) == 0 )
-            {
-                throw new HtmlCleanerException( );
-            }
+            throw new HtmlCleanerException( );
         }
 
         sr.close( );
@@ -88,7 +86,7 @@ public class JTidyHtmlCleaner implements IHtmlCleaner
         {
             sw.close( );
         }
-        catch( IOException e )
+        catch ( IOException e )
         {
             AppLogService.error( e.getMessage( ), e );
         }

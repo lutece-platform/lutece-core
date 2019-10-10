@@ -186,12 +186,9 @@ public final class IndexationService
         _writer = null;
 
         boolean bCreateIndex = bCreate;
-        Directory dir = null;
 
-        try
+        try ( Directory dir = IndexationService.getDirectoryIndex( ) )
         {
-            dir = IndexationService.getDirectoryIndex( );
-
             if ( !DirectoryReader.indexExists( dir ) )
             { // init index
                 bCreateIndex = true;
@@ -236,18 +233,6 @@ public final class IndexationService
                 if ( _writer != null )
                 {
                     _writer.close( );
-                }
-            }
-            catch( IOException e )
-            {
-                AppLogService.error( e.getMessage( ), e );
-            }
-
-            try
-            {
-                if ( dir != null )
-                {
-                    dir.close( );
                 }
             }
             catch( IOException e )

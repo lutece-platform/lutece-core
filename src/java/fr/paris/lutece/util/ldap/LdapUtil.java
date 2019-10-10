@@ -34,7 +34,6 @@
 package fr.paris.lutece.util.ldap;
 
 import java.util.Hashtable;
-import java.util.Map;
 
 import javax.naming.Context;
 import javax.naming.NamingEnumeration;

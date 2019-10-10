@@ -122,16 +122,9 @@ public class ImageServlet extends HttpServlet
                     File file = new File( strImageUrl );
                     response.setContentLength( (int) file.length( ) );
 
-                    FileInputStream in = null;
-                    OutputStream out = null;
-
-                    try
+                    try ( FileInputStream in = new FileInputStream( file );
+                            OutputStream out = response.getOutputStream( ))
                     {
-                        // Open the file and output streams
-                        in = new FileInputStream( file );
-
-                        out = response.getOutputStream( );
-
                         // Copy the contents of the file to the output stream
                         byte [ ] buf = new byte [ 1024];
                         int count;
@@ -140,17 +133,11 @@ public class ImageServlet extends HttpServlet
                             out.write( buf, 0, count );
                         }
 
-                        in.close( );
                         out.close( );
                     }
                     catch( IOException ex )
                     {
                         AppLogService.error( "ImageServlet error : " + ex.getMessage( ), ex );
-                    }
-                    finally
-                    {
-                        StreamUtil.safeClose( in );
-                        StreamUtil.safeClose( out );
                     }
                 }
             }

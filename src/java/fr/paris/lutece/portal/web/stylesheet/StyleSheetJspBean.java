@@ -449,12 +449,9 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
         String strPathStyleSheet = AppPathService.getPath( PROPERTY_PATH_XSL ) + mode.getPath( );
         File fileToDelete = new File( strPathStyleSheet, strFile );
 
-        if ( fileToDelete.exists( ) )
+        if ( fileToDelete.exists( ) && !fileToDelete.delete( ) )
         {
-            if ( !fileToDelete.delete( ) )
-            {
-                AppLogService.info( LOG_ERROR_DELETE_FILE );
-            }
+            AppLogService.info( LOG_ERROR_DELETE_FILE );
         }
 
         return JSP_REMOVE_STYLE + "?" + Parameters.STYLE_ID + "=" + nIdStyle;
@@ -507,12 +504,9 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
         {
             File file = new File( strFilePath );
 
-            if ( file.exists( ) )
+            if ( file.exists( ) && !file.delete( ) )
             {
-                if ( !file.delete( ) )
-                {
-                    AppLogService.info( LOG_ERROR_DELETE_FILE );
-                }
+                AppLogService.info( LOG_ERROR_DELETE_FILE );
             }
 
             fos = new FileOutputStream( file );
@@ -545,12 +539,9 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
         String strOldFilePath = strPathStyleSheet + strOldFileName;
         File oldFile = new File( strOldFilePath );
 
-        if ( oldFile.exists( ) )
+        if ( oldFile.exists( ) && !oldFile.delete( ) )
         {
-            if ( !oldFile.delete( ) )
-            {
-                AppLogService.info( LOG_ERROR_DELETE_FILE );
-            }
+            AppLogService.info( LOG_ERROR_DELETE_FILE );
         }
     }
 }

@@ -75,8 +75,7 @@ public final class AdminMailingListService
     /**
      * Returns a list of all mailing list visible by the user
      * 
-     * @param user
-     *            The user
+     * @param user The user
      * @return The list as a ReferenceList
      */
     public static ReferenceList getMailingLists( AdminUser user )
@@ -94,8 +93,7 @@ public final class AdminMailingListService
     /**
      * Returns a list of all mailing list visible by the user
      * 
-     * @param user
-     *            The user
+     * @param user The user
      * @return The list as a mailinglist Collection
      */
     public static Collection<MailingList> getUserMailingLists( AdminUser user )
@@ -119,10 +117,8 @@ public final class AdminMailingListService
     /**
      * Gets the user mailing lists by filter.
      *
-     * @param user
-     *            the user
-     * @param filter
-     *            the filter
+     * @param user   the user
+     * @param filter the filter
      * @return the user mailing lists by filter
      */
     public static List<MailingList> getUserMailingListsByFilter( AdminUser user, MailingListFilter filter )
@@ -149,8 +145,7 @@ public final class AdminMailingListService
     /**
      * Returns all the recipient of a given mailing list
      * 
-     * @param nIdMailingList
-     *            The mailing list Id
+     * @param nIdMailingList The mailing list Id
      * @return The list
      */
     public static Collection<Recipient> getRecipients( int nIdMailingList )
@@ -172,10 +167,8 @@ public final class AdminMailingListService
     /**
      * Gets all recipients corresponding to a filter based on a Workgroup and a role
      * 
-     * @param strWorkgroup
-     *            The workgroup
-     * @param strRole
-     *            The role
+     * @param strWorkgroup The workgroup
+     * @param strRole      The role
      * @return A collection of recipient
      */
     public static Collection<Recipient> getRecipients( String strWorkgroup, String strRole )
@@ -194,13 +187,10 @@ public final class AdminMailingListService
 
         for ( AdminUser user : listUsers )
         {
-            if ( ( strRole != null ) && ( !strRole.equals( ALL_ROLES ) ) )
+            if ( strRole != null && !strRole.equals( ALL_ROLES ) && !user.isInRole( strRole ) )
             {
-                if ( !user.isInRole( strRole ) )
-                {
-                    // skip this user if it isn't in the role
-                    continue;
-                }
+                // skip this user if it isn't in the role
+                continue;
             }
 
             Recipient recipient = new Recipient( );
@@ -215,10 +205,8 @@ public final class AdminMailingListService
     /**
      * Check if the filter already exists or not in a mailing list
      * 
-     * @param filter
-     *            the filter
-     * @param nIdMailingList
-     *            the id mailing list
+     * @param filter         the filter
+     * @param nIdMailingList the id mailing list
      * @return true if it already exists, false otherwise
      */
     public static boolean checkFilter( MailingListUsersFilter filter, int nIdMailingList )

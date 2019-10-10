@@ -33,11 +33,10 @@
  */
 package fr.paris.lutece.portal.business.right;
 
+import java.util.List;
+
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.util.ReferenceList;
-
-import java.util.List;
-import java.util.Locale;
 
 /**
  * This class provides instances management methods (create, find, ...) for feature groups objects

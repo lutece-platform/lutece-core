@@ -172,13 +172,11 @@ public class MailItemQueueDAO implements IMailItemQueueDAO
                 mailItemQueue.setIdMailItemQueue( daoUtil.getInt( 1 ) );
                 inputStream = daoUtil.getBinaryStream( 2 );
 
-                try
+                try ( ValidatingObjectInputStream objectInputStream = new ValidatingObjectInputStream( inputStream ) )
                 {
-                    ValidatingObjectInputStream objectInputStream = new ValidatingObjectInputStream( inputStream );
                     objectInputStream.accept( MailItem.class, ArrayList.class, byte [ ].class, FileAttachment.class, UrlAttachment.class,
                             FileAttachment [ ].class, UrlAttachment [ ].class, URL.class );
                     mailItem = (MailItem) objectInputStream.readObject( );
-                    objectInputStream.close( );
                 }
                 catch( ClassNotFoundException | IOException e )
                 {
@@ -215,7 +213,7 @@ public class MailItemQueueDAO implements IMailItemQueueDAO
     {
         Transaction transaction = new Transaction( );
 
-        try
+        try 
         {
             transaction.prepareStatement( SQL_QUERY_DELETE_MAIL_ITEM );
             transaction.getStatement( ).setInt( 1, nIdMailItemQueue );

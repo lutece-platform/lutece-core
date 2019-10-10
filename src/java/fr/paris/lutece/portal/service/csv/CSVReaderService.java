@@ -58,8 +58,10 @@ import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.stream.StreamUtil;
 
 /**
- * Service to get data from a CSV file. The CSV might be a physical file, or a memory file. Implementations can either be statefull or stateless, but if the
- * separator or the escape character are controlled by the user, then it has to be statefull.
+ * Service to get data from a CSV file. The CSV might be a physical file, or a
+ * memory file. Implementations can either be statefull or stateless, but if the
+ * separator or the escape character are controlled by the user, then it has to
+ * be statefull.
  */
 public abstract class CSVReaderService
 {
@@ -77,90 +79,102 @@ public abstract class CSVReaderService
     /**
      * Read a line of the CSV file.
      * 
-     * @param strLineDataArray
-     *            The content of the line of the CSV file.
-     * @param nLineNumber
-     *            Number of the current line
-     * @param locale
-     *            the locale
-     * @param strBaseUrl
-     *            The base URL
+     * @param strLineDataArray The content of the line of the CSV file.
+     * @param nLineNumber      Number of the current line
+     * @param locale           the locale
+     * @param strBaseUrl       The base URL
      * @return Returns the list of messages associated with the line.
      */
-    protected abstract List<CSVMessageDescriptor> readLineOfCSVFile( String [ ] strLineDataArray, int nLineNumber, Locale locale, String strBaseUrl );
+    protected abstract List<CSVMessageDescriptor> readLineOfCSVFile( String[] strLineDataArray, int nLineNumber,
+            Locale locale, String strBaseUrl );
 
     /**
-     * Check the line of the CSV file. This method is called once on each line of the file if the number of columns is correct. If the file is entirely checked
-     * before processing, then this method is called before any line is processed. Otherwise it is called just before the processing of the line.
+     * Check the line of the CSV file. This method is called once on each line of
+     * the file if the number of columns is correct. If the file is entirely checked
+     * before processing, then this method is called before any line is processed.
+     * Otherwise it is called just before the processing of the line.
      * 
-     * @param strLineDataArray
-     *            The content of the line of the CSV file.
-     * @param nLineNumber
-     *            Number of the current line
-     * @param locale
-     *            the locale
-     * @return The list of messages of the lines. <strong>Lines that contain messages with messages levels other than {@link CSVMessageLevel#INFO INFO} will NOT
-     *         be processed, and the global processing may stop if the ExitOnError flag has been set to true !</strong>
+     * @param strLineDataArray The content of the line of the CSV file.
+     * @param nLineNumber      Number of the current line
+     * @param locale           the locale
+     * @return The list of messages of the lines. <strong>Lines that contain
+     *         messages with messages levels other than {@link CSVMessageLevel#INFO
+     *         INFO} will NOT be processed, and the global processing may stop if
+     *         the ExitOnError flag has been set to true !</strong>
      */
-    protected abstract List<CSVMessageDescriptor> checkLineOfCSVFile( String [ ] strLineDataArray, int nLineNumber, Locale locale );
+    protected abstract List<CSVMessageDescriptor> checkLineOfCSVFile( String[] strLineDataArray, int nLineNumber,
+            Locale locale );
 
     /**
      * Get messages after the process is completed.
      * 
-     * @param nNbLineParses
-     *            The number of lines parses. If the first line was skipped, it is not counted.
-     * @param nNbLinesWithoutErrors
-     *            the number of lines parses whitout error.
-     * @param locale
-     *            The locale
+     * @param nNbLineParses         The number of lines parses. If the first line
+     *                              was skipped, it is not counted.
+     * @param nNbLinesWithoutErrors the number of lines parses whitout error.
+     * @param locale                The locale
      * @return A list of messages.
      */
-    protected abstract List<CSVMessageDescriptor> getEndOfProcessMessages( int nNbLineParses, int nNbLinesWithoutErrors, Locale locale );
+    protected abstract List<CSVMessageDescriptor> getEndOfProcessMessages( int nNbLineParses, int nNbLinesWithoutErrors,
+            Locale locale );
 
     /**
-     * Get the default CSV separator to use. If the property of the default separator to use is not set, then the semi-colon is returned.
+     * Get the default CSV separator to use. If the property of the default
+     * separator to use is not set, then the semi-colon is returned.
      * 
      * @return the default CSV separator to use
      */
     public static Character getDefaultCSVSeparator( )
     {
-        return AppPropertiesService.getProperty( PROPERTY_DEFAULT_CSV_SEPARATOR, CONSTANT_DEFAULT_CSV_SEPARATOR ).charAt( 0 );
+        return AppPropertiesService.getProperty( PROPERTY_DEFAULT_CSV_SEPARATOR, CONSTANT_DEFAULT_CSV_SEPARATOR )
+                .charAt( 0 );
     }
 
     /**
-     * Get the default CSV escape character to use. If the property of the default escape character to use is not set, then the comma is returned.
+     * Get the default CSV escape character to use. If the property of the default
+     * escape character to use is not set, then the comma is returned.
      * 
      * @return the default CSV escape character to use
      */
     public static Character getDefaultCSVEscapeCharacter( )
     {
-        return AppPropertiesService.getProperty( PROPERTY_DEFAULT_CSV_ESCAPE_CHARACTER, CONSTANT_DEFAULT_CSV_ESCAPE_CHARACTER ).charAt( 0 );
+        return AppPropertiesService
+                .getProperty( PROPERTY_DEFAULT_CSV_ESCAPE_CHARACTER, CONSTANT_DEFAULT_CSV_ESCAPE_CHARACTER )
+                .charAt( 0 );
     }
 
     /**
-     * Read a CSV file and call the method {@link #readLineOfCSVFile(String[], int, Locale, String) readLineOfCSVFile} for each of its lines.
+     * Read a CSV file and call the method
+     * {@link #readLineOfCSVFile(String[], int, Locale, String) readLineOfCSVFile}
+     * for each of its lines.
      * 
-     * @param fileItem
-     *            FileItem to get the CSV file from. If the creation of the input stream associated to this file throws a IOException, then an error is returned
-     *            and the file is not red.
-     * @param nColumnNumber
-     *            Number of columns of each lines. Use 0 to skip column number check (for example if every lines don't have the same number of columns)
-     * @param bCheckFileBeforeProcessing
-     *            Indicates if the file should be check before processing any of its line. If it is set to true, then then no line is processed if the file has
-     *            any error.
-     * @param bExitOnError
-     *            Indicates if the processing of the CSV file should end on the first error, or at the end of the file.
-     * @param bSkipFirstLine
-     *            Indicates if the first line of the file should be skipped or not.
-     * @param locale
-     *            the locale
-     * @param strBaseUrl
-     *            The base URL
-     * @return Returns the list of errors that occurred during the processing of the file. The returned list is sorted
-     * @see CSVMessageDescriptor#compareTo(CSVMessageDescriptor) CSVMessageDescriptor.compareTo(CSVMessageDescriptor) for information about sort
+     * @param fileItem                   FileItem to get the CSV file from. If the
+     *                                   creation of the input stream associated to
+     *                                   this file throws a IOException, then an
+     *                                   error is returned and the file is not red.
+     * @param nColumnNumber              Number of columns of each lines. Use 0 to
+     *                                   skip column number check (for example if
+     *                                   every lines don't have the same number of
+     *                                   columns)
+     * @param bCheckFileBeforeProcessing Indicates if the file should be check
+     *                                   before processing any of its line. If it is
+     *                                   set to true, then then no line is processed
+     *                                   if the file has any error.
+     * @param bExitOnError               Indicates if the processing of the CSV file
+     *                                   should end on the first error, or at the
+     *                                   end of the file.
+     * @param bSkipFirstLine             Indicates if the first line of the file
+     *                                   should be skipped or not.
+     * @param locale                     the locale
+     * @param strBaseUrl                 The base URL
+     * @return Returns the list of errors that occurred during the processing of the
+     *         file. The returned list is sorted
+     * @see CSVMessageDescriptor#compareTo(CSVMessageDescriptor)
+     *      CSVMessageDescriptor.compareTo(CSVMessageDescriptor) for information
+     *      about sort
      */
-    public List<CSVMessageDescriptor> readCSVFile( FileItem fileItem, int nColumnNumber, boolean bCheckFileBeforeProcessing, boolean bExitOnError,
-            boolean bSkipFirstLine, Locale locale, String strBaseUrl )
+    public List<CSVMessageDescriptor> readCSVFile( FileItem fileItem, int nColumnNumber,
+            boolean bCheckFileBeforeProcessing, boolean bExitOnError, boolean bSkipFirstLine, Locale locale,
+            String strBaseUrl )
     {
         if ( fileItem != null )
         {
@@ -170,7 +184,7 @@ public abstract class CSVReaderService
             {
                 inputStreamReader = new InputStreamReader( fileItem.getInputStream( ) );
             }
-            catch( IOException e )
+            catch ( IOException e )
             {
                 AppLogService.error( e.getMessage( ), e );
             }
@@ -179,7 +193,8 @@ public abstract class CSVReaderService
             {
                 CSVReader csvReader = new CSVReader( inputStreamReader, getCSVSeparator( ), getCSVEscapeCharacter( ) );
 
-                return readCSVFile( inputStreamReader, csvReader, nColumnNumber, bCheckFileBeforeProcessing, bExitOnError, bSkipFirstLine, locale, strBaseUrl );
+                return readCSVFile( inputStreamReader, csvReader, nColumnNumber, bCheckFileBeforeProcessing,
+                        bExitOnError, bSkipFirstLine, locale, strBaseUrl );
             }
         }
 
@@ -192,38 +207,47 @@ public abstract class CSVReaderService
     }
 
     /**
-     * Read a CSV file and call the method {@link #readLineOfCSVFile(String[], int, Locale, String) readLineOfCSVFile} for each of its lines.
+     * Read a CSV file and call the method
+     * {@link #readLineOfCSVFile(String[], int, Locale, String) readLineOfCSVFile}
+     * for each of its lines.
      * 
-     * @param strPath
-     *            Path if the file to read in the file system.
-     * @param nColumnNumber
-     *            Number of columns of each lines. Use 0 to skip column number check (for example if every lines don't have the same number of columns)
-     * @param bCheckFileBeforeProcessing
-     *            Indicates if the file should be check before processing any of its line. If it is set to true, then then no line is processed if the file has
-     *            any error.
-     * @param bExitOnError
-     *            Indicates if the processing of the CSV file should end on the first error, or at the end of the file.
-     * @param bSkipFirstLine
-     *            Indicates if the first line of the file should be skipped or not.
-     * @param locale
-     *            the locale
-     * @param strBaseUrl
-     *            The base URL
-     * @return Returns the list of errors that occurred during the processing of the file. The returned list is sorted
-     * @see CSVMessageDescriptor#compareTo(CSVMessageDescriptor) CSVMessageDescriptor.compareTo(CSVMessageDescriptor) for information about sort
+     * @param strPath                    Path if the file to read in the file
+     *                                   system.
+     * @param nColumnNumber              Number of columns of each lines. Use 0 to
+     *                                   skip column number check (for example if
+     *                                   every lines don't have the same number of
+     *                                   columns)
+     * @param bCheckFileBeforeProcessing Indicates if the file should be check
+     *                                   before processing any of its line. If it is
+     *                                   set to true, then then no line is processed
+     *                                   if the file has any error.
+     * @param bExitOnError               Indicates if the processing of the CSV file
+     *                                   should end on the first error, or at the
+     *                                   end of the file.
+     * @param bSkipFirstLine             Indicates if the first line of the file
+     *                                   should be skipped or not.
+     * @param locale                     the locale
+     * @param strBaseUrl                 The base URL
+     * @return Returns the list of errors that occurred during the processing of the
+     *         file. The returned list is sorted
+     * @see CSVMessageDescriptor#compareTo(CSVMessageDescriptor)
+     *      CSVMessageDescriptor.compareTo(CSVMessageDescriptor) for information
+     *      about sort
      */
-    public List<CSVMessageDescriptor> readCSVFile( String strPath, int nColumnNumber, boolean bCheckFileBeforeProcessing, boolean bExitOnError,
-            boolean bSkipFirstLine, Locale locale, String strBaseUrl )
+    public List<CSVMessageDescriptor> readCSVFile( String strPath, int nColumnNumber,
+            boolean bCheckFileBeforeProcessing, boolean bExitOnError, boolean bSkipFirstLine, Locale locale,
+            String strBaseUrl )
     {
         java.io.File file = new java.io.File( strPath );
 
-        try( FileReader fileReader = new FileReader( file ) )
+        try ( FileReader fileReader = new FileReader( file ) )
         {
             CSVReader csvReader = new CSVReader( fileReader, getCSVSeparator( ), getCSVEscapeCharacter( ) );
 
-            return readCSVFile( fileReader, csvReader, nColumnNumber, bCheckFileBeforeProcessing, bExitOnError, bSkipFirstLine, locale, strBaseUrl );
+            return readCSVFile( fileReader, csvReader, nColumnNumber, bCheckFileBeforeProcessing, bExitOnError,
+                    bSkipFirstLine, locale, strBaseUrl );
         }
-        catch( IOException e )
+        catch ( IOException e )
         {
             AppLogService.error( e.getMessage( ), e );
         }
@@ -237,55 +261,73 @@ public abstract class CSVReaderService
     }
 
     /**
-     * Read a CSV file and call the method {@link #readLineOfCSVFile(String[], int, Locale, String) readLineOfCSVFile} for each of its lines.
+     * Read a CSV file and call the method
+     * {@link #readLineOfCSVFile(String[], int, Locale, String) readLineOfCSVFile}
+     * for each of its lines.
      * 
-     * @param file
-     *            File to get the values from. If the physical file of this file has no value, then it is gotten from the database.
-     * @param nColumnNumber
-     *            Number of columns of each lines. Use 0 to skip column number check (for example if every lines don't have the same number of columns)
-     * @param bCheckFileBeforeProcessing
-     *            Indicates if the file should be check before processing any of its line. If it is set to true, then then no line is processed if the file has
-     *            any error.
-     * @param bExitOnError
-     *            Indicates if the processing of the CSV file should end on the first error, or at the end of the file.
-     * @param bSkipFirstLine
-     *            Indicates if the first line of the file should be skipped or not.
-     * @param locale
-     *            the locale
-     * @param strBaseUrl
-     *            The base URL
-     * @return Returns the list of errors that occurred during the processing of the file. The returned list is sorted
-     * @see CSVMessageDescriptor#compareTo(CSVMessageDescriptor) CSVMessageDescriptor.compareTo(CSVMessageDescriptor) for information about sort
+     * @param file                       File to get the values from. If the
+     *                                   physical file of this file has no value,
+     *                                   then it is gotten from the database.
+     * @param nColumnNumber              Number of columns of each lines. Use 0 to
+     *                                   skip column number check (for example if
+     *                                   every lines don't have the same number of
+     *                                   columns)
+     * @param bCheckFileBeforeProcessing Indicates if the file should be check
+     *                                   before processing any of its line. If it is
+     *                                   set to true, then then no line is processed
+     *                                   if the file has any error.
+     * @param bExitOnError               Indicates if the processing of the CSV file
+     *                                   should end on the first error, or at the
+     *                                   end of the file.
+     * @param bSkipFirstLine             Indicates if the first line of the file
+     *                                   should be skipped or not.
+     * @param locale                     the locale
+     * @param strBaseUrl                 The base URL
+     * @return Returns the list of errors that occurred during the processing of the
+     *         file. The returned list is sorted
+     * @see CSVMessageDescriptor#compareTo(CSVMessageDescriptor)
+     *      CSVMessageDescriptor.compareTo(CSVMessageDescriptor) for information
+     *      about sort
      */
-    public List<CSVMessageDescriptor> readCSVFile( File file, int nColumnNumber, boolean bCheckFileBeforeProcessing, boolean bExitOnError,
-            boolean bSkipFirstLine, Locale locale, String strBaseUrl )
+    public List<CSVMessageDescriptor> readCSVFile( File file, int nColumnNumber, boolean bCheckFileBeforeProcessing,
+            boolean bExitOnError, boolean bSkipFirstLine, Locale locale, String strBaseUrl )
     {
-        return readCSVFile( file.getPhysicalFile( ), nColumnNumber, bCheckFileBeforeProcessing, bExitOnError, bSkipFirstLine, locale, strBaseUrl );
+        return readCSVFile( file.getPhysicalFile( ), nColumnNumber, bCheckFileBeforeProcessing, bExitOnError,
+                bSkipFirstLine, locale, strBaseUrl );
     }
 
     /**
-     * Read a CSV file and call the method {@link #readLineOfCSVFile(String[], int, Locale, String) readLineOfCSVFile} for each of its lines.
+     * Read a CSV file and call the method
+     * {@link #readLineOfCSVFile(String[], int, Locale, String) readLineOfCSVFile}
+     * for each of its lines.
      * 
-     * @param physicalFile
-     *            The physicalFile to get the values from. If the physical file has no value, then it is gotten from the database.
-     * @param nColumnNumber
-     *            Number of columns of each lines. Use 0 to skip column number check (for example if every lines don't have the same number of columns)
-     * @param bCheckFileBeforeProcessing
-     *            Indicates if the file should be check before processing any of its line. If it is set to true, then then no line is processed if the file has
-     *            any error.
-     * @param bExitOnError
-     *            Indicates if the processing of the CSV file should end on the first error, or at the end of the file.
-     * @param bSkipFirstLine
-     *            Indicates if the first line of the file should be skipped or not.
-     * @param locale
-     *            the locale
-     * @param strBaseUrl
-     *            The base URL
-     * @return Returns the list of errors that occurred during the processing of the file. The returned list is sorted
-     * @see CSVMessageDescriptor#compareTo(CSVMessageDescriptor) CSVMessageDescriptor.compareTo(CSVMessageDescriptor) for information about sort
+     * @param physicalFile               The physicalFile to get the values from. If
+     *                                   the physical file has no value, then it is
+     *                                   gotten from the database.
+     * @param nColumnNumber              Number of columns of each lines. Use 0 to
+     *                                   skip column number check (for example if
+     *                                   every lines don't have the same number of
+     *                                   columns)
+     * @param bCheckFileBeforeProcessing Indicates if the file should be check
+     *                                   before processing any of its line. If it is
+     *                                   set to true, then then no line is processed
+     *                                   if the file has any error.
+     * @param bExitOnError               Indicates if the processing of the CSV file
+     *                                   should end on the first error, or at the
+     *                                   end of the file.
+     * @param bSkipFirstLine             Indicates if the first line of the file
+     *                                   should be skipped or not.
+     * @param locale                     the locale
+     * @param strBaseUrl                 The base URL
+     * @return Returns the list of errors that occurred during the processing of the
+     *         file. The returned list is sorted
+     * @see CSVMessageDescriptor#compareTo(CSVMessageDescriptor)
+     *      CSVMessageDescriptor.compareTo(CSVMessageDescriptor) for information
+     *      about sort
      */
-    public List<CSVMessageDescriptor> readCSVFile( PhysicalFile physicalFile, int nColumnNumber, boolean bCheckFileBeforeProcessing, boolean bExitOnError,
-            boolean bSkipFirstLine, Locale locale, String strBaseUrl )
+    public List<CSVMessageDescriptor> readCSVFile( PhysicalFile physicalFile, int nColumnNumber,
+            boolean bCheckFileBeforeProcessing, boolean bExitOnError, boolean bSkipFirstLine, Locale locale,
+            String strBaseUrl )
     {
         PhysicalFile importedPhysicalFile = physicalFile;
 
@@ -302,7 +344,8 @@ public abstract class CSVReaderService
                 InputStreamReader inputStreamReader = new InputStreamReader( inputStream );
                 CSVReader csvReader = new CSVReader( inputStreamReader, getCSVSeparator( ), getCSVEscapeCharacter( ) );
 
-                return readCSVFile( inputStreamReader, csvReader, nColumnNumber, bCheckFileBeforeProcessing, bExitOnError, bSkipFirstLine, locale, strBaseUrl );
+                return readCSVFile( inputStreamReader, csvReader, nColumnNumber, bCheckFileBeforeProcessing,
+                        bExitOnError, bSkipFirstLine, locale, strBaseUrl );
             }
         }
 
@@ -315,30 +358,38 @@ public abstract class CSVReaderService
     }
 
     /**
-     * Read a CSV file and call the method {@link #readLineOfCSVFile(String[], int, Locale, String) readLineOfCSVFile} for each of its lines.
+     * Read a CSV file and call the method
+     * {@link #readLineOfCSVFile(String[], int, Locale, String) readLineOfCSVFile}
+     * for each of its lines.
      * 
-     * @param reader
-     *            The file reader that was used to create the CSV reader. This reader will be closed by this method
-     * @param csvReader
-     *            CSV reader to use to read the CSV file
-     * @param nColumnNumber
-     *            Number of columns of each lines. Use 0 to skip column number check (for example if every lines don't have the same number of columns)
-     * @param bCheckFileBeforeProcessing
-     *            Indicates if the file should be check before processing any of its line. If it is set to true, then then no line is processed if the file has
-     *            any error.
-     * @param bExitOnError
-     *            Indicates if the processing of the CSV file should end on the first error, or at the end of the file.
-     * @param bSkipFirstLine
-     *            Indicates if the first line of the file should be skipped or not.
-     * @param locale
-     *            the locale
-     * @param strBaseUrl
-     *            The base URL
-     * @return Returns the list of errors that occurred during the processing of the file. The returned list is sorted
-     * @see CSVMessageDescriptor#compareTo(CSVMessageDescriptor) CSVMessageDescriptor.compareTo(CSVMessageDescriptor) for information about sort
+     * @param reader                     The file reader that was used to create the
+     *                                   CSV reader. This reader will be closed by
+     *                                   this method
+     * @param csvReader                  CSV reader to use to read the CSV file
+     * @param nColumnNumber              Number of columns of each lines. Use 0 to
+     *                                   skip column number check (for example if
+     *                                   every lines don't have the same number of
+     *                                   columns)
+     * @param bCheckFileBeforeProcessing Indicates if the file should be check
+     *                                   before processing any of its line. If it is
+     *                                   set to true, then then no line is processed
+     *                                   if the file has any error.
+     * @param bExitOnError               Indicates if the processing of the CSV file
+     *                                   should end on the first error, or at the
+     *                                   end of the file.
+     * @param bSkipFirstLine             Indicates if the first line of the file
+     *                                   should be skipped or not.
+     * @param locale                     the locale
+     * @param strBaseUrl                 The base URL
+     * @return Returns the list of errors that occurred during the processing of the
+     *         file. The returned list is sorted
+     * @see CSVMessageDescriptor#compareTo(CSVMessageDescriptor)
+     *      CSVMessageDescriptor.compareTo(CSVMessageDescriptor) for information
+     *      about sort
      */
-    protected List<CSVMessageDescriptor> readCSVFile( Reader reader, CSVReader csvReader, int nColumnNumber, boolean bCheckFileBeforeProcessing,
-            boolean bExitOnError, boolean bSkipFirstLine, Locale locale, String strBaseUrl )
+    protected List<CSVMessageDescriptor> readCSVFile( Reader reader, CSVReader csvReader, int nColumnNumber,
+            boolean bCheckFileBeforeProcessing, boolean bExitOnError, boolean bSkipFirstLine, Locale locale,
+            String strBaseUrl )
     {
         List<CSVMessageDescriptor> listMessages = new ArrayList<>( );
         int nLineNumber = 0;
@@ -350,7 +401,7 @@ public abstract class CSVReaderService
                 nLineNumber++;
                 csvReader.readNext( );
             }
-            catch( IOException e )
+            catch ( IOException e )
             {
                 AppLogService.error( e.getMessage( ), e );
 
@@ -368,13 +419,13 @@ public abstract class CSVReaderService
             }
         }
 
-        List<String [ ]> listLines = null;
+        List<String[]> listLines = null;
 
         if ( bCheckFileBeforeProcessing )
         {
             listLines = new ArrayList<>( );
 
-            String [ ] strLine = null;
+            String[] strLine = null;
 
             do
             {
@@ -383,7 +434,7 @@ public abstract class CSVReaderService
                     nLineNumber++;
                     strLine = csvReader.readNext( );
                 }
-                catch( IOException e )
+                catch ( IOException e )
                 {
                     AppLogService.error( e.getMessage( ), e );
 
@@ -406,23 +457,20 @@ public abstract class CSVReaderService
                 {
                     listLines.add( strLine );
                 }
-            }
-            while ( strLine != null );
+            } while ( strLine != null );
 
-            List<CSVMessageDescriptor> listCheckErrors = checkCSVFileValidity( listLines, nColumnNumber, bSkipFirstLine, locale );
+            List<CSVMessageDescriptor> listCheckErrors = checkCSVFileValidity( listLines, nColumnNumber, bSkipFirstLine,
+                    locale );
 
-            if ( CollectionUtils.isNotEmpty( listCheckErrors ) )
+            if ( CollectionUtils.isNotEmpty( listCheckErrors ) && doesListMessageContainError( listCheckErrors ) )
             {
-                if ( doesListMessageContainError( listCheckErrors ) )
-                {
-                    listCheckErrors.addAll( 0, listMessages );
-                    StreamUtil.safeClose( csvReader );
-                    StreamUtil.safeClose( reader );
+                listCheckErrors.addAll( 0, listMessages );
+                StreamUtil.safeClose( csvReader );
+                StreamUtil.safeClose( reader );
 
-                    Collections.sort( listMessages );
+                Collections.sort( listMessages );
 
-                    return listCheckErrors;
-                }
+                return listCheckErrors;
             }
 
             nLineNumber = 0;
@@ -430,8 +478,8 @@ public abstract class CSVReaderService
 
         boolean bHasMoreLines = true;
         int nNbLinesWithoutErrors = 0;
-        String [ ] strLine = null;
-        Iterator<String [ ]> iterator = null;
+        String[] strLine = null;
+        Iterator<String[]> iterator = null;
 
         if ( listLines != null )
         {
@@ -460,7 +508,7 @@ public abstract class CSVReaderService
                 {
                     strLine = csvReader.readNext( );
                 }
-                catch( IOException e )
+                catch ( IOException e )
                 {
                     strLine = null;
                     AppLogService.error( e.getMessage( ), e );
@@ -488,7 +536,8 @@ public abstract class CSVReaderService
 
                         if ( !doesListMessageContainError( listLinesMessages ) )
                         {
-                            List<CSVMessageDescriptor> listFileCheckMessages = checkLineOfCSVFile( strLine, nLineNumber, locale );
+                            List<CSVMessageDescriptor> listFileCheckMessages = checkLineOfCSVFile( strLine, nLineNumber,
+                                    locale );
 
                             if ( CollectionUtils.isNotEmpty( listFileCheckMessages ) )
                             {
@@ -512,7 +561,8 @@ public abstract class CSVReaderService
                     // If the line has no error
                     if ( !doesListMessageContainError( listLinesMessages ) )
                     {
-                        List<CSVMessageDescriptor> listMessagesOfCurrentLine = readLineOfCSVFile( strLine, nLineNumber, locale, strBaseUrl );
+                        List<CSVMessageDescriptor> listMessagesOfCurrentLine = readLineOfCSVFile( strLine, nLineNumber,
+                                locale, strBaseUrl );
 
                         if ( CollectionUtils.isNotEmpty( listMessagesOfCurrentLine ) )
                         {
@@ -532,7 +582,7 @@ public abstract class CSVReaderService
                         }
                     }
                 }
-                catch( Exception e )
+                catch ( Exception e )
                 {
                     AppLogService.error( e.getMessage( ), e );
 
@@ -562,7 +612,8 @@ public abstract class CSVReaderService
             nLineNumber--;
         }
 
-        List<CSVMessageDescriptor> listMessagesEndOfProcess = getEndOfProcessMessages( nLineNumber, nNbLinesWithoutErrors, locale );
+        List<CSVMessageDescriptor> listMessagesEndOfProcess = getEndOfProcessMessages( nLineNumber,
+                nNbLinesWithoutErrors, locale );
 
         if ( CollectionUtils.isNotEmpty( listMessagesEndOfProcess ) )
         {
@@ -577,17 +628,15 @@ public abstract class CSVReaderService
     /**
      * Check the validity of the whole CSV file.
      * 
-     * @param listLines
-     *            The list of lines of the file
-     * @param nColumnNumber
-     *            The number of columns every line must have.
-     * @param bSkipFirstLine
-     *            True if the first line should be ignored, false otherwise
-     * @param locale
-     *            The locale
+     * @param listLines      The list of lines of the file
+     * @param nColumnNumber  The number of columns every line must have.
+     * @param bSkipFirstLine True if the first line should be ignored, false
+     *                       otherwise
+     * @param locale         The locale
      * @return Returns a list of errors found in the file.
      */
-    protected List<CSVMessageDescriptor> checkCSVFileValidity( List<String [ ]> listLines, int nColumnNumber, boolean bSkipFirstLine, Locale locale )
+    protected List<CSVMessageDescriptor> checkCSVFileValidity( List<String[]> listLines, int nColumnNumber,
+            boolean bSkipFirstLine, Locale locale )
     {
         List<CSVMessageDescriptor> listErrors = new ArrayList<>( );
         int nLineNumber = 0;
@@ -597,11 +646,12 @@ public abstract class CSVReaderService
             nLineNumber++;
         }
 
-        for ( String [ ] strLine : listLines )
+        for ( String[] strLine : listLines )
         {
             nLineNumber++;
 
-            List<CSVMessageDescriptor> listMessages = checkCSVLineColumnNumber( strLine, nColumnNumber, nLineNumber, locale );
+            List<CSVMessageDescriptor> listMessages = checkCSVLineColumnNumber( strLine, nColumnNumber, nLineNumber,
+                    locale );
 
             if ( CollectionUtils.isNotEmpty( listMessages ) )
             {
@@ -625,26 +675,23 @@ public abstract class CSVReaderService
     /**
      * Check the number of columns of a line.
      * 
-     * @param strLine
-     *            The line to check
-     * @param nColumnNumber
-     *            The number of columns the line must have
-     * @param nLineNumber
-     *            The number of the current line
-     * @param locale
-     *            The locale
+     * @param strLine       The line to check
+     * @param nColumnNumber The number of columns the line must have
+     * @param nLineNumber   The number of the current line
+     * @param locale        The locale
      * @return The error if an error is found, or null if there is none.
      */
-    protected List<CSVMessageDescriptor> checkCSVLineColumnNumber( String [ ] strLine, int nColumnNumber, int nLineNumber, Locale locale )
+    protected List<CSVMessageDescriptor> checkCSVLineColumnNumber( String[] strLine, int nColumnNumber, int nLineNumber,
+            Locale locale )
     {
         if ( ( strLine == null ) || ( ( nColumnNumber > 0 ) && ( strLine.length != nColumnNumber ) ) )
         {
             List<CSVMessageDescriptor> listMessages = new ArrayList<>( );
-            Object [ ] args = {
-                    ( strLine == null ) ? 0 : strLine.length, nColumnNumber
-            };
+            Object[] args =
+            { ( strLine == null ) ? 0 : strLine.length, nColumnNumber };
             String strErrorMessage = I18nService.getLocalizedString( MESSAGE_ERROR_NUMBER_COLUMNS, args, locale );
-            CSVMessageDescriptor error = new CSVMessageDescriptor( CSVMessageLevel.ERROR, nLineNumber, strErrorMessage );
+            CSVMessageDescriptor error = new CSVMessageDescriptor( CSVMessageLevel.ERROR, nLineNumber,
+                    strErrorMessage );
             listMessages.add( error );
 
             return listMessages;
@@ -654,9 +701,11 @@ public abstract class CSVReaderService
     }
 
     /**
-     * Get the separator used for CSV files. If no separator has been set, then the default CSV separator is used.
+     * Get the separator used for CSV files. If no separator has been set, then the
+     * default CSV separator is used.
      * 
-     * @return the separator used for CSV files, of the default one if non has been set.
+     * @return the separator used for CSV files, of the default one if non has been
+     *         set.
      */
     public Character getCSVSeparator( )
     {
@@ -671,8 +720,7 @@ public abstract class CSVReaderService
     /**
      * Set the separator to use for CSV files.
      * 
-     * @param strCSVSeparator
-     *            The separator to use for CSV files.
+     * @param strCSVSeparator The separator to use for CSV files.
      */
     public void setCSVSeparator( Character strCSVSeparator )
     {
@@ -680,9 +728,11 @@ public abstract class CSVReaderService
     }
 
     /**
-     * Get the escape character used for CSV files. If no escape character has been set, then the default CSV escape character is used.
+     * Get the escape character used for CSV files. If no escape character has been
+     * set, then the default CSV escape character is used.
      * 
-     * @return the escape character used for CSV files, of the default one if non has been set.
+     * @return the escape character used for CSV files, of the default one if non
+     *         has been set.
      */
     public Character getCSVEscapeCharacter( )
     {
@@ -697,8 +747,7 @@ public abstract class CSVReaderService
     /**
      * Set the escape character to use for CSV files.
      * 
-     * @param strCSVEscapeCharacter
-     *            The escape character to use for CSV files.
+     * @param strCSVEscapeCharacter The escape character to use for CSV files.
      */
     public void setCSVEscapeCharacter( Character strCSVEscapeCharacter )
     {
@@ -706,10 +755,11 @@ public abstract class CSVReaderService
     }
 
     /**
-     * Check if a list of messages contains messages with the {@link CSVMessageLevel#ERROR ERROR} level
+     * Check if a list of messages contains messages with the
+     * {@link CSVMessageLevel#ERROR ERROR} level
      * 
-     * @param listMessageOfCurrentLine
-     *            The list of messages. The list might be null or empty.
+     * @param listMessageOfCurrentLine The list of messages. The list might be null
+     *                                 or empty.
      * @return True if an error is found, false otherwise
      */
     private boolean doesListMessageContainError( List<CSVMessageDescriptor> listMessageOfCurrentLine )

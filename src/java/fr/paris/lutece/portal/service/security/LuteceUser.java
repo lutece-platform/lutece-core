@@ -33,17 +33,13 @@
  */
 package fr.paris.lutece.portal.service.security;
 
-import org.apache.commons.lang.ObjectUtils;
-
 import java.io.Serializable;
-
 import java.security.Principal;
-
-import java.sql.Timestamp;
-
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
+
+import org.apache.commons.lang.ObjectUtils;
 
 /**
  * This Interface defines all methods required for a Lutece user implementation

@@ -90,7 +90,8 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * This class delivers pages to web componants. It handles XML tranformation to HTML and provides a cache feature in order to reduce the number of
+ * This class delivers pages to web componants. It handles XML tranformation to
+ * HTML and provides a cache feature in order to reduce the number of
  * tranformations.
  */
 public class PageService implements IPageService, ImageResourceProvider, PageEventListener, PortletEventListener
@@ -150,7 +151,8 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
     private static final String DOCUMENT_ACTION_URL = "jsp/admin/plugins/document/ManagePublishing.jsp";
     private static final String DOCUMENT_IMAGE_URL = "images/admin/skin/actions/publish.png";
     private static final String DOCUMENT_TITLE = "portal.site.portletPreview.buttonManage";
-    private static final int MAX_COLUMNS = AppPropertiesService.getPropertyInt( PROPERTY_COLUMN_MAX, DEFAULT_COLUMN_MAX );
+    private static final int MAX_COLUMNS = AppPropertiesService.getPropertyInt( PROPERTY_COLUMN_MAX,
+            DEFAULT_COLUMN_MAX );
     private static List<PageEventListener> _listEventListeners = new ArrayList<>( );
     private ICacheKeyService _cksPage;
     private ICacheKeyService _cksPortlet;
@@ -160,7 +162,8 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
     /**
      * Creates a new PageService object.
      * 
-     * @deprecated use {@link #PageService(PageCacheService, PortletCacheService)} instead.
+     * @deprecated use {@link #PageService(PageCacheService, PortletCacheService)}
+     *             instead.
      */
     @Deprecated
     public PageService( )
@@ -171,10 +174,8 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
     /**
      * Creates a new PageService object.
      * 
-     * @param pageCacheService
-     *            the page cache service
-     * @param portletCacheService
-     *            the portlet cache service
+     * @param pageCacheService    the page cache service
+     * @param portletCacheService the portlet cache service
      */
     @Inject
     public PageService( PageCacheService pageCacheService, PortletCacheService portletCacheService )
@@ -206,15 +207,13 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
     }
 
     /**
-     * Returns the page for a given ID. The page is built using XML data of each portlet or retrieved from the cache if it's enable.
+     * Returns the page for a given ID. The page is built using XML data of each
+     * portlet or retrieved from the cache if it's enable.
      *
-     * @param request
-     *            The page ID
-     * @param nMode
-     *            The current mode.
+     * @param request The page ID
+     * @param nMode   The current mode.
      * @return The HTML code of the page as a String.
-     * @throws SiteMessageException
-     *             If a message shouldbe displayed
+     * @throws SiteMessageException If a message shouldbe displayed
      */
     @Override
     public String getPage( HttpServletRequest request, int nMode ) throws SiteMessageException
@@ -225,17 +224,14 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
     }
 
     /**
-     * Returns the page for a given ID. The page is built using XML data of each portlet or retrieved from the cache if it's enable.
+     * Returns the page for a given ID. The page is built using XML data of each
+     * portlet or retrieved from the cache if it's enable.
      *
-     * @param strIdPage
-     *            The page ID
-     * @param nMode
-     *            The current mode.
-     * @param request
-     *            The HttpRequest
+     * @param strIdPage The page ID
+     * @param nMode     The current mode.
+     * @param request   The HttpRequest
      * @return The HTML code of the page as a String.
-     * @throws SiteMessageException
-     *             occurs when a site message need to be displayed
+     * @throws SiteMessageException occurs when a site message need to be displayed
      */
     @Override
     public String getPage( String strIdPage, int nMode, HttpServletRequest request ) throws SiteMessageException
@@ -285,7 +281,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
                 if ( strPage == null )
                 {
                     // only one thread can evaluate the page
-                    synchronized( strKey )
+                    synchronized ( strKey )
                     {
                         // can be useful if an other thread had evaluate the
                         // page
@@ -300,9 +296,11 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
 
                             AppLogService.debug( "Page generation " + strKey );
 
-                            RedirectionResponseWrapper response = new RedirectionResponseWrapper( LocalVariables.getResponse( ) );
+                            RedirectionResponseWrapper response = new RedirectionResponseWrapper(
+                                    LocalVariables.getResponse( ) );
 
-                            LocalVariables.setLocal( LocalVariables.getConfig( ), LocalVariables.getRequest( ), response );
+                            LocalVariables.setLocal( LocalVariables.getConfig( ), LocalVariables.getRequest( ),
+                                    response );
                             request.setAttribute( ATTRIBUTE_CORE_CAN_PAGE_BE_CACHED, null );
                             // The key is not in the cache, so we have to build
                             // the page
@@ -348,7 +346,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
                     {
                         LocalVariables.getResponse( ).sendRedirect( strPage );
                     }
-                    catch( IOException e )
+                    catch ( IOException e )
                     {
                         AppLogService.error( "Error on sendRedirect for " + strPage );
                     }
@@ -362,7 +360,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
 
             return strPage;
         }
-        catch( NumberFormatException nfe )
+        catch ( NumberFormatException nfe )
         {
             AppLogService.error( "PageService.getPage() : " + nfe.getLocalizedMessage( ), nfe );
 
@@ -373,19 +371,15 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
     /**
      * Build the page content.
      *
-     * @param strIdPage
-     *            The page ID
-     * @param nMode
-     *            The current mode.
-     * @param request
-     *            The HttpRequest
-     * @param bCanBeCached
-     *            The boolean
+     * @param strIdPage    The page ID
+     * @param nMode        The current mode.
+     * @param request      The HttpRequest
+     * @param bCanBeCached The boolean
      * @return The HTML code of the page as a String.
-     * @throws SiteMessageException
-     *             occurs when a site message need to be displayed
+     * @throws SiteMessageException occurs when a site message need to be displayed
      */
-    public String buildPageContent( String strIdPage, int nMode, HttpServletRequest request, Boolean bCanBeCached ) throws SiteMessageException
+    public String buildPageContent( String strIdPage, int nMode, HttpServletRequest request, Boolean bCanBeCached )
+            throws SiteMessageException
     {
         int nIdPage = 0;
         Page page = null;
@@ -417,7 +411,8 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
         // Checks the page role (v1.1)
         String strRole = page.getRole( );
 
-        if ( !strRole.equals( Page.ROLE_NONE ) && ( SecurityService.isAuthenticationEnable( ) ) && ( nMode != MODE_ADMIN ) )
+        if ( !strRole.equals( Page.ROLE_NONE ) && ( SecurityService.isAuthenticationEnable( ) )
+                && ( nMode != MODE_ADMIN ) )
         {
             LuteceUser user = SecurityService.getInstance( ).getRegisteredUser( request );
 
@@ -430,7 +425,8 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
                 String strLoginUrl = SecurityService.getInstance( ).getLoginPageUrl( );
                 model.put( MARK_URL_LOGIN, strLoginUrl );
 
-                HtmlTemplate tAccessControled = AppTemplateService.getTemplate( strAccessControledTemplate, request.getLocale( ), model );
+                HtmlTemplate tAccessControled = AppTemplateService.getTemplate( strAccessControledTemplate,
+                        request.getLocale( ), model );
 
                 data.setContent( tAccessControled.getHtml( ) );
 
@@ -441,7 +437,8 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
             {
                 // The user doesn't have the correct role
                 String strAccessDeniedTemplate = SecurityService.getInstance( ).getAccessDeniedTemplate( );
-                HtmlTemplate tAccessDenied = AppTemplateService.getTemplate( strAccessDeniedTemplate, request.getLocale( ) );
+                HtmlTemplate tAccessDenied = AppTemplateService.getTemplate( strAccessDeniedTemplate,
+                        request.getLocale( ) );
                 data.setContent( tAccessDenied.getHtml( ) );
 
                 return PortalService.buildPageContent( nIdPage, data, nMode, request );
@@ -461,7 +458,8 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
             }
             else
             {
-                data.setContent( I18nService.getLocalizedString( PROPERTY_MESSAGE_PAGE_ACCESS_DENIED, user.getLocale( ) ) );
+                data.setContent(
+                        I18nService.getLocalizedString( PROPERTY_MESSAGE_PAGE_ACCESS_DENIED, user.getLocale( ) ) );
             }
         }
         else
@@ -481,26 +479,22 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
     /**
      * Build the page content.
      *
-     * @param nIdPage
-     *            The page ID
-     * @param nMode
-     *            The current mode.
-     * @param request
-     *            The HttpRequest
+     * @param nIdPage The page ID
+     * @param nMode   The current mode.
+     * @param request The HttpRequest
      * @return The HTML code of the page as a String.
-     * @throws SiteMessageException
-     *             occurs when a site message need to be displayed
+     * @throws SiteMessageException occurs when a site message need to be displayed
      */
     @Override
     public String getPageContent( int nIdPage, int nMode, HttpServletRequest request ) throws SiteMessageException
     {
         Locale locale = ( request == null ) ? LocaleService.getDefault( ) : request.getLocale( );
 
-        String [ ] arrayContent = new String [ MAX_COLUMNS];
+        String[] arrayContent = new String[MAX_COLUMNS];
 
         for ( int i = 0; i < MAX_COLUMNS; i++ )
         {
-            arrayContent [i] = "";
+            arrayContent[i] = "";
         }
 
         Page page = PageHome.findByPrimaryKey( nIdPage );
@@ -514,11 +508,12 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
 
             if ( nCol < MAX_COLUMNS )
             {
-                arrayContent [nCol] += getPortletContent( request, portlet, mapParams, nMode );
+                arrayContent[nCol] += getPortletContent( request, portlet, mapParams, nMode );
             }
 
             // We check if the portlet can be cached
-            if ( ( user != null ) ? ( !portlet.canBeCachedForConnectedUsers( ) ) : ( !portlet.canBeCachedForAnonymousUsers( ) ) )
+            if ( ( user != null ) ? ( !portlet.canBeCachedForConnectedUsers( ) )
+                    : ( !portlet.canBeCachedForAnonymousUsers( ) ) )
             {
                 bCanPageBeCached = false;
             }
@@ -529,7 +524,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
         {
             for ( int i = 0; i < MAX_COLUMNS; i++ )
             {
-                arrayContent [i] = addColumnOutline( i + 1, arrayContent [i], locale );
+                arrayContent[i] = addColumnOutline( i + 1, arrayContent[i], locale );
             }
         }
 
@@ -543,7 +538,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
 
         for ( int j = 0; j < MAX_COLUMNS; j++ )
         {
-            rootModel.put( "page_content_col" + ( j + 1 ), arrayContent [j] );
+            rootModel.put( "page_content_col" + ( j + 1 ), arrayContent[j] );
         }
 
         List<PageInclude> listIncludes = PageIncludeService.getIncludes( );
@@ -562,12 +557,9 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
     /**
      * Add the HTML code to display column outlines
      *
-     * @param columnId
-     *            the column id
-     * @param content
-     *            the column content
-     * @param locale
-     *            the locale
+     * @param columnId the column id
+     * @param content  the column content
+     * @param locale   the locale
      * @return The column code
      */
     private String addColumnOutline( int columnId, String content, Locale locale )
@@ -584,19 +576,15 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
     /**
      * Get the portlet content
      *
-     * @param request
-     *            The HTTP request
-     * @param portlet
-     *            The portlet
-     * @param mapRequestParams
-     *            request parameters
-     * @param nMode
-     *            The mode
+     * @param request          The HTTP request
+     * @param portlet          The portlet
+     * @param mapRequestParams request parameters
+     * @param nMode            The mode
      * @return The content
-     * @throws SiteMessageException
-     *             If an error occurs
+     * @throws SiteMessageException If an error occurs
      */
-    private String getPortletContent( HttpServletRequest request, Portlet portlet, Map<String, String> mapRequestParams, int nMode ) throws SiteMessageException
+    private String getPortletContent( HttpServletRequest request, Portlet portlet, Map<String, String> mapRequestParams,
+            int nMode ) throws SiteMessageException
     {
         if ( ( nMode != MODE_ADMIN ) && ( portlet.getStatus( ) == Portlet.STATUS_UNPUBLISHED ) )
         {
@@ -605,12 +593,10 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
 
         String strRole = portlet.getRole( );
 
-        if ( !strRole.equals( Page.ROLE_NONE ) && ( SecurityService.isAuthenticationEnable( ) ) && ( nMode != MODE_ADMIN ) )
+        if ( !strRole.equals( Page.ROLE_NONE ) && SecurityService.isAuthenticationEnable( ) && nMode != MODE_ADMIN
+                && !SecurityService.getInstance( ).isUserInRole( request, strRole ) )
         {
-            if ( !SecurityService.getInstance( ).isUserInRole( request, strRole ) )
-            {
-                return StringUtils.EMPTY;
-            }
+            return StringUtils.EMPTY;
         }
 
         if ( request != null )
@@ -662,7 +648,8 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
                     user = SecurityService.getInstance( ).getRegisteredUser( request );
                 }
 
-                boolean bCanBeCached = ( user != null ) ? ( portlet.canBeCachedForConnectedUsers( ) ) : ( portlet.canBeCachedForAnonymousUsers( ) );
+                boolean bCanBeCached = ( user != null ) ? ( portlet.canBeCachedForConnectedUsers( ) )
+                        : ( portlet.canBeCachedForAnonymousUsers( ) );
 
                 if ( bCanBeCached )
                 {
@@ -680,8 +667,8 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
 
             XmlTransformerService xmlTransformerService = new XmlTransformerService( );
             String strPortletXmlContent = portlet.getXml( request );
-            strPortletContent += xmlTransformerService.transformBySourceWithXslCache( strPortletXmlContent, portlet.getXslSource( nMode ), strXslUniqueId,
-                    mapParams, outputProperties );
+            strPortletContent += xmlTransformerService.transformBySourceWithXslCache( strPortletXmlContent,
+                    portlet.getXslSource( nMode ), strXslUniqueId, mapParams, outputProperties );
         }
         else
         {
@@ -694,7 +681,8 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
                     user = SecurityService.getInstance( ).getRegisteredUser( request );
                 }
 
-                boolean bCanBeCached = ( user != null ) ? ( portlet.canBeCachedForConnectedUsers( ) ) : ( portlet.canBeCachedForAnonymousUsers( ) );
+                boolean bCanBeCached = ( user != null ) ? ( portlet.canBeCachedForConnectedUsers( ) )
+                        : ( portlet.canBeCachedForAnonymousUsers( ) );
 
                 if ( bCanBeCached )
                 {
@@ -722,15 +710,14 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
     }
 
     /**
-     * Build the Cache HashMap key for pages Goal is to be able to have a synchronized on the key but a synchronize only work with strict reference. So we
-     * manage an hashmap of string reference for cache keys to be able to get them back.
+     * Build the Cache HashMap key for pages Goal is to be able to have a
+     * synchronized on the key but a synchronize only work with strict reference. So
+     * we manage an hashmap of string reference for cache keys to be able to get
+     * them back.
      *
-     * @param mapParams
-     *            The Map params
-     * @param nMode
-     *            The current mode.
-     * @param user
-     *            Current Lutece user
+     * @param mapParams The Map params
+     * @param nMode     The current mode.
+     * @param user      Current Lutece user
      * @return The HashMap key for articles pages as a String.
      */
     private String getKey( Map<String, String> mapParams, int nMode, LuteceUser user )
@@ -743,8 +730,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
     /**
      * Remove a page from the cache
      *
-     * @param nIdPage
-     *            The page ID
+     * @param nIdPage The page ID
      */
     private void invalidatePage( int nIdPage )
     {
@@ -753,8 +739,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
     }
 
     /**
-     * @param cacheKeyService
-     *            the _cacheKeyService to set
+     * @param cacheKeyService the _cacheKeyService to set
      */
     public void setPageCacheKeyService( ICacheKeyService cacheKeyService )
     {
@@ -762,8 +747,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
     }
 
     /**
-     * @param cacheKeyService
-     *            the _cacheKeyService to set
+     * @param cacheKeyService the _cacheKeyService to set
      */
     public void setPortletCacheKeyService( ICacheKeyService cacheKeyService )
     {
@@ -771,8 +755,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
     }
 
     /**
-     * @param removalService
-     *            the removal listener service
+     * @param removalService the removal listener service
      */
     public void setRoleRemovalService( RemovalListenerService removalService )
     {
@@ -783,8 +766,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
     /**
      * Remove a page from the cache
      *
-     * @param strIdPage
-     *            The page ID
+     * @param strIdPage The page ID
      */
     private void invalidatePage( String strIdPage )
     {
@@ -794,7 +776,8 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
 
             for ( String strKeyTemp : (List<String>) _cachePages.getCache( ).getKeys( ) )
             {
-                if ( ( strKeyTemp.indexOf( strKey ) != -1 ) || ( WELCOME_PAGE_ID.equals( strIdPage ) && WELCOME_PAGE_CACHE_KEY.equals( strKeyTemp ) ) )
+                if ( ( strKeyTemp.indexOf( strKey ) != -1 )
+                        || ( WELCOME_PAGE_ID.equals( strIdPage ) && WELCOME_PAGE_CACHE_KEY.equals( strKeyTemp ) ) )
                 {
                     _cachePages.getCache( ).remove( strKeyTemp );
 
@@ -812,8 +795,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
     /**
      * Add a new page event listener
      *
-     * @param listener
-     *            An event listener to add
+     * @param listener An event listener to add
      */
     public static void addPageEventListener( PageEventListener listener )
     {
@@ -824,8 +806,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
     /**
      * Notify an event to all listeners
      *
-     * @param event
-     *            A page Event
+     * @param event A page Event
      */
     private void notifyListeners( PageEvent event )
     {
@@ -849,8 +830,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
     /**
      * Gets the image resource for a given resource
      *
-     * @param nIdResource
-     *            The Resource id
+     * @param nIdResource The Resource id
      * @return The image resource
      */
     @Override
@@ -862,8 +842,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
     /**
      * Create a page
      *
-     * @param page
-     *            The page to create
+     * @param page The page to create
      */
     @Override
     public void createPage( Page page )
@@ -877,8 +856,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
     /**
      * Update a given page
      *
-     * @param page
-     *            The page to update
+     * @param page The page to update
      */
     @Override
     public void updatePage( Page page )
@@ -892,8 +870,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
     /**
      * Remove a given page
      *
-     * @param nPageId
-     *            The page Id
+     * @param nPageId The page Id
      */
     @Override
     public void removePage( int nPageId )
@@ -907,8 +884,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
     /**
      * Process a page event
      *
-     * @param event
-     *            The event to process
+     * @param event The event to process
      */
     @Override
     public void processPageEvent( PageEvent event )
@@ -929,8 +905,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
     /**
      * Invalidate Page Content
      *
-     * @param nPageId
-     *            The Page ID
+     * @param nPageId The Page ID
      */
     @Override
     public void invalidateContent( int nPageId )
@@ -943,12 +918,9 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
     /**
      * Check that a given user is allowed to access a page for a given permission
      *
-     * @param nIdPage
-     *            the id of the page to check
-     * @param strPermission
-     *            the permission needed
-     * @param user
-     *            The current user
+     * @param nIdPage       the id of the page to check
+     * @param strPermission the permission needed
+     * @param user          The current user
      * @return true if authorized, otherwise false
      */
     @Override
@@ -969,24 +941,24 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
     /**
      * Add the HTML code to display admin buttons under each portlet
      *
-     * @param request
-     *            The Http request
-     * @param portlet
-     *            The portlet
+     * @param request The Http request
+     * @param portlet The portlet
      * @return The buttons code
      */
     private String addAdminButtons( HttpServletRequest request, Portlet portlet )
     {
         AdminUser user = AdminUserService.getAdminUser( request );
 
-        if ( RBACService.isAuthorized( PortletType.RESOURCE_TYPE, portlet.getPortletTypeId( ), PortletResourceIdService.PERMISSION_MANAGE, user ) )
+        if ( RBACService.isAuthorized( PortletType.RESOURCE_TYPE, portlet.getPortletTypeId( ),
+                PortletResourceIdService.PERMISSION_MANAGE, user ) )
         {
             Locale locale = user.getLocale( );
             Collection<PortletCustomAdminAction> listCustomActions = new ArrayList<>( );
 
             // TODO : listCustomActions should be provided by PortletType
             // FIXME : Delete plugin-document specifics
-            if ( portlet.getPortletTypeId( ).equals( DOCUMENT_LIST_PORTLET ) || portlet.getPortletTypeId( ).equals( DOCUMENT_PORTLET ) )
+            if ( portlet.getPortletTypeId( ).equals( DOCUMENT_LIST_PORTLET )
+                    || portlet.getPortletTypeId( ).equals( DOCUMENT_PORTLET ) )
             {
                 PortletCustomAdminAction customAction = new PortletCustomAdminAction( );
                 customAction.setActionUrl( DOCUMENT_ACTION_URL );
@@ -1012,12 +984,9 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
     /**
      * Gets the params map
      *
-     * @param request
-     *            The HTTP request
-     * @param nMode
-     *            The mode
-     * @param nIdPage
-     *            The page ID
+     * @param request The HTTP request
+     * @param nMode   The mode
+     * @param nIdPage The page ID
      * @return the map
      */
     private Map<String, String> getParams( HttpServletRequest request, int nMode, int nIdPage )
@@ -1037,7 +1006,8 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
             }
 
             // Add selected locale
-            mapModifyParam.put( PARAMETER_USER_SELECTED_LOCALE, LocaleService.getUserSelectedLocale( request ).getLanguage( ) );
+            mapModifyParam.put( PARAMETER_USER_SELECTED_LOCALE,
+                    LocaleService.getUserSelectedLocale( request ).getLanguage( ) );
         }
 
         // Added in v1.3
@@ -1049,7 +1019,8 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
             if ( SecurityService.isAuthenticationEnable( ) )
             {
                 mapModifyParam.put( MARKER_IS_USER_AUTHENTICATED,
-                        ( SecurityService.getInstance( ).getRegisteredUser( request ) != null ) ? VALUE_TRUE : VALUE_FALSE );
+                        ( SecurityService.getInstance( ).getRegisteredUser( request ) != null ) ? VALUE_TRUE
+                                : VALUE_FALSE );
             }
         }
         else
@@ -1069,8 +1040,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
     /**
      * Management of the image associated to the page
      *
-     * @param strPageId
-     *            The page identifier
+     * @param strPageId The page identifier
      * @return The url
      */
     public String getResourceImagePage( String strPageId )
@@ -1096,8 +1066,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
     /**
      * Sets the cache page service
      * 
-     * @param pageCacheService
-     *            the page cache service
+     * @param pageCacheService the page cache service
      */
     public void setPageCacheService( PageCacheService pageCacheService )
     {
@@ -1117,8 +1086,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
     /**
      * Gets the portlet cache service
      * 
-     * @param portletCacheService
-     *            the portlet cache service
+     * @param portletCacheService the portlet cache service
      */
     public void setPortletCacheService( PortletCacheService portletCacheService )
     {
@@ -1128,10 +1096,8 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
     /**
      * update authorization node of children page
      * 
-     * @param nIdParentPage
-     *            id of the parent page
-     * @param nIdNewAuthorizationNode
-     *            the new authorization id
+     * @param nIdParentPage           id of the parent page
+     * @param nIdNewAuthorizationNode the new authorization id
      */
     public static void updateChildrenAuthorizationNode( int nIdParentPage, Integer nIdNewAuthorizationNode )
     {

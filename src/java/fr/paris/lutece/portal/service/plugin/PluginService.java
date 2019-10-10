@@ -50,7 +50,6 @@ import fr.paris.lutece.portal.service.init.LuteceInitException;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.util.filesystem.FileListFilter;
-import fr.paris.lutece.util.stream.StreamUtil;
 
 /**
  * This class provides services and utilities for plugins management
@@ -301,20 +300,14 @@ public final class PluginService
         String strPluginStatusFile = AppPathService.getPath( PATH_PLUGIN, FILE_PLUGINS_STATUS );
         File file = new File( strPluginStatusFile );
         Properties props = new Properties( );
-        FileInputStream fis = null;
 
-        try
+        try ( FileInputStream fis = new FileInputStream( file ) )
         {
-            fis = new FileInputStream( file );
             props.load( fis );
         }
         catch( Exception e )
         {
             AppLogService.error( "Error loading plugin defined in file : " + file.getAbsolutePath( ), e );
-        }
-        finally
-        {
-            StreamUtil.safeClose( fis );
         }
 
         // If the keys aren't found in the datastore then create a key in it

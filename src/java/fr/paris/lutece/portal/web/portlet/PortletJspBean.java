@@ -57,8 +57,9 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * This class represents user interface Portlet. It is the base class of all user interface portlets. It is abstract and the implementation of the interface
- * PortletJspBeanInterface is compulsary.
+ * This class represents user interface Portlet. It is the base class of all
+ * user interface portlets. It is abstract and the implementation of the
+ * interface PortletJspBeanInterface is compulsary.
  */
 public abstract class PortletJspBean extends AdminFeaturesPageJspBean
 {
@@ -104,8 +105,7 @@ public abstract class PortletJspBean extends AdminFeaturesPageJspBean
     /**
      * Displays the portlet's creation form
      *
-     * @param request
-     *            The http request
+     * @param request The http request
      * @return The html code for displaying the creation form
      */
     public abstract String getCreate( HttpServletRequest request );
@@ -113,8 +113,7 @@ public abstract class PortletJspBean extends AdminFeaturesPageJspBean
     /**
      * Processes portlet's creation
      *
-     * @param request
-     *            The http request
+     * @param request The http request
      * @return The Management jsp url
      */
     public abstract String doCreate( HttpServletRequest request );
@@ -122,8 +121,7 @@ public abstract class PortletJspBean extends AdminFeaturesPageJspBean
     /**
      * Displays the portlet's modification form
      *
-     * @param request
-     *            The http request
+     * @param request The http request
      * @return The html code for displaying the modification form
      */
     public abstract String getModify( HttpServletRequest request );
@@ -131,8 +129,7 @@ public abstract class PortletJspBean extends AdminFeaturesPageJspBean
     /**
      * Processes portlet's modification
      *
-     * @param request
-     *            The http request
+     * @param request The http request
      * @return The Management jsp url
      */
     public abstract String doModify( HttpServletRequest request );
@@ -160,7 +157,8 @@ public abstract class PortletJspBean extends AdminFeaturesPageJspBean
     }
 
     /**
-     * Returns the list of the columns of the page where the portlet can be positioned
+     * Returns the list of the columns of the page where the portlet can be
+     * positioned
      *
      * @return the list of the page columns in form of ReferenceList
      */
@@ -180,10 +178,8 @@ public abstract class PortletJspBean extends AdminFeaturesPageJspBean
     /**
      * Recovers the common attributes of the portlet
      *
-     * @param request
-     *            the http request
-     * @param portlet
-     *            The instance of the portlet
+     * @param request the http request
+     * @param portlet The instance of the portlet
      * @return An error Key if error, otherwise null.
      */
     protected String setPortletCommonData( HttpServletRequest request, Portlet portlet )
@@ -207,18 +203,16 @@ public abstract class PortletJspBean extends AdminFeaturesPageJspBean
         strName = strName.replaceAll( "\"", "" );
 
         // Check Mandatory fields
-        if ( strName.equals( "" ) || strOrder.equals( "" ) || strColumn.equals( "" ) || strAcceptAlias.equals( "" ) || strAcceptPortletTitle.equals( "" ) )
+        if ( strName.equals( "" ) || strOrder.equals( "" ) || strColumn.equals( "" ) || strAcceptAlias.equals( "" )
+                || strAcceptPortletTitle.equals( "" ) )
         {
             return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
         }
 
         // style id is not mandatory if the content is not generated from XML and XSL
-        if ( portlet.isContentGeneratedByXmlAndXsl( ) )
+        if ( portlet.isContentGeneratedByXmlAndXsl( ) && ( strStyleId == null || strStyleId.trim( ).equals( "" ) ) )
         {
-            if ( ( strStyleId == null ) || strStyleId.trim( ).equals( "" ) )
-            {
-                return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
-            }
+            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
         }
 
         String strPageId = request.getParameter( PARAMETER_PAGE_ID );
@@ -234,7 +228,7 @@ public abstract class PortletJspBean extends AdminFeaturesPageJspBean
                 return AdminMessageService.getMessageUrl( request, MESSAGE_INVALID_PAGE_ID, AdminMessage.TYPE_STOP );
             }
         }
-        catch( NumberFormatException e )
+        catch ( NumberFormatException e )
         {
             AppLogService.error( e.getMessage( ), e );
 
@@ -287,10 +281,8 @@ public abstract class PortletJspBean extends AdminFeaturesPageJspBean
     /**
      * Fills templates with common values shared by portlet creation form
      *
-     * @param strPageId
-     *            the page identifier
-     * @param strPortletTypeId
-     *            the Portlet type identifier
+     * @param strPageId        the page identifier
+     * @param strPortletTypeId the Portlet type identifier
      * @return the template filled
      */
     protected HtmlTemplate getCreateTemplate( String strPageId, String strPortletTypeId )
@@ -301,12 +293,9 @@ public abstract class PortletJspBean extends AdminFeaturesPageJspBean
     /**
      * Fills templates with common values shared by portlet creation form
      *
-     * @param strPageId
-     *            the page identifier
-     * @param strPortletTypeId
-     *            the Portlet type identifier
-     * @param model
-     *            Specific data stored in a hashtable
+     * @param strPageId        the page identifier
+     * @param strPortletTypeId the Portlet type identifier
+     * @param model            Specific data stored in a hashtable
      * @return the template filled
      */
     protected HtmlTemplate getCreateTemplate( String strPageId, String strPortletTypeId, Map<String, Object> model )
@@ -328,8 +317,7 @@ public abstract class PortletJspBean extends AdminFeaturesPageJspBean
     /**
      * Fills update template with portlet values
      *
-     * @param portlet
-     *            the object to update
+     * @param portlet the object to update
      * @return the update template filled
      */
     protected HtmlTemplate getModifyTemplate( Portlet portlet )
@@ -340,10 +328,8 @@ public abstract class PortletJspBean extends AdminFeaturesPageJspBean
     /**
      * Fills update template with portlet values
      *
-     * @param portlet
-     *            the object to update
-     * @param model
-     *            The Data model
+     * @param portlet the object to update
+     * @param model   The Data model
      * @return the update template filled
      */
     protected HtmlTemplate getModifyTemplate( Portlet portlet, Map<String, Object> model )
@@ -357,9 +343,11 @@ public abstract class PortletJspBean extends AdminFeaturesPageJspBean
         model.put( MARK_PORTLET_STYLES_COMBO, PortletHome.getStylesList( portlet.getPortletTypeId( ) ) );
         model.put( MARK_PORTLET_ROLES_COMBO, RoleHome.getRolesList( getUser( ) ) );
         putCheckBox( model, MARK_SMALL_CHECKED, portlet.hasDeviceDisplayFlag( Portlet.FLAG_DISPLAY_ON_SMALL_DEVICE ) );
-        putCheckBox( model, MARK_NORMAL_CHECKED, portlet.hasDeviceDisplayFlag( Portlet.FLAG_DISPLAY_ON_NORMAL_DEVICE ) );
+        putCheckBox( model, MARK_NORMAL_CHECKED,
+                portlet.hasDeviceDisplayFlag( Portlet.FLAG_DISPLAY_ON_NORMAL_DEVICE ) );
         putCheckBox( model, MARK_LARGE_CHECKED, portlet.hasDeviceDisplayFlag( Portlet.FLAG_DISPLAY_ON_LARGE_DEVICE ) );
-        putCheckBox( model, MARK_XLARGE_CHECKED, portlet.hasDeviceDisplayFlag( Portlet.FLAG_DISPLAY_ON_XLARGE_DEVICE ) );
+        putCheckBox( model, MARK_XLARGE_CHECKED,
+                portlet.hasDeviceDisplayFlag( Portlet.FLAG_DISPLAY_ON_XLARGE_DEVICE ) );
 
         return AppTemplateService.getTemplate( TEMPLATE_MODIFY_PORTLET, getLocale( ), model );
     }
@@ -367,12 +355,9 @@ public abstract class PortletJspBean extends AdminFeaturesPageJspBean
     /**
      * Put check box.
      *
-     * @param model
-     *            the model
-     * @param strMarkerChecked
-     *            the str marker checked
-     * @param bChecked
-     *            the b checked
+     * @param model            the model
+     * @param strMarkerChecked the str marker checked
+     * @param bChecked         the b checked
      */
     protected void putCheckBox( Map<String, Object> model, String strMarkerChecked, boolean bChecked )
     {
@@ -383,8 +368,7 @@ public abstract class PortletJspBean extends AdminFeaturesPageJspBean
     /**
      * Gets the page URL
      * 
-     * @param nIdPage
-     *            Page ID
+     * @param nIdPage Page ID
      * @return The page URL
      */
     protected String getPageUrl( int nIdPage )

@@ -69,7 +69,6 @@ import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.bean.BeanUtil;
 import fr.paris.lutece.util.html.HtmlTemplate;
-import fr.paris.lutece.util.stream.StreamUtil;
 
 /**
  * This class initializes all the application services
@@ -313,20 +312,13 @@ public final class AppInit
         Map<String, Object> model = new HashMap<>( );
         Properties p = new Properties( );
 
-        FileInputStream fis = null;
-
-        try
+        try ( FileInputStream fis = new FileInputStream( strRealPath + PATH_CONFIG + FILE_PROPERTIES_CONFIG ) )
         {
-            fis = new FileInputStream( strRealPath + PATH_CONFIG + FILE_PROPERTIES_CONFIG );
             p.load( fis );
         }
         catch( Exception e )
         {
             AppLogService.error( e.getMessage( ), e );
-        }
-        finally
-        {
-            StreamUtil.safeClose( fis );
         }
 
         if ( Boolean.parseBoolean( p.getProperty( PROPERTY_AUTOINIT ) ) )
@@ -344,20 +336,13 @@ public final class AppInit
             // reset configuration cache to avoid configuration caching before macros are set. See LUTECE-1460
             AppTemplateService.resetConfiguration( );
 
-            FileWriter fw = null;
-
-            try
+            try (FileWriter fw = new FileWriter( strRealPath + PATH_CONFIG + FILE_PROPERTIES_CONFIG ) )
             {
-                fw = new FileWriter( strRealPath + PATH_CONFIG + FILE_PROPERTIES_CONFIG );
                 fw.write( configTemplate.getHtml( ) );
             }
             catch( Exception io )
             {
                 AppLogService.error( "Error reading file", io );
-            }
-            finally
-            {
-                StreamUtil.safeClose( fw );
             }
         }
     }

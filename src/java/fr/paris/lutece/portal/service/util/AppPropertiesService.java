@@ -33,15 +33,14 @@
  */
 package fr.paris.lutece.portal.service.util;
 
-import fr.paris.lutece.portal.service.init.LuteceInitException;
-import fr.paris.lutece.util.PropertiesService;
-
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+
+import fr.paris.lutece.util.PropertiesService;
 
 /**
  * this class provides management services for properties files

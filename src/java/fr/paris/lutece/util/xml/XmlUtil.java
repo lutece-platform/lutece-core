@@ -92,11 +92,11 @@ public final class XmlUtil
      * @param outputProperties
      *            properties to use for the xsl transform. Will overload the xsl output definition.
      * @return The output document transformed
-     * @throws Exception
+     * @throws TransformerException
      *             The exception
      */
     @Deprecated
-    public static String transform( Source source, Source stylesheet, Map<String, String> params, Properties outputProperties ) throws Exception
+    public static String transform( Source source, Source stylesheet, Map<String, String> params, Properties outputProperties ) throws TransformerException
     {
         try
         {
@@ -135,11 +135,11 @@ public final class XmlUtil
                 strMessage += ( "- location : " + e.getLocationAsString( ) );
             }
 
-            throw new Exception( "Error transforming document XSLT : " + strMessage, e.getCause( ) );
+            throw new TransformerException( "Error transforming document XSLT : " + strMessage, e.getCause( ) );
         }
         catch( Exception e )
         {
-            throw new Exception( "Error transforming document XSLT : " + e.getMessage( ), e );
+            throw new TransformerException( "Error transforming document XSLT : " + e.getMessage( ), e );
         }
     }
 

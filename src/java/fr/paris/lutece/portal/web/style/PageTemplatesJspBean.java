@@ -400,22 +400,16 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
         File filePageTemplateToDelete = new File( AppPathService.getPath( PROPERTY_PATH_TEMPLATE ),
                 pageTemplate.getFile( ) );
 
-        if ( filePageTemplateToDelete.exists( ) )
+        if ( filePageTemplateToDelete.exists( ) && !filePageTemplateToDelete.delete( ) )
         {
-            if ( !filePageTemplateToDelete.delete( ) )
-            {
-                AppLogService.info( LOG_ERROR_DELETE_FILE );
-            }
+            AppLogService.info( LOG_ERROR_DELETE_FILE );
         }
 
         File filePictureToDelete = new File( PATH_IMAGE_PAGE_TEMPLATE, pageTemplate.getPicture( ) );
 
-        if ( filePictureToDelete.exists( ) )
+        if ( filePictureToDelete.exists( ) && !filePictureToDelete.delete( ) )
         {
-            if ( !filePictureToDelete.delete( ) )
-            {
-                AppLogService.info( LOG_ERROR_DELETE_FILE );
-            }
+            AppLogService.info( LOG_ERROR_DELETE_FILE );
         }
 
         PageTemplateHome.remove( nId );
@@ -441,12 +435,9 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
         {
             File file = new File( strPath + strFileName );
 
-            if ( file.exists( ) )
+            if ( file.exists( ) && !file.delete( ) )
             {
-                if ( !file.delete( ) )
-                {
-                    AppLogService.info( LOG_ERROR_DELETE_FILE );
-                }
+                AppLogService.info( LOG_ERROR_DELETE_FILE );
             }
 
             fosFile = new FileOutputStream( file );
