@@ -38,6 +38,7 @@ import fr.paris.lutece.portal.service.message.SiteMessageService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.web.LocalVariables;
 import fr.paris.lutece.portal.web.constants.Parameters;
+import fr.paris.lutece.portal.web.l10n.LocaleService;
 import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.stream.StreamUtil;
 import fr.paris.lutece.util.string.StringUtil;
@@ -400,6 +401,25 @@ public final class AppPathService
     public static String getRootForwardUrl( )
     {
         return DatastoreService.getDataValue( KEY_PORTAL_HOME_URL, AppPropertiesService.getProperty( PROPERTY_PORTAL_REDIRECT_URL ) );
+    }
+
+    /**
+     * Returns the forward URL for webapp's root path according to the user session language. This method will try at first to get the specific entity key
+     * value (url) from the user session language. Example of an entity key : portal.site.site_property.home_url.fr ( core_datastore table ).
+     * If the entity key is not found, the default url (jsp/site/Portal.jsp) will be return.
+     * 
+     * @param request
+     *            the request
+     * @return the Portal Root forward Url
+     */
+    public static String getRootForwardUrl( HttpServletRequest request )
+    {
+
+        String contextUserLang = LocaleService.getContextUserLocale( request ).getLanguage( );
+        String langEntityKey = KEY_PORTAL_HOME_URL + "." + contextUserLang.toLowerCase( );
+
+        return DatastoreService.getDataValue( langEntityKey,
+                DatastoreService.getDataValue( KEY_PORTAL_HOME_URL, AppPropertiesService.getProperty( PROPERTY_PORTAL_REDIRECT_URL ) ) );
     }
 
     /**
