@@ -219,7 +219,7 @@ public abstract class JPAGenericDAO<K, E> implements IGenericDAO<K, E>
     {
         LOG.debug( "Selecting entity " + getEntityClassName( ) + " by ID : " + key.toString( ) );
 
-        return (E) getEM( ).find( _entityClass, key );
+        return getEM( ).find( _entityClass, key );
     }
 
     /**

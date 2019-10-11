@@ -84,7 +84,7 @@ public class AdminUserMenuItemProviderRegistrar implements BeanNameAware
      * @throws ClassNotFoundException
      *             if the class cannot be found
      */
-    public void setClassName( String strClassName ) throws InstantiationException, IllegalAccessException, IllegalStateException, ClassNotFoundException
+    public void setClassName( String strClassName ) throws InstantiationException, IllegalAccessException, ClassNotFoundException
     {
         assertItemProviderNotSet( );
         _provider = (IAdminUserMenuItemProvider) Class.forName( strClassName ).newInstance( );
@@ -98,7 +98,7 @@ public class AdminUserMenuItemProviderRegistrar implements BeanNameAware
      * @throws IllegalStateException
      *             if the item provider is already set
      */
-    public void setProvider( IAdminUserMenuItemProvider provider ) throws IllegalStateException
+    public void setProvider( IAdminUserMenuItemProvider provider )
     {
         assertItemProviderNotSet( );
         _provider = provider;

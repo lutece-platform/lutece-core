@@ -47,6 +47,7 @@ import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
 import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.util.html.HtmlTemplate;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 
 import java.util.HashMap;
@@ -166,9 +167,7 @@ public class AttributeFieldJspBean extends AdminFeaturesPageJspBean
             _attributeFieldService.createAttributeField( attributeField );
         }
 
-        String strUrl = JSP_MODIFY_ATTRIBUTE + QUESTION_MARK + PARAMETER_ID_ATTRIBUTE + EQUAL + nIdAttribute;
-
-        return strUrl;
+        return JSP_MODIFY_ATTRIBUTE + QUESTION_MARK + PARAMETER_ID_ATTRIBUTE + EQUAL + nIdAttribute;
     }
 
     /**
@@ -329,7 +328,7 @@ public class AttributeFieldJspBean extends AdminFeaturesPageJspBean
             {
                 throw new AccessDeniedException( "Invalid security token" );
             }
-            if ( listAttributeFields.size( ) > 0 )
+            if ( CollectionUtils.isNotEmpty( listAttributeFields ) )
             {
                 AttributeField previousField = null;
                 AttributeField currentField = null;
@@ -382,7 +381,7 @@ public class AttributeFieldJspBean extends AdminFeaturesPageJspBean
             {
                 throw new AccessDeniedException( "Invalid security token" );
             }
-            if ( listAttributeFields.size( ) > 0 )
+            if ( CollectionUtils.isNotEmpty( listAttributeFields ) )
             {
                 AttributeField currentField = null;
                 AttributeField nextField = null;

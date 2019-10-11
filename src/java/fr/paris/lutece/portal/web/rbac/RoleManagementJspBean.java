@@ -33,6 +33,18 @@
  */
 package fr.paris.lutece.portal.web.rbac;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
+
 import fr.paris.lutece.portal.business.rbac.AdminRole;
 import fr.paris.lutece.portal.business.rbac.AdminRoleHome;
 import fr.paris.lutece.portal.business.rbac.RBAC;
@@ -59,23 +71,12 @@ import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.portal.web.util.LocalizedPaginator;
 import fr.paris.lutece.util.ReferenceItem;
 import fr.paris.lutece.util.ReferenceList;
+import fr.paris.lutece.util.html.AbstractPaginator;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.html.ItemNavigator;
-import fr.paris.lutece.util.html.Paginator;
 import fr.paris.lutece.util.sort.AttributeComparator;
 import fr.paris.lutece.util.string.StringUtil;
 import fr.paris.lutece.util.url.UrlItem;
-
-import org.apache.commons.lang.StringUtils;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * This class provides methods for role management.
@@ -202,9 +203,9 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
             Collections.sort( listRole, new AttributeComparator( strSortedAttributeName, bIsAscSort ) );
         }
 
-        _strCurrentPageIndex = Paginator.getPageIndex( request, Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex );
+        _strCurrentPageIndex = AbstractPaginator.getPageIndex( request, AbstractPaginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex );
         _nDefaultItemsPerPage = AppPropertiesService.getPropertyInt( PROPERTY_ROLES_PER_PAGE, 50 );
-        _nItemsPerPage = Paginator.getItemsPerPage( request, Paginator.PARAMETER_ITEMS_PER_PAGE, _nItemsPerPage, _nDefaultItemsPerPage );
+        _nItemsPerPage = AbstractPaginator.getItemsPerPage( request, AbstractPaginator.PARAMETER_ITEMS_PER_PAGE, _nItemsPerPage, _nDefaultItemsPerPage );
 
         String strURL = getHomeUrl( request );
         UrlItem url = new UrlItem( strURL );
@@ -220,7 +221,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
         }
 
         // PAGINATOR
-        LocalizedPaginator<AdminRole> paginator = new LocalizedPaginator<AdminRole>( listRole, _nItemsPerPage, url.getUrl( ), Paginator.PARAMETER_PAGE_INDEX,
+        LocalizedPaginator<AdminRole> paginator = new LocalizedPaginator<>( listRole, _nItemsPerPage, url.getUrl( ), AbstractPaginator.PARAMETER_PAGE_INDEX,
                 _strCurrentPageIndex, getLocale( ) );
 
         Map<String, Object> model = new HashMap<>( );
@@ -365,9 +366,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
         Map<String, Object> parameters = new HashMap<>( 2 );
         parameters.put( PARAMETER_ROLE_KEY, strRoleKey );
         parameters.put( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, JSP_URL_REMOVE_ROLE ) );
-        String strUrl = AdminMessageService.getMessageUrl( request, PROPERTY_CONFIRM_DELETE_ROLE, strDeleteUrl, AdminMessage.TYPE_CONFIRMATION, parameters );
-
-        return strUrl;
+        return AdminMessageService.getMessageUrl( request, PROPERTY_CONFIRM_DELETE_ROLE, strDeleteUrl, AdminMessage.TYPE_CONFIRMATION, parameters );
     }
 
     /**
@@ -465,9 +464,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
         Map<String, Object> parameters = new HashMap<>( 2 );
         parameters.put( PARAMETER_RBAC_ID, strIdControl );
         parameters.put( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, JSP_URL_REMOVE_CONTROL_FROM_ROLE ) );
-        String strUrl = AdminMessageService.getMessageUrl( request, PROPERTY_CONFIRM_DELETE_CONTROL, strDeleteUrl, AdminMessage.TYPE_CONFIRMATION, parameters );
-
-        return strUrl;
+        return AdminMessageService.getMessageUrl( request, PROPERTY_CONFIRM_DELETE_CONTROL, strDeleteUrl, AdminMessage.TYPE_CONFIRMATION, parameters );
     }
 
     /**
@@ -521,7 +518,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
         boolean bResourceListAvailable = true;
         ReferenceList listResources = resourceType.getResourceIdService( ).getResourceIdList( getLocale( ) );
 
-        if ( ( listResources == null ) || ( listResources.size( ) == 0 ) )
+        if ( CollectionUtils.isEmpty( listResources ) )
         {
             bResourceListAvailable = false;
         }
@@ -851,7 +848,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
         AdminRole role = AdminRoleHome.findByPrimaryKey( strRoleKey );
 
         // ASSIGNED USERS
-        List<AdminUser> listAssignedUsers = new ArrayList<AdminUser>( );
+        List<AdminUser> listAssignedUsers = new ArrayList<>( );
 
         for ( AdminUser user : AdminUserHome.findByRole( strRoleKey ) )
         {
@@ -906,9 +903,9 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
             Collections.sort( listFilteredUsers, new AttributeComparator( strSortedAttributeName, bIsAscSort ) );
         }
 
-        _strCurrentPageIndex = Paginator.getPageIndex( request, Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex );
+        _strCurrentPageIndex = AbstractPaginator.getPageIndex( request, AbstractPaginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex );
         _nDefaultItemsPerPage = AppPropertiesService.getPropertyInt( PROPERTY_ROLES_PER_PAGE, 50 );
-        _nItemsPerPage = Paginator.getItemsPerPage( request, Paginator.PARAMETER_ITEMS_PER_PAGE, _nItemsPerPage, _nDefaultItemsPerPage );
+        _nItemsPerPage = AbstractPaginator.getItemsPerPage( request, AbstractPaginator.PARAMETER_ITEMS_PER_PAGE, _nItemsPerPage, _nDefaultItemsPerPage );
 
         if ( strSortedAttributeName != null )
         {
@@ -926,11 +923,11 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
         // PAGINATOR
         url.addParameter( PARAMETER_ROLE_KEY, role.getKey( ) );
 
-        LocalizedPaginator<AdminUser> paginator = new LocalizedPaginator<AdminUser>( listFilteredUsers, _nItemsPerPage, url.getUrl( ),
-                Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex, getLocale( ) );
+        LocalizedPaginator<AdminUser> paginator = new LocalizedPaginator<>( listFilteredUsers, _nItemsPerPage, url.getUrl( ),
+                AbstractPaginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex, getLocale( ) );
 
         // USER LEVEL
-        Collection<Level> filteredLevels = new ArrayList<Level>( );
+        Collection<Level> filteredLevels = new ArrayList<>( );
 
         for ( Level level : LevelHome.getLevelsList( ) )
         {

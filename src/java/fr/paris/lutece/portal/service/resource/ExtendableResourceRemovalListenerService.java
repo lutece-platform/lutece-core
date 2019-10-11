@@ -41,7 +41,7 @@ import java.util.List;
  */
 public final class ExtendableResourceRemovalListenerService
 {
-    private static List<IExtendableResourceRemovalListener> _listListeners = new ArrayList<IExtendableResourceRemovalListener>( );
+    private static List<IExtendableResourceRemovalListener> _listListeners = new ArrayList<>( );
 
     /** Private Constructor */
     private ExtendableResourceRemovalListenerService( )

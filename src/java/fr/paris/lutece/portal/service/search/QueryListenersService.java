@@ -43,7 +43,7 @@ import java.util.List;
  */
 public final class QueryListenersService
 {
-    private static List<QueryEventListener> _listListeners = new ArrayList<QueryEventListener>( );
+    private static List<QueryEventListener> _listListeners = new ArrayList<>( );
     private static volatile QueryListenersService _singleton;
 
     /**

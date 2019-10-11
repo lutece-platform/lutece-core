@@ -51,6 +51,7 @@ import fr.paris.lutece.portal.web.xpages.XPageApplicationEntry;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.http.SecurityUtil;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 
 import java.util.Collection;
@@ -75,7 +76,7 @@ public class XPageAppService extends ContentService
     private static final String CONTENT_SERVICE_NAME = "XPageAppService";
     private static final String MESSAGE_ERROR_APP_BODY = "portal.util.message.errorXpageApp";
     private static final String ATTRIBUTE_XPAGE = "LUTECE_XPAGE_";
-    private static Map<String, XPageApplicationEntry> _mapApplications = new HashMap<String, XPageApplicationEntry>( );
+    private static Map<String, XPageApplicationEntry> _mapApplications = new HashMap<>( );
 
     /**
      * Register an application by its entry defined in the plugin xml file
@@ -95,8 +96,9 @@ public class XPageAppService extends ContentService
 
                 if ( !SpringContextService.getContext( ).containsBean( applicationBeanName ) )
                 {
-                    throw new LuteceInitException( "Error instantiating XPageApplication : " + entry.getId( ) + " - Could not find bean named "
-                            + applicationBeanName, new NoSuchBeanDefinitionException( applicationBeanName ) );
+                    throw new LuteceInitException(
+                            "Error instantiating XPageApplication : " + entry.getId( ) + " - Could not find bean named " + applicationBeanName,
+                            new NoSuchBeanDefinitionException( applicationBeanName ) );
                 }
             }
             else
@@ -108,11 +110,7 @@ public class XPageAppService extends ContentService
             _mapApplications.put( entry.getId( ), entry );
             AppLogService.info( "New XPage application registered : " + entry.getId( ) + ( entry.isEnabled( ) ? "" : " (disabled)" ) );
         }
-        catch( ClassNotFoundException e )
-        {
-            throw new LuteceInitException( "Error instantiating XPageApplication : " + entry.getId( ) + " - " + e.getCause( ), e );
-        }
-        catch( InstantiationException | IllegalAccessException e )
+        catch( ClassNotFoundException | InstantiationException | IllegalAccessException e )
         {
             throw new LuteceInitException( "Error instantiating XPageApplication : " + entry.getId( ) + " - " + e.getCause( ), e );
         }
@@ -142,16 +140,6 @@ public class XPageAppService extends ContentService
         String strXPage = request.getParameter( PARAM_XPAGE_APP );
 
         return ( strXPage != null ) && ( strXPage.length( ) > 0 );
-    }
-
-    /**
-     * Enable or disable the cache feature.
-     *
-     * @param bCache
-     *            true to enable the cache, false to disable
-     */
-    public void setCache( boolean bCache )
-    {
     }
 
     /**
@@ -211,7 +199,7 @@ public class XPageAppService extends ContentService
             XPage page = null;
             List<String> listRoles = entry.getRoles( );
 
-            if ( SecurityService.isAuthenticationEnable( ) && ( listRoles.size( ) > 0 ) )
+            if ( SecurityService.isAuthenticationEnable( ) && CollectionUtils.isNotEmpty( listRoles ) )
             {
                 LuteceUser user = SecurityService.getInstance( ).getRegisteredUser( request );
 

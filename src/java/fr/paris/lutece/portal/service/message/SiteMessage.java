@@ -115,7 +115,7 @@ public class SiteMessage implements Serializable
         // Object message conversion into String values for map of parameters
         if ( requestParameters != null )
         {
-            _requestParameters = new HashMap<String, String>( );
+            _requestParameters = new HashMap<>( );
 
             for ( Entry<String, Object> entry : requestParameters.entrySet( ) )
             {

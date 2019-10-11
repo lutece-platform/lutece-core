@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.web.upload;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.fileupload.FileItem;
 
 import java.util.Collections;
@@ -169,7 +170,7 @@ public class MultipartHttpServletRequest extends HttpServletRequestWrapper
     {
         List<FileItem> listFileItem = _multipartFiles.get( strName );
 
-        return ( ( listFileItem != null ) && ( listFileItem.size( ) > 0 ) ) ? listFileItem.get( 0 ) : null;
+        return CollectionUtils.isNotEmpty( listFileItem ) ? listFileItem.get( 0 ) : null;
     }
 
     /**
@@ -193,11 +194,11 @@ public class MultipartHttpServletRequest extends HttpServletRequestWrapper
      */
     private Map<String, FileItem> convertFileMap( Map<String, List<FileItem>> multipartFiles )
     {
-        Map<String, FileItem> mapFiles = new HashMap<String, FileItem>( multipartFiles.size( ) );
+        Map<String, FileItem> mapFiles = new HashMap<>( multipartFiles.size( ) );
 
         for ( Entry<String, List<FileItem>> entry : multipartFiles.entrySet( ) )
         {
-            mapFiles.put( entry.getKey( ), ( ( entry.getValue( ) == null ) || ( entry.getValue( ).size( ) == 0 ) ) ? null : entry.getValue( ).get( 0 ) );
+            mapFiles.put( entry.getKey( ), CollectionUtils.isNotEmpty( entry.getValue( ) ) ? null : entry.getValue( ).get( 0 ) );
         }
 
         return mapFiles;

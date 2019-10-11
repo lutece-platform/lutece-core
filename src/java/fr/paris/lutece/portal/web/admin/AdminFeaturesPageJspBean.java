@@ -111,7 +111,7 @@ public abstract class AdminFeaturesPageJspBean implements Serializable
      * @throws PasswordResetException
      *             Password reset exception
      */
-    public void init( HttpServletRequest request, String strRight ) throws AccessDeniedException, PasswordResetException
+    public void init( HttpServletRequest request, String strRight ) throws AccessDeniedException
     {
         _user = AdminUserService.getAdminUser( request );
 
@@ -231,7 +231,7 @@ public abstract class AdminFeaturesPageJspBean implements Serializable
      */
     public String getAdminPage( String strContent )
     {
-        Map<String, String> rootModel = new HashMap<String, String>( );
+        Map<String, String> rootModel = new HashMap<>( );
 
         rootModel.put( MARK_FEATURE_URL, _strFeatureUrl );
         rootModel.put( MARK_FEATURE_TITLE, _strFeatureLabel );

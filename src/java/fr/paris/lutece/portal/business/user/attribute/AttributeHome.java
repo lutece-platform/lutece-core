@@ -45,7 +45,7 @@ import java.util.Locale;
  */
 public final class AttributeHome
 {
-    private static IAttributeDAO _dao = (IAttributeDAO) SpringContextService.getBean( "attributeDAO" );
+    private static IAttributeDAO _dao = SpringContextService.getBean( "attributeDAO" );
 
     /**
      * Private constructor

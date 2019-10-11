@@ -135,9 +135,7 @@ public final class ThemesService
             strTheme = themeTest;
         }
 
-        Theme theme = getGlobalTheme( strTheme );
-
-        return theme;
+        return getGlobalTheme( strTheme );
     }
 
     /**
@@ -450,7 +448,7 @@ public final class ThemesService
      */
     public static Collection<Theme> getThemesList( )
     {
-        Collection<Theme> listThemes = new ArrayList<Theme>( );
+        Collection<Theme> listThemes = new ArrayList<>( );
 
         try
         {

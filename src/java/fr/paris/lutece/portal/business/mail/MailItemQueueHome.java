@@ -41,7 +41,7 @@ import fr.paris.lutece.portal.service.spring.SpringContextService;
 public final class MailItemQueueHome
 {
     // Static variable pointed at the DAO instance
-    private static IMailItemQueueDAO _dao = (IMailItemQueueDAO) SpringContextService.getBean( "mailItemQueueDAO" );
+    private static IMailItemQueueDAO _dao = SpringContextService.getBean( "mailItemQueueDAO" );
 
     /**
      * Creates a new MailItemQueueHome object.

@@ -55,7 +55,7 @@ public class FeatureGroup
     private String _strDescriptionKey;
     private String _strLabelKey;
     private int _nOrder;
-    private Collection<Right> _aFeaturesList = new ArrayList<Right>( );
+    private Collection<Right> _aFeaturesList = new ArrayList<>( );
     private Locale _locale;
 
     /**

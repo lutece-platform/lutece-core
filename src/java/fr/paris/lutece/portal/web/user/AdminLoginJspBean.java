@@ -391,10 +391,9 @@ public class AdminLoginJspBean implements Serializable
      * @param request
      *            The HTTP Request
      * @return The Jsp URL of the process result
-     * @throws Exception
-     *             The exception
+     * @throws AccessDeniedException 
      */
-    public String doLogin( HttpServletRequest request ) throws Exception
+    public String doLogin( HttpServletRequest request ) throws AccessDeniedException
     {
         if ( request.getScheme( ).equals( CONSTANT_HTTP ) && AppHTTPSService.isHTTPSSupportEnabled( ) )
         {
@@ -478,7 +477,7 @@ public class AdminLoginJspBean implements Serializable
      * @throws Exception
      *             The exception
      */
-    public String doForgotPassword( HttpServletRequest request ) throws Exception
+    public String doForgotPassword( HttpServletRequest request )
     {
         // get mail from user
         String strAccessCode = request.getParameter( Parameters.ACCESS_CODE );
@@ -615,7 +614,7 @@ public class AdminLoginJspBean implements Serializable
      * @throws Exception
      *             The exception
      */
-    public String doForgotLogin( HttpServletRequest request ) throws Exception
+    public String doForgotLogin( HttpServletRequest request )
     {
         String strEmail = request.getParameter( Parameters.EMAIL );
         Locale locale = AdminUserService.getLocale( request );

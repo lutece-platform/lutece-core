@@ -33,6 +33,16 @@
  */
 package fr.paris.lutece.portal.service.daemon;
 
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
+
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.business.user.AdminUserHome;
 import fr.paris.lutece.portal.business.user.parameter.DefaultUserParameterHome;
@@ -45,18 +55,6 @@ import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.web.l10n.LocaleService;
 import fr.paris.lutece.util.date.DateUtil;
 import fr.paris.lutece.util.html.HtmlTemplate;
-
-import org.apache.commons.lang.StringUtils;
-
-import java.sql.Timestamp;
-
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * Daemon to anonymize admin users
@@ -100,7 +98,7 @@ public class AccountLifeTimeDaemon extends Daemon
         List<Integer> accountsToSetAsExpired = AdminUserHome.getIdUsersWithExpiredLifeTimeList( currentTimestamp );
 
         // We first set as expirated user that have reached their life time limit
-        if ( ( accountsToSetAsExpired != null ) && ( accountsToSetAsExpired.size( ) > 0 ) )
+        if ( CollectionUtils.isNotEmpty( accountsToSetAsExpired ) )
         {
             int nbAccountToExpire = accountsToSetAsExpired.size( );
             String strBody = DatabaseTemplateService.getTemplateFromKey( PARAMETER_CORE_EXPIRATION_MAIL );
@@ -121,7 +119,7 @@ public class AccountLifeTimeDaemon extends Daemon
 
                     if ( ( strUserMail != null ) && StringUtils.isNotBlank( strUserMail ) )
                     {
-                        Map<String, String> model = new HashMap<String, String>( );
+                        Map<String, String> model = new HashMap<>( );
                         addParametersToModel( model, nIdUser );
 
                         HtmlTemplate template = AppTemplateService.getTemplateFromStringFtl( strBody, user.getLocale( ), model );
@@ -164,7 +162,7 @@ public class AccountLifeTimeDaemon extends Daemon
         {
             List<Integer> userIdListToSendFirstAlert = AdminUserHome.getIdUsersToSendFirstAlert( firstAlertMaxDate );
 
-            if ( ( userIdListToSendFirstAlert != null ) && ( userIdListToSendFirstAlert.size( ) > 0 ) )
+            if ( CollectionUtils.isNotEmpty( userIdListToSendFirstAlert ) )
             {
                 int nbFirstAlertSent = userIdListToSendFirstAlert.size( );
                 String strBody = DatabaseTemplateService.getTemplateFromKey( PARAMETER_CORE_FIRST_ALERT_MAIL );
@@ -185,7 +183,7 @@ public class AccountLifeTimeDaemon extends Daemon
 
                         if ( ( strUserMail != null ) && StringUtils.isNotBlank( strUserMail ) )
                         {
-                            Map<String, String> model = new HashMap<String, String>( );
+                            Map<String, String> model = new HashMap<>( );
                             addParametersToModel( model, nIdUser );
 
                             HtmlTemplate template = AppTemplateService.getTemplateFromStringFtl( strBody, user.getLocale( ), model );
@@ -231,7 +229,7 @@ public class AccountLifeTimeDaemon extends Daemon
         {
             List<Integer> userIdListToSendNextAlert = AdminUserHome.getIdUsersToSendOtherAlert( firstAlertMaxDate, timeBetweenAlerts, maxNumberOfAlerts );
 
-            if ( ( userIdListToSendNextAlert != null ) && ( userIdListToSendNextAlert.size( ) > 0 ) )
+            if ( CollectionUtils.isNotEmpty( userIdListToSendNextAlert ) )
             {
                 int nbOtherAlertSent = userIdListToSendNextAlert.size( );
                 String strBody = DatabaseTemplateService.getTemplateFromKey( PARAMETER_CORE_OTHER_ALERT_MAIL );
@@ -252,7 +250,7 @@ public class AccountLifeTimeDaemon extends Daemon
 
                         if ( ( strUserMail != null ) && StringUtils.isNotBlank( strUserMail ) )
                         {
-                            Map<String, String> model = new HashMap<String, String>( );
+                            Map<String, String> model = new HashMap<>( );
                             addParametersToModel( model, nIdUser );
 
                             HtmlTemplate template = AppTemplateService.getTemplateFromStringFtl( strBody, user.getLocale( ), model );
@@ -288,7 +286,7 @@ public class AccountLifeTimeDaemon extends Daemon
             // We notify users with expired passwords
             List<Integer> accountsWithPasswordsExpired = AdminUserHome.getIdUsersWithExpiredPasswordsList( currentTimestamp );
 
-            if ( ( accountsWithPasswordsExpired != null ) && ( accountsWithPasswordsExpired.size( ) > 0 ) )
+            if ( CollectionUtils.isNotEmpty( accountsWithPasswordsExpired ) )
             {
                 String strSender = AdminUserService.getSecurityParameter( PARAMETER_PASSWORD_EXPIRED_MAIL_SENDER );
                 String strSubject = AdminUserService.getSecurityParameter( PARAMETER_PASSWORD_EXPIRED_MAIL_SUBJECT );
@@ -303,7 +301,7 @@ public class AccountLifeTimeDaemon extends Daemon
 
                         if ( StringUtils.isNotBlank( strUserMail ) )
                         {
-                            Map<String, String> model = new HashMap<String, String>( );
+                            Map<String, String> model = new HashMap<>( );
                             addParametersToModel( model, nIdUser );
 
                             HtmlTemplate template = AppTemplateService.getTemplateFromStringFtl( strBody, LocaleService.getDefault( ), model );
@@ -351,7 +349,7 @@ public class AccountLifeTimeDaemon extends Daemon
 
         if ( user.getAccountMaxValidDate( ) != null )
         {
-            DateFormat dateFormat = SimpleDateFormat.getDateInstance( DateFormat.SHORT, LocaleService.getDefault( ) );
+            DateFormat dateFormat = DateFormat.getDateInstance( DateFormat.SHORT, LocaleService.getDefault( ) );
 
             String accountMaxValidDate = dateFormat.format( new Date( user.getAccountMaxValidDate( ).getTime( ) ) );
 

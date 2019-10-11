@@ -48,6 +48,7 @@ import fr.paris.lutece.portal.web.upload.MultipartHttpServletRequest;
 import fr.paris.lutece.util.filesystem.FileSystemUtil;
 import fr.paris.lutece.util.string.StringUtil;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.lang.StringUtils;
 
@@ -212,7 +213,7 @@ public class AttributeImage extends AbstractAttribute
 
             if ( getListAttributeFields( ) == null )
             {
-                List<AttributeField> listAttributeFields = new ArrayList<AttributeField>( );
+                List<AttributeField> listAttributeFields = new ArrayList<>( );
                 AttributeField attributeField = new AttributeField( );
                 listAttributeFields.add( attributeField );
                 setListAttributeFields( listAttributeFields );
@@ -286,7 +287,7 @@ public class AttributeImage extends AbstractAttribute
     public List<AdminUserField> getUserFieldsData( HttpServletRequest request, AdminUser user )
     {
         String strUpdateAttribute = request.getParameter( PARAMETER_UPDATE_ATTRIBUTE + CONSTANT_UNDERSCORE + getIdAttribute( ) );
-        List<AdminUserField> listUserFields = new ArrayList<AdminUserField>( );
+        List<AdminUserField> listUserFields = new ArrayList<>( );
 
         try
         {
@@ -314,7 +315,7 @@ public class AttributeImage extends AbstractAttribute
 
                     AttributeService.getInstance( ).setAttributeField( this );
 
-                    if ( ( getListAttributeFields( ) != null ) && ( getListAttributeFields( ).size( ) > 0 ) )
+                    if ( CollectionUtils.isNotEmpty( getListAttributeFields( ) ) )
                     {
                         userField.setAttributeField( getListAttributeFields( ).get( 0 ) );
                         userField.setFile( file );

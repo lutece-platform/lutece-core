@@ -33,6 +33,24 @@
  */
 package fr.paris.lutece.portal.service.admin;
 
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Map.Entry;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang.StringUtils;
+
 import fr.paris.lutece.portal.business.rbac.AdminRole;
 import fr.paris.lutece.portal.business.rbac.RBAC;
 import fr.paris.lutece.portal.business.regularexpression.RegularExpression;
@@ -75,24 +93,6 @@ import fr.paris.lutece.util.password.IPasswordFactory;
 import fr.paris.lutece.util.password.PasswordUtil;
 import fr.paris.lutece.util.url.UrlItem;
 import fr.paris.lutece.util.xml.XmlUtil;
-
-import org.apache.commons.lang.StringUtils;
-
-import java.sql.Timestamp;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Map.Entry;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * This service provides features concerning the administration users
@@ -302,9 +302,7 @@ public final class AdminUserService
         String strRightCode = AppPropertiesService.getProperty( PROPERTY_ADMINISTRATOR );
 
         AdminUser user = getAdminUser( request );
-        boolean bLevelRight = user.checkRight( strRightCode );
-
-        return bLevelRight;
+        return user.checkRight( strRightCode );
     }
 
     /**
@@ -320,13 +318,14 @@ public final class AdminUserService
      *            URL of the current interface
      * @return The filtered list of admin users
      */
-    public static List<AdminUser> getFilteredUsersInterface( Collection<AdminUser> listUsers, HttpServletRequest request, Map<String, Object> model, UrlItem url )
+    public static List<AdminUser> getFilteredUsersInterface( Collection<AdminUser> listUsers, HttpServletRequest request, Map<String, Object> model,
+            UrlItem url )
     {
         AdminUser currentUser = getAdminUser( request );
 
         // FILTER
         AdminUserFilter auFilter = new AdminUserFilter( );
-        List<AdminUser> listFilteredUsers = new ArrayList<AdminUser>( );
+        List<AdminUser> listFilteredUsers = new ArrayList<>( );
         boolean bIsSearch = auFilter.setAdminUserFilter( request );
         boolean bIsFiltered;
 
@@ -350,7 +349,7 @@ public final class AdminUserService
             }
         }
 
-        List<AdminUser> filteredUsers = new ArrayList<AdminUser>( );
+        List<AdminUser> filteredUsers = new ArrayList<>( );
 
         AdminUserFieldFilter auFieldFilter = new AdminUserFieldFilter( );
         auFieldFilter.setAdminUserFieldFilter( request, currentUser.getLocale( ) );
@@ -375,7 +374,7 @@ public final class AdminUserService
             filteredUsers = listFilteredUsers;
         }
 
-        Map<String, List<AdminUserField>> map = new HashMap<String, List<AdminUserField>>( );
+        Map<String, List<AdminUserField>> map = new HashMap<>( );
 
         for ( AdminUser user : filteredUsers )
         {
@@ -604,11 +603,11 @@ public final class AdminUserService
 
             for ( String strRegularExpressionId : regularExpressionIds )
             {
-                strRegularExpressionId.trim( );
+                String trimedId = strRegularExpressionId.trim( );
 
-                if ( StringUtils.isNotBlank( strRegularExpressionId ) && StringUtils.isNumeric( strRegularExpressionId ) )
+                if ( StringUtils.isNotBlank( trimedId ) && StringUtils.isNumeric( trimedId ) )
                 {
-                    int nRegularExpressionId = Integer.parseInt( strRegularExpressionId );
+                    int nRegularExpressionId = Integer.parseInt( trimedId );
                     RegularExpression regularExpression = RegularExpressionService.getInstance( ).getRegularExpressionByKey( nRegularExpressionId );
 
                     if ( regularExpression != null )
@@ -661,11 +660,11 @@ public final class AdminUserService
 
             for ( String strRegularExpressionId : regularExpressionIds )
             {
-                strRegularExpressionId.trim( );
+                String trimedId = strRegularExpressionId.trim( );
 
-                if ( StringUtils.isNotBlank( strRegularExpressionId ) && StringUtils.isNumeric( strRegularExpressionId ) )
+                if ( StringUtils.isNotBlank( trimedId ) && StringUtils.isNumeric( trimedId ) )
                 {
-                    int nRegexId = Integer.parseInt( strRegularExpressionId );
+                    int nRegexId = Integer.parseInt( trimedId );
 
                     if ( nRegexId == nRegularExpressionId )
                     {
@@ -696,7 +695,7 @@ public final class AdminUserService
     {
         if ( !isEmailPatternSetManually( ) )
         {
-            List<Integer> listRegularExpressionIds = new ArrayList<Integer>( );
+            List<Integer> listRegularExpressionIds = new ArrayList<>( );
 
             // Retrieve the rules from the database
             String emailPatternVerifyBy = DefaultUserParameterHome.findByKey( DSKEY_EMAIL_PATTERN_VERIFY_BY );
@@ -705,11 +704,11 @@ public final class AdminUserService
             // Build the list of regular expression without the regular expression id to delete
             for ( String strRegularExpressionId : regularExpressionIds )
             {
-                strRegularExpressionId.trim( );
+                String trimedId = strRegularExpressionId.trim( );
 
-                if ( StringUtils.isNotBlank( strRegularExpressionId ) && StringUtils.isNumeric( strRegularExpressionId ) )
+                if ( StringUtils.isNotBlank( trimedId ) && StringUtils.isNumeric( trimedId ) )
                 {
-                    int nRegexId = Integer.parseInt( strRegularExpressionId );
+                    int nRegexId = Integer.parseInt( trimedId );
 
                     if ( nRegexId != nRegularExpressionId )
                     {
@@ -774,7 +773,7 @@ public final class AdminUserService
 
         if ( !isEmailPatternSetManually( ) )
         {
-            List<Integer> listRegularExpressionIds = new ArrayList<Integer>( );
+            List<Integer> listRegularExpressionIds = new ArrayList<>( );
 
             // Retrieve the rules from the database
             String emailPatternVerifyBy = DefaultUserParameterHome.findByKey( DSKEY_EMAIL_PATTERN_VERIFY_BY );
@@ -782,11 +781,11 @@ public final class AdminUserService
 
             for ( String strRegularExpressionId : regularExpressionIds )
             {
-                strRegularExpressionId.trim( );
+                String trimedId = strRegularExpressionId.trim( );
 
-                if ( StringUtils.isNotBlank( strRegularExpressionId ) && StringUtils.isNumeric( strRegularExpressionId ) )
+                if ( StringUtils.isNotBlank( trimedId ) && StringUtils.isNumeric( trimedId ) )
                 {
-                    int nRegexId = Integer.parseInt( strRegularExpressionId );
+                    int nRegexId = Integer.parseInt( trimedId );
                     listRegularExpressionIds.add( nRegexId );
                 }
             }
@@ -814,7 +813,7 @@ public final class AdminUserService
      */
     public static List<RegularExpression> getSelectedRegularExpressions( )
     {
-        List<RegularExpression> listRegularExpressions = new ArrayList<RegularExpression>( );
+        List<RegularExpression> listRegularExpressions = new ArrayList<>( );
 
         if ( !isEmailPatternSetManually( ) )
         {
@@ -824,11 +823,11 @@ public final class AdminUserService
 
             for ( String strRegularExpressionId : regularExpressionIds )
             {
-                strRegularExpressionId.trim( );
+                String trimedId = strRegularExpressionId.trim( );
 
-                if ( StringUtils.isNotBlank( strRegularExpressionId ) && StringUtils.isNumeric( strRegularExpressionId ) )
+                if ( StringUtils.isNotBlank( trimedId ) && StringUtils.isNumeric( trimedId ) )
                 {
-                    int nRegularExpressionId = Integer.parseInt( strRegularExpressionId );
+                    int nRegularExpressionId = Integer.parseInt( trimedId );
                     RegularExpression expression = RegularExpressionService.getInstance( ).getRegularExpressionByKey( nRegularExpressionId );
 
                     if ( expression != null )
@@ -882,9 +881,7 @@ public final class AdminUserService
 
         try
         {
-            int nValue = Integer.parseInt( defaultUserParameter );
-
-            return nValue;
+            return Integer.parseInt( defaultUserParameter );
         }
         catch( NumberFormatException e )
         {
@@ -996,7 +993,7 @@ public final class AdminUserService
         if ( ( nMinimumLength > 0 ) && ( strPassword.length( ) < nMinimumLength ) )
         {
             Object [ ] param = {
-                nMinimumLength
+                    nMinimumLength
             };
 
             return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_MINIMUM_PASSWORD_LENGTH, param, AdminMessage.TYPE_STOP );
@@ -1007,11 +1004,10 @@ public final class AdminUserService
         boolean bUserPasswordFormatNumero = AdminUserService.getBooleanSecurityParameter( DSKEY_PASSWORD_FORMAT_NUMERO );
         boolean bUserPasswordFormatSpecialCaracters = AdminUserService.getBooleanSecurityParameter( DSKEY_PASSWORD_FORMAT_SPECIAL_CHARACTERS );
 
-        if ( ( bUserPasswordFormatUpperLowerCase || bUserPasswordFormatNumero || bUserPasswordFormatSpecialCaracters )
-                && !PasswordUtil.checkPasswordFormat( strPassword, bUserPasswordFormatUpperLowerCase, bUserPasswordFormatNumero,
-                        bUserPasswordFormatSpecialCaracters ) )
+        if ( ( bUserPasswordFormatUpperLowerCase || bUserPasswordFormatNumero || bUserPasswordFormatSpecialCaracters ) && !PasswordUtil
+                .checkPasswordFormat( strPassword, bUserPasswordFormatUpperLowerCase, bUserPasswordFormatNumero, bUserPasswordFormatSpecialCaracters ) )
         {
-            StringBuffer strParam = new StringBuffer( );
+            StringBuilder strParam = new StringBuilder( );
 
             // Add Message Upper Lower Case
             if ( bUserPasswordFormatUpperLowerCase )
@@ -1042,7 +1038,7 @@ public final class AdminUserService
             }
 
             Object [ ] param = {
-                strParam.toString( )
+                    strParam.toString( )
             };
 
             return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_PASSWORD_FORMAT, param, AdminMessage.TYPE_STOP );
@@ -1249,7 +1245,7 @@ public final class AdminUserService
 
         AttributeService attributeService = AttributeService.getInstance( );
         List<IAttribute> listAllAttributes = attributeService.getAllAttributesWithoutFields( locale );
-        List<IAttribute> listAttributesText = new ArrayList<IAttribute>( );
+        List<IAttribute> listAttributesText = new ArrayList<>( );
 
         for ( IAttribute attribut : listAllAttributes )
         {
@@ -1321,13 +1317,15 @@ public final class AdminUserService
 
                 String strSubject = ( defaultUserParameter == null ) ? StringUtils.EMPTY : defaultUserParameter;
 
-                Map<String, String> model = new HashMap<String, String>( );
+                Map<String, String> model = new HashMap<>( );
 
-                DateFormat dateFormat = SimpleDateFormat.getDateInstance( DateFormat.SHORT, LocaleService.getDefault( ) );
+                DateFormat dateFormat = DateFormat.getDateInstance( DateFormat.SHORT, LocaleService.getDefault( ) );
 
-                String accountMaxValidDate = dateFormat.format( new Date( newExpirationDate.getTime( ) ) );
-
-                model.put( MARK_DATE_VALID, accountMaxValidDate );
+                if ( newExpirationDate != null )
+                {
+                    String accountMaxValidDate = dateFormat.format( new Date( newExpirationDate.getTime( ) ) );
+                    model.put( MARK_DATE_VALID, accountMaxValidDate );
+                }
                 model.put( MARK_NAME, completeUser.getLastName( ) );
                 model.put( MARK_FIRST_NAME, completeUser.getFirstName( ) );
 
@@ -1385,7 +1383,7 @@ public final class AdminUserService
         String strSiteName = PortalService.getSiteName( );
         Locale locale = user.getLocale( );
         String strEmailSubject = I18nService.getLocalizedString( strPropertyEmailSubject, new String [ ] {
-            strSiteName
+                strSiteName
         }, locale );
         Map<String, Object> model = new HashMap<>( );
         model.put( MARK_USER, user );

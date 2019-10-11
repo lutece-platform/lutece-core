@@ -43,7 +43,7 @@ import java.util.List;
 public final class PageTemplateHome
 {
     // Static variable pointed at the DAO instance
-    private static IPageTemplateDAO _dao = (IPageTemplateDAO) SpringContextService.getBean( "pageTemplateDAO" );
+    private static IPageTemplateDAO _dao = SpringContextService.getBean( "pageTemplateDAO" );
 
     /**
      * Creates a new PageTemplateHome object.

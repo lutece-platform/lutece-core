@@ -313,7 +313,7 @@ public abstract class AbstractAttribute implements IAttribute
 
         if ( ( listUserFields != null ) && ( !listUserFields.isEmpty( ) ) )
         {
-            selectedUserFields = new ArrayList<AdminUserField>( );
+            selectedUserFields = new ArrayList<>( );
 
             for ( AdminUserField userField : listUserFields )
             {

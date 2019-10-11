@@ -33,6 +33,11 @@
  */
 package fr.paris.lutece.portal.web.features;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
 import fr.paris.lutece.portal.business.right.Level;
 import fr.paris.lutece.portal.business.right.LevelHome;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
@@ -45,11 +50,6 @@ import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.portal.web.dashboard.AdminDashboardJspBean;
 import fr.paris.lutece.util.html.HtmlTemplate;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * This class provides the user interface to manage levels features ( manage, create, modify )
@@ -84,7 +84,7 @@ public class LevelsJspBean extends AdminFeaturesPageJspBean
         setPageTitleProperty( PROPERTY_PAGE_TITLE_CREATE_LEVEL );
 
         Map<String, Object> model = new HashMap<>( );
-        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, AdminDashboardJspBean.JSP_TECHNICAL_ADMINISTRATION ) );
+        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, AdminFeaturesPageJspBean.JSP_TECHNICAL_ADMINISTRATION ) );
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CREATE_LEVEL, getLocale( ), model );
 
         return getAdminPage( template.getHtml( ) );
@@ -142,7 +142,7 @@ public class LevelsJspBean extends AdminFeaturesPageJspBean
 
         HashMap<String, Object> model = new HashMap<>( );
         model.put( MARK_LEVEL, level );
-        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, AdminDashboardJspBean.JSP_TECHNICAL_ADMINISTRATION ) );
+        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, AdminFeaturesPageJspBean.JSP_TECHNICAL_ADMINISTRATION ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_LEVEL, getLocale( ), model );
 

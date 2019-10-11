@@ -44,6 +44,7 @@ import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.portal.web.upload.MultipartHttpServletRequest;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.lang.StringUtils;
 
@@ -169,7 +170,7 @@ public final class AdminUserFieldService
     {
         // Attributes created in the Back-Office
         List<IAttribute> listAttributes = _attributeService.getCoreAttributesWithoutFields( locale );
-        Map<Integer, List<AdminUserField>> map = new HashMap<Integer, List<AdminUserField>>( );
+        Map<Integer, List<AdminUserField>> map = new HashMap<>( );
 
         for ( IAttribute attribute : listAttributes )
         {
@@ -285,7 +286,7 @@ public final class AdminUserFieldService
 
             if ( attribute.isAttributeImage( ) )
             {
-                if ( listUserFields.size( ) > 0 )
+                if ( CollectionUtils.isNotEmpty( listUserFields ) )
                 {
                     AdminUserField userField = listUserFields.get( 0 );
 
@@ -297,7 +298,7 @@ public final class AdminUserFieldService
             }
             else
             {
-                if ( listUserFields.size( ) == 0 )
+                if ( CollectionUtils.isEmpty( listUserFields ) )
                 {
                     AdminUserField userField = new AdminUserField( );
                     userField.setValue( StringUtils.EMPTY );
@@ -328,7 +329,7 @@ public final class AdminUserFieldService
 
         if ( attribute.isAttributeImage( ) )
         {
-            if ( listUserFields.size( ) > 0 )
+            if ( CollectionUtils.isNotEmpty( listUserFields ) )
             {
                 AdminUserField userField = listUserFields.get( 0 );
 
@@ -340,7 +341,7 @@ public final class AdminUserFieldService
         }
         else
         {
-            if ( listUserFields.size( ) == 0 )
+            if ( CollectionUtils.isEmpty( listUserFields ) )
             {
                 AdminUserField userField = new AdminUserField( );
                 userField.setValue( StringUtils.EMPTY );

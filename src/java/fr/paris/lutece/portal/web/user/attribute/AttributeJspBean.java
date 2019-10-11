@@ -33,6 +33,15 @@
  */
 package fr.paris.lutece.portal.web.user.attribute;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang.StringUtils;
+
 import fr.paris.lutece.portal.business.user.attribute.IAttribute;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.message.AdminMessage;
@@ -40,20 +49,10 @@ import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.user.attribute.AttributeService;
-import fr.paris.lutece.portal.service.user.attribute.AttributeTypeService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
 import fr.paris.lutece.portal.web.dashboard.AdminDashboardJspBean;
 import fr.paris.lutece.util.html.HtmlTemplate;
-
-import org.apache.commons.lang.StringUtils;
-
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  *
@@ -109,20 +108,8 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
         {
             attribute = (IAttribute) Class.forName( strAttributeTypeClassName ).newInstance( );
         }
-        catch( ClassNotFoundException e )
+        catch( IllegalAccessException | InstantiationException | ClassNotFoundException e )
         {
-            // class doesn't exist
-            AppLogService.error( e );
-        }
-        catch( InstantiationException e )
-        {
-            // Class is abstract or is an interface or haven't accessible
-            // builder
-            AppLogService.error( e );
-        }
-        catch( IllegalAccessException e )
-        {
-            // can't access to the class
             AppLogService.error( e );
         }
 
@@ -168,20 +155,8 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
             {
                 attribute = (IAttribute) Class.forName( strAttributeTypeClassName ).newInstance( );
             }
-            catch( ClassNotFoundException e )
+            catch( IllegalAccessException | InstantiationException | ClassNotFoundException e )
             {
-                // class doesn't exist
-                AppLogService.error( e );
-            }
-            catch( InstantiationException e )
-            {
-                // Class is abstract or is an interface or haven't accessible
-                // builder
-                AppLogService.error( e );
-            }
-            catch( IllegalAccessException e )
-            {
-                // can't access to the class
                 AppLogService.error( e );
             }
 
@@ -189,23 +164,24 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
             {
                 getAdminDashboardsUrl( request , ANCHOR_ADMIN_DASHBOARDS );
             }
-
-            String strError = attribute.setAttributeData( request );
-
-            if ( StringUtils.isNotBlank( strError ) )
+            else
             {
-                return strError;
-            }
-            if ( !SecurityTokenService.getInstance( ).validate( request, attribute.getTemplateCreateAttribute( ) ) )
-            {
-                throw new AccessDeniedException( "Invalid security token" );
-            }
+                String strError = attribute.setAttributeData( request );
+    
+                if ( StringUtils.isNotBlank( strError ) )
+                {
+                    return strError;
+                }
+                if ( !SecurityTokenService.getInstance( ).validate( request, attribute.getTemplateCreateAttribute( ) ) )
+                {
+                    throw new AccessDeniedException( "Invalid security token" );
+                }
+                _attributeService.createAttribute( attribute );
 
-            _attributeService.createAttribute( attribute );
-
-            if ( strActionApply != null )
-            {
-                return JSP_MODIFY_ATTRIBUTE + QUESTION_MARK + PARAMETER_ID_ATTRIBUTE + EQUAL + attribute.getIdAttribute( );
+                if ( strActionApply != null )
+                {
+                    return JSP_MODIFY_ATTRIBUTE + QUESTION_MARK + PARAMETER_ID_ATTRIBUTE + EQUAL + attribute.getIdAttribute( );
+                }
             }
         }
 

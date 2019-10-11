@@ -73,16 +73,14 @@ public final class LdapUtil
      */
     public static DirContext getContext( String strLDAPContext, String strLDAPUrl, String strAdminDN, String strAdminPassword ) throws NamingException
     {
-        Hashtable<String, String> env = new Hashtable<String, String>( );
+        Hashtable<String, String> env = new Hashtable<>( );
 
         env.put( Context.INITIAL_CONTEXT_FACTORY, strLDAPContext );
         env.put( Context.PROVIDER_URL, strLDAPUrl );
         env.put( Context.SECURITY_PRINCIPAL, strAdminDN );
         env.put( Context.SECURITY_CREDENTIALS, strAdminPassword );
 
-        DirContext context = new InitialDirContext( env );
-
-        return context;
+        return new InitialDirContext( env );
     }
 
     /**
@@ -119,7 +117,7 @@ public final class LdapUtil
     {
         DirContext context = null;
 
-        Hashtable<String, String> env = new Hashtable<String, String>( );
+        Hashtable<String, String> env = new Hashtable<>( );
 
         env.put( Context.INITIAL_CONTEXT_FACTORY, strLDAPContext );
         env.put( Context.PROVIDER_URL, strLDAPUrl );
@@ -150,8 +148,6 @@ public final class LdapUtil
     public static NamingEnumeration<SearchResult> searchUsers( DirContext context, String strFilter, String strUserDN, String strDNBase, SearchControls sc )
             throws NamingException
     {
-        NamingEnumeration<SearchResult> enumeration = context.search( strUserDN + strDNBase, strFilter, sc );
-
-        return enumeration;
+        return context.search( strUserDN + strDNBase, strFilter, sc );
     }
 }

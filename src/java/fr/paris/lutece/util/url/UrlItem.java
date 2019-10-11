@@ -52,7 +52,7 @@ public class UrlItem
     private String _strRoot;
 
     /** the list of parameters. */
-    private List<UrlParameterItem> _listParameters = new ArrayList<UrlParameterItem>( );
+    private List<UrlParameterItem> _listParameters = new ArrayList<>( );
     private String _strAnchor;
 
     /**

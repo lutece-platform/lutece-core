@@ -56,7 +56,7 @@ public abstract class ResourceService extends AbstractCacheableService
 
     // Variables
     private String _strName = UNDEFINED_SERVICE_NAME;
-    private List<ResourceLoader> _listLoaders = new ArrayList<ResourceLoader>( );
+    private List<ResourceLoader> _listLoaders = new ArrayList<>( );
 
     /**
      *
@@ -215,7 +215,7 @@ public abstract class ResourceService extends AbstractCacheableService
 
         while ( i.hasNext( ) && ( resource == null ) )
         {
-            ResourceLoader loader = (ResourceLoader) i.next( );
+            ResourceLoader loader = i.next( );
             resource = loader.getResource( strId );
         }
 
@@ -229,18 +229,18 @@ public abstract class ResourceService extends AbstractCacheableService
      */
     protected Collection<Resource> getResources( )
     {
-        List<Resource> listResources = new ArrayList<Resource>( );
+        List<Resource> listResources = new ArrayList<>( );
         Iterator<ResourceLoader> i = _listLoaders.iterator( );
 
         while ( i.hasNext( ) )
         {
-            ResourceLoader loader = (ResourceLoader) i.next( );
+            ResourceLoader loader = i.next( );
             Collection<Resource> colResources = loader.getResources( );
             Iterator<Resource> j = colResources.iterator( );
 
             while ( j.hasNext( ) )
             {
-                Resource resource = (Resource) j.next( );
+                Resource resource = j.next( );
                 listResources.add( resource );
             }
         }

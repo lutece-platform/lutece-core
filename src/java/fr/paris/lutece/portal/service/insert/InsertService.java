@@ -216,15 +216,7 @@ public class InsertService implements RBACResource, Localizable
         {
             return (InsertServiceSelectionBean) Class.forName( getActionBeanString( ) ).newInstance( );
         }
-        catch( InstantiationException e )
-        {
-            throw new AppException( "Error instantiating a LinkService Selection Bean : " + e.getMessage( ), e );
-        }
-        catch( IllegalAccessException e )
-        {
-            throw new AppException( "Error instantiating a LinkService Selection Bean : " + e.getMessage( ), e );
-        }
-        catch( ClassNotFoundException e )
+        catch( ClassNotFoundException | IllegalAccessException | InstantiationException e )
         {
             throw new AppException( "Error instantiating a LinkService Selection Bean : " + e.getMessage( ), e );
         }

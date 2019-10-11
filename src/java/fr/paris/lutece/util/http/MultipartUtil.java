@@ -97,7 +97,7 @@ public final class MultipartUtil
      *             exception if an unknown error has occurred
      */
     public static MultipartHttpServletRequest convert( int nSizeThreshold, long nRequestSizeMax, boolean bActivateNormalizeFileName, HttpServletRequest request )
-            throws SizeLimitExceededException, FileUploadException
+            throws FileUploadException
     {
         if ( isMultipart( request ) )
         {
@@ -121,8 +121,8 @@ public final class MultipartUtil
                 strEncoding = EncodingService.getEncoding( );
             }
 
-            Map<String, List<FileItem>> mapFiles = new HashMap<String, List<FileItem>>( );
-            Map<String, String [ ]> mapParameters = new HashMap<String, String [ ]>( );
+            Map<String, List<FileItem>> mapFiles = new HashMap<>( );
+            Map<String, String [ ]> mapParameters = new HashMap<>( );
 
             List<FileItem> listItems = upload.parseRequest( request );
 
@@ -181,7 +181,7 @@ public final class MultipartUtil
                     }
                     else
                     {
-                        listFileItem = new ArrayList<FileItem>( 1 );
+                        listFileItem = new ArrayList<>( 1 );
                         listFileItem.add( fileItem );
                         mapFiles.put( fileItem.getFieldName( ), listFileItem );
                     }

@@ -66,15 +66,16 @@ public final class FeatureGroupDAO implements IFeatureGroupDAO
      */
     public void insert( FeatureGroup featureGroup )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT ) )
+        {
 
-        daoUtil.setString( 1, featureGroup.getId( ) );
-        daoUtil.setString( 2, featureGroup.getDescriptionKey( ) );
-        daoUtil.setString( 3, featureGroup.getLabelKey( ) );
-        daoUtil.setInt( 4, featureGroup.getOrder( ) );
+            daoUtil.setString( 1, featureGroup.getId( ) );
+            daoUtil.setString( 2, featureGroup.getDescriptionKey( ) );
+            daoUtil.setString( 3, featureGroup.getLabelKey( ) );
+            daoUtil.setInt( 4, featureGroup.getOrder( ) );
 
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+            daoUtil.executeUpdate( );
+        }
     }
 
     /**
@@ -87,21 +88,22 @@ public final class FeatureGroupDAO implements IFeatureGroupDAO
     public FeatureGroup load( String strIdFeatureGroup )
     {
         FeatureGroup featureGroup = null;
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT );
-        daoUtil.setString( 1, strIdFeatureGroup );
-
-        daoUtil.executeQuery( );
-
-        if ( daoUtil.next( ) )
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT ) )
         {
-            featureGroup = new FeatureGroup( );
-            featureGroup.setId( daoUtil.getString( 1 ) );
-            featureGroup.setDescriptionKey( daoUtil.getString( 2 ) );
-            featureGroup.setLabelKey( daoUtil.getString( 3 ) );
-            featureGroup.setOrder( daoUtil.getInt( 4 ) );
-        }
+            daoUtil.setString( 1, strIdFeatureGroup );
 
-        daoUtil.free( );
+            daoUtil.executeQuery( );
+
+            if ( daoUtil.next( ) )
+            {
+                featureGroup = new FeatureGroup( );
+                featureGroup.setId( daoUtil.getString( 1 ) );
+                featureGroup.setDescriptionKey( daoUtil.getString( 2 ) );
+                featureGroup.setLabelKey( daoUtil.getString( 3 ) );
+                featureGroup.setOrder( daoUtil.getInt( 4 ) );
+            }
+
+        }
 
         return featureGroup;
     }
@@ -114,10 +116,11 @@ public final class FeatureGroupDAO implements IFeatureGroupDAO
      */
     public void delete( String strIdFeatureGroup )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE );
-        daoUtil.setString( 1, strIdFeatureGroup );
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE ) )
+        {
+            daoUtil.setString( 1, strIdFeatureGroup );
+            daoUtil.executeUpdate( );
+        }
     }
 
     /**
@@ -128,15 +131,16 @@ public final class FeatureGroupDAO implements IFeatureGroupDAO
      */
     public void store( FeatureGroup featureGroup )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE ) )
+        {
 
-        daoUtil.setString( 1, featureGroup.getDescriptionKey( ) );
-        daoUtil.setString( 2, featureGroup.getLabelKey( ) );
-        daoUtil.setInt( 3, featureGroup.getOrder( ) );
-        daoUtil.setString( 4, featureGroup.getId( ) );
+            daoUtil.setString( 1, featureGroup.getDescriptionKey( ) );
+            daoUtil.setString( 2, featureGroup.getLabelKey( ) );
+            daoUtil.setInt( 3, featureGroup.getOrder( ) );
+            daoUtil.setString( 4, featureGroup.getId( ) );
 
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+            daoUtil.executeUpdate( );
+        }
     }
 
     /**
@@ -146,23 +150,24 @@ public final class FeatureGroupDAO implements IFeatureGroupDAO
      */
     public List<FeatureGroup> selectFeatureGroupsList( )
     {
-        List<FeatureGroup> featureGroupList = new ArrayList<FeatureGroup>( );
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL );
-        daoUtil.executeQuery( );
-
-        while ( daoUtil.next( ) )
+        List<FeatureGroup> featureGroupList = new ArrayList<>( );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL ) )
         {
-            FeatureGroup featureGroup = new FeatureGroup( );
+            daoUtil.executeQuery( );
 
-            featureGroup.setId( daoUtil.getString( 1 ) );
-            featureGroup.setDescriptionKey( daoUtil.getString( 2 ) );
-            featureGroup.setLabelKey( daoUtil.getString( 3 ) );
-            featureGroup.setOrder( daoUtil.getInt( 4 ) );
+            while ( daoUtil.next( ) )
+            {
+                FeatureGroup featureGroup = new FeatureGroup( );
 
-            featureGroupList.add( featureGroup );
+                featureGroup.setId( daoUtil.getString( 1 ) );
+                featureGroup.setDescriptionKey( daoUtil.getString( 2 ) );
+                featureGroup.setLabelKey( daoUtil.getString( 3 ) );
+                featureGroup.setOrder( daoUtil.getInt( 4 ) );
+
+                featureGroupList.add( featureGroup );
+            }
+
         }
-
-        daoUtil.free( );
 
         return featureGroupList;
     }
@@ -174,17 +179,17 @@ public final class FeatureGroupDAO implements IFeatureGroupDAO
      */
     public int selectFeatureGroupsCount( )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_COUNT_FEATUREGROUP );
-
         int nCount = 0;
-        daoUtil.executeQuery( );
-
-        while ( daoUtil.next( ) )
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_COUNT_FEATUREGROUP ) )
         {
-            nCount = daoUtil.getInt( 1 );
-        }
 
-        daoUtil.free( );
+            daoUtil.executeQuery( );
+            while ( daoUtil.next( ) )
+            {
+                nCount = daoUtil.getInt( 1 );
+            }
+
+        }
 
         return nCount;
     }

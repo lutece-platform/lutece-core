@@ -43,7 +43,7 @@ import java.util.Collection;
 public final class RBACHome
 {
     // Static variable pointed at the DAO instance
-    private static IRBACDAO _dao = (IRBACDAO) SpringContextService.getBean( "rBACDAO" );
+    private static IRBACDAO _dao = SpringContextService.getBean( "rBACDAO" );
 
     /**
      * Private constructor - this class need not be instantiated

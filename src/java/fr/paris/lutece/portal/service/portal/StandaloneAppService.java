@@ -110,6 +110,7 @@ public class StandaloneAppService extends ContentService
      */
     public void setCache( boolean bCache )
     {
+        // Do nothing
     }
 
     /**
@@ -129,6 +130,7 @@ public class StandaloneAppService extends ContentService
     @Override
     public void resetCache( )
     {
+        // Do nothing
     }
 
     /**

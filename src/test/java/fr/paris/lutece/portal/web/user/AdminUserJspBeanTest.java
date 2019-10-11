@@ -329,7 +329,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
     {
         AdminUser user = new AdminUser( );
         user.setUserLevel( 1 );
-        Map<String, Right> rights = new HashMap<String, Right>( 1 );
+        Map<String, Right> rights = new HashMap<>( 1 );
         rights.put( "CORE_USERS_MANAGEMENT", new Right( ) );
         user.setRights( rights );
         return user;
@@ -339,7 +339,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
     {
         AdminUser user = new AdminUser( );
         user.setUserLevel( 0 );
-        Map<String, Right> rights = new HashMap<String, Right>( 1 );
+        Map<String, Right> rights = new HashMap<>( 1 );
         rights.put( "CORE_USERS_MANAGEMENT", new Right( ) );
         user.setRights( rights );
         return user;

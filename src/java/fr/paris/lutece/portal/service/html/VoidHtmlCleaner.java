@@ -46,12 +46,4 @@ public class VoidHtmlCleaner implements IHtmlCleaner
     {
         return strSource;
     }
-
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public void init( )
-    {
-    }
 }

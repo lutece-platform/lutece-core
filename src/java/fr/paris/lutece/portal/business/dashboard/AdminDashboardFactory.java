@@ -47,7 +47,7 @@ import java.util.Map;
  */
 public final class AdminDashboardFactory
 {
-    private static Map<String, IAdminDashboardComponent> _mapAdminDashboardComponents = new HashMap<String, IAdminDashboardComponent>( );
+    private static Map<String, IAdminDashboardComponent> _mapAdminDashboardComponents = new HashMap<>( );
 
     /**
      * Empty constructor
@@ -100,6 +100,6 @@ public final class AdminDashboardFactory
      */
     public static List<IAdminDashboardComponent> getAllAdminDashboardComponents( )
     {
-        return new ArrayList<IAdminDashboardComponent>( _mapAdminDashboardComponents.values( ) );
+        return new ArrayList<>( _mapAdminDashboardComponents.values( ) );
     }
 }

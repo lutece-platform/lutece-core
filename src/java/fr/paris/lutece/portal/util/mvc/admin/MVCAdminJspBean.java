@@ -78,9 +78,9 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean implements 
     private static final String MARK_INFOS = "infos";
     private static final String MARK_WARNINGS = "warnings";
     private static Logger _logger = MVCUtils.getLogger( );
-    private List<ErrorMessage> _listErrors = new ArrayList<ErrorMessage>( );
-    private List<ErrorMessage> _listInfos = new ArrayList<ErrorMessage>( );
-    private List<ErrorMessage> _listWarnings = new ArrayList<ErrorMessage>( );
+    private List<ErrorMessage> _listErrors = new ArrayList<>( );
+    private List<ErrorMessage> _listInfos = new ArrayList<>( );
+    private List<ErrorMessage> _listWarnings = new ArrayList<>( );
     private Controller _controller = getClass( ).getAnnotation( Controller.class );
     private HttpServletResponse _response;
 
@@ -223,9 +223,9 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean implements 
      */
     protected void fillCommons( Map<String, Object> model )
     {
-        List<ErrorMessage> listErrors = new ArrayList<ErrorMessage>( _listErrors );
-        List<ErrorMessage> listInfos = new ArrayList<ErrorMessage>( _listInfos );
-        List<ErrorMessage> listWarnings = new ArrayList<ErrorMessage>( _listWarnings );
+        List<ErrorMessage> listErrors = new ArrayList<>( _listErrors );
+        List<ErrorMessage> listInfos = new ArrayList<>( _listInfos );
+        List<ErrorMessage> listWarnings = new ArrayList<>( _listWarnings );
         model.put( MARK_ERRORS, listErrors );
         model.put( MARK_INFOS, listInfos );
         model.put( MARK_WARNINGS, listWarnings );

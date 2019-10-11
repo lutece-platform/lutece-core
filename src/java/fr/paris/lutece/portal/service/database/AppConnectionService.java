@@ -102,9 +102,7 @@ public final class AppConnectionService
             throw new RuntimeException( "* Erreur * getConnection : Le pool de connexion n'est pas initialise !" );
         }
 
-        Connection conn = _connectionService.getConnection( );
-
-        return conn;
+        return _connectionService.getConnection( );
     }
 
     /**

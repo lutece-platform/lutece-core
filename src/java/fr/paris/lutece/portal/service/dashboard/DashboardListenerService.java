@@ -48,7 +48,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class DashboardListenerService
 {
-    private List<DashboardListener> _listRegisteredListeners = new ArrayList<DashboardListener>( );
+    private List<DashboardListener> _listRegisteredListeners = new ArrayList<>( );
 
     /**
      * Register a new dashboard listener

@@ -166,9 +166,7 @@ public class LuteceConnectionService implements ConnectionService
     {
         try
         {
-            Connection connection = _connPool.getConnection( );
-
-            return connection;
+            return _connPool.getConnection( );
         }
         catch( SQLException e )
         {

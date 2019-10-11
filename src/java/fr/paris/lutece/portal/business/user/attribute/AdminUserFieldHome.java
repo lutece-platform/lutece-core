@@ -46,7 +46,7 @@ import java.util.List;
  */
 public final class AdminUserFieldHome
 {
-    private static IAdminUserFieldDAO _dao = (IAdminUserFieldDAO) SpringContextService.getBean( "adminUserFieldDAO" );
+    private static IAdminUserFieldDAO _dao = SpringContextService.getBean( "adminUserFieldDAO" );
 
     /**
      * Private constructor

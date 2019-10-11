@@ -33,6 +33,17 @@
  */
 package fr.paris.lutece.portal.service.init;
 
+import java.io.FileInputStream;
+import java.io.FileWriter;
+import java.text.DateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Properties;
+
+import javax.servlet.ServletContext;
+
 import fr.paris.lutece.portal.service.admin.AdminAuthenticationService;
 import fr.paris.lutece.portal.service.admin.AdminUserService;
 import fr.paris.lutece.portal.service.content.ContentPostProcessorService;
@@ -58,20 +69,6 @@ import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.bean.BeanUtil;
 import fr.paris.lutece.util.html.HtmlTemplate;
-import fr.paris.lutece.util.stream.StreamUtil;
-
-import java.io.FileInputStream;
-import java.io.FileWriter;
-
-import java.text.SimpleDateFormat;
-
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Properties;
-
-import javax.servlet.ServletContext;
 
 /**
  * This class initializes all the application services
@@ -315,26 +312,19 @@ public final class AppInit
         Map<String, Object> model = new HashMap<>( );
         Properties p = new Properties( );
 
-        FileInputStream fis = null;
-
-        try
+        try ( FileInputStream fis = new FileInputStream( strRealPath + PATH_CONFIG + FILE_PROPERTIES_CONFIG ) )
         {
-            fis = new FileInputStream( strRealPath + PATH_CONFIG + FILE_PROPERTIES_CONFIG );
             p.load( fis );
         }
         catch( Exception e )
         {
             AppLogService.error( e.getMessage( ), e );
         }
-        finally
-        {
-            StreamUtil.safeClose( fis );
-        }
 
         if ( Boolean.parseBoolean( p.getProperty( PROPERTY_AUTOINIT ) ) )
         {
             Object [ ] params = {
-                AppPropertiesService.getProperty( PROPERTY_SITE_NAME )
+                    AppPropertiesService.getProperty( PROPERTY_SITE_NAME )
             };
             String strSendMailSubject = I18nService.getLocalizedString( PROPERTY_SENDMAIL_SUBJECT, params, I18nService.getDefaultLocale( ) );
             model.put( MARK_SENDMAIL_SUBJECT, strSendMailSubject );
@@ -346,20 +336,13 @@ public final class AppInit
             // reset configuration cache to avoid configuration caching before macros are set. See LUTECE-1460
             AppTemplateService.resetConfiguration( );
 
-            FileWriter fw = null;
-
-            try
+            try (FileWriter fw = new FileWriter( strRealPath + PATH_CONFIG + FILE_PROPERTIES_CONFIG ) )
             {
-                fw = new FileWriter( strRealPath + PATH_CONFIG + FILE_PROPERTIES_CONFIG );
                 fw.write( configTemplate.getHtml( ) );
             }
             catch( Exception io )
             {
-                io.printStackTrace( );
-            }
-            finally
-            {
-                StreamUtil.safeClose( fw );
+                AppLogService.error( "Error reading file", io );
             }
         }
     }
@@ -369,7 +352,7 @@ public final class AppInit
      */
     private static void logStartupTime( )
     {
-        String strStartupTime = SimpleDateFormat.getDateTimeInstance( ).format( new Date( ) );
+        String strStartupTime = DateFormat.getDateTimeInstance( ).format( new Date( ) );
         DatastoreService.setDataValue( CoreDataKeys.KEY_STARTUP_TIME, strStartupTime );
     }
 }

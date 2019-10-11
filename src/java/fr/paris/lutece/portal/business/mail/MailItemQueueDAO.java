@@ -73,18 +73,18 @@ public class MailItemQueueDAO implements IMailItemQueueDAO
     @Override
     public int nextMailItemQueueId( )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_NEXT_MAIL_ITEM_QUEUE_ID );
-
-        daoUtil.executeQuery( );
-
         int nIdMailItemQueue = -1;
-
-        if ( daoUtil.next( ) )
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_NEXT_MAIL_ITEM_QUEUE_ID ) )
         {
-            nIdMailItemQueue = daoUtil.getInt( 1 );
-        }
 
-        daoUtil.free( );
+            daoUtil.executeQuery( );
+
+            if ( daoUtil.next( ) )
+            {
+                nIdMailItemQueue = daoUtil.getInt( 1 );
+            }
+
+        }
 
         return nIdMailItemQueue;
     }
@@ -98,10 +98,11 @@ public class MailItemQueueDAO implements IMailItemQueueDAO
     @Override
     public void lockMailItemQueue( int nIdMailItemQueue )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_LOCK_MAIL_ITEM );
-        daoUtil.setInt( 1, nIdMailItemQueue );
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_LOCK_MAIL_ITEM ) )
+        {
+            daoUtil.setInt( 1, nIdMailItemQueue );
+            daoUtil.executeUpdate( );
+        }
     }
 
     /**
@@ -123,20 +124,16 @@ public class MailItemQueueDAO implements IMailItemQueueDAO
             byteArrayOutputStream.close( );
 
             TransactionManager.beginTransaction( null );
-
-            try
+            try( DAOUtil daoUtilKey = new DAOUtil( SQL_QUERY_INSERT, Statement.RETURN_GENERATED_KEYS ) ;
+                    DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT_MAIL_ITEM ) )
             {
-                DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT, Statement.RETURN_GENERATED_KEYS );
-                daoUtil.executeUpdate( );
-                daoUtil.nextGeneratedKey( );
-                int nNewPrimaryKey = daoUtil.getGeneratedKeyInt( 1 );
+                daoUtilKey.executeUpdate( );
+                daoUtilKey.nextGeneratedKey( );
+                int nNewPrimaryKey = daoUtilKey.getGeneratedKeyInt( 1 );
                 mailItemQueue.setIdMailItemQueue( nNewPrimaryKey );
-                daoUtil.free( );
-                daoUtil = new DAOUtil( SQL_QUERY_INSERT_MAIL_ITEM );
                 daoUtil.setInt( 1, nNewPrimaryKey );
                 daoUtil.setBytes( 2, byteArrayOutputStream.toByteArray( ) );
                 daoUtil.executeUpdate( );
-                daoUtil.free( );
                 TransactionManager.commitTransaction( null );
             }
             catch( Exception e )
@@ -164,48 +161,43 @@ public class MailItemQueueDAO implements IMailItemQueueDAO
         MailItemQueue mailItemQueue = null;
         MailItem mailItem = null;
         InputStream inputStream;
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_LOAD_MAIL_ITEM );
-        daoUtil.setInt( 1, nIdMailItemQueue );
-        daoUtil.executeQuery( );
-
-        if ( daoUtil.next( ) )
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_LOAD_MAIL_ITEM ) )
         {
-            mailItemQueue = new MailItemQueue( );
-            mailItemQueue.setIdMailItemQueue( daoUtil.getInt( 1 ) );
-            inputStream = daoUtil.getBinaryStream( 2 );
+            daoUtil.setInt( 1, nIdMailItemQueue );
+            daoUtil.executeQuery( );
 
-            try
+            if ( daoUtil.next( ) )
             {
-                ValidatingObjectInputStream objectInputStream = new ValidatingObjectInputStream( inputStream );
-                objectInputStream.accept( MailItem.class, ArrayList.class, byte [ ].class, FileAttachment.class, UrlAttachment.class, FileAttachment [ ].class,
-                        UrlAttachment [ ].class, URL.class );
-                mailItem = (MailItem) objectInputStream.readObject( );
-                objectInputStream.close( );
-            }
-            catch( IOException e )
-            {
-                AppLogService.error( e.getMessage( ), e );
-            }
-            catch( ClassNotFoundException e )
-            {
-                AppLogService.error( e.getMessage( ), e );
-            }
-            finally
-            {
-                try
+                mailItemQueue = new MailItemQueue( );
+                mailItemQueue.setIdMailItemQueue( daoUtil.getInt( 1 ) );
+                inputStream = daoUtil.getBinaryStream( 2 );
+
+                try ( ValidatingObjectInputStream objectInputStream = new ValidatingObjectInputStream( inputStream ) )
                 {
-                    inputStream.close( );
+                    objectInputStream.accept( MailItem.class, ArrayList.class, byte [ ].class, FileAttachment.class, UrlAttachment.class,
+                            FileAttachment [ ].class, UrlAttachment [ ].class, URL.class );
+                    mailItem = (MailItem) objectInputStream.readObject( );
                 }
-                catch( IOException e )
+                catch( ClassNotFoundException | IOException e )
                 {
                     AppLogService.error( e.getMessage( ), e );
                 }
+                finally
+                {
+                    try
+                    {
+                        inputStream.close( );
+                    }
+                    catch( IOException e )
+                    {
+                        AppLogService.error( e.getMessage( ), e );
+                    }
+                }
+
+                mailItemQueue.setMailItem( mailItem );
             }
 
-            mailItemQueue.setMailItem( mailItem );
         }
-
-        daoUtil.free( );
 
         return mailItemQueue;
     }
@@ -221,7 +213,7 @@ public class MailItemQueueDAO implements IMailItemQueueDAO
     {
         Transaction transaction = new Transaction( );
 
-        try
+        try 
         {
             transaction.prepareStatement( SQL_QUERY_DELETE_MAIL_ITEM );
             transaction.getStatement( ).setInt( 1, nIdMailItemQueue );
@@ -244,17 +236,17 @@ public class MailItemQueueDAO implements IMailItemQueueDAO
     @Override
     public int getCountMailItem( )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_COUNT );
-        daoUtil.executeQuery( );
-
         int nCount = 0;
-
-        if ( daoUtil.next( ) )
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_COUNT ) )
         {
-            nCount = daoUtil.getInt( 1 );
-        }
+            daoUtil.executeQuery( );
 
-        daoUtil.free( );
+            if ( daoUtil.next( ) )
+            {
+                nCount = daoUtil.getInt( 1 );
+            }
+
+        }
 
         return nCount;
     }

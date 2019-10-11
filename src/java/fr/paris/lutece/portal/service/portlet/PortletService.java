@@ -50,7 +50,7 @@ import java.util.Collection;
 public final class PortletService
 {
     private static PortletService _singleton;
-    private static IPageService _pageService = (IPageService) SpringContextService.getBean( "pageService" );
+    private static IPageService _pageService = SpringContextService.getBean( "pageService" );
 
     /**
      * Constructor for class PortletService
@@ -86,7 +86,7 @@ public final class PortletService
      */
     public Collection<Portlet> getAuthorizedPortletCollection( Collection<Portlet> collectionPortlet, AdminUser user )
     {
-        Collection<Portlet> collectionPortletAuthorized = new ArrayList<Portlet>( );
+        Collection<Portlet> collectionPortletAuthorized = new ArrayList<>( );
 
         for ( Portlet portlet : collectionPortlet )
         {

@@ -82,8 +82,8 @@ public class JPAStartupService implements StartUpService
         ReferenceList list = new ReferenceList( );
         AppConnectionService.getPoolList( list );
 
-        Map<String, EntityManagerFactory> mapFactories = new HashMap<String, EntityManagerFactory>( );
-        List<PlatformTransactionManager> listTransactionManagers = new ArrayList<PlatformTransactionManager>( );
+        Map<String, EntityManagerFactory> mapFactories = new HashMap<>( );
+        List<PlatformTransactionManager> listTransactionManagers = new ArrayList<>( );
         _log.info( "JPA Startup Service : Initializing JPA objects ..." );
 
         String strDialectProperty = AppPropertiesService.getProperty( JPA_DIALECT_PROPERTY );
@@ -100,7 +100,7 @@ public class JPAStartupService implements StartUpService
             pum.setDefaultDataSource( ds );
 
             PersistenceUnitPostProcessor [ ] postProcessors = {
-                new JPAPersistenceUnitPostProcessor( )
+                    new JPAPersistenceUnitPostProcessor( )
             };
             pum.setPersistenceUnitPostProcessors( postProcessors );
 
@@ -114,10 +114,10 @@ public class JPAStartupService implements StartUpService
             lcemfb.setPersistenceUnitManager( pum );
             lcemfb.setPersistenceUnitName( "jpaLuteceUnit" );
 
-            JpaDialect jpaDialect = (JpaDialect) SpringContextService.getBean( "jpaDialect" );
+            JpaDialect jpaDialect = SpringContextService.getBean( "jpaDialect" );
             lcemfb.setJpaDialect( jpaDialect );
 
-            Map mapJpaProperties = (Map) SpringContextService.getBean( "jpaPropertiesMap" );
+            Map mapJpaProperties = SpringContextService.getBean( "jpaPropertiesMap" );
             lcemfb.setJpaPropertyMap( mapJpaProperties );
 
             String strDialect = AppPropertiesService.getProperty( poolItem.getName( ) + ".dialect" );
@@ -130,7 +130,7 @@ public class JPAStartupService implements StartUpService
 
             _log.debug( "Using dialect " + mapJpaProperties.get( strDialectProperty ) + " for pool " + poolItem.getName( ) );
 
-            JpaVendorAdapter jpaVendorAdapter = (JpaVendorAdapter) SpringContextService.getBean( "jpaVendorAdapter" );
+            JpaVendorAdapter jpaVendorAdapter = SpringContextService.getBean( "jpaVendorAdapter" );
             lcemfb.setJpaVendorAdapter( jpaVendorAdapter );
 
             lcemfb.afterPropertiesSet( );
@@ -151,10 +151,10 @@ public class JPAStartupService implements StartUpService
             listTransactionManagers.add( tm );
         }
 
-        EntityManagerService ems = (EntityManagerService) SpringContextService.getBean( "entityManagerService" );
+        EntityManagerService ems = SpringContextService.getBean( "entityManagerService" );
         ems.setMapFactories( mapFactories );
 
-        ChainedTransactionManager ctm = (ChainedTransactionManager) SpringContextService.getBean( "transactionManager" );
+        ChainedTransactionManager ctm = SpringContextService.getBean( "transactionManager" );
         ctm.setTransactionManagers( listTransactionManagers );
         _log.info( "JPA Startup Service : completed successfully" );
     }

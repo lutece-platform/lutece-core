@@ -50,6 +50,8 @@ import java.util.Map;
 
 import javax.inject.Inject;
 
+import org.apache.commons.collections.CollectionUtils;
+
 /**
  * This class porvides Data Access methods for AdminUser objects
  */
@@ -67,9 +69,7 @@ public class AdminUserDAO implements IAdminUserDAO
     private static final String SQL_QUERY_SELECT_USER_FROM_ACCESS_CODE = "SELECT id_user, access_code, last_name, first_name, email, status, locale, level_user, reset_password, accessibility_mode, password_max_valid_date, last_login FROM core_admin_user  WHERE access_code = ? ";
     private static final String SQL_QUERY_SELECT_USER_FROM_EMAIL = "SELECT access_code FROM core_admin_user  WHERE email = ? ";
     private static final String SQL_QUERY_SELECT_RIGHTS_FROM_USER_ID = " SELECT a.id_right , a.name, a.admin_url , a.description , a.plugin_name, a.id_feature_group, a.icon_url, a.level_right, a.documentation_url, a.id_order, a.is_external_feature "
-            + " FROM core_admin_right a , core_user_right b "
-            + " WHERE a.id_right = b.id_right "
-            + " AND b.id_user = ? "
+            + " FROM core_admin_right a , core_user_right b " + " WHERE a.id_right = b.id_right " + " AND b.id_user = ? "
             + " ORDER BY a.id_order ASC, a.id_right ASC ";
     private static final String SQL_QUERY_UPDATE = "UPDATE core_admin_user SET access_code = ? , last_name = ? , first_name = ?, email = ?, status = ?, locale = ?, reset_password = ?, accessibility_mode = ?, password_max_valid_date = ? WHERE id_user = ?  ";
     private static final String SQL_QUERY_DELETE = "DELETE FROM core_admin_user WHERE id_user = ? ";
@@ -130,34 +130,35 @@ public class AdminUserDAO implements IAdminUserDAO
     public AdminUser load( int nUserId )
     {
         AdminUser user = null;
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_USER_FROM_USER_ID );
-        daoUtil.setInt( 1, nUserId );
-        daoUtil.executeQuery( );
-
-        if ( daoUtil.next( ) )
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_USER_FROM_USER_ID ) )
         {
-            user = new AdminUser( );
-            user.setUserId( daoUtil.getInt( 1 ) );
-            user.setAccessCode( daoUtil.getString( 2 ) );
-            user.setLastName( daoUtil.getString( 3 ) );
-            user.setFirstName( daoUtil.getString( 4 ) );
-            user.setEmail( daoUtil.getString( 5 ) );
-            user.setStatus( daoUtil.getInt( 6 ) );
-            user.setLocale( new Locale( daoUtil.getString( 8 ) ) );
-            user.setUserLevel( daoUtil.getInt( 9 ) );
-            user.setPasswordReset( daoUtil.getBoolean( 10 ) );
-            user.setAccessibilityMode( daoUtil.getBoolean( 11 ) );
-            user.setPasswordMaxValidDate( daoUtil.getTimestamp( 12 ) );
+            daoUtil.setInt( 1, nUserId );
+            daoUtil.executeQuery( );
 
-            long accountTime = daoUtil.getLong( 13 );
-
-            if ( accountTime > 0 )
+            if ( daoUtil.next( ) )
             {
-                user.setAccountMaxValidDate( new Timestamp( accountTime ) );
-            }
-        }
+                user = new AdminUser( );
+                user.setUserId( daoUtil.getInt( 1 ) );
+                user.setAccessCode( daoUtil.getString( 2 ) );
+                user.setLastName( daoUtil.getString( 3 ) );
+                user.setFirstName( daoUtil.getString( 4 ) );
+                user.setEmail( daoUtil.getString( 5 ) );
+                user.setStatus( daoUtil.getInt( 6 ) );
+                user.setLocale( new Locale( daoUtil.getString( 8 ) ) );
+                user.setUserLevel( daoUtil.getInt( 9 ) );
+                user.setPasswordReset( daoUtil.getBoolean( 10 ) );
+                user.setAccessibilityMode( daoUtil.getBoolean( 11 ) );
+                user.setPasswordMaxValidDate( daoUtil.getTimestamp( 12 ) );
 
-        daoUtil.free( );
+                long accountTime = daoUtil.getLong( 13 );
+
+                if ( accountTime > 0 )
+                {
+                    user.setAccountMaxValidDate( new Timestamp( accountTime ) );
+                }
+            }
+
+        }
 
         return user;
     }
@@ -169,34 +170,35 @@ public class AdminUserDAO implements IAdminUserDAO
     public AdminUser selectUserByAccessCode( String strUserAccessCode )
     {
         AdminUser user = null;
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_USER_FROM_ACCESS_CODE );
-        daoUtil.setString( 1, strUserAccessCode );
-        daoUtil.executeQuery( );
-
-        if ( daoUtil.next( ) )
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_USER_FROM_ACCESS_CODE ) )
         {
-            user = new AdminUser( );
-            user.setUserId( daoUtil.getInt( 1 ) );
-            user.setAccessCode( daoUtil.getString( 2 ) );
-            user.setLastName( daoUtil.getString( 3 ) );
-            user.setFirstName( daoUtil.getString( 4 ) );
-            user.setEmail( daoUtil.getString( 5 ) );
-            user.setStatus( daoUtil.getInt( 6 ) );
-            user.setLocale( new Locale( daoUtil.getString( 7 ) ) );
-            user.setUserLevel( daoUtil.getInt( 8 ) );
-            user.setPasswordReset( daoUtil.getBoolean( 9 ) );
-            user.setAccessibilityMode( daoUtil.getBoolean( 10 ) );
-            user.setPasswordMaxValidDate( daoUtil.getTimestamp( 11 ) );
+            daoUtil.setString( 1, strUserAccessCode );
+            daoUtil.executeQuery( );
 
-            Timestamp dateLastLogin = daoUtil.getTimestamp( 12 );
-
-            if ( ( dateLastLogin != null ) && !dateLastLogin.equals( AdminUser.DEFAULT_DATE_LAST_LOGIN ) )
+            if ( daoUtil.next( ) )
             {
-                user.setDateLastLogin( dateLastLogin );
-            }
-        }
+                user = new AdminUser( );
+                user.setUserId( daoUtil.getInt( 1 ) );
+                user.setAccessCode( daoUtil.getString( 2 ) );
+                user.setLastName( daoUtil.getString( 3 ) );
+                user.setFirstName( daoUtil.getString( 4 ) );
+                user.setEmail( daoUtil.getString( 5 ) );
+                user.setStatus( daoUtil.getInt( 6 ) );
+                user.setLocale( new Locale( daoUtil.getString( 7 ) ) );
+                user.setUserLevel( daoUtil.getInt( 8 ) );
+                user.setPasswordReset( daoUtil.getBoolean( 9 ) );
+                user.setAccessibilityMode( daoUtil.getBoolean( 10 ) );
+                user.setPasswordMaxValidDate( daoUtil.getTimestamp( 11 ) );
 
-        daoUtil.free( );
+                Timestamp dateLastLogin = daoUtil.getTimestamp( 12 );
+
+                if ( ( dateLastLogin != null ) && !dateLastLogin.equals( AdminUser.getDefaultDateLastLogin( ) ) )
+                {
+                    user.setDateLastLogin( dateLastLogin );
+                }
+            }
+
+        }
 
         return user;
     }
@@ -207,18 +209,18 @@ public class AdminUserDAO implements IAdminUserDAO
     @Override
     public String selectUserByEmail( String strEmail )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_USER_FROM_EMAIL );
-        daoUtil.setString( 1, strEmail );
-        daoUtil.executeQuery( );
-
         String strAccessCode = null;
-
-        if ( daoUtil.next( ) )
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_USER_FROM_EMAIL ) )
         {
-            strAccessCode = daoUtil.getString( 1 );
-        }
+            daoUtil.setString( 1, strEmail );
+            daoUtil.executeQuery( );
 
-        daoUtil.free( );
+            if ( daoUtil.next( ) )
+            {
+                strAccessCode = daoUtil.getString( 1 );
+            }
+
+        }
 
         return strAccessCode;
     }
@@ -229,44 +231,45 @@ public class AdminUserDAO implements IAdminUserDAO
     @Override
     public Collection<AdminUser> selectUserList( )
     {
-        Collection<AdminUser> userList = new ArrayList<AdminUser>( );
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL );
-        daoUtil.executeQuery( );
-
-        while ( daoUtil.next( ) )
+        Collection<AdminUser> userList = new ArrayList<>( );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL ) )
         {
-            AdminUser user = new AdminUser( );
-            user.setUserId( daoUtil.getInt( 1 ) );
-            user.setAccessCode( daoUtil.getString( 2 ) );
-            user.setLastName( daoUtil.getString( 3 ) );
-            user.setFirstName( daoUtil.getString( 4 ) );
-            user.setEmail( daoUtil.getString( 5 ) );
-            user.setStatus( daoUtil.getInt( 6 ) );
-            user.setLocale( new Locale( daoUtil.getString( 7 ) ) );
-            user.setUserLevel( daoUtil.getInt( 8 ) );
-            user.setAccessibilityMode( daoUtil.getBoolean( 9 ) );
-            user.setPasswordReset( daoUtil.getBoolean( 10 ) );
-            user.setPasswordMaxValidDate( daoUtil.getTimestamp( 11 ) );
+            daoUtil.executeQuery( );
 
-            long accountTime = daoUtil.getLong( 12 );
-
-            if ( accountTime > 0 )
+            while ( daoUtil.next( ) )
             {
-                user.setAccountMaxValidDate( new Timestamp( accountTime ) );
+                AdminUser user = new AdminUser( );
+                user.setUserId( daoUtil.getInt( 1 ) );
+                user.setAccessCode( daoUtil.getString( 2 ) );
+                user.setLastName( daoUtil.getString( 3 ) );
+                user.setFirstName( daoUtil.getString( 4 ) );
+                user.setEmail( daoUtil.getString( 5 ) );
+                user.setStatus( daoUtil.getInt( 6 ) );
+                user.setLocale( new Locale( daoUtil.getString( 7 ) ) );
+                user.setUserLevel( daoUtil.getInt( 8 ) );
+                user.setAccessibilityMode( daoUtil.getBoolean( 9 ) );
+                user.setPasswordReset( daoUtil.getBoolean( 10 ) );
+                user.setPasswordMaxValidDate( daoUtil.getTimestamp( 11 ) );
+
+                long accountTime = daoUtil.getLong( 12 );
+
+                if ( accountTime > 0 )
+                {
+                    user.setAccountMaxValidDate( new Timestamp( accountTime ) );
+                }
+
+                Timestamp dateLastLogin = daoUtil.getTimestamp( 13 );
+
+                if ( ( dateLastLogin != null ) && !dateLastLogin.equals( AdminUser.getDefaultDateLastLogin( ) ) )
+                {
+                    user.setDateLastLogin( dateLastLogin );
+                }
+
+                user.setWorkgroupKey( daoUtil.getString( 14 ) );
+                userList.add( user );
             }
 
-            Timestamp dateLastLogin = daoUtil.getTimestamp( 13 );
-
-            if ( ( dateLastLogin != null ) && !dateLastLogin.equals( AdminUser.DEFAULT_DATE_LAST_LOGIN ) )
-            {
-                user.setDateLastLogin( dateLastLogin );
-            }
-
-            user.setWorkgroupKey( daoUtil.getString( 14 ) );
-            userList.add( user );
         }
-
-        daoUtil.free( );
 
         return userList;
     }
@@ -277,20 +280,20 @@ public class AdminUserDAO implements IAdminUserDAO
     @Override
     public int newPrimaryKey( )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_NEWPK );
-        daoUtil.executeQuery( );
-
         int nKey;
-
-        if ( !daoUtil.next( ) )
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_NEWPK ) )
         {
-            // if the table is empty
-            nKey = 1;
+            daoUtil.executeQuery( );
+
+            if ( !daoUtil.next( ) )
+            {
+                // if the table is empty
+                nKey = 1;
+            }
+
+            nKey = daoUtil.getInt( 1 ) + 1;
+
         }
-
-        nKey = daoUtil.getInt( 1 ) + 1;
-
-        daoUtil.free( );
 
         return nKey;
     }
@@ -303,30 +306,31 @@ public class AdminUserDAO implements IAdminUserDAO
     {
         user.setUserId( newPrimaryKey( ) );
 
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT );
-
-        daoUtil.setInt( 1, user.getUserId( ) );
-        daoUtil.setString( 2, user.getAccessCode( ) );
-        daoUtil.setString( 3, user.getLastName( ) );
-        daoUtil.setString( 4, user.getFirstName( ) );
-        daoUtil.setString( 5, user.getEmail( ) );
-        daoUtil.setInt( 6, user.getStatus( ) );
-        daoUtil.setString( 7, user.getLocale( ).toString( ) );
-        daoUtil.setInt( 8, user.getUserLevel( ) );
-        daoUtil.setBoolean( 9, user.getAccessibilityMode( ) );
-        daoUtil.setTimestamp( 10, user.getPasswordMaxValidDate( ) );
-
-        if ( user.getAccountMaxValidDate( ) == null )
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT ) )
         {
-            daoUtil.setLongNull( 11 );
-        }
-        else
-        {
-            daoUtil.setLong( 11, user.getAccountMaxValidDate( ).getTime( ) );
-        }
 
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+            daoUtil.setInt( 1, user.getUserId( ) );
+            daoUtil.setString( 2, user.getAccessCode( ) );
+            daoUtil.setString( 3, user.getLastName( ) );
+            daoUtil.setString( 4, user.getFirstName( ) );
+            daoUtil.setString( 5, user.getEmail( ) );
+            daoUtil.setInt( 6, user.getStatus( ) );
+            daoUtil.setString( 7, user.getLocale( ).toString( ) );
+            daoUtil.setInt( 8, user.getUserLevel( ) );
+            daoUtil.setBoolean( 9, user.getAccessibilityMode( ) );
+            daoUtil.setTimestamp( 10, user.getPasswordMaxValidDate( ) );
+
+            if ( user.getAccountMaxValidDate( ) == null )
+            {
+                daoUtil.setLongNull( 11 );
+            }
+            else
+            {
+                daoUtil.setLong( 11, user.getAccountMaxValidDate( ).getTime( ) );
+            }
+
+            daoUtil.executeUpdate( );
+        }
     }
 
     /**
@@ -335,22 +339,23 @@ public class AdminUserDAO implements IAdminUserDAO
     @Override
     public void store( AdminUser user )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE ) )
+        {
 
-        daoUtil.setString( 1, user.getAccessCode( ) );
-        daoUtil.setString( 2, user.getLastName( ) );
-        daoUtil.setString( 3, user.getFirstName( ) );
-        daoUtil.setString( 4, user.getEmail( ) );
-        daoUtil.setInt( 5, user.getStatus( ) );
-        daoUtil.setString( 6, user.getLocale( ).toString( ) );
-        daoUtil.setBoolean( 7, user.isPasswordReset( ) );
-        daoUtil.setBoolean( 8, user.getAccessibilityMode( ) );
-        daoUtil.setTimestamp( 9, user.getPasswordMaxValidDate( ) );
+            daoUtil.setString( 1, user.getAccessCode( ) );
+            daoUtil.setString( 2, user.getLastName( ) );
+            daoUtil.setString( 3, user.getFirstName( ) );
+            daoUtil.setString( 4, user.getEmail( ) );
+            daoUtil.setInt( 5, user.getStatus( ) );
+            daoUtil.setString( 6, user.getLocale( ).toString( ) );
+            daoUtil.setBoolean( 7, user.isPasswordReset( ) );
+            daoUtil.setBoolean( 8, user.getAccessibilityMode( ) );
+            daoUtil.setTimestamp( 9, user.getPasswordMaxValidDate( ) );
 
-        daoUtil.setInt( 10, user.getUserId( ) );
+            daoUtil.setInt( 10, user.getUserId( ) );
 
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+            daoUtil.executeUpdate( );
+        }
     }
 
     /**
@@ -359,10 +364,11 @@ public class AdminUserDAO implements IAdminUserDAO
     @Override
     public void delete( int nUserId )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE );
-        daoUtil.setInt( 1, nUserId );
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE ) )
+        {
+            daoUtil.setInt( 1, nUserId );
+            daoUtil.executeUpdate( );
+        }
     }
 
     /**
@@ -371,30 +377,31 @@ public class AdminUserDAO implements IAdminUserDAO
     @Override
     public Map<String, Right> selectRightsListForUser( int nUserId )
     {
-        Map<String, Right> rightsMap = new HashMap<String, Right>( );
+        Map<String, Right> rightsMap = new HashMap<>( );
 
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_RIGHTS_FROM_USER_ID );
-        daoUtil.setInt( 1, nUserId );
-        daoUtil.executeQuery( );
-
-        while ( daoUtil.next( ) )
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_RIGHTS_FROM_USER_ID ) )
         {
-            Right right = new Right( );
-            right.setId( daoUtil.getString( 1 ) );
-            right.setNameKey( daoUtil.getString( 2 ) );
-            right.setUrl( daoUtil.getString( 3 ) );
-            right.setDescriptionKey( daoUtil.getString( 4 ) );
-            right.setPluginName( daoUtil.getString( 5 ) );
-            right.setFeatureGroup( daoUtil.getString( 6 ) );
-            right.setIconUrl( daoUtil.getString( 7 ) );
-            right.setLevel( daoUtil.getInt( 8 ) );
-            right.setDocumentationUrl( daoUtil.getString( 9 ) );
-            right.setOrder( daoUtil.getInt( 10 ) );
-            right.setExternalFeature( daoUtil.getBoolean( 11 ) );
-            rightsMap.put( right.getId( ), right );
-        }
+            daoUtil.setInt( 1, nUserId );
+            daoUtil.executeQuery( );
 
-        daoUtil.free( );
+            while ( daoUtil.next( ) )
+            {
+                Right right = new Right( );
+                right.setId( daoUtil.getString( 1 ) );
+                right.setNameKey( daoUtil.getString( 2 ) );
+                right.setUrl( daoUtil.getString( 3 ) );
+                right.setDescriptionKey( daoUtil.getString( 4 ) );
+                right.setPluginName( daoUtil.getString( 5 ) );
+                right.setFeatureGroup( daoUtil.getString( 6 ) );
+                right.setIconUrl( daoUtil.getString( 7 ) );
+                right.setLevel( daoUtil.getInt( 8 ) );
+                right.setDocumentationUrl( daoUtil.getString( 9 ) );
+                right.setOrder( daoUtil.getInt( 10 ) );
+                right.setExternalFeature( daoUtil.getBoolean( 11 ) );
+                rightsMap.put( right.getId( ), right );
+            }
+
+        }
 
         return rightsMap;
     }
@@ -405,11 +412,12 @@ public class AdminUserDAO implements IAdminUserDAO
     @Override
     public void insertRightsListForUser( int nUserId, String strRightId )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT_USER_RIGHT );
-        daoUtil.setString( 1, strRightId );
-        daoUtil.setInt( 2, nUserId );
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT_USER_RIGHT ) )
+        {
+            daoUtil.setString( 1, strRightId );
+            daoUtil.setInt( 2, nUserId );
+            daoUtil.executeUpdate( );
+        }
     }
 
     /**
@@ -418,10 +426,11 @@ public class AdminUserDAO implements IAdminUserDAO
     @Override
     public void deleteAllRightsForUser( int nUserId )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE_ALL_USER_RIGHTS );
-        daoUtil.setInt( 1, nUserId );
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE_ALL_USER_RIGHTS ) )
+        {
+            daoUtil.setInt( 1, nUserId );
+            daoUtil.executeUpdate( );
+        }
     }
 
     /**
@@ -430,22 +439,23 @@ public class AdminUserDAO implements IAdminUserDAO
     @Override
     public Map<String, AdminRole> selectRolesListForUser( int nUserId )
     {
-        Map<String, AdminRole> rolesMap = new HashMap<String, AdminRole>( );
+        Map<String, AdminRole> rolesMap = new HashMap<>( );
 
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_ROLES_FROM_USER_ID );
-        daoUtil.setInt( 1, nUserId );
-        daoUtil.executeQuery( );
-
-        while ( daoUtil.next( ) )
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_ROLES_FROM_USER_ID ) )
         {
-            AdminRole role = new AdminRole( );
-            role.setKey( daoUtil.getString( 1 ) );
-            role.setDescription( daoUtil.getString( 2 ) );
+            daoUtil.setInt( 1, nUserId );
+            daoUtil.executeQuery( );
 
-            rolesMap.put( role.getKey( ), role );
+            while ( daoUtil.next( ) )
+            {
+                AdminRole role = new AdminRole( );
+                role.setKey( daoUtil.getString( 1 ) );
+                role.setDescription( daoUtil.getString( 2 ) );
+
+                rolesMap.put( role.getKey( ), role );
+            }
+
         }
-
-        daoUtil.free( );
 
         return rolesMap;
     }
@@ -456,11 +466,12 @@ public class AdminUserDAO implements IAdminUserDAO
     @Override
     public void insertRolesListForUser( int nUserId, String strRoleKey )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT_USER_ROLE );
-        daoUtil.setString( 1, strRoleKey );
-        daoUtil.setInt( 2, nUserId );
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT_USER_ROLE ) )
+        {
+            daoUtil.setString( 1, strRoleKey );
+            daoUtil.setInt( 2, nUserId );
+            daoUtil.executeUpdate( );
+        }
     }
 
     /**
@@ -469,10 +480,11 @@ public class AdminUserDAO implements IAdminUserDAO
     @Override
     public void deleteAllRolesForUser( int nUserId )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE_ALL_USER_ROLES );
-        daoUtil.setInt( 1, nUserId );
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE_ALL_USER_ROLES ) )
+        {
+            daoUtil.setInt( 1, nUserId );
+            daoUtil.executeUpdate( );
+        }
     }
 
     /**
@@ -483,16 +495,17 @@ public class AdminUserDAO implements IAdminUserDAO
     {
         boolean bInUse = false;
 
-        DAOUtil daoUtil = new DAOUtil( SQL_CHECK_ROLE_ATTRIBUTED );
-        daoUtil.setString( 1, strRoleKey );
-        daoUtil.executeQuery( );
-
-        if ( daoUtil.next( ) )
+        try( DAOUtil daoUtil = new DAOUtil( SQL_CHECK_ROLE_ATTRIBUTED ) )
         {
-            bInUse = true;
-        }
+            daoUtil.setString( 1, strRoleKey );
+            daoUtil.executeQuery( );
 
-        daoUtil.free( );
+            if ( daoUtil.next( ) )
+            {
+                bInUse = true;
+            }
+
+        }
 
         return bInUse;
     }
@@ -504,16 +517,17 @@ public class AdminUserDAO implements IAdminUserDAO
     public int checkAccessCodeAlreadyInUse( String strAccessCode )
     {
         int nIdUser = -1;
-        DAOUtil daoUtil = new DAOUtil( SQL_CHECK_ACCESS_CODE_IN_USE );
-        daoUtil.setString( 1, strAccessCode );
-        daoUtil.executeQuery( );
-
-        if ( daoUtil.next( ) )
+        try( DAOUtil daoUtil = new DAOUtil( SQL_CHECK_ACCESS_CODE_IN_USE ) )
         {
-            nIdUser = daoUtil.getInt( 1 );
-        }
+            daoUtil.setString( 1, strAccessCode );
+            daoUtil.executeQuery( );
 
-        daoUtil.free( );
+            if ( daoUtil.next( ) )
+            {
+                nIdUser = daoUtil.getInt( 1 );
+            }
+
+        }
 
         return nIdUser;
     }
@@ -525,16 +539,17 @@ public class AdminUserDAO implements IAdminUserDAO
     public int checkEmailAlreadyInUse( String strEmail )
     {
         int nIdUser = -1;
-        DAOUtil daoUtil = new DAOUtil( SQL_CHECK_EMAIL_IN_USE );
-        daoUtil.setString( 1, strEmail );
-        daoUtil.executeQuery( );
-
-        if ( daoUtil.next( ) )
+        try( DAOUtil daoUtil = new DAOUtil( SQL_CHECK_EMAIL_IN_USE ) )
         {
-            nIdUser = daoUtil.getInt( 1 );
-        }
+            daoUtil.setString( 1, strEmail );
+            daoUtil.executeQuery( );
 
-        daoUtil.free( );
+            if ( daoUtil.next( ) )
+            {
+                nIdUser = daoUtil.getInt( 1 );
+            }
+
+        }
 
         return nIdUser;
     }
@@ -547,35 +562,36 @@ public class AdminUserDAO implements IAdminUserDAO
     @Override
     public void insert( LuteceDefaultAdminUser user )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT_DEFAULT_USER );
-
-        user.setUserId( newPrimaryKey( ) );
-        daoUtil.setInt( 1, user.getUserId( ) );
-        daoUtil.setString( 2, user.getAccessCode( ) );
-        daoUtil.setString( 3, user.getLastName( ) );
-        daoUtil.setString( 4, user.getFirstName( ) );
-        daoUtil.setString( 5, user.getEmail( ) );
-        daoUtil.setInt( 6, user.getStatus( ) );
-        daoUtil.setString( 7, user.getPassword( ).getStorableRepresentation( ) );
-        daoUtil.setString( 8, user.getLocale( ).toString( ) );
-        daoUtil.setInt( 9, user.getUserLevel( ) );
-        daoUtil.setBoolean( 10, user.getAccessibilityMode( ) );
-        daoUtil.setBoolean( 11, user.isPasswordReset( ) );
-        daoUtil.setTimestamp( 12, user.getPasswordMaxValidDate( ) );
-
-        if ( user.getAccountMaxValidDate( ) == null )
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT_DEFAULT_USER ) )
         {
-            daoUtil.setLongNull( 13 );
-        }
-        else
-        {
-            daoUtil.setLong( 13, user.getAccountMaxValidDate( ).getTime( ) );
-        }
 
-        daoUtil.setTimestamp( 14, user.getDateLastLogin( ) );
-        daoUtil.setString( 15, user.getWorkgroupKey( ) );
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+            user.setUserId( newPrimaryKey( ) );
+            daoUtil.setInt( 1, user.getUserId( ) );
+            daoUtil.setString( 2, user.getAccessCode( ) );
+            daoUtil.setString( 3, user.getLastName( ) );
+            daoUtil.setString( 4, user.getFirstName( ) );
+            daoUtil.setString( 5, user.getEmail( ) );
+            daoUtil.setInt( 6, user.getStatus( ) );
+            daoUtil.setString( 7, user.getPassword( ).getStorableRepresentation( ) );
+            daoUtil.setString( 8, user.getLocale( ).toString( ) );
+            daoUtil.setInt( 9, user.getUserLevel( ) );
+            daoUtil.setBoolean( 10, user.getAccessibilityMode( ) );
+            daoUtil.setBoolean( 11, user.isPasswordReset( ) );
+            daoUtil.setTimestamp( 12, user.getPasswordMaxValidDate( ) );
+
+            if ( user.getAccountMaxValidDate( ) == null )
+            {
+                daoUtil.setLongNull( 13 );
+            }
+            else
+            {
+                daoUtil.setLong( 13, user.getAccountMaxValidDate( ).getTime( ) );
+            }
+
+            daoUtil.setTimestamp( 14, user.getDateLastLogin( ) );
+            daoUtil.setString( 15, user.getWorkgroupKey( ) );
+            daoUtil.executeUpdate( );
+        }
     }
 
     /**
@@ -589,28 +605,29 @@ public class AdminUserDAO implements IAdminUserDAO
         {
             query = SQL_QUERY_UPDATE_DEFAULT_USER;
         }
-        DAOUtil daoUtil = new DAOUtil( query );
-
-        int nArgIndex = 1;
-        daoUtil.setString( nArgIndex++, user.getAccessCode( ) );
-        daoUtil.setString( nArgIndex++, user.getLastName( ) );
-        daoUtil.setString( nArgIndex++, user.getFirstName( ) );
-        daoUtil.setString( nArgIndex++, user.getEmail( ) );
-        daoUtil.setInt( nArgIndex++, user.getStatus( ) );
-        if ( PasswordUpdateMode.UPDATE.equals( passwordMode ) )
+        try( DAOUtil daoUtil = new DAOUtil( query ) )
         {
-            daoUtil.setString( nArgIndex++, user.getPassword( ).getStorableRepresentation( ) );
+
+            int nArgIndex = 1;
+            daoUtil.setString( nArgIndex++, user.getAccessCode( ) );
+            daoUtil.setString( nArgIndex++, user.getLastName( ) );
+            daoUtil.setString( nArgIndex++, user.getFirstName( ) );
+            daoUtil.setString( nArgIndex++, user.getEmail( ) );
+            daoUtil.setInt( nArgIndex++, user.getStatus( ) );
+            if ( PasswordUpdateMode.UPDATE.equals( passwordMode ) )
+            {
+                daoUtil.setString( nArgIndex++, user.getPassword( ).getStorableRepresentation( ) );
+            }
+            daoUtil.setString( nArgIndex++, user.getLocale( ).toString( ) );
+            daoUtil.setBoolean( nArgIndex++, user.isPasswordReset( ) );
+            daoUtil.setBoolean( nArgIndex++, user.getAccessibilityMode( ) );
+            daoUtil.setTimestamp( nArgIndex++, user.getPasswordMaxValidDate( ) );
+            daoUtil.setString( nArgIndex++, user.getWorkgroupKey( ) );
+
+            daoUtil.setInt( nArgIndex++, user.getUserId( ) );
+
+            daoUtil.executeUpdate( );
         }
-        daoUtil.setString( nArgIndex++, user.getLocale( ).toString( ) );
-        daoUtil.setBoolean( nArgIndex++, user.isPasswordReset( ) );
-        daoUtil.setBoolean( nArgIndex++, user.getAccessibilityMode( ) );
-        daoUtil.setTimestamp( nArgIndex++, user.getPasswordMaxValidDate( ) );
-        daoUtil.setString( nArgIndex++, user.getWorkgroupKey( ) );
-
-        daoUtil.setInt( nArgIndex++, user.getUserId( ) );
-
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
     }
 
     /**
@@ -620,12 +637,11 @@ public class AdminUserDAO implements IAdminUserDAO
     public LuteceDefaultAdminUser loadDefaultAdminUser( int nUserId )
     {
         LuteceDefaultAdminUser user = new LuteceDefaultAdminUser( );
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_USER_FROM_USER_ID );
-        daoUtil.setInt( 1, nUserId );
-        daoUtil.executeQuery( );
-
-        try
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_USER_FROM_USER_ID ) )
         {
+            daoUtil.setInt( 1, nUserId );
+            daoUtil.executeQuery( );
+
             if ( daoUtil.next( ) )
             {
                 user.setUserId( daoUtil.getInt( 1 ) );
@@ -644,10 +660,6 @@ public class AdminUserDAO implements IAdminUserDAO
                 user.setWorkgroupKey( daoUtil.getString( 14 ) );
             }
         }
-        finally
-        {
-            daoUtil.free( );
-        }
 
         return user;
     }
@@ -658,27 +670,28 @@ public class AdminUserDAO implements IAdminUserDAO
     @Override
     public Collection<AdminUser> selectUsersByRole( String strRoleKey )
     {
-        Collection<AdminUser> userList = new ArrayList<AdminUser>( );
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_USERS_ID_BY_ROLES );
-        daoUtil.setString( 1, strRoleKey );
-        daoUtil.executeQuery( );
-
-        while ( daoUtil.next( ) )
+        Collection<AdminUser> userList = new ArrayList<>( );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_USERS_ID_BY_ROLES ) )
         {
-            AdminUser user = new AdminUser( );
-            user.setUserId( daoUtil.getInt( 1 ) );
-            user.setAccessCode( daoUtil.getString( 2 ) );
-            user.setLastName( daoUtil.getString( 3 ) );
-            user.setFirstName( daoUtil.getString( 4 ) );
-            user.setEmail( daoUtil.getString( 5 ) );
-            user.setStatus( daoUtil.getInt( 6 ) );
-            user.setLocale( new Locale( daoUtil.getString( 7 ) ) );
-            user.setAccessibilityMode( daoUtil.getBoolean( 8 ) );
-            user.setPasswordMaxValidDate( daoUtil.getTimestamp( 9 ) );
-            userList.add( user );
-        }
+            daoUtil.setString( 1, strRoleKey );
+            daoUtil.executeQuery( );
 
-        daoUtil.free( );
+            while ( daoUtil.next( ) )
+            {
+                AdminUser user = new AdminUser( );
+                user.setUserId( daoUtil.getInt( 1 ) );
+                user.setAccessCode( daoUtil.getString( 2 ) );
+                user.setLastName( daoUtil.getString( 3 ) );
+                user.setFirstName( daoUtil.getString( 4 ) );
+                user.setEmail( daoUtil.getString( 5 ) );
+                user.setStatus( daoUtil.getInt( 6 ) );
+                user.setLocale( new Locale( daoUtil.getString( 7 ) ) );
+                user.setAccessibilityMode( daoUtil.getBoolean( 8 ) );
+                user.setPasswordMaxValidDate( daoUtil.getTimestamp( 9 ) );
+                userList.add( user );
+            }
+
+        }
 
         return userList;
     }
@@ -689,26 +702,27 @@ public class AdminUserDAO implements IAdminUserDAO
     @Override
     public Collection<AdminUser> selectUsersByLevel( int nIdLevel )
     {
-        Collection<AdminUser> userList = new ArrayList<AdminUser>( );
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_USERS_BY_LEVEL );
-        daoUtil.setInt( 1, nIdLevel );
-        daoUtil.executeQuery( );
-
-        while ( daoUtil.next( ) )
+        Collection<AdminUser> userList = new ArrayList<>( );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_USERS_BY_LEVEL ) )
         {
-            AdminUser user = new AdminUser( );
-            user.setUserId( daoUtil.getInt( 1 ) );
-            user.setAccessCode( daoUtil.getString( 2 ) );
-            user.setLastName( daoUtil.getString( 3 ) );
-            user.setFirstName( daoUtil.getString( 4 ) );
-            user.setEmail( daoUtil.getString( 5 ) );
-            user.setStatus( daoUtil.getInt( 6 ) );
-            user.setLocale( new Locale( daoUtil.getString( 7 ) ) );
-            user.setAccessibilityMode( daoUtil.getBoolean( 8 ) );
-            userList.add( user );
-        }
+            daoUtil.setInt( 1, nIdLevel );
+            daoUtil.executeQuery( );
 
-        daoUtil.free( );
+            while ( daoUtil.next( ) )
+            {
+                AdminUser user = new AdminUser( );
+                user.setUserId( daoUtil.getInt( 1 ) );
+                user.setAccessCode( daoUtil.getString( 2 ) );
+                user.setLastName( daoUtil.getString( 3 ) );
+                user.setFirstName( daoUtil.getString( 4 ) );
+                user.setEmail( daoUtil.getString( 5 ) );
+                user.setStatus( daoUtil.getInt( 6 ) );
+                user.setLocale( new Locale( daoUtil.getString( 7 ) ) );
+                user.setAccessibilityMode( daoUtil.getBoolean( 8 ) );
+                userList.add( user );
+            }
+
+        }
 
         return userList;
     }
@@ -728,17 +742,18 @@ public class AdminUserDAO implements IAdminUserDAO
     {
         String strSqlQuery = bDelegated ? SQL_QUERY_SELECT_USER_RIGHTS_DELEGATED : SQL_QUERY_SELECT_USER_RIGHTS_OWN;
         Collection<String> idRightList = new ArrayList<>( );
-        DAOUtil daoUtil = new DAOUtil( strSqlQuery );
-        daoUtil.setInt( 1, nUserId );
-        daoUtil.setInt( 2, nUserLevel );
-        daoUtil.executeQuery( );
-
-        while ( daoUtil.next( ) )
+        try( DAOUtil daoUtil = new DAOUtil( strSqlQuery ) )
         {
-            idRightList.add( daoUtil.getString( 1 ) );
-        }
+            daoUtil.setInt( 1, nUserId );
+            daoUtil.setInt( 2, nUserLevel );
+            daoUtil.executeQuery( );
 
-        daoUtil.free( );
+            while ( daoUtil.next( ) )
+            {
+                idRightList.add( daoUtil.getString( 1 ) );
+            }
+
+        }
 
         return idRightList;
     }
@@ -755,11 +770,12 @@ public class AdminUserDAO implements IAdminUserDAO
     {
         for ( String strIdRight : idRightList )
         {
-            DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE_USER_RIGHTS );
-            daoUtil.setInt( 1, nUserId );
-            daoUtil.setString( 2, strIdRight );
-            daoUtil.executeUpdate( );
-            daoUtil.free( );
+            try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE_USER_RIGHTS ) )
+            {
+                daoUtil.setInt( 1, nUserId );
+                daoUtil.setString( 2, strIdRight );
+                daoUtil.executeUpdate( );
+            }
         }
     }
 
@@ -791,12 +807,13 @@ public class AdminUserDAO implements IAdminUserDAO
     @Override
     public void storeUsersRole( String strOldRoleKey, AdminRole role )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE_USERS_ROLE );
-        daoUtil.setString( 1, role.getKey( ) );
-        daoUtil.setString( 2, strOldRoleKey );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE_USERS_ROLE ) )
+        {
+            daoUtil.setString( 1, role.getKey( ) );
+            daoUtil.setString( 2, strOldRoleKey );
 
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+            daoUtil.executeUpdate( );
+        }
     }
 
     /**
@@ -806,17 +823,18 @@ public class AdminUserDAO implements IAdminUserDAO
     public boolean hasRole( int nUserId, String strRoleKey )
     {
         boolean bHasRole = false;
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_USER_ROLE );
-        daoUtil.setInt( 1, nUserId );
-        daoUtil.setString( 2, strRoleKey );
-        daoUtil.executeQuery( );
-
-        if ( daoUtil.next( ) )
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_USER_ROLE ) )
         {
-            bHasRole = true;
-        }
+            daoUtil.setInt( 1, nUserId );
+            daoUtil.setString( 2, strRoleKey );
+            daoUtil.executeQuery( );
 
-        daoUtil.free( );
+            if ( daoUtil.next( ) )
+            {
+                bHasRole = true;
+            }
+
+        }
 
         return bHasRole;
     }
@@ -827,11 +845,12 @@ public class AdminUserDAO implements IAdminUserDAO
     @Override
     public void deleteRoleForUser( int nUserId, String strRoleKey )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE_ROLE_FOR_USER );
-        daoUtil.setInt( 1, nUserId );
-        daoUtil.setString( 2, strRoleKey );
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE_ROLE_FOR_USER ) )
+        {
+            daoUtil.setInt( 1, nUserId );
+            daoUtil.setString( 2, strRoleKey );
+            daoUtil.executeUpdate( );
+        }
     }
 
     /**
@@ -840,8 +859,7 @@ public class AdminUserDAO implements IAdminUserDAO
     @Override
     public Collection<AdminUser> selectUsersByFilter( AdminUserFilter auFilter )
     {
-        Collection<AdminUser> userList = new ArrayList<AdminUser>( );
-        DAOUtil daoUtil;
+        Collection<AdminUser> userList = new ArrayList<>( );
 
         String query = SQL_QUERY_SELECT_USER_FROM_SEARCH;
 
@@ -857,46 +875,47 @@ public class AdminUserDAO implements IAdminUserDAO
 
         query += CONSTANT_ORDER_BY_LAST_NAME;
 
-        daoUtil = new DAOUtil( query );
-        daoUtil.setString( 1, CONSTANT_PERCENT + auFilter.getAccessCode( ) + CONSTANT_PERCENT );
-        daoUtil.setString( 2, CONSTANT_PERCENT + auFilter.getLastName( ) + CONSTANT_PERCENT );
-        daoUtil.setString( 3, CONSTANT_PERCENT + auFilter.getEmail( ) + CONSTANT_PERCENT );
-
-        if ( auFilter.getStatus( ) != -1 )
+        try( DAOUtil daoUtil = new DAOUtil( query ) )
         {
-            daoUtil.setInt( 4, auFilter.getStatus( ) );
+            daoUtil.setString( 1, CONSTANT_PERCENT + auFilter.getAccessCode( ) + CONSTANT_PERCENT );
+            daoUtil.setString( 2, CONSTANT_PERCENT + auFilter.getLastName( ) + CONSTANT_PERCENT );
+            daoUtil.setString( 3, CONSTANT_PERCENT + auFilter.getEmail( ) + CONSTANT_PERCENT );
 
-            if ( auFilter.getUserLevel( ) != -1 )
+            if ( auFilter.getStatus( ) != -1 )
             {
-                daoUtil.setInt( 5, auFilter.getUserLevel( ) );
+                daoUtil.setInt( 4, auFilter.getStatus( ) );
+
+                if ( auFilter.getUserLevel( ) != -1 )
+                {
+                    daoUtil.setInt( 5, auFilter.getUserLevel( ) );
+                }
             }
-        }
-        else
-        {
-            if ( auFilter.getUserLevel( ) != -1 )
+            else
             {
-                daoUtil.setInt( 4, auFilter.getUserLevel( ) );
+                if ( auFilter.getUserLevel( ) != -1 )
+                {
+                    daoUtil.setInt( 4, auFilter.getUserLevel( ) );
+                }
             }
+
+            daoUtil.executeQuery( );
+
+            while ( daoUtil.next( ) )
+            {
+                AdminUser user = new AdminUser( );
+                user.setUserId( daoUtil.getInt( 1 ) );
+                user.setAccessCode( daoUtil.getString( 2 ) );
+                user.setLastName( daoUtil.getString( 3 ) );
+                user.setFirstName( daoUtil.getString( 4 ) );
+                user.setEmail( daoUtil.getString( 5 ) );
+                user.setStatus( daoUtil.getInt( 6 ) );
+                user.setLocale( new Locale( daoUtil.getString( 7 ) ) );
+                user.setUserLevel( daoUtil.getInt( 8 ) );
+                user.setAccessibilityMode( daoUtil.getBoolean( 9 ) );
+                userList.add( user );
+            }
+
         }
-
-        daoUtil.executeQuery( );
-
-        while ( daoUtil.next( ) )
-        {
-            AdminUser user = new AdminUser( );
-            user.setUserId( daoUtil.getInt( 1 ) );
-            user.setAccessCode( daoUtil.getString( 2 ) );
-            user.setLastName( daoUtil.getString( 3 ) );
-            user.setFirstName( daoUtil.getString( 4 ) );
-            user.setEmail( daoUtil.getString( 5 ) );
-            user.setStatus( daoUtil.getInt( 6 ) );
-            user.setLocale( new Locale( daoUtil.getString( 7 ) ) );
-            user.setUserLevel( daoUtil.getInt( 8 ) );
-            user.setAccessibilityMode( daoUtil.getBoolean( 9 ) );
-            userList.add( user );
-        }
-
-        daoUtil.free( );
 
         return userList;
     }
@@ -907,27 +926,28 @@ public class AdminUserDAO implements IAdminUserDAO
     @Override
     public Collection<AdminUser> selectUsersByRight( String strIdRight )
     {
-        Collection<AdminUser> userList = new ArrayList<AdminUser>( );
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_USERS_BY_RIGHT );
-        daoUtil.setString( 1, strIdRight );
-        daoUtil.executeQuery( );
-
-        while ( daoUtil.next( ) )
+        Collection<AdminUser> userList = new ArrayList<>( );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_USERS_BY_RIGHT ) )
         {
-            AdminUser user = new AdminUser( );
-            user.setUserId( daoUtil.getInt( 1 ) );
-            user.setAccessCode( daoUtil.getString( 2 ) );
-            user.setLastName( daoUtil.getString( 3 ) );
-            user.setFirstName( daoUtil.getString( 4 ) );
-            user.setEmail( daoUtil.getString( 5 ) );
-            user.setStatus( daoUtil.getInt( 6 ) );
-            user.setLocale( new Locale( daoUtil.getString( 7 ) ) );
-            user.setUserLevel( daoUtil.getInt( 8 ) );
-            user.setAccessibilityMode( daoUtil.getBoolean( 9 ) );
-            userList.add( user );
-        }
+            daoUtil.setString( 1, strIdRight );
+            daoUtil.executeQuery( );
 
-        daoUtil.free( );
+            while ( daoUtil.next( ) )
+            {
+                AdminUser user = new AdminUser( );
+                user.setUserId( daoUtil.getInt( 1 ) );
+                user.setAccessCode( daoUtil.getString( 2 ) );
+                user.setLastName( daoUtil.getString( 3 ) );
+                user.setFirstName( daoUtil.getString( 4 ) );
+                user.setEmail( daoUtil.getString( 5 ) );
+                user.setStatus( daoUtil.getInt( 6 ) );
+                user.setLocale( new Locale( daoUtil.getString( 7 ) ) );
+                user.setUserLevel( daoUtil.getInt( 8 ) );
+                user.setAccessibilityMode( daoUtil.getBoolean( 9 ) );
+                userList.add( user );
+            }
+
+        }
 
         return userList;
     }
@@ -939,17 +959,18 @@ public class AdminUserDAO implements IAdminUserDAO
     public boolean hasRight( int nUserId, String strIdRight )
     {
         boolean bHasRight = false;
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_USER_RIGHT );
-        daoUtil.setInt( 1, nUserId );
-        daoUtil.setString( 2, strIdRight );
-        daoUtil.executeQuery( );
-
-        if ( daoUtil.next( ) )
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_USER_RIGHT ) )
         {
-            bHasRight = true;
-        }
+            daoUtil.setInt( 1, nUserId );
+            daoUtil.setString( 2, strIdRight );
+            daoUtil.executeQuery( );
 
-        daoUtil.free( );
+            if ( daoUtil.next( ) )
+            {
+                bHasRight = true;
+            }
+
+        }
 
         return bHasRight;
     }
@@ -960,11 +981,12 @@ public class AdminUserDAO implements IAdminUserDAO
     @Override
     public void deleteRightForUser( int nUserId, String strIdRight )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE_USER_RIGHTS );
-        daoUtil.setInt( 1, nUserId );
-        daoUtil.setString( 2, strIdRight );
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE_USER_RIGHTS ) )
+        {
+            daoUtil.setInt( 1, nUserId );
+            daoUtil.setString( 2, strIdRight );
+            daoUtil.executeUpdate( );
+        }
     }
 
     /**
@@ -973,18 +995,19 @@ public class AdminUserDAO implements IAdminUserDAO
     @Override
     public List<IPassword> selectUserPasswordHistory( int nUserID )
     {
-        List<IPassword> listPasswordHistory = new ArrayList<IPassword>( );
+        List<IPassword> listPasswordHistory = new ArrayList<>( );
 
-        DAOUtil daoUtil = new DAOUtil( SQL_SELECT_USER_PASSWORD_HISTORY );
-        daoUtil.setInt( 1, nUserID );
-        daoUtil.executeQuery( );
-
-        while ( daoUtil.next( ) )
+        try( DAOUtil daoUtil = new DAOUtil( SQL_SELECT_USER_PASSWORD_HISTORY ) )
         {
-            listPasswordHistory.add( _passwordFactory.getPassword( daoUtil.getString( 1 ) ) );
-        }
+            daoUtil.setInt( 1, nUserID );
+            daoUtil.executeQuery( );
 
-        daoUtil.free( );
+            while ( daoUtil.next( ) )
+            {
+                listPasswordHistory.add( _passwordFactory.getPassword( daoUtil.getString( 1 ) ) );
+            }
+
+        }
 
         return listPasswordHistory;
     }
@@ -997,17 +1020,18 @@ public class AdminUserDAO implements IAdminUserDAO
     {
         int nNbRes = 0;
 
-        DAOUtil daoUtil = new DAOUtil( SQL_COUNT_USER_PASSWORD_HISTORY );
-        daoUtil.setInt( 1, nUserId );
-        daoUtil.setTimestamp( 2, minDate );
-        daoUtil.executeQuery( );
-
-        if ( daoUtil.next( ) )
+        try( DAOUtil daoUtil = new DAOUtil( SQL_COUNT_USER_PASSWORD_HISTORY ) )
         {
-            nNbRes = daoUtil.getInt( 1 );
-        }
+            daoUtil.setInt( 1, nUserId );
+            daoUtil.setTimestamp( 2, minDate );
+            daoUtil.executeQuery( );
 
-        daoUtil.free( );
+            if ( daoUtil.next( ) )
+            {
+                nNbRes = daoUtil.getInt( 1 );
+            }
+
+        }
 
         return nNbRes;
     }
@@ -1018,12 +1042,13 @@ public class AdminUserDAO implements IAdminUserDAO
     @Override
     public void insertNewPasswordInHistory( IPassword password, int nUserId )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_INSERT_PASSWORD_HISTORY );
-        daoUtil.setInt( 1, nUserId );
-        daoUtil.setString( 2, password.getStorableRepresentation( ) );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_INSERT_PASSWORD_HISTORY ) )
+        {
+            daoUtil.setInt( 1, nUserId );
+            daoUtil.setString( 2, password.getStorableRepresentation( ) );
 
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+            daoUtil.executeUpdate( );
+        }
     }
 
     /**
@@ -1032,10 +1057,11 @@ public class AdminUserDAO implements IAdminUserDAO
     @Override
     public void removeAllPasswordHistoryForUser( int nUserId )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_DELETE_PASSWORD_HISTORY );
-        daoUtil.setInt( 1, nUserId );
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_DELETE_PASSWORD_HISTORY ) )
+        {
+            daoUtil.setInt( 1, nUserId );
+            daoUtil.executeUpdate( );
+        }
     }
 
     /**
@@ -1044,17 +1070,17 @@ public class AdminUserDAO implements IAdminUserDAO
     @Override
     public Map<String, Boolean> selectAnonymizationStatusUserStaticField( )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_SELECT_ANONYMIZATION_STATUS_USER_FILED );
-        daoUtil.executeQuery( );
-
-        Map<String, Boolean> resultMap = new HashMap<String, Boolean>( );
-
-        while ( daoUtil.next( ) )
+        Map<String, Boolean> resultMap = new HashMap<>( );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_SELECT_ANONYMIZATION_STATUS_USER_FILED ) )
         {
-            resultMap.put( daoUtil.getString( 1 ), daoUtil.getBoolean( 2 ) );
-        }
+            daoUtil.executeQuery( );
 
-        daoUtil.free( );
+            while ( daoUtil.next( ) )
+            {
+                resultMap.put( daoUtil.getString( 1 ), daoUtil.getBoolean( 2 ) );
+            }
+
+        }
 
         return resultMap;
     }
@@ -1065,11 +1091,12 @@ public class AdminUserDAO implements IAdminUserDAO
     @Override
     public void updateAnonymizationStatusUserStaticField( String strFieldName, boolean bAnonymizeFiled )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_UPDATE_ANONYMIZATION_STATUS_USER_FILED );
-        daoUtil.setBoolean( 1, bAnonymizeFiled );
-        daoUtil.setString( 2, strFieldName );
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_UPDATE_ANONYMIZATION_STATUS_USER_FILED ) )
+        {
+            daoUtil.setBoolean( 1, bAnonymizeFiled );
+            daoUtil.setString( 2, strFieldName );
+            daoUtil.executeUpdate( );
+        }
     }
 
     /**
@@ -1078,18 +1105,19 @@ public class AdminUserDAO implements IAdminUserDAO
     @Override
     public List<Integer> findAllExpiredUserId( )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_EXPIRED_USER_ID );
-        daoUtil.setInt( 1, AdminUser.EXPIRED_CODE );
-
-        List<Integer> listIdExpiredUser = new ArrayList<Integer>( );
-        daoUtil.executeQuery( );
-
-        while ( daoUtil.next( ) )
+        List<Integer> listIdExpiredUser = new ArrayList<>( );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_EXPIRED_USER_ID ) )
         {
-            listIdExpiredUser.add( daoUtil.getInt( 1 ) );
-        }
+            daoUtil.setInt( 1, AdminUser.EXPIRED_CODE );
 
-        daoUtil.free( );
+            daoUtil.executeQuery( );
+
+            while ( daoUtil.next( ) )
+            {
+                listIdExpiredUser.add( daoUtil.getInt( 1 ) );
+            }
+
+        }
 
         return listIdExpiredUser;
     }
@@ -1100,19 +1128,20 @@ public class AdminUserDAO implements IAdminUserDAO
     @Override
     public List<Integer> getIdUsersWithExpiredLifeTimeList( Timestamp currentTimestamp )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_EXPIRED_LIFE_TIME_USER_ID );
-        daoUtil.setLong( 1, currentTimestamp.getTime( ) );
-        daoUtil.setInt( 2, AdminUser.EXPIRED_CODE );
-
-        List<Integer> listIdExpiredUser = new ArrayList<Integer>( );
-        daoUtil.executeQuery( );
-
-        while ( daoUtil.next( ) )
+        List<Integer> listIdExpiredUser = new ArrayList<>( );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_EXPIRED_LIFE_TIME_USER_ID ) )
         {
-            listIdExpiredUser.add( daoUtil.getInt( 1 ) );
-        }
+            daoUtil.setLong( 1, currentTimestamp.getTime( ) );
+            daoUtil.setInt( 2, AdminUser.EXPIRED_CODE );
 
-        daoUtil.free( );
+            daoUtil.executeQuery( );
+
+            while ( daoUtil.next( ) )
+            {
+                listIdExpiredUser.add( daoUtil.getInt( 1 ) );
+            }
+
+        }
 
         return listIdExpiredUser;
     }
@@ -1123,19 +1152,20 @@ public class AdminUserDAO implements IAdminUserDAO
     @Override
     public List<Integer> getIdUsersToSendFirstAlert( Timestamp alertMaxDate )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_USER_ID_FIRST_ALERT );
-        daoUtil.setInt( 1, AdminUser.EXPIRED_CODE );
-        daoUtil.setLong( 2, alertMaxDate.getTime( ) );
-
-        List<Integer> listIdUserFirstAlert = new ArrayList<Integer>( );
-        daoUtil.executeQuery( );
-
-        while ( daoUtil.next( ) )
+        List<Integer> listIdUserFirstAlert = new ArrayList<>( );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_USER_ID_FIRST_ALERT ) )
         {
-            listIdUserFirstAlert.add( daoUtil.getInt( 1 ) );
-        }
+            daoUtil.setInt( 1, AdminUser.EXPIRED_CODE );
+            daoUtil.setLong( 2, alertMaxDate.getTime( ) );
 
-        daoUtil.free( );
+            daoUtil.executeQuery( );
+
+            while ( daoUtil.next( ) )
+            {
+                listIdUserFirstAlert.add( daoUtil.getInt( 1 ) );
+            }
+
+        }
 
         return listIdUserFirstAlert;
     }
@@ -1146,21 +1176,22 @@ public class AdminUserDAO implements IAdminUserDAO
     @Override
     public List<Integer> getIdUsersToSendOtherAlert( Timestamp alertMaxDate, Timestamp timeBetweenAlerts, int maxNumberAlerts )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_USER_ID_OTHER_ALERT );
-        daoUtil.setInt( 1, maxNumberAlerts );
-        daoUtil.setInt( 2, AdminUser.EXPIRED_CODE );
-        daoUtil.setLong( 3, timeBetweenAlerts.getTime( ) );
-        daoUtil.setLong( 4, alertMaxDate.getTime( ) );
-
-        List<Integer> listIdUserFirstAlert = new ArrayList<Integer>( );
-        daoUtil.executeQuery( );
-
-        while ( daoUtil.next( ) )
+        List<Integer> listIdUserFirstAlert = new ArrayList<>( );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_USER_ID_OTHER_ALERT ) )
         {
-            listIdUserFirstAlert.add( daoUtil.getInt( 1 ) );
-        }
+            daoUtil.setInt( 1, maxNumberAlerts );
+            daoUtil.setInt( 2, AdminUser.EXPIRED_CODE );
+            daoUtil.setLong( 3, timeBetweenAlerts.getTime( ) );
+            daoUtil.setLong( 4, alertMaxDate.getTime( ) );
 
-        daoUtil.free( );
+            daoUtil.executeQuery( );
+
+            while ( daoUtil.next( ) )
+            {
+                listIdUserFirstAlert.add( daoUtil.getInt( 1 ) );
+            }
+
+        }
 
         return listIdUserFirstAlert;
     }
@@ -1171,18 +1202,19 @@ public class AdminUserDAO implements IAdminUserDAO
     @Override
     public List<Integer> getIdUsersWithExpiredPasswordsList( Timestamp currentTimestamp )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_USER_ID_PASSWORD_EXPIRED );
-        daoUtil.setTimestamp( 1, currentTimestamp );
-
-        List<Integer> idUserPasswordExpiredlist = new ArrayList<Integer>( );
-        daoUtil.executeQuery( );
-
-        while ( daoUtil.next( ) )
+        List<Integer> idUserPasswordExpiredlist = new ArrayList<>( );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_USER_ID_PASSWORD_EXPIRED ) )
         {
-            idUserPasswordExpiredlist.add( daoUtil.getInt( 1 ) );
-        }
+            daoUtil.setTimestamp( 1, currentTimestamp );
 
-        daoUtil.free( );
+            daoUtil.executeQuery( );
+
+            while ( daoUtil.next( ) )
+            {
+                idUserPasswordExpiredlist.add( daoUtil.getInt( 1 ) );
+            }
+
+        }
 
         return idUserPasswordExpiredlist;
     }
@@ -1193,7 +1225,7 @@ public class AdminUserDAO implements IAdminUserDAO
     @Override
     public void updateUserStatus( List<Integer> listIdUser, int nNewStatus )
     {
-        if ( ( listIdUser != null ) && ( listIdUser.size( ) > 0 ) )
+        if ( CollectionUtils.isNotEmpty( listIdUser ) )
         {
             StringBuilder sbSQL = new StringBuilder( );
             sbSQL.append( SQL_QUERY_UPDATE_STATUS );
@@ -1210,10 +1242,11 @@ public class AdminUserDAO implements IAdminUserDAO
 
             sbSQL.append( CONSTANT_CLOSE_PARENTHESIS );
 
-            DAOUtil daoUtil = new DAOUtil( sbSQL.toString( ) );
-            daoUtil.setInt( 1, nNewStatus );
-            daoUtil.executeUpdate( );
-            daoUtil.free( );
+            try( DAOUtil daoUtil = new DAOUtil( sbSQL.toString( ) ) )
+            {
+                daoUtil.setInt( 1, nNewStatus );
+                daoUtil.executeUpdate( );
+            }
         }
     }
 
@@ -1223,7 +1256,7 @@ public class AdminUserDAO implements IAdminUserDAO
     @Override
     public void updateNbAlert( List<Integer> listIdUser )
     {
-        if ( ( listIdUser != null ) && ( listIdUser.size( ) > 0 ) )
+        if ( CollectionUtils.isNotEmpty( listIdUser ) )
         {
             StringBuilder sbSQL = new StringBuilder( );
             sbSQL.append( SQL_QUERY_UPDATE_NB_ALERT );
@@ -1240,9 +1273,10 @@ public class AdminUserDAO implements IAdminUserDAO
 
             sbSQL.append( CONSTANT_CLOSE_PARENTHESIS );
 
-            DAOUtil daoUtil = new DAOUtil( sbSQL.toString( ) );
-            daoUtil.executeUpdate( );
-            daoUtil.free( );
+            try( DAOUtil daoUtil = new DAOUtil( sbSQL.toString( ) ) )
+            {
+                daoUtil.executeUpdate( );
+            }
         }
     }
 
@@ -1252,7 +1286,7 @@ public class AdminUserDAO implements IAdminUserDAO
     @Override
     public void updateChangePassword( List<Integer> listIdUser )
     {
-        if ( ( listIdUser != null ) && ( listIdUser.size( ) > 0 ) )
+        if ( CollectionUtils.isNotEmpty( listIdUser ) )
         {
             StringBuilder sbSQL = new StringBuilder( );
             sbSQL.append( SQL_QUERY_UPDATE_RESET_PASSWORD_LIST_ID );
@@ -1269,9 +1303,10 @@ public class AdminUserDAO implements IAdminUserDAO
 
             sbSQL.append( CONSTANT_CLOSE_PARENTHESIS );
 
-            DAOUtil daoUtil = new DAOUtil( sbSQL.toString( ) );
-            daoUtil.executeUpdate( );
-            daoUtil.free( );
+            try( DAOUtil daoUtil = new DAOUtil( sbSQL.toString( ) ) )
+            {
+                daoUtil.executeUpdate( );
+            }
         }
     }
 
@@ -1281,22 +1316,22 @@ public class AdminUserDAO implements IAdminUserDAO
     @Override
     public void updateUserExpirationDate( int nIdUser, Timestamp newExpirationDate )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE_REACTIVATE_ACCOUNT );
-
-        if ( newExpirationDate == null )
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE_REACTIVATE_ACCOUNT ) )
         {
-            daoUtil.setLongNull( 1 );
+
+            if ( newExpirationDate == null )
+            {
+                daoUtil.setLongNull( 1 );
+            }
+            else
+            {
+                daoUtil.setLong( 1, newExpirationDate.getTime( ) );
+            }
+
+            daoUtil.setInt( 2, nIdUser );
+
+            daoUtil.executeUpdate( );
         }
-        else
-        {
-            daoUtil.setLong( 1, newExpirationDate.getTime( ) );
-        }
-
-        daoUtil.setInt( 2, nIdUser );
-
-        daoUtil.executeUpdate( );
-
-        daoUtil.free( );
     }
 
     /**
@@ -1305,10 +1340,11 @@ public class AdminUserDAO implements IAdminUserDAO
     @Override
     public void updateDateLastLogin( int nIdUser, Timestamp dateLastLogin )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE_DATE_LAST_LOGIN );
-        daoUtil.setTimestamp( 1, dateLastLogin );
-        daoUtil.setInt( 2, nIdUser );
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE_DATE_LAST_LOGIN ) )
+        {
+            daoUtil.setTimestamp( 1, dateLastLogin );
+            daoUtil.setInt( 2, nIdUser );
+            daoUtil.executeUpdate( );
+        }
     }
 }

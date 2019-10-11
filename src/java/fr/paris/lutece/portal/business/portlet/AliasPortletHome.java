@@ -46,7 +46,7 @@ public class AliasPortletHome extends PortletHome
     // ///////////////////////////////////////////////////////////////////////////////
     // Constants
     // Static variable pointed at the DAO instance
-    private static IAliasPortletDAO _dao = (IAliasPortletDAO) SpringContextService.getBean( "aliasPortletDAO" );
+    private static IAliasPortletDAO _dao = SpringContextService.getBean( "aliasPortletDAO" );
 
     /** This class implements the Singleton design pattern. */
     private static volatile AliasPortletHome _singleton;
@@ -70,9 +70,7 @@ public class AliasPortletHome extends PortletHome
     public String getPortletTypeId( )
     {
         String strCurrentClassName = this.getClass( ).getName( );
-        String strPortletTypeId = PortletTypeHome.getPortletTypeId( strCurrentClassName );
-
-        return strPortletTypeId;
+        return PortletTypeHome.getPortletTypeId( strCurrentClassName );
     }
 
     /**

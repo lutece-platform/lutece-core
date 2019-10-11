@@ -568,9 +568,7 @@ public final class MailService
      */
     public static IMailQueue getQueue( )
     {
-        IMailQueue queue = (IMailQueue) SpringContextService.getBean( BEAN_MAIL_QUEUE );
-
-        return queue;
+        return SpringContextService.getBean( BEAN_MAIL_QUEUE );
     }
 
     /**

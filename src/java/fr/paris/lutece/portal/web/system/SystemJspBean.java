@@ -120,7 +120,7 @@ public class SystemJspBean extends AdminFeaturesPageJspBean
     public String getManageFilesSystem( HttpServletRequest request )
     {
         setPageTitleProperty( PROPERTY_TITLE_MANAGE_FILES_SYSTEM );
-        ArrayList<SystemFile> list = new ArrayList<SystemFile>( );
+        ArrayList<SystemFile> list = new ArrayList<>( );
 
         for ( String strDirectory : getDirectories( ) )
         {
@@ -131,7 +131,7 @@ public class SystemJspBean extends AdminFeaturesPageJspBean
             list.add( file );
         }
 
-        Map<String, Collection<SystemFile>> model = new HashMap<String, Collection<SystemFile>>( );
+        Map<String, Collection<SystemFile>> model = new HashMap<>( );
         model.put( MARK_FILES_LIST, list );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_FILES_SYSTEM, getLocale( ), model );
@@ -158,7 +158,7 @@ public class SystemJspBean extends AdminFeaturesPageJspBean
 
         String strDirectory = AppPathService.getWebAppPath( ) + strDir;
         File directory = new File( strDirectory );
-        ArrayList<SystemFile> listFiles = new ArrayList<SystemFile>( );
+        ArrayList<SystemFile> listFiles = new ArrayList<>( );
         for ( File file : directory.listFiles( ) )
         {
             SystemFile sFile = new SystemFile( );
@@ -170,7 +170,7 @@ public class SystemJspBean extends AdminFeaturesPageJspBean
         }
         Collections.sort( listFiles );
 
-        Map<String, Serializable> model = new HashMap<String, Serializable>( );
+        Map<String, Serializable> model = new HashMap<>( );
         model.put( MARK_FILES_LIST, listFiles );
         model.put( MARK_FILES_SYSTEM_DIRECTORY, strDir );
 

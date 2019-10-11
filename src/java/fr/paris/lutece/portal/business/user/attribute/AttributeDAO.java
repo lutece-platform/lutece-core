@@ -85,18 +85,18 @@ public class AttributeDAO implements IAttributeDAO
      */
     private int newPrimaryKey( )
     {
-        StringBuilder sbSQL = new StringBuilder( SQL_QUERY_NEW_PK );
-        DAOUtil daoUtil = new DAOUtil( sbSQL.toString( ) );
-        daoUtil.executeQuery( );
-
         int nKey = 1;
-
-        if ( daoUtil.next( ) )
+        StringBuilder sbSQL = new StringBuilder( SQL_QUERY_NEW_PK );
+        try( DAOUtil daoUtil = new DAOUtil( sbSQL.toString( ) ) )
         {
-            nKey = daoUtil.getInt( 1 ) + 1;
-        }
+            daoUtil.executeQuery( );
 
-        daoUtil.free( );
+            if ( daoUtil.next( ) )
+            {
+                nKey = daoUtil.getInt( 1 ) + 1;
+            }
+
+        }
 
         return nKey;
     }
@@ -108,19 +108,19 @@ public class AttributeDAO implements IAttributeDAO
      */
     private int newPosition( )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_NEW_POSITION );
-        daoUtil.executeQuery( );
-
         int nPos;
-
-        if ( !daoUtil.next( ) )
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_NEW_POSITION ) )
         {
-            // if the table is empty
-            nPos = 1;
-        }
+            daoUtil.executeQuery( );
 
-        nPos = daoUtil.getInt( 1 ) + 1;
-        daoUtil.free( );
+            if ( !daoUtil.next( ) )
+            {
+                // if the table is empty
+                nPos = 1;
+            }
+
+            nPos = daoUtil.getInt( 1 ) + 1;
+        }
 
         return nPos;
     }
@@ -136,52 +136,43 @@ public class AttributeDAO implements IAttributeDAO
      */
     public IAttribute load( int nIdAttribute, Locale locale )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT );
-        daoUtil.setInt( 1, nIdAttribute );
-        daoUtil.executeQuery( );
-
         IAttribute attribute = null;
-
-        if ( daoUtil.next( ) )
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT ) )
         {
-            int nIndex = 1;
+            daoUtil.setInt( 1, nIdAttribute );
+            daoUtil.executeQuery( );
 
-            try
+            if ( daoUtil.next( ) )
             {
-                attribute = (IAttribute) Class.forName( daoUtil.getString( nIndex++ ) ).newInstance( );
-            }
-            catch( ClassNotFoundException e )
-            {
-                // class doesn't exist
-                AppLogService.error( e );
-            }
-            catch( InstantiationException e )
-            {
-                // Class is abstract or is an interface or haven't accessible
-                // builder
-                AppLogService.error( e );
-            }
-            catch( IllegalAccessException e )
-            {
-                // can't access to rhe class
-                AppLogService.error( e );
+                int nIndex = 1;
+
+                try
+                {
+                    attribute = (IAttribute) Class.forName( daoUtil.getString( nIndex++ ) ).newInstance( );
+                }
+                catch( InstantiationException | IllegalAccessException | ClassNotFoundException e )
+                {
+                    AppLogService.error( e );
+                }
+
+                if ( attribute != null )
+                {
+                    attribute.setIdAttribute( daoUtil.getInt( nIndex++ ) );
+                    attribute.setTitle( daoUtil.getString( nIndex++ ) );
+                    attribute.setHelpMessage( daoUtil.getString( nIndex++ ) );
+                    attribute.setMandatory( daoUtil.getBoolean( nIndex++ ) );
+                    attribute.setShownInSearch( daoUtil.getBoolean( nIndex++ ) );
+                    attribute.setShownInResultList( daoUtil.getBoolean( nIndex++ ) );
+                    attribute.setFieldInLine( daoUtil.getBoolean( nIndex++ ) );
+                    attribute.setPosition( daoUtil.getInt( nIndex++ ) );
+                    attribute.setAttributeType( locale );
+
+                    Plugin plugin = PluginService.getPlugin( daoUtil.getString( nIndex++ ) );
+                    attribute.setPlugin( plugin );
+                }
             }
 
-            attribute.setIdAttribute( daoUtil.getInt( nIndex++ ) );
-            attribute.setTitle( daoUtil.getString( nIndex++ ) );
-            attribute.setHelpMessage( daoUtil.getString( nIndex++ ) );
-            attribute.setMandatory( daoUtil.getBoolean( nIndex++ ) );
-            attribute.setShownInSearch( daoUtil.getBoolean( nIndex++ ) );
-            attribute.setShownInResultList( daoUtil.getBoolean( nIndex++ ) );
-            attribute.setFieldInLine( daoUtil.getBoolean( nIndex++ ) );
-            attribute.setPosition( daoUtil.getInt( nIndex++ ) );
-            attribute.setAttributeType( locale );
-
-            Plugin plugin = PluginService.getPlugin( daoUtil.getString( nIndex++ ) );
-            attribute.setPlugin( plugin );
         }
-
-        daoUtil.free( );
 
         return attribute;
     }
@@ -197,19 +188,20 @@ public class AttributeDAO implements IAttributeDAO
     {
         int nIndex = 1;
         int nNewPrimaryKey = newPrimaryKey( );
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT );
-        daoUtil.setInt( nIndex++, nNewPrimaryKey );
-        daoUtil.setString( nIndex++, attribute.getClass( ).getName( ) );
-        daoUtil.setString( nIndex++, attribute.getTitle( ) );
-        daoUtil.setString( nIndex++, attribute.getHelpMessage( ) );
-        daoUtil.setBoolean( nIndex++, attribute.isMandatory( ) );
-        daoUtil.setBoolean( nIndex++, attribute.isShownInSearch( ) );
-        daoUtil.setBoolean( nIndex++, attribute.isShownInResultList( ) );
-        daoUtil.setBoolean( nIndex++, attribute.isFieldInLine( ) );
-        daoUtil.setInt( nIndex++, newPosition( ) );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT ) )
+        {
+            daoUtil.setInt( nIndex++, nNewPrimaryKey );
+            daoUtil.setString( nIndex++, attribute.getClass( ).getName( ) );
+            daoUtil.setString( nIndex++, attribute.getTitle( ) );
+            daoUtil.setString( nIndex++, attribute.getHelpMessage( ) );
+            daoUtil.setBoolean( nIndex++, attribute.isMandatory( ) );
+            daoUtil.setBoolean( nIndex++, attribute.isShownInSearch( ) );
+            daoUtil.setBoolean( nIndex++, attribute.isShownInResultList( ) );
+            daoUtil.setBoolean( nIndex++, attribute.isFieldInLine( ) );
+            daoUtil.setInt( nIndex++, newPosition( ) );
 
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+            daoUtil.executeUpdate( );
+        }
 
         return nNewPrimaryKey;
     }
@@ -223,18 +215,19 @@ public class AttributeDAO implements IAttributeDAO
     public void store( IAttribute attribute )
     {
         int nIndex = 1;
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE );
-        daoUtil.setString( nIndex++, attribute.getTitle( ) );
-        daoUtil.setString( nIndex++, attribute.getHelpMessage( ) );
-        daoUtil.setBoolean( nIndex++, attribute.isMandatory( ) );
-        daoUtil.setBoolean( nIndex++, attribute.isShownInSearch( ) );
-        daoUtil.setBoolean( nIndex++, attribute.isShownInResultList( ) );
-        daoUtil.setBoolean( nIndex++, attribute.isFieldInLine( ) );
-        daoUtil.setInt( nIndex++, attribute.getPosition( ) );
-        daoUtil.setInt( nIndex++, attribute.getIdAttribute( ) );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE ) )
+        {
+            daoUtil.setString( nIndex++, attribute.getTitle( ) );
+            daoUtil.setString( nIndex++, attribute.getHelpMessage( ) );
+            daoUtil.setBoolean( nIndex++, attribute.isMandatory( ) );
+            daoUtil.setBoolean( nIndex++, attribute.isShownInSearch( ) );
+            daoUtil.setBoolean( nIndex++, attribute.isShownInResultList( ) );
+            daoUtil.setBoolean( nIndex++, attribute.isFieldInLine( ) );
+            daoUtil.setInt( nIndex++, attribute.getPosition( ) );
+            daoUtil.setInt( nIndex++, attribute.getIdAttribute( ) );
 
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+            daoUtil.executeUpdate( );
+        }
     }
 
     /**
@@ -245,11 +238,12 @@ public class AttributeDAO implements IAttributeDAO
      */
     public void delete( int nIdAttribute )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE );
-        daoUtil.setInt( 1, nIdAttribute );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE ) )
+        {
+            daoUtil.setInt( 1, nIdAttribute );
 
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+            daoUtil.executeUpdate( );
+        }
     }
 
     /**
@@ -261,54 +255,46 @@ public class AttributeDAO implements IAttributeDAO
      */
     public List<IAttribute> selectAll( Locale locale )
     {
-        List<IAttribute> listAttributes = new ArrayList<IAttribute>( );
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_ALL );
-        daoUtil.executeQuery( );
-
-        while ( daoUtil.next( ) )
+        List<IAttribute> listAttributes = new ArrayList<>( );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_ALL ) )
         {
-            int nIndex = 1;
-            IAttribute attribute = null;
+            daoUtil.executeQuery( );
 
-            try
+            while ( daoUtil.next( ) )
             {
-                attribute = (IAttribute) Class.forName( daoUtil.getString( nIndex++ ) ).newInstance( );
-            }
-            catch( ClassNotFoundException e )
-            {
-                // class doesn't exist
-                AppLogService.error( e );
-            }
-            catch( InstantiationException e )
-            {
-                // Class is abstract or is an interface or haven't accessible
-                // builder
-                AppLogService.error( e );
-            }
-            catch( IllegalAccessException e )
-            {
-                // can't access to the class
-                AppLogService.error( e );
+                int nIndex = 1;
+                IAttribute attribute = null;
+
+                try
+                {
+                    attribute = (IAttribute) Class.forName( daoUtil.getString( nIndex++ ) ).newInstance( );
+                }
+                catch( InstantiationException | IllegalAccessException | ClassNotFoundException e )
+                {
+                    AppLogService.error( e );
+                }
+
+                if ( attribute != null )
+                {
+                    attribute.setIdAttribute( daoUtil.getInt( nIndex++ ) );
+                    attribute.setTitle( daoUtil.getString( nIndex++ ) );
+                    attribute.setHelpMessage( daoUtil.getString( nIndex++ ) );
+                    attribute.setMandatory( daoUtil.getBoolean( nIndex++ ) );
+                    attribute.setShownInSearch( daoUtil.getBoolean( nIndex++ ) );
+                    attribute.setShownInResultList( daoUtil.getBoolean( nIndex++ ) );
+                    attribute.setFieldInLine( daoUtil.getBoolean( nIndex++ ) );
+                    attribute.setPosition( daoUtil.getInt( nIndex++ ) );
+                    attribute.setAnonymize( daoUtil.getBoolean( nIndex++ ) );
+                    attribute.setAttributeType( locale );
+
+                    Plugin plugin = PluginService.getPlugin( daoUtil.getString( nIndex++ ) );
+                    attribute.setPlugin( plugin );
+
+                    listAttributes.add( attribute );
+                }
             }
 
-            attribute.setIdAttribute( daoUtil.getInt( nIndex++ ) );
-            attribute.setTitle( daoUtil.getString( nIndex++ ) );
-            attribute.setHelpMessage( daoUtil.getString( nIndex++ ) );
-            attribute.setMandatory( daoUtil.getBoolean( nIndex++ ) );
-            attribute.setShownInSearch( daoUtil.getBoolean( nIndex++ ) );
-            attribute.setShownInResultList( daoUtil.getBoolean( nIndex++ ) );
-            attribute.setFieldInLine( daoUtil.getBoolean( nIndex++ ) );
-            attribute.setPosition( daoUtil.getInt( nIndex++ ) );
-            attribute.setAnonymize( daoUtil.getBoolean( nIndex++ ) );
-            attribute.setAttributeType( locale );
-
-            Plugin plugin = PluginService.getPlugin( daoUtil.getString( nIndex++ ) );
-            attribute.setPlugin( plugin );
-
-            listAttributes.add( attribute );
         }
-
-        daoUtil.free( );
 
         return listAttributes;
     }
@@ -325,55 +311,47 @@ public class AttributeDAO implements IAttributeDAO
     public List<IAttribute> selectPluginAttributes( String strPluginName, Locale locale )
     {
         int nIndex = 1;
-        List<IAttribute> listAttributes = new ArrayList<IAttribute>( );
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_PLUGIN_ATTRIBUTES );
-        daoUtil.setString( 1, strPluginName );
-        daoUtil.executeQuery( );
-
-        while ( daoUtil.next( ) )
+        List<IAttribute> listAttributes = new ArrayList<>( );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_PLUGIN_ATTRIBUTES ) )
         {
-            nIndex = 1;
+            daoUtil.setString( 1, strPluginName );
+            daoUtil.executeQuery( );
 
-            IAttribute attribute = null;
-
-            try
+            while ( daoUtil.next( ) )
             {
-                attribute = (IAttribute) Class.forName( daoUtil.getString( nIndex++ ) ).newInstance( );
-            }
-            catch( ClassNotFoundException e )
-            {
-                // class doesn't exist
-                AppLogService.error( e );
-            }
-            catch( InstantiationException e )
-            {
-                // Class is abstract or is an interface or haven't accessible
-                // builder
-                AppLogService.error( e );
-            }
-            catch( IllegalAccessException e )
-            {
-                // can't access to rhe class
-                AppLogService.error( e );
+                nIndex = 1;
+
+                IAttribute attribute = null;
+
+                try
+                {
+                    attribute = (IAttribute) Class.forName( daoUtil.getString( nIndex++ ) ).newInstance( );
+                }
+                catch( InstantiationException | IllegalAccessException | ClassNotFoundException e )
+                {
+                    AppLogService.error( e );
+                }
+
+                if ( attribute != null )
+                {
+                    attribute.setIdAttribute( daoUtil.getInt( nIndex++ ) );
+                    attribute.setTitle( daoUtil.getString( nIndex++ ) );
+                    attribute.setHelpMessage( daoUtil.getString( nIndex++ ) );
+                    attribute.setMandatory( daoUtil.getBoolean( nIndex++ ) );
+                    attribute.setShownInSearch( daoUtil.getBoolean( nIndex++ ) );
+                    attribute.setShownInResultList( daoUtil.getBoolean( nIndex++ ) );
+                    attribute.setFieldInLine( daoUtil.getBoolean( nIndex++ ) );
+                    attribute.setPosition( daoUtil.getInt( nIndex++ ) );
+                    attribute.setAttributeType( locale );
+
+                    Plugin plugin = PluginService.getPlugin( strPluginName );
+                    attribute.setPlugin( plugin );
+
+                    listAttributes.add( attribute );
+                }
             }
 
-            attribute.setIdAttribute( daoUtil.getInt( nIndex++ ) );
-            attribute.setTitle( daoUtil.getString( nIndex++ ) );
-            attribute.setHelpMessage( daoUtil.getString( nIndex++ ) );
-            attribute.setMandatory( daoUtil.getBoolean( nIndex++ ) );
-            attribute.setShownInSearch( daoUtil.getBoolean( nIndex++ ) );
-            attribute.setShownInResultList( daoUtil.getBoolean( nIndex++ ) );
-            attribute.setFieldInLine( daoUtil.getBoolean( nIndex++ ) );
-            attribute.setPosition( daoUtil.getInt( nIndex++ ) );
-            attribute.setAttributeType( locale );
-
-            Plugin plugin = PluginService.getPlugin( strPluginName );
-            attribute.setPlugin( plugin );
-
-            listAttributes.add( attribute );
         }
-
-        daoUtil.free( );
 
         return listAttributes;
     }
@@ -387,50 +365,42 @@ public class AttributeDAO implements IAttributeDAO
      */
     public List<IAttribute> selectCoreAttributes( Locale locale )
     {
-        List<IAttribute> listAttributes = new ArrayList<IAttribute>( );
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_CORE_ATTRIBUTES );
-        daoUtil.executeQuery( );
-
-        while ( daoUtil.next( ) )
+        List<IAttribute> listAttributes = new ArrayList<>( );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_CORE_ATTRIBUTES ) )
         {
-            int nIndex = 1;
-            IAttribute attribute = null;
+            daoUtil.executeQuery( );
 
-            try
+            while ( daoUtil.next( ) )
             {
-                attribute = (IAttribute) Class.forName( daoUtil.getString( nIndex++ ) ).newInstance( );
-            }
-            catch( ClassNotFoundException e )
-            {
-                // class doesn't exist
-                AppLogService.error( e );
-            }
-            catch( InstantiationException e )
-            {
-                // Class is abstract or is an interface or haven't accessible
-                // builder
-                AppLogService.error( e );
-            }
-            catch( IllegalAccessException e )
-            {
-                // can't access to rhe class
-                AppLogService.error( e );
+                int nIndex = 1;
+                IAttribute attribute = null;
+
+                try
+                {
+                    attribute = (IAttribute) Class.forName( daoUtil.getString( nIndex++ ) ).newInstance( );
+                }
+                catch( InstantiationException | IllegalAccessException | ClassNotFoundException e )
+                {
+                    AppLogService.error( e );
+                }
+
+                if ( attribute != null )
+                {
+                    attribute.setIdAttribute( daoUtil.getInt( nIndex++ ) );
+                    attribute.setTitle( daoUtil.getString( nIndex++ ) );
+                    attribute.setHelpMessage( daoUtil.getString( nIndex++ ) );
+                    attribute.setMandatory( daoUtil.getBoolean( nIndex++ ) );
+                    attribute.setShownInSearch( daoUtil.getBoolean( nIndex++ ) );
+                    attribute.setShownInResultList( daoUtil.getBoolean( nIndex++ ) );
+                    attribute.setFieldInLine( daoUtil.getBoolean( nIndex++ ) );
+                    attribute.setPosition( daoUtil.getInt( nIndex++ ) );
+                    attribute.setAttributeType( locale );
+
+                    listAttributes.add( attribute );
+                }
             }
 
-            attribute.setIdAttribute( daoUtil.getInt( nIndex++ ) );
-            attribute.setTitle( daoUtil.getString( nIndex++ ) );
-            attribute.setHelpMessage( daoUtil.getString( nIndex++ ) );
-            attribute.setMandatory( daoUtil.getBoolean( nIndex++ ) );
-            attribute.setShownInSearch( daoUtil.getBoolean( nIndex++ ) );
-            attribute.setShownInResultList( daoUtil.getBoolean( nIndex++ ) );
-            attribute.setFieldInLine( daoUtil.getBoolean( nIndex++ ) );
-            attribute.setPosition( daoUtil.getInt( nIndex++ ) );
-            attribute.setAttributeType( locale );
-
-            listAttributes.add( attribute );
         }
-
-        daoUtil.free( );
 
         return listAttributes;
     }
@@ -445,10 +415,11 @@ public class AttributeDAO implements IAttributeDAO
      */
     public void updateAttributeAnonymization( int nIdAttribute, boolean bAnonymize )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE_ANONYMIZATION );
-        daoUtil.setBoolean( 1, bAnonymize );
-        daoUtil.setInt( 2, nIdAttribute );
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE_ANONYMIZATION ) )
+        {
+            daoUtil.setBoolean( 1, bAnonymize );
+            daoUtil.setInt( 2, nIdAttribute );
+            daoUtil.executeUpdate( );
+        }
     }
 }

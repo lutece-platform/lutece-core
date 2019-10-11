@@ -48,7 +48,7 @@ import java.util.Map;
  */
 public final class PageIncludeService
 {
-    private static Map<String, PageIncludeEntry> _mapPageIncludes = new HashMap<String, PageIncludeEntry>( );
+    private static Map<String, PageIncludeEntry> _mapPageIncludes = new HashMap<>( );
 
     /**
      * Contructeur private (singleton pattern)
@@ -87,7 +87,7 @@ public final class PageIncludeService
      */
     public static List<PageInclude> getIncludes( )
     {
-        List<PageInclude> listIncludes = new ArrayList<PageInclude>( );
+        List<PageInclude> listIncludes = new ArrayList<>( );
 
         for ( PageIncludeEntry entry : _mapPageIncludes.values( ) )
         {

@@ -62,7 +62,7 @@ public final class PoolManager
     private static final String LOGGER_NAME = "lutece.pool";
     private static PoolManager _instance;
     private Logger _logger;
-    private Map<String, ConnectionService> _pools = new HashMap<String, ConnectionService>( );
+    private Map<String, ConnectionService> _pools = new HashMap<>( );
 
     /**
      * Creates a new PoolManager object.
@@ -136,7 +136,7 @@ public final class PoolManager
         Enumeration propNames = props.propertyNames( );
         String strPoolName = "";
 
-        Hashtable<String, Hashtable<String, String>> htPools = new Hashtable<String, Hashtable<String, String>>( );
+        Hashtable<String, Hashtable<String, String>> htPools = new Hashtable<>( );
 
         while ( propNames.hasMoreElements( ) )
         {
@@ -152,7 +152,7 @@ public final class PoolManager
                 // if the pool has not yet property
                 if ( htPools.get( strPoolName ) == null )
                 {
-                    htParamsPool = new Hashtable<String, String>( );
+                    htParamsPool = new Hashtable<>( );
                 }
                 else
                 {
@@ -171,7 +171,7 @@ public final class PoolManager
             }
         }
 
-        Enumeration enumKeys = htPools.keys( );
+        Enumeration<String> enumKeys = htPools.keys( );
 
         while ( enumKeys.hasMoreElements( ) )
         {
@@ -224,7 +224,7 @@ public final class PoolManager
     public Connection getConnection( String strPoolName )
     {
         Connection conn = null;
-        ConnectionService pool = (ConnectionService) _pools.get( strPoolName );
+        ConnectionService pool = _pools.get( strPoolName );
 
         if ( pool != null )
         {
@@ -244,7 +244,7 @@ public final class PoolManager
      */
     public void freeConnection( String strPoolName, Connection con )
     {
-        ConnectionService cs = (ConnectionService) _pools.get( strPoolName );
+        ConnectionService cs = _pools.get( strPoolName );
 
         if ( cs != null )
         {
@@ -285,8 +285,8 @@ public final class PoolManager
 
         for ( ConnectionService cs : listPools )
         {
-            String strCurrentConnections = ( cs.getCurrentConnections( ) == cs.INFO_NOT_AVAILABLE ) ? "-" : ( "" + cs.getCurrentConnections( ) );
-            String strMaxConnections = ( cs.getMaxConnections( ) == cs.INFO_NOT_AVAILABLE ) ? "-" : ( "" + cs.getMaxConnections( ) );
+            String strCurrentConnections = ( cs.getCurrentConnections( ) == ConnectionService.INFO_NOT_AVAILABLE ) ? "-" : ( "" + cs.getCurrentConnections( ) );
+            String strMaxConnections = ( cs.getMaxConnections( ) == ConnectionService.INFO_NOT_AVAILABLE ) ? "-" : ( "" + cs.getMaxConnections( ) );
             listPoolsInfos.addItem( cs.getPoolName( ), strCurrentConnections + " / " + strMaxConnections + " (" + cs.getPoolProvider( ) + ")" );
         }
 

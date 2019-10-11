@@ -74,9 +74,7 @@ public class PluginConnectionService
     public Connection getConnection( )
     {
         PoolManager poolManager = AppConnectionService.getPoolManager( );
-        Connection conn = poolManager.getConnection( _strPoolName );
-
-        return conn;
+        return poolManager.getConnection( _strPoolName );
     }
 
     /**

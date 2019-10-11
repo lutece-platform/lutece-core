@@ -264,16 +264,9 @@ public class MailSenderDaemon extends Daemon
 
             sbLogsLine.append( " - Status [ OK ]" );
         }
-        catch( AddressException e )
+        catch( SendFailedException | AddressException e )
         {
             // a wrongly formatted address is encountered in the list of recipients
-            sbLogsLine.append( " - Status [ Failed ] : " );
-            sbLogsLine.append( e.getMessage( ) );
-            AppLogService.error( "MailService - Error sending mail : " + e.getMessage( ), e );
-        }
-        catch( SendFailedException e )
-        {
-            // the send failed because of invalid addresses.
             sbLogsLine.append( " - Status [ Failed ] : " );
             sbLogsLine.append( e.getMessage( ) );
             AppLogService.error( "MailService - Error sending mail : " + e.getMessage( ), e );

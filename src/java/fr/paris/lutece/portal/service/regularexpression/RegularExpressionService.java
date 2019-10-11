@@ -64,15 +64,7 @@ public final class RegularExpressionService
             _service = SpringContextService.getBean( "regularExpressionService" );
             _bServiceAvailable = _service != null;
         }
-        catch( BeanDefinitionStoreException e )
-        {
-            _bServiceAvailable = false;
-        }
-        catch( NoSuchBeanDefinitionException e )
-        {
-            _bServiceAvailable = false;
-        }
-        catch( CannotLoadBeanClassException e )
+        catch( CannotLoadBeanClassException | NoSuchBeanDefinitionException | BeanDefinitionStoreException e )
         {
             _bServiceAvailable = false;
         }

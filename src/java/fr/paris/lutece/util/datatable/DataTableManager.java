@@ -33,26 +33,9 @@
  */
 package fr.paris.lutece.util.datatable;
 
-import fr.paris.lutece.portal.service.util.AppLogService;
-import fr.paris.lutece.portal.web.constants.Parameters;
-import fr.paris.lutece.portal.web.l10n.LocaleService;
-import fr.paris.lutece.portal.web.util.LocalizedDelegatePaginator;
-import fr.paris.lutece.portal.web.util.LocalizedPaginator;
-import fr.paris.lutece.util.ReferenceList;
-import fr.paris.lutece.util.UniqueIDGenerator;
-import fr.paris.lutece.util.html.IPaginator;
-import fr.paris.lutece.util.html.Paginator;
-import fr.paris.lutece.util.sort.AttributeComparator;
-import fr.paris.lutece.util.url.UrlItem;
-
-import org.apache.commons.beanutils.BeanUtilsBean;
-import org.apache.commons.lang.StringUtils;
-
 import java.io.Serializable;
-
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -63,11 +46,25 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.beanutils.BeanUtilsBean;
+import org.apache.commons.lang.StringUtils;
+
+import fr.paris.lutece.portal.service.util.AppLogService;
+import fr.paris.lutece.portal.web.constants.Parameters;
+import fr.paris.lutece.portal.web.l10n.LocaleService;
+import fr.paris.lutece.portal.web.util.LocalizedDelegatePaginator;
+import fr.paris.lutece.portal.web.util.LocalizedPaginator;
+import fr.paris.lutece.util.ReferenceList;
+import fr.paris.lutece.util.UniqueIDGenerator;
+import fr.paris.lutece.util.html.AbstractPaginator;
+import fr.paris.lutece.util.html.IPaginator;
+import fr.paris.lutece.util.sort.AttributeComparator;
+import fr.paris.lutece.util.url.UrlItem;
+
 /**
  * Class to manage data tables with freemarker macros
  * 
- * @param <T>
- *            Type of data to display
+ * @param <T> Type of data to display
  */
 public class DataTableManager<T> implements Serializable
 {
@@ -79,7 +76,7 @@ public class DataTableManager<T> implements Serializable
     private static final String CONSTANT_IS = "is";
     private static final String CONSTANT_DATA_TABLE_MANAGER_ID_PREFIX = "dataTableManager";
     private String _strSortUrl;
-    private List<DataTableColumn> _listColumn = new ArrayList<DataTableColumn>( );
+    private List<DataTableColumn> _listColumn = new ArrayList<>( );
     private FilterPanel _filterPanel;
     private IPaginator<T> _paginator;
     private String _strCurrentPageIndex = StringUtils.EMPTY;
@@ -102,16 +99,13 @@ public class DataTableManager<T> implements Serializable
     /**
      * Constructor of the DataTableManager class
      * 
-     * @param strSortUrl
-     *            URL used by the paginator to sort data
-     * @param strFilterUrl
-     *            URL used to filter data
-     * @param nDefautlItemsPerPage
-     *            Default number of items to display per page
-     * @param bEnablePaginator
-     *            True to enable pagination, false to disable it
+     * @param strSortUrl           URL used by the paginator to sort data
+     * @param strFilterUrl         URL used to filter data
+     * @param nDefautlItemsPerPage Default number of items to display per page
+     * @param bEnablePaginator     True to enable pagination, false to disable it
      */
-    public DataTableManager( String strSortUrl, String strFilterUrl, int nDefautlItemsPerPage, boolean bEnablePaginator )
+    public DataTableManager( String strSortUrl, String strFilterUrl, int nDefautlItemsPerPage,
+            boolean bEnablePaginator )
     {
         _filterPanel = new FilterPanel( strFilterUrl );
         _nDefautlItemsPerPage = nDefautlItemsPerPage;
@@ -125,13 +119,13 @@ public class DataTableManager<T> implements Serializable
     /**
      * Add a column to this DataTableManager
      * 
-     * @param strColumnTitle
-     *            I18n key of the title of the column
-     * @param strObjectName
-     *            Name of the property of objects that should be displayed in this column.<br>
-     *            For example, if a class "Data" contains a property named "title", then the value of the parameter <i>strObjectName</i> should be "title".
-     * @param bSortable
-     *            True if the column is sortable, false otherwise
+     * @param strColumnTitle I18n key of the title of the column
+     * @param strObjectName  Name of the property of objects that should be
+     *                       displayed in this column.<br>
+     *                       For example, if a class "Data" contains a property
+     *                       named "title", then the value of the parameter
+     *                       <i>strObjectName</i> should be "title".
+     * @param bSortable      True if the column is sortable, false otherwise
      */
     public void addColumn( String strColumnTitle, String strObjectName, boolean bSortable )
     {
@@ -139,15 +133,17 @@ public class DataTableManager<T> implements Serializable
     }
 
     /**
-     * Add a label column to this DataTableManager. Values of cells of this column will be interpreted as i18n keys.
+     * Add a label column to this DataTableManager. Values of cells of this column
+     * will be interpreted as i18n keys.
      * 
-     * @param strColumnTitle
-     *            I18n key of the title of the column
-     * @param strObjectName
-     *            Name of the property of objects that should be displayed in this column. This properties must be i18n keys.<br>
-     *            For example, if a class "Data" contains a property named "title", then the value of the parameter <i>strObjectName</i> should be "title".
-     * @param bSortable
-     *            True if the column is sortable, false otherwise
+     * @param strColumnTitle I18n key of the title of the column
+     * @param strObjectName  Name of the property of objects that should be
+     *                       displayed in this column. This properties must be i18n
+     *                       keys.<br>
+     *                       For example, if a class "Data" contains a property
+     *                       named "title", then the value of the parameter
+     *                       <i>strObjectName</i> should be "title".
+     * @param bSortable      True if the column is sortable, false otherwise
      */
     public void addLabelColumn( String strColumnTitle, String strObjectName, boolean bSortable )
     {
@@ -155,12 +151,13 @@ public class DataTableManager<T> implements Serializable
     }
 
     /**
-     * Add an column to this DataTableManager that will display actions on items. Actions are usually parameterized links. A DataTableManager can only have 1
-     * action column. The content of the action column must be generated by a macro.this macro must have one parameter named "item", and its name must be given
-     * to the macro <i>@tableData</i>.
+     * Add an column to this DataTableManager that will display actions on items.
+     * Actions are usually parameterized links. A DataTableManager can only have 1
+     * action column. The content of the action column must be generated by a
+     * macro.this macro must have one parameter named "item", and its name must be
+     * given to the macro <i>@tableData</i>.
      * 
-     * @param strColumnTitle
-     *            I18n key of the title of the column
+     * @param strColumnTitle I18n key of the title of the column
      */
     public void addActionColumn( String strColumnTitle )
     {
@@ -170,45 +167,51 @@ public class DataTableManager<T> implements Serializable
     /**
      * Add a column to this DataTableManager
      * 
-     * @param strColumnTitle
-     *            I18n key of the title of the column
-     * @param strObjectName
-     *            Name of the property of objects that should be displayed in this column.<br>
-     *            For example, if a class "Data" contains a property named "title", then the value of the parameter <i>strObjectName</i> should be "title".
-     * @param strLabelTrue
-     *            I18n key of the label to display when the value is true
-     * @param strLabelFalse
-     *            I18n key of the label to display when the value is false
+     * @param strColumnTitle I18n key of the title of the column
+     * @param strObjectName  Name of the property of objects that should be
+     *                       displayed in this column.<br>
+     *                       For example, if a class "Data" contains a property
+     *                       named "title", then the value of the parameter
+     *                       <i>strObjectName</i> should be "title".
+     * @param strLabelTrue   I18n key of the label to display when the value is true
+     * @param strLabelFalse  I18n key of the label to display when the value is
+     *                       false
      */
-    public void addBooleanColumn( String strColumnTitle, String strObjectName, String strLabelTrue, String strLabelFalse )
+    public void addBooleanColumn( String strColumnTitle, String strObjectName, String strLabelTrue,
+            String strLabelFalse )
     {
-        _listColumn.add( new DataTableColumn( strColumnTitle, strObjectName, false, DataTableColumnType.BOOLEAN, strLabelTrue, strLabelFalse ) );
+        _listColumn.add( new DataTableColumn( strColumnTitle, strObjectName, false, DataTableColumnType.BOOLEAN,
+                strLabelTrue, strLabelFalse ) );
     }
 
     /**
-     * Add a free column to this DataTableManager. The content of this column must be generated by a macro. The macro must have one parameter named "item".
+     * Add a free column to this DataTableManager. The content of this column must
+     * be generated by a macro. The macro must have one parameter named "item".
      * 
-     * @param strColumnTitle
-     *            I18n key of the title of the column
-     * @param strFreemarkerMacroName
-     *            Name of the freemarker macro that will display the content of the column.<br>
-     *            The macro must have a single parameter named <i>item</i> of type T that will contain the object associated with a row of the table.
+     * @param strColumnTitle         I18n key of the title of the column
+     * @param strFreemarkerMacroName Name of the freemarker macro that will display
+     *                               the content of the column.<br>
+     *                               The macro must have a single parameter named
+     *                               <i>item</i> of type T that will contain the
+     *                               object associated with a row of the table.
      */
     public void addFreeColumn( String strColumnTitle, String strFreemarkerMacroName )
     {
-        _listColumn.add( new DataTableColumn( strColumnTitle, strFreemarkerMacroName, false, DataTableColumnType.ACTION ) );
+        _listColumn.add(
+                new DataTableColumn( strColumnTitle, strFreemarkerMacroName, false, DataTableColumnType.ACTION ) );
     }
 
     /**
-     * Add an email column to this DataTableManager. Displayed cell will be a "mailto:" link.
+     * Add an email column to this DataTableManager. Displayed cell will be a
+     * "mailto:" link.
      * 
-     * @param strColumnTitle
-     *            I18n key of the title of the column
-     * @param strObjectName
-     *            Name of the property of objects that should be displayed in this column.<br>
-     *            For example, if a class "Data" contains a property named "title", then the value of the parameter <i>strObjectName</i> should be "title".
-     * @param bSortable
-     *            True if the column is sortable, false otherwise
+     * @param strColumnTitle I18n key of the title of the column
+     * @param strObjectName  Name of the property of objects that should be
+     *                       displayed in this column.<br>
+     *                       For example, if a class "Data" contains a property
+     *                       named "title", then the value of the parameter
+     *                       <i>strObjectName</i> should be "title".
+     * @param bSortable      True if the column is sortable, false otherwise
      */
     public void addEmailColumn( String strColumnTitle, String strObjectName, boolean bSortable )
     {
@@ -218,15 +221,15 @@ public class DataTableManager<T> implements Serializable
     /**
      * Add a filter to the filter panel of this DataTableManager
      * 
-     * @param filterType
-     *            data type of the filter. For drop down list, use {@link DataTableManager#addDropDownListFilter(String, String, ReferenceList)
-     *            addDropDownListFilter} instead
-     * @param strParameterName
-     *            Name of the parameter of the object to filter.<br>
-     *            For example, if this filter should be applied on the parameter "title" of a class named "Data", then the value of the parameter
-     *            <i>strParameterName</i> should be "title".
-     * @param strFilterLabel
-     *            Label describing the filter
+     * @param filterType       data type of the filter. For drop down list, use
+     *                         {@link DataTableManager#addDropDownListFilter(String, String, ReferenceList)
+     *                         addDropDownListFilter} instead
+     * @param strParameterName Name of the parameter of the object to filter.<br>
+     *                         For example, if this filter should be applied on the
+     *                         parameter "title" of a class named "Data", then the
+     *                         value of the parameter <i>strParameterName</i> should
+     *                         be "title".
+     * @param strFilterLabel   Label describing the filter
      */
     public void addFilter( DataTableFilterType filterType, String strParameterName, String strFilterLabel )
     {
@@ -236,14 +239,13 @@ public class DataTableManager<T> implements Serializable
     /**
      * Add a drop down list filter to the filter panel of this DataTableManager
      * 
-     * @param strParameterName
-     *            Name of the parameter of the object to filter.<br>
-     *            For example, if this filter should be applied on the parameter "title" of a class named "Data", then the value of the parameter
-     *            <i>strParameterName</i> should be "title".
-     * @param strFilterLabel
-     *            Label describing the filter
-     * @param refList
-     *            Reference list containing data of the drop down list
+     * @param strParameterName Name of the parameter of the object to filter.<br>
+     *                         For example, if this filter should be applied on the
+     *                         parameter "title" of a class named "Data", then the
+     *                         value of the parameter <i>strParameterName</i> should
+     *                         be "title".
+     * @param strFilterLabel   Label describing the filter
+     * @param refList          Reference list containing data of the drop down list
      */
     public void addDropDownListFilter( String strParameterName, String strFilterLabel, ReferenceList refList )
     {
@@ -253,14 +255,12 @@ public class DataTableManager<T> implements Serializable
     /**
      * Apply filters on an objects list, sort it and update pagination values.
      * 
-     * @param request
-     *            The request
-     * @param items
-     *            Collection of objects to filter, sort and paginate
+     * @param request The request
+     * @param items   Collection of objects to filter, sort and paginate
      */
     public void filterSortAndPaginate( HttpServletRequest request, List<T> items )
     {
-        List<T> filteredSortedPaginatedItems = new ArrayList<T>( items );
+        List<T> filteredSortedPaginatedItems = new ArrayList<>( items );
 
         boolean bSubmitedDataTable = hasDataTableFormBeenSubmited( request );
 
@@ -272,13 +272,16 @@ public class DataTableManager<T> implements Serializable
         // We check if filters must be updated or cleared
         if ( bSubmitedDataTable )
         {
-            bResetFilter = StringUtils.equals( request.getParameter( FilterPanel.PARAM_FILTER_PANEL_PREFIX + FilterPanel.PARAM_RESET_FILTERS ),
+            bResetFilter = StringUtils.equals(
+                    request.getParameter( FilterPanel.PARAM_FILTER_PANEL_PREFIX + FilterPanel.PARAM_RESET_FILTERS ),
                     Boolean.TRUE.toString( ) );
             bUpdateFilter = true;
 
             if ( !bResetFilter )
             {
-                bUpdateFilter = StringUtils.equals( request.getParameter( FilterPanel.PARAM_FILTER_PANEL_PREFIX + FilterPanel.PARAM_UPDATE_FILTERS ),
+                bUpdateFilter = StringUtils.equals(
+                        request.getParameter(
+                                FilterPanel.PARAM_FILTER_PANEL_PREFIX + FilterPanel.PARAM_UPDATE_FILTERS ),
                         Boolean.TRUE.toString( ) );
             }
         }
@@ -290,9 +293,11 @@ public class DataTableManager<T> implements Serializable
             if ( bSubmitedDataTable && bUpdateFilter )
             {
                 // We update or clear filters
-                strFilterValue = request.getParameter( FilterPanel.PARAM_FILTER_PANEL_PREFIX + filter.getParameterName( ) );
+                strFilterValue = request
+                        .getParameter( FilterPanel.PARAM_FILTER_PANEL_PREFIX + filter.getParameterName( ) );
 
-                if ( !bResetFilter && ( filter.getFilterType( ) == DataTableFilterType.BOOLEAN ) && ( strFilterValue == null ) )
+                if ( !bResetFilter && ( filter.getFilterType( ) == DataTableFilterType.BOOLEAN )
+                        && ( strFilterValue == null ) )
                 {
                     strFilterValue = Boolean.FALSE.toString( );
                 }
@@ -306,7 +311,7 @@ public class DataTableManager<T> implements Serializable
 
             if ( StringUtils.isNotBlank( strFilterValue ) )
             {
-                List<T> bufferList = new ArrayList<T>( );
+                List<T> bufferList = new ArrayList<>( );
 
                 for ( T item : filteredSortedPaginatedItems )
                 {
@@ -328,7 +333,7 @@ public class DataTableManager<T> implements Serializable
                                 bufferList.add( item );
                             }
                         }
-                        catch( Exception e )
+                        catch ( Exception e )
                         {
                             AppLogService.error( e.getMessage( ), e );
                         }
@@ -356,7 +361,8 @@ public class DataTableManager<T> implements Serializable
         // We sort the items
         if ( _strSortedAttributeName != null )
         {
-            Collections.sort( filteredSortedPaginatedItems, new AttributeComparator( _strSortedAttributeName, _bIsAscSort ) );
+            Collections.sort( filteredSortedPaginatedItems,
+                    new AttributeComparator( _strSortedAttributeName, _bIsAscSort ) );
         }
 
         // PAGINATION
@@ -366,7 +372,8 @@ public class DataTableManager<T> implements Serializable
             if ( _bEnablePaginator )
             {
                 int nOldItemsPerPage = _nItemsPerPage;
-                _nItemsPerPage = Paginator.getItemsPerPage( request, Paginator.PARAMETER_ITEMS_PER_PAGE, _nItemsPerPage, _nDefautlItemsPerPage );
+                _nItemsPerPage = AbstractPaginator.getItemsPerPage( request, AbstractPaginator.PARAMETER_ITEMS_PER_PAGE,
+                        _nItemsPerPage, _nDefautlItemsPerPage );
 
                 // If the number of items per page has changed, we switch to the first page
                 if ( _nItemsPerPage != nOldItemsPerPage )
@@ -375,7 +382,8 @@ public class DataTableManager<T> implements Serializable
                 }
                 else
                 {
-                    _strCurrentPageIndex = Paginator.getPageIndex( request, Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex );
+                    _strCurrentPageIndex = AbstractPaginator.getPageIndex( request,
+                            AbstractPaginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex );
                 }
             }
             else
@@ -385,9 +393,12 @@ public class DataTableManager<T> implements Serializable
             }
         }
 
-        // We paginate create the new paginator
-        _paginator = new LocalizedPaginator<T>( filteredSortedPaginatedItems, _nItemsPerPage, getSortUrl( ), Paginator.PARAMETER_PAGE_INDEX,
-                _strCurrentPageIndex, request.getLocale( ) );
+        if ( request != null )
+        {
+            // We paginate create the new paginator
+            _paginator = new LocalizedPaginator<>( filteredSortedPaginatedItems, _nItemsPerPage, getSortUrl( ),
+                    AbstractPaginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex, request.getLocale( ) );
+        }
     }
 
     /**
@@ -403,8 +414,7 @@ public class DataTableManager<T> implements Serializable
     /**
      * Set the filter panel of the DataTableManager
      * 
-     * @param filterPanel
-     *            Filter panel
+     * @param filterPanel Filter panel
      */
     public void setFilterPanel( FilterPanel filterPanel )
     {
@@ -424,8 +434,7 @@ public class DataTableManager<T> implements Serializable
     /**
      * Set the list of columns of this DataTableManager
      * 
-     * @param listColumn
-     *            The list of columns of this DataTableManager
+     * @param listColumn The list of columns of this DataTableManager
      */
     public void setListColumn( List<DataTableColumn> listColumn )
     {
@@ -445,14 +454,14 @@ public class DataTableManager<T> implements Serializable
     /**
      * Set the sort url of this DataTableManager
      * 
-     * @param strSortUrl
-     *            The sort url of this DataTableManager
+     * @param strSortUrl The sort url of this DataTableManager
      */
     public void setSortUrl( String strSortUrl )
     {
         _strSortUrl = strSortUrl;
 
-        if ( ( _strSortUrl != null ) && StringUtils.isNotEmpty( _strSortUrl ) && !StringUtils.contains( _strSortUrl, getId( ) ) )
+        if ( ( _strSortUrl != null ) && StringUtils.isNotEmpty( _strSortUrl )
+                && !StringUtils.contains( _strSortUrl, getId( ) ) )
         {
             // We add to the sort URL the unique parameter of this data table manager
             UrlItem urlItem = new UrlItem( _strSortUrl );
@@ -462,9 +471,11 @@ public class DataTableManager<T> implements Serializable
     }
 
     /**
-     * Get the filtered, sorted and paginated items collection of this DataTableManager
+     * Get the filtered, sorted and paginated items collection of this
+     * DataTableManager
      * 
-     * @return The filtered, sorted and paginated items collection of this DataTableManager
+     * @return The filtered, sorted and paginated items collection of this
+     *         DataTableManager
      */
     public List<T> getItems( )
     {
@@ -472,24 +483,29 @@ public class DataTableManager<T> implements Serializable
     }
 
     /**
-     * Set the items to display. The list of items must be fintered, sorted and paginated. Methods
-     * {@link DataTableManager#getAndUpdatePaginator(HttpServletRequest ) getAndUpdatePaginator}, {@link DataTableManager#getAndUpdateSort(HttpServletRequest )
-     * getAndUpdateSort} and {@link DataTableManager#getAndUpdateFilter(HttpServletRequest, Object) getAndUpdateFilter} must have been called before the
-     * generation of the list of items.
+     * Set the items to display. The list of items must be fintered, sorted and
+     * paginated. Methods
+     * {@link DataTableManager#getAndUpdatePaginator(HttpServletRequest )
+     * getAndUpdatePaginator},
+     * {@link DataTableManager#getAndUpdateSort(HttpServletRequest )
+     * getAndUpdateSort} and
+     * {@link DataTableManager#getAndUpdateFilter(HttpServletRequest, Object)
+     * getAndUpdateFilter} must have been called before the generation of the list
+     * of items.
      * 
-     * @param items
-     *            The filtered sorted and paginated list of items to display
-     * @param nTotalItemsNumber
-     *            The total number of items
+     * @param items             The filtered sorted and paginated list of items to
+     *                          display
+     * @param nTotalItemsNumber The total number of items
      */
     public void setItems( List<T> items, int nTotalItemsNumber )
     {
-        _paginator = new LocalizedDelegatePaginator<T>( items, _nItemsPerPage, getSortUrl( ), Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex,
-                nTotalItemsNumber, _locale );
+        _paginator = new LocalizedDelegatePaginator<>( items, _nItemsPerPage, getSortUrl( ),
+                AbstractPaginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex, nTotalItemsNumber, _locale );
     }
 
     /**
-     * Clear the items stored by this DataTableManager so that the garbage collector can free the memory they use.
+     * Clear the items stored by this DataTableManager so that the garbage collector
+     * can free the memory they use.
      */
     public void clearItems( )
     {
@@ -500,7 +516,9 @@ public class DataTableManager<T> implements Serializable
     /**
      * Internal method. Get the paginator.
      *
-     * Do not use this method, use {@link DataTableManager#getAndUpdatePaginator(HttpServletRequest ) getAndUpdatePaginator} instead to get up to date values !
+     * Do not use this method, use
+     * {@link DataTableManager#getAndUpdatePaginator(HttpServletRequest )
+     * getAndUpdatePaginator} instead to get up to date values !
      * 
      * @return The paginator
      */
@@ -532,8 +550,7 @@ public class DataTableManager<T> implements Serializable
     /**
      * Set the locale
      * 
-     * @param locale
-     *            The locale
+     * @param locale The locale
      */
     public void setLocale( Locale locale )
     {
@@ -553,8 +570,7 @@ public class DataTableManager<T> implements Serializable
     /**
      * Get the paginator updated with values in the request
      * 
-     * @param request
-     *            The request
+     * @param request The request
      * @return The paginator up to date
      */
     public DataTablePaginationProperties getAndUpdatePaginator( HttpServletRequest request )
@@ -567,8 +583,10 @@ public class DataTableManager<T> implements Serializable
 
             if ( hasDataTableFormBeenSubmited( request ) )
             {
-                _strCurrentPageIndex = Paginator.getPageIndex( request, Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex );
-                _nItemsPerPage = Paginator.getItemsPerPage( request, Paginator.PARAMETER_ITEMS_PER_PAGE, _nItemsPerPage, _nDefautlItemsPerPage );
+                _strCurrentPageIndex = AbstractPaginator.getPageIndex( request, AbstractPaginator.PARAMETER_PAGE_INDEX,
+                        _strCurrentPageIndex );
+                _nItemsPerPage = AbstractPaginator.getItemsPerPage( request, AbstractPaginator.PARAMETER_ITEMS_PER_PAGE,
+                        _nItemsPerPage, _nDefautlItemsPerPage );
             }
 
             paginationProperties.setItemsPerPage( _nItemsPerPage );
@@ -591,8 +609,7 @@ public class DataTableManager<T> implements Serializable
     /**
      * Get sort properties updated with values in the request
      * 
-     * @param request
-     *            The request
+     * @param request The request
      * @return The sort properties up to date
      */
     public DataTableSort getAndUpdateSort( HttpServletRequest request )
@@ -609,20 +626,16 @@ public class DataTableManager<T> implements Serializable
             }
         }
 
-        DataTableSort sort = new DataTableSort( _strSortedAttributeName, _bIsAscSort );
-
-        return sort;
+        return new DataTableSort( _strSortedAttributeName, _bIsAscSort );
     }
 
     /**
      * Get filter properties updated with values in the request
      * 
-     * @param request
-     *            The request
-     * @param <K>
-     *            Type of the filter to use. This type must have accessors for every declared filter.
-     * @param filterObject
-     *            Filter to apply.
+     * @param request      The request
+     * @param              <K> Type of the filter to use. This type must have
+     *                     accessors for every declared filter.
+     * @param filterObject Filter to apply.
      * @return The filter properties up to date
      */
     public <K> K getAndUpdateFilter( HttpServletRequest request, K filterObject )
@@ -639,11 +652,15 @@ public class DataTableManager<T> implements Serializable
         if ( bSubmitedDataTable )
         {
             bUpdateFilter = true;
-            StringUtils.equals( request.getParameter( FilterPanel.PARAM_FILTER_PANEL_PREFIX + FilterPanel.PARAM_RESET_FILTERS ), Boolean.TRUE.toString( ) );
+            StringUtils.equals(
+                    request.getParameter( FilterPanel.PARAM_FILTER_PANEL_PREFIX + FilterPanel.PARAM_RESET_FILTERS ),
+                    Boolean.TRUE.toString( ) );
 
             if ( !bResetFilter )
             {
-                bUpdateFilter = StringUtils.equals( request.getParameter( FilterPanel.PARAM_FILTER_PANEL_PREFIX + FilterPanel.PARAM_UPDATE_FILTERS ),
+                bUpdateFilter = StringUtils.equals(
+                        request.getParameter(
+                                FilterPanel.PARAM_FILTER_PANEL_PREFIX + FilterPanel.PARAM_UPDATE_FILTERS ),
                         Boolean.TRUE.toString( ) );
             }
         }
@@ -652,7 +669,8 @@ public class DataTableManager<T> implements Serializable
         {
             if ( bSubmitedDataTable )
             {
-                String strFilterValue = request.getParameter( FilterPanel.PARAM_FILTER_PANEL_PREFIX + filter.getParameterName( ) );
+                String strFilterValue = request
+                        .getParameter( FilterPanel.PARAM_FILTER_PANEL_PREFIX + filter.getParameterName( ) );
 
                 if ( bUpdateFilter )
                 {
@@ -670,13 +688,7 @@ public class DataTableManager<T> implements Serializable
         {
             BeanUtilsBean.getInstance( ).populate( filterObject, mapFilter );
         }
-        catch( IllegalAccessException e )
-        {
-            AppLogService.error( e.getMessage( ), e );
-
-            return null;
-        }
-        catch( InvocationTargetException e )
+        catch ( InvocationTargetException | IllegalAccessException e )
         {
             AppLogService.error( e.getMessage( ), e );
 
@@ -697,28 +709,28 @@ public class DataTableManager<T> implements Serializable
     }
 
     /**
-     * Return the getter method of the object obj for the attribute <i>strAttributName</i>
+     * Return the getter method of the object obj for the attribute
+     * <i>strAttributName</i>
      * 
-     * @param obj
-     *            the object
-     * @param strAttributName
-     *            The name of the attribute to get the getter
-     * @param strMethodPrefix
-     *            Prefix of the name of the method
-     * @return method Method of the object obj for the attribute <i>strAttributName</i>
+     * @param obj             the object
+     * @param strAttributName The name of the attribute to get the getter
+     * @param strMethodPrefix Prefix of the name of the method
+     * @return method Method of the object obj for the attribute
+     *         <i>strAttributName</i>
      */
     private Method getMethod( Object obj, String strAttributName, String strMethodPrefix )
     {
         Method method = null;
         String strFirstLetter = strAttributName.substring( 0, 1 ).toUpperCase( );
 
-        String strMethodName = strMethodPrefix + strFirstLetter + strAttributName.substring( 1, strAttributName.length( ) );
+        String strMethodName = strMethodPrefix + strFirstLetter
+                + strAttributName.substring( 1, strAttributName.length( ) );
 
         try
         {
             method = obj.getClass( ).getMethod( strMethodName );
         }
-        catch( Exception e )
+        catch ( Exception e )
         {
             AppLogService.debug( e );
         }
@@ -737,9 +749,9 @@ public class DataTableManager<T> implements Serializable
     /**
      * Check if a request contain data of this data table manager
      * 
-     * @param request
-     *            The request
-     * @return True if a form of this data table manager has been submited, false otherwise
+     * @param request The request
+     * @return True if a form of this data table manager has been submited, false
+     *         otherwise
      */
     private boolean hasDataTableFormBeenSubmited( HttpServletRequest request )
     {

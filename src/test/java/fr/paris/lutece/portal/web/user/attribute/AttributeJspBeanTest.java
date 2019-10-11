@@ -74,7 +74,7 @@ public class AttributeJspBeanTest extends LuteceTestCase
             IAttribute attribute = (IAttribute) Class.forName( type.getClassName( ) ).newInstance( );
             attribute.setTitle( getRandomName( ) );
             attribute.setHelpMessage( attribute.getTitle( ) );
-            List<AttributeField> listAttributeFields = new ArrayList<AttributeField>( );
+            List<AttributeField> listAttributeFields = new ArrayList<>( );
             AttributeField attributeField = new AttributeField( );
             attributeField.setValue( attribute.getTitle( ) );
             listAttributeFields.add( attributeField );

@@ -83,6 +83,7 @@ public class AttributeRadioButton extends AbstractAttribute implements ISimpleVa
      */
     public AttributeRadioButton( )
     {
+        // Ctor
     }
 
     /**
@@ -233,7 +234,7 @@ public class AttributeRadioButton extends AbstractAttribute implements ISimpleVa
     @Override
     public List<AdminUserField> getUserFieldsData( String [ ] strValues, AdminUser user )
     {
-        List<AdminUserField> listUserFields = new ArrayList<AdminUserField>( );
+        List<AdminUserField> listUserFields = new ArrayList<>( );
 
         if ( strValues != null )
         {

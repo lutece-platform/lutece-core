@@ -64,7 +64,7 @@ public final class XmlTransformer
     public static final String PROPERTY_TRANSFORMER_POOL_SIZE = "service.xmlTransformer.transformerPoolSize";
     public static final int TRANSFORMER_POOL_SIZE = AppPropertiesService.getPropertyInt( PROPERTY_TRANSFORMER_POOL_SIZE, 2 );
     public static final int MAX_TRANSFORMER_SIZE = 1000;
-    private static final List<ConcurrentMap<String, Templates>> transformersPoolList = new ArrayList<ConcurrentMap<String, Templates>>( TRANSFORMER_POOL_SIZE );
+    private static final List<ConcurrentMap<String, Templates>> transformersPoolList = new ArrayList<>( TRANSFORMER_POOL_SIZE );
 
     static
     {
@@ -84,10 +84,9 @@ public final class XmlTransformer
      * @param strStyleSheetId
      *            The StyleSheet Id
      * @return XmlTransformer object
-     * @throws Exception
-     *             the exception
+     * @throws TransformerException 
      */
-    private Templates getTemplates( Source stylesheet, String strStyleSheetId ) throws Exception
+    private Templates getTemplates( Source stylesheet, String strStyleSheetId ) throws TransformerException
     {
         Templates result = null;
 
@@ -120,11 +119,11 @@ public final class XmlTransformer
                     strMessage += ( "- location : " + e.getLocationAsString( ) );
                 }
 
-                throw new Exception( "Error transforming document XSLT : " + strMessage, e.getCause( ) );
+                throw new TransformerException( "Error transforming document XSLT : " + strMessage, e.getCause( ) );
             }
             catch( TransformerFactoryConfigurationError e )
             {
-                throw new Exception( "Error transforming document XSLT : " + e.getMessage( ), e );
+                throw new TransformerException( "Error transforming document XSLT : " + e.getMessage( ), e );
             }
         }
 
@@ -211,11 +210,11 @@ public final class XmlTransformer
      * @param outputProperties
      *            Properties to use for the XSL transform. Will overload the XSL output definition.
      * @return The output document
-     * @throws Exception
+     * @throws TransformerException
      *             The exception
      */
     public String transform( Source source, Source stylesheet, String strStyleSheetId, Map<String, String> params, Properties outputProperties )
-            throws Exception
+            throws TransformerException
     {
         Templates templates = this.getTemplates( stylesheet, strStyleSheetId );
         Transformer transformer = templates.newTransformer( );
@@ -251,7 +250,7 @@ public final class XmlTransformer
                 strMessage += ( " - location : " + e.getLocationAsString( ) );
             }
 
-            throw new Exception( "Error transforming document XSLT : " + strMessage, e.getCause( ) );
+            throw new TransformerException( "Error transforming document XSLT : " + strMessage, e.getCause( ) );
         }
         finally
         {

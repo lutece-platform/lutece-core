@@ -100,7 +100,7 @@ public abstract class SimpleAdminUserFieldListener implements AdminUserFieldList
     public void doCreateUserFields( AdminUser user, HttpServletRequest request, Locale locale )
     {
         List<IAttribute> listAttributes = AttributeService.getInstance( ).getPluginAttributesWithoutFields( getPlugin( ).getName( ), locale );
-        List<AdminUserField> listUserFields = new ArrayList<AdminUserField>( );
+        List<AdminUserField> listUserFields = new ArrayList<>( );
 
         for ( IAttribute attribute : listAttributes )
         {
@@ -130,7 +130,7 @@ public abstract class SimpleAdminUserFieldListener implements AdminUserFieldList
     public void doModifyUserFields( AdminUser user, HttpServletRequest request, Locale locale, AdminUser currentUser )
     {
         List<IAttribute> listAttributes = AttributeService.getInstance( ).getPluginAttributesWithoutFields( getPlugin( ).getName( ), locale );
-        List<AdminUserField> listUserFields = new ArrayList<AdminUserField>( );
+        List<AdminUserField> listUserFields = new ArrayList<>( );
 
         for ( IAttribute attribute : listAttributes )
         {

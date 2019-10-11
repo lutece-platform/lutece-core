@@ -103,7 +103,7 @@ public class StandaloneAppJspBean
     public String getContent( HttpServletRequest request, int nMode ) throws UserNotSignedException, SiteMessageException
     {
         // Handle site messages first
-        ISiteMessageHandler handlerSiteMessage = (ISiteMessageHandler) SpringContextService.getBean( BEAN_SITE_MESSAGE_HANDLER );
+        ISiteMessageHandler handlerSiteMessage = SpringContextService.getBean( BEAN_SITE_MESSAGE_HANDLER );
 
         if ( handlerSiteMessage.hasMessage( request ) )
         {
@@ -132,7 +132,7 @@ public class StandaloneAppJspBean
     public String getPluginList( HttpServletRequest request )
     {
         HashMap<String, Object> modelList = new HashMap<>( );
-        Collection<XPageApplicationEntry> entryList = new ArrayList<XPageApplicationEntry>( );
+        Collection<XPageApplicationEntry> entryList = new ArrayList<>( );
         Locale locale = ( request == null ) ? null : request.getLocale( );
 
         Collection<XPageApplicationEntry> applications = XPageAppService.getXPageApplicationsList( );
@@ -147,7 +147,7 @@ public class StandaloneAppJspBean
             }
         };
 
-        List<XPageApplicationEntry> applicationsSorted = new ArrayList<XPageApplicationEntry>( applications );
+        List<XPageApplicationEntry> applicationsSorted = new ArrayList<>( applications );
         Collections.sort( applicationsSorted, comparator );
 
         // Scan of the list

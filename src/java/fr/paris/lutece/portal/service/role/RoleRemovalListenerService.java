@@ -57,6 +57,6 @@ public final class RoleRemovalListenerService
      */
     public static RemovalListenerService getService( )
     {
-        return (RemovalListenerService) SpringContextService.getBean( BEAN_ROLE_REMOVAL_SERVICE );
+        return SpringContextService.getBean( BEAN_ROLE_REMOVAL_SERVICE );
     }
 }

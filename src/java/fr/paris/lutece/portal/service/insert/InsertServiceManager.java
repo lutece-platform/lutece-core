@@ -50,7 +50,7 @@ public final class InsertServiceManager
     // Class attributes
 
     /** Insert Service registry */
-    private static Map<String, InsertService> _mapInsertServicesRegistry = new HashMap<String, InsertService>( );
+    private static Map<String, InsertService> _mapInsertServicesRegistry = new HashMap<>( );
 
     // //////////////////////////////////////////////////////////////////////////
     // Methods
@@ -81,7 +81,7 @@ public final class InsertServiceManager
      */
     public static Collection<InsertService> getInsertServicesList( )
     {
-        ArrayList<InsertService> listServices = new ArrayList<InsertService>( );
+        ArrayList<InsertService> listServices = new ArrayList<>( );
 
         for ( InsertService service : _mapInsertServicesRegistry.values( ) )
         {

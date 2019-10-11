@@ -67,6 +67,7 @@ public class AdminWorkgroupFilter
      */
     public AdminWorkgroupFilter( )
     {
+        // Ctor
     }
 
     /**

@@ -35,6 +35,7 @@ package fr.paris.lutece.util.pool.service;
 
 import fr.paris.lutece.portal.service.util.AppException;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.log4j.Logger;
 
 import java.io.PrintWriter;
@@ -66,7 +67,7 @@ public class ConnectionPool implements DataSource
     private int _nTimeOut;
     private Logger _logger;
     private int _nCheckedOut;
-    private List<Connection> _freeConnections = new ArrayList<Connection>( );
+    private List<Connection> _freeConnections = new ArrayList<>( );
     private String _strCheckValidConnectionSql; // Added in v1.4
     private PrintWriter _logWriter;
 
@@ -273,7 +274,7 @@ public class ConnectionPool implements DataSource
     {
         Connection conn = null;
 
-        if ( _freeConnections.size( ) > 0 )
+        if ( CollectionUtils.isNotEmpty( _freeConnections ) )
         {
             // Pick the first Connection in the Vector
             // to get round-robin usage

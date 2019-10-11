@@ -50,7 +50,7 @@ public final class ServletService
 {
     private static ServletService _singleton = new ServletService( );
     private static ServletContext _context;
-    private List<LuteceServlet> _listServlets = new ArrayList<LuteceServlet>( );
+    private List<LuteceServlet> _listServlets = new ArrayList<>( );
 
     /**
      * Private constructor

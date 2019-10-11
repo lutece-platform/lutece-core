@@ -117,7 +117,7 @@ public final class BeanUtil
             try
             {
                 // for all boolean field, init to false
-                if ( field.getType( ).getName( ).equals( Boolean.class.getName( ) ) || field.getType( ).getName( ).equals( boolean.class.getName( ) ) )
+                if ( field.getClass( ).isAssignableFrom( Boolean.class ) )
                 {
                     field.setAccessible( true );
                     field.set( bean, false );
@@ -145,11 +145,7 @@ public final class BeanUtil
 
             beanUtilsBean.populate( bean, convertMap( request.getParameterMap( ) ) );
         }
-        catch( IllegalAccessException e )
-        {
-            AppLogService.error( "Unable to fetch data from request", e );
-        }
-        catch( InvocationTargetException e )
+        catch( InvocationTargetException | IllegalAccessException e )
         {
             AppLogService.error( "Unable to fetch data from request", e );
         }

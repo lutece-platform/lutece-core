@@ -33,6 +33,17 @@
  */
 package fr.paris.lutece.portal.web.mailinglist;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang.StringUtils;
+
 import fr.paris.lutece.portal.business.mailinglist.MailingList;
 import fr.paris.lutece.portal.business.mailinglist.MailingListFilter;
 import fr.paris.lutece.portal.business.mailinglist.MailingListHome;
@@ -55,22 +66,11 @@ import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.portal.web.util.LocalizedPaginator;
 import fr.paris.lutece.util.ReferenceList;
+import fr.paris.lutece.util.html.AbstractPaginator;
 import fr.paris.lutece.util.html.HtmlTemplate;
-import fr.paris.lutece.util.html.Paginator;
 import fr.paris.lutece.util.http.SecurityUtil;
 import fr.paris.lutece.util.sort.AttributeComparator;
 import fr.paris.lutece.util.url.UrlItem;
-
-import org.apache.commons.lang.StringUtils;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * Mailing ListJspBean
@@ -163,17 +163,17 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
         Collections.sort( listMailinglists, new AttributeComparator( strSortedAttributeName, bIsAscSort ) );
 
         // Paginator
-        _strCurrentPageIndex = Paginator.getPageIndex( request, Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex );
+        _strCurrentPageIndex = AbstractPaginator.getPageIndex( request, AbstractPaginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex );
         _nDefaultItemsPerPage = AppPropertiesService.getPropertyInt( PROPERTY_MAILINGLIST_PER_PAGE, 50 );
-        _nItemsPerPage = Paginator.getItemsPerPage( request, Paginator.PARAMETER_ITEMS_PER_PAGE, _nItemsPerPage, _nDefaultItemsPerPage );
+        _nItemsPerPage = AbstractPaginator.getItemsPerPage( request, AbstractPaginator.PARAMETER_ITEMS_PER_PAGE, _nItemsPerPage, _nDefaultItemsPerPage );
 
         UrlItem url = new UrlItem( AppPathService.getBaseUrl( request ) + JSP_URL_MANAGE_MAILINGLISTS );
         url.addParameter( Parameters.SORTED_ATTRIBUTE_NAME, strSortedAttributeName );
         url.addParameter( Parameters.SORTED_ASC, Boolean.toString( bIsAscSort ) );
         url.addParameter( PARAMETER_SESSION, PARAMETER_SESSION );
 
-        LocalizedPaginator<MailingList> paginator = new LocalizedPaginator<MailingList>( listMailinglists, _nItemsPerPage, url.getUrl( ),
-                Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex, request.getLocale( ) );
+        LocalizedPaginator<MailingList> paginator = new LocalizedPaginator<>( listMailinglists, _nItemsPerPage, url.getUrl( ),
+                AbstractPaginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex, request.getLocale( ) );
 
         model.put( MARK_MAILINGLISTS_LIST, paginator.getPageItems( ) );
         model.put( MARK_PAGINATOR, paginator );

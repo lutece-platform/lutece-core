@@ -39,6 +39,8 @@ import fr.paris.lutece.portal.service.util.RemovalListener;
 import java.util.Collection;
 import java.util.Locale;
 
+import org.apache.commons.collections.CollectionUtils;
+
 /**
  * Page Removal Listener
  */
@@ -62,7 +64,7 @@ public class PageRoleRemovalListener implements RemovalListener
 
         Collection<Page> listPages = PageHome.getPagesByRoleKey( strId );
 
-        if ( ( listPages != null ) && ( listPages.size( ) > 0 ) )
+        if ( CollectionUtils.isNotEmpty( listPages ) )
         {
             return false;
         }

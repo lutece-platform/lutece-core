@@ -143,7 +143,7 @@ public final class RBACService
      */
     public static <E extends RBACResource> Collection<E> getAuthorizedCollection( Collection<E> collection, String strPermission, AdminUser user )
     {
-        Collection<E> list = new ArrayList<E>( );
+        Collection<E> list = new ArrayList<>( );
 
         for ( E resource : collection )
         {
@@ -199,7 +199,7 @@ public final class RBACService
      */
     public static <E extends RBACAction> Collection<E> getAuthorizedActionsCollection( Collection<E> collection, RBACResource resource, AdminUser user )
     {
-        Collection<E> list = new ArrayList<E>( );
+        Collection<E> list = new ArrayList<>( );
 
         for ( E action : collection )
         {

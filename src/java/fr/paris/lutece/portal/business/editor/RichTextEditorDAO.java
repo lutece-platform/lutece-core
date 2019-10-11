@@ -51,22 +51,23 @@ public class RichTextEditorDAO implements IRichTextEditorDAO
     @Override
     public Collection<RichTextEditor> findEditors( Boolean bBackOffice )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_FIND_EDITORS_BY_TYPE );
-        daoUtil.setBoolean( 1, bBackOffice );
-
-        Collection<RichTextEditor> listRes = new ArrayList<RichTextEditor>( );
-        daoUtil.executeQuery( );
-
-        while ( daoUtil.next( ) )
+        Collection<RichTextEditor> listRes = new ArrayList<>( );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_FIND_EDITORS_BY_TYPE ) )
         {
-            RichTextEditor editor = new RichTextEditor( );
-            editor.setEditorName( daoUtil.getString( 1 ) );
-            editor.setDescription( daoUtil.getString( 2 ) );
-            editor.setBackOffice( bBackOffice );
-            listRes.add( editor );
-        }
+            daoUtil.setBoolean( 1, bBackOffice );
 
-        daoUtil.free( );
+            daoUtil.executeQuery( );
+
+            while ( daoUtil.next( ) )
+            {
+                RichTextEditor editor = new RichTextEditor( );
+                editor.setEditorName( daoUtil.getString( 1 ) );
+                editor.setDescription( daoUtil.getString( 2 ) );
+                editor.setBackOffice( bBackOffice );
+                listRes.add( editor );
+            }
+
+        }
 
         return listRes;
     }

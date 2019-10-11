@@ -44,5 +44,6 @@ public class PluginDefaultImplementation extends Plugin
      */
     public void init( )
     {
+        // Do nothing        
     }
 }

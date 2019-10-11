@@ -251,8 +251,7 @@ public class AdminPagePortletJspBean extends AdminFeaturesPageJspBean
             portlet.remove( );
         }
 
-        String strUrl = JSP_ADMIN_SITE + "?" + Parameters.PAGE_ID + "=" + portlet.getPageId( );
-        return strUrl;
+        return JSP_ADMIN_SITE + "?" + Parameters.PAGE_ID + "=" + portlet.getPageId( );
     }
 
     /**

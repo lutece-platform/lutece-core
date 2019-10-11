@@ -33,19 +33,16 @@
  */
 package fr.paris.lutece.util;
 
-import fr.paris.lutece.portal.service.util.AppLogService;
-import fr.paris.lutece.portal.service.util.AppPropertiesService;
-import fr.paris.lutece.util.stream.StreamUtil;
-
-import org.apache.commons.lang.StringUtils;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Properties;
+
+import fr.paris.lutece.portal.service.util.AppLogService;
+import fr.paris.lutece.portal.service.util.AppPropertiesService;
+import fr.paris.lutece.util.stream.StreamUtil;
 
 /**
  * This class provides utility methods to read values of the properties stored in the .properties file of the application.
@@ -55,7 +52,7 @@ public class PropertiesService
     // Static variables
     private static String _strRootPath;
     private static volatile Properties _properties = new Properties( );
-    private static Map<String, String> _mapPropertiesFiles = new LinkedHashMap<String, String>( );
+    private static Map<String, String> _mapPropertiesFiles = new LinkedHashMap<>( );
 
     /**
      * Constructor should define the base root path for properties files

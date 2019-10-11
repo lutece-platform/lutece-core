@@ -83,6 +83,7 @@ public class AttributeCheckBox extends AbstractAttribute implements ISimpleValue
      */
     public AttributeCheckBox( )
     {
+        // Ctor
     }
 
     /**
@@ -239,7 +240,7 @@ public class AttributeCheckBox extends AbstractAttribute implements ISimpleValue
     @Override
     public List<AdminUserField> getUserFieldsData( String [ ] strValues, AdminUser user )
     {
-        List<AdminUserField> listUserFields = new ArrayList<AdminUserField>( );
+        List<AdminUserField> listUserFields = new ArrayList<>( );
 
         if ( strValues != null )
         {

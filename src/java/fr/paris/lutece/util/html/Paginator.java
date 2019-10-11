@@ -123,7 +123,7 @@ public class Paginator<E> extends AbstractPaginator<E>
             nMax = nMaxPage;
         }
 
-        List<E> list = new ArrayList<E>( );
+        List<E> list = new ArrayList<>( );
 
         for ( int i = nStartIndex; i < nMax; i++ )
         {

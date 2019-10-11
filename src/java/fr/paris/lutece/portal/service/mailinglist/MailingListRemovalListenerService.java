@@ -57,6 +57,6 @@ public final class MailingListRemovalListenerService
      */
     public static RemovalListenerService getService( )
     {
-        return (RemovalListenerService) SpringContextService.getBean( BEAN_MAILINGLIST_REMOVAL_SERVICE );
+        return SpringContextService.getBean( BEAN_MAILINGLIST_REMOVAL_SERVICE );
     }
 }

@@ -165,7 +165,7 @@ public class CacheJspBean extends AdminFeaturesPageJspBean
         {
             int nCacheIndex = Integer.parseInt( strCacheIndex );
             CacheableService cs = CacheService.getCacheableServicesList( ).get( nCacheIndex );
-            list = new ArrayList<CacheableService>( );
+            list = new ArrayList<>( );
             list.add( cs );
         }
         else
@@ -173,7 +173,7 @@ public class CacheJspBean extends AdminFeaturesPageJspBean
             list = CacheService.getCacheableServicesList( );
         }
 
-        HashMap<String, Collection<CacheableService>> model = new HashMap<String, Collection<CacheableService>>( );
+        HashMap<String, Collection<CacheableService>> model = new HashMap<>( );
         model.put( MARK_SERVICES_LIST, list );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CACHE_INFOS, getLocale( ), model );

@@ -47,7 +47,7 @@ import java.util.Set;
  */
 public final class AnnotationUtil
 {
-    private static final IAnnotationDB ANNOTATION_DB = (IAnnotationDB) SpringContextService.getBean( "annotationDB" );
+    private static final IAnnotationDB ANNOTATION_DB = SpringContextService.getBean( "annotationDB" );
 
     static
     {

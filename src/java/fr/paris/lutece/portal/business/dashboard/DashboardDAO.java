@@ -47,6 +47,7 @@ import java.util.List;
  */
 public class DashboardDAO implements IDashboardDAO
 {
+    private static final String LOG_ERROR_NOT_FOUND = "Dashboard named %s not found";
     private static final String SQL_QUERY_MAX_ORDER = "SELECT max(dashboard_order) FROM core_dashboard";
     private static final String SQL_QUERY_MAX_ORDER_COLUMN = SQL_QUERY_MAX_ORDER + " WHERE dashboard_column = ? ";
     private static final String SQL_QUERY_DELETE = "DELETE FROM core_dashboard ";
@@ -70,13 +71,14 @@ public class DashboardDAO implements IDashboardDAO
     @Override
     public void delete( String strBeanName )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE_BY_NAME );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE_BY_NAME ) )
+        {
 
-        daoUtil.setString( 1, strBeanName );
+            daoUtil.setString( 1, strBeanName );
 
-        daoUtil.executeUpdate( );
+            daoUtil.executeUpdate( );
 
-        daoUtil.free( );
+        }
     }
 
     /**
@@ -85,11 +87,12 @@ public class DashboardDAO implements IDashboardDAO
     @Override
     public void deleteAll( )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE ) )
+        {
 
-        daoUtil.executeUpdate( );
+            daoUtil.executeUpdate( );
 
-        daoUtil.free( );
+        }
     }
 
     /**
@@ -98,14 +101,15 @@ public class DashboardDAO implements IDashboardDAO
     @Override
     public void insert( IDashboardComponent dashboardComponent )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT ) )
+        {
 
-        daoUtil.setString( 1, dashboardComponent.getName( ) );
-        setInsertOrUpdateValues( 2, dashboardComponent, daoUtil );
+            daoUtil.setString( 1, dashboardComponent.getName( ) );
+            setInsertOrUpdateValues( 2, dashboardComponent, daoUtil );
 
-        daoUtil.executeUpdate( );
+            daoUtil.executeUpdate( );
 
-        daoUtil.free( );
+        }
     }
 
     /**
@@ -127,31 +131,32 @@ public class DashboardDAO implements IDashboardDAO
     @Override
     public IDashboardComponent load( String strClassName )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_BY_PRIMARY_KEY );
-
-        daoUtil.setString( 1, strClassName );
-
-        daoUtil.executeQuery( );
-
         IDashboardComponent dashboardComponent = null;
 
-        if ( daoUtil.next( ) )
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_BY_PRIMARY_KEY ) )
         {
-            String strBeanName = daoUtil.getString( 1 );
 
-            dashboardComponent = findDashboardFromFactory( strBeanName );
+            daoUtil.setString( 1, strClassName );
 
-            if ( dashboardComponent != null )
+            daoUtil.executeQuery( );
+
+            if ( daoUtil.next( ) )
             {
-                load( dashboardComponent, daoUtil );
+                String strBeanName = daoUtil.getString( 1 );
+
+                dashboardComponent = findDashboardFromFactory( strBeanName );
+
+                if ( dashboardComponent != null )
+                {
+                    load( dashboardComponent, daoUtil );
+                }
+                else
+                {
+                    AppLogService.error( String.format( LOG_ERROR_NOT_FOUND, strBeanName ) );
+                }
             }
-            else
-            {
-                AppLogService.error( "Dashboard named " + strBeanName + " not found" );
-            }
+
         }
-
-        daoUtil.free( );
 
         return dashboardComponent;
     }
@@ -162,32 +167,33 @@ public class DashboardDAO implements IDashboardDAO
     @Override
     public List<IDashboardComponent> selectAllDashboardComponents( )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_ALL );
+        List<IDashboardComponent> listDashboards = new ArrayList<>( );
 
-        daoUtil.executeQuery( );
-
-        List<IDashboardComponent> listDashboards = new ArrayList<IDashboardComponent>( );
-
-        while ( daoUtil.next( ) )
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_ALL ) )
         {
-            IDashboardComponent dashboardComponent = null;
 
-            String strBeanName = daoUtil.getString( 1 );
+            daoUtil.executeQuery( );
 
-            dashboardComponent = findDashboardFromFactory( strBeanName );
-
-            if ( dashboardComponent != null )
+            while ( daoUtil.next( ) )
             {
-                load( dashboardComponent, daoUtil );
-                listDashboards.add( dashboardComponent );
+                IDashboardComponent dashboardComponent = null;
+
+                String strBeanName = daoUtil.getString( 1 );
+
+                dashboardComponent = findDashboardFromFactory( strBeanName );
+
+                if ( dashboardComponent != null )
+                {
+                    load( dashboardComponent, daoUtil );
+                    listDashboards.add( dashboardComponent );
+                }
+                else
+                {
+                    AppLogService.error( String.format( LOG_ERROR_NOT_FOUND, strBeanName ) );
+                }
             }
-            else
-            {
-                AppLogService.error( "Dashboard named " + strBeanName + " not found" );
-            }
+
         }
-
-        daoUtil.free( );
 
         return listDashboards;
     }
@@ -198,18 +204,17 @@ public class DashboardDAO implements IDashboardDAO
     @Override
     public int selectMaxOrder( )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_MAX_ORDER );
-
         int nMaxOrder = 0;
-
-        daoUtil.executeQuery( );
-
-        if ( daoUtil.next( ) )
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_MAX_ORDER ) )
         {
-            nMaxOrder = daoUtil.getInt( 1 );
-        }
+            daoUtil.executeQuery( );
 
-        daoUtil.free( );
+            if ( daoUtil.next( ) )
+            {
+                nMaxOrder = daoUtil.getInt( 1 );
+            }
+
+        }
 
         return nMaxOrder;
     }
@@ -220,20 +225,19 @@ public class DashboardDAO implements IDashboardDAO
     @Override
     public int selectMaxOrder( int nColumn )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_MAX_ORDER_COLUMN );
-
         int nMaxOrder = 0;
-
-        daoUtil.setInt( 1, nColumn );
-
-        daoUtil.executeQuery( );
-
-        if ( daoUtil.next( ) )
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_MAX_ORDER_COLUMN ) )
         {
-            nMaxOrder = daoUtil.getInt( 1 );
-        }
+            daoUtil.setInt( 1, nColumn );
 
-        daoUtil.free( );
+            daoUtil.executeQuery( );
+
+            if ( daoUtil.next( ) )
+            {
+                nMaxOrder = daoUtil.getInt( 1 );
+            }
+
+        }
 
         return nMaxOrder;
     }
@@ -244,38 +248,38 @@ public class DashboardDAO implements IDashboardDAO
     @Override
     public List<IDashboardComponent> selectDashboardComponents( DashboardFilter filter )
     {
+        List<IDashboardComponent> listDashboards = new ArrayList<>( );
         StringBuilder sbSQL = new StringBuilder( SQL_QUERY_SELECT );
         buildSQLFilter( sbSQL, filter );
         sbSQL.append( SQL_QUERY_ORDER_BY_COLUMN_AND_ORDER );
 
-        DAOUtil daoUtil = new DAOUtil( sbSQL.toString( ) );
-
-        applySQLFilter( daoUtil, 1, filter );
-
-        daoUtil.executeQuery( );
-
-        List<IDashboardComponent> listDashboards = new ArrayList<IDashboardComponent>( );
-
-        while ( daoUtil.next( ) )
+        try( DAOUtil daoUtil = new DAOUtil( sbSQL.toString( ) ) )
         {
-            IDashboardComponent dashboardComponent = null;
 
-            String strBeanName = daoUtil.getString( 1 );
+            applySQLFilter( daoUtil, 1, filter );
 
-            dashboardComponent = findDashboardFromFactory( strBeanName );
+            daoUtil.executeQuery( );
 
-            if ( dashboardComponent != null )
+            while ( daoUtil.next( ) )
             {
-                load( dashboardComponent, daoUtil );
-                listDashboards.add( dashboardComponent );
+                IDashboardComponent dashboardComponent = null;
+
+                String strBeanName = daoUtil.getString( 1 );
+
+                dashboardComponent = findDashboardFromFactory( strBeanName );
+
+                if ( dashboardComponent != null )
+                {
+                    load( dashboardComponent, daoUtil );
+                    listDashboards.add( dashboardComponent );
+                }
+                else
+                {
+                    AppLogService.error( String.format( LOG_ERROR_NOT_FOUND, strBeanName ) );
+                }
             }
-            else
-            {
-                AppLogService.error( "dashboard named " + strBeanName + " not found" );
-            }
+
         }
-
-        daoUtil.free( );
 
         return listDashboards;
     }
@@ -286,14 +290,15 @@ public class DashboardDAO implements IDashboardDAO
     @Override
     public void store( IDashboardComponent dashboardComponent )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE ) )
+        {
 
-        int nIndex = setInsertOrUpdateValues( 1, dashboardComponent, daoUtil );
-        daoUtil.setString( nIndex, dashboardComponent.getName( ) );
+            int nIndex = setInsertOrUpdateValues( 1, dashboardComponent, daoUtil );
+            daoUtil.setString( nIndex, dashboardComponent.getName( ) );
 
-        daoUtil.executeUpdate( );
+            daoUtil.executeUpdate( );
 
-        daoUtil.free( );
+        }
     }
 
     /**
@@ -302,18 +307,19 @@ public class DashboardDAO implements IDashboardDAO
     @Override
     public List<Integer> selectColumns( )
     {
-        List<Integer> listColumns = new ArrayList<Integer>( );
+        List<Integer> listColumns = new ArrayList<>( );
 
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_COLUMNS );
-
-        daoUtil.executeQuery( );
-
-        while ( daoUtil.next( ) )
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_COLUMNS ) )
         {
-            listColumns.add( daoUtil.getInt( 1 ) );
-        }
 
-        daoUtil.free( );
+            daoUtil.executeQuery( );
+
+            while ( daoUtil.next( ) )
+            {
+                listColumns.add( daoUtil.getInt( 1 ) );
+            }
+
+        }
 
         return listColumns;
     }

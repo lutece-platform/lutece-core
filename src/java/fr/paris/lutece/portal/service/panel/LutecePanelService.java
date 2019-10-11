@@ -48,7 +48,7 @@ import java.util.List;
  */
 public final class LutecePanelService<T extends LutecePanel>
 {
-    private static List<LutecePanelService<? extends LutecePanel>> _listSingletons = new ArrayList<LutecePanelService<? extends LutecePanel>>( );
+    private static List<LutecePanelService<? extends LutecePanel>> _listSingletons = new ArrayList<>( );
     private List<T> _listPanels;
     private Class<T> _genericTypeClass;
 
@@ -101,7 +101,7 @@ public final class LutecePanelService<T extends LutecePanel>
             }
         }
 
-        LutecePanelService<T> panelService = new LutecePanelService<T>( clazz );
+        LutecePanelService<T> panelService = new LutecePanelService<>( clazz );
         _listSingletons.add( panelService );
 
         return panelService;

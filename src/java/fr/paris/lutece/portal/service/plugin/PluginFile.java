@@ -33,6 +33,25 @@
  */
 package fr.paris.lutece.portal.service.plugin;
 
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.validation.constraints.NotNull;
+
+import org.apache.commons.digester3.Digester;
+import org.apache.commons.digester3.Substitutor;
+import org.apache.commons.digester3.binder.DigesterLoader;
+import org.apache.commons.digester3.substitution.MultiVariableExpander;
+import org.apache.commons.digester3.substitution.VariableSubstitutor;
+import org.apache.commons.digester3.xmlrules.FromXmlRulesModule;
+import org.xml.sax.SAXException;
+
 import fr.paris.lutece.portal.business.portlet.PortletType;
 import fr.paris.lutece.portal.business.right.Right;
 import fr.paris.lutece.portal.service.content.ContentServiceEntry;
@@ -48,30 +67,6 @@ import fr.paris.lutece.portal.service.servlet.ServletEntry;
 import fr.paris.lutece.portal.service.sessionlistener.HttpSessionListenerEntry;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.web.xpages.XPageApplicationEntry;
-
-import org.apache.commons.digester3.Digester;
-import org.apache.commons.digester3.Substitutor;
-import org.apache.commons.digester3.substitution.MultiVariableExpander;
-import org.apache.commons.digester3.substitution.VariableSubstitutor;
-import org.apache.commons.digester3.xmlrules.FromXmlRulesModule;
-import org.apache.commons.digester3.binder.DigesterLoader;
-
-import org.xml.sax.SAXException;
-
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-
-import java.net.URL;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.validation.constraints.NotNull;
 
 /**
  * This class is the plugin file element
@@ -94,26 +89,26 @@ public class PluginFile
     private String _strMaxCoreVersion;
     private boolean _bIsInstalled;
     private boolean _bDbPoolRequired;
-    private Map<Integer, List<String>> _listCssStyleSheets = new HashMap<Integer, List<String>>( );
-    private Map<Integer, List<String>> _listJavascriptFiles = new HashMap<Integer, List<String>>( );
+    private Map<Integer, List<String>> _listCssStyleSheets = new HashMap<>( );
+    private Map<Integer, List<String>> _listJavascriptFiles = new HashMap<>( );
     private List<String> _listAdminCssStyleSheets = new ArrayList<>( );
     private List<String> _listAdminJavascriptFiles = new ArrayList<>( );
     private List<String> _listFreemarkerMacrosFiles = new ArrayList<>( );
-    private List<Right> _listRights = new ArrayList<Right>( );
-    private List<PortletType> _listPortletTypes = new ArrayList<PortletType>( );
-    private List<DaemonEntry> _listDaemons = new ArrayList<DaemonEntry>( );
-    private List<XPageApplicationEntry> _listApplications = new ArrayList<XPageApplicationEntry>( );
-    private List<FilterEntry> _listFilters = new ArrayList<FilterEntry>( );
-    private List<ServletEntry> _listServlets = new ArrayList<ServletEntry>( );
-    private List<HttpSessionListenerEntry> _listListeners = new ArrayList<HttpSessionListenerEntry>( );
-    private List<ContentServiceEntry> _listContentServices = new ArrayList<ContentServiceEntry>( );
-    private List<SearchIndexerEntry> _listSearchIndexers = new ArrayList<SearchIndexerEntry>( );
-    private List<InsertService> _listInsertServices = new ArrayList<InsertService>( );
-    private List<RBACResourceTypeEntry> _listRBACResourceTypes = new ArrayList<RBACResourceTypeEntry>( );
-    private List<PageIncludeEntry> _listPageIncludes = new ArrayList<PageIncludeEntry>( );
-    private List<DashboardComponentEntry> _listDashboardComponents = new ArrayList<DashboardComponentEntry>( );
-    private List<DashboardComponentEntry> _listAdminDashboardComponents = new ArrayList<DashboardComponentEntry>( );
-    private Map<String, String> _mapParams = new HashMap<String, String>( );
+    private List<Right> _listRights = new ArrayList<>( );
+    private List<PortletType> _listPortletTypes = new ArrayList<>( );
+    private List<DaemonEntry> _listDaemons = new ArrayList<>( );
+    private List<XPageApplicationEntry> _listApplications = new ArrayList<>( );
+    private List<FilterEntry> _listFilters = new ArrayList<>( );
+    private List<ServletEntry> _listServlets = new ArrayList<>( );
+    private List<HttpSessionListenerEntry> _listListeners = new ArrayList<>( );
+    private List<ContentServiceEntry> _listContentServices = new ArrayList<>( );
+    private List<SearchIndexerEntry> _listSearchIndexers = new ArrayList<>( );
+    private List<InsertService> _listInsertServices = new ArrayList<>( );
+    private List<RBACResourceTypeEntry> _listRBACResourceTypes = new ArrayList<>( );
+    private List<PageIncludeEntry> _listPageIncludes = new ArrayList<>( );
+    private List<DashboardComponentEntry> _listDashboardComponents = new ArrayList<>( );
+    private List<DashboardComponentEntry> _listAdminDashboardComponents = new ArrayList<>( );
+    private Map<String, String> _mapParams = new HashMap<>( );
     private String _strSearchIndexerClass;
     private String _strCssStylesheetsScope;
     private String _strJavascriptFilesScope;
@@ -156,19 +151,7 @@ public class PluginFile
             InputStream input = new FileInputStream( strFilename );
             digester.parse( input );
         }
-        catch( FileNotFoundException e )
-        {
-            throw new LuteceInitException( "Error loading plugin file : " + strFilename, e );
-        }
-        catch( SAXException e )
-        {
-            throw new LuteceInitException( "Error loading plugin file : " + strFilename, e );
-        }
-        catch( IllegalArgumentException e )
-        {
-            throw new LuteceInitException( "Error loading plugin file : " + strFilename, e );
-        }
-        catch( IOException e )
+        catch( IOException | IllegalArgumentException | SAXException e )
         {
             throw new LuteceInitException( "Error loading plugin file : " + strFilename, e );
         }

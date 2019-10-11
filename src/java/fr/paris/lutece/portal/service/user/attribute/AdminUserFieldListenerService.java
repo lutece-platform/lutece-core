@@ -51,7 +51,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class AdminUserFieldListenerService
 {
-    private List<AdminUserFieldListener> _listRegisteredListeners = new ArrayList<AdminUserFieldListener>( );
+    private List<AdminUserFieldListener> _listRegisteredListeners = new ArrayList<>( );
 
     /**
      * Register a new Removal listener

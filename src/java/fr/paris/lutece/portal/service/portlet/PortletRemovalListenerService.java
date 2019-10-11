@@ -57,6 +57,6 @@ public final class PortletRemovalListenerService
      */
     public static RemovalListenerService getService( )
     {
-        return (RemovalListenerService) SpringContextService.getBean( BEAN_PORTLET_REMOVAL_SERVICE );
+        return SpringContextService.getBean( BEAN_PORTLET_REMOVAL_SERVICE );
     }
 }

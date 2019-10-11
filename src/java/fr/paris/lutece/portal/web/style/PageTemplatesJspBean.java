@@ -65,10 +65,13 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * This class provides the user interface to manage page templates features ( manage, create, modify, remove)
+ * This class provides the user interface to manage page templates features (
+ * manage, create, modify, remove)
  */
 public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
 {
+    private static final String LOG_ERROR_DELETE_FILE = "Error deleting file";
+
     // Right
     /**
      * Right to manage page templates
@@ -110,7 +113,8 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
     private static final String PARAMETER_PAGE_TEMPLATE_PICTURE = "page_template_picture";
     private static final String PARAMETER_PAGE_TEMPLATE_UPDATE_IMAGE = "update_image";
     private static final String PARAMETER_PAGE_TEMPLATE_UPDATE_FILE = "update_file";
-    private static final String PATH_IMAGE_PAGE_TEMPLATE = AppPathService.getPath( PROPERTY_PATH_IMAGE_PAGE_TEMPLATE ) + File.separator;
+    private static final String PATH_IMAGE_PAGE_TEMPLATE = AppPathService.getPath( PROPERTY_PATH_IMAGE_PAGE_TEMPLATE )
+            + File.separator;
     private static final String PATH_TEMPLATE = AppPathService.getPath( PROPERTY_PATH_TEMPLATE ) + File.separator
             + AppPropertiesService.getProperty( PROPERTY_PATH_FILE_PAGE_TEMPLATE );
 
@@ -120,8 +124,7 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
     /**
      * Returns the list of page templates
      *
-     * @param request
-     *            The Http request
+     * @param request The Http request
      * @return the html code for display the page templates list
      */
     public String getManagePageTemplate( HttpServletRequest request )
@@ -139,8 +142,7 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
     /**
      * Returns the page template form of creation
      *
-     * @param request
-     *            The Http request
+     * @param request The Http request
      * @return the html code of the page template
      */
     public String getCreatePageTemplate( HttpServletRequest request )
@@ -148,7 +150,8 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
         setPageTitleProperty( PROPERTY_PAGE_TITLE_CREATE_PAGE_TEMPLATE );
 
         HashMap<String, Object> model = new HashMap<>( );
-        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_CREATE_PAGE_TEMPLATE ) );
+        model.put( SecurityTokenService.MARK_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_CREATE_PAGE_TEMPLATE ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CREATE_PAGE_TEMPLATE, getLocale( ), model );
 
@@ -156,13 +159,12 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
     }
 
     /**
-     * Processes the creation form of a new page template by recovering the parameters in the http request
+     * Processes the creation form of a new page template by recovering the
+     * parameters in the http request
      *
-     * @param request
-     *            the http request
+     * @param request the http request
      * @return The Jsp URL of the process result
-     * @throws AccessDeniedException
-     *             if the security token is invalid
+     * @throws AccessDeniedException if the security token is invalid
      */
     public String doCreatePageTemplate( HttpServletRequest request ) throws AccessDeniedException
     {
@@ -221,8 +223,7 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
     /**
      * Returns the page template form of update
      *
-     * @param request
-     *            The Http request
+     * @param request The Http request
      * @return the html code of the page template form
      */
     public String getModifyPageTemplate( HttpServletRequest request )
@@ -233,7 +234,8 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
 
         HashMap<String, Object> model = new HashMap<>( );
         model.put( MARK_PAGE_TEMPLATE, PageTemplateHome.findByPrimaryKey( Integer.parseInt( strId ) ) );
-        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MODIFY_PAGE_TEMPLATE ) );
+        model.put( SecurityTokenService.MARK_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MODIFY_PAGE_TEMPLATE ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_PAGE_TEMPLATE, getLocale( ), model );
 
@@ -241,13 +243,12 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
     }
 
     /**
-     * Processes the updating form of a page template whose new parameters are stored in the http request
+     * Processes the updating form of a page template whose new parameters are
+     * stored in the http request
      *
-     * @param request
-     *            The http request
+     * @param request The http request
      * @return The Jsp URL of the process result
-     * @throws AccessDeniedException
-     *             if the security token is invalid
+     * @throws AccessDeniedException if the security token is invalid
      */
     public String doModifyPageTemplate( HttpServletRequest request ) throws AccessDeniedException
     {
@@ -275,11 +276,11 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
             {
                 bHasError = true;
             }
-            else
-                if ( !FileUtil.hasHtmlExtension( strFileName ) )
-                {
-                    return AdminMessageService.getMessageUrl( request, MESSAGE_WRONG_HTML_EXTENSION, AdminMessage.TYPE_STOP );
-                }
+            else if ( !FileUtil.hasHtmlExtension( strFileName ) )
+            {
+                return AdminMessageService.getMessageUrl( request, MESSAGE_WRONG_HTML_EXTENSION,
+                        AdminMessage.TYPE_STOP );
+            }
 
             bUpdateFile = true;
         }
@@ -290,11 +291,11 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
             {
                 bHasError = true;
             }
-            else
-                if ( !FileUtil.hasImageExtension( strPictureName ) )
-                {
-                    return AdminMessageService.getMessageUrl( request, MESSAGE_WRONG_IMAGE_EXTENSION, AdminMessage.TYPE_STOP );
-                }
+            else if ( !FileUtil.hasImageExtension( strPictureName ) )
+            {
+                return AdminMessageService.getMessageUrl( request, MESSAGE_WRONG_IMAGE_EXTENSION,
+                        AdminMessage.TYPE_STOP );
+            }
 
             bUpdatePicture = true;
         }
@@ -311,7 +312,13 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
 
         if ( bUpdateFile )
         {
-            new File( AppPathService.getPath( PROPERTY_PATH_TEMPLATE ) + File.separator + pageTemplate.getFile( ) ).delete( );
+            if ( !new File(
+                    AppPathService.getPath( PROPERTY_PATH_TEMPLATE ) + File.separator + pageTemplate.getFile( ) )
+                            .delete( ) )
+            {
+                AppLogService.info( LOG_ERROR_DELETE_FILE );
+            }
+
             pageTemplate.setFile( AppPropertiesService.getProperty( PROPERTY_PATH_FILE_PAGE_TEMPLATE ) + strFileName );
 
             writeTemplateFile( strFileName, PATH_TEMPLATE, fileTemplate );
@@ -319,7 +326,10 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
 
         if ( bUpdatePicture )
         {
-            new File( PATH_IMAGE_PAGE_TEMPLATE, pageTemplate.getPicture( ) ).delete( );
+            if ( !new File( PATH_IMAGE_PAGE_TEMPLATE, pageTemplate.getPicture( ) ).delete( ) )
+            {
+                AppLogService.info( LOG_ERROR_DELETE_FILE );
+            }
             pageTemplate.setPicture( strPictureName );
 
             writeTemplateFile( strPictureName, PATH_IMAGE_PAGE_TEMPLATE, filePicture );
@@ -328,15 +338,16 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
         pageTemplate.setDescription( strDescription );
         PageTemplateHome.update( pageTemplate );
 
-        // If the process is successful, redirects towards the page template management page
+        // If the process is successful, redirects towards the page template management
+        // page
         return getHomeUrl( request );
     }
 
     /**
-     * Returns the confirm of removing the page_template whose identifier is in the http request
+     * Returns the confirm of removing the page_template whose identifier is in the
+     * http request
      * 
-     * @param request
-     *            The Http request
+     * @param request The Http request
      * @return the html code for the remove confirmation page
      */
     public String getConfirmRemovePageTemplate( HttpServletRequest request )
@@ -352,27 +363,26 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
         }
 
         PageTemplate pageTemplate = PageTemplateHome.findByPrimaryKey( Integer.parseInt( strId ) );
-        String strPathPageTemplateFile = AppPathService.getPath( PROPERTY_PATH_TEMPLATE ) + File.separator + pageTemplate.getFile( );
+        String strPathPageTemplateFile = AppPathService.getPath( PROPERTY_PATH_TEMPLATE ) + File.separator
+                + pageTemplate.getFile( );
         String strPathPictureFile = PATH_IMAGE_PAGE_TEMPLATE + pageTemplate.getPicture( );
-        Object [ ] args = {
-                strPathPageTemplateFile, strPathPictureFile
-        };
+        Object[] args =
+        { strPathPageTemplateFile, strPathPictureFile };
 
         Map<String, Object> parameters = new HashMap<>( );
         parameters.put( Parameters.PAGE_TEMPLATE_ID, strId );
-        parameters.put( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, JSP_DO_REMOVE_PAGE_TEMPLATE ) );
-        return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_DELETE_PAGE_TEMPLATE, args, null, JSP_DO_REMOVE_PAGE_TEMPLATE, null,
-                AdminMessage.TYPE_CONFIRMATION, parameters );
+        parameters.put( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, JSP_DO_REMOVE_PAGE_TEMPLATE ) );
+        return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_DELETE_PAGE_TEMPLATE, args, null,
+                JSP_DO_REMOVE_PAGE_TEMPLATE, null, AdminMessage.TYPE_CONFIRMATION, parameters );
     }
 
     /**
      * Processes the deletion of a page template
      * 
-     * @param request
-     *            the http request
+     * @param request the http request
      * @return The Jsp URL of the process result
-     * @throws AccessDeniedException
-     *             if the security token is invalid
+     * @throws AccessDeniedException if the security token is invalid
      */
     public String doRemovePageTemplate( HttpServletRequest request ) throws AccessDeniedException
     {
@@ -387,18 +397,19 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
         // Delete files associated
         PageTemplate pageTemplate = PageTemplateHome.findByPrimaryKey( Integer.parseInt( strId ) );
 
-        File filePageTemplateToDelete = new File( AppPathService.getPath( PROPERTY_PATH_TEMPLATE ), pageTemplate.getFile( ) );
+        File filePageTemplateToDelete = new File( AppPathService.getPath( PROPERTY_PATH_TEMPLATE ),
+                pageTemplate.getFile( ) );
 
-        if ( filePageTemplateToDelete.exists( ) )
+        if ( filePageTemplateToDelete.exists( ) && !filePageTemplateToDelete.delete( ) )
         {
-            filePageTemplateToDelete.delete( );
+            AppLogService.info( LOG_ERROR_DELETE_FILE );
         }
 
         File filePictureToDelete = new File( PATH_IMAGE_PAGE_TEMPLATE, pageTemplate.getPicture( ) );
 
-        if ( filePictureToDelete.exists( ) )
+        if ( filePictureToDelete.exists( ) && !filePictureToDelete.delete( ) )
         {
-            filePictureToDelete.delete( );
+            AppLogService.info( LOG_ERROR_DELETE_FILE );
         }
 
         PageTemplateHome.remove( nId );
@@ -412,12 +423,9 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
     /**
      * Write the templates files (html and image)
      *
-     * @param strFileName
-     *            The name of the file
-     * @param strPath
-     *            The path of the file
-     * @param fileItem
-     *            The fileItem object which contains the new file
+     * @param strFileName The name of the file
+     * @param strPath     The path of the file
+     * @param fileItem    The fileItem object which contains the new file
      */
     private void writeTemplateFile( String strFileName, String strPath, FileItem fileItem )
     {
@@ -427,9 +435,9 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
         {
             File file = new File( strPath + strFileName );
 
-            if ( file.exists( ) )
+            if ( file.exists( ) && !file.delete( ) )
             {
-                file.delete( );
+                AppLogService.info( LOG_ERROR_DELETE_FILE );
             }
 
             fosFile = new FileOutputStream( file );
@@ -437,7 +445,7 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
             fosFile.write( fileItem.get( ) );
             fosFile.close( );
         }
-        catch( IOException e )
+        catch ( IOException e )
         {
             AppLogService.error( e.getMessage( ), e );
         }

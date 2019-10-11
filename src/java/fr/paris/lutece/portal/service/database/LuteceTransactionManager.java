@@ -33,17 +33,15 @@
  */
 package fr.paris.lutece.portal.service.database;
 
+import org.apache.commons.lang.StringUtils;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.DefaultTransactionStatus;
+
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.util.sql.TransactionManager;
-
-import org.apache.commons.lang.StringUtils;
-
-import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.TransactionDefinition;
-import org.springframework.transaction.TransactionException;
-import org.springframework.transaction.TransactionStatus;
-import org.springframework.transaction.support.DefaultTransactionStatus;
 
 /**
  * Lutece transaction manager. This TM use Lutece's specific pool transaction manager with the class {@link TransactionManager}. It allow plugins to use multi
@@ -80,7 +78,7 @@ public class LuteceTransactionManager implements PlatformTransactionManager
      * {@inheritDoc}
      */
     @Override
-    public TransactionStatus getTransaction( TransactionDefinition definition ) throws TransactionException
+    public TransactionStatus getTransaction( TransactionDefinition definition )
     {
         TransactionStatus trStatus = new DefaultTransactionStatus( null, true, false, false, false, null );
         TransactionManager.beginTransaction( getPlugin( ) );
@@ -92,7 +90,7 @@ public class LuteceTransactionManager implements PlatformTransactionManager
      * {@inheritDoc}
      */
     @Override
-    public void commit( TransactionStatus status ) throws TransactionException
+    public void commit( TransactionStatus status )
     {
         TransactionManager.commitTransaction( getPlugin( ) );
     }
@@ -101,7 +99,7 @@ public class LuteceTransactionManager implements PlatformTransactionManager
      * {@inheritDoc}
      */
     @Override
-    public void rollback( TransactionStatus status ) throws TransactionException
+    public void rollback( TransactionStatus status )
     {
         TransactionManager.rollBack( getPlugin( ) );
     }

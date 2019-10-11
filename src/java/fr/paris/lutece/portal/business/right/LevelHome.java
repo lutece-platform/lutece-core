@@ -43,7 +43,7 @@ import java.util.Collection;
 public final class LevelHome
 {
     // Static variable pointed at the DAO instance
-    private static ILevelDAO _dao = (ILevelDAO) SpringContextService.getBean( "levelDAO" );
+    private static ILevelDAO _dao = SpringContextService.getBean( "levelDAO" );
 
     /**
      * Creates a new LevelHome object.

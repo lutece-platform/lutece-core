@@ -48,7 +48,7 @@ public final class RightHome
     private static final int CONSTANT_FIRST_ID_ORDER = 1;
 
     // Static variable pointed at the DAO instance
-    private static IRightDAO _dao = (IRightDAO) SpringContextService.getBean( "rightDAO" );
+    private static IRightDAO _dao = SpringContextService.getBean( "rightDAO" );
 
     /**
      * Creates a new RightHome object.

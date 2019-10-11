@@ -181,7 +181,7 @@ public class ReferenceList extends ArrayList<ReferenceItem>
      */
     public Map<String, String> toMap( )
     {
-        Map<String, String> map = new HashMap<String, String>( );
+        Map<String, String> map = new HashMap<>( );
 
         if ( !this.isEmpty( ) )
         {

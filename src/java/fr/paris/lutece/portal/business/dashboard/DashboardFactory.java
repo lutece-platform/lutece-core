@@ -47,7 +47,7 @@ import java.util.Map;
  */
 public final class DashboardFactory
 {
-    private static Map<String, IDashboardComponent> _mapDashboardComponents = new HashMap<String, IDashboardComponent>( );
+    private static Map<String, IDashboardComponent> _mapDashboardComponents = new HashMap<>( );
 
     /**
      * Empty constructor
@@ -100,6 +100,6 @@ public final class DashboardFactory
      */
     public static List<IDashboardComponent> getAllDashboardComponents( )
     {
-        return new ArrayList<IDashboardComponent>( _mapDashboardComponents.values( ) );
+        return new ArrayList<>( _mapDashboardComponents.values( ) );
     }
 }

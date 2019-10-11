@@ -62,6 +62,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 
 /**
@@ -90,7 +92,7 @@ public class DefaultImportAdminUserService extends ImportAdminUserService
     @Override
     protected List<CSVMessageDescriptor> readLineOfCSVFile( String [ ] strLineDataArray, int nLineNumber, Locale locale, String strBaseUrl )
     {
-        List<CSVMessageDescriptor> listMessages = new ArrayList<CSVMessageDescriptor>( );
+        List<CSVMessageDescriptor> listMessages = new ArrayList<>( );
         int nIndex = 0;
 
         String strAccessCode = strLineDataArray [nIndex++];
@@ -166,7 +168,7 @@ public class DefaultImportAdminUserService extends ImportAdminUserService
 
         Timestamp accountMaxValidDate = AdminUserService.getAccountMaxValidDate( );
         String strDateLastLogin = strLineDataArray [nIndex++];
-        Timestamp dateLastLogin = new Timestamp( AdminUser.DEFAULT_DATE_LAST_LOGIN.getTime( ) );
+        Timestamp dateLastLogin = AdminUser.getDefaultDateLastLogin( );
 
         if ( StringUtils.isNotBlank( strDateLastLogin ) )
         {
@@ -247,7 +249,7 @@ public class DefaultImportAdminUserService extends ImportAdminUserService
         AdminUserFieldHome.removeByFilter( auFieldFilter );
 
         // We get every attribute, role, right and workgroup of the user
-        Map<Integer, List<String>> mapAttributesValues = new HashMap<Integer, List<String>>( );
+        Map<Integer, List<String>> mapAttributesValues = new HashMap<>( );
         List<String> listAdminRights = new ArrayList<>( );
         List<String> listAdminRoles = new ArrayList<>( );
         List<String> listAdminWorkgroups = new ArrayList<>( );
@@ -326,7 +328,7 @@ public class DefaultImportAdminUserService extends ImportAdminUserService
             {
                 List<String> listValues = mapAttributesValues.get( attribute.getIdAttribute( ) );
 
-                if ( ( listValues != null ) && ( listValues.size( ) > 0 ) )
+                if ( CollectionUtils.isNotEmpty( listValues ) )
                 {
                     int nIdField = 0;
                     boolean bCoreAttribute = ( attribute.getPlugin( ) == null )
@@ -357,7 +359,7 @@ public class DefaultImportAdminUserService extends ImportAdminUserService
                         }
 
                         String [ ] strValues = {
-                            strValue
+                                strValue
                         };
 
                         try

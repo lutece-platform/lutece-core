@@ -66,12 +66,13 @@ public final class AliasPortletDAO implements IAliasPortletDAO
         AliasPortlet alias = (AliasPortlet) portlet;
 
         // insert into the table portlet_alias
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT );
-        daoUtil.setInt( 1, alias.getId( ) );
-        daoUtil.setInt( 2, alias.getAliasId( ) );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT ) )
+        {
+            daoUtil.setInt( 1, alias.getId( ) );
+            daoUtil.setInt( 2, alias.getAliasId( ) );
 
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+            daoUtil.executeUpdate( );
+        }
     }
 
     /**
@@ -79,11 +80,12 @@ public final class AliasPortletDAO implements IAliasPortletDAO
      */
     public void delete( int nPortletId )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE );
-        daoUtil.setInt( 1, nPortletId );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE ) )
+        {
+            daoUtil.setInt( 1, nPortletId );
 
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+            daoUtil.executeUpdate( );
+        }
     }
 
     /**
@@ -91,18 +93,18 @@ public final class AliasPortletDAO implements IAliasPortletDAO
      */
     public Portlet load( int nIdPortlet )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT );
-        daoUtil.setInt( 1, nIdPortlet );
-        daoUtil.executeQuery( );
-
         AliasPortlet portlet = new AliasPortlet( );
-
-        if ( daoUtil.next( ) )
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT ) )
         {
-            portlet.setAliasId( daoUtil.getInt( 1 ) );
-        }
+            daoUtil.setInt( 1, nIdPortlet );
+            daoUtil.executeQuery( );
 
-        daoUtil.free( );
+            if ( daoUtil.next( ) )
+            {
+                portlet.setAliasId( daoUtil.getInt( 1 ) );
+            }
+
+        }
 
         return portlet;
     }
@@ -114,12 +116,13 @@ public final class AliasPortletDAO implements IAliasPortletDAO
     {
         AliasPortlet r = (AliasPortlet) portlet;
 
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE );
-        daoUtil.setInt( 1, r.getAliasId( ) );
-        daoUtil.setInt( 2, portlet.getId( ) );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE ) )
+        {
+            daoUtil.setInt( 1, r.getAliasId( ) );
+            daoUtil.setInt( 2, portlet.getId( ) );
 
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+            daoUtil.executeUpdate( );
+        }
     }
 
     /**
@@ -127,18 +130,18 @@ public final class AliasPortletDAO implements IAliasPortletDAO
      */
     public ReferenceList selectPortletsByTypeList( String strPortletTypeId )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_PORTLETS_BY_TYPE );
-        daoUtil.setString( 1, strPortletTypeId );
-        daoUtil.executeQuery( );
-
         ReferenceList list = new ReferenceList( );
-
-        while ( daoUtil.next( ) )
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_PORTLETS_BY_TYPE ) )
         {
-            list.addItem( daoUtil.getInt( 1 ), daoUtil.getString( 2 ) );
-        }
+            daoUtil.setString( 1, strPortletTypeId );
+            daoUtil.executeQuery( );
 
-        daoUtil.free( );
+            while ( daoUtil.next( ) )
+            {
+                list.addItem( daoUtil.getInt( 1 ), daoUtil.getString( 2 ) );
+            }
+
+        }
 
         return list;
     }
@@ -148,18 +151,18 @@ public final class AliasPortletDAO implements IAliasPortletDAO
      */
     public int selectAliasId( int nIdPortlet )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_ALIAS_ID );
-        daoUtil.setInt( 1, nIdPortlet );
-        daoUtil.executeQuery( );
-
         int nAliasId = 0;
-
-        if ( daoUtil.next( ) )
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_ALIAS_ID ) )
         {
-            nAliasId = daoUtil.getInt( 1 );
-        }
+            daoUtil.setInt( 1, nIdPortlet );
+            daoUtil.executeQuery( );
 
-        daoUtil.free( );
+            if ( daoUtil.next( ) )
+            {
+                nAliasId = daoUtil.getInt( 1 );
+            }
+
+        }
 
         return nAliasId;
     }
@@ -169,17 +172,17 @@ public final class AliasPortletDAO implements IAliasPortletDAO
      */
     public ReferenceList selectAcceptAliasPortletRefList( )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_ACCEPT_ALIAS_PORTLET_LIST );
-        daoUtil.executeQuery( );
-
         ReferenceList list = new ReferenceList( );
-
-        while ( daoUtil.next( ) )
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_ACCEPT_ALIAS_PORTLET_LIST ) )
         {
-            list.addItem( daoUtil.getInt( 1 ), daoUtil.getString( 2 ) );
-        }
+            daoUtil.executeQuery( );
 
-        daoUtil.free( );
+            while ( daoUtil.next( ) )
+            {
+                list.addItem( daoUtil.getInt( 1 ), daoUtil.getString( 2 ) );
+            }
+
+        }
 
         return list;
     }
@@ -189,21 +192,21 @@ public final class AliasPortletDAO implements IAliasPortletDAO
      */
     public Collection<Portlet> selectAcceptAliasPortletList( )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_ACCEPT_ALIAS_PORTLET_LIST_DETAIL );
-        daoUtil.executeQuery( );
-
-        List<Portlet> list = new ArrayList<Portlet>( );
-
-        while ( daoUtil.next( ) )
+        List<Portlet> list = new ArrayList<>( );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_ACCEPT_ALIAS_PORTLET_LIST_DETAIL ) )
         {
-            PortletImpl portlet = new PortletImpl( );
-            portlet.setId( daoUtil.getInt( 1 ) );
-            portlet.setPageId( daoUtil.getInt( 2 ) );
-            portlet.setName( daoUtil.getString( 3 ) );
-            list.add( portlet );
-        }
+            daoUtil.executeQuery( );
 
-        daoUtil.free( );
+            while ( daoUtil.next( ) )
+            {
+                PortletImpl portlet = new PortletImpl( );
+                portlet.setId( daoUtil.getInt( 1 ) );
+                portlet.setPageId( daoUtil.getInt( 2 ) );
+                portlet.setName( daoUtil.getString( 3 ) );
+                list.add( portlet );
+            }
+
+        }
 
         return list;
     }

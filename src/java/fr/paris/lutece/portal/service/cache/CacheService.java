@@ -97,7 +97,7 @@ public final class CacheService
     private static CacheService _singleton;
     private static CacheManager _manager;
 
-    private static List<CacheableService> _listCacheableServicesRegistry = new ArrayList<CacheableService>( );
+    private static List<CacheableService> _listCacheableServicesRegistry = new ArrayList<>( );
     private int _nDefaultMaxElementsInMemory;
     private boolean _bDefaultEternal;
     private long _lDefaultTimeToIdle;
@@ -161,8 +161,8 @@ public final class CacheService
         boolean bRegisterCaches = AppPropertiesService.getProperty( PROPERTY_MONITOR_CACHES, FALSE ).equals( TRUE );
         boolean bRegisterCacheConfigurations = AppPropertiesService.getProperty( PROPERTY_MONITOR_CACHE_CONFIGURATIONS, FALSE ).equals( TRUE );
         boolean bRegisterCacheStatistics = AppPropertiesService.getProperty( PROPERTY_MONITOR_CACHE_STATISTICS, FALSE ).equals( TRUE );
-        ManagementService
-                .registerMBeans( _manager, mBeanServer, bRegisterCacheManager, bRegisterCaches, bRegisterCacheConfigurations, bRegisterCacheStatistics );
+        ManagementService.registerMBeans( _manager, mBeanServer, bRegisterCacheManager, bRegisterCaches, bRegisterCacheConfigurations,
+                bRegisterCacheStatistics );
     }
 
     /**
@@ -299,12 +299,9 @@ public final class CacheService
         String strCachesStatusFile = AppPathService.getPath( PROPERTY_PATH_CONF, FILE_CACHES_STATUS );
         File file = new File( strCachesStatusFile );
 
-        FileInputStream fis = null;
-
-        try
+        try ( FileInputStream fis = new FileInputStream( file ) )
         {
             Properties properties = new Properties( );
-            fis = new FileInputStream( file );
             properties.load( fis );
 
             // If the keys aren't found in the datastore then create a key in it
@@ -326,10 +323,6 @@ public final class CacheService
         catch( Exception e )
         {
             AppLogService.error( "Error loading caches status defined in file : " + file.getAbsolutePath( ), e );
-        }
-        finally
-        {
-            StreamUtil.safeClose( fis );
         }
     }
 
@@ -432,9 +425,7 @@ public final class CacheService
             {
                 strValue = DatastoreService.getInstanceDataValue( strKey, strValue );
 
-                int nValue = Integer.parseInt( strValue );
-
-                return nValue;
+                return Integer.parseInt( strValue );
             }
             catch( NumberFormatException e )
             {
@@ -468,9 +459,7 @@ public final class CacheService
             {
                 strValue = DatastoreService.getInstanceDataValue( strKey, strValue );
 
-                long lValue = Integer.parseInt( strValue );
-
-                return lValue;
+                return Integer.parseInt( strValue );
             }
             catch( NumberFormatException e )
             {

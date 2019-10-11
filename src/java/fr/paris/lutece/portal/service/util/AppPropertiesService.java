@@ -33,15 +33,14 @@
  */
 package fr.paris.lutece.portal.service.util;
 
-import fr.paris.lutece.portal.service.init.LuteceInitException;
-import fr.paris.lutece.util.PropertiesService;
-
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+
+import fr.paris.lutece.util.PropertiesService;
 
 /**
  * this class provides management services for properties files
@@ -73,10 +72,8 @@ public final class AppPropertiesService
      * 
      * @param strConfPath
      *            The configuration path
-     * @throws LuteceInitException
-     *             If an error occured
      */
-    public static void init( String strConfPath ) throws LuteceInitException
+    public static void init( String strConfPath )
     {
         _strConfPath = strConfPath;
         _propertiesService = new PropertiesService( AppPathService.getWebAppPath( ) );
@@ -200,7 +197,7 @@ public final class AppPropertiesService
      */
     public static Map<String, String> getPropertiesAsMap( )
     {
-        Map<String, String> res = new HashMap<String, String>( );
+        Map<String, String> res = new HashMap<>( );
         Properties properties = _propertiesService.getProperties( );
 
         // enumerate over property names to get all properties, including one which are defaults

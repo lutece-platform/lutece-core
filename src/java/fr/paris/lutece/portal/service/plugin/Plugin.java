@@ -76,6 +76,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.collections.CollectionUtils;
+
 /**
  * This class is the general plugin element
  */
@@ -133,7 +135,7 @@ public abstract class Plugin implements Comparable<Plugin>
     private List<String> _listFreemarkerMacrosFiles;
 
     // hashtable which contains all the params described in the xml plugin file
-    private Map<String, String> _mapParams = new HashMap<String, String>( );
+    private Map<String, String> _mapParams = new HashMap<>( );
     private PluginConnectionService _connectionService;
 
     /**
@@ -227,7 +229,7 @@ public abstract class Plugin implements Comparable<Plugin>
      */
     public boolean hasPortlets( )
     {
-        return ( _listPortletTypes.size( ) > 0 );
+        return CollectionUtils.isNotEmpty( _listPortletTypes );
     }
 
     /**
@@ -237,7 +239,7 @@ public abstract class Plugin implements Comparable<Plugin>
      */
     public boolean hasDaemons( )
     {
-        return ( _listDaemons.size( ) > 0 );
+        return CollectionUtils.isNotEmpty( _listDaemons );
     }
 
     /**
@@ -437,15 +439,7 @@ public abstract class Plugin implements Comparable<Plugin>
 
                 PortalService.registerContentService( cs.getName( ), cs );
             }
-            catch( IllegalAccessException e )
-            {
-                throw new LuteceInitException( e.getMessage( ), e );
-            }
-            catch( ClassNotFoundException e )
-            {
-                throw new LuteceInitException( e.getMessage( ), e );
-            }
-            catch( InstantiationException e )
+            catch( InstantiationException | ClassNotFoundException | IllegalAccessException e )
             {
                 throw new LuteceInitException( e.getMessage( ), e );
             }
@@ -550,15 +544,7 @@ public abstract class Plugin implements Comparable<Plugin>
                 // Each resource id service should register itself and its permissions
                 ris.register( );
             }
-            catch( IllegalAccessException e )
-            {
-                throw new LuteceInitException( e.getMessage( ), e );
-            }
-            catch( ClassNotFoundException e )
-            {
-                throw new LuteceInitException( e.getMessage( ), e );
-            }
-            catch( InstantiationException e )
+            catch( InstantiationException | ClassNotFoundException | IllegalAccessException e )
             {
                 throw new LuteceInitException( e.getMessage( ), e );
             }
@@ -634,33 +620,33 @@ public abstract class Plugin implements Comparable<Plugin>
     {
         // Load the Type
         int nPluginTypeFlags = 0;
-
-        if ( ( _listXPageApplications != null ) && ( _listXPageApplications.size( ) > 0 ) )
+        
+        if ( CollectionUtils.isNotEmpty( _listXPageApplications ) )
         {
             nPluginTypeFlags |= PLUGIN_TYPE_APPLICATION;
         }
 
-        if ( ( _listPortletTypes != null ) && ( _listPortletTypes.size( ) > 0 ) )
+        if ( CollectionUtils.isNotEmpty( _listPortletTypes ) )
         {
             nPluginTypeFlags |= PLUGIN_TYPE_PORTLET;
         }
 
-        if ( ( _listRights != null ) && ( _listRights.size( ) > 0 ) )
+        if ( CollectionUtils.isNotEmpty( _listRights ) )
         {
             nPluginTypeFlags |= PLUGIN_TYPE_FEATURE;
         }
 
-        if ( ( _listInsertServices != null ) && ( _listInsertServices.size( ) > 0 ) )
+        if ( CollectionUtils.isNotEmpty( _listInsertServices ) )
         {
             nPluginTypeFlags |= PLUGIN_TYPE_INSERTSERVICE;
         }
 
-        if ( ( _listContentServices != null ) && ( _listContentServices.size( ) > 0 ) )
+        if ( CollectionUtils.isNotEmpty( _listContentServices ) )
         {
             nPluginTypeFlags |= PLUGIN_TYPE_CONTENTSERVICE;
         }
 
-        if ( ( _listDaemons != null ) && ( !_listDaemons.isEmpty( ) ) )
+        if ( CollectionUtils.isNotEmpty( _listDaemons ) )
         {
             nPluginTypeFlags |= PLUGIN_TYPE_DAEMON;
         }

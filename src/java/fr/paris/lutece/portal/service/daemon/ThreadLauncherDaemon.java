@@ -44,6 +44,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.apache.commons.collections.CollectionUtils;
+
 /**
  * Daemon that manage a pool of threads to launch runnables.
  */
@@ -87,9 +89,9 @@ public class ThreadLauncherDaemon extends Daemon
     }
 
     private static final String PROPERTY_MAX_NUMBER_THREAD = "daemon.threadLauncherDaemon.maxNumberOfThread";
-    private static Deque<RunnableQueueItem> _stackItems = new ArrayDeque<RunnableQueueItem>( );
-    private Map<String, Thread> _mapThreadByKey = new HashMap<String, Thread>( );
-    private List<Thread> _listThread = new ArrayList<Thread>( );
+    private static Deque<RunnableQueueItem> _stackItems = new ArrayDeque<>( );
+    private Map<String, Thread> _mapThreadByKey = new HashMap<>( );
+    private List<Thread> _listThread = new ArrayList<>( );
 
     /**
      * {@inheritDoc}
@@ -116,7 +118,7 @@ public class ThreadLauncherDaemon extends Daemon
             _mapThreadByKey.remove( strThreadKey );
         }
 
-        List<Thread> listDeadThreads = new ArrayList<Thread>( );
+        List<Thread> listDeadThreads = new ArrayList<>( );
 
         for ( Thread thread : _listThread )
         {
@@ -139,7 +141,7 @@ public class ThreadLauncherDaemon extends Daemon
 
         int nCurrentNumberRunningThreads = _mapThreadByKey.size( ) + _listThread.size( );
 
-        List<RunnableQueueItem> listLockedItems = new ArrayList<RunnableQueueItem>( );
+        List<RunnableQueueItem> listLockedItems = new ArrayList<>( );
 
         while ( ( nCurrentNumberRunningThreads < nMaxNumberThread ) && ( ( item = popItemFromQueue( ) ) != null ) )
         {
@@ -244,7 +246,7 @@ public class ThreadLauncherDaemon extends Daemon
      */
     private static synchronized RunnableQueueItem popItemFromQueue( )
     {
-        if ( _stackItems.size( ) == 0 )
+        if ( CollectionUtils.isEmpty( _stackItems ) )
         {
             return null;
         }

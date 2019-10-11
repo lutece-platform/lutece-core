@@ -48,9 +48,10 @@ public class CommonsService
 {
     private static final String DSKEY_CURRENT_COMMONS_INCLUDE = "core.templates.currentCommonsInclude";
     private static final String DEFAULT_COMMONS_INCLUDE_KEY = "default";
-    
+
     /**
      * Get the list of commons includes
+     * 
      * @return The list
      */
     public static List<CommonsInclude> getCommonsIncludes( )
@@ -60,6 +61,7 @@ public class CommonsService
 
     /**
      * Activate a commons library
+     * 
      * @param strKey The commons key
      */
     public static void activateCommons( String strKey )
@@ -74,19 +76,21 @@ public class CommonsService
 
             // Remove auto-include of the current commons include
             List<String> listAutoIncludes = serviceFMT.getAutoIncludes( );
-            for ( String strExclude : ciCurrent.getFiles( ) )
+            if ( ciCurrent != null )
             {
-                if ( ( listAutoIncludes != null ) && listAutoIncludes.contains( strExclude ) )
+                for ( String strExclude : ciCurrent.getFiles( ) )
                 {
-                    serviceFMT.removeAutoInclude( strExclude );
-                    AppLogService.info( "Existing Freemarker AutoInclude removed : " + strExclude );
+                    if ( (listAutoIncludes != null) && listAutoIncludes.contains( strExclude ) )
+                    {
+                        serviceFMT.removeAutoInclude( strExclude );
+                        AppLogService.info( "Existing Freemarker AutoInclude removed : " + strExclude );
+                    }
                 }
             }
-
             // Add auto-include that aren't already present
             for ( String strInclude : ciNew.getFiles( ) )
             {
-                if ( ( listAutoIncludes != null ) && !listAutoIncludes.contains( strInclude ) )
+                if ( (listAutoIncludes != null) && !listAutoIncludes.contains( strInclude ) )
                 {
                     serviceFMT.addAutoInclude( strInclude );
                     AppLogService.info( "New Freemarker AutoInclude added : " + strInclude );
@@ -100,6 +104,7 @@ public class CommonsService
 
     /**
      * Get the commons list
+     * 
      * @return The list
      */
     public static ReferenceList getCommonsIncludeList( )
@@ -114,6 +119,7 @@ public class CommonsService
 
     /**
      * Get the current commons key
+     * 
      * @return The key
      */
     public static String getCurrentCommonsKey( )
@@ -128,6 +134,7 @@ public class CommonsService
 
     /**
      * Get a commons include by its key
+     * 
      * @param strKey The key
      * @return The commons include object
      */
@@ -145,16 +152,19 @@ public class CommonsService
 
     /**
      * Get the current commons include
+     * 
      * @return The commons include object
      */
     public static CommonsInclude getCurrentCommonsInclude( )
     {
-        String strCurrentCommonsIncludeKey = DatastoreService.getInstanceDataValue( DSKEY_CURRENT_COMMONS_INCLUDE, DEFAULT_COMMONS_INCLUDE_KEY );
+        String strCurrentCommonsIncludeKey = DatastoreService.getInstanceDataValue( DSKEY_CURRENT_COMMONS_INCLUDE,
+                DEFAULT_COMMONS_INCLUDE_KEY );
         return getCommonsInclude( strCurrentCommonsIncludeKey );
     }
 
     /**
      * Define the new commons include
+     * 
      * @param ciNew the new commons include
      */
     private static void setNewCommonsInclude( CommonsInclude ciNew )

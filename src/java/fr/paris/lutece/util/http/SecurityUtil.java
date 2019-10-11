@@ -215,7 +215,7 @@ public final class SecurityUtil
      */
     public static String dumpRequest( HttpServletRequest request )
     {
-        StringBuffer sbDump = new StringBuffer( "\r\n Request Dump : \r\n" );
+        StringBuilder sbDump = new StringBuilder( "\r\n Request Dump : \r\n" );
         if ( request != null )
         {
             dumpTitle( sbDump, "Request variables" );
@@ -361,9 +361,8 @@ public final class SecurityUtil
         int nCharCount = strUserInputData.length( );
         int nLineCount = StringUtils.countMatches( strUserInputData, "\n" );
         String strPrefixedLines = strUserInputData.replace( "\n", "\n** " );
-        String strProtected = "\n** USER INPUT DATA : BEGIN (" + nLineCount + " lines and " + nCharCount + " chars) ** \n" + strPrefixedLines
+        return "\n** USER INPUT DATA : BEGIN (" + nLineCount + " lines and " + nCharCount + " chars) ** \n" + strPrefixedLines
                 + "\n** USER INPUT DATA : END\n";
-        return strProtected;
     }
 
     /**
@@ -374,7 +373,7 @@ public final class SecurityUtil
      * @param strTitle
      *            The title
      */
-    private static void dumpTitle( StringBuffer sbDump, String strTitle )
+    private static void dumpTitle( StringBuilder sbDump, String strTitle )
     {
         sbDump.append( "** " );
         sbDump.append( strTitle );
@@ -389,7 +388,7 @@ public final class SecurityUtil
      * @param request
      *            The HTTP request
      */
-    private static void dumpVariables( StringBuffer sb, HttpServletRequest request )
+    private static void dumpVariables( StringBuilder sb, HttpServletRequest request )
     {
         dumpVariable( sb, "AUTH_TYPE", request.getAuthType( ) );
         dumpVariable( sb, "REQUEST_METHOD", request.getMethod( ) );
@@ -415,7 +414,7 @@ public final class SecurityUtil
      * @param request
      *            The HTTP request
      */
-    private static void dumpHeaders( StringBuffer sb, HttpServletRequest request )
+    private static void dumpHeaders( StringBuilder sb, HttpServletRequest request )
     {
         Enumeration<String> values;
         String key;
@@ -441,7 +440,7 @@ public final class SecurityUtil
      * @param request
      *            The HTTP request
      */
-    private static void dumpParameters( StringBuffer sb, HttpServletRequest request )
+    private static void dumpParameters( StringBuilder sb, HttpServletRequest request )
     {
         String key;
         String [ ] values;
@@ -472,7 +471,7 @@ public final class SecurityUtil
      * @param strValue
      *            The info value
      */
-    private static void dumpVariable( StringBuffer sb, String strName, String strValue )
+    private static void dumpVariable( StringBuilder sb, String strName, String strValue )
     {
         sb.append( strName );
         sb.append( " : \"" );

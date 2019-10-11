@@ -39,6 +39,7 @@ import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.user.attribute.AttributeService;
 import fr.paris.lutece.portal.web.constants.Messages;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 
 import java.util.ArrayList;
@@ -88,6 +89,7 @@ public class AttributeText extends AbstractAttribute implements ISimpleValuesAtt
      */
     public AttributeText( )
     {
+        // Ctor
     }
 
     /**
@@ -218,7 +220,7 @@ public class AttributeText extends AbstractAttribute implements ISimpleValuesAtt
 
                 if ( getListAttributeFields( ) == null )
                 {
-                    List<AttributeField> listAttributeFields = new ArrayList<AttributeField>( );
+                    List<AttributeField> listAttributeFields = new ArrayList<>( );
                     AttributeField attributeField = new AttributeField( );
                     listAttributeFields.add( attributeField );
                     setListAttributeFields( listAttributeFields );
@@ -288,7 +290,7 @@ public class AttributeText extends AbstractAttribute implements ISimpleValuesAtt
     @Override
     public List<AdminUserField> getUserFieldsData( String [ ] strValues, AdminUser user )
     {
-        List<AdminUserField> listUserFields = new ArrayList<AdminUserField>( );
+        List<AdminUserField> listUserFields = new ArrayList<>( );
         AdminUserField userField = new AdminUserField( );
         AttributeService.getInstance( ).setAttributeField( this );
 
@@ -304,7 +306,7 @@ public class AttributeText extends AbstractAttribute implements ISimpleValuesAtt
                 userField.setUser( user );
                 userField.setAttribute( this );
 
-                if ( ( getListAttributeFields( ) != null ) && ( getListAttributeFields( ).size( ) > 0 ) )
+                if ( CollectionUtils.isNotEmpty( getListAttributeFields( ) ) )
                 {
                     userField.setAttributeField( getListAttributeFields( ).get( 0 ) );
                 }

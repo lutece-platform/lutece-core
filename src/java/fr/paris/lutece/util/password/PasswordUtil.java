@@ -109,7 +109,7 @@ public final class PasswordUtil
         // reinitialize password
         Random r = new SecureRandom( );
 
-        ArrayList<Character> listCharacters = new ArrayList<Character>( nPasswordSize );
+        ArrayList<Character> listCharacters = new ArrayList<>( nPasswordSize );
 
         // No of Big letters
         int nNumCapitalLetters = bUpperAndLowerCase ? ( r.nextInt( nPasswordSize - 3 ) + 1 ) : 0; // choose a number between 1 and CONSTANT_PASSWORD_SIZE -1
@@ -232,8 +232,6 @@ public final class PasswordUtil
         }
 
         long nMilliSeconds = DateUtil.convertDaysInMiliseconds( nNumberDay );
-        Timestamp maxValidDate = new Timestamp( new java.util.Date( ).getTime( ) + nMilliSeconds );
-
-        return maxValidDate;
+        return new Timestamp( new java.util.Date( ).getTime( ) + nMilliSeconds );
     }
 }

@@ -48,7 +48,7 @@ import java.util.Map;
 public final class TransactionManager
 {
     private static final String DEFAULT_POOL_NAME = "portal";
-    private static ThreadLocal<Map<String, MultiPluginTransaction>> _tlTransactions = new ThreadLocal<Map<String, MultiPluginTransaction>>( );
+    private static ThreadLocal<Map<String, MultiPluginTransaction>> _tlTransactions = new ThreadLocal<>( );
 
     /**
      * Default constructor
@@ -86,7 +86,7 @@ public final class TransactionManager
 
         if ( mapTransactions == null )
         {
-            mapTransactions = new HashMap<String, MultiPluginTransaction>( );
+            mapTransactions = new HashMap<>( );
             _tlTransactions.set( mapTransactions );
         }
         else

@@ -45,7 +45,7 @@ import java.util.Collection;
 public final class StyleHome
 {
     // Static variable pointed at the DAO instance
-    private static IStyleDAO _dao = (IStyleDAO) SpringContextService.getBean( "styleDAO" );
+    private static IStyleDAO _dao = SpringContextService.getBean( "styleDAO" );
 
     /**
      * Creates a new StyleHome object.

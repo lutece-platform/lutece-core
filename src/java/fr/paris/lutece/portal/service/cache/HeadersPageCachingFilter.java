@@ -175,8 +175,8 @@ public class HeadersPageCachingFilter extends SimpleCachingHeadersPageCachingFil
      * {@inheritDoc }
      */
     @Override
-    protected void doFilter( HttpServletRequest request, HttpServletResponse response, FilterChain chain ) throws AlreadyGzippedException,
-            AlreadyCommittedException, FilterNonReentrantException, LockTimeoutException, Exception
+    protected void doFilter( HttpServletRequest request, HttpServletResponse response, FilterChain chain )
+            throws AlreadyGzippedException, AlreadyCommittedException, FilterNonReentrantException, LockTimeoutException, Exception
     {
         if ( !_bInit )
         {

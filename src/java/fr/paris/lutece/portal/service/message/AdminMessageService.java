@@ -352,9 +352,7 @@ public final class AdminMessageService
     public static AdminMessage getMessage( HttpServletRequest request )
     {
         HttpSession session = request.getSession( true );
-        AdminMessage message = (AdminMessage) session.getAttribute( ATTRIBUTE_MESSAGE );
-
-        return message;
+        return (AdminMessage) session.getAttribute( ATTRIBUTE_MESSAGE );
     }
 
     /**
@@ -479,7 +477,7 @@ public final class AdminMessageService
      */
     public static String getFormattedList( List<String> list, Locale locale )
     {
-        Map<String, List<String>> model = new HashMap<String, List<String>>( );
+        Map<String, List<String>> model = new HashMap<>( );
         model.put( MARK_MESSAGES_LIST, list );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_FORMAT_LIST, locale, model );
@@ -504,11 +502,7 @@ public final class AdminMessageService
         model.put( MARK_ERRORS_LIST, constraintViolations );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ERRORS_LIST, request.getLocale( ), model );
-        String [ ] formatedErrors = {
-            template.getHtml( )
-        };
-
-        return formatedErrors;
+        return new String[] { template.getHtml( ) };
     }
 
     /**
@@ -528,10 +522,6 @@ public final class AdminMessageService
         model.put( MARK_ERRORS_LIST, errors );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ERRORS_LIST, request.getLocale( ), model );
-        String [ ] formatedErrors = {
-            template.getHtml( )
-        };
-
-        return formatedErrors;
+        return new String[] { template.getHtml( ) };
     }
 }

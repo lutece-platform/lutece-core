@@ -45,7 +45,7 @@ import java.util.Map;
 public final class SearchParameterHome
 {
     // Static variable pointed at the DAO instance
-    private static ISearchParameterDAO _dao = (ISearchParameterDAO) SpringContextService.getBean( "searchParameterDAO" );
+    private static ISearchParameterDAO _dao = SpringContextService.getBean( "searchParameterDAO" );
 
     /**
      * Instantiates a new search parameter home.

@@ -44,7 +44,7 @@ import java.util.Collection;
 public final class AdminRoleHome
 {
     // Static variable pointed at the DAO instance
-    private static IAdminRoleDAO _dao = (IAdminRoleDAO) SpringContextService.getBean( "adminRoleDAO" );
+    private static IAdminRoleDAO _dao = SpringContextService.getBean( "adminRoleDAO" );
 
     /**
      * Private constructor - this class need not be instantiated

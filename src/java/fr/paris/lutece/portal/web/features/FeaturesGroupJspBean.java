@@ -56,6 +56,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.collections.CollectionUtils;
+
 /**
  * FeaturesGroupJspBean
  */
@@ -188,7 +190,7 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
     {
         int nCount = FeatureGroupHome.getFeatureGroupsCount( ) + 1;
 
-        Map<String, Serializable> model = new HashMap<String, Serializable>( );
+        Map<String, Serializable> model = new HashMap<>( );
         model.put( MARK_ORDER_LIST, getOrderRefList( ) );
         model.put( MARK_DEFAULT_ORDER, String.valueOf( nCount ) );
         model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request,  AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) );
@@ -356,7 +358,7 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
     {
         String strGroupId = request.getParameter( PARAMETER_GROUP_ID );
 
-        if ( RightHome.getRightsList( strGroupId ).size( ) > 0 )
+        if ( CollectionUtils.isNotEmpty( RightHome.getRightsList( strGroupId ) ) )
         {
             return AdminMessageService.getMessageUrl( request, MESSAGE_RIGHT_ALREADY_ASSIGN, AdminMessage.TYPE_STOP );
         }
