@@ -450,14 +450,7 @@ public class PluginFile
     public void addCssStyleSheet( String strStyleSheet, String mode )
     {
         Integer nMode = getMode( mode );
-        List<String> cssStyleSheets = _listCssStyleSheets.get( nMode );
-
-        if ( cssStyleSheets == null )
-        {
-            cssStyleSheets = new ArrayList<>( );
-            _listCssStyleSheets.put( nMode, cssStyleSheets );
-        }
-
+        List<String> cssStyleSheets = _listCssStyleSheets.computeIfAbsent( nMode, s -> new ArrayList<>( ) );
         cssStyleSheets.add( strStyleSheet );
     }
 
@@ -537,14 +530,7 @@ public class PluginFile
     public void addJavascriptFile( String strJavascriptFile, String mode )
     {
         Integer nMode = getMode( mode );
-        List<String> javascriptFiles = _listJavascriptFiles.get( nMode );
-
-        if ( javascriptFiles == null )
-        {
-            javascriptFiles = new ArrayList<>( );
-            _listJavascriptFiles.put( nMode, javascriptFiles );
-        }
-
+        List<String> javascriptFiles = _listJavascriptFiles.computeIfAbsent( nMode, s -> new ArrayList<>( ) );
         javascriptFiles.add( strJavascriptFile );
     }
 

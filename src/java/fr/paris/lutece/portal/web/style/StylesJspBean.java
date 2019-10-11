@@ -114,7 +114,6 @@ public class StylesJspBean extends AdminFeaturesPageJspBean
     private static final String MESSAGE_CREATE_STYLE_COMPONENT_EXISTS = "portal.style.message.createStyle.componentHasAlreadyAStyle";
     private static final String MESSAGE_CONFIRM_DELETE_STYLESHEET = "portal.style.message.stylesheetConfirmDelete";
     private int _nItemsPerPage;
-    private int _nDefaultItemsPerPage;
     private String _strCurrentPageIndex;
 
     /**
@@ -140,9 +139,9 @@ public class StylesJspBean extends AdminFeaturesPageJspBean
             Collections.sort( listStyles, new AttributeComparator( strSortedAttributeName, bIsAscSort ) );
         }
 
-        _nDefaultItemsPerPage = AppPropertiesService.getPropertyInt( PROPERTY_STYLES_PER_PAGE, 10 );
+        int defaultItemsPerPage = AppPropertiesService.getPropertyInt( PROPERTY_STYLES_PER_PAGE, 10 );
         _strCurrentPageIndex = AbstractPaginator.getPageIndex( request, AbstractPaginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex );
-        _nItemsPerPage = AbstractPaginator.getItemsPerPage( request, AbstractPaginator.PARAMETER_ITEMS_PER_PAGE, _nItemsPerPage, _nDefaultItemsPerPage );
+        _nItemsPerPage = AbstractPaginator.getItemsPerPage( request, AbstractPaginator.PARAMETER_ITEMS_PER_PAGE, _nItemsPerPage, defaultItemsPerPage );
 
         String strURL = getHomeUrl( request );
 
@@ -234,7 +233,7 @@ public class StylesJspBean extends AdminFeaturesPageJspBean
 
         if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_CREATE_STYLE ) )
         {
-            throw new AccessDeniedException( "Invalid security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
 
         // The style doesn't exist in the database, we can create it
@@ -309,7 +308,7 @@ public class StylesJspBean extends AdminFeaturesPageJspBean
         }
         if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_MODIFY_STYLE ) )
         {
-            throw new AccessDeniedException( "Invalid Security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
 
         style.setPortletTypeId( strPortletTypeId );
@@ -376,7 +375,7 @@ public class StylesJspBean extends AdminFeaturesPageJspBean
     {
         if ( !SecurityTokenService.getInstance( ).validate( request, JSP_DO_REMOVE_STYLE ) )
         {
-            throw new AccessDeniedException( "Invalid security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
         String strId = request.getParameter( Parameters.STYLE_ID );
         int nId = Integer.parseInt( strId );

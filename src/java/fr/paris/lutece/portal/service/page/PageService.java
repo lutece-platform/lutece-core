@@ -498,7 +498,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
         }
 
         Page page = PageHome.findByPrimaryKey( nIdPage );
-        Map<String, String> mapParams = getParams( request, nMode, nIdPage );
+        Map<String, String> mapParams = getParams( request, nMode );
         boolean bCanPageBeCached = Boolean.TRUE;
         LuteceUser user = SecurityService.getInstance( ).getRegisteredUser( request );
 
@@ -986,10 +986,9 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
      *
      * @param request The HTTP request
      * @param nMode   The mode
-     * @param nIdPage The page ID
      * @return the map
      */
-    private Map<String, String> getParams( HttpServletRequest request, int nMode, int nIdPage )
+    private Map<String, String> getParams( HttpServletRequest request, int nMode )
     {
         Map<String, String> mapModifyParam = new HashMap<>( );
         String paramName = "";

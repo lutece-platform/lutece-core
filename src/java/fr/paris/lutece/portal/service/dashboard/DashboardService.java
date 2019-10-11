@@ -301,14 +301,7 @@ public final class DashboardService
             String strColumn = Integer.toString( nColumn );
 
             // find this column list
-            List<IDashboardComponent> listDashboardsColumn = mapDashboardComponents.get( strColumn );
-
-            if ( listDashboardsColumn == null )
-            {
-                // the list does not exist, create it
-                listDashboardsColumn = new ArrayList<>( );
-                mapDashboardComponents.put( strColumn, listDashboardsColumn );
-            }
+            List<IDashboardComponent> listDashboardsColumn = mapDashboardComponents.computeIfAbsent( strColumn, s ->  new ArrayList<>( ) );
 
             // add dashboard to the list
             listDashboardsColumn.add( dashboard );

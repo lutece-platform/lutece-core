@@ -115,13 +115,13 @@ public final class IndexationService
             _strIndex = AppPropertiesService.getProperty( PATH_INDEX );
         }
 
-        if ( ( _strIndex == null ) || ( _strIndex.equals( "" ) ) )
+        if ( StringUtils.isEmpty( _strIndex ) )
         {
             throw new LuteceInitException( "Lucene index path not found in lucene.properties", null );
         }
         String strAnalyserClassName = AppPropertiesService.getProperty( PROPERTY_ANALYSER_CLASS_NAME );
 
-        if ( ( _strIndex == null ) || ( _strIndex.equals( "" ) ) )
+        if ( StringUtils.isEmpty( strAnalyserClassName ) )
         {
             throw new LuteceInitException( "Analyser class name not found in lucene.properties", null );
         }

@@ -264,7 +264,7 @@ public class SystemJspBean extends AdminFeaturesPageJspBean
     {
         if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_MODIFY_PROPERTIES ) )
         {
-            throw new AccessDeniedException( "Invalid security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
         List<LocalizedDataGroup> groups = SitePropertiesService.getGroups( AdminUserService.getAdminUser( request ).getLocale( ) );
 

@@ -33,6 +33,12 @@
  */
 package fr.paris.lutece.portal.web.features;
 
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
 import fr.paris.lutece.portal.business.right.FeatureGroup;
 import fr.paris.lutece.portal.business.right.FeatureGroupHome;
 import fr.paris.lutece.portal.business.right.Level;
@@ -49,10 +55,6 @@ import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
 import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.html.HtmlTemplate;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import javax.servlet.http.HttpServletRequest;
 
 /**
  *
@@ -126,7 +128,7 @@ public class ExternalFeaturesJspBean extends AdminFeaturesPageJspBean
     {
         if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_CREATE_EXTERNAL_FEATURE ) )
         {
-            throw new AccessDeniedException( "Invalid security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
         _externalFeature = new Right( );
         populate( _externalFeature, request );
@@ -162,7 +164,7 @@ public class ExternalFeaturesJspBean extends AdminFeaturesPageJspBean
     {
         if ( !SecurityTokenService.getInstance( ).validate( request, JSP_DELETE_EXTERNAL_FEATURE ) )
         {
-            throw new AccessDeniedException( "Invalid security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
         RightHome.remove( _externalFeature.getId( ) );
 
@@ -206,7 +208,7 @@ public class ExternalFeaturesJspBean extends AdminFeaturesPageJspBean
     {
         if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_MODIFY_EXTERNAL_FEATURE ) )
         {
-            throw new AccessDeniedException( "Invalid security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
         int nIdOrder = _externalFeature.getOrder( );
         String strIdExternalFeature = _externalFeature.getId( );

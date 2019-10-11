@@ -129,7 +129,7 @@ public class MailSenderDaemon extends Daemon
                                     sbLogsLine = new StringBuilder( );
                                     // just one recipient by mail
                                     mail.setRecipientsTo( strAdressTo );
-                                    sendMail( mail, strHost, transportSmtp, session, sbLogsLine );
+                                    sendMail( mail, transportSmtp, session, sbLogsLine );
                                     logger.info( sbLogsLine.toString( ) );
                                     sbLogs.append( "\r\n" );
                                     sbLogs.append( sbLogsLine );
@@ -138,7 +138,7 @@ public class MailSenderDaemon extends Daemon
                             else
                             {
                                 sbLogsLine = new StringBuilder( );
-                                sendMail( mail, strHost, transportSmtp, session, sbLogsLine );
+                                sendMail( mail, transportSmtp, session, sbLogsLine );
                                 logger.info( sbLogsLine.toString( ) );
                                 sbLogs.append( "\r\n" );
                                 sbLogs.append( sbLogsLine );
@@ -200,8 +200,6 @@ public class MailSenderDaemon extends Daemon
      * 
      * @param mail
      *            the mail item
-     * @param strHost
-     *            the host
      * @param transportSmtp
      *            the smtp transport
      * @param session
@@ -211,7 +209,7 @@ public class MailSenderDaemon extends Daemon
      * @throws MessagingException
      *             See {@link MessagingException}
      */
-    private void sendMail( MailItem mail, String strHost, Transport transportSmtp, Session session, StringBuilder sbLogsLine ) throws MessagingException
+    private void sendMail( MailItem mail, Transport transportSmtp, Session session, StringBuilder sbLogsLine ) throws MessagingException
     {
         try
         {

@@ -391,7 +391,6 @@ public final class AdminUserService
         if ( bIsSearch )
         {
             auFilter.setUrlAttributes( url );
-            strSortSearchAttribute = AMPERSAND + auFilter.getUrlAttributes( );
             auFieldFilter.setUrlAttributes( url );
             strSortSearchAttribute = auFieldFilter.getUrlAttributes( );
         }
@@ -900,7 +899,7 @@ public final class AdminUserService
     {
         String defaultUserParameter = DefaultUserParameterHome.findByKey( strParameterkey );
 
-        return ( defaultUserParameter == null ) ? false : Boolean.parseBoolean( defaultUserParameter );
+        return defaultUserParameter != null && Boolean.parseBoolean( defaultUserParameter );
     }
 
     /**
@@ -912,9 +911,7 @@ public final class AdminUserService
      */
     public static String getSecurityParameter( String strParameterkey )
     {
-        String defaultUserParameter = DefaultUserParameterHome.findByKey( strParameterkey );
-
-        return ( defaultUserParameter == null ) ? null : defaultUserParameter;
+        return DefaultUserParameterHome.findByKey( strParameterkey );
     }
 
     /**

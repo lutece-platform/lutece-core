@@ -80,7 +80,7 @@ public class CommonsService
             {
                 for ( String strExclude : ciCurrent.getFiles( ) )
                 {
-                    if ( (listAutoIncludes != null) && listAutoIncludes.contains( strExclude ) )
+                    if ( ( listAutoIncludes != null ) && listAutoIncludes.contains( strExclude ) )
                     {
                         serviceFMT.removeAutoInclude( strExclude );
                         AppLogService.info( "Existing Freemarker AutoInclude removed : " + strExclude );
@@ -90,7 +90,7 @@ public class CommonsService
             // Add auto-include that aren't already present
             for ( String strInclude : ciNew.getFiles( ) )
             {
-                if ( (listAutoIncludes != null) && !listAutoIncludes.contains( strInclude ) )
+                if ( ( listAutoIncludes != null ) && !listAutoIncludes.contains( strInclude ) )
                 {
                     serviceFMT.addAutoInclude( strInclude );
                     AppLogService.info( "New Freemarker AutoInclude added : " + strInclude );

@@ -147,7 +147,7 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
         }
         if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_MANAGE_PLUGINS ) )
         {
-            throw new AccessDeniedException( "Invalid security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
         try
         {
@@ -175,7 +175,7 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
     {
         if ( !SecurityTokenService.getInstance( ).validate( request, JSP_UNINSTALL_PLUGIN ) )
         {
-            throw new AccessDeniedException( "Invalid security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
         try
         {
@@ -236,7 +236,7 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
     {
         if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_MANAGE_PLUGINS ) )
         {
-            throw new AccessDeniedException( "Invalid security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
         String strPluginName = request.getParameter( PARAM_PLUGIN_NAME );
         String strDbPoolName = request.getParameter( PARAM_DB_POOL_NAME );

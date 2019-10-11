@@ -283,7 +283,7 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
         }
         if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_CREATE_WORKGROUP ) )
         {
-            throw new AccessDeniedException( "Invalid security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
 
         AdminWorkgroup adminWorkgroup = new AdminWorkgroup( );
@@ -343,7 +343,7 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
         }
         if ( !SecurityTokenService.getInstance( ).validate( request, JSP_URL_REMOVE_WORKGROUP ) )
         {
-            throw new AccessDeniedException( "Invalid security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
 
         AdminWorkgroupHome.remove( strWorkgroupKey );
@@ -399,7 +399,7 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
         }
         if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_MODIFY_WORKGROUP ) )
         {
-            throw new AccessDeniedException( "Invalid security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
 
         AdminWorkgroup adminWorkgroup = new AdminWorkgroup( );
@@ -550,7 +550,7 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
     {
         if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_ASSIGN_USERS ) )
         {
-            throw new AccessDeniedException( "Invalid security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
         String strWorkgroupKey = request.getParameter( PARAMETER_WORKGROUP_KEY );
 
@@ -587,7 +587,7 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
     {
         if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_ASSIGN_USERS ) )
         {
-            throw new AccessDeniedException( "Invalid security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
         String strWorkgroupKey = request.getParameter( PARAMETER_WORKGROUP_KEY );
         int nIdUser = Integer.parseInt( request.getParameter( PARAMETER_ID_USER ) );

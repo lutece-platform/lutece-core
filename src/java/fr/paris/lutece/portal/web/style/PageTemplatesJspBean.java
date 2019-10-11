@@ -203,7 +203,7 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
 
         if ( !SecurityTokenService.getInstance( ).validate( multipartRequest, TEMPLATE_CREATE_PAGE_TEMPLATE ) )
         {
-            throw new AccessDeniedException( "Invalid security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
 
         pageTemplate.setFile( AppPropertiesService.getProperty( PROPERTY_PATH_FILE_PAGE_TEMPLATE ) + strFileName );
@@ -307,7 +307,7 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
 
         if ( !SecurityTokenService.getInstance( ).validate( multipartRequest, TEMPLATE_MODIFY_PAGE_TEMPLATE ) )
         {
-            throw new AccessDeniedException( "Invalid security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
 
         if ( bUpdateFile )
@@ -388,7 +388,7 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
     {
         if ( !SecurityTokenService.getInstance( ).validate( request, JSP_DO_REMOVE_PAGE_TEMPLATE ) )
         {
-            throw new AccessDeniedException( "Invalid security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
 
         String strId = request.getParameter( Parameters.PAGE_TEMPLATE_ID );

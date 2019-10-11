@@ -205,8 +205,6 @@ public class AccountLifeTimeDaemon extends Daemon
                 AppLogService.info( sbLogs.toString( ) );
                 sbResult.append( sbLogs.toString( ) );
                 sbResult.append( "\n" );
-
-                userIdListToSendFirstAlert = null;
             }
             else
             {
@@ -271,8 +269,6 @@ public class AccountLifeTimeDaemon extends Daemon
                 sbLogs.append( " next alert(s) have been sent" );
                 AppLogService.info( sbLogs.toString( ) );
                 sbResult.append( sbLogs.toString( ) );
-
-                userIdListToSendNextAlert = null;
             }
             else
             {

@@ -136,19 +136,14 @@ public class StandaloneAppJspBean
         Locale locale = ( request == null ) ? null : request.getLocale( );
 
         Collection<XPageApplicationEntry> applications = XPageAppService.getXPageApplicationsList( );
-        Comparator<XPageApplicationEntry> comparator = new Comparator<XPageApplicationEntry>( )
-        {
-            public int compare( XPageApplicationEntry c1, XPageApplicationEntry c2 )
-            {
-                Plugin p1 = ( c1.getPlugin( ) == null ) ? PluginService.getCore( ) : c1.getPlugin( );
-                Plugin p2 = ( c2.getPlugin( ) == null ) ? PluginService.getCore( ) : c2.getPlugin( );
-
-                return p1.getName( ).compareTo( p2.getName( ) );
-            }
-        };
-
         List<XPageApplicationEntry> applicationsSorted = new ArrayList<>( applications );
-        Collections.sort( applicationsSorted, comparator );
+        
+        Collections.sort( applicationsSorted, (XPageApplicationEntry c1, XPageApplicationEntry c2) -> {
+            Plugin p1 = ( c1.getPlugin( ) == null ) ? PluginService.getCore( ) : c1.getPlugin( );
+            Plugin p2 = ( c2.getPlugin( ) == null ) ? PluginService.getCore( ) : c2.getPlugin( );
+
+            return p1.getName( ).compareTo( p2.getName( ) );
+        } );
 
         // Scan of the list
         for ( XPageApplicationEntry entry : applicationsSorted )

@@ -95,7 +95,8 @@ public final class SecurityService
             {
                 _bEnable = true;
             }
-        } else
+        }
+        else
         {
             // in case authentication is disabled after having been enabled
             _authenticationService = null;
@@ -148,7 +149,8 @@ public final class SecurityService
                 }
 
                 registerUser( request, user );
-            } else
+            }
+            else
             {
                 throw new UserNotSignedException( );
             }
@@ -183,7 +185,8 @@ public final class SecurityService
         try
         {
             user = getRemoteUser( request );
-        } catch ( UserNotSignedException e )
+        }
+        catch ( UserNotSignedException e )
         {
             return false;
         }
@@ -239,7 +242,8 @@ public final class SecurityService
         try
         {
             user = getRemoteUser( request );
-        } catch ( UserNotSignedException e )
+        }
+        catch ( UserNotSignedException e )
         {
             return;
         }
@@ -266,7 +270,8 @@ public final class SecurityService
             {
                 authentication = (LuteceAuthentication) Class.forName( strAuthenticationClass ).newInstance( );
                 AppLogService.info( "Authentication service loaded : " + authentication.getAuthServiceName( ) );
-            } catch ( InstantiationException | IllegalAccessException | ClassNotFoundException e )
+            }
+            catch ( InstantiationException | IllegalAccessException | ClassNotFoundException e )
             {
                 throw new LuteceInitException( "Error instantiating Authentication Class", e );
             }
@@ -475,12 +480,7 @@ public final class SecurityService
             }
         }
 
-        if ( url.getUrl( ).endsWith( getLoginPageUrl( ) ) && !getLoginPageUrl( ).equals( "" ) )
-        {
-            return true;
-        }
-
-        return false;
+        return url.getUrl( ).endsWith( getLoginPageUrl( ) ) && !getLoginPageUrl( ).equals( "" );
     }
 
     /**

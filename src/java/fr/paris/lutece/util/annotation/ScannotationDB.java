@@ -115,17 +115,7 @@ public class ScannotationDB implements IAnnotationDB
         Date start = new Date( );
         File libDirectory = new File( AppPathService.getWebAppPath( ) + CONSTANT_WEB_INF_LIB );
 
-        String [ ] allJars = libDirectory.list( new FilenameFilter( )
-        {
-            /**
-             * {@inheritDoc}
-             */
-            @Override
-            public boolean accept( File dir, String name )
-            {
-                return name.matches( _strFileFilter );
-            }
-        } );
+        String [ ] allJars = libDirectory.list( ( File dir, String name ) -> name.matches( _strFileFilter ) );
 
         for ( String strJar : allJars )
         {

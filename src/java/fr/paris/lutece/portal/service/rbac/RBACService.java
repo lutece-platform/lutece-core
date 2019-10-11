@@ -120,12 +120,7 @@ public final class RBACService
     {
         Map<String, AdminRole> userRoles = user.getRoles( );
 
-        if ( userRoles.containsKey( strRole ) )
-        {
-            return true;
-        }
-
-        return false;
+        return userRoles.containsKey( strRole );
     }
 
     /**

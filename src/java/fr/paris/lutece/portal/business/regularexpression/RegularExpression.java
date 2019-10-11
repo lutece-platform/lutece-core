@@ -181,12 +181,7 @@ public class RegularExpression
      */
     public boolean equals( Object obj )
     {
-        if ( obj instanceof RegularExpression && ( ( (RegularExpression) obj ).getIdExpression( ) == _nIdExpression ) )
-        {
-            return true;
-        }
-
-        return false;
+        return obj instanceof RegularExpression && ( ( (RegularExpression) obj ).getIdExpression( ) == _nIdExpression );
     }
 
     /**

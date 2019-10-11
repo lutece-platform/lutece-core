@@ -207,7 +207,7 @@ public class XslExportJspBean extends PluginAdminPageJspBean
 
         if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_CREATE_XSL_EXPORT ) )
         {
-            throw new AccessDeniedException( "Invalid security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
 
         if ( xslExport.getFile( ) != null )
@@ -301,7 +301,7 @@ public class XslExportJspBean extends PluginAdminPageJspBean
         }
         if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_MODIFY_XSL_EXPORT ) )
         {
-            throw new AccessDeniedException( "Invalid security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
 
         // if xslExport
@@ -374,7 +374,7 @@ public class XslExportJspBean extends PluginAdminPageJspBean
         }
         if ( !SecurityTokenService.getInstance( ).validate( request, JSP_DO_REMOVE_XSL_EXPORT ) )
         {
-            throw new AccessDeniedException( "Invalid security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
 
         String strIdXslExport = request.getParameter( PARAMETER_ID_XSL_EXPORT );

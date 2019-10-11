@@ -118,7 +118,6 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
     private static final String PARAMETER_IMAGE_CONTENT = "image_content";
     private static final String PARAMETER_NODE_STATUS = "node_status";
     private static final String PARAMETER_BLOCK = "param_block";
-    private static final String PARAMETER_PORTLET_TYPE = "portlet_type";
     private static final String PARAMETER_PAGE_TEMPLATE_UPDATE_IMAGE = "update_image";
     private static final int BLOCK_SEARCH = 1;
     private static final int BLOCK_PROPERTY = 2;
@@ -171,9 +170,8 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
         }
 
         String strParamBlock = request.getParameter( PARAMETER_BLOCK );
-        String strPortletType = request.getParameter( PARAMETER_PORTLET_TYPE );
 
-        return getAdminPageBlock( strPageId, strParamBlock, strPortletType, request );
+        return getAdminPageBlock( strPageId, strParamBlock, request );
     }
 
     /**
@@ -251,7 +249,7 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
 
         if ( !SecurityTokenService.getInstance( ).validate( mRequest, TEMPLATE_ADMIN_PAGE_BLOCK_PROPERTY ) )
         {
-            throw new AccessDeniedException( "Invalid security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
 
         setAuthorizationNode( page );
@@ -444,7 +442,7 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
         }
         if ( !SecurityTokenService.getInstance( ).validate( mRequest, TEMPLATE_ADMIN_PAGE_BLOCK_CHILDPAGE ) )
         {
-            throw new AccessDeniedException( "Invalid security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
 
         // Create the page
@@ -504,13 +502,11 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
      *            The identifier of the page
      * @param strParamBlock
      *            The block parameter to display
-     * @param strPortletType
-     *            the str portlet type
      * @param request
      *            The request
      * @return The management page of a page
      */
-    private String getAdminPageBlock( String strPageId, String strParamBlock, String strPortletType, HttpServletRequest request )
+    private String getAdminPageBlock( String strPageId, String strParamBlock, HttpServletRequest request )
     {
         Map<String, Object> model = new HashMap<>( );
 

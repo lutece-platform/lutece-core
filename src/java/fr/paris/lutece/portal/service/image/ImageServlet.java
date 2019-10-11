@@ -62,21 +62,20 @@ public class ImageServlet extends HttpServlet
     private static final String PROPERTY_IMAGE_PAGE_DEFAULT = "image.page.default";
 
     /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
      * 
-     * @param request
-     *            servlet request
-     * @param response
-     *            servlet response
-     * @throws ServletException
-     *             the servlet Exception
+     * @param request  servlet request
+     * @param response servlet response
+     * @throws ServletException the servlet Exception
      */
     protected void processRequest( HttpServletRequest request, HttpServletResponse response ) throws ServletException
     {
         String strResourceId = request.getParameter( PARAMETER_ID );
         String strResourceTypeId = request.getParameter( PARAMETER_RESOURCE_TYPE );
 
-        // Passing the request through thread local variables to keep binary compatibility
+        // Passing the request through thread local variables to keep binary
+        // compatibility
         // because the ImageResourceProvider doesn't pass it explicitly. When everything
         // is java8, we could instead use default methods of the interface.
         LocalVariables.setLocal( getServletConfig( ), request, response );
@@ -103,7 +102,7 @@ public class ImageServlet extends HttpServlet
                         out.flush( );
                         out.close( );
                     }
-                    catch( IOException ex )
+                    catch ( IOException ex )
                     {
                         AppLogService.error( "ImageServlet error : " + ex.getMessage( ), ex );
                     }
@@ -115,18 +114,19 @@ public class ImageServlet extends HttpServlet
                 else
                 {
                     ServletContext sc = getServletContext( );
-                    String strImageUrl = AppPathService.getAbsolutePathFromRelativePath(
-                            AppPropertiesService.getProperty( PROPERTY_PATH_IMAGES ) + "/" + AppPropertiesService.getProperty( PROPERTY_IMAGE_PAGE_DEFAULT ) ); //
+                    String strImageUrl = AppPathService
+                            .getAbsolutePathFromRelativePath( AppPropertiesService.getProperty( PROPERTY_PATH_IMAGES )
+                                    + "/" + AppPropertiesService.getProperty( PROPERTY_IMAGE_PAGE_DEFAULT ) ); //
                     response.setContentType( sc.getMimeType( strImageUrl ) );
 
                     File file = new File( strImageUrl );
                     response.setContentLength( (int) file.length( ) );
 
                     try ( FileInputStream in = new FileInputStream( file );
-                            OutputStream out = response.getOutputStream( ))
+                            OutputStream out = response.getOutputStream( ) )
                     {
                         // Copy the contents of the file to the output stream
-                        byte [ ] buf = new byte [ 1024];
+                        byte[] buf = new byte[1024];
                         int count;
                         while ( ( count = in.read( buf ) ) >= 0 )
                         {
@@ -135,7 +135,7 @@ public class ImageServlet extends HttpServlet
 
                         out.close( );
                     }
-                    catch( IOException ex )
+                    catch ( IOException ex )
                     {
                         AppLogService.error( "ImageServlet error : " + ex.getMessage( ), ex );
                     }
@@ -151,17 +151,14 @@ public class ImageServlet extends HttpServlet
     /**
      * Handles the HTTP <code>GET</code> method.
      * 
-     * @param request
-     *            servlet request
-     * @param response
-     *            servlet response
-     * @throws ServletException
-     *             the servlet Exception
-     * @throws IOException
-     *             the io exception
+     * @param request  servlet request
+     * @param response servlet response
+     * @throws ServletException the servlet Exception
+     * @throws IOException      the io exception
      */
     @Override
-    protected void doGet( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException
+    protected void doGet( HttpServletRequest request, HttpServletResponse response )
+            throws ServletException, IOException
     {
         processRequest( request, response );
     }
@@ -169,17 +166,14 @@ public class ImageServlet extends HttpServlet
     /**
      * Handles the HTTP <code>POST</code> method.
      * 
-     * @param request
-     *            servlet request
-     * @param response
-     *            servlet response
-     * @throws ServletException
-     *             the servlet Exception
-     * @throws IOException
-     *             the io exception
+     * @param request  servlet request
+     * @param response servlet response
+     * @throws ServletException the servlet Exception
+     * @throws IOException      the io exception
      */
     @Override
-    protected void doPost( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException
+    protected void doPost( HttpServletRequest request, HttpServletResponse response )
+            throws ServletException, IOException
     {
         processRequest( request, response );
     }
@@ -196,11 +190,11 @@ public class ImageServlet extends HttpServlet
     }
 
     /**
-     * Test the existence of an image in the base. If the size of the contents of the field is null or lower or equal 1, nImageLength is with false, otherwise
+     * Test the existence of an image in the base. If the size of the contents of
+     * the field is null or lower or equal 1, nImageLength is with false, otherwise
      * it's true
      * 
-     * @param image
-     *            The Resource Image
+     * @param image The Resource Image
      * @return true if images exist, otherwise return false
      */
     private boolean getImageExist( ImageResource image )

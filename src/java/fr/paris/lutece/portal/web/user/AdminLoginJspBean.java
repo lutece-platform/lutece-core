@@ -96,6 +96,7 @@ public class AdminLoginJspBean implements Serializable
 
     // //////////////////////////////////////////////////////////////////////////
     // Constants
+    private static final String ERROR_INVALID_TOKEN = "Invalid security token";
     private static final String CONSTANT_EMAIL_DELIMITER = ";";
     private static final String CONSTANT_EMPTY_STRING = "";
     private static final String CONSTANT_SLASH = "/";
@@ -401,7 +402,7 @@ public class AdminLoginJspBean implements Serializable
         }
         if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_ADMIN_LOGIN ) )
         {
-            throw new AccessDeniedException( "Invalid security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
 
         // recovery of the login attributes

@@ -174,7 +174,7 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
                 }
                 if ( !SecurityTokenService.getInstance( ).validate( request, attribute.getTemplateCreateAttribute( ) ) )
                 {
-                    throw new AccessDeniedException( "Invalid security token" );
+                    throw new AccessDeniedException( ERROR_INVALID_TOKEN );
                 }
                 _attributeService.createAttribute( attribute );
 
@@ -253,7 +253,7 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
                 }
                 if ( !SecurityTokenService.getInstance( ).validate( request, attribute.getTemplateModifyAttribute( ) ) )
                 {
-                    throw new AccessDeniedException( "Invalid security token" );
+                    throw new AccessDeniedException( ERROR_INVALID_TOKEN );
                 }
 
                 _attributeService.updateAttribute( attribute );
@@ -304,7 +304,7 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
         {
             if ( !SecurityTokenService.getInstance( ).validate( request, JSP_URL_REMOVE_ATTRIBUTE ) )
             {
-                throw new AccessDeniedException( "Invalid security token" );
+                throw new AccessDeniedException( ERROR_INVALID_TOKEN );
             }
             int nIdAttribute = Integer.parseInt( strIdAttribute );
             _attributeService.removeAttribute( nIdAttribute );
@@ -330,7 +330,7 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
         {
             if ( !SecurityTokenService.getInstance( ).validate( request, AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) )
             {
-                throw new AccessDeniedException( "Invalid security token" );
+                throw new AccessDeniedException( ERROR_INVALID_TOKEN );
             }
             int nIdAttribute = Integer.parseInt( strIdAttribute );
 
@@ -377,7 +377,7 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
         {
             if ( !SecurityTokenService.getInstance( ).validate( request, AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) )
             {
-                throw new AccessDeniedException( "Invalid security token" );
+                throw new AccessDeniedException( ERROR_INVALID_TOKEN );
             }
             int nIdAttribute = Integer.parseInt( strIdAttribute );
 
