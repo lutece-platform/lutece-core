@@ -408,7 +408,7 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
         String strCoreVersion = AppInfo.getVersion( );
 
         // Remove version qualifier (-SNAPSHOT, -RC-XX, ...)
-        int nPos = strCoreVersion.indexOf( "-" );
+        int nPos = strCoreVersion.indexOf( '-' );
 
         if ( nPos > 0 )
         {

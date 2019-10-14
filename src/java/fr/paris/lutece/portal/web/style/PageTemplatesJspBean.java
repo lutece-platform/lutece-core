@@ -33,6 +33,17 @@
  */
 package fr.paris.lutece.portal.web.style;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.lang.StringUtils;
+
 import fr.paris.lutece.portal.business.style.PageTemplate;
 import fr.paris.lutece.portal.business.style.PageTemplateHome;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
@@ -51,18 +62,6 @@ import fr.paris.lutece.portal.web.upload.MultipartHttpServletRequest;
 import fr.paris.lutece.util.file.FileUtil;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.stream.StreamUtil;
-
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.lang.StringUtils;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * This class provides the user interface to manage page templates features (

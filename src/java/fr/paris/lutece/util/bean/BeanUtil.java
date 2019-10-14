@@ -64,14 +64,14 @@ public final class BeanUtil
         PropertyUtils.addBeanIntrospector( SuppressPropertiesBeanIntrospector.SUPPRESS_CLASS );
     }
 
-    private static Map<String, BeanUtilsBean> mapBeanUtilsBeans;
+    private static Map<String, BeanUtilsBean> _mapBeanUtilsBeans;
 
     /**
      * BeanUtil initialization, considering Lutèce availables locales and date format properties
      */
     public static void init( )
     {
-        mapBeanUtilsBeans = new HashMap<>( );
+        _mapBeanUtilsBeans = new HashMap<>( );
 
         for ( Locale locale : I18nService.getAdminAvailableLocales( ) )
         {
@@ -81,7 +81,7 @@ public final class BeanUtil
             DateConverter dateConverter = new DateConverter( null );
             dateConverter.setPattern( I18nService.getDateFormatShortPattern( locale ) );
             beanUtilsBean.getConvertUtils( ).register( dateConverter, Date.class );
-            mapBeanUtilsBeans.put( locale.getLanguage( ), beanUtilsBean );
+            _mapBeanUtilsBeans.put( locale.getLanguage( ), beanUtilsBean );
         }
     }
 
@@ -134,9 +134,9 @@ public final class BeanUtil
         try
         {
             BeanUtilsBean beanUtilsBean;
-            if ( locale != null && mapBeanUtilsBeans != null )
+            if ( locale != null && _mapBeanUtilsBeans != null )
             {
-                beanUtilsBean = mapBeanUtilsBeans.get( locale.getLanguage( ) );
+                beanUtilsBean = _mapBeanUtilsBeans.get( locale.getLanguage( ) );
             }
             else
             {

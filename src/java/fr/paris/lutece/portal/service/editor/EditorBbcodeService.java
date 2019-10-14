@@ -93,9 +93,12 @@ public class EditorBbcodeService implements IEditorBbcodeService
         {
             synchronized( EditorBbcodeService.class )
             {
+                _listParserElement = new ArrayList<>( );
+                _listParserComplexElement = new ArrayList<>( );
                 EditorBbcodeService service = new EditorBbcodeService( );
                 service.init( );
                 _singleton = service;
+                
             }
         }
 
@@ -107,9 +110,6 @@ public class EditorBbcodeService implements IEditorBbcodeService
      */
     public void init( )
     {
-        _listParserElement = new ArrayList<>( );
-        _listParserComplexElement = new ArrayList<>( );
-
         // init simple elements
         String strParserElements = AppPropertiesService.getProperty( PROPERTY_PARSER_ELEMENTS );
 

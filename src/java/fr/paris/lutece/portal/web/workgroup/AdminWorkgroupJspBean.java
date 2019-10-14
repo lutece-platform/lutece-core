@@ -271,7 +271,7 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
         }
 
         // Check if workgroup already exist
-        if ( AdminWorkgroupHome.checkExistWorkgroup( strKey ) == Boolean.TRUE )
+        if ( Boolean.TRUE.equals( AdminWorkgroupHome.checkExistWorkgroup( strKey ) )  )
         {
             return AdminMessageService.getMessageUrl( request, MESSAGE_WORKGROUP_ALREADY_EXIST, AdminMessage.TYPE_STOP );
         }

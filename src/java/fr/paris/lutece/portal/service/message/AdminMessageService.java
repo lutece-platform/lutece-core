@@ -516,7 +516,7 @@ public final class AdminMessageService
      *            The set of violations
      * @return The formatted errors list as an object array
      */
-    private static <T> Object [ ] formatValidationErrors( HttpServletRequest request, List<? extends ErrorMessage> errors )
+    private static Object [ ] formatValidationErrors( HttpServletRequest request, List<? extends ErrorMessage> errors )
     {
         Map<String, Object> model = new HashMap<>( );
         model.put( MARK_ERRORS_LIST, errors );

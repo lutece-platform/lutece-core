@@ -179,7 +179,7 @@ public final class PoolManager
 
             try
             {
-                key = (String) enumKeys.nextElement( );
+                key = enumKeys.nextElement( );
 
                 Hashtable<String, String> htParamsPool = htPools.get( key );
                 ConnectionService cs = null;

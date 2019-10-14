@@ -33,6 +33,22 @@
  */
 package fr.paris.lutece.portal.web.system;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.admin.AdminUserService;
 import fr.paris.lutece.portal.service.datastore.DatastoreService;
@@ -47,24 +63,6 @@ import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.http.SecurityUtil;
-import fr.paris.lutece.util.stream.StreamUtil;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.Serializable;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.HashMap;
-
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * This class provides the user interface to manage system features ( manage logs, view system files, ... ).
@@ -300,12 +298,8 @@ public class SystemJspBean extends AdminFeaturesPageJspBean
     {
         StringBuilder sbData = new StringBuilder( );
 
-        FileInputStream fis = null;
-
-        try
+        try (FileInputStream fis = new FileInputStream( strFilePath ) )
         {
-            fis = new FileInputStream( strFilePath );
-
             int chr = 0;
 
             while ( chr != -1 )
@@ -325,11 +319,6 @@ public class SystemJspBean extends AdminFeaturesPageJspBean
         {
             sbData.append( "ERROR : Error reading the file : " ).append( strFilePath );
         }
-        finally
-        {
-            StreamUtil.safeClose( fis );
-        }
-
         return sbData.toString( );
     }
 

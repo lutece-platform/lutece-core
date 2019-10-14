@@ -95,26 +95,25 @@ public class AccountLifeTimeDaemon extends Daemon
     @Override
     public void run( )
     {
-        StringBuilder sbLogs = null;
         StringBuilder sbResult = new StringBuilder( );
         Timestamp currentTimestamp = new Timestamp( new java.util.Date( ).getTime( ) );
        
         // We first set as expirated user that have reached their life time limit
-        runSetExpiredUser( currentTimestamp, sbLogs, sbResult );
+        runSetExpiredUser( currentTimestamp, sbResult );
 
         // We send first alert to users
-        runExpiringUserAlert( currentTimestamp, sbLogs, sbResult );
+        runExpiringUserAlert( currentTimestamp, sbResult );
 
         // We send other alert to users
-        runOtherUserAlert( currentTimestamp, sbLogs, sbResult );
+        runOtherUserAlert( currentTimestamp, sbResult );
         
         // We notify users with expired passwords
-        runExpiredPassword( currentTimestamp, sbLogs, sbResult );
+        runExpiredPassword( currentTimestamp, sbResult );
 
         setLastRunLogs( sbResult.toString( ) );
     }
     
-    private void runSetExpiredUser( Timestamp currentTimestamp, StringBuilder sbLogs, StringBuilder sbResult )
+    private void runSetExpiredUser( Timestamp currentTimestamp, StringBuilder sbResult )
     {
         List<Integer> accountsToSetAsExpired = AdminUserHome.getIdUsersWithExpiredLifeTimeList( currentTimestamp );
         if ( CollectionUtils.isNotEmpty( accountsToSetAsExpired ) )
@@ -133,7 +132,7 @@ public class AccountLifeTimeDaemon extends Daemon
 
             AdminUserHome.updateUserStatus( accountsToSetAsExpired, AdminUser.EXPIRED_CODE );
 
-            sbLogs  = new StringBuilder( );
+            StringBuilder sbLogs  = new StringBuilder( );
             sbLogs.append( MESSAGE_DAEMON_NAME );
             sbLogs.append( Integer.toString( nbAccountToExpire ) );
             sbLogs.append( " account(s) have expired" );
@@ -148,7 +147,7 @@ public class AccountLifeTimeDaemon extends Daemon
         }
     }
     
-    private void runExpiringUserAlert( Timestamp currentTimestamp, StringBuilder sbLogs, StringBuilder sbResult )
+    private void runExpiringUserAlert( Timestamp currentTimestamp, StringBuilder sbResult )
     {
         long nbDaysBeforeFirstAlert = AdminUserService.getIntegerSecurityParameter( PARAMETER_TIME_BEFORE_ALERT_ACCOUNT );
 
@@ -178,7 +177,7 @@ public class AccountLifeTimeDaemon extends Daemon
 
                 AdminUserHome.updateNbAlert( userIdListToSendFirstAlert );
 
-                sbLogs = new StringBuilder( );
+                StringBuilder sbLogs = new StringBuilder( );
                 sbLogs.append( MESSAGE_DAEMON_NAME );
                 sbLogs.append( Integer.toString( nbFirstAlertSent ) );
                 sbLogs.append( " first alert(s) have been sent" );
@@ -194,7 +193,7 @@ public class AccountLifeTimeDaemon extends Daemon
         }
     }
     
-    private void runOtherUserAlert( Timestamp currentTimestamp, StringBuilder sbLogs, StringBuilder sbResult )
+    private void runOtherUserAlert( Timestamp currentTimestamp, StringBuilder sbResult )
     {
         int maxNumberOfAlerts = AdminUserService.getIntegerSecurityParameter( PARAMETER_NB_ALERT_ACCOUNT );
         int nbDaysBetweenAlerts = AdminUserService.getIntegerSecurityParameter( PARAMETER_TIME_BETWEEN_ALERTS_ACCOUNT );
@@ -227,7 +226,7 @@ public class AccountLifeTimeDaemon extends Daemon
 
                 AdminUserHome.updateNbAlert( userIdListToSendNextAlert );
 
-                sbLogs = new StringBuilder( );
+                StringBuilder sbLogs = new StringBuilder( );
                 sbLogs.append( MESSAGE_DAEMON_NAME );
                 sbLogs.append( Integer.toString( nbOtherAlertSent ) );
                 sbLogs.append( " next alert(s) have been sent" );
@@ -242,7 +241,7 @@ public class AccountLifeTimeDaemon extends Daemon
         }
     }
     
-    private void runExpiredPassword( Timestamp currentTimestamp, StringBuilder sbLogs, StringBuilder sbResult )
+    private void runExpiredPassword( Timestamp currentTimestamp, StringBuilder sbResult )
     {
         if ( AdminUserService.getBooleanSecurityParameter( PARAMETER_NOTIFY_USER_PASSWORD_EXPIRED ) )
         {
@@ -261,7 +260,7 @@ public class AccountLifeTimeDaemon extends Daemon
                 }
 
                 AdminUserHome.updateChangePassword( accountsWithPasswordsExpired );
-                sbLogs = new StringBuilder( );
+                StringBuilder sbLogs = new StringBuilder( );
                 sbLogs.append( MESSAGE_DAEMON_NAME );
                 sbLogs.append( Integer.toString( accountsWithPasswordsExpired.size( ) ) );
                 sbLogs.append( " user(s) have been notified their password has expired" );

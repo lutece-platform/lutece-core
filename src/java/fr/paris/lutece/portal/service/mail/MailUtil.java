@@ -51,6 +51,7 @@ import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.Properties;
 import java.util.StringTokenizer;
 
@@ -693,7 +694,7 @@ final class MailUtil
         InputStream input = null;
         String strType = handler.getContentType( );
 
-        try
+        try 
         {
             Object o = handler.getContent( );
             if ( o instanceof InputStream )

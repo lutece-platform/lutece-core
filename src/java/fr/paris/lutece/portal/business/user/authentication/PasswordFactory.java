@@ -113,7 +113,7 @@ final class PasswordFactory implements IPasswordFactory
         /**
          * Enum to specify if the password is constructed from cleartext or hashed form
          */
-        static enum PASSWORD_REPRESENTATION
+        enum PASSWORD_REPRESENTATION
         {
             CLEARTEXT, STORABLE
         }

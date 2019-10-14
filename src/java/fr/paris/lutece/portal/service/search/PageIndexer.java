@@ -78,7 +78,7 @@ public class PageIndexer implements SearchIndexer
     protected static final String PROPERTY_SEARCH_PAGE_URL = "search.pageSearch.baseUrl";
     protected static final String PROPERTY_INDEXER_ENABLE = "search.pageIndexer.enable";
     protected static final String PARAMETER_PAGE_ID = "page_id";
-    protected static IPageService _pageService = SpringContextService.getBean( "pageService" );
+    private static IPageService _pageService = SpringContextService.getBean( "pageService" );
     private static final String INDEXER_DESCRIPTION = "Indexer service for pages";
     private static final String INDEXER_VERSION = "1.0.0";
 

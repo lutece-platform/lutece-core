@@ -267,7 +267,7 @@ public final class AppDaemonService
 
         if ( entry != null )
         {
-            entry.setInterval( new Long( strDaemonInterval ) );
+            entry.setInterval( Long.valueOf( strDaemonInterval ) );
             DatastoreService.setInstanceDataValue( getIntervalKey( entry.getId( ) ), strDaemonInterval );
         }
     }

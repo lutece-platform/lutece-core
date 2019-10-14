@@ -133,7 +133,6 @@ public class ImageServlet extends HttpServlet
                             out.write( buf, 0, count );
                         }
 
-                        out.close( );
                     }
                     catch ( IOException ex )
                     {

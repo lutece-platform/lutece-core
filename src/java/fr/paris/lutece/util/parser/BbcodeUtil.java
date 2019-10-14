@@ -207,7 +207,8 @@ public final class BbcodeUtil
         subst.addAll( subsClose );
         subst.addAll( subsInternal );
 
-        Collections.sort( subst, ( Object o1, Object o2 ) -> {
+        Collections.sort( subst, ( Object o1, Object o2 ) ->
+        {
             MutableCharSequence s1 = (MutableCharSequence) o1;
             MutableCharSequence s2 = (MutableCharSequence) o2;
 

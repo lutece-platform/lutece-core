@@ -49,6 +49,11 @@ public class CommonsService
     private static final String DSKEY_CURRENT_COMMONS_INCLUDE = "core.templates.currentCommonsInclude";
     private static final String DEFAULT_COMMONS_INCLUDE_KEY = "default";
 
+    private CommonsService( )
+    {
+        // Ctor
+    }
+    
     /**
      * Get the list of commons includes
      * 

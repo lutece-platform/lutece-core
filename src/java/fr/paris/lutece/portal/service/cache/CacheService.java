@@ -123,6 +123,9 @@ public final class CacheService
         {
             _singleton = new CacheService( );
             _singleton.init( );
+            Configuration configuration = ConfigurationFactory.parseConfiguration( );
+            configuration.setName( LUTECE_CACHEMANAGER_NAME );
+            _manager = CacheManager.create( configuration );
         }
 
         return _singleton;
@@ -133,9 +136,6 @@ public final class CacheService
      */
     private void init( )
     {
-        Configuration configuration = ConfigurationFactory.parseConfiguration( );
-        configuration.setName( LUTECE_CACHEMANAGER_NAME );
-        _manager = CacheManager.create( configuration );
         loadDefaults( );
         loadCachesConfig( );
 

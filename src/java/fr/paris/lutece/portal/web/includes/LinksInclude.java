@@ -264,7 +264,7 @@ public class LinksInclude implements PageInclude
                 {
                     resourceURI = new URI( strURIPrefix + strResourceURI );
                 }
-                try( InputStream inputStream = servletContext.getResourceAsStream( resourceURI.getPath( ) ) )
+                try ( InputStream inputStream = servletContext.getResourceAsStream( resourceURI.getPath( ) ) )
                 {
                     if ( inputStream != null )
                     {

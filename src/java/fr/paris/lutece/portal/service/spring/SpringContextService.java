@@ -328,7 +328,7 @@ public final class SpringContextService implements PluginEventListener
      */
     private static String getPrefix( String strBeanName )
     {
-        int nPos = strBeanName.indexOf( "." );
+        int nPos = strBeanName.indexOf( '.' );
 
         if ( nPos > 0 )
         {
