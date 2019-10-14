@@ -520,7 +520,7 @@ public final class I18nService
 
         return rbLabels;
     }
-
+    
     /**
      * Reset the caches
      * 

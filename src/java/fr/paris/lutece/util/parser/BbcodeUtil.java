@@ -129,7 +129,7 @@ public final class BbcodeUtil
         Set subsInternal = new HashSet( );
 
         String openTag = CR_LF + "\\[" + tagName
-                + ( acceptParam ? ( requiresQuotedParam ? "(?:=\"(.*?)\")?" : "(?:=\"?(.*?)\"?)?" ) : "" ) + "\\]"
+                + getOpenTag( acceptParam, requiresQuotedParam ) + "\\]"
                 + CR_LF;
         String closeTag = CR_LF + "\\[/" + tagName + "\\]" + CR_LF;
         String internTag = CR_LF + "\\[\\*\\]" + CR_LF;
@@ -363,5 +363,21 @@ public final class BbcodeUtil
 
             return sb.toString( );
         }
+    }
+    
+    private static String getOpenTag( boolean acceptParam, boolean requiresQuotedParam )
+    {
+        String tag = "";
+        if ( acceptParam )
+        {
+            if ( requiresQuotedParam )
+            {
+                tag = "(?:=\"(.*?)\")?";
+            }
+            else {
+                tag = "(?:=\"?(.*?)\"?)?";
+            }
+        }
+        return  tag ;
     }
 }

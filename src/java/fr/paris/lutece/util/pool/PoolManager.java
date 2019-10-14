@@ -182,22 +182,7 @@ public final class PoolManager
                 key = enumKeys.nextElement( );
 
                 Hashtable<String, String> htParamsPool = htPools.get( key );
-                ConnectionService cs = null;
-
-                try
-                {
-                    String strConnectionService = htParamsPool.get( key + ".poolservice" );
-
-                    cs = (ConnectionService) Class.forName( strConnectionService ).newInstance( );
-                }
-                catch( NullPointerException nullEx )
-                {
-                    cs = new LuteceConnectionService( );
-                }
-                catch( Exception e )
-                {
-                    throw new LuteceInitException( "Exception when getting the property poolservice", e );
-                }
+                ConnectionService cs = getConnectionService( htParamsPool, key );
 
                 if ( cs != null )
                 {
@@ -212,6 +197,27 @@ public final class PoolManager
                 throw new LuteceInitException( "Exception when getting the pool '" + key + "'. Please check your '/WEB-INF/conf/db.properties' file.", e );
             }
         }
+    }
+    
+    private ConnectionService getConnectionService(  Hashtable<String, String> htParamsPool, String key ) throws LuteceInitException
+    {
+        ConnectionService cs = null;
+
+        try
+        {
+            String strConnectionService = htParamsPool.get( key + ".poolservice" );
+
+            cs = (ConnectionService) Class.forName( strConnectionService ).newInstance( );
+        }
+        catch( NullPointerException nullEx )
+        {
+            cs = new LuteceConnectionService( );
+        }
+        catch( Exception e )
+        {
+            throw new LuteceInitException( "Exception when getting the property poolservice", e );
+        }
+        return cs;
     }
 
     /**

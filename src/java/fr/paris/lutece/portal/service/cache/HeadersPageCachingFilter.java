@@ -74,7 +74,7 @@ public class HeadersPageCachingFilter extends SimpleCachingHeadersPageCachingFil
      * {@inheritDoc }
      */
     @Override
-    public void doInit( FilterConfig filterConfig ) throws CacheException
+    public void doInit( FilterConfig filterConfig )
     {
         // Override to inhibate the startup call made too early
         // The original treatment is done at the first doFilter call

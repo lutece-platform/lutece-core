@@ -176,15 +176,10 @@ public class MainFilter implements Filter
         {
             if ( strUrlPattern.regionMatches( 0, strRequestUrl, 0, strUrlPattern.length( ) - 2 ) )
             {
-                if ( strRequestUrl.length( ) == ( strUrlPattern.length( ) - 2 ) )
+                if ( strRequestUrl.length( ) == ( strUrlPattern.length( ) - 2 ) || '/' == strRequestUrl.charAt( strUrlPattern.length( ) - 2 )  )
                 {
                     return ( true );
                 }
-                else
-                    if ( '/' == strRequestUrl.charAt( strUrlPattern.length( ) - 2 ) )
-                    {
-                        return ( true );
-                    }
             }
 
             return ( false );

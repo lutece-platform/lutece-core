@@ -298,7 +298,7 @@ public class SystemJspBean extends AdminFeaturesPageJspBean
     {
         StringBuilder sbData = new StringBuilder( );
 
-        try (FileInputStream fis = new FileInputStream( strFilePath ) )
+        try ( FileInputStream fis = new FileInputStream( strFilePath ) )
         {
             int chr = 0;
 

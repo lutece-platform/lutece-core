@@ -33,25 +33,13 @@
  */
 package fr.paris.lutece.portal.service.mail;
 
-import fr.paris.lutece.portal.service.util.AppException;
-import fr.paris.lutece.portal.service.util.AppLogService;
-import fr.paris.lutece.portal.service.util.AppPropertiesService;
-import fr.paris.lutece.util.mail.ByteArrayDataSource;
-import fr.paris.lutece.util.mail.FileAttachment;
-import fr.paris.lutece.util.mail.HtmlDocument;
-import fr.paris.lutece.util.mail.UrlAttachment;
-
-import org.apache.commons.lang.StringUtils;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 import java.util.Properties;
 import java.util.StringTokenizer;
 
@@ -61,7 +49,6 @@ import javax.activation.DataHandler;
 import javax.activation.FileTypeMap;
 import javax.activation.MailcapCommandMap;
 import javax.activation.MimetypesFileTypeMap;
-
 import javax.mail.Authenticator;
 import javax.mail.BodyPart;
 import javax.mail.Message;
@@ -77,6 +64,16 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import javax.mail.internet.MimeUtility;
+
+import org.apache.commons.lang.StringUtils;
+
+import fr.paris.lutece.portal.service.util.AppException;
+import fr.paris.lutece.portal.service.util.AppLogService;
+import fr.paris.lutece.portal.service.util.AppPropertiesService;
+import fr.paris.lutece.util.mail.ByteArrayDataSource;
+import fr.paris.lutece.util.mail.FileAttachment;
+import fr.paris.lutece.util.mail.HtmlDocument;
+import fr.paris.lutece.util.mail.UrlAttachment;
 
 /**
  * This class provides mail utils.

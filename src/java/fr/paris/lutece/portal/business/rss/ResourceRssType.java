@@ -115,7 +115,6 @@ public class ResourceRssType implements IResourceRssType
      */
     public String getTitle( )
     {
-        // TODO Auto-generated method stub
         return _strTitle;
     }
 
