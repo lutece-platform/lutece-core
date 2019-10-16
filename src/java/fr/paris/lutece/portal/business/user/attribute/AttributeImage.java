@@ -328,19 +328,16 @@ public class AttributeImage extends AbstractAttribute
                 }
 
                 listUserFields = AdminUserFieldHome.findByFilter( auFieldFilter );
+                listUserFields.stream( ).filter( a -> a.getFile( ) != null )
+                        .forEach( userField ->
+                        {
+                            File file = FileHome.findByPrimaryKey( userField.getFile( ).getIdFile( ) );
+                            userField.setFile( file );
 
-                for ( AdminUserField userField : listUserFields )
-                {
-                    if ( userField.getFile( ) != null )
-                    {
-                        File file = FileHome.findByPrimaryKey( userField.getFile( ).getIdFile( ) );
-                        userField.setFile( file );
-
-                        int nIdPhysicalFile = file.getPhysicalFile( ).getIdPhysicalFile( );
-                        PhysicalFile physicalFile = PhysicalFileHome.findByPrimaryKey( nIdPhysicalFile );
-                        userField.getFile( ).setPhysicalFile( physicalFile );
-                    }
-                }
+                            int nIdPhysicalFile = file.getPhysicalFile( ).getIdPhysicalFile( );
+                            PhysicalFile physicalFile = PhysicalFileHome.findByPrimaryKey( nIdPhysicalFile );
+                            userField.getFile( ).setPhysicalFile( physicalFile );
+                        } );
             }
         }
         catch ( IOException e )

@@ -33,6 +33,21 @@
  */
 package fr.paris.lutece.portal.service.admin;
 
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
+
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.business.user.AdminUserHome;
 import fr.paris.lutece.portal.business.user.attribute.AdminUserField;
@@ -52,19 +67,6 @@ import fr.paris.lutece.portal.service.user.attribute.AdminUserFieldListenerServi
 import fr.paris.lutece.portal.service.user.attribute.AttributeService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
-import java.sql.Timestamp;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.StringUtils;
 
 /**
  * Class to import Admin Users from CSV files.
@@ -112,84 +114,26 @@ public class DefaultImportAdminUserService extends ImportAdminUserService
             {
                 nUserId = nAccessCodeUserId;
             }
-            else
-                if ( nEmailUserId > 0 )
-                {
-                    nUserId = nEmailUserId;
-                }
-
+            else if ( nEmailUserId > 0 )
+            {
+                nUserId = nEmailUserId;
+            }
             bUpdateUser = nUserId > 0;
         }
 
         String strStatus = strLineDataArray [nIndex++];
-        int nStatus = 0;
-
-        if ( StringUtils.isNotEmpty( strStatus ) && StringUtils.isNumeric( strStatus ) )
-        {
-            nStatus = Integer.parseInt( strStatus );
-        }
-        else
-        {
-            Object [ ] args = {
-                    strLastName, strFirstName, nStatus
-            };
-            String strMessage = I18nService.getLocalizedString( MESSAGE_NO_STATUS, args, locale );
-            CSVMessageDescriptor message = new CSVMessageDescriptor( CSVMessageLevel.INFO, nLineNumber, strMessage );
-            listMessages.add( message );
-        }
+        int nStatus = getStatus( strStatus, strLastName, strFirstName, nLineNumber, listMessages, locale );
 
         String strLocale = strLineDataArray [nIndex++];
         String strLevelUser = strLineDataArray [nIndex++];
-        int nLevelUser = 3;
-
-        if ( StringUtils.isNotEmpty( strLevelUser ) && StringUtils.isNumeric( strLevelUser ) )
-        {
-            nLevelUser = Integer.parseInt( strLevelUser );
-        }
-        else
-        {
-            Object [ ] args = {
-                    strLastName, strFirstName, nLevelUser
-            };
-            String strMessage = I18nService.getLocalizedString( MESSAGE_NO_LEVEL, args, locale );
-            CSVMessageDescriptor message = new CSVMessageDescriptor( CSVMessageLevel.INFO, nLineNumber, strMessage );
-            listMessages.add( message );
-        }
+        int nLevelUser = getLevel( strLevelUser, strLastName, strFirstName, nLineNumber, listMessages, locale );
 
         nIndex++;
 
-        boolean bResetPassword = true;
         String strAccessibilityMode = strLineDataArray [nIndex++];
         boolean bAccessibilityMode = Boolean.parseBoolean( strAccessibilityMode );
         nIndex++;
-
-        Timestamp passwordMaxValidDate = null;
         nIndex++;
-
-        Timestamp accountMaxValidDate = AdminUserService.getAccountMaxValidDate( );
-        String strDateLastLogin = strLineDataArray [nIndex++];
-        Timestamp dateLastLogin = AdminUser.getDefaultDateLastLogin( );
-
-        if ( StringUtils.isNotBlank( strDateLastLogin ) )
-        {
-            DateFormat dateFormat = new SimpleDateFormat( );
-            Date dateParsed;
-
-            try
-            {
-                dateParsed = dateFormat.parse( strDateLastLogin );
-            }
-            catch( ParseException e )
-            {
-                AppLogService.error( e.getMessage( ), e );
-                dateParsed = null;
-            }
-
-            if ( dateParsed != null )
-            {
-                dateLastLogin = new Timestamp( dateParsed.getTime( ) );
-            }
-        }
 
         AdminUser user = null;
 
@@ -210,35 +154,9 @@ public class DefaultImportAdminUserService extends ImportAdminUserService
         user.setUserLevel( nLevelUser );
         user.setLocale( new Locale( strLocale ) );
         user.setAccessibilityMode( bAccessibilityMode );
-
-        if ( bUpdateUser )
-        {
-            user.setUserId( nUserId );
-            // We update the user
-            AdminUserHome.update( user );
-        }
-        else
-        {
-            // We create the user
-            user.setPasswordReset( bResetPassword );
-            user.setPasswordMaxValidDate( passwordMaxValidDate );
-            user.setAccountMaxValidDate( accountMaxValidDate );
-            user.setDateLastLogin( dateLastLogin );
-
-            if ( AdminAuthenticationService.getInstance( ).isDefaultModuleUsed( ) )
-            {
-                LuteceDefaultAdminUser defaultAdminUser = (LuteceDefaultAdminUser) user;
-                String strPassword = AdminUserService.makePassword( );
-                defaultAdminUser.setPassword( AdminUserService.encryptPassword( strPassword ) );
-                AdminUserHome.create( defaultAdminUser );
-                AdminUserService.notifyUser( AppPathService.getProdUrl( strBaseUrl ), user, strPassword, PROPERTY_MESSAGE_EMAIL_SUBJECT_NOTIFY_USER,
-                        TEMPLATE_NOTIFY_USER );
-            }
-            else
-            {
-                AdminUserHome.create( user );
-            }
-        }
+        
+        String strDateLastLogin = strLineDataArray [nIndex++];
+        user = saveOrUpdateUser( user, bUpdateUser, nUserId, strDateLastLogin, strBaseUrl );
 
         // We remove any previous right, roles, workgroup and attributes of the user
         AdminUserHome.removeAllRightsForUser( user.getUserId( ) );
@@ -257,46 +175,7 @@ public class DefaultImportAdminUserService extends ImportAdminUserService
         while ( nIndex < strLineDataArray.length )
         {
             String strValue = strLineDataArray [nIndex];
-
-            if ( StringUtils.isNotBlank( strValue ) && ( strValue.indexOf( getAttributesSeparator( ) ) > 0 ) )
-            {
-                int nSeparatorIndex = strValue.indexOf( getAttributesSeparator( ) );
-                String strLineId = strValue.substring( 0, nSeparatorIndex );
-
-                if ( StringUtils.isNotBlank( strLineId ) )
-                {
-                    if ( StringUtils.equalsIgnoreCase( strLineId, CONSTANT_RIGHT ) )
-                    {
-                        listAdminRights.add( strValue.substring( nSeparatorIndex + 1 ) );
-                    }
-                    else
-                        if ( StringUtils.equalsIgnoreCase( strLineId, CONSTANT_ROLE ) )
-                        {
-                            listAdminRoles.add( strValue.substring( nSeparatorIndex + 1 ) );
-                        }
-                        else
-                            if ( StringUtils.equalsIgnoreCase( strLineId, CONSTANT_WORKGROUP ) )
-                            {
-                                listAdminWorkgroups.add( strValue.substring( nSeparatorIndex + 1 ) );
-                            }
-                            else
-                            {
-                                int nAttributeId = Integer.parseInt( strLineId );
-
-                                String strAttributeValue = strValue.substring( nSeparatorIndex + 1 );
-                                List<String> listValues = mapAttributesValues.get( nAttributeId );
-
-                                if ( listValues == null )
-                                {
-                                    listValues = new ArrayList<>( );
-                                }
-
-                                listValues.add( strAttributeValue );
-                                mapAttributesValues.put( nAttributeId, listValues );
-                            }
-                }
-            }
-
+            readAttribute( strValue, listAdminRights, listAdminRoles, listAdminWorkgroups, mapAttributesValues );
             nIndex++;
         }
 
@@ -319,85 +198,236 @@ public class DefaultImportAdminUserService extends ImportAdminUserService
         }
 
         List<IAttribute> listAttributes = _attributeService.getAllAttributesWithoutFields( locale );
-        Plugin pluginCore = PluginService.getCore( );
 
         // We save the attributes found
-        for ( IAttribute attribute : listAttributes )
+        saveAttributes( listAttributes, user, nLineNumber, mapAttributesValues, listMessages, locale );
+
+        return listMessages;
+    }
+    
+    private int getLevel( String strLevelUser, String strLastName, String strFirstName, int nLineNumber, List<CSVMessageDescriptor> listMessages, Locale locale )
+    {
+        int nLevelUser = 3;
+
+        if ( StringUtils.isNotEmpty( strLevelUser ) && StringUtils.isNumeric( strLevelUser ) )
         {
-            if ( attribute instanceof ISimpleValuesAttributes )
+            nLevelUser = Integer.parseInt( strLevelUser );
+        }
+        else
+        {
+            Object [ ] args = {
+                    strLastName, strFirstName, nLevelUser
+            };
+            String strMessage = I18nService.getLocalizedString( MESSAGE_NO_LEVEL, args, locale );
+            CSVMessageDescriptor message = new CSVMessageDescriptor( CSVMessageLevel.INFO, nLineNumber, strMessage );
+            listMessages.add( message );
+        }
+        return nLevelUser;
+    }
+    
+    private int getStatus( String strStatus, String strLastName, String strFirstName, int nLineNumber, List<CSVMessageDescriptor> listMessages, Locale locale )
+    {
+        int nStatus = 0;
+
+        if ( StringUtils.isNotEmpty( strStatus ) && StringUtils.isNumeric( strStatus ) )
+        {
+            nStatus = Integer.parseInt( strStatus );
+        }
+        else
+        {
+            Object [ ] args = {
+                    strLastName, strFirstName, nStatus
+            };
+            String strMessage = I18nService.getLocalizedString( MESSAGE_NO_STATUS, args, locale );
+            CSVMessageDescriptor message = new CSVMessageDescriptor( CSVMessageLevel.INFO, nLineNumber, strMessage );
+            listMessages.add( message );
+        }
+        return nStatus;
+    }
+    
+    private void readAttribute( String strValue, List<String> listAdminRights, List<String> listAdminRoles, List<String> listAdminWorkgroups,  Map<Integer, List<String>> mapAttributesValues )
+    {
+        if ( StringUtils.isNotBlank( strValue ) && ( strValue.indexOf( getAttributesSeparator( ) ) > 0 ) )
+        {
+            int nSeparatorIndex = strValue.indexOf( getAttributesSeparator( ) );
+            String strLineId = strValue.substring( 0, nSeparatorIndex );
+
+            if ( StringUtils.isNotBlank( strLineId ) )
             {
-                List<String> listValues = mapAttributesValues.get( attribute.getIdAttribute( ) );
-
-                if ( CollectionUtils.isNotEmpty( listValues ) )
+                if ( StringUtils.equalsIgnoreCase( strLineId, CONSTANT_RIGHT ) )
                 {
-                    int nIdField = 0;
-                    boolean bCoreAttribute = ( attribute.getPlugin( ) == null )
-                            || StringUtils.equals( pluginCore.getName( ), attribute.getPlugin( ).getName( ) );
+                    listAdminRights.add( strValue.substring( nSeparatorIndex + 1 ) );
+                }
+                else if ( StringUtils.equalsIgnoreCase( strLineId, CONSTANT_ROLE ) )
+                {
+                    listAdminRoles.add( strValue.substring( nSeparatorIndex + 1 ) );
+                }
+                else if ( StringUtils.equalsIgnoreCase( strLineId, CONSTANT_WORKGROUP ) )
+                {
+                    listAdminWorkgroups.add( strValue.substring( nSeparatorIndex + 1 ) );
+                }
+                else
+                {
+                    int nAttributeId = Integer.parseInt( strLineId );
 
-                    for ( String strValue : listValues )
+                    String strAttributeValue = strValue.substring( nSeparatorIndex + 1 );
+                    List<String> listValues = mapAttributesValues.get( nAttributeId );
+
+                    if ( listValues == null )
                     {
-                        int nSeparatorIndex = strValue.indexOf( getAttributesSeparator( ) );
-
-                        if ( nSeparatorIndex >= 0 )
-                        {
-                            nIdField = 0;
-
-                            try
-                            {
-                                nIdField = Integer.parseInt( strValue.substring( 0, nSeparatorIndex ) );
-                            }
-                            catch( NumberFormatException e )
-                            {
-                                nIdField = 0;
-                            }
-
-                            strValue = strValue.substring( nSeparatorIndex + 1 );
-                        }
-                        else
-                        {
-                            nIdField = 0;
-                        }
-
-                        String [ ] strValues = {
-                                strValue
-                        };
-
-                        try
-                        {
-                            List<AdminUserField> listUserFields = ( (ISimpleValuesAttributes) attribute ).getUserFieldsData( strValues, user );
-
-                            for ( AdminUserField userField : listUserFields )
-                            {
-                                if ( userField != null )
-                                {
-                                    userField.getAttributeField( ).setIdField( nIdField );
-                                    AdminUserFieldHome.create( userField );
-                                }
-                            }
-
-                            if ( !bCoreAttribute )
-                            {
-                                for ( AdminUserFieldListenerService adminUserFieldListenerService : SpringContextService
-                                        .getBeansOfType( AdminUserFieldListenerService.class ) )
-                                {
-                                    adminUserFieldListenerService.doCreateUserFields( user, listUserFields, locale );
-                                }
-                            }
-                        }
-                        catch( Exception e )
-                        {
-                            AppLogService.error( e.getMessage( ), e );
-
-                            String strErrorMessage = I18nService.getLocalizedString( MESSAGE_ERROR_IMPORTING_ATTRIBUTES, locale );
-                            CSVMessageDescriptor error = new CSVMessageDescriptor( CSVMessageLevel.ERROR, nLineNumber, strErrorMessage );
-                            listMessages.add( error );
-                        }
+                        listValues = new ArrayList<>( );
                     }
+
+                    listValues.add( strAttributeValue );
+                    mapAttributesValues.put( nAttributeId, listValues );
                 }
             }
         }
+    }
+    
+    private void saveAttributes( List<IAttribute> listAttributes, AdminUser user, int nLineNumber, Map<Integer, List<String>> mapAttributesValues, List<CSVMessageDescriptor> listMessages, Locale locale )
+    {
+        listAttributes = listAttributes.stream( )
+                .filter( a -> a instanceof ISimpleValuesAttributes )
+                .collect( Collectors.toList( ) );
+        for ( IAttribute attribute : listAttributes )
+        {
+            List<String> listValues = mapAttributesValues.get( attribute.getIdAttribute( ) );
 
-        return listMessages;
+            if ( CollectionUtils.isEmpty( listValues ) )
+            {
+                continue;
+            }
+
+            int nIdField = 0;
+            for ( String strValue : listValues )
+            {
+                int nSeparatorIndex = strValue.indexOf( getAttributesSeparator( ) );
+
+                if ( nSeparatorIndex >= 0 )
+                {
+                    nIdField = 0;
+
+                    try
+                    {
+                        nIdField = Integer.parseInt( strValue.substring( 0, nSeparatorIndex ) );
+                    }
+                    catch ( NumberFormatException e )
+                    {
+                        nIdField = 0;
+                    }
+
+                    strValue = strValue.substring( nSeparatorIndex + 1 );
+                }
+                else
+                {
+                    nIdField = 0;
+                }
+
+                createFields( attribute, user, strValue, nIdField, nLineNumber, listMessages, locale );
+            }
+        }
+    }
+    
+    private void createFields( IAttribute attribute, AdminUser user, String strValue, int nIdField, int nLineNumber, List<CSVMessageDescriptor> listMessages, Locale locale )
+    {
+        Plugin pluginCore = PluginService.getCore( );
+        boolean bCoreAttribute = ( attribute.getPlugin( ) == null )
+                || StringUtils.equals( pluginCore.getName( ), attribute.getPlugin( ).getName( ) );
+        try
+        {
+            List<AdminUserField> listUserFields = ( (ISimpleValuesAttributes) attribute )
+                    .getUserFieldsData( new String[] {strValue}, user );
+
+            for ( AdminUserField userField : listUserFields )
+            {
+                if ( userField != null )
+                {
+                    userField.getAttributeField( ).setIdField( nIdField );
+                    AdminUserFieldHome.create( userField );
+                }
+            }
+
+            if ( !bCoreAttribute )
+            {
+                for ( AdminUserFieldListenerService adminUserFieldListenerService : SpringContextService
+                        .getBeansOfType( AdminUserFieldListenerService.class ) )
+                {
+                    adminUserFieldListenerService.doCreateUserFields( user, listUserFields, locale );
+                }
+            }
+        }
+        catch ( Exception e )
+        {
+            AppLogService.error( e.getMessage( ), e );
+
+            String strErrorMessage = I18nService.getLocalizedString( MESSAGE_ERROR_IMPORTING_ATTRIBUTES,
+                    locale );
+            CSVMessageDescriptor error = new CSVMessageDescriptor( CSVMessageLevel.ERROR, nLineNumber,
+                    strErrorMessage );
+            listMessages.add( error );
+        }
+    }
+    
+    private AdminUser saveOrUpdateUser( AdminUser user, boolean bUpdateUser, int nUserId, String strDateLastLogin, String strBaseUrl )
+    {
+        if ( bUpdateUser )
+        {
+            user.setUserId( nUserId );
+            // We update the user
+            AdminUserHome.update( user );
+        }
+        else
+        {
+            Timestamp dateLastLogin = getDateLastLogin( strDateLastLogin );
+            // We create the user
+            user.setPasswordReset( true );
+            user.setPasswordMaxValidDate( null );
+            user.setAccountMaxValidDate( AdminUserService.getAccountMaxValidDate( ) );
+            user.setDateLastLogin( dateLastLogin );
+
+            if ( AdminAuthenticationService.getInstance( ).isDefaultModuleUsed( ) )
+            {
+                LuteceDefaultAdminUser defaultAdminUser = (LuteceDefaultAdminUser) user;
+                String strPassword = AdminUserService.makePassword( );
+                defaultAdminUser.setPassword( AdminUserService.encryptPassword( strPassword ) );
+                AdminUserHome.create( defaultAdminUser );
+                AdminUserService.notifyUser( AppPathService.getProdUrl( strBaseUrl ), user, strPassword, PROPERTY_MESSAGE_EMAIL_SUBJECT_NOTIFY_USER,
+                        TEMPLATE_NOTIFY_USER );
+            }
+            else
+            {
+                AdminUserHome.create( user );
+            }
+        }
+        return user;
+    }
+    
+    private Timestamp getDateLastLogin( String strDateLastLogin )
+    {
+        Timestamp dateLastLogin = AdminUser.getDefaultDateLastLogin( );
+
+        if ( StringUtils.isNotBlank( strDateLastLogin ) )
+        {
+            DateFormat dateFormat = new SimpleDateFormat( );
+            Date dateParsed;
+
+            try
+            {
+                dateParsed = dateFormat.parse( strDateLastLogin );
+            }
+            catch( ParseException e )
+            {
+                AppLogService.error( e.getMessage( ), e );
+                dateParsed = null;
+            }
+
+            if ( dateParsed != null )
+            {
+                dateLastLogin = new Timestamp( dateParsed.getTime( ) );
+            }
+        }
+        return dateLastLogin;
     }
 
     /**

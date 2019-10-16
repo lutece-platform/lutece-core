@@ -83,6 +83,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Optional;
 import java.util.Properties;
 
 import javax.inject.Inject;
@@ -488,7 +489,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
     @Override
     public String getPageContent( int nIdPage, int nMode, HttpServletRequest request ) throws SiteMessageException
     {
-        Locale locale = ( request == null ) ? LocaleService.getDefault( ) : request.getLocale( );
+        Locale locale = Optional.ofNullable( request ).map( HttpServletRequest::getLocale ).orElse( LocaleService.getDefault( ) );
 
         String[] arrayContent = new String[MAX_COLUMNS];
 

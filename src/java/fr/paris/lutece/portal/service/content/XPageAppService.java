@@ -76,6 +76,7 @@ import javax.servlet.http.HttpSession;
 public class XPageAppService extends ContentService
 {
     public static final String PARAM_XPAGE_APP = "page";
+    private static final String ERROR_INSTANTIATION = "Error instantiating XPageApplication : ";
     private static final String CONTENT_SERVICE_NAME = "XPageAppService";
     private static final String MESSAGE_ERROR_APP_BODY = "portal.util.message.errorXpageApp";
     private static final String ATTRIBUTE_XPAGE = "LUTECE_XPAGE_";
@@ -97,7 +98,7 @@ public class XPageAppService extends ContentService
 
                 if ( !SpringContextService.getContext( ).containsBean( applicationBeanName ) )
                 {
-                    throw new LuteceInitException( "Error instantiating XPageApplication : " + entry.getId( )
+                    throw new LuteceInitException( ERROR_INSTANTIATION + entry.getId( )
                             + " - Could not find bean named " + applicationBeanName,
                             new NoSuchBeanDefinitionException( applicationBeanName ) );
                 }
@@ -114,8 +115,7 @@ public class XPageAppService extends ContentService
         }
         catch ( ClassNotFoundException | InstantiationException | IllegalAccessException e )
         {
-            throw new LuteceInitException(
-                    "Error instantiating XPageApplication : " + entry.getId( ) + " - " + e.getCause( ), e );
+            throw new LuteceInitException( ERROR_INSTANTIATION + entry.getId( ) + " - " + e.getCause( ), e );
         }
     }
 
@@ -215,14 +215,7 @@ public class XPageAppService extends ContentService
                 throw new UserNotSignedException( );
             }
 
-            boolean bAutorized = false;
-            for ( String strRole : listRoles )
-            {
-                if ( SecurityService.getInstance( ).isUserInRole( request, strRole ) )
-                {
-                    bAutorized = true;
-                }
-            }
+            boolean bAutorized = SecurityService.getInstance( ).isUserInAnyRole( request, listRoles );
 
             if ( bAutorized )
             {
@@ -338,8 +331,7 @@ public class XPageAppService extends ContentService
         }
         catch ( Exception e )
         {
-            throw new AppException( "Error instantiating XPageApplication : " + entry.getId( ) + " - " + e.getCause( ),
-                    e );
+            throw new AppException( ERROR_INSTANTIATION + entry.getId( ) + " - " + e.getCause( ), e );
         }
 
         return application;

@@ -73,6 +73,7 @@ import java.net.URLEncoder;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -513,24 +514,7 @@ public class PortalJspBean
         String strSend = request.getParameter( PARAMETER_SEND );
         IExtendableResource resource = null;
 
-        String strError = null;
-
-        // If the form was submited, we check data
-        if ( strSend != null )
-        {
-            if ( StringUtils.isBlank( strSenderEmail ) || StringUtils.isBlank( strSenderName )
-                    || StringUtils.isBlank( strSenderFirstName ) || StringUtils.isBlank( strReceipientEmail )
-                    || StringUtils.isBlank( strContent ) )
-            {
-                strError = I18nService.getLocalizedString( MESSAGE_ERROR_MANDATORY_FIELDS, request.getLocale( ) );
-            }
-
-            if ( ( strError != null ) && ( !AdminUserService.checkEmail( strSenderEmail )
-                    || !AdminUserService.checkEmail( strReceipientEmail ) ) )
-            {
-                strError = I18nService.getLocalizedString( MESSAGE_ERROR_WRONG_SENDER_EMAIL, request.getLocale( ) );
-            }
-        }
+        String strError = checkSendParams( strSend, strSenderEmail, strSenderName, strSenderFirstName, strReceipientEmail, strContent, request.getLocale( ) );
 
         // We get the resource from its resource service
         IExtendableResourceService resourceService = null;
@@ -591,5 +575,28 @@ public class PortalJspBean
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_SEND_RESOURCE, request.getLocale( ), model );
 
         return template.getHtml( );
+    }
+
+    private static String checkSendParams( String strSend, String strSenderEmail, String strSenderName,
+            String strSenderFirstName, String strReceipientEmail, String strContent, Locale locale )
+    {
+        String strError = null;
+        // If the form was submited, we check data
+        if ( strSend != null )
+        {
+            if ( StringUtils.isBlank( strSenderEmail ) || StringUtils.isBlank( strSenderName )
+                    || StringUtils.isBlank( strSenderFirstName ) || StringUtils.isBlank( strReceipientEmail )
+                    || StringUtils.isBlank( strContent ) )
+            {
+                strError = I18nService.getLocalizedString( MESSAGE_ERROR_MANDATORY_FIELDS, locale );
+            }
+
+            if ( ( strError != null ) && ( !AdminUserService.checkEmail( strSenderEmail )
+                    || !AdminUserService.checkEmail( strReceipientEmail ) ) )
+            {
+                strError = I18nService.getLocalizedString( MESSAGE_ERROR_WRONG_SENDER_EMAIL, locale );
+            }
+        }
+        return strError;
     }
 }

@@ -187,8 +187,12 @@ public final class IndexationService
 
         boolean bCreateIndex = bCreate;
 
-        try ( Directory dir = IndexationService.getDirectoryIndex( ) )
+        Directory dir = null;
+
+        try
         {
+            dir = IndexationService.getDirectoryIndex( );
+
             if ( !DirectoryReader.indexExists( dir ) )
             { // init index
                 bCreateIndex = true;
@@ -233,6 +237,18 @@ public final class IndexationService
                 if ( _writer != null )
                 {
                     _writer.close( );
+                }
+            }
+            catch( IOException e )
+            {
+                AppLogService.error( e.getMessage( ), e );
+            }
+
+            try
+            {
+                if ( dir != null )
+                {
+                    dir.close( );
                 }
             }
             catch( IOException e )
@@ -309,11 +325,11 @@ public final class IndexationService
                 }
                 else
                 {
-                    List<org.apache.lucene.document.Document> luceneDocuments = indexer.getDocuments( action.getIdDocument( ) );
+                    List<Document> luceneDocuments = indexer.getDocuments( action.getIdDocument( ) );
 
                     if ( CollectionUtils.isNotEmpty( luceneDocuments ) )
                     {
-                        for ( org.apache.lucene.document.Document doc : luceneDocuments )
+                        for ( Document doc : luceneDocuments )
                         {
                             if ( ( action.getIdPortlet( ) == ALL_DOCUMENT )
                                     || ( ( doc.get( SearchItem.FIELD_DOCUMENT_PORTLET_ID ) != null ) && ( doc.get( SearchItem.FIELD_DOCUMENT_PORTLET_ID )
@@ -337,7 +353,7 @@ public final class IndexationService
         _writer.deleteDocuments( new Term( SearchItem.FIELD_TYPE, PARAM_TYPE_PAGE ) );
         _mapIndexers.get( PageIndexer.INDEXER_NAME ).indexDocuments( );
     }
-
+    
     /**
      * Delete a document from the index
      *
