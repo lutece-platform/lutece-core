@@ -374,7 +374,8 @@ public final class BbcodeUtil
             {
                 tag = "(?:=\"(.*?)\")?";
             }
-            else {
+            else
+            {
                 tag = "(?:=\"?(.*?)\"?)?";
             }
         }

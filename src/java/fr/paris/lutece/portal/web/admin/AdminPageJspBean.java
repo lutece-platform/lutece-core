@@ -191,7 +191,7 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
         ContentService cs = PortalService.getInvokedContentService( request );
         int nMode = 1;
 
-        String strContent = StringUtils.EMPTY;
+        String strContent;
 
         if ( cs != null )
         {

@@ -43,6 +43,7 @@ import java.security.Principal;
 
 import java.util.Collection;
 import java.util.Enumeration;
+import java.util.List;
 
 import javax.security.auth.login.LoginException;
 
@@ -192,6 +193,27 @@ public final class SecurityService
         }
 
         return _authenticationService.isUserInRole( user, request, strRole );
+    }
+    
+    /**
+     * Checks if the user is associated to a at least a role
+     * 
+     * @param request The Http request
+     * @param listRoles The Role list
+     * @return Returns true if the user is associated to any role
+     */
+    public boolean isUserInAnyRole( HttpServletRequest request, List<String> listRoles )
+    {
+        boolean bAutorized = false;
+        for ( String strRole : listRoles )
+        {
+            if ( isUserInRole( request, strRole ) )
+            {
+                bAutorized = true;
+                break;
+            }
+        }
+        return bAutorized;
     }
 
     /**

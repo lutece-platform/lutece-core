@@ -148,11 +148,9 @@ public final class PortalMenuService extends AbstractCacheableService implements
      */
     private String buildMenuContent( int nCurrentPageId, int nMode, int nPart, HttpServletRequest request )
     {
-        StringBuffer strXml = new StringBuffer( );
         Collection<Page> listPagesMenu = PageHome.getChildPagesMinimalData( PortalService.getRootPageId( ) );
-
-        String strCurrentPageId = Integer.toString( nCurrentPageId );
-
+        
+        StringBuffer strXml = new StringBuffer( );
         strXml.append( XmlUtil.getXmlHeader( ) );
         XmlUtil.beginElement( strXml, XmlContent.TAG_MENU_LIST );
 
@@ -162,40 +160,8 @@ public final class PortalMenuService extends AbstractCacheableService implements
         {
             if ( ( menuPage.isVisible( request ) ) || ( nMode == MODE_ADMIN ) )
             {
-                XmlUtil.beginElement( strXml, XmlContent.TAG_MENU );
-                XmlUtil.addElement( strXml, XmlContent.TAG_MENU_INDEX, nMenuIndex );
-                XmlUtil.addElement( strXml, XmlContent.TAG_PAGE_ID, menuPage.getId( ) );
-                XmlUtil.addElementHtml( strXml, XmlContent.TAG_PAGE_NAME, menuPage.getName( ) );
-                XmlUtil.addElementHtml( strXml, XmlContent.TAG_CURRENT_PAGE_ID, strCurrentPageId );
-
-                Collection<Page> listSubLevelMenuPages = PageHome.getChildPagesMinimalData( menuPage.getId( ) );
-
-                // add element submenu-list only if list not empty
-                if ( !listSubLevelMenuPages.isEmpty( ) )
-                {
-                    // Seek of the sub-menus
-                    XmlUtil.beginElement( strXml, XmlContent.TAG_SUBLEVEL_MENU_LIST );
-
-                    int nSubLevelMenuIndex = 1;
-
-                    for ( Page subLevelMenuPage : listSubLevelMenuPages )
-                    {
-                        if ( ( subLevelMenuPage.isVisible( request ) ) || ( nMode == MODE_ADMIN ) )
-                        {
-                            XmlUtil.beginElement( strXml, XmlContent.TAG_SUBLEVEL_MENU );
-                            XmlUtil.addElement( strXml, XmlContent.TAG_MENU_INDEX, nMenuIndex );
-                            XmlUtil.addElement( strXml, XmlContent.TAG_SUBLEVEL_INDEX, nSubLevelMenuIndex );
-                            XmlUtil.addElement( strXml, XmlContent.TAG_PAGE_ID, subLevelMenuPage.getId( ) );
-                            XmlUtil.addElementHtml( strXml, XmlContent.TAG_PAGE_NAME, subLevelMenuPage.getName( ) );
-                            XmlUtil.endElement( strXml, XmlContent.TAG_SUBLEVEL_MENU );
-                            XmlUtil.addElementHtml( strXml, XmlContent.TAG_CURRENT_PAGE_ID, strCurrentPageId );
-                        }
-                    }
-
-                    XmlUtil.endElement( strXml, XmlContent.TAG_SUBLEVEL_MENU_LIST );
-                }
-
-                XmlUtil.endElement( strXml, XmlContent.TAG_MENU );
+                buildPageXml( menuPage, strXml, nMode, nMenuIndex, nCurrentPageId, request );
+                
                 nMenuIndex++;
             }
         }
@@ -203,6 +169,61 @@ public final class PortalMenuService extends AbstractCacheableService implements
         XmlUtil.endElement( strXml, XmlContent.TAG_MENU_LIST );
 
         // Added in v1.3
+        StyleSheet xslSource = getMenuXslSource( nMode, nPart );
+
+        Properties outputProperties = ModeHome.getOuputXslProperties( nMode );
+
+        // Added in v1.3
+        // Add a path param for choose url to use in admin or normal mode
+        Map<String, String> mapParamRequest = new HashMap<>( );
+        PortalService.setXslPortalPath( mapParamRequest, nMode );
+
+        XmlTransformerService xmlTransformerService = new XmlTransformerService( );
+
+        return xmlTransformerService.transformBySourceWithXslCache( strXml.toString( ), xslSource, mapParamRequest,
+                outputProperties );
+    }
+    
+    private void buildPageXml( Page menuPage, StringBuffer strXml, int nMode, int nMenuIndex, int nCurrentPageId, HttpServletRequest request )
+    {
+        XmlUtil.beginElement( strXml, XmlContent.TAG_MENU );
+        XmlUtil.addElement( strXml, XmlContent.TAG_MENU_INDEX, nMenuIndex );
+        XmlUtil.addElement( strXml, XmlContent.TAG_PAGE_ID, menuPage.getId( ) );
+        XmlUtil.addElementHtml( strXml, XmlContent.TAG_PAGE_NAME, menuPage.getName( ) );
+        XmlUtil.addElementHtml( strXml, XmlContent.TAG_CURRENT_PAGE_ID, String.valueOf( nCurrentPageId ) );
+
+        Collection<Page> listSubLevelMenuPages = PageHome.getChildPagesMinimalData( menuPage.getId( ) );
+
+        // add element submenu-list only if list not empty
+        if ( !listSubLevelMenuPages.isEmpty( ) )
+        {
+            // Seek of the sub-menus
+            XmlUtil.beginElement( strXml, XmlContent.TAG_SUBLEVEL_MENU_LIST );
+
+            int nSubLevelMenuIndex = 1;
+
+            for ( Page subLevelMenuPage : listSubLevelMenuPages )
+            {
+                if ( ( subLevelMenuPage.isVisible( request ) ) || ( nMode == MODE_ADMIN ) )
+                {
+                    XmlUtil.beginElement( strXml, XmlContent.TAG_SUBLEVEL_MENU );
+                    XmlUtil.addElement( strXml, XmlContent.TAG_MENU_INDEX, nMenuIndex );
+                    XmlUtil.addElement( strXml, XmlContent.TAG_SUBLEVEL_INDEX, nSubLevelMenuIndex );
+                    XmlUtil.addElement( strXml, XmlContent.TAG_PAGE_ID, subLevelMenuPage.getId( ) );
+                    XmlUtil.addElementHtml( strXml, XmlContent.TAG_PAGE_NAME, subLevelMenuPage.getName( ) );
+                    XmlUtil.endElement( strXml, XmlContent.TAG_SUBLEVEL_MENU );
+                    XmlUtil.addElementHtml( strXml, XmlContent.TAG_CURRENT_PAGE_ID, String.valueOf( nCurrentPageId ) );
+                }
+            }
+
+            XmlUtil.endElement( strXml, XmlContent.TAG_SUBLEVEL_MENU_LIST );
+        }
+
+        XmlUtil.endElement( strXml, XmlContent.TAG_MENU );
+    }
+
+    private StyleSheet getMenuXslSource( int nMode, int nPart )
+    {
         // Use the same stylesheet for normal or admin mode
         StyleSheet xslSource;
 
@@ -237,18 +258,7 @@ public final class PortalMenuService extends AbstractCacheableService implements
                 break;
             }
         }
-
-        Properties outputProperties = ModeHome.getOuputXslProperties( nMode );
-
-        // Added in v1.3
-        // Add a path param for choose url to use in admin or normal mode
-        Map<String, String> mapParamRequest = new HashMap<>( );
-        PortalService.setXslPortalPath( mapParamRequest, nMode );
-
-        XmlTransformerService xmlTransformerService = new XmlTransformerService( );
-
-        return xmlTransformerService.transformBySourceWithXslCache( strXml.toString( ), xslSource, mapParamRequest,
-                outputProperties );
+        return xslSource;
     }
 
     /**
