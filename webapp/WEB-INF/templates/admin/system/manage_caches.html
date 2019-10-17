@@ -1,19 +1,23 @@
 <@row>
     <@columns>
-        <@box color='danger'>
+        <@box>
             <@boxHeader title='#i18n{portal.system.manage_caches.titleCacheList}' boxTools=true>
-                <@tform method='post' action='jsp/admin/system/DoReloadProperties.jsp' class='pull-right'>
-                        <input type="hidden" name="token" value="${token}">
-                        <@button type='submit' buttonIcon='refresh' title='#i18n{portal.system.manage_caches.titleReloadProperties}' id='reload' size='' showTitleXs=false showTitleSm=false />
-                        <@aButton href='jsp/admin/system/CacheInfos.jsp' buttonIcon='key' title='#i18n{portal.system.manage_caches.buttonViewKeys}' size='' showTitleXs=false showTitleSm=false />
-                </@tform>
-                <@tform method='post' action='jsp/admin/system/DoResetCaches.jsp' class='pull-right spaced'>
-                        <input type="hidden" name="token" value="${token}">
-                        <@button type='submit' buttonIcon='trash' title='#i18n{portal.system.manage_caches.buttonFlush}' size='' color='btn-danger' showTitleXs=false showTitleSm=false />
-                </@tform>
+                <@btnGroup>
+                    <@tform method='post' action='jsp/admin/system/DoReloadProperties.jsp' class='pull-right'>
+                            <input type="hidden" name="token" value="${token}">
+                            <@button type='submit' buttonIcon='refresh' title='#i18n{portal.system.manage_caches.titleReloadProperties}' id='reload' size='' showTitleXs=false showTitleSm=false />
+                    </@tform>
+                    <@tform method='post' action='jsp/admin/system/DoResetCaches.jsp' class='pull-right spaced'>
+                            <input type="hidden" name="token" value="${token}">
+                            <@button type='submit' buttonIcon='trash' title='#i18n{portal.system.manage_caches.buttonFlush}' size='' color='danger' showTitleXs=false showTitleSm=false />
+                    </@tform>
+                </@btnGroup>
             </@boxHeader>
             <@boxBody>
-            <@alert class='warning' title='#i18n{portal.system.manage_caches.cautionTitle}' iconTitle='exclamation-triangle' dismissible=true>#i18n{portal.system.manage_caches.cautionMessage}</@alert>
+            <p>
+                <em>#i18n{portal.system.manage_caches.featureDescription}</em>
+            </p>
+            <@alert color='warning' title='#i18n{portal.system.manage_caches.cautionTitle}' iconTitle='exclamation-triangle' dismissible=true>#i18n{portal.system.manage_caches.cautionMessage}</@alert>
 				<@table>
 					<tr>
 						<th>#i18n{portal.system.manage_caches.columnTitleName}</th>
@@ -40,27 +44,29 @@
 						<td class="hidden-xs hidden-sm">
 							[
 							<i class="fa fa-info-circle"></i>&nbsp;#i18n{portal.system.manage_caches.columnTitleMaxElements}: ${service.maxElements!"-"}
-							&nbsp;|&nbsp;<i class="fa fa-time"></i>&nbsp;#i18n{portal.system.manage_caches.columnTitleTimeToLive} : ${service.timeToLive!"-"}
+							&nbsp;|&nbsp;<i class="fa fa-time"></i>&nbsp;#i18n{portal.system.manage_caches.columnTitleTimeToLive} : ${service.timeToLive} -> ${ time2string( service.timeToLive )}
 							]
 						</td>
 						<td class="hidden-xs">${service.cacheSize}</td>
 						<td class="hidden-xs">${service.memorySize}</td>
 						<td>
-							<@tform method='post' action='jsp/admin/system/ConfirmToggleCache.jsp' class="pull-right spaced">
-								<input type="hidden" name="id_cache" value="${id}">
-								<input type="hidden" name="token" value="${token}">
-								<#if service.cacheEnable>
-									<@button type='submit' buttonIcon='stop' title='#i18n{portal.system.manage_caches.actionDisable}' showTitle=false color='btn-danger' />
-								<#else>
-									<@button type='submit' buttonIcon='play' title='#i18n{portal.system.manage_caches.actionEnable}' showTitle=false color='btn-success' />
-								</#if>
-							</@tform>
-							<@aButton href='jsp/admin/system/CacheInfos.jsp?id_cache=${id}' buttonIcon='eye' class="pull-right spaced" title='#i18n{portal.system.manage_caches.actionViewKeys}' showTitle=false />
-							<@tform method='post' action='jsp/admin/system/DoResetCaches.jsp' class="pull-right spaced">
-								<input type="hidden" bame="id_cache" value="${id}">
-								<input type="hidden" name="token" value="${token}">
-								<@button type='submit' buttonIcon='trash' title='#i18n{portal.system.manage_caches.actionClear}' showTitle=false color='btn-danger' />
-							</@tform>
+                            <@btnGroup>
+                                <@tform method='post' action='jsp/admin/system/ConfirmToggleCache.jsp' class="pull-right spaced">
+                                    <input type="hidden" name="id_cache" value="${id}">
+                                    <input type="hidden" name="token" value="${token}">
+                                    <#if service.cacheEnable>
+                                        <@button type='submit' buttonIcon='stop' title='#i18n{portal.system.manage_caches.actionDisable}' showTitle=false color='danger' />
+                                    <#else>
+                                        <@button type='submit' buttonIcon='play' title='#i18n{portal.system.manage_caches.actionEnable}' showTitle=false color='success' />
+                                    </#if>
+                                </@tform>
+                                <@aButton href='jsp/admin/system/CacheInfos.jsp?id_cache=${id}' buttonIcon='eye' class="pull-right spaced" title='#i18n{portal.system.manage_caches.actionViewKeys}' showTitle=false />
+                                <@tform method='post' action='jsp/admin/system/DoResetCaches.jsp' class="pull-right spaced">
+                                    <input type="hidden" bame="id_cache" value="${id}">
+                                    <input type="hidden" name="token" value="${token}">
+                                    <@button type='submit' buttonIcon='trash' title='#i18n{portal.system.manage_caches.actionClear}' showTitle=false color='danger' />
+                                </@tform>
+                            </@btnGroup>
 						</td>
 					</tr>
 					<#assign id = id + 1>
@@ -70,3 +76,18 @@
 		</@box>
   </@columns>
 </@row>
+
+<#function time2string time>
+    <#assign hour =  ( time / 3600 )?floor >
+    <#assign mn = ((time - (hour * 3600)) / 60)?floor >
+    <#if hour != 0 >
+       <#assign result = '' + hour + 'h' >
+       <#if mn != 0 >
+            <#assign result = result + ' ' + mn + 'mn'>
+       </#if>
+    <#else>
+       <#assign result = '' + mn + 'mn'>
+    </#if>
+    <#return result >
+</#function>
+

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -198,7 +198,7 @@ public class AdminUserFieldFilter
      */
     public void setAdminUserFieldFilter( HttpServletRequest request, Locale locale )
     {
-        _listUserFields = new ArrayList<AdminUserField>( );
+        _listUserFields = new ArrayList<>( );
 
         String strIsSearch = request.getParameter( PARAMETER_SEARCH_IS_SEARCH );
 

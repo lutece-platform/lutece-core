@@ -95,20 +95,6 @@ public class ExternalFeaturesJspBeanTest extends LuteceTestCase
     }
 
     /**
-     * Test of getManageExternalFeatures method, of class ExternalFeaturesJspBean.
-     */
-    @Test
-    public void testGetManageExternalFeatures( ) throws AccessDeniedException
-    {
-        MockHttpServletRequest request = new MockHttpServletRequest( );
-        Utils.registerAdminUserWithRigth( request, new AdminUser( ), ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
-
-        ExternalFeaturesJspBean instance = new ExternalFeaturesJspBean( );
-        instance.init( request, ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
-        instance.getManageExternalFeatures( request );
-    }
-
-    /**
      * Test of getCreateExternalFeature method, of class ExternalFeaturesJspBean.
      */
     @Test
@@ -119,7 +105,7 @@ public class ExternalFeaturesJspBeanTest extends LuteceTestCase
 
         ExternalFeaturesJspBean instance = new ExternalFeaturesJspBean( );
         instance.init( request, ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
-        assertNotNull( instance.getManageExternalFeatures( request ) );
+        assertNotNull( instance.getCreateExternalFeature( request ) );
     }
 
     /**
@@ -147,8 +133,7 @@ public class ExternalFeaturesJspBeanTest extends LuteceTestCase
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.addParameter( PARAMETER_ID_EXTERNAL_FEAUTRE, TEST_EXTERNAL_FEATURE_ID );
-        Utils.registerAdminUserWithRigth( request, new AdminUser( ),
-                ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
+        Utils.registerAdminUserWithRigth( request, new AdminUser( ), ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
 
         ExternalFeaturesJspBean instance = new ExternalFeaturesJspBean( );
         instance.init( request, ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
@@ -165,8 +150,8 @@ public class ExternalFeaturesJspBeanTest extends LuteceTestCase
         request.setParameter( "documentationUrl", strRandom );
 
         instance.getModifyExternalFeature( request );
-        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( )
-                .getToken( request, "admin/features/modify_external_feature.html" ) );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "admin/features/modify_external_feature.html" ) );
         instance.doModifyExternalFeature( request );
 
         Right right = RightHome.findByPrimaryKey( _right.getId( ) );
@@ -186,8 +171,7 @@ public class ExternalFeaturesJspBeanTest extends LuteceTestCase
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.addParameter( PARAMETER_ID_EXTERNAL_FEAUTRE, TEST_EXTERNAL_FEATURE_ID );
-        Utils.registerAdminUserWithRigth( request, new AdminUser( ),
-                ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
+        Utils.registerAdminUserWithRigth( request, new AdminUser( ), ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
 
         ExternalFeaturesJspBean instance = new ExternalFeaturesJspBean( );
         instance.init( request, ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
@@ -204,14 +188,14 @@ public class ExternalFeaturesJspBeanTest extends LuteceTestCase
         request.setParameter( "documentationUrl", strRandom );
 
         instance.getModifyExternalFeature( request );
-        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( )
-                .getToken( request, "admin/features/modify_external_feature.html" ) + "b" );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "admin/features/modify_external_feature.html" ) + "b" );
         try
         {
             instance.doModifyExternalFeature( request );
             fail( "Should have thrown" );
         }
-        catch ( AccessDeniedException e )
+        catch( AccessDeniedException e )
         {
             Right right = RightHome.findByPrimaryKey( _right.getId( ) );
             assertNotNull( right );
@@ -231,8 +215,7 @@ public class ExternalFeaturesJspBeanTest extends LuteceTestCase
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.addParameter( PARAMETER_ID_EXTERNAL_FEAUTRE, TEST_EXTERNAL_FEATURE_ID );
-        Utils.registerAdminUserWithRigth( request, new AdminUser( ),
-                ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
+        Utils.registerAdminUserWithRigth( request, new AdminUser( ), ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
 
         ExternalFeaturesJspBean instance = new ExternalFeaturesJspBean( );
         instance.init( request, ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
@@ -255,7 +238,7 @@ public class ExternalFeaturesJspBeanTest extends LuteceTestCase
             instance.doModifyExternalFeature( request );
             fail( "Should have thrown" );
         }
-        catch ( AccessDeniedException e )
+        catch( AccessDeniedException e )
         {
             Right right = RightHome.findByPrimaryKey( _right.getId( ) );
             assertNotNull( right );
@@ -282,8 +265,7 @@ public class ExternalFeaturesJspBeanTest extends LuteceTestCase
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.addParameter( PARAMETER_ID_EXTERNAL_FEAUTRE, TEST_EXTERNAL_FEATURE_ID );
-        Utils.registerAdminUserWithRigth( request, new AdminUser( ),
-                ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
+        Utils.registerAdminUserWithRigth( request, new AdminUser( ), ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
 
         ExternalFeaturesJspBean instance = new ExternalFeaturesJspBean( );
         instance.init( request, ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
@@ -298,8 +280,8 @@ public class ExternalFeaturesJspBeanTest extends LuteceTestCase
         request.setParameter( "iconUrl", strRandom );
         request.setParameter( "externalFeature", "false" );
         request.setParameter( "documentationUrl", strRandom );
-        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( )
-                .getToken( request, "admin/features/create_external_feature.html" ) );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "admin/features/create_external_feature.html" ) );
 
         instance.doCreateExternalFeature( request );
 
@@ -334,8 +316,7 @@ public class ExternalFeaturesJspBeanTest extends LuteceTestCase
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.addParameter( PARAMETER_ID_EXTERNAL_FEAUTRE, TEST_EXTERNAL_FEATURE_ID );
-        Utils.registerAdminUserWithRigth( request, new AdminUser( ),
-                ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
+        Utils.registerAdminUserWithRigth( request, new AdminUser( ), ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
 
         ExternalFeaturesJspBean instance = new ExternalFeaturesJspBean( );
         instance.init( request, ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
@@ -351,15 +332,14 @@ public class ExternalFeaturesJspBeanTest extends LuteceTestCase
         request.setParameter( "externalFeature", "false" );
         request.setParameter( "documentationUrl", strRandom );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/features/create_external_feature.html" )
-                        + "b" );
+                SecurityTokenService.getInstance( ).getToken( request, "admin/features/create_external_feature.html" ) + "b" );
 
         try
         {
             instance.doCreateExternalFeature( request );
             fail( "Should have thrown" );
         }
-        catch ( AccessDeniedException e )
+        catch( AccessDeniedException e )
         {
             Right right = RightHome.findByPrimaryKey( strRandom );
             assertNull( right );
@@ -374,8 +354,7 @@ public class ExternalFeaturesJspBeanTest extends LuteceTestCase
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.addParameter( PARAMETER_ID_EXTERNAL_FEAUTRE, TEST_EXTERNAL_FEATURE_ID );
-        Utils.registerAdminUserWithRigth( request, new AdminUser( ),
-                ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
+        Utils.registerAdminUserWithRigth( request, new AdminUser( ), ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
 
         ExternalFeaturesJspBean instance = new ExternalFeaturesJspBean( );
         instance.init( request, ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
@@ -396,7 +375,7 @@ public class ExternalFeaturesJspBeanTest extends LuteceTestCase
             instance.doCreateExternalFeature( request );
             fail( "Should have thrown" );
         }
-        catch ( AccessDeniedException e )
+        catch( AccessDeniedException e )
         {
             Right right = RightHome.findByPrimaryKey( strRandom );
             assertNull( right );
@@ -408,16 +387,14 @@ public class ExternalFeaturesJspBeanTest extends LuteceTestCase
     }
 
     /**
-     * Test of getRemoveExternalFeature method, of class
-     * ExternalFeaturesJspBean.
+     * Test of getRemoveExternalFeature method, of class ExternalFeaturesJspBean.
      */
     @Test
     public void testGetRemoveExternalFeature( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.addParameter( PARAMETER_ID_EXTERNAL_FEAUTRE, TEST_EXTERNAL_FEATURE_ID );
-        Utils.registerAdminUserWithRigth( request, new AdminUser( ),
-                ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
+        Utils.registerAdminUserWithRigth( request, new AdminUser( ), ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
 
         ExternalFeaturesJspBean instance = new ExternalFeaturesJspBean( );
         instance.init( request, ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
@@ -438,14 +415,13 @@ public class ExternalFeaturesJspBeanTest extends LuteceTestCase
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.addParameter( PARAMETER_ID_EXTERNAL_FEAUTRE, TEST_EXTERNAL_FEATURE_ID );
-        Utils.registerAdminUserWithRigth( request, new AdminUser( ),
-                ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
+        Utils.registerAdminUserWithRigth( request, new AdminUser( ), ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
 
         ExternalFeaturesJspBean instance = new ExternalFeaturesJspBean( );
         instance.init( request, ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
         instance.getRemoveExternalFeature( request );
-        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( )
-                .getToken( request, "jsp/admin/features/DoRemoveExternalFeature.jsp" ) );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/features/DoRemoveExternalFeature.jsp" ) );
         instance.doRemoveExternalFeature( request );
 
         Right right = RightHome.findByPrimaryKey( TEST_EXTERNAL_FEATURE_ID );
@@ -456,20 +432,19 @@ public class ExternalFeaturesJspBeanTest extends LuteceTestCase
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.addParameter( PARAMETER_ID_EXTERNAL_FEAUTRE, TEST_EXTERNAL_FEATURE_ID );
-        Utils.registerAdminUserWithRigth( request, new AdminUser( ),
-                ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
+        Utils.registerAdminUserWithRigth( request, new AdminUser( ), ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
 
         ExternalFeaturesJspBean instance = new ExternalFeaturesJspBean( );
         instance.init( request, ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
         instance.getRemoveExternalFeature( request );
-        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( )
-                .getToken( request, "jsp/admin/features/DoRemoveExternalFeature.jsp" ) + "b" );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/features/DoRemoveExternalFeature.jsp" ) + "b" );
         try
         {
             instance.doRemoveExternalFeature( request );
             fail( "Should have thrown" );
         }
-        catch ( AccessDeniedException e )
+        catch( AccessDeniedException e )
         {
             Right right = RightHome.findByPrimaryKey( TEST_EXTERNAL_FEATURE_ID );
             assertNotNull( right );
@@ -480,8 +455,7 @@ public class ExternalFeaturesJspBeanTest extends LuteceTestCase
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.addParameter( PARAMETER_ID_EXTERNAL_FEAUTRE, TEST_EXTERNAL_FEATURE_ID );
-        Utils.registerAdminUserWithRigth( request, new AdminUser( ),
-                ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
+        Utils.registerAdminUserWithRigth( request, new AdminUser( ), ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
 
         ExternalFeaturesJspBean instance = new ExternalFeaturesJspBean( );
         instance.init( request, ExternalFeaturesJspBean.RIGHT_EXTERNAL_FEATURES_MANAGEMENT );
@@ -492,7 +466,7 @@ public class ExternalFeaturesJspBeanTest extends LuteceTestCase
             instance.doRemoveExternalFeature( request );
             fail( "Should have thrown" );
         }
-        catch ( AccessDeniedException e )
+        catch( AccessDeniedException e )
         {
             Right right = RightHome.findByPrimaryKey( TEST_EXTERNAL_FEATURE_ID );
             assertNotNull( right );

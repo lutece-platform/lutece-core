@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -88,7 +88,7 @@ public final class AttributeTypeService
             {
                 if ( _listAttributeTypes == null )
                 {
-                    List<AttributeType> listAttributTypes = new ArrayList<AttributeType>( );
+                    List<AttributeType> listAttributTypes = new ArrayList<>( );
 
                     for ( IAttribute attribute : SpringContextService.getBeansOfType( IAttribute.class ) )
                     {

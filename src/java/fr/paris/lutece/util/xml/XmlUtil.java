@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,11 +33,7 @@
  */
 package fr.paris.lutece.util.xml;
 
-import fr.paris.lutece.portal.service.util.AppPropertiesService;
-import fr.paris.lutece.util.http.SecurityUtil;
-
 import java.io.StringWriter;
-
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
@@ -45,11 +41,12 @@ import java.util.Properties;
 import javax.xml.transform.Result;
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.TransformerFactoryConfigurationError;
 import javax.xml.transform.stream.StreamResult;
+
+import fr.paris.lutece.portal.service.util.AppPropertiesService;
+import fr.paris.lutece.util.http.SecurityUtil;
 
 /**
  * This class provides utils for XML document management.
@@ -79,9 +76,7 @@ public final class XmlUtil
      */
     public static String getXmlHeader( )
     {
-        String strXmlHeader = AppPropertiesService.getProperty( PROPERTIES_XML_HEADER );
-
-        return strXmlHeader;
+        return AppPropertiesService.getProperty( PROPERTIES_XML_HEADER );
     }
 
     /**
@@ -97,11 +92,11 @@ public final class XmlUtil
      * @param outputProperties
      *            properties to use for the xsl transform. Will overload the xsl output definition.
      * @return The output document transformed
-     * @throws Exception
+     * @throws TransformerException
      *             The exception
      */
     @Deprecated
-    public static String transform( Source source, Source stylesheet, Map<String, String> params, Properties outputProperties ) throws Exception
+    public static String transform( Source source, Source stylesheet, Map<String, String> params, Properties outputProperties ) throws TransformerException
     {
         try
         {
@@ -131,21 +126,6 @@ public final class XmlUtil
 
             return sw.toString( );
         }
-        catch( TransformerConfigurationException e )
-        {
-            String strMessage = e.getMessage( );
-
-            if ( e.getLocationAsString( ) != null )
-            {
-                strMessage += ( "- location : " + e.getLocationAsString( ) );
-            }
-
-            throw new Exception( "Error transforming document XSLT : " + strMessage, e.getCause( ) );
-        }
-        catch( TransformerFactoryConfigurationError e )
-        {
-            throw new Exception( "Error transforming document XSLT : " + e.getMessage( ), e );
-        }
         catch( TransformerException e )
         {
             String strMessage = e.getMessage( );
@@ -155,11 +135,11 @@ public final class XmlUtil
                 strMessage += ( "- location : " + e.getLocationAsString( ) );
             }
 
-            throw new Exception( "Error transforming document XSLT : " + strMessage, e.getCause( ) );
+            throw new TransformerException( "Error transforming document XSLT : " + strMessage, e.getCause( ) );
         }
         catch( Exception e )
         {
-            throw new Exception( "Error transforming document XSLT : " + e.getMessage( ), e );
+            throw new TransformerException( "Error transforming document XSLT : " + e.getMessage( ), e );
         }
     }
 

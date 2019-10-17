@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -43,7 +43,7 @@ import java.util.List;
 public final class IndexerActionHome
 {
     // Static variable pointed at the DAO instance
-    private static IIndexerActionDAO _dao = (IIndexerActionDAO) SpringContextService.getBean( "indexerActionDAO" );
+    private static IIndexerActionDAO _dao = SpringContextService.getBean( "indexerActionDAO" );
 
     /**
      * Private constructor - this class need not be instantiated

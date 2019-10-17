@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -42,16 +42,13 @@ import fr.paris.lutece.portal.service.rbac.RBACService;
 import fr.paris.lutece.portal.service.search.SearchResourceIdService;
 import fr.paris.lutece.portal.service.search.SearchService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
-import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
 import fr.paris.lutece.portal.web.constants.Messages;
+import fr.paris.lutece.portal.web.dashboard.AdminDashboardJspBean;
 import fr.paris.lutece.util.ReferenceItem;
-import fr.paris.lutece.util.html.HtmlTemplate;
 
 import org.apache.commons.lang.StringUtils;
 
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -73,130 +70,15 @@ public class SearchJspBean extends AdminFeaturesPageJspBean
     private static final String EMPTY_STRING = "";
 
     // Jsp url
-    private static final String JSP_MANAGE_SEARCH = "ManageSearch.jsp";
-
-    // Markers
-    private static final String MARK_PERMISSION_MANAGE_ADVANCED_PARAMETERS = "permission_manage_advanced_parameters";
-    private static final String MARK_TAGLIST = "taglist";
-    private static final String MARK_TAG_FILTER = "tag_filter";
+    private static final String ANCHOR_ADMIN_DASHBOARDS = "search";
 
     // Parameters
     private static final String PARAMETER_CANCEL = "cancel";
     private static final String PARAMETER_DATE_FILTER = "date_filter";
     private static final String PARAMETER_DEFAULT_OPERATOR = "default_operator";
     private static final String PARAMETER_HELP_MESSAGE = "help_message";
-    private static final String PARAMETER_TAGLIST = "taglist";
     private static final String PARAMETER_TAG_FILTER = "tag_filter";
     private static final String PARAMETER_TYPE_FILTER = "type_filter";
-
-    // Properties
-    private static final String PROPERTY_MANAGE_ADVANCED_PARAMETERS_PAGETITLE = "portal.search.manage_advanced_parameters.pageTitle";
-    private static final String PROPERTY_MANAGE_SEARCH_PAGETITLE = "portal.search.manage_search.pageTitle";
-    private static final String PROPERTY_MODIFY_TAGLIST_PAGETITLE = "portal.search.modify_taglist.pageTitle";
-
-    // Template
-    private static final String TEMPLATE_MANAGE_ADVANCED_PARAMETERS = "admin/search/manage_advanced_parameters.html";
-    private static final String TEMPLATE_MANAGE_SEARCH = "admin/search/manage_search.html";
-    private static final String TEMPLATE_MODIFY_TAGLIST = "admin/search/modify_taglist.html";
-
-    /**
-     * Builds the search management page
-     * 
-     * @param request
-     *            Http request
-     * @return the built page
-     */
-    public String getManageSearch( HttpServletRequest request )
-    {
-        setPageTitleProperty( PROPERTY_MANAGE_SEARCH_PAGETITLE );
-
-        boolean bPermissionManageAdvancedParameters = RBACService.isAuthorized( SearchService.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID,
-                SearchResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS, getUser( ) );
-
-        Map<String, Object> model = new HashMap<String, Object>( );
-
-        model.put( MARK_PERMISSION_MANAGE_ADVANCED_PARAMETERS, bPermissionManageAdvancedParameters );
-        model.put( MARK_TAG_FILTER, SearchParameterHome.findByKey( PARAMETER_TAG_FILTER ).getName( ) );
-
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_SEARCH, getLocale( ), model );
-
-        return getAdminPage( template.getHtml( ) );
-    }
-
-    /**
-     * Builds the form to modify the tag cloud for the tag filter
-     * 
-     * @param request
-     *            Http request
-     * @return the built form
-     */
-    public String getModifyTagList( HttpServletRequest request )
-    {
-        setPageTitleProperty( PROPERTY_MODIFY_TAGLIST_PAGETITLE );
-
-        Map<String, Object> model = new HashMap<String, Object>( );
-
-        model.put( MARK_TAGLIST, SearchParameterHome.findByKey( PARAMETER_TAGLIST ).getName( ) );
-        model.put( MARK_TAG_FILTER, SearchParameterHome.findByKey( PARAMETER_TAG_FILTER ).getName( ) );
-        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MODIFY_TAGLIST ) );
-
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_TAGLIST, getLocale( ), model );
-
-        return getAdminPage( template.getHtml( ) );
-    }
-
-    /**
-     * Processes the data capture form of tag list
-     * 
-     * @param request
-     *            the HTTP request
-     * @return the jsp URL of the process result
-     * @throws AccessDeniedException
-     *             if the security token is invalid
-     */
-    public String doModifyTagList( HttpServletRequest request ) throws AccessDeniedException
-    {
-        if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_MODIFY_TAGLIST ) )
-        {
-            throw new AccessDeniedException( "Invalid security token" );
-        }
-        if ( request.getParameter( PARAMETER_CANCEL ) == null )
-        {
-            ReferenceItem param = new ReferenceItem( );
-            param.setCode( PARAMETER_TAGLIST );
-
-            String strTagList = request.getParameter( PARAMETER_TAGLIST );
-            param.setName( StringUtils.isNotBlank( strTagList ) ? strTagList : EMPTY_STRING );
-            SearchParameterHome.update( param );
-        }
-
-        return JSP_MANAGE_SEARCH;
-    }
-
-    /**
-     * Builds the advanced parameters management page. A form to specify search parameters (mainly filter)
-     * 
-     * @param request
-     *            the HTTP request
-     * @return the built page
-     */
-    public String getManageAdvancedParameters( HttpServletRequest request )
-    {
-        if ( !RBACService.isAuthorized( SearchService.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID, SearchResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS,
-                getUser( ) ) )
-        {
-            return getManageSearch( request );
-        }
-
-        setPageTitleProperty( PROPERTY_MANAGE_ADVANCED_PARAMETERS_PAGETITLE );
-
-        Map<String, Object> model = SearchService.getManageAdvancedParameters( getUser( ), request );
-        model.put( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MANAGE_ADVANCED_PARAMETERS ) );
-
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_ADVANCED_PARAMETERS, getLocale( ), model );
-
-        return getAdminPage( template.getHtml( ) );
-    }
 
     /**
      * Processes the data capture form of advanced parameters
@@ -215,9 +97,9 @@ public class SearchJspBean extends AdminFeaturesPageJspBean
             throw new AccessDeniedException( "User " + getUser( ) + " is not authorized to permission "
                     + SearchResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS );
         }
-        if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_MANAGE_ADVANCED_PARAMETERS ) )
+        if ( !SecurityTokenService.getInstance( ).validate( request, AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) )
         {
-            throw new AccessDeniedException( "Invalid security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
 
         if ( request.getParameter( PARAMETER_CANCEL ) == null )
@@ -261,6 +143,6 @@ public class SearchJspBean extends AdminFeaturesPageJspBean
             SearchParameterHome.update( param );
         }
 
-        return JSP_MANAGE_SEARCH;
+        return getAdminDashboardsUrl( request , ANCHOR_ADMIN_DASHBOARDS );
     }
 }

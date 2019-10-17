@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -66,6 +66,9 @@ import javax.validation.ConstraintViolation;
  */
 public abstract class AdminFeaturesPageJspBean implements Serializable
 {
+    protected static final String JSP_TECHNICAL_ADMINISTRATION = "jsp/admin/AdminTechnicalMenu.jsp";
+    protected static final String ERROR_INVALID_TOKEN = "Invalid security token";
+    
     /**
      * Serial version UID
      */
@@ -109,7 +112,7 @@ public abstract class AdminFeaturesPageJspBean implements Serializable
      * @throws PasswordResetException
      *             Password reset exception
      */
-    public void init( HttpServletRequest request, String strRight ) throws AccessDeniedException, PasswordResetException
+    public void init( HttpServletRequest request, String strRight ) throws AccessDeniedException
     {
         _user = AdminUserService.getAdminUser( request );
 
@@ -229,7 +232,7 @@ public abstract class AdminFeaturesPageJspBean implements Serializable
      */
     public String getAdminPage( String strContent )
     {
-        Map<String, String> rootModel = new HashMap<String, String>( );
+        Map<String, String> rootModel = new HashMap<>( );
 
         rootModel.put( MARK_FEATURE_URL, _strFeatureUrl );
         rootModel.put( MARK_FEATURE_TITLE, _strFeatureLabel );
@@ -265,9 +268,9 @@ public abstract class AdminFeaturesPageJspBean implements Serializable
      */
     protected void populate( Object bean, HttpServletRequest request )
     {
-        BeanUtil.populate( bean, request, null);
+        BeanUtil.populate( bean, request, null );
     }
-    
+
     /**
      * Populate a bean using parameters in http request, with locale date format controls
      * 
@@ -327,5 +330,16 @@ public abstract class AdminFeaturesPageJspBean implements Serializable
     public <T> List<ValidationError> validate( T bean, ValidationErrorConfig config )
     {
         return BeanValidationUtil.validate( bean, getLocale( ), config );
+    }
+    
+    /**
+     * Return the URL of the technical admin page
+     * @param request The request
+     * @param strAnchor An anchor inside the page
+     * @return the URL
+     */
+    protected String getAdminDashboardsUrl( HttpServletRequest request , String strAnchor )
+    {
+        return AppPathService.getBaseUrl( request ) + JSP_TECHNICAL_ADMINISTRATION + "?#" + strAnchor;
     }
 }

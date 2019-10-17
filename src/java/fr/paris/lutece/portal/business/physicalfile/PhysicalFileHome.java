@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -41,7 +41,7 @@ import fr.paris.lutece.portal.service.spring.SpringContextService;
 public final class PhysicalFileHome
 {
     // Static variable pointed at the DAO instance
-    private static IPhysicalFileDAO _dao = (IPhysicalFileDAO) SpringContextService.getBean( "physicalFileDAO" );
+    private static IPhysicalFileDAO _dao = SpringContextService.getBean( "physicalFileDAO" );
 
     /**
      * Private constructor - this class need not be instantiated

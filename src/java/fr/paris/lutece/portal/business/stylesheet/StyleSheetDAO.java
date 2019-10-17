@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -71,20 +71,20 @@ public final class StyleSheetDAO implements IStyleSheetDAO
      */
     int newPrimaryKey( )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_NEW_PK );
-        daoUtil.executeQuery( );
-
         int nKey;
-
-        if ( !daoUtil.next( ) )
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_NEW_PK ) )
         {
-            // if the table is empty
-            nKey = 1;
+            daoUtil.executeQuery( );
+
+            if ( !daoUtil.next( ) )
+            {
+                // if the table is empty
+                nKey = 1;
+            }
+
+            nKey = daoUtil.getInt( 1 ) + 1;
+
         }
-
-        nKey = daoUtil.getInt( 1 ) + 1;
-
-        daoUtil.free( );
 
         return nKey;
     }
@@ -99,18 +99,19 @@ public final class StyleSheetDAO implements IStyleSheetDAO
     {
         stylesheet.setId( newPrimaryKey( ) );
 
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT ) )
+        {
 
-        daoUtil.setInt( 1, stylesheet.getId( ) );
-        daoUtil.setString( 2, stylesheet.getDescription( ) );
-        daoUtil.setString( 3, stylesheet.getFile( ) );
-        daoUtil.setBytes( 4, stylesheet.getSource( ) );
+            daoUtil.setInt( 1, stylesheet.getId( ) );
+            daoUtil.setString( 2, stylesheet.getDescription( ) );
+            daoUtil.setString( 3, stylesheet.getFile( ) );
+            daoUtil.setBytes( 4, stylesheet.getSource( ) );
 
-        daoUtil.executeUpdate( );
+            daoUtil.executeUpdate( );
 
-        // Update of the table style_mode_stylesheet in the database
-        insertStyleModeStyleSheet( stylesheet );
-        daoUtil.free( );
+            // Update of the table style_mode_stylesheet in the database
+            insertStyleModeStyleSheet( stylesheet );
+        }
     }
 
     /**
@@ -123,22 +124,23 @@ public final class StyleSheetDAO implements IStyleSheetDAO
     public StyleSheet load( int nIdStylesheet )
     {
         StyleSheet stylesheet = null;
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT );
-        daoUtil.setInt( 1, nIdStylesheet );
-        daoUtil.executeQuery( );
-
-        if ( daoUtil.next( ) )
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT ) )
         {
-            stylesheet = new StyleSheet( );
-            stylesheet.setId( nIdStylesheet );
-            stylesheet.setDescription( daoUtil.getString( 1 ) );
-            stylesheet.setFile( daoUtil.getString( 2 ) );
-            stylesheet.setSource( daoUtil.getBytes( 3 ) );
-            stylesheet.setStyleId( daoUtil.getInt( 4 ) );
-            stylesheet.setModeId( daoUtil.getInt( 5 ) );
-        }
+            daoUtil.setInt( 1, nIdStylesheet );
+            daoUtil.executeQuery( );
 
-        daoUtil.free( );
+            if ( daoUtil.next( ) )
+            {
+                stylesheet = new StyleSheet( );
+                stylesheet.setId( nIdStylesheet );
+                stylesheet.setDescription( daoUtil.getString( 1 ) );
+                stylesheet.setFile( daoUtil.getString( 2 ) );
+                stylesheet.setSource( daoUtil.getBytes( 3 ) );
+                stylesheet.setStyleId( daoUtil.getInt( 4 ) );
+                stylesheet.setModeId( daoUtil.getInt( 5 ) );
+            }
+
+        }
 
         return stylesheet;
     }
@@ -151,10 +153,11 @@ public final class StyleSheetDAO implements IStyleSheetDAO
      */
     public void delete( int nIdStylesheet )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE );
-        daoUtil.setInt( 1, nIdStylesheet );
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE ) )
+        {
+            daoUtil.setInt( 1, nIdStylesheet );
+            daoUtil.executeUpdate( );
+        }
 
         // delete also into style_mode_stylesheet
         deleteStyleModeStyleSheet( nIdStylesheet );
@@ -169,7 +172,7 @@ public final class StyleSheetDAO implements IStyleSheetDAO
      */
     public Collection<StyleSheet> selectStyleSheetList( int nModeId )
     {
-        Collection<StyleSheet> stylesheetList = new ArrayList<StyleSheet>( );
+        Collection<StyleSheet> stylesheetList = new ArrayList<>( );
 
         String strSelect = " SELECT a.id_stylesheet , a.description , a.file_name ";
         String strFrom = " FROM core_stylesheet a ";
@@ -183,26 +186,27 @@ public final class StyleSheetDAO implements IStyleSheetDAO
 
         String strSQL = strSelect + strFrom;
 
-        DAOUtil daoUtil = new DAOUtil( strSQL );
-
-        if ( nModeId != -1 )
+        try( DAOUtil daoUtil = new DAOUtil( strSQL ) )
         {
-            daoUtil.setInt( 1, nModeId );
+
+            if ( nModeId != -1 )
+            {
+                daoUtil.setInt( 1, nModeId );
+            }
+
+            daoUtil.executeQuery( );
+
+            while ( daoUtil.next( ) )
+            {
+                StyleSheet stylesheet = new StyleSheet( );
+
+                stylesheet.setId( daoUtil.getInt( 1 ) );
+                stylesheet.setDescription( daoUtil.getString( 2 ) );
+                stylesheet.setFile( daoUtil.getString( 3 ) );
+                stylesheetList.add( stylesheet );
+            }
+
         }
-
-        daoUtil.executeQuery( );
-
-        while ( daoUtil.next( ) )
-        {
-            StyleSheet stylesheet = new StyleSheet( );
-
-            stylesheet.setId( daoUtil.getInt( 1 ) );
-            stylesheet.setDescription( daoUtil.getString( 2 ) );
-            stylesheet.setFile( daoUtil.getString( 3 ) );
-            stylesheetList.add( stylesheet );
-        }
-
-        daoUtil.free( );
 
         return stylesheetList;
     }
@@ -215,15 +219,16 @@ public final class StyleSheetDAO implements IStyleSheetDAO
      */
     public void store( StyleSheet stylesheet )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE );
-        daoUtil.setInt( 1, stylesheet.getId( ) );
-        daoUtil.setString( 2, stylesheet.getDescription( ) );
-        daoUtil.setString( 3, stylesheet.getFile( ) );
-        daoUtil.setBytes( 4, stylesheet.getSource( ) );
-        daoUtil.setInt( 5, stylesheet.getId( ) );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE ) )
+        {
+            daoUtil.setInt( 1, stylesheet.getId( ) );
+            daoUtil.setString( 2, stylesheet.getDescription( ) );
+            daoUtil.setString( 3, stylesheet.getFile( ) );
+            daoUtil.setBytes( 4, stylesheet.getSource( ) );
+            daoUtil.setInt( 5, stylesheet.getId( ) );
 
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+            daoUtil.executeUpdate( );
+        }
 
         // update the table style_mode_stylesheet
         updateStyleModeStyleSheet( stylesheet );
@@ -237,14 +242,15 @@ public final class StyleSheetDAO implements IStyleSheetDAO
      */
     private void insertStyleModeStyleSheet( StyleSheet stylesheet )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT_STYLEMODESTYLESHEET );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT_STYLEMODESTYLESHEET ) )
+        {
 
-        daoUtil.setInt( 1, stylesheet.getStyleId( ) );
-        daoUtil.setInt( 2, stylesheet.getModeId( ) );
-        daoUtil.setInt( 3, stylesheet.getId( ) );
+            daoUtil.setInt( 1, stylesheet.getStyleId( ) );
+            daoUtil.setInt( 2, stylesheet.getModeId( ) );
+            daoUtil.setInt( 3, stylesheet.getId( ) );
 
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+            daoUtil.executeUpdate( );
+        }
     }
 
     /**
@@ -255,14 +261,15 @@ public final class StyleSheetDAO implements IStyleSheetDAO
      */
     private void updateStyleModeStyleSheet( StyleSheet stylesheet )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE_STYLEMODESTYLESHEET );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE_STYLEMODESTYLESHEET ) )
+        {
 
-        daoUtil.setInt( 1, stylesheet.getStyleId( ) );
-        daoUtil.setInt( 2, stylesheet.getModeId( ) );
-        daoUtil.setInt( 3, stylesheet.getId( ) );
+            daoUtil.setInt( 1, stylesheet.getStyleId( ) );
+            daoUtil.setInt( 2, stylesheet.getModeId( ) );
+            daoUtil.setInt( 3, stylesheet.getId( ) );
 
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+            daoUtil.executeUpdate( );
+        }
     }
 
     /**
@@ -273,10 +280,11 @@ public final class StyleSheetDAO implements IStyleSheetDAO
      */
     private void deleteStyleModeStyleSheet( int nStyleSheetId )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETEE_STYLEMODESTYLESHEET );
-        daoUtil.setInt( 1, nStyleSheetId );
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETEE_STYLEMODESTYLESHEET ) )
+        {
+            daoUtil.setInt( 1, nStyleSheetId );
+            daoUtil.executeUpdate( );
+        }
     }
 
     /**
@@ -290,22 +298,24 @@ public final class StyleSheetDAO implements IStyleSheetDAO
      */
     public int selectStyleSheetNbPerStyleMode( int nStyleId, int nModeId )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_COUNT_STYLESHEET );
-
-        daoUtil.setInt( 1, nStyleId );
-        daoUtil.setInt( 2, nModeId );
-
-        daoUtil.executeQuery( );
-
-        if ( !daoUtil.next( ) )
+        int nCount;
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_COUNT_STYLESHEET ) )
         {
-            daoUtil.free( );
-            throw new AppException( DAOUtil.MSG_EXCEPTION_SELECT_ERROR + nModeId + " StyleId " + nStyleId );
+
+            daoUtil.setInt( 1, nStyleId );
+            daoUtil.setInt( 2, nModeId );
+
+            daoUtil.executeQuery( );
+
+            if ( !daoUtil.next( ) )
+            {
+                daoUtil.free( );
+                throw new AppException( DAOUtil.MSG_EXCEPTION_SELECT_ERROR + nModeId + " StyleId " + nStyleId );
+            }
+
+            nCount = ( daoUtil.getInt( 1 ) );
+
         }
-
-        int nCount = ( daoUtil.getInt( 1 ) );
-
-        daoUtil.free( );
 
         return nCount;
     }
@@ -319,20 +329,22 @@ public final class StyleSheetDAO implements IStyleSheetDAO
      */
     public int selectModeId( int nIdStylesheet )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_MODEID );
-
-        daoUtil.setInt( 1, nIdStylesheet );
-        daoUtil.executeQuery( );
-
-        if ( !daoUtil.next( ) )
+        int nModeId;
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_MODEID ) )
         {
-            daoUtil.free( );
-            throw new AppException( DAOUtil.MSG_EXCEPTION_SELECT_ERROR + nIdStylesheet );
+
+            daoUtil.setInt( 1, nIdStylesheet );
+            daoUtil.executeQuery( );
+
+            if ( !daoUtil.next( ) )
+            {
+                daoUtil.free( );
+                throw new AppException( DAOUtil.MSG_EXCEPTION_SELECT_ERROR + nIdStylesheet );
+            }
+
+            nModeId = ( daoUtil.getInt( 1 ) );
+
         }
-
-        int nModeId = ( daoUtil.getInt( 1 ) );
-
-        daoUtil.free( );
 
         return nModeId;
     }

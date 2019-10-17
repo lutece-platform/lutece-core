@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -44,6 +44,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.apache.commons.collections.CollectionUtils;
+
 /**
  * Daemon that manage a pool of threads to launch runnables.
  */
@@ -87,9 +89,9 @@ public class ThreadLauncherDaemon extends Daemon
     }
 
     private static final String PROPERTY_MAX_NUMBER_THREAD = "daemon.threadLauncherDaemon.maxNumberOfThread";
-    private static Deque<RunnableQueueItem> _stackItems = new ArrayDeque<RunnableQueueItem>( );
-    private Map<String, Thread> _mapThreadByKey = new HashMap<String, Thread>( );
-    private List<Thread> _listThread = new ArrayList<Thread>( );
+    private static Deque<RunnableQueueItem> _stackItems = new ArrayDeque<>( );
+    private Map<String, Thread> _mapThreadByKey = new HashMap<>( );
+    private List<Thread> _listThread = new ArrayList<>( );
 
     /**
      * {@inheritDoc}
@@ -100,53 +102,20 @@ public class ThreadLauncherDaemon extends Daemon
         int nMaxNumberThread = AppPropertiesService.getPropertyInt( PROPERTY_MAX_NUMBER_THREAD, 5 );
 
         // We remove dead threads from running thread collections
+        String logs = removeDeadThreads( );
+        
         RunnableQueueItem item = null;
-        List<String> listDeadThreadKeys = new ArrayList<String>( );
-
-        for ( Entry<String, Thread> threadEntry : _mapThreadByKey.entrySet( ) )
-        {
-            if ( !threadEntry.getValue( ).isAlive( ) )
-            {
-                listDeadThreadKeys.add( threadEntry.getKey( ) );
-            }
-        }
-
-        for ( String strThreadKey : listDeadThreadKeys )
-        {
-            _mapThreadByKey.remove( strThreadKey );
-        }
-
-        List<Thread> listDeadThreads = new ArrayList<Thread>( );
-
-        for ( Thread thread : _listThread )
-        {
-            if ( !thread.isAlive( ) )
-            {
-                listDeadThreads.add( thread );
-            }
-        }
-
-        String logs = "";
-
-        if ( !listDeadThreads.isEmpty( ) )
-        {
-            logs = "Releasing " + listDeadThreads.size( ) + " dead threads.\n";
-        }
-        for ( Thread thread : listDeadThreads )
-        {
-            _listThread.remove( thread );
-        }
-
         int nCurrentNumberRunningThreads = _mapThreadByKey.size( ) + _listThread.size( );
 
-        List<RunnableQueueItem> listLockedItems = new ArrayList<RunnableQueueItem>( );
+        List<RunnableQueueItem> listLockedItems = new ArrayList<>( );
 
         while ( ( nCurrentNumberRunningThreads < nMaxNumberThread ) && ( ( item = popItemFromQueue( ) ) != null ) )
         {
+            String key = item.computeKey( );
             // If the item has a key, then we must make sure that another thread with the same key and plugin is not running
-            if ( ( item.getKey( ) != null ) && ( item.getPlugin( ) != null ) )
+            if ( key != null )
             {
-                Thread thread = _mapThreadByKey.get( item.computeKey( ) );
+                Thread thread = _mapThreadByKey.get( key );
 
                 if ( thread != null )
                 {
@@ -160,7 +129,7 @@ public class ThreadLauncherDaemon extends Daemon
                         // Dead threads are removed from collections at the beginning of the run of the daemon
                         // We still check again that the thread is alive just in case it died during the run
                         thread = getThread( item );
-                        _mapThreadByKey.put( item.computeKey( ), thread );
+                        _mapThreadByKey.put( key, thread );
 
                         // We do not increase the number of running threads, because we removed and add one
                     }
@@ -168,7 +137,7 @@ public class ThreadLauncherDaemon extends Daemon
                 else
                 {
                     thread = getThread( item );
-                    _mapThreadByKey.put( item.computeKey( ), thread );
+                    _mapThreadByKey.put( key, thread );
                     nCurrentNumberRunningThreads++;
                 }
             }
@@ -176,16 +145,13 @@ public class ThreadLauncherDaemon extends Daemon
             {
                 // If it has no key, or if the plugin has not been set, we create a thread in the keyless collection
                 Thread thread = getThread( item );
-                _mapThreadByKey.put( item.computeKey( ), thread );
+                _mapThreadByKey.put( key, thread );
                 nCurrentNumberRunningThreads++;
             }
         }
 
         // We replace in the queue items that was locked
-        for ( RunnableQueueItem itemQueue : listLockedItems )
-        {
-            addItemToQueue( itemQueue );
-        }
+        listLockedItems.stream( ).forEach( ThreadLauncherDaemon::addItemToQueue );
 
         // If the maximum number of running threads has been reached, we end this run
         if ( nCurrentNumberRunningThreads >= nMaxNumberThread )
@@ -202,6 +168,44 @@ public class ThreadLauncherDaemon extends Daemon
         Thread thread = new Thread( new RunnableWrapper( item.getRunnable( ) ) );
         thread.start( );
         return thread;
+    }
+    
+    private String removeDeadThreads( )
+    {
+        List<String> listDeadThreadKeys = new ArrayList<>( );
+        for ( Entry<String, Thread> threadEntry : _mapThreadByKey.entrySet( ) )
+        {
+            if ( !threadEntry.getValue( ).isAlive( ) )
+            {
+                listDeadThreadKeys.add( threadEntry.getKey( ) );
+            }
+        }
+
+        for ( String strThreadKey : listDeadThreadKeys )
+        {
+            _mapThreadByKey.remove( strThreadKey );
+        }
+
+        List<Thread> listDeadThreads = new ArrayList<>( );
+
+        for ( Thread thread : _listThread )
+        {
+            if ( !thread.isAlive( ) )
+            {
+                listDeadThreads.add( thread );
+            }
+        }
+
+        String logs = "";
+        if ( !listDeadThreads.isEmpty( ) )
+        {
+            logs = "Releasing " + listDeadThreads.size( ) + " dead threads.\n";
+        }
+        for ( Thread thread : listDeadThreads )
+        {
+            _listThread.remove( thread );
+        }
+        return logs;
     }
 
     /**
@@ -244,7 +248,7 @@ public class ThreadLauncherDaemon extends Daemon
      */
     private static synchronized RunnableQueueItem popItemFromQueue( )
     {
-        if ( _stackItems.size( ) == 0 )
+        if ( CollectionUtils.isEmpty( _stackItems ) )
         {
             return null;
         }

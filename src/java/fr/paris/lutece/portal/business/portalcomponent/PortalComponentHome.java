@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -42,7 +42,7 @@ import fr.paris.lutece.portal.service.spring.SpringContextService;
 public final class PortalComponentHome
 {
     // Static variable pointed at the DAO instance
-    private static IPortalComponentDAO _dao = (IPortalComponentDAO) SpringContextService.getBean( "portalComponentDAO" );
+    private static IPortalComponentDAO _dao = SpringContextService.getBean( "portalComponentDAO" );
 
     /**
      * Creates a new PortalComponentHome object.

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -61,20 +61,21 @@ public final class UserLogDAO implements IUserLogDAO
         java.sql.Timestamp dateEnd = new java.sql.Timestamp( new java.util.Date( ).getTime( ) );
         java.sql.Timestamp dateBegin = new java.sql.Timestamp( dateEnd.getTime( ) - ( nIntervalMinutes * 1000L * 60L ) );
 
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_LOGIN_ERRORS );
-
-        daoUtil.setString( 1, userLog.getIpAddress( ) );
-        daoUtil.setTimestamp( 2, dateBegin );
-        daoUtil.setTimestamp( 3, dateEnd );
-
-        daoUtil.executeQuery( );
-
-        if ( daoUtil.next( ) )
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_LOGIN_ERRORS ) )
         {
-            nCount = daoUtil.getInt( 1 );
-        }
 
-        daoUtil.free( );
+            daoUtil.setString( 1, userLog.getIpAddress( ) );
+            daoUtil.setTimestamp( 2, dateBegin );
+            daoUtil.setTimestamp( 3, dateEnd );
+
+            daoUtil.executeQuery( );
+
+            if ( daoUtil.next( ) )
+            {
+                nCount = daoUtil.getInt( 1 );
+            }
+
+        }
 
         return nCount;
     }
@@ -87,13 +88,14 @@ public final class UserLogDAO implements IUserLogDAO
      */
     public void insertLog( UserLog userLog )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT_LOGS );
-        daoUtil.setString( 1, userLog.getAccessCode( ) );
-        daoUtil.setString( 2, userLog.getIpAddress( ) );
-        daoUtil.setTimestamp( 3, userLog.getDateLogin( ) );
-        daoUtil.setInt( 4, userLog.getLoginStatus( ) );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT_LOGS ) )
+        {
+            daoUtil.setString( 1, userLog.getAccessCode( ) );
+            daoUtil.setString( 2, userLog.getIpAddress( ) );
+            daoUtil.setTimestamp( 3, userLog.getDateLogin( ) );
+            daoUtil.setInt( 4, userLog.getLoginStatus( ) );
 
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+            daoUtil.executeUpdate( );
+        }
     }
 }

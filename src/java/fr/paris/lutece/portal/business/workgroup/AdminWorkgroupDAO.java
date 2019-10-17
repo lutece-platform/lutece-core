@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -70,12 +70,13 @@ public final class AdminWorkgroupDAO implements IAdminWorkgroupDAO
      */
     public void insert( AdminWorkgroup workgroup )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT );
-        daoUtil.setString( 1, workgroup.getKey( ) );
-        daoUtil.setString( 2, workgroup.getDescription( ) );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT ) )
+        {
+            daoUtil.setString( 1, workgroup.getKey( ) );
+            daoUtil.setString( 2, workgroup.getDescription( ) );
 
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+            daoUtil.executeUpdate( );
+        }
     }
 
     /**
@@ -83,20 +84,20 @@ public final class AdminWorkgroupDAO implements IAdminWorkgroupDAO
      */
     public AdminWorkgroup load( String strWorkgroupKey )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT );
-        daoUtil.setString( 1, strWorkgroupKey );
-        daoUtil.executeQuery( );
-
         AdminWorkgroup workgroup = null;
-
-        if ( daoUtil.next( ) )
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT ) )
         {
-            workgroup = new AdminWorkgroup( );
-            workgroup.setKey( daoUtil.getString( 1 ) );
-            workgroup.setDescription( daoUtil.getString( 2 ) );
-        }
+            daoUtil.setString( 1, strWorkgroupKey );
+            daoUtil.executeQuery( );
 
-        daoUtil.free( );
+            if ( daoUtil.next( ) )
+            {
+                workgroup = new AdminWorkgroup( );
+                workgroup.setKey( daoUtil.getString( 1 ) );
+                workgroup.setDescription( daoUtil.getString( 2 ) );
+            }
+
+        }
 
         return workgroup;
     }
@@ -106,11 +107,12 @@ public final class AdminWorkgroupDAO implements IAdminWorkgroupDAO
      */
     public void delete( String strWorkgroupKey )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE );
-        daoUtil.setString( 1, strWorkgroupKey );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE ) )
+        {
+            daoUtil.setString( 1, strWorkgroupKey );
 
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+            daoUtil.executeUpdate( );
+        }
     }
 
     /**
@@ -118,12 +120,13 @@ public final class AdminWorkgroupDAO implements IAdminWorkgroupDAO
      */
     public void store( AdminWorkgroup workgroup )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE );
-        daoUtil.setString( 1, workgroup.getDescription( ) );
-        daoUtil.setString( 2, workgroup.getKey( ) );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE ) )
+        {
+            daoUtil.setString( 1, workgroup.getDescription( ) );
+            daoUtil.setString( 2, workgroup.getKey( ) );
 
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+            daoUtil.executeUpdate( );
+        }
     }
 
     /**
@@ -131,20 +134,21 @@ public final class AdminWorkgroupDAO implements IAdminWorkgroupDAO
      */
     public Collection<AdminWorkgroup> selectWorkgroupList( )
     {
-        Collection<AdminWorkgroup> listWorkgroups = new ArrayList<AdminWorkgroup>( );
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL );
-        daoUtil.executeQuery( );
-
-        while ( daoUtil.next( ) )
+        Collection<AdminWorkgroup> listWorkgroups = new ArrayList<>( );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL ) )
         {
-            AdminWorkgroup workgroup = new AdminWorkgroup( );
-            workgroup.setKey( daoUtil.getString( 1 ) );
-            workgroup.setDescription( daoUtil.getString( 2 ) );
+            daoUtil.executeQuery( );
 
-            listWorkgroups.add( workgroup );
+            while ( daoUtil.next( ) )
+            {
+                AdminWorkgroup workgroup = new AdminWorkgroup( );
+                workgroup.setKey( daoUtil.getString( 1 ) );
+                workgroup.setDescription( daoUtil.getString( 2 ) );
+
+                listWorkgroups.add( workgroup );
+            }
+
         }
-
-        daoUtil.free( );
 
         return listWorkgroups;
     }
@@ -154,22 +158,18 @@ public final class AdminWorkgroupDAO implements IAdminWorkgroupDAO
      */
     public boolean checkExistWorkgroup( String strWorkgroupKey )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT );
-        daoUtil.setString( 1, strWorkgroupKey );
-        daoUtil.executeQuery( );
-
-        if ( daoUtil.next( ) )
+        boolean check = false;
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT ) )
         {
-            daoUtil.free( );
+            daoUtil.setString( 1, strWorkgroupKey );
+            daoUtil.executeQuery( );
 
-            return true;
+            if ( daoUtil.next( ) )
+            {
+                check = true;
+            }
         }
-        else
-        {
-            daoUtil.free( );
-
-            return false;
-        }
+        return check;
     }
 
     /**
@@ -178,17 +178,18 @@ public final class AdminWorkgroupDAO implements IAdminWorkgroupDAO
     public boolean isUserInWorkgroup( int nIdUser, String strWorkgroupKey )
     {
         boolean bInWorkgroup = false;
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_USER_WORKGROUP );
-        daoUtil.setInt( 1, nIdUser );
-        daoUtil.setString( 2, strWorkgroupKey );
-        daoUtil.executeQuery( );
-
-        if ( daoUtil.next( ) )
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_USER_WORKGROUP ) )
         {
-            bInWorkgroup = true;
-        }
+            daoUtil.setInt( 1, nIdUser );
+            daoUtil.setString( 2, strWorkgroupKey );
+            daoUtil.executeQuery( );
 
-        daoUtil.free( );
+            if ( daoUtil.next( ) )
+            {
+                bInWorkgroup = true;
+            }
+
+        }
 
         return bInWorkgroup;
     }
@@ -198,22 +199,18 @@ public final class AdminWorkgroupDAO implements IAdminWorkgroupDAO
      */
     public boolean checkUserHasWorkgroup( int nIdUser )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_USER_IN_WORKGROUP );
-        daoUtil.setInt( 1, nIdUser );
-        daoUtil.executeQuery( );
-
-        if ( daoUtil.next( ) )
+        boolean check = false;
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_USER_IN_WORKGROUP ) )
         {
-            daoUtil.free( );
+            daoUtil.setInt( 1, nIdUser );
+            daoUtil.executeQuery( );
 
-            return true;
+            if ( daoUtil.next( ) )
+            {
+                check = true;
+            }
         }
-        else
-        {
-            daoUtil.free( );
-
-            return false;
-        }
+        return check;
     }
 
     /**
@@ -222,16 +219,17 @@ public final class AdminWorkgroupDAO implements IAdminWorkgroupDAO
     public ReferenceList getUserWorkgroups( int nIdUser )
     {
         ReferenceList listWorkgroups = new ReferenceList( );
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_USER_WORKGROUPS );
-        daoUtil.setInt( 1, nIdUser );
-        daoUtil.executeQuery( );
-
-        while ( daoUtil.next( ) )
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_USER_WORKGROUPS ) )
         {
-            listWorkgroups.addItem( daoUtil.getString( 1 ), daoUtil.getString( 2 ) );
-        }
+            daoUtil.setInt( 1, nIdUser );
+            daoUtil.executeQuery( );
 
-        daoUtil.free( );
+            while ( daoUtil.next( ) )
+            {
+                listWorkgroups.addItem( daoUtil.getString( 1 ), daoUtil.getString( 2 ) );
+            }
+
+        }
 
         return listWorkgroups;
     }
@@ -241,24 +239,25 @@ public final class AdminWorkgroupDAO implements IAdminWorkgroupDAO
      */
     public Collection<AdminUser> getUsersListForWorkgroup( String strWorkgroupKey )
     {
-        Collection<AdminUser> listUsers = new ArrayList<AdminUser>( );
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_USERS_LIST_FOR_WORKGROUP );
-        daoUtil.setString( 1, strWorkgroupKey );
-        daoUtil.executeQuery( );
-
-        AdminUser adminUser = null;
-
-        while ( daoUtil.next( ) )
+        Collection<AdminUser> listUsers = new ArrayList<>( );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_USERS_LIST_FOR_WORKGROUP ) )
         {
-            adminUser = AdminUserHome.findByPrimaryKey( daoUtil.getInt( 1 ) );
+            daoUtil.setString( 1, strWorkgroupKey );
+            daoUtil.executeQuery( );
 
-            if ( adminUser != null )
+            AdminUser adminUser = null;
+
+            while ( daoUtil.next( ) )
             {
-                listUsers.add( adminUser );
-            }
-        }
+                adminUser = AdminUserHome.findByPrimaryKey( daoUtil.getInt( 1 ) );
 
-        daoUtil.free( );
+                if ( adminUser != null )
+                {
+                    listUsers.add( adminUser );
+                }
+            }
+
+        }
 
         return listUsers;
     }
@@ -268,10 +267,11 @@ public final class AdminWorkgroupDAO implements IAdminWorkgroupDAO
      */
     public void deleteAllUsersForWorkgroup( String strWorkgroupKey )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE_ALL_USERS_WORKGROUP );
-        daoUtil.setString( 1, strWorkgroupKey );
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE_ALL_USERS_WORKGROUP ) )
+        {
+            daoUtil.setString( 1, strWorkgroupKey );
+            daoUtil.executeUpdate( );
+        }
     }
 
     /**
@@ -279,11 +279,12 @@ public final class AdminWorkgroupDAO implements IAdminWorkgroupDAO
      */
     public void insertUserForWorkgroup( AdminUser user, String strWorkgroupKey )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT_USER_WORKGROUP );
-        daoUtil.setString( 1, strWorkgroupKey );
-        daoUtil.setInt( 2, user.getUserId( ) );
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT_USER_WORKGROUP ) )
+        {
+            daoUtil.setString( 1, strWorkgroupKey );
+            daoUtil.setInt( 2, user.getUserId( ) );
+            daoUtil.executeUpdate( );
+        }
     }
 
     /**
@@ -291,11 +292,12 @@ public final class AdminWorkgroupDAO implements IAdminWorkgroupDAO
      */
     public void deleteUserFromWorkgroup( int nUserId, String strWorkgroupKey )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE_USER_FROM_WORKGROUP );
-        daoUtil.setString( 1, strWorkgroupKey );
-        daoUtil.setInt( 2, nUserId );
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE_USER_FROM_WORKGROUP ) )
+        {
+            daoUtil.setString( 1, strWorkgroupKey );
+            daoUtil.setInt( 2, nUserId );
+            daoUtil.executeUpdate( );
+        }
     }
 
     /**
@@ -307,24 +309,25 @@ public final class AdminWorkgroupDAO implements IAdminWorkgroupDAO
      */
     public Collection<AdminWorkgroup> selectWorkgroupsByFilter( AdminWorkgroupFilter awFilter )
     {
-        Collection<AdminWorkgroup> listFilteredWorkgroups = new ArrayList<AdminWorkgroup>( );
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_WORKGROUP_FROM_SEARCH );
-
-        daoUtil.setString( 1, CONSTANT_PERCENT + awFilter.getKey( ) + CONSTANT_PERCENT );
-        daoUtil.setString( 2, CONSTANT_PERCENT + awFilter.getDescription( ) + CONSTANT_PERCENT );
-
-        daoUtil.executeQuery( );
-
-        while ( daoUtil.next( ) )
+        Collection<AdminWorkgroup> listFilteredWorkgroups = new ArrayList<>( );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_WORKGROUP_FROM_SEARCH ) )
         {
-            AdminWorkgroup workgroup = new AdminWorkgroup( );
-            workgroup.setKey( daoUtil.getString( 1 ) );
-            workgroup.setDescription( daoUtil.getString( 2 ) );
 
-            listFilteredWorkgroups.add( workgroup );
+            daoUtil.setString( 1, CONSTANT_PERCENT + awFilter.getKey( ) + CONSTANT_PERCENT );
+            daoUtil.setString( 2, CONSTANT_PERCENT + awFilter.getDescription( ) + CONSTANT_PERCENT );
+
+            daoUtil.executeQuery( );
+
+            while ( daoUtil.next( ) )
+            {
+                AdminWorkgroup workgroup = new AdminWorkgroup( );
+                workgroup.setKey( daoUtil.getString( 1 ) );
+                workgroup.setDescription( daoUtil.getString( 2 ) );
+
+                listFilteredWorkgroups.add( workgroup );
+            }
+
         }
-
-        daoUtil.free( );
 
         return listFilteredWorkgroups;
     }

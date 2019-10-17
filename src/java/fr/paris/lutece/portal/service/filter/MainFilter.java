@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -176,15 +176,10 @@ public class MainFilter implements Filter
         {
             if ( strUrlPattern.regionMatches( 0, strRequestUrl, 0, strUrlPattern.length( ) - 2 ) )
             {
-                if ( strRequestUrl.length( ) == ( strUrlPattern.length( ) - 2 ) )
+                if ( strRequestUrl.length( ) == ( strUrlPattern.length( ) - 2 ) || '/' == strRequestUrl.charAt( strUrlPattern.length( ) - 2 )  )
                 {
                     return ( true );
                 }
-                else
-                    if ( '/' == strRequestUrl.charAt( strUrlPattern.length( ) - 2 ) )
-                    {
-                        return ( true );
-                    }
             }
 
             return ( false );

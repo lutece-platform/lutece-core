@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -101,7 +101,7 @@ public class InsertServiceSelectorJspBean extends AdminFeaturesPageJspBean
         Collection<InsertService> listServices = InsertServiceManager.getInsertServicesList( );
 
         // building from a template
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<>( );
         model.put( MARK_INSERT_SERVICES_LIST, RBACService.getAuthorizedCollection( listServices, InsertResourceIdService.PERMISSION_USE, getUser( ) ) );
         model.put( MARK_SELECTED_TEXT, strText );
         model.put( MARK_INPUT, strInput );
@@ -154,7 +154,7 @@ public class InsertServiceSelectorJspBean extends AdminFeaturesPageJspBean
 
         request.getSession( ).removeAttribute( SESSION_INSERT );
 
-        Map<String, String> model = new HashMap<String, String>( );
+        Map<String, String> model = new HashMap<>( );
         model.put( MARK_INPUT, strInput );
         model.put( MARK_INSERT, strInsert );
 

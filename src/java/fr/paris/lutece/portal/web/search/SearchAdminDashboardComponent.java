@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -53,8 +53,7 @@ import javax.servlet.http.HttpServletRequest;
 public class SearchAdminDashboardComponent extends AdminDashboardComponent
 {
     private static final String EMPTY_STRING = "";
-    private static final String TEMPLATE_ADMIN_DASHBOARD = "admin/search/search_admindashboard.html";
-    private static final String JSP_MANAGE_ADVANCED_PARAMETERS = "ManageAdvancedParameters.jsp";
+    private static final String TEMPLATE_ADMIN_DASHBOARD = "admin/dashboard/admin/search_admindashboard.html";
 
     /**
      * {@inheritDoc}
@@ -69,7 +68,7 @@ public class SearchAdminDashboardComponent extends AdminDashboardComponent
         }
 
         Map<String, Object> model = SearchService.getManageAdvancedParameters( user, request );
-        model.put( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, JSP_MANAGE_ADVANCED_PARAMETERS ) );
+        model.put( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_ADMIN_DASHBOARD ) );
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_DASHBOARD, user.getLocale( ), model );
 
         return template.getHtml( );

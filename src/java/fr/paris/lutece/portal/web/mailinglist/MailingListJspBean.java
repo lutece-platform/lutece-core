@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,6 +33,17 @@
  */
 package fr.paris.lutece.portal.web.mailinglist;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang.StringUtils;
+
 import fr.paris.lutece.portal.business.mailinglist.MailingList;
 import fr.paris.lutece.portal.business.mailinglist.MailingListFilter;
 import fr.paris.lutece.portal.business.mailinglist.MailingListHome;
@@ -55,22 +66,11 @@ import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.portal.web.util.LocalizedPaginator;
 import fr.paris.lutece.util.ReferenceList;
+import fr.paris.lutece.util.html.AbstractPaginator;
 import fr.paris.lutece.util.html.HtmlTemplate;
-import fr.paris.lutece.util.html.Paginator;
 import fr.paris.lutece.util.http.SecurityUtil;
 import fr.paris.lutece.util.sort.AttributeComparator;
 import fr.paris.lutece.util.url.UrlItem;
-
-import org.apache.commons.lang.StringUtils;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * Mailing ListJspBean
@@ -122,7 +122,6 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
     private static final String JSP_URL_MANAGE_MAILINGLISTS = "jsp/admin/mailinglist/ManageMailingLists.jsp";
     private MailingListFilter _mailingListFilter;
     private int _nItemsPerPage;
-    private int _nDefaultItemsPerPage;
     private String _strCurrentPageIndex;
 
     /**
@@ -134,7 +133,7 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
      */
     public String getManageMailinglists( HttpServletRequest request )
     {
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<>( );
 
         // Build filter
         if ( StringUtils.isBlank( request.getParameter( PARAMETER_SESSION ) ) )
@@ -163,17 +162,17 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
         Collections.sort( listMailinglists, new AttributeComparator( strSortedAttributeName, bIsAscSort ) );
 
         // Paginator
-        _strCurrentPageIndex = Paginator.getPageIndex( request, Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex );
-        _nDefaultItemsPerPage = AppPropertiesService.getPropertyInt( PROPERTY_MAILINGLIST_PER_PAGE, 50 );
-        _nItemsPerPage = Paginator.getItemsPerPage( request, Paginator.PARAMETER_ITEMS_PER_PAGE, _nItemsPerPage, _nDefaultItemsPerPage );
+        _strCurrentPageIndex = AbstractPaginator.getPageIndex( request, AbstractPaginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex );
+        int defaultItemsPerPage = AppPropertiesService.getPropertyInt( PROPERTY_MAILINGLIST_PER_PAGE, 50 );
+        _nItemsPerPage = AbstractPaginator.getItemsPerPage( request, AbstractPaginator.PARAMETER_ITEMS_PER_PAGE, _nItemsPerPage, defaultItemsPerPage );
 
         UrlItem url = new UrlItem( AppPathService.getBaseUrl( request ) + JSP_URL_MANAGE_MAILINGLISTS );
         url.addParameter( Parameters.SORTED_ATTRIBUTE_NAME, strSortedAttributeName );
         url.addParameter( Parameters.SORTED_ASC, Boolean.toString( bIsAscSort ) );
         url.addParameter( PARAMETER_SESSION, PARAMETER_SESSION );
 
-        LocalizedPaginator<MailingList> paginator = new LocalizedPaginator<MailingList>( listMailinglists, _nItemsPerPage, url.getUrl( ),
-                Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex, request.getLocale( ) );
+        LocalizedPaginator<MailingList> paginator = new LocalizedPaginator<>( listMailinglists, _nItemsPerPage, url.getUrl( ),
+                AbstractPaginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex, request.getLocale( ) );
 
         model.put( MARK_MAILINGLISTS_LIST, paginator.getPageItems( ) );
         model.put( MARK_PAGINATOR, paginator );
@@ -198,7 +197,7 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
 
         ReferenceList listWorkgroups = AdminWorkgroupService.getUserWorkgroups( getUser( ), getLocale( ) );
 
-        HashMap<String, Object> model = new HashMap<String, Object>( );
+        HashMap<String, Object> model = new HashMap<>( );
         model.put( MARK_WORKGROUPS_LIST, listWorkgroups );
 
         // LUTECE-890 : the first workgroup will be selected by default
@@ -233,7 +232,7 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
         }
         if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_CREATE_MAILINGLIST ) )
         {
-            throw new AccessDeniedException( "Invalid security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
 
         MailingListHome.create( mailinglist );
@@ -277,7 +276,7 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
             return getManageMailinglists( request );
         }
 
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<>( );
         model.put( MARK_WORKGROUPS_LIST, listWorkgroups );
         model.put( MARK_MAILINGLIST, mailinglist );
         model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MODIFY_MAILINGLIST ) );
@@ -310,7 +309,7 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
         }
         if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_MODIFY_MAILINGLIST ) )
         {
-            throw new AccessDeniedException( "Invalid security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
 
         MailingListHome.update( mailinglist );
@@ -329,7 +328,7 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
     {
         String strId = request.getParameter( PARAMETER_MAILINGLIST_ID );
 
-        ArrayList<String> listErrors = new ArrayList<String>( );
+        ArrayList<String> listErrors = new ArrayList<>( );
 
         if ( !MailingListRemovalListenerService.getService( ).checkForRemoval( strId, listErrors, getLocale( ) ) )
         {
@@ -360,7 +359,7 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
     {
         if ( !SecurityTokenService.getInstance( ).validate( request, JSP_URL_REMOVE_MAILINGLIST ) )
         {
-            throw new AccessDeniedException( "Invalid security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
         String strId = request.getParameter( PARAMETER_MAILINGLIST_ID );
         int nId = Integer.parseInt( strId );
@@ -381,7 +380,7 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
     {
         setPageTitleProperty( PROPERTY_VIEW_USERS_PAGETITLE );
 
-        HashMap<String, Object> model = new HashMap<String, Object>( );
+        HashMap<String, Object> model = new HashMap<>( );
         Collection<Recipient> listRecipients;
         String strId = request.getParameter( PARAMETER_MAILINGLIST_ID );
 
@@ -428,7 +427,7 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
         ReferenceList listRoles = AdminRoleHome.getRolesList( );
         listRoles.addItem( AdminMailingListService.ALL_ROLES, AdminMailingListService.ALL_ROLES );
 
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<>( );
         model.put( MARK_WORKGROUPS_LIST, listWorkgroups );
         model.put( MARK_ROLES_LIST, listRoles );
         model.put( MARK_MAILINGLIST, mailinglist );
@@ -463,7 +462,7 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
         {
             if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_ADD_USERS ) )
             {
-                throw new AccessDeniedException( "Invalid security token" );
+                throw new AccessDeniedException( ERROR_INVALID_TOKEN );
             }
             MailingListHome.addFilterToMailingList( filter, nId );
 
@@ -490,7 +489,7 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
     {
         if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_MODIFY_MAILINGLIST ) )
         {
-            throw new AccessDeniedException( "Invalid security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
 
         String strId = request.getParameter( PARAMETER_MAILINGLIST_ID );

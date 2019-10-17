@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -51,7 +51,7 @@ public class MailingList
     private String _strName;
     private String _strDescription;
     private String _strWorkgroup;
-    private Collection<MailingListUsersFilter> _listFilters = new ArrayList<MailingListUsersFilter>( );
+    private Collection<MailingListUsersFilter> _listFilters = new ArrayList<>( );
 
     /**
      * Initialize the rule

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -61,7 +61,8 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * This class provides the user interface to manage the lutece plugins (install, enable, disable)
+ * This class provides the user interface to manage the lutece plugins (install,
+ * enable, disable)
  */
 public class PluginJspBean extends AdminFeaturesPageJspBean
 {
@@ -100,8 +101,7 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
     /**
      * Returns the plugins management page
      *
-     * @param request
-     *            The Http request
+     * @param request The Http request
      * @return Html page
      */
     public String getManagePlugins( HttpServletRequest request )
@@ -109,13 +109,14 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
         Locale locale = AdminUserService.getLocale( request );
         String strPluginTypeFilter = request.getParameter( PARAM_PLUGIN_TYPE );
         Collection<Plugin> listPlugins = PluginService.getPluginList( );
-        HashMap<String, Object> model = new HashMap<String, Object>( );
+        HashMap<String, Object> model = new HashMap<>( );
         model.put( MARK_PLUGINS_LIST, filterPluginsList( listPlugins, strPluginTypeFilter ) );
         model.put( MARK_CORE, PluginService.getCore( ) );
         model.put( MARK_POOLS_LIST, getPoolsList( ) );
         model.put( MARK_FILTER_LIST, getPluginTypeFilterList( locale ) );
         model.put( MARK_CURRENT_FILTER, ( strPluginTypeFilter != null ) ? strPluginTypeFilter : "" );
-        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MANAGE_PLUGINS ) );
+        model.put( SecurityTokenService.MARK_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MANAGE_PLUGINS ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_PLUGINS, locale, model );
 
@@ -125,13 +126,10 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
     /**
      * Install a plugin
      *
-     * @param request
-     *            The Http request
-     * @param context
-     *            The servlet context
+     * @param request The Http request
+     * @param context The servlet context
      * @return the url of the page containing a log essage
-     * @throws AccessDeniedException
-     *             if the security token is invalid
+     * @throws AccessDeniedException if the security token is invalid
      */
     public String doInstallPlugin( HttpServletRequest request, ServletContext context ) throws AccessDeniedException
     {
@@ -140,7 +138,8 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
 
         if ( !verifyCoreCompatibility( plugin ) )
         {
-            Object[ ] args = { plugin.getMinCoreVersion( ), plugin.getMaxCoreVersion( ) };
+            Object[] args =
+            { plugin.getMinCoreVersion( ), plugin.getMaxCoreVersion( ) };
 
             return AdminMessageService.getMessageUrl( request, PROPERTY_PLUGIN_NO_CORE_COMPATIBILITY_MESSAGE, args,
                     AdminMessage.TYPE_STOP );
@@ -148,7 +147,7 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
         }
         if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_MANAGE_PLUGINS ) )
         {
-            throw new AccessDeniedException( "Invalid security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
         try
         {
@@ -167,10 +166,8 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
     /**
      * Uninstall a plugin
      *
-     * @param request
-     *            The Http request
-     * @param context
-     *            The servlet context
+     * @param request The Http request
+     * @param context The servlet context
      * @return the url of the page containing a log essage
      * @throws AccessDeniedException if the security token is invalid
      */
@@ -178,7 +175,7 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
     {
         if ( !SecurityTokenService.getInstance( ).validate( request, JSP_UNINSTALL_PLUGIN ) )
         {
-            throw new AccessDeniedException( "Invalid security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
         try
         {
@@ -186,7 +183,7 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
             Plugin plugin = PluginService.getPlugin( strPluginName );
             plugin.uninstall( );
         }
-        catch( Exception e )
+        catch ( Exception e )
         {
             AppLogService.error( e.getMessage( ), e );
         }
@@ -197,8 +194,7 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
     /**
      * Returns the page of confirmation for uninstalling a plugin
      *
-     * @param request
-     *            The Http Request
+     * @param request The Http Request
      * @return the HTML page
      */
     public String getConfirmUninstallPlugin( HttpServletRequest request )
@@ -209,20 +205,20 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
         String strMessageKey = PROPERTY_PLUGIN_MESSAGE;
         Map<String, String> parameters = new HashMap<>( );
         parameters.put( PARAM_PLUGIN_NAME, strPluginName );
-        parameters.put( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, JSP_UNINSTALL_PLUGIN ) );
-        String strAdminMessageUrl = AdminMessageService.getMessageUrl( request, strMessageKey, JSP_UNINSTALL_PLUGIN, AdminMessage.TYPE_CONFIRMATION, parameters );
+        parameters.put( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, JSP_UNINSTALL_PLUGIN ) );
+        String strAdminMessageUrl = AdminMessageService.getMessageUrl( request, strMessageKey, JSP_UNINSTALL_PLUGIN,
+                AdminMessage.TYPE_CONFIRMATION, parameters );
 
         for ( PortletType portletType : listPortletTypes )
         {
             String strPluginHomeClass = portletType.getHomeClass( );
 
-            if ( ( plugin.getType( ) & Plugin.PLUGIN_TYPE_PORTLET ) != 0 )
+            if ( ( plugin.getType( ) & Plugin.PLUGIN_TYPE_PORTLET ) != 0 && isPortletExists( strPluginHomeClass ) )
             {
-                if ( isPortletExists( strPluginHomeClass ) )
-                {
-                    strMessageKey = PROPERTY_PLUGIN_PORTLET_EXIST_MESSAGE;
-                    strAdminMessageUrl = AdminMessageService.getMessageUrl( request, strMessageKey, AdminMessage.TYPE_CONFIRMATION );
-                }
+                strMessageKey = PROPERTY_PLUGIN_PORTLET_EXIST_MESSAGE;
+                strAdminMessageUrl = AdminMessageService.getMessageUrl( request, strMessageKey,
+                        AdminMessage.TYPE_CONFIRMATION );
             }
         }
 
@@ -232,17 +228,15 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
     /**
      * Defines the database connection pool to be used by the plugin
      * 
-     * @param request
-     *            The http request
+     * @param request The http request
      * @return the URL to redirect after this action
-     * @throws AccessDeniedException
-     *             if the security token is invalid
+     * @throws AccessDeniedException if the security token is invalid
      */
     public String doModifyPluginPool( HttpServletRequest request ) throws AccessDeniedException
     {
         if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_MANAGE_PLUGINS ) )
         {
-            throw new AccessDeniedException( "Invalid security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
         String strPluginName = request.getParameter( PARAM_PLUGIN_NAME );
         String strDbPoolName = request.getParameter( PARAM_DB_POOL_NAME );
@@ -252,7 +246,7 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
             Plugin plugin = PluginService.getPlugin( strPluginName );
             plugin.updatePoolName( strDbPoolName );
         }
-        catch( Exception e )
+        catch ( Exception e )
         {
             AppLogService.error( e.getMessage( ), e );
         }
@@ -263,8 +257,7 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
     /**
      * Displays a plugin's description
      * 
-     * @param request
-     *            The HTTP request
+     * @param request The HTTP request
      * @return The popup HTML code
      */
     public String getPluginDescription( HttpServletRequest request )
@@ -298,46 +291,49 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
     /**
      * Return a filter list of plugins
      * 
-     * @param listPlugins
-     *            the COllection of plugins
-     * @param strPluginTypeFilter
-     *            The filter
+     * @param listPlugins         the COllection of plugins
+     * @param strPluginTypeFilter The filter
      * @return list The list of plugins
      */
     private Collection<Plugin> filterPluginsList( Collection<Plugin> listPlugins, String strPluginTypeFilter )
     {
-        Collection<Plugin> list = new ArrayList<Plugin>( );
+        Collection<Plugin> list = new ArrayList<>( );
 
         for ( Plugin plugin : listPlugins )
         {
             // Checks for filtering the plugin list
             if ( strPluginTypeFilter != null )
             {
-                if ( strPluginTypeFilter.equals( PARAM_PLUGIN_TYPE_APPLICATION ) && ( ( plugin.getType( ) & Plugin.PLUGIN_TYPE_APPLICATION ) == 0 ) )
+                if ( strPluginTypeFilter.equals( PARAM_PLUGIN_TYPE_APPLICATION )
+                        && ( ( plugin.getType( ) & Plugin.PLUGIN_TYPE_APPLICATION ) == 0 ) )
                 {
                     // skip this plugin
                     continue;
                 }
 
-                if ( strPluginTypeFilter.equals( PARAM_PLUGIN_TYPE_PORTLET ) && ( ( plugin.getType( ) & Plugin.PLUGIN_TYPE_PORTLET ) == 0 ) )
+                if ( strPluginTypeFilter.equals( PARAM_PLUGIN_TYPE_PORTLET )
+                        && ( ( plugin.getType( ) & Plugin.PLUGIN_TYPE_PORTLET ) == 0 ) )
                 {
                     // skip this plugin
                     continue;
                 }
 
-                if ( strPluginTypeFilter.equals( PARAM_PLUGIN_TYPE_FEATURE ) && ( ( plugin.getType( ) & Plugin.PLUGIN_TYPE_FEATURE ) == 0 ) )
+                if ( strPluginTypeFilter.equals( PARAM_PLUGIN_TYPE_FEATURE )
+                        && ( ( plugin.getType( ) & Plugin.PLUGIN_TYPE_FEATURE ) == 0 ) )
                 {
                     // skip this plugin
                     continue;
                 }
 
-                if ( strPluginTypeFilter.equals( PARAM_PLUGIN_TYPE_INSERTSERVICE ) && ( ( plugin.getType( ) & Plugin.PLUGIN_TYPE_INSERTSERVICE ) == 0 ) )
+                if ( strPluginTypeFilter.equals( PARAM_PLUGIN_TYPE_INSERTSERVICE )
+                        && ( ( plugin.getType( ) & Plugin.PLUGIN_TYPE_INSERTSERVICE ) == 0 ) )
                 {
                     // skip this plugin
                     continue;
                 }
 
-                if ( strPluginTypeFilter.equals( PARAM_PLUGIN_TYPE_CONTENTSERVICE ) && ( ( plugin.getType( ) & Plugin.PLUGIN_TYPE_CONTENTSERVICE ) == 0 ) )
+                if ( strPluginTypeFilter.equals( PARAM_PLUGIN_TYPE_CONTENTSERVICE )
+                        && ( ( plugin.getType( ) & Plugin.PLUGIN_TYPE_CONTENTSERVICE ) == 0 ) )
                 {
                     // skip this plugin
                     continue;
@@ -353,19 +349,23 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
     /**
      * Create a ReferenceList containing all Plugin types
      * 
-     * @param locale
-     *            The Locale
+     * @param locale The Locale
      * @return A ReferenceList containing all Plugin types
      */
     private ReferenceList getPluginTypeFilterList( Locale locale )
     {
         ReferenceList list = new ReferenceList( );
         list.addItem( PARAM_PLUGIN_TYPE_ALL, I18nService.getLocalizedString( PROPERTY_PLUGIN_TYPE_NAME_ALL, locale ) );
-        list.addItem( PARAM_PLUGIN_TYPE_APPLICATION, I18nService.getLocalizedString( PROPERTY_PLUGIN_TYPE_NAME_APPLICATION, locale ) );
-        list.addItem( PARAM_PLUGIN_TYPE_PORTLET, I18nService.getLocalizedString( PROPERTY_PLUGIN_TYPE_NAME_PORTLET, locale ) );
-        list.addItem( PARAM_PLUGIN_TYPE_FEATURE, I18nService.getLocalizedString( PROPERTY_PLUGIN_TYPE_NAME_FEATURE, locale ) );
-        list.addItem( PARAM_PLUGIN_TYPE_INSERTSERVICE, I18nService.getLocalizedString( PROPERTY_PLUGIN_TYPE_NAME_INSERTSERVICE, locale ) );
-        list.addItem( PARAM_PLUGIN_TYPE_CONTENTSERVICE, I18nService.getLocalizedString( PROPERTY_PLUGIN_TYPE_NAME_CONTENTSERVICE, locale ) );
+        list.addItem( PARAM_PLUGIN_TYPE_APPLICATION,
+                I18nService.getLocalizedString( PROPERTY_PLUGIN_TYPE_NAME_APPLICATION, locale ) );
+        list.addItem( PARAM_PLUGIN_TYPE_PORTLET,
+                I18nService.getLocalizedString( PROPERTY_PLUGIN_TYPE_NAME_PORTLET, locale ) );
+        list.addItem( PARAM_PLUGIN_TYPE_FEATURE,
+                I18nService.getLocalizedString( PROPERTY_PLUGIN_TYPE_NAME_FEATURE, locale ) );
+        list.addItem( PARAM_PLUGIN_TYPE_INSERTSERVICE,
+                I18nService.getLocalizedString( PROPERTY_PLUGIN_TYPE_NAME_INSERTSERVICE, locale ) );
+        list.addItem( PARAM_PLUGIN_TYPE_CONTENTSERVICE,
+                I18nService.getLocalizedString( PROPERTY_PLUGIN_TYPE_NAME_CONTENTSERVICE, locale ) );
 
         return list;
     }
@@ -387,8 +387,7 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
     /**
      * Returns the status of the existence of a portlet on the site
      *
-     * @param strPluginHomeClass
-     *            The home class of the plugin
+     * @param strPluginHomeClass The home class of the plugin
      * @return The existence status as a boolean
      */
     private boolean isPortletExists( String strPluginHomeClass )
@@ -401,8 +400,7 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
     /**
      * Verify the core compatibility for a plugin
      *
-     * @param plugin
-     *            The plugin
+     * @param plugin The plugin
      * @return true if compatible with the current core version
      */
     private boolean verifyCoreCompatibility( Plugin plugin )
@@ -410,14 +408,14 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
         String strCoreVersion = AppInfo.getVersion( );
 
         // Remove version qualifier (-SNAPSHOT, -RC-XX, ...)
-        int nPos = strCoreVersion.indexOf( "-" );
+        int nPos = strCoreVersion.indexOf( '-' );
 
         if ( nPos > 0 )
         {
             strCoreVersion = strCoreVersion.substring( 0, nPos );
         }
 
-        String [ ] coreVersion = strCoreVersion.split( "\\." );
+        String[] coreVersion = strCoreVersion.split( "\\." );
 
         String strMinCoreVersion = ( plugin.getMinCoreVersion( ) == null ) ? "" : plugin.getMinCoreVersion( );
         String strMaxCoreVersion = ( plugin.getMaxCoreVersion( ) == null ) ? "" : plugin.getMaxCoreVersion( );
@@ -427,7 +425,7 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
 
         if ( ( strMinCoreVersion != null ) && !strMinCoreVersion.trim( ).equals( "" ) )
         {
-            String [ ] minCoreVersion = strMinCoreVersion.split( "\\." );
+            String[] minCoreVersion = strMinCoreVersion.split( "\\." );
 
             if ( checkCoreMinCompatibility( minCoreVersion, coreVersion ) )
             {
@@ -441,7 +439,7 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
 
         if ( ( strMaxCoreVersion != null ) && !strMaxCoreVersion.trim( ).equals( "" ) )
         {
-            String [ ] maxCoreVersion = strMaxCoreVersion.split( "\\." );
+            String[] maxCoreVersion = strMaxCoreVersion.split( "\\." );
 
             if ( checkCoreMaxCompatibility( maxCoreVersion, coreVersion ) )
             {
@@ -456,22 +454,20 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
     /**
      * Checks the compatibility
      * 
-     * @param minCoreVersion
-     *            The min core version
-     * @param coreVersion
-     *            The current core version
+     * @param minCoreVersion The min core version
+     * @param coreVersion    The current core version
      * @return true if compatible with the current core version
      */
-    private boolean checkCoreMinCompatibility( String [ ] minCoreVersion, String [ ] coreVersion )
+    private boolean checkCoreMinCompatibility( String[] minCoreVersion, String[] coreVersion )
     {
         for ( int i = 0; i < Math.min( minCoreVersion.length, coreVersion.length ); ++i )
         {
-            if ( ( Integer.parseInt( minCoreVersion [i] ) ) < ( Integer.parseInt( coreVersion [i] ) ) )
+            if ( ( Integer.parseInt( minCoreVersion[i] ) ) < ( Integer.parseInt( coreVersion[i] ) ) )
             {
                 return true;
             }
 
-            if ( ( Integer.parseInt( minCoreVersion [i] ) ) > ( Integer.parseInt( coreVersion [i] ) ) )
+            if ( ( Integer.parseInt( minCoreVersion[i] ) ) > ( Integer.parseInt( coreVersion[i] ) ) )
             {
                 return false;
             }
@@ -483,22 +479,20 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
     /**
      * Checks the compatibility
      * 
-     * @param maxCoreVersion
-     *            The max core version
-     * @param coreVersion
-     *            The current core version
+     * @param maxCoreVersion The max core version
+     * @param coreVersion    The current core version
      * @return true if compatible with the current core version
      */
-    private boolean checkCoreMaxCompatibility( String [ ] maxCoreVersion, String [ ] coreVersion )
+    private boolean checkCoreMaxCompatibility( String[] maxCoreVersion, String[] coreVersion )
     {
         for ( int i = 0; i < Math.min( maxCoreVersion.length, coreVersion.length ); ++i )
         {
-            if ( ( Integer.parseInt( maxCoreVersion [i] ) ) > ( Integer.parseInt( coreVersion [i] ) ) )
+            if ( ( Integer.parseInt( maxCoreVersion[i] ) ) > ( Integer.parseInt( coreVersion[i] ) ) )
             {
                 return true;
             }
 
-            if ( ( Integer.parseInt( maxCoreVersion [i] ) ) < ( Integer.parseInt( coreVersion [i] ) ) )
+            if ( ( Integer.parseInt( maxCoreVersion[i] ) ) < ( Integer.parseInt( coreVersion[i] ) ) )
             {
                 return false;
             }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,24 +33,19 @@
  */
 package fr.paris.lutece.util.annotation;
 
-import fr.paris.lutece.portal.service.util.AppLogService;
-import fr.paris.lutece.portal.service.util.AppPathService;
-
-import org.scannotation.AnnotationDB;
-
 import java.io.File;
-import java.io.FilenameFilter;
 import java.io.IOException;
-
 import java.lang.annotation.Annotation;
-
-import java.net.MalformedURLException;
 import java.net.URL;
-
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+
+import org.scannotation.AnnotationDB;
+
+import fr.paris.lutece.portal.service.util.AppLogService;
+import fr.paris.lutece.portal.service.util.AppPathService;
 
 /**
  * Uses {@link AnnotationDB} from scannotation.
@@ -119,17 +114,7 @@ public class ScannotationDB implements IAnnotationDB
         Date start = new Date( );
         File libDirectory = new File( AppPathService.getWebAppPath( ) + CONSTANT_WEB_INF_LIB );
 
-        String [ ] allJars = libDirectory.list( new FilenameFilter( )
-        {
-            /**
-             * {@inheritDoc}
-             */
-            @Override
-            public boolean accept( File dir, String name )
-            {
-                return name.matches( _strFileFilter );
-            }
-        } );
+        String [ ] allJars = libDirectory.list( ( File dir, String name ) -> name.matches( _strFileFilter ) );
 
         for ( String strJar : allJars )
         {
@@ -142,10 +127,6 @@ public class ScannotationDB implements IAnnotationDB
 
                 _db.scanArchives( new URL( "file:///" + AppPathService.getWebAppPath( ) + CONSTANT_WEB_INF_LIB + strJar ) );
             }
-            catch( MalformedURLException e )
-            {
-                AppLogService.error( e.getMessage( ), e );
-            }
             catch( IOException e )
             {
                 AppLogService.error( e.getMessage( ), e );
@@ -157,10 +138,6 @@ public class ScannotationDB implements IAnnotationDB
         try
         {
             _db.scanArchives( new URL( "file:///" + AppPathService.getWebAppPath( ) + CONSTANT_WEB_INF_CLASS ) );
-        }
-        catch( MalformedURLException e )
-        {
-            AppLogService.error( e.getMessage( ), e );
         }
         catch( IOException e )
         {
@@ -191,7 +168,7 @@ public class ScannotationDB implements IAnnotationDB
 
         if ( setClasses == null )
         {
-            setClasses = new HashSet<String>( );
+            setClasses = new HashSet<>( );
         }
 
         return setClasses;

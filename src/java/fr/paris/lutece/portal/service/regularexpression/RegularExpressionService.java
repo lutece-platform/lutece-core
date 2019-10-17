@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -64,15 +64,7 @@ public final class RegularExpressionService
             _service = SpringContextService.getBean( "regularExpressionService" );
             _bServiceAvailable = _service != null;
         }
-        catch( BeanDefinitionStoreException e )
-        {
-            _bServiceAvailable = false;
-        }
-        catch( NoSuchBeanDefinitionException e )
-        {
-            _bServiceAvailable = false;
-        }
-        catch( CannotLoadBeanClassException e )
+        catch( CannotLoadBeanClassException | NoSuchBeanDefinitionException | BeanDefinitionStoreException e )
         {
             _bServiceAvailable = false;
         }
@@ -111,7 +103,7 @@ public final class RegularExpressionService
      */
     boolean isPatternValide( String strPattern )
     {
-        return isAvailable( ) ? _service.isPatternValide( strPattern ) : false;
+        return isAvailable( ) && _service.isPatternValide( strPattern );
     }
 
     /**
@@ -123,7 +115,7 @@ public final class RegularExpressionService
      */
     boolean isPatternValide( RegularExpression regularExpression )
     {
-        return isAvailable( ) ? _service.isPatternValide( regularExpression ) : false;
+        return isAvailable( ) && _service.isPatternValide( regularExpression );
     }
 
     /**
@@ -137,7 +129,7 @@ public final class RegularExpressionService
      */
     public boolean isMatches( String strValueToTest, String strPattern )
     {
-        return isAvailable( ) ? _service.isMatches( strValueToTest, strPattern ) : false;
+        return isAvailable( ) && _service.isMatches( strValueToTest, strPattern );
     }
 
     /**
@@ -151,7 +143,7 @@ public final class RegularExpressionService
      */
     public boolean isMatches( String strValueToTest, RegularExpression regularExpression )
     {
-        return isAvailable( ) ? _service.isMatches( strValueToTest, regularExpression ) : false;
+        return isAvailable( ) && _service.isMatches( strValueToTest, regularExpression );
     }
 
     /**

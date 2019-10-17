@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -115,7 +115,6 @@ public class ResourceRssType implements IResourceRssType
      */
     public String getTitle( )
     {
-        // TODO Auto-generated method stub
         return _strTitle;
     }
 

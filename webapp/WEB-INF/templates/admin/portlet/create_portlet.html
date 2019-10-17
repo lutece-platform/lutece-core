@@ -3,8 +3,7 @@
 	<@tform method='post' name='form' id='form-portlet' action='jsp/admin/${portletType.doCreateUrl}' params='target="_top"'>  
 		<input type="hidden" name="page_id" value="${portlet_page_id}">
 		<input type="hidden" name="portlet_type_id" value="${portletType.id}">
-		<fieldset>     
-			<legend>#i18n{portal.site.portletType.labelCreate} &nbsp;${portletType.name}</legend>
+		<@fieldSet legend='#i18n{portal.site.portletType.labelCreate} &nbsp;${portletType.name}'>
 				<@row>
 					<@columns sm=3 md=3 lg=3>
 						<@box color='default box-solid'>
@@ -22,12 +21,11 @@
 									</@formGroup>
 								</#if>
 								<@formGroup class='pull-right'>
-									<@button type='button' id='bt-toggle' buttonIcon='chevron-down' color='btn-secondary' />
+									<@button type='button' id='bt-toggle' buttonIcon='chevron-down' color='secondary' />
 								</@formGroup>
 										
 								<div id="params" style="clear:both;">
-									<fieldset>
-										<legend>#i18n{portal.site.admin_page.labelAdvancedParameters}</legend>
+									<@fieldSet legend='#i18n{portal.site.admin_page.labelAdvancedParameters}'>
 										<@formGroup labelFor='role' labelKey='#i18n{portal.site.create_portlet.labelRole}' rows=2>
 											<@select name='role' default_value='none' items=portlet_role_combo />
 										</@formGroup>
@@ -41,7 +39,7 @@
 											<@checkBox labelFor='display_on_large_device' name='display_on_large_device' value='1' checked=true labelKey='#i18n{portal.site.create_portlet.checkboxLargeDevice}' />
 											<@checkBox labelFor='display_on_xlarge_device' name='display_on_xlarge_device' value='1' checked=true labelKey='#i18n{portal.site.create_portlet.checkboxXLargeDevice}' />
 										</@formGroup>
-									</fieldset>
+									</@fieldSet>
 								</div>
 							</@boxBody>
 						</@box>
@@ -63,11 +61,11 @@
 						</#if>
 						<@formGroup rows=2>
 							<@button type='submit' buttonIcon='check' title='#i18n{portal.site.create_portlet.buttonValidate}' size='' />
-							<@aButton href='jsp/admin/site/AdminSite.jsp' params='target="_top"' buttonIcon='close' title='#i18n{portal.site.create_portlet.buttonBack}' color='btn-secondary' size='' />
+							<@aButton href='jsp/admin/site/AdminSite.jsp' params='target="_top"' buttonIcon='close' title='#i18n{portal.site.create_portlet.buttonBack}' color='secondary' size='' />
 						</@formGroup>
 				</@columns> 
 			</@row> 
-		</fieldset>
+		</@fieldSet>
 	</@tform>
 
 <script type="text/javascript">

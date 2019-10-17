@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -47,14 +47,14 @@ import fr.paris.lutece.portal.service.util.AppPropertiesService;
 
 /**
  * this class provides methods to manage daemons services
- * */
+ */
 public final class AppDaemonService
 {
     private static final String PROPERTY_MAX_INITIAL_START_DELAY = "daemon.maxInitialStartDelay";
     private static final String PROPERTY_DAEMON_ON_STARTUP = ".onStartUp";
     private static final String PROPERTY_DAEMON_INTERVAL = ".interval";
     private static final String KEY_DAEMON_PREFIX = "core.daemon.";
-    private static final Map<String, DaemonEntry> _mapDaemonEntries = new HashMap<String, DaemonEntry>( );
+    private static final Map<String, DaemonEntry> _mapDaemonEntries = new HashMap<>( );
     private static final Random _random = new Random( );
     private static boolean _bInit;
     private static IDaemonScheduler _executor;
@@ -70,7 +70,7 @@ public final class AppDaemonService
      * @throws LuteceInitException
      *             If an error occurred
      */
-    public static synchronized void init( ) throws LuteceInitException
+    public static synchronized void init( )
     {
         // already initialized
         if ( _bInit )
@@ -139,13 +139,13 @@ public final class AppDaemonService
         // init interval value if no exists
         if ( !DatastoreService.existsInstanceKey( strIntervalKey ) )
         {
-            strIntervalKeyDefaultValue = AppPropertiesService.getProperty( "daemon." + entry.getId( ) + ".interval", "10" );
+            strIntervalKeyDefaultValue = AppPropertiesService.getProperty( "daemon." + entry.getId( ) + PROPERTY_DAEMON_INTERVAL, "10" );
             DatastoreService.setInstanceDataValue( strIntervalKey, strIntervalKeyDefaultValue );
         }
 
         String strIntervalKeyValue = DatastoreService.getInstanceDataValue( strIntervalKey, strIntervalKeyDefaultValue );
 
-        long lInterval = Long.valueOf( strIntervalKeyValue );
+        long lInterval = Long.parseLong( strIntervalKeyValue );
 
         String strOnStartupKey = getOnStartupKey( entry.getId( ) );
         String strOnStartupDefaultValue = null;
@@ -153,13 +153,14 @@ public final class AppDaemonService
         // init onStartup value if no exists
         if ( !DatastoreService.existsInstanceKey( strOnStartupKey ) )
         {
-            strOnStartupDefaultValue = AppPropertiesService.getProperty( "daemon." + entry.getId( ) + ".onstartup", "0" ).equals( "1" ) ? DatastoreService.VALUE_TRUE
+            strOnStartupDefaultValue = AppPropertiesService.getProperty( "daemon." + entry.getId( ) + ".onstartup", "0" ).equals( "1" )
+                    ? DatastoreService.VALUE_TRUE
                     : DatastoreService.VALUE_FALSE;
             DatastoreService.setInstanceDataValue( strOnStartupKey, strOnStartupDefaultValue );
         }
 
         String strOnStarupvalue = DatastoreService.getInstanceDataValue( strOnStartupKey, strOnStartupDefaultValue );
-        boolean bOnStartup = Boolean.valueOf( strOnStarupvalue );
+        boolean bOnStartup = Boolean.parseBoolean( strOnStarupvalue );
 
         entry.setInterval( lInterval );
         entry.setOnStartUp( bOnStartup );
@@ -168,15 +169,7 @@ public final class AppDaemonService
         {
             entry.loadDaemon( );
         }
-        catch( ClassNotFoundException e )
-        {
-            throw new LuteceInitException( "Couldn't instantiate daemon: " + entry.getId( ), e );
-        }
-        catch( InstantiationException e )
-        {
-            throw new LuteceInitException( "Couldn't instantiate daemon: " + entry.getId( ), e );
-        }
-        catch( IllegalAccessException e )
+        catch( IllegalAccessException | InstantiationException | ClassNotFoundException e )
         {
             throw new LuteceInitException( "Couldn't instantiate daemon: " + entry.getId( ), e );
         }
@@ -274,7 +267,7 @@ public final class AppDaemonService
 
         if ( entry != null )
         {
-            entry.setInterval( new Long( strDaemonInterval ) );
+            entry.setInterval( Long.valueOf( strDaemonInterval ) );
             DatastoreService.setInstanceDataValue( getIntervalKey( entry.getId( ) ), strDaemonInterval );
         }
     }

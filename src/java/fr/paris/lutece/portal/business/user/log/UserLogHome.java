@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -41,7 +41,7 @@ import fr.paris.lutece.portal.service.spring.SpringContextService;
 public final class UserLogHome
 {
     // Static variable pointed at the DAO instance
-    private static IUserLogDAO _dao = (IUserLogDAO) SpringContextService.getBean( "userLogDAO" );
+    private static IUserLogDAO _dao = SpringContextService.getBean( "userLogDAO" );
 
     /**
      * Creates a new UserLogHome object.

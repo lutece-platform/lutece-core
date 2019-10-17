@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -35,26 +35,19 @@ package fr.paris.lutece.portal.web.dashboard;
 
 import fr.paris.lutece.portal.business.dashboard.DashboardFactory;
 import fr.paris.lutece.portal.business.dashboard.DashboardHome;
-import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
-import fr.paris.lutece.portal.service.admin.AdminUserService;
 import fr.paris.lutece.portal.service.dashboard.DashboardService;
 import fr.paris.lutece.portal.service.dashboard.IDashboardComponent;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
-import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
 import fr.paris.lutece.portal.web.constants.Messages;
-import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.string.StringUtil;
 
 import org.apache.commons.lang.StringUtils;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -76,50 +69,14 @@ public class DashboardJspBean extends AdminFeaturesPageJspBean
     // Messages
     private static final String MESSAGE_DASHBOARD_NOT_FOUND = "portal.dashboard.message.dashboardNotFound";
 
-    // MARKS
-    private static final String MARK_MAP_DASHBOARDS = "map_dashboards";
-    private static final String MARK_NOT_SET_DASHBOARDS = "not_set_dashboards";
-    private static final String MARK_COLUMN_COUNT = "column_count";
-    private static final String MARK_LIST_AVAILABLE_COLUMNS = "list_available_columns";
-    private static final String MARK_MAP_AVAILABLE_ORDERS = "map_available_orders";
-    private static final String MARK_MAP_COLUMN_ORDER_STATUS = "map_column_order_status";
 
     // Templates
     private static final String TEMPLATE_MANAGE_DASHBOARDS = "/admin/dashboard/manage_dashboards.html";
 
     // JSP
-    private static final String JSP_MANAGE_DASHBOARDS = "ManageDashboards.jsp";
+    private static final String ANCHOR_ADMIN_DASHBOARDS = "adminHomePageManagement";
     private DashboardService _service = DashboardService.getInstance( );
 
-    /**
-     * Manages dashboard
-     * 
-     * @param request
-     *            the request
-     * @return html code
-     */
-    public String getManageDashboards( HttpServletRequest request )
-    {
-        AdminUser user = AdminUserService.getAdminUser( request );
-
-        Map<String, Object> model = new HashMap<String, Object>( );
-
-        Map<String, List<IDashboardComponent>> mapDashboards = _service.getAllSetDashboards( getUser( ) );
-        model.put( MARK_MAP_DASHBOARDS, mapDashboards );
-
-        List<IDashboardComponent> listNotSetDashboards = _service.getNotSetDashboards( );
-        model.put( MARK_NOT_SET_DASHBOARDS, listNotSetDashboards );
-
-        model.put( MARK_COLUMN_COUNT, _service.getColumnCount( ) );
-        model.put( MARK_MAP_AVAILABLE_ORDERS, _service.getMapAvailableOrders( ) );
-        model.put( MARK_LIST_AVAILABLE_COLUMNS, _service.getListAvailableColumns( ) );
-        model.put( MARK_MAP_COLUMN_ORDER_STATUS, _service.getOrderedColumnsStatus( ) );
-        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MANAGE_DASHBOARDS ) );
-
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_DASHBOARDS, user.getLocale( ), model );
-
-        return getAdminPage( template.getHtml( ) );
-    }
 
     /**
      * Reorders columns
@@ -139,7 +96,7 @@ public class DashboardJspBean extends AdminFeaturesPageJspBean
             return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
         }
 
-        int nColumn = 0;
+        int nColumn;
 
         try
         {
@@ -153,11 +110,11 @@ public class DashboardJspBean extends AdminFeaturesPageJspBean
         }
         if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_MANAGE_DASHBOARDS ) )
         {
-            throw new AccessDeniedException( "Invalid security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
         _service.doReorderColumn( nColumn );
 
-        return JSP_MANAGE_DASHBOARDS;
+        return getAdminDashboardsUrl( request , ANCHOR_ADMIN_DASHBOARDS );
     }
 
     /**
@@ -207,7 +164,7 @@ public class DashboardJspBean extends AdminFeaturesPageJspBean
         }
         if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_MANAGE_DASHBOARDS ) )
         {
-            throw new AccessDeniedException( "Invalid security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
         // set order and column
         String strOrder = request.getParameter( PARAMETER_DASHBOARD_ORDER );
@@ -221,6 +178,6 @@ public class DashboardJspBean extends AdminFeaturesPageJspBean
 
         _service.doMoveDashboard( dashboard, nOldColumn, nOldOrder, bCreate );
 
-        return JSP_MANAGE_DASHBOARDS;
+        return getAdminDashboardsUrl( request , ANCHOR_ADMIN_DASHBOARDS );
     }
 }

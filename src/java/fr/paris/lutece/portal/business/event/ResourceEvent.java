@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -44,6 +44,7 @@ public class ResourceEvent
 {
     private String _strIdResource;
     private String _strTypeResource;
+    private IEventParam<?> _param;
     private int _nIdPortlet = IndexationService.ALL_DOCUMENT;
 
     /**
@@ -131,5 +132,25 @@ public class ResourceEvent
     public void setIdPortlet( int nIdPortlet )
     {
         _nIdPortlet = nIdPortlet;
+    }
+
+    /**
+     * Sets the event Param.
+     * 
+     * @param param
+     */
+    public void setParam( IEventParam<?> param )
+    {
+        _param = param;
+    }
+
+    /**
+     * Gets the event param
+     * 
+     * @return the param
+     */
+    public IEventParam<?> getParam( )
+    {
+        return _param;
     }
 }

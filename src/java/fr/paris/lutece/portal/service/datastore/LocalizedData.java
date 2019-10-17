@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -36,13 +36,15 @@ package fr.paris.lutece.portal.service.datastore;
 /**
  * This is the business class for the object SiteProperty
  */
-public class LocalizedData
+public class LocalizedData implements Comparable
 {
+
     // Variables declarations
     private String _strKey;
     private String _strLabel;
     private String _strValue;
     private String _strHelp;
+    private int _nOrder;
 
     /**
      * Returns the Key
@@ -127,4 +129,59 @@ public class LocalizedData
     {
         _strHelp = strHelp;
     }
+
+    /**
+     * Returns the Order
+     *
+     * @return The Order
+     */
+    public int getOrder( )
+    {
+        return _nOrder;
+    }
+
+    /**
+     * Sets the Order
+     *
+     * @param nOrder
+     *            The Order
+     */
+    public void setOrder( int nOrder )
+    {
+        _nOrder = nOrder;
+    }
+
+    /**
+     * Sets the Order
+     *
+     * @param strOrder
+     *            The Order
+     */
+    public void setOrder( String strOrder )
+    {
+        try
+        {
+            _nOrder = Integer.parseInt( strOrder );
+        }
+        catch( NumberFormatException e )
+        {
+            _nOrder = 0;
+        }
+    }
+
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public int compareTo( Object object )
+    {
+        int nCompare = _nOrder - ( (LocalizedData) object ).getOrder( );
+
+        if ( nCompare == 0 )
+        {
+            nCompare = _strKey.compareTo( ( (LocalizedData) object ).getKey( ) );
+        }
+        return nCompare;
+    }
+
 }

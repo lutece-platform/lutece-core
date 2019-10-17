@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -42,9 +42,9 @@ import javax.servlet.http.HttpServletResponse;
  */
 public final class LocalVariables
 {
-    private static ThreadLocal<ServletConfig> _tlConfig = new ThreadLocal<ServletConfig>( );
-    private static ThreadLocal<HttpServletRequest> _tlRequest = new ThreadLocal<HttpServletRequest>( );
-    private static ThreadLocal<HttpServletResponse> _tlResponse = new ThreadLocal<HttpServletResponse>( );
+    private static ThreadLocal<ServletConfig> _tlConfig = new ThreadLocal<>( );
+    private static ThreadLocal<HttpServletRequest> _tlRequest = new ThreadLocal<>( );
+    private static ThreadLocal<HttpServletResponse> _tlResponse = new ThreadLocal<>( );
 
     /**
      * Utility classes have no constructor

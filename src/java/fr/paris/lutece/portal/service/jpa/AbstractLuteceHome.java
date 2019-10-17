@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -47,12 +47,12 @@ import java.util.List;
  *            the key type
  * @param <E>
  *            the element type
- * @param <DAO>
+ * @param <D>
  *            the generic type
  */
-public abstract class AbstractLuteceHome<K, E, DAO extends IGenericDAO<K, E>> implements IGenericHome<K, E>
+public abstract class AbstractLuteceHome<K, E, D extends IGenericDAO<K, E> > implements IGenericHome<K, E>
 {
-    private DAO _dao;
+    private D _dao;
 
     /**
      * Sets the dao.
@@ -60,7 +60,7 @@ public abstract class AbstractLuteceHome<K, E, DAO extends IGenericDAO<K, E>> im
      * @param dao
      *            the new dao
      */
-    public void setDao( DAO dao )
+    public void setDao( D dao )
     {
         _dao = dao;
     }
@@ -70,7 +70,7 @@ public abstract class AbstractLuteceHome<K, E, DAO extends IGenericDAO<K, E>> im
      *
      * @return the dao
      */
-    public DAO getDao( )
+    public D getDao( )
     {
         return _dao;
     }

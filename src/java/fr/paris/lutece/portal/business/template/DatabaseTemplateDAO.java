@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -54,19 +54,19 @@ public class DatabaseTemplateDAO implements IDatabaseTemplateDAO
     @Override
     public String getTemplateFromKey( String strKey )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_TEMPLATE_FROM_KEY );
-        daoUtil.setString( 1, strKey );
-
         String strTemplate = StringUtils.EMPTY;
-
-        daoUtil.executeQuery( );
-
-        if ( daoUtil.next( ) )
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_TEMPLATE_FROM_KEY ) )
         {
-            strTemplate = daoUtil.getString( 1 );
-        }
+            daoUtil.setString( 1, strKey );
 
-        daoUtil.free( );
+            daoUtil.executeQuery( );
+
+            if ( daoUtil.next( ) )
+            {
+                strTemplate = daoUtil.getString( 1 );
+            }
+
+        }
 
         return strTemplate;
     }
@@ -77,12 +77,13 @@ public class DatabaseTemplateDAO implements IDatabaseTemplateDAO
     @Override
     public void updateTemplate( String strKey, String strValue )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_UPDATE_TEMPLATE );
-        daoUtil.setString( 1, strValue );
-        daoUtil.setString( 2, strKey );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_UPDATE_TEMPLATE ) )
+        {
+            daoUtil.setString( 1, strValue );
+            daoUtil.setString( 2, strKey );
 
-        daoUtil.executeUpdate( );
+            daoUtil.executeUpdate( );
 
-        daoUtil.free( );
+        }
     }
 }

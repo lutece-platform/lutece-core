@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -83,6 +83,7 @@ public class AttributeComboBox extends AbstractAttribute implements ISimpleValue
      */
     public AttributeComboBox( )
     {
+        // Ctor
     }
 
     /**
@@ -189,7 +190,7 @@ public class AttributeComboBox extends AbstractAttribute implements ISimpleValue
 
             if ( getListAttributeFields( ) == null )
             {
-                List<AttributeField> listAttributeFields = new ArrayList<AttributeField>( );
+                List<AttributeField> listAttributeFields = new ArrayList<>( );
                 AttributeField attributeField = new AttributeField( );
                 listAttributeFields.add( attributeField );
                 setListAttributeFields( listAttributeFields );
@@ -248,7 +249,7 @@ public class AttributeComboBox extends AbstractAttribute implements ISimpleValue
     @Override
     public List<AdminUserField> getUserFieldsData( String [ ] strValues, AdminUser user )
     {
-        List<AdminUserField> listUserFields = new ArrayList<AdminUserField>( );
+        List<AdminUserField> listUserFields = new ArrayList<>( );
 
         if ( strValues != null )
         {

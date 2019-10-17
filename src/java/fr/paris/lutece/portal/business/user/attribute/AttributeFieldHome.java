@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -44,7 +44,7 @@ import java.util.List;
  */
 public final class AttributeFieldHome
 {
-    private static IAttributeFieldDAO _dao = (IAttributeFieldDAO) SpringContextService.getBean( "attributeFieldDAO" );
+    private static IAttributeFieldDAO _dao = SpringContextService.getBean( "attributeFieldDAO" );
 
     /**
      * Private constructor

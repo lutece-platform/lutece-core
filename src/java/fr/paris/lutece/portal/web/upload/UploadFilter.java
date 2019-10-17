@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,16 +33,9 @@
  */
 package fr.paris.lutece.portal.web.upload;
 
-import fr.paris.lutece.portal.service.util.AppLogService;
-import fr.paris.lutece.portal.service.util.AppPathService;
-import fr.paris.lutece.util.http.MultipartUtil;
-
-import org.apache.commons.fileupload.FileUploadBase.SizeLimitExceededException;
-import org.apache.commons.fileupload.FileUploadException;
-
 import java.io.IOException;
-
 import java.text.DecimalFormat;
+import java.text.NumberFormat;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -52,6 +45,12 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.fileupload.FileUploadBase.SizeLimitExceededException;
+import org.apache.commons.fileupload.FileUploadException;
+
+import fr.paris.lutece.portal.service.util.AppLogService;
+import fr.paris.lutece.util.http.MultipartUtil;
 
 /**
  * Upload filter
@@ -64,7 +63,6 @@ public abstract class UploadFilter implements Filter
     private static final String SIZE_THRESHOLD = "sizeThreshold";
     private static final String REQUEST_SIZE_MAX = "requestSizeMax";
     private static final String ACTIVATE_NORMALIZE_FILE_NAME = "activateNormalizeFileName";
-    private FilterConfig _filterConfig;
     private int _nSizeThreshold = -1;
     private long _nRequestSizeMax = -1;
     private boolean _bActivateNormalizeFileName;
@@ -94,25 +92,23 @@ public abstract class UploadFilter implements Filter
     @Override
     public void init( FilterConfig config ) throws ServletException
     {
-        _filterConfig = config;
-
         try
         {
-            String paramValue = _filterConfig.getInitParameter( SIZE_THRESHOLD );
+            String paramValue = config.getInitParameter( SIZE_THRESHOLD );
 
             if ( paramValue != null )
             {
                 _nSizeThreshold = Integer.parseInt( paramValue );
             }
 
-            paramValue = _filterConfig.getInitParameter( REQUEST_SIZE_MAX );
+            paramValue = config.getInitParameter( REQUEST_SIZE_MAX );
 
             if ( paramValue != null )
             {
                 _nRequestSizeMax = Long.parseLong( paramValue );
             }
 
-            paramValue = _filterConfig.getInitParameter( ACTIVATE_NORMALIZE_FILE_NAME );
+            paramValue = config.getInitParameter( ACTIVATE_NORMALIZE_FILE_NAME );
 
             if ( paramValue != null )
             {
@@ -200,11 +196,9 @@ public abstract class UploadFilter implements Filter
     private String getDisplaySize( )
     {
         long lSizeMax = getRequestSizeMax( );
-        DecimalFormat decimalFormat = (DecimalFormat) DecimalFormat.getInstance( );
+        DecimalFormat decimalFormat = (DecimalFormat) NumberFormat.getInstance( );
         decimalFormat.applyPattern( "#" );
 
-        String strMessage = ( lSizeMax >= KILO_BYTE ) ? ( String.valueOf( lSizeMax / KILO_BYTE ) ) : ( decimalFormat.format( lSizeMax / KILO_BYTE ) );
-
-        return strMessage;
+        return ( lSizeMax >= KILO_BYTE ) ? ( String.valueOf( lSizeMax / KILO_BYTE ) ) : ( decimalFormat.format( lSizeMax / KILO_BYTE ) );
     }
 }

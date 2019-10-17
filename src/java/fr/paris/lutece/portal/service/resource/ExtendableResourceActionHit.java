@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -127,7 +127,7 @@ public final class ExtendableResourceActionHit
      */
     public Map<String, Integer> getResourceHit( String strExtendableResourceId, String strExtendableResourceType )
     {
-        Map<String, Integer> mapActionHit = new HashMap<String, Integer>( );
+        Map<String, Integer> mapActionHit = new HashMap<>( );
 
         for ( IExtendableResourceActionHitListener listener : SpringContextService.getBeansOfType( IExtendableResourceActionHitListener.class ) )
         {

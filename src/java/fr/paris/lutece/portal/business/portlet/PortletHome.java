@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -77,15 +77,7 @@ public abstract class PortletHome implements PortletHomeInterface
             p = home.getDAO( ).load( nKey );
             p.copy( portlet );
         }
-        catch( InstantiationException e )
-        {
-            AppLogService.error( e.getMessage( ), e );
-        }
-        catch( IllegalAccessException e )
-        {
-            AppLogService.error( e.getMessage( ), e );
-        }
-        catch( ClassNotFoundException e )
+        catch( IllegalAccessException | InstantiationException | ClassNotFoundException e )
         {
             AppLogService.error( e.getMessage( ), e );
         }
@@ -255,7 +247,10 @@ public abstract class PortletHome implements PortletHomeInterface
     public static void invalidate( int nIdPortlet )
     {
         Portlet portlet = findByPrimaryKey( nIdPortlet );
-        invalidate( portlet );
+        if ( portlet != null )
+        {
+            invalidate( portlet );
+        }
     }
 
     /**

@@ -63,7 +63,7 @@ public class AbstractMessageFormatTemplateMethodTest extends LuteceTestCase
     public void testExec( )
     {
         AbstractMessageFormatTemplateMethod method = new TestAbstractMessageFormatTemplateMethod( "test with 'quote'" );
-        Map<Object, Object> model = new HashMap<Object, Object>( );
+        Map<Object, Object> model = new HashMap<>( );
         model.put( "method", method );
         String template = "${method(\"key\")}";
         HtmlTemplate res = FreeMarkerTemplateService.getInstance( ).loadTemplate( template, Locale.FRANCE, model );

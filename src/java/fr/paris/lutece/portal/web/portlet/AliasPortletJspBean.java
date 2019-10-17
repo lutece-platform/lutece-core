@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -67,7 +67,7 @@ public class AliasPortletJspBean extends PortletJspBean
     private static final String PARAM_ACCEPT_ALIAS = "accept_alias";
     private static final String MARK_ALIAS_PORTLETS_LIST = "alias_portlets_list";
     private static final String MARK_ALIAS_PORTLET = "alias_portlet";
-	private static final String LABEL_ALIAS_PORTLET_NAME = "portal.site.portlet_alias.portlet.name.label";
+    private static final String LABEL_ALIAS_PORTLET_NAME = "portal.site.portlet_alias.portlet.name.label";
 
     /**
      * Process portlet's creation
@@ -138,7 +138,7 @@ public class AliasPortletJspBean extends PortletJspBean
         // recovers portlet attributes
         String strPortletId = request.getParameter( PARAMETER_PORTLET_ID );
         int nPortletId = Integer.parseInt( strPortletId );
-        AliasPortlet portlet = (AliasPortlet) AliasPortletHome.findByPrimaryKey( nPortletId );
+        AliasPortlet portlet = (AliasPortlet) PortletHome.findByPrimaryKey( nPortletId );
 
         // Gets the parameters of the alias portlet posted in the request
         String strName = request.getParameter( PARAM_PORTLET_NAME );
@@ -183,7 +183,7 @@ public class AliasPortletJspBean extends PortletJspBean
     {
         String strIdPage = request.getParameter( PARAMETER_PAGE_ID );
         String strIdPortletType = request.getParameter( PARAMETER_PORTLET_TYPE_ID );
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<>( );
         model.put( MARK_ALIAS_PORTLETS_LIST, buildAliasPortletList( ) );
 
         HtmlTemplate template = getCreateTemplate( strIdPage, strIdPortletType, model );
@@ -205,7 +205,7 @@ public class AliasPortletJspBean extends PortletJspBean
         int idPortlet = Integer.parseInt( strIdPortlet );
         Portlet portlet = PortletHome.findByPrimaryKey( idPortlet );
         AliasPortlet aliasPortlet = (AliasPortlet) portlet;
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<>( );
         model.put( MARK_ALIAS_PORTLETS_LIST, buildAliasPortletList( ) );
         model.put( MARK_ALIAS_PORTLET, aliasPortlet.getAliasId( ) );
 
@@ -226,8 +226,9 @@ public class AliasPortletJspBean extends PortletJspBean
 
         for ( Portlet portlet : AliasPortletHome.getAcceptAliasPortletList( ) )
         {
-            refList.addItem( portlet.getId( ),
-                    I18nService.getLocalizedString(LABEL_ALIAS_PORTLET_NAME, new String [ ] {String.valueOf(portlet.getPageId( ) ), portlet.getName( )} , getLocale( ) ) );
+            refList.addItem( portlet.getId( ), I18nService.getLocalizedString( LABEL_ALIAS_PORTLET_NAME, new String [ ] {
+                    String.valueOf( portlet.getPageId( ) ), portlet.getName( )
+            }, getLocale( ) ) );
         }
         return refList;
     }

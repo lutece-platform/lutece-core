@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -156,7 +156,7 @@ public abstract class AbstractPaginator<E> implements IPaginator<E>
     @Override
     public List<PaginatorPage> getPagesLinks( )
     {
-        List<PaginatorPage> list = new ArrayList<PaginatorPage>( );
+        List<PaginatorPage> list = new ArrayList<>( );
 
         // Number of link pages in total
         int nNbLinkPages = getPagesCount( );

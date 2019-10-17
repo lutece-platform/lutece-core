@@ -36,9 +36,12 @@ package fr.paris.lutece.util.jpa;
 import java.util.Map;
 
 import javax.persistence.Cache;
+import javax.persistence.EntityGraph;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnitUtil;
+import javax.persistence.Query;
+import javax.persistence.SynchronizationType;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.metamodel.Metamodel;
 
@@ -104,5 +107,38 @@ final class TestEntityManagerFactory implements EntityManagerFactory
     {
         // TODO Auto-generated method stub
 
+    }
+
+    @Override
+    public EntityManager createEntityManager( SynchronizationType st )
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public EntityManager createEntityManager( SynchronizationType st, Map map )
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public void addNamedQuery( String string, Query query )
+    {
+        // TODO Auto-generated method stub
+    }
+
+    @Override
+    public <T> T unwrap( Class<T> type )
+    {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public <T> void addNamedEntityGraph( String string, EntityGraph<T> eg )
+    {
+        // TODO Auto-generated method stub
     }
 }

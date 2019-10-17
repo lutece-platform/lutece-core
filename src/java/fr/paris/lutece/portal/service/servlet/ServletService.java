@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -50,7 +50,7 @@ public final class ServletService
 {
     private static ServletService _singleton = new ServletService( );
     private static ServletContext _context;
-    private List<LuteceServlet> _listServlets = new ArrayList<LuteceServlet>( );
+    private List<LuteceServlet> _listServlets = new ArrayList<>( );
 
     /**
      * Private constructor
@@ -91,15 +91,7 @@ public final class ServletService
                 AppLogService.info( " * init parameter - name : '" + strKey + "' - value : '" + entry.getInitParameters( ).get( strKey ) + "'" );
             }
         }
-        catch( InstantiationException e )
-        {
-            AppLogService.error( "Error registering a servlet : " + e.getMessage( ), e );
-        }
-        catch( IllegalAccessException e )
-        {
-            AppLogService.error( "Error registering a servlet : " + e.getMessage( ), e );
-        }
-        catch( ClassNotFoundException e )
+        catch( InstantiationException | IllegalAccessException | ClassNotFoundException e )
         {
             AppLogService.error( "Error registering a servlet : " + e.getMessage( ), e );
         }

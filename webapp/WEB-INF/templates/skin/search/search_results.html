@@ -93,7 +93,7 @@
         </form>
     </div>
     <div class="col-xs-12 col-sm-8 col-md-8">
-    <fieldset>
+    <@fieldSet> 
         <legend>#i18n{portal.search.search_results.title}</legend>
         <#if error?has_content>
             <p class="alert alert-danger">${error}</p>
@@ -116,6 +116,6 @@
                 <li>
                     </#list>
             </ul>
-    </fieldset>
+    </@fieldSet>
     </div>
 </div>

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -41,7 +41,7 @@ import java.util.List;
  */
 public final class ExtendableResourceRemovalListenerService
 {
-    private static List<IExtendableResourceRemovalListener> _listListeners = new ArrayList<IExtendableResourceRemovalListener>( );
+    private static List<IExtendableResourceRemovalListener> _listListeners = new ArrayList<>( );
 
     /** Private Constructor */
     private ExtendableResourceRemovalListenerService( )

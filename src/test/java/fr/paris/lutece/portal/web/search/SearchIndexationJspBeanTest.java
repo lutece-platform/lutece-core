@@ -100,8 +100,7 @@ public class SearchIndexationJspBeanTest extends LuteceTestCase
         }
 
         @Override
-        public List<Document> getDocuments( String strIdDocument )
-                throws IOException, InterruptedException, SiteMessageException
+        public List<Document> getDocuments( String strIdDocument ) throws IOException, InterruptedException, SiteMessageException
         {
             return null;
         }
@@ -146,8 +145,7 @@ public class SearchIndexationJspBeanTest extends LuteceTestCase
     }
 
     /**
-     * Test of getIndexingProperties method, of class
-     * fr.paris.lutece.portal.web.search.SearchIndexationJspBean.
+     * Test of getIndexingProperties method, of class fr.paris.lutece.portal.web.search.SearchIndexationJspBean.
      */
     public void testGetIndexingProperties( ) throws AccessDeniedException
     {
@@ -160,8 +158,7 @@ public class SearchIndexationJspBeanTest extends LuteceTestCase
     }
 
     /**
-     * Test of doIndexing method, of class
-     * fr.paris.lutece.portal.web.search.SearchIndexationJspBean.
+     * Test of doIndexing method, of class fr.paris.lutece.portal.web.search.SearchIndexationJspBean.
      */
     public void testDoIndexing( ) throws AccessDeniedException
     {
@@ -181,8 +178,7 @@ public class SearchIndexationJspBeanTest extends LuteceTestCase
         MockHttpServletRequest request = new MockHttpServletRequest( );
         SearchIndexationJspBean instance = new SearchIndexationJspBean( );
         request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/search/manage_search_indexation.html" )
-                        + "b" );
+                SecurityTokenService.getInstance( ).getToken( request, "admin/search/manage_search_indexation.html" ) + "b" );
 
         Utils.registerAdminUserWithRigth( request, new AdminUser( ), SearchIndexationJspBean.RIGHT_INDEXER );
         instance.init( request, SearchIndexationJspBean.RIGHT_INDEXER );
@@ -191,7 +187,7 @@ public class SearchIndexationJspBeanTest extends LuteceTestCase
             instance.doIndexing( request );
             fail( "Should have thrown" );
         }
-        catch ( AccessDeniedException e )
+        catch( AccessDeniedException e )
         {
             assertFalse( testIndexer._bIndexDocumentsCalled );
         }
@@ -209,7 +205,7 @@ public class SearchIndexationJspBeanTest extends LuteceTestCase
             instance.doIndexing( request );
             fail( "Should have thrown" );
         }
-        catch ( AccessDeniedException e )
+        catch( AccessDeniedException e )
         {
             assertFalse( testIndexer._bIndexDocumentsCalled );
         }

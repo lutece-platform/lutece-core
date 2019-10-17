@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -48,7 +48,7 @@ import java.util.Map;
  */
 public final class PageIncludeService
 {
-    private static Map<String, PageIncludeEntry> _mapPageIncludes = new HashMap<String, PageIncludeEntry>( );
+    private static Map<String, PageIncludeEntry> _mapPageIncludes = new HashMap<>( );
 
     /**
      * Contructeur private (singleton pattern)
@@ -74,15 +74,7 @@ public final class PageIncludeService
             _mapPageIncludes.put( entry.getId( ), entry );
             AppLogService.info( "New Page Include Service registered : " + entry.getId( ) + ( ( !entry.isEnabled( ) ) ? " (disabled)" : "" ) );
         }
-        catch( ClassNotFoundException e )
-        {
-            throw new LuteceInitException( e.getMessage( ), e );
-        }
-        catch( IllegalAccessException e )
-        {
-            throw new LuteceInitException( e.getMessage( ), e );
-        }
-        catch( InstantiationException e )
+        catch( ClassNotFoundException | IllegalAccessException | InstantiationException e )
         {
             throw new LuteceInitException( e.getMessage( ), e );
         }
@@ -95,7 +87,7 @@ public final class PageIncludeService
      */
     public static List<PageInclude> getIncludes( )
     {
-        List<PageInclude> listIncludes = new ArrayList<PageInclude>( );
+        List<PageInclude> listIncludes = new ArrayList<>( );
 
         for ( PageIncludeEntry entry : _mapPageIncludes.values( ) )
         {

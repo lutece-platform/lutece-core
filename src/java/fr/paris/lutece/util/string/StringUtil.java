@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -298,7 +298,7 @@ public final class StringUtil
      */
     public static synchronized boolean checkCodeKey( String strCodeKey )
     {
-        return ( strCodeKey == null ) ? false : strCodeKey.matches( STRING_CODE_PATTERN );
+        return strCodeKey != null && strCodeKey.matches( STRING_CODE_PATTERN );
     }
 
     /**

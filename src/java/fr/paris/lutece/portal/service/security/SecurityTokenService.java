@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -69,7 +69,7 @@ public class SecurityTokenService implements ISecurityTokenService
      *
      * @return The instance of the singleton
      */
-    public static ISecurityTokenService getInstance( )
+    public static synchronized ISecurityTokenService getInstance( )
     {
         if ( _singleton == null )
         {
@@ -91,7 +91,7 @@ public class SecurityTokenService implements ISecurityTokenService
 
         if ( session.getAttribute( PARAMETER_SESSION_TOKENS ) == null )
         {
-            hashTokens = new HashMap<String, Set<String>>( );
+            hashTokens = new HashMap<>( );
             session.setAttribute( PARAMETER_SESSION_TOKENS, hashTokens );
         }
 
@@ -111,17 +111,17 @@ public class SecurityTokenService implements ISecurityTokenService
      * {@inheritDoc}
      */
     @Override
-    public boolean validate( HttpServletRequest request, String StrAction )
+    public boolean validate( HttpServletRequest request, String strAction )
     {
         HttpSession session = request.getSession( true );
 
         String strToken = request.getParameter( PARAMETER_TOKEN );
 
         if ( ( session.getAttribute( PARAMETER_SESSION_TOKENS ) != null )
-                && ( (Map<String, Set<String>>) session.getAttribute( PARAMETER_SESSION_TOKENS ) ).containsKey( StrAction )
-                && ( (Map<String, Set<String>>) session.getAttribute( PARAMETER_SESSION_TOKENS ) ).get( StrAction ).contains( strToken ) )
+                && ( (Map<String, Set<String>>) session.getAttribute( PARAMETER_SESSION_TOKENS ) ).containsKey( strAction )
+                && ( (Map<String, Set<String>>) session.getAttribute( PARAMETER_SESSION_TOKENS ) ).get( strAction ).contains( strToken ) )
         {
-            ( (Map<String, Set<String>>) session.getAttribute( PARAMETER_SESSION_TOKENS ) ).get( StrAction ).remove( strToken );
+            ( (Map<String, Set<String>>) session.getAttribute( PARAMETER_SESSION_TOKENS ) ).get( strAction ).remove( strToken );
 
             return true;
         }

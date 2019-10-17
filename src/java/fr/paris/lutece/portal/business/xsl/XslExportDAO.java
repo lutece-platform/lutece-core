@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -61,22 +61,22 @@ public final class XslExportDAO implements IXslExportDAO
     @Override
     public int newPrimaryKey( )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_NEW_PK );
-        daoUtil.executeQuery( );
-
         int nKey;
-
-        if ( !daoUtil.next( ) )
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_NEW_PK ) )
         {
-            // if the table is empty
-            nKey = 1;
-        }
-        else
-        {
-            nKey = daoUtil.getInt( 1 ) + 1;
-        }
+            daoUtil.executeQuery( );
 
-        daoUtil.free( );
+            if ( !daoUtil.next( ) )
+            {
+                // if the table is empty
+                nKey = 1;
+            }
+            else
+            {
+                nKey = daoUtil.getInt( 1 ) + 1;
+            }
+
+        }
 
         return nKey;
     }
@@ -89,26 +89,27 @@ public final class XslExportDAO implements IXslExportDAO
     {
         xslExport.setIdXslExport( newPrimaryKey( ) );
 
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT );
-        daoUtil.setInt( 1, xslExport.getIdXslExport( ) );
-        daoUtil.setString( 2, xslExport.getTitle( ) );
-        daoUtil.setString( 3, xslExport.getDescription( ) );
-        daoUtil.setString( 4, xslExport.getExtension( ) );
-
-        if ( xslExport.getFile( ) != null )
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT ) )
         {
-            daoUtil.setInt( 5, xslExport.getFile( ).getIdFile( ) );
+            daoUtil.setInt( 1, xslExport.getIdXslExport( ) );
+            daoUtil.setString( 2, xslExport.getTitle( ) );
+            daoUtil.setString( 3, xslExport.getDescription( ) );
+            daoUtil.setString( 4, xslExport.getExtension( ) );
+
+            if ( xslExport.getFile( ) != null )
+            {
+                daoUtil.setInt( 5, xslExport.getFile( ).getIdFile( ) );
+            }
+            else
+            {
+                daoUtil.setIntNull( 5 );
+            }
+
+            daoUtil.setString( 6, xslExport.getPlugin( ) );
+
+            daoUtil.executeUpdate( );
+
         }
-        else
-        {
-            daoUtil.setIntNull( 5 );
-        }
-
-        daoUtil.setString( 6, xslExport.getPlugin( ) );
-
-        daoUtil.executeUpdate( );
-
-        daoUtil.free( );
     }
 
     /**
@@ -117,32 +118,33 @@ public final class XslExportDAO implements IXslExportDAO
     @Override
     public XslExport load( int nId )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_FIND_BY_PRIMARY_KEY );
-        daoUtil.setInt( 1, nId );
-        daoUtil.executeQuery( );
-
         XslExport xslExport = null;
-        File file = null;
-
-        if ( daoUtil.next( ) )
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_FIND_BY_PRIMARY_KEY ) )
         {
-            xslExport = new XslExport( );
-            xslExport.setIdXslExport( daoUtil.getInt( 1 ) );
-            xslExport.setTitle( daoUtil.getString( 2 ) );
-            xslExport.setDescription( daoUtil.getString( 3 ) );
-            xslExport.setExtension( daoUtil.getString( 4 ) );
+            daoUtil.setInt( 1, nId );
+            daoUtil.executeQuery( );
 
-            if ( daoUtil.getObject( 5 ) != null )
+            File file = null;
+
+            if ( daoUtil.next( ) )
             {
-                file = new File( );
-                file.setIdFile( daoUtil.getInt( 5 ) );
-                xslExport.setFile( file );
+                xslExport = new XslExport( );
+                xslExport.setIdXslExport( daoUtil.getInt( 1 ) );
+                xslExport.setTitle( daoUtil.getString( 2 ) );
+                xslExport.setDescription( daoUtil.getString( 3 ) );
+                xslExport.setExtension( daoUtil.getString( 4 ) );
+
+                if ( daoUtil.getObject( 5 ) != null )
+                {
+                    file = new File( );
+                    file.setIdFile( daoUtil.getInt( 5 ) );
+                    xslExport.setFile( file );
+                }
+
+                xslExport.setPlugin( daoUtil.getString( 6 ) );
             }
 
-            xslExport.setPlugin( daoUtil.getString( 6 ) );
         }
-
-        daoUtil.free( );
 
         return xslExport;
     }
@@ -153,10 +155,11 @@ public final class XslExportDAO implements IXslExportDAO
     @Override
     public void delete( int nIdXslExport )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE );
-        daoUtil.setInt( 1, nIdXslExport );
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE ) )
+        {
+            daoUtil.setInt( 1, nIdXslExport );
+            daoUtil.executeUpdate( );
+        }
     }
 
     /**
@@ -165,26 +168,27 @@ public final class XslExportDAO implements IXslExportDAO
     @Override
     public void store( XslExport xslExport )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE );
-        daoUtil.setInt( 1, xslExport.getIdXslExport( ) );
-        daoUtil.setString( 2, xslExport.getTitle( ) );
-        daoUtil.setString( 3, xslExport.getDescription( ) );
-        daoUtil.setString( 4, xslExport.getExtension( ) );
-
-        if ( xslExport.getFile( ) != null )
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE ) )
         {
-            daoUtil.setInt( 5, xslExport.getFile( ).getIdFile( ) );
-        }
-        else
-        {
-            daoUtil.setIntNull( 5 );
-        }
+            daoUtil.setInt( 1, xslExport.getIdXslExport( ) );
+            daoUtil.setString( 2, xslExport.getTitle( ) );
+            daoUtil.setString( 3, xslExport.getDescription( ) );
+            daoUtil.setString( 4, xslExport.getExtension( ) );
 
-        daoUtil.setString( 6, xslExport.getPlugin( ) );
+            if ( xslExport.getFile( ) != null )
+            {
+                daoUtil.setInt( 5, xslExport.getFile( ).getIdFile( ) );
+            }
+            else
+            {
+                daoUtil.setIntNull( 5 );
+            }
 
-        daoUtil.setInt( 7, xslExport.getIdXslExport( ) );
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+            daoUtil.setString( 6, xslExport.getPlugin( ) );
+
+            daoUtil.setInt( 7, xslExport.getIdXslExport( ) );
+            daoUtil.executeUpdate( );
+        }
     }
 
     /**
@@ -193,35 +197,36 @@ public final class XslExportDAO implements IXslExportDAO
     @Override
     public List<XslExport> selectList( )
     {
-        List<XslExport> listXslExport = new ArrayList<XslExport>( );
+        List<XslExport> listXslExport = new ArrayList<>( );
         XslExport xslExport = null;
         File file = null;
 
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT );
-
-        daoUtil.executeQuery( );
-
-        while ( daoUtil.next( ) )
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT ) )
         {
-            xslExport = new XslExport( );
-            xslExport.setIdXslExport( daoUtil.getInt( 1 ) );
-            xslExport.setTitle( daoUtil.getString( 2 ) );
-            xslExport.setDescription( daoUtil.getString( 3 ) );
-            xslExport.setExtension( daoUtil.getString( 4 ) );
 
-            if ( daoUtil.getObject( 5 ) != null )
+            daoUtil.executeQuery( );
+
+            while ( daoUtil.next( ) )
             {
-                file = new File( );
-                file.setIdFile( daoUtil.getInt( 5 ) );
-                xslExport.setFile( file );
+                xslExport = new XslExport( );
+                xslExport.setIdXslExport( daoUtil.getInt( 1 ) );
+                xslExport.setTitle( daoUtil.getString( 2 ) );
+                xslExport.setDescription( daoUtil.getString( 3 ) );
+                xslExport.setExtension( daoUtil.getString( 4 ) );
+
+                if ( daoUtil.getObject( 5 ) != null )
+                {
+                    file = new File( );
+                    file.setIdFile( daoUtil.getInt( 5 ) );
+                    xslExport.setFile( file );
+                }
+
+                xslExport.setPlugin( daoUtil.getString( 6 ) );
+
+                listXslExport.add( xslExport );
             }
 
-            xslExport.setPlugin( daoUtil.getString( 6 ) );
-
-            listXslExport.add( xslExport );
         }
-
-        daoUtil.free( );
 
         return listXslExport;
     }
@@ -232,7 +237,7 @@ public final class XslExportDAO implements IXslExportDAO
     @Override
     public List<XslExport> selectListByPlugin( Plugin plugin )
     {
-        List<XslExport> listXslExport = new ArrayList<XslExport>( );
+        List<XslExport> listXslExport = new ArrayList<>( );
         XslExport xslExport = null;
         File file = null;
 
@@ -240,31 +245,32 @@ public final class XslExportDAO implements IXslExportDAO
         sbSql.append( SQL_WHERE );
         sbSql.append( SQL_FILTER_PLUGIN );
 
-        DAOUtil daoUtil = new DAOUtil( sbSql.toString( ) );
-        daoUtil.setString( 1, plugin.getName( ) );
-        daoUtil.executeQuery( );
-
-        while ( daoUtil.next( ) )
+        try( DAOUtil daoUtil = new DAOUtil( sbSql.toString( ) ) )
         {
-            xslExport = new XslExport( );
-            xslExport.setIdXslExport( daoUtil.getInt( 1 ) );
-            xslExport.setTitle( daoUtil.getString( 2 ) );
-            xslExport.setDescription( daoUtil.getString( 3 ) );
-            xslExport.setExtension( daoUtil.getString( 4 ) );
+            daoUtil.setString( 1, plugin.getName( ) );
+            daoUtil.executeQuery( );
 
-            if ( daoUtil.getObject( 5 ) != null )
+            while ( daoUtil.next( ) )
             {
-                file = new File( );
-                file.setIdFile( daoUtil.getInt( 5 ) );
-                xslExport.setFile( file );
+                xslExport = new XslExport( );
+                xslExport.setIdXslExport( daoUtil.getInt( 1 ) );
+                xslExport.setTitle( daoUtil.getString( 2 ) );
+                xslExport.setDescription( daoUtil.getString( 3 ) );
+                xslExport.setExtension( daoUtil.getString( 4 ) );
+
+                if ( daoUtil.getObject( 5 ) != null )
+                {
+                    file = new File( );
+                    file.setIdFile( daoUtil.getInt( 5 ) );
+                    xslExport.setFile( file );
+                }
+
+                xslExport.setPlugin( daoUtil.getString( 6 ) );
+
+                listXslExport.add( xslExport );
             }
 
-            xslExport.setPlugin( daoUtil.getString( 6 ) );
-
-            listXslExport.add( xslExport );
         }
-
-        daoUtil.free( );
 
         return listXslExport;
     }

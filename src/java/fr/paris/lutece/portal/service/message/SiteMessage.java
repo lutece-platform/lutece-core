@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -115,7 +115,7 @@ public class SiteMessage implements Serializable
         // Object message conversion into String values for map of parameters
         if ( requestParameters != null )
         {
-            _requestParameters = new HashMap<String, String>( );
+            _requestParameters = new HashMap<>( );
 
             for ( Entry<String, Object> entry : requestParameters.entrySet( ) )
             {
@@ -165,7 +165,7 @@ public class SiteMessage implements Serializable
      */
     public boolean isCancel( )
     {
-        return ( getTypeButton( ) == TYPE_BUTTON_HIDDEN ) ? false : true;
+        return getTypeButton( ) != TYPE_BUTTON_HIDDEN;
     }
 
     /**

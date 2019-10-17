@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -55,7 +55,7 @@ public class FeatureGroup
     private String _strDescriptionKey;
     private String _strLabelKey;
     private int _nOrder;
-    private Collection<Right> _aFeaturesList = new ArrayList<Right>( );
+    private Collection<Right> _aFeaturesList = new ArrayList<>( );
     private Locale _locale;
 
     /**

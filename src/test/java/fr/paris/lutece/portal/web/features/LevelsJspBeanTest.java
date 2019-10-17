@@ -45,6 +45,7 @@ import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.web.constants.Parameters;
+import fr.paris.lutece.portal.web.dashboard.AdminDashboardJspBean;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.Utils;
 
@@ -70,14 +71,6 @@ public class LevelsJspBeanTest extends LuteceTestCase
     }
 
     /**
-     * Test of getManageLevels method, of class fr.paris.lutece.portal.web.features.LevelsJspBean.
-     */
-    public void testGetManageLevels( ) throws AccessDeniedException
-    {
-        instance.getManageLevels( request );
-    }
-
-    /**
      * Test of getCreateLevel method, of class fr.paris.lutece.portal.web.features.LevelsJspBean.
      */
     public void testGetCreateLevel( ) throws AccessDeniedException
@@ -94,7 +87,7 @@ public class LevelsJspBeanTest extends LuteceTestCase
     {
         final String name = getRandomName( );
         request.setParameter( "level_name", name );
-        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "admin/features/create_level.html" ) );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) );
 
         LevelHome.getLevelsList( ).forEach( level -> {
             assertFalse( name.equals( level.getName( ) ) );
@@ -206,7 +199,7 @@ public class LevelsJspBeanTest extends LuteceTestCase
         LevelHome.create( level );
         request.setParameter( Parameters.LEVEL_ID, Integer.toString( level.getId( ) ) );
         request.setParameter( Parameters.LEVEL_NAME, name + "_mod" );
-        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "admin/features/modify_level.html" ) );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) );
         try
         {
             assertEquals( name, LevelHome.findByPrimaryKey( level.getId( ) ).getName( ) );

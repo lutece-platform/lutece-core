@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -59,13 +59,14 @@ public final class DataEntityDAO implements IDataEntityDAO
     @Override
     public void insert( DataEntity entity )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT ) )
+        {
 
-        daoUtil.setString( 1, entity.getKey( ) );
-        daoUtil.setString( 2, entity.getValue( ) );
+            daoUtil.setString( 1, entity.getKey( ) );
+            daoUtil.setString( 2, entity.getValue( ) );
 
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+            daoUtil.executeUpdate( );
+        }
     }
 
     /**
@@ -78,21 +79,21 @@ public final class DataEntityDAO implements IDataEntityDAO
     @Override
     public DataEntity load( String strKey )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT );
-        daoUtil.setString( 1, strKey );
-        daoUtil.executeQuery( );
-
         DataEntity entity = null;
-
-        if ( daoUtil.next( ) )
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT ) )
         {
-            entity = new DataEntity( );
+            daoUtil.setString( 1, strKey );
+            daoUtil.executeQuery( );
 
-            entity.setKey( daoUtil.getString( 1 ) );
-            entity.setValue( daoUtil.getString( 2 ) );
+            if ( daoUtil.next( ) )
+            {
+                entity = new DataEntity( );
+
+                entity.setKey( daoUtil.getString( 1 ) );
+                entity.setValue( daoUtil.getString( 2 ) );
+            }
+
         }
-
-        daoUtil.free( );
 
         return entity;
     }
@@ -106,10 +107,11 @@ public final class DataEntityDAO implements IDataEntityDAO
     @Override
     public void delete( String strKey )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE );
-        daoUtil.setString( 1, strKey );
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE ) )
+        {
+            daoUtil.setString( 1, strKey );
+            daoUtil.executeUpdate( );
+        }
     }
 
     /**
@@ -121,13 +123,14 @@ public final class DataEntityDAO implements IDataEntityDAO
     @Override
     public void store( DataEntity entity )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE ) )
+        {
 
-        daoUtil.setString( 1, entity.getValue( ) );
-        daoUtil.setString( 2, entity.getKey( ) );
+            daoUtil.setString( 1, entity.getValue( ) );
+            daoUtil.setString( 2, entity.getKey( ) );
 
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+            daoUtil.executeUpdate( );
+        }
     }
 
     /**
@@ -138,21 +141,22 @@ public final class DataEntityDAO implements IDataEntityDAO
     @Override
     public List<DataEntity> selectEntitiesList( )
     {
-        List<DataEntity> entityList = new ArrayList<DataEntity>( );
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL );
-        daoUtil.executeQuery( );
-
-        while ( daoUtil.next( ) )
+        List<DataEntity> entityList = new ArrayList<>( );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL ) )
         {
-            DataEntity entity = new DataEntity( );
+            daoUtil.executeQuery( );
 
-            entity.setKey( daoUtil.getString( 1 ) );
-            entity.setValue( daoUtil.getString( 2 ) );
+            while ( daoUtil.next( ) )
+            {
+                DataEntity entity = new DataEntity( );
 
-            entityList.add( entity );
+                entity.setKey( daoUtil.getString( 1 ) );
+                entity.setValue( daoUtil.getString( 2 ) );
+
+                entityList.add( entity );
+            }
+
         }
-
-        daoUtil.free( );
 
         return entityList;
     }

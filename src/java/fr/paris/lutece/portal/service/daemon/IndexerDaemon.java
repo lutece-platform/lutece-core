@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -42,7 +42,7 @@ import fr.paris.lutece.portal.service.util.AppPropertiesService;
 public final class IndexerDaemon extends Daemon
 {
     private static final String PROPERTY_INDEXER_PARAM_TOTAL = "indexer.param.total";
-    private static final boolean TOTAL_INDEXING = Boolean.valueOf( AppPropertiesService.getProperty( PROPERTY_INDEXER_PARAM_TOTAL, "true" ) );
+    private static final boolean TOTAL_INDEXING = Boolean.parseBoolean( AppPropertiesService.getProperty( PROPERTY_INDEXER_PARAM_TOTAL, "true" ) );
 
     /**
      * Implementation of the run method of the Runnable interface.It processes the daemon treatment.

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -53,7 +53,7 @@ import java.util.Map;
 public final class AdminUserHome
 {
     // Static variable pointed at the DAO instance
-    private static IAdminUserDAO _dao = (IAdminUserDAO) SpringContextService.getBean( "adminUserDAO" );
+    private static IAdminUserDAO _dao = SpringContextService.getBean( "adminUserDAO" );
 
     /**
      * Private constructor

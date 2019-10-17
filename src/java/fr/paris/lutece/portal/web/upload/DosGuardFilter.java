@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -48,6 +48,8 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
+import org.apache.commons.collections.CollectionUtils;
+
 /**
  * A rewrite of the multipart filter from the com.oreilly.servlet package. The rewrite allows us to use initialization parameters specified in the Lutece
  * configuration files.
@@ -56,7 +58,6 @@ public class DosGuardFilter implements Filter
 {
     // Initial capacity of the HashMap
     private static final int INITIAL_CAPACITY = 100;
-    private FilterConfig _filterConfig;
 
     // The size under which requests are allowed systematically
     private int _nMinContentLength;
@@ -77,20 +78,19 @@ public class DosGuardFilter implements Filter
     @Override
     public void init( FilterConfig config ) throws ServletException
     {
-        _filterConfig = config;
-        _mapLastRequestTimes = new HashMap<String, Long>( INITIAL_CAPACITY );
-        _listOrderedRequests = new LinkedList<Entry>( );
+        _mapLastRequestTimes = new HashMap<>( INITIAL_CAPACITY );
+        _listOrderedRequests = new LinkedList<>( );
 
         try
         {
-            String paramValue = _filterConfig.getInitParameter( "minContentLength" );
+            String paramValue = config.getInitParameter( "minContentLength" );
 
             if ( paramValue != null )
             {
                 _nMinContentLength = Integer.parseInt( paramValue );
             }
 
-            paramValue = _filterConfig.getInitParameter( "minInterval" );
+            paramValue = config.getInitParameter( "minInterval" );
 
             if ( paramValue != null )
             {
@@ -207,7 +207,7 @@ public class DosGuardFilter implements Filter
     {
         AppLogService.debug( "DosGuard.class : cleanExpiredEntries()" );
 
-        if ( _listOrderedRequests.size( ) != 0 )
+        if ( CollectionUtils.isNotEmpty( _listOrderedRequests ) )
         {
             // Expired entries are those where the IP can't be blocked anymore
             long lMinTime = System.currentTimeMillis( ) - _nMinInterval;
@@ -217,7 +217,7 @@ public class DosGuardFilter implements Filter
             // Read entries from the list, remove them as long as they are expired
             boolean bDone = false;
 
-            while ( !bDone && ( _listOrderedRequests.size( ) > 0 ) )
+            while ( !bDone && CollectionUtils.isNotEmpty( _listOrderedRequests ) )
             {
                 // The list is ordered by arrival time, so the last one is the
                 // oldest

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -68,7 +68,7 @@ public class CacheJspBean extends AdminFeaturesPageJspBean
     private static final String PROPERTY_MESSAGE_CONFIRM_TOOGLE_CACHE = "portal.system.message.confirmToggleCache";
     private static final String PROPERTY_MESSAGE_CONFIRM_TOOGLE_CACHE_TITLE = "portal.system.message.confirmToggleCacheTitle";
     private static final String PROPERTY_MESSAGE_INVALID_CACHE_ID = "portal.system.message.invalidCacheId";
-    
+
     private static final long serialVersionUID = 7010476999488231065L;
 
     // Markers
@@ -88,7 +88,7 @@ public class CacheJspBean extends AdminFeaturesPageJspBean
      */
     public String getManageCaches( HttpServletRequest request )
     {
-        HashMap<String, Object> model = new HashMap<String, Object>( );
+        HashMap<String, Object> model = new HashMap<>( );
         model.put( MARK_SERVICES_LIST, CacheService.getCacheableServicesList( ) );
         model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MANAGE_CACHES ) );
 
@@ -110,7 +110,7 @@ public class CacheJspBean extends AdminFeaturesPageJspBean
     {
         if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_MANAGE_CACHES ) )
         {
-            throw new AccessDeniedException( "Invalid security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
         String strCacheIndex = request.getParameter( PARAMETER_ID_CACHE );
 
@@ -133,15 +133,16 @@ public class CacheJspBean extends AdminFeaturesPageJspBean
     /**
      * Reload all properties files of the application
      *
-     * @param request The HTTP request
+     * @param request
+     *            The HTTP request
      * @return The URL to display when the process is done.
-     * @throws AccessDeniedException 
+     * @throws AccessDeniedException
      */
     public String doReloadProperties( HttpServletRequest request ) throws AccessDeniedException
     {
         if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_MANAGE_CACHES ) )
         {
-            throw new AccessDeniedException( "Invalid security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
         AppPropertiesService.reloadAll( );
 
@@ -164,7 +165,7 @@ public class CacheJspBean extends AdminFeaturesPageJspBean
         {
             int nCacheIndex = Integer.parseInt( strCacheIndex );
             CacheableService cs = CacheService.getCacheableServicesList( ).get( nCacheIndex );
-            list = new ArrayList<CacheableService>( );
+            list = new ArrayList<>( );
             list.add( cs );
         }
         else
@@ -172,7 +173,7 @@ public class CacheJspBean extends AdminFeaturesPageJspBean
             list = CacheService.getCacheableServicesList( );
         }
 
-        HashMap<String, Collection<CacheableService>> model = new HashMap<String, Collection<CacheableService>>( );
+        HashMap<String, Collection<CacheableService>> model = new HashMap<>( );
         model.put( MARK_SERVICES_LIST, list );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CACHE_INFOS, getLocale( ), model );
@@ -180,8 +181,6 @@ public class CacheJspBean extends AdminFeaturesPageJspBean
         return getAdminPage( template.getHtml( ) );
     }
 
-    
-    
     /**
      * Returns the page of confirmation for changing the cache activation
      *
@@ -196,14 +195,17 @@ public class CacheJspBean extends AdminFeaturesPageJspBean
         {
             int nCacheIndex = Integer.parseInt( strCacheIndex );
             CacheableService cs = CacheService.getCacheableServicesList( ).get( nCacheIndex );
-            if( cs != null )
+            if ( cs != null )
             {
-                Object[] messageArgs = { cs.getName() };
+                Object [ ] messageArgs = {
+                    cs.getName( )
+                };
 
                 Map<String, Object> parameters = new HashMap<>( );
                 parameters.put( PARAMETER_ID_CACHE, strCacheIndex );
                 parameters.put( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, JSP_TOGGLE_CACHE ) );
-                return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_CONFIRM_TOOGLE_CACHE, messageArgs, PROPERTY_MESSAGE_CONFIRM_TOOGLE_CACHE_TITLE, JSP_TOGGLE_CACHE, "" ,AdminMessage.TYPE_CONFIRMATION, parameters );
+                return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_CONFIRM_TOOGLE_CACHE, messageArgs,
+                        PROPERTY_MESSAGE_CONFIRM_TOOGLE_CACHE_TITLE, JSP_TOGGLE_CACHE, "", AdminMessage.TYPE_CONFIRMATION, parameters );
             }
         }
         return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_INVALID_CACHE_ID, JSP_MANAGE_CACHES, AdminMessage.TYPE_ERROR );
@@ -222,7 +224,7 @@ public class CacheJspBean extends AdminFeaturesPageJspBean
     {
         if ( !SecurityTokenService.getInstance( ).validate( request, JSP_TOGGLE_CACHE ) )
         {
-            throw new AccessDeniedException( "Invalid security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
         String strCacheIndex = request.getParameter( PARAMETER_ID_CACHE );
 
@@ -235,5 +237,5 @@ public class CacheJspBean extends AdminFeaturesPageJspBean
 
         return JSP_MANAGE_CACHES;
     }
-    
+
 }

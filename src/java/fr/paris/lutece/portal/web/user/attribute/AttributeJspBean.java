@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,7 +33,15 @@
  */
 package fr.paris.lutece.portal.web.user.attribute;
 
-import fr.paris.lutece.portal.business.user.attribute.AttributeType;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang.StringUtils;
+
 import fr.paris.lutece.portal.business.user.attribute.IAttribute;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.message.AdminMessage;
@@ -41,19 +49,10 @@ import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.user.attribute.AttributeService;
-import fr.paris.lutece.portal.service.user.attribute.AttributeTypeService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
+import fr.paris.lutece.portal.web.dashboard.AdminDashboardJspBean;
 import fr.paris.lutece.util.html.HtmlTemplate;
-
-import org.apache.commons.lang.StringUtils;
-
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  *
@@ -78,52 +77,19 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
     private static final String PARAMETER_ID_ATTRIBUTE = "id_attribute";
 
     // MARKS
-    private static final String MARK_ATTRIBUTE_TYPES_LIST = "attribute_types_list";
     private static final String MARK_ATTRIBUTE_TYPE = "attribute_type";
-    private static final String MARK_ATTRIBUTES_LIST = "attributes_list";
     private static final String MARK_ATTRIBUTE = "attribute";
     private static final String MARK_ATTRIBUTE_FIELDS_LIST = "attribute_fields_list";
 
     // PROPERTIES
-    private static final String PROPERTY_MANAGE_ATTRIBUTES_PAGETITLE = "portal.users.manage_attributes.pageTitle";
     private static final String PROPERTY_MESSAGE_CONFIRM_REMOVE_ATTRIBUTE = "portal.users.manage_attributes.message.confirmRemoveAttribute";
-
-    // TEMPLATES
-    private static final String TEMPLATE_MANAGE_ATTRIBUTES = "admin/user/attribute/manage_attributes.html";
 
     // JSP
     private static final String JSP_URL_REMOVE_ATTRIBUTE = "jsp/admin/user/attribute/DoRemoveAttribute.jsp";
-    private static final String JSP_MANAGE_ATTRIBUTES = "ManageAttributes.jsp";
+    private static final String ANCHOR_ADMIN_DASHBOARDS = "attributes_management";
     private static final String JSP_MODIFY_ATTRIBUTE = "ModifyAttribute.jsp";
     private static final AttributeService _attributeService = AttributeService.getInstance( );
-    private static final AttributeTypeService _attributeTypeService = AttributeTypeService.getInstance( );
 
-    /**
-     * Get list of user attributes
-     * 
-     * @param request
-     *            HttpServletRequest
-     * @return list of attributes
-     */
-    public String getManageAttributes( HttpServletRequest request )
-    {
-        setPageTitleProperty( PROPERTY_MANAGE_ATTRIBUTES_PAGETITLE );
-
-        List<IAttribute> listAttributes = _attributeService.getAllAttributesWithoutFields( getLocale( ) );
-
-        // ATTRIBUTE TYPES
-        List<AttributeType> listAttributeTypes = _attributeTypeService.getAttributeTypes( getLocale( ) );
-
-        HtmlTemplate template;
-        Map<String, Object> model = new HashMap<String, Object>( );
-        model.put( MARK_ATTRIBUTES_LIST, listAttributes );
-        model.put( MARK_ATTRIBUTE_TYPES_LIST, listAttributeTypes );
-        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MANAGE_ATTRIBUTES ) );
-
-        template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_ATTRIBUTES, getLocale( ), model );
-
-        return getAdminPage( template.getHtml( ) );
-    }
 
     /**
      * Get user attribute creation interface
@@ -142,26 +108,14 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
         {
             attribute = (IAttribute) Class.forName( strAttributeTypeClassName ).newInstance( );
         }
-        catch( ClassNotFoundException e )
+        catch( IllegalAccessException | InstantiationException | ClassNotFoundException e )
         {
-            // class doesn't exist
-            AppLogService.error( e );
-        }
-        catch( InstantiationException e )
-        {
-            // Class is abstract or is an interface or haven't accessible
-            // builder
-            AppLogService.error( e );
-        }
-        catch( IllegalAccessException e )
-        {
-            // can't access to the class
             AppLogService.error( e );
         }
 
         if ( attribute == null )
         {
-            return getManageAttributes( request );
+            return getAdminDashboardsUrl( request , ANCHOR_ADMIN_DASHBOARDS );
         }
 
         setPageTitleProperty( attribute.getPropertyCreatePageTitle( ) );
@@ -169,7 +123,7 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
         attribute.setAttributeType( getLocale( ) );
 
         HtmlTemplate template;
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<>( );
         model.put( MARK_ATTRIBUTE_TYPE, attribute.getAttributeType( ) );
         model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, attribute.getTemplateCreateAttribute( ) ) );
 
@@ -201,48 +155,37 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
             {
                 attribute = (IAttribute) Class.forName( strAttributeTypeClassName ).newInstance( );
             }
-            catch( ClassNotFoundException e )
+            catch( IllegalAccessException | InstantiationException | ClassNotFoundException e )
             {
-                // class doesn't exist
-                AppLogService.error( e );
-            }
-            catch( InstantiationException e )
-            {
-                // Class is abstract or is an interface or haven't accessible
-                // builder
-                AppLogService.error( e );
-            }
-            catch( IllegalAccessException e )
-            {
-                // can't access to the class
                 AppLogService.error( e );
             }
 
             if ( attribute == null )
             {
-                return getManageAttributes( request );
+                getAdminDashboardsUrl( request , ANCHOR_ADMIN_DASHBOARDS );
             }
-
-            String strError = attribute.setAttributeData( request );
-
-            if ( StringUtils.isNotBlank( strError ) )
+            else
             {
-                return strError;
-            }
-            if ( !SecurityTokenService.getInstance( ).validate( request, attribute.getTemplateCreateAttribute( ) ) )
-            {
-                throw new AccessDeniedException( "Invalid security token" );
-            }
+                String strError = attribute.setAttributeData( request );
+    
+                if ( StringUtils.isNotBlank( strError ) )
+                {
+                    return strError;
+                }
+                if ( !SecurityTokenService.getInstance( ).validate( request, attribute.getTemplateCreateAttribute( ) ) )
+                {
+                    throw new AccessDeniedException( ERROR_INVALID_TOKEN );
+                }
+                _attributeService.createAttribute( attribute );
 
-            _attributeService.createAttribute( attribute );
-
-            if ( strActionApply != null )
-            {
-                return JSP_MODIFY_ATTRIBUTE + QUESTION_MARK + PARAMETER_ID_ATTRIBUTE + EQUAL + attribute.getIdAttribute( );
+                if ( strActionApply != null )
+                {
+                    return JSP_MODIFY_ATTRIBUTE + QUESTION_MARK + PARAMETER_ID_ATTRIBUTE + EQUAL + attribute.getIdAttribute( );
+                }
             }
         }
 
-        return JSP_MANAGE_ATTRIBUTES;
+        return getAdminDashboardsUrl( request , ANCHOR_ADMIN_DASHBOARDS );
     }
 
     /**
@@ -266,11 +209,10 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
             setPageTitleProperty( attribute.getPropertyModifyPageTitle( ) );
 
             HtmlTemplate template;
-            Map<String, Object> model = new HashMap<String, Object>( );
+            Map<String, Object> model = new HashMap<>( );
             model.put( MARK_ATTRIBUTE, attribute );
             model.put( MARK_ATTRIBUTE_FIELDS_LIST, attribute.getListAttributeFields( ) );
-            model.put( SecurityTokenService.MARK_TOKEN,
-                    SecurityTokenService.getInstance( ).getToken( request, attribute.getTemplateModifyAttribute( ) ) );
+            model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, attribute.getTemplateModifyAttribute( ) ) );
 
             template = AppTemplateService.getTemplate( attribute.getTemplateModifyAttribute( ), getLocale( ), model );
 
@@ -278,7 +220,7 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
         }
 
         // Otherwise, we redirect the user to the attribute management interface
-        return getManageAttributes( request );
+        return getAdminDashboardsUrl( request , ANCHOR_ADMIN_DASHBOARDS );
     }
 
     /**
@@ -311,7 +253,7 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
                 }
                 if ( !SecurityTokenService.getInstance( ).validate( request, attribute.getTemplateModifyAttribute( ) ) )
                 {
-                    throw new AccessDeniedException( "Invalid security token" );
+                    throw new AccessDeniedException( ERROR_INVALID_TOKEN );
                 }
 
                 _attributeService.updateAttribute( attribute );
@@ -323,7 +265,7 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
             }
         }
 
-        return JSP_MANAGE_ATTRIBUTES;
+        return getAdminDashboardsUrl( request , ANCHOR_ADMIN_DASHBOARDS );
     }
 
     /**
@@ -341,7 +283,8 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
         parameters.put( PARAMETER_ID_ATTRIBUTE, strIdAttribute );
         parameters.put( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, JSP_URL_REMOVE_ATTRIBUTE ) );
 
-        return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_CONFIRM_REMOVE_ATTRIBUTE, JSP_URL_REMOVE_ATTRIBUTE, AdminMessage.TYPE_CONFIRMATION, parameters  );
+        return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_CONFIRM_REMOVE_ATTRIBUTE, JSP_URL_REMOVE_ATTRIBUTE, AdminMessage.TYPE_CONFIRMATION,
+                parameters );
     }
 
     /**
@@ -361,13 +304,13 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
         {
             if ( !SecurityTokenService.getInstance( ).validate( request, JSP_URL_REMOVE_ATTRIBUTE ) )
             {
-                throw new AccessDeniedException( "Invalid security token" );
+                throw new AccessDeniedException( ERROR_INVALID_TOKEN );
             }
             int nIdAttribute = Integer.parseInt( strIdAttribute );
             _attributeService.removeAttribute( nIdAttribute );
         }
 
-        return JSP_MANAGE_ATTRIBUTES;
+        return getAdminDashboardsUrl( request , ANCHOR_ADMIN_DASHBOARDS );
     }
 
     /**
@@ -385,15 +328,15 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
 
         if ( StringUtils.isNotBlank( strIdAttribute ) && StringUtils.isNumeric( strIdAttribute ) )
         {
-            if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_MANAGE_ATTRIBUTES ) )
+            if ( !SecurityTokenService.getInstance( ).validate( request, AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) )
             {
-                throw new AccessDeniedException( "Invalid security token" );
+                throw new AccessDeniedException( ERROR_INVALID_TOKEN );
             }
             int nIdAttribute = Integer.parseInt( strIdAttribute );
 
             List<IAttribute> listAttributes = _attributeService.getAllAttributesWithoutFields( getLocale( ) );
-            IAttribute previousAttribute = null;
-            IAttribute currentAttribute = null;
+            IAttribute previousAttribute;
+            IAttribute currentAttribute;
 
             Iterator<IAttribute> it = listAttributes.iterator( );
             previousAttribute = it.next( );
@@ -414,7 +357,7 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
             _attributeService.updateAttribute( currentAttribute );
         }
 
-        return JSP_MANAGE_ATTRIBUTES;
+        return getAdminDashboardsUrl( request , ANCHOR_ADMIN_DASHBOARDS );
     }
 
     /**
@@ -432,9 +375,9 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
 
         if ( StringUtils.isNotBlank( strIdAttribute ) && StringUtils.isNumeric( strIdAttribute ) )
         {
-            if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_MANAGE_ATTRIBUTES ) )
+            if ( !SecurityTokenService.getInstance( ).validate( request, AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) )
             {
-                throw new AccessDeniedException( "Invalid security token" );
+                throw new AccessDeniedException( ERROR_INVALID_TOKEN );
             }
             int nIdAttribute = Integer.parseInt( strIdAttribute );
 
@@ -461,6 +404,6 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
             _attributeService.updateAttribute( currentAttribute );
         }
 
-        return JSP_MANAGE_ATTRIBUTES;
+        return getAdminDashboardsUrl( request , ANCHOR_ADMIN_DASHBOARDS );
     }
 }

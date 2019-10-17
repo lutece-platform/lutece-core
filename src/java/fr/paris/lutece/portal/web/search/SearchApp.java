@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -215,10 +215,10 @@ public class SearchApp implements XPageApplication
             sbUrl = sbUrl.append( "&default_operator=" + request.getParameter( PARAMETER_DEFAULT_OPERATOR ) );
         }
 
-        Paginator<SearchResult> paginator = new Paginator<SearchResult>( listResults, nNbItemsPerPage, sbUrl.toString( ), PARAMETER_PAGE_INDEX,
+        Paginator<SearchResult> paginator = new Paginator<>( listResults, nNbItemsPerPage, sbUrl.toString( ), PARAMETER_PAGE_INDEX,
                 strCurrentPageIndex );
 
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<>( );
         model.put( MARK_RESULTS_LIST, paginator.getPageItems( ) );
         model.put( MARK_QUERY, strQuery );
         model.put( MARK_PAGINATOR, paginator );

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -109,15 +109,12 @@ public final class PortalMenuService extends AbstractCacheableService implements
     /**
      * Returns the menu bar from the cache or builds it if it not stored in it
      * 
-     * @param request
-     *            The HTTP request
-     * @param nMode
-     *            The selected mode
-     * @param nPart
-     *            The part of the menu to build
-     * @param nCurrentPageId
-     *            The current page ID
-     * @return The list of the menus layed out with the stylesheet correpsonding to the mode
+     * @param request        The HTTP request
+     * @param nMode          The selected mode
+     * @param nPart          The part of the menu to build
+     * @param nCurrentPageId The current page ID
+     * @return The list of the menus layed out with the stylesheet correpsonding to
+     *         the mode
      */
     public String getMenuContent( int nCurrentPageId, int nMode, int nPart, HttpServletRequest request )
     {
@@ -143,23 +140,17 @@ public final class PortalMenuService extends AbstractCacheableService implements
     /**
      * Builds the menu bar
      *
-     * @param nCurrentPageId
-     *            The current page ID
-     * @param nMode
-     *            The selected mode
-     * @param nPart
-     *            The part of the menu to build
-     * @param request
-     *            The HttpServletRequest
+     * @param nCurrentPageId The current page ID
+     * @param nMode          The selected mode
+     * @param nPart          The part of the menu to build
+     * @param request        The HttpServletRequest
      * @return The list of the menus layed out with the stylesheet of the mode
      */
     private String buildMenuContent( int nCurrentPageId, int nMode, int nPart, HttpServletRequest request )
     {
-        StringBuffer strXml = new StringBuffer( );
         Collection<Page> listPagesMenu = PageHome.getChildPagesMinimalData( PortalService.getRootPageId( ) );
-
-        String strCurrentPageId = Integer.toString( nCurrentPageId );
-
+        
+        StringBuffer strXml = new StringBuffer( );
         strXml.append( XmlUtil.getXmlHeader( ) );
         XmlUtil.beginElement( strXml, XmlContent.TAG_MENU_LIST );
 
@@ -169,41 +160,8 @@ public final class PortalMenuService extends AbstractCacheableService implements
         {
             if ( ( menuPage.isVisible( request ) ) || ( nMode == MODE_ADMIN ) )
             {
-                // strCurrentPageId = request.getParameter( PARAMETER_PAGE_ID );
-                XmlUtil.beginElement( strXml, XmlContent.TAG_MENU );
-                XmlUtil.addElement( strXml, XmlContent.TAG_MENU_INDEX, nMenuIndex );
-                XmlUtil.addElement( strXml, XmlContent.TAG_PAGE_ID, menuPage.getId( ) );
-                XmlUtil.addElementHtml( strXml, XmlContent.TAG_PAGE_NAME, menuPage.getName( ) );
-                XmlUtil.addElementHtml( strXml, XmlContent.TAG_CURRENT_PAGE_ID, strCurrentPageId );
-
-                Collection<Page> listSubLevelMenuPages = PageHome.getChildPagesMinimalData( menuPage.getId( ) );
-
-                // add element submenu-list only if list not empty
-                if ( !listSubLevelMenuPages.isEmpty( ) )
-                {
-                    // Seek of the sub-menus
-                    XmlUtil.beginElement( strXml, XmlContent.TAG_SUBLEVEL_MENU_LIST );
-
-                    int nSubLevelMenuIndex = 1;
-
-                    for ( Page subLevelMenuPage : listSubLevelMenuPages )
-                    {
-                        if ( ( subLevelMenuPage.isVisible( request ) ) || ( nMode == MODE_ADMIN ) )
-                        {
-                            XmlUtil.beginElement( strXml, XmlContent.TAG_SUBLEVEL_MENU );
-                            XmlUtil.addElement( strXml, XmlContent.TAG_MENU_INDEX, nMenuIndex );
-                            XmlUtil.addElement( strXml, XmlContent.TAG_SUBLEVEL_INDEX, nSubLevelMenuIndex );
-                            XmlUtil.addElement( strXml, XmlContent.TAG_PAGE_ID, subLevelMenuPage.getId( ) );
-                            XmlUtil.addElementHtml( strXml, XmlContent.TAG_PAGE_NAME, subLevelMenuPage.getName( ) );
-                            XmlUtil.endElement( strXml, XmlContent.TAG_SUBLEVEL_MENU );
-                            XmlUtil.addElementHtml( strXml, XmlContent.TAG_CURRENT_PAGE_ID, strCurrentPageId );
-                        }
-                    }
-
-                    XmlUtil.endElement( strXml, XmlContent.TAG_SUBLEVEL_MENU_LIST );
-                }
-
-                XmlUtil.endElement( strXml, XmlContent.TAG_MENU );
+                buildPageXml( menuPage, strXml, nMode, nMenuIndex, nCurrentPageId, request );
+                
                 nMenuIndex++;
             }
         }
@@ -211,85 +169,125 @@ public final class PortalMenuService extends AbstractCacheableService implements
         XmlUtil.endElement( strXml, XmlContent.TAG_MENU_LIST );
 
         // Added in v1.3
-        // Use the same stylesheet for normal or admin mode
-        StyleSheet xslSource;
-
-        // Selection of the XSL stylesheet
-        switch( nMode )
-        {
-            case MODE_NORMAL:
-            case MODE_ADMIN:
-                xslSource = PortalComponentHome.getXsl( PORTAL_COMPONENT_MAIN_MENU_ID, MODE_NORMAL );
-
-                break;
-
-            default:
-                xslSource = PortalComponentHome.getXsl( PORTAL_COMPONENT_MAIN_MENU_ID, nMode );
-
-                break;
-        }
-
-        if ( nPart == MENU_INIT )
-        {
-            switch( nMode )
-            {
-                case MODE_NORMAL:
-                case MODE_ADMIN:
-                    xslSource = PortalComponentHome.getXsl( PORTAL_COMPONENT_MENU_INIT_ID, MODE_NORMAL );
-
-                    break;
-
-                default:
-                    xslSource = PortalComponentHome.getXsl( PORTAL_COMPONENT_MENU_INIT_ID, nMode );
-
-                    break;
-            }
-        }
+        StyleSheet xslSource = getMenuXslSource( nMode, nPart );
 
         Properties outputProperties = ModeHome.getOuputXslProperties( nMode );
 
         // Added in v1.3
         // Add a path param for choose url to use in admin or normal mode
-        Map<String, String> mapParamRequest = new HashMap<String, String>( );
+        Map<String, String> mapParamRequest = new HashMap<>( );
         PortalService.setXslPortalPath( mapParamRequest, nMode );
 
         XmlTransformerService xmlTransformerService = new XmlTransformerService( );
 
-        return xmlTransformerService.transformBySourceWithXslCache( strXml.toString( ), xslSource, mapParamRequest, outputProperties );
+        return xmlTransformerService.transformBySourceWithXslCache( strXml.toString( ), xslSource, mapParamRequest,
+                outputProperties );
+    }
+    
+    private void buildPageXml( Page menuPage, StringBuffer strXml, int nMode, int nMenuIndex, int nCurrentPageId, HttpServletRequest request )
+    {
+        XmlUtil.beginElement( strXml, XmlContent.TAG_MENU );
+        XmlUtil.addElement( strXml, XmlContent.TAG_MENU_INDEX, nMenuIndex );
+        XmlUtil.addElement( strXml, XmlContent.TAG_PAGE_ID, menuPage.getId( ) );
+        XmlUtil.addElementHtml( strXml, XmlContent.TAG_PAGE_NAME, menuPage.getName( ) );
+        XmlUtil.addElementHtml( strXml, XmlContent.TAG_CURRENT_PAGE_ID, String.valueOf( nCurrentPageId ) );
+
+        Collection<Page> listSubLevelMenuPages = PageHome.getChildPagesMinimalData( menuPage.getId( ) );
+
+        // add element submenu-list only if list not empty
+        if ( !listSubLevelMenuPages.isEmpty( ) )
+        {
+            // Seek of the sub-menus
+            XmlUtil.beginElement( strXml, XmlContent.TAG_SUBLEVEL_MENU_LIST );
+
+            int nSubLevelMenuIndex = 1;
+
+            for ( Page subLevelMenuPage : listSubLevelMenuPages )
+            {
+                if ( ( subLevelMenuPage.isVisible( request ) ) || ( nMode == MODE_ADMIN ) )
+                {
+                    XmlUtil.beginElement( strXml, XmlContent.TAG_SUBLEVEL_MENU );
+                    XmlUtil.addElement( strXml, XmlContent.TAG_MENU_INDEX, nMenuIndex );
+                    XmlUtil.addElement( strXml, XmlContent.TAG_SUBLEVEL_INDEX, nSubLevelMenuIndex );
+                    XmlUtil.addElement( strXml, XmlContent.TAG_PAGE_ID, subLevelMenuPage.getId( ) );
+                    XmlUtil.addElementHtml( strXml, XmlContent.TAG_PAGE_NAME, subLevelMenuPage.getName( ) );
+                    XmlUtil.endElement( strXml, XmlContent.TAG_SUBLEVEL_MENU );
+                    XmlUtil.addElementHtml( strXml, XmlContent.TAG_CURRENT_PAGE_ID, String.valueOf( nCurrentPageId ) );
+                }
+            }
+
+            XmlUtil.endElement( strXml, XmlContent.TAG_SUBLEVEL_MENU_LIST );
+        }
+
+        XmlUtil.endElement( strXml, XmlContent.TAG_MENU );
+    }
+
+    private StyleSheet getMenuXslSource( int nMode, int nPart )
+    {
+        // Use the same stylesheet for normal or admin mode
+        StyleSheet xslSource;
+
+        // Selection of the XSL stylesheet
+        switch ( nMode )
+        {
+        case MODE_NORMAL:
+        case MODE_ADMIN:
+            xslSource = PortalComponentHome.getXsl( PORTAL_COMPONENT_MAIN_MENU_ID, MODE_NORMAL );
+
+            break;
+
+        default:
+            xslSource = PortalComponentHome.getXsl( PORTAL_COMPONENT_MAIN_MENU_ID, nMode );
+
+            break;
+        }
+
+        if ( nPart == MENU_INIT )
+        {
+            switch ( nMode )
+            {
+            case MODE_NORMAL:
+            case MODE_ADMIN:
+                xslSource = PortalComponentHome.getXsl( PORTAL_COMPONENT_MENU_INIT_ID, MODE_NORMAL );
+
+                break;
+
+            default:
+                xslSource = PortalComponentHome.getXsl( PORTAL_COMPONENT_MENU_INIT_ID, nMode );
+
+                break;
+            }
+        }
+        return xslSource;
     }
 
     /**
      * Returns the key corresponding to the part according to the selected mode
      *
-     * @param nMode
-     *            The mode
-     * @param nPart
-     *            the part
-     * @param request
-     *            The HTTP request
+     * @param nMode   The mode
+     * @param nPart   the part
+     * @param request The HTTP request
      * @return The key as a String
      */
     private String getKey( int nMode, int nPart, HttpServletRequest request )
     {
         String strRoles = "-";
 
-        if ( SecurityService.isAuthenticationEnable( ) )
+        if ( SecurityService.isAuthenticationEnable( ) && request != null )
         {
-            if ( request != null )
-            {
-                LuteceUser user = SecurityService.getInstance( ).getRegisteredUser( request );
+            LuteceUser user = SecurityService.getInstance( ).getRegisteredUser( request );
 
-                if ( ( user != null ) && ( user.getRoles( ) != null ) )
-                {
-                    String [ ] roles = user.getRoles( );
-                    Arrays.sort( roles );
-                    strRoles = StringUtils.join( roles, ',' );
-                }
+            if ( ( user != null ) && ( user.getRoles( ) != null ) )
+            {
+                String[] roles = user.getRoles( );
+                Arrays.sort( roles );
+                strRoles = StringUtils.join( roles, ',' );
             }
         }
 
         StringBuilder sbKey = new StringBuilder( );
-        sbKey.append( "[menu:" ).append( nPart ).append( "][m:" ).append( nMode ).append( "][roles:" ).append( strRoles ).append( ']' );
+        sbKey.append( "[menu:" ).append( nPart ).append( "][m:" ).append( nMode ).append( "][roles:" )
+                .append( strRoles ).append( ']' );
 
         return sbKey.toString( );
     }

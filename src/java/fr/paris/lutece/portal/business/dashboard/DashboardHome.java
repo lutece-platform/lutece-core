@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -46,7 +46,7 @@ import java.util.List;
 public final class DashboardHome
 {
     // Static variable pointed at the DAO instance
-    private static IDashboardDAO _dao = (IDashboardDAO) SpringContextService.getBean( "dashboardDAO" );
+    private static IDashboardDAO _dao = SpringContextService.getBean( "dashboardDAO" );
 
     /**
      * Private constructor - this class need not be instantiated

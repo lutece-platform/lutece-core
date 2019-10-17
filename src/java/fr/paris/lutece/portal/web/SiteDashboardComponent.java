@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -56,7 +56,6 @@ import javax.servlet.http.HttpServletRequest;
 public class SiteDashboardComponent extends DashboardComponent
 {
     // CONSTANTS
-    // private static final int ZONE_1 = 1;
     private static final String BEAN_PAGE_SERVICE = "pageService";
 
     // MARKS
@@ -83,11 +82,11 @@ public class SiteDashboardComponent extends DashboardComponent
     public String getDashboardData( AdminUser user, HttpServletRequest request )
     {
         Right right = RightHome.findByPrimaryKey( getRight( ) );
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<>( );
         model.put( MARK_URL, right.getUrl( ) );
         model.put( MARK_ICON, right.getIconUrl( ) );
 
-        PageService pageService = (PageService) SpringContextService.getBean( BEAN_PAGE_SERVICE );
+        PageService pageService = SpringContextService.getBean( BEAN_PAGE_SERVICE );
         Page page = PageHome.getLastModifiedPage( );
         model.put( MARK_LAST_MODIFIED_PAGE, page );
         model.put( MARK_LAST_MODIFIED_PORTLET, PortletHome.getLastModifiedPortlet( ) );

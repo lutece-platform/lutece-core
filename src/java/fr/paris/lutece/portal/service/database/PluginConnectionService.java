@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -74,9 +74,7 @@ public class PluginConnectionService
     public Connection getConnection( )
     {
         PoolManager poolManager = AppConnectionService.getPoolManager( );
-        Connection conn = poolManager.getConnection( _strPoolName );
-
-        return conn;
+        return poolManager.getConnection( _strPoolName );
     }
 
     /**

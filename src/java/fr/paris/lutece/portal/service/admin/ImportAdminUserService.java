@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -65,7 +65,7 @@ public abstract class ImportAdminUserService extends CSVReaderService
     @Override
     protected List<CSVMessageDescriptor> checkLineOfCSVFile( String [ ] strLineDataArray, int nLineNumber, Locale locale )
     {
-        List<CSVMessageDescriptor> listMessages = new ArrayList<CSVMessageDescriptor>( );
+        List<CSVMessageDescriptor> listMessages = new ArrayList<>( );
 
         int nbMinColumns = getNbMinColumns( );
         if ( ( strLineDataArray == null ) || ( strLineDataArray.length < nbMinColumns ) )
@@ -122,7 +122,7 @@ public abstract class ImportAdminUserService extends CSVReaderService
     @Override
     protected List<CSVMessageDescriptor> getEndOfProcessMessages( int nNbLineParses, int nNbLinesWithoutErrors, Locale locale )
     {
-        List<CSVMessageDescriptor> listMessages = new ArrayList<CSVMessageDescriptor>( );
+        List<CSVMessageDescriptor> listMessages = new ArrayList<>( );
         Object [ ] args = {
                 nNbLineParses, nNbLinesWithoutErrors
         };

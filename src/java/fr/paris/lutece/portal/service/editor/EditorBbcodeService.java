@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -93,9 +93,12 @@ public class EditorBbcodeService implements IEditorBbcodeService
         {
             synchronized( EditorBbcodeService.class )
             {
+                _listParserElement = new ArrayList<>( );
+                _listParserComplexElement = new ArrayList<>( );
                 EditorBbcodeService service = new EditorBbcodeService( );
                 service.init( );
                 _singleton = service;
+                
             }
         }
 
@@ -107,9 +110,6 @@ public class EditorBbcodeService implements IEditorBbcodeService
      */
     public void init( )
     {
-        _listParserElement = new ArrayList<ParserElement>( );
-        _listParserComplexElement = new ArrayList<ParserComplexElement>( );
-
         // init simple elements
         String strParserElements = AppPropertiesService.getProperty( PROPERTY_PARSER_ELEMENTS );
 
@@ -121,10 +121,10 @@ public class EditorBbcodeService implements IEditorBbcodeService
 
             for ( int i = 0; i < tabParserElements.length; i++ )
             {
-                strCodeElement = AppPropertiesService.getProperty( PROPERTY_EDITOR_BBCODE_ELEMENT_PATH + "." + tabParserElements [i] + "."
-                        + CONSTANT_EDITOR_BBCODE_ELEMENT_CODE );
-                strValueElement = AppPropertiesService.getProperty( PROPERTY_EDITOR_BBCODE_ELEMENT_PATH + "." + tabParserElements [i] + "."
-                        + CONSTANT_EDITOR_BBCODE_ELEMENT_VALUE );
+                strCodeElement = AppPropertiesService
+                        .getProperty( PROPERTY_EDITOR_BBCODE_ELEMENT_PATH + "." + tabParserElements [i] + "." + CONSTANT_EDITOR_BBCODE_ELEMENT_CODE );
+                strValueElement = AppPropertiesService
+                        .getProperty( PROPERTY_EDITOR_BBCODE_ELEMENT_PATH + "." + tabParserElements [i] + "." + CONSTANT_EDITOR_BBCODE_ELEMENT_VALUE );
                 _listParserElement.add( new ParserElement( strCodeElement, strValueElement ) );
             }
         }
@@ -149,8 +149,8 @@ public class EditorBbcodeService implements IEditorBbcodeService
             {
                 strTagName = AppPropertiesService.getProperty( PROPERTY_EDITOR_BBCODE_COMPLEX_ELEMENT_PATH + "." + tabParserComplexElements [i] + "."
                         + CONSTANT_EDITOR_BBCODE_COMPLEX_ELEMENT_TAG_NAME );
-                strOpenSubstWithParam = AppPropertiesService.getProperty( PROPERTY_EDITOR_BBCODE_COMPLEX_ELEMENT_PATH + "." + tabParserComplexElements [i]
-                        + "." + CONSTANT_EDITOR_BBCODE_COMPLEX_ELEMENT_OPEN_SUBST_WITH_PARAM );
+                strOpenSubstWithParam = AppPropertiesService.getProperty( PROPERTY_EDITOR_BBCODE_COMPLEX_ELEMENT_PATH + "." + tabParserComplexElements [i] + "."
+                        + CONSTANT_EDITOR_BBCODE_COMPLEX_ELEMENT_OPEN_SUBST_WITH_PARAM );
                 strCloseSubstWithParam = AppPropertiesService.getProperty( PROPERTY_EDITOR_BBCODE_COMPLEX_ELEMENT_PATH + "." + tabParserComplexElements [i]
                         + "." + CONSTANT_EDITOR_BBCODE_COMPLEX_ELEMENT_CLOSE_SUBST_WITH_PARAM );
                 strOpenSubstWithoutParam = AppPropertiesService.getProperty( PROPERTY_EDITOR_BBCODE_COMPLEX_ELEMENT_PATH + "." + tabParserComplexElements [i]
@@ -159,12 +159,12 @@ public class EditorBbcodeService implements IEditorBbcodeService
                         + "." + CONSTANT_EDITOR_BBCODE_COMPLEX_ELEMENT_CLOSE_SUBST_WITHOUT_PARAM );
                 strInternalSubst = AppPropertiesService.getProperty( PROPERTY_EDITOR_BBCODE_COMPLEX_ELEMENT_PATH + "." + tabParserComplexElements [i] + "."
                         + CONSTANT_EDITOR_BBCODE_COMPLEX_ELEMENT_INTERNAL_SUBST );
-                bProcessInternalTags = AppPropertiesService.getPropertyBoolean( PROPERTY_EDITOR_BBCODE_COMPLEX_ELEMENT_PATH + "."
-                        + tabParserComplexElements [i] + "." + CONSTANT_EDITOR_BBCODE_COMPLEX_ELEMENT_PROCESS_INTERNAL_TAGS, false );
+                bProcessInternalTags = AppPropertiesService.getPropertyBoolean( PROPERTY_EDITOR_BBCODE_COMPLEX_ELEMENT_PATH + "." + tabParserComplexElements [i]
+                        + "." + CONSTANT_EDITOR_BBCODE_COMPLEX_ELEMENT_PROCESS_INTERNAL_TAGS, false );
                 bAcceptParam = AppPropertiesService.getPropertyBoolean( PROPERTY_EDITOR_BBCODE_COMPLEX_ELEMENT_PATH + "." + tabParserComplexElements [i] + "."
                         + CONSTANT_EDITOR_BBCODE_COMPLEX_ELEMENT_ACCEPT_PARAM, false );
-                bRequiresQuotedParam = AppPropertiesService.getPropertyBoolean( PROPERTY_EDITOR_BBCODE_COMPLEX_ELEMENT_PATH + "."
-                        + tabParserComplexElements [i] + "." + CONSTANT_EDITOR_BBCODE_COMPLEX_ELEMENT_REQUIRES_QUOTED_PARAM, false );
+                bRequiresQuotedParam = AppPropertiesService.getPropertyBoolean( PROPERTY_EDITOR_BBCODE_COMPLEX_ELEMENT_PATH + "." + tabParserComplexElements [i]
+                        + "." + CONSTANT_EDITOR_BBCODE_COMPLEX_ELEMENT_REQUIRES_QUOTED_PARAM, false );
 
                 _listParserComplexElement.add( new ParserComplexElement( strTagName, strOpenSubstWithParam, strCloseSubstWithParam, strOpenSubstWithoutParam,
                         strCloseSubstWithoutParam, strInternalSubst, bProcessInternalTags, bAcceptParam, bRequiresQuotedParam ) );

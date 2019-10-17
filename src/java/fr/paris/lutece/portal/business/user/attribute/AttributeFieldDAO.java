@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -80,17 +80,17 @@ public class AttributeFieldDAO implements IAttributeFieldDAO
      */
     private int newPrimaryKey( )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_NEW_PK );
-        daoUtil.executeQuery( );
-
         int nKey = 1;
-
-        if ( daoUtil.next( ) )
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_NEW_PK ) )
         {
-            nKey = daoUtil.getInt( 1 ) + 1;
-        }
+            daoUtil.executeQuery( );
 
-        daoUtil.free( );
+            if ( daoUtil.next( ) )
+            {
+                nKey = daoUtil.getInt( 1 ) + 1;
+            }
+
+        }
 
         return nKey;
     }
@@ -102,19 +102,19 @@ public class AttributeFieldDAO implements IAttributeFieldDAO
      */
     private int newPosition( )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_NEW_POSITION );
-        daoUtil.executeQuery( );
-
         int nPos;
-
-        if ( !daoUtil.next( ) )
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_NEW_POSITION ) )
         {
-            // if the table is empty
-            nPos = 1;
-        }
+            daoUtil.executeQuery( );
 
-        nPos = daoUtil.getInt( 1 ) + 1;
-        daoUtil.free( );
+            if ( !daoUtil.next( ) )
+            {
+                // if the table is empty
+                nPos = 1;
+            }
+
+            nPos = daoUtil.getInt( 1 ) + 1;
+        }
 
         return nPos;
     }
@@ -129,30 +129,30 @@ public class AttributeFieldDAO implements IAttributeFieldDAO
     @Override
     public AttributeField load( int nIdField )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT );
-        daoUtil.setInt( 1, nIdField );
-        daoUtil.executeQuery( );
-
         AttributeField attributeField = null;
-
-        if ( daoUtil.next( ) )
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT ) )
         {
-            attributeField = new AttributeField( );
-            attributeField.setIdField( daoUtil.getInt( 1 ) );
+            daoUtil.setInt( 1, nIdField );
+            daoUtil.executeQuery( );
 
-            IAttribute attribute = selectAttributeByIdField( nIdField );
-            attributeField.setAttribute( attribute );
-            attributeField.setTitle( daoUtil.getString( 3 ) );
-            attributeField.setValue( daoUtil.getString( 4 ) );
-            attributeField.setDefaultValue( daoUtil.getBoolean( 5 ) );
-            attributeField.setHeight( daoUtil.getInt( 6 ) );
-            attributeField.setWidth( daoUtil.getInt( 7 ) );
-            attributeField.setMaxSizeEnter( daoUtil.getInt( 8 ) );
-            attributeField.setMultiple( daoUtil.getBoolean( 9 ) );
-            attributeField.setPosition( daoUtil.getInt( 10 ) );
+            if ( daoUtil.next( ) )
+            {
+                attributeField = new AttributeField( );
+                attributeField.setIdField( daoUtil.getInt( 1 ) );
+
+                IAttribute attribute = selectAttributeByIdField( nIdField );
+                attributeField.setAttribute( attribute );
+                attributeField.setTitle( daoUtil.getString( 3 ) );
+                attributeField.setValue( daoUtil.getString( 4 ) );
+                attributeField.setDefaultValue( daoUtil.getBoolean( 5 ) );
+                attributeField.setHeight( daoUtil.getInt( 6 ) );
+                attributeField.setWidth( daoUtil.getInt( 7 ) );
+                attributeField.setMaxSizeEnter( daoUtil.getInt( 8 ) );
+                attributeField.setMultiple( daoUtil.getBoolean( 9 ) );
+                attributeField.setPosition( daoUtil.getInt( 10 ) );
+            }
+
         }
-
-        daoUtil.free( );
 
         return attributeField;
     }
@@ -167,43 +167,33 @@ public class AttributeFieldDAO implements IAttributeFieldDAO
     @Override
     public IAttribute selectAttributeByIdField( int nIdField )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_ATTRIBUTE_BY_ID_FIELD );
-        daoUtil.setInt( 1, nIdField );
-        daoUtil.executeQuery( );
-
         IAttribute attribute = null;
-
-        if ( daoUtil.next( ) )
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_ATTRIBUTE_BY_ID_FIELD ) )
         {
-            try
+            daoUtil.setInt( 1, nIdField );
+            daoUtil.executeQuery( );
+
+            if ( daoUtil.next( ) )
             {
-                attribute = (IAttribute) Class.forName( daoUtil.getString( 1 ) ).newInstance( );
-            }
-            catch( ClassNotFoundException e )
-            {
-                // class doesn't exist
-                AppLogService.error( e );
-            }
-            catch( InstantiationException e )
-            {
-                // Class is abstract or is an interface or haven't accessible
-                // builder
-                AppLogService.error( e );
-            }
-            catch( IllegalAccessException e )
-            {
-                // can't access to rhe class
-                AppLogService.error( e );
+                try
+                {
+                    attribute = (IAttribute) Class.forName( daoUtil.getString( 1 ) ).newInstance( );
+                }
+                catch( IllegalAccessException | InstantiationException | ClassNotFoundException e )
+                {
+                    AppLogService.error( e );
+                }
+                if ( attribute != null )
+                {
+                    attribute.setIdAttribute( daoUtil.getInt( 2 ) );
+                    attribute.setTitle( daoUtil.getString( 3 ) );
+                    attribute.setHelpMessage( daoUtil.getString( 4 ) );
+                    attribute.setMandatory( daoUtil.getBoolean( 5 ) );
+                    attribute.setPosition( daoUtil.getInt( 6 ) );
+                }
             }
 
-            attribute.setIdAttribute( daoUtil.getInt( 2 ) );
-            attribute.setTitle( daoUtil.getString( 3 ) );
-            attribute.setHelpMessage( daoUtil.getString( 4 ) );
-            attribute.setMandatory( daoUtil.getBoolean( 5 ) );
-            attribute.setPosition( daoUtil.getInt( 6 ) );
         }
-
-        daoUtil.free( );
 
         return attribute;
     }
@@ -218,31 +208,31 @@ public class AttributeFieldDAO implements IAttributeFieldDAO
     @Override
     public List<AttributeField> selectAttributeFieldsByIdAttribute( int nIdAttribute )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_ATTRIBUTE_FIELDS_BY_ID_ATTRIBUTE );
-        daoUtil.setInt( 1, nIdAttribute );
-        daoUtil.executeQuery( );
-
-        List<AttributeField> listAttributeFields = new ArrayList<AttributeField>( );
-
-        while ( daoUtil.next( ) )
+        List<AttributeField> listAttributeFields = new ArrayList<>( );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_ATTRIBUTE_FIELDS_BY_ID_ATTRIBUTE ) )
         {
-            AttributeField attributeField = new AttributeField( );
-            attributeField.setIdField( daoUtil.getInt( 1 ) );
+            daoUtil.setInt( 1, nIdAttribute );
+            daoUtil.executeQuery( );
 
-            IAttribute attribute = selectAttributeByIdField( attributeField.getIdField( ) );
-            attributeField.setAttribute( attribute );
-            attributeField.setTitle( daoUtil.getString( 3 ) );
-            attributeField.setValue( daoUtil.getString( 4 ) );
-            attributeField.setDefaultValue( daoUtil.getBoolean( 5 ) );
-            attributeField.setHeight( daoUtil.getInt( 6 ) );
-            attributeField.setWidth( daoUtil.getInt( 7 ) );
-            attributeField.setMaxSizeEnter( daoUtil.getInt( 8 ) );
-            attributeField.setMultiple( daoUtil.getBoolean( 9 ) );
-            attributeField.setPosition( daoUtil.getInt( 10 ) );
-            listAttributeFields.add( attributeField );
+            while ( daoUtil.next( ) )
+            {
+                AttributeField attributeField = new AttributeField( );
+                attributeField.setIdField( daoUtil.getInt( 1 ) );
+
+                IAttribute attribute = selectAttributeByIdField( attributeField.getIdField( ) );
+                attributeField.setAttribute( attribute );
+                attributeField.setTitle( daoUtil.getString( 3 ) );
+                attributeField.setValue( daoUtil.getString( 4 ) );
+                attributeField.setDefaultValue( daoUtil.getBoolean( 5 ) );
+                attributeField.setHeight( daoUtil.getInt( 6 ) );
+                attributeField.setWidth( daoUtil.getInt( 7 ) );
+                attributeField.setMaxSizeEnter( daoUtil.getInt( 8 ) );
+                attributeField.setMultiple( daoUtil.getBoolean( 9 ) );
+                attributeField.setPosition( daoUtil.getInt( 10 ) );
+                listAttributeFields.add( attributeField );
+            }
+
         }
-
-        daoUtil.free( );
 
         return listAttributeFields;
     }
@@ -258,20 +248,21 @@ public class AttributeFieldDAO implements IAttributeFieldDAO
     public int insert( AttributeField attributeField )
     {
         int nNewPrimaryKey = newPrimaryKey( );
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT );
-        daoUtil.setInt( 1, nNewPrimaryKey );
-        daoUtil.setInt( 2, attributeField.getAttribute( ).getIdAttribute( ) );
-        daoUtil.setString( 3, attributeField.getTitle( ) );
-        daoUtil.setString( 4, attributeField.getValue( ) );
-        daoUtil.setBoolean( 5, attributeField.isDefaultValue( ) );
-        daoUtil.setInt( 6, attributeField.getHeight( ) );
-        daoUtil.setInt( 7, attributeField.getWidth( ) );
-        daoUtil.setInt( 8, attributeField.getMaxSizeEnter( ) );
-        daoUtil.setBoolean( 9, attributeField.isMultiple( ) );
-        daoUtil.setInt( 10, newPosition( ) );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT ) )
+        {
+            daoUtil.setInt( 1, nNewPrimaryKey );
+            daoUtil.setInt( 2, attributeField.getAttribute( ).getIdAttribute( ) );
+            daoUtil.setString( 3, attributeField.getTitle( ) );
+            daoUtil.setString( 4, attributeField.getValue( ) );
+            daoUtil.setBoolean( 5, attributeField.isDefaultValue( ) );
+            daoUtil.setInt( 6, attributeField.getHeight( ) );
+            daoUtil.setInt( 7, attributeField.getWidth( ) );
+            daoUtil.setInt( 8, attributeField.getMaxSizeEnter( ) );
+            daoUtil.setBoolean( 9, attributeField.isMultiple( ) );
+            daoUtil.setInt( 10, newPosition( ) );
 
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+            daoUtil.executeUpdate( );
+        }
 
         return nNewPrimaryKey;
     }
@@ -285,19 +276,20 @@ public class AttributeFieldDAO implements IAttributeFieldDAO
     @Override
     public void store( AttributeField attributeField )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE );
-        daoUtil.setString( 1, attributeField.getTitle( ) );
-        daoUtil.setString( 2, attributeField.getValue( ) );
-        daoUtil.setBoolean( 3, attributeField.isDefaultValue( ) );
-        daoUtil.setInt( 4, attributeField.getHeight( ) );
-        daoUtil.setInt( 5, attributeField.getWidth( ) );
-        daoUtil.setInt( 6, attributeField.getMaxSizeEnter( ) );
-        daoUtil.setBoolean( 7, attributeField.isMultiple( ) );
-        daoUtil.setInt( 8, attributeField.getPosition( ) );
-        daoUtil.setInt( 9, attributeField.getIdField( ) );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE ) )
+        {
+            daoUtil.setString( 1, attributeField.getTitle( ) );
+            daoUtil.setString( 2, attributeField.getValue( ) );
+            daoUtil.setBoolean( 3, attributeField.isDefaultValue( ) );
+            daoUtil.setInt( 4, attributeField.getHeight( ) );
+            daoUtil.setInt( 5, attributeField.getWidth( ) );
+            daoUtil.setInt( 6, attributeField.getMaxSizeEnter( ) );
+            daoUtil.setBoolean( 7, attributeField.isMultiple( ) );
+            daoUtil.setInt( 8, attributeField.getPosition( ) );
+            daoUtil.setInt( 9, attributeField.getIdField( ) );
 
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+            daoUtil.executeUpdate( );
+        }
     }
 
     /**
@@ -309,11 +301,12 @@ public class AttributeFieldDAO implements IAttributeFieldDAO
     @Override
     public void delete( int nIdField )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE );
-        daoUtil.setInt( 1, nIdField );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE ) )
+        {
+            daoUtil.setInt( 1, nIdField );
 
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+            daoUtil.executeUpdate( );
+        }
     }
 
     /**
@@ -325,10 +318,11 @@ public class AttributeFieldDAO implements IAttributeFieldDAO
     @Override
     public void deleteAttributeFieldsFromIdAttribute( int nIdAttribute )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE_BY_ID_ATTRIBUTE );
-        daoUtil.setInt( 1, nIdAttribute );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE_BY_ID_ATTRIBUTE ) )
+        {
+            daoUtil.setInt( 1, nIdAttribute );
 
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+            daoUtil.executeUpdate( );
+        }
     }
 }

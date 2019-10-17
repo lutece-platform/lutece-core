@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -78,7 +78,7 @@ public class PageIndexer implements SearchIndexer
     protected static final String PROPERTY_SEARCH_PAGE_URL = "search.pageSearch.baseUrl";
     protected static final String PROPERTY_INDEXER_ENABLE = "search.pageIndexer.enable";
     protected static final String PARAMETER_PAGE_ID = "page_id";
-    protected static IPageService _pageService = (IPageService) SpringContextService.getBean( "pageService" );
+    private static IPageService _pageService = SpringContextService.getBean( "pageService" );
     private static final String INDEXER_DESCRIPTION = "Indexer service for pages";
     private static final String INDEXER_VERSION = "1.0.0";
 
@@ -121,7 +121,7 @@ public class PageIndexer implements SearchIndexer
     @Override
     public List<Document> getDocuments( String nIdDocument ) throws IOException, InterruptedException, SiteMessageException
     {
-        ArrayList<Document> listDocuments = new ArrayList<Document>( );
+        ArrayList<Document> listDocuments = new ArrayList<>( );
         String strPageBaseUrl = AppPropertiesService.getProperty( PROPERTY_PAGE_BASE_URL );
 
         Page page = PageHome.getPage( Integer.parseInt( nIdDocument ) );
@@ -228,11 +228,7 @@ public class PageIndexer implements SearchIndexer
         {
             new HtmlParser( ).parse( new ByteArrayInputStream( strPageContent.getBytes( ) ), handler, metadata, new ParseContext( ) );
         }
-        catch( SAXException e )
-        {
-            throw new AppException( "Error during page parsing." );
-        }
-        catch( TikaException e )
+        catch( TikaException | SAXException e )
         {
             throw new AppException( "Error during page parsing." );
         }
@@ -303,7 +299,7 @@ public class PageIndexer implements SearchIndexer
     @Override
     public List<String> getListType( )
     {
-        List<String> listType = new ArrayList<String>( );
+        List<String> listType = new ArrayList<>( );
         listType.add( INDEX_TYPE_PAGE );
 
         return listType;

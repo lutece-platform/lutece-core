@@ -1,20 +1,30 @@
 <#if listExtendableResourceActions?? && listExtendableResourceActions?has_content>
-	<div class="btn-group">
-		<a class="dropdown-toggle btn btn-primary btn-xs" id="extender" data-toggle="dropdown" href="#">
-			<i class="fa fa-plus-square"></i>
-			<span class="hidden-phone">&nbsp;#i18n{portal.admin.resource.extend}</span> <b class="caret"></b>
-		</a>
-		<ul class="dropdown-menu" role="menu" aria-labelledby="extender" >
-			<#list listExtendableResourceActions as resourceTypeAction>
-				<#if resourceTypeAction.buttonTemplate?has_content>
-					<form class="form-submenu" method="post" action="jsp/admin/resource/DoProcessExtendableResourceAction.jsp">
-						<li class="dropdown-submenu">
-							<#include resourceTypeAction.buttonTemplate />
-						</li>
-					</form>
-				</#if>
-			</#list>
-		</ul>
-	</div>
-
+	<@extendableResourceAction>
+		<#list listExtendableResourceActions as resourceTypeAction>
+			<@extendableResourceActionList action=resourceTypeAction />
+		</#list>
+	</@extendableResourceAction>
 </#if>
+
+<#-- extendableResourceAction + extendableResourceActionList -->
+<#macro extendableResourceAction >
+<div class="btn-group">
+	<a class="dropdown-toggle btn btn-primary btn-xs" id="extender" data-toggle="dropdown" href="#">
+		<i class="fa fa-plus-square"></i>
+		<span class="hidden-xs"> #i18n{portal.admin.resource.extend}</span> <b class="caret"></b>
+	</a>
+	<ul class="dropdown-menu" role="menu" aria-labelledby="extender">
+		<#nested>
+	</ul>
+</div>
+</#macro>
+
+<#macro extendableResourceActionList action >
+<#if action.buttonTemplate?has_content>
+	<@tform class="form-submenu" action='jsp/admin/resource/DoProcessExtendableResourceAction.jsp'>
+		<li class="dropdown-submenu">
+            <#include action.buttonTemplate />
+        </li>
+	</@tform>
+</#if>
+</#macro>

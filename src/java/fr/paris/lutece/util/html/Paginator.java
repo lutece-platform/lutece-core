@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -123,7 +123,7 @@ public class Paginator<E> extends AbstractPaginator<E>
             nMax = nMaxPage;
         }
 
-        List<E> list = new ArrayList<E>( );
+        List<E> list = new ArrayList<>( );
 
         for ( int i = nStartIndex; i < nMax; i++ )
         {

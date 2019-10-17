@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -50,17 +50,13 @@ import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.rbac.RBACService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
-import fr.paris.lutece.portal.service.util.AppPathService;
-import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.service.xsl.XslExportResourceIdService;
 import fr.paris.lutece.portal.web.admin.PluginAdminPageJspBean;
 import fr.paris.lutece.portal.web.upload.MultipartHttpServletRequest;
-import fr.paris.lutece.portal.web.util.LocalizedPaginator;
 import fr.paris.lutece.util.ReferenceItem;
 import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.filesystem.FileSystemUtil;
 import fr.paris.lutece.util.html.HtmlTemplate;
-import fr.paris.lutece.util.html.Paginator;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.lang.StringUtils;
@@ -73,7 +69,6 @@ import java.io.OutputStream;
 
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -100,18 +95,11 @@ public class XslExportJspBean extends PluginAdminPageJspBean
     private static final long serialVersionUID = -8697851692630602527L;
 
     // templates
-    private static final String TEMPLATE_MANAGE_XSL_EXPORT = "admin/xsl/manage_xsl_export.html";
     private static final String TEMPLATE_CREATE_XSL_EXPORT = "admin/xsl/create_xsl_export.html";
     private static final String TEMPLATE_MODIFY_XSL_EXPORT = "admin/xsl/modify_xsl_export.html";
 
     // Markers
-    private static final String MARK_XSL_EXPORT_LIST = "xsl_export_list";
     private static final String MARK_XSL_EXPORT = "xsl_export";
-    private static final String MARK_PAGINATOR = "paginator";
-    private static final String MARK_NB_ITEMS_PER_PAGE = "nb_items_per_page";
-    private static final String MARK_PERMISSION_CREATE = "right_create";
-    private static final String MARK_PERMISSION_MODIFY = "right_modify";
-    private static final String MARK_PERMISSION_DELETE = "right_delete";
     private static final String MARK_LIST_PLUGINS = "list_plugins";
 
     // parameters form
@@ -120,7 +108,6 @@ public class XslExportJspBean extends PluginAdminPageJspBean
     private static final String PARAMETER_TITLE = "title";
     private static final String PARAMETER_DESCRIPTION = "description";
     private static final String PARAMETER_EXTENSION = "extension";
-    private static final String PARAMETER_PAGE_INDEX = "page_index";
     private static final String PARAMETER_PLUGIN = "plugin";
 
     // other constants
@@ -130,64 +117,22 @@ public class XslExportJspBean extends PluginAdminPageJspBean
     private static final String MESSAGE_CONFIRM_REMOVE_XSL_EXPORT = "portal.xsl.message.confirm_remove_xsl_export";
     private static final String MESSAGE_MANDATORY_FIELD = "portal.util.message.mandatoryField";
 
-    // private static final String MESSAGE_CAN_NOT_REMOVE_XSL_EXPORT = "portal.xsl.message.can_not_remove_xsl_export";
     private static final String FIELD_TITLE = "portal.xsl.create_xsl_export.label_title";
     private static final String FIELD_DESCRIPTION = "portal.xsl.create_xsl_export.label_description";
     private static final String FIELD_EXTENSION = "portal.xsl.create_xsl_export.label_extension";
 
-    // private static final String FIELD_EXTENSION = "portal.xsl.create_xsl_export.label_extension";
     private static final String FIELD_FILE = "portal.xsl.create_xsl_export.label_file";
     private static final String MESSAGE_XML_NOT_VALID = "portal.xsl.message.xml_not_valid";
     private static final String MESSAGE_PERMISSION_DENIED = "portal.xsl.message.permission_denied";
 
     // properties
-    private static final String PROPERTY_ITEM_PER_PAGE = "paginator.xsl.itemsPerPage";
-    private static final String PROPERTY_MANAGE_XSL_EXPORT_TITLE = "portal.xsl.manage_xsl_export.page_title";
     private static final String PROPERTY_MODIFY_XSL_EXPORT_TITLE = "portal.xsl.modify_xsl_export.title";
     private static final String PROPERTY_CREATE_XSL_EXPORT_TITLE = "portal.xsl.create_xsl_export.title";
 
     // Jsp Definition
-    private static final String JSP_MANAGE_XSL_EXPORT = "jsp/admin/xsl/ManageXslExport.jsp";
+    private static final String ANCHOR_ADMIN_DASHBOARDS = "xslexport";
     private static final String JSP_DO_REMOVE_XSL_EXPORT = "jsp/admin/xsl/DoRemoveXslExport.jsp";
 
-    // session fields
-    private int _nDefaultItemsPerPage = AppPropertiesService.getPropertyInt( PROPERTY_ITEM_PER_PAGE, 15 );
-    private String _strCurrentPageIndex;
-    private int _nItemsPerPage;
-
-    /**
-     * Return the xsl export management page ( list of export format )
-     * 
-     * @param request
-     *            The Http request
-     * @return Html of the xsl export management page
-     */
-    public String getManageXslExport( HttpServletRequest request )
-    {
-        HashMap<String, Object> model = new HashMap<String, Object>( );
-        List<XslExport> listXslExport = XslExportHome.getList( );
-        _strCurrentPageIndex = Paginator.getPageIndex( request, Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex );
-        _nItemsPerPage = Paginator.getItemsPerPage( request, Paginator.PARAMETER_ITEMS_PER_PAGE, _nItemsPerPage, _nDefaultItemsPerPage );
-
-        model.put( MARK_PERMISSION_CREATE,
-                RBACService.isAuthorized( XslExport.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID, XslExportResourceIdService.PERMISSION_CREATE, getUser( ) ) );
-        model.put( MARK_PERMISSION_MODIFY,
-                RBACService.isAuthorized( XslExport.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID, XslExportResourceIdService.PERMISSION_MODIFY, getUser( ) ) );
-        model.put( MARK_PERMISSION_DELETE,
-                RBACService.isAuthorized( XslExport.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID, XslExportResourceIdService.PERMISSION_DELETE, getUser( ) ) );
-
-        LocalizedPaginator<XslExport> paginator = new LocalizedPaginator<XslExport>( listXslExport, _nItemsPerPage, getJspManageXslExport( request ),
-                PARAMETER_PAGE_INDEX, _strCurrentPageIndex, getLocale( ) );
-
-        model.put( MARK_PAGINATOR, paginator );
-        model.put( MARK_NB_ITEMS_PER_PAGE, EMPTY_STRING + _nItemsPerPage );
-        model.put( MARK_XSL_EXPORT_LIST, paginator.getPageItems( ) );
-        setPageTitleProperty( PROPERTY_MANAGE_XSL_EXPORT_TITLE );
-
-        HtmlTemplate templateList = AppTemplateService.getTemplate( TEMPLATE_MANAGE_XSL_EXPORT, getLocale( ), model );
-
-        return getAdminPage( templateList.getHtml( ) );
-    }
 
     /**
      * Gets the xsl export creation page
@@ -200,7 +145,7 @@ public class XslExportJspBean extends PluginAdminPageJspBean
      */
     public String getCreateXslExport( HttpServletRequest request ) throws AccessDeniedException
     {
-        HashMap<String, Object> model = new HashMap<String, Object>( );
+        HashMap<String, Object> model = new HashMap<>( );
 
         Collection<Plugin> listPlugins = PluginService.getPluginList( );
         ReferenceList refListPlugins = new ReferenceList( );
@@ -262,7 +207,7 @@ public class XslExportJspBean extends PluginAdminPageJspBean
 
         if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_CREATE_XSL_EXPORT ) )
         {
-            throw new AccessDeniedException( "Invalid security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
 
         if ( xslExport.getFile( ) != null )
@@ -293,7 +238,7 @@ public class XslExportJspBean extends PluginAdminPageJspBean
 
         XslExport xslExport;
         String strIdXslExport = request.getParameter( PARAMETER_ID_XSL_EXPORT );
-        HashMap<String, Object> model = new HashMap<String, Object>( );
+        HashMap<String, Object> model = new HashMap<>( );
         int nIdXslExport = Integer.parseInt( strIdXslExport );
         xslExport = XslExportHome.findByPrimaryKey( nIdXslExport );
         model.put( MARK_XSL_EXPORT, xslExport );
@@ -356,7 +301,7 @@ public class XslExportJspBean extends PluginAdminPageJspBean
         }
         if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_MODIFY_XSL_EXPORT ) )
         {
-            throw new AccessDeniedException( "Invalid security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
 
         // if xslExport
@@ -406,10 +351,10 @@ public class XslExportJspBean extends PluginAdminPageJspBean
 
         Map<String, String> parameters = new HashMap<>( );
         parameters.put( PARAMETER_ID_XSL_EXPORT, strIdXslExport );
-        parameters.put( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, JSP_DO_REMOVE_XSL_EXPORT ) );
+        parameters.put( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, JSP_DO_REMOVE_XSL_EXPORT ) );
 
-        return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_REMOVE_XSL_EXPORT, JSP_DO_REMOVE_XSL_EXPORT, AdminMessage.TYPE_CONFIRMATION, parameters );
+        return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_REMOVE_XSL_EXPORT, JSP_DO_REMOVE_XSL_EXPORT, AdminMessage.TYPE_CONFIRMATION,
+                parameters );
     }
 
     /**
@@ -429,22 +374,13 @@ public class XslExportJspBean extends PluginAdminPageJspBean
         }
         if ( !SecurityTokenService.getInstance( ).validate( request, JSP_DO_REMOVE_XSL_EXPORT ) )
         {
-            throw new AccessDeniedException( "Invalid security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
 
-        // ArrayList<String> listErrors = new ArrayList<String>( );
         String strIdXslExport = request.getParameter( PARAMETER_ID_XSL_EXPORT );
         int nIdXslExport = Integer.parseInt( strIdXslExport );
         XslExport xslExport = XslExportHome.findByPrimaryKey( nIdXslExport );
 
-        // if ( !XslExportRemovalListenerService.getService( ).checkForRemoval( strIdXslExport, listErrors, getLocale( ) ) )
-        // {
-        // String strCause = AdminMessageService.getFormattedList( listErrors, getLocale( ) );
-        // Object[] args =
-        // { strCause };
-        //
-        // return AdminMessageService.getMessageUrl( request, MESSAGE_CAN_NOT_REMOVE_XSL_EXPORT, args, AdminMessage.TYPE_STOP );
-        // }
         XslExportHome.remove( nIdXslExport );
 
         if ( xslExport.getFile( ) != null )
@@ -603,7 +539,7 @@ public class XslExportJspBean extends PluginAdminPageJspBean
      */
     private String getJspManageXslExport( HttpServletRequest request )
     {
-        return AppPathService.getBaseUrl( request ) + JSP_MANAGE_XSL_EXPORT;
+        return getAdminDashboardsUrl( request , ANCHOR_ADMIN_DASHBOARDS );
     }
 
     /**

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -120,12 +120,7 @@ public final class RBACService
     {
         Map<String, AdminRole> userRoles = user.getRoles( );
 
-        if ( userRoles.containsKey( strRole ) )
-        {
-            return true;
-        }
-
-        return false;
+        return userRoles.containsKey( strRole );
     }
 
     /**
@@ -143,7 +138,7 @@ public final class RBACService
      */
     public static <E extends RBACResource> Collection<E> getAuthorizedCollection( Collection<E> collection, String strPermission, AdminUser user )
     {
-        Collection<E> list = new ArrayList<E>( );
+        Collection<E> list = new ArrayList<>( );
 
         for ( E resource : collection )
         {
@@ -199,7 +194,7 @@ public final class RBACService
      */
     public static <E extends RBACAction> Collection<E> getAuthorizedActionsCollection( Collection<E> collection, RBACResource resource, AdminUser user )
     {
-        Collection<E> list = new ArrayList<E>( );
+        Collection<E> list = new ArrayList<>( );
 
         for ( E action : collection )
         {

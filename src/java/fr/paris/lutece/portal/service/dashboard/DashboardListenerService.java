@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -48,7 +48,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class DashboardListenerService
 {
-    private List<DashboardListener> _listRegisteredListeners = new ArrayList<DashboardListener>( );
+    private List<DashboardListener> _listRegisteredListeners = new ArrayList<>( );
 
     /**
      * Register a new dashboard listener

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -130,7 +130,7 @@ public final class BeanValidationUtil
      */
     public static <T> List<ValidationError> validate( T bean, Locale locale, ValidationErrorConfig config )
     {
-        List<ValidationError> list = new ArrayList<ValidationError>( );
+        List<ValidationError> list = new ArrayList<>( );
         Set<ConstraintViolation<T>> setViolation = validate( bean );
 
         for ( ConstraintViolation<T> cv : setViolation )

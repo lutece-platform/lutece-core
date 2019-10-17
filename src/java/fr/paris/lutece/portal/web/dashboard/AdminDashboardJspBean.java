@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -65,6 +65,8 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class AdminDashboardJspBean extends AdminFeaturesPageJspBean
 {
+    public static final String TEMPLATE_MANAGE_DASHBOARDS = "/admin/dashboard/admin/manage_dashboards.html";
+
     // Constants
     public static final String RIGHT_MANAGE_ADMINDASHBOARD = "CORE_ADMINDASHBOARD_MANAGEMENT";
 
@@ -88,7 +90,6 @@ public class AdminDashboardJspBean extends AdminFeaturesPageJspBean
 
     // Templates
     private static final String TEMPLATE_VIEW_DASHBOARDS = "/admin/dashboard/admin/view_dashboards.html";
-    private static final String TEMPLATE_MANAGE_DASHBOARDS = "/admin/dashboard/admin/manage_dashboards.html";
 
     // Jsp
     private static final String JSP_MANAGE_DASHBOARDS = "ManageAdminDashboards.jsp";
@@ -105,7 +106,7 @@ public class AdminDashboardJspBean extends AdminFeaturesPageJspBean
     public String getAdminDashboards( HttpServletRequest request )
     {
         AdminUser user = AdminUserService.getAdminUser( request );
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<>( );
 
         // put each column data
         for ( int nColumn = 1; nColumn <= _service.getColumnCount( ); nColumn++ )
@@ -131,7 +132,7 @@ public class AdminDashboardJspBean extends AdminFeaturesPageJspBean
     {
         AdminUser user = AdminUserService.getAdminUser( request );
 
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<>( );
 
         Map<String, List<IAdminDashboardComponent>> mapAdminDashboards = _service.getAllSetDashboards( );
         model.put( MARK_MAP_DASHBOARDS, mapAdminDashboards );
@@ -182,7 +183,7 @@ public class AdminDashboardJspBean extends AdminFeaturesPageJspBean
         }
         if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_MANAGE_DASHBOARDS ) )
         {
-            throw new AccessDeniedException( "Invalid security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
         _service.doReorderColumn( nColumn );
 
@@ -236,7 +237,7 @@ public class AdminDashboardJspBean extends AdminFeaturesPageJspBean
         }
         if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_MANAGE_DASHBOARDS ) )
         {
-            throw new AccessDeniedException( "Invalid security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
 
         // set order and column
@@ -281,7 +282,7 @@ public class AdminDashboardJspBean extends AdminFeaturesPageJspBean
      */
     private Map<String, ReferenceList> getMapAvailableOrders( )
     {
-        Map<String, ReferenceList> mapAvailableOrders = new HashMap<String, ReferenceList>( );
+        Map<String, ReferenceList> mapAvailableOrders = new HashMap<>( );
 
         // get columns
         for ( Integer nColumn : AdminDashboardHome.findColumns( ) )

@@ -1,0 +1,388 @@
+<#include "utils.html">
+<@header title='Button'/>
+
+<p>
+    These macros allow to display buttons in different sizes, colors with behaviors according to the size of the screen
+</p>
+<@h2># Colors</@h2>
+<p>
+    Here are the available colors.
+</p>
+<@row>
+    <@columns>
+    <@button color='default' title='default' />
+    <@button color='primary' title='primary' />
+    <@button color='secondary' title='secondary' />
+    <@button color='link' title='link' />
+    <@button color='info' title='info' />
+    <@button color='success' title='success' />
+    <@button color='warning' title='warning' />
+    <@button color='danger' title='danger' />
+    </@columns>
+
+    <@columns>
+    <pre>
+&lt;@button color='default' title='default' /&gt;
+&lt;@button color='primary' title='primary' /&gt;
+&lt;@button color='secondary' title='secondary' /&gt;
+&lt;@button color='link' title='link' /&gt;
+&lt;@button color='info' title='info' /&gt;
+&lt;@button color='success' title='success' /&gt;
+&lt;@button color='warning' title='warning' /&gt;
+&lt;@button color='danger' title='danger' /&gt;
+    </pre>
+    </@columns>
+</@row>
+
+
+<@h2># Sizes </@h2>
+<p>
+    Here are the available sizes.
+</p>
+<@row>
+    <@columns>
+    <@button size='xs' title='Extra Small' />
+    <@button size='sm' title='Small' />
+    <@button title='Default' />
+    <@button size='md' title='Medium' />
+    <@button size='lg' title='Large' />
+    </@columns>
+
+    <@columns>
+    <pre>
+&lt;@button size='xs' title='Extra Small' /&gt;
+&lt;@button size='sm' title='Small' /&gt;
+&lt;@button title='Default' /&gt;
+&lt;@button size='md' title='Medium' /&gt;
+&lt;@button size='lg' title='Large' /&gt;
+    </pre>
+    </@columns>
+</@row>
+
+
+<@h2># Icons </@h2>
+<p>
+    Here are some examples of icons.
+</p>
+<@row>
+    <@columns>
+    <@button buttonIcon='github' title='Github' />
+    <@button buttonIcon='twitter' title='Twitter' />
+    <@button buttonIcon='close' title='Cancel' />
+    <@button buttonIcon='check' title='Validate' />
+    <@button buttonIcon='trash' title='Delete' />
+    <@button buttonIcon='external-link-alt' title='External link' iconPosition='right'/>
+    </@columns>
+
+    <@columns>
+    <pre>
+&lt;@button buttonIcon='github' title='Extra Small' /&gt;
+&lt;@button buttonIcon='twitter' title='Twitter' /&gt;
+&lt;@button buttonIcon='close' title='Cancel' /&gt;
+&lt;@button buttonIcon='check' title='Validate' /&gt;
+&lt;@button buttonIcon='trash' title='Delete' /&gt;
+&lt;@button buttonIcon='external-link-alt' title='External link' iconPosition='right' /&gt;
+    </pre>
+    </@columns>
+</@row>
+
+
+
+<@h2># Just icon with tooltip </@h2>
+<p>
+    Display only the icon with a tooltip when the mouse is over the button. Used for toolbar or actions list.
+</p>
+<@row>
+    <@columns>
+    <@button buttonIcon='github' title='Github' showTitle=false />
+    <@button buttonIcon='twitter' title='Twitter' showTitle=false />
+    <@button buttonIcon='close' title='Cancel' showTitle=false />
+    <@button buttonIcon='check' title='Validate' showTitle=false />
+    <@button buttonIcon='trash' title='Delete' showTitle=false />
+    </@columns>
+
+    <@columns>
+    <pre>
+&lt;@button buttonIcon='github' title='Extra Small' showTitle=false /&gt;
+&lt;@button buttonIcon='twitter' title='Twitter' showTitle=false /&gt;
+&lt;@button buttonIcon='close' title='Cancel' showTitle=false /&gt;
+&lt;@button buttonIcon='check' title='Validate' showTitle=false /&gt;
+&lt;@button buttonIcon='trash' title='Delete' showTitle=false /&gt;
+    </pre>
+    </@columns>
+</@row>
+
+<@h2># Responsive </@h2>
+<p>
+    Display or hide labels according the size of the screen
+</p>
+<@row>
+    <@columns>
+    <@button buttonIcon='github' title='Github' showTitleXs=false showTitleSm=false />
+    <@button buttonIcon='twitter' title='Twitter' showTitleXs=false showTitleSm=false />
+    <@button buttonIcon='close' title='Cancel' showTitleXs=false showTitleSm=false />
+    <@button buttonIcon='check' title='Validate' showTitleXs=false showTitleSm=false />
+    <@button buttonIcon='trash' title='Delete' showTitleXs=false showTitleSm=false />
+    </@columns>
+
+    <@columns>
+    <pre>
+&lt;@button buttonIcon='github' title='Extra Small' showTitleXs=false showTitleSm=false /&gt;
+&lt;@button buttonIcon='twitter' title='Twitter' showTitleXs=false showTitleSm=false /&gt;
+&lt;@button buttonIcon='close' title='Cancel' showTitleXs=false showTitleSm=false /&gt;
+&lt;@button buttonIcon='check' title='Validate' showTitleXs=false showTitleSm=false /&gt;
+&lt;@button buttonIcon='trash' title='Delete' showTitleXs=false showTitleSm=false /&gt;
+    </pre>
+    </@columns>
+</@row>
+
+<@h2># Parameters documentation</@h2>
+
+<@table>
+<@tr>
+    <@th>Parameter</@th>
+    <@th>Value</@th>
+    <@th>Default</@th>
+</@tr>
+<@tr>
+    <@th>color</@th>
+    <@td>primary/info/warning/danger/success</@td>
+    <@td>primary</@td>
+</@tr>
+<@tr>
+    <@th>size</@th>
+    <@td>xs/sm/md/lg</@td>
+    <@td>none</@td>
+</@tr>
+<@tr>
+    <@th>buttonIcon</@th>
+    <@td>string</@td>
+    <@td>none</@td>
+</@tr>
+<@tr>
+    <@th>title</@th>
+    <@td>string</@td>
+    <@td>none</@td>
+</@tr>
+<@tr>
+    <@th>showTitle</@th>
+    <@td>boolean</@td>
+    <@td>true</@td>
+</@tr>
+<@tr>
+    <@th>showTitleXs</@th>
+    <@td>boolean</@td>
+    <@td>true</@td>
+</@tr>
+<@tr>
+    <@th>showTitleSm</@th>
+    <@td>boolean</@td>
+    <@td>true</@td>
+</@tr>
+<@tr>
+    <@th>showTitleMd</@th>
+    <@td>boolean</@td>
+    <@td>true</@td>
+</@tr>
+<@tr>
+    <@th>showTitleLg</@th>
+    <@td>boolean</@td>
+    <@td>true</@td>
+</@tr>
+
+</@table>
+
+
+<@h2>Anchor buttons</@h2>
+<p>
+This macros let display anchor links as buttons. 
+</p>
+
+<@h2># Colors</@h2>
+<p>
+    Here are the available colors.
+</p>
+
+<@row>
+    <@columns>
+    <@aButton href='#' title='default' />
+    <@aButton href='#' color='primary' title='primary' />
+    <@aButton href='#' color='secondary' title='secondary' />
+    <@aButton href='#' color='link' title='link' />
+    <@aButton href='#' color='info' title='info' />
+    <@aButton href='#' color='success' title='success' />
+    <@aButton href='#' color='warning' title='warning' />
+    <@aButton href='#' color='danger' title='danger' />
+    </@columns>
+
+    <@columns>
+    <pre> 
+&lt;@aButton href='#' title='default' /&gt;
+&lt;@aButton href='#' color='primary' title='primary' /&gt;
+&lt;@aButton href='#' color='secondary' title='secondary' /&gt;
+&lt;@aButton href='#' color='link' title='link' /&gt;
+&lt;@aButton href='#' color='info' title='info' /&gt;
+&lt;@aButton href='#' color='success' title='success' /&gt;
+&lt;@aButton href='#' color='warning' title='warning' /&gt;
+&lt;@aButton href='#' color='danger' title='danger' /&gt;
+    </pre>
+    </@columns>
+</@row>
+
+
+<@h2># Sizes </@h2>
+<p>
+    Here are the available sizes.
+</p>
+<@row>
+    <@columns>
+    <@aButton href='#' size='xs' title='Extra Small' />
+    <@aButton href='#' size='sm' title='Small' />
+    <@aButton href='#' title='Default' />
+    <@aButton href='#' size='md' title='Medium' />
+    <@aButton href='#' size='lg' title='Large' />
+    </@columns>
+
+    <@columns>
+    <pre>    
+&lt;@aButton href='#' size='xs' title='Extra Small' /&gt;
+&lt;@aButton href='#' size='sm' title='Small' /&gt;
+&lt;@aButton href='#' title='Default' /&gt;
+&lt;@aButton href='#' size='md' title='Medium' /&gt;
+&lt;@aButton href='#' size='lg' title='Large' /&gt;
+    </pre>
+    </@columns>
+</@row>
+
+
+<@h2># Icons </@h2>
+<p>
+    Here are some examples of icons.
+</p>
+<@row>
+    <@columns>
+    <@aButton href='#' buttonIcon='github' title='Github' />
+    <@aButton href='#' buttonIcon='twitter' title='Twitter' />
+    <@aButton href='#' buttonIcon='close' title='Cancel' />
+    <@aButton href='#' buttonIcon='check' title='Validate' />
+    <@aButton href='#' buttonIcon='trash' title='Delete' />
+    <@aButton href='#' buttonIcon='external-link-alt' title='External link' iconPosition='right'/>
+    </@columns>
+
+    <@columns>
+    <pre>
+&lt;@aButton href='#' buttonIcon='github' title='Extra Small' /&gt;
+&lt;@aButton href='#' buttonIcon='twitter' title='Twitter' /&gt;
+&lt;@aButton href='#' buttonIcon='close' title='Cancel' /&gt;
+&lt;@aButton href='#' buttonIcon='check' title='Validate' /&gt;
+&lt;@aButton href='#' buttonIcon='trash' title='Delete' /&gt;
+&lt;@aButton href='#' buttonIcon='external-link-alt' title='External link' iconPosition='right' /&gt;
+    </pre>
+    </@columns>
+</@row>
+
+<@h2># Just icon with tooltip </@h2>
+<p>
+    Display only the icon with a tooltip when the mouse is over the button. Used for toolbar or actions list.
+</p>
+<@row>
+    <@columns>
+    <@aButton href='#' buttonIcon='github' title='Github' showTitle=false />
+    <@aButton href='#' buttonIcon='twitter' title='Twitter' showTitle=false />
+    <@aButton href='#' buttonIcon='close' title='Cancel' showTitle=false />
+    <@aButton href='#' buttonIcon='check' title='Validate' showTitle=false />
+    <@aButton href='#' buttonIcon='trash' title='Delete' showTitle=false />
+    </@columns>
+
+    <@columns>
+    <pre>
+&lt;@aButton href='#' buttonIcon='github' title='Extra Small' showTitle=false /&gt;
+&lt;@aButton href='#' buttonIcon='twitter' title='Twitter' showTitle=false /&gt;
+&lt;@aButton href='#' buttonIcon='close' title='Cancel' showTitle=false /&gt;
+&lt;@aButton href='#' buttonIcon='check' title='Validate' showTitle=false /&gt;
+&lt;@aButton href='#' buttonIcon='trash' title='Delete' showTitle=false /&gt;
+    </pre>
+    </@columns>
+</@row>
+
+<@h2># Responsive </@h2>
+<p>
+    Display or hide labels according the size of the screen
+</p>
+<@row>
+    <@columns>
+    <@aButton href='#' buttonIcon='github' title='Github' showTitleXs=false showTitleSm=false />
+    <@aButton href='#' buttonIcon='twitter' title='Twitter' showTitleXs=false showTitleSm=false />
+    <@aButton href='#' buttonIcon='close' title='Cancel' showTitleXs=false showTitleSm=false />
+    <@aButton href='#' buttonIcon='check' title='Validate' showTitleXs=false showTitleSm=false />
+    <@aButton href='#' buttonIcon='trash' title='Delete' showTitleXs=false showTitleSm=false />
+    </@columns>
+
+    <@columns>
+    <pre>
+&lt;@aButton href='#' buttonIcon='github' title='Extra Small' showTitleXs=false showTitleSm=false /&gt;
+&lt;@aButton href='#' buttonIcon='twitter' title='Twitter' showTitleXs=false showTitleSm=false /&gt;
+&lt;@aButton href='#' buttonIcon='close' title='Cancel' showTitleXs=false showTitleSm=false /&gt;
+&lt;@aButton href='#' buttonIcon='check' title='Validate' showTitleXs=false showTitleSm=false /&gt;
+&lt;@aButton href='#' buttonIcon='trash' title='Delete' showTitleXs=false showTitleSm=false /&gt;
+    </pre>
+    </@columns>
+</@row>
+
+<@h2># Parameters documentation</@h2>
+
+<@table>
+<@tr>
+    <@th>Parameter</@th>
+    <@th>Value</@th>
+    <@th>Default</@th>
+</@tr>
+<@tr>
+    <@th>color</@th>
+    <@td>primary/info/warning/danger/success</@td>
+    <@td>primary</@td>
+</@tr>
+<@tr>
+    <@th>size</@th>
+    <@td>xs/sm/md/lg</@td>
+    <@td>none</@td>
+</@tr>
+<@tr>
+    <@th>buttonIcon</@th>
+    <@td>string</@td>
+    <@td>none</@td>
+</@tr>
+<@tr>
+    <@th>title</@th>
+    <@td>string</@td>
+    <@td>none</@td>
+</@tr>
+<@tr>
+    <@th>showTitle</@th>
+    <@td>boolean</@td>
+    <@td>true</@td>
+</@tr>
+<@tr>
+    <@th>showTitleXs</@th>
+    <@td>boolean</@td>
+    <@td>true</@td>
+</@tr>
+<@tr>
+    <@th>showTitleSm</@th>
+    <@td>boolean</@td>
+    <@td>true</@td>
+</@tr>
+<@tr>
+    <@th>showTitleMd</@th>
+    <@td>boolean</@td>
+    <@td>true</@td>
+</@tr>
+<@tr>
+    <@th>showTitleLg</@th>
+    <@td>boolean</@td>
+    <@td>true</@td>
+</@tr>
+
+</@table>
+
+<@footer />

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,12 +33,20 @@
  */
 package fr.paris.lutece.portal.service.cache;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.lang.management.ManagementFactory;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Properties;
+
+import javax.management.MBeanServer;
+
 import fr.paris.lutece.portal.service.datastore.DatastoreService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
-import fr.paris.lutece.util.stream.StreamUtil;
-
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.config.CacheConfiguration;
@@ -46,23 +54,12 @@ import net.sf.ehcache.config.Configuration;
 import net.sf.ehcache.config.ConfigurationFactory;
 import net.sf.ehcache.management.ManagementService;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-
-import java.lang.management.ManagementFactory;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Properties;
-
-import javax.management.MBeanServer;
-
 /**
  * Provides cache object for cacheable services
  */
 public final class CacheService
 {
+    private static final String ERROR_NUMERIC_PROP = "Invalid numeric property : ";
     private static final String PROPERTY_PATH_CONF = "path.conf";
     private static final String PROPERTY_IS_ENABLED = ".enabled";
     private static final String FILE_CACHES_STATUS = "caches.dat";
@@ -97,7 +94,7 @@ public final class CacheService
     private static CacheService _singleton;
     private static CacheManager _manager;
 
-    private static List<CacheableService> _listCacheableServicesRegistry = new ArrayList<CacheableService>( );
+    private static List<CacheableService> _listCacheableServicesRegistry = new ArrayList<>( );
     private int _nDefaultMaxElementsInMemory;
     private boolean _bDefaultEternal;
     private long _lDefaultTimeToIdle;
@@ -126,6 +123,9 @@ public final class CacheService
         {
             _singleton = new CacheService( );
             _singleton.init( );
+            Configuration configuration = ConfigurationFactory.parseConfiguration( );
+            configuration.setName( LUTECE_CACHEMANAGER_NAME );
+            _manager = CacheManager.create( configuration );
         }
 
         return _singleton;
@@ -136,9 +136,6 @@ public final class CacheService
      */
     private void init( )
     {
-        Configuration configuration = ConfigurationFactory.parseConfiguration( );
-        configuration.setName( LUTECE_CACHEMANAGER_NAME );
-        _manager = CacheManager.create( configuration );
         loadDefaults( );
         loadCachesConfig( );
 
@@ -161,8 +158,8 @@ public final class CacheService
         boolean bRegisterCaches = AppPropertiesService.getProperty( PROPERTY_MONITOR_CACHES, FALSE ).equals( TRUE );
         boolean bRegisterCacheConfigurations = AppPropertiesService.getProperty( PROPERTY_MONITOR_CACHE_CONFIGURATIONS, FALSE ).equals( TRUE );
         boolean bRegisterCacheStatistics = AppPropertiesService.getProperty( PROPERTY_MONITOR_CACHE_STATISTICS, FALSE ).equals( TRUE );
-        ManagementService
-                .registerMBeans( _manager, mBeanServer, bRegisterCacheManager, bRegisterCaches, bRegisterCacheConfigurations, bRegisterCacheStatistics );
+        ManagementService.registerMBeans( _manager, mBeanServer, bRegisterCacheManager, bRegisterCaches, bRegisterCacheConfigurations,
+                bRegisterCacheStatistics );
     }
 
     /**
@@ -299,12 +296,9 @@ public final class CacheService
         String strCachesStatusFile = AppPathService.getPath( PROPERTY_PATH_CONF, FILE_CACHES_STATUS );
         File file = new File( strCachesStatusFile );
 
-        FileInputStream fis = null;
-
-        try
+        try ( FileInputStream fis = new FileInputStream( file ) )
         {
             Properties properties = new Properties( );
-            fis = new FileInputStream( file );
             properties.load( fis );
 
             // If the keys aren't found in the datastore then create a key in it
@@ -326,10 +320,6 @@ public final class CacheService
         catch( Exception e )
         {
             AppLogService.error( "Error loading caches status defined in file : " + file.getAbsolutePath( ), e );
-        }
-        finally
-        {
-            StreamUtil.safeClose( fis );
         }
     }
 
@@ -432,13 +422,11 @@ public final class CacheService
             {
                 strValue = DatastoreService.getInstanceDataValue( strKey, strValue );
 
-                int nValue = Integer.parseInt( strValue );
-
-                return nValue;
+                return Integer.parseInt( strValue );
             }
             catch( NumberFormatException e )
             {
-                AppLogService.error( "Invalid numeric property : " + strCacheName + strProperty + "=" + strValue, e );
+                AppLogService.error( ERROR_NUMERIC_PROP + strCacheName + strProperty + "=" + strValue, e );
             }
         }
 
@@ -468,13 +456,11 @@ public final class CacheService
             {
                 strValue = DatastoreService.getInstanceDataValue( strKey, strValue );
 
-                long lValue = Integer.parseInt( strValue );
-
-                return lValue;
+                return Integer.parseInt( strValue );
             }
             catch( NumberFormatException e )
             {
-                AppLogService.error( "Invalid numeric property : " + strCacheName + strProperty + "=" + strValue, e );
+                AppLogService.error( ERROR_NUMERIC_PROP + strCacheName + strProperty + "=" + strValue, e );
             }
         }
 

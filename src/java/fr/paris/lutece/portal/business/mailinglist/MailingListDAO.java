@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -67,19 +67,19 @@ public final class MailingListDAO implements IMailingListDAO
      */
     public int newPrimaryKey( )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_NEW_PK );
-        daoUtil.executeQuery( );
-
         int nKey;
-
-        if ( !daoUtil.next( ) )
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_NEW_PK ) )
         {
-            // if the table is empty
-            nKey = 1;
-        }
+            daoUtil.executeQuery( );
 
-        nKey = daoUtil.getInt( 1 ) + 1;
-        daoUtil.free( );
+            if ( !daoUtil.next( ) )
+            {
+                // if the table is empty
+                nKey = 1;
+            }
+
+            nKey = daoUtil.getInt( 1 ) + 1;
+        }
 
         return nKey;
     }
@@ -93,17 +93,18 @@ public final class MailingListDAO implements IMailingListDAO
     @Override
     public synchronized void insert( MailingList mailingList )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT ) )
+        {
 
-        mailingList.setId( newPrimaryKey( ) );
+            mailingList.setId( newPrimaryKey( ) );
 
-        daoUtil.setInt( 1, mailingList.getId( ) );
-        daoUtil.setString( 2, mailingList.getName( ) );
-        daoUtil.setString( 3, mailingList.getDescription( ) );
-        daoUtil.setString( 4, mailingList.getWorkgroup( ) );
+            daoUtil.setInt( 1, mailingList.getId( ) );
+            daoUtil.setString( 2, mailingList.getName( ) );
+            daoUtil.setString( 3, mailingList.getDescription( ) );
+            daoUtil.setString( 4, mailingList.getWorkgroup( ) );
 
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+            daoUtil.executeUpdate( );
+        }
     }
 
     /**
@@ -116,23 +117,23 @@ public final class MailingListDAO implements IMailingListDAO
     @Override
     public MailingList load( int nId )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT );
-        daoUtil.setInt( 1, nId );
-        daoUtil.executeQuery( );
-
         MailingList mailinglist = null;
-
-        if ( daoUtil.next( ) )
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT ) )
         {
-            mailinglist = new MailingList( );
+            daoUtil.setInt( 1, nId );
+            daoUtil.executeQuery( );
 
-            mailinglist.setId( daoUtil.getInt( 1 ) );
-            mailinglist.setName( daoUtil.getString( 2 ) );
-            mailinglist.setDescription( daoUtil.getString( 3 ) );
-            mailinglist.setWorkgroup( daoUtil.getString( 4 ) );
+            if ( daoUtil.next( ) )
+            {
+                mailinglist = new MailingList( );
+
+                mailinglist.setId( daoUtil.getInt( 1 ) );
+                mailinglist.setName( daoUtil.getString( 2 ) );
+                mailinglist.setDescription( daoUtil.getString( 3 ) );
+                mailinglist.setWorkgroup( daoUtil.getString( 4 ) );
+            }
+
         }
-
-        daoUtil.free( );
 
         // load filters
         selectMailingListUsersFilters( mailinglist );
@@ -149,10 +150,11 @@ public final class MailingListDAO implements IMailingListDAO
     @Override
     public void delete( int nMailingListId )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE );
-        daoUtil.setInt( 1, nMailingListId );
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE ) )
+        {
+            daoUtil.setInt( 1, nMailingListId );
+            daoUtil.executeUpdate( );
+        }
 
         // delete filters
         deleteFilters( nMailingListId );
@@ -167,16 +169,17 @@ public final class MailingListDAO implements IMailingListDAO
     @Override
     public void store( MailingList mailingList )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE ) )
+        {
 
-        daoUtil.setInt( 1, mailingList.getId( ) );
-        daoUtil.setString( 2, mailingList.getName( ) );
-        daoUtil.setString( 3, mailingList.getDescription( ) );
-        daoUtil.setString( 4, mailingList.getWorkgroup( ) );
-        daoUtil.setInt( 5, mailingList.getId( ) );
+            daoUtil.setInt( 1, mailingList.getId( ) );
+            daoUtil.setString( 2, mailingList.getName( ) );
+            daoUtil.setString( 3, mailingList.getDescription( ) );
+            daoUtil.setString( 4, mailingList.getWorkgroup( ) );
+            daoUtil.setInt( 5, mailingList.getId( ) );
 
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+            daoUtil.executeUpdate( );
+        }
     }
 
     /**
@@ -187,23 +190,24 @@ public final class MailingListDAO implements IMailingListDAO
     @Override
     public Collection<MailingList> selectAll( )
     {
-        Collection<MailingList> mailingListList = new ArrayList<MailingList>( );
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL );
-        daoUtil.executeQuery( );
-
-        while ( daoUtil.next( ) )
+        Collection<MailingList> mailingListList = new ArrayList<>( );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL ) )
         {
-            MailingList mailingList = new MailingList( );
+            daoUtil.executeQuery( );
 
-            mailingList.setId( daoUtil.getInt( 1 ) );
-            mailingList.setName( daoUtil.getString( 2 ) );
-            mailingList.setDescription( daoUtil.getString( 3 ) );
-            mailingList.setWorkgroup( daoUtil.getString( 4 ) );
+            while ( daoUtil.next( ) )
+            {
+                MailingList mailingList = new MailingList( );
 
-            mailingListList.add( mailingList );
+                mailingList.setId( daoUtil.getInt( 1 ) );
+                mailingList.setName( daoUtil.getString( 2 ) );
+                mailingList.setDescription( daoUtil.getString( 3 ) );
+                mailingList.setWorkgroup( daoUtil.getString( 4 ) );
+
+                mailingListList.add( mailingList );
+            }
+
         }
-
-        daoUtil.free( );
 
         return mailingListList;
     }
@@ -218,24 +222,25 @@ public final class MailingListDAO implements IMailingListDAO
     @Override
     public Collection<MailingList> selectByWorkgroup( String strWorkgroup )
     {
-        Collection<MailingList> mailingListList = new ArrayList<MailingList>( );
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_BY_WORKGROUP );
-        daoUtil.setString( 1, strWorkgroup );
-        daoUtil.executeQuery( );
-
-        while ( daoUtil.next( ) )
+        Collection<MailingList> mailingListList = new ArrayList<>( );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_BY_WORKGROUP ) )
         {
-            MailingList mailingList = new MailingList( );
+            daoUtil.setString( 1, strWorkgroup );
+            daoUtil.executeQuery( );
 
-            mailingList.setId( daoUtil.getInt( 1 ) );
-            mailingList.setName( daoUtil.getString( 2 ) );
-            mailingList.setDescription( daoUtil.getString( 3 ) );
-            mailingList.setWorkgroup( daoUtil.getString( 4 ) );
+            while ( daoUtil.next( ) )
+            {
+                MailingList mailingList = new MailingList( );
 
-            mailingListList.add( mailingList );
+                mailingList.setId( daoUtil.getInt( 1 ) );
+                mailingList.setName( daoUtil.getString( 2 ) );
+                mailingList.setDescription( daoUtil.getString( 3 ) );
+                mailingList.setWorkgroup( daoUtil.getString( 4 ) );
+
+                mailingListList.add( mailingList );
+            }
+
         }
-
-        daoUtil.free( );
 
         return mailingListList;
     }
@@ -251,14 +256,15 @@ public final class MailingListDAO implements IMailingListDAO
     @Override
     public void insertFilter( MailingListUsersFilter mailingListUsersFilter, int nMailingListId )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_FILTERS_INSERT );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_FILTERS_INSERT ) )
+        {
 
-        daoUtil.setInt( 1, nMailingListId );
-        daoUtil.setString( 2, mailingListUsersFilter.getWorkgroup( ) );
-        daoUtil.setString( 3, mailingListUsersFilter.getRole( ) );
+            daoUtil.setInt( 1, nMailingListId );
+            daoUtil.setString( 2, mailingListUsersFilter.getWorkgroup( ) );
+            daoUtil.setString( 3, mailingListUsersFilter.getRole( ) );
 
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+            daoUtil.executeUpdate( );
+        }
     }
 
     /**
@@ -272,12 +278,13 @@ public final class MailingListDAO implements IMailingListDAO
     @Override
     public void deleteFilter( MailingListUsersFilter filter, int nMailingListId )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_FILTERS_DELETE_FILTER );
-        daoUtil.setInt( 1, nMailingListId );
-        daoUtil.setString( 2, filter.getWorkgroup( ) );
-        daoUtil.setString( 3, filter.getRole( ) );
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_FILTERS_DELETE_FILTER ) )
+        {
+            daoUtil.setInt( 1, nMailingListId );
+            daoUtil.setString( 2, filter.getWorkgroup( ) );
+            daoUtil.setString( 3, filter.getRole( ) );
+            daoUtil.executeUpdate( );
+        }
     }
 
     /**
@@ -288,10 +295,11 @@ public final class MailingListDAO implements IMailingListDAO
      */
     public void deleteFilters( int nMailingListUsersFilterId )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_FILTERS_DELETE );
-        daoUtil.setInt( 1, nMailingListUsersFilterId );
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_FILTERS_DELETE ) )
+        {
+            daoUtil.setInt( 1, nMailingListUsersFilterId );
+            daoUtil.executeUpdate( );
+        }
     }
 
     /**
@@ -305,21 +313,22 @@ public final class MailingListDAO implements IMailingListDAO
         if ( mailinglist != null )
         {
             Collection<MailingListUsersFilter> mailingListUsersFilterList = mailinglist.getFilters( );
-            DAOUtil daoUtil = new DAOUtil( SQL_QUERY_FILTERS_SELECTALL );
-            daoUtil.setInt( 1, mailinglist.getId( ) );
-            daoUtil.executeQuery( );
-
-            while ( daoUtil.next( ) )
+            try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_FILTERS_SELECTALL ) )
             {
-                MailingListUsersFilter mailingListUsersFilter = new MailingListUsersFilter( );
+                daoUtil.setInt( 1, mailinglist.getId( ) );
+                daoUtil.executeQuery( );
 
-                mailingListUsersFilter.setWorkgroup( daoUtil.getString( 2 ) );
-                mailingListUsersFilter.setRole( daoUtil.getString( 3 ) );
+                while ( daoUtil.next( ) )
+                {
+                    MailingListUsersFilter mailingListUsersFilter = new MailingListUsersFilter( );
 
-                mailingListUsersFilterList.add( mailingListUsersFilter );
+                    mailingListUsersFilter.setWorkgroup( daoUtil.getString( 2 ) );
+                    mailingListUsersFilter.setRole( daoUtil.getString( 3 ) );
+
+                    mailingListUsersFilterList.add( mailingListUsersFilter );
+                }
+
             }
-
-            daoUtil.free( );
         }
     }
 
@@ -330,18 +339,19 @@ public final class MailingListDAO implements IMailingListDAO
     public boolean checkFilter( MailingListUsersFilter filter, int nId )
     {
         boolean bExists = false;
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_FILTERS_SELECT );
-        daoUtil.setInt( 1, nId );
-        daoUtil.setString( 2, filter.getWorkgroup( ) );
-        daoUtil.setString( 3, filter.getRole( ) );
-        daoUtil.executeQuery( );
-
-        if ( daoUtil.next( ) )
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_FILTERS_SELECT ) )
         {
-            bExists = true;
-        }
+            daoUtil.setInt( 1, nId );
+            daoUtil.setString( 2, filter.getWorkgroup( ) );
+            daoUtil.setString( 3, filter.getRole( ) );
+            daoUtil.executeQuery( );
 
-        daoUtil.free( );
+            if ( daoUtil.next( ) )
+            {
+                bExists = true;
+            }
+
+        }
 
         return bExists;
     }
@@ -352,25 +362,26 @@ public final class MailingListDAO implements IMailingListDAO
     @Override
     public List<MailingList> selectByFilter( MailingListFilter filter )
     {
-        List<MailingList> mailingListList = new ArrayList<MailingList>( );
-        DAOUtil daoUtil = new DAOUtil( filter.buildSQLQuery( SQL_QUERY_SELECTALL ) );
-        filter.setFilterValues( daoUtil );
-        daoUtil.executeQuery( );
-
-        while ( daoUtil.next( ) )
+        List<MailingList> mailingListList = new ArrayList<>( );
+        try( DAOUtil daoUtil = new DAOUtil( filter.buildSQLQuery( SQL_QUERY_SELECTALL ) ) )
         {
-            int nIndex = 1;
-            MailingList mailingList = new MailingList( );
+            filter.setFilterValues( daoUtil );
+            daoUtil.executeQuery( );
 
-            mailingList.setId( daoUtil.getInt( nIndex++ ) );
-            mailingList.setName( daoUtil.getString( nIndex++ ) );
-            mailingList.setDescription( daoUtil.getString( nIndex++ ) );
-            mailingList.setWorkgroup( daoUtil.getString( nIndex ) );
+            while ( daoUtil.next( ) )
+            {
+                int nIndex = 1;
+                MailingList mailingList = new MailingList( );
 
-            mailingListList.add( mailingList );
+                mailingList.setId( daoUtil.getInt( nIndex++ ) );
+                mailingList.setName( daoUtil.getString( nIndex++ ) );
+                mailingList.setDescription( daoUtil.getString( nIndex++ ) );
+                mailingList.setWorkgroup( daoUtil.getString( nIndex ) );
+
+                mailingListList.add( mailingList );
+            }
+
         }
-
-        daoUtil.free( );
 
         return mailingListList;
     }

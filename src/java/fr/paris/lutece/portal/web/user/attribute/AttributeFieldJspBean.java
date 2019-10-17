@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -47,6 +47,7 @@ import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
 import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.util.html.HtmlTemplate;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 
 import java.util.HashMap;
@@ -114,7 +115,7 @@ public class AttributeFieldJspBean extends AdminFeaturesPageJspBean
         IAttribute attribute = _attributeService.getAttributeWithoutFields( nIdAttribute, getLocale( ) );
 
         HtmlTemplate template;
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<>( );
         model.put( MARK_ATTRIBUTE, attribute );
         model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_CREATE_ATTRIBUTE_FIELD ) );
 
@@ -154,7 +155,7 @@ public class AttributeFieldJspBean extends AdminFeaturesPageJspBean
 
             if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_CREATE_ATTRIBUTE_FIELD ) )
             {
-                throw new AccessDeniedException( "Invalid security token" );
+                throw new AccessDeniedException( ERROR_INVALID_TOKEN );
             }
             AttributeField attributeField = new AttributeField( );
             attributeField.setTitle( strTitle );
@@ -166,9 +167,7 @@ public class AttributeFieldJspBean extends AdminFeaturesPageJspBean
             _attributeFieldService.createAttributeField( attributeField );
         }
 
-        String strUrl = JSP_MODIFY_ATTRIBUTE + QUESTION_MARK + PARAMETER_ID_ATTRIBUTE + EQUAL + nIdAttribute;
-
-        return strUrl;
+        return JSP_MODIFY_ATTRIBUTE + QUESTION_MARK + PARAMETER_ID_ATTRIBUTE + EQUAL + nIdAttribute;
     }
 
     /**
@@ -192,7 +191,7 @@ public class AttributeFieldJspBean extends AdminFeaturesPageJspBean
         AttributeField attributeField = _attributeFieldService.getAttributeField( nIdField );
 
         HtmlTemplate template;
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<>( );
         model.put( MARK_ATTRIBUTE_FIELD, attributeField );
         model.put( MARK_ATTRIBUTE, attribute );
         model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MODIFY_ATTRIBUTE_FIELD ) );
@@ -235,7 +234,7 @@ public class AttributeFieldJspBean extends AdminFeaturesPageJspBean
 
             if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_MODIFY_ATTRIBUTE_FIELD ) )
             {
-                throw new AccessDeniedException( "Invalid security token" );
+                throw new AccessDeniedException( ERROR_INVALID_TOKEN );
             }
             AttributeField currentAttributeField = _attributeFieldService.getAttributeField( nIdField );
             int nPosition = currentAttributeField.getPosition( );
@@ -270,7 +269,7 @@ public class AttributeFieldJspBean extends AdminFeaturesPageJspBean
         parameters.put( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, JSP_URL_REMOVE_ATTRIBUTE_FIELD ) );
 
         return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_CONFIRM_REMOVE_ATTRIBUTE_FIELD, JSP_URL_REMOVE_ATTRIBUTE_FIELD,
-                AdminMessage.TYPE_CONFIRMATION, parameters  );
+                AdminMessage.TYPE_CONFIRMATION, parameters );
     }
 
     /**
@@ -289,7 +288,7 @@ public class AttributeFieldJspBean extends AdminFeaturesPageJspBean
 
         if ( !SecurityTokenService.getInstance( ).validate( request, JSP_URL_REMOVE_ATTRIBUTE_FIELD ) )
         {
-            throw new AccessDeniedException( "Invalid security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
         if ( StringUtils.isNotBlank( strIdField ) && StringUtils.isNumeric( strIdField ) )
         {
@@ -327,9 +326,9 @@ public class AttributeFieldJspBean extends AdminFeaturesPageJspBean
 
             if ( !SecurityTokenService.getInstance( ).validate( request, attribute.getTemplateModifyAttribute( ) ) )
             {
-                throw new AccessDeniedException( "Invalid security token" );
+                throw new AccessDeniedException( ERROR_INVALID_TOKEN );
             }
-            if ( listAttributeFields.size( ) > 0 )
+            if ( CollectionUtils.isNotEmpty( listAttributeFields ) )
             {
                 AttributeField previousField = null;
                 AttributeField currentField = null;
@@ -380,9 +379,9 @@ public class AttributeFieldJspBean extends AdminFeaturesPageJspBean
             List<AttributeField> listAttributeFields = attribute.getListAttributeFields( );
             if ( !SecurityTokenService.getInstance( ).validate( request, attribute.getTemplateModifyAttribute( ) ) )
             {
-                throw new AccessDeniedException( "Invalid security token" );
+                throw new AccessDeniedException( ERROR_INVALID_TOKEN );
             }
-            if ( listAttributeFields.size( ) > 0 )
+            if ( CollectionUtils.isNotEmpty( listAttributeFields ) )
             {
                 AttributeField currentField = null;
                 AttributeField nextField = null;

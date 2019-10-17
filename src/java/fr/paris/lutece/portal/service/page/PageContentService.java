@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -41,6 +41,8 @@ import fr.paris.lutece.portal.web.constants.Parameters;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
+
 /**
  *
  * @author pierre
@@ -48,7 +50,7 @@ import javax.servlet.http.HttpServletRequest;
 public class PageContentService extends ContentService
 {
     private static final String SERVICE_NAME = "Page Content Service";
-    private IPageService _pageService = (IPageService) SpringContextService.getBean( "pageService" );
+    private IPageService _pageService = SpringContextService.getBean( "pageService" );
 
     /**
      * {@inheritDoc }
@@ -65,13 +67,7 @@ public class PageContentService extends ContentService
     public boolean isInvoked( HttpServletRequest request )
     {
         String strPageId = request.getParameter( Parameters.PAGE_ID );
-
-        if ( ( strPageId != null ) && ( strPageId.length( ) > 0 ) )
-        {
-            return true;
-        }
-
-        return false;
+        return StringUtils.isNotEmpty( strPageId );
     }
 
     /**

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -73,15 +73,16 @@ public final class StyleDAO implements IStyleDAO
      */
     public void insert( Style style )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT ) )
+        {
 
-        daoUtil.setInt( 1, style.getId( ) );
-        daoUtil.setString( 2, style.getPortletTypeId( ) );
-        daoUtil.setInt( 3, style.getPortalComponentId( ) );
-        daoUtil.setString( 4, style.getDescription( ) );
+            daoUtil.setInt( 1, style.getId( ) );
+            daoUtil.setString( 2, style.getPortletTypeId( ) );
+            daoUtil.setInt( 3, style.getPortalComponentId( ) );
+            daoUtil.setString( 4, style.getDescription( ) );
 
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+            daoUtil.executeUpdate( );
+        }
     }
 
     /**
@@ -94,23 +95,24 @@ public final class StyleDAO implements IStyleDAO
     public Style load( int nStyleId )
     {
         Style style = null;
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT );
-        daoUtil.setInt( 1, nStyleId );
-
-        daoUtil.executeQuery( );
-
-        if ( daoUtil.next( ) )
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT ) )
         {
-            style = new Style( );
-            style.setId( nStyleId );
-            style.setPortletTypeId( daoUtil.getString( 1 ) );
-            style.setPortalComponentId( daoUtil.getInt( 2 ) );
-            style.setDescription( daoUtil.getString( 3 ) );
-            style.setPortletTypeName( daoUtil.getString( 4 ) );
-            style.setPortalComponentName( daoUtil.getString( 5 ) );
-        }
+            daoUtil.setInt( 1, nStyleId );
 
-        daoUtil.free( );
+            daoUtil.executeQuery( );
+
+            if ( daoUtil.next( ) )
+            {
+                style = new Style( );
+                style.setId( nStyleId );
+                style.setPortletTypeId( daoUtil.getString( 1 ) );
+                style.setPortalComponentId( daoUtil.getInt( 2 ) );
+                style.setDescription( daoUtil.getString( 3 ) );
+                style.setPortletTypeName( daoUtil.getString( 4 ) );
+                style.setPortalComponentName( daoUtil.getString( 5 ) );
+            }
+
+        }
 
         return style;
     }
@@ -123,10 +125,11 @@ public final class StyleDAO implements IStyleDAO
      */
     public void delete( int nStyleId )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE );
-        daoUtil.setInt( 1, nStyleId );
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE ) )
+        {
+            daoUtil.setInt( 1, nStyleId );
+            daoUtil.executeUpdate( );
+        }
     }
 
     /**
@@ -137,15 +140,16 @@ public final class StyleDAO implements IStyleDAO
      */
     public void store( Style style )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE ) )
+        {
 
-        daoUtil.setString( 1, style.getPortletTypeId( ) );
-        daoUtil.setInt( 2, style.getPortalComponentId( ) );
-        daoUtil.setString( 3, style.getDescription( ) );
-        daoUtil.setInt( 4, style.getId( ) );
+            daoUtil.setString( 1, style.getPortletTypeId( ) );
+            daoUtil.setInt( 2, style.getPortalComponentId( ) );
+            daoUtil.setString( 3, style.getDescription( ) );
+            daoUtil.setInt( 4, style.getId( ) );
 
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+            daoUtil.executeUpdate( );
+        }
     }
 
     /**
@@ -155,25 +159,26 @@ public final class StyleDAO implements IStyleDAO
      */
     public Collection<Style> selectStylesList( )
     {
-        Collection<Style> styleList = new ArrayList<Style>( );
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL );
-        daoUtil.executeQuery( );
-
-        while ( daoUtil.next( ) )
+        Collection<Style> styleList = new ArrayList<>( );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL ) )
         {
-            Style style = new Style( );
+            daoUtil.executeQuery( );
 
-            style.setId( daoUtil.getInt( 1 ) );
-            style.setPortletTypeId( daoUtil.getString( 2 ) );
-            style.setPortalComponentId( daoUtil.getInt( 3 ) );
-            style.setDescription( daoUtil.getString( 4 ) );
-            style.setPortletTypeName( daoUtil.getString( 5 ) );
-            style.setPortalComponentName( daoUtil.getString( 6 ) );
+            while ( daoUtil.next( ) )
+            {
+                Style style = new Style( );
 
-            styleList.add( style );
+                style.setId( daoUtil.getInt( 1 ) );
+                style.setPortletTypeId( daoUtil.getString( 2 ) );
+                style.setPortalComponentId( daoUtil.getInt( 3 ) );
+                style.setDescription( daoUtil.getString( 4 ) );
+                style.setPortletTypeName( daoUtil.getString( 5 ) );
+                style.setPortalComponentName( daoUtil.getString( 6 ) );
+
+                styleList.add( style );
+            }
+
         }
-
-        daoUtil.free( );
 
         return styleList;
     }
@@ -186,15 +191,16 @@ public final class StyleDAO implements IStyleDAO
     public ReferenceList selectPortalComponentList( )
     {
         ReferenceList portletComponentList = new ReferenceList( );
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_PORTLETCOMPONENT );
-        daoUtil.executeQuery( );
-
-        while ( daoUtil.next( ) )
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_PORTLETCOMPONENT ) )
         {
-            portletComponentList.addItem( daoUtil.getInt( 1 ), daoUtil.getString( 2 ) );
-        }
+            daoUtil.executeQuery( );
 
-        daoUtil.free( );
+            while ( daoUtil.next( ) )
+            {
+                portletComponentList.addItem( daoUtil.getInt( 1 ), daoUtil.getString( 2 ) );
+            }
+
+        }
 
         return portletComponentList;
     }
@@ -208,24 +214,25 @@ public final class StyleDAO implements IStyleDAO
      */
     public Collection<StyleSheet> selectStyleSheetList( int nStyleId )
     {
-        Collection<StyleSheet> stylesheetList = new ArrayList<StyleSheet>( );
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_STYLESHEET );
-
-        daoUtil.setInt( 1, nStyleId );
-        daoUtil.executeQuery( );
-
-        while ( daoUtil.next( ) )
+        Collection<StyleSheet> stylesheetList = new ArrayList<>( );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_STYLESHEET ) )
         {
-            StyleSheet stylesheet = new StyleSheet( );
 
-            stylesheet.setId( daoUtil.getInt( 1 ) );
-            stylesheet.setDescription( daoUtil.getString( 2 ) );
-            stylesheet.setFile( daoUtil.getString( 3 ) );
+            daoUtil.setInt( 1, nStyleId );
+            daoUtil.executeQuery( );
 
-            stylesheetList.add( stylesheet );
+            while ( daoUtil.next( ) )
+            {
+                StyleSheet stylesheet = new StyleSheet( );
+
+                stylesheet.setId( daoUtil.getInt( 1 ) );
+                stylesheet.setDescription( daoUtil.getString( 2 ) );
+                stylesheet.setFile( daoUtil.getString( 3 ) );
+
+                stylesheetList.add( stylesheet );
+            }
+
         }
-
-        daoUtil.free( );
 
         return stylesheetList;
     }
@@ -239,20 +246,20 @@ public final class StyleDAO implements IStyleDAO
      */
     public boolean checkStylePortalComponent( int nPortalComponentId )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_CHECK_STYLE_PORTLETCOMPONENT );
-
-        daoUtil.setInt( 1, nPortalComponentId );
-        daoUtil.executeQuery( );
-
-        if ( daoUtil.next( ) )
+        boolean check = false;
+        try( DAOUtil daoUtil = new DAOUtil( SQL_CHECK_STYLE_PORTLETCOMPONENT ) )
         {
-            daoUtil.free( );
 
-            return true;
+            daoUtil.setInt( 1, nPortalComponentId );
+            daoUtil.executeQuery( );
+
+            if ( daoUtil.next( ) )
+            {
+                check = true;
+            }
+
         }
 
-        daoUtil.free( );
-
-        return false;
+        return check;
     }
 }

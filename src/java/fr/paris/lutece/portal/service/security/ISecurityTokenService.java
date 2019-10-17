@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -58,9 +58,9 @@ public interface ISecurityTokenService
      * 
      * @param request
      *            The Http request
-     * @param StrActionType
+     * @param strActionType
      *            the action type
      * @return true if the request contains the security token associated to the action type
      */
-    boolean validate( HttpServletRequest request, String StrActionType );
+    boolean validate( HttpServletRequest request, String strActionType );
 }

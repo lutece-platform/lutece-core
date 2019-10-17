@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -74,7 +74,7 @@ public class HeadersPageCachingFilter extends SimpleCachingHeadersPageCachingFil
      * {@inheritDoc }
      */
     @Override
-    public void doInit( FilterConfig filterConfig ) throws CacheException
+    public void doInit( FilterConfig filterConfig )
     {
         // Override to inhibate the startup call made too early
         // The original treatment is done at the first doFilter call
@@ -84,7 +84,7 @@ public class HeadersPageCachingFilter extends SimpleCachingHeadersPageCachingFil
     /**
      * Initialization of the filter
      */
-    private void init( )
+    protected void init( )
     {
         // Execute the doInit
         synchronized( HeadersPageCachingFilter.class )
@@ -131,6 +131,16 @@ public class HeadersPageCachingFilter extends SimpleCachingHeadersPageCachingFil
     }
 
     /**
+     * Returns a boolean describing whether the filter has been initialized
+     *
+     * @return True if the filter is initialized
+     */
+    protected boolean getInit( )
+    {
+        return _bInit;
+    }
+
+    /**
      * Reads the filterConfig for the parameter "blockingTimeoutMillis", and if found, set the blocking timeout. If there is a parsing exception, no timeout is
      * set.
      *
@@ -165,8 +175,8 @@ public class HeadersPageCachingFilter extends SimpleCachingHeadersPageCachingFil
      * {@inheritDoc }
      */
     @Override
-    protected void doFilter( HttpServletRequest request, HttpServletResponse response, FilterChain chain ) throws AlreadyGzippedException,
-            AlreadyCommittedException, FilterNonReentrantException, LockTimeoutException, Exception
+    protected void doFilter( HttpServletRequest request, HttpServletResponse response, FilterChain chain )
+            throws AlreadyGzippedException, AlreadyCommittedException, FilterNonReentrantException, LockTimeoutException, Exception
     {
         if ( !_bInit )
         {

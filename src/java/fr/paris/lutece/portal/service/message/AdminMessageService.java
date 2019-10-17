@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -352,9 +352,7 @@ public final class AdminMessageService
     public static AdminMessage getMessage( HttpServletRequest request )
     {
         HttpSession session = request.getSession( true );
-        AdminMessage message = (AdminMessage) session.getAttribute( ATTRIBUTE_MESSAGE );
-
-        return message;
+        return (AdminMessage) session.getAttribute( ATTRIBUTE_MESSAGE );
     }
 
     /**
@@ -479,7 +477,7 @@ public final class AdminMessageService
      */
     public static String getFormattedList( List<String> list, Locale locale )
     {
-        Map<String, List<String>> model = new HashMap<String, List<String>>( );
+        Map<String, List<String>> model = new HashMap<>( );
         model.put( MARK_MESSAGES_LIST, list );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_FORMAT_LIST, locale, model );
@@ -500,15 +498,11 @@ public final class AdminMessageService
      */
     private static <T> Object [ ] formatConstraintViolations( HttpServletRequest request, Set<ConstraintViolation<T>> constraintViolations )
     {
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<>( );
         model.put( MARK_ERRORS_LIST, constraintViolations );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ERRORS_LIST, request.getLocale( ), model );
-        String [ ] formatedErrors = {
-            template.getHtml( )
-        };
-
-        return formatedErrors;
+        return new String[] { template.getHtml( ) };
     }
 
     /**
@@ -522,16 +516,12 @@ public final class AdminMessageService
      *            The set of violations
      * @return The formatted errors list as an object array
      */
-    private static <T> Object [ ] formatValidationErrors( HttpServletRequest request, List<? extends ErrorMessage> errors )
+    private static Object [ ] formatValidationErrors( HttpServletRequest request, List<? extends ErrorMessage> errors )
     {
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<>( );
         model.put( MARK_ERRORS_LIST, errors );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ERRORS_LIST, request.getLocale( ), model );
-        String [ ] formatedErrors = {
-            template.getHtml( )
-        };
-
-        return formatedErrors;
+        return new String[] { template.getHtml( ) };
     }
 }

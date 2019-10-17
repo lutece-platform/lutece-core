@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -62,8 +62,8 @@ public class AdminUser implements Serializable, AdminWorkgroupResource
     public static final int NOT_ACTIVE_CODE = 1;
     public static final int EXPIRED_CODE = 5;
     public static final int ANONYMIZED_CODE = 10;
-    public static final Timestamp DEFAULT_DATE_LAST_LOGIN = Timestamp.valueOf( "1980-01-01 00:00:00" );
-    private static final long serialVersionUID = 6990147698137275247L;
+    private static final Timestamp DEFAULT_DATE_LAST_LOGIN = Timestamp.valueOf( "1980-01-01 00:00:00" );
+    private static final long serialVersionUID = 7533831976351347197L;
     private static EmailPatternRegularExpressionRemovalListener _listenerRegularExpression;
     private int _nUserId;
     private String _strAccessCode;
@@ -83,12 +83,12 @@ public class AdminUser implements Serializable, AdminWorkgroupResource
     /**
      * User's rights. We use a HashMap instead of a Map so that the field is forced to be serializable.
      */
-    private HashMap<String, Right> _rights = new HashMap<String, Right>( );
+    private HashMap<String, Right> _rights = new HashMap<>( );
 
     /**
      * User's roles. We use a HashMap instead of a Map so that the field is forced to be serializable.
      */
-    private HashMap<String, AdminRole> _roles = new HashMap<String, AdminRole>( );
+    private HashMap<String, AdminRole> _roles = new HashMap<>( );
 
     /** Authentication Service */
     private String _strAuthenticationService;
@@ -674,5 +674,10 @@ public class AdminUser implements Serializable, AdminWorkgroupResource
     public Object getUserInfo( String strKey )
     {
         return _userInfo.get( strKey );
+    }
+        
+    public static Timestamp getDefaultDateLastLogin( )
+    {
+        return new Timestamp( DEFAULT_DATE_LAST_LOGIN.getTime( ) );
     }
 }

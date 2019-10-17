@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -174,11 +174,13 @@ public class DAOUtilTransactionManager extends DataSourceTransactionManager impl
         @Override
         public void setLoginTimeout( int seconds ) throws SQLException
         {
+            // Do nothing
         }
 
         @Override
         public void setLogWriter( PrintWriter out ) throws SQLException
         {
+            // Do nothing
         }
 
         @Override

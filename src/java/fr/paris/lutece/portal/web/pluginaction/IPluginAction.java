@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -53,10 +53,10 @@ import javax.servlet.http.HttpServletResponse;
  * <li>{@link #getName()} is mainly for debbuging purpose
  * </ul>
  * 
- * @param <FieldsDTO>
+ * @param <F>
  *            the dto used by the process method, might be session variables or any useful data for the action processing.
  */
-public interface IPluginAction<FieldsDTO>
+public interface IPluginAction<F>
 {
     /**
      * Returns <code>true</code> if the action is invoked, <code>false</code> otherwise. <br>
@@ -83,7 +83,7 @@ public interface IPluginAction<FieldsDTO>
      * @throws AccessDeniedException
      *             if the user can't access the feature
      */
-    IPluginActionResult process( HttpServletRequest request, HttpServletResponse response, AdminUser adminUser, FieldsDTO sessionFields )
+    IPluginActionResult process( HttpServletRequest request, HttpServletResponse response, AdminUser adminUser, F sessionFields )
             throws AccessDeniedException;
 
     /**

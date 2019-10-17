@@ -70,8 +70,7 @@ public class CacheJspBeanTest extends LuteceTestCase
 {
 
     /**
-     * Test of getManageCaches method, of class
-     * fr.paris.lutece.portal.web.system.SystemJspBean.
+     * Test of getManageCaches method, of class fr.paris.lutece.portal.web.system.SystemJspBean.
      */
     public void testGetManageCaches( ) throws AccessDeniedException
     {
@@ -84,8 +83,7 @@ public class CacheJspBeanTest extends LuteceTestCase
     }
 
     /**
-     * Test of doResetCaches method, of class
-     * fr.paris.lutece.portal.web.system.SystemJspBean.
+     * Test of doResetCaches method, of class fr.paris.lutece.portal.web.system.SystemJspBean.
      * 
      * @throws AccessDeniedException
      */
@@ -94,17 +92,14 @@ public class CacheJspBeanTest extends LuteceTestCase
         CacheListener cacheEventListener = new CacheListener( );
         long registeredListener = CacheService.getCacheableServicesList( ).stream( )
                 .filter( service -> service instanceof AbstractCacheableService && service.isCacheEnable( ) )
-                .map( service -> ( ( AbstractCacheableService ) service ).getCache( )
-                        .getCacheEventNotificationService( ) )
+                .map( service -> ( (AbstractCacheableService) service ).getCache( ).getCacheEventNotificationService( ) )
                 .peek( rel -> rel.registerListener( cacheEventListener ) ).count( );
         assertFalse( "There should be at least one active AbstractCacheableService", 0 == registeredListener );
         MockHttpServletRequest request = new MockHttpServletRequest( );
         Utils.registerAdminUserWithRigth( request, new AdminUser( ), CacheJspBean.RIGHT_CACHE_MANAGEMENT );
-        request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/system/manage_caches.html" ) );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "admin/system/manage_caches.html" ) );
         CacheJspBean.doResetCaches( request );
-        assertEquals( "Not all AbstractCacheableService were reset", registeredListener,
-                cacheEventListener.getCallCount( ) );
+        assertEquals( "Not all AbstractCacheableService were reset", registeredListener, cacheEventListener.getCallCount( ) );
     }
 
     public void testDoResetCachesInvalidToken( ) throws AccessDeniedException
@@ -112,20 +107,19 @@ public class CacheJspBeanTest extends LuteceTestCase
         CacheListener cacheEventListener = new CacheListener( );
         long registeredListener = CacheService.getCacheableServicesList( ).stream( )
                 .filter( service -> service instanceof AbstractCacheableService && service.isCacheEnable( ) )
-                .map( service -> ( ( AbstractCacheableService ) service ).getCache( )
-                        .getCacheEventNotificationService( ) )
+                .map( service -> ( (AbstractCacheableService) service ).getCache( ).getCacheEventNotificationService( ) )
                 .peek( rel -> rel.registerListener( cacheEventListener ) ).count( );
         assertFalse( "There should be at least one active AbstractCacheableService", 0 == registeredListener );
         MockHttpServletRequest request = new MockHttpServletRequest( );
         Utils.registerAdminUserWithRigth( request, new AdminUser( ), CacheJspBean.RIGHT_CACHE_MANAGEMENT );
-        request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/system/manage_caches.html" ) + "b" );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "admin/system/manage_caches.html" )
+                + "b" );
         try
         {
             CacheJspBean.doResetCaches( request );
             fail( "Should have thrown" );
         }
-        catch ( AccessDeniedException e )
+        catch( AccessDeniedException e )
         {
             assertEquals( "No cache should have been reset", 0, cacheEventListener.getCallCount( ) );
         }
@@ -136,8 +130,7 @@ public class CacheJspBeanTest extends LuteceTestCase
         CacheListener cacheEventListener = new CacheListener( );
         long registeredListener = CacheService.getCacheableServicesList( ).stream( )
                 .filter( service -> service instanceof AbstractCacheableService && service.isCacheEnable( ) )
-                .map( service -> ( ( AbstractCacheableService ) service ).getCache( )
-                        .getCacheEventNotificationService( ) )
+                .map( service -> ( (AbstractCacheableService) service ).getCache( ).getCacheEventNotificationService( ) )
                 .peek( rel -> rel.registerListener( cacheEventListener ) ).count( );
         assertFalse( "There should be at least one active AbstractCacheableService", 0 == registeredListener );
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -147,7 +140,7 @@ public class CacheJspBeanTest extends LuteceTestCase
             CacheJspBean.doResetCaches( request );
             fail( "Should have thrown" );
         }
-        catch ( AccessDeniedException e )
+        catch( AccessDeniedException e )
         {
             assertEquals( "No cache should have been reset", 0, cacheEventListener.getCallCount( ) );
         }
@@ -162,8 +155,7 @@ public class CacheJspBeanTest extends LuteceTestCase
             cacheIndex++;
             if ( service instanceof AbstractCacheableService )
             {
-                ( ( AbstractCacheableService ) service ).getCache( ).getCacheEventNotificationService( )
-                        .registerListener( cacheEventListener );
+                ( (AbstractCacheableService) service ).getCache( ).getCacheEventNotificationService( ).registerListener( cacheEventListener );
                 break;
             }
         }
@@ -171,15 +163,13 @@ public class CacheJspBeanTest extends LuteceTestCase
         CacheListener allCacheEventListener = new CacheListener( );
         long registeredListener = CacheService.getCacheableServicesList( ).stream( )
                 .filter( service -> service instanceof AbstractCacheableService && service.isCacheEnable( ) )
-                .map( service -> ( ( AbstractCacheableService ) service ).getCache( )
-                        .getCacheEventNotificationService( ) )
+                .map( service -> ( (AbstractCacheableService) service ).getCache( ).getCacheEventNotificationService( ) )
                 .peek( rel -> rel.registerListener( allCacheEventListener ) ).count( );
         assertFalse( "There should be at least one active AbstractCacheableService", 0 == registeredListener );
         MockHttpServletRequest request = new MockHttpServletRequest( );
         Utils.registerAdminUserWithRigth( request, new AdminUser( ), CacheJspBean.RIGHT_CACHE_MANAGEMENT );
         request.addParameter( "id_cache", Integer.toString( cacheIndex ) );
-        request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/system/manage_caches.html" ) );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "admin/system/manage_caches.html" ) );
         CacheJspBean.doResetCaches( request );
         assertEquals( "Only one cache should have been reset", 1, allCacheEventListener.getCallCount( ) );
         assertEquals( "The target cache should have been reset", 1, cacheEventListener.getCallCount( ) );
@@ -194,8 +184,7 @@ public class CacheJspBeanTest extends LuteceTestCase
             cacheIndex++;
             if ( service instanceof AbstractCacheableService )
             {
-                ( ( AbstractCacheableService ) service ).getCache( ).getCacheEventNotificationService( )
-                        .registerListener( cacheEventListener );
+                ( (AbstractCacheableService) service ).getCache( ).getCacheEventNotificationService( ).registerListener( cacheEventListener );
                 break;
             }
         }
@@ -203,21 +192,20 @@ public class CacheJspBeanTest extends LuteceTestCase
         CacheListener allCacheEventListener = new CacheListener( );
         long registeredListener = CacheService.getCacheableServicesList( ).stream( )
                 .filter( service -> service instanceof AbstractCacheableService && service.isCacheEnable( ) )
-                .map( service -> ( ( AbstractCacheableService ) service ).getCache( )
-                        .getCacheEventNotificationService( ) )
+                .map( service -> ( (AbstractCacheableService) service ).getCache( ).getCacheEventNotificationService( ) )
                 .peek( rel -> rel.registerListener( allCacheEventListener ) ).count( );
         assertFalse( "There should be at least one active AbstractCacheableService", 0 == registeredListener );
         MockHttpServletRequest request = new MockHttpServletRequest( );
         Utils.registerAdminUserWithRigth( request, new AdminUser( ), CacheJspBean.RIGHT_CACHE_MANAGEMENT );
         request.addParameter( "id_cache", Integer.toString( cacheIndex ) );
-        request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/system/manage_caches.html" ) + "b" );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "admin/system/manage_caches.html" )
+                + "b" );
         try
         {
             CacheJspBean.doResetCaches( request );
             fail( "Should have thrown" );
         }
-        catch ( AccessDeniedException e )
+        catch( AccessDeniedException e )
         {
             assertEquals( "No cache should have been reset", 0, allCacheEventListener.getCallCount( ) );
             assertEquals( "No cache should have been reset", 0, cacheEventListener.getCallCount( ) );
@@ -233,8 +221,7 @@ public class CacheJspBeanTest extends LuteceTestCase
             cacheIndex++;
             if ( service instanceof AbstractCacheableService )
             {
-                ( ( AbstractCacheableService ) service ).getCache( ).getCacheEventNotificationService( )
-                        .registerListener( cacheEventListener );
+                ( (AbstractCacheableService) service ).getCache( ).getCacheEventNotificationService( ).registerListener( cacheEventListener );
                 break;
             }
         }
@@ -242,8 +229,7 @@ public class CacheJspBeanTest extends LuteceTestCase
         CacheListener allCacheEventListener = new CacheListener( );
         long registeredListener = CacheService.getCacheableServicesList( ).stream( )
                 .filter( service -> service instanceof AbstractCacheableService && service.isCacheEnable( ) )
-                .map( service -> ( ( AbstractCacheableService ) service ).getCache( )
-                        .getCacheEventNotificationService( ) )
+                .map( service -> ( (AbstractCacheableService) service ).getCache( ).getCacheEventNotificationService( ) )
                 .peek( rel -> rel.registerListener( allCacheEventListener ) ).count( );
         assertFalse( "There should be at least one active AbstractCacheableService", 0 == registeredListener );
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -254,7 +240,7 @@ public class CacheJspBeanTest extends LuteceTestCase
             CacheJspBean.doResetCaches( request );
             fail( "Should have thrown" );
         }
-        catch ( AccessDeniedException e )
+        catch( AccessDeniedException e )
         {
             assertEquals( "No cache should have been reset", 0, allCacheEventListener.getCallCount( ) );
             assertEquals( "No cache should have been reset", 0, cacheEventListener.getCallCount( ) );
@@ -275,8 +261,8 @@ public class CacheJspBeanTest extends LuteceTestCase
         assertFalse( "There should be at least one active AbstractCacheableService", cacheIndex == -1 );
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.addParameter( "id_cache", Integer.toString( cacheIndex ) );
-        request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/system/DoToggleCache.jsp" ) );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( )
+                .getToken( request, "jsp/admin/system/DoToggleCache.jsp" ) );
         try
         {
             assertTrue( CacheService.getCacheableServicesList( ).get( cacheIndex ).isCacheEnable( ) );
@@ -303,15 +289,15 @@ public class CacheJspBeanTest extends LuteceTestCase
         assertFalse( "There should be at least one active AbstractCacheableService", cacheIndex == -1 );
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.addParameter( "id_cache", Integer.toString( cacheIndex ) );
-        request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/system/DoToggleCache.jsp" ) + "b" );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( )
+                .getToken( request, "jsp/admin/system/DoToggleCache.jsp" ) + "b" );
         try
         {
             assertTrue( CacheService.getCacheableServicesList( ).get( cacheIndex ).isCacheEnable( ) );
             CacheJspBean.doToggleCache( request );
             fail( "Should have thrown" );
         }
-        catch ( AccessDeniedException e )
+        catch( AccessDeniedException e )
         {
             assertTrue( CacheService.getCacheableServicesList( ).get( cacheIndex ).isCacheEnable( ) );
         }
@@ -341,7 +327,7 @@ public class CacheJspBeanTest extends LuteceTestCase
             CacheJspBean.doToggleCache( request );
             fail( "Should have thrown" );
         }
-        catch ( AccessDeniedException e )
+        catch( AccessDeniedException e )
         {
             assertTrue( CacheService.getCacheableServicesList( ).get( cacheIndex ).isCacheEnable( ) );
         }
@@ -364,7 +350,7 @@ public class CacheJspBeanTest extends LuteceTestCase
             AdminMessage message = AdminMessageService.getMessage( request );
             assertNotNull( message );
             assertEquals( AdminMessage.TYPE_CONFIRMATION, message.getType( ) );
-            for ( Locale locale : I18nService.getAdminAvailableLocales( ) ) 
+            for ( Locale locale : I18nService.getAdminAvailableLocales( ) )
             {
                 assertTrue( message.getText( locale ).contains( service.getName( ) ) );
             }
@@ -383,8 +369,7 @@ public class CacheJspBeanTest extends LuteceTestCase
     }
 
     /**
-     * Test of doReloadProperties method, of class
-     * fr.paris.lutece.portal.web.system.SystemJspBean.
+     * Test of doReloadProperties method, of class fr.paris.lutece.portal.web.system.SystemJspBean.
      * 
      * @throws AccessDeniedException
      * @throws IOException
@@ -409,8 +394,7 @@ public class CacheJspBeanTest extends LuteceTestCase
 
         MockHttpServletRequest request = new MockHttpServletRequest( );
         Utils.registerAdminUserWithRigth( request, new AdminUser( ), CacheJspBean.RIGHT_CACHE_MANAGEMENT );
-        request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/system/manage_caches.html" ) );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "admin/system/manage_caches.html" ) );
 
         CacheJspBean instance = new CacheJspBean( );
         instance.doReloadProperties( request );
@@ -438,8 +422,8 @@ public class CacheJspBeanTest extends LuteceTestCase
 
         MockHttpServletRequest request = new MockHttpServletRequest( );
         Utils.registerAdminUserWithRigth( request, new AdminUser( ), CacheJspBean.RIGHT_CACHE_MANAGEMENT );
-        request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/system/manage_caches.html" ) + "b" );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "admin/system/manage_caches.html" )
+                + "b" );
 
         CacheJspBean instance = new CacheJspBean( );
         try
@@ -447,7 +431,7 @@ public class CacheJspBeanTest extends LuteceTestCase
             instance.doReloadProperties( request );
             fail( "Should have thrown" );
         }
-        catch ( AccessDeniedException e )
+        catch( AccessDeniedException e )
         {
             assertFalse( propertyValue.equals( AppPropertiesService.getProperty( property ) ) );
         }
@@ -480,7 +464,7 @@ public class CacheJspBeanTest extends LuteceTestCase
             instance.doReloadProperties( request );
             fail( "Should have thrown" );
         }
-        catch ( AccessDeniedException e )
+        catch( AccessDeniedException e )
         {
             assertFalse( propertyValue.equals( AppPropertiesService.getProperty( property ) ) );
         }

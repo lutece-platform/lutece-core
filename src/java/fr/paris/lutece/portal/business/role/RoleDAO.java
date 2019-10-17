@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -62,14 +62,15 @@ public final class RoleDAO implements IRoleDAO
      */
     public void insert( Role role )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT ) )
+        {
 
-        daoUtil.setString( 1, role.getRole( ) );
-        daoUtil.setString( 2, role.getRoleDescription( ) );
-        daoUtil.setString( 3, role.getWorkgroup( ) );
+            daoUtil.setString( 1, role.getRole( ) );
+            daoUtil.setString( 2, role.getRoleDescription( ) );
+            daoUtil.setString( 3, role.getWorkgroup( ) );
 
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+            daoUtil.executeUpdate( );
+        }
     }
 
     /**
@@ -82,20 +83,21 @@ public final class RoleDAO implements IRoleDAO
     public Role load( String strRole )
     {
         Role role = null;
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT );
-        daoUtil.setString( 1, strRole );
-
-        daoUtil.executeQuery( );
-
-        if ( daoUtil.next( ) )
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT ) )
         {
-            role = new Role( );
-            role.setRole( daoUtil.getString( 1 ) );
-            role.setRoleDescription( daoUtil.getString( 2 ) );
-            role.setWorkgroup( daoUtil.getString( 3 ) );
-        }
+            daoUtil.setString( 1, strRole );
 
-        daoUtil.free( );
+            daoUtil.executeQuery( );
+
+            if ( daoUtil.next( ) )
+            {
+                role = new Role( );
+                role.setRole( daoUtil.getString( 1 ) );
+                role.setRoleDescription( daoUtil.getString( 2 ) );
+                role.setWorkgroup( daoUtil.getString( 3 ) );
+            }
+
+        }
 
         return role;
     }
@@ -108,10 +110,11 @@ public final class RoleDAO implements IRoleDAO
      */
     public void delete( String strRole )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE );
-        daoUtil.setString( 1, strRole );
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE ) )
+        {
+            daoUtil.setString( 1, strRole );
+            daoUtil.executeUpdate( );
+        }
     }
 
     /**
@@ -122,14 +125,15 @@ public final class RoleDAO implements IRoleDAO
      */
     public void store( Role role )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE ) )
+        {
 
-        daoUtil.setString( 1, role.getRoleDescription( ) );
-        daoUtil.setString( 2, role.getWorkgroup( ) );
-        daoUtil.setString( 3, role.getRole( ) );
+            daoUtil.setString( 1, role.getRoleDescription( ) );
+            daoUtil.setString( 2, role.getWorkgroup( ) );
+            daoUtil.setString( 3, role.getRole( ) );
 
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+            daoUtil.executeUpdate( );
+        }
     }
 
     /**
@@ -140,19 +144,20 @@ public final class RoleDAO implements IRoleDAO
     public ReferenceList selectRolesList( )
     {
         ReferenceList roleList = new ReferenceList( );
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL );
-        daoUtil.executeQuery( );
-
-        while ( daoUtil.next( ) )
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL ) )
         {
-            Role role = new Role( );
-            role.setRole( daoUtil.getString( 1 ) );
-            role.setRoleDescription( daoUtil.getString( 2 ) );
+            daoUtil.executeQuery( );
 
-            roleList.addItem( role.getRole( ), role.getRoleDescription( ) );
+            while ( daoUtil.next( ) )
+            {
+                Role role = new Role( );
+                role.setRole( daoUtil.getString( 1 ) );
+                role.setRoleDescription( daoUtil.getString( 2 ) );
+
+                roleList.addItem( role.getRole( ), role.getRoleDescription( ) );
+            }
+
         }
-
-        daoUtil.free( );
 
         return roleList;
     }
@@ -164,21 +169,22 @@ public final class RoleDAO implements IRoleDAO
      */
     public Collection<Role> selectAll( )
     {
-        Collection<Role> listRoles = new ArrayList<Role>( );
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL );
-        daoUtil.executeQuery( );
-
-        while ( daoUtil.next( ) )
+        Collection<Role> listRoles = new ArrayList<>( );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL ) )
         {
-            Role role = new Role( );
-            role.setRole( daoUtil.getString( 1 ) );
-            role.setRoleDescription( daoUtil.getString( 2 ) );
-            role.setWorkgroup( daoUtil.getString( 3 ) );
+            daoUtil.executeQuery( );
 
-            listRoles.add( role );
+            while ( daoUtil.next( ) )
+            {
+                Role role = new Role( );
+                role.setRole( daoUtil.getString( 1 ) );
+                role.setRoleDescription( daoUtil.getString( 2 ) );
+                role.setWorkgroup( daoUtil.getString( 3 ) );
+
+                listRoles.add( role );
+            }
+
         }
-
-        daoUtil.free( );
 
         return listRoles;
     }

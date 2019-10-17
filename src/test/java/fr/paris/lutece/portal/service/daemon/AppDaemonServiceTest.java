@@ -83,8 +83,7 @@ public class AppDaemonServiceTest extends LuteceTestCase
 
         assertFalse( AppDaemonService.getDaemonEntries( ).contains( duplicate ) );
         assertTrue( AppDaemonService.getDaemonEntries( ).contains( _entry ) );
-        DaemonEntry registeredEntry = AppDaemonService.getDaemonEntries( ).stream( )
-                .filter( entry -> JUNIT_DAEMON.equals( entry.getId( ) ) ).findFirst( )
+        DaemonEntry registeredEntry = AppDaemonService.getDaemonEntries( ).stream( ).filter( entry -> JUNIT_DAEMON.equals( entry.getId( ) ) ).findFirst( )
                 .orElseThrow( AssertionError::new );
         assertEquals( JUNIT_DAEMON, registeredEntry.getDescriptionKey( ) );
     }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -46,7 +46,7 @@ import java.util.Locale;
 public final class PortletTypeHome
 {
     // Static variable pointed at the DAO instance
-    private static IPortletTypeDAO _dao = (IPortletTypeDAO) SpringContextService.getBean( "portletTypeDAO" );
+    private static IPortletTypeDAO _dao = SpringContextService.getBean( "portletTypeDAO" );
 
     /**
      * Creates a new PortletTypeHome object.

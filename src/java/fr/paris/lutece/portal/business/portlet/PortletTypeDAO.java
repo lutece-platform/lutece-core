@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -69,24 +69,25 @@ public final class PortletTypeDAO implements IPortletTypeDAO
      */
     public void insert( PortletType portletType )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT );
-        daoUtil.setString( 1, portletType.getId( ) );
-        daoUtil.setString( 2, portletType.getNameKey( ) );
-        daoUtil.setString( 3, portletType.getUrlCreation( ) );
-        daoUtil.setString( 4, portletType.getUrlUpdate( ) );
-        daoUtil.setString( 5, portletType.getHomeClass( ) );
-        daoUtil.setString( 6, portletType.getPluginName( ) );
-        daoUtil.setString( 7, portletType.getDoCreateUrl( ) );
-        daoUtil.setString( 8, portletType.getCreateScriptTemplate( ) );
-        daoUtil.setString( 9, portletType.getCreateSpecificTemplate( ) );
-        daoUtil.setString( 10, portletType.getCreateSpecificFormTemplate( ) );
-        daoUtil.setString( 11, portletType.getDoModifyUrl( ) );
-        daoUtil.setString( 12, portletType.getModifyScriptTemplate( ) );
-        daoUtil.setString( 13, portletType.getModifySpecificTemplate( ) );
-        daoUtil.setString( 14, portletType.getModifySpecificFormTemplate( ) );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT ) )
+        {
+            daoUtil.setString( 1, portletType.getId( ) );
+            daoUtil.setString( 2, portletType.getNameKey( ) );
+            daoUtil.setString( 3, portletType.getUrlCreation( ) );
+            daoUtil.setString( 4, portletType.getUrlUpdate( ) );
+            daoUtil.setString( 5, portletType.getHomeClass( ) );
+            daoUtil.setString( 6, portletType.getPluginName( ) );
+            daoUtil.setString( 7, portletType.getDoCreateUrl( ) );
+            daoUtil.setString( 8, portletType.getCreateScriptTemplate( ) );
+            daoUtil.setString( 9, portletType.getCreateSpecificTemplate( ) );
+            daoUtil.setString( 10, portletType.getCreateSpecificFormTemplate( ) );
+            daoUtil.setString( 11, portletType.getDoModifyUrl( ) );
+            daoUtil.setString( 12, portletType.getModifyScriptTemplate( ) );
+            daoUtil.setString( 13, portletType.getModifySpecificTemplate( ) );
+            daoUtil.setString( 14, portletType.getModifySpecificFormTemplate( ) );
 
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+            daoUtil.executeUpdate( );
+        }
     }
 
     /**
@@ -98,31 +99,31 @@ public final class PortletTypeDAO implements IPortletTypeDAO
      */
     public PortletType load( String strPortletTypeId )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT );
-        daoUtil.setString( 1, strPortletTypeId );
-        daoUtil.executeQuery( );
-
         PortletType portletType = new PortletType( );
-
-        if ( daoUtil.next( ) )
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT ) )
         {
-            portletType.setId( daoUtil.getString( 1 ) );
-            portletType.setNameKey( daoUtil.getString( 2 ) );
-            portletType.setUrlCreation( daoUtil.getString( 3 ) );
-            portletType.setUrlUpdate( daoUtil.getString( 4 ) );
-            portletType.setHomeClass( daoUtil.getString( 5 ) );
-            portletType.setPluginName( daoUtil.getString( 6 ) );
-            portletType.setDoCreateUrl( daoUtil.getString( 7 ) );
-            portletType.setCreateScriptTemplate( daoUtil.getString( 8 ) );
-            portletType.setCreateSpecificTemplate( daoUtil.getString( 9 ) );
-            portletType.setCreateSpecificFormTemplate( daoUtil.getString( 10 ) );
-            portletType.setDoModifyUrl( daoUtil.getString( 11 ) );
-            portletType.setModifyScriptTemplate( daoUtil.getString( 12 ) );
-            portletType.setModifySpecificTemplate( daoUtil.getString( 13 ) );
-            portletType.setModifySpecificFormTemplate( daoUtil.getString( 14 ) );
-        }
+            daoUtil.setString( 1, strPortletTypeId );
+            daoUtil.executeQuery( );
 
-        daoUtil.free( );
+            if ( daoUtil.next( ) )
+            {
+                portletType.setId( daoUtil.getString( 1 ) );
+                portletType.setNameKey( daoUtil.getString( 2 ) );
+                portletType.setUrlCreation( daoUtil.getString( 3 ) );
+                portletType.setUrlUpdate( daoUtil.getString( 4 ) );
+                portletType.setHomeClass( daoUtil.getString( 5 ) );
+                portletType.setPluginName( daoUtil.getString( 6 ) );
+                portletType.setDoCreateUrl( daoUtil.getString( 7 ) );
+                portletType.setCreateScriptTemplate( daoUtil.getString( 8 ) );
+                portletType.setCreateSpecificTemplate( daoUtil.getString( 9 ) );
+                portletType.setCreateSpecificFormTemplate( daoUtil.getString( 10 ) );
+                portletType.setDoModifyUrl( daoUtil.getString( 11 ) );
+                portletType.setModifyScriptTemplate( daoUtil.getString( 12 ) );
+                portletType.setModifySpecificTemplate( daoUtil.getString( 13 ) );
+                portletType.setModifySpecificFormTemplate( daoUtil.getString( 14 ) );
+            }
+
+        }
 
         return portletType;
     }
@@ -135,11 +136,12 @@ public final class PortletTypeDAO implements IPortletTypeDAO
      */
     public void delete( String strPortletTypeId )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE );
-        daoUtil.setString( 1, strPortletTypeId );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE ) )
+        {
+            daoUtil.setString( 1, strPortletTypeId );
 
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+            daoUtil.executeUpdate( );
+        }
     }
 
     /**
@@ -151,18 +153,18 @@ public final class PortletTypeDAO implements IPortletTypeDAO
      */
     public String selectPortletTypeId( String strPluginHomeClass )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_PORTLET_TYPE_ID );
-        daoUtil.setString( 1, strPluginHomeClass );
-        daoUtil.executeQuery( );
-
         String strPortletTypeId = "";
-
-        if ( daoUtil.next( ) )
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_PORTLET_TYPE_ID ) )
         {
-            strPortletTypeId = daoUtil.getString( 1 );
-        }
+            daoUtil.setString( 1, strPluginHomeClass );
+            daoUtil.executeQuery( );
 
-        daoUtil.free( );
+            if ( daoUtil.next( ) )
+            {
+                strPortletTypeId = daoUtil.getString( 1 );
+            }
+
+        }
 
         return strPortletTypeId;
     }
@@ -176,18 +178,18 @@ public final class PortletTypeDAO implements IPortletTypeDAO
      */
     public int selectNbPortletTypeByPortlet( String strPortletTypeId )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_NB_PORTLET_TYPE_BY_PORTLET );
-        daoUtil.setString( 1, strPortletTypeId );
-        daoUtil.executeQuery( );
-
         int nCount = 0;
-
-        if ( daoUtil.next( ) )
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_NB_PORTLET_TYPE_BY_PORTLET ) )
         {
-            nCount = daoUtil.getInt( 1 );
-        }
+            daoUtil.setString( 1, strPortletTypeId );
+            daoUtil.executeQuery( );
 
-        daoUtil.free( );
+            if ( daoUtil.next( ) )
+            {
+                nCount = daoUtil.getInt( 1 );
+            }
+
+        }
 
         return nCount;
     }
@@ -201,22 +203,22 @@ public final class PortletTypeDAO implements IPortletTypeDAO
      */
     public ReferenceList selectPortletsTypesList( Locale locale )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_PORTLETS_TYPE_LIST );
-        daoUtil.executeQuery( );
-
         ReferenceList list = new ReferenceList( );
-
-        while ( daoUtil.next( ) )
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_PORTLETS_TYPE_LIST ) )
         {
-            PortletType portletType = new PortletType( );
-            portletType.setId( daoUtil.getString( 1 ) );
-            portletType.setNameKey( daoUtil.getString( 2 ) );
-            // Localize the portlet type
-            portletType.setLocale( locale );
-            list.addItem( portletType.getId( ), portletType.getName( ) );
-        }
+            daoUtil.executeQuery( );
 
-        daoUtil.free( );
+            while ( daoUtil.next( ) )
+            {
+                PortletType portletType = new PortletType( );
+                portletType.setId( daoUtil.getString( 1 ) );
+                portletType.setNameKey( daoUtil.getString( 2 ) );
+                // Localize the portlet type
+                portletType.setLocale( locale );
+                list.addItem( portletType.getId( ), portletType.getName( ) );
+            }
+
+        }
 
         return list;
     }
@@ -228,21 +230,22 @@ public final class PortletTypeDAO implements IPortletTypeDAO
      */
     public List<PortletType> selectPortletTypesList( )
     {
-        List<PortletType> list = new ArrayList<PortletType>( );
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_PORTLET_TYPE_LIST );
-        daoUtil.executeQuery( );
-
-        while ( daoUtil.next( ) )
+        List<PortletType> list = new ArrayList<>( );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_PORTLET_TYPE_LIST ) )
         {
-            PortletType portletType = new PortletType( );
-            portletType.setId( daoUtil.getString( 1 ) );
-            portletType.setNameKey( daoUtil.getString( 2 ) );
-            portletType.setUrlCreation( daoUtil.getString( 3 ) );
-            portletType.setUrlUpdate( daoUtil.getString( 4 ) );
-            list.add( portletType );
-        }
+            daoUtil.executeQuery( );
 
-        daoUtil.free( );
+            while ( daoUtil.next( ) )
+            {
+                PortletType portletType = new PortletType( );
+                portletType.setId( daoUtil.getString( 1 ) );
+                portletType.setNameKey( daoUtil.getString( 2 ) );
+                portletType.setUrlCreation( daoUtil.getString( 3 ) );
+                portletType.setUrlUpdate( daoUtil.getString( 4 ) );
+                list.add( portletType );
+            }
+
+        }
 
         return list;
     }

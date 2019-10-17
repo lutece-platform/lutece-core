@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -68,20 +68,20 @@ public final class ModeDAO implements IModeDAO
      */
     int newPrimaryKey( )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_NEW_PK );
-        daoUtil.executeQuery( );
-
         int nKey;
-
-        if ( !daoUtil.next( ) )
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_NEW_PK ) )
         {
-            // if the table is empty
-            nKey = 1;
+            daoUtil.executeQuery( );
+
+            if ( !daoUtil.next( ) )
+            {
+                // if the table is empty
+                nKey = 1;
+            }
+
+            nKey = daoUtil.getInt( 1 ) + 1;
+
         }
-
-        nKey = daoUtil.getInt( 1 ) + 1;
-
-        daoUtil.free( );
 
         return nKey;
     }
@@ -96,21 +96,22 @@ public final class ModeDAO implements IModeDAO
     {
         mode.setId( newPrimaryKey( ) );
 
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT ) )
+        {
 
-        daoUtil.setInt( 1, mode.getId( ) );
-        daoUtil.setString( 2, mode.getDescription( ) );
-        daoUtil.setString( 3, mode.getPath( ) );
-        daoUtil.setString( 4, mode.getOutputXslPropertyMethod( ) );
-        daoUtil.setString( 5, mode.getOutputXslPropertyVersion( ) );
-        daoUtil.setString( 6, mode.getOutputXslPropertyMediaType( ) );
-        daoUtil.setString( 7, mode.getOutputXslPropertyEncoding( ) );
-        daoUtil.setString( 8, mode.getOutputXslPropertyIndent( ) );
-        daoUtil.setString( 9, mode.getOutputXslPropertyOmitXmlDeclaration( ) );
-        daoUtil.setString( 10, mode.getOutputXslPropertyStandalone( ) );
+            daoUtil.setInt( 1, mode.getId( ) );
+            daoUtil.setString( 2, mode.getDescription( ) );
+            daoUtil.setString( 3, mode.getPath( ) );
+            daoUtil.setString( 4, mode.getOutputXslPropertyMethod( ) );
+            daoUtil.setString( 5, mode.getOutputXslPropertyVersion( ) );
+            daoUtil.setString( 6, mode.getOutputXslPropertyMediaType( ) );
+            daoUtil.setString( 7, mode.getOutputXslPropertyEncoding( ) );
+            daoUtil.setString( 8, mode.getOutputXslPropertyIndent( ) );
+            daoUtil.setString( 9, mode.getOutputXslPropertyOmitXmlDeclaration( ) );
+            daoUtil.setString( 10, mode.getOutputXslPropertyStandalone( ) );
 
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+            daoUtil.executeUpdate( );
+        }
     }
 
     /**
@@ -123,27 +124,28 @@ public final class ModeDAO implements IModeDAO
     public Mode load( int nIdMode )
     {
         Mode mode = null;
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT );
-        daoUtil.setInt( 1, nIdMode );
-
-        daoUtil.executeQuery( );
-
-        if ( daoUtil.next( ) )
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT ) )
         {
-            mode = new Mode( );
-            mode.setId( daoUtil.getInt( 1 ) );
-            mode.setDescription( daoUtil.getString( 2 ) );
-            mode.setPath( daoUtil.getString( 3 ) );
-            mode.setOutputXslPropertyMethod( daoUtil.getString( 4 ) );
-            mode.setOutputXslPropertyVersion( daoUtil.getString( 5 ) );
-            mode.setOutputXslPropertyMediaType( daoUtil.getString( 6 ) );
-            mode.setOutputXslPropertyEncoding( daoUtil.getString( 7 ) );
-            mode.setOutputXslPropertyIndent( daoUtil.getString( 8 ) );
-            mode.setOutputXslPropertyOmitXmlDeclaration( daoUtil.getString( 9 ) );
-            mode.setOutputXslPropertyStandalone( daoUtil.getString( 10 ) );
-        }
+            daoUtil.setInt( 1, nIdMode );
 
-        daoUtil.free( );
+            daoUtil.executeQuery( );
+
+            if ( daoUtil.next( ) )
+            {
+                mode = new Mode( );
+                mode.setId( daoUtil.getInt( 1 ) );
+                mode.setDescription( daoUtil.getString( 2 ) );
+                mode.setPath( daoUtil.getString( 3 ) );
+                mode.setOutputXslPropertyMethod( daoUtil.getString( 4 ) );
+                mode.setOutputXslPropertyVersion( daoUtil.getString( 5 ) );
+                mode.setOutputXslPropertyMediaType( daoUtil.getString( 6 ) );
+                mode.setOutputXslPropertyEncoding( daoUtil.getString( 7 ) );
+                mode.setOutputXslPropertyIndent( daoUtil.getString( 8 ) );
+                mode.setOutputXslPropertyOmitXmlDeclaration( daoUtil.getString( 9 ) );
+                mode.setOutputXslPropertyStandalone( daoUtil.getString( 10 ) );
+            }
+
+        }
 
         return mode;
     }
@@ -156,10 +158,11 @@ public final class ModeDAO implements IModeDAO
      */
     public void delete( int nModeId )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE );
-        daoUtil.setInt( 1, nModeId );
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE ) )
+        {
+            daoUtil.setInt( 1, nModeId );
+            daoUtil.executeUpdate( );
+        }
     }
 
     /**
@@ -170,21 +173,22 @@ public final class ModeDAO implements IModeDAO
      */
     public void store( Mode mode )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE ) )
+        {
 
-        daoUtil.setString( 1, mode.getDescription( ) );
-        daoUtil.setString( 2, mode.getPath( ) );
-        daoUtil.setString( 3, mode.getOutputXslPropertyMethod( ) );
-        daoUtil.setString( 4, mode.getOutputXslPropertyVersion( ) );
-        daoUtil.setString( 5, mode.getOutputXslPropertyMediaType( ) );
-        daoUtil.setString( 6, mode.getOutputXslPropertyEncoding( ) );
-        daoUtil.setString( 7, mode.getOutputXslPropertyIndent( ) );
-        daoUtil.setString( 8, mode.getOutputXslPropertyOmitXmlDeclaration( ) );
-        daoUtil.setString( 9, mode.getOutputXslPropertyStandalone( ) );
-        daoUtil.setInt( 10, mode.getId( ) );
+            daoUtil.setString( 1, mode.getDescription( ) );
+            daoUtil.setString( 2, mode.getPath( ) );
+            daoUtil.setString( 3, mode.getOutputXslPropertyMethod( ) );
+            daoUtil.setString( 4, mode.getOutputXslPropertyVersion( ) );
+            daoUtil.setString( 5, mode.getOutputXslPropertyMediaType( ) );
+            daoUtil.setString( 6, mode.getOutputXslPropertyEncoding( ) );
+            daoUtil.setString( 7, mode.getOutputXslPropertyIndent( ) );
+            daoUtil.setString( 8, mode.getOutputXslPropertyOmitXmlDeclaration( ) );
+            daoUtil.setString( 9, mode.getOutputXslPropertyStandalone( ) );
+            daoUtil.setInt( 10, mode.getId( ) );
 
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+            daoUtil.executeUpdate( );
+        }
     }
 
     /**
@@ -194,29 +198,30 @@ public final class ModeDAO implements IModeDAO
      */
     public Collection<Mode> selectModesList( )
     {
-        Collection<Mode> modeList = new ArrayList<Mode>( );
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL );
-        daoUtil.executeQuery( );
-
-        while ( daoUtil.next( ) )
+        Collection<Mode> modeList = new ArrayList<>( );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL ) )
         {
-            Mode mode = new Mode( );
+            daoUtil.executeQuery( );
 
-            mode.setId( daoUtil.getInt( 1 ) );
-            mode.setDescription( daoUtil.getString( 2 ) );
-            mode.setPath( daoUtil.getString( 3 ) );
-            mode.setOutputXslPropertyMethod( daoUtil.getString( 4 ) );
-            mode.setOutputXslPropertyVersion( daoUtil.getString( 5 ) );
-            mode.setOutputXslPropertyMediaType( daoUtil.getString( 6 ) );
-            mode.setOutputXslPropertyEncoding( daoUtil.getString( 7 ) );
-            mode.setOutputXslPropertyIndent( daoUtil.getString( 8 ) );
-            mode.setOutputXslPropertyOmitXmlDeclaration( daoUtil.getString( 9 ) );
-            mode.setOutputXslPropertyStandalone( daoUtil.getString( 10 ) );
+            while ( daoUtil.next( ) )
+            {
+                Mode mode = new Mode( );
 
-            modeList.add( mode );
+                mode.setId( daoUtil.getInt( 1 ) );
+                mode.setDescription( daoUtil.getString( 2 ) );
+                mode.setPath( daoUtil.getString( 3 ) );
+                mode.setOutputXslPropertyMethod( daoUtil.getString( 4 ) );
+                mode.setOutputXslPropertyVersion( daoUtil.getString( 5 ) );
+                mode.setOutputXslPropertyMediaType( daoUtil.getString( 6 ) );
+                mode.setOutputXslPropertyEncoding( daoUtil.getString( 7 ) );
+                mode.setOutputXslPropertyIndent( daoUtil.getString( 8 ) );
+                mode.setOutputXslPropertyOmitXmlDeclaration( daoUtil.getString( 9 ) );
+                mode.setOutputXslPropertyStandalone( daoUtil.getString( 10 ) );
+
+                modeList.add( mode );
+            }
+
         }
-
-        daoUtil.free( );
 
         return modeList;
     }
@@ -229,16 +234,17 @@ public final class ModeDAO implements IModeDAO
     public ReferenceList getModesList( )
     {
         ReferenceList modesList = new ReferenceList( );
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_MODES );
-
-        daoUtil.executeQuery( );
-
-        while ( daoUtil.next( ) )
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_MODES ) )
         {
-            modesList.addItem( daoUtil.getInt( 1 ), daoUtil.getString( 2 ) );
-        }
 
-        daoUtil.free( );
+            daoUtil.executeQuery( );
+
+            while ( daoUtil.next( ) )
+            {
+                modesList.addItem( daoUtil.getInt( 1 ), daoUtil.getString( 2 ) );
+            }
+
+        }
 
         return modesList;
     }

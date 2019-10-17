@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -213,8 +213,8 @@ public final class SiteMessageService
      * @throws SiteMessageException
      *             occurs when a site message need to be displayed
      */
-    public static void setMessage( HttpServletRequest request, String strMessageKey, Object [ ] messageArgs, int nMessageType, String strUrl, String strTitleKey )
-            throws SiteMessageException
+    public static void setMessage( HttpServletRequest request, String strMessageKey, Object [ ] messageArgs, int nMessageType, String strUrl,
+            String strTitleKey ) throws SiteMessageException
     {
         setMessage( request, strMessageKey, messageArgs, strTitleKey, strUrl, null, nMessageType );
     }
@@ -237,8 +237,8 @@ public final class SiteMessageService
      * @throws SiteMessageException
      *             occurs when a site message need to be displayed
      */
-    public static void setMessage( HttpServletRequest request, String strMessageKey, int nMessageType, String strUrl, String strTitleKey, Object [ ] messageArgs )
-            throws SiteMessageException
+    public static void setMessage( HttpServletRequest request, String strMessageKey, int nMessageType, String strUrl, String strTitleKey,
+            Object [ ] messageArgs ) throws SiteMessageException
     {
         setMessage( request, strMessageKey, messageArgs, strTitleKey, strUrl, null, nMessageType );
     }
@@ -342,9 +342,7 @@ public final class SiteMessageService
     public static SiteMessage getMessage( HttpServletRequest request )
     {
         HttpSession session = request.getSession( true );
-        SiteMessage message = (SiteMessage) session.getAttribute( ATTRIBUTE_MESSAGE );
-
-        return message;
+        return (SiteMessage) session.getAttribute( ATTRIBUTE_MESSAGE );
     }
 
     /**

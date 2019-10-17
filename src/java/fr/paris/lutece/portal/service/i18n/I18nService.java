@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -268,19 +268,7 @@ public final class I18nService
      */
     private static String getPluginBundleName( String strBundleKey )
     {
-        String strBundle = _pluginBundleNames.get( strBundleKey );
-
-        if ( strBundle == null )
-        {
-            Object [ ] params = {
-                strBundleKey
-            };
-            MessageFormat format = new MessageFormat( FORMAT_PACKAGE_PLUGIN_RESOURCES_LOCATION );
-            strBundle = format.format( params );
-            _pluginBundleNames.put( strBundleKey, strBundle );
-        }
-
-        return strBundle;
+        return _pluginBundleNames.computeIfAbsent( strBundleKey, s -> new MessageFormat( FORMAT_PACKAGE_PLUGIN_RESOURCES_LOCATION ).format( new String[]{s} ) );
     }
 
     /**
@@ -295,19 +283,7 @@ public final class I18nService
     private static String getModuleBundleName( String strPlugin, String strModule )
     {
         String key = strPlugin + strModule;
-        String strBundle = _moduleBundleNames.get( key );
-
-        if ( strBundle == null )
-        {
-            Object [ ] params = {
-                    strPlugin, strModule
-            };
-            MessageFormat format = new MessageFormat( FORMAT_PACKAGE_MODULE_RESOURCES_LOCATION );
-            strBundle = format.format( params );
-            _moduleBundleNames.put( key, strBundle );
-        }
-
-        return strBundle;
+        return _moduleBundleNames.computeIfAbsent( key, s -> new MessageFormat( FORMAT_PACKAGE_MODULE_RESOURCES_LOCATION ).format( new String[]{strPlugin, strModule} ) );
     }
 
     /**
@@ -319,19 +295,7 @@ public final class I18nService
      */
     private static String getPortalBundleName( String strElement )
     {
-        String strBundle = _portalBundleNames.get( strElement );
-
-        if ( strBundle == null )
-        {
-            Object [ ] params = {
-                strElement
-            };
-            MessageFormat format = new MessageFormat( FORMAT_PACKAGE_PORTAL_RESOURCES_LOCATION );
-            strBundle = format.format( params );
-            _portalBundleNames.put( strElement, strBundle );
-        }
-
-        return strBundle;
+        return _portalBundleNames.computeIfAbsent( strElement, s -> new MessageFormat( FORMAT_PACKAGE_PORTAL_RESOURCES_LOCATION ).format( new String[]{s} ) );
     }
 
     /**

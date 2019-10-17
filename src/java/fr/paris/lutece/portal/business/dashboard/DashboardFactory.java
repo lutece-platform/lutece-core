@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -47,7 +47,7 @@ import java.util.Map;
  */
 public final class DashboardFactory
 {
-    private static Map<String, IDashboardComponent> _mapDashboardComponents = new HashMap<String, IDashboardComponent>( );
+    private static Map<String, IDashboardComponent> _mapDashboardComponents = new HashMap<>( );
 
     /**
      * Empty constructor
@@ -70,7 +70,7 @@ public final class DashboardFactory
 
         if ( _mapDashboardComponents.containsKey( strName ) )
         {
-            AppLogService.error( "Error while registering  dashboard for " + strName + " class=" + dashboardComponent.getClass( )
+            AppLogService.error( "Error while registering dashboard for " + strName + " class=" + dashboardComponent.getClass( )
                     + ", factory already contains class=" + _mapDashboardComponents.get( strName ) );
 
             return false;
@@ -100,6 +100,6 @@ public final class DashboardFactory
      */
     public static List<IDashboardComponent> getAllDashboardComponents( )
     {
-        return new ArrayList<IDashboardComponent>( _mapDashboardComponents.values( ) );
+        return new ArrayList<>( _mapDashboardComponents.values( ) );
     }
 }

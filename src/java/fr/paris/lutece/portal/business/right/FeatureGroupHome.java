@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,11 +33,10 @@
  */
 package fr.paris.lutece.portal.business.right;
 
+import java.util.List;
+
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.util.ReferenceList;
-
-import java.util.List;
-import java.util.Locale;
 
 /**
  * This class provides instances management methods (create, find, ...) for feature groups objects
@@ -45,7 +44,7 @@ import java.util.Locale;
 public final class FeatureGroupHome
 {
     // Static variable pointed at the DAO instance
-    private static IFeatureGroupDAO _dao = (IFeatureGroupDAO) SpringContextService.getBean( "featureGroupDAO" );
+    private static IFeatureGroupDAO _dao = SpringContextService.getBean( "featureGroupDAO" );
     private static final int CONSTANT_ERROR_ORDER = -2; // this value must be negative
     private static final int CONSTANT_STEP_ORDER = 1;
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,17 +33,20 @@
  */
 package fr.paris.lutece.portal.service.search;
 
-import fr.paris.lutece.portal.business.indexeraction.IndexerAction;
-import fr.paris.lutece.portal.business.indexeraction.IndexerActionFilter;
-import fr.paris.lutece.portal.business.indexeraction.IndexerActionHome;
-import fr.paris.lutece.portal.service.init.LuteceInitException;
-import fr.paris.lutece.portal.service.message.SiteMessageException;
-import fr.paris.lutece.portal.service.util.AppLogService;
-import fr.paris.lutece.portal.service.util.AppPathService;
-import fr.paris.lutece.portal.service.util.AppPropertiesService;
+import java.io.IOException;
+import java.io.Serializable;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
-
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.index.CorruptIndexException;
@@ -53,21 +56,17 @@ import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.index.IndexWriterConfig.OpenMode;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.store.Directory;
-import org.apache.lucene.store.NIOFSDirectory;
+import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.Version;
 
-import java.nio.file.Paths;
-import java.io.IOException;
-import java.io.Serializable;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
+import fr.paris.lutece.portal.business.indexeraction.IndexerAction;
+import fr.paris.lutece.portal.business.indexeraction.IndexerActionFilter;
+import fr.paris.lutece.portal.business.indexeraction.IndexerActionHome;
+import fr.paris.lutece.portal.service.init.LuteceInitException;
+import fr.paris.lutece.portal.service.message.SiteMessageException;
+import fr.paris.lutece.portal.service.util.AppLogService;
+import fr.paris.lutece.portal.service.util.AppPathService;
+import fr.paris.lutece.portal.service.util.AppPropertiesService;
 
 /**
  * This class provides management methods for indexing
@@ -81,18 +80,12 @@ public final class IndexationService
     public static final int ALL_DOCUMENT = -1;
     public static final Version LUCENE_INDEX_VERSION = Version.LATEST;
     private static final String PARAM_TYPE_PAGE = "Page";
-    private static final String PROPERTY_WRITER_MERGE_FACTOR = "search.lucene.writer.mergeFactor";
-    private static final String PROPERTY_WRITER_MAX_FIELD_LENGTH = "search.lucene.writer.maxFieldLength";
     private static final String PROPERTY_ANALYSER_CLASS_NAME = "search.lucene.analyser.className";
-    private static final int DEFAULT_WRITER_MERGE_FACTOR = 20;
-    private static final int DEFAULT_WRITER_MAX_FIELD_LENGTH = 1000000;
     private static String _strIndex;
-    private static int _nWriterMergeFactor;
-    private static int _nWriterMaxFieldLength;
     private static Analyzer _analyzer;
-    private static Map<String, SearchIndexer> _mapIndexers = new ConcurrentHashMap<String, SearchIndexer>( );
+    private static Map<String, SearchIndexer> _mapIndexers = new ConcurrentHashMap<>( );
     private static IndexWriter _writer;
-    private static StringBuffer _sbLogs;
+    private static StringBuilder _sbLogs;
     private static SearchIndexerComparator _comparator = new SearchIndexerComparator( );
 
     /**
@@ -122,17 +115,13 @@ public final class IndexationService
             _strIndex = AppPropertiesService.getProperty( PATH_INDEX );
         }
 
-        if ( ( _strIndex == null ) || ( _strIndex.equals( "" ) ) )
+        if ( StringUtils.isEmpty( _strIndex ) )
         {
             throw new LuteceInitException( "Lucene index path not found in lucene.properties", null );
         }
-
-        _nWriterMergeFactor = AppPropertiesService.getPropertyInt( PROPERTY_WRITER_MERGE_FACTOR, DEFAULT_WRITER_MERGE_FACTOR );
-        _nWriterMaxFieldLength = AppPropertiesService.getPropertyInt( PROPERTY_WRITER_MAX_FIELD_LENGTH, DEFAULT_WRITER_MAX_FIELD_LENGTH );
-
         String strAnalyserClassName = AppPropertiesService.getProperty( PROPERTY_ANALYSER_CLASS_NAME );
 
-        if ( ( _strIndex == null ) || ( _strIndex.equals( "" ) ) )
+        if ( StringUtils.isEmpty( strAnalyserClassName ) )
         {
             throw new LuteceInitException( "Analyser class name not found in lucene.properties", null );
         }
@@ -163,8 +152,7 @@ public final class IndexationService
     }
 
     /**
-     * Unregister an indexer. The indexer is only removed if its name has not
-     * changed
+     * Unregister an indexer. The indexer is only removed if its name has not changed
      * 
      * @param indexer
      *            the indexer to remove from the registry
@@ -193,12 +181,12 @@ public final class IndexationService
      */
     public static synchronized String processIndexing( boolean bCreate )
     {
-        // String buffer for building the response page;
-        _sbLogs = new StringBuffer( );
+        _sbLogs = new StringBuilder( );
 
         _writer = null;
 
         boolean bCreateIndex = bCreate;
+
         Directory dir = null;
 
         try
@@ -317,7 +305,7 @@ public final class IndexationService
      * @throws SiteMessageException
      *             if an error occurs
      */
-    private static void processIncrementalIndexing( ) throws CorruptIndexException, IOException, InterruptedException, SiteMessageException
+    private static void processIncrementalIndexing( ) throws IOException, InterruptedException, SiteMessageException
     {
         _sbLogs.append( "\r\nIncremental Indexing ...\r\n" );
 
@@ -337,11 +325,11 @@ public final class IndexationService
                 }
                 else
                 {
-                    List<org.apache.lucene.document.Document> luceneDocuments = indexer.getDocuments( action.getIdDocument( ) );
+                    List<Document> luceneDocuments = indexer.getDocuments( action.getIdDocument( ) );
 
-                    if ( ( luceneDocuments != null ) && ( luceneDocuments.size( ) > 0 ) )
+                    if ( CollectionUtils.isNotEmpty( luceneDocuments ) )
                     {
-                        for ( org.apache.lucene.document.Document doc : luceneDocuments )
+                        for ( Document doc : luceneDocuments )
                         {
                             if ( ( action.getIdPortlet( ) == ALL_DOCUMENT )
                                     || ( ( doc.get( SearchItem.FIELD_DOCUMENT_PORTLET_ID ) != null ) && ( doc.get( SearchItem.FIELD_DOCUMENT_PORTLET_ID )
@@ -365,7 +353,7 @@ public final class IndexationService
         _writer.deleteDocuments( new Term( SearchItem.FIELD_TYPE, PARAM_TYPE_PAGE ) );
         _mapIndexers.get( PageIndexer.INDEXER_NAME ).indexDocuments( );
     }
-
+    
     /**
      * Delete a document from the index
      *
@@ -376,7 +364,7 @@ public final class IndexationService
      * @throws IOException
      *             if an error occurs
      */
-    private static void deleteDocument( IndexerAction action ) throws CorruptIndexException, IOException
+    private static void deleteDocument( IndexerAction action ) throws IOException
     {
         if ( action.getIdPortlet( ) != ALL_DOCUMENT )
         {
@@ -404,7 +392,7 @@ public final class IndexationService
      * @throws IOException
      *             if an error occurs
      */
-    private static void processDocument( IndexerAction action, Document doc ) throws CorruptIndexException, IOException
+    private static void processDocument( IndexerAction action, Document doc ) throws IOException
     {
         if ( action.getIdTask( ) == IndexerAction.TASK_CREATE )
         {
@@ -438,7 +426,7 @@ public final class IndexationService
      * @throws IOException
      *             i/o exception
      */
-    public static void write( Document doc ) throws CorruptIndexException, IOException
+    public static void write( Document doc ) throws IOException
     {
         _writer.addDocument( doc );
         logDoc( "Indexing ", doc );
@@ -549,7 +537,7 @@ public final class IndexationService
      */
     public static Directory getDirectoryIndex( ) throws IOException
     {
-        return NIOFSDirectory.open( Paths.get( _strIndex ) );
+        return FSDirectory.open( Paths.get( _strIndex ) );
     }
 
     /**
@@ -652,7 +640,7 @@ public final class IndexationService
      */
     private static List<SearchIndexer> getIndexerListSortedByName( )
     {
-        List<SearchIndexer> list = new ArrayList<SearchIndexer>( _mapIndexers.values( ) );
+        List<SearchIndexer> list = new ArrayList<>( _mapIndexers.values( ) );
         Collections.sort( list, _comparator );
 
         return list;

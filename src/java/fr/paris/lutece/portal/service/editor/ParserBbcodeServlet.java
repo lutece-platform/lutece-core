@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -67,18 +67,16 @@ public class ParserBbcodeServlet extends HttpServlet
     }
 
     /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
      * 
-     * @param request
-     *            servlet request
-     * @param response
-     *            servlet response
-     * @throws ServletException
-     *             the servlet Exception
-     * @throws IOException
-     *             the io exception
+     * @param request  servlet request
+     * @param response servlet response
+     * @throws ServletException the servlet Exception
+     * @throws IOException      the io exception
      */
-    protected void processRequest( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException
+    protected void processRequest( HttpServletRequest request, HttpServletResponse response )
+            throws ServletException, IOException
     {
         String strValue = request.getParameter( PARAMETER_DATA );
         String strEscaped = StringEscapeUtils.escapeHtml( strValue );
@@ -92,16 +90,14 @@ public class ParserBbcodeServlet extends HttpServlet
     /**
      * Handles the HTTP <code>GET</code> method.
      * 
-     * @param request
-     *            servlet request
-     * @param response
-     *            servlet response
-     * @throws ServletException
-     *             the servlet Exception
-     * @throws IOException
-     *             the io exception
+     * @param request  servlet request
+     * @param response servlet response
+     * @throws ServletException the servlet Exception
+     * @throws IOException      the io exception
      */
-    protected void doGet( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException
+    @Override
+    protected void doGet( HttpServletRequest request, HttpServletResponse response )
+            throws ServletException, IOException
     {
         processRequest( request, response );
     }
@@ -109,16 +105,14 @@ public class ParserBbcodeServlet extends HttpServlet
     /**
      * Handles the HTTP <code>POST</code> method.
      * 
-     * @param request
-     *            servlet request
-     * @param response
-     *            servlet response
-     * @throws ServletException
-     *             the servlet Exception
-     * @throws IOException
-     *             the io exception
+     * @param request  servlet request
+     * @param response servlet response
+     * @throws ServletException the servlet Exception
+     * @throws IOException      the io exception
      */
-    protected void doPost( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException
+    @Override
+    protected void doPost( HttpServletRequest request, HttpServletResponse response )
+            throws ServletException, IOException
     {
         processRequest( request, response );
     }
@@ -128,6 +122,7 @@ public class ParserBbcodeServlet extends HttpServlet
      * 
      * @return message
      */
+    @Override
     public String getServletInfo( )
     {
         return "Servlet parsing content";

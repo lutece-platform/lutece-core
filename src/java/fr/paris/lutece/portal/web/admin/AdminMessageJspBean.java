@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -74,7 +74,7 @@ public class AdminMessageJspBean
     public String getMessage( HttpServletRequest request )
     {
         Locale locale = AdminUserService.getLocale( request );
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<>( );
         AdminMessage message = AdminMessageService.getMessage( request );
 
         if ( message == null )

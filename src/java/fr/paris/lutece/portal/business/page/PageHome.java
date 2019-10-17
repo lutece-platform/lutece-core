@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,15 +33,15 @@
  */
 package fr.paris.lutece.portal.business.page;
 
+import java.util.Collection;
+import java.util.List;
+
 import fr.paris.lutece.portal.business.portlet.Portlet;
+import fr.paris.lutece.portal.service.cache.CacheService;
 import fr.paris.lutece.portal.service.image.ImageResource;
-import fr.paris.lutece.portal.service.portal.PortalService;
 import fr.paris.lutece.portal.service.resource.ExtendableResourceRemovalListenerService;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.util.ReferenceList;
-
-import java.util.Collection;
-import java.util.List;
 
 /**
  * This class provides instances management methods (create, find, ...) for Page objects
@@ -49,7 +49,7 @@ import java.util.List;
 public final class PageHome
 {
     // Static variable pointed at the DAO instance
-    private static IPageDAO _dao = (IPageDAO) SpringContextService.getBean( "pageDAO" );
+    private static IPageDAO _dao = SpringContextService.getBean( "pageDAO" );
 
     /**
      * Creates a new PageHome object.
@@ -68,7 +68,7 @@ public final class PageHome
     public static Page create( Page page )
     {
         _dao.insert( page );
-        PortalService.resetCache( );
+        CacheService.resetCaches( );
 
         return page;
     }
@@ -93,7 +93,7 @@ public final class PageHome
         // We remove extensions of the removed page if any
         ExtendableResourceRemovalListenerService.doRemoveResourceExtentions( Page.RESOURCE_TYPE, Integer.toString( nPageId ) );
 
-        PortalService.resetCache( );
+        CacheService.resetCaches( );
     }
 
     /**

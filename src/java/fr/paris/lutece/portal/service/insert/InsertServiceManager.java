@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -50,7 +50,7 @@ public final class InsertServiceManager
     // Class attributes
 
     /** Insert Service registry */
-    private static Map<String, InsertService> _mapInsertServicesRegistry = new HashMap<String, InsertService>( );
+    private static Map<String, InsertService> _mapInsertServicesRegistry = new HashMap<>( );
 
     // //////////////////////////////////////////////////////////////////////////
     // Methods
@@ -81,7 +81,7 @@ public final class InsertServiceManager
      */
     public static Collection<InsertService> getInsertServicesList( )
     {
-        ArrayList<InsertService> listServices = new ArrayList<InsertService>( );
+        ArrayList<InsertService> listServices = new ArrayList<>( );
 
         for ( InsertService service : _mapInsertServicesRegistry.values( ) )
         {
@@ -113,7 +113,7 @@ public final class InsertServiceManager
      */
     public static List<String> getInsertsLabels( )
     {
-        List<String> listInserts = new ArrayList<String>( );
+        List<String> listInserts = new ArrayList<>( );
 
         for ( InsertService ls : getInsertServicesList( ) )
         {

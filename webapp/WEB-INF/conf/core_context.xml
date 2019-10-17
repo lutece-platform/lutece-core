@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
-	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:jdbc="http://www.springframework.org/schema/jdbc"
-	xmlns:p="http://www.springframework.org/schema/p"
-	xmlns:aop="http://www.springframework.org/schema/aop"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:jdbc="http://www.springframework.org/schema/jdbc" xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:aop="http://www.springframework.org/schema/aop"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
        http://www.springframework.org/schema/context
        http://www.springframework.org/schema/context/spring-context-3.0.xsd
@@ -12,18 +11,19 @@
        http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
        http://www.springframework.org/schema/aop
        http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
-    
-	<bean id="appProperties" class="java.util.Properties" >
-		<constructor-arg value="#{ T(fr.paris.lutece.portal.service.util.AppPropertiesService).getProperties() }" />
-	</bean>
-	
-	<context:property-placeholder properties-ref="appProperties" />    
-	
-	<context:annotation-config />
-    <import resource="jpa_context.xml"/>
-    
-    <bean id="pageCacheKeyService" class="fr.paris.lutece.portal.service.cache.DefaultCacheKeyService" >
-        <property name="allowedParametersList" >
+
+    <bean id="appProperties" class="java.util.Properties">
+        <constructor-arg
+            value="#{ T(fr.paris.lutece.portal.service.util.AppPropertiesService).getProperties() }" />
+    </bean>
+
+    <context:property-placeholder properties-ref="appProperties" />
+
+    <context:annotation-config />
+    <import resource="jpa_context.xml" />
+
+    <bean id="pageCacheKeyService" class="fr.paris.lutece.portal.service.cache.DefaultCacheKeyService">
+        <property name="allowedParametersList">
             <list>
                 <value>page_id</value>
                 <value>base_url</value>
@@ -31,8 +31,8 @@
         </property>
     </bean>
 
-    <bean id="portletCacheKeyService" class="fr.paris.lutece.portal.service.cache.DefaultCacheKeyService" >
-        <property name="ignoredParametersList" >
+    <bean id="portletCacheKeyService" class="fr.paris.lutece.portal.service.cache.DefaultCacheKeyService">
+        <property name="ignoredParametersList">
             <list>
                 <value>page-id</value>
                 <value>site-path</value>
@@ -46,36 +46,37 @@
 
     <bean id="LinksIncludeCacheService" class="fr.paris.lutece.portal.web.includes.LinksIncludeCacheService" />
 
-	<!-- since the PageService constructor initializes the two above caches, we choose to inject them through the constructor -->
+    <!-- since the PageService constructor initializes the two above caches, we choose to inject them through the constructor -->
     <bean id="pageService" class="fr.paris.lutece.portal.service.page.PageService" autowire="constructor">
         <property name="pageCacheKeyService" ref="pageCacheKeyService" />
         <property name="portletCacheKeyService" ref="portletCacheKeyService" />
         <property name="roleRemovalService" ref="roleRemovalService" />
     </bean>
 
-    <bean id="siteMessageHandler" class="fr.paris.lutece.portal.service.message.SiteMessageHandler"/>
+    <bean id="siteMessageHandler" class="fr.paris.lutece.portal.service.message.SiteMessageHandler" />
 
-    <!--                      Search Engine                                   -->
+    <!-- Search Engine -->
     <bean id="searchEngine" class="fr.paris.lutece.portal.service.search.LuceneSearchEngine">
         <aop:scoped-proxy proxy-target-class="false" />
     </bean>
 
     <bean id="indexerActionDAO" class="fr.paris.lutece.portal.business.indexeraction.IndexerActionDAO" />
 
-    <!--                      Admin Authentication                             -->
-    <bean id="passwordFactory" class="fr.paris.lutece.portal.business.user.authentication.PasswordFactory"/>
-    <bean id="adminAuthenticationModule" class="fr.paris.lutece.portal.business.user.authentication.LuteceDefaultAdminAuthentication">
-        <property name="dao" ref="luteceDefaultAdminUserDAO"/>
-        <!--<property name="dataSourceFactory" ref="dataSourceFactory" />-->
+    <!-- Admin Authentication -->
+    <bean id="passwordFactory" class="fr.paris.lutece.portal.business.user.authentication.PasswordFactory" />
+    <bean id="adminAuthenticationModule"
+        class="fr.paris.lutece.portal.business.user.authentication.LuteceDefaultAdminAuthentication">
+        <property name="dao" ref="luteceDefaultAdminUserDAO" />
+        <!--<property name="dataSourceFactory" ref="dataSourceFactory" /> -->
     </bean>
-    
-    <!--                     Admin User Import Service           -->
-    <bean id="adminUserImportService" class="fr.paris.lutece.portal.service.admin.DefaultImportAdminUserService"/>
 
-    <!--                      Mail Queue                            -->
-  <!--  <bean id="mailQueue" class="fr.paris.lutece.portal.service.mail.MemoryQueue" /> -->
+    <!-- Admin User Import Service -->
+    <bean id="adminUserImportService" class="fr.paris.lutece.portal.service.admin.DefaultImportAdminUserService" />
+
+    <!-- Mail Queue -->
+    <!-- <bean id="mailQueue" class="fr.paris.lutece.portal.service.mail.MemoryQueue" /> -->
     <bean id="mailQueue" class="fr.paris.lutece.portal.service.mail.DatabaseQueue" />
-    <!--                      Removal Services                            -->
+    <!-- Removal Services -->
     <bean id="mailinglistRemovalService" class="fr.paris.lutece.portal.service.util.RemovalListenerService" />
     <bean id="workgroupRemovalService" class="fr.paris.lutece.portal.service.util.RemovalListenerService" />
     <bean id="rbacRemovalService" class="fr.paris.lutece.portal.service.util.RemovalListenerService" />
@@ -84,146 +85,208 @@
     <bean id="workflowRemovalService" class="fr.paris.lutece.portal.service.util.RemovalListenerService" />
     <bean id="roleRemovalService" class="fr.paris.lutece.portal.service.util.RemovalListenerService" />
 
-    <!--                       Data Access Objects                             -->
-    
+    <!-- Data Access Objects -->
+
     <!-- package features -->
-    <bean id="levelDAO"  class="fr.paris.lutece.portal.business.right.LevelDAO" />
+    <bean id="levelDAO" class="fr.paris.lutece.portal.business.right.LevelDAO" />
 
     <!-- package mailinglist -->
-    <bean id="mailingListDAO"  class="fr.paris.lutece.portal.business.mailinglist.MailingListDAO" />
+    <bean id="mailingListDAO" class="fr.paris.lutece.portal.business.mailinglist.MailingListDAO" />
 
     <!-- package page -->
-    <bean id="pageDAO"  class="fr.paris.lutece.portal.business.page.PageDAO" />
-	<!-- package portalcomponent -->
-    <bean id="portalComponentDAO"  class="fr.paris.lutece.portal.business.portalcomponent.PortalComponentDAO" />
+    <bean id="pageDAO" class="fr.paris.lutece.portal.business.page.PageDAO" />
+    <!-- package portalcomponent -->
+    <bean id="portalComponentDAO" class="fr.paris.lutece.portal.business.portalcomponent.PortalComponentDAO" />
 
     <!-- package portlet -->
-    <bean id="aliasPortletDAO"  class="fr.paris.lutece.portal.business.portlet.AliasPortletDAO" />
-    <bean id="portletDAO"  class="fr.paris.lutece.portal.business.portlet.PortletDAO" />
-    <bean id="portletTypeDAO"  class="fr.paris.lutece.portal.business.portlet.PortletTypeDAO" />
+    <bean id="aliasPortletDAO" class="fr.paris.lutece.portal.business.portlet.AliasPortletDAO" />
+    <bean id="portletDAO" class="fr.paris.lutece.portal.business.portlet.PortletDAO" />
+    <bean id="portletTypeDAO" class="fr.paris.lutece.portal.business.portlet.PortletTypeDAO" />
 
     <!-- package rbac -->
-    <bean id="adminRoleDAO"  class="fr.paris.lutece.portal.business.rbac.AdminRoleDAO" />
-    <bean id="rBACDAO"  class="fr.paris.lutece.portal.business.rbac.RBACDAO" />
+    <bean id="adminRoleDAO" class="fr.paris.lutece.portal.business.rbac.AdminRoleDAO" />
+    <bean id="rBACDAO" class="fr.paris.lutece.portal.business.rbac.RBACDAO" />
 
     <!-- package right -->
-    <bean id="featureGroupDAO"  class="fr.paris.lutece.portal.business.right.FeatureGroupDAO" />
-    <bean id="rightDAO"  class="fr.paris.lutece.portal.business.right.RightDAO" />
+    <bean id="featureGroupDAO" class="fr.paris.lutece.portal.business.right.FeatureGroupDAO" />
+    <bean id="rightDAO" class="fr.paris.lutece.portal.business.right.RightDAO" />
 
     <!-- package role -->
-    <bean id="roleDAO"  class="fr.paris.lutece.portal.business.role.RoleDAO" />
-    
+    <bean id="roleDAO" class="fr.paris.lutece.portal.business.role.RoleDAO" />
+
     <!-- package search -->
-    <bean id="searchParameterDAO"  class="fr.paris.lutece.portal.business.search.SearchParameterDAO" />
-    
-   <!-- package style -->
-    <bean id="modeDAO"  class="fr.paris.lutece.portal.business.style.ModeDAO" />
-    <bean id="pageTemplateDAO"  class="fr.paris.lutece.portal.business.style.PageTemplateDAO" />
-    <bean id="styleDAO"  class="fr.paris.lutece.portal.business.style.StyleDAO" />
+    <bean id="searchParameterDAO" class="fr.paris.lutece.portal.business.search.SearchParameterDAO" />
+
+    <!-- package style -->
+    <bean id="modeDAO" class="fr.paris.lutece.portal.business.style.ModeDAO" />
+    <bean id="pageTemplateDAO" class="fr.paris.lutece.portal.business.style.PageTemplateDAO" />
+    <bean id="styleDAO" class="fr.paris.lutece.portal.business.style.StyleDAO" />
 
     <!-- package stylesheet -->
-    <bean id="styleSheetDAO"  class="fr.paris.lutece.portal.business.stylesheet.StyleSheetDAO" />
+    <bean id="styleSheetDAO" class="fr.paris.lutece.portal.business.stylesheet.StyleSheetDAO" />
 
-	<!--  package template -->
-	<bean id="databaseTemplateDAO" class="fr.paris.lutece.portal.business.template.DatabaseTemplateDAO" />
+    <!-- package template -->
+    <bean id="databaseTemplateDAO" class="fr.paris.lutece.portal.business.template.DatabaseTemplateDAO" />
 
     <!-- package user -->
-    <bean id="adminUserDAO"  class="fr.paris.lutece.portal.business.user.AdminUserDAO" />
-    <bean id="luteceDefaultAdminUserDAO"  class="fr.paris.lutece.portal.business.user.authentication.LuteceDefaultAdminUserDAO" />
-    <bean id="userLogDAO"  class="fr.paris.lutece.portal.business.user.log.UserLogDAO" />
+    <bean id="adminUserDAO" class="fr.paris.lutece.portal.business.user.AdminUserDAO" />
+    <bean id="luteceDefaultAdminUserDAO"
+        class="fr.paris.lutece.portal.business.user.authentication.LuteceDefaultAdminUserDAO" />
+    <bean id="userLogDAO" class="fr.paris.lutece.portal.business.user.log.UserLogDAO" />
 
     <!-- package workgroup -->
-    <bean id="adminWorkgroupDAO"  class="fr.paris.lutece.portal.business.workgroup.AdminWorkgroupDAO" />
+    <bean id="adminWorkgroupDAO" class="fr.paris.lutece.portal.business.workgroup.AdminWorkgroupDAO" />
     <!-- package mail -->
-    <bean id="mailItemQueueDAO"  class="fr.paris.lutece.portal.business.mail.MailItemQueueDAO" />
-    
+    <bean id="mailItemQueueDAO" class="fr.paris.lutece.portal.business.mail.MailItemQueueDAO" />
+
     <!-- package attribute -->
-    <bean id="attributeDAO"  class="fr.paris.lutece.portal.business.user.attribute.AttributeDAO" />
-    <bean id="attributeFieldDAO"  class="fr.paris.lutece.portal.business.user.attribute.AttributeFieldDAO" />
-    <bean id="adminUserFieldDAO"  class="fr.paris.lutece.portal.business.user.attribute.AdminUserFieldDAO" />
+    <bean id="attributeDAO" class="fr.paris.lutece.portal.business.user.attribute.AttributeDAO" />
+    <bean id="attributeFieldDAO" class="fr.paris.lutece.portal.business.user.attribute.AttributeFieldDAO" />
+    <bean id="adminUserFieldDAO" class="fr.paris.lutece.portal.business.user.attribute.AdminUserFieldDAO" />
     <bean id="attributeText" class="fr.paris.lutece.portal.business.user.attribute.AttributeText" />
     <bean id="attributeComboBox" class="fr.paris.lutece.portal.business.user.attribute.AttributeComboBox" />
     <bean id="attributeRadioButton" class="fr.paris.lutece.portal.business.user.attribute.AttributeRadioButton" />
     <bean id="attributeCheckBox" class="fr.paris.lutece.portal.business.user.attribute.AttributeCheckBox" />
     <bean id="attributeImage" class="fr.paris.lutece.portal.business.user.attribute.AttributeImage" />
-	
-	<!-- package file -->
-    <bean id="fileDAO"  class="fr.paris.lutece.portal.business.file.FileDAO" />
-	
-	<!-- package physicalfile -->
-    <bean id="physicalFileDAO"  class="fr.paris.lutece.portal.business.physicalfile.PhysicalFileDAO" />
-    
-    <!-- admin dashboards -->
-    <bean id="adminDashboardDAO" class="fr.paris.lutece.portal.business.dashboard.AdminDashboardDAO"/>    
 
-	<!-- dashboards -->
-    <bean id="dashboardDAO" class="fr.paris.lutece.portal.business.dashboard.DashboardDAO"/>
-    
-    <!--  xsl exports -->
+    <!-- package file -->
+    <bean id="fileDAO" class="fr.paris.lutece.portal.business.file.FileDAO" />
+
+    <!-- package physicalfile -->
+    <bean id="physicalFileDAO" class="fr.paris.lutece.portal.business.physicalfile.PhysicalFileDAO" />
+
+    <!-- admin dashboards -->
+    <bean id="adminDashboardDAO" class="fr.paris.lutece.portal.business.dashboard.AdminDashboardDAO" />
+
+    <!-- dashboards -->
+    <bean id="dashboardDAO" class="fr.paris.lutece.portal.business.dashboard.DashboardDAO" />
+
+    <!-- xsl exports -->
     <bean id="xslExportDAO" class="fr.paris.lutece.portal.business.xsl.XslExportDAO" />
-    
-    <bean id="richTextEditorDAO" class="fr.paris.lutece.portal.business.globalmanagement.RichTextEditorDAO" />
-    
+
+    <bean id="richTextEditorDAO" class="fr.paris.lutece.portal.business.editor.RichTextEditorDAO" />
+
     <!-- annotation db -->
     <!-- scans WEB-INF/lib for classes within jars, and web-inf/classes for .class -->
     <bean id="annotationDB" class="fr.paris.lutece.util.annotation.ScannotationDB">
-    	<!-- 
-    		Uncomment the following lines and set your own regexp to filter scannable jar. 
-    		If not set, annotation db will use a default property that matches 
-    		lutece jars only.
-    		For example, (sample\.jar)|(another-.*\.jar) will match
-    		sample.jar and another-randomtext.jar.    		
-    	-->
-    	<!-- <property name="fileFilter">(sample\.jar)|(another-.*\.jar)</property> -->
+        <!-- Uncomment the following lines and set your own regexp to filter scannable jar. If not set, annotation db will 
+            use a default property that matches lutece jars only. For example, (sample\.jar)|(another-.*\.jar) will match sample.jar 
+            and another-randomtext.jar. -->
+        <!-- <property name="fileFilter">(sample\.jar)|(another-.*\.jar)</property> -->
     </bean>
-    
+
     <!-- Freemarker -->
-    <bean id="freeMarkerTemplateService" class="fr.paris.lutece.portal.service.template.FreeMarkerTemplateService" factory-method="getInstance" />
-    
+    <bean id="freeMarkerTemplateService" class="fr.paris.lutece.portal.service.template.FreeMarkerTemplateService"
+        factory-method="getInstance" />
+
     <!-- Extendable Resource -->
-    <bean id="pageExtendableResourceService" class="fr.paris.lutece.portal.service.page.PageExtendableResourceService" />
-    
-    <bean id="editorChoiceLutecePanelJspBean" class="fr.paris.lutece.portal.web.globalmanagement.EditorChoiceLutecePanelJspBean" />
+    <bean id="pageExtendableResourceService"
+        class="fr.paris.lutece.portal.service.page.PageExtendableResourceService" />
 
     <!-- Preferences Services -->
     <bean id="userPreferencesDAO" class="fr.paris.lutece.portal.business.prefs.UserPreferencesDAO" />
     <bean id="adminUserPreferencesDAO" class="fr.paris.lutece.portal.business.prefs.AdminUserPreferencesDAO" />
-    
-    <bean id="userPreferencesService" class="fr.paris.lutece.portal.service.prefs.PortalUserPreferenceServiceImpl" scope="singleton">
+
+    <bean id="userPreferencesService" class="fr.paris.lutece.portal.service.prefs.PortalUserPreferenceServiceImpl"
+        scope="singleton">
         <property name="dao" ref="userPreferencesDAO" />
     </bean>
-    <bean id="adminUserPreferencesService" class="fr.paris.lutece.portal.service.prefs.BaseUserPreferencesServiceImpl">
+    <bean id="adminUserPreferencesService"
+        class="fr.paris.lutece.portal.service.prefs.BaseUserPreferencesServiceImpl">
         <property name="dao" ref="adminUserPreferencesDAO" />
     </bean>
     <!-- Security Token Service -->
-    <bean id="securityTokenService" class="fr.paris.lutece.portal.service.security.SecurityTokenService"/>
+    <bean id="securityTokenService" class="fr.paris.lutece.portal.service.security.SecurityTokenService" />
     <!-- Cleaner HTML -->
     <!-- Cleaner Jtidy HTML ## DEPRECATED ## -->
     <!-- <bean id="htmlCleaner" class="fr.paris.lutece.portal.service.html.JTidyHtmlCleaner" /> -->
-    <!-- Cleaner Jsoup HTML --> 
+    <!-- Cleaner Jsoup HTML -->
     <bean id="htmlCleaner" class="fr.paris.lutece.portal.service.html.JSoupHtmlCleaner" />
-    
+
     <!-- Site Properties Groups -->
-    <bean id="sitePropertiesGroup" class="fr.paris.lutece.portal.service.site.properties.DefaultSitePropertiesGroup" />
-    
+    <bean id="sitePropertiesGroup"
+        class="fr.paris.lutece.portal.service.site.properties.DefaultSitePropertiesGroup" />
+
     <bean id="core.xpage.search" class="fr.paris.lutece.portal.web.search.SearchApp" scope="session" />
-    
+
     <!-- Daemon management -->
-    <bean id="daemonQueue" class="java.util.concurrent.LinkedBlockingQueue"/>
-    <bean id="daemonExecutorQueue" class="java.util.concurrent.LinkedBlockingQueue"/>
-    <bean id="daemonThreadFactory" class="fr.paris.lutece.portal.service.daemon.DaemonThreadFactory"/>
+    <bean id="daemonQueue" class="java.util.concurrent.LinkedBlockingQueue" />
+    <bean id="daemonExecutorQueue" class="java.util.concurrent.LinkedBlockingQueue" />
+    <bean id="daemonThreadFactory" class="fr.paris.lutece.portal.service.daemon.DaemonThreadFactory" />
     <bean id="daemonExecutor" class="java.util.concurrent.ThreadPoolExecutor">
-    	<constructor-arg index="0" value="${daemon.ScheduledThreadCorePoolSize:30}"/> <!-- corePoolSize -->
-    	<constructor-arg index="1" value="${daemon.maximumPoolSize:30}"/> <!-- maximumPoolSize -->
-    	<constructor-arg index="2" value="${daemon.keepAliveTime:0}"/> <!-- keepAliveTime -->
-    	<constructor-arg index="3" value="${daemon.timeUnit:MILLISECONDS}"/> <!-- unit -->
-    	<constructor-arg index="4" ref="daemonExecutorQueue"/> <!-- workQueue -->
-    	<constructor-arg index="5" ref="daemonThreadFactory"/> <!-- threadFactory -->
+        <constructor-arg index="0" value="${daemon.ScheduledThreadCorePoolSize:30}" /> <!-- corePoolSize -->
+        <constructor-arg index="1" value="${daemon.maximumPoolSize:30}" /> <!-- maximumPoolSize -->
+        <constructor-arg index="2" value="${daemon.keepAliveTime:0}" /> <!-- keepAliveTime -->
+        <constructor-arg index="3" value="${daemon.timeUnit:MILLISECONDS}" /> <!-- unit -->
+        <constructor-arg index="4" ref="daemonExecutorQueue" /> <!-- workQueue -->
+        <constructor-arg index="5" ref="daemonThreadFactory" /> <!-- threadFactory -->
     </bean>
     <bean id="daemonScheduler" class="fr.paris.lutece.portal.service.daemon.DaemonScheduler">
-    	<constructor-arg ref="daemonQueue"/>
-    	<constructor-arg ref="daemonExecutor"/>
+        <constructor-arg ref="daemonQueue" />
+        <constructor-arg ref="daemonExecutor" />
     </bean>
 
     <bean id="daemonThread" class="fr.paris.lutece.portal.service.daemon.DaemonThread" scope="prototype" />
+
+    <!-- Admin user menu -->
+    <bean id="adminUserMenuService" class="fr.paris.lutece.portal.service.user.menu.AdminUserMenuService" />
+
+    <bean id="dividerUserMenuItemProvider"
+        class="fr.paris.lutece.portal.business.user.menu.DividerAdminUserMenuItemProvider" />
+
+    <bean id="modifyPasswordUserMenuItemProvider"
+        class="fr.paris.lutece.portal.service.user.menu.AdminUserMenuItemProviderRegistrar">
+        <property name="className"
+            value="fr.paris.lutece.portal.business.user.menu.ModifyPasswordAdminUserMenuItemProvider" />
+    </bean>
+    <bean id="accessibilityModeUserMenuItemProvider"
+        class="fr.paris.lutece.portal.service.user.menu.AdminUserMenuItemProviderRegistrar">
+        <property name="className"
+            value="fr.paris.lutece.portal.business.user.menu.AccessibilityModeAdminUserMenuItemProvider" />
+    </bean>
+    <bean id="languageUserMenuItemProvider"
+        class="fr.paris.lutece.portal.service.user.menu.AdminUserMenuItemProviderRegistrar">
+        <property name="className"
+            value="fr.paris.lutece.portal.business.user.menu.LanguageAdminUserMenuItemProvider" />
+    </bean>
+    <bean id="divider1UserMenuItemProvider"
+        class="fr.paris.lutece.portal.service.user.menu.AdminUserMenuItemProviderRegistrar">
+        <property name="provider" ref="dividerUserMenuItemProvider" />
+        <property name="insertAfter" value="accessibilityModeUserMenuItemProvider" />
+    </bean>
+
+    <!-- CSS frameworks management -->
+
+    <bean id="commonsDefault" class="fr.paris.lutece.portal.business.template.CommonsInclude">
+        <property name="key" value="default" />
+        <property name="name" value="Bootstap 3.3 + AdminLTE (Lutece v6.x compatible)" />
+        <property name="files">
+            <list>
+                <value>commons.html</value>
+            </list>
+        </property>
+    </bean>
+    <bean id="commonsBulma" class="fr.paris.lutece.portal.business.template.CommonsInclude">
+        <property name="key" value="bulma" />
+        <property name="name" value="Bulma 0.7 (Experimental)" />
+        <property name="files">
+            <list>
+                <value>commons_bulma.html</value>
+            </list>
+        </property>
+    </bean>
+    <bean id="commonsBoostrap4" class="fr.paris.lutece.portal.business.template.CommonsInclude">
+        <property name="key" value="Bootstrap4" />
+        <property name="name" value="Bootstrap v 4 (Experimental)" />
+        <property name="files">
+            <list>
+                <value>commons_bs4.html</value>
+                <value>commons_bs4_backport.html</value>
+            </list>
+        </property>
+    </bean>
+    <!-- <bean id="commonsBS4stisla" class="fr.paris.lutece.portal.business.template.CommonsInclude"> <property name="key" 
+        value="Stisla" /> <property name="name" value="Stisla - BS 4 Based (Experimental)" /> <property name="files" > <list> <value>commons_bs4.html</value> 
+        <value>commons_stisla.html</value> </list> </property> </bean> -->
+
 </beans>

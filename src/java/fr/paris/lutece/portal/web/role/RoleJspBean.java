@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -110,6 +110,7 @@ public class RoleJspBean extends AdminFeaturesPageJspBean
      */
     public RoleJspBean( )
     {
+        // Ctor
     }
 
     /**
@@ -123,7 +124,7 @@ public class RoleJspBean extends AdminFeaturesPageJspBean
     {
         setPageTitleProperty( null );
 
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<>( );
         Collection<Role> listRoles = RoleHome.findAll( );
         listRoles = AdminWorkgroupService.getAuthorizedCollection( listRoles, getUser( ) );
         model.put( MARK_ROLES_LIST, listRoles );
@@ -144,7 +145,7 @@ public class RoleJspBean extends AdminFeaturesPageJspBean
     {
         setPageTitleProperty( PROPERTY_PAGE_TITLE_CREATE_ROLE );
 
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<>( );
 
         model.put( MARK_DEFAULT_VALUE_WORKGROUP_KEY, AdminWorkgroupService.ALL_GROUPS );
         model.put( MARK_WORKGROUP_KEY_LIST, AdminWorkgroupService.getUserWorkgroups( getUser( ), getLocale( ) ) );
@@ -191,7 +192,7 @@ public class RoleJspBean extends AdminFeaturesPageJspBean
 
         if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_CREATE_PAGE_ROLE ) )
         {
-            throw new AccessDeniedException( "Invalid security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
         Role role = new Role( );
         role.setRole( strPageRole );
@@ -212,7 +213,7 @@ public class RoleJspBean extends AdminFeaturesPageJspBean
     {
         setPageTitleProperty( PROPERTY_PAGE_TITLE_MODIFY_ROLE );
 
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<>( );
 
         String strPageRole = request.getParameter( PARAMETER_PAGE_ROLE );
 
@@ -255,7 +256,7 @@ public class RoleJspBean extends AdminFeaturesPageJspBean
 
         if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_PAGE_ROLE_MODIFY ) )
         {
-            throw new AccessDeniedException( "Invalid security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
 
         Role role = new Role( );
@@ -312,7 +313,7 @@ public class RoleJspBean extends AdminFeaturesPageJspBean
     public String doRemovePageRole( HttpServletRequest request ) throws AccessDeniedException
     {
         String strPageRole = request.getParameter( PARAMETER_PAGE_ROLE );
-        ArrayList<String> listErrors = new ArrayList<String>( );
+        ArrayList<String> listErrors = new ArrayList<>( );
 
         if ( !RoleRemovalListenerService.getService( ).checkForRemoval( strPageRole, listErrors, getLocale( ) ) )
         {
@@ -325,7 +326,7 @@ public class RoleJspBean extends AdminFeaturesPageJspBean
         }
         if ( !SecurityTokenService.getInstance( ).validate( request, JSP_REMOVE_ROLE ) )
         {
-            throw new AccessDeniedException( "Invalid security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
         RoleHome.remove( strPageRole );
 

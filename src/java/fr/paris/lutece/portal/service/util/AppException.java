@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -118,7 +118,7 @@ public class AppException extends RuntimeException
         Throwable strRootCause = ExceptionUtils.getRootCause( this );
         if ( strRootCause != null )
         {
-            sb.append ( ", root cause: " );
+            sb.append( ", root cause: " );
             String strShortName = strRootCause.getClass( ).getSimpleName( );
             sb.append( strShortName );
         }
@@ -127,7 +127,7 @@ public class AppException extends RuntimeException
         String strMessage = throwableForMessage.getMessage( );
         if ( strMessage != null )
         {
-            sb.append ( ": " );
+            sb.append( ": " );
             sb.append( strMessage );
         }
 

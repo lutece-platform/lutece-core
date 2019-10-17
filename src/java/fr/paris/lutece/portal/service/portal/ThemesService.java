@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -135,9 +135,7 @@ public final class ThemesService
             strTheme = themeTest;
         }
 
-        Theme theme = getGlobalTheme( strTheme );
-
-        return theme;
+        return getGlobalTheme( strTheme );
     }
 
     /**
@@ -322,15 +320,7 @@ public final class ThemesService
         {
             themeService = SpringContextService.getBean( BEAN_THEME_SERVICE );
         }
-        catch( BeanDefinitionStoreException e )
-        {
-            throw new ThemeNotAvailableException( );
-        }
-        catch( NoSuchBeanDefinitionException e )
-        {
-            throw new ThemeNotAvailableException( );
-        }
-        catch( CannotLoadBeanClassException e )
+        catch( BeanDefinitionStoreException | NoSuchBeanDefinitionException | CannotLoadBeanClassException e )
         {
             throw new ThemeNotAvailableException( );
         }
@@ -458,7 +448,7 @@ public final class ThemesService
      */
     public static Collection<Theme> getThemesList( )
     {
-        Collection<Theme> listThemes = new ArrayList<Theme>( );
+        Collection<Theme> listThemes = new ArrayList<>( );
 
         try
         {

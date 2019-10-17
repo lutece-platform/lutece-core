@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -63,15 +63,7 @@ public class CaptchaSecurityService implements ICaptchaSecurityService
             _captchaService = SpringContextService.getBean( "captcha.captchaService" );
             _bAvailable = _captchaService != null;
         }
-        catch( BeanDefinitionStoreException e )
-        {
-            _bAvailable = false;
-        }
-        catch( NoSuchBeanDefinitionException e )
-        {
-            _bAvailable = false;
-        }
-        catch( CannotLoadBeanClassException e )
+        catch( CannotLoadBeanClassException | NoSuchBeanDefinitionException | BeanDefinitionStoreException e )
         {
             _bAvailable = false;
         }
@@ -83,7 +75,6 @@ public class CaptchaSecurityService implements ICaptchaSecurityService
     @Override
     public String getActiveBlockHtml( )
     {
-        // TODO Auto-generated method stub
         return null;
     }
 

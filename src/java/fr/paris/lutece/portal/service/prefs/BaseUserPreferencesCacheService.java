@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -82,7 +82,7 @@ public class BaseUserPreferencesCacheService extends AbstractCacheableService
         if ( StringUtils.isNotEmpty( strUserId ) )
         {
             String strPrefix = strUserId + CONSTANT_UNDERSCORE;
-            List<String> listKeysToRemove = new ArrayList<String>( );
+            List<String> listKeysToRemove = new ArrayList<>( );
 
             for ( String strKey : getKeys( ) )
             {

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -51,7 +51,7 @@ public final class FilterService
 {
     private static FilterService _singleton = new FilterService( );
     private static ServletContext _context;
-    private List<LuteceFilter> _listFilters = new ArrayList<LuteceFilter>( );
+    private List<LuteceFilter> _listFilters = new ArrayList<>( );
 
     /**
      * Private constructor
@@ -93,15 +93,7 @@ public final class FilterService
                 AppLogService.info( " * init parameter - name : '" + strKey + "' - value : '" + entry.getInitParameters( ).get( strKey ) + "'" );
             }
         }
-        catch( InstantiationException e )
-        {
-            AppLogService.error( "Error registering a filter : " + e.getMessage( ), e );
-        }
-        catch( IllegalAccessException e )
-        {
-            AppLogService.error( "Error registering a filter : " + e.getMessage( ), e );
-        }
-        catch( ClassNotFoundException e )
+        catch( ClassNotFoundException | IllegalAccessException | InstantiationException e )
         {
             AppLogService.error( "Error registering a filter : " + e.getMessage( ), e );
         }

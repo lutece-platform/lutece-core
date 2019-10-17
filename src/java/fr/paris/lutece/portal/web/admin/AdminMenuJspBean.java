@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,19 +33,33 @@
  */
 package fr.paris.lutece.portal.web.admin;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
+import org.apache.log4j.Logger;
+
 import fr.paris.lutece.portal.business.right.FeatureGroup;
 import fr.paris.lutece.portal.business.right.FeatureGroupHome;
 import fr.paris.lutece.portal.business.right.Right;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.business.user.AdminUserHome;
 import fr.paris.lutece.portal.business.user.authentication.LuteceDefaultAdminUser;
+import fr.paris.lutece.portal.business.user.menu.AccessibilityModeAdminUserMenuItemProvider;
+import fr.paris.lutece.portal.business.user.menu.LanguageAdminUserMenuItemProvider;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
-import fr.paris.lutece.portal.service.admin.AdminAuthenticationService;
 import fr.paris.lutece.portal.service.admin.AdminUserService;
 import fr.paris.lutece.portal.service.dashboard.DashboardService;
 import fr.paris.lutece.portal.service.dashboard.IDashboardComponent;
 import fr.paris.lutece.portal.service.datastore.DatastoreService;
-import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.init.AppInfo;
 import fr.paris.lutece.portal.service.message.AdminMessage;
 import fr.paris.lutece.portal.service.message.AdminMessageService;
@@ -55,6 +69,7 @@ import fr.paris.lutece.portal.service.portal.PortalService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
+import fr.paris.lutece.portal.service.user.menu.AdminUserMenuService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.web.constants.Markers;
@@ -65,20 +80,6 @@ import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.password.IPassword;
 import fr.paris.lutece.util.password.IPasswordFactory;
 
-import org.apache.commons.lang.StringUtils;
-
-import java.io.Serializable;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import org.apache.log4j.Logger;
-
 /**
  * This class provides the user interface to manage admin features ( manage, create, modify, remove)
  */
@@ -86,6 +87,7 @@ public class AdminMenuJspBean implements Serializable
 {
     // ///////////////////////////////////////////////////////////////////////////////
     // Constants
+    private static final String ERROR_INVALID_TOKEN = "Invalid security token";
     public static final String PROPERTY_LOGOUT_URL = "lutece.admin.logout.url";
     public static final String PROPERTY_MENU_DEFAULT_POS = "top";
     public static final String PROPERTY_MENU_DATASTORE_POS = "portal.site.site_property.menu.position";
@@ -93,22 +95,19 @@ public class AdminMenuJspBean implements Serializable
 
     // Markers
     private static final String MARK_FEATURE_GROUP_LIST = "feature_group_list";
-    private static final String MARK_LANGUAGES_LIST = "languages_list";
-    private static final String MARK_CURRENT_LANGUAGE = "current_language";
     private static final String MARK_USER = "user";
     private static final String MARK_ADMIN_URL = "admin_url";
     private static final String MARK_ADMIN_LOGOUT_URL = "admin_logout_url";
-    private static final String MARK_ADMIN_SUMMARY_DOCUMENTATION_URL = "admin_summary_documentation_url";
     private static final String MARK_SITE_NAME = "site_name";
     private static final String MARK_MENU_POS = "menu_pos";
-    private static final String MARK_MODIFY_PASSWORD_URL = "url_modify_password";
     private static final String MARK_DASHBOARD_ZONE = "dashboard_zone_";
-    private static final String MARK_URL_CSS = "css_url";
     private static final String MARK_JAVASCRIPT_FILE = "javascript_file";
     private static final String MARK_JAVASCRIPT_FILES = "javascript_files";
     private static final String MARK_PLUGIN_NAME = "plugin_name";
+    private static final String MARK_PLUGINS_LIST = "plugins_list";
     private static final String MARK_ADMIN_AVATAR = "adminAvatar";
     private static final String MARK_MINIMUM_PASSWORD_SIZE = "minimumPasswordSize";
+    private static final String MARK_USER_MENU_ITEMS = "userMenuItems";
 
     // Templates
     private static final String TEMPLATE_ADMIN_HOME = "admin/user/admin_home.html";
@@ -123,7 +122,6 @@ public class AdminMenuJspBean implements Serializable
 
     // Properties
     private static final String PROPERTY_DEFAULT_FEATURE_ICON = "lutece.admin.feature.default.icon";
-    private static final String PROPERTY_DOCUMENTATION_SUMMARY_URL = "lutece.documentation.summary.url";
     private static final String PROPERTY_DASHBOARD_ZONES = "lutece.dashboard.zones.count";
     private static final int PROPERTY_DASHBOARD_ZONES_DEFAULT = 4;
     private static final String REFERER = "referer";
@@ -135,8 +133,9 @@ public class AdminMenuJspBean implements Serializable
     private static final String PASSWORD_CURRENT_ERROR = "portal.users.message.password.new.equals.current";
     private static final String MESSAGE_PASSWORD_REDIRECT = "portal.users.message.password.ok.redirect";
     private static final String LOGGER_ACCESS = "lutece.adminaccess";
-    
+
     private static String _strStylesheets;
+    private static boolean _bResetAdminStylesheets;
     private static String _strJavascripts;
     private boolean _bAdminAvatar = PluginService.isPluginEnable( "adminavatar" );
     private static Logger _loggerAccess = Logger.getLogger( LOGGER_ACCESS );
@@ -150,34 +149,27 @@ public class AdminMenuJspBean implements Serializable
      */
     public String getAdminMenuHeader( HttpServletRequest request )
     {
-        Map<String, Object> model = new HashMap<String, Object>( );
-        String strVersion = AppInfo.getVersion( );
+        Map<String, Object> model = new HashMap<>( );
         String strSiteName = PortalService.getSiteName( );
         AdminUser user = AdminUserService.getAdminUser( request );
-        Locale locale = user.getLocale( );
         List<FeatureGroup> aFeaturesGroupList = getFeatureGroupsList( user );
 
         // Displays the menus accroding to the rights of the users
-        model.put( Markers.VERSION, strVersion );
         model.put( MARK_SITE_NAME, strSiteName );
         model.put( MARK_MENU_POS, DatastoreService.getInstanceDataValue( PROPERTY_MENU_DATASTORE_POS, PROPERTY_MENU_DEFAULT_POS ) );
         model.put( MARK_FEATURE_GROUP_LIST, aFeaturesGroupList );
         model.put( MARK_ADMIN_URL, AppPathService.getBaseUrl( request ) + AppPathService.getAdminMenuUrl( ) );
         model.put( MARK_USER, user );
-        model.put( MARK_LANGUAGES_LIST, I18nService.getAdminLocales( locale ) );
-        model.put( MARK_CURRENT_LANGUAGE, locale.getLanguage( ) );
 
         String strLogoutUrl = AppPropertiesService.getProperty( PROPERTY_LOGOUT_URL );
         model.put( MARK_ADMIN_LOGOUT_URL, ( strLogoutUrl == null ) ? "" : strLogoutUrl );
-
-        String strDocumentationUrl = AppPropertiesService.getProperty( PROPERTY_DOCUMENTATION_SUMMARY_URL );
-        model.put( MARK_ADMIN_SUMMARY_DOCUMENTATION_URL, ( strDocumentationUrl == null ) ? null : strDocumentationUrl );
 
         int nZoneMax = AppPropertiesService.getPropertyInt( PROPERTY_DASHBOARD_ZONES, PROPERTY_DASHBOARD_ZONES_DEFAULT );
         setDashboardData( model, user, request, nZoneMax );
 
         model.put( MARK_ADMIN_AVATAR, _bAdminAvatar );
-        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_ADMIN_MENU_HEADER ) );
+        AdminUserMenuService registry = SpringContextService.getBean( AdminUserMenuService.BEAN_NAME );
+        model.put( MARK_USER_MENU_ITEMS, registry.getItems( request ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_MENU_HEADER, user.getLocale( ), model );
 
@@ -193,7 +185,7 @@ public class AdminMenuJspBean implements Serializable
      */
     public String getAdminMenuFooter( HttpServletRequest request )
     {
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<>( );
         String strFooterVersion = AppInfo.getVersion( );
         String strFooterSiteName = PortalService.getSiteName( );
         AdminUser user = AdminUserService.getAdminUser( request );
@@ -203,7 +195,7 @@ public class AdminMenuJspBean implements Serializable
         model.put( MARK_JAVASCRIPT_FILES, getAdminJavascripts( ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_MENU_FOOTER, locale, model );
-        
+
         traceAdminAccess( request );
 
         return template.getHtml( );
@@ -220,22 +212,11 @@ public class AdminMenuJspBean implements Serializable
     {
         AdminUser user = AdminUserService.getAdminUser( request );
 
-        Locale locale = user.getLocale( );
-
-        // Displays the menus according to the users rights
-        List<FeatureGroup> listFeatureGroups = getFeatureGroupsList( user );
-
-        Map<String, Object> model = new HashMap<String, Object>( );
-
-        model.put( MARK_FEATURE_GROUP_LIST, listFeatureGroups );
-        model.put( MARK_USER, user );
-        model.put( MARK_LANGUAGES_LIST, I18nService.getAdminLocales( locale ) );
-        model.put( MARK_CURRENT_LANGUAGE, locale.getLanguage( ) );
-        model.put( MARK_MODIFY_PASSWORD_URL, AdminAuthenticationService.getInstance( ).getChangePasswordPageUrl( ) );
+        Map<String, Object> model = new HashMap<>( );
 
         setDashboardData( model, user, request );
 
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_HOME, locale, model );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_HOME, user.getLocale( ), model );
 
         return template.getHtml( );
     }
@@ -255,7 +236,7 @@ public class AdminMenuJspBean implements Serializable
         List<IDashboardComponent> listDashboards = DashboardService.getInstance( ).getDashboards( user, request );
         int nZoneMax = AppPropertiesService.getPropertyInt( PROPERTY_DASHBOARD_ZONES, PROPERTY_DASHBOARD_ZONES_DEFAULT );
 
-        if ( ( listDashboards != null ) && ( listDashboards.size( ) > 0 ) )
+        if ( CollectionUtils.isNotEmpty( listDashboards ) )
         {
             int nColumnCount = DashboardService.getInstance( ).getColumnCount( );
 
@@ -307,13 +288,13 @@ public class AdminMenuJspBean implements Serializable
     private List<FeatureGroup> getFeatureGroupsList( AdminUser user )
     {
         // structure that will be returned
-        ArrayList<FeatureGroup> aOutFeatureGroupList = new ArrayList<FeatureGroup>( );
+        ArrayList<FeatureGroup> aOutFeatureGroupList = new ArrayList<>( );
 
         // get the list of user's features
         Map<String, Right> featuresMap = user.getRights( );
-        List<Right> features = new ArrayList<Right>( featuresMap.values( ) );
+        List<Right> features = new ArrayList<>( featuresMap.values( ) );
 
-        List<Right> rightsToDelete = new ArrayList<Right>( );
+        List<Right> rightsToDelete = new ArrayList<>( );
 
         // delete features which have a null URL : these features does not have to be displayed in the menu
         for ( Right right : features )
@@ -331,7 +312,7 @@ public class AdminMenuJspBean implements Serializable
         // for each group, load the features
         for ( FeatureGroup featureGroup : FeatureGroupHome.getFeatureGroupsList( ) )
         {
-            ArrayList<Right> aLeftFeatures = new ArrayList<Right>( );
+            ArrayList<Right> aLeftFeatures = new ArrayList<>( );
 
             for ( Right right : features )
             {
@@ -360,15 +341,13 @@ public class AdminMenuJspBean implements Serializable
         }
 
         // add the features with no group to the last group
-        if ( aOutFeatureGroupList.size( ) > 0 )
+        if ( CollectionUtils.isNotEmpty( aOutFeatureGroupList ) )
         {
             FeatureGroup lastFeatureGroup = aOutFeatureGroupList.get( aOutFeatureGroupList.size( ) - 1 );
 
             for ( Right right : features )
             {
                 lastFeatureGroup.addFeature( right );
-
-                // FIXME ???? itFeatures.remove( );
             }
         }
 
@@ -386,9 +365,9 @@ public class AdminMenuJspBean implements Serializable
      */
     public String doChangeLanguage( HttpServletRequest request ) throws AccessDeniedException
     {
-        if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_ADMIN_MENU_HEADER ) )
+        if ( !SecurityTokenService.getInstance( ).validate( request, LanguageAdminUserMenuItemProvider.TEMPLATE ) )
         {
-            throw new AccessDeniedException( "Invalid security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
         String strLanguage = request.getParameter( PARAMETER_LANGUAGE );
         AdminUser user = AdminUserService.getAdminUser( request );
@@ -448,8 +427,7 @@ public class AdminMenuJspBean implements Serializable
     }
 
     /**
-     * Perform the user password modification. This is used only by the default
-     * module. For other modules, custom implementation should be provided.
+     * Perform the user password modification. This is used only by the default module. For other modules, custom implementation should be provided.
      * 
      * @param request
      *            the http request
@@ -501,7 +479,7 @@ public class AdminMenuJspBean implements Serializable
         }
         if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_MODIFY_PASSWORD_DEFAULT_MODULE ) )
         {
-            throw new AccessDeniedException( "Invalid security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
 
         // Successful tests
@@ -527,9 +505,9 @@ public class AdminMenuJspBean implements Serializable
      */
     public String doModifyAccessibilityMode( HttpServletRequest request ) throws AccessDeniedException
     {
-        if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_ADMIN_MENU_HEADER ) )
+        if ( !SecurityTokenService.getInstance( ).validate( request, AccessibilityModeAdminUserMenuItemProvider.TEMPLATE ) )
         {
-            throw new AccessDeniedException( "Invalid security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
         AdminUser user = AdminUserService.getAdminUser( request );
 
@@ -558,31 +536,25 @@ public class AdminMenuJspBean implements Serializable
      */
     public String getAdminStyleSheets( )
     {
-        if ( _strStylesheets == null )
+        if ( _strStylesheets == null || _bResetAdminStylesheets )
         {
-            StringBuilder sbCssLinks = new StringBuilder( );
-            List<Plugin> listPlugins = new ArrayList<Plugin>( );
+            List<Plugin> listPlugins = new ArrayList<>( );
             listPlugins.add( PluginService.getCore( ) );
             listPlugins.addAll( PluginService.getPluginList( ) );
 
-            for ( Plugin plugin : listPlugins )
-            {
-                if ( plugin.getAdminCssStyleSheets( ) != null )
-                {
-                    for ( String strStyleSheet : plugin.getAdminCssStyleSheets( ) )
-                    {
-                        Map<String, Object> model = new HashMap<String, Object>( );
-                        model.put( MARK_URL_CSS, strStyleSheet );
-                        model.put( MARK_PLUGIN_NAME, plugin.getName( ) );
-                        sbCssLinks.append( AppTemplateService.getTemplate( TEMPLATE_STYLESHEET_LINK, LocaleService.getDefault( ), model ).getHtml( ) );
-                    }
-                }
-            }
+            Map<String, Object> model = new HashMap<>( );
+            model.put( MARK_PLUGINS_LIST, listPlugins );
 
-            _strStylesheets = sbCssLinks.toString( );
+            _strStylesheets = AppTemplateService.getTemplate( TEMPLATE_STYLESHEET_LINK, LocaleService.getDefault( ), model ).getHtml( );
+            _bResetAdminStylesheets = false;
         }
 
         return _strStylesheets;
+    }
+
+    public static void resetAdminStylesheets( )
+    {
+        _bResetAdminStylesheets = true;
     }
 
     /**
@@ -596,7 +568,7 @@ public class AdminMenuJspBean implements Serializable
         if ( _strJavascripts == null )
         {
             StringBuilder sbJavascripts = new StringBuilder( );
-            List<Plugin> listPlugins = new ArrayList<Plugin>( );
+            List<Plugin> listPlugins = new ArrayList<>( );
             listPlugins.add( PluginService.getCore( ) );
             listPlugins.addAll( PluginService.getPluginList( ) );
 
@@ -606,7 +578,7 @@ public class AdminMenuJspBean implements Serializable
                 {
                     for ( String strJavascript : plugin.getAdminJavascriptFiles( ) )
                     {
-                        Map<String, Object> model = new HashMap<String, Object>( );
+                        Map<String, Object> model = new HashMap<>( );
                         model.put( MARK_JAVASCRIPT_FILE, strJavascript );
                         model.put( MARK_PLUGIN_NAME, plugin.getName( ) );
                         sbJavascripts.append( AppTemplateService.getTemplate( TEMPLATE_JAVASCRIPT_FILE, LocaleService.getDefault( ), model ).getHtml( ) );
@@ -622,29 +594,26 @@ public class AdminMenuJspBean implements Serializable
 
     /**
      * Trace in a log file URL accessed by the current admin user
-     * @param request The HTTP request
+     * 
+     * @param request
+     *            The HTTP request
      */
     private void traceAdminAccess( HttpServletRequest request )
     {
         AdminUser user = AdminUserService.getAdminUser( request );
-        if( user != null )
+        if ( user != null )
         {
-            StringBuilder sbAccessLog = new StringBuilder();
-            sbAccessLog.append( "USER id:" ).append( user.getUserId()) 
-                    .append( ", name: " ).append( user.getFirstName()).append( " " ).append( user.getLastName() )
-                    .append( ", ip: ").append( request.getRemoteAddr())
-                    .append( ", url: " )
-                    .append( request.getScheme()).append( "://")
-                    .append( request.getServerName()).append( ':')
-                    .append( request.getServerPort() )
-                    .append( request.getRequestURI());
-            String strQuery = request.getQueryString();
-            if( strQuery != null )
+            StringBuilder sbAccessLog = new StringBuilder( );
+            sbAccessLog.append( "USER id:" ).append( user.getUserId( ) ).append( ", name: " ).append( user.getFirstName( ) ).append( " " )
+                    .append( user.getLastName( ) ).append( ", ip: " ).append( request.getRemoteAddr( ) ).append( ", url: " ).append( request.getScheme( ) )
+                    .append( "://" ).append( request.getServerName( ) ).append( ':' ).append( request.getServerPort( ) ).append( request.getRequestURI( ) );
+            String strQuery = request.getQueryString( );
+            if ( strQuery != null )
             {
                 sbAccessLog.append( "?" ).append( strQuery );
             }
-            _loggerAccess.info( sbAccessLog.toString() );
-            
+            _loggerAccess.info( sbAccessLog.toString( ) );
+
         }
     }
 }

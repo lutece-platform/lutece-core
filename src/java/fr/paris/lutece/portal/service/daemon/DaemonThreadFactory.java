@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -45,7 +45,7 @@ import java.util.concurrent.ThreadFactory;
 public final class DaemonThreadFactory implements ThreadFactory
 {
     private static final String PROPERTY_RUN_THREAD_AS_DAEMON = "daemon.runThreadAsDaemon";
-    private static final boolean RUN_THREAD_AS_DAEMON = Boolean.valueOf( AppPropertiesService.getProperty( PROPERTY_RUN_THREAD_AS_DAEMON, "0" ) );
+    private static final boolean RUN_THREAD_AS_DAEMON = Boolean.parseBoolean( AppPropertiesService.getProperty( PROPERTY_RUN_THREAD_AS_DAEMON, "0" ) );
     private static final ThreadFactory _defaultThreadFactory = Executors.defaultThreadFactory( );
     private static final String DAEMONS_NAME_PREFIX = "Lutece-DaemonsPool-Thread-";
     private static int _nIndex = 1;

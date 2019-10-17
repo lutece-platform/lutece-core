@@ -1,0 +1,78 @@
+<#include "utils.html">
+<@header title='Tag' />
+
+<@h2># Colors</@h2>
+
+<@row>
+    <@columns>
+    <@tag >Default</@tag>
+    <@tag color='primary' >Primary</@tag>
+    <@tag color='info' >Info</@tag>
+    <@tag color='success' >Success</@tag>
+    <@tag color='warning' >Warning</@tag>
+    <@tag color='danger' >Danger</@tag>
+    </@columns>
+
+    <@columns>
+    <pre>    
+&lt;@tag &gt;Default&lt;@tag&gt;
+&lt;@tag color='primary' &gt;Primary&lt;@tag&gt;
+&lt;@tag color='info' &gt;Info&lt;@tag&gt;
+&lt;@tag color='success' &gt;Success&lt;@tag&gt;
+&lt;@tag color='warning' &gt;Warning&lt;@tag&gt;
+&lt;@tag color='danger' &gt;Danger&lt;@tag&gt;
+    </pre>
+    </@columns>
+</@row>
+
+<@h2># Sizes</@h2>
+
+<@row>
+    <@columns>
+        <@tag>Default</@tag>
+        <@tag size='md' >Info</@tag>
+        <@tag size='lg' >Large</@tag>
+    </@columns>
+    <@columns>
+    <pre>
+&lt;@tag&gt;Default&lt;/@tag&gt;
+&lt;@tag size='md' &gt;Info&lt;/@tag&gt;
+&lt;@tag size='lg' &gt;Large&lt;/@tag&gt;
+    </pre>
+    </@columns>    
+</@row>
+
+<@h2># Icons</@h2>
+
+<@row>
+    <@columns>
+        <@tag tagIcon='github' color='primary' >GitHub</@tag>
+        <@tag tagIcon='check'  color='success' >Enabled</@tag>
+        <@tag tagIcon='close'  color='danger'  >Disabled</@tag>
+    </@columns>
+    <@columns>
+    <pre>
+&lt;@tag tagIcon='github' color='primary' &gt;GitHub&lt;/@tag&gt;
+&lt;@tag tagIcon='check'  color='success' &gt;Enabled&lt;/@tag&gt;
+&lt;@tag tagIcon='close'  color='danger'  &gt;Disabled&lt;/@tag&gt;
+    </pre>
+    </@columns>    
+</@row>
+
+
+
+<@h2># Badges</@h2>
+<@row>
+    <@columns>
+        <@tag color='primary' >Messages <@badge>5</@badge></@tag>
+    </@columns>
+    <@columns>
+    <pre>
+&lt;tag color='primary' &gt;Messages &lt;@badge&gt;5&lt;/@badge&gt;&lt;/@tag&gt;
+    </pre>
+    </@columns>    
+</@row>
+
+
+
+<@footer />

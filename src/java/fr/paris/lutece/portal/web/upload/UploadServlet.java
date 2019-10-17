@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -78,7 +78,7 @@ public class UploadServlet extends HttpServlet
     {
         MultipartHttpServletRequest request = (MultipartHttpServletRequest) req;
 
-        List<FileItem> listFileItems = new ArrayList<FileItem>( );
+        List<FileItem> listFileItems = new ArrayList<>( );
         // When removing IAsynchronousUploadHandler, remove all the populating of the JSONObject
         JSONObject json = new JSONObject( );
         Map<String, Object> mapJson = new HashMap<>( );

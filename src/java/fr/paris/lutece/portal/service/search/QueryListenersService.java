@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -43,7 +43,7 @@ import java.util.List;
  */
 public final class QueryListenersService
 {
-    private static List<QueryEventListener> _listListeners = new ArrayList<QueryEventListener>( );
+    private static List<QueryEventListener> _listListeners = new ArrayList<>( );
     private static volatile QueryListenersService _singleton;
 
     /**

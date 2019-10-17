@@ -88,10 +88,12 @@
 							<input type="hidden" name="daemon" value="${daemon.id}">
 							<input type="hidden" name="token" value="${token}">
 							<#if daemon.running>
-								<@button type='submit' title='#i18n{portal.system.manage_daemons.buttonStop} ${daemon.id}' name='action' value='STOP' buttonIcon='stop' color='btn-danger' showTitle=false />
-								<@button type='submit' title='#i18n{portal.system.manage_daemons.buttonRun} ${daemon.id}' name='action' value='RUN' buttonIcon='refresh' color='btn-info' showTitle=false />
-							  <#else>
-								<@button type='submit' title='#i18n{portal.system.manage_daemons.buttonStart} ${daemon.id}' name='action' value='START' buttonIcon='play' color='btn-success' showTitle=false />
+								<@inputGroup>
+										<@button type='submit' title='#i18n{portal.system.manage_daemons.buttonStop} ${daemon.id}' name='action' value='STOP' buttonIcon='stop' color='danger' showTitle=false />
+										<@button type='submit' title='#i18n{portal.system.manage_daemons.buttonRun} ${daemon.id}' name='action' value='RUN' buttonIcon='sync' color='info' showTitle=false />
+								</@inputGroup>
+							<#else>
+								<@button type='submit' title='#i18n{portal.system.manage_daemons.buttonStart} ${daemon.id}' name='action' value='START' buttonIcon='play' color='success' showTitle=false />
 							</#if>
 							</@tform>
 						  </div>

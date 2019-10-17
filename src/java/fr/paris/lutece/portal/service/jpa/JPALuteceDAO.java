@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -76,7 +76,7 @@ public abstract class JPALuteceDAO<K, E> extends JPAGenericDAO<K, E>
             strPersistenceUnit = plugin.getDbPoolName( );
         }
 
-        EntityManagerService ems = (EntityManagerService) SpringContextService.getBean( BEAN_ENTITY_MANAGER_SERVICE );
+        EntityManagerService ems = SpringContextService.getBean( BEAN_ENTITY_MANAGER_SERVICE );
 
         return ems.getEntityManagerFactory( strPersistenceUnit );
     }

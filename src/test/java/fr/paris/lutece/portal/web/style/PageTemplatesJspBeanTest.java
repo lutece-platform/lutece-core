@@ -104,7 +104,7 @@ public class PageTemplatesJspBeanTest extends LuteceTestCase
     public void testDoCreatePageTemplate( ) throws AccessDeniedException, IOException
     {
         final String desc = getRandomName( );
-        Map<String, String [ ]> parameters = new HashMap<String, String [ ]>( );
+        Map<String, String [ ]> parameters = new HashMap<>( );
         parameters.put( Parameters.PAGE_TEMPLATE_DESCRIPTION, new String [ ] {
             desc
         } );
@@ -139,7 +139,7 @@ public class PageTemplatesJspBeanTest extends LuteceTestCase
     public void testDoCreatePageTemplateInvalidToken( ) throws AccessDeniedException, IOException
     {
         final String desc = getRandomName( );
-        Map<String, String [ ]> parameters = new HashMap<String, String [ ]>( );
+        Map<String, String [ ]> parameters = new HashMap<>( );
         parameters.put( Parameters.PAGE_TEMPLATE_DESCRIPTION, new String [ ] {
             desc
         } );
@@ -178,7 +178,7 @@ public class PageTemplatesJspBeanTest extends LuteceTestCase
     public void testDoCreatePageTemplateNoToken( ) throws AccessDeniedException, IOException
     {
         final String desc = getRandomName( );
-        Map<String, String [ ]> parameters = new HashMap<String, String [ ]>( );
+        Map<String, String [ ]> parameters = new HashMap<>( );
         parameters.put( Parameters.PAGE_TEMPLATE_DESCRIPTION, new String [ ] {
             desc
         } );

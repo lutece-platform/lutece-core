@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -45,7 +45,7 @@ import java.util.Collection;
 public final class AdminWorkgroupHome
 {
     // Static variable pointed at the DAO instance
-    private static IAdminWorkgroupDAO _dao = (IAdminWorkgroupDAO) SpringContextService.getBean( "adminWorkgroupDAO" );
+    private static IAdminWorkgroupDAO _dao = SpringContextService.getBean( "adminWorkgroupDAO" );
 
     /**
      * Private constructor - this class need not be instantiated

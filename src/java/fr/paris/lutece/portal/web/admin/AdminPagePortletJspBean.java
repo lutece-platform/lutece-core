@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -183,7 +183,7 @@ public class AdminPagePortletJspBean extends AdminFeaturesPageJspBean
             }, null, strUrl, strTarget, AdminMessage.TYPE_CONFIRMATION, parameters );
         }
 
-        ArrayList<String> listErrors = new ArrayList<String>( );
+        ArrayList<String> listErrors = new ArrayList<>( );
         Locale locale = AdminUserService.getLocale( request );
         if ( !PortletRemovalListenerService.getService( ).checkForRemoval( strPortletId, listErrors, locale ) )
         {
@@ -235,7 +235,7 @@ public class AdminPagePortletJspBean extends AdminFeaturesPageJspBean
         }
         if ( !SecurityTokenService.getInstance( ).validate( request, JSP_REMOVE_PORTLET ) )
         {
-            throw new AccessDeniedException( "Invalid security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
         AdminUser user = AdminUserService.getAdminUser( request );
         if ( !RBACService.isAuthorized( PortletType.RESOURCE_TYPE, portlet.getPortletTypeId( ), PortletResourceIdService.PERMISSION_MANAGE, user ) )
@@ -243,7 +243,7 @@ public class AdminPagePortletJspBean extends AdminFeaturesPageJspBean
             throw new AccessDeniedException( "User " + user + " is not authorized to permission " + PortletResourceIdService.PERMISSION_MANAGE + " on portlet "
                     + nPortletId );
         }
-        ArrayList<String> listErrors = new ArrayList<String>( );
+        ArrayList<String> listErrors = new ArrayList<>( );
         Locale locale = AdminUserService.getLocale( request );
 
         if ( PortletRemovalListenerService.getService( ).checkForRemoval( strPortletId, listErrors, locale ) )
@@ -251,8 +251,7 @@ public class AdminPagePortletJspBean extends AdminFeaturesPageJspBean
             portlet.remove( );
         }
 
-        String strUrl = JSP_ADMIN_SITE + "?" + Parameters.PAGE_ID + "=" + portlet.getPageId( );
-        return strUrl;
+        return JSP_ADMIN_SITE + "?" + Parameters.PAGE_ID + "=" + portlet.getPageId( );
     }
 
     /**
@@ -325,7 +324,7 @@ public class AdminPagePortletJspBean extends AdminFeaturesPageJspBean
     {
         if ( !SecurityTokenService.getInstance( ).validate( request, JSP_DO_MODIFY_STATUS ) )
         {
-            throw new AccessDeniedException( "Invalid security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
         String strPortletId = request.getParameter( Parameters.PORTLET_ID );
         String strStatus = request.getParameter( PORTLET_STATUS );

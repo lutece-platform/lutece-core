@@ -88,7 +88,7 @@ public class AdminJspBeanTest extends LuteceTestCase
         MockHttpServletRequest request = new MockHttpServletRequest( );
 
         // FIXME : MokeHttpServletRequest should be fixed to support attributes
-        Map<String, Right> mapRights = new HashMap<String, Right>( );
+        Map<String, Right> mapRights = new HashMap<>( );
         Right right = new Right( );
         right.setId( AdminPageJspBean.RIGHT_MANAGE_ADMIN_SITE );
         mapRights.put( AdminPageJspBean.RIGHT_MANAGE_ADMIN_SITE, right );

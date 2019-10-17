@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -51,6 +51,7 @@ import javax.servlet.http.HttpServletRequest;
 public interface IWorkflowProvider
 {
     // GET
+	
 
     /**
      * returns a list of actions possible for a given document based on the status of the document in the workflow and the user role.
@@ -61,7 +62,23 @@ public interface IWorkflowProvider
      *            the adminUser
      * @return a list of Action
      */
-    Collection<Action> getActions( Collection<Action> listActions, AdminUser user );
+	@Deprecated
+     Collection<Action> getActions( Collection<Action> listActions, AdminUser user );
+
+    /**
+     * returns a list of actions possible for a given document based on the status of the document in the workflow and the user role.
+     *
+     * @param nIdResource
+     * 			the id of the document
+     * @param strResourceType
+     * 			the type of the document
+     * @param listActions
+     *            the list actions
+     * @param user
+     *            the adminUser
+     * @return a list of Action
+     */
+    Collection<Action> getActions( int nIdResource, String strResourceType, Collection<Action> listActions, AdminUser user );
 
     /**
      * returns a list of actions possible for a given document based on the status of the document in the workflow and the user role.
@@ -72,7 +89,20 @@ public interface IWorkflowProvider
      *            the adminUser
      * @return a list of Action
      */
+    @Deprecated
     Map<Integer, List<Action>> getActions( Map<Integer, List<Action>> mapActions, AdminUser user );
+    /**
+     * returns a list of actions possible for a given document based on the status of the document in the workflow and the user role.
+     * 
+     * @param strResourceType
+     * 			the type of the document
+     * @param mapActions
+     *            the map actions
+     * @param user
+     *            the adminUser
+     * @return a list of Action
+     */
+    Map<Integer, List<Action>> getActions( String strResourceType, Map<Integer, List<Action>> mapActions, AdminUser user );
 
     /**
      * returns the actions history performed on a resource.
@@ -249,7 +279,6 @@ public interface IWorkflowProvider
      * @return a list of Action
      */
     boolean isAuthorized( int nIdResource, String strResourceType, int nIdWorkflow, AdminUser user );
-
     /**
      * Check if the action can be proceed for the given resource.
      *
@@ -259,7 +288,22 @@ public interface IWorkflowProvider
      *            the HTTP request
      * @return true if the action can proceed, false otherwise
      */
+    @Deprecated
     boolean canProcessAction( int nIdAction, HttpServletRequest request );
+    /**
+     * Check if the action can be proceed for the given resource.
+     *
+     * @param nIdResource
+     * 			the id of the resource
+     * @param strResourceType
+     * 			the type of the resource
+     * @param nIdAction
+     *            the id action
+     * @param request
+     *            the HTTP request
+     * @return true if the action can proceed, false otherwise
+     */
+    boolean canProcessAction( int nIdResource, String strResourceType, int nIdAction, HttpServletRequest request );
 
     // DO
 

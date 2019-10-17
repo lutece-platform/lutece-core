@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -56,7 +56,7 @@ public abstract class ResourceService extends AbstractCacheableService
 
     // Variables
     private String _strName = UNDEFINED_SERVICE_NAME;
-    private List<ResourceLoader> _listLoaders = new ArrayList<ResourceLoader>( );
+    private List<ResourceLoader> _listLoaders = new ArrayList<>( );
 
     /**
      *
@@ -68,8 +68,6 @@ public abstract class ResourceService extends AbstractCacheableService
         if ( ( strLoadersProperty != null ) && ( !strLoadersProperty.equals( "" ) ) )
         {
             initLoaders( strLoadersProperty );
-
-            // initCache( getName() );
         }
         else
         {
@@ -164,15 +162,7 @@ public abstract class ResourceService extends AbstractCacheableService
             ResourceLoader loader = (ResourceLoader) Class.forName( strLoaderClassName ).newInstance( );
             _listLoaders.add( loader );
         }
-        catch( IllegalAccessException e )
-        {
-            AppLogService.error( e.getMessage( ), e );
-        }
-        catch( InstantiationException e )
-        {
-            AppLogService.error( e.getMessage( ), e );
-        }
-        catch( ClassNotFoundException e )
+        catch( IllegalAccessException | InstantiationException | ClassNotFoundException e )
         {
             AppLogService.error( e.getMessage( ), e );
         }
@@ -225,7 +215,7 @@ public abstract class ResourceService extends AbstractCacheableService
 
         while ( i.hasNext( ) && ( resource == null ) )
         {
-            ResourceLoader loader = (ResourceLoader) i.next( );
+            ResourceLoader loader = i.next( );
             resource = loader.getResource( strId );
         }
 
@@ -239,18 +229,18 @@ public abstract class ResourceService extends AbstractCacheableService
      */
     protected Collection<Resource> getResources( )
     {
-        List<Resource> listResources = new ArrayList<Resource>( );
+        List<Resource> listResources = new ArrayList<>( );
         Iterator<ResourceLoader> i = _listLoaders.iterator( );
 
         while ( i.hasNext( ) )
         {
-            ResourceLoader loader = (ResourceLoader) i.next( );
+            ResourceLoader loader = i.next( );
             Collection<Resource> colResources = loader.getResources( );
             Iterator<Resource> j = colResources.iterator( );
 
             while ( j.hasNext( ) )
             {
-                Resource resource = (Resource) j.next( );
+                Resource resource = j.next( );
                 listResources.add( resource );
             }
         }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -60,19 +60,19 @@ public final class FileDAO implements IFileDAO
     @Override
     public int newPrimaryKey( )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_NEW_PK );
-        daoUtil.executeQuery( );
-
         int nKey;
-
-        if ( !daoUtil.next( ) )
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_NEW_PK ) )
         {
-            // if the table is empty
-            nKey = 1;
-        }
+            daoUtil.executeQuery( );
 
-        nKey = daoUtil.getInt( 1 ) + 1;
-        daoUtil.free( );
+            if ( !daoUtil.next( ) )
+            {
+                // if the table is empty
+                nKey = 1;
+            }
+
+            nKey = daoUtil.getInt( 1 ) + 1;
+        }
 
         return nKey;
     }
@@ -90,25 +90,26 @@ public final class FileDAO implements IFileDAO
     {
         file.setIdFile( newPrimaryKey( ) );
 
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT );
-        daoUtil.setString( 2, file.getTitle( ) );
-
-        if ( file.getPhysicalFile( ) != null )
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT ) )
         {
-            daoUtil.setInt( 3, file.getPhysicalFile( ).getIdPhysicalFile( ) );
-        }
-        else
-        {
-            daoUtil.setIntNull( 3 );
-        }
+            daoUtil.setString( 2, file.getTitle( ) );
 
-        daoUtil.setInt( 4, file.getSize( ) );
-        daoUtil.setString( 5, file.getMimeType( ) );
-        daoUtil.setTimestamp( 6, new Timestamp( new Date( ).getTime( ) ) );
-        daoUtil.setInt( 1, file.getIdFile( ) );
-        daoUtil.executeUpdate( );
+            if ( file.getPhysicalFile( ) != null )
+            {
+                daoUtil.setInt( 3, file.getPhysicalFile( ).getIdPhysicalFile( ) );
+            }
+            else
+            {
+                daoUtil.setIntNull( 3 );
+            }
 
-        daoUtil.free( );
+            daoUtil.setInt( 4, file.getSize( ) );
+            daoUtil.setString( 5, file.getMimeType( ) );
+            daoUtil.setTimestamp( 6, new Timestamp( new Date( ).getTime( ) ) );
+            daoUtil.setInt( 1, file.getIdFile( ) );
+            daoUtil.executeUpdate( );
+
+        }
 
         return file.getIdFile( );
     }
@@ -123,32 +124,33 @@ public final class FileDAO implements IFileDAO
     @Override
     public File load( int nId )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_FIND_BY_PRIMARY_KEY );
-        daoUtil.setInt( 1, nId );
-        daoUtil.executeQuery( );
-
         File file = null;
-        PhysicalFile physicalFile = null;
-
-        if ( daoUtil.next( ) )
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_FIND_BY_PRIMARY_KEY ) )
         {
-            file = new File( );
-            file.setIdFile( daoUtil.getInt( 1 ) );
-            file.setTitle( daoUtil.getString( 2 ) );
+            daoUtil.setInt( 1, nId );
+            daoUtil.executeQuery( );
 
-            if ( daoUtil.getObject( 3 ) != null )
+            PhysicalFile physicalFile = null;
+
+            if ( daoUtil.next( ) )
             {
-                physicalFile = new PhysicalFile( );
-                physicalFile.setIdPhysicalFile( daoUtil.getInt( 3 ) );
-                file.setPhysicalFile( physicalFile );
+                file = new File( );
+                file.setIdFile( daoUtil.getInt( 1 ) );
+                file.setTitle( daoUtil.getString( 2 ) );
+
+                if ( daoUtil.getObject( 3 ) != null )
+                {
+                    physicalFile = new PhysicalFile( );
+                    physicalFile.setIdPhysicalFile( daoUtil.getInt( 3 ) );
+                    file.setPhysicalFile( physicalFile );
+                }
+
+                file.setSize( daoUtil.getInt( 4 ) );
+                file.setMimeType( daoUtil.getString( 5 ) );
+                file.setDateCreation( daoUtil.getTimestamp( 6 ) );
             }
 
-            file.setSize( daoUtil.getInt( 4 ) );
-            file.setMimeType( daoUtil.getString( 5 ) );
-            file.setDateCreation( daoUtil.getTimestamp( 6 ) );
         }
-
-        daoUtil.free( );
 
         return file;
     }
@@ -162,10 +164,11 @@ public final class FileDAO implements IFileDAO
     @Override
     public void delete( int nIdFile )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE );
-        daoUtil.setInt( 1, nIdFile );
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE ) )
+        {
+            daoUtil.setInt( 1, nIdFile );
+            daoUtil.executeUpdate( );
+        }
     }
 
     /**
@@ -177,23 +180,24 @@ public final class FileDAO implements IFileDAO
     @Override
     public void store( File file )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE );
-        daoUtil.setInt( 1, file.getIdFile( ) );
-        daoUtil.setString( 2, file.getTitle( ) );
-
-        if ( file.getPhysicalFile( ) != null )
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE ) )
         {
-            daoUtil.setInt( 3, file.getPhysicalFile( ).getIdPhysicalFile( ) );
-        }
-        else
-        {
-            daoUtil.setIntNull( 3 );
-        }
+            daoUtil.setInt( 1, file.getIdFile( ) );
+            daoUtil.setString( 2, file.getTitle( ) );
 
-        daoUtil.setInt( 4, file.getSize( ) );
-        daoUtil.setString( 5, file.getMimeType( ) );
-        daoUtil.setInt( 6, file.getIdFile( ) );
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+            if ( file.getPhysicalFile( ) != null )
+            {
+                daoUtil.setInt( 3, file.getPhysicalFile( ).getIdPhysicalFile( ) );
+            }
+            else
+            {
+                daoUtil.setIntNull( 3 );
+            }
+
+            daoUtil.setInt( 4, file.getSize( ) );
+            daoUtil.setString( 5, file.getMimeType( ) );
+            daoUtil.setInt( 6, file.getIdFile( ) );
+            daoUtil.executeUpdate( );
+        }
     }
 }

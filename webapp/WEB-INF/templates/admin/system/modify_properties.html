@@ -15,7 +15,7 @@
 				</@boxHeader>
 				<@boxBody>
 					<p>${group.description}</p>
-					<#list group.localizedDataList?sort_by("key") as property>
+					<#list group.localizedDataList as property>
 						<#if property.help?length &gt; 0>
 							<#assign helpText = property.help>
 						<#else>

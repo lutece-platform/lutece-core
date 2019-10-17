@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -48,7 +48,7 @@ public class PageCacheService extends AbstractCacheableService
     private static final String SERVICE_NAME = "Page Cache Service";
 
     // Performance patch
-    private static ConcurrentHashMap<String, String> _keyMemory = new ConcurrentHashMap<String, String>( );
+    private static ConcurrentHashMap<String, String> _keyMemory = new ConcurrentHashMap<>( );
 
     /**
      * {@inheritDoc }

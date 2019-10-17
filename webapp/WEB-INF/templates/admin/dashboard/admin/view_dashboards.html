@@ -1,13 +1,17 @@
-<section class="content"><#-- closed in admin_footer.html -->
-<div class="row">
-<#if column_content_1?has_content>
-	<div class="col-xs-12 col-sm-6 col-md-6">
-		${column_content_1}
-	</div>
-</#if>
-<#if column_content_2?has_content>
-	<div class="col-xs-12 col-sm-6 col-md-6">
-		${column_content_2}
-	</div>
-</#if>
+<div class="container">
+<@row>	
+    <@columns>
+        <h1> <@icon style='cog' /> #i18n{portal.admindashboard.view_dashboards.title}</h1>
+        <@row>	
+            <@columns>
+            <#if column_content_1?has_content>
+                    ${column_content_1}
+            </#if>
+            <#if column_content_2?has_content>
+                    ${column_content_2}
+            </#if>
+            </@columns>
+        </@row>
+    </@columns>
+</@row>
 </div>

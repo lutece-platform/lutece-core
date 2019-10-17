@@ -35,6 +35,7 @@ package fr.paris.lutece.portal.service.spring;
 
 import fr.paris.lutece.portal.business.user.authentication.LuteceDefaultAdminAuthentication;
 import fr.paris.lutece.portal.service.init.LuteceInitException;
+import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.search.SearchEngine;
 import fr.paris.lutece.test.LuteceTestCase;
 
@@ -82,4 +83,17 @@ public class SpringContextServiceTest extends LuteceTestCase
             System.out.println( engine.getClass( ) );
         }
     }
+
+    public void testIsBeanEnabled( )
+    {
+        assertTrue( SpringContextService.isBeanEnabled( "adminAuthenticationModule" ) );
+    }
+
+    public void testIsBeanEnabledInexistantPlugin( )
+    {
+        final String inexitantPluginName = "inexistantPlugin";
+        assertNull( PluginService.getPlugin( inexitantPluginName ) );
+        assertFalse( SpringContextService.isBeanEnabled( inexitantPluginName + ".adminAuthenticationModule" ) );
+    }
+
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -64,24 +64,24 @@ public final class BeanUtil
         PropertyUtils.addBeanIntrospector( SuppressPropertiesBeanIntrospector.SUPPRESS_CLASS );
     }
 
-    private static Map<String, BeanUtilsBean> mapBeanUtilsBeans;
+    private static Map<String, BeanUtilsBean> _mapBeanUtilsBeans;
 
     /**
      * BeanUtil initialization, considering Lutèce availables locales and date format properties
      */
     public static void init( )
     {
-        mapBeanUtilsBeans = new HashMap<>( );
-        
+        _mapBeanUtilsBeans = new HashMap<>( );
+
         for ( Locale locale : I18nService.getAdminAvailableLocales( ) )
         {
             BeanUtilsBean beanUtilsBean = new BeanUtilsBean( );
             beanUtilsBean.getPropertyUtils( ).addBeanIntrospector( SuppressPropertiesBeanIntrospector.SUPPRESS_CLASS );
-    
+
             DateConverter dateConverter = new DateConverter( null );
             dateConverter.setPattern( I18nService.getDateFormatShortPattern( locale ) );
             beanUtilsBean.getConvertUtils( ).register( dateConverter, Date.class );
-            mapBeanUtilsBeans.put( locale.getLanguage( ), beanUtilsBean );
+            _mapBeanUtilsBeans.put( locale.getLanguage( ), beanUtilsBean );
         }
     }
 
@@ -89,18 +89,18 @@ public final class BeanUtil
     private BeanUtil( )
     {
     }
-    
+
     /**
      * Populate a bean using parameters in http request
      * 
      * @param bean
-     * @param request 
+     * @param request
      */
     public static void populate( Object bean, HttpServletRequest request )
     {
         populate( bean, request, null );
     }
-        
+
     /**
      * Populate a bean using parameters in http request, with locale date format controls
      *
@@ -117,7 +117,7 @@ public final class BeanUtil
             try
             {
                 // for all boolean field, init to false
-                if ( field.getType( ).getName( ).equals( Boolean.class.getName( ) ) || field.getType( ).getName( ).equals( boolean.class.getName( ) ) )
+                if ( field.getClass( ).isAssignableFrom( Boolean.class ) )
                 {
                     field.setAccessible( true );
                     field.set( bean, false );
@@ -134,9 +134,9 @@ public final class BeanUtil
         try
         {
             BeanUtilsBean beanUtilsBean;
-            if ( locale != null && mapBeanUtilsBeans != null )
+            if ( locale != null && _mapBeanUtilsBeans != null )
             {
-                beanUtilsBean = mapBeanUtilsBeans.get( locale.getLanguage( ) );
+                beanUtilsBean = _mapBeanUtilsBeans.get( locale.getLanguage( ) );
             }
             else
             {
@@ -145,11 +145,7 @@ public final class BeanUtil
 
             beanUtilsBean.populate( bean, convertMap( request.getParameterMap( ) ) );
         }
-        catch( IllegalAccessException e )
-        {
-            AppLogService.error( "Unable to fetch data from request", e );
-        }
-        catch( InvocationTargetException e )
+        catch( InvocationTargetException | IllegalAccessException e )
         {
             AppLogService.error( "Unable to fetch data from request", e );
         }
@@ -164,7 +160,7 @@ public final class BeanUtil
      */
     public static Map<String, Object> convertMap( Map<String, String [ ]> mapInput )
     {
-        Map<String, Object> mapOutput = new HashMap<String, Object>( );
+        Map<String, Object> mapOutput = new HashMap<>( );
 
         for ( Entry<String, String [ ]> entry : mapInput.entrySet( ) )
         {

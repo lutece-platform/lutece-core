@@ -88,8 +88,7 @@ public class AdminDashboardJspBeanTest extends LuteceTestCase
     }
 
     /**
-     * Test of getAdminDashboards method, of class
-     * fr.paris.lutece.portal.web.dashboard.AdminDashboardJspBean.
+     * Test of getAdminDashboards method, of class fr.paris.lutece.portal.web.dashboard.AdminDashboardJspBean.
      * 
      * @throws Exception
      *             e
@@ -112,8 +111,7 @@ public class AdminDashboardJspBeanTest extends LuteceTestCase
     public void testGetManageDashboards( ) throws PasswordResetException, AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
-        Utils.registerAdminUserWithRigth( request, new AdminUser( ),
-                AdminDashboardJspBean.RIGHT_MANAGE_ADMINDASHBOARD );
+        Utils.registerAdminUserWithRigth( request, new AdminUser( ), AdminDashboardJspBean.RIGHT_MANAGE_ADMINDASHBOARD );
 
         instance.init( request, AdminDashboardJspBean.RIGHT_MANAGE_ADMINDASHBOARD );
 
@@ -131,8 +129,8 @@ public class AdminDashboardJspBeanTest extends LuteceTestCase
         request.setParameter( "dashboard_name", _dashboard.getName( ) );
         request.setParameter( "dashboard_order", "-1" );
         request.setParameter( "dashboard_column", "-1" );
-        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( )
-                .getToken( request, "/admin/dashboard/admin/manage_dashboards.html" ) );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "/admin/dashboard/admin/manage_dashboards.html" ) );
 
         instance.doMoveAdminDashboard( request );
 
@@ -154,15 +152,14 @@ public class AdminDashboardJspBeanTest extends LuteceTestCase
         request.setParameter( "dashboard_order", "-1" );
         request.setParameter( "dashboard_column", "-1" );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "/admin/dashboard/admin/manage_dashboards.html" )
-                        + "b" );
+                SecurityTokenService.getInstance( ).getToken( request, "/admin/dashboard/admin/manage_dashboards.html" ) + "b" );
 
         try
         {
             instance.doMoveAdminDashboard( request );
             fail( "Should have thrown" );
         }
-        catch ( AccessDeniedException e )
+        catch( AccessDeniedException e )
         {
             stored = AdminDashboardHome.findByPrimaryKey( _dashboard.getName( ) );
             assertNotNull( stored );
@@ -188,7 +185,7 @@ public class AdminDashboardJspBeanTest extends LuteceTestCase
             instance.doMoveAdminDashboard( request );
             fail( "Should have thrown" );
         }
-        catch ( AccessDeniedException e )
+        catch( AccessDeniedException e )
         {
             stored = AdminDashboardHome.findByPrimaryKey( _dashboard.getName( ) );
             assertNotNull( stored );
@@ -213,8 +210,8 @@ public class AdminDashboardJspBeanTest extends LuteceTestCase
 
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.setParameter( "column", Integer.toString( nZone ) );
-        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( )
-                .getToken( request, "/admin/dashboard/admin/manage_dashboards.html" ) );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "/admin/dashboard/admin/manage_dashboards.html" ) );
 
         instance.doReorderColumn( request );
 
@@ -240,15 +237,14 @@ public class AdminDashboardJspBeanTest extends LuteceTestCase
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.setParameter( "column", Integer.toString( nZone ) );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "/admin/dashboard/admin/manage_dashboards.html" )
-                        + "b" );
+                SecurityTokenService.getInstance( ).getToken( request, "/admin/dashboard/admin/manage_dashboards.html" ) + "b" );
 
         try
         {
             instance.doReorderColumn( request );
             fail( "Should have thrown" );
         }
-        catch ( AccessDeniedException e )
+        catch( AccessDeniedException e )
         {
             stored = AdminDashboardHome.findByPrimaryKey( _dashboard.getName( ) );
             assertEquals( -1, stored.getOrder( ) );
@@ -278,7 +274,7 @@ public class AdminDashboardJspBeanTest extends LuteceTestCase
             instance.doReorderColumn( request );
             fail( "Should have thrown" );
         }
-        catch ( AccessDeniedException e )
+        catch( AccessDeniedException e )
         {
             stored = AdminDashboardHome.findByPrimaryKey( _dashboard.getName( ) );
             assertEquals( -1, stored.getOrder( ) );

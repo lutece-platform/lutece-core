@@ -1,43 +1,36 @@
-<div class="row">
-	<div class="col-xs-12 col-sm-12 col-md-12">
-		<div class="box box-success">
-			<div class="box-header">
-				<h3 class="box-title">#i18n{portal.users.import_module_user.searchBoxTitle}</h3>
-			</div>
-			<div class="box-body">
-				<form class="form-horizontal" method="post"  name="searchUsers" action="jsp/admin/user/ImportUser.jsp">
-				  <div class="form-group">
-						<label class="col-xs-12 col-sm-12 col-md-2 col-lg-3" for="last_name" >#i18n{portal.users.import_module_user.searchBoxLabelLastName} :</label>
-						<div class="col-xs-12 col-sm-12 col-md-10 col-lg-9">
-							<input type="text" id="last_name"  name="last_name" value="${last_name?if_exists}" maxlength="100" size="35">
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="col-xs-12 col-sm-12 col-md-2 col-lg-3" for="first_name" >#i18n{portal.users.import_module_user.searchBoxLabelFirstName} :</label>
-						<div class="col-xs-12 col-sm-12 col-md-10 col-lg-9">
-							<input type="text" id="first_name"  name="first_name" value="${first_name?if_exists}" maxlength="100" size="35">
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="col-xs-12 col-sm-12 col-md-2 col-lg-3" for="email" >#i18n{portal.users.import_module_user.searchBoxLabelEmail} :</label>
-						<div class="col-xs-12 col-sm-12 col-md-10 col-lg-9">
-							<input type="text" id="email"  name="email" value="${email?if_exists}" maxlength="100" size="100">
-						</div>
-					</div>
-                    <div class="form-group">
-                        <div class="col-xs-12 col-sm-12 col-md-offset-2 col-lg-offset-3">
-					       <button class="btn btn-primary btn-sm" type="submit" >#i18n{portal.users.import_module_user.searchBoxbuttonLabelSearch}</button>
-                        </div>
-                    </div>
-				</fieldset>
-				</form>
+
+<#assign boxtitle>
+#i18n{portal.users.import_module_user.searchBoxTitle}
+</#assign>
+<@row>
+    <@columns>
+        <@box color='success'>
+            <@boxHeader title=boxtitle />
+            <@boxBody>
+				<@tform name='searchUsers' id='searchUsers' action='jsp/admin/user/ImportUser.jsp' >
+				<@formGroup labelFor='last_name' labelKey='${i18n("portal.users.modify_user.labelLastName")}' mandatory=true rows=2>
+					<@input type='text' name='last_name' id='last_name' value="${user.lastName?if_exists}" />
+				</@formGroup> 
+				<@formGroup labelFor='first_name' labelKey='${i18n("portal.users.modify_user.labelFirstName")}' mandatory=true rows=2>
+					<@input type='text' name='first_name' id='first_name' value="${user.firstName?if_exists}" />
+				</@formGroup> 
+				<@formGroup labelFor='email' labelKey='${i18n("portal.users.modify_user.labelEmail")}' mandatory=true rows=2>
+					<@input type='email' name='email' id='email' value="${user.email?if_exists}" />
+				</@formGroup>
+				<@row>
+					<@columns md=10 offsetMd=2 lg=9 offsetLg=3>
+						<@button type="submit" color="btn-primary" style="btn-block">
+                              <@icon style="search" /> #i18n{portal.users.import_module_user.searchBoxbuttonLabelSearch}
+                        </@button> 
+					</@columns>	
+				</@row>	
+				</@tform>
 				<#if import_user_list?has_content>
-					<div class="box">
-						<div class="box-header">
-							<h3 class="box-title">#i18n{portal.users.import_module_user.resultBoxTitle}</h3>
-						</div><!-- /.box-header -->
-						<div class="box-body table-responsive no-padding">
-							<table class="table table-hover table-condensed">
+					<#assign boxtitle>#i18n{portal.users.import_module_user.resultBoxTitle}</#assign>
+					<@box>
+						<@boxHeader title=boxtitle />
+						<@boxBody>
+							<@table class='no-padding'>
 								<thead>
 									<tr>
 										<th>#i18n{portal.users.import_module_user.resultColumnTitleLastName}</th>
@@ -54,19 +47,18 @@
 										<td>${user.firstName?if_exists}</td>
 										<td>${user.email?if_exists}</td>
 										<td>
-										<form class="form-inline" method="post"  name="importUsers" action="jsp/admin/user/DoSelectImportUser.jsp">
-											<input type="hidden" name="access_code" value="${user.accessCode}">
-											<button class="btn btn-primary btn-xs btn-flat" type="submit">#i18n{portal.users.import_module_user.resultButtonLabelImportUser}</button>
-										</form>
+											<@tform class='form-inline' name='importUsers' id='importUsers' action='jsp/admin/user/DoSelectImportUser.jsp' >
+												<input type="hidden" name="access_code" value="${user.accessCode}">
+												<@button color="btn-primary" type="submit" title='#i18n{portal.users.import_module_user.resultButtonLabelImportUser}' />
+											</@tform>
 										</td>
 									</tr>
 								</#list>
-								</tbody>
-							</table>
-						</div>
-					</div>
+							</@table>
+						</@boxBody>
+					</@box>
 				</#if>
-			</div>	
-		</div>	
-	</div>	
-</div>
+			</@boxBody>
+		</@box>
+	</@columns>
+</@row>

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -86,7 +86,7 @@ public class StatisticsInclude implements PageInclude
             {
                 String strStatisticalIncludeTemplateHead = AppPropertiesService.getProperty( PROPERTY_STATISTICAL_INCLUDE_HEAD_TEMPLATE );
 
-                Map<String, String> model = new HashMap<String, String>( );
+                Map<String, String> model = new HashMap<>( );
                 model.put( MARK_STATISTICAL_SITE_ID, strStatisticalSiteId );
                 model.put( MARK_STATISTICAL_SERVER_URL, strStatisticalServerUrl );
 

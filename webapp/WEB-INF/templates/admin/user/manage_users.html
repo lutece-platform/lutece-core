@@ -1,15 +1,15 @@
 <@row>
   <@columns>
-    <@box color='success' collapsed=true>
+    <@box color='primary' collapsed=true>
       <@boxHeader title='#i18n{portal.users.manage_users.titleUserList}' boxTools=true>
 				<#if permission_advanced_parameter>
-					<@aButton size='' href='jsp/admin/user/ManageAdvancedParameters.jsp' title='#i18n{portal.users.manage_users.buttonLabelManageAdvancedParameters}' buttonIcon='cog' showTitleXs=false showTitleSm=false />
+					<@aButton size='' href='jsp/admin/AdminTechnicalMenu.jsp?#users_advanced_parameters_management' title='#i18n{portal.users.manage_users.buttonLabelManageAdvancedParameters}' buttonIcon='cog' showTitleXs=false showTitleSm=false />
         </#if>
 				<#if permission_import_export_users>
 					<@aButton size='' href='jsp/admin/user/ExportUsers.jsp' title='#i18n{portal.users.manage_users.buttonLabelImportExportUsers}' buttonIcon='download' showTitleXs=false showTitleSm=false />
 				</#if>
 				<@aButton size='' href='${url_user_creation}' title='#i18n{portal.users.manage_users.buttonLabelAddUser}' buttonIcon='plus' showTitleXs=false showTitleSm=false />
-				<@button style='btn-box-tool' params='data-widget="collapse"' buttonIcon='plus' />
+				<!-- <@button style='btn-box-tool' params='data-widget="collapse"' buttonIcon='plus' /> -->
       </@boxHeader>
 			<@boxBody>
 				<@tform method='post' name='search_users' action='jsp/admin/user/ManageUsers.jsp'>
@@ -151,7 +151,7 @@
 							<#if !user.statusAnonymized>
 								<@aButton href='jsp/admin/user/AnonymizeAdminUser.jsp?id_user=${user.userId}' title='#i18n{portal.users.actions.labelAnonymize}' buttonIcon='eye-slash' showTitle=false />
 							</#if>
-							<@aButton color='btn-danger' href='jsp/admin/user/RemoveUser.jsp?id_user=${user.userId}' title='#i18n{portal.users.actions.labelDelete}' buttonIcon='trash' showTitle=false />
+							<@aButton color='danger' href='jsp/admin/user/RemoveUser.jsp?id_user=${user.userId}' title='#i18n{portal.users.actions.labelDelete}' buttonIcon='trash' showTitle=false />
 						</td>
 					</tr>
         </#list>

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -46,7 +46,7 @@ public class AliasPortletHome extends PortletHome
     // ///////////////////////////////////////////////////////////////////////////////
     // Constants
     // Static variable pointed at the DAO instance
-    private static IAliasPortletDAO _dao = (IAliasPortletDAO) SpringContextService.getBean( "aliasPortletDAO" );
+    private static IAliasPortletDAO _dao = SpringContextService.getBean( "aliasPortletDAO" );
 
     /** This class implements the Singleton design pattern. */
     private static volatile AliasPortletHome _singleton;
@@ -70,9 +70,7 @@ public class AliasPortletHome extends PortletHome
     public String getPortletTypeId( )
     {
         String strCurrentClassName = this.getClass( ).getName( );
-        String strPortletTypeId = PortletTypeHome.getPortletTypeId( strCurrentClassName );
-
-        return strPortletTypeId;
+        return PortletTypeHome.getPortletTypeId( strCurrentClassName );
     }
 
     /**
@@ -121,7 +119,7 @@ public class AliasPortletHome extends PortletHome
     {
         return _dao.selectAcceptAliasPortletRefList( );
     }
-    
+
     /**
      * Returns the list of the portlets which accept an alias
      *
@@ -130,7 +128,7 @@ public class AliasPortletHome extends PortletHome
     public static Collection<Portlet> getAcceptAliasPortletList( )
     {
         return _dao.selectAcceptAliasPortletList( );
-    }  
+    }
 
     /**
      * Loads the list of the portlets whose type is the same as the one specified in parameter

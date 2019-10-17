@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -36,10 +36,10 @@ package fr.paris.lutece.portal.web.pluginaction;
 /**
  * This class might be used to ensure forward compatibility
  * 
- * @param <FieldsDTO>
+ * @param <F>
  *            FieldsDTO
  */
-public abstract class AbstractPluginAction<FieldsDTO> implements IPluginAction<FieldsDTO>
+public abstract class AbstractPluginAction<F> implements IPluginAction<F>
 {
     // nothing yet
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -268,7 +268,7 @@ public abstract class AbstractAttribute implements IAttribute
      */
     public String getHtmlFormAttribute( Locale locale )
     {
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<>( );
         model.put( MARK_ATTRIBUTE, this );
 
         HtmlTemplate template = AppTemplateService.getTemplate( getTemplateHtmlFormAttribute( ), locale, model );
@@ -287,7 +287,7 @@ public abstract class AbstractAttribute implements IAttribute
      */
     public String getHtmlFormAttribute( Locale locale, Object listDefaultValues )
     {
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<>( );
         model.put( MARK_ATTRIBUTE, this );
         model.put( MARK_DEFAULT_VALUES_LIST, listDefaultValues );
 
@@ -307,13 +307,13 @@ public abstract class AbstractAttribute implements IAttribute
      */
     public String getHtmlFormSearchAttribute( AdminUserFieldFilter auFieldFilter, Locale locale )
     {
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<>( );
         List<AdminUserField> listUserFields = auFieldFilter.getListUserFields( );
         List<AdminUserField> selectedUserFields = null;
 
         if ( ( listUserFields != null ) && ( !listUserFields.isEmpty( ) ) )
         {
-            selectedUserFields = new ArrayList<AdminUserField>( );
+            selectedUserFields = new ArrayList<>( );
 
             for ( AdminUserField userField : listUserFields )
             {
@@ -343,7 +343,7 @@ public abstract class AbstractAttribute implements IAttribute
      */
     public String getHtmlValue( Locale locale, AdminUserField userField )
     {
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<>( );
 
         model.put( MARK_ATTRIBUTE, this );
         model.put( MARK_USER_FIELD, userField );

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -67,19 +67,19 @@ public abstract class AbstractUserPreferencesDAO implements IPreferencesDAO
     @Override
     public String load( String strUserId, String strKey, String strDefault )
     {
-        DAOUtil daoUtil = new DAOUtil( _strSqlSelect );
-        daoUtil.setString( 1, strUserId );
-        daoUtil.setString( 2, strKey );
-        daoUtil.executeQuery( );
-
         String strValue = strDefault;
-
-        if ( daoUtil.next( ) )
+        try( DAOUtil daoUtil = new DAOUtil( _strSqlSelect ) )
         {
-            strValue = ( daoUtil.getString( 1 ) );
-        }
+            daoUtil.setString( 1, strUserId );
+            daoUtil.setString( 2, strKey );
+            daoUtil.executeQuery( );
 
-        daoUtil.free( );
+            if ( daoUtil.next( ) )
+            {
+                strValue = ( daoUtil.getString( 1 ) );
+            }
+
+        }
 
         return strValue;
     }
@@ -90,18 +90,19 @@ public abstract class AbstractUserPreferencesDAO implements IPreferencesDAO
     @Override
     public List<String> getUserId( String strKey, String strValue )
     {
-        List<String> listUserId = new ArrayList<String>( );
-        DAOUtil daoUtil = new DAOUtil( _strSqlSelectByValue );
-        daoUtil.setString( 1, strKey );
-        daoUtil.setString( 2, strValue );
-        daoUtil.executeQuery( );
-
-        while ( daoUtil.next( ) )
+        List<String> listUserId = new ArrayList<>( );
+        try( DAOUtil daoUtil = new DAOUtil( _strSqlSelectByValue ) )
         {
-            listUserId.add( daoUtil.getString( 1 ) );
-        }
+            daoUtil.setString( 1, strKey );
+            daoUtil.setString( 2, strValue );
+            daoUtil.executeQuery( );
 
-        daoUtil.free( );
+            while ( daoUtil.next( ) )
+            {
+                listUserId.add( daoUtil.getString( 1 ) );
+            }
+
+        }
 
         return listUserId;
     }
@@ -119,14 +120,15 @@ public abstract class AbstractUserPreferencesDAO implements IPreferencesDAO
             strSQL = _strSqlUpdate;
         }
 
-        DAOUtil daoUtil = new DAOUtil( strSQL );
+        try( DAOUtil daoUtil = new DAOUtil( strSQL ) )
+        {
 
-        daoUtil.setString( 1, strValue );
-        daoUtil.setString( 2, strUserId );
-        daoUtil.setString( 3, strKey );
+            daoUtil.setString( 1, strValue );
+            daoUtil.setString( 2, strUserId );
+            daoUtil.setString( 3, strKey );
 
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+            daoUtil.executeUpdate( );
+        }
     }
 
     /**
@@ -135,17 +137,18 @@ public abstract class AbstractUserPreferencesDAO implements IPreferencesDAO
     @Override
     public List<String> keys( String strUserId )
     {
-        List<String> list = new ArrayList<String>( );
-        DAOUtil daoUtil = new DAOUtil( _strSqlSelectAll );
-        daoUtil.setString( 1, strUserId );
-        daoUtil.executeQuery( );
-
-        while ( daoUtil.next( ) )
+        List<String> list = new ArrayList<>( );
+        try( DAOUtil daoUtil = new DAOUtil( _strSqlSelectAll ) )
         {
-            list.add( daoUtil.getString( 1 ) );
-        }
+            daoUtil.setString( 1, strUserId );
+            daoUtil.executeQuery( );
 
-        daoUtil.free( );
+            while ( daoUtil.next( ) )
+            {
+                list.add( daoUtil.getString( 1 ) );
+            }
+
+        }
 
         return list;
     }
@@ -156,10 +159,11 @@ public abstract class AbstractUserPreferencesDAO implements IPreferencesDAO
     @Override
     public void remove( String strUserId )
     {
-        DAOUtil daoUtil = new DAOUtil( _strSqlDelete );
-        daoUtil.setString( 1, strUserId );
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+        try( DAOUtil daoUtil = new DAOUtil( _strSqlDelete ) )
+        {
+            daoUtil.setString( 1, strUserId );
+            daoUtil.executeUpdate( );
+        }
     }
 
     /**
@@ -168,11 +172,12 @@ public abstract class AbstractUserPreferencesDAO implements IPreferencesDAO
     @Override
     public void removeKey( String strUserId, String strKey )
     {
-        DAOUtil daoUtil = new DAOUtil( _strSqlDeleteKey );
-        daoUtil.setString( 1, strUserId );
-        daoUtil.setString( 2, strKey );
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+        try( DAOUtil daoUtil = new DAOUtil( _strSqlDeleteKey ) )
+        {
+            daoUtil.setString( 1, strUserId );
+            daoUtil.setString( 2, strKey );
+            daoUtil.executeUpdate( );
+        }
     }
 
     /**
@@ -181,11 +186,12 @@ public abstract class AbstractUserPreferencesDAO implements IPreferencesDAO
     @Override
     public void removeKeyPrefix( String strUserId, String strKeyPrefix )
     {
-        DAOUtil daoUtil = new DAOUtil( _strSqlDeleteKeyPrefix );
-        daoUtil.setString( 1, strUserId );
-        daoUtil.setString( 2, "%" + strKeyPrefix );
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+        try( DAOUtil daoUtil = new DAOUtil( _strSqlDeleteKeyPrefix ) )
+        {
+            daoUtil.setString( 1, strUserId );
+            daoUtil.setString( 2, "%" + strKeyPrefix );
+            daoUtil.executeUpdate( );
+        }
     }
 
     /**
@@ -194,19 +200,19 @@ public abstract class AbstractUserPreferencesDAO implements IPreferencesDAO
     @Override
     public boolean existsKey( String strUserId, String strKey )
     {
-        DAOUtil daoUtil = new DAOUtil( _strSqlSelectCount );
-        daoUtil.setString( 1, strUserId );
-        daoUtil.setString( 2, strKey );
-        daoUtil.executeQuery( );
-
         int nValue = 0;
-
-        if ( daoUtil.next( ) )
+        try( DAOUtil daoUtil = new DAOUtil( _strSqlSelectCount ) )
         {
-            nValue = ( daoUtil.getInt( 1 ) );
-        }
+            daoUtil.setString( 1, strUserId );
+            daoUtil.setString( 2, strKey );
+            daoUtil.executeQuery( );
 
-        daoUtil.free( );
+            if ( daoUtil.next( ) )
+            {
+                nValue = ( daoUtil.getInt( 1 ) );
+            }
+
+        }
 
         return ( nValue != 0 );
     }
@@ -217,19 +223,19 @@ public abstract class AbstractUserPreferencesDAO implements IPreferencesDAO
     @Override
     public boolean existsValueForKey( String strKey, String strValue )
     {
-        DAOUtil daoUtil = new DAOUtil( _strSqlSelectCountPrefValue );
-        daoUtil.setString( 1, strKey );
-        daoUtil.setString( 2, strValue );
-        daoUtil.executeQuery( );
-
         int nValue = 0;
-
-        if ( daoUtil.next( ) )
+        try( DAOUtil daoUtil = new DAOUtil( _strSqlSelectCountPrefValue ) )
         {
-            nValue = ( daoUtil.getInt( 1 ) );
-        }
+            daoUtil.setString( 1, strKey );
+            daoUtil.setString( 2, strValue );
+            daoUtil.executeQuery( );
 
-        daoUtil.free( );
+            if ( daoUtil.next( ) )
+            {
+                nValue = ( daoUtil.getInt( 1 ) );
+            }
+
+        }
 
         return ( nValue != 0 );
     }

@@ -1,20 +1,21 @@
-<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?><plug-in>
-    
+<?xml version="1.0" encoding="UTF-8"?>
+<plug-in>
+
     <!-- Plugin Informations -->
     <name>core</name>
     <class>fr.paris.lutece.portal.service.plugin.PluginDefaultImplementation</class>
-    <version>6.1.2-SNAPSHOT</version>
+    <version>7.0.0-SNAPSHOT</version>
     <description>portal.system.core_components.description</description>
-    <documentation/>
-    <installation/>
-    <changes/>
-    <user-guide/>
+    <documentation />
+    <installation />
+    <changes />
+    <user-guide />
     <provider>portal.system.core_components.provider</provider>
     <provider-url>http://fr.lutece.paris.fr</provider-url>
     <icon-url>images/admin/skin/core.png</icon-url>
     <copyright>Copyright (c) 2001-2015 Mairie de Paris</copyright>
     <db-pool-required>1</db-pool-required>
-    
+
     <!-- Contents Service -->
     <content-services>
         <content-service>
@@ -24,14 +25,14 @@
             <content-service-class>fr.paris.lutece.portal.service.content.XPageAppService</content-service-class>
         </content-service>
     </content-services>
-    
+
     <!-- Search indexers -->
     <search-indexers>
         <search-indexer>
             <search-indexer-class>fr.paris.lutece.portal.service.search.PageIndexer</search-indexer-class>
         </search-indexer>
     </search-indexers>
-    
+
     <!-- Applications -->
     <applications>
         <application>
@@ -51,12 +52,12 @@
             <page-include-service-id>main_menu</page-include-service-id>
             <page-include-service-class>fr.paris.lutece.portal.web.includes.MainMenuInclude</page-include-service-class>
             <enabled>${core.include.main_menu.enabled}</enabled>
-        </page-include-service>	
+        </page-include-service>
         <page-include-service>
             <page-include-service-id>tree_menu</page-include-service-id>
             <page-include-service-class>fr.paris.lutece.portal.web.includes.TreeMenuInclude</page-include-service-class>
             <enabled>${core.include.tree_menu.enabled}</enabled>
-        </page-include-service>			
+        </page-include-service>
         <page-include-service>
             <page-include-service-id>links</page-include-service-id>
             <page-include-service-class>fr.paris.lutece.portal.web.includes.LinksInclude</page-include-service-class>
@@ -69,7 +70,8 @@
         </page-include-service>
         <page-include-service>
             <page-include-service-id>statistics</page-include-service-id>
-            <page-include-service-class>fr.paris.lutece.portal.web.includes.StatisticsInclude</page-include-service-class>
+            <page-include-service-class>fr.paris.lutece.portal.web.includes.StatisticsInclude
+            </page-include-service-class>
             <enabled>${core.include.statistics.enabled}</enabled>
         </page-include-service>
         <page-include-service>
@@ -78,7 +80,7 @@
             <enabled>${core.include.themes.enabled}</enabled>
         </page-include-service>
     </page-include-services>
-    
+
     <!-- Daemons -->
     <daemons>
         <daemon>
@@ -116,43 +118,49 @@
     <!-- RBAC Resources -->
     <rbac-resource-types>
         <rbac-resource-type>
-            <rbac-resource-type-class>fr.paris.lutece.portal.service.page.PageResourceIdService</rbac-resource-type-class>
+            <rbac-resource-type-class>fr.paris.lutece.portal.service.page.PageResourceIdService
+            </rbac-resource-type-class>
         </rbac-resource-type>
         <rbac-resource-type>
-            <rbac-resource-type-class>fr.paris.lutece.portal.service.portlet.PortletResourceIdService</rbac-resource-type-class>
+            <rbac-resource-type-class>fr.paris.lutece.portal.service.portlet.PortletResourceIdService
+            </rbac-resource-type-class>
         </rbac-resource-type>
         <rbac-resource-type>
-            <rbac-resource-type-class>fr.paris.lutece.portal.service.insert.InsertResourceIdService</rbac-resource-type-class>
+            <rbac-resource-type-class>fr.paris.lutece.portal.service.insert.InsertResourceIdService
+            </rbac-resource-type-class>
         </rbac-resource-type>
         <rbac-resource-type>
-            <rbac-resource-type-class>fr.paris.lutece.portal.service.user.AdminUserResourceIdService</rbac-resource-type-class>
+            <rbac-resource-type-class>fr.paris.lutece.portal.service.user.AdminUserResourceIdService
+            </rbac-resource-type-class>
         </rbac-resource-type>
         <rbac-resource-type>
-            <rbac-resource-type-class>fr.paris.lutece.portal.service.search.SearchResourceIdService</rbac-resource-type-class>
+            <rbac-resource-type-class>fr.paris.lutece.portal.service.search.SearchResourceIdService
+            </rbac-resource-type-class>
         </rbac-resource-type>
         <rbac-resource-type>
-          	<rbac-resource-type-class>fr.paris.lutece.portal.service.globalmanagement.GlobalManagementResourceIdService</rbac-resource-type-class>
-        </rbac-resource-type>
-        <rbac-resource-type>
-            <rbac-resource-type-class>fr.paris.lutece.portal.service.xsl.XslExportResourceIdService</rbac-resource-type-class>
+            <rbac-resource-type-class>fr.paris.lutece.portal.service.xsl.XslExportResourceIdService
+            </rbac-resource-type-class>
         </rbac-resource-type>
     </rbac-resource-types>
-    
-    <!-- Dashboard  components -->
+
+    <!-- Dashboard components -->
     <dashboard-components>
         <dashboard-component>
             <dashboard-component-name>CORE_SYSTEM</dashboard-component-name>
-            <dashboard-component-class>fr.paris.lutece.portal.web.system.SystemDashboardComponent</dashboard-component-class>
+            <dashboard-component-class>fr.paris.lutece.portal.web.system.SystemDashboardComponent
+            </dashboard-component-class>
             <dashboard-feature-right>CORE_PLUGINS_MANAGEMENT</dashboard-feature-right>
         </dashboard-component>
         <dashboard-component>
             <dashboard-component-name>CORE_USERS</dashboard-component-name>
-            <dashboard-component-class>fr.paris.lutece.portal.web.user.UsersDashboardComponent</dashboard-component-class>
+            <dashboard-component-class>fr.paris.lutece.portal.web.user.UsersDashboardComponent
+            </dashboard-component-class>
             <dashboard-feature-right>CORE_USERS_MANAGEMENT</dashboard-feature-right>
         </dashboard-component>
         <dashboard-component>
             <dashboard-component-name>CORE_USER</dashboard-component-name>
-            <dashboard-component-class>fr.paris.lutece.portal.web.user.UserHeaderDashboardComponent</dashboard-component-class>
+            <dashboard-component-class>fr.paris.lutece.portal.web.user.UserHeaderDashboardComponent
+            </dashboard-component-class>
             <dashboard-feature-right>ALL</dashboard-feature-right>
         </dashboard-component>
         <dashboard-component>
@@ -161,51 +169,62 @@
             <dashboard-feature-right>CORE_ADMIN_SITE</dashboard-feature-right>
         </dashboard-component>
     </dashboard-components>
-    
-    <!-- Admin Dashboard  components -->
+
+    <!-- Admin Dashboard components -->
     <admindashboard-components>
-    	<admindashboard-component>
+        <admindashboard-component>
             <dashboard-component-name>usersAdminDashboardComponent</dashboard-component-name>
-            <dashboard-component-class>fr.paris.lutece.portal.web.user.UsersAdminDashboardComponent</dashboard-component-class>
+            <dashboard-component-class>fr.paris.lutece.portal.web.user.UsersAdminDashboardComponent
+            </dashboard-component-class>
         </admindashboard-component>
         <admindashboard-component>
             <dashboard-component-name>searchAdminDashboardComponent</dashboard-component-name>
-            <dashboard-component-class>fr.paris.lutece.portal.web.search.SearchAdminDashboardComponent</dashboard-component-class>
+            <dashboard-component-class>fr.paris.lutece.portal.web.search.SearchAdminDashboardComponent
+            </dashboard-component-class>
+        </admindashboard-component>
+        <admindashboard-component>
+            <dashboard-component-name>editorAdminDashboardComponent</dashboard-component-name>
+            <dashboard-component-class>fr.paris.lutece.portal.web.editor.EditorAdminDashboardComponent
+            </dashboard-component-class>
+        </admindashboard-component>
+        <admindashboard-component>
+            <dashboard-component-name>xslExportAdminDashboardComponent</dashboard-component-name>
+            <dashboard-component-class>fr.paris.lutece.portal.web.xsl.XslExportAdminDashboardComponent
+            </dashboard-component-class>
+        </admindashboard-component>
+        <admindashboard-component>
+            <dashboard-component-name>adminHomePageAdminDashboardComponent</dashboard-component-name>
+            <dashboard-component-class>fr.paris.lutece.portal.web.dashboard.AdminHomePageManagementComponent
+            </dashboard-component-class>
+        </admindashboard-component>
+        <admindashboard-component>
+            <dashboard-component-name>autoIncludesAdminDashboardComponent</dashboard-component-name>
+            <dashboard-component-class>fr.paris.lutece.portal.web.template.AutoIncludeAdminDashboardComponent
+            </dashboard-component-class>
+        </admindashboard-component>
+        <admindashboard-component>
+            <dashboard-component-name>featuresAdminDashboardComponent</dashboard-component-name>
+            <dashboard-component-class>fr.paris.lutece.portal.web.features.FeaturesAdminDashboardComponent
+            </dashboard-component-class>
         </admindashboard-component>
     </admindashboard-components>
-        
+
     <freemarker-macro-files>
-    	<freemarker-macro-file>*/commons.html</freemarker-macro-file>
-        <freemarker-macro-file>*/commons_site.html</freemarker-macro-file>
+        <freemarker-macro-file>commons.html</freemarker-macro-file>
+        <freemarker-macro-file>commons_site.html</freemarker-macro-file>
     </freemarker-macro-files>
 
     <css-stylesheets>
-    	<css-stylesheets-scope>portal</css-stylesheets-scope>
-    	<css-stylesheet mode="1">../page_template_styles_admin.css</css-stylesheet>
+        <css-stylesheets-scope>portal</css-stylesheets-scope>
+        <css-stylesheet mode="1">../page_template_styles_admin.css</css-stylesheet>
     </css-stylesheets>
 
-<admin-css-stylesheets>
-      <admin-css-stylesheet>css/admin/bootstrap2-compatibility.css</admin-css-stylesheet>
-      <admin-css-stylesheet>css/admin/bootstrap.min.css</admin-css-stylesheet>
-      <admin-css-stylesheet>css/admin/bootstrap-colorpicker.css</admin-css-stylesheet>
-      <admin-css-stylesheet>css/admin/bootstrap-datepicker.min.css</admin-css-stylesheet>
-      <admin-css-stylesheet>css/admin/jquery-ui.min.css</admin-css-stylesheet>
-      <admin-css-stylesheet>css/admin/jquery-ui.structure.min.css</admin-css-stylesheet>
-      <admin-css-stylesheet>css/admin/jquery-ui.theme.min.css</admin-css-stylesheet>
-      <admin-css-stylesheet>css/admin/font-awesome.min.css</admin-css-stylesheet>
-      <admin-css-stylesheet>css/admin/ionicons.min.css</admin-css-stylesheet>
-      <admin-css-stylesheet>css/admin/bootstrap-clockpicker.css</admin-css-stylesheet>
-      <admin-css-stylesheet>css/admin/AdminLTE.css</admin-css-stylesheet>
-      <admin-css-stylesheet>css/admin/skins/_all-skins.min.css</admin-css-stylesheet>
-      <admin-css-stylesheet>css/admin/portal_admin.css</admin-css-stylesheet>
+    <admin-css-stylesheets>
+        <!-- Default core Admin CSS declaration moved in commons.html @coreAdminCSSLinks macro -->
     </admin-css-stylesheets>
 
     <admin-javascript-files>
-        <admin-javascript-file>js/bootstrap.min.js</admin-javascript-file>
-        <admin-javascript-file>js/jquery/jquery-ui.min.js</admin-javascript-file>
-        <admin-javascript-file>js/bootstrap-filestyle.min.js</admin-javascript-file>
-        <admin-javascript-file>js/app.min.js</admin-javascript-file>
-        <admin-javascript-file>js/admin.js</admin-javascript-file>
+        <!-- Default core Admin CSS declaration moved in commons.html @coreAdminJSLinks macro -->
     </admin-javascript-files>
 
 </plug-in>

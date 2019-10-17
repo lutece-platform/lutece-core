@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -78,12 +78,7 @@ public class SiteMessageHandler implements ISiteMessageHandler
     {
         SiteMessage message = SiteMessageService.getMessage( request );
 
-        if ( message != null )
-        {
-            return true;
-        }
-
-        return false;
+        return message != null;
     }
 
     /**
@@ -93,7 +88,7 @@ public class SiteMessageHandler implements ISiteMessageHandler
     public String getPage( HttpServletRequest request, int nMode )
     {
         Locale locale = request.getLocale( );
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<>( );
 
         SiteMessage message = SiteMessageService.getMessage( request );
 
@@ -122,8 +117,6 @@ public class SiteMessageHandler implements ISiteMessageHandler
         // Fill a PageData structure for those elements
         PageData data = new PageData( );
         data.setName( message.getTitle( locale ) );
-        // FIXME Cannot set the page path when app run in standalone mode (cannot connect to database). The page path is now not set.
-        // data.setPagePath( PortalService.getXPagePathContent( message.getTitle( locale ), nMode, request ) );
         data.setContent( template.getHtml( ) );
 
         return buildPageContent( data, nMode, request );
@@ -143,7 +136,7 @@ public class SiteMessageHandler implements ISiteMessageHandler
     private static String buildPageContent( PageData data, int nMode, HttpServletRequest request )
     {
         Locale locale = null;
-        HashMap<String, Object> model = new HashMap<String, Object>( );
+        HashMap<String, Object> model = new HashMap<>( );
 
         if ( request != null )
         {

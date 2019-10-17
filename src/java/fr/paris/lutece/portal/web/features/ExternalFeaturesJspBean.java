@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,6 +33,12 @@
  */
 package fr.paris.lutece.portal.web.features;
 
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
 import fr.paris.lutece.portal.business.right.FeatureGroup;
 import fr.paris.lutece.portal.business.right.FeatureGroupHome;
 import fr.paris.lutece.portal.business.right.Level;
@@ -49,10 +55,6 @@ import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
 import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.html.HtmlTemplate;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import javax.servlet.http.HttpServletRequest;
 
 /**
  *
@@ -62,12 +64,10 @@ public class ExternalFeaturesJspBean extends AdminFeaturesPageJspBean
 {
 
     // Properties
-    private static final String PROPERTY_MANAGE_EXTERNAL_FEATURES_PAGETITLE = "portal.features.manage_external_features.pageTitle";
     private static final String PROPERTY_CREATE_EXTERNAL_FEATURE_PAGETITLE = "portal.features.create_external_feature.pageTitle";
     private static final String PROPERTY_MODIFY_EXTERNAL_FEATURE_PAGETITLE = "portal.features.modify_external_feature.pageTitle";
 
     // Templates
-    private static final String TEMPLATE_MANAGE_EXTERNAL_FEATURES = "admin/features/manage_external_features.html";
     private static final String TEMPLATE_CREATE_EXTERNAL_FEATURE = "admin/features/create_external_feature.html";
     private static final String TEMPLATE_MODIFY_EXTERNAL_FEATURE = "admin/features/modify_external_feature.html";
 
@@ -80,46 +80,26 @@ public class ExternalFeaturesJspBean extends AdminFeaturesPageJspBean
     private static final String PARAMETER_ID_LEVEL = "level_id";
 
     // JSP
-    private static final String JSP_MANAGE_EXTERNAL_FEATURES = "ManageExternalFeatures.jsp";
     private static final String JSP_DELETE_EXTERNAL_FEATURE = "jsp/admin/features/DoRemoveExternalFeature.jsp";
 
     // Rights
-    public static final String RIGHT_EXTERNAL_FEATURES_MANAGEMENT = "CORE_EXTERNAL_FEATURES_MANAGEMENT";
+    public static final String RIGHT_EXTERNAL_FEATURES_MANAGEMENT = "CORE_FEATURES_MANAGEMENT";
 
     // Markers
     private static final String MARK_EXTERNAL_FEATURE = "external_feature";
-    private static final String MARK_EXTERNAL_FEATURES_LIST = "external_features_list";
     private static final String MARK_FEATURES_GROUPS_REFERENCE_LIST = "features_groups_labels_list";
     private static final String MARK_RIGHT_LEVELS_REFERENCE_LIST = "right_levels_labels_list";
-    private static final String MARK_FEATURE_GROUP_CODE = "feature_group_code";
-    private static final String MARK_ID_FEATURE_LEVEL = "id_feature_level";
+    
+    private static final String ANCHOR_ADMIN_DASHBOARDS = "features_management";
 
     private Right _externalFeature;
 
-    /**
-     * Returns the list of rights
-     *
-     * @param request
-     *            The Http request
-     * @return the html code for display the rights list
-     */
-    public String getManageExternalFeatures( HttpServletRequest request )
-    {
-        setPageTitleProperty( PROPERTY_MANAGE_EXTERNAL_FEATURES_PAGETITLE );
-
-        Map<String, Object> model = new HashMap<String, Object>( );
-        model.put( MARK_EXTERNAL_FEATURES_LIST, RightHome.getExternalRightList( ) );
-
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_EXTERNAL_FEATURES, getLocale( ), model );
-
-        return getAdminPage( template.getHtml( ) );
-    }
 
     public String getCreateExternalFeature( HttpServletRequest request )
     {
         setPageTitleProperty( PROPERTY_CREATE_EXTERNAL_FEATURE_PAGETITLE );
 
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<>( );
 
         Collection<FeatureGroup> featureGroups = FeatureGroupHome.getFeatureGroupsList( );
         ReferenceList featureGroupsReferenceList = new ReferenceList( );
@@ -148,7 +128,7 @@ public class ExternalFeaturesJspBean extends AdminFeaturesPageJspBean
     {
         if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_CREATE_EXTERNAL_FEATURE ) )
         {
-            throw new AccessDeniedException( "Invalid security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
         _externalFeature = new Right( );
         populate( _externalFeature, request );
@@ -157,7 +137,7 @@ public class ExternalFeaturesJspBean extends AdminFeaturesPageJspBean
         _externalFeature.setLevel( Integer.parseInt( request.getParameter( PARAMETER_ID_LEVEL ) ) );
 
         RightHome.create( _externalFeature );
-        return JSP_MANAGE_EXTERNAL_FEATURES;
+        return getAdminDashboardsUrl( request , ANCHOR_ADMIN_DASHBOARDS );
     }
 
     public String getRemoveExternalFeature( HttpServletRequest request )
@@ -168,33 +148,34 @@ public class ExternalFeaturesJspBean extends AdminFeaturesPageJspBean
         _externalFeature = RightHome.findByPrimaryKey( strExternalFeatureId );
         _externalFeature.setLocale( getUser( ).getLocale( ) );
 
-        Object[ ] messageArgs = { _externalFeature.getName( ) };
+        Object [ ] messageArgs = {
+            _externalFeature.getName( )
+        };
 
         Map<String, Object> parameters = new HashMap<>( );
         parameters.put( PARAMETER_ID_EXTERNAL_FEATURE, strExternalFeatureId );
-        parameters.put( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, JSP_DELETE_EXTERNAL_FEATURE ) );
+        parameters.put( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, JSP_DELETE_EXTERNAL_FEATURE ) );
 
-        return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_DELETE, messageArgs, null,
-                JSP_DELETE_EXTERNAL_FEATURE, "", AdminMessage.TYPE_CONFIRMATION, parameters );
+        return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_DELETE, messageArgs, null, JSP_DELETE_EXTERNAL_FEATURE, "",
+                AdminMessage.TYPE_CONFIRMATION, parameters );
     }
 
     public String doRemoveExternalFeature( HttpServletRequest request ) throws AccessDeniedException
     {
         if ( !SecurityTokenService.getInstance( ).validate( request, JSP_DELETE_EXTERNAL_FEATURE ) )
         {
-            throw new AccessDeniedException( "Invalid security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
         RightHome.remove( _externalFeature.getId( ) );
 
-        return JSP_MANAGE_EXTERNAL_FEATURES;
+        return getAdminDashboardsUrl( request , ANCHOR_ADMIN_DASHBOARDS );
     }
 
     public String getModifyExternalFeature( HttpServletRequest request )
     {
 
         setPageTitleProperty( PROPERTY_MODIFY_EXTERNAL_FEATURE_PAGETITLE );
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<>( );
 
         String strExternalFeatureId = request.getParameter( PARAMETER_ID_EXTERNAL_FEATURE );
         _externalFeature = RightHome.findByPrimaryKey( strExternalFeatureId );
@@ -227,7 +208,7 @@ public class ExternalFeaturesJspBean extends AdminFeaturesPageJspBean
     {
         if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_MODIFY_EXTERNAL_FEATURE ) )
         {
-            throw new AccessDeniedException( "Invalid security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
         int nIdOrder = _externalFeature.getOrder( );
         String strIdExternalFeature = _externalFeature.getId( );
@@ -250,6 +231,6 @@ public class ExternalFeaturesJspBean extends AdminFeaturesPageJspBean
             user.updateRight( _externalFeature );
         }
 
-        return JSP_MANAGE_EXTERNAL_FEATURES;
+        return getAdminDashboardsUrl( request , ANCHOR_ADMIN_DASHBOARDS );
     }
 }

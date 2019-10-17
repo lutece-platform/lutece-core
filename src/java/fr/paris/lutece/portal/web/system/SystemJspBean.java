@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,6 +33,22 @@
  */
 package fr.paris.lutece.portal.web.system;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.admin.AdminUserService;
 import fr.paris.lutece.portal.service.datastore.DatastoreService;
@@ -46,24 +62,7 @@ import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
 import fr.paris.lutece.util.html.HtmlTemplate;
-import fr.paris.lutece.util.stream.StreamUtil;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.Serializable;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.HashMap;
-
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
+import fr.paris.lutece.util.http.SecurityUtil;
 
 /**
  * This class provides the user interface to manage system features ( manage logs, view system files, ... ).
@@ -119,7 +118,7 @@ public class SystemJspBean extends AdminFeaturesPageJspBean
     public String getManageFilesSystem( HttpServletRequest request )
     {
         setPageTitleProperty( PROPERTY_TITLE_MANAGE_FILES_SYSTEM );
-        ArrayList<SystemFile> list = new ArrayList<SystemFile>( );
+        ArrayList<SystemFile> list = new ArrayList<>( );
 
         for ( String strDirectory : getDirectories( ) )
         {
@@ -130,7 +129,7 @@ public class SystemJspBean extends AdminFeaturesPageJspBean
             list.add( file );
         }
 
-        Map<String, Collection<SystemFile>> model = new HashMap<String, Collection<SystemFile>>( );
+        Map<String, Collection<SystemFile>> model = new HashMap<>( );
         model.put( MARK_FILES_LIST, list );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_FILES_SYSTEM, getLocale( ), model );
@@ -157,7 +156,7 @@ public class SystemJspBean extends AdminFeaturesPageJspBean
 
         String strDirectory = AppPathService.getWebAppPath( ) + strDir;
         File directory = new File( strDirectory );
-        ArrayList<SystemFile> listFiles = new ArrayList<SystemFile>( );
+        ArrayList<SystemFile> listFiles = new ArrayList<>( );
         for ( File file : directory.listFiles( ) )
         {
             SystemFile sFile = new SystemFile( );
@@ -169,7 +168,7 @@ public class SystemJspBean extends AdminFeaturesPageJspBean
         }
         Collections.sort( listFiles );
 
-        Map<String, Serializable> model = new HashMap<String, Serializable>( );
+        Map<String, Serializable> model = new HashMap<>( );
         model.put( MARK_FILES_LIST, listFiles );
         model.put( MARK_FILES_SYSTEM_DIRECTORY, strDir );
 
@@ -189,7 +188,7 @@ public class SystemJspBean extends AdminFeaturesPageJspBean
      */
     public String getFileView( HttpServletRequest request )
     {
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<>( );
         setPageTitleProperty( PROPERTY_TITLE_VIEW_FILE );
 
         String strFileData;
@@ -209,7 +208,7 @@ public class SystemJspBean extends AdminFeaturesPageJspBean
             {
                 String strFilePath = AppPathService.getWebAppPath( );
 
-                if ( strFilePath != null )
+                if ( strFilePath != null && SecurityUtil.containsPathManipulationChars( request, strFile ) )
                 {
                     strFileData = getFileData( strFilePath + strDirectory + strFile );
                 }
@@ -237,7 +236,7 @@ public class SystemJspBean extends AdminFeaturesPageJspBean
      */
     public String getManageProperties( HttpServletRequest request )
     {
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<>( );
         model.put( MARK_PROPERTIES_GROUPS_LIST, SitePropertiesService.getGroups( getLocale( ) ) );
         model.put( MARK_WEBAPP_URL, AppPathService.getBaseUrl( request ) );
         model.put( MARK_LOCALE, getLocale( ).getLanguage( ) );
@@ -263,7 +262,7 @@ public class SystemJspBean extends AdminFeaturesPageJspBean
     {
         if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_MODIFY_PROPERTIES ) )
         {
-            throw new AccessDeniedException( "Invalid security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
         List<LocalizedDataGroup> groups = SitePropertiesService.getGroups( AdminUserService.getAdminUser( request ).getLocale( ) );
 
@@ -299,12 +298,8 @@ public class SystemJspBean extends AdminFeaturesPageJspBean
     {
         StringBuilder sbData = new StringBuilder( );
 
-        FileInputStream fis = null;
-
-        try
+        try ( FileInputStream fis = new FileInputStream( strFilePath ) )
         {
-            fis = new FileInputStream( strFilePath );
-
             int chr = 0;
 
             while ( chr != -1 )
@@ -324,11 +319,6 @@ public class SystemJspBean extends AdminFeaturesPageJspBean
         {
             sbData.append( "ERROR : Error reading the file : " ).append( strFilePath );
         }
-        finally
-        {
-            StreamUtil.safeClose( fis );
-        }
-
         return sbData.toString( );
     }
 

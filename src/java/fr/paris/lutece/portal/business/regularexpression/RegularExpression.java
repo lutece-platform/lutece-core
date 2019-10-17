@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -181,12 +181,7 @@ public class RegularExpression
      */
     public boolean equals( Object obj )
     {
-        if ( obj instanceof RegularExpression && ( ( (RegularExpression) obj ).getIdExpression( ) == _nIdExpression ) )
-        {
-            return true;
-        }
-
-        return false;
+        return obj instanceof RegularExpression && ( ( (RegularExpression) obj ).getIdExpression( ) == _nIdExpression );
     }
 
     /**

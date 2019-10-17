@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,25 +33,23 @@
  */
 package fr.paris.lutece.portal.service.admin;
 
-import fr.paris.lutece.portal.business.user.AdminUser;
-import fr.paris.lutece.portal.business.user.AdminUserHome;
-import fr.paris.lutece.portal.business.user.authentication.AdminAuthentication;
-import fr.paris.lutece.portal.business.user.authentication.LuteceDefaultAdminAuthentication;
-import fr.paris.lutece.portal.service.init.LuteceInitException;
-import fr.paris.lutece.portal.service.security.UserNotSignedException;
-import fr.paris.lutece.portal.service.spring.SpringContextService;
-import fr.paris.lutece.portal.service.util.AppLogService;
-import fr.paris.lutece.util.url.UrlItem;
-
-import org.apache.commons.lang.StringUtils;
-
 import java.util.Collection;
 import java.util.Enumeration;
 
 import javax.security.auth.login.LoginException;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+
+import org.apache.commons.lang.StringUtils;
+
+import fr.paris.lutece.portal.business.user.AdminUser;
+import fr.paris.lutece.portal.business.user.AdminUserHome;
+import fr.paris.lutece.portal.business.user.authentication.AdminAuthentication;
+import fr.paris.lutece.portal.business.user.authentication.LuteceDefaultAdminAuthentication;
+import fr.paris.lutece.portal.service.security.UserNotSignedException;
+import fr.paris.lutece.portal.service.spring.SpringContextService;
+import fr.paris.lutece.portal.service.util.AppLogService;
+import fr.paris.lutece.util.url.UrlItem;
 
 /**
  * This class provides a security service to register and check user authentication
@@ -77,13 +75,10 @@ public final class AdminAuthenticationService
 
     /**
      * Initialize service
-     * 
-     * @throws LuteceInitException
-     *             If error while initialization
      */
-    public static synchronized void init( ) throws LuteceInitException
+    public static synchronized void init( )
     {
-        _authentication = (AdminAuthentication) SpringContextService.getBean( BEAN_ADMIN_AUTHENTICATION_MODULE );
+        _authentication = SpringContextService.getBean( BEAN_ADMIN_AUTHENTICATION_MODULE );
         AppLogService.info( "Authentication module loaded : " + _authentication.getAuthServiceName( ) );
 
         if ( _authentication.getClass( ).equals( LuteceDefaultAdminAuthentication.class ) )
@@ -193,11 +188,7 @@ public final class AdminAuthenticationService
         {
             registerUser( request, user );
         }
-        catch( AccessDeniedException e )
-        {
-            throw new LoginException( );
-        }
-        catch( UserNotSignedException e )
+        catch( UserNotSignedException | AccessDeniedException e )
         {
             throw new LoginException( );
         }
@@ -219,11 +210,7 @@ public final class AdminAuthenticationService
         {
             user = getRemoteUser( request );
         }
-        catch( UserNotSignedException e )
-        {
-            return;
-        }
-        catch( AccessDeniedException e )
+        catch( AccessDeniedException | UserNotSignedException e )
         {
             return;
         }

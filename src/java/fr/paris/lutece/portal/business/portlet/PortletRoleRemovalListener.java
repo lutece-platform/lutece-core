@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -39,6 +39,8 @@ import fr.paris.lutece.portal.service.util.RemovalListener;
 import java.util.Collection;
 import java.util.Locale;
 
+import org.apache.commons.collections.CollectionUtils;
+
 /**
  * Page Removal Listener
  */
@@ -62,12 +64,7 @@ public class PortletRoleRemovalListener implements RemovalListener
 
         Collection<Portlet> listPortlets = PortletHome.getPortletsByRoleKey( strId );
 
-        if ( ( listPortlets != null ) && ( !listPortlets.isEmpty( ) ) )
-        {
-            return false;
-        }
-
-        return true;
+        return CollectionUtils.isEmpty( listPortlets );
     }
 
     /**

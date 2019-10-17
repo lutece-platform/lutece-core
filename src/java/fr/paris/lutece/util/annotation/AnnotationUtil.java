@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -47,7 +47,7 @@ import java.util.Set;
  */
 public final class AnnotationUtil
 {
-    private static final IAnnotationDB ANNOTATION_DB = (IAnnotationDB) SpringContextService.getBean( "annotationDB" );
+    private static final IAnnotationDB ANNOTATION_DB = SpringContextService.getBean( "annotationDB" );
 
     static
     {

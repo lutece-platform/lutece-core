@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -82,14 +82,10 @@ public abstract class InsertServiceJspBean implements Serializable
         String strCleanInsert = strInsert.replaceAll( "\n", "" );
         strCleanInsert = strCleanInsert.replaceAll( "\r", "" );
 
-        // Encode the HTML code to insert
-        // String strEncodedInsert = EncodingService.encodeUrl( strCleanInsert );
-
         // Build the url to make the insert
         UrlItem urlDoInsert = new UrlItem( AppPathService.getBaseUrl( request ) + JSP_DO_INSERT );
         urlDoInsert.addParameter( PARAMETER_INPUT, strInput );
         request.getSession( ).setAttribute( InsertServiceSelectorJspBean.SESSION_INSERT, strCleanInsert );
-        // urlDoInsert.addParameter( PARAMETER_INSERT, strEncodedInsert );
         urlDoInsert.addParameter( PARAMETER_MODE, 1 );
 
         return urlDoInsert.getUrl( );
@@ -134,7 +130,7 @@ public abstract class InsertServiceJspBean implements Serializable
      */
     protected String buildLink( String strText, String strUrl, String strTitle, String strTarget )
     {
-        HashMap<String, Object> model = new HashMap<String, Object>( );
+        HashMap<String, Object> model = new HashMap<>( );
         model.put( MARK_TEXT, StringEscapeUtils.escapeHtml( strText ) );
         model.put( MARK_URL, strUrl );
         model.put( MARK_TITLE, StringEscapeUtils.escapeHtml( strTitle ) );

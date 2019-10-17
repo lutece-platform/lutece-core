@@ -3,15 +3,14 @@
     <@box color='success' collapsed=true>
 			<@boxHeader title='#i18n{portal.workgroup.assign_users.pageTitle} <strong title="#i18n{portal.workgroup.assign_users.workgroup.description} : ${workgroup.description}"> ${workgroup.key}</strong> <small class="spaced"><i class="glyphicon glyphicon-user"></i>&nbsp;#i18n{portal.workgroup.assign_users.workgroup.number_user} : <span class="badge">${assigned_users_number}</span></small>' boxTools=true>
 				<@aButton href='jsp/admin/workgroup/ModifyWorkgroup.jsp?workgroup_key=${workgroup.key}' title='#i18n{portal.workgroup.manage_workgroups.buttonLabelModify}' size='' buttonIcon='edit' />
-				<@aButton href='jsp/admin/workgroup/RemoveWorkgroup.jsp?workgroup_key=${workgroup.key}' title='#i18n{portal.workgroup.manage_workgroups.buttonLabelDelete}' size='' buttonIcon='trash' color='btn-danger' />
+				<@aButton href='jsp/admin/workgroup/RemoveWorkgroup.jsp?workgroup_key=${workgroup.key}' title='#i18n{portal.workgroup.manage_workgroups.buttonLabelDelete}' size='' buttonIcon='trash' color='danger' />
 				<@item_navigation item_navigator=item_navigator id='item-navigator-availableusers' />
 				<@button style='btn-box-tool' params='data-widget="collapse"' buttonIcon='plus' />
       </@boxHeader>	
       <@boxBody>
         <#if assigned_users_list?size &gt; 0 || search_is_search >
         <@tform method='post' name='search_users' action='jsp/admin/workgroup/AssignUsersWorkgroup.jsp'>
-					<fieldset>
-					<legend class="sr-only">#i18n{portal.users.manage_users.search_users.buttonSearch}</legend>
+					<@fieldSet legend='#i18n{portal.users.manage_users.search_users.buttonSearch}'>
 					<#if (user_levels?has_content)>
 						<@formGroup labelKey='#i18n{portal.users.manage_users.search_users.userLevelLabel}' labelFor='user_level'>
 							<@select id='user_level' name='search_user_level'>
@@ -78,7 +77,7 @@
 						<input type="hidden" name="workgroup_key" value="${workgroup.key}">
 						<@button type='submit' name='search_is_search' title='#i18n{portal.users.manage_users.search_users.buttonSearch}' buttonIcon='search' />
 					</@formGroup>
-					</fieldset>
+					</@fieldSet>
         </@tform>
 				</#if>
 			</@boxBody>
@@ -173,9 +172,9 @@
 											<input type="hidden" name="anchor" value="anchor-${anchor?html}">
 											<input type="hidden" name="token" value="${token}">
 											<@aButton href='jsp/admin/user/ModifyUser.jsp?id_user=${assigned_user.userId}' buttonIcon='edit' title='#i18n{portal.workgroup.assign_users.actionModify}' showTitle=false />
-											<@button type='submit' buttonIcon='trash' title='#i18n{portal.workgroup.assign_users.actionUnassign}' color='btn-danger' showTitle=false />
-                    					</@tform>
-                    					</td>
+											<@button type='submit' buttonIcon='trash' title='#i18n{portal.workgroup.assign_users.actionUnassign}' color='danger' showTitle=false />
+										</@tform>
+										</td>
                   </tr>            
 							</#list>
             </@table>

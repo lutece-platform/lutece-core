@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,15 +33,14 @@
  */
 package fr.paris.lutece.portal.service.util;
 
-import fr.paris.lutece.portal.service.init.LuteceInitException;
-import fr.paris.lutece.util.PropertiesService;
-
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+
+import fr.paris.lutece.util.PropertiesService;
 
 /**
  * this class provides management services for properties files
@@ -59,7 +58,6 @@ public final class AppPropertiesService
     private static final String PATH_OVERRIDE_CORE = "override/";
     private static final String PATH_OVERRIDE_PLUGINS = "override/plugins";
     private static PropertiesService _propertiesService;
-    private static String _strConfPath;
 
     /**
      * Private constructor
@@ -73,24 +71,22 @@ public final class AppPropertiesService
      * 
      * @param strConfPath
      *            The configuration path
-     * @throws LuteceInitException
-     *             If an error occured
      */
-    public static void init( String strConfPath ) throws LuteceInitException
+    public static void init( String strConfPath )
     {
-        _strConfPath = strConfPath;
+        String confPath = strConfPath;
         _propertiesService = new PropertiesService( AppPathService.getWebAppPath( ) );
 
-        _propertiesService.addPropertiesFile( _strConfPath, FILE_PROPERTIES_CONFIG );
-        _propertiesService.addPropertiesFile( _strConfPath, FILE_PROPERTIES_DATABASE );
-        _propertiesService.addPropertiesFile( _strConfPath, FILE_PROPERTIES_LUTECE );
-        _propertiesService.addPropertiesFile( _strConfPath, FILE_PROPERTIES_SEARCH );
-        _propertiesService.addPropertiesFile( _strConfPath, FILE_PROPERTIES_DAEMONS );
-        _propertiesService.addPropertiesFile( _strConfPath, FILE_PROPERTIES_CACHES );
-        _propertiesService.addPropertiesFile( _strConfPath, FILE_PROPERTIES_EDITORS );
-        _propertiesService.addPropertiesDirectory( _strConfPath + PATH_PLUGINS );
-        _propertiesService.addPropertiesDirectory( _strConfPath + PATH_OVERRIDE_CORE );
-        _propertiesService.addPropertiesDirectory( _strConfPath + PATH_OVERRIDE_PLUGINS );
+        _propertiesService.addPropertiesFile( confPath, FILE_PROPERTIES_CONFIG );
+        _propertiesService.addPropertiesFile( confPath, FILE_PROPERTIES_DATABASE );
+        _propertiesService.addPropertiesFile( confPath, FILE_PROPERTIES_LUTECE );
+        _propertiesService.addPropertiesFile( confPath, FILE_PROPERTIES_SEARCH );
+        _propertiesService.addPropertiesFile( confPath, FILE_PROPERTIES_DAEMONS );
+        _propertiesService.addPropertiesFile( confPath, FILE_PROPERTIES_CACHES );
+        _propertiesService.addPropertiesFile( confPath, FILE_PROPERTIES_EDITORS );
+        _propertiesService.addPropertiesDirectory( confPath + PATH_PLUGINS );
+        _propertiesService.addPropertiesDirectory( confPath + PATH_OVERRIDE_CORE );
+        _propertiesService.addPropertiesDirectory( confPath + PATH_OVERRIDE_PLUGINS );
     }
 
     /**
@@ -200,7 +196,7 @@ public final class AppPropertiesService
      */
     public static Map<String, String> getPropertiesAsMap( )
     {
-        Map<String, String> res = new HashMap<String, String>( );
+        Map<String, String> res = new HashMap<>( );
         Properties properties = _propertiesService.getProperties( );
 
         // enumerate over property names to get all properties, including one which are defaults
@@ -225,7 +221,7 @@ public final class AppPropertiesService
      */
     public static List<String> getKeys( String strPrefix )
     {
-        List<String> listKeys = new ArrayList<String>( );
+        List<String> listKeys = new ArrayList<>( );
         Enumeration eList = _propertiesService.getProperties( ).keys( );
 
         while ( eList.hasMoreElements( ) )

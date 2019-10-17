@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,6 +33,16 @@
  */
 package fr.paris.lutece.portal.web.style;
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.collections.CollectionUtils;
+
 import fr.paris.lutece.portal.business.portlet.PortletHome;
 import fr.paris.lutece.portal.business.portlet.PortletImpl;
 import fr.paris.lutece.portal.business.portlet.PortletTypeHome;
@@ -49,18 +59,9 @@ import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
 import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.portal.web.util.LocalizedPaginator;
+import fr.paris.lutece.util.html.AbstractPaginator;
 import fr.paris.lutece.util.html.HtmlTemplate;
-import fr.paris.lutece.util.html.Paginator;
 import fr.paris.lutece.util.sort.AttributeComparator;
-import fr.paris.lutece.util.url.UrlItem;
-
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * This class provides the user interface to manage Styles features
@@ -107,14 +108,12 @@ public class StylesJspBean extends AdminFeaturesPageJspBean
     // Message keys
     private static final String MESSAGE_CANT_DELETE_STYLE_PORTLETS = "portal.style.message.cannotDeleteStylePorlets";
 
-    // private static final String MESSAGE_CANT_DELETE_STYLE_XSL = "portal.style.message.cannotDeleteStyleXsl";
     private static final String MESSAGE_CONFIRM_DELETE_STYLE = "portal.style.message.confirmDeleteStyle";
     private static final String MESSAGE_CREATE_STYLE_INVALID_FORMAT_ID = "portal.style.message.createStyle.InvalidIdFormat";
     private static final String MESSAGE_CREATE_STYLE_ID_ALREADY_EXISTS = "portal.style.message.createStyle.idAlreadyExists";
     private static final String MESSAGE_CREATE_STYLE_COMPONENT_EXISTS = "portal.style.message.createStyle.componentHasAlreadyAStyle";
     private static final String MESSAGE_CONFIRM_DELETE_STYLESHEET = "portal.style.message.stylesheetConfirmDelete";
     private int _nItemsPerPage;
-    private int _nDefaultItemsPerPage;
     private String _strCurrentPageIndex;
 
     /**
@@ -140,9 +139,9 @@ public class StylesJspBean extends AdminFeaturesPageJspBean
             Collections.sort( listStyles, new AttributeComparator( strSortedAttributeName, bIsAscSort ) );
         }
 
-        _nDefaultItemsPerPage = AppPropertiesService.getPropertyInt( PROPERTY_STYLES_PER_PAGE, 10 );
-        _strCurrentPageIndex = Paginator.getPageIndex( request, Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex );
-        _nItemsPerPage = Paginator.getItemsPerPage( request, Paginator.PARAMETER_ITEMS_PER_PAGE, _nItemsPerPage, _nDefaultItemsPerPage );
+        int defaultItemsPerPage = AppPropertiesService.getPropertyInt( PROPERTY_STYLES_PER_PAGE, 10 );
+        _strCurrentPageIndex = AbstractPaginator.getPageIndex( request, AbstractPaginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex );
+        _nItemsPerPage = AbstractPaginator.getItemsPerPage( request, AbstractPaginator.PARAMETER_ITEMS_PER_PAGE, _nItemsPerPage, defaultItemsPerPage );
 
         String strURL = getHomeUrl( request );
 
@@ -156,10 +155,10 @@ public class StylesJspBean extends AdminFeaturesPageJspBean
             strURL += ( "&" + Parameters.SORTED_ASC + "=" + strAscSort );
         }
 
-        LocalizedPaginator<Style> paginator = new LocalizedPaginator<Style>( listStyles, _nItemsPerPage, strURL, Paginator.PARAMETER_PAGE_INDEX,
+        LocalizedPaginator<Style> paginator = new LocalizedPaginator<>( listStyles, _nItemsPerPage, strURL, AbstractPaginator.PARAMETER_PAGE_INDEX,
                 _strCurrentPageIndex, getLocale( ) );
 
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<>( );
         model.put( MARK_NB_ITEMS_PER_PAGE, "" + _nItemsPerPage );
         model.put( MARK_PAGINATOR, paginator );
         model.put( MARK_STYLE_LIST, paginator.getPageItems( ) );
@@ -178,7 +177,7 @@ public class StylesJspBean extends AdminFeaturesPageJspBean
      */
     public String getCreateStyle( HttpServletRequest request )
     {
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<>( );
         model.put( MARK_PORTLET_TYPE_LIST, PortletTypeHome.getPortletsTypesList( getLocale( ) ) );
         model.put( MARK_PORTAL_COMPONENT_LIST, StyleHome.getPortalComponentList( ) );
         model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_CREATE_STYLE ) );
@@ -189,8 +188,7 @@ public class StylesJspBean extends AdminFeaturesPageJspBean
     }
 
     /**
-     * Processes the creation form of a new style by recovering the parameters
-     * in the http request
+     * Processes the creation form of a new style by recovering the parameters in the http request
      * 
      * @param request
      *            the http request
@@ -235,7 +233,7 @@ public class StylesJspBean extends AdminFeaturesPageJspBean
 
         if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_CREATE_STYLE ) )
         {
-            throw new AccessDeniedException( "Invalid security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
 
         // The style doesn't exist in the database, we can create it
@@ -264,7 +262,7 @@ public class StylesJspBean extends AdminFeaturesPageJspBean
         String strIdStyles = request.getParameter( Parameters.STYLE_ID );
         int nStyleId = Integer.parseInt( strIdStyles );
 
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<>( );
         model.put( MARK_STYLE, StyleHome.findByPrimaryKey( nStyleId ) );
         model.put( MARK_PORTLET_TYPE_LIST, PortletTypeHome.getPortletsTypesList( getLocale( ) ) );
         model.put( MARK_PORTAL_COMPONENT_LIST, StyleHome.getPortalComponentList( ) );
@@ -276,8 +274,7 @@ public class StylesJspBean extends AdminFeaturesPageJspBean
     }
 
     /**
-     * Processes the updating form of a style whose new parameters are stored in
-     * the http request
+     * Processes the updating form of a style whose new parameters are stored in the http request
      * 
      * @param request
      *            The http request
@@ -311,7 +308,7 @@ public class StylesJspBean extends AdminFeaturesPageJspBean
         }
         if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_MODIFY_STYLE ) )
         {
-            throw new AccessDeniedException( "Invalid Security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
 
         style.setPortletTypeId( strPortletTypeId );
@@ -336,12 +333,12 @@ public class StylesJspBean extends AdminFeaturesPageJspBean
         Collection<PortletImpl> listPortlets = PortletHome.getPortletListByStyle( nId );
         Collection<StyleSheet> listStyleSheets = StyleHome.getStyleSheetList( nId );
 
-        if ( listPortlets.size( ) > 0 )
+        if ( CollectionUtils.isNotEmpty( listPortlets ) )
         {
             return AdminMessageService.getMessageUrl( request, MESSAGE_CANT_DELETE_STYLE_PORTLETS, AdminMessage.TYPE_STOP );
         }
 
-        if ( listStyleSheets.size( ) > 0 )
+        if ( CollectionUtils.isNotEmpty( listStyleSheets ) )
         {
             for ( StyleSheet styleSheet : listStyleSheets )
             {
@@ -352,10 +349,9 @@ public class StylesJspBean extends AdminFeaturesPageJspBean
                 Map<String, Object> parameters = new HashMap<>( );
                 parameters.put( Parameters.STYLESHEET_ID, Integer.toString( styleSheet.getId( ) ) );
                 parameters.put( Parameters.STYLE_ID, Integer.toString( styleSheet.getStyleId( ) ) );
-                parameters.put( SecurityTokenService.PARAMETER_TOKEN,
-                        SecurityTokenService.getInstance( ).getToken( request, JSP_DO_REMOVE_STYLESHEET ) );
-                return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_DELETE_STYLESHEET, args, null,
-                        JSP_DO_REMOVE_STYLESHEET, null, AdminMessage.TYPE_CONFIRMATION, parameters );
+                parameters.put( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, JSP_DO_REMOVE_STYLESHEET ) );
+                return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_DELETE_STYLESHEET, args, null, JSP_DO_REMOVE_STYLESHEET, null,
+                        AdminMessage.TYPE_CONFIRMATION, parameters );
             }
         }
 
@@ -372,13 +368,14 @@ public class StylesJspBean extends AdminFeaturesPageJspBean
      * @param request
      *            the http request
      * @return The Jsp URL of the process result
-     * @throws AccessDeniedException if the security token is invalid
+     * @throws AccessDeniedException
+     *             if the security token is invalid
      */
     public String doRemoveStyle( HttpServletRequest request ) throws AccessDeniedException
     {
         if ( !SecurityTokenService.getInstance( ).validate( request, JSP_DO_REMOVE_STYLE ) )
         {
-            throw new AccessDeniedException( "Invalid security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
         String strId = request.getParameter( Parameters.STYLE_ID );
         int nId = Integer.parseInt( strId );

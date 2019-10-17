@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -60,6 +60,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import javax.xml.transform.stream.StreamSource;
+
+import org.apache.commons.collections.CollectionUtils;
 
 /**
  *
@@ -133,9 +135,8 @@ public class AdminDocumentationJspBean
         // get the xml documentation file
         String strXmlPath;
         StreamSource sourceXml;
-        String strLocal = locale.toString( );
 
-        if ( ( locale == null ) || strLocal.equals( LOCAL_DEFAULT ) )
+        if ( ( locale == null ) || locale.toString( ).equals( LOCAL_DEFAULT ) )
         {
             strXmlPath = AppPathService.getWebAppPath( ) + XML_BASE_PATH + XML_USER_PATH + strFeature + ".xml";
         }
@@ -148,7 +149,7 @@ public class AdminDocumentationJspBean
 
         String strHtmlDoc = null;
 
-        Map<String, String> params = new HashMap<String, String>( );
+        Map<String, String> params = new HashMap<>( );
         params.put( PARAMS_LOCAL, locale.toString( ) );
         params.put( PARAMS_DEFAULT_LOCAL, LOCAL_DEFAULT );
 
@@ -193,7 +194,7 @@ public class AdminDocumentationJspBean
         AdminUser user = AdminUserService.getAdminUser( request );
 
         List<FeatureGroup> listFeatureGroups = getFeatureGroupsList( user );
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<>( );
 
         model.put( BOOKMARK_FEATURE_GROUP_LIST, listFeatureGroups );
         model.put( BOOKMARK_HELP_ICON, IMAGE_HELP_PATH );
@@ -213,7 +214,7 @@ public class AdminDocumentationJspBean
     private List<FeatureGroup> getFeatureGroupsList( AdminUser user )
     {
         // structure that will be returned
-        ArrayList<FeatureGroup> aOutFeatureGroupList = new ArrayList<FeatureGroup>( );
+        ArrayList<FeatureGroup> aOutFeatureGroupList = new ArrayList<>( );
 
         // get the list of user's features
         Map<String, Right> featuresMap = user.getRights( );
@@ -222,7 +223,7 @@ public class AdminDocumentationJspBean
         // for each group, load the features
         for ( FeatureGroup featureGroup : FeatureGroupHome.getFeatureGroupsList( ) )
         {
-            ArrayList<Right> aLeftFeatures = new ArrayList<Right>( );
+            ArrayList<Right> aLeftFeatures = new ArrayList<>( );
 
             for ( Right right : features )
             {
@@ -288,7 +289,7 @@ public class AdminDocumentationJspBean
             }
         }
         else
-            if ( ( aOutFeatureGroupList.size( ) > 0 ) && !features.isEmpty( ) )
+            if ( CollectionUtils.isNotEmpty( aOutFeatureGroupList ) )
             {
                 FeatureGroup lastFeatureGroup = aOutFeatureGroupList.get( aOutFeatureGroupList.size( ) - 1 );
 

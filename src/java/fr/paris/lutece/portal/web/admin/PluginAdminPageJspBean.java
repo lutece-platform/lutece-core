@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -68,12 +68,9 @@ public abstract class PluginAdminPageJspBean extends AdminFeaturesPageJspBean
         // initialize the plugin
         String strPluginName = request.getParameter( PARAMETER_PLUGIN_NAME );
 
-        if ( strPluginName != null )
+        if ( strPluginName != null && ( _plugin == null || !_plugin.getName( ).equals( strPluginName ) ) )
         {
-            if ( ( _plugin == null ) || ( !_plugin.getName( ).equals( strPluginName ) ) )
-            {
-                _plugin = PluginService.getPlugin( strPluginName );
-            }
+            _plugin = PluginService.getPlugin( strPluginName );
         }
 
         // if no icon is provided for the feature, try to use the plugin's one

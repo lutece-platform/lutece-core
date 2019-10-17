@@ -1,0 +1,63 @@
+<#include "utils.html">
+<@header title='Button Group'/>
+
+
+<@h2>Button group</@h2>
+
+<@h2># Alignment Left</@h2>
+
+<@row>
+    <@columns>
+        <@btnGroup>
+            <@button color='primary' title='Validate' />
+            <@button color='default' title='Cancel' />
+        </@btnGroup>
+    </@columns>
+    <@columns>
+    <pre>
+&lt;@btnGroup &gt;
+    &lt;@button color='primary' title='Validate' /&gt;
+    &lt;@button color='default' title='Cancel' /&gt;
+&lt;/@btnGroup&gt;
+    </pre>
+    </@columns>
+</@row>
+
+<@h2># Alignment Centered</@h2>
+<@row>
+    <@columns>
+        <@btnGroup align='center'>
+            <@button color='primary' title='Validate' />
+            <@button color='default' title='Cancel' />
+        </@btnGroup>
+    </@columns>
+    <@columns>
+    <pre>
+&lt;@btnGroup align='center'&gt;
+    &lt;@button color='primary' title='Validate' /&gt;
+    &lt;@button color='default' title='Cancel' /&gt;
+&lt;/@btnGroup&gt;
+    </pre>
+    </@columns>
+</@row>
+
+<@h2># Alignment Right</@h2>
+
+<@row>
+    <@columns>
+        <@btnGroup align='right'>
+            <@button color='primary' title='Validate' />
+            <@button color='default' title='Cancel' />
+        </@btnGroup>
+    </@columns>
+    <@columns>
+    <pre>
+&lt;@btnGroup align='right'&gt;
+    &lt;@button color='primary' title='Validate' /&gt;
+    &lt;@button color='default' title='Cancel' /&gt;
+&lt;/@btnGroup&gt;
+    </pre>
+    </@columns>
+</@row>
+
+<@footer />

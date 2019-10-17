@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -45,7 +45,7 @@ import java.util.Map;
 public final class SearchParameterHome
 {
     // Static variable pointed at the DAO instance
-    private static ISearchParameterDAO _dao = (ISearchParameterDAO) SpringContextService.getBean( "searchParameterDAO" );
+    private static ISearchParameterDAO _dao = SpringContextService.getBean( "searchParameterDAO" );
 
     /**
      * Instantiates a new search parameter home.

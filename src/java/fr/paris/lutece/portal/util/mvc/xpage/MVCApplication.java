@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,6 +33,26 @@
  */
 package fr.paris.lutece.portal.util.mvc.xpage;
 
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.ConstraintViolation;
+
+import org.apache.log4j.Logger;
+import org.springframework.util.ReflectionUtils;
+
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.message.SiteMessageException;
 import fr.paris.lutece.portal.service.plugin.Plugin;
@@ -55,31 +75,6 @@ import fr.paris.lutece.util.beanvalidation.BeanValidationUtil;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.url.UrlItem;
 
-import org.apache.log4j.Logger;
-
-import org.springframework.util.ReflectionUtils;
-
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.PrintWriter;
-
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import javax.validation.ConstraintViolation;
-
 /**
  * MVC XPage Application
  */
@@ -96,9 +91,9 @@ public abstract class MVCApplication implements XPageApplication
     private static final String CONTENT_TYPE_JSON = "application/json";
     private static final String CONTENT_TYPE_XML = "application/xml";
     private static Logger _logger = MVCUtils.getLogger( );
-    private List<ErrorMessage> _listErrors = new ArrayList<ErrorMessage>( );
-    private List<ErrorMessage> _listInfos = new ArrayList<ErrorMessage>( );
-    private List<ErrorMessage> _listWarnings = new ArrayList<ErrorMessage>( );
+    private List<ErrorMessage> _listErrors = new ArrayList<>( );
+    private List<ErrorMessage> _listInfos = new ArrayList<>( );
+    private List<ErrorMessage> _listWarnings = new ArrayList<>( );
     private MVCMessageBox _messageBox;
     private Controller _controller = getClass( ).getAnnotation( Controller.class );
 
@@ -323,7 +318,7 @@ public abstract class MVCApplication implements XPageApplication
      */
     protected Map<String, Object> getModel( )
     {
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<>( );
         fillCommons( model );
 
         return model;
@@ -344,7 +339,7 @@ public abstract class MVCApplication implements XPageApplication
     {
         BeanUtil.populate( bean, request, null );
     }
-    
+
     /**
      * Populate a bean using parameters in http request, with locale date format controls
      * 
@@ -355,7 +350,7 @@ public abstract class MVCApplication implements XPageApplication
      * @param locale
      *            the locale
      */
-    protected void populate( Object bean, HttpServletRequest request , Locale locale)
+    protected void populate( Object bean, HttpServletRequest request, Locale locale )
     {
         BeanUtil.populate( bean, request, locale );
     }
@@ -502,9 +497,9 @@ public abstract class MVCApplication implements XPageApplication
      */
     protected void fillCommons( Map<String, Object> model )
     {
-        List<ErrorMessage> listErrors = new ArrayList<ErrorMessage>( _listErrors );
-        List<ErrorMessage> listInfos = new ArrayList<ErrorMessage>( _listInfos );
-        List<ErrorMessage> listWarnings = new ArrayList<ErrorMessage>( _listWarnings );
+        List<ErrorMessage> listErrors = new ArrayList<>( _listErrors );
+        List<ErrorMessage> listInfos = new ArrayList<>( _listInfos );
+        List<ErrorMessage> listWarnings = new ArrayList<>( _listWarnings );
         model.put( MARK_ERRORS, listErrors );
         model.put( MARK_INFOS, listInfos );
         model.put( MARK_WARNINGS, listWarnings );
@@ -850,7 +845,7 @@ public abstract class MVCApplication implements XPageApplication
      */
     protected Locale getLocale( HttpServletRequest request )
     {
-        return request.getLocale( );
+        return LocaleService.getContextUserLocale( request );
     }
 
     /**

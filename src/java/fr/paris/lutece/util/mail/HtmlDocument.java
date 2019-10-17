@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -131,7 +131,7 @@ public class HtmlDocument
      */
     public Map<String, URL> getAllUrls( ElementUrl elementType )
     {
-        Map<String, URL> mapUrl = new HashMap<String, URL>( );
+        Map<String, URL> mapUrl = new HashMap<>( );
 
         NodeList nodes = _content.getElementsByTagName( elementType.getTagName( ) );
 
@@ -181,7 +181,7 @@ public class HtmlDocument
      */
     public List<UrlAttachment> getAllUrlsAttachement( ElementUrl elementType )
     {
-        List<UrlAttachment> listUrlAttachement = new ArrayList<UrlAttachment>( );
+        List<UrlAttachment> listUrlAttachement = new ArrayList<>( );
         UrlAttachment urlAttachement;
         NodeList nodes = _content.getElementsByTagName( elementType.getTagName( ) );
 

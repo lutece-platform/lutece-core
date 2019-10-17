@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -38,6 +38,7 @@ import fr.paris.lutece.util.ReferenceItem;
 import fr.paris.lutece.util.ReferenceList;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
@@ -47,11 +48,12 @@ import java.util.Locale;
 public class LocalizedDataGroup
 {
     private static final String SUFFIX_HELP = ".help";
+    private static final String SUFFIX_ORDER = ".order";
 
     // Variables declarations
     private String _strName;
     private String _strDescription;
-    private List<LocalizedData> _listLocalizedData = new ArrayList<LocalizedData>( );
+    private List<LocalizedData> _listLocalizedData = new ArrayList<>( );
 
     /**
      * Constructor
@@ -76,8 +78,10 @@ public class LocalizedDataGroup
             property.setValue( item.getName( ) );
             property.setLabel( I18nService.getLocalizedString( item.getCode( ), locale ) );
             property.setHelp( I18nService.getLocalizedString( item.getCode( ) + SUFFIX_HELP, locale ) );
+            property.setOrder( I18nService.getLocalizedString( item.getCode( ) + SUFFIX_ORDER, locale ) );
             _listLocalizedData.add( property );
         }
+        Collections.sort( _listLocalizedData );
     }
 
     /**

@@ -2,8 +2,7 @@
 	<@columns>
 		<#if portlet_types_list?has_content>
 			<@tform method='post' action='jsp/admin/DoCreatePortlet.jsp' params='target="preview"'>
-				<fieldset>
-				<legend>#i18n{portal.site.admin_page.titlePortletProperties} dsqdsqd</legend>
+				<@fieldSet legend='#i18n{portal.site.admin_page.titlePortletProperties}'>
 					<input type="hidden" name="page_id" value="${page.id}" />
 					<strong>#i18n{portal.site.admin_page.labelPortletType}</strong>
 					<@formGroup rows=2>
@@ -16,7 +15,7 @@
 					<@formGroup rows=2>
 						<@button type='submit' buttonIcon='plus' title='#i18n{portal.site.admin_page.buttonAdd}'  size='' />
 					</@formGroup>
-				</fieldset>
+				</@fieldSet>
 			</@tform>
 		</#if>
 	</@columns>

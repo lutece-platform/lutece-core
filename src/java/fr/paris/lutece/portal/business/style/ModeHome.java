@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -47,7 +47,7 @@ import javax.xml.transform.OutputKeys;
 public final class ModeHome
 {
     // Static variable pointed at the DAO instance
-    private static IModeDAO _dao = (IModeDAO) SpringContextService.getBean( "modeDAO" );
+    private static IModeDAO _dao = SpringContextService.getBean( "modeDAO" );
 
     /**
      * Creates a new ModeHome object.

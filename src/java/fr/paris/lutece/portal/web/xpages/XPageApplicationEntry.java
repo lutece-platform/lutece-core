@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -50,7 +50,7 @@ public class XPageApplicationEntry
     private String _strId;
     private String _strClassName;
     private String _strPluginName;
-    private List<String> _listRoles = new ArrayList<String>( );
+    private List<String> _listRoles = new ArrayList<>( );
     private boolean _bEnabled = true; // defaults to enabled
 
     /**
@@ -155,17 +155,6 @@ public class XPageApplicationEntry
     public XPageApplication getApplication( )
     {
         return XPageAppService.getApplicationInstance( this );
-    }
-
-    /**
-     * Sets the Application
-     *
-     * @deprecated should not be used anymore
-     * @param application
-     *            The Application
-     */
-    public void setApplication( XPageApplication application )
-    {
     }
 
     /**

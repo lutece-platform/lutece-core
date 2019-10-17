@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -46,7 +46,7 @@ public class ServletEntry
     private String _strName;
     private String _strServletClass;
     private String _strMapping;
-    private Map<String, String> _mapInitParameters = new HashMap<String, String>( );
+    private Map<String, String> _mapInitParameters = new HashMap<>( );
 
     /**
      * Returns the Name

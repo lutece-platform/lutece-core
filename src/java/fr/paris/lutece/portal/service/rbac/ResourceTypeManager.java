@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -48,7 +48,7 @@ import java.util.Map;
 public final class ResourceTypeManager
 {
     /** resource type registry */
-    private static Map<String, ResourceType> _mapResourceTypes = new HashMap<String, ResourceType>( );
+    private static Map<String, ResourceType> _mapResourceTypes = new HashMap<>( );
 
     // //////////////////////////////////////////////////////////////////////////
     // Methods

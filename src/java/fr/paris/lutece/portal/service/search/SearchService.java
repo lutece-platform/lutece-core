@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -74,7 +74,7 @@ public final class SearchService
      */
     public static Map<String, Object> getManageAdvancedParameters( AdminUser user, HttpServletRequest request )
     {
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<>( );
         model.putAll( SearchParameterHome.findAll( ) );
         model.put( MARK_LOCALE, user.getLocale( ) );
         model.put( MARK_WEBAPP_URL, AppPathService.getBaseUrl( request ) );
@@ -89,13 +89,13 @@ public final class SearchService
      */
     public static List<Map<String, Object>> getSearchTypesAndLinks( )
     {
-        List<Map<String, Object>> listTypesAndLinks = new ArrayList<Map<String, Object>>( );
-        Map<String, Object> model = new HashMap<String, Object>( );
+        List<Map<String, Object>> listTypesAndLinks = new ArrayList<>( );
+        Map<String, Object> model = new HashMap<>( );
         model.put( MARK_TYPE, TYPE_FILTER_NONE );
         model.put( MARK_LINK, null );
         listTypesAndLinks.add( model );
 
-        List<SearchIndexer> listIndexer = new ArrayList<SearchIndexer>( IndexationService.getIndexers( ) );
+        List<SearchIndexer> listIndexer = new ArrayList<>( IndexationService.getIndexers( ) );
 
         for ( SearchIndexer indexer : listIndexer )
         {
@@ -103,7 +103,7 @@ public final class SearchService
 
             for ( String strType : indexer.getListType( ) )
             {
-                model = new HashMap<String, Object>( );
+                model = new HashMap<>( );
                 model.put( MARK_TYPE, strType );
                 model.put( MARK_LINK, strLink );
                 listTypesAndLinks.add( model );
