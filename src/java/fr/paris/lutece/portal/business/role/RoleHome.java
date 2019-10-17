@@ -170,7 +170,7 @@ public final class RoleHome
             return true;
         }
 
-        return ( findByPrimaryKey( strRole ) == null ) ? false : true;
+        return findByPrimaryKey( strRole ) != null ;
     }
 
     /**

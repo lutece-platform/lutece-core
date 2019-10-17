@@ -41,6 +41,8 @@ import fr.paris.lutece.portal.web.constants.Parameters;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang.StringUtils;
+
 /**
  *
  * @author pierre
@@ -65,13 +67,7 @@ public class PageContentService extends ContentService
     public boolean isInvoked( HttpServletRequest request )
     {
         String strPageId = request.getParameter( Parameters.PAGE_ID );
-
-        if ( ( strPageId != null ) && ( strPageId.length( ) > 0 ) )
-        {
-            return true;
-        }
-
-        return false;
+        return StringUtils.isNotEmpty( strPageId );
     }
 
     /**

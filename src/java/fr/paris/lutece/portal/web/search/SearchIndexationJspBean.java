@@ -95,7 +95,7 @@ public class SearchIndexationJspBean extends AdminFeaturesPageJspBean
     {
         if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_MANAGE_INDEXER ) )
         {
-            throw new AccessDeniedException( "Invalid security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
         HashMap<String, Object> model = new HashMap<>( );
         String strLogs;

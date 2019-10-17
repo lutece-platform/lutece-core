@@ -78,12 +78,7 @@ public class SiteMessageHandler implements ISiteMessageHandler
     {
         SiteMessage message = SiteMessageService.getMessage( request );
 
-        if ( message != null )
-        {
-            return true;
-        }
-
-        return false;
+        return message != null;
     }
 
     /**

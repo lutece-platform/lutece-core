@@ -48,6 +48,11 @@ public class JsonUtil
     // ObjectMapper
     private static final ObjectMapper _mapper = new ObjectMapper( );
 
+    private JsonUtil( )
+    {
+        // Ctor
+    }
+    
     /**
      * return a string containing the JSON flow
      * 

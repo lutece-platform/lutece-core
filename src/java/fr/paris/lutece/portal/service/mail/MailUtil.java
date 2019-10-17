@@ -33,21 +33,10 @@
  */
 package fr.paris.lutece.portal.service.mail;
 
-import fr.paris.lutece.portal.service.util.AppException;
-import fr.paris.lutece.portal.service.util.AppLogService;
-import fr.paris.lutece.portal.service.util.AppPropertiesService;
-import fr.paris.lutece.util.mail.ByteArrayDataSource;
-import fr.paris.lutece.util.mail.FileAttachment;
-import fr.paris.lutece.util.mail.HtmlDocument;
-import fr.paris.lutece.util.mail.UrlAttachment;
-
-import org.apache.commons.lang.StringUtils;
-
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -55,10 +44,11 @@ import java.util.Properties;
 import java.util.StringTokenizer;
 
 import javax.activation.CommandInfo;
+import javax.activation.CommandMap;
 import javax.activation.DataHandler;
+import javax.activation.FileTypeMap;
 import javax.activation.MailcapCommandMap;
 import javax.activation.MimetypesFileTypeMap;
-
 import javax.mail.Authenticator;
 import javax.mail.BodyPart;
 import javax.mail.Message;
@@ -74,6 +64,16 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import javax.mail.internet.MimeUtility;
+
+import org.apache.commons.lang.StringUtils;
+
+import fr.paris.lutece.portal.service.util.AppException;
+import fr.paris.lutece.portal.service.util.AppLogService;
+import fr.paris.lutece.portal.service.util.AppPropertiesService;
+import fr.paris.lutece.util.mail.ByteArrayDataSource;
+import fr.paris.lutece.util.mail.FileAttachment;
+import fr.paris.lutece.util.mail.HtmlDocument;
+import fr.paris.lutece.util.mail.UrlAttachment;
 
 /**
  * This class provides mail utils.
@@ -93,11 +93,12 @@ final class MailUtil
 
     // Javax.mail properties
     private static final String SMTP = "smtp";
+    private static final String MAIL = "mail.";
     private static final String MAIL_HOST = "mail.host";
     private static final String MAIL_TRANSPORT_PROTOCOL = "mail.transport.protocol";
     private static final String MAIL_SMTP_AUTH = "mail.smtp.auth";
-    private static final String MAIL_PROPTOCOL_HOST = "mail." + SMTP + ".host";
-    private static final String MAIL_PROPTOCOL_PORT = "mail." + SMTP + ".port";
+    private static final String MAIL_PROPTOCOL_HOST = MAIL + SMTP + ".host";
+    private static final String MAIL_PROPTOCOL_PORT = MAIL + SMTP + ".port";
 
     // Constants
     private static final String TRUE = "true";
@@ -119,11 +120,11 @@ final class MailUtil
     static
     {
         // We create the mime text/calendar mime type
-        MimetypesFileTypeMap mimetypes = (MimetypesFileTypeMap) MimetypesFileTypeMap.getDefaultFileTypeMap( );
+        MimetypesFileTypeMap mimetypes = (MimetypesFileTypeMap) FileTypeMap.getDefaultFileTypeMap( );
         mimetypes.addMimeTypes( MIME_TYPE_TEXT_CALENDAR );
 
         // We register the handler for the text/calendar mime type
-        MailcapCommandMap mailcap = (MailcapCommandMap) MailcapCommandMap.getDefaultCommandMap( );
+        MailcapCommandMap mailcap = (MailcapCommandMap) CommandMap.getDefaultCommandMap( );
 
         // We try to get the default handler for plain text
         CommandInfo[] commandInfos = mailcap.getAllCommands( MIME_TYPE_TEXT_PLAIN );
@@ -679,77 +680,70 @@ final class MailUtil
     {
         String strKey = MailAttachmentCacheService.getInstance( ).getKey( urlAttachement.getUrlData( ).toString( ) );
         ByteArrayDataSource urlAttachmentDataSource = null;
-
-        if ( !MailAttachmentCacheService.getInstance( ).isCacheEnable( )
-                || ( MailAttachmentCacheService.getInstance( ).getFromCache( strKey ) == null ) )
+        
+        if ( MailAttachmentCacheService.getInstance( ).isCacheEnable( ) && MailAttachmentCacheService.getInstance( ).getFromCache( strKey ) != null )
         {
-            DataHandler handler = new DataHandler( urlAttachement.getUrlData( ) );
-            ByteArrayOutputStream bo = null;
-            InputStream input = null;
-            String strType = null;
+            return (ByteArrayDataSource) MailAttachmentCacheService.getInstance( ).getFromCache( strKey );
+        }
 
+        DataHandler handler = new DataHandler( urlAttachement.getUrlData( ) );
+        ByteArrayOutputStream bo = null;
+        InputStream input = null;
+        String strType = handler.getContentType( );
+
+        try 
+        {
+            Object o = handler.getContent( );
+            if ( o instanceof InputStream )
+            {
+                input = (InputStream) o;
+                bo = new ByteArrayOutputStream( );
+
+                int read;
+                byte[] tab = new byte[CONSTANTE_FILE_ATTACHMET_BUFFER];
+
+                do
+                {
+                    read = input.read( tab );
+
+                    if ( read > 0 )
+                    {
+                        bo.write( tab, 0, read );
+                    }
+                } while ( read > 0 );
+            }
+        }
+        catch ( IOException e )
+        {
+            // Document is ignored
+            AppLogService.info( urlAttachement.getContentLocation( ) + MSG_ATTACHMENT_NOT_FOUND );
+        }
+        finally
+        {
+            // closed inputstream and outputstream
             try
             {
-                Object o = handler.getContent( );
-                strType = handler.getContentType( );
-
-                if ( o != null && o instanceof InputStream )
+                if ( input != null )
                 {
-                    input = (InputStream) o;
-                    bo = new ByteArrayOutputStream( );
+                    input.close( );
+                }
 
-                    int read;
-                    byte[] tab = new byte[CONSTANTE_FILE_ATTACHMET_BUFFER];
-
-                    do
-                    {
-                        read = input.read( tab );
-
-                        if ( read > 0 )
-                        {
-                            bo.write( tab, 0, read );
-                        }
-                    } while ( read > 0 );
+                if ( bo != null )
+                {
+                    bo.close( );
+                    urlAttachmentDataSource = new ByteArrayDataSource( bo.toByteArray( ), strType );
                 }
             }
             catch ( IOException e )
             {
-                // Document is ignored
-                AppLogService.info( urlAttachement.getContentLocation( ) + MSG_ATTACHMENT_NOT_FOUND );
-            }
-            finally
-            {
-                // closed inputstream and outputstream
-                try
-                {
-                    if ( input != null )
-                    {
-                        input.close( );
-                    }
-
-                    if ( bo != null )
-                    {
-                        bo.close( );
-                        urlAttachmentDataSource = new ByteArrayDataSource( bo.toByteArray( ), strType );
-                    }
-                }
-                catch ( IOException e )
-                {
-                    AppLogService.error( e );
-                }
-            }
-
-            if ( MailAttachmentCacheService.getInstance( ).isCacheEnable( ) )
-            {
-                // add resource in cache
-                MailAttachmentCacheService.getInstance( ).putInCache( strKey, urlAttachmentDataSource );
+                AppLogService.error( e );
             }
         }
-        else
+
+        if ( MailAttachmentCacheService.getInstance( ).isCacheEnable( ) )
         {
-            // used the resource store in cache
-            urlAttachmentDataSource = (ByteArrayDataSource) MailAttachmentCacheService.getInstance( )
-                    .getFromCache( strKey );
+            // add resource in cache
+            MailAttachmentCacheService.getInstance( ).putInCache( strKey, urlAttachmentDataSource );
         }
 
         return urlAttachmentDataSource;

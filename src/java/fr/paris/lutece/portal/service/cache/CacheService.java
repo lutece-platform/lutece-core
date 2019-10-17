@@ -33,12 +33,20 @@
  */
 package fr.paris.lutece.portal.service.cache;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.lang.management.ManagementFactory;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Properties;
+
+import javax.management.MBeanServer;
+
 import fr.paris.lutece.portal.service.datastore.DatastoreService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
-import fr.paris.lutece.util.stream.StreamUtil;
-
 import net.sf.ehcache.Cache;
 import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.config.CacheConfiguration;
@@ -46,23 +54,12 @@ import net.sf.ehcache.config.Configuration;
 import net.sf.ehcache.config.ConfigurationFactory;
 import net.sf.ehcache.management.ManagementService;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-
-import java.lang.management.ManagementFactory;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Properties;
-
-import javax.management.MBeanServer;
-
 /**
  * Provides cache object for cacheable services
  */
 public final class CacheService
 {
+    private static final String ERROR_NUMERIC_PROP = "Invalid numeric property : ";
     private static final String PROPERTY_PATH_CONF = "path.conf";
     private static final String PROPERTY_IS_ENABLED = ".enabled";
     private static final String FILE_CACHES_STATUS = "caches.dat";
@@ -126,6 +123,9 @@ public final class CacheService
         {
             _singleton = new CacheService( );
             _singleton.init( );
+            Configuration configuration = ConfigurationFactory.parseConfiguration( );
+            configuration.setName( LUTECE_CACHEMANAGER_NAME );
+            _manager = CacheManager.create( configuration );
         }
 
         return _singleton;
@@ -136,9 +136,6 @@ public final class CacheService
      */
     private void init( )
     {
-        Configuration configuration = ConfigurationFactory.parseConfiguration( );
-        configuration.setName( LUTECE_CACHEMANAGER_NAME );
-        _manager = CacheManager.create( configuration );
         loadDefaults( );
         loadCachesConfig( );
 
@@ -429,7 +426,7 @@ public final class CacheService
             }
             catch( NumberFormatException e )
             {
-                AppLogService.error( "Invalid numeric property : " + strCacheName + strProperty + "=" + strValue, e );
+                AppLogService.error( ERROR_NUMERIC_PROP + strCacheName + strProperty + "=" + strValue, e );
             }
         }
 
@@ -463,7 +460,7 @@ public final class CacheService
             }
             catch( NumberFormatException e )
             {
-                AppLogService.error( "Invalid numeric property : " + strCacheName + strProperty + "=" + strValue, e );
+                AppLogService.error( ERROR_NUMERIC_PROP + strCacheName + strProperty + "=" + strValue, e );
             }
         }
 

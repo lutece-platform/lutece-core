@@ -64,12 +64,7 @@ public class MailingListWorkgroupRemovalListener implements RemovalListener
 
         Collection<MailingList> listMailingList = MailingListHome.findByWorkgroup( strId );
 
-        if ( CollectionUtils.isNotEmpty( listMailingList ) )
-        {
-            return false;
-        }
-
-        return true;
+        return CollectionUtils.isEmpty( listMailingList );
     }
 
     /**

@@ -49,6 +49,11 @@ public class CommonsService
     private static final String DSKEY_CURRENT_COMMONS_INCLUDE = "core.templates.currentCommonsInclude";
     private static final String DEFAULT_COMMONS_INCLUDE_KEY = "default";
 
+    private CommonsService( )
+    {
+        // Ctor
+    }
+    
     /**
      * Get the list of commons includes
      * 
@@ -70,36 +75,37 @@ public class CommonsService
 
         CommonsInclude ciNew = getCommonsInclude( strKey );
 
-        if ( ciNew != null )
+        if ( ciNew == null )
         {
-            CommonsInclude ciCurrent = getCurrentCommonsInclude( );
-
-            // Remove auto-include of the current commons include
-            List<String> listAutoIncludes = serviceFMT.getAutoIncludes( );
-            if ( ciCurrent != null )
-            {
-                for ( String strExclude : ciCurrent.getFiles( ) )
-                {
-                    if ( (listAutoIncludes != null) && listAutoIncludes.contains( strExclude ) )
-                    {
-                        serviceFMT.removeAutoInclude( strExclude );
-                        AppLogService.info( "Existing Freemarker AutoInclude removed : " + strExclude );
-                    }
-                }
-            }
-            // Add auto-include that aren't already present
-            for ( String strInclude : ciNew.getFiles( ) )
-            {
-                if ( (listAutoIncludes != null) && !listAutoIncludes.contains( strInclude ) )
-                {
-                    serviceFMT.addAutoInclude( strInclude );
-                    AppLogService.info( "New Freemarker AutoInclude added : " + strInclude );
-                }
-            }
-
-            setNewCommonsInclude( ciNew );
+            return;
         }
 
+        CommonsInclude ciCurrent = getCurrentCommonsInclude( );
+
+        // Remove auto-include of the current commons include
+        List<String> listAutoIncludes = serviceFMT.getAutoIncludes( );
+        if ( ciCurrent != null )
+        {
+            for ( String strExclude : ciCurrent.getFiles( ) )
+            {
+                if ( ( listAutoIncludes != null ) && listAutoIncludes.contains( strExclude ) )
+                {
+                    serviceFMT.removeAutoInclude( strExclude );
+                    AppLogService.info( "Existing Freemarker AutoInclude removed : " + strExclude );
+                }
+            }
+        }
+        // Add auto-include that aren't already present
+        for ( String strInclude : ciNew.getFiles( ) )
+        {
+            if ( ( listAutoIncludes != null ) && !listAutoIncludes.contains( strInclude ) )
+            {
+                serviceFMT.addAutoInclude( strInclude );
+                AppLogService.info( "New Freemarker AutoInclude added : " + strInclude );
+            }
+        }
+
+        setNewCommonsInclude( ciNew );
     }
 
     /**

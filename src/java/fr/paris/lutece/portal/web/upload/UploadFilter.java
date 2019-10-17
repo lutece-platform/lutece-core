@@ -63,7 +63,6 @@ public abstract class UploadFilter implements Filter
     private static final String SIZE_THRESHOLD = "sizeThreshold";
     private static final String REQUEST_SIZE_MAX = "requestSizeMax";
     private static final String ACTIVATE_NORMALIZE_FILE_NAME = "activateNormalizeFileName";
-    private FilterConfig _filterConfig;
     private int _nSizeThreshold = -1;
     private long _nRequestSizeMax = -1;
     private boolean _bActivateNormalizeFileName;
@@ -93,25 +92,23 @@ public abstract class UploadFilter implements Filter
     @Override
     public void init( FilterConfig config ) throws ServletException
     {
-        _filterConfig = config;
-
         try
         {
-            String paramValue = _filterConfig.getInitParameter( SIZE_THRESHOLD );
+            String paramValue = config.getInitParameter( SIZE_THRESHOLD );
 
             if ( paramValue != null )
             {
                 _nSizeThreshold = Integer.parseInt( paramValue );
             }
 
-            paramValue = _filterConfig.getInitParameter( REQUEST_SIZE_MAX );
+            paramValue = config.getInitParameter( REQUEST_SIZE_MAX );
 
             if ( paramValue != null )
             {
                 _nRequestSizeMax = Long.parseLong( paramValue );
             }
 
-            paramValue = _filterConfig.getInitParameter( ACTIVATE_NORMALIZE_FILE_NAME );
+            paramValue = config.getInitParameter( ACTIVATE_NORMALIZE_FILE_NAME );
 
             if ( paramValue != null )
             {

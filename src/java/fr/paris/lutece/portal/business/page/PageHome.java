@@ -33,15 +33,15 @@
  */
 package fr.paris.lutece.portal.business.page;
 
+import java.util.Collection;
+import java.util.List;
+
 import fr.paris.lutece.portal.business.portlet.Portlet;
+import fr.paris.lutece.portal.service.cache.CacheService;
 import fr.paris.lutece.portal.service.image.ImageResource;
-import fr.paris.lutece.portal.service.portal.PortalService;
 import fr.paris.lutece.portal.service.resource.ExtendableResourceRemovalListenerService;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.util.ReferenceList;
-
-import java.util.Collection;
-import java.util.List;
 
 /**
  * This class provides instances management methods (create, find, ...) for Page objects
@@ -68,7 +68,7 @@ public final class PageHome
     public static Page create( Page page )
     {
         _dao.insert( page );
-        PortalService.resetCache( );
+        CacheService.resetCaches( );
 
         return page;
     }
@@ -93,7 +93,7 @@ public final class PageHome
         // We remove extensions of the removed page if any
         ExtendableResourceRemovalListenerService.doRemoveResourceExtentions( Page.RESOURCE_TYPE, Integer.toString( nPageId ) );
 
-        PortalService.resetCache( );
+        CacheService.resetCaches( );
     }
 
     /**

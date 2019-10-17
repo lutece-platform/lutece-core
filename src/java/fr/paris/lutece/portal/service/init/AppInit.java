@@ -104,8 +104,7 @@ public final class AppInit
     /**
      * Initializes all the application services (used for junit tests)
      * 
-     * @param strConfPath
-     *            The relative path to the config files
+     * @param strConfPath The relative path to the config files
      */
     public static void initServices( String strConfPath )
     {
@@ -115,12 +114,9 @@ public final class AppInit
     /**
      * Initializes all the application services
      * 
-     * @param context
-     *            The servlet context
-     * @param strConfPath
-     *            The relative path to the config files
-     * @param strRealPath
-     *            The real path to the config files
+     * @param context     The servlet context
+     * @param strConfPath The relative path to the config files
+     * @param strRealPath The real path to the config files
      */
     public static void initServices( ServletContext context, String strConfPath, String strRealPath )
     {
@@ -131,7 +127,8 @@ public final class AppInit
             Thread.currentThread( ).setName( "Lutece-MainThread" );
             // Initializes a very basic logging system (everything to stdout)
             AppLogService.preinit( );
-            // Initializes the properties download files containing the variables used by the application
+            // Initializes the properties download files containing the variables used by
+            // the application
             AppPropertiesService.init( strConfPath );
 
             // Initializes the template services from the servlet context information
@@ -149,9 +146,11 @@ public final class AppInit
 
             // Initializes the log service from the property files
             AppLogService.init( strConfPath, FILE_PROPERTIES_CONFIG );
-            AppLogService.info( AppInfo.LUTECE_BANNER_VERSION + "  Starting  version " + AppInfo.getVersion( ) + "...\n" );
+            AppLogService
+                    .info( AppInfo.LUTECE_BANNER_VERSION + "  Starting  version " + AppInfo.getVersion( ) + "...\n" );
 
-            // BeanUtil initialization, considering Lutèce availables locales and date format properties
+            // BeanUtil initialization, considering Lutèce availables locales and date
+            // format properties
             BeanUtil.init( );
 
             // Initializes the connection pools
@@ -190,7 +189,8 @@ public final class AppInit
             // Initializes the SecurityService
             SecurityService.init( );
 
-            // Initializes plugins autoincludes - needs to be launched before the daemons (indexer could fail)
+            // Initializes plugins autoincludes - needs to be launched before the daemons
+            // (indexer could fail)
             AppTemplateService.initAutoIncludes( );
 
             // Initializes the daemons service
@@ -224,12 +224,13 @@ public final class AppInit
 
             String strBaseUrl = getBaseUrl( context );
             StringBuilder sbBanner = new StringBuilder( );
-            sbBanner.append( AppInfo.LUTECE_BANNER_SERVER ).append( "  started successfully in " ).append( lTime ).append( "s !!!\n" )
-                    .append( "\n   Front office " ).append( strBaseUrl ).append( AppPathService.getPortalUrl( ) ).append( "\n   Back office  " )
-                    .append( strBaseUrl ).append( AppPathService.getAdminMenuUrl( ) ).append( "\n" );
+            sbBanner.append( AppInfo.LUTECE_BANNER_SERVER ).append( "  started successfully in " ).append( lTime )
+                    .append( "s !!!\n" ).append( "\n   Front office " ).append( strBaseUrl )
+                    .append( AppPathService.getPortalUrl( ) ).append( "\n   Back office  " ).append( strBaseUrl )
+                    .append( AppPathService.getAdminMenuUrl( ) ).append( "\n" );
             AppLogService.info( sbBanner.toString( ) );
         }
-        catch( LuteceInitException e )
+        catch ( LuteceInitException e )
         {
             _strLoadingFailureCause = e.getMessage( );
 
@@ -246,8 +247,7 @@ public final class AppInit
     /**
      * Get a base url to display in start logs
      * 
-     * @param context
-     *            the servlet context
+     * @param context the servlet context
      * @return the base url
      */
     private static String getBaseUrl( ServletContext context )
@@ -297,15 +297,15 @@ public final class AppInit
     {
         for ( ContentService cs : PortalService.getContentServicesList( ) )
         {
-            AppLogService.info( "Content Service '" + cs.getName( ) + "' is loaded " + ( cs.isCacheEnable( ) ? " [ cache enable ] " : " [ cache disable ] " ) );
+            AppLogService.info( "Content Service '" + cs.getName( ) + "' is loaded "
+                    + ( cs.isCacheEnable( ) ? " [ cache enable ] " : " [ cache disable ] " ) );
         }
     }
 
     /**
      * Initializes the config.properties file after first installation
      *
-     * @param strRealPath
-     *            The real path to the configuration file
+     * @param strRealPath The real path to the configuration file
      */
     private static void initProperties( String strRealPath )
     {
@@ -316,31 +316,33 @@ public final class AppInit
         {
             p.load( fis );
         }
-        catch( Exception e )
+        catch ( Exception e )
         {
             AppLogService.error( e.getMessage( ), e );
         }
 
         if ( Boolean.parseBoolean( p.getProperty( PROPERTY_AUTOINIT ) ) )
         {
-            Object [ ] params = {
-                    AppPropertiesService.getProperty( PROPERTY_SITE_NAME )
-            };
-            String strSendMailSubject = I18nService.getLocalizedString( PROPERTY_SENDMAIL_SUBJECT, params, I18nService.getDefaultLocale( ) );
+            Object[] params =
+            { AppPropertiesService.getProperty( PROPERTY_SITE_NAME ) };
+            String strSendMailSubject = I18nService.getLocalizedString( PROPERTY_SENDMAIL_SUBJECT, params,
+                    I18nService.getDefaultLocale( ) );
             model.put( MARK_SENDMAIL_SUBJECT, strSendMailSubject );
             model.put( MARK_WEBAPP_HOME, AppPathService.getWebAppPath( ) );
             model.put( MARK_PROD_URL, p.getProperty( PROPERTY_INIT_WEBAPP_PROD_URL ) );
             model.put( MARK_AUTOINIT, Boolean.FALSE.toString( ) );
 
-            HtmlTemplate configTemplate = AppTemplateService.getTemplate( CONFIG_PROPERTIES_TEMPLATE, Locale.getDefault( ), model );
-            // reset configuration cache to avoid configuration caching before macros are set. See LUTECE-1460
+            HtmlTemplate configTemplate = AppTemplateService.getTemplate( CONFIG_PROPERTIES_TEMPLATE,
+                    Locale.getDefault( ), model );
+            // reset configuration cache to avoid configuration caching before macros are
+            // set. See LUTECE-1460
             AppTemplateService.resetConfiguration( );
 
-            try (FileWriter fw = new FileWriter( strRealPath + PATH_CONFIG + FILE_PROPERTIES_CONFIG ) )
+            try ( FileWriter fw = new FileWriter( strRealPath + PATH_CONFIG + FILE_PROPERTIES_CONFIG ) )
             {
                 fw.write( configTemplate.getHtml( ) );
             }
-            catch( Exception io )
+            catch ( Exception io )
             {
                 AppLogService.error( "Error reading file", io );
             }

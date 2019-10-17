@@ -87,6 +87,7 @@ public class AdminMenuJspBean implements Serializable
 {
     // ///////////////////////////////////////////////////////////////////////////////
     // Constants
+    private static final String ERROR_INVALID_TOKEN = "Invalid security token";
     public static final String PROPERTY_LOGOUT_URL = "lutece.admin.logout.url";
     public static final String PROPERTY_MENU_DEFAULT_POS = "top";
     public static final String PROPERTY_MENU_DATASTORE_POS = "portal.site.site_property.menu.position";
@@ -366,7 +367,7 @@ public class AdminMenuJspBean implements Serializable
     {
         if ( !SecurityTokenService.getInstance( ).validate( request, LanguageAdminUserMenuItemProvider.TEMPLATE ) )
         {
-            throw new AccessDeniedException( "Invalid security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
         String strLanguage = request.getParameter( PARAMETER_LANGUAGE );
         AdminUser user = AdminUserService.getAdminUser( request );
@@ -478,7 +479,7 @@ public class AdminMenuJspBean implements Serializable
         }
         if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_MODIFY_PASSWORD_DEFAULT_MODULE ) )
         {
-            throw new AccessDeniedException( "Invalid security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
 
         // Successful tests
@@ -506,7 +507,7 @@ public class AdminMenuJspBean implements Serializable
     {
         if ( !SecurityTokenService.getInstance( ).validate( request, AccessibilityModeAdminUserMenuItemProvider.TEMPLATE ) )
         {
-            throw new AccessDeniedException( "Invalid security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
         AdminUser user = AdminUserService.getAdminUser( request );
 

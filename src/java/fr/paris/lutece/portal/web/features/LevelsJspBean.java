@@ -110,7 +110,7 @@ public class LevelsJspBean extends AdminFeaturesPageJspBean
         }
         if ( !SecurityTokenService.getInstance( ).validate( request, AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) )
         {
-            throw new AccessDeniedException( "Invalid security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
         Level level = new Level( );
         level.setName( strName );
@@ -170,7 +170,7 @@ public class LevelsJspBean extends AdminFeaturesPageJspBean
         }
         if ( !SecurityTokenService.getInstance( ).validate( request, AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) )
         {
-            throw new AccessDeniedException( "Invalid security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
 
         Level level = LevelHome.findByPrimaryKey( Integer.parseInt( strId ) );

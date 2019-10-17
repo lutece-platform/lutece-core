@@ -55,7 +55,6 @@ public abstract class SafeRequestFilter implements Filter
     private static final String PROPERTY_REQUEST_PARAMETERS_CONTAINS_XSS_CHARACTERS = "portal.util.message.requestParametersContainsXssCharacters";
     private static final String PARAM_FILTER_XSS_CHARATERS = "xssCharacters";
     private static final String ACTIVATE_XSS_FILTER = "activateXssFilter";
-    private FilterConfig _filterConfig;
     private String _strXssCharacters;
     private boolean _bActivateXssFilter;
 
@@ -65,11 +64,9 @@ public abstract class SafeRequestFilter implements Filter
     @Override
     public void init( FilterConfig config ) throws ServletException
     {
-        _filterConfig = config;
-
-        String strParamValue = _filterConfig.getInitParameter( PARAM_FILTER_XSS_CHARATERS );
+        String strParamValue = config.getInitParameter( PARAM_FILTER_XSS_CHARATERS );
         _strXssCharacters = strParamValue;
-        strParamValue = _filterConfig.getInitParameter( ACTIVATE_XSS_FILTER );
+        strParamValue = config.getInitParameter( ACTIVATE_XSS_FILTER );
 
         if ( strParamValue != null )
         {

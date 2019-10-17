@@ -63,28 +63,19 @@ public final class MethodUtil
      * <li>has array parameter (ie : String[] or int[] ...)</li>
      * </ul>
      *
-     * @param <A>
-     *            the generic type of the instance
-     * @param <B>
-     *            the generic type of the value to set
-     * @param instance
-     *            the instance to set
-     * @param strAttributeName
-     *            the attribute name
-     * @param value
-     *            the value of the attribute to set
-     * @throws SecurityException
-     *             the security exception
-     * @throws NoSuchMethodException
-     *             the no such method exception
-     * @throws IllegalArgumentException
-     *             the illegal argument exception
-     * @throws IllegalAccessException
-     *             the illegal access exception
-     * @throws InvocationTargetException
-     *             the invocation target exception
+     * @param                  <A> the generic type of the instance
+     * @param                  <B> the generic type of the value to set
+     * @param instance         the instance to set
+     * @param strAttributeName the attribute name
+     * @param value            the value of the attribute to set
+     * @throws SecurityException         the security exception
+     * @throws NoSuchMethodException     the no such method exception
+     * @throws IllegalArgumentException  the illegal argument exception
+     * @throws IllegalAccessException    the illegal access exception
+     * @throws InvocationTargetException the invocation target exception
      */
-    public static <A, B> void set( A instance, String strAttributeName, B value ) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException
+    public static <A, B> void set( A instance, String strAttributeName, B value )
+            throws NoSuchMethodException, IllegalAccessException, InvocationTargetException
     {
         if ( StringUtils.isNotBlank( strAttributeName ) && ( instance != null ) && ( value != null ) )
         {
@@ -92,9 +83,7 @@ public final class MethodUtil
 
             if ( methodSetter != null )
             {
-                methodSetter.invoke( instance, new Object [ ] {
-                    value
-                } );
+                methodSetter.invoke( instance, value );
             }
             else
             {
@@ -110,35 +99,28 @@ public final class MethodUtil
     /**
      * Gets the method.
      *
-     * @param <A>
-     *            the generic type of the instance
-     * @param strMethodPrefix
-     *            the str method prefix
-     * @param instance
-     *            the instance
-     * @param strAttributeName
-     *            the str attribute name
-     * @param clazz
-     *            the clazz
+     * @param                  <A> the generic type of the instance
+     * @param strMethodPrefix  the str method prefix
+     * @param instance         the instance
+     * @param strAttributeName the str attribute name
+     * @param clazz            the clazz
      * @return the method
-     * @throws SecurityException
-     *             the security exception
-     * @throws NoSuchMethodException
-     *             the no such method exception
+     * @throws SecurityException     the security exception
+     * @throws NoSuchMethodException the no such method exception
      */
-    public static <A> Method getMethod( String strMethodPrefix, A instance, String strAttributeName, Class<?> clazz ) throws NoSuchMethodException
+    public static <A> Method getMethod( String strMethodPrefix, A instance, String strAttributeName, Class<?> clazz )
+            throws NoSuchMethodException
     {
         String strFirstLetter = strAttributeName.substring( 0, 1 ).toUpperCase( );
 
-        String strMethodName = strMethodPrefix + strFirstLetter + strAttributeName.substring( 1, strAttributeName.length( ) );
+        String strMethodName = strMethodPrefix + strFirstLetter
+                + strAttributeName.substring( 1, strAttributeName.length( ) );
 
         try
         {
-            return instance.getClass( ).getMethod( strMethodName, new Class [ ] {
-                clazz
-            } );
+            return instance.getClass( ).getMethod( strMethodName, clazz );
         }
-        catch( NoSuchMethodException e )
+        catch ( NoSuchMethodException e )
         {
             return getPrimitiveMethod( strMethodName, instance, clazz );
         }
@@ -147,77 +129,49 @@ public final class MethodUtil
     /**
      * Gets the primitive method.
      *
-     * @param <A>
-     *            the generic type of the instance
-     * @param strMethodName
-     *            the str method name
-     * @param instance
-     *            the instance
-     * @param clazz
-     *            the clazz
+     * @param               <A> the generic type of the instance
+     * @param strMethodName the str method name
+     * @param instance      the instance
+     * @param clazz         the clazz
      * @return the primitive method
-     * @throws SecurityException
-     *             the security exception
-     * @throws NoSuchMethodException
-     *             the no such method exception
+     * @throws SecurityException     the security exception
+     * @throws NoSuchMethodException the no such method exception
      */
-    public static <A> Method getPrimitiveMethod( String strMethodName, A instance, Class<?> clazz ) throws NoSuchMethodException
+    public static <A> Method getPrimitiveMethod( String strMethodName, A instance, Class<?> clazz )
+            throws NoSuchMethodException
     {
         if ( clazz.equals( Integer.class ) )
         {
-            return instance.getClass( ).getMethod( strMethodName, new Class [ ] {
-                int.class
-            } );
+            return instance.getClass( ).getMethod( strMethodName, int.class );
         }
-        else
-            if ( clazz.equals( Long.class ) )
-            {
-                return instance.getClass( ).getMethod( strMethodName, new Class [ ] {
-                    long.class
-                } );
-            }
-            else
-                if ( clazz.equals( Double.class ) )
-                {
-                    return instance.getClass( ).getMethod( strMethodName, new Class [ ] {
-                        double.class
-                    } );
-                }
-                else
-                    if ( clazz.equals( Short.class ) )
-                    {
-                        return instance.getClass( ).getMethod( strMethodName, new Class [ ] {
-                            short.class
-                        } );
-                    }
-                    else
-                        if ( clazz.equals( Byte.class ) )
-                        {
-                            return instance.getClass( ).getMethod( strMethodName, new Class [ ] {
-                                byte.class
-                            } );
-                        }
-                        else
-                            if ( clazz.equals( Float.class ) )
-                            {
-                                return instance.getClass( ).getMethod( strMethodName, new Class [ ] {
-                                    float.class
-                                } );
-                            }
-                            else
-                                if ( clazz.equals( Character.class ) )
-                                {
-                                    return instance.getClass( ).getMethod( strMethodName, new Class [ ] {
-                                        char.class
-                                    } );
-                                }
-                                else
-                                    if ( clazz.equals( Boolean.class ) )
-                                    {
-                                        return instance.getClass( ).getMethod( strMethodName, new Class [ ] {
-                                            boolean.class
-                                        } );
-                                    }
+        else if ( clazz.equals( Long.class ) )
+        {
+            return instance.getClass( ).getMethod( strMethodName, long.class );
+        }
+        else if ( clazz.equals( Double.class ) )
+        {
+            return instance.getClass( ).getMethod( strMethodName, double.class );
+        }
+        else if ( clazz.equals( Short.class ) )
+        {
+            return instance.getClass( ).getMethod( strMethodName, short.class );
+        }
+        else if ( clazz.equals( Byte.class ) )
+        {
+            return instance.getClass( ).getMethod( strMethodName, byte.class );
+        }
+        else if ( clazz.equals( Float.class ) )
+        {
+            return instance.getClass( ).getMethod( strMethodName, float.class );
+        }
+        else if ( clazz.equals( Character.class ) )
+        {
+            return instance.getClass( ).getMethod( strMethodName, char.class );
+        }
+        else if ( clazz.equals( Boolean.class ) )
+        {
+            return instance.getClass( ).getMethod( strMethodName, boolean.class );
+        }
 
         throw new NoSuchMethodException( );
     }
@@ -225,21 +179,16 @@ public final class MethodUtil
     /**
      * Gets the setter.
      *
-     * @param <A>
-     *            the generic type
-     * @param instance
-     *            the instance
-     * @param strAttributeName
-     *            the str attribute name
-     * @param clazz
-     *            the clazz
+     * @param                  <A> the generic type
+     * @param instance         the instance
+     * @param strAttributeName the str attribute name
+     * @param clazz            the clazz
      * @return the setter
-     * @throws SecurityException
-     *             the security exception
-     * @throws NoSuchMethodException
-     *             the no such method exception
+     * @throws SecurityException     the security exception
+     * @throws NoSuchMethodException the no such method exception
      */
-    public static <A> Method getSetter( A instance, String strAttributeName, Class<?> clazz ) throws NoSuchMethodException
+    public static <A> Method getSetter( A instance, String strAttributeName, Class<?> clazz )
+            throws NoSuchMethodException
     {
         return getMethod( PREFIX_SET, instance, strAttributeName, clazz );
     }
@@ -247,21 +196,16 @@ public final class MethodUtil
     /**
      * Gets the setter.
      *
-     * @param <A>
-     *            the generic type of the instance
-     * @param instance
-     *            the instance
-     * @param strAttributeName
-     *            the str attribute name
-     * @param clazz
-     *            the clazz
+     * @param                  <A> the generic type of the instance
+     * @param instance         the instance
+     * @param strAttributeName the str attribute name
+     * @param clazz            the clazz
      * @return the setter
-     * @throws SecurityException
-     *             the security exception
-     * @throws NoSuchMethodException
-     *             the no such method exception
+     * @throws SecurityException     the security exception
+     * @throws NoSuchMethodException the no such method exception
      */
-    public static <A> Method getGetter( A instance, String strAttributeName, Class<?> clazz ) throws NoSuchMethodException
+    public static <A> Method getGetter( A instance, String strAttributeName, Class<?> clazz )
+            throws NoSuchMethodException
     {
         return getMethod( PREFIX_GET, instance, strAttributeName, clazz );
     }

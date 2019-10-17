@@ -161,7 +161,7 @@ public class DaemonsJspBean extends AdminPageJspBean
     {
         if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_MANAGE_DAEMONS ) )
         {
-            throw new AccessDeniedException( "Invalid security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
     }
 }

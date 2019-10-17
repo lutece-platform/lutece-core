@@ -235,7 +235,7 @@ public class AdminPagePortletJspBean extends AdminFeaturesPageJspBean
         }
         if ( !SecurityTokenService.getInstance( ).validate( request, JSP_REMOVE_PORTLET ) )
         {
-            throw new AccessDeniedException( "Invalid security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
         AdminUser user = AdminUserService.getAdminUser( request );
         if ( !RBACService.isAuthorized( PortletType.RESOURCE_TYPE, portlet.getPortletTypeId( ), PortletResourceIdService.PERMISSION_MANAGE, user ) )
@@ -324,7 +324,7 @@ public class AdminPagePortletJspBean extends AdminFeaturesPageJspBean
     {
         if ( !SecurityTokenService.getInstance( ).validate( request, JSP_DO_MODIFY_STATUS ) )
         {
-            throw new AccessDeniedException( "Invalid security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
         String strPortletId = request.getParameter( Parameters.PORTLET_ID );
         String strStatus = request.getParameter( PORTLET_STATUS );

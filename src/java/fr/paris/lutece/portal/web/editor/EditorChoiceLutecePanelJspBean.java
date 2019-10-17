@@ -71,7 +71,7 @@ public class EditorChoiceLutecePanelJspBean extends PluginAdminPageJspBean imple
     {
         if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_EDITOR_CHOICE_PANEL ) )
         {
-            throw new AccessDeniedException( "Invalid security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
         String strEditorName = request.getParameter( PARAM_EDITOR_BACK_OFFICE );
         RichTextEditorService.updateBackOfficeDefaultEditor( strEditorName );
@@ -92,7 +92,7 @@ public class EditorChoiceLutecePanelJspBean extends PluginAdminPageJspBean imple
     {
         if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_EDITOR_CHOICE_PANEL ) )
         {
-            throw new AccessDeniedException( "Invalid security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
         String strEditorName = request.getParameter( PARAM_EDITOR_FRONT_OFFICE );
         RichTextEditorService.updateFrontOfficeDefaultEditor( strEditorName );

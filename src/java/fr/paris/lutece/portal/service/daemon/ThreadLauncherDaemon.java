@@ -102,9 +102,77 @@ public class ThreadLauncherDaemon extends Daemon
         int nMaxNumberThread = AppPropertiesService.getPropertyInt( PROPERTY_MAX_NUMBER_THREAD, 5 );
 
         // We remove dead threads from running thread collections
+        String logs = removeDeadThreads( );
+        
         RunnableQueueItem item = null;
-        List<String> listDeadThreadKeys = new ArrayList<>( );
+        int nCurrentNumberRunningThreads = _mapThreadByKey.size( ) + _listThread.size( );
 
+        List<RunnableQueueItem> listLockedItems = new ArrayList<>( );
+
+        while ( ( nCurrentNumberRunningThreads < nMaxNumberThread ) && ( ( item = popItemFromQueue( ) ) != null ) )
+        {
+            String key = item.computeKey( );
+            // If the item has a key, then we must make sure that another thread with the same key and plugin is not running
+            if ( key != null )
+            {
+                Thread thread = _mapThreadByKey.get( key );
+
+                if ( thread != null )
+                {
+                    if ( thread.isAlive( ) )
+                    {
+                        // The thread is already running. We declare this item as locked for this run of the daemon.
+                        listLockedItems.add( item );
+                    }
+                    else
+                    {
+                        // Dead threads are removed from collections at the beginning of the run of the daemon
+                        // We still check again that the thread is alive just in case it died during the run
+                        thread = getThread( item );
+                        _mapThreadByKey.put( key, thread );
+
+                        // We do not increase the number of running threads, because we removed and add one
+                    }
+                }
+                else
+                {
+                    thread = getThread( item );
+                    _mapThreadByKey.put( key, thread );
+                    nCurrentNumberRunningThreads++;
+                }
+            }
+            else
+            {
+                // If it has no key, or if the plugin has not been set, we create a thread in the keyless collection
+                Thread thread = getThread( item );
+                _mapThreadByKey.put( key, thread );
+                nCurrentNumberRunningThreads++;
+            }
+        }
+
+        // We replace in the queue items that was locked
+        listLockedItems.stream( ).forEach( ThreadLauncherDaemon::addItemToQueue );
+
+        // If the maximum number of running threads has been reached, we end this run
+        if ( nCurrentNumberRunningThreads >= nMaxNumberThread )
+        {
+            setLastRunLogs( logs + "Every threads are running. Daemon execution ending." );
+            return;
+        }
+
+        setLastRunLogs( logs + "There is no more runnable to launch." );
+    }
+
+    private Thread getThread( RunnableQueueItem item )
+    {
+        Thread thread = new Thread( new RunnableWrapper( item.getRunnable( ) ) );
+        thread.start( );
+        return thread;
+    }
+    
+    private String removeDeadThreads( )
+    {
+        List<String> listDeadThreadKeys = new ArrayList<>( );
         for ( Entry<String, Thread> threadEntry : _mapThreadByKey.entrySet( ) )
         {
             if ( !threadEntry.getValue( ).isAlive( ) )
@@ -129,7 +197,6 @@ public class ThreadLauncherDaemon extends Daemon
         }
 
         String logs = "";
-
         if ( !listDeadThreads.isEmpty( ) )
         {
             logs = "Releasing " + listDeadThreads.size( ) + " dead threads.\n";
@@ -138,72 +205,7 @@ public class ThreadLauncherDaemon extends Daemon
         {
             _listThread.remove( thread );
         }
-
-        int nCurrentNumberRunningThreads = _mapThreadByKey.size( ) + _listThread.size( );
-
-        List<RunnableQueueItem> listLockedItems = new ArrayList<>( );
-
-        while ( ( nCurrentNumberRunningThreads < nMaxNumberThread ) && ( ( item = popItemFromQueue( ) ) != null ) )
-        {
-            // If the item has a key, then we must make sure that another thread with the same key and plugin is not running
-            if ( ( item.getKey( ) != null ) && ( item.getPlugin( ) != null ) )
-            {
-                Thread thread = _mapThreadByKey.get( item.computeKey( ) );
-
-                if ( thread != null )
-                {
-                    if ( thread.isAlive( ) )
-                    {
-                        // The thread is already running. We declare this item as locked for this run of the daemon.
-                        listLockedItems.add( item );
-                    }
-                    else
-                    {
-                        // Dead threads are removed from collections at the beginning of the run of the daemon
-                        // We still check again that the thread is alive just in case it died during the run
-                        thread = getThread( item );
-                        _mapThreadByKey.put( item.computeKey( ), thread );
-
-                        // We do not increase the number of running threads, because we removed and add one
-                    }
-                }
-                else
-                {
-                    thread = getThread( item );
-                    _mapThreadByKey.put( item.computeKey( ), thread );
-                    nCurrentNumberRunningThreads++;
-                }
-            }
-            else
-            {
-                // If it has no key, or if the plugin has not been set, we create a thread in the keyless collection
-                Thread thread = getThread( item );
-                _mapThreadByKey.put( item.computeKey( ), thread );
-                nCurrentNumberRunningThreads++;
-            }
-        }
-
-        // We replace in the queue items that was locked
-        for ( RunnableQueueItem itemQueue : listLockedItems )
-        {
-            addItemToQueue( itemQueue );
-        }
-
-        // If the maximum number of running threads has been reached, we end this run
-        if ( nCurrentNumberRunningThreads >= nMaxNumberThread )
-        {
-            setLastRunLogs( logs + "Every threads are running. Daemon execution ending." );
-            return;
-        }
-
-        setLastRunLogs( logs + "There is no more runnable to launch." );
-    }
-
-    private Thread getThread( RunnableQueueItem item )
-    {
-        Thread thread = new Thread( new RunnableWrapper( item.getRunnable( ) ) );
-        thread.start( );
-        return thread;
+        return logs;
     }
 
     /**

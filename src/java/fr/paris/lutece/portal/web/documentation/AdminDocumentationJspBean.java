@@ -135,9 +135,8 @@ public class AdminDocumentationJspBean
         // get the xml documentation file
         String strXmlPath;
         StreamSource sourceXml;
-        String strLocal = locale.toString( );
 
-        if ( ( locale == null ) || strLocal.equals( LOCAL_DEFAULT ) )
+        if ( ( locale == null ) || locale.toString( ).equals( LOCAL_DEFAULT ) )
         {
             strXmlPath = AppPathService.getWebAppPath( ) + XML_BASE_PATH + XML_USER_PATH + strFeature + ".xml";
         }

@@ -110,7 +110,7 @@ public class CacheJspBean extends AdminFeaturesPageJspBean
     {
         if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_MANAGE_CACHES ) )
         {
-            throw new AccessDeniedException( "Invalid security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
         String strCacheIndex = request.getParameter( PARAMETER_ID_CACHE );
 
@@ -142,7 +142,7 @@ public class CacheJspBean extends AdminFeaturesPageJspBean
     {
         if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_MANAGE_CACHES ) )
         {
-            throw new AccessDeniedException( "Invalid security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
         AppPropertiesService.reloadAll( );
 
@@ -224,7 +224,7 @@ public class CacheJspBean extends AdminFeaturesPageJspBean
     {
         if ( !SecurityTokenService.getInstance( ).validate( request, JSP_TOGGLE_CACHE ) )
         {
-            throw new AccessDeniedException( "Invalid security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
         String strCacheIndex = request.getParameter( PARAMETER_ID_CACHE );
 

@@ -624,7 +624,7 @@ public abstract class CSVReaderService
 
         return listMessages;
     }
-
+    
     /**
      * Check the validity of the whole CSV file.
      * 

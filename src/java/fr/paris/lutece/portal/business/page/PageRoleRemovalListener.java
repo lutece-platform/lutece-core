@@ -64,12 +64,7 @@ public class PageRoleRemovalListener implements RemovalListener
 
         Collection<Page> listPages = PageHome.getPagesByRoleKey( strId );
 
-        if ( CollectionUtils.isNotEmpty( listPages ) )
-        {
-            return false;
-        }
-
-        return true;
+        return CollectionUtils.isEmpty( listPages );
     }
 
     /**

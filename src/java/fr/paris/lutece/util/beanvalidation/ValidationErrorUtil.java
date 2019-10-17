@@ -33,13 +33,13 @@
  */
 package fr.paris.lutece.util.beanvalidation;
 
-import fr.paris.lutece.portal.service.i18n.I18nService;
-
 import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.validation.ConstraintViolation;
+
+import fr.paris.lutece.portal.service.i18n.I18nService;
 
 /**
  * ValidationError Utils
@@ -65,7 +65,7 @@ public final class ValidationErrorUtil
      */
     public static String getValue1( ConstraintViolation constraintViolation, ValidationErrorConfig config )
     {
-        return getValue( constraintViolation, config, config.getValue1Attributes( ) );
+        return getValue( constraintViolation, config.getValue1Attributes( ) );
     }
 
     /**
@@ -79,7 +79,7 @@ public final class ValidationErrorUtil
      */
     public static String getValue2( ConstraintViolation constraintViolation, ValidationErrorConfig config )
     {
-        return getValue( constraintViolation, config, config.getValue2Attributes( ) );
+        return getValue( constraintViolation, config.getValue2Attributes( ) );
     }
 
     /**
@@ -150,13 +150,11 @@ public final class ValidationErrorUtil
      * 
      * @param constraintViolation
      *            The Constraint violation
-     * @param config
-     *            The config
      * @param strAttributes
      *            The attributes names list
      * @return The value
      */
-    private static String getValue( ConstraintViolation constraintViolation, ValidationErrorConfig config, String strAttributes )
+    private static String getValue( ConstraintViolation constraintViolation, String strAttributes )
     {
         String strValue = "";
 

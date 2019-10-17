@@ -75,7 +75,6 @@ public class CaptchaSecurityService implements ICaptchaSecurityService
     @Override
     public String getActiveBlockHtml( )
     {
-        // TODO Auto-generated method stub
         return null;
     }
 

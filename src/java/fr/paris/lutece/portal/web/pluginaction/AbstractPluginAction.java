@@ -36,10 +36,10 @@ package fr.paris.lutece.portal.web.pluginaction;
 /**
  * This class might be used to ensure forward compatibility
  * 
- * @param <FieldsDTO>
+ * @param <F>
  *            FieldsDTO
  */
-public abstract class AbstractPluginAction<FieldsDTO> implements IPluginAction<FieldsDTO>
+public abstract class AbstractPluginAction<F> implements IPluginAction<F>
 {
     // nothing yet
 }

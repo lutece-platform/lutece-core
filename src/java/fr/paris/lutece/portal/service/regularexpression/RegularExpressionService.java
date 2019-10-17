@@ -103,7 +103,7 @@ public final class RegularExpressionService
      */
     boolean isPatternValide( String strPattern )
     {
-        return isAvailable( ) ? _service.isPatternValide( strPattern ) : false;
+        return isAvailable( ) && _service.isPatternValide( strPattern );
     }
 
     /**
@@ -115,7 +115,7 @@ public final class RegularExpressionService
      */
     boolean isPatternValide( RegularExpression regularExpression )
     {
-        return isAvailable( ) ? _service.isPatternValide( regularExpression ) : false;
+        return isAvailable( ) && _service.isPatternValide( regularExpression );
     }
 
     /**
@@ -129,7 +129,7 @@ public final class RegularExpressionService
      */
     public boolean isMatches( String strValueToTest, String strPattern )
     {
-        return isAvailable( ) ? _service.isMatches( strValueToTest, strPattern ) : false;
+        return isAvailable( ) && _service.isMatches( strValueToTest, strPattern );
     }
 
     /**
@@ -143,7 +143,7 @@ public final class RegularExpressionService
      */
     public boolean isMatches( String strValueToTest, RegularExpression regularExpression )
     {
-        return isAvailable( ) ? _service.isMatches( strValueToTest, regularExpression ) : false;
+        return isAvailable( ) && _service.isMatches( strValueToTest, regularExpression );
     }
 
     /**

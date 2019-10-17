@@ -130,7 +130,7 @@ public final class AppLogService
         }
         catch( Exception e )
         {
-            System.err.println( "Bad Configuration of Log4j : " + e );
+            error( "Bad Configuration of Log4j : " + e );
         }
         finally
         {

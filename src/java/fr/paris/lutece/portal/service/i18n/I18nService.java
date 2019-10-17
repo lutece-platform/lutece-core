@@ -77,12 +77,12 @@ public final class I18nService
     private static final Locale LOCALE_DEFAULT = new Locale( "", "", "" );
     private static final String PROPERTY_DEFAULT_LOCALE = "lutece.i18n.defaultLocale";
     private static final String PROPERTY_FORMAT_DATE_SHORT_LIST = "lutece.format.date.short";
-    private static Map<String, String> _pluginBundleNames = Collections.synchronizedMap( new HashMap<>( ) );
-    private static Map<String, String> _moduleBundleNames = Collections.synchronizedMap( new HashMap<>( ) );
-    private static Map<String, String> _portalBundleNames = Collections.synchronizedMap( new HashMap<>( ) );
+    private static Map<String, String> _pluginBundleNames = Collections.synchronizedMap( new HashMap<String, String>( ) );
+    private static Map<String, String> _moduleBundleNames = Collections.synchronizedMap( new HashMap<String, String>( ) );
+    private static Map<String, String> _portalBundleNames = Collections.synchronizedMap( new HashMap<String, String>( ) );
     private static final String PROPERTY_PATH_OVERRIDE = "path.i18n.override";
     private static final ClassLoader _overrideLoader;
-    private static final Map<String, ResourceBundle> _resourceBundleCache = Collections.synchronizedMap( new HashMap<>( ) );
+    private static final Map<String, ResourceBundle> _resourceBundleCache = Collections.synchronizedMap( new HashMap<String, ResourceBundle>( ) );
 
     static
     {
@@ -105,7 +105,7 @@ public final class I18nService
             try
             {
                 overrideURL = new URL [ ] {
-                        overridePath.toURI( ).toURL( )
+                    overridePath.toURI( ).toURL( )
                 };
             }
             catch( MalformedURLException e )
@@ -268,19 +268,7 @@ public final class I18nService
      */
     private static String getPluginBundleName( String strBundleKey )
     {
-        String strBundle = _pluginBundleNames.get( strBundleKey );
-
-        if ( strBundle == null )
-        {
-            Object [ ] params = {
-                    strBundleKey
-            };
-            MessageFormat format = new MessageFormat( FORMAT_PACKAGE_PLUGIN_RESOURCES_LOCATION );
-            strBundle = format.format( params );
-            _pluginBundleNames.put( strBundleKey, strBundle );
-        }
-
-        return strBundle;
+        return _pluginBundleNames.computeIfAbsent( strBundleKey, s -> new MessageFormat( FORMAT_PACKAGE_PLUGIN_RESOURCES_LOCATION ).format( new String[]{s} ) );
     }
 
     /**
@@ -295,19 +283,7 @@ public final class I18nService
     private static String getModuleBundleName( String strPlugin, String strModule )
     {
         String key = strPlugin + strModule;
-        String strBundle = _moduleBundleNames.get( key );
-
-        if ( strBundle == null )
-        {
-            Object [ ] params = {
-                    strPlugin, strModule
-            };
-            MessageFormat format = new MessageFormat( FORMAT_PACKAGE_MODULE_RESOURCES_LOCATION );
-            strBundle = format.format( params );
-            _moduleBundleNames.put( key, strBundle );
-        }
-
-        return strBundle;
+        return _moduleBundleNames.computeIfAbsent( key, s -> new MessageFormat( FORMAT_PACKAGE_MODULE_RESOURCES_LOCATION ).format( new String[]{strPlugin, strModule} ) );
     }
 
     /**
@@ -319,19 +295,7 @@ public final class I18nService
      */
     private static String getPortalBundleName( String strElement )
     {
-        String strBundle = _portalBundleNames.get( strElement );
-
-        if ( strBundle == null )
-        {
-            Object [ ] params = {
-                    strElement
-            };
-            MessageFormat format = new MessageFormat( FORMAT_PACKAGE_PORTAL_RESOURCES_LOCATION );
-            strBundle = format.format( params );
-            _portalBundleNames.put( strElement, strBundle );
-        }
-
-        return strBundle;
+        return _portalBundleNames.computeIfAbsent( strElement, s -> new MessageFormat( FORMAT_PACKAGE_PORTAL_RESOURCES_LOCATION ).format( new String[]{s} ) );
     }
 
     /**
@@ -366,7 +330,9 @@ public final class I18nService
     public static String getLocalizedDate( Date date, Locale locale, int nDateFormat )
     {
         DateFormat dateFormatter = DateFormat.getDateInstance( nDateFormat, locale );
-        return dateFormatter.format( date );
+        String strDate = dateFormatter.format( date );
+
+        return strDate;
     }
 
     /**
@@ -385,7 +351,9 @@ public final class I18nService
     public static String getLocalizedDateTime( Date date, Locale locale, int nDateFormat, int nTimeFormat )
     {
         DateFormat dateFormatter = DateFormat.getDateTimeInstance( nDateFormat, nTimeFormat, locale );
-        return dateFormatter.format( date );
+        String strDate = dateFormatter.format( date );
+
+        return strDate;
     }
 
     /**
@@ -397,7 +365,7 @@ public final class I18nService
     {
         String strAvailableLocales = AppPropertiesService.getProperty( PROPERTY_AVAILABLES_LOCALES );
         StringTokenizer strTokens = new StringTokenizer( strAvailableLocales, "," );
-        List<Locale> list = new ArrayList<>( );
+        List<Locale> list = new ArrayList<Locale>( );
 
         while ( strTokens.hasMoreTokens( ) )
         {
