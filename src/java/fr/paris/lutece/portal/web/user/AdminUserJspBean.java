@@ -658,7 +658,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         String strAccessibilityMode = request.getParameter( PARAMETER_ACCESSIBILITY_MODE );
         String strWorkgroupKey = request.getParameter( PARAMETER_WORKGROUP_KEY );
 
-        String message = checkParameters( request );
+        String message = checkParameters( request, JSP_URL_CREATE_USER );
 
         if ( message != null )
         {
@@ -761,7 +761,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         return JSP_MANAGE_USER;
     }
 
-    private String checkParameters( HttpServletRequest request ) throws AccessDeniedException
+    private String checkParameters( HttpServletRequest request, String jspUrl ) throws AccessDeniedException
     {
         String strAccessCode = request.getParameter( PARAMETER_ACCESS_CODE );
         String strLastName = request.getParameter( PARAMETER_LAST_NAME );
@@ -800,7 +800,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             return strError;
         }
 
-        if ( !SecurityTokenService.getInstance( ).validate( request, JSP_URL_CREATE_USER ) )
+        if ( !SecurityTokenService.getInstance( ).validate( request, jspUrl ) )
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
@@ -909,7 +909,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             throw new AccessDeniedException( MESSAGE_NOT_AUTHORIZED );
         }
 
-        String message = checkParameters( request );
+        String message = checkParameters( request, JSP_URL_MODIFY_USER );
 
         if ( message != null )
         {
