@@ -244,99 +244,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
             // The cache is enable !
             if ( _cachePages.isCacheEnable( ) )
             {
-                // Get request paramaters and store them in a HashMap
-                Enumeration<?> enumParam = request.getParameterNames( );
-                HashMap<String, String> htParamRequest = new HashMap<>( );
-                String paramName = "";
-
-                while ( enumParam.hasMoreElements( ) )
-                {
-                    paramName = (String) enumParam.nextElement( );
-                    htParamRequest.put( paramName, request.getParameter( paramName ) );
-                }
-
-                if ( !htParamRequest.containsKey( Parameters.PAGE_ID ) )
-                {
-                    htParamRequest.put( Parameters.PAGE_ID, strIdPage );
-                }
-
-                if ( !htParamRequest.containsKey( Parameters.BASE_URL ) )
-                {
-                    htParamRequest.put( Parameters.BASE_URL, AppPathService.getBaseUrl( request ) );
-                }
-
-                LuteceUser user = SecurityService.getInstance( ).getRegisteredUser( request );
-                String strUserTheme = ThemesService.getUserTheme( request );
-
-                if ( strUserTheme != null )
-                {
-                    htParamRequest.put( KEY_THEME, strUserTheme );
-                }
-
-                // we add the key in the memory key only if cache is enable
-                String strKey = getKey( htParamRequest, nMode, user );
-
-                // get page from cache
-                strPage = (String) _cachePages.getFromCache( strKey );
-
-                if ( strPage == null )
-                {
-                    // only one thread can evaluate the page
-                    synchronized ( strKey )
-                    {
-                        // can be useful if an other thread had evaluate the
-                        // page
-                        strPage = (String) _cachePages.getFromCache( strKey );
-
-                        // ignore checkstyle, this double verification is useful
-                        // when page cache has been created when thread is
-                        // blocked on synchronized
-                        if ( strPage == null )
-                        {
-                            Boolean bCanBeCached = Boolean.TRUE;
-
-                            AppLogService.debug( "Page generation " + strKey );
-
-                            RedirectionResponseWrapper response = new RedirectionResponseWrapper(
-                                    LocalVariables.getResponse( ) );
-
-                            LocalVariables.setLocal( LocalVariables.getConfig( ), LocalVariables.getRequest( ),
-                                    response );
-                            request.setAttribute( ATTRIBUTE_CORE_CAN_PAGE_BE_CACHED, null );
-                            // The key is not in the cache, so we have to build
-                            // the page
-                            strPage = buildPageContent( strIdPage, nMode, request, bCanBeCached );
-
-                            // We check if the page contains portlets that can not be cached.
-                            if ( ( request.getAttribute( ATTRIBUTE_CORE_CAN_PAGE_BE_CACHED ) != null )
-                                    && !(Boolean) request.getAttribute( ATTRIBUTE_CORE_CAN_PAGE_BE_CACHED ) )
-                            {
-                                bCanBeCached = Boolean.FALSE;
-                            }
-
-                            if ( response.getRedirectLocation( ) != null )
-                            {
-                                AppLogService.debug( "Redirection found " + response.getRedirectLocation( ) );
-                                strPage = REDIRECTION_KEY + response.getRedirectLocation( );
-                            }
-
-                            // Add the page to the cache if the page can be
-                            // cached
-                            if ( bCanBeCached.booleanValue( ) && ( nMode != MODE_ADMIN ) )
-                            {
-                                _cachePages.putInCache( strKey, strPage );
-                            }
-                        }
-                        else
-                        {
-                            AppLogService.debug( "Page read from cache after synchronisation " + strKey );
-                        }
-                    }
-                }
-                else
-                {
-                    AppLogService.debug( "Page read from cache " + strKey );
-                }
+                strPage = getCachedPage( strIdPage, nMode, request );
 
                 // redirection handling
                 if ( strPage.startsWith( REDIRECTION_KEY ) )
@@ -367,6 +275,109 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
 
             throw new PageNotFoundException( );
         }
+    }
+
+    private String getCachedPage( String strIdPage, int nMode, HttpServletRequest request ) throws SiteMessageException
+    {
+        // Get request paramaters and store them in a HashMap
+        Map<String, String> htParamRequest = readRequestParams( request, strIdPage );
+
+        LuteceUser user = SecurityService.getInstance( ).getRegisteredUser( request );
+
+        // we add the key in the memory key only if cache is enable
+        String strKey = getKey( htParamRequest, nMode, user );
+
+        // get page from cache
+        String strPage = (String) _cachePages.getFromCache( strKey );
+
+        if ( strPage == null )
+        {
+            // only one thread can evaluate the page
+            synchronized ( strKey )
+            {
+                // can be useful if an other thread had evaluate the
+                // page
+                strPage = (String) _cachePages.getFromCache( strKey );
+
+                // ignore checkstyle, this double verification is useful
+                // when page cache has been created when thread is
+                // blocked on synchronized
+                if ( strPage == null )
+                {
+                    Boolean bCanBeCached = Boolean.TRUE;
+
+                    AppLogService.debug( "Page generation " + strKey );
+
+                    RedirectionResponseWrapper response = new RedirectionResponseWrapper(
+                            LocalVariables.getResponse( ) );
+
+                    LocalVariables.setLocal( LocalVariables.getConfig( ), LocalVariables.getRequest( ), response );
+                    request.setAttribute( ATTRIBUTE_CORE_CAN_PAGE_BE_CACHED, null );
+                    // The key is not in the cache, so we have to build
+                    // the page
+                    strPage = buildPageContent( strIdPage, nMode, request, bCanBeCached );
+
+                    // We check if the page contains portlets that can not be cached.
+                    if ( Boolean.FALSE.equals( request.getAttribute( ATTRIBUTE_CORE_CAN_PAGE_BE_CACHED ) ) )
+                    {
+                        bCanBeCached = Boolean.FALSE;
+                    }
+
+                    if ( response.getRedirectLocation( ) != null )
+                    {
+                        AppLogService.debug( "Redirection found " + response.getRedirectLocation( ) );
+                        strPage = REDIRECTION_KEY + response.getRedirectLocation( );
+                    }
+
+                    // Add the page to the cache if the page can be
+                    // cached
+                    if ( bCanBeCached && ( nMode != MODE_ADMIN ) )
+                    {
+                        _cachePages.putInCache( strKey, strPage );
+                    }
+                }
+                else
+                {
+                    AppLogService.debug( "Page read from cache after synchronisation " + strKey );
+                }
+            }
+        }
+        else
+        {
+            AppLogService.debug( "Page read from cache " + strKey );
+        }
+
+        return strPage;
+    }
+
+    private Map<String, String> readRequestParams( HttpServletRequest request, String strIdPage )
+    {
+        Enumeration<?> enumParam = request.getParameterNames( );
+        Map<String, String> htParamRequest = new HashMap<>( );
+
+        while ( enumParam.hasMoreElements( ) )
+        {
+            String paramName = (String) enumParam.nextElement( );
+            htParamRequest.put( paramName, request.getParameter( paramName ) );
+        }
+
+        if ( !htParamRequest.containsKey( Parameters.PAGE_ID ) )
+        {
+            htParamRequest.put( Parameters.PAGE_ID, strIdPage );
+        }
+
+        if ( !htParamRequest.containsKey( Parameters.BASE_URL ) )
+        {
+            htParamRequest.put( Parameters.BASE_URL, AppPathService.getBaseUrl( request ) );
+        }
+
+        String strUserTheme = ThemesService.getUserTheme( request );
+
+        if ( strUserTheme != null )
+        {
+            htParamRequest.put( KEY_THEME, strUserTheme );
+        }
+        return htParamRequest;
     }
 
     /**
@@ -489,7 +500,8 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
     @Override
     public String getPageContent( int nIdPage, int nMode, HttpServletRequest request ) throws SiteMessageException
     {
-        Locale locale = Optional.ofNullable( request ).map( HttpServletRequest::getLocale ).orElse( LocaleService.getDefault( ) );
+        Locale locale = Optional.ofNullable( request ).map( HttpServletRequest::getLocale )
+                .orElse( LocaleService.getDefault( ) );
 
         String[] arrayContent = new String[MAX_COLUMNS];
 

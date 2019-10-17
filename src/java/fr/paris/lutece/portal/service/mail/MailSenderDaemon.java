@@ -58,6 +58,9 @@ public class MailSenderDaemon extends Daemon
 {
     protected static final String DAEMON_ID = "mailSender";
 
+    private static final String MESSAGE_ERROR_MAIL = "MailService - Error sending mail : ";
+    private static final String MESSAGE_STATUS_FAILED = " - Status [ Failed ] : ";
+    private static final String MESSAGE_ERROR_MAIL_MESSAGING = "MailService - Error sending mail (MessagingException): ";
     private static final String PROPERTY_MAIL_HOST = "mail.server";
     private static final String PROPERTY_MAIL_PORT = "mail.server.port";
     private static final String PROPERTY_MAIL_DEAMON_WAITTIME = "mail.daemon.waittime";
@@ -114,15 +117,15 @@ public class MailSenderDaemon extends Daemon
                 }
                 catch( MessagingException e )
                 {
-                    sbLogs.append( "MailService - Error sending mail (MessagingException): " );
+                    sbLogs.append( MESSAGE_ERROR_MAIL_MESSAGING );
                     sbLogs.append( e.getMessage( ) );
-                    AppLogService.error( "MailService - Error sending mail (MessagingException): " + e.getMessage( ), e );
+                    AppLogService.error( MESSAGE_ERROR_MAIL_MESSAGING + e.getMessage( ), e );
                 }
                 catch( Exception e )
                 {
-                    sbLogs.append( "MailService - Error sending mail : " );
+                    sbLogs.append( MESSAGE_ERROR_MAIL );
                     sbLogs.append( e.getMessage( ) );
-                    AppLogService.error( "MailService - Error sending mail : " + e.getMessage( ), e );
+                    AppLogService.error( MESSAGE_ERROR_MAIL + e.getMessage( ), e );
                 }
             }
 
@@ -269,17 +272,17 @@ public class MailSenderDaemon extends Daemon
         catch( SendFailedException | AddressException e )
         {
             // a wrongly formatted address is encountered in the list of recipients
-            sbLogsLine.append( " - Status [ Failed ] : " );
+            sbLogsLine.append( MESSAGE_STATUS_FAILED );
             sbLogsLine.append( e.getMessage( ) );
-            AppLogService.error( "MailService - Error sending mail : " + e.getMessage( ), e );
+            AppLogService.error( MESSAGE_ERROR_MAIL + e.getMessage( ), e );
         }
         catch( MessagingException e )
         {
             // if the connection is dead or not in the connected state
             // we put the mail in the queue before end process
-            sbLogsLine.append( " - Status [ Failed ] : " );
+            sbLogsLine.append( MESSAGE_STATUS_FAILED );
             sbLogsLine.append( e.getMessage( ) );
-            AppLogService.error( "MailService - Error sending mail : " + e.getMessage( ), e );
+            AppLogService.error( MESSAGE_ERROR_MAIL + e.getMessage( ), e );
             throw e;
         }
     }

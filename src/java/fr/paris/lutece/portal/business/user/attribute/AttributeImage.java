@@ -328,8 +328,8 @@ public class AttributeImage extends AbstractAttribute
                 }
 
                 listUserFields = AdminUserFieldHome.findByFilter( auFieldFilter );
-                listUserFields.stream( ).filter( a -> a.getFile( ) != null )
-                        .forEach( userField ->
+                listUserFields.stream( ).filter(  a -> a.getFile( ) != null )
+                        .forEach( ( AdminUserField userField )->
                         {
                             File file = FileHome.findByPrimaryKey( userField.getFile( ).getIdFile( ) );
                             userField.setFile( file );

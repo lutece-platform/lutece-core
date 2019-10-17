@@ -79,7 +79,7 @@ public class AdminHomePageManagementComponent extends AdminDashboardComponent
 
         for ( List<IDashboardComponent> listComponents : mapDashboards.values( ) )
         {
-            listComponents = I18nService.localizeCollection( listComponents, user.getLocale( ) );
+           I18nService.localizeCollection( listComponents, user.getLocale( ) );
         }
 
         model.put( MARK_MAP_DASHBOARDS, mapDashboards );

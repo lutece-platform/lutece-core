@@ -317,31 +317,7 @@ public final class IndexationService
             // catch any exception coming from an indexer to prevent global indexation to fail
             try
             {
-                SearchIndexer indexer = _mapIndexers.get( action.getIndexerName( ) );
-
-                if ( action.getIdTask( ) == IndexerAction.TASK_DELETE )
-                {
-                    deleteDocument( action );
-                }
-                else
-                {
-                    List<Document> luceneDocuments = indexer.getDocuments( action.getIdDocument( ) );
-
-                    if ( CollectionUtils.isNotEmpty( luceneDocuments ) )
-                    {
-                        for ( Document doc : luceneDocuments )
-                        {
-                            if ( ( action.getIdPortlet( ) == ALL_DOCUMENT )
-                                    || ( ( doc.get( SearchItem.FIELD_DOCUMENT_PORTLET_ID ) != null ) && ( doc.get( SearchItem.FIELD_DOCUMENT_PORTLET_ID )
-                                            .equals( doc.get( SearchItem.FIELD_UID ) + "&" + action.getIdPortlet( ) ) ) ) )
-                            {
-                                processDocument( action, doc );
-                            }
-                        }
-                    }
-                }
-
-                removeIndexerAction( action.getIdAction( ) );
+                processIndexAction( action );
             }
             catch( Exception e )
             {
@@ -352,6 +328,35 @@ public final class IndexationService
         // reindexing all pages.
         _writer.deleteDocuments( new Term( SearchItem.FIELD_TYPE, PARAM_TYPE_PAGE ) );
         _mapIndexers.get( PageIndexer.INDEXER_NAME ).indexDocuments( );
+    }
+    
+    private static void processIndexAction( IndexerAction action ) throws IOException, InterruptedException, SiteMessageException
+    {
+        SearchIndexer indexer = _mapIndexers.get( action.getIndexerName( ) );
+
+        if ( action.getIdTask( ) == IndexerAction.TASK_DELETE )
+        {
+            deleteDocument( action );
+        }
+        else
+        {
+            List<Document> luceneDocuments = indexer.getDocuments( action.getIdDocument( ) );
+
+            if ( CollectionUtils.isNotEmpty( luceneDocuments ) )
+            {
+                for ( Document doc : luceneDocuments )
+                {
+                    if ( ( action.getIdPortlet( ) == ALL_DOCUMENT )
+                            || ( ( doc.get( SearchItem.FIELD_DOCUMENT_PORTLET_ID ) != null ) && ( doc.get( SearchItem.FIELD_DOCUMENT_PORTLET_ID )
+                                    .equals( doc.get( SearchItem.FIELD_UID ) + "&" + action.getIdPortlet( ) ) ) ) )
+                    {
+                        processDocument( action, doc );
+                    }
+                }
+            }
+        }
+
+        removeIndexerAction( action.getIdAction( ) );
     }
     
     /**
