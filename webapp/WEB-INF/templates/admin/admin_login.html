@@ -1,8 +1,8 @@
 <#assign boxTitle>#i18n{portal.admin.admin_login.boxTitle}</#assign>
 <@adminLoginPage title=boxTitle>
     <@tform name='login' id='login' action='${do_admin_login_url}'>
-    <input type="hidden" name="token" value="${token}">
-    <#list params_list as param><input type="hidden" name="${param.code}" value="${param.name}"></#list>
+    <@input type='hidden' name='token' value='${token}' />
+    <#list params_list as param><@input type='hidden' name='${param.code}' value='${param.name}' /></#list>
     <@formGroup labelFor='access_code' labelKey='${i18n("portal.admin.admin_login.loginLabel")}' mandatory=true rows=2>
         <@inputGroup>
             <@inputGroupItem type='addon'><@icon style='user' /></@inputGroupItem>

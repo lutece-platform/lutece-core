@@ -1,7 +1,7 @@
 <#assign boxTitle>#i18n{portal.admin.admin_forgot_login.boxTitle}</#assign>
 <@adminLoginPage title=boxTitle>
 <@tform name='forgot_login' id='forgot_login' action='jsp/admin/DoAdminForgotLogin.jsp'>
-	<#list params_list as param><input type="hidden" name="${param.code}" value="${param.name}"></#list>
+	<#list params_list as param><@input type='hidden' name='${param.code}' value='${param.name}'></#list>
 	<@formGroup labelFor='email' labelKey='#i18n{portal.admin.admin_login.emailLabel}' showLabel=false rows=2>
 		<@inputGroup>
 			<@inputGroupItem type='addon'><@icon style='envelope' /></@inputGroupItem>
