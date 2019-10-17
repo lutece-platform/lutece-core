@@ -153,7 +153,7 @@ public final class AppDaemonService
         // init onStartup value if no exists
         if ( !DatastoreService.existsInstanceKey( strOnStartupKey ) )
         {
-            strOnStartupDefaultValue = AppPropertiesService.getProperty( "daemon." + entry.getId( ) + PROPERTY_DAEMON_ON_STARTUP, "0" ).equals( "1" )
+            strOnStartupDefaultValue = AppPropertiesService.getProperty( "daemon." + entry.getId( ) + ".onstartup", "0" ).equals( "1" )
                     ? DatastoreService.VALUE_TRUE
                     : DatastoreService.VALUE_FALSE;
             DatastoreService.setInstanceDataValue( strOnStartupKey, strOnStartupDefaultValue );
