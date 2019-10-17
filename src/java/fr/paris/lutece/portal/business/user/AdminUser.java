@@ -35,6 +35,7 @@ package fr.paris.lutece.portal.business.user;
 
 import fr.paris.lutece.portal.business.rbac.AdminRole;
 import fr.paris.lutece.portal.business.right.Right;
+import fr.paris.lutece.portal.business.user.attribute.IAttribute;
 import fr.paris.lutece.portal.business.user.authentication.AdminAuthentication;
 import fr.paris.lutece.portal.business.user.parameter.EmailPatternRegularExpressionRemovalListener;
 import fr.paris.lutece.portal.service.regularexpression.RegularExpressionRemovalListenerService;
@@ -77,6 +78,7 @@ public class AdminUser implements Serializable, AdminWorkgroupResource
     private Timestamp _accountMaxValidDate;
     private Timestamp _dateLastLogin;
     private String _strWorkgroupKey;
+    private HashMap<String, Object> _userInfo = new HashMap<String, Object>( );
 
     /**
      * User's rights. We use a HashMap instead of a Map so that the field is forced to be serializable.
@@ -638,6 +640,42 @@ public class AdminUser implements Serializable, AdminWorkgroupResource
         return _strWorkgroupKey;
     }
 
+    /**
+     * Sets a user info for the given key.
+     * 
+     * User infos are intended to be lightweight attributes that do not expose a
+     * UI, by opposition the {@link IAttribute} system. The user infos are not
+     * persisted. Subclasses can choose another strategy.
+     * 
+     * @param strKey
+     *            the key
+     * @param info
+     *            the info
+     * @return the previous value associated with <tt>strKey</tt>, or
+     *         <tt>null</tt> if there was no mapping for <tt>strKey</tt>. (A
+     *         <tt>null</tt> return can also indicate that <tt>null</tt> was
+     *         previously associated with <tt>strKey</tt>)
+     * @since 6.2.0
+     */
+    public Object setUserInfo( String strKey, Object info )
+    {
+        return _userInfo.put( strKey, info );
+    }
+
+    /**
+     * Gets the user info for a given key
+     * 
+     * @param strKey
+     *            the key
+     * @return the info
+     * @since 6.2.0
+     * @see #setUserInfo(String, Object)
+     */
+    public Object getUserInfo( String strKey )
+    {
+        return _userInfo.get( strKey );
+    }
+        
     public static Timestamp getDefaultDateLastLogin( )
     {
         return new Timestamp( DEFAULT_DATE_LAST_LOGIN.getTime( ) );

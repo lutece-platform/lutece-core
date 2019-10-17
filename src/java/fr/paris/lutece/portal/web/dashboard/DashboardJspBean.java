@@ -110,7 +110,7 @@ public class DashboardJspBean extends AdminFeaturesPageJspBean
         }
         if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_MANAGE_DASHBOARDS ) )
         {
-            throw new AccessDeniedException( "Invalid security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
         _service.doReorderColumn( nColumn );
 
@@ -164,7 +164,7 @@ public class DashboardJspBean extends AdminFeaturesPageJspBean
         }
         if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_MANAGE_DASHBOARDS ) )
         {
-            throw new AccessDeniedException( "Invalid security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
         // set order and column
         String strOrder = request.getParameter( PARAMETER_DASHBOARD_ORDER );

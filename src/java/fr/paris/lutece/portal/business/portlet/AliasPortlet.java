@@ -50,7 +50,8 @@ public class AliasPortlet extends Portlet
     private int _nAliasId;
 
     /**
-     * Sets the identifier of the portlet type to the value specified in the AliasPortletHome class
+     * Sets the identifier of the portlet type to the value specified in the
+     * AliasPortletHome class
      */
     public AliasPortlet( )
     {
@@ -60,8 +61,7 @@ public class AliasPortlet extends Portlet
     /**
      * Sets the alias identifier of the portlet with the specified int value
      *
-     * @param nAliasId
-     *            the Alias identifier
+     * @param nAliasId the Alias identifier
      */
     public void setAliasId( int nAliasId )
     {
@@ -91,10 +91,10 @@ public class AliasPortlet extends Portlet
     /**
      * Returns the html content code of the Alias portlet
      *
-     * @param request
-     *            The HTTP servlet request
+     * @param request The HTTP servlet request
      * @return the Html content code of the Alias portlet content
      */
+    @Override
     public String getHtmlContent( HttpServletRequest request )
     {
         Portlet portlet = PortletHome.findByPrimaryKey( getAliasId( ) );
@@ -104,11 +104,9 @@ public class AliasPortlet extends Portlet
     /**
      * Returns the Xml code of the Alias portlet without XML heading
      *
-     * @param request
-     *            The HTTP servlet request
+     * @param request The HTTP servlet request
      * @return the Xml code of the Alias portlet content
-     * @throws SiteMessageException
-     *             occurs when a site message need to be displayed
+     * @throws SiteMessageException occurs when a site message need to be displayed
      */
     public String getXml( HttpServletRequest request ) throws SiteMessageException
     {
@@ -132,11 +130,9 @@ public class AliasPortlet extends Portlet
     /**
      * Returns the Xml code of the Alias portlet with XML heading
      *
-     * @param request
-     *            The HTTP Servlet request
+     * @param request The HTTP Servlet request
      * @return the Xml code of the Alias portlet
-     * @throws SiteMessageException
-     *             occurs when a site message need to be displayed
+     * @throws SiteMessageException occurs when a site message need to be displayed
      */
     public String getXmlDocument( HttpServletRequest request ) throws SiteMessageException
     {
@@ -144,10 +140,12 @@ public class AliasPortlet extends Portlet
     }
 
     /**
-     * Gets the XSl parameters of the alias portlet and returns them in form of a dictionnary
+     * Gets the XSl parameters of the alias portlet and returns them in form of a
+     * dictionnary
      *
      * @return the Xsl params
      */
+    @Override
     public Map<String, String> getXslParams( )
     {
 

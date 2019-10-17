@@ -150,7 +150,7 @@ public class LuteceDefaultAdminAuthentication implements AdminAuthentication
     @Override
     public void logout( AdminUser user )
     {
-        // TODO Auto-generated method stub
+        // Nothing
     }
 
     /**
@@ -159,7 +159,6 @@ public class LuteceDefaultAdminAuthentication implements AdminAuthentication
     @Override
     public AdminUser getAnonymousUser( )
     {
-        // TODO Auto-generated method stub
         return null;
     }
 
@@ -205,7 +204,6 @@ public class LuteceDefaultAdminAuthentication implements AdminAuthentication
     @Override
     public String getDoLoginUrl( )
     {
-        // TODO Auto-generated method stub
         return null;
     }
 
@@ -215,7 +213,6 @@ public class LuteceDefaultAdminAuthentication implements AdminAuthentication
     @Override
     public String getDoLogoutUrl( )
     {
-        // TODO Auto-generated method stub
         return null;
     }
 
@@ -225,7 +222,6 @@ public class LuteceDefaultAdminAuthentication implements AdminAuthentication
     @Override
     public String getNewAccountPageUrl( )
     {
-        // TODO Auto-generated method stub
         return null;
     }
 
@@ -235,7 +231,6 @@ public class LuteceDefaultAdminAuthentication implements AdminAuthentication
     @Override
     public String getViewAccountPageUrl( )
     {
-        // TODO Auto-generated method stub
         return null;
     }
 

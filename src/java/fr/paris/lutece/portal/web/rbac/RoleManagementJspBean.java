@@ -280,7 +280,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
         }
         if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_CREATE_ROLE ) )
         {
-            throw new AccessDeniedException( "Invalid security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
 
         AdminRole role = new AdminRole( );
@@ -317,7 +317,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
         {
             if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_VIEW_ROLE_DESCRIPTION ) )
             {
-                throw new AccessDeniedException( "Invalid security token" );
+                throw new AccessDeniedException( ERROR_INVALID_TOKEN );
             }
             // update the role
             AdminRole role = AdminRoleHome.findByPrimaryKey( strOldRoleKey );
@@ -334,7 +334,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
             }
             if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_VIEW_ROLE_DESCRIPTION ) )
             {
-                throw new AccessDeniedException( "Invalid security token" );
+                throw new AccessDeniedException( ERROR_INVALID_TOKEN );
             }
 
             // update the role
@@ -401,7 +401,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
         {
             if ( !SecurityTokenService.getInstance( ).validate( request, JSP_URL_REMOVE_ROLE ) )
             {
-                throw new AccessDeniedException( "Invalid security token" );
+                throw new AccessDeniedException( ERROR_INVALID_TOKEN );
             }
             // remove role
             AdminRoleHome.remove( strRoleKey );
@@ -480,7 +480,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
     {
         if ( !SecurityTokenService.getInstance( ).validate( request, JSP_URL_REMOVE_CONTROL_FROM_ROLE ) )
         {
-            throw new AccessDeniedException( "Invalid security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
         String strIdControl = request.getParameter( PARAMETER_RBAC_ID );
         int nId = Integer.parseInt( strIdControl );
@@ -808,7 +808,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
 
         if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_SELECT_PERMISSIONS ) )
         {
-            throw new AccessDeniedException( "Invalid security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
 
         // store the selected elements in database
@@ -965,7 +965,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
     {
         if ( !SecurityTokenService.getInstance( ).validate( request, JSP_ASSIGN_USERS_TO_ROLE ) )
         {
-            throw new AccessDeniedException( "Invalid security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
         String strRoleKey = request.getParameter( PARAMETER_ROLE_KEY );
 
@@ -1002,7 +1002,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
     {
         if ( !SecurityTokenService.getInstance( ).validate( request, JSP_ASSIGN_USERS_TO_ROLE ) )
         {
-            throw new AccessDeniedException( "Invalid security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
         String strRoleKey = request.getParameter( PARAMETER_ROLE_KEY );
         int nIdUser = Integer.parseInt( request.getParameter( PARAMETER_ID_USER ) );

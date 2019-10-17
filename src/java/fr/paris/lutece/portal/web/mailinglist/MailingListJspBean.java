@@ -122,7 +122,6 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
     private static final String JSP_URL_MANAGE_MAILINGLISTS = "jsp/admin/mailinglist/ManageMailingLists.jsp";
     private MailingListFilter _mailingListFilter;
     private int _nItemsPerPage;
-    private int _nDefaultItemsPerPage;
     private String _strCurrentPageIndex;
 
     /**
@@ -164,8 +163,8 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
 
         // Paginator
         _strCurrentPageIndex = AbstractPaginator.getPageIndex( request, AbstractPaginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex );
-        _nDefaultItemsPerPage = AppPropertiesService.getPropertyInt( PROPERTY_MAILINGLIST_PER_PAGE, 50 );
-        _nItemsPerPage = AbstractPaginator.getItemsPerPage( request, AbstractPaginator.PARAMETER_ITEMS_PER_PAGE, _nItemsPerPage, _nDefaultItemsPerPage );
+        int defaultItemsPerPage = AppPropertiesService.getPropertyInt( PROPERTY_MAILINGLIST_PER_PAGE, 50 );
+        _nItemsPerPage = AbstractPaginator.getItemsPerPage( request, AbstractPaginator.PARAMETER_ITEMS_PER_PAGE, _nItemsPerPage, defaultItemsPerPage );
 
         UrlItem url = new UrlItem( AppPathService.getBaseUrl( request ) + JSP_URL_MANAGE_MAILINGLISTS );
         url.addParameter( Parameters.SORTED_ATTRIBUTE_NAME, strSortedAttributeName );
@@ -233,7 +232,7 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
         }
         if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_CREATE_MAILINGLIST ) )
         {
-            throw new AccessDeniedException( "Invalid security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
 
         MailingListHome.create( mailinglist );
@@ -310,7 +309,7 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
         }
         if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_MODIFY_MAILINGLIST ) )
         {
-            throw new AccessDeniedException( "Invalid security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
 
         MailingListHome.update( mailinglist );
@@ -360,7 +359,7 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
     {
         if ( !SecurityTokenService.getInstance( ).validate( request, JSP_URL_REMOVE_MAILINGLIST ) )
         {
-            throw new AccessDeniedException( "Invalid security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
         String strId = request.getParameter( PARAMETER_MAILINGLIST_ID );
         int nId = Integer.parseInt( strId );
@@ -463,7 +462,7 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
         {
             if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_ADD_USERS ) )
             {
-                throw new AccessDeniedException( "Invalid security token" );
+                throw new AccessDeniedException( ERROR_INVALID_TOKEN );
             }
             MailingListHome.addFilterToMailingList( filter, nId );
 
@@ -490,7 +489,7 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
     {
         if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_MODIFY_MAILINGLIST ) )
         {
-            throw new AccessDeniedException( "Invalid security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
 
         String strId = request.getParameter( PARAMETER_MAILINGLIST_ID );

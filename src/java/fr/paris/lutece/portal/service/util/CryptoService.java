@@ -36,6 +36,7 @@ package fr.paris.lutece.portal.service.util;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -176,15 +177,7 @@ public final class CryptoService
      */
     public static String hmacSHA256( String message )
     {
-        byte[] keyBytes;
-        try
-        {
-            keyBytes = getCryptoKey( ).getBytes( "UTF-8" );
-        }
-        catch ( UnsupportedEncodingException e )
-        {
-            throw new AppException( "UTF-8 should be supported", e );
-        }
+        byte[] keyBytes = getCryptoKey( ).getBytes( StandardCharsets.UTF_8 );
         final String strAlg = "HmacSHA256";
         SecretKeySpec key = new SecretKeySpec( keyBytes, strAlg );
 
@@ -193,7 +186,7 @@ public final class CryptoService
             Mac mac = Mac.getInstance( strAlg );
             mac.init( key );
 
-            return byteToHex( mac.doFinal( message.getBytes( "UTF-8" ) ) );
+            return byteToHex( mac.doFinal( message.getBytes( StandardCharsets.UTF_8 ) ) );
         }
         catch ( NoSuchAlgorithmException e )
         {
@@ -207,10 +200,6 @@ public final class CryptoService
         catch ( IllegalStateException e )
         {
             throw new AppException( e.getMessage( ), e );
-        }
-        catch ( UnsupportedEncodingException e )
-        {
-            throw new AppException( "UTF-8 should be supported", e );
         }
     }
 

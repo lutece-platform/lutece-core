@@ -43,6 +43,7 @@ import java.security.Principal;
 
 import java.util.Collection;
 import java.util.Enumeration;
+import java.util.List;
 
 import javax.security.auth.login.LoginException;
 
@@ -95,7 +96,8 @@ public final class SecurityService
             {
                 _bEnable = true;
             }
-        } else
+        }
+        else
         {
             // in case authentication is disabled after having been enabled
             _authenticationService = null;
@@ -148,7 +150,8 @@ public final class SecurityService
                 }
 
                 registerUser( request, user );
-            } else
+            }
+            else
             {
                 throw new UserNotSignedException( );
             }
@@ -183,12 +186,34 @@ public final class SecurityService
         try
         {
             user = getRemoteUser( request );
-        } catch ( UserNotSignedException e )
+        }
+        catch ( UserNotSignedException e )
         {
             return false;
         }
 
         return _authenticationService.isUserInRole( user, request, strRole );
+    }
+    
+    /**
+     * Checks if the user is associated to a at least a role
+     * 
+     * @param request The Http request
+     * @param listRoles The Role list
+     * @return Returns true if the user is associated to any role
+     */
+    public boolean isUserInAnyRole( HttpServletRequest request, List<String> listRoles )
+    {
+        boolean bAutorized = false;
+        for ( String strRole : listRoles )
+        {
+            if ( isUserInRole( request, strRole ) )
+            {
+                bAutorized = true;
+                break;
+            }
+        }
+        return bAutorized;
     }
 
     /**
@@ -239,7 +264,8 @@ public final class SecurityService
         try
         {
             user = getRemoteUser( request );
-        } catch ( UserNotSignedException e )
+        }
+        catch ( UserNotSignedException e )
         {
             return;
         }
@@ -266,7 +292,8 @@ public final class SecurityService
             {
                 authentication = (LuteceAuthentication) Class.forName( strAuthenticationClass ).newInstance( );
                 AppLogService.info( "Authentication service loaded : " + authentication.getAuthServiceName( ) );
-            } catch ( InstantiationException | IllegalAccessException | ClassNotFoundException e )
+            }
+            catch ( InstantiationException | IllegalAccessException | ClassNotFoundException e )
             {
                 throw new LuteceInitException( "Error instantiating Authentication Class", e );
             }
@@ -475,12 +502,7 @@ public final class SecurityService
             }
         }
 
-        if ( url.getUrl( ).endsWith( getLoginPageUrl( ) ) && !getLoginPageUrl( ).equals( "" ) )
-        {
-            return true;
-        }
-
-        return false;
+        return url.getUrl( ).endsWith( getLoginPageUrl( ) ) && !getLoginPageUrl( ).equals( "" );
     }
 
     /**

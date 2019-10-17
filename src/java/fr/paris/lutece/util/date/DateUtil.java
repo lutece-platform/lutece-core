@@ -65,7 +65,6 @@ public final class DateUtil
     // /////////////////////////////////////////////////////////////////////////
     // methods using a long value
 
-    // TODO : Create a new getDateTimeString( ) function with locale
     /**
      * Converts a long value to a String date in a "jj/mm/aaaa hh:mm" format
      *

@@ -61,6 +61,11 @@ import fr.paris.lutece.util.html.HtmlTemplate;
  */
 public class AccountLifeTimeDaemon extends Daemon
 {
+    private static final String MESSAGE_DAEMON_NAME = "AccountLifeTimeDaemon - ";
+    private static final String MESSAGE_NO_TEXT = "No next alert to send";
+    private static final String MESSAGE_EXPIRED = "No expired passwords";
+    private static final String MESSAGE_NO_NOTIF = "Expired passwords notification deactivated, skipping";
+    private static final String MESSAGE_EXPIRED_USER = "No expired admin user found";
     private static final String PARAMETER_TIME_BEFORE_ALERT_ACCOUNT = "time_before_alert_account";
     private static final String PARAMETER_NB_ALERT_ACCOUNT = "nb_alert_account";
     private static final String PARAMETER_TIME_BETWEEN_ALERTS_ACCOUNT = "time_between_alerts_account";
@@ -87,17 +92,30 @@ public class AccountLifeTimeDaemon extends Daemon
     /**
      * {@inheritDoc}
      */
-    @SuppressWarnings( "deprecation" )
     @Override
     public void run( )
     {
-        StringBuilder sbLogs = null;
         StringBuilder sbResult = new StringBuilder( );
-
         Timestamp currentTimestamp = new Timestamp( new java.util.Date( ).getTime( ) );
-        List<Integer> accountsToSetAsExpired = AdminUserHome.getIdUsersWithExpiredLifeTimeList( currentTimestamp );
-
+       
         // We first set as expirated user that have reached their life time limit
+        runSetExpiredUser( currentTimestamp, sbResult );
+
+        // We send first alert to users
+        runExpiringUserAlert( currentTimestamp, sbResult );
+
+        // We send other alert to users
+        runOtherUserAlert( currentTimestamp, sbResult );
+        
+        // We notify users with expired passwords
+        runExpiredPassword( currentTimestamp, sbResult );
+
+        setLastRunLogs( sbResult.toString( ) );
+    }
+    
+    private void runSetExpiredUser( Timestamp currentTimestamp, StringBuilder sbResult )
+    {
+        List<Integer> accountsToSetAsExpired = AdminUserHome.getIdUsersWithExpiredLifeTimeList( currentTimestamp );
         if ( CollectionUtils.isNotEmpty( accountsToSetAsExpired ) )
         {
             int nbAccountToExpire = accountsToSetAsExpired.size( );
@@ -109,33 +127,13 @@ public class AccountLifeTimeDaemon extends Daemon
             defaultUserParameter = DefaultUserParameterHome.findByKey( PARAMETER_EXPIRED_ALERT_MAIL_SUBJECT );
 
             String strSubject = ( defaultUserParameter == null ) ? StringUtils.EMPTY : defaultUserParameter;
-
-            for ( Integer nIdUser : accountsToSetAsExpired )
-            {
-                try
-                {
-                    AdminUser user = AdminUserHome.findByPrimaryKey( nIdUser );
-                    String strUserMail = user.getEmail( );
-
-                    if ( ( strUserMail != null ) && StringUtils.isNotBlank( strUserMail ) )
-                    {
-                        Map<String, String> model = new HashMap<>( );
-                        addParametersToModel( model, nIdUser );
-
-                        HtmlTemplate template = AppTemplateService.getTemplateFromStringFtl( strBody, user.getLocale( ), model );
-                        MailService.sendMailHtml( strUserMail, strSender, strSender, strSubject, template.getHtml( ) );
-                    }
-                }
-                catch( Exception e )
-                {
-                    AppLogService.error( "AccountLifeTimeDaemon - Error sending expiration alert to admin user : " + e.getMessage( ), e );
-                }
-            }
+            
+            sendMailAlerts( accountsToSetAsExpired, "expiration", strBody, strSender, strSubject );
 
             AdminUserHome.updateUserStatus( accountsToSetAsExpired, AdminUser.EXPIRED_CODE );
 
-            sbLogs = new StringBuilder( );
-            sbLogs.append( "AccountLifeTimeDaemon - " );
+            StringBuilder sbLogs  = new StringBuilder( );
+            sbLogs.append( MESSAGE_DAEMON_NAME );
             sbLogs.append( Integer.toString( nbAccountToExpire ) );
             sbLogs.append( " account(s) have expired" );
             AppLogService.info( sbLogs.toString( ) );
@@ -144,22 +142,23 @@ public class AccountLifeTimeDaemon extends Daemon
         }
         else
         {
-            AppLogService.info( "AccountLifeTimeDaemon - No expired admin user found" );
-            sbResult.append( "AccountLifeTimeDaemon - No expired admin user found\n" );
+            AppLogService.info( MESSAGE_DAEMON_NAME + MESSAGE_EXPIRED_USER );
+            sbResult.append( MESSAGE_DAEMON_NAME + MESSAGE_EXPIRED_USER );
         }
-
-        // We send first alert to users
+    }
+    
+    private void runExpiringUserAlert( Timestamp currentTimestamp, StringBuilder sbResult )
+    {
         long nbDaysBeforeFirstAlert = AdminUserService.getIntegerSecurityParameter( PARAMETER_TIME_BEFORE_ALERT_ACCOUNT );
-
-        Timestamp firstAlertMaxDate = new Timestamp( currentTimestamp.getTime( ) + DateUtil.convertDaysInMiliseconds( nbDaysBeforeFirstAlert ) );
 
         if ( nbDaysBeforeFirstAlert <= 0 )
         {
-            AppLogService.info( "AccountLifeTimeDaemon - First alert deactivated, skipping" );
-            sbResult.append( "AccountLifeTimeDaemon - First alert deactivated, skipping\n" );
+            AppLogService.info( MESSAGE_DAEMON_NAME + MESSAGE_NO_NOTIF );
+            sbResult.append( MESSAGE_DAEMON_NAME + MESSAGE_NO_NOTIF );
         }
         else
         {
+            Timestamp firstAlertMaxDate = new Timestamp( currentTimestamp.getTime( ) + DateUtil.convertDaysInMiliseconds( nbDaysBeforeFirstAlert ) );
             List<Integer> userIdListToSendFirstAlert = AdminUserHome.getIdUsersToSendFirstAlert( firstAlertMaxDate );
 
             if ( CollectionUtils.isNotEmpty( userIdListToSendFirstAlert ) )
@@ -173,40 +172,18 @@ public class AccountLifeTimeDaemon extends Daemon
                 defaultUserParameter = DefaultUserParameterHome.findByKey( PARAMETER_FIRST_ALERT_MAIL_SUBJECT );
 
                 String strSubject = ( defaultUserParameter == null ) ? StringUtils.EMPTY : defaultUserParameter;
-
-                for ( Integer nIdUser : userIdListToSendFirstAlert )
-                {
-                    try
-                    {
-                        AdminUser user = AdminUserHome.findByPrimaryKey( nIdUser );
-                        String strUserMail = user.getEmail( );
-
-                        if ( ( strUserMail != null ) && StringUtils.isNotBlank( strUserMail ) )
-                        {
-                            Map<String, String> model = new HashMap<>( );
-                            addParametersToModel( model, nIdUser );
-
-                            HtmlTemplate template = AppTemplateService.getTemplateFromStringFtl( strBody, user.getLocale( ), model );
-                            MailService.sendMailHtml( strUserMail, strSender, strSender, strSubject, template.getHtml( ) );
-                        }
-                    }
-                    catch( Exception e )
-                    {
-                        AppLogService.error( "AccountLifeTimeDaemon - Error sending first alert to admin user : " + e.getMessage( ), e );
-                    }
-                }
+                
+                sendMailAlerts( userIdListToSendFirstAlert, "first", strBody, strSender, strSubject );
 
                 AdminUserHome.updateNbAlert( userIdListToSendFirstAlert );
 
-                sbLogs = new StringBuilder( );
-                sbLogs.append( "AccountLifeTimeDaemon - " );
+                StringBuilder sbLogs = new StringBuilder( );
+                sbLogs.append( MESSAGE_DAEMON_NAME );
                 sbLogs.append( Integer.toString( nbFirstAlertSent ) );
                 sbLogs.append( " first alert(s) have been sent" );
                 AppLogService.info( sbLogs.toString( ) );
                 sbResult.append( sbLogs.toString( ) );
                 sbResult.append( "\n" );
-
-                userIdListToSendFirstAlert = null;
             }
             else
             {
@@ -214,10 +191,13 @@ public class AccountLifeTimeDaemon extends Daemon
                 sbResult.append( "AccountLifeTimeDaemon - No first alert to send\n" );
             }
         }
-
-        // We send other alert to users
+    }
+    
+    private void runOtherUserAlert( Timestamp currentTimestamp, StringBuilder sbResult )
+    {
         int maxNumberOfAlerts = AdminUserService.getIntegerSecurityParameter( PARAMETER_NB_ALERT_ACCOUNT );
         int nbDaysBetweenAlerts = AdminUserService.getIntegerSecurityParameter( PARAMETER_TIME_BETWEEN_ALERTS_ACCOUNT );
+        long nbDaysBeforeFirstAlert = AdminUserService.getIntegerSecurityParameter( PARAMETER_TIME_BEFORE_ALERT_ACCOUNT );
         Timestamp timeBetweenAlerts = new Timestamp( DateUtil.convertDaysInMiliseconds( nbDaysBetweenAlerts ) );
 
         if ( ( maxNumberOfAlerts <= 0 ) || ( nbDaysBetweenAlerts <= 0 ) )
@@ -227,6 +207,7 @@ public class AccountLifeTimeDaemon extends Daemon
         }
         else
         {
+            Timestamp firstAlertMaxDate = new Timestamp( currentTimestamp.getTime( ) + DateUtil.convertDaysInMiliseconds( nbDaysBeforeFirstAlert ) );
             List<Integer> userIdListToSendNextAlert = AdminUserHome.getIdUsersToSendOtherAlert( firstAlertMaxDate, timeBetweenAlerts, maxNumberOfAlerts );
 
             if ( CollectionUtils.isNotEmpty( userIdListToSendNextAlert ) )
@@ -240,47 +221,28 @@ public class AccountLifeTimeDaemon extends Daemon
                 defaultUserParameter = DefaultUserParameterHome.findByKey( PARAMETER_OTHER_ALERT_MAIL_SUBJECT );
 
                 String strSubject = ( defaultUserParameter == null ) ? StringUtils.EMPTY : defaultUserParameter;
-
-                for ( Integer nIdUser : userIdListToSendNextAlert )
-                {
-                    try
-                    {
-                        AdminUser user = AdminUserHome.findByPrimaryKey( nIdUser );
-                        String strUserMail = user.getEmail( );
-
-                        if ( ( strUserMail != null ) && StringUtils.isNotBlank( strUserMail ) )
-                        {
-                            Map<String, String> model = new HashMap<>( );
-                            addParametersToModel( model, nIdUser );
-
-                            HtmlTemplate template = AppTemplateService.getTemplateFromStringFtl( strBody, user.getLocale( ), model );
-                            MailService.sendMailHtml( strUserMail, strSender, strSender, strSubject, template.getHtml( ) );
-                        }
-                    }
-                    catch( Exception e )
-                    {
-                        AppLogService.error( "AccountLifeTimeDaemon - Error sending next alert to admin user : " + e.getMessage( ), e );
-                    }
-                }
+                
+                sendMailAlerts( userIdListToSendNextAlert, "next", strBody, strSender, strSubject );
 
                 AdminUserHome.updateNbAlert( userIdListToSendNextAlert );
 
-                sbLogs = new StringBuilder( );
-                sbLogs.append( "AccountLifeTimeDaemon - " );
+                StringBuilder sbLogs = new StringBuilder( );
+                sbLogs.append( MESSAGE_DAEMON_NAME );
                 sbLogs.append( Integer.toString( nbOtherAlertSent ) );
                 sbLogs.append( " next alert(s) have been sent" );
                 AppLogService.info( sbLogs.toString( ) );
                 sbResult.append( sbLogs.toString( ) );
-
-                userIdListToSendNextAlert = null;
             }
             else
             {
-                AppLogService.info( "AccountLifeTimeDaemon - No next alert to send" );
-                sbResult.append( "AccountLifeTimeDaemon - No next alert to send" );
+                AppLogService.info( MESSAGE_DAEMON_NAME + MESSAGE_NO_TEXT );
+                sbResult.append( MESSAGE_DAEMON_NAME + MESSAGE_NO_TEXT );
             }
         }
-
+    }
+    
+    private void runExpiredPassword( Timestamp currentTimestamp, StringBuilder sbResult )
+    {
         if ( AdminUserService.getBooleanSecurityParameter( PARAMETER_NOTIFY_USER_PASSWORD_EXPIRED ) )
         {
             // We notify users with expired passwords
@@ -294,26 +256,12 @@ public class AccountLifeTimeDaemon extends Daemon
 
                 if ( StringUtils.isNotBlank( strBody ) )
                 {
-                    for ( Integer nIdUser : accountsWithPasswordsExpired )
-                    {
-                        AdminUser user = AdminUserHome.findByPrimaryKey( nIdUser );
-                        String strUserMail = user.getEmail( );
-
-                        if ( StringUtils.isNotBlank( strUserMail ) )
-                        {
-                            Map<String, String> model = new HashMap<>( );
-                            addParametersToModel( model, nIdUser );
-
-                            HtmlTemplate template = AppTemplateService.getTemplateFromStringFtl( strBody, LocaleService.getDefault( ), model );
-
-                            MailService.sendMailHtml( strUserMail, strSender, strSender, strSubject, template.getHtml( ) );
-                        }
-                    }
+                    sendMailAlerts( accountsWithPasswordsExpired, "password expiration", strBody, strSender, strSubject );
                 }
 
                 AdminUserHome.updateChangePassword( accountsWithPasswordsExpired );
-                sbLogs = new StringBuilder( );
-                sbLogs.append( "AccountLifeTimeDaemon - " );
+                StringBuilder sbLogs = new StringBuilder( );
+                sbLogs.append( MESSAGE_DAEMON_NAME );
                 sbLogs.append( Integer.toString( accountsWithPasswordsExpired.size( ) ) );
                 sbLogs.append( " user(s) have been notified their password has expired" );
                 AppLogService.info( sbLogs.toString( ) );
@@ -322,8 +270,8 @@ public class AccountLifeTimeDaemon extends Daemon
             }
             else
             {
-                AppLogService.info( "AccountLifeTimeDaemon - No expired passwords" );
-                sbResult.append( "AccountLifeTimeDaemon - No expired passwords" );
+                AppLogService.info( MESSAGE_DAEMON_NAME + MESSAGE_EXPIRED );
+                sbResult.append( MESSAGE_DAEMON_NAME + MESSAGE_EXPIRED );
             }
         }
         else
@@ -331,8 +279,32 @@ public class AccountLifeTimeDaemon extends Daemon
             AppLogService.info( "AccountLifeTimeDaemon - Expired passwords notification deactivated, skipping" );
             sbResult.append( "AccountLifeTimeDaemon - Expired passwords notification deactivated, skipping" );
         }
+    }
+    
+    
+    private void sendMailAlerts( List<Integer> userIdList, String type, String strBody, String strSender, String strSubject )
+    {
+        for ( Integer nIdUser : userIdList )
+        {
+            try
+            {
+                AdminUser user = AdminUserHome.findByPrimaryKey( nIdUser );
+                String strUserMail = user.getEmail( );
 
-        setLastRunLogs( sbResult.toString( ) );
+                if ( StringUtils.isNotBlank( strUserMail ) )
+                {
+                    Map<String, String> model = new HashMap<>( );
+                    addParametersToModel( model, nIdUser );
+
+                    HtmlTemplate template = AppTemplateService.getTemplateFromStringFtl( strBody, user.getLocale( ), model );
+                    MailService.sendMailHtml( strUserMail, strSender, strSender, strSubject, template.getHtml( ) );
+                }
+            }
+            catch( Exception e )
+            {
+                AppLogService.error( "AccountLifeTimeDaemon - Error sending " + type + " alert to admin user : " + e.getMessage( ), e );
+            }
+        }
     }
 
     /**

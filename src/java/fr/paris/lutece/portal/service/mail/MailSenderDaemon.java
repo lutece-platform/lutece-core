@@ -81,14 +81,9 @@ public class MailSenderDaemon extends Daemon
         String strUsername = AppPropertiesService.getProperty( PROPERTY_MAIL_USERNAME, null );
         String strPassword = AppPropertiesService.getProperty( PROPERTY_MAIL_PASSWORD, null );
         int nStmpPort = AppPropertiesService.getPropertyInt( PROPERTY_MAIL_PORT, DEFAULT_SMTP_PORT );
-        int nWaitTime = AppPropertiesService.getPropertyInt( PROPERTY_MAIL_DEAMON_WAITTIME, 1 );
-        int nCount = AppPropertiesService.getPropertyInt( PROPERTY_MAIL_DEAMON_COUNT, 1000 );
-        long nRetryWaitTime = AppPropertiesService.getPropertyLong( PROPERTY_MAIL_DAEMON_RETRYONERROR_WAITTIME, 60L );
-        TimeUnit retryWaitTimeUnit = TimeUnit.valueOf( AppPropertiesService.getProperty( PROPERTY_MAIL_DAEMON_RETRYONERROR_WAITTIME_UNIT, "SECONDS" ) );
 
         // Initializes a mail session with the SMTP server
         StringBuilder sbLogs = new StringBuilder( );
-        StringBuilder sbLogsLine;
         IMailQueue queue = MailService.getQueue( );
 
         if ( queue.size( ) != 0 )
@@ -112,60 +107,8 @@ public class MailSenderDaemon extends Daemon
                 try
                 {
                     transportSmtp.connect( strHost, nStmpPort, strUsername, strPassword );
-
-                    MailItem mail = queue.consume( );
-                    int count = 0;
-
-                    while ( mail != null )
-                    {
-                        try
-                        {
-                            if ( mail.isUniqueRecipientTo( ) )
-                            {
-                                List<String> listAdressTo = MailUtil.getAllStringAdressOfRecipients( mail.getRecipientsTo( ) );
-
-                                for ( String strAdressTo : listAdressTo )
-                                {
-                                    sbLogsLine = new StringBuilder( );
-                                    // just one recipient by mail
-                                    mail.setRecipientsTo( strAdressTo );
-                                    sendMail( mail, strHost, transportSmtp, session, sbLogsLine );
-                                    logger.info( sbLogsLine.toString( ) );
-                                    sbLogs.append( "\r\n" );
-                                    sbLogs.append( sbLogsLine );
-                                }
-                            }
-                            else
-                            {
-                                sbLogsLine = new StringBuilder( );
-                                sendMail( mail, strHost, transportSmtp, session, sbLogsLine );
-                                logger.info( sbLogsLine.toString( ) );
-                                sbLogs.append( "\r\n" );
-                                sbLogs.append( sbLogsLine );
-                            }
-                        }
-                        catch( MessagingException e )
-                        {
-                            // if the connection is dead or not in the connected state
-                            // we put the mail in the queue before end process
-                            queue.send( mail );
-                            AppLogService.error( "Error while sending a message. Will schedule a retry", e );
-                            AppDaemonService.signalDaemon( DAEMON_ID, nRetryWaitTime, retryWaitTimeUnit );
-                            break;
-                        }
-
-                        mail = queue.consume( );
-
-                        // Tempo
-                        count++;
-
-                        if ( ( count % nCount ) == 0 )
-                        {
-                            transportSmtp.close( );
-                            AppDaemonService.signalDaemon( DAEMON_ID, nWaitTime, TimeUnit.MILLISECONDS );
-                            break;
-                        }
-                    }
+                    
+                    sendMails( transportSmtp, session, queue, logger, sbLogs );
 
                     transportSmtp.close( );
                 }
@@ -194,14 +137,73 @@ public class MailSenderDaemon extends Daemon
             logger.debug( sbLogs.toString( ) );
         }
     }
+    
+    private void sendMails( Transport transportSmtp, Session session, IMailQueue queue, Logger logger,
+            StringBuilder sbLogs ) throws MessagingException
+    {
+        int nWaitTime = AppPropertiesService.getPropertyInt( PROPERTY_MAIL_DEAMON_WAITTIME, 1 );
+        int nCount = AppPropertiesService.getPropertyInt( PROPERTY_MAIL_DEAMON_COUNT, 1000 );
+        long nRetryWaitTime = AppPropertiesService.getPropertyLong( PROPERTY_MAIL_DAEMON_RETRYONERROR_WAITTIME, 60L );
+        TimeUnit retryWaitTimeUnit = TimeUnit.valueOf(
+                AppPropertiesService.getProperty( PROPERTY_MAIL_DAEMON_RETRYONERROR_WAITTIME_UNIT, "SECONDS" ) );
+
+        MailItem mail = queue.consume( );
+        int count = 0;
+
+        while ( mail != null )
+        {
+            try
+            {
+                if ( mail.isUniqueRecipientTo( ) )
+                {
+                    List<String> listAdressTo = MailUtil.getAllStringAdressOfRecipients( mail.getRecipientsTo( ) );
+
+                    for ( String strAdressTo : listAdressTo )
+                    {
+                        StringBuilder sbLogsLine = new StringBuilder( );
+                        // just one recipient by mail
+                        mail.setRecipientsTo( strAdressTo );
+                        sendMail( mail, transportSmtp, session, sbLogsLine );
+                        logger.info( sbLogsLine.toString( ) );
+                        sbLogs.append( "\r\n" );
+                        sbLogs.append( sbLogsLine );
+                    }
+                }
+                else
+                {
+                    StringBuilder sbLogsLine = new StringBuilder( );
+                    sendMail( mail, transportSmtp, session, sbLogsLine );
+                    logger.info( sbLogsLine.toString( ) );
+                    sbLogs.append( "\r\n" );
+                    sbLogs.append( sbLogsLine );
+                }
+            }
+            catch ( MessagingException e )
+            {
+                // if the connection is dead or not in the connected state
+                // we put the mail in the queue before end process
+                queue.send( mail );
+                AppLogService.error( "Error while sending a message. Will schedule a retry", e );
+                AppDaemonService.signalDaemon( DAEMON_ID, nRetryWaitTime, retryWaitTimeUnit );
+                break;
+            }
+            // Tempo
+            count++;
+
+            if ( ( count % nCount ) == 0 )
+            {
+                transportSmtp.close( );
+                AppDaemonService.signalDaemon( DAEMON_ID, nWaitTime, TimeUnit.MILLISECONDS );
+                break;
+            }
+        }
+    }
 
     /**
      * send mail
      * 
      * @param mail
      *            the mail item
-     * @param strHost
-     *            the host
      * @param transportSmtp
      *            the smtp transport
      * @param session
@@ -211,7 +213,7 @@ public class MailSenderDaemon extends Daemon
      * @throws MessagingException
      *             See {@link MessagingException}
      */
-    private void sendMail( MailItem mail, String strHost, Transport transportSmtp, Session session, StringBuilder sbLogsLine ) throws MessagingException
+    private void sendMail( MailItem mail, Transport transportSmtp, Session session, StringBuilder sbLogsLine ) throws MessagingException
     {
         try
         {

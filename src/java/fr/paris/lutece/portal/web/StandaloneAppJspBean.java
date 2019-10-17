@@ -33,6 +33,15 @@
  */
 package fr.paris.lutece.portal.web;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+
+import javax.servlet.http.HttpServletRequest;
+
 import fr.paris.lutece.portal.service.content.ContentService;
 import fr.paris.lutece.portal.service.content.XPageAppService;
 import fr.paris.lutece.portal.service.message.ISiteMessageHandler;
@@ -46,16 +55,6 @@ import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.web.xpages.XPageApplicationEntry;
 import fr.paris.lutece.util.html.HtmlTemplate;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * Class of the StandaloneAppJspBean object.
@@ -136,19 +135,15 @@ public class StandaloneAppJspBean
         Locale locale = ( request == null ) ? null : request.getLocale( );
 
         Collection<XPageApplicationEntry> applications = XPageAppService.getXPageApplicationsList( );
-        Comparator<XPageApplicationEntry> comparator = new Comparator<XPageApplicationEntry>( )
-        {
-            public int compare( XPageApplicationEntry c1, XPageApplicationEntry c2 )
-            {
-                Plugin p1 = ( c1.getPlugin( ) == null ) ? PluginService.getCore( ) : c1.getPlugin( );
-                Plugin p2 = ( c2.getPlugin( ) == null ) ? PluginService.getCore( ) : c2.getPlugin( );
-
-                return p1.getName( ).compareTo( p2.getName( ) );
-            }
-        };
-
         List<XPageApplicationEntry> applicationsSorted = new ArrayList<>( applications );
-        Collections.sort( applicationsSorted, comparator );
+        
+        Collections.sort( applicationsSorted, ( XPageApplicationEntry c1, XPageApplicationEntry c2 ) ->
+        {
+            Plugin p1 = ( c1.getPlugin( ) == null ) ? PluginService.getCore( ) : c1.getPlugin( );
+            Plugin p2 = ( c2.getPlugin( ) == null ) ? PluginService.getCore( ) : c2.getPlugin( );
+
+            return p1.getName( ).compareTo( p2.getName( ) );
+        } );
 
         // Scan of the list
         for ( XPageApplicationEntry entry : applicationsSorted )

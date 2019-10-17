@@ -179,7 +179,7 @@ public final class WorkflowService
      */
     public boolean isDisplayTasksForm( int nIdAction, Locale locale )
     {
-        return isAvailable( ) ? _service.isDisplayTasksForm( nIdAction, locale ) : false;
+        return isAvailable( ) && _service.isDisplayTasksForm( nIdAction, locale );
     }
 
     /**

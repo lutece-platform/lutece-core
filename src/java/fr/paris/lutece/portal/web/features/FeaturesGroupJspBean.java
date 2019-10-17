@@ -96,7 +96,7 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
     {
         if ( !SecurityTokenService.getInstance( ).validate( request,  AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) )
         {
-            throw new AccessDeniedException( "Invalid security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
         String strRightId = request.getParameter( PARAMETER_RIGHT_ID );
         String strGroupName = request.getParameter( PARAMETER_GROUP_NAME );
@@ -134,7 +134,7 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
     {
         if ( !SecurityTokenService.getInstance( ).validate( request,  AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) )
         {
-            throw new AccessDeniedException( "Invalid security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
         String strGroupId = request.getParameter( PARAMETER_GROUP_ID );
         String strOrderId = request.getParameter( PARAMETER_ORDER_ID );
@@ -164,7 +164,7 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
     {
         if ( !SecurityTokenService.getInstance( ).validate( request,  AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) )
         {
-            throw new AccessDeniedException( "Invalid security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
         String strGroupId = request.getParameter( PARAMETER_GROUP_ID );
         RightHome.reinitFeatureOrders( strGroupId );
@@ -251,7 +251,7 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
         }
         if ( !SecurityTokenService.getInstance( ).validate( request,  AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) )
         {
-            throw new AccessDeniedException( "Invalid security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
 
         FeatureGroup group = new FeatureGroup( );
@@ -289,7 +289,7 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
         }
         if ( !SecurityTokenService.getInstance( ).validate( request,  AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) )
         {
-            throw new AccessDeniedException( "Invalid Security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
 
         FeatureGroup group = FeatureGroupHome.findByPrimaryKey( strGroupId );
@@ -364,7 +364,7 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
         }
         if ( !SecurityTokenService.getInstance( ).validate( request, AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) )
         {
-            throw new AccessDeniedException( "Invalid security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
 
         FeatureGroupHome.remove( strGroupId );

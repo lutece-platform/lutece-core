@@ -60,6 +60,7 @@ import fr.paris.lutece.util.password.IPasswordFactory;
 final class PasswordFactory implements IPasswordFactory
 {
     // storage types
+    private static final String ERROR_PASSWORD_STORAGE = "Invalid stored password ";
     private static final String PBKDF2WITHHMACSHA1_STORAGE_TYPE = "PBKDF2";
     private static final String PBKDF2WITHHMACSHA512_STORAGE_TYPE = "PBKDF2WITHHMACSHA512";
     private static final String PLAINTEXT_STORAGE_TYPE = "PLAINTEXT";
@@ -106,13 +107,13 @@ final class PasswordFactory implements IPasswordFactory
     /**
      * A Password stored using PBKDF2
      */
-    private static abstract class PBKDF2Password implements IPassword
+    private abstract static class PBKDF2Password implements IPassword
     {
 
         /**
          * Enum to specify if the password is constructed from cleartext or hashed form
          */
-        static enum PASSWORD_REPRESENTATION
+        enum PASSWORD_REPRESENTATION
         {
             CLEARTEXT, STORABLE
         }
@@ -191,7 +192,7 @@ final class PasswordFactory implements IPasswordFactory
 
                     if ( !matcher.matches( ) || matcher.groupCount( ) != 3 )
                     {
-                        throw new IllegalArgumentException( "Invalid stored password " + strPassword );
+                        throw new IllegalArgumentException( ERROR_PASSWORD_STORAGE + strPassword );
                     }
                     _iterations = Integer.valueOf( matcher.group( 1 ) );
                     try
@@ -201,7 +202,7 @@ final class PasswordFactory implements IPasswordFactory
                     }
                     catch( DecoderException e )
                     {
-                        throw new IllegalArgumentException( "Invalid stored password " + strPassword );
+                        throw new IllegalArgumentException( ERROR_PASSWORD_STORAGE + strPassword );
                     }
                     break;
                 default:
@@ -214,7 +215,7 @@ final class PasswordFactory implements IPasswordFactory
          * 
          * @return the PBKDF2 algorithm to use
          */
-        abstract protected String getAlgorithm( );
+        protected abstract String getAlgorithm( );
 
         @Override
         public boolean check( String strCleartextPassword )
@@ -237,7 +238,7 @@ final class PasswordFactory implements IPasswordFactory
          * 
          * @return the storage type identifier
          */
-        abstract protected String getStorageType( );
+        protected abstract String getStorageType( );
 
         @Override
         public String getStorableRepresentation( )
@@ -380,7 +381,7 @@ final class PasswordFactory implements IPasswordFactory
     /**
      * Legacy password implementation super class
      */
-    private static abstract class LegacyPassword implements IPassword
+    private abstract static class LegacyPassword implements IPassword
     {
         /**
          * Legacy passwords are legacy
@@ -439,7 +440,7 @@ final class PasswordFactory implements IPasswordFactory
     /**
      * Password stored as {@link MessageDigest} output
      */
-    private final static class DigestPassword extends LegacyPassword
+    private static final class DigestPassword extends LegacyPassword
     {
         /** the stored password */
         private final String _strPassword;

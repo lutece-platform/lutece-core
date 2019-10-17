@@ -139,13 +139,13 @@ public final class AppDaemonService
         // init interval value if no exists
         if ( !DatastoreService.existsInstanceKey( strIntervalKey ) )
         {
-            strIntervalKeyDefaultValue = AppPropertiesService.getProperty( "daemon." + entry.getId( ) + ".interval", "10" );
+            strIntervalKeyDefaultValue = AppPropertiesService.getProperty( "daemon." + entry.getId( ) + PROPERTY_DAEMON_INTERVAL, "10" );
             DatastoreService.setInstanceDataValue( strIntervalKey, strIntervalKeyDefaultValue );
         }
 
         String strIntervalKeyValue = DatastoreService.getInstanceDataValue( strIntervalKey, strIntervalKeyDefaultValue );
 
-        long lInterval = Long.valueOf( strIntervalKeyValue );
+        long lInterval = Long.parseLong( strIntervalKeyValue );
 
         String strOnStartupKey = getOnStartupKey( entry.getId( ) );
         String strOnStartupDefaultValue = null;
@@ -160,7 +160,7 @@ public final class AppDaemonService
         }
 
         String strOnStarupvalue = DatastoreService.getInstanceDataValue( strOnStartupKey, strOnStartupDefaultValue );
-        boolean bOnStartup = Boolean.valueOf( strOnStarupvalue );
+        boolean bOnStartup = Boolean.parseBoolean( strOnStarupvalue );
 
         entry.setInterval( lInterval );
         entry.setOnStartUp( bOnStartup );
@@ -267,7 +267,7 @@ public final class AppDaemonService
 
         if ( entry != null )
         {
-            entry.setInterval( new Long( strDaemonInterval ) );
+            entry.setInterval( Long.valueOf( strDaemonInterval ) );
             DatastoreService.setInstanceDataValue( getIntervalKey( entry.getId( ) ), strDaemonInterval );
         }
     }

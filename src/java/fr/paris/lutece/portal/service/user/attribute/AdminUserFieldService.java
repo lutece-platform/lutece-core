@@ -33,6 +33,18 @@
  */
 package fr.paris.lutece.portal.service.user.attribute;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Map.Entry;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.lang.StringUtils;
+
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.business.user.attribute.AdminUserField;
 import fr.paris.lutece.portal.business.user.attribute.AdminUserFieldFilter;
@@ -43,17 +55,6 @@ import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.portal.web.upload.MultipartHttpServletRequest;
-
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.lang.StringUtils;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  *
@@ -184,17 +185,17 @@ public final class AdminUserFieldService
         auFieldFilter.setIdUser( user.getUserId( ) );
         AdminUserFieldHome.removeByFilter( auFieldFilter );
 
-        for ( int nIdAttribute : map.keySet( ) )
+        for ( Entry<Integer, List<AdminUserField>> entry : map.entrySet( ) )
         {
-            for ( AdminUserField userField : map.get( nIdAttribute ) )
+            for ( AdminUserField userField : entry.getValue( ) )
             {
                 if ( userField != null )
                 {
                     AdminUserFieldHome.create( userField );
-                }
+                } 
             }
         }
-
+        
         // Attributes associated to the plugins
         for ( AdminUserFieldListenerService adminUserFieldListenerService : SpringContextService.getBeansOfType( AdminUserFieldListenerService.class ) )
         {

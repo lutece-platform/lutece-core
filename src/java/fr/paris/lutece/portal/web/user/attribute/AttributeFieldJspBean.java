@@ -155,7 +155,7 @@ public class AttributeFieldJspBean extends AdminFeaturesPageJspBean
 
             if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_CREATE_ATTRIBUTE_FIELD ) )
             {
-                throw new AccessDeniedException( "Invalid security token" );
+                throw new AccessDeniedException( ERROR_INVALID_TOKEN );
             }
             AttributeField attributeField = new AttributeField( );
             attributeField.setTitle( strTitle );
@@ -234,7 +234,7 @@ public class AttributeFieldJspBean extends AdminFeaturesPageJspBean
 
             if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_MODIFY_ATTRIBUTE_FIELD ) )
             {
-                throw new AccessDeniedException( "Invalid security token" );
+                throw new AccessDeniedException( ERROR_INVALID_TOKEN );
             }
             AttributeField currentAttributeField = _attributeFieldService.getAttributeField( nIdField );
             int nPosition = currentAttributeField.getPosition( );
@@ -288,7 +288,7 @@ public class AttributeFieldJspBean extends AdminFeaturesPageJspBean
 
         if ( !SecurityTokenService.getInstance( ).validate( request, JSP_URL_REMOVE_ATTRIBUTE_FIELD ) )
         {
-            throw new AccessDeniedException( "Invalid security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
         if ( StringUtils.isNotBlank( strIdField ) && StringUtils.isNumeric( strIdField ) )
         {
@@ -326,7 +326,7 @@ public class AttributeFieldJspBean extends AdminFeaturesPageJspBean
 
             if ( !SecurityTokenService.getInstance( ).validate( request, attribute.getTemplateModifyAttribute( ) ) )
             {
-                throw new AccessDeniedException( "Invalid security token" );
+                throw new AccessDeniedException( ERROR_INVALID_TOKEN );
             }
             if ( CollectionUtils.isNotEmpty( listAttributeFields ) )
             {
@@ -379,7 +379,7 @@ public class AttributeFieldJspBean extends AdminFeaturesPageJspBean
             List<AttributeField> listAttributeFields = attribute.getListAttributeFields( );
             if ( !SecurityTokenService.getInstance( ).validate( request, attribute.getTemplateModifyAttribute( ) ) )
             {
-                throw new AccessDeniedException( "Invalid security token" );
+                throw new AccessDeniedException( ERROR_INVALID_TOKEN );
             }
             if ( CollectionUtils.isNotEmpty( listAttributeFields ) )
             {

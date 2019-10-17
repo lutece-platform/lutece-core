@@ -644,25 +644,19 @@ public class DataTableManager<T> implements Serializable
 
         boolean bSubmitedDataTable = hasDataTableFormBeenSubmited( request );
 
-        boolean bResetFilter = false;
         boolean bUpdateFilter = false;
 
         Map<String, Object> mapFilter = new HashMap<>( );
 
         if ( bSubmitedDataTable )
         {
-            bUpdateFilter = true;
             StringUtils.equals(
                     request.getParameter( FilterPanel.PARAM_FILTER_PANEL_PREFIX + FilterPanel.PARAM_RESET_FILTERS ),
                     Boolean.TRUE.toString( ) );
 
-            if ( !bResetFilter )
-            {
-                bUpdateFilter = StringUtils.equals(
-                        request.getParameter(
-                                FilterPanel.PARAM_FILTER_PANEL_PREFIX + FilterPanel.PARAM_UPDATE_FILTERS ),
-                        Boolean.TRUE.toString( ) );
-            }
+            bUpdateFilter = StringUtils.equals(
+                    request.getParameter( FilterPanel.PARAM_FILTER_PANEL_PREFIX + FilterPanel.PARAM_UPDATE_FILTERS ),
+                    Boolean.TRUE.toString( ) );
         }
 
         for ( DataTableFilter filter : listFilters )
@@ -755,6 +749,6 @@ public class DataTableManager<T> implements Serializable
      */
     private boolean hasDataTableFormBeenSubmited( HttpServletRequest request )
     {
-        return ( request != null ) ? StringUtils.equals( request.getParameter( getId( ) ), getId( ) ) : false;
+        return request != null && StringUtils.equals( request.getParameter( getId( ) ), getId( ) );
     }
 }

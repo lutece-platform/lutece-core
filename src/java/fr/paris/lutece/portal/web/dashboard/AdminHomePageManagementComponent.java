@@ -32,7 +32,6 @@
  * License 1.0
  */
 
-
 package fr.paris.lutece.portal.web.dashboard;
 
 import java.util.HashMap;
@@ -57,7 +56,7 @@ public class AdminHomePageManagementComponent extends AdminDashboardComponent
 {
     // Templates
     private static final String TEMPLATE_MANAGE_DASHBOARDS = "/admin/dashboard/manage_dashboards.html";
-    
+
     // MARKS
     private static final String MARK_MAP_DASHBOARDS = "map_dashboards";
     private static final String MARK_NOT_SET_DASHBOARDS = "not_set_dashboards";
@@ -67,7 +66,7 @@ public class AdminHomePageManagementComponent extends AdminDashboardComponent
     private static final String MARK_MAP_COLUMN_ORDER_STATUS = "map_column_order_status";
 
     private DashboardService _service = DashboardService.getInstance( );
-    
+
     /**
      * {@inheritDoc}
      */
@@ -77,12 +76,12 @@ public class AdminHomePageManagementComponent extends AdminDashboardComponent
         Map<String, Object> model = new HashMap<>( );
 
         Map<String, List<IDashboardComponent>> mapDashboards = _service.getAllSetDashboards( user );
-        
-        for( List<IDashboardComponent> listComponents : mapDashboards.values() )
+
+        for ( List<IDashboardComponent> listComponents : mapDashboards.values( ) )
         {
-            listComponents = I18nService.localizeCollection( listComponents, user.getLocale() );
+            listComponents = I18nService.localizeCollection( listComponents, user.getLocale( ) );
         }
-        
+
         model.put( MARK_MAP_DASHBOARDS, mapDashboards );
 
         List<IDashboardComponent> listNotSetDashboards = _service.getNotSetDashboards( );
@@ -92,12 +91,13 @@ public class AdminHomePageManagementComponent extends AdminDashboardComponent
         model.put( MARK_MAP_AVAILABLE_ORDERS, _service.getMapAvailableOrders( ) );
         model.put( MARK_LIST_AVAILABLE_COLUMNS, _service.getListAvailableColumns( ) );
         model.put( MARK_MAP_COLUMN_ORDER_STATUS, _service.getOrderedColumnsStatus( ) );
-        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MANAGE_DASHBOARDS ) );
+        model.put( SecurityTokenService.MARK_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MANAGE_DASHBOARDS ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_DASHBOARDS, user.getLocale( ), model );
 
         return template.getHtml( );
-        
+
     }
-    
+
 }

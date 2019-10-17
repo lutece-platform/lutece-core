@@ -165,7 +165,7 @@ public class SiteMessage implements Serializable
      */
     public boolean isCancel( )
     {
-        return ( getTypeButton( ) == TYPE_BUTTON_HIDDEN ) ? false : true;
+        return getTypeButton( ) != TYPE_BUTTON_HIDDEN;
     }
 
     /**

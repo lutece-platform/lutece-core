@@ -128,7 +128,6 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
     private static final String JSP_DO_REMOVE_STYLESHEET = "jsp/admin/style/DoRemoveStyleSheet.jsp";
     private static final String JSP_REMOVE_STYLE = "RemoveStyle.jsp";
     private int _nItemsPerPage;
-    private int _nDefaultItemsPerPage;
     private String _strCurrentPageIndex;
 
     /**
@@ -163,11 +162,11 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
             Collections.sort( listStyleSheets, new AttributeComparator( strSortedAttributeName, bIsAscSort ) );
         }
 
-        _nDefaultItemsPerPage = AppPropertiesService.getPropertyInt( PROPERTY_STYLESHEETS_PER_PAGE, 50 );
+        int defaultItemsPerPage = AppPropertiesService.getPropertyInt( PROPERTY_STYLESHEETS_PER_PAGE, 50 );
         _strCurrentPageIndex = AbstractPaginator.getPageIndex( request, AbstractPaginator.PARAMETER_PAGE_INDEX,
                 _strCurrentPageIndex );
         _nItemsPerPage = AbstractPaginator.getItemsPerPage( request, AbstractPaginator.PARAMETER_ITEMS_PER_PAGE,
-                _nItemsPerPage, _nDefaultItemsPerPage );
+                _nItemsPerPage, defaultItemsPerPage );
 
         String strURL = getHomeUrl( request );
 
@@ -238,7 +237,7 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
         }
         if ( !SecurityTokenService.getInstance( ).validate( multipartRequest, TEMPLATE_CREATE_STYLESHEET ) )
         {
-            throw new AccessDeniedException( "Invalid security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
 
         // insert in the table stylesheet of the database
@@ -384,7 +383,7 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
         }
         if ( !SecurityTokenService.getInstance( ).validate( multipartRequest, TEMPLATE_MODIFY_STYLESHEET ) )
         {
-            throw new AccessDeniedException( "Invalid security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
 
         // Remove the old local file
@@ -435,7 +434,7 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
     {
         if ( !SecurityTokenService.getInstance( ).validate( request, JSP_DO_REMOVE_STYLESHEET ) )
         {
-            throw new AccessDeniedException( "Invalid security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
         int nId = Integer.parseInt( request.getParameter( Parameters.STYLESHEET_ID ) );
         int nIdStyle = Integer.parseInt( request.getParameter( Parameters.STYLE_ID ) );

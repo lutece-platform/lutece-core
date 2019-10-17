@@ -1171,14 +1171,7 @@ public abstract class Plugin implements Comparable<Plugin>
      */
     public void addJavascriptFile( String strJavascriptFile )
     {
-        List<String> files = _listJavascriptFiles.get( null );
-
-        if ( files == null )
-        {
-            files = new ArrayList<>( );
-            _listJavascriptFiles.put( null, files );
-        }
-
+        List<String> files = _listJavascriptFiles.computeIfAbsent( null, s -> new ArrayList<>( ) );
         files.add( strJavascriptFile );
     }
 

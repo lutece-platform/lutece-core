@@ -58,6 +58,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 
 import javax.imageio.ImageIO;
 
@@ -186,83 +187,73 @@ public class AttributeImage extends AbstractAttribute
     /**
      * Set the data of the attribute
      * 
-     * @param request
-     *            HttpServletRequest
+     * @param request HttpServletRequest
      * @return null if there are no errors
      */
     @Override
     public String setAttributeData( HttpServletRequest request )
     {
         String strTitle = request.getParameter( PARAMETER_TITLE );
-        String strHelpMessage = ( request.getParameter( PARAMETER_HELP_MESSAGE ) != null ) ? request.getParameter( PARAMETER_HELP_MESSAGE ).trim( ) : null;
+        String strHelpMessage = Optional.ofNullable( request.getParameter( PARAMETER_HELP_MESSAGE ) ).map( String::trim ).orElse( null );
         String strMandatory = request.getParameter( PARAMETER_MANDATORY );
         String strWidth = request.getParameter( PARAMETER_WIDTH );
         String strHeight = request.getParameter( PARAMETER_HEIGHT );
         String strShownInResultList = request.getParameter( PARAMETER_IS_SHOWN_IN_RESULT_LIST );
 
-        String strError = EMPTY_STRING;
-
-        if ( StringUtils.isNotBlank( strTitle ) )
+        if ( StringUtils.isBlank( strTitle ) )
         {
-            setTitle( strTitle );
-            setHelpMessage( strHelpMessage );
-            setMandatory( strMandatory != null );
-            setShownInResultList( strShownInResultList != null );
-            // Never show an image in the search box
-            setShownInSearch( false );
+            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
+        }
 
-            if ( getListAttributeFields( ) == null )
-            {
-                List<AttributeField> listAttributeFields = new ArrayList<>( );
-                AttributeField attributeField = new AttributeField( );
-                listAttributeFields.add( attributeField );
-                setListAttributeFields( listAttributeFields );
-            }
+        setTitle( strTitle );
+        setHelpMessage( strHelpMessage );
+        setMandatory( strMandatory != null );
+        setShownInResultList( strShownInResultList != null );
+        // Never show an image in the search box
+        setShownInSearch( false );
 
-            if ( ( StringUtils.isNotBlank( strWidth ) && !strWidth.matches( REGEX_ID ) )
-                    || ( StringUtils.isNotBlank( strHeight ) && !strHeight.matches( REGEX_ID ) ) )
-            {
-                strError = PROPERTY_MESSAGE_NO_ARITHMETICAL_CHARACTERS;
-            }
+        if ( getListAttributeFields( ) == null )
+        {
+            List<AttributeField> listAttributeFields = new ArrayList<>( );
+            AttributeField attributeField = new AttributeField( );
+            listAttributeFields.add( attributeField );
+            setListAttributeFields( listAttributeFields );
+        }
 
-            if ( EMPTY_STRING.equals( strError ) )
-            {
-                if ( StringUtils.isNotBlank( strWidth ) && strWidth.matches( REGEX_ID ) )
-                {
-                    int nWidth = Integer.parseInt( strWidth );
-                    getListAttributeFields( ).get( 0 ).setWidth( nWidth );
-                }
-                else
-                {
-                    getListAttributeFields( ).get( 0 ).setWidth( -1 );
-                }
+        if ( ( StringUtils.isNotBlank( strWidth ) && !strWidth.matches( REGEX_ID ) )
+                || ( StringUtils.isNotBlank( strHeight ) && !strHeight.matches( REGEX_ID ) ) )
+        {
+            return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_NO_ARITHMETICAL_CHARACTERS,
+                    AdminMessage.TYPE_STOP );
+        }
 
-                if ( StringUtils.isNotBlank( strHeight ) && strHeight.matches( REGEX_ID ) )
-                {
-                    int nHeight = Integer.parseInt( strHeight );
-                    getListAttributeFields( ).get( 0 ).setHeight( nHeight );
-                }
-                else
-                {
-                    getListAttributeFields( ).get( 0 ).setHeight( -1 );
-                }
-
-                return null;
-            }
+        if ( StringUtils.isNotBlank( strWidth ) && strWidth.matches( REGEX_ID ) )
+        {
+            int nWidth = Integer.parseInt( strWidth );
+            getListAttributeFields( ).get( 0 ).setWidth( nWidth );
         }
         else
         {
-            strError = Messages.MANDATORY_FIELDS;
+            getListAttributeFields( ).get( 0 ).setWidth( -1 );
         }
 
-        return AdminMessageService.getMessageUrl( request, strError, AdminMessage.TYPE_STOP );
+        if ( StringUtils.isNotBlank( strHeight ) && strHeight.matches( REGEX_ID ) )
+        {
+            int nHeight = Integer.parseInt( strHeight );
+            getListAttributeFields( ).get( 0 ).setHeight( nHeight );
+        }
+        else
+        {
+            getListAttributeFields( ).get( 0 ).setHeight( -1 );
+        }
+
+        return null;
     }
 
     /**
      * Set attribute type
      * 
-     * @param locale
-     *            locale
+     * @param locale locale
      */
     @Override
     public void setAttributeType( Locale locale )
@@ -277,16 +268,15 @@ public class AttributeImage extends AbstractAttribute
     /**
      * Get the data of the user fields
      * 
-     * @param request
-     *            HttpServletRequest
-     * @param user
-     *            user
+     * @param request HttpServletRequest
+     * @param user    user
      * @return user field data
      */
     @Override
     public List<AdminUserField> getUserFieldsData( HttpServletRequest request, AdminUser user )
     {
-        String strUpdateAttribute = request.getParameter( PARAMETER_UPDATE_ATTRIBUTE + CONSTANT_UNDERSCORE + getIdAttribute( ) );
+        String strUpdateAttribute = request
+                .getParameter( PARAMETER_UPDATE_ATTRIBUTE + CONSTANT_UNDERSCORE + getIdAttribute( ) );
         List<AdminUserField> listUserFields = new ArrayList<>( );
 
         try
@@ -294,9 +284,10 @@ public class AttributeImage extends AbstractAttribute
             if ( StringUtils.isNotBlank( strUpdateAttribute ) )
             {
                 MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
-                FileItem fileItem = multipartRequest.getFile( PARAMETER_ATTRIBUTE + CONSTANT_UNDERSCORE + getIdAttribute( ) );
+                FileItem fileItem = multipartRequest
+                        .getFile( PARAMETER_ATTRIBUTE + CONSTANT_UNDERSCORE + getIdAttribute( ) );
 
-                if ( ( fileItem != null ) && ( fileItem.getName( ) != null ) && !EMPTY_STRING.equals( fileItem.getName( ) ) )
+                if ( ( fileItem != null ) && ( StringUtils.isNotEmpty( fileItem.getName( ) ) ) )
                 {
                     File file = new File( );
                     PhysicalFile physicalFile = new PhysicalFile( );
@@ -337,22 +328,19 @@ public class AttributeImage extends AbstractAttribute
                 }
 
                 listUserFields = AdminUserFieldHome.findByFilter( auFieldFilter );
+                listUserFields.stream( ).filter( a -> a.getFile( ) != null )
+                        .forEach( userField ->
+                        {
+                            File file = FileHome.findByPrimaryKey( userField.getFile( ).getIdFile( ) );
+                            userField.setFile( file );
 
-                for ( AdminUserField userField : listUserFields )
-                {
-                    if ( userField.getFile( ) != null )
-                    {
-                        File file = FileHome.findByPrimaryKey( userField.getFile( ).getIdFile( ) );
-                        userField.setFile( file );
-
-                        int nIdPhysicalFile = file.getPhysicalFile( ).getIdPhysicalFile( );
-                        PhysicalFile physicalFile = PhysicalFileHome.findByPrimaryKey( nIdPhysicalFile );
-                        userField.getFile( ).setPhysicalFile( physicalFile );
-                    }
-                }
+                            int nIdPhysicalFile = file.getPhysicalFile( ).getIdPhysicalFile( );
+                            PhysicalFile physicalFile = PhysicalFileHome.findByPrimaryKey( nIdPhysicalFile );
+                            userField.getFile( ).setPhysicalFile( physicalFile );
+                        } );
             }
         }
-        catch( IOException e )
+        catch ( IOException e )
         {
             AppLogService.error( e );
         }

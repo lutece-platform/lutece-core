@@ -139,71 +139,7 @@ public class AdminUserFieldDAO implements IAdminUserFieldDAO
 
             if ( daoUtil.next( ) )
             {
-                userField = new AdminUserField( );
-                userField.setIdUserField( daoUtil.getInt( 1 ) );
-                userField.setValue( daoUtil.getString( 6 ) );
-
-                // USER
-                AdminUser user = new AdminUser( );
-                user.setUserId( daoUtil.getInt( 2 ) );
-                user.setAccessCode( daoUtil.getString( 7 ) );
-                user.setLastName( daoUtil.getString( 8 ) );
-                user.setFirstName( daoUtil.getString( 9 ) );
-                user.setEmail( daoUtil.getString( 10 ) );
-                user.setStatus( daoUtil.getInt( 11 ) );
-                user.setLocale( new Locale( daoUtil.getString( 12 ) ) );
-                user.setUserLevel( daoUtil.getInt( 13 ) );
-                userField.setUser( user );
-
-                // ATTRIBUTE
-                IAttribute attribute = null;
-
-                try
-                {
-                    attribute = (IAttribute) Class.forName( daoUtil.getString( 14 ) ).newInstance( );
-                }
-                catch( IllegalAccessException | InstantiationException | ClassNotFoundException e )
-                {
-                    // class doesn't exist
-                    AppLogService.error( e );
-                }
-
-                if ( attribute != null )
-                {
-                    attribute.setIdAttribute( daoUtil.getInt( 3 ) );
-                    attribute.setTitle( daoUtil.getString( 15 ) );
-                    attribute.setHelpMessage( daoUtil.getString( 16 ) );
-                    attribute.setMandatory( daoUtil.getBoolean( 17 ) );
-                    attribute.setPosition( daoUtil.getInt( 18 ) );
-                    attribute.setAttributeType( new Locale( daoUtil.getString( 12 ) ) );
-                    userField.setAttribute( attribute );
-                }
-                // ATTRIBUTEFIELD
-                // Here the attribute field may not exist (for example when
-                // using an non-mandatory combo box attribute). It will have
-                // and idField of 0.
-                // Use an empty object (with nulls, zeroes and false) because
-                // most of the code relies on this value beeing not null
-                // to access the idField.
-                AttributeField attributeField = new AttributeField( );
-                attributeField.setIdField( daoUtil.getInt( 4 ) );
-                attributeField.setTitle( daoUtil.getString( 19 ) );
-                attributeField.setValue( daoUtil.getString( 20 ) );
-                attributeField.setDefaultValue( daoUtil.getBoolean( 21 ) );
-                attributeField.setHeight( daoUtil.getInt( 22 ) );
-                attributeField.setWidth( daoUtil.getInt( 23 ) );
-                attributeField.setMaxSizeEnter( daoUtil.getInt( 24 ) );
-                attributeField.setMultiple( daoUtil.getBoolean( 25 ) );
-                attributeField.setPosition( daoUtil.getInt( 26 ) );
-                userField.setAttributeField( attributeField );
-
-                // FILE
-                if ( daoUtil.getObject( 5 ) != null ) // f.id_file
-                {
-                    File file = new File( );
-                    file.setIdFile( daoUtil.getInt( 5 ) ); // f.id_file
-                    userField.setFile( file );
-                }
+                userField = dataToObject( daoUtil );
             }
 
         }
@@ -556,71 +492,7 @@ public class AdminUserFieldDAO implements IAdminUserFieldDAO
 
             while ( daoUtil.next( ) )
             {
-                AdminUserField userField = new AdminUserField( );
-                userField.setIdUserField( daoUtil.getInt( 1 ) );
-                userField.setValue( daoUtil.getString( 6 ) );
-
-                // USER
-                AdminUser user = new AdminUser( );
-                user.setUserId( daoUtil.getInt( 2 ) );
-                user.setAccessCode( daoUtil.getString( 7 ) );
-                user.setLastName( daoUtil.getString( 8 ) );
-                user.setFirstName( daoUtil.getString( 9 ) );
-                user.setEmail( daoUtil.getString( 10 ) );
-                user.setStatus( daoUtil.getInt( 11 ) );
-                user.setLocale( new Locale( daoUtil.getString( 12 ) ) );
-                user.setUserLevel( daoUtil.getInt( 13 ) );
-                userField.setUser( user );
-
-                // ATTRIBUTE
-                IAttribute attribute = null;
-
-                try
-                {
-                    attribute = (IAttribute) Class.forName( daoUtil.getString( 14 ) ).newInstance( );
-                }
-                catch( ClassNotFoundException | InstantiationException | IllegalAccessException e )
-                {
-                    AppLogService.error( e );
-                }
-
-                if ( attribute != null )
-                {
-                    attribute.setIdAttribute( daoUtil.getInt( 3 ) );
-                    attribute.setTitle( daoUtil.getString( 15 ) );
-                    attribute.setHelpMessage( daoUtil.getString( 16 ) );
-                    attribute.setMandatory( daoUtil.getBoolean( 17 ) );
-                    attribute.setPosition( daoUtil.getInt( 18 ) );
-                    attribute.setAttributeType( new Locale( daoUtil.getString( 12 ) ) );
-                    userField.setAttribute( attribute );
-                }
-                // ATTRIBUTEFIELD
-                // Here the attribute field may not exist (for example when
-                // using an non-mandatory combo box attribute). It will have
-                // and idField of 0.
-                // Use an empty object (with nulls, zeroes and false) because
-                // most of the code relies on this value beeing not null
-                // to access the idField.
-                AttributeField attributeField = new AttributeField( );
-                attributeField.setIdField( daoUtil.getInt( 4 ) );
-                attributeField.setTitle( daoUtil.getString( 19 ) );
-                attributeField.setValue( daoUtil.getString( 20 ) );
-                attributeField.setDefaultValue( daoUtil.getBoolean( 21 ) );
-                attributeField.setHeight( daoUtil.getInt( 22 ) );
-                attributeField.setWidth( daoUtil.getInt( 23 ) );
-                attributeField.setMaxSizeEnter( daoUtil.getInt( 24 ) );
-                attributeField.setMultiple( daoUtil.getBoolean( 25 ) );
-                attributeField.setPosition( daoUtil.getInt( 26 ) );
-                userField.setAttributeField( attributeField );
-
-                // FILE
-                if ( daoUtil.getObject( 5 ) != null ) // f.id_file
-                {
-                    File file = new File( );
-                    file.setIdFile( daoUtil.getInt( 5 ) ); // f.id_file
-                    userField.setFile( file );
-                }
-
+                AdminUserField userField = dataToObject( daoUtil );
                 listUserFields.add( userField );
             }
 
@@ -644,5 +516,75 @@ public class AdminUserFieldDAO implements IAdminUserFieldDAO
         }
 
         return result;
+    }
+    
+    private AdminUserField dataToObject( DAOUtil daoUtil )
+    {
+        AdminUserField userField = new AdminUserField( );
+        userField.setIdUserField( daoUtil.getInt( 1 ) );
+        userField.setValue( daoUtil.getString( 6 ) );
+
+        // USER
+        AdminUser user = new AdminUser( );
+        user.setUserId( daoUtil.getInt( 2 ) );
+        user.setAccessCode( daoUtil.getString( 7 ) );
+        user.setLastName( daoUtil.getString( 8 ) );
+        user.setFirstName( daoUtil.getString( 9 ) );
+        user.setEmail( daoUtil.getString( 10 ) );
+        user.setStatus( daoUtil.getInt( 11 ) );
+        user.setLocale( new Locale( daoUtil.getString( 12 ) ) );
+        user.setUserLevel( daoUtil.getInt( 13 ) );
+        userField.setUser( user );
+
+        // ATTRIBUTE
+        IAttribute attribute = null;
+
+        try
+        {
+            attribute = (IAttribute) Class.forName( daoUtil.getString( 14 ) ).newInstance( );
+        }
+        catch( ClassNotFoundException | InstantiationException | IllegalAccessException e )
+        {
+            AppLogService.error( e );
+        }
+
+        if ( attribute != null )
+        {
+            attribute.setIdAttribute( daoUtil.getInt( 3 ) );
+            attribute.setTitle( daoUtil.getString( 15 ) );
+            attribute.setHelpMessage( daoUtil.getString( 16 ) );
+            attribute.setMandatory( daoUtil.getBoolean( 17 ) );
+            attribute.setPosition( daoUtil.getInt( 18 ) );
+            attribute.setAttributeType( new Locale( daoUtil.getString( 12 ) ) );
+            userField.setAttribute( attribute );
+        }
+        // ATTRIBUTEFIELD
+        // Here the attribute field may not exist (for example when
+        // using an non-mandatory combo box attribute). It will have
+        // and idField of 0.
+        // Use an empty object (with nulls, zeroes and false) because
+        // most of the code relies on this value beeing not null
+        // to access the idField.
+        AttributeField attributeField = new AttributeField( );
+        attributeField.setIdField( daoUtil.getInt( 4 ) );
+        attributeField.setTitle( daoUtil.getString( 19 ) );
+        attributeField.setValue( daoUtil.getString( 20 ) );
+        attributeField.setDefaultValue( daoUtil.getBoolean( 21 ) );
+        attributeField.setHeight( daoUtil.getInt( 22 ) );
+        attributeField.setWidth( daoUtil.getInt( 23 ) );
+        attributeField.setMaxSizeEnter( daoUtil.getInt( 24 ) );
+        attributeField.setMultiple( daoUtil.getBoolean( 25 ) );
+        attributeField.setPosition( daoUtil.getInt( 26 ) );
+        userField.setAttributeField( attributeField );
+
+        // FILE
+        if ( daoUtil.getObject( 5 ) != null ) // f.id_file
+        {
+            File file = new File( );
+            file.setIdFile( daoUtil.getInt( 5 ) ); // f.id_file
+            userField.setFile( file );
+        }
+        
+        return userField;
     }
 }

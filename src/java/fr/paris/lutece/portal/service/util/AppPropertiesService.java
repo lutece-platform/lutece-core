@@ -58,7 +58,6 @@ public final class AppPropertiesService
     private static final String PATH_OVERRIDE_CORE = "override/";
     private static final String PATH_OVERRIDE_PLUGINS = "override/plugins";
     private static PropertiesService _propertiesService;
-    private static String _strConfPath;
 
     /**
      * Private constructor
@@ -75,19 +74,19 @@ public final class AppPropertiesService
      */
     public static void init( String strConfPath )
     {
-        _strConfPath = strConfPath;
+        String confPath = strConfPath;
         _propertiesService = new PropertiesService( AppPathService.getWebAppPath( ) );
 
-        _propertiesService.addPropertiesFile( _strConfPath, FILE_PROPERTIES_CONFIG );
-        _propertiesService.addPropertiesFile( _strConfPath, FILE_PROPERTIES_DATABASE );
-        _propertiesService.addPropertiesFile( _strConfPath, FILE_PROPERTIES_LUTECE );
-        _propertiesService.addPropertiesFile( _strConfPath, FILE_PROPERTIES_SEARCH );
-        _propertiesService.addPropertiesFile( _strConfPath, FILE_PROPERTIES_DAEMONS );
-        _propertiesService.addPropertiesFile( _strConfPath, FILE_PROPERTIES_CACHES );
-        _propertiesService.addPropertiesFile( _strConfPath, FILE_PROPERTIES_EDITORS );
-        _propertiesService.addPropertiesDirectory( _strConfPath + PATH_PLUGINS );
-        _propertiesService.addPropertiesDirectory( _strConfPath + PATH_OVERRIDE_CORE );
-        _propertiesService.addPropertiesDirectory( _strConfPath + PATH_OVERRIDE_PLUGINS );
+        _propertiesService.addPropertiesFile( confPath, FILE_PROPERTIES_CONFIG );
+        _propertiesService.addPropertiesFile( confPath, FILE_PROPERTIES_DATABASE );
+        _propertiesService.addPropertiesFile( confPath, FILE_PROPERTIES_LUTECE );
+        _propertiesService.addPropertiesFile( confPath, FILE_PROPERTIES_SEARCH );
+        _propertiesService.addPropertiesFile( confPath, FILE_PROPERTIES_DAEMONS );
+        _propertiesService.addPropertiesFile( confPath, FILE_PROPERTIES_CACHES );
+        _propertiesService.addPropertiesFile( confPath, FILE_PROPERTIES_EDITORS );
+        _propertiesService.addPropertiesDirectory( confPath + PATH_PLUGINS );
+        _propertiesService.addPropertiesDirectory( confPath + PATH_OVERRIDE_CORE );
+        _propertiesService.addPropertiesDirectory( confPath + PATH_OVERRIDE_PLUGINS );
     }
 
     /**
