@@ -172,8 +172,8 @@ public class RoleJspBean extends AdminFeaturesPageJspBean
         String strPageWorkgroup = request.getParameter( PARAMETER_PAGE_WORKGROUP );
 
         // Mandatory field
-        if ( ( strPageRole == null ) || strPageRole.equals( "" ) || ( strPageRoleDescription == null ) || strPageRoleDescription.equals( "" )
-                || ( strPageWorkgroup == null ) )
+       
+        if ( StringUtil.isAnyEmpty( strPageRole, strPageRoleDescription ) || ( strPageWorkgroup == null ) )
         {
             return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
         }

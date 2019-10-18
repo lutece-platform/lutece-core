@@ -33,6 +33,23 @@
  */
 package fr.paris.lutece.portal.service.page;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Optional;
+import java.util.Properties;
+
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang.StringUtils;
+
 import fr.paris.lutece.portal.business.page.Page;
 import fr.paris.lutece.portal.business.page.PageHome;
 import fr.paris.lutece.portal.business.page.PageRoleRemovalListener;
@@ -70,25 +87,6 @@ import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.portal.web.l10n.LocaleService;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.url.UrlItem;
-
-import org.apache.commons.lang.StringUtils;
-
-import java.io.IOException;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Optional;
-import java.util.Properties;
-
-import javax.inject.Inject;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * This class delivers pages to web componants. It handles XML tranformation to
@@ -245,26 +243,13 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
             if ( _cachePages.isCacheEnable( ) )
             {
                 strPage = getCachedPage( strIdPage, nMode, request );
-
+                
                 // redirection handling
-                if ( strPage.startsWith( REDIRECTION_KEY ) )
-                {
-                    strPage = strPage.replaceFirst( REDIRECTION_KEY, "" );
-
-                    try
-                    {
-                        LocalVariables.getResponse( ).sendRedirect( strPage );
-                    }
-                    catch ( IOException e )
-                    {
-                        AppLogService.error( "Error on sendRedirect for " + strPage );
-                    }
-                }
+                strPage = redirect( strPage );
             }
             else
             {
-                Boolean bCanBeCached = Boolean.FALSE;
-                strPage = buildPageContent( strIdPage, nMode, request, bCanBeCached );
+                strPage = buildPageContent( strIdPage, nMode, request );
             }
 
             return strPage;
@@ -275,6 +260,25 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
 
             throw new PageNotFoundException( );
         }
+    }
+    
+    private String redirect( String strPage )
+    {
+        if ( strPage.startsWith( REDIRECTION_KEY ) )
+        {
+            strPage = strPage.replaceFirst( REDIRECTION_KEY, "" );
+
+            try
+            {
+                LocalVariables.getResponse( ).sendRedirect( strPage );
+            }
+            catch ( IOException e )
+            {
+                AppLogService.error( "Error on sendRedirect for " + strPage );
+            }
+        }
+        
+        return strPage;
     }
 
     private String getCachedPage( String strIdPage, int nMode, HttpServletRequest request ) throws SiteMessageException
@@ -304,7 +308,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
                 // blocked on synchronized
                 if ( strPage == null )
                 {
-                    Boolean bCanBeCached = Boolean.TRUE;
+                    boolean bCanBeCached = true;
 
                     AppLogService.debug( "Page generation " + strKey );
 
@@ -315,12 +319,12 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
                     request.setAttribute( ATTRIBUTE_CORE_CAN_PAGE_BE_CACHED, null );
                     // The key is not in the cache, so we have to build
                     // the page
-                    strPage = buildPageContent( strIdPage, nMode, request, bCanBeCached );
+                    strPage = buildPageContent( strIdPage, nMode, request );
 
                     // We check if the page contains portlets that can not be cached.
                     if ( Boolean.FALSE.equals( request.getAttribute( ATTRIBUTE_CORE_CAN_PAGE_BE_CACHED ) ) )
                     {
-                        bCanBeCached = Boolean.FALSE;
+                        bCanBeCached = false;
                     }
 
                     if ( response.getRedirectLocation( ) != null )
@@ -386,11 +390,10 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
      * @param strIdPage    The page ID
      * @param nMode        The current mode.
      * @param request      The HttpRequest
-     * @param bCanBeCached The boolean
      * @return The HTML code of the page as a String.
      * @throws SiteMessageException occurs when a site message need to be displayed
      */
-    public String buildPageContent( String strIdPage, int nMode, HttpServletRequest request, Boolean bCanBeCached )
+    public String buildPageContent( String strIdPage, int nMode, HttpServletRequest request )
             throws SiteMessageException
     {
         int nIdPage = 0;

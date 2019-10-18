@@ -298,51 +298,45 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
     private Collection<Plugin> filterPluginsList( Collection<Plugin> listPlugins, String strPluginTypeFilter )
     {
         Collection<Plugin> list = new ArrayList<>( );
+        if ( strPluginTypeFilter == null )
+        {
+            return listPlugins;
+        }
 
         for ( Plugin plugin : listPlugins )
         {
-            // Checks for filtering the plugin list
-            if ( strPluginTypeFilter != null )
+            boolean filter = false;
+            if ( strPluginTypeFilter.equals( PARAM_PLUGIN_TYPE_APPLICATION ) )
             {
-                if ( strPluginTypeFilter.equals( PARAM_PLUGIN_TYPE_APPLICATION )
-                        && ( ( plugin.getType( ) & Plugin.PLUGIN_TYPE_APPLICATION ) == 0 ) )
-                {
-                    // skip this plugin
-                    continue;
-                }
-
-                if ( strPluginTypeFilter.equals( PARAM_PLUGIN_TYPE_PORTLET )
-                        && ( ( plugin.getType( ) & Plugin.PLUGIN_TYPE_PORTLET ) == 0 ) )
-                {
-                    // skip this plugin
-                    continue;
-                }
-
-                if ( strPluginTypeFilter.equals( PARAM_PLUGIN_TYPE_FEATURE )
-                        && ( ( plugin.getType( ) & Plugin.PLUGIN_TYPE_FEATURE ) == 0 ) )
-                {
-                    // skip this plugin
-                    continue;
-                }
-
-                if ( strPluginTypeFilter.equals( PARAM_PLUGIN_TYPE_INSERTSERVICE )
-                        && ( ( plugin.getType( ) & Plugin.PLUGIN_TYPE_INSERTSERVICE ) == 0 ) )
-                {
-                    // skip this plugin
-                    continue;
-                }
-
-                if ( strPluginTypeFilter.equals( PARAM_PLUGIN_TYPE_CONTENTSERVICE )
-                        && ( ( plugin.getType( ) & Plugin.PLUGIN_TYPE_CONTENTSERVICE ) == 0 ) )
-                {
-                    // skip this plugin
-                    continue;
-                }
+                // skip this plugin
+                filter = ( plugin.getType( ) & Plugin.PLUGIN_TYPE_APPLICATION ) == 0;
+            }
+            else if ( strPluginTypeFilter.equals( PARAM_PLUGIN_TYPE_PORTLET ) )
+            {
+                // skip this plugin
+                filter = ( plugin.getType( ) & Plugin.PLUGIN_TYPE_PORTLET ) == 0;
+            }
+            else if ( strPluginTypeFilter.equals( PARAM_PLUGIN_TYPE_FEATURE ) )
+            {
+                // skip this plugin
+                filter = ( plugin.getType( ) & Plugin.PLUGIN_TYPE_FEATURE ) == 0;
+            }
+            else if ( strPluginTypeFilter.equals( PARAM_PLUGIN_TYPE_INSERTSERVICE ) )
+            {
+                // skip this plugin
+                filter = ( plugin.getType( ) & Plugin.PLUGIN_TYPE_INSERTSERVICE ) == 0;
+            }
+            else if ( strPluginTypeFilter.equals( PARAM_PLUGIN_TYPE_CONTENTSERVICE ) )
+            {
+                // skip this plugin
+                filter = ( plugin.getType( ) & Plugin.PLUGIN_TYPE_CONTENTSERVICE ) == 0;
             }
 
-            list.add( plugin );
+            if ( !filter )
+            {
+                list.add( plugin );
+            }
         }
-
         return list;
     }
 

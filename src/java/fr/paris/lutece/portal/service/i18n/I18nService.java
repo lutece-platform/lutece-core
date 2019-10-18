@@ -199,7 +199,7 @@ public final class I18nService
                 String strBundleKey = strKey.substring( 0, nPos );
                 String strStringKey = strKey.substring( nPos + 1 );
 
-                String strBundle = FORMAT_PACKAGE_PORTAL_RESOURCES_LOCATION;
+                String strBundle;
 
                 if ( !strBundleKey.equals( "portal" ) )
                 {

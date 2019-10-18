@@ -141,7 +141,7 @@ public class LinksInclude implements PageInclude
         Locale locale = request.getLocale( );
         LinksIncludeCacheService cacheService = SpringContextService.getBean( LinksIncludeCacheService.SERVICE_NAME );
         String strKey = cacheService.getCacheKey( nMode, strPage, locale );
-        @SuppressWarnings("unchecked")
+        @SuppressWarnings( "unchecked" )
         Map<String, Object> links = ( Map<String, Object> ) cacheService.getFromCache( strKey );
 
         if ( links != null )

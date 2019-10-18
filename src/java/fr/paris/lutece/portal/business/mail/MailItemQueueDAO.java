@@ -123,27 +123,32 @@ public class MailItemQueueDAO implements IMailItemQueueDAO
             objectOutputStream.close( );
             byteArrayOutputStream.close( );
 
-            TransactionManager.beginTransaction( null );
-            try( DAOUtil daoUtilKey = new DAOUtil( SQL_QUERY_INSERT, Statement.RETURN_GENERATED_KEYS ) ;
-                    DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT_MAIL_ITEM ) )
-            {
-                daoUtilKey.executeUpdate( );
-                daoUtilKey.nextGeneratedKey( );
-                int nNewPrimaryKey = daoUtilKey.getGeneratedKeyInt( 1 );
-                mailItemQueue.setIdMailItemQueue( nNewPrimaryKey );
-                daoUtil.setInt( 1, nNewPrimaryKey );
-                daoUtil.setBytes( 2, byteArrayOutputStream.toByteArray( ) );
-                daoUtil.executeUpdate( );
-                TransactionManager.commitTransaction( null );
-            }
-            catch( Exception e )
-            {
-                TransactionManager.rollBack( null );
-                AppLogService.error( e );
-            }
+            doInsertMail( mailItemQueue, byteArrayOutputStream );
         }
         catch( Exception e )
         {
+            AppLogService.error( e );
+        }
+    }
+    
+    private void doInsertMail( MailItemQueue mailItemQueue, ByteArrayOutputStream byteArrayOutputStream )
+    {
+        TransactionManager.beginTransaction( null );
+        try( DAOUtil daoUtilKey = new DAOUtil( SQL_QUERY_INSERT, Statement.RETURN_GENERATED_KEYS ) ;
+                DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT_MAIL_ITEM ) )
+        {
+            daoUtilKey.executeUpdate( );
+            daoUtilKey.nextGeneratedKey( );
+            int nNewPrimaryKey = daoUtilKey.getGeneratedKeyInt( 1 );
+            mailItemQueue.setIdMailItemQueue( nNewPrimaryKey );
+            daoUtil.setInt( 1, nNewPrimaryKey );
+            daoUtil.setBytes( 2, byteArrayOutputStream.toByteArray( ) );
+            daoUtil.executeUpdate( );
+            TransactionManager.commitTransaction( null );
+        }
+        catch( Exception e )
+        {
+            TransactionManager.rollBack( null );
             AppLogService.error( e );
         }
     }
