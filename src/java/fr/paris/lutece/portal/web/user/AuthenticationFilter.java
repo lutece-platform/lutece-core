@@ -33,6 +33,23 @@
  */
 package fr.paris.lutece.portal.web.user;
 
+import java.io.IOException;
+import java.util.Enumeration;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.StringTokenizer;
+
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.lang.StringUtils;
+
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.admin.AdminAuthenticationService;
 import fr.paris.lutece.portal.service.admin.AdminUserService;
@@ -47,21 +64,6 @@ import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.util.url.UrlItem;
-
-import java.io.IOException;
-
-import java.util.Enumeration;
-import java.util.StringTokenizer;
-
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import org.apache.commons.lang.StringUtils;
 
 /**
  * Filter to prevent unauthenticated access to admin
@@ -250,22 +252,18 @@ public class AuthenticationFilter implements Filter
      * */
     private boolean isPrivateUrl( HttpServletRequest request )
     {
-        boolean bIsRestricted = true;
         String strUrl = getResquestedUrl( request );
-
-        String strUrlDefaultAdminLogin = getAbsoluteUrl( request, JSP_URL_ADMIN_LOGIN );
-
-        if ( strUrl.equals( strUrlDefaultAdminLogin ) || strUrl.equals( getLoginUrl( request ) ) || strUrl.equals( getLogoutUrl( request ) ) )
-        {
-            bIsRestricted = false;
-        }
-        else
-            if ( isInPublicUrlList( request, strUrl ) )
-            {
-                bIsRestricted = false;
-            }
-
-        return bIsRestricted;
+        Set<String> allowedUrlSet = createAllowedUrlSet( request );
+        return !allowedUrlSet.contains( strUrl ) && !isInPublicUrlList( request, strUrl );
+    }
+    
+    private Set<String> createAllowedUrlSet( HttpServletRequest request )
+    {
+        Set<String> set = new HashSet<>( );
+        set.add( getAbsoluteUrl( request, JSP_URL_ADMIN_LOGIN ) );
+        set.add( getLoginUrl( request ) );
+        set.add( getLogoutUrl( request ) );
+        return set;
     }
 
     /**

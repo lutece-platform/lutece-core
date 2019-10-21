@@ -39,6 +39,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -174,26 +175,17 @@ public class RightJspBean extends AdminFeaturesPageJspBean
 
         // AVAILABLE USERS
         ReferenceList listAvailableUsers = new ReferenceList( );
-        ReferenceItem itemUser;
-        boolean bAssigned;
 
         for ( AdminUser user : AdminUserHome.findUserList( ) )
         {
-            itemUser = new ReferenceItem( );
+            final ReferenceItem itemUser = new ReferenceItem( );
             itemUser.setCode( Integer.toString( user.getUserId( ) ) );
             itemUser.setName( user.getAccessCode( ) + "(" + user.getFirstName( ) + " " + user.getLastName( ) + ")" );
-            bAssigned = Boolean.FALSE;
-
-            for ( AdminUser assignedUser : listAssignedUsers )
-            {
-                if ( Integer.toString( assignedUser.getUserId( ) ).equals( itemUser.getCode( ) ) )
-                {
-                    bAssigned = Boolean.TRUE;
-
-                    break;
-                }
-            }
-
+            
+            boolean bAssigned = listAssignedUsers
+                    .stream( )
+                    .anyMatch( assignedUser -> Integer.toString( assignedUser.getUserId( ) ).equals( itemUser.getCode( ) ) );
+            
             // Add users with higher level then connected user or add all users if connected
             // user is administrator
             if ( !bAssigned && ( ( user.getUserLevel( ) > getUser( ).getUserLevel( ) ) || ( getUser( ).isAdmin( ) ) )
@@ -242,15 +234,10 @@ public class RightJspBean extends AdminFeaturesPageJspBean
                 url.getUrl( ), AbstractPaginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex, getLocale( ) );
 
         // USER LEVEL
-        Collection<Level> filteredLevels = new ArrayList<>( );
-
-        for ( Level level : LevelHome.getLevelsList( ) )
-        {
-            if ( getUser( ).isAdmin( ) || getUser( ).hasRights( level.getId( ) ) )
-            {
-                filteredLevels.add( level );
-            }
-        }
+        Collection<Level> filteredLevels = LevelHome.getLevelsList( )
+                .stream( )
+                .filter( level -> getUser( ).isAdmin( ) || getUser( ).hasRights( level.getId( ) ) )
+                .collect( Collectors.toList( ) );
 
         model.put( MARK_RIGHT, right );
         model.put( MARK_USER_LEVELS_LIST, filteredLevels );

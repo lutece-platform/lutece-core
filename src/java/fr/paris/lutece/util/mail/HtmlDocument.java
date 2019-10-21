@@ -182,7 +182,6 @@ public class HtmlDocument
     public List<UrlAttachment> getAllUrlsAttachement( ElementUrl elementType )
     {
         List<UrlAttachment> listUrlAttachement = new ArrayList<>( );
-        UrlAttachment urlAttachement;
         NodeList nodes = _content.getElementsByTagName( elementType.getTagName( ) );
 
         for ( int i = 0; i < nodes.getLength( ); i++ )
@@ -207,30 +206,34 @@ public class HtmlDocument
             if ( ( strAttributeName != null ) && ( attributes != null ) )
             {
                 Node attributeNode = attributes.getNamedItem( strAttributeName );
-
-                if ( attributeNode != null )
-                {
-                    String strSrc = attributeNode.getNodeValue( );
-
-                    if ( ( strSrc != null ) && strSrc.startsWith( _strBaseUrl ) )
-                    {
-                        try
-                        {
-                            URL url = new URL( strSrc );
-                            urlAttachement = new UrlAttachment( getUrlName( url ), url );
-                            listUrlAttachement.add( urlAttachement );
-                        }
-                        catch( MalformedURLException e )
-                        {
-                            // ignored document
-                            AppLogService.info( strSrc + " not found, location ignored." );
-                        }
-                    }
-                }
+                createAttributeUrl( attributeNode, listUrlAttachement );
             }
         }
 
         return listUrlAttachement;
+    }
+    
+    private void createAttributeUrl( Node attributeNode, List<UrlAttachment> listUrlAttachement )
+    {
+        if ( attributeNode != null )
+        {
+            String strSrc = attributeNode.getNodeValue( );
+
+            if ( ( strSrc != null ) && strSrc.startsWith( _strBaseUrl ) )
+            {
+                try
+                {
+                    URL url = new URL( strSrc );
+                    UrlAttachment urlAttachement = new UrlAttachment( getUrlName( url ), url );
+                    listUrlAttachement.add( urlAttachement );
+                }
+                catch( MalformedURLException e )
+                {
+                    // ignored document
+                    AppLogService.info( strSrc + " not found, location ignored." );
+                }
+            }
+        }
     }
 
     /**

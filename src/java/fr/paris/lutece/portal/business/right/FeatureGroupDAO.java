@@ -44,15 +44,14 @@ import java.util.List;
 public final class FeatureGroupDAO implements IFeatureGroupDAO
 {
     // Constants
-    private static final String SQL_QUERY_SELECT = " SELECT id_feature_group, feature_group_description, feature_group_label, feature_group_order "
-            + " FROM core_feature_group " + " WHERE id_feature_group = ? ";
+    private static final String SQL_SELECT = " SELECT id_feature_group, feature_group_description, feature_group_label, feature_group_order ";
+    private static final String SQL_QUERY_SELECT = SQL_SELECT + " FROM core_feature_group " + " WHERE id_feature_group = ? ";
     private static final String SQL_QUERY_INSERT = " INSERT INTO core_feature_group ( id_feature_group , feature_group_description, feature_group_label, feature_group_order ) "
             + " VALUES ( ?, ?, ?, ?  )";
     private static final String SQL_QUERY_DELETE = " DELETE FROM core_feature_group WHERE id_feature_group = ? ";
     private static final String SQL_QUERY_UPDATE = " UPDATE core_feature_group SET feature_group_description = ?, "
             + " feature_group_label = ? , feature_group_order = ? " + " WHERE id_feature_group = ?";
-    private static final String SQL_QUERY_SELECTALL = " SELECT id_feature_group, feature_group_description, feature_group_label, feature_group_order " + ""
-            + " FROM core_feature_group ORDER BY feature_group_order ASC";
+    private static final String SQL_QUERY_SELECTALL = SQL_SELECT + " FROM core_feature_group ORDER BY feature_group_order ASC";
     private static final String SQL_QUERY_COUNT_FEATUREGROUP = " SELECT COUNT(id_feature_group)FROM core_feature_group";
 
     // /////////////////////////////////////////////////////////////////////////////////////

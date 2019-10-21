@@ -73,7 +73,7 @@ public class AccountLifeTimeDaemon extends Daemon
     private static final String PARAMETER_EXPIRED_ALERT_MAIL_SENDER = "expired_alert_mail_sender";
     private static final String PARAMETER_EXPIRED_ALERT_MAIL_SUBJECT = "expired_alert_mail_subject";
     private static final String PARAMETER_FIRST_ALERT_MAIL_SENDER = "first_alert_mail_sender";
-    private static final String PARAMETER_FIRST_ALERT_MAIL_SUBJECT = "first_alert_mail_subject";
+    private static final String PARAMETER_FIRST_ALERT_MAIL_SUBJECT = "first_aleDesactivart_mail_subject";
     private static final String PARAMETER_OTHER_ALERT_MAIL_SENDER = "other_alert_mail_sender";
     private static final String PARAMETER_OTHER_ALERT_MAIL_SUBJECT = "other_alert_mail_subject";
     private static final String PARAMETER_PASSWORD_EXPIRED_MAIL_SENDER = "password_expired_mail_sender";
@@ -276,8 +276,8 @@ public class AccountLifeTimeDaemon extends Daemon
         }
         else
         {
-            AppLogService.info( "AccountLifeTimeDaemon - Expired passwords notification deactivated, skipping" );
-            sbResult.append( "AccountLifeTimeDaemon - Expired passwords notification deactivated, skipping" );
+            AppLogService.info( MESSAGE_DAEMON_NAME + MESSAGE_NO_NOTIF );
+            sbResult.append( MESSAGE_DAEMON_NAME + MESSAGE_NO_NOTIF );
         }
     }
     

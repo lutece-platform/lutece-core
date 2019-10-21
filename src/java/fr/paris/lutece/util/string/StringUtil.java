@@ -38,6 +38,8 @@ import fr.paris.lutece.portal.service.util.AppPropertiesService;
 
 import java.text.Normalizer;
 
+import org.apache.commons.lang.StringUtils;
+
 /**
  * This class provides String utils.
  */
@@ -322,5 +324,22 @@ public final class StringUtil
         }
 
         return nDefaultValue;
+    }
+    
+    /**
+     * Return true if any of the strings is empty, false otherwise
+     * @param strings the strings to test
+     * @return
+     */
+    public static boolean isAnyEmpty( String... strings )
+    {
+        for ( String string : strings )
+        {
+            if ( StringUtils.isEmpty( string ) )
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }

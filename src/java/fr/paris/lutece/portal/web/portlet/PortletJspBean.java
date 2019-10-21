@@ -33,6 +33,12 @@
  */
 package fr.paris.lutece.portal.web.portlet;
 
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
 import fr.paris.lutece.portal.business.page.PageHome;
 import fr.paris.lutece.portal.business.portlet.Portlet;
 import fr.paris.lutece.portal.business.portlet.PortletHome;
@@ -49,12 +55,7 @@ import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.html.HtmlTemplate;
-
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
+import fr.paris.lutece.util.string.StringUtil;
 
 /**
  * This class represents user interface Portlet. It is the base class of all
@@ -202,9 +203,9 @@ public abstract class PortletJspBean extends AdminFeaturesPageJspBean
 
         strName = strName.replaceAll( "\"", "" );
 
+       
         // Check Mandatory fields
-        if ( strName.equals( "" ) || strOrder.equals( "" ) || strColumn.equals( "" ) || strAcceptAlias.equals( "" )
-                || strAcceptPortletTitle.equals( "" ) )
+        if ( StringUtil.isAnyEmpty( strName, strOrder, strColumn, strAcceptAlias, strAcceptPortletTitle ) )
         {
             return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
         }

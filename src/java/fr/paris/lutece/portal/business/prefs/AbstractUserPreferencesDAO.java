@@ -43,16 +43,17 @@ import java.util.List;
  */
 public abstract class AbstractUserPreferencesDAO implements IPreferencesDAO
 {
+    private final String _strSqlCount = "SELECT COUNT(*) FROM " + getPreferencesTable( );
     private final String _strSqlSelect = "SELECT pref_value FROM " + getPreferencesTable( ) + " WHERE id_user = ? AND pref_key = ?";
     private final String _strSqlInsert = "INSERT INTO " + getPreferencesTable( ) + " ( pref_value , id_user, pref_key ) VALUES ( ?, ?, ? ) ";
     private final String _strSqlUpdate = "UPDATE " + getPreferencesTable( ) + " SET pref_value = ? WHERE id_user = ? AND pref_key = ?";
     private final String _strSqlDelete = "DELETE FROM " + getPreferencesTable( ) + " WHERE id_user = ? ";
     private final String _strSqlSelectAll = "SELECT pref_key FROM " + getPreferencesTable( ) + " WHERE id_user = ?";
     private final String _strSqlSelectByValue = "SELECT id_user FROM " + getPreferencesTable( ) + " WHERE pref_key = ? AND pref_value = ? ";
-    private final String _strSqlDeleteKey = "DELETE FROM " + getPreferencesTable( ) + " WHERE id_user = ? AND pref_key = ? ";
-    private final String _strSqlDeleteKeyPrefix = "DELETE FROM " + getPreferencesTable( ) + " WHERE id_user = ? AND pref_key LIKE ? ";
-    private final String _strSqlSelectCount = "SELECT COUNT(*) FROM " + getPreferencesTable( ) + " WHERE id_user = ? AND pref_key = ?";
-    private final String _strSqlSelectCountPrefValue = "SELECT COUNT(*) FROM " + getPreferencesTable( ) + " WHERE pref_key = ? AND pref_value = ?";
+    private final String _strSqlDeleteKey = _strSqlDelete + " AND pref_key = ? ";
+    private final String _strSqlDeleteKeyPrefix = _strSqlDelete + " AND pref_key LIKE ? ";
+    private final String _strSqlSelectCount = _strSqlCount + " WHERE id_user = ? AND pref_key = ?";
+    private final String _strSqlSelectCountPrefValue = _strSqlCount + " WHERE pref_key = ? AND pref_value = ?";
 
     /**
      * Gets the preferences table

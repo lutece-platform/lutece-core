@@ -62,6 +62,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.xml.transform.stream.StreamSource;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 
 /**
  *
@@ -109,11 +110,9 @@ public class AdminDocumentationJspBean
     /**
      * Returns the view of features documentation
      *
-     * @param request
-     *            The request
+     * @param request The request
      * @return The HTML documentation
-     * @throws AccessDeniedException
-     *             If the access is refused to the user
+     * @throws AccessDeniedException If the access is refused to the user
      */
     public String getDocumentation( HttpServletRequest request ) throws AccessDeniedException
     {
@@ -142,7 +141,8 @@ public class AdminDocumentationJspBean
         }
         else
         {
-            strXmlPath = AppPathService.getWebAppPath( ) + XML_BASE_PATH + locale.toString( ) + XML_USER_PATH + strFeature + ".xml";
+            strXmlPath = AppPathService.getWebAppPath( ) + XML_BASE_PATH + locale.toString( ) + XML_USER_PATH
+                    + strFeature + ".xml";
         }
 
         sourceXml = new StreamSource( new File( strXmlPath ) );
@@ -158,9 +158,10 @@ public class AdminDocumentationJspBean
 
         try
         {
-            strHtmlDoc = xmlTransformerService.transformBySourceWithXslCache( sourceXml, sourceStyleSheet, strUniqueId, params, null );
+            strHtmlDoc = xmlTransformerService.transformBySourceWithXslCache( sourceXml, sourceStyleSheet, strUniqueId,
+                    params, null );
         }
-        catch( Exception e )
+        catch ( Exception e )
         {
             AppLogService.error( "Can't parse XML: " + e.getMessage( ), e );
 
@@ -173,8 +174,7 @@ public class AdminDocumentationJspBean
     /**
      * Returns an error message when an error occured
      *
-     * @param request
-     *            The request
+     * @param request The request
      * @return The URL of message
      */
     public String doAdminMessage( HttpServletRequest request )
@@ -185,8 +185,7 @@ public class AdminDocumentationJspBean
     /**
      * Returns the view of summary documentation
      *
-     * @param request
-     *            The request
+     * @param request The request
      * @return The HTML documentation
      */
     public String getSummaryDocumentation( HttpServletRequest request )
@@ -199,7 +198,8 @@ public class AdminDocumentationJspBean
         model.put( BOOKMARK_FEATURE_GROUP_LIST, listFeatureGroups );
         model.put( BOOKMARK_HELP_ICON, IMAGE_HELP_PATH );
 
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_SUMMARY_DOCUMENTATION, user.getLocale( ), model );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_SUMMARY_DOCUMENTATION, user.getLocale( ),
+                model );
 
         return template.getHtml( );
     }
@@ -207,8 +207,7 @@ public class AdminDocumentationJspBean
     /**
      * Returns an array that contains all feature groups corresponding to the user
      *
-     * @param user
-     *            The user
+     * @param user The user
      * @return A list of FeatureGroup objects
      */
     private List<FeatureGroup> getFeatureGroupsList( AdminUser user )
@@ -232,15 +231,15 @@ public class AdminDocumentationJspBean
                 String strFeatureGroup = right.getFeatureGroup( );
                 String strUrlDocumentation = right.getDocumentationUrl( );
 
-                if ( featureGroup.getId( ).equalsIgnoreCase( strFeatureGroup ) && ( strUrlDocumentation != null ) && !( strUrlDocumentation.equals( "" ) ) )
+                if ( featureGroup.getId( ).equalsIgnoreCase( strFeatureGroup )
+                        && StringUtils.isNotEmpty( strUrlDocumentation ) )
                 {
                     featureGroup.addFeature( right );
                 }
-                else
-                    if ( ( strUrlDocumentation != null ) && !( strUrlDocumentation.equals( "" ) ) )
-                    {
-                        aLeftFeatures.add( right );
-                    }
+                else if ( StringUtils.isNotEmpty( strUrlDocumentation ) )
+                {
+                    aLeftFeatures.add( right );
+                }
             }
 
             if ( !featureGroup.isEmpty( ) )
@@ -288,16 +287,15 @@ public class AdminDocumentationJspBean
                 aOutFeatureGroupList.add( featureGroupSystem );
             }
         }
-        else
-            if ( CollectionUtils.isNotEmpty( aOutFeatureGroupList ) )
-            {
-                FeatureGroup lastFeatureGroup = aOutFeatureGroupList.get( aOutFeatureGroupList.size( ) - 1 );
+        else if ( CollectionUtils.isNotEmpty( aOutFeatureGroupList ) )
+        {
+            FeatureGroup lastFeatureGroup = aOutFeatureGroupList.get( aOutFeatureGroupList.size( ) - 1 );
 
-                for ( Right right : features )
-                {
-                    lastFeatureGroup.addFeature( right );
-                }
+            for ( Right right : features )
+            {
+                lastFeatureGroup.addFeature( right );
             }
+        }
 
         return aOutFeatureGroupList;
     }
