@@ -49,15 +49,13 @@ public class XmlTransformerCacheService implements CacheableService
 {
     private static final String SERVICE_NAME = "XML Transformer Cache Service (XSLT)";
     private static final String MSG_KEYS_NOT_AVAILABLE = "Keys not available";
-    private static XmlTransformerCacheService _singleton;
 
     /**
      * Inits the.
      */
     public static void init( )
     {
-        _singleton = new XmlTransformerCacheService( );
-        CacheService.registerCacheableService( _singleton );
+        CacheService.registerCacheableService( new XmlTransformerCacheService( ) );
     }
 
     /**

@@ -55,10 +55,9 @@ public class AttributeComparator implements Comparator<Object>, Serializable
     /**
      * Constructor
      * 
-     * @param strSortedAttribute
-     *            the name of the attribute on which the sort will be made
-     * @param bIsASC
-     *            true for the ASC order, false for the DESC order
+     * @param strSortedAttribute the name of the attribute on which the sort will be
+     *                           made
+     * @param bIsASC             true for the ASC order, false for the DESC order
      */
     public AttributeComparator( String strSortedAttribute, boolean bIsASC )
     {
@@ -69,8 +68,8 @@ public class AttributeComparator implements Comparator<Object>, Serializable
     /**
      * Constructor
      * 
-     * @param strSortedAttribute
-     *            the name of the attribute on which the sort will be made
+     * @param strSortedAttribute the name of the attribute on which the sort will be
+     *                           made
      */
     public AttributeComparator( String strSortedAttribute )
     {
@@ -81,11 +80,10 @@ public class AttributeComparator implements Comparator<Object>, Serializable
     /**
      * Compare two objects o1 and o2.
      * 
-     * @param o1
-     *            Object
-     * @param o2
-     *            Object
-     * @return &lt; 0 if o1 is before o2 in the alphabetical order 0 if o1 equals o2 &gt; 0 if o1 is after o2
+     * @param o1 Object
+     * @param o2 Object
+     * @return &lt; 0 if o1 is before o2 in the alphabetical order 0 if o1 equals o2
+     *         &gt; 0 if o1 is after o2
      */
     @Override
     public int compare( Object o1, Object o2 )
@@ -95,56 +93,18 @@ public class AttributeComparator implements Comparator<Object>, Serializable
         Method method1 = getMethod( o1 );
         Method method2 = getMethod( o2 );
 
-        if ( ( method1 != null ) && ( method2 != null ) && ( method1.getReturnType( ) == method2.getReturnType( ) ) )
+        if ( method1 == null || method2 == null || method1.getReturnType( ) != method2.getReturnType( ) )
         {
-            try
-            {
-                Object oRet1 = method1.invoke( o1 );
-                Object oRet2 = method2.invoke( o2 );
+            return 0;
+        }
 
-                String strReturnType = method1.getReturnType( ).getName( );
-                Class<?> returnType = method1.getReturnType( );
-
-                if ( oRet1 == null )
-                {
-                    if ( oRet2 == null )
-                    {
-                        nStatus = 0;
-                    }
-                    else
-                    {
-                        nStatus = -1;
-                    }
-                }
-                else
-                {
-                    if ( oRet2 == null )
-                    {
-                        nStatus = 1;
-                    }
-                    else
-                    {
-                        if ( strReturnType.equals( "java.lang.String" ) )
-                        {
-                            nStatus = ( (String) oRet1 ).toLowerCase( Locale.ENGLISH ).compareTo( ( (String) oRet2 ).toLowerCase( Locale.ENGLISH ) );
-                        }
-                        else
-                            if ( returnType.isPrimitive( ) || isComparable( returnType ) )
-                            {
-                                nStatus = ( (Comparable) oRet1 ).compareTo( (Comparable) oRet2 );
-                            }
-                            else
-                                if ( returnType.isEnum( ) )
-                                {
-                                    nStatus = oRet1.toString( ).compareTo( oRet2.toString( ) );
-                                }
-                    }
-                }
-            }
-            catch( IllegalArgumentException | IllegalAccessException | InvocationTargetException e )
-            {
-                AppLogService.error( e );
-            }
+        try
+        {
+            nStatus = compareReturnTypes( o1, o2, method1, method2 );
+        }
+        catch ( IllegalArgumentException | IllegalAccessException | InvocationTargetException e )
+        {
+            AppLogService.error( e );
         }
 
         if ( !_bIsASC )
@@ -154,12 +114,59 @@ public class AttributeComparator implements Comparator<Object>, Serializable
 
         return nStatus;
     }
+    
+    private int compareReturnTypes( Object o1, Object o2, Method method1, Method method2 ) throws IllegalAccessException, InvocationTargetException
+    {
+        int nStatus = 0;
+        Object oRet1 = method1.invoke( o1 );
+        Object oRet2 = method2.invoke( o2 );
+
+        String strReturnType = method1.getReturnType( ).getName( );
+        Class<?> returnType = method1.getReturnType( );
+
+        if ( oRet1 == null )
+        {
+            if ( oRet2 == null )
+            {
+                nStatus = 0;
+            }
+            else
+            {
+                nStatus = -1;
+            }
+        }
+        else
+        {
+            if ( oRet2 == null )
+            {
+                nStatus = 1;
+            }
+            else
+            {
+                if ( strReturnType.equals( "java.lang.String" ) )
+                {
+                    nStatus = ( (String) oRet1 ).toLowerCase( Locale.ENGLISH )
+                            .compareTo( ( (String) oRet2 ).toLowerCase( Locale.ENGLISH ) );
+                }
+                else if ( returnType.isPrimitive( ) || isComparable( returnType ) )
+                {
+                    nStatus = ( (Comparable) oRet1 ).compareTo( (Comparable) oRet2 );
+                }
+                else if ( returnType.isEnum( ) )
+                {
+                    nStatus = oRet1.toString( ).compareTo( oRet2.toString( ) );
+                }
+            }
+        }
+        
+        return nStatus;
+    }
 
     /**
-     * Return the getter method of the object obj for the attribute _strSortedAttribute
+     * Return the getter method of the object obj for the attribute
+     * _strSortedAttribute
      * 
-     * @param obj
-     *            the object
+     * @param obj the object
      * @return method Method of the object obj for the attribute _strSortedAttribute
      */
     private Method getMethod( Object obj )
@@ -167,13 +174,14 @@ public class AttributeComparator implements Comparator<Object>, Serializable
         Method method = null;
         String strFirstLetter = _strSortedAttribute.substring( 0, 1 ).toUpperCase( );
 
-        String strMethodName = "get" + strFirstLetter + _strSortedAttribute.substring( 1, _strSortedAttribute.length( ) );
+        String strMethodName = "get" + strFirstLetter
+                + _strSortedAttribute.substring( 1, _strSortedAttribute.length( ) );
 
         try
         {
             method = obj.getClass( ).getMethod( strMethodName );
         }
-        catch( Exception e )
+        catch ( Exception e )
         {
             AppLogService.error( e );
         }
@@ -182,12 +190,13 @@ public class AttributeComparator implements Comparator<Object>, Serializable
     }
 
     /**
-     * Returns <code>true</code> if the class implements {@link Comparable} or extends a super class that implements {@link Comparable}, <code>false</code>
+     * Returns <code>true</code> if the class implements {@link Comparable} or
+     * extends a super class that implements {@link Comparable}, <code>false</code>
      * otherwise.
      * 
-     * @param clazz
-     *            the class
-     * @return <code>true</code> if the class implements {@link Comparable}, <code>false</code> otherwise.
+     * @param clazz the class
+     * @return <code>true</code> if the class implements {@link Comparable},
+     *         <code>false</code> otherwise.
      */
     private boolean isComparable( Class<?> clazz )
     {

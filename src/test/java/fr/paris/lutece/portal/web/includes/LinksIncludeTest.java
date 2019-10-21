@@ -131,7 +131,7 @@ public abstract class LinksIncludeTest extends LuteceTestCase
         HttpServletRequest request = new MockHttpServletRequest( );
         include.fillTemplate( rootModel, data, nMode, request );
         String cssLinks = (String) rootModel.get( "plugins_css_links" );
-        assertEquals( "<link rel=\"stylesheet\"  href=\"css/plugins/linksIncludeTestPlugin/style.css\" type=\"text/css\"  media=\"screen\" />\n", cssLinks );
+        assertEquals( "<link rel=\"stylesheet\"  href=\"css/plugins/linksIncludeTestPlugin/style.css\" type=\"text/css\"  media=\"screen\" />", cssLinks.replace("\n", "").replace("\r", "") );
     }
 
     public void testGetURICssAbsoluteHttp( )
@@ -148,7 +148,7 @@ public abstract class LinksIncludeTest extends LuteceTestCase
         HttpServletRequest request = new MockHttpServletRequest( );
         include.fillTemplate( rootModel, data, nMode, request );
         String cssLinks = (String) rootModel.get( "plugins_css_links" );
-        assertEquals( "<link rel=\"stylesheet\"  href=\"http://example.com/style.css\" type=\"text/css\"  media=\"screen\" />\n", cssLinks );
+        assertEquals( "<link rel=\"stylesheet\"  href=\"http://example.com/style.css\" type=\"text/css\"  media=\"screen\" />", cssLinks.replace("\n", "").replace("\r", "") );
     }
 
     public void testGetURICssAbsoluteHttps( )
@@ -165,7 +165,7 @@ public abstract class LinksIncludeTest extends LuteceTestCase
         HttpServletRequest request = new MockHttpServletRequest( );
         include.fillTemplate( rootModel, data, nMode, request );
         String cssLinks = (String) rootModel.get( "plugins_css_links" );
-        assertEquals( "<link rel=\"stylesheet\"  href=\"https://example.com/style.css\" type=\"text/css\"  media=\"screen\" />\n", cssLinks );
+        assertEquals( "<link rel=\"stylesheet\"  href=\"https://example.com/style.css\" type=\"text/css\"  media=\"screen\" />", cssLinks.replace("\n", "").replace("\r", "") );
     }
 
     public void testGetURICssProtocolRelative( )
@@ -182,7 +182,7 @@ public abstract class LinksIncludeTest extends LuteceTestCase
         HttpServletRequest request = new MockHttpServletRequest( );
         include.fillTemplate( rootModel, data, nMode, request );
         String cssLinks = (String) rootModel.get( "plugins_css_links" );
-        assertEquals( "<link rel=\"stylesheet\"  href=\"//example.com/style.css\" type=\"text/css\"  media=\"screen\" />\n", cssLinks );
+        assertEquals( "<link rel=\"stylesheet\"  href=\"//example.com/style.css\" type=\"text/css\"  media=\"screen\" />", cssLinks.replace("\n", "").replace("\r", "") );
     }
 
     public void testGetURICssHash( ) throws IOException
@@ -231,8 +231,8 @@ public abstract class LinksIncludeTest extends LuteceTestCase
             include.fillTemplate( rootModel, data, nMode, request );
             String cssLinks = (String) rootModel.get( "plugins_css_links" );
             assertEquals(
-                    "<link rel=\"stylesheet\"  href=\"css/plugins/linksIncludeTestPlugin/junithashed.css?lutece_h=88d4266fd4e6338d13b845fcf289579d209c897823b9217da3e161936f031589\" type=\"text/css\"  media=\"screen\" />\n",
-                    cssLinks );
+                    "<link rel=\"stylesheet\"  href=\"css/plugins/linksIncludeTestPlugin/junithashed.css?lutece_h=88d4266fd4e6338d13b845fcf289579d209c897823b9217da3e161936f031589\" type=\"text/css\"  media=\"screen\" />",
+                    cssLinks.replace("\n", "").replace("\r", "") );
             try( FileWriter writer = new FileWriter( hashedFile ) )
             {
                 writer.write( "bbcd" );
@@ -248,8 +248,8 @@ public abstract class LinksIncludeTest extends LuteceTestCase
             {
                 assertFalse( cssLinks.equals( cssLinks2 ) );
                 assertEquals(
-                        "<link rel=\"stylesheet\"  href=\"css/plugins/linksIncludeTestPlugin/junithashed.css?lutece_h=531ba794ef006cd3d69cf1acb33ddeccf8d6c655fb08f469335f8c2c32e2ab68\" type=\"text/css\"  media=\"screen\" />\n",
-                        cssLinks2 );
+                        "<link rel=\"stylesheet\"  href=\"css/plugins/linksIncludeTestPlugin/junithashed.css?lutece_h=531ba794ef006cd3d69cf1acb33ddeccf8d6c655fb08f469335f8c2c32e2ab68\" type=\"text/css\"  media=\"screen\" />",
+                        cssLinks2.replace("\n", "").replace("\r", "") );
             }
         }
         finally
@@ -304,8 +304,8 @@ public abstract class LinksIncludeTest extends LuteceTestCase
             include.fillTemplate( rootModel, data, nMode, request );
             String cssLinks = (String) rootModel.get( "plugins_css_links" );
             assertEquals(
-                    "<link rel=\"stylesheet\"  href=\"css/plugins/linksIncludeTestPlugin/junithashed.css?arg=value&lutece_h=88d4266fd4e6338d13b845fcf289579d209c897823b9217da3e161936f031589\" type=\"text/css\"  media=\"screen\" />\n",
-                    cssLinks );
+                    "<link rel=\"stylesheet\"  href=\"css/plugins/linksIncludeTestPlugin/junithashed.css?arg=value&lutece_h=88d4266fd4e6338d13b845fcf289579d209c897823b9217da3e161936f031589\" type=\"text/css\"  media=\"screen\" />",
+                    cssLinks.replace("\n", "").replace("\r", "") );
         }
         finally
         {
@@ -359,8 +359,8 @@ public abstract class LinksIncludeTest extends LuteceTestCase
             MockHttpServletRequest request = new MockHttpServletRequest( servletContext );
             include.fillTemplate( rootModel, data, nMode, request );
             String cssLinks = (String) rootModel.get( "plugins_css_links" );
-            assertEquals( "<link rel=\"stylesheet\"  href=\"css/plugins/linksIncludeTestPlugin/junithashed.css\" type=\"text/css\"  media=\"screen\" />\n",
-                    cssLinks );
+            assertEquals( "<link rel=\"stylesheet\"  href=\"css/plugins/linksIncludeTestPlugin/junithashed.css\" type=\"text/css\"  media=\"screen\" />",
+                    cssLinks.replace("\n", "").replace("\r", "") );
         }
         finally
         {
@@ -423,8 +423,8 @@ public abstract class LinksIncludeTest extends LuteceTestCase
             include.fillTemplate( rootModel, data, nMode, request );
             String cssLinks = (String) rootModel.get( "plugins_css_links" );
             assertEquals(
-                    "<link rel=\"stylesheet\"  href=\"css/plugins/linksIncludeTestPlugin/junithashed.css?lutece_h=88d4266fd4e6338d13b845fcf289579d209c897823b9217da3e161936f031589\" type=\"text/css\"  media=\"screen\" />\n",
-                    cssLinks );
+                    "<link rel=\"stylesheet\"  href=\"css/plugins/linksIncludeTestPlugin/junithashed.css?lutece_h=88d4266fd4e6338d13b845fcf289579d209c897823b9217da3e161936f031589\" type=\"text/css\"  media=\"screen\" />",
+                    cssLinks.replace("\n", "").replace("\r", "") );
         }
         finally
         {
@@ -465,7 +465,7 @@ public abstract class LinksIncludeTest extends LuteceTestCase
         HttpServletRequest request = new MockHttpServletRequest( );
         include.fillTemplate( rootModel, data, nMode, request );
         String cssLinks = (String) rootModel.get( "plugins_javascript_links" );
-        assertEquals( "<script src=\"js/plugins/linksIncludeTestPlugin/script.js\" type=\"text/javascript\" ></script>", cssLinks );
+        assertEquals( "<script src=\"js/plugins/linksIncludeTestPlugin/script.js\" type=\"text/javascript\" ></script>", cssLinks.replace("\n", "").replace("\r", "") );
     }
 
     public void testGetURIJavascriptAbsoluteHttp( )
@@ -482,7 +482,7 @@ public abstract class LinksIncludeTest extends LuteceTestCase
         HttpServletRequest request = new MockHttpServletRequest( );
         include.fillTemplate( rootModel, data, nMode, request );
         String cssLinks = (String) rootModel.get( "plugins_javascript_links" );
-        assertEquals( "<script src=\"http://example.com/script.js\" type=\"text/javascript\" ></script>", cssLinks );
+        assertEquals( "<script src=\"http://example.com/script.js\" type=\"text/javascript\" ></script>", cssLinks.replace("\n", "").replace("\r", "") );
     }
 
     public void testGetURIJavascriptAbsoluteHttps( )
@@ -499,7 +499,7 @@ public abstract class LinksIncludeTest extends LuteceTestCase
         HttpServletRequest request = new MockHttpServletRequest( );
         include.fillTemplate( rootModel, data, nMode, request );
         String cssLinks = (String) rootModel.get( "plugins_javascript_links" );
-        assertEquals( "<script src=\"https://example.com/script.js\" type=\"text/javascript\" ></script>", cssLinks );
+        assertEquals( "<script src=\"https://example.com/script.js\" type=\"text/javascript\" ></script>", cssLinks.replace("\n", "").replace("\r", "") );
     }
 
     public void testGetURIJavascriptProtocolRelative( )
@@ -516,7 +516,7 @@ public abstract class LinksIncludeTest extends LuteceTestCase
         HttpServletRequest request = new MockHttpServletRequest( );
         include.fillTemplate( rootModel, data, nMode, request );
         String cssLinks = (String) rootModel.get( "plugins_javascript_links" );
-        assertEquals( "<script src=\"//example.com/script.js\" type=\"text/javascript\" ></script>", cssLinks );
+        assertEquals( "<script src=\"//example.com/script.js\" type=\"text/javascript\" ></script>", cssLinks.replace("\n", "").replace("\r", "") );
     }
 
     public void testGetURIJavascriptHash( ) throws IOException
@@ -565,7 +565,7 @@ public abstract class LinksIncludeTest extends LuteceTestCase
             String cssLinks = (String) rootModel.get( "plugins_javascript_links" );
             assertEquals(
                     "<script src=\"js/plugins/linksIncludeTestPlugin/scripthashed.js?lutece_h=88d4266fd4e6338d13b845fcf289579d209c897823b9217da3e161936f031589\" type=\"text/javascript\" ></script>",
-                    cssLinks );
+                    cssLinks.replace("\n", "").replace("\r", "") );
             try( FileWriter writer = new FileWriter( hashedFile ) )
             {
                 writer.write( "bbcd" );
@@ -582,7 +582,7 @@ public abstract class LinksIncludeTest extends LuteceTestCase
                 assertFalse( cssLinks.equals( cssLinks2 ) );
                 assertEquals(
                         "<script src=\"js/plugins/linksIncludeTestPlugin/scripthashed.js?lutece_h=531ba794ef006cd3d69cf1acb33ddeccf8d6c655fb08f469335f8c2c32e2ab68\" type=\"text/javascript\" ></script>",
-                        cssLinks2 );
+                        cssLinks2.replace("\n", "").replace("\r", "") );
             }
         }
         finally
@@ -637,7 +637,7 @@ public abstract class LinksIncludeTest extends LuteceTestCase
             String cssLinks = (String) rootModel.get( "plugins_javascript_links" );
             assertEquals(
                     "<script src=\"js/plugins/linksIncludeTestPlugin/scripthashed.js?arg=value&lutece_h=88d4266fd4e6338d13b845fcf289579d209c897823b9217da3e161936f031589\" type=\"text/javascript\" ></script>",
-                    cssLinks );
+                    cssLinks.replace("\n", "").replace("\r", "") );
         }
         finally
         {
@@ -690,7 +690,7 @@ public abstract class LinksIncludeTest extends LuteceTestCase
             MockHttpServletRequest request = new MockHttpServletRequest( servletContext );
             include.fillTemplate( rootModel, data, nMode, request );
             String cssLinks = (String) rootModel.get( "plugins_javascript_links" );
-            assertEquals( "<script src=\"js/plugins/linksIncludeTestPlugin/scripthashed.js\" type=\"text/javascript\" ></script>", cssLinks );
+            assertEquals( "<script src=\"js/plugins/linksIncludeTestPlugin/scripthashed.js\" type=\"text/javascript\" ></script>", cssLinks.replace("\n", "").replace("\r", "") );
         }
         finally
         {
@@ -753,7 +753,7 @@ public abstract class LinksIncludeTest extends LuteceTestCase
             String cssLinks = (String) rootModel.get( "plugins_javascript_links" );
             assertEquals(
                     "<script src=\"js/plugins/linksIncludeTestPlugin/scripthashed.js?lutece_h=88d4266fd4e6338d13b845fcf289579d209c897823b9217da3e161936f031589\" type=\"text/javascript\" ></script>",
-                    cssLinks );
+                    cssLinks.replace("\n", "").replace("\r", "") );
         }
         finally
         {

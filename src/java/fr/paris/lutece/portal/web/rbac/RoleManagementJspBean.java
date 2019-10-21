@@ -863,25 +863,16 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
 
         // AVAILABLE USERS
         ReferenceList listAvailableUsers = new ReferenceList( );
-        ReferenceItem itemUser = null;
-        boolean bAssigned;
 
         for ( AdminUser user : AdminUserHome.findUserList( ) )
         {
-            itemUser = new ReferenceItem( );
+            final ReferenceItem itemUser = new ReferenceItem( );
             itemUser.setCode( Integer.toString( user.getUserId( ) ) );
             itemUser.setName( user.getAccessCode( ) + "(" + user.getFirstName( ) + " " + user.getLastName( ) + ")" );
-            bAssigned = Boolean.FALSE;
-
-            for ( AdminUser assignedUser : listAssignedUsers )
-            {
-                if ( Integer.toString( assignedUser.getUserId( ) ).equals( itemUser.getCode( ) ) )
-                {
-                    bAssigned = Boolean.TRUE;
-
-                    break;
-                }
-            }
+            
+            boolean bAssigned = listAssignedUsers
+                    .stream( )
+                    .anyMatch( assignedUser -> Integer.toString( assignedUser.getUserId( ) ).equals( itemUser.getCode( ) ) );
 
             // Add users with higher level then connected user or add all users if connected user is administrator
             if ( !bAssigned && ( ( user.getUserLevel( ) > getUser( ).getUserLevel( ) ) || ( getUser( ).isAdmin( ) ) ) )
@@ -896,6 +887,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
 
         if ( strSortedAttributeName != null )
         {
+            url.addParameter( Parameters.SORTED_ATTRIBUTE_NAME, strSortedAttributeName );
             strAscSort = request.getParameter( Parameters.SORTED_ASC );
 
             boolean bIsAscSort = Boolean.parseBoolean( strAscSort );
@@ -906,11 +898,6 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
         _strCurrentPageIndex = AbstractPaginator.getPageIndex( request, AbstractPaginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex );
         _nDefaultItemsPerPage = AppPropertiesService.getPropertyInt( PROPERTY_ROLES_PER_PAGE, 50 );
         _nItemsPerPage = AbstractPaginator.getItemsPerPage( request, AbstractPaginator.PARAMETER_ITEMS_PER_PAGE, _nItemsPerPage, _nDefaultItemsPerPage );
-
-        if ( strSortedAttributeName != null )
-        {
-            url.addParameter( Parameters.SORTED_ATTRIBUTE_NAME, strSortedAttributeName );
-        }
 
         if ( strAscSort != null )
         {

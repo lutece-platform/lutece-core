@@ -323,7 +323,7 @@ public final class PluginService
 
                 if ( !DatastoreService.existsInstanceKey( strDSKey ) )
                 {
-                    String strValue = props.getProperty( strKey ).equals( "1" ) ? DatastoreService.VALUE_TRUE : DatastoreService.VALUE_FALSE;
+                    String strValue = String.valueOf( props.getProperty( strKey ).equals( "1" ) );
                     DatastoreService.setInstanceDataValue( strDSKey, strValue );
                 }
             }

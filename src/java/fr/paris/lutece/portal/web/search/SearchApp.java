@@ -60,11 +60,12 @@ import fr.paris.lutece.util.url.UrlItem;
 import org.apache.commons.lang.StringUtils;
 
 import java.io.UnsupportedEncodingException;
-
+import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -107,8 +108,6 @@ public class SearchApp implements XPageApplication
     private static final String MARK_LIST_TYPE_AND_LINK = "list_type_and_link";
     private static final String PROPERTY_ENCODE_URI = "search.encode.uri";
     private static final String PROPERTY_ENCODE_URI_ENCODING = "search.encode.uri.encoding";
-    private static final String DEFAULT_URI_ENCODING = "ISO-8859-1";
-    private static final String CONSTANT_ENCODING_UTF8 = "UTF-8";
     private static final String CONSTANT_HTTP_METHOD_GET = "GET";
     private static final boolean DEFAULT_ENCODE_URI = false;
     @Inject
@@ -135,21 +134,21 @@ public class SearchApp implements XPageApplication
         String strQuery = request.getParameter( PARAMETER_QUERY );
         String strTagFilter = request.getParameter( PARAMETER_TAG_FILTER );
 
-        String strEncoding = AppPropertiesService.getProperty( PROPERTY_ENCODE_URI_ENCODING, DEFAULT_URI_ENCODING );
-
+        String strEncoding = AppPropertiesService.getProperty( PROPERTY_ENCODE_URI_ENCODING, StandardCharsets.ISO_8859_1.name( ) );
+        
         if ( StringUtils.equalsIgnoreCase( CONSTANT_HTTP_METHOD_GET, request.getMethod( ) )
-                && !StringUtils.equalsIgnoreCase( strEncoding, CONSTANT_ENCODING_UTF8 ) )
+                && !StringUtils.equalsIgnoreCase( strEncoding, StandardCharsets.UTF_8.name( ) ) )
         {
             try
             {
                 if ( StringUtils.isNotBlank( strQuery ) )
                 {
-                    strQuery = new String( strQuery.getBytes( strEncoding ), CONSTANT_ENCODING_UTF8 );
+                    strQuery = new String( strQuery.getBytes( strEncoding ), StandardCharsets.UTF_8 );
                 }
 
                 if ( StringUtils.isNotBlank( strTagFilter ) )
                 {
-                    strTagFilter = new String( strTagFilter.getBytes( strEncoding ), CONSTANT_ENCODING_UTF8 );
+                    strTagFilter = new String( strTagFilter.getBytes( strEncoding ), StandardCharsets.UTF_8 );
                 }
             }
             catch( UnsupportedEncodingException e )
@@ -176,13 +175,11 @@ public class SearchApp implements XPageApplication
             strQuery = "";
         }
 
-        String strNbItemPerPage = request.getParameter( PARAMETER_NB_ITEMS_PER_PAGE );
         String strDefaultNbItemPerPage = AppPropertiesService.getProperty( PROPERTY_RESULTS_PER_PAGE, DEFAULT_RESULTS_PER_PAGE );
-        strNbItemPerPage = ( strNbItemPerPage != null ) ? strNbItemPerPage : strDefaultNbItemPerPage;
-
+        String strNbItemPerPage = Optional.ofNullable( request.getParameter( PARAMETER_NB_ITEMS_PER_PAGE ) ).orElse( strDefaultNbItemPerPage );
         int nNbItemsPerPage = Integer.parseInt( strNbItemPerPage );
-        String strCurrentPageIndex = request.getParameter( PARAMETER_PAGE_INDEX );
-        strCurrentPageIndex = ( strCurrentPageIndex != null ) ? strCurrentPageIndex : DEFAULT_PAGE_INDEX;
+        
+        String strCurrentPageIndex = Optional.ofNullable( request.getParameter( PARAMETER_PAGE_INDEX ) ).orElse( DEFAULT_PAGE_INDEX );
 
         List<SearchResult> listResults = _engine.getSearchResults( strQuery, request );
 
@@ -210,15 +207,17 @@ public class SearchApp implements XPageApplication
         StringBuilder sbUrl = new StringBuilder( );
         sbUrl = sbUrl.append( url.getUrl( ) );
 
+        Map<String, Object> model = new HashMap<>( );
         if ( StringUtils.isNotBlank( request.getParameter( PARAMETER_DEFAULT_OPERATOR ) ) )
         {
             sbUrl = sbUrl.append( "&default_operator=" + request.getParameter( PARAMETER_DEFAULT_OPERATOR ) );
+            // Override default_operator value
+            model.put( PARAMETER_DEFAULT_OPERATOR, request.getParameter( PARAMETER_DEFAULT_OPERATOR ) );
         }
 
         Paginator<SearchResult> paginator = new Paginator<>( listResults, nNbItemsPerPage, sbUrl.toString( ), PARAMETER_PAGE_INDEX,
                 strCurrentPageIndex );
 
-        Map<String, Object> model = new HashMap<>( );
         model.put( MARK_RESULTS_LIST, paginator.getPageItems( ) );
         model.put( MARK_QUERY, strQuery );
         model.put( MARK_PAGINATOR, paginator );
@@ -235,14 +234,7 @@ public class SearchApp implements XPageApplication
         model.put( MARK_LIST_TYPE_AND_LINK, SearchService.getSearchTypesAndLinks( ) );
         model.putAll( SearchParameterHome.findAll( ) );
 
-        if ( StringUtils.isNotBlank( request.getParameter( PARAMETER_DEFAULT_OPERATOR ) ) )
-        {
-            // Override default_operator value
-            model.put( PARAMETER_DEFAULT_OPERATOR, request.getParameter( PARAMETER_DEFAULT_OPERATOR ) );
-        }
-
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_RESULTS, locale, model );
-
         page.setPathLabel( I18nService.getLocalizedString( PROPERTY_PATH_LABEL, locale ) );
         page.setTitle( I18nService.getLocalizedString( PROPERTY_PAGE_TITLE, locale ) );
         page.setContent( template.getHtml( ) );
@@ -265,7 +257,7 @@ public class SearchApp implements XPageApplication
     {
         String strSourceUrl = ( strSource != null ) ? strSource : StringUtils.EMPTY;
 
-        String strEncoded = EncodingService.encodeUrl( strSourceUrl, PROPERTY_ENCODE_URI_ENCODING, DEFAULT_URI_ENCODING );
+        String strEncoded = EncodingService.encodeUrl( strSourceUrl, PROPERTY_ENCODE_URI_ENCODING, StandardCharsets.ISO_8859_1.name( ) );
 
         if ( StringUtils.isBlank( strEncoded ) && StringUtils.isNotBlank( strSourceUrl ) )
         {

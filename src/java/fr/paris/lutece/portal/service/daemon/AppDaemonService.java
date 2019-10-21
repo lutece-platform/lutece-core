@@ -53,7 +53,8 @@ public final class AppDaemonService
     private static final String PROPERTY_MAX_INITIAL_START_DELAY = "daemon.maxInitialStartDelay";
     private static final String PROPERTY_DAEMON_ON_STARTUP = ".onStartUp";
     private static final String PROPERTY_DAEMON_INTERVAL = ".interval";
-    private static final String KEY_DAEMON_PREFIX = "core.daemon.";
+    private static final String KEY_DAEMON = "daemon.";
+    private static final String KEY_DAEMON_PREFIX = "core." + KEY_DAEMON;
     private static final Map<String, DaemonEntry> _mapDaemonEntries = new HashMap<>( );
     private static final Random _random = new Random( );
     private static boolean _bInit;
@@ -139,7 +140,7 @@ public final class AppDaemonService
         // init interval value if no exists
         if ( !DatastoreService.existsInstanceKey( strIntervalKey ) )
         {
-            strIntervalKeyDefaultValue = AppPropertiesService.getProperty( "daemon." + entry.getId( ) + PROPERTY_DAEMON_INTERVAL, "10" );
+            strIntervalKeyDefaultValue = AppPropertiesService.getProperty( KEY_DAEMON + entry.getId( ) + PROPERTY_DAEMON_INTERVAL, "10" );
             DatastoreService.setInstanceDataValue( strIntervalKey, strIntervalKeyDefaultValue );
         }
 
@@ -153,7 +154,7 @@ public final class AppDaemonService
         // init onStartup value if no exists
         if ( !DatastoreService.existsInstanceKey( strOnStartupKey ) )
         {
-            strOnStartupDefaultValue = AppPropertiesService.getProperty( "daemon." + entry.getId( ) + ".onstartup", "0" ).equals( "1" )
+            strOnStartupDefaultValue = AppPropertiesService.getProperty( KEY_DAEMON + entry.getId( ) + ".onstartup", "0" ).equals( "1" )
                     ? DatastoreService.VALUE_TRUE
                     : DatastoreService.VALUE_FALSE;
             DatastoreService.setInstanceDataValue( strOnStartupKey, strOnStartupDefaultValue );
