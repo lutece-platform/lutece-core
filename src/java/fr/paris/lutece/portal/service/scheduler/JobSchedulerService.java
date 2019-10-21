@@ -56,6 +56,7 @@ public final class JobSchedulerService
     /** Creates a new instance of JobSchedulerService */
     private JobSchedulerService( )
     {
+        init( );
     }
 
     /**
@@ -63,16 +64,11 @@ public final class JobSchedulerService
      * 
      * @return The service's instance
      */
-    public static JobSchedulerService getInstance( )
+    public synchronized static JobSchedulerService getInstance( )
     {
         if ( _singleton == null )
         {
-            synchronized ( JobSchedulerService.class )
-            {
-                JobSchedulerService service = new JobSchedulerService( );
-                service.init( );
-                _singleton = service;
-            }
+            _singleton = new JobSchedulerService( );
         }
 
         return _singleton;

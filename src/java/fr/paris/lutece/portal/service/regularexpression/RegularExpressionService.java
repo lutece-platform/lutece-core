@@ -75,14 +75,11 @@ public final class RegularExpressionService
      * 
      * @return The instance of the service
      */
-    public static RegularExpressionService getInstance( )
+    public synchronized static RegularExpressionService getInstance( )
     {
         if ( _singleton == null )
         {
-            synchronized ( RegularExpressionService.class )
-            {
-                _singleton = new RegularExpressionService( );
-            }
+            _singleton = new RegularExpressionService( );
         }
         return _singleton;
     }

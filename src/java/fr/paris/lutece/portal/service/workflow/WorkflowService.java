@@ -67,7 +67,7 @@ public final class WorkflowService
 {
     private static final String PLUGIN_WORKFLOW_NAME = "workflow";
     private static final String BEAN_WORKFLOW_PROVIDER = "workflow.workflowProvider";
-    private static volatile WorkflowService _singleton;
+    private static WorkflowService _singleton;
     private boolean _bServiceAvailable = true;
     private IWorkflowService _service;
     private IWorkflowProvider _provider;
@@ -95,14 +95,11 @@ public final class WorkflowService
      * 
      * @return The instance of the service
      */
-    public static WorkflowService getInstance( )
+    public static synchronized WorkflowService getInstance( )
     {
         if ( _singleton == null )
         {
-            synchronized ( WorkflowService.class )
-            {
-                _singleton = new WorkflowService( );
-            }
+            _singleton = new WorkflowService( );
         }
         return _singleton;
     }

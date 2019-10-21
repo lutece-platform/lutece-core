@@ -74,27 +74,20 @@ public final class AttributeTypeService
      * @param locale the {@link Locale}
      * @return a list of {@link AttributeType}
      */
-    public List<AttributeType> getAttributeTypes( Locale locale )
+    public synchronized List<AttributeType> getAttributeTypes( Locale locale )
     {
         if ( _listAttributeTypes == null )
         {
-            synchronized ( this )
+            List<AttributeType> listAttributTypes = new ArrayList<>( );
+
+            for ( IAttribute attribute : SpringContextService.getBeansOfType( IAttribute.class ) )
             {
-                if ( _listAttributeTypes == null )
-                {
-                    List<AttributeType> listAttributTypes = new ArrayList<>( );
-
-                    for ( IAttribute attribute : SpringContextService.getBeansOfType( IAttribute.class ) )
-                    {
-                        attribute.setAttributeType( locale );
-                        listAttributTypes.add( attribute.getAttributeType( ) );
-                    }
-
-                    _listAttributeTypes = listAttributTypes;
-                }
+                attribute.setAttributeType( locale );
+                listAttributTypes.add( attribute.getAttributeType( ) );
             }
-        }
 
+            _listAttributeTypes = listAttributTypes;
+        }
         return _listAttributeTypes;
     }
 }

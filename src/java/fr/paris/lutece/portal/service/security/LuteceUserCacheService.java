@@ -56,20 +56,12 @@ public final class LuteceUserCacheService extends AbstractCacheableService
      * 
      * @return The instance of the cache service
      */
-    public static LuteceUserCacheService getInstance( )
+    public synchronized static LuteceUserCacheService getInstance( )
     {
         if ( _instance == null )
         {
-            synchronized ( LuteceUserCacheService.class )
-            {
-                // Ignore double null check error : attribute is volatile
-                if ( _instance == null )
-                {
-                    _instance = new LuteceUserCacheService( );
-                }
-            }
+            _instance = new LuteceUserCacheService( );
         }
-
         return _instance;
     }
 

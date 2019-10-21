@@ -52,6 +52,7 @@ public final class MailAttachmentCacheService extends AbstractCacheableService
      */
     private MailAttachmentCacheService( )
     {
+        initCache( );
     }
 
     /**
@@ -67,16 +68,11 @@ public final class MailAttachmentCacheService extends AbstractCacheableService
      *
      * @return an instance of MailAttachmentCacheService
      */
-    public static MailAttachmentCacheService getInstance( )
+    public synchronized static MailAttachmentCacheService getInstance( )
     {
         if ( _singleton == null )
         {
-            synchronized ( MailAttachmentCacheService.class )
-            {
-                MailAttachmentCacheService service = new MailAttachmentCacheService( );
-                service.initCache( );
-                _singleton = service;
-            }
+            _singleton = new MailAttachmentCacheService( );
         }
 
         return _singleton;
