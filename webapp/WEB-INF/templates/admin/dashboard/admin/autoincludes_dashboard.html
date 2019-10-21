@@ -13,7 +13,7 @@
             <@messages infos=infos />
             <@tform method='post' name='FilterPluginsForm' action='jsp/admin/templates/ManageAutoIncludes.jsp'>
                 <@formGroup labelKey='#i18n{portal.templates.manage_autoincludes.commonsAvailable}' labelFor='commons_key' showLabel=false formStyle='inline'>
-                    <input type="hidden" name="action" value="activate" />
+                    <@input type='hidden' name='action' value='activate' />
                     <@inputGroup>
                         <@select sort=true name='commons_key' default_value='${current_commons}' items=commons_list />
                         <@inputGroupItem>
@@ -28,14 +28,14 @@
     <@fieldSet legend='#i18n{portal.templates.manage_autoincludes.title} ' >        
         <@table>
             <tr>
-                <input type="hidden" id="id" name="id"/>
+                <@input type='hidden' id='id' name='id' />
                 <th>#i18n{portal.templates.manage_autoincludes.columnFilePath}</th>
                 <th>&nbsp;</th>
             </tr>
 
                 <#list autoinclude_list as autoinclude >
             <tr>
-                <input type="hidden" id="id" name="id"/>
+                <@input type='hidden' id='id' name='id' />
                 <td>
                     ${autoinclude.filePath}
                 </td>

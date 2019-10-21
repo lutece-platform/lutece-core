@@ -37,8 +37,8 @@
 					<#if groupDisplay.feature_group.order !=0>
 					  <#if groupDisplay.order_list_state==false>
 					  	<@tform method='post' action='jsp/admin/features/DoReinitFeatures.jsp'>
-					  		<input type="hidden" name="group_id" value="${groupDisplay.feature_group.id?if_exists}">
-					  		<input type="hidden" name="token" value="${token}">
+					  		<@input type='hidden' name='group_id' value='${groupDisplay.feature_group.id?if_exists}' />
+					  		<@input type='hidden' name='token' value='${token}' />
 							<@button type='submit' title='#i18n{portal.features.dispatch_features.reinitFeatureOrders}' buttonIcon='refresh' color='warning' />
 						</@tform>
 					  </#if>
@@ -66,8 +66,8 @@
 						  </td>
 						  <td>
 							<@tform method='post' class='form-inline' action='jsp/admin/features/DoDispatchFeature.jsp'>
-								<input type="hidden" name="right_id" value="${right.id}">
-								<input type="hidden" name="token" value="${token}">
+								<@input type='hidden' name='right_id' value='${right.id}' />
+								<@input type='hidden' name='token' value='${token}' />
 								<@formGroup rows=2>
 									<@inputGroup>
 									  <@select id='group_name-${right.id}' name='group_name' title='' size='sm'>
@@ -94,9 +94,9 @@
 						  <td>
 							<#if groupDisplay.order_list_state==true>
 							  <@tform method='post' class='form-inline' action='jsp/admin/features/DoDispatchFeature.jsp'>
-								<input type="hidden" name="right_id" value="${right.id}">
-								<input type="hidden" name="group_name" value="${right.featureGroup?if_exists}">
-								<input type="hidden" name="token" value="${token}">
+								<@input type='hidden' name='right_id' value='${right.id}' />
+								<@input type='hidden' name='group_name' value='{right.featureGroup?if_exists}' />
+								<@input type='hidden' name='token' value='${token}' />
 								<@formGroup rows=2>
 								  <@inputGroup>
 									<@select name='order_id' id='order_id-${right.id}' title='#i18n{portal.features.dispatch_features.tableLabelOrder}' size='sm'>

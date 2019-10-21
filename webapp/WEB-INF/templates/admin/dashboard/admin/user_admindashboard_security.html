@@ -13,7 +13,7 @@
     </@btnGroup>
     <@fieldSet>
     <@tform method='post' name='password_global_security' action='jsp/admin/user/DoModifyDefaultUserSecurityParameterValues.jsp#footer'>
-        <input type="hidden" name="token" value="${token}">
+        <@input type='hidden' name='token' value='${token}' />
             <@formGroup labelKey='#i18n{portal.users.manage_advanced_parameters.minimumPasswordLength.label}' labelFor='password_minimum_length' mandatory=true helpKey='#i18n{portal.users.manage_advanced_parameters.minimumPasswordLength.help}'>
                 <@input type='text' name='password_minimum_length' id='password_minimum_length' value='${password_minimum_length!}' />
             </@formGroup>

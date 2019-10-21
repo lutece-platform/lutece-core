@@ -2,7 +2,7 @@
 
 <@adminDashboardPanel title='#i18n{portal.search.manage_advanced_parameters.pageTitle}' icon='search' parentId='search' childId='searchParameters' >
     <@tform  name='search_advanced_parameters' action='jsp/admin/search/DoModifyAdvancedParameters.jsp' >
-        <input type="hidden" name="token" value="${token}">
+        <@input type='hidden' name='token' value='${token}' />
         <@formGroup labelFor='type_filter' labelKey='${i18n("portal.search.advanced_parameters.typeFilter.label")}' rows=2>
             <@select name="type_filter">
               <#list [ "none", "option", "radio" "checkbox"] as display_option>

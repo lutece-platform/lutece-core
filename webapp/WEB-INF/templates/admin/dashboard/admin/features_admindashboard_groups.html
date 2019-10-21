@@ -27,8 +27,8 @@
                 </td>
                 <td>
                     <@tform method='post' action='jsp/admin/features/DoDispatchFeatureGroup.jsp' class='form-inline'>
-                        <input type="hidden" name="group_id" value="${group.id?html}">
-                        <input type="hidden" name="token" value="${token}">
+                        <@input type='hidden' name='group_id' value='${group.id?html}' />
+                        <@input type='hidden' name='token' value='${token}' />
                         <@formGroup rows=2>
                             <@inputGroup>
                                 <@inputGroupItem>
@@ -43,7 +43,7 @@
                   <@btnGroup>
                         <@aButton href='jsp/admin/features/ModifyGroup.jsp?group_id=${group.id?html}' title='#i18n{portal.util.labelModify} ${group.id?html}' buttonIcon='pencil' showTitle=false />
                         <@tform class='inline' method='post' action='jsp/admin/features/RemoveGroup.jsp'>
-                            <input type="hidden" name="group_id" value="${group.id?html}">
+                            <@input type='hidden' name='group_id' value='${group.id?html}' />
                             <@button type='submit' title='#i18n{portal.features.manage_groups.buttonDelete}' showTitle=false buttonIcon='trash' color='danger' />
                         </@tform>
                 </@btnGroup>

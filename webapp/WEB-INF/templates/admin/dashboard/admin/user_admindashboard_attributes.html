@@ -43,15 +43,15 @@
                     <#if attribute.plugin?exists && attribute.plugin.name != "">
                     <#if cpt != 1>
                     <@tform class='pull-left spaced' method='post' action='jsp/admin/user/attribute/DoMoveUpAttribute.jsp#list'>
-                        <input type="hidden" name="token" value="${token}">
-                        <input type="hidden" name="id_attribute" value="${attribute.idAttribute}">
+                        <@input type='hidden' name='token' value='${token}' />
+                        <@input type='hidden' name='id_attribute' value='${attribute.idAttribute}' />
                         <@button type='submit' buttonIcon='chevron-up' title='#i18n{portal.users.modify_attribute.buttonLabelMoveUp}' showTitle=false />
                     </@tform>
                     </#if>
                     <#if attribute_has_next>
                     <@tform class='pull-left spaced' method='post' action='jsp/admin/user/attribute/DoMoveDownAttribute.jsp#list'>
-                        <input type="hidden" name="token" value="${token}">
-                        <input type="hidden" name="id_attribute" value="${attribute.idAttribute}">
+                        <@input type='hidden' name='token' value='${token}' />
+                        <@input type='hidden' name='id_attribute' value='${attribute.idAttribute}' />
                         <@button type='submit' buttonIcon='chevron-down' title='#i18n{portal.users.modify_attribute.buttonLabelMoveDown}' showTitle=false />
                     </@tform>
                     </#if>
@@ -60,15 +60,15 @@
 
                     <#if cpt != 1>
                     <@tform class='pull-left spaced' method='post' action='jsp/admin/user/attribute/DoMoveUpAttribute.jsp#list'>
-                        <input type="hidden" name="token" value="${token}">
-                        <input type="hidden" name="id_attribute" value="${attribute.idAttribute}">
+                        <@input type='hidden' name='token' value='${token}' />
+                        <@input type='hidden' name='id_attribute" value='${attribute.idAttribute}' />
                         <@button type='submit' buttonIcon='chevron-up' title='#i18n{portal.users.modify_attribute.buttonLabelMoveUp}' showTitle=false />
                     </@tform>
                     </#if>
                     <#if attribute_has_next>
                     <@tform class='pull-left spaced' method='post' action='jsp/admin/user/attribute/DoMoveDownAttribute.jsp#list'>
-                        <input type="hidden" name="token" value="${token}">
-                        <input type="hidden" name="id_attribute" value="${attribute.idAttribute}">
+                        <@input type='hidden' name='token' value='${token}' />
+                        <@input type='hidden' name='id_attribute' value='${attribute.idAttribute}' />
                         <@button type='submit' buttonIcon='chevron-down' title='#i18n{portal.users.modify_attribute.buttonLabelMoveDown}' showTitle=false />
                     </@tform>
                     </#if>
