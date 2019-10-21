@@ -33,20 +33,20 @@
  */
 package fr.paris.lutece.portal.web.stylesheet;
 
-import fr.paris.lutece.portal.business.stylesheet.StyleSheet;
-import fr.paris.lutece.portal.business.stylesheet.StyleSheetHome;
-import fr.paris.lutece.portal.business.user.AdminUser;
-import fr.paris.lutece.portal.service.admin.AdminUserService;
-import fr.paris.lutece.portal.web.constants.Parameters;
-
 import java.io.IOException;
 import java.io.OutputStream;
 
 import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import fr.paris.lutece.portal.business.stylesheet.StyleSheet;
+import fr.paris.lutece.portal.business.stylesheet.StyleSheetHome;
+import fr.paris.lutece.portal.business.user.AdminUser;
+import fr.paris.lutece.portal.service.admin.AdminUserService;
+import fr.paris.lutece.portal.service.util.AppLogService;
+import fr.paris.lutece.portal.web.constants.Parameters;
 
 /**
  * StyleSheetFile Servlet
@@ -59,18 +59,13 @@ public class StyleSheetFileServlet extends HttpServlet
     private static final long serialVersionUID = 9154028959985088272L;
 
     /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
+     * methods.
      * 
-     * @param request
-     *            servlet request
-     * @param response
-     *            servlet response
-     * @throws ServletException
-     *             the servlet Exception
-     * @throws IOException
-     *             the io exception
+     * @param request  servlet request
+     * @param response servlet response
      */
-    protected void processRequest( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException
+    protected void processRequest( HttpServletRequest request, HttpServletResponse response )
     {
         AdminUser user = AdminUserService.getAdminUser( request );
 
@@ -90,10 +85,14 @@ public class StyleSheetFileServlet extends HttpServlet
                 response.setContentType( ( strMimetype != null ) ? strMimetype : "application/octet-stream" );
                 response.setHeader( "Content-Disposition", "attachement; filename=\"" + stylesheet.getFile( ) + "\"" );
 
-                OutputStream out = response.getOutputStream( );
-                out.write( stylesheet.getSource( ) );
-                out.flush( );
-                out.close( );
+                try ( OutputStream out = response.getOutputStream( ) )
+                {
+                    out.write( stylesheet.getSource( ) );
+                }
+                catch ( IOException e )
+                {
+                    AppLogService.error( "Error while writing response", e );
+                }
             }
         }
     }
@@ -102,7 +101,7 @@ public class StyleSheetFileServlet extends HttpServlet
      * {@inheritDoc}
      */
     @Override
-    protected void doGet( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException
+    protected void doGet( HttpServletRequest request, HttpServletResponse response )
     {
         processRequest( request, response );
     }
@@ -111,7 +110,7 @@ public class StyleSheetFileServlet extends HttpServlet
      * {@inheritDoc}
      */
     @Override
-    protected void doPost( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException
+    protected void doPost( HttpServletRequest request, HttpServletResponse response )
     {
         processRequest( request, response );
     }

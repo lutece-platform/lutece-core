@@ -68,9 +68,8 @@ public class ImageServlet extends HttpServlet
      * 
      * @param request  servlet request
      * @param response servlet response
-     * @throws ServletException the servlet Exception
      */
-    protected void processRequest( HttpServletRequest request, HttpServletResponse response ) throws ServletException
+    protected void processRequest( HttpServletRequest request, HttpServletResponse response )
     {
         String strResourceId = request.getParameter( PARAMETER_ID );
         String strResourceTypeId = request.getParameter( PARAMETER_RESOURCE_TYPE );
@@ -158,7 +157,6 @@ public class ImageServlet extends HttpServlet
      */
     @Override
     protected void doGet( HttpServletRequest request, HttpServletResponse response )
-            throws ServletException, IOException
     {
         processRequest( request, response );
     }
@@ -173,7 +171,6 @@ public class ImageServlet extends HttpServlet
      */
     @Override
     protected void doPost( HttpServletRequest request, HttpServletResponse response )
-            throws ServletException, IOException
     {
         processRequest( request, response );
     }
