@@ -136,7 +136,7 @@ public final class PoolManager
         Enumeration propNames = props.propertyNames( );
         String strPoolName = "";
 
-        Hashtable<String, Hashtable<String, String>> htPools = new Hashtable<>( );
+        Map<String, Hashtable<String, String>> htPools = new HashMap<>( );
 
         while ( propNames.hasMoreElements( ) )
         {
@@ -171,16 +171,10 @@ public final class PoolManager
             }
         }
 
-        Enumeration<String> enumKeys = htPools.keys( );
-
-        while ( enumKeys.hasMoreElements( ) )
+        for ( String key : htPools.keySet( ) )
         {
-            String key = "";
-
             try
             {
-                key = enumKeys.nextElement( );
-
                 Hashtable<String, String> htParamsPool = htPools.get( key );
                 ConnectionService cs = getConnectionService( htParamsPool, key );
 

@@ -57,7 +57,7 @@ public class AliasPortletTest extends LuteceTestCase
         aliasPortlet.update( );
         aliasPortlet.remove( );
 
-        AliasPortletHome instance = new AliasPortletHome( );
+        AliasPortletHome instance = (AliasPortletHome) AliasPortletHome.getInstance( );
         instance.getPortletTypeId( );
 
         AliasPortletHome.getAliasId( TEST_PORTLET_ID );

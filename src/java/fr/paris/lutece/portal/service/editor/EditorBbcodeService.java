@@ -87,18 +87,15 @@ public class EditorBbcodeService implements IEditorBbcodeService
      * 
      * @return The instance of the service
      */
-    public static EditorBbcodeService getInstance( )
+    public synchronized static EditorBbcodeService getInstance( )
     {
         if ( _singleton == null )
         {
-            synchronized ( EditorBbcodeService.class )
-            {
-                _listParserElement = new ArrayList<>( );
-                _listParserComplexElement = new ArrayList<>( );
-                EditorBbcodeService service = new EditorBbcodeService( );
-                service.init( );
-                _singleton = service;
-            }
+            _listParserElement = new ArrayList<>( );
+            _listParserComplexElement = new ArrayList<>( );
+            EditorBbcodeService service = new EditorBbcodeService( );
+            service.init( );
+            _singleton = service;
         }
 
         return _singleton;

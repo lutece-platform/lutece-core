@@ -50,9 +50,9 @@ import fr.paris.lutece.util.stream.StreamUtil;
 public class PropertiesService
 {
     // Static variables
-    private static String _strRootPath;
-    private static Properties _properties = new Properties( );
-    private static Map<String, String> _mapPropertiesFiles = new LinkedHashMap<>( );
+    private String _strRootPath;
+    private Properties _properties = new Properties( );
+    private Map<String, String> _mapPropertiesFiles = new LinkedHashMap<>( );
 
     /**
      * Constructor should define the base root path for properties files
@@ -129,19 +129,13 @@ public class PropertiesService
      */
     private void loadFile( String strFullPath, Properties props )
     {
-        FileInputStream fis = null;
-        try
+        try ( FileInputStream fis = new FileInputStream( new File( strFullPath ) ) )
         {
-            fis = new FileInputStream( new File( strFullPath ) );
             props.load( fis );
         }
         catch( IOException ex )
         {
             AppLogService.error( "Error loading property file : " + ex, ex );
-        }
-        finally
-        {
-            StreamUtil.safeClose( fis );
         }
     }
 

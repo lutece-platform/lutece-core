@@ -352,9 +352,7 @@ public abstract class LuteceUser implements Principal, Serializable, Cloneable
         }
         else
         {
-            newArray = new String [ collection.size( ) + array.length];
-            
-            newArray = Arrays.copyOf(array, collection.size( ) + array.length );
+            newArray = Arrays.copyOf( array, collection.size( ) + array.length );
         }
 
         for ( String strItem : collection )
