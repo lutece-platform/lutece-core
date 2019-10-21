@@ -260,7 +260,7 @@ public abstract class AbstractCacheableService implements CacheableService, Cach
     @Override
     public Object clone( )
     {
-        throw new RuntimeException( "This class shouldn't be cloned" );
+        throw new UnsupportedOperationException( "This class shouldn't be cloned" );
     }
 
     /**

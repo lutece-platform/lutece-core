@@ -44,6 +44,8 @@ import org.apache.log4j.Logger;
 import java.util.Enumeration;
 
 import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang3.BooleanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.AntPathMatcher;
 
@@ -314,8 +316,15 @@ public final class SecurityUtil
         }
         
         // filter schemes
-        if ( !strUrl.startsWith( "//" ) && !strUrl.startsWith( "http:" ) && !strUrl.startsWith( "https:" ) && !strUrl.contains( "://" )
-                && !strUrl.startsWith( "javascript:" ) )
+        boolean isRelativePath = BooleanUtils.and( new boolean[] {
+                !strUrl.startsWith( "//" ),
+                !strUrl.startsWith( "http:" ),
+                !strUrl.startsWith( "https:" ),
+                !strUrl.contains( "://" ),
+                !strUrl.startsWith( "javascript:" )
+        } );
+        
+        if ( isRelativePath )
         {
             return true; // should be a relative path
         }

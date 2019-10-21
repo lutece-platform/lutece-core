@@ -48,8 +48,8 @@ import java.util.Locale;
  */
 public final class AttributeTypeService
 {
-    private static volatile AttributeTypeService _singleton;
-    private static volatile List<AttributeType> _listAttributeTypes;
+    private static AttributeTypeService _singleton = new AttributeTypeService( );
+    private static List<AttributeType> _listAttributeTypes;
 
     /**
      * Private constructor
@@ -63,28 +63,22 @@ public final class AttributeTypeService
      * 
      * @return the instance of {@link AttributeTypeService}
      */
-    public static synchronized AttributeTypeService getInstance( )
+    public static AttributeTypeService getInstance( )
     {
-        if ( _singleton == null )
-        {
-            _singleton = new AttributeTypeService( );
-        }
-
         return _singleton;
     }
 
     /**
      * Get the list of attribute types defined the core_context.xml
      * 
-     * @param locale
-     *            the {@link Locale}
+     * @param locale the {@link Locale}
      * @return a list of {@link AttributeType}
      */
     public List<AttributeType> getAttributeTypes( Locale locale )
     {
         if ( _listAttributeTypes == null )
         {
-            synchronized( this )
+            synchronized ( this )
             {
                 if ( _listAttributeTypes == null )
                 {

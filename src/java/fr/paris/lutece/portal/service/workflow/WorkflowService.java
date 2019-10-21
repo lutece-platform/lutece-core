@@ -99,9 +99,11 @@ public final class WorkflowService
     {
         if ( _singleton == null )
         {
-            _singleton = new WorkflowService( );
+            synchronized ( WorkflowService.class )
+            {
+                _singleton = new WorkflowService( );
+            }
         }
-
         return _singleton;
     }
 

@@ -41,7 +41,7 @@ import fr.paris.lutece.portal.service.cache.AbstractCacheableService;
 public final class LuteceUserCacheService extends AbstractCacheableService
 {
     private static final String CACHE_SERVICE_NAME = "LuteceUserCacheService";
-    private static volatile LuteceUserCacheService _instance;
+    private static LuteceUserCacheService _instance;
 
     /**
      * Private constructor
@@ -60,7 +60,7 @@ public final class LuteceUserCacheService extends AbstractCacheableService
     {
         if ( _instance == null )
         {
-            synchronized( LuteceUserCacheService.class )
+            synchronized ( LuteceUserCacheService.class )
             {
                 // Ignore double null check error : attribute is volatile
                 if ( _instance == null )

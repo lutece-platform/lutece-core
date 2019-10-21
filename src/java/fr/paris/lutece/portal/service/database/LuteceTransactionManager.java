@@ -44,14 +44,16 @@ import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.util.sql.TransactionManager;
 
 /**
- * Lutece transaction manager. This TM use Lutece's specific pool transaction manager with the class {@link TransactionManager}. It allow plugins to use multi
- * plugin transactions, and nested transactions. Note that nested transactions does not create savepoints : if a nested transaction is roll backed, then the
- * whole transaction is roll backed.
+ * Lutece transaction manager. This TM use Lutece's specific pool transaction
+ * manager with the class {@link TransactionManager}. It allow plugins to use
+ * multi plugin transactions, and nested transactions. Note that nested
+ * transactions does not create savepoints : if a nested transaction is roll
+ * backed, then the whole transaction is roll backed.
  */
 public class LuteceTransactionManager implements PlatformTransactionManager
 {
     private String _strPluginName;
-    private volatile Plugin _plugin;
+    private Plugin _plugin;
 
     /**
      * Gets the plugin name
@@ -66,8 +68,7 @@ public class LuteceTransactionManager implements PlatformTransactionManager
     /**
      * Sets the plugin name
      * 
-     * @param strPluginName
-     *            the plugin name
+     * @param strPluginName the plugin name
      */
     public void setPluginName( String strPluginName )
     {
@@ -108,13 +109,16 @@ public class LuteceTransactionManager implements PlatformTransactionManager
     {
         if ( _plugin == null )
         {
-            if ( StringUtils.isNotBlank( _strPluginName ) )
+            synchronized ( LuteceTransactionManager.class )
             {
-                this._plugin = PluginService.getPlugin( _strPluginName );
-            }
-            else
-            {
-                _plugin = PluginService.getCore( );
+                if ( StringUtils.isNotBlank( _strPluginName ) )
+                {
+                    _plugin = PluginService.getPlugin( _strPluginName );
+                }
+                else
+                {
+                    _plugin = PluginService.getCore( );
+                }
             }
         }
 

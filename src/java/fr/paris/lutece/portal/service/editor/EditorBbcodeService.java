@@ -69,7 +69,7 @@ public class EditorBbcodeService implements IEditorBbcodeService
     private static final String PROPERTY_PARSER_ELEMENTS = "editors.parser.bbcode.elements";
     private static final String PROPERTY_PARSER_COMPLEX_ELEMENTS = "editors.parser.bbcode.complexElements";
     private static final String SEPARATOR = ",";
-    private static volatile EditorBbcodeService _singleton;
+    private static EditorBbcodeService _singleton;
     private static List<ParserElement> _listParserElement;
     private static List<ParserComplexElement> _listParserComplexElement;
 
@@ -91,14 +91,13 @@ public class EditorBbcodeService implements IEditorBbcodeService
     {
         if ( _singleton == null )
         {
-            synchronized( EditorBbcodeService.class )
+            synchronized ( EditorBbcodeService.class )
             {
                 _listParserElement = new ArrayList<>( );
                 _listParserComplexElement = new ArrayList<>( );
                 EditorBbcodeService service = new EditorBbcodeService( );
                 service.init( );
                 _singleton = service;
-                
             }
         }
 
@@ -115,16 +114,16 @@ public class EditorBbcodeService implements IEditorBbcodeService
 
         if ( StringUtils.isNotBlank( strParserElements ) )
         {
-            String [ ] tabParserElements = strParserElements.split( SEPARATOR );
+            String[] tabParserElements = strParserElements.split( SEPARATOR );
             String strCodeElement;
             String strValueElement;
 
             for ( int i = 0; i < tabParserElements.length; i++ )
             {
-                strCodeElement = AppPropertiesService
-                        .getProperty( PROPERTY_EDITOR_BBCODE_ELEMENT_PATH + "." + tabParserElements [i] + "." + CONSTANT_EDITOR_BBCODE_ELEMENT_CODE );
-                strValueElement = AppPropertiesService
-                        .getProperty( PROPERTY_EDITOR_BBCODE_ELEMENT_PATH + "." + tabParserElements [i] + "." + CONSTANT_EDITOR_BBCODE_ELEMENT_VALUE );
+                strCodeElement = AppPropertiesService.getProperty( PROPERTY_EDITOR_BBCODE_ELEMENT_PATH + "."
+                        + tabParserElements[i] + "." + CONSTANT_EDITOR_BBCODE_ELEMENT_CODE );
+                strValueElement = AppPropertiesService.getProperty( PROPERTY_EDITOR_BBCODE_ELEMENT_PATH + "."
+                        + tabParserElements[i] + "." + CONSTANT_EDITOR_BBCODE_ELEMENT_VALUE );
                 _listParserElement.add( new ParserElement( strCodeElement, strValueElement ) );
             }
         }
@@ -134,7 +133,7 @@ public class EditorBbcodeService implements IEditorBbcodeService
 
         if ( StringUtils.isNotBlank( strParserComplexElements ) )
         {
-            String [ ] tabParserComplexElements = strParserComplexElements.split( SEPARATOR );
+            String[] tabParserComplexElements = strParserComplexElements.split( SEPARATOR );
             String strTagName;
             String strOpenSubstWithParam;
             String strCloseSubstWithParam;
@@ -147,27 +146,37 @@ public class EditorBbcodeService implements IEditorBbcodeService
 
             for ( int i = 0; i < tabParserComplexElements.length; i++ )
             {
-                strTagName = AppPropertiesService.getProperty( PROPERTY_EDITOR_BBCODE_COMPLEX_ELEMENT_PATH + "." + tabParserComplexElements [i] + "."
-                        + CONSTANT_EDITOR_BBCODE_COMPLEX_ELEMENT_TAG_NAME );
-                strOpenSubstWithParam = AppPropertiesService.getProperty( PROPERTY_EDITOR_BBCODE_COMPLEX_ELEMENT_PATH + "." + tabParserComplexElements [i] + "."
-                        + CONSTANT_EDITOR_BBCODE_COMPLEX_ELEMENT_OPEN_SUBST_WITH_PARAM );
-                strCloseSubstWithParam = AppPropertiesService.getProperty( PROPERTY_EDITOR_BBCODE_COMPLEX_ELEMENT_PATH + "." + tabParserComplexElements [i]
-                        + "." + CONSTANT_EDITOR_BBCODE_COMPLEX_ELEMENT_CLOSE_SUBST_WITH_PARAM );
-                strOpenSubstWithoutParam = AppPropertiesService.getProperty( PROPERTY_EDITOR_BBCODE_COMPLEX_ELEMENT_PATH + "." + tabParserComplexElements [i]
-                        + "." + CONSTANT_EDITOR_BBCODE_COMPLEX_ELEMENT_OPEN_SUBST_WITHOUT_PARAM );
-                strCloseSubstWithoutParam = AppPropertiesService.getProperty( PROPERTY_EDITOR_BBCODE_COMPLEX_ELEMENT_PATH + "." + tabParserComplexElements [i]
-                        + "." + CONSTANT_EDITOR_BBCODE_COMPLEX_ELEMENT_CLOSE_SUBST_WITHOUT_PARAM );
-                strInternalSubst = AppPropertiesService.getProperty( PROPERTY_EDITOR_BBCODE_COMPLEX_ELEMENT_PATH + "." + tabParserComplexElements [i] + "."
-                        + CONSTANT_EDITOR_BBCODE_COMPLEX_ELEMENT_INTERNAL_SUBST );
-                bProcessInternalTags = AppPropertiesService.getPropertyBoolean( PROPERTY_EDITOR_BBCODE_COMPLEX_ELEMENT_PATH + "." + tabParserComplexElements [i]
-                        + "." + CONSTANT_EDITOR_BBCODE_COMPLEX_ELEMENT_PROCESS_INTERNAL_TAGS, false );
-                bAcceptParam = AppPropertiesService.getPropertyBoolean( PROPERTY_EDITOR_BBCODE_COMPLEX_ELEMENT_PATH + "." + tabParserComplexElements [i] + "."
-                        + CONSTANT_EDITOR_BBCODE_COMPLEX_ELEMENT_ACCEPT_PARAM, false );
-                bRequiresQuotedParam = AppPropertiesService.getPropertyBoolean( PROPERTY_EDITOR_BBCODE_COMPLEX_ELEMENT_PATH + "." + tabParserComplexElements [i]
-                        + "." + CONSTANT_EDITOR_BBCODE_COMPLEX_ELEMENT_REQUIRES_QUOTED_PARAM, false );
+                strTagName = AppPropertiesService.getProperty( PROPERTY_EDITOR_BBCODE_COMPLEX_ELEMENT_PATH + "."
+                        + tabParserComplexElements[i] + "." + CONSTANT_EDITOR_BBCODE_COMPLEX_ELEMENT_TAG_NAME );
+                strOpenSubstWithParam = AppPropertiesService
+                        .getProperty( PROPERTY_EDITOR_BBCODE_COMPLEX_ELEMENT_PATH + "." + tabParserComplexElements[i]
+                                + "." + CONSTANT_EDITOR_BBCODE_COMPLEX_ELEMENT_OPEN_SUBST_WITH_PARAM );
+                strCloseSubstWithParam = AppPropertiesService
+                        .getProperty( PROPERTY_EDITOR_BBCODE_COMPLEX_ELEMENT_PATH + "." + tabParserComplexElements[i]
+                                + "." + CONSTANT_EDITOR_BBCODE_COMPLEX_ELEMENT_CLOSE_SUBST_WITH_PARAM );
+                strOpenSubstWithoutParam = AppPropertiesService
+                        .getProperty( PROPERTY_EDITOR_BBCODE_COMPLEX_ELEMENT_PATH + "." + tabParserComplexElements[i]
+                                + "." + CONSTANT_EDITOR_BBCODE_COMPLEX_ELEMENT_OPEN_SUBST_WITHOUT_PARAM );
+                strCloseSubstWithoutParam = AppPropertiesService
+                        .getProperty( PROPERTY_EDITOR_BBCODE_COMPLEX_ELEMENT_PATH + "." + tabParserComplexElements[i]
+                                + "." + CONSTANT_EDITOR_BBCODE_COMPLEX_ELEMENT_CLOSE_SUBST_WITHOUT_PARAM );
+                strInternalSubst = AppPropertiesService.getProperty( PROPERTY_EDITOR_BBCODE_COMPLEX_ELEMENT_PATH + "."
+                        + tabParserComplexElements[i] + "." + CONSTANT_EDITOR_BBCODE_COMPLEX_ELEMENT_INTERNAL_SUBST );
+                bProcessInternalTags = AppPropertiesService.getPropertyBoolean(
+                        PROPERTY_EDITOR_BBCODE_COMPLEX_ELEMENT_PATH + "." + tabParserComplexElements[i] + "."
+                                + CONSTANT_EDITOR_BBCODE_COMPLEX_ELEMENT_PROCESS_INTERNAL_TAGS,
+                        false );
+                bAcceptParam = AppPropertiesService.getPropertyBoolean( PROPERTY_EDITOR_BBCODE_COMPLEX_ELEMENT_PATH
+                        + "." + tabParserComplexElements[i] + "." + CONSTANT_EDITOR_BBCODE_COMPLEX_ELEMENT_ACCEPT_PARAM,
+                        false );
+                bRequiresQuotedParam = AppPropertiesService.getPropertyBoolean(
+                        PROPERTY_EDITOR_BBCODE_COMPLEX_ELEMENT_PATH + "." + tabParserComplexElements[i] + "."
+                                + CONSTANT_EDITOR_BBCODE_COMPLEX_ELEMENT_REQUIRES_QUOTED_PARAM,
+                        false );
 
-                _listParserComplexElement.add( new ParserComplexElement( strTagName, strOpenSubstWithParam, strCloseSubstWithParam, strOpenSubstWithoutParam,
-                        strCloseSubstWithoutParam, strInternalSubst, bProcessInternalTags, bAcceptParam, bRequiresQuotedParam ) );
+                _listParserComplexElement.add( new ParserComplexElement( strTagName, strOpenSubstWithParam,
+                        strCloseSubstWithParam, strOpenSubstWithoutParam, strCloseSubstWithoutParam, strInternalSubst,
+                        bProcessInternalTags, bAcceptParam, bRequiresQuotedParam ) );
             }
         }
     }

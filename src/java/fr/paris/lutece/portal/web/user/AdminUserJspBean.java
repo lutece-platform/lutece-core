@@ -1698,7 +1698,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             }
         }
 
-        if ( ( user != null ) && ( userCurrent != null ) && ( user.getUserId( ) == userCurrent.getUserId( ) ) )
+        if ( user.getUserId( ) == userCurrent.getUserId( ) )
         {
             try
             {
