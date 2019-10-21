@@ -43,7 +43,7 @@ import java.util.HashMap;
  */
 public final class MailAttachmentCacheService extends AbstractCacheableService
 {
-    private static volatile MailAttachmentCacheService _singleton;
+    private static MailAttachmentCacheService _singleton;
     private static ICacheKeyService _cksMailAttachment = new MailAttachmentCacheKeyService( );
     private static final String SERVICE_NAME = "Mail Attachment Cache Service";
 
@@ -71,7 +71,7 @@ public final class MailAttachmentCacheService extends AbstractCacheableService
     {
         if ( _singleton == null )
         {
-            synchronized( MailAttachmentCacheService.class )
+            synchronized ( MailAttachmentCacheService.class )
             {
                 MailAttachmentCacheService service = new MailAttachmentCacheService( );
                 service.initCache( );
@@ -85,8 +85,7 @@ public final class MailAttachmentCacheService extends AbstractCacheableService
     /**
      * return the cache key associated to the url value
      * 
-     * @param strValue
-     *            the value
+     * @param strValue the value
      * @return the cache key associated to the url value
      */
     public String getKey( String strValue )

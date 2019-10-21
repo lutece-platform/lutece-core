@@ -52,6 +52,8 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * This Interface defines all methods required for an admin user implementation
  */
@@ -137,6 +139,7 @@ public class AdminUser implements Serializable, AdminWorkgroupResource
      * 
      * @return The user's locale
      */
+    @NotNull
     public Locale getLocale( )
     {
         return ( _locale == null ) ? LocaleService.getDefault( ) : _locale;
@@ -637,7 +640,7 @@ public class AdminUser implements Serializable, AdminWorkgroupResource
     @Override
     public String getWorkgroup( )
     {
-        return _strWorkgroupKey;
+        return getWorkgroupKey( );
     }
 
     /**

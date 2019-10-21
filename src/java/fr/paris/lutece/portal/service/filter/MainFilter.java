@@ -33,9 +33,6 @@
  */
 package fr.paris.lutece.portal.service.filter;
 
-import fr.paris.lutece.portal.service.util.AppLogService;
-import fr.paris.lutece.util.sql.TransactionManager;
-
 import java.io.IOException;
 
 import javax.servlet.Filter;
@@ -46,6 +43,9 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import fr.paris.lutece.portal.service.util.AppLogService;
+import fr.paris.lutece.util.sql.TransactionManager;
 
 /**
  * MainFilter
@@ -63,7 +63,8 @@ public class MainFilter implements Filter
     /**
      * {@inheritDoc}
      */
-    public void doFilter( ServletRequest requestServlet, ServletResponse responseServlet, FilterChain chain ) throws IOException, ServletException
+    public void doFilter( ServletRequest requestServlet, ServletResponse responseServlet, FilterChain chain )
+            throws IOException, ServletException
     {
         AppLogService.debug( "MainFilter : doFilter()" );
 
@@ -73,7 +74,8 @@ public class MainFilter implements Filter
 
         for ( LuteceFilter filter : FilterService.getInstance( ).getFilters( ) )
         {
-            AppLogService.debug( "PluginFilter : " + filter.getName( ) + " - url pattern : " + filter.getMappingUrlPattern( ) );
+            AppLogService.debug(
+                    "PluginFilter : " + filter.getName( ) + " - url pattern : " + filter.getMappingUrlPattern( ) );
 
             // Catch exception for each filter to execute all chain
             try
@@ -90,12 +92,13 @@ public class MainFilter implements Filter
                         return;
                     }
 
-                    // the filter may have changed (wrapped) the request [like CAS filter] or the response
+                    // the filter may have changed (wrapped) the request [like CAS filter] or the
+                    // response
                     request = (HttpServletRequest) chainPluginsFilters.getRequest( );
                     response = (HttpServletResponse) chainPluginsFilters.getResponse( );
                 }
             }
-            catch( Exception e )
+            catch ( Exception e )
             {
                 AppLogService.error( "Error execution doFilter method - Filter " + filter.getName( ), e );
             }
@@ -123,7 +126,7 @@ public class MainFilter implements Filter
                     filter.getFilter( ).destroy( );
                 }
             }
-            catch( Exception e )
+            catch ( Exception e )
             {
                 AppLogService.error( "Error execution destroy() method - Filter " + filter.getName( ), e );
             }
@@ -133,10 +136,8 @@ public class MainFilter implements Filter
     /**
      * Check the mapping of the request with an url pattern
      * 
-     * @param filter
-     *            The filter
-     * @param request
-     *            The request
+     * @param filter  The filter
+     * @param request The request
      * @return True if the request match the url pattern
      */
     boolean matchMapping( LuteceFilter filter, HttpServletRequest request )
@@ -145,12 +146,11 @@ public class MainFilter implements Filter
     }
 
     /**
-     * Check the mapping of the request with an url pattern according servlet specifications 2.3 rules
+     * Check the mapping of the request with an url pattern according servlet
+     * specifications 2.3 rules
      * 
-     * @param strUrlPattern
-     *            The filter url pattern
-     * @param strRequestUrl
-     *            The request Url
+     * @param strUrlPattern The filter url pattern
+     * @param strRequestUrl The request Url
      * @return True if the request match the url pattern
      *
      *         Algorithm comming from tomcat6
@@ -174,12 +174,11 @@ public class MainFilter implements Filter
 
         if ( strUrlPattern.endsWith( "/*" ) )
         {
-            if ( strUrlPattern.regionMatches( 0, strRequestUrl, 0, strUrlPattern.length( ) - 2 ) )
+            if ( strUrlPattern.regionMatches( 0, strRequestUrl, 0, strUrlPattern.length( ) - 2 )
+                    && strRequestUrl.length( ) == ( strUrlPattern.length( ) - 2 )
+                    || '/' == strRequestUrl.charAt( strUrlPattern.length( ) - 2 ) )
             {
-                if ( strRequestUrl.length( ) == ( strUrlPattern.length( ) - 2 ) || '/' == strRequestUrl.charAt( strUrlPattern.length( ) - 2 )  )
-                {
-                    return ( true );
-                }
+                return ( true );
             }
 
             return ( false );

@@ -105,7 +105,7 @@ public class Role implements RBACResource, AdminWorkgroupResource
      */
     public String getResourceId( )
     {
-        return _strRole;
+        return getRole( );
     }
 
     /**

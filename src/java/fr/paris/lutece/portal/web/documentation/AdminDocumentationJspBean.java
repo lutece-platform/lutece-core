@@ -135,7 +135,7 @@ public class AdminDocumentationJspBean
         String strXmlPath;
         StreamSource sourceXml;
 
-        if ( ( locale == null ) || locale.toString( ).equals( LOCAL_DEFAULT ) )
+        if ( LOCAL_DEFAULT.equals( locale.toString( ) ) )
         {
             strXmlPath = AppPathService.getWebAppPath( ) + XML_BASE_PATH + XML_USER_PATH + strFeature + ".xml";
         }

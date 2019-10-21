@@ -68,7 +68,7 @@ public final class ExtendableResourceActionHit
      * Delete action
      */
     public static final String ACTION_DELETE = "delete";
-    private static volatile ExtendableResourceActionHit _instance;
+    private static ExtendableResourceActionHit _instance = new ExtendableResourceActionHit( );
 
     /**
      * Private constructor
@@ -84,14 +84,6 @@ public final class ExtendableResourceActionHit
      */
     public static ExtendableResourceActionHit getInstance( )
     {
-        if ( _instance == null )
-        {
-            synchronized( ExtendableResourceActionHit.class )
-            {
-                _instance = new ExtendableResourceActionHit( );
-            }
-        }
-
         return _instance;
     }
 
