@@ -41,6 +41,7 @@ import fr.paris.lutece.portal.service.message.AdminMessageServiceTest;
 import fr.paris.lutece.portal.service.page.PageServiceTest;
 import fr.paris.lutece.portal.service.plugin.PluginFileTest;
 import fr.paris.lutece.portal.service.portal.PortalMenuServiceTest;
+import fr.paris.lutece.portal.service.portal.PortalServiceTest;
 import fr.paris.lutece.portal.service.security.LuteceUserTest;
 import fr.paris.lutece.portal.service.template.FreeMarkerTemplateServiceTest;
 import fr.paris.lutece.portal.service.util.AppLogServiceTest;

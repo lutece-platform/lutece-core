@@ -37,6 +37,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.mock.web.MockServletConfig;
@@ -73,7 +74,8 @@ public class AdminJspBeanTest extends LuteceTestCase
 
         AdminPageJspBean instance = new AdminPageJspBean( );
         instance.init( request, AdminPageJspBean.RIGHT_MANAGE_ADMIN_SITE );
-        instance.getAdminPage( request );
+        
+        assertTrue( StringUtils.isNotEmpty( instance.getAdminPage( request ) ) );
     }
 
     /**

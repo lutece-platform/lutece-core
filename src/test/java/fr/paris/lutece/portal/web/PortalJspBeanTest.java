@@ -35,6 +35,7 @@ package fr.paris.lutece.portal.web;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.mock.web.MockServletConfig;
@@ -53,13 +54,12 @@ public class PortalJspBeanTest extends LuteceTestCase
      */
     public void testGetContent( ) throws Exception
     {
-        System.out.println( "getContent" );
-
         HttpServletRequest request = new MockHttpServletRequest( );
         LocalVariables.setLocal( new MockServletConfig( ), request, new MockHttpServletResponse( ) );
         PortalJspBean instance = new PortalJspBean( );
 
         String result = instance.getContent( request );
+        assertTrue( StringUtils.isNotEmpty( result ) );
     }
 
     /**
@@ -67,11 +67,10 @@ public class PortalJspBeanTest extends LuteceTestCase
      */
     public void testGetStartUpFailurePage( )
     {
-        System.out.println( "getStartUpFailurePage" );
-
         HttpServletRequest request = new MockHttpServletRequest( );
         PortalJspBean instance = new PortalJspBean( );
         String result = instance.getStartUpFailurePage( request );
+        assertTrue( StringUtils.isNotEmpty( result ) );
     }
 
     /**
@@ -79,11 +78,10 @@ public class PortalJspBeanTest extends LuteceTestCase
      */
     public void testGetError500Page( )
     {
-        System.out.println( "getError500Page" );
-
         HttpServletRequest request = new MockHttpServletRequest( );
         PortalJspBean instance = new PortalJspBean( );
         String result = instance.getError500Page( request, "Cause" );
+        assertTrue( StringUtils.isNotEmpty( result ) );
     }
 
     /**
@@ -91,11 +89,10 @@ public class PortalJspBeanTest extends LuteceTestCase
      */
     public void testGetError404Page( )
     {
-        System.out.println( "getError404Page" );
-
         HttpServletRequest request = new MockHttpServletRequest( );
         PortalJspBean instance = new PortalJspBean( );
         String result = instance.getError404Page( request );
+        assertTrue( StringUtils.isNotEmpty( result ) );
     }
 
     /**
@@ -103,11 +100,10 @@ public class PortalJspBeanTest extends LuteceTestCase
      */
     public void testGetCredits( )
     {
-        System.out.println( "getCredits" );
-
         HttpServletRequest request = new MockHttpServletRequest( );
         PortalJspBean instance = new PortalJspBean( );
         String result = instance.getCredits( request );
+        assertTrue( StringUtils.isNotEmpty( result ) );
     }
 
     /**
@@ -115,11 +111,10 @@ public class PortalJspBeanTest extends LuteceTestCase
      */
     public void testGetLegalInfos( )
     {
-        System.out.println( "getLegalInfos" );
-
         HttpServletRequest request = new MockHttpServletRequest( );
         PortalJspBean instance = new PortalJspBean( );
         String result = instance.getLegalInfos( request );
+        assertTrue( StringUtils.isNotEmpty( result ) );
     }
 
     /**
@@ -127,13 +122,16 @@ public class PortalJspBeanTest extends LuteceTestCase
      */
     public void testRedirectLogin( )
     {
-        System.out.println( "redirectLogin" );
-
         if ( SecurityService.isAuthenticationEnable( ) )
         {
             HttpServletRequest request = new MockHttpServletRequest( );
             PortalJspBean instance = new PortalJspBean( );
             String result = instance.redirectLogin( request );
+            assertTrue( StringUtils.isNotEmpty( result ) );
+        }
+        else
+        {
+            fail( );
         }
     }
 
@@ -142,12 +140,14 @@ public class PortalJspBeanTest extends LuteceTestCase
      */
     public void testGetLoginNextUrl( )
     {
-        System.out.println( "getLoginNextUrl" );
-
         if ( SecurityService.isAuthenticationEnable( ) )
         {
             HttpServletRequest request = new MockHttpServletRequest( );
             PortalJspBean.getLoginNextUrl( request );
+        }
+        else
+        {
+            fail( );
         }
     }
 

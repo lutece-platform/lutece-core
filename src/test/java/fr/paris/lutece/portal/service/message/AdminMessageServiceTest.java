@@ -33,6 +33,8 @@
  */
 package fr.paris.lutece.portal.service.message;
 
+import java.util.Locale;
+
 import org.springframework.mock.web.MockHttpServletRequest;
 
 import fr.paris.lutece.portal.service.i18n.I18nService;
@@ -62,7 +64,15 @@ public class AdminMessageServiceTest extends LuteceTestCase
         };
 
         AdminMessageService.getMessageUrl( request, strMessageKey );
+        AdminMessage message = (AdminMessage) request.getSession( ).getAttribute( "LUTECE_ADMIN_MESSAGE" );
+        assertEquals( I18nService.getLocalizedString( strMessageKey, Locale.getDefault( ) ) , message.getText( Locale.getDefault( ) ) );
+        assertEquals( AdminMessage.TYPE_INFO , message.getType( ) );
+        
         AdminMessageService.getMessageUrl( request, strMessageKey, AdminMessage.TYPE_STOP );
+        message = (AdminMessage) request.getSession( ).getAttribute( "LUTECE_ADMIN_MESSAGE" );
+        assertEquals( I18nService.getLocalizedString( strMessageKey, Locale.getDefault( ) ) , message.getText( Locale.getDefault( ) ) );
+        assertEquals( AdminMessage.TYPE_STOP , message.getType( ) );
+        
         AdminMessageService.getMessageUrl( request, strMessageKey, strButtonUrl, AdminMessage.TYPE_STOP );
         AdminMessageService.getMessageUrl( request, strMessageKey, strButtonUrl, strTarget );
         AdminMessageService.getMessageUrl( request, strMessageKey, strButtonUrl, strTarget, AdminMessage.TYPE_STOP );

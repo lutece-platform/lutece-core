@@ -377,6 +377,9 @@ public class DaemonSchedulerTest extends LuteceTestCase
             scheduler.unSchedule( entry );
             // not sure how to assert something here
         }
+        catch (Exception e) {
+            fail( );
+        }
         finally
         {
             scheduler.shutdown( );
