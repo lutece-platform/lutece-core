@@ -45,6 +45,7 @@ import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
+import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.http.SecurityUtil;
 
@@ -103,8 +104,8 @@ public class AdminDocumentationJspBean
 
     // utils
     private static final String LOCAL_DEFAULT = "en";
-    private static final String XML_BASE_PATH = "/doc/xml/";
-    private static final String XML_USER_PATH = "/xdoc/user/";
+    private static final String PROPERTY_XML_BASE_PATH = "lutece.xml.base.path";
+    private static final String PROPERTY_XML_USER_PATH = "lutece.xml.user.path";
     private static final String FEATURES_GROUP_SYSTEM = "SYSTEM";
 
     /**
@@ -132,16 +133,18 @@ public class AdminDocumentationJspBean
         StreamSource sourceStyleSheet = new StreamSource( fileXsl );
 
         // get the xml documentation file
+        String xmlBasePath = AppPropertiesService.getProperty( PROPERTY_XML_BASE_PATH );
+        String userBasePath = AppPropertiesService.getProperty( PROPERTY_XML_USER_PATH );
         String strXmlPath;
         StreamSource sourceXml;
 
         if ( LOCAL_DEFAULT.equals( locale.toString( ) ) )
         {
-            strXmlPath = AppPathService.getWebAppPath( ) + XML_BASE_PATH + XML_USER_PATH + strFeature + ".xml";
+            strXmlPath = AppPathService.getWebAppPath( ) + xmlBasePath + userBasePath + strFeature + ".xml";
         }
         else
         {
-            strXmlPath = AppPathService.getWebAppPath( ) + XML_BASE_PATH + locale.toString( ) + XML_USER_PATH
+            strXmlPath = AppPathService.getWebAppPath( ) + xmlBasePath + locale.toString( ) + userBasePath
                     + strFeature + ".xml";
         }
 

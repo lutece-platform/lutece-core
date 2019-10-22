@@ -68,7 +68,7 @@ public final class MailAttachmentCacheService extends AbstractCacheableService
      *
      * @return an instance of MailAttachmentCacheService
      */
-    public synchronized static MailAttachmentCacheService getInstance( )
+    public static synchronized MailAttachmentCacheService getInstance( )
     {
         if ( _singleton == null )
         {
