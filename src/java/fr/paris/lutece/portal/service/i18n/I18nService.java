@@ -398,7 +398,7 @@ public final class I18nService
 
             for ( Locale adminLocale : getAdminAvailableLocales( ) )
             {
-                if ( ( strTokens != null ) && strTokens.hasMoreTokens( ) )
+                if ( strTokens.hasMoreTokens( ) )
                 {
                     strToken = strTokens.nextToken( );
                 }
@@ -475,37 +475,30 @@ public final class I18nService
     private static ResourceBundle getResourceBundle( Locale locale, String strBundle )
     {
         String key = strBundle + locale.toString( );
-        ResourceBundle rbLabels = _resourceBundleCache.get( key );
+        return _resourceBundleCache.computeIfAbsent( key, k -> createResourceBundle( strBundle, locale ) );
+    }
+    
+    private static ResourceBundle createResourceBundle( String strBundle, Locale locale )
+    {
+        ResourceBundle rbLabels = ResourceBundle.getBundle( strBundle, locale );
 
-        if ( rbLabels == null )
+        if ( _overrideLoader != null )
         {
-            rbLabels = ResourceBundle.getBundle( strBundle, locale );
+            ResourceBundle overrideBundle = null;
 
-            if ( _overrideLoader != null )
+            try
             {
-                ResourceBundle overrideBundle = null;
-
-                try
-                {
-                    overrideBundle = ResourceBundle.getBundle( strBundle, locale, _overrideLoader );
-                }
-                catch ( MissingResourceException e )
-                {
-                    // no override for this resource
-                    _resourceBundleCache.put( key, rbLabels );
-
-                    return rbLabels;
-                }
-
-                ResourceBundle res = new CombinedResourceBundle( overrideBundle, rbLabels );
-                _resourceBundleCache.put( key, res );
-
-                return res;
+                overrideBundle = ResourceBundle.getBundle( strBundle, locale, _overrideLoader );
+            }
+            catch ( MissingResourceException e )
+            {
+                // no override for this resource
+                return rbLabels;
             }
 
-            _resourceBundleCache.put( key, rbLabels );
+            ResourceBundle res = new CombinedResourceBundle( overrideBundle, rbLabels );
+            return res;
         }
-
         return rbLabels;
     }
 

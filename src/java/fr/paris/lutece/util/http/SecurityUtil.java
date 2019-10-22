@@ -316,15 +316,15 @@ public final class SecurityUtil
         }
         
         // filter schemes
-        boolean isRelativePath = BooleanUtils.and( new boolean[] {
+        boolean[] conditions = new boolean[] {
                 !strUrl.startsWith( "//" ),
                 !strUrl.startsWith( "http:" ),
                 !strUrl.startsWith( "https:" ),
                 !strUrl.contains( "://" ),
                 !strUrl.startsWith( "javascript:" )
-        } );
+        };
         
-        if ( isRelativePath )
+        if ( BooleanUtils.and( conditions ) )
         {
             return true; // should be a relative path
         }

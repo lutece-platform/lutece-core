@@ -33,14 +33,12 @@
  */
 package fr.paris.lutece.portal.web.upload;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -72,7 +70,7 @@ public class UploadServlet extends HttpServlet
      * {@inheritDoc}
      */
     @Override
-    protected void doPost( HttpServletRequest req, HttpServletResponse response ) throws ServletException, IOException
+    protected void doPost( HttpServletRequest req, HttpServletResponse response )
     {
         MultipartHttpServletRequest request = (MultipartHttpServletRequest) req;
 
@@ -120,16 +118,21 @@ public class UploadServlet extends HttpServlet
             }
         }
 
-        // When removing IAsynchronousUploadHandler in the future, delete this if,
-        // keep only the 'false' block.
-        String strResultJson = objectMapper.writeValueAsString( mapJson );
-        if ( AppLogService.isDebugEnabled( ) )
+        try
         {
-            AppLogService.debug( "Aysnchronous upload : " + strResultJson );
+            String strResultJson = objectMapper.writeValueAsString( mapJson );
+            if ( AppLogService.isDebugEnabled( ) )
+            {
+                AppLogService.debug( "Aysnchronous upload : " + strResultJson );
+            }
+    
+            response.setContentType( JSON_UTF8_CONTENT_TYPE );
+            response.getWriter( ).print( strResultJson );
+           }
+        catch ( Exception e )
+        {
+            AppLogService.error( "Error weiting response", e );
         }
-
-        response.setContentType( JSON_UTF8_CONTENT_TYPE );
-        response.getWriter( ).print( strResultJson );
     }
 
     /**

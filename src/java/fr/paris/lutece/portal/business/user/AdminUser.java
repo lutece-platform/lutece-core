@@ -80,7 +80,7 @@ public class AdminUser implements Serializable, AdminWorkgroupResource
     private Timestamp _accountMaxValidDate;
     private Timestamp _dateLastLogin;
     private String _strWorkgroupKey;
-    private HashMap<String, Object> _userInfo = new HashMap<String, Object>( );
+    private HashMap<String, Object> _userInfo = new HashMap<>( );
 
     /**
      * User's rights. We use a HashMap instead of a Map so that the field is forced to be serializable.

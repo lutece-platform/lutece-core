@@ -48,6 +48,7 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.BooleanUtils;
 
 import fr.paris.lutece.portal.business.page.Page;
 import fr.paris.lutece.portal.business.page.PageHome;
@@ -692,14 +693,15 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
         }
         
         String strRole = portlet.getRole( );
-
-        if ( !strRole.equals( Page.ROLE_NONE ) && SecurityService.isAuthenticationEnable( ) && nMode != MODE_ADMIN
-                && !SecurityService.getInstance( ).isUserInRole( request, strRole ) )
-        {
-            return false;
-        }
         
-        return true;
+        boolean[] conditions = new boolean[] {
+                strRole.equals( Page.ROLE_NONE ),
+                !SecurityService.isAuthenticationEnable( ),
+                nMode == MODE_ADMIN,
+                SecurityService.getInstance( ).isUserInRole( request, strRole )
+        };
+        
+        return BooleanUtils.or( conditions );
     }
 
     /**

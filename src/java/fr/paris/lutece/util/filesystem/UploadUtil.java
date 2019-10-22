@@ -93,7 +93,7 @@ public final class UploadUtil
         for ( int i = 0; i < strNoAccents.length( ); i++ )
         {
             char current = characters [i];
-
+            
             // Valid characters are : '.', alphanumeric (a-zA-Z0-9),
             // and '/' if bKeepSlashes is true.
             boolean bValid = ( ( current == '.' ) || ( ( current >= '0' ) && ( current <= '9' ) ) || ( ( current >= 'a' ) && ( current <= 'z' ) )

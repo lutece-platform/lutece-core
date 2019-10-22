@@ -585,14 +585,14 @@ public class PortalJspBean
         // If the form was submited, we check data
         if ( strSend != null )
         {
-            boolean missingField = BooleanUtils.or( new boolean[] {
+            boolean[] conditions = new boolean[] {
                     StringUtils.isBlank( strSenderEmail ), 
                     StringUtils.isBlank( strSenderName ), 
                     StringUtils.isBlank( strSenderFirstName ), 
                     StringUtils.isBlank( strReceipientEmail ), 
-                    StringUtils.isBlank( strContent ) } );
+                    StringUtils.isBlank( strContent ) };
             
-            if ( missingField )
+            if ( BooleanUtils.or( conditions ) )
             {
                 strError = I18nService.getLocalizedString( MESSAGE_ERROR_MANDATORY_FIELDS, locale );
             }
