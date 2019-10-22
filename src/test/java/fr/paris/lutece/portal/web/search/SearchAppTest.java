@@ -74,7 +74,7 @@ public class SearchAppTest extends LuteceTestCase
         Plugin plugin = null;
         SearchApp instance = SpringContextService.getBean( "core.xpage.search" );
 
-        XPage result = instance.getPage( request, nMode, plugin );
+        assertNotNull( instance.getPage( request, nMode, plugin ) );
 
         listener.requestDestroyed( new ServletRequestEvent( context, request ) );
     }

@@ -37,6 +37,7 @@ import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.Random;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.mock.web.MockHttpServletRequest;
 
 import fr.paris.lutece.portal.business.style.Style;
@@ -99,7 +100,7 @@ public class StylesJspBeanTest extends LuteceTestCase
         Utils.registerAdminUserWithRigth( request, new AdminUser( ), StylesJspBean.RIGHT_MANAGE_STYLE );
 
         instance.init( request, StylesJspBean.RIGHT_MANAGE_STYLE );
-        instance.getStylesManagement( request );
+        assertTrue( StringUtils.isNotEmpty( instance.getStylesManagement( request ) ) );
     }
 
     /**

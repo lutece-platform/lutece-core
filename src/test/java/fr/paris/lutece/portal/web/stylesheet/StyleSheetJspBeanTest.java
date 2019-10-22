@@ -44,6 +44,7 @@ import java.util.Random;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.mock.web.MockHttpServletRequest;
 
 import fr.paris.lutece.portal.business.style.Style;
@@ -115,7 +116,7 @@ public class StyleSheetJspBeanTest extends LuteceTestCase
         Utils.registerAdminUserWithRigth( request, new AdminUser( ), StyleSheetJspBean.RIGHT_MANAGE_STYLESHEET );
 
         instance.init( request, StyleSheetJspBean.RIGHT_MANAGE_STYLESHEET );
-        instance.getManageStyleSheet( request );
+        assertTrue( StringUtils.isNotEmpty( instance.getManageStyleSheet( request ) ) );
     }
 
     /**

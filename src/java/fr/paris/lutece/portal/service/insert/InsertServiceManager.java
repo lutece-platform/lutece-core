@@ -73,6 +73,18 @@ public final class InsertServiceManager
         _mapInsertServicesRegistry.put( is.getId( ), is );
         AppLogService.info( "New Insert Service registered : " + is.getId( ) );
     }
+    
+   /**
+    * Unregisters a new Index Service
+    *
+    * @param is
+    *            the service
+    */
+   public static void unregisterInsertService( InsertService is )
+   {
+       _mapInsertServicesRegistry.remove( is.getId( ) );
+       AppLogService.info( "Service unregistered : " + is.getId( ) );
+   }
 
     /**
      * Returns all registered Insert services

@@ -63,6 +63,7 @@ import java.util.Locale;
 import javax.security.auth.login.FailedLoginException;
 import javax.security.auth.login.LoginException;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.mock.web.MockHttpServletRequest;
@@ -109,7 +110,7 @@ public class AdminMenuJspBeanTest extends LuteceTestCase
         Utils.registerAdminUser( request, _user );
 
         AdminMenuJspBean instance = new AdminMenuJspBean( );
-        instance.getAdminMenuUser( request );
+        assertTrue( StringUtils.isNotEmpty( instance.getAdminMenuUser( request ) ) );
     }
 
     /**
