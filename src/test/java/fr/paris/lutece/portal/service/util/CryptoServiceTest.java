@@ -116,7 +116,7 @@ public class CryptoServiceTest extends LuteceTestCase
 
     public void testHmacSHA256( )
     {
-        System.out.println( CryptoService.hmacSHA256( "message" ) );
+        assertNotNull( CryptoService.hmacSHA256( "message" ) );
     }
 
     @Override

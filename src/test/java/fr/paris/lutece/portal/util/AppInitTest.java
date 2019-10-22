@@ -51,19 +51,11 @@ import java.util.HashMap;
 public class AppInitTest extends LuteceTestCase
 {
     /**
-     * Tests the initServices method
-     */
-    public void testInitServices( )
-    {
-        // initServices is loaded by the LuteceTestCase setUp method
-    }
-
-    /**
      * Check Template service
      */
     public void testTemplateService( )
     {
-        HashMap model = new HashMap( );
+        HashMap<String, String> model = new HashMap<>( );
         model.put( "web_mail", "lutece@paris.fr" );
         model.put( Markers.PAGE_MAIN_MENU, "menu" );
 
@@ -76,8 +68,7 @@ public class AppInitTest extends LuteceTestCase
      */
     public void testInitConfigProperties( )
     {
-        // assertNotNull( AppPropertiesService.getProperty( "webapp.path" ) );
-        // assertNotNull( AppPropertiesService.getProperty( "lutece.webapp.url" ) );
+        assertNotNull( AppPropertiesService.getProperty( "lutece.webapp.url" ) );
     }
 
     /**

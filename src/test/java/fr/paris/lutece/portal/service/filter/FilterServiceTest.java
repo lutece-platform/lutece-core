@@ -33,11 +33,11 @@
  */
 package fr.paris.lutece.portal.service.filter;
 
+import java.util.List;
+
 import fr.paris.lutece.portal.service.init.LuteceInitException;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.test.LuteceTestCase;
-
-import java.util.List;
 
 /**
  * FilterService Test
@@ -49,8 +49,6 @@ public class FilterServiceTest extends LuteceTestCase
      */
     public void testGetInstance( )
     {
-        System.out.println( "getInstance" );
-
         FilterService result = FilterService.getInstance( );
         assertNotNull( result );
     }
@@ -60,8 +58,6 @@ public class FilterServiceTest extends LuteceTestCase
      */
     public void testRegisterFilter( )
     {
-        System.out.println( "registerFilter" );
-
         FilterEntry entry = new FilterEntry( );
         entry.setName( "filter" );
         entry.setFilterClass( "fr.paris.lutece.portal.service.filter.MainFilter" );
@@ -70,12 +66,14 @@ public class FilterServiceTest extends LuteceTestCase
         Plugin plugin = null;
         FilterService instance = FilterService.getInstance( );
         instance.registerFilter( entry, plugin );
+        
+        LuteceFilter f = instance.getFilters( ).get( 0 );
+        assertNotNull( f );
+        assertEquals( entry.getName( ), f.getName( ) );
     }
 
     public void testOrder( ) throws LuteceInitException
     {
-        System.out.println( "order" );
-
         FilterService.getInstance( ).getFilters( ).clear( );
 
         FilterEntry entry2 = new FilterEntry( );

@@ -39,14 +39,17 @@ import java.util.Scanner;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.mock.web.MockHttpServletRequest;
 
 import fr.paris.lutece.portal.business.page.Page;
 import fr.paris.lutece.portal.service.cache.CacheService;
 import fr.paris.lutece.portal.service.cache.CacheableService;
 import fr.paris.lutece.portal.service.cache.IPathCacheService;
+import fr.paris.lutece.portal.service.message.SiteMessageException;
 import fr.paris.lutece.portal.service.page.IPageService;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
+import fr.paris.lutece.portal.web.LocalVariables;
 import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.test.LuteceTestCase;
 
@@ -95,12 +98,11 @@ public class PortalServiceTest extends LuteceTestCase
         super.tearDown( );
     }
 
-    public void testGetDefaultPage( )
+    public void testGetDefaultPage( ) throws SiteMessageException
     {
-        HttpServletRequest request = new MockHttpServletRequest( );
         int nMode = 0;
 
-        // PortalService.getDefaultPage( request, nMode );
+        assertTrue( StringUtils.isNotEmpty( PortalService.getDefaultPage( LocalVariables.getRequest( ), nMode ) ) );
     }
 
     public void testGetXPagePathContent( ) throws IOException

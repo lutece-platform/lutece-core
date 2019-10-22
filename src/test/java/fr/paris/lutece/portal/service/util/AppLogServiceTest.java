@@ -45,12 +45,19 @@ public class AppLogServiceTest extends LuteceTestCase
      */
     public void testInit( )
     {
-        System.out.println( "init" );
+        try
+        {
+            System.out.println( "init" );
 
-        String strConfigPath = "/WEB-INF/conf/";
-        String strConfigFile = "config.properties";
+            String strConfigPath = "/WEB-INF/conf/";
+            String strConfigFile = "config.properties";
 
-        AppLogService.init( strConfigPath, strConfigFile );
+            AppLogService.init( strConfigPath, strConfigFile );
+        }
+        catch ( Exception e )
+        {
+            fail( );
+        }
     }
 
     /**
@@ -58,11 +65,18 @@ public class AppLogServiceTest extends LuteceTestCase
      */
     public void testDebug( )
     {
-        System.out.println( "debug" );
+        try
+        {
+            System.out.println( "debug" );
 
-        Object objToLog = "AppLogServiceTest : JUnit message debug test";
+            Object objToLog = "AppLogServiceTest : JUnit message debug test";
 
-        AppLogService.debug( objToLog );
+            AppLogService.debug( objToLog );
+        }
+        catch ( Exception e )
+        {
+            fail( );
+        }
     }
 
     /**
@@ -70,11 +84,18 @@ public class AppLogServiceTest extends LuteceTestCase
      */
     public void testError( )
     {
-        System.out.println( "error" );
+        try
+        {
+            System.out.println( "error" );
 
-        Object objToLog = "AppLogServiceTest : JUnit message error test";
+            Object objToLog = "AppLogServiceTest : JUnit message error test";
 
-        AppLogService.error( objToLog, new AppException( "JUnit test exception" ) );
+            AppLogService.error( objToLog, new AppException( "JUnit test exception" ) );
+        }
+        catch ( Exception e )
+        {
+            fail( );
+        }
     }
 
     /**
@@ -82,10 +103,17 @@ public class AppLogServiceTest extends LuteceTestCase
      */
     public void testInfo( )
     {
-        System.out.println( "info" );
+        try
+        {
+            System.out.println( "info" );
 
-        Object objToLog = "AppLogServiceTest : JUnit message info test";
+            Object objToLog = "AppLogServiceTest : JUnit message info test";
 
-        AppLogService.info( objToLog );
+            AppLogService.info( objToLog );
+        }
+        catch ( Exception e )
+        {
+            fail( );
+        }
     }
 }
