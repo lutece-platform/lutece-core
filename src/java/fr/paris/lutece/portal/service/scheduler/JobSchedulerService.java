@@ -64,7 +64,7 @@ public final class JobSchedulerService
      * 
      * @return The service's instance
      */
-    public synchronized static JobSchedulerService getInstance( )
+    public static synchronized JobSchedulerService getInstance( )
     {
         if ( _singleton == null )
         {

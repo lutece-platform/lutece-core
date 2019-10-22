@@ -87,7 +87,7 @@ public class EditorBbcodeService implements IEditorBbcodeService
      * 
      * @return The instance of the service
      */
-    public synchronized static EditorBbcodeService getInstance( )
+    public static synchronized EditorBbcodeService getInstance( )
     {
         if ( _singleton == null )
         {

@@ -59,7 +59,7 @@ public class FreeMarkerTemplateService extends AbstractFreeMarkerTemplateService
      * 
      * @return the instance of the freemarker template service
      */
-    public synchronized static FreeMarkerTemplateService getInstance( )
+    public static synchronized FreeMarkerTemplateService getInstance( )
     {
         if ( _singleton == null )
         {

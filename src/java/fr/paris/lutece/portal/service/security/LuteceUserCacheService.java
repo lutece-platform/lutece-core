@@ -56,7 +56,7 @@ public final class LuteceUserCacheService extends AbstractCacheableService
      * 
      * @return The instance of the cache service
      */
-    public synchronized static LuteceUserCacheService getInstance( )
+    public static synchronized LuteceUserCacheService getInstance( )
     {
         if ( _instance == null )
         {

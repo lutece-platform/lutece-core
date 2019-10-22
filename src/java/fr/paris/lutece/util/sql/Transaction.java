@@ -65,6 +65,7 @@ public class Transaction
      * Status for roll backed transactions
      */
     public static final int ROLLEDBACK = 1;
+    private static final String MESSAGE_PLUGIN = "Plugin : '";
     private static final String DEFAULT_MODULE_NAME = "core";
     private static final String LOGGER_DEBUG_SQL = "lutece.debug.sql.";
 
@@ -175,7 +176,7 @@ public class Transaction
 
         if ( _connection == null )
         {
-            throw new SQLException( "Plugin : '" + _strPluginName + "' - Connection has been closed. The new prepared statement can not be created : "
+            throw new SQLException( MESSAGE_PLUGIN + _strPluginName + "' - Connection has been closed. The new prepared statement can not be created : "
                     + ( bLogQueries ? _strSQL : "(query log disabled)" ) );
         }
 
@@ -209,7 +210,7 @@ public class Transaction
      */
     public void executeStatement( ) throws SQLException
     {
-        _logger.debug( "Plugin : '" + _strPluginName + "' - EXECUTE STATEMENT : " + _strSQL );
+        _logger.debug( MESSAGE_PLUGIN + _strPluginName + "' - EXECUTE STATEMENT : " + _strSQL );
         _statement.executeUpdate( );
     }
 
@@ -222,11 +223,11 @@ public class Transaction
         {
             if ( _connection == null )
             {
-                throw new SQLException( "Plugin : '" + _strPluginName + "' - Transaction has already been closed and can not be committed" );
+                throw new SQLException( MESSAGE_PLUGIN + _strPluginName + "' - Transaction has already been closed and can not be committed" );
             }
 
             _connection.commit( );
-            _logger.debug( "Plugin : '" + _strPluginName + "' - COMMIT TRANSACTION" );
+            _logger.debug( MESSAGE_PLUGIN + _strPluginName + "' - COMMIT TRANSACTION" );
             closeTransaction( COMMITTED );
         }
         catch( SQLException e )
@@ -261,11 +262,11 @@ public class Transaction
             if ( _connection != null )
             {
                 _connection.rollback( );
-                _logger.debug( "Plugin : '" + _strPluginName + "' - ROLLBACK TRANSACTION" );
+                _logger.debug( MESSAGE_PLUGIN + _strPluginName + "' - ROLLBACK TRANSACTION" );
             }
             else
             {
-                _logger.debug( "Plugin : '" + _strPluginName + "' - TRANSACTION HAS ALREADY BEEN ROLLED BACK" );
+                _logger.debug( MESSAGE_PLUGIN + _strPluginName + "' - TRANSACTION HAS ALREADY BEEN ROLLED BACK" );
             }
         }
         catch( SQLException ex )
@@ -323,7 +324,7 @@ public class Transaction
         }
 
         _logger = Logger.getLogger( LOGGER_DEBUG_SQL + _strPluginName );
-        _logger.debug( "Plugin : '" + _strPluginName + "' - BEGIN TRANSACTION" );
+        _logger.debug( MESSAGE_PLUGIN + _strPluginName + "' - BEGIN TRANSACTION" );
 
         try
         {
