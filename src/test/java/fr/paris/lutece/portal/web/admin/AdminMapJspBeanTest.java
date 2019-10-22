@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.web.admin;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.mock.web.MockHttpServletRequest;
 
 import fr.paris.lutece.portal.business.user.AdminUser;
@@ -54,14 +55,12 @@ public class AdminMapJspBeanTest extends LuteceTestCase
      */
     public void testGetMap( ) throws AccessDeniedException
     {
-        System.out.println( "getMap" );
-
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.addParameter( Parameters.PAGE_ID, TEST_PAGE_ID );
         Utils.registerAdminUserWithRigth( request, new AdminUser( ), AdminPageJspBean.RIGHT_MANAGE_ADMIN_SITE );
 
         AdminMapJspBean instance = new AdminMapJspBean( );
         instance.init( request, AdminPageJspBean.RIGHT_MANAGE_ADMIN_SITE );
-        instance.getMap( request );
+        assertTrue( StringUtils.isNotEmpty( instance.getMap( request ) ) );
     }
 }

@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.web.system;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.mock.web.MockHttpServletRequest;
 
 import fr.paris.lutece.portal.business.user.AdminUser;
@@ -64,7 +65,7 @@ public class SystemJspBeanTest extends LuteceTestCase
         Utils.registerAdminUserWithRigth( request, new AdminUser( ), SystemJspBean.RIGHT_PROPERTIES_MANAGEMENT );
 
         instance = new SystemJspBean( );
-        instance.init( request, SystemJspBean.RIGHT_PROPERTIES_MANAGEMENT );
+       instance.init( request, SystemJspBean.RIGHT_PROPERTIES_MANAGEMENT );
     }
 
     /**
@@ -72,7 +73,7 @@ public class SystemJspBeanTest extends LuteceTestCase
      */
     public void testGetManageFilesSystem( ) throws AccessDeniedException
     {
-        instance.getManageFilesSystem( request );
+        assertTrue( StringUtils.isNotEmpty( instance.getManageFilesSystem( request ) ) );
     }
 
     /**
@@ -81,7 +82,7 @@ public class SystemJspBeanTest extends LuteceTestCase
     public void testGetManageFilesSystemDir( ) throws AccessDeniedException
     {
         request.addParameter( PARAMETER_DIR, PARAMETER_DIR_VALUE );
-        instance.getManageFilesSystemDir( request );
+        assertTrue( StringUtils.isNotEmpty( instance.getManageFilesSystemDir( request ) ) );
     }
 
     /**
@@ -92,7 +93,7 @@ public class SystemJspBeanTest extends LuteceTestCase
         request.addParameter( PARAMETER_DIRECTORY, PARAMETER_DIR_VALUE );
         request.addParameter( PARAMETER_FILE, PARAMETER_FILE_VALUE );
 
-        instance.getFileView( request );
+        assertTrue( StringUtils.isNotEmpty( instance.getFileView( request ) ) );
     }
 
     /**
@@ -100,7 +101,7 @@ public class SystemJspBeanTest extends LuteceTestCase
      */
     public void testGetManageProperties( ) throws AccessDeniedException
     {
-        instance.getManageProperties( request );
+        assertTrue( StringUtils.isNotEmpty( instance.getManageProperties( request ) ) );
     }
 
     public void testDoModifyProperties( ) throws AccessDeniedException
