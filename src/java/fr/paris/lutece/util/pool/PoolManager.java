@@ -33,25 +33,24 @@
  */
 package fr.paris.lutece.util.pool;
 
-import fr.paris.lutece.portal.service.init.LuteceInitException;
-import fr.paris.lutece.util.ReferenceList;
-import fr.paris.lutece.util.pool.service.ConnectionService;
-import fr.paris.lutece.util.pool.service.LuteceConnectionService;
-
-import org.apache.log4j.Logger;
-
 import java.io.InputStream;
-
 import java.sql.Connection;
-
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Properties;
 
 import javax.sql.DataSource;
+
+import org.apache.log4j.Logger;
+
+import fr.paris.lutece.portal.service.init.LuteceInitException;
+import fr.paris.lutece.util.ReferenceList;
+import fr.paris.lutece.util.pool.service.ConnectionService;
+import fr.paris.lutece.util.pool.service.LuteceConnectionService;
 
 /**
  * This class can manages a set of database connections pools. It's implemented as a singleton. It provides methods to get or release a connection from a given
@@ -147,18 +146,7 @@ public final class PoolManager
                 strPoolName = name.substring( 0, name.lastIndexOf( '.' ) );
 
                 // tests if the pool has yet somme of its porperties stored in the hatsable
-                Hashtable<String, String> htParamsPool;
-
-                // if the pool has not yet property
-                if ( htPools.get( strPoolName ) == null )
-                {
-                    htParamsPool = new Hashtable<>( );
-                }
-                else
-                {
-                    htParamsPool = htPools.get( strPoolName );
-                }
-
+                Hashtable<String, String> htParamsPool = htPools.computeIfAbsent( strPoolName, s -> new Hashtable<>( ) );
                 htParamsPool.put( name, props.getProperty( name ) );
                 htPools.put( strPoolName, htParamsPool );
 
@@ -171,8 +159,9 @@ public final class PoolManager
             }
         }
 
-        for ( String key : htPools.keySet( ) )
+        for ( Entry<String, Hashtable<String, String>> entry : htPools.entrySet( ) )
         {
+            String key = entry.getKey( );
             try
             {
                 Hashtable<String, String> htParamsPool = htPools.get( key );
@@ -193,7 +182,7 @@ public final class PoolManager
         }
     }
     
-    private ConnectionService getConnectionService(  Hashtable<String, String> htParamsPool, String key ) throws LuteceInitException
+    private ConnectionService getConnectionService( Map<String, String> htParamsPool, String key ) throws LuteceInitException
     {
         ConnectionService cs = null;
 

@@ -42,7 +42,6 @@ import java.util.Properties;
 
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
-import fr.paris.lutece.util.stream.StreamUtil;
 
 /**
  * This class provides utility methods to read values of the properties stored in the .properties file of the application.

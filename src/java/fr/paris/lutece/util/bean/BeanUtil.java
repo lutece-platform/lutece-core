@@ -34,6 +34,7 @@
 package fr.paris.lutece.util.bean;
 
 import fr.paris.lutece.portal.service.i18n.I18nService;
+import fr.paris.lutece.portal.service.util.AppException;
 import fr.paris.lutece.portal.service.util.AppLogService;
 
 import org.apache.commons.beanutils.BeanUtilsBean;
@@ -127,7 +128,7 @@ public final class BeanUtil
             {
                 String error = "La valeur du champ " + field.getName( ) + " de la classe " + bean.getClass( ).getName( ) + " n'a pas pu être récupéré ";
                 AppLogService.error( error );
-                throw new RuntimeException( error, e );
+                throw new AppException( error, e );
             }
         }
 

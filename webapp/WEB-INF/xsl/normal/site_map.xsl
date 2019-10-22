@@ -23,8 +23,8 @@
                 <xsl:apply-templates select="page-image" />
                 <xsl:apply-templates select="child-pages-list" />
                 <xsl:text disable-output-escaping="yes">
-		    <![CDATA[<div class="clear">&#160;</div>]]>
-	    </xsl:text>
+                    <![CDATA[<div class="clear">&#160;</div>]]>
+                </xsl:text>
             </li>
         </ul>
     </xsl:template>
