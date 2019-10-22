@@ -33,17 +33,8 @@
  */
 package fr.paris.lutece.util.xml;
 
-import java.io.StringWriter;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Properties;
-
-import javax.xml.transform.Result;
-import javax.xml.transform.Source;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.stream.StreamResult;
 
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.http.SecurityUtil;
@@ -77,70 +68,6 @@ public final class XmlUtil
     public static String getXmlHeader( )
     {
         return AppPropertiesService.getProperty( PROPERTIES_XML_HEADER );
-    }
-
-    /**
-     * This method performs XSL Transformation. <br>
-     * <b>Deprecated use XmlTransformer.transform</b>
-     * 
-     * @param source
-     *            The input XML document
-     * @param stylesheet
-     *            The XSL stylesheet
-     * @param params
-     *            parameters to apply to the XSL Stylesheet
-     * @param outputProperties
-     *            properties to use for the xsl transform. Will overload the xsl output definition.
-     * @return The output document transformed
-     * @throws TransformerException
-     *             The exception
-     */
-    @Deprecated
-    public static String transform( Source source, Source stylesheet, Map<String, String> params, Properties outputProperties ) throws TransformerException
-    {
-        try
-        {
-            TransformerFactory factory = TransformerFactory.newInstance( );
-            Transformer transformer = factory.newTransformer( stylesheet );
-
-            if ( outputProperties != null )
-            {
-                transformer.setOutputProperties( outputProperties );
-            }
-
-            if ( params != null )
-            {
-                transformer.clearParameters( );
-
-                for ( Entry<String, String> entry : params.entrySet( ) )
-                {
-                    String name = entry.getKey( );
-                    String value = entry.getValue( );
-                    transformer.setParameter( name, value );
-                }
-            }
-
-            StringWriter sw = new StringWriter( );
-            Result result = new StreamResult( sw );
-            transformer.transform( source, result );
-
-            return sw.toString( );
-        }
-        catch( TransformerException e )
-        {
-            String strMessage = e.getMessage( );
-
-            if ( e.getLocationAsString( ) != null )
-            {
-                strMessage += ( "- location : " + e.getLocationAsString( ) );
-            }
-
-            throw new TransformerException( "Error transforming document XSLT : " + strMessage, e.getCause( ) );
-        }
-        catch( Exception e )
-        {
-            throw new TransformerException( "Error transforming document XSLT : " + e.getMessage( ), e );
-        }
     }
 
     /**

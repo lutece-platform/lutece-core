@@ -160,15 +160,6 @@ public interface IResourceRss
     boolean contentResourceRss( );
 
     /**
-     * create Html Rss
-     * 
-     * @return Html rss
-     * @deprecated use {@link #getFeed()} instead.
-     */
-    @Deprecated
-    String createHtmlRss( );
-
-    /**
      * Gets the feed with items
      * 
      * @return the {@link IFeedResource}

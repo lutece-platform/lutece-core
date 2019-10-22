@@ -33,20 +33,7 @@
  */
 package fr.paris.lutece.portal.web.upload;
 
-import fr.paris.lutece.portal.service.spring.SpringContextService;
-import fr.paris.lutece.portal.service.util.AppLogService;
-
-// Will be removed in a future version, when IAsynchronousUploadHandler
-// is no longer used and IAsynchronousUploadHandler2 is used instead
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import org.apache.commons.fileupload.FileItem;
-
 import java.io.IOException;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -57,6 +44,17 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.fileupload.FileItem;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import fr.paris.lutece.portal.service.spring.SpringContextService;
+import fr.paris.lutece.portal.service.util.AppLogService;
+// Will be removed in a future version, when IAsynchronousUploadHandler
+// is no longer used and IAsynchronousUploadHandler2 is used instead
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 /**
  * Handles asynchronous uploads.
@@ -79,7 +77,8 @@ public class UploadServlet extends HttpServlet
         MultipartHttpServletRequest request = (MultipartHttpServletRequest) req;
 
         List<FileItem> listFileItems = new ArrayList<>( );
-        // When removing IAsynchronousUploadHandler, remove all the populating of the JSONObject
+        // When removing IAsynchronousUploadHandler, remove all the populating of the
+        // JSONObject
         JSONObject json = new JSONObject( );
         Map<String, Object> mapJson = new HashMap<>( );
         json.element( JSON_FILES, new JSONArray( ) );
@@ -107,47 +106,23 @@ public class UploadServlet extends HttpServlet
 
         IAsynchronousUploadHandler2 handler2 = getHandler2( request );
         // IAsynchronousUploadHandler to be removed in the future
-        IAsynchronousUploadHandler handler = null;
         if ( handler2 != null )
         {
             handler2.process( request, response, mapJson, listFileItems );
         }
         else
         {
-            // The new interface IAsynchronousUploadHandler2 is not implemented yet,
-            // try with the deprecated interface.
-            handler = getHandler( request );
+            AppLogService.error( "No handler found, removing temporary files" );
 
-            // When removing IAsynchronousUploadHandler in the future, delete this if,
-            // keep only the 'true' block.
-            if ( handler == null )
+            for ( FileItem fileItem : listFileItems )
             {
-                AppLogService.error( "No handler found, removing temporary files" );
-
-                for ( FileItem fileItem : listFileItems )
-                {
-                    fileItem.delete( );
-                }
-            }
-            else
-            {
-                AppLogService.info( "Using deprecated IAsynchronousUploadHandler; Use IAsynchronousUploadHandler2 instead. handler = " + handler );
-                handler.process( request, response, json, listFileItems );
+                fileItem.delete( );
             }
         }
 
         // When removing IAsynchronousUploadHandler in the future, delete this if,
         // keep only the 'false' block.
-        String strResultJson;
-        if ( handler != null )
-        {
-            strResultJson = json.toString( );
-        }
-        else
-        {
-            strResultJson = objectMapper.writeValueAsString( mapJson );
-        }
-
+        String strResultJson = objectMapper.writeValueAsString( mapJson );
         if ( AppLogService.isDebugEnabled( ) )
         {
             AppLogService.debug( "Aysnchronous upload : " + strResultJson );
@@ -158,37 +133,16 @@ public class UploadServlet extends HttpServlet
     }
 
     /**
-     * Gets the handler
-     * 
-     * @param request
-     *            the request
-     * @return the handler found, <code>null</code> otherwise.
-     * @see IAsynchronousUploadHandler#isInvoked(HttpServletRequest)
-     */
-    private IAsynchronousUploadHandler getHandler( HttpServletRequest request )
-    {
-        for ( IAsynchronousUploadHandler handler : SpringContextService.getBeansOfType( IAsynchronousUploadHandler.class ) )
-        {
-            if ( handler.isInvoked( request ) )
-            {
-                return handler;
-            }
-        }
-
-        return null;
-    }
-
-    /**
      * Gets the handler implementing the new version IAsynchronousUploadHandler2
      *
-     * @param request
-     *            the request
+     * @param request the request
      * @return the handler found, <code>null</code> otherwise.
      * @see IAsynchronousUploadHandler2#isInvoked(HttpServletRequest)
      */
     private IAsynchronousUploadHandler2 getHandler2( HttpServletRequest request )
     {
-        for ( IAsynchronousUploadHandler2 handler : SpringContextService.getBeansOfType( IAsynchronousUploadHandler2.class ) )
+        for ( IAsynchronousUploadHandler2 handler : SpringContextService
+                .getBeansOfType( IAsynchronousUploadHandler2.class ) )
         {
             if ( handler.isInvoked( request ) )
             {

@@ -33,6 +33,19 @@
  */
 package fr.paris.lutece.portal.service.util;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.text.MessageFormat;
+import java.util.Enumeration;
+import java.util.StringTokenizer;
+
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import org.apache.commons.lang.StringUtils;
+
 import fr.paris.lutece.portal.service.datastore.DatastoreService;
 import fr.paris.lutece.portal.service.message.SiteMessageService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
@@ -42,21 +55,6 @@ import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.stream.StreamUtil;
 import fr.paris.lutece.util.string.StringUtil;
 import fr.paris.lutece.util.url.UrlItem;
-
-import org.apache.commons.lang.StringUtils;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-
-import java.text.MessageFormat;
-
-import java.util.Enumeration;
-import java.util.StringTokenizer;
-
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 /**
  * this class provides services for locate repository or url
@@ -325,18 +323,6 @@ public final class AppPathService
         }
 
         return strBaseUrl;
-    }
-
-    /**
-     * Return the webapp prod url (or the base url if no prod url has been definied)
-     *
-     * @return The prod url
-     * @deprecated Use {@link AppPathService#getProdUrl(String)} instead
-     */
-    @Deprecated
-    public static String getProdUrl( )
-    {
-        return getProdUrl( getBaseUrl( ) );
     }
 
     /**

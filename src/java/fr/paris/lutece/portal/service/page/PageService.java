@@ -160,18 +160,6 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
     /**
      * Creates a new PageService object.
      * 
-     * @deprecated use {@link #PageService(PageCacheService, PortletCacheService)}
-     *             instead.
-     */
-    @Deprecated
-    public PageService( )
-    {
-        init( );
-    }
-
-    /**
-     * Creates a new PageService object.
-     * 
      * @param pageCacheService    the page cache service
      * @param portletCacheService the portlet cache service
      */

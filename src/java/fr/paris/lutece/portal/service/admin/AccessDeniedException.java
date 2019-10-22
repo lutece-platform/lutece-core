@@ -44,17 +44,6 @@ public class AccessDeniedException extends Exception
     private static final long serialVersionUID = 323303358249337792L;
 
     /**
-     * Builds a AccessDeniedException without message
-     * 
-     * @deprecated use {@link #AccessDeniedException(String)} to provide an explicit message
-     */
-    @Deprecated
-    public AccessDeniedException( )
-    {
-        // nothing
-    }
-
-    /**
      * Builds a AccessDeniedException with the message
      * 
      * @param strMessage
