@@ -522,18 +522,6 @@ public final class IndexationService
     }
 
     /**
-     * Gets the current index
-     *
-     * @return The index
-     * @deprecated use getDirectoryIndex( ) instead
-     */
-    @Deprecated
-    public static String getIndex( )
-    {
-        return _strIndex;
-    }
-
-    /**
      * Gets the current IndexSearcher.
      *
      * @return IndexSearcher

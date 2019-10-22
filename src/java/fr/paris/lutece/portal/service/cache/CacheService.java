@@ -201,21 +201,6 @@ public final class CacheService
     /**
      * Registers a new CacheableService
      *
-     * @deprecated use registerCacheableService( CacheableService cs )
-     * @param strName
-     *            The name
-     * @param cs
-     *            The CacheableService
-     */
-    @Deprecated
-    public static void registerCacheableService( String strName, CacheableService cs )
-    {
-        registerCacheableService( cs );
-    }
-
-    /**
-     * Registers a new CacheableService
-     *
      * @param cs
      *            The CacheableService
      */

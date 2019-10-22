@@ -33,6 +33,18 @@
  */
 package fr.paris.lutece.portal.service.portal;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Properties;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang.StringUtils;
+
 import fr.paris.lutece.portal.business.XmlContent;
 import fr.paris.lutece.portal.business.page.Page;
 import fr.paris.lutece.portal.business.page.PageHome;
@@ -41,8 +53,6 @@ import fr.paris.lutece.portal.business.portlet.Portlet;
 import fr.paris.lutece.portal.business.portlet.PortletHome;
 import fr.paris.lutece.portal.business.style.ModeHome;
 import fr.paris.lutece.portal.business.stylesheet.StyleSheet;
-import fr.paris.lutece.portal.service.cache.CacheService;
-import fr.paris.lutece.portal.service.cache.CacheableService;
 import fr.paris.lutece.portal.service.cache.IPathCacheService;
 import fr.paris.lutece.portal.service.content.ContentService;
 import fr.paris.lutece.portal.service.content.PageData;
@@ -65,18 +75,6 @@ import fr.paris.lutece.portal.web.l10n.LocaleService;
 import fr.paris.lutece.util.date.DateUtil;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.xml.XmlUtil;
-
-import org.apache.commons.lang.StringUtils;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Properties;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * This class provides methods to build the pages of the portal and manage the
@@ -140,17 +138,6 @@ public final class PortalService
     }
 
     /**
-     * Reset the cache
-     * 
-     * @deprecated use CacheService.resetCaches()
-     */
-    @Deprecated
-    public static void resetCache( )
-    {
-        CacheService.resetCaches( );
-    }
-
-    /**
      * Analyzes request's parameters to find the ContentService that should handle
      * the request
      *
@@ -189,33 +176,6 @@ public final class PortalService
     public static Collection<ContentService> getContentServicesList( )
     {
         return _mapContentServicesRegistry.values( );
-    }
-
-    /**
-     * Registers a new CacheableService
-     * 
-     * @deprecated Use CacheService.registerCacheableService( String strName,
-     *             CacheableService cs ) instead
-     * @param strName The name
-     * @param cs      The CacheableService
-     */
-    @Deprecated
-    public static void registerCacheableService( String strName, CacheableService cs )
-    {
-        CacheService.registerCacheableService( strName, cs );
-    }
-
-    /**
-     * Returns all registered Cacheable services
-     * 
-     * @deprecated Use CacheService.getCacheableServicesList() instead
-     *
-     * @return A collection containing all registered Cacheable services
-     */
-    @Deprecated
-    public static Collection<CacheableService> getCacheableServicesList( )
-    {
-        return CacheService.getCacheableServicesList( );
     }
 
     /**

@@ -53,7 +53,6 @@ public class MultipartHttpServletRequest extends HttpServletRequestWrapper
 {
     private final Map<String, List<FileItem>> _multipartFiles;
     private final Map<String, String [ ]> _stringParameters;
-    private Map<String, FileItem> _multipartSingleFiles;
 
     /**
      * Constructor
@@ -130,23 +129,6 @@ public class MultipartHttpServletRequest extends HttpServletRequestWrapper
     public Enumeration<String> getFileNames( )
     {
         return Collections.enumeration( _multipartFiles.keySet( ) );
-    }
-
-    /**
-     * Gets a map of files attached to the request. Only one file is returned for each name of the form.
-     * 
-     * @return The map
-     * @deprecated use {@link #getFileListMap()} instead to get every files
-     */
-    @Deprecated
-    public Map<String, FileItem> getFileMap( )
-    {
-        if ( _multipartSingleFiles == null )
-        {
-            _multipartSingleFiles = Collections.unmodifiableMap( convertFileMap( _multipartFiles ) );
-        }
-
-        return _multipartSingleFiles;
     }
 
     /**
