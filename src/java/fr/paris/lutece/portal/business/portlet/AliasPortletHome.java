@@ -49,14 +49,17 @@ public class AliasPortletHome extends PortletHome
     private static IAliasPortletDAO _dao = SpringContextService.getBean( "aliasPortletDAO" );
 
     /** This class implements the Singleton design pattern. */
-    private static AliasPortletHome _singleton = new AliasPortletHome( );
+    private static volatile AliasPortletHome _singleton;
 
     /**
      * Constructor
      */
-    private AliasPortletHome( )
+    public AliasPortletHome( )
     {
-        // Ctor
+        if ( _singleton == null )
+        {
+            _singleton = this;
+        }
     }
 
     /**
@@ -75,8 +78,13 @@ public class AliasPortletHome extends PortletHome
      *
      * @return the AliasPortletHome instance
      */
-    public static AliasPortletHome getInstance( )
+    public static PortletHome getInstance( )
     {
+        if ( _singleton == null )
+        {
+            _singleton = new AliasPortletHome( );
+        }
+
         return _singleton;
     }
 
@@ -91,10 +99,10 @@ public class AliasPortletHome extends PortletHome
     }
 
     /**
-     * Returns the portlet alias identifier of the portlet whose identifier is
-     * specified in parameter
+     * Returns the portlet alias identifier of the portlet whose identifier is specified in parameter
      *
-     * @param nIdPortlet the identifier of the portlet
+     * @param nIdPortlet
+     *            the identifier of the portlet
      * @return the identifier of the alias portlet
      */
     public static int getAliasId( int nIdPortlet )
@@ -123,10 +131,10 @@ public class AliasPortletHome extends PortletHome
     }
 
     /**
-     * Loads the list of the portlets whose type is the same as the one specified in
-     * parameter
+     * Loads the list of the portlets whose type is the same as the one specified in parameter
      *
-     * @param strPortletTypeId the portlet type identifier
+     * @param strPortletTypeId
+     *            the portlet type identifier
      * @return the list of the portlets in form of a ReferenceList
      */
     public static ReferenceList getPortletsByTypeList( String strPortletTypeId )
