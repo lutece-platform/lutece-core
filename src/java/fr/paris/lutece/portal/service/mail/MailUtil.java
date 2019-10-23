@@ -65,6 +65,7 @@ import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import javax.mail.internet.MimeUtility;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 
 import fr.paris.lutece.portal.service.util.AppException;
@@ -165,29 +166,19 @@ final class MailUtil
     /**
      * Send a text message.
      *
-     * @param strRecipientsTo  The list of the main recipients email.Every recipient
-     *                         must be separated by the mail separator defined in
-     *                         config.properties
-     * @param strRecipientsCc  The recipients list of the carbon copies .
-     * @param strRecipientsBcc The recipients list of the blind carbon copies .
-     * @param strSenderName    The sender name.
-     * @param strSenderEmail   The sender email address.
-     * @param strSubject       The message subject.
-     * @param strMessage       The message.
-     * @param transport        the smtp transport object
-     * @param session          the smtp session object
+     * @param mail      The mail to send
+     * @param transport the smtp transport object
+     * @param session   the smtp session object
      * @throws AddressException    If invalid address
      * @throws SendFailedException If an error occured during sending
      * @throws MessagingException  If a messaging error occured
      */
-    protected static void sendMessageText( String strRecipientsTo, String strRecipientsCc, String strRecipientsBcc,
-            String strSenderName, String strSenderEmail, String strSubject, String strMessage, Transport transport,
-            Session session ) throws MessagingException
+    protected static void sendMessageText( MailItem mail, Transport transport, Session session )
+            throws MessagingException
     {
-        Message msg = prepareMessage( strRecipientsTo, strRecipientsCc, strRecipientsBcc, strSenderName, strSenderEmail,
-                strSubject, session );
-        msg.setDataHandler( new DataHandler(
-                new ByteArrayDataSource( strMessage, AppPropertiesService.getProperty( PROPERTY_MAIL_TYPE_PLAIN )
+        Message msg = prepareMessage( mail, session );
+        msg.setDataHandler( new DataHandler( new ByteArrayDataSource( mail.getMessage( ),
+                AppPropertiesService.getProperty( PROPERTY_MAIL_TYPE_PLAIN )
                         + AppPropertiesService.getProperty( PROPERTY_CHARSET ) ) ) );
 
         sendMessage( msg, transport );
@@ -196,32 +187,22 @@ final class MailUtil
     /**
      * Send a HTML formated message.
      * 
-     * @param strRecipientsTo  The list of the main recipients email.Every recipient
-     *                         must be separated by the mail separator defined in
-     *                         config.properties
-     * @param strRecipientsCc  The recipients list of the carbon copies .
-     * @param strRecipientsBcc The recipients list of the blind carbon copies .
-     * @param strSenderName    The sender name.
-     * @param strSenderEmail   The sender email address.
-     * @param strSubject       The message subject.
-     * @param strMessage       The message.
-     * @param transport        the smtp transport object
-     * @param session          the smtp session object
+     * @param mail      The mail to send
+     * @param transport the smtp transport object
+     * @param session   the smtp session object
      * @throws AddressException    If invalid address
      * @throws SendFailedException If an error occured during sending
      * @throws MessagingException  If a messaging error occured
      */
-    protected static void sendMessageHtml( String strRecipientsTo, String strRecipientsCc, String strRecipientsBcc,
-            String strSenderName, String strSenderEmail, String strSubject, String strMessage, Transport transport,
-            Session session ) throws MessagingException
+    protected static void sendMessageHtml( MailItem mail, Transport transport, Session session )
+            throws MessagingException
     {
-        Message msg = prepareMessage( strRecipientsTo, strRecipientsCc, strRecipientsBcc, strSenderName, strSenderEmail,
-                strSubject, session );
+        Message msg = prepareMessage( mail, session );
 
         msg.setHeader( HEADER_NAME, HEADER_VALUE );
         // Message body formated in HTML
         msg.setDataHandler( new DataHandler(
-                new ByteArrayDataSource( strMessage, AppPropertiesService.getProperty( PROPERTY_MAIL_TYPE_HTML )
+                new ByteArrayDataSource( mail.getMessage( ), AppPropertiesService.getProperty( PROPERTY_MAIL_TYPE_HTML )
                         + AppPropertiesService.getProperty( PROPERTY_CHARSET ) ) ) );
 
         sendMessage( msg, transport );
@@ -229,53 +210,38 @@ final class MailUtil
 
     /**
      * Send a Multipart HTML message with the attachements associated to the message
-     * and attached files. FIXME: use prepareMessage method
+     * and attached files.
      *
-     * @param strRecipientsTo  The list of the main recipients email.Every recipient
-     *                         must be separated by the mail separator defined in
-     *                         config.properties
-     * @param strRecipientsCc  The recipients list of the carbon copies .
-     * @param strRecipientsBcc The recipients list of the blind carbon copies .
-     * @param strSenderName    The sender name.
-     * @param strSenderEmail   The sender email address.
-     * @param strSubject       The message subject.
-     * @param strMessage       The message.
-     * @param urlAttachements  The List of UrlAttachement Object, containing the URL
-     *                         of attachments associated with their
-     *                         content-location.
-     * @param fileAttachements The list of files attached
-     * @param transport        the smtp transport object
-     * @param session          the smtp session object
+     * @param mail      The mail to send
+     * @param transport the smtp transport object
+     * @param session   the smtp session object
      * @throws AddressException    If invalid address
      * @throws SendFailedException If an error occured during sending
      * @throws MessagingException  If a messaging error occurred
      */
-    protected static void sendMultipartMessageHtml( String strRecipientsTo, String strRecipientsCc,
-            String strRecipientsBcc, String strSenderName, String strSenderEmail, String strSubject, String strMessage,
-            List<UrlAttachment> urlAttachements, List<FileAttachment> fileAttachements, Transport transport,
-            Session session ) throws MessagingException
+    protected static void sendMultipartMessageHtml( MailItem mail, Transport transport, Session session )
+            throws MessagingException
     {
-        Message msg = prepareMessage( strRecipientsTo, strRecipientsCc, strRecipientsBcc, strSenderName, strSenderEmail,
-                strSubject, session );
+        Message msg = prepareMessage( mail, session );
         msg.setHeader( HEADER_NAME, HEADER_VALUE );
 
         // Creation of the root part containing all the elements of the message
-        MimeMultipart multipart = ( ( fileAttachements == null ) || ( fileAttachements.isEmpty( ) ) )
+        MimeMultipart multipart = CollectionUtils.isEmpty( mail.getFilesAttachement( ) )
                 ? new MimeMultipart( MULTIPART_RELATED )
                 : new MimeMultipart( );
 
         // Creation of the html part, the "core" of the message
         BodyPart msgBodyPart = new MimeBodyPart( );
         msgBodyPart.setDataHandler( new DataHandler(
-                new ByteArrayDataSource( strMessage, AppPropertiesService.getProperty( PROPERTY_MAIL_TYPE_HTML )
+                new ByteArrayDataSource( mail.getMessage( ), AppPropertiesService.getProperty( PROPERTY_MAIL_TYPE_HTML )
                         + AppPropertiesService.getProperty( PROPERTY_CHARSET ) ) ) );
         multipart.addBodyPart( msgBodyPart );
 
-        if ( urlAttachements != null )
+        if ( mail.getUrlsAttachement( ) != null )
         {
             ByteArrayDataSource urlByteArrayDataSource;
 
-            for ( UrlAttachment urlAttachement : urlAttachements )
+            for ( UrlAttachment urlAttachement : mail.getUrlsAttachement( ) )
             {
                 urlByteArrayDataSource = convertUrlAttachmentDataSourceToByteArrayDataSource( urlAttachement );
 
@@ -292,9 +258,9 @@ final class MailUtil
         }
 
         // add File Attachement
-        if ( fileAttachements != null )
+        if ( mail.getFilesAttachement( ) != null )
         {
-            for ( FileAttachment fileAttachement : fileAttachements )
+            for ( FileAttachment fileAttachement : mail.getFilesAttachement( ) )
             {
                 String strFileName = fileAttachement.getFileName( );
                 byte[] bContentFile = fileAttachement.getData( );
@@ -317,28 +283,17 @@ final class MailUtil
      * Send a Multipart text message with attached files. FIXME: use prepareMessage
      * method
      *
-     * @param strRecipientsTo  The list of the main recipients email.Every recipient
-     *                         must be separated by the mail separator defined in
-     *                         config.properties
-     * @param strRecipientsCc  The recipients list of the carbon copies .
-     * @param strRecipientsBcc The recipients list of the blind carbon copies .
-     * @param strSenderName    The sender name.
-     * @param strSenderEmail   The sender email address.
-     * @param strSubject       The message subject.
-     * @param strMessage       The message.
-     * @param fileAttachements The list of attached files
-     * @param transport        the smtp transport object
-     * @param session          the smtp session object
+     * @param mail      The mail to send
+     * @param transport the smtp transport object
+     * @param session   the smtp session object
      * @throws AddressException    If invalid address
      * @throws SendFailedException If an error occured during sending
      * @throws MessagingException  If a messaging error occured
      */
-    protected static void sendMultipartMessageText( String strRecipientsTo, String strRecipientsCc,
-            String strRecipientsBcc, String strSenderName, String strSenderEmail, String strSubject, String strMessage,
-            List<FileAttachment> fileAttachements, Transport transport, Session session ) throws MessagingException
+    protected static void sendMultipartMessageText( MailItem mail, Transport transport, Session session )
+            throws MessagingException
     {
-        Message msg = prepareMessage( strRecipientsTo, strRecipientsCc, strRecipientsBcc, strSenderName, strSenderEmail,
-                strSubject, session );
+        Message msg = prepareMessage( mail, session );
         msg.setHeader( HEADER_NAME, HEADER_VALUE );
 
         // Creation of the root part containing all the elements of the message
@@ -346,15 +301,15 @@ final class MailUtil
 
         // Creation of the html part, the "core" of the message
         BodyPart msgBodyPart = new MimeBodyPart( );
-        msgBodyPart.setDataHandler( new DataHandler(
-                new ByteArrayDataSource( strMessage, AppPropertiesService.getProperty( PROPERTY_MAIL_TYPE_PLAIN )
+        msgBodyPart.setDataHandler( new DataHandler( new ByteArrayDataSource( mail.getMessage( ),
+                AppPropertiesService.getProperty( PROPERTY_MAIL_TYPE_PLAIN )
                         + AppPropertiesService.getProperty( PROPERTY_CHARSET ) ) ) );
         multipart.addBodyPart( msgBodyPart );
 
         // add File Attachement
-        if ( fileAttachements != null )
+        if ( mail.getFilesAttachement( ) != null )
         {
-            for ( FileAttachment fileAttachement : fileAttachements )
+            for ( FileAttachment fileAttachement : mail.getFilesAttachement( ) )
             {
                 String strFileName = fileAttachement.getFileName( );
                 byte[] bContentFile = fileAttachement.getData( );
@@ -376,45 +331,32 @@ final class MailUtil
     /**
      * Send a calendar message.
      * 
-     * @param strRecipientsTo    The list of the main recipients email. Every
-     *                           recipient must be separated by the mail separator
-     *                           defined in config.properties
-     * @param strRecipientsCc    The recipients list of the carbon copies .
-     * @param strRecipientsBcc   The recipients list of the blind carbon copies .
-     * @param strSenderName      The sender name.
-     * @param strSenderEmail     The sender email address.
-     * @param strSubject         The message subject.
-     * @param strMessage         The HTML message.
-     * @param strCalendarMessage The calendar message.
-     * @param bCreateEvent       True to create the event, false to remove it
-     * @param transport          the smtp transport object
-     * @param session            the smtp session object
+     * @param mail      The mail to send
+     * @param transport the smtp transport object
+     * @param session   the smtp session object
      * @throws AddressException    If invalid address
      * @throws SendFailedException If an error occurred during sending
      * @throws MessagingException  If a messaging error occurred
      */
-    protected static void sendMessageCalendar( String strRecipientsTo, String strRecipientsCc, String strRecipientsBcc,
-            String strSenderName, String strSenderEmail, String strSubject, String strMessage,
-            String strCalendarMessage, boolean bCreateEvent, Transport transport, Session session )
+    protected static void sendMessageCalendar( MailItem mail, Transport transport, Session session )
             throws MessagingException
     {
-        Message msg = prepareMessage( strRecipientsTo, strRecipientsCc, strRecipientsBcc, strSenderName, strSenderEmail,
-                strSubject, session );
+        Message msg = prepareMessage( mail, session );
         msg.setHeader( HEADER_NAME, HEADER_VALUE );
 
         MimeMultipart multipart = new MimeMultipart( );
         BodyPart msgBodyPart = new MimeBodyPart( );
         msgBodyPart.setDataHandler( new DataHandler(
-                new ByteArrayDataSource( strMessage, AppPropertiesService.getProperty( PROPERTY_MAIL_TYPE_HTML )
+                new ByteArrayDataSource( mail.getMessage( ), AppPropertiesService.getProperty( PROPERTY_MAIL_TYPE_HTML )
                         + AppPropertiesService.getProperty( PROPERTY_CHARSET ) ) ) );
 
         multipart.addBodyPart( msgBodyPart );
 
         BodyPart calendarBodyPart = new MimeBodyPart( );
-        calendarBodyPart.setContent( strCalendarMessage, AppPropertiesService.getProperty( PROPERTY_MAIL_TYPE_CALENDAR )
-                + AppPropertiesService.getProperty( PROPERTY_CHARSET )
+        calendarBodyPart.setContent( mail.getCalendarMessage( ), AppPropertiesService
+                .getProperty( PROPERTY_MAIL_TYPE_CALENDAR ) + AppPropertiesService.getProperty( PROPERTY_CHARSET )
                 + AppPropertiesService.getProperty( PROPERTY_CALENDAR_SEPARATOR ) + AppPropertiesService.getProperty(
-                        bCreateEvent ? PROPERTY_CALENDAR_METHOD_CREATE : PROPERTY_CALENDAR_METHOD_CANCEL ) );
+                        mail.getCreateEvent( ) ? PROPERTY_CALENDAR_METHOD_CREATE : PROPERTY_CALENDAR_METHOD_CANCEL ) );
         calendarBodyPart.addHeader( HEADER_NAME, CONSTANT_BASE64 );
         multipart.addBodyPart( calendarBodyPart );
 
@@ -481,20 +423,12 @@ final class MailUtil
      *
      *
      * @return the message object initialized with the common settings
-     * @param strRecipientsTo  The list of the main recipients email.Every recipient
-     *                         must be separated by the mail separator defined in
-     *                         config.properties
-     * @param strRecipientsCc  The recipients list of the carbon copies .
-     * @param strRecipientsBcc The recipients list of the blind carbon copies .
-     * @param strSenderName    The sender name.
-     * @param strSenderEmail   The sender email address.
-     * @param strSubject       The message subject.
-     * @param session          The SMTP session object
+     * @param mail    The mail to send
+     * @param session The SMTP session object
      * @throws AddressException   If invalid address
      * @throws MessagingException If a messaging error occurred
      */
-    protected static Message prepareMessage( String strRecipientsTo, String strRecipientsCc, String strRecipientsBcc,
-            String strSenderName, String strSenderEmail, String strSubject, Session session ) throws MessagingException
+    protected static Message prepareMessage( MailItem mail, Session session ) throws MessagingException
     {
         // Instantiate and initialize a mime message
         Message msg = new MimeMessage( session );
@@ -502,10 +436,10 @@ final class MailUtil
 
         try
         {
-            msg.setFrom( new InternetAddress( strSenderEmail, strSenderName,
+            msg.setFrom( new InternetAddress( mail.getSenderEmail( ), mail.getSenderName( ),
                     AppPropertiesService.getProperty( PROPERTY_CHARSET ) ) );
-            msg.setSubject( MimeUtility.encodeText( strSubject, AppPropertiesService.getProperty( PROPERTY_CHARSET ),
-                    ENCODING ) );
+            msg.setSubject( MimeUtility.encodeText( mail.getSubject( ),
+                    AppPropertiesService.getProperty( PROPERTY_CHARSET ), ENCODING ) );
         }
         catch ( UnsupportedEncodingException e )
         {
@@ -513,19 +447,19 @@ final class MailUtil
         }
 
         // Instantiation of the list of address
-        if ( strRecipientsTo != null )
+        if ( mail.getRecipientsTo( ) != null )
         {
-            msg.setRecipients( Message.RecipientType.TO, getAllAdressOfRecipients( strRecipientsTo ) );
+            msg.setRecipients( Message.RecipientType.TO, getAllAdressOfRecipients( mail.getRecipientsTo( ) ) );
         }
 
-        if ( strRecipientsCc != null )
+        if ( mail.getRecipientsCc( ) != null )
         {
-            msg.setRecipients( Message.RecipientType.CC, getAllAdressOfRecipients( strRecipientsCc ) );
+            msg.setRecipients( Message.RecipientType.CC, getAllAdressOfRecipients( mail.getRecipientsCc( ) ) );
         }
 
-        if ( strRecipientsBcc != null )
+        if ( mail.getRecipientsBcc( ) != null )
         {
-            msg.setRecipients( Message.RecipientType.BCC, getAllAdressOfRecipients( strRecipientsBcc ) );
+            msg.setRecipients( Message.RecipientType.BCC, getAllAdressOfRecipients( mail.getRecipientsBcc( ) ) );
         }
 
         return msg;
@@ -680,8 +614,9 @@ final class MailUtil
     {
         String strKey = MailAttachmentCacheService.getInstance( ).getKey( urlAttachement.getUrlData( ).toString( ) );
         ByteArrayDataSource urlAttachmentDataSource = null;
-        
-        if ( MailAttachmentCacheService.getInstance( ).isCacheEnable( ) && MailAttachmentCacheService.getInstance( ).getFromCache( strKey ) != null )
+
+        if ( MailAttachmentCacheService.getInstance( ).isCacheEnable( )
+                && MailAttachmentCacheService.getInstance( ).getFromCache( strKey ) != null )
         {
             return (ByteArrayDataSource) MailAttachmentCacheService.getInstance( ).getFromCache( strKey );
         }
@@ -691,7 +626,7 @@ final class MailUtil
         InputStream input = null;
         String strType = handler.getContentType( );
 
-        try 
+        try
         {
             Object o = handler.getContent( );
             if ( o instanceof InputStream )
