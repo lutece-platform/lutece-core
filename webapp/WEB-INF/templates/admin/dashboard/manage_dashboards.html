@@ -8,14 +8,14 @@
           <@td xs=2 sm=2>
           <#-- column -->
           <@tform action='jsp/admin/dashboard/DoMoveDashboard.jsp' method='post' class='form-inline'>
-            <input type="hidden" name="dashboard_name" value="${dashboard.name}">
-            <input type="hidden" name="token" value="${token}">
+            <@input type='hidden' name='dashboard_name' value='${dashboard.name}' />
+            <@input type='hidden' name='token' value='${token}' />
             <#if !dashboard.order?exists || dashboard.order==0>
               <#assign dashboard_order=1/>
             <#else>
               <#assign dashboard_order=dashboard.order/>
             </#if>
-            <input type="hidden" name="dashboard_order" value="${dashboard_order}">
+            <@input type='hidden' name='dashboard_order' value='${dashboard_order}' />
             <@formGroup formStyle='inline' rows=2>
                 <@inputGroup>
                     <@select name='dashboard_column' id='dashboard_column-${dashboard.name}' default_value='${dashboard.zone!}' items=list_available_columns />
@@ -31,14 +31,14 @@
             <@td xs=2 sm=2>
               <#-- order -->
               <@tform action='jsp/admin/dashboard/DoMoveDashboard.jsp' method='post' class='form-inline'>
-                <input type="hidden" name="dashboard_name" value="${dashboard.name}" />
-                <input type="hidden" name="token" value="${token}">
+                <@input type='hidden' name='dashboard_name' value='${dashboard.name}' />
+                <@input type='hidden' name='token' value='${token}' />
                 <#if !dashboard.zone?exists || dashboard.zone==0>
                   <#assign dashboard_column=1 />
                 <#else>
                   <#assign dashboard_column=dashboard.zone />
                 </#if>
-                <input type="hidden" name="dashboard_column" value="${dashboard_column}">
+                <@input type='hidden' name='dashboard_column' value='${dashboard_column}' />
 				<@formGroup formStyle='inline' rows=2>
                 <@inputGroup>
                     <@select name='dashboard_order' id='dashboard_order-${dashboard.name}' default_value='${dashboard.order!}' items=list_available_orders_column sort=true />
@@ -88,8 +88,8 @@
 					<#assign column_key=column_refItem.code />
 					<#if map_column_order_status[column_key]?exists && !map_column_order_status[column_key]>
 						<@tform method='post' action='jsp/admin/dashboard/DoReorderColumn.jsp' class='pull-right'>
-							<input type="hidden" name="column" value="${column_key?html}">
-							<input type="hidden" name="token" value="${token}">
+							<@input type='hidden' name='column' value='${column_key?html}' />
+							<@input type='hidden' name='token' value='${token}' />
 							<@button type="submit" title='#i18n{portal.dashboard.action.reorder}' buttonIcon='arrows' color='warning' />
 						</@tform>
 					</#if>

@@ -5,11 +5,11 @@
 			<@boxBody>
 				<h2><@icon style="life-ring" /> #i18n{portal.features.documentation.summary.title}</h2>
 				<#if feature_group_list?has_content>
-				<ul class="list-unstyled">
+				<@ul class='list-unstyled'>
 					<#list feature_group_list as feature_group >
 					<li>
 						<h3>${feature_group.label}</h3>
-						<ul>
+						<@ul>
 							<#list feature_group.features as feature >
 							<#if feature.documentationUrl?exists>
 							<li>
@@ -18,14 +18,14 @@
 							</li>
 							</#if>
 							</#list>
-						</ul>
+						</@ul>
 					</li>
 					</#list>
-				</ul>
+				</@ul>
 				<#else>
-				<ul>
+				<@ul>
 					<li>#i18n{portal.features.documentation.summary.empty}</li>
-				</ul>
+				</@ul>
 				</#if>
 			</@boxBody>
 		</@box>
