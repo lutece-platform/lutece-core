@@ -683,4 +683,5 @@ public class AdminUser implements Serializable, AdminWorkgroupResource
     {
         return new Timestamp( DEFAULT_DATE_LAST_LOGIN.getTime( ) );
     }
+    
 }

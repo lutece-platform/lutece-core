@@ -74,7 +74,8 @@ public class AdminUserMenuService
         }
         else if ( strBeforeName != null )
         {
-            addItemProviderInPosition( itemProvider, strBeforeName, ( ListIterator<IAdminUserMenuItemProvider> i ) -> {
+            addItemProviderInPosition( itemProvider, strBeforeName, ( ListIterator<IAdminUserMenuItemProvider> i ) ->
+            {
                 if ( i.hasPrevious( ) )
                 {
                     i.previous( );

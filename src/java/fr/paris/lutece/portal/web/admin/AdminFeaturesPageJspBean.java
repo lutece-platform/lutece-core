@@ -342,4 +342,14 @@ public abstract class AdminFeaturesPageJspBean implements Serializable
     {
         return AppPathService.getBaseUrl( request ) + JSP_TECHNICAL_ADMINISTRATION + "?#" + strAnchor;
     }
+    
+    /**
+     * return true if the user is of higher level than the connected user or if the connected user is admin
+     * @param user
+     * @return
+     */
+    protected boolean isUserHigherThanConnectedUser( AdminUser user )
+    {
+        return user.getUserLevel( ) > getUser( ).getUserLevel( ) || getUser( ).isAdmin( );
+    }
 }
