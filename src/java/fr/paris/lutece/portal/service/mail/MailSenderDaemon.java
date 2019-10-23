@@ -100,7 +100,7 @@ public class MailSenderDaemon extends Daemon
             {
                 transportSmtp = MailUtil.getTransport( session );
             }
-            catch( NoSuchProviderException e )
+            catch ( NoSuchProviderException e )
             {
                 AppLogService.error( e );
             }
@@ -110,18 +110,18 @@ public class MailSenderDaemon extends Daemon
                 try
                 {
                     transportSmtp.connect( strHost, nStmpPort, strUsername, strPassword );
-                    
+
                     sendMails( transportSmtp, session, queue, logger, sbLogs );
 
                     transportSmtp.close( );
                 }
-                catch( MessagingException e )
+                catch ( MessagingException e )
                 {
                     sbLogs.append( MESSAGE_ERROR_MAIL_MESSAGING );
                     sbLogs.append( e.getMessage( ) );
                     AppLogService.error( MESSAGE_ERROR_MAIL_MESSAGING + e.getMessage( ), e );
                 }
-                catch( Exception e )
+                catch ( Exception e )
                 {
                     sbLogs.append( MESSAGE_ERROR_MAIL );
                     sbLogs.append( e.getMessage( ) );
@@ -140,7 +140,7 @@ public class MailSenderDaemon extends Daemon
             logger.debug( sbLogs.toString( ) );
         }
     }
-    
+
     private void sendMails( Transport transportSmtp, Session session, IMailQueue queue, Logger logger,
             StringBuilder sbLogs ) throws MessagingException
     {
@@ -205,18 +205,14 @@ public class MailSenderDaemon extends Daemon
     /**
      * send mail
      * 
-     * @param mail
-     *            the mail item
-     * @param transportSmtp
-     *            the smtp transport
-     * @param session
-     *            the session smtp
-     * @param sbLogsLine
-     *            the log line
-     * @throws MessagingException
-     *             See {@link MessagingException}
+     * @param mail          the mail item
+     * @param transportSmtp the smtp transport
+     * @param session       the session smtp
+     * @param sbLogsLine    the log line
+     * @throws MessagingException See {@link MessagingException}
      */
-    private void sendMail( MailItem mail, Transport transportSmtp, Session session, StringBuilder sbLogsLine ) throws MessagingException
+    private void sendMail( MailItem mail, Transport transportSmtp, Session session, StringBuilder sbLogsLine )
+            throws MessagingException
     {
         try
         {
@@ -229,54 +225,37 @@ public class MailSenderDaemon extends Daemon
             sbLogsLine.append( " - Subject : " );
             sbLogsLine.append( mail.getSubject( ) );
 
-            switch( mail.getFormat( ) )
+            switch ( mail.getFormat( ) )
             {
                 case MailItem.FORMAT_HTML:
-                    MailUtil.sendMessageHtml( mail.getRecipientsTo( ), mail.getRecipientsCc( ), mail.getRecipientsBcc( ), mail.getSenderName( ),
-                            mail.getSenderEmail( ), mail.getSubject( ), mail.getMessage( ), transportSmtp, session );
-
+                    MailUtil.sendMessageHtml( mail, transportSmtp, session );
                     break;
-
                 case MailItem.FORMAT_TEXT:
-                    MailUtil.sendMessageText( mail.getRecipientsTo( ), mail.getRecipientsCc( ), mail.getRecipientsBcc( ), mail.getSenderName( ),
-                            mail.getSenderEmail( ), mail.getSubject( ), mail.getMessage( ), transportSmtp, session );
-
+                    MailUtil.sendMessageText( mail, transportSmtp, session );
                     break;
-
                 case MailItem.FORMAT_MULTIPART_HTML:
-                    MailUtil.sendMultipartMessageHtml( mail.getRecipientsTo( ), mail.getRecipientsCc( ), mail.getRecipientsBcc( ), mail.getSenderName( ),
-                            mail.getSenderEmail( ), mail.getSubject( ), mail.getMessage( ), mail.getUrlsAttachement( ), mail.getFilesAttachement( ),
-                            transportSmtp, session );
-
+                    MailUtil.sendMultipartMessageHtml( mail, transportSmtp, session );
                     break;
-
                 case MailItem.FORMAT_MULTIPART_TEXT:
-                    MailUtil.sendMultipartMessageText( mail.getRecipientsTo( ), mail.getRecipientsCc( ), mail.getRecipientsBcc( ), mail.getSenderName( ),
-                            mail.getSenderEmail( ), mail.getSubject( ), mail.getMessage( ), mail.getFilesAttachement( ), transportSmtp, session );
-
+                    MailUtil.sendMultipartMessageText( mail, transportSmtp, session );
                     break;
-
                 case MailItem.FORMAT_CALENDAR:
-                    MailUtil.sendMessageCalendar( mail.getRecipientsTo( ), mail.getRecipientsCc( ), mail.getRecipientsBcc( ), mail.getSenderName( ),
-                            mail.getSenderEmail( ), mail.getSubject( ), mail.getMessage( ), mail.getCalendarMessage( ), mail.getCreateEvent( ), transportSmtp,
-                            session );
-
+                    MailUtil.sendMessageCalendar( mail, transportSmtp, session );
                     break;
-
                 default:
                     break;
             }
 
             sbLogsLine.append( " - Status [ OK ]" );
         }
-        catch( SendFailedException | AddressException e )
+        catch ( SendFailedException | AddressException e )
         {
             // a wrongly formatted address is encountered in the list of recipients
             sbLogsLine.append( MESSAGE_STATUS_FAILED );
             sbLogsLine.append( e.getMessage( ) );
             AppLogService.error( MESSAGE_ERROR_MAIL + e.getMessage( ), e );
         }
-        catch( MessagingException e )
+        catch ( MessagingException e )
         {
             // if the connection is dead or not in the connected state
             // we put the mail in the queue before end process
