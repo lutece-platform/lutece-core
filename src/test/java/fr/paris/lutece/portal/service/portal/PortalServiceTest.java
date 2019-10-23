@@ -98,13 +98,6 @@ public class PortalServiceTest extends LuteceTestCase
         super.tearDown( );
     }
 
-    public void testGetDefaultPage( ) throws SiteMessageException
-    {
-        int nMode = 0;
-
-        assertTrue( StringUtils.isNotEmpty( PortalService.getDefaultPage( LocalVariables.getRequest( ), nMode ) ) );
-    }
-
     public void testGetXPagePathContent( ) throws IOException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );

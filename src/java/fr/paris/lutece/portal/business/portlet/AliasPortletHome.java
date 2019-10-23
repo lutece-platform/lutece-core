@@ -75,7 +75,7 @@ public class AliasPortletHome extends PortletHome
      *
      * @return the AliasPortletHome instance
      */
-    public static PortletHome getInstance( )
+    public static AliasPortletHome getInstance( )
     {
         return _singleton;
     }
