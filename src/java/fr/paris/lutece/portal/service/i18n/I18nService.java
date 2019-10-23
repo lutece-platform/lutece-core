@@ -496,8 +496,7 @@ public final class I18nService
                 return rbLabels;
             }
 
-            ResourceBundle res = new CombinedResourceBundle( overrideBundle, rbLabels );
-            return res;
+            return new CombinedResourceBundle( overrideBundle, rbLabels );
         }
         return rbLabels;
     }

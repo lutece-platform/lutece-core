@@ -472,6 +472,7 @@ public class ConnectionPool implements DataSource
     @Override
     public void setLoginTimeout( int seconds ) throws SQLException
     {
+        // Do nothing
     }
 
     /**

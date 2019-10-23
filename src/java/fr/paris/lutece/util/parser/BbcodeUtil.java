@@ -123,10 +123,10 @@ public final class BbcodeUtil
     {
         String str = buffer.toString( );
 
-        Stack openStack = new Stack( );
-        Set subsOpen = new HashSet( );
-        Set subsClose = new HashSet( );
-        Set subsInternal = new HashSet( );
+        Stack<MutableCharSequence> openStack = new Stack<>( );
+        Set<MutableCharSequence> subsOpen = new HashSet<>( );
+        Set<MutableCharSequence> subsClose = new HashSet<>( );
+        Set<MutableCharSequence> subsInternal = new HashSet<>( );
 
         String openTag = CR_LF + "\\[" + tagName
                 + getOpenTag( acceptParam, requiresQuotedParam ) + "\\]"
@@ -183,7 +183,7 @@ public final class BbcodeUtil
             }
             else if ( ( matcher.group( closeTagGroup ) != null ) && !openStack.isEmpty( ) )
             {
-                MutableCharSequence openSeq = (MutableCharSequence) openStack.pop( );
+                MutableCharSequence openSeq = openStack.pop( );
 
                 if ( acceptParam )
                 {
@@ -202,7 +202,7 @@ public final class BbcodeUtil
             }
         }
 
-        LinkedList subst = new LinkedList( );
+        LinkedList<MutableCharSequence> subst = new LinkedList<>( );
         subst.addAll( subsOpen );
         subst.addAll( subsClose );
         subst.addAll( subsInternal );
@@ -221,7 +221,7 @@ public final class BbcodeUtil
 
         while ( !subst.isEmpty( ) )
         {
-            MutableCharSequence seq = (MutableCharSequence) subst.removeLast( );
+            MutableCharSequence seq = subst.removeLast( );
             buffer.append( str.substring( start, seq._nStart ) );
 
             if ( subsClose.contains( seq ) )

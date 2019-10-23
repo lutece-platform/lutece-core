@@ -341,7 +341,7 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
         // page
         return getHomeUrl( request );
     }
-
+    
     /**
      * Returns the confirm of removing the page_template whose identifier is in the
      * http request
