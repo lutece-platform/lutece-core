@@ -40,6 +40,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Properties;
 
+import org.apache.commons.lang3.ArrayUtils;
+
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 
@@ -92,14 +94,17 @@ public class PropertiesService
         if ( directory.exists( ) )
         {
             File [ ] listFile = directory.listFiles( );
-
-            for ( File file : listFile )
+            
+            if ( ArrayUtils.isNotEmpty( listFile ) )
             {
-                if ( file.getName( ).endsWith( ".properties" ) )
+                for ( File file : listFile )
                 {
-                    String strFullPath = file.getAbsolutePath( );
-                    _mapPropertiesFiles.put( file.getName( ), strFullPath );
-                    loadFile( strFullPath );
+                    if ( file.getName( ).endsWith( ".properties" ) )
+                    {
+                        String strFullPath = file.getAbsolutePath( );
+                        _mapPropertiesFiles.put( file.getName( ), strFullPath );
+                        loadFile( strFullPath );
+                    }
                 }
             }
         }

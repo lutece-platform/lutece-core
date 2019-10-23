@@ -280,8 +280,7 @@ final class MailUtil
     }
 
     /**
-     * Send a Multipart text message with attached files. FIXME: use prepareMessage
-     * method
+     * Send a Multipart text message with attached files.
      *
      * @param mail      The mail to send
      * @param transport the smtp transport object

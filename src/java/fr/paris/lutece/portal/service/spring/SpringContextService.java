@@ -236,21 +236,24 @@ public final class SpringContextService implements PluginEventListener
     private static void loadContexts( String[] filesContext, String strConfPluginsPath,
             XmlBeanDefinitionReader xmlReader )
     {
-        for ( String fileContext : filesContext )
+        if ( filesContext != null )
         {
-            String[] file =
-            { "file:" + strConfPluginsPath + fileContext };
+            for ( String fileContext : filesContext )
+            {
+                String[] file =
+                { "file:" + strConfPluginsPath + fileContext };
 
-            // Safe loading of plugin context file
-            try
-            {
-                xmlReader.loadBeanDefinitions( file );
-                AppLogService.info( "Context file loaded : " + fileContext );
-            }
-            catch ( Exception e )
-            {
-                AppLogService.error(
-                        "Unable to load Spring context file : " + fileContext + " - cause : " + e.getMessage( ), e );
+                // Safe loading of plugin context file
+                try
+                {
+                    xmlReader.loadBeanDefinitions( file );
+                    AppLogService.info( "Context file loaded : " + fileContext );
+                }
+                catch ( Exception e )
+                {
+                    AppLogService.error(
+                            "Unable to load Spring context file : " + fileContext + " - cause : " + e.getMessage( ), e );
+                }
             }
         }
     }

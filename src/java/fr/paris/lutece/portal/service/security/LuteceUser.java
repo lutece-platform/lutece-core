@@ -146,7 +146,7 @@ public abstract class LuteceUser implements Principal, Serializable, Cloneable
     private String _strAuthenticationService;
 
     /** Authentication Service impl */
-    private LuteceAuthentication _luteceAuthenticationService;
+    private transient LuteceAuthentication _luteceAuthenticationService;
 
     /** Authentication Service */
     private String _strAuthenticationType;

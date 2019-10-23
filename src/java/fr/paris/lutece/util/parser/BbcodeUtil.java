@@ -33,7 +33,9 @@
  */
 package fr.paris.lutece.util.parser;
 
+import java.util.ArrayDeque;
 import java.util.Collections;
+import java.util.Deque;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -123,7 +125,7 @@ public final class BbcodeUtil
     {
         String str = buffer.toString( );
 
-        Stack<MutableCharSequence> openStack = new Stack<>( );
+        Deque<MutableCharSequence> openStack = new ArrayDeque<>( );
         Set<MutableCharSequence> subsOpen = new HashSet<>( );
         Set<MutableCharSequence> subsClose = new HashSet<>( );
         Set<MutableCharSequence> subsInternal = new HashSet<>( );
