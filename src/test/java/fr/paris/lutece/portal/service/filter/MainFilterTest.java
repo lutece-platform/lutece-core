@@ -34,7 +34,6 @@
 package fr.paris.lutece.portal.service.filter;
 
 import fr.paris.lutece.test.LuteceTestCase;
-import static org.junit.Assert.*;
 
 /**
  * MainFilter Test
@@ -52,6 +51,8 @@ public class MainFilterTest extends LuteceTestCase
 
         assertTrue( instance.matchFilterUrl( "/*", "/images/test.png" ) );
         assertTrue( instance.matchFilterUrl( "/jsp/*", "/jsp/site/Portal.jsp" ) );
+        assertTrue( instance.matchFilterUrl( "/jsp/*", "/jsp" ) );
+        assertFalse( instance.matchFilterUrl( "/jsp/*", "/jspaz/" ) );
         assertFalse( instance.matchFilterUrl( "/jsp/*", "/images/test.png" ) );
         assertTrue( instance.matchFilterUrl( "*.jsp", "/jsp/site/Portal.jsp" ) );
         assertFalse( instance.matchFilterUrl( "/jsp/site/*.jsp", "/jsp/site/Portal.png" ) );

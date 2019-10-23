@@ -175,8 +175,8 @@ public class MainFilter implements Filter
         if ( strUrlPattern.endsWith( "/*" ) )
         {
             if ( strUrlPattern.regionMatches( 0, strRequestUrl, 0, strUrlPattern.length( ) - 2 )
-                    && strRequestUrl.length( ) == ( strUrlPattern.length( ) - 2 )
-                    || '/' == strRequestUrl.charAt( strUrlPattern.length( ) - 2 ) )
+                    && ( strRequestUrl.length( ) == ( strUrlPattern.length( ) - 2 ) 
+                    || '/' == strRequestUrl.charAt( strUrlPattern.length( ) - 2 ) ) )
             {
                 return ( true );
             }

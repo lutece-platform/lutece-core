@@ -2617,6 +2617,10 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
      */
     private boolean isUserAuthorizedToModifyUser( AdminUser currentUser, AdminUser userToModify )
     {
+        if ( currentUser == null || userToModify == null )
+        {
+            return false;
+        }
         return currentUser.isAdmin( )
                 || ( currentUser.isParent( userToModify ) && ( ( haveCommonWorkgroups( currentUser, userToModify ) )
                         || ( !AdminWorkgroupHome.checkUserHasWorkgroup( userToModify.getUserId( ) ) ) ) );

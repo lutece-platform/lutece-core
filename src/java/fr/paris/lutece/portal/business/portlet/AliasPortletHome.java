@@ -49,17 +49,13 @@ public class AliasPortletHome extends PortletHome
     private static IAliasPortletDAO _dao = SpringContextService.getBean( "aliasPortletDAO" );
 
     /** This class implements the Singleton design pattern. */
-    private static AliasPortletHome _singleton;
+    private static AliasPortletHome _singleton = new AliasPortletHome( );
 
     /**
      * Constructor
      */
-    public AliasPortletHome( )
+    private AliasPortletHome( )
     {
-        if ( _singleton == null )
-        {
-            _singleton = this;
-        }
     }
 
     /**
@@ -78,13 +74,8 @@ public class AliasPortletHome extends PortletHome
      *
      * @return the AliasPortletHome instance
      */
-    public static synchronized PortletHome getInstance( )
+    public static PortletHome getInstance( )
     {
-        if ( _singleton == null )
-        {
-            _singleton = new AliasPortletHome( );
-        }
-
         return _singleton;
     }
 

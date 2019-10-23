@@ -105,20 +105,17 @@ public class LuteceTransactionManager implements PlatformTransactionManager
         TransactionManager.rollBack( getPlugin( ) );
     }
 
-    private Plugin getPlugin( )
+    private synchronized Plugin getPlugin( )
     {
         if ( _plugin == null )
         {
-            synchronized ( LuteceTransactionManager.class )
+            if ( StringUtils.isNotBlank( _strPluginName ) )
             {
-                if ( StringUtils.isNotBlank( _strPluginName ) )
-                {
-                    _plugin = PluginService.getPlugin( _strPluginName );
-                }
-                else
-                {
-                    _plugin = PluginService.getCore( );
-                }
+                _plugin = PluginService.getPlugin( _strPluginName );
+            }
+            else
+            {
+                _plugin = PluginService.getCore( );
             }
         }
 
