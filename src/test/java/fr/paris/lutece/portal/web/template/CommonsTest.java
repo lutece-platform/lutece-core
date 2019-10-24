@@ -83,7 +83,7 @@ public class CommonsTest extends LuteceTestCase
 
                 copyChartersFolders( strPath, strCommonsOutput );
 
-                FreemarkerTemplateService templateService = new FreemarkerTemplateService( strPath );
+                MockFreemarkerTemplateService templateService = new MockFreemarkerTemplateService( strPath );
                 templateService.init( "/" );
                 for ( String strAutoIncludes : ci.getFiles( ) )
                 {
