@@ -75,10 +75,10 @@ import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.portal.web.upload.MultipartHttpServletRequest;
 import fr.paris.lutece.portal.web.util.LocalizedPaginator;
 import fr.paris.lutece.util.ReferenceList;
+import fr.paris.lutece.util.file.FileUtil;
 import fr.paris.lutece.util.html.AbstractPaginator;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.sort.AttributeComparator;
-import fr.paris.lutece.util.stream.StreamUtil;
 
 /**
  * This class provides the user interface to manage StyleSheet features
@@ -87,7 +87,6 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
 {
     // //////////////////////////////////////////////////////////////////////////
     // Constants
-    private static final String LOG_ERROR_DELETE_FILE = "Error deleting file";
 
     // Right
     /**
@@ -447,11 +446,7 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
         Mode mode = ModeHome.findByPrimaryKey( nModeId );
         String strPathStyleSheet = AppPathService.getPath( PROPERTY_PATH_XSL ) + mode.getPath( );
         File fileToDelete = new File( strPathStyleSheet, strFile );
-
-        if ( fileToDelete.exists( ) && !fileToDelete.delete( ) )
-        {
-            AppLogService.info( LOG_ERROR_DELETE_FILE );
-        }
+        FileUtil.deleteFile( fileToDelete );
 
         return JSP_REMOVE_STYLE + "?" + Parameters.STYLE_ID + "=" + nIdStyle;
     }
@@ -497,28 +492,15 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
         String strFileName = stylesheet.getFile( );
         String strFilePath = strPathStyleSheet + strFileName;
 
-        FileOutputStream fos = null;
-
-        try
+        File file = new File( strFilePath );
+        FileUtil.deleteFile( file );
+        try ( FileOutputStream fos = new FileOutputStream( file ) )
         {
-            File file = new File( strFilePath );
-
-            if ( file.exists( ) && !file.delete( ) )
-            {
-                AppLogService.info( LOG_ERROR_DELETE_FILE );
-            }
-
-            fos = new FileOutputStream( file );
             fos.write( stylesheet.getSource( ) );
-            fos.flush( );
         }
         catch ( IOException e )
         {
             AppLogService.error( e.getMessage( ), e );
-        }
-        finally
-        {
-            StreamUtil.safeClose( fos );
         }
     }
 
@@ -537,10 +519,6 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
         String strOldFileName = stylesheet.getFile( );
         String strOldFilePath = strPathStyleSheet + strOldFileName;
         File oldFile = new File( strOldFilePath );
-
-        if ( oldFile.exists( ) && !oldFile.delete( ) )
-        {
-            AppLogService.info( LOG_ERROR_DELETE_FILE );
-        }
+        FileUtil.deleteFile( oldFile );
     }
 }
