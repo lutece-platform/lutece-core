@@ -33,13 +33,12 @@
  */
 package fr.paris.lutece.portal.web.xpages;
 
-import fr.paris.lutece.portal.service.content.XPageAppService;
-import fr.paris.lutece.portal.service.plugin.Plugin;
-import fr.paris.lutece.portal.service.plugin.PluginService;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
+
+import fr.paris.lutece.portal.service.plugin.Plugin;
+import fr.paris.lutece.portal.service.plugin.PluginService;
 
 /**
  * XPageApplication Entry
@@ -144,17 +143,6 @@ public class XPageApplicationEntry
     public void setPluginName( String strPluginName )
     {
         _strPluginName = strPluginName;
-    }
-
-    /**
-     * Returns the Application
-     *
-     * @deprecated use {@link XPageAppService#getApplicationInstance(XPageApplicationEntry)} instead
-     * @return The Application
-     */
-    public XPageApplication getApplication( )
-    {
-        return XPageAppService.getApplicationInstance( this );
     }
 
     /**

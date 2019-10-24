@@ -38,21 +38,7 @@ package fr.paris.lutece.portal.service.admin;
  */
 public class PasswordResetException extends RuntimeException
 {
-    /**
-     *
-     */
     private static final long serialVersionUID = -7953371682485839517L;
-
-    /**
-     * Builds a PasswordResetException without message
-     * 
-     * @deprecated use {@link #PasswordResetException(String)} to provide an explicit message
-     */
-    @Deprecated
-    public PasswordResetException( )
-    {
-        // nothing
-    }
 
     /**
      * Builds a PasswordResetException with the message

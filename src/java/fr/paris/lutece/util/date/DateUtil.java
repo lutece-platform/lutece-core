@@ -35,7 +35,6 @@ package fr.paris.lutece.util.date;
 
 import java.sql.Timestamp;
 import java.text.DateFormat;
-import java.text.FieldPosition;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -49,8 +48,6 @@ import fr.paris.lutece.portal.web.l10n.LocaleService;
  */
 public final class DateUtil
 {
-    @Deprecated
-    private static SimpleDateFormat _formatterDateTime = new SimpleDateFormat( "dd'/'MM'/'yyyy' 'HH':'mm", Locale.FRANCE );
     private static final String CONSTANTE_PATTERN_DATE = "dd/MM/yyyy";
     private static final long CONSTANT_NUMBER_MILISECONDS_IN_DAY = 86400000;
 
@@ -60,27 +57,6 @@ public final class DateUtil
     private DateUtil( )
     {
     }
-
-
-    // /////////////////////////////////////////////////////////////////////////
-    // methods using a long value
-
-    /**
-     * Converts a long value to a String date in a "jj/mm/aaaa hh:mm" format
-     *
-     * @param lTime
-     *            The long value to convert
-     * @return The formatted string
-     */
-    public static synchronized String getDateTimeString( long lTime )
-    {
-        StringBuffer strDate = new StringBuffer( );
-        _formatterDateTime.format( new java.util.Date( lTime ), strDate, new FieldPosition( 0 ) );
-
-        return strDate.toString( );
-    }
-
-    /* -------------- Added in 2.2.1 ----------------- */
 
     /**
      * Get the date from String date The format pattern is specified internaly

@@ -33,20 +33,18 @@
  */
 package fr.paris.lutece.portal.service.html;
 
-import fr.paris.lutece.portal.business.stylesheet.StyleSheet;
-import fr.paris.lutece.portal.service.util.AppLogService;
-import fr.paris.lutece.util.UniqueIDGenerator;
-import fr.paris.lutece.util.xml.XmlTransformer;
-import fr.paris.lutece.util.xml.XmlUtil;
-
 import java.io.ByteArrayInputStream;
 import java.io.StringReader;
-
 import java.util.Map;
 import java.util.Properties;
 
 import javax.xml.transform.Source;
 import javax.xml.transform.stream.StreamSource;
+
+import fr.paris.lutece.portal.business.stylesheet.StyleSheet;
+import fr.paris.lutece.portal.service.util.AppLogService;
+import fr.paris.lutece.util.UniqueIDGenerator;
+import fr.paris.lutece.util.xml.XmlTransformer;
 
 /**
  * This class provides methods to transform XML documents using XSLT.
@@ -55,79 +53,6 @@ public final class XmlTransformerService
 {
     private static final String XSLSOURCE_STYLE_PREFIX_ID = UniqueIDGenerator.getNewId( );
     private static final String LOGGER_XML_CONTENT = "lutece.debug.xmlContent";
-
-    /**
-     * This method performes XSL transformation.
-     *
-     * @param strXml
-     *            The XML document content
-     * @param baSource
-     *            The XSL source
-     * @param params
-     *            Parameters that can be used by the XSL stylesheet
-     * @return The output document
-     */
-    @Deprecated
-    public static String transformBySource( String strXml, byte [ ] baSource, Map<String, String> params )
-    {
-        return transformBySource( strXml, baSource, params, null );
-    }
-
-    /**
-     * This method performes XSL transformation.
-     *
-     * @param strXml
-     *            The XML document content
-     * @param baSource
-     *            The XSL source
-     * @param params
-     *            Parameters that can be used by the XSL stylesheet
-     * @param outputProperties
-     *            properties to use for the xsl transform. Will overload the xsl output definition.
-     * @return The output document
-     */
-    @Deprecated
-    public static String transformBySource( String strXml, byte [ ] baSource, Map<String, String> params, Properties outputProperties )
-    {
-        Source xslSource = new StreamSource( new ByteArrayInputStream( baSource ) );
-
-        return transformBySource( strXml, xslSource, params, outputProperties );
-    }
-
-    /**
-     * This method performes XSL transformation.
-     *
-     * @param strXml
-     *            The XML document content
-     * @param sourceStyleSheet
-     *            The XSL source
-     * @param params
-     *            Parameters that can be used by the XSL stylesheet
-     * @param outputProperties
-     *            properties to use for the xsl transform. Will overload the xsl output definition.
-     * @return The output document
-     */
-    @Deprecated
-    public static synchronized String transformBySource( String strXml, Source sourceStyleSheet, Map<String, String> params, Properties outputProperties )
-    {
-        StringReader srInputXml = new StringReader( strXml );
-        StreamSource sourceDocument = new StreamSource( srInputXml );
-        String strContent = null;
-
-        try
-        {
-            strContent = XmlUtil.transform( sourceDocument, sourceStyleSheet, params, outputProperties );
-        }
-        catch( Exception e )
-        {
-            strContent = e.getMessage( );
-            AppLogService.error( e.getMessage( ), e );
-        }
-
-        return strContent;
-    }
-
-    // -------------------------------
 
     /**
      * This method performs XSL transformation with cache.

@@ -33,16 +33,18 @@
  */
 package fr.paris.lutece.portal.service.daemon;
 
-import fr.paris.lutece.portal.service.spring.SpringContextService;
-import fr.paris.lutece.util.date.DateUtil;
-
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
+
+import fr.paris.lutece.portal.service.spring.SpringContextService;
 
 /**
  * this class is used to manage daemons declaration
  */
 public final class DaemonEntry
 {
+    private SimpleDateFormat _formatterDateTime = new SimpleDateFormat( "dd'/'MM'/'yyyy' 'HH':'mm", Locale.FRANCE );
     private String _strId;
     private String _strNameKey;
     private String _strDescriptionKey;
@@ -255,7 +257,11 @@ public final class DaemonEntry
      */
     public String getLastRunDate( )
     {
-        return ( _dateLastRunDate != null ) ? DateUtil.getDateTimeString( _dateLastRunDate.getTime( ) ) : "";
+        if ( _dateLastRunDate == null )
+        {
+            return "";
+        }
+        return _formatterDateTime.format( new Date( _dateLastRunDate.getTime(  ) )) ;
     }
 
     /**

@@ -56,18 +56,6 @@ public interface IWorkflowProvider
     /**
      * returns a list of actions possible for a given document based on the status of the document in the workflow and the user role.
      *
-     * @param listActions
-     *            the list actions
-     * @param user
-     *            the adminUser
-     * @return a list of Action
-     */
-	@Deprecated
-     Collection<Action> getActions( Collection<Action> listActions, AdminUser user );
-
-    /**
-     * returns a list of actions possible for a given document based on the status of the document in the workflow and the user role.
-     *
      * @param nIdResource
      * 			the id of the document
      * @param strResourceType
@@ -80,17 +68,6 @@ public interface IWorkflowProvider
      */
     Collection<Action> getActions( int nIdResource, String strResourceType, Collection<Action> listActions, AdminUser user );
 
-    /**
-     * returns a list of actions possible for a given document based on the status of the document in the workflow and the user role.
-     *
-     * @param mapActions
-     *            the map actions
-     * @param user
-     *            the adminUser
-     * @return a list of Action
-     */
-    @Deprecated
-    Map<Integer, List<Action>> getActions( Map<Integer, List<Action>> mapActions, AdminUser user );
     /**
      * returns a list of actions possible for a given document based on the status of the document in the workflow and the user role.
      * 
@@ -120,26 +97,6 @@ public interface IWorkflowProvider
      * @return the history of actions performed on a resource
      */
     String getDisplayDocumentHistory( int nIdResource, String strResourceType, int nIdWorkflow, HttpServletRequest request, Locale locale );
-
-    /**
-     * returns the actions history performed on a resource.
-     *
-     * @param nIdResource
-     *            the resource id
-     * @param strResourceType
-     *            the resource type
-     * @param nIdWorkflow
-     *            the workflow id
-     * @param request
-     *            the request
-     * @param locale
-     *            the locale
-     * @param strTemplate
-     *            The template
-     * @return the history of actions performed on a resource
-     */
-    @Deprecated
-    String getDisplayDocumentHistory( int nIdResource, String strResourceType, int nIdWorkflow, HttpServletRequest request, Locale locale, String strTemplate );
 
     /**
      * returns the actions history performed on a resource.
@@ -279,17 +236,7 @@ public interface IWorkflowProvider
      * @return a list of Action
      */
     boolean isAuthorized( int nIdResource, String strResourceType, int nIdWorkflow, AdminUser user );
-    /**
-     * Check if the action can be proceed for the given resource.
-     *
-     * @param nIdAction
-     *            the id action
-     * @param request
-     *            the HTTP request
-     * @return true if the action can proceed, false otherwise
-     */
-    @Deprecated
-    boolean canProcessAction( int nIdAction, HttpServletRequest request );
+
     /**
      * Check if the action can be proceed for the given resource.
      *
@@ -324,27 +271,4 @@ public interface IWorkflowProvider
      */
     String doValidateTasksForm( int nIdResource, String strResourceType, int nIdAction, HttpServletRequest request, Locale locale );
 
-    /**
-     * Perform the information on the various tasks associated with the given action specified in parameter.
-     *
-     * @param nIdResource
-     *            the resource id
-     * @param strResourceType
-     *            the resource type
-     * @param nIdAction
-     *            the action id
-     * @param nExternalParentId
-     *            the external parent id
-     * @param request
-     *            the request
-     * @param locale
-     *            the locale
-     * @param strUserAccessCode
-     *            the user access code
-     * @deprecated This method should not be used. Use {@link WorkflowService#doProcessAction(int, String, int, Integer, HttpServletRequest, Locale, boolean)
-     *             WorkflowService.doProcessAction } instead.
-     */
-    @Deprecated
-    void doSaveTasksForm( int nIdResource, String strResourceType, int nIdAction, Integer nExternalParentId, HttpServletRequest request, Locale locale,
-            String strUserAccessCode );
 }

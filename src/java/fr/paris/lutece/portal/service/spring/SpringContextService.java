@@ -98,22 +98,6 @@ public final class SpringContextService implements PluginEventListener
     }
 
     /**
-     * Return an instance of the given bean name loaded by the a Spring BeanFactory.
-     * The bean is retreived from a plugin context defined in the
-     * WEB-INF/conf/plugins/[plugin_name]_context.xml.
-     * 
-     * @param strPluginName The Plugin's name
-     * @param strName       The bean's name
-     * @return The instance of the bean
-     * @deprecated use {@link #getBean(String)} instead
-     */
-    @Deprecated
-    public static Object getPluginBean( String strPluginName, String strName )
-    {
-        return _context.getBean( strName );
-    }
-
-    /**
      * Indicates if a bean, referenced by its name, is part of an enabled plugin.
      * 
      * Per Lutece convention, the plugin is determined from the bean's name prefix.

@@ -291,21 +291,6 @@ public final class AdminUserService
     }
 
     /**
-     * Gets the admin right level
-     *
-     * @param request The HTTP request
-     * @return The boolean level right
-     */
-    @Deprecated
-    public static boolean getUserAdminRightLevel( HttpServletRequest request )
-    {
-        String strRightCode = AppPropertiesService.getProperty( PROPERTY_ADMINISTRATOR );
-
-        AdminUser user = getAdminUser( request );
-        return user.checkRight( strRightCode );
-    }
-
-    /**
      * Get the filtered list of admin users
      * 
      * @param listUsers the initial list of users
