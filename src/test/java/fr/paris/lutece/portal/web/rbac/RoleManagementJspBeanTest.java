@@ -38,6 +38,7 @@ import java.security.SecureRandom;
 import java.util.Collection;
 import java.util.Random;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.mock.web.MockHttpServletRequest;
 
 import fr.paris.lutece.portal.business.page.Page;
@@ -64,7 +65,8 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
     private static final String PARAMETER_RBAC_ID = "rbac_id";
 
     /**
-     * Test of getManageRoles method, of class fr.paris.lutece.portal.web.rbac.RoleManagementJspBean.
+     * Test of getManageRoles method, of class
+     * fr.paris.lutece.portal.web.rbac.RoleManagementJspBean.
      */
     public void testGetManageRoles( ) throws AccessDeniedException
     {
@@ -75,11 +77,12 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
 
         RoleManagementJspBean instance = new RoleManagementJspBean( );
         instance.init( request, RoleManagementJspBean.RIGHT_MANAGE_ROLES );
-        instance.getManageRoles( request );
+        assertTrue( StringUtils.isNotEmpty( instance.getManageRoles( request ) ) );
     }
 
     /**
-     * Test of getCreateRole method, of class fr.paris.lutece.portal.web.rbac.RoleManagementJspBean.
+     * Test of getCreateRole method, of class
+     * fr.paris.lutece.portal.web.rbac.RoleManagementJspBean.
      */
     public void testGetCreateRole( ) throws AccessDeniedException
     {
@@ -91,11 +94,12 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
 
         RoleManagementJspBean instance = new RoleManagementJspBean( );
         instance.init( request, RoleManagementJspBean.RIGHT_MANAGE_ROLES );
-        instance.getCreateRole( request );
+        assertTrue( StringUtils.isNotEmpty( instance.getCreateRole( request ) ) );
     }
 
     /**
-     * Test of doCreateRole method, of class fr.paris.lutece.portal.web.rbac.RoleManagementJspBean.
+     * Test of doCreateRole method, of class
+     * fr.paris.lutece.portal.web.rbac.RoleManagementJspBean.
      * 
      * @throws AccessDeniedException
      */
@@ -106,7 +110,8 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
         final String roleName = getRandomName( );
         request.setParameter( "role_key", roleName );
         request.setParameter( "role_description", roleName );
-        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "admin/rbac/create_role.html" ) );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "admin/rbac/create_role.html" ) );
         try
         {
             assertFalse( AdminRoleHome.checkExistRole( roleName ) );
@@ -126,15 +131,15 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
         final String roleName = getRandomName( );
         request.setParameter( "role_key", roleName );
         request.setParameter( "role_description", roleName );
-        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "admin/rbac/create_role.html" )
-                + "b" );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "admin/rbac/create_role.html" ) + "b" );
         try
         {
             assertFalse( AdminRoleHome.checkExistRole( roleName ) );
             bean.doCreateRole( request );
             fail( "Should have thrown" );
         }
-        catch( AccessDeniedException e )
+        catch ( AccessDeniedException e )
         {
             assertFalse( AdminRoleHome.checkExistRole( roleName ) );
         }
@@ -157,7 +162,7 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
             bean.doCreateRole( request );
             fail( "Should have thrown" );
         }
-        catch( AccessDeniedException e )
+        catch ( AccessDeniedException e )
         {
             assertFalse( AdminRoleHome.checkExistRole( roleName ) );
         }
@@ -168,7 +173,8 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
     }
 
     /**
-     * Test of getModifyRole method, of class fr.paris.lutece.portal.web.rbac.RoleManagementJspBean.
+     * Test of getModifyRole method, of class
+     * fr.paris.lutece.portal.web.rbac.RoleManagementJspBean.
      */
     public void testGetModifyRole( ) throws AccessDeniedException
     {
@@ -178,7 +184,8 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
     }
 
     /**
-     * Test of doModifyRole method, of class fr.paris.lutece.portal.web.rbac.RoleManagementJspBean.
+     * Test of doModifyRole method, of class
+     * fr.paris.lutece.portal.web.rbac.RoleManagementJspBean.
      * 
      * @throws AccessDeniedException
      */
@@ -221,7 +228,8 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
         request.setParameter( "role_key_previous", role.getKey( ) );
         request.setParameter( "role_description", role.getKey( ) + "_mod" );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/rbac/view_role_description.html" ) + "b" );
+                SecurityTokenService.getInstance( ).getToken( request, "admin/rbac/view_role_description.html" )
+                        + "b" );
         try
         {
             AdminRole stored = AdminRoleHome.findByPrimaryKey( role.getKey( ) );
@@ -229,7 +237,7 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
             bean.doModifyRole( request );
             fail( "Should have thrown" );
         }
-        catch( AccessDeniedException e )
+        catch ( AccessDeniedException e )
         {
             AdminRole stored = AdminRoleHome.findByPrimaryKey( role.getKey( ) );
             assertEquals( role.getDescription( ), stored.getDescription( ) );
@@ -258,7 +266,7 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
             bean.doModifyRole( request );
             fail( "Should have thrown" );
         }
-        catch( AccessDeniedException e )
+        catch ( AccessDeniedException e )
         {
             AdminRole stored = AdminRoleHome.findByPrimaryKey( role.getKey( ) );
             assertEquals( role.getDescription( ), stored.getDescription( ) );
@@ -270,7 +278,8 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
     }
 
     /**
-     * Test of doConfirmRemoveRole method, of class fr.paris.lutece.portal.web.rbac.RoleManagementJspBean.
+     * Test of doConfirmRemoveRole method, of class
+     * fr.paris.lutece.portal.web.rbac.RoleManagementJspBean.
      */
     public void testDoConfirmRemoveRole( ) throws AccessDeniedException
     {
@@ -284,7 +293,8 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
     }
 
     /**
-     * Test of doRemoveRole method, of class fr.paris.lutece.portal.web.rbac.RoleManagementJspBean.
+     * Test of doRemoveRole method, of class
+     * fr.paris.lutece.portal.web.rbac.RoleManagementJspBean.
      * 
      * @throws AccessDeniedException
      */
@@ -297,7 +307,8 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
         RoleManagementJspBean bean = new RoleManagementJspBean( );
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.setParameter( "role_key", role.getKey( ) );
-        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/rbac/DoRemoveRole.jsp" ) );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/rbac/DoRemoveRole.jsp" ) );
         try
         {
             assertTrue( AdminRoleHome.checkExistRole( role.getKey( ) ) );
@@ -319,15 +330,15 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
         RoleManagementJspBean bean = new RoleManagementJspBean( );
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.setParameter( "role_key", role.getKey( ) );
-        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/rbac/DoRemoveRole.jsp" )
-                + "b" );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/rbac/DoRemoveRole.jsp" ) + "b" );
         try
         {
             assertTrue( AdminRoleHome.checkExistRole( role.getKey( ) ) );
             bean.doRemoveRole( request );
             fail( "Should have thrown" );
         }
-        catch( AccessDeniedException e )
+        catch ( AccessDeniedException e )
         {
             assertTrue( AdminRoleHome.checkExistRole( role.getKey( ) ) );
         }
@@ -352,7 +363,7 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
             bean.doRemoveRole( request );
             fail( "Should have thrown" );
         }
-        catch( AccessDeniedException e )
+        catch ( AccessDeniedException e )
         {
             assertTrue( AdminRoleHome.checkExistRole( role.getKey( ) ) );
         }
@@ -363,7 +374,8 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
     }
 
     /**
-     * Test of getViewRoleDescription method, of class fr.paris.lutece.portal.web.rbac.RoleManagementJspBean.
+     * Test of getViewRoleDescription method, of class
+     * fr.paris.lutece.portal.web.rbac.RoleManagementJspBean.
      */
     public void testgetViewRoleDescription( ) throws AccessDeniedException
     {
@@ -384,7 +396,8 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
     }
 
     /**
-     * Test of doRemoveControlFromRole method, of class fr.paris.lutece.portal.web.rbac.RoleManagementJspBean.
+     * Test of doRemoveControlFromRole method, of class
+     * fr.paris.lutece.portal.web.rbac.RoleManagementJspBean.
      * 
      * @throws AccessDeniedException
      */
@@ -454,7 +467,8 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.setParameter( "rbac_id", Integer.toString( rBAC.getRBACId( ) ) );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/rbac/DoRemoveControlFromRole.jsp" ) + "b" );
+                SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/rbac/DoRemoveControlFromRole.jsp" )
+                        + "b" );
         try
         {
             Collection<RBAC> rbacs = RBACHome.findResourcesByCode( role.getKey( ) );
@@ -471,7 +485,7 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
             bean.doRemoveControlFromRole( request );
             fail( "Should have thrown" );
         }
-        catch( AccessDeniedException e )
+        catch ( AccessDeniedException e )
         {
             Collection<RBAC> rbacs = RBACHome.findResourcesByCode( role.getKey( ) );
             boolean found = false;
@@ -523,7 +537,7 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
             bean.doRemoveControlFromRole( request );
             fail( "Should have thrown" );
         }
-        catch( AccessDeniedException e )
+        catch ( AccessDeniedException e )
         {
             Collection<RBAC> rbacs = RBACHome.findResourcesByCode( role.getKey( ) );
             boolean found = false;
@@ -548,7 +562,8 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
     {
         RoleManagementJspBean bean = new RoleManagementJspBean( );
         MockHttpServletRequest request = new MockHttpServletRequest( );
-        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "AssignUsersRole.jsp" ) );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "AssignUsersRole.jsp" ) );
         Collection<AdminUser> users = AdminUserHome.findUserList( );
         for ( AdminUser user : users )
         {
@@ -583,7 +598,8 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
     {
         RoleManagementJspBean bean = new RoleManagementJspBean( );
         MockHttpServletRequest request = new MockHttpServletRequest( );
-        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "AssignUsersRole.jsp" ) + "b" );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "AssignUsersRole.jsp" ) + "b" );
         Collection<AdminUser> users = AdminUserHome.findUserList( );
         for ( AdminUser user : users )
         {
@@ -599,7 +615,7 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
             bean.doAssignUsers( request );
             fail( "Should have thrown" );
         }
-        catch( AccessDeniedException e )
+        catch ( AccessDeniedException e )
         {
             users = AdminUserHome.findUserList( );
             for ( AdminUser user : users )
@@ -637,7 +653,7 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
             bean.doAssignUsers( request );
             fail( "Should have thrown" );
         }
-        catch( AccessDeniedException e )
+        catch ( AccessDeniedException e )
         {
             users = AdminUserHome.findUserList( );
             for ( AdminUser user : users )
@@ -668,8 +684,8 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
         request.setParameter( "select_resources", "all" );
         request.setParameter( "select_permissions", "all" );
         request.setParameter( "resource_type", Page.RESOURCE_TYPE );
-        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( )
-                .getToken( request, "admin/rbac/select_permissions.html" ) );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "admin/rbac/select_permissions.html" ) );
         try
         {
             Collection<RBAC> rbacs = RBACHome.findResourcesByCode( role.getKey( ) );
@@ -701,8 +717,8 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
         request.setParameter( "select_resources", "all" );
         request.setParameter( "select_permissions", "all" );
         request.setParameter( "resource_type", Page.RESOURCE_TYPE );
-        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( )
-                .getToken( request, "admin/rbac/select_permissions.html" ) + "b" );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "admin/rbac/select_permissions.html" ) + "b" );
         try
         {
             Collection<RBAC> rbacs = RBACHome.findResourcesByCode( role.getKey( ) );
@@ -710,7 +726,7 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
             bean.doSelectPermissions( request );
             fail( "Should have thrown" );
         }
-        catch( AccessDeniedException e )
+        catch ( AccessDeniedException e )
         {
             Collection<RBAC> rbacs = RBACHome.findResourcesByCode( role.getKey( ) );
             assertTrue( rbacs.isEmpty( ) );
@@ -741,7 +757,7 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
             bean.doSelectPermissions( request );
             fail( "Should have thrown" );
         }
-        catch( AccessDeniedException e )
+        catch ( AccessDeniedException e )
         {
             Collection<RBAC> rbacs = RBACHome.findResourcesByCode( role.getKey( ) );
             assertTrue( rbacs.isEmpty( ) );
@@ -767,7 +783,8 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
         request.setParameter( "role_key", role.getKey( ) );
         request.setParameter( "id_user", Integer.toString( userId ) );
         request.setParameter( "anchor", "anchor" );
-        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "AssignUsersRole.jsp" ) );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "AssignUsersRole.jsp" ) );
         try
         {
             assertTrue( AdminUserHome.hasRole( user, role.getKey( ) ) );
@@ -795,14 +812,15 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
         request.setParameter( "role_key", role.getKey( ) );
         request.setParameter( "id_user", Integer.toString( userId ) );
         request.setParameter( "anchor", "anchor" );
-        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "AssignUsersRole.jsp" ) + "b" );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "AssignUsersRole.jsp" ) + "b" );
         try
         {
             assertTrue( AdminUserHome.hasRole( user, role.getKey( ) ) );
             bean.doUnAssignUser( request );
             fail( "Should have thrown" );
         }
-        catch( AccessDeniedException e )
+        catch ( AccessDeniedException e )
         {
             assertTrue( AdminUserHome.hasRole( user, role.getKey( ) ) );
         }
@@ -833,7 +851,7 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
             bean.doUnAssignUser( request );
             fail( "Should have thrown" );
         }
-        catch( AccessDeniedException e )
+        catch ( AccessDeniedException e )
         {
             assertTrue( AdminUserHome.hasRole( user, role.getKey( ) ) );
         }

@@ -35,6 +35,7 @@ package fr.paris.lutece.portal.web;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.mock.web.MockHttpServletRequest;
 
 import fr.paris.lutece.test.LuteceTestCase;
@@ -50,23 +51,18 @@ public class StandaloneAppJspBeanTest extends LuteceTestCase
      */
     public void testGetContent( ) throws Exception
     {
-        System.out.println( "getContent" );
-
         HttpServletRequest request = new MockHttpServletRequest( );
         StandaloneAppJspBean instance = new StandaloneAppJspBean( );
 
         String result = instance.getContent( request );
+        assertTrue( StringUtils.isNotEmpty( result ) );
     }
 
     public void testGetPluginList( )
     {
-        System.out.println( "getPluginList" );
-
         HttpServletRequest request = new MockHttpServletRequest( );
         StandaloneAppJspBean instance = new StandaloneAppJspBean( );
-
-        /*
-         * TODO waiting for LUTECE-451 Fix instance.getPluginList( request );
-         */
+        
+        assertTrue( StringUtils.isNotEmpty( instance.getPluginList( request ) ) );
     }
 }

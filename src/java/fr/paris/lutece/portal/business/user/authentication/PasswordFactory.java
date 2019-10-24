@@ -48,6 +48,7 @@ import javax.crypto.spec.PBEKeySpec;
 import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.binary.Hex;
 
+import fr.paris.lutece.portal.service.util.AppException;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.service.util.CryptoService;
@@ -184,7 +185,7 @@ final class PasswordFactory implements IPasswordFactory
                     }
                     catch( NoSuchAlgorithmException | InvalidKeySpecException e )
                     {
-                        throw new RuntimeException( e ); // should not happen
+                        throw new AppException( "Invalid Algo or key", e ); // should not happen
                     }
                     break;
                 case STORABLE:
@@ -229,7 +230,7 @@ final class PasswordFactory implements IPasswordFactory
             }
             catch( NoSuchAlgorithmException | InvalidKeySpecException e )
             {
-                throw new RuntimeException( e ); // should not happen
+                throw new AppException( "Invalid Algo or key", e ); // should not happen
             }
         }
 

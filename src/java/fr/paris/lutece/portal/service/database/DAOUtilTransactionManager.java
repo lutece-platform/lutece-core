@@ -60,7 +60,7 @@ import javax.sql.DataSource;
 public class DAOUtilTransactionManager extends DataSourceTransactionManager implements PluginEventListener
 {
     private static final long serialVersionUID = -654531540978261621L;
-    private Logger _logger = Logger.getLogger( "lutece.debug.sql.tx" );
+    private transient Logger _logger = Logger.getLogger( "lutece.debug.sql.tx" );
     private String _strPluginName;
     private boolean _bInit;
 

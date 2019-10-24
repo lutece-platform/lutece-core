@@ -20,15 +20,15 @@
 
         <!-- Menu Tree -->
         <xsl:if test="not(string(menu)='')">
-            <xsl:text disable-output-escaping="yes">		    
-            <div class="tree4">		
-			<h2>&#160;</h2>
-			<ul id="tree" class="tree4">
-                <xsl:apply-templates select="menu" />        
-			</ul>	
-			</div>
-		 	 <br />
-		</xsl:text>
+            <xsl:text disable-output-escaping="yes">            
+                <div class="tree4">        
+                    <h2>&#160;</h2>
+                    <ul id="tree" class="tree4">
+                        <xsl:apply-templates select="menu" />        
+                    </ul>    
+                </div>
+                 <br />
+          </xsl:text>
         </xsl:if>
     </xsl:template>
 

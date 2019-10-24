@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.web.insert;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.mock.web.MockHttpServletRequest;
 
 import fr.paris.lutece.test.LuteceTestCase;
@@ -43,31 +44,29 @@ import fr.paris.lutece.test.LuteceTestCase;
 public class InsertServiceSelectorJspBeanTest extends LuteceTestCase
 {
     /**
-     * Test of getServicesListPage method, of class fr.paris.lutece.portal.web.insertservice.InsertServiceSelectorJspBean.
+     * Test of getServicesListPage method, of class
+     * fr.paris.lutece.portal.web.insertservice.InsertServiceSelectorJspBean.
      */
     public void testGetServicesListPage( )
     {
-        System.out.println( "getServicesListPage" );
-
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.addParameter( "input", "text" );
         request.addParameter( "selected_text", "selected_text" );
 
         InsertServiceSelectorJspBean instance = new InsertServiceSelectorJspBean( );
 
-        String result = instance.getServicesListPage( request );
+        assertTrue( StringUtils.isNotEmpty( instance.getServicesListPage( request ) ) );
     }
 
     /**
-     * Test of displayService method, of class fr.paris.lutece.portal.web.insertservice.InsertServiceSelectorJspBean.
+     * Test of displayService method, of class
+     * fr.paris.lutece.portal.web.insertservice.InsertServiceSelectorJspBean.
      */
     public void testDisplayService( )
     {
-        System.out.println( "displayService" );
-
         MockHttpServletRequest request = new MockHttpServletRequest( );
         InsertServiceSelectorJspBean instance = new InsertServiceSelectorJspBean( );
 
-        String result = instance.displayService( request );
+        assertTrue( StringUtils.isNotEmpty( instance.displayService( request ) ) );
     }
 }

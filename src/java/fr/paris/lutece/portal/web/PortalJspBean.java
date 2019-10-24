@@ -65,6 +65,7 @@ import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.url.UrlItem;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.BooleanUtils;
 
 import java.io.UnsupportedEncodingException;
 
@@ -584,9 +585,14 @@ public class PortalJspBean
         // If the form was submited, we check data
         if ( strSend != null )
         {
-            if ( StringUtils.isBlank( strSenderEmail ) || StringUtils.isBlank( strSenderName )
-                    || StringUtils.isBlank( strSenderFirstName ) || StringUtils.isBlank( strReceipientEmail )
-                    || StringUtils.isBlank( strContent ) )
+            boolean[] conditions = new boolean[] {
+                    StringUtils.isBlank( strSenderEmail ), 
+                    StringUtils.isBlank( strSenderName ), 
+                    StringUtils.isBlank( strSenderFirstName ), 
+                    StringUtils.isBlank( strReceipientEmail ), 
+                    StringUtils.isBlank( strContent ) };
+            
+            if ( BooleanUtils.or( conditions ) )
             {
                 strError = I18nService.getLocalizedString( MESSAGE_ERROR_MANDATORY_FIELDS, locale );
             }

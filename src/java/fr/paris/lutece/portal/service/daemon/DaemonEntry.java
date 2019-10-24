@@ -261,7 +261,7 @@ public final class DaemonEntry
         {
             return "";
         }
-        return _formatterDateTime.format( new Date( _dateLastRunDate.getTime(  ) )) ;
+        return _formatterDateTime.format( new Date( _dateLastRunDate.getTime(  ) ) );
     }
 
     /**

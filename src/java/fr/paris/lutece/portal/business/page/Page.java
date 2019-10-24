@@ -545,7 +545,7 @@ public class Page implements RBACResource, IExtendableResource
     @Override
     public String getExtendableResourceDescription( )
     {
-        return _strDescription;
+        return getDescription( );
     }
 
     /**

@@ -112,9 +112,15 @@ public abstract class LinksIncludeTest extends LuteceTestCase
 
     public void testFillTemplateNull( )
     {
-        LinksInclude include = new LinksInclude( );
-        include.fillTemplate( null, null, 0, null );
-        // did not throw
+        try
+        {
+            LinksInclude include = new LinksInclude( );
+            include.fillTemplate( null, null, 0, null );
+            // did not throw
+        }
+        catch (Exception e) {
+            fail( );
+        }
     }
 
     public void testGetURICssAddPrefix( )

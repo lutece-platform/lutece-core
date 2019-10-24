@@ -47,6 +47,8 @@ import java.util.TreeSet;
 
 import javax.activation.MimetypesFileTypeMap;
 
+import org.apache.commons.lang3.ArrayUtils;
+
 /**
  * This Service is used to manipulate Files and Directories in the File System.
  */
@@ -91,6 +93,10 @@ public final class FileSystemUtil
         }
 
         File [ ] files = fDirectory.listFiles( );
+        if ( ArrayUtils.isEmpty( files ) )
+        {
+            return listFiles;
+        }
 
         for ( int i = 0; i < files.length; i++ )
         {
@@ -133,6 +139,10 @@ public final class FileSystemUtil
         }
 
         File [ ] files = fDirectory.listFiles( );
+        if ( ArrayUtils.isEmpty( files ) )
+        {
+            return new ArrayList<>( set );
+        }
 
         for ( int i = 0; i < files.length; i++ )
         {

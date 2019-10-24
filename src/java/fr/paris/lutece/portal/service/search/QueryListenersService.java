@@ -44,7 +44,7 @@ import java.util.List;
 public final class QueryListenersService
 {
     private static List<QueryEventListener> _listListeners = new ArrayList<>( );
-    private static volatile QueryListenersService _singleton;
+    private static QueryListenersService _singleton = new QueryListenersService( );
 
     /**
      * Creates a new instance of QueryListenersService
@@ -60,19 +60,13 @@ public final class QueryListenersService
      */
     public static QueryListenersService getInstance( )
     {
-        if ( _singleton == null )
-        {
-            _singleton = new QueryListenersService( );
-        }
-
         return _singleton;
     }
 
     /**
      * Register a new listener
      * 
-     * @param listener
-     *            The listener to register
+     * @param listener The listener to register
      */
     public void registerQueryListener( QueryEventListener listener )
     {
@@ -83,8 +77,7 @@ public final class QueryListenersService
     /**
      * Notify all registered listeners
      * 
-     * @param event
-     *            The query event to notify
+     * @param event The query event to notify
      */
     public void notifyListeners( QueryEvent event )
     {
@@ -94,7 +87,7 @@ public final class QueryListenersService
             {
                 listener.processQueryEvent( event );
             }
-            catch( Exception e )
+            catch ( Exception e )
             {
                 // Catch any exception in order to stay in the loop to notify all listeners
                 AppLogService.error( "Error while processing query event : " + e.getMessage( ), e );

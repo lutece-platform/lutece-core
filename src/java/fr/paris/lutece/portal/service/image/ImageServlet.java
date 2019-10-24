@@ -33,12 +33,6 @@
  */
 package fr.paris.lutece.portal.service.image;
 
-import fr.paris.lutece.portal.service.util.AppLogService;
-import fr.paris.lutece.portal.service.util.AppPathService;
-import fr.paris.lutece.portal.service.util.AppPropertiesService;
-import fr.paris.lutece.portal.web.LocalVariables;
-import fr.paris.lutece.util.stream.StreamUtil;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -49,6 +43,11 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import fr.paris.lutece.portal.service.util.AppLogService;
+import fr.paris.lutece.portal.service.util.AppPathService;
+import fr.paris.lutece.portal.service.util.AppPropertiesService;
+import fr.paris.lutece.portal.web.LocalVariables;
 
 /**
  * Servlet serving document file resources
@@ -68,9 +67,8 @@ public class ImageServlet extends HttpServlet
      * 
      * @param request  servlet request
      * @param response servlet response
-     * @throws ServletException the servlet Exception
      */
-    protected void processRequest( HttpServletRequest request, HttpServletResponse response ) throws ServletException
+    protected void processRequest( HttpServletRequest request, HttpServletResponse response )
     {
         String strResourceId = request.getParameter( PARAMETER_ID );
         String strResourceTypeId = request.getParameter( PARAMETER_RESOURCE_TYPE );
@@ -94,22 +92,13 @@ public class ImageServlet extends HttpServlet
                 if ( getImageExist( image ) )
                 {
                     response.setContentType( image.getMimeType( ) );
-
-                    OutputStream out = null;
-                    try
+                    try ( OutputStream out = response.getOutputStream( ) )
                     {
-                        out = response.getOutputStream( );
                         out.write( image.getImage( ) );
-                        out.flush( );
-                        out.close( );
                     }
                     catch ( IOException ex )
                     {
                         AppLogService.error( ERROR_MSG + ex.getMessage( ), ex );
-                    }
-                    finally
-                    {
-                        StreamUtil.safeClose( out );
                     }
                 }
                 else
@@ -158,7 +147,6 @@ public class ImageServlet extends HttpServlet
      */
     @Override
     protected void doGet( HttpServletRequest request, HttpServletResponse response )
-            throws ServletException, IOException
     {
         processRequest( request, response );
     }
@@ -173,7 +161,6 @@ public class ImageServlet extends HttpServlet
      */
     @Override
     protected void doPost( HttpServletRequest request, HttpServletResponse response )
-            throws ServletException, IOException
     {
         processRequest( request, response );
     }

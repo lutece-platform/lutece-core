@@ -35,6 +35,7 @@ package fr.paris.lutece.portal.service.security;
 
 import java.io.Serializable;
 import java.security.Principal;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -145,7 +146,7 @@ public abstract class LuteceUser implements Principal, Serializable, Cloneable
     private String _strAuthenticationService;
 
     /** Authentication Service impl */
-    private LuteceAuthentication _luteceAuthenticationService;
+    private transient LuteceAuthentication _luteceAuthenticationService;
 
     /** Authentication Service */
     private String _strAuthenticationType;
@@ -351,12 +352,7 @@ public abstract class LuteceUser implements Principal, Serializable, Cloneable
         }
         else
         {
-            newArray = new String [ collection.size( ) + array.length];
-
-            for ( j = 0; j < array.length; j++ )
-            {
-                newArray [j] = array [j];
-            }
+            newArray = Arrays.copyOf( array, collection.size( ) + array.length );
         }
 
         for ( String strItem : collection )

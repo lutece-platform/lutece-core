@@ -45,7 +45,21 @@ public class InsertServiceManagerTest extends LuteceTestCase
      */
     public void testRegisterInsertService( )
     {
-        System.out.println( "getInsertServicesList" );
-        InsertServiceManager.getInsertServicesList( );
+        MockInsertService is = new MockInsertService( );
+        is.setId( "1" );
+        
+        assertEquals( 0, InsertServiceManager.getInsertServicesList( ).size( ) );
+        InsertServiceManager.registerInsertService( is );
+        assertEquals( 1, InsertServiceManager.getInsertServicesList( ).size( ) );
+        InsertServiceManager.unregisterInsertService( is );
+        assertEquals( 0, InsertServiceManager.getInsertServicesList( ).size( ) );
+    }
+    
+    private class MockInsertService extends InsertService {
+        @Override
+        public boolean isEnabled( )
+        {
+            return true;
+        }
     }
 }

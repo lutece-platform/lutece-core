@@ -247,9 +247,9 @@ public class DefaultImportAdminUserService extends ImportAdminUserService
     
     private void readAttribute( String strValue, List<String> listAdminRights, List<String> listAdminRoles, List<String> listAdminWorkgroups,  Map<Integer, List<String>> mapAttributesValues )
     {
-        if ( StringUtils.isNotBlank( strValue ) && ( strValue.indexOf( getAttributesSeparator( ) ) > 0 ) )
+        int nSeparatorIndex = strValue.indexOf( getAttributesSeparator( ) );
+        if ( StringUtils.isNotBlank( strValue ) && nSeparatorIndex >= 0 )
         {
-            int nSeparatorIndex = strValue.indexOf( getAttributesSeparator( ) );
             String strLineId = strValue.substring( 0, nSeparatorIndex );
 
             if ( StringUtils.isNotBlank( strLineId ) )
