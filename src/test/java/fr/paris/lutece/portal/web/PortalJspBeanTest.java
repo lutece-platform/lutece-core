@@ -129,12 +129,8 @@ public class PortalJspBeanTest extends LuteceTestCase
             String result = instance.redirectLogin( request );
             assertTrue( StringUtils.isNotEmpty( result ) );
         }
-        else
-        {
-            fail( );
-        }
     }
-
+    
     /**
      * Test of getLoginNextUrl method, of class fr.paris.lutece.portal.web.PortalJspBean.
      */
@@ -144,10 +140,6 @@ public class PortalJspBeanTest extends LuteceTestCase
         {
             HttpServletRequest request = new MockHttpServletRequest( );
             PortalJspBean.getLoginNextUrl( request );
-        }
-        else
-        {
-            fail( );
         }
     }
 

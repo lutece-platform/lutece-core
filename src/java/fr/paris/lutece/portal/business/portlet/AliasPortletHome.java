@@ -54,8 +54,12 @@ public class AliasPortletHome extends PortletHome
     /**
      * Constructor
      */
-    private AliasPortletHome( )
+    public AliasPortletHome( )
     {
+        if ( _singleton == null )
+        {
+            _singleton = this;
+        }
     }
 
     /**
