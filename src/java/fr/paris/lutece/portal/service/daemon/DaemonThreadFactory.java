@@ -65,8 +65,13 @@ public final class DaemonThreadFactory implements ThreadFactory
         thread.setPriority( Thread.MIN_PRIORITY );
         thread.setName( DAEMONS_NAME_PREFIX + _nIndex );
         AppLogService.info( "New Scheduled Thread added to the pool for daemons. Index:" + _nIndex );
-        _nIndex++;
+        increaseIndex( );
 
         return thread;
+    }
+    
+    private static synchronized void increaseIndex( )
+    {
+        _nIndex++;
     }
 }

@@ -66,6 +66,7 @@ import fr.paris.lutece.portal.service.util.AppPathService;
  */
 public final class SpringContextService implements PluginEventListener
 {
+    private static final String PROTOCOL_FILE = "file:";
     private static final String PATH_CONF = "/WEB-INF/conf/";
     private static final String DIR_PLUGINS = "plugins/";
     private static final String DIR_OVERRIDE = "override/";
@@ -136,7 +137,7 @@ public final class SpringContextService implements PluginEventListener
 
             // Load the core context file : core_context.xml
             String strConfPath = AppPathService.getAbsolutePathFromRelativePath( PATH_CONF );
-            String strContextFile = "file:" + strConfPath + FILE_CORE_CONTEXT;
+            String strContextFile = PROTOCOL_FILE + strConfPath + FILE_CORE_CONTEXT;
 
             GenericWebApplicationContext gwac = new GenericWebApplicationContext( servletContext );
             gwac.setId( getContextName( servletContext ) );
@@ -167,7 +168,7 @@ public final class SpringContextService implements PluginEventListener
             if ( fileCoreContextOverride.exists( ) )
             {
                 AppLogService.debug( "Context file loaded : core_context" );
-                xmlReader.loadBeanDefinitions( "file:" + strCoreContextOverrideFile );
+                xmlReader.loadBeanDefinitions( PROTOCOL_FILE + strCoreContextOverrideFile );
             }
             else
             {
@@ -241,7 +242,7 @@ public final class SpringContextService implements PluginEventListener
             for ( String fileContext : filesContext )
             {
                 String[] file =
-                { "file:" + strConfPluginsPath + fileContext };
+                { PROTOCOL_FILE + strConfPluginsPath + fileContext };
 
                 // Safe loading of plugin context file
                 try

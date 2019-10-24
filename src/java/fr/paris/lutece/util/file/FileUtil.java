@@ -133,7 +133,8 @@ public final class FileUtil
             AppLogService.error( "Error deleting file, file null" );
             return;
         }
-        try {
+        try
+        {
             if ( file.exists( ) )
             {
                 Files.delete( file.toPath( ) );

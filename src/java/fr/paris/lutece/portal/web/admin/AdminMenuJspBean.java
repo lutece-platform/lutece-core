@@ -536,6 +536,12 @@ public class AdminMenuJspBean implements Serializable
      */
     public String getAdminStyleSheets( )
     {
+        loadStylesheets( );
+        return _strStylesheets;
+    }
+    
+    private static synchronized void  loadStylesheets( )
+    {
         if ( _strStylesheets == null || _bResetAdminStylesheets )
         {
             List<Plugin> listPlugins = new ArrayList<>( );
@@ -548,8 +554,6 @@ public class AdminMenuJspBean implements Serializable
             _strStylesheets = AppTemplateService.getTemplate( TEMPLATE_STYLESHEET_LINK, LocaleService.getDefault( ), model ).getHtml( );
             _bResetAdminStylesheets = false;
         }
-
-        return _strStylesheets;
     }
 
     public static void resetAdminStylesheets( )
@@ -563,7 +567,7 @@ public class AdminMenuJspBean implements Serializable
      * @return the javascript files block to include in the footer
      * @since 5.1
      */
-    private String getAdminJavascripts( )
+    private static synchronized String getAdminJavascripts( )
     {
         if ( _strJavascripts == null )
         {
