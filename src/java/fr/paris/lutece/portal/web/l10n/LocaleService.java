@@ -107,7 +107,7 @@ public final class LocaleService
      * 
      * @return The locale
      */
-    public static Locale getDefault( )
+    public static synchronized Locale getDefault( )
     {
         if ( _locale != null )
         {
@@ -207,7 +207,7 @@ public final class LocaleService
      * 
      * @return the Supported Lang List
      */
-    public static List<Locale> getSupportedLangList( )
+    public static synchronized List<Locale> getSupportedLangList( )
     {
         if ( _supportedLocales == null )
         {

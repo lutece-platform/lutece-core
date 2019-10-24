@@ -37,6 +37,7 @@ import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.Random;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.mock.web.MockHttpServletRequest;
 
 import fr.paris.lutece.portal.business.right.Level;
@@ -75,7 +76,7 @@ public class LevelsJspBeanTest extends LuteceTestCase
      */
     public void testGetCreateLevel( ) throws AccessDeniedException
     {
-        instance.getCreateLevel( request );
+        assertTrue( StringUtils.isNotEmpty( instance.getCreateLevel( request ) ) );
     }
 
     /**
@@ -183,7 +184,7 @@ public class LevelsJspBeanTest extends LuteceTestCase
     {
         request.addParameter( Parameters.LEVEL_ID, TEST_LEVEL_ID );
 
-        instance.getModifyLevel( request );
+        assertTrue( StringUtils.isNotEmpty( instance.getModifyLevel( request ) ) );
     }
 
     /**

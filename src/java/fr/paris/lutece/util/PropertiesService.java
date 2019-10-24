@@ -40,9 +40,10 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Properties;
 
+import org.apache.commons.lang3.ArrayUtils;
+
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
-import fr.paris.lutece.util.stream.StreamUtil;
 
 /**
  * This class provides utility methods to read values of the properties stored in the .properties file of the application.
@@ -50,9 +51,9 @@ import fr.paris.lutece.util.stream.StreamUtil;
 public class PropertiesService
 {
     // Static variables
-    private static String _strRootPath;
-    private static volatile Properties _properties = new Properties( );
-    private static Map<String, String> _mapPropertiesFiles = new LinkedHashMap<>( );
+    private String _strRootPath;
+    private Properties _properties = new Properties( );
+    private Map<String, String> _mapPropertiesFiles = new LinkedHashMap<>( );
 
     /**
      * Constructor should define the base root path for properties files
@@ -93,14 +94,17 @@ public class PropertiesService
         if ( directory.exists( ) )
         {
             File [ ] listFile = directory.listFiles( );
-
-            for ( File file : listFile )
+            
+            if ( ArrayUtils.isNotEmpty( listFile ) )
             {
-                if ( file.getName( ).endsWith( ".properties" ) )
+                for ( File file : listFile )
                 {
-                    String strFullPath = file.getAbsolutePath( );
-                    _mapPropertiesFiles.put( file.getName( ), strFullPath );
-                    loadFile( strFullPath );
+                    if ( file.getName( ).endsWith( ".properties" ) )
+                    {
+                        String strFullPath = file.getAbsolutePath( );
+                        _mapPropertiesFiles.put( file.getName( ), strFullPath );
+                        loadFile( strFullPath );
+                    }
                 }
             }
         }
@@ -129,19 +133,13 @@ public class PropertiesService
      */
     private void loadFile( String strFullPath, Properties props )
     {
-        FileInputStream fis = null;
-        try
+        try ( FileInputStream fis = new FileInputStream( new File( strFullPath ) ) )
         {
-            fis = new FileInputStream( new File( strFullPath ) );
             props.load( fis );
         }
         catch( IOException ex )
         {
             AppLogService.error( "Error loading property file : " + ex, ex );
-        }
-        finally
-        {
-            StreamUtil.safeClose( fis );
         }
     }
 

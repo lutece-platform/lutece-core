@@ -33,7 +33,12 @@
  */
 package fr.paris.lutece.util.file;
 
+import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -115,4 +120,29 @@ public final class FileUtil
 
         return false;
     }
+    
+    /**
+     * Delete the file. <br />
+     * Logs an error if the delete is not succesful.
+     * @param pathname
+     */
+    public static void deleteFile( File file )
+    {
+        if ( file == null )
+        {
+            AppLogService.error( "Error deleting file, file null" );
+            return;
+        }
+        try {
+            if ( file.exists( ) )
+            {
+                Files.delete( file.toPath( ) );
+            }
+        }
+        catch ( IOException e )
+        {
+            AppLogService.error( "Error deleting file", e );
+        }
+    }
+    
 }

@@ -33,18 +33,16 @@
  */
 package fr.paris.lutece.portal.web.upload;
 
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.fileupload.FileItem;
-
 import java.util.Collections;
 import java.util.Enumeration;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
+
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.fileupload.FileItem;
 
 /**
  * This class provides a Wrapper of an HTTP request that handle multipart content
@@ -165,24 +163,5 @@ public class MultipartHttpServletRequest extends HttpServletRequestWrapper
     public List<FileItem> getFileList( String strName )
     {
         return _multipartFiles.get( strName );
-    }
-
-    /**
-     * Convert a map of file list with their name into a map of single files with their names
-     * 
-     * @param multipartFiles
-     *            The map to convert
-     * @return The converted map
-     */
-    private Map<String, FileItem> convertFileMap( Map<String, List<FileItem>> multipartFiles )
-    {
-        Map<String, FileItem> mapFiles = new HashMap<>( multipartFiles.size( ) );
-
-        for ( Entry<String, List<FileItem>> entry : multipartFiles.entrySet( ) )
-        {
-            mapFiles.put( entry.getKey( ), CollectionUtils.isNotEmpty( entry.getValue( ) ) ? null : entry.getValue( ).get( 0 ) );
-        }
-
-        return mapFiles;
     }
 }

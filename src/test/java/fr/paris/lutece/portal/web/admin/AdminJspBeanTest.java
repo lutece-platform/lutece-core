@@ -37,6 +37,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.mock.web.MockServletConfig;
@@ -65,15 +66,14 @@ public class AdminJspBeanTest extends LuteceTestCase
      */
     public void testGetAdminPage( ) throws AccessDeniedException
     {
-        System.out.println( "getAdminPage" );
-
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.addParameter( PARAMETER_PAGE_ID, TEST_PAGE_ID );
         Utils.registerAdminUserWithRigth( request, new AdminUser( ), AdminPageJspBean.RIGHT_MANAGE_ADMIN_SITE );
 
         AdminPageJspBean instance = new AdminPageJspBean( );
         instance.init( request, AdminPageJspBean.RIGHT_MANAGE_ADMIN_SITE );
-        instance.getAdminPage( request );
+        
+        assertTrue( StringUtils.isNotEmpty( instance.getAdminPage( request ) ) );
     }
 
     /**
@@ -83,8 +83,6 @@ public class AdminJspBeanTest extends LuteceTestCase
      */
     public void testGetAdminPagePreview( ) throws AccessDeniedException, UserNotSignedException
     {
-        System.out.println( "getAdminPagePreview" );
-
         MockHttpServletRequest request = new MockHttpServletRequest( );
 
         // FIXME : MokeHttpServletRequest should be fixed to support attributes
@@ -107,8 +105,7 @@ public class AdminJspBeanTest extends LuteceTestCase
         }
         catch( SiteMessageException e )
         {
-            // TODO Auto-generated catch block
-            e.printStackTrace( );
+            fail( );
         }
     }
 

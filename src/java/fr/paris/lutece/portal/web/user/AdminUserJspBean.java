@@ -1698,7 +1698,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             }
         }
 
-        if ( ( user != null ) && ( userCurrent != null ) && ( user.getUserId( ) == userCurrent.getUserId( ) ) )
+        if ( user.getUserId( ) == userCurrent.getUserId( ) )
         {
             try
             {
@@ -2617,6 +2617,10 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
      */
     private boolean isUserAuthorizedToModifyUser( AdminUser currentUser, AdminUser userToModify )
     {
+        if ( currentUser == null || userToModify == null )
+        {
+            return false;
+        }
         return currentUser.isAdmin( )
                 || ( currentUser.isParent( userToModify ) && ( ( haveCommonWorkgroups( currentUser, userToModify ) )
                         || ( !AdminWorkgroupHome.checkUserHasWorkgroup( userToModify.getUserId( ) ) ) ) );

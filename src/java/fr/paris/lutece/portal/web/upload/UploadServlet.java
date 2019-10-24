@@ -40,7 +40,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -70,9 +69,10 @@ public class UploadServlet extends HttpServlet
 
     /**
      * {@inheritDoc}
+     * @throws IOException 
      */
     @Override
-    protected void doPost( HttpServletRequest req, HttpServletResponse response ) throws ServletException, IOException
+    protected void doPost( HttpServletRequest req, HttpServletResponse response ) throws IOException
     {
         MultipartHttpServletRequest request = (MultipartHttpServletRequest) req;
 
@@ -120,8 +120,6 @@ public class UploadServlet extends HttpServlet
             }
         }
 
-        // When removing IAsynchronousUploadHandler in the future, delete this if,
-        // keep only the 'false' block.
         String strResultJson = objectMapper.writeValueAsString( mapJson );
         if ( AppLogService.isDebugEnabled( ) )
         {

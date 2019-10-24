@@ -33,6 +33,15 @@
  */
 package fr.paris.lutece.portal.web.admin;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang.StringUtils;
+
 import fr.paris.lutece.portal.business.portlet.Portlet;
 import fr.paris.lutece.portal.business.portlet.PortletHome;
 import fr.paris.lutece.portal.business.portlet.PortletType;
@@ -51,15 +60,6 @@ import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.util.url.UrlItem;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.apache.commons.lang.StringUtils;
-
 /**
  * This class provides the admin interface to manage administration of portlet on the pages
  */
@@ -67,6 +67,7 @@ public class AdminPagePortletJspBean extends AdminFeaturesPageJspBean
 {
     // Right
     public static final String RIGHT_MANAGE_ADMIN_SITE = "CORE_ADMIN_SITE";
+    private static final String MSG_ERROR_PORTLET = "Error looking for portlet with id ";
     private static final String PROPERTY_MESSAGE_WARNING_PORTLET_ALIAS = "portal.site.message.warningPortletAlias";
     private static final String PROPERTY_MESSAGE_CONFIRM_REMOVE_PORTLET = "portal.site.message.confirmRemovePortlet";
     private static final String MESSAGE_CANNOT_REMOVE_PORTLET = "portal.site.message.cannotRemovePortlet";
@@ -156,7 +157,7 @@ public class AdminPagePortletJspBean extends AdminFeaturesPageJspBean
         }
         catch( NullPointerException e )
         {
-            AppLogService.error( "Error looking for portlet with id " + nPortletId, e );
+            AppLogService.error( MSG_ERROR_PORTLET + nPortletId, e );
         }
         if ( portlet == null || portlet.getId( ) != nPortletId )
         {
@@ -167,8 +168,7 @@ public class AdminPagePortletJspBean extends AdminFeaturesPageJspBean
         AdminUser user = AdminUserService.getAdminUser( request );
         if ( !RBACService.isAuthorized( PortletType.RESOURCE_TYPE, portlet.getPortletTypeId( ), PortletResourceIdService.PERMISSION_MANAGE, user ) )
         {
-            throw new AccessDeniedException( "User " + user + " is not authorized to permission " + PortletResourceIdService.PERMISSION_MANAGE + " on portlet "
-                    + nPortletId );
+            throw new AccessDeniedException( getMessageErrorAuthorization( user, PortletResourceIdService.PERMISSION_MANAGE, nPortletId ) );
         }
         String strUrl = JSP_REMOVE_PORTLET;
         String strTarget = "_top";
@@ -225,7 +225,7 @@ public class AdminPagePortletJspBean extends AdminFeaturesPageJspBean
         }
         catch( NullPointerException e )
         {
-            AppLogService.error( "Error looking for portlet with id " + nPortletId, e );
+            AppLogService.error( MSG_ERROR_PORTLET + nPortletId, e );
         }
         if ( portlet == null || portlet.getId( ) != nPortletId )
         {
@@ -240,8 +240,7 @@ public class AdminPagePortletJspBean extends AdminFeaturesPageJspBean
         AdminUser user = AdminUserService.getAdminUser( request );
         if ( !RBACService.isAuthorized( PortletType.RESOURCE_TYPE, portlet.getPortletTypeId( ), PortletResourceIdService.PERMISSION_MANAGE, user ) )
         {
-            throw new AccessDeniedException( "User " + user + " is not authorized to permission " + PortletResourceIdService.PERMISSION_MANAGE + " on portlet "
-                    + nPortletId );
+            throw new AccessDeniedException( getMessageErrorAuthorization( user, PortletResourceIdService.PERMISSION_MANAGE, nPortletId ) );
         }
         ArrayList<String> listErrors = new ArrayList<>( );
         Locale locale = AdminUserService.getLocale( request );
@@ -279,7 +278,7 @@ public class AdminPagePortletJspBean extends AdminFeaturesPageJspBean
         }
         catch( NullPointerException e )
         {
-            AppLogService.error( "Error looking for portlet with id " + nPortletId, e );
+            AppLogService.error( MSG_ERROR_PORTLET + nPortletId, e );
         }
         if ( portlet == null || portlet.getId( ) != nPortletId )
         {
@@ -297,8 +296,7 @@ public class AdminPagePortletJspBean extends AdminFeaturesPageJspBean
         AdminUser user = AdminUserService.getAdminUser( request );
         if ( !RBACService.isAuthorized( PortletType.RESOURCE_TYPE, portlet.getPortletTypeId( ), PortletResourceIdService.PERMISSION_MANAGE, user ) )
         {
-            throw new AccessDeniedException( "User " + user + " is not authorized to permission " + PortletResourceIdService.PERMISSION_MANAGE + " on portlet "
-                    + nPortletId );
+            throw new AccessDeniedException( getMessageErrorAuthorization( user, PortletResourceIdService.PERMISSION_MANAGE, nPortletId ) );
         }
         String strUrl = JSP_DO_MODIFY_STATUS;
         String strTarget = "_top";
@@ -340,7 +338,7 @@ public class AdminPagePortletJspBean extends AdminFeaturesPageJspBean
         }
         catch( NullPointerException e )
         {
-            AppLogService.error( "Error looking for portlet with id " + nPortletId, e );
+            AppLogService.error( MSG_ERROR_PORTLET + nPortletId, e );
         }
         if ( portlet == null || portlet.getId( ) != nPortletId )
         {
@@ -358,12 +356,16 @@ public class AdminPagePortletJspBean extends AdminFeaturesPageJspBean
         AdminUser user = AdminUserService.getAdminUser( request );
         if ( !RBACService.isAuthorized( PortletType.RESOURCE_TYPE, portlet.getPortletTypeId( ), PortletResourceIdService.PERMISSION_MANAGE, user ) )
         {
-            throw new AccessDeniedException( "User " + user + " is not authorized to permission " + PortletResourceIdService.PERMISSION_MANAGE + " on portlet "
-                    + nPortletId );
+            throw new AccessDeniedException( getMessageErrorAuthorization( user, PortletResourceIdService.PERMISSION_MANAGE, nPortletId ) );
         }
 
         PortletHome.updateStatus( portlet, nStatus );
 
         return JSP_ADMIN_SITE + "?" + Parameters.PAGE_ID + "=" + portlet.getPageId( );
+    }
+    
+    private static String getMessageErrorAuthorization( AdminUser user, String permission, int nPortletId )
+    {
+        return "User " + user + " is not authorized to permission " + permission + " on portlet " + nPortletId;
     }
 }
