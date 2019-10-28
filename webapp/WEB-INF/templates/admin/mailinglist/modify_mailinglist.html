@@ -4,8 +4,8 @@
 			<@boxHeader title='#i18n{portal.mailinglist.modify_mailinglist.title}' />
 			 <@boxBody>
 				<@tform method='post' action='jsp/admin/mailinglist/DoModifyMailingList.jsp'>
-					<input type="hidden" id="id_mailinglist" name="id_mailinglist" value="${mailinglist.id}" />
-					<input type="hidden" name="token" value="${token}">
+					<@input type='hidden' id='id_mailinglist' name='id_mailinglist' value='${mailinglist.id}' />
+					<@input type='hidden' name='token' value='${token}' />
 					<@formGroup labelKey='#i18n{portal.mailinglist.modify_mailinglist.labelName}' labelFor='name' mandatory=true rows=2>
 						<@input type='text' name='name' id='name' value='${mailinglist.name?html}' />
 					</@formGroup>
@@ -26,11 +26,11 @@
 		<@box color='success'>
 			<@boxHeader title='#i18n{portal.mailinglist.view_users.boxTitle}' boxTools=true>
 				<@tform class='pull-right spaced' method='get' action='jsp/admin/mailinglist/AddUsers.jsp'>
-					<input type="hidden" name="id_mailinglist" value="${mailinglist.id!}">
+					<@input type='hidden' name='id_mailinglist' value='${mailinglist.id!}' />
 					<@button type='submit' buttonIcon='plus' title='#i18n{portal.mailinglist.modify_mailinglist.buttonAddUsers}' size='' showTitleXs=false showTitleSm=false />
 				</@tform>
 				<@tform class='pull-right spaced' method='get' action='jsp/admin/mailinglist/ViewUsers.jsp'>
-					<input type="hidden" name="id_mailinglist" value="${mailinglist.id!}">
+					<@input type='hidden' name='id_mailinglist' value='${mailinglist.id!}' />
 					<@button type='submit' buttonIcon='eye' title='#i18n{portal.mailinglist.modify_mailinglist.buttonViewUsers}' size='' showTitleXs=false showTitleSm=false />
 				</@tform>
 			</@boxHeader>
@@ -47,10 +47,10 @@
 						<td>${filter.role}</td>
 						<td>
 							<@tform method='post' action='jsp/admin/mailinglist/DoDeleteFilter.jsp'>
-								<input type="hidden" name="id_mailinglist" value="${mailinglist.id?html}">
-								<input type="hidden" name="workgroup" value="${filter.workgroup?html}">
-								<input type="hidden" name="role" value="${filter.role?html}">
-								<input type="hidden" name="token" value="${token}">
+								<@input type='hidden' name='id_mailinglist' value='${mailinglist.id?html}' />
+								<@input type='hidden' name='workgroup' value='${filter.workgroup?html}' />
+								<@input type='hidden' name='role' value='${filter.role?html}' />
+								<@input type='hidden' name='token' value='${token}' />
 								<@aButton href='jsp/admin/mailinglist/ViewUsers.jsp?workgroup=${filter.workgroup}&amp;role=${filter.role}' buttonIcon='eye' title='#i18n{portal.mailinglist.modify_mailinglist.linkLabelViewUsers}' showTitle=false />
 								<@button type='submit' buttonIcon='trash' title='#i18n{portal.mailinglist.modify_mailinglist.linkLabelRemove}' showTitle=false color='danger' />
 							</@tform>
