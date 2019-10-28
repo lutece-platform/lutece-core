@@ -51,7 +51,8 @@ import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.util.string.StringUtil;
 
 /**
- * Provides technical admin dashboard managements and display. Display is NOT managed as an admin feature (no right required).
+ * Provides technical admin dashboard managements and display. Display is NOT
+ * managed as an admin feature (no right required).
  *
  */
 public class DashboardJspBean extends AdminFeaturesPageJspBean
@@ -68,7 +69,6 @@ public class DashboardJspBean extends AdminFeaturesPageJspBean
     // Messages
     private static final String MESSAGE_DASHBOARD_NOT_FOUND = "portal.dashboard.message.dashboardNotFound";
 
-
     // Templates
     private static final String TEMPLATE_MANAGE_DASHBOARDS = "/admin/dashboard/manage_dashboards.html";
 
@@ -76,15 +76,12 @@ public class DashboardJspBean extends AdminFeaturesPageJspBean
     private static final String ANCHOR_ADMIN_DASHBOARDS = "adminHomePageManagement";
     private transient DashboardService _service = DashboardService.getInstance( );
 
-
     /**
      * Reorders columns
      * 
-     * @param request
-     *            the request
+     * @param request the request
      * @return url
-     * @throws AccessDeniedException
-     *             if the security token is invalid
+     * @throws AccessDeniedException if the security token is invalid
      */
     public String doReorderColumn( HttpServletRequest request ) throws AccessDeniedException
     {
@@ -101,7 +98,7 @@ public class DashboardJspBean extends AdminFeaturesPageJspBean
         {
             nColumn = Integer.parseInt( strColumnName );
         }
-        catch( NumberFormatException nfe )
+        catch ( NumberFormatException nfe )
         {
             AppLogService.error( "DashboardJspBean.doReorderColumn : " + nfe.getMessage( ), nfe );
 
@@ -111,19 +108,17 @@ public class DashboardJspBean extends AdminFeaturesPageJspBean
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
-        _service.doReorderColumn( nColumn );
+        getDashboardService( ).doReorderColumn( nColumn );
 
-        return getAdminDashboardsUrl( request , ANCHOR_ADMIN_DASHBOARDS );
+        return getAdminDashboardsUrl( request, ANCHOR_ADMIN_DASHBOARDS );
     }
 
     /**
      * Moves the dashboard
      * 
-     * @param request
-     *            the request
+     * @param request the request
      * @return url
-     * @throws AccessDeniedException
-     *             if the security token is invalid
+     * @throws AccessDeniedException if the security token is invalid
      */
     public String doMoveDashboard( HttpServletRequest request ) throws AccessDeniedException
     {
@@ -146,14 +141,16 @@ public class DashboardJspBean extends AdminFeaturesPageJspBean
 
             if ( AppLogService.isDebugEnabled( ) )
             {
-                AppLogService.debug( "Dashboard " + strDashboardName + " has no property set. Retrieving from SpringContext" );
+                AppLogService.debug(
+                        "Dashboard " + strDashboardName + " has no property set. Retrieving from SpringContext" );
             }
 
             dashboard = DashboardFactory.getDashboardComponent( strDashboardName );
 
             if ( dashboard == null )
             {
-                return AdminMessageService.getMessageUrl( request, MESSAGE_DASHBOARD_NOT_FOUND, AdminMessage.TYPE_STOP );
+                return AdminMessageService.getMessageUrl( request, MESSAGE_DASHBOARD_NOT_FOUND,
+                        AdminMessage.TYPE_STOP );
             }
         }
         else
@@ -175,8 +172,18 @@ public class DashboardJspBean extends AdminFeaturesPageJspBean
         dashboard.setOrder( nOrder );
         dashboard.setZone( nColumn );
 
-        _service.doMoveDashboard( dashboard, nOldColumn, nOldOrder, bCreate );
+        getDashboardService( ).doMoveDashboard( dashboard, nOldColumn, nOldOrder, bCreate );
 
-        return getAdminDashboardsUrl( request , ANCHOR_ADMIN_DASHBOARDS );
+        return getAdminDashboardsUrl( request, ANCHOR_ADMIN_DASHBOARDS );
+    }
+
+    private DashboardService getDashboardService( )
+    {
+        if ( _service == null )
+        {
+            _service = DashboardService.getInstance( );
+        }
+
+        return _service;
     }
 }

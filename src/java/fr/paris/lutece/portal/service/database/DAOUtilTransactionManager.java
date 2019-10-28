@@ -108,20 +108,20 @@ public class DAOUtilTransactionManager extends DataSourceTransactionManager impl
                 {
                     try
                     {
-                        _logger.debug( "DAOUtilTransactionManager changed datasource status..." );
+                        getLogger( ).debug( "DAOUtilTransactionManager changed datasource status..." );
                         setDataSource( AppConnectionService.getPoolManager( ).getDataSource( event.getPlugin( ).getDbPoolName( ) ) );
                         _bInit = true;
                     }
                     catch( Exception ex )
                     {
                         _bInit = false;
-                        _logger.error( "An error occured getting pool for DAOUtilTransactionManager for plugin " + event.getPlugin( ).getName( )
+                        getLogger( ).error( "An error occured getting pool for DAOUtilTransactionManager for plugin " + event.getPlugin( ).getName( )
                                 + ", please check plugin is activated and pool is correctly set : " + ex.getMessage( ), ex );
                     }
                 }
                 else
                 {
-                    _logger.debug( "Pool for plugin " + event.getPlugin( ).getName( ) + " is set to null, clearing transaction manager" );
+                    getLogger( ).debug( "Pool for plugin " + event.getPlugin( ).getName( ) + " is set to null, clearing transaction manager" );
                     setDataSource( null );
                     _bInit = false;
                 }
@@ -133,6 +133,15 @@ public class DAOUtilTransactionManager extends DataSourceTransactionManager impl
                     _bInit = false;
                 }
         }
+    }
+    
+    private Logger getLogger( )
+    {
+        if ( _logger == null )
+        {
+            _logger = Logger.getLogger( "lutece.debug.sql.tx" );
+        }
+        return _logger;
     }
 
     /**

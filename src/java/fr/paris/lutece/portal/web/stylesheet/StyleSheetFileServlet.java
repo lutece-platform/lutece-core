@@ -45,7 +45,6 @@ import fr.paris.lutece.portal.business.stylesheet.StyleSheet;
 import fr.paris.lutece.portal.business.stylesheet.StyleSheetHome;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.admin.AdminUserService;
-import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.web.constants.Parameters;
 
 /**
@@ -64,8 +63,9 @@ public class StyleSheetFileServlet extends HttpServlet
      * 
      * @param request  servlet request
      * @param response servlet response
+     * @throws IOException
      */
-    protected void processRequest( HttpServletRequest request, HttpServletResponse response )
+    protected void processRequest( HttpServletRequest request, HttpServletResponse response ) throws IOException
     {
         AdminUser user = AdminUserService.getAdminUser( request );
 
@@ -85,32 +85,32 @@ public class StyleSheetFileServlet extends HttpServlet
                 response.setContentType( ( strMimetype != null ) ? strMimetype : "application/octet-stream" );
                 response.setHeader( "Content-Disposition", "attachement; filename=\"" + stylesheet.getFile( ) + "\"" );
 
-                try ( OutputStream out = response.getOutputStream( ) )
-                {
-                    out.write( stylesheet.getSource( ) );
-                }
-                catch ( IOException e )
-                {
-                    AppLogService.error( "Error while writing response", e );
-                }
+                OutputStream out = response.getOutputStream( );
+                out.write( stylesheet.getSource( ) );
+                out.flush( );
+                out.close( );
             }
         }
     }
 
     /**
      * {@inheritDoc}
+     * 
+     * @throws IOException
      */
     @Override
-    protected void doGet( HttpServletRequest request, HttpServletResponse response )
+    protected void doGet( HttpServletRequest request, HttpServletResponse response ) throws IOException
     {
         processRequest( request, response );
     }
 
     /**
      * {@inheritDoc}
+     * 
+     * @throws IOException
      */
     @Override
-    protected void doPost( HttpServletRequest request, HttpServletResponse response )
+    protected void doPost( HttpServletRequest request, HttpServletResponse response ) throws IOException
     {
         processRequest( request, response );
     }

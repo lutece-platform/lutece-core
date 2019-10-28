@@ -60,8 +60,8 @@ public class AdminMessage implements Serializable
     private String _strTarget;
     private int _nType;
     private boolean _bCancel;
-    private transient Object [ ] _messageArgs;
-    private transient Map<String, Object> _requestParameters;
+    private Object [ ] _messageArgs;
+    private Map<String, Object> _requestParameters;
     private String _strBackUrl;
 
     /**
