@@ -50,10 +50,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.util.AppLogService;
-// Will be removed in a future version, when IAsynchronousUploadHandler
-// is no longer used and IAsynchronousUploadHandler2 is used instead
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
 
 /**
  * Handles asynchronous uploads.
@@ -77,11 +73,7 @@ public class UploadServlet extends HttpServlet
         MultipartHttpServletRequest request = (MultipartHttpServletRequest) req;
 
         List<FileItem> listFileItems = new ArrayList<>( );
-        // When removing IAsynchronousUploadHandler, remove all the populating of the
-        // JSONObject
-        JSONObject json = new JSONObject( );
         Map<String, Object> mapJson = new HashMap<>( );
-        json.element( JSON_FILES, new JSONArray( ) );
         List<Map<String, Object>> listJsonFileMap = new ArrayList<>( );
         mapJson.put( JSON_FILES, listJsonFileMap );
 
@@ -89,15 +81,11 @@ public class UploadServlet extends HttpServlet
         {
             for ( FileItem fileItem : entry.getValue( ) )
             {
-                JSONObject jsonFile = new JSONObject( );
-                jsonFile.element( JSON_FILE_NAME, fileItem.getName( ) );
-                jsonFile.element( JSON_FILE_SIZE, fileItem.getSize( ) );
                 Map<String, Object> jsonFileMap = new HashMap<>( );
                 jsonFileMap.put( JSON_FILE_NAME, fileItem.getName( ) );
                 jsonFileMap.put( JSON_FILE_SIZE, fileItem.getSize( ) );
 
                 // add to existing array
-                json.accumulate( JSON_FILES, jsonFile );
                 listJsonFileMap.add( jsonFileMap );
 
                 listFileItems.add( fileItem );
@@ -105,7 +93,6 @@ public class UploadServlet extends HttpServlet
         }
 
         IAsynchronousUploadHandler2 handler2 = getHandler2( request );
-        // IAsynchronousUploadHandler to be removed in the future
         if ( handler2 != null )
         {
             handler2.process( request, response, mapJson, listFileItems );
