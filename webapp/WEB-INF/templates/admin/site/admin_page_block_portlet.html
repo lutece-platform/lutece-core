@@ -3,7 +3,7 @@
 		<#if portlet_types_list?has_content>
 			<@tform method='post' action='jsp/admin/DoCreatePortlet.jsp' params='target="preview"'>
 				<@fieldSet legend='#i18n{portal.site.admin_page.titlePortletProperties}'>
-					<input type="hidden" name="page_id" value="${page.id}" />
+					<@input type='hidden' name='page_id' value='${page.id}' />
 					<strong>#i18n{portal.site.admin_page.labelPortletType}</strong>
 					<@formGroup rows=2>
 						<@select name='portlet_type_id'>

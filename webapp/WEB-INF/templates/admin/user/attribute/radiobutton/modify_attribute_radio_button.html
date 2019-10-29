@@ -6,7 +6,7 @@
 			</@boxHeader>
 			<@boxBody>
 				<@tform action='jsp/admin/user/attribute/DoModifyAttribute.jsp' method='post'>
-					<input type="hidden" name="token" value="${token}">
+					<@input type='hidden' name='token' value='${token}' />
 					<@formGroup labelKey='#i18n{portal.users.modify_attribute.labelTitle} *' labelFor='attr_title' helpKey='#i18n{portal.users.modify_attribute.labelTitleComment}' mandatory=true>
 						<@input type='text' name='title' id='attr_title' value='${attribute.title?html}' maxlength=255 inputSize=80 />
 					</@formGroup>
@@ -29,7 +29,7 @@
 						<@checkBox name='is_field_in_line' value='1' checked=attribute.fieldInLine labelKey='#i18n{portal.users.create_attribute.labelIsFieldInLine}' />
 					</@formGroup>
 					<@formGroup>
-						<input type="hidden" name="id_attribute" value="${attribute.idAttribute}">
+						<@input type='hidden' name='id_attribute' value='${attribute.idAttribute}' />
 						<@button type='submit' name='validate' value='#i18n{portal.users.modify_attribute.buttonValidate}' buttonIcon='check' title='#i18n{portal.users.modify_attribute.buttonValidate}'  size='' showTitleXs=false />
 						<@button type='submit' name='apply' value='#i18n{portal.users.modify_attribute.buttonApply}' buttonIcon='check-circle-o' title='#i18n{portal.users.modify_attribute.buttonApply}'  size='' showTitleXs=false />
 						<@button type='submit' name='cancel' value='#i18n{portal.admin.message.buttonCancel}' buttonIcon='times' title='#i18n{portal.admin.message.buttonCancel}' size='' cancel=true showTitleXs=false />
@@ -44,7 +44,7 @@
 		<@box color='success'>
 			<@boxHeader title='<a name="list"></a>#i18n{portal.users.modify_attribute.listAssociatedFields}' boxTools=true>
 				<@tform method='post' action='jsp/admin/user/attribute/CreateAttributeField.jsp'>
-					<input type="hidden" value="${attribute.idAttribute}" name="id_attribute">
+					<@input type='hidden' value='${attribute.idAttribute}' name='id_attribute' />
 					<@button type='submit' name='create' value='#i18n{portal.users.modify_attribute.buttonCreateField}' buttonIcon='plus' title='#i18n{portal.users.modify_attribute.buttonCreateField}' />
 					<@button style='btn-box-tool' params='data-widget="collapse"' buttonIcon='minus' />
 				</@tform>
@@ -67,7 +67,7 @@
 						<td>${attribute_field.value}</td>
 						<td>
 							<#if attribute_field.defaultValue>
-								<span class="badge badge-success">#i18n{portal.users.modify_attribute.defaultValue}</span>
+								<@tag color='success'>#i18n{portal.users.modify_attribute.defaultValue}</@tag>
 							</#if>
 						</td>
 						<td>${attribute_field.idField}</td>
@@ -76,18 +76,18 @@
 							
 							<#if cpt != 1>
 								<@tform method='post' action='jsp/admin/user/attribute/DoMoveUpAttributeField.jsp#list' class='pull-left spaced'>
-									<input type="hidden" name="id_attribute" value="${attribute.idAttribute?html}">
-									<input type="hidden" name="id_field" value="${attribute_field.idField?html}">
-									<input type="hidden" name="token" value="${token}">
+									<@input type='hidden' name='id_attribute' value='${attribute.idAttribute?html}' />
+									<@input type='hidden' name='id_field' value='${attribute_field.idField?html}' />
+									<@input type='hidden' name='token' value='${token}' />
 									<@button type='submit' title='#i18n{portal.users.modify_attribute.buttonLabelMoveUp}' buttonIcon='chevron-up' showTitle=false />
 								</@tform>
 							</#if>
 								
 							<#if attribute_field_has_next>
 								<@tform method='post' action='jsp/admin/user/attribute/DoMoveDownAttributeField.jsp#list' class='pull-left spaced'>
-									<input type="hidden" name="id_attribute" value="${attribute.idAttribute?html}">
-									<input type="hidden" name="id_field" value="${attribute_field.idField?html}">
-									<input type="hidden" name="token" value="${token}">
+									<@input type='hidden' name='id_attribute' value='${attribute.idAttribute?html}' />
+									<@input type='hidden' name='id_field' value='${attribute_field.idField?html}' />
+									<@input type='hidden' name='token' value='${token}' />
 									<@button type='submit' title='#i18n{portal.users.modify_attribute.buttonLabelMoveDown}' buttonIcon='chevron-down' showTitle=false />
 								</@tform>
 							</#if>

@@ -1,7 +1,7 @@
 <@row>
 	<@columns>
     <@box color='success' collapsed=true>
-			<@boxHeader title='#i18n{portal.rbac.assign_users.role.name} :<strong title="#i18n{portal.rbac.assign_users.role.description} : ${role.description} "> ${role.key}</strong> <small class="spaced"><i class="glyphicon glyphicon-user"></i>&nbsp;#i18n{portal.rbac.assign_users.role.number_user} : <span class="badge">${assigned_users_number}</span></small>' boxTools=true>
+			<@boxHeader title='#i18n{portal.rbac.assign_users.role.name} :<strong title="#i18n{portal.rbac.assign_users.role.description} : ${role.description} "> ${role.key}</strong> <small class="spaced"><@icon style='user' />&nbsp;#i18n{portal.rbac.assign_users.role.number_user} : <@tag>${assigned_users_number}</@tag></small>' boxTools=true>
 				<@aButton href='jsp/admin/rbac/ViewRoleDescription.jsp?role_key=${role.key}" title="#i18n{portal.rbac.modify_role.buttonLabelModify}' title='#i18n{portal.rbac.modify_role.buttonLabelModify}' buttonIcon='edit' size='' />
 				<@aButton href='jsp/admin/rbac/DoConfirmRemoveRole.jsp?role_key=${role.key}' title='#i18n{portal.rbac.manage_roles.buttonLabelDelete}' buttonIcon='trash' color='danger' size='' />
 				<@item_navigation item_navigator=item_navigator />
@@ -10,7 +10,7 @@
 			<@boxBody>
 				<#if assigned_users_list?size &gt; 0 || search_is_search >
 					<@tform method='post' name='search_users' action='jsp/admin/rbac/AssignUsersRole.jsp'>
-						<input type="hidden" name="role_key" value="${role.key}">
+						<@input type='hidden' name='role_key' value='${role.key}' />
 						<#if (user_levels?has_content)>
 							<@formGroup labelKey='#i18n{portal.users.manage_users.search_users.userLevelLabel}' labelFor='user_level'>
 								<@select id='user_level' name='search_user_level'>
@@ -83,8 +83,8 @@
 			<@boxBody>
 				<#if available_users_list?size &gt; 0 >
 					<@tform name='assignUser' method='post' action='jsp/admin/rbac/DoAssignUsersRole.jsp'>
-						<input type="hidden" name="role_key" value="${role.key}">
-						<input type="hidden" name="token" value="${token}">
+						<@input type='hidden' name='role_key' value='${role.key}' />
+						<@input type='hidden' name='token' value='${token}' />
 						<@select name='available_users_list' default_value='' items=available_users_list multiple=15 />
 						<@button style='btn-block' type='submit' buttonIcon='check' title='#i18n{portal.rbac.assign_users.labelButtonValidate}' size=''  />
 					</@tform>
@@ -104,23 +104,23 @@
 				<#if assigned_users_list?size &gt; 0 || search_is_search >
 					<@tform action='jsp/admin/rbac/AssignUsersRole.jsp'>
 						<#if search_is_search >
-							<input type="hidden" name="search_is_search" value="true">
-							<input type="hidden" name="search_user_level" value="${search_admin_user_filter.userLevel}">
-							<input type="hidden" name="search_access_code" value="${search_admin_user_filter.accessCode}">
-							<input type="hidden" name="search_last_name" value="${search_admin_user_filter.lastName}">
-							<input type="hidden" name="search_email" value="${search_admin_user_filter.email}">
-							<input type="hidden" name="search_status" value="${search_admin_user_filter.status}">
+							<@input type='hidden' name='search_is_search' value='true' />
+							<@input type='hidden' name='search_user_level' value='${search_admin_user_filter.userLevel}' />
+							<@input type='hidden' name='search_access_code' value='${search_admin_user_filter.accessCode}' />
+							<@input type='hidden' name='search_last_name' value='${search_admin_user_filter.lastName}' />
+							<@input type='hidden' name='search_email' value='${search_admin_user_filter.email}' />
+							<@input type='hidden' name='search_status' value='${search_admin_user_filter.status}' />
 						</#if>
 						<#if search_admin_user_field_filter.listUserFields?exists && search_admin_user_field_filter.listUserFields?has_content>
 							<#list search_admin_user_field_filter.listUserFields as user_field>
 								<#if user_field.attribute.attributeType.className == "fr.paris.lutece.portal.business.user.attribute.AttributeComboBox">
-									<input type="hidden" name="attribute_${user_field.attribute.idAttribute}" value="${user_field.attributeField.idField}">
+									<@input type='hidden' name='attribute_${user_field.attribute.idAttribute}' value='${user_field.attributeField.idField}' />
 								<#else>
-									<input type="hidden" name="attribute_${user_field.attribute.idAttribute}" value="${user_field.value}">
+									<@input type='hidden' name='attribute_${user_field.attribute.idAttribute}' value='${user_field.value}' />
 								</#if>
 							</#list>
 						</#if>
-						<input type="hidden" name="role_key" value="${role.key}">
+						<@input type='hidden' name='role_key' value='${role.key}' />
 					</@tform>
 					<@table>
 						<tr>
@@ -147,10 +147,10 @@
 									</td>
 									<td>
 										<@tform method='post' action='jsp/admin/rbac/DoUnassignUserRole.jsp'>
-											<input type="hidden" name="token" value="${token}">
-											<input type="hidden" name="id_user" value="${assigned_user.userId?html}">
-											<input type="hidden" name="role_key" value="${role.key?html}">
-											<input type="hidden" name="anchor" value="anchor-${anchor?html}">
+											<@input type='hidden' name='token' value='${token}' />
+											<@input type='hidden' name='id_user' value='${assigned_user.userId?html}' />
+											<@input type='hidden' name='role_key' value='${role.key?html}' />
+											<@input type='hidden' name='anchor' value='anchor-${anchor?html}' />
 											<@aButton href='jsp/admin/user/ModifyUser.jsp?id_user=${assigned_user.userId}' title='#i18n{portal.rbac.assign_users.actionModify}' showTitle=false buttonIcon='edit' />
 											<@button type='submit' title='#i18n{portal.rbac.assign_users.actionUnassign}' showTitle=false buttonIcon='trash' color='danger' />
 										</@tform>

@@ -17,8 +17,8 @@
                     <li><a href="jsp/admin/user/ModifyUserWorkgroups.jsp?id_user=${user.userId}">#i18n{portal.users.actions.labelWorkgroups}</a></li>
                 </@listTabs>
                 <@tform name='modify_user' id='modify_user' action='jsp/admin/user/DoModifyUser.jsp' params='enctype="multipart/form-data"'>
-                <input type="hidden" name="id_user" value="${user.userId}">
-                <input type="hidden" name="token" value="${token}">
+                <@input type='hidden' name='id_user' value='${user.userId}' />
+                <@input type='hidden' name='token' value='${token}' />
                 <@row>
                     <#if attributes_list?has_content><@columns sm=4><#else><@columns sm=6></#if>
                         <@fieldSet legend='#i18n{portal.users.modify_user.labelIdentity}'>

@@ -1,7 +1,7 @@
 <@row>
     <@columns>
         <@box color='success'>
-            <@boxHeader title='<i class="glyphicon glyphicon-user"></i>&nbsp;${user.lastName} ${user.firstName}' boxTools=true>
+            <@boxHeader title='<@icon style='user' />&nbsp;${user.lastName} ${user.firstName}' boxTools=true>
                 <@item_navigation item_navigator=item_navigator />
             </@boxHeader>
             <@boxBody>
@@ -15,9 +15,9 @@
 					</@listTabs>
 					<@tabContent>
 						<@tform method='post' action='jsp/admin/user/DoModifyUserWorkgroups.jsp'>
-							<input type="hidden" name="delegate_rights" value="${can_delegate}">
-							<input type="hidden" name="id_user" value="${user.userId}">
-							<input type="hidden" name="token" value="${token}">
+							<@input type='hidden' name='delegate_rights' value='${can_delegate}' />
+							<@input type='hidden' name='id_user' value='${user.userId}' />
+							<@input type='hidden' name='token' value='${token}' />
 							<@row>
 								<@columns>
 									<@listGroup>

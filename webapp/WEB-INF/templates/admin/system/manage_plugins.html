@@ -74,8 +74,8 @@
 									<#if plugin.dbPoolRequired>
 										<@tform method='post' class='form-inline pull-right' action='jsp/admin/system/DoModifyPluginPool.jsp#plugin_${plugin.name}_${plugin.version}'>
 											<@select name='db_pool_name' default_value='${plugin.dbPoolName}' items=pools_list sort=true />
-											<input type="hidden" name="plugin_name" value="${plugin.name}">
-											<input type="hidden" name="token" value="${token}">
+											<@input type='hidden' name='plugin_name' value='${plugin.name}' />
+											<@input type='hidden' name='token' value='${token}' />
 											<@button type='submit' title='#i18n{portal.system.manage_plugins.buttonModifyDbPool}' buttonIcon='check' showTitle=false />
 										</@tform>
 									</#if>   
@@ -85,13 +85,13 @@
                  				</@tform>
 								<#if plugin.installed >
 									<@tform method='post' class='form-inline pull-right spaced' action='jsp/admin/system/ConfirmUninstallPlugin.jsp'>
-                    					<input type="hidden" name="plugin_name" value="${plugin.name}" />
+                    					<@input type='hidden' name='plugin_name' value='${plugin.name}' />
 										<@button type='submit' title='#i18n{portal.system.manage_plugins.buttonDisable}' buttonIcon='stop' showTitle=false color='danger' />
 									</@tform>
 								<#else>
 									<@tform method='post' class='form-inline pull-right spaced' action='jsp/admin/system/DoInstallPlugin.jsp#plugin_${plugin.name}_${plugin.version}'>
-										<input type="hidden" name="plugin_name" value="${plugin.name}" />
-										<input type="hidden" name="token" value="${token}">
+										<@input type='hidden' name='plugin_name' value='${plugin.name}' />
+										<@input type='hidden' name='token' value='${token}' />
 										<@button type='submit' title='#i18n{portal.system.manage_plugins.buttonEnable}' buttonIcon='play' showTitle=false color='success' />
                   					</@tform>
 								</#if>

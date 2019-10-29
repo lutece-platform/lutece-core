@@ -4,14 +4,14 @@
       <@boxHeader title='#i18n{portal.rbac.add_control_to_role.titleAddControl}' />
 			<@boxBody>
 				<@tform method='post' action='jsp/admin/rbac/DoSelectResources.jsp' name='add_control'>
-					<input type="hidden" name="role_key" value="${role_key}">
-					<input type="hidden" name="resource_type" value="${resource_type}">
+					<@input type='hidden' name='role_key' value='${role_key}' />
+					<@input type='hidden' name='resource_type' value='${resource_type}' />
 					<@formGroup>
 						<@radioButton name='select_resources' value='all' checked=true labelKey='#i18n{portal.rbac.add_control_to_role.labelSelectAllResources}' />
 						<#if resource_list_available=true>
 							<@radioButton name='select_resources' value='choose' labelKey='#i18n{portal.rbac.add_control_to_role.labelSelectResourcesInList}'/>
 						<#else>
-							<input type="hidden" name="select_resources" value="all">
+							<@input type='hidden' name='select_resources' value='all' />
 							<@tag color='info'>
 								<@icon style='info-circle' />
 								&nbsp;#i18n{portal.rbac.add_control_to_role.labelNoResourcesList}

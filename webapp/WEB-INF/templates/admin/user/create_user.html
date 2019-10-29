@@ -19,7 +19,7 @@
 			<@box color='success'>
 				<@boxBody>
 					<@tform name='create_user' action='jsp/admin/user/DoCreateUser.jsp' params='enctype="multipart/form-data"' >
-				  	<input type="hidden" name="token" value="${token}">
+				  	<@input type='hidden' name='token' value='${token}' />
 				  	<@row>
 						<@colums md=4>
 							<@fieldSet legend='#i18n{portal.users.create_user.labelAccount}'>
@@ -33,7 +33,7 @@
 									<@input type='text' name='last_name' id='last_name' value='${import_user.lastName?if_exists}' maxlength='100' />
 								</@formGroup>  
 								<@formGroup labelFor='first_name' labelKey='${i18n("portal.users.modify_user.labelFirstName")}' mandatory=true rows=2>
-									<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+									<span class="input-group-addon"><@icon style='user' /></span>
                                 	<@input type='text' name='first_name' id='first_name' value='${import_user.firstName?if_exists}' maxlength='100' />
                             	</@formGroup>   
                             	<@formGroup labelFor='email' labelKey='${i18n("portal.users.modify_user.labelEmail")}' mandatory=true rows=2>

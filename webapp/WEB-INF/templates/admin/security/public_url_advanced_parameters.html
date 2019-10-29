@@ -10,7 +10,7 @@
                 <#list public_list_url as public_url>
                   <@tform class='form' action='jsp/admin/security/DoModifyPublicUrl.jsp' >
                     <@formGroup formStyle='inline' labelFor='public_url_code' labelKey='${i18n("portal.security.public_url_advanced_parameters.labelPublicUrlCode")}' mandatory=true rows=2>
-                        <input type="hidden" name="public_url_code" value="${public_url.code}">
+                        <@input type='hidden' name='public_url_code' value='${public_url.code}' />
                         <@input type='text' name='public_url_code' id='public_url_code' value='${public_url.name!}' disabled/>
                     </@formGroup>  
                     <@formGroup formStyle='inline' labelFor='public_url_value' labelKey='${i18n("portal.security.public_url_advanced_parameters.labelPublicUrlValue")}' mandatory=true rows=2>
