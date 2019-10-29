@@ -1,7 +1,7 @@
 <@row>
-  <@columns>
-    <@box>
-      <@boxHeader title='&#160;' titleLevel='span' boxTools=true>
+	<@columns>
+		<@box>
+			<@boxHeader title='&#160;' titleLevel='span' boxTools=true>
 				<@button type='button' id='btn-params' title='#i18n{portal.site.admin_page.labelAdvancedParameters}' buttonIcon='chevron-left' showTitle=false color='secondary' />
 				<@button style='btn-box-tool' params='data-widget="collapse"' buttonIcon='minus' />
 			</@boxHeader>
@@ -54,8 +54,11 @@
 											</@formGroup>
 											<@formGroup id='specific_date' rows=2>
 												<div class="input-group">
-													<div class="input-group-addon"><i class="fa fa-calendar">&nbsp;</i></div>
-													<input class="form-control" id="manual_update_date" name="manual_update_date" type="text" value='${page_update_date!}' <#if !page.isManualDateUpdate>disabled</#if> >
+													<div class="input-group-addon"><@icon style='calendar' /></div>
+													<#if !page.isManualDateUpdate>
+														<#assign disabled = true />
+													</#if>
+													<@input type='text' name='manual_update_date' id='manual_update_date'value='${page_update_date!}' disabled=disabled />
 												</div>
 												<@getDatePickerBootstrap idField="manual_update_date" language='fr' />
 											</@formGroup>

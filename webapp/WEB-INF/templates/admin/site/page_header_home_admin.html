@@ -12,18 +12,18 @@
   </div>
 	<div class="collapse navbar-collapse" id="lutece-navbar-collapse">
 		<#assign menu=page_main_menu>
-		<ul class="nav navbar-nav">
+		<@ul class="nav navbar-nav">
 			${page_main_menu_html!menu}
-		</ul>
-		<form class="navbar-form navbar-left" role="search" action="jsp/site/Portal.jsp" method="get">
-			<input type="hidden" name="page" value="search" >
+		</@ul>
+		<@tform class='navbar-form navbar-left' role='search' action='jsp/site/Portal.jsp' method='get'>
+			<@input type='hidden' name='page' value='search' />
 			<div class="input-group">
-				<input type="text" class="form-control" name="query" id="query" placeholder="#i18n{portal.site.page_menu_tools.labelSearch}">
+				<@input type='text' name='query' id='query' placeHolder='#i18n{portal.site.page_menu_tools.labelSearch}' />
 				<span class="input-group-btn">
-					<button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+					<@button buttonIcon='search' params='aria-hidden="true"' />
 				</span>
 			</div><!-- /input-group -->
-		</form>  
+		</@tform>  
 		<ul class="nav navbar-nav">
 			${pageinclude_userlogin?default("<!-- no myLutece plugin installed -->")}
 		</ul>
