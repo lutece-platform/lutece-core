@@ -49,7 +49,7 @@
 		<@box color='success'>
 			<@boxHeader title='<a name="list"></a>#i18n{portal.users.modify_attribute.listAssociatedFields}' boxTools=true>
 				<@tform method='post' action='jsp/admin/user/attribute/CreateAttributeField.jsp'>
-					<@input type='hidden' value='${attribute.idAttribute}" name="id_attribute' />
+					<@input type='hidden' value='${attribute.idAttribute}' name='id_attribute' />
 					<@button type='submit' name='create' value='#i18n{portal.users.modify_attribute.buttonCreateField}' buttonIcon='plus' title='#i18n{portal.users.modify_attribute.buttonCreateField}' />
 					<@button style='btn-box-tool' params='data-widget="collapse"' buttonIcon='minus' />
 				</@tform>

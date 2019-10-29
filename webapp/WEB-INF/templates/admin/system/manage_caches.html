@@ -62,7 +62,7 @@
                                 </@tform>
                                 <@aButton href='jsp/admin/system/CacheInfos.jsp?id_cache=${id}' buttonIcon='eye' class="pull-right spaced" title='#i18n{portal.system.manage_caches.actionViewKeys}' showTitle=false />
                                 <@tform method='post' action='jsp/admin/system/DoResetCaches.jsp' class="pull-right spaced">
-                                    <@input type='hidden' bame='id_cache' value='${id}' />
+                                    <@input type='hidden' name='id_cache' value='${id}' />
                                     <@input type='hidden' name='token' value='${token}' />
                                     <@button type='submit' buttonIcon='trash' title='#i18n{portal.system.manage_caches.actionClear}' showTitle=false color='danger' />
                                 </@tform>
