@@ -17,7 +17,7 @@
                     <#list groups_list as group >
                     <tr>
                         <td>
-                            <a href="jsp/admin/group/ModifyGroup.jsp?group_key=${group.groupKey}" >${group.groupKey}</a>
+                            <@link href='jsp/admin/group/ModifyGroup.jsp?group_key=${group.groupKey}'>${group.groupKey}</@link>
                         </td>
                         <td>${group.groupDescription}</td>
                         <td>

@@ -155,7 +155,7 @@
 							<td>${assigned_user.lastName}</td>
 							<td>${assigned_user.firstName}</td>
 							<td><em>${assigned_user.accessCode}</em></td>            
-							<td><a href="mailto:${assigned_user.email}"  title="${assigned_user.email}" >${assigned_user.email}</a>
+							<td><@link href='mailto:${assigned_user.email}' title='${assigned_user.email}'>${assigned_user.email}</@link>
 							</td>
 							<td>
 								<@tform method='post' action='jsp/admin/features/DoUnassignUserRight.jsp'>

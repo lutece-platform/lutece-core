@@ -808,9 +808,9 @@
 </label>
 </#macro>
 
-<#-- Simple links a href -->
-<#macro link href='' class='' id='' title='' params=''>
-	<a href="${href}"<#if class!=''> class="${class}"</#if><#if id!=''> id="${id}"</#if><#if title!=''> title="${title}"</#if><#if params!=''> ${params}</#if>>
+<#-- Simple links a href, anchors -->
+<#macro link href='' class='' id='' name='' title='' alt='' target='' params=''>
+	<a href="${href}"<#if class!=''> class="${class}"</#if><#if id!=''> id="${id}"</#if><#if name!=''> name="${name}"</#if><#if target!=''> target="${target}"</#if><#if title!=''> title="${title}"</#if><#if alt!=''> alt="${alt}"</#if><#if params!=''> ${params}</#if>>
 		<#nested>
 	</a>
 </#macro>
@@ -1165,7 +1165,7 @@
 </#macro>
 
 <#-- adminLoginPage  -->
-<#macro adminLoginPage title=''>
+<#macro adminLoginPage title='' site_name='SITE_NAME'>
 <img src="images/logo-header.png" class="fixed-top m-4" aria-hidden="true" title="LUTECE Back-Office" alt="LUTECE Back-Office">
 <section id="login-page">
 	<div class="container">

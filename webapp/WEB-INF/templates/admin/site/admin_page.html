@@ -3,9 +3,9 @@
     	<@box>
 			<#assign title>
 				<@button type='button' id='fullscreen' params='data-toggle="tooltip" data-placement="bottom"' title='#i18n{portal.site.admin_page.buttonFullscreen}' buttonIcon='arrows-alt fa-fw' showTitle=false color='secondary' />
-				<a href="jsp/admin/site/AdminSite.jsp?page_id=${page.id}" title="${page.name}">
+				<@link href='jsp/admin/site/AdminSite.jsp?page_id=${page.id}' title='${page.name}'>
 					<@tag color='primary' title='${page.id} - ${page.name}'>${page.id}</@tag> ${page.name}
-				</a>
+				</@link>
 			</#assign>
 			<@boxHeader titleLevel='p' title=title boxTools=true>
 				<@btnToolbar>
@@ -43,9 +43,9 @@
 							<@dropdownList>
 								<#list portlet_types_list?sort_by("name") as portlet_type>
 									<li class="portlet-type">
-										<a class="portlet-type-ref" href="jsp/admin/DoCreatePortlet.jsp?portlet_type_id=${portlet_type.id}&amp;page_id=${page.id}" title="${portlet_type.name}" >
+										<@link class='portlet-type-ref' href='jsp/admin/DoCreatePortlet.jsp?portlet_type_id=${portlet_type.id}&amp;page_id=${page.id}' title='${portlet_type.name}'>
 											${portlet_type.name}
-										</a>
+										</@link>
 									</li>
 								</#list>
 							</@dropdownList>

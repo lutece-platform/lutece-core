@@ -13,7 +13,7 @@
 							<#list feature_group.features as feature >
 							<#if feature.documentationUrl?exists>
 							<li>
-								<h4><a href="${feature.documentationUrl}" target="_blank" class="bullet-link" >${feature.name}</a></h4>
+								<h4><@link href='${feature.documentationUrl}' target='_blank'>${feature.name}</@link></h4>
 								<p>${feature.description}</p>
 							</li>
 							</#if>

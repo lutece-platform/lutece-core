@@ -1208,9 +1208,9 @@ and is kept only for backwards compatibility
 </#macro>
 
 
-<#-- Simple links a href -->
-<#macro link href='' class='' id='' title='' params=''>
-	<a href="${href}"<#if class!=''> class="${class}"</#if><#if id!=''> id="${id}"</#if><#if title!=''> title="${title}"</#if><#if params!=''> ${params}</#if>>
+<#-- Simple links a href, anchors -->
+<#macro link href='' class='' id='' name='' title='' alt='' target='' params=''>
+	<a href="${href}"<#if class!=''> class="${class}"</#if><#if id!=''> id="${id}"</#if><#if name!=''> name="${name}"</#if><#if target!=''> target="${target}"</#if><#if title!=''> title="${title}"</#if><#if alt!=''> alt="${alt}"</#if><#if params!=''> ${params}</#if>>
 		<#nested>
 	</a>
 </#macro>
@@ -1596,7 +1596,7 @@ enableBSToppltip: false
 </#macro>
 
 <#-- adminLoginPage  -->
-<#macro adminLoginPage title=''>
+<#macro adminLoginPage title='' site_name='SITE_NAME'>
 <div id="login-page">
 	<img src="images/logo-header.png" id="logoLogin" title="LUTECE Back-Office" alt="LUTECE Back-Office">
 	<div class="login-box">

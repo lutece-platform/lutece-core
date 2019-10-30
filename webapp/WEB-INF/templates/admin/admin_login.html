@@ -19,8 +19,8 @@
 		<@button type='submit' buttonIcon='check' title='#i18n{portal.admin.admin_login.buttonConnect}' params=' btn-block'  />
 	</@formGroup>
     <p class="text-right mt-3">
-        <a href="${forgot_password_url?if_exists}" title="#i18n{portal.admin.admin_login.forgotPassword}">#i18n{portal.admin.admin_login.forgotPassword} ?</a>&nbsp;
-        <a href="${forgot_login_url?if_exists}" title="#i18n{portal.admin.admin_login.forgotLogin}"> #i18n{portal.admin.admin_login.forgotLogin} ?</a>
+        <@link href='${forgot_password_url?if_exists}' title='#i18n{portal.admin.admin_login.forgotPassword}'>#i18n{portal.admin.admin_login.forgotPassword} ?</@link>&nbsp;
+        <@link href='${forgot_login_url?if_exists}' title='#i18n{portal.admin.admin_login.forgotLogin}'>#i18n{portal.admin.admin_login.forgotLogin} ?</@link>
     </p>
     </@tform>
 </@adminLoginPage>

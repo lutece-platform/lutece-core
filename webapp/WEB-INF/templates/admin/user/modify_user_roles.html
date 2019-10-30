@@ -7,11 +7,11 @@
             <@boxBody>
                 <@tabs>
 					<@listTabs>
-						<li><a href="jsp/admin/user/ModifyUser.jsp?id_user=${user.userId}">#i18n{portal.users.actions.labelUser}</a></li>
-						<#if defaultModeUsed><li><a href="jsp/admin/user/ModifyUserPassword.jsp?id_user=${user.userId}">#i18n{portal.users.actions.labelPassword}</a></li></#if>
-						<li><a href="jsp/admin/user/ModifyUserRights.jsp?id_user=${user.userId}">#i18n{portal.users.actions.labelRights}</a></li>
-						<li class="active"><a href="jsp/admin/user/ModifyUserRoles.jsp?id_user=${user.userId}">#i18n{portal.users.actions.labelRoles}</a></li>
-						<li><a href="jsp/admin/user/ModifyUserWorkgroups.jsp?id_user=${user.userId}">#i18n{portal.users.actions.labelWorkgroups}</a></li>
+						<li><@link href='jsp/admin/user/ModifyUser.jsp?id_user=${user.userId}'>#i18n{portal.users.actions.labelUser}</@link></li>
+						<#if defaultModeUsed><li><@link href='jsp/admin/user/ModifyUserPassword.jsp?id_user=${user.userId}'>#i18n{portal.users.actions.labelPassword}</@link></li></#if>
+						<li><@link href='jsp/admin/user/ModifyUserRights.jsp?id_user=${user.userId}'>#i18n{portal.users.actions.labelRights}</@link></li>
+						<li class="active"><@link href='jsp/admin/user/ModifyUserRoles.jsp?id_user=${user.userId}'>#i18n{portal.users.actions.labelRoles}</@link></li>
+						<li><@link href='jsp/admin/user/ModifyUserWorkgroups.jsp?id_user=${user.userId}'>#i18n{portal.users.actions.labelWorkgroups}</@link></li>
 					</@listTabs>
 					<@tabContent>
 						<@tform role='form' method='post' action='jsp/admin/user/DoModifyUserRoles.jsp'>

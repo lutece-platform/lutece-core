@@ -1,7 +1,7 @@
 <@row>
 	<@columns>
 		<@box color='success'>
-      <@boxHeader title='#i18n{portal.users.modify_attribute.pageTitleAttributeCheckBox}' boxTools=true>
+      		<@boxHeader title='#i18n{portal.users.modify_attribute.pageTitleAttributeCheckBox}' boxTools=true>
 				<@button style='btn-box-tool' params='data-widget="collapse"' buttonIcon='minus' />
 			</@boxHeader>
 			<@boxBody>
@@ -37,7 +37,10 @@
 		</@box>
 	
 		<@box color='success'>
-      <@boxHeader title='<a name="list"></a>#i18n{portal.users.modify_attribute.listAssociatedFields}' boxTools=true>
+			<#assign anchor>
+				<@link name='list' />
+			</#assign>
+      <@boxHeader title='${anchor} #i18n{portal.users.modify_attribute.listAssociatedFields}' boxTools=true>
 				<@tform method='post' action='jsp/admin/user/attribute/CreateAttributeField.jsp' class='form-inline pull-right'>
 					<@input type='hidden' value='${attribute.idAttribute}' name='id_attribute' />
 					<@button type='submit' name='create' value='#i18n{portal.users.modify_attribute.buttonCreateField}' buttonIcon='plus' title='#i18n{portal.users.modify_attribute.buttonCreateField}' size='' showTitleXs=false showTitleSm=false />
