@@ -569,6 +569,13 @@
 </div>
 </#macro>
 
+<#-- LISTS -->
+<#macro ul id='' params='' class=''>
+	<ul<#if class!=''> class="${class}"</#if><#if params!=''> ${params}</#if><#if id!=''> ${id}</#if>>
+		<#nested>
+	</ul>
+</#macro>
+
 <#-- TABS -->
 
 <#-- TAB Custom AdminLTE -->
@@ -801,6 +808,13 @@
 </label>
 </#macro>
 
+<#-- Simple links a href -->
+<#macro link href='' class='' id='' title='' params=''>
+	<a href="${href}"<#if class!=''> class="${class}"</#if><#if id!=''> id="${id}"</#if><#if title!=''> title="${title}"</#if><#if params!=''> ${params}</#if>>
+		<#nested>
+	</a>
+</#macro>
+
 <#-- MODAL -->
 <#-- bgColor: modal-default/modal-primary/modal-info/modal-warning/modal-danger -->
 <#macro modal id params='' bgColor=''>
@@ -1000,7 +1014,7 @@
 -- MACRO ADMIN STRUCTURE - HEADER + NAVBAR + FOOTER -- 
 -------------------------------------------------- -->
 <#-- MACRO adminHeader -->
-<#macro adminHeader >
+<#macro adminHeader site_name='SITE_NAME'>
 <body class="d-flex flex-column vh-100">
 	<div class="skipnav"><a href="#main">allez au contenu principal</a></div>
 	<h1 id="top" class="sr-only sr-only-focusable">Haut de page</h1>

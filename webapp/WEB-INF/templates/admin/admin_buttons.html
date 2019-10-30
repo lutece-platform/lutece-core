@@ -24,7 +24,7 @@
 	<@btnGroup>
 		<#list custom_action_list as custom_action>
 			<@tform action='${custom_action.actionUrl}' params='target="_parent"' type='inline'>
-				<@input type='hidden' name='id_portlet' value='${portlet.id}'" />
+				<@input type='hidden' name='id_portlet' value='${portlet.id}' />
 				<!-- input type="image" title="#i18n{${custom_action.title}}" alt="#i18n{${custom_action.title}}" src="${custom_action.imageUrl}"  / -->
 				<@button type='submit' title='#i18n{${custom_action.title}}' buttonIcon='globe' showTitle=false />
 			</@tform>

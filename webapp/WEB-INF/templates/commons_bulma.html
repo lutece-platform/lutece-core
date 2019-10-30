@@ -932,6 +932,13 @@ and is kept only for backwards compatibility
 </div>
 </#macro>
 
+<#-- LISTS -->
+<#macro ul id='' params='' class=''>
+	<ul<#if class!=''> class="${class}"</#if><#if params!=''> ${params}</#if><#if id!=''> ${id}</#if>>
+		<#nested>
+	</ul>
+</#macro>
+
 <#-- TABS -->
 
 <#-- TAB Custom AdminLTE -->
@@ -1192,6 +1199,13 @@ and is kept only for backwards compatibility
 </#macro>
 
 
+<#-- Simple links a href -->
+<#macro link href='' class='' id='' title='' params=''>
+	<a href="${href}"<#if class!=''> class="${class}"</#if><#if id!=''> id="${id}"</#if><#if title!=''> title="${title}"</#if><#if params!=''> ${params}</#if>>
+		<#nested>
+	</a>
+</#macro>
+
 
 <#-- MODAL -->
 <#-- bgColor: modal-default/modal-primary/modal-info/modal-warning/modal-danger -->
@@ -1418,7 +1432,7 @@ and is kept only for backwards compatibility
 
 <#-- UI STRUCTURE ELEMENTS -->
 <#-- MACRO adminHeader -->
-<#macro adminHeader >
+<#macro adminHeader site_name='SITE_NAME'>
 <body class="has-navbar-fixed-top">
 	<div class="wrapper">
 		<header class="main-header" role="banner">
