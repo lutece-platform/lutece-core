@@ -13,7 +13,7 @@
     	#i18n{portal.users.modify_user.statusLabelEnabled}<br />
    		----------------------------------------------------------<br />
    		#i18n{portal.users.user_change_status.email.textLoginUrl} :<br />
-   		<a href="${login_url}">${login_url}</a>
+   		<@link href='${login_url}'>${login_url}</@link>
 	<#else>
 		#i18n{portal.users.modify_user.statusLabelDisabled}
 	</#if>
