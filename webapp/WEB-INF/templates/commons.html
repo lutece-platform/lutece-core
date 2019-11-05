@@ -926,13 +926,13 @@ and is kept only for backwards compatibility
 
 <#-- INPUT-GROUP -->
 <#-- size: sm/lg/no size-->
-<#macro inputGroup size='' id='' params=''>
-	<div class="input-group<#if size!=''> input-group-${size}</#if>" <#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<#macro inputGroup size='' class='' id='' params=''>
+	<div class="input-group<#if size!=''> input-group-${size}</#if>><#if class!=''> ${class}</#if>" <#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 		<#nested>
 	</div>
 </#macro>
 
-<#macro inputGroupItem type='btn' id='' params=''>
+<#macro inputGroupItem pos='' type='btn' id='' params=''>
 <#-- type: btn/addon. default is btn-->
 	<span class="input-group-${type}"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 		<#nested>
