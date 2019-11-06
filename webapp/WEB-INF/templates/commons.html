@@ -933,7 +933,10 @@ and is kept only for backwards compatibility
 </#macro>
 
 <#macro inputGroupItem pos='' type='btn' id='' params=''>
-<#-- type: btn/addon. default is btn-->
+<#-- type: btn/text. default is btn-->
+<#if type = 'text'>
+	<#local type = 'addon' />
+</#if>
 	<span class="input-group-${type}"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 		<#nested>
 	</span>

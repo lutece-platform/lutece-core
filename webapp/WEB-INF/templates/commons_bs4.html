@@ -519,16 +519,16 @@
 	</div>
 </#macro>
 
-<#macro inputGroupItem pos='append' type='text' id='' params=''>
-<#-- pos: append / prepend | Default append -->
-<#-- type: text. default is empty	-->
+<#macro inputGroupItem pos='prepend' type='btn' id='' params=''>
+<#-- pos: append / prepend | Default prepend -->
+<#-- type: btn/addon. default is btn	-->
 
 <div class="input-group-${pos}">
-<#if type = 'text'>
+<#if type = 'addon'>
 	<div class="input-group-${type}"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
-<#/if>
+</#if>
 		<#nested>
-<#if type = 'text'>
+<#if type = 'addon'>
 	</div>
 </#if>
 </div>

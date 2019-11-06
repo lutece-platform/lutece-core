@@ -22,7 +22,7 @@
 							<@fieldSet legend='#i18n{portal.users.create_user.labelIdentity}' >
 							<@formGroup labelKey='#i18n{portal.users.create_user.labelLastName}' labelFor='last_name' rows=2 mandatory=true>
 								<@inputGroup>
-									<@inputGroupItem type='addon'>
+									<@inputGroupItem type='text'>
 										<@icon style='user' />
 									</@inputGroupItem>
 									<@input type='text' id='last_name' name='last_name' value='' maxlength=100 />
@@ -30,7 +30,7 @@
 							</@formGroup>
 							<@formGroup labelKey='#i18n{portal.users.create_user.labelFirstName}' labelFor='first_name' rows=2 mandatory=true>
 								<@inputGroup>
-									<@inputGroupItem type='addon'>
+									<@inputGroupItem type='text'>
 										<@icon style='user' />
 									</@inputGroupItem>
 									<@input type='text' id='first_name' name='first_name' value='' maxlength=100 />
@@ -38,7 +38,7 @@
 							</@formGroup>
 							<@formGroup labelKey='#i18n{portal.users.create_user.labelEmail}' labelFor='email' rows=2 mandatory=true>
 								<@inputGroup>
-									<@inputGroupItem type='addon'>
+									<@inputGroupItem type='text'>
 										<@icon style='envelope' />
 									</@inputGroupItem>
 									<@input type='text' id='email' name='email' value='' maxlength=100 />
@@ -50,7 +50,7 @@
 							<@fieldSet legend='#i18n{portal.users.create_user.labelAccount}'>
 							<@formGroup labelKey='#i18n{portal.users.create_user.labelAccessCode}' labelFor='access_code' rows=2 mandatory=true>
 								<@inputGroup>
-									<@inputGroupItem type='addon'>
+									<@inputGroupItem type='text'>
 										<@icon style='star' />
 									</@inputGroupItem>
 									<@input type='text' id='access_code' name='access_code' value='' maxlength=100 />
@@ -58,7 +58,7 @@
 							</@formGroup>
 							<@formGroup labelFor='first_password' labelKey='#i18n{portal.users.create_user.labelFirstPassword}' helpKey='${i18n("portal.users.message.password.minimumPasswordLength",minimumPasswordSize)}' mandatory=true rows=2>
 								<@inputGroup>
-									<@inputGroupItem type='addon'>
+									<@inputGroupItem type='text'>
 										<@icon style='lock' />
 									</@inputGroupItem>
 									<@input type='password' id='first_password' name='first_password' maxlength=100 value='' />
@@ -69,7 +69,7 @@
 							</@formGroup>
 							<@formGroup labelKey='#i18n{portal.users.create_user.labelSecondPassword}' labelFor='second_password' rows=2 helpKey='#i18n{portal.users.create_user.passwordComplexity}' mandatory=true>
 								<@inputGroup>
-									<@inputGroupItem type='addon'>
+									<@inputGroupItem type='text'>
 										<@icon style='lock' />
 									</@inputGroupItem>
 									<@input type='password' id='second_password' name='second_password' maxlength=100 value='' />
