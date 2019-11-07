@@ -425,14 +425,14 @@
 
 <#-- INPUT TEXT/TEXTAREA/SEARCH/PASSWORD/EMAIL/FILE 																					-->
 <#-- type : text/textarea/password/email/file/number. Default is text 												-->
-<#-- size: input-xs/input-sm/input-lg 																												-->
+<#-- size: sm/lg/EMPTY for medium size 																												-->
 <#-- incoming Bootstrap 4 size: form-control-sm/form-control-lg or empty for the normal size 	-->
 <#-- pattern: [A-F][0-9]{5} 																																	-->
 <#macro input name type='text' value='' class='' size='' inputSize=0 maxlength=0 placeHolder='' rows=4 cols=40 richtext=false tabIndex='' id='' disabled=false readonly=false pattern='' params='' title='' min=0 max=0>
 	<#if type='textarea'>
-		<textarea name="${name}" class="form-control<#if size!=''> input-${size}</#if><#if class!=''> ${class}</#if><#if richtext> richtext</#if>" rows="${rows}" cols="${cols}"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}"</#if><#if title!=''> title="${title}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if mandatory?? && mandatory && !richtext> required</#if><#if labelFor?? && labelFor!='' && helpKey?? && helpKey!=''> aria-describedby="${labelFor}_help"</#if>><#nested></textarea>
+		<textarea name="${name}" class="form-control<#if size!=''>-${size}</#if><#if class!=''> ${class}</#if><#if richtext> richtext</#if>" rows="${rows}" cols="${cols}"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}"</#if><#if title!=''> title="${title}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if mandatory?? && mandatory && !richtext> required</#if><#if labelFor?? && labelFor!='' && helpKey?? && helpKey!=''> aria-describedby="${labelFor}_help"</#if>><#nested></textarea>
 	<#elseif type='text' || type='search' || type='password' || type='email' || type='file' || type='number'>
-		<input class="form-control<#if type='file'>-file</#if><#if size!=''> input-${size}</#if><#if class!=''> ${class}</#if> " name="${name}" type="${type}" value="${value}"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}<#if mandatory?? && mandatory> [#i18n{portal.users.modify_attribute.labelMandatory}]</#if>"</#if><#if title!=''> title="${title}"</#if><#if maxlength &gt; 0> maxlength="${maxlength}"</#if><#if inputSize!=0> size="${inputSize}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if min!=0> min="${min}"</#if><#if max!=0> max="${max}"</#if><#if mandatory?? && mandatory> required</#if><#if labelFor?? && labelFor!='' && helpKey?? && helpKey!=''> aria-describedby="${labelFor}_help"</#if> />
+		<input class="form-control<#if type='file'>-file</#if><#if size!=''>-${size}</#if><#if class!=''> ${class}</#if> " name="${name}" type="${type}" value="${value}"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}<#if mandatory?? && mandatory> [#i18n{portal.users.modify_attribute.labelMandatory}]</#if>"</#if><#if title!=''> title="${title}"</#if><#if maxlength &gt; 0> maxlength="${maxlength}"</#if><#if inputSize!=0> size="${inputSize}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if min!=0> min="${min}"</#if><#if max!=0> max="${max}"</#if><#if mandatory?? && mandatory> required</#if><#if labelFor?? && labelFor!='' && helpKey?? && helpKey!=''> aria-describedby="${labelFor}_help"</#if> />
 	<#elseif type='hidden'>
 		<input type="hidden" name="${name}" value="${value}" />
 	<#else>
@@ -521,14 +521,14 @@
 
 <#macro inputGroupItem pos='prepend' type='btn' id='' params=''>
 <#-- pos: append / prepend | Default prepend -->
-<#-- type: btn/addon. default is btn	-->
+<#-- type: btn/text. default is btn	-->
 
 <div class="input-group-${pos}">
-<#if type = 'addon'>
+<#if type = 'text'>
 	<div class="input-group-${type}"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 </#if>
 		<#nested>
-<#if type = 'addon'>
+<#if type = 'text'>
 	</div>
 </#if>
 </div>
@@ -711,8 +711,8 @@
 <#-- iconPosition: left/right -->
 <#-- cancel: switch to true for a cancellation form button. Adds the "formnovalidate" attribute to the button, as well as the right class -->
 <#macro button name='' id='' type='button' size='' color='' style='' class='' params='' value='' title='' tabIndex='' showTitle=true showTitleXs=true showTitleSm=true showTitleMd=true showTitleLg=true buttonIcon='' disabled=false iconPosition='left' dropdownMenu=false cancel=false>
-	<#if cancel>
-		<#assign buttonColor = 'default' />
+	<#if cancel || color = 'default'>
+		<#assign buttonColor = 'secondary' />
 	<#elseif !cancel && color=''>
 		<#assign buttonColor = 'primary' />
 	<#else>
@@ -742,21 +742,18 @@
 		<#if buttonIcon!='' && iconPosition='left'><@icon style=buttonIcon /></#if>
 		<#if showTitleClass!='' && style!='btn-box-tool'><span class="${showTitleClass}"></#if>${title}<#if showTitleClass!='' && style!='btn-box-tool'></span></#if>
 		<#if buttonIcon!='' && iconPosition='right'><@icon style=buttonIcon /></#if>
-		<#if dropdownMenu>
-		&#160;<@icon style='caret-down' />
-		</#if>
 	</button>
 	
 	<#if dropdownMenu>
-		<ul class="dropdown-menu"<#if id!=''> aria-labelledby="${id}"</#if>>
-			<#nested>
-		</ul>
+			<div class="dropdown-menu"<#if id!=''> aria-labelledby="${id}"</#if>>
+				<#nested>
+			</div>
 		</div>
 	</#if>
 </#macro>
 
 <#-- A BUTTON (LINK STYLED AS A BUTTON) -->
-<#-- size: btn-xs/btn-sm/btn-lg -->
+<#-- size: sm/lg/or EMPTY for medium size-->
 <#-- color: default/primary/success/warning/danger/info/ -->
 <#-- style: btn-block/btn-flat/disabled/btn-app -->
 <#-- icon: icon name ex: info/check/comment/envelope... -->
@@ -769,15 +766,28 @@
 	<#if showTitleMd = false><#assign showTitleClass = showTitleClass + ' d-none d-lg-block' /></#if>
 	<#if showTitleLg = false><#assign showTitleClass = showTitleClass + ' d-none d-xl-block' /></#if>
 	
+	<#if size = 'xs'>
+		<#local size = 'sm' />
+	</#if>
+	
+	<#if dropdownMenu>
+		<div class="dropdown">
+	</#if>
+	
 	<a class="${style} <#if size!=''> btn-${size}</#if><#if color!=''> btn-${color}</#if><#if class!=''> ${class}</#if>"<#if name!=''> name="${name}"</#if><#if id!=''> id="${id}"</#if> href="${href}" title="${title}"<#if params!=''> ${params}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if>>
 		<#if buttonIcon!='' && iconPosition='left'><@icon style=buttonIcon /></#if>
 		<span class="${showTitleClass}">${title}</span>
 		<#if buttonIcon!='' && iconPosition='right'><@icon style=buttonIcon /></#if>
-		<#if dropdownMenu>
-		&#160;<@icon style='caret-down' />
-		</#if>
+		<#if !dropdownMenu>
 		<#nested>
+		</#if>
 	</a>
+		<#if dropdownMenu>
+		<div class="dropdown-menu"<#if id!=''> id="${id}" aria-labelledby="${id}"</#if>>
+			<#nested>
+		</div>
+		</div>
+		</#if>
 </#macro>
 
 <#-- BTN TOOLBAR -->
@@ -991,9 +1001,13 @@
 
 <#-- DROPDOWN MENU LIST -->
 <#macro dropdownList id='' params=''>
-<ul class="dropdown-menu"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<div class="dropdown-menu"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 	<#nested>
-</ul>
+</div>
+</#macro>
+
+<#macro dropdownItem class='' href='' title='' id='' params=''>
+	<a href="${href}" class="dropdown-item<#if class!=''> ${class}</#if>" title="${title}"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>${title}</a>
 </#macro>
 
 <#-- CARDS -->

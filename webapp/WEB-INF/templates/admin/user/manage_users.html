@@ -95,7 +95,7 @@
             <th class="hidden-xs">#i18n{portal.users.manage_users.columnTitleFirstName} <@sort jsp_url="jsp/admin/user/ManageUsers.jsp" attribute="firstName${sort_search_attribute}" /></th>
             <th class="hidden-xs hidden-sm">#i18n{portal.users.manage_users.columnTitleAccessCode} <@sort jsp_url="jsp/admin/user/ManageUsers.jsp" attribute="accessCode${sort_search_attribute}" /></th>
             <th>#i18n{portal.users.manage_users.columnTitleEmail} <@sort jsp_url="jsp/admin/user/ManageUsers.jsp" attribute="email${sort_search_attribute}" /> </th>
-			<th class="hidden-xs">#i18n{portal.users.manage_users.columnTitleStatus}</th>
+						<th class="hidden-xs">#i18n{portal.users.manage_users.columnTitleStatus}</th>
             <#list attributes_list as attribute>
               <#if attribute.shownInResultList>
                 <th>${attribute.title}</th>
@@ -143,15 +143,15 @@
                 </#if>
               </#list>
             <td>
-				<@aButton href='jsp/admin/user/ModifyUser.jsp?id_user=${user.userId}' title='#i18n{portal.users.actions.labelUpdate}' buttonIcon='pencil' showTitle=false />
-				<#if defaultModeUsed><@aButton href='jsp/admin/user/ModifyUserPassword.jsp?id_user=${user.userId}' title='#i18n{portal.users.actions.labelPassword}' buttonIcon='key' showTitle=false /></#if>
-				<@aButton href='jsp/admin/user/ModifyUserRights.jsp?id_user=${user.userId}' title='#i18n{portal.users.actions.labelRights}' buttonIcon='lock' showTitle=false />
-				<@aButton href='jsp/admin/user/ModifyUserRoles.jsp?id_user=${user.userId}' title='#i18n{portal.users.actions.labelRoles}' buttonIcon='list-alt' showTitle=false />
-				<@aButton href='jsp/admin/user/ModifyUserWorkgroups.jsp?id_user=${user.userId}' title='#i18n{portal.users.actions.labelWorkgroups}' buttonIcon='group' showTitle=false />
+				<@aButton href='jsp/admin/user/ModifyUser.jsp?id_user=${user.userId}' title='#i18n{portal.users.actions.labelUpdate}' buttonIcon='pencil' size='sm' showTitle=false />
+				<#if defaultModeUsed><@aButton href='jsp/admin/user/ModifyUserPassword.jsp?id_user=${user.userId}' title='#i18n{portal.users.actions.labelPassword}' buttonIcon='key' size='sm' showTitle=false /></#if>
+				<@aButton href='jsp/admin/user/ModifyUserRights.jsp?id_user=${user.userId}' title='#i18n{portal.users.actions.labelRights}' buttonIcon='lock' size='sm' showTitle=false />
+				<@aButton href='jsp/admin/user/ModifyUserRoles.jsp?id_user=${user.userId}' title='#i18n{portal.users.actions.labelRoles}' buttonIcon='list-alt' size='sm' showTitle=false />
+				<@aButton href='jsp/admin/user/ModifyUserWorkgroups.jsp?id_user=${user.userId}' title='#i18n{portal.users.actions.labelWorkgroups}' buttonIcon='group' size='sm' showTitle=false />
 				<#if !user.statusAnonymized>
-					<@aButton href='jsp/admin/user/AnonymizeAdminUser.jsp?id_user=${user.userId}' title='#i18n{portal.users.actions.labelAnonymize}' buttonIcon='eye-slash' showTitle=false />
+					<@aButton href='jsp/admin/user/AnonymizeAdminUser.jsp?id_user=${user.userId}' title='#i18n{portal.users.actions.labelAnonymize}' buttonIcon='eye-slash' size='sm' showTitle=false />
 				</#if>
-				<@aButton color='danger' href='jsp/admin/user/RemoveUser.jsp?id_user=${user.userId}' title='#i18n{portal.users.actions.labelDelete}' buttonIcon='trash' showTitle=false />
+				<@aButton color='danger' href='jsp/admin/user/RemoveUser.jsp?id_user=${user.userId}' title='#i18n{portal.users.actions.labelDelete}' buttonIcon='trash' size='sm' showTitle=false />
 			</td>
 		</tr>
         </#list>

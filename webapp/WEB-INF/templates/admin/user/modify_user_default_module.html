@@ -1,19 +1,22 @@
 <@row>
-    <@columns>
-        <@box color='success'>
-            <@boxHeader boxTools=true title='<@icon style='user' />&nbsp;${user.lastName} ${user.firstName}'>
-                <@item_navigation item_navigator=item_navigator />
-            </@boxHeader>
-            <@boxBody>
-                <@tabs>
+	<@columns>
+		<@box color='success'>
+			<#assign headerIcon>
+				<@icon style='user' />
+			</#assign>
+			<@boxHeader title='${headerIcon}&nbsp;${user.lastName} ${user.firstName}' boxTools=true>
+					<@item_navigation item_navigator=item_navigator />
+			</@boxHeader>
+			<@boxBody>
+					<@tabs>
 					<@listTabs>
 						<li class="active">
-			              <@link href='jsp/admin/user/ModifyUser.jsp?id_user=${user.userId}'>#i18n{portal.users.actions.labelUser}</@link>
-			            </li>
-			            <li><@link href='jsp/admin/user/ModifyUserPassword.jsp?id_user=${user.userId}'>#i18n{portal.users.actions.labelPassword}</@link></li>
-			            <li><@link href='jsp/admin/user/ModifyUserRights.jsp?id_user=${user.userId}'>#i18n{portal.users.actions.labelRights}</@link></li>
-			            <li><@link href='jsp/admin/user/ModifyUserRoles.jsp?id_user=${user.userId}'>#i18n{portal.users.actions.labelRoles}</@link></li>
-			            <li><@link href='jsp/admin/user/ModifyUserWorkgroups.jsp?id_user=${user.userId}'>#i18n{portal.users.actions.labelWorkgroups}</@link></li>
+							<@link href='jsp/admin/user/ModifyUser.jsp?id_user=${user.userId}'>#i18n{portal.users.actions.labelUser}</@link>
+						</li>
+						<li><@link href='jsp/admin/user/ModifyUserPassword.jsp?id_user=${user.userId}'>#i18n{portal.users.actions.labelPassword}</@link></li>
+						<li><@link href='jsp/admin/user/ModifyUserRights.jsp?id_user=${user.userId}'>#i18n{portal.users.actions.labelRights}</@link></li>
+						<li><@link href='jsp/admin/user/ModifyUserRoles.jsp?id_user=${user.userId}'>#i18n{portal.users.actions.labelRoles}</@link></li>
+						<li><@link href='jsp/admin/user/ModifyUserWorkgroups.jsp?id_user=${user.userId}'>#i18n{portal.users.actions.labelWorkgroups}</@link></li>
 					</@listTabs>
 					<@tabContent>
 						<@tform method='post' role='form' name='modify_user' action='jsp/admin/user/DoModifyUser.jsp'  params='enctype="multipart/form-data"'>

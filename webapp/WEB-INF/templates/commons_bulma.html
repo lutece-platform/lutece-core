@@ -741,7 +741,7 @@ and is kept only for backwards compatibility
 
 <#--- MACRO SELECT (TO REPLACE "COMBO" MACROS) --->
 <#macro select name items='' default_value="" id=name size='' sort=false multiple=0 params='' title='' tabIndex=0>
-<div class="select is-rounded">
+<div class="select">
     <select id="${id}" name="${name}" class="field<#if size!=''> is-${size}</#if>" <#if (multiple &gt; 0)>multiple size="${multiple}"</#if><#if (tabIndex &gt; 0)> tabindex="${tabIndex}"</#if><#if params!=''> ${params}</#if><#if title!=''> ${title}</#if>>
     <#if items?has_content>
         <#if sort=true>
@@ -837,16 +837,20 @@ and is kept only for backwards compatibility
 <#-- size: xs/sm/lg -->
 <#-- pattern: [A-F][0-9]{5} -->
 <#macro input name type='text' value='' class='' size='' inputSize=0 maxlength=0 placeHolder='' rows=4 cols=40 richtext=false tabIndex='' id='' disabled=false readonly=false pattern='' params='' title='' min=0 max=0>
+<#if type != 'hidden'>
 <div class="control">
+</#if>
 <#if type='textarea'>
 	<textarea name="${name}" class="textarea <#if size!=''> is-${size}</#if><#if class!=''> ${class}</#if><#if richtext> richtext</#if>" rows="${rows}" cols="${cols}"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}"</#if><#if title!=''> title="${title}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if mandatory?? && mandatory && !richtext> required</#if><#if labelFor?? && labelFor!='' && helpKey?? && helpKey!=''> aria-describedby="${labelFor}_help"</#if>><#nested></textarea>
 <#elseif type='text' || type='search' || type='password' || type='email' || type='file' || type='number'>
-    <input class="input <#if size!=''> is-${size}</#if><#if class!=''> ${class}</#if> " name="${name}" type="${type}" value="${value}"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}"</#if><#if title!=''> title="${title}"</#if><#if maxlength &gt; 0> maxlength="${maxlength}"</#if><#if inputSize!=0> size="${inputSize}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if min!=0> min="${min}"</#if><#if max!=0> max="${max}"</#if><#if mandatory?? && mandatory> required</#if><#if labelFor?? && labelFor!='' && helpKey?? && helpKey!=''> aria-describedby="${labelFor}_help"</#if> />
+    <input class="input<#if size!=''> is-${size}</#if><#if class!=''> ${class}</#if>" name="${name}" type="${type}" value="${value}"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}"</#if><#if title!=''> title="${title}"</#if><#if maxlength &gt; 0> maxlength="${maxlength}"</#if><#if inputSize!=0> size="${inputSize}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if min!=0> min="${min}"</#if><#if max!=0> max="${max}"</#if><#if mandatory?? && mandatory> required</#if><#if labelFor?? && labelFor!='' && helpKey?? && helpKey!=''> aria-describedby="${labelFor}_help"</#if> />
 <#elseif type='hidden'>
 	<input type="hidden" name="${name}" value="${value}" />
 <#else><@icon style='warning' />Type not supported
 </#if>
+<#if type != 'hidden'>
 </div>
+</#if>
 </#macro>
 
 <#-- STATIC TEXT -->
@@ -896,15 +900,6 @@ and is kept only for backwards compatibility
 </div>
 </#macro>
 
-<#-- DROPDOWN MENU -->
-<#-- class: dropdown-menu-right -->
-<#-- Expected content : <li><a>Your link here</a></li> -->
-<#macro dropdownMenu class='' id='' params=''>
-<ul class="dropdown-menu ${class}"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
-	<#nested>
-</ul>
-</#macro>
-
 <#-- ROW -->
 <#macro row class='' id='' params=''>
 <div class="columns is-multiline<#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
@@ -913,11 +908,8 @@ and is kept only for backwards compatibility
 </#macro>
 
 <#-- COLUMNS -->
-<#-- cols = col-xs- (<544px)/col-sm- (>=544px)/col-md- (>=768px)/col-lg- (>=992px)/col-xl- (>=1200px) -->
+<#-- cols -->
 <#macro columns offsetXs=0 offsetSm=0 offsetMd=0 offsetLg=0 offsetXl=0 pushXs=0 pushSm=0 pushMd=0 pushLg=0 pushXl=0 pullXs=0 pullSm=0 pullMd=0 pullLg=0 pullXl=0 xs=12 sm=0 md=0 lg=0 xl=0 id='' class='' params=''>
-<#-- 
-<div class="col-xs-${xs}<#if sm!=0> col-sm-${sm}</#if><#if md!=0> col-md-${md}</#if><#if lg!=0> col-lg-${lg}</#if><#if xl!=0> col-xl-${xl}</#if><#if offsetXs!=0> col-xs-offset-${offsetXs}</#if><#if offsetSm!=0> col-sm-offset-${offsetSm}</#if><#if offsetMd!=0> col-md-offset-${offsetMd}</#if><#if offsetLg!=0> col-lg-offset-${offsetLg}</#if><#if offsetXl!=0> col-xl-offset-${offsetXl}</#if><#if pushXs!=0> col-xs-push-${pushXs}</#if><#if pushSm!=0> col-sm-push-${pushSm}</#if><#if pushMd!=0> col-md-push-${pushMd}</#if><#if pushLg!=0> col-lg-push-${pushLg}</#if><#if pushXl!=0> col-xl-push-${pushXl}</#if><#if pullXs!=0> col-xs-pull-${pullXs}</#if><#if pullSm!=0> col-sm-pull-${pullSm}</#if><#if pullMd!=0> col-md-pull-${pullMd}</#if><#if pullLg!=0> col-lg-pull-${pullLg}</#if><#if pullXl!=0> col-xl-pull-${pullXl}</#if><#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
--->
 <div class="column<#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 <#nested>
 </div>
@@ -1065,7 +1057,36 @@ and is kept only for backwards compatibility
 <#-- buttonIcon: icon name ex: info/check/comment/envelope... -->
 <#-- iconPosition: left/right -->
 <#-- cancel: switch to true for a cancellation form button. Adds the "formnovalidate" attribute to the button, as well as the right class -->
-<#macro button name='' id='' type='button'  buttonIcon='' size='' color='' style='' class='' params='' value='' title='' tabIndex='' showTitle=true showTitleXs=true showTitleSm=true showTitleMd=true showTitleLg=true disabled=false iconPosition='left' dropdownMenu=false>
+
+<#macro button name='' id='' type='button'  buttonIcon='' size='' color='' style='' class='' params='' value='' title='' tabIndex='' showTitle=true showTitleXs=true showTitleSm=true showTitleMd=true showTitleLg=true disabled=false iconPosition='left' dropdownMenu=false cancel=false>
+
+	<#if cancel || color = 'default' || color = 'secondary'>
+		<#assign buttonColor = 'light' />
+	<#elseif !cancel && color=''>
+		<#assign buttonColor = 'primary' />
+	<#else>
+		<#assign buttonColor = color />
+	</#if>
+	<#if style='btn-box-tool'>
+		<#assign style='text-right btn-link' />
+	</#if>
+
+<#switch size>
+    <#case 'xs'>
+        <#assign buttonSize='small'>
+        <#break>
+    <#case 'sm'>
+        <#assign buttonSize='small'>
+        <#break>
+    <#case 'md'>
+        <#assign buttonSize='medium'>
+        <#break>
+    <#case 'lg'>
+        <#assign buttonSize='large'>
+        <#break>
+    <#default>
+        <#assign buttonSize='normal'>
+</#switch>
 
 <#-- Visibility of button title -->
 <#assign showTitleClass = '' />
@@ -1075,38 +1096,25 @@ and is kept only for backwards compatibility
 <#if showTitleMd = false><#assign showTitleClass = showTitleClass + ' is-hidden-desktop' /></#if>
 <#if showTitleLg = false><#assign showTitleClass = showTitleClass + ' is-hidden-widescreen' /></#if>
 
-<#switch size>
-    <#case 'xs'>
-        <#assign buttonSize='is-small'>
-        <#break>
-    <#case 'sm'>
-        <#assign buttonSize=''>
-        <#break>
-    <#case 'md'>
-        <#assign buttonSize='is-medium'>
-        <#break>
-    <#case 'lg'>
-        <#assign buttonSize='is-large'>
-        <#break>
-    <#default>
-        <#assign buttonSize='is-normal'>
-</#switch>
-
 <#if dropdownMenu>
 <div class="dropdown">
+	<div class="dropdown-trigger">
 </#if>
-	<button class="button<#if buttonSize!=''> ${buttonSize}</#if><#if color!=''> is-${color}</#if> <#if dropdownMenu> dropdown-toggle</#if><#if class!=''> ${class}</#if>" type="${type}"<#if title!=''> title="${title}"</#if><#if name!=''> name="${name}"</#if><#if id!=''> id="${id}"</#if><#if value!=''> value="${value}"</#if><#if params!=''> ${params}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if>>
-        <#if buttonIcon!='' && iconPosition='left'><@icon style=buttonIcon />&nbsp;</#if>
+	<button class="button<#if buttonSize!=''> is-${buttonSize}</#if><#if buttonColor!=''> is-${buttonColor}</#if><#if dropdownMenu> dropdown-toggle</#if><#if class!=''> ${class}</#if>" type="${type}"<#if title!=''> title="${title}"</#if><#if name!=''> name="${name}"</#if><#if id!=''> id="${id}"</#if><#if value!=''> value="${value}"</#if><#if params!=''> ${params}</#if><#if disabled> disabled</#if><#if dropdownMenu> aria-haspopup="true" aria-controls="<#if id!=''>${id}</#if>-content"</#if>>
+    <#if buttonIcon!='' && iconPosition='left'><@icon style=buttonIcon />&nbsp;</#if>
 		<#if showTitleClass!='' && style!='btn-box-tool'><span class="${showTitleClass}"></#if>${title}<#if showTitleClass!='' && style!='btn-box-tool'></span></#if>
 		<#if buttonIcon!='' && iconPosition='right'>&nbsp;<@icon style=buttonIcon /></#if>
 		<#if dropdownMenu>
-		&nbsp;<@icon style='caret-down' />
+		&nbsp;<@icon style='angle-down' />
 		</#if>
 	</button>
 <#if dropdownMenu>
-	<ul class="dropdown-menu"<#if id!=''> aria-labelledby="${id}"</#if>>
-		<#nested>
-	</ul>
+	</div>
+	<div class="dropdown-menu"<#if id!=''> id="${id}-content" aria-labelledby="${id}"</#if> role="menu">
+		<div class="dropdown-content">
+			<#nested>
+		</div>
+	</div>
 </div>
 </#if>
 </#macro>
@@ -1116,13 +1124,34 @@ and is kept only for backwards compatibility
 <#-- color: default/primary/success/warning/danger/info/bg-purple/bg-blue/bg-navy/bg-teal/bg-maroon/bg-black/bg-gray/bg-olive/bg-lime/bg-orange/bg-fuchsia -->
 <#-- style: disabled ignored : btn-block/btn-flat/btn-app-->
 <#-- icon: icon name ex: info/check/comment/envelope... -->
-<#macro aButton name='' id='' href='' size='' color='primary' style='' class='' params='' title='' tabIndex='' showTitle=true showTitleXs=true showTitleSm=true showTitleMd=true showTitleLg=true buttonIcon='' disabled=false iconPosition='left' dropdownMenu=false>
-<#-- Bootstrap 4 transition -->
-<#if color='secondary'>
-	<#assign color_temp=''>
-<#else>
-	<#assign color_temp=color>
-</#if>
+<#macro aButton name='' id='' href='' size='' color='primary' style='' class='' params='' title='' tabIndex='' showTitle=true showTitleXs=true showTitleSm=true showTitleMd=true showTitleLg=true buttonIcon='' disabled=false iconPosition='left' dropdownMenu=false cancel=false>
+	<#if cancel || color = 'default' || color = 'secondary'>
+		<#assign buttonColor = 'light' />
+	<#elseif !cancel && color=''>
+		<#assign buttonColor = 'primary' />
+	<#else>
+		<#assign buttonColor = color />
+	</#if>
+	<#if style='btn-box-tool'>
+		<#assign style='text-right btn-link' />
+	</#if>
+
+<#switch size>
+    <#case 'xs'>
+        <#assign buttonSize='small'>
+        <#break>
+    <#case 'sm'>
+        <#assign buttonSize='small'>
+        <#break>
+    <#case 'md'>
+        <#assign buttonSize='medium'>
+        <#break>
+    <#case 'lg'>
+        <#assign buttonSize='large'>
+        <#break>
+    <#default>
+        <#assign buttonSize='normal'>
+</#switch>
 
 <#-- Visibility of button title -->
 <#assign showTitleClass = '' />
@@ -1132,17 +1161,34 @@ and is kept only for backwards compatibility
 <#if showTitleMd = false><#assign showTitleClass = showTitleClass + ' is-hidden-desktop' /></#if>
 <#if showTitleLg = false><#assign showTitleClass = showTitleClass + ' is-hidden-widescreen' /></#if>
 
+<#if dropdownMenu>
+<div class="dropdown">
+	<div class="dropdown-trigger">
+</#if>
 
-<a class="button is-grouped <#if size!=''>is-${size}</#if><#if color_temp!=''> is-${color_temp}</#if><#if style!=''> ${style}</#if><#if class!=''> ${class}</#if>"<#if name!=''> name="${name}"</#if><#if id!=''> id="${id}"</#if> href="${href}" title="${title}"<#if params!=''> ${params}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if>>
+<a class="button is-grouped <#if buttonSize!=''>is-${buttonSize}</#if><#if buttonColor!=''> is-${buttonColor}</#if><#if style!=''> ${style}</#if><#if class!=''> ${class}</#if>"<#if name!=''> name="${name}"</#if><#if id!=''> id="${id}"</#if> href="${href}" title="${title}"<#if params!=''> ${params}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if>>
    <#if buttonIcon!='' && iconPosition='left'><@icon style=buttonIcon /> &nbsp; </#if>
-	<span class="${showTitleClass}">${title}</span><#if buttonIcon!='' && iconPosition='right'> &nbsp; <@icon style=buttonIcon /></#if><#if dropdownMenu>&#160;<@icon style='caret-down' /></#if>
-	<#nested>
+	<span class="${showTitleClass}">${title}</span>
+	<#if buttonIcon!='' && iconPosition='right'> &nbsp; <@icon style=buttonIcon /></#if>
+	<#if dropdownMenu>&#160;<@icon style='caret-down' /></#if>
+	<#if !dropdownMenu>
+		<#nested>
+	</#if>
 </a>
+	<#if dropdownMenu>
+	</div>
+	<div class="dropdown-menu"<#if id!=''> id="${id}-content" aria-labelledby="${id}-content"</#if> role="menu">
+		<div class="dropdown-content">
+			<#nested>
+		</div>
+	</div>
+</div>
+	</#if>
 </#macro>
 
 <#-- BTN TOOLBAR -->
 <#macro btnToolbar id='' params='' ariaLabel=''>
-<div class="btn-toolbar" role="toolbar"<#if ariaLabel!=''> aria-label="${ariaLabel}"</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<div class="field is-grouped" role="toolbar"<#if ariaLabel!=''> aria-label="${ariaLabel}"</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 	<#nested>
 </div>
 </#macro>
@@ -1281,12 +1327,7 @@ and is kept only for backwards compatibility
 <#macro boxHeader title='' i18nTitleKey='' showTitle=true id='' params='' boxTools=false titleLevel='p'>
 <header class="card-header"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 <${titleLevel} class="card-header-title<#if showTitle=false> sr-only</#if>"><#if title!=''>${title}</#if><#if i18nTitleKey!=''>#i18n{${i18nTitleKey}}</#if></${titleLevel}>
-	<#local nested><#nested></#local>
-	<#if nested?has_content>
-	<a href="#" class="card-header-icon" aria-label="more options">
-		${nested}
-	</a>
-	</#if>
+	<#nested>
 </header>
 </#macro>
 
@@ -1403,9 +1444,24 @@ and is kept only for backwards compatibility
 
 <#-- DROPDOWN MENU LIST -->
 <#macro dropdownList id='' params=''>
-<ul class="dropdown-menu"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
-	<#nested>
-</ul>
+<div class="dropdown is-active">
+	<div class="dropdown-trigger">
+		<button class="button is-primary is-sm" aria-haspopup="true" aria-controls="dropdown-menu">
+		<span>Dropdown button</span>
+		<span class="icon is-small">
+			<i class="fa fa-angle-down" aria-hidden="true"></i>
+		</span>
+		</button>
+	</div>
+	<div class="dropdown-menu" id="dropdown-menu" role="menu">
+		<div class="dropdown-content">
+			<#nested>
+		</div>
+	</div>
+</#macro>
+
+<#macro dropdownItem class='' href='' title='' id='' params=''>
+		<a href="${href}" class="dropdown-item<#if class!=''> ${class}</#if>" title="${title}"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>${title}</a>
 </#macro>
 
 <#-- CARDS -->
@@ -1427,7 +1483,7 @@ and is kept only for backwards compatibility
 <body class="has-navbar-fixed-top">
 	<div class="wrapper">
 		<header class="main-header" role="banner">
-			<nav class="navbar is-fixed-top"role="navigation">
+			<nav class="navbar is-fixed-top" role="navigation">
 				<div class="navbar-brand">
 					<a href="jsp/site/Portal.jsp" title="#i18n{portal.users.admin_header.title.viewSite} ${site_name}" target="_blank" class="navbar-item">
 						<img src="#dskey{portal.site.site_property.logo_url}" class=""  title="#i18n{portal.users.admin_header.title.viewSite} ${site_name}" alt="${site_name}"><b> <#if site_name?length &gt; 18> ${site_name?substring(0,16)}... <#else> ${site_name}</#if></b>

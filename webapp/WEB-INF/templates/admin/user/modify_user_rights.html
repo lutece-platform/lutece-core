@@ -1,7 +1,10 @@
 <@row>
 	<@columns>
 		<@box color='success'>
-			<@boxHeader title='<@icon style='user' />&nbsp;${user.lastName} ${user.firstName}' boxTools=true>
+			<#assign headerIcon>
+				<@icon style='user' />
+			</#assign>
+			<@boxHeader title='${headerIcon}&nbsp;${user.lastName} ${user.firstName}' boxTools=true>
 				<#if can_delegate = 'true'><p>#i18n{portal.users.modify_user_rights.informationRightModification}</p></#if>
 				<div class="pull-right spaced"><@item_navigation item_navigator=item_navigator /></div>
 				<@tform class='pull-right spaced' method='post' action='jsp/admin/user/ModifyUserRights.jsp'>	

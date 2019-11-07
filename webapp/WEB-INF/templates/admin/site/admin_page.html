@@ -2,7 +2,7 @@
   	<@columns>
     	<@box>
 			<#assign title>
-				<@button type='button' id='fullscreen' params='data-toggle="tooltip" data-placement="bottom"' title='#i18n{portal.site.admin_page.buttonFullscreen}' buttonIcon='arrows-alt fa-fw' showTitle=false color='secondary' />
+				<@button type='button' id='fullscreen' params='data-toggle="tooltip" data-placement="bottom"' title='#i18n{portal.site.admin_page.buttonFullscreen}' buttonIcon='arrows-alt fa-fw' showTitle=false color='secondary' size='sm' />
 				<@link href='jsp/admin/site/AdminSite.jsp?page_id=${page.id}' title='${page.name}'>
 					<@tag color='primary' title='${page.id} - ${page.name}'>${page.id}</@tag> ${page.name}
 				</@link>
@@ -11,15 +11,15 @@
 				<@btnToolbar>
 				
 					<@btnGroup class='hidden-xs hidden-sm pull-left'>
-						<@aButton href='#' id='display-full' params='data-toggle="tooltip" data-placement="bottom"' title='Ecran large' showTitle=false buttonIcon='desktop fa-fw' color='secondary' />
-						<@aButton href='#' id='display-940' params='data-toggle="tooltip" data-placement="bottom"' title='Tablette - 940px' showTitle=false buttonIcon='tablet fa-fw' color='secondary' />
-						<@aButton href='#' id='display-480' params='data-toggle="tooltip" data-placement="bottom"' title='Smartphone - 480px' showTitle=false buttonIcon='mobile fa-fw' color='secondary' />
+						<@aButton href='#' id='display-full' params='data-toggle="tooltip" data-placement="bottom"' title='Ecran large' showTitle=false buttonIcon='desktop fa-fw' color='secondary' size='sm' />
+						<@aButton href='#' id='display-940' params='data-toggle="tooltip" data-placement="bottom"' title='Tablette - 940px' showTitle=false buttonIcon='tablet fa-fw' color='secondary' size='sm' />
+						<@aButton href='#' id='display-480' params='data-toggle="tooltip" data-placement="bottom"' title='Smartphone - 480px' showTitle=false buttonIcon='mobile fa-fw' color='secondary' size='sm' />
 					</@btnGroup>
 					
 					<@btnGroup>
 						<#if page.id != 1>
-						<@aButton href='jsp/admin/site/AdminSite.jsp?page_id=${page.parentPageId}' color='success' buttonIcon='arrow-up' title='#i18n{portal.site.admin_page.buttonUpToParentPage}' showTitle=false />
-						<@aButton href='jsp/admin/site/RemovePage.jsp?page_id=${page.id}' color='danger' buttonIcon='trash' title='#i18n{portal.site.admin_page.buttonDeletePage}' showTitle=false />
+						<@aButton href='jsp/admin/site/AdminSite.jsp?page_id=${page.parentPageId}' color='success' buttonIcon='arrow-up' size='sm' title='#i18n{portal.site.admin_page.buttonUpToParentPage}' showTitle=false />
+						<@aButton href='jsp/admin/site/RemovePage.jsp?page_id=${page.id}' color='danger' buttonIcon='trash' size='sm' title='#i18n{portal.site.admin_page.buttonDeletePage}' showTitle=false />
 						</#if>
 					</@btnGroup>
 
@@ -27,9 +27,9 @@
 					<@tform class="form-inline pull-right" action="jsp/admin/site/AdminSite.jsp" role="search">
 						<@formGroup formStyle='inline' labelFor='page_id' labelKey='${i18n("portal.site.admin_page.buttonSearchPage")}' showLabel=false >
 							<@inputGroup>
-								<@input type='text' name='page_id' id='page_id' placeHolder='${i18n("portal.site.admin_page.buttonSearchPage")}' />
-								<@inputGroupItem type='btn'>
-									<@button type='submit' color='default' title='${i18n("portal.site.admin_page.buttonSearchPage")}' showTitle=false buttonIcon='search' />
+								<@input type='text' name='page_id' id='page_id' placeHolder='${i18n("portal.site.admin_page.buttonSearchPage")}' size='sm' />
+								<@inputGroupItem type='btn' pos='append'>
+									<@button type='submit' color='default' title='${i18n("portal.site.admin_page.buttonSearchPage")}' showTitle=false buttonIcon='search' size='sm' />
 								</@inputGroupItem>
 							</@inputGroup>
 						</@formGroup>
@@ -38,28 +38,26 @@
 					</@btnGroup>
 					
 					<@btnGroup>
-						<@aButton href='jsp/admin/site/AdminSite.jsp?page_id=${page.id}&amp;param_block=' title='#i18n{portal.site.admin_page.labelPortletPage}' dropdownMenu=true id='portlet-type' buttonIcon='th-large' />
+						<@button title='#i18n{portal.site.admin_page.labelPortletPage}' size='sm' color='primary' dropdownMenu=true id='portlet-type' buttonIcon='th-large' id='portlet'>
 						<#if portlet_types_list?has_content>
-							<@dropdownList>
-								<#list portlet_types_list?sort_by("name") as portlet_type>
-									<li class="portlet-type">
-										<@link class='portlet-type-ref' href='jsp/admin/DoCreatePortlet.jsp?portlet_type_id=${portlet_type.id}&amp;page_id=${page.id}' title='${portlet_type.name}'>
-											${portlet_type.name}
-										</@link>
-									</li>
-								</#list>
-							</@dropdownList>
-							</#if>
+							<#list portlet_types_list?sort_by("name") as portlet_type>
+								<@dropdownItem class='portlet-type-ref' href='jsp/admin/DoCreatePortlet.jsp?portlet_type_id=${portlet_type.id}&amp;page_id=${page.id}' title='${portlet_type.name}'>
+									${portlet_type.name}
+								</@dropdownItem>
+							</#list>
+						</#if>
+						</@button>
 					</@btnGroup>
+
 					
 					<@btnGroup>
 						<#if extendableResourceActionsHtml?? && extendableResourceActionsHtml?has_content>
 							${extendableResourceActionsHtml!}
 						</#if>
 						
-						<@aButton href='jsp/admin/site/AdminSite.jsp?page_id=${page.id}&amp;param_block=2' buttonIcon='wrench' title='#i18n{portal.site.admin_page.labelPageProperty}' />
-						<@aButton href='jsp/admin/site/AdminSite.jsp?page_id=${page.id}&amp;param_block=5'  buttonIcon='plus' title='#i18n{portal.site.admin_page.labelChildPagePage}' />
-						<@aButton href='jsp/admin/site/AdminMap.jsp?page_id=${page.id}' buttonIcon='sitemap'  title='Page ${page.name} - Id ${page.id}' showTitle=false><span class="hidden-xs">#i18n{portal.site.admin_page.tabAdminMapSite}</span></@aButton>
+						<@aButton href='jsp/admin/site/AdminSite.jsp?page_id=${page.id}&amp;param_block=2' buttonIcon='wrench' size='sm' title='#i18n{portal.site.admin_page.labelPageProperty}' />
+						<@aButton href='jsp/admin/site/AdminSite.jsp?page_id=${page.id}&amp;param_block=5'  buttonIcon='plus' size='sm' title='#i18n{portal.site.admin_page.labelChildPagePage}' />
+						<@aButton href='jsp/admin/site/AdminMap.jsp?page_id=${page.id}' buttonIcon='sitemap' size='sm' title='Page ${page.name} - Id ${page.id}' showTitle=false>#i18n{portal.site.admin_page.tabAdminMapSite}</@aButton>
 					</@btnGroup>
 				</@btnToolbar>
 			</@boxHeader>

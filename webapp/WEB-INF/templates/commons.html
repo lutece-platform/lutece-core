@@ -927,7 +927,7 @@ and is kept only for backwards compatibility
 <#-- INPUT-GROUP -->
 <#-- size: sm/lg/no size-->
 <#macro inputGroup size='' class='' id='' params=''>
-	<div class="input-group<#if size!=''> input-group-${size}</#if>><#if class!=''> ${class}</#if>" <#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+	<div class="input-group<#if size!=''> input-group-${size}</#if><#if class!=''> ${class}</#if>" <#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 		<#nested>
 	</div>
 </#macro>
@@ -937,9 +937,9 @@ and is kept only for backwards compatibility
 <#if type = 'text'>
 	<#local type = 'addon' />
 </#if>
-	<span class="input-group-${type}"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
-		<#nested>
-	</span>
+		<span class="input-group-${type}"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+			<#nested>
+		</span>
 </#macro>
 
 <#-- DROPDOWN MENU -->
@@ -1117,7 +1117,7 @@ and is kept only for backwards compatibility
 <#-- iconPosition: left/right -->
 <#-- cancel: switch to true for a cancellation form button. Adds the "formnovalidate" attribute to the button, as well as the right class -->
 <#macro button name='' id='' type='button' size='' color='' style='btn-flat' class='' params='' value='' title='' tabIndex='' showTitle=true showTitleXs=true showTitleSm=true showTitleMd=true showTitleLg=true buttonIcon='' disabled=false iconPosition='left' dropdownMenu=false cancel=false>
-	<#if cancel>
+	<#if cancel || color = 'secondary'>
 		<#assign buttonColor = 'default' />
 	<#elseif !cancel && color=''>
 		<#assign buttonColor = 'primary' />
@@ -1133,10 +1133,6 @@ and is kept only for backwards compatibility
 	<#if showTitleMd = false><#assign showTitleClass = showTitleClass + ' hidden-md' /></#if>
 	<#if showTitleLg = false><#assign showTitleClass = showTitleClass + ' hidden-lg' /></#if>
 	
-	<#if dropdownMenu>
-		<div class="dropdown">
-	</#if>
-	
 	<button class="<#if style!='close'>btn</#if><#if size!='' && style!='btn-box-tool'> btn-${size}</#if><#if buttonColor!='' && style!='btn-box-tool'> btn-${buttonColor}</#if><#if style!=''> ${style}</#if><#if dropdownMenu> dropdown-toggle</#if><#if class!=''> ${class}</#if>" type="${type}"<#if title!=''> title="${title}"</#if><#if name!=''> name="${name}"</#if><#if id!=''> id="${id}"</#if><#if value!=''> value="${value}"</#if><#if params!=''> ${params}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if><#if cancel> formnovalidate</#if>>
 		<#if buttonIcon!='' && iconPosition='left'><@icon style=buttonIcon /></#if>
 		<#if showTitleClass!='' && style!='btn-box-tool'><span class="${showTitleClass}"></#if>${title}<#if showTitleClass!='' && style!='btn-box-tool'></span></#if>
@@ -1147,10 +1143,9 @@ and is kept only for backwards compatibility
 	</button>
 	
 	<#if dropdownMenu>
-		<ul class="dropdown-menu"<#if id!=''> aria-labelledby="${id}"</#if>>
+		<ul class="dropdown-menu"<#if id!=''> id="${id}-content" aria-labelledby="${id}-content"</#if>>
 			<#nested>
 		</ul>
-		</div>
 	</#if>
 </#macro>
 
@@ -1182,8 +1177,15 @@ and is kept only for backwards compatibility
 		<#if dropdownMenu>
 		&#160;<@icon style='caret-down' />
 		</#if>
+		<#if !dropdownMenu>
 		<#nested>
+		</#if>
 	</a>
+		<#if dropdownMenu>
+		<ul class="dropdown-menu"<#if id!=''> id="${id}-content" aria-labelledby="${id}-content"</#if>>
+			<#nested>
+		</ul>
+		</#if>
 </#macro>
 
 <#-- BTN TOOLBAR -->
@@ -1405,6 +1407,12 @@ and is kept only for backwards compatibility
 <ul class="dropdown-menu"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 	<#nested>
 </ul>
+</#macro>
+
+<#macro dropdownItem class='' href='' title='' id='' params=''>
+	<li>
+		<a href="${href}" class="dropdown-item<#if class!=''> ${class}</#if>" title="${title}"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>${title}</a>
+	</li>
 </#macro>
 
 <#-- CARDS -->
