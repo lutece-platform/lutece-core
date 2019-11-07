@@ -8,8 +8,8 @@
             </@boxHeader>
             <@boxBody>
 				<@tform action='jsp/admin/user/DoModifyAccountLifeTimeEmails.jsp'>
-					<input type="hidden" name="token" value="${token}">
-					<input type="hidden" name="email_type" value="${email_type}">
+					<@input type='hidden' name='token' value='${token}' />
+					<@input type='hidden' name='email_type' value='${email_type}' />
 					<@formGroup labelFor='email_sender' labelKey='${i18n("portal.users.accountLifeTime.labelSenderEmail")}' mandatory=true rows=2>
 						<@input type='text' name='email_sender' id='email_sender' value="${email_sender!}" />
 					</@formGroup>  
@@ -22,7 +22,7 @@
 					<@row>
 						<@columns sm=9 offsetSm=3 md=3 offsetMd=3>
 							<h3>#i18n{portal.users.accountLifeTime.labelParameters}</h3>
-							<ul>
+							<@ul>
 								<#if email_type != "reactivated" && email_type != "expired" && email_type != "password_expired" >
 									<li>${r"${url}"} : #i18n{portal.users.accountLifeTime.labelUrl}</li>
 								</#if>
@@ -31,7 +31,7 @@
 								<#if email_type != "password_expired" >
 									<li>${r"${date_valid}"} : #i18n{portal.users.accountLifeTime.labelDateValid}</li>
 								</#if>
-							</ul>
+							</@ul>
 							/@columns>    
 					</@row>  
 					<@row>

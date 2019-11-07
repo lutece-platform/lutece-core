@@ -331,7 +331,7 @@
 
 <#-- ICONS -->
 <#-- Icons from FontAwesome -->
-<#macro icon prefix='fas fa-' style='' class='' title='' id='' params=''>
+<#macro icon prefix='fa fa-' style='' class='' title='' id='' params=''>
   <i class="${prefix}${style}<#if class!=''> ${class}</#if>" aria-hidden="true"<#if title!=''> title='${title}'</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>></i>
 </#macro>
 
@@ -389,8 +389,8 @@
 				<#assign divClass="col-xs-12 offset-sm-3 col-sm-6">
 		</#if>
 	<#else>
-		<#assign labelClass = "col-xs-12">
-		<#assign divClass = "col-xs-12">
+		<#assign labelClass = "col-sm-12 col-form-label">
+		<#assign divClass = "col-sm-12">
 	</#if>
 	<#assign labelClass = labelClass>
 	<#if labelKey!=''>
@@ -432,7 +432,7 @@
 	<#if type='textarea'>
 		<textarea name="${name}" class="form-control<#if size!=''> input-${size}</#if><#if class!=''> ${class}</#if><#if richtext> richtext</#if>" rows="${rows}" cols="${cols}"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}"</#if><#if title!=''> title="${title}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if mandatory?? && mandatory && !richtext> required</#if><#if labelFor?? && labelFor!='' && helpKey?? && helpKey!=''> aria-describedby="${labelFor}_help"</#if>><#nested></textarea>
 	<#elseif type='text' || type='search' || type='password' || type='email' || type='file' || type='number'>
-		<input class="form-control<#if size!=''> input-${size}</#if><#if class!=''> ${class}</#if> " name="${name}" type="${type}" value="${value}"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}<#if mandatory=true> [#i18n{portal.users.modify_attribute.labelMandatory}]</#if>"</#if><#if title!=''> title="${title}"</#if><#if maxlength &gt; 0> maxlength="${maxlength}"</#if><#if inputSize!=0> size="${inputSize}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if min!=0> min="${min}"</#if><#if max!=0> max="${max}"</#if><#if mandatory?? && mandatory> required</#if><#if labelFor?? && labelFor!='' && helpKey?? && helpKey!=''> aria-describedby="${labelFor}_help"</#if> />
+		<input class="form-control<#if type='file'>-file</#if><#if size!=''> input-${size}</#if><#if class!=''> ${class}</#if> " name="${name}" type="${type}" value="${value}"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}<#if mandatory?? && mandatory> [#i18n{portal.users.modify_attribute.labelMandatory}]</#if>"</#if><#if title!=''> title="${title}"</#if><#if maxlength &gt; 0> maxlength="${maxlength}"</#if><#if inputSize!=0> size="${inputSize}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if min!=0> min="${min}"</#if><#if max!=0> max="${max}"</#if><#if mandatory?? && mandatory> required</#if><#if labelFor?? && labelFor!='' && helpKey?? && helpKey!=''> aria-describedby="${labelFor}_help"</#if> />
 	<#elseif type='hidden'>
 		<input type="hidden" name="${name}" value="${value}" />
 	<#else>
@@ -478,12 +478,12 @@
 <#-- CHECKBOX 																							-->
 <#-- orientation: vertical/horizontal. Default is vertical 	-->
 <#-- TODO  																									-->
-<#macro checkBox name id='' labelKey='' labelFor='' orientation='vertical' value='' tabIndex='' title='' disabled=false readonly=false checked=false mandatory=mandatory params=''>
+<#macro checkBox name id='' labelKey='' labelFor='' orientation='vertical' value='' tabIndex='' title='' disabled=false readonly=false checked=false params='' mandatory=false>
 <#if orientation='vertical'>
 <div class="checkbox">
 </#if>
 	<label<#if orientation='horizontal'> class="checkbox-inline"</#if><#if labelFor!=''> for="${labelFor}"</#if>>
-	<input type="checkbox" id="${id}" name="${name}"<#if value!=''> value="${value}"</#if><#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if checked> checked</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if params!=''> ${params}</#if> />
+	<input type="checkbox" id="${id}" name="${name}"<#if value!=''> value="${value}"</#if><#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if checked> checked</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if params!=''> ${params}</#if><#if mandatory> required</#if> />
 		<#if labelKey!=''>
 			${labelKey}
 		<#else>
@@ -495,12 +495,12 @@
 
 <#-- RADIO BUTTON -->
 <#-- orientation: vertical/horizontal. Default is vertical -->
-<#macro radioButton name id='' value='' labelKey='' labelFor='' orientation='vertical' tabIndex='' title='' disabled=false readonly=false checked=false mandatory=mandatory params=''>
+<#macro radioButton name id='' value='' labelKey='' labelFor='' orientation='vertical' tabIndex='' title='' disabled=false readonly=false checked=false params=''>
 	<#if orientation='vertical'>
 		<div class="radio">
 	</#if>
 			<label<#if orientation='horizontal'> class="radio-inline"</#if>>
-				<input type="radio" id="${id}" name="${name}"<#if value!=''> value="${value}"</#if><#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if checked> checked</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if mandatory> required</#if><#if params!=''> ${params}</#if> />
+				<input type="radio" id="${id}" name="${name}"<#if value!=''> value="${value}"</#if><#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if checked> checked</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if mandatory?? && mandatory> required</#if><#if params!=''> ${params}</#if> />
 			<#if labelKey!=''>
 					${labelKey}
 			<#else>
@@ -519,25 +519,18 @@
 	</div>
 </#macro>
 
-<#macro inputGroupItem pos='prepend' type='text' id='' params=''>
-<#-- pos: append / prepend | Default append -->
-<#-- type: text/input/btn . default is text	-->
+<#macro inputGroupItem pos='prepend' type='btn' id='' params=''>
+<#-- pos: append / prepend | Default prepend -->
+<#-- type: btn/addon. default is btn	-->
+
 <div class="input-group-${pos}">
-	<#if type='text'>
-		<span class="input-group-text"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
-			<#nested>
-		</span>
-	<#elseif type='addon'>
-		<span class="input-group-text"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
-			<#nested>
-		</span>
-	<#elseif type='input'>
-		<div class="input-group-text"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
-			<#nested>
-		</div>
-	<#else>
+<#if type = 'addon'>
+	<div class="input-group-${type}"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+</#if>
 		<#nested>
-	</#if>	
+<#if type = 'addon'>
+	</div>
+</#if>
 </div>
 </#macro>
 
@@ -567,6 +560,13 @@
 </#if>
 	<#nested>
 </div>
+</#macro>
+
+<#-- LISTS -->
+<#macro ul id='' params='' class=''>
+	<ul<#if class!=''> class="${class}"</#if><#if params!=''> ${params}</#if><#if id!=''> ${id}</#if>>
+		<#nested>
+	</ul>
 </#macro>
 
 <#-- TABS -->
@@ -701,8 +701,7 @@
 </#macro>
 
 <#-- BUTTON -->
-<#-- bootstrap 3 : size: btn-xs/btn-sm/btn-lg -->
-<#-- upcoming bootstrap 4 : size: btn-sm for small buttons/empty for medium buttons/btn-lg for large buttons -->
+<#-- bootstrap 4 : size: sm for small buttons/empty for medium buttons/lg for large buttons -->
 <#-- color: default[bootstrap4 : secondary]/primary/success/warning/danger/info -->
 <#-- color (upcoming bootstrap 4): btn-outline-default/btn-outline-primary/btn-outline-success/btn-outline-warning/btn-outline-danger/btn-outline-info/ -->
 <#-- style: btn-block/btn-flat/close/navbar-toggle/collapsed... -->
@@ -721,6 +720,10 @@
 	</#if>
 	<#if style='btn-box-tool'>
 		<#assign style='text-right btn-link' />
+	</#if>
+
+	<#if size = 'xs'>
+		<#local size = 'sm' />
 	</#if>
 	
 	<#-- Visibility of button title -->
@@ -799,6 +802,13 @@
 <label class="btn btn-${color}<#if size!=''> btn-${size}</#if>" for="${labelFor}"<#if labelParams!=''> ${labelParams}</#if>>
 <input type="${type}" name="${name}" id="${id}" autocomplete="off"<#if value!=''> value="${value}"</#if><#if params!=''> ${params}</#if><#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if checked> checked</#if> /><#if labelKey!=''>${labelKey}</#if>
 </label>
+</#macro>
+
+<#-- Simple links a href, anchors -->
+<#macro link href='' class='' id='' name='' title='' alt='' target='' params=''>
+	<a href="${href}"<#if class!=''> class="${class}"</#if><#if id!=''> id="${id}"</#if><#if name!=''> name="${name}"</#if><#if target!=''> target="${target}"</#if><#if title!=''> title="${title}"</#if><#if alt!=''> alt="${alt}"</#if><#if params!=''> ${params}</#if>>
+		<#nested>
+	</a>
 </#macro>
 
 <#-- MODAL -->
@@ -1000,7 +1010,7 @@
 -- MACRO ADMIN STRUCTURE - HEADER + NAVBAR + FOOTER -- 
 -------------------------------------------------- -->
 <#-- MACRO adminHeader -->
-<#macro adminHeader >
+<#macro adminHeader site_name='SITE_NAME'>
 <body class="d-flex flex-column vh-100">
 	<div class="skipnav"><a href="#main">allez au contenu principal</a></div>
 	<h1 id="top" class="sr-only sr-only-focusable">Haut de page</h1>
@@ -1151,7 +1161,7 @@
 </#macro>
 
 <#-- adminLoginPage  -->
-<#macro adminLoginPage title=''>
+<#macro adminLoginPage title='' site_name='SITE_NAME'>
 <img src="images/logo-header.png" class="fixed-top m-4" aria-hidden="true" title="LUTECE Back-Office" alt="LUTECE Back-Office">
 <section id="login-page">
 	<div class="container">

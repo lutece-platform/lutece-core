@@ -1,7 +1,7 @@
 <@row>
   <@columns>
     <@box color='success' collapsed=true>
-			<@boxHeader title='#i18n{portal.workgroup.assign_users.pageTitle} <strong title="#i18n{portal.workgroup.assign_users.workgroup.description} : ${workgroup.description}"> ${workgroup.key}</strong> <small class="spaced"><i class="glyphicon glyphicon-user"></i>&nbsp;#i18n{portal.workgroup.assign_users.workgroup.number_user} : <span class="badge">${assigned_users_number}</span></small>' boxTools=true>
+			<@boxHeader title='#i18n{portal.workgroup.assign_users.pageTitle} <strong title="#i18n{portal.workgroup.assign_users.workgroup.description} : ${workgroup.description}"> ${workgroup.key}</strong> <small class="spaced"><@icon style='user' />&nbsp;#i18n{portal.workgroup.assign_users.workgroup.number_user} : <@tag>${assigned_users_number}</@tag></small>' boxTools=true>
 				<@aButton href='jsp/admin/workgroup/ModifyWorkgroup.jsp?workgroup_key=${workgroup.key}' title='#i18n{portal.workgroup.manage_workgroups.buttonLabelModify}' size='' buttonIcon='edit' />
 				<@aButton href='jsp/admin/workgroup/RemoveWorkgroup.jsp?workgroup_key=${workgroup.key}' title='#i18n{portal.workgroup.manage_workgroups.buttonLabelDelete}' size='' buttonIcon='trash' color='danger' />
 				<@item_navigation item_navigator=item_navigator id='item-navigator-availableusers' />
@@ -74,7 +74,7 @@
                     </#list>
 					
 					<@formGroup>
-						<input type="hidden" name="workgroup_key" value="${workgroup.key}">
+						<@input type='hidden' name='workgroup_key' value='${workgroup.key}' />
 						<@button type='submit' name='search_is_search' title='#i18n{portal.users.manage_users.search_users.buttonSearch}' buttonIcon='search' />
 					</@formGroup>
 					</@fieldSet>
@@ -91,20 +91,20 @@
 			<@boxBody>
         <#if users_list?size &gt; 0 >
           <@tform name='assignUser' method='post' action='jsp/admin/workgroup/DoAssignUsersWorkgroup.jsp'>
-            <input type="hidden" name="workgroup_key" value="${workgroup.key}">
-            <input type="hidden" name="token" value="${token}">
-						<@formGroup labelKey='#i18n{portal.workgroup.assign_users.labelAvailableUser}' rows=2>
-							<@select sort=true name='list_users' default_value='' multiple=10 items=users_list />
-						</@formGroup>
-						<@formGroup rows=2>
-							<@button type='submit' buttonIcon='check' title='#i18n{portal.workgroup.assign_users.labelButtonValidate}' size='' style='btn-block' />
-						</@formGroup>
-					</@tform>
+            <@input type='hidden' name='workgroup_key' value='${workgroup.key}' />
+            <@input type='hidden' name='token' value='${token}' />
+			<@formGroup labelKey='#i18n{portal.workgroup.assign_users.labelAvailableUser}' rows=2>
+				<@select sort=true name='list_users' default_value='' multiple=10 items=users_list />
+			</@formGroup>
+			<@formGroup rows=2>
+				<@button type='submit' buttonIcon='check' title='#i18n{portal.workgroup.assign_users.labelButtonValidate}' size='' style='btn-block' />
+			</@formGroup>
+			</@tform>
         <#else>
-					<@callOut color='warning'>
-						<@icon style='exclamation-triangle' />
-						#i18n{portal.workgroup.assign_users.noUserToAssign}
-					</@callOut>
+			<@callOut color='warning'>
+				<@icon style='exclamation-triangle' />
+				#i18n{portal.workgroup.assign_users.noUserToAssign}
+			</@callOut>
         </#if>
 			</@boxBody>
     </@box>
@@ -116,23 +116,23 @@
           <#if assigned_users_list?size &gt; 0 >
             <@tform method='post' action='jsp/admin/workgroup/AssignUsersWorkgroup.jsp'>
               <#if search_is_search >
-                <input type="hidden" name="search_is_search" value="true">
-                <input type="hidden" name="search_user_level" value="${search_admin_user_filter.userLevel}">
-                <input type="hidden" name="search_access_code" value="${search_admin_user_filter.accessCode}">
-                <input type="hidden" name="search_last_name" value="${search_admin_user_filter.lastName}">
-                <input type="hidden" name="search_email" value="${search_admin_user_filter.email}">
-                <input type="hidden" name="search_status" value="${search_admin_user_filter.status}">
+                <@input type='hidden' name='search_is_search' value='true' />
+                <@input type='hidden' name='search_user_level' value='${search_admin_user_filter.userLevel}' />
+                <@input type='hidden' name='search_access_code' value='${search_admin_user_filter.accessCode}' />
+                <@input type='hidden' name='search_last_name' value='${search_admin_user_filter.lastName}' />
+                <@input type='hidden' name='search_email' value='${search_admin_user_filter.email}' />
+                <@input type='hidden' name='search_status' value='${search_admin_user_filter.status}' />
               </#if>
               <#if search_admin_user_field_filter.listUserFields?exists && search_admin_user_field_filter.listUserFields?has_content>
                 <#list search_admin_user_field_filter.listUserFields as user_field>
                   <#if user_field.attribute.attributeType.className == "fr.paris.lutece.portal.business.user.attribute.AttributeComboBox">
-                    <input type="hidden" name="attribute_${user_field.attribute.idAttribute}" value="${user_field.attributeField.idField}">
+                    <@input type='hidden' name='attribute_${user_field.attribute.idAttribute}' value='${user_field.attributeField.idField}' />
                   <#else>
-									 <input type="hidden" name="attribute_${user_field.attribute.idAttribute}" value="${user_field.value}">
+					<@input type='hidden' name='attribute_${user_field.attribute.idAttribute}' value='${user_field.value}' />
                   </#if>
                 </#list>
               </#if>
-								<input type="hidden" name="workgroup_key" value="${workgroup.key}">
+					<@input type='hidden' name='workgroup_key' value='${workgroup.key}' />
             </@tform>
             <@table>
               <tr>            
@@ -155,8 +155,8 @@
                 <th>#i18n{portal.users.manage_users.columnTitleActions}</th>
               </tr>
                 <#list assigned_users_list as assigned_user>
-									<#if assigned_user_has_next>
-										<#assign anchor = assigned_user_index>
+					<#if assigned_user_has_next>
+						<#assign anchor = assigned_user_index>
                   <#else>
                     <#assign anchor = assigned_user_index - 1 >
                   </#if>
@@ -165,27 +165,27 @@
                     <td>${assigned_user.firstName}</td>
                     <td>${assigned_user.accessCode}</td>
                     <td>${assigned_user.email}</td>	                
-										<td>
-										<@tform method='post' action='jsp/admin/workgroup/DoUnassignUser.jsp'>
-											<input type="hidden" name="id_user" value="${assigned_user.userId?html}">
-											<input type="hidden" name="workgroup_key" value="${workgroup.key?html}">
-											<input type="hidden" name="anchor" value="anchor-${anchor?html}">
-											<input type="hidden" name="token" value="${token}">
-											<@aButton href='jsp/admin/user/ModifyUser.jsp?id_user=${assigned_user.userId}' buttonIcon='edit' title='#i18n{portal.workgroup.assign_users.actionModify}' showTitle=false />
-											<@button type='submit' buttonIcon='trash' title='#i18n{portal.workgroup.assign_users.actionUnassign}' color='danger' showTitle=false />
-										</@tform>
-										</td>
+					<td>
+					<@tform method='post' action='jsp/admin/workgroup/DoUnassignUser.jsp'>
+						<@input type='hidden' name='id_user' value='${assigned_user.userId?html}' />
+						<@input type='hidden' name='workgroup_key' value='${workgroup.key?html}' />
+						<@input type='hidden' name='anchor' value='anchor-${anchor?html}' />
+						<@input type='hidden' name='token' value='${token}' />
+						<@aButton href='jsp/admin/user/ModifyUser.jsp?id_user=${assigned_user.userId}' buttonIcon='edit' title='#i18n{portal.workgroup.assign_users.actionModify}' showTitle=false />
+						<@button type='submit' buttonIcon='trash' title='#i18n{portal.workgroup.assign_users.actionUnassign}' color='danger' showTitle=false />
+					</@tform>
+					</td>
                   </tr>            
-							</#list>
+				</#list>
             </@table>
             <#if assigned_users_list?size &gt; 8>
               <@paginationAdmin paginator=paginator combo=1 form=0 />
             </#if>
           <#else>
-						<@callOut color='warning'>
-							<@icon style='exclamation-triangle' />
-							#i18n{portal.rbac.assign_users.noAssignedList}
-						</@callOut>
+			<@callOut color='warning'>
+				<@icon style='exclamation-triangle' />
+				#i18n{portal.rbac.assign_users.noAssignedList}
+			</@callOut>
           </#if>
       </@boxBody>
     </@box>

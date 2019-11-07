@@ -4,9 +4,9 @@
       <@boxHeader title='#i18n{portal.rbac.select_resource_ids.titleSelectIds}' />
 			<@boxBody>
 				<@tform method='post' action='jsp/admin/rbac/DoSelectResourcesFromIdsList.jsp' name='ids'>
-					<input type="hidden" name="role_key" value="${role_key}">
-					<input type="hidden" name="resource_type" value="${resource_type}">
-					<input type="hidden" name="select_resources" value="${select_resources}">
+					<@input type='hidden' name='role_key' value='${role_key}' />
+					<@input type='hidden' name='resource_type' value='${resource_type}' />
+					<@input type='hidden' name='select_resources' value='${select_resources}' />
 					<@formGroup>
 						<label id="resourceList">#i18n{portal.rbac.select_resource_ids.labelSelectIdsFromList}</label>
 						<div aria-labelledby="resourceList">

@@ -7,16 +7,16 @@
 </#if>
 
 <#-- extendableResourceAction + extendableResourceActionList -->
-<#macro extendableResourceAction >
-<div class="btn-group">
-	<a class="dropdown-toggle btn btn-primary btn-xs" id="extender" data-toggle="dropdown" href="#">
-		<i class="fa fa-plus-square"></i>
-		<span class="hidden-xs"> #i18n{portal.admin.resource.extend}</span> <b class="caret"></b>
-	</a>
-	<ul class="dropdown-menu" role="menu" aria-labelledby="extender">
+<#macro extendableResourceAction>
+<@btnGroup>
+	<#assign addIcon>
+		<@icon style='plus-square' />
+	</#assign>
+	<@aButton class='dropdown-toggle' size='xs' id='extender' dropdownMenu=true href='#' title='${addIcon} #i18n{portal.admin.resource.extend}' showTitleXS=false />
+	<@ul class='dropdown-menu' role='menu' params='aria-labelledby="extender"'>
 		<#nested>
-	</ul>
-</div>
+	</@ul>
+</@btnGroup>
 </#macro>
 
 <#macro extendableResourceActionList action >

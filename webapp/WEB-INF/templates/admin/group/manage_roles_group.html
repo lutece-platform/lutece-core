@@ -5,7 +5,7 @@
             <@boxHeader title=boxtitle />
             <@boxBody>
                 <@tform action='jsp/admin/group/DoAssignRoleGroup.jsp'>
-                    <input type="hidden" name="group_key" value="${group.groupKey}" >
+                    <@input type='hidden' name='group_key' value='${group.groupKey}' />
                     <@table>
                         <tr>
                             <th>#i18n{portal.group.manage_roles_group.colName}</th>

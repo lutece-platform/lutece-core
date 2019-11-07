@@ -1,23 +1,23 @@
 <@row>
 	<@columns>
 		<@box color='success'>
-			<@boxHeader title='#i18n{portal.users.manage_user_workgroups.titleRightList} : <i class="glyphicon glyphicon-user"></i>&nbsp;${user.lastName} ${user.firstName}' boxTools=true>
+			<@boxHeader title='#i18n{portal.users.manage_user_workgroups.titleRightList} : <@icon style='user' />&nbsp;${user.lastName} ${user.firstName}' boxTools=true>
 				<div class="pull-right spaced"><@item_navigation item_navigator=item_navigator /></div>
 				<#if can_delegate && can_modify>
-					<@tform class='pull-right spaced' method='post' name='modifyform' action='jsp/admin/user/ModifyUserWorkgroups.jsp'>
-						<input type="hidden" name="id_user" value="${user.userId}">
-						<input type="hidden" name="delegate_rights" value="false">
-						<@button type='submit' buttonIcon='share' title='#i18n{portal.users.manage_user_workgroups.buttonLabelDelegate}' size='' showTitleXs=false showTitleSm=false />
-					</@tform>
-        </#if>
-      </@boxHeader>
-      <@boxBody>
+				<@tform class='pull-right spaced' method='post' name='modifyform' action='jsp/admin/user/ModifyUserWorkgroups.jsp'>
+					<@input type='hidden' name='id_user' value='${user.userId}' />
+					<@input type='hidden' name='delegate_rights' value='false' />
+					<@button type='submit' buttonIcon='share' title='#i18n{portal.users.manage_user_workgroups.buttonLabelDelegate}' size='' showTitleXs=false showTitleSm=false />
+				</@tform>
+        		</#if>
+      		</@boxHeader>
+      		<@boxBody>
 				<@tabs>
 					<@listTabs>
-						<li><a href="jsp/admin/user/ModifyUser.jsp?id_user=${user.userId}" >#i18n{portal.users.actions.labelUser}</a></li>
-						<li><a href="jsp/admin/user/ModifyUserRights.jsp?id_user=${user.userId}">#i18n{portal.users.actions.labelRights}</a></li>
-						<li><a href="jsp/admin/user/ModifyUserRoles.jsp?id_user=${user.userId}">#i18n{portal.users.actions.labelRoles}</a></li>
-						<li class="active"><a href="jsp/admin/user/ModifyUserWorkgroups.jsp?id_user=${user.userId}">#i18n{portal.users.actions.labelWorkgroups}</a></li>
+						<li><@link href='jsp/admin/user/ModifyUser.jsp?id_user=${user.userId}'>#i18n{portal.users.actions.labelUser}</@link></li>
+						<li><@link href='jsp/admin/user/ModifyUserRights.jsp?id_user=${user.userId}'>#i18n{portal.users.actions.labelRights}</@link></li>
+						<li><@link href='jsp/admin/user/ModifyUserRoles.jsp?id_user=${user.userId}'>#i18n{portal.users.actions.labelRoles}</@link></li>
+						<li class="active"><@link href='jsp/admin/user/ModifyUserWorkgroups.jsp?id_user=${user.userId}'>#i18n{portal.users.actions.labelWorkgroups}</@link></li>
 					</@listTabs>
 					<@tabContent>
 						<@table>

@@ -20,7 +20,7 @@
 		<@box color='danger'>
 			<#if groupDisplay.feature_group.order !=0>
 				<#assign title>
-					#i18n{${groupDisplay.feature_group.labelKey}} <a name="${groupDisplay.feature_group.id?if_exists}">&nbsp;</a>
+					#i18n{${groupDisplay.feature_group.labelKey}} <@link name='${groupDisplay.feature_group.id?if_exists}'>&nbsp;</@link>
 				</#assign>
 			<#else>
 				<#assign title>

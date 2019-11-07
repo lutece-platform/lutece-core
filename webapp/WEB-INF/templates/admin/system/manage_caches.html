@@ -4,12 +4,12 @@
             <@boxHeader title='#i18n{portal.system.manage_caches.titleCacheList}' boxTools=true>
                 <@btnGroup>
                     <@tform method='post' action='jsp/admin/system/DoReloadProperties.jsp' class='pull-right'>
-                            <input type="hidden" name="token" value="${token}">
-                            <@button type='submit' buttonIcon='refresh' title='#i18n{portal.system.manage_caches.titleReloadProperties}' id='reload' size='' showTitleXs=false showTitleSm=false />
+                        <@input type='hidden' name='token' value='${token}' />
+                        <@button type='submit' buttonIcon='refresh' title='#i18n{portal.system.manage_caches.titleReloadProperties}' id='reload' size='' showTitleXs=false showTitleSm=false />
                     </@tform>
                     <@tform method='post' action='jsp/admin/system/DoResetCaches.jsp' class='pull-right spaced'>
-                            <input type="hidden" name="token" value="${token}">
-                            <@button type='submit' buttonIcon='trash' title='#i18n{portal.system.manage_caches.buttonFlush}' size='' color='danger' showTitleXs=false showTitleSm=false />
+                        <@input type='hidden' name='token' value='${token}' />
+                        <@button type='submit' buttonIcon='trash' title='#i18n{portal.system.manage_caches.buttonFlush}' size='' color='danger' showTitleXs=false showTitleSm=false />
                     </@tform>
                 </@btnGroup>
             </@boxHeader>
@@ -43,8 +43,8 @@
 						</td>
 						<td class="hidden-xs hidden-sm">
 							[
-							<i class="fa fa-info-circle"></i>&nbsp;#i18n{portal.system.manage_caches.columnTitleMaxElements}: ${service.maxElements!"-"}
-							&nbsp;|&nbsp;<i class="fa fa-time"></i>&nbsp;#i18n{portal.system.manage_caches.columnTitleTimeToLive} : ${service.timeToLive} -> ${ time2string( service.timeToLive )}
+							<@icon style='info-circle' />&nbsp;#i18n{portal.system.manage_caches.columnTitleMaxElements}: ${service.maxElements!"-"}
+							&nbsp;|&nbsp;<@icon style='clock-o' />&nbsp;#i18n{portal.system.manage_caches.columnTitleTimeToLive} : ${service.timeToLive} -> ${ time2string( service.timeToLive )}
 							]
 						</td>
 						<td class="hidden-xs">${service.cacheSize}</td>
@@ -52,8 +52,8 @@
 						<td>
                             <@btnGroup>
                                 <@tform method='post' action='jsp/admin/system/ConfirmToggleCache.jsp' class="pull-right spaced">
-                                    <input type="hidden" name="id_cache" value="${id}">
-                                    <input type="hidden" name="token" value="${token}">
+                                    <@input type='hidden' name='id_cache' value='${id}' />
+                                    <@input type='hidden' name='token' value='${token}' />
                                     <#if service.cacheEnable>
                                         <@button type='submit' buttonIcon='stop' title='#i18n{portal.system.manage_caches.actionDisable}' showTitle=false color='danger' />
                                     <#else>
@@ -62,8 +62,8 @@
                                 </@tform>
                                 <@aButton href='jsp/admin/system/CacheInfos.jsp?id_cache=${id}' buttonIcon='eye' class="pull-right spaced" title='#i18n{portal.system.manage_caches.actionViewKeys}' showTitle=false />
                                 <@tform method='post' action='jsp/admin/system/DoResetCaches.jsp' class="pull-right spaced">
-                                    <input type="hidden" bame="id_cache" value="${id}">
-                                    <input type="hidden" name="token" value="${token}">
+                                    <@input type='hidden' name='id_cache' value='${id}' />
+                                    <@input type='hidden' name='token' value='${token}' />
                                     <@button type='submit' buttonIcon='trash' title='#i18n{portal.system.manage_caches.actionClear}' showTitle=false color='danger' />
                                 </@tform>
                             </@btnGroup>

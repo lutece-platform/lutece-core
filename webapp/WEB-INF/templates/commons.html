@@ -891,12 +891,12 @@ and is kept only for backwards compatibility
 <#-- CHECKBOX -->
 <#-- orientation: vertical/horizontal. Default is vertical -->
 <#-- TODO  -->
-<#macro checkBox name id='' labelKey='' labelFor='' orientation='vertical' value='' tabIndex='' title='' disabled=false readonly=false checked=false params=''>
+<#macro checkBox name id='' labelKey='' labelFor='' orientation='vertical' value='' tabIndex='' title='' disabled=false readonly=false checked=false params='' mandatory=false>
 	<#if orientation='vertical'>
 	<div class="checkbox">
 	</#if>
 	<label<#if orientation='horizontal'> class="checkbox-inline"</#if><#if labelFor!=''> for="${labelFor}"</#if>>
-	<input type="checkbox" id="${id}" name="${name}"<#if value!=''> value="${value}"</#if><#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if checked> checked</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if params!=''> ${params}</#if> />
+	<input type="checkbox" id="${id}" name="${name}"<#if value!=''> value="${value}"</#if><#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if checked> checked</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if params!=''> ${params}</#if><#if mandatory?? && mandatory> required</#if> />
 		<#if labelKey!=''>
 			${labelKey}
 		<#else>
@@ -926,14 +926,17 @@ and is kept only for backwards compatibility
 
 <#-- INPUT-GROUP -->
 <#-- size: sm/lg/no size-->
-<#macro inputGroup size='' id='' params=''>
-	<div class="input-group<#if size!=''> input-group-${size}</#if>" <#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<#macro inputGroup size='' class='' id='' params=''>
+	<div class="input-group<#if size!=''> input-group-${size}</#if>><#if class!=''> ${class}</#if>" <#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 		<#nested>
 	</div>
 </#macro>
 
-<#macro inputGroupItem type='btn' id='' params=''>
-<#-- type: btn/addon. default is btn-->
+<#macro inputGroupItem pos='' type='btn' id='' params=''>
+<#-- type: btn/text. default is btn-->
+<#if type = 'text'>
+	<#local type = 'addon' />
+</#if>
 	<span class="input-group-${type}"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 		<#nested>
 	</span>
@@ -961,6 +964,13 @@ and is kept only for backwards compatibility
 	<div class="col-xs-${xs}<#if sm!=0> col-sm-${sm}</#if><#if md!=0> col-md-${md}</#if><#if lg!=0> col-lg-${lg}</#if><#if xl!=0> col-xl-${xl}</#if><#if offsetXs!=0> col-xs-offset-${offsetXs}</#if><#if offsetSm!=0> col-sm-offset-${offsetSm}</#if><#if offsetMd!=0> col-md-offset-${offsetMd}</#if><#if offsetLg!=0> col-lg-offset-${offsetLg}</#if><#if offsetXl!=0> col-xl-offset-${offsetXl}</#if><#if pushXs!=0> col-xs-push-${pushXs}</#if><#if pushSm!=0> col-sm-push-${pushSm}</#if><#if pushMd!=0> col-md-push-${pushMd}</#if><#if pushLg!=0> col-lg-push-${pushLg}</#if><#if pushXl!=0> col-xl-push-${pushXl}</#if><#if pullXs!=0> col-xs-pull-${pullXs}</#if><#if pullSm!=0> col-sm-pull-${pullSm}</#if><#if pullMd!=0> col-md-pull-${pullMd}</#if><#if pullLg!=0> col-lg-pull-${pullLg}</#if><#if pullXl!=0> col-xl-pull-${pullXl}</#if><#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 		<#nested>
 	</div>
+</#macro>
+
+<#-- LISTS -->
+<#macro ul id='' params='' class=''>
+	<ul<#if class!=''> class="${class}"</#if><#if params!=''> ${params}</#if><#if id!=''> ${id}</#if>>
+		<#nested>
+	</ul>
 </#macro>
 
 <#-- TABS -->
@@ -1201,6 +1211,13 @@ and is kept only for backwards compatibility
 </#macro>
 
 
+<#-- Simple links a href, anchors -->
+<#macro link href='' class='' id='' name='' title='' alt='' target='' params=''>
+	<a href="${href}"<#if class!=''> class="${class}"</#if><#if id!=''> id="${id}"</#if><#if name!=''> name="${name}"</#if><#if target!=''> target="${target}"</#if><#if title!=''> title="${title}"</#if><#if alt!=''> alt="${alt}"</#if><#if params!=''> ${params}</#if>>
+		<#nested>
+	</a>
+</#macro>
+
 
 <#-- MODAL -->
 <#-- bgColor: modal-default/modal-primary/modal-info/modal-warning/modal-danger -->
@@ -1402,7 +1419,7 @@ and is kept only for backwards compatibility
 
 <#-- NEW MACRO LUTECE-2221 -->
 <#-- MACRO adminHeader -->
-<#macro adminHeader >
+<#macro adminHeader site_name='SITE_NAME'>
 <body class="skin-blue-light hold-transition sidebar-mini" data-spy="scroll" data-target="#scrollspy">
 	<div class="wrapper">
 	  <header class="main-header" role="banner" data-menu="${menu_pos}">
@@ -1582,7 +1599,7 @@ enableBSToppltip: false
 </#macro>
 
 <#-- adminLoginPage  -->
-<#macro adminLoginPage title=''>
+<#macro adminLoginPage title='' site_name='SITE_NAME'>
 <div id="login-page">
 	<img src="images/logo-header.png" id="logoLogin" title="LUTECE Back-Office" alt="LUTECE Back-Office">
 	<div class="login-box">

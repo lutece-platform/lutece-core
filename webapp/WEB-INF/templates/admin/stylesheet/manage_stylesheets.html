@@ -3,7 +3,7 @@
 		<@box color='info'>
 			<@boxHeader title='#i18n{portal.style.manage_stylesheets.title}' boxTools=true>
 				<@tform class='pull-right spaced' method='post' action='jsp/admin/style/CreateStyleSheet.jsp'>
-					<input type="hidden" name="mode_id" value="${mode_id}">
+					<@input type='hidden' name='mode_id' value='${mode_id}' />
 					<@button type='submit' buttonIcon='plus' title='#i18n{portal.style.manage_stylesheets.buttonAdd}' size='' />
 				</@tform>
 				<@tform method='post' class='form-inline pull-right'>
