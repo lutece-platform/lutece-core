@@ -50,23 +50,23 @@
 						<td class="hidden-xs">${service.cacheSize}</td>
 						<td class="hidden-xs">${service.memorySize}</td>
 						<td>
-                            <@btnGroup>
-                                <@tform method='post' action='jsp/admin/system/ConfirmToggleCache.jsp' class="pull-right spaced">
-                                    <@input type='hidden' name='id_cache' value='${id}' />
-                                    <@input type='hidden' name='token' value='${token}' />
-                                    <#if service.cacheEnable>
-                                        <@button type='submit' buttonIcon='stop' title='#i18n{portal.system.manage_caches.actionDisable}' showTitle=false color='danger' />
-                                    <#else>
-                                        <@button type='submit' buttonIcon='play' title='#i18n{portal.system.manage_caches.actionEnable}' showTitle=false color='success' />
-                                    </#if>
-                                </@tform>
-                                <@aButton href='jsp/admin/system/CacheInfos.jsp?id_cache=${id}' buttonIcon='eye' class="pull-right spaced" title='#i18n{portal.system.manage_caches.actionViewKeys}' showTitle=false />
-                                <@tform method='post' action='jsp/admin/system/DoResetCaches.jsp' class="pull-right spaced">
-                                    <@input type='hidden' name='id_cache' value='${id}' />
-                                    <@input type='hidden' name='token' value='${token}' />
-                                    <@button type='submit' buttonIcon='trash' title='#i18n{portal.system.manage_caches.actionClear}' showTitle=false color='danger' />
-                                </@tform>
-                            </@btnGroup>
+							<@btnGroup>
+									<@tform method='post' action='jsp/admin/system/ConfirmToggleCache.jsp' class="pull-right spaced">
+											<@input type='hidden' name='id_cache' value='${id}' />
+											<@input type='hidden' name='token' value='${token}' />
+											<#if service.cacheEnable>
+													<@button type='submit' buttonIcon='stop' title='#i18n{portal.system.manage_caches.actionDisable}' showTitle=false color='danger' size='sm' />
+											<#else>
+													<@button type='submit' buttonIcon='play' title='#i18n{portal.system.manage_caches.actionEnable}' showTitle=false color='success' size='sm' />
+											</#if>
+									</@tform>
+									<@aButton href='jsp/admin/system/CacheInfos.jsp?id_cache=${id}' buttonIcon='eye' class="pull-right spaced" title='#i18n{portal.system.manage_caches.actionViewKeys}' showTitle=false size='sm' />
+									<@tform method='post' action='jsp/admin/system/DoResetCaches.jsp' class="pull-right spaced">
+											<@input type='hidden' name='id_cache' value='${id}' />
+											<@input type='hidden' name='token' value='${token}' />
+											<@button type='submit' buttonIcon='trash' title='#i18n{portal.system.manage_caches.actionClear}' showTitle=false size='sm' color='danger' />
+									</@tform>
+							</@btnGroup>
 						</td>
 					</tr>
 					<#assign id = id + 1>

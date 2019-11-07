@@ -33,7 +33,7 @@
 
 
 <#macro comboWithParams name default_value additionalParameters items >
-<div class="select is-rounded">
+<div class="select">
     <select id="${name}" name="${name}" ${additionalParameters}>
     <#list items as item>
         <#if default_value="${item.code}">
@@ -47,7 +47,7 @@
 </#macro>
 
 <#macro comboSortedWithParams name default_value additionalParameters items id=name>
-<div class="select is-rounded">
+<div class="select">
     <select id="${id}" name="${name}" ${additionalParameters}>
     <#list items?sort_by("name") as item>
         <#if default_value="${item.code}">
@@ -61,7 +61,7 @@
 </#macro>
 
 <#macro comboWithParamsAndLength name default_value additionalParameters items max_length class=''>
-<div class="select is-rounded">
+<div class="select">
     <select id="${name}" name="${name}" ${additionalParameters}>
 		<#list items as item>
     	    <#if max_length < item.name?length >
@@ -740,9 +740,25 @@ and is kept only for backwards compatibility
 </#macro>
 
 <#--- MACRO SELECT (TO REPLACE "COMBO" MACROS) --->
-<#macro select name items='' default_value="" id=name size='' sort=false multiple=0 params='' title='' tabIndex=0>
-<div class="select">
-    <select id="${id}" name="${name}" class="field<#if size!=''> is-${size}</#if>" <#if (multiple &gt; 0)>multiple size="${multiple}"</#if><#if (tabIndex &gt; 0)> tabindex="${tabIndex}"</#if><#if params!=''> ${params}</#if><#if title!=''> ${title}</#if>>
+<#macro select name items='' default_value="" id=name class='' size='' sort=false multiple=0 params='' title='' tabIndex=0>
+	<#switch size>
+		<#case 'xs'>
+				<#assign selectSize='small'>
+				<#break>
+		<#case 'sm'>
+				<#assign selectSize='small'>
+				<#break>
+		<#case 'md'>
+				<#assign selectSize='medium'>
+				<#break>
+		<#case 'lg'>
+				<#assign selectSize='large'>
+				<#break>
+		<#default>
+				<#assign selectSize='normal'>
+	</#switch>
+<div class="select<#if selectSize!=''> is-${selectSize}</#if>">
+    <select id="${id}" name="${name}" class="field<#if class!=''> input-${class}</#if>" <#if (multiple &gt; 0)>multiple size="${multiple}"</#if><#if (tabIndex &gt; 0)> tabindex="${tabIndex}"</#if><#if params!=''> ${params}</#if><#if title!=''> ${title}</#if>>
     <#if items?has_content>
         <#if sort=true>
             <#list items?sort_by("name") as item>
