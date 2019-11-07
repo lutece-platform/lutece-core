@@ -189,7 +189,6 @@ public final class AdminUserService
     private static final String MARK_LOCK_RESET_TOKEN_TO_SESSION = "lock_reset_token_to_session";
 
     // Properties
-    private static final String PROPERTY_ADMINISTRATOR = "right.administrator";
     private static final String PROPERTY_EMAIL_PATTERN = "lutece.email.pattern";
     private static final String PROPERTY_MESSAGE_EMAIL_FORMAT = "portal.users.message.user.emailFormat";
     private static final String PROPERTY_MESSAGE_EMAIL_FORMAT_BANNED_DOMAIN_NAME = "portal.users.message.user.emailFormatBannedDomainNames";
@@ -288,21 +287,6 @@ public final class AdminUserService
         }
 
         return locale;
-    }
-
-    /**
-     * Gets the admin right level
-     *
-     * @param request The HTTP request
-     * @return The boolean level right
-     */
-    @Deprecated
-    public static boolean getUserAdminRightLevel( HttpServletRequest request )
-    {
-        String strRightCode = AppPropertiesService.getProperty( PROPERTY_ADMINISTRATOR );
-
-        AdminUser user = getAdminUser( request );
-        return user.checkRight( strRightCode );
     }
 
     /**

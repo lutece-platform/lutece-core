@@ -41,6 +41,8 @@ import fr.paris.lutece.test.LuteceTestCase;
 
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
+
 /**
  * SpringContextService Test Class
  */
@@ -51,8 +53,6 @@ public class SpringContextServiceTest extends LuteceTestCase
      */
     public void testGetBean( )
     {
-        System.out.println( "getBean" );
-
         String strName = "adminAuthenticationModule";
 
         Object result = SpringContextService.getBean( strName );
@@ -61,7 +61,6 @@ public class SpringContextServiceTest extends LuteceTestCase
 
     public void testInit( )
     {
-        System.out.println( "init" );
         try
         {
             SpringContextService.init( null );
@@ -74,14 +73,8 @@ public class SpringContextServiceTest extends LuteceTestCase
 
     public void testGetBeanOfType( )
     {
-        System.out.println( "getBeanOfType" );
-
         List<SearchEngine> list = SpringContextService.getBeansOfType( SearchEngine.class );
-
-        for ( SearchEngine engine : list )
-        {
-            System.out.println( engine.getClass( ) );
-        }
+        assertTrue( CollectionUtils.isNotEmpty( list ) );
     }
 
     public void testIsBeanEnabled( )

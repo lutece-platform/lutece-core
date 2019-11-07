@@ -61,6 +61,7 @@ import javax.xml.transform.stream.StreamResult;
  */
 public final class XmlTransformer
 {
+    private static final String ERROR_MESSAGE_XLST = "Error transforming document XSLT : ";
     public static final String PROPERTY_TRANSFORMER_POOL_SIZE = "service.xmlTransformer.transformerPoolSize";
     public static final int TRANSFORMER_POOL_SIZE = AppPropertiesService.getPropertyInt( PROPERTY_TRANSFORMER_POOL_SIZE, 2 );
     public static final int MAX_TRANSFORMER_SIZE = 1000;
@@ -119,11 +120,11 @@ public final class XmlTransformer
                     strMessage += ( "- location : " + e.getLocationAsString( ) );
                 }
 
-                throw new TransformerException( "Error transforming document XSLT : " + strMessage, e.getCause( ) );
+                throw new TransformerException( ERROR_MESSAGE_XLST + strMessage, e.getCause( ) );
             }
             catch( TransformerFactoryConfigurationError e )
             {
-                throw new TransformerException( "Error transforming document XSLT : " + e.getMessage( ), e );
+                throw new TransformerException( ERROR_MESSAGE_XLST + e.getMessage( ), e );
             }
         }
 
@@ -250,7 +251,7 @@ public final class XmlTransformer
                 strMessage += ( " - location : " + e.getLocationAsString( ) );
             }
 
-            throw new TransformerException( "Error transforming document XSLT : " + strMessage, e.getCause( ) );
+            throw new TransformerException( ERROR_MESSAGE_XLST + strMessage, e.getCause( ) );
         }
         finally
         {

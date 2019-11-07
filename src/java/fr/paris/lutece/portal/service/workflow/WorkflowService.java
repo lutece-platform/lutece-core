@@ -67,7 +67,7 @@ public final class WorkflowService
 {
     private static final String PLUGIN_WORKFLOW_NAME = "workflow";
     private static final String BEAN_WORKFLOW_PROVIDER = "workflow.workflowProvider";
-    private static volatile WorkflowService _singleton;
+    private static WorkflowService _singleton;
     private boolean _bServiceAvailable = true;
     private IWorkflowService _service;
     private IWorkflowProvider _provider;
@@ -95,13 +95,12 @@ public final class WorkflowService
      * 
      * @return The instance of the service
      */
-    public static WorkflowService getInstance( )
+    public static synchronized WorkflowService getInstance( )
     {
         if ( _singleton == null )
         {
             _singleton = new WorkflowService( );
         }
-
         return _singleton;
     }
 
@@ -234,37 +233,6 @@ public final class WorkflowService
         return isAvailable( )
                 ? _provider.getDisplayDocumentHistory( nIdResource, strResourceType, nIdWorkflow, request, locale )
                 : null;
-    }
-
-    /**
-     * returns the actions history performed on a resource
-     * 
-     * @param nIdResource     the resource id
-     * @param strResourceType the resource type
-     * @param request         the request
-     * @param nIdWorkflow     the workflow id
-     * @param locale          the locale
-     * @param strTemplate     The template
-     * @return the history of actions performed on a resource
-     */
-    @Deprecated
-    public String getDisplayDocumentHistory( int nIdResource, String strResourceType, int nIdWorkflow,
-            HttpServletRequest request, Locale locale, String strTemplate )
-    {
-        if ( !isAvailable( ) )
-        {
-            return null;
-        }
-        try
-        {
-            return _provider.getDisplayDocumentHistory( nIdResource, strResourceType, nIdWorkflow, request, locale,
-                    strTemplate );
-        }
-        catch ( NoSuchMethodError ex )
-        {
-            AppLogService.error( "You are using a too old Workflow provider version. Please upgrade." );
-            return _provider.getDisplayDocumentHistory( nIdResource, strResourceType, nIdWorkflow, request, locale );
-        }
     }
 
     /**

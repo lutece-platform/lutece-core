@@ -41,7 +41,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Optional;
 import java.util.Properties;
 
@@ -49,6 +48,7 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.BooleanUtils;
 
 import fr.paris.lutece.portal.business.page.Page;
 import fr.paris.lutece.portal.business.page.PageHome;
@@ -161,18 +161,6 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
     /**
      * Creates a new PageService object.
      * 
-     * @deprecated use {@link #PageService(PageCacheService, PortletCacheService)}
-     *             instead.
-     */
-    @Deprecated
-    public PageService( )
-    {
-        init( );
-    }
-
-    /**
-     * Creates a new PageService object.
-     * 
      * @param pageCacheService    the page cache service
      * @param portletCacheService the portlet cache service
      */
@@ -243,7 +231,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
             if ( _cachePages.isCacheEnable( ) )
             {
                 strPage = getCachedPage( strIdPage, nMode, request );
-                
+
                 // redirection handling
                 strPage = redirect( strPage );
             }
@@ -261,7 +249,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
             throw new PageNotFoundException( );
         }
     }
-    
+
     private String redirect( String strPage )
     {
         if ( strPage.startsWith( REDIRECTION_KEY ) )
@@ -277,7 +265,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
                 AppLogService.error( "Error on sendRedirect for " + strPage );
             }
         }
-        
+
         return strPage;
     }
 
@@ -387,9 +375,9 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
     /**
      * Build the page content.
      *
-     * @param strIdPage    The page ID
-     * @param nMode        The current mode.
-     * @param request      The HttpRequest
+     * @param strIdPage The page ID
+     * @param nMode     The current mode.
+     * @param request   The HttpRequest
      * @return The HTML code of the page as a String.
      * @throws SiteMessageException occurs when a site message need to be displayed
      */
@@ -602,15 +590,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
     private String getPortletContent( HttpServletRequest request, Portlet portlet, Map<String, String> mapRequestParams,
             int nMode ) throws SiteMessageException
     {
-        if ( ( nMode != MODE_ADMIN ) && ( portlet.getStatus( ) == Portlet.STATUS_UNPUBLISHED ) )
-        {
-            return StringUtils.EMPTY;
-        }
-
-        String strRole = portlet.getRole( );
-
-        if ( !strRole.equals( Page.ROLE_NONE ) && SecurityService.isAuthenticationEnable( ) && nMode != MODE_ADMIN
-                && !SecurityService.getInstance( ).isUserInRole( request, strRole ) )
+        if ( !isPortletVisible( request, portlet, nMode ) )
         {
             return StringUtils.EMPTY;
         }
@@ -631,6 +611,17 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
 
         String strKey = StringUtils.EMPTY;
 
+        LuteceUser user = null;
+
+        if ( SecurityService.isAuthenticationEnable( ) )
+        {
+            user = SecurityService.getInstance( ).getRegisteredUser( request );
+        }
+
+        boolean isCacheEnabled = nMode != MODE_ADMIN && _cachePortlets.isCacheEnable( );
+        boolean bCanBeCached = user != null ? portlet.canBeCachedForConnectedUsers( )
+                : portlet.canBeCachedForAnonymousUsers( );
+
         if ( portlet.isContentGeneratedByXmlAndXsl( ) )
         {
             Map<String, String> mapParams = mapRequestParams;
@@ -640,10 +631,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
             {
                 if ( mapXslParams != null )
                 {
-                    for ( Entry<String, String> entry : mapXslParams.entrySet( ) )
-                    {
-                        mapParams.put( entry.getKey( ), entry.getValue( ) );
-                    }
+                    mapParams.putAll( mapXslParams );
                 }
             }
             else
@@ -651,36 +639,21 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
                 mapParams = mapXslParams;
             }
 
-            Properties outputProperties = ModeHome.getOuputXslProperties( nMode );
-
-            String strXslUniqueId = XSL_UNIQUE_PREFIX + String.valueOf( portlet.getStyleId( ) );
-
-            if ( ( ( nMode != MODE_ADMIN ) && _cachePortlets.isCacheEnable( ) ) )
+            if ( isCacheEnabled && bCanBeCached )
             {
-                LuteceUser user = null;
+                mapParams.put( PARAMETER_PORTLET, String.valueOf( portlet.getId( ) ) );
+                strKey = _cksPortlet.getKey( mapParams, nMode, user );
 
-                if ( SecurityService.isAuthenticationEnable( ) )
+                String strPortlet = (String) _cachePortlets.getFromCache( strKey );
+
+                if ( strPortlet != null )
                 {
-                    user = SecurityService.getInstance( ).getRegisteredUser( request );
-                }
-
-                boolean bCanBeCached = ( user != null ) ? ( portlet.canBeCachedForConnectedUsers( ) )
-                        : ( portlet.canBeCachedForAnonymousUsers( ) );
-
-                if ( bCanBeCached )
-                {
-                    mapParams.put( PARAMETER_PORTLET, String.valueOf( portlet.getId( ) ) );
-                    strKey = _cksPortlet.getKey( mapParams, nMode, user );
-
-                    String strPortlet = (String) _cachePortlets.getFromCache( strKey );
-
-                    if ( strPortlet != null )
-                    {
-                        return strPortlet;
-                    }
+                    return strPortlet;
                 }
             }
 
+            Properties outputProperties = ModeHome.getOuputXslProperties( nMode );
+            String strXslUniqueId = XSL_UNIQUE_PREFIX + String.valueOf( portlet.getStyleId( ) );
             XmlTransformerService xmlTransformerService = new XmlTransformerService( );
             String strPortletXmlContent = portlet.getXml( request );
             strPortletContent += xmlTransformerService.transformBySourceWithXslCache( strPortletXmlContent,
@@ -688,41 +661,47 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
         }
         else
         {
-            if ( ( ( nMode != MODE_ADMIN ) && _cachePortlets.isCacheEnable( ) ) )
+            if ( isCacheEnabled && bCanBeCached )
             {
-                LuteceUser user = null;
+                mapRequestParams.put( PARAMETER_PORTLET, String.valueOf( portlet.getId( ) ) );
+                strKey = _cksPortlet.getKey( mapRequestParams, nMode, user );
 
-                if ( SecurityService.isAuthenticationEnable( ) )
+                String strPortlet = (String) _cachePortlets.getFromCache( strKey );
+
+                if ( strPortlet != null )
                 {
-                    user = SecurityService.getInstance( ).getRegisteredUser( request );
-                }
-
-                boolean bCanBeCached = ( user != null ) ? ( portlet.canBeCachedForConnectedUsers( ) )
-                        : ( portlet.canBeCachedForAnonymousUsers( ) );
-
-                if ( bCanBeCached )
-                {
-                    mapRequestParams.put( PARAMETER_PORTLET, String.valueOf( portlet.getId( ) ) );
-                    strKey = _cksPortlet.getKey( mapRequestParams, nMode, user );
-
-                    String strPortlet = (String) _cachePortlets.getFromCache( strKey );
-
-                    if ( strPortlet != null )
-                    {
-                        return strPortlet;
-                    }
+                    return strPortlet;
                 }
             }
 
             strPortletContent += portlet.getHtmlContent( request );
         }
 
-        if ( ( nMode != MODE_ADMIN ) && _cachePortlets.isCacheEnable( ) && StringUtils.isNotEmpty( strKey ) )
+        if ( isCacheEnabled && StringUtils.isNotEmpty( strKey ) )
         {
             _cachePortlets.putInCache( strKey, strPortletContent );
         }
 
         return strPortletContent;
+    }
+    
+    private boolean isPortletVisible( HttpServletRequest request, Portlet portlet, int nMode )
+    {
+        if ( ( nMode != MODE_ADMIN ) && ( portlet.getStatus( ) == Portlet.STATUS_UNPUBLISHED ) )
+        {
+            return false;
+        }
+        
+        String strRole = portlet.getRole( );
+        
+        boolean[] conditions = new boolean[] {
+                strRole.equals( Page.ROLE_NONE ),
+                !SecurityService.isAuthenticationEnable( ),
+                nMode == MODE_ADMIN,
+                SecurityService.getInstance( ).isUserInRole( request, strRole )
+        };
+        
+        return BooleanUtils.or( conditions );
     }
 
     /**

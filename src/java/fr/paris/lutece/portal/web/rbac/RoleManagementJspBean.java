@@ -39,6 +39,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -848,16 +849,9 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
         AdminRole role = AdminRoleHome.findByPrimaryKey( strRoleKey );
 
         // ASSIGNED USERS
-        List<AdminUser> listAssignedUsers = new ArrayList<>( );
-
-        for ( AdminUser user : AdminUserHome.findByRole( strRoleKey ) )
-        {
-            // Add users with higher level then connected user or add all users if connected user is administrator
-            if ( ( user.getUserLevel( ) > getUser( ).getUserLevel( ) ) || ( getUser( ).isAdmin( ) ) )
-            {
-                listAssignedUsers.add( user );
-            }
-        }
+        List<AdminUser> listAssignedUsers = AdminUserHome.findByRole( strRoleKey )
+                .stream( ).filter( this::isUserHigherThanConnectedUser )
+                .collect( Collectors.toList( ) );
 
         List<AdminUser> listFilteredUsers = AdminUserService.getFilteredUsersInterface( listAssignedUsers, request, model, url );
 
@@ -875,7 +869,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
                     .anyMatch( assignedUser -> Integer.toString( assignedUser.getUserId( ) ).equals( itemUser.getCode( ) ) );
 
             // Add users with higher level then connected user or add all users if connected user is administrator
-            if ( !bAssigned && ( ( user.getUserLevel( ) > getUser( ).getUserLevel( ) ) || ( getUser( ).isAdmin( ) ) ) )
+            if ( !bAssigned && isUserHigherThanConnectedUser( user ) )
             {
                 listAvailableUsers.add( itemUser );
             }

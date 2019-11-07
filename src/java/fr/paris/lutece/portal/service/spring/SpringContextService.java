@@ -66,6 +66,7 @@ import fr.paris.lutece.portal.service.util.AppPathService;
  */
 public final class SpringContextService implements PluginEventListener
 {
+    private static final String PROTOCOL_FILE = "file:";
     private static final String PATH_CONF = "/WEB-INF/conf/";
     private static final String DIR_PLUGINS = "plugins/";
     private static final String DIR_OVERRIDE = "override/";
@@ -95,22 +96,6 @@ public final class SpringContextService implements PluginEventListener
     public static <T> T getBean( String strName )
     {
         return (T) _context.getBean( strName );
-    }
-
-    /**
-     * Return an instance of the given bean name loaded by the a Spring BeanFactory.
-     * The bean is retreived from a plugin context defined in the
-     * WEB-INF/conf/plugins/[plugin_name]_context.xml.
-     * 
-     * @param strPluginName The Plugin's name
-     * @param strName       The bean's name
-     * @return The instance of the bean
-     * @deprecated use {@link #getBean(String)} instead
-     */
-    @Deprecated
-    public static Object getPluginBean( String strPluginName, String strName )
-    {
-        return _context.getBean( strName );
     }
 
     /**
@@ -152,7 +137,7 @@ public final class SpringContextService implements PluginEventListener
 
             // Load the core context file : core_context.xml
             String strConfPath = AppPathService.getAbsolutePathFromRelativePath( PATH_CONF );
-            String strContextFile = "file:" + strConfPath + FILE_CORE_CONTEXT;
+            String strContextFile = PROTOCOL_FILE + strConfPath + FILE_CORE_CONTEXT;
 
             GenericWebApplicationContext gwac = new GenericWebApplicationContext( servletContext );
             gwac.setId( getContextName( servletContext ) );
@@ -183,7 +168,7 @@ public final class SpringContextService implements PluginEventListener
             if ( fileCoreContextOverride.exists( ) )
             {
                 AppLogService.debug( "Context file loaded : core_context" );
-                xmlReader.loadBeanDefinitions( "file:" + strCoreContextOverrideFile );
+                xmlReader.loadBeanDefinitions( PROTOCOL_FILE + strCoreContextOverrideFile );
             }
             else
             {
@@ -252,21 +237,24 @@ public final class SpringContextService implements PluginEventListener
     private static void loadContexts( String[] filesContext, String strConfPluginsPath,
             XmlBeanDefinitionReader xmlReader )
     {
-        for ( String fileContext : filesContext )
+        if ( filesContext != null )
         {
-            String[] file =
-            { "file:" + strConfPluginsPath + fileContext };
+            for ( String fileContext : filesContext )
+            {
+                String[] file =
+                { PROTOCOL_FILE + strConfPluginsPath + fileContext };
 
-            // Safe loading of plugin context file
-            try
-            {
-                xmlReader.loadBeanDefinitions( file );
-                AppLogService.info( "Context file loaded : " + fileContext );
-            }
-            catch ( Exception e )
-            {
-                AppLogService.error(
-                        "Unable to load Spring context file : " + fileContext + " - cause : " + e.getMessage( ), e );
+                // Safe loading of plugin context file
+                try
+                {
+                    xmlReader.loadBeanDefinitions( file );
+                    AppLogService.info( "Context file loaded : " + fileContext );
+                }
+                catch ( Exception e )
+                {
+                    AppLogService.error(
+                            "Unable to load Spring context file : " + fileContext + " - cause : " + e.getMessage( ), e );
+                }
             }
         }
     }

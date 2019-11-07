@@ -162,6 +162,7 @@ public class XPageAppService extends ContentService
     @Override
     public void resetCache( )
     {
+        // Do nothing
     }
 
     /**

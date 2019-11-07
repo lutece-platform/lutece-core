@@ -61,7 +61,6 @@ import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.portal.web.upload.MultipartHttpServletRequest;
 import fr.paris.lutece.util.file.FileUtil;
 import fr.paris.lutece.util.html.HtmlTemplate;
-import fr.paris.lutece.util.stream.StreamUtil;
 
 /**
  * This class provides the user interface to manage page templates features (
@@ -69,8 +68,6 @@ import fr.paris.lutece.util.stream.StreamUtil;
  */
 public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
 {
-    private static final String LOG_ERROR_DELETE_FILE = "Error deleting file";
-
     // Right
     /**
      * Right to manage page templates
@@ -311,13 +308,7 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
 
         if ( bUpdateFile )
         {
-            if ( !new File(
-                    AppPathService.getPath( PROPERTY_PATH_TEMPLATE ) + File.separator + pageTemplate.getFile( ) )
-                            .delete( ) )
-            {
-                AppLogService.info( LOG_ERROR_DELETE_FILE );
-            }
-
+            FileUtil.deleteFile( new File( AppPathService.getPath( PROPERTY_PATH_TEMPLATE ), pageTemplate.getFile( ) ) );
             pageTemplate.setFile( AppPropertiesService.getProperty( PROPERTY_PATH_FILE_PAGE_TEMPLATE ) + strFileName );
 
             writeTemplateFile( strFileName, PATH_TEMPLATE, fileTemplate );
@@ -325,10 +316,7 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
 
         if ( bUpdatePicture )
         {
-            if ( !new File( PATH_IMAGE_PAGE_TEMPLATE, pageTemplate.getPicture( ) ).delete( ) )
-            {
-                AppLogService.info( LOG_ERROR_DELETE_FILE );
-            }
+            FileUtil.deleteFile( new File( PATH_IMAGE_PAGE_TEMPLATE, pageTemplate.getPicture( ) ) );
             pageTemplate.setPicture( strPictureName );
 
             writeTemplateFile( strPictureName, PATH_IMAGE_PAGE_TEMPLATE, filePicture );
@@ -341,7 +329,7 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
         // page
         return getHomeUrl( request );
     }
-
+    
     /**
      * Returns the confirm of removing the page_template whose identifier is in the
      * http request
@@ -398,18 +386,10 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
 
         File filePageTemplateToDelete = new File( AppPathService.getPath( PROPERTY_PATH_TEMPLATE ),
                 pageTemplate.getFile( ) );
-
-        if ( filePageTemplateToDelete.exists( ) && !filePageTemplateToDelete.delete( ) )
-        {
-            AppLogService.info( LOG_ERROR_DELETE_FILE );
-        }
+        FileUtil.deleteFile( filePageTemplateToDelete );
 
         File filePictureToDelete = new File( PATH_IMAGE_PAGE_TEMPLATE, pageTemplate.getPicture( ) );
-
-        if ( filePictureToDelete.exists( ) && !filePictureToDelete.delete( ) )
-        {
-            AppLogService.info( LOG_ERROR_DELETE_FILE );
-        }
+        FileUtil.deleteFile( filePictureToDelete );
 
         PageTemplateHome.remove( nId );
 
@@ -428,29 +408,16 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
      */
     private void writeTemplateFile( String strFileName, String strPath, FileItem fileItem )
     {
-        FileOutputStream fosFile = null;
+        File file = new File( strPath + strFileName );
+        FileUtil.deleteFile( file );
 
-        try
+        try ( FileOutputStream fosFile = new FileOutputStream( file ) )
         {
-            File file = new File( strPath + strFileName );
-
-            if ( file.exists( ) && !file.delete( ) )
-            {
-                AppLogService.info( LOG_ERROR_DELETE_FILE );
-            }
-
-            fosFile = new FileOutputStream( file );
-            fosFile.flush( );
             fosFile.write( fileItem.get( ) );
-            fosFile.close( );
         }
         catch ( IOException e )
         {
             AppLogService.error( e.getMessage( ), e );
-        }
-        finally
-        {
-            StreamUtil.safeClose( fosFile );
         }
     }
 }

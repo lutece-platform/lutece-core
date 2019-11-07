@@ -234,6 +234,6 @@ public class LuteceConnectionService implements ConnectionService
      */
     public DataSource getDataSource( )
     {
-        return _connPool;
+        return getConnectionPool( );
     }
 }

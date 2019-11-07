@@ -99,7 +99,7 @@ public final class AppConnectionService
     {
         if ( _poolManager == null )
         {
-            throw new RuntimeException( "* Erreur * getConnection : Le pool de connexion n'est pas initialise !" );
+            throw new AppException( "* Erreur * getConnection : Le pool de connexion n'est pas initialise !" );
         }
 
         return _connectionService.getConnection( );

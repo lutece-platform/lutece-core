@@ -46,7 +46,7 @@ import java.util.Map;
 /**
  * FreemarkerTemplateService
  */
-public class FreemarkerTemplateService extends AbstractFreeMarkerTemplateService
+public class MockFreemarkerTemplateService extends AbstractFreeMarkerTemplateService
 {
 
     private String _strAbsolutePath;
@@ -55,7 +55,7 @@ public class FreemarkerTemplateService extends AbstractFreeMarkerTemplateService
      * Constructor
      * @param strAbsolutePath 
      */
-    public FreemarkerTemplateService( String strAbsolutePath )
+    public MockFreemarkerTemplateService( String strAbsolutePath )
     {
         _strAbsolutePath = strAbsolutePath;
     }

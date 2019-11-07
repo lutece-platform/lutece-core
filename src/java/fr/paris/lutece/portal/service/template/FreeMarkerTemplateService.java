@@ -50,24 +50,22 @@ public class FreeMarkerTemplateService extends AbstractFreeMarkerTemplateService
 {
     public static final String BEAN_SERVICE = "freeMarkerTemplateService";
     private static final String PROPERTY_TEMPLATE_UPDATE_DELAY = "service.freemarker.templateUpdateDelay";
-    private static final int TEMPLATE_UPDATE_DELAY = AppPropertiesService.getPropertyInt( PROPERTY_TEMPLATE_UPDATE_DELAY, 5 );
-    private static volatile FreeMarkerTemplateService _singleton;
+    private static final int TEMPLATE_UPDATE_DELAY = AppPropertiesService
+            .getPropertyInt( PROPERTY_TEMPLATE_UPDATE_DELAY, 5 );
+    private static FreeMarkerTemplateService _singleton;
 
     /**
      * Get the instance of the freemarker template service
      * 
      * @return the instance of the freemarker template service
      */
-    public static FreeMarkerTemplateService getInstance( )
+    public static synchronized FreeMarkerTemplateService getInstance( )
     {
         if ( _singleton == null )
         {
-            synchronized( FreeMarkerTemplateService.class )
-            {
-                FreeMarkerTemplateService service = new FreeMarkerTemplateService( );
-                service.setTemplateUpdateDelay( TEMPLATE_UPDATE_DELAY );
-                _singleton = service;
-            }
+            FreeMarkerTemplateService service = new FreeMarkerTemplateService( );
+            service.setTemplateUpdateDelay( TEMPLATE_UPDATE_DELAY );
+            _singleton = service;
         }
 
         return _singleton;

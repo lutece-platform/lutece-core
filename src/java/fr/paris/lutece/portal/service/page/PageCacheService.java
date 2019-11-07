@@ -33,12 +33,12 @@
  */
 package fr.paris.lutece.portal.service.page;
 
-import fr.paris.lutece.portal.service.cache.AbstractCacheableService;
+import java.util.concurrent.ConcurrentHashMap;
 
+import fr.paris.lutece.portal.service.cache.AbstractCacheableService;
+import fr.paris.lutece.portal.service.util.AppException;
 import net.sf.ehcache.Ehcache;
 import net.sf.ehcache.Element;
-
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Page Cache Service
@@ -143,6 +143,6 @@ public class PageCacheService extends AbstractCacheableService
     @Override
     public Object clone( )
     {
-        throw new RuntimeException( "This class shouldn't be cloned" );
+        throw new AppException( "This class shouldn't be cloned" );
     }
 }

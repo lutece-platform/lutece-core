@@ -454,27 +454,6 @@ public class DAOUtil implements AutoCloseable
     }
 
     /**
-     * Moves the cursor to the first row in this ResultSet object.
-     * 
-     * @deprecated Use {@link #next()} instead
-     * @return true if the cursor is on a valid row; false if there are no rows in
-     *         the result set
-     */
-    @Deprecated
-    public boolean first( )
-    {
-        try
-        {
-            return _resultSet.first( );
-        }
-        catch ( SQLException e )
-        {
-            free( );
-            throw new AppException( getErrorMessage( e ), e );
-        }
-    }
-
-    /**
      * Indicates whether the cursor is on the last row of this ResultSet object.
      * 
      * @return true if the cursor is on the last row; false otherwise

@@ -87,19 +87,17 @@ public class SecurityTokenService implements ISecurityTokenService
     {
         String strToken = generateNewKey( );
         HttpSession session = request.getSession( true );
-        Map<String, Set<String>> hashTokens;
 
         if ( session.getAttribute( PARAMETER_SESSION_TOKENS ) == null )
         {
-            hashTokens = new HashMap<>( );
-            session.setAttribute( PARAMETER_SESSION_TOKENS, hashTokens );
+            session.setAttribute( PARAMETER_SESSION_TOKENS, new HashMap<String, HashSet<String>>( ) );
         }
 
-        hashTokens = (Map<String, Set<String>>) session.getAttribute( PARAMETER_SESSION_TOKENS );
+        Map<String, HashSet<String>> hashTokens = (Map<String, HashSet<String>>) session.getAttribute( PARAMETER_SESSION_TOKENS );
 
         if ( !hashTokens.containsKey( strAction ) )
         {
-            hashTokens.put( strAction, new HashSet<String>( ) );
+            hashTokens.put( strAction, new HashSet<>( ) );
         }
 
         hashTokens.get( strAction ).add( strToken );

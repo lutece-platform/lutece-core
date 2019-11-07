@@ -72,27 +72,6 @@ public final class MailService
     }
 
     /**
-     * Send a message asynchronously. The message is queued until a daemon thread send all awaiting messages
-     * 
-     * @param strRecipient
-     *            The recipient email.
-     * @param strSenderName
-     *            The sender name.
-     * @param strSenderEmail
-     *            The sender email address.
-     * @param strSubject
-     *            The message subject.
-     * @param strMessage
-     *            The message.
-     * @deprecated Use {@link #sendMailText(String strRecipient, String strSenderName, String strSenderEmail, String strSubject, String strMessage)} instead
-     */
-    @Deprecated
-    public static void sendMail( String strRecipient, String strSenderName, String strSenderEmail, String strSubject, String strMessage )
-    {
-        sendMailText( strRecipient, strSenderName, strSenderEmail, strSubject, strMessage );
-    }
-
-    /**
      * Send a HTML message asynchronously. The message is queued until a daemon thread send all awaiting messages
      *
      * @param strRecipientsTo

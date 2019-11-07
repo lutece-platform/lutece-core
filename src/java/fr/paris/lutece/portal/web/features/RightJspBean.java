@@ -158,17 +158,11 @@ public class RightJspBean extends AdminFeaturesPageJspBean
         right.setLocale( getLocale( ) );
 
         // ASSIGNED USERS
-        List<AdminUser> listAssignedUsers = new ArrayList<>( );
-
-        for ( AdminUser user : AdminUserHome.findByRight( strIdRight ) )
-        {
-            // Add users with higher level then connected user or add all users if connected
-            // user is administrator
-            if ( ( user.getUserLevel( ) > getUser( ).getUserLevel( ) ) || ( getUser( ).isAdmin( ) ) )
-            {
-                listAssignedUsers.add( user );
-            }
-        }
+        // Add users with higher level then connected user or add all users if connected
+        // user is administrator
+        List<AdminUser> listAssignedUsers =  AdminUserHome.findByRight( strIdRight )
+                .stream( ).filter( this::isUserHigherThanConnectedUser )
+                .collect( Collectors.toList( ) );
 
         List<AdminUser> listFilteredUsers = AdminUserService.getFilteredUsersInterface( listAssignedUsers, request,
                 model, url );
@@ -188,8 +182,7 @@ public class RightJspBean extends AdminFeaturesPageJspBean
             
             // Add users with higher level then connected user or add all users if connected
             // user is administrator
-            if ( !bAssigned && ( ( user.getUserLevel( ) > getUser( ).getUserLevel( ) ) || ( getUser( ).isAdmin( ) ) )
-                    && ( user.getUserLevel( ) <= right.getLevel( ) ) )
+            if ( !bAssigned && isUserHigherThanConnectedUser( user ) && ( user.getUserLevel( ) <= right.getLevel( ) ) )
             {
                 listAvailableUsers.add( itemUser );
             }
