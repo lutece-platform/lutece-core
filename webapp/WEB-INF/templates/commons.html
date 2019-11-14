@@ -730,14 +730,14 @@ and is kept only for backwards compatibility
 
 
 <#-- MACRO TD -->
-<#macro td  showXs=true showSm=true showMd=true showLg=true xs=0 sm=0 md=0 lg=0 xl=0 class='' id='' params=''>
+<#macro td showXs=true showSm=true showMd=true showLg=true xs=0 sm=0 md=0 lg=0 xl=0 class='' id='' flex=false params=''>
     <#assign tdClass=class />
     <#if !showXs><#assign tdClass=tdClass + ' hidden-xs'></#if>
     <#if !showSm><#assign tdClass=tdClass + ' hidden-sm'></#if>
     <#if !showMd><#assign tdClass=tdClass + ' hidden-md'></#if>
     <#if !showLg><#assign tdClass=tdClass + ' hidden-lg'></#if>
 
-<td class="<#if tdClass != ''>${tdClass}</#if><#if xs!=0>col-xs-${xs}</#if><#if sm!=0> col-sm-${sm}</#if><#if md!=0> col-md-${md}</#if><#if lg!=0> col-lg-${lg}</#if><#if xl!=0> col-xl-${xl}</#if><#if class!=''>${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<td class="<#if tdClass != ''>${tdClass}</#if><#if xs!=0>col-xs-${xs}</#if><#if sm!=0> col-sm-${sm}</#if><#if md!=0> col-md-${md}</#if><#if lg!=0> col-lg-${lg}</#if><#if xl!=0> col-xl-${xl}</#if><#if class!=''>${class}</#if>"<#if flex> style="display:flex;"</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 		<#nested>
 	</td>
 </#macro>
@@ -772,7 +772,15 @@ and is kept only for backwards compatibility
 <#-- ICONS -->
 <#-- Icons from FontAwesome -->
 <#macro icon prefix='fa fa-' style='' class='' title='' id='' params=''>
-  <i class="${prefix}${style}<#if class!=''> ${class}</#if>" aria-hidden="true"<#if title!=''> title='${title}'</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>></i>
+	<#switch style>
+		<#case 'sync'>
+		<#assign iconStyle = 'refresh' />
+		<#break>
+		
+		<#default>
+		<#assign iconStyle = style />
+	</#switch>
+  <i class="${prefix}${iconStyle}<#if class!=''> ${class}</#if>" aria-hidden="true"<#if title!=''> title='${title}'</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>></i>
 </#macro>
 
 <#-- FORM -->
@@ -973,6 +981,12 @@ and is kept only for backwards compatibility
 	</ul>
 </#macro>
 
+<#macro li id='' params='' class=''>
+		<li<#if class!=''> class="${class}"</#if><#if params!=''> ${params}</#if><#if id!=''> ${id}</#if>>
+			<#nested>
+		</li>
+</#macro>
+
 <#-- TABS -->
 
 <#-- TAB Custom AdminLTE -->
@@ -984,10 +998,18 @@ and is kept only for backwards compatibility
 
 <#-- Bootstrap UL tabs -->
 <#-- type: tabs/tabs nav-justified/pills/pills nav-stacked/pills nav-justified -->
-<#macro listTabs type='tabs' id='' params=''>
+<#macro tabList type='tabs' id='' params='' color=''>
 		<ul class="nav nav-${type}"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 			<#nested>
 		</ul>
+</#macro>
+
+<#-- Tabs -->
+<#-- type:  -->
+<#macro tabLink class='' id='' active=false href='' title='' tabIcon='' params=''>
+		<li class="<#if class!=''> ${class}</#if><#if active> active</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+			<@link href='${href}' title='${title}'>${title}</@link>
+		</li>
 </#macro>
 
 <#-- TAB Content AdminLTE -->
@@ -1274,7 +1296,7 @@ and is kept only for backwards compatibility
 <#-- classes: alert-success/alert-info/alert-warning/alert-danger + alert-dismissible -->
 <#-- color: primary/success/info/warning/dange r-->
 <#macro alert class='' color='' titleLevel='h3' title='' iconTitle='' dismissible=false id='' params=''>
-<div class="alert  ${class} <#if color!=''> alert-${color}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<div class="alert ${class}<#if color!=''> alert-${color}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 	<#if dismissible>
 		<@button color='' size='' style='close' params='data-dismiss="alert" aria-hidden="true"'>
 			&times;

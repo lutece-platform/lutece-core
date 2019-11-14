@@ -18,36 +18,34 @@
         <tbody>
         <#list groups_list?sort_by('order') as group>
             <tr>
-                <td>
-                    <strong>${group.id}</strong>
-                    <br> #i18n{portal.features.manage_groups.labelName}:
-                    <em>${group.labelKey}</em>
-                    <br> #i18n{portal.features.manage_groups.labelDescription}:
-                    <small>${group.descriptionKey}</small>
-                </td>
-                <td>
-                    <@tform method='post' action='jsp/admin/features/DoDispatchFeatureGroup.jsp' class='form-inline'>
-                        <@input type='hidden' name='group_id' value='${group.id?html}' />
-                        <@input type='hidden' name='token' value='${token}' />
-                        <@formGroup rows=2>
-                            <@inputGroup>
-                                <@inputGroupItem>
-                                    <@select name='order_id' id='order_id-${group.id?html}' default_value=group.order?string items=order_list sort=true size='sm' />
-                                    <@button type='submit' title='#i18n{portal.features.manage_groups.buttonChangeOrder}' showTitle=false buttonIcon='refresh' />
-                                </@inputGroupItem>
-                            </@inputGroup>
-                        </@formGroup>
-                    </@tform>
-                </td>
-                <td>
-                  <@btnGroup>
-                        <@aButton href='jsp/admin/features/ModifyGroup.jsp?group_id=${group.id?html}' title='#i18n{portal.util.labelModify} ${group.id?html}' buttonIcon='pencil' showTitle=false />
-                        <@tform class='inline' method='post' action='jsp/admin/features/RemoveGroup.jsp'>
-                            <@input type='hidden' name='group_id' value='${group.id?html}' />
-                            <@button type='submit' title='#i18n{portal.features.manage_groups.buttonDelete}' showTitle=false buttonIcon='trash' color='danger' />
-                        </@tform>
-                </@btnGroup>
-              </td>
+							<td>
+								<strong>${group.id}</strong>
+								<br> #i18n{portal.features.manage_groups.labelName}:
+								<em>${group.labelKey}</em>
+								<br> #i18n{portal.features.manage_groups.labelDescription}:
+								<small>${group.descriptionKey}</small>
+							</td>
+							<td>
+								<@tform type='inline' method='post' action='jsp/admin/features/DoDispatchFeatureGroup.jsp'>
+									<@input type='hidden' name='group_id' value='${group.id?html}' />
+									<@input type='hidden' name='token' value='${token}' />
+									<@formGroup rows=2>
+										<@inputGroup>
+											<@select name='order_id' id='order_id-${group.id?html}' default_value=group.order?string items=order_list sort=true size='sm' />
+											<@inputGroupItem>
+												<@button type='submit' title='#i18n{portal.features.manage_groups.buttonChangeOrder}' showTitle=false buttonIcon='sync' size='sm' />
+											</@inputGroupItem>
+										</@inputGroup>
+									</@formGroup>
+								</@tform>
+							</td>
+							<@td flex=true>
+								<@aButton href='jsp/admin/features/ModifyGroup.jsp?group_id=${group.id?html}' title='#i18n{portal.util.labelModify} ${group.id?html}' buttonIcon='edit' showTitle=false size='sm' />
+								<@tform type='inline' class="ml-1" method='post' action='jsp/admin/features/RemoveGroup.jsp'>
+									<@input type='hidden' name='group_id' value='${group.id?html}' />
+									<@button type='submit' title='#i18n{portal.features.manage_groups.buttonDelete}' showTitle=false buttonIcon='trash' color='danger' size='sm' />
+								</@tform>
+							</@td>
             </tr>
         </#list>
     </tbody>

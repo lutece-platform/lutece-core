@@ -727,7 +727,7 @@ and is kept only for backwards compatibility
 </#macro>
 
 <#-- MACRO TD -->
-<#macro td  showXs=true showSm=true showMd=true showLg=true xs=0 sm=0 md=0 lg=0 xl=0 class='' id='' params=''>
+<#macro td showXs=true showSm=true showMd=true showLg=true xs=0 sm=0 md=0 lg=0 xl=0 class='' id='' flex=false params=''>
     <#assign tdClass=class />
     <#if !showXs><#assign tdClass=tdClass + ' is-hidden-mobile'></#if>
     <#if !showSm><#assign tdClass=tdClass + ' is-hidden-touch'></#if>
@@ -735,7 +735,10 @@ and is kept only for backwards compatibility
     <#if !showLg><#assign tdClass=tdClass + ' is-hidden-widescreen'></#if>
 
 <td class="<#if tdClass != ''>${tdClass}</#if><#if xs!=0> col-xs-${xs}</#if><#if sm!=0> col-sm-${sm}</#if><#if md!=0> col-md-${md}</#if><#if lg!=0> col-lg-${lg}</#if><#if xl!=0> col-xl-${xl}</#if><#if class!=''>${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+	<#if flex><div style="display:flex;"></#if>
 	<#nested>
+	<#if flex></div></#if>
+	
 </td>
 </#macro>
 
@@ -853,6 +856,10 @@ and is kept only for backwards compatibility
 <#-- size: xs/sm/lg -->
 <#-- pattern: [A-F][0-9]{5} -->
 <#macro input name type='text' value='' class='' size='' inputSize=0 maxlength=0 placeHolder='' rows=4 cols=40 richtext=false tabIndex='' id='' disabled=false readonly=false pattern='' params='' title='' min=0 max=0>
+<#if size == 'xs' || size == 'sm'><#local size = 'small' />
+<#elseif size == 'md'><#local size = 'medium' />
+<#elseif size == 'lg'><#local size = 'large' />
+<#else><#local size = '' /></#if>
 <#if type != 'hidden'>
 <div class="control">
 </#if>
@@ -904,14 +911,14 @@ and is kept only for backwards compatibility
 <#-- INPUT-GROUP -->
 <#-- size: ignored -->
 <#macro inputGroup size='' id='' params=''>
-<div class="field is-grouped has-addons" <#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<div class="field has-addons" <#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 	<#nested>
 </div>
 </#macro>
 
 <#macro inputGroupItem pos='' type='btn' id='' params=''>
 <#-- type: btn/addon. default is btn-->
-<div class="field has-addons"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<div class="control"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 	<#nested>
 </div>
 </#macro>
@@ -938,22 +945,38 @@ and is kept only for backwards compatibility
 	</ul>
 </#macro>
 
-<#-- TABS -->
-
-<#-- TAB Custom AdminLTE -->
-<#macro tabs color='' id='' params=''>
-	<#nested>
-
+<#macro li id='' params='' class=''>
+		<li<#if class!=''> class="${class}"</#if><#if params!=''> ${params}</#if><#if id!=''> ${id}</#if>>
+			<#nested>
+		</li>
 </#macro>
 
-<#-- Bootstrap UL tabs -->
-<#-- type: tabs/tabs nav-justified/pills/pills nav-stacked/pills nav-justified -->
-<#macro listTabs type='tabs' id='' params='' color=''>
-<div class="tabs<#if color!=''> ${color}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
-<ul <#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<#-- TABS -->
+
+<#-- TAB -->
+<#macro tabs color='' id='' params=''>
 	<#nested>
-</ul>
+</#macro>
+
+<#-- Tabs List -->
+<#-- type:  -->
+<#macro tabList type='tabs' id='' params='' color=''>
+<div class="tabs is-fullwidth<#if color!=''> ${color}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+	<ul<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+		<#nested>
+	</ul>
 </div>
+</#macro>
+
+<#-- Tabs -->
+<#-- type:  -->
+<#macro tabLink class='' id='' active=false href='' title='' tabIcon='' params=''>
+		<li class="<#if class!=''>${class} </#if><#if active>is-active</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+			<@link href='${href}' title='${title}'>
+				<#if tabIcon!=''><span class="icon is-small"><@icon style=tabIcon /></span></#if>
+				${title}
+			</@link>
+		</li>
 </#macro>
 
 <#-- TAB Content AdminLTE -->

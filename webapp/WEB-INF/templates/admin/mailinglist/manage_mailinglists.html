@@ -23,18 +23,18 @@
 	<@columns>
 		<@box color='success'>
 			<@boxHeader title='#i18n{portal.mailinglist.manage_mailinglists.boxTitle}' boxTools=true>
-				<@tform class='form-inline pull-right spaced' method='post' action='jsp/admin/mailinglist/CreateMailingList.jsp'>
-					<@button type='submit' buttonIcon='plus' title='#i18n{portal.mailinglist.manage_mailinglists.buttonLabelCreate}' size='' showTitleXs=false />
-				</@tform>
-				<@tform class='form-inline pull-right spaced' method='post' name='search_mailinglist' action='jsp/admin/mailinglist/ManageMailingLists.jsp'>
+				<@tform class='pull-right spaced mr-1' method='post' name='search_mailinglist' action='jsp/admin/mailinglist/ManageMailingLists.jsp'>
 					<@formGroup labelKey='#i18n{portal.mailinglist.manage_mailinglists.labelName}' labelFor='name' formStyle='inline'>
 						<@inputGroup>
-							<@input type='text' id='name' name='name' value='${mailinglistFilter.name!}' maxlength=100 />
+							<@input type='text' id='name' name='name' value='${mailinglistFilter.name!}' maxlength=100 size='sm' />
 							<@inputGroupItem>
-								<@button type='submit' buttonIcon='search' title='#i18n{portal.mailinglist.manage_mailinglists.buttonSearch}' showTitle=false size=''/>
+								<@button type='submit' buttonIcon='search' title='#i18n{portal.mailinglist.manage_mailinglists.buttonSearch}' showTitle=false size='sm'/>
 							</@inputGroupItem>
 						</@inputGroup>
 					</@formGroup>
+				</@tform>
+				<@tform class='pull-right spaced' method='post' action='jsp/admin/mailinglist/CreateMailingList.jsp'>
+					<@button type='submit' buttonIcon='plus' title='#i18n{portal.mailinglist.manage_mailinglists.buttonLabelCreate}' size='sm' showTitleXs=false />
 				</@tform>
 			</@boxHeader>
 			<@boxBody>

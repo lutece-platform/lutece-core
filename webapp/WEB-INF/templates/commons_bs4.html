@@ -30,7 +30,7 @@
 
 
 <#-- PAGINATION  -->
-<#macro pagination paginator >
+<#macro pagination paginator>
 <#assign nbLinkPagesToDisplay = 10 />
 <#assign offsetPrev = nbLinkPagesToDisplay / 2 />
 <#assign offsetNext = nbLinkPagesToDisplay / 2 />
@@ -44,14 +44,14 @@
 
 <#if ( paginator.pagesCount > 1 )>
 	<#if ( paginator.pageCurrent - offsetPrev > 1 )>
-		<a href="${paginator.firstPageLink?xhtml}">
-			<i class="fa fa-angle-double-left"></i> #i18n{portal.util.labelFirst}
-		</a>
+		<@link href='${paginator.firstPageLink?xhtml}'>
+			<@icon style='double-left' /> #i18n{portal.util.labelFirst}
+		</@link>
 	</#if>
 	<#if ( paginator.pageCurrent > 1 )>
-		<a href="${paginator.previousPageLink?xhtml}">
-			<i class="fa fa-angle-left"></i> #i18n{portal.util.labelPrevious}
-		</a>
+		<@link href='${paginator.previousPageLink?xhtml}'>
+			<@icon style='angle-left' /> #i18n{portal.util.labelPrevious}
+		</@link>
 	<#else>
 	</#if>
 	<#if ( paginator.pageCurrent - offsetPrev > 1 )>
@@ -61,20 +61,20 @@
 		<#if link.index == paginator.pageCurrent>
 			<strong>${link.name}</strong>
 		<#else>
-			<a href="${link.url?xhtml}">${link.name}</a>
+			<@link href='${link.url?xhtml}'>${link.name}</@link>
 		</#if>
 	</#list>
 	<#if ( paginator.pageCurrent + offsetNext < paginator.pagesCount )>
 		<strong>...</strong>
 	</#if>
 	<#if ( paginator.pageCurrent < paginator.pagesCount )>
-		<a href="${paginator.nextPageLink?xhtml}">
-			<i class="fa fa-angle-right"></i>&nbsp;#i18n{portal.util.labelNext}
-		</a>
+		<@link href='${paginator.nextPageLink?xhtml}'>
+			<@icon style='angle-right' />&nbsp;#i18n{portal.util.labelNext}
+		</@link>
 		<#if ( paginator.pageCurrent + offsetNext < paginator.pagesCount )>
-			<a href="${paginator.lastPageLink?xhtml}">
-				<i class="fa fa-angle-double-right"></i>&nbsp;#i18n{portal.util.labelLast}
-			</a>
+			<@link href='${paginator.lastPageLink?xhtml}'>
+				<@icon style='angle-double-right' />&nbsp;#i18n{portal.util.labelLast}
+			</@link>
 		</#if>
 	<#else>
 		&nbsp;&nbsp;
@@ -87,13 +87,13 @@
 <#if (paginator.pagesCount > 1) >
 	<@paginationPageLinks paginator=paginator />
 </#if>
-<div class="pull-right">
+<div class="float-right">
 	<#if form == 1 >
-		<form method="post" class="form-inline">
-	</#if>
-	<@paginationItemCount paginator=paginator combo=combo nb_items_per_page=nb_items_per_page showcount=showcount showall=showall/>
-	<#if form == 1 >
-		</form>
+		<@tform type='inline'>
+			<@paginationItemCount paginator=paginator combo=combo nb_items_per_page=nb_items_per_page showcount=showcount showall=showall/>
+		</@tform>
+	<#else>
+		<@paginationItemCount paginator=paginator combo=combo nb_items_per_page=nb_items_per_page showcount=showcount showall=showall/>
 	</#if>
 </div>
 </#macro>
@@ -110,72 +110,72 @@
 	<#assign offsetNext = paginator.pagesCount - paginator.pageCurrent />
 	<#assign offsetPrev = nbLinkPagesToDisplay - offsetNext />
 </#if>
-<ul class="pagination pagination-sm">
+<@ul class='pagination pagination-sm'>
 <#if ( paginator.pageCurrent - offsetPrev > 1 )>
 	<li>
-		<a href="${paginator.firstPageLink?xhtml}">
+		<@link href='${paginator.firstPageLink?xhtml}'>
 			${paginator.labelFirst}
-		</a>
+		</@link>
 	</li>
 </#if>
 <#if (paginator.pageCurrent > 1) >
 	<li class="previous">
-		<a href="${paginator.previousPageLink?xhtml}">
+		<@link href='${paginator.previousPageLink?xhtml}'>
 			${paginator.labelPrevious}
-		</a>
+		</@link>
 	</li>
 <#else>
 	<li class="disabled">
-		<a href="${paginator.firstPageLink?xhtml}">${paginator.labelPrevious}</a>
+		<@link href='${paginator.firstPageLink?xhtml}'>${paginator.labelPrevious}</@link>
 	</li>
 </#if>
 <#if ( paginator.pageCurrent - offsetPrev > 1 )>
 	<li>
-		<a href="${(paginator.pagesLinks?first).url?xhtml}"><strong>...</strong></a>
+		<@link href='${(paginator.pagesLinks?first).url?xhtml}'><strong>...</strong></@link>
 	</li>
 </#if>
 <#list paginator.pagesLinks as link>
 	<#if ( link.index == paginator.pageCurrent )>
 		<li class="active">
-			<a href="${link.url?xhtml}">${link.name}</a>
+			<@link href='${link.url?xhtml}'>${link.name}</@link>
 		</li>
 	<#else>
 		<li>
-			<a href="${link.url?xhtml}">${link.name}</a>
+			<@link href='${link.url?xhtml}'>${link.name}</@link>
 		</li>
 	</#if>
 </#list>
 <#if ( paginator.pageCurrent + offsetNext < paginator.pagesCount )>
 	<li>
-		<a href="${(paginator.pagesLinks?last).url?xhtml}"><strong>...</strong></a>
+		<@link href='${(paginator.pagesLinks?last).url?xhtml}'><strong>...</strong></@link>
 	</li>
 </#if>
 <#if (paginator.pageCurrent < paginator.pagesCount) >
 	<li class="next">
-		<a href="${paginator.nextPageLink?xhtml}">
+		<@link href="${paginator.nextPageLink?xhtml}">
 			${paginator.labelNext}
-		</a>
+		</@link>
 	</li>
 	<#if ( paginator.pageCurrent + offsetNext < paginator.pagesCount )>
 		<li class="next">
-			<a href="${paginator.lastPageLink?xhtml}">
+			<@link href='${paginator.lastPageLink?xhtml}'>
 				${paginator.labelLast}
-			</a>
+			</@link>
 		</li>
 	</#if>
 <#else>
 	<li class="disabled">
-		<a href="${paginator.lastPageLink?xhtml}">${paginator.labelNext}</a>
+		<@link href='${paginator.lastPageLink?xhtml}'>${paginator.labelNext}</@link>
 	</li>
 </#if>
-</ul>
+</@ul>
 </#macro>
 
 <#-- PAGINATION COMBO -->
 <#macro paginationCombo paginator nb_items_per_page=nb_items_per_page showall=0>
-<label>${paginator.labelItemCountPerPage}</label>
-<div class="input-group">
-	<select data-max-item="${paginator.itemsCount}" class="input-xs" name="${paginator.itemsPerPageParameterName}" id="${paginator.itemsPerPageParameterName}" title="${paginator.labelItemCountPerPage}">
+<@formGroup labelFor='${paginator.itemsPerPageParameterName}' labelKey='${paginator.labelItemCountPerPage}' formStyle='inline'>
+<@inputGroup>
+	<@select params='data-max-item="${paginator.itemsCount}"' size='sm' name='${paginator.itemsPerPageParameterName}' id='${paginator.itemsPerPageParameterName}' title='${paginator.labelItemCountPerPage}'>
   		<#list [ "10" , "20" , "50" , "100" ] as nb>
   			<#if nb_items_per_page = nb >
   				<option selected="selected" value="${nb}">${nb}</option>
@@ -188,13 +188,12 @@
   				<option <#if nb_items_per_page?number = paginator.itemsCount?number >selected="selected"</#if> value="${paginator.itemsCount}" class="${nb_items_per_page}">#i18n{portal.util.labelAll}</option>
   			</#if>
   		</#if>
-	</select>
-	<span class="input-group-btn">
-		<button class="btn btn-default btn-xs" type="submit" title="#i18n{portal.util.labelRefresh}">
-			<i class="fa fa-repeat"></i>
-		</button>
-	</span>
-</div>
+	</@select>
+	<@inputGroupItem type='btn'>
+		<@button type='submit' color='dark' size='sm' title='#i18n{portal.util.labelRefresh}' buttonIcon='check' showTitle=false />
+	</@inputGroupItem>
+</@inputGroup>
+</@formGroup>
 </#macro>
 
 <#-- PAGINATION COUNT -->
@@ -205,8 +204,8 @@
 </#if>
 <#-- Display item count -->
 <#if showcount == 1 >
-<span class="showcount">
-	<#if (paginator.labelItemCount)?? && paginator.labelItemCount?has_content>&nbsp;-&nbsp;${paginator.labelItemCount} : </#if> ${paginator.itemsCount}
+<span class="showcount small">
+	<#if (paginator.labelItemCount)?? && paginator.labelItemCount?has_content>&#160;${paginator.labelItemCount} : </#if> ${paginator.itemsCount}
 </span>
 </#if>
 </#macro>
@@ -227,30 +226,30 @@
 <#macro messages errors=[] infos=[] warnings=[] errors_class="alert alert-danger" infos_class="alert alert-info" warnings_class="alert alert-warning">
 <#if errors??>
 	<#if errors?size &gt; 0 >
-		<div class="alert alert-danger" id="messages_errors_div">
-				<button class="close"></button>
-				<#list errors as error >
-						<span class="icon"><i class="fa fa-exclamation-circle"></i></span> ${error.message} <br>
-				</#list>
-		</div>
+		<@alert color='danger' id='messages_errors_div'>
+			<@button style='close' />
+			<#list errors as error >
+			<span class="icon"><@icon style='exclamation-circle' /></span> ${error.message}<br />
+			</#list>
+		</@alert>
 	</#if>
 </#if>
 <#if infos??>
 	<#if infos?size &gt; 0 >
-		<div class="alert alert-info" id="messages_infos_div" >
-			<button class="close"></button>
+		<@alert color='info' id='messages_infos_div'>
+			<@button style='close' />
 			<#list infos as info >
-				<span class="icon"><i class="fa fa-info-circle"></i></span> ${info.message} <br>
+				<span class="icon"><@icon style='info-circle' /></span> ${info.message}<br />
 			</#list>
-		</div>
+		</@alert>
 	</#if>
 </#if>
 <#if warnings??>
 	<#if warnings?size &gt; 0 >
 		<div class="${warnings_class}" id="messages_warnings_div" >
-			<a class="close" data-dismiss="alert" href="#">x</a>
+			<@aButton style='close' params='data-dismiss="alert"' href='#'>x</@aButton>
 			<#list warnings as warning >
-				<span class="icon"><i class="fa fa-info-circle"></i></span> ${warning.message} <br>
+				<span class="icon"><@icon style='info-circle' /></span> ${warning.message} <br />
 			</#list>
 		</div>
 	</#if>
@@ -260,55 +259,53 @@
 <#-- TABLE -->
 <#-- class:  -->
 <#macro table responsive=true condensed=true hover=true striped=false bordered=false narrow=false class='' id='' params=''>
-
-    <#assign tableClass=class />
-    <#if condensed> <#assign tableClass=tableClass + ' table-condensed' /> </#if>
-    <#if hover>     <#assign tableClass=tableClass + ' table-hover' /> </#if>
-    <#if striped>   <#assign tableClass=tableClass + ' table-striped'   /> </#if>
-    <#if bordered>  <#assign tableClass=tableClass + ' table-bordered'  /> </#if>
-    <#if responsive>
-    <div class="table-responsive">
-    </#if>
-        <table class="table ${tableClass}" id="${id}"<#if params!=''> ${params}</#if>>
-            <#nested>
-        </table>
-    <#if responsive>
-    </div>
-    </#if>
+	<#assign tableClass=class />
+	<#if condensed> <#assign tableClass=tableClass + ' table-condensed' /> </#if>
+	<#if hover>     <#assign tableClass=tableClass + ' table-hover' /> </#if>
+	<#if striped>   <#assign tableClass=tableClass + ' table-striped'   /> </#if>
+	<#if bordered>  <#assign tableClass=tableClass + ' table-bordered'  /> </#if>
+	<#if responsive>
+	<div class="table-responsive">
+	</#if>
+	<table class="table ${tableClass}" id="${id}"<#if params!=''> ${params}</#if>>
+		<#nested>
+	</table>
+	<#if responsive>
+	</div>
+	</#if>
 </#macro>
 
 <#-- MACRO TH -->
 <#macro th class='' showXs=true showSm=true showMd=true showLg=true >
-    <#assign thClass=class />
-    <#if !showXs><#assign thClass=thClass + ' d-none d-sm-block'></#if>
-    <#if !showSm><#assign thClass=thClass + ' d-none d-md-block'></#if>
-    <#if !showMd><#assign thClass=thClass + ' d-none d-lg-block'></#if>
-    <#if !showLg><#assign thClass=thClass + ' d-none d-xl-block'></#if>
+	<#assign thClass=class />
+	<#if !showXs><#assign thClass=thClass + ' d-none d-sm-block'></#if>
+	<#if !showSm><#assign thClass=thClass + ' d-none d-md-block'></#if>
+	<#if !showMd><#assign thClass=thClass + ' d-none d-lg-block'></#if>
+	<#if !showLg><#assign thClass=thClass + ' d-none d-xl-block'></#if>
 
-    <th <#if thClass != ''>class="${thClass}"</#if>>
-        <#nested>
-    </th>
+	<th <#if thClass != ''>class="${thClass}"</#if>>
+		<#nested>
+	</th>
 </#macro>
 
 
 <#-- MACRO TR -->
 <#macro tr>
-<tr>
+	<tr>
     <#nested>
-</tr>
+	</tr>
 </#macro>
 
 <#-- MACRO TD -->
-<#macro td  showXs=true showSm=true showMd=true showLg=true xs=0 sm=0 md=0 lg=0 xl=0 class='' id='' params=''>
-    <#assign tdClass=class />
-    <#if !showXs><#assign tdClass=tdClass + ' d-none d-sm-block'></#if>
-    <#if !showSm><#assign tdClass=tdClass + ' d-none d-md-block'></#if>
-    <#if !showMd><#assign tdClass=tdClass + ' d-none d-lg-block'></#if>
-    <#if !showLg><#assign tdClass=tdClass + ' d-none d-xl-block'></#if>
-
-<td class="<#if tdClass != ''>${tdClass}</#if><#if xs!=0>col-xs-${xs}</#if><#if sm!=0> col-sm-${sm}</#if><#if md!=0> col-md-${md}</#if><#if lg!=0> col-lg-${lg}</#if><#if xl!=0> col-xl-${xl}</#if><#if class!=''>${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
-	<#nested>
-</td>
+<#macro td showXs=true showSm=true showMd=true showLg=true xs=0 sm=0 md=0 lg=0 xl=0 class='' id='' flex=false params=''>
+	<#assign tdClass=class />
+	<#if !showXs><#assign tdClass=tdClass + ' d-none d-sm-block'></#if>
+	<#if !showSm><#assign tdClass=tdClass + ' d-none d-md-block'></#if>
+	<#if !showMd><#assign tdClass=tdClass + ' d-none d-lg-block'></#if>
+	<#if !showLg><#assign tdClass=tdClass + ' d-none d-xl-block'></#if>
+	<td class="<#if tdClass != ''>${tdClass}</#if><#if xs!=0>col-xs-${xs}</#if><#if sm!=0> col-sm-${sm}</#if><#if md!=0> col-md-${md}</#if><#if lg!=0> col-lg-${lg}</#if><#if xl!=0> col-xl-${xl}</#if><#if class!=''>${class}</#if><#if flex> d-flex</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+		<#nested>
+	</td>
 </#macro>
 
 
@@ -319,14 +316,10 @@
 <#else>
 	<#assign sort_url = jsp_url + "?sorted_attribute_name=" + attribute + "&amp;asc_sort=" />
 </#if>
-<div class="btn-group" role="group" aria-label="sortButton">
-	<a class="btn btn-default btn-flat btn-xs" id="sort${id!}_${attribute!}" href="${sort_url}true#sort${id!}_${attribute!}" title="#i18n{portal.util.sort.asc}" >
-		<i class="fa fa-chevron-up"></i>
-	</a>
-	<a class="btn btn-default btn-flat btn-xs" href="${sort_url}false#sort${id!}_${attribute!}" title="#i18n{portal.util.sort.desc}">
-		<i class="fa fa-chevron-down"></i>
-	</a>
-</div>
+<@btnGroup ariaLabel='sortButton'>
+	<@aButton color='default' size='xs' id='sort${id!}_${attribute!}' href='${sort_url}true#sort${id!}_${attribute!}' title='#i18n{portal.util.sort.asc}' buttonIcon='chevron-up' showTitle=false />
+	<@aButton color='default' size='xs' href='${sort_url}false#sort${id!}_${attribute!}' title='#i18n{portal.util.sort.desc}' buttonIcon='chevron-down' showTitle=false />
+</@btnGroup>
 </#macro>
 
 <#-- ICONS -->
@@ -338,22 +331,22 @@
 <#-- FORM -->
 <#-- type: inline/horizontal/form -->
 <#macro tform type='horizontal' class='' action='' method='post' name='' id='' role='form' params=''>
-<#switch type>
-    <#case 'horizontal'>
-    <#assign typeClass = 'form-horizontal'>
-    <#break>
+	<#switch type>
+		<#case 'horizontal'>
+		<#assign typeClass = 'form-horizontal'>
+		<#break>
 
-    <#case 'inline'>
-    <#assign typeClass = 'form-inline'>
-    <#break>
-    
-    <#default>
-    <#assign typeClass = 'form'>
-</#switch>
+		<#case 'inline'>
+		<#assign typeClass = 'form-inline'>
+		<#break>
+		
+		<#default>
+		<#assign typeClass = 'form'>
+	</#switch>
 
-<form class="${typeClass} ${class}"<#if id!=''> id="${id}"</#if><#if action!=''> action="${action}"</#if><#if method!=''> method="${method}"</#if><#if name!=''> name="${name}"</#if><#if role!=''> role="${role}"</#if><#if params!=''> ${params}</#if>>
-	<#nested>
-</form>
+	<form class="${typeClass}<#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if action!=''> action="${action}"</#if><#if method!=''> method="${method}"</#if><#if name!=''> name="${name}"</#if><#if role!=''> role="${role}"</#if><#if params!=''> ${params}</#if>>
+		<#nested>
+	</form>
 </#macro>
 
 
@@ -373,14 +366,14 @@
 <#elseif groupStyle="error">
 	<#local validation = "is-invalid">
 </#if>
-<div class="<#if class!=''>${class}<#else>form-group<#if formStyle='horizontal'> row</#if><#if validation?? && validation!=''> ${validation}</#if></#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<div class="form-group<#if formStyle='horizontal'> row</#if><#if class!=''> ${class}<#/if><#if validation?? && validation!=''> ${validation}</#if></#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 	<#if rows=1>
 		<#if labelKey!='' && formStyle='horizontal'>
 			<#assign labelClass = "col-sm-3 col-form-label">
 			<#if showLabel=false>
 				<#assign divClass="col">
 			<#else>	
-				<#assign divClass = "col-sm-9">
+				<#assign divClass = "col-6">
 			</#if>
 		<#elseif formStyle = 'inline'>
 			<#assign labelClass = 'sr-only'>
@@ -408,12 +401,12 @@
 </#macro>
 
 <#macro formField class=''>
-<div class="form-row ${class}">
+<div class="form-row<#if class!=''> ${class}</#if>">
 <#nested>
 </div>
 </#macro>
 
-<#macro formLabel class='' labelFor='' labelId='' labelKey='' showLabel=true mandatory=true >
+<#macro formLabel class='' labelFor='' labelId='' labelKey='' showLabel=true mandatory=true>
 <label class="<#if showLabel=false>sr-only<#elseif class !=''>${class}</#if>" for="${labelFor}" <#if labelId!=''> id="${labelId}"</#if><#if mandatory=true>ariaLabel="${labelKey} [#i18n{portal.users.modify_attribute.labelMandatory}]"</#if>>${labelKey}</label>
 </#macro>
 
@@ -430,9 +423,9 @@
 <#-- pattern: [A-F][0-9]{5} 																																	-->
 <#macro input name type='text' value='' class='' size='' inputSize=0 maxlength=0 placeHolder='' rows=4 cols=40 richtext=false tabIndex='' id='' disabled=false readonly=false pattern='' params='' title='' min=0 max=0>
 	<#if type='textarea'>
-		<textarea name="${name}" class="form-control<#if size!=''>-${size}</#if><#if class!=''> ${class}</#if><#if richtext> richtext</#if>" rows="${rows}" cols="${cols}"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}"</#if><#if title!=''> title="${title}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if mandatory?? && mandatory && !richtext> required</#if><#if labelFor?? && labelFor!='' && helpKey?? && helpKey!=''> aria-describedby="${labelFor}_help"</#if>><#nested></textarea>
+		<textarea name="${name}" class="form-control<#if size!=''> form-control-${size}</#if><#if class!=''> ${class}</#if><#if richtext> richtext</#if>" rows="${rows}" cols="${cols}"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}"</#if><#if title!=''> title="${title}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if mandatory?? && mandatory && !richtext> required</#if><#if labelFor?? && labelFor!='' && helpKey?? && helpKey!=''> aria-describedby="${labelFor}_help"</#if>><#nested></textarea>
 	<#elseif type='text' || type='search' || type='password' || type='email' || type='file' || type='number'>
-		<input class="form-control<#if type='file'>-file</#if><#if size!=''>-${size}</#if><#if class!=''> ${class}</#if> " name="${name}" type="${type}" value="${value}"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}<#if mandatory?? && mandatory> [#i18n{portal.users.modify_attribute.labelMandatory}]</#if>"</#if><#if title!=''> title="${title}"</#if><#if maxlength &gt; 0> maxlength="${maxlength}"</#if><#if inputSize!=0> size="${inputSize}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if min!=0> min="${min}"</#if><#if max!=0> max="${max}"</#if><#if mandatory?? && mandatory> required</#if><#if labelFor?? && labelFor!='' && helpKey?? && helpKey!=''> aria-describedby="${labelFor}_help"</#if> />
+		<input class="form-control<#if type='file'>-file</#if><#if size!=''> form-control-${size}</#if><#if class!=''> ${class}</#if> " name="${name}" type="${type}" value="${value}"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}<#if mandatory?? && mandatory> [#i18n{portal.users.modify_attribute.labelMandatory}]</#if>"</#if><#if title!=''> title="${title}"</#if><#if maxlength &gt; 0> maxlength="${maxlength}"</#if><#if inputSize!=0> size="${inputSize}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if min!=0> min="${min}"</#if><#if max!=0> max="${max}"</#if><#if mandatory?? && mandatory> required</#if><#if labelFor?? && labelFor!='' && helpKey?? && helpKey!=''> aria-describedby="${labelFor}_help"</#if> />
 	<#elseif type='hidden'>
 		<input type="hidden" name="${name}" value="${value}" />
 	<#else>
@@ -440,8 +433,8 @@
 	</#if>
 </#macro>
 
-<#-- STATIC TEXT 																																																					  -->
-<#-- Bootstrap colors: primary/secondary/success/info/warning/danger/light/black/muted/white/text-black-50/text-white-50		-->
+<#-- STATIC TEXT -->
+<#-- Bootstrap colors: primary/secondary/success/info/warning/danger/light/black/muted/white/text-black-50/text-white-50 -->
 <#macro staticText inForm=true color='' id='' params=''>
 <p class="<#if inForm>form-control-plaintext</#if><#if color!=''> text-${color}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 	<#nested>
@@ -449,8 +442,8 @@
 </#macro>
 
 <#--- MACRO SELECT (TO REPLACE "COMBO" MACROS) --->
-<#macro select name items='' default_value="" id=name class='' size='' sort=false multiple=0 params='' title='' tabIndex=0>
-	<select id="${id}" name="${name}" class="form-control<#if size!=''> input-${size}</#if><#if class!=''> input-${class}</#if>" <#if (multiple &gt; 0)>multiple size="${multiple}"</#if><#if (tabIndex &gt; 0)> tabindex="${tabIndex}"</#if><#if params!=''> ${params}</#if><#if title!=''> ${title}</#if>>
+<#macro select name items='' default_value='' id=name class='' size='' sort=false multiple=0 params='' title='' tabIndex=0>
+	<select id="${id}" name="${name}" class="form-control<#if size!=''> form-control-${size}</#if><#if class!=''> input-${class}</#if>" <#if (multiple &gt; 0)>multiple size="${multiple}"</#if><#if (tabIndex &gt; 0)> tabindex="${tabIndex}"</#if><#if params!=''> ${params}</#if><#if title!=''> title="${title}"</#if>>
 	<#if items?has_content>
 		<#if sort=true>
 			<#list items?sort_by("name") as item>
@@ -519,8 +512,8 @@
 	</div>
 </#macro>
 
-<#macro inputGroupItem pos='prepend' type='btn' id='' params=''>
-<#-- pos: append / prepend | Default prepend -->
+<#macro inputGroupItem pos='append' type='btn' id='' params=''>
+<#-- pos: append / prepend | Default append -->
 <#-- type: btn/text. default is btn	-->
 
 <div class="input-group-${pos}">
@@ -569,26 +562,45 @@
 	</ul>
 </#macro>
 
+<#macro li id='' params='' class=''>
+		<li<#if class!=''> class="${class}"</#if><#if params!=''> ${params}</#if><#if id!=''> ${id}</#if>>
+			<#nested>
+		</li>
+</#macro>
+
 <#-- TABS -->
 
-<#-- TAB Custom AdminLTE -->
+<#-- Tab Container -->
 <#macro tabs color='' id='' params=''>
-	<div class="nav-tabs-custom<#if color!=''> ${color}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+	<div class="card-body<#if color!=''> ${color}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 		<#nested>
 	</div>
 </#macro>
 
-<#-- Bootstrap UL tabs -->
+<#-- Tabs List -->
 <#-- type: tabs/tabs nav-justified/pills/pills nav-stacked/pills nav-justified -->
-<#macro listTabs type='tabs' id='' params=''>
+<#macro tabList type='tabs' id='' params='' color=''>
 		<ul class="nav nav-${type}"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 			<#nested>
 		</ul>
 </#macro>
 
-<#-- TAB Content AdminLTE -->
+<#-- Tabs -->
+<#-- type:  -->
+<#macro tabLink class='' id='' active=false href='' title='' tabIcon='' params=''>
+		<li class="nav-item"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+			<#if active>
+				<#local linkClass = 'nav-link active' />
+			<#else>
+				<#local linkClass = 'nav-link' />
+			</#if>
+			<@link class=linkClass href='${href}' title='${title}'>${title}</@link>
+		</li>
+</#macro>
+
+<#-- TAB Content -->
 <#macro tabContent id='' params=''>
-		<div class="tab-content"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+		<div class="card-body"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 			<#nested>
 		</div>
 </#macro>
@@ -660,7 +672,7 @@
 
 <#macro progress color='primary' id='' params='' value=0 min=0 max=100 text=''>
 <div class="progress"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
-	<div id="progressbar" class="progress-bar  bg-${color}" role="progressbar" style="width: ${value}%;" aria-valuenow="${value}" aria-valuemin="${min}" aria-valuemax="${max}">
+	<div id="progressbar" class="progress-bar bg-${color}" role="progressbar" style="width: ${value}%;" aria-valuenow="${value}" aria-valuemin="${min}" aria-valuemax="${max}">
         <#if text=''>${value}%<#else>${text}</#if>
 	</div>
 </div>
@@ -692,10 +704,11 @@
 <#-- TAG -->
 <#-- color: default/primary/success/info/warning/danger/ -->
 <#macro tag color='default' size='' title='' tagIcon='' id='' params=''>
+	
 	<span class="badge badge-${color}"<#if title!=''> title='${title}'</#if><#if id!=''>id='${id}'</#if><#if params!=''>${params}</#if>>
-        <#if tagIcon !=''>
-            <@icon style=tagIcon />
-        </#if>
+		<#if tagIcon !=''>
+		<@icon style=tagIcon />
+		</#if>
 		<#nested>
 	</span>
 </#macro>
@@ -710,7 +723,7 @@
 <#-- buttonIcon: icon name ex: info/check/comment/envelope... -->
 <#-- iconPosition: left/right -->
 <#-- cancel: switch to true for a cancellation form button. Adds the "formnovalidate" attribute to the button, as well as the right class -->
-<#macro button name='' id='' type='button' size='' color='' style='' class='' params='' value='' title='' tabIndex='' showTitle=true showTitleXs=true showTitleSm=true showTitleMd=true showTitleLg=true buttonIcon='' disabled=false iconPosition='left' dropdownMenu=false cancel=false>
+<#macro button name='' id='' type='button' size='' color='' style='' class='' params='' value='' title='' tabIndex='' showTitle=true showTitleXs=true showTitleSm=true showTitleMd=true showTitleLg=true showTitleXl=true buttonIcon='' disabled=false iconPosition='left' dropdownMenu=false cancel=false>
 	<#if cancel || color = 'default'>
 		<#assign buttonColor = 'secondary' />
 	<#elseif !cancel && color=''>
@@ -727,23 +740,31 @@
 	</#if>
 	
 	<#-- Visibility of button title -->
-	<#assign showTitleClass = '' />
-	<#if showTitle = false><#assign showTitleClass = 'sr-only' /></#if>
-	<#if showTitleXs = false><#assign showTitleClass = showTitleClass + ' d-none d-sm-block' /></#if>
-	<#if showTitleSm = false><#assign showTitleClass = showTitleClass + ' d-none d-md-block' /></#if>
-	<#if showTitleMd = false><#assign showTitleClass = showTitleClass + ' d-none d-lg-bloc' /></#if>
-	<#if showTitleLg = false><#assign showTitleClass = showTitleClass + ' d-none d-xl-block' /></#if>
+	<#-- The media queries effect screen widths with the given breakpoint or larger, therefore if the value for either showTitleMd/Lg/Xl is FALSE, values for smaller screen widths should be set to FALSE as well. -->
+	<#if !showTitleMd><#local showTitleSm = false></#if>
+	<#if !showTitleLg><#local showTitleSm = false showTitleMd = false></#if>
+	<#if !showTitleXl><#local showTitleSm = false showTitleMd = false showTitleLg = false></#if>
+	
+	<#local showTitleClass = '' />
+	<#if !showTitle><#local showTitleClass = 'sr-only' /></#if>
+	<#if !showTitleXs || !showTitleSm || !showTitleMd || !showTitleLg || !showTitleXl>
+		<#local showTitleClass = 'd-none' />
+	</#if>
+	
+	<#if !showTitleSm || !showTitleXs><#local showTitleClass = showTitleClass + ' d-md-inline-block' />
+	<#elseif !showTitleMd && !showTitleSm><#local showTitleClass = showTitleClass + ' d-lg-inline-block' />
+	<#elseif !showTitleLg && !showTitleMd && !showTitleSm><#local showTitleClass = showTitleClass + ' d-xl-inline-block' />
+	<#elseif !showTitleXl && !showTitleLg && !showTitleMd && !showTitleSm><#local showTitleClass = showTitleClass />
+	<#else></#if>
 	
 	<#if dropdownMenu>
 		<div class="dropdown">
 	</#if>
-	
-	<button class="<#if style!='close'>btn</#if><#if size!='' && style!='btn-box-tool'> btn-${size}</#if><#if buttonColor!='' && style!='btn-box-tool'> btn-${buttonColor}</#if><#if style!=''> ${style}</#if><#if dropdownMenu> dropdown-toggle</#if><#if class!=''> ${class}</#if>" type="${type}"<#if title!=''> title="${title}"</#if><#if name!=''> name="${name}"</#if><#if id!=''> id="${id}"</#if><#if value!=''> value="${value}"</#if><#if params!=''> ${params}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if><#if cancel> formnovalidate</#if>>
-		<#if buttonIcon!='' && iconPosition='left'><@icon style=buttonIcon /></#if>
-		<#if showTitleClass!='' && style!='btn-box-tool'><span class="${showTitleClass}"></#if>${title}<#if showTitleClass!='' && style!='btn-box-tool'></span></#if>
-		<#if buttonIcon!='' && iconPosition='right'><@icon style=buttonIcon /></#if>
-	</button>
-	
+		<button class="<#if style!='close'>btn</#if><#if size!='' && style!='btn-box-tool'> btn-${size}</#if><#if buttonColor!='' && style!='btn-box-tool'> btn-${buttonColor}</#if><#if style!=''> ${style}</#if><#if dropdownMenu> dropdown-toggle</#if><#if class!=''> ${class}</#if>" type="${type}"<#if title!=''> title="${title}"</#if><#if name!=''> name="${name}"</#if><#if id!=''> id="${id}"</#if><#if value!=''> value="${value}"</#if><#if params!=''> ${params}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if><#if cancel> formnovalidate</#if>>
+			<#if buttonIcon!='' && iconPosition='left'><@icon style=buttonIcon /></#if>
+			<#if showTitleClass!='' && style!='btn-box-tool'><span class="${showTitleClass}"></#if>${title}<#if showTitleClass!='' && style!='btn-box-tool'></span></#if>
+			<#if buttonIcon!='' && iconPosition='right'><@icon style=buttonIcon /></#if>
+		</button>
 	<#if dropdownMenu>
 			<div class="dropdown-menu"<#if id!=''> aria-labelledby="${id}"</#if>>
 				<#nested>
@@ -757,14 +778,26 @@
 <#-- color: default/primary/success/warning/danger/info/ -->
 <#-- style: btn-block/btn-flat/disabled/btn-app -->
 <#-- icon: icon name ex: info/check/comment/envelope... -->
-<#macro aButton name='' id='' href='' size='' color='primary' style='btn' class='' params='' title='' tabIndex='' showTitle=true showTitleXs=true showTitleSm=true showTitleMd=true showTitleLg=true buttonIcon='' disabled=false iconPosition='left' dropdownMenu=false>
+<#-- ShowTitleXs is UNUSED in Bootstrap 4. -->
+<#macro aButton name='' id='' href='' size='' color='primary' style='btn' class='' params='' title='' tabIndex='' showTitle=true showTitleXs=true showTitleSm=true showTitleMd=true showTitleLg=true showTitleXl=true buttonIcon='' disabled=false iconPosition='left' dropdownMenu=false>
+	<#if !showTitleXs><#local showTitleSm = false></#if>
 	<#-- Visibility of button title -->
-	<#assign showTitleClass = '' />
-	<#if showTitle = false><#assign showTitleClass = 'sr-only' /></#if>
-	<#if showTitleXs = false><#assign showTitleClass = showTitleClass + ' d-none d-sm-block' /></#if>
-	<#if showTitleSm = false><#assign showTitleClass = showTitleClass + ' d-none d-md-block' /></#if>
-	<#if showTitleMd = false><#assign showTitleClass = showTitleClass + ' d-none d-lg-block' /></#if>
-	<#if showTitleLg = false><#assign showTitleClass = showTitleClass + ' d-none d-xl-block' /></#if>
+	<#-- The media queries effect screen widths with the given breakpoint or larger, therefore if the value for either showTitleMd/Lg/Xl is FALSE, values for smaller screen widths should be set to FALSE as well. -->
+	<#if !showTitleMd><#local showTitleSm = false></#if>
+	<#if !showTitleLg><#local showTitleSm = false showTitleMd = false></#if>
+	<#if !showTitleXl><#local showTitleSm = false showTitleMd = false showTitleLg = false></#if>
+	
+	<#local showTitleClass = '' />
+	<#if !showTitle><#local showTitleClass = 'sr-only' /></#if>
+	<#if !showTitleXs || !showTitleSm || !showTitleMd || !showTitleLg || !showTitleXl>
+		<#local showTitleClass = 'd-none' />
+	</#if>
+	
+	<#if !showTitleSm || !showTitleXs><#local showTitleClass = showTitleClass + ' d-md-inline-block' />
+	<#elseif !showTitleMd && !showTitleSm><#local showTitleClass = showTitleClass + ' d-lg-inline-block' />
+	<#elseif !showTitleLg && !showTitleMd && !showTitleSm><#local showTitleClass = showTitleClass + ' d-xl-inline-block' />
+	<#elseif !showTitleXl && !showTitleLg && !showTitleMd && !showTitleSm><#local showTitleClass = showTitleClass />
+	<#else></#if>
 	
 	<#if size = 'xs'>
 		<#local size = 'sm' />
@@ -872,13 +905,13 @@
 
 <#-- ALERT -->
 <#-- classes: alert-success/alert-info/alert-warning/alert-danger + alert-dismissible -->
-<#-- color: primary/success/info/warning/dange r-->
+<#-- color: primary/success/info/warning/danger -->
 <#macro alert class='' color='' titleLevel='h3' title='' iconTitle='' dismissible=false id='' params=''>
-<div class="alert  ${class} <#if color!=''> alert-${color}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<div class="alert<#if class!=''> ${class}</#if><#if color!=''> alert-${color}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 	<#if dismissible>
-		<@button color='' size='' style='close' params='data-dismiss="alert" aria-hidden="true"'>
+		<button type="button" class="close" data-dismiss="alert" aria-hidden="true">
 			&times;
-		</@button>
+		</button>
 	</#if>
 	<#if title!=''>
 	<${titleLevel}>
@@ -892,24 +925,24 @@
 
 
 <#---------------------------------------------------------->
-<#--  Card as Box 																				-->
+<#-- Card as Box 																				-->
 <#-- color: default/primary/info/success/warning/danger 	-->
 <#-- style: solid (no top border) 												-->
 <#-- collapsed: true/false 																-->
 <#---------------------------------------------------------->
 <#macro box color='' id='' style='' class='' params='' collapsed=false>
-<div class="card m-2 <#if color!=''> border-${color}</#if><#if style!=''> text-${style}</#if><#if class!=''> ${class}</#if><#if collapsed> collapsed-box</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<div class="card m-2 <#if color!=''> bg-${color}</#if><#if style!=''> text-${style}</#if><#if class!=''> ${class}</#if><#if collapsed> collapsed-box</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 	<#nested>
 </div>
 </#macro>
 
 <#-- The boxTools parameter is unused, kept for backwards compatibility -->
 <#macro boxHeader title='' i18nTitleKey='' showTitle=true id='' params='' boxTools=false titleLevel='h5'>
-<div class="card-header"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<div class="card-header text-white"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 <${titleLevel} class="box-title<#if showTitle=false> sr-only</#if>"><#if title!=''>${title}</#if><#if i18nTitleKey!=''>#i18n{${i18nTitleKey}}</#if></${titleLevel}>
 	<#local nested><#nested></#local>
 	<#if nested?has_content>
-	<div class="box-tools">
+	<div class="box-tools d-flex">
 		<#nested>
 	</div>
 	</#if>
@@ -917,7 +950,7 @@
 </#macro>
 
 <#macro boxBody class='' id='' params=''>
-<div class="card-body<#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<div class="card-body bg-white<#if class!=''> ${class}</#if>" style="border-radius:0 0 3px 3px;"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 	<#nested>
 </div>
 </#macro>
@@ -1383,36 +1416,36 @@ $(function() {
 
 <#macro adminLanguage languages lang action='jsp/admin/DoChangeLanguage.jsp' >
 <@tform method='post' action=action class='form-inline'>
-<input type="hidden" name="token" value="${token}">
-<@row>
-	<@columns class="mx-4">
-		<@icon style='language' /> #i18n{portal.admin.admin_home.language}
-	</@columns>
-</@row>
-<@row>
-	<#list languages as language>
-	<@columns>
-		<#if lang=language.code>
-			<#assign islocale='check-circle text-success pl-4'>
-			<#assign title=' Selectionné '>
-		<#else>
-			<#assign islocale=''>
-			<#assign title=''>
-		</#if>
-		<@button color='' class='${language.code}' type='submit' name='language' value='${language.code}' title='${language.name?capitalize}${title}' buttonIcon='${islocale}' showTitle=false />
-	</@columns>
-	</#list>
-</@row>
+	<@input type='hidden' name='token' value='${token}' />
+	<@row>
+		<@columns class="mx-4">
+			<@icon style='language' /> #i18n{portal.admin.admin_home.language}
+		</@columns>
+	</@row>
+	<@row>
+		<#list languages as language>
+		<@columns>
+			<#if lang=language.code>
+				<#assign islocale='check-circle text-success pl-4'>
+				<#assign title=' Selectionné '>
+			<#else>
+				<#assign islocale=''>
+				<#assign title=''>
+			</#if>
+			<@button color='' class='${language.code}' type='submit' name='language' value='${language.code}' title='${language.name?capitalize}${title}' buttonIcon='${islocale}' showTitle=false />
+		</@columns>
+		</#list>
+	</@row>
 </@tform>
 </#macro>
 
 <#macro adminAccessibilityMode>
 <@tform method='post' action='jsp/admin/DoModifyAccessibilityMode.jsp' class="ml-2">
-	<input type="hidden" name="token" value="${token}">
+	<@input type='hidden' name='token' value='${token}' />
 	<#if user.accessibilityMode>
-		<@button color='link text-dark' size='md' type='submit' buttonIcon='eye' title='#i18n{portal.users.admin_header.labelDeactivateAccessibilityMode}'/>
+		<@button color='link text-dark' size='sm' type='submit' buttonIcon='eye' title='#i18n{portal.users.admin_header.labelDeactivateAccessibilityMode}'/>
 	<#else>
-		<@button color='link text-dark' size='md' type='submit' buttonIcon='eye-slash' title='#i18n{portal.users.admin_header.labelActivateAccessibilityMode}'/>
+		<@button color='link text-dark' size='sm' type='submit' buttonIcon='eye-slash' title='#i18n{portal.users.admin_header.labelActivateAccessibilityMode}'/>
 	</#if>
 </@tform>
 </#macro>
@@ -1421,12 +1454,12 @@ $(function() {
 <#macro adminContentHeader >
 <section class="content-header">
 	<h1>
-        <#if feature_url?? >
-            <a href="${feature_url}" title="${feature_title!''}">${feature_title!''}</a>
-            <#else>
-                ${feature_title!''}
-            </#if>
-		<#if page_title?has_content><small>${page_title}</small></#if>
+	<#if feature_url?? >
+		<@link href='${feature_url}' title='${feature_title!""}'>${feature_title!''}</@link>
+	<#else>
+		${feature_title!''}
+	</#if>
+	<#if page_title?has_content><small>${page_title}</small></#if>
 	</h1>
 	<@adminHeaderDocumentationLink />
 </section>
