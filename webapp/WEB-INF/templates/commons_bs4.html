@@ -610,22 +610,22 @@
 <#-- The accordionContainer is the container for accordionPanel, which itself is the container for accordionHeader and accordionBody -->
 <#-- The childId argument in accordionPanel is meant to be used in the two sub-macros: accordionHeader and accordionBody -->
 <#macro accordionContainer id='' params=''>
-	<div class="box-group"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+	<div class="accordion"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 		<#assign parentId = id>
 		<#nested>
 	</div>
 </#macro>
 
 <#macro accordionPanel color='' collapsed=true childId='' id='' params=''>
-	<div class="panel box box-${color}"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+	<div class="card card-${color}"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 		<#if collapsed = true>
 			<#assign aClass = 'collapsed'>
 			<#assign expanded = 'false'>
-			<#assign childClass = 'panel-collapse collapse'>
+			<#assign childClass = 'card-body collapse'>
 		<#else>
 			<#assign aClass = ''>
 			<#assign expanded = 'true'>
-			<#assign childClass = 'panel-collapse collapse in'>
+			<#assign childClass = 'card-body collapse in'>
 		</#if>
 			<#assign childId = childId>
 		<#nested>
@@ -635,7 +635,7 @@
 <#-- ACCORDION ELEMENT --> 
 <#-- The boxTools parameter is unused, kept for backwards compatibility -->
 <#macro accordionHeader title='' parentId=parentId childId=childId boxTools=false id='' params='' headerIcon='' >
-<div class="box-header with-border"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<div class="card-header"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 	<h2 class="box-title">
 		<a class="${aClass}" data-toggle="collapse" data-parent="#${parentId}" href="#${childId}" aria-expanded="${expanded}">
              <#if headerIcon!=''><@icon style=headerIcon /></#if> &nbsp;

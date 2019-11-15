@@ -16,13 +16,13 @@
 			</@boxHeader>
 		<@boxBody>
 			<@tabs>
-				<@listTabs>
+				<@tabList>
 					<li><@link href='jsp/admin/user/ModifyUser.jsp?id_user=${user.userId}'>#i18n{portal.users.actions.labelUser}</@link></li>
 					<#if defaultModeUsed><li><@link href='jsp/admin/user/ModifyUserPassword.jsp?id_user=${user.userId}'>#i18n{portal.users.actions.labelPassword}</@link></li></#if>
 					<li class="active"><@link href='jsp/admin/user/ModifyUserRights.jsp?id_user=${user.userId}'>#i18n{portal.users.actions.labelRights}</@link></li>
 					<li><@link href='jsp/admin/user/ModifyUserRoles.jsp?id_user=${user.userId}'>#i18n{portal.users.actions.labelRoles}</@link></li>
 					<li><@link href='jsp/admin/user/ModifyUserWorkgroups.jsp?id_user=${user.userId}'>#i18n{portal.users.actions.labelWorkgroups}</@link></li>
-				</@listTabs>
+				</@tabList>
 				<@tabContent>
 					<@tform method='post' action='jsp/admin/user/DoModifyUserRights.jsp'>
 						<@input type='hidden' name='delegate_rights' value='${can_delegate}' />

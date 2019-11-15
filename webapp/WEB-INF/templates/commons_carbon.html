@@ -893,7 +893,7 @@ and is kept only for backwards compatibility
 
 <#-- Bootstrap UL tabs -->
 <#-- type: tabs/tabs nav-justified/pills/pills nav-stacked/pills nav-justified -->
-<#macro listTabs type='tabs' id='' params=''>
+<#macro tabList type='tabs' id='' params=''>
 		<ul class="nav nav-${type}"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 			<#nested>
 		</ul>

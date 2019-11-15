@@ -16,12 +16,12 @@
 			</@boxHeader>
 			<@boxBody>
         <@tabs>
-          <@listTabs>
+          <@tabList>
 				<li><@link href='jsp/admin/user/ModifyUser.jsp?id_user=${user.userId}'>#i18n{portal.users.actions.labelUser}</@link></li>
 				<li class="active"><@link href='jsp/admin/user/ManageUserRights.jsp?id_user=${user.userId}'>#i18n{portal.users.actions.labelRights}</@link></li>
 				<li><@link href='jsp/admin/user/ModifyUserRoles.jsp?id_user=${user.userId}'>#i18n{portal.users.actions.labelRoles}</@link></li>
 				<li><@link href='jsp/admin/user/ModifyUserWorkgroups.jsp?id_user=${user.userId}'>#i18n{portal.users.actions.labelWorkgroups}</@link></li>
-			</@listTabs>
+			</@tabList>
           <@tabContent>
             <@table>
 				<tr>
