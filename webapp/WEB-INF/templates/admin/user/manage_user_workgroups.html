@@ -1,7 +1,10 @@
 <@row>
 	<@columns>
 		<@box color='success'>
-			<@boxHeader title='#i18n{portal.users.manage_user_workgroups.titleRightList} : <@icon style='user' />&nbsp;${user.lastName} ${user.firstName}' boxTools=true>
+			<#assign headerIcon>
+				<@icon style='user' />
+			</#assign>
+			<@boxHeader title='#i18n{portal.users.manage_user_workgroups.titleRightList} : ${headerIcon}&nbsp;${user.lastName} ${user.firstName}' boxTools=true>
 				<div class="pull-right spaced"><@item_navigation item_navigator=item_navigator /></div>
 				<#if can_delegate && can_modify>
 				<@tform class='pull-right spaced' method='post' name='modifyform' action='jsp/admin/user/ModifyUserWorkgroups.jsp'>
@@ -14,10 +17,10 @@
       		<@boxBody>
 				<@tabs>
 					<@tabList>
-						<li><@link href='jsp/admin/user/ModifyUser.jsp?id_user=${user.userId}'>#i18n{portal.users.actions.labelUser}</@link></li>
-						<li><@link href='jsp/admin/user/ModifyUserRights.jsp?id_user=${user.userId}'>#i18n{portal.users.actions.labelRights}</@link></li>
-						<li><@link href='jsp/admin/user/ModifyUserRoles.jsp?id_user=${user.userId}'>#i18n{portal.users.actions.labelRoles}</@link></li>
-						<li class="active"><@link href='jsp/admin/user/ModifyUserWorkgroups.jsp?id_user=${user.userId}'>#i18n{portal.users.actions.labelWorkgroups}</@link></li>
+						<@tabLink href='jsp/admin/user/ModifyUser.jsp?id_user=${user.userId}' title='#i18n{portal.users.actions.labelUser}' />
+						<@tabLink href='jsp/admin/user/ModifyUserRights.jsp?id_user=${user.userId}' title='#i18n{portal.users.actions.labelRights}' />
+						<@tabLink href='jsp/admin/user/ModifyUserRoles.jsp?id_user=${user.userId}' title='#i18n{portal.users.actions.labelRoles}' />
+						<@tabLink active=true href='jsp/admin/user/ModifyUserWorkgroups.jsp?id_user=${user.userId}' title='#i18n{portal.users.actions.labelWorkgroups}' />
 					</@tabList>
 					<@tabContent>
 						<@table>

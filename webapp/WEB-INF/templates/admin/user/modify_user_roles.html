@@ -10,11 +10,11 @@
 			<@boxBody>
 					<@tabs>
 					<@tabList>
-						<li><@link href='jsp/admin/user/ModifyUser.jsp?id_user=${user.userId}'>#i18n{portal.users.actions.labelUser}</@link></li>
-						<#if defaultModeUsed><li><@link href='jsp/admin/user/ModifyUserPassword.jsp?id_user=${user.userId}'>#i18n{portal.users.actions.labelPassword}</@link></li></#if>
-						<li><@link href='jsp/admin/user/ModifyUserRights.jsp?id_user=${user.userId}'>#i18n{portal.users.actions.labelRights}</@link></li>
-						<li class="active"><@link href='jsp/admin/user/ModifyUserRoles.jsp?id_user=${user.userId}'>#i18n{portal.users.actions.labelRoles}</@link></li>
-						<li><@link href='jsp/admin/user/ModifyUserWorkgroups.jsp?id_user=${user.userId}'>#i18n{portal.users.actions.labelWorkgroups}</@link></li>
+						<@tabLink href='jsp/admin/user/ModifyUser.jsp?id_user=${user.userId}' title='#i18n{portal.users.actions.labelUser}' />
+						<#if defaultModeUsed><@tabLink href='jsp/admin/user/ModifyUserPassword.jsp?id_user=${user.userId}' title='#i18n{portal.users.actions.labelPassword}' /></#if>
+						<@tabLink href='jsp/admin/user/ModifyUserRights.jsp?id_user=${user.userId}' title='#i18n{portal.users.actions.labelRights}' />
+						<@tabLink active=true href='jsp/admin/user/ModifyUserRoles.jsp?id_user=${user.userId}' title='#i18n{portal.users.actions.labelRoles}' />
+						<@tabLink href='jsp/admin/user/ModifyUserWorkgroups.jsp?id_user=${user.userId}' title='#i18n{portal.users.actions.labelWorkgroups}' />
 					</@tabList>
 					<@tabContent>
 						<@tform role='form' method='post' action='jsp/admin/user/DoModifyUserRoles.jsp'>
@@ -31,9 +31,9 @@
 										<#break>
 										</#if>
 										</#list>
-										<li class="${listElementClass}">
+										<@listGroupItem>
 											<@checkBox name='roles' value='${role.key}' labelKey='${role.key} - ${role.description}' checked=checked mandatory=false />
-										</li>
+										</@listGroupItem>
 										</#list>
 									</@listGroup> 
 								</@columns>

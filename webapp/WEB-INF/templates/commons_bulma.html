@@ -917,9 +917,11 @@ and is kept only for backwards compatibility
 </#macro>
 
 <#macro inputGroupItem pos='' type='btn' id='' params=''>
-<#-- type: btn/addon. default is btn-->
+<#-- type: btn/text. default is btn-->
 <div class="control"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+	<div class="button<#if type='text'> is-static</#if>">
 	<#nested>
+	</div>
 </div>
 </#macro>
 
@@ -961,7 +963,7 @@ and is kept only for backwards compatibility
 <#-- Tabs List -->
 <#-- type:  -->
 <#macro tabList type='tabs' id='' params='' color=''>
-<div class="tabs is-fullwidth<#if color!=''> ${color}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<div class="tabs is-boxed is-fullwidth<#if color!=''> ${color}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 	<ul<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 		<#nested>
 	</ul>
@@ -1468,10 +1470,15 @@ and is kept only for backwards compatibility
 </#macro>
 
 <#macro listGroup id='' params=''>
-<ul class="list-group"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
-	<#assign listElementClass = "list-group-item list-group-item-action">
+<div class="panel"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 	<#nested>
-</ul>
+</div>
+</#macro>
+
+<#macro listGroupItem id='' params=''>
+<div class="panel-block"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+	<#nested>
+</div>
 </#macro>
 
 <#macro unstyledList id='' params=''>

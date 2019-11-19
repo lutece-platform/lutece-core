@@ -17,11 +17,11 @@
 		<@boxBody>
 			<@tabs>
 				<@tabList>
-					<li><@link href='jsp/admin/user/ModifyUser.jsp?id_user=${user.userId}'>#i18n{portal.users.actions.labelUser}</@link></li>
-					<#if defaultModeUsed><li><@link href='jsp/admin/user/ModifyUserPassword.jsp?id_user=${user.userId}'>#i18n{portal.users.actions.labelPassword}</@link></li></#if>
-					<li class="active"><@link href='jsp/admin/user/ModifyUserRights.jsp?id_user=${user.userId}'>#i18n{portal.users.actions.labelRights}</@link></li>
-					<li><@link href='jsp/admin/user/ModifyUserRoles.jsp?id_user=${user.userId}'>#i18n{portal.users.actions.labelRoles}</@link></li>
-					<li><@link href='jsp/admin/user/ModifyUserWorkgroups.jsp?id_user=${user.userId}'>#i18n{portal.users.actions.labelWorkgroups}</@link></li>
+					<@tabLink href='jsp/admin/user/ModifyUser.jsp?id_user=${user.userId}' title='#i18n{portal.users.actions.labelUser}' />
+					<#if defaultModeUsed><@tabLink href='jsp/admin/user/ModifyUserPassword.jsp?id_user=${user.userId}' title='#i18n{portal.users.actions.labelPassword}' /></#if>
+					<@tabLink active=true href='jsp/admin/user/ModifyUserRights.jsp?id_user=${user.userId}' title='#i18n{portal.users.actions.labelRights}' />
+					<@tabLink href='jsp/admin/user/ModifyUserRoles.jsp?id_user=${user.userId}' title='#i18n{portal.users.actions.labelRoles}' />
+					<@tabLink href='jsp/admin/user/ModifyUserWorkgroups.jsp?id_user=${user.userId}' title='#i18n{portal.users.actions.labelWorkgroups}' />
 				</@tabList>
 				<@tabContent>
 					<@tform method='post' action='jsp/admin/user/DoModifyUserRights.jsp'>
@@ -43,9 +43,9 @@
 										</#if>
 										</#list>
 										</#if>
-										<li class="${listElementClass}">
+										<@listGroupItem>
 											<@checkBox labelKey='${right.name} (#i18n{portal.users.modify_user_rights.labelLevel} ${right.level}) - ${right.description}' value='${right.id}' name='right' checked=checked mandatory=false />
-										</li>
+										</@listGroupItem>
 										</#list>
 									</@listGroup>
 								</@columns>
