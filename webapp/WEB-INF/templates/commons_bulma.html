@@ -728,7 +728,7 @@ and is kept only for backwards compatibility
 
 
 <#-- MACRO TD -->
-<#macro td showXs=true showSm=true showMd=true showLg=true xs=0 sm=0 md=0 lg=0 xl=0 class='' id='' flex=false params=''>
+<#macro td showXs=true showSm=true showMd=true showLg=true showXl=true xs=0 sm=0 md=0 lg=0 xl=0 class='' id='' flex=false params=''>
     <#assign tdClass=class />
     <#if !showXs><#assign tdClass=tdClass + ' is-hidden-mobile'></#if>
     <#if !showSm><#assign tdClass=tdClass + ' is-hidden-touch'></#if>
@@ -963,7 +963,7 @@ and is kept only for backwards compatibility
 
 <#-- Tabs List -->
 <#-- type:  -->
-<#macro tabList type='tabs' id='' params='' color=''>
+<#macro tabList type='tabs' vertical=false id='' params='' color=''>
 <div class="tabs is-boxed is-fullwidth<#if color!=''> ${color}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 	<ul<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 		<#nested>

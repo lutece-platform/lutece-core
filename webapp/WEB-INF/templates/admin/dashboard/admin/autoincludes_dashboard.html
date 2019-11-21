@@ -8,10 +8,10 @@
     </p>
     </@fieldSet>
 
-    <@fieldSet legend='#i18n{portal.templates.manage_autoincludes.commonsChange} ' >
+    <@fieldSet legend='#i18n{portal.templates.manage_autoincludes.commonsChange}' >
 			<@messages infos=infos />
 			<@tform method='post' name='FilterPluginsForm' action='jsp/admin/templates/ManageAutoIncludes.jsp'>
-				<@formGroup labelKey='#i18n{portal.templates.manage_autoincludes.commonsAvailable}' labelFor='commons_key' showLabel=false formStyle='inline'>
+				<@formGroup labelKey='#i18n{portal.templates.manage_autoincludes.commonsAvailable}' labelFor='commons_key' showLabel=false rows=2>
 					<@input type='hidden' name='action' value='activate' />
 					<@inputGroup>
 						<@select sort=true name='commons_key' default_value='${current_commons}' items=commons_list />
