@@ -1,8 +1,8 @@
 <#include "admindashboard_utils.html">
 
-<@adminDashboardPanel title='#i18n{portal.features.dispatch_features.title}' icon='list' parentId='admin_features' childId='features' >
+<@tabPanel id='assign_features_groups'>
     <p>
-        <em>#i18n{portal.features.dispatch_features.featureDescription}</em>
+			<em>#i18n{portal.features.dispatch_features.featureDescription}</em>
     </p>
     <@tabContent>
         <#if no_group.feature_list?has_content && no_group.feature_list?size &gt; 1>
@@ -12,7 +12,7 @@
             <@featuresGroupDisplay groupDisplay=groupDisplay />
         </#list>
     </@tabContent>
-</@adminDashboardPanel>
+</@tabPanel>
 
 <#macro featuresGroupDisplay groupDisplay>
 <@row>
@@ -39,7 +39,7 @@
 					  	<@tform method='post' action='jsp/admin/features/DoReinitFeatures.jsp'>
 					  		<@input type='hidden' name='group_id' value='${groupDisplay.feature_group.id?if_exists}' />
 					  		<@input type='hidden' name='token' value='${token}' />
-							<@button type='submit' title='#i18n{portal.features.dispatch_features.reinitFeatureOrders}' buttonIcon='reload' color='warning' />
+							<@button type='submit' title='#i18n{portal.features.dispatch_features.reinitFeatureOrders}' buttonIcon='check' color='warning' size='sm' />
 						</@tform>
 					  </#if>
 					</#if>
@@ -50,9 +50,9 @@
 				<@table>
 				  <thead>
 					<tr>
-					  <th class="col-md-5">#i18n{portal.features.dispatch_features.tableLabelFeatureName}</th>
-					  <th class="col-md-4">#i18n{portal.features.dispatch_features.tableLabelGroup}</th>
-					  <th>#i18n{portal.features.dispatch_features.tableLabelOrder}</th>
+					  <@th sm=4 md=5 lg=6 xl=7>#i18n{portal.features.dispatch_features.tableLabelFeatureName}</@th>
+					  <@th sm=4 md=4 lg=4 xl=3>#i18n{portal.features.dispatch_features.tableLabelGroup}</@th>
+					  <@th sm=2 md=3 lg=2>#i18n{portal.features.dispatch_features.tableLabelOrder}</@th>
 					</tr>
 				  </thead>
 				  <tbody>
@@ -85,7 +85,7 @@
 										</#list>
 									  </@select>
 								  <@inputGroupItem>
-									<@button type='submit' title='#i18n{portal.features.dispatch_features_row.buttonSetGroup}' showTitle=false buttonIcon='check' />
+									<@button type='submit' title='#i18n{portal.features.dispatch_features_row.buttonSetGroup}' showTitle=false buttonIcon='check' size='sm' />
 								  </@inputGroupItem>
 								</@inputGroup>
 							  </@formGroup>
@@ -110,7 +110,7 @@
 									</@select>
 									
 									<@inputGroupItem>
-										<@button type='submit' title='#i18n{portal.features.dispatch_features_row.buttonSetOrder}' buttonIcon='refresh' showTitle=false />
+										<@button type='submit' title='#i18n{portal.features.dispatch_features_row.buttonSetOrder}' buttonIcon='check' showTitle=false size='sm' />
 									</@inputGroupItem>
 								  </@inputGroup>
 								</@formGroup>

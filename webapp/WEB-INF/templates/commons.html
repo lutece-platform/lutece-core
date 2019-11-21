@@ -682,43 +682,27 @@ and is kept only for backwards compatibility
 <#-- TABLE -->
 <#-- class:  -->
 <#macro table responsive=true condensed=true hover=true striped=false bordered=false narrow=false class='' id='' params=''>
-
-    <#assign tableClass=class />
-    <#if condensed> <#assign tableClass=tableClass + ' table-condensed' /> </#if>
-    <#if hover>     <#assign tableClass=tableClass + ' table-hover' /> </#if>
-    <#if striped>   <#assign tableClass=tableClass + ' table-striped'   /> </#if>
-    <#if bordered>  <#assign tableClass=tableClass + ' table-bordered'  /> </#if>
-    
-	<#if responsive>
+	<#assign tableClass=class />
+	<#if condensed> <#assign tableClass=tableClass + ' table-condensed' /> </#if>
+	<#if hover>     <#assign tableClass=tableClass + ' table-hover' /> </#if>
+	<#if striped>   <#assign tableClass=tableClass + ' table-striped'   /> </#if>
+	<#if bordered>  <#assign tableClass=tableClass + ' table-bordered'  /> </#if>
+  <#if responsive>
 	<div class="table-responsive">
 	</#if>
 		<table class="table ${tableClass}" id="${id}"<#if params!=''> ${params}</#if>>
-            <thead>
-                <#nested>
-            </tbody>
+			<thead>
+					<#nested>
+			</tbody>
 		</table>
 	<#if responsive>
 	</div>
 	</#if>
 </#macro>
 
-
 <#macro tableHeadBodySeparator>
 </thead>
 <tbody>
-</#macro>
-
-<#-- MACRO TH -->
-<#macro th class='' showXs=true showSm=true showMd=true showLg=true >
-    <#assign thClass=class />
-    <#if !showXs><#assign thClass=thClass + ' hidden-xs'></#if>
-    <#if !showSm><#assign thClass=thClass + ' hidden-sm'></#if>
-    <#if !showMd><#assign thClass=thClass + ' hidden-md'></#if>
-    <#if !showLg><#assign thClass=thClass + ' hidden-lg'></#if>
-
-    <th <#if thClass != ''>class="${thClass}"</#if>>
-        <#nested>
-    </th>
 </#macro>
 
 <#-- MACRO TR -->
@@ -727,6 +711,21 @@ and is kept only for backwards compatibility
     <#nested>
 </tr>
 </#macro>
+
+
+<#-- MACRO TH -->
+<#macro th id='' class='' showXs=true showSm=true showMd=true showLg=true showXl=true cols=0 xs=0 sm=0 md=0 lg=0 xl=0 flex=false params=''>
+    <#assign thClass=class />
+    <#if !showXs><#assign thClass=thClass + ' hidden-xs'></#if>
+    <#if !showSm><#assign thClass=thClass + ' hidden-sm'></#if>
+    <#if !showMd><#assign thClass=thClass + ' hidden-md'></#if>
+    <#if !showLg || !showXl ><#assign thClass=thClass + ' hidden-lg'></#if>
+
+    <th <#if thClass != ''>class="${thClass}"</#if><#if xs!=0>col-xs-${xs}</#if><#if sm!=0> col-sm-${sm}</#if><#if md!=0> col-md-${md}</#if><#if lg!=0> col-lg-${lg}</#if><#if xl!=0> col-xl-${xl}</#if><#if class!=''>${class}</#if>"<#if flex> style="display:flex;"</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+        <#nested>
+    </th>
+</#macro>
+
 
 
 <#-- MACRO TD -->
@@ -998,8 +997,8 @@ and is kept only for backwards compatibility
 
 <#-- Bootstrap UL tabs -->
 <#-- type: tabs/tabs nav-justified/pills/pills nav-stacked/pills nav-justified -->
-<#macro tabList type='tabs' id='' params='' color=''>
-		<ul class="nav nav-${type}"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<#macro tabList type='tabs' vertical=false id='' params='' color=''>
+		<ul class="nav nav-${type}<#if vertical> nav-stacked</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if vertical> style="margin-bottom:2rem;"</#if>>
 			<#nested>
 		</ul>
 </#macro>
@@ -1007,14 +1006,21 @@ and is kept only for backwards compatibility
 <#-- Tabs -->
 <#-- type:  -->
 <#macro tabLink class='' id='' active=false href='' title='' tabIcon='' params=''>
-		<li class="<#if class!=''> ${class}</#if><#if active> active</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
-			<@link href='${href}' title='${title}'>${title}</@link>
+		<li class="<#if class!=''> ${class}</#if><#if active> active</#if>" role="presentation"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+			<@link href='${href}' title='${title}' params='aria-controls="${href?remove_beginning("#")}" role="tab" data-toggle="tab"'>${title}</@link>
 		</li>
 </#macro>
 
 <#-- TAB Content AdminLTE -->
 <#macro tabContent id='' params=''>
 		<div class="tab-content"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+			<#nested>
+		</div>
+</#macro>
+
+<#-- Tab Panel BS3 -->
+<#macro tabPanel id params='' active=false>
+		<div class="tab-pane fade<#if active> in active</#if>" role="tabpanel" id="${id}"<#if params!=''> ${params}</#if>>
 			<#nested>
 		</div>
 </#macro>

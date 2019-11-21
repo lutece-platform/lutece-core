@@ -704,14 +704,21 @@ and is kept only for backwards compatibility
 <tbody>
 </#macro>
 
+<#-- MACRO TR -->
+<#macro tr>
+<tr>
+    <#nested>
+</tr>
+</#macro>
 
 <#-- MACRO TH -->
-<#macro th class='' showXs=true showSm=true showMd=true showLg=true >
-    <#assign thClass=class />
+<#macro th id='' class='' showXs=true showSm=true showMd=true showLg=true showXl=true cols=0 xs=0 sm=0 md=0 lg=0 xl=0 flex=false params=''>
+    <#assign thClass = class />
     <#if !showXs><#assign thClass=thClass + ' is-hidden-mobile'></#if>
     <#if !showSm><#assign thClass=thClass + ' is-hidden-touch'></#if>
     <#if !showMd><#assign thClass=thClass + ' is-hidden-desktop'></#if>
     <#if !showLg><#assign thClass=thClass + ' is-hidden-widescreen'></#if>
+    <#if !showXl><#assign thClass=thClass + ' is-hidden-widescreen'></#if>
 
     <th <#if thClass != ''>class="${thClass}"</#if>>
         <#nested>
@@ -719,12 +726,6 @@ and is kept only for backwards compatibility
 </#macro>
 
 
-<#-- MACRO TR -->
-<#macro tr>
-<tr>
-    <#nested>
-</tr>
-</#macro>
 
 <#-- MACRO TD -->
 <#macro td showXs=true showSm=true showMd=true showLg=true xs=0 sm=0 md=0 lg=0 xl=0 class='' id='' flex=false params=''>
@@ -733,12 +734,12 @@ and is kept only for backwards compatibility
     <#if !showSm><#assign tdClass=tdClass + ' is-hidden-touch'></#if>
     <#if !showMd><#assign tdClass=tdClass + ' is-hidden-desktop'></#if>
     <#if !showLg><#assign tdClass=tdClass + ' is-hidden-widescreen'></#if>
+    <#if !showXl><#assign tdClass=tdClass + ' is-hidden-widescreen'></#if>
 
 <td class="<#if tdClass != ''>${tdClass}</#if><#if xs!=0> col-xs-${xs}</#if><#if sm!=0> col-sm-${sm}</#if><#if md!=0> col-md-${md}</#if><#if lg!=0> col-lg-${lg}</#if><#if xl!=0> col-xl-${xl}</#if><#if class!=''>${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 	<#if flex><div style="display:flex;"></#if>
 	<#nested>
 	<#if flex></div></#if>
-	
 </td>
 </#macro>
 
@@ -973,7 +974,7 @@ and is kept only for backwards compatibility
 <#-- Tabs -->
 <#-- type:  -->
 <#macro tabLink class='' id='' active=false href='' title='' tabIcon='' params=''>
-		<li class="<#if class!=''>${class} </#if><#if active>is-active</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+		<li class="<#if class!=''>${class}</#if><#if active> is-active</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 			<@link href='${href}' title='${title}'>
 				<#if tabIcon!=''><span class="icon is-small"><@icon style=tabIcon /></span></#if>
 				${title}
@@ -981,11 +982,18 @@ and is kept only for backwards compatibility
 		</li>
 </#macro>
 
-<#-- TAB Content AdminLTE -->
+<#-- TAB Content -->
 <#macro tabContent id='' params=''>
 <div class="is-clearfix"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 	<#nested>
 </div>
+</#macro>
+
+<#-- Tab Panel BS4 -->
+<#macro tabPanel id params='' active=false>
+		<div class="tab-pane fade<#if active> show active</#if>" role="tabpanel" id="${id}" aria-labelledby="${id}-tab"<#if params!=''> ${params}</#if>>
+			<#nested>
+		</div>
 </#macro>
 
 <#-- ACCORDION --> 

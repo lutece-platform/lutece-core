@@ -1,8 +1,8 @@
 <#include "admindashboard_utils.html">
 
-<@adminDashboardPanel title='#i18n{portal.features.external_features.manage_external_features.pageTitle}' icon='users' parentId='admin_features' childId='external' >
+<@tabPanel id='external_features'>
 	<@tform class='form-inline pull-right' method='post' name='create_external_feature' action='jsp/admin/features/CreateExternalFeature.jsp'>
-			<@button type='submit' title='#i18n{portal.features.external_features.manage_external_features.create}' buttonIcon='plus' size='' showTitleXs=false showTitleSm=false />
+			<@button type='submit' title='#i18n{portal.features.external_features.manage_external_features.create}' buttonIcon='plus' size='sm' showTitleXs=false showTitleSm=false />
 	</@tform>
 	<p>
 			<em>#i18n{portal.features.external_features.featureDescription}</em>
@@ -23,11 +23,11 @@
 					<td>${external_feature.url}</td>
 					<td>${external_feature.featureGroup}</td>                      
 					<td>
-						<@aButton href='jsp/admin/features/ModifyExternalFeature.jsp?external_feature_id=${external_feature.id}' title='#i18n{portal.util.labelModify}' buttonIcon='edit' showTitle=false />
-						<@aButton href='jsp/admin/features/RemoveExternalFeature.jsp?external_feature_id=${external_feature.id}' title='#i18n{portal.util.labelDelete}' buttonIcon='trash' showTitle=false color='danger' />
+						<@aButton href='jsp/admin/features/ModifyExternalFeature.jsp?external_feature_id=${external_feature.id}' title='#i18n{portal.util.labelModify}' buttonIcon='edit' showTitle=false size='sm' />
+						<@aButton href='jsp/admin/features/RemoveExternalFeature.jsp?external_feature_id=${external_feature.id}' title='#i18n{portal.util.labelDelete}' buttonIcon='trash' showTitle=false color='danger' size='sm' />
 					</td>
 				</tr>
 			</#list>
 		</tbody>
 	</@table>
-</@adminDashboardPanel>
+</@tabPanel>

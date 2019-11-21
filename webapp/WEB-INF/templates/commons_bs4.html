@@ -260,12 +260,12 @@
 <#-- class:  -->
 <#macro table responsive=true condensed=true hover=true striped=false bordered=false narrow=false class='' id='' params=''>
 	<#assign tableClass=class />
-	<#if condensed> <#assign tableClass=tableClass + ' table-condensed' /> </#if>
+	<#if condensed> <#assign tableClass=tableClass + ' table-sm' /> </#if>
 	<#if hover>     <#assign tableClass=tableClass + ' table-hover' /> </#if>
 	<#if striped>   <#assign tableClass=tableClass + ' table-striped'   /> </#if>
 	<#if bordered>  <#assign tableClass=tableClass + ' table-bordered'  /> </#if>
 	<#if responsive>
-	<div class="table-responsive">
+	<div class="table-responsive-sm">
 	</#if>
 	<table class="table ${tableClass}" id="${id}"<#if params!=''> ${params}</#if>>
 		<#nested>
@@ -275,20 +275,6 @@
 	</#if>
 </#macro>
 
-<#-- MACRO TH -->
-<#macro th class='' showXs=true showSm=true showMd=true showLg=true >
-	<#assign thClass=class />
-	<#if !showXs><#assign thClass=thClass + ' d-none d-sm-block'></#if>
-	<#if !showSm><#assign thClass=thClass + ' d-none d-md-block'></#if>
-	<#if !showMd><#assign thClass=thClass + ' d-none d-lg-block'></#if>
-	<#if !showLg><#assign thClass=thClass + ' d-none d-xl-block'></#if>
-
-	<th <#if thClass != ''>class="${thClass}"</#if>>
-		<#nested>
-	</th>
-</#macro>
-
-
 <#-- MACRO TR -->
 <#macro tr>
 	<tr>
@@ -296,14 +282,34 @@
 	</tr>
 </#macro>
 
+<#-- MACRO TH -->
+<#macro th id='' class='' showXs=true showSm=true showMd=true showLg=true showXl=true cols=0 xs=0 sm=0 md=0 lg=0 xl=0 flex=false params=''>
+	<#local thClass = class />
+	<#if !showXs><#local thClass = thClass + ' d-none d-sm-table-cell'></#if>
+	<#if !showSm><#local thClass = thClass + ' d-none d-md-table-cell'></#if>
+	<#if !showMd><#local thClass = thClass + ' d-none d-lg-table-cell'></#if>
+	<#if !showLg><#local thClass = thClass + ' d-none d-xl-table-cell'></#if>
+	<#if !showXl><#local thClass = thClass + ' d-none'></#if>
+	<#if cols!=0>
+		<#local thClass = thClass + ' col-${cols}' />
+	</#if>
+	<th class="<#if thClass != ''>${thClass}</#if><#if sm!=0> col-sm-${sm}</#if><#if md!=0> col-md-${md}</#if><#if lg!=0> col-lg-${lg}</#if><#if xl!=0> col-xl-${xl}</#if><#if flex> d-flex</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+		<#nested>
+	</th>
+</#macro>
+
 <#-- MACRO TD -->
-<#macro td showXs=true showSm=true showMd=true showLg=true xs=0 sm=0 md=0 lg=0 xl=0 class='' id='' flex=false params=''>
-	<#assign tdClass=class />
-	<#if !showXs><#assign tdClass=tdClass + ' d-none d-sm-block'></#if>
-	<#if !showSm><#assign tdClass=tdClass + ' d-none d-md-block'></#if>
-	<#if !showMd><#assign tdClass=tdClass + ' d-none d-lg-block'></#if>
-	<#if !showLg><#assign tdClass=tdClass + ' d-none d-xl-block'></#if>
-	<td class="<#if tdClass != ''>${tdClass}</#if><#if xs!=0>col-xs-${xs}</#if><#if sm!=0> col-sm-${sm}</#if><#if md!=0> col-md-${md}</#if><#if lg!=0> col-lg-${lg}</#if><#if xl!=0> col-xl-${xl}</#if><#if class!=''>${class}</#if><#if flex> d-flex</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<#macro td id='' class='' showXs=true showSm=true showMd=true showLg=true showXl=true cols=0 xs=0 sm=0 md=0 lg=0 xl=0 flex=false params=''>
+	<#local tdClass=class />
+	<#if !showXs><#local tdClass = tdClass + ' d-none d-sm-table-cell'></#if>
+	<#if !showSm><#local tdClass = tdClass + ' d-none d-md-table-cell'></#if>
+	<#if !showMd><#local tdClass = tdClass + ' d-none d-lg-table-cell'></#if>
+	<#if !showLg><#local tdClass = tdClass + ' d-none d-xl-table-cell'></#if>
+	<#if !showXl><#local tdClass = tdClass + ' d-none'></#if>
+	<#if cols!=0>
+		<#local tdClass = tdClass + ' col-${cols}' />
+	</#if>
+	<td class="<#if tdClass != ''>${tdClass}</#if><#if sm!=0> col-sm-${sm}</#if><#if md!=0> col-md-${md}</#if><#if lg!=0> col-lg-${lg}</#if><#if xl!=0> col-xl-${xl}</#if><#if flex> d-flex</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 		<#nested>
 	</td>
 </#macro>
@@ -369,17 +375,17 @@
 <div class="form-group<#if formStyle='horizontal'> row</#if><#if class!=''> ${class}<#/if><#if validation?? && validation!=''> ${validation}</#if></#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 	<#if rows=1>
 		<#if labelKey!='' && formStyle='horizontal'>
-			<#assign labelClass = "col-sm-3 col-form-label">
+			<#assign labelClass = "col-sm-12 col-lg-3 col-form-label">
 			<#if showLabel=false>
 				<#assign divClass="col">
 			<#else>	
-				<#assign divClass = "col-6">
+				<#assign divClass = "col-lg-9">
 			</#if>
 		<#elseif formStyle = 'inline'>
 			<#assign labelClass = 'sr-only'>
 			<#assign divClass = "mb-2 mr-sm-2">
 		<#else>
-				<#assign divClass="col-xs-12 offset-sm-3 col-sm-6">
+				<#assign divClass="col-sm-12 offset-lg-3 col-lg-3">
 		</#if>
 	<#else>
 		<#assign labelClass = "col-sm-12 col-form-label">
@@ -549,7 +555,7 @@
 <#if xs=12 && sm=0 && md=0 && lg=0 && xl=0>
 <div class="col<#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 <#else>
-<div class="col-xs-${xs}<#if sm!=0> col-sm-${sm}</#if><#if md!=0> col-md-${md}</#if><#if lg!=0> col-lg-${lg}</#if><#if xl!=0> col-xl-${xl}</#if><#if offsetXs!=0> col-xs-offset-${offsetXs}</#if><#if offsetSm!=0> col-sm-offset-${offsetSm}</#if><#if offsetMd!=0> col-md-offset-${offsetMd}</#if><#if offsetLg!=0> col-lg-offset-${offsetLg}</#if><#if offsetXl!=0> col-xl-offset-${offsetXl}</#if><#if pushXs!=0> col-xs-push-${pushXs}</#if><#if pushSm!=0> col-sm-push-${pushSm}</#if><#if pushMd!=0> col-md-push-${pushMd}</#if><#if pushLg!=0> col-lg-push-${pushLg}</#if><#if pushXl!=0> col-xl-push-${pushXl}</#if><#if pullXs!=0> col-xs-pull-${pullXs}</#if><#if pullSm!=0> col-sm-pull-${pullSm}</#if><#if pullMd!=0> col-md-pull-${pullMd}</#if><#if pullLg!=0> col-lg-pull-${pullLg}</#if><#if pullXl!=0> col-xl-pull-${pullXl}</#if><#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<div class="<#if sm!=0> col-sm-${sm}</#if><#if md!=0> col-md-${md}</#if><#if lg!=0> col-lg-${lg}</#if><#if xl!=0> col-xl-${xl}</#if><#if offsetXs!=0> col-xs-offset-${offsetXs}</#if><#if offsetSm!=0> col-sm-offset-${offsetSm}</#if><#if offsetMd!=0> col-md-offset-${offsetMd}</#if><#if offsetLg!=0> col-lg-offset-${offsetLg}</#if><#if offsetXl!=0> col-xl-offset-${offsetXl}</#if><#if pushXs!=0> col-xs-push-${pushXs}</#if><#if pushSm!=0> col-sm-push-${pushSm}</#if><#if pushMd!=0> col-md-push-${pushMd}</#if><#if pushLg!=0> col-lg-push-${pushLg}</#if><#if pushXl!=0> col-xl-push-${pushXl}</#if><#if pullXs!=0> col-xs-pull-${pullXs}</#if><#if pullSm!=0> col-sm-pull-${pullSm}</#if><#if pullMd!=0> col-md-pull-${pullMd}</#if><#if pullLg!=0> col-lg-pull-${pullLg}</#if><#if pullXl!=0> col-xl-pull-${pullXl}</#if><#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 </#if>
 	<#nested>
 </div>
@@ -572,15 +578,15 @@
 
 <#-- Tab Container -->
 <#macro tabs color='' id='' params=''>
-	<div class="card-body<#if color!=''> ${color}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+	<div class="<#if color!=''> ${color}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 		<#nested>
 	</div>
 </#macro>
 
 <#-- Tabs List -->
 <#-- type: tabs/tabs nav-justified/pills/pills nav-stacked/pills nav-justified -->
-<#macro tabList type='tabs' id='' params='' color=''>
-		<ul class="nav nav-${type}"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<#macro tabList type='tabs' vertical=false id='' params='' color=''>
+		<ul class="nav nav-${type}<#if vertical> flex-column mb-3</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if> role="tablist">
 			<#nested>
 		</ul>
 </#macro>
@@ -594,13 +600,20 @@
 			<#else>
 				<#local linkClass = 'nav-link' />
 			</#if>
-			<@link class=linkClass href='${href}' title='${title}'>${title}</@link>
+			<@link class=linkClass href='${href}' id='${href?remove_beginning("#")}-tab' title='${title}' params='data-toggle="tab" role="tab" aria-selected="${active?c}" aria-controls="${href?remove_beginning("#")}"'><#if tabIcon!=''><@icon style=tabIcon /></#if> ${title}</@link>
 		</li>
 </#macro>
 
 <#-- TAB Content -->
 <#macro tabContent id='' params=''>
-		<div class="card-body"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+		<div class="tab-content"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+			<#nested>
+		</div>
+</#macro>
+
+<#-- Tab Panel BS4 -->
+<#macro tabPanel id params='' active=false>
+		<div class="tab-pane fade<#if active> show active</#if>" role="tabpanel" id="${id}" aria-labelledby="${id}-tab"<#if params!=''> ${params}</#if>>
 			<#nested>
 		</div>
 </#macro>
@@ -609,38 +622,37 @@
 <#-- ACCORDION --> 
 <#-- The accordionContainer is the container for accordionPanel, which itself is the container for accordionHeader and accordionBody -->
 <#-- The childId argument in accordionPanel is meant to be used in the two sub-macros: accordionHeader and accordionBody -->
-<#macro accordionContainer id='' params=''>
-	<div class="accordion"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<#macro accordionContainer id params=''>
+	<div class="accordion" id="${id}"<#if params!=''> ${params}</#if>>
 		<#assign parentId = id>
 		<#nested>
 	</div>
 </#macro>
 
 <#macro accordionPanel color='' collapsed=true childId='' id='' params=''>
-	<div class="card card-${color}"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
-		<#if collapsed = true>
+	<div class="card<#if color!=''> bg-${color}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+		<#if collapsed>
 			<#assign aClass = 'collapsed'>
 			<#assign expanded = 'false'>
-			<#assign childClass = 'card-body collapse'>
+			<#assign childClass = 'collapse'>
 		<#else>
 			<#assign aClass = ''>
 			<#assign expanded = 'true'>
-			<#assign childClass = 'card-body collapse in'>
+			<#assign childClass = 'collapse show'>
 		</#if>
-			<#assign childId = childId>
+		<#assign childId = childId>
 		<#nested>
 	</div>
 </#macro>
 
 <#-- ACCORDION ELEMENT --> 
 <#-- The boxTools parameter is unused, kept for backwards compatibility -->
-<#macro accordionHeader title='' parentId=parentId childId=childId boxTools=false id='' params='' headerIcon='' >
-<div class="card-header"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
-	<h2 class="box-title">
-		<a class="${aClass}" data-toggle="collapse" data-parent="#${parentId}" href="#${childId}" aria-expanded="${expanded}">
-             <#if headerIcon!=''><@icon style=headerIcon /></#if> &nbsp;
+<#macro accordionHeader id='' title='' parentId=parentId childId=childId boxTools=false params='' headerIcon='' >
+<div class="card-header" id="${childId}-header"<#if params!=''> ${params}</#if>>
+	<h2 class="mb-0">
+		<button class="btn btn-link<#if aClass!=''> ${aClass}</#if>" type="button" data-toggle="collapse" data-target="#${childId}" aria-expanded="${expanded}" aria-controls="${childId}">
+			<#if headerIcon!=''><@icon style=headerIcon /></#if> &nbsp;
 			${title}
-		</a>
 	</h2>
 	<#local nested><#nested></#local>
 	<#if nested?has_content>
@@ -652,7 +664,7 @@
 </#macro>
 
 <#macro accordionBody id=childId class=childClass expanded=expanded params=''>
-<div id="${id}" class="${class}" aria-expanded="${expanded}"<#if params!=''> ${params}</#if>>
+<div id="${id}" class="${class}" aria-labelledby="${childId}-header" data-parent="#${parentId}" <#if params!=''> ${params}</#if>>
 	<@boxBody>
 		<#nested>
 	</@boxBody>
@@ -1025,7 +1037,7 @@
 </#macro>
 
 <#macro listGroupItem id='' params=''>
-<li class="list-group-item"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<li class="list-group-item list-group-item-action"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 	<#nested>
 </li>
 </#macro>
