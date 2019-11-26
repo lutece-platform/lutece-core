@@ -35,32 +35,54 @@
 
 package fr.paris.lutece.util.env;
 
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * EnvUtil
  */
 public final class EnvUtil 
 {
-    private static final String START_ENV_VAR = "${"; 
-    private static final String END_ENV_VAR = "}"; 
+    private static final String PATTERN_MARKER = "\\$\\{(.+?)\\}";
+
+    private static Pattern _pattern = Pattern.compile( PATTERN_MARKER );
+
+    private static Map<String, String> _mapEnv; 
     
     // Private constructor
     private EnvUtil()
     {
+        _mapEnv = System.getenv();
     }
     
     /**
-     * Evaluate a string and see if it references an environement variable enclosed by ${...}
-     * @param strSource
+     * Evaluate a string that may contain a reference to an environement variable enclosed by ${...}
+     * @param strSource The source string
      * @return The source string or the env variable's value if found.
      */
-    public static String interpretValue( String strSource )
+    public static String evaluate( String strSource )
     {
-        String strValue = (strSource != null) ? strSource.trim() : "";
-        if( strValue.startsWith( START_ENV_VAR ) && strValue.endsWith( END_ENV_VAR ))
+        String strOutput = (strSource != null) ? strSource : "";
+        Matcher matcher = _pattern.matcher( strOutput );
+        
+        while( matcher.find())
         {
-            String strEnvVariable = strValue.substring( 2 , strValue.length() - 1 );
-            strValue = System.getenv().get( strEnvVariable );
+            String strMarker = matcher.group();
+            String strEnvVariable = strMarker.substring( 2 , strMarker.length() - 1 );
+            String strValue = _mapEnv.get( strEnvVariable );
+            strOutput = strOutput.substring( 0 , matcher.start() ) + strValue + strOutput.substring( matcher.end() );
         }
-        return strValue;
+        return strOutput;
     }
+
+    /**
+     * Mock Env map for unit testing
+     * @param mapEnv a mock map
+     */
+    static void setMockMapEnv( Map<String, String> mapEnv )
+    {
+        _mapEnv = mapEnv;
+    }
+
 }

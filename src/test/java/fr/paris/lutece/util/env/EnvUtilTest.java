@@ -34,6 +34,8 @@
 
 package fr.paris.lutece.util.env;
 
+import java.util.HashMap;
+import java.util.Map;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -42,24 +44,39 @@ import static org.junit.Assert.*;
  */
 public class EnvUtilTest
 {
-    private static final String ENV_VARIABLE = "JAVA_HOME";
+    private static final String ENV_LUTECE_DB_USER_VAR = "LUTECE_DB_USER";
+    private static final String ENV_LUTECE_DB_USER_VALUE = "lutece_user";
+    private static final String ENV_LUTECE_DB_NAME_VAR = "LUTECE_DATABASE";
+    private static final String ENV_LUTECE_DB_NAME_VALUE = "lutece";
+    private static final String URL = "jdbc:mysql://localhost/${LUTECE_DATABASE}?autoReconnect=true&useUnicode=yes&characterEncoding=utf8";
+    private static final String URL_EXPECTED = "jdbc:mysql://localhost/lutece?autoReconnect=true&useUnicode=yes&characterEncoding=utf8";
 
     /**
-     * Test of interpretValue method, of class EnvUtil.
+     * Test of evaluate method, of class EnvUtil.
      */
     @Test
-    public void testInterpretValue()
+    public void testEvaluate()
     {
-        System.out.println( "interpretValue" );
-        String strSource = "${" + ENV_VARIABLE + "}";
-        String result = EnvUtil.interpretValue( strSource );
-        System.out.println( strSource + ":" + result );
-        assertNotEquals( ENV_VARIABLE, strSource );
-        result = EnvUtil.interpretValue( ENV_VARIABLE );
-        assertEquals( ENV_VARIABLE, result );
+        System.out.println( "testEvaluate" );
 
-        System.out.println( EnvUtil.interpretValue( null ));
-        System.out.println( EnvUtil.interpretValue( "${DUMMY}" ));
+        Map<String, String> mapEnv = new HashMap<>();
+        mapEnv.put( ENV_LUTECE_DB_USER_VAR, ENV_LUTECE_DB_USER_VALUE);
+        mapEnv.put( ENV_LUTECE_DB_NAME_VAR, ENV_LUTECE_DB_NAME_VALUE );
+        
+        EnvUtil.setMockMapEnv( mapEnv );
+        String strSource = "${" + ENV_LUTECE_DB_USER_VAR + "}";
+        String result = EnvUtil.evaluate( strSource );
+        System.out.println( strSource + ":" + result );
+        assertEquals( ENV_LUTECE_DB_USER_VALUE, result );
+        result = EnvUtil.evaluate( ENV_LUTECE_DB_USER_VAR );
+        assertEquals( ENV_LUTECE_DB_USER_VAR, result );
+        result = EnvUtil.evaluate( URL );
+        assertEquals( URL_EXPECTED, result );
+        
+        
+        
+        System.out.println(EnvUtil.evaluate( null ));
+        System.out.println(EnvUtil.evaluate( "${DUMMY}" ));
     }
     
 }
