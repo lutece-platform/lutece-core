@@ -115,6 +115,10 @@ public class LuteceConnectionService implements ConnectionService
         {
             _logger.error( "No URL specified for the pool " + getPoolName( ) );
         }
+        else
+        {
+            url = EnvUtil.evaluate( url , EnvUtil.PREFIX_ENV );
+        }
 
         String user = htParamsConnectionPool.get( getPoolName( ) + ".user" );
 

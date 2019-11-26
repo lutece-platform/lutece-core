@@ -80,6 +80,7 @@ public class C3p0ConnectionService implements ConnectionService
             _dataSource.setDriverClass( strDriver );
 
             String strUrl = htParamsConnectionPool.get( getPoolName( ) + ".url" );
+            strUrl = EnvUtil.evaluate( strUrl , EnvUtil.PREFIX_ENV );
             _dataSource.setJdbcUrl( strUrl );
 
             String strUser = htParamsConnectionPool.get( getPoolName( ) + ".user" );
