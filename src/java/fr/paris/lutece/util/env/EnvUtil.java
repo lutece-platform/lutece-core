@@ -44,6 +44,7 @@ import java.util.regex.Pattern;
  */
 public final class EnvUtil 
 {
+    public static final String PREFIX_ENV = "env.";
     private static final String PATTERN_MARKER = "\\$\\{(.+?)\\}";
 
     private static Pattern _pattern = Pattern.compile( PATTERN_MARKER );
@@ -55,7 +56,7 @@ public final class EnvUtil
     {
         _mapEnv = System.getenv();
     }
-    
+
     /**
      * Evaluate a string that may contain a reference to an environement variable enclosed by ${...}
      * @param strSource The source string
@@ -63,13 +64,24 @@ public final class EnvUtil
      */
     public static String evaluate( String strSource )
     {
+        return evaluate( strSource, "" );
+    }
+    
+    /**
+     * Evaluate a string that may contain a reference to an environement variable enclosed by ${...}
+     * @param strSource The source string
+     * @param strEnvPrefix A prefix of the environment
+     * @return The source string or the env variable's value if found.
+     */
+    public static String evaluate( String strSource , String strEnvPrefix )
+    {
         String strOutput = (strSource != null) ? strSource : "";
         Matcher matcher = _pattern.matcher( strOutput );
         
         while( matcher.find())
         {
             String strMarker = matcher.group();
-            String strEnvVariable = strMarker.substring( 2 , strMarker.length() - 1 );
+            String strEnvVariable = strMarker.substring( 2 + strEnvPrefix.length(), strMarker.length() - 1 );
             String strValue = _mapEnv.get( strEnvVariable );
             strOutput = strOutput.substring( 0 , matcher.start() ) + strValue + strOutput.substring( matcher.end() );
         }

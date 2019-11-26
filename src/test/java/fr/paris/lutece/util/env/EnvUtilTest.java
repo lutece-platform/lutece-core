@@ -68,6 +68,10 @@ public class EnvUtilTest
         String result = EnvUtil.evaluate( strSource );
         System.out.println( strSource + ":" + result );
         assertEquals( ENV_LUTECE_DB_USER_VALUE, result );
+        strSource = "${" + EnvUtil.PREFIX_ENV + ENV_LUTECE_DB_USER_VAR + "}";
+        result = EnvUtil.evaluate( strSource , EnvUtil.PREFIX_ENV );
+        System.out.println( strSource + ":" + result );
+        assertEquals( ENV_LUTECE_DB_USER_VALUE, result );
         result = EnvUtil.evaluate( ENV_LUTECE_DB_USER_VAR );
         assertEquals( ENV_LUTECE_DB_USER_VAR, result );
         result = EnvUtil.evaluate( URL );
