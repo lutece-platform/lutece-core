@@ -74,6 +74,7 @@
         <echo message="Preparing the database(s) by creating it and inserting data" />
         
         <!-- Property file -->
+        <property environment="env" />
         <property file="build.properties" />
         <property name="db.properties.path" value="../conf/db.properties"/>
         

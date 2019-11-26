@@ -83,11 +83,11 @@ public class C3p0ConnectionService implements ConnectionService
             _dataSource.setJdbcUrl( strUrl );
 
             String strUser = htParamsConnectionPool.get( getPoolName( ) + ".user" );
-            strUser = EnvUtil.evaluate( strUser );
+            strUser = EnvUtil.evaluate( strUser , EnvUtil.PREFIX_ENV );
             _dataSource.setUser( strUser );
 
             String strPassword = htParamsConnectionPool.get( getPoolName( ) + ".password" );
-            strPassword = EnvUtil.evaluate( strPassword );
+            strPassword = EnvUtil.evaluate( strPassword , EnvUtil.PREFIX_ENV );
             _dataSource.setPassword( strPassword );
 
             String strMaxConns = htParamsConnectionPool.get( getPoolName( ) + ".maxconns" );
