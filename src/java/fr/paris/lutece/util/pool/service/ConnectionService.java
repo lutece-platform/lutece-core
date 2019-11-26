@@ -37,7 +37,7 @@ import org.apache.log4j.Logger;
 
 import java.sql.Connection;
 
-import java.util.Hashtable;
+import java.util.Map;
 
 import javax.sql.DataSource;
 
@@ -74,7 +74,7 @@ public interface ConnectionService
      * @param htParamsConnectionPool
      *            Parameters
      */
-    void init( Hashtable<String, String> htParamsConnectionPool );
+    void init( Map<String, String> htParamsConnectionPool );
 
     /**
      * Define the pool name

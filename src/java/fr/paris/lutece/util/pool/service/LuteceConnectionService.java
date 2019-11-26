@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.util.pool.service;
 
+import fr.paris.lutece.util.env.EnvUtil;
 import org.apache.log4j.Logger;
 
 import java.sql.Connection;
@@ -40,7 +41,7 @@ import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-import java.util.Hashtable;
+import java.util.Map;
 
 import javax.sql.DataSource;
 
@@ -59,6 +60,7 @@ public class LuteceConnectionService implements ConnectionService
      * @param strPoolName
      *            The pool name
      */
+    @Override
     public void setPoolName( String strPoolName )
     {
         _strPoolName = strPoolName;
@@ -69,6 +71,7 @@ public class LuteceConnectionService implements ConnectionService
      * 
      * @return The pool name
      */
+    @Override
     public String getPoolName( )
     {
         return _strPoolName;
@@ -80,6 +83,7 @@ public class LuteceConnectionService implements ConnectionService
      * @param logger
      *            The logger
      */
+    @Override
     public void setLogger( Logger logger )
     {
         _logger = logger;
@@ -90,6 +94,7 @@ public class LuteceConnectionService implements ConnectionService
      * 
      * @return The logger
      */
+    @Override
     public Logger getLogger( )
     {
         return _logger;
@@ -101,7 +106,8 @@ public class LuteceConnectionService implements ConnectionService
      * @param htParamsConnectionPool
      *            Pool parameters
      */
-    public void init( Hashtable<String, String> htParamsConnectionPool )
+    @Override
+    public void init( Map<String, String> htParamsConnectionPool )
     {
         String url = htParamsConnectionPool.get( getPoolName( ) + ".url" );
 
@@ -116,12 +122,20 @@ public class LuteceConnectionService implements ConnectionService
         {
             _logger.error( "No user specified for the pool " + getPoolName( ) );
         }
+        else
+        {
+            user = EnvUtil.evaluate( user );
+        }
 
         String password = htParamsConnectionPool.get( getPoolName( ) + ".password" );
 
         if ( password == null )
         {
             _logger.error( "No password specified for the pool " + getPoolName( ) );
+        }
+        else
+        {
+            password = EnvUtil.evaluate( password );
         }
 
         // load of the driver
@@ -162,6 +176,7 @@ public class LuteceConnectionService implements ConnectionService
      * 
      * @return A connection
      */
+    @Override
     public Connection getConnection( )
     {
         try
@@ -182,6 +197,7 @@ public class LuteceConnectionService implements ConnectionService
      * @param conn
      *            The connection to release
      */
+    @Override
     public void freeConnection( Connection conn )
     {
         _connPool.freeConnection( conn );
@@ -190,6 +206,7 @@ public class LuteceConnectionService implements ConnectionService
     /**
      * Release the pool
      */
+    @Override
     public void release( )
     {
         _connPool.release( );
@@ -208,6 +225,7 @@ public class LuteceConnectionService implements ConnectionService
     /**
      * {@inheritDoc}
      */
+    @Override
     public int getCurrentConnections( )
     {
         return _connPool.getConnectionCount( );
@@ -216,6 +234,7 @@ public class LuteceConnectionService implements ConnectionService
     /**
      * {@inheritDoc}
      */
+    @Override
     public int getMaxConnections( )
     {
         return _connPool.getMaxConnectionCount( );
@@ -224,6 +243,7 @@ public class LuteceConnectionService implements ConnectionService
     /**
      * {@inheritDoc }
      */
+    @Override
     public String getPoolProvider( )
     {
         return "Lutece";
@@ -232,6 +252,7 @@ public class LuteceConnectionService implements ConnectionService
     /**
      * {@inheritDoc }
      */
+    @Override
     public DataSource getDataSource( )
     {
         return getConnectionPool( );
