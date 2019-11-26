@@ -124,7 +124,7 @@ public class LuteceConnectionService implements ConnectionService
         }
         else
         {
-            user = EnvUtil.interpretValue( user );
+            user = EnvUtil.evaluate( user );
         }
 
         String password = htParamsConnectionPool.get( getPoolName( ) + ".password" );
@@ -135,7 +135,7 @@ public class LuteceConnectionService implements ConnectionService
         }
         else
         {
-            password = EnvUtil.interpretValue( password );
+            password = EnvUtil.evaluate( password );
         }
 
         // load of the driver
