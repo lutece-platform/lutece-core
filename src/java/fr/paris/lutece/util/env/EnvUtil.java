@@ -49,12 +49,11 @@ public final class EnvUtil
 
     private static Pattern _pattern = Pattern.compile( PATTERN_MARKER );
 
-    private static Map<String, String> _mapEnv; 
+    private static Map<String, String> _mapEnv = System.getenv();; 
     
     // Private constructor
     private EnvUtil()
     {
-        _mapEnv = System.getenv();
     }
 
     /**

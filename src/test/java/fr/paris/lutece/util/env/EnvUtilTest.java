@@ -63,9 +63,13 @@ public class EnvUtilTest
         mapEnv.put( ENV_LUTECE_DB_USER_VAR, ENV_LUTECE_DB_USER_VALUE);
         mapEnv.put( ENV_LUTECE_DB_NAME_VAR, ENV_LUTECE_DB_NAME_VALUE );
         
-        EnvUtil.setMockMapEnv( mapEnv );
-        String strSource = "${" + ENV_LUTECE_DB_USER_VAR + "}";
+        String strSource = "${JAVA_HOME}";
         String result = EnvUtil.evaluate( strSource );
+        System.out.println( strSource + ":" + result );
+        
+        EnvUtil.setMockMapEnv( mapEnv );
+        strSource = "${" + ENV_LUTECE_DB_USER_VAR + "}";
+        result = EnvUtil.evaluate( strSource );
         System.out.println( strSource + ":" + result );
         assertEquals( ENV_LUTECE_DB_USER_VALUE, result );
         strSource = "${" + EnvUtil.PREFIX_ENV + ENV_LUTECE_DB_USER_VAR + "}";
