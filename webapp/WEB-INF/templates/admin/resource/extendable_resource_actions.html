@@ -9,22 +9,18 @@
 <#-- extendableResourceAction + extendableResourceActionList -->
 <#macro extendableResourceAction>
 <@btnGroup>
-	<#assign addIcon>
-		<@icon style='plus-square' />
-	</#assign>
-	<@aButton class='dropdown-toggle' size='xs' id='extender' dropdownMenu=true href='#' title='${addIcon} #i18n{portal.admin.resource.extend}' showTitleXs=false />
-	<@ul class='dropdown-menu' role='menu' params='aria-labelledby="extender"'>
+	<@aButton class='dropdown-toggle' size='sm' id='extender' dropdownMenu=true href='#' title='#i18n{portal.admin.resource.extend}' buttonIcon='plus-square' showTitleXs=false>
 		<#nested>
-	</@ul>
+	</@aButton>
 </@btnGroup>
 </#macro>
 
 <#macro extendableResourceActionList action >
 <#if action.buttonTemplate?has_content>
-	<@tform class="form-submenu" action='jsp/admin/resource/DoProcessExtendableResourceAction.jsp'>
-		<li class="dropdown-submenu">
-            <#include action.buttonTemplate />
-        </li>
-	</@tform>
+		<@dropdownItem>
+		<@tform class="form-submenu" action='jsp/admin/resource/DoProcessExtendableResourceAction.jsp'>
+			<#include action.buttonTemplate />
+		</@tform>
+		</@dropdownItem>
 </#if>
 </#macro>

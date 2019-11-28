@@ -1,4 +1,5 @@
 <#-- WARNING : be careful to white-space and lines break in FreeMarker macros.
+<#-- WARNING : be careful to white-space and lines break in FreeMarker macros.
  # This macro template can be used to output white-space-sensitive formats (like RSS files).
  # See http://dev.lutece.paris.fr/jira/browse/LUTECE-765
 -->
@@ -323,8 +324,8 @@
 	<#assign sort_url = jsp_url + "?sorted_attribute_name=" + attribute + "&amp;asc_sort=" />
 </#if>
 <@btnGroup ariaLabel='sortButton'>
-	<@aButton color='default' size='xs' id='sort${id!}_${attribute!}' href='${sort_url}true#sort${id!}_${attribute!}' title='#i18n{portal.util.sort.asc}' buttonIcon='chevron-up' showTitle=false />
-	<@aButton color='default' size='xs' href='${sort_url}false#sort${id!}_${attribute!}' title='#i18n{portal.util.sort.desc}' buttonIcon='chevron-down' showTitle=false />
+	<@aButton color='default' size='sm' id='sort${id!}_${attribute!}' href='${sort_url}true#sort${id!}_${attribute!}' title='#i18n{portal.util.sort.asc}' buttonIcon='chevron-up' showTitle=false />
+	<@aButton color='default' size='sm' href='${sort_url}false#sort${id!}_${attribute!}' title='#i18n{portal.util.sort.desc}' buttonIcon='chevron-down' showTitle=false />
 </@btnGroup>
 </#macro>
 
@@ -375,21 +376,21 @@
 <div class="form-group<#if formStyle='horizontal'> row</#if><#if class!=''> ${class}<#/if><#if validation?? && validation!=''> ${validation}</#if></#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 	<#if rows=1>
 		<#if labelKey!='' && formStyle='horizontal'>
-			<#assign labelClass = "col-sm-12 col-lg-3 col-form-label">
+			<#local labelClass = "col-sm-12 col-lg-3 col-form-label">
 			<#if showLabel=false>
-				<#assign divClass="col">
+				<#local divClass="col">
 			<#else>	
-				<#assign divClass = "col-lg-9">
+				<#local divClass = "col-lg-6">
 			</#if>
 		<#elseif formStyle = 'inline'>
-			<#assign labelClass = 'sr-only'>
-			<#assign divClass = "mb-2 mr-sm-2">
+			<#local labelClass = 'sr-only'>
+			<#local divClass = "mb-2 mr-sm-2">
 		<#else>
-				<#assign divClass="col-sm-12 offset-lg-3 col-lg-3">
+				<#local divClass="col-sm-12 offset-lg-3 col-lg-3">
 		</#if>
 	<#else>
-		<#assign labelClass = "col-sm-12 col-form-label">
-		<#assign divClass = "col-sm-12">
+		<#local labelClass = "col-sm-12 col-form-label">
+		<#local divClass = "col-sm-12">
 	</#if>
 	<#assign labelClass = labelClass>
 	<#if labelKey!=''>
@@ -835,6 +836,10 @@
 		</#if>
 </#macro>
 
+<#macro dropdownItem>
+			<a class="dropdown-item"><#nested></a>
+</#macro>
+
 <#-- BTN TOOLBAR -->
 <#macro btnToolbar id='' params='' ariaLabel=''>
 <div class="btn-toolbar" role="toolbar"<#if ariaLabel!=''> aria-label="${ariaLabel}"</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
@@ -845,8 +850,9 @@
 <#-- BTN GROUP -->
 <#-- size: sm/empty/lg -->
 <#-- align: left/center/right -->
-<#macro btnGroup align='' size='' class='' id='' params='' ariaLabel=''>
-<div class="btn-group<#if size!=''> btn-group-${size}</#if><#if class!=''> ${class}</#if> <#if align='right'>pull-right</#if>" role="group"<#if ariaLabel!=''> aria-label="${ariaLabel}"</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<#macro btnGroup align='' size='' class='' id='' params='' ariaLabel='' hide=[]>
+<#local displayClass = displaySettings(hide,'inline-flex') />
+<div class="btn-group<#if size!=''> btn-group-${size}</#if><#if class!=''> ${class}</#if><#if displayClass !=''> ${displayClass}</#if><#if align='right'> float-right</#if>" role="group"<#if ariaLabel!=''> aria-label="${ariaLabel}"</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 	<#nested>
 </div>
 </#macro>
@@ -1070,11 +1076,75 @@
 </div>
 </#macro>
 
+<#-- FUNCTION: DISPLAY -->
+<#-- This function returns a "visible" or "hidden" class for any component -->
+<#-- breakpoints: "all" || "xs"/"sm"/"md"/"lg"/"xl" -->
+<#-- display: inline/inline-block/block/table/table-cell/table-row/flex/inline-flex -->
+<#function displaySettings breakPoints=[] display=''>
+	<#local breakPointsOrdered = [] />
+	<#if breakPoints?seq_contains("all")>
+		<#local breakPointsOrdered += ["all"] />
+	</#if>
+	<#if breakPoints?seq_contains("xs")>
+		<#local breakPointsOrdered += ["xs"] />
+	</#if>
+	<#if breakPoints?seq_contains("sm")>
+		<#local breakPointsOrdered += ["sm"] />
+	</#if>
+	<#if breakPoints?seq_contains("md")>
+		<#local breakPointsOrdered += ["md"] />
+	</#if>
+	<#if breakPoints?seq_contains("lg")>
+		<#local breakPointsOrdered += ["lg"] />
+	</#if>
+	<#if breakPoints?seq_contains("xl")>
+		<#local breakPointsOrdered += ["xl"] />
+	</#if>
+	<#local displayClass = '' />
+	<#if breakPointsOrdered?? && breakPointsOrdered?size &gt; 0>
+		<#list breakPointsOrdered as breakPoint>
+			<#if breakPoint = "xs" || breakPoint = "all">
+				<#local displayClass = displayClass + ' d-none' />
+				<#if !breakPointsOrdered?seq_contains("sm")>
+					<#local displayClass = displayClass + ' d-sm-${display}' />
+				</#if>
+			<#elseif breakPoint = 'sm' || breakPoint = 'md' || breakPoint = 'lg' || breakPoint = 'xl'>
+				<#if breakPoint = 'sm'>
+					<#if displayClass = ''>
+						<#local displayClass = displayClass + ' d-' + breakPoint + '-none' />
+					<#elseif displayClass = 'd-none'>
+						<#local displayClass = displayClass + ' d-md-${display}' />
+					</#if>
+				<#elseif breakPoint = 'md'>
+					<#if !displayClass?contains('d-sm-none')>
+						<#local displayClass = displayClass + ' d-' + breakPoint + '-none' />
+					</#if>
+					<#if !breakPointsOrdered?seq_contains("lg")>
+						<#local displayClass = displayClass + ' d-lg-${display}' />
+					</#if>
+				<#elseif breakPoint = 'lg'>
+					<#if !breakPointsOrdered?contains('md')>
+						<#local displayClass = displayClass + ' d-' + breakPoint + '-none' />
+					</#if>
+					<#local displayClass = displayClass + ' d-xl-${display}' />
+				<#elseif breakPoint = 'xl'>
+					<#if !breakPointsOrdered?seq_contains('lg')>
+						<#local displayClass = displayClass + ' d-' + breakPoint + '-none' />
+					</#if>
+				</#if>
+			<#else>
+				<#local displayClass = displayClass + ' undefined_breakpoint' />
+			</#if>
+		</#list>
+	</#if>
+	<#return displayClass>
+</#function>
+
 <#-- -------------------------------------------------
 -- MACRO ADMIN STRUCTURE - HEADER + NAVBAR + FOOTER -- 
 -------------------------------------------------- -->
 <#-- MACRO adminHeader -->
-<#macro adminHeader site_name='SITE_NAME'>
+<#macro adminHeader site_name=site_name>
 <body class="d-flex flex-column vh-100">
 	<div class="skipnav"><a href="#main">allez au contenu principal</a></div>
 	<h1 id="top" class="sr-only sr-only-focusable">Haut de page</h1>

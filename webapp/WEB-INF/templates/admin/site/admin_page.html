@@ -10,7 +10,7 @@
 			<@boxHeader titleLevel='p' title=title boxTools=true>
 				<@btnToolbar>
 				
-					<@btnGroup class='hidden-xs hidden-sm pull-left'>
+					<@btnGroup hide=["xs"]>
 						<@aButton href='#' id='display-full' params='data-toggle="tooltip" data-placement="bottom"' title='Ecran large' showTitle=false buttonIcon='desktop fa-fw' color='secondary' size='sm' />
 						<@aButton href='#' id='display-940' params='data-toggle="tooltip" data-placement="bottom"' title='Tablette - 940px' showTitle=false buttonIcon='tablet fa-fw' color='secondary' size='sm' />
 						<@aButton href='#' id='display-480' params='data-toggle="tooltip" data-placement="bottom"' title='Smartphone - 480px' showTitle=false buttonIcon='mobile fa-fw' color='secondary' size='sm' />
@@ -23,7 +23,7 @@
 						</#if>
 					</@btnGroup>
 
-					<@btnGroup class='pull-right hidden-xs'>
+					<@btnGroup class='hidden-xs' align='right'>
 					<@tform class="form-inline pull-right" action="jsp/admin/site/AdminSite.jsp" role="search">
 						<@formGroup formStyle='inline' labelFor='page_id' labelKey='${i18n("portal.site.admin_page.buttonSearchPage")}' showLabel=false >
 							<@inputGroup>

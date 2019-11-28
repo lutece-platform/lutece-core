@@ -1235,6 +1235,10 @@ and is kept only for backwards compatibility
 	</#if>
 </#macro>
 
+<#macro dropdownItem>
+			<li><#nested></li>
+</#macro>
+
 <#-- BTN TOOLBAR -->
 <#macro btnToolbar id='' params='' ariaLabel=''>
 <div class="field is-grouped" role="toolbar"<#if ariaLabel!=''> aria-label="${ariaLabel}"</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
@@ -1245,8 +1249,8 @@ and is kept only for backwards compatibility
 <#-- BTN GROUP -->
 <#-- size: sm/lg -->
 <#-- align: left/center/right -->
-<#macro btnGroup size='' align='' class='' id='' params='' ariaLabel=''>
-
+<#macro btnGroup size='' align='' class='' id='' params='' ariaLabel='' hide=[] showXs=true showSm=true showMd=true showLg=true showXl=true>
+<#local displayClass = displaySettings(hide,'inline-flex') />
     <#switch size>
         <#case 'sm'>
             <#assign sizeClass='are-small'>
@@ -1269,7 +1273,7 @@ and is kept only for backwards compatibility
         <#assign alignClass=''>
     </#switch>
     
-    <div class="buttons ${alignClass} ${sizeClass} <#if class!=''>${class}</#if>" role="group"<#if ariaLabel!=''> aria-label="${ariaLabel}"</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+    <div class="buttons ${alignClass} ${sizeClass} <#if class!=''>${class}</#if><#if displayClass !=''> ${displayClass}</#if>" role="group"<#if ariaLabel!=''> aria-label="${ariaLabel}"</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
         <#nested>
     </div>
 </#macro>
@@ -1529,11 +1533,60 @@ and is kept only for backwards compatibility
 </#macro>
 
 
+<#-- FUNCTION: DISPLAY -->
+<#-- This function returns a "visible" or "hidden" class for any component -->
+<#-- breakpoints: "all" || "xs"/"sm"/"md"/"lg" -->
+<#-- display: is-block/is-flex/is-inline/is-inline-block/is-inline-flex -->
+<#function displaySettings breakPoints=[] display=''>
+	<#local breakPointsOrdered = [] />
+	<#if breakPoints?seq_contains('all')>
+		<#local breakPointsOrdered += ['all'] />
+	</#if>
+	<#if breakPoints?seq_contains('xs')>
+		<#local breakPointsOrdered += ['xs'] />
+	</#if>
+	<#if breakPoints?seq_contains('sm')>
+		<#local breakPointsOrdered += ['sm'] />
+	</#if>
+	<#if breakPoints?seq_contains('md')>
+		<#local breakPointsOrdered += ['md'] />
+	</#if>
+	<#if breakPoints?seq_contains('lg')>
+		<#local breakPointsOrdered += ['lg'] />
+	</#if>
+	<#if breakPoints?seq_contains('xl')>
+		<#local breakPointsOrdered += ['xl'] />
+	</#if>
+
+	<#local displayClass = '' />
+	<#if breakPointsOrdered?? && breakPointsOrdered?size &gt; 0>
+		<#list breakPointsOrdered as breakPoint>
+			<#if breakPoint = 'all'>
+				<#local displayClass = 'is-hidden' />
+			<#elseif breakPoint = 'xs'>
+				<#local displayClass = displayClass + ' is-hidden-mobile' />
+			<#elseif breakPoint = 'sm'>
+				<#local displayClass = displayClass + ' is-hidden-tablet-only' />
+			<#elseif breakPoint = 'md'>
+				<#local displayClass = displayClass + ' is-hidden-desktop-only' />
+			<#elseif breakPoint = 'lg'>
+				<#local displayClass = displayClass + ' is-hidden-widescreen-only' />
+			<#elseif breakPoint = 'xl'>
+				<#local displayClass = displayClass + ' is-hidden-fullhd' />
+			<#else>
+				<#local displayClass = displayClass + ' undefined_breakpoint' />
+			</#if>
+		</#list>
+	</#if>
+	<#return displayClass>
+</#function>
+
+
 <#-- NEW MACRO LUTECE-2221 -->
 
 <#-- UI STRUCTURE ELEMENTS -->
 <#-- MACRO adminHeader -->
-<#macro adminHeader site_name='SITE_NAME'>
+<#macro adminHeader site_name=site_name>
 <body class="has-navbar-fixed-top">
 	<div class="wrapper">
 		<header class="main-header" role="banner">

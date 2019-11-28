@@ -721,7 +721,7 @@ and is kept only for backwards compatibility
     <#if !showMd><#assign thClass=thClass + ' hidden-md'></#if>
     <#if !showLg || !showXl ><#assign thClass=thClass + ' hidden-lg'></#if>
 
-    <th <#if thClass != ''>class="${thClass}"</#if><#if xs!=0>col-xs-${xs}</#if><#if sm!=0> col-sm-${sm}</#if><#if md!=0> col-md-${md}</#if><#if lg!=0> col-lg-${lg}</#if><#if xl!=0> col-xl-${xl}</#if><#if class!=''>${class}</#if>"<#if flex> style="display:flex;"</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+    <th class="<#if thClass != ''>${thClass}</#if><#if xs!=0>col-xs-${xs}</#if><#if sm!=0> col-sm-${sm}</#if><#if md!=0> col-md-${md}</#if><#if lg!=0> col-lg-${lg}</#if>"<#if flex> style="display:flex;"</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
         <#nested>
     </th>
 </#macro>
@@ -812,16 +812,16 @@ and is kept only for backwards compatibility
 	<div class="form-group<#if groupStyle!=''> has-${groupStyle} has-feedback</#if><#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 		<#if rows=1>
 			<#if labelKey!='' && formStyle='horizontal'>
-				<#assign labelClass = "col-xs-12 col-sm-3 control-label">
-				<#assign divClass = "col-xs-12 col-sm-9 col-md-6 col-lg-6">
+				<#local labelClass = "col-xs-12 col-sm-3 control-label">
+				<#local divClass = "col-xs-12 col-sm-9 col-md-6 col-lg-6">
 			<#elseif formStyle = 'inline'>
-				<#assign labelClass = ''>
+				<#local labelClass = ''>
 			<#else>
-				<#assign divClass="col-xs-12 col-sm-offset-3 col-sm-6">
+				<#local divClass="col-xs-12 col-sm-offset-3 col-sm-6">
 			</#if>
 		<#else>
-			<#assign labelClass = "col-xs-12">
-			<#assign divClass = "col-xs-12">
+			<#local labelClass = "col-xs-12">
+			<#local divClass = "col-xs-12">
 		</#if>
 		<#if labelKey!=''>
 		<label class="${labelClass}<#if showLabel=false> sr-only</#if>" for="${labelFor}"<#if labelId!=''> id="${labelId}"</#if>>
@@ -1210,10 +1210,14 @@ and is kept only for backwards compatibility
 		</#if>
 	</a>
 		<#if dropdownMenu>
-		<ul class="dropdown-menu"<#if id!=''> id="${id}-content" aria-labelledby="${id}-content"</#if>>
+		<ul class="dropdown-menu"<#if id!=''> id="${id}-content" aria-labelledby="${id}"</#if>>
 			<#nested>
 		</ul>
 		</#if>
+</#macro>
+
+<#macro dropdownItem>
+			<li><#nested></li>
 </#macro>
 
 <#-- BTN TOOLBAR -->
@@ -1226,8 +1230,9 @@ and is kept only for backwards compatibility
 <#-- BTN GROUP -->
 <#-- size: sm/empty/lg -->
 <#-- align: left/center/right -->
-<#macro btnGroup align='' size='' class='' id='' params='' ariaLabel=''>
-<div class="btn-group<#if size!=''> btn-group-${size}</#if><#if class!=''> ${class}</#if> <#if align='right'>pull-right</#if>" role="group"<#if ariaLabel!=''> aria-label="${ariaLabel}"</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<#macro btnGroup align='' size='' class='' id='' params='' ariaLabel='' hide=[] showXs=true showSm=true showMd=true showLg=true showXl=true>
+<#local displayClass = displaySettings(hide,'') />
+<div class="btn-group<#if size!=''> btn-group-${size}</#if><#if class!=''> ${class}</#if><#if displayClass !=''> ${displayClass}</#if><#if align='right'> pull-right</#if><#if !showXs || !showSm> hidden-xs</#if><#if !showSm> hidden-sm</#if><#if !showMd> hidden-md</#if><#if !showLg || !showXl> hidden-lg</#if>" role="group"<#if ariaLabel!=''> aria-label="${ariaLabel}"</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 	<#nested>
 </div>
 </#macro>
@@ -1458,19 +1463,62 @@ and is kept only for backwards compatibility
 </div>
 </#macro>
 
+<#-- FUNCTION: DISPLAY -->
+<#-- This function returns a "visible" or "hidden" class for any component -->
+<#-- breakpoints: "all" || "xs"/"sm"/"md"/"lg" -->
+<#-- display: unused -->
+<#function displaySettings breakPoints=[] display=''>
+	<#local breakPointsOrdered = [] />
+	<#if breakPoints?seq_contains("all")>
+		<#local breakPointsOrdered += ["all"] />
+	</#if>
+	<#if breakPoints?seq_contains("xs")>
+		<#local breakPointsOrdered += ["xs"] />
+	</#if>
+	<#if breakPoints?seq_contains("sm")>
+		<#local breakPointsOrdered += ["sm"] />
+	</#if>
+	<#if breakPoints?seq_contains("md")>
+		<#local breakPointsOrdered += ["md"] />
+	</#if>
+	<#if breakPoints?seq_contains("lg")>
+		<#local breakPointsOrdered += ["lg"] />
+	</#if>
+
+	<#local displayClass = '' />
+	<#if breakPointsOrdered?? && breakPointsOrdered?size &gt; 0>
+		<#list breakPointsOrdered as breakPoint>
+			<#if breakPoint = "all">
+				<#local displayClass = 'hidden' />
+			<#elseif breakPoint = "xs">
+				<#local displayClass = displayClass + ' hidden-xs' />
+			<#elseif breakPoint = 'sm'>
+				<#local displayClass = displayClass + ' hidden-sm' />
+			<#elseif breakPoint = 'md'>
+				<#local displayClass = displayClass + ' hidden-md' />
+			<#elseif breakPoint = 'lg'>
+				<#local displayClass = displayClass + ' hidden-lg' />
+			<#else>
+				<#local displayClass = displayClass + ' undefined_breakpoint' />
+			</#if>
+		</#list>
+	</#if>
+	<#return displayClass>
+</#function>
+
 <#-- NEW MACRO LUTECE-2221 -->
 <#-- MACRO adminHeader -->
-<#macro adminHeader site_name='SITE_NAME'>
+<#macro adminHeader site_name=site_name>
 <body class="skin-blue-light hold-transition sidebar-mini" data-spy="scroll" data-target="#scrollspy">
 	<div class="wrapper">
 	  <header class="main-header" role="banner" data-menu="${menu_pos}">
 		<nav class="navbar navbar-fixed-top" role="navigation">
 			<div class="navbar-header">
-                <div class="nav-item">
-                    <a href="jsp/site/Portal.jsp" title="#i18n{portal.users.admin_header.title.viewSite} ${site_name}" target="_blank" class="navbar-brand">
-                      <img src="#dskey{portal.site.site_property.logo_url}" class="img-responsive"  title="#i18n{portal.users.admin_header.title.viewSite} ${site_name}" alt="${site_name}"><b> <#if site_name?length &gt; 18> ${site_name?substring(0,16)}... <#else> ${site_name}</#if></b>
-                    </a>
-                </div>
+				<div class="nav-item">
+						<a href="jsp/site/Portal.jsp" title="#i18n{portal.users.admin_header.title.viewSite} ${site_name}" target="_blank" class="navbar-brand">
+							<img src="#dskey{portal.site.site_property.logo_url}" class="img-responsive"  title="#i18n{portal.users.admin_header.title.viewSite} ${site_name}" alt="${site_name}"><b> <#if site_name?length &gt; 18> ${site_name?substring(0,16)}... <#else> ${site_name}</#if></b>
+						</a>
+				</div>
 			  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
 				<i class="fa fa-bars"></i>
 			  </button>
