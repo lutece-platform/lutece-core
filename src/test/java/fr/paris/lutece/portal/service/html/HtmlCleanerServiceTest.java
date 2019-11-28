@@ -75,4 +75,12 @@ public class HtmlCleanerServiceTest extends LuteceTestCase
         assertNotNull( result );
         assertTrue( result.contains( strExpectedResult ) );
     }
+    
+    
+    public void testText( )
+    {
+        String result = HtmlCleanerService.text( "<h2>Titre</h2>" );
+        assertNotNull( result );
+        assertEquals( result, "Titre" );
+    }
 }

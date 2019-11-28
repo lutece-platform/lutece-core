@@ -38,12 +38,4 @@ package fr.paris.lutece.portal.service.html;
  */
 public class VoidHtmlCleaner implements IHtmlCleaner
 {
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public String clean( String strSource ) throws HtmlCleanerException
-    {
-        return strSource;
-    }
 }

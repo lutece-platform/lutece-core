@@ -44,10 +44,11 @@ public interface IHtmlCleaner
      * @param strSource
      *            The input string to clean
      * @return The cleaned string
-     * @throws HtmlCleanerException
-     *             the HtmlCleanerException
      */
-    String clean( String strSource ) throws HtmlCleanerException;
+    default String clean( String strSource )
+    {
+        return strSource;
+    }
 
     /**
      * init HTML cleaner
@@ -56,5 +57,17 @@ public interface IHtmlCleaner
     default void init( )
     {
         
+    }
+    
+    /**
+     * Transorm HTML code to text
+     *
+     * @param strSource
+     *            The input string to clean
+     * @return The cleaned string
+     */
+    default String text( String strSource )
+    {
+        return strSource;
     }
 }
