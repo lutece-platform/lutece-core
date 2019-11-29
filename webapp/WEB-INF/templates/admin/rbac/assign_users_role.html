@@ -151,8 +151,8 @@
 											<@input type='hidden' name='id_user' value='${assigned_user.userId?html}' />
 											<@input type='hidden' name='role_key' value='${role.key?html}' />
 											<@input type='hidden' name='anchor' value='anchor-${anchor?html}' />
-											<@aButton href='jsp/admin/user/ModifyUser.jsp?id_user=${assigned_user.userId}' title='#i18n{portal.rbac.assign_users.actionModify}' showTitle=false buttonIcon='edit' />
-											<@button type='submit' title='#i18n{portal.rbac.assign_users.actionUnassign}' showTitle=false buttonIcon='trash' color='danger' />
+											<@aButton href='jsp/admin/user/ModifyUser.jsp?id_user=${assigned_user.userId}' title='#i18n{portal.rbac.assign_users.actionModify}' hideTitle=['all'] buttonIcon='edit' />
+											<@button type='submit' title='#i18n{portal.rbac.assign_users.actionUnassign}' hideTitle=['all'] buttonIcon='trash' color='danger' />
 										</@tform>
 									</td>
 								</tr>

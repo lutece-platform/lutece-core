@@ -35,9 +35,9 @@
 					</@formGroup>
 					<@formGroup>
 						<@input type='hidden' name='id_attribute' value='${attribute.idAttribute}' />
-						<@button type='submit' name='validate' value='validate' buttonIcon='check' title='#i18n{portal.users.create_attribute.buttonValidate}'  size='' showTitleXs=false />
-						<@button type='submit' name='apply' value='apply' buttonIcon='check-circle-o' title='#i18n{portal.users.create_attribute.buttonApply}'  size='' showTitleXs=false />
-						<@button type='submit' name='cancel' value='cancel' buttonIcon='times' title='#i18n{portal.admin.message.buttonCancel}' cancel=true size='' showTitleXs=false />
+						<@button type='submit' name='validate' value='validate' buttonIcon='check' title='#i18n{portal.users.create_attribute.buttonValidate}'  size='' hideTitle=['xs'] />
+						<@button type='submit' name='apply' value='apply' buttonIcon='check-circle-o' title='#i18n{portal.users.create_attribute.buttonApply}'  size='' hideTitle=['xs'] />
+						<@button type='submit' name='cancel' value='cancel' buttonIcon='times' title='#i18n{portal.admin.message.buttonCancel}' cancel=true size='' hideTitle=['xs'] />
 					</@formGroup>
 				</@tform>
 			</@boxBody>
@@ -80,14 +80,14 @@
 							</td>
 							<td>${attribute_field.idField}</td>
 							<td>
-								<@aButton href='jsp/admin/user/attribute/ModifyAttributeField.jsp?id_attribute=${attribute.idAttribute}&amp;id_field=${attribute_field.idField}' buttonIcon='edit' title='#i18n{portal.users.modify_attribute.buttonLabelModify}' showTitle=false class='pull-left spaced' />
+								<@aButton href='jsp/admin/user/attribute/ModifyAttributeField.jsp?id_attribute=${attribute.idAttribute}&amp;id_field=${attribute_field.idField}' buttonIcon='edit' title='#i18n{portal.users.modify_attribute.buttonLabelModify}' hideTitle=['all'] class='pull-left spaced' />
 								
 								<#if cpt != 1>
 									<@tform method='post' action='jsp/admin/user/attribute/DoMoveUpAttributeField.jsp#list' class='pull-left spaced'>
 										<@input type='hidden' name='id_attribute' value='${attribute.idAttribute?html}' />
 										<@input type='hidden' name='id_field' value='${attribute_field.idField?html}' />
 										<@input type='hidden' name='token' value='${token}' />
-										<@button type='submit' title='#i18n{portal.users.modify_attribute.buttonLabelMoveUp}' buttonIcon='chevron-up' showTitle=false />
+										<@button type='submit' title='#i18n{portal.users.modify_attribute.buttonLabelMoveUp}' buttonIcon='chevron-up' hideTitle=['all'] />
 									</@tform>
 								</#if>
 								
@@ -96,11 +96,11 @@
 										<@input type='hidden' name='id_attribute' value='${attribute.idAttribute?html}' />
 										<@input type='hidden' name='id_field' value='${attribute_field.idField?html}' />
 										<@input type='hidden' name='token' value='${token}' />
-										<@button type='submit' title='#i18n{portal.users.modify_attribute.buttonLabelMoveDown}' buttonIcon='chevron-down' showTitle=false />
+										<@button type='submit' title='#i18n{portal.users.modify_attribute.buttonLabelMoveDown}' buttonIcon='chevron-down' hideTitle=['all'] />
 									</@tform>
 								</#if>
 								
-								<@aButton href='jsp/admin/user/attribute/RemoveAttributeField.jsp?id_attribute=${attribute.idAttribute}&amp;id_field=${attribute_field.idField}' buttonIcon='trash' title='#i18n{portal.users.modify_attribute.buttonLabelDelete}' showTitle=false color='danger' class='pull-left spaced' />
+								<@aButton href='jsp/admin/user/attribute/RemoveAttributeField.jsp?id_attribute=${attribute.idAttribute}&amp;id_field=${attribute_field.idField}' buttonIcon='trash' title='#i18n{portal.users.modify_attribute.buttonLabelDelete}' hideTitle=['all'] color='danger' class='pull-left spaced' />
 							</td>
 						</tr>
 					</#if>

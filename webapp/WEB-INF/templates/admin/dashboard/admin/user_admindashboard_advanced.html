@@ -118,7 +118,7 @@
 					<@tform method='post' action='jsp/admin/user/DoRemoveRegularExpression.jsp#list-regularexpressions'>
 							<@input type='hidden' name='token' value='${token!""}' />
 							<@input type='hidden' name='id_expression' value='${expression.idExpression}' />
-							<@button type='submit' title='#i18n{portal.users.manage_advanced_parameters.buttonDelete}' buttonIcon='trash' showTitle=false />
+							<@button type='submit' title='#i18n{portal.users.manage_advanced_parameters.buttonDelete}' hideTitle=['all'] buttonIcon='trash' size='sm' />
 					</@tform>
 			</td>
 		</tr>

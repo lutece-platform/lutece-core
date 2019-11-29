@@ -49,7 +49,7 @@
 								  <@inputGroup>
 									<@input type='text' name='interval' id='interval' value='${daemon.interval}' size='sm' />
 									<@inputGroupItem>
-										<@button type='submit' title='#i18n{portal.system.manage_daemons.buttonUpdateInterval}' name='action' value='UPDATE_INTERVAL' buttonIcon='check' showTitle=false />
+										<@button type='submit' title='#i18n{portal.system.manage_daemons.buttonUpdateInterval}' name='action' value='UPDATE_INTERVAL' buttonIcon='check' hideTitle=['all'] />
 									</@inputGroupItem>
 								  </@inputGroup>
 								  </@formGroup>
@@ -89,11 +89,11 @@
 							<@input type='hidden' name='token' value='${token}' />
 							<#if daemon.running>
 								<@inputGroup>
-										<@button type='submit' title='#i18n{portal.system.manage_daemons.buttonStop} ${daemon.id}' name='action' value='STOP' buttonIcon='stop' color='danger' showTitle=false />
-										<@button type='submit' title='#i18n{portal.system.manage_daemons.buttonRun} ${daemon.id}' name='action' value='RUN' buttonIcon='refresh' color='info' showTitle=false />
+										<@button type='submit' title='#i18n{portal.system.manage_daemons.buttonStop} ${daemon.id}' name='action' value='STOP' buttonIcon='stop' color='danger' hideTitle=['all'] />
+										<@button type='submit' title='#i18n{portal.system.manage_daemons.buttonRun} ${daemon.id}' name='action' value='RUN' buttonIcon='refresh' color='info' hideTitle=['all'] />
 								</@inputGroup>
 							<#else>
-								<@button type='submit' title='#i18n{portal.system.manage_daemons.buttonStart} ${daemon.id}' name='action' value='START' buttonIcon='play' color='success' showTitle=false />
+								<@button type='submit' title='#i18n{portal.system.manage_daemons.buttonStart} ${daemon.id}' name='action' value='START' buttonIcon='play' color='success' hideTitle=['all'] />
 							</#if>
 							</@tform>
 						  </div>

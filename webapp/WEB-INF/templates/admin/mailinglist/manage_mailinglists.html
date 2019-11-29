@@ -28,13 +28,13 @@
 						<@inputGroup>
 							<@input type='text' id='name' name='name' value='${mailinglistFilter.name!}' maxlength=100 size='sm' />
 							<@inputGroupItem>
-								<@button type='submit' buttonIcon='search' title='#i18n{portal.mailinglist.manage_mailinglists.buttonSearch}' showTitle=false size='sm'/>
+								<@button type='submit' buttonIcon='search' title='#i18n{portal.mailinglist.manage_mailinglists.buttonSearch}' hideTitle=['all'] size='sm'/>
 							</@inputGroupItem>
 						</@inputGroup>
 					</@formGroup>
 				</@tform>
 				<@tform class='pull-right spaced' method='post' action='jsp/admin/mailinglist/CreateMailingList.jsp'>
-					<@button type='submit' buttonIcon='plus' title='#i18n{portal.mailinglist.manage_mailinglists.buttonLabelCreate}' size='sm' showTitleXs=false />
+					<@button type='submit' buttonIcon='plus' title='#i18n{portal.mailinglist.manage_mailinglists.buttonLabelCreate}' hideTitle=['xs'] size='sm' />
 				</@tform>
 			</@boxHeader>
 			<@boxBody>
@@ -52,9 +52,9 @@
 						<td class="hidden-xs">${mailinglist.description}</td>
 						<td class="hidden-xs">${mailinglist.workgroup}</td>
 						<td>
-							<@aButton href='jsp/admin/mailinglist/ModifyMailingList.jsp?id_mailinglist=${mailinglist.id}' buttonIcon='edit' size='sm' title='#i18n{portal.mailinglist.modify_mailinglist.buttonModify} (${mailinglist.name?html})' showTitle=false />
-							<@aButton href='jsp/admin/mailinglist/ViewUsers.jsp?id_mailinglist=${mailinglist.id}' buttonIcon='user' size='sm' title='#i18n{portal.mailinglist.modify_mailinglist.linkLabelViewUsers} (${mailinglist.name?html})' showTitle=false />
-							<@aButton href='jsp/admin/mailinglist/RemoveMailingList.jsp?id_mailinglist=${mailinglist.id}' buttonIcon='trash' size='sm' title='#i18n{portal.mailinglist.modify_mailinglist.linkLabelRemove} (${mailinglist.name?html})' showTitle=false color='danger' />
+							<@aButton href='jsp/admin/mailinglist/ModifyMailingList.jsp?id_mailinglist=${mailinglist.id}' buttonIcon='edit' size='sm' title='#i18n{portal.mailinglist.modify_mailinglist.buttonModify} (${mailinglist.name?html})' hideTitle=['all'] />
+							<@aButton href='jsp/admin/mailinglist/ViewUsers.jsp?id_mailinglist=${mailinglist.id}' buttonIcon='user' size='sm' title='#i18n{portal.mailinglist.modify_mailinglist.linkLabelViewUsers} (${mailinglist.name?html})' hideTitle=['all'] />
+							<@aButton href='jsp/admin/mailinglist/RemoveMailingList.jsp?id_mailinglist=${mailinglist.id}' buttonIcon='trash' size='sm' title='#i18n{portal.mailinglist.modify_mailinglist.linkLabelRemove} (${mailinglist.name?html})' hideTitle=['all'] color='danger' />
 						</td>
 					</tr>
 				</#list>

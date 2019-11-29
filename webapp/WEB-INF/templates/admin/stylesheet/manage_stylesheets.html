@@ -11,7 +11,7 @@
 						<@inputGroup>
 							<@select name='mode_id' default_value='${mode_id}' items=mode_list />
 							<@inputGroupItem>
-								<@button type='submit' buttonIcon='filter' title='#i18n{portal.util.labelFilter}' showTitle=false size='' />
+								<@button type='submit' buttonIcon='filter' title='#i18n{portal.util.labelFilter}' hideTitle=['all'] size='' />
 							</@inputGroupItem>
 						</@inputGroup>
 					</@formGroup>
@@ -37,7 +37,7 @@
 						<td>${stylesheet.description}</td>
 						<td>${stylesheet.file}</td>
 						<td>
-							<@aButton href='jsp/admin/style/ModifyStyleSheet.jsp?stylesheet_id=${stylesheet.id}' buttonIcon='pencil' showTitle=false />
+							<@aButton href='jsp/admin/style/ModifyStyleSheet.jsp?stylesheet_id=${stylesheet.id}' buttonIcon='pencil' hideTitle=['all'] />
 						</td>
 					  </tr>
 					</#list>

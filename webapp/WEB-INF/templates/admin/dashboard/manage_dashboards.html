@@ -20,7 +20,7 @@
                 <@inputGroup>
                     <@select name='dashboard_column' id='dashboard_column-${dashboard.name}' default_value='${dashboard.zone!}' items=list_available_columns />
                     <@inputGroupItem>
-                        <@button type='submit' buttonIcon='check' title='#i18n{portal.dashboard.table.action.setColumn}' showTitle=false />
+                        <@button type='submit' buttonIcon='check' title='#i18n{portal.dashboard.table.action.setColumn}' hideTitle=['all'] />
                     </@inputGroupItem>
                 </@inputGroup>
             </@formGroup>
@@ -43,7 +43,7 @@
                 <@inputGroup>
                     <@select name='dashboard_order' id='dashboard_order-${dashboard.name}' default_value='${dashboard.order!}' items=list_available_orders_column sort=true />
                     <@inputGroupItem>
-                        <@button type='submit' buttonIcon='arrows-v' title='#i18n{portal.dashboard.table.action.move}' showTitle=false />
+                        <@button type='submit' buttonIcon='arrows-v' title='#i18n{portal.dashboard.table.action.move}' hideTitle=['all'] />
                     </@inputGroupItem>
                 </@inputGroup>
 								</@formGroup>

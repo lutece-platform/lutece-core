@@ -25,10 +25,10 @@
 						<@td showXs=false>${xsl_export.extension}</@td>
 						<@td>
 						<#if right_modify>
-							<@aButton href='jsp/admin/xsl/ModifyXslExport.jsp?id_xsl_export=${xsl_export.idXslExport}' title='#i18n{portal.xsl.manage_xsl_export.title_modify} (${xsl_export.title?html})' buttonIcon='edit' showTitle=false size='sm' />
+							<@aButton href='jsp/admin/xsl/ModifyXslExport.jsp?id_xsl_export=${xsl_export.idXslExport}' title='#i18n{portal.xsl.manage_xsl_export.title_modify} (${xsl_export.title?html})' buttonIcon='edit' hideTitle=['all'] size='sm' />
 						</#if>
 						<#if right_delete>
-							<@aButton href='jsp/admin/xsl/ConfirmRemoveXslExport.jsp?id_xsl_export=${xsl_export.idXslExport}' title='#i18n{portal.xsl.manage_xsl_export.title_delete} (${xsl_export.title?html})' buttonIcon='trash' showTitle=false color='danger' size='sm' />
+							<@aButton href='jsp/admin/xsl/ConfirmRemoveXslExport.jsp?id_xsl_export=${xsl_export.idXslExport}' title='#i18n{portal.xsl.manage_xsl_export.title_delete} (${xsl_export.title?html})' buttonIcon='trash' hideTitle=['all'] color='danger' size='sm' />
 						</#if>
 						</@td>
 					</tr>

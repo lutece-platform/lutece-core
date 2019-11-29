@@ -5,11 +5,11 @@
                 <@btnGroup>
                     <@tform method='post' action='jsp/admin/system/DoReloadProperties.jsp' class='pull-right'>
                         <@input type='hidden' name='token' value='${token}' />
-                        <@button type='submit' buttonIcon='refresh' title='#i18n{portal.system.manage_caches.titleReloadProperties}' id='reload' size='' showTitleXs=false showTitleSm=false />
+                        <@button type='submit' buttonIcon='refresh' title='#i18n{portal.system.manage_caches.titleReloadProperties}' id='reload' size='' hideTitle=['xs','sm'] />
                     </@tform>
                     <@tform method='post' action='jsp/admin/system/DoResetCaches.jsp' class='pull-right spaced'>
                         <@input type='hidden' name='token' value='${token}' />
-                        <@button type='submit' buttonIcon='trash' title='#i18n{portal.system.manage_caches.buttonFlush}' size='' color='danger' showTitleXs=false showTitleSm=false />
+                        <@button type='submit' buttonIcon='trash' title='#i18n{portal.system.manage_caches.buttonFlush}' size='' color='danger' hideTitle=['xs','sm'] />
                     </@tform>
                 </@btnGroup>
             </@boxHeader>
@@ -55,16 +55,16 @@
 											<@input type='hidden' name='id_cache' value='${id}' />
 											<@input type='hidden' name='token' value='${token}' />
 											<#if service.cacheEnable>
-													<@button type='submit' buttonIcon='stop' title='#i18n{portal.system.manage_caches.actionDisable}' showTitle=false color='danger' size='sm' />
+													<@button type='submit' buttonIcon='stop' title='#i18n{portal.system.manage_caches.actionDisable}' hideTitle=['all'] color='danger' size='sm' />
 											<#else>
-													<@button type='submit' buttonIcon='play' title='#i18n{portal.system.manage_caches.actionEnable}' showTitle=false color='success' size='sm' />
+													<@button type='submit' buttonIcon='play' title='#i18n{portal.system.manage_caches.actionEnable}' hideTitle=['all'] color='success' size='sm' />
 											</#if>
 									</@tform>
-									<@aButton href='jsp/admin/system/CacheInfos.jsp?id_cache=${id}' buttonIcon='eye' class="pull-right spaced" title='#i18n{portal.system.manage_caches.actionViewKeys}' showTitle=false size='sm' />
+									<@aButton href='jsp/admin/system/CacheInfos.jsp?id_cache=${id}' buttonIcon='eye' class="pull-right spaced" title='#i18n{portal.system.manage_caches.actionViewKeys}' hideTitle=['all'] size='sm' />
 									<@tform method='post' action='jsp/admin/system/DoResetCaches.jsp' class="pull-right spaced">
 											<@input type='hidden' name='id_cache' value='${id}' />
 											<@input type='hidden' name='token' value='${token}' />
-											<@button type='submit' buttonIcon='trash' title='#i18n{portal.system.manage_caches.actionClear}' showTitle=false size='sm' color='danger' />
+											<@button type='submit' buttonIcon='trash' title='#i18n{portal.system.manage_caches.actionClear}' hideTitle=['all'] size='sm' color='danger' />
 									</@tform>
 							</@btnGroup>
 						</td>

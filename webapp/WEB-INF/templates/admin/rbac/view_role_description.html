@@ -33,7 +33,7 @@
 							</#list>
 						</@select>
 						<@inputGroupItem>
-							<@button type='submit' title='#i18n{portal.rbac.view_role_description.buttonLabelAddControl}' showTitle=false buttonIcon='plus' />
+							<@button type='submit' title='#i18n{portal.rbac.view_role_description.buttonLabelAddControl}' hideTitle=['all'] buttonIcon='plus' />
 						</@inputGroupItem>
 					</@inputGroup>
 				</@tform>
@@ -63,7 +63,7 @@
 						<td>
 							<@tform method='post' action='jsp/admin/rbac/DoConfirmRemoveControlFromRole.jsp'>
 								<@input type='hidden' name='rbac_id' value='${controled_resource.RBACId}' />
-								<@button type='submit' title='#i18n{portal.rbac.view_role_description.buttonLabelDeleteControl}' buttonIcon='trash' size='sm' showTitle=false color='danger' />
+								<@button type='submit' title='#i18n{portal.rbac.view_role_description.buttonLabelDeleteControl}' buttonIcon='trash' size='sm' hideTitle=['all'] color='danger' />
 							</@tform>
 						</td>
 					  </tr>

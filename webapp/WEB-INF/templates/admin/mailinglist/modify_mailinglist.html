@@ -27,11 +27,11 @@
 			<@boxHeader title='#i18n{portal.mailinglist.view_users.boxTitle}' boxTools=true>
 				<@tform class='pull-right spaced' method='get' action='jsp/admin/mailinglist/AddUsers.jsp'>
 					<@input type='hidden' name='id_mailinglist' value='${mailinglist.id!}' />
-					<@button type='submit' buttonIcon='plus' title='#i18n{portal.mailinglist.modify_mailinglist.buttonAddUsers}' size='' showTitleXs=false showTitleSm=false />
+					<@button type='submit' buttonIcon='plus' title='#i18n{portal.mailinglist.modify_mailinglist.buttonAddUsers}' size='' hideTitle=['xs','sm'] />
 				</@tform>
 				<@tform class='pull-right spaced' method='get' action='jsp/admin/mailinglist/ViewUsers.jsp'>
 					<@input type='hidden' name='id_mailinglist' value='${mailinglist.id!}' />
-					<@button type='submit' buttonIcon='eye' title='#i18n{portal.mailinglist.modify_mailinglist.buttonViewUsers}' size='' showTitleXs=false showTitleSm=false />
+					<@button type='submit' buttonIcon='eye' title='#i18n{portal.mailinglist.modify_mailinglist.buttonViewUsers}' size='' hideTitle=['xs','sm'] />
 				</@tform>
 			</@boxHeader>
 			<@boxBody>
@@ -51,8 +51,8 @@
 								<@input type='hidden' name='workgroup' value='${filter.workgroup?html}' />
 								<@input type='hidden' name='role' value='${filter.role?html}' />
 								<@input type='hidden' name='token' value='${token}' />
-								<@aButton href='jsp/admin/mailinglist/ViewUsers.jsp?workgroup=${filter.workgroup}&amp;role=${filter.role}' buttonIcon='eye' title='#i18n{portal.mailinglist.modify_mailinglist.linkLabelViewUsers}' showTitle=false />
-								<@button type='submit' buttonIcon='trash' title='#i18n{portal.mailinglist.modify_mailinglist.linkLabelRemove}' showTitle=false color='danger' />
+								<@aButton href='jsp/admin/mailinglist/ViewUsers.jsp?workgroup=${filter.workgroup}&amp;role=${filter.role}' buttonIcon='eye' title='#i18n{portal.mailinglist.modify_mailinglist.linkLabelViewUsers}' hideTitle=['all'] />
+								<@button type='submit' buttonIcon='trash' title='#i18n{portal.mailinglist.modify_mailinglist.linkLabelRemove}' hideTitle=['all'] color='danger' />
 							</@tform>
 						</td>
 					</tr>

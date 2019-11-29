@@ -25,8 +25,8 @@
                   <img src="images/admin/skin/page_templates/${page_templates.picture}" class="img-responsive" alt="${i18n("portal.style.manage_page_templates.picturealt",page_templates.description?html)}">
                 </td>
                 <td>
-									<@aButton href='jsp/admin/style/ModifyPageTemplate.jsp?page_template_id=${page_templates.id}' buttonIcon='edit' size='sm' title='#i18n{portal.util.labelModify}' showTitle=false />
-									<@aButton href='jsp/admin/style/RemovePageTemplate.jsp?page_template_id=${page_templates.id}' buttonIcon='trash' size='sm' title='#i18n{portal.style.manage_styles.actionDelete}' showTitle=false color='danger' />
+									<@aButton href='jsp/admin/style/ModifyPageTemplate.jsp?page_template_id=${page_templates.id}' buttonIcon='edit' size='sm' title='#i18n{portal.util.labelModify}' hideTitle=['all'] />
+									<@aButton href='jsp/admin/style/RemovePageTemplate.jsp?page_template_id=${page_templates.id}' buttonIcon='trash' size='sm' title='#i18n{portal.style.manage_styles.actionDelete}' hideTitle=['all'] color='danger' />
                 </td>
               </tr>
             </#list>

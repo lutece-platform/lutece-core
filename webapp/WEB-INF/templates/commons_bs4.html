@@ -1,5 +1,4 @@
 <#-- WARNING : be careful to white-space and lines break in FreeMarker macros.
-<#-- WARNING : be careful to white-space and lines break in FreeMarker macros.
  # This macro template can be used to output white-space-sensitive formats (like RSS files).
  # See http://dev.lutece.paris.fr/jira/browse/LUTECE-765
 -->
@@ -736,7 +735,8 @@
 <#-- buttonIcon: icon name ex: info/check/comment/envelope... -->
 <#-- iconPosition: left/right -->
 <#-- cancel: switch to true for a cancellation form button. Adds the "formnovalidate" attribute to the button, as well as the right class -->
-<#macro button name='' id='' type='button' size='' color='' style='' class='' params='' value='' title='' tabIndex='' showTitle=true showTitleXs=true showTitleSm=true showTitleMd=true showTitleLg=true showTitleXl=true buttonIcon='' disabled=false iconPosition='left' dropdownMenu=false cancel=false>
+<#macro button name='' id='' type='button' size='' color='' style='' class='' params='' value='' title='' tabIndex='' hideTitle=[] showTitle=true showTitleXs=true showTitleSm=true showTitleMd=true showTitleLg=true showTitleXl=true buttonIcon='' disabled=false iconPosition='left' dropdownMenu=false cancel=false>
+	<#local displayTitleClass = displaySettings(hideTitle,'inline') />
 	<#if cancel || color = 'default'>
 		<#assign buttonColor = 'secondary' />
 	<#elseif !cancel && color=''>
@@ -775,7 +775,7 @@
 	</#if>
 		<button class="<#if style!='close'>btn</#if><#if size!='' && style!='btn-box-tool'> btn-${size}</#if><#if buttonColor!='' && style!='btn-box-tool'> btn-${buttonColor}</#if><#if style!=''> ${style}</#if><#if dropdownMenu> dropdown-toggle</#if><#if class!=''> ${class}</#if>" type="${type}"<#if title!=''> title="${title}"</#if><#if name!=''> name="${name}"</#if><#if id!=''> id="${id}"</#if><#if value!=''> value="${value}"</#if><#if params!=''> ${params}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if><#if cancel> formnovalidate</#if>>
 			<#if buttonIcon!='' && iconPosition='left'><@icon style=buttonIcon /></#if>
-			<#if showTitleClass!='' && style!='btn-box-tool'><span class="${showTitleClass}"></#if>${title}<#if showTitleClass!='' && style!='btn-box-tool'></span></#if>
+			<#if displayTitleClass!='' && style!='btn-box-tool'><span class="${displayTitleClass}"></#if>${title}<#if showTitleClass!='' && style!='btn-box-tool'></span></#if>
 			<#if buttonIcon!='' && iconPosition='right'><@icon style=buttonIcon /></#if>
 		</button>
 	<#if dropdownMenu>
@@ -792,7 +792,8 @@
 <#-- style: btn-block/btn-flat/disabled/btn-app -->
 <#-- icon: icon name ex: info/check/comment/envelope... -->
 <#-- ShowTitleXs is UNUSED in Bootstrap 4. -->
-<#macro aButton name='' id='' href='' size='' color='primary' style='btn' class='' params='' title='' tabIndex='' showTitle=true showTitleXs=true showTitleSm=true showTitleMd=true showTitleLg=true showTitleXl=true buttonIcon='' disabled=false iconPosition='left' dropdownMenu=false>
+<#macro aButton name='' id='' href='' size='' color='primary' style='btn' class='' params='' title='' tabIndex='' hideTitle=[] showTitle=true showTitleXs=true showTitleSm=true showTitleMd=true showTitleLg=true showTitleXl=true buttonIcon='' disabled=false iconPosition='left' dropdownMenu=false>
+<#local displayTitleClass = displaySettings(hideTitle,'inline') />
 	<#if !showTitleXs><#local showTitleSm = false></#if>
 	<#-- Visibility of button title -->
 	<#-- The media queries effect screen widths with the given breakpoint or larger, therefore if the value for either showTitleMd/Lg/Xl is FALSE, values for smaller screen widths should be set to FALSE as well. -->
@@ -822,7 +823,7 @@
 	
 	<a class="${style} <#if size!=''> btn-${size}</#if><#if color!=''> btn-${color}</#if><#if class!=''> ${class}</#if>"<#if name!=''> name="${name}"</#if><#if id!=''> id="${id}"</#if> href="${href}" title="${title}"<#if params!=''> ${params}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if>>
 		<#if buttonIcon!='' && iconPosition='left'><@icon style=buttonIcon /></#if>
-		<span class="${showTitleClass}">${title}</span>
+		<span class="${displayTitleClass}">${title}</span>
 		<#if buttonIcon!='' && iconPosition='right'><@icon style=buttonIcon /></#if>
 		<#if !dropdownMenu>
 		<#nested>
@@ -1103,10 +1104,12 @@
 	<#local displayClass = '' />
 	<#if breakPointsOrdered?? && breakPointsOrdered?size &gt; 0>
 		<#list breakPointsOrdered as breakPoint>
-			<#if breakPoint = "xs" || breakPoint = "all">
+			<#if breakPoint = 'xs' || breakPoint = 'all'>
 				<#local displayClass = displayClass + ' d-none' />
-				<#if !breakPointsOrdered?seq_contains("sm")>
-					<#local displayClass = displayClass + ' d-sm-${display}' />
+				<#if breakPoint = 'xs'>
+					<#if !breakPointsOrdered?seq_contains('sm')>
+						<#local displayClass = displayClass + ' d-md-${display}' />
+					</#if>
 				</#if>
 			<#elseif breakPoint = 'sm' || breakPoint = 'md' || breakPoint = 'lg' || breakPoint = 'xl'>
 				<#if breakPoint = 'sm'>

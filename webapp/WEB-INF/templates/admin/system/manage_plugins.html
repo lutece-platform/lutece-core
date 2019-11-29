@@ -6,7 +6,7 @@
 			</#assign>
 			<@boxHeader title='#i18n{portal.system.manage_plugins.titleCorePlugin} ${logo} ${core.name} ${core.version}' boxTools=true>
 				<@tform method='post' class='form-inline pull-right' action='jsp/admin/system/ViewPluginDescription.jsp?plugin_name=${core.name}'>
-					<@button type='submit' title='#i18n{portal.system.manage_plugins.actionDisplay}' buttonIcon='info-circle' showTitle=false />
+					<@button type='submit' title='#i18n{portal.system.manage_plugins.actionDisplay}' buttonIcon='info-circle' hideTitle=['all'] />
 				</@tform>
 			</@boxHeader>
 		</@box>
@@ -22,7 +22,7 @@
 						<@inputGroup>
 							<@input type='text' name='search_plugins' id='search_plugins' placeHolder='#i18n{portal.system.manage_plugins.buttonFilter}' params='autocomplete="off"' />
 							<@inputGroupItem>
-								<@button type='submit' title='#i18n{portal.system.manage_plugins.buttonFilter}' buttonIcon='filter' showTitle=false />
+								<@button type='submit' title='#i18n{portal.system.manage_plugins.buttonFilter}' buttonIcon='filter' hideTitle=['all'] />
 							</@inputGroupItem>
 						</@inputGroup>
 					</@formGroup>
@@ -32,12 +32,12 @@
 						<@inputGroup>
 							<@select sort=true name='plugin_type' default_value='${current_filter}' items=filter_list />
 							<@inputGroupItem>
-							<@button type='submit' buttonIcon='search' title='Search' showTitle=false />
+							<@button type='submit' buttonIcon='search' title='Search' hideTitle=['all'] />
 							</@inputGroupItem>
 						</@inputGroup>
 					</@formGroup>
 				</@tform>
-    			<@button type='button' buttonIcon='list' title='Layout' showTitle=false id='th'/>
+    			<@button type='button' buttonIcon='list' title='Layout' hideTitle=['all'] id='th'/>
 			</@boxHeader>
       <@boxBody>
        <#if plugins_list?has_content >
@@ -76,23 +76,23 @@
 											<@select name='db_pool_name' default_value='${plugin.dbPoolName}' items=pools_list sort=true size='sm' />
 											<@input type='hidden' name='plugin_name' value='${plugin.name}' />
 											<@input type='hidden' name='token' value='${token}' />
-											<@button type='submit' title='#i18n{portal.system.manage_plugins.buttonModifyDbPool}' buttonIcon='check' size='sm' showTitle=false />
+											<@button type='submit' title='#i18n{portal.system.manage_plugins.buttonModifyDbPool}' buttonIcon='check' size='sm' hideTitle=['all'] />
 										</@tform>
 									</#if>   
 								</#if>
 								<@tform method='post' class='form-inline pull-right spaced' action='jsp/admin/system/ViewPluginDescription.jsp?plugin_name=${plugin.name}'>
-									<@button type='submit' title='' buttonIcon='info-circle' size='sm' showTitle=false />
+									<@button type='submit' title='' buttonIcon='info-circle' size='sm' hideTitle=['all'] />
                  				</@tform>
 								<#if plugin.installed >
 									<@tform method='post' class='form-inline pull-right spaced' action='jsp/admin/system/ConfirmUninstallPlugin.jsp'>
                     					<@input type='hidden' name='plugin_name' value='${plugin.name}' />
-										<@button type='submit' title='#i18n{portal.system.manage_plugins.buttonDisable}' buttonIcon='stop' size='sm' showTitle=false color='danger' />
+										<@button type='submit' title='#i18n{portal.system.manage_plugins.buttonDisable}' buttonIcon='stop' size='sm' hideTitle=['all'] color='danger' />
 									</@tform>
 								<#else>
 									<@tform method='post' class='form-inline pull-right spaced' action='jsp/admin/system/DoInstallPlugin.jsp#plugin_${plugin.name}_${plugin.version}'>
 										<@input type='hidden' name='plugin_name' value='${plugin.name}' />
 										<@input type='hidden' name='token' value='${token}' />
-										<@button type='submit' title='#i18n{portal.system.manage_plugins.buttonEnable}' buttonIcon='play' size='sm' showTitle=false color='success' />
+										<@button type='submit' title='#i18n{portal.system.manage_plugins.buttonEnable}' buttonIcon='play' size='sm' hideTitle=['all'] color='success' />
                   					</@tform>
 								</#if>
 							</@boxFooter>
