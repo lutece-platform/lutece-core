@@ -7,7 +7,7 @@
 			<@boxHeader title='${headerIcon}&nbsp;${user.lastName} ${user.firstName}' boxTools=true>
 				<#if can_delegate = 'true'><p>#i18n{portal.users.modify_user_rights.informationRightModification}</p></#if>
 				<div class="pull-right spaced"><@item_navigation item_navigator=item_navigator /></div>
-				<@tform class='pull-right spaced' method='post' action='jsp/admin/user/ModifyUserRights.jsp'>	
+				<@tform align='right' method='post' action='jsp/admin/user/ModifyUserRights.jsp'>	
 					<@input type='hidden' name='delegate_rights' value='${can_delegate}' />
 					<@input type='hidden' name='id_user' value='${user.userId}' />
 					<@input type='hidden' name='select' value='all' />

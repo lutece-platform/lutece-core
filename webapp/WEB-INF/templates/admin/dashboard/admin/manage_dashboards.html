@@ -18,7 +18,7 @@
           <#-- name -->
           <td>
           <#-- column -->
-            <@tform action='jsp/admin/admindashboard/DoMoveAdminDashboard.jsp' method='post' class='form-inline'>
+            <@tform action='jsp/admin/admindashboard/DoMoveAdminDashboard.jsp' method='post' type='inline'>
 						<@input type='hidden' name='dashboard_name' value='${dashboard.name}' />
 						<@input type='hidden' name='token' value='${token}' />
 						<#if !dashboard.order?exists || dashboard.order==0>
@@ -42,7 +42,7 @@
             <#if order>
               <td>
               <#-- order -->
-                <@tform action='jsp/admin/admindashboard/DoMoveAdminDashboard.jsp' method='post' class='form-inline'>
+                <@tform action='jsp/admin/admindashboard/DoMoveAdminDashboard.jsp' method='post' type='inline'>
 					<@input type='hidden' name='dashboard_name' value='${dashboard.name}' />
 					<@input type='hidden' name='token' value='${token}' />
 					<#if !dashboard.zone?exists || dashboard.zone==0>

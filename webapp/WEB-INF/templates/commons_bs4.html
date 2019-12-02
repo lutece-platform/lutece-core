@@ -190,7 +190,7 @@
   		</#if>
 	</@select>
 	<@inputGroupItem type='btn'>
-		<@button type='submit' color='dark' size='sm' title='#i18n{portal.util.labelRefresh}' buttonIcon='check' showTitle=false />
+		<@button type='submit' color='dark' size='sm' title='#i18n{portal.util.labelRefresh}' buttonIcon='check' hideTitle=['all'] />
 	</@inputGroupItem>
 </@inputGroup>
 </@formGroup>
@@ -214,10 +214,10 @@
 <#macro item_navigation item_navigator id="item-navigator">
 <nav id="${id}" style="display:inline;">
 <#if (item_navigator.currentItemId > 0)>
-	<@aButton size='' href='${item_navigator.previousPageLink?xhtml}' title='#i18n{portal.util.labelPrevious}' buttonIcon='arrow-left' color='info' showTitleXs=false showTitleSm=false />
+	<@aButton size='' href='${item_navigator.previousPageLink?xhtml}' title='#i18n{portal.util.labelPrevious}' buttonIcon='arrow-left' color='info' hideTitle=['xs','sm'] />
 </#if>
 <#if (item_navigator.currentItemId < item_navigator.listItemSize - 1) >
-	<@aButton size='' href='${item_navigator.nextPageLink?xhtml}' title='#i18n{portal.util.labelNext}' buttonIcon='arrow-right' color='info' showTitleXs=false showTitleSm=false />
+	<@aButton size='' href='${item_navigator.nextPageLink?xhtml}' title='#i18n{portal.util.labelNext}' buttonIcon='arrow-right' color='info' hideTitle=['xs','sm'] />
 </#if>
 </nav>
 </#macro>
@@ -323,8 +323,8 @@
 	<#assign sort_url = jsp_url + "?sorted_attribute_name=" + attribute + "&amp;asc_sort=" />
 </#if>
 <@btnGroup ariaLabel='sortButton'>
-	<@aButton color='default' size='sm' id='sort${id!}_${attribute!}' href='${sort_url}true#sort${id!}_${attribute!}' title='#i18n{portal.util.sort.asc}' buttonIcon='chevron-up' showTitle=false />
-	<@aButton color='default' size='sm' href='${sort_url}false#sort${id!}_${attribute!}' title='#i18n{portal.util.sort.desc}' buttonIcon='chevron-down' showTitle=false />
+	<@aButton color='default' size='sm' id='sort${id!}_${attribute!}' href='${sort_url}true#sort${id!}_${attribute!}' title='#i18n{portal.util.sort.asc}' buttonIcon='chevron-up' hideTitle=['all'] />
+	<@aButton color='default' size='sm' href='${sort_url}false#sort${id!}_${attribute!}' title='#i18n{portal.util.sort.desc}' buttonIcon='chevron-down' hideTitle=['all'] />
 </@btnGroup>
 </#macro>
 
@@ -373,6 +373,7 @@
 	<#local validation = "is-invalid">
 </#if>
 <div class="form-group<#if formStyle='horizontal'> row</#if><#if class!=''> ${class}<#/if><#if validation?? && validation!=''> ${validation}</#if></#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<#local labelClass = '' />
 	<#if rows=1>
 		<#if labelKey!='' && formStyle='horizontal'>
 			<#local labelClass = "col-sm-12 col-lg-3 col-form-label">
@@ -391,7 +392,7 @@
 		<#local labelClass = "col-sm-12 col-form-label">
 		<#local divClass = "col-sm-12">
 	</#if>
-	<#assign labelClass = labelClass>
+	<#local labelClass = labelClass>
 	<#if labelKey!=''>
 		<@formLabel class=labelClass labelFor=labelFor labelId=labelId labelKey=labelKey showLabel=showLabel mandatory=mandatory />
 	</#if>
@@ -562,16 +563,38 @@
 </#macro>
 
 <#-- LISTS -->
-<#macro ul id='' params='' class=''>
+<#macro ul id='' params='' class='' hide=[] align=''>
+	<#local class += alignmentSettings(align) />
+	<#local class += displaySettings(hide,'block') />
 	<ul<#if class!=''> class="${class}"</#if><#if params!=''> ${params}</#if><#if id!=''> ${id}</#if>>
 		<#nested>
 	</ul>
 </#macro>
 
-<#macro li id='' params='' class=''>
+<#macro li id='' params='' class='' hide=[] align=''>
+		<#local class += alignmentSettings(align) />
+		<#local class += displaySettings(hide,'block') />
 		<li<#if class!=''> class="${class}"</#if><#if params!=''> ${params}</#if><#if id!=''> ${id}</#if>>
 			<#nested>
 		</li>
+</#macro>
+
+<#-- PARAGRAPH -->
+<#macro p id='' params='' class='' hide=[] align=''>
+	<#local class += alignmentSettings(align) />
+	<#local class += displaySettings(hide,'block') />
+	<p<#if class!=''> class="${class}"</#if><#if params!=''> ${params}</#if><#if id!=''> ${id}</#if>>
+		<#nested>
+	</p>
+</#macro>
+
+<#-- SPAN -->
+<#macro span id='' params='' class='' hide=[] align=''>
+	<#local class += alignmentSettings(align) />
+	<#local class += displaySettings(hide,'inline-flex') />
+	<span<#if class!=''> class="${class}"</#if><#if params!=''> ${params}</#if><#if id!=''> ${id}</#if>>
+		<#nested>
+	</span>
 </#macro>
 
 <#-- TABS -->
@@ -771,7 +794,7 @@
 	<#else></#if>
 	
 	<#if dropdownMenu>
-		<div class="dropdown">
+		<div class="btn-group">
 	</#if>
 		<button class="<#if style!='close'>btn</#if><#if size!='' && style!='btn-box-tool'> btn-${size}</#if><#if buttonColor!='' && style!='btn-box-tool'> btn-${buttonColor}</#if><#if style!=''> ${style}</#if><#if dropdownMenu> dropdown-toggle</#if><#if class!=''> ${class}</#if>" type="${type}"<#if title!=''> title="${title}"</#if><#if name!=''> name="${name}"</#if><#if id!=''> id="${id}"</#if><#if value!=''> value="${value}"</#if><#if params!=''> ${params}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if><#if cancel> formnovalidate</#if>>
 			<#if buttonIcon!='' && iconPosition='left'><@icon style=buttonIcon /></#if>
@@ -818,7 +841,7 @@
 	</#if>
 	
 	<#if dropdownMenu>
-		<div class="dropdown">
+		<div class="btn-group">
 	</#if>
 	
 	<a class="${style} <#if size!=''> btn-${size}</#if><#if color!=''> btn-${color}</#if><#if class!=''> ${class}</#if>"<#if name!=''> name="${name}"</#if><#if id!=''> id="${id}"</#if> href="${href}" title="${title}"<#if params!=''> ${params}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if>>
@@ -844,6 +867,9 @@
 <#-- BTN TOOLBAR -->
 <#macro btnToolbar id='' params='' ariaLabel=''>
 <div class="btn-toolbar" role="toolbar"<#if ariaLabel!=''> aria-label="${ariaLabel}"</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<style type="text/css">
+.btn-toolbar > div:not(:last-of-type) {margin-right:0.2rem;}
+</style>
 	<#nested>
 </div>
 </#macro>
@@ -853,7 +879,8 @@
 <#-- align: left/center/right -->
 <#macro btnGroup align='' size='' class='' id='' params='' ariaLabel='' hide=[]>
 <#local displayClass = displaySettings(hide,'inline-flex') />
-<div class="btn-group<#if size!=''> btn-group-${size}</#if><#if class!=''> ${class}</#if><#if displayClass !=''> ${displayClass}</#if><#if align='right'> float-right</#if>" role="group"<#if ariaLabel!=''> aria-label="${ariaLabel}"</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<#local class = class + alignmentSettings(align) />
+<div class="btn-group<#if size!=''> btn-group-${size}</#if><#if class!=''> ${class}</#if><#if displayClass !=''> ${displayClass}</#if>" role="group"<#if ariaLabel!=''> aria-label="${ariaLabel}"</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 	<#nested>
 </div>
 </#macro>
@@ -957,11 +984,11 @@
 
 <#-- The boxTools parameter is unused, kept for backwards compatibility -->
 <#macro boxHeader title='' i18nTitleKey='' hideTitle=[] showTitle=true id='' params='' boxTools=false titleLevel='h5'>
-<div class="card-header text-white"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<div class="card-header text-white d-flex justify-content-between"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 <${titleLevel} class="box-title<#if showTitle=false> sr-only</#if>"><#if title!=''>${title}</#if><#if i18nTitleKey!=''>#i18n{${i18nTitleKey}}</#if></${titleLevel}>
 	<#local nested><#nested></#local>
 	<#if nested?has_content>
-	<div class="box-tools d-flex">
+	<div>
 		<#nested>
 	</div>
 	</#if>
@@ -1083,64 +1110,78 @@
 <#-- display: inline/inline-block/block/table/table-cell/table-row/flex/inline-flex -->
 <#function displaySettings breakPoints=[] display=''>
 	<#local breakPointsOrdered = [] />
-	<#if breakPoints?seq_contains("all")>
-		<#local breakPointsOrdered += ["all"] />
+	<#if breakPoints?seq_contains('all')>
+		<#local breakPointsOrdered += ['all'] />
 	</#if>
-	<#if breakPoints?seq_contains("xs")>
-		<#local breakPointsOrdered += ["xs"] />
+	<#if breakPoints?seq_contains('xs')>
+		<#local breakPointsOrdered += ['xs'] />
 	</#if>
-	<#if breakPoints?seq_contains("sm")>
-		<#local breakPointsOrdered += ["sm"] />
+	<#if breakPoints?seq_contains('sm')>
+		<#local breakPointsOrdered += ['sm'] />
 	</#if>
-	<#if breakPoints?seq_contains("md")>
-		<#local breakPointsOrdered += ["md"] />
+	<#if breakPoints?seq_contains('md')>
+		<#local breakPointsOrdered += ['md'] />
 	</#if>
-	<#if breakPoints?seq_contains("lg")>
-		<#local breakPointsOrdered += ["lg"] />
+	<#if breakPoints?seq_contains('lg')>
+		<#local breakPointsOrdered += ['lg'] />
 	</#if>
-	<#if breakPoints?seq_contains("xl")>
-		<#local breakPointsOrdered += ["xl"] />
+	<#if breakPoints?seq_contains('xl')>
+		<#local breakPointsOrdered += ['xl'] />
 	</#if>
 	<#local displayClass = '' />
 	<#if breakPointsOrdered?? && breakPointsOrdered?size &gt; 0>
 		<#list breakPointsOrdered as breakPoint>
 			<#if breakPoint = 'xs' || breakPoint = 'all'>
-				<#local displayClass = displayClass + ' d-none' />
+				<#local displayClass += 'd-none' />
 				<#if breakPoint = 'xs'>
 					<#if !breakPointsOrdered?seq_contains('sm')>
-						<#local displayClass = displayClass + ' d-md-${display}' />
+						<#local displayClass += ' d-md-${display}' />
 					</#if>
 				</#if>
 			<#elseif breakPoint = 'sm' || breakPoint = 'md' || breakPoint = 'lg' || breakPoint = 'xl'>
 				<#if breakPoint = 'sm'>
 					<#if displayClass = ''>
-						<#local displayClass = displayClass + ' d-' + breakPoint + '-none' />
+						<#local displayClass += ' d-' + breakPoint + '-none' />
 					<#elseif displayClass = 'd-none'>
-						<#local displayClass = displayClass + ' d-md-${display}' />
+						<#local displayClass += ' d-md-${display}' />
 					</#if>
 				<#elseif breakPoint = 'md'>
-					<#if !displayClass?contains('d-sm-none')>
-						<#local displayClass = displayClass + ' d-' + breakPoint + '-none' />
+					<#if !breakPointsOrdered?seq_contains('sm')>
+						<#local displayClass += ' d-' + breakPoint + '-none' />
 					</#if>
-					<#if !breakPointsOrdered?seq_contains("lg")>
-						<#local displayClass = displayClass + ' d-lg-${display}' />
+					<#if !breakPointsOrdered?seq_contains('lg')>
+						<#local displayClass += ' d-lg-${display}' />
 					</#if>
 				<#elseif breakPoint = 'lg'>
 					<#if !breakPointsOrdered?contains('md')>
-						<#local displayClass = displayClass + ' d-' + breakPoint + '-none' />
+						<#local displayClass += ' d-' + breakPoint + '-none' />
 					</#if>
-					<#local displayClass = displayClass + ' d-xl-${display}' />
+					<#local displayClass += ' d-xl-${display}' />
 				<#elseif breakPoint = 'xl'>
 					<#if !breakPointsOrdered?seq_contains('lg')>
-						<#local displayClass = displayClass + ' d-' + breakPoint + '-none' />
+						<#local displayClass += ' d-' + breakPoint + '-none' />
 					</#if>
 				</#if>
 			<#else>
-				<#local displayClass = displayClass + ' undefined_breakpoint' />
+				<#local displayClass += ' undefined_breakpoint' />
 			</#if>
 		</#list>
 	</#if>
 	<#return displayClass>
+</#function>
+
+<#function align align=''>
+	<#local x = ''>
+	<#if align !=''>
+		<#if align = 'left'>
+			<#local x = 'float-left' />
+		<#elseif align = 'right'>
+			<#local x = 'float-right' />
+		<#elseif align = 'center'>
+			<#local x = 'mx-auto' />
+		</#if>
+	</#if>
+	<#return x>
 </#function>
 
 <#-- -------------------------------------------------

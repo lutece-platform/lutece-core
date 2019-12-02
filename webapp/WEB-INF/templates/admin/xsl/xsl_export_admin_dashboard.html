@@ -1,7 +1,7 @@
 <#include "/admin/dashboard/admin/admindashboard_utils.html">
 
 <@adminDashboardPanel title='#i18n{portal.xsl.manage_xsl_export.page_title}' icon='download' parentId='technical_settings' childId='xslexportManagement' >
-    <@tform class='form-inline' method='post' action='jsp/admin/xsl/CreateXslExport.jsp'>
+    <@tform type='inline' method='post' action='jsp/admin/xsl/CreateXslExport.jsp'>
         <@btnGroup align='right'>
             <@button type='submit' title='#i18n{portal.xsl.manage_xsl_export.button_create}' buttonIcon='plus' size='sm' />
         </@btnGroup>

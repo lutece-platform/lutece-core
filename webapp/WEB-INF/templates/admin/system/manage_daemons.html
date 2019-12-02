@@ -42,7 +42,7 @@
 							</#if>
 							</small>
 						  <#else>
-							  <@tform method='post' action='jsp/admin/system/DoDaemonAction.jsp' class='form-inline'>
+							  <@tform method='post' action='jsp/admin/system/DoDaemonAction.jsp' type='inline'>
 								  <@input type='hidden' name='daemon' value='${daemon.id}' />
 								  <@input type='hidden' name='token' value='${token}' />
 								  <@formGroup labelFor='interval' showLabel=false labelKey='#i18n{portal.system.manage_daemons.columnTitleInterval}' rows=2 formStyle='inline'>
@@ -84,7 +84,7 @@
 						</td>
 						<td>
 						  <div class="text-center">
-							<@tform method="post" action="jsp/admin/system/DoDaemonAction.jsp" class="form-inline">
+							<@tform method="post" action="jsp/admin/system/DoDaemonAction.jsp" type='inline'>
 							<@input type='hidden' name='daemon' value='${daemon.id}' />
 							<@input type='hidden' name='token' value='${token}' />
 							<#if daemon.running>

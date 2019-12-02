@@ -5,7 +5,7 @@
 				#i18n{portal.site.admin_page.tabAdminMapSite} :	<@tag color='primary' title='${page.id} - ${page.name}'>${page.id}</@tag>&#160;${page.name}
 			</#assign>
       <@boxHeader title=title boxTools=true>
-				<@tform method='post' action='jsp/admin/site/AdminSite.jsp' class='form-inline pull-right' role='search'>
+				<@tform method='post' action='jsp/admin/site/AdminSite.jsp' type='inline' align='right' role='search'>
 					<@formGroup formStyle='inline' labelKey='#i18n{portal.site.admin_page.buttonSearchPage}' showLabel=false>
 						<@inputGroup>
 							<@input type='text' id='tree_search' name='' placeHolder='#i18n{portal.site.admin_page.buttonSearchPage}' />

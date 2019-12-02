@@ -18,14 +18,14 @@
 					
 					<#if page.id != 1>
 					<@btnGroup>
-						<@aButton href='jsp/admin/site/AdminSite.jsp?page_id=${page.parentPageId}' color='success' buttonIcon='arrow-up' size='sm' title='#i18n{portal.site.admin_page.buttonUpToParentPage}' hide=['all'] />
-						<@aButton href='jsp/admin/site/RemovePage.jsp?page_id=${page.id}' color='danger' buttonIcon='trash' size='sm' title='#i18n{portal.site.admin_page.buttonDeletePage}' hide=['all'] />
+						<@aButton href='jsp/admin/site/AdminSite.jsp?page_id=${page.parentPageId}' color='success' buttonIcon='arrow-up' size='sm' title='#i18n{portal.site.admin_page.buttonUpToParentPage}' hideTitle=['all'] />
+						<@aButton href='jsp/admin/site/RemovePage.jsp?page_id=${page.id}' color='danger' buttonIcon='trash' size='sm' title='#i18n{portal.site.admin_page.buttonDeletePage}' hideTitle=['all'] />
 					</@btnGroup>
 					</#if>
 
 					<@btnGroup hide=['xs'] align='right'>
-					<@tform class="form-inline pull-right" action="jsp/admin/site/AdminSite.jsp" role="search">
-						<@formGroup formStyle='inline' labelFor='page_id' labelKey='${i18n("portal.site.admin_page.buttonSearchPage")}' showLabel=false >
+					<@tform type='inline' action='jsp/admin/site/AdminSite.jsp' role='search'>
+						<@formGroup formStyle='inline' labelFor='page_id' labelKey='${i18n("portal.site.admin_page.buttonSearchPage")}' showLabel=false>
 							<@inputGroup>
 								<@input type='text' name='page_id' id='page_id' placeHolder='${i18n("portal.site.admin_page.buttonSearchPage")}' size='sm' />
 								<@inputGroupItem type='btn' pos='append'>
@@ -38,7 +38,7 @@
 					</@btnGroup>
 					
 					<@btnGroup>
-						<@button title='#i18n{portal.site.admin_page.labelPortletPage}' size='sm' color='primary' dropdownMenu=true id='portlet-type' buttonIcon='th-large' id='portlet' hideTitle=['xs']>
+						<@button title='#i18n{portal.site.admin_page.labelPortletPage}' size='sm' color='primary' dropdownMenu=true id='portlet-type' buttonIcon='th-large' id='portlet' hideTitle=['xs','sm','md']>
 						<#if portlet_types_list?has_content>
 							<#list portlet_types_list?sort_by("name") as portlet_type>
 								<@dropdownItem class='portlet-type-ref' href='jsp/admin/DoCreatePortlet.jsp?portlet_type_id=${portlet_type.id}&amp;page_id=${page.id}' title='${portlet_type.name}'>
@@ -47,17 +47,14 @@
 							</#list>
 						</#if>
 						</@button>
-					</@btnGroup>
 
-					
-					<@btnGroup>
 						<#if extendableResourceActionsHtml?? && extendableResourceActionsHtml?has_content>
 							${extendableResourceActionsHtml!}
 						</#if>
 						
-						<@aButton href='jsp/admin/site/AdminSite.jsp?page_id=${page.id}&amp;param_block=2' buttonIcon='wrench' size='sm' title='#i18n{portal.site.admin_page.labelPageProperty}' hideTitle=['xs'] />
-						<@aButton href='jsp/admin/site/AdminSite.jsp?page_id=${page.id}&amp;param_block=5'  buttonIcon='plus' size='sm' title='#i18n{portal.site.admin_page.labelChildPagePage}' hideTitle=['xs'] />
-						<@aButton href='jsp/admin/site/AdminMap.jsp?page_id=${page.id }' buttonIcon='sitemap' size='sm' title='Page ${page.name} - Id ${page.id}' hideTitle=['all']><span class="hidden-xs">#i18n{portal.site.admin_page.tabAdminMapSite}</span></@aButton>
+						<@aButton href='jsp/admin/site/AdminSite.jsp?page_id=${page.id}&amp;param_block=2' buttonIcon='wrench' size='sm' title='#i18n{portal.site.admin_page.labelPageProperty}' hideTitle=['xs','sm','md'] />
+						<@aButton href='jsp/admin/site/AdminSite.jsp?page_id=${page.id}&amp;param_block=5'  buttonIcon='plus' size='sm' title='#i18n{portal.site.admin_page.labelChildPagePage}' hideTitle=['xs','sm','md'] />
+						<@aButton href='jsp/admin/site/AdminMap.jsp?page_id=${page.id }' buttonIcon='sitemap' size='sm' title='Page ${page.name} - Id ${page.id}' hideTitle=['all']><@span hide=['xs','sm','md']>#i18n{portal.site.admin_page.tabAdminMapSite}</@span></@aButton>
 					</@btnGroup>
 				</@btnToolbar>
 			</@boxHeader>

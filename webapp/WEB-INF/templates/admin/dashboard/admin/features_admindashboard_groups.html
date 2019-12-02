@@ -1,7 +1,7 @@
 <#include "admindashboard_utils.html">
 
 <@tabPanel active=true id='feature_groups'>
-    <@tform class='form-inline pull-right' method='post' name='create_external_feature' action='jsp/admin/features/CreateGroup.jsp'>
+    <@tform type='inline' align='right' method='post' name='create_external_feature' action='jsp/admin/features/CreateGroup.jsp'>
 			<@button type='submit' title='#i18n{portal.features.manage_groups.buttonCreate}' hideTitle=['xs','sm'] buttonIcon='plus' size='sm' />
     </@tform>
     <p>

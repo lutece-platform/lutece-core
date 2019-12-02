@@ -24,16 +24,16 @@
 	<@columns sm=9 md=9 lg=9>
     <@box color='success'>
       <@boxHeader title='${role.key} - ${role.description}' boxTools=true>
-				<@tform class='form-inline' method='post' action='jsp/admin/rbac/AddControlToRole.jsp'>
+				<@tform type='inline' method='post' action='jsp/admin/rbac/AddControlToRole.jsp'>
 					<@input type='hidden' name='role_key' value='${role.key}' />
 					<@inputGroup>
-						<@select name='resource_type'>
+						<@select name='resource_type' size='sm'>
 							<#list resource_type_list?sort_by('resourceTypeLabel') as resource_type>
 							  <option value="${resource_type.resourceTypeKey}">${resource_type.resourceTypeLabel}</option>
 							</#list>
 						</@select>
 						<@inputGroupItem>
-							<@button type='submit' title='#i18n{portal.rbac.view_role_description.buttonLabelAddControl}' hideTitle=['all'] buttonIcon='plus' />
+							<@button type='submit' title='#i18n{portal.rbac.view_role_description.buttonLabelAddControl}' hideTitle=['all'] buttonIcon='plus' size='sm' />
 						</@inputGroupItem>
 					</@inputGroup>
 				</@tform>

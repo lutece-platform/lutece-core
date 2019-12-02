@@ -23,7 +23,7 @@
 	<@columns>
 		<@box color='success'>
 			<@boxHeader title='#i18n{portal.mailinglist.manage_mailinglists.boxTitle}' boxTools=true>
-				<@tform class='pull-right spaced mr-1' method='post' name='search_mailinglist' action='jsp/admin/mailinglist/ManageMailingLists.jsp'>
+				<@tform align='right' method='post' name='search_mailinglist' action='jsp/admin/mailinglist/ManageMailingLists.jsp'>
 					<@formGroup labelKey='#i18n{portal.mailinglist.manage_mailinglists.labelName}' labelFor='name' formStyle='inline'>
 						<@inputGroup>
 							<@input type='text' id='name' name='name' value='${mailinglistFilter.name!}' maxlength=100 size='sm' />
@@ -33,7 +33,7 @@
 						</@inputGroup>
 					</@formGroup>
 				</@tform>
-				<@tform class='pull-right spaced' method='post' action='jsp/admin/mailinglist/CreateMailingList.jsp'>
+				<@tform align='right' method='post' action='jsp/admin/mailinglist/CreateMailingList.jsp'>
 					<@button type='submit' buttonIcon='plus' title='#i18n{portal.mailinglist.manage_mailinglists.buttonLabelCreate}' hideTitle=['xs'] size='sm' />
 				</@tform>
 			</@boxHeader>

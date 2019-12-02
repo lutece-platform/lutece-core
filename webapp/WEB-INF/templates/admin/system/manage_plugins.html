@@ -5,7 +5,7 @@
 				<@img url=core.iconUrl alt='logo' title=core.name />
 			</#assign>
 			<@boxHeader title='#i18n{portal.system.manage_plugins.titleCorePlugin} ${logo} ${core.name} ${core.version}' boxTools=true>
-				<@tform method='post' class='form-inline pull-right' action='jsp/admin/system/ViewPluginDescription.jsp?plugin_name=${core.name}'>
+				<@tform method='post' type='inline' align='right' action='jsp/admin/system/ViewPluginDescription.jsp?plugin_name=${core.name}'>
 					<@button type='submit' title='#i18n{portal.system.manage_plugins.actionDisplay}' buttonIcon='info-circle' hideTitle=['all'] />
 				</@tform>
 			</@boxHeader>
@@ -17,7 +17,7 @@
 	<@columns>
 		<@box>
 			<@boxHeader title='Liste des plugins' boxTools=true>
-				<@tform method='post' class='form-inline pull-left'>
+				<@tform method='post' type='inline' align='left'>
 					<@formGroup labelFor='plugin_type' labelKey='#i18n{portal.system.manage_plugins.buttonFilter}' showLabel=false formStyle='inline'>
 						<@inputGroup>
 							<@input type='text' name='search_plugins' id='search_plugins' placeHolder='#i18n{portal.system.manage_plugins.buttonFilter}' params='autocomplete="off"' />
@@ -27,7 +27,7 @@
 						</@inputGroup>
 					</@formGroup>
         		</@tform>
-				<@tform method='post' name='FilterPluginsForm' action='jsp/admin/system/ManagePlugins.jsp' class='form-inline pull-right hidden-xs spaced'>
+				<@tform method='post' name='FilterPluginsForm' action='jsp/admin/system/ManagePlugins.jsp' type='inline' align='right' hide=['xs']>
 					<@formGroup labelKey='#i18n{portal.system.manage_plugins.labelComboFilter}' labelFor='plugin_type' showLabel=false formStyle='inline'>
 						<@inputGroup>
 							<@select sort=true name='plugin_type' default_value='${current_filter}' items=filter_list />
@@ -72,7 +72,7 @@
 							<@boxFooter>
 								<#if plugin.installed>
 									<#if plugin.dbPoolRequired>
-										<@tform method='post' class='form-inline pull-right' action='jsp/admin/system/DoModifyPluginPool.jsp#plugin_${plugin.name}_${plugin.version}'>
+										<@tform method='post' type='inline' align='right' action='jsp/admin/system/DoModifyPluginPool.jsp#plugin_${plugin.name}_${plugin.version}'>
 											<@select name='db_pool_name' default_value='${plugin.dbPoolName}' items=pools_list sort=true size='sm' />
 											<@input type='hidden' name='plugin_name' value='${plugin.name}' />
 											<@input type='hidden' name='token' value='${token}' />
@@ -80,16 +80,16 @@
 										</@tform>
 									</#if>   
 								</#if>
-								<@tform method='post' class='form-inline pull-right spaced' action='jsp/admin/system/ViewPluginDescription.jsp?plugin_name=${plugin.name}'>
+								<@tform method='post' type='inline' align='right' action='jsp/admin/system/ViewPluginDescription.jsp?plugin_name=${plugin.name}'>
 									<@button type='submit' title='' buttonIcon='info-circle' size='sm' hideTitle=['all'] />
                  				</@tform>
 								<#if plugin.installed >
-									<@tform method='post' class='form-inline pull-right spaced' action='jsp/admin/system/ConfirmUninstallPlugin.jsp'>
+									<@tform method='post' type='inline' align='right' action='jsp/admin/system/ConfirmUninstallPlugin.jsp'>
                     					<@input type='hidden' name='plugin_name' value='${plugin.name}' />
 										<@button type='submit' title='#i18n{portal.system.manage_plugins.buttonDisable}' buttonIcon='stop' size='sm' hideTitle=['all'] color='danger' />
 									</@tform>
 								<#else>
-									<@tform method='post' class='form-inline pull-right spaced' action='jsp/admin/system/DoInstallPlugin.jsp#plugin_${plugin.name}_${plugin.version}'>
+									<@tform method='post' type='inline' align='right' action='jsp/admin/system/DoInstallPlugin.jsp#plugin_${plugin.name}_${plugin.version}'>
 										<@input type='hidden' name='plugin_name' value='${plugin.name}' />
 										<@input type='hidden' name='token' value='${token}' />
 										<@button type='submit' title='#i18n{portal.system.manage_plugins.buttonEnable}' buttonIcon='play' size='sm' hideTitle=['all'] color='success' />

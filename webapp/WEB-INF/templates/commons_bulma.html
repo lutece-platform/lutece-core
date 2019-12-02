@@ -1522,7 +1522,7 @@ and is kept only for backwards compatibility
 
 <#-- FUNCTION: DISPLAY -->
 <#-- This function returns a "visible" or "hidden" class for any component -->
-<#-- breakpoints: "all" || "xs"/"sm"/"md"/"lg" -->
+<#-- breakpoints: "all" || "xs"/"sm"/"md"/"lg"/"xl" -->
 <#-- display: is-block/is-flex/is-inline/is-inline-block/is-inline-flex -->
 <#function displaySettings breakPoints=[] display=''>
 	<#local breakPointsOrdered = [] />
@@ -1566,6 +1566,20 @@ and is kept only for backwards compatibility
 		</#list>
 	</#if>
 	<#return displayClass>
+</#function>
+
+<#function align align=''>
+	<#local x />
+	<#if align !=''>
+		<#if align = 'left'>
+			<#local x = 'is-left' />
+		<#elseif align = 'right'>
+			<#local x = 'is-right' />
+		<#elseif align = 'center'>
+			<#local x = 'is-centered' />
+		</#if>
+	</#if>
+	<#return x>
 </#function>
 
 

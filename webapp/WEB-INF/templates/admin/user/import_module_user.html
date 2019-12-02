@@ -47,7 +47,7 @@
 										<td>${user.firstName?if_exists}</td>
 										<td>${user.email?if_exists}</td>
 										<td>
-											<@tform class='form-inline' name='importUsers' id='importUsers' action='jsp/admin/user/DoSelectImportUser.jsp' >
+											<@tform type='inline' name='importUsers' id='importUsers' action='jsp/admin/user/DoSelectImportUser.jsp' >
 												<@input type='hidden' name='access_code' value='${user.accessCode}' />
 												<@button color="btn-primary" type="submit" title='#i18n{portal.users.import_module_user.resultButtonLabelImportUser}' />
 											</@tform>

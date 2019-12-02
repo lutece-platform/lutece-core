@@ -41,7 +41,7 @@
 				<@link name='list' />
 			</#assign>
       <@boxHeader title='${anchor} #i18n{portal.users.modify_attribute.listAssociatedFields}' boxTools=true>
-				<@tform method='post' action='jsp/admin/user/attribute/CreateAttributeField.jsp' class='form-inline pull-right'>
+				<@tform method='post' action='jsp/admin/user/attribute/CreateAttributeField.jsp' type='inline' align='right'>
 					<@input type='hidden' value='${attribute.idAttribute}' name='id_attribute' />
 					<@button type='submit' name='create' value='#i18n{portal.users.modify_attribute.buttonCreateField}' buttonIcon='plus' title='#i18n{portal.users.modify_attribute.buttonCreateField}' size='' hideTitle=['xs','sm'] />
 					<@button style='btn-box-tool' params='data-widget="collapse"' buttonIcon='minus' />
