@@ -956,7 +956,7 @@
 </#macro>
 
 <#-- The boxTools parameter is unused, kept for backwards compatibility -->
-<#macro boxHeader title='' i18nTitleKey='' showTitle=true id='' params='' boxTools=false titleLevel='h5'>
+<#macro boxHeader title='' i18nTitleKey='' hideTitle=[] showTitle=true id='' params='' boxTools=false titleLevel='h5'>
 <div class="card-header text-white"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 <${titleLevel} class="box-title<#if showTitle=false> sr-only</#if>"><#if title!=''>${title}</#if><#if i18nTitleKey!=''>#i18n{${i18nTitleKey}}</#if></${titleLevel}>
 	<#local nested><#nested></#local>
@@ -1315,7 +1315,7 @@
 				</main>
 				<footer>
 					<p class="text-center">
-						<@aButton href='http://fr.lutece.paris.fr' params='target="_blank"' title='#i18n{portal.site.portal_footer.labelPortal}' showTitle=false color='link'>
+						<@aButton href='http://fr.lutece.paris.fr' params='target="_blank"' title='#i18n{portal.site.portal_footer.labelPortal}' hideTitle=['all'] color='link'>
 						<img src="images/poweredby.png" class="thumbnails" alt="logo lutece" title="Lutece">
 						</@aButton>
 					</p>
@@ -1522,7 +1522,7 @@ $(function() {
 				<#assign islocale=''>
 				<#assign title=''>
 			</#if>
-			<@button color='' class='${language.code}' type='submit' name='language' value='${language.code}' title='${language.name?capitalize}${title}' buttonIcon='${islocale}' showTitle=false />
+			<@button color='' class='${language.code}' type='submit' name='language' value='${language.code}' title='${language.name?capitalize}${title}' buttonIcon='${islocale}' hideTitle=['all'] showTitle=false />
 		</@columns>
 		</#list>
 	</@row>

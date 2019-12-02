@@ -330,10 +330,10 @@
 <#macro item_navigation item_navigator id="item-navigator">
 <nav id="${id}" style="display:inline;">
 <#if (item_navigator.currentItemId > 0)>
-	<@aButton size='' href='${item_navigator.previousPageLink?xhtml}' title='#i18n{portal.util.labelPrevious}' buttonIcon='arrow-left' color='info' showTitleXs=false showTitleSm=false />
+	<@aButton size='' href='${item_navigator.previousPageLink?xhtml}' title='#i18n{portal.util.labelPrevious}' buttonIcon='arrow-left' color='info' hideTitle=['xs','sm'] />
 </#if>
 <#if (item_navigator.currentItemId < item_navigator.listItemSize - 1) >
-	<@aButton size='' href='${item_navigator.nextPageLink?xhtml}' title='#i18n{portal.util.labelNext}' buttonIcon='arrow-right' color='info' showTitleXs=false showTitleSm=false />
+	<@aButton size='' href='${item_navigator.nextPageLink?xhtml}' title='#i18n{portal.util.labelNext}' buttonIcon='arrow-right' color='info' hideTitle=['xs','sm'] />
 </#if>
 </nav>
 </#macro>
@@ -1107,7 +1107,9 @@ and is kept only for backwards compatibility
 <#-- iconPosition: left/right -->
 <#-- cancel: switch to true for a cancellation form button. Adds the "formnovalidate" attribute to the button, as well as the right class -->
 
-<#macro button name='' id='' type='button'  buttonIcon='' size='' color='' style='' class='' params='' value='' title='' tabIndex='' showTitle=true showTitleXs=true showTitleSm=true showTitleMd=true showTitleLg=true disabled=false iconPosition='left' dropdownMenu=false cancel=false>
+<#macro button name='' id='' type='button'  buttonIcon='' size='' color='' style='' class='' params='' value='' title='' tabIndex='' hideTitle=[] showTitle=true showTitleXs=true showTitleSm=true showTitleMd=true showTitleLg=true disabled=false iconPosition='left' dropdownMenu=false cancel=false>
+
+<#local displayTitleClass = displaySettings(hideTitle,'inline') />
 
 	<#if cancel || color = 'default' || color = 'secondary'>
 		<#assign buttonColor = 'light' />
@@ -1137,21 +1139,13 @@ and is kept only for backwards compatibility
         <#assign buttonSize='normal'>
 </#switch>
 
-<#-- Visibility of button title -->
-<#assign showTitleClass = '' />
-<#if showTitle = false><#assign showTitleClass = 'sr-only' /></#if>
-<#if showTitleXs = false><#assign showTitleClass = showTitleClass + ' is-hidden-mobile' /></#if>
-<#if showTitleSm = false><#assign showTitleClass = showTitleClass + ' is-hidden-touch' /></#if>
-<#if showTitleMd = false><#assign showTitleClass = showTitleClass + ' is-hidden-desktop' /></#if>
-<#if showTitleLg = false><#assign showTitleClass = showTitleClass + ' is-hidden-widescreen' /></#if>
-
 <#if dropdownMenu>
 <div class="dropdown">
 	<div class="dropdown-trigger">
 </#if>
 	<button class="button<#if buttonSize!=''> is-${buttonSize}</#if><#if buttonColor!=''> is-${buttonColor}</#if><#if dropdownMenu> dropdown-toggle</#if><#if class!=''> ${class}</#if>" type="${type}"<#if title!=''> title="${title}"</#if><#if name!=''> name="${name}"</#if><#if id!=''> id="${id}"</#if><#if value!=''> value="${value}"</#if><#if params!=''> ${params}</#if><#if disabled> disabled</#if><#if dropdownMenu> aria-haspopup="true" aria-controls="<#if id!=''>${id}</#if>-content"</#if>>
     <#if buttonIcon!='' && iconPosition='left'><@icon style=buttonIcon />&nbsp;</#if>
-		<#if showTitleClass!='' && style!='btn-box-tool'><span class="${showTitleClass}"></#if>${title}<#if showTitleClass!='' && style!='btn-box-tool'></span></#if>
+		<#if displayTitleClass!='' && style!='btn-box-tool'><span class="${displayTitleClass}"></#if>${title}<#if displayTitleClass!='' && style!='btn-box-tool'></span></#if>
 		<#if buttonIcon!='' && iconPosition='right'>&nbsp;<@icon style=buttonIcon /></#if>
 		<#if dropdownMenu>
 		&nbsp;<@icon style='angle-down' />
@@ -1173,7 +1167,8 @@ and is kept only for backwards compatibility
 <#-- color: default/primary/success/warning/danger/info/bg-purple/bg-blue/bg-navy/bg-teal/bg-maroon/bg-black/bg-gray/bg-olive/bg-lime/bg-orange/bg-fuchsia -->
 <#-- style: disabled ignored : btn-block/btn-flat/btn-app-->
 <#-- icon: icon name ex: info/check/comment/envelope... -->
-<#macro aButton name='' id='' href='' size='' color='primary' style='' class='' params='' title='' tabIndex='' showTitle=true showTitleXs=true showTitleSm=true showTitleMd=true showTitleLg=true buttonIcon='' disabled=false iconPosition='left' dropdownMenu=false cancel=false>
+<#macro aButton name='' id='' href='' size='' color='primary' style='' class='' params='' title='' tabIndex='' hideTitle=[] showTitle=true showTitleXs=true showTitleSm=true showTitleMd=true showTitleLg=true buttonIcon='' disabled=false iconPosition='left' dropdownMenu=false cancel=false>
+<#local displayTitleClass = displaySettings(hideTitle,'inline') />
 	<#if cancel || color = 'default' || color = 'secondary'>
 		<#assign buttonColor = 'light' />
 	<#elseif !cancel && color=''>
@@ -1202,14 +1197,6 @@ and is kept only for backwards compatibility
         <#assign buttonSize='normal'>
 </#switch>
 
-<#-- Visibility of button title -->
-<#assign showTitleClass = '' />
-<#if showTitle = false><#assign showTitleClass = 'sr-only' /></#if>
-<#if showTitleXs = false><#assign showTitleClass = showTitleClass + ' is-hidden-mobile' /></#if>
-<#if showTitleSm = false><#assign showTitleClass = showTitleClass + ' is-hidden-touch' /></#if>
-<#if showTitleMd = false><#assign showTitleClass = showTitleClass + ' is-hidden-desktop' /></#if>
-<#if showTitleLg = false><#assign showTitleClass = showTitleClass + ' is-hidden-widescreen' /></#if>
-
 <#if dropdownMenu>
 <div class="dropdown">
 	<div class="dropdown-trigger">
@@ -1217,7 +1204,7 @@ and is kept only for backwards compatibility
 
 <a class="button is-grouped <#if buttonSize!=''>is-${buttonSize}</#if><#if buttonColor!=''> is-${buttonColor}</#if><#if style!=''> ${style}</#if><#if class!=''> ${class}</#if>"<#if name!=''> name="${name}"</#if><#if id!=''> id="${id}"</#if> href="${href}" title="${title}"<#if params!=''> ${params}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if>>
    <#if buttonIcon!='' && iconPosition='left'><@icon style=buttonIcon /> &nbsp; </#if>
-	<span class="${showTitleClass}">${title}</span>
+	<span class="${displayTitleClass}">${title}</span>
 	<#if buttonIcon!='' && iconPosition='right'> &nbsp; <@icon style=buttonIcon /></#if>
 	<#if dropdownMenu>&#160;<@icon style='caret-down' /></#if>
 	<#if !dropdownMenu>
@@ -1377,7 +1364,7 @@ and is kept only for backwards compatibility
 </#macro>
 
 <#-- The boxTools parameter is unused, kept for backwards compatibility -->
-<#macro boxHeader title='' i18nTitleKey='' showTitle=true id='' params='' boxTools=false titleLevel='p'>
+<#macro boxHeader title='' i18nTitleKey='' hideTitle=[] showTitle=true id='' params='' boxTools=false titleLevel='p'>
 <header class="card-header"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 <${titleLevel} class="card-header-title<#if showTitle=false> sr-only</#if>"><#if title!=''>${title}</#if><#if i18nTitleKey!=''>#i18n{${i18nTitleKey}}</#if></${titleLevel}>
 	<#nested>
@@ -1780,7 +1767,7 @@ $( function() {
                     </div>
                     <#nested>
                     <p class='has-text-centered'>
-                        <@aButton href='http://fr.lutece.paris.fr' params='target="_blank"' title='#i18n{portal.site.portal_footer.labelPortal}' showTitle=false color='secondary'>
+                        <@aButton href='http://fr.lutece.paris.fr' params='target="_blank"' title='#i18n{portal.site.portal_footer.labelPortal}' hideTitle=['all'] color='secondary'>
                             <img src="images/poweredby.png" class="thumbnails" alt="logo lutece" title="Lutece">
                         </@aButton>
                     </p>
