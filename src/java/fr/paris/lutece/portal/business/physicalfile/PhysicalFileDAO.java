@@ -53,21 +53,18 @@ public final class PhysicalFileDAO implements IPhysicalFileDAO
     @Override
     public int newPrimaryKey( )
     {
-        int nKey;
+        int nKey = 0;
         try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_NEW_PK ) )
         {
             daoUtil.executeQuery( );
 
-            if ( !daoUtil.next( ) )
+            if ( daoUtil.next( ) )
             {
                 // if the table is empty
-                nKey = 1;
+                nKey = daoUtil.getInt( 1 );
             }
-
-            nKey = daoUtil.getInt( 1 ) + 1;
         }
-
-        return nKey;
+        return nKey + 1;
     }
 
     /**

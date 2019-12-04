@@ -42,3 +42,15 @@ INSERT INTO core_text_editor VALUES ( 'tinymce', 'portal.admindashboard.editors.
 INSERT INTO core_text_editor VALUES ( '', 'portal.admindashboard.editors.labelBackNoEditor', 1 );
 INSERT INTO core_text_editor VALUES ( '', 'portal.admindashboard.editors.labelFrontNoEditor', 0 );
 INSERT INTO core_text_editor VALUES ( 'markitupbbcode', 'portal.admindashboard.editors.labelFrontMarkitupBBCode', 0 );
+
+CREATE TABLE core_temporary_file (
+	id_file INT AUTO_INCREMENT,
+	id_user int DEFAULT 0 NOT NULL,
+	title LONG VARCHAR DEFAULT NULL, 
+	description LONG VARCHAR DEFAULT NULL, 
+	id_physical_file INT DEFAULT NULL,  
+	file_size  INT DEFAULT NULL,
+	mime_type VARCHAR(255) DEFAULT NULL,
+	date_creation timestamp default CURRENT_TIMESTAMP NOT NULL,
+	PRIMARY KEY (id_file)
+);

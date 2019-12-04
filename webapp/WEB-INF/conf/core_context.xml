@@ -151,6 +151,7 @@
 
     <!-- package file -->
     <bean id="fileDAO" class="fr.paris.lutece.portal.business.file.FileDAO" />
+    <bean id="temporaryFileDAO" class="fr.paris.lutece.portal.business.file.TemporaryFileDAO" />
 
     <!-- package physicalfile -->
     <bean id="physicalFileDAO" class="fr.paris.lutece.portal.business.physicalfile.PhysicalFileDAO" />
