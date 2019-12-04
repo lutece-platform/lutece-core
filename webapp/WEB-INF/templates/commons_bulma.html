@@ -796,21 +796,22 @@ and is kept only for backwards compatibility
 
 <#-- FORM -->
 <#-- type: inline/horizontal/form -->
-<#macro tform type='horizontal' class='' action='' method='post' name='' id='' role='form' params=''>
-<#switch type>
-    <#case 'horizontal'>
-    <#assign typeClass = 'form-horizontal'>
-    <#break>
+<#macro tform type='horizontal' class='' align='' hide=[] action='' method='post' name='' id='' role='form' params=''>
+	<#assign formClass = alignmentSettings(align) + ' ' + class />
+	<#switch type>
+		<#case 'horizontal'>
+		<#assign formClass += ' form-horizontal'>
+		<#break>
 
-    <#case 'inline'>
-    <#assign typeClass = 'form-inline'>
-    <#break>
-    
-    <#default>
-    <#assign typeClass = 'form'>
-</#switch>
+		<#case 'inline'>
+		<#assign formClass += ' form-inline'>
+		<#break>
+		
+		<#default>
+		<#assign formClass += ' form'>
+	</#switch>
 
-<form class="${typeClass} ${class}"<#if id!=''> id="${id}"</#if><#if action!=''> action="${action}"</#if><#if method!=''> method="${method}"</#if><#if name!=''> name="${name}"</#if><#if role!=''> role="${role}"</#if><#if params!=''> ${params}</#if>>
+<form class="<#if formClass!=''>${formClass?trim}</#if>"<#if id!=''> id="${id}"</#if><#if action!=''> action="${action}"</#if><#if method!=''> method="${method}"</#if><#if name!=''> name="${name}"</#if><#if role!=''> role="${role}"</#if><#if params!=''> ${params}</#if>>
 	<#nested>
 </form>
 </#macro>
@@ -973,7 +974,7 @@ and is kept only for backwards compatibility
 
 <#-- Tabs -->
 <#-- type:  -->
-<#macro tabLink class='' id='' active=false href='' title='' tabIcon='' params=''>
+<#macro tabLink class='' hide=[] id='' active=false href='' title='' tabIcon='' params=''>
 		<li class="<#if class!=''>${class}</#if><#if active> is-active</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 			<@link href='${href}' title='${title}'>
 				<#if tabIcon!=''><span class="icon is-small"><@icon style=tabIcon /></span></#if>
@@ -1568,8 +1569,8 @@ and is kept only for backwards compatibility
 	<#return displayClass>
 </#function>
 
-<#function align align=''>
-	<#local x />
+<#function alignmentSettings align=''>
+	<#local x = ''>
 	<#if align !=''>
 		<#if align = 'left'>
 			<#local x = 'is-left' />

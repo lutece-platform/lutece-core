@@ -1,9 +1,12 @@
 <@row>
 	<@columns>
     <@box color='success' collapsed=true>
-			<@boxHeader title='#i18n{portal.rbac.assign_users.role.name} :<strong title="#i18n{portal.rbac.assign_users.role.description} : ${role.description} "> ${role.key}</strong> <small class="spaced"><@icon style='user' />&nbsp;#i18n{portal.rbac.assign_users.role.number_user} : <@tag>${assigned_users_number}</@tag></small>' boxTools=true>
-				<@aButton href='jsp/admin/rbac/ViewRoleDescription.jsp?role_key=${role.key}" title="#i18n{portal.rbac.modify_role.buttonLabelModify}' title='#i18n{portal.rbac.modify_role.buttonLabelModify}' buttonIcon='edit' size='' />
-				<@aButton href='jsp/admin/rbac/DoConfirmRemoveRole.jsp?role_key=${role.key}' title='#i18n{portal.rbac.manage_roles.buttonLabelDelete}' buttonIcon='trash' color='danger' size='' />
+			<#assign headerTitle>
+				#i18n{portal.rbac.assign_users.role.name} :<strong title="#i18n{portal.rbac.assign_users.role.description} : ${role.description} "> ${role.key}</strong> <small class="spaced"><@icon style='user' />&nbsp;#i18n{portal.rbac.assign_users.role.number_user} : <@tag>${assigned_users_number}</@tag></small>
+			</#assign>
+			<@boxHeader title='${headerTitle}' boxTools=true>
+				<@aButton href='jsp/admin/rbac/ViewRoleDescription.jsp?role_key=${role.key}" title="#i18n{portal.rbac.modify_role.buttonLabelModify}' title='#i18n{portal.rbac.modify_role.buttonLabelModify}' hideTitle=['xs','sm'] buttonIcon='edit' size='sm' />
+				<@aButton href='jsp/admin/rbac/DoConfirmRemoveRole.jsp?role_key=${role.key}' title='#i18n{portal.rbac.manage_roles.buttonLabelDelete}' hideTitle=['xs','sm'] buttonIcon='trash' color='danger' size='sm' />
 				<@item_navigation item_navigator=item_navigator />
 				<@button style='btn-box-tool' params='data-widget="collapse"' buttonIcon='plus' />
 			</@boxHeader>
@@ -78,9 +81,9 @@
 </@row>
 <@row>
     <@columns sm=3 md=3 lg=3>
-        <@box color='solid'>
-            <@boxHeader title='#i18n{portal.rbac.assign_users.labelAvailableUser}' />
-			<@boxBody>
+			<@box color='solid'>
+        <@boxHeader title='#i18n{portal.rbac.assign_users.labelAvailableUser}' />
+				<@boxBody>
 				<#if available_users_list?size &gt; 0 >
 					<@tform name='assignUser' method='post' action='jsp/admin/rbac/DoAssignUsersRole.jsp'>
 						<@input type='hidden' name='role_key' value='${role.key}' />
@@ -151,8 +154,8 @@
 											<@input type='hidden' name='id_user' value='${assigned_user.userId?html}' />
 											<@input type='hidden' name='role_key' value='${role.key?html}' />
 											<@input type='hidden' name='anchor' value='anchor-${anchor?html}' />
-											<@aButton href='jsp/admin/user/ModifyUser.jsp?id_user=${assigned_user.userId}' title='#i18n{portal.rbac.assign_users.actionModify}' hideTitle=['all'] buttonIcon='edit' />
-											<@button type='submit' title='#i18n{portal.rbac.assign_users.actionUnassign}' hideTitle=['all'] buttonIcon='trash' color='danger' />
+											<@aButton href='jsp/admin/user/ModifyUser.jsp?id_user=${assigned_user.userId}' title='#i18n{portal.rbac.assign_users.actionModify}' hideTitle=['all'] buttonIcon='edit' size='sm' />
+											<@button type='submit' title='#i18n{portal.rbac.assign_users.actionUnassign}' hideTitle=['all'] buttonIcon='trash' color='danger' size='sm' />
 										</@tform>
 									</td>
 								</tr>

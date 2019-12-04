@@ -214,10 +214,10 @@
 <#macro item_navigation item_navigator id="item-navigator">
 <nav id="${id}" style="display:inline;">
 <#if (item_navigator.currentItemId > 0)>
-	<@aButton size='' href='${item_navigator.previousPageLink?xhtml}' title='#i18n{portal.util.labelPrevious}' buttonIcon='arrow-left' color='info' hideTitle=['xs','sm'] />
+	<@aButton size='sm' href='${item_navigator.previousPageLink?xhtml}' title='#i18n{portal.util.labelPrevious}' buttonIcon='arrow-left' color='info' hideTitle=['xs','sm'] />
 </#if>
 <#if (item_navigator.currentItemId < item_navigator.listItemSize - 1) >
-	<@aButton size='' href='${item_navigator.nextPageLink?xhtml}' title='#i18n{portal.util.labelNext}' buttonIcon='arrow-right' color='info' hideTitle=['xs','sm'] />
+	<@aButton size='sm' href='${item_navigator.nextPageLink?xhtml}' title='#i18n{portal.util.labelNext}' buttonIcon='arrow-right' color='info' hideTitle=['xs','sm'] />
 </#if>
 </nav>
 </#macro>
@@ -336,21 +336,22 @@
 
 <#-- FORM -->
 <#-- type: inline/horizontal/form -->
-<#macro tform type='horizontal' class='' action='' method='post' name='' id='' role='form' params=''>
+<#macro tform type='horizontal' class='' align='' hide=[] action='' method='post' name='' id='' role='form' params=''>
+	<#assign formClass = alignmentSettings(align) + ' ' + class />
 	<#switch type>
 		<#case 'horizontal'>
-		<#assign typeClass = 'form-horizontal'>
+		<#assign formClass += ' form-horizontal'>
 		<#break>
 
 		<#case 'inline'>
-		<#assign typeClass = 'form-inline'>
+		<#assign formClass += ' form-inline'>
 		<#break>
 		
 		<#default>
-		<#assign typeClass = 'form'>
+		<#assign formClass += ' form'>
 	</#switch>
 
-	<form class="${typeClass}<#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if action!=''> action="${action}"</#if><#if method!=''> method="${method}"</#if><#if name!=''> name="${name}"</#if><#if role!=''> role="${role}"</#if><#if params!=''> ${params}</#if>>
+	<form class="<#if formClass!=''>${formClass?trim}</#if>"<#if id!=''> id="${id}"</#if><#if action!=''> action="${action}"</#if><#if method!=''> method="${method}"</#if><#if name!=''> name="${name}"</#if><#if role!=''> role="${role}"</#if><#if params!=''> ${params}</#if>>
 		<#nested>
 	</form>
 </#macro>
@@ -609,21 +610,27 @@
 <#-- Tabs List -->
 <#-- type: tabs/tabs nav-justified/pills/pills nav-stacked/pills nav-justified -->
 <#macro tabList type='tabs' vertical=false id='' params='' color=''>
-		<ul class="nav nav-${type}<#if vertical> flex-column mb-3</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if> role="tablist">
+		<ul class="nav nav-${type}<#if vertical> flex-column mb-3</#if>" style="margin-bottom:1.5rem;"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if> role="tablist">
 			<#nested>
 		</ul>
 </#macro>
 
 <#-- Tabs -->
 <#-- type:  -->
-<#macro tabLink class='' id='' active=false href='' title='' tabIcon='' params=''>
+<#macro tabLink class='' hide=[] id='' active=false href='' title='' tabIcon='' params=''>
 		<li class="nav-item"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
-			<#if active>
-				<#local linkClass = 'nav-link active' />
-			<#else>
-				<#local linkClass = 'nav-link' />
-			</#if>
-			<@link class=linkClass href='${href}' id='${href?remove_beginning("#")}-tab' title='${title}' params='data-toggle="tab" role="tab" aria-selected="${active?c}" aria-controls="${href?remove_beginning("#")}"'><#if tabIcon!=''><@icon style=tabIcon /></#if> ${title}</@link>
+		<#local tabLinkClass = class + ' nav-link' />
+		<#if active><#local tabLinkClass += ' active' /></#if>
+		<#local tabLinkSettings = 'role="tab" aria-expanded="${active?c}" aria-controls="${href?remove_beginning("#")}"' />
+		<#if href?contains('#') && href?contains('.jsp') == false>
+			<#local tabLinkSettings += ' data-toggle="tab"' />
+			<#local tabLinkId = '${href?remove_beginning("#")}-tab' />
+		<#else>
+			<#local tabLinkId = href?keep_after_last('/')?keep_before('.')?lower_case />
+		</#if>
+			<@link class=tabLinkClass?trim href=href id=tabLinkId title=title params=tabLinkSettings>
+				<#if tabIcon!=''><@icon style=tabIcon /></#if> ${title}
+			</@link>
 		</li>
 </#macro>
 
@@ -977,7 +984,7 @@
 <#-- collapsed: true/false 																-->
 <#---------------------------------------------------------->
 <#macro box color='' id='' style='' class='' params='' collapsed=false>
-<div class="card m-2 <#if color!=''> bg-${color}</#if><#if style!=''> text-${style}</#if><#if class!=''> ${class}</#if><#if collapsed> collapsed-box</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<div class="card m-2 bg-dark<#if style!=''> text-${style}</#if><#if class!=''> ${class}</#if><#if collapsed> collapsed-box</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 	<#nested>
 </div>
 </#macro>
@@ -988,7 +995,10 @@
 <${titleLevel} class="box-title<#if showTitle=false> sr-only</#if>"><#if title!=''>${title}</#if><#if i18nTitleKey!=''>#i18n{${i18nTitleKey}}</#if></${titleLevel}>
 	<#local nested><#nested></#local>
 	<#if nested?has_content>
-	<div>
+	<div class="d-flex justify-content-center">
+		<style type="text/css">
+			div.card-header > div.d-flex > form:last-of-type {margin-left:0.5rem;}
+		</style>
 		<#nested>
 	</div>
 	</#if>
@@ -1170,7 +1180,7 @@
 	<#return displayClass>
 </#function>
 
-<#function align align=''>
+<#function alignmentSettings align=''>
 	<#local x = ''>
 	<#if align !=''>
 		<#if align = 'left'>
@@ -1460,9 +1470,9 @@ $(function() {
 
 <#-- FLOAT -->
 <#-- Float right  -->
-<#macro fright> pull-right</#macro>
+<#macro fright> float-right</#macro>
 <#-- Float left  -->
-<#macro fright> pull-left</#macro>
+<#macro fright> float-left</#macro>
 <#-- Clearfix  -->
 <#macro fright> clearfix</#macro>
 

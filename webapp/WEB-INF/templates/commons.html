@@ -784,21 +784,22 @@ and is kept only for backwards compatibility
 
 <#-- FORM -->
 <#-- type: inline/horizontal/form -->
-<#macro tform type='horizontal' class='' action='' method='post' name='' id='' role='form' params=''>
-<#switch type>
+<#macro tform type='horizontal' class='' align='' hide=[] action='' method='post' name='' id='' role='form' params=''>
+	<#assign formClass = alignmentSettings(align) + ' ' + class />
+	<#switch type>
     <#case 'horizontal'>
-    <#local typeClass = 'form-horizontal'>
+    <#assign formClass += ' form-horizontal'>
     <#break>
 
     <#case 'inline'>
-    <#local typeClass = 'form-inline'>
-    <#break>
-    
-    <#default>
-    <#local typeClass = 'form'>
-</#switch>
+		<#assign formClass += ' form-inline'>
+		<#break>
+		
+		<#default>
+		<#assign formClass += ' form'>
+	</#switch>
 
-<form class="${typeClass}<#if class != ''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if action!=''> action="${action}"</#if><#if method!=''> method="${method}"</#if><#if name!=''> name="${name}"</#if><#if role!=''> role="${role}"</#if><#if params!=''> ${params}</#if>>
+<form class="<#if formClass!=''>${formClass?trim}</#if>"<#if id!=''> id="${id}"</#if><#if action!=''> action="${action}"</#if><#if method!=''> method="${method}"</#if><#if name!=''> name="${name}"</#if><#if role!=''> role="${role}"</#if><#if params!=''> ${params}</#if>>
 	<#nested>
 </form>
 </#macro>
@@ -873,7 +874,6 @@ and is kept only for backwards compatibility
 <#-- INPUT TEXT/TEXTAREA/SEARCH/PASSWORD/EMAIL/FILE -->
 <#-- type : text/textarea/password/email/file/number. Default is text -->
 <#-- size: input-xs/input-sm/input-lg -->
-<#-- incoming Bootstrap 4 size: form-control-sm/form-control-lg or empty for the normal size -->
 <#-- pattern: [A-F][0-9]{5} -->
 <#macro input name type='text' value='' class='' size='' inputSize=0 maxlength=0 placeHolder='' rows=4 cols=40 richtext=false tabIndex='' id='' disabled=false readonly=false pattern='' params='' title='' min=0 max=0>
 	<#if type='textarea'>
@@ -1023,9 +1023,17 @@ and is kept only for backwards compatibility
 
 <#-- Tabs -->
 <#-- type:  -->
-<#macro tabLink class='' id='' active=false href='' title='' tabIcon='' params=''>
-		<li class="<#if class!=''> ${class}</#if><#if active> active</#if>" role="presentation"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
-			<@link href='${href}' title='${title}' params='aria-controls="${href?remove_beginning("#")}" role="tab" data-toggle="tab"'>${title}</@link>
+<#macro tabLink class='' hide=[] id='' active=false href='' title='' tabIcon='' params=''>
+	<#local tabLinkClass = class />
+	<#if active><#local tabLinkClass += ' active' /></#if>
+		<li class="${tabLinkClass?trim}" role="presentation"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+		<#local tabLinkSettings = 'role="tab" aria-expanded="false"' />
+		<#if href?contains('#') && href?contains('.jsp') == false>
+			<#local tabLinkSettings += 'data-toggle="tab"' />
+		</#if>
+			<@link href=href title=title params=tabLinkSettings>
+				<#if tabIcon!=''><@icon style=tabIcon /></#if> ${title}
+			</@link>
 		</li>
 </#macro>
 
@@ -1364,6 +1372,9 @@ and is kept only for backwards compatibility
 	<#local nested><#nested></#local>
 	<#if nested?has_content>
 	<div class="box-tools">
+		<style type="text/css">
+			div.box-tools > form:last-of-type {margin-left:0.5rem;}
+		</style>
 		${nested}
 	</div>
 	</#if>
