@@ -1,0 +1,41 @@
+<@row>
+	<@columns>
+		<@box color='danger'>
+			<@boxHeader title='#i18n{portal.tempfiles.manage_temporary_files.boxTitle}' />
+			<@boxBody>
+				<@table>
+					<tr>
+						<th>#i18n{portal.tempfiles.manage_temporary_files.labelType}</th>
+						<th>#i18n{portal.tempfiles.manage_temporary_files.labelName}</th>
+						<th>#i18n{portal.tempfiles.manage_temporary_files.labelState}</th>
+						<th>#i18n{portal.tempfiles.manage_temporary_files.labelDate}</th>
+						<th></th>
+					</tr>
+					<#list files_list as file >
+					<tr>
+						<td>${file.description}</td>
+						<#if file.size == 0>
+							<td></td>
+							<td>#i18n{portal.tempfiles.manage_temporary_files.state.pending}</td>
+						<#elseif file.size == -1>
+							<td></td>
+							<td>#i18n{portal.tempfiles.manage_temporary_files.state.error}</td>
+						<#else>							
+							<td>${file.title}</td>
+							<td>#i18n{portal.tempfiles.manage_temporary_files.state.done}</td>
+						</#if>
+						<td>${file.dateCreation?datetime?string.medium_short}</td>
+						<#if file.physicalFile??>
+							<td>
+								<@aButton href='jsp/admin/tempfiles/DoDownloadTemporaryFile.jsp?file_id=${file.idFile}' buttonIcon='download' size='' color='info' />
+							</td>
+						<#else>
+							<td></td>
+						</#if>
+					</tr>
+					</#list>
+				</@table>
+			</@boxBody>
+		</@box>
+  </@columns>
+</@row>

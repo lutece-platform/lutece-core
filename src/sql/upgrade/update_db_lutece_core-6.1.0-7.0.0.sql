@@ -54,3 +54,6 @@ CREATE TABLE core_temporary_file (
 	date_creation timestamp default CURRENT_TIMESTAMP NOT NULL,
 	PRIMARY KEY (id_file)
 );
+
+INSERT INTO core_admin_right VALUES ('CORE_TEMP_FILES','portal.tempfiles.adminFeature.temporary_files.name',0,'jsp/admin/tempfiles/ManageMyFiles.jsp','portal.tempfiles.adminFeature.temporary_files.description',0,NULL,'SYSTEM',NULL,NULL,3, 0);
+INSERT INTO core_user_right VALUES ('CORE_TEMP_FILES', 1);
