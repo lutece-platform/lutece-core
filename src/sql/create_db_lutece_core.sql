@@ -264,7 +264,7 @@ CREATE TABLE core_mode (
 --
 DROP TABLE IF EXISTS core_page;
 CREATE TABLE core_page (
-	id_page int default 0 NOT NULL,
+	id_page int AUTO_INCREMENT,
 	id_parent int default 0,
 	name varchar(50) default '' NOT NULL,
 	description long varchar,

@@ -48,3 +48,4 @@ ALTER TABLE core_admin_role_resource modify COLUMN rbac_id int AUTO_INCREMENT;
 ALTER TABLE core_admin_user modify COLUMN id_user int AUTO_INCREMENT;
 ALTER TABLE core_file modify COLUMN id_file int AUTO_INCREMENT;
 ALTER TABLE core_indexer_action modify COLUMN id_action int AUTO_INCREMENT;
+ALTER TABLE core_page modify COLUMN id_page int AUTO_INCREMENT;
