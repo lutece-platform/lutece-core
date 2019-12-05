@@ -294,7 +294,7 @@ CREATE INDEX index_childpage ON core_page (id_parent,page_order);
 --
 DROP TABLE IF EXISTS core_page_template;
 CREATE TABLE core_page_template (
-	id_template int default 0 NOT NULL,
+	id_template int AUTO_INCREMENT,
 	description varchar(50) default NULL,
 	file_name varchar(100) default NULL,
 	picture varchar(50) default NULL,
