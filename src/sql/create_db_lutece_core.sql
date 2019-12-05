@@ -198,7 +198,7 @@ CREATE TABLE core_file (
 --
 DROP TABLE IF EXISTS core_indexer_action;
 CREATE TABLE  core_indexer_action (
-  id_action int default 0 NOT NULL,
+  id_action int AUTO_INCREMENT,
   id_document varchar(255) NOT NULL,
   id_task int default 0 NOT NULL,
   indexer_name varchar(255) NOT NULL,

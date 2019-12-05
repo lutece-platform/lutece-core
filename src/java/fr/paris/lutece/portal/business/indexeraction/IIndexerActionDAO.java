@@ -43,13 +43,6 @@ import java.util.List;
 public interface IIndexerActionDAO
 {
     /**
-     * Generates a new primary key
-     *
-     * @return The new primary key
-     */
-    int newPrimaryKey( );
-
-    /**
      * Insert a new record in the table.
      *
      * @param indexerAction

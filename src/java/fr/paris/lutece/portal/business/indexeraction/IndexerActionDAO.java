@@ -35,6 +35,7 @@ package fr.paris.lutece.portal.business.indexeraction;
 
 import fr.paris.lutece.util.sql.DAOUtil;
 
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,11 +54,10 @@ public final class IndexerActionDAO implements IIndexerActionDAO
      * SQL And constant
      */
     public static final String CONSTANT_AND = " AND ";
-    private static final String SQL_QUERY_NEW_PK = "SELECT max( id_action ) FROM core_indexer_action";
     private static final String SQL_QUERY_FIND_BY_PRIMARY_KEY = "SELECT id_action,id_document,id_task,indexer_name, id_portlet"
             + " FROM core_indexer_action WHERE id_action = ?";
-    private static final String SQL_QUERY_INSERT = "INSERT INTO core_indexer_action( id_action,id_document,id_task ,indexer_name,id_portlet)"
-            + " VALUES(?,?,?,?,?)";
+    private static final String SQL_QUERY_INSERT = "INSERT INTO core_indexer_action( id_document,id_task ,indexer_name,id_portlet)"
+            + " VALUES(?,?,?,?)";
     private static final String SQL_QUERY_DELETE = "DELETE FROM core_indexer_action WHERE id_action = ? ";
     private static final String SQL_QUERY_DELETE_ALL = "DELETE FROM core_indexer_action";
     private static final String SQL_QUERY_UPDATE = "UPDATE core_indexer_action SET id_action=?,id_document=?,id_task=?,indexer_name=?,id_portlet=? WHERE id_action = ? ";
@@ -68,43 +68,22 @@ public final class IndexerActionDAO implements IIndexerActionDAO
      * {@inheritDoc}
      */
     @Override
-    public int newPrimaryKey( )
+    public void insert( IndexerAction indexerAction )
     {
-        int nKey;
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_NEW_PK ) )
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT, Statement.RETURN_GENERATED_KEYS ) )
         {
-            daoUtil.executeQuery( );
-
-            if ( !daoUtil.next( ) )
-            {
-                // if the table is empty
-                nKey = 1;
-            }
-
-            nKey = daoUtil.getInt( 1 ) + 1;
-        }
-
-        return nKey;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public synchronized void insert( IndexerAction indexerAction )
-    {
-        indexerAction.setIdAction( newPrimaryKey( ) );
-
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT ) )
-        {
-            daoUtil.setString( 2, indexerAction.getIdDocument( ) );
-            daoUtil.setInt( 3, indexerAction.getIdTask( ) );
-            daoUtil.setString( 4, indexerAction.getIndexerName( ) );
-            daoUtil.setInt( 5, indexerAction.getIdPortlet( ) );
-            daoUtil.setInt( 1, indexerAction.getIdAction( ) );
+            int nIndex = 1;
+            daoUtil.setString( nIndex++, indexerAction.getIdDocument( ) );
+            daoUtil.setInt( nIndex++, indexerAction.getIdTask( ) );
+            daoUtil.setString( nIndex++, indexerAction.getIndexerName( ) );
+            daoUtil.setInt( nIndex, indexerAction.getIdPortlet( ) );
 
             daoUtil.executeUpdate( );
 
+            if ( daoUtil.nextGeneratedKey( ) )
+            {
+                indexerAction.setIdAction( daoUtil.getGeneratedKeyInt( 1 ) );
+            }
         }
     }
 
