@@ -479,7 +479,7 @@ CREATE TABLE core_id_generator (
 --
 DROP TABLE IF EXISTS core_attribute;
 CREATE TABLE core_attribute (
-	id_attribute INT DEFAULT 0 NOT NULL,
+	id_attribute int AUTO_INCREMENT,
 	type_class_name VARCHAR(255) DEFAULT NULL,
 	title LONG VARCHAR DEFAULT NULL,
 	help_message LONG VARCHAR DEFAULT NULL,
