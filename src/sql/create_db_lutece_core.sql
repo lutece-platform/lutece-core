@@ -516,7 +516,7 @@ CREATE TABLE core_attribute_field (
 --
 DROP TABLE IF EXISTS core_admin_user_field;
 CREATE TABLE core_admin_user_field (
-	id_user_field INT DEFAULT 0 NOT NULL,
+	id_user_field INT AUTO_INCREMENT,
 	id_user INT DEFAULT NULL,
 	id_attribute INT DEFAULT NULL,
 	id_field INT DEFAULT NULL,

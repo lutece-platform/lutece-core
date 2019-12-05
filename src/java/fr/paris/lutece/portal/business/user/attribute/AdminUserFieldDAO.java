@@ -38,6 +38,7 @@ import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.util.sql.DAOUtil;
 
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -56,9 +57,6 @@ public class AdminUserFieldDAO implements IAdminUserFieldDAO
     private static final String CONSTANT_OPEN_BRACKET = "(";
     private static final String CONSTANT_CLOSED_BRACKET = ")";
 
-    // NEW PK
-    private static final String SQL_QUERY_NEW_PK = " SELECT max(id_user_field) FROM core_admin_user_field ";
-
     // SELECT
     private static final String SQL_QUERY_SELECT = " SELECT auf.id_user_field, auf.id_user, auf.id_attribute, auf.id_field, auf.id_file, auf.user_field_value, "
             + " au.access_code, au.last_name, au.first_name, au.email, au.status, au.locale, au.level_user, "
@@ -75,8 +73,8 @@ public class AdminUserFieldDAO implements IAdminUserFieldDAO
     private static final String SQL_QUERY_EXISTS_WITH_FILE = " SELECT id_user_field from core_admin_user_field where id_file = ? ";
 
     // INSERT
-    private static final String SQL_QUERY_INSERT = " INSERT INTO core_admin_user_field (id_user_field, id_user, id_attribute, id_field, id_file, user_field_value) "
-            + " VALUES (?,?,?,?,?,?) ";
+    private static final String SQL_QUERY_INSERT = " INSERT INTO core_admin_user_field (id_user, id_attribute, id_field, id_file, user_field_value) "
+            + " VALUES (?,?,?,?,?) ";
 
     // UPDATE
     private static final String SQL_QUERY_UPDATE = " UPDATE core_admin_user_field SET user_field_value = ? WHERE id_user_field = ? ";
@@ -97,29 +95,6 @@ public class AdminUserFieldDAO implements IAdminUserFieldDAO
     private static final String SQL_FILTER_ID_USER = " auf.id_user = ? ";
     private static final String SQL_FILTER_ID_ATTRIBUTE = " auf.id_attribute = ? ";
     private static final String SQL_FILTER_ID_FIELD = " auf.id_field = ? ";
-
-    /**
-     * Generate a new PK
-     * 
-     * @return The new ID
-     */
-    private int newPrimaryKey( )
-    {
-        int nKey = 1;
-        StringBuilder sbSQL = new StringBuilder( SQL_QUERY_NEW_PK );
-        try( DAOUtil daoUtil = new DAOUtil( sbSQL.toString( ) ) )
-        {
-            daoUtil.executeQuery( );
-
-            if ( daoUtil.next( ) )
-            {
-                nKey = daoUtil.getInt( 1 ) + 1;
-            }
-
-        }
-
-        return nKey;
-    }
 
     /**
      * Load the user field
@@ -156,27 +131,30 @@ public class AdminUserFieldDAO implements IAdminUserFieldDAO
     @Override
     public void insert( AdminUserField userField )
     {
-        userField.setIdUserField( newPrimaryKey( ) );
-
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT ) )
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT, Statement.RETURN_GENERATED_KEYS ) )
         {
-            daoUtil.setInt( 1, userField.getIdUserField( ) );
-            daoUtil.setInt( 2, userField.getUser( ).getUserId( ) );
-            daoUtil.setInt( 3, userField.getAttribute( ).getIdAttribute( ) );
-            daoUtil.setInt( 4, userField.getAttributeField( ).getIdField( ) );
+            int nIndex = 1;
+            daoUtil.setInt( nIndex++, userField.getUser( ).getUserId( ) );
+            daoUtil.setInt( nIndex++, userField.getAttribute( ).getIdAttribute( ) );
+            daoUtil.setInt( nIndex++, userField.getAttributeField( ).getIdField( ) );
 
             if ( userField.getFile( ) != null )
             {
-                daoUtil.setInt( 5, userField.getFile( ).getIdFile( ) );
+                daoUtil.setInt( nIndex++, userField.getFile( ).getIdFile( ) );
             }
             else
             {
-                daoUtil.setIntNull( 5 );
+                daoUtil.setIntNull( nIndex++ );
             }
 
-            daoUtil.setString( 6, userField.getValue( ) );
+            daoUtil.setString( nIndex, userField.getValue( ) );
 
             daoUtil.executeUpdate( );
+            
+            if ( daoUtil.nextGeneratedKey( ) )
+            {
+                userField.setIdUserField( daoUtil.getGeneratedKeyInt( 1 ) );
+            }
         }
     }
 
