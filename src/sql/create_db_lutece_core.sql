@@ -562,7 +562,7 @@ CREATE TABLE core_template (
   
 DROP TABLE IF EXISTS core_xsl_export;
 CREATE TABLE core_xsl_export (
-  id_xsl_export INT NOT NULL,
+  id_xsl_export INT AUTO_INCREMENT,
   title VARCHAR(255) DEFAULT NULL,
   description VARCHAR(255) DEFAULT NULL ,
   extension VARCHAR(255) DEFAULT NULL,

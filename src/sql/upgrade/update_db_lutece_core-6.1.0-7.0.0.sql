@@ -56,3 +56,4 @@ ALTER TABLE core_stylesheet modify COLUMN id_stylesheet int AUTO_INCREMENT;
 ALTER TABLE core_attribute modify COLUMN id_attribute int AUTO_INCREMENT;
 ALTER TABLE core_attribute_field modify COLUMN id_field int AUTO_INCREMENT;
 ALTER TABLE core_admin_user_field modify COLUMN id_user_field int AUTO_INCREMENT;
+ALTER TABLE core_xsl_export modify COLUMN id_xsl_export int AUTO_INCREMENT;
