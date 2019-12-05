@@ -35,6 +35,7 @@ package fr.paris.lutece.portal.business.mailinglist;
 
 import fr.paris.lutece.util.sql.DAOUtil;
 
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -45,9 +46,8 @@ import java.util.List;
 public final class MailingListDAO implements IMailingListDAO
 {
     // Constants
-    private static final String SQL_QUERY_NEW_PK = "SELECT max( id_mailinglist ) FROM core_admin_mailinglist";
     private static final String SQL_QUERY_SELECT = "SELECT id_mailinglist, name, description, workgroup FROM core_admin_mailinglist WHERE id_mailinglist = ?";
-    private static final String SQL_QUERY_INSERT = "INSERT INTO core_admin_mailinglist ( id_mailinglist, name, description, workgroup ) VALUES ( ?, ?, ?, ? ) ";
+    private static final String SQL_QUERY_INSERT = "INSERT INTO core_admin_mailinglist ( name, description, workgroup ) VALUES ( ?, ?, ? ) ";
     private static final String SQL_QUERY_DELETE = "DELETE FROM core_admin_mailinglist WHERE id_mailinglist = ? ";
     private static final String SQL_QUERY_UPDATE = "UPDATE core_admin_mailinglist SET id_mailinglist = ?, name = ?, description = ?, workgroup = ? WHERE id_mailinglist = ?";
     private static final String SQL_QUERY_SELECTALL = "SELECT id_mailinglist, name, description, workgroup FROM core_admin_mailinglist";
@@ -61,49 +61,27 @@ public final class MailingListDAO implements IMailingListDAO
     private static final String SQL_QUERY_FILTERS_SELECT = "SELECT id_mailinglist, workgroup, role FROM core_admin_mailinglist_filter WHERE id_mailinglist = ? AND workgroup = ? AND role = ?";
 
     /**
-     * Generates a new primary key
-     *
-     * @return The new primary key
-     */
-    public int newPrimaryKey( )
-    {
-        int nKey;
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_NEW_PK ) )
-        {
-            daoUtil.executeQuery( );
-
-            if ( !daoUtil.next( ) )
-            {
-                // if the table is empty
-                nKey = 1;
-            }
-
-            nKey = daoUtil.getInt( 1 ) + 1;
-        }
-
-        return nKey;
-    }
-
-    /**
      * Insert a new record in the table.
      *
      * @param mailingList
      *            instance of the MailingList object to insert
      */
     @Override
-    public synchronized void insert( MailingList mailingList )
+    public void insert( MailingList mailingList )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT ) )
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT, Statement.RETURN_GENERATED_KEYS ) )
         {
-
-            mailingList.setId( newPrimaryKey( ) );
-
-            daoUtil.setInt( 1, mailingList.getId( ) );
-            daoUtil.setString( 2, mailingList.getName( ) );
-            daoUtil.setString( 3, mailingList.getDescription( ) );
-            daoUtil.setString( 4, mailingList.getWorkgroup( ) );
+            int nIndex = 1;
+            daoUtil.setString( nIndex++, mailingList.getName( ) );
+            daoUtil.setString( nIndex++, mailingList.getDescription( ) );
+            daoUtil.setString( nIndex, mailingList.getWorkgroup( ) );
 
             daoUtil.executeUpdate( );
+            
+            if ( daoUtil.nextGeneratedKey( ) )
+            {
+                mailingList.setId( daoUtil.getGeneratedKeyInt( 1 ) );
+            }
         }
     }
 

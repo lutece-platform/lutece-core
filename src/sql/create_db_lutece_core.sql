@@ -14,7 +14,7 @@ CREATE TABLE core_admin_dashboard (
 --
 DROP TABLE IF EXISTS core_admin_mailinglist;
 CREATE TABLE core_admin_mailinglist (
-	id_mailinglist int default 0 NOT NULL,
+	id_mailinglist int AUTO_INCREMENT,
 	name varchar(100) NOT NULL,
 	description varchar(255) NOT NULL,
 	workgroup varchar(50) NOT NULL,

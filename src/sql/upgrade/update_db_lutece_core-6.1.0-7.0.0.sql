@@ -42,3 +42,5 @@ INSERT INTO core_text_editor VALUES ( 'tinymce', 'portal.admindashboard.editors.
 INSERT INTO core_text_editor VALUES ( '', 'portal.admindashboard.editors.labelBackNoEditor', 1 );
 INSERT INTO core_text_editor VALUES ( '', 'portal.admindashboard.editors.labelFrontNoEditor', 0 );
 INSERT INTO core_text_editor VALUES ( 'markitupbbcode', 'portal.admindashboard.editors.labelFrontMarkitupBBCode', 0 );
+
+ALTER TABLE core_admin_mailinglist modify COLUMN id_mailinglist int AUTO_INCREMENT;
