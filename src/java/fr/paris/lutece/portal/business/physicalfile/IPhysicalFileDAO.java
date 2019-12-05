@@ -40,12 +40,6 @@ package fr.paris.lutece.portal.business.physicalfile;
  */
 public interface IPhysicalFileDAO
 {
-    /**
-     * Generates a new primary key
-     *
-     * @return The new primary key
-     */
-    int newPrimaryKey( );
 
     /**
      * Insert a new record in the table.

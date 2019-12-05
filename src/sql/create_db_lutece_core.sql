@@ -306,7 +306,7 @@ CREATE TABLE core_page_template (
 --
 DROP TABLE IF EXISTS core_physical_file;
 CREATE TABLE core_physical_file (
-	id_physical_file INT DEFAULT 0 NOT NULL,
+	id_physical_file int AUTO_INCREMENT,
 	file_value LONG VARBINARY,  
 	PRIMARY KEY (id_physical_file)
 );

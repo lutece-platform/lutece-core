@@ -33,6 +33,8 @@
  */
 package fr.paris.lutece.portal.business.physicalfile;
 
+import java.sql.Statement;
+
 import fr.paris.lutece.util.sql.DAOUtil;
 
 /**
@@ -41,9 +43,8 @@ import fr.paris.lutece.util.sql.DAOUtil;
 public final class PhysicalFileDAO implements IPhysicalFileDAO
 {
     // Constants
-    private static final String SQL_QUERY_NEW_PK = "SELECT max( id_physical_file ) FROM core_physical_file";
     private static final String SQL_QUERY_FIND_BY_PRIMARY_KEY = "SELECT id_physical_file,file_value" + " FROM core_physical_file WHERE id_physical_file = ?";
-    private static final String SQL_QUERY_INSERT = "INSERT INTO core_physical_file(id_physical_file,file_value)" + " VALUES(?,?)";
+    private static final String SQL_QUERY_INSERT = "INSERT INTO core_physical_file(file_value)" + " VALUES(?)";
     private static final String SQL_QUERY_DELETE = "DELETE FROM core_physical_file WHERE id_physical_file = ? ";
     private static final String SQL_QUERY_UPDATE = "UPDATE  core_physical_file SET " + "id_physical_file=?,file_value=? WHERE id_physical_file = ?";
 
@@ -51,40 +52,18 @@ public final class PhysicalFileDAO implements IPhysicalFileDAO
      * {@inheritDoc}
      */
     @Override
-    public int newPrimaryKey( )
+    public int insert( PhysicalFile physicalFile )
     {
-        int nKey;
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_NEW_PK ) )
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT, Statement.RETURN_GENERATED_KEYS ) )
         {
-            daoUtil.executeQuery( );
-
-            if ( !daoUtil.next( ) )
-            {
-                // if the table is empty
-                nKey = 1;
-            }
-
-            nKey = daoUtil.getInt( 1 ) + 1;
-        }
-
-        return nKey;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public synchronized int insert( PhysicalFile physicalFile )
-    {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT ) )
-        {
-            daoUtil.setBytes( 2, physicalFile.getValue( ) );
-            physicalFile.setIdPhysicalFile( newPrimaryKey( ) );
-            daoUtil.setInt( 1, physicalFile.getIdPhysicalFile( ) );
+            daoUtil.setBytes( 1, physicalFile.getValue( ) );
             daoUtil.executeUpdate( );
 
+            if ( daoUtil.nextGeneratedKey( ) )
+            {
+                physicalFile.setIdPhysicalFile( daoUtil.getGeneratedKeyInt( 1 ) );
+            }
         }
-
         return physicalFile.getIdPhysicalFile( );
     }
 
