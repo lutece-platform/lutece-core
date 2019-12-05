@@ -420,7 +420,7 @@ CREATE INDEX index_style_mode_stylesheet ON core_style_mode_stylesheet (id_style
 --
 DROP TABLE IF EXISTS core_stylesheet;
 CREATE TABLE core_stylesheet (
-	id_stylesheet int default 0 NOT NULL,
+	id_stylesheet int AUTO_INCREMENT,
 	description varchar(255),
 	file_name varchar(255),
 	source long varbinary,
