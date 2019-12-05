@@ -82,7 +82,7 @@ CREATE TABLE core_admin_role_resource (
 --
 DROP TABLE IF EXISTS core_admin_user;
 CREATE TABLE core_admin_user (
-	id_user int default 0 NOT NULL,
+	id_user int AUTO_INCREMENT,
 	access_code varchar(100) default '' NOT NULL,
 	last_name varchar(100) default '' NOT NULL,
 	first_name varchar(100) default '' NOT NULL,

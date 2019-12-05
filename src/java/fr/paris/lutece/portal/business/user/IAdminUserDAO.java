@@ -175,13 +175,6 @@ public interface IAdminUserDAO
     LuteceDefaultAdminUser loadDefaultAdminUser( int nUserId );
 
     /**
-     * Generates a new primary key
-     * 
-     * @return nKey
-     */
-    int newPrimaryKey( );
-
-    /**
      * Get the right list associated to a given user id
      * 
      * @param nUserId
