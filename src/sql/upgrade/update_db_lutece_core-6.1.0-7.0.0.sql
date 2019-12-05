@@ -44,3 +44,4 @@ INSERT INTO core_text_editor VALUES ( '', 'portal.admindashboard.editors.labelFr
 INSERT INTO core_text_editor VALUES ( 'markitupbbcode', 'portal.admindashboard.editors.labelFrontMarkitupBBCode', 0 );
 
 ALTER TABLE core_admin_mailinglist modify COLUMN id_mailinglist int AUTO_INCREMENT;
+ALTER TABLE core_admin_role_resource modify COLUMN rbac_id int AUTO_INCREMENT;

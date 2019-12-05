@@ -69,7 +69,7 @@ CREATE TABLE core_admin_role (
 --
 DROP TABLE IF EXISTS core_admin_role_resource;
 CREATE TABLE core_admin_role_resource (
-	rbac_id int default 0 NOT NULL,
+	rbac_id int AUTO_INCREMENT,
 	role_key varchar(50) default '' NOT NULL,
 	resource_type varchar(50) default '' NOT NULL,
 	resource_id varchar(50) default '' NOT NULL,

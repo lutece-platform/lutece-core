@@ -35,6 +35,7 @@ package fr.paris.lutece.portal.business.rbac;
 
 import fr.paris.lutece.util.sql.DAOUtil;
 
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -44,9 +45,8 @@ import java.util.Collection;
 public final class RBACDAO implements IRBACDAO
 {
     // Constants
-    private static final String SQL_QUERY_NEW_PK = " SELECT max( rbac_id ) FROM core_admin_role_resource ";
     private static final String SQL_QUERY_SELECT = " SELECT rbac_id, role_key, resource_type, resource_id, permission FROM core_admin_role_resource WHERE rbac_id = ?  ";
-    private static final String SQL_QUERY_INSERT = " INSERT INTO core_admin_role_resource ( rbac_id, role_key, resource_type, resource_id, permission ) VALUES ( ?, ?, ?, ?, ? ) ";
+    private static final String SQL_QUERY_INSERT = " INSERT INTO core_admin_role_resource ( role_key, resource_type, resource_id, permission ) VALUES ( ?, ?, ?, ? ) ";
     private static final String SQL_QUERY_DELETE = " DELETE FROM core_admin_role_resource WHERE rbac_id = ?  ";
     private static final String SQL_QUERY_UPDATE = " UPDATE core_admin_role_resource SET rbac_id = ?, role_key = ?, resource_type = ?, resource_id = ?, permission = ? WHERE rbac_id = ?  ";
     private static final String SQL_QUERY_SELECTALL = " SELECT rbac_id, role_key, resource_type, resource_id, permission FROM core_admin_role_resource ";
@@ -60,49 +60,28 @@ public final class RBACDAO implements IRBACDAO
             + "( resource_id = ? OR resource_id= ? ) AND" + "( permission = ? OR permission= ? )";
 
     /**
-     * Generates a new primary key
-     * 
-     * @return The new primary key
-     */
-    int newPrimaryKey( )
-    {
-        int nKey;
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_NEW_PK ) )
-        {
-            daoUtil.executeQuery( );
-
-            if ( !daoUtil.next( ) )
-            {
-                // if the table is empty
-                nKey = 1;
-            }
-
-            nKey = daoUtil.getInt( 1 ) + 1;
-
-        }
-
-        return nKey;
-    }
-
-    /**
      * Insert a new record in the table.
      *
      * @param rBAC
      *            The rBAC object
      */
-    public synchronized void insert( RBAC rBAC )
+    public void insert( RBAC rBAC )
     {
-        rBAC.setRBACId( newPrimaryKey( ) );
-
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT ) )
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT, Statement.RETURN_GENERATED_KEYS ) )
         {
-            daoUtil.setInt( 1, rBAC.getRBACId( ) );
-            daoUtil.setString( 2, rBAC.getRoleKey( ) );
-            daoUtil.setString( 3, rBAC.getResourceTypeKey( ) );
-            daoUtil.setString( 4, rBAC.getResourceId( ) );
-            daoUtil.setString( 5, rBAC.getPermissionKey( ) );
+            int nIndex = 1;
+            daoUtil.setString( nIndex++, rBAC.getRoleKey( ) );
+            daoUtil.setString( nIndex++, rBAC.getResourceTypeKey( ) );
+            daoUtil.setString( nIndex++, rBAC.getResourceId( ) );
+            daoUtil.setString( nIndex, rBAC.getPermissionKey( ) );
 
             daoUtil.executeUpdate( );
+            
+            if ( daoUtil.nextGeneratedKey( ) )
+            {
+                rBAC.setRBACId( daoUtil.getGeneratedKeyInt( 1 ) );
+            }
+
         }
     }
 
