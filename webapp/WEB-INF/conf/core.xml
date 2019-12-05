@@ -113,6 +113,12 @@
             <daemon-description>portal.system.daemon.threadLauncherDaemon.description</daemon-description>
             <daemon-class>fr.paris.lutece.portal.service.daemon.ThreadLauncherDaemon</daemon-class>
         </daemon>
+        <daemon>
+            <daemon-id>temporaryfilesDaemon</daemon-id>
+            <daemon-name>portal.tempfiles.daemon.temporaryfilesDaemon.name</daemon-name>
+            <daemon-description>portal.tempfiles.daemon.temporaryfilesDaemon.description</daemon-description>
+            <daemon-class>fr.paris.lutece.portal.service.daemon.TemporaryFileDaemon</daemon-class>
+        </daemon>
     </daemons>
 
     <!-- RBAC Resources -->

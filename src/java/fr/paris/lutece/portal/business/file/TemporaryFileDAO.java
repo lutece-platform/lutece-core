@@ -33,15 +33,16 @@
  */
 package fr.paris.lutece.portal.business.file;
 
-import fr.paris.lutece.portal.business.physicalfile.PhysicalFile;
-import fr.paris.lutece.portal.business.user.AdminUser;
-import fr.paris.lutece.util.sql.DAOUtil;
-
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import fr.paris.lutece.portal.business.physicalfile.PhysicalFile;
+import fr.paris.lutece.portal.business.user.AdminUser;
+import fr.paris.lutece.util.sql.DAOUtil;
 
 /**
  * This class provides Data Access methods for Field objects
@@ -57,7 +58,8 @@ public final class TemporaryFileDAO implements ITemporaryFileDAO
             + " VALUES(?,?,?,?,?,?,?)";
     private static final String SQL_QUERY_DELETE = "DELETE FROM core_temporary_file WHERE id_file = ? ";
     private static final String SQL_QUERY_UPDATE = "UPDATE core_temporary_file SET id_file=?,id_user=?,title=?,description=?,id_physical_file=?,file_size=?,mime_type=? WHERE id_file = ?";
-
+    private static final String SQL_QUERY_OLDER_THAN_DAYS = SQL_QUERY_SELECT_ALL + " WHERE date_creation < ? ";
+    
     /**
      * Insert a new record in the table.
      *
@@ -214,5 +216,23 @@ public final class TemporaryFileDAO implements ITemporaryFileDAO
         file.setDateCreation( daoUtil.getTimestamp( nIndex ) );
 
         return file;
+    }
+    
+    @Override
+    public List<TemporaryFile> selectFilesOlderThan( int days )
+    {
+        List<TemporaryFile> fileList = new ArrayList<>( );
+        LocalDateTime oldDate = LocalDateTime.now( ).minusDays( days );
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_OLDER_THAN_DAYS ) )
+        {
+            daoUtil.setTimestamp( 1, Timestamp.valueOf( oldDate ) );
+            
+            daoUtil.executeQuery( );
+            while ( daoUtil.next( ) )
+            {
+                fileList.add( dataToObject( daoUtil ) );
+            }
+        }
+        return fileList;
     }
 }

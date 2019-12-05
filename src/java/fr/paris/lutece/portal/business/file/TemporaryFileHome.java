@@ -140,4 +140,22 @@ public final class TemporaryFileHome
     {
         return _dao.findByUser( user );
     }
+    
+    /**
+     * Delete the temporary files older than the given number of days
+     * @param days
+     */
+    public static void deleteFilesOlderThan( int days )
+    {
+        List<TemporaryFile> files = _dao.selectFilesOlderThan( days );
+        
+        for ( TemporaryFile file : files )
+        {
+            if ( file.getPhysicalFile( ) != null )
+            {
+                PhysicalFileHome.remove( file.getPhysicalFile( ).getIdPhysicalFile( ) );
+            }
+            _dao.delete( file.getIdFile( ) );
+        }
+    }
 }

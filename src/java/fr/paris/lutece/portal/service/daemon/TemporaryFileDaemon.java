@@ -31,65 +31,20 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.portal.business.file;
+package fr.paris.lutece.portal.service.daemon;
 
-import java.util.List;
+import fr.paris.lutece.portal.business.file.TemporaryFileHome;
+import fr.paris.lutece.portal.service.util.AppPropertiesService;
 
-import fr.paris.lutece.portal.business.user.AdminUser;
-
-/**
-*
-* ITemporaryFileDAO
-*
-*/
-public interface ITemporaryFileDAO
+public class TemporaryFileDaemon extends Daemon
 {
-
-    /**
-     * Insert a new record in the table.
-     *
-     * @param file
-     *            instance of the File object to insert
-     * @return the id of the new file
-     */
-    int insert( TemporaryFile file );
-
-    /**
-     * Load the data of the File from the table
-     *
-     * @param nId
-     *            The identifier of the file
-     * @return the instance of the File
-     */
-    TemporaryFile load( int nId );
-
-    /**
-     * Delete a record from the table
-     *
-     * @param nIdFile
-     *            The identifier of the file
-     */
-    void delete( int nIdFile );
-
-    /**
-     * Update the file in the table
-     *
-     * @param file
-     *            instance of the File object to update
-     */
-    void store( TemporaryFile file );
+    private static final int DAYS_BEFORE_DELETE = Integer.parseInt( AppPropertiesService.getProperty( "tempfiles.days.defore.delete", "30" ) );
     
-    /**
-     * Load all the files of an user.
-     *
-     * @param user the user
-     * @return the list of File
-     */
-    List<TemporaryFile> findByUser( AdminUser user );
-    
-    /**
-     * Select files older than the given number of days 
-     * @param days
-     */
-    List<TemporaryFile> selectFilesOlderThan( int days );
+    @Override
+    public void run( )
+    {
+        TemporaryFileHome.deleteFilesOlderThan( DAYS_BEFORE_DELETE );
+        
+    }
+
 }

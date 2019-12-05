@@ -102,4 +102,21 @@ public class TemporaryFileBusinessTest extends LuteceTestCase
         TemporaryFileHome.remove( file1.getIdFile( ) );
         TemporaryFileHome.remove( file2.getIdFile( ) );
     }
+    
+    public void testDeleteFilesOlderThan( )
+    {
+        TemporaryFile file = new TemporaryFile( );
+        file.setUser( _user1 );
+        TemporaryFileHome.create( file );
+        
+        TemporaryFile loaded = TemporaryFileHome.findByPrimaryKey( file.getIdFile( ) );
+        
+        assertNotNull( loaded );
+        
+        TemporaryFileHome.deleteFilesOlderThan( -1 );
+        
+        loaded = TemporaryFileHome.findByPrimaryKey( file.getIdFile( ) );
+        
+        assertNull( loaded );
+    }
 }
