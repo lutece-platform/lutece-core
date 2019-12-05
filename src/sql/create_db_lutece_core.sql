@@ -498,7 +498,7 @@ CREATE TABLE core_attribute (
 --
 DROP TABLE IF EXISTS core_attribute_field;
 CREATE TABLE core_attribute_field (
-	id_field INT DEFAULT 0 NOT NULL,
+	id_field INT AUTO_INCREMENT,
 	id_attribute INT DEFAULT NULL,
 	title VARCHAR(255) DEFAULT NULL,
 	DEFAULT_value LONG VARCHAR DEFAULT NULL,
