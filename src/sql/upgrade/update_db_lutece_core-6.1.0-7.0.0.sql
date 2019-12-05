@@ -46,3 +46,4 @@ INSERT INTO core_text_editor VALUES ( 'markitupbbcode', 'portal.admindashboard.e
 ALTER TABLE core_admin_mailinglist modify COLUMN id_mailinglist int AUTO_INCREMENT;
 ALTER TABLE core_admin_role_resource modify COLUMN rbac_id int AUTO_INCREMENT;
 ALTER TABLE core_admin_user modify COLUMN id_user int AUTO_INCREMENT;
+ALTER TABLE core_file modify COLUMN id_file int AUTO_INCREMENT;

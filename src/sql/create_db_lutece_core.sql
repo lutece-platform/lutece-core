@@ -184,7 +184,7 @@ CREATE TABLE core_feature_group (
 --
 DROP TABLE IF EXISTS core_file;
 CREATE TABLE core_file (
-	id_file INT DEFAULT 0 NOT NULL,
+	id_file int AUTO_INCREMENT,
 	title LONG VARCHAR DEFAULT NULL, 
 	id_physical_file INT DEFAULT NULL,  
 	file_size  INT DEFAULT NULL,

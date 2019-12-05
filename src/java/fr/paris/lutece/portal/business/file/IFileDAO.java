@@ -40,12 +40,6 @@ package fr.paris.lutece.portal.business.file;
  */
 public interface IFileDAO
 {
-    /**
-     * Generates a new primary key
-     *
-     * @return The new primary key
-     */
-    int newPrimaryKey( );
 
     /**
      * Insert a new record in the table.

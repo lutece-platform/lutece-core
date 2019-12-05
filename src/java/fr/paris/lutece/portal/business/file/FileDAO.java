@@ -35,6 +35,8 @@ package fr.paris.lutece.portal.business.file;
 
 import fr.paris.lutece.portal.business.physicalfile.PhysicalFile;
 import fr.paris.lutece.util.sql.DAOUtil;
+
+import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.Date;
 
@@ -44,38 +46,12 @@ import java.util.Date;
 public final class FileDAO implements IFileDAO
 {
     // Constants
-    private static final String SQL_QUERY_NEW_PK = "SELECT max( id_file ) FROM core_file";
     private static final String SQL_QUERY_FIND_BY_PRIMARY_KEY = "SELECT id_file,title,id_physical_file,file_size,mime_type,date_creation"
             + " FROM core_file WHERE id_file = ?";
-    private static final String SQL_QUERY_INSERT = "INSERT INTO core_file(id_file,title,id_physical_file,file_size,mime_type,date_creation)"
-            + " VALUES(?,?,?,?,?,?)";
+    private static final String SQL_QUERY_INSERT = "INSERT INTO core_file(title,id_physical_file,file_size,mime_type,date_creation)"
+            + " VALUES(?,?,?,?,?)";
     private static final String SQL_QUERY_DELETE = "DELETE FROM core_file WHERE id_file = ? ";
     private static final String SQL_QUERY_UPDATE = "UPDATE  core_file SET " + "id_file=?,title=?,id_physical_file=?,file_size=?,mime_type=? WHERE id_file = ?";
-
-    /**
-     * Generates a new primary key
-     *
-     * @return The new primary key
-     */
-    @Override
-    public int newPrimaryKey( )
-    {
-        int nKey;
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_NEW_PK ) )
-        {
-            daoUtil.executeQuery( );
-
-            if ( !daoUtil.next( ) )
-            {
-                // if the table is empty
-                nKey = 1;
-            }
-
-            nKey = daoUtil.getInt( 1 ) + 1;
-        }
-
-        return nKey;
-    }
 
     /**
      * Insert a new record in the table.
@@ -86,28 +62,31 @@ public final class FileDAO implements IFileDAO
      */
 
     @Override
-    public synchronized int insert( File file )
+    public int insert( File file )
     {
-        file.setIdFile( newPrimaryKey( ) );
-
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT ) )
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT, Statement.RETURN_GENERATED_KEYS ) )
         {
-            daoUtil.setString( 2, file.getTitle( ) );
+            int nIndex = 1;
+            daoUtil.setString( nIndex++, file.getTitle( ) );
 
             if ( file.getPhysicalFile( ) != null )
             {
-                daoUtil.setInt( 3, file.getPhysicalFile( ).getIdPhysicalFile( ) );
+                daoUtil.setInt( nIndex++, file.getPhysicalFile( ).getIdPhysicalFile( ) );
             }
             else
             {
-                daoUtil.setIntNull( 3 );
+                daoUtil.setIntNull( nIndex++ );
             }
 
-            daoUtil.setInt( 4, file.getSize( ) );
-            daoUtil.setString( 5, file.getMimeType( ) );
-            daoUtil.setTimestamp( 6, new Timestamp( new Date( ).getTime( ) ) );
-            daoUtil.setInt( 1, file.getIdFile( ) );
+            daoUtil.setInt( nIndex++, file.getSize( ) );
+            daoUtil.setString( nIndex++, file.getMimeType( ) );
+            daoUtil.setTimestamp( nIndex, new Timestamp( new Date( ).getTime( ) ) );
             daoUtil.executeUpdate( );
+            
+            if ( daoUtil.nextGeneratedKey( ) )
+            {
+                file.setIdFile( daoUtil.getGeneratedKeyInt( 1 ) );
+            }
 
         }
 
