@@ -37,6 +37,7 @@ import fr.paris.lutece.portal.business.stylesheet.StyleSheet;
 import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.sql.DAOUtil;
 
+import java.sql.Statement;
 import java.sql.Timestamp;
 
 import java.util.ArrayList;
@@ -49,7 +50,6 @@ import java.util.List;
 public final class PortletDAO implements IPortletDAO
 {
     // queries
-    private static final String SQL_QUERY_NEW_PK = "SELECT max(id_portlet) FROM core_portlet ";
     private static final String SQL_QUERY_UPDATE = " UPDATE core_portlet SET name = ?, date_update = ?, column_no = ?, "
             + " portlet_order = ? , id_style = ? , id_page = ?, accept_alias = ? , display_portlet_title = ?, role = ?, device_display_flags = ? "
             + " WHERE id_portlet = ?";
@@ -61,9 +61,9 @@ public final class PortletDAO implements IPortletDAO
             + " WHERE a.id_portlet = b.id_portlet AND b.id_alias= ? ";
     private static final String SQL_QUERY_DELETE = "DELETE FROM core_portlet WHERE id_portlet = ?";
     private static final String SQL_QUERY_UPDATE_STATUS = " UPDATE core_portlet SET status = ?, date_update = ? WHERE id_portlet = ? ";
-    private static final String SQL_QUERY_INSERT = " INSERT INTO core_portlet ( id_portlet, id_portlet_type, id_page, id_style, name, "
+    private static final String SQL_QUERY_INSERT = " INSERT INTO core_portlet ( id_portlet_type, id_page, id_style, name, "
             + " date_creation, date_update, status, column_no, portlet_order, accept_alias, display_portlet_title, role, device_display_flags ) "
-            + " VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? , ?, ?, ?)";
+            + " VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ? , ?, ?, ?)";
     private static final String SQL_QUERY_SELECT_PORTLET_LIST_BY_STYLE = "SELECT id_portlet, name, id_page FROM core_portlet WHERE id_style=?";
     private static final String SQL_QUERY_SELECT_PORTLET_LIST_BY_ROLE = "SELECT id_portlet, name, id_page FROM core_portlet WHERE role=?";
     private static final String SQL_QUERY_SELECT_XSL_FILE = " SELECT a.id_stylesheet , a.description , a.file_name, a.source "
@@ -96,25 +96,29 @@ public final class PortletDAO implements IPortletDAO
      */
     public void insert( Portlet portlet )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT ) )
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT, Statement.RETURN_GENERATED_KEYS ) )
         {
-
-            daoUtil.setInt( 1, portlet.getId( ) );
-            daoUtil.setString( 2, portlet.getPortletTypeId( ) );
-            daoUtil.setInt( 3, portlet.getPageId( ) );
-            daoUtil.setInt( 4, portlet.getStyleId( ) );
-            daoUtil.setString( 5, portlet.getName( ) );
-            daoUtil.setTimestamp( 6, new Timestamp( new java.util.Date( ).getTime( ) ) );
-            daoUtil.setTimestamp( 7, new Timestamp( new java.util.Date( ).getTime( ) ) );
-            daoUtil.setInt( 8, portlet.getStatus( ) );
-            daoUtil.setInt( 9, portlet.getColumn( ) );
-            daoUtil.setInt( 10, portlet.getOrder( ) );
-            daoUtil.setInt( 11, portlet.getAcceptAlias( ) );
-            daoUtil.setInt( 12, portlet.getDisplayPortletTitle( ) );
-            daoUtil.setString( 13, portlet.getRole( ) );
-            daoUtil.setInt( 14, portlet.getDeviceDisplayFlags( ) );
+            int nIndex = 1;
+            daoUtil.setString( nIndex++, portlet.getPortletTypeId( ) );
+            daoUtil.setInt( nIndex++, portlet.getPageId( ) );
+            daoUtil.setInt( nIndex++, portlet.getStyleId( ) );
+            daoUtil.setString( nIndex++, portlet.getName( ) );
+            daoUtil.setTimestamp( nIndex++, new Timestamp( new java.util.Date( ).getTime( ) ) );
+            daoUtil.setTimestamp( nIndex++, new Timestamp( new java.util.Date( ).getTime( ) ) );
+            daoUtil.setInt( nIndex++, portlet.getStatus( ) );
+            daoUtil.setInt( nIndex++, portlet.getColumn( ) );
+            daoUtil.setInt( nIndex++, portlet.getOrder( ) );
+            daoUtil.setInt( nIndex++, portlet.getAcceptAlias( ) );
+            daoUtil.setInt( nIndex++, portlet.getDisplayPortletTitle( ) );
+            daoUtil.setString( nIndex++, portlet.getRole( ) );
+            daoUtil.setInt( nIndex, portlet.getDeviceDisplayFlags( ) );
 
             daoUtil.executeUpdate( );
+            
+            if ( daoUtil.nextGeneratedKey( ) )
+            {
+                portlet.setId( daoUtil.getGeneratedKeyInt( 1 ) );
+            }
         }
     }
 
@@ -205,30 +209,6 @@ public final class PortletDAO implements IPortletDAO
 
             daoUtil.executeUpdate( );
         }
-    }
-
-    /**
-     * Returns a new primary key which will be used to add a new portlet
-     *
-     * @return The new key.
-     */
-    public int newPrimaryKey( )
-    {
-        int nKey;
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_NEW_PK ) )
-        {
-            daoUtil.executeQuery( );
-
-            if ( !daoUtil.next( ) )
-            {
-                nKey = 1; // if the table is empty
-            }
-
-            nKey = daoUtil.getInt( 1 ) + 1;
-
-        }
-
-        return nKey;
     }
 
     /**

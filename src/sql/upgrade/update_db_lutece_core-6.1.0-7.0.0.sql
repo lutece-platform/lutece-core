@@ -51,3 +51,4 @@ ALTER TABLE core_indexer_action modify COLUMN id_action int AUTO_INCREMENT;
 ALTER TABLE core_page modify COLUMN id_page int AUTO_INCREMENT;
 ALTER TABLE core_page_template modify COLUMN id_template int AUTO_INCREMENT;
 ALTER TABLE core_physical_file modify COLUMN id_physical_file int AUTO_INCREMENT;
+ALTER TABLE core_portlet modify COLUMN id_portlet int AUTO_INCREMENT;

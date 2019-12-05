@@ -326,7 +326,7 @@ CREATE TABLE core_portal_component (
 --
 DROP TABLE IF EXISTS core_portlet;
 CREATE TABLE core_portlet (
-	id_portlet int default 0 NOT NULL,
+	id_portlet int AUTO_INCREMENT,
 	id_portlet_type varchar(50) default NULL,
 	id_page int default NULL,
 	name varchar(70) default NULL,
