@@ -72,8 +72,9 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * MVC Admin JspBean implementation let use MVC model to develop admin feature.
  */
-public abstract class MVCAdminJspBean extends PluginAdminPageJspBean implements Serializable
+public abstract class MVCAdminJspBean extends PluginAdminPageJspBean
 {
+    private static final long serialVersionUID = 278165302545398831L;
     private static final String MARK_ERRORS = "errors";
     private static final String MARK_INFOS = "infos";
     private static final String MARK_WARNINGS = "warnings";

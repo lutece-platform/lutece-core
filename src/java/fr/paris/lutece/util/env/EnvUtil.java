@@ -49,10 +49,10 @@ public final class EnvUtil
 
     private static Pattern _pattern = Pattern.compile( PATTERN_MARKER );
 
-    private static Map<String, String> _mapEnv = System.getenv();; 
+    private static Map<String, String> _mapEnv = System.getenv();
     
     // Private constructor
-    private EnvUtil()
+    private EnvUtil( )
     {
     }
 
@@ -74,10 +74,10 @@ public final class EnvUtil
      */
     public static String evaluate( String strSource , String strEnvPrefix )
     {
-        String strOutput = (strSource != null) ? strSource : "";
+        String strOutput = ( strSource != null ) ? strSource : "";
         Matcher matcher = _pattern.matcher( strOutput );
         
-        while( matcher.find())
+        while ( matcher.find( ) )
         {
             String strMarker = matcher.group();
             String strEnvVariable = strMarker.substring( 2 + strEnvPrefix.length(), strMarker.length() - 1 );

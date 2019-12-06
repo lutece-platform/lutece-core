@@ -77,6 +77,8 @@ import fr.paris.lutece.util.url.UrlItem;
  */
 public class MailingListJspBean extends AdminFeaturesPageJspBean
 {
+    private static final long serialVersionUID = -1589153949244582338L;
+
     // Rights
     public static final String RIGHT_MANAGE_MAILINGLISTS = "CORE_MAILINGLISTS_MANAGEMENT";
 

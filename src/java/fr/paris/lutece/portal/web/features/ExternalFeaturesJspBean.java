@@ -62,7 +62,7 @@ import fr.paris.lutece.util.html.HtmlTemplate;
  */
 public class ExternalFeaturesJspBean extends AdminFeaturesPageJspBean
 {
-
+    private static final long serialVersionUID = -5179996626579180810L;
     // Properties
     private static final String PROPERTY_CREATE_EXTERNAL_FEATURE_PAGETITLE = "portal.features.create_external_feature.pageTitle";
     private static final String PROPERTY_MODIFY_EXTERNAL_FEATURE_PAGETITLE = "portal.features.modify_external_feature.pageTitle";

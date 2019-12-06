@@ -75,6 +75,8 @@ import fr.paris.lutece.util.url.UrlItem;
  */
 public class RightJspBean extends AdminFeaturesPageJspBean
 {
+    private static final long serialVersionUID = 8074788265698162631L;
+
     // Right
     public static final String RIGHT_MANAGE_RIGHTS = "CORE_RIGHT_MANAGEMENT";
 

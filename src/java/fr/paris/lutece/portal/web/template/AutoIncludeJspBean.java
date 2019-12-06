@@ -48,6 +48,8 @@ import javax.servlet.http.HttpServletRequest;
 @Controller( controllerJsp = "ManageAutoIncludes.jsp", controllerPath = "jsp/admin/templates/", right = "CORE_TEMPLATES_AUTO_INCLUDES_MANAGEMENT" )
 public class AutoIncludeJspBean extends MVCAdminJspBean
 {
+    private static final long serialVersionUID = 3045411044102177294L;
+
     // Rights
     public static final String RIGHT_MANAGEAUTOINCLUDES = "CORE_TEMPLATES_AUTO_INCLUDES_MANAGEMENT";
 

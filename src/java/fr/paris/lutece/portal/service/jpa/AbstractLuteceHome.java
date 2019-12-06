@@ -50,7 +50,7 @@ import java.util.List;
  * @param <D>
  *            the generic type
  */
-public abstract class AbstractLuteceHome<K, E, D extends IGenericDAO<K, E> > implements IGenericHome<K, E>
+public abstract class AbstractLuteceHome<K, E, D extends IGenericDAO<K, E>> implements IGenericHome<K, E>
 {
     private D _dao;
 
