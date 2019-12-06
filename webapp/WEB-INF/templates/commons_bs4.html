@@ -283,33 +283,23 @@
 </#macro>
 
 <#-- MACRO TH -->
-<#macro th id='' class='' showXs=true showSm=true showMd=true showLg=true showXl=true cols=0 xs=0 sm=0 md=0 lg=0 xl=0 flex=false params=''>
-	<#local thClass = class />
-	<#if !showXs><#local thClass = thClass + ' d-none d-sm-table-cell'></#if>
-	<#if !showSm><#local thClass = thClass + ' d-none d-md-table-cell'></#if>
-	<#if !showMd><#local thClass = thClass + ' d-none d-lg-table-cell'></#if>
-	<#if !showLg><#local thClass = thClass + ' d-none d-xl-table-cell'></#if>
-	<#if !showXl><#local thClass = thClass + ' d-none'></#if>
+<#macro th id='' class='' hide=[] showXs=true showSm=true showMd=true showLg=true showXl=true cols=0 xs=0 sm=0 md=0 lg=0 xl=0 flex=false params=''>
+	<#local class += displaySettings(hide,'table-cell') />
 	<#if cols!=0>
-		<#local thClass = thClass + ' col-${cols}' />
+		<#local class += ' col-${cols}' />
 	</#if>
-	<th class="<#if thClass != ''>${thClass}</#if><#if sm!=0> col-sm-${sm}</#if><#if md!=0> col-md-${md}</#if><#if lg!=0> col-lg-${lg}</#if><#if xl!=0> col-xl-${xl}</#if><#if flex> d-flex</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+	<th class="<#if class != ''>${class}</#if><#if flex> d-flex</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 		<#nested>
 	</th>
 </#macro>
 
 <#-- MACRO TD -->
-<#macro td id='' class='' showXs=true showSm=true showMd=true showLg=true showXl=true cols=0 xs=0 sm=0 md=0 lg=0 xl=0 flex=false params=''>
-	<#local tdClass=class />
-	<#if !showXs><#local tdClass = tdClass + ' d-none d-sm-table-cell'></#if>
-	<#if !showSm><#local tdClass = tdClass + ' d-none d-md-table-cell'></#if>
-	<#if !showMd><#local tdClass = tdClass + ' d-none d-lg-table-cell'></#if>
-	<#if !showLg><#local tdClass = tdClass + ' d-none d-xl-table-cell'></#if>
-	<#if !showXl><#local tdClass = tdClass + ' d-none'></#if>
+<#macro td id='' class='' hide=[] showXs=true showSm=true showMd=true showLg=true showXl=true cols=0 xs=0 sm=0 md=0 lg=0 xl=0 flex=false params=''>
+	<#local class += displaySettings(hide,'table-cell') />
 	<#if cols!=0>
-		<#local tdClass = tdClass + ' col-${cols}' />
+		<#local class += ' col-${cols}' />
 	</#if>
-	<td class="<#if tdClass != ''>${tdClass}</#if><#if sm!=0> col-sm-${sm}</#if><#if md!=0> col-md-${md}</#if><#if lg!=0> col-lg-${lg}</#if><#if xl!=0> col-xl-${xl}</#if><#if flex> d-flex</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+	<td class="<#if class != ''>${class}</#if><#if flex> d-flex</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 		<#nested>
 	</td>
 </#macro>
@@ -432,7 +422,7 @@
 <#macro input name type='text' value='' class='' size='' inputSize=0 maxlength=0 placeHolder='' rows=4 cols=40 richtext=false tabIndex='' id='' disabled=false readonly=false pattern='' params='' title='' min=0 max=0>
 	<#if type='textarea'>
 		<textarea name="${name}" class="form-control<#if size!=''> form-control-${size}</#if><#if class!=''> ${class}</#if><#if richtext> richtext</#if>" rows="${rows}" cols="${cols}"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}"</#if><#if title!=''> title="${title}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if mandatory?? && mandatory && !richtext> required</#if><#if labelFor?? && labelFor!='' && helpKey?? && helpKey!=''> aria-describedby="${labelFor}_help"</#if>><#nested></textarea>
-	<#elseif type='text' || type='search' || type='password' || type='email' || type='file' || type='number'>
+	<#elseif type='text' || type='search' || type='password' || type='email' || type='file' || type='number' || type='date'>
 		<input class="form-control<#if type='file'>-file</#if><#if size!=''> form-control-${size}</#if><#if class!=''> ${class}</#if>" name="${name}" type="${type}" value="${value}"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}<#if mandatory?? && mandatory> [#i18n{portal.users.modify_attribute.labelMandatory}]</#if>"</#if><#if title!=''> title="${title}"</#if><#if maxlength &gt; 0> maxlength="${maxlength}"</#if><#if inputSize!=0> size="${inputSize}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if min!=0> min="${min}"</#if><#if max!=0> max="${max}"</#if><#if mandatory?? && mandatory> required</#if><#if labelFor?? && labelFor!='' && helpKey?? && helpKey!=''> aria-describedby="${labelFor}_help"</#if> />
 	<#elseif type='hidden'>
 		<input type="hidden" name="${name}" value="${value}" />
@@ -596,6 +586,15 @@
 	<span<#if class!=''> class="${class}"</#if><#if params!=''> ${params}</#if><#if id!=''> ${id}</#if>>
 		<#nested>
 	</span>
+</#macro>
+
+<#-- PRE -->
+<#macro pre id='' params='' class='' hide=[] align=''>
+	<#local class += alignmentSettings(align) />
+	<#local class += displaySettings(hide,'block') />
+	<pre<#if class!=''> class="${class}"</#if><#if params!=''> ${params}</#if><#if id!=''> ${id}</#if> style="white-space:nowrap;">
+		<#nested>
+	</pre>
 </#macro>
 
 <#-- TABS -->
@@ -887,7 +886,7 @@
 <#macro btnGroup align='' size='' class='' id='' params='' ariaLabel='' hide=[]>
 <#local displayClass = displaySettings(hide,'inline-flex') />
 <#local class = class + alignmentSettings(align) />
-<div class="btn-group<#if size!=''> btn-group-${size}</#if><#if class!=''> ${class}</#if><#if displayClass !=''> ${displayClass}</#if>" role="group"<#if ariaLabel!=''> aria-label="${ariaLabel}"</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<div class="btn-group<#if size!=''> btn-group-${size}</#if> align-items-baseline<#if class!=''> ${class}</#if><#if displayClass !=''> ${displayClass}</#if>" role="group"<#if ariaLabel!=''> aria-label="${ariaLabel}"</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 	<#nested>
 </div>
 </#macro>
@@ -1177,7 +1176,7 @@
 			</#if>
 		</#list>
 	</#if>
-	<#return displayClass>
+	<#return displayClass?trim>
 </#function>
 
 <#function alignmentSettings align=''>

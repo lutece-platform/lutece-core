@@ -706,41 +706,27 @@ and is kept only for backwards compatibility
 
 <#-- MACRO TR -->
 <#macro tr>
-<tr>
+	<tr>
     <#nested>
-</tr>
+	</tr>
 </#macro>
 
 <#-- MACRO TH -->
-<#macro th id='' class='' showXs=true showSm=true showMd=true showLg=true showXl=true cols=0 xs=0 sm=0 md=0 lg=0 xl=0 flex=false params=''>
-    <#assign thClass = class />
-    <#if !showXs><#assign thClass=thClass + ' is-hidden-mobile'></#if>
-    <#if !showSm><#assign thClass=thClass + ' is-hidden-touch'></#if>
-    <#if !showMd><#assign thClass=thClass + ' is-hidden-desktop'></#if>
-    <#if !showLg><#assign thClass=thClass + ' is-hidden-widescreen'></#if>
-    <#if !showXl><#assign thClass=thClass + ' is-hidden-widescreen'></#if>
-
-    <th <#if thClass != ''>class="${thClass}"</#if>>
+<#macro th id='' class='' hide=[] showXs=true showSm=true showMd=true showLg=true showXl=true cols=0 xs=0 sm=0 md=0 lg=0 xl=0 flex=false params=''>
+    <#local class += displaySettings(hide,'is-inline') />
+		<th <#if class != ''>class="${class}"</#if>>
         <#nested>
     </th>
 </#macro>
 
-
-
 <#-- MACRO TD -->
-<#macro td showXs=true showSm=true showMd=true showLg=true showXl=true xs=0 sm=0 md=0 lg=0 xl=0 class='' id='' flex=false params=''>
-    <#assign tdClass=class />
-    <#if !showXs><#assign tdClass=tdClass + ' is-hidden-mobile'></#if>
-    <#if !showSm><#assign tdClass=tdClass + ' is-hidden-touch'></#if>
-    <#if !showMd><#assign tdClass=tdClass + ' is-hidden-desktop'></#if>
-    <#if !showLg><#assign tdClass=tdClass + ' is-hidden-widescreen'></#if>
-    <#if !showXl><#assign tdClass=tdClass + ' is-hidden-widescreen'></#if>
-
-<td class="<#if tdClass != ''>${tdClass}</#if><#if xs!=0> col-xs-${xs}</#if><#if sm!=0> col-sm-${sm}</#if><#if md!=0> col-md-${md}</#if><#if lg!=0> col-lg-${lg}</#if><#if xl!=0> col-xl-${xl}</#if><#if class!=''>${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
-	<#if flex><div style="display:flex;"></#if>
-	<#nested>
-	<#if flex></div></#if>
-</td>
+<#macro td id='' class='' hide=[] showXs=true showSm=true showMd=true showLg=true showXl=true xs=0 sm=0 md=0 lg=0 xl=0 flex=false params=''>
+    <#local class += displaySettings(hide,'is-inline') />
+		<td class="<#if class != ''>${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+			<#if flex><div style="display:flex;"></#if>
+			<#nested>
+			<#if flex></div></#if>
+		</td>
 </#macro>
 
 <#--- MACRO SELECT (TO REPLACE "COMBO" MACROS) --->
@@ -953,6 +939,33 @@ and is kept only for backwards compatibility
 		<li<#if class!=''> class="${class}"</#if><#if params!=''> ${params}</#if><#if id!=''> ${id}</#if>>
 			<#nested>
 		</li>
+</#macro>
+
+<#-- PARAGRAPH -->
+<#macro p id='' params='' class='' hide=[] align=''>
+	<#local class += alignmentSettings(align) />
+	<#local class += displaySettings(hide,'is-block') />
+	<p<#if class!=''> class="${class}"</#if><#if params!=''> ${params}</#if><#if id!=''> ${id}</#if>>
+		<#nested>
+	</p>
+</#macro>
+
+<#-- SPAN -->
+<#macro span id='' params='' class='' hide=[] align=''>
+	<#local class += alignmentSettings(align) />
+	<#local class += displaySettings(hide,'is-inline') />
+	<span<#if class!=''> class="${class}"</#if><#if params!=''> ${params}</#if><#if id!=''> ${id}</#if>>
+		<#nested>
+	</span>
+</#macro>
+
+<#-- PRE -->
+<#macro pre id='' params='' class='' hide=[] align=''>
+	<#local class += alignmentSettings(align) />
+	<#local class += displaySettings(hide,'is-block') />
+	<pre<#if class!=''> class="${class}"</#if><#if params!=''> ${params}</#if><#if id!=''> ${id}</#if>>
+		<#nested>
+	</pre>
 </#macro>
 
 <#-- TABS -->
@@ -1566,7 +1579,7 @@ and is kept only for backwards compatibility
 			</#if>
 		</#list>
 	</#if>
-	<#return displayClass>
+	<#return displayClass?trim>
 </#function>
 
 <#function alignmentSettings align=''>
