@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -41,17 +41,28 @@ public interface IHtmlCleaner
     /**
      * Clean HTML code
      *
-     * @param strSource
-     *            The input string to clean
+     * @param strSource The input string to clean
      * @return The cleaned string
-     * @throws HtmlCleanerException
-     *             the HtmlCleanerException
      */
-    String clean( String strSource ) throws HtmlCleanerException;
+    default String clean( String strSource )
+    {
+        return strSource;
+    }
 
     /**
      * init HTML cleaner
      *
      */
     void init( );
+
+    /**
+     * Transorm HTML code to text
+     *
+     * @param strSource The input string to clean
+     * @return The cleaned string
+     */
+    default String text( String strSource )
+    {
+        return strSource;
+    }
 }
