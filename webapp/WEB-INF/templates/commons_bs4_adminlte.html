@@ -17,6 +17,7 @@
 <link href="css/admin/style/bootstrap4/bootstrap-datepicker.min.css" rel="stylesheet">
 <link href="css/admin/style/bootstrap4/all.min.css" rel="stylesheet"> <!-- Font-Awesome 5.8.1 -->
 <link href="css/admin/style/bootstrap4/portal_admin.css" rel="stylesheet">
+<link href="css/admin/style/bootstrap4/adminlte.min.css" rel="stylesheet">
 </#macro>
 
 <#macro coreAdminJSLinks>
@@ -24,6 +25,7 @@
 <script src="css/admin/style/bootstrap4/bootstrap-colorpicker.min.js"></script> 
 <script src="css/admin/style/bootstrap4/bootstrap-datepicker.min.js"></script> 
 <!-- <script src="css/admin/style/bootstrap4/portal_admin.js"></script>  -->
+<script src="css/admin/style/bootstrap4/adminlte.min.js"></script>
 </#macro>
 
 <#global gClassActive='active' />
@@ -212,12 +214,12 @@
 
 <#-- NAVIGATION -->
 <#macro item_navigation item_navigator id="item-navigator">
-<nav id="${id}" style="display:inline;">
+<nav id="${id}" class="d-inline-block">
 <#if (item_navigator.currentItemId > 0)>
-	<@aButton size='sm' href='${item_navigator.previousPageLink?xhtml}' title='#i18n{portal.util.labelPrevious}' buttonIcon='arrow-left' color='info' hideTitle=['xs','sm'] />
+	<@aButton href='${item_navigator.previousPageLink?xhtml}' title='#i18n{portal.util.labelPrevious}' buttonIcon='arrow-left' size='sm' color='primary' hideTitle=['xs','sm'] />
 </#if>
 <#if (item_navigator.currentItemId < item_navigator.listItemSize - 1) >
-	<@aButton size='sm' href='${item_navigator.nextPageLink?xhtml}' title='#i18n{portal.util.labelNext}' buttonIcon='arrow-right' color='info' hideTitle=['xs','sm'] />
+	<@aButton href='${item_navigator.nextPageLink?xhtml}' title='#i18n{portal.util.labelNext}' buttonIcon='arrow-right' size='sm' color='primary' hideTitle=['xs','sm'] />
 </#if>
 </nav>
 </#macro>
@@ -417,7 +419,6 @@
 <#-- INPUT TEXT/TEXTAREA/SEARCH/PASSWORD/EMAIL/FILE 																					-->
 <#-- type : text/textarea/password/email/file/number. Default is text 												-->
 <#-- size: sm/lg/EMPTY for medium size 																												-->
-<#-- incoming Bootstrap 4 size: form-control-sm/form-control-lg or empty for the normal size 	-->
 <#-- pattern: [A-F][0-9]{5} 																																	-->
 <#macro input name type='text' value='' class='' size='' inputSize=0 maxlength=0 placeHolder='' rows=4 cols=40 richtext=false tabIndex='' id='' disabled=false readonly=false pattern='' params='' title='' min=0 max=0>
 	<#if type='textarea'>
@@ -472,10 +473,10 @@
 <#macro checkBox name id labelKey='' labelFor='' orientation='vertical' value='' tabIndex='' title='' disabled=false readonly=false checked=false params='' mandatory=false>
 <#if labelFor = ''><#local labelFor = id /></#if>
 <#if orientation='vertical'>
-<div class="checkbox">
+<div class="custom-control custom-checkbox">
 </#if>
-	<label<#if orientation='horizontal'> class="checkbox-inline"</#if><#if labelFor!=''> for="${labelFor}"</#if>>
-	<input type="checkbox" id="${id}" name="${name}"<#if value!=''> value="${value}"</#if><#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if checked> checked</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if params!=''> ${params}</#if><#if mandatory> required</#if> />
+	<input type="checkbox" class="custom-control-input" id="${id}" name="${name}"<#if value!=''> value="${value}"</#if><#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if checked> checked</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if params!=''> ${params}</#if><#if mandatory> required</#if> />
+	<label class="custom-control-label<#if orientation='horizontal'> checkbox-inline</#if>"<#if labelFor!=''> for="${labelFor}"</#if>>
 		<#if labelKey!=''>
 			${labelKey}
 		<#else>
@@ -783,6 +784,7 @@
 		<#local size = 'sm' />
 	</#if>
 	
+	
 	<#if dropdownMenu>
 		<div class="btn-group">
 	</#if>
@@ -967,18 +969,18 @@
 <#-- collapsed: true/false 																-->
 <#---------------------------------------------------------->
 <#macro box color='' id='' style='' class='' params='' collapsed=false>
-<div class="card m-2 bg-dark<#if style!=''> text-${style}</#if><#if class!=''> ${class}</#if><#if collapsed> collapsed-box</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<div class="card m-2<#if color!=''> bg-gradient-${color}</#if><#if style!=''> text-${style}</#if><#if class!=''> ${class}</#if><#if collapsed> collapsed-box</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 	<#nested>
 </div>
 </#macro>
 
 <#-- The boxTools parameter is unused, kept for backwards compatibility -->
 <#macro boxHeader title='' i18nTitleKey='' hideTitle=[] showTitle=true id='' params='' boxTools=false titleLevel='h5'>
-<div class="card-header text-white d-flex justify-content-between"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
-<${titleLevel} class="box-title<#if showTitle=false> sr-only</#if>"><#if title!=''>${title}</#if><#if i18nTitleKey!=''>#i18n{${i18nTitleKey}}</#if></${titleLevel}>
+<div class="card-header"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<${titleLevel} class="card-title<#if showTitle=false> sr-only</#if>"><#if title!=''>${title}</#if><#if i18nTitleKey!=''>#i18n{${i18nTitleKey}}</#if></${titleLevel}>
 	<#local nested><#nested></#local>
 	<#if nested?has_content>
-	<div class="d-flex justify-content-center">
+	<div class="card-tools">
 		<style type="text/css">
 			div.card-header > div.d-flex > form:last-of-type {margin-left:0.5rem;}
 		</style>
@@ -989,7 +991,7 @@
 </#macro>
 
 <#macro boxBody class='' id='' params=''>
-<div class="card-body bg-white<#if class!=''> ${class}</#if>" style="border-radius:0 0 3px 3px;"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<div class="card-body bg-white<#if class!=''> ${class}</#if>" <#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 	<#nested>
 </div>
 </#macro>
@@ -1001,18 +1003,21 @@
 </#macro>
 <#---------------------------------------->
 
-<#-- color: Bootstrap -->
+<#-- AdminLTE Small Box -->
+<#-- color: Bootstrap + AdminLTE colors -->
 <#-- unit: %,... -->
-<#macro smallBox color='' title='' text='' boxIcon='' titleLevel='h5' unit='' url='' urlText='' id='' params='' fontSize='40px'>
-<div class="card m-2 <#if color!=''> bg-${color}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
-	<div class="card-body">
-		<#if url!=''>	<a class="card-link<#if color!=''> text-white</#if>" href="${url}"></#if>
-		<${titleLevel} class="card-title"><@icon style=boxIcon /> 
-		<#if unit!=''> ${unit}</#if></${titleLevel}>
-		<#if url!=''></a></#if>
-		<h3 class="card-text "> ${text} <span class="font-weight-bold">${title}</span></h3>
-	</p>
+<#macro smallBox color='' title='' text='' boxIcon='' titleLevel='h3' unit='' url='' urlText='' id='' params='' fontSize='40px'>
+<div class="small-box<#if color!=''> bg-${color}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+	<div class="inner">
+		<${titleLevel} style="font-size:${fontSize};">${title}<#if unit!=''> &nbsp; ${unit}</#if></${titleLevel}>
+		<p>${text}</p>
 	</div>
+	<div class="icon">
+		<@icon style=boxIcon />
+	</div>
+	<#if url!=''>
+	<a class="small-box-footer" href="${url}">${urlText} <@icon style='arrow-circle-right' /></a>
+	</#if>
 </div>
 </#macro>
 

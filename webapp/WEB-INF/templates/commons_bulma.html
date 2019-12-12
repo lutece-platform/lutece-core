@@ -875,7 +875,8 @@ and is kept only for backwards compatibility
 
 <#-- CHECKBOX -->
 <#-- orientation: vertical/horizontal. Default is vertical -->
-<#macro checkBox name id='' labelKey='' labelFor='' orientation='vertical' value='' tabIndex='' title='' disabled=false readonly=false checked=false params='' mandatory=false>
+<#macro checkBox name id labelKey='' labelFor='' orientation='vertical' value='' tabIndex='' title='' disabled=false readonly=false checked=false params='' mandatory=false>
+<#if labelFor = ''><#local labelFor = id /></#if>
 <#if orientation='vertical'><div class="checkbox"></#if>
 	<label<#if orientation='horizontal'> class="checkbox-inline"</#if><#if labelFor!=''> for="${labelFor}"</#if>>
 	<input type="checkbox" id="${id}" name="${name}"<#if value!=''> value="${value}"</#if><#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if checked> checked</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if params!=''> ${params}</#if><#if mandatory> required</#if> />
@@ -1132,7 +1133,7 @@ and is kept only for backwards compatibility
 	<#else>
 		<#assign buttonColor = color />
 	</#if>
-	<#if style='btn-box-tool'>
+	<#if style='card-control'>
 		<#assign style='text-right btn-link' />
 	</#if>
 
@@ -1159,7 +1160,7 @@ and is kept only for backwards compatibility
 </#if>
 	<button class="button<#if buttonSize!=''> is-${buttonSize}</#if><#if buttonColor!=''> is-${buttonColor}</#if><#if dropdownMenu> dropdown-toggle</#if><#if class!=''> ${class}</#if>" type="${type}"<#if title!=''> title="${title}"</#if><#if name!=''> name="${name}"</#if><#if id!=''> id="${id}"</#if><#if value!=''> value="${value}"</#if><#if params!=''> ${params}</#if><#if disabled> disabled</#if><#if dropdownMenu> aria-haspopup="true" aria-controls="<#if id!=''>${id}</#if>-content"</#if>>
     <#if buttonIcon!='' && iconPosition='left'><@icon style=buttonIcon />&nbsp;</#if>
-		<#if displayTitleClass!='' && style!='btn-box-tool'><span class="${displayTitleClass}"></#if>${title}<#if displayTitleClass!='' && style!='btn-box-tool'></span></#if>
+		<#if displayTitleClass!='' && style!='card-control'><span class="${displayTitleClass}"></#if>${title}<#if displayTitleClass!='' && style!='card-control'></span></#if>
 		<#if buttonIcon!='' && iconPosition='right'>&nbsp;<@icon style=buttonIcon /></#if>
 		<#if dropdownMenu>
 		&nbsp;<@icon style='angle-down' />
@@ -1190,7 +1191,7 @@ and is kept only for backwards compatibility
 	<#else>
 		<#assign buttonColor = color />
 	</#if>
-	<#if style='btn-box-tool'>
+	<#if style='card-control'>
 		<#assign style='text-right btn-link' />
 	</#if>
 
@@ -1419,7 +1420,7 @@ and is kept only for backwards compatibility
 </#macro>	
 
 <#-- AdminLTE Small Box -->
-<#-- color:Bootstrap + AdminLTE colors -->
+<#-- color: Bootstrap + AdminLTE colors -->
 <#-- unit: %,... -->
 <#macro smallBox color='' title='' text='' boxIcon='' titleLevel='h3' unit='' url='' urlText='' id='' params='' fontSize='30px'>
 <div class="box<#if color!=''> has-background-${color}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>

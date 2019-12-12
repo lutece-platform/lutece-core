@@ -6,12 +6,12 @@
 			</#assign>
 			<@boxHeader title='${headerIcon}&nbsp;${user.lastName} ${user.firstName}' boxTools=true>
 				<#if can_delegate = 'true'><p>#i18n{portal.users.modify_user_rights.informationRightModification}</p></#if>
-				<div class="pull-right spaced"><@item_navigation item_navigator=item_navigator /></div>
+				<@item_navigation item_navigator=item_navigator />
 				<@tform align='right' method='post' action='jsp/admin/user/ModifyUserRights.jsp'>	
 					<@input type='hidden' name='delegate_rights' value='${can_delegate}' />
 					<@input type='hidden' name='id_user' value='${user.userId}' />
 					<@input type='hidden' name='select' value='all' />
-					<@button type='submit' size='' buttonIcon='filter' title='#i18n{portal.users.modify_user_rights.buttonLabelSelectAll}' hideTitle=['xs','sm']  />
+					<@button type='submit' size='' buttonIcon='filter' size='sm' title='#i18n{portal.users.modify_user_rights.buttonLabelSelectAll}' hideTitle=['xs','sm']   />
 				</@tform>
 			</@boxHeader>
 		<@boxBody>
@@ -44,7 +44,7 @@
 										</#list>
 										</#if>
 										<@listGroupItem>
-											<@checkBox labelKey='${right.name} (#i18n{portal.users.modify_user_rights.labelLevel} ${right.level}) - ${right.description}' value='${right.id}' name='right' checked=checked mandatory=false />
+											<@checkBox labelKey='${right.name} (#i18n{portal.users.modify_user_rights.labelLevel} ${right.level}) - ${right.description}' value='${right.id}' id='${right.name}' name='right' checked=checked mandatory=false />
 										</@listGroupItem>
 										</#list>
 									</@listGroup>
