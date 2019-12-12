@@ -40,6 +40,7 @@ import fr.paris.lutece.util.password.IPassword;
 import fr.paris.lutece.util.password.IPasswordFactory;
 import fr.paris.lutece.util.sql.DAOUtil;
 
+import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -62,8 +63,7 @@ public class AdminUserDAO implements IAdminUserDAO
     private static final String CONSTANT_AND_USER_LEVEL = " AND level_user = ?";
     private static final String CONSTANT_ORDER_BY_LAST_NAME = " ORDER BY last_name ";
     private static final String CONSTANT_PERCENT = "%";
-    private static final String SQL_QUERY_NEWPK = "SELECT max( id_user ) FROM core_admin_user ";
-    private static final String SQL_QUERY_INSERT = "INSERT INTO core_admin_user ( id_user , access_code, last_name , first_name, email, status, locale, level_user, accessibility_mode, password_max_valid_date, account_max_valid_date )  VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ) ";
+    private static final String SQL_QUERY_INSERT = "INSERT INTO core_admin_user ( access_code, last_name , first_name, email, status, locale, level_user, accessibility_mode, password_max_valid_date, account_max_valid_date )  VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ) ";
     private static final String SQL_QUERY_SELECTALL = "SELECT id_user , access_code, last_name , first_name, email, status, locale, level_user, accessibility_mode, reset_password, password_max_valid_date, account_max_valid_date, last_login, workgroup_key FROM core_admin_user ORDER BY last_name ";
     private static final String SQL_QUERY_SELECT_USER_FROM_USER_ID = "SELECT id_user , access_code, last_name , first_name, email, status, password, locale, level_user, reset_password, accessibility_mode, password_max_valid_date, account_max_valid_date, workgroup_key FROM core_admin_user WHERE id_user = ? ";
     private static final String SQL_QUERY_SELECT_USER_FROM_ACCESS_CODE = "SELECT id_user, access_code, last_name, first_name, email, status, locale, level_user, reset_password, accessibility_mode, password_max_valid_date, last_login FROM core_admin_user  WHERE access_code = ? ";
@@ -82,7 +82,7 @@ public class AdminUserDAO implements IAdminUserDAO
     private static final String SQL_CHECK_ROLE_ATTRIBUTED = " SELECT id_user FROM core_user_role WHERE role_key = ?";
     private static final String SQL_CHECK_ACCESS_CODE_IN_USE = " SELECT id_user FROM core_admin_user WHERE access_code = ?";
     private static final String SQL_CHECK_EMAIL_IN_USE = " SELECT id_user FROM core_admin_user WHERE email = ?";
-    private static final String SQL_QUERY_INSERT_DEFAULT_USER = " INSERT INTO core_admin_user ( id_user, access_code, last_name, first_name, email, status, password, locale, level_user, accessibility_mode, reset_password, password_max_valid_date, account_max_valid_date, last_login, workgroup_key )  VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ) ";
+    private static final String SQL_QUERY_INSERT_DEFAULT_USER = " INSERT INTO core_admin_user ( access_code, last_name, first_name, email, status, password, locale, level_user, accessibility_mode, reset_password, password_max_valid_date, account_max_valid_date, last_login, workgroup_key )  VALUES ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? ) ";
     private static final String SQL_QUERY_UPDATE_DEFAULT_USER = " UPDATE core_admin_user SET access_code = ?, last_name = ?, first_name = ?, email = ?, status = ?, password = ?, locale = ?, reset_password = ?, accessibility_mode = ?, password_max_valid_date = ?, workgroup_key = ? WHERE id_user = ?  ";
     private static final String SQL_QUERY_UPDATE_DEFAULT_USER_IGNORE_PASSWORD = " UPDATE core_admin_user SET access_code = ?, last_name = ?, first_name = ?, email = ?, status = ?, locale = ?, reset_password = ?, accessibility_mode = ?, password_max_valid_date = ?, workgroup_key = ? WHERE id_user = ?  ";
     private static final String SQL_QUERY_SELECT_USERS_ID_BY_ROLES = " SELECT a.id_user , a.access_code, a.last_name , a.first_name, a.email, a.status, a.locale, a.accessibility_mode, a.password_max_valid_date "
@@ -278,58 +278,36 @@ public class AdminUserDAO implements IAdminUserDAO
      * {@inheritDoc}
      */
     @Override
-    public int newPrimaryKey( )
+    public void insert( AdminUser user )
     {
-        int nKey;
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_NEWPK ) )
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT, Statement.RETURN_GENERATED_KEYS ) )
         {
-            daoUtil.executeQuery( );
-
-            if ( !daoUtil.next( ) )
-            {
-                // if the table is empty
-                nKey = 1;
-            }
-
-            nKey = daoUtil.getInt( 1 ) + 1;
-
-        }
-
-        return nKey;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public synchronized void insert( AdminUser user )
-    {
-        user.setUserId( newPrimaryKey( ) );
-
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT ) )
-        {
-
-            daoUtil.setInt( 1, user.getUserId( ) );
-            daoUtil.setString( 2, user.getAccessCode( ) );
-            daoUtil.setString( 3, user.getLastName( ) );
-            daoUtil.setString( 4, user.getFirstName( ) );
-            daoUtil.setString( 5, user.getEmail( ) );
-            daoUtil.setInt( 6, user.getStatus( ) );
-            daoUtil.setString( 7, user.getLocale( ).toString( ) );
-            daoUtil.setInt( 8, user.getUserLevel( ) );
-            daoUtil.setBoolean( 9, user.getAccessibilityMode( ) );
-            daoUtil.setTimestamp( 10, user.getPasswordMaxValidDate( ) );
+            int nIndex = 1;
+            daoUtil.setString( nIndex++, user.getAccessCode( ) );
+            daoUtil.setString( nIndex++, user.getLastName( ) );
+            daoUtil.setString( nIndex++, user.getFirstName( ) );
+            daoUtil.setString( nIndex++, user.getEmail( ) );
+            daoUtil.setInt( nIndex++, user.getStatus( ) );
+            daoUtil.setString( nIndex++, user.getLocale( ).toString( ) );
+            daoUtil.setInt( nIndex++, user.getUserLevel( ) );
+            daoUtil.setBoolean( nIndex++, user.getAccessibilityMode( ) );
+            daoUtil.setTimestamp( nIndex++, user.getPasswordMaxValidDate( ) );
 
             if ( user.getAccountMaxValidDate( ) == null )
             {
-                daoUtil.setLongNull( 11 );
+                daoUtil.setLongNull( nIndex );
             }
             else
             {
-                daoUtil.setLong( 11, user.getAccountMaxValidDate( ).getTime( ) );
+                daoUtil.setLong( nIndex, user.getAccountMaxValidDate( ).getTime( ) );
             }
 
             daoUtil.executeUpdate( );
+
+            if ( daoUtil.nextGeneratedKey( ) )
+            {
+                user.setUserId( daoUtil.getGeneratedKeyInt( 1 ) );
+            }
         }
     }
 
@@ -562,35 +540,38 @@ public class AdminUserDAO implements IAdminUserDAO
     @Override
     public void insert( LuteceDefaultAdminUser user )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT_DEFAULT_USER ) )
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT_DEFAULT_USER, Statement.RETURN_GENERATED_KEYS ) )
         {
-
-            user.setUserId( newPrimaryKey( ) );
-            daoUtil.setInt( 1, user.getUserId( ) );
-            daoUtil.setString( 2, user.getAccessCode( ) );
-            daoUtil.setString( 3, user.getLastName( ) );
-            daoUtil.setString( 4, user.getFirstName( ) );
-            daoUtil.setString( 5, user.getEmail( ) );
-            daoUtil.setInt( 6, user.getStatus( ) );
-            daoUtil.setString( 7, user.getPassword( ).getStorableRepresentation( ) );
-            daoUtil.setString( 8, user.getLocale( ).toString( ) );
-            daoUtil.setInt( 9, user.getUserLevel( ) );
-            daoUtil.setBoolean( 10, user.getAccessibilityMode( ) );
-            daoUtil.setBoolean( 11, user.isPasswordReset( ) );
-            daoUtil.setTimestamp( 12, user.getPasswordMaxValidDate( ) );
+            int nIndex = 1;
+            daoUtil.setString( nIndex++, user.getAccessCode( ) );
+            daoUtil.setString( nIndex++, user.getLastName( ) );
+            daoUtil.setString( nIndex++, user.getFirstName( ) );
+            daoUtil.setString( nIndex++, user.getEmail( ) );
+            daoUtil.setInt( nIndex++, user.getStatus( ) );
+            daoUtil.setString( nIndex++, user.getPassword( ).getStorableRepresentation( ) );
+            daoUtil.setString( nIndex++, user.getLocale( ).toString( ) );
+            daoUtil.setInt( nIndex++, user.getUserLevel( ) );
+            daoUtil.setBoolean( nIndex++, user.getAccessibilityMode( ) );
+            daoUtil.setBoolean( nIndex++, user.isPasswordReset( ) );
+            daoUtil.setTimestamp( nIndex++, user.getPasswordMaxValidDate( ) );
 
             if ( user.getAccountMaxValidDate( ) == null )
             {
-                daoUtil.setLongNull( 13 );
+                daoUtil.setLongNull( nIndex++ );
             }
             else
             {
-                daoUtil.setLong( 13, user.getAccountMaxValidDate( ).getTime( ) );
+                daoUtil.setLong( nIndex++, user.getAccountMaxValidDate( ).getTime( ) );
             }
 
-            daoUtil.setTimestamp( 14, user.getDateLastLogin( ) );
-            daoUtil.setString( 15, user.getWorkgroupKey( ) );
+            daoUtil.setTimestamp( nIndex++, user.getDateLastLogin( ) );
+            daoUtil.setString( nIndex, user.getWorkgroupKey( ) );
             daoUtil.executeUpdate( );
+            
+            if ( daoUtil.nextGeneratedKey( ) )
+            {
+                user.setUserId( daoUtil.getGeneratedKeyInt( 1 ) );
+            }
         }
     }
 

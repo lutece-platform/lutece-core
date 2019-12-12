@@ -42,6 +42,7 @@ import java.io.Serializable;
  */
 public class MVCMessage implements ErrorMessage, Serializable
 {
+    private static final long serialVersionUID = 384192894626504435L;
     private String _strMessage;
 
     /**

@@ -36,6 +36,7 @@ package fr.paris.lutece.portal.business.stylesheet;
 import fr.paris.lutece.portal.service.util.AppException;
 import fr.paris.lutece.util.sql.DAOUtil;
 
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -45,11 +46,10 @@ import java.util.Collection;
 public final class StyleSheetDAO implements IStyleSheetDAO
 {
     // Constants
-    private static final String SQL_QUERY_NEW_PK = " SELECT max(id_stylesheet) FROM core_stylesheet ";
     private static final String SQL_QUERY_SELECT = " SELECT a.description , a.file_name , a.source , b.id_style , b.id_mode " + " FROM core_stylesheet a "
             + " LEFT JOIN core_style_mode_stylesheet b ON a.id_stylesheet = b.id_stylesheet " + " WHERE a.id_stylesheet = ? ";
-    private static final String SQL_QUERY_INSERT = " INSERT INTO core_stylesheet ( id_stylesheet , description , file_name, source ) "
-            + " VALUES ( ?, ? ,?, ? )";
+    private static final String SQL_QUERY_INSERT = " INSERT INTO core_stylesheet ( description , file_name, source ) "
+            + " VALUES ( ? ,?, ? )";
     private static final String SQL_QUERY_DELETE = " DELETE FROM core_stylesheet WHERE id_stylesheet = ? ";
     private static final String SQL_QUERY_UPDATE = " UPDATE core_stylesheet SET id_stylesheet = ?, description = ?, file_name = ?, source = ? WHERE id_stylesheet = ?  ";
     private static final String SQL_QUERY_SELECT_MODEID = " SELECT a.id_mode FROM core_mode a , core_style_mode_stylesheet b  "
@@ -65,50 +65,28 @@ public final class StyleSheetDAO implements IStyleSheetDAO
     // Access methods to data
 
     /**
-     * Generates a new primary key
-     * 
-     * @return The new primary key
-     */
-    int newPrimaryKey( )
-    {
-        int nKey;
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_NEW_PK ) )
-        {
-            daoUtil.executeQuery( );
-
-            if ( !daoUtil.next( ) )
-            {
-                // if the table is empty
-                nKey = 1;
-            }
-
-            nKey = daoUtil.getInt( 1 ) + 1;
-
-        }
-
-        return nKey;
-    }
-
-    /**
      * Insert a new record in the table.
      * 
      * @param stylesheet
      *            The StyleSheet object
      */
-    public synchronized void insert( StyleSheet stylesheet )
+    public void insert( StyleSheet stylesheet )
     {
-        stylesheet.setId( newPrimaryKey( ) );
-
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT ) )
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT, Statement.RETURN_GENERATED_KEYS ) )
         {
 
-            daoUtil.setInt( 1, stylesheet.getId( ) );
-            daoUtil.setString( 2, stylesheet.getDescription( ) );
-            daoUtil.setString( 3, stylesheet.getFile( ) );
-            daoUtil.setBytes( 4, stylesheet.getSource( ) );
+            int nIndex = 1;
+            daoUtil.setString( nIndex++, stylesheet.getDescription( ) );
+            daoUtil.setString( nIndex++, stylesheet.getFile( ) );
+            daoUtil.setBytes( nIndex, stylesheet.getSource( ) );
 
             daoUtil.executeUpdate( );
 
+            if ( daoUtil.nextGeneratedKey( ) )
+            {
+                stylesheet.setId( daoUtil.getGeneratedKeyInt( 1 ) );
+            }
+            
             // Update of the table style_mode_stylesheet in the database
             insertStyleModeStyleSheet( stylesheet );
         }

@@ -92,6 +92,8 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
     // //////////////////////////////////////////////////////////////////////////
     // Constants
 
+    private static final long serialVersionUID = -3560428244531532507L;
+
     // Right
     public static final String RIGHT_MANAGE_ADMIN_SITE = "CORE_ADMIN_SITE";
 

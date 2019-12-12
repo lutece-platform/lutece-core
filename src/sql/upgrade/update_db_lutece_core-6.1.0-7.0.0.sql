@@ -42,3 +42,18 @@ INSERT INTO core_text_editor VALUES ( 'tinymce', 'portal.admindashboard.editors.
 INSERT INTO core_text_editor VALUES ( '', 'portal.admindashboard.editors.labelBackNoEditor', 1 );
 INSERT INTO core_text_editor VALUES ( '', 'portal.admindashboard.editors.labelFrontNoEditor', 0 );
 INSERT INTO core_text_editor VALUES ( 'markitupbbcode', 'portal.admindashboard.editors.labelFrontMarkitupBBCode', 0 );
+
+ALTER TABLE core_admin_mailinglist modify COLUMN id_mailinglist int AUTO_INCREMENT NOT NULL;
+ALTER TABLE core_admin_role_resource modify COLUMN rbac_id int AUTO_INCREMENT NOT NULL;
+ALTER TABLE core_admin_user modify COLUMN id_user int AUTO_INCREMENT NOT NULL;
+ALTER TABLE core_file modify COLUMN id_file int AUTO_INCREMENT NOT NULL;
+ALTER TABLE core_indexer_action modify COLUMN id_action int AUTO_INCREMENT NOT NULL;
+ALTER TABLE core_page modify COLUMN id_page int AUTO_INCREMENT NOT NULL;
+ALTER TABLE core_page_template modify COLUMN id_template int AUTO_INCREMENT NOT NULL;
+ALTER TABLE core_physical_file modify COLUMN id_physical_file int AUTO_INCREMENT NOT NULL;
+ALTER TABLE core_portlet modify COLUMN id_portlet int AUTO_INCREMENT NOT NULL;
+ALTER TABLE core_stylesheet modify COLUMN id_stylesheet int AUTO_INCREMENT NOT NULL;
+ALTER TABLE core_attribute modify COLUMN id_attribute int AUTO_INCREMENT NOT NULL;
+ALTER TABLE core_attribute_field modify COLUMN id_field int AUTO_INCREMENT NOT NULL;
+ALTER TABLE core_admin_user_field modify COLUMN id_user_field int AUTO_INCREMENT NOT NULL;
+ALTER TABLE core_xsl_export modify COLUMN id_xsl_export int AUTO_INCREMENT NOT NULL;

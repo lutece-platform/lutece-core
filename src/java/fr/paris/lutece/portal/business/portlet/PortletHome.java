@@ -156,32 +156,18 @@ public abstract class PortletHome implements PortletHomeInterface
      */
     public synchronized Portlet create( Portlet portlet )
     {
-        // Recovery of an identifier for the new portlet
-        int nIdPortlet = PortletHome.newPrimaryKey( );
-        portlet.setId( nIdPortlet );
-
         portlet.setStatus( AppPropertiesService.getPropertyInt( PROPERTY_PORTLET_CREATION_STATUS, CONSTANT_DEFAULT_STATUS ) );
-
-        // Creation of the portlet child
-        getDAO( ).insert( portlet );
 
         // Creation of the portlet parent
         _dao.insert( portlet );
+        
+        // Creation of the portlet child
+        getDAO( ).insert( portlet );
 
         // Invalidate the portlet
         invalidate( portlet );
 
         return portlet;
-    }
-
-    /**
-     * Recovery of an identifier for the new portlet
-     *
-     * @return the new primary key
-     */
-    static int newPrimaryKey( )
-    {
-        return _dao.newPrimaryKey( );
     }
 
     /**

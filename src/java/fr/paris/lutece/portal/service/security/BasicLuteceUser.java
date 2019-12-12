@@ -38,6 +38,8 @@ package fr.paris.lutece.portal.service.security;
  */
 public class BasicLuteceUser extends LuteceUser
 {
+    private static final long serialVersionUID = 4077599434967808839L;
+
     /**
      * Constructor
      * 

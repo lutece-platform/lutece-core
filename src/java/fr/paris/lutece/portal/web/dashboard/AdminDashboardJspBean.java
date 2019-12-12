@@ -66,6 +66,8 @@ import fr.paris.lutece.util.string.StringUtil;
  */
 public class AdminDashboardJspBean extends AdminFeaturesPageJspBean
 {
+    private static final long serialVersionUID = 5312273100074724058L;
+
     public static final String TEMPLATE_MANAGE_DASHBOARDS = "/admin/dashboard/admin/manage_dashboards.html";
 
     // Constants

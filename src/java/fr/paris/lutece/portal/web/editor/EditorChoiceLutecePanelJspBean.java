@@ -33,18 +33,17 @@
  */
 package fr.paris.lutece.portal.web.editor;
 
+import javax.servlet.http.HttpServletRequest;
+
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.editor.RichTextEditorService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.web.admin.PluginAdminPageJspBean;
-import java.io.Serializable;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * The Class EditorChoiceLutecePanelJspBean.
  */
-public class EditorChoiceLutecePanelJspBean extends PluginAdminPageJspBean implements Serializable
+public class EditorChoiceLutecePanelJspBean extends PluginAdminPageJspBean
 {
     public static final String RIGHT_EDITORS_MANAGEMENT = "CORE_EDITORS_MANAGEMENT";
     private static final String ANCHOR_ADMIN_DASHBOARDS = "editors";

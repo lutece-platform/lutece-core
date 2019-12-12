@@ -36,6 +36,7 @@ package fr.paris.lutece.portal.business.user.attribute;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.util.sql.DAOUtil;
 
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,8 +47,6 @@ import java.util.List;
  */
 public class AttributeFieldDAO implements IAttributeFieldDAO
 {
-    // NEW PK
-    private static final String SQL_QUERY_NEW_PK = " SELECT max(id_field) FROM core_attribute_field ";
 
     // NEW POSITION
     private static final String SQL_QUERY_NEW_POSITION = "SELECT MAX(field_position)" + " FROM core_attribute_field ";
@@ -61,8 +60,8 @@ public class AttributeFieldDAO implements IAttributeFieldDAO
             + " FROM core_attribute_field WHERE id_attribute = ? ORDER BY field_position ";
 
     // INSERT
-    private static final String SQL_QUERY_INSERT = " INSERT INTO core_attribute_field (id_field, id_attribute, title, DEFAULT_value, is_DEFAULT_value, height, width, max_size_enter, is_multiple, field_position) "
-            + " VALUES(?,?,?,?,?,?,?,?,?,?) ";
+    private static final String SQL_QUERY_INSERT = " INSERT INTO core_attribute_field (id_attribute, title, DEFAULT_value, is_DEFAULT_value, height, width, max_size_enter, is_multiple, field_position) "
+            + " VALUES(?,?,?,?,?,?,?,?,?) ";
 
     // UPDATE
     private static final String SQL_QUERY_UPDATE = " UPDATE core_attribute_field SET title = ?, DEFAULT_value = ?, is_DEFAULT_value = ?, height = ?, width = ?, max_size_enter = ?, is_multiple = ?, field_position = ? "
@@ -71,29 +70,6 @@ public class AttributeFieldDAO implements IAttributeFieldDAO
     // DELETE
     private static final String SQL_QUERY_DELETE = " DELETE FROM core_attribute_field WHERE id_field = ? ";
     private static final String SQL_QUERY_DELETE_BY_ID_ATTRIBUTE = " DELETE FROM core_attribute_field WHERE id_attribute = ? ";
-
-    // NEW PK
-    /**
-     * Generate a new PK
-     * 
-     * @return The new ID
-     */
-    private int newPrimaryKey( )
-    {
-        int nKey = 1;
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_NEW_PK ) )
-        {
-            daoUtil.executeQuery( );
-
-            if ( daoUtil.next( ) )
-            {
-                nKey = daoUtil.getInt( 1 ) + 1;
-            }
-
-        }
-
-        return nKey;
-    }
 
     /**
      * Generates a new field position
@@ -247,24 +223,28 @@ public class AttributeFieldDAO implements IAttributeFieldDAO
     @Override
     public int insert( AttributeField attributeField )
     {
-        int nNewPrimaryKey = newPrimaryKey( );
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT ) )
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT, Statement.RETURN_GENERATED_KEYS ) )
         {
-            daoUtil.setInt( 1, nNewPrimaryKey );
-            daoUtil.setInt( 2, attributeField.getAttribute( ).getIdAttribute( ) );
-            daoUtil.setString( 3, attributeField.getTitle( ) );
-            daoUtil.setString( 4, attributeField.getValue( ) );
-            daoUtil.setBoolean( 5, attributeField.isDefaultValue( ) );
-            daoUtil.setInt( 6, attributeField.getHeight( ) );
-            daoUtil.setInt( 7, attributeField.getWidth( ) );
-            daoUtil.setInt( 8, attributeField.getMaxSizeEnter( ) );
-            daoUtil.setBoolean( 9, attributeField.isMultiple( ) );
-            daoUtil.setInt( 10, newPosition( ) );
+            int nIndex = 1;
+            daoUtil.setInt( nIndex++, attributeField.getAttribute( ).getIdAttribute( ) );
+            daoUtil.setString( nIndex++, attributeField.getTitle( ) );
+            daoUtil.setString( nIndex++, attributeField.getValue( ) );
+            daoUtil.setBoolean( nIndex++, attributeField.isDefaultValue( ) );
+            daoUtil.setInt( nIndex++, attributeField.getHeight( ) );
+            daoUtil.setInt( nIndex++, attributeField.getWidth( ) );
+            daoUtil.setInt( nIndex++, attributeField.getMaxSizeEnter( ) );
+            daoUtil.setBoolean( nIndex++, attributeField.isMultiple( ) );
+            daoUtil.setInt( nIndex, newPosition( ) );
 
             daoUtil.executeUpdate( );
+            
+            if ( daoUtil.nextGeneratedKey( ) )
+            {
+                attributeField.setIdField( daoUtil.getGeneratedKeyInt( 1 ) );
+            }
         }
 
-        return nNewPrimaryKey;
+        return attributeField.getIdField( );
     }
 
     /**

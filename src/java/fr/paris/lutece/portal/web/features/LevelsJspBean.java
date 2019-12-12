@@ -56,6 +56,8 @@ import fr.paris.lutece.util.html.HtmlTemplate;
  */
 public class LevelsJspBean extends AdminFeaturesPageJspBean
 {
+    private static final long serialVersionUID = 5513182604869973362L;
+
     // Right
     public static final String RIGHT_MANAGE_LEVELS = "CORE_LEVEL_RIGHT_MANAGEMENT";
 

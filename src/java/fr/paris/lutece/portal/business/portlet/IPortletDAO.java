@@ -79,13 +79,6 @@ public interface IPortletDAO
     void store( Portlet portlet );
 
     /**
-     * Returns a new primary key which will be used to add a new portlet
-     *
-     * @return The new key.
-     */
-    int newPrimaryKey( );
-
-    /**
      * Update the portlet status : 0 for activated - 1 for suspended
      *
      * @param portlet

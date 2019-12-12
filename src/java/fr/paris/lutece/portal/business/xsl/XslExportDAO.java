@@ -37,6 +37,7 @@ import fr.paris.lutece.portal.business.file.File;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.util.sql.DAOUtil;
 
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,9 +47,8 @@ import java.util.List;
 public final class XslExportDAO implements IXslExportDAO
 {
     // Constants
-    private static final String SQL_QUERY_NEW_PK = "SELECT max( id_xsl_export ) FROM core_xsl_export";
     private static final String SQL_QUERY_FIND_BY_PRIMARY_KEY = "SELECT id_xsl_export,title,description,extension,id_file,plugin FROM core_xsl_export WHERE id_xsl_export = ?";
-    private static final String SQL_QUERY_INSERT = "INSERT INTO core_xsl_export( id_xsl_export,title,description,extension,id_file,plugin) VALUES(?,?,?,?,?,?)";
+    private static final String SQL_QUERY_INSERT = "INSERT INTO core_xsl_export( title,description,extension,id_file,plugin) VALUES(?,?,?,?,?)";
     private static final String SQL_QUERY_DELETE = "DELETE FROM core_xsl_export WHERE id_xsl_export = ? ";
     private static final String SQL_QUERY_UPDATE = "UPDATE core_xsl_export SET id_xsl_export=?,title=?,description=?,extension=?,id_file=?,plugin=? WHERE id_xsl_export = ? ";
     private static final String SQL_QUERY_SELECT = "SELECT id_xsl_export,title,description,extension,id_file,plugin FROM core_xsl_export ";
@@ -59,56 +59,32 @@ public final class XslExportDAO implements IXslExportDAO
      * {@inheritDoc}
      */
     @Override
-    public int newPrimaryKey( )
+    public void insert( XslExport xslExport )
     {
-        int nKey;
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_NEW_PK ) )
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT, Statement.RETURN_GENERATED_KEYS ) )
         {
-            daoUtil.executeQuery( );
-
-            if ( !daoUtil.next( ) )
-            {
-                // if the table is empty
-                nKey = 1;
-            }
-            else
-            {
-                nKey = daoUtil.getInt( 1 ) + 1;
-            }
-
-        }
-
-        return nKey;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public synchronized void insert( XslExport xslExport )
-    {
-        xslExport.setIdXslExport( newPrimaryKey( ) );
-
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT ) )
-        {
-            daoUtil.setInt( 1, xslExport.getIdXslExport( ) );
-            daoUtil.setString( 2, xslExport.getTitle( ) );
-            daoUtil.setString( 3, xslExport.getDescription( ) );
-            daoUtil.setString( 4, xslExport.getExtension( ) );
+            int nIndex = 1;
+            daoUtil.setString( nIndex++, xslExport.getTitle( ) );
+            daoUtil.setString( nIndex++, xslExport.getDescription( ) );
+            daoUtil.setString( nIndex++, xslExport.getExtension( ) );
 
             if ( xslExport.getFile( ) != null )
             {
-                daoUtil.setInt( 5, xslExport.getFile( ).getIdFile( ) );
+                daoUtil.setInt( nIndex++, xslExport.getFile( ).getIdFile( ) );
             }
             else
             {
-                daoUtil.setIntNull( 5 );
+                daoUtil.setIntNull( nIndex++ );
             }
 
-            daoUtil.setString( 6, xslExport.getPlugin( ) );
+            daoUtil.setString( nIndex, xslExport.getPlugin( ) );
 
             daoUtil.executeUpdate( );
 
+            if ( daoUtil.nextGeneratedKey( ) )
+            {
+                xslExport.setIdXslExport( daoUtil.getGeneratedKeyInt( 1 ) );
+            }
         }
     }
 

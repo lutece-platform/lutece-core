@@ -38,6 +38,7 @@ import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.util.sql.DAOUtil;
 
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -49,9 +50,6 @@ import java.util.Locale;
  */
 public class AttributeDAO implements IAttributeDAO
 {
-    // NEW PK
-    private static final String SQL_QUERY_NEW_PK = " SELECT max(id_attribute) FROM core_attribute ";
-
     // NEW POSITION
     private static final String SQL_QUERY_NEW_POSITION = "SELECT MAX(attribute_position)" + " FROM core_attribute ";
 
@@ -66,8 +64,8 @@ public class AttributeDAO implements IAttributeDAO
             + " FROM core_attribute WHERE plugin_name IS NULL OR plugin_name = '' ORDER BY attribute_position ASC ";
 
     // INSERT
-    private static final String SQL_QUERY_INSERT = " INSERT INTO core_attribute (id_attribute, type_class_name, title, help_message, is_mandatory, is_shown_in_search, is_shown_in_result_list, is_field_in_line, attribute_position)"
-            + " VALUES (?,?,?,?,?,?,?,?,?) ";
+    private static final String SQL_QUERY_INSERT = " INSERT INTO core_attribute (type_class_name, title, help_message, is_mandatory, is_shown_in_search, is_shown_in_result_list, is_field_in_line, attribute_position)"
+            + " VALUES (?,?,?,?,?,?,?,?) ";
 
     // UPDATE
     private static final String SQL_QUERY_UPDATE = " UPDATE core_attribute SET title = ?, help_message = ?, is_mandatory = ?, is_shown_in_search = ?, is_shown_in_result_list = ?, is_field_in_line = ?, attribute_position = ? "
@@ -76,30 +74,6 @@ public class AttributeDAO implements IAttributeDAO
 
     // DELETE
     private static final String SQL_QUERY_DELETE = " DELETE FROM core_attribute WHERE id_attribute = ?";
-
-    // NEW PK
-    /**
-     * Generate a new PK
-     * 
-     * @return The new ID
-     */
-    private int newPrimaryKey( )
-    {
-        int nKey = 1;
-        StringBuilder sbSQL = new StringBuilder( SQL_QUERY_NEW_PK );
-        try( DAOUtil daoUtil = new DAOUtil( sbSQL.toString( ) ) )
-        {
-            daoUtil.executeQuery( );
-
-            if ( daoUtil.next( ) )
-            {
-                nKey = daoUtil.getInt( 1 ) + 1;
-            }
-
-        }
-
-        return nKey;
-    }
 
     /**
      * Generates a new field position
@@ -186,11 +160,9 @@ public class AttributeDAO implements IAttributeDAO
      */
     public int insert( IAttribute attribute )
     {
-        int nIndex = 1;
-        int nNewPrimaryKey = newPrimaryKey( );
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT ) )
+        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT, Statement.RETURN_GENERATED_KEYS ) )
         {
-            daoUtil.setInt( nIndex++, nNewPrimaryKey );
+            int nIndex = 1;
             daoUtil.setString( nIndex++, attribute.getClass( ).getName( ) );
             daoUtil.setString( nIndex++, attribute.getTitle( ) );
             daoUtil.setString( nIndex++, attribute.getHelpMessage( ) );
@@ -201,9 +173,14 @@ public class AttributeDAO implements IAttributeDAO
             daoUtil.setInt( nIndex++, newPosition( ) );
 
             daoUtil.executeUpdate( );
+            
+            if ( daoUtil.nextGeneratedKey( ) )
+            {
+                attribute.setIdAttribute( daoUtil.getGeneratedKeyInt( 1 ) );
+            }
         }
 
-        return nNewPrimaryKey;
+        return attribute.getIdAttribute( );
     }
 
     /**

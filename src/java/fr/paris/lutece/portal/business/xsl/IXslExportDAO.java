@@ -44,12 +44,6 @@ import java.util.List;
  */
 public interface IXslExportDAO
 {
-    /**
-     * Generates a new primary key
-     *
-     * @return The new primary key
-     */
-    int newPrimaryKey( );
 
     /**
      * Insert a new record in the table.
