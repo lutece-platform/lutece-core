@@ -33,15 +33,17 @@
  */
 package fr.paris.lutece.util.file;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 import org.apache.commons.lang.StringUtils;
 
+import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.string.StringUtil;
 
@@ -135,7 +137,12 @@ public final class FileUtil
      */
     public static void zipFiles( Path zipFile, Path...paths ) throws IOException
     {
-        try ( ZipOutputStream zos = new ZipOutputStream( new FileOutputStream( zipFile.toFile( ) ) ) )
+        if ( zipFile.toFile( ).exists( ) )
+        {
+            deleteFile( zipFile.toFile( ) );
+        }
+          
+        try ( ZipOutputStream zos = new ZipOutputStream( Files.newOutputStream( zipFile ) ) )
         {
             for ( Path file : paths )
             {
@@ -146,7 +153,7 @@ public final class FileUtil
     
     private static void addEntryToZip( ZipOutputStream zos, Path file ) throws IOException
     {
-        try ( FileInputStream fis = new FileInputStream( file.toFile( ) ) )
+        try ( InputStream fis = Files.newInputStream( file ) )
         {
             ZipEntry zipEntry = new ZipEntry( file.toFile( ).getName( ) );
             zos.putNextEntry( zipEntry );
@@ -157,6 +164,7 @@ public final class FileUtil
             {
                 zos.write( bytes, 0, length );
             }
+            zos.closeEntry( );
         }
     }
     
@@ -172,4 +180,30 @@ public final class FileUtil
     {
         return StringUtil.replaceAccent( string ).replace( ' ', '_' ).replaceAll( "[^a-zA-Z0-9_]+", "" ).toLowerCase( );
     }
+    
+    /**
+     * Delete the file. <br />
+     * Logs an error if the delete is not succesful.
+     * @param pathname
+     */
+    public static void deleteFile( File file )
+    {
+        if ( file == null )
+        {
+            AppLogService.error( "Error deleting file, file null" );
+            return;
+        }
+        try
+        {
+            if ( file.exists( ) )
+            {
+                Files.delete( file.toPath( ) );
+            }
+        }
+        catch ( IOException e )
+        {
+            AppLogService.error( "Error deleting file", e );
+        }
+    }
+    
 }
