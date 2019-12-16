@@ -33,20 +33,29 @@
  */
 package fr.paris.lutece.util.file;
 
-import fr.paris.lutece.portal.service.util.AppLogService;
-import fr.paris.lutece.portal.service.util.AppPropertiesService;
-
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 import org.apache.commons.lang.StringUtils;
+
+import fr.paris.lutece.portal.service.util.AppLogService;
+import fr.paris.lutece.portal.service.util.AppPropertiesService;
+import fr.paris.lutece.util.string.StringUtil;
 
 /**
  * Utility class for files
  */
 public final class FileUtil
 {
+    public static final String CONSTANT_MIME_TYPE_ZIP = "application/zip";
+    public static final String CONSTANT_MIME_TYPE_CSV = "application/csv";
+    public static final String EXTENSION_ZIP = ".zip";
+    public static final String EXTENSION_CSV = ".csv";
     private static final String PROPERTY_ALLOWED_IMAGES_EXTENSIONS = "portal.files.allowedImagesExtentions";
     private static final String PROPERTY_ALLOWED_HTML_EXTENSIONS = "portal.files.allowedHtmlExtentions";
     private static final String DEFAULT_IMAGES_EXTENSION = "gif,png,jpg,jpeg,bmp";
@@ -119,6 +128,57 @@ public final class FileUtil
         }
 
         return false;
+    }
+    /**
+     * creates a zip file 
+     * @param zipFile the zipfile to create
+     * @param files to add to the Zip
+     * @throws IOException 
+     */
+    public static void zipFiles( Path zipFile, Path...paths ) throws IOException
+    {
+        if ( zipFile.toFile( ).exists( ) )
+        {
+            deleteFile( zipFile.toFile( ) );
+        }
+          
+        try ( ZipOutputStream zos = new ZipOutputStream( Files.newOutputStream( zipFile ) ) )
+        {
+            for ( Path file : paths )
+            {
+                addEntryToZip( zos, file );
+            }
+        }
+    }
+    
+    private static void addEntryToZip( ZipOutputStream zos, Path file ) throws IOException
+    {
+        try ( InputStream fis = Files.newInputStream( file ) )
+        {
+            ZipEntry zipEntry = new ZipEntry( file.toFile( ).getName( ) );
+            zos.putNextEntry( zipEntry );
+            
+            byte[] bytes = new byte[1024];
+            int length;
+            while ( ( length = fis.read( bytes ) ) >= 0 )
+            {
+                zos.write( bytes, 0, length );
+            }
+            zos.closeEntry( );
+        }
+    }
+    
+    /**
+     * Converts French diacritics characters into non diacritics. <br />
+     * Replace whitespaces by underscores <br />
+     * Keep only underscores and alphanum characters <br />
+     * Transform to lowercase
+     * @param string
+     * @return
+     */
+    public static final String normalizeFileName( String string )
+    {
+        return StringUtil.replaceAccent( string ).replace( ' ', '_' ).replaceAll( "[^a-zA-Z0-9_]+", "" ).toLowerCase( );
     }
     
     /**
