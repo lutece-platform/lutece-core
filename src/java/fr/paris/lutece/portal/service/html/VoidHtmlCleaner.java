@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -38,14 +38,6 @@ package fr.paris.lutece.portal.service.html;
  */
 public class VoidHtmlCleaner implements IHtmlCleaner
 {
-    /**
-     * {@inheritDoc }
-     */
-    @Override
-    public String clean( String strSource ) throws HtmlCleanerException
-    {
-        return strSource;
-    }
 
     /**
      * {@inheritDoc }

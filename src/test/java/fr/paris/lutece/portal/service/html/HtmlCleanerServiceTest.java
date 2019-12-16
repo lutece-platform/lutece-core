@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -74,5 +74,13 @@ public class HtmlCleanerServiceTest extends LuteceTestCase
         String result = HtmlCleanerService.clean( strSource );
         assertNotNull( result );
         assertTrue( result.contains( strExpectedResult ) );
+    }
+    
+    
+    public void testText( )
+    {
+        String result = HtmlCleanerService.text( "<h2>Titre</h2>" );
+        assertNotNull( result );
+        assertEquals( result, "Titre" );
     }
 }

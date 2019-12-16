@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -57,10 +57,29 @@ public final class HtmlCleanerService
      * @param strSource
      *            The input string to clean
      * @return The cleaned string
-     * @throws HtmlCleanerException
-     *             the HtmlCleanerException
      */
-    public static synchronized String clean( String strSource ) throws HtmlCleanerException
+    public static synchronized String clean( String strSource )
+    {
+        init( );
+
+        return _htmlCleaner.clean( strSource );
+    }
+    
+    /**
+     * Clean HTML code and converts it to text
+     *
+     * @param strSource
+     *            The input string to clean
+     * @return The cleaned string
+     */
+    public static synchronized String text( String strSource )
+    {
+        init( );
+
+        return _htmlCleaner.text( strSource );
+    }
+    
+    private static void init( )
     {
         // init htmlCleaner
         if ( !_bInit )
@@ -68,7 +87,5 @@ public final class HtmlCleanerService
             _htmlCleaner.init( );
             _bInit = true;
         }
-
-        return _htmlCleaner.clean( strSource );
     }
 }

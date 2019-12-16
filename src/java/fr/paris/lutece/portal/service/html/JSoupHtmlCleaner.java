@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2017, Mairie de Paris
+ * Copyright (c) 2002-2019, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -47,15 +47,17 @@ public class JSoupHtmlCleaner implements IHtmlCleaner
      * {@inheritDoc}
      */
     @Override
-    public String clean( String strSource ) throws HtmlCleanerException
+    public String clean( String strSource )
     {
         return Jsoup.parseBodyFragment( strSource ).body( ).html( );
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
+    public String text( String strSource )
+    {
+        return Jsoup.parseBodyFragment( strSource ).body( ).text( );
+    }
+
     public void init( )
     {
     }
