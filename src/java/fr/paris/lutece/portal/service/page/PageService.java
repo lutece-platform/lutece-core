@@ -225,7 +225,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
     {
         try
         {
-            String strPage = "";
+            String strPage;
 
             // The cache is enable !
             if ( _cachePages.isCacheEnable( ) )
@@ -384,8 +384,8 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
     public String buildPageContent( String strIdPage, int nMode, HttpServletRequest request )
             throws SiteMessageException
     {
-        int nIdPage = 0;
-        Page page = null;
+        int nIdPage;
+        Page page;
 
         nIdPage = Integer.parseInt( strIdPage );
 
@@ -590,7 +590,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
     private String getPortletContent( HttpServletRequest request, Portlet portlet, Map<String, String> mapRequestParams,
             int nMode ) throws SiteMessageException
     {
-        if ( !isPortletVisible( request, portlet, nMode ) )
+        if ( ( request != null ) && !isPortletVisible( request, portlet, nMode ) )
         {
             return StringUtils.EMPTY;
         }
@@ -771,7 +771,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
 
             for ( String strKeyTemp : (List<String>) _cachePages.getCache( ).getKeys( ) )
             {
-                if ( ( strKeyTemp.indexOf( strKey ) != -1 )
+                if ( ( strKeyTemp.contains( strKey ) )
                         || ( WELCOME_PAGE_ID.equals( strIdPage ) && WELCOME_PAGE_CACHE_KEY.equals( strKeyTemp ) ) )
                 {
                     _cachePages.getCache( ).remove( strKeyTemp );
@@ -973,7 +973,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
             return template.getHtml( );
         }
 
-        return "";
+        return StringUtils.EMPTY;
     }
 
     /**
@@ -986,7 +986,7 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
     private Map<String, String> getParams( HttpServletRequest request, int nMode )
     {
         Map<String, String> mapModifyParam = new HashMap<>( );
-        String paramName = "";
+        String strParamName;
 
         // Get request paramaters and store them in a HashMap
         if ( request != null )
@@ -995,8 +995,8 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
 
             while ( enumParam.hasMoreElements( ) )
             {
-                paramName = (String) enumParam.nextElement( );
-                mapModifyParam.put( paramName, request.getParameter( paramName ) );
+                strParamName = (String) enumParam.nextElement( );
+                mapModifyParam.put( strParamName, request.getParameter( strParamName ) );
             }
 
             // Add selected locale
