@@ -64,7 +64,7 @@
 			<#if plugin_regularexpression>
 			<@formGroup labelKey='#i18n{portal.users.manage_advanced_parameters.labelIsEmailPatternSetManually}' labelFor='is_email_pattern_set_manually'>
 			<#if is_email_pattern_set_manually><#assign checked = true></#if>
-					<@checkBox name='is_email_pattern_set_manually' labelKey='#i18n{portal.users.manage_advanced_parameters.labelIsEmailPatternSetManuallyComment}' checked=checked />
+					<@checkBox name='is_email_pattern_set_manually' id='is_email_pattern_set_manually' labelKey='#i18n{portal.users.manage_advanced_parameters.labelIsEmailPatternSetManuallyComment}' checked=checked />
 			</@formGroup>
 			<#else>
 			<@input type='hidden' name='is_email_pattern_set_manually' value='1' />

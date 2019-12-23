@@ -11,7 +11,7 @@
 					</@formGroup>
 					<@formGroup labelKey='#i18n{portal.style.modify_page_template.labelFileTitle}' labelFor='page_template_file' helpKey='#i18n{portal.style.modify_page_template.labelCurrentFile} ${page_template.file}'>
 						<@input type='file' name='page_template_file' id='page_template_file' />
-						<@checkBox name='update_file' labelKey='#i18n{portal.style.modify_page_template.labelReloadFile}' labelFor='update_file'/>
+						<@checkBox name='update_file' id='update_file' labelKey='#i18n{portal.style.modify_page_template.labelReloadFile}' labelFor='update_file'/>
 					</@formGroup>
 					<#assign imageHelpKey>
 						#i18n{portal.style.modify_page_template.labelCurrentPicture}
@@ -19,7 +19,7 @@
 					</#assign>
 					<@formGroup labelKey='#i18n{portal.style.modify_page_template.labelPictureTitle}' labelFor='page_template_picture' helpKey=imageHelpKey>
 						<@input type='file' name='page_template_picture' id='page_template_picture' />
-						<@checkBox name='update_image' labelKey='#i18n{portal.style.modify_page_template.labelReloadPicture}' />
+						<@checkBox name='update_image' id='update_image' labelKey='#i18n{portal.style.modify_page_template.labelReloadPicture}' />
 					</@formGroup>
 					
 					<@formGroup>

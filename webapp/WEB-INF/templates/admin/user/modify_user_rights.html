@@ -44,7 +44,7 @@
 										</#list>
 										</#if>
 										<@listGroupItem>
-											<@checkBox labelKey='${right.name} (#i18n{portal.users.modify_user_rights.labelLevel} ${right.level}) - ${right.description}' value='${right.id}' id='${right.name}' name='right' checked=checked mandatory=false />
+											<@checkBox id='${right.name}' name='right' labelKey='${right.name} (#i18n{portal.users.modify_user_rights.labelLevel} ${right.level}) - ${right.description}' value='${right.id}' checked=checked mandatory=false />
 										</@listGroupItem>
 										</#list>
 									</@listGroup>

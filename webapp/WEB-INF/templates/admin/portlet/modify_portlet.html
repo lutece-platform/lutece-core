@@ -53,28 +53,28 @@
 										<#else>
 											<#assign checked = false>
 										</#if>
-										<@checkBox name='display_on_small_device' value='1' checked=checked labelKey='#i18n{portal.site.create_portlet.checkboxSmallDevice}' />
+										<@checkBox name='display_on_small_device' id='display_on_small_device' value='1' checked=checked labelKey='#i18n{portal.site.create_portlet.checkboxSmallDevice}' />
 
 										<#if normal_checked = 'checked="checked"'>
 											<#assign checked = true>
 										<#else>
 											<#assign checked = false>
 										</#if>
-										<@checkBox name='display_on_normal_device' value='1' checked=checked labelKey='#i18n{portal.site.create_portlet.checkboxNormalDevice}' />
+										<@checkBox name='display_on_normal_device' id='display_on_normal_device' value='1' checked=checked labelKey='#i18n{portal.site.create_portlet.checkboxNormalDevice}' />
 
 										<#if large_checked = 'checked="checked"'>
 											<#assign checked = true>
 										<#else>
 											<#assign checked = false>
 										</#if>
-										<@checkBox name='display_on_large_device' value='1' checked=checked labelKey='#i18n{portal.site.create_portlet.checkboxLargeDevice}' />
+										<@checkBox name='display_on_large_device' id='display_on_large_device' value='1' checked=checked labelKey='#i18n{portal.site.create_portlet.checkboxLargeDevice}' />
 
 										<#if xlarge_checked = 'checked="checked"'>
 											<#assign checked = true>
 										<#else>
 											<#assign checked = false>
 										</#if>
-										<@checkBox name='display_on_xlarge_device' value='1' checked=checked labelKey='#i18n{portal.site.create_portlet.checkboxXLargeDevice}' />
+										<@checkBox name='display_on_xlarge_device' id='display_on_xlarge_device'value='1' checked=checked labelKey='#i18n{portal.site.create_portlet.checkboxXLargeDevice}' />
 									</@formGroup>
 								</@fieldSet>
 							</div>
