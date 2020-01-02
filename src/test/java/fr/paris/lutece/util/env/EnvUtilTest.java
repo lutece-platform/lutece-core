@@ -34,6 +34,10 @@
 
 package fr.paris.lutece.util.env;
 
+import java.io.File;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 import org.junit.Test;
@@ -48,21 +52,30 @@ public class EnvUtilTest
     private static final String ENV_LUTECE_DB_USER_VALUE = "lutece_user";
     private static final String ENV_LUTECE_DB_NAME_VAR = "LUTECE_DATABASE";
     private static final String ENV_LUTECE_DB_NAME_VALUE = "lutece";
+    private static final String ENV_LUTECE_DB_PWD_FILE_VAR = "LUTECE_DB_PWD_FILE";
+    private static final String ENV_LUTECE_DB_PWD_FILE_VALUE = "./fr/paris/lutece/util/env/password.txt";
+    private static final String PASSWORD = "${LUTECE_DB_PWD_FILE}";
+    private static final String PASSWORD_EXPECTED = "change me";
     private static final String URL = "jdbc:mysql://localhost/${LUTECE_DATABASE}?autoReconnect=true&useUnicode=yes&characterEncoding=utf8";
     private static final String URL_EXPECTED = "jdbc:mysql://localhost/lutece?autoReconnect=true&useUnicode=yes&characterEncoding=utf8";
 
     /**
      * Test of evaluate method, of class EnvUtil.
+     * @throws java.net.URISyntaxException
      */
     @Test
-    public void testEvaluate()
+    public void testEvaluate() throws URISyntaxException
     {
         System.out.println( "testEvaluate" );
 
         Map<String, String> mapEnv = new HashMap<>();
         mapEnv.put( ENV_LUTECE_DB_USER_VAR, ENV_LUTECE_DB_USER_VALUE);
         mapEnv.put( ENV_LUTECE_DB_NAME_VAR, ENV_LUTECE_DB_NAME_VALUE );
+        URL url = getClass().getClassLoader().getResource( ENV_LUTECE_DB_PWD_FILE_VALUE );
+        File file = Paths.get(url.toURI()).toFile();
+        mapEnv.put( ENV_LUTECE_DB_PWD_FILE_VAR, file.getAbsolutePath() );
         
+        // Try a real env variable
         String strSource = "${JAVA_HOME}";
         String result = EnvUtil.evaluate( strSource );
         System.out.println( strSource + ":" + result );
@@ -80,11 +93,15 @@ public class EnvUtilTest
         assertEquals( ENV_LUTECE_DB_USER_VAR, result );
         result = EnvUtil.evaluate( URL );
         assertEquals( URL_EXPECTED, result );
-        
-        
+        result = EnvUtil.evaluate( PASSWORD );
+        System.out.println( result );
+        assertEquals( PASSWORD_EXPECTED , result );
         
         System.out.println(EnvUtil.evaluate( null ));
         System.out.println(EnvUtil.evaluate( "${DUMMY}" ));
+        
+        
+        
     }
     
 }

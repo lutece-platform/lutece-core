@@ -35,6 +35,9 @@
 
 package fr.paris.lutece.util.env;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -45,11 +48,13 @@ import java.util.regex.Pattern;
 public final class EnvUtil 
 {
     public static final String PREFIX_ENV = "env.";
+    private static final String SUFFIX_FILE = "_FILE";
     private static final String PATTERN_MARKER = "\\$\\{(.+?)\\}";
 
     private static Pattern _pattern = Pattern.compile( PATTERN_MARKER );
 
     private static Map<String, String> _mapEnv = System.getenv();
+
     
     // Private constructor
     private EnvUtil( )
@@ -67,7 +72,8 @@ public final class EnvUtil
     }
     
     /**
-     * Evaluate a string that may contain a reference to an environement variable enclosed by ${...}
+     * Evaluate a string that may contain a reference to an environement variable enclosed by ${...}.
+     * If the environement variable has a suffix _FILE the evaluation will take the content of the file as value.
      * @param strSource The source string
      * @param strEnvPrefix A prefix of the environment
      * @return The source string or the env variable's value if found.
@@ -82,7 +88,11 @@ public final class EnvUtil
             String strMarker = matcher.group();
             String strEnvVariable = strMarker.substring( 2 + strEnvPrefix.length(), strMarker.length() - 1 );
             String strValue = _mapEnv.get( strEnvVariable );
-            strOutput = strOutput.substring( 0 , matcher.start() ) + strValue + strOutput.substring( matcher.end() );
+            if( strEnvVariable.endsWith( SUFFIX_FILE ))
+            {
+                strValue = getFileContent( strValue );
+            }
+             strOutput = strOutput.substring( 0 , matcher.start() ) + strValue + strOutput.substring( matcher.end() );
         }
         return strOutput;
     }
@@ -95,5 +105,25 @@ public final class EnvUtil
     {
         _mapEnv = mapEnv;
     }
+    
+    /**
+     * Gets the content of a file as a String
+     * @param strFilePath The file path
+     * @return The file content or the error message while reading the message 
+     */
+    private static String getFileContent( String strFilePath )
+    {
+        String strData;
+        try
+        {
+            strData = new String ( Files.readAllBytes( Paths.get( strFilePath) ) );
+        } 
+        catch (IOException e) 
+        {
+            return e.getMessage();
+        }
+        return strData;
+    }
+
 
 }
