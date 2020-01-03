@@ -82,7 +82,8 @@ public final class EnvUtil
     {
         String strOutput = ( strSource != null ) ? strSource : "";
         Matcher matcher = _pattern.matcher( strOutput );
-        
+        int offset = 0;
+
         while ( matcher.find( ) )
         {
             String strMarker = matcher.group();
@@ -92,7 +93,9 @@ public final class EnvUtil
             {
                 strValue = getFileContent( strValue );
             }
-             strOutput = strOutput.substring( 0 , matcher.start() ) + strValue + strOutput.substring( matcher.end() );
+            strValue = strValue==null? "" : strValue;
+            strOutput = strOutput.substring( 0 , matcher.start() + offset ) + strValue + strOutput.substring( matcher.end() + offset );
+            offset += strValue.length() - strMarker.length();
         }
         return strOutput;
     }
