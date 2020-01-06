@@ -292,7 +292,7 @@
 	        </list>
 	    </property>
     </bean>
-    	<bean id="commonsBoostrap4AdminLTE" class="fr.paris.lutece.portal.business.template.CommonsInclude">
+    	<bean id="commonsBoostrap4MaterialDesign" class="fr.paris.lutece.portal.business.template.CommonsInclude">
 	    <property name="key" value="Bootstrap4MaterialDesign" />
 	    <property name="name" value="Bootstrap v4 + Material Design for  Bootstrap (Experimental)" />
 	    <property name="files">
