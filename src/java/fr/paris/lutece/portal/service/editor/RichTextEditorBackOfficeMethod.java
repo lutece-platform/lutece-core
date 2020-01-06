@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -45,10 +45,10 @@ import freemarker.template.TemplateMethodModelEx;
 public class RichTextEditorBackOfficeMethod implements TemplateMethodModelEx
 {
     /**
-     * Get the name of the default editor for back office. This class should only be
-     * used inside a freemarker template.
+     * Get the name of the default editor for back office. This class should only be used inside a freemarker template.
      * 
-     * @param arg0 Unused
+     * @param arg0
+     *            Unused
      * @return The name of the default editor for back office.
      */
     @Override

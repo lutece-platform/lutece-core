@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -281,7 +281,7 @@ public final class CacheService
         String strCachesStatusFile = AppPathService.getPath( PROPERTY_PATH_CONF, FILE_CACHES_STATUS );
         File file = new File( strCachesStatusFile );
 
-        try ( FileInputStream fis = new FileInputStream( file ) )
+        try( FileInputStream fis = new FileInputStream( file ) )
         {
             Properties properties = new Properties( );
             properties.load( fis );

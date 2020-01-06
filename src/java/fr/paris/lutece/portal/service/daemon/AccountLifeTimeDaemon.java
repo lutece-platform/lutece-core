@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -97,7 +97,7 @@ public class AccountLifeTimeDaemon extends Daemon
     {
         StringBuilder sbResult = new StringBuilder( );
         Timestamp currentTimestamp = new Timestamp( new java.util.Date( ).getTime( ) );
-       
+
         // We first set as expirated user that have reached their life time limit
         runSetExpiredUser( currentTimestamp, sbResult );
 
@@ -106,13 +106,13 @@ public class AccountLifeTimeDaemon extends Daemon
 
         // We send other alert to users
         runOtherUserAlert( currentTimestamp, sbResult );
-        
+
         // We notify users with expired passwords
         runExpiredPassword( currentTimestamp, sbResult );
 
         setLastRunLogs( sbResult.toString( ) );
     }
-    
+
     private void runSetExpiredUser( Timestamp currentTimestamp, StringBuilder sbResult )
     {
         List<Integer> accountsToSetAsExpired = AdminUserHome.getIdUsersWithExpiredLifeTimeList( currentTimestamp );
@@ -127,12 +127,12 @@ public class AccountLifeTimeDaemon extends Daemon
             defaultUserParameter = DefaultUserParameterHome.findByKey( PARAMETER_EXPIRED_ALERT_MAIL_SUBJECT );
 
             String strSubject = ( defaultUserParameter == null ) ? StringUtils.EMPTY : defaultUserParameter;
-            
+
             sendMailAlerts( accountsToSetAsExpired, "expiration", strBody, strSender, strSubject );
 
             AdminUserHome.updateUserStatus( accountsToSetAsExpired, AdminUser.EXPIRED_CODE );
 
-            StringBuilder sbLogs  = new StringBuilder( );
+            StringBuilder sbLogs = new StringBuilder( );
             sbLogs.append( MESSAGE_DAEMON_NAME );
             sbLogs.append( Integer.toString( nbAccountToExpire ) );
             sbLogs.append( " account(s) have expired" );
@@ -146,7 +146,7 @@ public class AccountLifeTimeDaemon extends Daemon
             sbResult.append( MESSAGE_DAEMON_NAME + MESSAGE_EXPIRED_USER );
         }
     }
-    
+
     private void runExpiringUserAlert( Timestamp currentTimestamp, StringBuilder sbResult )
     {
         long nbDaysBeforeFirstAlert = AdminUserService.getIntegerSecurityParameter( PARAMETER_TIME_BEFORE_ALERT_ACCOUNT );
@@ -172,7 +172,7 @@ public class AccountLifeTimeDaemon extends Daemon
                 defaultUserParameter = DefaultUserParameterHome.findByKey( PARAMETER_FIRST_ALERT_MAIL_SUBJECT );
 
                 String strSubject = ( defaultUserParameter == null ) ? StringUtils.EMPTY : defaultUserParameter;
-                
+
                 sendMailAlerts( userIdListToSendFirstAlert, "first", strBody, strSender, strSubject );
 
                 AdminUserHome.updateNbAlert( userIdListToSendFirstAlert );
@@ -192,7 +192,7 @@ public class AccountLifeTimeDaemon extends Daemon
             }
         }
     }
-    
+
     private void runOtherUserAlert( Timestamp currentTimestamp, StringBuilder sbResult )
     {
         int maxNumberOfAlerts = AdminUserService.getIntegerSecurityParameter( PARAMETER_NB_ALERT_ACCOUNT );
@@ -221,7 +221,7 @@ public class AccountLifeTimeDaemon extends Daemon
                 defaultUserParameter = DefaultUserParameterHome.findByKey( PARAMETER_OTHER_ALERT_MAIL_SUBJECT );
 
                 String strSubject = ( defaultUserParameter == null ) ? StringUtils.EMPTY : defaultUserParameter;
-                
+
                 sendMailAlerts( userIdListToSendNextAlert, "next", strBody, strSender, strSubject );
 
                 AdminUserHome.updateNbAlert( userIdListToSendNextAlert );
@@ -240,7 +240,7 @@ public class AccountLifeTimeDaemon extends Daemon
             }
         }
     }
-    
+
     private void runExpiredPassword( Timestamp currentTimestamp, StringBuilder sbResult )
     {
         if ( AdminUserService.getBooleanSecurityParameter( PARAMETER_NOTIFY_USER_PASSWORD_EXPIRED ) )
@@ -280,8 +280,7 @@ public class AccountLifeTimeDaemon extends Daemon
             sbResult.append( MESSAGE_DAEMON_NAME + MESSAGE_NO_NOTIF );
         }
     }
-    
-    
+
     private void sendMailAlerts( List<Integer> userIdList, String type, String strBody, String strSender, String strSubject )
     {
         for ( Integer nIdUser : userIdList )

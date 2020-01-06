@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -77,7 +77,7 @@ public final class MailingListDAO implements IMailingListDAO
             daoUtil.setString( nIndex, mailingList.getWorkgroup( ) );
 
             daoUtil.executeUpdate( );
-            
+
             if ( daoUtil.nextGeneratedKey( ) )
             {
                 mailingList.setId( daoUtil.getGeneratedKeyInt( 1 ) );

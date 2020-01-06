@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -72,7 +72,7 @@ public final class PageTemplateDAO implements IPageTemplateDAO
             daoUtil.setString( nIndex, pageTemplate.getPicture( ) );
 
             daoUtil.executeUpdate( );
-            
+
             if ( daoUtil.nextGeneratedKey( ) )
             {
                 pageTemplate.setId( daoUtil.getGeneratedKeyInt( 1 ) );

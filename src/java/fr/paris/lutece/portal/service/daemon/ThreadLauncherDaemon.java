@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -103,7 +103,7 @@ public class ThreadLauncherDaemon extends Daemon
 
         // We remove dead threads from running thread collections
         String logs = removeDeadThreads( );
-        
+
         RunnableQueueItem item = null;
         int nCurrentNumberRunningThreads = _mapThreadByKey.size( ) + _listThread.size( );
 
@@ -169,7 +169,7 @@ public class ThreadLauncherDaemon extends Daemon
         thread.start( );
         return thread;
     }
-    
+
     private String removeDeadThreads( )
     {
         List<String> listDeadThreadKeys = new ArrayList<>( );

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -502,7 +502,9 @@ public final class AdminMessageService
         model.put( MARK_ERRORS_LIST, constraintViolations );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ERRORS_LIST, request.getLocale( ), model );
-        return new String[] { template.getHtml( ) };
+        return new String [ ] {
+                template.getHtml( )
+        };
     }
 
     /**
@@ -522,6 +524,8 @@ public final class AdminMessageService
         model.put( MARK_ERRORS_LIST, errors );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ERRORS_LIST, request.getLocale( ), model );
-        return new String[] { template.getHtml( ) };
+        return new String [ ] {
+                template.getHtml( )
+        };
     }
 }

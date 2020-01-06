@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -76,7 +76,7 @@ public final class RBACDAO implements IRBACDAO
             daoUtil.setString( nIndex, rBAC.getPermissionKey( ) );
 
             daoUtil.executeUpdate( );
-            
+
             if ( daoUtil.nextGeneratedKey( ) )
             {
                 rBAC.setRBACId( daoUtil.getGeneratedKeyInt( 1 ) );

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -48,8 +48,7 @@ public final class StyleSheetDAO implements IStyleSheetDAO
     // Constants
     private static final String SQL_QUERY_SELECT = " SELECT a.description , a.file_name , a.source , b.id_style , b.id_mode " + " FROM core_stylesheet a "
             + " LEFT JOIN core_style_mode_stylesheet b ON a.id_stylesheet = b.id_stylesheet " + " WHERE a.id_stylesheet = ? ";
-    private static final String SQL_QUERY_INSERT = " INSERT INTO core_stylesheet ( description , file_name, source ) "
-            + " VALUES ( ? ,?, ? )";
+    private static final String SQL_QUERY_INSERT = " INSERT INTO core_stylesheet ( description , file_name, source ) " + " VALUES ( ? ,?, ? )";
     private static final String SQL_QUERY_DELETE = " DELETE FROM core_stylesheet WHERE id_stylesheet = ? ";
     private static final String SQL_QUERY_UPDATE = " UPDATE core_stylesheet SET id_stylesheet = ?, description = ?, file_name = ?, source = ? WHERE id_stylesheet = ?  ";
     private static final String SQL_QUERY_SELECT_MODEID = " SELECT a.id_mode FROM core_mode a , core_style_mode_stylesheet b  "
@@ -86,7 +85,7 @@ public final class StyleSheetDAO implements IStyleSheetDAO
             {
                 stylesheet.setId( daoUtil.getGeneratedKeyInt( 1 ) );
             }
-            
+
             // Update of the table style_mode_stylesheet in the database
             insertStyleModeStyleSheet( stylesheet );
         }

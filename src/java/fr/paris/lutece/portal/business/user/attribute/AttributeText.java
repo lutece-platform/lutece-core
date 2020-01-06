@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -172,16 +172,15 @@ public class AttributeText extends AbstractAttribute implements ISimpleValuesAtt
     /**
      * Set the data of the attribute
      * 
-     * @param request HttpServletRequest
+     * @param request
+     *            HttpServletRequest
      * @return null if there are no errors
      */
     @Override
     public String setAttributeData( HttpServletRequest request )
     {
         String strTitle = request.getParameter( PARAMETER_TITLE );
-        String strHelpMessage = ( request.getParameter( PARAMETER_HELP_MESSAGE ) != null )
-                ? request.getParameter( PARAMETER_HELP_MESSAGE ).trim( )
-                : null;
+        String strHelpMessage = ( request.getParameter( PARAMETER_HELP_MESSAGE ) != null ) ? request.getParameter( PARAMETER_HELP_MESSAGE ).trim( ) : null;
         String strIsShownInSearch = request.getParameter( PARAMETER_IS_SHOWN_IN_SEARCH );
         String strIsShownInResultList = request.getParameter( PARAMETER_IS_SHOWN_IN_RESULT_LIST );
         String strMandatory = request.getParameter( PARAMETER_MANDATORY );
@@ -196,8 +195,7 @@ public class AttributeText extends AbstractAttribute implements ISimpleValuesAtt
 
         if ( !strWidth.matches( REGEX_ID ) )
         {
-            return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_NO_ARITHMETICAL_CHARACTERS,
-                    AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_NO_ARITHMETICAL_CHARACTERS, AdminMessage.TYPE_STOP );
         }
 
         int nWidth = Integer.parseInt( strWidth );
@@ -206,17 +204,17 @@ public class AttributeText extends AbstractAttribute implements ISimpleValuesAtt
 
         if ( StringUtils.isNotBlank( strMaxSizeEnter ) && !strMaxSizeEnter.matches( REGEX_ID ) )
         {
-            return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_NO_ARITHMETICAL_CHARACTERS,
-                    AdminMessage.TYPE_STOP );
-        }
-        else if ( ( strMaxSizeEnter == null ) || strMaxSizeEnter.equals( EMPTY_STRING ) )
-        {
-            nMaxSizeEnter = -1;
+            return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_NO_ARITHMETICAL_CHARACTERS, AdminMessage.TYPE_STOP );
         }
         else
-        {
-            nMaxSizeEnter = Integer.parseInt( strMaxSizeEnter );
-        }
+            if ( ( strMaxSizeEnter == null ) || strMaxSizeEnter.equals( EMPTY_STRING ) )
+            {
+                nMaxSizeEnter = -1;
+            }
+            else
+            {
+                nMaxSizeEnter = Integer.parseInt( strMaxSizeEnter );
+            }
 
         setTitle( strTitle );
         setHelpMessage( strHelpMessage );
@@ -242,7 +240,8 @@ public class AttributeText extends AbstractAttribute implements ISimpleValuesAtt
     /**
      * Set attribute type
      * 
-     * @param locale locale
+     * @param locale
+     *            locale
      */
     @Override
     public void setAttributeType( Locale locale )
@@ -257,15 +256,16 @@ public class AttributeText extends AbstractAttribute implements ISimpleValuesAtt
     /**
      * Get the data of the user fields
      * 
-     * @param request HttpServletRequest
-     * @param user    user
+     * @param request
+     *            HttpServletRequest
+     * @param user
+     *            user
      * @return user field data
      */
     @Override
     public List<AdminUserField> getUserFieldsData( HttpServletRequest request, AdminUser user )
     {
-        String[] strValues = request
-                .getParameterValues( PARAMETER_ATTRIBUTE + CONSTANT_UNDERSCORE + getIdAttribute( ) );
+        String [ ] strValues = request.getParameterValues( PARAMETER_ATTRIBUTE + CONSTANT_UNDERSCORE + getIdAttribute( ) );
 
         return getUserFieldsData( strValues, user );
     }
@@ -273,12 +273,14 @@ public class AttributeText extends AbstractAttribute implements ISimpleValuesAtt
     /**
      * Get the data of the user fields
      * 
-     * @param strValues Values
-     * @param user      user
+     * @param strValues
+     *            Values
+     * @param user
+     *            user
      * @return user field data
      */
     @Override
-    public List<AdminUserField> getUserFieldsData( String[] strValues, AdminUser user )
+    public List<AdminUserField> getUserFieldsData( String [ ] strValues, AdminUser user )
     {
         List<AdminUserField> listUserFields = new ArrayList<>( );
         AdminUserField userField = new AdminUserField( );

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -646,18 +646,15 @@ public class AdminUser implements Serializable, AdminWorkgroupResource
     /**
      * Sets a user info for the given key.
      * 
-     * User infos are intended to be lightweight attributes that do not expose a
-     * UI, by opposition the {@link IAttribute} system. The user infos are not
+     * User infos are intended to be lightweight attributes that do not expose a UI, by opposition the {@link IAttribute} system. The user infos are not
      * persisted. Subclasses can choose another strategy.
      * 
      * @param strKey
      *            the key
      * @param info
      *            the info
-     * @return the previous value associated with <tt>strKey</tt>, or
-     *         <tt>null</tt> if there was no mapping for <tt>strKey</tt>. (A
-     *         <tt>null</tt> return can also indicate that <tt>null</tt> was
-     *         previously associated with <tt>strKey</tt>)
+     * @return the previous value associated with <tt>strKey</tt>, or <tt>null</tt> if there was no mapping for <tt>strKey</tt>. (A <tt>null</tt> return can
+     *         also indicate that <tt>null</tt> was previously associated with <tt>strKey</tt>)
      * @since 6.2.0
      */
     public Object setUserInfo( String strKey, Object info )
@@ -678,10 +675,10 @@ public class AdminUser implements Serializable, AdminWorkgroupResource
     {
         return _userInfo.get( strKey );
     }
-        
+
     public static Timestamp getDefaultDateLastLogin( )
     {
         return new Timestamp( DEFAULT_DATE_LAST_LOGIN.getTime( ) );
     }
-    
+
 }

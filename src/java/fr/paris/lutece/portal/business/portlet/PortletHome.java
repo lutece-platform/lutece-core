@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -160,7 +160,7 @@ public abstract class PortletHome implements PortletHomeInterface
 
         // Creation of the portlet parent
         _dao.insert( portlet );
-        
+
         // Creation of the portlet child
         getDAO( ).insert( portlet );
 

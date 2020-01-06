@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -150,7 +150,7 @@ public class AdminUserFieldDAO implements IAdminUserFieldDAO
             daoUtil.setString( nIndex, userField.getValue( ) );
 
             daoUtil.executeUpdate( );
-            
+
             if ( daoUtil.nextGeneratedKey( ) )
             {
                 userField.setIdUserField( daoUtil.getGeneratedKeyInt( 1 ) );
@@ -495,7 +495,7 @@ public class AdminUserFieldDAO implements IAdminUserFieldDAO
 
         return result;
     }
-    
+
     private AdminUserField dataToObject( DAOUtil daoUtil )
     {
         AdminUserField userField = new AdminUserField( );
@@ -562,7 +562,7 @@ public class AdminUserFieldDAO implements IAdminUserFieldDAO
             file.setIdFile( daoUtil.getInt( 5 ) ); // f.id_file
             userField.setFile( file );
         }
-        
+
         return userField;
     }
 }

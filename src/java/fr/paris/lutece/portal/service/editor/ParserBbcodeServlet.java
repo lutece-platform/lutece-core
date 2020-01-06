@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -67,11 +67,12 @@ public class ParserBbcodeServlet extends HttpServlet
     }
 
     /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
      * 
-     * @param request  servlet request
-     * @param response servlet response
+     * @param request
+     *            servlet request
+     * @param response
+     *            servlet response
      * @throws IOException
      */
     protected void processRequest( HttpServletRequest request, HttpServletResponse response ) throws IOException
@@ -89,10 +90,14 @@ public class ParserBbcodeServlet extends HttpServlet
     /**
      * Handles the HTTP <code>GET</code> method.
      * 
-     * @param request  servlet request
-     * @param response servlet response
-     * @throws ServletException the servlet Exception
-     * @throws IOException      the io exception
+     * @param request
+     *            servlet request
+     * @param response
+     *            servlet response
+     * @throws ServletException
+     *             the servlet Exception
+     * @throws IOException
+     *             the io exception
      */
     @Override
     protected void doGet( HttpServletRequest request, HttpServletResponse response ) throws IOException
@@ -103,10 +108,14 @@ public class ParserBbcodeServlet extends HttpServlet
     /**
      * Handles the HTTP <code>POST</code> method.
      * 
-     * @param request  servlet request
-     * @param response servlet response
-     * @throws ServletException the servlet Exception
-     * @throws IOException      the io exception
+     * @param request
+     *            servlet request
+     * @param response
+     *            servlet response
+     * @throws ServletException
+     *             the servlet Exception
+     * @throws IOException
+     *             the io exception
      */
     @Override
     protected void doPost( HttpServletRequest request, HttpServletResponse response ) throws IOException

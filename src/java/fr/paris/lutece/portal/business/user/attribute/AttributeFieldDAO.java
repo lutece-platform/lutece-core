@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -237,7 +237,7 @@ public class AttributeFieldDAO implements IAttributeFieldDAO
             daoUtil.setInt( nIndex, newPosition( ) );
 
             daoUtil.executeUpdate( );
-            
+
             if ( daoUtil.nextGeneratedKey( ) )
             {
                 attributeField.setIdField( daoUtil.getGeneratedKeyInt( 1 ) );

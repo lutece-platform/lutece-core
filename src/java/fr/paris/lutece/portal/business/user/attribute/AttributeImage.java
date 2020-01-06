@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -187,7 +187,8 @@ public class AttributeImage extends AbstractAttribute
     /**
      * Set the data of the attribute
      * 
-     * @param request HttpServletRequest
+     * @param request
+     *            HttpServletRequest
      * @return null if there are no errors
      */
     @Override
@@ -223,8 +224,7 @@ public class AttributeImage extends AbstractAttribute
         if ( ( StringUtils.isNotBlank( strWidth ) && !strWidth.matches( REGEX_ID ) )
                 || ( StringUtils.isNotBlank( strHeight ) && !strHeight.matches( REGEX_ID ) ) )
         {
-            return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_NO_ARITHMETICAL_CHARACTERS,
-                    AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_NO_ARITHMETICAL_CHARACTERS, AdminMessage.TYPE_STOP );
         }
 
         if ( StringUtils.isNotBlank( strWidth ) && strWidth.matches( REGEX_ID ) )
@@ -253,7 +253,8 @@ public class AttributeImage extends AbstractAttribute
     /**
      * Set attribute type
      * 
-     * @param locale locale
+     * @param locale
+     *            locale
      */
     @Override
     public void setAttributeType( Locale locale )
@@ -268,15 +269,16 @@ public class AttributeImage extends AbstractAttribute
     /**
      * Get the data of the user fields
      * 
-     * @param request HttpServletRequest
-     * @param user    user
+     * @param request
+     *            HttpServletRequest
+     * @param user
+     *            user
      * @return user field data
      */
     @Override
     public List<AdminUserField> getUserFieldsData( HttpServletRequest request, AdminUser user )
     {
-        String strUpdateAttribute = request
-                .getParameter( PARAMETER_UPDATE_ATTRIBUTE + CONSTANT_UNDERSCORE + getIdAttribute( ) );
+        String strUpdateAttribute = request.getParameter( PARAMETER_UPDATE_ATTRIBUTE + CONSTANT_UNDERSCORE + getIdAttribute( ) );
         List<AdminUserField> listUserFields = new ArrayList<>( );
 
         try
@@ -284,8 +286,7 @@ public class AttributeImage extends AbstractAttribute
             if ( StringUtils.isNotBlank( strUpdateAttribute ) )
             {
                 MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
-                FileItem fileItem = multipartRequest
-                        .getFile( PARAMETER_ATTRIBUTE + CONSTANT_UNDERSCORE + getIdAttribute( ) );
+                FileItem fileItem = multipartRequest.getFile( PARAMETER_ATTRIBUTE + CONSTANT_UNDERSCORE + getIdAttribute( ) );
 
                 if ( ( fileItem != null ) && ( StringUtils.isNotEmpty( fileItem.getName( ) ) ) )
                 {
@@ -328,19 +329,17 @@ public class AttributeImage extends AbstractAttribute
                 }
 
                 listUserFields = AdminUserFieldHome.findByFilter( auFieldFilter );
-                listUserFields.stream( ).filter(  a -> a.getFile( ) != null )
-                        .forEach( ( AdminUserField userField )->
-                        {
-                            File file = FileHome.findByPrimaryKey( userField.getFile( ).getIdFile( ) );
-                            userField.setFile( file );
+                listUserFields.stream( ).filter( a -> a.getFile( ) != null ).forEach( ( AdminUserField userField ) -> {
+                    File file = FileHome.findByPrimaryKey( userField.getFile( ).getIdFile( ) );
+                    userField.setFile( file );
 
-                            int nIdPhysicalFile = file.getPhysicalFile( ).getIdPhysicalFile( );
-                            PhysicalFile physicalFile = PhysicalFileHome.findByPrimaryKey( nIdPhysicalFile );
-                            userField.getFile( ).setPhysicalFile( physicalFile );
-                        } );
+                    int nIdPhysicalFile = file.getPhysicalFile( ).getIdPhysicalFile( );
+                    PhysicalFile physicalFile = PhysicalFileHome.findByPrimaryKey( nIdPhysicalFile );
+                    userField.getFile( ).setPhysicalFile( physicalFile );
+                } );
             }
         }
-        catch ( IOException e )
+        catch( IOException e )
         {
             AppLogService.error( e );
         }

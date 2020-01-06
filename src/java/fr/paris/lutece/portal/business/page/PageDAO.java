@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -108,7 +108,7 @@ public final class PageDAO implements IPageDAO
         try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT, Statement.RETURN_GENERATED_KEYS ) )
         {
             page.setOrigParentPageId( page.getParentPageId( ) );
-            
+
             int nIndex = 1;
             daoUtil.setInt( nIndex++, page.getParentPageId( ) );
             daoUtil.setString( nIndex++, page.getName( ) );
@@ -155,7 +155,7 @@ public final class PageDAO implements IPageDAO
             daoUtil.setBoolean( nIndex, page.getIsManualDateUpdate( ) );
 
             daoUtil.executeUpdate( );
-            
+
             if ( daoUtil.nextGeneratedKey( ) )
             {
                 page.setId( daoUtil.getGeneratedKeyInt( 1 ) );

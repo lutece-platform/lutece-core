@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -78,7 +78,7 @@ public class Page implements RBACResource, IExtendableResource
     private String _strDescription;
     private String _strTemplate;
     private String _strCodeTheme;
-    private byte[] _strImageContent;
+    private byte [ ] _strImageContent;
     private Timestamp _dateUpdate;
     private List<Portlet> _listPortlets = new ArrayList<>( );
     private String _strMetaKeywords;
@@ -90,7 +90,8 @@ public class Page implements RBACResource, IExtendableResource
     /**
      * Sets the identifier of the page
      *
-     * @param nId the page identifier
+     * @param nId
+     *            the page identifier
      */
     public void setId( int nId )
     {
@@ -110,7 +111,8 @@ public class Page implements RBACResource, IExtendableResource
     /**
      * Sets the identifier of the parent current page
      *
-     * @param nParentPageId the parent page identifier
+     * @param nParentPageId
+     *            the parent page identifier
      */
     public void setParentPageId( int nParentPageId )
     {
@@ -128,10 +130,10 @@ public class Page implements RBACResource, IExtendableResource
     }
 
     /**
-     * Sets the identifier of the parent page as stored in the db. Only settable by
-     * the DAO
+     * Sets the identifier of the parent page as stored in the db. Only settable by the DAO
      *
-     * @param nParentPageId the parent page identifier
+     * @param nParentPageId
+     *            the parent page identifier
      * @since 5.1.0
      */
     void setOrigParentPageId( int nParentPageId )
@@ -155,7 +157,7 @@ public class Page implements RBACResource, IExtendableResource
      *
      * @return The ImageContent
      */
-    public byte[] getImageContent( )
+    public byte [ ] getImageContent( )
     {
         return _strImageContent;
     }
@@ -163,9 +165,10 @@ public class Page implements RBACResource, IExtendableResource
     /**
      * Sets the ImageContent
      *
-     * @param strImageContent The ImageContent
+     * @param strImageContent
+     *            The ImageContent
      */
-    public void setImageContent( byte[] strImageContent )
+    public void setImageContent( byte [ ] strImageContent )
     {
         _strImageContent = strImageContent;
     }
@@ -183,7 +186,8 @@ public class Page implements RBACResource, IExtendableResource
     /**
      * Sets the MimeType
      *
-     * @param strMimeType The MimeType
+     * @param strMimeType
+     *            The MimeType
      */
     public void setMimeType( String strMimeType )
     {
@@ -193,7 +197,8 @@ public class Page implements RBACResource, IExtendableResource
     /**
      * Sets the name of the page
      *
-     * @param strName The page name
+     * @param strName
+     *            The page name
      */
     public void setName( String strName )
     {
@@ -213,7 +218,8 @@ public class Page implements RBACResource, IExtendableResource
     /**
      * Sets the identifier of the template for the page-setting
      *
-     * @param nPageTemplateId the template identifier
+     * @param nPageTemplateId
+     *            the template identifier
      */
     public void setPageTemplateId( int nPageTemplateId )
     {
@@ -233,7 +239,8 @@ public class Page implements RBACResource, IExtendableResource
     /**
      * Sets the name of the template file for page-setting
      *
-     * @param strTemplate the template filename
+     * @param strTemplate
+     *            the template filename
      */
     public void setTemplate( String strTemplate )
     {
@@ -253,7 +260,8 @@ public class Page implements RBACResource, IExtendableResource
     /**
      * Sets the position of the current page into a portlet child pages
      *
-     * @param nOrder the current page position into a portlet child pages
+     * @param nOrder
+     *            the current page position into a portlet child pages
      */
     public void setOrder( int nOrder )
     {
@@ -273,7 +281,8 @@ public class Page implements RBACResource, IExtendableResource
     /**
      * Sets the status of the current page (active or not active)
      *
-     * @param nStatus the page status
+     * @param nStatus
+     *            the page status
      */
     public void setStatus( int nStatus )
     {
@@ -293,7 +302,8 @@ public class Page implements RBACResource, IExtendableResource
     /**
      * Sets the description of the page
      *
-     * @param strDescription the page description
+     * @param strDescription
+     *            the page description
      */
     public void setDescription( String strDescription )
     {
@@ -313,7 +323,8 @@ public class Page implements RBACResource, IExtendableResource
     /**
      * Sets the node_status of the page
      *
-     * @param nNodeStatus the node status
+     * @param nNodeStatus
+     *            the node status
      */
     public void setNodeStatus( int nNodeStatus )
     {
@@ -343,7 +354,8 @@ public class Page implements RBACResource, IExtendableResource
     /**
      * Sets the date to which the portlets list has been modified
      *
-     * @param listPortlets the portlet list
+     * @param listPortlets
+     *            the portlet list
      */
     public void setPortlets( List<Portlet> listPortlets )
     {
@@ -353,7 +365,8 @@ public class Page implements RBACResource, IExtendableResource
     /**
      * Sets the date to which the content page has been modified
      *
-     * @param dateUpdate the date of modification
+     * @param dateUpdate
+     *            the date of modification
      */
     public void setDateUpdate( Timestamp dateUpdate )
     {
@@ -384,7 +397,8 @@ public class Page implements RBACResource, IExtendableResource
     /**
      * Sets the page's role
      * 
-     * @param strRole The role
+     * @param strRole
+     *            The role
      * @since v1.1
      */
     public void setRole( String strRole )
@@ -405,7 +419,8 @@ public class Page implements RBACResource, IExtendableResource
     /**
      * Sets the Theme of the page to the specified string.
      *
-     * @param strCodeTheme The new Theme of the page.
+     * @param strCodeTheme
+     *            The new Theme of the page.
      */
     public void setCodeTheme( String strCodeTheme )
     {
@@ -415,7 +430,8 @@ public class Page implements RBACResource, IExtendableResource
     /**
      * Checks if the page is visible for the current user
      * 
-     * @param request The HTTP request
+     * @param request
+     *            The HTTP request
      * @return true if the page could be shown to the user
      * @since v1.3.1
      */
@@ -466,7 +482,8 @@ public class Page implements RBACResource, IExtendableResource
     /**
      * set the META name
      * 
-     * @param strMetaKeywords the META name
+     * @param strMetaKeywords
+     *            the META name
      */
     public void setMetaKeywords( String strMetaKeywords )
     {
@@ -485,7 +502,8 @@ public class Page implements RBACResource, IExtendableResource
     /**
      * set the META description
      * 
-     * @param strMetaDescription the META description
+     * @param strMetaDescription
+     *            the META description
      */
     public void setMetaDescription( String strMetaDescription )
     {
@@ -495,7 +513,8 @@ public class Page implements RBACResource, IExtendableResource
     /**
      * set the id of the authorization node
      * 
-     * @param nIdAutorizationNode The authorization node ID
+     * @param nIdAutorizationNode
+     *            The authorization node ID
      */
     public void setIdAuthorizationNode( Integer nIdAutorizationNode )
     {

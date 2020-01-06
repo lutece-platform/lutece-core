@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -77,16 +77,12 @@ public final class I18nService
     private static final Locale LOCALE_DEFAULT = new Locale( "", "", "" );
     private static final String PROPERTY_DEFAULT_LOCALE = "lutece.i18n.defaultLocale";
     private static final String PROPERTY_FORMAT_DATE_SHORT_LIST = "lutece.format.date.short";
-    private static Map<String, String> _pluginBundleNames = Collections
-            .synchronizedMap( new HashMap<String, String>( ) );
-    private static Map<String, String> _moduleBundleNames = Collections
-            .synchronizedMap( new HashMap<String, String>( ) );
-    private static Map<String, String> _portalBundleNames = Collections
-            .synchronizedMap( new HashMap<String, String>( ) );
+    private static Map<String, String> _pluginBundleNames = Collections.synchronizedMap( new HashMap<String, String>( ) );
+    private static Map<String, String> _moduleBundleNames = Collections.synchronizedMap( new HashMap<String, String>( ) );
+    private static Map<String, String> _portalBundleNames = Collections.synchronizedMap( new HashMap<String, String>( ) );
     private static final String PROPERTY_PATH_OVERRIDE = "path.i18n.override";
     private static final ClassLoader _overrideLoader;
-    private static final Map<String, ResourceBundle> _resourceBundleCache = Collections
-            .synchronizedMap( new HashMap<String, ResourceBundle>( ) );
+    private static final Map<String, ResourceBundle> _resourceBundleCache = Collections.synchronizedMap( new HashMap<String, ResourceBundle>( ) );
 
     static
     {
@@ -96,23 +92,23 @@ public final class I18nService
         {
             overridePath = new File( AppPathService.getPath( PROPERTY_PATH_OVERRIDE ) );
         }
-        catch ( AppException e )
+        catch( AppException e )
         {
             // the key is unknown. Message override will be deactivated
-            AppLogService.error(
-                    "property " + PROPERTY_PATH_OVERRIDE + " is undefined. Message overriding will be disabled." );
+            AppLogService.error( "property " + PROPERTY_PATH_OVERRIDE + " is undefined. Message overriding will be disabled." );
         }
 
-        URL[] overrideURL = null;
+        URL [ ] overrideURL = null;
 
         if ( overridePath != null )
         {
             try
             {
-                overrideURL = new URL[]
-                { overridePath.toURI( ).toURL( ) };
+                overrideURL = new URL [ ] {
+                        overridePath.toURI( ).toURL( )
+                };
             }
-            catch ( MalformedURLException e )
+            catch( MalformedURLException e )
             {
                 AppLogService.error( "Error initializing message overriding: " + e.getMessage( ), e );
             }
@@ -136,13 +132,14 @@ public final class I18nService
     }
 
     /**
-     * This method localize a string. It scans for localization keys and replace
-     * them by localized values.<br>
+     * This method localize a string. It scans for localization keys and replace them by localized values.<br>
      * The localization key structure is : #{bundle.key}.<br>
      * bundle's values should be 'portal' or a plugin name.
      * 
-     * @param strSource The string that contains localization keys
-     * @param locale    The locale
+     * @param strSource
+     *            The string that contains localization keys
+     * @param locale
+     *            The locale
      * @return The localized string
      */
     public static String localize( String strSource, Locale locale )
@@ -160,7 +157,8 @@ public final class I18nService
                 do
                 {
                     matcher.appendReplacement( sb, getLocalizedString( matcher.group( 1 ), locale ) );
-                } while ( matcher.find( ) );
+                }
+                while ( matcher.find( ) );
 
                 matcher.appendTail( sb );
                 result = sb.toString( );
@@ -181,8 +179,10 @@ public final class I18nService
      * <code>module.[plugin].[module].key </code></li>
      * </ul>
      * 
-     * @param strKey    The key of the string
-     * @param theLocale The locale
+     * @param strKey
+     *            The key of the string
+     * @param theLocale
+     *            The locale
      * @return The string corresponding to the key
      */
     public static String getLocalizedString( String strKey, Locale theLocale )
@@ -244,7 +244,7 @@ public final class I18nService
                 strReturn = rbLabels.getString( strStringKey );
             }
         }
-        catch ( Exception e )
+        catch( Exception e )
         {
             String strErrorMessage = "Error localizing key : '" + strKey + "' - " + e.getMessage( );
 
@@ -262,54 +262,60 @@ public final class I18nService
     /**
      * Get resource bundle name for plugin
      * 
-     * @param strBundleKey the plugin key
+     * @param strBundleKey
+     *            the plugin key
      * @return resource bundle name
      */
     private static String getPluginBundleName( String strBundleKey )
     {
-        return _pluginBundleNames.computeIfAbsent( strBundleKey,
-                s -> new MessageFormat( FORMAT_PACKAGE_PLUGIN_RESOURCES_LOCATION ).format( new String[]
-                { s } ) );
+        return _pluginBundleNames.computeIfAbsent( strBundleKey, s -> new MessageFormat( FORMAT_PACKAGE_PLUGIN_RESOURCES_LOCATION ).format( new String [ ] {
+                s
+        } ) );
     }
 
     /**
      * Get resource bundle name for module
      * 
-     * @param strPlugin the plugin key
-     * @param strModule the module key
+     * @param strPlugin
+     *            the plugin key
+     * @param strModule
+     *            the module key
      * @return resource bundle name
      */
     private static String getModuleBundleName( String strPlugin, String strModule )
     {
         String key = strPlugin + strModule;
-        return _moduleBundleNames.computeIfAbsent( key,
-                s -> new MessageFormat( FORMAT_PACKAGE_MODULE_RESOURCES_LOCATION ).format( new String[]
-                { strPlugin, strModule } ) );
+        return _moduleBundleNames.computeIfAbsent( key, s -> new MessageFormat( FORMAT_PACKAGE_MODULE_RESOURCES_LOCATION ).format( new String [ ] {
+                strPlugin, strModule
+        } ) );
     }
 
     /**
      * Get resource bundle name for core element
      * 
-     * @param strElement element name
+     * @param strElement
+     *            element name
      * @return resource bundle name
      */
     private static String getPortalBundleName( String strElement )
     {
-        return _portalBundleNames.computeIfAbsent( strElement,
-                s -> new MessageFormat( FORMAT_PACKAGE_PORTAL_RESOURCES_LOCATION ).format( new String[]
-                { s } ) );
+        return _portalBundleNames.computeIfAbsent( strElement, s -> new MessageFormat( FORMAT_PACKAGE_PORTAL_RESOURCES_LOCATION ).format( new String [ ] {
+                s
+        } ) );
     }
 
     /**
-     * Returns the string corresponding to a given key for a given locale that use a
-     * MessageFormat pattern with arguments.
+     * Returns the string corresponding to a given key for a given locale that use a MessageFormat pattern with arguments.
      * 
      * @return The string corresponding to the key
-     * @param arguments The arguments used as values by the formatter
-     * @param strKey    The key of the string that contains the pattern
-     * @param locale    The locale
+     * @param arguments
+     *            The arguments used as values by the formatter
+     * @param strKey
+     *            The key of the string that contains the pattern
+     * @param locale
+     *            The locale
      */
-    public static String getLocalizedString( String strKey, Object[] arguments, Locale locale )
+    public static String getLocalizedString( String strKey, Object [ ] arguments, Locale locale )
     {
         String strMessagePattern = getLocalizedString( strKey, locale );
 
@@ -319,10 +325,12 @@ public final class I18nService
     /**
      * Format a date according to the given locale
      * 
-     * @param date        The date to format
-     * @param locale      The locale
-     * @param nDateFormat A DateFormat constant corresponding to the expected
-     *                    format. (ie: DateFormat.FULL)
+     * @param date
+     *            The date to format
+     * @param locale
+     *            The locale
+     * @param nDateFormat
+     *            A DateFormat constant corresponding to the expected format. (ie: DateFormat.FULL)
      * @return The formatted date
      */
     public static String getLocalizedDate( Date date, Locale locale, int nDateFormat )
@@ -334,12 +342,14 @@ public final class I18nService
     /**
      * Format a date according to the given locale
      * 
-     * @param date        The date to format
-     * @param locale      The locale
-     * @param nDateFormat A DateFormat constant corresponding to the expected
-     *                    format. (ie: DateFormat.FULL)
-     * @param nTimeFormat A TimeFormat constant corresponding to the expected
-     *                    format. (ie: DateFormat.SHORT)
+     * @param date
+     *            The date to format
+     * @param locale
+     *            The locale
+     * @param nDateFormat
+     *            A DateFormat constant corresponding to the expected format. (ie: DateFormat.FULL)
+     * @param nTimeFormat
+     *            A TimeFormat constant corresponding to the expected format. (ie: DateFormat.SHORT)
      * @return The formatted date
      */
     public static String getLocalizedDateTime( Date date, Locale locale, int nDateFormat, int nTimeFormat )
@@ -384,7 +394,8 @@ public final class I18nService
     /**
      * Get the short date format specified by a locale
      * 
-     * @param locale The locale
+     * @param locale
+     *            The locale
      * @return The localized short date pattern or null else
      */
     public static String getDateFormatShortPattern( Locale locale )
@@ -416,7 +427,8 @@ public final class I18nService
     /**
      * Returns a ReferenceList of available locales
      * 
-     * @param locale The locale to display available languages
+     * @param locale
+     *            The locale to display available languages
      * @return A ReferenceList of available locales
      */
     public static ReferenceList getAdminLocales( Locale locale )
@@ -434,8 +446,10 @@ public final class I18nService
     /**
      * Localize all items of a list
      * 
-     * @param collection The list to localize
-     * @param locale     The locale
+     * @param collection
+     *            The list to localize
+     * @param locale
+     *            The locale
      * @return The localized collection
      */
     public static Collection localizeCollection( Collection<? extends Localizable> collection, Locale locale )
@@ -451,8 +465,10 @@ public final class I18nService
     /**
      * Localize all items of a list
      * 
-     * @param list   The list to localize
-     * @param locale The locale
+     * @param list
+     *            The list to localize
+     * @param locale
+     *            The locale
      * @return The localized collection
      */
     public static List localizeCollection( List<? extends Localizable> list, Locale locale )
@@ -468,8 +484,10 @@ public final class I18nService
     /**
      * get the resource bundle, possibly with its override
      * 
-     * @param locale    the locale
-     * @param strBundle the bundle name
+     * @param locale
+     *            the locale
+     * @param strBundle
+     *            the bundle name
      * @return the resource bundle
      */
     private static ResourceBundle getResourceBundle( Locale locale, String strBundle )
@@ -477,7 +495,7 @@ public final class I18nService
         String key = strBundle + locale.toString( );
         return _resourceBundleCache.computeIfAbsent( key, k -> createResourceBundle( strBundle, locale ) );
     }
-    
+
     private static ResourceBundle createResourceBundle( String strBundle, Locale locale )
     {
         ResourceBundle rbLabels = ResourceBundle.getBundle( strBundle, locale );
@@ -490,7 +508,7 @@ public final class I18nService
             {
                 overrideBundle = ResourceBundle.getBundle( strBundle, locale, _overrideLoader );
             }
-            catch ( MissingResourceException e )
+            catch( MissingResourceException e )
             {
                 // no override for this resource
                 return rbLabels;

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -56,8 +56,7 @@ public final class IndexerActionDAO implements IIndexerActionDAO
     public static final String CONSTANT_AND = " AND ";
     private static final String SQL_QUERY_FIND_BY_PRIMARY_KEY = "SELECT id_action,id_document,id_task,indexer_name, id_portlet"
             + " FROM core_indexer_action WHERE id_action = ?";
-    private static final String SQL_QUERY_INSERT = "INSERT INTO core_indexer_action( id_document,id_task ,indexer_name,id_portlet)"
-            + " VALUES(?,?,?,?)";
+    private static final String SQL_QUERY_INSERT = "INSERT INTO core_indexer_action( id_document,id_task ,indexer_name,id_portlet)" + " VALUES(?,?,?,?)";
     private static final String SQL_QUERY_DELETE = "DELETE FROM core_indexer_action WHERE id_action = ? ";
     private static final String SQL_QUERY_DELETE_ALL = "DELETE FROM core_indexer_action";
     private static final String SQL_QUERY_UPDATE = "UPDATE core_indexer_action SET id_action=?,id_document=?,id_task=?,indexer_name=?,id_portlet=? WHERE id_action = ? ";

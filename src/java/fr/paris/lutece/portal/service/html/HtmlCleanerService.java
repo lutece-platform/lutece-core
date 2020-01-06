@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -64,7 +64,7 @@ public final class HtmlCleanerService
 
         return _htmlCleaner.clean( strSource );
     }
-    
+
     /**
      * Clean HTML code and converts it to text
      *
@@ -78,7 +78,7 @@ public final class HtmlCleanerService
 
         return _htmlCleaner.text( strSource );
     }
-    
+
     private static void init( )
     {
         // init htmlCleaner

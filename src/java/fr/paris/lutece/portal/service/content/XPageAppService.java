@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -63,11 +63,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 /**
- * This class delivers Extra pages (xpages) to web components. An XPage is a
- * page where the content is provided by a specific class, but should be
- * integrated into the portal struture and design. XPageApps are identified by a
- * key name. To display an XPage into the portal just call the following url
- * :<br>
+ * This class delivers Extra pages (xpages) to web components. An XPage is a page where the content is provided by a specific class, but should be integrated
+ * into the portal struture and design. XPageApps are identified by a key name. To display an XPage into the portal just call the following url :<br>
  * <code>
  * Portal.jsp?page=<i>keyname</i>&amp;param1=value1&amp; ...&amp;paramN=valueN </code>
  *
@@ -85,8 +82,10 @@ public class XPageAppService extends ContentService
     /**
      * Register an application by its entry defined in the plugin xml file
      * 
-     * @param entry The application entry
-     * @throws LuteceInitException If an error occured
+     * @param entry
+     *            The application entry
+     * @throws LuteceInitException
+     *             If an error occured
      */
     public static void registerXPageApplication( XPageApplicationEntry entry ) throws LuteceInitException
     {
@@ -98,8 +97,7 @@ public class XPageAppService extends ContentService
 
                 if ( !SpringContextService.getContext( ).containsBean( applicationBeanName ) )
                 {
-                    throw new LuteceInitException( ERROR_INSTANTIATION + entry.getId( )
-                            + " - Could not find bean named " + applicationBeanName,
+                    throw new LuteceInitException( ERROR_INSTANTIATION + entry.getId( ) + " - Could not find bean named " + applicationBeanName,
                             new NoSuchBeanDefinitionException( applicationBeanName ) );
                 }
             }
@@ -110,10 +108,9 @@ public class XPageAppService extends ContentService
             }
 
             _mapApplications.put( entry.getId( ), entry );
-            AppLogService.info( "New XPage application registered : " + entry.getId( )
-                    + ( entry.isEnabled( ) ? "" : " (disabled)" ) );
+            AppLogService.info( "New XPage application registered : " + entry.getId( ) + ( entry.isEnabled( ) ? "" : " (disabled)" ) );
         }
-        catch ( ClassNotFoundException | InstantiationException | IllegalAccessException e )
+        catch( ClassNotFoundException | InstantiationException | IllegalAccessException e )
         {
             throw new LuteceInitException( ERROR_INSTANTIATION + entry.getId( ) + " - " + e.getCause( ), e );
         }
@@ -131,10 +128,10 @@ public class XPageAppService extends ContentService
     }
 
     /**
-     * Analyzes request parameters to see if the request should be handled by the
-     * current Content Service
+     * Analyzes request parameters to see if the request should be handled by the current Content Service
      *
-     * @param request The HTTP request
+     * @param request
+     *            The HTTP request
      * @return true if this ContentService should handle this request
      */
     @Override
@@ -179,12 +176,15 @@ public class XPageAppService extends ContentService
     /**
      * Build the XPage content.
      *
-     * @param request The HTTP request.
-     * @param nMode   The current mode.
+     * @param request
+     *            The HTTP request.
+     * @param nMode
+     *            The current mode.
      * @return The HTML code of the page.
-     * @throws UserNotSignedException The User Not Signed Exception
-     * @throws SiteMessageException   occurs when a site message need to be
-     *                                displayed
+     * @throws UserNotSignedException
+     *             The User Not Signed Exception
+     * @throws SiteMessageException
+     *             occurs when a site message need to be displayed
      */
     @Override
     public String getPage( HttpServletRequest request, int nMode ) throws UserNotSignedException, SiteMessageException
@@ -267,7 +267,8 @@ public class XPageAppService extends ContentService
     /**
      * Gets Application entry by name
      * 
-     * @param strName The application's name
+     * @param strName
+     *            The application's name
      * @return The entry
      */
     public static XPageApplicationEntry getApplicationEntry( String strName )
@@ -288,8 +289,10 @@ public class XPageAppService extends ContentService
     /**
      * Return an instance of the XPage attached to the current Http Session
      * 
-     * @param request The HTTP request
-     * @param entry   The XPage entry
+     * @param request
+     *            The HTTP request
+     * @param entry
+     *            The XPage entry
      * @return The XPage instance
      */
     private static XPageApplication getXPageSessionInstance( HttpServletRequest request, XPageApplicationEntry entry )
@@ -302,8 +305,7 @@ public class XPageAppService extends ContentService
         {
             application = getApplicationInstance( entry );
             session.setAttribute( strAttribute, application );
-            AppLogService.debug(
-                    "New XPage instance of " + entry.getClassName( ) + " created and attached to session " + session );
+            AppLogService.debug( "New XPage instance of " + entry.getClassName( ) + " created and attached to session " + session );
         }
 
         return application;
@@ -312,7 +314,8 @@ public class XPageAppService extends ContentService
     /**
      * Get an XPage instance
      * 
-     * @param entry The Xpage entry
+     * @param entry
+     *            The Xpage entry
      * @return An instance of a given XPage
      */
     public static XPageApplication getApplicationInstance( XPageApplicationEntry entry )
@@ -330,7 +333,7 @@ public class XPageAppService extends ContentService
                 application = (XPageApplication) Class.forName( entry.getClassName( ) ).newInstance( );
             }
         }
-        catch ( Exception e )
+        catch( Exception e )
         {
             throw new AppException( ERROR_INSTANTIATION + entry.getId( ) + " - " + e.getCause( ), e );
         }

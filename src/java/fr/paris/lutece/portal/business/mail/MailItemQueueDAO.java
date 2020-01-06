@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -130,7 +130,7 @@ public class MailItemQueueDAO implements IMailItemQueueDAO
             AppLogService.error( e );
         }
     }
-    
+
     private void doInsertMail( MailItemQueue mailItemQueue, ByteArrayOutputStream byteArrayOutputStream )
     {
         TransactionManager.beginTransaction( null );
@@ -177,7 +177,7 @@ public class MailItemQueueDAO implements IMailItemQueueDAO
                 mailItemQueue.setIdMailItemQueue( daoUtil.getInt( 1 ) );
                 inputStream = daoUtil.getBinaryStream( 2 );
 
-                try ( ValidatingObjectInputStream objectInputStream = new ValidatingObjectInputStream( inputStream ) )
+                try( ValidatingObjectInputStream objectInputStream = new ValidatingObjectInputStream( inputStream ) )
                 {
                     objectInputStream.accept( MailItem.class, ArrayList.class, byte [ ].class, FileAttachment.class, UrlAttachment.class,
                             FileAttachment [ ].class, UrlAttachment [ ].class, URL.class );
@@ -218,7 +218,7 @@ public class MailItemQueueDAO implements IMailItemQueueDAO
     {
         Transaction transaction = new Transaction( );
 
-        try 
+        try
         {
             transaction.prepareStatement( SQL_QUERY_DELETE_MAIL_ITEM );
             transaction.getStatement( ).setInt( 1, nIdMailItemQueue );

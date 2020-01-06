@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -48,8 +48,7 @@ public final class FileDAO implements IFileDAO
     // Constants
     private static final String SQL_QUERY_FIND_BY_PRIMARY_KEY = "SELECT id_file,title,id_physical_file,file_size,mime_type,date_creation"
             + " FROM core_file WHERE id_file = ?";
-    private static final String SQL_QUERY_INSERT = "INSERT INTO core_file(title,id_physical_file,file_size,mime_type,date_creation)"
-            + " VALUES(?,?,?,?,?)";
+    private static final String SQL_QUERY_INSERT = "INSERT INTO core_file(title,id_physical_file,file_size,mime_type,date_creation)" + " VALUES(?,?,?,?,?)";
     private static final String SQL_QUERY_DELETE = "DELETE FROM core_file WHERE id_file = ? ";
     private static final String SQL_QUERY_UPDATE = "UPDATE  core_file SET " + "id_file=?,title=?,id_physical_file=?,file_size=?,mime_type=? WHERE id_file = ?";
 
@@ -82,7 +81,7 @@ public final class FileDAO implements IFileDAO
             daoUtil.setString( nIndex++, file.getMimeType( ) );
             daoUtil.setTimestamp( nIndex, new Timestamp( new Date( ).getTime( ) ) );
             daoUtil.executeUpdate( );
-            
+
             if ( daoUtil.nextGeneratedKey( ) )
             {
                 file.setIdFile( daoUtil.getGeneratedKeyInt( 1 ) );

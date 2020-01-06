@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, Mairie de Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -254,7 +254,8 @@ public final class AdminUserService
     /**
      * Get the user in session
      * 
-     * @param request The HTTP request
+     * @param request
+     *            The HTTP request
      * @return the user in session
      */
     public static AdminUser getAdminUser( HttpServletRequest request )
@@ -265,7 +266,8 @@ public final class AdminUserService
     /**
      * Get the locale for the current request
      * 
-     * @param request The HTTP request
+     * @param request
+     *            The HTTP request
      * @return the locale to use with this request
      */
     public static Locale getLocale( HttpServletRequest request )
@@ -292,14 +294,18 @@ public final class AdminUserService
     /**
      * Get the filtered list of admin users
      * 
-     * @param listUsers the initial list of users
-     * @param request   HttpServletRequest
-     * @param model     map
-     * @param url       URL of the current interface
+     * @param listUsers
+     *            the initial list of users
+     * @param request
+     *            HttpServletRequest
+     * @param model
+     *            map
+     * @param url
+     *            URL of the current interface
      * @return The filtered list of admin users
      */
-    public static List<AdminUser> getFilteredUsersInterface( Collection<AdminUser> listUsers,
-            HttpServletRequest request, Map<String, Object> model, UrlItem url )
+    public static List<AdminUser> getFilteredUsersInterface( Collection<AdminUser> listUsers, HttpServletRequest request, Map<String, Object> model,
+            UrlItem url )
     {
         AdminUser currentUser = getAdminUser( request );
 
@@ -338,10 +344,8 @@ public final class AdminUserService
 
         if ( listFilteredUsersByUserFields != null )
         {
-            Set<Integer> listFilteredUsersByUserFieldsId = listFilteredUsersByUserFields.stream( )
-                    .map( AdminUser::getUserId ).collect( Collectors.toSet( ) );
-            filteredUsers.addAll( listFilteredUsers.stream( )
-                    .filter( user -> listFilteredUsersByUserFieldsId.contains( user.getUserId( ) ) )
+            Set<Integer> listFilteredUsersByUserFieldsId = listFilteredUsersByUserFields.stream( ).map( AdminUser::getUserId ).collect( Collectors.toSet( ) );
+            filteredUsers.addAll( listFilteredUsers.stream( ).filter( user -> listFilteredUsersByUserFieldsId.contains( user.getUserId( ) ) )
                     .collect( Collectors.toList( ) ) );
         }
         else
@@ -359,8 +363,7 @@ public final class AdminUserService
             map.put( String.valueOf( user.getUserId( ) ), listAdminUserFields );
         }
 
-        List<IAttribute> listAttributes = AttributeService.getInstance( )
-                .getAllAttributesWithFields( currentUser.getLocale( ) );
+        List<IAttribute> listAttributes = AttributeService.getInstance( ).getAllAttributesWithFields( currentUser.getLocale( ) );
 
         String strSortSearchAttribute = StringUtils.EMPTY;
 
@@ -385,15 +388,16 @@ public final class AdminUserService
     /**
      * Build the advanced parameters management
      * 
-     * @param user The AdminUser object
+     * @param user
+     *            The AdminUser object
      * @return The model for the advanced parameters
      */
     public static Map<String, Object> getManageAdvancedParameters( AdminUser user )
     {
         Map<String, Object> model = new HashMap<>( );
 
-        boolean bPermissionManageAdvancedParameters = RBACService.isAuthorized( AdminUser.RESOURCE_TYPE,
-                RBAC.WILDCARD_RESOURCES_ID, AdminUserResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS, user );
+        boolean bPermissionManageAdvancedParameters = RBACService.isAuthorized( AdminUser.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID,
+                AdminUserResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS, user );
 
         if ( bPermissionManageAdvancedParameters )
         {
@@ -402,16 +406,14 @@ public final class AdminUserService
             Level defaultLevel = LevelHome.findByPrimaryKey( Integer.parseInt( strDefaultLevel ) );
 
             // USER NOTIFICATION
-            int nDefaultUserNotification = Integer
-                    .parseInt( DefaultUserParameterHome.findByKey( DSKEY_DEFAULT_USER_NOTIFICATION ) );
+            int nDefaultUserNotification = Integer.parseInt( DefaultUserParameterHome.findByKey( DSKEY_DEFAULT_USER_NOTIFICATION ) );
 
             // USER LANGUAGE
             ReferenceList listLanguages = I18nService.getAdminLocales( user.getLocale( ) );
             String strDefaultUserLanguage = DefaultUserParameterHome.findByKey( DSKEY_DEFAULT_USER_LANGUAGE );
 
             // USER STATUS
-            int nDefaultUserStatus = Integer
-                    .parseInt( DefaultUserParameterHome.findByKey( DSKEY_DEFAULT_USER_STATUS ) );
+            int nDefaultUserStatus = Integer.parseInt( DefaultUserParameterHome.findByKey( DSKEY_DEFAULT_USER_STATUS ) );
 
             model.put( MARK_USER_LEVELS_LIST, LevelHome.getLevelsList( ) );
             model.put( MARK_DEFAULT_USER_LEVEL, defaultLevel );
@@ -427,43 +429,34 @@ public final class AdminUserService
             model.put( MARK_AVAILABLE_REGULAREXPRESSIONS, getAvailableRegularExpressions( ) );
             model.put( MARK_SELECTED_REGULAREXPRESSIONS, getSelectedRegularExpressions( ) );
 
-            boolean bUseAdvancesSecurityParameters = getBooleanSecurityParameter(
-                    DSKEY_USE_ADVANCED_SECURITY_PARAMETERS );
+            boolean bUseAdvancesSecurityParameters = getBooleanSecurityParameter( DSKEY_USE_ADVANCED_SECURITY_PARAMETERS );
 
             model.put( MARK_USE_ADVANCED_SECURITY_PARAMETERS, bUseAdvancesSecurityParameters );
 
-            model.put( MARK_FORCE_CHANGE_PASSWORD_REINIT,
-                    getBooleanSecurityParameter( DSKEY_FORCE_CHANGE_PASSWORD_REINIT ) );
+            model.put( MARK_FORCE_CHANGE_PASSWORD_REINIT, getBooleanSecurityParameter( DSKEY_FORCE_CHANGE_PASSWORD_REINIT ) );
             model.put( MARK_PASSWORD_MINIMUM_LENGTH, getIntegerSecurityParameter( DSKEY_PASSWORD_MINIMUM_LENGTH ) );
 
             model.put( MARK_RESET_TOKEN_VALIDITY, getIntegerSecurityParameter( DSKEY_RESET_TOKEN_VALIDITY ) );
-            model.put( MARK_LOCK_RESET_TOKEN_TO_SESSION,
-                    getBooleanSecurityParameter( DSKEY_LOCK_RESET_TOKEN_TO_SESSION ) );
+            model.put( MARK_LOCK_RESET_TOKEN_TO_SESSION, getBooleanSecurityParameter( DSKEY_LOCK_RESET_TOKEN_TO_SESSION ) );
 
             if ( bUseAdvancesSecurityParameters )
             {
                 // SECURITY PARAMETERS
-                model.put( MARK_PASSWORD_FORMAT_UPPER_LOWER_CASE,
-                        getBooleanSecurityParameter( DSKEY_PASSWORD_FORMAT_UPPER_LOWER_CASE ) );
+                model.put( MARK_PASSWORD_FORMAT_UPPER_LOWER_CASE, getBooleanSecurityParameter( DSKEY_PASSWORD_FORMAT_UPPER_LOWER_CASE ) );
                 model.put( MARK_PASSWORD_FORMAT_NUMERO, getBooleanSecurityParameter( DSKEY_PASSWORD_FORMAT_NUMERO ) );
-                model.put( MARK_PASSWORD_FORMAT_SPECIAL_CHARACTERS,
-                        getBooleanSecurityParameter( DSKEY_PASSWORD_FORMAT_SPECIAL_CHARACTERS ) );
+                model.put( MARK_PASSWORD_FORMAT_SPECIAL_CHARACTERS, getBooleanSecurityParameter( DSKEY_PASSWORD_FORMAT_SPECIAL_CHARACTERS ) );
                 model.put( MARK_PASSWORD_DURATION, getIntegerSecurityParameter( DSKEY_PASSWORD_DURATION ) );
                 model.put( MARK_PASSWORD_HISTORY_SIZE, getIntegerSecurityParameter( DSKEY_PASSWORD_HISTORY_SIZE ) );
-                model.put( MARK_MAXIMUM_NUMBER_PASSWORD_CHANGE,
-                        getIntegerSecurityParameter( DSKEY_MAXIMUM_NUMBER_PASSWORD_CHANGE ) );
-                model.put( MARK_TSW_SIZE_PASSWORD_CHANGE,
-                        getIntegerSecurityParameter( DSKEY_TSW_SIZE_PASSWORD_CHANGE ) );
-                model.put( MARK_NOTIFY_USER_PASSWORD_EXPIRED,
-                        getBooleanSecurityParameter( DSKEY_NOTIFY_USER_PASSWORD_EXPIRED ) );
+                model.put( MARK_MAXIMUM_NUMBER_PASSWORD_CHANGE, getIntegerSecurityParameter( DSKEY_MAXIMUM_NUMBER_PASSWORD_CHANGE ) );
+                model.put( MARK_TSW_SIZE_PASSWORD_CHANGE, getIntegerSecurityParameter( DSKEY_TSW_SIZE_PASSWORD_CHANGE ) );
+                model.put( MARK_NOTIFY_USER_PASSWORD_EXPIRED, getBooleanSecurityParameter( DSKEY_NOTIFY_USER_PASSWORD_EXPIRED ) );
             }
 
             model.put( MARK_BANNED_DOMAIN_NAMES, getLargeSecurityParameter( DSKEY_BANNED_DOMAIN_NAMES ) );
             model.put( MARK_ACCOUNT_LIFE_TIME, getIntegerSecurityParameter( DSKEY_ACCOUNT_LIFE_TIME ) );
             model.put( MARK_TIME_BEFORE_ALERT_ACCOUNT, getIntegerSecurityParameter( DSKEY_TIME_BEFORE_ALERT_ACCOUNT ) );
             model.put( MARK_NB_ALERT_ACCOUNT, getIntegerSecurityParameter( DSKEY_NB_ALERT_ACCOUNT ) );
-            model.put( MARK_TIME_BETWEEN_ALERTS_ACCOUNT,
-                    getIntegerSecurityParameter( DSKEY_TIME_BETWEEN_ALERTS_ACCOUNT ) );
+            model.put( MARK_TIME_BETWEEN_ALERTS_ACCOUNT, getIntegerSecurityParameter( DSKEY_TIME_BETWEEN_ALERTS_ACCOUNT ) );
             model.put( MARK_ACCES_FAILURES_MAX, getIntegerSecurityParameter( DSKEY_ACCES_FAILURES_MAX ) );
             model.put( MARK_ACCES_FAILURES_INTERVAL, getIntegerSecurityParameter( DSKEY_ACCES_FAILURES_INTERVAL ) );
         }
@@ -473,10 +466,10 @@ public final class AdminUserService
 
     /**
      * Check if the given email is valid or not. <br>
-     * The given email is compared to the value of the parameter
-     * <i>'core_user_parameter.email_pattern'</i>.
+     * The given email is compared to the value of the parameter <i>'core_user_parameter.email_pattern'</i>.
      *
-     * @param strEmail the str email
+     * @param strEmail
+     *            the str email
      * @return true, if successful
      */
     public static boolean checkEmail( String strEmail )
@@ -515,11 +508,10 @@ public final class AdminUserService
             return bIsValid;
         }
 
-        String[] strListBannedDomainNames = strBannedDomainNames.split( SEMICOLON );
+        String [ ] strListBannedDomainNames = strBannedDomainNames.split( SEMICOLON );
         String strDomainName = strEmail.substring( strEmail.indexOf( CONSTANT_AT ) + 1 );
 
-        if ( strDomainName != null && ArrayUtils.isNotEmpty( strListBannedDomainNames )
-                && Arrays.asList( strListBannedDomainNames ).contains( strDomainName ) )
+        if ( strDomainName != null && ArrayUtils.isNotEmpty( strListBannedDomainNames ) && Arrays.asList( strListBannedDomainNames ).contains( strDomainName ) )
         {
             bIsValid = false;
         }
@@ -529,8 +521,10 @@ public final class AdminUserService
     /**
      * Do modify the email pattern
      * 
-     * @param strEmailPattern the email pattern
-     * @param bIsSetManually  true if it is know set manually, false otherwise
+     * @param strEmailPattern
+     *            the email pattern
+     * @param bIsSetManually
+     *            true if it is know set manually, false otherwise
      */
     public static void doModifyEmailPattern( String strEmailPattern, boolean bIsSetManually )
     {
@@ -554,8 +548,7 @@ public final class AdminUserService
     }
 
     /**
-     * Reset the email pattern by putting the default email pattern that is set in
-     * the <b>lutece.properties</b>.
+     * Reset the email pattern by putting the default email pattern that is set in the <b>lutece.properties</b>.
      */
     public static void doResetEmailPattern( )
     {
@@ -565,7 +558,8 @@ public final class AdminUserService
     /**
      * Get the email error message url.
      *
-     * @param request the request
+     * @param request
+     *            the request
      * @return the error message
      */
     public static String getEmailErrorMessageUrl( HttpServletRequest request )
@@ -580,7 +574,7 @@ public final class AdminUserService
         {
             StringBuilder sbMessage = new StringBuilder( );
             String emailPatternVerifyBy = DefaultUserParameterHome.findByKey( DSKEY_EMAIL_PATTERN_VERIFY_BY );
-            String[] regularExpressionIds = emailPatternVerifyBy.split( COMMA );
+            String [ ] regularExpressionIds = emailPatternVerifyBy.split( COMMA );
 
             for ( String strRegularExpressionId : regularExpressionIds )
             {
@@ -589,8 +583,7 @@ public final class AdminUserService
                 if ( StringUtils.isNotBlank( trimedId ) && StringUtils.isNumeric( trimedId ) )
                 {
                     int nRegularExpressionId = Integer.parseInt( trimedId );
-                    RegularExpression regularExpression = RegularExpressionService.getInstance( )
-                            .getRegularExpressionByKey( nRegularExpressionId );
+                    RegularExpression regularExpression = RegularExpressionService.getInstance( ).getRegularExpressionByKey( nRegularExpressionId );
 
                     if ( regularExpression != null )
                     {
@@ -616,8 +609,9 @@ public final class AdminUserService
             strMessageProperty = PROPERTY_MESSAGE_EMAIL_FORMAT;
         }
 
-        Object[] param =
-        { strMessage, strBannedDomainNames };
+        Object [ ] param = {
+                strMessage, strBannedDomainNames
+        };
 
         return AdminMessageService.getMessageUrl( request, strMessageProperty, param, AdminMessage.TYPE_STOP );
     }
@@ -625,7 +619,8 @@ public final class AdminUserService
     /**
      * Do insert a regular expression
      * 
-     * @param nRegularExpressionId the ID of the regular expression
+     * @param nRegularExpressionId
+     *            the ID of the regular expression
      */
     public static void doInsertRegularExpression( int nRegularExpressionId )
     {
@@ -633,7 +628,7 @@ public final class AdminUserService
         {
             // Retrieve the rules from the database
             String emailPatternVerifyBy = DefaultUserParameterHome.findByKey( DSKEY_EMAIL_PATTERN_VERIFY_BY );
-            String[] regularExpressionIds = emailPatternVerifyBy.split( COMMA );
+            String [ ] regularExpressionIds = emailPatternVerifyBy.split( COMMA );
 
             // Check if the ID is already inserted
             boolean bIsAlreadyInserted = false;
@@ -668,7 +663,8 @@ public final class AdminUserService
     /**
      * Do remove a regular expression
      * 
-     * @param nRegularExpressionId the ID of the regularexpresion
+     * @param nRegularExpressionId
+     *            the ID of the regularexpresion
      */
     public static void doRemoveRegularExpression( int nRegularExpressionId )
     {
@@ -678,7 +674,7 @@ public final class AdminUserService
 
             // Retrieve the rules from the database
             String emailPatternVerifyBy = DefaultUserParameterHome.findByKey( DSKEY_EMAIL_PATTERN_VERIFY_BY );
-            String[] regularExpressionIds = emailPatternVerifyBy.split( COMMA );
+            String [ ] regularExpressionIds = emailPatternVerifyBy.split( COMMA );
 
             // Build the list of regular expression without the regular expression id to
             // delete
@@ -713,10 +709,8 @@ public final class AdminUserService
     }
 
     /**
-     * Get the AdminUser email pattern that is stored in
-     * <b>'core_user_parameter.email_pattern'</b>. <br>
-     * If it does not exist, then it will retrieve the value in the
-     * <b>lutece.properties</b> file (parameter <b>email.pattern</b>)
+     * Get the AdminUser email pattern that is stored in <b>'core_user_parameter.email_pattern'</b>. <br>
+     * If it does not exist, then it will retrieve the value in the <b>lutece.properties</b> file (parameter <b>email.pattern</b>)
      * 
      * @return the AdminUser email pattern
      */
@@ -748,7 +742,7 @@ public final class AdminUserService
 
             // Retrieve the rules from the database
             String emailPatternVerifyBy = DefaultUserParameterHome.findByKey( DSKEY_EMAIL_PATTERN_VERIFY_BY );
-            String[] regularExpressionIds = emailPatternVerifyBy.split( COMMA );
+            String [ ] regularExpressionIds = emailPatternVerifyBy.split( COMMA );
 
             for ( String strRegularExpressionId : regularExpressionIds )
             {
@@ -762,16 +756,14 @@ public final class AdminUserService
             }
 
             // Fetch all regular expressions
-            List<RegularExpression> listRegularExpression = RegularExpressionService.getInstance( )
-                    .getAllRegularExpression( );
+            List<RegularExpression> listRegularExpression = RegularExpressionService.getInstance( ).getAllRegularExpression( );
 
             // Get only the expressions that are not already selected
             for ( RegularExpression regularExpression : listRegularExpression )
             {
                 if ( !listRegularExpressionIds.contains( regularExpression.getIdExpression( ) ) )
                 {
-                    regularExpressionsList.addItem( regularExpression.getIdExpression( ),
-                            regularExpression.getTitle( ) );
+                    regularExpressionsList.addItem( regularExpression.getIdExpression( ), regularExpression.getTitle( ) );
                 }
             }
         }
@@ -792,7 +784,7 @@ public final class AdminUserService
         {
             // Retrieve the rules from the database
             String emailPatternVerifyBy = DefaultUserParameterHome.findByKey( DSKEY_EMAIL_PATTERN_VERIFY_BY );
-            String[] regularExpressionIds = emailPatternVerifyBy.split( COMMA );
+            String [ ] regularExpressionIds = emailPatternVerifyBy.split( COMMA );
 
             for ( String strRegularExpressionId : regularExpressionIds )
             {
@@ -801,8 +793,7 @@ public final class AdminUserService
                 if ( StringUtils.isNotBlank( trimedId ) && StringUtils.isNumeric( trimedId ) )
                 {
                     int nRegularExpressionId = Integer.parseInt( trimedId );
-                    RegularExpression expression = RegularExpressionService.getInstance( )
-                            .getRegularExpressionByKey( nRegularExpressionId );
+                    RegularExpression expression = RegularExpressionService.getInstance( ).getRegularExpressionByKey( nRegularExpressionId );
 
                     if ( expression != null )
                     {
@@ -816,8 +807,7 @@ public final class AdminUserService
     }
 
     /**
-     * Check whether the email pattern is set manually or by a set of rules from the
-     * plugin-regularexpression.
+     * Check whether the email pattern is set manually or by a set of rules from the plugin-regularexpression.
      * 
      * @return true if it is set manually, false otherwise
      */
@@ -841,9 +831,9 @@ public final class AdminUserService
     /**
      * Get an integer user parameter from its key.
      * 
-     * @param strParameterkey Key of the parameter
-     * @return The value of the user parameter, or 0 if there is no value or an non
-     *         integer value.
+     * @param strParameterkey
+     *            Key of the parameter
+     * @return The value of the user parameter, or 0 if there is no value or an non integer value.
      */
     public static int getIntegerSecurityParameter( String strParameterkey )
     {
@@ -858,7 +848,7 @@ public final class AdminUserService
         {
             return Integer.parseInt( defaultUserParameter );
         }
-        catch ( NumberFormatException e )
+        catch( NumberFormatException e )
         {
             return 0;
         }
@@ -867,9 +857,9 @@ public final class AdminUserService
     /**
      * Get a boolean user parameter from its key.
      * 
-     * @param strParameterkey Key of the parameter
-     * @return The value of the user parameter, or false if there is no value or an
-     *         non boolean value.
+     * @param strParameterkey
+     *            Key of the parameter
+     * @return The value of the user parameter, or false if there is no value or an non boolean value.
      */
     public static boolean getBooleanSecurityParameter( String strParameterkey )
     {
@@ -881,7 +871,8 @@ public final class AdminUserService
     /**
      * Get a user parameter from its key.
      * 
-     * @param strParameterkey Key of the parameter
+     * @param strParameterkey
+     *            Key of the parameter
      * @return The value of the user parameter.
      */
     public static String getSecurityParameter( String strParameterkey )
@@ -892,20 +883,22 @@ public final class AdminUserService
     /**
      * Get a user parameter from its key.
      * 
-     * @param strParameterKey Key of the parameter
+     * @param strParameterKey
+     *            Key of the parameter
      * @return The value of the user parameter.
      */
     public static String getLargeSecurityParameter( String strParameterKey )
     {
-        return DatastoreService.getDataValue(
-                PluginService.getCore( ).getName( ) + CONSTANT_UNDERSCORE + strParameterKey, StringUtils.EMPTY );
+        return DatastoreService.getDataValue( PluginService.getCore( ).getName( ) + CONSTANT_UNDERSCORE + strParameterKey, StringUtils.EMPTY );
     }
 
     /**
      * Update a security parameter value.
      * 
-     * @param strParameterKey The key of the parameter
-     * @param strValue        The new value
+     * @param strParameterKey
+     *            The key of the parameter
+     * @param strValue
+     *            The new value
      */
     public static void updateSecurityParameter( String strParameterKey, String strValue )
     {
@@ -916,23 +909,26 @@ public final class AdminUserService
     /**
      * Update a security parameter value.
      * 
-     * @param strParameterKey The key of the parameter
-     * @param strValue        The new value
+     * @param strParameterKey
+     *            The key of the parameter
+     * @param strValue
+     *            The new value
      */
     public static void updateLargeSecurityParameter( String strParameterKey, String strValue )
     {
-        DatastoreService.setDataValue( PluginService.getCore( ).getName( ) + CONSTANT_UNDERSCORE + strParameterKey,
-                strValue );
+        DatastoreService.setDataValue( PluginService.getCore( ).getName( ) + CONSTANT_UNDERSCORE + strParameterKey, strValue );
     }
 
     /**
      * Check that the password respect user parameters
      * 
-     * @param request     The request
-     * @param strPassword The password to check
-     * @param nUserId     The id of the modified user
-     * @return Null if the password is correct, or the url of an admin message
-     *         describing the error
+     * @param request
+     *            The request
+     * @param strPassword
+     *            The password to check
+     * @param nUserId
+     *            The id of the modified user
+     * @return Null if the password is correct, or the url of an admin message describing the error
      */
     public static String checkPassword( HttpServletRequest request, String strPassword, int nUserId )
     {
@@ -942,27 +938,28 @@ public final class AdminUserService
     /**
      * Check that the password respect user parameters
      * 
-     * @param request           The request
-     * @param strPassword       The password to check
-     * @param nUserId           The id of the modified user
-     * @param bSkipHistoryCheck Indicates if the password history should be checked
-     *                          or not.
-     * @return Null if the password is correct, or the url of an admin message
-     *         describing the error
+     * @param request
+     *            The request
+     * @param strPassword
+     *            The password to check
+     * @param nUserId
+     *            The id of the modified user
+     * @param bSkipHistoryCheck
+     *            Indicates if the password history should be checked or not.
+     * @return Null if the password is correct, or the url of an admin message describing the error
      */
-    public static String checkPassword( HttpServletRequest request, String strPassword, int nUserId,
-            boolean bSkipHistoryCheck )
+    public static String checkPassword( HttpServletRequest request, String strPassword, int nUserId, boolean bSkipHistoryCheck )
     {
         // Minimum password length
         int nMinimumLength = AdminUserService.getIntegerSecurityParameter( DSKEY_PASSWORD_MINIMUM_LENGTH );
 
         if ( ( nMinimumLength > 0 ) && ( strPassword.length( ) < nMinimumLength ) )
         {
-            Object[] param =
-            { nMinimumLength };
+            Object [ ] param = {
+                    nMinimumLength
+            };
 
-            return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_MINIMUM_PASSWORD_LENGTH, param,
-                    AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_MINIMUM_PASSWORD_LENGTH, param, AdminMessage.TYPE_STOP );
         }
 
         // Password format
@@ -997,15 +994,13 @@ public final class AdminUserService
             {
                 if ( password.check( strPassword ) )
                 {
-                    return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_PASSWORD_ALREADY_USED,
-                            AdminMessage.TYPE_STOP );
+                    return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_PASSWORD_ALREADY_USED, AdminMessage.TYPE_STOP );
                 }
             }
         }
 
         int nTSWSizePasswordChange = AdminUserService.getIntegerSecurityParameter( DSKEY_TSW_SIZE_PASSWORD_CHANGE );
-        int nMaximumNumberPasswordChange = AdminUserService
-                .getIntegerSecurityParameter( DSKEY_MAXIMUM_NUMBER_PASSWORD_CHANGE );
+        int nMaximumNumberPasswordChange = AdminUserService.getIntegerSecurityParameter( DSKEY_MAXIMUM_NUMBER_PASSWORD_CHANGE );
 
         if ( nMaximumNumberPasswordChange > 0 )
         {
@@ -1013,8 +1008,7 @@ public final class AdminUserService
 
             if ( nTSWSizePasswordChange > 0 )
             {
-                minDate = new Timestamp( new java.util.Date( ).getTime( )
-                        - DateUtil.convertDaysInMiliseconds( nTSWSizePasswordChange ) );
+                minDate = new Timestamp( new java.util.Date( ).getTime( ) - DateUtil.convertDaysInMiliseconds( nTSWSizePasswordChange ) );
             }
             else
             {
@@ -1023,8 +1017,7 @@ public final class AdminUserService
 
             if ( AdminUserHome.countUserPasswordHistoryFromDate( minDate, nUserId ) >= nMaximumNumberPasswordChange )
             {
-                return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_MAX_PASSWORD_CHANGE,
-                        AdminMessage.TYPE_STOP );
+                return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_MAX_PASSWORD_CHANGE, AdminMessage.TYPE_STOP );
             }
         }
 
@@ -1033,47 +1026,40 @@ public final class AdminUserService
 
     private static String checkPasswordFormat( HttpServletRequest request, String strPassword )
     {
-        boolean bUserPasswordFormatUpperLowerCase = AdminUserService
-                .getBooleanSecurityParameter( DSKEY_PASSWORD_FORMAT_UPPER_LOWER_CASE );
-        boolean bUserPasswordFormatNumero = AdminUserService
-                .getBooleanSecurityParameter( DSKEY_PASSWORD_FORMAT_NUMERO );
-        boolean bUserPasswordFormatSpecialCaracters = AdminUserService
-                .getBooleanSecurityParameter( DSKEY_PASSWORD_FORMAT_SPECIAL_CHARACTERS );
+        boolean bUserPasswordFormatUpperLowerCase = AdminUserService.getBooleanSecurityParameter( DSKEY_PASSWORD_FORMAT_UPPER_LOWER_CASE );
+        boolean bUserPasswordFormatNumero = AdminUserService.getBooleanSecurityParameter( DSKEY_PASSWORD_FORMAT_NUMERO );
+        boolean bUserPasswordFormatSpecialCaracters = AdminUserService.getBooleanSecurityParameter( DSKEY_PASSWORD_FORMAT_SPECIAL_CHARACTERS );
 
-        if ( ( bUserPasswordFormatUpperLowerCase || bUserPasswordFormatNumero || bUserPasswordFormatSpecialCaracters )
-                && !PasswordUtil.checkPasswordFormat( strPassword, bUserPasswordFormatUpperLowerCase,
-                        bUserPasswordFormatNumero, bUserPasswordFormatSpecialCaracters ) )
+        if ( ( bUserPasswordFormatUpperLowerCase || bUserPasswordFormatNumero || bUserPasswordFormatSpecialCaracters ) && !PasswordUtil
+                .checkPasswordFormat( strPassword, bUserPasswordFormatUpperLowerCase, bUserPasswordFormatNumero, bUserPasswordFormatSpecialCaracters ) )
         {
             List<String> messageList = new ArrayList<>( );
 
             // Add Message Upper Lower Case
             if ( bUserPasswordFormatUpperLowerCase )
             {
-                messageList.add( I18nService.getLocalizedString( PROPERTY_MESSAGE_PASSWORD_FORMAT_UPPER_LOWER_CASE,
-                        request.getLocale( ) ) );
+                messageList.add( I18nService.getLocalizedString( PROPERTY_MESSAGE_PASSWORD_FORMAT_UPPER_LOWER_CASE, request.getLocale( ) ) );
             }
 
             // Add Message Numero
             if ( bUserPasswordFormatNumero )
             {
-                messageList.add( I18nService.getLocalizedString( PROPERTY_MESSAGE_PASSWORD_FORMAT_NUMERO,
-                        request.getLocale( ) ) );
+                messageList.add( I18nService.getLocalizedString( PROPERTY_MESSAGE_PASSWORD_FORMAT_NUMERO, request.getLocale( ) ) );
             }
 
             // Add Message Special Characters
             if ( bUserPasswordFormatSpecialCaracters )
             {
-                messageList.add( I18nService.getLocalizedString( PROPERTY_MESSAGE_PASSWORD_FORMAT_SPECIAL_CHARACTERS,
-                        request.getLocale( ) ) );
+                messageList.add( I18nService.getLocalizedString( PROPERTY_MESSAGE_PASSWORD_FORMAT_SPECIAL_CHARACTERS, request.getLocale( ) ) );
             }
 
             String strParam = messageList.stream( ).collect( Collectors.joining( ", " ) );
 
-            Object[] param =
-            { strParam };
+            Object [ ] param = {
+                    strParam
+            };
 
-            return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_PASSWORD_FORMAT, param,
-                    AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_PASSWORD_FORMAT, param, AdminMessage.TYPE_STOP );
         }
         return null;
     }
@@ -1086,22 +1072,19 @@ public final class AdminUserService
     public static String makePassword( )
     {
         // Password format
-        boolean bUserPasswordFormatUpperLowerCase = AdminUserService
-                .getBooleanSecurityParameter( DSKEY_PASSWORD_FORMAT_UPPER_LOWER_CASE );
-        boolean bUserPasswordFormatNumero = AdminUserService
-                .getBooleanSecurityParameter( DSKEY_PASSWORD_FORMAT_NUMERO );
-        boolean bUserPasswordFormatSpecialCaracters = AdminUserService
-                .getBooleanSecurityParameter( DSKEY_PASSWORD_FORMAT_SPECIAL_CHARACTERS );
+        boolean bUserPasswordFormatUpperLowerCase = AdminUserService.getBooleanSecurityParameter( DSKEY_PASSWORD_FORMAT_UPPER_LOWER_CASE );
+        boolean bUserPasswordFormatNumero = AdminUserService.getBooleanSecurityParameter( DSKEY_PASSWORD_FORMAT_NUMERO );
+        boolean bUserPasswordFormatSpecialCaracters = AdminUserService.getBooleanSecurityParameter( DSKEY_PASSWORD_FORMAT_SPECIAL_CHARACTERS );
         int nMinPasswordSize = AdminUserService.getIntegerSecurityParameter( DSKEY_PASSWORD_MINIMUM_LENGTH );
 
-        return PasswordUtil.makePassword( nMinPasswordSize, bUserPasswordFormatUpperLowerCase,
-                bUserPasswordFormatNumero, bUserPasswordFormatSpecialCaracters );
+        return PasswordUtil.makePassword( nMinPasswordSize, bUserPasswordFormatUpperLowerCase, bUserPasswordFormatNumero, bUserPasswordFormatSpecialCaracters );
     }
 
     /**
      * Encrypt a password
      * 
-     * @param strPassword The password to encrypt
+     * @param strPassword
+     *            The password to encrypt
      * @return The given password encrypted
      */
     public static IPassword encryptPassword( String strPassword )
@@ -1118,24 +1101,19 @@ public final class AdminUserService
     {
         updateSecurityParameter( DSKEY_USE_ADVANCED_SECURITY_PARAMETERS, Boolean.TRUE.toString( ) );
         updateSecurityParameter( DSKEY_FORCE_CHANGE_PASSWORD_REINIT, Boolean.TRUE.toString( ) );
-        updateSecurityParameter( DSKEY_MAXIMUM_NUMBER_PASSWORD_CHANGE,
-                AppPropertiesService.getProperty( PROPERTY_DEFAULT_MAXIMUM_NUMBER_PASSWORD_CHANGE ) );
-        updateSecurityParameter( DSKEY_PASSWORD_DURATION,
-                AppPropertiesService.getProperty( PROPERTY_DEFAULT_PASSWORD_DURATION ) );
+        updateSecurityParameter( DSKEY_MAXIMUM_NUMBER_PASSWORD_CHANGE, AppPropertiesService.getProperty( PROPERTY_DEFAULT_MAXIMUM_NUMBER_PASSWORD_CHANGE ) );
+        updateSecurityParameter( DSKEY_PASSWORD_DURATION, AppPropertiesService.getProperty( PROPERTY_DEFAULT_PASSWORD_DURATION ) );
         updateSecurityParameter( DSKEY_PASSWORD_FORMAT_UPPER_LOWER_CASE, Boolean.TRUE.toString( ) );
         updateSecurityParameter( DSKEY_PASSWORD_FORMAT_NUMERO, Boolean.TRUE.toString( ) );
         updateSecurityParameter( DSKEY_PASSWORD_FORMAT_SPECIAL_CHARACTERS, Boolean.TRUE.toString( ) );
-        updateSecurityParameter( DSKEY_PASSWORD_HISTORY_SIZE,
-                AppPropertiesService.getProperty( PROPERTY_DEFAULT_HISTORY_SIZE ) );
-        updateSecurityParameter( DSKEY_TSW_SIZE_PASSWORD_CHANGE,
-                AppPropertiesService.getProperty( PROPERTY_DEFAULT_TSW_SIZE_PASSWORD_CHANGE ) );
+        updateSecurityParameter( DSKEY_PASSWORD_HISTORY_SIZE, AppPropertiesService.getProperty( PROPERTY_DEFAULT_HISTORY_SIZE ) );
+        updateSecurityParameter( DSKEY_TSW_SIZE_PASSWORD_CHANGE, AppPropertiesService.getProperty( PROPERTY_DEFAULT_TSW_SIZE_PASSWORD_CHANGE ) );
 
         int nMinPwdLength = getIntegerSecurityParameter( DSKEY_PASSWORD_MINIMUM_LENGTH );
 
         if ( nMinPwdLength <= 0 )
         {
-            updateSecurityParameter( DSKEY_PASSWORD_MINIMUM_LENGTH,
-                    AppPropertiesService.getProperty( PROPERTY_DEFAULT_PASSWORD_MINIMAL_LENGTH ) );
+            updateSecurityParameter( DSKEY_PASSWORD_MINIMUM_LENGTH, AppPropertiesService.getProperty( PROPERTY_DEFAULT_PASSWORD_MINIMAL_LENGTH ) );
         }
 
         updateSecurityParameter( DSKEY_NOTIFY_USER_PASSWORD_EXPIRED, Boolean.TRUE.toString( ) );
@@ -1158,8 +1136,7 @@ public final class AdminUserService
     }
 
     /**
-     * Compute the maximum valid date of a password with the current time and the
-     * parameters in the database.
+     * Compute the maximum valid date of a password with the current time and the parameters in the database.
      * 
      * @return The maximum valid date of a password
      */
@@ -1176,8 +1153,7 @@ public final class AdminUserService
     }
 
     /**
-     * Compute the maximum valid date of an account with the current time and the
-     * parameters in the database.
+     * Compute the maximum valid date of an account with the current time and the parameters in the database.
      * 
      * @return The maximum valid date of an account
      */
@@ -1197,18 +1173,18 @@ public final class AdminUserService
     }
 
     /**
-     * Anonymize user data from his id. His rights, roles and his passwords history
-     * are also deleted.
+     * Anonymize user data from his id. His rights, roles and his passwords history are also deleted.
      * 
-     * @param nAdminUserId Id of the user to anonymize
-     * @param locale       The locale
+     * @param nAdminUserId
+     *            Id of the user to anonymize
+     * @param locale
+     *            The locale
      */
     public static void anonymizeUser( int nAdminUserId, Locale locale )
     {
         AdminUser user = AdminUserHome.findByPrimaryKey( nAdminUserId );
 
-        String strEncryptionAlgorithme = AppPropertiesService.getProperty( PROPERTY_ANONYMIZATION_ENCRYPT_ALGO,
-                CONSTANT_DEFAULT_ENCRYPT_ALGO );
+        String strEncryptionAlgorithme = AppPropertiesService.getProperty( PROPERTY_ANONYMIZATION_ENCRYPT_ALGO, CONSTANT_DEFAULT_ENCRYPT_ALGO );
 
         Map<String, Boolean> anonymizationStatus = AdminUserHome.getAnonymizationStatusUserStaticField( );
 
@@ -1252,8 +1228,7 @@ public final class AdminUserService
 
         for ( IAttribute attribute : listAttributesText )
         {
-            List<AdminUserField> listAdminUserField = AdminUserFieldHome
-                    .selectUserFieldsByIdUserIdAttribute( nAdminUserId, attribute.getIdAttribute( ) );
+            List<AdminUserField> listAdminUserField = AdminUserFieldHome.selectUserFieldsByIdUserIdAttribute( nAdminUserId, attribute.getIdAttribute( ) );
 
             for ( AdminUserField adminUserField : listAdminUserField )
             {
@@ -1274,10 +1249,10 @@ public final class AdminUserService
     }
 
     /**
-     * Update the user expiration date with new values, and notify him with an email
-     * if his account was close to expire.
+     * Update the user expiration date with new values, and notify him with an email if his account was close to expire.
      * 
-     * @param user The user to update
+     * @param user
+     *            The user to update
      */
     public static void updateUserExpirationDate( AdminUser user )
     {
@@ -1297,18 +1272,15 @@ public final class AdminUserService
 
         if ( maxValidDate != null )
         {
-            Timestamp firstAlertMaxDate = new Timestamp(
-                    maxValidDate.getTime( ) - DateUtil.convertDaysInMiliseconds( nbDaysBeforeFirstAlert ) );
+            Timestamp firstAlertMaxDate = new Timestamp( maxValidDate.getTime( ) - DateUtil.convertDaysInMiliseconds( nbDaysBeforeFirstAlert ) );
             Timestamp currentTimestamp = new Timestamp( new java.util.Date( ).getTime( ) );
 
-            if ( ( currentTimestamp.getTime( ) > firstAlertMaxDate.getTime( ) )
-                    && StringUtils.isNotBlank( strUserMail ) )
+            if ( ( currentTimestamp.getTime( ) > firstAlertMaxDate.getTime( ) ) && StringUtils.isNotBlank( strUserMail ) )
             {
                 AdminUser completeUser = AdminUserHome.findByPrimaryKey( user.getUserId( ) );
                 String strBody = DatabaseTemplateService.getTemplateFromKey( DSKEY_ACCOUNT_REACTIVATED_MAIL_BODY );
 
-                String defaultUserParameter = DefaultUserParameterHome
-                        .findByKey( DSKEY_ACCOUNT_REACTIVATED_MAIL_SENDER );
+                String defaultUserParameter = DefaultUserParameterHome.findByKey( DSKEY_ACCOUNT_REACTIVATED_MAIL_SENDER );
                 String strSender = ( defaultUserParameter == null ) ? StringUtils.EMPTY : defaultUserParameter;
 
                 defaultUserParameter = DefaultUserParameterHome.findByKey( DSKEY_ACCOUNT_REACTIVATED_MAIL_SUBJECT );
@@ -1327,8 +1299,7 @@ public final class AdminUserService
                 model.put( MARK_NAME, completeUser.getLastName( ) );
                 model.put( MARK_FIRST_NAME, completeUser.getFirstName( ) );
 
-                HtmlTemplate template = AppTemplateService.getTemplateFromStringFtl( strBody,
-                        LocaleService.getDefault( ), model );
+                HtmlTemplate template = AppTemplateService.getTemplateFromStringFtl( strBody, LocaleService.getDefault( ), model );
                 MailService.sendMailHtml( strUserMail, strSender, strSender, strSubject, template.getHtml( ) );
             }
         }
@@ -1337,7 +1308,8 @@ public final class AdminUserService
     /**
      * Update the date of last login of an admin user
      * 
-     * @param nIdUser Id of the user to update
+     * @param nIdUser
+     *            Id of the user to update
      */
     public static void updateDateLastLogin( int nIdUser )
     {
@@ -1347,13 +1319,16 @@ public final class AdminUserService
     /**
      * Notify an user by email
      * 
-     * @param strBaseUrl              The base URL of the webapp
-     * @param user                    The admin user to notify
-     * @param strPropertyEmailSubject the property of the subject email
-     * @param strTemplate             the URL of the HTML Template
+     * @param strBaseUrl
+     *            The base URL of the webapp
+     * @param user
+     *            The admin user to notify
+     * @param strPropertyEmailSubject
+     *            the property of the subject email
+     * @param strTemplate
+     *            the URL of the HTML Template
      */
-    public static void notifyUser( String strBaseUrl, AdminUser user, String strPropertyEmailSubject,
-            String strTemplate )
+    public static void notifyUser( String strBaseUrl, AdminUser user, String strPropertyEmailSubject, String strTemplate )
     {
         notifyUser( strBaseUrl, user, null, strPropertyEmailSubject, strTemplate );
     }
@@ -1361,20 +1336,25 @@ public final class AdminUserService
     /**
      * Notify an user by email
      * 
-     * @param strBaseUrl              The base URL of the webapp
-     * @param user                    The admin user to notify
-     * @param strPassword             the user password in cleartext
-     * @param strPropertyEmailSubject the property of the subject email
-     * @param strTemplate             the URL of the HTML Template
+     * @param strBaseUrl
+     *            The base URL of the webapp
+     * @param user
+     *            The admin user to notify
+     * @param strPassword
+     *            the user password in cleartext
+     * @param strPropertyEmailSubject
+     *            the property of the subject email
+     * @param strTemplate
+     *            the URL of the HTML Template
      */
-    public static void notifyUser( String strBaseUrl, AdminUser user, String strPassword,
-            String strPropertyEmailSubject, String strTemplate )
+    public static void notifyUser( String strBaseUrl, AdminUser user, String strPassword, String strPropertyEmailSubject, String strTemplate )
     {
         String strSenderEmail = MailService.getNoReplyEmail( );
         String strSiteName = PortalService.getSiteName( );
         Locale locale = user.getLocale( );
-        String strEmailSubject = I18nService.getLocalizedString( strPropertyEmailSubject, new String[]
-        { strSiteName }, locale );
+        String strEmailSubject = I18nService.getLocalizedString( strPropertyEmailSubject, new String [ ] {
+                strSiteName
+        }, locale );
         Map<String, Object> model = new HashMap<>( );
         model.put( MARK_USER, user );
         model.put( MARK_PASSWORD, strPassword );
@@ -1384,8 +1364,7 @@ public final class AdminUserService
 
         HtmlTemplate template = AppTemplateService.getTemplate( strTemplate, locale, model );
 
-        MailService.sendMailHtml( user.getEmail( ), strSenderEmail, strSenderEmail, strEmailSubject,
-                template.getHtml( ) );
+        MailService.sendMailHtml( user.getEmail( ), strSenderEmail, strSenderEmail, strEmailSubject, template.getHtml( ) );
     }
 
     /**
@@ -1399,14 +1378,10 @@ public final class AdminUserService
      * &nbsp;&nbsp;<b>&lt;status&gt;</b>value<b>&lt;/status&gt;</b><br>
      * &nbsp;&nbsp;<b>&lt;locale&gt;</b>value<b>&lt;/locale&gt;</b><br>
      * &nbsp;&nbsp;<b>&lt;level&gt;</b>value<b>&lt;/level&gt;</b><br>
-     * &nbsp;&nbsp;<b>&lt;must_change_password&gt;</b>value<b>&lt;
-     * must_change_password&gt;</b><br>
-     * &nbsp;&nbsp;<b>&lt;accessibility_mode&gt;</b>value<b>&lt;
-     * accessibility_mode&gt;</b><br>
-     * &nbsp;&nbsp;<b>&lt;password_max_valid_date&gt;</b>value<b>&lt;
-     * password_max_valid_date&gt;</b><br>
-     * &nbsp;&nbsp;<b>&lt;account_max_valid_date&gt;</b>value<b>&lt;
-     * account_max_valid_date&gt;</b><br>
+     * &nbsp;&nbsp;<b>&lt;must_change_password&gt;</b>value<b>&lt; must_change_password&gt;</b><br>
+     * &nbsp;&nbsp;<b>&lt;accessibility_mode&gt;</b>value<b>&lt; accessibility_mode&gt;</b><br>
+     * &nbsp;&nbsp;<b>&lt;password_max_valid_date&gt;</b>value<b>&lt; password_max_valid_date&gt;</b><br>
+     * &nbsp;&nbsp;<b>&lt;account_max_valid_date&gt;</b>value<b>&lt; account_max_valid_date&gt;</b><br>
      * &nbsp;&nbsp;<b>&lt;date_last_login&gt;</b>value<b>&lt;/date_last_login&gt;</b><br>
      * &nbsp;&nbsp;<b>&lt;roles&gt;</b><br>
      * &nbsp;&nbsp;&nbsp;&nbsp;<b>&lt;role&gt;</b>value<b>&lt;/role&gt;</b><br>
@@ -1423,33 +1398,31 @@ public final class AdminUserService
      * &nbsp;&nbsp;<b>&lt;attributes&gt;</b><br>
      * &nbsp;&nbsp;&nbsp;&nbsp;<b>&lt;attribute&gt;</b><br>
      * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>&lt;attribute-id&gt;</b>value<b>&lt;/attribute-id&gt;</b><br>
-     * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>&lt;attribute-field-id&gt;</b>
-     * value<b>&lt;/attribute-id&gt;</b><br>
-     * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>&lt;attribute-value&gt;</b>value<b
-     * >&lt;/attribute-value&gt;</b><br>
+     * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>&lt;attribute-field-id&gt;</b> value<b>&lt;/attribute-id&gt;</b><br>
+     * &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<b>&lt;attribute-value&gt;</b>value<b >&lt;/attribute-value&gt;</b><br>
      * &nbsp;&nbsp;&nbsp;&nbsp;<b>&lt;/attribute&gt;</b><br>
      * &nbsp;&nbsp;&nbsp;&nbsp;...<br>
      * &nbsp;&nbsp;<b>&lt;/attributes&gt;</b><br>
      * <b>&lt;/user&gt;</b><br>
      * <br>
-     * Sections <b>roles</b>, <b>rights</b>, <b>workspaces</b> and <b>attributes</b>
-     * are not included if data are not imported
+     * Sections <b>roles</b>, <b>rights</b>, <b>workspaces</b> and <b>attributes</b> are not included if data are not imported
      * 
-     * @param user               The user to get the XML description of.
-     * @param bIncludeRoles      True to include roles of the user in the XML, false
-     *                           otherwise.
-     * @param bIncludeRights     True to include rights of the user in the XML,
-     *                           false otherwise.
-     * @param bIncludeWorkgroups True to include workgroups of the user in the XML,
-     *                           false otherwise.
-     * @param bIncludeAttributes True to include attributes of the user in the XML,
-     *                           false otherwise.
-     * @param listAttributes     The list of attributes to include in the XML if
-     *                           attributes are included.
+     * @param user
+     *            The user to get the XML description of.
+     * @param bIncludeRoles
+     *            True to include roles of the user in the XML, false otherwise.
+     * @param bIncludeRights
+     *            True to include rights of the user in the XML, false otherwise.
+     * @param bIncludeWorkgroups
+     *            True to include workgroups of the user in the XML, false otherwise.
+     * @param bIncludeAttributes
+     *            True to include attributes of the user in the XML, false otherwise.
+     * @param listAttributes
+     *            The list of attributes to include in the XML if attributes are included.
      * @return A string of XML describing the user.
      */
-    public static String getXmlFromUser( AdminUser user, boolean bIncludeRoles, boolean bIncludeRights,
-            boolean bIncludeWorkgroups, boolean bIncludeAttributes, List<IAttribute> listAttributes )
+    public static String getXmlFromUser( AdminUser user, boolean bIncludeRoles, boolean bIncludeRights, boolean bIncludeWorkgroups, boolean bIncludeAttributes,
+            List<IAttribute> listAttributes )
     {
         StringBuffer sbXml = new StringBuffer( );
         DateFormat dateFormat = new SimpleDateFormat( );
@@ -1465,16 +1438,13 @@ public final class AdminUserService
         XmlUtil.addElement( sbXml, CONSTANT_XML_MUST_CHANGE_PASSWORD, Boolean.toString( user.isPasswordReset( ) ) );
         XmlUtil.addElement( sbXml, CONSTANT_XML_ACCESSIBILITY_MODE, Boolean.toString( user.getAccessibilityMode( ) ) );
 
-        String strPasswordMaxValidDate = Optional.ofNullable( user.getPasswordMaxValidDate( ) )
-                .map( dateFormat::format ).orElse( StringUtils.EMPTY );
+        String strPasswordMaxValidDate = Optional.ofNullable( user.getPasswordMaxValidDate( ) ).map( dateFormat::format ).orElse( StringUtils.EMPTY );
         XmlUtil.addElement( sbXml, CONSTANT_XML_PASSWORD_MAX_VALID_DATE, strPasswordMaxValidDate );
 
-        String strAccountMaxValidDate = Optional.ofNullable( user.getAccountMaxValidDate( ) ).map( dateFormat::format )
-                .orElse( StringUtils.EMPTY );
+        String strAccountMaxValidDate = Optional.ofNullable( user.getAccountMaxValidDate( ) ).map( dateFormat::format ).orElse( StringUtils.EMPTY );
         XmlUtil.addElement( sbXml, CONSTANT_XML_ACCOUNT_MAX_VALID_DATE, strAccountMaxValidDate );
 
-        String strDateLastLogin = Optional.ofNullable( user.getDateLastLogin( ) ).map( dateFormat::format )
-                .orElse( StringUtils.EMPTY );
+        String strDateLastLogin = Optional.ofNullable( user.getDateLastLogin( ) ).map( dateFormat::format ).orElse( StringUtils.EMPTY );
         XmlUtil.addElement( sbXml, CONSTANT_XML_DATE_LAST_LOGIN, strDateLastLogin );
 
         if ( bIncludeRoles )
@@ -1497,14 +1467,13 @@ public final class AdminUserService
         {
             ReferenceList refListWorkgroups = AdminWorkgroupHome.getUserWorkgroups( user );
             XmlUtil.beginElement( sbXml, CONSTANT_XML_WORKGROUPS );
-            refListWorkgroups.forEach( ri ->  XmlUtil.addElement( sbXml, CONSTANT_XML_WORKGROUP, ri.getCode( ) ) );
+            refListWorkgroups.forEach( ri -> XmlUtil.addElement( sbXml, CONSTANT_XML_WORKGROUP, ri.getCode( ) ) );
             XmlUtil.endElement( sbXml, CONSTANT_XML_WORKGROUPS );
         }
 
         if ( bIncludeAttributes )
         {
-            Map<String, Object> mapAttributes = AdminUserFieldService.getAdminUserFields( listAttributes,
-                    user.getUserId( ), LocaleService.getDefault( ) );
+            Map<String, Object> mapAttributes = AdminUserFieldService.getAdminUserFields( listAttributes, user.getUserId( ), LocaleService.getDefault( ) );
             XmlUtil.beginElement( sbXml, CONSTANT_XML_ATTRIBUTES );
 
             for ( Entry<String, Object> entry : mapAttributes.entrySet( ) )
@@ -1515,15 +1484,13 @@ public final class AdminUserService
                 if ( value instanceof List<?> )
                 {
                     List<AdminUserField> listFields = (List<AdminUserField>) value;
-                    listFields = listFields.stream( ).filter( auf -> auf.getIdUserField( ) > 0 )
-                            .collect( Collectors.toList( ) );
+                    listFields = listFields.stream( ).filter( auf -> auf.getIdUserField( ) > 0 ).collect( Collectors.toList( ) );
 
                     for ( AdminUserField adminUserFields : listFields )
                     {
                         XmlUtil.beginElement( sbXml, CONSTANT_XML_ATTRIBUTE );
                         XmlUtil.addElement( sbXml, CONSTANT_XML_ATTRIBUTE_ID, strAttributeKey );
-                        XmlUtil.addElement( sbXml, CONSTANT_XML_ATTRIBUTE_FIELD_ID,
-                                adminUserFields.getAttributeField( ).getIdField( ) );
+                        XmlUtil.addElement( sbXml, CONSTANT_XML_ATTRIBUTE_FIELD_ID, adminUserFields.getAttributeField( ).getIdField( ) );
                         XmlUtil.addElement( sbXml, CONSTANT_XML_ATTRIBUTE_VALUE, adminUserFields.getValue( ) );
                         XmlUtil.endElement( sbXml, CONSTANT_XML_ATTRIBUTE );
                     }
@@ -1541,9 +1508,12 @@ public final class AdminUserService
     /**
      * Get a user reset password token
      * 
-     * @param user      the user
-     * @param timestamp the timestamp of the token
-     * @param request   he request
+     * @param user
+     *            the user
+     * @param timestamp
+     *            the timestamp of the token
+     * @param request
+     *            he request
      * @return the reset password token
      */
     public static String getUserPasswordResetToken( AdminUser user, Date timestamp, HttpServletRequest request )
