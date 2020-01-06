@@ -283,14 +283,23 @@
             </list>
         </property>
     </bean>
-		<bean id="commonsBoostrap4AdminLTE" class="fr.paris.lutece.portal.business.template.CommonsInclude">
-        <property name="key" value="Bootstrap4AdminLTE" />
-        <property name="name" value="Bootstrap v4 + AdminLTE (Experimental)" />
-        <property name="files">
-            <list>
-                <value>commons_bs4_adminlte.html</value>
-            </list>
-        </property>
+	<bean id="commonsBoostrap4AdminLTE" class="fr.paris.lutece.portal.business.template.CommonsInclude">
+	    <property name="key" value="Bootstrap4AdminLTE" />
+	    <property name="name" value="Bootstrap v4 + AdminLTE (Experimental)" />
+	    <property name="files">
+	        <list>
+	            <value>commons_bs4_adminlte.html</value>
+	        </list>
+	    </property>
+    </bean>
+    	<bean id="commonsBoostrap4AdminLTE" class="fr.paris.lutece.portal.business.template.CommonsInclude">
+	    <property name="key" value="Bootstrap4MaterialDesign" />
+	    <property name="name" value="Bootstrap v4 + Material Design for  Bootstrap (Experimental)" />
+	    <property name="files">
+	        <list>
+	            <value>commons_bs4_materialdesign.html</value>
+	        </list>
+	    </property>
     </bean>
 		
     <!-- <bean id="commonsBS4stisla" class="fr.paris.lutece.portal.business.template.CommonsInclude"> <property name="key" 
