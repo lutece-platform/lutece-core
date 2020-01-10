@@ -1,0 +1,11 @@
+iframe#preview {
+	margin: 10px 8px;
+}
+
+label:not(.form-check-label):not(.custom-file-label) {
+	font-weight: 600;
+}
+
+.card-header > .card-tools .input-group, .card-header > .card-tools .nav, .card-header > .card-tools .pagination {
+	margin-top:0;
+}

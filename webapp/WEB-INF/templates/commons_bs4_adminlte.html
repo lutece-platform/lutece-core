@@ -18,6 +18,7 @@
 <link href="css/admin/style/bootstrap4/all.min.css" rel="stylesheet"> <!-- Font-Awesome 5.8.1 -->
 <link href="css/admin/style/bootstrap4/portal_admin.css" rel="stylesheet">
 <link href="css/admin/style/bootstrap4/adminlte.min.css" rel="stylesheet">
+<link href="css/admin/style/bootstrap4/adminlte.override.css" rel="stylesheet">
 </#macro>
 
 <#macro coreAdminJSLinks>
@@ -1187,12 +1188,11 @@
 -------------------------------------------------- -->
 <#-- MACRO adminHeader -->
 <#macro adminHeader site_name=site_name>
-<body class="d-flex flex-column vh-100">
-	<div class="skipnav"><a href="#main">allez au contenu principal</a></div>
-	<h1 id="top" class="sr-only sr-only-focusable">Haut de page</h1>
-	<header class="main-header" role="banner">
-		<!-- <nav class="navbar navbar-expand-md navbar-fixed-top bg-primary" role="navigation"> -->
-	  <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
+<body class="d-flex flex-column vh-100 layout-top-nav">
+	<div class="wrapper"><!-- Close in footer -->
+		<div class="sr-only"><a href="#main">allez au contenu principal</a></div>
+		<h1 id="top" class="sr-only sr-only-focusable">Haut de page</h1>
+		<nav class="main-header navbar navbar-expand-lg navbar-dark bg-indigo">
 			<a class="navbar-brand" href="jsp/site/Portal.jsp" title="#i18n{portal.users.admin_header.title.viewSite} ${site_name}" target="_blank" >
 				<img src="#dskey{portal.site.site_property.logo_url}" height="30" class="d-inline-block align-top" aria-hidden="true" title="#i18n{portal.users.admin_header.title.viewSite} ${site_name}" alt="${site_name}">
 				<#if site_name?length &gt; 18> ${site_name?substring(0,16)}... <#else> ${site_name}</#if>
@@ -1203,13 +1203,13 @@
 			<div class="collapse navbar-collapse" id="navbar-collapse">
 				<ul class="navbar-nav mr-auto">
 				<#list feature_group_list as feature_group>
-				  <#if feature_group.features?size &gt; 1>
-					 	<li class="nav-item dropdown">
+					<#if feature_group.features?size &gt; 1>
+						<li class="nav-item dropdown">
 							<a class="nav-link dropdown-toggle" id="dLabel${feature_group.id}Header" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="${admin_url}#${feature_group.id}">
 								${feature_group.label}
 							</a>
-					   <div class="dropdown-menu" aria-labelledby="dLabel${feature_group.id}Header">
-						 	<#list feature_group.features as feature>
+						 <div class="dropdown-menu" aria-labelledby="dLabel${feature_group.id}Header">
+							<#list feature_group.features as feature>
 								<#if !feature.externalFeature>
 									<a class="dropdown-item" href="${feature.url}?plugin_name=${feature.pluginName}">${feature.name}</a>
 								<#else>
@@ -1217,35 +1217,35 @@
 										<#if feature.iconUrl?has_content><i class="${feature.iconUrl}"></i></#if> ${feature.name}
 									</a>
 								</#if>
-						 	</#list>
+							</#list>
 							</div>
-					 	</li>
-				  <#else>
-					 	<#list feature_group.features as feature>
-					  	<li class="nav-item">
-						  <#if !feature.externalFeature>
+						</li>
+					<#else>
+						<#list feature_group.features as feature>
+							<li class="nav-item">
+							<#if !feature.externalFeature>
 								<a class="nav-link" href="${feature.url}?plugin_name=${feature.pluginName}">${feature.name}</a>
-						  <#else>
+							<#else>
 								<a class="nav-link" href="${feature.url}"><#if feature.iconUrl?has_content><i class="${feature.iconUrl}"></i></#if>${feature.name}</a>
-						  </#if>
+							</#if>
 							</li>
-					   </#list>
+						 </#list>
 					 </#if>
-			   </#list>
-			  </ul>
-			  <ul class="nav navbar-nav user">
+				 </#list>
+				</ul>
+				<ul class="nav navbar-nav user">
 					<li class="nav-item home">
 						<a class="nav-link" href="${admin_url}" title="#i18n{portal.users.admin_header.homePage}">
 							<i class="fas fa-home"></i>
 						</a>
 					</li>
-                    <#if user.userLevel == 0>
-                    <li class="nav-item home">
-                        <a class="nav-link" href="jsp/admin/AdminTechnicalMenu.jsp" title="#i18n{portal.admindashboard.view_dashboards.title}">
-                              <i class="fa fa-cog"></i>
-                        </a>
-                    </li>
-                    </#if>
+										<#if user.userLevel == 0>
+										<li class="nav-item home">
+												<a class="nav-link" href="jsp/admin/AdminTechnicalMenu.jsp" title="#i18n{portal.admindashboard.view_dashboards.title}">
+															<i class="fa fa-cog"></i>
+												</a>
+										</li>
+										</#if>
 					<li class="nav-item dropdown user-menu">
 						<a href="${admin_url}#user-menu" class="nav-link dropdown-toggle" data-toggle="dropdown" id="dLabelUserHeader">
 							<#if adminAvatar> 
@@ -1270,12 +1270,11 @@
 							</a>
 						</li>
 					</#if>
-		  </ul>
+			</ul>
 		</div>
 	</nav>
-</header>
 <!-- Begin page content -->
-<main role="main" class="flex-shrink-0">
+<main role="main" class="content-wrapper flex-shrink-0">
  	<!-- Close in footer -->
 </#macro>
 
@@ -1284,7 +1283,7 @@
 	<!-- end content section -->
 </main>
 <!-- footer menu -->
-<footer class="footer mt-auto py-3">
+<footer class="footer mt-auto py-3 navbar-dark">
 	<div class="container">
 		<nav id="footer" class="navbar navbar-default" role="navigation">
 			<div class="navbar-text navbar-right">
@@ -1301,6 +1300,7 @@
 =============================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
 <@coreAdminJSLinks />
+</div><!-- Close wrapper -->
 </#macro>
 
 <#-- MACRO adminHome -->
@@ -1582,15 +1582,23 @@ $(function() {
 <#-- adminContentHeader  -->
 <#macro adminContentHeader >
 <section class="content-header">
-	<h1>
-	<#if feature_url?? >
-		<@link href='${feature_url}' title='${feature_title!""}'>${feature_title!''}</@link>
-	<#else>
-		${feature_title!''}
-	</#if>
-	<#if page_title?has_content><small>${page_title}</small></#if>
-	</h1>
-	<@adminHeaderDocumentationLink />
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-sm-6">
+				<h1>
+				<#if feature_url?? >
+					<@link href='${feature_url}' title='${feature_title!""}'>${feature_title!''}</@link>
+				<#else>
+					${feature_title!''}
+				</#if>
+				<#if page_title?has_content><small>${page_title}</small></#if>
+				</h1>
+			</div>
+			<div class="col-sm-6">
+				<@adminHeaderDocumentationLink />
+			</div>
+		</div>
+	</div>
 </section>
 <section class="content <#if feature_url?? && feature_url?ends_with('AdminSite.jsp')>no-padding</#if>">
 </#macro>
