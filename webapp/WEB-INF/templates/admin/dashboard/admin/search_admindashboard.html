@@ -38,7 +38,7 @@
         <@formGroup labelFor='help_message' labelKey='${i18n("portal.search.advanced_parameters.helpMessage.label")}'>
             <@input type='textarea' class='richtext' name='help_message' id='help_message' value=help_message!'' />
         </@formGroup>   
-        <@formGroup showLabel=false>
+        <@formGroup hideLabel=['all']>
 					<@button name='submit' type='submit' title='${i18n("portal.util.labelModify")}' buttonIcon='check' />
         </@formGroup>   
     </@tform>

@@ -25,7 +25,7 @@
 
 					<@btnGroup hide=['xs'] align='right'>
 					<@tform type='inline' action='jsp/admin/site/AdminSite.jsp' role='search'>
-						<@formGroup formStyle='inline' labelFor='page_id' labelKey='${i18n("portal.site.admin_page.buttonSearchPage")}' showLabel=false>
+						<@formGroup formStyle='inline' labelFor='page_id' labelKey='${i18n("portal.site.admin_page.buttonSearchPage")}' hideLabel=['all']>
 							<@inputGroup>
 								<@input type='text' name='page_id' id='page_id' placeHolder='${i18n("portal.site.admin_page.buttonSearchPage")}' size='sm' />
 								<@inputGroupItem type='btn' pos='append'>

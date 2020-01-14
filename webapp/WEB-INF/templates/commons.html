@@ -799,7 +799,8 @@ and is kept only for backwards compatibility
 <#-- formStyle values: empty/inline/horizontal/navbar-form/navbar-left... Default is horizontal -->
 <#-- groupStyle: success/warning/error... -->
 
-<#macro formGroup class='' formStyle='horizontal' groupStyle='' rows=1 labelKey='' labelFor='' labelId='' helpKey='' id='' mandatory=false showLabel=true params=''>
+<#macro formGroup class='' formStyle='horizontal' groupStyle='' rows=1 labelKey='' labelFor='' labelId='' helpKey='' id='' mandatory=false hideLabel=[] params=''>
+	<#local displayTitleClass = displaySettings(hideLabel,'') />
 	<div class="form-group<#if groupStyle!=''> has-${groupStyle} has-feedback</#if><#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 		<#if rows=1>
 			<#if labelKey!='' && formStyle='horizontal'>
@@ -815,7 +816,7 @@ and is kept only for backwards compatibility
 			<#local divClass = "col-xs-12">
 		</#if>
 		<#if labelKey!=''>
-		<label class="${labelClass}<#if showLabel=false> sr-only</#if>" for="${labelFor}"<#if labelId!=''> id="${labelId}"</#if>>
+		<label class="${labelClass}<#if displayTitleClass!=''> ${displayTitleClass}</#if>" for="${labelFor}"<#if labelId!=''> id="${labelId}"</#if>>
 			${labelKey}
 			<#if mandatory=false>
 				&#160;
@@ -1170,7 +1171,7 @@ and is kept only for backwards compatibility
 <#-- buttonIcon: icon name ex: info/check/comment/envelope... -->
 <#-- iconPosition: left/right -->
 <#-- cancel: switch to true for a cancellation form button. Adds the "formnovalidate" attribute to the button, as well as the right class -->
-<#macro button name='' id='' type='button' size='' color='' style='btn-flat' class='' params='' value='' title='' tabIndex='' hideTitle=[] showTitle=true showTitleXs=true showTitleSm=true showTitleMd=true showTitleLg=true buttonIcon='' disabled=false iconPosition='left' dropdownMenu=false cancel=false>
+<#macro button name='' id='' type='button' size='' color='' style='btn-flat' class='' params='' value='' title='' tabIndex='' hideTitle=[] buttonIcon='' disabled=false iconPosition='left' dropdownMenu=false cancel=false>
 	<#if cancel || color = 'secondary'>
 		<#local buttonColor = 'default' />
 	<#elseif !cancel && color=''>
@@ -1181,12 +1182,6 @@ and is kept only for backwards compatibility
 	
 	<#-- Visibility of button title -->
 	<#local displayTitleClass = displaySettings(hideTitle,'inline-flex') />
-	<#local showTitleClass = '' />
-	<#if showTitle = false><#local showTitleClass = 'sr-only' /></#if>
-	<#if showTitleXs = false><#local showTitleClass = showTitleClass + ' hidden-xs' /></#if>
-	<#if showTitleSm = false><#local showTitleClass = showTitleClass + ' hidden-sm' /></#if>
-	<#if showTitleMd = false><#local showTitleClass = showTitleClass + ' hidden-md' /></#if>
-	<#if showTitleLg = false><#local showTitleClass = showTitleClass + ' hidden-lg' /></#if>
 	
 	<button class="<#if style!='close'>btn</#if><#if size!='' && style!='card-control'> btn-${size}</#if><#if buttonColor!='' && style!='card-control'> btn-${buttonColor}</#if><#if style!=''> ${style}</#if><#if dropdownMenu> dropdown-toggle</#if><#if class!=''> ${class}</#if>" type="${type}"<#if title!=''> title="${title}"</#if><#if name!=''> name="${name}"</#if><#if id!=''> id="${id}"</#if><#if value!=''> value="${value}"</#if><#if params!=''> ${params}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if><#if cancel> formnovalidate</#if>>
 		<#if buttonIcon!='' && iconPosition='left'><@icon style=buttonIcon /></#if>
@@ -1209,7 +1204,7 @@ and is kept only for backwards compatibility
 <#-- color: default/primary/success/warning/danger/info/ -->
 <#-- style: btn-block/btn-flat/disabled/btn-app -->
 <#-- icon: icon name ex: info/check/comment/envelope... -->
-<#macro aButton name='' id='' href='' size='' color='primary' style='btn-flat' class='' params='' title='' tabIndex='' hideTitle=[] showTitle=true showTitleXs=true showTitleSm=true showTitleMd=true showTitleLg=true buttonIcon='' disabled=false iconPosition='left' dropdownMenu=false>
+<#macro aButton name='' id='' href='' size='' color='primary' style='btn-flat' class='' params='' title='' tabIndex='' hideTitle=[] buttonIcon='' disabled=false iconPosition='left' dropdownMenu=false>
 	<#-- Bootstrap 4 transition -->
 	<#if color='secondary'>
 		<#local color_temp='default'>
@@ -1219,12 +1214,6 @@ and is kept only for backwards compatibility
 		
 	<#-- Visibility of button title -->
 	<#local displayTitleClass = displaySettings(hideTitle,'inline-flex') />
-	<#local showTitleClass = '' />
-	<#if showTitle = false><#local showTitleClass = 'sr-only' /></#if>
-	<#if showTitleXs = false><#local showTitleClass = showTitleClass + ' hidden-xs' /></#if>
-	<#if showTitleSm = false><#local showTitleClass = showTitleClass + ' hidden-sm' /></#if>
-	<#if showTitleMd = false><#local showTitleClass = showTitleClass + ' hidden-md' /></#if>
-	<#if showTitleLg = false><#local showTitleClass = showTitleClass + ' hidden-lg' /></#if>
 	
 	<a class="btn<#if size!=''> btn-${size}</#if><#if color_temp!=''> btn-${color_temp}</#if><#if style!=''> ${style}</#if><#if class!=''> ${class}</#if>"<#if name!=''> name="${name}"</#if><#if id!=''> id="${id}"</#if> href="${href}" title="${title}"<#if params!=''> ${params}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if>>
 		<#if buttonIcon!='' && iconPosition='left'><@icon style=buttonIcon /></#if>

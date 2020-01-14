@@ -2,7 +2,7 @@
 	<@columns>
 		<@box color='success'>
       		<@boxHeader title='#i18n{portal.users.modify_attribute.pageTitleAttributeCheckBox}' boxTools=true>
-				<@button style='card-control' params='data-widget="collapse"' buttonIcon='minus' />
+				<@button style='card-control collapse' buttonIcon='minus' />
 			</@boxHeader>
 			<@boxBody>
 				<@tform action='jsp/admin/user/attribute/DoModifyAttribute.jsp' method='post'>
@@ -44,7 +44,7 @@
 				<@tform method='post' action='jsp/admin/user/attribute/CreateAttributeField.jsp' type='inline' align='right'>
 					<@input type='hidden' value='${attribute.idAttribute}' name='id_attribute' />
 					<@button type='submit' name='create' value='#i18n{portal.users.modify_attribute.buttonCreateField}' buttonIcon='plus' title='#i18n{portal.users.modify_attribute.buttonCreateField}' size='' hideTitle=['xs','sm'] />
-					<@button style='card-control' params='data-widget="collapse"' buttonIcon='minus' />
+					<@button style='card-control collapse' buttonIcon='minus' />
 				</@tform>
 			</@boxHeader>
 			<@boxBody>

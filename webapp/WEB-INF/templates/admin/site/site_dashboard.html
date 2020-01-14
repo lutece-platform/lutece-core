@@ -1,8 +1,8 @@
 <#if last_modified_page??>
 	<@box color='primary box-solid'>
 		<@boxHeader title='#i18n{portal.site.adminFeature.admin_site.name}' boxTools=true>
-			<@button style='card-control' params='data-widget="collapse"' buttonIcon='minus' />
-			<@button style='card-control' params='data-widget="remove"' buttonIcon='times' />
+			<@button style='card-control collapse' buttonIcon='minus' />
+			<@button style='card-control remove' buttonIcon='times' />
 		</@boxHeader>
 		<@boxBody>
 			<h4>#i18n{portal.site.dashboard.columnLastModifiedPage}</h4>
@@ -28,8 +28,8 @@
 <#if last_modified_portlet??>
 	<@box color='primary box-solid'>
 		<@boxHeader title='#i18n{portal.site.adminFeature.admin_site.name}' boxTools=true>
-			<@button style='card-control' params='data-widget="collapse"' buttonIcon='minus' />
-			<@button style='card-control' params='data-widget="remove"' buttonIcon='close' />
+			<@button style='card-control collapse' buttonIcon='minus' />
+			<@button style='card-control remove' buttonIcon='close' />
 		</@boxHeader>
 		<@boxBody>
 		<strong>#i18n{portal.site.dashboard.columnLastModifiedPortlet}</strong>

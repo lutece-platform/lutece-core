@@ -18,7 +18,7 @@
 		<@box>
 			<@boxHeader title='Liste des plugins' boxTools=true>
 				<@tform method='post' type='inline' align='left'>
-					<@formGroup labelFor='plugin_type' labelKey='#i18n{portal.system.manage_plugins.buttonFilter}' showLabel=false formStyle='inline'>
+					<@formGroup labelFor='plugin_type' labelKey='#i18n{portal.system.manage_plugins.buttonFilter}' hideLabel=['all'] formStyle='inline'>
 						<@inputGroup>
 							<@input type='text' name='search_plugins' id='search_plugins' placeHolder='#i18n{portal.system.manage_plugins.buttonFilter}' params='autocomplete="off"' />
 							<@inputGroupItem>
@@ -28,7 +28,7 @@
 					</@formGroup>
         		</@tform>
 				<@tform method='post' name='FilterPluginsForm' action='jsp/admin/system/ManagePlugins.jsp' type='inline' align='right' hide=['xs']>
-					<@formGroup labelKey='#i18n{portal.system.manage_plugins.labelComboFilter}' labelFor='plugin_type' showLabel=false formStyle='inline'>
+					<@formGroup labelKey='#i18n{portal.system.manage_plugins.labelComboFilter}' labelFor='plugin_type' hideLabel=['all'] formStyle='inline'>
 						<@inputGroup>
 							<@select sort=true name='plugin_type' default_value='${current_filter}' items=filter_list />
 							<@inputGroupItem>

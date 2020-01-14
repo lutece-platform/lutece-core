@@ -5,7 +5,7 @@
 				<@aButton href='jsp/admin/workgroup/ModifyWorkgroup.jsp?workgroup_key=${workgroup.key}' title='#i18n{portal.workgroup.manage_workgroups.buttonLabelModify}' size='' buttonIcon='edit' />
 				<@aButton href='jsp/admin/workgroup/RemoveWorkgroup.jsp?workgroup_key=${workgroup.key}' title='#i18n{portal.workgroup.manage_workgroups.buttonLabelDelete}' size='' buttonIcon='trash' color='danger' />
 				<@item_navigation item_navigator=item_navigator id='item-navigator-availableusers' />
-				<@button style='card-control' params='data-widget="collapse"' buttonIcon='plus' />
+				<@button style='card-control collapse' buttonIcon='plus' />
       </@boxHeader>	
       <@boxBody>
         <#if assigned_users_list?size &gt; 0 || search_is_search >

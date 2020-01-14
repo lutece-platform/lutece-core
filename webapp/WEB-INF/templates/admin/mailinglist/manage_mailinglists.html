@@ -24,7 +24,7 @@
 		<@box color='success'>
 			<@boxHeader title='#i18n{portal.mailinglist.manage_mailinglists.boxTitle}' boxTools=true>
 				<@tform align='right' method='post' name='search_mailinglist' action='jsp/admin/mailinglist/ManageMailingLists.jsp'>
-					<@formGroup labelKey='#i18n{portal.mailinglist.manage_mailinglists.labelName}' labelFor='name' formStyle='inline'>
+					<@formGroup labelKey='#i18n{portal.mailinglist.manage_mailinglists.labelName}' labelFor='name' hideLabel=['all'] formStyle='inline'>
 						<@inputGroup>
 							<@input type='text' id='name' name='name' value='${mailinglistFilter.name!}' maxlength=100 size='sm' />
 							<@inputGroupItem>

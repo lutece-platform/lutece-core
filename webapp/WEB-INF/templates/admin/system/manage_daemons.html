@@ -45,7 +45,7 @@
 							  <@tform method='post' action='jsp/admin/system/DoDaemonAction.jsp' type='inline'>
 								  <@input type='hidden' name='daemon' value='${daemon.id}' />
 								  <@input type='hidden' name='token' value='${token}' />
-								  <@formGroup labelFor='interval' showLabel=false labelKey='#i18n{portal.system.manage_daemons.columnTitleInterval}' rows=2 formStyle='inline'>
+								  <@formGroup labelFor='interval' hideLabel=['all'] labelKey='#i18n{portal.system.manage_daemons.columnTitleInterval}' rows=2 formStyle='inline'>
 								  <@inputGroup>
 									<@input type='text' name='interval' id='interval' value='${daemon.interval}' size='sm' />
 									<@inputGroupItem>
@@ -72,7 +72,7 @@
 							</#if>
 							<@boxHeader title=title titleLevel='p' boxTools=boxTools>
 								<#if daemon.lastRunLogs?has_content>
-									<@button style='card-control' params='data-widget="collapse"' buttonIcon='plus' />
+									<@button style='card-control collapse' buttonIcon='plus' />
 								</#if>
 							</@boxHeader>
 							<#if daemon.lastRunLogs?has_content>

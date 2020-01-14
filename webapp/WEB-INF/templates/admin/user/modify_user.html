@@ -58,7 +58,7 @@
 											<@formGroup labelFor='language' labelKey='${i18n("portal.users.modify_user.labelLanguage")}' rows=2>
 													<@comboSortedWithParams name="language" default_value="${current_language!}" additionalParameters="class=\"form-control\"" items=languages_list />
 											</@formGroup>
-											<@formGroup labelFor='accessibility_mode' showLabel=false rows=2>
+											<@formGroup labelFor='accessibility_mode' hideLabel=['all'] rows=2>
 													<#assign ischecked=false />
 													<#if user.accessibilityMode>
 															<#assign ischecked=true />

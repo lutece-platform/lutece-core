@@ -31,12 +31,12 @@
                             </#if>
                         </#list>
                     </@table>
-                    <@formGroup showLabel=false >  
-						<@columns>
-							<@button type='submit' title='${i18n("portal.group.manage_roles_group.btnAssign")}' />
-							<@button  title='${i18n("portal.group.modify_group.buttonCancel")}' params='onclick="javascript:history.go(-1)"' />
-						</@columns>	
-					</@formGroup>	
+                    <@formGroup hideLabel=['all']>  
+											<@columns>
+												<@button type='submit' title='${i18n("portal.group.manage_roles_group.btnAssign")}' />
+												<@button  title='${i18n("portal.group.modify_group.buttonCancel")}' params='onclick="javascript:history.go(-1)"' />
+											</@columns>	
+										</@formGroup>	
                 </@tform>
             </@boxBody>
         </@box>
