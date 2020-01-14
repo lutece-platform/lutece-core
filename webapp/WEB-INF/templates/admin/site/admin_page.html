@@ -38,7 +38,7 @@
 					</@btnGroup>
 					
 					<@btnGroup>
-						<@button title='#i18n{portal.site.admin_page.labelPortletPage}' size='sm' color='primary' dropdownMenu=true id='portlet-type' buttonIcon='th-large' id='portlet' hideTitle=['xs','sm','md']>
+						<@button title='#i18n{portal.site.admin_page.labelPortletPage}' size='sm' dropdownMenu=true id='portlet-type' buttonIcon='th-large' id='portlet' hideTitle=['xs','sm','md']>
 						<#if portlet_types_list?has_content>
 							<#list portlet_types_list?sort_by("name") as portlet_type>
 								<@dropdownItem class='portlet-type-ref' href='jsp/admin/DoCreatePortlet.jsp?portlet_type_id=${portlet_type.id}&amp;page_id=${page.id}' title='${portlet_type.name}'>

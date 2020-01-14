@@ -761,21 +761,26 @@
 <#-- bootstrap 4 : size: sm for small buttons/empty for medium buttons/lg for large buttons -->
 <#-- color: default[bootstrap4 : secondary]/primary/success/warning/danger/info -->
 <#-- color (upcoming bootstrap 4): btn-outline-default/btn-outline-primary/btn-outline-success/btn-outline-warning/btn-outline-danger/btn-outline-info/ -->
+<#-- AdminLTE colors: black/gray-dark/gray/light/indigo/navy/purple/fuchsia/pink/maroon/orange/lime/teal/olive -->
 <#-- style: btn-block/btn-flat/close/navbar-toggle/collapsed... -->
 <#-- type: button/submit/reset -->
 <#-- params: data-toggle/data-target/data-dismiss... -->
 <#-- buttonIcon: icon name ex: info/check/comment/envelope... -->
 <#-- iconPosition: left/right -->
 <#-- cancel: switch to true for a cancellation form button. Adds the "formnovalidate" attribute to the button, as well as the right class -->
-<#macro button name='' id='' type='button' size='' color='' style='' class='' params='' value='' title='' tabIndex='' hideTitle=[] showTitle=true showTitleXs=true showTitleSm=true showTitleMd=true showTitleLg=true showTitleXl=true buttonIcon='' disabled=false iconPosition='left' dropdownMenu=false cancel=false>
+<#macro button name='' id='' type='button' size='' color='' style='' class='' params='' value='' title='' tabIndex='' hideTitle=[] buttonIcon='' disabled=false iconPosition='left' dropdownMenu=false cancel=false>
 	<#-- Visibility of button title -->
 	<#local displayTitleClass = displaySettings(hideTitle,'inline') />
 	<#if cancel || color = 'default'>
-		<#assign buttonColor = 'secondary' />
+		<#assign buttonColor = 'btn-secondary' />
 	<#elseif !cancel && color=''>
-		<#assign buttonColor = 'primary' />
+		<#assign buttonColor = 'bg-indigo' />
 	<#else>
-		<#assign buttonColor = color />
+		<#if color == 'primary' || color == 'secondary' || color == 'success' || color == 'info' || color == 'warning' || color == 'danger'>
+			<#assign buttonColor = 'btn-' + color />
+		<#else>
+			<#assign buttonColor = 'bg-' + color />
+		</#if>
 	</#if>
 	<#if style='card-control'>
 		<#assign style='text-right btn-link' />
@@ -785,11 +790,24 @@
 		<#local size = 'sm' />
 	</#if>
 	
+	<#if style != ''>
+		<#if style?contains('card-control')>
+			<#assign btnStyle = 'btn-tool' />
+			<#if style?contains('collapse')>
+				<#local widgetAction = 'collapse' />				
+			<#else>
+				<#local widgetAction = 'remove' />			
+			</#if>
+		<#else>
+			<#assign btnStyle = style />
+		</#if>
+	</#if>
+	
 	
 	<#if dropdownMenu>
 		<div class="btn-group">
 	</#if>
-		<button class="<#if style!='close'>btn</#if><#if size!='' && style!='card-control'> btn-${size}</#if><#if buttonColor!='' && style!='card-control'> btn-${buttonColor}</#if><#if style!=''> ${style}</#if><#if dropdownMenu> dropdown-toggle</#if><#if class!=''> ${class}</#if>" type="${type}"<#if title!=''> title="${title}"</#if><#if name!=''> name="${name}"</#if><#if id!=''> id="${id}"</#if><#if value!=''> value="${value}"</#if><#if params!=''> ${params}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if><#if cancel> formnovalidate</#if>>
+		<button class="<#if style!='close'>btn</#if><#if size!='' && style!='card-control'> btn-${size}</#if><#if buttonColor!='' && style!='card-control'> ${buttonColor}</#if><#if btnStyle?? && btnStyle!=''> ${btnStyle}</#if><#if dropdownMenu> dropdown-toggle</#if><#if class!=''> ${class}</#if>" type="${type}"<#if title!=''> title="${title}"</#if><#if name!=''> name="${name}"</#if><#if id!=''> id="${id}"</#if><#if value!=''> value="${value}"</#if><#if params!=''> ${params}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if><#if style?contains('card-control')> data-card-widget="${widgetAction}"</#if><#if cancel> formnovalidate</#if>>
 			<#if buttonIcon!='' && iconPosition='left'><@icon style=buttonIcon /></#if>
 			<#if displayTitleClass!='' && style!='card-control'><span class="${displayTitleClass}"></#if>${title}<#if displayTitleClass!='' && style!='card-control'></span></#if>
 			<#if buttonIcon!='' && iconPosition='right'><@icon style=buttonIcon /></#if>
@@ -804,31 +822,29 @@
 
 <#-- A BUTTON (LINK STYLED AS A BUTTON) -->
 <#-- size: sm/lg/or EMPTY for medium size-->
-<#-- color: default/primary/success/warning/danger/info/ -->
+<#-- Bootstrap colors: default/primary/success/warning/danger/info -->
+<#-- AdminLTE colors: black/gray-dark/gray/light/indigo/navy/purple/fuchsia/pink/maroon/orange/lime/teal/olive -->
 <#-- style: btn-block/btn-flat/disabled/btn-app -->
 <#-- icon: icon name ex: info/check/comment/envelope... -->
 <#-- ShowTitleXs is UNUSED in Bootstrap 4. -->
-<#macro aButton name='' id='' href='' size='' color='primary' style='btn' class='' params='' title='' tabIndex='' hideTitle=[] showTitle=true showTitleXs=true showTitleSm=true showTitleMd=true showTitleLg=true showTitleXl=true buttonIcon='' disabled=false iconPosition='left' dropdownMenu=false>
-<#local displayTitleClass = displaySettings(hideTitle,'inline') />
-	<#if !showTitleXs><#local showTitleSm = false></#if>
+<#macro aButton name='' id='' href='' size='' color='primary' style='btn' class='' params='' title='' tabIndex='' hideTitle=[] buttonIcon='' disabled=false iconPosition='left' dropdownMenu=false>
 	<#-- Visibility of button title -->
-	<#-- The media queries effect screen widths with the given breakpoint or larger, therefore if the value for either showTitleMd/Lg/Xl is FALSE, values for smaller screen widths should be set to FALSE as well. -->
-	<#if !showTitleMd><#local showTitleSm = false></#if>
-	<#if !showTitleLg><#local showTitleSm = false showTitleMd = false></#if>
-	<#if !showTitleXl><#local showTitleSm = false showTitleMd = false showTitleLg = false></#if>
-	
-	<#local showTitleClass = '' />
-	<#if !showTitle><#local showTitleClass = 'sr-only' /></#if>
-	<#if !showTitleXs || !showTitleSm || !showTitleMd || !showTitleLg || !showTitleXl>
-		<#local showTitleClass = 'd-none' />
+	<#local displayTitleClass = displaySettings(hideTitle,'inline') />
+	<#if color = 'default'>
+		<#assign buttonColor = 'btn-secondary' />
+	<#elseif color=''>
+		<#assign buttonColor = 'bg-indigo' />
+	<#else>
+		<#if color == 'primary' || color == 'secondary' || color == 'success' || color == 'info' || color == 'warning' || color == 'danger'>
+			<#assign buttonColor = 'btn-' + color />
+		<#else>
+			<#assign buttonColor = 'bg-' + color />
+		</#if>
 	</#if>
-	
-	<#if !showTitleSm || !showTitleXs><#local showTitleClass = showTitleClass + ' d-md-inline-block' />
-	<#elseif !showTitleMd && !showTitleSm><#local showTitleClass = showTitleClass + ' d-lg-inline-block' />
-	<#elseif !showTitleLg && !showTitleMd && !showTitleSm><#local showTitleClass = showTitleClass + ' d-xl-inline-block' />
-	<#elseif !showTitleXl && !showTitleLg && !showTitleMd && !showTitleSm><#local showTitleClass = showTitleClass />
-	<#else></#if>
-	
+	<#if style='card-control'>
+		<#assign style='text-right btn-link' />
+	</#if>
+
 	<#if size = 'xs'>
 		<#local size = 'sm' />
 	</#if>
@@ -970,7 +986,7 @@
 <#-- collapsed: true/false 																-->
 <#---------------------------------------------------------->
 <#macro box color='' id='' style='' class='' params='' collapsed=false>
-<div class="card m-2<#if color!=''> bg-gradient-${color}</#if><#if style!=''> text-${style}</#if><#if class!=''> ${class}</#if><#if collapsed> collapsed-box</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<div class="card m-2<#if color!=''> bg-gradient-maroon</#if><#if style!=''> text-${style}</#if><#if class!=''> ${class}</#if><#if collapsed> collapsed-box</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 	<#nested>
 </div>
 </#macro>
@@ -981,9 +997,9 @@
 <${titleLevel} class="card-title<#if showTitle=false> sr-only</#if>"><#if title!=''>${title}</#if><#if i18nTitleKey!=''>#i18n{${i18nTitleKey}}</#if></${titleLevel}>
 	<#local nested><#nested></#local>
 	<#if nested?has_content>
-	<div class="card-tools">
+	<div class="card-tools d-flex">
 		<style type="text/css">
-			div.card-header > div.d-flex > form:last-of-type {margin-left:0.5rem;}
+			div.card-header > div.d-flex > form:last-of-type, div.card-header > div.d-flex > button, div.card-header > div.d-flex > a.btn {margin-left:0.2rem;}
 		</style>
 		<#nested>
 	</div>
@@ -1096,7 +1112,7 @@
 <#-- CARDS -->
 <#macro card header=false headerTitle='' headerIcon=false headerTitleIcon=''>
 <div class="card">
-	<#if header><div class="card-header"><#if headerIcon><@icon style='${headerTitleIcon}' />&#160;</#if>${headerTitle}</div></#if>
+	<#if header><div class="card-header bg-info"><#if headerIcon><@icon style='${headerTitleIcon}' />&#160;</#if>${headerTitle}</div></#if>
 	<div class="card-body">
 		<#nested>
 	</div>
@@ -1561,7 +1577,7 @@ $(function() {
 				<#assign islocale=''>
 				<#assign title=''>
 			</#if>
-			<@button color='' class='${language.code}' type='submit' name='language' value='${language.code}' title='${language.name?capitalize}${title}' buttonIcon='${islocale}' hideTitle=['all'] showTitle=false />
+			<@button color='' class='${language.code}' type='submit' name='language' value='${language.code}' title='${language.name?capitalize}${title}' buttonIcon='${islocale}' hideTitle=['all'] />
 		</@columns>
 		</#list>
 	</@row>

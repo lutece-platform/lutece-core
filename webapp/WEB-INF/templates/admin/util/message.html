@@ -10,7 +10,7 @@
                 <#assign keys = list_parameters?keys>
                 <#list keys as key><@input type='hidden' name='${key}' value='${list_parameters[key]}' /></#list>
             </#if>
-            <@button type='submit' color='primary' class='btn-block mt-3' title='${i18n("portal.admin.message.buttonValidate")}' buttonIcon='check' />
+            <@button type='submit' class='btn-block mt-3' title='${i18n("portal.admin.message.buttonValidate")}' buttonIcon='check' />
         </@tform>
     </#if>
     <#if back_url?has_content>
@@ -31,7 +31,7 @@
                 <#assign keys = list_parameters?keys>
                 <#list keys as key><@input type='hidden' name='${key}' value='${list_parameters[key]}' /></#list>
             </#if>
-            <@button type='submit' color='primary' class='btn-block mt-3' title='${i18n("portal.admin.message.buttonValidate")}' buttonIcon='check' />
+            <@button type='submit' class='btn-block mt-3' title='${i18n("portal.admin.message.buttonValidate")}' buttonIcon='check' />
         </@tform>
     </#if>
 </#if>
