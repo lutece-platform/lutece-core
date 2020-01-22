@@ -11,6 +11,7 @@
         <@btnGroup>
             <@button color='primary' title='Validate' />
             <@button color='default' title='Cancel' />
+						<@button color='danger' title='Delete' />
         </@btnGroup>
     </@columns>
     <@columns>
@@ -18,6 +19,7 @@
 &lt;@btnGroup &gt;
     &lt;@button color='primary' title='Validate' /&gt;
     &lt;@button color='default' title='Cancel' /&gt;
+    &lt;@button color='danger' title='Delete' /&gt;
 &lt;/@btnGroup&gt;
     </pre>
     </@columns>
@@ -29,6 +31,7 @@
         <@btnGroup align='center'>
             <@button color='primary' title='Validate' />
             <@button color='default' title='Cancel' />
+            <@button color='danger' title='Delete' />
         </@btnGroup>
     </@columns>
     <@columns>
@@ -36,6 +39,7 @@
 &lt;@btnGroup align='center'&gt;
     &lt;@button color='primary' title='Validate' /&gt;
     &lt;@button color='default' title='Cancel' /&gt;
+    &lt;@button color='danger' title='Delete' /&gt;
 &lt;/@btnGroup&gt;
     </pre>
     </@columns>
@@ -48,6 +52,7 @@
         <@btnGroup align='right'>
             <@button color='primary' title='Validate' />
             <@button color='default' title='Cancel' />
+            <@button color='danger' title='Delete' />
         </@btnGroup>
     </@columns>
     <@columns>
@@ -55,9 +60,60 @@
 &lt;@btnGroup align='right'&gt;
     &lt;@button color='primary' title='Validate' /&gt;
     &lt;@button color='default' title='Cancel' /&gt;
+    &lt;@button color='danger' title='Delete' /&gt;
 &lt;/@btnGroup&gt;
     </pre>
     </@columns>
 </@row>
+
+<@h2># Parameters documentation</@h2>
+
+<@table>
+<@tr>
+    <@th>Parameter</@th>
+    <@th>Value</@th>
+    <@th>Default</@th>
+</@tr>
+<@tr>
+    <@th>color</@th>
+    <@td>primary/info/warning/danger/success</@td>
+    <@td>primary</@td>
+</@tr>
+<@tr>
+    <@th>id</@th>
+    <@td>string</@td>
+    <@td>none</@td>
+</@tr>
+<@tr>
+    <@th>class</@th>
+    <@td>string</@td>
+    <@td>none</@td>
+</@tr>
+<@tr>
+    <@th>align</@th>
+    <@td>string: left/center/right</@td>
+    <@td>none</@td>
+</@tr>
+<@tr>
+    <@th>size</@th>
+    <@td>string: sm/lg/''</@td>
+    <@td>0</@td>
+</@tr>
+<@tr>
+		<@th>params</@th>
+		<@td>string</@td>
+		<@td>none</@td>
+</@tr>
+<@tr>
+		<@th>ariaLabel</@th>
+		<@td>string</@td>
+		<@td>none</@td>
+</@tr>
+<@tr>
+		<@th>hide</@th>
+		<@td>sequence: xs,sm,md,lg,xl|all</@td>
+		<@td>none</@td>
+</@tr>
+</@table>
 
 <@footer />

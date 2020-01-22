@@ -20,9 +20,9 @@
 				<@tform method='post' type='inline' align='left'>
 					<@formGroup labelFor='plugin_type' labelKey='#i18n{portal.system.manage_plugins.buttonFilter}' hideLabel=['all'] formStyle='inline'>
 						<@inputGroup>
-							<@input type='text' name='search_plugins' id='search_plugins' placeHolder='#i18n{portal.system.manage_plugins.buttonFilter}' params='autocomplete="off"' />
+							<@input type='text' name='search_plugins' size='sm' id='search_plugins' placeHolder='#i18n{portal.system.manage_plugins.buttonFilter}' params='autocomplete="off"' />
 							<@inputGroupItem>
-								<@button type='submit' title='#i18n{portal.system.manage_plugins.buttonFilter}' buttonIcon='filter' hideTitle=['all'] />
+								<@button type='submit' size='sm' title='#i18n{portal.system.manage_plugins.buttonFilter}' buttonIcon='filter' hideTitle=['all'] />
 							</@inputGroupItem>
 						</@inputGroup>
 					</@formGroup>
@@ -30,20 +30,20 @@
 				<@tform method='post' name='FilterPluginsForm' action='jsp/admin/system/ManagePlugins.jsp' type='inline' align='right' hide=['xs']>
 					<@formGroup labelKey='#i18n{portal.system.manage_plugins.labelComboFilter}' labelFor='plugin_type' hideLabel=['all'] formStyle='inline'>
 						<@inputGroup>
-							<@select sort=true name='plugin_type' default_value='${current_filter}' items=filter_list />
+							<@select sort=true name='plugin_type' default_value='${current_filter}' items=filter_list size='sm' />
 							<@inputGroupItem>
-							<@button type='submit' buttonIcon='search' title='Search' hideTitle=['all'] />
+							<@button type='submit' size='sm' buttonIcon='search' title='Search' hideTitle=['all'] />
 							</@inputGroupItem>
 						</@inputGroup>
 					</@formGroup>
 				</@tform>
-    			<@button type='button' buttonIcon='list' title='Layout' hideTitle=['all'] id='th'/>
+    			<@button type='button' size='sm' buttonIcon='list' title='Layout' hideTitle=['all'] id='th'/>
 			</@boxHeader>
       <@boxBody>
        <#if plugins_list?has_content >
 				<@row id='plugins'>
 					<#list plugins_list as plugin >
-         				<@columns sm=6 md=4 lg=4 class='plugins'>
+						<@columns sm=6 md=4 lg=4 class='plugins'>
 						<@box id='plugin_${plugin.name}_${plugin.version}' params='data-plugin="${plugin.name}"' class='plugin-box plugin'>
 							<#assign logo>
 								<@img url='${plugin.iconUrl}' alt='logo' title='${plugin.name}' />
@@ -62,12 +62,12 @@
 								</#if>
 							</@boxHeader>
               				<@boxBody>
-                                <p>#i18n{portal.system.manage_plugins.labelVersion}: ${plugin.version}</p>
-                                <p>#i18n{${plugin.description}}</p>
-                                <p><@icon style='user' /> <em>#i18n{portal.system.manage_plugins.labelAuthor} : #i18n{${plugin.provider}}</em></p>	
-                                <p>	
-                                    <@icon style='globe' /> <em>#i18n{portal.system.manage_plugins.labelAuthorUrl} : <@link href='${plugin.providerUrl}' target='_blank'>${plugin.providerUrl}</@link></em>
-                                </p> 
+												<p>#i18n{portal.system.manage_plugins.labelVersion}: ${plugin.version}</p>
+												<p>#i18n{${plugin.description}}</p>
+												<p><@icon style='user' /> <em>#i18n{portal.system.manage_plugins.labelAuthor} : #i18n{${plugin.provider}}</em></p>	
+												<p>	
+													<@icon style='globe' /> <em>#i18n{portal.system.manage_plugins.labelAuthorUrl} : <@link href='${plugin.providerUrl}' target='_blank'>${plugin.providerUrl}</@link></em>
+												</p> 
               				</@boxBody>
 							<@boxFooter>
 								<#if plugin.installed>

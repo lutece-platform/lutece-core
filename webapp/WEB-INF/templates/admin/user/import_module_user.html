@@ -19,9 +19,9 @@
 				</@formGroup>
 				<@row>
 					<@columns md=10 offsetMd=2 lg=9 offsetLg=3>
-						<@button type="submit" color="btn-primary" style="btn-block">
-                              <@icon style="search" /> #i18n{portal.users.import_module_user.searchBoxbuttonLabelSearch}
-                        </@button> 
+						<@button type="submit" style='btn-block'>
+							<@icon style='search' /> #i18n{portal.users.import_module_user.searchBoxbuttonLabelSearch}
+						</@button> 
 					</@columns>	
 				</@row>	
 				</@tform>
@@ -49,7 +49,7 @@
 										<td>
 											<@tform type='inline' name='importUsers' id='importUsers' action='jsp/admin/user/DoSelectImportUser.jsp' >
 												<@input type='hidden' name='access_code' value='${user.accessCode}' />
-												<@button color="btn-primary" type="submit" title='#i18n{portal.users.import_module_user.resultButtonLabelImportUser}' />
+												<@button type='submit' title='#i18n{portal.users.import_module_user.resultButtonLabelImportUser}' />
 											</@tform>
 										</td>
 									</tr>

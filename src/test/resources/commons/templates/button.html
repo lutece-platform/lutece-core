@@ -94,20 +94,20 @@
 </p>
 <@row>
     <@columns>
-    <@button buttonIcon='github' title='Github' showTitle=false />
-    <@button buttonIcon='twitter' title='Twitter' showTitle=false />
-    <@button buttonIcon='close' title='Cancel' showTitle=false />
-    <@button buttonIcon='check' title='Validate' showTitle=false />
-    <@button buttonIcon='trash' title='Delete' showTitle=false />
+    <@button buttonIcon='github' title='Github' hideTitle=['all'] />
+    <@button buttonIcon='twitter' title='Twitter' hideTitle=['all'] />
+    <@button buttonIcon='close' title='Cancel' hideTitle=['all'] />
+    <@button buttonIcon='check' title='Validate' hideTitle=['all'] />
+    <@button buttonIcon='trash' title='Delete' hideTitle=['all'] />
     </@columns>
 
     <@columns>
     <pre>
-&lt;@button buttonIcon='github' title='Extra Small' showTitle=false /&gt;
-&lt;@button buttonIcon='twitter' title='Twitter' showTitle=false /&gt;
-&lt;@button buttonIcon='close' title='Cancel' showTitle=false /&gt;
-&lt;@button buttonIcon='check' title='Validate' showTitle=false /&gt;
-&lt;@button buttonIcon='trash' title='Delete' showTitle=false /&gt;
+&lt;@button buttonIcon='github' title='Extra Small' hideTitle=['all'] /&gt;
+&lt;@button buttonIcon='twitter' title='Twitter' hideTitle=['all'] /&gt;
+&lt;@button buttonIcon='close' title='Cancel' hideTitle=['all'] /&gt;
+&lt;@button buttonIcon='check' title='Validate' hideTitle=['all'] /&gt;
+&lt;@button buttonIcon='trash' title='Delete' hideTitle=['all'] /&gt;
     </pre>
     </@columns>
 </@row>
@@ -118,20 +118,20 @@
 </p>
 <@row>
     <@columns>
-    <@button buttonIcon='github' title='Github' showTitleXs=false showTitleSm=false />
-    <@button buttonIcon='twitter' title='Twitter' showTitleXs=false showTitleSm=false />
-    <@button buttonIcon='close' title='Cancel' showTitleXs=false showTitleSm=false />
-    <@button buttonIcon='check' title='Validate' showTitleXs=false showTitleSm=false />
-    <@button buttonIcon='trash' title='Delete' showTitleXs=false showTitleSm=false />
+    <@button buttonIcon='github' title='Github' hideTitle=['xs','sm'] />
+    <@button buttonIcon='twitter' title='Twitter' hideTitle=['xs','sm'] />
+    <@button buttonIcon='close' title='Cancel' hideTitle=['xs','sm'] />
+    <@button buttonIcon='check' title='Validate' hideTitle=['xs','sm'] />
+    <@button buttonIcon='trash' title='Delete' hideTitle=['xs','sm'] />
     </@columns>
 
     <@columns>
     <pre>
-&lt;@button buttonIcon='github' title='Extra Small' showTitleXs=false showTitleSm=false /&gt;
-&lt;@button buttonIcon='twitter' title='Twitter' showTitleXs=false showTitleSm=false /&gt;
-&lt;@button buttonIcon='close' title='Cancel' showTitleXs=false showTitleSm=false /&gt;
-&lt;@button buttonIcon='check' title='Validate' showTitleXs=false showTitleSm=false /&gt;
-&lt;@button buttonIcon='trash' title='Delete' showTitleXs=false showTitleSm=false /&gt;
+&lt;@button buttonIcon='github' title='Extra Small' hideTitle=['xs','sm'] /&gt;
+&lt;@button buttonIcon='twitter' title='Twitter' hideTitle=['xs','sm'] /&gt;
+&lt;@button buttonIcon='close' title='Cancel' hideTitle=['xs','sm'] /&gt;
+&lt;@button buttonIcon='check' title='Validate' hideTitle=['xs','sm'] /&gt;
+&lt;@button buttonIcon='trash' title='Delete' hideTitle=['xs','sm'] /&gt;
     </pre>
     </@columns>
 </@row>
@@ -145,9 +145,19 @@
     <@th>Default</@th>
 </@tr>
 <@tr>
-    <@th>color</@th>
-    <@td>primary/info/warning/danger/success</@td>
-    <@td>primary</@td>
+    <@th>name</@th>
+    <@td></@td>
+    <@td></@td>
+</@tr>
+<@tr>
+    <@th>id</@th>
+    <@td></@td>
+    <@td></@td>
+</@tr>
+<@tr>
+    <@th>type</@th>
+    <@td>button/submit</@td>
+    <@td>button</@td>
 </@tr>
 <@tr>
     <@th>size</@th>
@@ -155,7 +165,12 @@
     <@td>none</@td>
 </@tr>
 <@tr>
-    <@th>buttonIcon</@th>
+    <@th>color</@th>
+    <@td>primary/info/warning/danger/success</@td>
+    <@td>primary</@td>
+</@tr>
+<@tr>
+    <@th>style</@th>
     <@td>string</@td>
     <@td>none</@td>
 </@tr>
@@ -165,37 +180,41 @@
     <@td>none</@td>
 </@tr>
 <@tr>
-    <@th>showTitle</@th>
-    <@td>boolean</@td>
-    <@td>true</@td>
+    <@th>hideTitle</@th>
+    <@td>sequence</@td>
+    <@td>none</@td>
 </@tr>
 <@tr>
-    <@th>showTitleXs</@th>
-    <@td>boolean</@td>
-    <@td>true</@td>
+    <@th>buttonIcon</@th>
+    <@td>string</@td>
+    <@td>none</@td>
 </@tr>
 <@tr>
-    <@th>showTitleSm</@th>
+    <@th>disabled</@th>
     <@td>boolean</@td>
-    <@td>true</@td>
+    <@td>false</@td>
 </@tr>
 <@tr>
-    <@th>showTitleMd</@th>
-    <@td>boolean</@td>
-    <@td>true</@td>
+    <@th>iconPosition</@th>
+    <@td>string</@td>
+    <@td>left</@td>
 </@tr>
 <@tr>
-    <@th>showTitleLg</@th>
+    <@th>dropdownMenu</@th>
     <@td>boolean</@td>
-    <@td>true</@td>
+    <@td>false</@td>
 </@tr>
-
+<@tr>
+    <@th>cancel</@th>
+    <@td>boolean</@td>
+    <@td>false</@td>
+</@tr>
 </@table>
 
 
 <@h2>Anchor buttons</@h2>
 <p>
-This macros let display anchor links as buttons. 
+This macro displays anchor links as buttons. 
 </p>
 
 <@h2># Colors</@h2>
@@ -287,20 +306,20 @@ This macros let display anchor links as buttons.
 </p>
 <@row>
     <@columns>
-    <@aButton href='#' buttonIcon='github' title='Github' showTitle=false />
-    <@aButton href='#' buttonIcon='twitter' title='Twitter' showTitle=false />
-    <@aButton href='#' buttonIcon='close' title='Cancel' showTitle=false />
-    <@aButton href='#' buttonIcon='check' title='Validate' showTitle=false />
-    <@aButton href='#' buttonIcon='trash' title='Delete' showTitle=false />
+    <@aButton href='#' buttonIcon='github' title='Github' hideTitle=['all'] />
+    <@aButton href='#' buttonIcon='twitter' title='Twitter' hideTitle=['all'] />
+    <@aButton href='#' buttonIcon='close' title='Cancel' hideTitle=['all'] />
+    <@aButton href='#' buttonIcon='check' title='Validate' hideTitle=['all'] />
+    <@aButton href='#' buttonIcon='trash' title='Delete' hideTitle=['all'] />
     </@columns>
 
     <@columns>
     <pre>
-&lt;@aButton href='#' buttonIcon='github' title='Extra Small' showTitle=false /&gt;
-&lt;@aButton href='#' buttonIcon='twitter' title='Twitter' showTitle=false /&gt;
-&lt;@aButton href='#' buttonIcon='close' title='Cancel' showTitle=false /&gt;
-&lt;@aButton href='#' buttonIcon='check' title='Validate' showTitle=false /&gt;
-&lt;@aButton href='#' buttonIcon='trash' title='Delete' showTitle=false /&gt;
+&lt;@aButton href='#' buttonIcon='github' title='Extra Small' hideTitle=['all'] /&gt;
+&lt;@aButton href='#' buttonIcon='twitter' title='Twitter' hideTitle=['all'] /&gt;
+&lt;@aButton href='#' buttonIcon='close' title='Cancel' hideTitle=['all'] /&gt;
+&lt;@aButton href='#' buttonIcon='check' title='Validate' hideTitle=['all'] /&gt;
+&lt;@aButton href='#' buttonIcon='trash' title='Delete' hideTitle=['all'] /&gt;
     </pre>
     </@columns>
 </@row>
@@ -311,20 +330,20 @@ This macros let display anchor links as buttons.
 </p>
 <@row>
     <@columns>
-    <@aButton href='#' buttonIcon='github' title='Github' showTitleXs=false showTitleSm=false />
-    <@aButton href='#' buttonIcon='twitter' title='Twitter' showTitleXs=false showTitleSm=false />
-    <@aButton href='#' buttonIcon='close' title='Cancel' showTitleXs=false showTitleSm=false />
-    <@aButton href='#' buttonIcon='check' title='Validate' showTitleXs=false showTitleSm=false />
-    <@aButton href='#' buttonIcon='trash' title='Delete' showTitleXs=false showTitleSm=false />
+    <@aButton href='#' buttonIcon='github' title='Github' hideTitle=['xs','sm'] />
+    <@aButton href='#' buttonIcon='twitter' title='Twitter' hideTitle=['xs','sm'] />
+    <@aButton href='#' buttonIcon='close' title='Cancel' hideTitle=['xs','sm'] />
+    <@aButton href='#' buttonIcon='check' title='Validate' hideTitle=['xs','sm'] />
+    <@aButton href='#' buttonIcon='trash' title='Delete' hideTitle=['xs','sm'] />
     </@columns>
 
     <@columns>
     <pre>
-&lt;@aButton href='#' buttonIcon='github' title='Extra Small' showTitleXs=false showTitleSm=false /&gt;
-&lt;@aButton href='#' buttonIcon='twitter' title='Twitter' showTitleXs=false showTitleSm=false /&gt;
-&lt;@aButton href='#' buttonIcon='close' title='Cancel' showTitleXs=false showTitleSm=false /&gt;
-&lt;@aButton href='#' buttonIcon='check' title='Validate' showTitleXs=false showTitleSm=false /&gt;
-&lt;@aButton href='#' buttonIcon='trash' title='Delete' showTitleXs=false showTitleSm=false /&gt;
+&lt;@aButton href='#' buttonIcon='github' title='Extra Small' hideTitle=['xs','sm'] /&gt;
+&lt;@aButton href='#' buttonIcon='twitter' title='Twitter' hideTitle=['xs','sm'] /&gt;
+&lt;@aButton href='#' buttonIcon='close' title='Cancel' hideTitle=['xs','sm'] /&gt;
+&lt;@aButton href='#' buttonIcon='check' title='Validate' hideTitle=['xs','sm'] /&gt;
+&lt;@aButton href='#' buttonIcon='trash' title='Delete' hideTitle=['xs','sm'] /&gt;
     </pre>
     </@columns>
 </@row>
@@ -338,9 +357,19 @@ This macros let display anchor links as buttons.
     <@th>Default</@th>
 </@tr>
 <@tr>
-    <@th>color</@th>
-    <@td>primary/info/warning/danger/success</@td>
-    <@td>primary</@td>
+    <@th>name</@th>
+    <@td></@td>
+    <@td></@td>
+</@tr>
+<@tr>
+    <@th>id</@th>
+    <@td></@td>
+    <@td></@td>
+</@tr>
+<@tr>
+    <@th>href</@th>
+    <@td>string</@td>
+    <@td>none</@td>
 </@tr>
 <@tr>
     <@th>size</@th>
@@ -348,7 +377,17 @@ This macros let display anchor links as buttons.
     <@td>none</@td>
 </@tr>
 <@tr>
-    <@th>buttonIcon</@th>
+    <@th>color</@th>
+    <@td>primary/info/warning/danger/success</@td>
+    <@td>primary</@td>
+</@tr>
+<@tr>
+    <@th>class</@th>
+    <@td>string</@td>
+    <@td>none</@td>
+</@tr>
+<@tr>
+    <@th>params</@th>
     <@td>string</@td>
     <@td>none</@td>
 </@tr>
@@ -358,31 +397,30 @@ This macros let display anchor links as buttons.
     <@td>none</@td>
 </@tr>
 <@tr>
-    <@th>showTitle</@th>
-    <@td>boolean</@td>
-    <@td>true</@td>
+    <@th>hideTitle</@th>
+    <@td>sequence</@td>
+    <@td>none</@td>
 </@tr>
 <@tr>
-    <@th>showTitleXs</@th>
-    <@td>boolean</@td>
-    <@td>true</@td>
+    <@th>buttonIcon</@th>
+    <@td>string</@td>
+    <@td>none</@td>
 </@tr>
 <@tr>
-    <@th>showTitleSm</@th>
+    <@th>disabled</@th>
     <@td>boolean</@td>
-    <@td>true</@td>
+    <@td>false</@td>
 </@tr>
 <@tr>
-    <@th>showTitleMd</@th>
-    <@td>boolean</@td>
-    <@td>true</@td>
+    <@th>iconPosition</@th>
+    <@td>string</@td>
+    <@td>left</@td>
 </@tr>
 <@tr>
-    <@th>showTitleLg</@th>
+    <@th>dropdownMenu</@th>
     <@td>boolean</@td>
-    <@td>true</@td>
+    <@td>false</@td>
 </@tr>
-
 </@table>
 
 <@footer />

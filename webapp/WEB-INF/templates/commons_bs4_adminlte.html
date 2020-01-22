@@ -261,7 +261,7 @@
 	
 <#-- TABLE -->
 <#-- class:  -->
-<#macro table responsive=true condensed=true hover=true striped=false bordered=false narrow=false class='' id='' params=''>
+<#macro table id='' class='' responsive=true condensed=true hover=true striped=false bordered=false narrow=false params=''>
 	<#assign tableClass=class />
 	<#if condensed> <#assign tableClass=tableClass + ' table-sm' /> </#if>
 	<#if hover>     <#assign tableClass=tableClass + ' table-hover' /> </#if>
@@ -354,7 +354,7 @@
 <#-- formStyle values: horizontal/empty/inline Default is horizontal 	-->
 <#-- class: 						 								-->
 <#-- groupStyle: success/error -->
-<#macro formGroup formStyle='horizontal' class='' groupStyle='' rows=1 labelKey='' labelFor='' labelId='' helpKey='' id='' mandatory=false showLabel=true params=''>
+<#macro formGroup id='' formStyle='horizontal' groupStyle='' class='' rows=1 labelKey='' labelFor='' labelId='' helpKey='' mandatory=false hideLabel=[] params=''>
 <#assign mandatory = mandatory>
 <#assign labelFor = labelFor>
 <#assign labelId = labelId>
@@ -421,7 +421,7 @@
 <#-- type : text/textarea/password/email/file/number. Default is text 												-->
 <#-- size: sm/lg/EMPTY for medium size 																												-->
 <#-- pattern: [A-F][0-9]{5} 																																	-->
-<#macro input name type='text' value='' class='' size='' inputSize=0 maxlength=0 placeHolder='' rows=4 cols=40 richtext=false tabIndex='' id='' disabled=false readonly=false pattern='' params='' title='' min=0 max=0>
+<#macro input name id='' class='' type='text' value='' size='' inputSize=0 maxlength=0 placeHolder='' rows=4 cols=40 richtext=false tabIndex='' disabled=false readonly=false pattern='' params='' title='' min=0 max=0>
 	<#if type='textarea'>
 		<textarea name="${name}" class="form-control<#if size!=''> form-control-${size}</#if><#if class!=''> ${class}</#if><#if richtext> richtext</#if>" rows="${rows}" cols="${cols}"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}"</#if><#if title!=''> title="${title}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if mandatory?? && mandatory && !richtext> required</#if><#if labelFor?? && labelFor!='' && helpKey?? && helpKey!=''> aria-describedby="${labelFor}_help"</#if>><#nested></textarea>
 	<#elseif type='text' || type='search' || type='password' || type='email' || type='file' || type='number' || type='date'>
@@ -442,7 +442,7 @@
 </#macro>
 
 <#--- MACRO SELECT (TO REPLACE "COMBO" MACROS) --->
-<#macro select name items='' default_value='' id=name class='' size='' sort=false multiple=0 params='' title='' tabIndex=0>
+<#macro select name id=name class='' items='' default_value='' size='' sort=false multiple=0 params='' title='' tabIndex=0>
 	<select id="${id}" name="${name}" class="form-control<#if size!=''> form-control-${size}</#if><#if class!=''> input-${class}</#if>" <#if (multiple &gt; 0)>multiple size="${multiple}"</#if><#if (tabIndex &gt; 0)> tabindex="${tabIndex}"</#if><#if params!=''> ${params}</#if><#if title!=''> title="${title}"</#if>>
 	<#if items?has_content>
 		<#if sort=true>
@@ -489,7 +489,7 @@
 
 <#-- RADIO BUTTON -->
 <#-- orientation: vertical/horizontal. Default is vertical -->
-<#macro radioButton name id='' value='' labelKey='' labelFor='' orientation='vertical' tabIndex='' title='' disabled=false readonly=false checked=false params=''>
+<#macro radioButton name id='' labelKey='' labelFor='' orientation='vertical' value='' tabIndex='' title='' disabled=false readonly=false checked=false params=''>
 	<#if orientation='vertical'>
 		<div class="radio">
 	</#if>
@@ -507,13 +507,13 @@
 
 <#-- INPUT-GROUP -->
 <#-- size: sm/lg/no size-->
-<#macro inputGroup size='' class='' id='' params=''>
+<#macro inputGroup id='' class='' size='' params=''>
 	<div class="input-group<#if size!=''> input-group-${size}</#if><#if class!=''> ${class}</#if>" <#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 		<#nested>
 	</div>
 </#macro>
 
-<#macro inputGroupItem pos='append' type='btn' id='' params=''>
+<#macro inputGroupItem id='' pos='append' type='btn' params=''>
 <#-- pos: append / prepend | Default append -->
 <#-- type: btn/text. default is btn	-->
 
@@ -883,7 +883,7 @@
 <#-- BTN GROUP -->
 <#-- size: sm/empty/lg -->
 <#-- align: left/center/right -->
-<#macro btnGroup align='' size='' class='' id='' params='' ariaLabel='' hide=[]>
+<#macro btnGroup id='' class='' align='' size='' params='' ariaLabel='' hide=[]>
 <#local displayClass = displaySettings(hide,'inline-flex') />
 <#local class = class + alignmentSettings(align) />
 <div class="btn-group<#if size!=''> btn-group-${size}</#if> align-items-baseline<#if class!=''> ${class}</#if><#if displayClass !=''> ${displayClass}</#if>" role="group"<#if ariaLabel!=''> aria-label="${ariaLabel}"</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>

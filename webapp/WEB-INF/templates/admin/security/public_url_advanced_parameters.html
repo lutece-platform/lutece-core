@@ -18,8 +18,8 @@
                     </@formGroup>  
                     <@row>
                       <@columns md=4 offsetMd=4>
-                          <@button type="submit" name="submit" color="btn-primary" >
-                              <@icon style="check" /> #i18n{portal.security.public_url_advanced_parameters.buttonValidate}
+                          <@button type='submit' name='submit'>
+                              <@icon style='check' /> #i18n{portal.security.public_url_advanced_parameters.buttonValidate}
                           </@button> 
                           <@aButton color='danger' title='Supprimer' href='jsp/admin/security/ConfirmRemovePublicUrl.jsp?public_url_code=${public_url.code}' buttonIcon='trash' />
                       </@columns>    
@@ -36,7 +36,7 @@
                 </@formGroup>
                 <@row>
                   <@columns md=4 offsetMd=4>
-                      <@button type="submit" color="btn-primary" >
+                      <@button type='submit'>
                           <@icon style="plus" /> #i18n{portal.security.public_url_advanced_parameters.buttonAddUrl}
                       </@button> 
                       <p class="help-text">#i18n{portal.security.public_url_advanced_parameters.publicListUrlLabelComment}</p>

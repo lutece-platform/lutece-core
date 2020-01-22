@@ -49,124 +49,113 @@ import org.junit.Test;
 /**
  * CommonsTest
  */
-public class CommonsTest extends LuteceTestCase
-{
-    private static final String RESSOURCES_PATH = "commons/templates/";
-    private static final String TEMPLATES_FOLDER = "/" + RESSOURCES_PATH;
+public class CommonsTest extends LuteceTestCase {
+	private static final String RESSOURCES_PATH = "commons/templates/";
+	private static final String TEMPLATES_FOLDER = "/" + RESSOURCES_PATH;
 
-    private static final String MARK_TEMPLATE = "template";
-    private static final String MARK_MOCK_OBJECT = "mockObject";
-    private static final String MARK_FOREIGN_KEYS_LIST = "id_foreigns_list";
-    private static final String[] CHARTERS_FOLDERS =
-    { "css", "fonts", "js" };
+	private static final String MARK_TEMPLATE = "template";
+	private static final String MARK_MOCK_OBJECT = "mockObject";
+	private static final String MARK_FOREIGN_KEYS_LIST = "id_foreigns_list";
+	private static final String[] CHARTERS_FOLDERS = { "css", "fonts", "js" };
 
-    @Test
-    public void testCommonsTemplates( ) throws IOException, TemplateException
-    {
-        try
-        {
-            String strPath = getClass( ).getResource( TEMPLATES_FOLDER ).getPath( );
-            File fileTemplatesFolder = new File( strPath );
+	@Test
+	public void testCommonsTemplates() throws IOException, TemplateException {
+		String strPath = getClass().getResource(TEMPLATES_FOLDER).getPath();
+		File fileTemplatesFolder = new File(strPath);
 
-            copyCommonsFiles( strPath );
+		copyCommonsFiles(strPath);
 
-            String strOutput = strPath + "/output";
-            File fileOutputFolder = new File( strOutput );
-            fileOutputFolder.mkdir( );
+		String strOutput = strPath + "/output";
+		File fileOutputFolder = new File(strOutput);
+		fileOutputFolder.mkdir();
+		boolean ko = false;
 
-            for ( CommonsInclude ci : CommonsService.getCommonsIncludes( ) )
-            {
-                CommonsService.activateCommons( ci.getKey( ) );
-                String strCommonsOutput = strOutput + "/" + ci.getKey( );
-                File fileOutputCommonsFolder = new File( strCommonsOutput );
-                fileOutputCommonsFolder.mkdir( );
+		for (CommonsInclude ci : CommonsService.getCommonsIncludes()) {
+			try {
+				CommonsService.activateCommons(ci.getKey());
+				String strCommonsOutput = strOutput + "/" + ci.getKey();
+				File fileOutputCommonsFolder = new File(strCommonsOutput);
+				fileOutputCommonsFolder.mkdir();
 
-                copyChartersFolders( strPath, strCommonsOutput );
+				copyChartersFolders(strPath, strCommonsOutput);
 
-                MockFreemarkerTemplateService templateService = new MockFreemarkerTemplateService( strPath );
-                templateService.init( "/" );
-                for ( String strAutoIncludes : ci.getFiles( ) )
-                {
-                    templateService.addAutoInclude( "commons/" + strAutoIncludes );
-                }
+				MockFreemarkerTemplateService templateService = new MockFreemarkerTemplateService(
+						strPath);
+				templateService.init("/");
+				for (String strAutoIncludes : ci.getFiles()) {
+					templateService
+							.addAutoInclude("commons/" + strAutoIncludes);
+				}
 
-                for ( File file : fileTemplatesFolder.listFiles( ) )
-                {
-                    if ( !file.isDirectory( ) )
-                    {
-                        System.out.println( file.getName( ) );
-                        Map<String, Object> model = new HashMap<>( );
-                        MockObject mockObject = new MockObject( );
+				for (File file : fileTemplatesFolder.listFiles()) {
+					if (!file.isDirectory()) {
+						System.out.println(file.getName());
+						Map<String, Object> model = new HashMap<>();
+						MockObject mockObject = new MockObject();
 
-                        model.put( MARK_TEMPLATE, file.getName( ) );
-                        model.put( MARK_MOCK_OBJECT, mockObject );
-                        model.put( MARK_FOREIGN_KEYS_LIST, getForeignKeysList( ) );
+						model.put(MARK_TEMPLATE, file.getName());
+						model.put(MARK_MOCK_OBJECT, mockObject);
+						model.put(MARK_FOREIGN_KEYS_LIST, getForeignKeysList());
 
-                        templateService.write( file.getName( ), fileOutputCommonsFolder.getPath( ), model );
+						templateService.write(file.getName(),
+								fileOutputCommonsFolder.getPath(), model);
 
-                    }
-                }
+					}
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+				ko = true;
+			}
+		}
+		assertFalse( ko );
+	}
 
-            }
-        }
-        catch ( Exception e )
-        {
-            fail( );
-        }
-    }
+	private ReferenceList getForeignKeysList() {
+		ReferenceList listForeignKeys = new ReferenceList();
+		listForeignKeys.addItem(1, "Item 1");
+		listForeignKeys.addItem(2, "Item 2");
+		return listForeignKeys;
 
-    private ReferenceList getForeignKeysList( )
-    {
-        ReferenceList listForeignKeys = new ReferenceList( );
-        listForeignKeys.addItem( 1, "Item 1" );
-        listForeignKeys.addItem( 2, "Item 2" );
-        return listForeignKeys;
+	}
 
-    }
+	private String getSourcePath(String strPath, String strFolder) {
+		int nPos = strPath.indexOf("target");
+		return strPath.substring(0, nPos) + "target/lutece/" + strFolder;
+	}
 
-    private String getSourcePath( String strPath, String strFolder )
-    {
-        int nPos = strPath.indexOf( "target" );
-        return strPath.substring( 0, nPos ) + "target/lutece/" + strFolder;
-    }
+	private void copyChartersFolders(String strRootPath, String strCommonsOutput)
+			throws IOException {
+		for (String strFolder : CHARTERS_FOLDERS) {
+			String strSourcePath = getSourcePath(strRootPath, strFolder);
+			File fileSourceFolder = new File(strSourcePath);
 
-    private void copyChartersFolders( String strRootPath, String strCommonsOutput ) throws IOException
-    {
-        for ( String strFolder : CHARTERS_FOLDERS )
-        {
-            String strSourcePath = getSourcePath( strRootPath, strFolder );
-            File fileSourceFolder = new File( strSourcePath );
+			String strCommonsFolder = strCommonsOutput + "/" + strFolder;
+			File fileOutputCommonsFolder = new File(strCommonsFolder);
+			fileOutputCommonsFolder.mkdir();
+			FileUtils.copyDirectory(fileSourceFolder, fileOutputCommonsFolder);
+		}
+	}
 
-            String strCommonsFolder = strCommonsOutput + "/" + strFolder;
-            File fileOutputCommonsFolder = new File( strCommonsFolder );
-            fileOutputCommonsFolder.mkdir( );
-            FileUtils.copyDirectory( fileSourceFolder, fileOutputCommonsFolder );
-        }
-    }
+	private void copyCommonsFiles(String strRootPath) throws IOException {
+		String strSourcePath = getSourcePath(strRootPath, "WEB-INF/templates");
+		File fileSourceFolder = new File(strSourcePath);
+		String strDestPath = strRootPath + "/commons";
+		File fileCommonsFolder = new File(strDestPath);
+		fileCommonsFolder.mkdir();
+		FileUtils.copyDirectory(fileSourceFolder, fileCommonsFolder,
+				new CommonsFileFilter());
+	}
 
-    private void copyCommonsFiles( String strRootPath ) throws IOException
-    {
-        String strSourcePath = getSourcePath( strRootPath, "WEB-INF/templates" );
-        File fileSourceFolder = new File( strSourcePath );
-        String strDestPath = strRootPath + "/commons";
-        File fileCommonsFolder = new File( strDestPath );
-        fileCommonsFolder.mkdir( );
-        FileUtils.copyDirectory( fileSourceFolder, fileCommonsFolder, new CommonsFileFilter( ) );
-    }
+	class CommonsFileFilter implements FileFilter {
 
-    class CommonsFileFilter implements FileFilter
-    {
+		@Override
+		public boolean accept(File file) {
+			if (file.isFile() && file.getName().startsWith("commons")) {
+				return true;
+			}
+			return false;
+		}
 
-        @Override
-        public boolean accept( File file )
-        {
-            if ( file.isFile( ) && file.getName( ).startsWith( "commons" ) )
-            {
-                return true;
-            }
-            return false;
-        }
-
-    }
+	}
 
 }
