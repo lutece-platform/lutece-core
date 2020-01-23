@@ -17,11 +17,16 @@
                             </@formGroup>
 
                             <@formGroup labelKey='Enable'>
-                                <@checkBox labelKey='Enable.help' name='enable' value='1' />
+                                <@checkBox labelKey='Enable.help' name='enable' id='enable' value='1' />
                             </@formGroup>
 
                             <@formGroup labelKey='Status'>
-                                <@checkBox labelKey='Status.help' name='status' value='1' />
+                                <@checkBox labelKey='Status.help' name='status' id='enable' value='1' />
+                            </@formGroup>
+														
+														 <@formGroup labelKey='Radio'>
+                                <@radioButton labelKey='Radio1.help' name='radio1' value='0' />
+                                <@radioButton labelKey='Radio2.help' name='radio2' value='1' />
                             </@formGroup>
 
                             <@formGroup labelKey='Ratio' helpKey='Ratio.help' mandatory=true>
