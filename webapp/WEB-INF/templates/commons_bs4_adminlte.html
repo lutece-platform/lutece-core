@@ -359,7 +359,7 @@
 <#assign labelFor = labelFor>
 <#assign labelId = labelId>
 <#assign labelKey = labelKey>
-<#assign showLabel = showLabel>
+<#assign hideLabel = hideLabel>
 <#assign helpKey = helpKey>
 <#if groupStyle = "success">
 	<#local validation = "is-valid">
@@ -368,12 +368,13 @@
 </#if>
 <div class="form-group<#if formStyle='horizontal'> row</#if><#if class!=''> ${class}<#/if><#if validation?? && validation!=''> ${validation}</#if></#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 <#local labelClass = '' />
+<#local displayClass = displaySettings(hideLabel,'inline-flex') />
 	<#if rows=1>
 		<#if labelKey!='' && formStyle='horizontal'>
 			<#local labelClass = "col-sm-12 col-lg-3 col-form-label">
-			<#if showLabel=false>
+			<#if displayClass?seq_contains('d-none')>
 				<#local divClass="col">
-			<#else>	
+			<#else>
 				<#local divClass = "col-lg-6">
 			</#if>
 		<#elseif formStyle = 'inline'>
@@ -388,7 +389,7 @@
 	</#if>
 	<#local labelClass = labelClass>
 	<#if labelKey!=''>
-		<@formLabel class=labelClass labelFor=labelFor labelId=labelId labelKey=labelKey showLabel=showLabel mandatory=mandatory />
+		<@formLabel class=labelClass labelFor=labelFor labelId=labelId labelKey=labelKey hideLabel=hideLabel mandatory=mandatory />
 	</#if>
 	<#if formStyle !='inline'>
 		<div class="${divClass}">
@@ -407,8 +408,9 @@
 </div>
 </#macro>
 
-<#macro formLabel class='' labelFor='' labelId='' labelKey='' showLabel=true mandatory=true>
-<label class="<#if showLabel=false>sr-only<#elseif class !=''>${class}</#if>" for="${labelFor}" <#if labelId!=''> id="${labelId}"</#if><#if mandatory=true>ariaLabel="${labelKey} [#i18n{portal.users.modify_attribute.labelMandatory}]"</#if>>${labelKey}</label>
+<#macro formLabel class='' labelFor='' labelId='' labelKey='' hideLabel=hideLabel mandatory=true>
+<#local labelDisplayClass = displaySettings(hideLabel,'') />
+<label class="<if class !=''>${class}</#if> ${labelDisplayClass}" for="${labelFor}" <#if labelId!=''> id="${labelId}"</#if><#if mandatory=true>ariaLabel="${labelKey} [#i18n{portal.users.modify_attribute.labelMandatory}]"</#if>>${labelKey}</label>
 </#macro>
 
 <#macro formHelp style='inline' class='' labelFor=''>
