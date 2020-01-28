@@ -519,7 +519,7 @@
 <#-- pos: append / prepend | Default append -->
 <#-- type: btn/text. default is btn	-->
 
-<div class="input-group-${pos}">
+<div class="input-group-${pos} align-items-center">
 <#if type = 'text'>
 	<div class="input-group-${type}"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 </#if>
@@ -985,7 +985,7 @@
 <#-- collapsed: true/false 																-->
 <#---------------------------------------------------------->
 <#macro box color='' id='' style='' class='' params='' collapsed=false>
-<div class="card m-2<#if color!=''> bg-gradient-maroon</#if><#if style!=''> text-${style}</#if><#if class!=''> ${class}</#if><#if collapsed> collapsed-box</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<div class="card m-2<#if color!=''> bg-gradient-navy</#if><#if style!=''> text-${style}</#if><#if class!=''> ${class}</#if><#if collapsed> collapsed-box</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 	<#nested>
 </div>
 </#macro>
@@ -996,7 +996,7 @@
 <${titleLevel} class="card-title<#if showTitle=false> sr-only</#if>"><#if title!=''>${title}</#if><#if i18nTitleKey!=''>#i18n{${i18nTitleKey}}</#if></${titleLevel}>
 	<#local nested><#nested></#local>
 	<#if nested?has_content>
-	<div class="card-tools d-flex">
+	<div class="card-tools d-flex align-items-center">
 		<style type="text/css">
 			div.card-header > div.d-flex > form:last-of-type, div.card-header > div.d-flex > button, div.card-header > div.d-flex > a.btn {margin-left:0.2rem;}
 		</style>
