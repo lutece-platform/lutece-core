@@ -61,7 +61,10 @@
                                 <@input type='text' name='date_updated' value='${mockObject.dateUpdated!\'\'}' />
                             </@formGroup>
 														
-                        <@actionButtons button1Name="action_createMockObject" button2Name="view_manageMockObject"/>
+														<@formGroup>
+															<@button type='submit' name='action_createMockObject' buttonIcon='check' />
+															<@button type='submit' name='view_manageMockObject' buttonIcon='eye' />
+														</@formGroup>
                 </@tform>
             </@boxBody>
         </@box>
@@ -124,7 +127,10 @@
                                 &lt;@input type='text' name='date_updated' value='&dollar;{mockObject.dateUpdated!\'\'}' /&gt;
                             &lt;/@formGroup&gt;
 
-                        &lt;@actionButtons button1Name="action_createMockObject" button2Name="view_manageMockObject"/&gt;
+														&lt;@formGroup>
+															&lt;@button type='submit' name='action_createMockObject' buttonIcon='check' /&gt;
+															&lt;@button type='submit' name='view_manageMockObject' buttonIcon='eye' /&gt;
+														&lt;/@formGroup&gt;
                 &lt;/@tform&gt;
             &lt;/@boxBody&gt;
         &lt;/@box&gt;
