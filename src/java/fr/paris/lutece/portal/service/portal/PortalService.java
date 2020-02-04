@@ -264,9 +264,10 @@ public final class PortalService
         String strWebmasterEmail = DatastoreService.getDataValue( KEY_WEBMASTER_EMAIL, "" );
         model.put( Markers.WEBMASTER_EMAIL, strWebmasterEmail );
 
+        locale = LocaleService.getContextUserLocale( request );
+
         if ( request != null )
         {
-            locale = LocaleService.getUserSelectedLocale( request );
             user = SecurityService.getInstance( ).getRegisteredUser( request );
             if ( nMode != MODE_ADMIN )
             {
@@ -297,7 +298,7 @@ public final class PortalService
 
         if ( request != null )
         {
-            String strLastModified = DateUtil.getDateString( data.getDateUpdate( ), request.getLocale( ) );
+            String strLastModified = DateUtil.getDateString( data.getDateUpdate( ), locale );
             model.put( MARK_LAST_MODIFIED, strLastModified );
         }
         HtmlTemplate tFooter = AppTemplateService.getTemplate( strFooter, locale, model );
@@ -329,6 +330,8 @@ public final class PortalService
         }
 
         model.put( Markers.ENCODING, strEncoding );
+        
+        model.put( Markers.USER_CONTEXT_LANGUAGE, locale);
 
         model.put( MARK_IS_EXTEND_INSTALLED, isExtendActivated( ) );
 

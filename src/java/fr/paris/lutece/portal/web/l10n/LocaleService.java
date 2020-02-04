@@ -149,32 +149,32 @@ public final class LocaleService
      */
     public static Locale getContextUserLocale( HttpServletRequest request )
     {
-        Locale locale = null;
-
         // consider the current session locale
-        HttpSession session = request.getSession( false );
-        if ( session != null )
+        if ( request != null )
         {
-            Locale userSessionLocale = (Locale) session.getAttribute( ATTRIBUTE_SELECTED_LOCALE );
-            if ( userSessionLocale != null )
+            HttpSession session = request.getSession( false );
+            if ( session != null )
             {
-                locale = userSessionLocale;
+                Locale userSessionLocale = (Locale) session.getAttribute( ATTRIBUTE_SELECTED_LOCALE );
+                if ( userSessionLocale != null )
+                {
+                    if ( isSupported( userSessionLocale ) )
+                    {
+                        return userSessionLocale;
+                    }
+                }
             }
         }
 
-        if ( locale == null || !isSupported( locale ) )
+        // consider the browser language
+        Locale locale = new Locale( request.getLocale( ).getLanguage( ).substring( 0, 2 ) );
+        if ( isSupported( locale ) )
         {
-            // consider the browser language
-            locale = new Locale( request.getLocale( ).getLanguage( ).substring( 0, 2 ) );
-
-            if ( !isSupported( locale ) )
-            {
-                // consider the server default
-                locale = getDefault( );
-            }
+            return locale;
         }
 
-        return locale;
+        // otherwise consider the server default
+        return getDefault( );
     }
 
     /**
