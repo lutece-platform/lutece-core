@@ -1,6 +1,7 @@
 <%@ page import="fr.paris.lutece.portal.service.util.AppPathService" %>
 <%@ page import="fr.paris.lutece.portal.service.portal.PortalService" %>
 <%@ page import="fr.paris.lutece.portal.service.admin.AdminThemeService" %>
+<%@ page import="fr.paris.lutece.portal.service.admin.AdminUserService" %>
 <%@ page pageEncoding="UTF-8" %>
 <%@ page buffer="1024kb" %>
 <%@ page autoFlush="false" %>
@@ -11,7 +12,7 @@ response.setDateHeader ("Expires", 0);
 %>
 <jsp:useBean id="adminMenu" scope="session" class="fr.paris.lutece.portal.web.admin.AdminMenuJspBean" />
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="<%= AdminUserService.getAdminUser( request ).getLocale().getLanguage() %>" >
 <head>
 <base href="<%= AppPathService.getBaseUrl( request ) %>">
 <title><%= PortalService.getSiteName(  ) %> - Administration</title>

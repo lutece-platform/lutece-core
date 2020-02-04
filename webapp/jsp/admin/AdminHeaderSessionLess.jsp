@@ -1,6 +1,7 @@
 <%@ page errorPage="ErrorPage.jsp" %>
 <%@ page import="fr.paris.lutece.portal.service.util.AppPathService" %>
 <%@ page import="fr.paris.lutece.portal.service.portal.PortalService" %>
+<%@ page import="fr.paris.lutece.portal.web.l10n.LocaleService" %>
 <%@ page pageEncoding="UTF-8" %>
 <%	response.setHeader("Cache-Control","no-cache"); //HTTP 1.1
 	response.setHeader("Pragma","no-cache"); //HTTP 1.0
@@ -11,7 +12,7 @@
 	String strBase = AppPathService.getBaseUrl( request ) ;
 %>
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="<%= LocaleService.getDefault().getLanguage() %>">
 <head>
 <base href="<%= strBase %>">
 <title><%= PortalService.getSiteName(  ) %> - Administration</title>
