@@ -1,6 +1,6 @@
 <section class="content-header">
 	<h1>
-		<a href="${feature_url}" title="${feature_title}">${feature_title}</a>
+		<a href="${feature_url!''}" title="${feature_title!''}">${feature_title!''}</a>
 		<#if page_title?has_content><small>${page_title}</small></#if>
 	</h1>
 	<ol class="breadcrumb ${feature_group!?lower_case}">
@@ -15,5 +15,5 @@
 		</#if>
     </ol>
 </section>
-<section class="content <#if feature_url?ends_with("AdminSite.jsp")>no-padding</#if>">
+<section class="content <#if (feature_url!'')?ends_with("AdminSite.jsp")>no-padding</#if>">
 ${page_content}
