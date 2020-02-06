@@ -321,7 +321,7 @@
 <#-- ICONS -->
 <#-- Icons from FontAwesome -->
 <#macro icon prefix='fa fa-' style='' class='' title='' id='' params=''>
-  <i class="${prefix}${style}<#if class!=''> ${class}</#if>" aria-hidden="true"<#if title!=''> title='${title}'</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>></i>
+	<i class="${prefix}${style}<#if class!=''> ${class}</#if>" aria-hidden="true"<#if title!=''> title='${title}'</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>></i>
 </#macro>
 
 <#-- FORM -->
@@ -771,14 +771,14 @@
 	<#-- Visibility of button title -->
 	<#local displayTitleClass = displaySettings(hideTitle,'inline') />
 	<#if cancel || color = 'default'>
-		<#assign buttonColor = 'secondary' />
+		<#local buttonColor = 'secondary' />
 	<#elseif !cancel && color=''>
-		<#assign buttonColor = 'primary' />
+		<#local buttonColor = 'primary' />
 	<#else>
-		<#assign buttonColor = color />
+		<#local buttonColor = color />
 	</#if>
 	<#if style='card-control'>
-		<#assign style='text-right btn-link' />
+		<#local style='text-right btn-link' />
 	</#if>
 
 	<#if size = 'xs'>

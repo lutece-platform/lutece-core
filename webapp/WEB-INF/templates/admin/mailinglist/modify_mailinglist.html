@@ -27,11 +27,11 @@
 			<@boxHeader title='#i18n{portal.mailinglist.view_users.boxTitle}' boxTools=true>
 				<@tform align='right' method='get' action='jsp/admin/mailinglist/AddUsers.jsp'>
 					<@input type='hidden' name='id_mailinglist' value='${mailinglist.id!}' />
-					<@button type='submit' buttonIcon='plus' title='#i18n{portal.mailinglist.modify_mailinglist.buttonAddUsers}' size='' hideTitle=['xs','sm'] />
+					<@button type='submit' buttonIcon='plus' title='#i18n{portal.mailinglist.modify_mailinglist.buttonAddUsers}' size='sm' hideTitle=['xs','sm'] />
 				</@tform>
 				<@tform align='right' method='get' action='jsp/admin/mailinglist/ViewUsers.jsp'>
 					<@input type='hidden' name='id_mailinglist' value='${mailinglist.id!}' />
-					<@button type='submit' buttonIcon='eye' title='#i18n{portal.mailinglist.modify_mailinglist.buttonViewUsers}' size='' hideTitle=['xs','sm'] />
+					<@button type='submit' buttonIcon='eye' title='#i18n{portal.mailinglist.modify_mailinglist.buttonViewUsers}' size='sm' hideTitle=['xs','sm'] />
 				</@tform>
 			</@boxHeader>
 			<@boxBody>

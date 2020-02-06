@@ -9,3 +9,9 @@ label:not(.form-check-label):not(.custom-file-label) {
 .card-header > .card-tools .input-group, .card-header > .card-tools .nav, .card-header > .card-tools .pagination {
 	margin-top:0;
 }
+
+div.card-header > div.d-flex form:last-of-type, div.card-header > div.d-flex > button, div.card-header > div.d-flex > a.btn {margin-left:0.2rem;}
+
+.btn-tool {
+	margin: 0;
+}

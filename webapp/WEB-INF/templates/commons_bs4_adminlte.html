@@ -765,24 +765,25 @@
 <#-- color: default[bootstrap4 : secondary]/primary/success/warning/danger/info -->
 <#-- color (upcoming bootstrap 4): btn-outline-default/btn-outline-primary/btn-outline-success/btn-outline-warning/btn-outline-danger/btn-outline-info/ -->
 <#-- AdminLTE colors: black/gray-dark/gray/light/indigo/navy/purple/fuchsia/pink/maroon/orange/lime/teal/olive -->
-<#-- style: btn-block/btn-flat/close/navbar-toggle/collapsed... -->
+<#-- style: card-control/btn-block/btn-flat/close/navbar-toggle/collapsed... -->
 <#-- type: button/submit/reset -->
 <#-- params: data-toggle/data-target/data-dismiss... -->
 <#-- buttonIcon: icon name ex: info/check/comment/envelope... -->
 <#-- iconPosition: left/right -->
 <#-- cancel: switch to true for a cancellation form button. Adds the "formnovalidate" attribute to the button, as well as the right class -->
 <#macro button name='' id='' type='button' size='' color='' style='' class='' params='' value='' title='' tabIndex='' hideTitle=[] buttonIcon='' disabled=false iconPosition='left' dropdownMenu=false cancel=false>
+
 	<#-- Visibility of button title -->
 	<#local displayTitleClass = displaySettings(hideTitle,'inline') />
 	<#if cancel || color = 'default'>
-		<#assign buttonColor = 'btn-secondary' />
+		<#local buttonColor = 'btn-secondary' />
 	<#elseif !cancel && color=''>
-		<#assign buttonColor = 'bg-indigo' />
+		<#local buttonColor = 'bg-indigo' />
 	<#else>
 		<#if color == 'primary' || color == 'secondary' || color == 'success' || color == 'info' || color == 'warning' || color == 'danger'>
-			<#assign buttonColor = 'btn-' + color />
+			<#local buttonColor = 'btn-' + color />
 		<#else>
-			<#assign buttonColor = 'bg-' + color />
+			<#local buttonColor = 'bg-' + color />
 		</#if>
 	</#if>
 
@@ -792,14 +793,14 @@
 	
 	<#if style != ''>
 		<#if style?contains('card-control')>
-			<#assign btnStyle = 'btn-tool' />
+			<#local btnStyle = 'btn-tool' />
 			<#if style?contains('collapse')>
 				<#local widgetAction = 'collapse' />				
 			<#else>
 				<#local widgetAction = 'remove' />			
 			</#if>
 		<#else>
-			<#assign btnStyle = style />
+			<#local btnStyle = style />
 		</#if>
 	</#if>
 	
@@ -807,6 +808,7 @@
 	<#if dropdownMenu>
 		<div class="btn-group">
 	</#if>
+	
 		<button class="<#if style!='close'>btn</#if><#if size!='' && style!='card-control'> btn-${size}</#if><#if buttonColor!='' && style!='card-control'> ${buttonColor}</#if><#if btnStyle?? && btnStyle!=''> ${btnStyle}</#if><#if dropdownMenu> dropdown-toggle</#if><#if class!=''> ${class}</#if>" type="${type}"<#if title!=''> title="${title}"</#if><#if name!=''> name="${name}"</#if><#if id!=''> id="${id}"</#if><#if value!=''> value="${value}"</#if><#if params!=''> ${params}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if><#if style?contains('card-control')> data-card-widget="${widgetAction}"</#if><#if cancel> formnovalidate</#if>>
 			<#if buttonIcon!='' && iconPosition='left'><@icon style=buttonIcon /></#if>
 			<#if displayTitleClass!='' && style!='card-control'><span class="${displayTitleClass}"></#if>${title}<#if displayTitleClass!='' && style!='card-control'></span></#if>
@@ -998,9 +1000,6 @@
 	<#local nested><#nested></#local>
 	<#if nested?has_content>
 	<div class="card-tools d-flex">
-		<style type="text/css">
-			div.card-header > div.d-flex > form:last-of-type, div.card-header > div.d-flex > button, div.card-header > div.d-flex > a.btn {margin-left:0.2rem;}
-		</style>
 		<#nested>
 	</div>
 	</#if>

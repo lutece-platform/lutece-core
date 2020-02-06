@@ -5,7 +5,7 @@
                 <@btnGroup>
                     <@tform method='post' action='jsp/admin/system/DoReloadProperties.jsp' class='pull-right'>
                         <@input type='hidden' name='token' value='${token}' />
-                        <@button type='submit' buttonIcon='refresh' title='#i18n{portal.system.manage_caches.titleReloadProperties}' id='reload' size='' hideTitle=['xs','sm'] />
+                        <@button type='submit' buttonIcon='refresh' title='#i18n{portal.system.manage_caches.titleReloadProperties}' id='sync' size='' hideTitle=['xs','sm'] />
                     </@tform>
                     <@tform method='post' action='jsp/admin/system/DoResetCaches.jsp' class='pull-right spaced'>
                         <@input type='hidden' name='token' value='${token}' />
