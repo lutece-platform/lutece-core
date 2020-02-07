@@ -37,6 +37,7 @@ import javax.security.auth.login.FailedLoginException;
 import javax.security.auth.login.LoginException;
 
 import org.springframework.mock.web.MockHttpServletRequest;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import fr.paris.lutece.test.LuteceTestCase;
 
@@ -46,21 +47,26 @@ import fr.paris.lutece.test.LuteceTestCase;
 public class SecurityServiceTest extends LuteceTestCase
 {
     /**
-     * Tests LoginUser
+     * Login User fail test
      * 
      * @throws LoginException
      */
-    public void testLoginUser( ) throws LoginException
+    public void testLoginUserFail( )
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
+
         String strUserName = "";
         String strPassword = "";
 
         try
         {
-            SecurityService.getInstance( ).loginUser( request, strUserName, strPassword );
+            SecurityService securityService = SecurityService.getInstance( );
+            MokeLuteceAuthentication mockLuteceAuthentication = new MokeLuteceAuthentication( );  
+            ReflectionTestUtils.setField( securityService, "_authenticationService", mockLuteceAuthentication );
 
-            // Exception should be thrown before this assertion
+            securityService.loginUser( request, strUserName, strPassword );
+
+            // FailedLoginException should be thrown before this assertion
             assertTrue( false );
         }
         catch( LoginException e )
@@ -69,11 +75,42 @@ public class SecurityServiceTest extends LuteceTestCase
         }
         catch( NullPointerException e )
         {
-            assertEquals( e.getClass( ), NullPointerException.class );
+            assertTrue( false );
         }
         catch( LoginRedirectException e )
         {
-            assertEquals( e.getClass( ), LoginRedirectException.class );
+            assertTrue( false );
+        }
+    }
+
+    /**
+     * Login User success test
+     *
+     * @throws LoginException
+     */
+    public void testLoginUserSuccess( ) throws LoginException
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        String strUserName = "admin";
+        String strPassword = "adminadmin";
+        String sessionId = request.getSession( true ).getId( );
+
+        try
+        {
+            SecurityService securityService = SecurityService.getInstance( );
+            MokeLuteceAuthentication mockLuteceAuthentication = new MokeLuteceAuthentication( );
+            ReflectionTestUtils.setField( securityService, "_authenticationService", mockLuteceAuthentication );
+
+            securityService.loginUser( request, strUserName, strPassword );
+
+            String newSessionId = request.getSession( true ).getId( );
+
+            // session Id should be changed during authentication process
+            assertFalse( sessionId.contentEquals( newSessionId ) );
+        }
+        catch( Exception e )
+        {
+            assertTrue( false );
         }
     }
 }
