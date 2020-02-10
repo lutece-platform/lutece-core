@@ -41,6 +41,7 @@ public final class Markers
     public static final String BASE_URL = "base_url";
     public static final String VERSION = "version";
     public static final String ENCODING = "encoding";
+    public static final String USER_CONTEXT_LANGUAGE = "user_context_language";
     public static final String PAGE_PATH = "page_path";
     public static final String PAGE_HEADER = "page_header";
     public static final String PAGE_NAME = "page_name";

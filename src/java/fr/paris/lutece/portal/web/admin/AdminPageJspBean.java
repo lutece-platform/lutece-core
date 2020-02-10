@@ -115,6 +115,7 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
     private static final String MARK_AUTORIZATION = "authorization";
     private static final String MARK_PAGE_BLOCK = "page_block";
     private static final String MARK_PAGE_UPDATE_DATE = "page_update_date";
+    private static final String MARK_ADMIN_USER_LANGUAGE = "admin_user_language";
 
     // Parameters
     private static final String PARAMETER_IMAGE_CONTENT = "image_content";
@@ -578,6 +579,7 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
         model.put( MARK_PAGE_THEMES_LIST, ThemesService.getPageThemes( getLocale( ) ) );
         model.put( MARK_IMAGE_URL, getResourceImagePage( page, Integer.toString( page.getId( ) ) ) );
         model.put( MARK_PAGE_UPDATE_DATE, DateUtil.getDateString( page.getDateUpdate( ), request.getLocale( ) ) );
+        model.put( MARK_ADMIN_USER_LANGUAGE, getUser( ).getLocale( ).getLanguage( ) );
 
         int nIndexRow = 1;
         StringBuilder strPageTemplatesRow = new StringBuilder( );
