@@ -176,6 +176,11 @@ public abstract class MVCApplication implements XPageApplication
                 throw (SiteMessageException) e.getTargetException( );
             }
 
+            if ( e.getTargetException( ) instanceof RuntimeException )
+            {
+                throw new AppException( "MVC Error dispaching view and action ",  (RuntimeException) e.getTargetException( ) );
+            }
+
             throw new AppException( "MVC Error dispaching view and action ", e );
         }
         catch( IllegalAccessException e )
