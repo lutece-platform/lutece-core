@@ -1,21 +1,6 @@
 <@row>
 	<@columns>
 		<@box>
-			<#assign logo>
-				<@img url=core.iconUrl alt='logo' title=core.name />
-			</#assign>
-			<@boxHeader title='#i18n{portal.system.manage_plugins.titleCorePlugin} ${logo} ${core.name} ${core.version}' boxTools=true>
-				<@tform method='post' type='inline' align='right' action='jsp/admin/system/ViewPluginDescription.jsp?plugin_name=${core.name}'>
-					<@button type='submit' title='#i18n{portal.system.manage_plugins.actionDisplay}' buttonIcon='info-circle' hideTitle=['all'] />
-				</@tform>
-			</@boxHeader>
-		</@box>
-	</@columns>
-</@row>
-		
-<@row>
-	<@columns>
-		<@box>
 			<@boxHeader title='Liste des plugins' boxTools=true>
 				<@tform method='post' type='inline' align='left'>
 					<@formGroup labelFor='plugin_type' labelKey='#i18n{portal.system.manage_plugins.buttonFilter}' hideLabel=['all'] formStyle='inline'>
@@ -37,18 +22,42 @@
 						</@inputGroup>
 					</@formGroup>
 				</@tform>
-    			<@button type='button' size='sm' buttonIcon='list' title='Layout' hideTitle=['all'] id='th'/>
+    			<!--<@button type='button' size='sm' buttonIcon='list' title='Layout' hideTitle=['all'] id='th'/>-->
 			</@boxHeader>
       <@boxBody>
        <#if plugins_list?has_content >
 				<@row id='plugins'>
+					<@columns sm=12 md=6 lg=4 class='plugins'>
+						<@box id='' params='data-plugin="${core.name}"' class='plugin-box plugin'>
+							<#assign logo>
+								<@img url=core.iconUrl alt='logo' title=core.name />
+							</#assign>
+							<@boxHeader title='${logo} ${core.name} #i18n{portal.system.manage_plugins.titleCorePlugin} ${core.version}' boxTools=true>
+							
+							</@boxHeader>
+							<@boxBody>
+								<p>#i18n{portal.system.manage_plugins.labelVersion}: ${core.version}</p>
+								<p>#i18n{${core.description}}</p>
+								<p><@icon style='user' /> <em>#i18n{portal.system.manage_plugins.labelAuthor} : #i18n{${core.provider}}</em></p>	
+								<p>	
+									<@icon style='globe' /> <em>#i18n{portal.system.manage_plugins.labelAuthorUrl} : <@link href='${core.providerUrl}' target='_blank'>${core.providerUrl}</@link></em>
+								</p> 
+							</@boxBody>
+							<@boxFooter>
+								<@tform method='post' type='inline' align='right' action='jsp/admin/system/ViewPluginDescription.jsp?plugin_name=${core.name}'>
+									<@button type='submit' title='#i18n{portal.system.manage_plugins.actionDisplay}' buttonIcon='info-circle' hideTitle=['all'] size='sm' />
+								</@tform>
+							</@boxFooter>
+						</@box>
+					</@columns>
+				
 					<#list plugins_list as plugin >
-						<@columns sm=6 md=4 lg=4 class='plugins'>
+						<@columns sm=12 md=6 lg=4 class='plugins'>
 						<@box id='plugin_${plugin.name}_${plugin.version}' params='data-plugin="${plugin.name}"' class='plugin-box plugin'>
 							<#assign logo>
 								<@img url='${plugin.iconUrl}' alt='logo' title='${plugin.name}' />
 							</#assign>
-              				<@boxHeader title='${logo} ${plugin.name}'boxTools=true>
+							<@boxHeader title='${logo} ${plugin.name}' boxTools=true>
 								<#if plugin.installed>
 									<@tag color='success' title='#i18n{portal.system.manage_caches.imgAltEnable}'>
 										<@icon style='check-circle' />
@@ -70,31 +79,41 @@
 												</p> 
               				</@boxBody>
 							<@boxFooter>
+								<@btnToolbar>
 								<#if plugin.installed>
 									<#if plugin.dbPoolRequired>
+										<@btnGroup>
 										<@tform method='post' type='inline' align='right' action='jsp/admin/system/DoModifyPluginPool.jsp#plugin_${plugin.name}_${plugin.version}'>
+										<@inputGroup>
 											<@select name='db_pool_name' default_value='${plugin.dbPoolName}' items=pools_list sort=true size='sm' />
 											<@input type='hidden' name='plugin_name' value='${plugin.name}' />
 											<@input type='hidden' name='token' value='${token}' />
-											<@button type='submit' title='#i18n{portal.system.manage_plugins.buttonModifyDbPool}' buttonIcon='check' size='sm' hideTitle=['all'] />
+											<@inputGroupItem>
+												<@button type='submit' title='#i18n{portal.system.manage_plugins.buttonModifyDbPool}' buttonIcon='check' size='sm' hideTitle=['all'] />
+											</@inputGroupItem>
+										</@inputGroup>
 										</@tform>
+										</@btnGroup>
 									</#if>   
 								</#if>
+								<@btnGroup>
 								<@tform method='post' type='inline' align='right' action='jsp/admin/system/ViewPluginDescription.jsp?plugin_name=${plugin.name}'>
 									<@button type='submit' title='' buttonIcon='info-circle' size='sm' hideTitle=['all'] />
-                 				</@tform>
-								<#if plugin.installed >
+								</@tform>
+									<#if plugin.installed >
 									<@tform method='post' type='inline' align='right' action='jsp/admin/system/ConfirmUninstallPlugin.jsp'>
-                    					<@input type='hidden' name='plugin_name' value='${plugin.name}' />
+										<@input type='hidden' name='plugin_name' value='${plugin.name}' />
 										<@button type='submit' title='#i18n{portal.system.manage_plugins.buttonDisable}' buttonIcon='stop' size='sm' hideTitle=['all'] color='danger' />
 									</@tform>
-								<#else>
+									<#else>
 									<@tform method='post' type='inline' align='right' action='jsp/admin/system/DoInstallPlugin.jsp#plugin_${plugin.name}_${plugin.version}'>
 										<@input type='hidden' name='plugin_name' value='${plugin.name}' />
 										<@input type='hidden' name='token' value='${token}' />
 										<@button type='submit' title='#i18n{portal.system.manage_plugins.buttonEnable}' buttonIcon='play' size='sm' hideTitle=['all'] color='success' />
                   					</@tform>
-								</#if>
+									</#if>
+								</@btnGroup>
+								</@btnToolbar>
 							</@boxFooter>
 						</@box>
 					</@columns>
@@ -109,21 +128,21 @@
 </@row>
 
 <script>
-    function switchList(){
+    /*function switchList(){
         var addOrRemove;
         $(".plugins").toggleClass("col-xs-12 col-sm-12 col-md-12 col-lg-12", addOrRemove).toggleClass("col-xs-12 col-sm-6 col-md-4 col-lg-4", addOrRemove);
         $(".plugin-box").toggleClass("pull-left", addOrRemove);
         $(".plugin-box").toggleClass("plugin", addOrRemove);
         $(".plugin-box > div").toggleClass("pull-left", addOrRemove).toggleClass("col-xs-12 col-sm-4 col-md-4 col-lg-4", addOrRemove);
-    }
+    }*/
     
     /* Get list or box plugin's presentation */
-    $("#th").click( function(){
+    /*$("#th").click( function(){
         switchList();
-    });
+    });*/
     
     /* Filter plugins list */
-    $("#search_plugins").on("keyup", function () {d
+    $("#search_plugins").on("keyup", function () {
         var addOrRemove;
         var search = $("#search_plugins").val();
         $(".plugin-box").each(function (index) {

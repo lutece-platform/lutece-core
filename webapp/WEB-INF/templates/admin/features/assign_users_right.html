@@ -1,11 +1,14 @@
 <@row>
   <@columns>
     <@box color='success' collapsed=assigned_users_list?size&gt;10||search_is_search>
-      <@boxHeader title='${right.name}
+			<#assign boxTitle>
+				${right.name}
 				<small class="spaced">
 						&nbsp;#i18n{portal.features.assign_users.right.level} <@tag>${right.level} </@tag>
 						<@icon style='user' /> <strong>#i18n{portal.features.assign_users.right.number_user}</strong> : <@tag>${assigned_users_number}</@tag>
-				</small>' boxTools=true>
+				</small>
+			</#assign>
+      <@boxHeader title=boxTitle boxTools=true>
 				<@item_navigation item_navigator=item_navigator id="item-navigator-assigned"/>
 				<#if assigned_users_list?size &gt; 10 || search_is_search >
 					<@button style='card-control collapse' buttonIcon='plus' />
