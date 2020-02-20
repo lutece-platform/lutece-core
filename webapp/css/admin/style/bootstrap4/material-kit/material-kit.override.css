@@ -1,0 +1,8 @@
+.btn.btn-default.btn-link, .btn.btn-link {
+  color: #fff;
+}
+
+.btn.btn-default.btn-link:active, .btn.btn-default.btn-link:focus, .btn.btn-default.btn-link:hover, .btn.btn-link:active, .btn.btn-link:focus, .btn.btn-link:hover {
+  color: #fff;
+	text-shadow:2px 1px 10px #fff;
+}
