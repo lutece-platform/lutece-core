@@ -6,6 +6,8 @@
 
 <@row>
     <@columns>
+
+        <@button params='data-toggle="modal" data-target="#modalId"' />
         <@modal id='modalId'>
             <@modalHeader modalTitle='Modal Title' />
             <@modalBody>
@@ -19,10 +21,11 @@
     <pre>
     &lt;@modal id='modalId'&gt;
         &lt;@modalHeader modalTitle='ModalTitle' /&gt;
-        &lt;@modalBody&gt;
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-            Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam.
-        &lt;/@modalBody&gt;
+            &lt;@modalBody&gt;
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+                Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam.
+            &lt;/@modalBody&gt;
+            &lt;@modalFooter /&gt;
     &lt;/@modal&gt;
     </pre>
     </@columns>
