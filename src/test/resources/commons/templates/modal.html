@@ -1,0 +1,114 @@
+<#include "utils.html">
+<@header title='Modal'/>
+
+
+<@h2>Modal</@h2>
+
+<@row>
+    <@columns>
+        <@modal id='modalId'>
+            <@modalHeader modalTitle='Modal Title' />
+            <@modalBody>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+                Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam.
+            </@modalBody>
+            <@modalFooter />
+        </@modal>
+    </@columns>
+    <@columns>
+    <pre>
+    &lt;@modal id='modalId'&gt;
+        &lt;@modalHeader modalTitle='ModalTitle' /&gt;
+        &lt;@modalBody&gt;
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
+            Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor. Cras elementum ultrices diam.
+        &lt;/@modalBody&gt;
+    &lt;/@modal&gt;
+    </pre>
+    </@columns>
+</@row>
+
+<@h2># Parameters documentation</@h2>
+
+<@h3>Modal</@h3>
+
+<p>The container for the header, body and footer elements of the modal.</p>
+
+<@table>
+<@tr>
+    <@th>Parameter</@th>
+    <@th>Value</@th>
+    <@th>Default</@th>
+</@tr>
+<@tr>
+    <@th>id*</@th>
+    <@td>string</@td>
+    <@td>none</@td>
+</@tr>
+<@tr>
+    <@th>params</@th>
+    <@td>string</@td>
+    <@td>none</@td>
+</@tr>
+<@tr>
+    <@th>bgColor</@th>
+    <@td>string</@td>
+    <@td>none</@td>
+</@tr>
+</@table>
+
+<@h3>Modal Header</@h3>
+
+<p>The modal header contains the close button and the title of the modal. It has no nested content.</p>
+
+<@table>
+<@tr>
+    <@th>Parameter</@th>
+    <@th>Value</@th>
+    <@th>Default</@th>
+</@tr>
+<@tr>
+    <@th>titleLevel</@th>
+    <@td>string</@td>
+    <@td>h4</@td>
+</@tr>
+<@tr>
+    <@th>modalTitle</@th>
+    <@td>string</@td>
+    <@td>none</@td>
+</@tr>
+<@tr>
+    <@th>id</@th>
+    <@td>string</@td>
+    <@td>none</@td>
+</@tr>
+<@tr>
+    <@th>params</@th>
+    <@td>string</@td>
+    <@td>none</@td>
+</@tr>
+</@table>
+
+<@h3>Modal Footer</@h3>
+
+<p>The modal footer can have nested content (for the action buttons, for example).</p>
+
+<@table>
+<@tr>
+    <@th>Parameter</@th>
+    <@th>Value</@th>
+    <@th>Default</@th>
+</@tr>
+<@tr>
+    <@th>id</@th>
+    <@td>string</@td>
+    <@td>none</@td>
+</@tr>
+<@tr>
+    <@th>params</@th>
+    <@td>string</@td>
+    <@td>none</@td>
+</@tr>
+</@table>
+
+<@footer />

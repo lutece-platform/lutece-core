@@ -776,8 +776,13 @@ and is kept only for backwards compatibility
 
 <#-- ICONS -->
 <#-- Icons from FontAwesome -->
-<#macro icon prefix='fa fa-' style='' class='' title='' id='' params=''>
-<i class="${prefix}${style}<#if class!=''> ${class}</#if>" aria-hidden="true"<#if title!=''> title='${title}'</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>></i>
+<#macro icon prefix='fa-' style='' class='' title='' id='' params=''>
+<#if style='docker' || style = 'github' || style='gitlab' || style='java' || style='jira' || style='jenkins' || style = 'twitter' >
+	<#local prefix = 'fab ' + prefix />
+<#else>
+	<#local prefix = 'fa ' + prefix />
+</#if>
+	<i class="${prefix}${style}<#if class!=''> ${class}</#if>" aria-hidden="true"<#if title!=''> title='${title}'</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>></i>
 </#macro>
 
 <#-- FORM -->

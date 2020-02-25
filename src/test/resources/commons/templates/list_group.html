@@ -1,0 +1,83 @@
+<#include "utils.html">
+<@header title='List Group'/>
+
+
+<@h2>List Group</@h2>
+
+<@row>
+    <@columns>
+        <@listGroup>
+            <@listGroupItem>
+                Item #1
+            </@listGroupItem>
+            <@listGroupItem>
+                Item #2
+            </@listGroupItem>
+            <@listGroupItem>
+                Item #3
+            </@listGroupItem>
+        </@listGroup>
+    </@columns>
+    <@columns>
+    <pre>
+    &lt;@listGroup&gt;
+        &lt;@listGroupItem&gt;
+            Item #1
+        &lt;/@listGroupItem&gt;
+        &lt;@listGroupItem&gt;
+            Item #2
+        &lt;/@listGroupItem&gt;&lt;@listGroupItem&gt;
+            Item #3
+        &lt;/@listGroupItem&gt;
+    &lt;/@listGroup&gt;
+    </pre>
+    </@columns>
+</@row>
+
+<@h2># Parameters documentation</@h2>
+
+<@h3>List Group</@h3>
+
+<p>The container of the list items.</p>
+
+<@table>
+<@tr>
+    <@th>Parameter</@th>
+    <@th>Value</@th>
+    <@th>Default</@th>
+</@tr>
+<@tr>
+    <@th>id</@th>
+    <@td>string</@td>
+    <@td>none</@td>
+</@tr>
+<@tr>
+    <@th>params</@th>
+    <@td>string</@td>
+    <@td>none</@td>
+</@tr>
+</@table>
+
+<@h3>List Group Item</@h3>
+
+<p>The list items.</p>
+
+<@table>
+<@tr>
+    <@th>Parameter</@th>
+    <@th>Value</@th>
+    <@th>Default</@th>
+</@tr>
+<@tr>
+    <@th>id</@th>
+    <@td>string</@td>
+    <@td>none</@td>
+</@tr>
+<@tr>
+    <@th>params</@th>
+    <@td>string</@td>
+    <@td>none</@td>
+</@tr>
+</@table>
+
+<@footer />
