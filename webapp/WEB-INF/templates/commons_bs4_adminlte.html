@@ -945,10 +945,10 @@
 
 <#macro modalHeader titleLevel='h4' modalTitle='' id='' params=''>
 <div class="modal-header"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+	<${titleLevel} class="modal-title">${modalTitle}</${titleLevel}>
 	<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 		<span aria-hidden="true">&times;</span>
 	</button>
-	<${titleLevel} class="modal-title">${modalTitle}</${titleLevel}>
 </div>
 </#macro>
 

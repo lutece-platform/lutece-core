@@ -31,6 +31,7 @@
 <script src="js/admin/style/bootstrap4/material-kit/nouislider.min.js"></script> 
 <script src="js/admin/style/bootstrap4/material-kit/jquery.sharrre.js"></script> 
 <script src="js/admin/style/bootstrap4/material-kit/material-kit.min.js"></script> 
+<script src="js/admin/style/bootstrap4/material-kit/material-kit-forms.js"></script> 
 <!-- <script src="css/admin/style/bootstrap4/bootstrap-datepicker.min.js"></script>  -->
 <!-- <script src="css/admin/style/bootstrap4/portal_admin.js"></script>  -->
 </#macro>
@@ -365,8 +366,8 @@
 
 <#-- FORM ELEMENT STRUCTURE 												  								-->
 <#-- formStyle values: horizontal/empty/inline Default is horizontal 	-->
-<#-- class: 						 								-->
-<#-- groupStyle: success/error -->
+<#-- class: 						 																							-->
+<#-- groupStyle: success/error 																				-->
 <#macro formGroup formStyle='horizontal' class='' groupStyle='' rows=1 labelKey='' labelFor='' labelId='' helpKey='' id='' mandatory=false hideLabel=[] params=''>
 <#assign mandatory = mandatory>
 <#assign labelFor = labelFor>
@@ -374,17 +375,17 @@
 <#assign labelKey = labelKey>
 <#assign hideLabel = hideLabel>
 <#assign helpKey = helpKey>
-<#if groupStyle = "success">
-	<#local validation = "is-valid">
-<#elseif groupStyle="error">
-	<#local validation = "is-invalid">
+<#if groupStyle = 'success'>
+	<#local validation = 'is-valid'>
+<#elseif groupStyle='error'>
+	<#local validation = 'is-invalid'>
 </#if>
-<div class="form-group bmd-form-group<#if formStyle='horizontal'> row</#if><#if class!=''> ${class}<#/if><#if validation?? && validation!=''> ${validation}</#if></#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<div class="form-group bmd-form-group<#if formStyle='horizontal'> row</#if><#if class!=''> ${class}</#if>"<#if validation?? && validation!=''> ${validation}</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 <#local labelClass = '' />
 <#local displayClass = displaySettings(hideLabel,'inline-flex') />
 	<#if rows=1>
 		<#if labelKey!='' && formStyle='horizontal'>
-			<#local labelClass = "col-sm-12">
+			<#local labelClass = "col-12">
 			<#if displayClass?contains('d-none')>
 				<#local divClass="col">
 			<#else>	
@@ -441,7 +442,15 @@
 	<#if type='textarea'>
 		<textarea name="${name}" class="form-control<#if size!=''> form-control-${size}</#if><#if class!=''> ${class}</#if><#if richtext> richtext</#if>" rows="${rows}" cols="${cols}"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}"</#if><#if title!=''> title="${title}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if mandatory?? && mandatory && !richtext> required</#if><#if labelFor?? && labelFor!='' && helpKey?? && helpKey!=''> aria-describedby="${labelFor}_help"</#if>><#nested></textarea>
 	<#elseif type='text' || type='search' || type='password' || type='email' || type='file' || type='number' || type='date'>
-		<input class="form-control<#if type='file'>-file</#if><#if size!=''> form-control-${size}</#if><#if class!=''> ${class}</#if>" name="${name}" type="${type}" value="${value}"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}<#if mandatory?? && mandatory> [#i18n{portal.users.modify_attribute.labelMandatory}]</#if>"</#if><#if title!=''> title="${title}"</#if><#if maxlength &gt; 0> maxlength="${maxlength}"</#if><#if inputSize!=0> size="${inputSize}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if min!=0> min="${min}"</#if><#if max!=0> max="${max}"</#if><#if mandatory?? && mandatory> required</#if><#if labelFor?? && labelFor!='' && helpKey?? && helpKey!=''> aria-describedby="${labelFor}_help"</#if> />
+		<#if type='file'>
+		<input type="text" class="form-control inputFileVisible" />
+		</#if>
+		<input class="<#if type='file'>inputFileHidden<#else>form-control</#if><#if size!=''> form-control-${size}</#if><#if class!=''> ${class}</#if>" name="${name}" type="${type}" value="${value}"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}<#if mandatory?? && mandatory> [#i18n{portal.users.modify_attribute.labelMandatory}]</#if>"</#if><#if title!=''> title="${title}"</#if><#if maxlength &gt; 0> maxlength="${maxlength}"</#if><#if inputSize!=0> size="${inputSize}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if min!=0> min="${min}"</#if><#if max!=0> max="${max}"</#if><#if mandatory?? && mandatory> required</#if><#if labelFor?? && labelFor!='' && helpKey?? && helpKey!=''> aria-describedby="${labelFor}_help"</#if> />
+		<#if type='file'>
+		<script type="text/javascript">
+			$(".inputFileHidden").parents('div.form-group').addClass('form-file-upload form-file-simple');
+		</script>
+		</#if>
 	<#elseif type='hidden'>
 		<input type="hidden" name="${name}" value="${value}" />
 	<#else>
@@ -455,6 +464,9 @@
 <p class="<#if inForm>form-control-plaintext</#if><#if color!=''> text-${color}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 	<#nested>
 </p>
+<script type="text/javascript">
+$('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
+</script>
 </#macro>
 
 <#--- MACRO SELECT (TO REPLACE "COMBO" MACROS) --->
@@ -482,6 +494,9 @@
 		<#nested>
 	</#if>
 	</select>
+	<script type="text/javascript">
+		$("select").parents('div.form-group').addClass('is-filled');
+	</script>
 </#macro>
 
 <#-- CHECKBOX 																							-->
@@ -489,7 +504,7 @@
 <#-- TODO  																									-->
 <#macro checkBox name id labelKey='' labelFor='' orientation='vertical' value='' tabIndex='' title='' disabled=false readonly=false checked=false params='' mandatory=false>
 <#if labelFor = ''><#local labelFor = id /></#if>
-<div class="form-check">
+<div class="form-check<#if orientation!='vertical'> form-check-inline</#if><#if disabled> disabled</#if>">
 	<label class="form-check-label<#if orientation='horizontal'> checkbox-inline</#if>"<#if labelFor!=''> for="${labelFor}"</#if>>
 	<input type="checkbox" id="${id}" name="${name}" class="form-check-input" <#if value!=''> value="${value}"</#if><#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if checked> checked</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if params!=''> ${params}</#if><#if mandatory> required</#if> />
 		<#if labelKey!=''>
@@ -502,12 +517,15 @@
 		</span>
 	</label>
 </div>
+	<script type="text/javascript">
+		$(".form-check").parents('div.form-group').addClass('is-filled');
+	</script>
 </#macro>
 
 <#-- RADIO BUTTON -->
 <#-- orientation: vertical/horizontal. Default is vertical -->
 <#macro radioButton name id='' value='' labelKey='' labelFor='' orientation='vertical' tabIndex='' title='' disabled=false readonly=false checked=false params=''>
-		<div class="form-check">
+		<div class="form-check form-check-radio<#if orientation!='vertical'> form-check-inline</#if><#if disabled> disabled</#if>">
 			<label class="form-check-label<#if orientation='horizontal'> radio-inline</#if>">
 				<input type="radio" id="${id}" name="${name}" class="form-check-input" <#if value!=''> value="${value}"</#if><#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if checked> checked</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if mandatory?? && mandatory> required</#if><#if params!=''> ${params}</#if> />
 			<#if labelKey!=''>
@@ -924,10 +942,10 @@
 
 <#macro modalHeader titleLevel='h4' modalTitle='' id='' params=''>
 <div class="modal-header"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+	<${titleLevel} class="modal-title">${modalTitle}</${titleLevel}>
 	<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 		<span aria-hidden="true">&times;</span>
 	</button>
-	<${titleLevel} class="modal-title">${modalTitle}</${titleLevel}>
 </div>
 </#macro>
 
@@ -1009,7 +1027,7 @@
 </#macro>
 
 <#macro boxBody class='' id='' params=''>
-<div class="card-body bg-white<#if class!=''> ${class}</#if>" style="border-radius:0 0 3px 3px;"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<div class="card-body<#if class!=''> ${class}</#if>" style="border-radius:0 0 3px 3px;"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 	<#nested>
 </div>
 </#macro>
@@ -1357,24 +1375,24 @@
 <section id="login-page">
 	<div class="container">
 		<div class="row align-items-center vh-100">
-			<div class="col-sm-5 offset-sm-3 bg-light rounded px-5">
-				<header>
-					<h1 class="h2 mb-3 text-center">
-						<a class="btn btn-link btn-block " href="jsp/site/Portal.jsp" title="${site_name!'Lutece'}">#i18n{portal.admin.admin_login.welcome}<br> <b>${site_name!'Lutece'}</b></a>
-					</h1>
-					<h2 class="h3 mb-3 text-center">${title}</h2>
-				</header>
-				<main>
-					<#nested>
-				</main>
-				<footer>
-					<p class="text-center">
-						<@aButton href='http://fr.lutece.paris.fr' params='target="_blank"' title='#i18n{portal.site.portal_footer.labelPortal}' hideTitle=['all'] color='link'>
-						<img src="images/poweredby.png" class="thumbnails" alt="logo lutece" title="Lutece">
-						</@aButton>
-					</p>
-				</footer>
+			<div class="col-lg-6 col-md-6 ml-auto mr-auto">
+				<div class="card card-login">
+					<header class="card-header card-header-primary text-center">
+						<h1 class="h2 mb-3 text-center">
+							<a class="btn btn-link btn-block" href="jsp/site/Portal.jsp" title="${site_name!'Lutece'}">#i18n{portal.admin.admin_login.welcome}<br> <b>${site_name!'Lutece'}</b></a>
+						</h1>
+						<h2 class="card-title">${title}</h2>
+					</header>
+					<main class="card-body">
+						<#nested>
+					</main>
+					<footer class="footer text-center">
+							<@aButton href='http://fr.lutece.paris.fr' params='target="_blank"' title='#i18n{portal.site.portal_footer.labelPortal}' hideTitle=['all'] color='link' class='btn-block'>
+							<img src="images/poweredby.png" class="thumbnails" alt="logo lutece" title="Lutece">
+							</@aButton>
+					</footer>
 				</div>	
+			</div>	
 		</div>
 	</div>
 </section>
