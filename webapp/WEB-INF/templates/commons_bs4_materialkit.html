@@ -505,7 +505,7 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 <#macro checkBox name id labelKey='' labelFor='' orientation='vertical' value='' tabIndex='' title='' disabled=false readonly=false checked=false params='' mandatory=false>
 <#if labelFor = ''><#local labelFor = id /></#if>
 <div class="form-check<#if orientation!='vertical'> form-check-inline</#if><#if disabled> disabled</#if>">
-	<label class="form-check-label<#if orientation='horizontal'> checkbox-inline</#if>"<#if labelFor!=''> for="${labelFor}"</#if>>
+	<label class="form-check-label"<#if labelFor!=''> for="${labelFor}"</#if>>
 	<input type="checkbox" id="${id}" name="${name}" class="form-check-input" <#if value!=''> value="${value}"</#if><#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if checked> checked</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if params!=''> ${params}</#if><#if mandatory> required</#if> />
 		<#if labelKey!=''>
 			${labelKey}
@@ -547,6 +547,9 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 	<div class="input-group<#if size!=''> input-group-${size}</#if><#if class!=''> ${class}</#if>" <#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 		<#nested>
 	</div>
+		<script type="text/javascript">
+			$(".input-group").parent().prev("label.bmd-label-floating").addClass('bmd-label-static').removeClass("bmd-label-floating");
+		</script>
 </#macro>
 
 <#macro inputGroupItem pos='append' type='btn' id='' params=''>
@@ -739,10 +742,10 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 </div>
 </#macro>
 
-<#macro progressBar description='' id='' params=''>
+<#macro progressBar description='' id='' params='style=\"height:18px;\"'>
 <div class="progress"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
-	<div id="progressbar" class="progress-bar progress-bar-striped" role="progressbar">
-		<div id="complexity">0%</div>
+	<div id="progressbar" class="progress-bar" role="progressbar">
+		<div id="complexity"><span class="d-none">0%</span></div>
 	</div>
 </div>
 <#if description!=''>
@@ -842,28 +845,18 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 <#-- color: default/primary/success/warning/danger/info/ -->
 <#-- style: btn-block/btn-flat/disabled/btn-app -->
 <#-- icon: icon name ex: info/check/comment/envelope... -->
-<#-- ShowTitleXs is UNUSED in Bootstrap 4. -->
-<#macro aButton name='' id='' href='' size='' color=mainColor style='btn' class='' params='' title='' tabIndex='' hideTitle=[] showTitle=true showTitleXs=true showTitleSm=true showTitleMd=true showTitleLg=true showTitleXl=true buttonIcon='' disabled=false iconPosition='left' dropdownMenu=false>
-<#local displayTitleClass = displaySettings(hideTitle,'inline') />
-	<#if !showTitleXs><#local showTitleSm = false></#if>
+<#macro aButton name='' id='' href='' size='' color='' style='btn' class='' params='' title='' tabIndex='' hideTitle=[]  buttonIcon='' disabled=false iconPosition='left' dropdownMenu=false>
 	<#-- Visibility of button title -->
-	<#-- The media queries effect screen widths with the given breakpoint or larger, therefore if the value for either showTitleMd/Lg/Xl is FALSE, values for smaller screen widths should be set to FALSE as well. -->
-	<#if !showTitleMd><#local showTitleSm = false></#if>
-	<#if !showTitleLg><#local showTitleSm = false showTitleMd = false></#if>
-	<#if !showTitleXl><#local showTitleSm = false showTitleMd = false showTitleLg = false></#if>
+	<#local displayTitleClass = displaySettings(hideTitle,'inline') />
 	
-	<#local showTitleClass = '' />
-	<#if !showTitle><#local showTitleClass = 'sr-only' /></#if>
-	<#if !showTitleXs || !showTitleSm || !showTitleMd || !showTitleLg || !showTitleXl>
-		<#local showTitleClass = 'd-none' />
+	<#if color = 'default'>
+		<#local buttonColor = 'secondary' />
+	<#elseif color = ''>
+		<#local buttonColor = mainColor />
+	<#else>
+		<#local buttonColor = color />
 	</#if>
-	
-	<#if !showTitleSm || !showTitleXs><#local showTitleClass = showTitleClass + ' d-md-inline-block' />
-	<#elseif !showTitleMd && !showTitleSm><#local showTitleClass = showTitleClass + ' d-lg-inline-block' />
-	<#elseif !showTitleLg && !showTitleMd && !showTitleSm><#local showTitleClass = showTitleClass + ' d-xl-inline-block' />
-	<#elseif !showTitleXl && !showTitleLg && !showTitleMd && !showTitleSm><#local showTitleClass = showTitleClass />
-	<#else></#if>
-	
+
 	<#if size = 'xs'>
 		<#local size = 'sm' />
 	</#if>
@@ -872,7 +865,7 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 		<div class="btn-group">
 	</#if>
 	
-	<a class="${style} <#if size!=''> btn-${size}</#if><#if color!=''> btn-${color}</#if><#if class!=''> ${class}</#if>"<#if name!=''> name="${name}"</#if><#if id!=''> id="${id}"</#if> href="${href}" title="${title}"<#if params!=''> ${params}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if>>
+	<a class="${style} <#if size!=''> btn-${size}</#if> btn-${buttonColor}<#if class!=''> ${class}</#if>"<#if name!=''> name="${name}"</#if><#if id!=''> id="${id}"</#if> href="${href}" title="${title}"<#if params!=''> ${params}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if>>
 		<#if buttonIcon!='' && iconPosition='left'><@icon style=buttonIcon /></#if>
 		<span class="${displayTitleClass}">${title}</span>
 		<#if buttonIcon!='' && iconPosition='right'><@icon style=buttonIcon /></#if>
@@ -1005,7 +998,7 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 <#-- collapsed: true/false 																-->
 <#---------------------------------------------------------->
 <#macro box color='' id='' style='' class='' params='' collapsed=false>
-<div class="card mt-5<#if style!=''> text-${style}</#if><#if class!=''> ${class}</#if><#if collapsed> collapsed-box</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<div class="card<#if style!=''> text-${style}</#if><#if class!=''> ${class}</#if><#if collapsed> collapsed-box</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 	<#nested>
 </div>
 </#macro>
@@ -1220,7 +1213,7 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 -------------------------------------------------- -->
 <#-- MACRO adminHeader -->
 <#macro adminHeader site_name=site_name>
-<body class="d-flex flex-column vh-100">
+<body class="d-flex flex-column vh-100 container-fluid">
 	<div class="skipnav"><a href="#main">allez au contenu principal</a></div>
 	<h1 id="top" class="sr-only sr-only-focusable">Haut de page</h1>
 	<header class="main-header" role="banner">
@@ -1614,16 +1607,16 @@ $(function() {
 
 <#-- adminContentHeader  -->
 <#macro adminContentHeader >
-<section class="content-header">
-	<h1>
-	<#if feature_url?? >
-		<@link href='${feature_url}' title='${feature_title!""}'>${feature_title!''}</@link>
-	<#else>
-		${feature_title!''}
-	</#if>
-	<#if page_title?has_content><small>${page_title}</small></#if>
-	</h1>
-	<@adminHeaderDocumentationLink />
-</section>
-<section class="content container-fluid<#if feature_url?? && feature_url?ends_with('AdminSite.jsp')> no-padding</#if>">
+<header>
+	<div class="row justify-content-between">
+		<div class="col">
+			<h3 class="ml-2">
+				<a href="${feature_url}" title="${feature_title}">${feature_title}</a>
+				<#if page_title?has_content><small>${page_title}</small></#if>
+			</h3>
+		</div>
+		<@adminHeaderDocumentationLink />
+	</div>
+</header>
+<section class="content <#if feature_url?ends_with('AdminSite.jsp')>no-padding</#if>">
 </#macro>
