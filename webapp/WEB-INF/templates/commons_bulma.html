@@ -748,7 +748,7 @@ and is kept only for backwards compatibility
 				<#assign selectSize='normal'>
 	</#switch>
 <div class="select<#if selectSize!=''> is-${selectSize}</#if>">
-    <select id="${id}" name="${name}" class="field<#if class!=''> input-${class}</#if>" <#if (multiple &gt; 0)>multiple size="${multiple}"</#if><#if (tabIndex &gt; 0)> tabindex="${tabIndex}"</#if><#if params!=''> ${params}</#if><#if title!=''> ${title}</#if>>
+    <select id="${id}" name="${name}" class="field<#if class!=''> input-${class}</#if>" <#if (multiple &gt; 0)>multiple size="${multiple}"</#if><#if (tabIndex &gt; 0)> tabindex="${tabIndex}"</#if><#if params!=''> ${params}</#if><#if title!=''> ${title}</#if><#if mandatory?? && mandatory> required</#if>>
     <#if items?has_content>
         <#if sort=true>
             <#list items?sort_by("name") as item>
@@ -1127,8 +1127,8 @@ and is kept only for backwards compatibility
 <#-- buttonIcon: icon name ex: info/check/comment/envelope... -->
 <#-- iconPosition: left/right -->
 <#-- cancel: switch to true for a cancellation form button. Adds the "formnovalidate" attribute to the button, as well as the right class -->
-
-<#macro button name='' id='' type='button'  buttonIcon='' size='' color='' style='' class='' params='' value='' title='' tabIndex='' hideTitle=[] showTitle=true showTitleXs=true showTitleSm=true showTitleMd=true showTitleLg=true disabled=false iconPosition='left' dropdownMenu=false cancel=false>
+<#-- form: contains the form ID if the button is outside of the form -->
+<#macro button name='' id='' type='button'  buttonIcon='' size='' color='' style='' class='' params='' value='' title='' tabIndex='' hideTitle=[] showTitle=true showTitleXs=true showTitleSm=true showTitleMd=true showTitleLg=true disabled=false iconPosition='left' dropdownMenu=false cancel=false form=''>
 
 <#local displayTitleClass = displaySettings(hideTitle,'inline') />
 
@@ -1164,7 +1164,7 @@ and is kept only for backwards compatibility
 <div class="dropdown">
 	<div class="dropdown-trigger">
 </#if>
-	<button class="button<#if buttonSize!=''> is-${buttonSize}</#if><#if buttonColor!=''> is-${buttonColor}</#if><#if dropdownMenu> dropdown-toggle</#if><#if class!=''> ${class}</#if>" type="${type}"<#if title!=''> title="${title}"</#if><#if name!=''> name="${name}"</#if><#if id!=''> id="${id}"</#if><#if value!=''> value="${value}"</#if><#if params!=''> ${params}</#if><#if disabled> disabled</#if><#if dropdownMenu> aria-haspopup="true" aria-controls="<#if id!=''>${id}</#if>-content"</#if>>
+	<button class="button<#if buttonSize!=''> is-${buttonSize}</#if><#if buttonColor!=''> is-${buttonColor}</#if><#if dropdownMenu> dropdown-toggle</#if><#if class!=''> ${class}</#if>" type="${type}"<#if title!=''> title="${title}"</#if><#if name!=''> name="${name}"</#if><#if id!=''> id="${id}"</#if><#if value!=''> value="${value}"</#if><#if params!=''> ${params}</#if><#if disabled> disabled</#if><#if dropdownMenu> aria-haspopup="true" aria-controls="<#if id!=''>${id}</#if>-content"</#if><#if cancel> formnovalidate</#if><#if form!=''> form="${form}"</#if>>
     <#if buttonIcon!='' && iconPosition='left'><@icon style=buttonIcon />&nbsp;</#if>
 		<#if displayTitleClass!='' && style!='card-control'><span class="${displayTitleClass}"></#if>${title}<#if displayTitleClass!='' && style!='card-control'></span></#if>
 		<#if buttonIcon!='' && iconPosition='right'>&nbsp;<@icon style=buttonIcon /></#if>

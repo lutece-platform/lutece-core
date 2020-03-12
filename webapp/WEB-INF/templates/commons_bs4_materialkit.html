@@ -99,7 +99,7 @@
 <#if (paginator.pagesCount > 1) >
 	<@paginationPageLinks paginator=paginator />
 </#if>
-<div class="float-right">
+<nav>
 	<#if form == 1 >
 		<@tform type='inline'>
 			<@paginationItemCount paginator=paginator combo=combo nb_items_per_page=nb_items_per_page showcount=showcount showall=showall/>
@@ -107,7 +107,7 @@
 	<#else>
 		<@paginationItemCount paginator=paginator combo=combo nb_items_per_page=nb_items_per_page showcount=showcount showall=showall/>
 	</#if>
-</div>
+</nav>
 </#macro>
 
 <#-- PAGINATION LINKS -->
@@ -122,22 +122,22 @@
 	<#assign offsetNext = paginator.pagesCount - paginator.pageCurrent />
 	<#assign offsetPrev = nbLinkPagesToDisplay - offsetNext />
 </#if>
-<@ul class='pagination pagination-sm'>
+<@ul class='pagination justify-content-end'>
 <#if ( paginator.pageCurrent - offsetPrev > 1 )>
-	<li>
-		<@link href='${paginator.firstPageLink?xhtml}'>
+	<li class="page-item">
+		<@link href='${paginator.firstPageLink?xhtml}' class='page-link'>
 			${paginator.labelFirst}
 		</@link>
 	</li>
 </#if>
 <#if (paginator.pageCurrent > 1) >
-	<li class="previous">
-		<@link href='${paginator.previousPageLink?xhtml}'>
+	<li class="page-item previous">
+		<@link href='${paginator.previousPageLink?xhtml}' class='page-link'>
 			${paginator.labelPrevious}
 		</@link>
 	</li>
 <#else>
-	<li class="disabled">
+	<li class="page-item disabled">
 		<@link href='${paginator.firstPageLink?xhtml}'>${paginator.labelPrevious}</@link>
 	</li>
 </#if>
@@ -148,12 +148,12 @@
 </#if>
 <#list paginator.pagesLinks as link>
 	<#if ( link.index == paginator.pageCurrent )>
-		<li class="active">
-			<@link href='${link.url?xhtml}'>${link.name}</@link>
+		<li class="page-item active">
+			<@link href='${link.url?xhtml}' class='page-link'>${link.name}</@link>
 		</li>
 	<#else>
 		<li>
-			<@link href='${link.url?xhtml}'>${link.name}</@link>
+			<@link href='${link.url?xhtml}' class='page-link'>${link.name}</@link>
 		</li>
 	</#if>
 </#list>
@@ -163,20 +163,20 @@
 	</li>
 </#if>
 <#if (paginator.pageCurrent < paginator.pagesCount) >
-	<li class="next">
-		<@link href="${paginator.nextPageLink?xhtml}">
+	<li class="page-item next">
+		<@link href="${paginator.nextPageLink?xhtml}" class='page-link'>
 			${paginator.labelNext}
 		</@link>
 	</li>
 	<#if ( paginator.pageCurrent + offsetNext < paginator.pagesCount )>
-		<li class="next">
-			<@link href='${paginator.lastPageLink?xhtml}'>
+		<li class="page-item next">
+			<@link href='${paginator.lastPageLink?xhtml}' class='page-link'>
 				${paginator.labelLast}
 			</@link>
 		</li>
 	</#if>
 <#else>
-	<li class="disabled">
+	<li class="page-item disabled">
 		<@link href='${paginator.lastPageLink?xhtml}'>${paginator.labelNext}</@link>
 	</li>
 </#if>
@@ -202,7 +202,7 @@
   		</#if>
 	</@select>
 	<@inputGroupItem type='btn'>
-		<@button type='submit' color='dark' size='sm' title='#i18n{portal.util.labelRefresh}' buttonIcon='check' hideTitle=['all'] />
+		<@button type='submit' color='default' size='sm' title='#i18n{portal.util.labelRefresh}' buttonIcon='check' hideTitle=['all'] />
 	</@inputGroupItem>
 </@inputGroup>
 </@formGroup>
@@ -471,7 +471,7 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 
 <#--- MACRO SELECT (TO REPLACE "COMBO" MACROS) --->
 <#macro select name items='' default_value='' id=name class='' size='' sort=false multiple=0 params='' title='' tabIndex=0>
-	<select id="${id}" name="${name}" class="form-control<#if size!=''> form-control-${size}</#if><#if class!=''> input-${class}</#if>" <#if (multiple &gt; 0)>multiple size="${multiple}"</#if><#if (tabIndex &gt; 0)> tabindex="${tabIndex}"</#if><#if params!=''> ${params}</#if><#if title!=''> title="${title}"</#if>>
+	<select id="${id}" name="${name}" class="form-control<#if size!=''> form-control-${size}</#if><#if class!=''> input-${class}</#if>" <#if (multiple &gt; 0)>multiple size="${multiple}"</#if><#if (tabIndex &gt; 0)> tabindex="${tabIndex}"</#if><#if params!=''> ${params}</#if><#if title!=''> title="${title}"</#if><#if mandatory?? && mandatory> required</#if>>
 	<#if items?has_content>
 		<#if sort=true>
 			<#list items?sort_by("name") as item>
@@ -538,6 +538,9 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 			</span>
 			</label>
 </div>
+	<script type="text/javascript">
+		$(".form-check").parents('div.form-group').addClass('is-filled');
+	</script>
 </#macro>
 
 
@@ -806,7 +809,8 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 <#-- buttonIcon: icon name ex: info/check/comment/envelope... -->
 <#-- iconPosition: left/right -->
 <#-- cancel: switch to true for a cancellation form button. Adds the "formnovalidate" attribute to the button, as well as the right class -->
-<#macro button name='' id='' type='button' size='' color='' style='' class='' params='' value='' title='' tabIndex='' hideTitle=[] showTitle=true showTitleXs=true showTitleSm=true showTitleMd=true showTitleLg=true showTitleXl=true buttonIcon='' disabled=false iconPosition='left' dropdownMenu=false cancel=false>
+<#-- form: contains the form ID if the button is outside of the form -->
+<#macro button name='' id='' type='button' size='' color='' style='' class='' params='' value='' title='' tabIndex='' hideTitle=[] showTitle=true showTitleXs=true showTitleSm=true showTitleMd=true showTitleLg=true showTitleXl=true buttonIcon='' disabled=false iconPosition='left' dropdownMenu=false cancel=false form=''>
 	<#-- Visibility of button title -->
 	<#local displayTitleClass = displaySettings(hideTitle,'inline') />
 	<#if cancel || color = 'default'>
@@ -827,7 +831,7 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 	<#if dropdownMenu>
 		<div class="btn-group">
 	</#if>
-		<button class="<#if style!='close'>btn</#if><#if size!='' && style!='card-control'> btn-${size}</#if><#if buttonColor!='' && style!='card-control'> btn-${buttonColor}</#if><#if style!=''> ${style}</#if><#if dropdownMenu> dropdown-toggle</#if><#if class!=''> ${class}</#if>" type="${type}"<#if title!=''> title="${title}"</#if><#if name!=''> name="${name}"</#if><#if id!=''> id="${id}"</#if><#if value!=''> value="${value}"</#if><#if params!=''> ${params}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if><#if cancel> formnovalidate</#if>>
+		<button class="<#if style!='close'>btn</#if><#if size!='' && style!='card-control'> btn-${size}</#if><#if buttonColor!='' && style!='card-control'> btn-${buttonColor}</#if><#if style!=''> ${style}</#if><#if dropdownMenu> dropdown-toggle</#if><#if class!=''> ${class}</#if>" type="${type}"<#if title!=''> title="${title}"</#if><#if name!=''> name="${name}"</#if><#if id!=''> id="${id}"</#if><#if value!=''> value="${value}"</#if><#if params!=''> ${params}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if><#if cancel> formnovalidate</#if><#if form!=''> form="${form}"</#if>>
 			<#if buttonIcon!='' && iconPosition='left'><@icon style=buttonIcon /></#if>
 			<#if displayTitleClass!='' && style!='card-control'><span class="${displayTitleClass}"></#if>${title}<#if displayTitleClass!='' && style!='card-control'></span></#if>
 			<#if buttonIcon!='' && iconPosition='right'><@icon style=buttonIcon /></#if>

@@ -10,3 +10,8 @@
 .card-login .card-body {
     padding: 0 30px 0 30px;
 }
+
+footer {
+	position: absolute;
+	bottom: 0;
+}
