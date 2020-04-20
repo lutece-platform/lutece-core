@@ -798,8 +798,8 @@ and is kept only for backwards compatibility
 <#-- FORM ELEMENT STRUCTURE -->
 <#-- formStyle values: empty/inline/horizontal/navbar-form/navbar-left... Default is horizontal -->
 <#-- groupStyle: success/warning/error... -->
-
-<#macro formGroup class='' formStyle='horizontal' groupStyle='' rows=1 labelKey='' labelFor='' labelId='' helpKey='' id='' mandatory=false hideLabel=[] params=''>
+<#-- showLabel is deprecated in Lutece v7 -->
+<#macro formGroup class='' formStyle='horizontal' groupStyle='' rows=1 labelKey='' labelFor='' labelId='' helpKey='' id='' mandatory=false hideLabel=[] showLabel=true params=''>
 	<#local displayTitleClass = displaySettings(hideLabel,'') />
 	<div class="form-group<#if groupStyle!=''> has-${groupStyle} has-feedback</#if><#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 		<#if rows=1>
@@ -816,7 +816,7 @@ and is kept only for backwards compatibility
 			<#local divClass = "col-xs-12">
 		</#if>
 		<#if labelKey!=''>
-		<label class="${labelClass}<#if displayTitleClass!=''> ${displayTitleClass}</#if>" for="${labelFor}"<#if labelId!=''> id="${labelId}"</#if>>
+		<label class="${labelClass}<#if displayTitleClass!=''> ${displayTitleClass}</#if><#if showLabel=false> sr-only</#if>" for="${labelFor}"<#if labelId!=''> id="${labelId}"</#if>>
 			${labelKey}
 			<#if mandatory=false>
 				&#160;
@@ -852,9 +852,10 @@ and is kept only for backwards compatibility
 </div>
 </#macro>
 
-<#macro formLabel class='' labelFor='' labelId='' labelKey='' hideLabel=hideLabel mandatory=true >
+<#-- showLabel is deprecated in Lutece v7 -->
+<#macro formLabel class='' labelFor='' labelId='' labelKey='' hideLabel=hideLabel showLabel=true mandatory=true >
 <#local labelDisplayClass = displaySettings(hideLabel,'') />
-<label class="<#if class !=''>${class}</#if> ${labelDisplayClass}" for="${labelFor}" <#if labelId!=''> id="${labelId}"</#if><#if mandatory=true>ariaLabel="${labelKey} [#i18n{portal.users.modify_attribute.labelMandatory}]"</#if>>${labelKey}</label>
+<label class="<#if class !=''>${class}</#if> ${labelDisplayClass}<#if showLabel=false> sr-only</#if>" for="${labelFor}" <#if labelId!=''> id="${labelId}"</#if><#if mandatory=true>ariaLabel="${labelKey} [#i18n{portal.users.modify_attribute.labelMandatory}]"</#if>>${labelKey}</label>
 </#macro>
 
 <#macro formHelp style='inline' class='' labelFor=''>
@@ -867,7 +868,8 @@ and is kept only for backwards compatibility
 <#-- type : text/textarea/password/email/file/number. Default is text -->
 <#-- size: input-xs/input-sm/input-lg -->
 <#-- pattern: [A-F][0-9]{5} -->
-<#macro input name type='text' value='' class='' size='' inputSize=0 maxlength=0 placeHolder='' rows=4 cols=40 richtext=false tabIndex='' id='' disabled=false readonly=false pattern='' params='' title='' min=0 max=0>
+<#-- the mandatory parameter is deprecated in Lutece v7 -->
+<#macro input name type='text' value='' class='' size='' inputSize=0 maxlength=0 placeHolder='' rows=4 cols=40 richtext=false tabIndex='' id='' disabled=false readonly=false pattern='' params='' title='' min=0 max=0 mandatory=mandatory>
 	<#if type='textarea'>
 		<textarea name="${name}" class="form-control<#if size!=''> input-${size}</#if><#if class!=''> ${class}</#if><#if richtext> richtext</#if>" rows="${rows}" cols="${cols}"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}"</#if><#if title!=''> title="${title}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if mandatory?? && mandatory && !richtext> required</#if><#if labelFor?? && labelFor!='' && helpKey?? && helpKey!=''> aria-describedby="${labelFor}_help"</#if>><#nested></textarea>
 	<#elseif type='text' || type='search' || type='password' || type='email' || type='file' || type='number'>
@@ -1023,6 +1025,14 @@ and is kept only for backwards compatibility
 		</ul>
 </#macro>
 
+<#-- this macro is deprecated. Used for backwards compatibility with Lutece v6 only -->
+<#-- type: tabs/tabs nav-justified/pills/pills nav-stacked/pills nav-justified -->
+<#macro listTabs type='tabs' id='' params=''>
+		<ul class="nav nav-${type}"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+			<#nested>
+		</ul>
+</#macro>
+
 <#-- Tabs -->
 <#-- type:  -->
 <#macro tabLink class='' hide=[] id='' active=false href='' title='' tabIcon='' params=''>
@@ -1173,7 +1183,8 @@ and is kept only for backwards compatibility
 <#-- iconPosition: left/right -->
 <#-- cancel: switch to true for a cancellation form button. Adds the "formnovalidate" attribute to the button, as well as the right class -->
 <#-- form: contains the form ID if the button is outside of the form -->
-<#macro button name='' id='' type='button' size='' color='' style='btn-flat' class='' params='' value='' title='' tabIndex='' hideTitle=[] buttonIcon='' disabled=false iconPosition='left' dropdownMenu=false cancel=false form=''>
+<#-- showTitle, showTitleXs, showTitleSm, showTitleMd, showTitleLg are deprecated in Lutece v7 -->
+<#macro button name='' id='' type='button' size='' color='' style='btn-flat' class='' params='' value='' title='' tabIndex='' hideTitle=[] showTitle=true showTitleXs=true showTitleSm=true showTitleMd=true showTitleLg=true buttonIcon='' disabled=false iconPosition='left' dropdownMenu=false cancel=false form=''>
 	<#if cancel || color = 'secondary'>
 		<#local buttonColor = 'default' />
 	<#elseif !cancel && color=''>
@@ -1184,6 +1195,14 @@ and is kept only for backwards compatibility
 	
 	<#-- Visibility of button title -->
 	<#local displayTitleClass = displaySettings(hideTitle,'inline-flex') />
+	
+	<#-- Visibility of button title: backwards compatibility with Lutece v6, BS3 only -->
+	<#local showTitleClass = '' />
+	<#if showTitle = false><#local showTitleClass = 'sr-only' /></#if>
+	<#if showTitleXs = false><#local showTitleClass = showTitleClass + ' hidden-xs' /></#if>
+	<#if showTitleSm = false><#local showTitleClass = showTitleClass + ' hidden-sm' /></#if>
+	<#if showTitleMd = false><#local showTitleClass = showTitleClass + ' hidden-md' /></#if>
+	<#if showTitleLg = false><#local showTitleClass = showTitleClass + ' hidden-lg' /></#if>
 	
 	<#if style != ''>
 		<#if style?contains('card-control')>
@@ -1200,7 +1219,9 @@ and is kept only for backwards compatibility
 	
 	<button class="<#if style!='close'>btn</#if><#if size!='' && style!='card-control'> btn-${size}</#if><#if buttonColor!='' && style!='card-control'> btn-${buttonColor}</#if><#if style!=''> ${style}</#if><#if dropdownMenu> dropdown-toggle</#if><#if class!=''> ${class}</#if>" type="${type}"<#if title!=''> title="${title}"</#if><#if name!=''> name="${name}"</#if><#if id!=''> id="${id}"</#if><#if value!=''> value="${value}"</#if><#if params!=''> ${params}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if><#if style?contains('card-control')> data-widget="${widgetAction}"</#if><#if cancel> formnovalidate</#if><#if form!=''> form="${form}"</#if>>
 		<#if buttonIcon!='' && iconPosition='left'><@icon style=buttonIcon /></#if>
-		<#if displayTitleClass!='' && style!='card-control'><span class="${displayTitleClass}"></#if>${title}<#if displayTitleClass!='' && style!='card-control'></span></#if>
+		
+		<span class="<#if displayTitleClass!='' && style!='card-control'>${displayTitleClass}<#elseif showTitleClass!='' && style!='btn-box-tool'>${showTitleClass}</#if>">${title}</span>
+		
 		<#if buttonIcon!='' && iconPosition='right'><@icon style=buttonIcon /></#if>
 		<#if dropdownMenu>
 		&#160;<@icon style='caret-down' />
@@ -1219,7 +1240,8 @@ and is kept only for backwards compatibility
 <#-- color: default/primary/success/warning/danger/info/ -->
 <#-- style: btn-block/btn-flat/disabled/btn-app -->
 <#-- icon: icon name ex: info/check/comment/envelope... -->
-<#macro aButton name='' id='' href='' size='' color='primary' style='btn-flat' class='' params='' title='' tabIndex='' hideTitle=[] buttonIcon='' disabled=false iconPosition='left' dropdownMenu=false>
+<#-- showTitle, showTitleXs, showTitleSm, showTitleMd, showTitleLg are deprecated in Lutece v7 -->
+<#macro aButton name='' id='' href='' size='' color='primary' style='btn-flat' class='' params='' title='' tabIndex='' hideTitle=[] showTitle=true showTitleXs=true showTitleSm=true showTitleMd=true showTitleLg=true buttonIcon='' disabled=false iconPosition='left' dropdownMenu=false>
 	<#-- Bootstrap 4 transition -->
 	<#if color='secondary'>
 		<#local color_temp='default'>
@@ -1230,9 +1252,19 @@ and is kept only for backwards compatibility
 	<#-- Visibility of button title -->
 	<#local displayTitleClass = displaySettings(hideTitle,'inline-flex') />
 	
+	<#-- Visibility of button title: backwards compatibility with Lutece v6, BS3 only -->
+	<#local showTitleClass = '' />
+	<#if showTitle = false><#local showTitleClass = 'sr-only' /></#if>
+	<#if showTitleXs = false><#local showTitleClass = showTitleClass + ' hidden-xs' /></#if>
+	<#if showTitleSm = false><#local showTitleClass = showTitleClass + ' hidden-sm' /></#if>
+	<#if showTitleMd = false><#local showTitleClass = showTitleClass + ' hidden-md' /></#if>
+	<#if showTitleLg = false><#local showTitleClass = showTitleClass + ' hidden-lg' /></#if>
+	
 	<a class="btn<#if size!=''> btn-${size}</#if><#if color_temp!=''> btn-${color_temp}</#if><#if style!=''> ${style}</#if><#if class!=''> ${class}</#if>"<#if name!=''> name="${name}"</#if><#if id!=''> id="${id}"</#if> href="${href}" title="${title}"<#if params!=''> ${params}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if>>
 		<#if buttonIcon!='' && iconPosition='left'><@icon style=buttonIcon /></#if>
-		<span class="${displayTitleClass}">${title}</span>
+		
+		<span class="<#if displayTitleClass!=''>${displayTitleClass}<#elseif showTitleClass!=''>${showTitleClass}</#if>">${title}</span>
+		
 		<#if buttonIcon!='' && iconPosition='right'><@icon style=buttonIcon /></#if>
 		<#if dropdownMenu>
 		&#160;<@icon style='caret-down' />
