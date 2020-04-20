@@ -397,3 +397,10 @@
 <tbody>
 </#macro>
 
+<#-- this macro is deprecated. Used for backwards compatibility with Lutece v6 only -->
+<#-- type: tabs/tabs nav-justified/pills/pills nav-stacked/pills nav-justified -->
+<#macro listTabs type='tabs' id='' params=''>
+		<ul class="nav nav-${type}"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+			<#nested>
+		</ul>
+</#macro>
