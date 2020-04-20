@@ -892,7 +892,7 @@ and is kept only for backwards compatibility
 <#-- CHECKBOX -->
 <#-- orientation: vertical/horizontal. Default is vertical -->
 <#-- TODO  -->
-<#macro checkBox name id labelKey='' labelFor='' orientation='vertical' value='' tabIndex='' title='' disabled=false readonly=false checked=false params='' mandatory=false>
+<#macro checkBox id name='' labelKey='' labelFor='' orientation='vertical' value='' tabIndex='' title='' disabled=false readonly=false checked=false params='' mandatory=false>
 <#if labelFor = ''><#local labelFor = id /></#if>
 	<#if orientation='vertical'>
 	<div class="checkbox">
@@ -910,7 +910,7 @@ and is kept only for backwards compatibility
 
 <#-- RADIO BUTTON -->
 <#-- orientation: vertical/horizontal. Default is vertical -->
-<#macro radioButton name id='' value='' labelKey='' labelFor='' orientation='vertical' tabIndex='' title='' disabled=false readonly=false checked=false params=''>
+<#macro radioButton id='' name='' value='' labelKey='' labelFor='' orientation='vertical' tabIndex='' title='' disabled=false readonly=false checked=false params=''>
 	<#if orientation='vertical'>
 		<div class="radio">
 	</#if>
