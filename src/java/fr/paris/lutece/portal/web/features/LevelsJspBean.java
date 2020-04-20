@@ -86,7 +86,7 @@ public class LevelsJspBean extends AdminFeaturesPageJspBean
         setPageTitleProperty( PROPERTY_PAGE_TITLE_CREATE_LEVEL );
 
         Map<String, Object> model = new HashMap<>( );
-        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, AdminFeaturesPageJspBean.JSP_TECHNICAL_ADMINISTRATION ) );
+        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_CREATE_LEVEL ) );
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CREATE_LEVEL, getLocale( ), model );
 
         return getAdminPage( template.getHtml( ) );
@@ -110,7 +110,7 @@ public class LevelsJspBean extends AdminFeaturesPageJspBean
         {
             return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
         }
-        if ( !SecurityTokenService.getInstance( ).validate( request, AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) )
+        if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_CREATE_LEVEL ) )
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
@@ -144,7 +144,7 @@ public class LevelsJspBean extends AdminFeaturesPageJspBean
 
         HashMap<String, Object> model = new HashMap<>( );
         model.put( MARK_LEVEL, level );
-        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, AdminFeaturesPageJspBean.JSP_TECHNICAL_ADMINISTRATION ) );
+        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MODIFY_LEVEL ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_LEVEL, getLocale( ), model );
 
@@ -170,7 +170,7 @@ public class LevelsJspBean extends AdminFeaturesPageJspBean
         {
             return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
         }
-        if ( !SecurityTokenService.getInstance( ).validate( request, AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) )
+        if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_MODIFY_LEVEL  ) )
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
