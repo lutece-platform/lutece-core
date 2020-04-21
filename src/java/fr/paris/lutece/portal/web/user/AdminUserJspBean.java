@@ -148,7 +148,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     private static final String TEMPLATE_MODIFY_USER_WORKGROUPS = "admin/user/modify_user_workgroups.ftl";
     private static final String TEMPLATE_ADMIN_EMAIL_CHANGE_STATUS = "admin/user/user_email_change_status.ftl";
     private static final String TEMPLATE_NOTIFY_USER = "admin/user/notify_user_account_created.ftl";
-    private static final String TEMPLATE_FIELD_ANONYMIZE_ADMIN_USER = "admin/user/field_anonymize_admin_user.html";
+    private static final String TEMPLATE_FIELD_ANONYMIZE_ADMIN_USER = "admin/user/field_anonymize_admin_user.ftl";
     private static final String TEMPLATE_ACCOUNT_LIFE_TIME_EMAIL = "admin/user/account_life_time_email.ftl";
     private static final String TEMPLATE_EXPORT_USERS_FROM_FILE = "admin/user/export_users.ftl";
 
