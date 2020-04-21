@@ -67,7 +67,7 @@ public class SiteDashboardComponent extends DashboardComponent
     private static final String MARK_IMAGE_THUMBNAIL_PAGE_URL = "image_thumbnail_page_url";
 
     // TEMPLATES
-    private static final String TEMPLATE_DASHBOARD = "/admin/site/site_dashboard.html";
+    private static final String TEMPLATE_DASHBOARD = "/admin/site/site_dashboard.ftl";
 
     /**
      * The HTML code of the component
