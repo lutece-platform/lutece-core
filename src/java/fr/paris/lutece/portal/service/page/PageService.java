@@ -108,8 +108,8 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
 
     /** Access Controled template */
     public static final String TEMPLATE_PAGE_ACCESS_CONTROLED = "/skin/site/page_access_controled.html";
-    private static final String TEMPLATE_ADMIN_BUTTONS = "/admin/admin_buttons.html";
-    private static final String TEMPLATE_COLUMN_OUTLINE = "/admin/column_outline.html";
+    private static final String TEMPLATE_ADMIN_BUTTONS = "/admin/admin_buttons.ftl";
+    private static final String TEMPLATE_COLUMN_OUTLINE = "/admin/column_outline.ftl";
 
     // Markers
     private static final String MARK_PORTLET = "portlet";
