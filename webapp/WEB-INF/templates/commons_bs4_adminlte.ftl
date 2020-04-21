@@ -7,7 +7,7 @@
 <#-- Do not remove this comment -->
 
 <#-- Information about this commons file -->
-<#macro commonsFile>commons_bs4.html</#macro>
+<#macro commonsFile>commons_bs4.ftl</#macro>
 <#macro commonsName>Commons Bootstrap 4.3</#macro>
 <#macro commonsDescription>Freemarker Commons macros powered by Bootstrap CSS Framework 4.3</#macro>
 
@@ -17,6 +17,8 @@
 <link href="css/admin/style/bootstrap4/bootstrap-datepicker.min.css" rel="stylesheet">
 <link href="css/admin/style/bootstrap4/all.min.css" rel="stylesheet"> <!-- Font-Awesome 5.8.1 -->
 <link href="css/admin/style/bootstrap4/portal_admin.css" rel="stylesheet">
+<link href="css/admin/style/bootstrap4/adminlte.min.css" rel="stylesheet">
+<link href="css/admin/style/bootstrap4/adminlte.override.css" rel="stylesheet">
 </#macro>
 
 <#macro coreAdminJSLinks>
@@ -24,6 +26,7 @@
 <script src="css/admin/style/bootstrap4/bootstrap-colorpicker.min.js"></script> 
 <script src="css/admin/style/bootstrap4/bootstrap-datepicker.min.js"></script> 
 <!-- <script src="css/admin/style/bootstrap4/portal_admin.js"></script>  -->
+<script src="css/admin/style/bootstrap4/adminlte.min.js"></script>
 </#macro>
 
 <#global gClassActive='active' />
@@ -212,12 +215,12 @@
 
 <#-- NAVIGATION -->
 <#macro item_navigation item_navigator id="item-navigator">
-<nav id="${id}" style="display:inline;">
+<nav id="${id}" class="d-inline-block">
 <#if (item_navigator.currentItemId > 0)>
-	<@aButton size='sm' href='${item_navigator.previousPageLink?xhtml}' title='#i18n{portal.util.labelPrevious}' buttonIcon='arrow-left' color='info' hideTitle=['xs','sm'] />
+	<@aButton href='${item_navigator.previousPageLink?xhtml}' title='#i18n{portal.util.labelPrevious}' buttonIcon='arrow-left' size='sm' color='primary' hideTitle=['xs','sm'] />
 </#if>
 <#if (item_navigator.currentItemId < item_navigator.listItemSize - 1) >
-	<@aButton size='sm' href='${item_navigator.nextPageLink?xhtml}' title='#i18n{portal.util.labelNext}' buttonIcon='arrow-right' color='info' hideTitle=['xs','sm'] />
+	<@aButton href='${item_navigator.nextPageLink?xhtml}' title='#i18n{portal.util.labelNext}' buttonIcon='arrow-right' size='sm' color='primary' hideTitle=['xs','sm'] />
 </#if>
 </nav>
 </#macro>
@@ -258,7 +261,7 @@
 	
 <#-- TABLE -->
 <#-- class:  -->
-<#macro table responsive=true condensed=true hover=true striped=false bordered=false narrow=false class='' id='' params=''>
+<#macro table id='' class='' responsive=true condensed=true hover=true striped=false bordered=false narrow=false params=''>
 	<#assign tableClass=class />
 	<#if condensed> <#assign tableClass=tableClass + ' table-sm' /> </#if>
 	<#if hover>     <#assign tableClass=tableClass + ' table-hover' /> </#if>
@@ -296,6 +299,21 @@
 <#-- MACRO TD -->
 <#macro td id='' class='' hide=[] showXs=true showSm=true showMd=true showLg=true showXl=true cols=0 xs=0 sm=0 md=0 lg=0 xl=0 flex=false params=''>
 	<#local class += displaySettings(hide,'table-cell') />
+	<#if xs &gt; 0>
+		<#local class += ' col-xs-${xs}' />
+	</#if>
+	<#if sm &gt; 0>
+		<#local class += ' col-sm-${sm}' />
+	</#if>
+	<#if md &gt; 0>
+		<#local class += ' col-md-${md}' />
+	</#if>
+	<#if lg &gt; 0>
+		<#local class += ' col-lg-${lg}' />
+	</#if>
+	<#if xl &gt; 0>
+		<#local class += ' col-xl-${xl}' />
+	</#if>
 	<#if cols!=0>
 		<#local class += ' col-${cols}' />
 	</#if>
@@ -356,7 +374,7 @@
 <#-- formStyle values: horizontal/empty/inline Default is horizontal 	-->
 <#-- class: 						 								-->
 <#-- groupStyle: success/error -->
-<#macro formGroup formStyle='horizontal' class='' groupStyle='' rows=1 labelKey='' labelFor='' labelId='' helpKey='' id='' mandatory=false hideLabel=[] params=''>
+<#macro formGroup id='' formStyle='horizontal' groupStyle='' class='' rows=1 labelKey='' labelFor='' labelId='' helpKey='' mandatory=false hideLabel=[] params=''>
 <#assign mandatory = mandatory>
 <#assign labelFor = labelFor>
 <#assign labelId = labelId>
@@ -376,7 +394,7 @@
 			<#local labelClass = "col-sm-12 col-lg-3 col-form-label">
 			<#if displayClass?contains('d-none')>
 				<#local divClass="col">
-			<#else>	
+			<#else>
 				<#local divClass = "col-lg-6">
 			</#if>
 		<#elseif formStyle = 'inline'>
@@ -410,7 +428,7 @@
 </div>
 </#macro>
 
-<#macro formLabel class='' labelFor='' labelId='' labelKey='' hideLabel=[] mandatory=true>
+<#macro formLabel class='' labelFor='' labelId='' labelKey='' hideLabel=hideLabel mandatory=true>
 <#local labelDisplayClass = displaySettings(hideLabel,'') />
 <label class="<#if class !=''>${class}</#if> ${labelDisplayClass}" for="${labelFor}" <#if labelId!=''> id="${labelId}"</#if><#if mandatory=true>ariaLabel="${labelKey} [#i18n{portal.users.modify_attribute.labelMandatory}]"</#if>>${labelKey}</label>
 </#macro>
@@ -424,13 +442,13 @@
 <#-- INPUT TEXT/TEXTAREA/SEARCH/PASSWORD/EMAIL/FILE 																					-->
 <#-- type : text/textarea/password/email/file/number. Default is text 												-->
 <#-- size: sm/lg/EMPTY for medium size 																												-->
-<#-- incoming Bootstrap 4 size: form-control-sm/form-control-lg or empty for the normal size 	-->
 <#-- pattern: [A-F][0-9]{5} 																																	-->
-<#macro input name type='text' value='' class='' size='' inputSize=0 maxlength=0 placeHolder='' rows=4 cols=40 richtext=false tabIndex='' id='' disabled=false readonly=false pattern='' params='' title='' min=0 max=0>
+<#macro input name id='' class='' type='text' value='' size='' inputSize=0 maxlength=0 placeHolder='' rows=4 cols=40 richtext=false tabIndex='' disabled=false readonly=false pattern='' params='' title='' min=0 max=0>
 	<#if type='textarea'>
 		<textarea name="${name}" class="form-control<#if size!=''> form-control-${size}</#if><#if class!=''> ${class}</#if><#if richtext> richtext</#if>" rows="${rows}" cols="${cols}"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}"</#if><#if title!=''> title="${title}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if mandatory?? && mandatory && !richtext> required</#if><#if labelFor?? && labelFor!='' && helpKey?? && helpKey!=''> aria-describedby="${labelFor}_help"</#if>><#nested></textarea>
 	<#elseif type='text' || type='search' || type='password' || type='email' || type='file' || type='number' || type='date'>
 		<input class="form-control<#if type='file'>-file</#if><#if size!=''> form-control-${size}</#if><#if class!=''> ${class}</#if>" name="${name}" type="${type}" value="${value}"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}<#if mandatory?? && mandatory> [#i18n{portal.users.modify_attribute.labelMandatory}]</#if>"</#if><#if title!=''> title="${title}"</#if><#if maxlength &gt; 0> maxlength="${maxlength}"</#if><#if inputSize!=0> size="${inputSize}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if min!=0> min="${min}"</#if><#if max!=0> max="${max}"</#if><#if mandatory?? && mandatory> required</#if><#if labelFor?? && labelFor!='' && helpKey?? && helpKey!=''> aria-describedby="${labelFor}_help"</#if> />
+		<span class="focus-border"></span>
 	<#elseif type='hidden'>
 		<input type="hidden" name="${name}" value="${value}" />
 	<#else>
@@ -447,7 +465,7 @@
 </#macro>
 
 <#--- MACRO SELECT (TO REPLACE "COMBO" MACROS) --->
-<#macro select name items='' default_value='' id=name class='' size='' sort=false multiple=0 params='' title='' tabIndex=0>
+<#macro select name id=name class='' items='' default_value='' size='' sort=false multiple=0 params='' title='' tabIndex=0>
 	<select id="${id}" name="${name}" class="form-control<#if size!=''> form-control-${size}</#if><#if class!=''> input-${class}</#if>" <#if (multiple &gt; 0)>multiple size="${multiple}"</#if><#if (tabIndex &gt; 0)> tabindex="${tabIndex}"</#if><#if params!=''> ${params}</#if><#if title!=''> title="${title}"</#if><#if mandatory?? && mandatory> required</#if>>
 	<#if items?has_content>
 		<#if sort=true>
@@ -479,10 +497,10 @@
 <#macro checkBox name id labelKey='' labelFor='' orientation='vertical' value='' tabIndex='' title='' disabled=false readonly=false checked=false params='' mandatory=false>
 <#if labelFor = ''><#local labelFor = id /></#if>
 <#if orientation='vertical'>
-<div class="checkbox">
+<div class="custom-control custom-checkbox">
 </#if>
-	<label<#if orientation='horizontal'> class="checkbox-inline"</#if><#if labelFor!=''> for="${labelFor}"</#if>>
-	<input type="checkbox" id="${id}" name="${name}"<#if value!=''> value="${value}"</#if><#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if checked> checked</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if params!=''> ${params}</#if><#if mandatory> required</#if> />
+	<input type="checkbox" class="custom-control-input" id="${id}" name="${name}"<#if value!=''> value="${value}"</#if><#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if checked> checked</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if params!=''> ${params}</#if><#if mandatory> required</#if> />
+	<label class="custom-control-label<#if orientation='horizontal'> checkbox-inline</#if>"<#if labelFor!=''> for="${labelFor}"</#if>>
 		<#if labelKey!=''>
 			${labelKey}
 		<#else>
@@ -494,7 +512,7 @@
 
 <#-- RADIO BUTTON -->
 <#-- orientation: vertical/horizontal. Default is vertical -->
-<#macro radioButton name id='' value='' labelKey='' labelFor='' orientation='vertical' tabIndex='' title='' disabled=false readonly=false checked=false params=''>
+<#macro radioButton name id='' labelKey='' labelFor='' orientation='vertical' value='' tabIndex='' title='' disabled=false readonly=false checked=false params=''>
 	<#if orientation='vertical'>
 		<div class="radio">
 	</#if>
@@ -512,13 +530,13 @@
 
 <#-- INPUT-GROUP -->
 <#-- size: sm/lg/no size-->
-<#macro inputGroup size='' class='' id='' params=''>
+<#macro inputGroup id='' class='' size='' params=''>
 	<div class="input-group<#if size!=''> input-group-${size}</#if><#if class!=''> ${class}</#if>" <#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 		<#nested>
 	</div>
 </#macro>
 
-<#macro inputGroupItem pos='append' type='btn' id='' params=''>
+<#macro inputGroupItem id='' pos='append' type='btn' params=''>
 <#-- pos: append / prepend | Default append -->
 <#-- type: btn/text. default is btn	-->
 
@@ -555,7 +573,7 @@
 <#if xs=12 && sm=0 && md=0 && lg=0 && xl=0>
 <div class="col<#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 <#else>
-<div class="<#if sm!=0> col-sm-${sm}</#if><#if md!=0> col-md-${md}</#if><#if lg!=0> col-lg-${lg}</#if><#if xl!=0> col-xl-${xl}</#if><#if offsetXs!=0> col-xs-offset-${offsetXs}</#if><#if offsetSm!=0> col-sm-offset-${offsetSm}</#if><#if offsetMd!=0> col-md-offset-${offsetMd}</#if><#if offsetLg!=0> col-lg-offset-${offsetLg}</#if><#if offsetXl!=0> col-xl-offset-${offsetXl}</#if><#if pushXs!=0> col-xs-push-${pushXs}</#if><#if pushSm!=0> col-sm-push-${pushSm}</#if><#if pushMd!=0> col-md-push-${pushMd}</#if><#if pushLg!=0> col-lg-push-${pushLg}</#if><#if pushXl!=0> col-xl-push-${pushXl}</#if><#if pullXs!=0> col-xs-pull-${pullXs}</#if><#if pullSm!=0> col-sm-pull-${pullSm}</#if><#if pullMd!=0> col-md-pull-${pullMd}</#if><#if pullLg!=0> col-lg-pull-${pullLg}</#if><#if pullXl!=0> col-xl-pull-${pullXl}</#if><#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<div class="<#if sm!=0>col-sm-${sm}</#if><#if md!=0> col-md-${md}</#if><#if lg!=0> col-lg-${lg}</#if><#if xl!=0> col-xl-${xl}</#if><#if offsetXs!=0> col-xs-offset-${offsetXs}</#if><#if offsetSm!=0> col-sm-offset-${offsetSm}</#if><#if offsetMd!=0> col-md-offset-${offsetMd}</#if><#if offsetLg!=0> col-lg-offset-${offsetLg}</#if><#if offsetXl!=0> col-xl-offset-${offsetXl}</#if><#if pushXs!=0> col-xs-push-${pushXs}</#if><#if pushSm!=0> col-sm-push-${pushSm}</#if><#if pushMd!=0> col-md-push-${pushMd}</#if><#if pushLg!=0> col-lg-push-${pushLg}</#if><#if pushXl!=0> col-xl-push-${pushXl}</#if><#if pullXs!=0> col-xs-pull-${pullXs}</#if><#if pullSm!=0> col-sm-pull-${pullSm}</#if><#if pullMd!=0> col-md-pull-${pullMd}</#if><#if pullLg!=0> col-lg-pull-${pullLg}</#if><#if pullXl!=0> col-xl-pull-${pullXl}</#if><#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 </#if>
 	<#nested>
 </div>
@@ -766,35 +784,53 @@
 <#-- bootstrap 4 : size: sm for small buttons/empty for medium buttons/lg for large buttons -->
 <#-- color: default[bootstrap4 : secondary]/primary/success/warning/danger/info -->
 <#-- color (upcoming bootstrap 4): btn-outline-default/btn-outline-primary/btn-outline-success/btn-outline-warning/btn-outline-danger/btn-outline-info/ -->
-<#-- style: btn-block/btn-flat/close/navbar-toggle/collapsed... -->
+<#-- AdminLTE colors: black/gray-dark/gray/light/indigo/navy/purple/fuchsia/pink/maroon/orange/lime/teal/olive -->
+<#-- style: card-control/btn-block/btn-flat/close/navbar-toggle/collapsed... -->
 <#-- type: button/submit/reset -->
 <#-- params: data-toggle/data-target/data-dismiss... -->
 <#-- buttonIcon: icon name ex: info/check/comment/envelope... -->
 <#-- iconPosition: left/right -->
 <#-- cancel: switch to true for a cancellation form button. Adds the "formnovalidate" attribute to the button, as well as the right class -->
 <#-- form: contains the form ID if the button is outside of the form -->
-<#macro button name='' id='' type='button' size='' color='' style='' class='' params='' value='' title='' tabIndex='' hideTitle=[] showTitle=true showTitleXs=true showTitleSm=true showTitleMd=true showTitleLg=true showTitleXl=true buttonIcon='' disabled=false iconPosition='left' dropdownMenu=false cancel=false form=''>
+<#macro button name='' id='' type='button' size='' color='' style='' class='' params='' value='' title='' tabIndex='' hideTitle=[] buttonIcon='' disabled=false iconPosition='left' dropdownMenu=false cancel=false form=''>
+
 	<#-- Visibility of button title -->
 	<#local displayTitleClass = displaySettings(hideTitle,'inline') />
 	<#if cancel || color = 'default'>
-		<#local buttonColor = 'secondary' />
+		<#local buttonColor = 'btn-secondary' />
 	<#elseif !cancel && color=''>
-		<#local buttonColor = 'primary' />
+		<#local buttonColor = 'bg-indigo' />
 	<#else>
-		<#local buttonColor = color />
-	</#if>
-	<#if style='card-control'>
-		<#local style='text-right btn-link' />
+		<#if color == 'primary' || color == 'secondary' || color == 'success' || color == 'info' || color == 'warning' || color == 'danger'>
+			<#local buttonColor = 'btn-' + color />
+		<#else>
+			<#local buttonColor = 'bg-' + color />
+		</#if>
 	</#if>
 
 	<#if size = 'xs'>
 		<#local size = 'sm' />
 	</#if>
 	
+	<#if style != ''>
+		<#if style?contains('card-control')>
+			<#local btnStyle = 'btn-tool' />
+			<#if style?contains('collapse')>
+				<#local widgetAction = 'collapse' />				
+			<#else>
+				<#local widgetAction = 'remove' />			
+			</#if>
+		<#else>
+			<#local btnStyle = style />
+		</#if>
+	</#if>
+	
+	
 	<#if dropdownMenu>
 		<div class="btn-group">
 	</#if>
-		<button class="<#if style!='close'>btn</#if><#if size!='' && style!='card-control'> btn-${size}</#if><#if buttonColor!='' && style!='card-control'> btn-${buttonColor}</#if><#if style!=''> ${style}</#if><#if dropdownMenu> dropdown-toggle</#if><#if class!=''> ${class}</#if>" type="${type}"<#if title!=''> title="${title}"</#if><#if name!=''> name="${name}"</#if><#if id!=''> id="${id}"</#if><#if value!=''> value="${value}"</#if><#if params!=''> ${params}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if><#if cancel> formnovalidate</#if><#if form!=''> form="${form}"</#if>>
+	
+		<button class="<#if style!='close'>btn</#if><#if size!='' && style!='card-control'> btn-${size}</#if><#if buttonColor!='' && style!='card-control'> ${buttonColor}</#if><#if btnStyle?? && btnStyle!=''> ${btnStyle}</#if><#if dropdownMenu> dropdown-toggle</#if><#if class!=''> ${class}</#if>" type="${type}"<#if title!=''> title="${title}"</#if><#if name!=''> name="${name}"</#if><#if id!=''> id="${id}"</#if><#if value!=''> value="${value}"</#if><#if params!=''> ${params}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if><#if style?contains('card-control')> data-card-widget="${widgetAction}"</#if><#if cancel> formnovalidate</#if><#if form!=''> form="${form}"</#if>>
 			<#if buttonIcon!='' && iconPosition='left'><@icon style=buttonIcon /></#if>
 			<#if displayTitleClass!='' && style!='card-control'><span class="${displayTitleClass}"></#if>${title}<#if displayTitleClass!='' && style!='card-control'></span></#if>
 			<#if buttonIcon!='' && iconPosition='right'><@icon style=buttonIcon /></#if>
@@ -809,31 +845,29 @@
 
 <#-- A BUTTON (LINK STYLED AS A BUTTON) -->
 <#-- size: sm/lg/or EMPTY for medium size-->
-<#-- color: default/primary/success/warning/danger/info/ -->
+<#-- Bootstrap colors: default/primary/success/warning/danger/info -->
+<#-- AdminLTE colors: black/gray-dark/gray/light/indigo/navy/purple/fuchsia/pink/maroon/orange/lime/teal/olive -->
 <#-- style: btn-block/btn-flat/disabled/btn-app -->
 <#-- icon: icon name ex: info/check/comment/envelope... -->
 <#-- ShowTitleXs is UNUSED in Bootstrap 4. -->
-<#macro aButton name='' id='' href='' size='' color='primary' style='btn' class='' params='' title='' tabIndex='' hideTitle=[] showTitle=true showTitleXs=true showTitleSm=true showTitleMd=true showTitleLg=true showTitleXl=true buttonIcon='' disabled=false iconPosition='left' dropdownMenu=false>
-<#local displayTitleClass = displaySettings(hideTitle,'inline') />
-	<#if !showTitleXs><#local showTitleSm = false></#if>
+<#macro aButton name='' id='' href='' size='' color='primary' style='btn' class='' params='' title='' tabIndex='' hideTitle=[] buttonIcon='' disabled=false iconPosition='left' dropdownMenu=false>
 	<#-- Visibility of button title -->
-	<#-- The media queries effect screen widths with the given breakpoint or larger, therefore if the value for either showTitleMd/Lg/Xl is FALSE, values for smaller screen widths should be set to FALSE as well. -->
-	<#if !showTitleMd><#local showTitleSm = false></#if>
-	<#if !showTitleLg><#local showTitleSm = false showTitleMd = false></#if>
-	<#if !showTitleXl><#local showTitleSm = false showTitleMd = false showTitleLg = false></#if>
-	
-	<#local showTitleClass = '' />
-	<#if !showTitle><#local showTitleClass = 'sr-only' /></#if>
-	<#if !showTitleXs || !showTitleSm || !showTitleMd || !showTitleLg || !showTitleXl>
-		<#local showTitleClass = 'd-none' />
+	<#local displayTitleClass = displaySettings(hideTitle,'inline') />
+	<#if color = 'default'>
+		<#assign buttonColor = 'btn-secondary' />
+	<#elseif color=''>
+		<#assign buttonColor = 'bg-indigo' />
+	<#else>
+		<#if color == 'primary' || color == 'secondary' || color == 'success' || color == 'info' || color == 'warning' || color == 'danger'>
+			<#assign buttonColor = 'btn-' + color />
+		<#else>
+			<#assign buttonColor = 'bg-' + color />
+		</#if>
 	</#if>
-	
-	<#if !showTitleSm || !showTitleXs><#local showTitleClass = showTitleClass + ' d-md-inline-block' />
-	<#elseif !showTitleMd && !showTitleSm><#local showTitleClass = showTitleClass + ' d-lg-inline-block' />
-	<#elseif !showTitleLg && !showTitleMd && !showTitleSm><#local showTitleClass = showTitleClass + ' d-xl-inline-block' />
-	<#elseif !showTitleXl && !showTitleLg && !showTitleMd && !showTitleSm><#local showTitleClass = showTitleClass />
-	<#else></#if>
-	
+	<#if style='card-control'>
+		<#assign style='text-right btn-link' />
+	</#if>
+
 	<#if size = 'xs'>
 		<#local size = 'sm' />
 	</#if>
@@ -875,7 +909,7 @@
 <#-- BTN GROUP -->
 <#-- size: sm/empty/lg -->
 <#-- align: left/center/right -->
-<#macro btnGroup align='' size='' class='' id='' params='' ariaLabel='' hide=[]>
+<#macro btnGroup id='' class='' align='' size='' params='' ariaLabel='' hide=[]>
 <#local displayClass = displaySettings(hide,'inline-flex') />
 <#local class = class + alignmentSettings(align) />
 <div class="btn-group<#if size!=''> btn-group-${size}</#if> align-items-baseline<#if class!=''> ${class}</#if><#if displayClass !=''> ${displayClass}</#if>" role="group"<#if ariaLabel!=''> aria-label="${ariaLabel}"</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
@@ -975,21 +1009,18 @@
 <#-- collapsed: true/false 																-->
 <#---------------------------------------------------------->
 <#macro box color='' id='' style='' class='' params='' collapsed=false>
-<div class="card m-2 bg-dark<#if style!=''> text-${style}</#if><#if class!=''> ${class}</#if><#if collapsed> collapsed-box</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<div class="card m-2 bg-gray-dark<#if color!=''> </#if><#if style!=''> text-${style}</#if><#if class!=''> ${class}</#if><#if collapsed> collapsed-box</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 	<#nested>
 </div>
 </#macro>
 
 <#-- The boxTools parameter is unused, kept for backwards compatibility -->
 <#macro boxHeader title='' i18nTitleKey='' hideTitle=[] showTitle=true id='' params='' boxTools=false titleLevel='h5'>
-<div class="card-header text-white d-flex justify-content-between"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
-<${titleLevel} class="box-title<#if showTitle=false> sr-only</#if>"><#if title!=''>${title}</#if><#if i18nTitleKey!=''>#i18n{${i18nTitleKey}}</#if></${titleLevel}>
+<div class="card-header"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<${titleLevel} class="card-title<#if showTitle=false> sr-only</#if>"><#if title!=''>${title}</#if><#if i18nTitleKey!=''>#i18n{${i18nTitleKey}}</#if></${titleLevel}>
 	<#local nested><#nested></#local>
 	<#if nested?has_content>
-	<div class="d-flex justify-content-center">
-		<style type="text/css">
-			div.card-header > div.d-flex > form:last-of-type {margin-left:0.5rem;}
-		</style>
+	<div class="card-tools d-flex">
 		<#nested>
 	</div>
 	</#if>
@@ -997,7 +1028,7 @@
 </#macro>
 
 <#macro boxBody class='' id='' params=''>
-<div class="card-body bg-white<#if class!=''> ${class}</#if>" style="border-radius:0 0 3px 3px;"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<div class="card-body bg-white<#if class!=''> ${class}</#if>" <#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 	<#nested>
 </div>
 </#macro>
@@ -1009,18 +1040,21 @@
 </#macro>
 <#---------------------------------------->
 
-<#-- color: Bootstrap -->
+<#-- AdminLTE Small Box -->
+<#-- color: Bootstrap + AdminLTE colors -->
 <#-- unit: %,... -->
-<#macro smallBox color='' title='' text='' boxIcon='' titleLevel='h5' unit='' url='' urlText='' id='' params='' fontSize='40px'>
-<div class="card m-2 <#if color!=''> bg-${color}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
-	<div class="card-body">
-		<#if url!=''>	<a class="card-link<#if color!=''> text-white</#if>" href="${url}"></#if>
-		<${titleLevel} class="card-title"><@icon style=boxIcon /> 
-		<#if unit!=''> ${unit}</#if></${titleLevel}>
-		<#if url!=''></a></#if>
-		<h3 class="card-text "> ${text} <span class="font-weight-bold">${title}</span></h3>
-	</p>
+<#macro smallBox color='' title='' text='' boxIcon='' titleLevel='h3' unit='' url='' urlText='' id='' params='' fontSize='40px'>
+<div class="small-box<#if color!=''> bg-${color}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+	<div class="inner">
+		<${titleLevel} style="font-size:${fontSize};">${title}<#if unit!=''> &nbsp; ${unit}</#if></${titleLevel}>
+		<p>${text}</p>
 	</div>
+	<div class="icon">
+		<@icon style=boxIcon />
+	</div>
+	<#if url!=''>
+	<a class="small-box-footer" href="${url}">${urlText} <@icon style='arrow-circle-right' /></a>
+	</#if>
 </div>
 </#macro>
 
@@ -1098,7 +1132,7 @@
 <#-- CARDS -->
 <#macro card header=false headerTitle='' headerIcon=false headerTitleIcon=''>
 <div class="card">
-	<#if header><div class="card-header"><#if headerIcon><@icon style='${headerTitleIcon}' />&#160;</#if>${headerTitle}</div></#if>
+	<#if header><div class="card-header bg-info"><#if headerIcon><@icon style='${headerTitleIcon}' />&#160;</#if>${headerTitle}</div></#if>
 	<div class="card-body">
 		<#nested>
 	</div>
@@ -1154,7 +1188,7 @@
 						<#local displayClass += ' d-lg-${display}' />
 					</#if>
 				<#elseif breakPoint = 'lg'>
-					<#if !breakPointsOrdered?contains('md')>
+					<#if !breakPointsOrdered?seq_contains('md')>
 						<#local displayClass += ' d-' + breakPoint + '-none' />
 					</#if>
 					<#local displayClass += ' d-xl-${display}' />
@@ -1190,12 +1224,11 @@
 -------------------------------------------------- -->
 <#-- MACRO adminHeader -->
 <#macro adminHeader site_name=site_name>
-<body class="d-flex flex-column vh-100">
-	<div class="skipnav"><a href="#main">allez au contenu principal</a></div>
-	<h1 id="top" class="sr-only sr-only-focusable">Haut de page</h1>
-	<header class="main-header" role="banner">
-		<!-- <nav class="navbar navbar-expand-md navbar-fixed-top bg-primary" role="navigation"> -->
-	  <nav class="navbar navbar-expand-lg navbar-dark bg-primary fixed-top">
+<body class="d-flex flex-column vh-100 layout-top-nav">
+	<div class="wrapper"><!-- Close in footer -->
+		<div class="sr-only"><a href="#main">aller au contenu principal</a></div>
+		<h1 id="top" class="sr-only sr-only-focusable">Haut de page</h1>
+		<nav class="main-header navbar navbar-expand-lg navbar-dark bg-indigo">
 			<a class="navbar-brand" href="jsp/site/Portal.jsp" title="#i18n{portal.users.admin_header.title.viewSite} ${site_name}" target="_blank" >
 				<img src="#dskey{portal.site.site_property.logo_url}" height="30" class="d-inline-block align-top" aria-hidden="true" title="#i18n{portal.users.admin_header.title.viewSite} ${site_name}" alt="${site_name}">
 				<#if site_name?length &gt; 18> ${site_name?substring(0,16)}... <#else> ${site_name}</#if>
@@ -1206,13 +1239,13 @@
 			<div class="collapse navbar-collapse" id="navbar-collapse">
 				<ul class="navbar-nav mr-auto">
 				<#list feature_group_list as feature_group>
-				  <#if feature_group.features?size &gt; 1>
-					 	<li class="nav-item dropdown">
+					<#if feature_group.features?size &gt; 1>
+						<li class="nav-item dropdown">
 							<a class="nav-link dropdown-toggle" id="dLabel${feature_group.id}Header" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" href="${admin_url}#${feature_group.id}">
 								${feature_group.label}
 							</a>
-					   <div class="dropdown-menu" aria-labelledby="dLabel${feature_group.id}Header">
-						 	<#list feature_group.features as feature>
+						 <div class="dropdown-menu" aria-labelledby="dLabel${feature_group.id}Header">
+							<#list feature_group.features as feature>
 								<#if !feature.externalFeature>
 									<a class="dropdown-item" href="${feature.url}?plugin_name=${feature.pluginName}">${feature.name}</a>
 								<#else>
@@ -1220,35 +1253,35 @@
 										<#if feature.iconUrl?has_content><i class="${feature.iconUrl}"></i></#if> ${feature.name}
 									</a>
 								</#if>
-						 	</#list>
+							</#list>
 							</div>
-					 	</li>
-				  <#else>
-					 	<#list feature_group.features as feature>
-					  	<li class="nav-item">
-						  <#if !feature.externalFeature>
+						</li>
+					<#else>
+						<#list feature_group.features as feature>
+							<li class="nav-item">
+							<#if !feature.externalFeature>
 								<a class="nav-link" href="${feature.url}?plugin_name=${feature.pluginName}">${feature.name}</a>
-						  <#else>
+							<#else>
 								<a class="nav-link" href="${feature.url}"><#if feature.iconUrl?has_content><i class="${feature.iconUrl}"></i></#if>${feature.name}</a>
-						  </#if>
+							</#if>
 							</li>
-					   </#list>
+						 </#list>
 					 </#if>
-			   </#list>
-			  </ul>
-			  <ul class="nav navbar-nav user">
+				 </#list>
+				</ul>
+				<ul class="nav navbar-nav user">
 					<li class="nav-item home">
 						<a class="nav-link" href="${admin_url}" title="#i18n{portal.users.admin_header.homePage}">
 							<i class="fas fa-home"></i>
 						</a>
 					</li>
-                    <#if user.userLevel == 0>
-                    <li class="nav-item home">
-                        <a class="nav-link" href="jsp/admin/AdminTechnicalMenu.jsp" title="#i18n{portal.admindashboard.view_dashboards.title}">
-                              <i class="fa fa-cog"></i>
-                        </a>
-                    </li>
-                    </#if>
+										<#if user.userLevel == 0>
+										<li class="nav-item home">
+												<a class="nav-link" href="jsp/admin/AdminTechnicalMenu.jsp" title="#i18n{portal.admindashboard.view_dashboards.title}">
+															<i class="fa fa-cog"></i>
+												</a>
+										</li>
+										</#if>
 					<li class="nav-item dropdown user-menu">
 						<a href="${admin_url}#user-menu" class="nav-link dropdown-toggle" data-toggle="dropdown" id="dLabelUserHeader">
 							<#if adminAvatar> 
@@ -1273,12 +1306,11 @@
 							</a>
 						</li>
 					</#if>
-		  </ul>
+			</ul>
 		</div>
 	</nav>
-</header>
 <!-- Begin page content -->
-<main role="main" class="flex-shrink-0">
+<main role="main" class="content-wrapper flex-shrink-0">
  	<!-- Close in footer -->
 </#macro>
 
@@ -1287,7 +1319,7 @@
 	<!-- end content section -->
 </main>
 <!-- footer menu -->
-<footer class="footer mt-auto py-3">
+<footer class="footer mt-auto py-3 navbar-dark">
 	<div class="container">
 		<nav id="footer" class="navbar navbar-default" role="navigation">
 			<div class="navbar-text navbar-right">
@@ -1304,6 +1336,7 @@
 =============================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
 <@coreAdminJSLinks />
+</div><!-- Close wrapper -->
 </#macro>
 
 <#-- MACRO adminHome -->
@@ -1345,10 +1378,10 @@
 <section id="login-page">
 	<div class="container">
 		<div class="row align-items-center vh-100">
-			<div class="col-sm-5 offset-sm-3 bg-light rounded px-5">
+			<div class="col-sm-5 offset-sm-3 bg-light rounded px-5" style="background-color:>
 				<header>
 					<h1 class="h2 mb-3 text-center">
-						<a class="btn btn-link btn-block " href="jsp/site/Portal.jsp" title="${site_name!'Lutece'}">#i18n{portal.admin.admin_login.welcome}<br> <b>${site_name!'Lutece'}</b></a>
+						<a class="btn btn-link btn-block" href="jsp/site/Portal.jsp" title="${site_name!'Lutece'}">#i18n{portal.admin.admin_login.welcome}<br> <b>${site_name!'Lutece'}</b></a>
 					</h1>
 					<h2 class="h3 mb-3 text-center">${title}</h2>
 				</header>
@@ -1564,7 +1597,7 @@ $(function() {
 				<#assign islocale=''>
 				<#assign title=''>
 			</#if>
-			<@button color='' class='${language.code}' type='submit' name='language' value='${language.code}' title='${language.name?capitalize}${title}' buttonIcon='${islocale}' hideTitle=['all'] showTitle=false />
+			<@button color='' class='${language.code}' type='submit' name='language' value='${language.code}' title='${language.name?capitalize}${title}' buttonIcon='${islocale}' hideTitle=['all'] />
 		</@columns>
 		</#list>
 	</@row>
@@ -1585,15 +1618,23 @@ $(function() {
 <#-- adminContentHeader  -->
 <#macro adminContentHeader >
 <section class="content-header">
-	<h1>
-	<#if feature_url?? >
-		<@link href='${feature_url}' title='${feature_title!""}'>${feature_title!''}</@link>
-	<#else>
-		${feature_title!''}
-	</#if>
-	<#if page_title?has_content><small>${page_title}</small></#if>
-	</h1>
-	<@adminHeaderDocumentationLink />
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-sm-6">
+				<h1>
+				<#if feature_url?? >
+					<@link href='${feature_url}' title='${feature_title!""}'>${feature_title!''}</@link>
+				<#else>
+					${feature_title!''}
+				</#if>
+				<#if page_title?has_content><small>${page_title}</small></#if>
+				</h1>
+			</div>
+			<div class="col-sm-6">
+				<@adminHeaderDocumentationLink />
+			</div>
+		</div>
+	</div>
 </section>
 <section class="content <#if feature_url?? && feature_url?ends_with('AdminSite.jsp')>no-padding</#if>">
 </#macro>

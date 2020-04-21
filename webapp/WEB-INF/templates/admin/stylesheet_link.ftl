@@ -1,4 +1,4 @@
-<@coreAdminCSSLinks /> <!-- Default admin CSS of the core provided by a commons.html macro -->
+<@coreAdminCSSLinks /> <!-- Default admin CSS of the core provided by a commons.ftl macro -->
 
 <#if plugins_list ??>
     <#list plugins_list as plugin>

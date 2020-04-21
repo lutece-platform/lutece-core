@@ -6,7 +6,7 @@
 <#-- Do not remove this comment -->
 
 <#-- Information about this commons file -->
-<#macro commonsFile>commons_bulma.html</#macro>
+<#macro commonsFile>commons_bulma.ftl</#macro>
 <#macro commonsName>Commons Bulma 0.7.2</#macro>
 <#macro commonsDescription>Freemarker Commons macros powered by Bulma CSS Framework v0.7.2</#macro>
 

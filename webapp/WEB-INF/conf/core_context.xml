@@ -260,7 +260,7 @@
         <property name="name" value="Bootstap 3.3 + AdminLTE (Lutece v6.x compatible)" />
         <property name="files">
             <list>
-                <value>commons.html</value>
+                <value>commons.ftl</value>
             </list>
         </property>
     </bean>
@@ -269,7 +269,7 @@
         <property name="name" value="Bulma 0.7 (Experimental)" />
         <property name="files">
             <list>
-                <value>commons_bulma.html</value>
+                <value>commons_bulma.ftl</value>
             </list>
         </property>
     </bean>
@@ -278,8 +278,8 @@
         <property name="name" value="Bootstrap v4 (Experimental)" />
         <property name="files">
             <list>
-                <value>commons_bs4.html</value>
-                <value>commons_bs4_backport.html</value>
+                <value>commons_bs4.ftl</value>
+                <value>commons_bs4_backport.ftl</value>
             </list>
         </property>
     </bean>
@@ -288,7 +288,7 @@
 	    <property name="name" value="Bootstrap v4 + AdminLTE (Experimental)" />
 	    <property name="files">
 	        <list>
-	            <value>commons_bs4_adminlte.html</value>
+	            <value>commons_bs4_adminlte.ftl</value>
 	        </list>
 	    </property>
     </bean>
@@ -297,12 +297,12 @@
 	    <property name="name" value="Bootstrap v4 + Material Kit (Experimental)" />
 	    <property name="files">
 	        <list>
-	            <value>commons_bs4_materialkit.html</value>
+	            <value>commons_bs4_materialkit.ftl</value>
 	        </list>
 	    </property>
     </bean>
     <!-- <bean id="commonsBS4stisla" class="fr.paris.lutece.portal.business.template.CommonsInclude"> <property name="key" 
-        value="Stisla" /> <property name="name" value="Stisla - BS 4 Based (Experimental)" /> <property name="files" > <list> <value>commons_bs4.html</value> 
-        <value>commons_stisla.html</value> </list> </property> </bean> -->
+        value="Stisla" /> <property name="name" value="Stisla - BS 4 Based (Experimental)" /> <property name="files" > <list> <value>commons_bs4.ftl</value> 
+        <value>commons_stisla.ftl</value> </list> </property> </bean> -->
 
 </beans>
