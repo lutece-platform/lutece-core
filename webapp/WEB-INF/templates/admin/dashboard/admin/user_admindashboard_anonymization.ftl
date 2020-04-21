@@ -1,4 +1,4 @@
-<#include "admindashboard_utils.html">
+<#include "admindashboard_utils.ftl">
 <@tabPanel id='anonymizeUsers'>
 	<@tform role='form' method='post' name='anonymize_user' action='jsp/admin/user/DoChangeFieldAnonymizeAdminUsers.jsp'>
 		<@fieldSet legend='#i18n{portal.users.anonymize_user.titleAnonymizeUser}'>

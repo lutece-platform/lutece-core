@@ -1,4 +1,4 @@
-<#include "admindashboard_utils.html">
+<#include "admindashboard_utils.ftl">
 <@tabPanel id='userRightsLevels'>
 	<@fieldSet legend='#i18n{portal.users.adminFeature.level_right_management.name}'>
     #i18n{portal.features.manage_levels.featureDescription}

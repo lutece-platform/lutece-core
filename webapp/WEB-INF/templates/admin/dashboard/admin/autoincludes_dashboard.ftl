@@ -1,4 +1,4 @@
-<#include "admindashboard_utils.html">
+<#include "admindashboard_utils.ftl">
 <@adminDashboardPanel title='#i18n{portal.templates.manage_autoincludes.pageTitle}' icon='code' parentId='technical_settings' childId='autoincludes' >
     <@fieldSet legend='#i18n{portal.templates.manage_autoincludes.commonsInfos}'>
     <p>

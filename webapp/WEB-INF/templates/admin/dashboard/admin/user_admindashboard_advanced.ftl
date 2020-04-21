@@ -1,4 +1,4 @@
-<#include "admindashboard_utils.html">
+<#include "admindashboard_utils.ftl">
 
 <!-- DEFAULT USER PARAMETERS -->
 <@tabPanel active=true id='defaultUserParameterValues'>

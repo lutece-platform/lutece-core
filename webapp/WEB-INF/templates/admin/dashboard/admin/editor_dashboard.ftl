@@ -1,4 +1,4 @@
-<#include "admindashboard_utils.html">
+<#include "admindashboard_utils.ftl">
 
 <@adminDashboardPanel title='#i18n{portal.admindashboard.editorChoice.title}' icon='edit' parentId='technical_settings' childId='editors' >
 	<@fieldSet legend='#i18n{portal.admindashboard.editorChoice.editorBackOffice}' >

@@ -1,4 +1,4 @@
-<#include "admindashboard_utils.html">
+<#include "admindashboard_utils.ftl">
 
 <@adminDashboardPanel title='#i18n{portal.admin.adminFeature.features_management.name}' icon='sitemap' parentId='technical_settings' childId='admin_features'>
 
@@ -14,9 +14,9 @@
 	</@columns>
 	<@columns lg=9>
 		<@tabContent>
-  	<#include "features_admindashboard_groups.html" />
-    <#include "features_admindashboard_features.html" />
-    <#include "features_admindashboard_external.html" />
+  	<#include "features_admindashboard_groups.ftl" />
+    <#include "features_admindashboard_features.ftl" />
+    <#include "features_admindashboard_external.ftl" />
 		</@tabContent>
 	</@columns>
 </@row>

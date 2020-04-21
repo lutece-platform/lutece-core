@@ -1,4 +1,4 @@
-<#include "admindashboard_utils.html">
+<#include "admindashboard_utils.ftl">
 <@tabPanel id='advancedSecurityParameters'>
 	<@btnGroup align='right'>
 		<@tform action='jsp/admin/user/GetChangeUseAdvancedSecurityParameters.jsp'>

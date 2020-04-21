@@ -1,4 +1,4 @@
-<#include "admindashboard_utils.html">
+<#include "admindashboard_utils.ftl">
 
 <@adminDashboardPanel title='#i18n{portal.search.manage_advanced_parameters.pageTitle}' icon='search' parentId='technical_settings' childId='searchParameters' >
     <@tform  name='search_advanced_parameters' action='jsp/admin/search/DoModifyAdvancedParameters.jsp' >

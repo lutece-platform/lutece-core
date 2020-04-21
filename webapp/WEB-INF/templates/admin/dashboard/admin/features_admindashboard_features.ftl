@@ -1,4 +1,4 @@
-<#include "admindashboard_utils.html">
+<#include "admindashboard_utils.ftl">
 
 <@tabPanel id='assign_features_groups'>
     <p>

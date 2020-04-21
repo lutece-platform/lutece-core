@@ -1,4 +1,4 @@
-<#include "admindashboard_utils.html">
+<#include "admindashboard_utils.ftl">
 
 <@tabPanel active=true id='feature_groups'>
     <@tform type='inline' align='right' method='post' name='create_external_feature' action='jsp/admin/features/CreateGroup.jsp'>

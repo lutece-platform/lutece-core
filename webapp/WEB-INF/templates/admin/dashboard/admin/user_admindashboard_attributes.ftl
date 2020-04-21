@@ -1,4 +1,4 @@
-<#include "admindashboard_utils.html">
+<#include "admindashboard_utils.ftl">
 <@tabPanel id='userAttributes'>
 	<@tform type='inline' method='post' action='jsp/admin/user/attribute/CreateAttribute.jsp'>
 		<@fieldSet legend='#i18n{portal.users.manage_attributes.pageTitle}'>

@@ -1,4 +1,4 @@
-<#include "admindashboard_utils.html">
+<#include "admindashboard_utils.ftl">
 
 <@adminDashboardPanel title='#i18n{portal.users.adminDashboard.pageTitle}' icon='users' parentId='technical_settings' childId='users_advanced_parameters'>
 
@@ -19,11 +19,11 @@
 
 	<@columns lg=9>
 		<@tabContent>
-			<#include "user_admindashboard_advanced.html" />
-			<#include "user_admindashboard_security.html" />
-			<#include "user_admindashboard_attributes.html" />
-			<#include "user_admindashboard_anonymization.html" />
-			<#include "user_admindashboard_right_levels.html" />
+			<#include "user_admindashboard_advanced.ftl" />
+			<#include "user_admindashboard_security.ftl" />
+			<#include "user_admindashboard_attributes.ftl" />
+			<#include "user_admindashboard_anonymization.ftl" />
+			<#include "user_admindashboard_right_levels.ftl" />
 		</@tabContent>
 	</@columns>
 </@row>

@@ -1,4 +1,4 @@
-<#include "admindashboard_utils.html">
+<#include "admindashboard_utils.ftl">
 
 <@tabPanel id='external_features'>
 	<@tform type='inline' align='right' method='post' name='create_external_feature' action='jsp/admin/features/CreateExternalFeature.jsp'>
