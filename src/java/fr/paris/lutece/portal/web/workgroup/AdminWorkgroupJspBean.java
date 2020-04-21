@@ -93,10 +93,10 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
     private static final long serialVersionUID = 5945178935890410656L;
 
     // Templates
-    private static final String TEMPLATE_MANAGE_WORGROUPS = "admin/workgroup/manage_workgroups.html";
-    private static final String TEMPLATE_CREATE_WORKGROUP = "admin/workgroup/create_workgroup.html";
-    private static final String TEMPLATE_MODIFY_WORKGROUP = "admin/workgroup/modify_workgroup.html";
-    private static final String TEMPLATE_ASSIGN_USERS = "admin/workgroup/assign_users_workgroup.html";
+    private static final String TEMPLATE_MANAGE_WORGROUPS = "admin/workgroup/manage_workgroups.ftl";
+    private static final String TEMPLATE_CREATE_WORKGROUP = "admin/workgroup/create_workgroup.ftl";
+    private static final String TEMPLATE_MODIFY_WORKGROUP = "admin/workgroup/modify_workgroup.ftl";
+    private static final String TEMPLATE_ASSIGN_USERS = "admin/workgroup/assign_users_workgroup.ftl";
 
     // Markers Freemarker
     private static final String MARK_WORKGROUPS_LIST = "workgroups_list";

@@ -100,13 +100,13 @@ public final class PortalService
     private static final String KEY_WEBMASTER_EMAIL = "portal.site.site_property.email";
 
     // Templates
-    private static final String TEMPLATE_PAGE_FRAMESET = "skin/site/page_frameset.html";
-    private static final String TEMPLATE_HOME_PAGE_HEADER = "skin/site/page_header_home.html";
-    private static final String TEMPLATE_INTERNAL_PAGE_HEADER = "skin/site/page_header_internal.html";
-    private static final String TEMPLATE_PAGE_TOOLS_MENU = "skin/site/page_menu_tools.html";
-    private static final String TEMPLATE_PAGE_PATH = "skin/site/page_path.html";
-    private static final String TEMPLATE_PORTAL_FOOTER = "skin/site/portal_footer.html";
-    private static final String TEMPLATE_ADMIN_CSS_LINKS = "admin/stylesheet_link.html";
+    private static final String TEMPLATE_PAGE_FRAMESET = "skin/site/page_frameset.ftl";
+    private static final String TEMPLATE_HOME_PAGE_HEADER = "skin/site/page_header_home.ftl";
+    private static final String TEMPLATE_INTERNAL_PAGE_HEADER = "skin/site/page_header_internal.ftl";
+    private static final String TEMPLATE_PAGE_TOOLS_MENU = "skin/site/page_menu_tools.ftl";
+    private static final String TEMPLATE_PAGE_PATH = "skin/site/page_path.ftl";
+    private static final String TEMPLATE_PORTAL_FOOTER = "skin/site/portal_footer.ftl";
+    private static final String TEMPLATE_ADMIN_CSS_LINKS = "admin/stylesheet_link.ftl";
 
     // Markers
     private static final String MARKER_TARGET = "target";

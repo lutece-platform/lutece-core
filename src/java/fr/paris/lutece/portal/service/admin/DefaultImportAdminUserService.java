@@ -78,14 +78,14 @@ public class DefaultImportAdminUserService extends ImportAdminUserService
     private static final String CONSTANT_ROLE = "role";
     private static final String CONSTANT_WORKGROUP = "workgroup";
     private static final String PROPERTY_MESSAGE_EMAIL_SUBJECT_NOTIFY_USER = "portal.users.notify_user.email.subject";
-    private static final String TEMPLATE_NOTIFY_USER = "admin/user/notify_user_account_created.html";
+    private static final String TEMPLATE_NOTIFY_USER = "admin/user/notify_user_account_created.ftl";
     private static final String MESSAGE_ERROR_IMPORTING_ATTRIBUTES = "portal.users.import_users_from_file.errorImportingAttributes";
     private static final String MESSAGE_NO_LEVEL = "portal.users.import_users_from_file.importNoLevel";
     private static final String MESSAGE_NO_STATUS = "portal.users.import_users_from_file.importNoStatus";
     private static final int CONSTANT_MINIMUM_COLUMNS_PER_LINE = 12;
 
     // Template
-    private static final String TEMPLATE_DEFAULT_IMPORT_USERS_FROM_FILE = "admin/user/import_users_from_file.html";
+    private static final String TEMPLATE_DEFAULT_IMPORT_USERS_FROM_FILE = "admin/user/import_users_from_file.ftl";
     private static final AttributeService _attributeService = AttributeService.getInstance( );
 
     /**

@@ -43,7 +43,7 @@ import fr.paris.lutece.portal.service.template.AppTemplateService;
  */
 public class ModifyPasswordAdminUserMenuItemProvider extends AbstractAdminUserMenuItemProvider
 {
-    private static final String TEMPLATE = "admin/user/menu/modify_password.html";
+    private static final String TEMPLATE = "admin/user/menu/modify_password.ftl";
 
     @Override
     protected boolean isItemProviderInvoked( HttpServletRequest request )

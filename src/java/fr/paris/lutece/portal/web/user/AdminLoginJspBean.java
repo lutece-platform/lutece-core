@@ -110,13 +110,13 @@ public class AdminLoginJspBean implements Serializable
     private static final String JSP_URL_ADMIN_LOGIN = "jsp/admin/AdminLogin.jsp";
 
     // Templates
-    private static final String TEMPLATE_ADMIN_LOGIN = "admin/admin_login.html";
-    private static final String TEMPLATE_ADMIN_FORGOT_PASSWORD = "admin/admin_forgot_password.html";
-    private static final String TEMPLATE_ADMIN_RESET_PASSWORD = "admin/admin_reset_password.html";
-    private static final String TEMPLATE_ADMIN_FORGOT_LOGIN = "admin/admin_forgot_login.html";
-    private static final String TEMPLATE_ADMIN_FORM_CONTACT = "admin/admin_form_contact.html";
-    private static final String TEMPLATE_ADMIN_EMAIL_FORGOT_PASSWORD = "admin/admin_email_forgot_password.html";
-    private static final String TEMPLATE_ADMIN_EMAIL_FORGOT_LOGIN = "admin/admin_email_forgot_login.html";
+    private static final String TEMPLATE_ADMIN_LOGIN = "admin/admin_login.ftl";
+    private static final String TEMPLATE_ADMIN_FORGOT_PASSWORD = "admin/admin_forgot_password.ftl";
+    private static final String TEMPLATE_ADMIN_RESET_PASSWORD = "admin/admin_reset_password.ftl";
+    private static final String TEMPLATE_ADMIN_FORGOT_LOGIN = "admin/admin_forgot_login.ftl";
+    private static final String TEMPLATE_ADMIN_FORM_CONTACT = "admin/admin_form_contact.ftl";
+    private static final String TEMPLATE_ADMIN_EMAIL_FORGOT_PASSWORD = "admin/admin_email_forgot_password.ftl";
+    private static final String TEMPLATE_ADMIN_EMAIL_FORGOT_LOGIN = "admin/admin_email_forgot_login.ftl";
 
     // Markers
     private static final String MARK_PARAMS_LIST = "params_list";

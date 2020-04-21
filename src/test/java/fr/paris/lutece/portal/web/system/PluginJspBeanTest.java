@@ -106,7 +106,7 @@ public class PluginJspBeanTest extends LuteceTestCase
         assertFalse( PluginService.isPluginEnable( PLUGIN_NAME ) );
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.addParameter( "plugin_name", PLUGIN_NAME );
-        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "admin/system/manage_plugins.html" ) );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "admin/system/manage_plugins.ftl" ) );
         instance.doInstallPlugin( request, request.getServletContext( ) );
         assertTrue( PluginService.isPluginEnable( PLUGIN_NAME ) );
     }
@@ -116,7 +116,7 @@ public class PluginJspBeanTest extends LuteceTestCase
         assertFalse( PluginService.isPluginEnable( PLUGIN_NAME ) );
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.addParameter( "plugin_name", PLUGIN_NAME );
-        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "admin/system/manage_plugins.html" )
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "admin/system/manage_plugins.ftl" )
                 + "b" );
         try
         {
@@ -151,7 +151,7 @@ public class PluginJspBeanTest extends LuteceTestCase
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.addParameter( "plugin_name", PLUGIN_NAME );
         request.addParameter( PARAM_DB_POOL_NAME, "junit" );
-        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "admin/system/manage_plugins.html" ) );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "admin/system/manage_plugins.ftl" ) );
         instance.doModifyPluginPool( request );
         assertEquals( "junit", PluginService.getPlugin( PLUGIN_NAME ).getDbPoolName( ) );
     }
@@ -162,7 +162,7 @@ public class PluginJspBeanTest extends LuteceTestCase
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.addParameter( "plugin_name", PLUGIN_NAME );
         request.addParameter( PARAM_DB_POOL_NAME, "junit" );
-        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "admin/system/manage_plugins.html" )
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "admin/system/manage_plugins.ftl" )
                 + "b" );
         try
         {

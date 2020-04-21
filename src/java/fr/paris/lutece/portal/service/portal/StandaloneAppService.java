@@ -71,8 +71,8 @@ public class StandaloneAppService extends ContentService
 {
     public static final String PARAM_STANDALONE_APP = "page";
     private static final String PROPERTY_PATH_LUTECE_PLUGINS = "path.lutece.plugins";
-    private static final String TEMPLATE_PAGE_FRAMESET = "page_frameset.html";
-    private static final String TEMPLATE_STANDALONE_PAGE_FRAMESET = "skin/site/standalone_app_frameset.html";
+    private static final String TEMPLATE_PAGE_FRAMESET = "page_frameset.ftl";
+    private static final String TEMPLATE_STANDALONE_PAGE_FRAMESET = "skin/site/standalone_app_frameset.ftl";
     private static final String CONTENT_SERVICE_NAME = "StandaloneAppService";
     private static final String MESSAGE_ERROR_APP_BODY = "portal.util.message.errorXpageApp";
 

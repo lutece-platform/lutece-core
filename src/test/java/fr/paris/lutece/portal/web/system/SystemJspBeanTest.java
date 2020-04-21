@@ -110,7 +110,7 @@ public class SystemJspBeanTest extends LuteceTestCase
         final String origValue = DatastoreService.getDataValue( property, "" );
         request.setParameter( property, origValue + "_mod" );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/system/modify_properties.html" ) );
+                SecurityTokenService.getInstance( ).getToken( request, "admin/system/modify_properties.ftl" ) );
 
         try
         {
@@ -129,7 +129,7 @@ public class SystemJspBeanTest extends LuteceTestCase
         final String origValue = DatastoreService.getDataValue( property, "" );
         request.setParameter( property, origValue + "_mod" );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/system/modify_properties.html" ) + "b" );
+                SecurityTokenService.getInstance( ).getToken( request, "admin/system/modify_properties.ftl" ) + "b" );
 
         try
         {

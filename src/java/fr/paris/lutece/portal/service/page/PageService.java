@@ -704,10 +704,13 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
         }
 
         String strRole = portlet.getRole( );
+        boolean bUserInRole = SecurityService.isAuthenticationEnable( ) ? SecurityService.getInstance( ).isUserInRole( request, strRole ) : true;
 
         boolean [ ] conditions = new boolean [ ] {
-                strRole.equals( Page.ROLE_NONE ), !SecurityService.isAuthenticationEnable( ), nMode == MODE_ADMIN,
-                SecurityService.getInstance( ).isUserInRole( request, strRole )
+            strRole.equals( Page.ROLE_NONE ),                   // No role is required so the portlet is visible for anyone
+            !SecurityService.isAuthenticationEnable( ),         // No authentication
+            nMode == MODE_ADMIN,                                // We are in Admin mode, so all the portlet should be visible  
+            bUserInRole                                         // The authentication is ON and the user get the role  
         };
 
         return BooleanUtils.or( conditions );

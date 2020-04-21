@@ -153,13 +153,13 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
     private static final String MESSAGE_CANNOT_REMOVE_ROLE = "portal.rbac.message.cannotRemoveRole";
 
     // templates
-    private static final String TEMPLATE_MANAGE_ROLES = "admin/rbac/manage_roles.html";
-    private static final String TEMPLATE_CREATE_ROLE = "admin/rbac/create_role.html";
-    private static final String TEMPLATE_VIEW_ROLE_DESCRIPTION = "admin/rbac/view_role_description.html";
-    private static final String TEMPLATE_ADD_CONTROL_TO_ROLE = "admin/rbac/add_control_to_role.html";
-    private static final String TEMPLATE_SELECT_PERMISSIONS = "admin/rbac/select_permissions.html";
-    private static final String TEMPLATE_SELECT_RESOURCE_IDS = "admin/rbac/select_resource_ids.html";
-    private static final String TEMPLATE_ASSIGN_USERS = "admin/rbac/assign_users_role.html";
+    private static final String TEMPLATE_MANAGE_ROLES = "admin/rbac/manage_roles.ftl";
+    private static final String TEMPLATE_CREATE_ROLE = "admin/rbac/create_role.ftl";
+    private static final String TEMPLATE_VIEW_ROLE_DESCRIPTION = "admin/rbac/view_role_description.ftl";
+    private static final String TEMPLATE_ADD_CONTROL_TO_ROLE = "admin/rbac/add_control_to_role.ftl";
+    private static final String TEMPLATE_SELECT_PERMISSIONS = "admin/rbac/select_permissions.ftl";
+    private static final String TEMPLATE_SELECT_RESOURCE_IDS = "admin/rbac/select_resource_ids.ftl";
+    private static final String TEMPLATE_ASSIGN_USERS = "admin/rbac/assign_users_role.ftl";
 
     // jsp
     private static final String JSP_URL_ROLES_MANAGEMENT = "ManageRoles.jsp";

@@ -51,7 +51,7 @@ import fr.paris.lutece.util.html.HtmlTemplate;
  */
 public class LanguageAdminUserMenuItemProvider extends AbstractAdminUserMenuItemProvider
 {
-    public static final String TEMPLATE = "admin/user/menu/modify_language.html";
+    public static final String TEMPLATE = "admin/user/menu/modify_language.ftl";
     private static final String MARK_CURRENT_LANGUAGE = "current_language";
     private static final String MARK_LANGUAGES_LIST = "languages_list";
 

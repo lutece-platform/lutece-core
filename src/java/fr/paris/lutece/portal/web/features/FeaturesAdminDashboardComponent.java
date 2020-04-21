@@ -59,7 +59,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class FeaturesAdminDashboardComponent extends AdminDashboardComponent
 {
-    private static final String TEMPLATE_FEATURES_ADMINDASHBOARD = "admin/dashboard/admin/features_admindashboard.html";
+    private static final String TEMPLATE_FEATURES_ADMINDASHBOARD = "admin/dashboard/admin/features_admindashboard.ftl";
     private static final String MARK_FEATURE_NO_GROUP = "no_group";
     private static final String MARK_FEATURE_GROUP_LIST = "feature_group_list";
     private static final String MARK_FEATURE_GROUP = "feature_group";

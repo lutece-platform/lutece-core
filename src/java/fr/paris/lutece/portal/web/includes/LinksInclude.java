@@ -81,8 +81,8 @@ public class LinksInclude implements PageInclude
     private static final String MARK_PLUGIN_JAVASCRIPT_FILE = "plugin_javascript_file";
 
     // Templates
-    private static final String TEMPLATE_PLUGIN_CSS_LINK = "skin/site/plugin_css_link.html";
-    private static final String TEMPLATE_PLUGIN_JAVASCRIPT_LINK = "skin/site/plugin_javascript_link.html";
+    private static final String TEMPLATE_PLUGIN_CSS_LINK = "skin/site/plugin_css_link.ftl";
+    private static final String TEMPLATE_PLUGIN_JAVASCRIPT_LINK = "skin/site/plugin_javascript_link.ftl";
     private static final String PREFIX_PLUGINS_CSS = "css/plugins/";
     private static final String PREFIX_PLUGINS_JAVASCRIPT = "js/plugins/";
 

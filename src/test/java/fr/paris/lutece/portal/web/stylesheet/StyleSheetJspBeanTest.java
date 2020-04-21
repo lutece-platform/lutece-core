@@ -154,7 +154,7 @@ public class StyleSheetJspBeanTest extends LuteceTestCase
             "0"
         } );
         parameters.put( SecurityTokenService.PARAMETER_TOKEN, new String [ ] {
-            SecurityTokenService.getInstance( ).getToken( request, "admin/stylesheet/create_stylesheet.html" )
+            SecurityTokenService.getInstance( ).getToken( request, "admin/stylesheet/create_stylesheet.ftl" )
         } );
         Map<String, List<FileItem>> multipartFiles = new HashMap<>( );
         List<FileItem> items = new ArrayList<>( );
@@ -190,7 +190,7 @@ public class StyleSheetJspBeanTest extends LuteceTestCase
             "0"
         } );
         parameters.put( SecurityTokenService.PARAMETER_TOKEN, new String [ ] {
-            SecurityTokenService.getInstance( ).getToken( request, "admin/stylesheet/create_stylesheet.html" ) + "b"
+            SecurityTokenService.getInstance( ).getToken( request, "admin/stylesheet/create_stylesheet.ftl" ) + "b"
         } );
         Map<String, List<FileItem>> multipartFiles = new HashMap<>( );
         List<FileItem> items = new ArrayList<>( );
@@ -288,7 +288,7 @@ public class StyleSheetJspBeanTest extends LuteceTestCase
             Integer.toString( stylesheet.getModeId( ) )
         } );
         parameters.put( SecurityTokenService.PARAMETER_TOKEN, new String [ ] {
-            SecurityTokenService.getInstance( ).getToken( request, "admin/stylesheet/modify_stylesheet.html" )
+            SecurityTokenService.getInstance( ).getToken( request, "admin/stylesheet/modify_stylesheet.ftl" )
         } );
         Map<String, List<FileItem>> multipartFiles = new HashMap<>( );
         List<FileItem> items = new ArrayList<>( );
@@ -323,7 +323,7 @@ public class StyleSheetJspBeanTest extends LuteceTestCase
             Integer.toString( stylesheet.getModeId( ) )
         } );
         parameters.put( SecurityTokenService.PARAMETER_TOKEN, new String [ ] {
-            SecurityTokenService.getInstance( ).getToken( request, "admin/stylesheet/modify_stylesheet.html" ) + "b"
+            SecurityTokenService.getInstance( ).getToken( request, "admin/stylesheet/modify_stylesheet.ftl" ) + "b"
         } );
         Map<String, List<FileItem>> multipartFiles = new HashMap<>( );
         List<FileItem> items = new ArrayList<>( );

@@ -127,11 +127,11 @@ public class AdminPageJspBean extends AdminFeaturesPageJspBean
     private static final int BLOCK_CHILDPAGE = 5;
 
     // Templates
-    private static final String TEMPLATE_PAGE_TEMPLATE_ROW = "admin/site/page_template_list_row.html";
-    private static final String TEMPLATE_ADMIN_PAGE = "admin/site/admin_page.html";
-    private static final String TEMPLATE_ADMIN_PAGE_BLOCK_SEARCH = "admin/site/admin_page_block_search.html";
-    private static final String TEMPLATE_ADMIN_PAGE_BLOCK_PROPERTY = "admin/site/admin_page_block_property.html";
-    private static final String TEMPLATE_ADMIN_PAGE_BLOCK_CHILDPAGE = "admin/site/admin_page_block_childpage.html";
+    private static final String TEMPLATE_PAGE_TEMPLATE_ROW = "admin/site/page_template_list_row.ftl";
+    private static final String TEMPLATE_ADMIN_PAGE = "admin/site/admin_page.ftl";
+    private static final String TEMPLATE_ADMIN_PAGE_BLOCK_SEARCH = "admin/site/admin_page_block_search.ftl";
+    private static final String TEMPLATE_ADMIN_PAGE_BLOCK_PROPERTY = "admin/site/admin_page_block_property.ftl";
+    private static final String TEMPLATE_ADMIN_PAGE_BLOCK_CHILDPAGE = "admin/site/admin_page_block_childpage.ftl";
 
     // Properties definition
     private static final String PROPERTY_MESSAGE_PAGE_INEXISTENT = "portal.site.admin_page.messagePageInexistent";
