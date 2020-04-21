@@ -23,7 +23,7 @@
 		<div class="container">
 			<div class="row">
 			   	<form class="form form-inline" action="jsp/site/SendResource.jsp" method="post">
-			   		<@fieldSet 
+			   		<@fieldSet>
 			   			<legend>#i18n{portal.site.popup_send_resource.title}</legend>
 			   			<#if error?? && error != "">
 			   				<div class="col-xs-12 col-sm-11 col-md-11 alert alert-danger">
@@ -91,7 +91,7 @@
 				</form>
 			</div>
 		</div>
-		<#include "/util/editor/editor.html" />
+		<#include "/util/editor/editor.ftl" />
 		<@initEditor />
 		<#include "portal_footer.ftl" />
 		<script src="js/bootstrap.min.js"></script>
