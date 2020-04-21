@@ -58,8 +58,8 @@ public class SearchIndexationJspBean extends AdminFeaturesPageJspBean
      */
     public static final String RIGHT_INDEXER = "CORE_SEARCH_INDEXATION";
     private static final long serialVersionUID = 2585709013740037568L;
-    private static final String TEMPLATE_MANAGE_INDEXER = "admin/search/manage_search_indexation.html";
-    private static final String TEMPLATE_INDEXER_LOGS = "admin/search/search_indexation_logs.html";
+    private static final String TEMPLATE_MANAGE_INDEXER = "admin/search/manage_search_indexation.ftl";
+    private static final String TEMPLATE_INDEXER_LOGS = "admin/search/search_indexation_logs.ftl";
     private static final String MARK_LOGS = "logs";
     private static final String MARK_INDEXERS_LIST = "indexers_list";
 
