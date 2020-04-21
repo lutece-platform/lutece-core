@@ -70,7 +70,7 @@ public class AdminMapJspBean extends AdminFeaturesPageJspBean
     private static final String MARK_PAGE = "page";
 
     // Templates
-    private static final String TEMPLATE_MAP_SITE = "admin/site/site_map.html";
+    private static final String TEMPLATE_MAP_SITE = "admin/site/site_map.ftl";
 
     // Parameters
     private static final String PARAMETER_SITE_PATH = "site-path";

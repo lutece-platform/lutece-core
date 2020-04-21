@@ -1,0 +1,51 @@
+<@row>
+	<@columns>
+		<@tform action='jsp/admin/DoModifyProperties.jsp'>
+			<@input type='hidden' name='token' value='${token}' />
+			<@box color='danger'>
+				<@boxHeader title='#i18n{portal.system.modify_properties.boxTitle}' boxTools=true>
+					<@button type='submit' buttonIcon='pencil' title='#i18n{portal.system.modify_properties.buttonLabel}' />
+				</@boxHeader>
+			</@box>
+        
+			<#list groups_list as group>
+			<@box color='danger'>
+				<@boxHeader title='${group.name}' boxTools=true>
+					<@button style='card-control collapse' buttonIcon='minus' />
+				</@boxHeader>
+				<@boxBody>
+					<p>${group.description}</p>
+					<#list group.localizedDataList as property>
+						<#if property.help?length &gt; 0>
+							<#assign helpText = property.help>
+						<#else>
+							<#assign helpText = property.key>
+						</#if>
+						<@formGroup labelKey=property.label labelFor=property.key helpKey=helpText>
+							<#if property.key?ends_with( ".textblock" )>
+								<@input type='textarea' name=property.key id=property.key>${property.value?html}</@input>
+							<#elseif property.key?ends_with( ".htmlblock" )>
+								<@input type='textarea' name=property.key id=property.key class='richtext'>${property.value?html}</@input>
+                            <#elseif property.key?ends_with( ".checkbox" )>
+                                <#if property.value == "1">
+                                    <@checkBox name=property.key id=property.key value='1' checked=true />
+                                <#else>
+                                    <@checkBox name=property.key id=property.key value='1' checked=false />
+                                </#if>
+                                <@input type='hidden' name='${property.key}' value='0' />
+							<#else>
+								<@input type='text' name=property.key id=property.key value=property.value?html />
+							</#if>
+						</@formGroup>
+					</#list>
+					<@formGroup>
+						<@button type='submit' buttonIcon='pencil' title='#i18n{portal.system.modify_properties.buttonLabel}' />
+					</@formGroup>
+				</@boxBody>
+			</@box>
+			</#list>
+		</@tform>
+	</@columns>
+</@row>
+<#include "/admin/util/editor/editor.ftl" />
+<@initEditor />

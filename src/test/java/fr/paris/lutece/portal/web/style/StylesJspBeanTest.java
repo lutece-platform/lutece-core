@@ -130,7 +130,7 @@ public class StylesJspBeanTest extends LuteceTestCase
         request.addParameter( Parameters.STYLE_NAME, name );
         String portalComponantId = "1";
         request.addParameter( Parameters.PORTAL_COMPONENT, portalComponantId );
-        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "admin/style/create_style.html" ) );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "admin/style/create_style.ftl" ) );
         try
         {
             instance.doCreateStyle( request );
@@ -155,7 +155,7 @@ public class StylesJspBeanTest extends LuteceTestCase
         request.addParameter( Parameters.STYLE_NAME, name );
         String portalComponantId = "1";
         request.addParameter( Parameters.PORTAL_COMPONENT, portalComponantId );
-        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "admin/style/create_style.html" )
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "admin/style/create_style.ftl" )
                 + "b" );
         try
         {
@@ -225,7 +225,7 @@ public class StylesJspBeanTest extends LuteceTestCase
         request.addParameter( Parameters.STYLE_ID, Integer.toString( nStyleId ) );
         request.addParameter( Parameters.PORTAL_COMPONENT, Integer.toString( style.getPortalComponentId( ) ) );
         request.addParameter( Parameters.STYLE_NAME, style.getDescription( ) + "_mod" );
-        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "admin/style/modify_style.html" ) );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "admin/style/modify_style.ftl" ) );
         instance.doModifyStyle( request );
         AdminMessage message = AdminMessageService.getMessage( request );
         assertNull( message );
@@ -242,7 +242,7 @@ public class StylesJspBeanTest extends LuteceTestCase
         request.addParameter( Parameters.STYLE_ID, Integer.toString( nStyleId ) );
         request.addParameter( Parameters.PORTAL_COMPONENT, Integer.toString( style.getPortalComponentId( ) ) );
         request.addParameter( Parameters.STYLE_NAME, style.getDescription( ) + "_mod" );
-        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "admin/style/modify_style.html" )
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "admin/style/modify_style.ftl" )
                 + "b" );
         try
         {

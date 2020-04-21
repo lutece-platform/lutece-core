@@ -65,8 +65,8 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
 {
     public static final String RIGHT_FEATURES_MANAGEMENT = "CORE_FEATURES_MANAGEMENT";
     private static final long serialVersionUID = -8573499137269541850L;
-    private static final String TEMPLATE_CREATE_GROUP = "admin/features/create_group.html";
-    private static final String TEMPLATE_MODIFY_GROUP = "admin/features/modify_group.html";
+    private static final String TEMPLATE_CREATE_GROUP = "admin/features/create_group.ftl";
+    private static final String TEMPLATE_MODIFY_GROUP = "admin/features/modify_group.ftl";
     private static final String PARAMETER_GROUP_ID = "group_id";
     private static final String PARAMETER_GROUP_NAME = "group_name";
     private static final String PARAMETER_GROUP_DESCRIPTION = "group_description";

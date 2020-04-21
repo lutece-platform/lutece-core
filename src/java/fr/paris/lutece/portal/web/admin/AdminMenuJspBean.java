@@ -110,12 +110,12 @@ public class AdminMenuJspBean implements Serializable
     private static final String MARK_USER_MENU_ITEMS = "userMenuItems";
 
     // Templates
-    private static final String TEMPLATE_ADMIN_HOME = "admin/user/admin_home.html";
-    private static final String TEMPLATE_ADMIN_MENU_HEADER = "admin/user/admin_header.html";
-    private static final String TEMPLATE_ADMIN_MENU_FOOTER = "admin/user/admin_footer.html";
-    private static final String TEMPLATE_MODIFY_PASSWORD_DEFAULT_MODULE = "admin/user/modify_password_default_module.html";
-    private static final String TEMPLATE_STYLESHEET_LINK = "admin/stylesheet_link.html";
-    private static final String TEMPLATE_JAVASCRIPT_FILE = "admin/javascript_file.html";
+    private static final String TEMPLATE_ADMIN_HOME = "admin/user/admin_home.ftl";
+    private static final String TEMPLATE_ADMIN_MENU_HEADER = "admin/user/admin_header.ftl";
+    private static final String TEMPLATE_ADMIN_MENU_FOOTER = "admin/user/admin_footer.ftl";
+    private static final String TEMPLATE_MODIFY_PASSWORD_DEFAULT_MODULE = "admin/user/modify_password_default_module.ftl";
+    private static final String TEMPLATE_STYLESHEET_LINK = "admin/stylesheet_link.ftl";
+    private static final String TEMPLATE_JAVASCRIPT_FILE = "admin/javascript_file.ftl";
 
     // Parameter
     private static final String PARAMETER_LANGUAGE = "language";

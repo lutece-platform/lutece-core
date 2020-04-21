@@ -353,7 +353,7 @@ public class AdminPageJspBeanTest extends LuteceTestCase
             Integer.toString( _page.getParentPageId( ) )
         } );
         parameters.put( SecurityTokenService.PARAMETER_TOKEN, new String [ ] {
-            SecurityTokenService.getInstance( ).getToken( request, "admin/site/admin_page_block_property.html" )
+            SecurityTokenService.getInstance( ).getToken( request, "admin/site/admin_page_block_property.ftl" )
         } );
         _bean.doModifyPage( new MultipartHttpServletRequest( request, Collections.emptyMap( ), parameters ) );
         AdminMessage message = AdminMessageService.getMessage( request );
@@ -392,7 +392,7 @@ public class AdminPageJspBeanTest extends LuteceTestCase
             Integer.toString( _page.getParentPageId( ) )
         } );
         parameters.put( SecurityTokenService.PARAMETER_TOKEN, new String [ ] {
-            SecurityTokenService.getInstance( ).getToken( request, "admin/site/admin_page_block_property.html" )
+            SecurityTokenService.getInstance( ).getToken( request, "admin/site/admin_page_block_property.ftl" )
         } );
         _bean.doModifyPage( new MultipartHttpServletRequest( request, Collections.emptyMap( ), parameters ) );
         AdminMessage message = AdminMessageService.getMessage( request );
@@ -432,7 +432,7 @@ public class AdminPageJspBeanTest extends LuteceTestCase
             "567894535"
         } );
         parameters.put( SecurityTokenService.PARAMETER_TOKEN, new String [ ] {
-            SecurityTokenService.getInstance( ).getToken( request, "admin/site/admin_page_block_property.html" )
+            SecurityTokenService.getInstance( ).getToken( request, "admin/site/admin_page_block_property.ftl" )
         } );
         _bean.doModifyPage( new MultipartHttpServletRequest( request, Collections.emptyMap( ), parameters ) );
         AdminMessage message = AdminMessageService.getMessage( request );
@@ -474,7 +474,7 @@ public class AdminPageJspBeanTest extends LuteceTestCase
             "update_image"
         } );
         parameters.put( SecurityTokenService.PARAMETER_TOKEN, new String [ ] {
-            SecurityTokenService.getInstance( ).getToken( request, "admin/site/admin_page_block_property.html" )
+            SecurityTokenService.getInstance( ).getToken( request, "admin/site/admin_page_block_property.ftl" )
         } );
         Map<String, List<FileItem>> fileItems = new HashMap<>( );
         List<FileItem> items = new ArrayList<>( );
@@ -521,7 +521,7 @@ public class AdminPageJspBeanTest extends LuteceTestCase
             Integer.toString( _page.getParentPageId( ) )
         } );
         parameters.put( SecurityTokenService.PARAMETER_TOKEN, new String [ ] {
-            SecurityTokenService.getInstance( ).getToken( request, "admin/site/admin_page_block_property.html" ) + "b"
+            SecurityTokenService.getInstance( ).getToken( request, "admin/site/admin_page_block_property.ftl" ) + "b"
         } );
         try
         {
@@ -606,7 +606,7 @@ public class AdminPageJspBeanTest extends LuteceTestCase
             Integer.toString( _page.getParentPageId( ) )
         } );
         parameters.put( SecurityTokenService.PARAMETER_TOKEN, new String [ ] {
-            SecurityTokenService.getInstance( ).getToken( request, "admin/site/admin_page_block_property.html" )
+            SecurityTokenService.getInstance( ).getToken( request, "admin/site/admin_page_block_property.ftl" )
         } );
         parameters.put( Parameters.PARAMETER_DISPLAY_UPDATE_DATE, new String [ ] {
             Boolean.toString( _page.getDisplayDateUpdate( ) )
@@ -672,7 +672,7 @@ public class AdminPageJspBeanTest extends LuteceTestCase
             "01/01/2017"
         } );
         parameters.put( SecurityTokenService.PARAMETER_TOKEN, new String [ ] {
-            SecurityTokenService.getInstance( ).getToken( request, "admin/site/admin_page_block_childpage.html" )
+            SecurityTokenService.getInstance( ).getToken( request, "admin/site/admin_page_block_childpage.ftl" )
         } );
 
         Collection<Page> children = PageHome.getChildPages( _page.getId( ) );
@@ -723,7 +723,7 @@ public class AdminPageJspBeanTest extends LuteceTestCase
             Integer.toString( _page.getParentPageId( ) )
         } );
         parameters.put( SecurityTokenService.PARAMETER_TOKEN, new String [ ] {
-            SecurityTokenService.getInstance( ).getToken( request, "admin/site/admin_page_block_childpage.html" ) + "b"
+            SecurityTokenService.getInstance( ).getToken( request, "admin/site/admin_page_block_childpage.ftl" ) + "b"
         } );
         Collection<Page> children = PageHome.getChildPages( _page.getId( ) );
         assertNotNull( children );

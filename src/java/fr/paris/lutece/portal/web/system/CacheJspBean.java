@@ -75,8 +75,8 @@ public class CacheJspBean extends AdminFeaturesPageJspBean
     private static final String MARK_SERVICES_LIST = "services_list";
 
     // Template Files path
-    private static final String TEMPLATE_MANAGE_CACHES = "admin/system/manage_caches.html";
-    private static final String TEMPLATE_CACHE_INFOS = "admin/system/cache_infos.html";
+    private static final String TEMPLATE_MANAGE_CACHES = "admin/system/manage_caches.ftl";
+    private static final String TEMPLATE_CACHE_INFOS = "admin/system/cache_infos.ftl";
     private static final String PARAMETER_ID_CACHE = "id_cache";
 
     /**

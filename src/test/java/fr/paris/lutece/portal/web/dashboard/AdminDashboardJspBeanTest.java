@@ -130,7 +130,7 @@ public class AdminDashboardJspBeanTest extends LuteceTestCase
         request.setParameter( "dashboard_order", "-1" );
         request.setParameter( "dashboard_column", "-1" );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "/admin/dashboard/admin/manage_dashboards.html" ) );
+                SecurityTokenService.getInstance( ).getToken( request, "/admin/dashboard/admin/manage_dashboards.ftl" ) );
 
         instance.doMoveAdminDashboard( request );
 
@@ -152,7 +152,7 @@ public class AdminDashboardJspBeanTest extends LuteceTestCase
         request.setParameter( "dashboard_order", "-1" );
         request.setParameter( "dashboard_column", "-1" );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "/admin/dashboard/admin/manage_dashboards.html" ) + "b" );
+                SecurityTokenService.getInstance( ).getToken( request, "/admin/dashboard/admin/manage_dashboards.ftl" ) + "b" );
 
         try
         {
@@ -211,7 +211,7 @@ public class AdminDashboardJspBeanTest extends LuteceTestCase
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.setParameter( "column", Integer.toString( nZone ) );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "/admin/dashboard/admin/manage_dashboards.html" ) );
+                SecurityTokenService.getInstance( ).getToken( request, "/admin/dashboard/admin/manage_dashboards.ftl" ) );
 
         instance.doReorderColumn( request );
 
@@ -237,7 +237,7 @@ public class AdminDashboardJspBeanTest extends LuteceTestCase
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.setParameter( "column", Integer.toString( nZone ) );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "/admin/dashboard/admin/manage_dashboards.html" ) + "b" );
+                SecurityTokenService.getInstance( ).getToken( request, "/admin/dashboard/admin/manage_dashboards.ftl" ) + "b" );
 
         try
         {

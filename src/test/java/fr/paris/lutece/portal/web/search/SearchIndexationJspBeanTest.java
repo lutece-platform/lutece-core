@@ -165,7 +165,7 @@ public class SearchIndexationJspBeanTest extends LuteceTestCase
         MockHttpServletRequest request = new MockHttpServletRequest( );
         SearchIndexationJspBean instance = new SearchIndexationJspBean( );
         request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/search/manage_search_indexation.html" ) );
+                SecurityTokenService.getInstance( ).getToken( request, "admin/search/manage_search_indexation.ftl" ) );
 
         Utils.registerAdminUserWithRigth( request, new AdminUser( ), SearchIndexationJspBean.RIGHT_INDEXER );
         instance.init( request, SearchIndexationJspBean.RIGHT_INDEXER );
@@ -178,7 +178,7 @@ public class SearchIndexationJspBeanTest extends LuteceTestCase
         MockHttpServletRequest request = new MockHttpServletRequest( );
         SearchIndexationJspBean instance = new SearchIndexationJspBean( );
         request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/search/manage_search_indexation.html" ) + "b" );
+                SecurityTokenService.getInstance( ).getToken( request, "admin/search/manage_search_indexation.ftl" ) + "b" );
 
         Utils.registerAdminUserWithRigth( request, new AdminUser( ), SearchIndexationJspBean.RIGHT_INDEXER );
         instance.init( request, SearchIndexationJspBean.RIGHT_INDEXER );

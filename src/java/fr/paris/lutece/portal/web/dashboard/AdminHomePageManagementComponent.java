@@ -55,7 +55,7 @@ import fr.paris.lutece.util.html.HtmlTemplate;
 public class AdminHomePageManagementComponent extends AdminDashboardComponent
 {
     // Templates
-    private static final String TEMPLATE_MANAGE_DASHBOARDS = "/admin/dashboard/manage_dashboards.html";
+    private static final String TEMPLATE_MANAGE_DASHBOARDS = "/admin/dashboard/manage_dashboards.ftl";
 
     // MARKS
     private static final String MARK_MAP_DASHBOARDS = "map_dashboards";

@@ -64,7 +64,7 @@ public class StandaloneAppJspBean
     // //////////////////////////////////////////////////////////////////////////
     // Constants
     private static final int MODE_HTML = 0;
-    private static final String TEMPLATE_STANDALONE = "skin/site/standalone_app.html";
+    private static final String TEMPLATE_STANDALONE = "skin/site/standalone_app.ftl";
     private static final String MARK_ENTRY_LIST = "entry_list";
     private static final String MARK_BASE_URL = "base_url";
     private static final String MARK_CORE_PLUGIN = "core_plugin";

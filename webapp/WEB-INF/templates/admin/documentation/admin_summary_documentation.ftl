@@ -1,0 +1,33 @@
+<@row>
+	<@columns>
+		<@box>
+			<@boxHeader title='#i18n{portal.features.documentation.summary.feature.title}' />
+			<@boxBody>
+				<h2><@icon style="life-ring" /> #i18n{portal.features.documentation.summary.title}</h2>
+				<#if feature_group_list?has_content>
+				<@ul class='list-unstyled'>
+					<#list feature_group_list as feature_group >
+					<li>
+						<h3>${feature_group.label}</h3>
+						<@ul>
+							<#list feature_group.features as feature >
+							<#if feature.documentationUrl?exists>
+							<li>
+								<h4><@link href='${feature.documentationUrl}' target='_blank'>${feature.name}</@link></h4>
+								<p>${feature.description}</p>
+							</li>
+							</#if>
+							</#list>
+						</@ul>
+					</li>
+					</#list>
+				</@ul>
+				<#else>
+				<@ul>
+					<li>#i18n{portal.features.documentation.summary.empty}</li>
+				</@ul>
+				</#if>
+			</@boxBody>
+		</@box>
+	</@columns>
+</@row>

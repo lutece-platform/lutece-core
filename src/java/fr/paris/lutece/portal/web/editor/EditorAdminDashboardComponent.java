@@ -55,7 +55,7 @@ public class EditorAdminDashboardComponent extends AdminDashboardComponent
     private static final String MARK_LIST_EDITORS_FRONT_OFFICE = "listEditorsFrontOffice";
     private static final String MARK_CURRENT_EDITOR_BACK_OFFICE = "current_editor_back_office";
     private static final String MARK_CURRENT_EDITOR_FRONT_OFFICE = "current_editor_front_office";
-    private static final String TEMPLATE_EDITOR_CHOICE_PANEL = "admin/dashboard/admin/editor_dashboard.html";
+    private static final String TEMPLATE_EDITOR_CHOICE_PANEL = "admin/dashboard/admin/editor_dashboard.ftl";
 
     /**
      * {@inheritDoc}

@@ -238,7 +238,7 @@ public class AttributeFieldJspBeanTest extends LuteceTestCase
         request.setParameter( "title", strName );
         request.setParameter( "value", strName );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/user/attribute/create_attribute_field.html" ) );
+                SecurityTokenService.getInstance( ).getToken( request, "admin/user/attribute/create_attribute_field.ftl" ) );
 
         instance.doCreateAttributeField( request );
 
@@ -265,7 +265,7 @@ public class AttributeFieldJspBeanTest extends LuteceTestCase
         request.setParameter( "title", strName );
         request.setParameter( "value", strName );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/user/attribute/create_attribute_field.html" ) + "b" );
+                SecurityTokenService.getInstance( ).getToken( request, "admin/user/attribute/create_attribute_field.ftl" ) + "b" );
 
         try
         {
@@ -352,7 +352,7 @@ public class AttributeFieldJspBeanTest extends LuteceTestCase
         request.setParameter( "title", strName );
         request.setParameter( "value", strName );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/user/attribute/modify_attribute_field.html" ) );
+                SecurityTokenService.getInstance( ).getToken( request, "admin/user/attribute/modify_attribute_field.ftl" ) );
 
         instance.doModifyAttributeField( request );
 
@@ -380,7 +380,7 @@ public class AttributeFieldJspBeanTest extends LuteceTestCase
         request.setParameter( "title", strName );
         request.setParameter( "value", strName );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/user/attribute/modify_attribute_field.html" ) + "b" );
+                SecurityTokenService.getInstance( ).getToken( request, "admin/user/attribute/modify_attribute_field.ftl" ) + "b" );
 
         try
         {

@@ -49,7 +49,7 @@ import fr.paris.lutece.util.html.HtmlTemplate;
  */
 public class AccessibilityModeAdminUserMenuItemProvider extends AbstractAdminUserMenuItemProvider
 {
-    public static final String TEMPLATE = "admin/user/menu/modify_accessibility_mode.html";
+    public static final String TEMPLATE = "admin/user/menu/modify_accessibility_mode.ftl";
     private static final String MARK_USER = "user";
 
     @Override

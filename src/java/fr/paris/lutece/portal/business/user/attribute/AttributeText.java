@@ -77,11 +77,11 @@ public class AttributeText extends AbstractAttribute implements ISimpleValuesAtt
     private static final String PROPERTY_MESSAGE_NO_ARITHMETICAL_CHARACTERS = "portal.users.message.noArithmeticalCharacters";
 
     // TEMPLATES
-    private static final String TEMPLATE_CREATE_ATTRIBUTE = "admin/user/attribute/text/create_attribute_text.html";
-    private static final String TEMPLATE_MODIFY_ATTRIBUTE = "admin/user/attribute/text/modify_attribute_text.html";
-    private static final String TEMPLATE_HTML_FORM_ATTRIBUTE = "admin/user/attribute/text/html_code_form_attribute_text.html";
-    private static final String TEMPLATE_HTML_FORM_SEARCH_ATTRIBUTE = "admin/user/attribute/text/html_code_form_search_attribute_text.html";
-    private static final String TEMPLATE_HTML_VALUE = "admin/user/attribute/text/html_code_value_attribute_text.html";
+    private static final String TEMPLATE_CREATE_ATTRIBUTE = "admin/user/attribute/text/create_attribute_text.ftl";
+    private static final String TEMPLATE_MODIFY_ATTRIBUTE = "admin/user/attribute/text/modify_attribute_text.ftl";
+    private static final String TEMPLATE_HTML_FORM_ATTRIBUTE = "admin/user/attribute/text/html_code_form_attribute_text.ftl";
+    private static final String TEMPLATE_HTML_FORM_SEARCH_ATTRIBUTE = "admin/user/attribute/text/html_code_form_search_attribute_text.ftl";
+    private static final String TEMPLATE_HTML_VALUE = "admin/user/attribute/text/html_code_value_attribute_text.ftl";
     private static final String REGEX_ID = "-?[0-9]+";
 
     /**

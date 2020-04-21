@@ -70,7 +70,7 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
     // Constants
     public static final String RIGHT_MANAGE_PLUGINS = "CORE_PLUGINS_MANAGEMENT";
     private static final long serialVersionUID = -9058113426951331118L;
-    private static final String TEMPLATE_MANAGE_PLUGINS = "admin/system/manage_plugins.html";
+    private static final String TEMPLATE_MANAGE_PLUGINS = "admin/system/manage_plugins.ftl";
     private static final String MARK_PLUGINS_LIST = "plugins_list";
     private static final String MARK_CORE = "core";
     private static final String MARK_POOLS_LIST = "pools_list";
@@ -95,7 +95,7 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
     private static final String PROPERTY_PLUGIN_TYPE_NAME_FEATURE = "portal.system.pluginType.name.feature";
     private static final String PROPERTY_PLUGIN_TYPE_NAME_INSERTSERVICE = "portal.system.pluginType.name.insertService";
     private static final String PROPERTY_PLUGIN_TYPE_NAME_CONTENTSERVICE = "portal.system.pluginType.name.contentService";
-    private static final String TEMPLATE_PLUGIN_DETAILS = "/admin/system/view_plugin.html";
+    private static final String TEMPLATE_PLUGIN_DETAILS = "/admin/system/view_plugin.ftl";
     private static final String JSP_UNINSTALL_PLUGIN = "jsp/admin/system/DoUninstallPlugin.jsp";
 
     /**

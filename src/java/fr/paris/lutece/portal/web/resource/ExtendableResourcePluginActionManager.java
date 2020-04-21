@@ -58,7 +58,7 @@ public final class ExtendableResourcePluginActionManager
     private static final String MARK_LIST_EXTENDABLE_RESOURCE_ACTIONS = "listExtendableResourceActions";
 
     // TEMPLATES
-    private static final String TEMPLATE_EXTENDABLE_RESOURCE_ACTION = "admin/resource/extendable_resource_actions.html";
+    private static final String TEMPLATE_EXTENDABLE_RESOURCE_ACTION = "admin/resource/extendable_resource_actions.ftl";
 
     /**
      * Instantiates a new extendable resource plugin action manager.
