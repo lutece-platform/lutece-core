@@ -182,6 +182,11 @@ public final class SecurityService
     public boolean isUserInRole( HttpServletRequest request, String strRole )
     {
         LuteceUser user;
+        
+        if( ! isAuthenticationEnable() )
+        {
+            return true;
+        }   
 
         try
         {

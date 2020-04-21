@@ -104,12 +104,12 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
 
     // Templates
     /** Access denied template */
-    public static final String TEMPLATE_PAGE_ACCESS_DENIED = "/skin/site/page_access_denied.ftl";
+    public static final String TEMPLATE_PAGE_ACCESS_DENIED = "/skin/site/page_access_denied.html";
 
     /** Access Controled template */
-    public static final String TEMPLATE_PAGE_ACCESS_CONTROLED = "/skin/site/page_access_controled.ftl";
-    private static final String TEMPLATE_ADMIN_BUTTONS = "/admin/admin_buttons.ftl";
-    private static final String TEMPLATE_COLUMN_OUTLINE = "/admin/column_outline.ftl";
+    public static final String TEMPLATE_PAGE_ACCESS_CONTROLED = "/skin/site/page_access_controled.html";
+    private static final String TEMPLATE_ADMIN_BUTTONS = "/admin/admin_buttons.html";
+    private static final String TEMPLATE_COLUMN_OUTLINE = "/admin/column_outline.html";
 
     // Markers
     private static final String MARK_PORTLET = "portlet";
@@ -704,10 +704,13 @@ public class PageService implements IPageService, ImageResourceProvider, PageEve
         }
 
         String strRole = portlet.getRole( );
+        boolean bUserInRole = SecurityService.isAuthenticationEnable( ) ? SecurityService.getInstance( ).isUserInRole( request, strRole ) : true;
 
         boolean [ ] conditions = new boolean [ ] {
-                strRole.equals( Page.ROLE_NONE ), !SecurityService.isAuthenticationEnable( ), nMode == MODE_ADMIN,
-                SecurityService.getInstance( ).isUserInRole( request, strRole )
+            strRole.equals( Page.ROLE_NONE ),                   // No role is required so the portlet is visible for anyone
+            !SecurityService.isAuthenticationEnable( ),         // No authentication
+            nMode == MODE_ADMIN,                                // We are in Admin mode, so all the portlet should be visible  
+            bUserInRole                                         // The authentication is ON and the user get the role  
         };
 
         return BooleanUtils.or( conditions );
