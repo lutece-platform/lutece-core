@@ -1,4 +1,4 @@
-<#include "minimal_header.html" />
+<#include "minimal_header.ftl" />
 
         <div class="container">
             <div class="row">
@@ -32,5 +32,5 @@
             </div>
         </div>
 
-<#include "minimal_footer.html" />
+<#include "minimal_footer.ftl" />
 

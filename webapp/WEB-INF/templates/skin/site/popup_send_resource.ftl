@@ -19,7 +19,7 @@
 		<script src="js/jquery/jquery.min.js"></script>
 	</head>
 	<body>
-		<#include "page_header_home.html" />
+		<#include "page_header_home.ftl" />
 		<div class="container">
 			<div class="row">
 			   	<form class="form form-inline" action="jsp/site/SendResource.jsp" method="post">
@@ -93,7 +93,7 @@
 		</div>
 		<#include "/util/editor/editor.html" />
 		<@initEditor />
-		<#include "portal_footer.html" />
+		<#include "portal_footer.ftl" />
 		<script src="js/bootstrap.min.js"></script>
 		<script src="js/tools.js"></script>
 	</body>

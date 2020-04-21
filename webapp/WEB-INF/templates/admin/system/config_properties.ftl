@@ -40,8 +40,8 @@ lutece.webapp.instance=default
 ################################################################################
 # Statistical optional inclusion
 lutece.statistical.include.enable=true
-lutece.statistical.include.template.head=/skin/site/statistical_include_head.html
-lutece.statistical.include.template=/skin/site/statistical_include.html
+lutece.statistical.include.template.head=/skin/site/statistical_include_head.ftl
+lutece.statistical.include.template=/skin/site/statistical_include.ftl
 lutece.statistical.site.id=0
 # PhpMyVisit Server
 lutece.statistical.server.url=

@@ -1,8 +1,8 @@
-<#include "minimal_header.html" />
+<#include "minimal_header.ftl" />
 <div class="container">
 <!-- container -->
 ${page_content}
 <!-- container -->
 <br />
 </div>
-<#include "minimal_footer.html" />
+<#include "minimal_footer.ftl" />

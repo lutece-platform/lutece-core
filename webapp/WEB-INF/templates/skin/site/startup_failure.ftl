@@ -1,4 +1,4 @@
-<#include "minimal_header.html" />
+<#include "minimal_header.ftl" />
 
 <div class="row">
     <div class="col-xs-12 col-sm-12 col-md-12">
@@ -22,4 +22,4 @@
     </div>
 </div>
 
-<#include "minimal_footer.html" />
+<#include "minimal_footer.ftl" />

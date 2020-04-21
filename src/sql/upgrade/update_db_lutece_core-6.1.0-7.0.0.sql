@@ -60,3 +60,10 @@ ALTER TABLE core_xsl_export modify COLUMN id_xsl_export int AUTO_INCREMENT NOT N
 
 DELETE FROM core_portlet_type WHERE id_portlet_type = 'ALIAS_PORTLET';
 INSERT INTO core_portlet_type VALUES ('ALIAS_PORTLET','portal.site.portletAlias.name','plugins/alias/CreatePortletAlias.jsp','plugins/alias/ModifyPortletAlias.jsp','fr.paris.lutece.portal.business.portlet.AliasPortletHome','alias','plugins/alias/DoCreatePortletAlias.jsp','/admin/portlet/script_create_portlet.ftl','/admin/portlet/alias/create_portlet_alias.ftl','','plugins/alias/DoModifyPortletAlias.jsp','/admin/portlet/script_modify_portlet.ftl','/admin/portlet/alias/modify_portlet_alias.ftl','');
+
+UPDATE core_page_template SET file_name='skin/site/page_template1.ftl' WHERE id_template = 1;
+UPDATE core_page_template SET file_name='skin/site/page_template2.ftl' WHERE id_template = 2;
+UPDATE core_page_template SET file_name='skin/site/page_template3.ftl' WHERE id_template = 3;
+UPDATE core_page_template SET file_name='skin/site/page_template4.ftl' WHERE id_template = 4;
+UPDATE core_page_template SET file_name='skin/site/page_template5.ftl' WHERE id_template = 5;
+UPDATE core_page_template SET file_name='skin/site/page_template6.ftl' WHERE id_template = 6;
