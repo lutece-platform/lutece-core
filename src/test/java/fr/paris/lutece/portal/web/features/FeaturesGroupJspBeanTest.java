@@ -236,7 +236,7 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
         request.addParameter( "group_name", strGroupName );
         request.addParameter( "group_description", strGroupName );
         request.addParameter( "group_order", "1" );
-        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "admin/features/create_group.html" )
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "admin/features/create_group.ftl" )
                 + "b" );
 
         try
@@ -319,7 +319,7 @@ public class FeaturesGroupJspBeanTest extends LuteceTestCase
         request.addParameter( "group_name", strGroupName );
         request.addParameter( "group_description", strGroupName );
         request.addParameter( "group_order", Integer.toString( featureGroup.getOrder( ) + 1 ) );
-        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "admin/features/modify_group.html" )
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "admin/features/modify_group.ftl" )
                 + "b" );
 
         try

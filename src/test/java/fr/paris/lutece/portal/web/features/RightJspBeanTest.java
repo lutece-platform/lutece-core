@@ -77,7 +77,7 @@ public class RightJspBeanTest extends LuteceTestCase
         AdminUser user = AdminUserHome.findUserByLogin( "admin" );
         request.setParameter( "available_users_list", Integer.toString( user.getUserId( ) ) );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/features/assign_users_right.html" ) );
+                SecurityTokenService.getInstance( ).getToken( request, "admin/features/assign_users_right.ftl" ) );
 
         assertFalse( AdminUserHome.getRightsListForUser( user.getUserId( ) ).keySet( ).contains( right.getId( ) ) );
         bean.doAssignUsers( request );
@@ -91,7 +91,7 @@ public class RightJspBeanTest extends LuteceTestCase
         AdminUser user = AdminUserHome.findUserByLogin( "admin" );
         request.setParameter( "available_users_list", Integer.toString( user.getUserId( ) ) );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/features/assign_users_right.html" ) + "b" );
+                SecurityTokenService.getInstance( ).getToken( request, "admin/features/assign_users_right.ftl" ) + "b" );
 
         assertFalse( AdminUserHome.getRightsListForUser( user.getUserId( ) ).keySet( ).contains( right.getId( ) ) );
         try
@@ -133,7 +133,7 @@ public class RightJspBeanTest extends LuteceTestCase
         request.setParameter( "id_user", Integer.toString( user.getUserId( ) ) );
         request.setParameter( "anchor", "anchor" );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/features/assign_users_right.html" ) );
+                SecurityTokenService.getInstance( ).getToken( request, "admin/features/assign_users_right.ftl" ) );
 
         assertTrue( AdminUserHome.getRightsListForUser( user.getUserId( ) ).keySet( ).contains( right.getId( ) ) );
         try
@@ -156,7 +156,7 @@ public class RightJspBeanTest extends LuteceTestCase
         request.setParameter( "id_user", Integer.toString( user.getUserId( ) ) );
         request.setParameter( "anchor", "anchor" );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/features/assign_users_right.html" ) + "b" );
+                SecurityTokenService.getInstance( ).getToken( request, "admin/features/assign_users_right.ftl" ) + "b" );
 
         assertTrue( AdminUserHome.getRightsListForUser( user.getUserId( ) ).keySet( ).contains( right.getId( ) ) );
         try

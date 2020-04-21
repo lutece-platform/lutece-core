@@ -1,0 +1,19 @@
+<@row>
+	<@columns>
+		<@box color='success'>
+			<@boxHeader title='#i18n{portal.features.modify_level.boxTitle} <@tag>${level.id}</@tag>' />
+			<@boxBody>
+				<@tform method='post' action='jsp/admin/features/DoModifyLevel.jsp' name='modify_level'>
+					<@input type='hidden' name='level_id' value='${level.id}' />	
+					<@input type='hidden' name='token' value='${token}' />
+					<@formGroup labelKey='#i18n{portal.features.modify_level.labelName}' labelFor='level_name' mandatory=true>
+						<@input type='text' name='level_name' id='level_name' value='${level.name?html}' maxlength=80 />
+					</@formGroup>
+					<@formGroup>
+						<@button type='submit' buttonIcon='check' title='#i18n{portal.features.modify_level.buttonLabelModify}'  size='' />
+					</@formGroup>
+				</@tform>
+			</@boxBody>
+		</@box>
+	</@columns>
+</@row>

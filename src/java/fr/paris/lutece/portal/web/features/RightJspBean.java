@@ -103,8 +103,8 @@ public class RightJspBean extends AdminFeaturesPageJspBean
     private static final String PARAMETER_ANCHOR = "anchor";
 
     // Templates files path
-    private static final String TEMPLATE_MANAGE_RIGHTS = "admin/features/manage_rights.html";
-    private static final String TEMPLATE_ASSIGN_USERS = "admin/features/assign_users_right.html";
+    private static final String TEMPLATE_MANAGE_RIGHTS = "admin/features/manage_rights.ftl";
+    private static final String TEMPLATE_ASSIGN_USERS = "admin/features/assign_users_right.ftl";
 
     // JSP
     private static final String JSP_URL_ASSIGN_USERS_TO_RIGHT = "jsp/admin/features/AssignUsersRight.jsp";
