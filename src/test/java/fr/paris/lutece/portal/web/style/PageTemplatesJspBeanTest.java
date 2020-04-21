@@ -110,7 +110,7 @@ public class PageTemplatesJspBeanTest extends LuteceTestCase
             desc
         } );
         parameters.put( SecurityTokenService.PARAMETER_TOKEN, new String [ ] {
-            SecurityTokenService.getInstance( ).getToken( request, "admin/style/create_page_template.html" )
+            SecurityTokenService.getInstance( ).getToken( request, "admin/style/create_page_template.ftl" )
         } );
         DiskFileItemFactory fileItemFactory = new DiskFileItemFactory( );
         Map<String, List<FileItem>> files = new HashMap<>( );
@@ -145,7 +145,7 @@ public class PageTemplatesJspBeanTest extends LuteceTestCase
             desc
         } );
         parameters.put( SecurityTokenService.PARAMETER_TOKEN, new String [ ] {
-            SecurityTokenService.getInstance( ).getToken( request, "admin/style/create_page_template.html" ) + "b"
+            SecurityTokenService.getInstance( ).getToken( request, "admin/style/create_page_template.ftl" ) + "b"
         } );
         DiskFileItemFactory fileItemFactory = new DiskFileItemFactory( );
         Map<String, List<FileItem>> files = new HashMap<>( );
@@ -241,7 +241,7 @@ public class PageTemplatesJspBeanTest extends LuteceTestCase
             desc + "mod"
         } );
         parameters.put( SecurityTokenService.PARAMETER_TOKEN, new String [ ] {
-            SecurityTokenService.getInstance( ).getToken( request, "admin/style/modify_page_template.html" )
+            SecurityTokenService.getInstance( ).getToken( request, "admin/style/modify_page_template.ftl" )
         } );
         MultipartHttpServletRequest multipartRequest = new MultipartHttpServletRequest( request, Collections.emptyMap( ), parameters );
         try
@@ -271,7 +271,7 @@ public class PageTemplatesJspBeanTest extends LuteceTestCase
             desc + "mod"
         } );
         parameters.put( SecurityTokenService.PARAMETER_TOKEN, new String [ ] {
-            SecurityTokenService.getInstance( ).getToken( request, "admin/style/modify_page_template.html" ) + "b"
+            SecurityTokenService.getInstance( ).getToken( request, "admin/style/modify_page_template.ftl" ) + "b"
         } );
         MultipartHttpServletRequest multipartRequest = new MultipartHttpServletRequest( request, Collections.emptyMap( ), parameters );
         try

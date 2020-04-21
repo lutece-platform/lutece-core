@@ -94,9 +94,9 @@ public class StylesJspBean extends AdminFeaturesPageJspBean
     private static final String PROPERTY_STYLES_PER_PAGE = "paginator.style.itemsPerPage";
 
     // Templates files path
-    private static final String TEMPLATE_MANAGE_STYLES = "admin/style/manage_styles.html";
-    private static final String TEMPLATE_CREATE_STYLE = "admin/style/create_style.html";
-    private static final String TEMPLATE_MODIFY_STYLE = "admin/style/modify_style.html";
+    private static final String TEMPLATE_MANAGE_STYLES = "admin/style/manage_styles.ftl";
+    private static final String TEMPLATE_CREATE_STYLE = "admin/style/create_style.ftl";
+    private static final String TEMPLATE_MODIFY_STYLE = "admin/style/modify_style.ftl";
 
     // Portal Component definition
     private static final int PORTAL_COMPONENT_ID_PORTLET = 0;
