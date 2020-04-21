@@ -86,7 +86,7 @@ public class AdminDocumentationJspBean
     private static final String JSP_CLOSE = "javascript:window.close()";
 
     // templates
-    private static final String TEMPLATE_ADMIN_SUMMARY_DOCUMENTATION = "admin/documentation/admin_summary_documentation.html";
+    private static final String TEMPLATE_ADMIN_SUMMARY_DOCUMENTATION = "admin/documentation/admin_summary_documentation.ftl";
 
     // bookmark
     private static final String BOOKMARK_FEATURE_GROUP_LIST = "feature_group_list";
