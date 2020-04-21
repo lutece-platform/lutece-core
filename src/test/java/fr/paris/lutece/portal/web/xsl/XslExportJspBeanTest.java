@@ -133,7 +133,7 @@ public class XslExportJspBeanTest extends LuteceTestCase
             randomName
         } );
         parameters.put( SecurityTokenService.PARAMETER_TOKEN, new String [ ] {
-            SecurityTokenService.getInstance( ).getToken( request, "admin/xsl/create_xsl_export.html" )
+            SecurityTokenService.getInstance( ).getToken( request, "admin/xsl/create_xsl_export.ftl" )
         } );
         Map<String, List<FileItem>> multipartFiles = new HashMap<>( );
         List<FileItem> fileItems = new ArrayList<>( );
@@ -173,7 +173,7 @@ public class XslExportJspBeanTest extends LuteceTestCase
             randomName
         } );
         parameters.put( SecurityTokenService.PARAMETER_TOKEN, new String [ ] {
-            SecurityTokenService.getInstance( ).getToken( request, "admin/xsl/create_xsl_export.html" ) + "b"
+            SecurityTokenService.getInstance( ).getToken( request, "admin/xsl/create_xsl_export.ftl" ) + "b"
         } );
         Map<String, List<FileItem>> multipartFiles = new HashMap<>( );
         List<FileItem> fileItems = new ArrayList<>( );
@@ -280,7 +280,7 @@ public class XslExportJspBeanTest extends LuteceTestCase
             Integer.toString( _xslExport.getIdXslExport( ) )
         } );
         parameters.put( SecurityTokenService.PARAMETER_TOKEN, new String [ ] {
-            SecurityTokenService.getInstance( ).getToken( request, "admin/xsl/modify_xsl_export.html" )
+            SecurityTokenService.getInstance( ).getToken( request, "admin/xsl/modify_xsl_export.ftl" )
         } );
         Map<String, List<FileItem>> multipartFiles = new HashMap<>( );
 
@@ -316,7 +316,7 @@ public class XslExportJspBeanTest extends LuteceTestCase
             Integer.toString( _xslExport.getIdXslExport( ) )
         } );
         parameters.put( SecurityTokenService.PARAMETER_TOKEN, new String [ ] {
-            SecurityTokenService.getInstance( ).getToken( request, "admin/xsl/modify_xsl_export.html" ) + "b"
+            SecurityTokenService.getInstance( ).getToken( request, "admin/xsl/modify_xsl_export.ftl" ) + "b"
         } );
         Map<String, List<FileItem>> multipartFiles = new HashMap<>( );
 
