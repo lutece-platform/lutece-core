@@ -77,8 +77,8 @@ public class AttributeFieldJspBean extends AdminFeaturesPageJspBean
     private static final String PROPERTY_MESSAGE_CONFIRM_REMOVE_ATTRIBUTE_FIELD = "portal.users.modify_attribute.message.removeAttributeField";
 
     // TEMPLATES
-    private static final String TEMPLATE_CREATE_ATTRIBUTE_FIELD = "admin/user/attribute/create_attribute_field.html";
-    private static final String TEMPLATE_MODIFY_ATTRIBUTE_FIELD = "admin/user/attribute/modify_attribute_field.html";
+    private static final String TEMPLATE_CREATE_ATTRIBUTE_FIELD = "admin/user/attribute/create_attribute_field.ftl";
+    private static final String TEMPLATE_MODIFY_ATTRIBUTE_FIELD = "admin/user/attribute/modify_attribute_field.ftl";
 
     // PARAMETERS
     private static final String PARAMETER_CANCEL = "cancel";

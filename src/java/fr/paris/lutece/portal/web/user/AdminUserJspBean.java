@@ -133,24 +133,24 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
     private static final String BEAN_IMPORT_ADMIN_USER_SERVICE = "adminUserImportService";
 
     // Templates
-    private static final String TEMPLATE_MANAGE_USERS = "admin/user/manage_users.html";
-    private static final String TEMPLATE_CREATE_USER = "admin/user/create_user.html";
-    private static final String TEMPLATE_MODIFY_USER = "admin/user/modify_user.html";
-    private static final String TEMPLATE_MANAGE_USER_RIGHTS = "admin/user/manage_user_rights.html";
-    private static final String TEMPLATE_MODIFY_USER_RIGHTS = "admin/user/modify_user_rights.html";
-    private static final String TEMPLATE_MANAGE_USER_ROLES = "admin/user/manage_user_roles.html";
-    private static final String TEMPLATE_MODIFY_USER_ROLES = "admin/user/modify_user_roles.html";
-    private static final String TEMPLATE_IMPORT_USER = "admin/user/import_module_user.html";
-    private static final String TEMPLATE_DEFAULT_CREATE_USER = "admin/user/create_user_default_module.html";
-    private static final String TEMPLATE_DEFAULT_MODIFY_USER = "admin/user/modify_user_default_module.html";
-    private static final String TEMPLATE_DEFAULT_MODIFY_USER_PASSWORD = "admin/user/modify_user_password_default_module.html";
-    private static final String TEMPLATE_MANAGE_USER_WORKGROUPS = "admin/user/manage_user_workgroups.html";
-    private static final String TEMPLATE_MODIFY_USER_WORKGROUPS = "admin/user/modify_user_workgroups.html";
-    private static final String TEMPLATE_ADMIN_EMAIL_CHANGE_STATUS = "admin/user/user_email_change_status.html";
-    private static final String TEMPLATE_NOTIFY_USER = "admin/user/notify_user_account_created.html";
+    private static final String TEMPLATE_MANAGE_USERS = "admin/user/manage_users.ftl";
+    private static final String TEMPLATE_CREATE_USER = "admin/user/create_user.ftl";
+    private static final String TEMPLATE_MODIFY_USER = "admin/user/modify_user.ftl";
+    private static final String TEMPLATE_MANAGE_USER_RIGHTS = "admin/user/manage_user_rights.ftl";
+    private static final String TEMPLATE_MODIFY_USER_RIGHTS = "admin/user/modify_user_rights.ftl";
+    private static final String TEMPLATE_MANAGE_USER_ROLES = "admin/user/manage_user_roles.ftl";
+    private static final String TEMPLATE_MODIFY_USER_ROLES = "admin/user/modify_user_roles.ftl";
+    private static final String TEMPLATE_IMPORT_USER = "admin/user/import_module_user.ftl";
+    private static final String TEMPLATE_DEFAULT_CREATE_USER = "admin/user/create_user_default_module.ftl";
+    private static final String TEMPLATE_DEFAULT_MODIFY_USER = "admin/user/modify_user_default_module.ftl";
+    private static final String TEMPLATE_DEFAULT_MODIFY_USER_PASSWORD = "admin/user/modify_user_password_default_module.ftl";
+    private static final String TEMPLATE_MANAGE_USER_WORKGROUPS = "admin/user/manage_user_workgroups.ftl";
+    private static final String TEMPLATE_MODIFY_USER_WORKGROUPS = "admin/user/modify_user_workgroups.ftl";
+    private static final String TEMPLATE_ADMIN_EMAIL_CHANGE_STATUS = "admin/user/user_email_change_status.ftl";
+    private static final String TEMPLATE_NOTIFY_USER = "admin/user/notify_user_account_created.ftl";
     private static final String TEMPLATE_FIELD_ANONYMIZE_ADMIN_USER = "admin/user/field_anonymize_admin_user.html";
-    private static final String TEMPLATE_ACCOUNT_LIFE_TIME_EMAIL = "admin/user/account_life_time_email.html";
-    private static final String TEMPLATE_EXPORT_USERS_FROM_FILE = "admin/user/export_users.html";
+    private static final String TEMPLATE_ACCOUNT_LIFE_TIME_EMAIL = "admin/user/account_life_time_email.ftl";
+    private static final String TEMPLATE_EXPORT_USERS_FROM_FILE = "admin/user/export_users.ftl";
 
     // Messages
     private static final String PROPERTY_MANAGE_USERS_PAGETITLE = "portal.users.manage_users.pageTitle";

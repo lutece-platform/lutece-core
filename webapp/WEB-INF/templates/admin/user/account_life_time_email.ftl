@@ -32,7 +32,7 @@
 									<li>${r"${date_valid}"} : #i18n{portal.users.accountLifeTime.labelDateValid}</li>
 								</#if>
 							</@ul>
-							/@columns>    
+							</@columns>    
 					</@row>  
 					<@row>
 						<@columns sm=9 offsetSm=3 md=3 offsetMd=3>
@@ -40,7 +40,8 @@
 								<@icon style='check' /> #i18n{portal.users.modify_user.buttonLabelModify}
 							</@button> 
 						</@columns>    
-					</@row>  
+					</@row>
+				</@tform>
 			</@boxBody>
 		</@box>
 	</@columns>

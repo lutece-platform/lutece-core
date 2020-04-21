@@ -50,7 +50,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class UsersDashboardComponent extends DashboardComponent
 {
-    private static final String TEMPLATE_DASHBOARD = "/admin/user/users_dashboard.html";
+    private static final String TEMPLATE_DASHBOARD = "/admin/user/users_dashboard.ftl";
     private static final String MARK_USERS_COUNT = "users_count";
     private static final String MARK_URL = "url";
     private static final String MARK_ICON = "icon";
