@@ -5,7 +5,7 @@
 ################################################################################
 # AutoInit for first deployment
 # If this is true, starting the webapp set it to false and rewrite this file
-# to fill in some defaults from WEB-INF/templates/admin/system/config_properties.html
+# to fill in some defaults from WEB-INF/templates/admin/system/config_properties.ftl
 autoInit=${autoinit}
 
 ################################################################################
