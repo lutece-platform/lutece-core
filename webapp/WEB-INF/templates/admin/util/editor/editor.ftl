@@ -1,0 +1,10 @@
+<#assign textEditorName = "fr.paris.lutece.portal.service.editor.RichTextEditorBackOfficeMethod"?new()() >
+
+<#if textEditorName?has_content>
+	<#assign importUrl = "/admin/util/editor/editor_" + textEditorName + ".ftl">
+	<#include importUrl />
+<#else>
+	<#macro initEditor>
+		<#-- rich text editor disabled -->
+	</#macro>
+</#if>

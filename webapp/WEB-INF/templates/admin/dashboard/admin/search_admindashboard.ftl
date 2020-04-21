@@ -44,5 +44,5 @@
     </@tform>
 </@adminDashboardPanel>
 
-<#include "/admin/util/editor/editor.html" />
+<#include "/admin/util/editor/editor.ftl" />
 <@initEditor />

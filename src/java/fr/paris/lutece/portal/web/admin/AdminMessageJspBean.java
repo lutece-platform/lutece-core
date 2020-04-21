@@ -53,7 +53,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class AdminMessageJspBean
 {
-    private static final String TEMPLATE_MESSAGE = "admin/util/message.html";
+    private static final String TEMPLATE_MESSAGE = "admin/util/message.ftl";
     private static final String MARK_TITLE = "title";
     private static final String MARK_TEXT = "text";
     private static final String MARK_URL = "url";

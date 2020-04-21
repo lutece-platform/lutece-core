@@ -1,4 +1,4 @@
-<#include "/admin/util/editor/editor.html" />
+<#include "/admin/util/editor/editor.ftl" />
 <#assign boxtitle>#i18n{${emailLabel}}</#assign>
 <@row>
     <@columns>
