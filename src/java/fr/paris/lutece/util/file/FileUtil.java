@@ -60,6 +60,7 @@ public final class FileUtil
     private static final String PROPERTY_ALLOWED_HTML_EXTENSIONS = "portal.files.allowedHtmlExtentions";
     private static final String DEFAULT_IMAGES_EXTENSION = "gif,png,jpg,jpeg,bmp";
     private static final String DEFAULT_HTML_EXTENSION = "html,htm,xhtml";
+    private static final String FREEMARKER_EXTENSION = "ftl";
     private static final String CONSTANT_POINT = ".";
     private static final String CONSTANT_COMMA = ",";
 
@@ -97,7 +98,20 @@ public final class FileUtil
 
         return hasExtension( strFileName, strImagesExtentions );
     }
-
+    
+    /**
+     * Check if a file has a valid Freemarker extension
+     * 
+     * @param strFileName
+     *            The file name to check
+     * @return True if the file name is valid, false otherwise
+     */
+    public static boolean hasFreemarkerExtension( String strFileName )
+    {
+        return hasExtension( strFileName, FREEMARKER_EXTENSION );
+    }
+    
+    
     /**
      * Check if a file name match extensions in a given list
      * 

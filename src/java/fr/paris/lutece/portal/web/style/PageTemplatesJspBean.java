@@ -187,7 +187,7 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
             return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FILE, AdminMessage.TYPE_STOP );
         }
 
-        if ( !FileUtil.hasHtmlExtension( strFileName ) )
+        if ( ! ( FileUtil.hasHtmlExtension( strFileName ) || FileUtil.hasFreemarkerExtension( strFileName) ) )
         {
             return AdminMessageService.getMessageUrl( request, MESSAGE_WRONG_HTML_EXTENSION, AdminMessage.TYPE_STOP );
         }
@@ -272,7 +272,7 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
             {
                 bHasError = true;
             }
-            else if ( !FileUtil.hasHtmlExtension( strFileName ) )
+            else if ( ! (FileUtil.hasHtmlExtension( strFileName ) || FileUtil.hasFreemarkerExtension( strFileName) ) )
             {
                 return AdminMessageService.getMessageUrl( request, MESSAGE_WRONG_HTML_EXTENSION,
                         AdminMessage.TYPE_STOP );
