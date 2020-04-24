@@ -1,0 +1,30 @@
+<#include "admindashboard_utils.html">
+
+<@adminDashboardPanel title='#i18n{portal.admindashboard.editorChoice.title}' icon='edit' parentId='technical_settings' childId='editors' >
+	<@fieldSet legend='#i18n{portal.admindashboard.editorChoice.editorBackOffice}' >
+		<@tform action='jsp/admin/admindashboard/DoUpdateBackOfficeEditor.jsp'>
+				<@input type='hidden' name='token' value='${token}' />
+				<@formGroup labelKey='#i18n{portal.admindashboard.editorChoice.labelEditorBackOffice}'>
+						<#if !current_editor_back_office??>
+								<#assign current_editor_back_office = "">
+						</#if>
+						<@select name='editor_back_office' items=listEditorsBackOffice default_value=current_editor_back_office />
+				</@formGroup>
+				<@formGroup>
+						<@button type='submit' buttonIcon='check' title='#i18n{portal.util.labelModify}' size='' />
+				</@formGroup>
+		</@tform>
+</@fieldSet>
+ <@fieldSet legend='#i18n{portal.admindashboard.editorChoice.editorFrontOffice}' >   
+		<@tform action='jsp/admin/admindashboard/DoUpdateFrontOfficeEditor.jsp'>
+				<@input type='hidden' name='token' value='${token}' />
+				<@formGroup labelKey='#i18n{portal.admindashboard.editorChoice.labelEditorFrontOffice}'>
+						<#if !current_editor_front_office??><#assign current_editor_front_office = ""></#if>
+						<@select name='editor_front_office' items=listEditorsFrontOffice default_value=current_editor_front_office />
+				</@formGroup>
+				<@formGroup>
+						<@button type='submit' buttonIcon='check' title='#i18n{portal.util.labelModify}' size='' />
+				</@formGroup>
+		</@tform>
+	</@fieldSet>
+</@adminDashboardPanel>

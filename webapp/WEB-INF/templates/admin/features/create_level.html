@@ -1,0 +1,18 @@
+<@row>
+	<@columns>
+		<@box color='success'>
+			<@boxHeader title='#i18n{portal.features.create_level.boxTitle}' />
+			<@boxBody>
+				<@tform method='post' name='create_mode' action='jsp/admin/features/DoCreateLevel.jsp'>
+					<@input type='hidden' name='token' value='${token}' />
+					<@formGroup labelKey='#i18n{portal.features.create_level.labelName}' labelFor='level_name' mandatory=true>
+						<@input type='text' name='level_name' id='level_name' value='' maxlength=80 />
+					</@formGroup>
+					<@formGroup>
+						<@button type='submit' buttonIcon='edit' title='#i18n{portal.features.create_level.buttonLabelValidate}'  size='' />
+					</@formGroup>
+				</@tform>
+			</@boxBody>
+		</@box>
+	</@columns>
+</@row>

@@ -1,0 +1,139 @@
+<#include "admindashboard_utils.html">
+<@tabPanel id='advancedSecurityParameters'>
+	<@btnGroup align='right'>
+		<@tform action='jsp/admin/user/GetChangeUseAdvancedSecurityParameters.jsp'>
+			<#if use_advanced_security_parameters>
+					<@button type='submit' color='danger' buttonIcon='remove' title='#i18n{portal.users.manage_advanced_parameters.removeAdvancedParameters}' hideTitle=['xs','sm'] size='sm' />
+			<#else>
+					<@button type='submit' buttonIcon='cog' title='#i18n{portal.users.manage_advanced_parameters.useAdvancedParameters}' hideTitle=['xs','sm'] size='sm' />
+			</#if>
+		</@tform>
+	</@btnGroup>
+	<@tform method='post' name='password_global_security' action='jsp/admin/user/DoModifyDefaultUserSecurityParameterValues.jsp#footer'>
+		<@fieldSet legend='#i18n{portal.users.manage_advanced_parameters.securityParameters}'>
+			<@input type='hidden' name='token' value='${token}' />
+			<@formGroup labelKey='#i18n{portal.users.manage_advanced_parameters.minimumPasswordLength.label}' labelFor='password_minimum_length' mandatory=true helpKey='#i18n{portal.users.manage_advanced_parameters.minimumPasswordLength.help}'>
+					<@input type='text' name='password_minimum_length' id='password_minimum_length' value='${password_minimum_length!}' />
+			</@formGroup>
+
+			<@formGroup labelKey='#i18n{portal.users.manage_advanced_parameters.bannedDomainNames.label}' helpKey='#i18n{portal.users.manage_advanced_parameters.bannedDomainNames.help}' labelFor='banned_domain_names'>
+					<@input type='textarea' name='banned_domain_names' id='banned_domain_names'>${banned_domain_names?html}</@input>
+			</@formGroup>
+
+			<#if use_advanced_security_parameters>
+			<@formGroup labelKey='#i18n{portal.users.manage_advanced_parameters.passwordFormat.label}'>
+					<#if password_format_upper_lower_case?? && password_format_upper_lower_case>
+							<#assign checked=true>
+					<#else>
+							<#assign checked=false>
+					</#if>
+					<@checkBox labelKey='#i18n{portal.users.manage_advanced_parameters.passwordFormatUpperLowerCase.label}' labelFor='password_format_upper_lower_case' name='password_format_upper_lower_case' id='password_format_upper_lower_case' value='true' checked=checked />
+
+					<#if password_format_numero?? && password_format_numero>
+							<#assign checked=true>
+					<#else>
+							<#assign checked=false>
+					</#if>
+					<@checkBox labelKey='#i18n{portal.users.manage_advanced_parameters.passwordFormatNumero.label}' labelFor='password_format_numero' name='password_format_numero' id='password_format_numero' value='true' checked=checked />
+
+					<#if password_format_special_characters?? && password_format_special_characters>
+							<#assign checked=true>
+					<#else>
+							<#assign checked=false>
+					</#if>
+					<@checkBox labelKey='#i18n{portal.users.manage_advanced_parameters.passwordFormatSpecialCharacters.label}' labelFor='password_format_special_characters' name='password_format_special_characters' id='password_format_special_characters' value='true' checked=checked />
+			</@formGroup>
+
+			<@formGroup labelKey='#i18n{portal.users.manage_advanced_parameters.passwordDuration.label}' helpKey='#i18n{portal.users.manage_advanced_parameters.passwordDuration.help}' labelFor='password_duration'>
+					<@input type='text' name='password_duration' id='password_duration' value='${password_duration}' />
+			</@formGroup>
+
+			<@formGroup labelKey='#i18n{portal.users.manage_advanced_parameters.notifyUserPasswordExpired.label}' >
+					<#if notify_user_password_expired?? && notify_user_password_expired>
+							<#assign checked=true>
+					<#else>
+							<#assign checked=false>
+					</#if>
+					<@checkBox labelKey='#i18n{portal.users.manage_advanced_parameters.notifyUserPasswordExpired.help}' labelFor='notify_user_password_expired' name='notify_user_password_expired' id='notify_user_password_expired' value='true' checked=checked />
+			</@formGroup>
+			</#if>
+
+			<@formGroup labelKey='#i18n{portal.users.manage_advanced_parameters.forcePasswordAfterReset.label}' labelFor='force_change_password_reinit'>
+					<#if force_change_password_reinit>
+							<#assign checked=true>
+					<#else>
+							<#assign checked=false>
+					</#if>
+					<@checkBox labelKey='#i18n{portal.users.manage_advanced_parameters.forcePasswordAfterReset.help}' name='force_change_password_reinit' id='force_change_password_reinit' value='true' checked=checked />
+			</@formGroup>
+
+			<@formGroup labelKey='#i18n{portal.users.manage_advanced_parameters.resetTokenValidity.label}' helpKey='#i18n{portal.users.manage_advanced_parameters.resetTokenValidity.help}' labelFor='reset_token_validity'>
+					<@input type='number' name='reset_token_validity' id='reset_token_validity' value='${reset_token_validity!}' />
+			</@formGroup>
+
+			<@formGroup labelKey='#i18n{portal.users.manage_advanced_parameters.lockResetTokenToSession.label}' labelFor='lock_reset_token_to_session'>
+					<@checkBox labelKey='#i18n{portal.users.manage_advanced_parameters.lockResetTokenToSession.help}' name='lock_reset_token_to_session' id='lock_reset_token_to_session' value='true' checked=lock_reset_token_to_session/>
+			</@formGroup>
+
+			<#if use_advanced_security_parameters>
+			<@formGroup labelKey='#i18n{portal.users.manage_advanced_parameters.passwordHistorySize.label}' helpKey='#i18n{portal.users.manage_advanced_parameters.passwordHistorySize.help}' labelFor='password_history_size'>
+					<@input type='text' name='password_history_size' id='password_history_size' value='${password_history_size!}' />
+			</@formGroup>
+
+			<@formGroup labelKey='#i18n{portal.users.manage_advanced_parameters.maxNumberPasswordChange.label}' helpKey='#i18n{portal.users.manage_advanced_parameters.maxNumberPasswordChange.help}' labelFor='maximum_number_password_change'>
+					<@input type='text' name='maximum_number_password_change' id='maximum_number_password_change' value='${maximum_number_password_change!}' />
+			</@formGroup>
+
+			<@formGroup labelKey='#i18n{portal.users.manage_advanced_parameters.passwordChangeTSWSize.label}' helpKey='#i18n{portal.users.manage_advanced_parameters.passwordChangeTSWSize.help}' labelFor='tsw_size_password_change'>
+					<@input type='text' name='tsw_size_password_change' id='tsw_size_password_change' value='${tsw_size_password_change!}' />
+			</@formGroup>
+			</#if>
+
+			<@formGroup labelKey='#i18n{portal.users.manage_advanced_parameters.accesFailuresMax.label}' helpKey='#i18n{portal.users.manage_advanced_parameters.accesFailuresMax.help}' labelFor='access_failures_max'>
+					<@input type='text' name='access_failures_max' id='access_failures_max' value='${access_failures_max!}' />
+			</@formGroup>
+
+			<@formGroup labelKey='#i18n{portal.users.manage_advanced_parameters.accesFailuresInterval.label}' helpKey='#i18n{portal.users.manage_advanced_parameters.accesFailuresInterval.help}' labelFor='access_failures_interval'>
+					<@input type='text' name='access_failures_interval' id='access_failures_interval' value='${access_failures_interval!}' />
+			</@formGroup>
+
+			<@formGroup labelKey='#i18n{portal.users.manage_advanced_parameters.accountLifeTime.label}' helpKey='#i18n{portal.users.manage_advanced_parameters.accountLifeTime.help}' labelFor='account_life_time'>
+					<@input type='text' name='account_life_time' id='account_life_time' value='${account_life_time!}' />
+			</@formGroup>
+
+			<@formGroup labelKey='#i18n{portal.users.manage_advanced_parameters.timeBeforeAlert.label}' helpKey='#i18n{portal.users.manage_advanced_parameters.timeBeforeAlert.help}' labelFor='time_before_alert_account'>
+					<@input type='text' name='time_before_alert_account' id='time_before_alert_account' value='${time_before_alert_account!}' />
+			</@formGroup>
+
+			<@formGroup labelKey='#i18n{portal.users.manage_advanced_parameters.nbAlert.label}' helpKey='#i18n{portal.users.manage_advanced_parameters.nbAlert.help}' labelFor='nb_alert_account'>
+					<@input type='text' name='nb_alert_account' id='nb_alert_account' value='${nb_alert_account!}' />
+			</@formGroup>
+
+			<@formGroup labelKey='#i18n{portal.users.manage_advanced_parameters.timeBetweenAlerts.label}' helpKey='#i18n{portal.users.manage_advanced_parameters.timeBetweenAlerts.help}' labelFor='time_between_alerts_account'>
+					<@input type='text' name='time_between_alerts_account' id='time_between_alerts_account' value='${time_between_alerts_account!}' />		
+			</@formGroup>
+
+			<@formGroup>
+					<@button type='submit' buttonIcon='check' title='#i18n{portal.util.labelModify}'  size='' />
+			</@formGroup>
+		</@fieldSet>
+	</@tform>
+</@tabPanel>
+<@tabPanel id='lifeTimeEmails'>
+	<@tform method='post' action='jsp/admin/user/ModifyAccountLifeTimeEmails.jsp'>
+		<@fieldSet legend='#i18n{portal.users.accountLifeTime.labelLifeTimeNotifications}'> 
+			<@formGroup labelKey='#i18n{portal.users.accountLifeTime.labelSelectEmail}' labelFor='email_type'>
+				<@select name='email_type' id='email_type'>
+					<option value="first" selected="selected">#i18n{portal.users.accountLifeTime.labelFirstEmail}</option>
+					<option value="other">#i18n{portal.users.accountLifeTime.labelOtherEmail}</option>
+					<option value="expired">#i18n{portal.users.accountLifeTime.labelAccountDeactivatedEmail}</option>
+					<option value="reactivated">#i18n{portal.users.accountLifeTime.labelAccountUpdatedEmail}</option>
+					<option value="password_expired">#i18n{portal.users.accountLifeTime.labelPasswordExpired}</option>
+				</@select>
+			</@formGroup>
+			<@formGroup>
+					<@button type='submit' buttonIcon='check' title='#i18n{portal.users.accountLifeTime.labelEditEmail}'  size='' />
+			</@formGroup>
+		</@fieldSet>
+	</@tform>
+</@tabPanel>

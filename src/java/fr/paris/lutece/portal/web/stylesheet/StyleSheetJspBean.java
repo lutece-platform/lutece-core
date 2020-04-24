@@ -112,10 +112,10 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
     private static final String MARK_STYLE_DESCRIPTION = "style_description";
 
     // Templates files path
-    private static final String TEMPLATE_MANAGE_STYLESHEETS = "admin/stylesheet/manage_stylesheets.ftl";
-    private static final String TEMPLATE_CREATE_STYLESHEET = "admin/stylesheet/create_stylesheet.ftl";
-    private static final String TEMPLATE_MODIFY_STYLESHEET = "admin/stylesheet/modify_stylesheet.ftl";
-    private static final String TEMPLATE_STYLE_SELECT_OPTION = "admin/stylesheet/style_select_option.ftl";
+    private static final String TEMPLATE_MANAGE_STYLESHEETS = "admin/stylesheet/manage_stylesheets.html";
+    private static final String TEMPLATE_CREATE_STYLESHEET = "admin/stylesheet/create_stylesheet.html";
+    private static final String TEMPLATE_MODIFY_STYLESHEET = "admin/stylesheet/modify_stylesheet.html";
+    private static final String TEMPLATE_STYLE_SELECT_OPTION = "admin/stylesheet/style_select_option.html";
 
     // Properties
     private static final String PROPERTY_PATH_XSL = "path.stylesheet";

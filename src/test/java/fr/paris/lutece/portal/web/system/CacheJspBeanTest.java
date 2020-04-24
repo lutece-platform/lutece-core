@@ -97,7 +97,7 @@ public class CacheJspBeanTest extends LuteceTestCase
         assertFalse( "There should be at least one active AbstractCacheableService", 0 == registeredListener );
         MockHttpServletRequest request = new MockHttpServletRequest( );
         Utils.registerAdminUserWithRigth( request, new AdminUser( ), CacheJspBean.RIGHT_CACHE_MANAGEMENT );
-        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "admin/system/manage_caches.ftl" ) );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "admin/system/manage_caches.html" ) );
         CacheJspBean.doResetCaches( request );
         assertEquals( "Not all AbstractCacheableService were reset", registeredListener, cacheEventListener.getCallCount( ) );
     }
@@ -112,7 +112,7 @@ public class CacheJspBeanTest extends LuteceTestCase
         assertFalse( "There should be at least one active AbstractCacheableService", 0 == registeredListener );
         MockHttpServletRequest request = new MockHttpServletRequest( );
         Utils.registerAdminUserWithRigth( request, new AdminUser( ), CacheJspBean.RIGHT_CACHE_MANAGEMENT );
-        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "admin/system/manage_caches.ftl" )
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "admin/system/manage_caches.html" )
                 + "b" );
         try
         {
@@ -169,7 +169,7 @@ public class CacheJspBeanTest extends LuteceTestCase
         MockHttpServletRequest request = new MockHttpServletRequest( );
         Utils.registerAdminUserWithRigth( request, new AdminUser( ), CacheJspBean.RIGHT_CACHE_MANAGEMENT );
         request.addParameter( "id_cache", Integer.toString( cacheIndex ) );
-        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "admin/system/manage_caches.ftl" ) );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "admin/system/manage_caches.html" ) );
         CacheJspBean.doResetCaches( request );
         assertEquals( "Only one cache should have been reset", 1, allCacheEventListener.getCallCount( ) );
         assertEquals( "The target cache should have been reset", 1, cacheEventListener.getCallCount( ) );
@@ -198,7 +198,7 @@ public class CacheJspBeanTest extends LuteceTestCase
         MockHttpServletRequest request = new MockHttpServletRequest( );
         Utils.registerAdminUserWithRigth( request, new AdminUser( ), CacheJspBean.RIGHT_CACHE_MANAGEMENT );
         request.addParameter( "id_cache", Integer.toString( cacheIndex ) );
-        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "admin/system/manage_caches.ftl" )
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "admin/system/manage_caches.html" )
                 + "b" );
         try
         {
@@ -394,7 +394,7 @@ public class CacheJspBeanTest extends LuteceTestCase
 
         MockHttpServletRequest request = new MockHttpServletRequest( );
         Utils.registerAdminUserWithRigth( request, new AdminUser( ), CacheJspBean.RIGHT_CACHE_MANAGEMENT );
-        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "admin/system/manage_caches.ftl" ) );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "admin/system/manage_caches.html" ) );
 
         CacheJspBean instance = new CacheJspBean( );
         instance.doReloadProperties( request );
@@ -422,7 +422,7 @@ public class CacheJspBeanTest extends LuteceTestCase
 
         MockHttpServletRequest request = new MockHttpServletRequest( );
         Utils.registerAdminUserWithRigth( request, new AdminUser( ), CacheJspBean.RIGHT_CACHE_MANAGEMENT );
-        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "admin/system/manage_caches.ftl" )
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "admin/system/manage_caches.html" )
                 + "b" );
 
         CacheJspBean instance = new CacheJspBean( );

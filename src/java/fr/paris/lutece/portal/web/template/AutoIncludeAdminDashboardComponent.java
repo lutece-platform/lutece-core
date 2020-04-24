@@ -53,7 +53,7 @@ import javax.servlet.http.HttpServletRequest;
 public class AutoIncludeAdminDashboardComponent  extends AdminDashboardComponent
 {
     // Templates
-    private static final String TEMPLATE_MANAGE_AUTOINCLUDES = "/admin/dashboard/admin/autoincludes_dashboard.ftl";
+    private static final String TEMPLATE_MANAGE_AUTOINCLUDES = "/admin/dashboard/admin/autoincludes_dashboard.html";
     // Markers
     private static final String MARK_AUTOINCLUDE_LIST = "autoinclude_list";
     private static final String MARK_COMMONS_LIST = "commons_list";

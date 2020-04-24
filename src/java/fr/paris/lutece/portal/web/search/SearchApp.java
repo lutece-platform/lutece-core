@@ -85,7 +85,7 @@ public class SearchApp implements XPageApplication
     // //////////////////////////////////////////////////////////////////////////
     // Constants
     private static final String BEAN_SEARCH_ENGINE = "searchEngine";
-    private static final String TEMPLATE_RESULTS = "skin/search/search_results.ftl";
+    private static final String TEMPLATE_RESULTS = "skin/search/search_results.html";
     private static final String PROPERTY_SEARCH_PAGE_URL = "search.pageSearch.baseUrl";
     private static final String PROPERTY_RESULTS_PER_PAGE = "search.nb.docs.per.page";
     private static final String PROPERTY_PATH_LABEL = "portal.search.search_results.pathLabel";

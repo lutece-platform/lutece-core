@@ -54,7 +54,7 @@ public class EditorChoiceLutecePanelJspBean extends PluginAdminPageJspBean
     private static final long serialVersionUID = -3558930087612105420L;
     private static final String PARAM_EDITOR_BACK_OFFICE = "editor_back_office";
     private static final String PARAM_EDITOR_FRONT_OFFICE = "editor_front_office";
-    private static final String TEMPLATE_EDITOR_CHOICE_PANEL = "admin/dashboard/admin/editor_dashboard.ftl";
+    private static final String TEMPLATE_EDITOR_CHOICE_PANEL = "admin/dashboard/admin/editor_dashboard.html";
 
 
     /**

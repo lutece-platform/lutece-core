@@ -72,11 +72,11 @@ public class AttributeComboBox extends AbstractAttribute implements ISimpleValue
     private static final String PROPERTY_MODIFY_COMBOBOX_PAGETITLE = "portal.users.modify_attribute.pageTitleAttributeComboBox";
 
     // Templates
-    private static final String TEMPLATE_CREATE_ATTRIBUTE = "admin/user/attribute/combobox/create_attribute_combobox.ftl";
-    private static final String TEMPLATE_MODIFY_ATTRIBUTE = "admin/user/attribute/combobox/modify_attribute_combobox.ftl";
-    private static final String TEMPLATE_HTML_FORM_ATTRIBUTE = "admin/user/attribute/combobox/html_code_form_attribute_combobox.ftl";
-    private static final String TEMPLATE_HTML_FORM_SEARCH_ATTRIBUTE = "admin/user/attribute/combobox/html_code_form_search_attribute_combobox.ftl";
-    private static final String TEMPLATE_HTML_VALUE = "admin/user/attribute/combobox/html_code_value_attribute_combobox.ftl";
+    private static final String TEMPLATE_CREATE_ATTRIBUTE = "admin/user/attribute/combobox/create_attribute_combobox.html";
+    private static final String TEMPLATE_MODIFY_ATTRIBUTE = "admin/user/attribute/combobox/modify_attribute_combobox.html";
+    private static final String TEMPLATE_HTML_FORM_ATTRIBUTE = "admin/user/attribute/combobox/html_code_form_attribute_combobox.html";
+    private static final String TEMPLATE_HTML_FORM_SEARCH_ATTRIBUTE = "admin/user/attribute/combobox/html_code_form_search_attribute_combobox.html";
+    private static final String TEMPLATE_HTML_VALUE = "admin/user/attribute/combobox/html_code_value_attribute_combobox.html";
 
     /**
      * Constructor

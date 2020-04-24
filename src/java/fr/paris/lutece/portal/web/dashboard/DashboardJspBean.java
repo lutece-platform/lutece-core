@@ -70,7 +70,7 @@ public class DashboardJspBean extends AdminFeaturesPageJspBean
     private static final String MESSAGE_DASHBOARD_NOT_FOUND = "portal.dashboard.message.dashboardNotFound";
 
     // Templates
-    private static final String TEMPLATE_MANAGE_DASHBOARDS = "/admin/dashboard/manage_dashboards.ftl";
+    private static final String TEMPLATE_MANAGE_DASHBOARDS = "/admin/dashboard/manage_dashboards.html";
 
     // JSP
     private static final String ANCHOR_ADMIN_DASHBOARDS = "adminHomePageManagement";

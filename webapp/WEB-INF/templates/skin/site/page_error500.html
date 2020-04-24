@@ -1,0 +1,28 @@
+<#include "minimal_header.html" />
+
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12">
+        <div class="jumbotron center">
+            <h1>
+                #i18n{portal.util.error500.title} 
+                <small>Error 500</small>
+            </h1>
+            <br />
+            <p>
+                #i18n{portal.util.error500.text}
+            </p>
+            <#if error_cause??>
+            <br />
+            <div class="alert alert-danger">
+                ${error_cause} 
+            </div>
+            </#if>
+            <a href="" class="btn btn-lg btn-info">
+                <i class="glyphicon glyphicon-home"></i> &nbsp; #i18n{portal.util.labelBackHome}
+            </a>
+        </div>
+    </div>
+</div>
+</div>
+
+<#include "minimal_footer.html" />

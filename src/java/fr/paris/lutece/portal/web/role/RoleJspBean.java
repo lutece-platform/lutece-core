@@ -87,9 +87,9 @@ public class RoleJspBean extends AdminFeaturesPageJspBean
     private static final String PARAMETER_PAGE_WORKGROUP = "workgroup_key";
 
     // Templates
-    private static final String TEMPLATE_MANAGE_ROLES = "admin/role/manage_roles.ftl";
-    private static final String TEMPLATE_PAGE_ROLE_MODIFY = "admin/role/modify_page_role.ftl";
-    private static final String TEMPLATE_CREATE_PAGE_ROLE = "admin/role/create_page_role.ftl";
+    private static final String TEMPLATE_MANAGE_ROLES = "admin/role/manage_roles.html";
+    private static final String TEMPLATE_PAGE_ROLE_MODIFY = "admin/role/modify_page_role.html";
+    private static final String TEMPLATE_CREATE_PAGE_ROLE = "admin/role/create_page_role.html";
 
     // Jsp
     private static final String PATH_JSP = "jsp/admin/role/";

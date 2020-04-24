@@ -57,7 +57,7 @@ public class DaemonsJspBean extends AdminPageJspBean
 {
     public static final String RIGHT_DAEMONS_MANAGEMENT = "CORE_DAEMONS_MANAGEMENT";
     private static final long serialVersionUID = 3636973660388119199L;
-    private static final String TEMPLATE_MANAGE_DAEMONS = "admin/system/manage_daemons.ftl";
+    private static final String TEMPLATE_MANAGE_DAEMONS = "admin/system/manage_daemons.html";
     private static final String MARK_DAEMONS_LIST = "daemons_list";
     private static final String PARAMETER_DAEMON = "daemon";
     private static final String PARAMETER_ACTION = "action";

@@ -87,13 +87,13 @@ public class PortalJspBean
 {
     public static final int MODE_HTML = 0;
     public static final int MODE_ADMIN = 1;
-    private static final String TEMPLATE_PAGE_ERROR404 = "skin/site/page_error404.ftl";
-    private static final String TEMPLATE_PAGE_ERROR500 = "skin/site/page_error500.ftl";
-    private static final String TEMPLATE_POPUP_CREDITS = "skin/site/popup_credits.ftl";
-    private static final String TEMPLATE_POPUP_LEGAL_INFO = "skin/site/popup_legal_info.ftl";
-    private static final String TEMPLATE_STARTUP_FAILURE = "skin/site/startup_failure.ftl";
-    private static final String TEMPLATE_SEND_RESOURCE = "skin/site/popup_send_resource.ftl";
-    private static final String TEMPLATE_EMAIL_SEND_RESOURCE = "skin/site/mail_send_resource.ftl";
+    private static final String TEMPLATE_PAGE_ERROR404 = "skin/site/page_error404.html";
+    private static final String TEMPLATE_PAGE_ERROR500 = "skin/site/page_error500.html";
+    private static final String TEMPLATE_POPUP_CREDITS = "skin/site/popup_credits.html";
+    private static final String TEMPLATE_POPUP_LEGAL_INFO = "skin/site/popup_legal_info.html";
+    private static final String TEMPLATE_STARTUP_FAILURE = "skin/site/startup_failure.html";
+    private static final String TEMPLATE_SEND_RESOURCE = "skin/site/popup_send_resource.html";
+    private static final String TEMPLATE_EMAIL_SEND_RESOURCE = "skin/site/mail_send_resource.html";
     private static final String PROPERTY_INFOS_CNIL = "lutece.legal.infos";
     private static final String ATTRIBUTE_LOGIN_NEXT_URL = "luteceLoginNextUrl";
     private static final String ATTRIBUTE_UPLOAD_FILTER_SITE_NEXT_URL = "uploadFilterSiteNextUrl";

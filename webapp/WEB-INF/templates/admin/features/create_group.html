@@ -1,0 +1,28 @@
+<@row>
+	<@columns>
+		<@box color='danger'>
+			<@boxHeader title='#i18n{portal.features.create_group.title}' />
+			<@boxBody>
+				<@tform method='post' action='jsp/admin/features/DoCreateGroup.jsp'>
+					<@input type='hidden' name='token' value='${token}' />
+					<@formGroup labelFor='group_id' labelKey='#i18n{portal.features.create_group.labelId}' mandatory=true>
+						<@input type='text' id='group_id' name='group_id' />
+					</@formGroup>	
+					<@formGroup labelFor='group_name' labelKey='#i18n{portal.features.create_group.labelName}' mandatory=true>
+						<@input type='text' id='group_name' name='group_name' />
+					</@formGroup>
+					<@formGroup labelFor='group_description' labelKey='#i18n{portal.features.create_group.labelDescription}' mandatory=true>
+						<@input type='text' id='group_description' name='group_description' />
+					</@formGroup>
+					<@formGroup labelFor='group_order' labelKey='#i18n{portal.features.create_group.labelOrder}'>
+						<@select name='group_order' default_value=order_default items=order_list sort=true />
+					</@formGroup>
+					<@formGroup>
+						<@button type='submit' buttonIcon='check' title='#i18n{portal.features.create_group.buttonCreate}'  size='' />
+						<@aButton href='jsp/admin/features/ManageGroups.jsp' buttonIcon='close' title='#i18n{portal.util.labelCancel}'  size='' color='secondary' />
+					</@formGroup>
+				</@tform>
+			</@boxBody>
+		</@box>
+	</@columns>
+</@row>

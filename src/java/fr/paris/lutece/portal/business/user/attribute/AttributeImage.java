@@ -93,10 +93,10 @@ public class AttributeImage extends AbstractAttribute
     private static final String PROPERTY_MESSAGE_NO_ARITHMETICAL_CHARACTERS = "portal.users.message.noArithmeticalCharacters";
 
     // Templates
-    private static final String TEMPLATE_CREATE_ATTRIBUTE = "admin/user/attribute/image/create_attribute_image.ftl";
-    private static final String TEMPLATE_MODIFY_ATTRIBUTE = "admin/user/attribute/image/modify_attribute_image.ftl";
-    private static final String TEMPLATE_HTML_FORM_ATTRIBUTE = "admin/user/attribute/image/html_code_form_attribute_image.ftl";
-    private static final String TEMPLATE_HTML_VALUE = "admin/user/attribute/image/html_code_value_attribute_image.ftl";
+    private static final String TEMPLATE_CREATE_ATTRIBUTE = "admin/user/attribute/image/create_attribute_image.html";
+    private static final String TEMPLATE_MODIFY_ATTRIBUTE = "admin/user/attribute/image/modify_attribute_image.html";
+    private static final String TEMPLATE_HTML_FORM_ATTRIBUTE = "admin/user/attribute/image/html_code_form_attribute_image.html";
+    private static final String TEMPLATE_HTML_VALUE = "admin/user/attribute/image/html_code_value_attribute_image.html";
     private static final String REGEX_ID = "-?[0-9]+";
 
     /**

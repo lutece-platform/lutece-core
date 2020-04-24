@@ -319,7 +319,7 @@ public class AdminMenuJspBeanTest extends LuteceTestCase
             request.addParameter( Parameters.NEW_PASSWORD, password + "_mod" );
             request.addParameter( Parameters.CONFIRM_NEW_PASSWORD, password + "_mod" );
             request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
-                    SecurityTokenService.getInstance( ).getToken( request, "admin/user/modify_password_default_module.ftl" ) );
+                    SecurityTokenService.getInstance( ).getToken( request, "admin/user/modify_password_default_module.html" ) );
             instance.doModifyDefaultAdminUserPassword( request );
             message = AdminMessageService.getMessage( request );
             assertNotNull( message );
@@ -359,7 +359,7 @@ public class AdminMenuJspBeanTest extends LuteceTestCase
         request.addParameter( Parameters.NEW_PASSWORD, password + "_mod" );
         request.addParameter( Parameters.CONFIRM_NEW_PASSWORD, password + "_mod" );
         request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/user/modify_password_default_module.ftl" ) + "b" );
+                SecurityTokenService.getInstance( ).getToken( request, "admin/user/modify_password_default_module.html" ) + "b" );
         try
         {
             instance.doModifyDefaultAdminUserPassword( request );

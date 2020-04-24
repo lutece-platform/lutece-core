@@ -95,8 +95,8 @@ public class XslExportJspBean extends PluginAdminPageJspBean
     private static final long serialVersionUID = -8697851692630602527L;
 
     // templates
-    private static final String TEMPLATE_CREATE_XSL_EXPORT = "admin/xsl/create_xsl_export.ftl";
-    private static final String TEMPLATE_MODIFY_XSL_EXPORT = "admin/xsl/modify_xsl_export.ftl";
+    private static final String TEMPLATE_CREATE_XSL_EXPORT = "admin/xsl/create_xsl_export.html";
+    private static final String TEMPLATE_MODIFY_XSL_EXPORT = "admin/xsl/modify_xsl_export.html";
 
     // Markers
     private static final String MARK_XSL_EXPORT = "xsl_export";

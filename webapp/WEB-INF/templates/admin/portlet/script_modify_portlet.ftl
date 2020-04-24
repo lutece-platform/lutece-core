@@ -1,1 +1,0 @@
-<script language="javascript">function SubmitPortlet(){document.form.submit();}</script>

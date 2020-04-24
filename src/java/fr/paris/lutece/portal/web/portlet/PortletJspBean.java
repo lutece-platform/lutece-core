@@ -90,8 +90,8 @@ public abstract class PortletJspBean extends AdminFeaturesPageJspBean
     private static final String VALUE_UNCHECKED = "";
 
     // Templates
-    private static final String TEMPLATE_CREATE_PORTLET = "admin/portlet/create_portlet.ftl";
-    private static final String TEMPLATE_MODIFY_PORTLET = "admin/portlet/modify_portlet.ftl";
+    private static final String TEMPLATE_CREATE_PORTLET = "admin/portlet/create_portlet.html";
+    private static final String TEMPLATE_MODIFY_PORTLET = "admin/portlet/modify_portlet.html";
 
     // Properties
     private static final String PROPERTY_LIST_ORDER_MAX = "list.order.max";

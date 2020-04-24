@@ -89,7 +89,7 @@ public final class AppInit
     private static final String FILE_PROPERTIES_CONFIG = "config.properties";
     private static final String FILE_PROPERTIES_DATABASE = "db.properties";
     private static final String PATH_TEMPLATES = "/WEB-INF/templates/";
-    private static final String CONFIG_PROPERTIES_TEMPLATE = "admin/system/config_properties.ftl";
+    private static final String CONFIG_PROPERTIES_TEMPLATE = "admin/system/config_properties.html";
     private static boolean _bInitSuccessfull;
     private static String _strLoadingFailureCause;
     private static String _strLoadingFailureDetails;

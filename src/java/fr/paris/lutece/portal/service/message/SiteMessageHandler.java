@@ -57,7 +57,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class SiteMessageHandler implements ISiteMessageHandler
 {
-    private static final String TEMPLATE_MESSAGE = "skin/site/site_message.ftl";
+    private static final String TEMPLATE_MESSAGE = "skin/site/site_message.html";
     private static final String MARK_TITLE = "title";
     private static final String MARK_TEXT = "text";
     private static final String MARK_URL = "url";
@@ -66,7 +66,7 @@ public class SiteMessageHandler implements ISiteMessageHandler
     private static final String MARK_CANCEL_BUTTON = "cancel_button";
     private static final String MARK_REQUEST_PARAMETERS = "list_parameters";
     private static final String PROPERTY_TITLE_ERROR = "portal.util.message.titleError";
-    private static final String TEMPLATE_PAGE_SITE_MESSAGE = "skin/site/page_site_message.ftl";
+    private static final String TEMPLATE_PAGE_SITE_MESSAGE = "skin/site/page_site_message.html";
     private static final String BOOKMARK_BASE_URL = "@base_url@";
     private static final String MARK_BACK_URL = "back_url";
 

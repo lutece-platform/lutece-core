@@ -1,0 +1,59 @@
+<!-- markitup -->
+<#macro initEditor skin="simple" emo="true" teditor="true">
+<!-- Load up the actual editor core -->
+<!-- markItUp! -->
+<script type="text/javascript" src="js/editors/markitup/jquery.markitup.js"></script>
+<!-- markItUp! toolbar settings -->
+<script type="text/javascript" src="js/editors/markitup/sets/bbcode/set.js"></script>
+<!-- markItUp! Init -->
+<script type="text/javascript">
+$(document).ready(function(){
+	
+	<!-- markItUp! add css head skin -->
+	$("head").append("<link>");
+    var css = $("head").children(":last");
+		css.attr({
+		rel:  "stylesheet",
+		type: "text/css",
+		href: "js/editors/markitup/skins/${skin}/style.css"
+    });
+	<!--  markItUp! add css head  toolbar skin -->
+	$("head").append("<link>");
+		var css = $("head").children(":last");
+		css.attr({
+		rel:  "stylesheet",
+		type: "text/css",
+		href: "js/editors/markitup/sets/bbcode/style.css"
+		}); 
+
+	// Add markItUp! to your textarea in one line
+	// $('textarea').markItUp( { Settings }, { OptionalExtraSettings } );
+	$(".richtext").markItUp(mySettings);
+	
+	<#if emo == "true">
+	$("li.markItUpSeparator:last").after('<li class="emoticon markItUpButton"><img src="js/editors/markitup/skins/${skin}/images/emoticon-happy.png"  title=":p"/></li><li class="emoticon markItUpButton"><img src="js/editors/markitup/skins/${skin}/images/emoticon-unhappy.png" title=":("/></li><li class="emoticon markItUpButton"><img src="js/editors/markitup/skins/${skin}/images/emoticon-surprised.png" title=":o"/></li><li class="emoticon markItUpButton"><img src="js/editors/markitup/skins/${skin}/images/emoticon-tongue.png" title=":p"/></li><li class="emoticon markItUpButton"><img src="js/editors/markitup/skins/${skin}/images/emoticon-wink.png" title=";)"/></li><li class="emoticon markItUpButton"><img src="js/editors/markitup/skins/${skin}/images/emoticon-smile.png" title=":D"/></li>');
+
+	$('.emoticon img').click(function() {
+        emoticon = $(this).attr("title");
+        $.markItUp( { replaceWith:emoticon } );
+    });
+	</#if>
+	
+	// And you can add/remove markItUp! whenever you want
+	<#if teditor == "true">
+		$(".richtext").after('<p class="editor-toggle"><a href="#" class="toggle button"><span>#i18n{portal.admindashboard.editors.markitup.removeMarkitup}</span></a></p>');
+		$('.toggle').click(function() {
+		if ($('.richtext.markItUpEditor').length >= 1) {
+ 			$('.richtext').markItUpRemove();
+			$("span", this).text("#i18n{portal.admindashboard.editors.markitup.removeMarkitup}");
+		} else {
+			$('.richtext').markItUp(mySettings);
+			$("span", this).text("#i18n{portal.admindashboard.editors.markitup.addMarkitup}");
+		}
+ 		return false;
+	});
+	</#if>
+});
+</script>
+
+</#macro>

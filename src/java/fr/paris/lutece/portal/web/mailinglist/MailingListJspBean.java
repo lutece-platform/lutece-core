@@ -83,11 +83,11 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
     public static final String RIGHT_MANAGE_MAILINGLISTS = "CORE_MAILINGLISTS_MANAGEMENT";
 
     // Templates
-    private static final String TEMPLATE_MANAGE_MAILINGLISTS = "admin/mailinglist/manage_mailinglists.ftl";
-    private static final String TEMPLATE_CREATE_MAILINGLIST = "admin/mailinglist/create_mailinglist.ftl";
-    private static final String TEMPLATE_MODIFY_MAILINGLIST = "admin/mailinglist/modify_mailinglist.ftl";
-    private static final String TEMPLATE_ADD_USERS = "admin/mailinglist/add_users.ftl";
-    private static final String TEMPLATE_VIEW_USERS = "admin/mailinglist/view_users.ftl";
+    private static final String TEMPLATE_MANAGE_MAILINGLISTS = "admin/mailinglist/manage_mailinglists.html";
+    private static final String TEMPLATE_CREATE_MAILINGLIST = "admin/mailinglist/create_mailinglist.html";
+    private static final String TEMPLATE_MODIFY_MAILINGLIST = "admin/mailinglist/modify_mailinglist.html";
+    private static final String TEMPLATE_ADD_USERS = "admin/mailinglist/add_users.html";
+    private static final String TEMPLATE_VIEW_USERS = "admin/mailinglist/view_users.html";
 
     // Bookmarks
     private static final String MARK_MAILINGLISTS_LIST = "mailinglists_list";

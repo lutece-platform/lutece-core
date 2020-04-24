@@ -64,9 +64,9 @@ public final class AdminMessageService
     private static final String PROPERTY_TITLE_WARNING = "portal.util.message.titleWarning";
     private static final String PROPERTY_TITLE_CONFIRMATION = "portal.util.message.titleConfirmation";
     private static final String PROPERTY_TITLE_STOP = "portal.util.message.titleStop";
-    private static final String TEMPLATE_FORMAT_LIST = "admin/util/message_list.ftl";
+    private static final String TEMPLATE_FORMAT_LIST = "admin/util/message_list.html";
     private static final String MARK_MESSAGES_LIST = "messages_list";
-    private static final String TEMPLATE_ERRORS_LIST = "admin/util/errors_list.ftl";
+    private static final String TEMPLATE_ERRORS_LIST = "admin/util/errors_list.html";
     private static final String MARK_ERRORS_LIST = "errors_list";
 
     /**

@@ -210,8 +210,8 @@
     </admindashboard-components>
 
     <freemarker-macro-files>
-        <freemarker-macro-file>commons.ftl</freemarker-macro-file>
-        <freemarker-macro-file>commons_site.ftl</freemarker-macro-file>
+        <freemarker-macro-file>commons.html</freemarker-macro-file>
+        <freemarker-macro-file>commons_site.html</freemarker-macro-file>
     </freemarker-macro-files>
 
     <css-stylesheets>
@@ -220,11 +220,11 @@
     </css-stylesheets>
 
     <admin-css-stylesheets>
-        <!-- Default core Admin CSS declaration moved in commons.ftl @coreAdminCSSLinks macro -->
+        <!-- Default core Admin CSS declaration moved in commons.html @coreAdminCSSLinks macro -->
     </admin-css-stylesheets>
 
     <admin-javascript-files>
-        <!-- Default core Admin CSS declaration moved in commons.ftl @coreAdminJSLinks macro -->
+        <!-- Default core Admin CSS declaration moved in commons.html @coreAdminJSLinks macro -->
     </admin-javascript-files>
 
 </plug-in>
