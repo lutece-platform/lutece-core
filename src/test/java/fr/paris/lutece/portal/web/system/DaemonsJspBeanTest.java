@@ -60,7 +60,7 @@ import fr.paris.lutece.test.Utils;
 
 public class DaemonsJspBeanTest extends LuteceTestCase
 {
-    private static final String TEMPLATE_MANAGE_DAEMONS = "admin/system/manage_daemons.ftl";
+    private static final String TEMPLATE_MANAGE_DAEMONS = "admin/system/manage_daemons.html";
     private static final String JUNIT_DAEMON = "JUNIT";
     private static final String DAEMON_INTERVAL_DSKEY = "core.daemon." + JUNIT_DAEMON + ".interval";
     private DaemonsJspBean bean;

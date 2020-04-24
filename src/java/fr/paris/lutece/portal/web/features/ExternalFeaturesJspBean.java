@@ -68,8 +68,8 @@ public class ExternalFeaturesJspBean extends AdminFeaturesPageJspBean
     private static final String PROPERTY_MODIFY_EXTERNAL_FEATURE_PAGETITLE = "portal.features.modify_external_feature.pageTitle";
 
     // Templates
-    private static final String TEMPLATE_CREATE_EXTERNAL_FEATURE = "admin/features/create_external_feature.ftl";
-    private static final String TEMPLATE_MODIFY_EXTERNAL_FEATURE = "admin/features/modify_external_feature.ftl";
+    private static final String TEMPLATE_CREATE_EXTERNAL_FEATURE = "admin/features/create_external_feature.html";
+    private static final String TEMPLATE_MODIFY_EXTERNAL_FEATURE = "admin/features/modify_external_feature.html";
 
     // Messages
     private static final String MESSAGE_CONFIRM_DELETE = "portal.features.delete_external_feature.confirmDeleteExternalFeature";

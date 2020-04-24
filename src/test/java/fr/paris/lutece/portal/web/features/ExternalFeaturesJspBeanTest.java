@@ -151,7 +151,7 @@ public class ExternalFeaturesJspBeanTest extends LuteceTestCase
 
         instance.getModifyExternalFeature( request );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/features/modify_external_feature.ftl" ) );
+                SecurityTokenService.getInstance( ).getToken( request, "admin/features/modify_external_feature.html" ) );
         instance.doModifyExternalFeature( request );
 
         Right right = RightHome.findByPrimaryKey( _right.getId( ) );
@@ -189,7 +189,7 @@ public class ExternalFeaturesJspBeanTest extends LuteceTestCase
 
         instance.getModifyExternalFeature( request );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/features/modify_external_feature.ftl" ) + "b" );
+                SecurityTokenService.getInstance( ).getToken( request, "admin/features/modify_external_feature.html" ) + "b" );
         try
         {
             instance.doModifyExternalFeature( request );
@@ -281,7 +281,7 @@ public class ExternalFeaturesJspBeanTest extends LuteceTestCase
         request.setParameter( "externalFeature", "false" );
         request.setParameter( "documentationUrl", strRandom );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/features/create_external_feature.ftl" ) );
+                SecurityTokenService.getInstance( ).getToken( request, "admin/features/create_external_feature.html" ) );
 
         instance.doCreateExternalFeature( request );
 
@@ -332,7 +332,7 @@ public class ExternalFeaturesJspBeanTest extends LuteceTestCase
         request.setParameter( "externalFeature", "false" );
         request.setParameter( "documentationUrl", strRandom );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/features/create_external_feature.ftl" ) + "b" );
+                SecurityTokenService.getInstance( ).getToken( request, "admin/features/create_external_feature.html" ) + "b" );
 
         try
         {

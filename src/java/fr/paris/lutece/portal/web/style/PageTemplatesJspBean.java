@@ -89,9 +89,9 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
     private static final String MARK_PAGE_TEMPLATE = "page_template";
 
     // Templates files path
-    private static final String TEMPLATE_PAGE_TEMPLATES = "admin/style/manage_page_templates.ftl";
-    private static final String TEMPLATE_CREATE_PAGE_TEMPLATE = "admin/style/create_page_template.ftl";
-    private static final String TEMPLATE_MODIFY_PAGE_TEMPLATE = "admin/style/modify_page_template.ftl";
+    private static final String TEMPLATE_PAGE_TEMPLATES = "admin/style/manage_page_templates.html";
+    private static final String TEMPLATE_CREATE_PAGE_TEMPLATE = "admin/style/create_page_template.html";
+    private static final String TEMPLATE_MODIFY_PAGE_TEMPLATE = "admin/style/modify_page_template.html";
 
     // Properties
     private static final String PROPERTY_PATH_TEMPLATE = "path.templates";

@@ -72,11 +72,11 @@ public class AttributeCheckBox extends AbstractAttribute implements ISimpleValue
     private static final String PROPERTY_MODIFY_CHECKBOX_PAGETITLE = "portal.users.modify_attribute.pageTitleAttributeCheckBox";
 
     // Templates
-    private static final String TEMPLATE_CREATE_ATTRIBUTE = "admin/user/attribute/checkbox/create_attribute_checkbox.ftl";
-    private static final String TEMPLATE_MODIFY_ATTRIBUTE = "admin/user/attribute/checkbox/modify_attribute_checkbox.ftl";
-    private static final String TEMPLATE_HTML_FORM_ATTRIBUTE = "admin/user/attribute/checkbox/html_code_form_attribute_checkbox.ftl";
-    private static final String TEMPLATE_HTML_FORM_SEARCH_ATTRIBUTE = "admin/user/attribute/checkbox/html_code_form_search_attribute_checkbox.ftl";
-    private static final String TEMPLATE_HTML_VALUE = "admin/user/attribute/checkbox/html_code_value_attribute_checkbox.ftl";
+    private static final String TEMPLATE_CREATE_ATTRIBUTE = "admin/user/attribute/checkbox/create_attribute_checkbox.html";
+    private static final String TEMPLATE_MODIFY_ATTRIBUTE = "admin/user/attribute/checkbox/modify_attribute_checkbox.html";
+    private static final String TEMPLATE_HTML_FORM_ATTRIBUTE = "admin/user/attribute/checkbox/html_code_form_attribute_checkbox.html";
+    private static final String TEMPLATE_HTML_FORM_SEARCH_ATTRIBUTE = "admin/user/attribute/checkbox/html_code_form_search_attribute_checkbox.html";
+    private static final String TEMPLATE_HTML_VALUE = "admin/user/attribute/checkbox/html_code_value_attribute_checkbox.html";
 
     /**
      * Constructor

@@ -53,7 +53,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class XslExportAdminDashboardComponent  extends AdminDashboardComponent
 {
-    private static final String TEMPLATE_MANAGE_XSL_EXPORT = "admin/xsl/xsl_export_admin_dashboard.ftl";
+    private static final String TEMPLATE_MANAGE_XSL_EXPORT = "admin/xsl/xsl_export_admin_dashboard.html";
     private static final String MARK_XSL_EXPORT_LIST = "xsl_export_list";
     private static final String MARK_PERMISSION_CREATE = "right_create";
     private static final String MARK_PERMISSION_MODIFY = "right_modify";

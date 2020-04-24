@@ -68,7 +68,7 @@ public class AdminDashboardJspBean extends AdminFeaturesPageJspBean
 {
     private static final long serialVersionUID = 5312273100074724058L;
 
-    public static final String TEMPLATE_MANAGE_DASHBOARDS = "/admin/dashboard/admin/manage_dashboards.ftl";
+    public static final String TEMPLATE_MANAGE_DASHBOARDS = "/admin/dashboard/admin/manage_dashboards.html";
 
     // Constants
     public static final String RIGHT_MANAGE_ADMINDASHBOARD = "CORE_ADMINDASHBOARD_MANAGEMENT";
@@ -92,7 +92,7 @@ public class AdminDashboardJspBean extends AdminFeaturesPageJspBean
     private static final String MARK_MAP_COLUMN_ORDER_STATUS = "map_column_order_status";
 
     // Templates
-    private static final String TEMPLATE_VIEW_DASHBOARDS = "/admin/dashboard/admin/view_dashboards.ftl";
+    private static final String TEMPLATE_VIEW_DASHBOARDS = "/admin/dashboard/admin/view_dashboards.html";
 
     // Jsp
     private static final String JSP_MANAGE_DASHBOARDS = "ManageAdminDashboards.jsp";

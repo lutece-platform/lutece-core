@@ -1,0 +1,25 @@
+<#include "minimal_header.html" />
+
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-12">
+        <div class="jumbotron center">
+            <h1>
+                #i18n{portal.util.startup.failure.title} 
+            </h1>
+            <br />
+            <p>
+                #i18n{portal.util.startup.failure.text}
+            </p>
+            <div class="alert alert-danger">
+                <p>
+                    <strong>${failure_message?default("")}</strong>	
+                </p>
+                <p>
+                    ${failure_details?default("")}
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<#include "minimal_footer.html" />

@@ -48,7 +48,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class SystemDashboardComponent extends DashboardComponent
 {
-    private static final String TEMPLATE_DASHBOARD = "/admin/system/system_dashboard.ftl";
+    private static final String TEMPLATE_DASHBOARD = "/admin/system/system_dashboard.html";
     private static final String MARK_PLUGINS_COUNT = "plugins_count";
 
     /**

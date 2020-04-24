@@ -72,11 +72,11 @@ public class AttributeRadioButton extends AbstractAttribute implements ISimpleVa
     private static final String PROPERTY_MODIFY_RADIO_BUTTON_PAGETITLE = "portal.users.modify_attribute.pageTitleAttributeRadioButton";
 
     // Templates
-    private static final String TEMPLATE_CREATE_ATTRIBUTE = "admin/user/attribute/radiobutton/create_attribute_radio_button.ftl";
-    private static final String TEMPLATE_MODIFY_ATTRIBUTE = "admin/user/attribute/radiobutton/modify_attribute_radio_button.ftl";
-    private static final String TEMPLATE_HTML_FORM_ATTRIBUTE = "admin/user/attribute/radiobutton/html_code_form_attribute_radio_button.ftl";
-    private static final String TEMPLATE_HTML_FORM_SEARCH_ATTRIBUTE = "admin/user/attribute/radiobutton/html_code_form_search_attribute_radio_button.ftl";
-    private static final String TEMPLATE_HTML_VALUE = "admin/user/attribute/radiobutton/html_code_value_attribute_radio_button.ftl";
+    private static final String TEMPLATE_CREATE_ATTRIBUTE = "admin/user/attribute/radiobutton/create_attribute_radio_button.html";
+    private static final String TEMPLATE_MODIFY_ATTRIBUTE = "admin/user/attribute/radiobutton/modify_attribute_radio_button.html";
+    private static final String TEMPLATE_HTML_FORM_ATTRIBUTE = "admin/user/attribute/radiobutton/html_code_form_attribute_radio_button.html";
+    private static final String TEMPLATE_HTML_FORM_SEARCH_ATTRIBUTE = "admin/user/attribute/radiobutton/html_code_form_search_attribute_radio_button.html";
+    private static final String TEMPLATE_HTML_VALUE = "admin/user/attribute/radiobutton/html_code_value_attribute_radio_button.html";
 
     /**
      * Constructor

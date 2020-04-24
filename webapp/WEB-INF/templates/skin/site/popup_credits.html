@@ -1,0 +1,29 @@
+<#include "minimal_header.html" />
+
+<div class="container">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12">
+            <div class="jumbotron center">
+
+                <h1>${portal_domain}</h1>
+                <h2>#i18n{portal.site.popup_credits.pageTitle}</h2>
+                <p>#i18n{portal.site.popup_credits.labelVersion} : Lutece v.${app_version}</p>
+
+                #dskey{portal.site.site_property.popup_credits.textblock}
+
+                <br />
+                <br />
+                <a href="http://fr.lutece.paris.fr" target="lutece"><img title="Lutece"  src="images/poweredby.png" /></a>
+                <br />
+                <br />
+                <a class="btn btn-lg btn-info" href="javascript:window.close();">
+                    <i class="glyphicon glyphicon-remove"></i>
+                    #i18n{portal.site.popup_credits.close}
+                </a>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<#include "minimal_footer.html" />

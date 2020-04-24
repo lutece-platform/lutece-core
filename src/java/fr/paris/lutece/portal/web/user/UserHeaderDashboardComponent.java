@@ -49,7 +49,7 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class UserHeaderDashboardComponent extends DashboardComponent
 {
-    private static final String TEMPLATE_DASHBOARD = "/admin/user/user_header_dashboard.ftl";
+    private static final String TEMPLATE_DASHBOARD = "/admin/user/user_header_dashboard.html";
     private static final String MARK_USER = "user";
     private static final String MARK_URL_LOGOUT = "admin_logout_url";
 

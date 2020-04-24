@@ -67,9 +67,9 @@ public class InsertServiceSelectorJspBean extends AdminFeaturesPageJspBean
     private static final long serialVersionUID = 3395846045509139922L;
 
     // Constants
-    private static final String TEMPLATE_INSERT_TYPE_PAGE = "admin/insert/page_insertservice.ftl";
-    private static final String TEMPLATE_INSERT_INTO_ELEMENT = "admin/insert/insert_into_element.ftl";
-    private static final String TEMPLATE_INSERT_INTO_ELEMENT2 = "admin/insert/insert_into_element2.ftl";
+    private static final String TEMPLATE_INSERT_TYPE_PAGE = "admin/insert/page_insertservice.html";
+    private static final String TEMPLATE_INSERT_INTO_ELEMENT = "admin/insert/insert_into_element.html";
+    private static final String TEMPLATE_INSERT_INTO_ELEMENT2 = "admin/insert/insert_into_element2.html";
     private static final String MSG_NO_SERVICE_AVAILABLE = "portal.insert.message.noServiceAvailable";
 
     /** name of the links type parameter */

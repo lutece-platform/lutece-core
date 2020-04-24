@@ -87,11 +87,11 @@ public class SystemJspBean extends AdminFeaturesPageJspBean
     private static final String MARK_PROPERTIES_GROUPS_LIST = "groups_list";
 
     // Template Files path
-    private static final String TEMPLATE_MANAGE_FILES_SYSTEM = "admin/system/manage_files_system.ftl";
-    private static final String TEMPLATE_VIEW_FILES_SYSTEM = "admin/system/view_files_system.ftl";
-    private static final String TEMPLATE_VIEW_FILE = "admin/system/view_file.ftl";
+    private static final String TEMPLATE_MANAGE_FILES_SYSTEM = "admin/system/manage_files_system.html";
+    private static final String TEMPLATE_VIEW_FILES_SYSTEM = "admin/system/view_files_system.html";
+    private static final String TEMPLATE_VIEW_FILE = "admin/system/view_file.html";
 
-    private static final String TEMPLATE_MODIFY_PROPERTIES = "admin/system/modify_properties.ftl";
+    private static final String TEMPLATE_MODIFY_PROPERTIES = "admin/system/modify_properties.html";
 
     // Parameters
     private static final String PARAMETER_FILE = "file";

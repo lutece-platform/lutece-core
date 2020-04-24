@@ -1,0 +1,34 @@
+<#include "admindashboard_utils.html">
+<@tabPanel id='anonymizeUsers'>
+	<@tform role='form' method='post' name='anonymize_user' action='jsp/admin/user/DoChangeFieldAnonymizeAdminUsers.jsp'>
+		<@fieldSet legend='#i18n{portal.users.anonymize_user.titleAnonymizeUser}'>
+		<@input type='hidden' name='token' value='${token}' />
+		<@fieldSet legend='#i18n{portal.users.create_user.labelIdentity}'> 
+			<@formGroup rows=2>
+					<@checkBox id='access_code' name='access_code' value='true' checked=access_code??&&access_code labelKey='#i18n{portal.users.create_user.labelAccessCode}' labelFor='access_code' />
+			</@formGroup>
+			<@formGroup rows=2>
+					<@checkBox id='last_name' name='last_name' value='true' checked=last_name??&&last_name labelKey='#i18n{portal.users.create_user.labelLastName}' labelFor='last_name' />
+			</@formGroup>
+			<@formGroup rows=2>
+					<@checkBox id='first_name' name='first_name' value='true' checked=first_name??&&first_name labelKey='#i18n{portal.users.create_user.labelFirstName}' labelFor='first_name' />
+			</@formGroup>
+			<@formGroup rows=2>
+					<@checkBox id='email' name='email' value='true' checked=email??&&email labelKey='#i18n{portal.users.create_user.labelEmail}' labelFor='email' />
+			</@formGroup>
+		</@fieldSet>	
+		<#if attributes_list?has_content>
+		<@fieldSet legend='#i18n{portal.users.create_user.labelComplementaryAttributes}' > 
+			<#list attributes_list as attribute>
+					<#if !attribute.plugin?exists || ( attribute.plugin?exists && attribute.plugin.name != "profiles" )>
+					<@formGroup rows=2>
+							<@checkBox id='attribute_${attribute.idAttribute}' name='attribute_${attribute.idAttribute}' value='true' checked=attribute.anonymize labelFor='attribute_${attribute.idAttribute}' labelKey='${attribute.title}' />
+					</@formGroup>
+					</#if>
+			</#list>
+		</@fieldSet> 
+		</#if>
+			<@button type='submit' buttonIcon='check' title='#i18n{portal.util.labelModify}' />
+		</@fieldSet>
+	</@tform>
+</@tabPanel>

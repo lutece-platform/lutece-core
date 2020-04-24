@@ -75,7 +75,7 @@ public abstract class AdminFeaturesPageJspBean implements Serializable
     private static final long serialVersionUID = -7952383741759547934L;
 
     // template for all admin pages
-    private static final String TEMPLATE_MAIN = "/admin/feature_frameset.ftl";
+    private static final String TEMPLATE_MAIN = "/admin/feature_frameset.html";
 
     // bookmarks
     private static final String MARK_FEATURE_URL = "feature_url";

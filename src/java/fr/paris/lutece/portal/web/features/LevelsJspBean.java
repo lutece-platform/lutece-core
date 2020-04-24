@@ -69,8 +69,8 @@ public class LevelsJspBean extends AdminFeaturesPageJspBean
     private static final String MARK_LEVEL = "level";
 
     // Templates files path
-    private static final String TEMPLATE_CREATE_LEVEL = "admin/features/create_level.ftl";
-    private static final String TEMPLATE_MODIFY_LEVEL = "admin/features/modify_level.ftl";
+    private static final String TEMPLATE_CREATE_LEVEL = "admin/features/create_level.html";
+    private static final String TEMPLATE_MODIFY_LEVEL = "admin/features/modify_level.html";
     
     private static final String ANCHOR_RIGHT_LEVELS = "right_levels";
 

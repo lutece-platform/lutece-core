@@ -1,0 +1,48 @@
+<#include "admindashboard_utils.html">
+<@adminDashboardPanel title='#i18n{portal.templates.manage_autoincludes.pageTitle}' icon='code' parentId='technical_settings' childId='autoincludes' >
+    <@fieldSet legend='#i18n{portal.templates.manage_autoincludes.commonsInfos}'>
+    <p>
+			#i18n{portal.templates.manage_autoincludes.commonsName} : <strong><@commonsName/></strong><br>
+			#i18n{portal.templates.manage_autoincludes.commonsFile} : <strong><@commonsFile/></strong><br>
+			#i18n{portal.templates.manage_autoincludes.commonsDescription} : <@commonsDescription/>
+    </p>
+    </@fieldSet>
+
+    <@fieldSet legend='#i18n{portal.templates.manage_autoincludes.commonsChange}' >
+			<@messages infos=infos />
+			<@tform method='post' name='FilterPluginsForm' action='jsp/admin/templates/ManageAutoIncludes.jsp'>
+				<@formGroup labelKey='#i18n{portal.templates.manage_autoincludes.commonsAvailable}' labelFor='commons_key' hideLabel=['all'] rows=2>
+					<@input type='hidden' name='action' value='activate' />
+					<@inputGroup>
+						<@select sort=true name='commons_key' default_value='${current_commons}' items=commons_list />
+						<@inputGroupItem>
+						<@button type='submit' buttonIcon='random' title='#i18n{portal.templates.manage_autoincludes.buttonSwitch}' hideTitle=['all'] />
+						</@inputGroupItem>
+					</@inputGroup>
+				</@formGroup>
+			</@tform>
+    </@fieldSet>  
+
+
+    <@fieldSet legend='#i18n{portal.templates.manage_autoincludes.title}'>        
+			<@table>
+				<tr>
+					<@input type='hidden' id='id' name='id' />
+					<th>#i18n{portal.templates.manage_autoincludes.columnFilePath}</th>
+					<th>&nbsp;</th>
+				</tr>
+
+				<#list autoinclude_list as autoinclude >
+				<tr>
+					<@input type='hidden' id='id' name='id' />
+					<td>
+						${autoinclude.filePath}
+					</td>
+					<td>
+						<#if autoinclude.owner ??><@tag color='primary' >${autoinclude.owner}</@tag></#if>
+					</td>
+				</tr>
+				</#list>
+			</@table>
+    </@fieldSet>  
+</@adminDashboardPanel>
