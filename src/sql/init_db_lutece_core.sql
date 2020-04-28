@@ -74,12 +74,12 @@ INSERT INTO core_mode VALUES (2,'Wap','wml/','xml','1.0','text/xml','UTF-8','yes
 INSERT INTO core_page  VALUES (1,0,'Home','Home Page','2014-06-08 17:20:44',1,1,4,'2003-09-09 00:38:01','none','default',0,'','application/octet-stream',NULL,NULL,1,0,0);
 INSERT INTO core_page  VALUES (2,1,'Page 1','A child page','2014-06-08 18:23:42',0,1,2,'2014-06-08 18:23:42','none','default',1,NULL,'application/octet-stream',NULL,NULL,1,0,0);
 
-INSERT INTO core_page_template VALUES (1,'One column','skin/site/page_template1.ftl','page_template1.gif');
-INSERT INTO core_page_template VALUES (2,'Two columns','skin/site/page_template2.ftl','page_template2.gif');
-INSERT INTO core_page_template VALUES (3,'Three columns','skin/site/page_template3.ftl','page_template3.gif');
-INSERT INTO core_page_template VALUES (4,'1 + 2 columns','skin/site/page_template4.ftl','page_template4.gif');
-INSERT INTO core_page_template VALUES (5,'Two equal columns','skin/site/page_template5.ftl','page_template5.gif');
-INSERT INTO core_page_template VALUES (6,'Three unequal columns','skin/site/page_template6.ftl','page_template6.gif');
+INSERT INTO core_page_template VALUES (1,'One column','skin/site/page_template1.html','page_template1.gif');
+INSERT INTO core_page_template VALUES (2,'Two columns','skin/site/page_template2.html','page_template2.gif');
+INSERT INTO core_page_template VALUES (3,'Three columns','skin/site/page_template3.html','page_template3.gif');
+INSERT INTO core_page_template VALUES (4,'1 + 2 columns','skin/site/page_template4.html','page_template4.gif');
+INSERT INTO core_page_template VALUES (5,'Two equal columns','skin/site/page_template5.html','page_template5.gif');
+INSERT INTO core_page_template VALUES (6,'Three unequal columns','skin/site/page_template6.html','page_template6.gif');
 
 INSERT INTO core_portal_component VALUES (0,'Porlet');
 INSERT INTO core_portal_component VALUES (1,'Article');
