@@ -32,6 +32,7 @@ body > .header .navbar span#zone4{ min-width:180px;display:inline-block;}
 .main-header > .navbar {margin-left:0px;}
 .navbar-brand > img { display: inline;}
 .navbar-brand > span.fa-external-link{font-size:50%;padding-top:2em;}
+.navbar-brand{padding-top: 7px;}
 .navbar-nav > .tasks-menu > .dropdown-menu {width:310px;padding: 0 0 0 0!important;margin: 0!important;top: 100%;border: 1px solid #dfdfdf;-webkit-border-radius: 4px !important;-moz-border-radius: 4px !important;border-radius: 4px !important; }
 .navbar-nav > .tasks-menu > .dropdown-menu:after {bottom: 100%;left:10px;border: solid transparent;content: " "; height: 0;width: 0;position: absolute;pointer-events: none;border-color: rgba(255, 255, 255, 0);border-bottom-color: #fff;border-width: 10px;margin-left: 0px;}
 .navbar-nav > .tasks-menu > .dropdown-menu > li .menu {margin: 0; padding: 0; list-style: none; overflow-x: hidden;}
