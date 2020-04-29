@@ -546,16 +546,18 @@ and is kept only for backwards compatibility
 	</div>
 </#macro>
 
-<#macro fieldInputCheckBoxInline inputName value="" disabled=false checked=false >
+<#macro fieldInputCheckBoxInline inputName i18nLabelKey='' i18nHelpBlockKey='' value="" disabled=false checked=false cssClass='' >
 	<label class="checkbox-inline<#if disabled> disabled</#if> ">
 		<input class="${cssClass}" id="${inputName}" name="${inputName}" type="checkbox" value="${value}" <#if checked>checked</#if> <#if disabled>disabled</#if> > #i18n{${i18nLabelKey}}
 	</label>
+	<#if i18nHelpBlockKey != ''><p class="help-block">#i18n{${i18nHelpBlockKey}}</p></#if>
 </#macro>
 
-<#macro fieldInputRadioBoxInline inputName value="" disabled=false checked=false >
+<#macro fieldInputRadioBoxInline inputName i18nLabelKey='' i18nHelpBlockKey='' value="" disabled=false checked=false cssClass='' >
 	<label class="radio-inline<#if disabled> disabled</#if> ">
 		<input class="${cssClass}" id="${inputName}" name="${inputName}" type="radio" value="${value}" <#if checked>checked</#if> <#if disabled>disabled</#if> > #i18n{${i18nLabelKey}}
 	</label>
+	<#if i18nHelpBlockKey != ''><p class="help-block">#i18n{${i18nHelpBlockKey}}</p></#if>
 </#macro>
 
 <#macro fieldInputCombo i18nLabelKey inputName items value="" mandatory=false i18nHelpBlockKey='' cssClass='form-control' >
