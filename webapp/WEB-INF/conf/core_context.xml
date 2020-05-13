@@ -104,7 +104,7 @@
     <bean id="portletTypeDAO" class="fr.paris.lutece.portal.business.portlet.PortletTypeDAO" />
 
     <!-- package rbac -->
-    <bean id="adminRoleDAO" class="fr.paris.lutece.portal.business.rbac.AdminRoleDAO" />
+    <bean id="rbacRoleDAO" class="fr.paris.lutece.portal.business.rbac.RBACRoleDAO" />
     <bean id="rBACDAO" class="fr.paris.lutece.portal.business.rbac.RBACDAO" />
 
     <!-- package right -->

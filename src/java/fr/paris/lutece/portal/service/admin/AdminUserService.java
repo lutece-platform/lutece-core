@@ -56,7 +56,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.ArrayUtils;
 
-import fr.paris.lutece.portal.business.rbac.AdminRole;
+import fr.paris.lutece.portal.business.rbac.RBACRole;
 import fr.paris.lutece.portal.business.rbac.RBAC;
 import fr.paris.lutece.portal.business.regularexpression.RegularExpression;
 import fr.paris.lutece.portal.business.right.Level;
@@ -1449,7 +1449,7 @@ public final class AdminUserService
 
         if ( bIncludeRoles )
         {
-            Map<String, AdminRole> mapRoles = AdminUserHome.getRolesListForUser( user.getUserId( ) );
+            Map<String, RBACRole> mapRoles = AdminUserHome.getRolesListForUser( user.getUserId( ) );
             XmlUtil.beginElement( sbXml, CONSTANT_XML_ROLES );
             mapRoles.keySet( ).forEach( s -> XmlUtil.addElement( sbXml, CONSTANT_XML_ROLE, s ) );
             XmlUtil.endElement( sbXml, CONSTANT_XML_ROLES );

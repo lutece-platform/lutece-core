@@ -9,8 +9,8 @@ import java.util.Random;
 
 import org.springframework.mock.web.MockHttpServletRequest;
 
-import fr.paris.lutece.portal.business.rbac.AdminRole;
-import fr.paris.lutece.portal.business.rbac.AdminRoleHome;
+import fr.paris.lutece.portal.business.rbac.RBACRole;
+import fr.paris.lutece.portal.business.rbac.RBACRoleHome;
 import fr.paris.lutece.portal.business.search.SearchParameterHome;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
@@ -104,8 +104,8 @@ public class SearchJspBeanTest extends LuteceTestCase
         request.addParameter( PARAMETER_DATE_FILTER, strDateFilter );
         request.addParameter( PARAMETER_TAG_FILTER, strTagFilter );
         AdminUser user = new AdminUser( );
-        Map<String, AdminRole> roles = new HashMap<>( );
-        for ( AdminRole role : AdminRoleHome.findAll( ) )
+        Map<String, RBACRole> roles = new HashMap<>( );
+        for ( RBACRole role : RBACRoleHome.findAll( ) )
         {
             roles.put( role.getKey( ), role );
         }
@@ -185,8 +185,8 @@ public class SearchJspBeanTest extends LuteceTestCase
         request.addParameter( PARAMETER_DATE_FILTER, strDateFilter );
         request.addParameter( PARAMETER_TAG_FILTER, strTagFilter );
         AdminUser user = new AdminUser( );
-        Map<String, AdminRole> roles = new HashMap<>( );
-        for ( AdminRole role : AdminRoleHome.findAll( ) )
+        Map<String, RBACRole> roles = new HashMap<>( );
+        for ( RBACRole role : RBACRoleHome.findAll( ) )
         {
             roles.put( role.getKey( ), role );
         }
@@ -261,8 +261,8 @@ public class SearchJspBeanTest extends LuteceTestCase
         request.addParameter( PARAMETER_DATE_FILTER, strDateFilter );
         request.addParameter( PARAMETER_TAG_FILTER, strTagFilter );
         AdminUser user = new AdminUser( );
-        Map<String, AdminRole> roles = new HashMap<>( );
-        for ( AdminRole role : AdminRoleHome.findAll( ) )
+        Map<String, RBACRole> roles = new HashMap<>( );
+        for ( RBACRole role : RBACRoleHome.findAll( ) )
         {
             roles.put( role.getKey( ), role );
         }

@@ -33,7 +33,7 @@
  */
 package fr.paris.lutece.portal.business.user;
 
-import fr.paris.lutece.portal.business.rbac.AdminRole;
+import fr.paris.lutece.portal.business.rbac.RBACRole;
 import fr.paris.lutece.portal.business.right.Right;
 import fr.paris.lutece.portal.business.user.authentication.LuteceDefaultAdminUser;
 import fr.paris.lutece.util.password.IPassword;
@@ -190,7 +190,7 @@ public interface IAdminUserDAO
      *            the id of the user to retrieve roles
      * @return the role list
      */
-    Map<String, AdminRole> selectRolesListForUser( int nUserId );
+    Map<String, RBACRole> selectRolesListForUser( int nUserId );
 
     /**
      * Get an user by its access code (login)
@@ -261,7 +261,7 @@ public interface IAdminUserDAO
      * @param role
      *            The new role
      */
-    void storeUsersRole( String strOldRoleKey, AdminRole role );
+    void storeUsersRole( String strOldRoleKey, RBACRole role );
 
     /**
      * Check if the user has the role

@@ -47,14 +47,14 @@ public class AdminRoleTest extends LuteceTestCase
     public void testBusiness( )
     {
         // Initialize an object
-        AdminRole adminRole = new AdminRole( );
+        RBACRole adminRole = new RBACRole( );
         adminRole.setKey( ROLEKEY1 );
         adminRole.setDescription( ROLEDESCRIPTION1 );
 
         // Create test
-        AdminRoleHome.create( adminRole );
+        RBACRoleHome.create( adminRole );
 
-        AdminRole adminRoleStored = AdminRoleHome.findByPrimaryKey( adminRole.getKey( ) );
+        RBACRole adminRoleStored = RBACRoleHome.findByPrimaryKey( adminRole.getKey( ) );
         assertEquals( adminRoleStored.getKey( ), adminRole.getKey( ) );
         assertEquals( adminRoleStored.getDescription( ), adminRole.getDescription( ) );
 
@@ -62,24 +62,24 @@ public class AdminRoleTest extends LuteceTestCase
         adminRole.setKey( ROLEKEY2 );
         adminRole.setDescription( ROLEDESCRIPTION2 );
 
-        AdminRoleHome.update( adminRoleStored.getKey( ), adminRole );
-        adminRoleStored = AdminRoleHome.findByPrimaryKey( adminRole.getKey( ) );
+        RBACRoleHome.update( adminRoleStored.getKey( ), adminRole );
+        adminRoleStored = RBACRoleHome.findByPrimaryKey( adminRole.getKey( ) );
         assertEquals( adminRoleStored.getKey( ), adminRole.getKey( ) );
         assertEquals( adminRoleStored.getDescription( ), adminRole.getDescription( ) );
 
         // list test
-        Collection list = AdminRoleHome.findAll( );
+        Collection list = RBACRoleHome.findAll( );
         assertTrue( list.size( ) > 0 );
 
         // check exist Test
-        boolean bCheck = AdminRoleHome.checkExistRole( ROLEKEY2 );
+        boolean bCheck = RBACRoleHome.checkExistRole( ROLEKEY2 );
         assertTrue( bCheck );
-        bCheck = AdminRoleHome.checkExistRole( ROLEKEY1 );
+        bCheck = RBACRoleHome.checkExistRole( ROLEKEY1 );
         assertFalse( bCheck );
 
         // Delete test
-        AdminRoleHome.remove( adminRole.getKey( ) );
-        adminRoleStored = AdminRoleHome.findByPrimaryKey( adminRole.getKey( ) );
+        RBACRoleHome.remove( adminRole.getKey( ) );
+        adminRoleStored = RBACRoleHome.findByPrimaryKey( adminRole.getKey( ) );
         assertNull( adminRoleStored );
     }
 }

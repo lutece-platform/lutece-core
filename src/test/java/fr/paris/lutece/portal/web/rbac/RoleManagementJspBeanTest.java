@@ -42,8 +42,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.mock.web.MockHttpServletRequest;
 
 import fr.paris.lutece.portal.business.page.Page;
-import fr.paris.lutece.portal.business.rbac.AdminRole;
-import fr.paris.lutece.portal.business.rbac.AdminRoleHome;
+import fr.paris.lutece.portal.business.rbac.RBACRole;
+import fr.paris.lutece.portal.business.rbac.RBACRoleHome;
 import fr.paris.lutece.portal.business.rbac.RBAC;
 import fr.paris.lutece.portal.business.rbac.RBACHome;
 import fr.paris.lutece.portal.business.user.AdminUser;
@@ -114,13 +114,13 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
                 SecurityTokenService.getInstance( ).getToken( request, "admin/rbac/create_role.html" ) );
         try
         {
-            assertFalse( AdminRoleHome.checkExistRole( roleName ) );
+            assertFalse(RBACRoleHome.checkExistRole( roleName ) );
             bean.doCreateRole( request );
-            assertTrue( AdminRoleHome.checkExistRole( roleName ) );
+            assertTrue(RBACRoleHome.checkExistRole( roleName ) );
         }
         finally
         {
-            AdminRoleHome.remove( roleName );
+            RBACRoleHome.remove( roleName );
         }
     }
 
@@ -135,17 +135,17 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
                 SecurityTokenService.getInstance( ).getToken( request, "admin/rbac/create_role.html" ) + "b" );
         try
         {
-            assertFalse( AdminRoleHome.checkExistRole( roleName ) );
+            assertFalse(RBACRoleHome.checkExistRole( roleName ) );
             bean.doCreateRole( request );
             fail( "Should have thrown" );
         }
         catch ( AccessDeniedException e )
         {
-            assertFalse( AdminRoleHome.checkExistRole( roleName ) );
+            assertFalse(RBACRoleHome.checkExistRole( roleName ) );
         }
         finally
         {
-            AdminRoleHome.remove( roleName );
+            RBACRoleHome.remove( roleName );
         }
     }
 
@@ -158,17 +158,17 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
         request.setParameter( "role_description", roleName );
         try
         {
-            assertFalse( AdminRoleHome.checkExistRole( roleName ) );
+            assertFalse(RBACRoleHome.checkExistRole( roleName ) );
             bean.doCreateRole( request );
             fail( "Should have thrown" );
         }
         catch ( AccessDeniedException e )
         {
-            assertFalse( AdminRoleHome.checkExistRole( roleName ) );
+            assertFalse(RBACRoleHome.checkExistRole( roleName ) );
         }
         finally
         {
-            AdminRoleHome.remove( roleName );
+            RBACRoleHome.remove( roleName );
         }
     }
 
@@ -191,10 +191,10 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
      */
     public void testDoModifyRole( ) throws AccessDeniedException
     {
-        AdminRole role = new AdminRole( );
+        RBACRole role = new RBACRole( );
         role.setKey( getRandomName( ) );
         role.setDescription( role.getKey( ) );
-        AdminRoleHome.create( role );
+        RBACRoleHome.create( role );
         RoleManagementJspBean bean = new RoleManagementJspBean( );
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.setParameter( "role_key", role.getKey( ) );
@@ -204,24 +204,24 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
                 SecurityTokenService.getInstance( ).getToken( request, "admin/rbac/view_role_description.html" ) );
         try
         {
-            AdminRole stored = AdminRoleHome.findByPrimaryKey( role.getKey( ) );
+            RBACRole stored = RBACRoleHome.findByPrimaryKey( role.getKey( ) );
             assertEquals( role.getDescription( ), stored.getDescription( ) );
             bean.doModifyRole( request );
-            stored = AdminRoleHome.findByPrimaryKey( role.getKey( ) );
+            stored = RBACRoleHome.findByPrimaryKey( role.getKey( ) );
             assertEquals( role.getDescription( ) + "_mod", stored.getDescription( ) );
         }
         finally
         {
-            AdminRoleHome.remove( role.getKey( ) );
+            RBACRoleHome.remove( role.getKey( ) );
         }
     }
 
     public void testDoModifyRoleInvalidToken( ) throws AccessDeniedException
     {
-        AdminRole role = new AdminRole( );
+        RBACRole role = new RBACRole( );
         role.setKey( getRandomName( ) );
         role.setDescription( role.getKey( ) );
-        AdminRoleHome.create( role );
+        RBACRoleHome.create( role );
         RoleManagementJspBean bean = new RoleManagementJspBean( );
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.setParameter( "role_key", role.getKey( ) );
@@ -232,28 +232,28 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
                         + "b" );
         try
         {
-            AdminRole stored = AdminRoleHome.findByPrimaryKey( role.getKey( ) );
+            RBACRole stored = RBACRoleHome.findByPrimaryKey( role.getKey( ) );
             assertEquals( role.getDescription( ), stored.getDescription( ) );
             bean.doModifyRole( request );
             fail( "Should have thrown" );
         }
         catch ( AccessDeniedException e )
         {
-            AdminRole stored = AdminRoleHome.findByPrimaryKey( role.getKey( ) );
+            RBACRole stored = RBACRoleHome.findByPrimaryKey( role.getKey( ) );
             assertEquals( role.getDescription( ), stored.getDescription( ) );
         }
         finally
         {
-            AdminRoleHome.remove( role.getKey( ) );
+            RBACRoleHome.remove( role.getKey( ) );
         }
     }
 
     public void testDoModifyRoleNoToken( ) throws AccessDeniedException
     {
-        AdminRole role = new AdminRole( );
+        RBACRole role = new RBACRole( );
         role.setKey( getRandomName( ) );
         role.setDescription( role.getKey( ) );
-        AdminRoleHome.create( role );
+        RBACRoleHome.create( role );
         RoleManagementJspBean bean = new RoleManagementJspBean( );
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.setParameter( "role_key", role.getKey( ) );
@@ -261,19 +261,19 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
         request.setParameter( "role_description", role.getKey( ) + "_mod" );
         try
         {
-            AdminRole stored = AdminRoleHome.findByPrimaryKey( role.getKey( ) );
+            RBACRole stored = RBACRoleHome.findByPrimaryKey( role.getKey( ) );
             assertEquals( role.getDescription( ), stored.getDescription( ) );
             bean.doModifyRole( request );
             fail( "Should have thrown" );
         }
         catch ( AccessDeniedException e )
         {
-            AdminRole stored = AdminRoleHome.findByPrimaryKey( role.getKey( ) );
+            RBACRole stored = RBACRoleHome.findByPrimaryKey( role.getKey( ) );
             assertEquals( role.getDescription( ), stored.getDescription( ) );
         }
         finally
         {
-            AdminRoleHome.remove( role.getKey( ) );
+            RBACRoleHome.remove( role.getKey( ) );
         }
     }
 
@@ -300,10 +300,10 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
      */
     public void testDoRemoveRole( ) throws AccessDeniedException
     {
-        AdminRole role = new AdminRole( );
+        RBACRole role = new RBACRole( );
         role.setKey( getRandomName( ) );
         role.setDescription( role.getKey( ) );
-        AdminRoleHome.create( role );
+        RBACRoleHome.create( role );
         RoleManagementJspBean bean = new RoleManagementJspBean( );
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.setParameter( "role_key", role.getKey( ) );
@@ -311,22 +311,22 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
                 SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/rbac/DoRemoveRole.jsp" ) );
         try
         {
-            assertTrue( AdminRoleHome.checkExistRole( role.getKey( ) ) );
+            assertTrue(RBACRoleHome.checkExistRole( role.getKey( ) ) );
             bean.doRemoveRole( request );
-            assertFalse( AdminRoleHome.checkExistRole( role.getKey( ) ) );
+            assertFalse(RBACRoleHome.checkExistRole( role.getKey( ) ) );
         }
         finally
         {
-            AdminRoleHome.remove( role.getKey( ) );
+            RBACRoleHome.remove( role.getKey( ) );
         }
     }
 
     public void testDoRemoveRoleInvalidToken( ) throws AccessDeniedException
     {
-        AdminRole role = new AdminRole( );
+        RBACRole role = new RBACRole( );
         role.setKey( getRandomName( ) );
         role.setDescription( role.getKey( ) );
-        AdminRoleHome.create( role );
+        RBACRoleHome.create( role );
         RoleManagementJspBean bean = new RoleManagementJspBean( );
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.setParameter( "role_key", role.getKey( ) );
@@ -334,42 +334,42 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
                 SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/rbac/DoRemoveRole.jsp" ) + "b" );
         try
         {
-            assertTrue( AdminRoleHome.checkExistRole( role.getKey( ) ) );
+            assertTrue(RBACRoleHome.checkExistRole( role.getKey( ) ) );
             bean.doRemoveRole( request );
             fail( "Should have thrown" );
         }
         catch ( AccessDeniedException e )
         {
-            assertTrue( AdminRoleHome.checkExistRole( role.getKey( ) ) );
+            assertTrue(RBACRoleHome.checkExistRole( role.getKey( ) ) );
         }
         finally
         {
-            AdminRoleHome.remove( role.getKey( ) );
+            RBACRoleHome.remove( role.getKey( ) );
         }
     }
 
     public void testDoRemoveRoleNoToken( ) throws AccessDeniedException
     {
-        AdminRole role = new AdminRole( );
+        RBACRole role = new RBACRole( );
         role.setKey( getRandomName( ) );
         role.setDescription( role.getKey( ) );
-        AdminRoleHome.create( role );
+        RBACRoleHome.create( role );
         RoleManagementJspBean bean = new RoleManagementJspBean( );
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.setParameter( "role_key", role.getKey( ) );
         try
         {
-            assertTrue( AdminRoleHome.checkExistRole( role.getKey( ) ) );
+            assertTrue(RBACRoleHome.checkExistRole( role.getKey( ) ) );
             bean.doRemoveRole( request );
             fail( "Should have thrown" );
         }
         catch ( AccessDeniedException e )
         {
-            assertTrue( AdminRoleHome.checkExistRole( role.getKey( ) ) );
+            assertTrue(RBACRoleHome.checkExistRole( role.getKey( ) ) );
         }
         finally
         {
-            AdminRoleHome.remove( role.getKey( ) );
+            RBACRoleHome.remove( role.getKey( ) );
         }
     }
 
@@ -403,10 +403,10 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
      */
     public void testDoRemoveControlFromRole( ) throws AccessDeniedException
     {
-        AdminRole role = new AdminRole( );
+        RBACRole role = new RBACRole( );
         role.setKey( getRandomName( ) );
         role.setDescription( role.getKey( ) );
-        AdminRoleHome.create( role );
+        RBACRoleHome.create( role );
         RBAC rBAC = new RBAC( );
         rBAC.setRoleKey( role.getKey( ) );
         rBAC.setResourceId( "*" );
@@ -447,16 +447,16 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
         finally
         {
             RBACHome.remove( rBAC.getRBACId( ) );
-            AdminRoleHome.remove( role.getKey( ) );
+            RBACRoleHome.remove( role.getKey( ) );
         }
     }
 
     public void testDoRemoveControlFromRoleInvalidToken( ) throws AccessDeniedException
     {
-        AdminRole role = new AdminRole( );
+        RBACRole role = new RBACRole( );
         role.setKey( getRandomName( ) );
         role.setDescription( role.getKey( ) );
-        AdminRoleHome.create( role );
+        RBACRoleHome.create( role );
         RBAC rBAC = new RBAC( );
         rBAC.setRoleKey( role.getKey( ) );
         rBAC.setResourceId( "*" );
@@ -502,16 +502,16 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
         finally
         {
             RBACHome.remove( rBAC.getRBACId( ) );
-            AdminRoleHome.remove( role.getKey( ) );
+            RBACRoleHome.remove( role.getKey( ) );
         }
     }
 
     public void testDoRemoveControlFromRoleNoToken( ) throws AccessDeniedException
     {
-        AdminRole role = new AdminRole( );
+        RBACRole role = new RBACRole( );
         role.setKey( getRandomName( ) );
         role.setDescription( role.getKey( ) );
-        AdminRoleHome.create( role );
+        RBACRoleHome.create( role );
         RBAC rBAC = new RBAC( );
         rBAC.setRoleKey( role.getKey( ) );
         rBAC.setResourceId( "*" );
@@ -554,7 +554,7 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
         finally
         {
             RBACHome.remove( rBAC.getRBACId( ) );
-            AdminRoleHome.remove( role.getKey( ) );
+            RBACRoleHome.remove( role.getKey( ) );
         }
     }
 
@@ -569,10 +569,10 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
         {
             request.addParameter( "available_users_list", Integer.toString( user.getUserId( ) ) );
         }
-        AdminRole role = new AdminRole( );
+        RBACRole role = new RBACRole( );
         role.setKey( getRandomName( ) );
         role.setDescription( role.getKey( ) );
-        AdminRoleHome.create( role );
+        RBACRoleHome.create( role );
         request.setParameter( "role_key", role.getKey( ) );
         try
         {
@@ -590,7 +590,7 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
             {
                 AdminUserHome.removeRoleForUser( user.getUserId( ), role.getKey( ) );
             }
-            AdminRoleHome.remove( role.getKey( ) );
+            RBACRoleHome.remove( role.getKey( ) );
         }
     }
 
@@ -605,10 +605,10 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
         {
             request.addParameter( "available_users_list", Integer.toString( user.getUserId( ) ) );
         }
-        AdminRole role = new AdminRole( );
+        RBACRole role = new RBACRole( );
         role.setKey( getRandomName( ) );
         role.setDescription( role.getKey( ) );
-        AdminRoleHome.create( role );
+        RBACRoleHome.create( role );
         request.setParameter( "role_key", role.getKey( ) );
         try
         {
@@ -630,7 +630,7 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
             {
                 AdminUserHome.removeRoleForUser( user.getUserId( ), role.getKey( ) );
             }
-            AdminRoleHome.remove( role.getKey( ) );
+            RBACRoleHome.remove( role.getKey( ) );
         }
     }
 
@@ -643,10 +643,10 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
         {
             request.addParameter( "available_users_list", Integer.toString( user.getUserId( ) ) );
         }
-        AdminRole role = new AdminRole( );
+        RBACRole role = new RBACRole( );
         role.setKey( getRandomName( ) );
         role.setDescription( role.getKey( ) );
-        AdminRoleHome.create( role );
+        RBACRoleHome.create( role );
         request.setParameter( "role_key", role.getKey( ) );
         try
         {
@@ -668,16 +668,16 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
             {
                 AdminUserHome.removeRoleForUser( user.getUserId( ), role.getKey( ) );
             }
-            AdminRoleHome.remove( role.getKey( ) );
+            RBACRoleHome.remove( role.getKey( ) );
         }
     }
 
     public void testDoSelectPermissions( ) throws AccessDeniedException
     {
-        AdminRole role = new AdminRole( );
+        RBACRole role = new RBACRole( );
         role.setKey( getRandomName( ) );
         role.setDescription( role.getKey( ) );
-        AdminRoleHome.create( role );
+        RBACRoleHome.create( role );
         RoleManagementJspBean bean = new RoleManagementJspBean( );
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.setParameter( "role_key", role.getKey( ) );
@@ -701,16 +701,16 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
         finally
         {
             RBACHome.removeForRoleKey( role.getKey( ) );
-            AdminRoleHome.remove( role.getKey( ) );
+            RBACRoleHome.remove( role.getKey( ) );
         }
     }
 
     public void testDoSelectPermissionsInvalidToken( ) throws AccessDeniedException
     {
-        AdminRole role = new AdminRole( );
+        RBACRole role = new RBACRole( );
         role.setKey( getRandomName( ) );
         role.setDescription( role.getKey( ) );
-        AdminRoleHome.create( role );
+        RBACRoleHome.create( role );
         RoleManagementJspBean bean = new RoleManagementJspBean( );
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.setParameter( "role_key", role.getKey( ) );
@@ -734,16 +734,16 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
         finally
         {
             RBACHome.removeForRoleKey( role.getKey( ) );
-            AdminRoleHome.remove( role.getKey( ) );
+            RBACRoleHome.remove( role.getKey( ) );
         }
     }
 
     public void testDoSelectPermissionsNoToken( ) throws AccessDeniedException
     {
-        AdminRole role = new AdminRole( );
+        RBACRole role = new RBACRole( );
         role.setKey( getRandomName( ) );
         role.setDescription( role.getKey( ) );
-        AdminRoleHome.create( role );
+        RBACRoleHome.create( role );
         RoleManagementJspBean bean = new RoleManagementJspBean( );
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.setParameter( "role_key", role.getKey( ) );
@@ -765,16 +765,16 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
         finally
         {
             RBACHome.removeForRoleKey( role.getKey( ) );
-            AdminRoleHome.remove( role.getKey( ) );
+            RBACRoleHome.remove( role.getKey( ) );
         }
     }
 
     public void testDoUnAssignUser( ) throws AccessDeniedException
     {
-        AdminRole role = new AdminRole( );
+        RBACRole role = new RBACRole( );
         role.setKey( getRandomName( ) );
         role.setDescription( role.getKey( ) );
-        AdminRoleHome.create( role );
+        RBACRoleHome.create( role );
         AdminUser user = AdminUserHome.findUserByLogin( "admin" );
         int userId = user.getUserId( );
         AdminUserHome.createRoleForUser( userId, role.getKey( ) );
@@ -794,16 +794,16 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
         finally
         {
             AdminUserHome.removeRoleForUser( userId, role.getKey( ) );
-            AdminRoleHome.remove( role.getKey( ) );
+            RBACRoleHome.remove( role.getKey( ) );
         }
     }
 
     public void testDoUnAssignUserInvalidToken( ) throws AccessDeniedException
     {
-        AdminRole role = new AdminRole( );
+        RBACRole role = new RBACRole( );
         role.setKey( getRandomName( ) );
         role.setDescription( role.getKey( ) );
-        AdminRoleHome.create( role );
+        RBACRoleHome.create( role );
         AdminUser user = AdminUserHome.findUserByLogin( "admin" );
         int userId = user.getUserId( );
         AdminUserHome.createRoleForUser( userId, role.getKey( ) );
@@ -827,16 +827,16 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
         finally
         {
             AdminUserHome.removeRoleForUser( userId, role.getKey( ) );
-            AdminRoleHome.remove( role.getKey( ) );
+            RBACRoleHome.remove( role.getKey( ) );
         }
     }
 
     public void testDoUnAssignUserNoToken( ) throws AccessDeniedException
     {
-        AdminRole role = new AdminRole( );
+        RBACRole role = new RBACRole( );
         role.setKey( getRandomName( ) );
         role.setDescription( role.getKey( ) );
-        AdminRoleHome.create( role );
+        RBACRoleHome.create( role );
         AdminUser user = AdminUserHome.findUserByLogin( "admin" );
         int userId = user.getUserId( );
         AdminUserHome.createRoleForUser( userId, role.getKey( ) );
@@ -858,7 +858,7 @@ public class RoleManagementJspBeanTest extends LuteceTestCase
         finally
         {
             AdminUserHome.removeRoleForUser( userId, role.getKey( ) );
-            AdminRoleHome.remove( role.getKey( ) );
+            RBACRoleHome.remove( role.getKey( ) );
         }
     }
 

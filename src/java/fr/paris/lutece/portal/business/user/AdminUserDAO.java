@@ -33,7 +33,7 @@
  */
 package fr.paris.lutece.portal.business.user;
 
-import fr.paris.lutece.portal.business.rbac.AdminRole;
+import fr.paris.lutece.portal.business.rbac.RBACRole;
 import fr.paris.lutece.portal.business.right.Right;
 import fr.paris.lutece.portal.business.user.authentication.LuteceDefaultAdminUser;
 import fr.paris.lutece.util.password.IPassword;
@@ -415,9 +415,9 @@ public class AdminUserDAO implements IAdminUserDAO
      * {@inheritDoc}
      */
     @Override
-    public Map<String, AdminRole> selectRolesListForUser( int nUserId )
+    public Map<String, RBACRole> selectRolesListForUser( int nUserId )
     {
-        Map<String, AdminRole> rolesMap = new HashMap<>( );
+        Map<String, RBACRole> rolesMap = new HashMap<>( );
 
         try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_ROLES_FROM_USER_ID ) )
         {
@@ -426,7 +426,7 @@ public class AdminUserDAO implements IAdminUserDAO
 
             while ( daoUtil.next( ) )
             {
-                AdminRole role = new AdminRole( );
+                RBACRole role = new RBACRole( );
                 role.setKey( daoUtil.getString( 1 ) );
                 role.setDescription( daoUtil.getString( 2 ) );
 
@@ -786,7 +786,7 @@ public class AdminUserDAO implements IAdminUserDAO
      * {@inheritDoc}
      */
     @Override
-    public void storeUsersRole( String strOldRoleKey, AdminRole role )
+    public void storeUsersRole( String strOldRoleKey, RBACRole role )
     {
         try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE_USERS_ROLE ) )
         {

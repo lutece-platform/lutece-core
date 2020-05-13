@@ -35,7 +35,7 @@ package fr.paris.lutece.portal.service.workflow;
 
 import fr.paris.lutece.plugins.workflowcore.business.action.Action;
 import fr.paris.lutece.plugins.workflowcore.business.state.State;
-import fr.paris.lutece.portal.business.user.AdminUser;
+import fr.paris.lutece.portal.service.rbac.User;
 import fr.paris.lutece.util.ReferenceList;
 
 import java.util.Collection;
@@ -66,7 +66,7 @@ public interface IWorkflowProvider
      *            the adminUser
      * @return a list of Action
      */
-    Collection<Action> getActions( int nIdResource, String strResourceType, Collection<Action> listActions, AdminUser user );
+    Collection<Action> getActions( int nIdResource, String strResourceType, Collection<Action> listActions, User user );
 
     /**
      * returns a list of actions possible for a given document based on the status of the document in the workflow and the user role.
@@ -79,7 +79,7 @@ public interface IWorkflowProvider
      *            the adminUser
      * @return a list of Action
      */
-    Map<Integer, List<Action>> getActions( String strResourceType, Map<Integer, List<Action>> mapActions, AdminUser user );
+    Map<Integer, List<Action>> getActions( String strResourceType, Map<Integer, List<Action>> mapActions, User user );
 
     /**
      * returns the actions history performed on a resource.
@@ -166,10 +166,10 @@ public interface IWorkflowProvider
      * @param nExternalParentId
      *            The external parent id
      * @param user
-     *            the AdminUser
+     *            the User
      * @return The list
      */
-    List<Integer> getAuthorizedResourceList( String strResourceType, int nIdWorkflow, int nIdWorkflowState, Integer nExternalParentId, AdminUser user );
+    List<Integer> getAuthorizedResourceList( String strResourceType, int nIdWorkflow, int nIdWorkflowState, Integer nExternalParentId, User user );
 
     /**
      * Get all authorized resource Id.
@@ -183,22 +183,22 @@ public interface IWorkflowProvider
      * @param nExternalParentId
      *            he external parent id
      * @param user
-     *            the AdminUser
+     *            the User
      * @return The list
      */
     List<Integer> getAuthorizedResourceList( String strResourceType, int nIdWorkflow, List<Integer> lListIdWorkflowState, Integer nExternalParentId,
-            AdminUser user );
+            User user );
 
     /**
      * return a referencelist wich contains a list enabled workflow.
      *
      * @param user
-     *            the AdminUser
+     *            the User
      * @param locale
      *            the locale
      * @return a referencelist wich contains a list enabled workflow
      */
-    ReferenceList getWorkflowsEnabled( AdminUser user, Locale locale );
+    ReferenceList getWorkflowsEnabled( User user, Locale locale );
 
     /**
      * returns all state of a given workflow.
@@ -209,7 +209,7 @@ public interface IWorkflowProvider
      *            the adminUser
      * @return the state of a given document
      */
-    Collection<State> getAllStateByWorkflow( Collection<State> listStates, AdminUser user );
+    Collection<State> getAllStateByWorkflow( Collection<State> listStates, User user );
 
     /**
      * The user access code.
@@ -235,7 +235,7 @@ public interface IWorkflowProvider
      *            the user
      * @return a list of Action
      */
-    boolean isAuthorized( int nIdResource, String strResourceType, int nIdWorkflow, AdminUser user );
+    boolean isAuthorized( int nIdResource, String strResourceType, int nIdWorkflow, User user );
 
     /**
      * Check if the action can be proceed for the given resource.

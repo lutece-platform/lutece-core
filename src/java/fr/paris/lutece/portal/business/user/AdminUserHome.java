@@ -33,7 +33,7 @@
  */
 package fr.paris.lutece.portal.business.user;
 
-import fr.paris.lutece.portal.business.rbac.AdminRole;
+import fr.paris.lutece.portal.business.rbac.RBACRole;
 import fr.paris.lutece.portal.business.right.Right;
 import fr.paris.lutece.portal.business.user.authentication.LuteceDefaultAdminUser;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
@@ -190,7 +190,7 @@ public final class AdminUserHome
      *            the id of the user to retrieve rights
      * @return the role list
      */
-    public static Map<String, AdminRole> getRolesListForUser( int nUserId )
+    public static Map<String, RBACRole> getRolesListForUser( int nUserId )
     {
         return _dao.selectRolesListForUser( nUserId );
     }
@@ -354,7 +354,7 @@ public final class AdminUserHome
      * @param role
      *            The new role
      */
-    public static void updateUsersRole( String strOldRoleKey, AdminRole role )
+    public static void updateUsersRole( String strOldRoleKey, RBACRole role )
     {
         _dao.storeUsersRole( strOldRoleKey, role );
     }

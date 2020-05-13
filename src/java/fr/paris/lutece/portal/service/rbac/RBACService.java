@@ -33,9 +33,8 @@
  */
 package fr.paris.lutece.portal.service.rbac;
 
-import fr.paris.lutece.portal.business.rbac.AdminRole;
+import fr.paris.lutece.portal.business.rbac.RBACRole;
 import fr.paris.lutece.portal.business.rbac.RBACHome;
-import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.util.ReferenceItem;
 import fr.paris.lutece.util.ReferenceList;
 
@@ -68,7 +67,7 @@ public final class RBACService
      *            the user trying to access the ressource
      * @return true if the user can access the given resource with the given permission, false otherwise
      */
-    public static boolean isAuthorized( String strResourceTypeCode, String strResourceId, String strPermission, AdminUser user )
+    public static boolean isAuthorized( String strResourceTypeCode, String strResourceId, String strPermission, User user )
     {
         // Check user roles
         Collection<String> colRoles = RBACHome.findRoleKeys( strResourceTypeCode, strResourceId, strPermission );
@@ -95,7 +94,7 @@ public final class RBACService
      *            the user trying to access the ressource
      * @return true if the user can access the given resource with the given permission, false otherwise
      */
-    public static boolean isAuthorized( RBACResource resource, String strPermission, AdminUser user )
+    public static boolean isAuthorized( RBACResource resource, String strPermission, User user )
     {
         boolean bAuthorized = false;
 
@@ -116,9 +115,9 @@ public final class RBACService
      *            The role
      * @return true if the user has the given role, false otherwise
      */
-    public static boolean isUserInRole( AdminUser user, String strRole )
+    public static boolean isUserInRole( User user, String strRole )
     {
-        Map<String, AdminRole> userRoles = user.getRoles( );
+        Map<String, RBACRole> userRoles = user.getRBACRoles( );
 
         return userRoles.containsKey( strRole );
     }
@@ -136,7 +135,7 @@ public final class RBACService
      *            The user
      * @return A filtered collection of resources
      */
-    public static <E extends RBACResource> Collection<E> getAuthorizedCollection( Collection<E> collection, String strPermission, AdminUser user )
+    public static <E extends RBACResource> Collection<E> getAuthorizedCollection( Collection<E> collection, String strPermission, User user )
     {
         Collection<E> list = new ArrayList<>( );
 
@@ -164,7 +163,7 @@ public final class RBACService
      *            The user
      * @return The filtered collection
      */
-    public static ReferenceList getAuthorizedReferenceList( ReferenceList listResources, String strResourceType, String strPermission, AdminUser user )
+    public static ReferenceList getAuthorizedReferenceList( ReferenceList listResources, String strResourceType, String strPermission, User user )
     {
         ReferenceList list = new ReferenceList( );
 
@@ -192,7 +191,7 @@ public final class RBACService
      *            The user
      * @return The filtered collection
      */
-    public static <E extends RBACAction> Collection<E> getAuthorizedActionsCollection( Collection<E> collection, RBACResource resource, AdminUser user )
+    public static <E extends RBACAction> Collection<E> getAuthorizedActionsCollection( Collection<E> collection, RBACResource resource, User user )
     {
         Collection<E> list = new ArrayList<>( );
 

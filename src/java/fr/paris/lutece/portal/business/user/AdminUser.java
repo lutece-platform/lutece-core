@@ -33,7 +33,8 @@
  */
 package fr.paris.lutece.portal.business.user;
 
-import fr.paris.lutece.portal.business.rbac.AdminRole;
+import fr.paris.lutece.portal.business.rbac.RBACRole;
+import fr.paris.lutece.portal.service.rbac.User;
 import fr.paris.lutece.portal.business.right.Right;
 import fr.paris.lutece.portal.business.user.attribute.IAttribute;
 import fr.paris.lutece.portal.business.user.authentication.AdminAuthentication;
@@ -57,7 +58,7 @@ import javax.validation.constraints.NotNull;
 /**
  * This Interface defines all methods required for an admin user implementation
  */
-public class AdminUser implements Serializable, AdminWorkgroupResource
+public class AdminUser implements Serializable, AdminWorkgroupResource, User
 {
     public static final String RESOURCE_TYPE = "ADMIN_USER";
     public static final int ACTIVE_CODE = 0;
@@ -90,7 +91,7 @@ public class AdminUser implements Serializable, AdminWorkgroupResource
     /**
      * User's roles. We use a HashMap instead of a Map so that the field is forced to be serializable.
      */
-    private HashMap<String, AdminRole> _roles = new HashMap<>( );
+    private HashMap<String, RBACRole> _roles = new HashMap<>( );
 
     /** Authentication Service */
     private String _strAuthenticationService;
@@ -359,10 +360,17 @@ public class AdminUser implements Serializable, AdminWorkgroupResource
 
     /**
      * Returns user's roles
-     * 
+     * @deprecated use getRBACRoles( )
      * @return Returns user's roles
      */
-    public Map<String, AdminRole> getRoles( )
+    @Deprecated
+    public Map<String, RBACRole> getRoles( )
+    {
+        return _roles;
+    }
+
+    @Override
+    public Map<String, RBACRole> getRBACRoles( )
     {
         return _roles;
     }
@@ -373,7 +381,7 @@ public class AdminUser implements Serializable, AdminWorkgroupResource
      * @param roles
      *            The User roles
      */
-    public void addRoles( Map<String, AdminRole> roles )
+    public void addRoles( Map<String, RBACRole> roles )
     {
         _roles.putAll( roles );
     }
@@ -384,7 +392,7 @@ public class AdminUser implements Serializable, AdminWorkgroupResource
      * @param roles
      *            The User roles
      */
-    public void setRoles( Map<String, AdminRole> roles )
+    public void setRoles( Map<String, RBACRole> roles )
     {
         _roles.clear( );
         _roles.putAll( roles );
@@ -552,7 +560,7 @@ public class AdminUser implements Serializable, AdminWorkgroupResource
     {
         // Reload roles because roles are only load by the bind and should not be accessible
         // through users list for security reasons
-        Map<String, AdminRole> roles = AdminUserHome.getRolesListForUser( getUserId( ) );
+        Map<String, RBACRole> roles = AdminUserHome.getRolesListForUser( getUserId( ) );
 
         return roles.containsKey( strRole );
     }

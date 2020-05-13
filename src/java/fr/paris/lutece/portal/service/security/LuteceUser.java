@@ -33,6 +33,8 @@
  */
 package fr.paris.lutece.portal.service.security;
 
+import fr.paris.lutece.portal.business.rbac.RBACRole;
+import fr.paris.lutece.portal.service.rbac.User;
 import java.io.Serializable;
 import java.security.Principal;
 import java.util.Arrays;
@@ -45,7 +47,7 @@ import org.apache.commons.lang.ObjectUtils;
 /**
  * This Interface defines all methods required for a Lutece user implementation
  */
-public abstract class LuteceUser implements Principal, Serializable, Cloneable
+public abstract class LuteceUser implements Principal, Serializable, Cloneable, User
 {
     /*
      * These attribute names are derived from the Platform for Privacy Preferences 1.0 (P3P 1.0) Specification by the W3C (http://www.w3c.org/TR/P3P). The same
@@ -277,6 +279,21 @@ public abstract class LuteceUser implements Principal, Serializable, Cloneable
         return _roles;
     }
 
+
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public Map<String, RBACRole> getRBACRoles( )
+    {
+        Map<String, RBACRole> mapRoles = new HashMap<>();
+        for( String strRole : _roles )
+        {
+            mapRoles.put( strRole , new RBACRole( strRole , strRole ));
+        }
+        return mapRoles;
+    }
+    
     /**
      * add user's roles
      * 

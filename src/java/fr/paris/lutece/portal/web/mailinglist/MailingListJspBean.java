@@ -49,7 +49,7 @@ import fr.paris.lutece.portal.business.mailinglist.MailingListFilter;
 import fr.paris.lutece.portal.business.mailinglist.MailingListHome;
 import fr.paris.lutece.portal.business.mailinglist.MailingListUsersFilter;
 import fr.paris.lutece.portal.business.mailinglist.Recipient;
-import fr.paris.lutece.portal.business.rbac.AdminRoleHome;
+import fr.paris.lutece.portal.business.rbac.RBACRoleHome;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.mailinglist.AdminMailingListService;
 import fr.paris.lutece.portal.service.mailinglist.MailingListRemovalListenerService;
@@ -426,7 +426,7 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
         }
 
         ReferenceList listWorkgroups = AdminWorkgroupService.getUserWorkgroups( getUser( ), getLocale( ) );
-        ReferenceList listRoles = AdminRoleHome.getRolesList( );
+        ReferenceList listRoles = RBACRoleHome.getRolesList( );
         listRoles.addItem( AdminMailingListService.ALL_ROLES, AdminMailingListService.ALL_ROLES );
 
         Map<String, Object> model = new HashMap<>( );

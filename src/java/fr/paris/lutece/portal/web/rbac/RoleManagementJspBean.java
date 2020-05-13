@@ -46,8 +46,8 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 
-import fr.paris.lutece.portal.business.rbac.AdminRole;
-import fr.paris.lutece.portal.business.rbac.AdminRoleHome;
+import fr.paris.lutece.portal.business.rbac.RBACRole;
+import fr.paris.lutece.portal.business.rbac.RBACRoleHome;
 import fr.paris.lutece.portal.business.rbac.RBAC;
 import fr.paris.lutece.portal.business.rbac.RBACHome;
 import fr.paris.lutece.portal.business.right.Level;
@@ -189,7 +189,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
         // Reinit session
         reinitItemNavigator( );
 
-        List<AdminRole> listRole = (List<AdminRole>) AdminRoleHome.findAll( );
+        List<RBACRole> listRole = (List<RBACRole>) RBACRoleHome.findAll( );
 
         // SORT
         String strSortedAttributeName = request.getParameter( Parameters.SORTED_ATTRIBUTE_NAME );
@@ -222,7 +222,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
         }
 
         // PAGINATOR
-        LocalizedPaginator<AdminRole> paginator = new LocalizedPaginator<>( listRole, _nItemsPerPage, url.getUrl( ), AbstractPaginator.PARAMETER_PAGE_INDEX,
+        LocalizedPaginator<RBACRole> paginator = new LocalizedPaginator<>( listRole, _nItemsPerPage, url.getUrl( ), AbstractPaginator.PARAMETER_PAGE_INDEX,
                 _strCurrentPageIndex, getLocale( ) );
 
         Map<String, Object> model = new HashMap<>( );
@@ -271,7 +271,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
         {
             return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
         }
-        if ( AdminRoleHome.checkExistRole( strRoleKey ) )
+        if ( RBACRoleHome.checkExistRole( strRoleKey ) )
         {
             return AdminMessageService.getMessageUrl( request, PROPERTY_ROLE_ALREADY_EXISTS, AdminMessage.TYPE_STOP );
         }
@@ -284,10 +284,10 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
 
-        AdminRole role = new AdminRole( );
+        RBACRole role = new RBACRole( );
         role.setKey( strRoleKey.trim( ) );
         role.setDescription( strRoleDescription );
-        AdminRoleHome.create( role );
+        RBACRoleHome.create( role );
 
         return JSP_URL_ROLE_DESCRIPTION + "?" + PARAMETER_ROLE_KEY + "=" + strRoleKey;
     }
@@ -321,15 +321,15 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
                 throw new AccessDeniedException( ERROR_INVALID_TOKEN );
             }
             // update the role
-            AdminRole role = AdminRoleHome.findByPrimaryKey( strOldRoleKey );
+            RBACRole role = RBACRoleHome.findByPrimaryKey( strOldRoleKey );
             role.setKey( strNewRoleKey );
             role.setDescription( strRoleDescription );
-            AdminRoleHome.update( strOldRoleKey, role );
+            RBACRoleHome.update( strOldRoleKey, role );
         }
         else
         // if the key changes, first check that the new key doesn't exist
         {
-            if ( AdminRoleHome.checkExistRole( strNewRoleKey ) )
+            if ( RBACRoleHome.checkExistRole( strNewRoleKey ) )
             {
                 return AdminMessageService.getMessageUrl( request, PROPERTY_ROLE_ALREADY_EXISTS, AdminMessage.TYPE_STOP );
             }
@@ -339,10 +339,10 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
             }
 
             // update the role
-            AdminRole role = AdminRoleHome.findByPrimaryKey( strOldRoleKey );
+            RBACRole role = RBACRoleHome.findByPrimaryKey( strOldRoleKey );
             role.setKey( strNewRoleKey );
             role.setDescription( strRoleDescription );
-            AdminRoleHome.update( strOldRoleKey, role );
+            RBACRoleHome.update( strOldRoleKey, role );
             AdminUserHome.updateUsersRole( strOldRoleKey, role );
 
             // update the role key in the role-resource associations
@@ -405,7 +405,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
                 throw new AccessDeniedException( ERROR_INVALID_TOKEN );
             }
             // remove role
-            AdminRoleHome.remove( strRoleKey );
+            RBACRoleHome.remove( strRoleKey );
 
             // remove resources entries for that role
             RBACHome.removeForRoleKey( strRoleKey );
@@ -433,7 +433,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
         Collection<ResourceType> listResourceTypes = ResourceTypeManager.getResourceTypeList( );
         I18nService.localizeCollection( listResourceTypes, getLocale( ) );
 
-        AdminRole adminRole = AdminRoleHome.findByPrimaryKey( strRoleKey );
+        RBACRole adminRole = RBACRoleHome.findByPrimaryKey( strRoleKey );
 
         if ( adminRole == null )
         {
@@ -846,7 +846,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
 
         // ROLE
         String strRoleKey = request.getParameter( PARAMETER_ROLE_KEY );
-        AdminRole role = AdminRoleHome.findByPrimaryKey( strRoleKey );
+        RBACRole role = RBACRoleHome.findByPrimaryKey( strRoleKey );
 
         // ASSIGNED USERS
         List<AdminUser> listAssignedUsers = AdminUserHome.findByRole( strRoleKey )
@@ -1015,7 +1015,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
             int nCurrentItemId = 0;
             int nIndex = 0;
 
-            for ( AdminRole role : AdminRoleHome.findAll( ) )
+            for ( RBACRole role : RBACRoleHome.findAll( ) )
             {
                 if ( ( role != null ) && StringUtils.isNotBlank( role.getKey( ) ) )
                 {

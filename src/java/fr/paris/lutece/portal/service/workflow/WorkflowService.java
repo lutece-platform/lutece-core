@@ -49,7 +49,7 @@ import fr.paris.lutece.plugins.workflowcore.business.action.Action;
 import fr.paris.lutece.plugins.workflowcore.business.state.State;
 import fr.paris.lutece.plugins.workflowcore.service.workflow.IWorkflowService;
 import fr.paris.lutece.portal.business.event.ResourceEvent;
-import fr.paris.lutece.portal.business.user.AdminUser;
+import fr.paris.lutece.portal.service.rbac.User;
 import fr.paris.lutece.portal.service.event.ResourceEventManager;
 import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
@@ -132,7 +132,7 @@ public final class WorkflowService
      * @param nIdWorkflow     the workflow id
      * @return a list of Action
      */
-    public Collection<Action> getActions( int nIdResource, String strResourceType, int nIdWorkflow, AdminUser user )
+    public Collection<Action> getActions( int nIdResource, String strResourceType, int nIdWorkflow, User user )
     {
         if ( isAvailable( ) )
         {
@@ -156,7 +156,7 @@ public final class WorkflowService
      * @return a list of Action
      */
     public Map<Integer, List<Action>> getActions( List<Integer> listIdResource, String strResourceType,
-            Integer nIdExternalParentId, int nIdWorkflow, AdminUser user )
+            Integer nIdExternalParentId, int nIdWorkflow, User user )
     {
         if ( isAvailable( ) )
         {
@@ -411,11 +411,11 @@ public final class WorkflowService
      * 
      * @param nIdResource     the document id
      * @param strResourceType the document type
-     * @param user            the AdminUser
+     * @param user            the User
      * @param nIdWorkflow     the workflow id
      * @return a list of Action
      */
-    public boolean isAuthorized( int nIdResource, String strResourceType, int nIdWorkflow, AdminUser user )
+    public boolean isAuthorized( int nIdResource, String strResourceType, int nIdWorkflow, User user )
     {
         return isAvailable( ) && _provider.isAuthorized( nIdResource, strResourceType, nIdWorkflow, user );
     }
@@ -427,11 +427,11 @@ public final class WorkflowService
      * @param nIdWorkflow       the workflow id
      * @param nIdWorkflowState  The workflow state id or -1 for all workflow states
      * @param nExternalParentId The external parent id
-     * @param user              the AdminUser
+     * @param user              the User
      * @return a list resource id
      */
     public List<Integer> getAuthorizedResourceList( String strResourceType, int nIdWorkflow, int nIdWorkflowState,
-            Integer nExternalParentId, AdminUser user )
+            Integer nExternalParentId, User user )
     {
         return isAvailable( )
                 ? _provider.getAuthorizedResourceList( strResourceType, nIdWorkflow, nIdWorkflowState,
@@ -447,11 +447,11 @@ public final class WorkflowService
      * @param lListIdWorkflowState The workflow state <b>id or null</b> for all
      *                             workflow states
      * @param nExternalParentId    the externbal parent identifier
-     * @param user                 the AdminUser
+     * @param user                 the User
      * @return a list resource id
      */
     public List<Integer> getAuthorizedResourceList( String strResourceType, int nIdWorkflow,
-            List<Integer> lListIdWorkflowState, Integer nExternalParentId, AdminUser user )
+            List<Integer> lListIdWorkflowState, Integer nExternalParentId, User user )
     {
         return isAvailable( ) ? _provider.getAuthorizedResourceList( strResourceType, nIdWorkflow, lListIdWorkflowState,
                 nExternalParentId, user ) : null;
@@ -460,11 +460,11 @@ public final class WorkflowService
     /**
      * return a reference list which contains a list enabled workflow
      * 
-     * @param user   the AdminUser
+     * @param user   the User
      * @param locale the locale
      * @return a reference list which contains a list enabled workflow
      */
-    public ReferenceList getWorkflowsEnabled( AdminUser user, Locale locale )
+    public ReferenceList getWorkflowsEnabled( User user, Locale locale )
     {
         return isAvailable( ) ? _provider.getWorkflowsEnabled( user, locale ) : null;
     }
@@ -476,7 +476,7 @@ public final class WorkflowService
      * @param nIdWorkflow the workflow id
      * @return the state of a given document
      */
-    public Collection<State> getAllStateByWorkflow( int nIdWorkflow, AdminUser user )
+    public Collection<State> getAllStateByWorkflow( int nIdWorkflow, User user )
     {
         if ( isAvailable( ) )
         {

@@ -50,8 +50,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.lang.StringUtils;
 
-import fr.paris.lutece.portal.business.rbac.AdminRole;
-import fr.paris.lutece.portal.business.rbac.AdminRoleHome;
+import fr.paris.lutece.portal.business.rbac.RBACRole;
+import fr.paris.lutece.portal.business.rbac.RBACRoleHome;
 import fr.paris.lutece.portal.business.rbac.RBAC;
 import fr.paris.lutece.portal.business.right.Level;
 import fr.paris.lutece.portal.business.right.LevelHome;
@@ -1729,7 +1729,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             throw new fr.paris.lutece.portal.service.admin.AccessDeniedException( MESSAGE_NOT_AUTHORIZED );
         }
 
-        Collection<AdminRole> roleList = AdminUserHome.getRolesListForUser( nUserId ).values( );
+        Collection<RBACRole> roleList = AdminUserHome.getRolesListForUser( nUserId ).values( );
 
         // ITEM NAVIGATION
         setItemNavigator( nUserId, AppPathService.getBaseUrl( request ) + JSP_URL_MANAGE_USER_ROLES );
@@ -1774,8 +1774,8 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
             throw new fr.paris.lutece.portal.service.admin.AccessDeniedException( MESSAGE_NOT_AUTHORIZED );
         }
 
-        Collection<AdminRole> roleList = AdminUserHome.getRolesListForUser( nUserId ).values( );
-        Collection<AdminRole> assignableRoleList;
+        Collection<RBACRole> roleList = AdminUserHome.getRolesListForUser( nUserId ).values( );
+        Collection<RBACRole> assignableRoleList;
 
         if ( bDelegateRoles )
         {
@@ -1784,7 +1784,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
             AdminUser currentUser = getUser( );
 
-            for ( AdminRole role : AdminRoleHome.findAll( ) )
+            for ( RBACRole role : RBACRoleHome.findAll( ) )
             {
                 if ( currentUser.isAdmin( ) || RBACService.isUserInRole( currentUser, role.getKey( ) ) )
                 {
@@ -1795,7 +1795,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         else
         {
             // assign all available roles
-            assignableRoleList = AdminRoleHome.findAll( );
+            assignableRoleList = RBACRoleHome.findAll( );
         }
 
         // ITEM NAVIGATION
