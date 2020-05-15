@@ -49,6 +49,7 @@ import fr.paris.lutece.plugins.workflowcore.business.action.Action;
 import fr.paris.lutece.plugins.workflowcore.business.state.State;
 import fr.paris.lutece.plugins.workflowcore.service.workflow.IWorkflowService;
 import fr.paris.lutece.portal.business.event.ResourceEvent;
+import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.rbac.User;
 import fr.paris.lutece.portal.service.event.ResourceEventManager;
 import fr.paris.lutece.portal.service.plugin.PluginService;
@@ -152,7 +153,7 @@ public final class WorkflowService
      * @param strResourceType     the document type
      * @param nIdExternalParentId the external parent identifier
      * @param nIdWorkflow         the workflow id
-     * @param user                the adminUser
+     * @param user                the User
      * @return a list of Action
      */
     public Map<Integer, List<Action>> getActions( List<Integer> listIdResource, String strResourceType,
@@ -192,17 +193,36 @@ public final class WorkflowService
      * @param locale            locale
      * @param bIsAutomatic      Is automatic
      */
+    @Deprecated
     public void doProcessAction( int nIdResource, String strResourceType, int nIdAction, Integer nExternalParentId,
             HttpServletRequest request, Locale locale, boolean bIsAutomatic )
     {
+    	 doProcessAction(nIdResource, strResourceType, nIdAction, nExternalParentId, request, locale, bIsAutomatic, null);
+    }
+
+    /**
+     * Proceed action given in parameter
+     * 
+     * @param nIdResource       the resource id
+     * @param strResourceType   the resource type
+     * @param nIdAction         the action id
+     * @param nExternalParentId the external parent id
+     * @param request           the request
+     * @param locale            locale
+     * @param bIsAutomatic      Is automatic
+     * @param user				The User
+     */
+    public void doProcessAction( int nIdResource, String strResourceType, int nIdAction, Integer nExternalParentId,
+            HttpServletRequest request, Locale locale, boolean bIsAutomatic, User user )
+    {
         if ( isAvailable( ) && canProcessAction( nIdResource, strResourceType, nIdAction, nExternalParentId, request,
-                bIsAutomatic ) )
+                bIsAutomatic, user ) )
         {
             TransactionManager.beginTransaction( null );
 
             try
             {
-                String strUserAccessCode = bIsAutomatic ? null : _provider.getUserAccessCode( request );
+                String strUserAccessCode = bIsAutomatic ? null : _provider.getUserAccessCode( request , user );
                 _service.doProcessAction( nIdResource, strResourceType, nIdAction, nExternalParentId, request, locale,
                         bIsAutomatic, strUserAccessCode );
                 TransactionManager.commitTransaction( null );
@@ -217,6 +237,7 @@ public final class WorkflowService
         }
     }
 
+
     /**
      * returns the actions history performed on a resource
      * 
@@ -227,13 +248,32 @@ public final class WorkflowService
      * @param locale          the locale
      * @return the history of actions performed on a resource
      */
+    @Deprecated
     public String getDisplayDocumentHistory( int nIdResource, String strResourceType, int nIdWorkflow,
             HttpServletRequest request, Locale locale )
     {
+      return getDisplayDocumentHistory(nIdResource, strResourceType, nIdWorkflow, request, locale, null);
+    }
+    /**
+     * returns the actions history performed on a resource
+     * 
+     * @param nIdResource     the resource id
+     * @param strResourceType the resource type
+     * @param request         the request
+     * @param nIdWorkflow     the workflow id
+     * @param locale          the locale
+     * @param user			  The User
+     * @return the history of actions performed on a resource
+     */
+    public String getDisplayDocumentHistory( int nIdResource, String strResourceType, int nIdWorkflow,
+            HttpServletRequest request, Locale locale, User user )
+    {
         return isAvailable( )
-                ? _provider.getDisplayDocumentHistory( nIdResource, strResourceType, nIdWorkflow, request, locale )
+                ? _provider.getDisplayDocumentHistory( nIdResource, strResourceType, nIdWorkflow, request, locale, user )
                 : null;
     }
+
+    
 
     /**
      * returns the actions history performed on a resource
@@ -247,8 +287,27 @@ public final class WorkflowService
      * @param strTemplate     The template
      * @return the history of actions performed on a resource
      */
+    @Deprecated
     public String getDisplayDocumentHistory( int nIdResource, String strResourceType, int nIdWorkflow,
             HttpServletRequest request, Locale locale, Map<String, Object> model, String strTemplate )
+    {
+        return getDisplayDocumentHistory(nIdResource, strResourceType, nIdWorkflow, request, locale, model, strTemplate, null);
+    }
+    /**
+     * returns the actions history performed on a resource
+     * 
+     * @param nIdResource     the resource id
+     * @param strResourceType the resource type
+     * @param request         the request
+     * @param nIdWorkflow     the workflow id
+     * @param locale          the locale
+     * @param model           The model to add to the default model
+     * @param strTemplate     The template
+     * @param user            The User
+     * @return the history of actions performed on a resource
+     */
+    public String getDisplayDocumentHistory( int nIdResource, String strResourceType, int nIdWorkflow,
+            HttpServletRequest request, Locale locale, Map<String, Object> model, String strTemplate, User user )
     {
         if ( !isAvailable( ) )
         {
@@ -257,14 +316,15 @@ public final class WorkflowService
         try
         {
             return _provider.getDisplayDocumentHistory( nIdResource, strResourceType, nIdWorkflow, request, locale,
-                    model, strTemplate );
+                    model, strTemplate, user );
         }
         catch ( NoSuchMethodError ex )
         {
             AppLogService.error( "You are using a too old Workflow provider version. Please upgrade." );
-            return _provider.getDisplayDocumentHistory( nIdResource, strResourceType, nIdWorkflow, request, locale );
+            return _provider.getDisplayDocumentHistory( nIdResource, strResourceType, nIdWorkflow, request, locale, user );
         }
     }
+
 
     /**
      * returns a xml wich contains the actions history performed on a resource
@@ -276,13 +336,33 @@ public final class WorkflowService
      * @param locale          the locale
      * @return a xml wich contains the history of actions performed on a resource
      */
+    @Deprecated
     public String getDocumentHistoryXml( int nIdResource, String strResourceType, int nIdWorkflow,
             HttpServletRequest request, Locale locale )
     {
+    
+    	return getDocumentHistoryXml(nIdResource, strResourceType, nIdWorkflow, request, locale, null);
+    }
+    /**
+     * returns a xml wich contains the actions history performed on a resource
+     * 
+     * @param nIdResource     the resource id
+     * @param strResourceType the resource type
+     * @param request         the request
+     * @param nIdWorkflow     the workflow id
+     * @param locale          the locale
+     * @param User			  the User
+     * 
+     * @return a xml wich contains the history of actions performed on a resource
+     */
+    public String getDocumentHistoryXml( int nIdResource, String strResourceType, int nIdWorkflow,
+            HttpServletRequest request, Locale locale, User user )
+    {
         return isAvailable( )
-                ? _provider.getDocumentHistoryXml( nIdResource, strResourceType, nIdWorkflow, request, locale )
+                ? _provider.getDocumentHistoryXml( nIdResource, strResourceType, nIdWorkflow, request, locale, user )
                 : null;
     }
+
 
     /**
      * Perform the information on the various tasks associated with the given action
@@ -297,19 +377,39 @@ public final class WorkflowService
      * @return null if there is no error in the task form else return the error
      *         message url
      */
+    @Deprecated
     public String doSaveTasksForm( int nIdResource, String strResourceType, int nIdAction, Integer nExternalParentId,
             HttpServletRequest request, Locale locale )
     {
+               return doSaveTasksForm(nIdResource, strResourceType, nIdAction, nExternalParentId, request, locale, null);
+    }
+    /**
+     * Perform the information on the various tasks associated with the given action
+     * specified in parameter
+     * 
+     * @param nIdResource       the resource id
+     * @param strResourceType   the resource type
+     * @param nExternalParentId the external parent id
+     * @param request           the request
+     * @param nIdAction         the action id
+     * @param locale            the locale
+     * @param user				the user
+     * @return null if there is no error in the task form else return the error
+     *         message url
+     */
+    public String doSaveTasksForm( int nIdResource, String strResourceType, int nIdAction, Integer nExternalParentId,
+            HttpServletRequest request, Locale locale,User user )
+    {
         if ( isAvailable( ) )
         {
-            String strError = _provider.doValidateTasksForm( nIdResource, strResourceType, nIdAction, request, locale );
+            String strError = _provider.doValidateTasksForm( nIdResource, strResourceType, nIdAction, request, locale, user );
 
             if ( StringUtils.isNotBlank( strError ) )
             {
                 return strError;
             }
 
-            doProcessAction( nIdResource, strResourceType, nIdAction, nExternalParentId, request, locale, false );
+            doProcessAction( nIdResource, strResourceType, nIdAction, nExternalParentId, request, locale, false, user );
         }
 
         return null;
@@ -400,10 +500,30 @@ public final class WorkflowService
     public String getDisplayTasksForm( int nIdResource, String strResourceType, int nIdAction,
             HttpServletRequest request, Locale locale )
     {
+        return getDisplayTasksForm(nIdResource, strResourceType, nIdAction, request, locale, null); 
+        		
+    }
+    
+    /**
+     * returns the tasks form
+     * 
+     * @param nIdResource     the document id
+     * @param strResourceType the document type
+     * @param request         the request
+     * @param nIdAction       the action id
+     * @param locale          the locale
+     * @param user 			  the user
+     * @return the tasks form associated to the action
+     *
+     */
+    public String getDisplayTasksForm( int nIdResource, String strResourceType, int nIdAction,
+            HttpServletRequest request, Locale locale, User user )
+    {
         return isAvailable( )
-                ? _provider.getDisplayTasksForm( nIdResource, strResourceType, nIdAction, request, locale )
+                ? _provider.getDisplayTasksForm( nIdResource, strResourceType, nIdAction, request, locale, user )
                 : null;
     }
+
 
     /**
      * Check that a given user is allowed to view a resource depending the state of
@@ -574,8 +694,27 @@ public final class WorkflowService
      * @param bIsAutomatic      is automatic action
      * @return true if the action can proceed, false otherwise
      */
+    @Deprecated
     public boolean canProcessAction( int nIdResource, String strResourceType, int nIdAction, Integer nExternalParentId,
             HttpServletRequest request, boolean bIsAutomatic )
+    {
+        return canProcessAction(nIdResource, strResourceType, nIdAction, nExternalParentId, request, bIsAutomatic, null);
+    }
+
+    /**
+     * Check if the action can be proceed for the given resource
+     * 
+     * @param nIdResource       the id resource
+     * @param strResourceType   the resource type
+     * @param nIdAction         the id action
+     * @param nExternalParentId the external parent id
+     * @param request           the HTTP request
+     * @param bIsAutomatic      is automatic action
+     * @param user				the RBACUser
+     * @return true if the action can proceed, false otherwise
+     */
+    public boolean canProcessAction( int nIdResource, String strResourceType, int nIdAction, Integer nExternalParentId,
+            HttpServletRequest request, boolean bIsAutomatic,User user )
     {
         if ( isAvailable( ) && _service.canProcessAction( nIdResource, strResourceType, nIdAction, nExternalParentId ) )
         {
@@ -584,7 +723,7 @@ public final class WorkflowService
                 return true;
             }
 
-            return _provider.canProcessAction( nIdResource, strResourceType, nIdAction, request );
+            return _provider.canProcessAction( nIdResource, strResourceType, nIdAction, request, user );
         }
 
         return false;
