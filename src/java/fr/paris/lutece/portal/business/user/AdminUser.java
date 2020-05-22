@@ -48,8 +48,9 @@ import org.apache.commons.lang.StringUtils;
 import java.io.Serializable;
 
 import java.sql.Timestamp;
-
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -82,6 +83,9 @@ public class AdminUser implements Serializable, AdminWorkgroupResource, User
     private Timestamp _dateLastLogin;
     private String _strWorkgroupKey;
     private HashMap<String, Object> _userInfo = new HashMap<>( );
+    /** User's workgroups */
+    private List<String> _workgroups=new ArrayList<String>();
+    
 
     /**
      * User's rights. We use a HashMap instead of a Map so that the field is forced to be serializable.
@@ -689,6 +693,15 @@ public class AdminUser implements Serializable, AdminWorkgroupResource, User
     public static Timestamp getDefaultDateLastLogin( )
     {
         return new Timestamp( DEFAULT_DATE_LAST_LOGIN.getTime( ) );
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<String >getUserWorkgroups()
+    {
+    	return _workgroups;
     }
 
 }

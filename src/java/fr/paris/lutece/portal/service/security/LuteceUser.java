@@ -37,9 +37,11 @@ import fr.paris.lutece.portal.business.rbac.RBACRole;
 import fr.paris.lutece.portal.service.rbac.User;
 import java.io.Serializable;
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.ObjectUtils;
@@ -152,6 +154,8 @@ public abstract class LuteceUser implements Principal, Serializable, Cloneable, 
 
     /** Authentication Service */
     private String _strAuthenticationType;
+    /** User's workgroups */
+    private List<String> _workgroups=new ArrayList<String>();
 
     /**
      * Constructor
@@ -192,13 +196,9 @@ public abstract class LuteceUser implements Principal, Serializable, Cloneable, 
     }
 
     /**
-     * Gets a user's info
-     * 
-     * @param key
-     *            The info key
-     * @param <X> the value's type stored in the user map info
-     * @return The info value
+     * {@inheritDoc}
      */
+    @Override
     public final <X extends Object>X getUserInfo( String key )
     {
     	return (X)_mapUserInfo.get( key );   
@@ -484,5 +484,42 @@ public abstract class LuteceUser implements Principal, Serializable, Cloneable, 
     public String getEmail( )
     {
         return null;
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getAccessCode()
+    {
+    	return getName();
+    }
+   
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getLastName( )
+    {
+    	return this.getUserInfo(LuteceUser.NAME_FAMILY);
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public @Override
+    String getFirstName( )
+    {
+     	return this.getUserInfo(LuteceUser.NAME_GIVEN);
+    
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<String >getUserWorkgroups()
+    {
+    	return _workgroups;
     }
 }
