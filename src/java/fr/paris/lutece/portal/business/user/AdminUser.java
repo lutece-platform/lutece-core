@@ -661,13 +661,14 @@ public class AdminUser implements Serializable, AdminWorkgroupResource, User
      *            the key
      * @param info
      *            the info
+     * @param <X> the value's type stored in the user map info           
      * @return the previous value associated with <tt>strKey</tt>, or <tt>null</tt> if there was no mapping for <tt>strKey</tt>. (A <tt>null</tt> return can
      *         also indicate that <tt>null</tt> was previously associated with <tt>strKey</tt>)
      * @since 6.2.0
      */
-    public Object setUserInfo( String strKey, Object info )
+    public <X extends Object>X setUserInfo( String strKey, X info )
     {
-        return _userInfo.put( strKey, info );
+        return (X)_userInfo.put( strKey, info );
     }
 
     /**
@@ -675,13 +676,14 @@ public class AdminUser implements Serializable, AdminWorkgroupResource, User
      * 
      * @param strKey
      *            the key
+     * @param <X> the value's type stored in the user map info
      * @return the info
      * @since 6.2.0
      * @see #setUserInfo(String, Object)
      */
-    public Object getUserInfo( String strKey )
+    public <X extends Object>X getUserInfo( String strKey )
     {
-        return _userInfo.get( strKey );
+        return (X)_userInfo.get( strKey );
     }
 
     public static Timestamp getDefaultDateLastLogin( )
