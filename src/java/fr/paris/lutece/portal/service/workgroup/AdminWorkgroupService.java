@@ -72,7 +72,7 @@ public final class AdminWorkgroupService
 
         if ( !strWorkgroup.equals( ALL_GROUPS ) )
         {
-            return AdminWorkgroupHome.isUserInWorkgroup( user, strWorkgroup );
+            return user.getUserWorkgroups()!=null  && user.getUserWorkgroups().stream().anyMatch( x -> strWorkgroup.equals(x));
         }
 
         return true;

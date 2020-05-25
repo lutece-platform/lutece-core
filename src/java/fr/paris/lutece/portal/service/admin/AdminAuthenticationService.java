@@ -35,6 +35,7 @@ package fr.paris.lutece.portal.service.admin;
 
 import java.util.Collection;
 import java.util.Enumeration;
+import java.util.stream.Collectors;
 
 import javax.security.auth.login.LoginException;
 import javax.servlet.http.HttpServletRequest;
@@ -46,6 +47,7 @@ import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.business.user.AdminUserHome;
 import fr.paris.lutece.portal.business.user.authentication.AdminAuthentication;
 import fr.paris.lutece.portal.business.user.authentication.LuteceDefaultAdminAuthentication;
+import fr.paris.lutece.portal.business.workgroup.AdminWorkgroupHome;
 import fr.paris.lutece.portal.service.security.UserNotSignedException;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.portal.service.util.AppLogService;
@@ -252,6 +254,9 @@ public final class AdminAuthenticationService
         // set the rights for this user
         bindUser.setRoles( AdminUserHome.getRolesListForUser( bindUser.getUserId( ) ) );
 
+        //set the workgroups for this user
+        bindUser.setUserWorkgroups(AdminWorkgroupHome.getUserWorkgroups(bindUser).stream().map(x -> x.getCode()).collect(Collectors.toList()));
+        
         return bindUser;
     }
 

@@ -699,9 +699,21 @@ public class AdminUser implements Serializable, AdminWorkgroupResource, User
      * {@inheritDoc}
      */
     @Override
-    public List<String >getUserWorkgroups()
+    public List<String> getUserWorkgroups()
     {
     	return _workgroups;
     }
+
+    /**
+     * Defines user's workgroups
+     * 
+     * @param worgroups
+     *            The User workgroups
+     */
+    public void setUserWorkgroups( List<String> workgroups )
+    {
+    	this._workgroups=workgroups;
+    }
+    
 
 }
