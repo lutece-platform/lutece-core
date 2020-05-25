@@ -33,14 +33,15 @@
  */
 package fr.paris.lutece.portal.service.workgroup;
 
-import fr.paris.lutece.portal.business.user.AdminUser;
-import fr.paris.lutece.portal.business.workgroup.AdminWorkgroupHome;
-import fr.paris.lutece.portal.service.i18n.I18nService;
-import fr.paris.lutece.util.ReferenceList;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Locale;
+
+import fr.paris.lutece.portal.business.user.AdminUser;
+import fr.paris.lutece.portal.business.workgroup.AdminWorkgroupHome;
+import fr.paris.lutece.portal.service.i18n.I18nService;
+import fr.paris.lutece.portal.service.rbac.User;
+import fr.paris.lutece.util.ReferenceList;
 
 /**
  * AdminWorkgroupService
@@ -66,7 +67,7 @@ public final class AdminWorkgroupService
      *            The current user
      * @return true if authorized, otherwise false
      */
-    public static boolean isAuthorized( AdminWorkgroupResource resource, AdminUser user )
+    public static boolean isAuthorized( AdminWorkgroupResource resource, User user )
     {
         String strWorkgroup = normalizeWorkgroupKey( resource.getWorkgroup( ) );
 
@@ -89,7 +90,7 @@ public final class AdminWorkgroupService
      * @param user
      *            The user
      */
-    public static <E extends AdminWorkgroupResource> Collection<E> getAuthorizedCollection( Collection<E> collection, AdminUser user )
+    public static <E extends AdminWorkgroupResource> Collection<E> getAuthorizedCollection( Collection<E> collection, User user )
     {
         ArrayList<E> list = new ArrayList<>( );
 
