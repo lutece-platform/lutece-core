@@ -92,6 +92,12 @@ public interface User
       * Get the list of workgroups for this user
       * @return a list of  workgroups for this user
       */
-     List<String >getUserWorkgroups();
+     List<String> getUserWorkgroups();
+     /**
+      * Gets the realm of this user
+      * 
+      * @return the realm of this user
+      */
+     String getRealm( );
      
 }

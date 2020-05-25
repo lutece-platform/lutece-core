@@ -132,6 +132,8 @@ public abstract class LuteceUser implements Principal, Serializable, Cloneable, 
     public static final String BUSINESS_INFO_ONLINE_EMAIL = "user.business-info.online.email";
     public static final String BUSINESS_INFO_ONLINE_URI = "user.business-info.online.uri";
     public static final String ANONYMOUS_USERNAME = "GUEST";
+    /** USER REALM TYPE **/
+    public static final String USER_REALM = "FRONT_OFFICE_USER";
     private static final long serialVersionUID = -8733640540563208835L;
 
     /** Map containing users info */
@@ -522,4 +524,12 @@ public abstract class LuteceUser implements Principal, Serializable, Cloneable, 
     {
     	return _workgroups;
     }
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+	public String getRealm() 
+    {
+    	return USER_REALM;
+	}
 }

@@ -62,6 +62,8 @@ import javax.validation.constraints.NotNull;
 public class AdminUser implements Serializable, AdminWorkgroupResource, User
 {
     public static final String RESOURCE_TYPE = "ADMIN_USER";
+    /** USER REALM TYPE **/
+    public static final String USER_REALM = "BACK_OFFICE_USER";
     public static final int ACTIVE_CODE = 0;
     public static final int NOT_ACTIVE_CODE = 1;
     public static final int EXPIRED_CODE = 5;
@@ -714,6 +716,15 @@ public class AdminUser implements Serializable, AdminWorkgroupResource, User
     {
     	this._workgroups=workgroups;
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+	public String getRealm() 
+    {
+		return USER_REALM;
+	}
     
 
 }
