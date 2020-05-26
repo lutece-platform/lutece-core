@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.service.workgroup;
 
+import fr.paris.lutece.api.user.User;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Locale;
@@ -40,7 +41,6 @@ import java.util.Locale;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.business.workgroup.AdminWorkgroupHome;
 import fr.paris.lutece.portal.service.i18n.I18nService;
-import fr.paris.lutece.portal.service.rbac.User;
 import fr.paris.lutece.util.ReferenceList;
 
 /**

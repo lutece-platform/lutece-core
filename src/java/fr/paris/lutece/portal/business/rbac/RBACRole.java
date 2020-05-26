@@ -33,12 +33,13 @@
  */
 package fr.paris.lutece.portal.business.rbac;
 
+import fr.paris.lutece.api.user.UserRole;
 import java.io.Serializable;
 
 /**
  * This class describes a role used by the administration
  */
-public class RBACRole implements Serializable
+public class RBACRole implements Serializable, UserRole
 {
     private static final long serialVersionUID = 6596841223502982731L;
     private String _strKey;
@@ -69,6 +70,7 @@ public class RBACRole implements Serializable
      * 
      * @return The role Key.
      */
+    @Override
     public String getKey( )
     {
         return _strKey;
@@ -80,6 +82,7 @@ public class RBACRole implements Serializable
      * @param strKey
      *            The Key to set.
      */
+    @Override
     public void setKey( String strKey )
     {
         _strKey = strKey;
@@ -90,6 +93,7 @@ public class RBACRole implements Serializable
      * 
      * @return The description.
      */
+    @Override
     public String getDescription( )
     {
         return _strDescription;
@@ -101,6 +105,7 @@ public class RBACRole implements Serializable
      * @param strDescription
      *            The description to set.
      */
+    @Override
     public void setDescription( String strDescription )
     {
         _strDescription = strDescription;

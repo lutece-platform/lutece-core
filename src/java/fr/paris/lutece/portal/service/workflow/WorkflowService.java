@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.service.workflow;
 
+import fr.paris.lutece.api.user.User;
 import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
@@ -49,8 +50,6 @@ import fr.paris.lutece.plugins.workflowcore.business.action.Action;
 import fr.paris.lutece.plugins.workflowcore.business.state.State;
 import fr.paris.lutece.plugins.workflowcore.service.workflow.IWorkflowService;
 import fr.paris.lutece.portal.business.event.ResourceEvent;
-import fr.paris.lutece.portal.business.user.AdminUser;
-import fr.paris.lutece.portal.service.rbac.User;
 import fr.paris.lutece.portal.service.event.ResourceEventManager;
 import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.spring.SpringContextService;

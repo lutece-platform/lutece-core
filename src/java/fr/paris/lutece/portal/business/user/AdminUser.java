@@ -33,8 +33,9 @@
  */
 package fr.paris.lutece.portal.business.user;
 
+import fr.paris.lutece.api.user.User;
+import fr.paris.lutece.api.user.UserRole;
 import fr.paris.lutece.portal.business.rbac.RBACRole;
-import fr.paris.lutece.portal.service.rbac.User;
 import fr.paris.lutece.portal.business.right.Right;
 import fr.paris.lutece.portal.business.user.attribute.IAttribute;
 import fr.paris.lutece.portal.business.user.authentication.AdminAuthentication;
@@ -97,7 +98,7 @@ public class AdminUser implements Serializable, AdminWorkgroupResource, User
     /**
      * User's roles. We use a HashMap instead of a Map so that the field is forced to be serializable.
      */
-    private HashMap<String, RBACRole> _roles = new HashMap<>( );
+    private HashMap<String, UserRole> _roles = new HashMap<>( );
 
     /** Authentication Service */
     private String _strAuthenticationService;
@@ -247,6 +248,7 @@ public class AdminUser implements Serializable, AdminWorkgroupResource, User
      *
      * @return the user last name
      */
+    @Override
     public String getLastName( )
     {
         return _strLastName;
@@ -268,6 +270,7 @@ public class AdminUser implements Serializable, AdminWorkgroupResource, User
      *
      * @return the user first name
      */
+    @Override
     public String getFirstName( )
     {
         return _strFirstName;
@@ -289,6 +292,7 @@ public class AdminUser implements Serializable, AdminWorkgroupResource, User
      *
      * @return the user email
      */
+    @Override
     public String getEmail( )
     {
         return _strEmail;
@@ -308,6 +312,7 @@ public class AdminUser implements Serializable, AdminWorkgroupResource, User
     /**
      * @return Returns the _strAccessCode.
      */
+    @Override
     public String getAccessCode( )
     {
         return _strAccessCode;
@@ -370,13 +375,16 @@ public class AdminUser implements Serializable, AdminWorkgroupResource, User
      * @return Returns user's roles
      */
     @Deprecated
-    public Map<String, RBACRole> getRoles( )
+    public Map<String, UserRole> getRoles( )
     {
         return _roles;
     }
 
+    /**
+     * {@inheritDoc }
+     */
     @Override
-    public Map<String, RBACRole> getRBACRoles( )
+    public Map<String, UserRole> getUserRoles( )
     {
         return _roles;
     }
@@ -687,6 +695,7 @@ public class AdminUser implements Serializable, AdminWorkgroupResource, User
      * @since 6.2.0
      * @see #setUserInfo(String, Object)
      */
+    @Override
     public <X extends Object>X getUserInfo( String strKey )
     {
         return (X)_userInfo.get( strKey );

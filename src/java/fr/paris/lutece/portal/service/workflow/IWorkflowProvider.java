@@ -33,9 +33,9 @@
  */
 package fr.paris.lutece.portal.service.workflow;
 
+import fr.paris.lutece.api.user.User;
 import fr.paris.lutece.plugins.workflowcore.business.action.Action;
 import fr.paris.lutece.plugins.workflowcore.business.state.State;
-import fr.paris.lutece.portal.service.rbac.User;
 import fr.paris.lutece.util.ReferenceList;
 
 import java.util.Collection;

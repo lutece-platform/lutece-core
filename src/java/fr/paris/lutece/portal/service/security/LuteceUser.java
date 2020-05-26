@@ -33,8 +33,9 @@
  */
 package fr.paris.lutece.portal.service.security;
 
+import fr.paris.lutece.api.user.User;
+import fr.paris.lutece.api.user.UserRole;
 import fr.paris.lutece.portal.business.rbac.RBACRole;
-import fr.paris.lutece.portal.service.rbac.User;
 import java.io.Serializable;
 import java.security.Principal;
 import java.util.ArrayList;
@@ -286,9 +287,9 @@ public abstract class LuteceUser implements Principal, Serializable, Cloneable, 
      * {@inheritDoc }
      */
     @Override
-    public Map<String, RBACRole> getRBACRoles( )
+    public Map<String, UserRole> getUserRoles( )
     {
-        Map<String, RBACRole> mapRoles = new HashMap<>();
+        Map<String, UserRole> mapRoles = new HashMap<>();
         for( String strRole : _roles )
         {
             mapRoles.put( strRole , new RBACRole( strRole , strRole ));
@@ -483,6 +484,7 @@ public abstract class LuteceUser implements Principal, Serializable, Cloneable, 
      * 
      * @return The email
      */
+    @Override
     public String getEmail( )
     {
         return null;
