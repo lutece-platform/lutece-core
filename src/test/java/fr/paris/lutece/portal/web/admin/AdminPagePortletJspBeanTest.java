@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.web.admin;
 
+import fr.paris.lutece.api.user.UserRole;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.HashMap;
@@ -1055,7 +1056,7 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
      */
     private void removeUser( AdminUser user )
     {
-        Map<String, RBACRole> roles = user.getRoles( );
+        Map<String, UserRole> roles = user.getRoles( );
         for ( String roleKey : roles.keySet( ) )
         {
             RBACHome.removeForRoleKey( roleKey );
