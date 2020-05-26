@@ -630,10 +630,10 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
                 model.put( MARK_WORKGROUP_KEY_LIST,
                         AdminWorkgroupService.getUserWorkgroups( getUser( ), getLocale( ) ) );
                 model.put( SecurityTokenService.MARK_TOKEN,
-                        SecurityTokenService.getInstance( ).getToken( request, JSP_URL_CREATE_USER ) );
+                        SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_CREATE_USER ) );
             }
 
-            template = AppTemplateService.getTemplate( JSP_URL_CREATE_USER, getLocale( ), model );
+            template = AppTemplateService.getTemplate( TEMPLATE_CREATE_USER, getLocale( ), model );
         }
 
         return getAdminPage( template.getHtml( ) );
@@ -658,7 +658,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         String strAccessibilityMode = request.getParameter( PARAMETER_ACCESSIBILITY_MODE );
         String strWorkgroupKey = request.getParameter( PARAMETER_WORKGROUP_KEY );
 
-        String message = checkParameters( request, JSP_URL_CREATE_USER );
+        String message = checkParameters( request, TEMPLATE_CREATE_USER );
 
         if ( message != null )
         {
