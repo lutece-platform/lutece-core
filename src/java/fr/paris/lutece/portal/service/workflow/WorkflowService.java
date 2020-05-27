@@ -256,7 +256,7 @@ public final class WorkflowService
             {
                 String strUserAccessCode = bIsAutomatic ? null : _provider.getUserAccessCode( request , user );
                 _service.doProcessAction( nIdResource, strResourceType, nIdAction, nExternalParentId, request, locale,
-                        bIsAutomatic, strUserAccessCode);
+                        bIsAutomatic, strUserAccessCode, user);
                 TransactionManager.commitTransaction( null );
 
                 registerResourceEvent( nIdResource, strResourceType );
@@ -782,7 +782,7 @@ public final class WorkflowService
 
             try
             {
-                _service.executeActionAutomatic( nIdResource, strResourceType, nIdWorkflow, nExternalParentId);
+                _service.executeActionAutomatic( nIdResource, strResourceType, nIdWorkflow, nExternalParentId, user);
                 TransactionManager.commitTransaction( null );
 
                 registerResourceEvent( nIdResource, strResourceType );
@@ -892,7 +892,7 @@ public final class WorkflowService
             try
             {
                 _service.doProcessAutomaticReflexiveActions( nIdResource, strResourceType, nIdState, nIdExternalParent,
-                        locale);
+                        locale,user );
                 TransactionManager.commitTransaction( null );
 
                 registerResourceEvent( nIdResource, strResourceType );

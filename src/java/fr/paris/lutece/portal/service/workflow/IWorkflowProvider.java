@@ -70,22 +70,7 @@ public interface IWorkflowProvider
     Collection<Action> getActions( int nIdResource, String strResourceType, Collection<Action> listActions, User user );
     
     
-    /**
-     * returns a list of actions possible for a given document based on the status of the document in the workflow and the user role.
-     *
-     * @param nIdResource
-     * 			the id of the document
-     * @param strResourceType
-     * 			the type of the document
-     * @param listActions
-     *            the list actions
-     * @param user
-     *            the User
-     * @return a list of Action
-     */
-    @Deprecated
-    Collection<Action> getActions( int nIdResource, String strResourceType, Collection<Action> listActions, AdminUser user );
-
+    
     /**
      * returns a list of actions possible for a given document based on the status of the document in the workflow and the user role.
      * 
@@ -99,20 +84,7 @@ public interface IWorkflowProvider
      */
     Map<Integer, List<Action>> getActions( String strResourceType, Map<Integer, List<Action>> mapActions, User user );
 
-   /**
-     * returns a list of actions possible for a given document based on the status of the document in the workflow and the user role.
-     * 
-     * @param strResourceType
-     * 			the type of the document
-     * @param mapActions
-     *            the map actions
-     * @param user
-     *            the nUser
-     * @return a list of Action
-     */
-    @Deprecated
-    Map<Integer, List<Action>> getActions( String strResourceType, Map<Integer, List<Action>> mapActions, AdminUser user );
-
+   
 
     /**
      * returns the actions history performed on a resource.
@@ -133,25 +105,6 @@ public interface IWorkflowProvider
      */
     String getDisplayDocumentHistory( int nIdResource, String strResourceType, int nIdWorkflow, HttpServletRequest request, Locale locale, User user);
 
-    /**
-     * returns the actions history performed on a resource.
-     *
-     * @param nIdResource
-     *            the resource id
-     * @param strResourceType
-     *            the resource type
-     * @param nIdWorkflow
-     *            the workflow id
-     * @param request
-     *            the request
-     * @param locale
-     *            the locale
-     * @param User
-     *            the User
-     * @return the history of actions performed on a resource
-     */
-    @Deprecated
-    String getDisplayDocumentHistory( int nIdResource, String strResourceType, int nIdWorkflow, HttpServletRequest request, Locale locale, AdminUser user);
     
     /**
      * returns the actions history performed on a resource.
@@ -178,31 +131,7 @@ public interface IWorkflowProvider
     String getDisplayDocumentHistory( int nIdResource, String strResourceType, int nIdWorkflow, HttpServletRequest request, Locale locale,
             Map<String, Object> model, String strTemplate,User user );
 
-    /**
-     * returns the actions history performed on a resource.
-     *
-     * @param nIdResource
-     *            the resource id
-     * @param strResourceType
-     *            the resource type
-     * @param nIdWorkflow
-     *            the workflow id
-     * @param request
-     *            the request
-     * @param locale
-     *            the locale
-     * @param model
-     *            The model to add to the default model
-     * @param strTemplate
-     *            The template
-     * @param user 
-     * 			  the User        
-     * @return the history of actions performed on a resource
-     */
-    @Deprecated
-    String getDisplayDocumentHistory( int nIdResource, String strResourceType, int nIdWorkflow, HttpServletRequest request, Locale locale,
-            Map<String, Object> model, String strTemplate, AdminUser user );
-    
+     
     /**
      * returns a xml wich contains the actions history performed on a resource.
      *
@@ -220,24 +149,7 @@ public interface IWorkflowProvider
      */
     String getDocumentHistoryXml( int nIdResource, String strResourceType, int nIdWorkflow, HttpServletRequest request, Locale locale,  User user );
 
-    /**
-     * returns a xml wich contains the actions history performed on a resource.
-     *
-     * @param nIdResource
-     *            the resource id
-     * @param strResourceType
-     *            the resource type
-     * @param nIdWorkflow
-     *            the workflow id
-     * @param request
-     *            the request
-     * @param locale
-     *            the locale
-     * @return a xml wich contains the history of actions performed on a resource
-     */
-    @Deprecated
-    String getDocumentHistoryXml( int nIdResource, String strResourceType, int nIdWorkflow, HttpServletRequest request, Locale locale,  AdminUser user );
-
+   
     /**
      * returns the tasks form.
      *
@@ -258,27 +170,7 @@ public interface IWorkflowProvider
      */
     String getDisplayTasksForm( int nIdResource, String strResourceType, int nIdAction, HttpServletRequest request, Locale locale, User user);
 
-    /**
-     * returns the tasks form.
-     *
-     * @param nIdResource
-     *            the resource id
-     * @param strResourceType
-     *            the resource type
-     * @param nIdAction
-     *            the action id
-     * @param request
-     *            the request
-     * @param locale
-     *            the locale
-     * @param user 
-     * 			  the User        
- 
-     * @return the tasks form associated to the action
-     */
-    @Deprecated
-    String getDisplayTasksForm( int nIdResource, String strResourceType, int nIdAction, HttpServletRequest request, Locale locale, AdminUser user);
-
+   
     /**
      * Get all authorized resource Id.
      *
@@ -297,24 +189,7 @@ public interface IWorkflowProvider
     
     List<Integer> getAuthorizedResourceList( String strResourceType, int nIdWorkflow, int nIdWorkflowState, Integer nExternalParentId, User user );
 
-    /**
-     * Get all authorized resource Id.
-     *
-     * @param strResourceType
-     *            the resource type
-     * @param nIdWorkflow
-     *            the workflow id
-     * @param nIdWorkflowState
-     *            The workflow state id
-     * @param nExternalParentId
-     *            The external parent id
-     * @param user
-     *            the User
-     * @return The list
-     */
-    @Deprecated
-    List<Integer> getAuthorizedResourceList( String strResourceType, int nIdWorkflow, int nIdWorkflowState, Integer nExternalParentId, AdminUser user );
-
+   
     /**
      * Get all authorized resource Id.
      *
@@ -333,25 +208,7 @@ public interface IWorkflowProvider
     List<Integer> getAuthorizedResourceList( String strResourceType, int nIdWorkflow, List<Integer> lListIdWorkflowState, Integer nExternalParentId,
             User user );
 
-    /**
-     * Get all authorized resource Id.
-     *
-     * @param strResourceType
-     *            the resource type
-     * @param nIdWorkflow
-     *            the workflow id
-     * @param lListIdWorkflowState
-     *            The list workflow state id
-     * @param nExternalParentId
-     *            he external parent id
-     * @param user
-     *            the User
-     * @return The list
-     */
-    @Deprecated
-    List<Integer> getAuthorizedResourceList( String strResourceType, int nIdWorkflow, List<Integer> lListIdWorkflowState, Integer nExternalParentId,
-            AdminUser user );
-
+   
     /**
      * return a referencelist wich contains a list enabled workflow.
      *
@@ -363,17 +220,6 @@ public interface IWorkflowProvider
      */
     ReferenceList getWorkflowsEnabled( User user, Locale locale );
 
-    /**
-     * return a referencelist wich contains a list enabled workflow.
-     *
-     * @param user
-     *            the User
-     * @param locale
-     *            the locale
-     * @return a referencelist wich contains a list enabled workflow
-     */
-    @Deprecated
-    ReferenceList getWorkflowsEnabled( AdminUser user, Locale locale );
 
     /**
      * returns all state of a given workflow.
@@ -386,17 +232,6 @@ public interface IWorkflowProvider
      */
     Collection<State> getAllStateByWorkflow( Collection<State> listStates, User user );
 
-    /**
-     * returns all state of a given workflow.
-     *
-     * @param listStates
-     *            the list states
-     * @param user
-     *            the User
-     * @return the state of a given document
-     */
-    @Deprecated
-    Collection<State> getAllStateByWorkflow( Collection<State> listStates, AdminUser user );
 
     /**
      * The user access code.
@@ -408,16 +243,6 @@ public interface IWorkflowProvider
      */
     String getUserAccessCode( HttpServletRequest request, User user );
 
-    /**
-     * The user access code.
-     *
-     * @param request
-     *            the HTTP request
-     * @param user  the RBACUser             
-     * @return the user access code
-     */
-    @Deprecated
-    String getUserAccessCode( HttpServletRequest request, AdminUser user );
 
     // CHECK
 
@@ -436,21 +261,6 @@ public interface IWorkflowProvider
      */
     boolean isAuthorized( int nIdResource, String strResourceType, int nIdWorkflow, User user );
 
-    /**
-     * Check that a given user is allowed to view a resource depending the state of the resource.
-     *
-     * @param nIdResource
-     *            the document id
-     * @param strResourceType
-     *            the document type
-     * @param nIdWorkflow
-     *            the workflow id*
-     * @param user
-     *            the user
-     * @return a list of Action
-     */
-    @Deprecated
-    boolean isAuthorized( int nIdResource, String strResourceType, int nIdWorkflow, AdminUser user );
 
     /**
      * Check if the action can be proceed for the given resource.
@@ -468,22 +278,6 @@ public interface IWorkflowProvider
      */
     boolean canProcessAction( int nIdResource, String strResourceType, int nIdAction, HttpServletRequest request, User user );
     
-    /**
-     * Check if the action can be proceed for the given resource.
-     *
-     * @param nIdResource
-     * 			the id of the resource
-     * @param strResourceType
-     * 			the type of the resource
-     * @param nIdAction
-     *            the id action
-     * @param request
-     *            the HTTP request
-     * @param user the User          
-     * @return true if the action can proceed, false otherwise
-     */
-    @Deprecated
-    boolean canProcessAction( int nIdResource, String strResourceType, int nIdAction, HttpServletRequest request, AdminUser user );
     
     // DO
 
@@ -505,22 +299,4 @@ public interface IWorkflowProvider
      */
     String doValidateTasksForm( int nIdResource, String strResourceType, int nIdAction, HttpServletRequest request, Locale locale , User user );
 
-    /**
-     * Test if the information relating to various tasks associated with action are validated.
-     *
-     * @param nIdResource
-     *            the resource id
-     * @param strResourceType
-     *            the resource type
-     * @param nIdAction
-     *            the action id
-     * @param request
-     *            the request
-     * @param locale
-     *            the locale
-     * @param the user
-     * @return null if there is no error in the tasks form, return the error message otherwise
-     */
-    @Deprecated
-    String doValidateTasksForm( int nIdResource, String strResourceType, int nIdAction, HttpServletRequest request, Locale locale , AdminUser user );
 }
