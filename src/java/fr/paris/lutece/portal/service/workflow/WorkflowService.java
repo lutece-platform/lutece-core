@@ -33,7 +33,6 @@
  */
 package fr.paris.lutece.portal.service.workflow;
 
-import fr.paris.lutece.api.user.User;
 import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
@@ -46,10 +45,12 @@ import org.springframework.beans.factory.BeanDefinitionStoreException;
 import org.springframework.beans.factory.CannotLoadBeanClassException;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 
+import fr.paris.lutece.api.user.User;
 import fr.paris.lutece.plugins.workflowcore.business.action.Action;
 import fr.paris.lutece.plugins.workflowcore.business.state.State;
 import fr.paris.lutece.plugins.workflowcore.service.workflow.IWorkflowService;
 import fr.paris.lutece.portal.business.event.ResourceEvent;
+import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.event.ResourceEventManager;
 import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
@@ -143,6 +144,21 @@ public final class WorkflowService
 
         return null;
     }
+    /**
+     * returns a list of actions possible for a given document based on the status
+     * of the document in the workflow and the user role
+     * 
+     * @param nIdResource     the document id
+     * @param strResourceType the document type
+     * @param user            the adminUser
+     * @param nIdWorkflow     the workflow id
+     * @return a list of Action
+     */
+    @Deprecated
+    public Collection<Action> getActions( int nIdResource, String strResourceType, int nIdWorkflow, AdminUser user )
+    {
+            return getActions(nIdResource, strResourceType, nIdWorkflow, (User) user);
+    }
 
     /**
      * returns a list of actions possible for a given document based on the status
@@ -167,6 +183,23 @@ public final class WorkflowService
         }
 
         return null;
+    }
+    /**
+     * returns a list of actions possible for a given document based on the status
+     * of the document in the workflow and the user role
+     * 
+     * @param listIdResource      the list of resource id
+     * @param strResourceType     the document type
+     * @param nIdExternalParentId the external parent identifier
+     * @param nIdWorkflow         the workflow id
+     * @param user                the User
+     * @return a list of Action
+     */
+    @Deprecated
+    public Map<Integer, List<Action>> getActions( List<Integer> listIdResource, String strResourceType,
+            Integer nIdExternalParentId, int nIdWorkflow, AdminUser user )
+    {
+        return getActions(listIdResource, strResourceType, nIdExternalParentId, nIdWorkflow, (User) user);
     }
 
     /**
@@ -223,7 +256,7 @@ public final class WorkflowService
             {
                 String strUserAccessCode = bIsAutomatic ? null : _provider.getUserAccessCode( request , user );
                 _service.doProcessAction( nIdResource, strResourceType, nIdAction, nExternalParentId, request, locale,
-                        bIsAutomatic, strUserAccessCode );
+                        bIsAutomatic, strUserAccessCode);
                 TransactionManager.commitTransaction( null );
 
                 registerResourceEvent( nIdResource, strResourceType );
@@ -496,6 +529,7 @@ public final class WorkflowService
      * @return the tasks form associated to the action
      *
      */
+    @Deprecated
     public String getDisplayTasksForm( int nIdResource, String strResourceType, int nIdAction,
             HttpServletRequest request, Locale locale )
     {
@@ -523,7 +557,6 @@ public final class WorkflowService
                 : null;
     }
 
-
     /**
      * Check that a given user is allowed to view a resource depending the state of
      * the resource
@@ -537,6 +570,21 @@ public final class WorkflowService
     public boolean isAuthorized( int nIdResource, String strResourceType, int nIdWorkflow, User user )
     {
         return isAvailable( ) && _provider.isAuthorized( nIdResource, strResourceType, nIdWorkflow, user );
+    }
+    /**
+     * Check that a given user is allowed to view a resource depending the state of
+     * the resource
+     * 
+     * @param nIdResource     the document id
+     * @param strResourceType the document type
+     * @param user            the User
+     * @param nIdWorkflow     the workflow id
+     * @return a list of Action
+     */
+    @Deprecated
+    public boolean isAuthorized( int nIdResource, String strResourceType, int nIdWorkflow, AdminUser user )
+    {
+        return isAuthorized(nIdResource, strResourceType, nIdWorkflow, (User) user);
     }
 
     /**
@@ -557,6 +605,23 @@ public final class WorkflowService
                         nExternalParentId, user )
                 : null;
     }
+    /**
+     * Get all authorized resource Id
+     * 
+     * @param strResourceType   the resource type
+     * @param nIdWorkflow       the workflow id
+     * @param nIdWorkflowState  The workflow state id or -1 for all workflow states
+     * @param nExternalParentId The external parent id
+     * @param user              the User
+     * @return a list resource id
+     */
+    @Deprecated
+    public List<Integer> getAuthorizedResourceList( String strResourceType, int nIdWorkflow, int nIdWorkflowState,
+            Integer nExternalParentId, AdminUser user )
+    {
+    	return getAuthorizedResourceList(strResourceType, nIdWorkflow, nIdWorkflowState, nExternalParentId, (User)user);
+    
+    }
 
     /**
      * Get all authorized resource Id by list of state
@@ -575,6 +640,23 @@ public final class WorkflowService
         return isAvailable( ) ? _provider.getAuthorizedResourceList( strResourceType, nIdWorkflow, lListIdWorkflowState,
                 nExternalParentId, user ) : null;
     }
+    /**
+     * Get all authorized resource Id by list of state
+     * 
+     * @param strResourceType      the resource type
+     * @param nIdWorkflow          the workflow id
+     * @param lListIdWorkflowState The workflow state <b>id or null</b> for all
+     *                             workflow states
+     * @param nExternalParentId    the externbal parent identifier
+     * @param user                 the User
+     * @return a list resource id
+     */
+    @Deprecated
+    public List<Integer> getAuthorizedResourceList( String strResourceType, int nIdWorkflow,
+            List<Integer> lListIdWorkflowState, Integer nExternalParentId, AdminUser user )
+    {
+      return getAuthorizedResourceList(strResourceType, nIdWorkflow, lListIdWorkflowState, nExternalParentId, (User) user);
+    }
 
     /**
      * return a reference list which contains a list enabled workflow
@@ -587,11 +669,24 @@ public final class WorkflowService
     {
         return isAvailable( ) ? _provider.getWorkflowsEnabled( user, locale ) : null;
     }
+    /**
+     * return a reference list which contains a list enabled workflow
+     * 
+     * @param user   the User
+     * @param locale the locale
+     * @return a reference list which contains a list enabled workflow
+     */
+    @Deprecated
+    public ReferenceList getWorkflowsEnabled( AdminUser user, Locale locale )
+    {
+        return getWorkflowsEnabled((User) user, locale);
+    }
+
 
     /**
      * returns all state of a given workflow
      * 
-     * @param user        the adminUser
+     * @param user        the user
      * @param nIdWorkflow the workflow id
      * @return the state of a given document
      */
@@ -606,6 +701,20 @@ public final class WorkflowService
 
         return null;
     }
+    /**
+     * returns all state of a given workflow
+     * 
+     * @param user        the adminUser
+     * @param nIdWorkflow the workflow id
+     * @return the state of a given document
+     */
+    @Deprecated
+    public Collection<State> getAllStateByWorkflow( int nIdWorkflow, AdminUser user )
+    {
+          return getAllStateByWorkflow(nIdWorkflow, (User)user);
+    }
+
+    
 
     /**
      * returns the state of a given document of the document in the workflow and the
@@ -649,8 +758,23 @@ public final class WorkflowService
      * @param nIdWorkflow       the workflow id
      * @param nExternalParentId the external parent id
      */
+    @Deprecated
     public void executeActionAutomatic( int nIdResource, String strResourceType, int nIdWorkflow,
             Integer nExternalParentId )
+    {
+        executeActionAutomatic(nIdResource, strResourceType, nIdWorkflow, nExternalParentId, null);
+    }
+    /**
+     * Execute action automatic
+     * 
+     * @param nIdResource       the document id
+     * @param strResourceType   the document type
+     * @param nIdWorkflow       the workflow id
+     * @param nExternalParentId the external parent id
+     * @param user              the user  
+     */
+    public void executeActionAutomatic( int nIdResource, String strResourceType, int nIdWorkflow,
+            Integer nExternalParentId, User user )
     {
         if ( isAvailable( ) )
         {
@@ -658,7 +782,7 @@ public final class WorkflowService
 
             try
             {
-                _service.executeActionAutomatic( nIdResource, strResourceType, nIdWorkflow, nExternalParentId );
+                _service.executeActionAutomatic( nIdResource, strResourceType, nIdWorkflow, nExternalParentId);
                 TransactionManager.commitTransaction( null );
 
                 registerResourceEvent( nIdResource, strResourceType );
@@ -670,6 +794,7 @@ public final class WorkflowService
             }
         }
     }
+
 
     /**
      * Get the list of mass actions from a given id workflow
@@ -739,8 +864,26 @@ public final class WorkflowService
      * @param nIdExternalParent the external parent id*
      * @param locale            locale
      */
+    @Deprecated
     public void doProcessAutomaticReflexiveActions( int nIdResource, String strResourceType, int nIdState,
             Integer nIdExternalParent, Locale locale )
+    {
+      doProcessAutomaticReflexiveActions(nIdResource, strResourceType, nIdState, nIdExternalParent, locale, null);
+    }
+    /**
+     * Proceed automatic reflexive actions of state given in parameter. This method
+     * should be called anytime a service changed the state of a resource without
+     * proceeding a workflow action
+     * 
+     * @param nIdResource       the resource id
+     * @param strResourceType   the resource type
+     * @param nIdState          the state of the resource id
+     * @param nIdExternalParent the external parent id*
+     * @param locale            locale
+     * @param user				the user
+     */
+    public void doProcessAutomaticReflexiveActions( int nIdResource, String strResourceType, int nIdState,
+            Integer nIdExternalParent, Locale locale, User user )
     {
         if ( isAvailable( ) )
         {
@@ -749,7 +892,7 @@ public final class WorkflowService
             try
             {
                 _service.doProcessAutomaticReflexiveActions( nIdResource, strResourceType, nIdState, nIdExternalParent,
-                        locale );
+                        locale);
                 TransactionManager.commitTransaction( null );
 
                 registerResourceEvent( nIdResource, strResourceType );
