@@ -695,7 +695,6 @@ public class AdminUser implements Serializable, AdminWorkgroupResource, User
      * @since 6.2.0
      * @see #setUserInfo(String, Object)
      */
-    @Override
     public <X extends Object>X getUserInfo( String strKey )
     {
         return (X)_userInfo.get( strKey );
