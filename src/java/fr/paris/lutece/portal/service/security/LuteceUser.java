@@ -138,7 +138,7 @@ public abstract class LuteceUser implements Principal, Serializable, Cloneable, 
     private static final long serialVersionUID = -8733640540563208835L;
 
     /** Map containing users info */
-    private Map<String,Object> _mapUserInfo = new HashMap<>( );
+    private Map<String,String> _mapUserInfo = new HashMap<>( );
 
     /** User's name */
     private String _strUserName;
@@ -175,15 +175,16 @@ public abstract class LuteceUser implements Principal, Serializable, Cloneable, 
         _luteceAuthenticationService = authenticationService;
     }
 
+    
     /**
      * Gets the user info map
-     * @param <X> the value's type stored in the user map info
      * @return The user info map
      */
-    public final <X extends Object> Map<String, X> getUserInfos( )
+    public final Map<String, String> getUserInfos( )
     {
-        return (Map<String, X>)_mapUserInfo;
+        return _mapUserInfo;
     }
+
 
     /**
      * Add an user's info
@@ -193,18 +194,21 @@ public abstract class LuteceUser implements Principal, Serializable, Cloneable, 
      * @param value
      *            The info value
      */
-    public final void setUserInfo( String key, Object value )
+    public final void setUserInfo( String key, String value )
     {
         _mapUserInfo.put( key, value );
     }
-
+    
+    
     /**
-     * {@inheritDoc}
+     * Gets the user info value
+     * @param key The info key
+     * @return the user info value
      */
-    @Override
-    public final <X extends Object>X getUserInfo( String key )
+    
+    public final  String getUserInfo( String key )
     {
-    	return (X)_mapUserInfo.get( key );   
+    	return _mapUserInfo.get( key );   
     	
     }
 
