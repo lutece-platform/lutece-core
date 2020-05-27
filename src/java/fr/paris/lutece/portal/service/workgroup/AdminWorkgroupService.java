@@ -80,6 +80,22 @@ public final class AdminWorkgroupService
     }
 
     /**
+     * Check if a resource should be visible to the user according its workgroup
+     * 
+     * @param resource
+     *            The resource to check
+     * @param user
+     *            The current user
+     * @return true if authorized, otherwise false
+     * 
+     */
+    @Deprecated
+    public static boolean isAuthorized( AdminWorkgroupResource resource, AdminUser user )
+    {
+        return isAuthorized( resource, (User) user );
+    }
+
+    /**
      * Filter a collection of resources for a given user
      *
      * @return A filtered collection of resources
@@ -103,6 +119,23 @@ public final class AdminWorkgroupService
         }
 
         return list;
+    }
+    
+    /**
+     * Filter a collection of resources for a given user
+     *
+     * @return A filtered collection of resources
+     * @param <E>
+     *            The workgroup resource
+     * @param collection
+     *            The collection to filter
+     * @param user
+     *            The user
+     */
+    @Deprecated
+    public static <E extends AdminWorkgroupResource> Collection<E> getAuthorizedCollection( Collection<E> collection, AdminUser user )
+    {
+        return getAuthorizedCollection( collection, (User) user );
     }
 
     /**
