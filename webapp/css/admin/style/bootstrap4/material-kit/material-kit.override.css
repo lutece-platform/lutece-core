@@ -38,3 +38,7 @@ footer {
 }
 
 .btn-toolbar .bmd-form-group {padding-top:0;}
+
+.card-header .form-control::placeholder {
+  color: #fff;
+}
