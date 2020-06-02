@@ -1360,14 +1360,18 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 	<div class="row justify-content-between">
 		<div class="col">
 			<h3 class="ml-2">
-				<a href="${feature_url}" title="${feature_title}">${feature_title}</a>
+			<#if feature_url?? && feature_title??>
+				<a href="${feature_url}" title="${feature_title}">${feature_title!''}</a>
+				<#else>
+					${feature_title!''}
+				</#if>
 				<#if page_title?has_content><small>${page_title}</small></#if>
 			</h3>
 		</div>
 		<@adminHeaderDocumentationLink />
 	</div>
 </header>
-<section class="container-fluid<#if feature_url?ends_with('AdminSite.jsp')> no-padding</#if>">
+<section class="container-fluid<#if feature_url?? && feature_url?ends_with('AdminSite.jsp')>no-padding</#if>">
 </#macro>
 
 <#-- adminLoginPage  -->
@@ -1611,20 +1615,4 @@ $(function() {
 		<@button color='link text-dark' size='sm' type='submit' buttonIcon='eye-slash' title='#i18n{portal.users.admin_header.labelActivateAccessibilityMode}'/>
 	</#if>
 </@tform>
-</#macro>
-
-<#-- adminContentHeader  -->
-<#macro adminContentHeader >
-<header>
-	<div class="row justify-content-between">
-		<div class="col">
-			<h3 class="ml-2">
-				<a href="${feature_url}" title="${feature_title}">${feature_title}</a>
-				<#if page_title?has_content><small>${page_title}</small></#if>
-			</h3>
-		</div>
-		<@adminHeaderDocumentationLink />
-	</div>
-</header>
-<section class="content <#if feature_url?ends_with('AdminSite.jsp')>no-padding</#if>">
 </#macro>
