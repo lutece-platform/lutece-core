@@ -1778,7 +1778,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         request.setParameter( "email_sender", "junit" );
         request.setParameter( "email_subject", "junit" );
         request.setParameter( "email_body", "junit" );
-        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "jsp/admin/user/ModifyAccountLifeTimeEmails.jsp" ) );
         try
         {
             bean.doModifyAccountLifeTimeEmails( request );
@@ -1805,7 +1805,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
         request.setParameter( "email_sender", "junit" );
         request.setParameter( "email_subject", "junit" );
         request.setParameter( "email_body", "junit" );
-        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "ManageAdvancedParameters.jsp" )
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS )
                 + "b" );
         try
         {

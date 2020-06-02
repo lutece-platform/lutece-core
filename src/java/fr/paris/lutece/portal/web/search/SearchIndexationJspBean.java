@@ -39,6 +39,7 @@ import fr.paris.lutece.portal.service.search.SearchIndexer;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
+import fr.paris.lutece.portal.web.dashboard.AdminDashboardJspBean;
 import fr.paris.lutece.util.html.HtmlTemplate;
 
 import java.util.Collection;
