@@ -632,7 +632,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
                 model.put( MARK_WORKGROUP_KEY_LIST,
                         AdminWorkgroupService.getUserWorkgroups( getUser( ), getLocale( ) ) );
                 model.put( SecurityTokenService.MARK_TOKEN,
-                        SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_CREATE_USER ) );
+                        SecurityTokenService.getInstance( ).getToken( request, JSP_URL_CREATE_USER ) );
             }
 
             template = AppTemplateService.getTemplate( TEMPLATE_CREATE_USER, getLocale( ), model );
