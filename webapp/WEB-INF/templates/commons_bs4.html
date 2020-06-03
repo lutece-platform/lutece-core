@@ -813,7 +813,7 @@
 <#-- style: btn-block/btn-flat/disabled/btn-app -->
 <#-- icon: icon name ex: info/check/comment/envelope... -->
 <#-- ShowTitleXs is UNUSED in Bootstrap 4. -->
-<#macro aButton name='' id='' href='' size='' color='primary' style='btn' class='' params='' title='' tabIndex='' hideTitle=[] showTitle=true showTitleXs=true showTitleSm=true showTitleMd=true showTitleLg=true showTitleXl=true buttonIcon='' disabled=false iconPosition='left' dropdownMenu=false>
+<#macro aButton name='' id='' href='' size='' color='primary' style='btn' align='' class='' params='' title='' tabIndex='' hideTitle=[] showTitle=true showTitleXs=true showTitleSm=true showTitleMd=true showTitleLg=true showTitleXl=true buttonIcon='' disabled=false iconPosition='left' dropdownMenu=false>
 <#local displayTitleClass = displaySettings(hideTitle,'inline') />
 	<#if !showTitleXs><#local showTitleSm = false></#if>
 	<#-- Visibility of button title -->
@@ -837,6 +837,8 @@
 	<#if size = 'xs'>
 		<#local size = 'sm' />
 	</#if>
+	
+	<#local class += alignmentSettings(align) />
 	
 	<#if dropdownMenu>
 		<div class="btn-group">

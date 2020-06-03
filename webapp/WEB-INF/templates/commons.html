@@ -1241,7 +1241,7 @@ and is kept only for backwards compatibility
 <#-- style: btn-block/btn-flat/disabled/btn-app -->
 <#-- icon: icon name ex: info/check/comment/envelope... -->
 <#-- showTitle, showTitleXs, showTitleSm, showTitleMd, showTitleLg are deprecated in Lutece v7 -->
-<#macro aButton name='' id='' href='' size='' color='primary' style='btn-flat' class='' params='' title='' tabIndex='' hideTitle=[] showTitle=true showTitleXs=true showTitleSm=true showTitleMd=true showTitleLg=true buttonIcon='' disabled=false iconPosition='left' dropdownMenu=false>
+<#macro aButton name='' id='' href='' size='' color='primary' style='btn-flat' align='' class='' params='' title='' tabIndex='' hideTitle=[] showTitle=true showTitleXs=true showTitleSm=true showTitleMd=true showTitleLg=true buttonIcon='' disabled=false iconPosition='left' dropdownMenu=false>
 	<#-- Bootstrap 4 transition -->
 	<#if color='secondary'>
 		<#local color_temp='default'>
@@ -1259,6 +1259,8 @@ and is kept only for backwards compatibility
 	<#if showTitleSm = false><#local showTitleClass = showTitleClass + ' hidden-sm' /></#if>
 	<#if showTitleMd = false><#local showTitleClass = showTitleClass + ' hidden-md' /></#if>
 	<#if showTitleLg = false><#local showTitleClass = showTitleClass + ' hidden-lg' /></#if>
+	
+	<#local class += alignmentSettings(align) />
 	
 	<a class="btn<#if size!=''> btn-${size}</#if><#if color_temp!=''> btn-${color_temp}</#if><#if style!=''> ${style}</#if><#if class!=''> ${class}</#if>"<#if name!=''> name="${name}"</#if><#if id!=''> id="${id}"</#if> href="${href}" title="${title}"<#if params!=''> ${params}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if>>
 		<#if buttonIcon!='' && iconPosition='left'><@icon style=buttonIcon /></#if>
