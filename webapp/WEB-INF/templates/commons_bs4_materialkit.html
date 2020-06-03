@@ -1586,29 +1586,28 @@ $(function() {
 </#macro>
 
 <#macro adminLanguage languages lang action='jsp/admin/DoChangeLanguage.jsp' >
-<@tform method='post' action=action class='form-inline'>
-	<@input type='hidden' name='token' value='${token}' />
-	<@row>
-		<@columns class="mx-4">
-			<@icon style='language' /> #i18n{portal.admin.admin_home.language}
-		</@columns>
-	</@row>
-	<@row>
-		<#list languages as language>
-		<@columns>
-			<#if lang=language.code>
-				<#assign islocale='check-circle text-success pl-4'>
-				<#assign title=' Selectionné '>
-			<#else>
-				<#assign islocale=''>
-				<#assign title=''>
-			</#if>
-			<@button color='' class='${language.code}' type='submit' name='language' value='${language.code}' title='${language.name?capitalize}${title}' buttonIcon='${islocale}' hideTitle=['all'] showTitle=false />
-		</@columns>
-		</#list>
-	</@row>
-</@tform>
+    <@row>
+            <@columns class="mx-4">
+                    <@icon style='language' /> #i18n{portal.admin.admin_home.language}
+            </@columns>
+    </@row>
+    <@tform method='post' action=action class='form-inline'>
+    <input type="hidden" name="token" value="${token}">
+        <@row>
+            <@columns class="mx-4">
+            <#list languages as language>
+                <#if lang==language.code>
+                        <#local languageButtonColor='success'>
+                <#else>
+                        <#local languageButtonColor='default'>
+                </#if>
+                <@button color='${languageButtonColor}' type='submit' name='language' value='${language.code}' title='${language.name}' size='xs' />
+            </#list>
+            </@columns>
+        </@row>
+    </@tform>
 </#macro>
+
 
 <#macro adminAccessibilityMode>
 <@tform method='post' action='jsp/admin/DoModifyAccessibilityMode.jsp' class="ml-2">
