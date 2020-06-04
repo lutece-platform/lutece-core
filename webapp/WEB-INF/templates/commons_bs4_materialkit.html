@@ -859,6 +859,8 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 				<#nested>
 			</div>
 		</div>
+	<#else>
+		TTTTTTTTTTTTTTTTTTTTTTTTTT<#nested>
 	</#if>
 </#macro>
 
@@ -1245,17 +1247,21 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 	<div class="skipnav"><a href="#main">allez au contenu principal</a></div>
 	<h1 id="top" class="sr-only sr-only-focusable">Haut de page</h1>
 	<header class="main-header" role="banner">
-		<!-- <nav class="navbar navbar-expand-md navbar-fixed-top bg-primary" role="navigation"> -->
-	  <nav class="navbar navbar-expand-lg bg-${mainColor} fixed-top">
-			<a class="navbar-brand" href="jsp/site/Portal.jsp" title="#i18n{portal.users.admin_header.title.viewSite} ${site_name}" target="_blank" >
-				<img src="#dskey{portal.site.site_property.logo_url}" height="30" class="d-inline-block align-top" aria-hidden="true" title="#i18n{portal.users.admin_header.title.viewSite} ${site_name}" alt="${site_name}">
-				<#if site_name?length &gt; 18> ${site_name?substring(0,16)}... <#else> ${site_name}</#if>
-			</a>
-			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-			<div class="collapse navbar-collapse" id="navbar-collapse">
-				<ul class="navbar-nav mr-auto">
+	  <nav class="navbar navbar-expand-lg bg-${mainColor} fixed-top" role="navigation">
+			<div class="navbar-translate">
+				<a class="navbar-brand" href="jsp/site/Portal.jsp" title="#i18n{portal.users.admin_header.title.viewSite} ${site_name}" target="_blank" >
+					<img src="#dskey{portal.site.site_property.logo_url}" height="30" class="d-inline-block align-top" aria-hidden="true" title="#i18n{portal.users.admin_header.title.viewSite} ${site_name}" alt="${site_name}">
+					<#if site_name?length &gt; 18> ${site_name?substring(0,16)}... <#else> ${site_name}</#if>
+				</a>
+				<button class="navbar-toggler" type="button" data-toggle="collapse" aria-expanded="false" aria-label="Toggle navigation">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="navbar-toggler-icon"></span>
+					<span class="navbar-toggler-icon"></span>
+					<span class="navbar-toggler-icon"></span>
+				</button>
+			</div>
+			<div class="collapse navbar-collapse nav-open">
+				<ul class="navbar-nav ml-auto">
 				<#list feature_group_list as feature_group>
 				  <#if feature_group.features?size &gt; 1>
 					 	<li class="nav-item dropdown">

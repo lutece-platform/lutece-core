@@ -1232,6 +1232,8 @@ and is kept only for backwards compatibility
 		<ul class="dropdown-menu"<#if id!=''> id="${id}-content" aria-labelledby="${id}-content"</#if>>
 			<#nested>
 		</ul>
+	<#else>
+		<#nested>
 	</#if>
 </#macro>
 
