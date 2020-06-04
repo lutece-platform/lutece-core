@@ -115,7 +115,7 @@
 						<td class="hidden-xs"><#if user.status = 10 >#i18n{portal.users.anonymize_user.statusLabelAnonymize}<#else>${user.firstName}</#if></td>
             <td class="hidden-xs  hidden-sm"><em><#if user.status = 10 >#i18n{portal.users.anonymize_user.statusLabelAnonymize}<#else>${user.accessCode}</#if></em></td>
             <td><#if user.status = 10 >#i18n{portal.users.anonymize_user.statusLabelAnonymize}<#else><@link href='mailto:${user.email}' title='${user.email}'>${user.email}</@link></#if></td>
-			<td class="hidden-xs">${user.dateLastLogin}</td>
+			<td class="hidden-xs">${user.dateLastLogin!}</td>
 			<td class="hidden-xs">
               <#if user.status == 0 >
 							<@tag color='success'>
