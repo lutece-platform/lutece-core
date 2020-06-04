@@ -18,9 +18,7 @@
                     </@formGroup>  
                     <@row>
                       <@columns md=4 offsetMd=4>
-                          <@button type='submit' name='submit'>
-                              <@icon style='check' /> #i18n{portal.security.public_url_advanced_parameters.buttonValidate}
-                          </@button> 
+                          <@button type='submit' name='submit' buttonIcon='check' title='#i18n{portal.security.public_url_advanced_parameters.buttonValidate}' /> 
                           <@aButton color='danger' title='Supprimer' href='jsp/admin/security/ConfirmRemovePublicUrl.jsp?public_url_code=${public_url.code}' buttonIcon='trash' />
                       </@columns>    
                     </@row> 
@@ -36,14 +34,9 @@
                 </@formGroup>
                 <@row>
                   <@columns md=4 offsetMd=4>
-                      <@button type='submit'>
-                          <@icon style="plus" /> #i18n{portal.security.public_url_advanced_parameters.buttonAddUrl}
-                      </@button> 
+                      <@button type='submit' buttonIcon='plus' title='#i18n{portal.security.public_url_advanced_parameters.buttonAddUrl}' /> 
                       <p class="help-text">#i18n{portal.security.public_url_advanced_parameters.publicListUrlLabelComment}</p>
-                      <@button color="btn-default" params=' onclick="javascript:window.history.back();" '>
-                          <@icon style="remove" /> #i18n{portal.security.public_url_advanced_parameters.buttonCancel}
-                      </@button> 
- 
+                      <@button color="btn-default" params=' onclick="javascript:window.history.back();" ' buttonIcon='times' title='#i18n{portal.security.public_url_advanced_parameters.buttonCancel}' /> 
                   </@columns>    
                 </@row> 
               </@tform>
