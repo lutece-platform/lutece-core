@@ -95,7 +95,8 @@
             <th class="hidden-xs">#i18n{portal.users.manage_users.columnTitleFirstName} <@sort jsp_url="jsp/admin/user/ManageUsers.jsp" attribute="firstName${sort_search_attribute}" /></th>
             <th class="hidden-xs hidden-sm">#i18n{portal.users.manage_users.columnTitleAccessCode} <@sort jsp_url="jsp/admin/user/ManageUsers.jsp" attribute="accessCode${sort_search_attribute}" /></th>
             <th>#i18n{portal.users.manage_users.columnTitleEmail} <@sort jsp_url="jsp/admin/user/ManageUsers.jsp" attribute="email${sort_search_attribute}" /> </th>
-						<th class="hidden-xs">#i18n{portal.users.manage_users.columnTitleStatus}</th>
+			<th class="hidden-xs">#i18n{portal.users.manage_users.columnTitleDateLastLogin} <@sort jsp_url="jsp/admin/user/ManageUsers.jsp" attribute="dateLastLogin${sort_search_attribute}" /></th>
+			<th class="hidden-xs">#i18n{portal.users.manage_users.columnTitleStatus}</th>
             <#list attributes_list as attribute>
               <#if attribute.shownInResultList>
                 <th>${attribute.title}</th>
@@ -114,7 +115,8 @@
 						<td class="hidden-xs"><#if user.status = 10 >#i18n{portal.users.anonymize_user.statusLabelAnonymize}<#else>${user.firstName}</#if></td>
             <td class="hidden-xs  hidden-sm"><em><#if user.status = 10 >#i18n{portal.users.anonymize_user.statusLabelAnonymize}<#else>${user.accessCode}</#if></em></td>
             <td><#if user.status = 10 >#i18n{portal.users.anonymize_user.statusLabelAnonymize}<#else><@link href='mailto:${user.email}' title='${user.email}'>${user.email}</@link></#if></td>
-            <td class="hidden-xs">
+			<td class="hidden-xs">${user.dateLastLogin}</td>
+			<td class="hidden-xs">
               <#if user.status == 0 >
 							<@tag color='success'>
 								<@icon style='check-circle' />&#160;#i18n{portal.util.labelEnabled}

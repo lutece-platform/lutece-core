@@ -1188,7 +1188,7 @@ and is kept only for backwards compatibility
 <#-- color: default/primary/success/warning/danger/info/bg-purple/bg-blue/bg-navy/bg-teal/bg-maroon/bg-black/bg-gray/bg-olive/bg-lime/bg-orange/bg-fuchsia -->
 <#-- style: disabled ignored : btn-block/btn-flat/btn-app-->
 <#-- icon: icon name ex: info/check/comment/envelope... -->
-<#macro aButton name='' id='' href='' size='' color='primary' style='' class='' params='' title='' tabIndex='' hideTitle=[] showTitle=true showTitleXs=true showTitleSm=true showTitleMd=true showTitleLg=true buttonIcon='' disabled=false iconPosition='left' dropdownMenu=false cancel=false>
+<#macro aButton name='' id='' href='' size='' color='primary' style='' align='' class='' params='' title='' tabIndex='' hideTitle=[] showTitle=true showTitleXs=true showTitleSm=true showTitleMd=true showTitleLg=true buttonIcon='' disabled=false iconPosition='left' dropdownMenu=false cancel=false>
 <#local displayTitleClass = displaySettings(hideTitle,'inline') />
 	<#if cancel || color = 'default' || color = 'secondary'>
 		<#assign buttonColor = 'light' />
@@ -1217,6 +1217,8 @@ and is kept only for backwards compatibility
     <#default>
         <#assign buttonSize='normal'>
 </#switch>
+
+<#local class += alignmentSettings(align) />
 
 <#if dropdownMenu>
 <div class="dropdown">

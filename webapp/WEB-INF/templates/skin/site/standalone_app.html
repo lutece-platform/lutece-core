@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="${user_context_language}">
+<html lang="<#if user_context_language?? && user_context_language?has_content>${user_context_language}</#if>">
 <head>
 <base href="${base_url}"/>
 <title>#i18n{portal.site.standalone_app.applicationsList.pageTitle}</title>
 <meta http-equiv="x-ua-compatible" content="IE=edge,chrome=1" >
 <meta charset="UTF-8"/>
 <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/>
-<meta http-equiv="Content-Language" content="${user_context_language}"/>
+<meta http-equiv="Content-Language" content="<#if user_context_language?? && user_context_language?has_content>${user_context_language}</#if>"/>
 <meta name="author" content=""/>
 <meta name="copyright" content=""/>
 <meta name="keywords" content=""/>
