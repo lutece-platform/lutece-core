@@ -138,7 +138,7 @@ public class AdminMessage implements Serializable
     public AdminMessage( String strTextKey, Object [ ] messageArgs, String strTitleKey, String strUrl, String strTarget, int nType, boolean bCancelButton,
             Map<String, Object> requestParameters, String strBackUrl )
     {
-        buildAdminMessage( strTextKey, messageArgs, strTitleKey, strUrl, strTarget, nType, bCancelButton, requestParameters, null );
+        buildAdminMessage( strTextKey, messageArgs, strTitleKey, strUrl, strTarget, nType, bCancelButton, requestParameters, strBackUrl );
     }
 
     /**
