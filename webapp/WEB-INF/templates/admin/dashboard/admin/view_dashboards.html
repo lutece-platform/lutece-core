@@ -26,7 +26,7 @@ function manageTab( hc ){
 		$('.tab-pane').removeClass('active').removeClass('in');
 		$(hc).addClass('active in');
 		$('html, body').animate({scrollTop: $(hc).offset().top}, 800);
-		Cookies.remove('technnicaltab');
+		
 	}
 }
 
@@ -35,7 +35,11 @@ $( function(){
 	manageTab( hasTechCookie )
 	$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
 		var tt = e.target.hash;
-		Cookies.set('technnicaltab', e.target.hash, {domain: 'localhost'} )
-	})
+		Cookies.set('technnicaltab', e.target.hash, { sameSite: 'Strict' } )
+	});
+	
+	$('.collapsed').on('click', function(e){
+		Cookies.remove('technnicaltab');
+	});
 });
 </script>
