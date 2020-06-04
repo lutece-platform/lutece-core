@@ -2483,6 +2483,9 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
 
         String strSubject = ( defaultUserParameter == null ) ? StringUtils.EMPTY : defaultUserParameter;
 
+        // ITEM NAVIGATION
+        setItemNavigator( getUser().getUserId() , AppPathService.getBaseUrl( request ) + JSP_URL_MODIFY_ACCOUNT_LIFE_TIME_EMAIL );
+
         model.put( PARAMETER_EMAIL_TYPE, strEmailType );
         model.put( MARK_EMAIL_SENDER, strSender );
         model.put( MARK_EMAIL_SUBJECT, strSubject );
@@ -2490,6 +2493,7 @@ public class AdminUserJspBean extends AdminFeaturesPageJspBean
         model.put( MARK_EMAIL_LABEL, strTitle );
         model.put( MARK_WEBAPP_URL, AppPathService.getBaseUrl( request ) );
         model.put( MARK_LOCALE, getLocale( ) );
+        model.put( MARK_ITEM_NAVIGATOR, _itemNavigator );
         model.put( SecurityTokenService.MARK_TOKEN,
                 SecurityTokenService.getInstance( ).getToken( request, JSP_URL_MODIFY_ACCOUNT_LIFE_TIME_EMAIL ) );
 
