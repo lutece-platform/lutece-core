@@ -648,7 +648,7 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 
 <#-- Tab Container -->
 <#macro tabs color='' id='' params=''>
-	<div class="<#if color!=''> ${color}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+	<div class="card card-nav-tabs<#if color!=''> ${color}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 		<#nested>
 	</div>
 </#macro>
@@ -656,9 +656,23 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 <#-- Tabs List -->
 <#-- type: tabs/tabs nav-justified/pills/pills nav-stacked/pills nav-justified -->
 <#macro tabList type='tabs' vertical=false id='' params='' color=''>
-		<ul class="nav nav-${type}<#if vertical> flex-column mb-3</#if>" style="margin-bottom:1.5rem;"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if> role="tablist">
-			<#nested>
-		</ul>
+		<#if type != 'pills'>
+		<div class="card-header card-header-primary">
+			<div class="nav-tabs-navigation">
+				<div class="nav-tabs-wrapper">
+		<#else>
+			<script type="text/javascript">
+				$(".nav-pills").parent().removeClass("card card-nav-tabs");
+			</script>
+		</#if>
+					<ul class="nav nav-${type}<#if type='pills'> nav-pills-icons</#if><#if vertical> flex-column mb-3</#if>" data-tabs="tabs" <#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if> role="tablist">
+						<#nested>
+					</ul>
+		<#if type != 'pills'>
+				</div>
+			</div>
+		</div>
+		</#if>
 </#macro>
 
 <#-- Tabs -->
@@ -682,9 +696,11 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 
 <#-- TAB Content -->
 <#macro tabContent id='' params=''>
+	<div class="card-body">
 		<div class="tab-content"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 			<#nested>
 		</div>
+	</div>
 </#macro>
 
 <#-- Tab Panel BS4 -->

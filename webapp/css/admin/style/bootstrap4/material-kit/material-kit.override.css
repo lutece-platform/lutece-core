@@ -50,3 +50,5 @@ body > main {margin-bottom:50px;}
 #login-page {
 	min-height:0px;
 }
+
+pre {white-space:pre-wrap;}
