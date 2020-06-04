@@ -1,17 +1,41 @@
 <@row>	
 	<@columns>
-		<h1> <@icon style='cog' /> #i18n{portal.admindashboard.view_dashboards.title}</h1>
+		<h1><@icon style='cog' /> #i18n{portal.admindashboard.view_dashboards.title}</h1>
 		<@row>	
 			<@columns>
 			<@accordionContainer id='technical_settings'>
-			<#if column_content_1?has_content>
-							${column_content_1}
-			</#if>
-			<#if column_content_2?has_content>
-							${column_content_2}
-			</#if>
-			</@accordionContainer>
+				<#if column_content_1?has_content>
+					${column_content_1}
+				</#if>
+				<#if column_content_2?has_content>
+					${column_content_2}
+				</#if>
+				</@accordionContainer>
 			</@columns>
 		</@row>
 	</@columns>
 </@row>
+<script src="js/js.cookie.js" ></script>
+<script>
+function manageTab( hc ){
+	if( hc != undefined ){
+		$(hc).parents('.collapse').addClass('in');
+		$('.nav li').removeClass('active');
+		var k='a[href="' + hc + '"]';
+		$(k).parent().addClass('active');
+		$('.tab-pane').removeClass('active').removeClass('in');
+		$(hc).addClass('active in');
+		$('html, body').animate({scrollTop: $(hc).offset().top}, 800);
+		Cookies.remove('technnicaltab');
+	}
+}
+
+$( function(){
+	var hasTechCookie=Cookies.get('technnicaltab');
+	manageTab( hasTechCookie )
+	$('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
+		var tt = e.target.hash;
+		Cookies.set('technnicaltab', e.target.hash, {domain: 'localhost'} )
+	})
+});
+</script>
