@@ -208,8 +208,8 @@ public abstract class LuteceUser implements Principal, Serializable, Cloneable, 
     
     public final  String getUserInfo( String key )
     {
-    	return _mapUserInfo.get( key );   
-    	
+    	 String strInfo = _mapUserInfo.get( key );
+         return ( strInfo == null ) ? "" : strInfo; 
     }
 
     // /////////////////////////////////////////////////////////////////////////
