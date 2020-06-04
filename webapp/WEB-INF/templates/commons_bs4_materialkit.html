@@ -400,8 +400,8 @@
 				<#local divClass="col-sm-12">
 		</#if>
 	<#else>
-		<#local labelClass = "col-sm-12">
-		<#local divClass = "col-sm-12">
+		<#local labelClass = "col-12">
+		<#local divClass = "col-lg-6">
 	</#if>
 	<#local labelClass = labelClass + " bmd-label-floating">
 	<#if labelKey!=''>
@@ -763,7 +763,7 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 </div>
 </#macro>
 
-<#macro progressBar description='' id='' params='style=\"height:18px;\"'>
+<#macro progressBar description='' id='' params='style=\"height:18px; margin-top:40px;\"'>
 <div class="progress"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 	<div id="progressbar" class="progress-bar" role="progressbar">
 		<div id="complexity"><span class="d-none">0%</span></div>

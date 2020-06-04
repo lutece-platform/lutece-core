@@ -11,7 +11,7 @@
 						<label id="resourceList">#i18n{portal.rbac.select_resource_ids.labelSelectIdsFromList}</label>
 						<div aria-labelledby="resourceList">
 						<#list resource_id_list as item>
-							<@checkBox name='resource_id' id='resource_id' value='${item.code}' labelKey='${item.name}' />
+							<@checkBox name='resource_id' id='${item.name}' value='${item.code}' labelKey='${item.name}' />
 						</#list>
 						</div>
 					</@formGroup>

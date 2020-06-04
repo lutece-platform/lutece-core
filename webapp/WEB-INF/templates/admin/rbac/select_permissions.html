@@ -20,9 +20,9 @@
 					<@formGroup>
 						<#list permissions_list as item>
 							<#if item.checked >
-								<@checkBox name='permission_key' id='permission_key' value='${item.code}' labelKey='${item.name}' />
+								<@checkBox name='permission_key' id='${item.name}' value='${item.code}' labelKey='${item.name}' />
 							<#else>
-								<@checkBox name='permission_key' id='permission_key' value='${item.code}' labelKey='${item.name}' />
+								<@checkBox name='permission_key' id='${item.name}' value='${item.code}' labelKey='${item.name}' />
 							</#if>
 						</#list>
 					</@formGroup>

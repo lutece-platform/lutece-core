@@ -36,6 +36,8 @@ body > main {margin-bottom:50px;}
     margin-top: -1.1em;
 }
 
+.navbar {padding: .5rem 1rem!important;}
+
 /* Forms.css override */
 @media only screen and (max-width :1650px) {
 	.form-inline .form-group {max-width: 100%!important;}
@@ -43,9 +45,7 @@ body > main {margin-bottom:50px;}
 
 .btn-toolbar .bmd-form-group {padding-top:0;}
 
-.card-header .form-control::placeholder {
-  color: #fff;
-}
+.card-header .form-control::placeholder, .card-header small, .card-header select{color:#fff;}
 
 #login-page {
 	min-height:0px;
