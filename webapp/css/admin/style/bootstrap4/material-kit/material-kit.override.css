@@ -54,3 +54,19 @@ header nav .collapse:not(.show) {display:unset;}
 }
 
 pre {white-space:pre-wrap;}
+
+@media (max-width:991px){
+	
+	/* Width of mobile menu override */
+	.nav-open .navbar-translate {
+			transform: translate3d(-60%,0,0);
+	}
+	.navbar-collapse {
+    width:60%;
+	}
+	
+	/* Height of each mobile menu dropdown override */
+	.navbar .dropdown .dropdown-menu, .navbar .dropdown.show .dropdown-menu {
+		height:auto;
+	}
+}
