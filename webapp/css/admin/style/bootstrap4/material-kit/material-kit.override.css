@@ -30,6 +30,8 @@ body.vh-100 {
 
 body > main {margin-bottom:50px;}
 
+header nav .collapse:not(.show) {display:unset;}
+
 .navbar .navbar-nav .nav-item .nav-link i[class^="fa"] {
     font-size: 1.25rem;
     max-width: 24px;
