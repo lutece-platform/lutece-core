@@ -59,10 +59,11 @@ pre {white-space:pre-wrap;}
 	
 	/* Width of mobile menu override */
 	.nav-open .navbar-translate {
-			transform: translate3d(-60%,0,0);
+			transform: translate3d(280px,0,0);
 	}
 	.navbar-collapse {
-    width:60%;
+    width:280px;
+		transform: translate3d(280px,0,0);
 	}
 	
 	/* Height of each mobile menu dropdown override */

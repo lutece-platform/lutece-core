@@ -1367,13 +1367,13 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 <#macro adminHome >
 <section class="dashboard-widgets">
 <@row>
-	<@columns class='widget'>
+	<@columns xs=12 md=6 lg=4 class='widget'>
 		${dashboard_zone_1!}
 	</@columns>
-	<@columns class='widget'>
+	<@columns xs=12 md=6 lg=4 class='widget'>
 		${dashboard_zone_2!}
 	</@columns>
-	<@columns class='widget'>
+	<@columns xs=12 md=6 lg=4 class='widget'>
 		${dashboard_zone_3!}
 	</@columns>
 </@row>
