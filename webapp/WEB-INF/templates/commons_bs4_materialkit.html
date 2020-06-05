@@ -1261,7 +1261,7 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 				</button>
 			</div>
 			<div class="collapse navbar-collapse nav-open">
-				<ul class="navbar-nav ml-auto">
+				<ul class="navbar-nav mr-auto">
 				<#list feature_group_list as feature_group>
 				  <#if feature_group.features?size &gt; 1>
 					 	<li class="nav-item dropdown">
@@ -1480,9 +1480,9 @@ $(function() {
    <#assign alerttype="danger" />
    <#assign icontype="fa-ban" />
 </#if>
-<div class="container w-25">
+<div class="container">
 	<div class="row justify-content-center align-items-center min-vh-100">
-		<div class="col">
+		<div class="col-sm-12 col-md-6">
 			<div class="alert alert-${alerttype} text-center" role="alert">
 				<h1><span class="fas ${icontype}"></span> ${title!}</h1>
 				${text!}
