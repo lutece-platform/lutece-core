@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
-    xmlns:jdbc="http://www.springframework.org/schema/jdbc" xmlns:p="http://www.springframework.org/schema/p"
-    xmlns:aop="http://www.springframework.org/schema/aop"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
+       xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:jdbc="http://www.springframework.org/schema/jdbc" xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
        http://www.springframework.org/schema/context
        http://www.springframework.org/schema/context/spring-context-3.0.xsd
@@ -65,7 +65,7 @@
     <!-- Admin Authentication -->
     <bean id="passwordFactory" class="fr.paris.lutece.portal.business.user.authentication.PasswordFactory" />
     <bean id="adminAuthenticationModule"
-        class="fr.paris.lutece.portal.business.user.authentication.LuteceDefaultAdminAuthentication">
+          class="fr.paris.lutece.portal.business.user.authentication.LuteceDefaultAdminAuthentication">
         <property name="dao" ref="luteceDefaultAdminUserDAO" />
         <!--<property name="dataSourceFactory" ref="dataSourceFactory" /> -->
     </bean>
@@ -131,7 +131,7 @@
     <!-- package user -->
     <bean id="adminUserDAO" class="fr.paris.lutece.portal.business.user.AdminUserDAO" />
     <bean id="luteceDefaultAdminUserDAO"
-        class="fr.paris.lutece.portal.business.user.authentication.LuteceDefaultAdminUserDAO" />
+          class="fr.paris.lutece.portal.business.user.authentication.LuteceDefaultAdminUserDAO" />
     <bean id="userLogDAO" class="fr.paris.lutece.portal.business.user.log.UserLogDAO" />
 
     <!-- package workgroup -->
@@ -170,29 +170,29 @@
     <!-- scans WEB-INF/lib for classes within jars, and web-inf/classes for .class -->
     <bean id="annotationDB" class="fr.paris.lutece.util.annotation.ScannotationDB">
         <!-- Uncomment the following lines and set your own regexp to filter scannable jar. If not set, annotation db will 
-            use a default property that matches lutece jars only. For example, (sample\.jar)|(another-.*\.jar) will match sample.jar 
-            and another-randomtext.jar. -->
+        use a default property that matches lutece jars only. For example, (sample\.jar)|(another-.*\.jar) will match sample.jar 
+        and another-randomtext.jar. -->
         <!-- <property name="fileFilter">(sample\.jar)|(another-.*\.jar)</property> -->
     </bean>
 
     <!-- Freemarker -->
     <bean id="freeMarkerTemplateService" class="fr.paris.lutece.portal.service.template.FreeMarkerTemplateService"
-        factory-method="getInstance" />
+          factory-method="getInstance" />
 
     <!-- Extendable Resource -->
     <bean id="pageExtendableResourceService"
-        class="fr.paris.lutece.portal.service.page.PageExtendableResourceService" />
+          class="fr.paris.lutece.portal.service.page.PageExtendableResourceService" />
 
     <!-- Preferences Services -->
     <bean id="userPreferencesDAO" class="fr.paris.lutece.portal.business.prefs.UserPreferencesDAO" />
     <bean id="adminUserPreferencesDAO" class="fr.paris.lutece.portal.business.prefs.AdminUserPreferencesDAO" />
 
     <bean id="userPreferencesService" class="fr.paris.lutece.portal.service.prefs.PortalUserPreferenceServiceImpl"
-        scope="singleton">
+          scope="singleton">
         <property name="dao" ref="userPreferencesDAO" />
     </bean>
     <bean id="adminUserPreferencesService"
-        class="fr.paris.lutece.portal.service.prefs.BaseUserPreferencesServiceImpl">
+          class="fr.paris.lutece.portal.service.prefs.BaseUserPreferencesServiceImpl">
         <property name="dao" ref="adminUserPreferencesDAO" />
     </bean>
     <!-- Security Token Service -->
@@ -203,7 +203,7 @@
 
     <!-- Site Properties Groups -->
     <bean id="sitePropertiesGroup"
-        class="fr.paris.lutece.portal.service.site.properties.DefaultSitePropertiesGroup" />
+          class="fr.paris.lutece.portal.service.site.properties.DefaultSitePropertiesGroup" />
 
     <bean id="core.xpage.search" class="fr.paris.lutece.portal.web.search.SearchApp" scope="session" />
 
@@ -230,33 +230,43 @@
     <bean id="adminUserMenuService" class="fr.paris.lutece.portal.service.user.menu.AdminUserMenuService" />
 
     <bean id="dividerUserMenuItemProvider"
-        class="fr.paris.lutece.portal.business.user.menu.DividerAdminUserMenuItemProvider" />
+          class="fr.paris.lutece.portal.business.user.menu.DividerAdminUserMenuItemProvider" />
 
     <bean id="modifyPasswordUserMenuItemProvider"
-        class="fr.paris.lutece.portal.service.user.menu.AdminUserMenuItemProviderRegistrar">
+          class="fr.paris.lutece.portal.service.user.menu.AdminUserMenuItemProviderRegistrar">
         <property name="className"
-            value="fr.paris.lutece.portal.business.user.menu.ModifyPasswordAdminUserMenuItemProvider" />
+                  value="fr.paris.lutece.portal.business.user.menu.ModifyPasswordAdminUserMenuItemProvider" />
     </bean>
     <bean id="accessibilityModeUserMenuItemProvider"
-        class="fr.paris.lutece.portal.service.user.menu.AdminUserMenuItemProviderRegistrar">
+          class="fr.paris.lutece.portal.service.user.menu.AdminUserMenuItemProviderRegistrar">
         <property name="className"
-            value="fr.paris.lutece.portal.business.user.menu.AccessibilityModeAdminUserMenuItemProvider" />
+                  value="fr.paris.lutece.portal.business.user.menu.AccessibilityModeAdminUserMenuItemProvider" />
     </bean>
     <bean id="languageUserMenuItemProvider"
-        class="fr.paris.lutece.portal.service.user.menu.AdminUserMenuItemProviderRegistrar">
+          class="fr.paris.lutece.portal.service.user.menu.AdminUserMenuItemProviderRegistrar">
         <property name="className"
-            value="fr.paris.lutece.portal.business.user.menu.LanguageAdminUserMenuItemProvider" />
+                  value="fr.paris.lutece.portal.business.user.menu.LanguageAdminUserMenuItemProvider" />
     </bean>
     <bean id="divider1UserMenuItemProvider"
-        class="fr.paris.lutece.portal.service.user.menu.AdminUserMenuItemProviderRegistrar">
+          class="fr.paris.lutece.portal.service.user.menu.AdminUserMenuItemProviderRegistrar">
         <property name="provider" ref="dividerUserMenuItemProvider" />
         <property name="insertAfter" value="accessibilityModeUserMenuItemProvider" />
     </bean>
 
     <!-- CSS frameworks management -->
-
-    <bean id="commonsDefault" class="fr.paris.lutece.portal.business.template.CommonsInclude">
+    <!-- The default framework should have the its key value equals to 'default' -->
+    
+    <bean id="commonsBoostrap4MaterialKit" class="fr.paris.lutece.portal.business.template.CommonsInclude">
         <property name="key" value="default" />
+        <property name="name" value="Bootstrap v4 + Material Kit (Default)" />
+        <property name="files">
+            <list>
+                <value>commons_bs4_materialkit.html</value>
+            </list>
+        </property>
+    </bean>
+    <bean id="commonsDefault" class="fr.paris.lutece.portal.business.template.CommonsInclude">
+        <property name="key" value="Bootstrap4" />
         <property name="name" value="Bootstap 3.3 + AdminLTE (Lutece v6.x compatible)" />
         <property name="files">
             <list>
@@ -265,7 +275,7 @@
         </property>
     </bean>
     <bean id="commonsBulma" class="fr.paris.lutece.portal.business.template.CommonsInclude">
-        <property name="key" value="bulma" />
+        <property name="key" value="Bulma" />
         <property name="name" value="Bulma 0.7 (Experimental)" />
         <property name="files">
             <list>
@@ -283,26 +293,14 @@
             </list>
         </property>
     </bean>
-		<bean id="commonsBoostrap4AdminLTE" class="fr.paris.lutece.portal.business.template.CommonsInclude">
-	    <property name="key" value="Bootstrap4AdminLTE" />
-	    <property name="name" value="Bootstrap v4 + AdminLTE (Experimental)" />
-	    <property name="files">
-	        <list>
-	            <value>commons_bs4_adminlte.html</value>
-	        </list>
-	    </property>
+    <bean id="commonsBoostrap4AdminLTE" class="fr.paris.lutece.portal.business.template.CommonsInclude">
+        <property name="key" value="Bootstrap4AdminLTE" />
+        <property name="name" value="Bootstrap v4 + AdminLTE (Experimental)" />
+        <property name="files">
+            <list>
+                <value>commons_bs4_adminlte.html</value>
+            </list>
+        </property>
     </bean>
-    <bean id="commonsBoostrap4MaterialKit" class="fr.paris.lutece.portal.business.template.CommonsInclude">
-	    <property name="key" value="Bootstrap4MaterialKit" />
-	    <property name="name" value="Bootstrap v4 + Material Kit (Experimental)" />
-	    <property name="files">
-	        <list>
-	            <value>commons_bs4_materialkit.html</value>
-	        </list>
-	    </property>
-    </bean>
-    <!-- <bean id="commonsBS4stisla" class="fr.paris.lutece.portal.business.template.CommonsInclude"> <property name="key" 
-        value="Stisla" /> <property name="name" value="Stisla - BS 4 Based (Experimental)" /> <property name="files" > <list> <value>commons_bs4.html</value> 
-        <value>commons_stisla.html</value> </list> </property> </bean> -->
 
 </beans>
