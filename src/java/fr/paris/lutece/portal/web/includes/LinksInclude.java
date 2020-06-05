@@ -89,10 +89,14 @@ public class LinksInclude implements PageInclude
     /**
      * Substitue specific bookmarks in the page template.
      * 
-     * @param rootModel The data model
-     * @param data      A PageData object containing applications data
-     * @param nMode     The current mode
-     * @param request   The HTTP request
+     * @param rootModel
+     *            The data model
+     * @param data
+     *            A PageData object containing applications data
+     * @param nMode
+     *            The current mode
+     * @param request
+     *            The HTTP request
      */
     public void fillTemplate( Map<String, Object> rootModel, PageData data, int nMode, HttpServletRequest request )
     {
@@ -112,8 +116,7 @@ public class LinksInclude implements PageInclude
 
         String strPage = request.getParameter( PARAMETER_PAGE );
 
-        List<Plugin> installedPlugins = listPlugins.stream( ).filter( Plugin::isInstalled )
-                .collect( Collectors.toList( ) );
+        List<Plugin> installedPlugins = listPlugins.stream( ).filter( Plugin::isInstalled ).collect( Collectors.toList( ) );
 
         for ( Plugin plugin : installedPlugins )
         {
@@ -135,14 +138,13 @@ public class LinksInclude implements PageInclude
         rootModel.putAll( links );
     }
 
-    private Map<String, Object> buildLinks( HttpServletRequest request, String strPage, int nMode,
-            List<Plugin> installedPlugins )
+    private Map<String, Object> buildLinks( HttpServletRequest request, String strPage, int nMode, List<Plugin> installedPlugins )
     {
         Locale locale = request.getLocale( );
         LinksIncludeCacheService cacheService = SpringContextService.getBean( LinksIncludeCacheService.SERVICE_NAME );
         String strKey = cacheService.getCacheKey( nMode, strPage, locale );
         @SuppressWarnings( "unchecked" )
-        Map<String, Object> links = ( Map<String, Object> ) cacheService.getFromCache( strKey );
+        Map<String, Object> links = (Map<String, Object>) cacheService.getFromCache( strKey );
 
         if ( links != null )
         {
@@ -160,7 +162,7 @@ public class LinksInclude implements PageInclude
                 List<String> cssFiles = new ArrayList<>( );
                 cssFiles.addAll( plugin.getCssStyleSheets( ) );
                 cssFiles.addAll( plugin.getCssStyleSheets( nMode ) );
-                
+
                 cssFiles.stream( ).forEach( file -> appendStyleSheet( request.getServletContext( ), sbCssLinks, file, locale ) );
             }
 
@@ -169,7 +171,7 @@ public class LinksInclude implements PageInclude
                 List<String> jsFiles = new ArrayList<>( );
                 jsFiles.addAll( plugin.getJavascriptFiles( ) );
                 jsFiles.addAll( plugin.getJavascriptFiles( nMode ) );
-                
+
                 jsFiles.stream( ).forEach( file -> appendJavascriptFile( request.getServletContext( ), sbJsLinks, file, locale ) );
             }
         }
@@ -184,13 +186,16 @@ public class LinksInclude implements PageInclude
     /**
      * Append a script to the links
      * 
-     * @param servletContext    servlet context
-     * @param sbJsLinks         links in construction
-     * @param strJavascriptFile the script to append
-     * @param locale            the locale
+     * @param servletContext
+     *            servlet context
+     * @param sbJsLinks
+     *            links in construction
+     * @param strJavascriptFile
+     *            the script to append
+     * @param locale
+     *            the locale
      */
-    private void appendJavascriptFile( ServletContext servletContext, StringBuilder sbJsLinks, String strJavascriptFile,
-            Locale locale )
+    private void appendJavascriptFile( ServletContext servletContext, StringBuilder sbJsLinks, String strJavascriptFile, Locale locale )
     {
         URI javascripFileURI = getURI( servletContext, strJavascriptFile, PREFIX_PLUGINS_JAVASCRIPT );
 
@@ -209,13 +214,16 @@ public class LinksInclude implements PageInclude
     /**
      * Append a css to the stylesheets
      * 
-     * @param servletContext   servlet context
-     * @param sbCssLinks       stylesheets in construction
-     * @param strCssStyleSheet the stylesheet to append
-     * @param locale           the locale
+     * @param servletContext
+     *            servlet context
+     * @param sbCssLinks
+     *            stylesheets in construction
+     * @param strCssStyleSheet
+     *            the stylesheet to append
+     * @param locale
+     *            the locale
      */
-    private void appendStyleSheet( ServletContext servletContext, StringBuilder sbCssLinks, String strCssStyleSheet,
-            Locale locale )
+    private void appendStyleSheet( ServletContext servletContext, StringBuilder sbCssLinks, String strCssStyleSheet, Locale locale )
     {
         URI styleSheetURI = getURI( servletContext, strCssStyleSheet, PREFIX_PLUGINS_CSS );
 
@@ -232,13 +240,15 @@ public class LinksInclude implements PageInclude
     }
 
     /**
-     * Get a URI for a resource. If the resource is provided by this site, a hash of
-     * its content is added as query parameter so that changes to the content are
+     * Get a URI for a resource. If the resource is provided by this site, a hash of its content is added as query parameter so that changes to the content are
      * picked up by browsers.
      * 
-     * @param servletContext the servlet context
-     * @param strResourceURI the resource URI as string
-     * @param strURIPrefix   a prefix to add to the URI if it is not absolute
+     * @param servletContext
+     *            the servlet context
+     * @param strResourceURI
+     *            the resource URI as string
+     * @param strURIPrefix
+     *            a prefix to add to the URI if it is not absolute
      * @return the URI or <code>null</code> if it cannot be parsed
      */
     private URI getURI( ServletContext servletContext, String strResourceURI, String strURIPrefix )
@@ -256,15 +266,14 @@ public class LinksInclude implements PageInclude
             }
             return resourceURI;
         }
-        catch ( URISyntaxException e )
+        catch( URISyntaxException e )
         {
             AppLogService.error( "Invalid cssStyleSheetURI : " + strResourceURI, e );
             return null;
         }
     }
 
-    private URI addHashToUri( ServletContext servletContext, URI resourceURI, String strResourceURI )
-            throws URISyntaxException
+    private URI addHashToUri( ServletContext servletContext, URI resourceURI, String strResourceURI ) throws URISyntaxException
     {
         try ( InputStream inputStream = servletContext.getResourceAsStream( resourceURI.getPath( ) ) )
         {
@@ -282,7 +291,7 @@ public class LinksInclude implements PageInclude
                 }
             }
         }
-        catch ( IOException e )
+        catch( IOException e )
         {
             AppLogService.error( "Error while closing stream for " + strResourceURI, e );
         }
@@ -292,8 +301,10 @@ public class LinksInclude implements PageInclude
     /**
      * Check if the page is a valid plugin's page
      * 
-     * @param strPage The page
-     * @param plugin  The plugin
+     * @param strPage
+     *            The page
+     * @param plugin
+     *            The plugin
      * @return true if valid otherwise false
      */
     private boolean isPluginXPage( String strPage, Plugin plugin )

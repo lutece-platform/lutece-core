@@ -336,7 +336,7 @@ public class MailingListJspBean extends AdminFeaturesPageJspBean
         {
             String strCause = AdminMessageService.getFormattedList( listErrors, getLocale( ) );
             Object [ ] args = {
-                strCause
+                    strCause
             };
             return AdminMessageService.getMessageUrl( request, MESSAGE_CANNOT_REMOVE, args, AdminMessage.TYPE_STOP );
         }

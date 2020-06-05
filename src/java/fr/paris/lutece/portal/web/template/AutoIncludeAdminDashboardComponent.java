@@ -32,7 +32,6 @@
  * License 1.0
  */
 
-
 package fr.paris.lutece.portal.web.template;
 
 import fr.paris.lutece.portal.business.template.AutoInclude;
@@ -50,7 +49,7 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * AutoIncludeAdminDashboardComponent
  */
-public class AutoIncludeAdminDashboardComponent  extends AdminDashboardComponent
+public class AutoIncludeAdminDashboardComponent extends AdminDashboardComponent
 {
     // Templates
     private static final String TEMPLATE_MANAGE_AUTOINCLUDES = "/admin/dashboard/admin/autoincludes_dashboard.html";
@@ -58,7 +57,7 @@ public class AutoIncludeAdminDashboardComponent  extends AdminDashboardComponent
     private static final String MARK_AUTOINCLUDE_LIST = "autoinclude_list";
     private static final String MARK_COMMONS_LIST = "commons_list";
     private static final String MARK_CURRENT_COMMONS = "current_commons";
-    
+
     /**
      * {@inheritDoc}
      */
@@ -70,9 +69,9 @@ public class AutoIncludeAdminDashboardComponent  extends AdminDashboardComponent
         model.put( MARK_AUTOINCLUDE_LIST, listAutoIncludes );
         model.put( MARK_COMMONS_LIST, CommonsService.getCommonsIncludeList( ) );
         model.put( MARK_CURRENT_COMMONS, CommonsService.getCurrentCommonsKey( ) );
-        
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_AUTOINCLUDES, user.getLocale(), model );
-        return template.getHtml();
+
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_AUTOINCLUDES, user.getLocale( ), model );
+        return template.getHtml( );
     }
 
 }

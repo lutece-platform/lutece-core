@@ -69,7 +69,7 @@ public final class MailingListDAO implements IMailingListDAO
     @Override
     public void insert( MailingList mailingList )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT, Statement.RETURN_GENERATED_KEYS ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT, Statement.RETURN_GENERATED_KEYS ) )
         {
             int nIndex = 1;
             daoUtil.setString( nIndex++, mailingList.getName( ) );
@@ -96,7 +96,7 @@ public final class MailingListDAO implements IMailingListDAO
     public MailingList load( int nId )
     {
         MailingList mailinglist = null;
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT ) )
         {
             daoUtil.setInt( 1, nId );
             daoUtil.executeQuery( );
@@ -128,7 +128,7 @@ public final class MailingListDAO implements IMailingListDAO
     @Override
     public void delete( int nMailingListId )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE ) )
         {
             daoUtil.setInt( 1, nMailingListId );
             daoUtil.executeUpdate( );
@@ -147,7 +147,7 @@ public final class MailingListDAO implements IMailingListDAO
     @Override
     public void store( MailingList mailingList )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE ) )
         {
 
             daoUtil.setInt( 1, mailingList.getId( ) );
@@ -169,7 +169,7 @@ public final class MailingListDAO implements IMailingListDAO
     public Collection<MailingList> selectAll( )
     {
         Collection<MailingList> mailingListList = new ArrayList<>( );
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL ) )
         {
             daoUtil.executeQuery( );
 
@@ -201,7 +201,7 @@ public final class MailingListDAO implements IMailingListDAO
     public Collection<MailingList> selectByWorkgroup( String strWorkgroup )
     {
         Collection<MailingList> mailingListList = new ArrayList<>( );
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_BY_WORKGROUP ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_BY_WORKGROUP ) )
         {
             daoUtil.setString( 1, strWorkgroup );
             daoUtil.executeQuery( );
@@ -234,7 +234,7 @@ public final class MailingListDAO implements IMailingListDAO
     @Override
     public void insertFilter( MailingListUsersFilter mailingListUsersFilter, int nMailingListId )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_FILTERS_INSERT ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_FILTERS_INSERT ) )
         {
 
             daoUtil.setInt( 1, nMailingListId );
@@ -256,7 +256,7 @@ public final class MailingListDAO implements IMailingListDAO
     @Override
     public void deleteFilter( MailingListUsersFilter filter, int nMailingListId )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_FILTERS_DELETE_FILTER ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_FILTERS_DELETE_FILTER ) )
         {
             daoUtil.setInt( 1, nMailingListId );
             daoUtil.setString( 2, filter.getWorkgroup( ) );
@@ -273,7 +273,7 @@ public final class MailingListDAO implements IMailingListDAO
      */
     public void deleteFilters( int nMailingListUsersFilterId )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_FILTERS_DELETE ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_FILTERS_DELETE ) )
         {
             daoUtil.setInt( 1, nMailingListUsersFilterId );
             daoUtil.executeUpdate( );
@@ -291,7 +291,7 @@ public final class MailingListDAO implements IMailingListDAO
         if ( mailinglist != null )
         {
             Collection<MailingListUsersFilter> mailingListUsersFilterList = mailinglist.getFilters( );
-            try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_FILTERS_SELECTALL ) )
+            try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_FILTERS_SELECTALL ) )
             {
                 daoUtil.setInt( 1, mailinglist.getId( ) );
                 daoUtil.executeQuery( );
@@ -317,7 +317,7 @@ public final class MailingListDAO implements IMailingListDAO
     public boolean checkFilter( MailingListUsersFilter filter, int nId )
     {
         boolean bExists = false;
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_FILTERS_SELECT ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_FILTERS_SELECT ) )
         {
             daoUtil.setInt( 1, nId );
             daoUtil.setString( 2, filter.getWorkgroup( ) );
@@ -341,7 +341,7 @@ public final class MailingListDAO implements IMailingListDAO
     public List<MailingList> selectByFilter( MailingListFilter filter )
     {
         List<MailingList> mailingListList = new ArrayList<>( );
-        try( DAOUtil daoUtil = new DAOUtil( filter.buildSQLQuery( SQL_QUERY_SELECTALL ) ) )
+        try ( DAOUtil daoUtil = new DAOUtil( filter.buildSQLQuery( SQL_QUERY_SELECTALL ) ) )
         {
             filter.setFilterValues( daoUtil );
             daoUtil.executeQuery( );

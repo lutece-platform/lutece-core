@@ -49,7 +49,6 @@ import fr.paris.lutece.util.ReferenceItem;
 
 import org.apache.commons.lang.StringUtils;
 
-
 import javax.servlet.http.HttpServletRequest;
 
 /**
@@ -94,8 +93,8 @@ public class SearchJspBean extends AdminFeaturesPageJspBean
         if ( !RBACService.isAuthorized( SearchService.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID, SearchResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS,
                 getUser( ) ) )
         {
-            throw new AccessDeniedException( "User " + getUser( ) + " is not authorized to permission "
-                    + SearchResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS );
+            throw new AccessDeniedException(
+                    "User " + getUser( ) + " is not authorized to permission " + SearchResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS );
         }
         if ( !SecurityTokenService.getInstance( ).validate( request, AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) )
         {
@@ -143,6 +142,6 @@ public class SearchJspBean extends AdminFeaturesPageJspBean
             SearchParameterHome.update( param );
         }
 
-        return getAdminDashboardsUrl( request , ANCHOR_ADMIN_DASHBOARDS );
+        return getAdminDashboardsUrl( request, ANCHOR_ADMIN_DASHBOARDS );
     }
 }

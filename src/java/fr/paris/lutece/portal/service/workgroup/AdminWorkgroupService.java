@@ -73,7 +73,7 @@ public final class AdminWorkgroupService
 
         if ( !strWorkgroup.equals( ALL_GROUPS ) )
         {
-            return user.getUserWorkgroups()!=null  && user.getUserWorkgroups().stream().anyMatch( x -> strWorkgroup.equals(x));
+            return user.getUserWorkgroups( ) != null && user.getUserWorkgroups( ).stream( ).anyMatch( x -> strWorkgroup.equals( x ) );
         }
 
         return true;
@@ -120,7 +120,7 @@ public final class AdminWorkgroupService
 
         return list;
     }
-    
+
     /**
      * Filter a collection of resources for a given user
      *

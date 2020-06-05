@@ -71,7 +71,7 @@ public class LevelsJspBean extends AdminFeaturesPageJspBean
     // Templates files path
     private static final String TEMPLATE_CREATE_LEVEL = "admin/features/create_level.html";
     private static final String TEMPLATE_MODIFY_LEVEL = "admin/features/modify_level.html";
-    
+
     private static final String ANCHOR_RIGHT_LEVELS = "right_levels";
 
     /**
@@ -170,7 +170,7 @@ public class LevelsJspBean extends AdminFeaturesPageJspBean
         {
             return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
         }
-        if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_MODIFY_LEVEL  ) )
+        if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_MODIFY_LEVEL ) )
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }

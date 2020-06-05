@@ -157,10 +157,10 @@ public abstract class UploadFilter implements Filter
                 AppLogService.error( e.getMessage( ), e );
 
                 Object [ ] args = {
-                    getDisplaySize( )
+                        getDisplaySize( )
                 };
-                ( (HttpServletResponse) response ).sendRedirect( getMessageRelativeUrl( httpRequest, PROPERTY_MESSAGE_FILE_SIZE_LIMIT_EXCEEDED, args,
-                        PROPERTY_TITLE_FILE_SIZE_LIMIT_EXCEEDED ) );
+                ( (HttpServletResponse) response ).sendRedirect(
+                        getMessageRelativeUrl( httpRequest, PROPERTY_MESSAGE_FILE_SIZE_LIMIT_EXCEEDED, args, PROPERTY_TITLE_FILE_SIZE_LIMIT_EXCEEDED ) );
             }
             catch( FileUploadException e )
             {

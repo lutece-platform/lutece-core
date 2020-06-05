@@ -79,7 +79,7 @@ public class AttributeFieldDAO implements IAttributeFieldDAO
     private int newPosition( )
     {
         int nPos;
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_NEW_POSITION ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_NEW_POSITION ) )
         {
             daoUtil.executeQuery( );
 
@@ -106,7 +106,7 @@ public class AttributeFieldDAO implements IAttributeFieldDAO
     public AttributeField load( int nIdField )
     {
         AttributeField attributeField = null;
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT ) )
         {
             daoUtil.setInt( 1, nIdField );
             daoUtil.executeQuery( );
@@ -144,7 +144,7 @@ public class AttributeFieldDAO implements IAttributeFieldDAO
     public IAttribute selectAttributeByIdField( int nIdField )
     {
         IAttribute attribute = null;
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_ATTRIBUTE_BY_ID_FIELD ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_ATTRIBUTE_BY_ID_FIELD ) )
         {
             daoUtil.setInt( 1, nIdField );
             daoUtil.executeQuery( );
@@ -185,7 +185,7 @@ public class AttributeFieldDAO implements IAttributeFieldDAO
     public List<AttributeField> selectAttributeFieldsByIdAttribute( int nIdAttribute )
     {
         List<AttributeField> listAttributeFields = new ArrayList<>( );
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_ATTRIBUTE_FIELDS_BY_ID_ATTRIBUTE ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_ATTRIBUTE_FIELDS_BY_ID_ATTRIBUTE ) )
         {
             daoUtil.setInt( 1, nIdAttribute );
             daoUtil.executeQuery( );
@@ -223,7 +223,7 @@ public class AttributeFieldDAO implements IAttributeFieldDAO
     @Override
     public int insert( AttributeField attributeField )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT, Statement.RETURN_GENERATED_KEYS ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT, Statement.RETURN_GENERATED_KEYS ) )
         {
             int nIndex = 1;
             daoUtil.setInt( nIndex++, attributeField.getAttribute( ).getIdAttribute( ) );
@@ -256,7 +256,7 @@ public class AttributeFieldDAO implements IAttributeFieldDAO
     @Override
     public void store( AttributeField attributeField )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE ) )
         {
             daoUtil.setString( 1, attributeField.getTitle( ) );
             daoUtil.setString( 2, attributeField.getValue( ) );
@@ -281,7 +281,7 @@ public class AttributeFieldDAO implements IAttributeFieldDAO
     @Override
     public void delete( int nIdField )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE ) )
         {
             daoUtil.setInt( 1, nIdField );
 
@@ -298,7 +298,7 @@ public class AttributeFieldDAO implements IAttributeFieldDAO
     @Override
     public void deleteAttributeFieldsFromIdAttribute( int nIdAttribute )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE_BY_ID_ATTRIBUTE ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE_BY_ID_ATTRIBUTE ) )
         {
             daoUtil.setInt( 1, nIdAttribute );
 

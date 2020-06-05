@@ -47,7 +47,7 @@ public class EditorChoiceLutecePanelJspBean extends PluginAdminPageJspBean
 {
     public static final String RIGHT_EDITORS_MANAGEMENT = "CORE_EDITORS_MANAGEMENT";
     private static final String ANCHOR_ADMIN_DASHBOARDS = "editors";
-    
+
     /**
      * Generated servial UID
      */
@@ -55,7 +55,6 @@ public class EditorChoiceLutecePanelJspBean extends PluginAdminPageJspBean
     private static final String PARAM_EDITOR_BACK_OFFICE = "editor_back_office";
     private static final String PARAM_EDITOR_FRONT_OFFICE = "editor_front_office";
     private static final String TEMPLATE_EDITOR_CHOICE_PANEL = "admin/dashboard/admin/editor_dashboard.html";
-
 
     /**
      * Do update back office editor.
@@ -75,7 +74,7 @@ public class EditorChoiceLutecePanelJspBean extends PluginAdminPageJspBean
         String strEditorName = request.getParameter( PARAM_EDITOR_BACK_OFFICE );
         RichTextEditorService.updateBackOfficeDefaultEditor( strEditorName );
 
-        return getAdminDashboardsUrl( request , ANCHOR_ADMIN_DASHBOARDS );
+        return getAdminDashboardsUrl( request, ANCHOR_ADMIN_DASHBOARDS );
     }
 
     /**
@@ -96,6 +95,6 @@ public class EditorChoiceLutecePanelJspBean extends PluginAdminPageJspBean
         String strEditorName = request.getParameter( PARAM_EDITOR_FRONT_OFFICE );
         RichTextEditorService.updateFrontOfficeDefaultEditor( strEditorName );
 
-        return getAdminDashboardsUrl( request , ANCHOR_ADMIN_DASHBOARDS );
+        return getAdminDashboardsUrl( request, ANCHOR_ADMIN_DASHBOARDS );
     }
 }

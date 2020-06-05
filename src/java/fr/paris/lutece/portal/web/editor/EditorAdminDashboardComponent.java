@@ -32,7 +32,6 @@
  * License 1.0
  */
 
-
 package fr.paris.lutece.portal.web.editor;
 
 import fr.paris.lutece.portal.business.user.AdminUser;
@@ -75,6 +74,6 @@ public class EditorAdminDashboardComponent extends AdminDashboardComponent
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_EDITOR_CHOICE_PANEL, user.getLocale( ), model );
 
         return template.getHtml( );
-        
+
     }
 }

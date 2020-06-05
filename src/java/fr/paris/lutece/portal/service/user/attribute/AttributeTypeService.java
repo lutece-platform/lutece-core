@@ -71,7 +71,8 @@ public final class AttributeTypeService
     /**
      * Get the list of attribute types defined the core_context.xml
      * 
-     * @param locale the {@link Locale}
+     * @param locale
+     *            the {@link Locale}
      * @return a list of {@link AttributeType}
      */
     public synchronized List<AttributeType> getAttributeTypes( Locale locale )

@@ -69,7 +69,7 @@ public final class IndexerActionDAO implements IIndexerActionDAO
     @Override
     public void insert( IndexerAction indexerAction )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT, Statement.RETURN_GENERATED_KEYS ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT, Statement.RETURN_GENERATED_KEYS ) )
         {
             int nIndex = 1;
             daoUtil.setString( nIndex++, indexerAction.getIdDocument( ) );
@@ -94,7 +94,7 @@ public final class IndexerActionDAO implements IIndexerActionDAO
     {
         IndexerAction indexerAction = null;
 
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_FIND_BY_PRIMARY_KEY ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_FIND_BY_PRIMARY_KEY ) )
         {
             daoUtil.setInt( 1, nId );
             daoUtil.executeQuery( );
@@ -120,7 +120,7 @@ public final class IndexerActionDAO implements IIndexerActionDAO
     @Override
     public void delete( int nId )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE ) )
         {
             daoUtil.setInt( 1, nId );
             daoUtil.executeUpdate( );
@@ -133,7 +133,7 @@ public final class IndexerActionDAO implements IIndexerActionDAO
     @Override
     public void deleteAll( )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE_ALL ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE_ALL ) )
         {
             daoUtil.executeUpdate( );
         }
@@ -145,7 +145,7 @@ public final class IndexerActionDAO implements IIndexerActionDAO
     @Override
     public void store( IndexerAction indexerAction )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE ) )
         {
             daoUtil.setInt( 1, indexerAction.getIdAction( ) );
             daoUtil.setString( 2, indexerAction.getIdDocument( ) );
@@ -174,7 +174,7 @@ public final class IndexerActionDAO implements IIndexerActionDAO
 
         String strSQL = buildRequestWithFilter( SQL_QUERY_SELECT, listStrFilter, null );
 
-        try( DAOUtil daoUtil = new DAOUtil( strSQL ) )
+        try ( DAOUtil daoUtil = new DAOUtil( strSQL ) )
         {
 
             int nIndex = 1;
@@ -211,7 +211,7 @@ public final class IndexerActionDAO implements IIndexerActionDAO
         List<IndexerAction> indexerActionList = new ArrayList<>( );
         IndexerAction indexerAction = null;
 
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT ) )
         {
 
             daoUtil.executeQuery( );

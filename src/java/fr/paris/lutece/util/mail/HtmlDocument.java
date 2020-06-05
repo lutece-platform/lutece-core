@@ -212,7 +212,7 @@ public class HtmlDocument
 
         return listUrlAttachement;
     }
-    
+
     private void createAttributeUrl( Node attributeNode, List<UrlAttachment> listUrlAttachement )
     {
         if ( attributeNode != null )

@@ -109,8 +109,8 @@ public class ConnectionPool implements DataSource
                 : DEFAULT_CHECK_VALID_CONNECTION_SQL;
 
         String lf = System.getProperty( "line.separator" );
-        _logger.debug( lf + " url=" + strUrl + lf + " user=" + _strUser + lf + " password=" + _strPassword + lf + " initconns=" + nInitConns + lf
-                + " maxconns=" + _nMaxConns + lf + " logintimeout=" + _nTimeOut );
+        _logger.debug( lf + " url=" + strUrl + lf + " user=" + _strUser + lf + " password=" + _strPassword + lf + " initconns=" + nInitConns + lf + " maxconns="
+                + _nMaxConns + lf + " logintimeout=" + _nTimeOut );
         _logger.debug( getStats( ) );
     }
 

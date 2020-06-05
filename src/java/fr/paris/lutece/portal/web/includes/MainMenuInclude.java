@@ -77,8 +77,8 @@ public class MainMenuInclude implements PageInclude
                 nCurrentPageId = 0;
             }
 
-            rootModel.put( Markers.PAGE_MAIN_MENU, PortalMenuService.getInstance( )
-                    .getMenuContent( nCurrentPageId, nMode, PortalMenuService.MENU_MAIN, request ) );
+            rootModel.put( Markers.PAGE_MAIN_MENU,
+                    PortalMenuService.getInstance( ).getMenuContent( nCurrentPageId, nMode, PortalMenuService.MENU_MAIN, request ) );
         }
     }
 }

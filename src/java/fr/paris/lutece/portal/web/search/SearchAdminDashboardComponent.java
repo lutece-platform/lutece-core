@@ -69,7 +69,8 @@ public class SearchAdminDashboardComponent extends AdminDashboardComponent
         }
 
         Map<String, Object> model = SearchService.getManageAdvancedParameters( user, request );
-        model.put( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) );
+        model.put( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) );
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_DASHBOARD, user.getLocale( ), model );
 
         return template.getHtml( );

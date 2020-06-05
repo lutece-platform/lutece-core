@@ -69,7 +69,7 @@ public final class ModeDAO implements IModeDAO
     int newPrimaryKey( )
     {
         int nKey;
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_NEW_PK ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_NEW_PK ) )
         {
             daoUtil.executeQuery( );
 
@@ -96,7 +96,7 @@ public final class ModeDAO implements IModeDAO
     {
         mode.setId( newPrimaryKey( ) );
 
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT ) )
         {
 
             daoUtil.setInt( 1, mode.getId( ) );
@@ -124,7 +124,7 @@ public final class ModeDAO implements IModeDAO
     public Mode load( int nIdMode )
     {
         Mode mode = null;
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT ) )
         {
             daoUtil.setInt( 1, nIdMode );
 
@@ -158,7 +158,7 @@ public final class ModeDAO implements IModeDAO
      */
     public void delete( int nModeId )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE ) )
         {
             daoUtil.setInt( 1, nModeId );
             daoUtil.executeUpdate( );
@@ -173,7 +173,7 @@ public final class ModeDAO implements IModeDAO
      */
     public void store( Mode mode )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE ) )
         {
 
             daoUtil.setString( 1, mode.getDescription( ) );
@@ -199,7 +199,7 @@ public final class ModeDAO implements IModeDAO
     public Collection<Mode> selectModesList( )
     {
         Collection<Mode> modeList = new ArrayList<>( );
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL ) )
         {
             daoUtil.executeQuery( );
 
@@ -234,7 +234,7 @@ public final class ModeDAO implements IModeDAO
     public ReferenceList getModesList( )
     {
         ReferenceList modesList = new ReferenceList( );
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_MODES ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_MODES ) )
         {
 
             daoUtil.executeQuery( );

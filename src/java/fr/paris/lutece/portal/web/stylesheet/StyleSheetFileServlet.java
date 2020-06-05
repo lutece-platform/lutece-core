@@ -58,11 +58,12 @@ public class StyleSheetFileServlet extends HttpServlet
     private static final long serialVersionUID = 9154028959985088272L;
 
     /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
+     * Processes requests for both HTTP <code>GET</code> and <code>POST</code> methods.
      * 
-     * @param request  servlet request
-     * @param response servlet response
+     * @param request
+     *            servlet request
+     * @param response
+     *            servlet response
      * @throws IOException
      */
     protected void processRequest( HttpServletRequest request, HttpServletResponse response ) throws IOException

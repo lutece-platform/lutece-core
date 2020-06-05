@@ -144,7 +144,8 @@ public class AdminMapJspBean extends AdminFeaturesPageJspBean
      * @param strCssId
      *            The id Css for menu tree
      */
-    private void findPages( HttpServletRequest request, StringBuffer strXmlArborescence, int nPageId, int nLevel, String strCurrentPageId, StringBuilder strCssId )
+    private void findPages( HttpServletRequest request, StringBuffer strXmlArborescence, int nPageId, int nLevel, String strCurrentPageId,
+            StringBuilder strCssId )
     {
         Page page = PageHome.getPage( nPageId );
 

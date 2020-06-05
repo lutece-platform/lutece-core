@@ -71,7 +71,8 @@ public final class MultipartUtil
     /**
      * Check if the given HTTP request has multipart content
      * 
-     * @param request the HTTP request
+     * @param request
+     *            the HTTP request
      * @return true if it has multipart content, false otherwise
      */
     public static boolean isMultipart( HttpServletRequest request )
@@ -82,18 +83,22 @@ public final class MultipartUtil
     /**
      * Convert a HTTP request to a {@link MultipartHttpServletRequest}
      * 
-     * @param nSizeThreshold             the size threshold
-     * @param nRequestSizeMax            the request size max
-     * @param bActivateNormalizeFileName true if the file name must be normalized,
-     *                                   false otherwise
-     * @param request                    the HTTP request
-     * @return a {@link MultipartHttpServletRequest}, null if the request does not
-     *         have a multipart content
-     * @throws SizeLimitExceededException exception if the file size is too big
-     * @throws FileUploadException        exception if an unknown error has occurred
+     * @param nSizeThreshold
+     *            the size threshold
+     * @param nRequestSizeMax
+     *            the request size max
+     * @param bActivateNormalizeFileName
+     *            true if the file name must be normalized, false otherwise
+     * @param request
+     *            the HTTP request
+     * @return a {@link MultipartHttpServletRequest}, null if the request does not have a multipart content
+     * @throws SizeLimitExceededException
+     *             exception if the file size is too big
+     * @throws FileUploadException
+     *             exception if an unknown error has occurred
      */
-    public static MultipartHttpServletRequest convert( int nSizeThreshold, long nRequestSizeMax,
-            boolean bActivateNormalizeFileName, HttpServletRequest request ) throws FileUploadException
+    public static MultipartHttpServletRequest convert( int nSizeThreshold, long nRequestSizeMax, boolean bActivateNormalizeFileName,
+            HttpServletRequest request ) throws FileUploadException
     {
         if ( !isMultipart( request ) )
         {
@@ -113,11 +118,10 @@ public final class MultipartUtil
         upload.setSizeMax( nRequestSizeMax );
 
         // get encoding to be used
-        String strEncoding = Optional.ofNullable( request.getCharacterEncoding( ) )
-                .orElse( EncodingService.getEncoding( ) );
+        String strEncoding = Optional.ofNullable( request.getCharacterEncoding( ) ).orElse( EncodingService.getEncoding( ) );
 
         Map<String, List<FileItem>> mapFiles = new HashMap<>( );
-        Map<String, String[]> mapParameters = new HashMap<>( );
+        Map<String, String [ ]> mapParameters = new HashMap<>( );
 
         List<FileItem> listItems = upload.parseRequest( request );
 
@@ -130,8 +134,8 @@ public final class MultipartUtil
         return new MultipartHttpServletRequest( request, mapFiles, mapParameters );
     }
 
-    private static void processItem( FileItem item, String strEncoding, boolean bActivateNormalizeFileName,
-            Map<String, List<FileItem>> mapFiles, Map<String, String[]> mapParameters )
+    private static void processItem( FileItem item, String strEncoding, boolean bActivateNormalizeFileName, Map<String, List<FileItem>> mapFiles,
+            Map<String, String [ ]> mapParameters )
     {
         if ( item.isFormField( ) )
         {
@@ -143,7 +147,7 @@ public final class MultipartUtil
                 {
                     strValue = item.getString( strEncoding );
                 }
-                catch ( UnsupportedEncodingException ex )
+                catch( UnsupportedEncodingException ex )
                 {
                     // if encoding problem, try with system encoding
                     strValue = item.getString( );
@@ -151,20 +155,21 @@ public final class MultipartUtil
             }
 
             // check if item of same name already in map
-            String[] curParam = mapParameters.get( item.getFieldName( ) );
+            String [ ] curParam = mapParameters.get( item.getFieldName( ) );
 
             if ( curParam == null )
             {
                 // simple form field
-                mapParameters.put( item.getFieldName( ), new String[]
-                { strValue } );
+                mapParameters.put( item.getFieldName( ), new String [ ] {
+                        strValue
+                } );
             }
             else
             {
                 // array of simple form fields
-                String[] newArray = new String[curParam.length + 1];
+                String [ ] newArray = new String [ curParam.length + 1];
                 System.arraycopy( curParam, 0, newArray, 0, curParam.length );
-                newArray[curParam.length] = strValue;
+                newArray [curParam.length] = strValue;
                 mapParameters.put( item.getFieldName( ), newArray );
             }
         }

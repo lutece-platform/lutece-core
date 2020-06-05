@@ -130,7 +130,7 @@ public class AdminUserDAO implements IAdminUserDAO
     public AdminUser load( int nUserId )
     {
         AdminUser user = null;
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_USER_FROM_USER_ID ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_USER_FROM_USER_ID ) )
         {
             daoUtil.setInt( 1, nUserId );
             daoUtil.executeQuery( );
@@ -170,7 +170,7 @@ public class AdminUserDAO implements IAdminUserDAO
     public AdminUser selectUserByAccessCode( String strUserAccessCode )
     {
         AdminUser user = null;
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_USER_FROM_ACCESS_CODE ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_USER_FROM_ACCESS_CODE ) )
         {
             daoUtil.setString( 1, strUserAccessCode );
             daoUtil.executeQuery( );
@@ -210,7 +210,7 @@ public class AdminUserDAO implements IAdminUserDAO
     public String selectUserByEmail( String strEmail )
     {
         String strAccessCode = null;
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_USER_FROM_EMAIL ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_USER_FROM_EMAIL ) )
         {
             daoUtil.setString( 1, strEmail );
             daoUtil.executeQuery( );
@@ -232,7 +232,7 @@ public class AdminUserDAO implements IAdminUserDAO
     public Collection<AdminUser> selectUserList( )
     {
         Collection<AdminUser> userList = new ArrayList<>( );
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL ) )
         {
             daoUtil.executeQuery( );
 
@@ -280,7 +280,7 @@ public class AdminUserDAO implements IAdminUserDAO
     @Override
     public void insert( AdminUser user )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT, Statement.RETURN_GENERATED_KEYS ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT, Statement.RETURN_GENERATED_KEYS ) )
         {
             int nIndex = 1;
             daoUtil.setString( nIndex++, user.getAccessCode( ) );
@@ -317,7 +317,7 @@ public class AdminUserDAO implements IAdminUserDAO
     @Override
     public void store( AdminUser user )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE ) )
         {
 
             daoUtil.setString( 1, user.getAccessCode( ) );
@@ -342,7 +342,7 @@ public class AdminUserDAO implements IAdminUserDAO
     @Override
     public void delete( int nUserId )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE ) )
         {
             daoUtil.setInt( 1, nUserId );
             daoUtil.executeUpdate( );
@@ -357,7 +357,7 @@ public class AdminUserDAO implements IAdminUserDAO
     {
         Map<String, Right> rightsMap = new HashMap<>( );
 
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_RIGHTS_FROM_USER_ID ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_RIGHTS_FROM_USER_ID ) )
         {
             daoUtil.setInt( 1, nUserId );
             daoUtil.executeQuery( );
@@ -390,7 +390,7 @@ public class AdminUserDAO implements IAdminUserDAO
     @Override
     public void insertRightsListForUser( int nUserId, String strRightId )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT_USER_RIGHT ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT_USER_RIGHT ) )
         {
             daoUtil.setString( 1, strRightId );
             daoUtil.setInt( 2, nUserId );
@@ -404,7 +404,7 @@ public class AdminUserDAO implements IAdminUserDAO
     @Override
     public void deleteAllRightsForUser( int nUserId )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE_ALL_USER_RIGHTS ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE_ALL_USER_RIGHTS ) )
         {
             daoUtil.setInt( 1, nUserId );
             daoUtil.executeUpdate( );
@@ -419,7 +419,7 @@ public class AdminUserDAO implements IAdminUserDAO
     {
         Map<String, RBACRole> rolesMap = new HashMap<>( );
 
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_ROLES_FROM_USER_ID ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_ROLES_FROM_USER_ID ) )
         {
             daoUtil.setInt( 1, nUserId );
             daoUtil.executeQuery( );
@@ -444,7 +444,7 @@ public class AdminUserDAO implements IAdminUserDAO
     @Override
     public void insertRolesListForUser( int nUserId, String strRoleKey )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT_USER_ROLE ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT_USER_ROLE ) )
         {
             daoUtil.setString( 1, strRoleKey );
             daoUtil.setInt( 2, nUserId );
@@ -458,7 +458,7 @@ public class AdminUserDAO implements IAdminUserDAO
     @Override
     public void deleteAllRolesForUser( int nUserId )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE_ALL_USER_ROLES ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE_ALL_USER_ROLES ) )
         {
             daoUtil.setInt( 1, nUserId );
             daoUtil.executeUpdate( );
@@ -473,7 +473,7 @@ public class AdminUserDAO implements IAdminUserDAO
     {
         boolean bInUse = false;
 
-        try( DAOUtil daoUtil = new DAOUtil( SQL_CHECK_ROLE_ATTRIBUTED ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_CHECK_ROLE_ATTRIBUTED ) )
         {
             daoUtil.setString( 1, strRoleKey );
             daoUtil.executeQuery( );
@@ -495,7 +495,7 @@ public class AdminUserDAO implements IAdminUserDAO
     public int checkAccessCodeAlreadyInUse( String strAccessCode )
     {
         int nIdUser = -1;
-        try( DAOUtil daoUtil = new DAOUtil( SQL_CHECK_ACCESS_CODE_IN_USE ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_CHECK_ACCESS_CODE_IN_USE ) )
         {
             daoUtil.setString( 1, strAccessCode );
             daoUtil.executeQuery( );
@@ -517,7 +517,7 @@ public class AdminUserDAO implements IAdminUserDAO
     public int checkEmailAlreadyInUse( String strEmail )
     {
         int nIdUser = -1;
-        try( DAOUtil daoUtil = new DAOUtil( SQL_CHECK_EMAIL_IN_USE ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_CHECK_EMAIL_IN_USE ) )
         {
             daoUtil.setString( 1, strEmail );
             daoUtil.executeQuery( );
@@ -540,7 +540,7 @@ public class AdminUserDAO implements IAdminUserDAO
     @Override
     public void insert( LuteceDefaultAdminUser user )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT_DEFAULT_USER, Statement.RETURN_GENERATED_KEYS ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT_DEFAULT_USER, Statement.RETURN_GENERATED_KEYS ) )
         {
             int nIndex = 1;
             daoUtil.setString( nIndex++, user.getAccessCode( ) );
@@ -586,7 +586,7 @@ public class AdminUserDAO implements IAdminUserDAO
         {
             query = SQL_QUERY_UPDATE_DEFAULT_USER;
         }
-        try( DAOUtil daoUtil = new DAOUtil( query ) )
+        try ( DAOUtil daoUtil = new DAOUtil( query ) )
         {
 
             int nArgIndex = 1;
@@ -618,7 +618,7 @@ public class AdminUserDAO implements IAdminUserDAO
     public LuteceDefaultAdminUser loadDefaultAdminUser( int nUserId )
     {
         LuteceDefaultAdminUser user = new LuteceDefaultAdminUser( );
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_USER_FROM_USER_ID ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_USER_FROM_USER_ID ) )
         {
             daoUtil.setInt( 1, nUserId );
             daoUtil.executeQuery( );
@@ -652,7 +652,7 @@ public class AdminUserDAO implements IAdminUserDAO
     public Collection<AdminUser> selectUsersByRole( String strRoleKey )
     {
         Collection<AdminUser> userList = new ArrayList<>( );
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_USERS_ID_BY_ROLES ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_USERS_ID_BY_ROLES ) )
         {
             daoUtil.setString( 1, strRoleKey );
             daoUtil.executeQuery( );
@@ -684,7 +684,7 @@ public class AdminUserDAO implements IAdminUserDAO
     public Collection<AdminUser> selectUsersByLevel( int nIdLevel )
     {
         Collection<AdminUser> userList = new ArrayList<>( );
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_USERS_BY_LEVEL ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_USERS_BY_LEVEL ) )
         {
             daoUtil.setInt( 1, nIdLevel );
             daoUtil.executeQuery( );
@@ -723,7 +723,7 @@ public class AdminUserDAO implements IAdminUserDAO
     {
         String strSqlQuery = bDelegated ? SQL_QUERY_SELECT_USER_RIGHTS_DELEGATED : SQL_QUERY_SELECT_USER_RIGHTS_OWN;
         Collection<String> idRightList = new ArrayList<>( );
-        try( DAOUtil daoUtil = new DAOUtil( strSqlQuery ) )
+        try ( DAOUtil daoUtil = new DAOUtil( strSqlQuery ) )
         {
             daoUtil.setInt( 1, nUserId );
             daoUtil.setInt( 2, nUserLevel );
@@ -751,7 +751,7 @@ public class AdminUserDAO implements IAdminUserDAO
     {
         for ( String strIdRight : idRightList )
         {
-            try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE_USER_RIGHTS ) )
+            try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE_USER_RIGHTS ) )
             {
                 daoUtil.setInt( 1, nUserId );
                 daoUtil.setString( 2, strIdRight );
@@ -788,7 +788,7 @@ public class AdminUserDAO implements IAdminUserDAO
     @Override
     public void storeUsersRole( String strOldRoleKey, RBACRole role )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE_USERS_ROLE ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE_USERS_ROLE ) )
         {
             daoUtil.setString( 1, role.getKey( ) );
             daoUtil.setString( 2, strOldRoleKey );
@@ -804,7 +804,7 @@ public class AdminUserDAO implements IAdminUserDAO
     public boolean hasRole( int nUserId, String strRoleKey )
     {
         boolean bHasRole = false;
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_USER_ROLE ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_USER_ROLE ) )
         {
             daoUtil.setInt( 1, nUserId );
             daoUtil.setString( 2, strRoleKey );
@@ -826,7 +826,7 @@ public class AdminUserDAO implements IAdminUserDAO
     @Override
     public void deleteRoleForUser( int nUserId, String strRoleKey )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE_ROLE_FOR_USER ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE_ROLE_FOR_USER ) )
         {
             daoUtil.setInt( 1, nUserId );
             daoUtil.setString( 2, strRoleKey );
@@ -856,7 +856,7 @@ public class AdminUserDAO implements IAdminUserDAO
 
         query += CONSTANT_ORDER_BY_LAST_NAME;
 
-        try( DAOUtil daoUtil = new DAOUtil( query ) )
+        try ( DAOUtil daoUtil = new DAOUtil( query ) )
         {
             daoUtil.setString( 1, CONSTANT_PERCENT + auFilter.getAccessCode( ) + CONSTANT_PERCENT );
             daoUtil.setString( 2, CONSTANT_PERCENT + auFilter.getLastName( ) + CONSTANT_PERCENT );
@@ -908,7 +908,7 @@ public class AdminUserDAO implements IAdminUserDAO
     public Collection<AdminUser> selectUsersByRight( String strIdRight )
     {
         Collection<AdminUser> userList = new ArrayList<>( );
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_USERS_BY_RIGHT ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_USERS_BY_RIGHT ) )
         {
             daoUtil.setString( 1, strIdRight );
             daoUtil.executeQuery( );
@@ -940,7 +940,7 @@ public class AdminUserDAO implements IAdminUserDAO
     public boolean hasRight( int nUserId, String strIdRight )
     {
         boolean bHasRight = false;
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_USER_RIGHT ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_USER_RIGHT ) )
         {
             daoUtil.setInt( 1, nUserId );
             daoUtil.setString( 2, strIdRight );
@@ -962,7 +962,7 @@ public class AdminUserDAO implements IAdminUserDAO
     @Override
     public void deleteRightForUser( int nUserId, String strIdRight )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE_USER_RIGHTS ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE_USER_RIGHTS ) )
         {
             daoUtil.setInt( 1, nUserId );
             daoUtil.setString( 2, strIdRight );
@@ -978,7 +978,7 @@ public class AdminUserDAO implements IAdminUserDAO
     {
         List<IPassword> listPasswordHistory = new ArrayList<>( );
 
-        try( DAOUtil daoUtil = new DAOUtil( SQL_SELECT_USER_PASSWORD_HISTORY ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_SELECT_USER_PASSWORD_HISTORY ) )
         {
             daoUtil.setInt( 1, nUserID );
             daoUtil.executeQuery( );
@@ -1001,7 +1001,7 @@ public class AdminUserDAO implements IAdminUserDAO
     {
         int nNbRes = 0;
 
-        try( DAOUtil daoUtil = new DAOUtil( SQL_COUNT_USER_PASSWORD_HISTORY ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_COUNT_USER_PASSWORD_HISTORY ) )
         {
             daoUtil.setInt( 1, nUserId );
             daoUtil.setTimestamp( 2, minDate );
@@ -1023,7 +1023,7 @@ public class AdminUserDAO implements IAdminUserDAO
     @Override
     public void insertNewPasswordInHistory( IPassword password, int nUserId )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_INSERT_PASSWORD_HISTORY ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_INSERT_PASSWORD_HISTORY ) )
         {
             daoUtil.setInt( 1, nUserId );
             daoUtil.setString( 2, password.getStorableRepresentation( ) );
@@ -1038,7 +1038,7 @@ public class AdminUserDAO implements IAdminUserDAO
     @Override
     public void removeAllPasswordHistoryForUser( int nUserId )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_DELETE_PASSWORD_HISTORY ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_DELETE_PASSWORD_HISTORY ) )
         {
             daoUtil.setInt( 1, nUserId );
             daoUtil.executeUpdate( );
@@ -1052,7 +1052,7 @@ public class AdminUserDAO implements IAdminUserDAO
     public Map<String, Boolean> selectAnonymizationStatusUserStaticField( )
     {
         Map<String, Boolean> resultMap = new HashMap<>( );
-        try( DAOUtil daoUtil = new DAOUtil( SQL_SELECT_ANONYMIZATION_STATUS_USER_FILED ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_SELECT_ANONYMIZATION_STATUS_USER_FILED ) )
         {
             daoUtil.executeQuery( );
 
@@ -1072,7 +1072,7 @@ public class AdminUserDAO implements IAdminUserDAO
     @Override
     public void updateAnonymizationStatusUserStaticField( String strFieldName, boolean bAnonymizeFiled )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_UPDATE_ANONYMIZATION_STATUS_USER_FILED ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_UPDATE_ANONYMIZATION_STATUS_USER_FILED ) )
         {
             daoUtil.setBoolean( 1, bAnonymizeFiled );
             daoUtil.setString( 2, strFieldName );
@@ -1087,7 +1087,7 @@ public class AdminUserDAO implements IAdminUserDAO
     public List<Integer> findAllExpiredUserId( )
     {
         List<Integer> listIdExpiredUser = new ArrayList<>( );
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_EXPIRED_USER_ID ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_EXPIRED_USER_ID ) )
         {
             daoUtil.setInt( 1, AdminUser.EXPIRED_CODE );
 
@@ -1110,7 +1110,7 @@ public class AdminUserDAO implements IAdminUserDAO
     public List<Integer> getIdUsersWithExpiredLifeTimeList( Timestamp currentTimestamp )
     {
         List<Integer> listIdExpiredUser = new ArrayList<>( );
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_EXPIRED_LIFE_TIME_USER_ID ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_EXPIRED_LIFE_TIME_USER_ID ) )
         {
             daoUtil.setLong( 1, currentTimestamp.getTime( ) );
             daoUtil.setInt( 2, AdminUser.EXPIRED_CODE );
@@ -1134,7 +1134,7 @@ public class AdminUserDAO implements IAdminUserDAO
     public List<Integer> getIdUsersToSendFirstAlert( Timestamp alertMaxDate )
     {
         List<Integer> listIdUserFirstAlert = new ArrayList<>( );
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_USER_ID_FIRST_ALERT ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_USER_ID_FIRST_ALERT ) )
         {
             daoUtil.setInt( 1, AdminUser.EXPIRED_CODE );
             daoUtil.setLong( 2, alertMaxDate.getTime( ) );
@@ -1158,7 +1158,7 @@ public class AdminUserDAO implements IAdminUserDAO
     public List<Integer> getIdUsersToSendOtherAlert( Timestamp alertMaxDate, Timestamp timeBetweenAlerts, int maxNumberAlerts )
     {
         List<Integer> listIdUserFirstAlert = new ArrayList<>( );
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_USER_ID_OTHER_ALERT ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_USER_ID_OTHER_ALERT ) )
         {
             daoUtil.setInt( 1, maxNumberAlerts );
             daoUtil.setInt( 2, AdminUser.EXPIRED_CODE );
@@ -1184,7 +1184,7 @@ public class AdminUserDAO implements IAdminUserDAO
     public List<Integer> getIdUsersWithExpiredPasswordsList( Timestamp currentTimestamp )
     {
         List<Integer> idUserPasswordExpiredlist = new ArrayList<>( );
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_USER_ID_PASSWORD_EXPIRED ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_USER_ID_PASSWORD_EXPIRED ) )
         {
             daoUtil.setTimestamp( 1, currentTimestamp );
 
@@ -1223,7 +1223,7 @@ public class AdminUserDAO implements IAdminUserDAO
 
             sbSQL.append( CONSTANT_CLOSE_PARENTHESIS );
 
-            try( DAOUtil daoUtil = new DAOUtil( sbSQL.toString( ) ) )
+            try ( DAOUtil daoUtil = new DAOUtil( sbSQL.toString( ) ) )
             {
                 daoUtil.setInt( 1, nNewStatus );
                 daoUtil.executeUpdate( );
@@ -1254,7 +1254,7 @@ public class AdminUserDAO implements IAdminUserDAO
 
             sbSQL.append( CONSTANT_CLOSE_PARENTHESIS );
 
-            try( DAOUtil daoUtil = new DAOUtil( sbSQL.toString( ) ) )
+            try ( DAOUtil daoUtil = new DAOUtil( sbSQL.toString( ) ) )
             {
                 daoUtil.executeUpdate( );
             }
@@ -1284,7 +1284,7 @@ public class AdminUserDAO implements IAdminUserDAO
 
             sbSQL.append( CONSTANT_CLOSE_PARENTHESIS );
 
-            try( DAOUtil daoUtil = new DAOUtil( sbSQL.toString( ) ) )
+            try ( DAOUtil daoUtil = new DAOUtil( sbSQL.toString( ) ) )
             {
                 daoUtil.executeUpdate( );
             }
@@ -1297,7 +1297,7 @@ public class AdminUserDAO implements IAdminUserDAO
     @Override
     public void updateUserExpirationDate( int nIdUser, Timestamp newExpirationDate )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE_REACTIVATE_ACCOUNT ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE_REACTIVATE_ACCOUNT ) )
         {
 
             if ( newExpirationDate == null )
@@ -1321,7 +1321,7 @@ public class AdminUserDAO implements IAdminUserDAO
     @Override
     public void updateDateLastLogin( int nIdUser, Timestamp dateLastLogin )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE_DATE_LAST_LOGIN ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE_DATE_LAST_LOGIN ) )
         {
             daoUtil.setTimestamp( 1, dateLastLogin );
             daoUtil.setInt( 2, nIdUser );

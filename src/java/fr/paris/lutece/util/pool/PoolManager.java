@@ -181,7 +181,7 @@ public final class PoolManager
             }
         }
     }
-    
+
     private ConnectionService getConnectionService( Map<String, String> htParamsPool, String key ) throws LuteceInitException
     {
         ConnectionService cs = null;

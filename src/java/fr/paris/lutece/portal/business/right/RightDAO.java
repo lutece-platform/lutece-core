@@ -74,7 +74,7 @@ public final class RightDAO implements IRightDAO
      */
     public void insert( Right right )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT ) )
         {
 
             daoUtil.setString( 1, right.getId( ) );
@@ -103,7 +103,7 @@ public final class RightDAO implements IRightDAO
     public Right load( String strId )
     {
         Right right = null;
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT ) )
         {
             daoUtil.setString( 1, strId );
 
@@ -139,14 +139,14 @@ public final class RightDAO implements IRightDAO
     public void delete( String strIdRight )
     {
         // Clear user right
-        try( DAOUtil daoUtilUser = new DAOUtil( SQL_QUERY_DELETE_USERRIGHT ) )
+        try ( DAOUtil daoUtilUser = new DAOUtil( SQL_QUERY_DELETE_USERRIGHT ) )
         {
             daoUtilUser.setString( 1, strIdRight );
             daoUtilUser.executeUpdate( );
         }
 
         // Clear admin right
-        try( DAOUtil daoUtilAdmin = new DAOUtil( SQL_QUERY_DELETE_ADMINRIGHT ) )
+        try ( DAOUtil daoUtilAdmin = new DAOUtil( SQL_QUERY_DELETE_ADMINRIGHT ) )
         {
             daoUtilAdmin.setString( 1, strIdRight );
             daoUtilAdmin.executeUpdate( );
@@ -161,7 +161,7 @@ public final class RightDAO implements IRightDAO
      */
     public void store( Right right )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE ) )
         {
 
             daoUtil.setString( 1, right.getNameKey( ) );
@@ -200,7 +200,7 @@ public final class RightDAO implements IRightDAO
     public Collection<Right> selectRightsList( int nLevel )
     {
         Collection<Right> rightList = new ArrayList<>( );
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL ) )
         {
             daoUtil.setInt( 1, nLevel );
             daoUtil.executeQuery( );
@@ -250,7 +250,7 @@ public final class RightDAO implements IRightDAO
     public Collection<Right> selectExternalRightsList( int nLevel )
     {
         Collection<Right> rightList = new ArrayList<>( );
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL_EXTERNAL_FEATURES ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL_EXTERNAL_FEATURES ) )
         {
             daoUtil.setInt( 1, nLevel );
             daoUtil.executeQuery( );
@@ -296,7 +296,7 @@ public final class RightDAO implements IRightDAO
             strQuery = SQL_QUERY_SELECTALL_FOR_FEATUREGROUP_IS_NULL;
         }
 
-        try( DAOUtil daoUtil = new DAOUtil( strQuery ) )
+        try ( DAOUtil daoUtil = new DAOUtil( strQuery ) )
         {
 
             if ( strFeatureGroup != null )

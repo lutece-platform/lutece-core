@@ -68,7 +68,7 @@ public abstract class AdminFeaturesPageJspBean implements Serializable
 {
     protected static final String JSP_TECHNICAL_ADMINISTRATION = "jsp/admin/AdminTechnicalMenu.jsp";
     protected static final String ERROR_INVALID_TOKEN = "Invalid security token";
-    
+
     /**
      * Serial version UID
      */
@@ -331,20 +331,24 @@ public abstract class AdminFeaturesPageJspBean implements Serializable
     {
         return BeanValidationUtil.validate( bean, getLocale( ), config );
     }
-    
+
     /**
      * Return the URL of the technical admin page
-     * @param request The request
-     * @param strAnchor An anchor inside the page
+     * 
+     * @param request
+     *            The request
+     * @param strAnchor
+     *            An anchor inside the page
      * @return the URL
      */
-    protected String getAdminDashboardsUrl( HttpServletRequest request , String strAnchor )
+    protected String getAdminDashboardsUrl( HttpServletRequest request, String strAnchor )
     {
         return AppPathService.getBaseUrl( request ) + JSP_TECHNICAL_ADMINISTRATION + "?#" + strAnchor;
     }
-    
+
     /**
      * return true if the user is of higher level than the connected user or if the connected user is admin
+     * 
      * @param user
      * @return
      */

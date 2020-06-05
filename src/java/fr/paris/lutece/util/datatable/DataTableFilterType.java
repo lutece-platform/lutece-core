@@ -38,5 +38,7 @@ package fr.paris.lutece.util.datatable;
  */
 public enum DataTableFilterType
 {
-    STRING, BOOLEAN, DROPDOWNLIST;
+    STRING,
+    BOOLEAN,
+    DROPDOWNLIST;
 }

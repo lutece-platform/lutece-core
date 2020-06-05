@@ -61,7 +61,7 @@ public final class UserLogDAO implements IUserLogDAO
         java.sql.Timestamp dateEnd = new java.sql.Timestamp( new java.util.Date( ).getTime( ) );
         java.sql.Timestamp dateBegin = new java.sql.Timestamp( dateEnd.getTime( ) - ( nIntervalMinutes * 1000L * 60L ) );
 
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_LOGIN_ERRORS ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_LOGIN_ERRORS ) )
         {
 
             daoUtil.setString( 1, userLog.getIpAddress( ) );
@@ -88,7 +88,7 @@ public final class UserLogDAO implements IUserLogDAO
      */
     public void insertLog( UserLog userLog )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT_LOGS ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT_LOGS ) )
         {
             daoUtil.setString( 1, userLog.getAccessCode( ) );
             daoUtil.setString( 2, userLog.getIpAddress( ) );

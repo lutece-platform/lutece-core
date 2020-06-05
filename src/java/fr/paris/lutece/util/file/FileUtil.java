@@ -98,7 +98,7 @@ public final class FileUtil
 
         return hasExtension( strFileName, strImagesExtentions );
     }
-    
+
     /**
      * Check if a file has a valid Freemarker extension
      * 
@@ -110,8 +110,7 @@ public final class FileUtil
     {
         return hasExtension( strFileName, FREEMARKER_EXTENSION );
     }
-    
-    
+
     /**
      * Check if a file name match extensions in a given list
      * 
@@ -143,19 +142,23 @@ public final class FileUtil
 
         return false;
     }
+
     /**
-     * creates a zip file 
-     * @param zipFile the zipfile to create
-     * @param files to add to the Zip
-     * @throws IOException 
+     * creates a zip file
+     * 
+     * @param zipFile
+     *            the zipfile to create
+     * @param files
+     *            to add to the Zip
+     * @throws IOException
      */
-    public static void zipFiles( Path zipFile, Path...paths ) throws IOException
+    public static void zipFiles( Path zipFile, Path... paths ) throws IOException
     {
         if ( zipFile.toFile( ).exists( ) )
         {
             deleteFile( zipFile.toFile( ) );
         }
-          
+
         try ( ZipOutputStream zos = new ZipOutputStream( Files.newOutputStream( zipFile ) ) )
         {
             for ( Path file : paths )
@@ -164,15 +167,15 @@ public final class FileUtil
             }
         }
     }
-    
+
     private static void addEntryToZip( ZipOutputStream zos, Path file ) throws IOException
     {
         try ( InputStream fis = Files.newInputStream( file ) )
         {
             ZipEntry zipEntry = new ZipEntry( file.toFile( ).getName( ) );
             zos.putNextEntry( zipEntry );
-            
-            byte[] bytes = new byte[1024];
+
+            byte [ ] bytes = new byte [ 1024];
             int length;
             while ( ( length = fis.read( bytes ) ) >= 0 )
             {
@@ -181,12 +184,13 @@ public final class FileUtil
             zos.closeEntry( );
         }
     }
-    
+
     /**
      * Converts French diacritics characters into non diacritics. <br />
      * Replace whitespaces by underscores <br />
      * Keep only underscores and alphanum characters <br />
      * Transform to lowercase
+     * 
      * @param string
      * @return
      */
@@ -194,10 +198,11 @@ public final class FileUtil
     {
         return StringUtil.replaceAccent( string ).replace( ' ', '_' ).replaceAll( "[^a-zA-Z0-9_]+", "" ).toLowerCase( );
     }
-    
+
     /**
      * Delete the file. <br />
      * Logs an error if the delete is not succesful.
+     * 
      * @param pathname
      */
     public static void deleteFile( File file )
@@ -214,10 +219,10 @@ public final class FileUtil
                 Files.delete( file.toPath( ) );
             }
         }
-        catch ( IOException e )
+        catch( IOException e )
         {
             AppLogService.error( "Error deleting file", e );
         }
     }
-    
+
 }

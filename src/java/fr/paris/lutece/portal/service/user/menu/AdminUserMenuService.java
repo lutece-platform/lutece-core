@@ -61,36 +61,38 @@ public class AdminUserMenuService
      * 
      * Placement of the item can be altered with strAfterName or strBeforeName
      * 
-     * @param itemProvider  admin user menu item provider
-     * @param strBeforeName add the item provider before the provider with this name
-     * @param strAfterName  add the item provider after the provider with this name
+     * @param itemProvider
+     *            admin user menu item provider
+     * @param strBeforeName
+     *            add the item provider before the provider with this name
+     * @param strAfterName
+     *            add the item provider after the provider with this name
      */
     public void addItemProvider( IAdminUserMenuItemProvider itemProvider, String strAfterName, String strBeforeName )
     {
         if ( strAfterName != null )
         {
-            addItemProviderInPosition( itemProvider, strAfterName,
-                    ( ListIterator<IAdminUserMenuItemProvider> i ) -> i.add( itemProvider ) );
-        }
-        else if ( strBeforeName != null )
-        {
-            addItemProviderInPosition( itemProvider, strBeforeName, ( ListIterator<IAdminUserMenuItemProvider> i ) ->
-            {
-                if ( i.hasPrevious( ) )
-                {
-                    i.previous( );
-                    i.add( itemProvider );
-                }
-                else
-                {
-                    _itemProviders.add( 0, itemProvider );
-                }
-            } );
+            addItemProviderInPosition( itemProvider, strAfterName, ( ListIterator<IAdminUserMenuItemProvider> i ) -> i.add( itemProvider ) );
         }
         else
-        {
-            _itemProviders.add( itemProvider );
-        }
+            if ( strBeforeName != null )
+            {
+                addItemProviderInPosition( itemProvider, strBeforeName, ( ListIterator<IAdminUserMenuItemProvider> i ) -> {
+                    if ( i.hasPrevious( ) )
+                    {
+                        i.previous( );
+                        i.add( itemProvider );
+                    }
+                    else
+                    {
+                        _itemProviders.add( 0, itemProvider );
+                    }
+                } );
+            }
+            else
+            {
+                _itemProviders.add( itemProvider );
+            }
         AppLogService.info( "New admin user menu item provider registered : " + itemProvider.getName( ) );
     }
 
@@ -111,8 +113,7 @@ public class AdminUserMenuService
         }
         if ( !bFound )
         {
-            AppLogService.error( "Did not find admin user menu item provider named <" + strRefName
-                    + "> when registering <" + itemProvider.getName( ) );
+            AppLogService.error( "Did not find admin user menu item provider named <" + strRefName + "> when registering <" + itemProvider.getName( ) );
             _itemProviders.add( itemProvider );
         }
     }
@@ -120,12 +121,12 @@ public class AdminUserMenuService
     /**
      * Get all invoked admin user menu items
      * 
-     * @param request the request
+     * @param request
+     *            the request
      * @return invoked admin user menu items
      */
     public List<AdminUserMenuItem> getItems( final HttpServletRequest request )
     {
-        return _itemProviders.stream( ).filter( p -> p.isInvoked( request ) ).map( p -> p.getItem( request ) )
-                .collect( Collectors.toList( ) );
+        return _itemProviders.stream( ).filter( p -> p.isInvoked( request ) ).map( p -> p.getItem( request ) ).collect( Collectors.toList( ) );
     }
 }

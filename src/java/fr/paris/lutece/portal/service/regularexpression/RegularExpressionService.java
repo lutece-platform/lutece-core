@@ -64,7 +64,7 @@ public final class RegularExpressionService
             _service = SpringContextService.getBean( "regularExpressionService" );
             _bServiceAvailable = _service != null;
         }
-        catch ( CannotLoadBeanClassException | NoSuchBeanDefinitionException | BeanDefinitionStoreException e )
+        catch( CannotLoadBeanClassException | NoSuchBeanDefinitionException | BeanDefinitionStoreException e )
         {
             _bServiceAvailable = false;
         }
@@ -96,7 +96,8 @@ public final class RegularExpressionService
     /**
      * return false if the pattern is invalid
      * 
-     * @param strPattern the pattern to test
+     * @param strPattern
+     *            the pattern to test
      * @return false if the pattern is invalid
      */
     boolean isPatternValide( String strPattern )
@@ -107,7 +108,8 @@ public final class RegularExpressionService
     /**
      * return false if the expression's syntax is invalid
      * 
-     * @param regularExpression the regular expression object to test
+     * @param regularExpression
+     *            the regular expression object to test
      * @return false if the expression's syntax is invalid
      */
     boolean isPatternValide( RegularExpression regularExpression )
@@ -118,8 +120,10 @@ public final class RegularExpressionService
     /**
      * return true if the value in parameter verify the pattern
      * 
-     * @param strValueToTest the value to test
-     * @param strPattern     the regular expression Pattern
+     * @param strValueToTest
+     *            the value to test
+     * @param strPattern
+     *            the regular expression Pattern
      * @return true if the value in parameter verify the pattern
      */
     public boolean isMatches( String strValueToTest, String strPattern )
@@ -130,8 +134,10 @@ public final class RegularExpressionService
     /**
      * return true if the value in parameter verify the regular expression
      * 
-     * @param strValueToTest    the value to test
-     * @param regularExpression the regular expression
+     * @param strValueToTest
+     *            the value to test
+     * @param regularExpression
+     *            the regular expression
      * @return true if the value verify the regular expression
      */
     public boolean isMatches( String strValueToTest, RegularExpression regularExpression )
@@ -140,12 +146,11 @@ public final class RegularExpressionService
     }
 
     /**
-     * return the regular expression object whose identifier is specified in
-     * parameter
+     * return the regular expression object whose identifier is specified in parameter
      * 
-     * @param nKey the regular expression key
-     * @return the regular expression object whose identifier is specified in
-     *         parameter
+     * @param nKey
+     *            the regular expression key
+     * @return the regular expression object whose identifier is specified in parameter
      */
     public RegularExpression getRegularExpressionByKey( int nKey )
     {

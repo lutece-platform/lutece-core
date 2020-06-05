@@ -32,7 +32,6 @@
  * License 1.0
  */
 
-
 package fr.paris.lutece.portal.web.xsl;
 
 import fr.paris.lutece.portal.business.rbac.RBAC;
@@ -51,7 +50,7 @@ import javax.servlet.http.HttpServletRequest;
 /**
  * XslExportAdminDashboardComponent
  */
-public class XslExportAdminDashboardComponent  extends AdminDashboardComponent
+public class XslExportAdminDashboardComponent extends AdminDashboardComponent
 {
     private static final String TEMPLATE_MANAGE_XSL_EXPORT = "admin/xsl/xsl_export_admin_dashboard.html";
     private static final String MARK_XSL_EXPORT_LIST = "xsl_export_list";
@@ -76,13 +75,11 @@ public class XslExportAdminDashboardComponent  extends AdminDashboardComponent
         model.put( MARK_PERMISSION_DELETE,
                 RBACService.isAuthorized( XslExport.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID, XslExportResourceIdService.PERMISSION_DELETE, user ) );
 
-
         model.put( MARK_XSL_EXPORT_LIST, listXslExport );
 
         HtmlTemplate templateList = AppTemplateService.getTemplate( TEMPLATE_MANAGE_XSL_EXPORT, user.getLocale( ), model );
 
         return templateList.getHtml( );
     }
-
 
 }

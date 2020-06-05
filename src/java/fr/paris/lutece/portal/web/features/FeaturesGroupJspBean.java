@@ -82,7 +82,6 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
     private static final String REGEX_ID = "^[\\d]+$";
     private static final String ANCHOR_ADMIN_DASHBOARDS = "features_management";
 
-
     /**
      * Dispatch a feature to a given group
      * 
@@ -94,7 +93,7 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
      */
     public String doDispatchFeature( HttpServletRequest request ) throws AccessDeniedException
     {
-        if ( !SecurityTokenService.getInstance( ).validate( request,  AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) )
+        if ( !SecurityTokenService.getInstance( ).validate( request, AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) )
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
@@ -132,7 +131,7 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
      */
     public String doDispatchFeatureGroup( HttpServletRequest request ) throws AccessDeniedException
     {
-        if ( !SecurityTokenService.getInstance( ).validate( request,  AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) )
+        if ( !SecurityTokenService.getInstance( ).validate( request, AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) )
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
@@ -162,7 +161,7 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
      */
     public String doReinitFeatures( HttpServletRequest request ) throws AccessDeniedException
     {
-        if ( !SecurityTokenService.getInstance( ).validate( request,  AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) )
+        if ( !SecurityTokenService.getInstance( ).validate( request, AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) )
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
@@ -193,7 +192,7 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
         Map<String, Serializable> model = new HashMap<>( );
         model.put( MARK_ORDER_LIST, getOrderRefList( ) );
         model.put( MARK_DEFAULT_ORDER, String.valueOf( nCount ) );
-        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request,  AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) );
+        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) );
 
         HtmlTemplate t = AppTemplateService.getTemplate( TEMPLATE_CREATE_GROUP, getLocale( ), model );
 
@@ -221,7 +220,7 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
         Map<String, Object> model = new HashMap<>( );
         model.put( MARK_ORDER_LIST, getOrderRefList( ) );
         model.put( MARK_FEATURE_GROUP, group );
-        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request,  AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) );
+        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) );
 
         HtmlTemplate t = AppTemplateService.getTemplate( TEMPLATE_MODIFY_GROUP, getLocale( ), model );
 
@@ -249,7 +248,7 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
         {
             return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
         }
-        if ( !SecurityTokenService.getInstance( ).validate( request,  AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) )
+        if ( !SecurityTokenService.getInstance( ).validate( request, AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) )
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
@@ -287,7 +286,7 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
         {
             return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
         }
-        if ( !SecurityTokenService.getInstance( ).validate( request,  AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) )
+        if ( !SecurityTokenService.getInstance( ).validate( request, AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) )
         {
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
@@ -334,12 +333,13 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
         String strUrl = JSP_REMOVE_GROUPS;
         Map<String, Object> parameters = new HashMap<>( );
         parameters.put( PARAMETER_GROUP_ID, strGroupId );
-        parameters.put( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request,  AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) );
+        parameters.put( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) );
         FeatureGroup group = FeatureGroupHome.findByPrimaryKey( strGroupId );
         group.setLocale( getUser( ).getLocale( ) );
 
         Object [ ] messageArgs = {
-            group.getLabel( )
+                group.getLabel( )
         };
 
         return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_DELETE, messageArgs, null, strUrl, "", AdminMessage.TYPE_CONFIRMATION, parameters );
@@ -371,15 +371,17 @@ public class FeaturesGroupJspBean extends AdminFeaturesPageJspBean
 
         return getDashboardUrl( request );
     }
-    
+
     /**
      * Returns the dashboard URL
-     * @param request The HTTP request
+     * 
+     * @param request
+     *            The HTTP request
      * @return the dashboard URL
      */
     private String getDashboardUrl( HttpServletRequest request )
     {
-        return getAdminDashboardsUrl( request , ANCHOR_ADMIN_DASHBOARDS );
+        return getAdminDashboardsUrl( request, ANCHOR_ADMIN_DASHBOARDS );
     }
-    
+
 }

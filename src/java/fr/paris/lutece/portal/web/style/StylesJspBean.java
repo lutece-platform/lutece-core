@@ -343,7 +343,7 @@ public class StylesJspBean extends AdminFeaturesPageJspBean
             for ( StyleSheet styleSheet : listStyleSheets )
             {
                 Object [ ] args = {
-                    styleSheet.getDescription( )
+                        styleSheet.getDescription( )
                 };
 
                 Map<String, Object> parameters = new HashMap<>( );

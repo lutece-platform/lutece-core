@@ -133,7 +133,6 @@ public class XslExportJspBean extends PluginAdminPageJspBean
     private static final String ANCHOR_ADMIN_DASHBOARDS = "xslexport";
     private static final String JSP_DO_REMOVE_XSL_EXPORT = "jsp/admin/xsl/DoRemoveXslExport.jsp";
 
-
     /**
      * Gets the xsl export creation page
      * 
@@ -473,7 +472,7 @@ public class XslExportJspBean extends PluginAdminPageJspBean
         if ( !strError.equals( EMPTY_STRING ) )
         {
             Object [ ] tabRequiredFields = {
-                I18nService.getLocalizedString( strError, getLocale( ) )
+                    I18nService.getLocalizedString( strError, getLocale( ) )
             };
 
             return AdminMessageService.getMessageUrl( request, MESSAGE_MANDATORY_FIELD, tabRequiredFields, AdminMessage.TYPE_STOP );
@@ -487,7 +486,7 @@ public class XslExportJspBean extends PluginAdminPageJspBean
             if ( strError != null )
             {
                 Object [ ] args = {
-                    strError
+                        strError
                 };
 
                 return AdminMessageService.getMessageUrl( request, MESSAGE_XML_NOT_VALID, args, AdminMessage.TYPE_STOP );
@@ -539,7 +538,7 @@ public class XslExportJspBean extends PluginAdminPageJspBean
      */
     private String getJspManageXslExport( HttpServletRequest request )
     {
-        return getAdminDashboardsUrl( request , ANCHOR_ADMIN_DASHBOARDS );
+        return getAdminDashboardsUrl( request, ANCHOR_ADMIN_DASHBOARDS );
     }
 
     /**

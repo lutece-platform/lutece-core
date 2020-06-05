@@ -80,15 +80,15 @@ public class C3p0ConnectionService implements ConnectionService
             _dataSource.setDriverClass( strDriver );
 
             String strUrl = htParamsConnectionPool.get( getPoolName( ) + ".url" );
-            strUrl = EnvUtil.evaluate( strUrl , EnvUtil.PREFIX_ENV );
+            strUrl = EnvUtil.evaluate( strUrl, EnvUtil.PREFIX_ENV );
             _dataSource.setJdbcUrl( strUrl );
 
             String strUser = htParamsConnectionPool.get( getPoolName( ) + ".user" );
-            strUser = EnvUtil.evaluate( strUser , EnvUtil.PREFIX_ENV );
+            strUser = EnvUtil.evaluate( strUser, EnvUtil.PREFIX_ENV );
             _dataSource.setUser( strUser );
 
             String strPassword = htParamsConnectionPool.get( getPoolName( ) + ".password" );
-            strPassword = EnvUtil.evaluate( strPassword , EnvUtil.PREFIX_ENV );
+            strPassword = EnvUtil.evaluate( strPassword, EnvUtil.PREFIX_ENV );
             _dataSource.setPassword( strPassword );
 
             String strMaxConns = htParamsConnectionPool.get( getPoolName( ) + ".maxconns" );
@@ -125,7 +125,8 @@ public class C3p0ConnectionService implements ConnectionService
 
                 if ( conn != null )
                 {
-                    _logger.debug( "The connexion is get, Current/Max pool : " + _dataSource.getNumConnectionsAllUsers( ) + "/" + _dataSource.getMaxPoolSize( ) );
+                    _logger.debug(
+                            "The connexion is get, Current/Max pool : " + _dataSource.getNumConnectionsAllUsers( ) + "/" + _dataSource.getMaxPoolSize( ) );
                 }
             }
         }

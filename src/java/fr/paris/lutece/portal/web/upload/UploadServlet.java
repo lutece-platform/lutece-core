@@ -65,7 +65,8 @@ public class UploadServlet extends HttpServlet
 
     /**
      * {@inheritDoc}
-     * @throws IOException 
+     * 
+     * @throws IOException
      */
     @Override
     protected void doPost( HttpServletRequest req, HttpServletResponse response ) throws IOException
@@ -120,14 +121,14 @@ public class UploadServlet extends HttpServlet
     /**
      * Gets the handler implementing the new version IAsynchronousUploadHandler2
      *
-     * @param request the request
+     * @param request
+     *            the request
      * @return the handler found, <code>null</code> otherwise.
      * @see IAsynchronousUploadHandler2#isInvoked(HttpServletRequest)
      */
     private IAsynchronousUploadHandler2 getHandler2( HttpServletRequest request )
     {
-        for ( IAsynchronousUploadHandler2 handler : SpringContextService
-                .getBeansOfType( IAsynchronousUploadHandler2.class ) )
+        for ( IAsynchronousUploadHandler2 handler : SpringContextService.getBeansOfType( IAsynchronousUploadHandler2.class ) )
         {
             if ( handler.isInvoked( request ) )
             {

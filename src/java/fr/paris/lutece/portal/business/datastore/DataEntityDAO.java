@@ -59,7 +59,7 @@ public final class DataEntityDAO implements IDataEntityDAO
     @Override
     public void insert( DataEntity entity )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT ) )
         {
 
             daoUtil.setString( 1, entity.getKey( ) );
@@ -80,7 +80,7 @@ public final class DataEntityDAO implements IDataEntityDAO
     public DataEntity load( String strKey )
     {
         DataEntity entity = null;
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT ) )
         {
             daoUtil.setString( 1, strKey );
             daoUtil.executeQuery( );
@@ -107,7 +107,7 @@ public final class DataEntityDAO implements IDataEntityDAO
     @Override
     public void delete( String strKey )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE ) )
         {
             daoUtil.setString( 1, strKey );
             daoUtil.executeUpdate( );
@@ -123,7 +123,7 @@ public final class DataEntityDAO implements IDataEntityDAO
     @Override
     public void store( DataEntity entity )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE ) )
         {
 
             daoUtil.setString( 1, entity.getValue( ) );
@@ -142,7 +142,7 @@ public final class DataEntityDAO implements IDataEntityDAO
     public List<DataEntity> selectEntitiesList( )
     {
         List<DataEntity> entityList = new ArrayList<>( );
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL ) )
         {
             daoUtil.executeQuery( );
 

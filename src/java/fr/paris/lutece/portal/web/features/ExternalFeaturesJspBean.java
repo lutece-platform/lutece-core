@@ -89,11 +89,10 @@ public class ExternalFeaturesJspBean extends AdminFeaturesPageJspBean
     private static final String MARK_EXTERNAL_FEATURE = "external_feature";
     private static final String MARK_FEATURES_GROUPS_REFERENCE_LIST = "features_groups_labels_list";
     private static final String MARK_RIGHT_LEVELS_REFERENCE_LIST = "right_levels_labels_list";
-    
+
     private static final String ANCHOR_ADMIN_DASHBOARDS = "features_management";
 
     private Right _externalFeature;
-
 
     public String getCreateExternalFeature( HttpServletRequest request )
     {
@@ -137,7 +136,7 @@ public class ExternalFeaturesJspBean extends AdminFeaturesPageJspBean
         _externalFeature.setLevel( Integer.parseInt( request.getParameter( PARAMETER_ID_LEVEL ) ) );
 
         RightHome.create( _externalFeature );
-        return getAdminDashboardsUrl( request , ANCHOR_ADMIN_DASHBOARDS );
+        return getAdminDashboardsUrl( request, ANCHOR_ADMIN_DASHBOARDS );
     }
 
     public String getRemoveExternalFeature( HttpServletRequest request )
@@ -149,7 +148,7 @@ public class ExternalFeaturesJspBean extends AdminFeaturesPageJspBean
         _externalFeature.setLocale( getUser( ).getLocale( ) );
 
         Object [ ] messageArgs = {
-            _externalFeature.getName( )
+                _externalFeature.getName( )
         };
 
         Map<String, Object> parameters = new HashMap<>( );
@@ -168,7 +167,7 @@ public class ExternalFeaturesJspBean extends AdminFeaturesPageJspBean
         }
         RightHome.remove( _externalFeature.getId( ) );
 
-        return getAdminDashboardsUrl( request , ANCHOR_ADMIN_DASHBOARDS );
+        return getAdminDashboardsUrl( request, ANCHOR_ADMIN_DASHBOARDS );
     }
 
     public String getModifyExternalFeature( HttpServletRequest request )
@@ -231,6 +230,6 @@ public class ExternalFeaturesJspBean extends AdminFeaturesPageJspBean
             user.updateRight( _externalFeature );
         }
 
-        return getAdminDashboardsUrl( request , ANCHOR_ADMIN_DASHBOARDS );
+        return getAdminDashboardsUrl( request, ANCHOR_ADMIN_DASHBOARDS );
     }
 }

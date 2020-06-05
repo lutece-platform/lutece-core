@@ -53,7 +53,6 @@ public class AutoIncludeJspBean extends MVCAdminJspBean
     // Rights
     public static final String RIGHT_MANAGEAUTOINCLUDES = "CORE_TEMPLATES_AUTO_INCLUDES_MANAGEMENT";
 
-
     // Parameters
     private static final String PARAMETER_COMMONS_KEY = "commons_key";
 
@@ -62,7 +61,7 @@ public class AutoIncludeJspBean extends MVCAdminJspBean
 
     // Infos
     private static final String INFO_COMMONS_ACTIVATE = "portal.templates.info.commons.activated";
-    
+
     private static final String ANCHOR_ADMIN_DASHBOARDS = "autoincludes";
 
     /**
@@ -80,7 +79,7 @@ public class AutoIncludeJspBean extends MVCAdminJspBean
         AdminMenuJspBean.resetAdminStylesheets( );
         addInfo( INFO_COMMONS_ACTIVATE, getLocale( ) );
 
-        return redirect( request, getAdminDashboardsUrl( request , ANCHOR_ADMIN_DASHBOARDS ) );
+        return redirect( request, getAdminDashboardsUrl( request, ANCHOR_ADMIN_DASHBOARDS ) );
     }
 
 }

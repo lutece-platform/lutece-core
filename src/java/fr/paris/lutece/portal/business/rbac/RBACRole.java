@@ -45,21 +45,22 @@ public class RBACRole implements Serializable, UserRole
     private String _strKey;
     private String _strDescription;
 
-    
-    /** 
+    /**
      * Constructor
      */
-    public RBACRole()
+    public RBACRole( )
     {
     }
 
-    
-    /** 
+    /**
      * Constructor
-     * @param strKey The Key
-     * @param strDescription The description
+     * 
+     * @param strKey
+     *            The Key
+     * @param strDescription
+     *            The description
      */
-    public RBACRole(String strKey, String strDescription )
+    public RBACRole( String strKey, String strDescription )
     {
         _strKey = strKey;
         _strDescription = strDescription;

@@ -131,14 +131,15 @@ public class PortalJspBean
     private static final String KEY_WEBMASTER_EMAIL = "portal.site.site_property.noreply_email";
 
     /**
-     * Returns the content of a page according to the parameters found in the http
-     * request. One distinguishes article, page and xpage and the mode.
+     * Returns the content of a page according to the parameters found in the http request. One distinguishes article, page and xpage and the mode.
      *
-     * @param request The http request
+     * @param request
+     *            The http request
      * @return the html code for the display of a page of a site
-     * @throws UserNotSignedException The UserNotSignedException
-     * @throws SiteMessageException   occurs when a site message need to be
-     *                                displayed
+     * @throws UserNotSignedException
+     *             The UserNotSignedException
+     * @throws SiteMessageException
+     *             occurs when a site message need to be displayed
      */
     public String getContent( HttpServletRequest request ) throws UserNotSignedException, SiteMessageException
     {
@@ -146,18 +147,19 @@ public class PortalJspBean
     }
 
     /**
-     * Returns the content of a page according to the parameters found in the http
-     * request. One distinguishes article, page and xpage and the mode.
+     * Returns the content of a page according to the parameters found in the http request. One distinguishes article, page and xpage and the mode.
      *
-     * @param request The http request
-     * @param nMode   The mode (normal or administration)
+     * @param request
+     *            The http request
+     * @param nMode
+     *            The mode (normal or administration)
      * @return the html code for the display of a page of a site
-     * @throws UserNotSignedException The UserNotSignedException
-     * @throws SiteMessageException   occurs when a site message need to be
-     *                                displayed
+     * @throws UserNotSignedException
+     *             The UserNotSignedException
+     * @throws SiteMessageException
+     *             occurs when a site message need to be displayed
      */
-    public String getContent( HttpServletRequest request, int nMode )
-            throws UserNotSignedException, SiteMessageException
+    public String getContent( HttpServletRequest request, int nMode ) throws UserNotSignedException, SiteMessageException
     {
         if ( !AppInit.isWebappSuccessfullyLoaded( ) )
         {
@@ -169,8 +171,7 @@ public class PortalJspBean
         {
             try
             {
-                if ( SecurityService.getInstance( ).isExternalAuthentication( )
-                        && !SecurityService.getInstance( ).isMultiAuthenticationSupported( ) )
+                if ( SecurityService.getInstance( ).isExternalAuthentication( ) && !SecurityService.getInstance( ).isMultiAuthenticationSupported( ) )
                 {
                     SecurityService.getInstance( ).getRemoteUser( request );
                 }
@@ -191,7 +192,7 @@ public class PortalJspBean
                     }
                 }
             }
-            catch ( UserNotSignedException unse )
+            catch( UserNotSignedException unse )
             {
                 // nothing to do,Leave LuteceAuthenticationFilter testing if the access to the
                 // content requires authentication
@@ -201,8 +202,7 @@ public class PortalJspBean
         // Search the content service invoked and call its getPage method
         ContentService cs = PortalService.getInvokedContentService( request );
 
-        String strContent = ( cs != null ) ? cs.getPage( request, nMode )
-                : PortalService.getDefaultPage( request, nMode );
+        String strContent = ( cs != null ) ? cs.getPage( request, nMode ) : PortalService.getDefaultPage( request, nMode );
 
         if ( ContentPostProcessorService.hasProcessor( ) )
         {
@@ -213,10 +213,10 @@ public class PortalJspBean
     }
 
     /**
-     * Returns the content of a page according to the parameters found in the http
-     * request. One distinguishes article, page and xpage and the mode.
+     * Returns the content of a page according to the parameters found in the http request. One distinguishes article, page and xpage and the mode.
      *
-     * @param request The http request
+     * @param request
+     *            The http request
      * @return the html code for the display of a page of a site
      *
      */
@@ -226,11 +226,12 @@ public class PortalJspBean
     }
 
     /**
-     * Returns the content of a page according to the parameters found in the http
-     * request. One distinguishes article, page and xpage and the mode.
+     * Returns the content of a page according to the parameters found in the http request. One distinguishes article, page and xpage and the mode.
      *
-     * @param request The http request
-     * @param nMode   The mode (normal or administration)
+     * @param request
+     *            The http request
+     * @param nMode
+     *            The mode (normal or administration)
      * @return the html code for the display of a page of a site
      *
      */
@@ -256,7 +257,8 @@ public class PortalJspBean
     /**
      * Returns the code for the popup of the credits
      * 
-     * @param request The HTTP request
+     * @param request
+     *            The HTTP request
      * @return the html code for the popup credits
      */
     public String getStartUpFailurePage( HttpServletRequest request )
@@ -265,8 +267,7 @@ public class PortalJspBean
         fillPageModel( request, model );
         model.put( MARK_FAILURE_MESSAGE, AppInit.getLoadingFailureCause( ) );
         model.put( MARK_FAILURE_DETAILS, AppInit.getLoadingFailureDetails( ) );
-        model.put( Markers.PAGE_TITLE,
-                I18nService.getLocalizedString( PROPERTY_PAGE_TITLE_STARTUP_FAILURE, request.getLocale( ) ) );
+        model.put( Markers.PAGE_TITLE, I18nService.getLocalizedString( PROPERTY_PAGE_TITLE_STARTUP_FAILURE, request.getLocale( ) ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_STARTUP_FAILURE, request.getLocale( ), model );
 
@@ -276,7 +277,8 @@ public class PortalJspBean
     /**
      * Returns the code for the popup of the credits
      *
-     * @param request The Http Request
+     * @param request
+     *            The Http Request
      * @return the html code for the popup credits
      */
     public String getCredits( HttpServletRequest request )
@@ -285,8 +287,7 @@ public class PortalJspBean
         fillPageModel( request, model );
         model.put( MARK_APP_VERSION, AppInfo.getVersion( ) );
         model.put( MARK_PORTAL_DOMAIN, PortalService.getSiteName( ) );
-        model.put( Markers.PAGE_TITLE,
-                I18nService.getLocalizedString( PROPERTY_PAGE_TITLE_CREDITS, request.getLocale( ) ) );
+        model.put( Markers.PAGE_TITLE, I18nService.getLocalizedString( PROPERTY_PAGE_TITLE_CREDITS, request.getLocale( ) ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_POPUP_CREDITS, request.getLocale( ), model );
 
@@ -296,7 +297,8 @@ public class PortalJspBean
     /**
      * Returns the code for the popup of the legal infos
      *
-     * @param request The Http Request
+     * @param request
+     *            The Http Request
      * @return the html code for the legal infos
      */
     public String getLegalInfos( HttpServletRequest request )
@@ -305,11 +307,9 @@ public class PortalJspBean
         fillPageModel( request, model );
         model.put( MARK_ADDRESS_INFOS_CNIL, AppPropertiesService.getProperty( PROPERTY_INFOS_CNIL ) );
         model.put( MARK_PORTAL_DOMAIN, PortalService.getSiteName( ) );
-        model.put( Markers.PAGE_TITLE,
-                I18nService.getLocalizedString( PROPERTY_PAGE_TITLE_LEGAL_INFO, request.getLocale( ) ) );
+        model.put( Markers.PAGE_TITLE, I18nService.getLocalizedString( PROPERTY_PAGE_TITLE_LEGAL_INFO, request.getLocale( ) ) );
 
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_POPUP_LEGAL_INFO, request.getLocale( ),
-                model );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_POPUP_LEGAL_INFO, request.getLocale( ), model );
 
         return template.getHtml( );
     }
@@ -317,15 +317,15 @@ public class PortalJspBean
     /**
      * Returns the 404 Error page
      * 
-     * @param request The HTTP request
+     * @param request
+     *            The HTTP request
      * @return The page
      */
     public String getError404Page( HttpServletRequest request )
     {
         HashMap<String, Object> model = new HashMap<>( );
         fillPageModel( request, model );
-        model.put( Markers.PAGE_TITLE,
-                I18nService.getLocalizedString( PROPERTY_PAGE_TITLE_ERROR404, request.getLocale( ) ) );
+        model.put( Markers.PAGE_TITLE, I18nService.getLocalizedString( PROPERTY_PAGE_TITLE_ERROR404, request.getLocale( ) ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_PAGE_ERROR404, request.getLocale( ), model );
 
@@ -335,8 +335,10 @@ public class PortalJspBean
     /**
      * Returns the 500 Error page
      * 
-     * @param request   The HTTP request
-     * @param exception The Exception
+     * @param request
+     *            The HTTP request
+     * @param exception
+     *            The Exception
      * @return The page
      */
     public String getError500Page( HttpServletRequest request, Throwable exception )
@@ -372,16 +374,17 @@ public class PortalJspBean
     /**
      * Returns the 500 Error page
      * 
-     * @param request  The HTTP request
-     * @param strCause The message
+     * @param request
+     *            The HTTP request
+     * @param strCause
+     *            The message
      * @return The page
      */
     public String getError500Page( HttpServletRequest request, String strCause )
     {
         HashMap<String, Object> model = new HashMap<>( );
         fillPageModel( request, model );
-        model.put( Markers.PAGE_TITLE,
-                I18nService.getLocalizedString( PROPERTY_PAGE_TITLE_ERROR500, request.getLocale( ) ) );
+        model.put( Markers.PAGE_TITLE, I18nService.getLocalizedString( PROPERTY_PAGE_TITLE_ERROR500, request.getLocale( ) ) );
         model.put( MARK_ERROR_CAUSE, strCause );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_PAGE_ERROR500, request.getLocale( ), model );
@@ -392,8 +395,10 @@ public class PortalJspBean
     /**
      * Fill the model'map with commons values
      * 
-     * @param request The HTTP request
-     * @param model   The map containing the model
+     * @param request
+     *            The HTTP request
+     * @param model
+     *            The map containing the model
      */
     private static void fillPageModel( HttpServletRequest request, HashMap<String, Object> model )
     {
@@ -403,10 +408,10 @@ public class PortalJspBean
     }
 
     /**
-     * This method is called by Portal.jsp when it caught an UserNotSignedException.
-     * It gives the login url and stores in the session the url asked
+     * This method is called by Portal.jsp when it caught an UserNotSignedException. It gives the login url and stores in the session the url asked
      * 
-     * @param request The HTTP request
+     * @param request
+     *            The HTTP request
      * @return The login page URL
      * @since v1.1
      */
@@ -424,7 +429,7 @@ public class PortalJspBean
             {
                 url.addParameter( strParamName, URLEncoder.encode( request.getParameter( strParamName ), "UTF-8" ) );
             }
-            catch ( UnsupportedEncodingException ex )
+            catch( UnsupportedEncodingException ex )
             {
                 AppLogService.error( "Redirection error while encoding URL : " + ex.getMessage( ), ex );
             }
@@ -441,7 +446,8 @@ public class PortalJspBean
     /**
      * Returns the url (asked before login) to redirect after login
      * 
-     * @param request The Http request
+     * @param request
+     *            The Http request
      * @return The url asked before login
      * @since v1.1
      */
@@ -454,7 +460,8 @@ public class PortalJspBean
     /**
      * Set the upload filter site next url
      * 
-     * @param request the HTTP request
+     * @param request
+     *            the HTTP request
      */
     public static void setUploadFilterSiteNextUrl( HttpServletRequest request )
     {
@@ -475,7 +482,8 @@ public class PortalJspBean
     /**
      * Get the upload filter site next url
      * 
-     * @param request the HTTP request
+     * @param request
+     *            the HTTP request
      * @return the next url
      */
     public static String getUploadFilterSiteNextUrl( HttpServletRequest request )
@@ -487,7 +495,8 @@ public class PortalJspBean
     /**
      * Remove the upload filter next url from the session
      * 
-     * @param request the HTTP request
+     * @param request
+     *            the HTTP request
      */
     public static void removeUploadFilterSiteNextUrl( HttpServletRequest request )
     {
@@ -498,10 +507,11 @@ public class PortalJspBean
     /**
      * Do send a resource
      * 
-     * @param request The request
+     * @param request
+     *            The request
      * @return The HTML content to display
-     * @throws SiteMessageException If the resource or its associated service is not
-     *                              found
+     * @throws SiteMessageException
+     *             If the resource or its associated service is not found
      */
     public static String sendResource( HttpServletRequest request ) throws SiteMessageException
     {
@@ -519,8 +529,7 @@ public class PortalJspBean
 
         // We get the resource from its resource service
         IExtendableResourceService resourceService = null;
-        List<IExtendableResourceService> listExtendableResourceService = SpringContextService
-                .getBeansOfType( IExtendableResourceService.class );
+        List<IExtendableResourceService> listExtendableResourceService = SpringContextService.getBeansOfType( IExtendableResourceService.class );
 
         for ( IExtendableResourceService extendableResourceService : listExtendableResourceService )
         {
@@ -553,13 +562,11 @@ public class PortalJspBean
             mailModel.put( PARAMETER_SENDER_FIRST_NAME, strSenderFirstName );
             mailModel.put( Parameters.EMAIL, strReceipientEmail );
             mailModel.put( PARAMETER_CONTENT, EditorBbcodeService.getInstance( ).parse( strContent ) );
-            mailModel.put( MARK_RESOURCE_URL,
-                    resourceService.getResourceUrl( strIdExtendableResource, strExtendableResourceType ) );
+            mailModel.put( MARK_RESOURCE_URL, resourceService.getResourceUrl( strIdExtendableResource, strExtendableResourceType ) );
 
-            HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_EMAIL_SEND_RESOURCE, request.getLocale( ),
-                    mailModel );
-            MailService.sendMailHtml( strReceipientEmail, strSenderFirstName + CONSTANT_SPACE + strSenderName,
-                    strSenderEmail, resource.getExtendableResourceName( ), template.getHtml( ) );
+            HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_EMAIL_SEND_RESOURCE, request.getLocale( ), mailModel );
+            MailService.sendMailHtml( strReceipientEmail, strSenderFirstName + CONSTANT_SPACE + strSenderName, strSenderEmail,
+                    resource.getExtendableResourceName( ), template.getHtml( ) );
             model.put( MARK_SUCCESS, MARK_SUCCESS );
         }
         else
@@ -578,27 +585,24 @@ public class PortalJspBean
         return template.getHtml( );
     }
 
-    private static String checkSendParams( String strSend, String strSenderEmail, String strSenderName,
-            String strSenderFirstName, String strReceipientEmail, String strContent, Locale locale )
+    private static String checkSendParams( String strSend, String strSenderEmail, String strSenderName, String strSenderFirstName, String strReceipientEmail,
+            String strContent, Locale locale )
     {
         String strError = null;
         // If the form was submited, we check data
         if ( strSend != null )
         {
-            boolean[] conditions = new boolean[] {
-                    StringUtils.isBlank( strSenderEmail ), 
-                    StringUtils.isBlank( strSenderName ), 
-                    StringUtils.isBlank( strSenderFirstName ), 
-                    StringUtils.isBlank( strReceipientEmail ), 
-                    StringUtils.isBlank( strContent ) };
-            
+            boolean [ ] conditions = new boolean [ ] {
+                    StringUtils.isBlank( strSenderEmail ), StringUtils.isBlank( strSenderName ), StringUtils.isBlank( strSenderFirstName ),
+                    StringUtils.isBlank( strReceipientEmail ), StringUtils.isBlank( strContent )
+            };
+
             if ( BooleanUtils.or( conditions ) )
             {
                 strError = I18nService.getLocalizedString( MESSAGE_ERROR_MANDATORY_FIELDS, locale );
             }
 
-            if ( ( strError != null ) && ( !AdminUserService.checkEmail( strSenderEmail )
-                    || !AdminUserService.checkEmail( strReceipientEmail ) ) )
+            if ( ( strError != null ) && ( !AdminUserService.checkEmail( strSenderEmail ) || !AdminUserService.checkEmail( strReceipientEmail ) ) )
             {
                 strError = I18nService.getLocalizedString( MESSAGE_ERROR_WRONG_SENDER_EMAIL, locale );
             }

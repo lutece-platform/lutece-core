@@ -66,7 +66,7 @@ public final class AliasPortletDAO implements IAliasPortletDAO
         AliasPortlet alias = (AliasPortlet) portlet;
 
         // insert into the table portlet_alias
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT ) )
         {
             daoUtil.setInt( 1, alias.getId( ) );
             daoUtil.setInt( 2, alias.getAliasId( ) );
@@ -80,7 +80,7 @@ public final class AliasPortletDAO implements IAliasPortletDAO
      */
     public void delete( int nPortletId )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE ) )
         {
             daoUtil.setInt( 1, nPortletId );
 
@@ -94,7 +94,7 @@ public final class AliasPortletDAO implements IAliasPortletDAO
     public Portlet load( int nIdPortlet )
     {
         AliasPortlet portlet = new AliasPortlet( );
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT ) )
         {
             daoUtil.setInt( 1, nIdPortlet );
             daoUtil.executeQuery( );
@@ -116,7 +116,7 @@ public final class AliasPortletDAO implements IAliasPortletDAO
     {
         AliasPortlet r = (AliasPortlet) portlet;
 
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE ) )
         {
             daoUtil.setInt( 1, r.getAliasId( ) );
             daoUtil.setInt( 2, portlet.getId( ) );
@@ -131,7 +131,7 @@ public final class AliasPortletDAO implements IAliasPortletDAO
     public ReferenceList selectPortletsByTypeList( String strPortletTypeId )
     {
         ReferenceList list = new ReferenceList( );
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_PORTLETS_BY_TYPE ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_PORTLETS_BY_TYPE ) )
         {
             daoUtil.setString( 1, strPortletTypeId );
             daoUtil.executeQuery( );
@@ -152,7 +152,7 @@ public final class AliasPortletDAO implements IAliasPortletDAO
     public int selectAliasId( int nIdPortlet )
     {
         int nAliasId = 0;
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_ALIAS_ID ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_ALIAS_ID ) )
         {
             daoUtil.setInt( 1, nIdPortlet );
             daoUtil.executeQuery( );
@@ -173,7 +173,7 @@ public final class AliasPortletDAO implements IAliasPortletDAO
     public ReferenceList selectAcceptAliasPortletRefList( )
     {
         ReferenceList list = new ReferenceList( );
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_ACCEPT_ALIAS_PORTLET_LIST ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_ACCEPT_ALIAS_PORTLET_LIST ) )
         {
             daoUtil.executeQuery( );
 
@@ -193,7 +193,7 @@ public final class AliasPortletDAO implements IAliasPortletDAO
     public Collection<Portlet> selectAcceptAliasPortletList( )
     {
         List<Portlet> list = new ArrayList<>( );
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_ACCEPT_ALIAS_PORTLET_LIST_DETAIL ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_ACCEPT_ALIAS_PORTLET_LIST_DETAIL ) )
         {
             daoUtil.executeQuery( );
 

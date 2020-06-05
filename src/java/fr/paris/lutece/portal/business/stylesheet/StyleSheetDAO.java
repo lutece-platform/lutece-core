@@ -71,7 +71,7 @@ public final class StyleSheetDAO implements IStyleSheetDAO
      */
     public void insert( StyleSheet stylesheet )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT, Statement.RETURN_GENERATED_KEYS ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT, Statement.RETURN_GENERATED_KEYS ) )
         {
 
             int nIndex = 1;
@@ -101,7 +101,7 @@ public final class StyleSheetDAO implements IStyleSheetDAO
     public StyleSheet load( int nIdStylesheet )
     {
         StyleSheet stylesheet = null;
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT ) )
         {
             daoUtil.setInt( 1, nIdStylesheet );
             daoUtil.executeQuery( );
@@ -130,7 +130,7 @@ public final class StyleSheetDAO implements IStyleSheetDAO
      */
     public void delete( int nIdStylesheet )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE ) )
         {
             daoUtil.setInt( 1, nIdStylesheet );
             daoUtil.executeUpdate( );
@@ -163,7 +163,7 @@ public final class StyleSheetDAO implements IStyleSheetDAO
 
         String strSQL = strSelect + strFrom;
 
-        try( DAOUtil daoUtil = new DAOUtil( strSQL ) )
+        try ( DAOUtil daoUtil = new DAOUtil( strSQL ) )
         {
 
             if ( nModeId != -1 )
@@ -196,7 +196,7 @@ public final class StyleSheetDAO implements IStyleSheetDAO
      */
     public void store( StyleSheet stylesheet )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE ) )
         {
             daoUtil.setInt( 1, stylesheet.getId( ) );
             daoUtil.setString( 2, stylesheet.getDescription( ) );
@@ -219,7 +219,7 @@ public final class StyleSheetDAO implements IStyleSheetDAO
      */
     private void insertStyleModeStyleSheet( StyleSheet stylesheet )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT_STYLEMODESTYLESHEET ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT_STYLEMODESTYLESHEET ) )
         {
 
             daoUtil.setInt( 1, stylesheet.getStyleId( ) );
@@ -238,7 +238,7 @@ public final class StyleSheetDAO implements IStyleSheetDAO
      */
     private void updateStyleModeStyleSheet( StyleSheet stylesheet )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE_STYLEMODESTYLESHEET ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE_STYLEMODESTYLESHEET ) )
         {
 
             daoUtil.setInt( 1, stylesheet.getStyleId( ) );
@@ -257,7 +257,7 @@ public final class StyleSheetDAO implements IStyleSheetDAO
      */
     private void deleteStyleModeStyleSheet( int nStyleSheetId )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETEE_STYLEMODESTYLESHEET ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETEE_STYLEMODESTYLESHEET ) )
         {
             daoUtil.setInt( 1, nStyleSheetId );
             daoUtil.executeUpdate( );
@@ -276,7 +276,7 @@ public final class StyleSheetDAO implements IStyleSheetDAO
     public int selectStyleSheetNbPerStyleMode( int nStyleId, int nModeId )
     {
         int nCount;
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_COUNT_STYLESHEET ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_COUNT_STYLESHEET ) )
         {
 
             daoUtil.setInt( 1, nStyleId );
@@ -307,7 +307,7 @@ public final class StyleSheetDAO implements IStyleSheetDAO
     public int selectModeId( int nIdStylesheet )
     {
         int nModeId;
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_MODEID ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_MODEID ) )
         {
 
             daoUtil.setInt( 1, nIdStylesheet );

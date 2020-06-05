@@ -69,7 +69,7 @@ public final class PortletTypeDAO implements IPortletTypeDAO
      */
     public void insert( PortletType portletType )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT ) )
         {
             daoUtil.setString( 1, portletType.getId( ) );
             daoUtil.setString( 2, portletType.getNameKey( ) );
@@ -100,7 +100,7 @@ public final class PortletTypeDAO implements IPortletTypeDAO
     public PortletType load( String strPortletTypeId )
     {
         PortletType portletType = new PortletType( );
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT ) )
         {
             daoUtil.setString( 1, strPortletTypeId );
             daoUtil.executeQuery( );
@@ -136,7 +136,7 @@ public final class PortletTypeDAO implements IPortletTypeDAO
      */
     public void delete( String strPortletTypeId )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE ) )
         {
             daoUtil.setString( 1, strPortletTypeId );
 
@@ -154,7 +154,7 @@ public final class PortletTypeDAO implements IPortletTypeDAO
     public String selectPortletTypeId( String strPluginHomeClass )
     {
         String strPortletTypeId = "";
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_PORTLET_TYPE_ID ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_PORTLET_TYPE_ID ) )
         {
             daoUtil.setString( 1, strPluginHomeClass );
             daoUtil.executeQuery( );
@@ -179,7 +179,7 @@ public final class PortletTypeDAO implements IPortletTypeDAO
     public int selectNbPortletTypeByPortlet( String strPortletTypeId )
     {
         int nCount = 0;
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_NB_PORTLET_TYPE_BY_PORTLET ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_NB_PORTLET_TYPE_BY_PORTLET ) )
         {
             daoUtil.setString( 1, strPortletTypeId );
             daoUtil.executeQuery( );
@@ -204,7 +204,7 @@ public final class PortletTypeDAO implements IPortletTypeDAO
     public ReferenceList selectPortletsTypesList( Locale locale )
     {
         ReferenceList list = new ReferenceList( );
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_PORTLETS_TYPE_LIST ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_PORTLETS_TYPE_LIST ) )
         {
             daoUtil.executeQuery( );
 
@@ -231,7 +231,7 @@ public final class PortletTypeDAO implements IPortletTypeDAO
     public List<PortletType> selectPortletTypesList( )
     {
         List<PortletType> list = new ArrayList<>( );
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_PORTLET_TYPE_LIST ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_PORTLET_TYPE_LIST ) )
         {
             daoUtil.executeQuery( );
 

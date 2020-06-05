@@ -52,7 +52,7 @@ public class RichTextEditorDAO implements IRichTextEditorDAO
     public Collection<RichTextEditor> findEditors( Boolean bBackOffice )
     {
         Collection<RichTextEditor> listRes = new ArrayList<>( );
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_FIND_EDITORS_BY_TYPE ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_FIND_EDITORS_BY_TYPE ) )
         {
             daoUtil.setBoolean( 1, bBackOffice );
 

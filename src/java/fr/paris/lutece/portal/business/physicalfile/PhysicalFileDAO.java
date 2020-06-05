@@ -54,7 +54,7 @@ public final class PhysicalFileDAO implements IPhysicalFileDAO
     @Override
     public int insert( PhysicalFile physicalFile )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT, Statement.RETURN_GENERATED_KEYS ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT, Statement.RETURN_GENERATED_KEYS ) )
         {
             daoUtil.setBytes( 1, physicalFile.getValue( ) );
             daoUtil.executeUpdate( );
@@ -74,7 +74,7 @@ public final class PhysicalFileDAO implements IPhysicalFileDAO
     public PhysicalFile load( int nId )
     {
         PhysicalFile physicalFile = null;
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_FIND_BY_PRIMARY_KEY ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_FIND_BY_PRIMARY_KEY ) )
         {
             daoUtil.setInt( 1, nId );
             daoUtil.executeQuery( );
@@ -98,7 +98,7 @@ public final class PhysicalFileDAO implements IPhysicalFileDAO
     @Override
     public void delete( int nIdPhysicalFile )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE ) )
         {
             daoUtil.setInt( 1, nIdPhysicalFile );
             daoUtil.executeUpdate( );
@@ -112,7 +112,7 @@ public final class PhysicalFileDAO implements IPhysicalFileDAO
     public void store( PhysicalFile physicalFile )
     {
         int nIndex = 1;
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE ) )
         {
             daoUtil.setInt( nIndex++, physicalFile.getIdPhysicalFile( ) );
             daoUtil.setBytes( nIndex++, physicalFile.getValue( ) );

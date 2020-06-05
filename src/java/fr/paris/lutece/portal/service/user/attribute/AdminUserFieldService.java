@@ -192,10 +192,10 @@ public final class AdminUserFieldService
                 if ( userField != null )
                 {
                     AdminUserFieldHome.create( userField );
-                } 
+                }
             }
         }
-        
+
         // Attributes associated to the plugins
         for ( AdminUserFieldListenerService adminUserFieldListenerService : SpringContextService.getBeansOfType( AdminUserFieldListenerService.class ) )
         {

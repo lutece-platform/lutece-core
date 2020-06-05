@@ -539,8 +539,8 @@ public class AdminMenuJspBean implements Serializable
         loadStylesheets( );
         return _strStylesheets;
     }
-    
-    private static synchronized void  loadStylesheets( )
+
+    private static synchronized void loadStylesheets( )
     {
         if ( _strStylesheets == null || _bResetAdminStylesheets )
         {

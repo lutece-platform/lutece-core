@@ -109,12 +109,15 @@ public final class PortalMenuService extends AbstractCacheableService implements
     /**
      * Returns the menu bar from the cache or builds it if it not stored in it
      * 
-     * @param request        The HTTP request
-     * @param nMode          The selected mode
-     * @param nPart          The part of the menu to build
-     * @param nCurrentPageId The current page ID
-     * @return The list of the menus layed out with the stylesheet correpsonding to
-     *         the mode
+     * @param request
+     *            The HTTP request
+     * @param nMode
+     *            The selected mode
+     * @param nPart
+     *            The part of the menu to build
+     * @param nCurrentPageId
+     *            The current page ID
+     * @return The list of the menus layed out with the stylesheet correpsonding to the mode
      */
     public String getMenuContent( int nCurrentPageId, int nMode, int nPart, HttpServletRequest request )
     {
@@ -140,16 +143,20 @@ public final class PortalMenuService extends AbstractCacheableService implements
     /**
      * Builds the menu bar
      *
-     * @param nCurrentPageId The current page ID
-     * @param nMode          The selected mode
-     * @param nPart          The part of the menu to build
-     * @param request        The HttpServletRequest
+     * @param nCurrentPageId
+     *            The current page ID
+     * @param nMode
+     *            The selected mode
+     * @param nPart
+     *            The part of the menu to build
+     * @param request
+     *            The HttpServletRequest
      * @return The list of the menus layed out with the stylesheet of the mode
      */
     private String buildMenuContent( int nCurrentPageId, int nMode, int nPart, HttpServletRequest request )
     {
         Collection<Page> listPagesMenu = PageHome.getChildPagesMinimalData( PortalService.getRootPageId( ) );
-        
+
         StringBuffer strXml = new StringBuffer( );
         strXml.append( XmlUtil.getXmlHeader( ) );
         XmlUtil.beginElement( strXml, XmlContent.TAG_MENU_LIST );
@@ -161,7 +168,7 @@ public final class PortalMenuService extends AbstractCacheableService implements
             if ( ( menuPage.isVisible( request ) ) || ( nMode == MODE_ADMIN ) )
             {
                 buildPageXml( menuPage, strXml, nMode, nMenuIndex, nCurrentPageId, request );
-                
+
                 nMenuIndex++;
             }
         }
@@ -180,10 +187,9 @@ public final class PortalMenuService extends AbstractCacheableService implements
 
         XmlTransformerService xmlTransformerService = new XmlTransformerService( );
 
-        return xmlTransformerService.transformBySourceWithXslCache( strXml.toString( ), xslSource, mapParamRequest,
-                outputProperties );
+        return xmlTransformerService.transformBySourceWithXslCache( strXml.toString( ), xslSource, mapParamRequest, outputProperties );
     }
-    
+
     private void buildPageXml( Page menuPage, StringBuffer strXml, int nMode, int nMenuIndex, int nCurrentPageId, HttpServletRequest request )
     {
         XmlUtil.beginElement( strXml, XmlContent.TAG_MENU );
@@ -228,34 +234,34 @@ public final class PortalMenuService extends AbstractCacheableService implements
         StyleSheet xslSource;
 
         // Selection of the XSL stylesheet
-        switch ( nMode )
+        switch( nMode )
         {
-        case MODE_NORMAL:
-        case MODE_ADMIN:
-            xslSource = PortalComponentHome.getXsl( PORTAL_COMPONENT_MAIN_MENU_ID, MODE_NORMAL );
-
-            break;
-
-        default:
-            xslSource = PortalComponentHome.getXsl( PORTAL_COMPONENT_MAIN_MENU_ID, nMode );
-
-            break;
-        }
-
-        if ( nPart == MENU_INIT )
-        {
-            switch ( nMode )
-            {
             case MODE_NORMAL:
             case MODE_ADMIN:
-                xslSource = PortalComponentHome.getXsl( PORTAL_COMPONENT_MENU_INIT_ID, MODE_NORMAL );
+                xslSource = PortalComponentHome.getXsl( PORTAL_COMPONENT_MAIN_MENU_ID, MODE_NORMAL );
 
                 break;
 
             default:
-                xslSource = PortalComponentHome.getXsl( PORTAL_COMPONENT_MENU_INIT_ID, nMode );
+                xslSource = PortalComponentHome.getXsl( PORTAL_COMPONENT_MAIN_MENU_ID, nMode );
 
                 break;
+        }
+
+        if ( nPart == MENU_INIT )
+        {
+            switch( nMode )
+            {
+                case MODE_NORMAL:
+                case MODE_ADMIN:
+                    xslSource = PortalComponentHome.getXsl( PORTAL_COMPONENT_MENU_INIT_ID, MODE_NORMAL );
+
+                    break;
+
+                default:
+                    xslSource = PortalComponentHome.getXsl( PORTAL_COMPONENT_MENU_INIT_ID, nMode );
+
+                    break;
             }
         }
         return xslSource;
@@ -264,9 +270,12 @@ public final class PortalMenuService extends AbstractCacheableService implements
     /**
      * Returns the key corresponding to the part according to the selected mode
      *
-     * @param nMode   The mode
-     * @param nPart   the part
-     * @param request The HTTP request
+     * @param nMode
+     *            The mode
+     * @param nPart
+     *            the part
+     * @param request
+     *            The HTTP request
      * @return The key as a String
      */
     private String getKey( int nMode, int nPart, HttpServletRequest request )
@@ -279,15 +288,14 @@ public final class PortalMenuService extends AbstractCacheableService implements
 
             if ( ( user != null ) && ( user.getRoles( ) != null ) )
             {
-                String[] roles = user.getRoles( );
+                String [ ] roles = user.getRoles( );
                 Arrays.sort( roles );
                 strRoles = StringUtils.join( roles, ',' );
             }
         }
 
         StringBuilder sbKey = new StringBuilder( );
-        sbKey.append( "[menu:" ).append( nPart ).append( "][m:" ).append( nMode ).append( "][roles:" )
-                .append( strRoles ).append( ']' );
+        sbKey.append( "[menu:" ).append( nPart ).append( "][m:" ).append( nMode ).append( "][roles:" ).append( strRoles ).append( ']' );
 
         return sbKey.toString( );
     }

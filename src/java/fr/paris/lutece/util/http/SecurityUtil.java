@@ -38,7 +38,6 @@ import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.web.LocalVariables;
 import fr.paris.lutece.util.string.StringUtil;
 
-
 import org.apache.log4j.Logger;
 
 import java.util.Enumeration;
@@ -152,8 +151,8 @@ public final class SecurityUtil
      */
     public static boolean containsXssCharacters( HttpServletRequest request, String strValue, String strXssCharacters )
     {
-        boolean bContains = ( strXssCharacters == null ) ? StringUtil.containsXssCharacters( strValue ) : StringUtil.containsXssCharacters( strValue,
-                strXssCharacters );
+        boolean bContains = ( strXssCharacters == null ) ? StringUtil.containsXssCharacters( strValue )
+                : StringUtil.containsXssCharacters( strValue, strXssCharacters );
 
         if ( bContains )
         {
@@ -314,16 +313,13 @@ public final class SecurityUtil
         {
             return true; // this is not a valid redirect Url, but it is not unsafe
         }
-        
+
         // filter schemes
-        boolean[] conditions = new boolean[] {
-                !strUrl.startsWith( "//" ),
-                !strUrl.startsWith( "http:" ),
-                !strUrl.startsWith( "https:" ),
-                !strUrl.contains( "://" ),
+        boolean [ ] conditions = new boolean [ ] {
+                !strUrl.startsWith( "//" ), !strUrl.startsWith( "http:" ), !strUrl.startsWith( "https:" ), !strUrl.contains( "://" ),
                 !strUrl.startsWith( "javascript:" )
         };
-        
+
         if ( BooleanUtils.and( conditions ) )
         {
             return true; // should be a relative path
@@ -370,8 +366,7 @@ public final class SecurityUtil
         int nCharCount = strUserInputData.length( );
         int nLineCount = StringUtils.countMatches( strUserInputData, "\n" );
         String strPrefixedLines = strUserInputData.replace( "\n", "\n** " );
-        return "\n** USER INPUT DATA : BEGIN (" + nLineCount + " lines and " + nCharCount + " chars) ** \n" + strPrefixedLines
-                + "\n** USER INPUT DATA : END\n";
+        return "\n** USER INPUT DATA : BEGIN (" + nLineCount + " lines and " + nCharCount + " chars) ** \n" + strPrefixedLines + "\n** USER INPUT DATA : END\n";
     }
 
     /**

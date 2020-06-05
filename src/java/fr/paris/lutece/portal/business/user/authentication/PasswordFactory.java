@@ -116,7 +116,8 @@ final class PasswordFactory implements IPasswordFactory
          */
         enum PASSWORD_REPRESENTATION
         {
-            CLEARTEXT, STORABLE
+            CLEARTEXT,
+            STORABLE
         }
 
         /** Storage format : iterations:hex(salt):hex(hash) */

@@ -135,7 +135,7 @@ public class SearchApp implements XPageApplication
         String strTagFilter = request.getParameter( PARAMETER_TAG_FILTER );
 
         String strEncoding = AppPropertiesService.getProperty( PROPERTY_ENCODE_URI_ENCODING, StandardCharsets.ISO_8859_1.name( ) );
-        
+
         if ( StringUtils.equalsIgnoreCase( CONSTANT_HTTP_METHOD_GET, request.getMethod( ) )
                 && !StringUtils.equalsIgnoreCase( strEncoding, StandardCharsets.UTF_8.name( ) ) )
         {
@@ -178,7 +178,7 @@ public class SearchApp implements XPageApplication
         String strDefaultNbItemPerPage = AppPropertiesService.getProperty( PROPERTY_RESULTS_PER_PAGE, DEFAULT_RESULTS_PER_PAGE );
         String strNbItemPerPage = Optional.ofNullable( request.getParameter( PARAMETER_NB_ITEMS_PER_PAGE ) ).orElse( strDefaultNbItemPerPage );
         int nNbItemsPerPage = Integer.parseInt( strNbItemPerPage );
-        
+
         String strCurrentPageIndex = Optional.ofNullable( request.getParameter( PARAMETER_PAGE_INDEX ) ).orElse( DEFAULT_PAGE_INDEX );
 
         List<SearchResult> listResults = _engine.getSearchResults( strQuery, request );
@@ -215,8 +215,7 @@ public class SearchApp implements XPageApplication
             model.put( PARAMETER_DEFAULT_OPERATOR, request.getParameter( PARAMETER_DEFAULT_OPERATOR ) );
         }
 
-        Paginator<SearchResult> paginator = new Paginator<>( listResults, nNbItemsPerPage, sbUrl.toString( ), PARAMETER_PAGE_INDEX,
-                strCurrentPageIndex );
+        Paginator<SearchResult> paginator = new Paginator<>( listResults, nNbItemsPerPage, sbUrl.toString( ), PARAMETER_PAGE_INDEX, strCurrentPageIndex );
 
         model.put( MARK_RESULTS_LIST, paginator.getPageItems( ) );
         model.put( MARK_QUERY, strQuery );

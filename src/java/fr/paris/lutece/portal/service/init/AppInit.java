@@ -315,7 +315,7 @@ public final class AppInit
         Map<String, Object> model = new HashMap<>( );
         Properties p = new Properties( );
 
-        try( FileInputStream fis = new FileInputStream( strRealPath + PATH_CONFIG + FILE_PROPERTIES_CONFIG ) )
+        try ( FileInputStream fis = new FileInputStream( strRealPath + PATH_CONFIG + FILE_PROPERTIES_CONFIG ) )
         {
             p.load( fis );
         }
@@ -340,7 +340,7 @@ public final class AppInit
             // set. See LUTECE-1460
             AppTemplateService.resetConfiguration( );
 
-            try( FileWriter fw = new FileWriter( strRealPath + PATH_CONFIG + FILE_PROPERTIES_CONFIG ) )
+            try ( FileWriter fw = new FileWriter( strRealPath + PATH_CONFIG + FILE_PROPERTIES_CONFIG ) )
             {
                 fw.write( configTemplate.getHtml( ) );
             }

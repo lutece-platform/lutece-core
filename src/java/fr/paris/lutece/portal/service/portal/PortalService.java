@@ -77,8 +77,7 @@ import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.xml.XmlUtil;
 
 /**
- * This class provides methods to build the pages of the portal and manage the
- * cache
+ * This class provides methods to build the pages of the portal and manage the cache
  */
 public final class PortalService
 {
@@ -138,10 +137,10 @@ public final class PortalService
     }
 
     /**
-     * Analyzes request's parameters to find the ContentService that should handle
-     * the request
+     * Analyzes request's parameters to find the ContentService that should handle the request
      *
-     * @param request The HTTP request
+     * @param request
+     *            The HTTP request
      * @return ContentService that should handle the request
      */
     public static ContentService getInvokedContentService( HttpServletRequest request )
@@ -160,8 +159,10 @@ public final class PortalService
     /**
      * Registers a new ContentService
      * 
-     * @param strName The name
-     * @param cs      The ContentService
+     * @param strName
+     *            The name
+     * @param cs
+     *            The ContentService
      */
     public static void registerContentService( String strName, ContentService cs )
     {
@@ -179,8 +180,7 @@ public final class PortalService
     }
 
     /**
-     * Returns the identifier of the root page of the portal read in the
-     * lutece.properties file
+     * Returns the identifier of the root page of the portal read in the lutece.properties file
      *
      * @return The identifier of the root page
      */
@@ -192,10 +192,13 @@ public final class PortalService
     /**
      * Return the default page of the portal (the home page)
      * 
-     * @param request The request
-     * @param nMode   the mode id
+     * @param request
+     *            The request
+     * @param nMode
+     *            the mode id
      * @return default page as a String
-     * @throws SiteMessageException occurs when a site message need to be displayed
+     * @throws SiteMessageException
+     *             occurs when a site message need to be displayed
      */
     public static String getDefaultPage( HttpServletRequest request, int nMode ) throws SiteMessageException
     {
@@ -203,10 +206,10 @@ public final class PortalService
     }
 
     /**
-     * Return the xml content of the pages contained in the list specified in
-     * parameter
+     * Return the xml content of the pages contained in the list specified in parameter
      *
-     * @param listPages The pages list
+     * @param listPages
+     *            The pages list
      * @return the xml code for the content page
      */
     public static String getXmlPagesList( Collection<Page> listPages )
@@ -234,10 +237,12 @@ public final class PortalService
     /**
      * Returns the html code which represents the page content
      * 
-     * @param data    The structure which contains the informations about the page
-     * @param nMode   The mode in which displaying the page : normal or
-     *                administration
-     * @param request The request
+     * @param data
+     *            The structure which contains the informations about the page
+     * @param nMode
+     *            The mode in which displaying the page : normal or administration
+     * @param request
+     *            The request
      * @return The html code of a page
      */
     public static String buildPageContent( PageData data, int nMode, HttpServletRequest request )
@@ -248,12 +253,14 @@ public final class PortalService
     /**
      * Returns the html code which represents the page content
      * 
-     * @param nCurrentPageId the current page id
-     * @param data           The structure which contains the informations about the
-     *                       page
-     * @param nMode          The mode in which displaying the page : normal or
-     *                       administration
-     * @param request        The request
+     * @param nCurrentPageId
+     *            the current page id
+     * @param data
+     *            The structure which contains the informations about the page
+     * @param nMode
+     *            The mode in which displaying the page : normal or administration
+     * @param request
+     *            The request
      * @return The html code of a page
      */
     public static String buildPageContent( int nCurrentPageId, PageData data, int nMode, HttpServletRequest request )
@@ -282,15 +289,12 @@ public final class PortalService
             pic.fillTemplate( model, data, nMode, request );
         }
 
-        String strHeader = data.isHomePage( )
-                ? AppPropertiesService.getProperty( PROPERTY_HOME_PAGE_HEADER + nMode, TEMPLATE_HOME_PAGE_HEADER )
-                : AppPropertiesService.getProperty( PROPERTY_INTERNAL_PAGE_HEADER + nMode,
-                        TEMPLATE_INTERNAL_PAGE_HEADER );
+        String strHeader = data.isHomePage( ) ? AppPropertiesService.getProperty( PROPERTY_HOME_PAGE_HEADER + nMode, TEMPLATE_HOME_PAGE_HEADER )
+                : AppPropertiesService.getProperty( PROPERTY_INTERNAL_PAGE_HEADER + nMode, TEMPLATE_INTERNAL_PAGE_HEADER );
         HtmlTemplate tHeader = AppTemplateService.getTemplate( strHeader, locale, model );
 
         String strFooter = AppPropertiesService.getProperty( PROPERTY_PORTAL_FOOTER + nMode, TEMPLATE_PORTAL_FOOTER );
-        String strToolsMenu = AppPropertiesService.getProperty( PROPERTY_PAGE_TOOLS_MENU + nMode,
-                TEMPLATE_PAGE_TOOLS_MENU );
+        String strToolsMenu = AppPropertiesService.getProperty( PROPERTY_PAGE_TOOLS_MENU + nMode, TEMPLATE_PAGE_TOOLS_MENU );
         model.put( MARK_IS_CONTACT_INSTALLED, isContactActivated( ) );
 
         boolean bDisplayLastModified = data.getDisplayDateUpdate( );
@@ -330,8 +334,8 @@ public final class PortalService
         }
 
         model.put( Markers.ENCODING, strEncoding );
-        
-        model.put( Markers.USER_CONTEXT_LANGUAGE, locale);
+
+        model.put( Markers.USER_CONTEXT_LANGUAGE, locale );
 
         model.put( MARK_IS_EXTEND_INSTALLED, isExtendActivated( ) );
 
@@ -355,12 +359,14 @@ public final class PortalService
     // Management of the pages path
 
     /**
-     * Returns the formated path of the site page whose identifier is specified in
-     * parameter
+     * Returns the formated path of the site page whose identifier is specified in parameter
      *
-     * @param nPageId The identifier of the page
-     * @param nMode   The mode to use for the formatting
-     * @param request The HTTP request
+     * @param nPageId
+     *            The identifier of the page
+     * @param nMode
+     *            The mode to use for the formatting
+     * @param request
+     *            The HTTP request
      * @return the formated path
      */
     public static String getPagePathContent( int nPageId, int nMode, HttpServletRequest request )
@@ -379,18 +385,18 @@ public final class PortalService
         // Use the same stylesheet for normal or admin mode
         StyleSheet xslSource;
 
-        switch ( nMode )
+        switch( nMode )
         {
-        case MODE_NORMAL:
-        case MODE_ADMIN:
-            xslSource = PortalComponentHome.getXsl( PORTAL_COMPONENT_PAGE_PATH_ID, MODE_NORMAL );
+            case MODE_NORMAL:
+            case MODE_ADMIN:
+                xslSource = PortalComponentHome.getXsl( PORTAL_COMPONENT_PAGE_PATH_ID, MODE_NORMAL );
 
-            break;
+                break;
 
-        default:
-            xslSource = PortalComponentHome.getXsl( PORTAL_COMPONENT_PAGE_PATH_ID, nMode );
+            default:
+                xslSource = PortalComponentHome.getXsl( PORTAL_COMPONENT_PAGE_PATH_ID, nMode );
 
-            break;
+                break;
         }
 
         String strXml = getXmlPagesList( getPagePath( nPageId ) );
@@ -403,8 +409,7 @@ public final class PortalService
         setXslPortalPath( mapParamRequest, nMode );
 
         XmlTransformerService xmlTransformerService = new XmlTransformerService( );
-        String strPath = xmlTransformerService.transformBySourceWithXslCache( strXml, xslSource, mapParamRequest,
-                outputProperties );
+        String strPath = xmlTransformerService.transformBySourceWithXslCache( strXml, xslSource, mapParamRequest, outputProperties );
 
         return formatPath( strPath, nMode, request );
     }
@@ -412,9 +417,12 @@ public final class PortalService
     /**
      * Returns the formated path of a xpage (ex : result of a seek)
      *
-     * @param strXPageName The xpage name
-     * @param nMode        The mode to use for the formatting
-     * @param request      The HTTP request
+     * @param strXPageName
+     *            The xpage name
+     * @param nMode
+     *            The mode to use for the formatting
+     * @param request
+     *            The HTTP request
      * @return the formated path
      */
     public static String getXPagePathContent( String strXPageName, int nMode, HttpServletRequest request )
@@ -434,18 +442,18 @@ public final class PortalService
         StyleSheet xslSource;
 
         // Selection of the XSL stylesheet
-        switch ( nMode )
+        switch( nMode )
         {
-        case MODE_NORMAL:
-        case MODE_ADMIN:
-            xslSource = PortalComponentHome.getXsl( PORTAL_COMPONENT_PAGE_PATH_ID, MODE_NORMAL );
+            case MODE_NORMAL:
+            case MODE_ADMIN:
+                xslSource = PortalComponentHome.getXsl( PORTAL_COMPONENT_PAGE_PATH_ID, MODE_NORMAL );
 
-            break;
+                break;
 
-        default:
-            xslSource = PortalComponentHome.getXsl( PORTAL_COMPONENT_PAGE_PATH_ID, nMode );
+            default:
+                xslSource = PortalComponentHome.getXsl( PORTAL_COMPONENT_PAGE_PATH_ID, nMode );
 
-            break;
+                break;
         }
 
         String strXml = StringUtils.EMPTY;
@@ -486,8 +494,7 @@ public final class PortalService
         setXslPortalPath( mapXslParams, nMode );
 
         XmlTransformerService xmlTransformerService = new XmlTransformerService( );
-        String strPath = xmlTransformerService.transformBySourceWithXslCache( strXml, xslSource, mapXslParams,
-                outputProperties );
+        String strPath = xmlTransformerService.transformBySourceWithXslCache( strXml, xslSource, mapXslParams, outputProperties );
 
         strRes = formatPath( strPath, nMode, request );
 
@@ -497,10 +504,10 @@ public final class PortalService
     }
 
     /**
-     * Builds a collection of pages corresponding to the path of the page specified
-     * in parameter
+     * Builds a collection of pages corresponding to the path of the page specified in parameter
      *
-     * @param nPageId The identifier of the page
+     * @param nPageId
+     *            The identifier of the page
      * @return A collection of pages from the home page to the specified page
      */
     public static Collection<Page> getPagePath( int nPageId )
@@ -525,7 +532,8 @@ public final class PortalService
     /**
      * Builds a collection of pages corresponding to the path of a xpage
      *
-     * @param strXPageName The xpage name
+     * @param strXPageName
+     *            The xpage name
      * @return A collection of pages made by the home page and the xpage
      */
     private static Collection<Page> getXPagePath( String strXPageName )
@@ -544,8 +552,10 @@ public final class PortalService
     /**
      * Builds a collection of pages corresponding to the path of a xpage
      *
-     * @param strXPageName The xpage name
-     * @param nPageId      The Page's ID
+     * @param strXPageName
+     *            The xpage name
+     * @param nPageId
+     *            The Page's ID
      * @return A collection of pages made by the home page and the xpage
      */
     private static Collection<Page> getXPagePath( String strXPageName, int nPageId )
@@ -593,9 +603,12 @@ public final class PortalService
     /**
      * Formats the path specified in parameter and returns it
      *
-     * @param strPath The path to format
-     * @param nMode   The mode to use for the formatting
-     * @param request The HTTP request
+     * @param strPath
+     *            The path to format
+     * @param nMode
+     *            The mode to use for the formatting
+     * @param request
+     *            The HTTP request
      * @return the html code to display the path
      */
     public static String formatPath( String strPath, int nMode, HttpServletRequest request )
@@ -611,17 +624,16 @@ public final class PortalService
             pic.fillTemplate( model, data, nMode, request );
         }
 
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_PAGE_PATH,
-                ( request == null ) ? null : request.getLocale( ), model );
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_PAGE_PATH, ( request == null ) ? null : request.getLocale( ), model );
 
         return template.getHtml( );
     }
 
     /**
-     * Return the xml content of the pages specified by the xml code. This is called
-     * when using the Extended Xml path Label.
+     * Return the xml content of the pages specified by the xml code. This is called when using the Extended Xml path Label.
      *
-     * @param strXmlExtend The xml code to append to the path
+     * @param strXmlExtend
+     *            The xml code to append to the path
      * @return the xml code for the content page
      */
     private static String getXmlPagesListExtended( String strXmlExtend )
@@ -645,18 +657,20 @@ public final class PortalService
     }
 
     /**
-     * Returns the formated extended path of an xpage. This method is used when
-     * giving the list of elements in the path as a Xml code. This is called when
-     * using the Extended Xml path Label.
+     * Returns the formated extended path of an xpage. This method is used when giving the list of elements in the path as a Xml code. This is called when using
+     * the Extended Xml path Label.
      *
-     * @param strXPageName  The xpage name
-     * @param nMode         The mode to use for the formatting
-     * @param strTitlesUrls list of links (url and titles)
-     * @param request       The HTTP request
+     * @param strXPageName
+     *            The xpage name
+     * @param nMode
+     *            The mode to use for the formatting
+     * @param strTitlesUrls
+     *            list of links (url and titles)
+     * @param request
+     *            The HTTP request
      * @return the formatted path
      */
-    public static String getXPagePathContent( String strXPageName, int nMode, String strTitlesUrls,
-            HttpServletRequest request )
+    public static String getXPagePathContent( String strXPageName, int nMode, String strTitlesUrls, HttpServletRequest request )
     {
         final IPathCacheService pathCacheService = SpringContextService.getBean( IPathCacheService.BEAN_NAME );
 
@@ -673,18 +687,18 @@ public final class PortalService
         StyleSheet xslSource;
 
         // Selection of the XSL stylesheet
-        switch ( nMode )
+        switch( nMode )
         {
-        case MODE_NORMAL:
-        case MODE_ADMIN:
-            xslSource = PortalComponentHome.getXsl( PORTAL_COMPONENT_PAGE_PATH_ID, MODE_NORMAL );
+            case MODE_NORMAL:
+            case MODE_ADMIN:
+                xslSource = PortalComponentHome.getXsl( PORTAL_COMPONENT_PAGE_PATH_ID, MODE_NORMAL );
 
-            break;
+                break;
 
-        default:
-            xslSource = PortalComponentHome.getXsl( PORTAL_COMPONENT_PAGE_PATH_ID, nMode );
+            default:
+                xslSource = PortalComponentHome.getXsl( PORTAL_COMPONENT_PAGE_PATH_ID, nMode );
 
-            break;
+                break;
         }
 
         String strXml = getXmlPagesListExtended( strTitlesUrls );
@@ -697,8 +711,7 @@ public final class PortalService
         setXslPortalPath( mapXslParams, nMode );
 
         XmlTransformerService xmlTransformerService = new XmlTransformerService( );
-        String strPath = xmlTransformerService.transformBySourceWithXslCache( strXml, xslSource, mapXslParams,
-                outputProperties );
+        String strPath = xmlTransformerService.transformBySourceWithXslCache( strXml, xslSource, mapXslParams, outputProperties );
 
         strRes = formatPath( strPath, nMode, request );
 
@@ -710,8 +723,10 @@ public final class PortalService
     /**
      * Sets XSL portal path
      * 
-     * @param mapParameters Parameters as a map
-     * @param nMode         The mode
+     * @param mapParameters
+     *            Parameters as a map
+     * @param nMode
+     *            The mode
      */
     public static void setXslPortalPath( Map<String, String> mapParameters, int nMode )
     {

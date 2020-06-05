@@ -69,7 +69,7 @@ public abstract class AbstractUserPreferencesDAO implements IPreferencesDAO
     public String load( String strUserId, String strKey, String strDefault )
     {
         String strValue = strDefault;
-        try( DAOUtil daoUtil = new DAOUtil( _strSqlSelect ) )
+        try ( DAOUtil daoUtil = new DAOUtil( _strSqlSelect ) )
         {
             daoUtil.setString( 1, strUserId );
             daoUtil.setString( 2, strKey );
@@ -92,7 +92,7 @@ public abstract class AbstractUserPreferencesDAO implements IPreferencesDAO
     public List<String> getUserId( String strKey, String strValue )
     {
         List<String> listUserId = new ArrayList<>( );
-        try( DAOUtil daoUtil = new DAOUtil( _strSqlSelectByValue ) )
+        try ( DAOUtil daoUtil = new DAOUtil( _strSqlSelectByValue ) )
         {
             daoUtil.setString( 1, strKey );
             daoUtil.setString( 2, strValue );
@@ -121,7 +121,7 @@ public abstract class AbstractUserPreferencesDAO implements IPreferencesDAO
             strSQL = _strSqlUpdate;
         }
 
-        try( DAOUtil daoUtil = new DAOUtil( strSQL ) )
+        try ( DAOUtil daoUtil = new DAOUtil( strSQL ) )
         {
 
             daoUtil.setString( 1, strValue );
@@ -139,7 +139,7 @@ public abstract class AbstractUserPreferencesDAO implements IPreferencesDAO
     public List<String> keys( String strUserId )
     {
         List<String> list = new ArrayList<>( );
-        try( DAOUtil daoUtil = new DAOUtil( _strSqlSelectAll ) )
+        try ( DAOUtil daoUtil = new DAOUtil( _strSqlSelectAll ) )
         {
             daoUtil.setString( 1, strUserId );
             daoUtil.executeQuery( );
@@ -160,7 +160,7 @@ public abstract class AbstractUserPreferencesDAO implements IPreferencesDAO
     @Override
     public void remove( String strUserId )
     {
-        try( DAOUtil daoUtil = new DAOUtil( _strSqlDelete ) )
+        try ( DAOUtil daoUtil = new DAOUtil( _strSqlDelete ) )
         {
             daoUtil.setString( 1, strUserId );
             daoUtil.executeUpdate( );
@@ -173,7 +173,7 @@ public abstract class AbstractUserPreferencesDAO implements IPreferencesDAO
     @Override
     public void removeKey( String strUserId, String strKey )
     {
-        try( DAOUtil daoUtil = new DAOUtil( _strSqlDeleteKey ) )
+        try ( DAOUtil daoUtil = new DAOUtil( _strSqlDeleteKey ) )
         {
             daoUtil.setString( 1, strUserId );
             daoUtil.setString( 2, strKey );
@@ -187,7 +187,7 @@ public abstract class AbstractUserPreferencesDAO implements IPreferencesDAO
     @Override
     public void removeKeyPrefix( String strUserId, String strKeyPrefix )
     {
-        try( DAOUtil daoUtil = new DAOUtil( _strSqlDeleteKeyPrefix ) )
+        try ( DAOUtil daoUtil = new DAOUtil( _strSqlDeleteKeyPrefix ) )
         {
             daoUtil.setString( 1, strUserId );
             daoUtil.setString( 2, "%" + strKeyPrefix );
@@ -202,7 +202,7 @@ public abstract class AbstractUserPreferencesDAO implements IPreferencesDAO
     public boolean existsKey( String strUserId, String strKey )
     {
         int nValue = 0;
-        try( DAOUtil daoUtil = new DAOUtil( _strSqlSelectCount ) )
+        try ( DAOUtil daoUtil = new DAOUtil( _strSqlSelectCount ) )
         {
             daoUtil.setString( 1, strUserId );
             daoUtil.setString( 2, strKey );
@@ -225,7 +225,7 @@ public abstract class AbstractUserPreferencesDAO implements IPreferencesDAO
     public boolean existsValueForKey( String strKey, String strValue )
     {
         int nValue = 0;
-        try( DAOUtil daoUtil = new DAOUtil( _strSqlSelectCountPrefValue ) )
+        try ( DAOUtil daoUtil = new DAOUtil( _strSqlSelectCountPrefValue ) )
         {
             daoUtil.setString( 1, strKey );
             daoUtil.setString( 2, strValue );

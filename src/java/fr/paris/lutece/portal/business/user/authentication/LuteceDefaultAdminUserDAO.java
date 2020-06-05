@@ -71,7 +71,7 @@ public class LuteceDefaultAdminUserDAO implements ILuteceDefaultAdminUserDAO
     public LuteceDefaultAdminUser load( String strAccessCode, AdminAuthentication authenticationService )
     {
         LuteceDefaultAdminUser user = new LuteceDefaultAdminUser( );
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_LOAD_USER ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_LOAD_USER ) )
         {
             daoUtil.setString( 1, strAccessCode );
             daoUtil.executeQuery( );
@@ -111,7 +111,7 @@ public class LuteceDefaultAdminUserDAO implements ILuteceDefaultAdminUserDAO
      */
     public void updateResetPassword( LuteceDefaultAdminUser user, boolean bIsPasswordReset )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE_PASSWORD_RESET ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE_PASSWORD_RESET ) )
         {
             daoUtil.setBoolean( 1, bIsPasswordReset );
             daoUtil.setInt( 2, user.getUserId( ) );
@@ -123,7 +123,7 @@ public class LuteceDefaultAdminUserDAO implements ILuteceDefaultAdminUserDAO
     public IPassword loadPassword( String strAccessCode )
     {
         IPassword storedPassword;
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_LOAD_PASSWORD ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_LOAD_PASSWORD ) )
         {
             daoUtil.setString( 1, strAccessCode );
             daoUtil.executeQuery( );
@@ -149,7 +149,7 @@ public class LuteceDefaultAdminUserDAO implements ILuteceDefaultAdminUserDAO
         {
             throw new IllegalArgumentException( "Should not store password in legacy format " + password.getClass( ).getCanonicalName( ) );
         }
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE_PASSWORD ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE_PASSWORD ) )
         {
             daoUtil.setString( 1, password.getStorableRepresentation( ) );
             daoUtil.setString( 2, strAccessCode );

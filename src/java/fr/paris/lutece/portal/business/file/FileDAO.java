@@ -63,7 +63,7 @@ public final class FileDAO implements IFileDAO
     @Override
     public int insert( File file )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT, Statement.RETURN_GENERATED_KEYS ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT, Statement.RETURN_GENERATED_KEYS ) )
         {
             int nIndex = 1;
             daoUtil.setString( nIndex++, file.getTitle( ) );
@@ -103,7 +103,7 @@ public final class FileDAO implements IFileDAO
     public File load( int nId )
     {
         File file = null;
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_FIND_BY_PRIMARY_KEY ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_FIND_BY_PRIMARY_KEY ) )
         {
             daoUtil.setInt( 1, nId );
             daoUtil.executeQuery( );
@@ -142,7 +142,7 @@ public final class FileDAO implements IFileDAO
     @Override
     public void delete( int nIdFile )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE ) )
         {
             daoUtil.setInt( 1, nIdFile );
             daoUtil.executeUpdate( );
@@ -158,7 +158,7 @@ public final class FileDAO implements IFileDAO
     @Override
     public void store( File file )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE ) )
         {
             daoUtil.setInt( 1, file.getIdFile( ) );
             daoUtil.setString( 2, file.getTitle( ) );

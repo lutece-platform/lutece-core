@@ -59,7 +59,7 @@ public final class PortalComponentDAO implements IPortalComponentDAO
      */
     public synchronized void insert( PortalComponent portalComponent )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT ) )
         {
 
             daoUtil.setInt( 1, portalComponent.getId( ) );
@@ -75,7 +75,7 @@ public final class PortalComponentDAO implements IPortalComponentDAO
     public PortalComponent load( int nPortalComponentId )
     {
         PortalComponent portalComponent = null;
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT ) )
         {
             daoUtil.setInt( 1, nPortalComponentId );
 
@@ -99,7 +99,7 @@ public final class PortalComponentDAO implements IPortalComponentDAO
      */
     public void delete( int nPortalComponentId )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE ) )
         {
             daoUtil.setInt( 1, nPortalComponentId );
 
@@ -112,7 +112,7 @@ public final class PortalComponentDAO implements IPortalComponentDAO
      */
     public void store( PortalComponent portalComponent )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE ) )
         {
 
             daoUtil.setInt( 1, portalComponent.getId( ) );
@@ -129,7 +129,7 @@ public final class PortalComponentDAO implements IPortalComponentDAO
     public StyleSheet selectXslFile( int nPortalComponentId, int nIdMode )
     {
         StyleSheet stylesheet = new StyleSheet( );
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTXSL ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTXSL ) )
         {
 
             daoUtil.setInt( 1, nPortalComponentId );

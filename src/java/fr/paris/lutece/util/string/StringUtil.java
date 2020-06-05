@@ -325,10 +325,12 @@ public final class StringUtil
 
         return nDefaultValue;
     }
-    
+
     /**
      * Return true if any of the strings is empty, false otherwise
-     * @param strings the strings to test
+     * 
+     * @param strings
+     *            the strings to test
      * @return
      */
     public static boolean isAnyEmpty( String... strings )

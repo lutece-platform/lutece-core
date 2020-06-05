@@ -51,8 +51,7 @@ import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.util.string.StringUtil;
 
 /**
- * Provides technical admin dashboard managements and display. Display is NOT
- * managed as an admin feature (no right required).
+ * Provides technical admin dashboard managements and display. Display is NOT managed as an admin feature (no right required).
  *
  */
 public class DashboardJspBean extends AdminFeaturesPageJspBean
@@ -79,9 +78,11 @@ public class DashboardJspBean extends AdminFeaturesPageJspBean
     /**
      * Reorders columns
      * 
-     * @param request the request
+     * @param request
+     *            the request
      * @return url
-     * @throws AccessDeniedException if the security token is invalid
+     * @throws AccessDeniedException
+     *             if the security token is invalid
      */
     public String doReorderColumn( HttpServletRequest request ) throws AccessDeniedException
     {
@@ -98,7 +99,7 @@ public class DashboardJspBean extends AdminFeaturesPageJspBean
         {
             nColumn = Integer.parseInt( strColumnName );
         }
-        catch ( NumberFormatException nfe )
+        catch( NumberFormatException nfe )
         {
             AppLogService.error( "DashboardJspBean.doReorderColumn : " + nfe.getMessage( ), nfe );
 
@@ -116,9 +117,11 @@ public class DashboardJspBean extends AdminFeaturesPageJspBean
     /**
      * Moves the dashboard
      * 
-     * @param request the request
+     * @param request
+     *            the request
      * @return url
-     * @throws AccessDeniedException if the security token is invalid
+     * @throws AccessDeniedException
+     *             if the security token is invalid
      */
     public String doMoveDashboard( HttpServletRequest request ) throws AccessDeniedException
     {
@@ -141,16 +144,14 @@ public class DashboardJspBean extends AdminFeaturesPageJspBean
 
             if ( AppLogService.isDebugEnabled( ) )
             {
-                AppLogService.debug(
-                        "Dashboard " + strDashboardName + " has no property set. Retrieving from SpringContext" );
+                AppLogService.debug( "Dashboard " + strDashboardName + " has no property set. Retrieving from SpringContext" );
             }
 
             dashboard = DashboardFactory.getDashboardComponent( strDashboardName );
 
             if ( dashboard == null )
             {
-                return AdminMessageService.getMessageUrl( request, MESSAGE_DASHBOARD_NOT_FOUND,
-                        AdminMessage.TYPE_STOP );
+                return AdminMessageService.getMessageUrl( request, MESSAGE_DASHBOARD_NOT_FOUND, AdminMessage.TYPE_STOP );
             }
         }
         else

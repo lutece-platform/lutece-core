@@ -65,15 +65,15 @@ public final class BbcodeUtil
     /**
      * Parse BBCODE text and return HTML text
      * 
-     * @param value                    the value of the text
-     * @param listParserElement        the list of simple parser element using for
-     *                                 parsing
-     * @param listParserComplexElement the list of complex parser element using for
-     *                                 parsing
+     * @param value
+     *            the value of the text
+     * @param listParserElement
+     *            the list of simple parser element using for parsing
+     * @param listParserComplexElement
+     *            the list of complex parser element using for parsing
      * @return HTML Text
      */
-    public static String parse( String value, List<ParserElement> listParserElement,
-            List<ParserComplexElement> listParserComplexElement )
+    public static String parse( String value, List<ParserElement> listParserElement, List<ParserComplexElement> listParserComplexElement )
     {
         StringBuilder buffer = new StringBuilder( value );
 
@@ -82,9 +82,8 @@ public final class BbcodeUtil
         {
             for ( ParserComplexElement element : listParserComplexElement )
             {
-                processNestedTags( buffer, element.getTagName( ), element.getOpenSubstWithParam( ),
-                        element.getCloseSubstWithParam( ), element.getOpenSubstWithoutParam( ),
-                        element.getCloseSubstWithoutParam( ), element.getInternalSubst( ),
+                processNestedTags( buffer, element.getTagName( ), element.getOpenSubstWithParam( ), element.getCloseSubstWithParam( ),
+                        element.getOpenSubstWithoutParam( ), element.getCloseSubstWithoutParam( ), element.getInternalSubst( ),
                         element.isProcessInternalTags( ), element.isAcceptParam( ), element.isRequiresQuotedParam( ) );
             }
         }
@@ -107,20 +106,30 @@ public final class BbcodeUtil
      *
      * Method using for parsing complex element
      * 
-     * @param buffer                 value to parse
-     * @param tagName                tagName
-     * @param openSubstWithParam     openSubstWithParam
-     * @param closeSubstWithParam    closeSubstWithParam
-     * @param openSubstWithoutParam  openSubstWithoutParam
-     * @param closeSubstWithoutParam closeSubstWithoutParam
-     * @param internalSubst          internalSubst
-     * @param processInternalTags    processInternalTags
-     * @param acceptParam            acceptParam
-     * @param requiresQuotedParam    requiresQuotedParam
+     * @param buffer
+     *            value to parse
+     * @param tagName
+     *            tagName
+     * @param openSubstWithParam
+     *            openSubstWithParam
+     * @param closeSubstWithParam
+     *            closeSubstWithParam
+     * @param openSubstWithoutParam
+     *            openSubstWithoutParam
+     * @param closeSubstWithoutParam
+     *            closeSubstWithoutParam
+     * @param internalSubst
+     *            internalSubst
+     * @param processInternalTags
+     *            processInternalTags
+     * @param acceptParam
+     *            acceptParam
+     * @param requiresQuotedParam
+     *            requiresQuotedParam
      */
-    private static void processNestedTags( StringBuilder buffer, String tagName, String openSubstWithParam,
-            String closeSubstWithParam, String openSubstWithoutParam, String closeSubstWithoutParam,
-            String internalSubst, boolean processInternalTags, boolean acceptParam, boolean requiresQuotedParam )
+    private static void processNestedTags( StringBuilder buffer, String tagName, String openSubstWithParam, String closeSubstWithParam,
+            String openSubstWithoutParam, String closeSubstWithoutParam, String internalSubst, boolean processInternalTags, boolean acceptParam,
+            boolean requiresQuotedParam )
     {
         String str = buffer.toString( );
 
@@ -129,9 +138,7 @@ public final class BbcodeUtil
         Set<MutableCharSequence> subsClose = new HashSet<>( );
         Set<MutableCharSequence> subsInternal = new HashSet<>( );
 
-        String openTag = CR_LF + "\\[" + tagName
-                + getOpenTag( acceptParam, requiresQuotedParam ) + "\\]"
-                + CR_LF;
+        String openTag = CR_LF + "\\[" + tagName + getOpenTag( acceptParam, requiresQuotedParam ) + "\\]" + CR_LF;
         String closeTag = CR_LF + "\\[/" + tagName + "\\]" + CR_LF;
         String internTag = CR_LF + "\\[\\*\\]" + CR_LF;
 
@@ -182,25 +189,26 @@ public final class BbcodeUtil
 
                 // test closing tags
             }
-            else if ( ( matcher.group( closeTagGroup ) != null ) && !openStack.isEmpty( ) )
-            {
-                MutableCharSequence openSeq = openStack.pop( );
-
-                if ( acceptParam )
+            else
+                if ( ( matcher.group( closeTagGroup ) != null ) && !openStack.isEmpty( ) )
                 {
-                    matchedSeq._strParam = openSeq._strParam;
+                    MutableCharSequence openSeq = openStack.pop( );
+
+                    if ( acceptParam )
+                    {
+                        matchedSeq._strParam = openSeq._strParam;
+                    }
+
+                    subsOpen.add( openSeq );
+                    subsClose.add( matchedSeq );
+
+                    // test internal tags
                 }
-
-                subsOpen.add( openSeq );
-                subsClose.add( matchedSeq );
-
-                // test internal tags
-            }
-            else if ( processInternalTags && ( matcher.group( internalTagGroup ) != null )
-                    && ( !openStack.isEmpty( ) ) )
-            {
-                subsInternal.add( matchedSeq );
-            }
+                else
+                    if ( processInternalTags && ( matcher.group( internalTagGroup ) != null ) && ( !openStack.isEmpty( ) ) )
+                    {
+                        subsInternal.add( matchedSeq );
+                    }
         }
 
         LinkedList<MutableCharSequence> subst = new LinkedList<>( );
@@ -208,8 +216,7 @@ public final class BbcodeUtil
         subst.addAll( subsClose );
         subst.addAll( subsInternal );
 
-        Collections.sort( subst, ( Object o1, Object o2 ) ->
-        {
+        Collections.sort( subst, ( Object o1, Object o2 ) -> {
             MutableCharSequence s1 = (MutableCharSequence) o1;
             MutableCharSequence s2 = (MutableCharSequence) o2;
 
@@ -236,28 +243,29 @@ public final class BbcodeUtil
                     buffer.append( closeSubstWithoutParam );
                 }
             }
-            else if ( subsInternal.contains( seq ) )
-            {
-                buffer.append( internalSubst );
-            }
-            else if ( subsOpen.contains( seq ) )
-            {
-                Matcher m = Pattern.compile( openTag )
-                        .matcher( str.substring( seq._nStart, seq._nStart + seq._bLength ) );
-
-                if ( m.matches( ) )
+            else
+                if ( subsInternal.contains( seq ) )
                 {
-                    if ( acceptParam && ( seq._strParam != null ) )
-                    {
-                        buffer.append( //
-                                openSubstWithParam.replaceAll( "\\{BBCODE_PARAM\\}", seq._strParam ) );
-                    }
-                    else
-                    {
-                        buffer.append( openSubstWithoutParam );
-                    }
+                    buffer.append( internalSubst );
                 }
-            }
+                else
+                    if ( subsOpen.contains( seq ) )
+                    {
+                        Matcher m = Pattern.compile( openTag ).matcher( str.substring( seq._nStart, seq._nStart + seq._bLength ) );
+
+                        if ( m.matches( ) )
+                        {
+                            if ( acceptParam && ( seq._strParam != null ) )
+                            {
+                                buffer.append( //
+                                        openSubstWithParam.replaceAll( "\\{BBCODE_PARAM\\}", seq._strParam ) );
+                            }
+                            else
+                            {
+                                buffer.append( openSubstWithoutParam );
+                            }
+                        }
+                    }
 
             start = seq._nStart + seq._bLength;
         }
@@ -292,9 +300,12 @@ public final class BbcodeUtil
         }
 
         /**
-         * @param base   base
-         * @param start  start
-         * @param length length
+         * @param base
+         *            base
+         * @param start
+         *            start
+         * @param length
+         *            length
          */
         public MutableCharSequence( CharSequence base, int start, int length )
         {
@@ -311,7 +322,8 @@ public final class BbcodeUtil
         }
 
         /**
-         * @param index index
+         * @param index
+         *            index
          * @return see {@link java.lang.CharSequence#charAt(int)}
          */
         @Override
@@ -321,8 +333,10 @@ public final class BbcodeUtil
         }
 
         /**
-         * @param pStart pStart
-         * @param end    end
+         * @param pStart
+         *            pStart
+         * @param end
+         *            end
          * @return see {@link java.lang.CharSequence#subSequence(int, int)}
          */
         @Override
@@ -334,9 +348,12 @@ public final class BbcodeUtil
         /**
          * return CharSequence
          * 
-         * @param pBase   pBase
-         * @param pStart  pStart
-         * @param pLength pLength
+         * @param pBase
+         *            pBase
+         * @param pStart
+         *            pStart
+         * @param pLength
+         *            pLength
          * @return CharSequence
          */
         public CharSequence reset( CharSequence pBase, int pStart, int pLength )
@@ -365,7 +382,7 @@ public final class BbcodeUtil
             return sb.toString( );
         }
     }
-    
+
     private static String getOpenTag( boolean acceptParam, boolean requiresQuotedParam )
     {
         String tag = "";
@@ -380,6 +397,6 @@ public final class BbcodeUtil
                 tag = "(?:=\"?(.*?)\"?)?";
             }
         }
-        return  tag ;
+        return tag;
     }
 }

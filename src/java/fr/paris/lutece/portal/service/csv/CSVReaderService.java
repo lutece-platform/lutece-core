@@ -217,7 +217,7 @@ public abstract class CSVReaderService
     {
         java.io.File file = new java.io.File( strPath );
 
-        try( FileReader fileReader = new FileReader( file ) )
+        try ( FileReader fileReader = new FileReader( file ) )
         {
             CSVReader csvReader = new CSVReader( fileReader, getCSVSeparator( ), getCSVEscapeCharacter( ) );
 

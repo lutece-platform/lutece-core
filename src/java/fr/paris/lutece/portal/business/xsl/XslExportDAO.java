@@ -61,7 +61,7 @@ public final class XslExportDAO implements IXslExportDAO
     @Override
     public void insert( XslExport xslExport )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT, Statement.RETURN_GENERATED_KEYS ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT, Statement.RETURN_GENERATED_KEYS ) )
         {
             int nIndex = 1;
             daoUtil.setString( nIndex++, xslExport.getTitle( ) );
@@ -95,7 +95,7 @@ public final class XslExportDAO implements IXslExportDAO
     public XslExport load( int nId )
     {
         XslExport xslExport = null;
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_FIND_BY_PRIMARY_KEY ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_FIND_BY_PRIMARY_KEY ) )
         {
             daoUtil.setInt( 1, nId );
             daoUtil.executeQuery( );
@@ -131,7 +131,7 @@ public final class XslExportDAO implements IXslExportDAO
     @Override
     public void delete( int nIdXslExport )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE ) )
         {
             daoUtil.setInt( 1, nIdXslExport );
             daoUtil.executeUpdate( );
@@ -144,7 +144,7 @@ public final class XslExportDAO implements IXslExportDAO
     @Override
     public void store( XslExport xslExport )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE ) )
         {
             daoUtil.setInt( 1, xslExport.getIdXslExport( ) );
             daoUtil.setString( 2, xslExport.getTitle( ) );
@@ -177,7 +177,7 @@ public final class XslExportDAO implements IXslExportDAO
         XslExport xslExport = null;
         File file = null;
 
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT ) )
         {
 
             daoUtil.executeQuery( );
@@ -221,7 +221,7 @@ public final class XslExportDAO implements IXslExportDAO
         sbSql.append( SQL_WHERE );
         sbSql.append( SQL_FILTER_PLUGIN );
 
-        try( DAOUtil daoUtil = new DAOUtil( sbSql.toString( ) ) )
+        try ( DAOUtil daoUtil = new DAOUtil( sbSql.toString( ) ) )
         {
             daoUtil.setString( 1, plugin.getName( ) );
             daoUtil.executeQuery( );

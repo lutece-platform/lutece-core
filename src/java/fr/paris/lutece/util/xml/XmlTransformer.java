@@ -85,7 +85,7 @@ public final class XmlTransformer
      * @param strStyleSheetId
      *            The StyleSheet Id
      * @return XmlTransformer object
-     * @throws TransformerException 
+     * @throws TransformerException
      */
     private Templates getTemplates( Source stylesheet, String strStyleSheetId ) throws TransformerException
     {

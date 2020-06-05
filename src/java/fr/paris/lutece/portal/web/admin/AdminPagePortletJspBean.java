@@ -163,7 +163,7 @@ public class AdminPagePortletJspBean extends AdminFeaturesPageJspBean
         if ( portlet == null || portlet.getId( ) != nPortletId )
         {
             return AdminMessageService.getMessageUrl( request, Messages.MESSAGE_INVALID_ENTRY, new Object [ ] {
-                nPortletId
+                    nPortletId
             }, AdminMessage.TYPE_ERROR );
         }
         AdminUser user = AdminUserService.getAdminUser( request );
@@ -180,7 +180,7 @@ public class AdminPagePortletJspBean extends AdminFeaturesPageJspBean
         if ( PortletHome.hasAlias( nPortletId ) )
         {
             return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_WARNING_PORTLET_ALIAS, new Object [ ] {
-                portlet.getName( )
+                    portlet.getName( )
             }, null, strUrl, strTarget, AdminMessage.TYPE_CONFIRMATION, parameters );
         }
 
@@ -198,7 +198,7 @@ public class AdminPagePortletJspBean extends AdminFeaturesPageJspBean
         }
 
         return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_CONFIRM_REMOVE_PORTLET, new Object [ ] {
-            portlet.getName( )
+                portlet.getName( )
         }, null, strUrl, strTarget, AdminMessage.TYPE_CONFIRMATION, parameters );
     }
 
@@ -231,7 +231,7 @@ public class AdminPagePortletJspBean extends AdminFeaturesPageJspBean
         if ( portlet == null || portlet.getId( ) != nPortletId )
         {
             return AdminMessageService.getMessageUrl( request, Messages.MESSAGE_INVALID_ENTRY, new Object [ ] {
-                nPortletId
+                    nPortletId
             }, AdminMessage.TYPE_ERROR );
         }
         if ( !SecurityTokenService.getInstance( ).validate( request, JSP_REMOVE_PORTLET ) )
@@ -284,14 +284,14 @@ public class AdminPagePortletJspBean extends AdminFeaturesPageJspBean
         if ( portlet == null || portlet.getId( ) != nPortletId )
         {
             return AdminMessageService.getMessageUrl( request, Messages.MESSAGE_INVALID_ENTRY, new Object [ ] {
-                nPortletId
+                    nPortletId
             }, AdminMessage.TYPE_ERROR );
         }
         int nStatus = Integer.parseInt( strStatus );
         if ( nStatus != Portlet.STATUS_PUBLISHED && nStatus != Portlet.STATUS_UNPUBLISHED )
         {
             return AdminMessageService.getMessageUrl( request, Messages.MESSAGE_INVALID_ENTRY, new Object [ ] {
-                nStatus
+                    nStatus
             }, AdminMessage.TYPE_ERROR );
         }
         AdminUser user = AdminUserService.getAdminUser( request );
@@ -344,14 +344,14 @@ public class AdminPagePortletJspBean extends AdminFeaturesPageJspBean
         if ( portlet == null || portlet.getId( ) != nPortletId )
         {
             return AdminMessageService.getMessageUrl( request, Messages.MESSAGE_INVALID_ENTRY, new Object [ ] {
-                nPortletId
+                    nPortletId
             }, AdminMessage.TYPE_ERROR );
         }
         int nStatus = Integer.parseInt( strStatus );
         if ( nStatus != Portlet.STATUS_PUBLISHED && nStatus != Portlet.STATUS_UNPUBLISHED )
         {
             return AdminMessageService.getMessageUrl( request, Messages.MESSAGE_INVALID_ENTRY, new Object [ ] {
-                nStatus
+                    nStatus
             }, AdminMessage.TYPE_ERROR );
         }
         AdminUser user = AdminUserService.getAdminUser( request );
@@ -364,7 +364,7 @@ public class AdminPagePortletJspBean extends AdminFeaturesPageJspBean
 
         return JSP_ADMIN_SITE + "?" + Parameters.PAGE_ID + "=" + portlet.getPageId( );
     }
-    
+
     private static String getMessageErrorAuthorization( AdminUser user, String permission, int nPortletId )
     {
         return "User " + user + " is not authorized to permission " + permission + " on portlet " + nPortletId;

@@ -35,10 +35,11 @@ package fr.paris.lutece.portal.business.rbac;
 
 /**
  * Admin Role
+ * 
  * @deprecated Since 7.0 replaced by RBACRole
  */
 @Deprecated
 public class AdminRole extends RBACRole
 {
-    
+
 }

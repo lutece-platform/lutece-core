@@ -74,7 +74,7 @@ public class MailItemQueueDAO implements IMailItemQueueDAO
     public int nextMailItemQueueId( )
     {
         int nIdMailItemQueue = -1;
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_NEXT_MAIL_ITEM_QUEUE_ID ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_NEXT_MAIL_ITEM_QUEUE_ID ) )
         {
 
             daoUtil.executeQuery( );
@@ -98,7 +98,7 @@ public class MailItemQueueDAO implements IMailItemQueueDAO
     @Override
     public void lockMailItemQueue( int nIdMailItemQueue )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_LOCK_MAIL_ITEM ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_LOCK_MAIL_ITEM ) )
         {
             daoUtil.setInt( 1, nIdMailItemQueue );
             daoUtil.executeUpdate( );
@@ -134,7 +134,7 @@ public class MailItemQueueDAO implements IMailItemQueueDAO
     private void doInsertMail( MailItemQueue mailItemQueue, ByteArrayOutputStream byteArrayOutputStream )
     {
         TransactionManager.beginTransaction( null );
-        try( DAOUtil daoUtilKey = new DAOUtil( SQL_QUERY_INSERT, Statement.RETURN_GENERATED_KEYS ) ;
+        try ( DAOUtil daoUtilKey = new DAOUtil( SQL_QUERY_INSERT, Statement.RETURN_GENERATED_KEYS ) ;
                 DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT_MAIL_ITEM ) )
         {
             daoUtilKey.executeUpdate( );
@@ -166,7 +166,7 @@ public class MailItemQueueDAO implements IMailItemQueueDAO
         MailItemQueue mailItemQueue = null;
         MailItem mailItem = null;
         InputStream inputStream;
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_LOAD_MAIL_ITEM ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_LOAD_MAIL_ITEM ) )
         {
             daoUtil.setInt( 1, nIdMailItemQueue );
             daoUtil.executeQuery( );
@@ -177,7 +177,7 @@ public class MailItemQueueDAO implements IMailItemQueueDAO
                 mailItemQueue.setIdMailItemQueue( daoUtil.getInt( 1 ) );
                 inputStream = daoUtil.getBinaryStream( 2 );
 
-                try( ValidatingObjectInputStream objectInputStream = new ValidatingObjectInputStream( inputStream ) )
+                try ( ValidatingObjectInputStream objectInputStream = new ValidatingObjectInputStream( inputStream ) )
                 {
                     objectInputStream.accept( MailItem.class, ArrayList.class, byte [ ].class, FileAttachment.class, UrlAttachment.class,
                             FileAttachment [ ].class, UrlAttachment [ ].class, URL.class );
@@ -242,7 +242,7 @@ public class MailItemQueueDAO implements IMailItemQueueDAO
     public int getCountMailItem( )
     {
         int nCount = 0;
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_COUNT ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_COUNT ) )
         {
             daoUtil.executeQuery( );
 

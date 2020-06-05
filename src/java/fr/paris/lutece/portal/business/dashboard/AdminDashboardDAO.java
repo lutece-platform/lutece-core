@@ -72,7 +72,7 @@ public class AdminDashboardDAO implements IAdminDashboardDAO
     @Override
     public void delete( String strBeanName )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE_BY_NAME ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE_BY_NAME ) )
         {
 
             daoUtil.setString( 1, strBeanName );
@@ -88,7 +88,7 @@ public class AdminDashboardDAO implements IAdminDashboardDAO
     @Override
     public void deleteAll( )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE ) )
         {
 
             daoUtil.executeUpdate( );
@@ -102,7 +102,7 @@ public class AdminDashboardDAO implements IAdminDashboardDAO
     @Override
     public void insert( IAdminDashboardComponent dashboardComponent )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT ) )
         {
 
             daoUtil.setString( 1, dashboardComponent.getName( ) );
@@ -134,7 +134,7 @@ public class AdminDashboardDAO implements IAdminDashboardDAO
     {
         IAdminDashboardComponent dashboardComponent = null;
 
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_BY_PRIMARY_KEY ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_BY_PRIMARY_KEY ) )
         {
 
             daoUtil.setString( 1, strClassName );
@@ -170,7 +170,7 @@ public class AdminDashboardDAO implements IAdminDashboardDAO
     {
         List<IAdminDashboardComponent> listDashboards = new ArrayList<>( );
 
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_ALL ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_ALL ) )
         {
 
             daoUtil.executeQuery( );
@@ -206,7 +206,7 @@ public class AdminDashboardDAO implements IAdminDashboardDAO
     {
         int nMaxOrder = 0;
 
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_MAX_ORDER ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_MAX_ORDER ) )
         {
             daoUtil.executeQuery( );
 
@@ -227,7 +227,7 @@ public class AdminDashboardDAO implements IAdminDashboardDAO
     public int selectMaxOrder( int nColumn )
     {
         int nMaxOrder = 0;
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_MAX_ORDER_COLUMN ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_MAX_ORDER_COLUMN ) )
         {
             daoUtil.setInt( 1, nColumn );
 
@@ -255,7 +255,7 @@ public class AdminDashboardDAO implements IAdminDashboardDAO
         buildSQLFilter( sbSQL, filter );
         sbSQL.append( SQL_QUERY_ORDER_BY_COLUMN_AND_ORDER );
 
-        try( DAOUtil daoUtil = new DAOUtil( sbSQL.toString( ) ) )
+        try ( DAOUtil daoUtil = new DAOUtil( sbSQL.toString( ) ) )
         {
 
             applySQLFilter( daoUtil, 1, filter );
@@ -292,7 +292,7 @@ public class AdminDashboardDAO implements IAdminDashboardDAO
     @Override
     public void store( IAdminDashboardComponent dashboardComponent )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE ) )
         {
 
             int nIndex = setInsertOrUpdateValues( 1, dashboardComponent, daoUtil );
@@ -311,7 +311,7 @@ public class AdminDashboardDAO implements IAdminDashboardDAO
     {
         List<Integer> listColumns = new ArrayList<>( );
 
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_COLUMNS ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_COLUMNS ) )
         {
 
             daoUtil.executeQuery( );

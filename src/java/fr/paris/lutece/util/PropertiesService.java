@@ -94,7 +94,7 @@ public class PropertiesService
         if ( directory.exists( ) )
         {
             File [ ] listFile = directory.listFiles( );
-            
+
             if ( ArrayUtils.isNotEmpty( listFile ) )
             {
                 for ( File file : listFile )

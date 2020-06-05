@@ -55,7 +55,7 @@ public class SearchParameterDAO implements ISearchParameterDAO
     public ReferenceItem load( String strParameterKey )
     {
         ReferenceItem param = null;
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT ) )
         {
             daoUtil.setString( 1, strParameterKey );
             daoUtil.executeQuery( );
@@ -75,7 +75,7 @@ public class SearchParameterDAO implements ISearchParameterDAO
     /** {@inheritDoc} */
     public void store( ReferenceItem param )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE ) )
         {
             daoUtil.setString( 1, param.getName( ) );
             daoUtil.setString( 2, param.getCode( ) );
@@ -88,7 +88,7 @@ public class SearchParameterDAO implements ISearchParameterDAO
     {
         Map<String, String> parametersList = new HashMap<>( );
 
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_ALL ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_ALL ) )
         {
             daoUtil.executeQuery( );
 
@@ -107,7 +107,7 @@ public class SearchParameterDAO implements ISearchParameterDAO
     {
         ReferenceList parametersList = new ReferenceList( );
 
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_ALL ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_ALL ) )
         {
             daoUtil.executeQuery( );
 

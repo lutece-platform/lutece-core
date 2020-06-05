@@ -172,7 +172,7 @@ public class RoleJspBean extends AdminFeaturesPageJspBean
         String strPageWorkgroup = request.getParameter( PARAMETER_PAGE_WORKGROUP );
 
         // Mandatory field
-       
+
         if ( StringUtil.isAnyEmpty( strPageRole, strPageRoleDescription ) || ( strPageWorkgroup == null ) )
         {
             return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
@@ -281,14 +281,14 @@ public class RoleJspBean extends AdminFeaturesPageJspBean
         if ( StringUtils.isBlank( strPageRole ) )
         {
             return AdminMessageService.getMessageUrl( request, Messages.MESSAGE_INVALID_ENTRY, new Object [ ] {
-                PARAMETER_PAGE_ROLE
+                    PARAMETER_PAGE_ROLE
             }, AdminMessage.TYPE_STOP );
         }
         Role role = RoleHome.findByPrimaryKey( strPageRole );
         if ( role == null || !strPageRole.equals( role.getRole( ) ) )
         {
             return AdminMessageService.getMessageUrl( request, Messages.MESSAGE_INVALID_ENTRY, new Object [ ] {
-                strPageRole
+                    strPageRole
             }, AdminMessage.TYPE_STOP );
         }
         String strURL = PATH_JSP + JSP_REMOVE_ROLE;
@@ -297,7 +297,7 @@ public class RoleJspBean extends AdminFeaturesPageJspBean
         parameters.put( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, JSP_REMOVE_ROLE ) );
 
         return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_REMOVE, new Object [ ] {
-            strPageRole
+                strPageRole
         }, null, strURL, null, AdminMessage.TYPE_CONFIRMATION, parameters );
     }
 

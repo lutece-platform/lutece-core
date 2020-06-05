@@ -117,7 +117,7 @@ public class LuteceConnectionService implements ConnectionService
         }
         else
         {
-            url = EnvUtil.evaluate( url , EnvUtil.PREFIX_ENV );
+            url = EnvUtil.evaluate( url, EnvUtil.PREFIX_ENV );
         }
 
         String user = htParamsConnectionPool.get( getPoolName( ) + ".user" );
@@ -128,7 +128,7 @@ public class LuteceConnectionService implements ConnectionService
         }
         else
         {
-            user = EnvUtil.evaluate( user , EnvUtil.PREFIX_ENV );
+            user = EnvUtil.evaluate( user, EnvUtil.PREFIX_ENV );
         }
 
         String password = htParamsConnectionPool.get( getPoolName( ) + ".password" );
@@ -139,7 +139,7 @@ public class LuteceConnectionService implements ConnectionService
         }
         else
         {
-            password = EnvUtil.evaluate( password , EnvUtil.PREFIX_ENV );
+            password = EnvUtil.evaluate( password, EnvUtil.PREFIX_ENV );
         }
 
         // load of the driver
@@ -160,17 +160,17 @@ public class LuteceConnectionService implements ConnectionService
             _logger.error( "Can't register JDBC driver: " + strDiverClassName, e );
         }
 
-        int maxConns = ( htParamsConnectionPool.get( getPoolName( ) + ".maxconns" ) == null ) ? 0 : Integer.parseInt( htParamsConnectionPool.get( getPoolName( )
-                + ".maxconns" ) );
+        int maxConns = ( htParamsConnectionPool.get( getPoolName( ) + ".maxconns" ) == null ) ? 0
+                : Integer.parseInt( htParamsConnectionPool.get( getPoolName( ) + ".maxconns" ) );
 
-        int initConns = ( htParamsConnectionPool.get( getPoolName( ) + ".initconns" ) == null ) ? 0 : Integer.parseInt( htParamsConnectionPool
-                .get( getPoolName( ) + ".initconns" ) );
+        int initConns = ( htParamsConnectionPool.get( getPoolName( ) + ".initconns" ) == null ) ? 0
+                : Integer.parseInt( htParamsConnectionPool.get( getPoolName( ) + ".initconns" ) );
 
-        int timeOut = ( htParamsConnectionPool.get( getPoolName( ) + ".logintimeout" ) == null ) ? 5 : Integer.parseInt( htParamsConnectionPool
-                .get( getPoolName( ) + ".logintimeout" ) );
+        int timeOut = ( htParamsConnectionPool.get( getPoolName( ) + ".logintimeout" ) == null ) ? 5
+                : Integer.parseInt( htParamsConnectionPool.get( getPoolName( ) + ".logintimeout" ) );
 
-        String checkValidConnectionSql = ( htParamsConnectionPool.get( getPoolName( ) + ".checkvalidconnectionsql" ) == null ) ? "" : htParamsConnectionPool
-                .get( getPoolName( ) + ".checkvalidconnectionsql" );
+        String checkValidConnectionSql = ( htParamsConnectionPool.get( getPoolName( ) + ".checkvalidconnectionsql" ) == null ) ? ""
+                : htParamsConnectionPool.get( getPoolName( ) + ".checkvalidconnectionsql" );
 
         _connPool = new ConnectionPool( getPoolName( ), url, user, password, maxConns, initConns, timeOut, _logger, checkValidConnectionSql );
     }

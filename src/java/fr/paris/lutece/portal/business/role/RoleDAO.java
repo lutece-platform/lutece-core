@@ -62,7 +62,7 @@ public final class RoleDAO implements IRoleDAO
      */
     public void insert( Role role )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT ) )
         {
 
             daoUtil.setString( 1, role.getRole( ) );
@@ -83,7 +83,7 @@ public final class RoleDAO implements IRoleDAO
     public Role load( String strRole )
     {
         Role role = null;
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT ) )
         {
             daoUtil.setString( 1, strRole );
 
@@ -110,7 +110,7 @@ public final class RoleDAO implements IRoleDAO
      */
     public void delete( String strRole )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE ) )
         {
             daoUtil.setString( 1, strRole );
             daoUtil.executeUpdate( );
@@ -125,7 +125,7 @@ public final class RoleDAO implements IRoleDAO
      */
     public void store( Role role )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE ) )
         {
 
             daoUtil.setString( 1, role.getRoleDescription( ) );
@@ -144,7 +144,7 @@ public final class RoleDAO implements IRoleDAO
     public ReferenceList selectRolesList( )
     {
         ReferenceList roleList = new ReferenceList( );
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL ) )
         {
             daoUtil.executeQuery( );
 
@@ -170,7 +170,7 @@ public final class RoleDAO implements IRoleDAO
     public Collection<Role> selectAll( )
     {
         Collection<Role> listRoles = new ArrayList<>( );
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL ) )
         {
             daoUtil.executeQuery( );
 

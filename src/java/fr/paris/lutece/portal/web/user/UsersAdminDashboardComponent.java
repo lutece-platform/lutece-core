@@ -68,7 +68,7 @@ public class UsersAdminDashboardComponent extends AdminDashboardComponent
     private static final String MARK_ATTRIBUTE_TYPES_LIST = "attribute_types_list";
     private static final String MARK_ATTRIBUTES_LIST = "attributes_list";
     private static final String MARK_LEVELS_LIST = "levels_list";
-    
+
     private static final AttributeService _attributeService = AttributeService.getInstance( );
     private static final AttributeTypeService _attributeTypeService = AttributeTypeService.getInstance( );
 
@@ -85,7 +85,8 @@ public class UsersAdminDashboardComponent extends AdminDashboardComponent
             List<IAttribute> listAttributes = _attributeService.getAllAttributesWithoutFields( user.getLocale( ) );
             List<AttributeType> listAttributeTypes = _attributeTypeService.getAttributeTypes( user.getLocale( ) );
             Map<String, Object> model = AdminUserService.getManageAdvancedParameters( user );
-            model.put( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) );
+            model.put( SecurityTokenService.PARAMETER_TOKEN,
+                    SecurityTokenService.getInstance( ).getToken( request, AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) );
             model.put( MARK_ATTRIBUTES_LIST, listAttributes );
             model.put( MARK_ATTRIBUTE_TYPES_LIST, listAttributeTypes );
             model.put( MARK_LEVELS_LIST, LevelHome.getLevelsList( ) );

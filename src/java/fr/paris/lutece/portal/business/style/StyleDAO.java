@@ -73,7 +73,7 @@ public final class StyleDAO implements IStyleDAO
      */
     public void insert( Style style )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT ) )
         {
 
             daoUtil.setInt( 1, style.getId( ) );
@@ -95,7 +95,7 @@ public final class StyleDAO implements IStyleDAO
     public Style load( int nStyleId )
     {
         Style style = null;
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT ) )
         {
             daoUtil.setInt( 1, nStyleId );
 
@@ -125,7 +125,7 @@ public final class StyleDAO implements IStyleDAO
      */
     public void delete( int nStyleId )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE ) )
         {
             daoUtil.setInt( 1, nStyleId );
             daoUtil.executeUpdate( );
@@ -140,7 +140,7 @@ public final class StyleDAO implements IStyleDAO
      */
     public void store( Style style )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE ) )
         {
 
             daoUtil.setString( 1, style.getPortletTypeId( ) );
@@ -160,7 +160,7 @@ public final class StyleDAO implements IStyleDAO
     public Collection<Style> selectStylesList( )
     {
         Collection<Style> styleList = new ArrayList<>( );
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL ) )
         {
             daoUtil.executeQuery( );
 
@@ -191,7 +191,7 @@ public final class StyleDAO implements IStyleDAO
     public ReferenceList selectPortalComponentList( )
     {
         ReferenceList portletComponentList = new ReferenceList( );
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_PORTLETCOMPONENT ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_PORTLETCOMPONENT ) )
         {
             daoUtil.executeQuery( );
 
@@ -215,7 +215,7 @@ public final class StyleDAO implements IStyleDAO
     public Collection<StyleSheet> selectStyleSheetList( int nStyleId )
     {
         Collection<StyleSheet> stylesheetList = new ArrayList<>( );
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_STYLESHEET ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_STYLESHEET ) )
         {
 
             daoUtil.setInt( 1, nStyleId );
@@ -247,7 +247,7 @@ public final class StyleDAO implements IStyleDAO
     public boolean checkStylePortalComponent( int nPortalComponentId )
     {
         boolean check = false;
-        try( DAOUtil daoUtil = new DAOUtil( SQL_CHECK_STYLE_PORTLETCOMPONENT ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_CHECK_STYLE_PORTLETCOMPONENT ) )
         {
 
             daoUtil.setInt( 1, nPortalComponentId );

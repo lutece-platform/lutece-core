@@ -83,8 +83,7 @@ public interface IPluginAction<F>
      * @throws AccessDeniedException
      *             if the user can't access the feature
      */
-    IPluginActionResult process( HttpServletRequest request, HttpServletResponse response, AdminUser adminUser, F sessionFields )
-            throws AccessDeniedException;
+    IPluginActionResult process( HttpServletRequest request, HttpServletResponse response, AdminUser adminUser, F sessionFields ) throws AccessDeniedException;
 
     /**
      * Fills the model to provide necessary data to fill the button template

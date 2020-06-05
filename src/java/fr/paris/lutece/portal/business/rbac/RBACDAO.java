@@ -67,7 +67,7 @@ public final class RBACDAO implements IRBACDAO
      */
     public void insert( RBAC rBAC )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT, Statement.RETURN_GENERATED_KEYS ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT, Statement.RETURN_GENERATED_KEYS ) )
         {
             int nIndex = 1;
             daoUtil.setString( nIndex++, rBAC.getRoleKey( ) );
@@ -95,7 +95,7 @@ public final class RBACDAO implements IRBACDAO
     public RBAC load( int nRBACId )
     {
         RBAC rBAC = null;
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT ) )
         {
             daoUtil.setInt( 1, nRBACId );
             daoUtil.executeQuery( );
@@ -123,7 +123,7 @@ public final class RBACDAO implements IRBACDAO
      */
     public void delete( int nRBACId )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE ) )
         {
             daoUtil.setInt( 1, nRBACId );
 
@@ -139,7 +139,7 @@ public final class RBACDAO implements IRBACDAO
      */
     public void store( RBAC rBAC )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE ) )
         {
             daoUtil.setInt( 1, rBAC.getRBACId( ) );
             daoUtil.setString( 2, rBAC.getRoleKey( ) );
@@ -160,7 +160,7 @@ public final class RBACDAO implements IRBACDAO
     public Collection<RBAC> selectRBACList( )
     {
         Collection<RBAC> listRBACs = new ArrayList<>( );
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL ) )
         {
             daoUtil.executeQuery( );
 
@@ -191,7 +191,7 @@ public final class RBACDAO implements IRBACDAO
     public Collection<RBAC> selectRBACListByRoleKey( String strRoleKey )
     {
         Collection<RBAC> listRBACs = new ArrayList<>( );
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_BY_ROLE ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_BY_ROLE ) )
         {
             daoUtil.setString( 1, strRoleKey );
             daoUtil.executeQuery( );
@@ -223,7 +223,7 @@ public final class RBACDAO implements IRBACDAO
      */
     public void updateRoleKey( String strOldRoleKey, String strNewRoleKey )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE_ROLES ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE_ROLES ) )
         {
             daoUtil.setString( 1, strNewRoleKey );
             daoUtil.setString( 2, strOldRoleKey );
@@ -240,7 +240,7 @@ public final class RBACDAO implements IRBACDAO
      */
     public void deleteForRoleKey( String strRoleKey )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE_FOR_ROLE_KEY ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE_FOR_ROLE_KEY ) )
         {
             daoUtil.setString( 1, strRoleKey );
 
@@ -260,7 +260,7 @@ public final class RBACDAO implements IRBACDAO
     public Collection<String> selectRoleKeys( String strTypeCode, String strId, String strPermission )
     {
         Collection<String> listRoleKeys = new ArrayList<>( );
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_ROLE_KEYS ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_ROLE_KEYS ) )
         {
             daoUtil.setString( 1, strTypeCode );
 
@@ -289,7 +289,7 @@ public final class RBACDAO implements IRBACDAO
     @Override
     public void deleteForResourceTypeAndId( String strResourceType, String strResourceId )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE_BY_RESOURCE_TYPE_AND_RESOURCE_ID ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE_BY_RESOURCE_TYPE_AND_RESOURCE_ID ) )
         {
             daoUtil.setString( 1, strResourceType );
             daoUtil.setString( 2, strResourceId );

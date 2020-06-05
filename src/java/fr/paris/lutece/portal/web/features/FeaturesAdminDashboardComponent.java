@@ -32,7 +32,6 @@
  * License 1.0
  */
 
-
 package fr.paris.lutece.portal.web.features;
 
 import fr.paris.lutece.portal.business.right.FeatureGroup;
@@ -68,12 +67,11 @@ public class FeaturesAdminDashboardComponent extends AdminDashboardComponent
     private static final String MARK_EXTERNAL_FEATURES_LIST = "external_features_list";
     private static final String MARK_RIGHT_LIST = "feature_list";
     private static final String MARK_ORDER_IS_OK = "order_list_state";
-    
+
     private static final String NO_GROUP_DESCRIPTION = "portal.features.nogroup.description";
     private static final String NO_GROUP_LABEL = "portal.features.nogroup.label";
     private static final int NO_GROUP_ORDER = 0;
     private static final String NO_GROUP_ID = null;
-
 
     /**
      * {@inheritDoc}
@@ -113,6 +111,7 @@ public class FeaturesAdminDashboardComponent extends AdminDashboardComponent
 
         return listOrders;
     }
+
     /**
      * Generate a combo containing all available groups
      *
@@ -160,6 +159,5 @@ public class FeaturesAdminDashboardComponent extends AdminDashboardComponent
 
         return colGroupMap;
     }
-
 
 }

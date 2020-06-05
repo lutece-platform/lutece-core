@@ -87,7 +87,7 @@ public final class JobSchedulerService
             _scheduler.start( );
             AppLogService.info( "Lutece job scheduler started." );
         }
-        catch ( SchedulerException e )
+        catch( SchedulerException e )
         {
             AppLogService.error( "Error starting the Lutece job scheduler ", e );
         }
@@ -96,8 +96,10 @@ public final class JobSchedulerService
     /**
      * Schedule a job according cron information
      * 
-     * @param job     The Job to schedule
-     * @param trigger The Cron trigger
+     * @param job
+     *            The Job to schedule
+     * @param trigger
+     *            The Cron trigger
      * @return Date
      */
     public Date scheduleJob( JobDetail job, CronTrigger trigger )
@@ -111,7 +113,7 @@ public final class JobSchedulerService
                 date = _scheduler.scheduleJob( job, trigger );
                 AppLogService.info( "New job scheduled : " + job.getKey( ).getName( ) );
             }
-            catch ( SchedulerException e )
+            catch( SchedulerException e )
             {
                 AppLogService.error( "Error scheduling job " + job.getKey( ).getName( ), e );
             }
@@ -132,7 +134,7 @@ public final class JobSchedulerService
                 _scheduler.shutdown( );
                 AppLogService.info( "Lutece job scheduler stopped." );
             }
-            catch ( SchedulerException e )
+            catch( SchedulerException e )
             {
                 AppLogService.error( "Error shuting down the Lutece job scheduler ", e );
             }

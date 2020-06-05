@@ -144,10 +144,10 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
     private ItemNavigator _itemNavigator;
 
     /**
-     * Get the workgroups management page. This page provides the list of all
-     * existing workgroups.
+     * Get the workgroups management page. This page provides the list of all existing workgroups.
      * 
-     * @param request the http request
+     * @param request
+     *            the http request
      * @return the html code for the workgroup management page
      */
     public String getManageWorkgroups( HttpServletRequest request )
@@ -161,15 +161,13 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
         AdminWorkgroupFilter awFilter = new AdminWorkgroupFilter( );
         boolean bIsSearch = awFilter.setAdminWorkgroupFilter( request );
 
-        List<AdminWorkgroup> listFilteredWorkgroups = (List<AdminWorkgroup>) AdminWorkgroupHome
-                .findByFilter( awFilter );
+        List<AdminWorkgroup> listFilteredWorkgroups = (List<AdminWorkgroup>) AdminWorkgroupHome.findByFilter( awFilter );
 
         HashMap<String, Object> model = new HashMap<>( );
 
         if ( !getUser( ).isAdmin( ) )
         {
-            listFilteredWorkgroups = (List<AdminWorkgroup>) AdminWorkgroupService
-                    .getAuthorizedCollection( listFilteredWorkgroups, getUser( ) );
+            listFilteredWorkgroups = (List<AdminWorkgroup>) AdminWorkgroupService.getAuthorizedCollection( listFilteredWorkgroups, getUser( ) );
         }
 
         // SORT
@@ -185,11 +183,9 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
             Collections.sort( listFilteredWorkgroups, new AttributeComparator( strSortedAttributeName, bIsAscSort ) );
         }
 
-        _strCurrentPageIndex = AbstractPaginator.getPageIndex( request, AbstractPaginator.PARAMETER_PAGE_INDEX,
-                _strCurrentPageIndex );
+        _strCurrentPageIndex = AbstractPaginator.getPageIndex( request, AbstractPaginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex );
         _nDefaultItemsPerPage = AppPropertiesService.getPropertyInt( PROPERTY_USERS_PER_PAGE, 50 );
-        _nItemsPerPage = AbstractPaginator.getItemsPerPage( request, AbstractPaginator.PARAMETER_ITEMS_PER_PAGE,
-                _nItemsPerPage, _nDefaultItemsPerPage );
+        _nItemsPerPage = AbstractPaginator.getItemsPerPage( request, AbstractPaginator.PARAMETER_ITEMS_PER_PAGE, _nItemsPerPage, _nDefaultItemsPerPage );
 
         String strURL = getHomeUrl( request );
         UrlItem url = new UrlItem( strURL );
@@ -217,8 +213,8 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
         }
 
         // PAGINATOR
-        LocalizedPaginator<AdminWorkgroup> paginator = new LocalizedPaginator<>( listFilteredWorkgroups, _nItemsPerPage,
-                url.getUrl( ), AbstractPaginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex, getLocale( ) );
+        LocalizedPaginator<AdminWorkgroup> paginator = new LocalizedPaginator<>( listFilteredWorkgroups, _nItemsPerPage, url.getUrl( ),
+                AbstractPaginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex, getLocale( ) );
 
         model.put( MARK_NB_ITEMS_PER_PAGE, "" + _nItemsPerPage );
         model.put( MARK_PAGINATOR, paginator );
@@ -235,7 +231,8 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
     /**
      * Returns the data capture form of a new Workgroup
      *
-     * @param request The HTTP Request
+     * @param request
+     *            The HTTP Request
      * @return The HTML form
      */
     public String getCreateWorkgroup( HttpServletRequest request )
@@ -243,8 +240,7 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
         setPageTitleProperty( PROPERTY_CREATE_WORKGROUP_PAGETITLE );
 
         Map<String, Object> model = new HashMap<>( 1 );
-        model.put( SecurityTokenService.MARK_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_CREATE_WORKGROUP ) );
+        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_CREATE_WORKGROUP ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CREATE_WORKGROUP, getLocale( ), model );
 
@@ -254,9 +250,11 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
     /**
      * Process the data capture form of a new workgroup
      *
-     * @param request The HTTP Request
+     * @param request
+     *            The HTTP Request
      * @return The Jsp URL of the process result
-     * @throws AccessDeniedException if the security token is invalid
+     * @throws AccessDeniedException
+     *             if the security token is invalid
      */
     public String doCreateWorkgroup( HttpServletRequest request ) throws AccessDeniedException
     {
@@ -276,15 +274,13 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
         // Check if workgroup already exist
         if ( Boolean.TRUE.equals( AdminWorkgroupHome.checkExistWorkgroup( strKey ) ) )
         {
-            return AdminMessageService.getMessageUrl( request, MESSAGE_WORKGROUP_ALREADY_EXIST,
-                    AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrl( request, MESSAGE_WORKGROUP_ALREADY_EXIST, AdminMessage.TYPE_STOP );
         }
 
         // Check if strKey contains accentuated caracters
         if ( !StringUtil.checkCodeKey( strKey ) )
         {
-            return AdminMessageService.getMessageUrl( request, MESSAGE_WORKGROUP_ACCENTUATED_CHARACTER,
-                    AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrl( request, MESSAGE_WORKGROUP_ACCENTUATED_CHARACTER, AdminMessage.TYPE_STOP );
         }
         if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_CREATE_WORKGROUP ) )
         {
@@ -303,7 +299,8 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
     /**
      * Returns the page of confirmation for deleting a workgroup
      *
-     * @param request The Http Request
+     * @param request
+     *            The Http Request
      * @return the confirmation url
      */
     public String getConfirmRemoveWorkgroup( HttpServletRequest request )
@@ -312,19 +309,19 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
         String strUrlRemove = JSP_URL_REMOVE_WORKGROUP;
         Map<String, String> parameters = new HashMap<>( );
         parameters.put( PARAMETER_WORKGROUP_KEY, strWorkgroupKey );
-        parameters.put( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, JSP_URL_REMOVE_WORKGROUP ) );
+        parameters.put( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, JSP_URL_REMOVE_WORKGROUP ) );
 
-        return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_REMOVE, strUrlRemove,
-                AdminMessage.TYPE_CONFIRMATION, parameters );
+        return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_REMOVE, strUrlRemove, AdminMessage.TYPE_CONFIRMATION, parameters );
     }
 
     /**
      * Process to the confirmation of deleting a workgroup
      *
-     * @param request The Http Request
+     * @param request
+     *            The Http Request
      * @return the HTML page
-     * @throws AccessDeniedException if the security token is invalid
+     * @throws AccessDeniedException
+     *             if the security token is invalid
      */
     public String doRemoveWorkgroup( HttpServletRequest request ) throws AccessDeniedException
     {
@@ -336,15 +333,14 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
             return AdminMessageService.getMessageUrl( request, MESSAGE_WORKGROUP_ALREADY_USED, AdminMessage.TYPE_STOP );
         }
 
-        if ( !WorkgroupRemovalListenerService.getService( ).checkForRemoval( strWorkgroupKey, listErrors,
-                getLocale( ) ) )
+        if ( !WorkgroupRemovalListenerService.getService( ).checkForRemoval( strWorkgroupKey, listErrors, getLocale( ) ) )
         {
             String strCause = AdminMessageService.getFormattedList( listErrors, getLocale( ) );
-            Object[] args =
-            { strCause };
+            Object [ ] args = {
+                    strCause
+            };
 
-            return AdminMessageService.getMessageUrl( request, MESSAGE_CANNOT_REMOVE_WORKGROUP, args,
-                    AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrl( request, MESSAGE_CANNOT_REMOVE_WORKGROUP, args, AdminMessage.TYPE_STOP );
         }
         if ( !SecurityTokenService.getInstance( ).validate( request, JSP_URL_REMOVE_WORKGROUP ) )
         {
@@ -359,7 +355,8 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
     /**
      * Returns the form to update info about a Workgroup
      *
-     * @param request The Http request
+     * @param request
+     *            The Http request
      * @return The HTML form to update info
      */
     public String getModifyWorkgroup( HttpServletRequest request )
@@ -377,8 +374,7 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
 
         HashMap<String, Object> model = new HashMap<>( );
         model.put( MARK_WORKGROUP, workgroup );
-        model.put( SecurityTokenService.MARK_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MODIFY_WORKGROUP ) );
+        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MODIFY_WORKGROUP ) );
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_WORKGROUP, getLocale( ), model );
 
         return getAdminPage( template.getHtml( ) );
@@ -387,9 +383,11 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
     /**
      * Process the data capture form for modify a workgroup
      *
-     * @param request The HTTP Request
+     * @param request
+     *            The HTTP Request
      * @return The Jsp URL of the process result
-     * @throws AccessDeniedException if the security token is invalid
+     * @throws AccessDeniedException
+     *             if the security token is invalid
      */
     public String doModifyWorkgroup( HttpServletRequest request ) throws AccessDeniedException
     {
@@ -416,7 +414,8 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
     /**
      * Returns the users assignation form
      *
-     * @param request The Http request
+     * @param request
+     *            The Http request
      * @return the html code for display the modes list
      */
     public String getAssignUsers( HttpServletRequest request )
@@ -442,8 +441,7 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
         List<AdminUser> listAssignedUsers = AdminWorkgroupHome.getUserListForWorkgroup( strWorkgroupKey ).stream( )
                 .filter( this::isUserHigherThanConnectedUser ).collect( Collectors.toList( ) );
 
-        List<AdminUser> listFilteredUsers = AdminUserService.getFilteredUsersInterface( listAssignedUsers, request,
-                model, url );
+        List<AdminUser> listFilteredUsers = AdminUserService.getFilteredUsersInterface( listAssignedUsers, request, model, url );
 
         // AVAILABLE USERS
         ReferenceList listUsers = new ReferenceList( );
@@ -454,8 +452,8 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
             itemUser.setCode( Integer.toString( user.getUserId( ) ) );
             itemUser.setName( user.getLastName( ) + " " + user.getFirstName( ) + " (" + user.getAccessCode( ) + ")" );
 
-            boolean bAssigned = listAssignedUsers.stream( ).anyMatch(
-                    assignedUser -> Integer.toString( assignedUser.getUserId( ) ).equals( itemUser.getCode( ) ) );
+            boolean bAssigned = listAssignedUsers.stream( )
+                    .anyMatch( assignedUser -> Integer.toString( assignedUser.getUserId( ) ).equals( itemUser.getCode( ) ) );
 
             // Add users with higher level then connected user or add all users if connected
             // user is administrator
@@ -480,11 +478,9 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
             Collections.sort( listFilteredUsers, new AttributeComparator( strSortedAttributeName, bIsAscSort ) );
         }
 
-        _strCurrentPageIndex = AbstractPaginator.getPageIndex( request, AbstractPaginator.PARAMETER_PAGE_INDEX,
-                _strCurrentPageIndex );
+        _strCurrentPageIndex = AbstractPaginator.getPageIndex( request, AbstractPaginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex );
         _nDefaultItemsPerPage = AppPropertiesService.getPropertyInt( PROPERTY_USERS_PER_PAGE, 50 );
-        _nItemsPerPage = AbstractPaginator.getItemsPerPage( request, AbstractPaginator.PARAMETER_ITEMS_PER_PAGE,
-                _nItemsPerPage, _nDefaultItemsPerPage );
+        _nItemsPerPage = AbstractPaginator.getItemsPerPage( request, AbstractPaginator.PARAMETER_ITEMS_PER_PAGE, _nItemsPerPage, _nDefaultItemsPerPage );
 
         if ( strAscSort != null )
         {
@@ -497,8 +493,8 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
         // PAGINATOR
         url.addParameter( PARAMETER_WORKGROUP_KEY, adminWorkgroup.getKey( ) );
 
-        LocalizedPaginator<AdminUser> paginator = new LocalizedPaginator<>( listFilteredUsers, _nItemsPerPage,
-                url.getUrl( ), AbstractPaginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex, getLocale( ) );
+        LocalizedPaginator<AdminUser> paginator = new LocalizedPaginator<>( listFilteredUsers, _nItemsPerPage, url.getUrl( ),
+                AbstractPaginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex, getLocale( ) );
 
         // USER LEVEL
         Collection<Level> filteredLevels = new ArrayList<>( );
@@ -519,8 +515,7 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
         model.put( MARK_ITEM_NAVIGATOR, _itemNavigator );
         model.put( MARK_PAGINATOR, paginator );
         model.put( MARK_NB_ITEMS_PER_PAGE, Integer.toString( _nItemsPerPage ) );
-        model.put( SecurityTokenService.MARK_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_ASSIGN_USERS ) );
+        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_ASSIGN_USERS ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ASSIGN_USERS, getLocale( ), model );
 
@@ -530,9 +525,11 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
     /**
      * Process the data capture form for assign users to a workgroup
      *
-     * @param request The HTTP Request
+     * @param request
+     *            The HTTP Request
      * @return The Jsp URL of the process result
-     * @throws AccessDeniedException if the security token is invalid
+     * @throws AccessDeniedException
+     *             if the security token is invalid
      */
     public String doAssignUsers( HttpServletRequest request ) throws AccessDeniedException
     {
@@ -543,13 +540,13 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
         String strWorkgroupKey = request.getParameter( PARAMETER_WORKGROUP_KEY );
 
         // retrieve the selected portlets ids
-        String[] arrayUsersIds = request.getParameterValues( PARAMETER_USERS_LIST );
+        String [ ] arrayUsersIds = request.getParameterValues( PARAMETER_USERS_LIST );
 
         if ( ( arrayUsersIds != null ) )
         {
             for ( int i = 0; i < arrayUsersIds.length; i++ )
             {
-                int nUserId = Integer.parseInt( arrayUsersIds[i] );
+                int nUserId = Integer.parseInt( arrayUsersIds [i] );
                 AdminUser user = AdminUserHome.findByPrimaryKey( nUserId );
 
                 if ( !AdminWorkgroupHome.isUserInWorkgroup( user, strWorkgroupKey ) )
@@ -565,9 +562,11 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
     /**
      * unassigns user from workgroup
      * 
-     * @param request The HttpRequest
+     * @param request
+     *            The HttpRequest
      * @return the HTML code of list assignations
-     * @throws AccessDeniedException if the security token is invalid
+     * @throws AccessDeniedException
+     *             if the security token is invalid
      */
     public String doUnAssignUser( HttpServletRequest request ) throws AccessDeniedException
     {
@@ -592,8 +591,10 @@ public class AdminWorkgroupJspBean extends AdminFeaturesPageJspBean
     /**
      * Get the item navigator
      * 
-     * @param strWorkgroupKey the workgroup key
-     * @param strUrl          the url
+     * @param strWorkgroupKey
+     *            the workgroup key
+     * @param strUrl
+     *            the url
      */
     private void setItemNavigator( String strWorkgroupKey, String strUrl )
     {

@@ -107,7 +107,7 @@ public class AdminUserFieldDAO implements IAdminUserFieldDAO
     public AdminUserField load( int nIdUserField )
     {
         AdminUserField userField = null;
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT + SQL_WHERE + SQL_FILTER_ID_USER_FIELD ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT + SQL_WHERE + SQL_FILTER_ID_USER_FIELD ) )
         {
             daoUtil.setInt( 1, nIdUserField );
             daoUtil.executeQuery( );
@@ -131,7 +131,7 @@ public class AdminUserFieldDAO implements IAdminUserFieldDAO
     @Override
     public void insert( AdminUserField userField )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT, Statement.RETURN_GENERATED_KEYS ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT, Statement.RETURN_GENERATED_KEYS ) )
         {
             int nIndex = 1;
             daoUtil.setInt( nIndex++, userField.getUser( ).getUserId( ) );
@@ -167,7 +167,7 @@ public class AdminUserFieldDAO implements IAdminUserFieldDAO
     @Override
     public void store( AdminUserField userField )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE ) )
         {
             daoUtil.setString( 1, userField.getValue( ) );
             daoUtil.setInt( 2, userField.getIdUserField( ) );
@@ -185,7 +185,7 @@ public class AdminUserFieldDAO implements IAdminUserFieldDAO
     @Override
     public void delete( int nIdUserField )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE ) )
         {
             daoUtil.setInt( 1, nIdUserField );
 
@@ -202,7 +202,7 @@ public class AdminUserFieldDAO implements IAdminUserFieldDAO
     @Override
     public void deleteUserFieldsFromIdField( int nIdField )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE_FROM_ID_FIELD ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE_FROM_ID_FIELD ) )
         {
             daoUtil.setInt( 1, nIdField );
 
@@ -219,7 +219,7 @@ public class AdminUserFieldDAO implements IAdminUserFieldDAO
     @Override
     public void deleteUserFieldsFromIdUser( int nIdUser )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE_FROM_ID_USER ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE_FROM_ID_USER ) )
         {
             daoUtil.setInt( 1, nIdUser );
 
@@ -236,7 +236,7 @@ public class AdminUserFieldDAO implements IAdminUserFieldDAO
     @Override
     public void deleteUserFieldsFromIdAttribute( int nIdAttribute )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE_FROM_ID_ATTRIBUTE ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE_FROM_ID_ATTRIBUTE ) )
         {
             daoUtil.setInt( 1, nIdAttribute );
 
@@ -257,7 +257,7 @@ public class AdminUserFieldDAO implements IAdminUserFieldDAO
     public List<AdminUserField> selectUserFieldsByIdUserIdAttribute( int nIdUser, int nIdAttribute )
     {
         List<AdminUserField> listUserFields = new ArrayList<>( );
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_USER_FIELDS_BY_ID_USER_ID_ATTRIBUTE ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_USER_FIELDS_BY_ID_USER_ID_ATTRIBUTE ) )
         {
             daoUtil.setInt( 1, nIdUser );
             daoUtil.setInt( 2, nIdAttribute );
@@ -363,7 +363,7 @@ public class AdminUserFieldDAO implements IAdminUserFieldDAO
             sbSQL.append( CONSTANT_CLOSED_BRACKET );
         }
 
-        try( DAOUtil daoUtil = new DAOUtil( sbSQL.toString( ) ) )
+        try ( DAOUtil daoUtil = new DAOUtil( sbSQL.toString( ) ) )
         {
 
             int nbCount = 1;
@@ -447,7 +447,7 @@ public class AdminUserFieldDAO implements IAdminUserFieldDAO
             }
         }
 
-        try( DAOUtil daoUtil = new DAOUtil( sbSQL.toString( ) ) )
+        try ( DAOUtil daoUtil = new DAOUtil( sbSQL.toString( ) ) )
         {
             int nIndex = 1;
 
@@ -486,7 +486,7 @@ public class AdminUserFieldDAO implements IAdminUserFieldDAO
     public boolean existsWithFile( int nIdFile )
     {
         boolean result;
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_EXISTS_WITH_FILE ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_EXISTS_WITH_FILE ) )
         {
             daoUtil.setInt( 1, nIdFile );
             daoUtil.executeQuery( );

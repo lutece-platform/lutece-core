@@ -79,7 +79,7 @@ public class AdminHomePageManagementComponent extends AdminDashboardComponent
 
         for ( List<IDashboardComponent> listComponents : mapDashboards.values( ) )
         {
-           I18nService.localizeCollection( listComponents, user.getLocale( ) );
+            I18nService.localizeCollection( listComponents, user.getLocale( ) );
         }
 
         model.put( MARK_MAP_DASHBOARDS, mapDashboards );
@@ -91,8 +91,7 @@ public class AdminHomePageManagementComponent extends AdminDashboardComponent
         model.put( MARK_MAP_AVAILABLE_ORDERS, _service.getMapAvailableOrders( ) );
         model.put( MARK_LIST_AVAILABLE_COLUMNS, _service.getListAvailableColumns( ) );
         model.put( MARK_MAP_COLUMN_ORDER_STATUS, _service.getOrderedColumnsStatus( ) );
-        model.put( SecurityTokenService.MARK_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MANAGE_DASHBOARDS ) );
+        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MANAGE_DASHBOARDS ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_DASHBOARDS, user.getLocale( ), model );
 

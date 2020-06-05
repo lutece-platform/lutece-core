@@ -87,8 +87,7 @@ public class AdminUser implements Serializable, AdminWorkgroupResource, User
     private String _strWorkgroupKey;
     private HashMap<String, Object> _userInfo = new HashMap<>( );
     /** User's workgroups */
-    private List<String> _workgroups=new ArrayList<String>();
-    
+    private List<String> _workgroups = new ArrayList<String>( );
 
     /**
      * User's rights. We use a HashMap instead of a Map so that the field is forced to be serializable.
@@ -371,6 +370,7 @@ public class AdminUser implements Serializable, AdminWorkgroupResource, User
 
     /**
      * Returns user's roles
+     * 
      * @deprecated use getRBACRoles( )
      * @return Returns user's roles
      */
@@ -675,14 +675,15 @@ public class AdminUser implements Serializable, AdminWorkgroupResource, User
      *            the key
      * @param info
      *            the info
-     * @param <X> the value's type stored in the user map info           
+     * @param <X>
+     *            the value's type stored in the user map info
      * @return the previous value associated with <tt>strKey</tt>, or <tt>null</tt> if there was no mapping for <tt>strKey</tt>. (A <tt>null</tt> return can
      *         also indicate that <tt>null</tt> was previously associated with <tt>strKey</tt>)
      * @since 6.2.0
      */
-    public <X extends Object>X setUserInfo( String strKey, X info )
+    public <X extends Object> X setUserInfo( String strKey, X info )
     {
-        return (X)_userInfo.put( strKey, info );
+        return (X) _userInfo.put( strKey, info );
     }
 
     /**
@@ -690,28 +691,29 @@ public class AdminUser implements Serializable, AdminWorkgroupResource, User
      * 
      * @param strKey
      *            the key
-     * @param <X> the value's type stored in the user map info
+     * @param <X>
+     *            the value's type stored in the user map info
      * @return the info
      * @since 6.2.0
      * @see #setUserInfo(String, Object)
      */
-    public <X extends Object>X getUserInfo( String strKey )
+    public <X extends Object> X getUserInfo( String strKey )
     {
-        return (X)_userInfo.get( strKey );
+        return (X) _userInfo.get( strKey );
     }
 
     public static Timestamp getDefaultDateLastLogin( )
     {
         return new Timestamp( DEFAULT_DATE_LAST_LOGIN.getTime( ) );
     }
-    
+
     /**
      * {@inheritDoc}
      */
     @Override
-    public List<String> getUserWorkgroups()
+    public List<String> getUserWorkgroups( )
     {
-    	return _workgroups;
+        return _workgroups;
     }
 
     /**
@@ -722,17 +724,16 @@ public class AdminUser implements Serializable, AdminWorkgroupResource, User
      */
     public void setUserWorkgroups( List<String> workgroups )
     {
-    	this._workgroups=workgroups;
+        this._workgroups = workgroups;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-	public String getRealm() 
+    public String getRealm( )
     {
-		return USER_REALM;
-	}
-    
+        return USER_REALM;
+    }
 
 }

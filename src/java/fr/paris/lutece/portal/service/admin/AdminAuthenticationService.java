@@ -254,9 +254,9 @@ public final class AdminAuthenticationService
         // set the rights for this user
         bindUser.setRoles( AdminUserHome.getRolesListForUser( bindUser.getUserId( ) ) );
 
-        //set the workgroups for this user
-        bindUser.setUserWorkgroups(AdminWorkgroupHome.getUserWorkgroups(bindUser).stream().map(x -> x.getCode()).collect(Collectors.toList()));
-        
+        // set the workgroups for this user
+        bindUser.setUserWorkgroups( AdminWorkgroupHome.getUserWorkgroups( bindUser ).stream( ).map( x -> x.getCode( ) ).collect( Collectors.toList( ) ) );
+
         return bindUser;
     }
 

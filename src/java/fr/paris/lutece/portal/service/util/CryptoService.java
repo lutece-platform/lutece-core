@@ -69,8 +69,10 @@ public final class CryptoService
     /**
      * Encrypt a data using an algorithm defined in lutece.properties
      * 
-     * @param strDataToEncrypt The data to encrypt
-     * @param strAlgorithm     the algorithm
+     * @param strDataToEncrypt
+     *            The data to encrypt
+     * @param strAlgorithm
+     *            the algorithm
      * @return The encrypted string
      */
     public static String encrypt( String strDataToEncrypt, String strAlgorithm )
@@ -82,7 +84,7 @@ public final class CryptoService
         {
             md = MessageDigest.getInstance( strAlgorithm );
         }
-        catch ( NoSuchAlgorithmException e )
+        catch( NoSuchAlgorithmException e )
         {
             AppLogService.error( e.getMessage( ), e );
         }
@@ -91,10 +93,9 @@ public final class CryptoService
         {
             try
             {
-                hash = byteToHex( md
-                        .digest( strDataToEncrypt.getBytes( AppPropertiesService.getProperty( PROPERTY_ENCODING ) ) ) );
+                hash = byteToHex( md.digest( strDataToEncrypt.getBytes( AppPropertiesService.getProperty( PROPERTY_ENCODING ) ) ) );
             }
-            catch ( UnsupportedEncodingException e )
+            catch( UnsupportedEncodingException e )
             {
                 AppLogService.error( e.getMessage( ), e );
             }
@@ -105,8 +106,10 @@ public final class CryptoService
     /**
      * Get a digest of the content of a stream
      * 
-     * @param stream       the stream containing the data to digest
-     * @param strAlgorithm the digest Algorithm
+     * @param stream
+     *            the stream containing the data to digest
+     * @param strAlgorithm
+     *            the digest Algorithm
      * @return hex encoded digest string
      * @see MessageDigest
      * @since 6.0.0
@@ -118,12 +121,12 @@ public final class CryptoService
         {
             digest = MessageDigest.getInstance( strAlgorithm );
         }
-        catch ( NoSuchAlgorithmException e )
+        catch( NoSuchAlgorithmException e )
         {
             AppLogService.error( strAlgorithm + " not found", e );
             return null;
         }
-        byte[] buffer = new byte[1024];
+        byte [ ] buffer = new byte [ 1024];
         try
         {
             int nNumBytesRead = stream.read( buffer );
@@ -133,7 +136,7 @@ public final class CryptoService
                 nNumBytesRead = stream.read( buffer );
             }
         }
-        catch ( IOException e )
+        catch( IOException e )
         {
             AppLogService.error( "Error reading stream", e );
             return null;
@@ -157,7 +160,7 @@ public final class CryptoService
             {
                 // no legacy key exists. Generate a random one
                 Random random = new SecureRandom( );
-                byte[] bytes = new byte[CONSTANT_CRYPTOKEY_LENGTH_BYTES];
+                byte [ ] bytes = new byte [ CONSTANT_CRYPTOKEY_LENGTH_BYTES];
                 random.nextBytes( bytes );
                 strKey = byteToHex( bytes );
             }
@@ -167,17 +170,16 @@ public final class CryptoService
     }
 
     /**
-     * Get the HmacSHA256 of a message using the app crypto key. The UTF-8
-     * representation of the key is used.
+     * Get the HmacSHA256 of a message using the app crypto key. The UTF-8 representation of the key is used.
      * 
-     * @param message the message. The mac is calculated from the UTF-8
-     *                representation
+     * @param message
+     *            the message. The mac is calculated from the UTF-8 representation
      * @return the hmac as hex
      * @since 6.0.0
      */
     public static String hmacSHA256( String message )
     {
-        byte[] keyBytes = getCryptoKey( ).getBytes( StandardCharsets.UTF_8 );
+        byte [ ] keyBytes = getCryptoKey( ).getBytes( StandardCharsets.UTF_8 );
         final String strAlg = "HmacSHA256";
         SecretKeySpec key = new SecretKeySpec( keyBytes, strAlg );
 
@@ -188,16 +190,15 @@ public final class CryptoService
 
             return byteToHex( mac.doFinal( message.getBytes( StandardCharsets.UTF_8 ) ) );
         }
-        catch ( NoSuchAlgorithmException e )
+        catch( NoSuchAlgorithmException e )
         {
-            throw new AppException( "Could not find " + strAlg + " algorithm which is supposed to be supported by Java",
-                    e );
+            throw new AppException( "Could not find " + strAlg + " algorithm which is supposed to be supported by Java", e );
         }
-        catch ( InvalidKeyException e )
+        catch( InvalidKeyException e )
         {
             throw new AppException( "The key should be valid", e );
         }
-        catch ( IllegalStateException e )
+        catch( IllegalStateException e )
         {
             throw new AppException( e.getMessage( ), e );
         }
@@ -206,10 +207,11 @@ public final class CryptoService
     /**
      * Convert byte to hex
      * 
-     * @param bits the byte to convert
+     * @param bits
+     *            the byte to convert
      * @return the hex
      */
-    private static String byteToHex( byte[] bits )
+    private static String byteToHex( byte [ ] bits )
     {
         if ( bits == null )
         {
@@ -221,14 +223,14 @@ public final class CryptoService
 
         for ( int i = 0; i < bits.length; i++ )
         {
-            if ( ( (int) bits[i] & 0xff ) < 0x10 )
+            if ( ( (int) bits [i] & 0xff ) < 0x10 )
             {
                 // 0 < .. < 9
                 hex.append( "0" );
             }
 
             // [(bit+256)%256]^16
-            hex.append( Integer.toString( (int) bits[i] & 0xff, 16 ) );
+            hex.append( Integer.toString( (int) bits [i] & 0xff, 16 ) );
         }
 
         return hex.toString( );

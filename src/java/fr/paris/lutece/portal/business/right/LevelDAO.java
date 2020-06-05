@@ -62,7 +62,7 @@ public final class LevelDAO implements ILevelDAO
     int newPrimaryKey( )
     {
         int nKey;
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_NEW_PK ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_NEW_PK ) )
         {
             daoUtil.executeQuery( );
 
@@ -89,7 +89,7 @@ public final class LevelDAO implements ILevelDAO
     {
         level.setId( newPrimaryKey( ) );
 
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT ) )
         {
             daoUtil.setInt( 1, level.getId( ) );
             daoUtil.setString( 2, level.getName( ) );
@@ -108,7 +108,7 @@ public final class LevelDAO implements ILevelDAO
     public Level load( int nIdLevel )
     {
         Level level = null;
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT ) )
         {
             daoUtil.setInt( 1, nIdLevel );
             daoUtil.executeQuery( );
@@ -133,7 +133,7 @@ public final class LevelDAO implements ILevelDAO
      */
     public void delete( int nIdLevel )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE ) )
         {
             daoUtil.setInt( 1, nIdLevel );
 
@@ -149,7 +149,7 @@ public final class LevelDAO implements ILevelDAO
      */
     public void store( Level level )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE ) )
         {
             int nLevelId = level.getId( );
             daoUtil.setInt( 1, nLevelId );
@@ -168,7 +168,7 @@ public final class LevelDAO implements ILevelDAO
     public Collection<Level> selectLevelsList( )
     {
         Collection<Level> levelList = new ArrayList<>( );
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL ) )
         {
             daoUtil.executeQuery( );
 

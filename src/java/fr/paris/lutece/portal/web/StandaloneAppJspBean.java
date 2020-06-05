@@ -136,9 +136,8 @@ public class StandaloneAppJspBean
 
         Collection<XPageApplicationEntry> applications = XPageAppService.getXPageApplicationsList( );
         List<XPageApplicationEntry> applicationsSorted = new ArrayList<>( applications );
-        
-        Collections.sort( applicationsSorted, ( XPageApplicationEntry c1, XPageApplicationEntry c2 ) ->
-        {
+
+        Collections.sort( applicationsSorted, ( XPageApplicationEntry c1, XPageApplicationEntry c2 ) -> {
             Plugin p1 = ( c1.getPlugin( ) == null ) ? PluginService.getCore( ) : c1.getPlugin( );
             Plugin p2 = ( c2.getPlugin( ) == null ) ? PluginService.getCore( ) : c2.getPlugin( );
 

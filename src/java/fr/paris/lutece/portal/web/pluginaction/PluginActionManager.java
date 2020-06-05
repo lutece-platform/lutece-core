@@ -45,10 +45,8 @@ import javax.servlet.http.HttpServletRequest;
  *
  * PluginActionManager.
  * <ul>
- * <li>
- * Use {@link #getPluginAction(HttpServletRequest, Class)} to find the invoked action
- * <li>
- * Use {@link #fillModel(HttpServletRequest, AdminUser, Map, Class, String)} to fill you model
+ * <li>Use {@link #getPluginAction(HttpServletRequest, Class)} to find the invoked action
+ * <li>Use {@link #fillModel(HttpServletRequest, AdminUser, Map, Class, String)} to fill you model
  * </ul>
  * 
  * @see #getListPluginAction(Class)

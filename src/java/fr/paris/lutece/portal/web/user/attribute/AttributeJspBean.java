@@ -90,7 +90,6 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
     private static final String JSP_MODIFY_ATTRIBUTE = "ModifyAttribute.jsp";
     private static final AttributeService _attributeService = AttributeService.getInstance( );
 
-
     /**
      * Get user attribute creation interface
      * 
@@ -115,7 +114,7 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
 
         if ( attribute == null )
         {
-            return getAdminDashboardsUrl( request , ANCHOR_ADMIN_DASHBOARDS );
+            return getAdminDashboardsUrl( request, ANCHOR_ADMIN_DASHBOARDS );
         }
 
         setPageTitleProperty( attribute.getPropertyCreatePageTitle( ) );
@@ -162,12 +161,12 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
 
             if ( attribute == null )
             {
-                getAdminDashboardsUrl( request , ANCHOR_ADMIN_DASHBOARDS );
+                getAdminDashboardsUrl( request, ANCHOR_ADMIN_DASHBOARDS );
             }
             else
             {
                 String strError = attribute.setAttributeData( request );
-    
+
                 if ( StringUtils.isNotBlank( strError ) )
                 {
                     return strError;
@@ -185,7 +184,7 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
             }
         }
 
-        return getAdminDashboardsUrl( request , ANCHOR_ADMIN_DASHBOARDS );
+        return getAdminDashboardsUrl( request, ANCHOR_ADMIN_DASHBOARDS );
     }
 
     /**
@@ -220,7 +219,7 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
         }
 
         // Otherwise, we redirect the user to the attribute management interface
-        return getAdminDashboardsUrl( request , ANCHOR_ADMIN_DASHBOARDS );
+        return getAdminDashboardsUrl( request, ANCHOR_ADMIN_DASHBOARDS );
     }
 
     /**
@@ -265,7 +264,7 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
             }
         }
 
-        return getAdminDashboardsUrl( request , ANCHOR_ADMIN_DASHBOARDS );
+        return getAdminDashboardsUrl( request, ANCHOR_ADMIN_DASHBOARDS );
     }
 
     /**
@@ -310,7 +309,7 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
             _attributeService.removeAttribute( nIdAttribute );
         }
 
-        return getAdminDashboardsUrl( request , ANCHOR_ADMIN_DASHBOARDS );
+        return getAdminDashboardsUrl( request, ANCHOR_ADMIN_DASHBOARDS );
     }
 
     /**
@@ -357,7 +356,7 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
             _attributeService.updateAttribute( currentAttribute );
         }
 
-        return getAdminDashboardsUrl( request , ANCHOR_ADMIN_DASHBOARDS );
+        return getAdminDashboardsUrl( request, ANCHOR_ADMIN_DASHBOARDS );
     }
 
     /**
@@ -404,6 +403,6 @@ public class AttributeJspBean extends AdminFeaturesPageJspBean
             _attributeService.updateAttribute( currentAttribute );
         }
 
-        return getAdminDashboardsUrl( request , ANCHOR_ADMIN_DASHBOARDS );
+        return getAdminDashboardsUrl( request, ANCHOR_ADMIN_DASHBOARDS );
     }
 }

@@ -58,7 +58,7 @@ public final class RBACRoleDAO implements IRBACRoleDAO
      */
     public void insert( RBACRole role )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT ) )
         {
             daoUtil.setString( 1, role.getKey( ) );
             daoUtil.setString( 2, role.getDescription( ) );
@@ -77,7 +77,7 @@ public final class RBACRoleDAO implements IRBACRoleDAO
     public RBACRole load( String strRoleKey )
     {
         RBACRole role = null;
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT ) )
         {
             daoUtil.setString( 1, strRoleKey );
             daoUtil.executeQuery( );
@@ -102,7 +102,7 @@ public final class RBACRoleDAO implements IRBACRoleDAO
      */
     public void delete( String strRoleKey )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE ) )
         {
             daoUtil.setString( 1, strRoleKey );
 
@@ -120,7 +120,7 @@ public final class RBACRoleDAO implements IRBACRoleDAO
      */
     public void store( String strRoleKey, RBACRole role )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE ) )
         {
             daoUtil.setString( 1, role.getKey( ) );
             daoUtil.setString( 2, role.getDescription( ) );
@@ -138,7 +138,7 @@ public final class RBACRoleDAO implements IRBACRoleDAO
     public Collection<RBACRole> selectRoleList( )
     {
         Collection<RBACRole> listRoles = new ArrayList<>( );
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL ) )
         {
             daoUtil.executeQuery( );
 
@@ -166,7 +166,7 @@ public final class RBACRoleDAO implements IRBACRoleDAO
     public boolean checkExistRole( String strRoleKey )
     {
         boolean check = false;
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT ) )
         {
             daoUtil.setString( 1, strRoleKey );
             daoUtil.executeQuery( );

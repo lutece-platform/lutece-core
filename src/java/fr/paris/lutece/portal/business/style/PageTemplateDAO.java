@@ -64,7 +64,7 @@ public final class PageTemplateDAO implements IPageTemplateDAO
      */
     public void insert( PageTemplate pageTemplate )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT, Statement.RETURN_GENERATED_KEYS ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT, Statement.RETURN_GENERATED_KEYS ) )
         {
             int nIndex = 1;
             daoUtil.setString( nIndex++, pageTemplate.getDescription( ) );
@@ -90,7 +90,7 @@ public final class PageTemplateDAO implements IPageTemplateDAO
     public PageTemplate load( int nPageTemplateId )
     {
         PageTemplate pageTemplate = null;
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT ) )
         {
             daoUtil.setInt( 1, nPageTemplateId );
 
@@ -118,7 +118,7 @@ public final class PageTemplateDAO implements IPageTemplateDAO
      */
     public void delete( int nPageTemplateId )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE ) )
         {
             daoUtil.setInt( 1, nPageTemplateId );
             daoUtil.executeUpdate( );
@@ -133,7 +133,7 @@ public final class PageTemplateDAO implements IPageTemplateDAO
      */
     public void store( PageTemplate pageTemplate )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE ) )
         {
 
             daoUtil.setInt( 1, pageTemplate.getId( ) );
@@ -154,7 +154,7 @@ public final class PageTemplateDAO implements IPageTemplateDAO
     public List<PageTemplate> selectPageTemplatesList( )
     {
         List<PageTemplate> listPageTemplates = new ArrayList<>( );
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL ) )
         {
             daoUtil.executeQuery( );
 
@@ -184,7 +184,7 @@ public final class PageTemplateDAO implements IPageTemplateDAO
     public boolean checkPageTemplateIsUsed( int nPageTemplateId )
     {
         boolean check = false;
-        try( DAOUtil daoUtil = new DAOUtil( SQL_CHECK_PAGE_TEMPLATE_IS_USED ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_CHECK_PAGE_TEMPLATE_IS_USED ) )
         {
 
             daoUtil.setInt( 1, nPageTemplateId );

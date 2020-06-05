@@ -105,7 +105,7 @@ public final class PageDAO implements IPageDAO
      */
     public void insert( Page page )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT, Statement.RETURN_GENERATED_KEYS ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT, Statement.RETURN_GENERATED_KEYS ) )
         {
             page.setOrigParentPageId( page.getParentPageId( ) );
 
@@ -169,7 +169,7 @@ public final class PageDAO implements IPageDAO
     public Page load( int nPageId, boolean bPortlets )
     {
         Page page = new Page( );
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT ) )
         {
             daoUtil.setInt( 1, nPageId );
 
@@ -224,7 +224,7 @@ public final class PageDAO implements IPageDAO
     public Page loadWithoutImageContent( int nPageId, boolean bPortlets )
     {
         Page page = new Page( );
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_WITHOUT_IMAGE_CONTENT ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_WITHOUT_IMAGE_CONTENT ) )
         {
             daoUtil.setInt( 1, nPageId );
 
@@ -274,7 +274,7 @@ public final class PageDAO implements IPageDAO
     public Page loadPageByIdPortlet( int nPorletId )
     {
         Page page = new Page( );
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_BY_ID_PORTLET ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_BY_ID_PORTLET ) )
         {
             daoUtil.setInt( 1, nPorletId );
 
@@ -310,7 +310,7 @@ public final class PageDAO implements IPageDAO
      */
     public void delete( int nPageId )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE ) )
         {
             daoUtil.setInt( 1, nPageId );
 
@@ -323,7 +323,7 @@ public final class PageDAO implements IPageDAO
      */
     public void store( Page page )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE ) )
         {
 
             daoUtil.setInt( 1, page.getParentPageId( ) );
@@ -385,7 +385,7 @@ public final class PageDAO implements IPageDAO
     boolean checkPrimaryKey( int nKey )
     {
         boolean check = false;
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_CHECKPK ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_CHECKPK ) )
         {
 
             daoUtil.setInt( 1, nKey );
@@ -408,7 +408,7 @@ public final class PageDAO implements IPageDAO
     void loadPortlets( Page page )
     {
         List<Integer> portletIds = new ArrayList<>( );
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_PORTLET ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_PORTLET ) )
         {
             daoUtil.setInt( 1, page.getId( ) );
 
@@ -440,7 +440,7 @@ public final class PageDAO implements IPageDAO
     public Collection<Page> selectChildPages( int nParentPageId )
     {
         Collection<Page> pageList = new ArrayList<>( );
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_CHILDPAGE ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_CHILDPAGE ) )
         {
             daoUtil.setInt( 1, nParentPageId );
 
@@ -486,7 +486,7 @@ public final class PageDAO implements IPageDAO
     public Collection<Page> selectChildPagesMinimalData( int nParentPageId )
     {
         Collection<Page> pageList = new ArrayList<>( );
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_CHILDPAGE_MINIMAL_DATA ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_CHILDPAGE_MINIMAL_DATA ) )
         {
             daoUtil.setInt( 1, nParentPageId );
 
@@ -515,7 +515,7 @@ public final class PageDAO implements IPageDAO
     public List<Page> selectAllPages( )
     {
         List<Page> pageList = new ArrayList<>( );
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL ) )
         {
             daoUtil.executeQuery( );
 
@@ -558,7 +558,7 @@ public final class PageDAO implements IPageDAO
      */
     public void invalidatePage( int nPageId )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE_PAGE_DATE ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE_PAGE_DATE ) )
         {
 
             daoUtil.setTimestamp( 1, new Timestamp( new java.util.Date( ).getTime( ) ) );
@@ -574,7 +574,7 @@ public final class PageDAO implements IPageDAO
     public ReferenceList getPagesList( )
     {
         ReferenceList listPages = new ReferenceList( );
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL_NODE_PAGE ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL_NODE_PAGE ) )
         {
             daoUtil.executeQuery( );
 
@@ -601,7 +601,7 @@ public final class PageDAO implements IPageDAO
     public Collection<Page> getPagesByRoleKey( String strRoleKey )
     {
         Collection<Page> pageList = new ArrayList<>( );
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_BY_ROLE_KEY ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_BY_ROLE_KEY ) )
         {
             daoUtil.setString( 1, strRoleKey );
 
@@ -648,7 +648,7 @@ public final class PageDAO implements IPageDAO
     public int selectNewChildPageOrder( int nParentPageId )
     {
         int nPageOrder;
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_NEW_CHILD_PAGE_ORDER ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_NEW_CHILD_PAGE_ORDER ) )
         {
             daoUtil.setInt( 1, nParentPageId );
             daoUtil.executeQuery( );
@@ -672,7 +672,7 @@ public final class PageDAO implements IPageDAO
     public ImageResource loadImageResource( int nIdPage )
     {
         ImageResource image = null;
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_RESOURCE_IMAGE ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_RESOURCE_IMAGE ) )
         {
             daoUtil.setInt( 1, nIdPage );
             daoUtil.executeQuery( );
@@ -699,7 +699,7 @@ public final class PageDAO implements IPageDAO
     public boolean checkPageExist( int nPageId )
     {
         boolean bPageExisted = false;
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_CHECK_PAGE_EXIST ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_CHECK_PAGE_EXIST ) )
         {
 
             daoUtil.setInt( 1, nPageId );
@@ -721,7 +721,7 @@ public final class PageDAO implements IPageDAO
     public Page loadLastModifiedPage( )
     {
         Page page = null;
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_LAST_MODIFIED_PAGE ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_LAST_MODIFIED_PAGE ) )
         {
 
             daoUtil.executeQuery( );
@@ -769,7 +769,7 @@ public final class PageDAO implements IPageDAO
         StringBuilder strSQl = new StringBuilder( );
         strSQl.append( SQL_QUERY_UPDATE_AUTORISATION_NODE );
 
-        try( DAOUtil daoUtil = new DAOUtil( strSQl.toString( ) ) )
+        try ( DAOUtil daoUtil = new DAOUtil( strSQl.toString( ) ) )
         {
 
             if ( nIdAutorisationNode != null )
@@ -793,7 +793,7 @@ public final class PageDAO implements IPageDAO
     public List<Integer> selectPageForChangeAutorisationNode( int nIdParentPage )
     {
         List<Integer> listIdPage = new ArrayList<>( );
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_CHILD_PAGE_FOR_MODIFY_AUTORISATION_NODE ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_CHILD_PAGE_FOR_MODIFY_AUTORISATION_NODE ) )
         {
 
             daoUtil.setInt( 1, nIdParentPage );

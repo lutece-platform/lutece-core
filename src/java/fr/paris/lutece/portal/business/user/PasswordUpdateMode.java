@@ -40,5 +40,6 @@ package fr.paris.lutece.portal.business.user;
  */
 public enum PasswordUpdateMode
 {
-    UPDATE, IGNORE,
+    UPDATE,
+    IGNORE,
 }

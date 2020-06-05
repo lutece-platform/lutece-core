@@ -393,7 +393,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
         {
             String strCause = AdminMessageService.getFormattedList( listErrors, getLocale( ) );
             Object [ ] args = {
-                strCause
+                    strCause
             };
 
             return AdminMessageService.getMessageUrl( request, MESSAGE_CANNOT_REMOVE_ROLE, args, AdminMessage.TYPE_STOP );
@@ -849,8 +849,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
         RBACRole role = RBACRoleHome.findByPrimaryKey( strRoleKey );
 
         // ASSIGNED USERS
-        List<AdminUser> listAssignedUsers = AdminUserHome.findByRole( strRoleKey )
-                .stream( ).filter( this::isUserHigherThanConnectedUser )
+        List<AdminUser> listAssignedUsers = AdminUserHome.findByRole( strRoleKey ).stream( ).filter( this::isUserHigherThanConnectedUser )
                 .collect( Collectors.toList( ) );
 
         List<AdminUser> listFilteredUsers = AdminUserService.getFilteredUsersInterface( listAssignedUsers, request, model, url );
@@ -863,9 +862,8 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
             final ReferenceItem itemUser = new ReferenceItem( );
             itemUser.setCode( Integer.toString( user.getUserId( ) ) );
             itemUser.setName( user.getAccessCode( ) + "(" + user.getFirstName( ) + " " + user.getLastName( ) + ")" );
-            
-            boolean bAssigned = listAssignedUsers
-                    .stream( )
+
+            boolean bAssigned = listAssignedUsers.stream( )
                     .anyMatch( assignedUser -> Integer.toString( assignedUser.getUserId( ) ).equals( itemUser.getCode( ) ) );
 
             // Add users with higher level then connected user or add all users if connected user is administrator

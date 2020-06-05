@@ -32,7 +32,6 @@
  * License 1.0
  */
 
-
 package fr.paris.lutece.util.env;
 
 import java.io.IOException;
@@ -45,7 +44,7 @@ import java.util.regex.Pattern;
 /**
  * EnvUtil
  */
-public final class EnvUtil 
+public final class EnvUtil
 {
     public static final String PREFIX_ENV = "env.";
     private static final String SUFFIX_FILE = "_FILE";
@@ -53,9 +52,8 @@ public final class EnvUtil
 
     private static Pattern _pattern = Pattern.compile( PATTERN_MARKER );
 
-    private static Map<String, String> _mapEnv = System.getenv();
+    private static Map<String, String> _mapEnv = System.getenv( );
 
-    
     // Private constructor
     private EnvUtil( )
     {
@@ -63,22 +61,27 @@ public final class EnvUtil
 
     /**
      * Evaluate a string that may contain a reference to an environement variable enclosed by ${...}
-     * @param strSource The source string
+     * 
+     * @param strSource
+     *            The source string
      * @return The source string or the env variable's value if found.
      */
     public static String evaluate( String strSource )
     {
         return evaluate( strSource, "" );
     }
-    
+
     /**
-     * Evaluate a string that may contain a reference to an environement variable enclosed by ${...}.
-     * If the environement variable has a suffix _FILE the evaluation will take the content of the file as value.
-     * @param strSource The source string
-     * @param strEnvPrefix A prefix of the environment
+     * Evaluate a string that may contain a reference to an environement variable enclosed by ${...}. If the environement variable has a suffix _FILE the
+     * evaluation will take the content of the file as value.
+     * 
+     * @param strSource
+     *            The source string
+     * @param strEnvPrefix
+     *            A prefix of the environment
      * @return The source string or the env variable's value if found.
      */
-    public static String evaluate( String strSource , String strEnvPrefix )
+    public static String evaluate( String strSource, String strEnvPrefix )
     {
         String strOutput = ( strSource != null ) ? strSource : "";
         Matcher matcher = _pattern.matcher( strOutput );
@@ -86,47 +89,50 @@ public final class EnvUtil
 
         while ( matcher.find( ) )
         {
-            String strMarker = matcher.group();
-            String strEnvVariable = strMarker.substring( 2 + strEnvPrefix.length(), strMarker.length() - 1 );
+            String strMarker = matcher.group( );
+            String strEnvVariable = strMarker.substring( 2 + strEnvPrefix.length( ), strMarker.length( ) - 1 );
             String strValue = _mapEnv.get( strEnvVariable );
-            if( strEnvVariable.endsWith( SUFFIX_FILE ))
+            if ( strEnvVariable.endsWith( SUFFIX_FILE ) )
             {
                 strValue = getFileContent( strValue );
             }
-            strValue = strValue==null? "" : strValue;
-            strOutput = strOutput.substring( 0 , matcher.start() + offset ) + strValue + strOutput.substring( matcher.end() + offset );
-            offset += strValue.length() - strMarker.length();
+            strValue = strValue == null ? "" : strValue;
+            strOutput = strOutput.substring( 0, matcher.start( ) + offset ) + strValue + strOutput.substring( matcher.end( ) + offset );
+            offset += strValue.length( ) - strMarker.length( );
         }
         return strOutput;
     }
 
     /**
      * Mock Env map for unit testing
-     * @param mapEnv a mock map
+     * 
+     * @param mapEnv
+     *            a mock map
      */
     static void setMockMapEnv( Map<String, String> mapEnv )
     {
         _mapEnv = mapEnv;
     }
-    
+
     /**
      * Gets the content of a file as a String
-     * @param strFilePath The file path
-     * @return The file content or the error message while reading the message 
+     * 
+     * @param strFilePath
+     *            The file path
+     * @return The file content or the error message while reading the message
      */
     private static String getFileContent( String strFilePath )
     {
         String strData;
         try
         {
-            strData = new String ( Files.readAllBytes( Paths.get( strFilePath) ) );
-        } 
-        catch (IOException e) 
+            strData = new String( Files.readAllBytes( Paths.get( strFilePath ) ) );
+        }
+        catch( IOException e )
         {
-            return e.getMessage();
+            return e.getMessage( );
         }
         return strData;
     }
-
 
 }

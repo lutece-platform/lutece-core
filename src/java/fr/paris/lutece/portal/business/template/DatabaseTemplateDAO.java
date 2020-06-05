@@ -55,7 +55,7 @@ public class DatabaseTemplateDAO implements IDatabaseTemplateDAO
     public String getTemplateFromKey( String strKey )
     {
         String strTemplate = StringUtils.EMPTY;
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_TEMPLATE_FROM_KEY ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_TEMPLATE_FROM_KEY ) )
         {
             daoUtil.setString( 1, strKey );
 
@@ -77,7 +77,7 @@ public class DatabaseTemplateDAO implements IDatabaseTemplateDAO
     @Override
     public void updateTemplate( String strKey, String strValue )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_UPDATE_TEMPLATE ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_UPDATE_TEMPLATE ) )
         {
             daoUtil.setString( 1, strValue );
             daoUtil.setString( 2, strKey );

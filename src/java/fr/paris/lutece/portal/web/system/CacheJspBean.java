@@ -198,7 +198,7 @@ public class CacheJspBean extends AdminFeaturesPageJspBean
             if ( cs != null )
             {
                 Object [ ] messageArgs = {
-                    cs.getName( )
+                        cs.getName( )
                 };
 
                 Map<String, Object> parameters = new HashMap<>( );

@@ -65,7 +65,7 @@ public final class FeatureGroupDAO implements IFeatureGroupDAO
      */
     public void insert( FeatureGroup featureGroup )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT ) )
         {
 
             daoUtil.setString( 1, featureGroup.getId( ) );
@@ -87,7 +87,7 @@ public final class FeatureGroupDAO implements IFeatureGroupDAO
     public FeatureGroup load( String strIdFeatureGroup )
     {
         FeatureGroup featureGroup = null;
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT ) )
         {
             daoUtil.setString( 1, strIdFeatureGroup );
 
@@ -115,7 +115,7 @@ public final class FeatureGroupDAO implements IFeatureGroupDAO
      */
     public void delete( String strIdFeatureGroup )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE ) )
         {
             daoUtil.setString( 1, strIdFeatureGroup );
             daoUtil.executeUpdate( );
@@ -130,7 +130,7 @@ public final class FeatureGroupDAO implements IFeatureGroupDAO
      */
     public void store( FeatureGroup featureGroup )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE ) )
         {
 
             daoUtil.setString( 1, featureGroup.getDescriptionKey( ) );
@@ -150,7 +150,7 @@ public final class FeatureGroupDAO implements IFeatureGroupDAO
     public List<FeatureGroup> selectFeatureGroupsList( )
     {
         List<FeatureGroup> featureGroupList = new ArrayList<>( );
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL ) )
         {
             daoUtil.executeQuery( );
 
@@ -179,7 +179,7 @@ public final class FeatureGroupDAO implements IFeatureGroupDAO
     public int selectFeatureGroupsCount( )
     {
         int nCount = 0;
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_COUNT_FEATUREGROUP ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_COUNT_FEATUREGROUP ) )
         {
 
             daoUtil.executeQuery( );

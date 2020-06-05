@@ -83,7 +83,7 @@ public class AttributeDAO implements IAttributeDAO
     private int newPosition( )
     {
         int nPos;
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_NEW_POSITION ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_NEW_POSITION ) )
         {
             daoUtil.executeQuery( );
 
@@ -111,7 +111,7 @@ public class AttributeDAO implements IAttributeDAO
     public IAttribute load( int nIdAttribute, Locale locale )
     {
         IAttribute attribute = null;
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT ) )
         {
             daoUtil.setInt( 1, nIdAttribute );
             daoUtil.executeQuery( );
@@ -160,7 +160,7 @@ public class AttributeDAO implements IAttributeDAO
      */
     public int insert( IAttribute attribute )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT, Statement.RETURN_GENERATED_KEYS ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT, Statement.RETURN_GENERATED_KEYS ) )
         {
             int nIndex = 1;
             daoUtil.setString( nIndex++, attribute.getClass( ).getName( ) );
@@ -192,7 +192,7 @@ public class AttributeDAO implements IAttributeDAO
     public void store( IAttribute attribute )
     {
         int nIndex = 1;
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE ) )
         {
             daoUtil.setString( nIndex++, attribute.getTitle( ) );
             daoUtil.setString( nIndex++, attribute.getHelpMessage( ) );
@@ -215,7 +215,7 @@ public class AttributeDAO implements IAttributeDAO
      */
     public void delete( int nIdAttribute )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE ) )
         {
             daoUtil.setInt( 1, nIdAttribute );
 
@@ -233,7 +233,7 @@ public class AttributeDAO implements IAttributeDAO
     public List<IAttribute> selectAll( Locale locale )
     {
         List<IAttribute> listAttributes = new ArrayList<>( );
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_ALL ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_ALL ) )
         {
             daoUtil.executeQuery( );
 
@@ -289,7 +289,7 @@ public class AttributeDAO implements IAttributeDAO
     {
         int nIndex = 1;
         List<IAttribute> listAttributes = new ArrayList<>( );
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_PLUGIN_ATTRIBUTES ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_PLUGIN_ATTRIBUTES ) )
         {
             daoUtil.setString( 1, strPluginName );
             daoUtil.executeQuery( );
@@ -343,7 +343,7 @@ public class AttributeDAO implements IAttributeDAO
     public List<IAttribute> selectCoreAttributes( Locale locale )
     {
         List<IAttribute> listAttributes = new ArrayList<>( );
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_CORE_ATTRIBUTES ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_CORE_ATTRIBUTES ) )
         {
             daoUtil.executeQuery( );
 
@@ -392,7 +392,7 @@ public class AttributeDAO implements IAttributeDAO
      */
     public void updateAttributeAnonymization( int nIdAttribute, boolean bAnonymize )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE_ANONYMIZATION ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE_ANONYMIZATION ) )
         {
             daoUtil.setBoolean( 1, bAnonymize );
             daoUtil.setInt( 2, nIdAttribute );

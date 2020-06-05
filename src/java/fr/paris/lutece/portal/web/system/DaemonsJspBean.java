@@ -121,7 +121,7 @@ public class DaemonsJspBean extends AdminPageJspBean
                 String strDaemonInterval = request.getParameter( PARAMETER_INTERVAL );
 
                 Object [ ] tabFieldInterval = {
-                    I18nService.getLocalizedString( PROPERTY_FIELD_INTERVAL, getLocale( ) )
+                        I18nService.getLocalizedString( PROPERTY_FIELD_INTERVAL, getLocale( ) )
                 };
 
                 if ( StringUtils.isEmpty( strDaemonInterval ) )

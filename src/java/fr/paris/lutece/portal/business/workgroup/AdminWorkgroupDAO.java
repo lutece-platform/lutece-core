@@ -70,7 +70,7 @@ public final class AdminWorkgroupDAO implements IAdminWorkgroupDAO
      */
     public void insert( AdminWorkgroup workgroup )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT ) )
         {
             daoUtil.setString( 1, workgroup.getKey( ) );
             daoUtil.setString( 2, workgroup.getDescription( ) );
@@ -85,7 +85,7 @@ public final class AdminWorkgroupDAO implements IAdminWorkgroupDAO
     public AdminWorkgroup load( String strWorkgroupKey )
     {
         AdminWorkgroup workgroup = null;
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT ) )
         {
             daoUtil.setString( 1, strWorkgroupKey );
             daoUtil.executeQuery( );
@@ -107,7 +107,7 @@ public final class AdminWorkgroupDAO implements IAdminWorkgroupDAO
      */
     public void delete( String strWorkgroupKey )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE ) )
         {
             daoUtil.setString( 1, strWorkgroupKey );
 
@@ -120,7 +120,7 @@ public final class AdminWorkgroupDAO implements IAdminWorkgroupDAO
      */
     public void store( AdminWorkgroup workgroup )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE ) )
         {
             daoUtil.setString( 1, workgroup.getDescription( ) );
             daoUtil.setString( 2, workgroup.getKey( ) );
@@ -135,7 +135,7 @@ public final class AdminWorkgroupDAO implements IAdminWorkgroupDAO
     public Collection<AdminWorkgroup> selectWorkgroupList( )
     {
         Collection<AdminWorkgroup> listWorkgroups = new ArrayList<>( );
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL ) )
         {
             daoUtil.executeQuery( );
 
@@ -159,7 +159,7 @@ public final class AdminWorkgroupDAO implements IAdminWorkgroupDAO
     public boolean checkExistWorkgroup( String strWorkgroupKey )
     {
         boolean check = false;
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT ) )
         {
             daoUtil.setString( 1, strWorkgroupKey );
             daoUtil.executeQuery( );
@@ -178,7 +178,7 @@ public final class AdminWorkgroupDAO implements IAdminWorkgroupDAO
     public boolean isUserInWorkgroup( int nIdUser, String strWorkgroupKey )
     {
         boolean bInWorkgroup = false;
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_USER_WORKGROUP ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_USER_WORKGROUP ) )
         {
             daoUtil.setInt( 1, nIdUser );
             daoUtil.setString( 2, strWorkgroupKey );
@@ -200,7 +200,7 @@ public final class AdminWorkgroupDAO implements IAdminWorkgroupDAO
     public boolean checkUserHasWorkgroup( int nIdUser )
     {
         boolean check = false;
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_USER_IN_WORKGROUP ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_USER_IN_WORKGROUP ) )
         {
             daoUtil.setInt( 1, nIdUser );
             daoUtil.executeQuery( );
@@ -219,7 +219,7 @@ public final class AdminWorkgroupDAO implements IAdminWorkgroupDAO
     public ReferenceList getUserWorkgroups( int nIdUser )
     {
         ReferenceList listWorkgroups = new ReferenceList( );
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_USER_WORKGROUPS ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_USER_WORKGROUPS ) )
         {
             daoUtil.setInt( 1, nIdUser );
             daoUtil.executeQuery( );
@@ -240,7 +240,7 @@ public final class AdminWorkgroupDAO implements IAdminWorkgroupDAO
     public Collection<AdminUser> getUsersListForWorkgroup( String strWorkgroupKey )
     {
         Collection<AdminUser> listUsers = new ArrayList<>( );
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_USERS_LIST_FOR_WORKGROUP ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_USERS_LIST_FOR_WORKGROUP ) )
         {
             daoUtil.setString( 1, strWorkgroupKey );
             daoUtil.executeQuery( );
@@ -267,7 +267,7 @@ public final class AdminWorkgroupDAO implements IAdminWorkgroupDAO
      */
     public void deleteAllUsersForWorkgroup( String strWorkgroupKey )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE_ALL_USERS_WORKGROUP ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE_ALL_USERS_WORKGROUP ) )
         {
             daoUtil.setString( 1, strWorkgroupKey );
             daoUtil.executeUpdate( );
@@ -279,7 +279,7 @@ public final class AdminWorkgroupDAO implements IAdminWorkgroupDAO
      */
     public void insertUserForWorkgroup( AdminUser user, String strWorkgroupKey )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT_USER_WORKGROUP ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT_USER_WORKGROUP ) )
         {
             daoUtil.setString( 1, strWorkgroupKey );
             daoUtil.setInt( 2, user.getUserId( ) );
@@ -292,7 +292,7 @@ public final class AdminWorkgroupDAO implements IAdminWorkgroupDAO
      */
     public void deleteUserFromWorkgroup( int nUserId, String strWorkgroupKey )
     {
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE_USER_FROM_WORKGROUP ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE_USER_FROM_WORKGROUP ) )
         {
             daoUtil.setString( 1, strWorkgroupKey );
             daoUtil.setInt( 2, nUserId );
@@ -310,7 +310,7 @@ public final class AdminWorkgroupDAO implements IAdminWorkgroupDAO
     public Collection<AdminWorkgroup> selectWorkgroupsByFilter( AdminWorkgroupFilter awFilter )
     {
         Collection<AdminWorkgroup> listFilteredWorkgroups = new ArrayList<>( );
-        try( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_WORKGROUP_FROM_SEARCH ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_WORKGROUP_FROM_SEARCH ) )
         {
 
             daoUtil.setString( 1, CONSTANT_PERCENT + awFilter.getKey( ) + CONSTANT_PERCENT );

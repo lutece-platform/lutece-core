@@ -206,7 +206,7 @@ public class AuthenticationFilter implements Filter
      *            the http request
      * @return the login url, in its absolute form
      *
-     * */
+     */
     private String getLoginUrl( HttpServletRequest request )
     {
         String strLoginUrl = AdminAuthenticationService.getInstance( ).getLoginPageUrl( );
@@ -233,7 +233,7 @@ public class AuthenticationFilter implements Filter
      *            the http request
      * @return the login url, in its absolute form
      *
-     * */
+     */
     private String getChangePasswordUrl( HttpServletRequest request )
     {
         String strChangePasswordUrl = AdminAuthenticationService.getInstance( ).getChangePasswordPageUrl( );
@@ -249,14 +249,14 @@ public class AuthenticationFilter implements Filter
      *            the http request
      * @return true if the url needs to be authenticated, false otherwise
      *
-     * */
+     */
     private boolean isPrivateUrl( HttpServletRequest request )
     {
         String strUrl = getResquestedUrl( request );
         Set<String> allowedUrlSet = createAllowedUrlSet( request );
         return !allowedUrlSet.contains( strUrl ) && !isInPublicUrlList( request, strUrl );
     }
-    
+
     private Set<String> createAllowedUrlSet( HttpServletRequest request )
     {
         Set<String> set = new HashSet<>( );
@@ -309,7 +309,7 @@ public class AuthenticationFilter implements Filter
      *            the url to test : it should start with "http://" is absolute, or should be relative to the webapp root otherwise
      * @return true if the url is in the list, false otherwise
      *
-     * */
+     */
     private boolean isInPublicUrlList( HttpServletRequest request, String strRequestedUrl )
     {
         // recovers list from the
@@ -343,7 +343,7 @@ public class AuthenticationFilter implements Filter
      *            the url to transform
      * @return the corresponding absolute url
      *
-     * */
+     */
     private String getAbsoluteUrl( HttpServletRequest request, String strUrl )
     {
         if ( ( strUrl != null ) && !strUrl.startsWith( "http://" ) && !strUrl.startsWith( "https://" ) )
@@ -361,7 +361,7 @@ public class AuthenticationFilter implements Filter
      *            the http request (provides the base path if needed)
      * @return the requested url has a string
      *
-     * */
+     */
     private String getResquestedUrl( HttpServletRequest request )
     {
         return AppPathService.getBaseUrl( request ) + request.getServletPath( ).substring( 1 );

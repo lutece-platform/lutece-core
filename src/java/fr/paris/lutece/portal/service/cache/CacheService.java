@@ -281,7 +281,7 @@ public final class CacheService
         String strCachesStatusFile = AppPathService.getPath( PROPERTY_PATH_CONF, FILE_CACHES_STATUS );
         File file = new File( strCachesStatusFile );
 
-        try( FileInputStream fis = new FileInputStream( file ) )
+        try ( FileInputStream fis = new FileInputStream( file ) )
         {
             Properties properties = new Properties( );
             properties.load( fis );
