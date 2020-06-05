@@ -1,51 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!DOCTYPE digester-rules PUBLIC
-"-//Jakarta Apache //DTD digester-rules XML V1.0//EN"
-"digester-rules.dtd">
+<!DOCTYPE digester-rules PUBLIC "-//Jakarta Apache //DTD digester-rules XML V1.0//EN" "digester-rules.dtd">
 <digester-rules>
     <pattern value="plug-in">
         <bean-property-setter-rule pattern="name" />
-        <bean-property-setter-rule pattern="version"/>
-        <bean-property-setter-rule pattern="description"/>
-        <bean-property-setter-rule pattern="provider"/>
+        <bean-property-setter-rule pattern="version" />
+        <bean-property-setter-rule pattern="description" />
+        <bean-property-setter-rule pattern="provider" />
         <bean-property-setter-rule pattern="provider-url" propertyname="providerUrl" />
-        <bean-property-setter-rule pattern="copyright"/>
+        <bean-property-setter-rule pattern="copyright" />
         <bean-property-setter-rule pattern="class" propertyname="pluginClass" />
-        <bean-property-setter-rule pattern="icon-url" propertyname="iconUrl"/>
+        <bean-property-setter-rule pattern="icon-url" propertyname="iconUrl" />
         <bean-property-setter-rule pattern="db-pool-required" propertyname="isDbPoolRequired" />
         <pattern value="core-version-dependency">
-            <bean-property-setter-rule pattern="min-core-version" propertyname="minCoreVersion" />
-            <bean-property-setter-rule pattern="max-core-version" propertyname="maxCoreVersion" />
-         </pattern>
-         <pattern value="freemarker-macro-files">
-            <call-method-rule pattern="freemarker-macro-file" methodname="addFreemarkerMacrosFile" paramcount="1" />
-            <call-param-rule pattern="freemarker-macro-file" paramnumber="0"/>
+            <bean-property-setter-rule pattern="min-core-version"
+                propertyname="minCoreVersion" />
+            <bean-property-setter-rule pattern="max-core-version"
+                propertyname="maxCoreVersion" />
+        </pattern>
+        <pattern value="freemarker-macro-files">
+            <call-method-rule pattern="freemarker-macro-file" methodname="addFreemarkerMacrosFile"
+                paramcount="1" />
+            <call-param-rule pattern="freemarker-macro-file" paramnumber="0" />
         </pattern>
         <pattern value="css-stylesheets">
-            <bean-property-setter-rule pattern="css-stylesheets-scope" propertyname="cssStylesheetsScope"/>
+            <bean-property-setter-rule pattern="css-stylesheets-scope"
+                propertyname="cssStylesheetsScope" />
             <call-method-rule pattern="css-stylesheet" methodname="addCssStyleSheet" paramcount="2" />
-            <call-param-rule pattern="css-stylesheet" paramnumber="0"/>
+            <call-param-rule pattern="css-stylesheet" paramnumber="0" />
             <call-param-rule pattern="css-stylesheet" attrname="mode" paramnumber="1" />
         </pattern>
         <pattern value="admin-css-stylesheets">
-            <call-method-rule pattern="admin-css-stylesheet" methodname="addAdminCssStyleSheet" paramcount="1" />
-            <call-param-rule pattern="admin-css-stylesheet" paramnumber="0"/>
+            <call-method-rule pattern="admin-css-stylesheet" methodname="addAdminCssStyleSheet"
+                paramcount="1" />
+            <call-param-rule pattern="admin-css-stylesheet" paramnumber="0" />
         </pattern>
         <pattern value="javascript-files">
-            <bean-property-setter-rule pattern="javascript-files-scope" propertyname="javascriptFilesScope"/>
+            <bean-property-setter-rule pattern="javascript-files-scope"
+                propertyname="javascriptFilesScope" />
             <call-method-rule pattern="javascript-file" methodname="addJavascriptFile" paramcount="2" />
-            <call-param-rule pattern="javascript-file" paramnumber="0"/>
+            <call-param-rule pattern="javascript-file" paramnumber="0" />
             <call-param-rule pattern="javascript-file" attrname="mode" paramnumber="1" />
         </pattern>
         <pattern value="admin-javascript-files">
-            <call-method-rule pattern="admin-javascript-file" methodname="addAdminJavascriptFile" paramcount="1" />
-            <call-param-rule pattern="admin-javascript-file" paramnumber="0"/>
+            <call-method-rule pattern="admin-javascript-file" methodname="addAdminJavascriptFile"
+                paramcount="1" />
+            <call-param-rule pattern="admin-javascript-file" paramnumber="0" />
         </pattern>
         <pattern value="content-services/content-service">
-            <object-create-rule classname="fr.paris.lutece.portal.service.content.ContentServiceEntry" />
+            <object-create-rule
+                classname="fr.paris.lutece.portal.service.content.ContentServiceEntry" />
             <set-properties-rule />
-            <bean-property-setter-rule pattern="content-service-class" propertyname="className" />
+            <bean-property-setter-rule pattern="content-service-class"
+                propertyname="className" />
             <set-next-rule methodname="addContentService" />
         </pattern>
         <pattern value="search-indexers/search-indexer">
@@ -60,7 +67,8 @@
             <bean-property-setter-rule pattern="insert-service-id" propertyname="id" />
             <bean-property-setter-rule pattern="insert-service-name" propertyname="nameKey" />
             <bean-property-setter-rule pattern="insert-service-label" propertyname="labelKey" />
-            <bean-property-setter-rule pattern="insert-service-bean-class" propertyname="actionBeanClassName" />
+            <bean-property-setter-rule pattern="insert-service-bean-class"
+                propertyname="actionBeanClassName" />
             <set-next-rule methodname="addInsertService" />
         </pattern>
         <pattern value="applications/application">
@@ -80,8 +88,8 @@
             <bean-property-setter-rule pattern="url-pattern" propertyname="mappingUrlPattern" />
             <bean-property-setter-rule pattern="filter-order" propertyname="order" />
             <call-method-rule pattern="init-param" methodname="addParameter" paramcount="2" />
-            <call-param-rule pattern="init-param/param-name" paramnumber="0"/>
-            <call-param-rule pattern="init-param/param-value" paramnumber="1"/>
+            <call-param-rule pattern="init-param/param-name" paramnumber="0" />
+            <call-param-rule pattern="init-param/param-value" paramnumber="1" />
             <set-next-rule methodname="addFilter" />
         </pattern>
         <pattern value="servlets/servlet">
@@ -91,12 +99,13 @@
             <bean-property-setter-rule pattern="servlet-class" propertyname="servletClass" />
             <bean-property-setter-rule pattern="url-pattern" propertyname="mappingUrlPattern" />
             <call-method-rule pattern="init-param" methodname="addParameter" paramcount="2" />
-            <call-param-rule pattern="init-param/param-name" paramnumber="0"/>
-            <call-param-rule pattern="init-param/param-value" paramnumber="1"/>
+            <call-param-rule pattern="init-param/param-name" paramnumber="0" />
+            <call-param-rule pattern="init-param/param-value" paramnumber="1" />
             <set-next-rule methodname="addServlet" />
         </pattern>
         <pattern value="listeners/listener">
-            <object-create-rule classname="fr.paris.lutece.portal.service.sessionlistener.HttpSessionListenerEntry" />
+            <object-create-rule
+                classname="fr.paris.lutece.portal.service.sessionlistener.HttpSessionListenerEntry" />
             <set-properties-rule />
             <bean-property-setter-rule pattern="listener-class" propertyname="listenerClass" />
             <set-next-rule methodname="addListener" />
@@ -106,12 +115,14 @@
             <set-properties-rule />
             <bean-property-setter-rule pattern="feature-id" propertyname="id" />
             <bean-property-setter-rule pattern="feature-title" propertyname="nameKey" />
-            <bean-property-setter-rule pattern="feature-description" propertyname="descriptionKey" />
+            <bean-property-setter-rule pattern="feature-description"
+                propertyname="descriptionKey" />
             <bean-property-setter-rule pattern="feature-url" propertyname="url" />
             <bean-property-setter-rule pattern="feature-level" propertyname="level" />
             <bean-property-setter-rule pattern="feature-group" propertyname="featureGroup" />
             <bean-property-setter-rule pattern="icon-url" propertyname="iconUrl" />
-            <bean-property-setter-rule pattern="feature-documentation-url" propertyname="documentationUrl" />
+            <bean-property-setter-rule pattern="feature-documentation-url"
+                propertyname="documentationUrl" />
             <set-next-rule methodname="addRight" />
         </pattern>
         <pattern value="portlets/portlet">
@@ -120,16 +131,25 @@
             <bean-property-setter-rule pattern="portlet-type-id" propertyname="id" />
             <bean-property-setter-rule pattern="portlet-type-name" propertyname="nameKey" />
             <bean-property-setter-rule pattern="portlet-class" propertyname="homeClass" />
-            <bean-property-setter-rule pattern="portlet-creation-url" propertyname="urlCreation" />
+            <bean-property-setter-rule pattern="portlet-creation-url"
+                propertyname="urlCreation" />
             <bean-property-setter-rule pattern="portlet-update-url" propertyname="urlUpdate" />
-            <bean-property-setter-rule pattern="portlet-create-action-url" propertyname="doCreateUrl" />
-            <bean-property-setter-rule pattern="portlet-create-script-template" propertyname="createScriptTemplate" />
-            <bean-property-setter-rule pattern="portlet-create-specific-template" propertyname="createSpecificTemplate" />
-            <bean-property-setter-rule pattern="portlet-create-specific-form-template" propertyname="createSpecificFormTemplate" />
-            <bean-property-setter-rule pattern="portlet-modify-action-url" propertyname="doModifyUrl" />
-            <bean-property-setter-rule pattern="portlet-modify-script-template" propertyname="modifyScriptTemplate" />
-            <bean-property-setter-rule pattern="portlet-modify-specific-template" propertyname="modifySpecificTemplate" />
-            <bean-property-setter-rule pattern="portlet-modify-specific-form-template" propertyname="modifySpecificFormTemplate" />
+            <bean-property-setter-rule pattern="portlet-create-action-url"
+                propertyname="doCreateUrl" />
+            <bean-property-setter-rule pattern="portlet-create-script-template"
+                propertyname="createScriptTemplate" />
+            <bean-property-setter-rule pattern="portlet-create-specific-template"
+                propertyname="createSpecificTemplate" />
+            <bean-property-setter-rule pattern="portlet-create-specific-form-template"
+                propertyname="createSpecificFormTemplate" />
+            <bean-property-setter-rule pattern="portlet-modify-action-url"
+                propertyname="doModifyUrl" />
+            <bean-property-setter-rule pattern="portlet-modify-script-template"
+                propertyname="modifyScriptTemplate" />
+            <bean-property-setter-rule pattern="portlet-modify-specific-template"
+                propertyname="modifySpecificTemplate" />
+            <bean-property-setter-rule pattern="portlet-modify-specific-form-template"
+                propertyname="modifySpecificFormTemplate" />
             <set-next-rule methodname="addPortletType" />
         </pattern>
         <pattern value="daemons/daemon">
@@ -137,42 +157,49 @@
             <set-properties-rule />
             <bean-property-setter-rule pattern="daemon-id" propertyname="id" />
             <bean-property-setter-rule pattern="daemon-name" propertyname="nameKey" />
-            <bean-property-setter-rule pattern="daemon-description" propertyname="descriptionKey" />
+            <bean-property-setter-rule pattern="daemon-description"
+                propertyname="descriptionKey" />
             <bean-property-setter-rule pattern="daemon-class" propertyname="className" />
             <set-next-rule methodname="addDaemon" />
         </pattern>
         <pattern value="rbac-resource-types/rbac-resource-type">
             <object-create-rule classname="fr.paris.lutece.portal.service.rbac.RBACResourceTypeEntry" />
             <set-properties-rule />
-            <bean-property-setter-rule pattern="rbac-resource-type-class" propertyname="className" />
+            <bean-property-setter-rule pattern="rbac-resource-type-class"
+                propertyname="className" />
             <set-next-rule methodname="addRBACResourceType" />
         </pattern>
         <pattern value="page-include-services/page-include-service">
             <object-create-rule classname="fr.paris.lutece.portal.service.includes.PageIncludeEntry" />
             <set-properties-rule />
             <bean-property-setter-rule pattern="page-include-service-id" propertyname="id" />
-            <bean-property-setter-rule pattern="page-include-service-class" propertyname="className" />
+            <bean-property-setter-rule pattern="page-include-service-class"
+                propertyname="className" />
             <bean-property-setter-rule pattern="enabled" propertyname="enabled" />
             <set-next-rule methodname="addPageInclude" />
         </pattern>
         <pattern value="params">
             <call-method-rule pattern="param" methodname="addParameter" paramcount="2" />
-            <call-param-rule pattern="param/param-name" paramnumber="0"/>
-            <call-param-rule pattern="param/param-value" paramnumber="1"/>
+            <call-param-rule pattern="param/param-name" paramnumber="0" />
+            <call-param-rule pattern="param/param-value" paramnumber="1" />
         </pattern>
         <pattern value="dashboard-components/dashboard-component">
-            <object-create-rule classname="fr.paris.lutece.portal.service.dashboard.DashboardComponentEntry" />
+            <object-create-rule
+                classname="fr.paris.lutece.portal.service.dashboard.DashboardComponentEntry" />
             <set-properties-rule />
             <bean-property-setter-rule pattern="dashboard-component-name" propertyname="name" />
-            <bean-property-setter-rule pattern="dashboard-component-class" propertyname="componentClass" />
+            <bean-property-setter-rule pattern="dashboard-component-class"
+                propertyname="componentClass" />
             <bean-property-setter-rule pattern="dashboard-feature-right" propertyname="right" />
             <set-next-rule methodname="addDashboardComponent" />
         </pattern>
         <pattern value="admindashboard-components/admindashboard-component">
-            <object-create-rule classname="fr.paris.lutece.portal.service.dashboard.DashboardComponentEntry" />
+            <object-create-rule
+                classname="fr.paris.lutece.portal.service.dashboard.DashboardComponentEntry" />
             <set-properties-rule />
             <bean-property-setter-rule pattern="dashboard-component-name" propertyname="name" />
-            <bean-property-setter-rule pattern="dashboard-component-class" propertyname="componentClass" />
+            <bean-property-setter-rule pattern="dashboard-component-class"
+                propertyname="componentClass" />
             <set-next-rule methodname="addAdminDashboardComponent" />
         </pattern>
     </pattern>

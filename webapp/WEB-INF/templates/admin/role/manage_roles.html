@@ -2,8 +2,8 @@
   <@columns>
     <@box color='success'>
       <@boxHeader title='#i18n{portal.role.manage_roles.boxTitle}' boxTools=true>
-          <@tform class='form-inline' method='post' action='jsp/admin/role/CreatePageRole.jsp'>
-            <@button type='submit' buttonIcon='plus' title='#i18n{portal.role.manage_roles.buttonLabelCreate}' size='' showTitleXs=false showTitleSm=false />
+          <@tform type='inline' method='post' action='jsp/admin/role/CreatePageRole.jsp'>
+            <@button type='submit' buttonIcon='plus' title='#i18n{portal.role.manage_roles.buttonLabelCreate}' size='' hideTitle=['xs','sm'] size='sm' />
           </@tform>
       </@boxHeader>
       <!-- /.box-header -->
@@ -25,8 +25,8 @@
 								<td>${role.roleDescription}</td>
 								<td>${role.workgroup}</td>
 								<td>
-									<@aButton href='jsp/admin/role/ModifyPageRole.jsp?role=${role.role}' title='#i18n{portal.util.labelModify} (${role.role})' buttonIcon='pencil' showTitle=false />
-									<@aButton color='btn-danger' href='jsp/admin/role/RemovePageRole.jsp?role=${role.role}' title='#i18n{portal.util.labelDelete} (${role.role})' buttonIcon='trash'  showTitle=false />
+									<@aButton href='jsp/admin/role/ModifyPageRole.jsp?role=${role.role}' title='#i18n{portal.util.labelModify} (${role.role})' buttonIcon='edit' size='sm' hideTitle=['all'] />
+									<@aButton color='danger' href='jsp/admin/role/RemovePageRole.jsp?role=${role.role}' title='#i18n{portal.util.labelDelete} (${role.role})' buttonIcon='trash' size='sm' hideTitle=['all'] />
 								</td>
 							</tr>
 							</#if>

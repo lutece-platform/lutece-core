@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,56 +33,13 @@
  */
 package fr.paris.lutece.portal.business.rbac;
 
-import java.io.Serializable;
-
 /**
- * This class describes a role used by the administration
+ * Admin Role
+ * 
+ * @deprecated Since 7.0 replaced by RBACRole
  */
-public class AdminRole implements Serializable
+@Deprecated
+public class AdminRole extends RBACRole
 {
-    private static final long serialVersionUID = 6596841223502982731L;
-    private String _strKey;
-    private String _strDescription;
 
-    /**
-     * Returns the role Key
-     * 
-     * @return The role Key.
-     */
-    public String getKey( )
-    {
-        return _strKey;
-    }
-
-    /**
-     * Sets the role key
-     * 
-     * @param strKey
-     *            The Key to set.
-     */
-    public void setKey( String strKey )
-    {
-        _strKey = strKey;
-    }
-
-    /**
-     * Returns the role description.
-     * 
-     * @return The description.
-     */
-    public String getDescription( )
-    {
-        return _strDescription;
-    }
-
-    /**
-     * Sets the role description
-     * 
-     * @param strDescription
-     *            The description to set.
-     */
-    public void setDescription( String strDescription )
-    {
-        _strDescription = strDescription;
-    }
 }

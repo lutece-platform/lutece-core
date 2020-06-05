@@ -2,14 +2,15 @@
     <parent>
         <artifactId>lutece-global-pom</artifactId>
         <groupId>fr.paris.lutece.tools</groupId>
-        <version>4.0.6</version>
+        <version>5.1.0</version>
+        <relativePath></relativePath>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>fr.paris.lutece</groupId>
     <artifactId>lutece-core</artifactId>
     <packaging>lutece-core</packaging>
-    <version>6.2.1</version>
+    <version>7.0.0-SNAPSHOT</version>
     <name>Lutece</name>
     <url>http://dev.lutece.paris.fr/</url>
 
@@ -38,12 +39,12 @@
         <dependency>
             <groupId>javax.activation</groupId>
             <artifactId>activation</artifactId>
-            <version>1.1</version>
+            <version>1.1.1</version>
         </dependency>
         <dependency>
             <groupId>com.mchange</groupId>
             <artifactId>c3p0</artifactId>
-            <version>0.9.5.3</version>
+            <version>0.9.5.4</version>
         </dependency>
         <dependency>
             <groupId>commons-beanutils</groupId>
@@ -58,7 +59,8 @@
             <artifactId>commons-digester</artifactId>
             <version>1.8.1</version>
         </dependency>
-        <dependency>
+
+        <dependency>       
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-digester3</artifactId>
             <version>3.2</version>
@@ -83,12 +85,6 @@
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
             <version>2.5</version>
-        </dependency>
-        <!-- commons-lang deprecated, use commons-lang3 instead. To be removed in the future -->
-        <dependency>
-            <groupId>commons-lang</groupId>
-            <artifactId>commons-lang</artifactId>
-            <version>2.6</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
@@ -197,6 +193,12 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
             <groupId>org.quartz-scheduler</groupId>
             <artifactId>quartz</artifactId>
             <version>2.2.3</version>
@@ -221,6 +223,12 @@
         <!-- Lutece API -->
         <dependency>
             <groupId>fr.paris.lutece.plugins</groupId>
+            <artifactId>library-user-api</artifactId>
+            <version>1.0.1-SNAPSHOT</version>
+            <type>jar</type> 
+        </dependency>
+        <dependency>
+            <groupId>fr.paris.lutece.plugins</groupId>
             <artifactId>library-rbac-api</artifactId>
             <version>1.0.0</version>
             <type>jar</type> 
@@ -234,7 +242,7 @@
         <dependency>
             <groupId>fr.paris.lutece.plugins</groupId>
             <artifactId>library-freemarker</artifactId>
-            <version>1.2.1</version>
+            <version>1.2.2-SNAPSHOT</version>
             <type>jar</type>
         </dependency>
 
@@ -242,27 +250,21 @@
         <dependency>
             <groupId>fr.paris.lutece.plugins</groupId>
             <artifactId>library-workflow-core</artifactId>
-            <version>1.2.3</version>
+            <version>1.2.4-SNAPSHOT</version>
             <type>jar</type>
         </dependency>
         
-        <!-- JPA 2 spec. -->
-        <dependency>
-            <groupId>org.apache.geronimo.specs</groupId>
-            <artifactId>geronimo-jpa_2.0_spec</artifactId>
-            <version>1.1</version>
-        </dependency>
         <!-- scannotation -->
         <dependency>
             <groupId>org.scannotation</groupId>
             <artifactId>scannotation</artifactId>
             <version>1.0.3</version>
             <exclusions>
-              <exclusion>
-                <!-- javassist:javassist relocated to org.javassist:javassist -->
-                <groupId>javassist</groupId>
-                <artifactId>javassist</artifactId>
-              </exclusion>
+                <exclusion>
+                    <!-- javassist:javassist relocated to org.javassist:javassist -->
+                    <groupId>javassist</groupId>
+                    <artifactId>javassist</artifactId>
+                </exclusion>
             </exclusions>
         </dependency>
         <dependency>
@@ -287,7 +289,7 @@
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>2.8.11.3</version>
+            <version>2.8.11.6</version>
         </dependency>
         
         <!-- @Inject API -->
@@ -296,7 +298,13 @@
             <artifactId>javax.inject</artifactId>
             <version>1</version>
         </dependency>
-		
+
+        <dependency>
+            <groupId>javax.annotation</groupId>
+            <artifactId>javax.annotation-api</artifactId>
+            <version>1.3.2</version>
+        </dependency>
+
         <!-- Bean validation -->
         <dependency>
             <groupId>javax.validation</groupId>
@@ -336,13 +344,31 @@
             <artifactId>library-jmx-api</artifactId>
             <version>1.0.0</version>
         </dependency>
+        
+        <!-- JDK 11 Support -->
+        <dependency>
+            <groupId>org.eclipse.persistence</groupId>
+            <artifactId>javax.persistence</artifactId>
+            <version>2.2.1</version>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.xml.bind</groupId>
+            <artifactId>jakarta.xml.bind-api</artifactId>
+            <version>2.3.3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jaxb</groupId>
+            <artifactId>jaxb-runtime</artifactId>
+            <version>2.3.3</version>
+        </dependency>
+
     </dependencies>
 
     <scm>
         <connection>scm:git:https://github.com/lutece-platform/lutece-core.git</connection>
         <developerConnection>scm:git:https://github.com/lutece-platform/lutece-core.git</developerConnection>
         <url>https://github.com/lutece-platform/lutece-core.git</url>
-        <tag>lutece-core-6.2.1</tag>
+        <tag>HEAD</tag>
     </scm>
 
 </project>

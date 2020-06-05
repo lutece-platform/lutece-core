@@ -19,7 +19,7 @@
 					<td>${file.date?datetime?string.medium_short}</td>
 					<td>${file.size} Ko</td>
 					<td>
-						<@aButton href='jsp/admin/system/ViewFile.jsp?directory=${file.directory}&amp;file=${file.name}' buttonIcon='eye' title='#i18n{portal.system.view_files_system.Display} ${file.name}' showTitle=false />
+						<@aButton href='jsp/admin/system/ViewFile.jsp?directory=${file.directory}&amp;file=${file.name}' buttonIcon='eye' title='#i18n{portal.system.view_files_system.Display} ${file.name}' hideTitle=['all'] />
 					</td>
 				</tr>	
 				</#list>			

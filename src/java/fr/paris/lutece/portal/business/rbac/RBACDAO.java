@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -35,6 +35,7 @@ package fr.paris.lutece.portal.business.rbac;
 
 import fr.paris.lutece.util.sql.DAOUtil;
 
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -44,9 +45,8 @@ import java.util.Collection;
 public final class RBACDAO implements IRBACDAO
 {
     // Constants
-    private static final String SQL_QUERY_NEW_PK = " SELECT max( rbac_id ) FROM core_admin_role_resource ";
     private static final String SQL_QUERY_SELECT = " SELECT rbac_id, role_key, resource_type, resource_id, permission FROM core_admin_role_resource WHERE rbac_id = ?  ";
-    private static final String SQL_QUERY_INSERT = " INSERT INTO core_admin_role_resource ( rbac_id, role_key, resource_type, resource_id, permission ) VALUES ( ?, ?, ?, ?, ? ) ";
+    private static final String SQL_QUERY_INSERT = " INSERT INTO core_admin_role_resource ( role_key, resource_type, resource_id, permission ) VALUES ( ?, ?, ?, ? ) ";
     private static final String SQL_QUERY_DELETE = " DELETE FROM core_admin_role_resource WHERE rbac_id = ?  ";
     private static final String SQL_QUERY_UPDATE = " UPDATE core_admin_role_resource SET rbac_id = ?, role_key = ?, resource_type = ?, resource_id = ?, permission = ? WHERE rbac_id = ?  ";
     private static final String SQL_QUERY_SELECTALL = " SELECT rbac_id, role_key, resource_type, resource_id, permission FROM core_admin_role_resource ";
@@ -60,49 +60,29 @@ public final class RBACDAO implements IRBACDAO
             + "( resource_id = ? OR resource_id= ? ) AND" + "( permission = ? OR permission= ? )";
 
     /**
-     * Generates a new primary key
-     * 
-     * @return The new primary key
-     */
-    int newPrimaryKey( )
-    {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_NEW_PK );
-        daoUtil.executeQuery( );
-
-        int nKey;
-
-        if ( !daoUtil.next( ) )
-        {
-            // if the table is empty
-            nKey = 1;
-        }
-
-        nKey = daoUtil.getInt( 1 ) + 1;
-
-        daoUtil.free( );
-
-        return nKey;
-    }
-
-    /**
      * Insert a new record in the table.
      *
      * @param rBAC
      *            The rBAC object
      */
-    public synchronized void insert( RBAC rBAC )
+    public void insert( RBAC rBAC )
     {
-        rBAC.setRBACId( newPrimaryKey( ) );
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT, Statement.RETURN_GENERATED_KEYS ) )
+        {
+            int nIndex = 1;
+            daoUtil.setString( nIndex++, rBAC.getRoleKey( ) );
+            daoUtil.setString( nIndex++, rBAC.getResourceTypeKey( ) );
+            daoUtil.setString( nIndex++, rBAC.getResourceId( ) );
+            daoUtil.setString( nIndex, rBAC.getPermissionKey( ) );
 
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT );
-        daoUtil.setInt( 1, rBAC.getRBACId( ) );
-        daoUtil.setString( 2, rBAC.getRoleKey( ) );
-        daoUtil.setString( 3, rBAC.getResourceTypeKey( ) );
-        daoUtil.setString( 4, rBAC.getResourceId( ) );
-        daoUtil.setString( 5, rBAC.getPermissionKey( ) );
+            daoUtil.executeUpdate( );
 
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+            if ( daoUtil.nextGeneratedKey( ) )
+            {
+                rBAC.setRBACId( daoUtil.getGeneratedKeyInt( 1 ) );
+            }
+
+        }
     }
 
     /**
@@ -114,23 +94,23 @@ public final class RBACDAO implements IRBACDAO
      */
     public RBAC load( int nRBACId )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT );
-        daoUtil.setInt( 1, nRBACId );
-        daoUtil.executeQuery( );
-
         RBAC rBAC = null;
-
-        if ( daoUtil.next( ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT ) )
         {
-            rBAC = new RBAC( );
-            rBAC.setRBACId( daoUtil.getInt( 1 ) );
-            rBAC.setRoleKey( daoUtil.getString( 2 ) );
-            rBAC.setResourceTypeKey( daoUtil.getString( 3 ) );
-            rBAC.setResourceId( daoUtil.getString( 4 ) );
-            rBAC.setPermissionKey( daoUtil.getString( 5 ) );
-        }
+            daoUtil.setInt( 1, nRBACId );
+            daoUtil.executeQuery( );
 
-        daoUtil.free( );
+            if ( daoUtil.next( ) )
+            {
+                rBAC = new RBAC( );
+                rBAC.setRBACId( daoUtil.getInt( 1 ) );
+                rBAC.setRoleKey( daoUtil.getString( 2 ) );
+                rBAC.setResourceTypeKey( daoUtil.getString( 3 ) );
+                rBAC.setResourceId( daoUtil.getString( 4 ) );
+                rBAC.setPermissionKey( daoUtil.getString( 5 ) );
+            }
+
+        }
 
         return rBAC;
     }
@@ -143,11 +123,12 @@ public final class RBACDAO implements IRBACDAO
      */
     public void delete( int nRBACId )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE );
-        daoUtil.setInt( 1, nRBACId );
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE ) )
+        {
+            daoUtil.setInt( 1, nRBACId );
 
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+            daoUtil.executeUpdate( );
+        }
     }
 
     /**
@@ -158,16 +139,17 @@ public final class RBACDAO implements IRBACDAO
      */
     public void store( RBAC rBAC )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE );
-        daoUtil.setInt( 1, rBAC.getRBACId( ) );
-        daoUtil.setString( 2, rBAC.getRoleKey( ) );
-        daoUtil.setString( 3, rBAC.getResourceTypeKey( ) );
-        daoUtil.setString( 4, rBAC.getResourceId( ) );
-        daoUtil.setString( 5, rBAC.getPermissionKey( ) );
-        daoUtil.setInt( 6, rBAC.getRBACId( ) );
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE ) )
+        {
+            daoUtil.setInt( 1, rBAC.getRBACId( ) );
+            daoUtil.setString( 2, rBAC.getRoleKey( ) );
+            daoUtil.setString( 3, rBAC.getResourceTypeKey( ) );
+            daoUtil.setString( 4, rBAC.getResourceId( ) );
+            daoUtil.setString( 5, rBAC.getPermissionKey( ) );
+            daoUtil.setInt( 6, rBAC.getRBACId( ) );
 
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+            daoUtil.executeUpdate( );
+        }
     }
 
     /**
@@ -177,23 +159,24 @@ public final class RBACDAO implements IRBACDAO
      */
     public Collection<RBAC> selectRBACList( )
     {
-        Collection<RBAC> listRBACs = new ArrayList<RBAC>( );
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL );
-        daoUtil.executeQuery( );
-
-        while ( daoUtil.next( ) )
+        Collection<RBAC> listRBACs = new ArrayList<>( );
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL ) )
         {
-            RBAC rBAC = new RBAC( );
-            rBAC.setRBACId( daoUtil.getInt( 1 ) );
-            rBAC.setRoleKey( daoUtil.getString( 2 ) );
-            rBAC.setResourceTypeKey( daoUtil.getString( 3 ) );
-            rBAC.setResourceId( daoUtil.getString( 4 ) );
-            rBAC.setPermissionKey( daoUtil.getString( 5 ) );
+            daoUtil.executeQuery( );
 
-            listRBACs.add( rBAC );
+            while ( daoUtil.next( ) )
+            {
+                RBAC rBAC = new RBAC( );
+                rBAC.setRBACId( daoUtil.getInt( 1 ) );
+                rBAC.setRoleKey( daoUtil.getString( 2 ) );
+                rBAC.setResourceTypeKey( daoUtil.getString( 3 ) );
+                rBAC.setResourceId( daoUtil.getString( 4 ) );
+                rBAC.setPermissionKey( daoUtil.getString( 5 ) );
+
+                listRBACs.add( rBAC );
+            }
+
         }
-
-        daoUtil.free( );
 
         return listRBACs;
     }
@@ -207,24 +190,25 @@ public final class RBACDAO implements IRBACDAO
      */
     public Collection<RBAC> selectRBACListByRoleKey( String strRoleKey )
     {
-        Collection<RBAC> listRBACs = new ArrayList<RBAC>( );
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_BY_ROLE );
-        daoUtil.setString( 1, strRoleKey );
-        daoUtil.executeQuery( );
-
-        while ( daoUtil.next( ) )
+        Collection<RBAC> listRBACs = new ArrayList<>( );
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_BY_ROLE ) )
         {
-            RBAC rBAC = new RBAC( );
-            rBAC.setRBACId( daoUtil.getInt( 1 ) );
-            rBAC.setRoleKey( daoUtil.getString( 2 ) );
-            rBAC.setResourceTypeKey( daoUtil.getString( 3 ) );
-            rBAC.setResourceId( daoUtil.getString( 4 ) );
-            rBAC.setPermissionKey( daoUtil.getString( 5 ) );
+            daoUtil.setString( 1, strRoleKey );
+            daoUtil.executeQuery( );
 
-            listRBACs.add( rBAC );
+            while ( daoUtil.next( ) )
+            {
+                RBAC rBAC = new RBAC( );
+                rBAC.setRBACId( daoUtil.getInt( 1 ) );
+                rBAC.setRoleKey( daoUtil.getString( 2 ) );
+                rBAC.setResourceTypeKey( daoUtil.getString( 3 ) );
+                rBAC.setResourceId( daoUtil.getString( 4 ) );
+                rBAC.setPermissionKey( daoUtil.getString( 5 ) );
+
+                listRBACs.add( rBAC );
+            }
+
         }
-
-        daoUtil.free( );
 
         return listRBACs;
     }
@@ -239,12 +223,13 @@ public final class RBACDAO implements IRBACDAO
      */
     public void updateRoleKey( String strOldRoleKey, String strNewRoleKey )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE_ROLES );
-        daoUtil.setString( 1, strNewRoleKey );
-        daoUtil.setString( 2, strOldRoleKey );
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE_ROLES ) )
+        {
+            daoUtil.setString( 1, strNewRoleKey );
+            daoUtil.setString( 2, strOldRoleKey );
 
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+            daoUtil.executeUpdate( );
+        }
     }
 
     /**
@@ -255,11 +240,12 @@ public final class RBACDAO implements IRBACDAO
      */
     public void deleteForRoleKey( String strRoleKey )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE_FOR_ROLE_KEY );
-        daoUtil.setString( 1, strRoleKey );
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE_FOR_ROLE_KEY ) )
+        {
+            daoUtil.setString( 1, strRoleKey );
 
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+            daoUtil.executeUpdate( );
+        }
     }
 
     /**
@@ -273,25 +259,26 @@ public final class RBACDAO implements IRBACDAO
      */
     public Collection<String> selectRoleKeys( String strTypeCode, String strId, String strPermission )
     {
-        Collection<String> listRoleKeys = new ArrayList<String>( );
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_ROLE_KEYS );
-        daoUtil.setString( 1, strTypeCode );
-
-        daoUtil.setString( 2, strId );
-        daoUtil.setString( 3, RBAC.WILDCARD_RESOURCES_ID );
-
-        daoUtil.setString( 4, strPermission );
-        daoUtil.setString( 5, RBAC.WILDCARD_PERMISSIONS_KEY );
-
-        daoUtil.executeQuery( );
-
-        while ( daoUtil.next( ) )
+        Collection<String> listRoleKeys = new ArrayList<>( );
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT_ROLE_KEYS ) )
         {
-            daoUtil.getString( 1 );
-            listRoleKeys.add( daoUtil.getString( 1 ) );
-        }
+            daoUtil.setString( 1, strTypeCode );
 
-        daoUtil.free( );
+            daoUtil.setString( 2, strId );
+            daoUtil.setString( 3, RBAC.WILDCARD_RESOURCES_ID );
+
+            daoUtil.setString( 4, strPermission );
+            daoUtil.setString( 5, RBAC.WILDCARD_PERMISSIONS_KEY );
+
+            daoUtil.executeQuery( );
+
+            while ( daoUtil.next( ) )
+            {
+                daoUtil.getString( 1 );
+                listRoleKeys.add( daoUtil.getString( 1 ) );
+            }
+
+        }
 
         return listRoleKeys;
     }
@@ -302,11 +289,12 @@ public final class RBACDAO implements IRBACDAO
     @Override
     public void deleteForResourceTypeAndId( String strResourceType, String strResourceId )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE_BY_RESOURCE_TYPE_AND_RESOURCE_ID );
-        daoUtil.setString( 1, strResourceType );
-        daoUtil.setString( 2, strResourceId );
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE_BY_RESOURCE_TYPE_AND_RESOURCE_ID ) )
+        {
+            daoUtil.setString( 1, strResourceType );
+            daoUtil.setString( 2, strResourceId );
 
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+            daoUtil.executeUpdate( );
+        }
     }
 }

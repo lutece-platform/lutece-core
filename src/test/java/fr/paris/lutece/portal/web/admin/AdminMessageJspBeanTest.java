@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -37,6 +37,7 @@ import java.util.Locale;
 
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.mock.web.MockHttpServletRequest;
 
 import fr.paris.lutece.portal.business.user.AdminUser;
@@ -74,6 +75,6 @@ public class AdminMessageJspBeanTest extends LuteceTestCase
         session.setAttribute( "LUTECE_ADMIN_MESSAGE", message );
 
         AdminMessageJspBean instance = new AdminMessageJspBean( );
-        instance.getMessage( request );
+        assertTrue( StringUtils.isNotEmpty( instance.getMessage( request ) ) );
     }
 }

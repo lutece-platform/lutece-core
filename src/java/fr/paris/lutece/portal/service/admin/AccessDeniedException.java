@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -42,17 +42,6 @@ public class AccessDeniedException extends Exception
      *
      */
     private static final long serialVersionUID = 323303358249337792L;
-
-    /**
-     * Builds a AccessDeniedException without message
-     * 
-     * @deprecated use {@link #AccessDeniedException(String)} to provide an explicit message
-     */
-    @Deprecated
-    public AccessDeniedException( )
-    {
-        // nothing
-    }
 
     /**
      * Builds a AccessDeniedException with the message

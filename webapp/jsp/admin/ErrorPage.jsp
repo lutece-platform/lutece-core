@@ -153,7 +153,7 @@
 <div id="footer" class="navbar navbar-fixed-bottom  hidden-phone">
 	<div class="pull-right">
 		<a href="http://fr.lutece.paris.fr" target="lutece" title="#i18n{portal.site.portal_footer.labelPortal}">
-			<img src="images/poweredby.jpg" alt="#i18n{portal.site.portal_footer.labelMadeBy}" />
+			<img src="images/poweredby.png" alt="#i18n{portal.site.portal_footer.labelMadeBy}" />
 			<small>version ${version}</small>
 		</a>
 	</div>

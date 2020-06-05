@@ -41,14 +41,14 @@ $(document).ready(function(){
 	
 	// And you can add/remove markItUp! whenever you want
 	<#if teditor == "true">
-		$(".richtext").after('<p class="editor-toggle"><a href="#" class="toggle button"><span>#i18n{portal.globalmanagement.editors.markitup.removeMarkitup}</span></a></p>');
+		$(".richtext").after('<p class="editor-toggle"><a href="#" class="toggle button"><span>#i18n{portal.admindashboard.editors.markitup.removeMarkitup}</span></a></p>');
 		$('.toggle').click(function() {
 		if ($('.richtext.markItUpEditor').length >= 1) {
  			$('.richtext').markItUpRemove();
-			$("span", this).text("#i18n{portal.globalmanagement.editors.markitup.removeMarkitup}");
+			$("span", this).text("#i18n{portal.admindashboard.editors.markitup.removeMarkitup}");
 		} else {
 			$('.richtext').markItUp(mySettings);
-			$("span", this).text("#i18n{portal.globalmanagement.editors.markitup.addMarkitup}");
+			$("span", this).text("#i18n{portal.admindashboard.editors.markitup.addMarkitup}");
 		}
  		return false;
 	});

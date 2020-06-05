@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -109,7 +109,7 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
         Locale locale = AdminUserService.getLocale( request );
         String strPluginTypeFilter = request.getParameter( PARAM_PLUGIN_TYPE );
         Collection<Plugin> listPlugins = PluginService.getPluginList( );
-        HashMap<String, Object> model = new HashMap<String, Object>( );
+        HashMap<String, Object> model = new HashMap<>( );
         model.put( MARK_PLUGINS_LIST, filterPluginsList( listPlugins, strPluginTypeFilter ) );
         model.put( MARK_CORE, PluginService.getCore( ) );
         model.put( MARK_POOLS_LIST, getPoolsList( ) );
@@ -140,21 +140,22 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
 
         if ( !verifyCoreCompatibility( plugin ) )
         {
-            Object[ ] args = { plugin.getMinCoreVersion( ), plugin.getMaxCoreVersion( ) };
+            Object [ ] args = {
+                    plugin.getMinCoreVersion( ), plugin.getMaxCoreVersion( )
+            };
 
-            return AdminMessageService.getMessageUrl( request, PROPERTY_PLUGIN_NO_CORE_COMPATIBILITY_MESSAGE, args,
-                    AdminMessage.TYPE_STOP );
+            return AdminMessageService.getMessageUrl( request, PROPERTY_PLUGIN_NO_CORE_COMPATIBILITY_MESSAGE, args, AdminMessage.TYPE_STOP );
 
         }
         if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_MANAGE_PLUGINS ) )
         {
-            throw new AccessDeniedException( "Invalid security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
         try
         {
             plugin.install( );
         }
-        catch ( Exception e )
+        catch( Exception e )
         {
             AppLogService.error( e.getMessage( ), e );
 
@@ -172,13 +173,14 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
      * @param context
      *            The servlet context
      * @return the url of the page containing a log essage
-     * @throws AccessDeniedException if the security token is invalid
+     * @throws AccessDeniedException
+     *             if the security token is invalid
      */
     public String doUninstallPlugin( HttpServletRequest request, ServletContext context ) throws AccessDeniedException
     {
         if ( !SecurityTokenService.getInstance( ).validate( request, JSP_UNINSTALL_PLUGIN ) )
         {
-            throw new AccessDeniedException( "Invalid security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
         try
         {
@@ -210,19 +212,17 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
         Map<String, String> parameters = new HashMap<>( );
         parameters.put( PARAM_PLUGIN_NAME, strPluginName );
         parameters.put( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, JSP_UNINSTALL_PLUGIN ) );
-        String strAdminMessageUrl = AdminMessageService.getMessageUrl( request, strMessageKey, JSP_UNINSTALL_PLUGIN, AdminMessage.TYPE_CONFIRMATION, parameters );
+        String strAdminMessageUrl = AdminMessageService.getMessageUrl( request, strMessageKey, JSP_UNINSTALL_PLUGIN, AdminMessage.TYPE_CONFIRMATION,
+                parameters );
 
         for ( PortletType portletType : listPortletTypes )
         {
             String strPluginHomeClass = portletType.getHomeClass( );
 
-            if ( ( plugin.getType( ) & Plugin.PLUGIN_TYPE_PORTLET ) != 0 )
+            if ( ( plugin.getType( ) & Plugin.PLUGIN_TYPE_PORTLET ) != 0 && isPortletExists( strPluginHomeClass ) )
             {
-                if ( isPortletExists( strPluginHomeClass ) )
-                {
-                    strMessageKey = PROPERTY_PLUGIN_PORTLET_EXIST_MESSAGE;
-                    strAdminMessageUrl = AdminMessageService.getMessageUrl( request, strMessageKey, AdminMessage.TYPE_CONFIRMATION );
-                }
+                strMessageKey = PROPERTY_PLUGIN_PORTLET_EXIST_MESSAGE;
+                strAdminMessageUrl = AdminMessageService.getMessageUrl( request, strMessageKey, AdminMessage.TYPE_CONFIRMATION );
             }
         }
 
@@ -242,7 +242,7 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
     {
         if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_MANAGE_PLUGINS ) )
         {
-            throw new AccessDeniedException( "Invalid security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
         String strPluginName = request.getParameter( PARAM_PLUGIN_NAME );
         String strDbPoolName = request.getParameter( PARAM_DB_POOL_NAME );
@@ -306,47 +306,50 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
      */
     private Collection<Plugin> filterPluginsList( Collection<Plugin> listPlugins, String strPluginTypeFilter )
     {
-        Collection<Plugin> list = new ArrayList<Plugin>( );
+        Collection<Plugin> list = new ArrayList<>( );
+        if ( strPluginTypeFilter == null )
+        {
+            return listPlugins;
+        }
 
         for ( Plugin plugin : listPlugins )
         {
-            // Checks for filtering the plugin list
-            if ( strPluginTypeFilter != null )
+            boolean filter = false;
+            if ( strPluginTypeFilter.equals( PARAM_PLUGIN_TYPE_APPLICATION ) )
             {
-                if ( strPluginTypeFilter.equals( PARAM_PLUGIN_TYPE_APPLICATION ) && ( ( plugin.getType( ) & Plugin.PLUGIN_TYPE_APPLICATION ) == 0 ) )
-                {
-                    // skip this plugin
-                    continue;
-                }
-
-                if ( strPluginTypeFilter.equals( PARAM_PLUGIN_TYPE_PORTLET ) && ( ( plugin.getType( ) & Plugin.PLUGIN_TYPE_PORTLET ) == 0 ) )
-                {
-                    // skip this plugin
-                    continue;
-                }
-
-                if ( strPluginTypeFilter.equals( PARAM_PLUGIN_TYPE_FEATURE ) && ( ( plugin.getType( ) & Plugin.PLUGIN_TYPE_FEATURE ) == 0 ) )
-                {
-                    // skip this plugin
-                    continue;
-                }
-
-                if ( strPluginTypeFilter.equals( PARAM_PLUGIN_TYPE_INSERTSERVICE ) && ( ( plugin.getType( ) & Plugin.PLUGIN_TYPE_INSERTSERVICE ) == 0 ) )
-                {
-                    // skip this plugin
-                    continue;
-                }
-
-                if ( strPluginTypeFilter.equals( PARAM_PLUGIN_TYPE_CONTENTSERVICE ) && ( ( plugin.getType( ) & Plugin.PLUGIN_TYPE_CONTENTSERVICE ) == 0 ) )
-                {
-                    // skip this plugin
-                    continue;
-                }
+                // skip this plugin
+                filter = ( plugin.getType( ) & Plugin.PLUGIN_TYPE_APPLICATION ) == 0;
             }
+            else
+                if ( strPluginTypeFilter.equals( PARAM_PLUGIN_TYPE_PORTLET ) )
+                {
+                    // skip this plugin
+                    filter = ( plugin.getType( ) & Plugin.PLUGIN_TYPE_PORTLET ) == 0;
+                }
+                else
+                    if ( strPluginTypeFilter.equals( PARAM_PLUGIN_TYPE_FEATURE ) )
+                    {
+                        // skip this plugin
+                        filter = ( plugin.getType( ) & Plugin.PLUGIN_TYPE_FEATURE ) == 0;
+                    }
+                    else
+                        if ( strPluginTypeFilter.equals( PARAM_PLUGIN_TYPE_INSERTSERVICE ) )
+                        {
+                            // skip this plugin
+                            filter = ( plugin.getType( ) & Plugin.PLUGIN_TYPE_INSERTSERVICE ) == 0;
+                        }
+                        else
+                            if ( strPluginTypeFilter.equals( PARAM_PLUGIN_TYPE_CONTENTSERVICE ) )
+                            {
+                                // skip this plugin
+                                filter = ( plugin.getType( ) & Plugin.PLUGIN_TYPE_CONTENTSERVICE ) == 0;
+                            }
 
-            list.add( plugin );
+            if ( !filter )
+            {
+                list.add( plugin );
+            }
         }
-
         return list;
     }
 
@@ -410,7 +413,7 @@ public class PluginJspBean extends AdminFeaturesPageJspBean
         String strCoreVersion = AppInfo.getVersion( );
 
         // Remove version qualifier (-SNAPSHOT, -RC-XX, ...)
-        int nPos = strCoreVersion.indexOf( "-" );
+        int nPos = strCoreVersion.indexOf( '-' );
 
         if ( nPos > 0 )
         {

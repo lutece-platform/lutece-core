@@ -16,14 +16,13 @@
 		<@box color='success'>
 			<@boxBody>
 				<@tform method='post' name='create_user' action='jsp/admin/user/DoCreateUser.jsp' params='enctype="multipart/form-data"'>
-					<input type="hidden" name="token" value="${token}">
+					<@input type='hidden' name='token' value='${token}' />
 					<@row>
 						<@columns md=4 lg=4>
-							<fieldset>		
-							<legend>#i18n{portal.users.create_user.labelIdentity}</legend>
+							<@fieldSet legend='#i18n{portal.users.create_user.labelIdentity}' >
 							<@formGroup labelKey='#i18n{portal.users.create_user.labelLastName}' labelFor='last_name' rows=2 mandatory=true>
 								<@inputGroup>
-									<@inputGroupItem type='addon'>
+									<@inputGroupItem type='text'>
 										<@icon style='user' />
 									</@inputGroupItem>
 									<@input type='text' id='last_name' name='last_name' value='' maxlength=100 />
@@ -31,7 +30,7 @@
 							</@formGroup>
 							<@formGroup labelKey='#i18n{portal.users.create_user.labelFirstName}' labelFor='first_name' rows=2 mandatory=true>
 								<@inputGroup>
-									<@inputGroupItem type='addon'>
+									<@inputGroupItem type='text'>
 										<@icon style='user' />
 									</@inputGroupItem>
 									<@input type='text' id='first_name' name='first_name' value='' maxlength=100 />
@@ -39,20 +38,19 @@
 							</@formGroup>
 							<@formGroup labelKey='#i18n{portal.users.create_user.labelEmail}' labelFor='email' rows=2 mandatory=true>
 								<@inputGroup>
-									<@inputGroupItem type='addon'>
+									<@inputGroupItem type='text'>
 										<@icon style='envelope' />
 									</@inputGroupItem>
 									<@input type='text' id='email' name='email' value='' maxlength=100 />
 								</@inputGroup>
 							</@formGroup>
-							</fieldset>
+							</@fieldSet>
 						</@columns>
 						<@columns md=4 lg=4>
-							<fieldset>
-							<legend>#i18n{portal.users.create_user.labelAccount}</legend>
+							<@fieldSet legend='#i18n{portal.users.create_user.labelAccount}'>
 							<@formGroup labelKey='#i18n{portal.users.create_user.labelAccessCode}' labelFor='access_code' rows=2 mandatory=true>
 								<@inputGroup>
-									<@inputGroupItem type='addon'>
+									<@inputGroupItem type='text'>
 										<@icon style='star' />
 									</@inputGroupItem>
 									<@input type='text' id='access_code' name='access_code' value='' maxlength=100 />
@@ -60,18 +58,18 @@
 							</@formGroup>
 							<@formGroup labelFor='first_password' labelKey='#i18n{portal.users.create_user.labelFirstPassword}' helpKey='${i18n("portal.users.message.password.minimumPasswordLength",minimumPasswordSize)}' mandatory=true rows=2>
 								<@inputGroup>
-									<@inputGroupItem type='addon'>
+									<@inputGroupItem type='text'>
 										<@icon style='lock' />
 									</@inputGroupItem>
 									<@input type='password' id='first_password' name='first_password' maxlength=100 value='' />
 									<@inputGroupItem>
-										<@button type='button' id='generate_password' title='#i18n{portal.users.create_user.buttonLabelGeneratePassword}' showTitle=false buttonIcon='cog' size='' color='btn-secondary' />
+										<@button type='button' id='generate_password' title='#i18n{portal.users.create_user.buttonLabelGeneratePassword}' hideTitle=['all'] buttonIcon='cog' size='' color='secondary' />
 									</@inputGroupItem>
 								</@inputGroup>
 							</@formGroup>
 							<@formGroup labelKey='#i18n{portal.users.create_user.labelSecondPassword}' labelFor='second_password' rows=2 helpKey='#i18n{portal.users.create_user.passwordComplexity}' mandatory=true>
 								<@inputGroup>
-									<@inputGroupItem type='addon'>
+									<@inputGroupItem type='text'>
 										<@icon style='lock' />
 									</@inputGroupItem>
 									<@input type='password' id='second_password' name='second_password' maxlength=100 value='' />
@@ -90,11 +88,10 @@
 									<@radioButton orientation='horizontal' labelKey='#i18n{portal.util.labelNo}' name='notify_user' value='0' checked=true />
 								 </#if>								
 							</@formGroup>
-							</fieldset>
+							</@fieldSet>
 						</@columns>
 						<@columns md=4 lg=4>
-						<fieldset>
-							<legend>#i18n{portal.users.create_user.labelComplementaryAttributes}</legend>
+						<@fieldSet legend='#i18n{portal.users.create_user.labelComplementaryAttributes}'>
 							<@formGroup labelKey='#i18n{portal.users.create_user.labelStatus}' labelFor='status' rows=2>
 								<@select id='status' name='status'>
 									<#if default_user_status = 1>
@@ -143,14 +140,14 @@
 							<@formGroup labelKey='#i18n{portal.users.create_user.labelTheme}' labelFor='accessibility_mode' rows=2>
 								<@checkBox name='accessibility_mode' id='accessibility_mode' orientation='horizontal' value='1' labelKey='#i18n{portal.users.create_user.labelAccessibilityMode}' />
 							</@formGroup>
-						</fieldset>
+						</@fieldSet>
 						</@columns>
 					</@row>
 					<@row>
 						<@columns md=4 lg=4>
 							<@formGroup rows=2>
 								<@button size='' type='submit' buttonIcon='check' title='#i18n{portal.users.manage_users.buttonLabelAddUser}'  />
-								<@aButton size='' href='jsp/admin/user/ManageUsers.jsp' color='btn-secondary' buttonIcon='times' title='#i18n{portal.util.labelBack}'  />
+								<@aButton size='' href='jsp/admin/user/ManageUsers.jsp' color='secondary' buttonIcon='times' title='#i18n{portal.util.labelBack}'  />
 							</@formGroup>
 						</@columns>
 					</@row>

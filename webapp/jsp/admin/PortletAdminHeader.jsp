@@ -1,7 +1,9 @@
 <%@ page errorPage="ErrorPage.jsp" %>
 <%@ page import="fr.paris.lutece.portal.service.util.AppPathService" %>
+<%@ page import="fr.paris.lutece.portal.web.l10n.LocaleService" %>
+
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="<%= LocaleService.getDefault().getLanguage() %>">
 <head>
 <base href="<%= AppPathService.getBaseUrl( request ) %>">
 <title>Administration</title>

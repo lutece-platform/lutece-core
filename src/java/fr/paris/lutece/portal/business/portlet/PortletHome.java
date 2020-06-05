@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -77,15 +77,7 @@ public abstract class PortletHome implements PortletHomeInterface
             p = home.getDAO( ).load( nKey );
             p.copy( portlet );
         }
-        catch( InstantiationException e )
-        {
-            AppLogService.error( e.getMessage( ), e );
-        }
-        catch( IllegalAccessException e )
-        {
-            AppLogService.error( e.getMessage( ), e );
-        }
-        catch( ClassNotFoundException e )
+        catch( IllegalAccessException | InstantiationException | ClassNotFoundException e )
         {
             AppLogService.error( e.getMessage( ), e );
         }
@@ -164,32 +156,18 @@ public abstract class PortletHome implements PortletHomeInterface
      */
     public synchronized Portlet create( Portlet portlet )
     {
-        // Recovery of an identifier for the new portlet
-        int nIdPortlet = PortletHome.newPrimaryKey( );
-        portlet.setId( nIdPortlet );
-
         portlet.setStatus( AppPropertiesService.getPropertyInt( PROPERTY_PORTLET_CREATION_STATUS, CONSTANT_DEFAULT_STATUS ) );
-
-        // Creation of the portlet child
-        getDAO( ).insert( portlet );
 
         // Creation of the portlet parent
         _dao.insert( portlet );
+
+        // Creation of the portlet child
+        getDAO( ).insert( portlet );
 
         // Invalidate the portlet
         invalidate( portlet );
 
         return portlet;
-    }
-
-    /**
-     * Recovery of an identifier for the new portlet
-     *
-     * @return the new primary key
-     */
-    static int newPrimaryKey( )
-    {
-        return _dao.newPrimaryKey( );
     }
 
     /**
@@ -255,7 +233,10 @@ public abstract class PortletHome implements PortletHomeInterface
     public static void invalidate( int nIdPortlet )
     {
         Portlet portlet = findByPrimaryKey( nIdPortlet );
-        invalidate( portlet );
+        if ( portlet != null )
+        {
+            invalidate( portlet );
+        }
     }
 
     /**

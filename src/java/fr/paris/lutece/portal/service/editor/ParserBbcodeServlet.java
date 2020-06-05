@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,8 +33,6 @@
  */
 package fr.paris.lutece.portal.service.editor;
 
-import fr.paris.lutece.portal.service.util.AppPropertiesService;
-
 import java.io.IOException;
 import java.io.OutputStream;
 
@@ -44,6 +42,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringEscapeUtils;
+
+import fr.paris.lutece.portal.service.util.AppPropertiesService;
 
 /**
  * Servlet using for BBCODE parsing
@@ -73,16 +73,14 @@ public class ParserBbcodeServlet extends HttpServlet
      *            servlet request
      * @param response
      *            servlet response
-     * @throws ServletException
-     *             the servlet Exception
      * @throws IOException
-     *             the io exception
      */
-    protected void processRequest( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException
+    protected void processRequest( HttpServletRequest request, HttpServletResponse response ) throws IOException
     {
         String strValue = request.getParameter( PARAMETER_DATA );
         String strEscaped = StringEscapeUtils.escapeHtml( strValue );
         String strValueReturn = ( strValue != null ) ? EditorBbcodeService.getInstance( ).parse( strEscaped ) : "";
+
         OutputStream out = response.getOutputStream( );
         out.write( strValueReturn.getBytes( AppPropertiesService.getProperty( PROPERTY_ENCODING ) ) );
         out.flush( );
@@ -101,7 +99,8 @@ public class ParserBbcodeServlet extends HttpServlet
      * @throws IOException
      *             the io exception
      */
-    protected void doGet( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException
+    @Override
+    protected void doGet( HttpServletRequest request, HttpServletResponse response ) throws IOException
     {
         processRequest( request, response );
     }
@@ -118,7 +117,8 @@ public class ParserBbcodeServlet extends HttpServlet
      * @throws IOException
      *             the io exception
      */
-    protected void doPost( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException
+    @Override
+    protected void doPost( HttpServletRequest request, HttpServletResponse response ) throws IOException
     {
         processRequest( request, response );
     }
@@ -128,6 +128,7 @@ public class ParserBbcodeServlet extends HttpServlet
      * 
      * @return message
      */
+    @Override
     public String getServletInfo( )
     {
         return "Servlet parsing content";

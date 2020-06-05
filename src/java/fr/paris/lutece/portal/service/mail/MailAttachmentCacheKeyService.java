@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -57,7 +57,7 @@ public class MailAttachmentCacheKeyService implements ICacheKeyService
 
         if ( mapParams.containsKey( MARK_URL ) )
         {
-            sbKey.append( "[url:" ).append( mapParams.get( MARK_URL ).replaceAll( "/", "" ) ).append( "]" );
+            sbKey.append( "[url:" ).append( mapParams.get( MARK_URL ).replace( "/", "" ) ).append( "]" );
         }
 
         return sbKey.toString( );
@@ -69,6 +69,7 @@ public class MailAttachmentCacheKeyService implements ICacheKeyService
     @Override
     public void setAllowedParametersList( List<String> arg0 )
     {
+        // Do nothing
     }
 
     /**
@@ -77,5 +78,6 @@ public class MailAttachmentCacheKeyService implements ICacheKeyService
     @Override
     public void setIgnoredParametersList( List<String> arg0 )
     {
+        // Do nothing
     }
 }

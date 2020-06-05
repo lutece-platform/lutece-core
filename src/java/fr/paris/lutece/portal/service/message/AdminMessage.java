@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -138,7 +138,7 @@ public class AdminMessage implements Serializable
     public AdminMessage( String strTextKey, Object [ ] messageArgs, String strTitleKey, String strUrl, String strTarget, int nType, boolean bCancelButton,
             Map<String, Object> requestParameters, String strBackUrl )
     {
-        buildAdminMessage( strTextKey, messageArgs, strTitleKey, strUrl, strTarget, nType, bCancelButton, requestParameters, null );
+        buildAdminMessage( strTextKey, messageArgs, strTitleKey, strUrl, strTarget, nType, bCancelButton, requestParameters, strBackUrl );
     }
 
     /**

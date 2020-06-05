@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -95,61 +95,71 @@ public class AttributeComparator implements Comparator<Object>, Serializable
         Method method1 = getMethod( o1 );
         Method method2 = getMethod( o2 );
 
-        if ( ( method1 != null ) && ( method2 != null ) && ( method1.getReturnType( ) == method2.getReturnType( ) ) )
+        if ( method1 == null || method2 == null || method1.getReturnType( ) != method2.getReturnType( ) )
         {
-            try
-            {
-                Object oRet1 = method1.invoke( o1 );
-                Object oRet2 = method2.invoke( o2 );
+            return 0;
+        }
 
-                String strReturnType = method1.getReturnType( ).getName( );
-                Class<?> returnType = method1.getReturnType( );
-
-                if ( oRet1 == null )
-                {
-                    if ( oRet2 == null )
-                    {
-                        nStatus = 0;
-                    }
-                    else
-                    {
-                        nStatus = -1;
-                    }
-                }
-                else
-                {
-                    if ( oRet2 == null )
-                    {
-                        nStatus = 1;
-                    }
-                    else
-                    {
-                        if ( strReturnType.equals( "java.lang.String" ) )
-                        {
-                            nStatus = ( (String) oRet1 ).toLowerCase( Locale.ENGLISH ).compareTo( ( (String) oRet2 ).toLowerCase( Locale.ENGLISH ) );
-                        }
-                        else
-                            if ( returnType.isPrimitive( ) || isComparable( returnType ) )
-                            {
-                                nStatus = ( (Comparable) oRet1 ).compareTo( (Comparable) oRet2 );
-                            }
-                            else
-                                if ( returnType.isEnum( ) )
-                                {
-                                    nStatus = oRet1.toString( ).compareTo( oRet2.toString( ) );
-                                }
-                    }
-                }
-            }
-            catch( IllegalArgumentException | IllegalAccessException | InvocationTargetException e )
-            {
-                AppLogService.error( e );
-            }
+        try
+        {
+            nStatus = compareReturnTypes( o1, o2, method1, method2 );
+        }
+        catch( IllegalArgumentException | IllegalAccessException | InvocationTargetException e )
+        {
+            AppLogService.error( e );
         }
 
         if ( !_bIsASC )
         {
             nStatus = nStatus * ( -1 );
+        }
+
+        return nStatus;
+    }
+
+    private int compareReturnTypes( Object o1, Object o2, Method method1, Method method2 ) throws IllegalAccessException, InvocationTargetException
+    {
+        int nStatus = 0;
+        Object oRet1 = method1.invoke( o1 );
+        Object oRet2 = method2.invoke( o2 );
+
+        String strReturnType = method1.getReturnType( ).getName( );
+        Class<?> returnType = method1.getReturnType( );
+
+        if ( oRet1 == null )
+        {
+            if ( oRet2 == null )
+            {
+                nStatus = 0;
+            }
+            else
+            {
+                nStatus = -1;
+            }
+        }
+        else
+        {
+            if ( oRet2 == null )
+            {
+                nStatus = 1;
+            }
+            else
+            {
+                if ( strReturnType.equals( "java.lang.String" ) )
+                {
+                    nStatus = ( (String) oRet1 ).toLowerCase( Locale.ENGLISH ).compareTo( ( (String) oRet2 ).toLowerCase( Locale.ENGLISH ) );
+                }
+                else
+                    if ( returnType.isPrimitive( ) || isComparable( returnType ) )
+                    {
+                        nStatus = ( (Comparable) oRet1 ).compareTo( (Comparable) oRet2 );
+                    }
+                    else
+                        if ( returnType.isEnum( ) )
+                        {
+                            nStatus = oRet1.toString( ).compareTo( oRet2.toString( ) );
+                        }
+            }
         }
 
         return nStatus;

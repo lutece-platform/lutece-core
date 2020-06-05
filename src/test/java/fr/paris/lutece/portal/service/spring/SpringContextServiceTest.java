@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -35,10 +35,13 @@ package fr.paris.lutece.portal.service.spring;
 
 import fr.paris.lutece.portal.business.user.authentication.LuteceDefaultAdminAuthentication;
 import fr.paris.lutece.portal.service.init.LuteceInitException;
+import fr.paris.lutece.portal.service.plugin.PluginService;
 import fr.paris.lutece.portal.service.search.SearchEngine;
 import fr.paris.lutece.test.LuteceTestCase;
 
 import java.util.List;
+
+import org.apache.commons.collections.CollectionUtils;
 
 /**
  * SpringContextService Test Class
@@ -50,8 +53,6 @@ public class SpringContextServiceTest extends LuteceTestCase
      */
     public void testGetBean( )
     {
-        System.out.println( "getBean" );
-
         String strName = "adminAuthenticationModule";
 
         Object result = SpringContextService.getBean( strName );
@@ -60,7 +61,6 @@ public class SpringContextServiceTest extends LuteceTestCase
 
     public void testInit( )
     {
-        System.out.println( "init" );
         try
         {
             SpringContextService.init( null );
@@ -73,13 +73,20 @@ public class SpringContextServiceTest extends LuteceTestCase
 
     public void testGetBeanOfType( )
     {
-        System.out.println( "getBeanOfType" );
-
         List<SearchEngine> list = SpringContextService.getBeansOfType( SearchEngine.class );
-
-        for ( SearchEngine engine : list )
-        {
-            System.out.println( engine.getClass( ) );
-        }
+        assertTrue( CollectionUtils.isNotEmpty( list ) );
     }
+
+    public void testIsBeanEnabled( )
+    {
+        assertTrue( SpringContextService.isBeanEnabled( "adminAuthenticationModule" ) );
+    }
+
+    public void testIsBeanEnabledInexistantPlugin( )
+    {
+        final String inexitantPluginName = "inexistantPlugin";
+        assertNull( PluginService.getPlugin( inexitantPluginName ) );
+        assertFalse( SpringContextService.isBeanEnabled( inexitantPluginName + ".adminAuthenticationModule" ) );
+    }
+
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -44,12 +44,6 @@ import java.util.List;
  */
 public interface IXslExportDAO
 {
-    /**
-     * Generates a new primary key
-     *
-     * @return The new primary key
-     */
-    int newPrimaryKey( );
 
     /**
      * Insert a new record in the table.

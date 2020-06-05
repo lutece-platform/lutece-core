@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -105,7 +105,7 @@ public final class I18nService
             try
             {
                 overrideURL = new URL [ ] {
-                    overridePath.toURI( ).toURL( )
+                        overridePath.toURI( ).toURL( )
                 };
             }
             catch( MalformedURLException e )
@@ -199,7 +199,7 @@ public final class I18nService
                 String strBundleKey = strKey.substring( 0, nPos );
                 String strStringKey = strKey.substring( nPos + 1 );
 
-                String strBundle = FORMAT_PACKAGE_PORTAL_RESOURCES_LOCATION;
+                String strBundle;
 
                 if ( !strBundleKey.equals( "portal" ) )
                 {
@@ -268,19 +268,9 @@ public final class I18nService
      */
     private static String getPluginBundleName( String strBundleKey )
     {
-        String strBundle = _pluginBundleNames.get( strBundleKey );
-
-        if ( strBundle == null )
-        {
-            Object [ ] params = {
-                strBundleKey
-            };
-            MessageFormat format = new MessageFormat( FORMAT_PACKAGE_PLUGIN_RESOURCES_LOCATION );
-            strBundle = format.format( params );
-            _pluginBundleNames.put( strBundleKey, strBundle );
-        }
-
-        return strBundle;
+        return _pluginBundleNames.computeIfAbsent( strBundleKey, s -> new MessageFormat( FORMAT_PACKAGE_PLUGIN_RESOURCES_LOCATION ).format( new String [ ] {
+                s
+        } ) );
     }
 
     /**
@@ -295,19 +285,9 @@ public final class I18nService
     private static String getModuleBundleName( String strPlugin, String strModule )
     {
         String key = strPlugin + strModule;
-        String strBundle = _moduleBundleNames.get( key );
-
-        if ( strBundle == null )
-        {
-            Object [ ] params = {
-                    strPlugin, strModule
-            };
-            MessageFormat format = new MessageFormat( FORMAT_PACKAGE_MODULE_RESOURCES_LOCATION );
-            strBundle = format.format( params );
-            _moduleBundleNames.put( key, strBundle );
-        }
-
-        return strBundle;
+        return _moduleBundleNames.computeIfAbsent( key, s -> new MessageFormat( FORMAT_PACKAGE_MODULE_RESOURCES_LOCATION ).format( new String [ ] {
+                strPlugin, strModule
+        } ) );
     }
 
     /**
@@ -319,19 +299,9 @@ public final class I18nService
      */
     private static String getPortalBundleName( String strElement )
     {
-        String strBundle = _portalBundleNames.get( strElement );
-
-        if ( strBundle == null )
-        {
-            Object [ ] params = {
-                strElement
-            };
-            MessageFormat format = new MessageFormat( FORMAT_PACKAGE_PORTAL_RESOURCES_LOCATION );
-            strBundle = format.format( params );
-            _portalBundleNames.put( strElement, strBundle );
-        }
-
-        return strBundle;
+        return _portalBundleNames.computeIfAbsent( strElement, s -> new MessageFormat( FORMAT_PACKAGE_PORTAL_RESOURCES_LOCATION ).format( new String [ ] {
+                s
+        } ) );
     }
 
     /**
@@ -366,9 +336,7 @@ public final class I18nService
     public static String getLocalizedDate( Date date, Locale locale, int nDateFormat )
     {
         DateFormat dateFormatter = DateFormat.getDateInstance( nDateFormat, locale );
-        String strDate = dateFormatter.format( date );
-
-        return strDate;
+        return dateFormatter.format( date );
     }
 
     /**
@@ -387,9 +355,7 @@ public final class I18nService
     public static String getLocalizedDateTime( Date date, Locale locale, int nDateFormat, int nTimeFormat )
     {
         DateFormat dateFormatter = DateFormat.getDateTimeInstance( nDateFormat, nTimeFormat, locale );
-        String strDate = dateFormatter.format( date );
-
-        return strDate;
+        return dateFormatter.format( date );
     }
 
     /**
@@ -401,7 +367,7 @@ public final class I18nService
     {
         String strAvailableLocales = AppPropertiesService.getProperty( PROPERTY_AVAILABLES_LOCALES );
         StringTokenizer strTokens = new StringTokenizer( strAvailableLocales, "," );
-        List<Locale> list = new ArrayList<Locale>( );
+        List<Locale> list = new ArrayList<>( );
 
         while ( strTokens.hasMoreTokens( ) )
         {
@@ -443,7 +409,7 @@ public final class I18nService
 
             for ( Locale adminLocale : getAdminAvailableLocales( ) )
             {
-                if ( ( strTokens != null ) && strTokens.hasMoreTokens( ) )
+                if ( strTokens.hasMoreTokens( ) )
                 {
                     strToken = strTokens.nextToken( );
                 }
@@ -527,37 +493,29 @@ public final class I18nService
     private static ResourceBundle getResourceBundle( Locale locale, String strBundle )
     {
         String key = strBundle + locale.toString( );
-        ResourceBundle rbLabels = _resourceBundleCache.get( key );
+        return _resourceBundleCache.computeIfAbsent( key, k -> createResourceBundle( strBundle, locale ) );
+    }
 
-        if ( rbLabels == null )
+    private static ResourceBundle createResourceBundle( String strBundle, Locale locale )
+    {
+        ResourceBundle rbLabels = ResourceBundle.getBundle( strBundle, locale );
+
+        if ( _overrideLoader != null )
         {
-            rbLabels = ResourceBundle.getBundle( strBundle, locale );
+            ResourceBundle overrideBundle = null;
 
-            if ( _overrideLoader != null )
+            try
             {
-                ResourceBundle overrideBundle = null;
-
-                try
-                {
-                    overrideBundle = ResourceBundle.getBundle( strBundle, locale, _overrideLoader );
-                }
-                catch( MissingResourceException e )
-                {
-                    // no override for this resource
-                    _resourceBundleCache.put( key, rbLabels );
-
-                    return rbLabels;
-                }
-
-                ResourceBundle res = new CombinedResourceBundle( overrideBundle, rbLabels );
-                _resourceBundleCache.put( key, res );
-
-                return res;
+                overrideBundle = ResourceBundle.getBundle( strBundle, locale, _overrideLoader );
+            }
+            catch( MissingResourceException e )
+            {
+                // no override for this resource
+                return rbLabels;
             }
 
-            _resourceBundleCache.put( key, rbLabels );
+            return new CombinedResourceBundle( overrideBundle, rbLabels );
         }
-
         return rbLabels;
     }
 

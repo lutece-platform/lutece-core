@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,6 +33,16 @@
  */
 package fr.paris.lutece.portal.service.dashboard.admin;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.collections.CollectionUtils;
+
 import fr.paris.lutece.portal.business.dashboard.AdminDashboardFactory;
 import fr.paris.lutece.portal.business.dashboard.AdminDashboardFilter;
 import fr.paris.lutece.portal.business.dashboard.AdminDashboardHome;
@@ -41,14 +51,6 @@ import fr.paris.lutece.portal.service.dashboard.DashboardComponentEntry;
 import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  *
@@ -116,9 +118,7 @@ public final class AdminDashboardService
         AdminDashboardFilter filter = new AdminDashboardFilter( );
         filter.setFilterColumn( nColumn );
 
-        List<IAdminDashboardComponent> dashboardComponents = AdminDashboardHome.findByFilter( filter );
-
-        return dashboardComponents;
+        return AdminDashboardHome.findByFilter( filter );
     }
 
     /**
@@ -149,15 +149,7 @@ public final class AdminDashboardService
                 AppLogService.error( " Admin Dashboard Component not registered : " + entry.getName( ) + " : " + entry.getComponentClass( ) );
             }
         }
-        catch( InstantiationException e )
-        {
-            AppLogService.error( "Error registering an Admin DashboardComponent : " + e.getMessage( ), e );
-        }
-        catch( IllegalAccessException e )
-        {
-            AppLogService.error( "Error registering an Admin DashboardComponent : " + e.getMessage( ), e );
-        }
-        catch( ClassNotFoundException e )
+        catch( ClassNotFoundException | InstantiationException | IllegalAccessException e )
         {
             AppLogService.error( "Error registering an Admin DashboardComponent : " + e.getMessage( ), e );
         }
@@ -186,7 +178,7 @@ public final class AdminDashboardService
 
         List<IAdminDashboardComponent> listColumnDashboards = AdminDashboardHome.findByFilter( filter );
 
-        if ( ( listColumnDashboards != null ) && !listColumnDashboards.isEmpty( ) )
+        if ( CollectionUtils.isNotEmpty( listColumnDashboards ) )
         {
             if ( AppLogService.isDebugEnabled( ) )
             {
@@ -205,33 +197,7 @@ public final class AdminDashboardService
             }
             else
             {
-                if ( nOrder < nOldOrder )
-                {
-                    for ( IAdminDashboardComponent dc : listColumnDashboards )
-                    {
-                        int nCurrentOrder = dc.getOrder( );
-
-                        if ( !dc.equals( dashboard ) && ( nCurrentOrder >= nOrder ) && ( nCurrentOrder < nOldOrder ) )
-                        {
-                            dc.setOrder( nCurrentOrder + 1 );
-                            AdminDashboardHome.update( dc );
-                        }
-                    }
-                }
-                else
-                    if ( nOrder > nOldOrder )
-                    {
-                        for ( IAdminDashboardComponent dc : listColumnDashboards )
-                        {
-                            int nCurrentOrder = dc.getOrder( );
-
-                            if ( !dc.equals( dashboard ) && ( nCurrentOrder <= nOrder ) && ( nCurrentOrder > nOldOrder ) )
-                            {
-                                dc.setOrder( nCurrentOrder - 1 );
-                                AdminDashboardHome.update( dc );
-                            }
-                        }
-                    }
+                updateDashboardComponents( dashboard, listColumnDashboards, nOldOrder );
 
                 // dashboard are singletons, values are modified by getting it from database
                 dashboard.setOrder( nOrder );
@@ -255,6 +221,38 @@ public final class AdminDashboardService
         }
     }
 
+    private void updateDashboardComponents( IAdminDashboardComponent dashboard, List<IAdminDashboardComponent> listColumnDashboards, int nOldOrder )
+    {
+        int nOrder = dashboard.getOrder( );
+        if ( nOrder < nOldOrder )
+        {
+            for ( IAdminDashboardComponent dc : listColumnDashboards )
+            {
+                int nCurrentOrder = dc.getOrder( );
+
+                if ( !dc.equals( dashboard ) && ( nCurrentOrder >= nOrder ) && ( nCurrentOrder < nOldOrder ) )
+                {
+                    dc.setOrder( nCurrentOrder + 1 );
+                    AdminDashboardHome.update( dc );
+                }
+            }
+        }
+        else
+            if ( nOrder > nOldOrder )
+            {
+                for ( IAdminDashboardComponent dc : listColumnDashboards )
+                {
+                    int nCurrentOrder = dc.getOrder( );
+
+                    if ( !dc.equals( dashboard ) && ( nCurrentOrder <= nOrder ) && ( nCurrentOrder > nOldOrder ) )
+                    {
+                        dc.setOrder( nCurrentOrder - 1 );
+                        AdminDashboardHome.update( dc );
+                    }
+                }
+            }
+    }
+
     /**
      * Returns all dashboards with no column/order set
      * 
@@ -265,7 +263,7 @@ public final class AdminDashboardService
         List<IAdminDashboardComponent> listDashboards = AdminDashboardHome.findAll( );
         List<IAdminDashboardComponent> listSpringDashboards = getAllAdminDashboardComponents( );
 
-        List<IAdminDashboardComponent> listUnsetDashboards = new ArrayList<IAdminDashboardComponent>( );
+        List<IAdminDashboardComponent> listUnsetDashboards = new ArrayList<>( );
 
         for ( IAdminDashboardComponent dashboard : listSpringDashboards )
         {
@@ -285,7 +283,7 @@ public final class AdminDashboardService
      */
     public Map<String, List<IAdminDashboardComponent>> getAllSetDashboards( )
     {
-        Map<String, List<IAdminDashboardComponent>> mapDashboardComponents = new HashMap<String, List<IAdminDashboardComponent>>( );
+        Map<String, List<IAdminDashboardComponent>> mapDashboardComponents = new HashMap<>( );
 
         List<IAdminDashboardComponent> listDashboards = AdminDashboardHome.findAll( );
 
@@ -296,14 +294,7 @@ public final class AdminDashboardService
             String strColumn = Integer.toString( nColumn );
 
             // find this column list
-            List<IAdminDashboardComponent> listDashboardsColumn = mapDashboardComponents.get( strColumn );
-
-            if ( listDashboardsColumn == null )
-            {
-                // the list does not exist, create it
-                listDashboardsColumn = new ArrayList<IAdminDashboardComponent>( );
-                mapDashboardComponents.put( strColumn, listDashboardsColumn );
-            }
+            List<IAdminDashboardComponent> listDashboardsColumn = mapDashboardComponents.computeIfAbsent( strColumn, s -> new ArrayList<>( ) );
 
             // add dashboard to the list
             listDashboardsColumn.add( dashboard );
@@ -364,7 +355,7 @@ public final class AdminDashboardService
      */
     public Map<String, Boolean> getOrderedColumnsStatus( )
     {
-        Map<String, Boolean> mapOrderedStatus = new HashMap<String, Boolean>( );
+        Map<String, Boolean> mapOrderedStatus = new HashMap<>( );
         List<Integer> listColumns = AdminDashboardHome.findColumns( );
 
         for ( Integer nIdColumn : listColumns )

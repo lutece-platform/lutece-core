@@ -1,0 +1,130 @@
+<#include "admindashboard_utils.html">
+
+<!-- DEFAULT USER PARAMETERS -->
+<@tabPanel active=true id='defaultUserParameterValues'>
+		<@tform method='post' name='default_user_parameters' action='jsp/admin/user/DoModifyDefaultUserParameterValues.jsp'>
+				<@input type='hidden' name='token' value='${token!""}' />
+				<@fieldSet legend='#i18n{portal.users.manage_advanced_parameters.defaultUserParameterValues}'>
+						<!-- USER LEVEL -->
+						<@formGroup labelKey='#i18n{portal.users.manage_advanced_parameters.userLevelLabel}' labelFor='user_level'>
+								<@select id='user_level' name='user_level'>
+										<#list user_levels as user_level>
+												<#if user_level.id = default_user_level.id>
+														<option value="${user_level.id}" selected="selected">${user_level.name}</option>
+												<#else>
+														<option value="${user_level.id}">${user_level.name}</option>
+												</#if>
+										</#list>
+								</@select>
+						</@formGroup>
+
+						<!-- USER NOTIFICATION -->
+						<@formGroup labelKey='#i18n{portal.users.manage_advanced_parameters.labelNotify}'>
+								<#if default_user_notification = 1>
+										<@radioButton name='notify_user' value='1' orientation='horizontal' labelKey='#i18n{portal.util.labelYes}' checked=true />
+										<@radioButton name='notify_user' value='0' orientation='horizontal' labelKey='#i18n{portal.util.labelNo}' />
+								<#else>
+										<@radioButton name='notify_user' value='1' orientation='horizontal' labelKey='#i18n{portal.util.labelYes}'/>
+										<@radioButton name='notify_user' value='0' orientation='horizontal' labelKey='#i18n{portal.util.labelNo}' checked=true />
+								</#if>
+						</@formGroup>
+
+						<!-- USER LANGUAGE -->
+						<@formGroup labelKey='#i18n{portal.users.manage_advanced_parameters.labelLanguage}' labelFor='language'>
+								<@select name='language' default_value='${default_user_language}' items=languages_list sort=true />
+						</@formGroup>
+
+						<!-- USER STATUS -->
+						<@formGroup labelKey='#i18n{portal.users.manage_advanced_parameters.labelStatus}' labelFor='status'>
+								<@select id='status' name='status'>
+										<#if default_user_status = 1>
+												<option value="0">#i18n{portal.users.manage_advanced_parameters.statusLabelEnabled}</option>
+												<option value="1" selected="selected" >#i18n{portal.users.manage_advanced_parameters.statusLabelDisabled}</option>
+										<#else>
+												<option value="0" selected="selected" >#i18n{portal.users.manage_advanced_parameters.statusLabelEnabled}</option>
+												<option value="1">#i18n{portal.users.manage_advanced_parameters.statusLabelDisabled}</option>
+										</#if>
+								</@select>
+						</@formGroup>
+
+						<@formGroup>
+								<@button type='submit' buttonIcon='check' title='#i18n{portal.users.manage_advanced_parameters.buttonModify}'  size='' />
+						</@formGroup>
+				</@fieldSet>
+		</@tform>
+</@tabPanel>
+        
+
+<!-- EMAIL PATTERN -->
+<#if email_pattern??>
+<@tabPanel id='ModifyEmailPattern'>
+	<@tform method='post' name='email_pattern_form' action='jsp/admin/user/DoModifyEmailPattern.jsp'>
+		<@input type='hidden' name='token' value='${token!""}' />
+		<@fieldSet legend='#i18n{portal.users.manage_advanced_parameters.labelModifyEmailPattern}'>
+			<#if plugin_regularexpression>
+			<@formGroup labelKey='#i18n{portal.users.manage_advanced_parameters.labelIsEmailPatternSetManually}' labelFor='is_email_pattern_set_manually'>
+			<#if is_email_pattern_set_manually><#assign checked = true></#if>
+					<@checkBox name='is_email_pattern_set_manually' id='is_email_pattern_set_manually' labelKey='#i18n{portal.users.manage_advanced_parameters.labelIsEmailPatternSetManuallyComment}' checked=checked />
+			</@formGroup>
+			<#else>
+			<@input type='hidden' name='is_email_pattern_set_manually' value='1' />
+			</#if>
+
+			<#if is_email_pattern_set_manually>
+			<@formGroup labelKey='#i18n{portal.users.manage_advanced_parameters.labelEmailPattern}' labelFor='email_pattern'>
+					<@inputGroup>
+							<@input type='text' id='email_pattern' name='email_pattern' value='${email_pattern?html}' />
+							<@inputGroupItem>
+									<@button type="submit" name="reset" value="reset" buttonIcon='refresh' title='#i18n{portal.users.manage_advanced_parameters.buttonResetEmailPattern}' />
+							</@inputGroupItem>
+					</@inputGroup>
+			</@formGroup>
+			<#else>
+			<@input type='hidden' name='email_pattern' value='${email_pattern}' />
+			</#if>
+
+			<@formGroup>
+					<@button type='submit' buttonIcon='check' title='#i18n{portal.users.manage_advanced_parameters.buttonModify}' size='' />
+			</@formGroup>
+		</@fieldSet>
+	</@tform>
+
+	<#if plugin_regularexpression && !is_email_pattern_set_manually>
+	<@tform method='post' action='jsp/admin/user/DoInsertRegularExpression.jsp#list-regularexpressions'>
+		<@input type='hidden' name='token' value='${token!""}' />
+		<@fieldSet legend='#i18n{portal.users.manage_advanced_parameters.labelRegularExpression}'>
+				<@formGroup labelKey='#i18n{portal.users.manage_advanced_parameters.labelRegularExpression}' labelFor='id_expression'>
+						<@select name='id_expression' items=available_regularexpressions default_value='-1' sort=true />
+				</@formGroup>
+				<@formGroup helpKey='#i18n{portal.users.manage_advanced_parameters.labelInsertComment}'>
+						<@button type='submit' title='#i18n{portal.users.manage_advanced_parameters.buttonInsert}' size='' />
+				</@formGroup>
+		</@fieldSet>
+	</@tform>
+	<@link name='list-regularexpressions' id='list-regularexpressions' />
+	<@table class='striped'>
+		<tr>
+			<th>#i18n{portal.users.manage_advanced_parameters.rowTitle}</th>
+			<th>#i18n{portal.users.manage_advanced_parameters.rowInformationMessage}</th>
+			<th>#i18n{portal.users.manage_advanced_parameters.rowValidExample}</th>
+			<th>#i18n{portal.users.manage_advanced_parameters.rowActions}</th>
+		</tr>
+		<#list selected_regularexpressions as expression>
+		<tr>
+			<td>${expression.title}</td>
+			<td>${expression.informationMessage}</td>
+			<td>${expression.validExemple}</td>
+			<td>
+					<@tform method='post' action='jsp/admin/user/DoRemoveRegularExpression.jsp#list-regularexpressions'>
+							<@input type='hidden' name='token' value='${token!""}' />
+							<@input type='hidden' name='id_expression' value='${expression.idExpression}' />
+							<@button type='submit' title='#i18n{portal.users.manage_advanced_parameters.buttonDelete}' hideTitle=['all'] buttonIcon='trash' size='sm' />
+					</@tform>
+			</td>
+		</tr>
+		</#list>
+	</@table>
+	</#if>
+ </@tabPanel>
+</#if>
+

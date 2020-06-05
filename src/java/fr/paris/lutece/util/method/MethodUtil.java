@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -84,8 +84,8 @@ public final class MethodUtil
      * @throws InvocationTargetException
      *             the invocation target exception
      */
-    public static <A, B> void set( A instance, String strAttributeName, B value ) throws SecurityException, NoSuchMethodException, IllegalArgumentException,
-            IllegalAccessException, InvocationTargetException
+    public static <A, B> void set( A instance, String strAttributeName, B value )
+            throws NoSuchMethodException, IllegalAccessException, InvocationTargetException
     {
         if ( StringUtils.isNotBlank( strAttributeName ) && ( instance != null ) && ( value != null ) )
         {
@@ -93,9 +93,7 @@ public final class MethodUtil
 
             if ( methodSetter != null )
             {
-                methodSetter.invoke( instance, new Object [ ] {
-                    value
-                } );
+                methodSetter.invoke( instance, value );
             }
             else
             {
@@ -127,8 +125,7 @@ public final class MethodUtil
      * @throws NoSuchMethodException
      *             the no such method exception
      */
-    public static <A> Method getMethod( String strMethodPrefix, A instance, String strAttributeName, Class<?> clazz ) throws SecurityException,
-            NoSuchMethodException
+    public static <A> Method getMethod( String strMethodPrefix, A instance, String strAttributeName, Class<?> clazz ) throws NoSuchMethodException
     {
         String strFirstLetter = strAttributeName.substring( 0, 1 ).toUpperCase( );
 
@@ -136,9 +133,7 @@ public final class MethodUtil
 
         try
         {
-            return instance.getClass( ).getMethod( strMethodName, new Class [ ] {
-                clazz
-            } );
+            return instance.getClass( ).getMethod( strMethodName, clazz );
         }
         catch( NoSuchMethodException e )
         {
@@ -163,62 +158,46 @@ public final class MethodUtil
      * @throws NoSuchMethodException
      *             the no such method exception
      */
-    public static <A> Method getPrimitiveMethod( String strMethodName, A instance, Class<?> clazz ) throws SecurityException, NoSuchMethodException
+    public static <A> Method getPrimitiveMethod( String strMethodName, A instance, Class<?> clazz ) throws NoSuchMethodException
     {
         if ( clazz.equals( Integer.class ) )
         {
-            return instance.getClass( ).getMethod( strMethodName, new Class [ ] {
-                int.class
-            } );
+            return instance.getClass( ).getMethod( strMethodName, int.class );
         }
         else
             if ( clazz.equals( Long.class ) )
             {
-                return instance.getClass( ).getMethod( strMethodName, new Class [ ] {
-                    long.class
-                } );
+                return instance.getClass( ).getMethod( strMethodName, long.class );
             }
             else
                 if ( clazz.equals( Double.class ) )
                 {
-                    return instance.getClass( ).getMethod( strMethodName, new Class [ ] {
-                        double.class
-                    } );
+                    return instance.getClass( ).getMethod( strMethodName, double.class );
                 }
                 else
                     if ( clazz.equals( Short.class ) )
                     {
-                        return instance.getClass( ).getMethod( strMethodName, new Class [ ] {
-                            short.class
-                        } );
+                        return instance.getClass( ).getMethod( strMethodName, short.class );
                     }
                     else
                         if ( clazz.equals( Byte.class ) )
                         {
-                            return instance.getClass( ).getMethod( strMethodName, new Class [ ] {
-                                byte.class
-                            } );
+                            return instance.getClass( ).getMethod( strMethodName, byte.class );
                         }
                         else
                             if ( clazz.equals( Float.class ) )
                             {
-                                return instance.getClass( ).getMethod( strMethodName, new Class [ ] {
-                                    float.class
-                                } );
+                                return instance.getClass( ).getMethod( strMethodName, float.class );
                             }
                             else
                                 if ( clazz.equals( Character.class ) )
                                 {
-                                    return instance.getClass( ).getMethod( strMethodName, new Class [ ] {
-                                        char.class
-                                    } );
+                                    return instance.getClass( ).getMethod( strMethodName, char.class );
                                 }
                                 else
                                     if ( clazz.equals( Boolean.class ) )
                                     {
-                                        return instance.getClass( ).getMethod( strMethodName, new Class [ ] {
-                                            boolean.class
-                                        } );
+                                        return instance.getClass( ).getMethod( strMethodName, boolean.class );
                                     }
 
         throw new NoSuchMethodException( );
@@ -241,7 +220,7 @@ public final class MethodUtil
      * @throws NoSuchMethodException
      *             the no such method exception
      */
-    public static <A> Method getSetter( A instance, String strAttributeName, Class<?> clazz ) throws SecurityException, NoSuchMethodException
+    public static <A> Method getSetter( A instance, String strAttributeName, Class<?> clazz ) throws NoSuchMethodException
     {
         return getMethod( PREFIX_SET, instance, strAttributeName, clazz );
     }
@@ -263,7 +242,7 @@ public final class MethodUtil
      * @throws NoSuchMethodException
      *             the no such method exception
      */
-    public static <A> Method getGetter( A instance, String strAttributeName, Class<?> clazz ) throws SecurityException, NoSuchMethodException
+    public static <A> Method getGetter( A instance, String strAttributeName, Class<?> clazz ) throws NoSuchMethodException
     {
         return getMethod( PREFIX_GET, instance, strAttributeName, clazz );
     }

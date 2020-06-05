@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,6 +33,12 @@
  */
 package fr.paris.lutece.portal.web.portlet;
 
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
 import fr.paris.lutece.portal.business.page.PageHome;
 import fr.paris.lutece.portal.business.portlet.Portlet;
 import fr.paris.lutece.portal.business.portlet.PortletHome;
@@ -49,12 +55,7 @@ import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.html.HtmlTemplate;
-
-import java.util.HashMap;
-import java.util.Locale;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
+import fr.paris.lutece.util.string.StringUtil;
 
 /**
  * This class represents user interface Portlet. It is the base class of all user interface portlets. It is abstract and the implementation of the interface
@@ -207,18 +208,15 @@ public abstract class PortletJspBean extends AdminFeaturesPageJspBean
         strName = strName.replaceAll( "\"", "" );
 
         // Check Mandatory fields
-        if ( strName.equals( "" ) || strOrder.equals( "" ) || strColumn.equals( "" ) || strAcceptAlias.equals( "" ) || strAcceptPortletTitle.equals( "" ) )
+        if ( StringUtil.isAnyEmpty( strName, strOrder, strColumn, strAcceptAlias, strAcceptPortletTitle ) )
         {
             return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
         }
 
         // style id is not mandatory if the content is not generated from XML and XSL
-        if ( portlet.isContentGeneratedByXmlAndXsl( ) )
+        if ( portlet.isContentGeneratedByXmlAndXsl( ) && ( strStyleId == null || strStyleId.trim( ).equals( "" ) ) )
         {
-            if ( ( strStyleId == null ) || strStyleId.trim( ).equals( "" ) )
-            {
-                return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
-            }
+            return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
         }
 
         String strPageId = request.getParameter( PARAMETER_PAGE_ID );
@@ -295,7 +293,7 @@ public abstract class PortletJspBean extends AdminFeaturesPageJspBean
      */
     protected HtmlTemplate getCreateTemplate( String strPageId, String strPortletTypeId )
     {
-        return getCreateTemplate( strPageId, strPortletTypeId, new HashMap<String, Object>( ) );
+        return getCreateTemplate( strPageId, strPortletTypeId, new HashMap<>( ) );
     }
 
     /**
@@ -322,9 +320,7 @@ public abstract class PortletJspBean extends AdminFeaturesPageJspBean
         model.put( MARK_PORTLET_STYLES_COMBO, PortletHome.getStylesList( strPortletTypeId ) );
         model.put( MARK_PORTLET_ROLES_COMBO, RoleHome.getRolesList( getUser( ) ) );
 
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CREATE_PORTLET, locale, model );
-
-        return template;
+        return AppTemplateService.getTemplate( TEMPLATE_CREATE_PORTLET, locale, model );
     }
 
     /**
@@ -336,7 +332,7 @@ public abstract class PortletJspBean extends AdminFeaturesPageJspBean
      */
     protected HtmlTemplate getModifyTemplate( Portlet portlet )
     {
-        return getModifyTemplate( portlet, new HashMap<String, Object>( ) );
+        return getModifyTemplate( portlet, new HashMap<>( ) );
     }
 
     /**
@@ -363,9 +359,7 @@ public abstract class PortletJspBean extends AdminFeaturesPageJspBean
         putCheckBox( model, MARK_LARGE_CHECKED, portlet.hasDeviceDisplayFlag( Portlet.FLAG_DISPLAY_ON_LARGE_DEVICE ) );
         putCheckBox( model, MARK_XLARGE_CHECKED, portlet.hasDeviceDisplayFlag( Portlet.FLAG_DISPLAY_ON_XLARGE_DEVICE ) );
 
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MODIFY_PORTLET, getLocale( ), model );
-
-        return template;
+        return AppTemplateService.getTemplate( TEMPLATE_MODIFY_PORTLET, getLocale( ), model );
     }
 
     /**

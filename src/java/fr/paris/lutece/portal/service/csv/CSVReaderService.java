@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,8 +33,22 @@
  */
 package fr.paris.lutece.portal.service.csv;
 
-import au.com.bytecode.opencsv.CSVReader;
+import java.io.ByteArrayInputStream;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.Reader;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Locale;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.fileupload.FileItem;
+
+import au.com.bytecode.opencsv.CSVReader;
 import fr.paris.lutece.portal.business.file.File;
 import fr.paris.lutece.portal.business.physicalfile.PhysicalFile;
 import fr.paris.lutece.portal.business.physicalfile.PhysicalFileHome;
@@ -42,22 +56,6 @@ import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.stream.StreamUtil;
-
-import org.apache.commons.fileupload.FileItem;
-
-import java.io.ByteArrayInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.Reader;
-
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
 
 /**
  * Service to get data from a CSV file. The CSV might be a physical file, or a memory file. Implementations can either be statefull or stateless, but if the
@@ -185,9 +183,9 @@ public abstract class CSVReaderService
             }
         }
 
-        List<CSVMessageDescriptor> listErrors = new ArrayList<CSVMessageDescriptor>( );
-        CSVMessageDescriptor errorDescription = new CSVMessageDescriptor( CSVMessageLevel.ERROR, 0, I18nService.getLocalizedString( MESSAGE_NO_FILE_FOUND,
-                locale ) );
+        List<CSVMessageDescriptor> listErrors = new ArrayList<>( );
+        CSVMessageDescriptor errorDescription = new CSVMessageDescriptor( CSVMessageLevel.ERROR, 0,
+                I18nService.getLocalizedString( MESSAGE_NO_FILE_FOUND, locale ) );
         listErrors.add( errorDescription );
 
         return listErrors;
@@ -219,21 +217,20 @@ public abstract class CSVReaderService
     {
         java.io.File file = new java.io.File( strPath );
 
-        try
+        try ( FileReader fileReader = new FileReader( file ) )
         {
-            FileReader fileReader = new FileReader( file );
             CSVReader csvReader = new CSVReader( fileReader, getCSVSeparator( ), getCSVEscapeCharacter( ) );
 
             return readCSVFile( fileReader, csvReader, nColumnNumber, bCheckFileBeforeProcessing, bExitOnError, bSkipFirstLine, locale, strBaseUrl );
         }
-        catch( FileNotFoundException e )
+        catch( IOException e )
         {
             AppLogService.error( e.getMessage( ), e );
         }
 
-        List<CSVMessageDescriptor> listErrors = new ArrayList<CSVMessageDescriptor>( );
-        CSVMessageDescriptor errorDescription = new CSVMessageDescriptor( CSVMessageLevel.ERROR, 0, I18nService.getLocalizedString( MESSAGE_NO_FILE_FOUND,
-                locale ) );
+        List<CSVMessageDescriptor> listErrors = new ArrayList<>( );
+        CSVMessageDescriptor errorDescription = new CSVMessageDescriptor( CSVMessageLevel.ERROR, 0,
+                I18nService.getLocalizedString( MESSAGE_NO_FILE_FOUND, locale ) );
         listErrors.add( errorDescription );
 
         return listErrors;
@@ -309,9 +306,9 @@ public abstract class CSVReaderService
             }
         }
 
-        List<CSVMessageDescriptor> listErrors = new ArrayList<CSVMessageDescriptor>( );
-        CSVMessageDescriptor errorDescription = new CSVMessageDescriptor( CSVMessageLevel.ERROR, 0, I18nService.getLocalizedString( MESSAGE_NO_FILE_FOUND,
-                locale ) );
+        List<CSVMessageDescriptor> listErrors = new ArrayList<>( );
+        CSVMessageDescriptor errorDescription = new CSVMessageDescriptor( CSVMessageLevel.ERROR, 0,
+                I18nService.getLocalizedString( MESSAGE_NO_FILE_FOUND, locale ) );
         listErrors.add( errorDescription );
 
         return listErrors;
@@ -343,7 +340,7 @@ public abstract class CSVReaderService
     protected List<CSVMessageDescriptor> readCSVFile( Reader reader, CSVReader csvReader, int nColumnNumber, boolean bCheckFileBeforeProcessing,
             boolean bExitOnError, boolean bSkipFirstLine, Locale locale, String strBaseUrl )
     {
-        List<CSVMessageDescriptor> listMessages = new ArrayList<CSVMessageDescriptor>( );
+        List<CSVMessageDescriptor> listMessages = new ArrayList<>( );
         int nLineNumber = 0;
 
         if ( bSkipFirstLine )
@@ -357,8 +354,8 @@ public abstract class CSVReaderService
             {
                 AppLogService.error( e.getMessage( ), e );
 
-                CSVMessageDescriptor error = new CSVMessageDescriptor( CSVMessageLevel.ERROR, 1, I18nService.getLocalizedString( MESSAGE_ERROR_READING_FILE,
-                        locale ) );
+                CSVMessageDescriptor error = new CSVMessageDescriptor( CSVMessageLevel.ERROR, 1,
+                        I18nService.getLocalizedString( MESSAGE_ERROR_READING_FILE, locale ) );
                 listMessages.add( error );
 
                 if ( bExitOnError )
@@ -375,7 +372,7 @@ public abstract class CSVReaderService
 
         if ( bCheckFileBeforeProcessing )
         {
-            listLines = new ArrayList<String [ ]>( );
+            listLines = new ArrayList<>( );
 
             String [ ] strLine = null;
 
@@ -390,8 +387,8 @@ public abstract class CSVReaderService
                 {
                     AppLogService.error( e.getMessage( ), e );
 
-                    CSVMessageDescriptor error = new CSVMessageDescriptor( CSVMessageLevel.ERROR, nLineNumber, I18nService.getLocalizedString(
-                            MESSAGE_ERROR_READING_FILE, locale ) );
+                    CSVMessageDescriptor error = new CSVMessageDescriptor( CSVMessageLevel.ERROR, nLineNumber,
+                            I18nService.getLocalizedString( MESSAGE_ERROR_READING_FILE, locale ) );
                     listMessages.add( error );
 
                     if ( bExitOnError )
@@ -414,18 +411,15 @@ public abstract class CSVReaderService
 
             List<CSVMessageDescriptor> listCheckErrors = checkCSVFileValidity( listLines, nColumnNumber, bSkipFirstLine, locale );
 
-            if ( listCheckErrors.size( ) > 0 )
+            if ( CollectionUtils.isNotEmpty( listCheckErrors ) && doesListMessageContainError( listCheckErrors ) )
             {
-                if ( doesListMessageContainError( listCheckErrors ) )
-                {
-                    listCheckErrors.addAll( 0, listMessages );
-                    StreamUtil.safeClose( csvReader );
-                    StreamUtil.safeClose( reader );
+                listCheckErrors.addAll( 0, listMessages );
+                StreamUtil.safeClose( csvReader );
+                StreamUtil.safeClose( reader );
 
-                    Collections.sort( listMessages );
+                Collections.sort( listMessages );
 
-                    return listCheckErrors;
-                }
+                return listCheckErrors;
             }
 
             nLineNumber = 0;
@@ -468,8 +462,8 @@ public abstract class CSVReaderService
                     strLine = null;
                     AppLogService.error( e.getMessage( ), e );
 
-                    CSVMessageDescriptor error = new CSVMessageDescriptor( CSVMessageLevel.ERROR, nLineNumber, I18nService.getLocalizedString(
-                            MESSAGE_ERROR_READING_FILE, locale ) );
+                    CSVMessageDescriptor error = new CSVMessageDescriptor( CSVMessageLevel.ERROR, nLineNumber,
+                            I18nService.getLocalizedString( MESSAGE_ERROR_READING_FILE, locale ) );
                     listMessages.add( error );
 
                     if ( bExitOnError )
@@ -493,9 +487,9 @@ public abstract class CSVReaderService
                         {
                             List<CSVMessageDescriptor> listFileCheckMessages = checkLineOfCSVFile( strLine, nLineNumber, locale );
 
-                            if ( ( listFileCheckMessages != null ) && ( listFileCheckMessages.size( ) > 0 ) )
+                            if ( CollectionUtils.isNotEmpty( listFileCheckMessages ) )
                             {
-                                if ( ( listLinesMessages != null ) && ( listLinesMessages.size( ) > 0 ) )
+                                if ( CollectionUtils.isNotEmpty( listLinesMessages ) )
                                 {
                                     listLinesMessages.addAll( listFileCheckMessages );
                                 }
@@ -506,7 +500,7 @@ public abstract class CSVReaderService
                             }
                         }
 
-                        if ( ( listLinesMessages != null ) && ( listLinesMessages.size( ) > 0 ) )
+                        if ( CollectionUtils.isNotEmpty( listLinesMessages ) )
                         {
                             listMessages.addAll( listLinesMessages );
                         }
@@ -517,7 +511,7 @@ public abstract class CSVReaderService
                     {
                         List<CSVMessageDescriptor> listMessagesOfCurrentLine = readLineOfCSVFile( strLine, nLineNumber, locale, strBaseUrl );
 
-                        if ( ( listMessagesOfCurrentLine != null ) && ( listMessagesOfCurrentLine.size( ) > 0 ) )
+                        if ( CollectionUtils.isNotEmpty( listMessagesOfCurrentLine ) )
                         {
                             listMessages.addAll( listMessagesOfCurrentLine );
                         }
@@ -539,8 +533,8 @@ public abstract class CSVReaderService
                 {
                     AppLogService.error( e.getMessage( ), e );
 
-                    CSVMessageDescriptor error = new CSVMessageDescriptor( CSVMessageLevel.ERROR, nLineNumber, I18nService.getLocalizedString(
-                            MESSAGE_UNKOWN_ERROR, locale ) );
+                    CSVMessageDescriptor error = new CSVMessageDescriptor( CSVMessageLevel.ERROR, nLineNumber,
+                            I18nService.getLocalizedString( MESSAGE_UNKOWN_ERROR, locale ) );
                     listMessages.add( error );
 
                     if ( bExitOnError )
@@ -567,7 +561,7 @@ public abstract class CSVReaderService
 
         List<CSVMessageDescriptor> listMessagesEndOfProcess = getEndOfProcessMessages( nLineNumber, nNbLinesWithoutErrors, locale );
 
-        if ( ( listMessagesEndOfProcess != null ) && ( listMessagesEndOfProcess.size( ) > 0 ) )
+        if ( CollectionUtils.isNotEmpty( listMessagesEndOfProcess ) )
         {
             listMessages.addAll( 0, listMessagesEndOfProcess );
         }
@@ -592,7 +586,7 @@ public abstract class CSVReaderService
      */
     protected List<CSVMessageDescriptor> checkCSVFileValidity( List<String [ ]> listLines, int nColumnNumber, boolean bSkipFirstLine, Locale locale )
     {
-        List<CSVMessageDescriptor> listErrors = new ArrayList<CSVMessageDescriptor>( );
+        List<CSVMessageDescriptor> listErrors = new ArrayList<>( );
         int nLineNumber = 0;
 
         if ( bSkipFirstLine )
@@ -606,7 +600,7 @@ public abstract class CSVReaderService
 
             List<CSVMessageDescriptor> listMessages = checkCSVLineColumnNumber( strLine, nColumnNumber, nLineNumber, locale );
 
-            if ( ( listMessages != null ) && ( listMessages.size( ) > 0 ) )
+            if ( CollectionUtils.isNotEmpty( listMessages ) )
             {
                 listErrors.addAll( listMessages );
             }
@@ -615,7 +609,7 @@ public abstract class CSVReaderService
             {
                 listMessages = checkLineOfCSVFile( strLine, nLineNumber, locale );
 
-                if ( ( listMessages != null ) && ( listMessages.size( ) > 0 ) )
+                if ( CollectionUtils.isNotEmpty( listMessages ) )
                 {
                     listErrors.addAll( listMessages );
                 }
@@ -642,7 +636,7 @@ public abstract class CSVReaderService
     {
         if ( ( strLine == null ) || ( ( nColumnNumber > 0 ) && ( strLine.length != nColumnNumber ) ) )
         {
-            List<CSVMessageDescriptor> listMessages = new ArrayList<CSVMessageDescriptor>( );
+            List<CSVMessageDescriptor> listMessages = new ArrayList<>( );
             Object [ ] args = {
                     ( strLine == null ) ? 0 : strLine.length, nColumnNumber
             };
@@ -717,7 +711,7 @@ public abstract class CSVReaderService
      */
     private boolean doesListMessageContainError( List<CSVMessageDescriptor> listMessageOfCurrentLine )
     {
-        if ( ( listMessageOfCurrentLine != null ) && ( listMessageOfCurrentLine.size( ) > 0 ) )
+        if ( CollectionUtils.isNotEmpty( listMessageOfCurrentLine ) )
         {
             for ( CSVMessageDescriptor message : listMessageOfCurrentLine )
             {

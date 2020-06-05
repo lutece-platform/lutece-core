@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -56,6 +56,10 @@ public class ReferenceListTest extends LuteceTestCase
         ReferenceList instance = new ReferenceList( );
 
         instance.addItem( strCode, strName );
+        
+        ReferenceItem item = instance.get( 0 );
+        assertEquals( strCode, item.getCode( ) );
+        assertEquals( strName, item.getName( ) );
     }
 
     /**
@@ -65,7 +69,7 @@ public class ReferenceListTest extends LuteceTestCase
     {
         System.out.println( "convert" );
 
-        Collection collection = new ArrayList( );
+        Collection<ReferenceItem> collection = new ArrayList<>( );
         ReferenceItem item = new ReferenceItem( );
         String strCode = "code 1";
         String strName = "name 1";

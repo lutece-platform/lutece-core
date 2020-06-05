@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -35,13 +35,17 @@ package fr.paris.lutece.portal.business.event;
 
 /**
  * IEventParam
- * @param <T> type of param.
+ * 
+ * @param <T>
+ *            type of param.
  */
-public interface IEventParam<T> {
-	
-	/**
-	 * Get the value of the parameter.
-	 * @return
-	 */
-	T getValue( );
+public interface IEventParam<T>
+{
+
+    /**
+     * Get the value of the parameter.
+     * 
+     * @return
+     */
+    T getValue( );
 }

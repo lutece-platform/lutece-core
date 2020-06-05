@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,8 +33,11 @@
  */
 package fr.paris.lutece.portal.business.user;
 
-import fr.paris.lutece.portal.business.rbac.AdminRole;
+import fr.paris.lutece.api.user.User;
+import fr.paris.lutece.api.user.UserRole;
+import fr.paris.lutece.portal.business.rbac.RBACRole;
 import fr.paris.lutece.portal.business.right.Right;
+import fr.paris.lutece.portal.business.user.attribute.IAttribute;
 import fr.paris.lutece.portal.business.user.authentication.AdminAuthentication;
 import fr.paris.lutece.portal.business.user.parameter.EmailPatternRegularExpressionRemovalListener;
 import fr.paris.lutece.portal.service.regularexpression.RegularExpressionRemovalListenerService;
@@ -46,22 +49,27 @@ import org.apache.commons.lang.StringUtils;
 import java.io.Serializable;
 
 import java.sql.Timestamp;
-
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+
+import javax.validation.constraints.NotNull;
 
 /**
  * This Interface defines all methods required for an admin user implementation
  */
-public class AdminUser implements Serializable, AdminWorkgroupResource
+public class AdminUser implements Serializable, AdminWorkgroupResource, User
 {
     public static final String RESOURCE_TYPE = "ADMIN_USER";
+    /** USER REALM TYPE **/
+    public static final String USER_REALM = "BACK_OFFICE_USER";
     public static final int ACTIVE_CODE = 0;
     public static final int NOT_ACTIVE_CODE = 1;
     public static final int EXPIRED_CODE = 5;
     public static final int ANONYMIZED_CODE = 10;
-    public static final Timestamp DEFAULT_DATE_LAST_LOGIN = Timestamp.valueOf( "1980-01-01 00:00:00" );
+    private static final Timestamp DEFAULT_DATE_LAST_LOGIN = Timestamp.valueOf( "1980-01-01 00:00:00" );
     private static final long serialVersionUID = 7533831976351347197L;
     private static EmailPatternRegularExpressionRemovalListener _listenerRegularExpression;
     private int _nUserId;
@@ -77,16 +85,19 @@ public class AdminUser implements Serializable, AdminWorkgroupResource
     private Timestamp _accountMaxValidDate;
     private Timestamp _dateLastLogin;
     private String _strWorkgroupKey;
+    private HashMap<String, Object> _userInfo = new HashMap<>( );
+    /** User's workgroups */
+    private List<String> _workgroups = new ArrayList<String>( );
 
     /**
      * User's rights. We use a HashMap instead of a Map so that the field is forced to be serializable.
      */
-    private HashMap<String, Right> _rights = new HashMap<String, Right>( );
+    private HashMap<String, Right> _rights = new HashMap<>( );
 
     /**
      * User's roles. We use a HashMap instead of a Map so that the field is forced to be serializable.
      */
-    private HashMap<String, AdminRole> _roles = new HashMap<String, AdminRole>( );
+    private HashMap<String, UserRole> _roles = new HashMap<>( );
 
     /** Authentication Service */
     private String _strAuthenticationService;
@@ -135,6 +146,7 @@ public class AdminUser implements Serializable, AdminWorkgroupResource
      * 
      * @return The user's locale
      */
+    @NotNull
     public Locale getLocale( )
     {
         return ( _locale == null ) ? LocaleService.getDefault( ) : _locale;
@@ -235,6 +247,7 @@ public class AdminUser implements Serializable, AdminWorkgroupResource
      *
      * @return the user last name
      */
+    @Override
     public String getLastName( )
     {
         return _strLastName;
@@ -256,6 +269,7 @@ public class AdminUser implements Serializable, AdminWorkgroupResource
      *
      * @return the user first name
      */
+    @Override
     public String getFirstName( )
     {
         return _strFirstName;
@@ -277,6 +291,7 @@ public class AdminUser implements Serializable, AdminWorkgroupResource
      *
      * @return the user email
      */
+    @Override
     public String getEmail( )
     {
         return _strEmail;
@@ -296,6 +311,7 @@ public class AdminUser implements Serializable, AdminWorkgroupResource
     /**
      * @return Returns the _strAccessCode.
      */
+    @Override
     public String getAccessCode( )
     {
         return _strAccessCode;
@@ -355,9 +371,20 @@ public class AdminUser implements Serializable, AdminWorkgroupResource
     /**
      * Returns user's roles
      * 
+     * @deprecated use getRBACRoles( )
      * @return Returns user's roles
      */
-    public Map<String, AdminRole> getRoles( )
+    @Deprecated
+    public Map<String, UserRole> getRoles( )
+    {
+        return _roles;
+    }
+
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public Map<String, UserRole> getUserRoles( )
     {
         return _roles;
     }
@@ -368,7 +395,7 @@ public class AdminUser implements Serializable, AdminWorkgroupResource
      * @param roles
      *            The User roles
      */
-    public void addRoles( Map<String, AdminRole> roles )
+    public void addRoles( Map<String, RBACRole> roles )
     {
         _roles.putAll( roles );
     }
@@ -379,7 +406,7 @@ public class AdminUser implements Serializable, AdminWorkgroupResource
      * @param roles
      *            The User roles
      */
-    public void setRoles( Map<String, AdminRole> roles )
+    public void setRoles( Map<String, RBACRole> roles )
     {
         _roles.clear( );
         _roles.putAll( roles );
@@ -547,7 +574,7 @@ public class AdminUser implements Serializable, AdminWorkgroupResource
     {
         // Reload roles because roles are only load by the bind and should not be accessible
         // through users list for security reasons
-        Map<String, AdminRole> roles = AdminUserHome.getRolesListForUser( getUserId( ) );
+        Map<String, RBACRole> roles = AdminUserHome.getRolesListForUser( getUserId( ) );
 
         return roles.containsKey( strRole );
     }
@@ -635,6 +662,78 @@ public class AdminUser implements Serializable, AdminWorkgroupResource
     @Override
     public String getWorkgroup( )
     {
-        return _strWorkgroupKey;
+        return getWorkgroupKey( );
     }
+
+    /**
+     * Sets a user info for the given key.
+     * 
+     * User infos are intended to be lightweight attributes that do not expose a UI, by opposition the {@link IAttribute} system. The user infos are not
+     * persisted. Subclasses can choose another strategy.
+     * 
+     * @param strKey
+     *            the key
+     * @param info
+     *            the info
+     * @param <X>
+     *            the value's type stored in the user map info
+     * @return the previous value associated with <tt>strKey</tt>, or <tt>null</tt> if there was no mapping for <tt>strKey</tt>. (A <tt>null</tt> return can
+     *         also indicate that <tt>null</tt> was previously associated with <tt>strKey</tt>)
+     * @since 6.2.0
+     */
+    public <X extends Object> X setUserInfo( String strKey, X info )
+    {
+        return (X) _userInfo.put( strKey, info );
+    }
+
+    /**
+     * Gets the user info for a given key
+     * 
+     * @param strKey
+     *            the key
+     * @param <X>
+     *            the value's type stored in the user map info
+     * @return the info
+     * @since 6.2.0
+     * @see #setUserInfo(String, Object)
+     */
+    public <X extends Object> X getUserInfo( String strKey )
+    {
+        return (X) _userInfo.get( strKey );
+    }
+
+    public static Timestamp getDefaultDateLastLogin( )
+    {
+        return new Timestamp( DEFAULT_DATE_LAST_LOGIN.getTime( ) );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<String> getUserWorkgroups( )
+    {
+        return _workgroups;
+    }
+
+    /**
+     * Defines user's workgroups
+     * 
+     * @param worgroups
+     *            The User workgroups
+     */
+    public void setUserWorkgroups( List<String> workgroups )
+    {
+        this._workgroups = workgroups;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getRealm( )
+    {
+        return USER_REALM;
+    }
+
 }

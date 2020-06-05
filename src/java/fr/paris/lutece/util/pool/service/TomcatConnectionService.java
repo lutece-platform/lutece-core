@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -38,7 +38,7 @@ import org.apache.log4j.Logger;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-import java.util.Hashtable;
+import java.util.Map;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -57,6 +57,7 @@ public class TomcatConnectionService implements ConnectionService
     /**
      * {@inheritDoc}
      */
+    @Override
     public Connection getConnection( )
     {
         Connection conn = null;
@@ -84,6 +85,7 @@ public class TomcatConnectionService implements ConnectionService
     /**
      * {@inheritDoc}
      */
+    @Override
     public void freeConnection( Connection conn )
     {
         try
@@ -103,7 +105,8 @@ public class TomcatConnectionService implements ConnectionService
     /**
      * {@inheritDoc}
      */
-    public void init( Hashtable<String, String> htParamsConnectionPool )
+    @Override
+    public void init( Map<String, String> htParamsConnectionPool )
     {
         try
         {
@@ -123,6 +126,7 @@ public class TomcatConnectionService implements ConnectionService
     /**
      * {@inheritDoc}
      */
+    @Override
     public void setPoolName( String strPoolName )
     {
         _strPoolName = strPoolName;
@@ -131,6 +135,7 @@ public class TomcatConnectionService implements ConnectionService
     /**
      * {@inheritDoc}
      */
+    @Override
     public String getPoolName( )
     {
         return _strPoolName;
@@ -142,6 +147,7 @@ public class TomcatConnectionService implements ConnectionService
      * @param logger
      *            The logger
      */
+    @Override
     public void setLogger( Logger logger )
     {
         _logger = logger;
@@ -150,6 +156,7 @@ public class TomcatConnectionService implements ConnectionService
     /**
      * {@inheritDoc}
      */
+    @Override
     public Logger getLogger( )
     {
         return _logger;
@@ -158,6 +165,7 @@ public class TomcatConnectionService implements ConnectionService
     /**
      * {@inheritDoc}
      */
+    @Override
     public void release( )
     {
         // Nothing to do
@@ -166,6 +174,7 @@ public class TomcatConnectionService implements ConnectionService
     /**
      * {@inheritDoc}
      */
+    @Override
     public int getCurrentConnections( )
     {
         return ConnectionService.INFO_NOT_AVAILABLE;
@@ -174,6 +183,7 @@ public class TomcatConnectionService implements ConnectionService
     /**
      * {@inheritDoc}
      */
+    @Override
     public int getMaxConnections( )
     {
         return ConnectionService.INFO_NOT_AVAILABLE;
@@ -182,6 +192,7 @@ public class TomcatConnectionService implements ConnectionService
     /**
      * {@inheritDoc }
      */
+    @Override
     public String getPoolProvider( )
     {
         return "Tomcat";
@@ -190,6 +201,7 @@ public class TomcatConnectionService implements ConnectionService
     /**
      * {@inheritDoc }
      */
+    @Override
     public DataSource getDataSource( )
     {
         return _ds;

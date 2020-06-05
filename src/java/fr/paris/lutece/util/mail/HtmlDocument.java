@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -131,7 +131,7 @@ public class HtmlDocument
      */
     public Map<String, URL> getAllUrls( ElementUrl elementType )
     {
-        Map<String, URL> mapUrl = new HashMap<String, URL>( );
+        Map<String, URL> mapUrl = new HashMap<>( );
 
         NodeList nodes = _content.getElementsByTagName( elementType.getTagName( ) );
 
@@ -181,8 +181,7 @@ public class HtmlDocument
      */
     public List<UrlAttachment> getAllUrlsAttachement( ElementUrl elementType )
     {
-        List<UrlAttachment> listUrlAttachement = new ArrayList<UrlAttachment>( );
-        UrlAttachment urlAttachement;
+        List<UrlAttachment> listUrlAttachement = new ArrayList<>( );
         NodeList nodes = _content.getElementsByTagName( elementType.getTagName( ) );
 
         for ( int i = 0; i < nodes.getLength( ); i++ )
@@ -207,30 +206,34 @@ public class HtmlDocument
             if ( ( strAttributeName != null ) && ( attributes != null ) )
             {
                 Node attributeNode = attributes.getNamedItem( strAttributeName );
-
-                if ( attributeNode != null )
-                {
-                    String strSrc = attributeNode.getNodeValue( );
-
-                    if ( ( strSrc != null ) && strSrc.startsWith( _strBaseUrl ) )
-                    {
-                        try
-                        {
-                            URL url = new URL( strSrc );
-                            urlAttachement = new UrlAttachment( getUrlName( url ), url );
-                            listUrlAttachement.add( urlAttachement );
-                        }
-                        catch( MalformedURLException e )
-                        {
-                            // ignored document
-                            AppLogService.info( strSrc + " not found, location ignored." );
-                        }
-                    }
-                }
+                createAttributeUrl( attributeNode, listUrlAttachement );
             }
         }
 
         return listUrlAttachement;
+    }
+
+    private void createAttributeUrl( Node attributeNode, List<UrlAttachment> listUrlAttachement )
+    {
+        if ( attributeNode != null )
+        {
+            String strSrc = attributeNode.getNodeValue( );
+
+            if ( ( strSrc != null ) && strSrc.startsWith( _strBaseUrl ) )
+            {
+                try
+                {
+                    URL url = new URL( strSrc );
+                    UrlAttachment urlAttachement = new UrlAttachment( getUrlName( url ), url );
+                    listUrlAttachement.add( urlAttachement );
+                }
+                catch( MalformedURLException e )
+                {
+                    // ignored document
+                    AppLogService.info( strSrc + " not found, location ignored." );
+                }
+            }
+        }
     }
 
     /**

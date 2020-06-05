@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -74,16 +74,14 @@ public class SiteMapAppTest extends LuteceTestCase
      */
     public void testGetPage( )
     {
-        System.out.println( "getPage" );
-
         MockHttpServletRequest request = new MockHttpServletRequest( );
 
         int nMode = 0;
         Plugin plugin = null;
         SiteMapApp instance = new SiteMapApp( );
 
-        XPage expResult = null;
         XPage result = instance.getPage( request, nMode, plugin );
+        assertNotNull( result );
     }
 
     public void testGetPageMod( )

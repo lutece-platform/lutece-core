@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -77,13 +77,6 @@ public interface IPortletDAO
      *            the portlet reference
      */
     void store( Portlet portlet );
-
-    /**
-     * Returns a new primary key which will be used to add a new portlet
-     *
-     * @return The new key.
-     */
-    int newPrimaryKey( );
 
     /**
      * Update the portlet status : 0 for activated - 1 for suspended

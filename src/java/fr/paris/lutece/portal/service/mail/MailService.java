@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -69,27 +69,6 @@ public final class MailService
     {
         getQueue( ).send( item );
         AppDaemonService.signalDaemon( MailSenderDaemon.DAEMON_ID );
-    }
-
-    /**
-     * Send a message asynchronously. The message is queued until a daemon thread send all awaiting messages
-     * 
-     * @param strRecipient
-     *            The recipient email.
-     * @param strSenderName
-     *            The sender name.
-     * @param strSenderEmail
-     *            The sender email address.
-     * @param strSubject
-     *            The message subject.
-     * @param strMessage
-     *            The message.
-     * @deprecated Use {@link #sendMailText(String strRecipient, String strSenderName, String strSenderEmail, String strSubject, String strMessage)} instead
-     */
-    @Deprecated
-    public static void sendMail( String strRecipient, String strSenderName, String strSenderEmail, String strSubject, String strMessage )
-    {
-        sendMailText( strRecipient, strSenderName, strSenderEmail, strSubject, strMessage );
     }
 
     /**
@@ -568,9 +547,7 @@ public final class MailService
      */
     public static IMailQueue getQueue( )
     {
-        IMailQueue queue = (IMailQueue) SpringContextService.getBean( BEAN_MAIL_QUEUE );
-
-        return queue;
+        return SpringContextService.getBean( BEAN_MAIL_QUEUE );
     }
 
     /**

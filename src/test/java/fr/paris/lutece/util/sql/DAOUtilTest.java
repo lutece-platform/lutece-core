@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -104,42 +104,36 @@ public class DAOUtilTest extends LuteceTestCase
             daoUtil.free( );
         }
 
-        DAOUtil daoUtildelete = new DAOUtil( SQL_DELETE );
-        try
+        try ( DAOUtil daoUtildelete = new DAOUtil( SQL_DELETE ) )
         {
             daoUtildelete.setString( 1, key );
             daoUtildelete.executeUpdate( );
         }
-        finally
-        {
-            daoUtildelete.free( );
+        catch (Exception e) {
+            fail( );
         }
     }
 
     public void testDAOUtil_str_FAIL_NO_GENERATED_KEYS( )
     {
         String key = TESTKEY + new SecureRandom( ).nextLong( );
-        DAOUtil daoUtil = new DAOUtil( SQL_INSERT, Statement.NO_GENERATED_KEYS );
-        try
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_INSERT, Statement.NO_GENERATED_KEYS ) )
         {
             daoUtil.setString( 1, key );
             daoUtil.setString( 2, TESTVALUE );
             daoUtil.executeUpdate( );
         }
-        finally
-        {
-            daoUtil.free( );
+        catch (Exception e) {
+            fail( );
         }
 
-        DAOUtil daoUtildelete = new DAOUtil( SQL_DELETE );
-        try
+        try ( DAOUtil daoUtildelete = new DAOUtil( SQL_DELETE ) )
         {
             daoUtildelete.setString( 1, key );
             daoUtildelete.executeUpdate( );
         }
-        finally
-        {
-            daoUtildelete.free( );
+        catch (Exception e) {
+            fail( );
         }
     }
 

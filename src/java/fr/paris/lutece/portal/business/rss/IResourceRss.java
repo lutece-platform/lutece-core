@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -158,15 +158,6 @@ public interface IResourceRss
      * @return true if resourceRss content resource
      */
     boolean contentResourceRss( );
-
-    /**
-     * create Html Rss
-     * 
-     * @return Html rss
-     * @deprecated use {@link #getFeed()} instead.
-     */
-    @Deprecated
-    String createHtmlRss( );
 
     /**
      * Gets the feed with items

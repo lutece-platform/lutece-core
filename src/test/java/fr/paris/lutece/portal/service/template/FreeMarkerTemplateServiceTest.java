@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,12 +33,15 @@
  */
 package fr.paris.lutece.portal.service.template;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.apache.commons.lang3.StringUtils;
+
 import fr.paris.lutece.portal.web.constants.Markers;
 import fr.paris.lutece.portal.web.l10n.LocaleService;
 import fr.paris.lutece.test.LuteceTestCase;
-
-import java.util.HashMap;
-import java.util.Map;
+import fr.paris.lutece.util.html.HtmlTemplate;
 
 /**
  *
@@ -51,8 +54,6 @@ public class FreeMarkerTemplateServiceTest extends LuteceTestCase
      */
     public void testInit( )
     {
-        System.out.println( "init" );
-
         String strTemplatePath = "WEB-INF/templates/";
 
         IFreeMarkerTemplateService freeMarkerTemplateService = FreeMarkerTemplateService.getInstance( );
@@ -65,17 +66,17 @@ public class FreeMarkerTemplateServiceTest extends LuteceTestCase
      */
     public void testLoadTemplate( )
     {
-        System.out.println( "loadTemplate" );
-
-        String strPath = "WEB-INF/templates/";
+        String strPath = "/WEB-INF/templates/";
         String strTemplate = "skin/site/portal_footer.html";
 
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<>( );
         model.put( "web_mail", "lutece@paris.fr" );
         model.put( Markers.PAGE_MAIN_MENU, "menu" );
 
         IFreeMarkerTemplateService freeMarkerTemplateService = FreeMarkerTemplateService.getInstance( );
-        freeMarkerTemplateService.loadTemplate( strPath, strTemplate, LocaleService.getDefault( ), model );
+        HtmlTemplate template = freeMarkerTemplateService.loadTemplate( strPath, strTemplate, LocaleService.getDefault( ), model );
+        assertNotNull( template );
+        assertTrue( StringUtils.isNotEmpty( template.getHtml( ) ));
     }
 
     /**
@@ -83,8 +84,6 @@ public class FreeMarkerTemplateServiceTest extends LuteceTestCase
      */
     public void testResetCache( )
     {
-        System.out.println( "resetCache" );
-
         IFreeMarkerTemplateService freeMarkerTemplateService = FreeMarkerTemplateService.getInstance( );
         freeMarkerTemplateService.resetCache( );
     }

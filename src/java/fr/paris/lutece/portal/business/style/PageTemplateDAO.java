@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -35,6 +35,7 @@ package fr.paris.lutece.portal.business.style;
 
 import fr.paris.lutece.util.sql.DAOUtil;
 
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -44,9 +45,8 @@ import java.util.List;
 public final class PageTemplateDAO implements IPageTemplateDAO
 {
     // Constants
-    private static final String SQL_QUERY_NEW_PK = " SELECT max( id_template ) FROM core_page_template";
     private static final String SQL_QUERY_SELECT = " SELECT id_template, description, file_name, picture FROM core_page_template WHERE id_template = ?";
-    private static final String SQL_QUERY_INSERT = " INSERT INTO core_page_template ( id_template, description, file_name, picture ) VALUES ( ?, ?, ?, ? )";
+    private static final String SQL_QUERY_INSERT = " INSERT INTO core_page_template ( description, file_name, picture ) VALUES ( ?, ?, ? )";
     private static final String SQL_QUERY_DELETE = " DELETE FROM core_page_template WHERE id_template = ?";
     private static final String SQL_QUERY_UPDATE = " UPDATE core_page_template SET id_template = ?, description = ?, file_name = ?, picture = ? "
             + " WHERE id_template = ?";
@@ -57,49 +57,27 @@ public final class PageTemplateDAO implements IPageTemplateDAO
     // Access methods to data
 
     /**
-     * Generates a new primary key
-     * 
-     * @return The new primary key
-     */
-    int newPrimaryKey( )
-    {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_NEW_PK );
-        daoUtil.executeQuery( );
-
-        int nKey;
-
-        if ( !daoUtil.next( ) )
-        {
-            // if the table is empty
-            nKey = 1;
-        }
-
-        nKey = daoUtil.getInt( 1 ) + 1;
-
-        daoUtil.free( );
-
-        return nKey;
-    }
-
-    /**
      * Insert a new record in the table.
      * 
      * @param pageTemplate
      *            The Instance of the object PageTemplate
      */
-    public synchronized void insert( PageTemplate pageTemplate )
+    public void insert( PageTemplate pageTemplate )
     {
-        pageTemplate.setId( newPrimaryKey( ) );
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT, Statement.RETURN_GENERATED_KEYS ) )
+        {
+            int nIndex = 1;
+            daoUtil.setString( nIndex++, pageTemplate.getDescription( ) );
+            daoUtil.setString( nIndex++, pageTemplate.getFile( ) );
+            daoUtil.setString( nIndex, pageTemplate.getPicture( ) );
 
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT );
+            daoUtil.executeUpdate( );
 
-        daoUtil.setInt( 1, pageTemplate.getId( ) );
-        daoUtil.setString( 2, pageTemplate.getDescription( ) );
-        daoUtil.setString( 3, pageTemplate.getFile( ) );
-        daoUtil.setString( 4, pageTemplate.getPicture( ) );
-
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+            if ( daoUtil.nextGeneratedKey( ) )
+            {
+                pageTemplate.setId( daoUtil.getGeneratedKeyInt( 1 ) );
+            }
+        }
     }
 
     /**
@@ -112,21 +90,22 @@ public final class PageTemplateDAO implements IPageTemplateDAO
     public PageTemplate load( int nPageTemplateId )
     {
         PageTemplate pageTemplate = null;
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT );
-        daoUtil.setInt( 1, nPageTemplateId );
-
-        daoUtil.executeQuery( );
-
-        if ( daoUtil.next( ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECT ) )
         {
-            pageTemplate = new PageTemplate( );
-            pageTemplate.setId( daoUtil.getInt( 1 ) );
-            pageTemplate.setDescription( daoUtil.getString( 2 ) );
-            pageTemplate.setFile( daoUtil.getString( 3 ) );
-            pageTemplate.setPicture( daoUtil.getString( 4 ) );
-        }
+            daoUtil.setInt( 1, nPageTemplateId );
 
-        daoUtil.free( );
+            daoUtil.executeQuery( );
+
+            if ( daoUtil.next( ) )
+            {
+                pageTemplate = new PageTemplate( );
+                pageTemplate.setId( daoUtil.getInt( 1 ) );
+                pageTemplate.setDescription( daoUtil.getString( 2 ) );
+                pageTemplate.setFile( daoUtil.getString( 3 ) );
+                pageTemplate.setPicture( daoUtil.getString( 4 ) );
+            }
+
+        }
 
         return pageTemplate;
     }
@@ -139,10 +118,11 @@ public final class PageTemplateDAO implements IPageTemplateDAO
      */
     public void delete( int nPageTemplateId )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE );
-        daoUtil.setInt( 1, nPageTemplateId );
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE ) )
+        {
+            daoUtil.setInt( 1, nPageTemplateId );
+            daoUtil.executeUpdate( );
+        }
     }
 
     /**
@@ -153,16 +133,17 @@ public final class PageTemplateDAO implements IPageTemplateDAO
      */
     public void store( PageTemplate pageTemplate )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE );
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE ) )
+        {
 
-        daoUtil.setInt( 1, pageTemplate.getId( ) );
-        daoUtil.setString( 2, pageTemplate.getDescription( ) );
-        daoUtil.setString( 3, pageTemplate.getFile( ) );
-        daoUtil.setString( 4, pageTemplate.getPicture( ) );
-        daoUtil.setInt( 5, pageTemplate.getId( ) );
+            daoUtil.setInt( 1, pageTemplate.getId( ) );
+            daoUtil.setString( 2, pageTemplate.getDescription( ) );
+            daoUtil.setString( 3, pageTemplate.getFile( ) );
+            daoUtil.setString( 4, pageTemplate.getPicture( ) );
+            daoUtil.setInt( 5, pageTemplate.getId( ) );
 
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+            daoUtil.executeUpdate( );
+        }
     }
 
     /**
@@ -172,22 +153,23 @@ public final class PageTemplateDAO implements IPageTemplateDAO
      */
     public List<PageTemplate> selectPageTemplatesList( )
     {
-        List<PageTemplate> listPageTemplates = new ArrayList<PageTemplate>( );
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL );
-        daoUtil.executeQuery( );
-
-        while ( daoUtil.next( ) )
+        List<PageTemplate> listPageTemplates = new ArrayList<>( );
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_SELECTALL ) )
         {
-            PageTemplate pageTemplate = new PageTemplate( );
+            daoUtil.executeQuery( );
 
-            pageTemplate.setId( daoUtil.getInt( 1 ) );
-            pageTemplate.setDescription( daoUtil.getString( 2 ) );
-            pageTemplate.setFile( daoUtil.getString( 3 ) );
-            pageTemplate.setPicture( daoUtil.getString( 4 ) );
-            listPageTemplates.add( pageTemplate );
+            while ( daoUtil.next( ) )
+            {
+                PageTemplate pageTemplate = new PageTemplate( );
+
+                pageTemplate.setId( daoUtil.getInt( 1 ) );
+                pageTemplate.setDescription( daoUtil.getString( 2 ) );
+                pageTemplate.setFile( daoUtil.getString( 3 ) );
+                pageTemplate.setPicture( daoUtil.getString( 4 ) );
+                listPageTemplates.add( pageTemplate );
+            }
+
         }
-
-        daoUtil.free( );
 
         return listPageTemplates;
     }
@@ -201,20 +183,20 @@ public final class PageTemplateDAO implements IPageTemplateDAO
      */
     public boolean checkPageTemplateIsUsed( int nPageTemplateId )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_CHECK_PAGE_TEMPLATE_IS_USED );
-
-        daoUtil.setInt( 1, nPageTemplateId );
-        daoUtil.executeQuery( );
-
-        if ( !daoUtil.next( ) )
+        boolean check = false;
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_CHECK_PAGE_TEMPLATE_IS_USED ) )
         {
-            daoUtil.free( );
 
-            return true;
+            daoUtil.setInt( 1, nPageTemplateId );
+            daoUtil.executeQuery( );
+
+            if ( !daoUtil.next( ) )
+            {
+                check = true;
+            }
+
         }
 
-        daoUtil.free( );
-
-        return false;
+        return check;
     }
 }

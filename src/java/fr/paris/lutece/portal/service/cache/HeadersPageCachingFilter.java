@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -74,7 +74,7 @@ public class HeadersPageCachingFilter extends SimpleCachingHeadersPageCachingFil
      * {@inheritDoc }
      */
     @Override
-    public void doInit( FilterConfig filterConfig ) throws CacheException
+    public void doInit( FilterConfig filterConfig )
     {
         // Override to inhibate the startup call made too early
         // The original treatment is done at the first doFilter call
@@ -175,8 +175,8 @@ public class HeadersPageCachingFilter extends SimpleCachingHeadersPageCachingFil
      * {@inheritDoc }
      */
     @Override
-    protected void doFilter( HttpServletRequest request, HttpServletResponse response, FilterChain chain ) throws AlreadyGzippedException,
-            AlreadyCommittedException, FilterNonReentrantException, LockTimeoutException, Exception
+    protected void doFilter( HttpServletRequest request, HttpServletResponse response, FilterChain chain )
+            throws AlreadyGzippedException, AlreadyCommittedException, FilterNonReentrantException, LockTimeoutException, Exception
     {
         if ( !_bInit )
         {

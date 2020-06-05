@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -50,6 +50,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -96,101 +97,100 @@ public final class MultipartUtil
      * @throws FileUploadException
      *             exception if an unknown error has occurred
      */
-    public static MultipartHttpServletRequest convert( int nSizeThreshold, long nRequestSizeMax, boolean bActivateNormalizeFileName, HttpServletRequest request )
-            throws SizeLimitExceededException, FileUploadException
+    public static MultipartHttpServletRequest convert( int nSizeThreshold, long nRequestSizeMax, boolean bActivateNormalizeFileName,
+            HttpServletRequest request ) throws FileUploadException
     {
-        if ( isMultipart( request ) )
+        if ( !isMultipart( request ) )
         {
-            // Create a factory for disk-based file items
-            DiskFileItemFactory factory = new DiskFileItemFactory( );
-
-            // Set factory constraints
-            factory.setSizeThreshold( nSizeThreshold );
-
-            // Create a new file upload handler
-            ServletFileUpload upload = new ServletFileUpload( factory );
-
-            // Set overall request size constraint
-            upload.setSizeMax( nRequestSizeMax );
-
-            // get encoding to be used
-            String strEncoding = request.getCharacterEncoding( );
-
-            if ( strEncoding == null )
-            {
-                strEncoding = EncodingService.getEncoding( );
-            }
-
-            Map<String, List<FileItem>> mapFiles = new HashMap<String, List<FileItem>>( );
-            Map<String, String [ ]> mapParameters = new HashMap<String, String [ ]>( );
-
-            List<FileItem> listItems = upload.parseRequest( request );
-
-            // Process the uploaded items
-            for ( FileItem item : listItems )
-            {
-                if ( item.isFormField( ) )
-                {
-                    String strValue = StringUtils.EMPTY;
-
-                    try
-                    {
-                        if ( item.getSize( ) > 0 )
-                        {
-                            strValue = item.getString( strEncoding );
-                        }
-                    }
-                    catch( UnsupportedEncodingException ex )
-                    {
-                        if ( item.getSize( ) > 0 )
-                        {
-                            // if encoding problem, try with system encoding
-                            strValue = item.getString( );
-                        }
-                    }
-
-                    // check if item of same name already in map
-                    String [ ] curParam = mapParameters.get( item.getFieldName( ) );
-
-                    if ( curParam == null )
-                    {
-                        // simple form field
-                        mapParameters.put( item.getFieldName( ), new String [ ] {
-                            strValue
-                        } );
-                    }
-                    else
-                    {
-                        // array of simple form fields
-                        String [ ] newArray = new String [ curParam.length + 1];
-                        System.arraycopy( curParam, 0, newArray, 0, curParam.length );
-                        newArray [curParam.length] = strValue;
-                        mapParameters.put( item.getFieldName( ), newArray );
-                    }
-                }
-                else
-                {
-                    // multipart file field, if the parameter filter ActivateNormalizeFileName is set to true
-                    // all file name will be normalize
-                    FileItem fileItem = bActivateNormalizeFileName ? new NormalizeFileItem( item ) : item;
-                    List<FileItem> listFileItem = mapFiles.get( fileItem.getFieldName( ) );
-
-                    if ( listFileItem != null )
-                    {
-                        listFileItem.add( fileItem );
-                    }
-                    else
-                    {
-                        listFileItem = new ArrayList<FileItem>( 1 );
-                        listFileItem.add( fileItem );
-                        mapFiles.put( fileItem.getFieldName( ), listFileItem );
-                    }
-                }
-            }
-
-            return new MultipartHttpServletRequest( request, mapFiles, mapParameters );
+            return null;
         }
 
-        return null;
+        // Create a factory for disk-based file items
+        DiskFileItemFactory factory = new DiskFileItemFactory( );
+
+        // Set factory constraints
+        factory.setSizeThreshold( nSizeThreshold );
+
+        // Create a new file upload handler
+        ServletFileUpload upload = new ServletFileUpload( factory );
+
+        // Set overall request size constraint
+        upload.setSizeMax( nRequestSizeMax );
+
+        // get encoding to be used
+        String strEncoding = Optional.ofNullable( request.getCharacterEncoding( ) ).orElse( EncodingService.getEncoding( ) );
+
+        Map<String, List<FileItem>> mapFiles = new HashMap<>( );
+        Map<String, String [ ]> mapParameters = new HashMap<>( );
+
+        List<FileItem> listItems = upload.parseRequest( request );
+
+        // Process the uploaded items
+        for ( FileItem item : listItems )
+        {
+            processItem( item, strEncoding, bActivateNormalizeFileName, mapFiles, mapParameters );
+        }
+
+        return new MultipartHttpServletRequest( request, mapFiles, mapParameters );
+    }
+
+    private static void processItem( FileItem item, String strEncoding, boolean bActivateNormalizeFileName, Map<String, List<FileItem>> mapFiles,
+            Map<String, String [ ]> mapParameters )
+    {
+        if ( item.isFormField( ) )
+        {
+            String strValue = StringUtils.EMPTY;
+
+            if ( item.getSize( ) > 0 )
+            {
+                try
+                {
+                    strValue = item.getString( strEncoding );
+                }
+                catch( UnsupportedEncodingException ex )
+                {
+                    // if encoding problem, try with system encoding
+                    strValue = item.getString( );
+                }
+            }
+
+            // check if item of same name already in map
+            String [ ] curParam = mapParameters.get( item.getFieldName( ) );
+
+            if ( curParam == null )
+            {
+                // simple form field
+                mapParameters.put( item.getFieldName( ), new String [ ] {
+                        strValue
+                } );
+            }
+            else
+            {
+                // array of simple form fields
+                String [ ] newArray = new String [ curParam.length + 1];
+                System.arraycopy( curParam, 0, newArray, 0, curParam.length );
+                newArray [curParam.length] = strValue;
+                mapParameters.put( item.getFieldName( ), newArray );
+            }
+        }
+        else
+        {
+            // multipart file field, if the parameter filter ActivateNormalizeFileName is
+            // set to true
+            // all file name will be normalize
+            FileItem fileItem = bActivateNormalizeFileName ? new NormalizeFileItem( item ) : item;
+            List<FileItem> listFileItem = mapFiles.get( fileItem.getFieldName( ) );
+
+            if ( listFileItem != null )
+            {
+                listFileItem.add( fileItem );
+            }
+            else
+            {
+                listFileItem = new ArrayList<>( 1 );
+                listFileItem.add( fileItem );
+                mapFiles.put( fileItem.getFieldName( ), listFileItem );
+            }
+        }
     }
 }

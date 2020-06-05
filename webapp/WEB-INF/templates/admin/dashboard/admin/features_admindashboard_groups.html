@@ -1,0 +1,53 @@
+<#include "admindashboard_utils.html">
+
+<@tabPanel active=true id='feature_groups'>
+    <@tform type='inline' align='right' method='post' name='create_external_feature' action='jsp/admin/features/CreateGroup.jsp'>
+			<@button type='submit' title='#i18n{portal.features.manage_groups.buttonCreate}' hideTitle=['xs','sm'] buttonIcon='plus' size='sm' />
+    </@tform>
+    <p>
+			<em>#i18n{portal.features.manage_groups.featureDescription}</em>
+    </p>
+    <@table>
+        <thead>
+					<tr>
+						<@th sm=6 md=8>#i18n{portal.features.manage_groups.labelId}</@th>
+						<@th sm=3 md=2>#i18n{portal.features.manage_groups.labelOrder}</@th>
+						<@th sm=3 md=2>#i18n{portal.features.manage_groups.labelActions}</@th>
+					</tr>
+        </thead>
+        <tbody>
+        <#list groups_list?sort_by('order') as group>
+					<tr>
+						<td>
+							<strong>${group.id}</strong>
+							<br> #i18n{portal.features.manage_groups.labelName}:
+							<small>${group.labelKey}</small>
+							<br> #i18n{portal.features.manage_groups.labelDescription}:
+							<small>${group.descriptionKey}</small>
+						</td>
+						<td>
+							<@tform type='inline' method='post' action='jsp/admin/features/DoDispatchFeatureGroup.jsp'>
+								<@input type='hidden' name='group_id' value='${group.id?html}' />
+								<@input type='hidden' name='token' value='${token}' />
+								<@formGroup rows=2>
+									<@inputGroup>
+										<@select name='order_id' id='order_id-${group.id?html}' default_value=group.order?string items=order_list sort=true size='sm' />
+										<@inputGroupItem>
+											<@button type='submit' title='#i18n{portal.features.manage_groups.buttonChangeOrder}' hideTitle=['all']  buttonIcon='check' size='sm' />
+										</@inputGroupItem>
+									</@inputGroup>
+								</@formGroup>
+							</@tform>
+						</td>
+						<@td flex=true>
+							<@aButton href='jsp/admin/features/ModifyGroup.jsp?group_id=${group.id?html}' title='#i18n{portal.util.labelModify} ${group.id?html}' hideTitle=['all']  buttonIcon='edit' size='sm' />
+							<@tform type='inline' class="ml-1" method='post' action='jsp/admin/features/RemoveGroup.jsp'>
+								<@input type='hidden' name='group_id' value='${group.id?html}' />
+								<@button type='submit' title='#i18n{portal.features.manage_groups.buttonDelete}' hideTitle=['all'] buttonIcon='trash' color='danger' size='sm' />
+							</@tform>
+						</@td>
+					</tr>
+        </#list>
+    </tbody>
+    </@table>
+</@tabPanel>

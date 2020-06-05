@@ -1,0 +1,33 @@
+<#include "admindashboard_utils.html">
+
+<@tabPanel id='external_features'>
+	<@tform type='inline' align='right' method='post' name='create_external_feature' action='jsp/admin/features/CreateExternalFeature.jsp'>
+			<@button type='submit' title='#i18n{portal.features.external_features.manage_external_features.create}' buttonIcon='plus' size='sm' hideTitle=['xs','sm'] />
+	</@tform>
+	<p>
+			<em>#i18n{portal.features.external_features.featureDescription}</em>
+	</p>
+	<@table>  
+		<thead>
+			<tr>
+				<th>#i18n{portal.features.external_features.manage_external_features.name}</th>
+				<th>#i18n{portal.features.external_features.manage_external_features.url}</th>
+				<th>#i18n{portal.features.external_features.manage_external_features.feature_group}</th>
+				<th>#i18n{portal.features.external_features.manage_external_features.actions}</th>
+			</tr>
+		</thead>
+		<tbody>
+			<#list external_features_list as external_feature>
+				<tr>
+					<td>${external_feature.name}</td>
+					<td>${external_feature.url}</td>
+					<td>${external_feature.featureGroup}</td>                      
+					<td>
+						<@aButton href='jsp/admin/features/ModifyExternalFeature.jsp?external_feature_id=${external_feature.id}' title='#i18n{portal.util.labelModify}' hideTitle=['all'] buttonIcon='edit' size='sm' />
+						<@aButton href='jsp/admin/features/RemoveExternalFeature.jsp?external_feature_id=${external_feature.id}' title='#i18n{portal.util.labelDelete}' hideTitle=['all'] buttonIcon='trash' color='danger' size='sm' />
+					</td>
+				</tr>
+			</#list>
+		</tbody>
+	</@table>
+</@tabPanel>

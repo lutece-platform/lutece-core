@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,6 +33,8 @@
  */
 package fr.paris.lutece.portal.business.physicalfile;
 
+import java.sql.Statement;
+
 import fr.paris.lutece.util.sql.DAOUtil;
 
 /**
@@ -41,9 +43,8 @@ import fr.paris.lutece.util.sql.DAOUtil;
 public final class PhysicalFileDAO implements IPhysicalFileDAO
 {
     // Constants
-    private static final String SQL_QUERY_NEW_PK = "SELECT max( id_physical_file ) FROM core_physical_file";
     private static final String SQL_QUERY_FIND_BY_PRIMARY_KEY = "SELECT id_physical_file,file_value" + " FROM core_physical_file WHERE id_physical_file = ?";
-    private static final String SQL_QUERY_INSERT = "INSERT INTO core_physical_file(id_physical_file,file_value)" + " VALUES(?,?)";
+    private static final String SQL_QUERY_INSERT = "INSERT INTO core_physical_file(file_value)" + " VALUES(?)";
     private static final String SQL_QUERY_DELETE = "DELETE FROM core_physical_file WHERE id_physical_file = ? ";
     private static final String SQL_QUERY_UPDATE = "UPDATE  core_physical_file SET " + "id_physical_file=?,file_value=? WHERE id_physical_file = ?";
 
@@ -51,39 +52,18 @@ public final class PhysicalFileDAO implements IPhysicalFileDAO
      * {@inheritDoc}
      */
     @Override
-    public int newPrimaryKey( )
+    public int insert( PhysicalFile physicalFile )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_NEW_PK );
-        daoUtil.executeQuery( );
-
-        int nKey;
-
-        if ( !daoUtil.next( ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT, Statement.RETURN_GENERATED_KEYS ) )
         {
-            // if the table is empty
-            nKey = 1;
+            daoUtil.setBytes( 1, physicalFile.getValue( ) );
+            daoUtil.executeUpdate( );
+
+            if ( daoUtil.nextGeneratedKey( ) )
+            {
+                physicalFile.setIdPhysicalFile( daoUtil.getGeneratedKeyInt( 1 ) );
+            }
         }
-
-        nKey = daoUtil.getInt( 1 ) + 1;
-        daoUtil.free( );
-
-        return nKey;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public synchronized int insert( PhysicalFile physicalFile )
-    {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_INSERT );
-        daoUtil.setBytes( 2, physicalFile.getValue( ) );
-        physicalFile.setIdPhysicalFile( newPrimaryKey( ) );
-        daoUtil.setInt( 1, physicalFile.getIdPhysicalFile( ) );
-        daoUtil.executeUpdate( );
-
-        daoUtil.free( );
-
         return physicalFile.getIdPhysicalFile( );
     }
 
@@ -93,21 +73,21 @@ public final class PhysicalFileDAO implements IPhysicalFileDAO
     @Override
     public PhysicalFile load( int nId )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_FIND_BY_PRIMARY_KEY );
-        daoUtil.setInt( 1, nId );
-        daoUtil.executeQuery( );
-
         PhysicalFile physicalFile = null;
-
-        if ( daoUtil.next( ) )
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_FIND_BY_PRIMARY_KEY ) )
         {
-            int nIndex = 1;
-            physicalFile = new PhysicalFile( );
-            physicalFile.setIdPhysicalFile( daoUtil.getInt( nIndex++ ) );
-            physicalFile.setValue( daoUtil.getBytes( nIndex ) );
-        }
+            daoUtil.setInt( 1, nId );
+            daoUtil.executeQuery( );
 
-        daoUtil.free( );
+            if ( daoUtil.next( ) )
+            {
+                int nIndex = 1;
+                physicalFile = new PhysicalFile( );
+                physicalFile.setIdPhysicalFile( daoUtil.getInt( nIndex++ ) );
+                physicalFile.setValue( daoUtil.getBytes( nIndex ) );
+            }
+
+        }
 
         return physicalFile;
     }
@@ -118,10 +98,11 @@ public final class PhysicalFileDAO implements IPhysicalFileDAO
     @Override
     public void delete( int nIdPhysicalFile )
     {
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE );
-        daoUtil.setInt( 1, nIdPhysicalFile );
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_DELETE ) )
+        {
+            daoUtil.setInt( 1, nIdPhysicalFile );
+            daoUtil.executeUpdate( );
+        }
     }
 
     /**
@@ -131,11 +112,12 @@ public final class PhysicalFileDAO implements IPhysicalFileDAO
     public void store( PhysicalFile physicalFile )
     {
         int nIndex = 1;
-        DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE );
-        daoUtil.setInt( nIndex++, physicalFile.getIdPhysicalFile( ) );
-        daoUtil.setBytes( nIndex++, physicalFile.getValue( ) );
-        daoUtil.setInt( nIndex, physicalFile.getIdPhysicalFile( ) );
-        daoUtil.executeUpdate( );
-        daoUtil.free( );
+        try ( DAOUtil daoUtil = new DAOUtil( SQL_QUERY_UPDATE ) )
+        {
+            daoUtil.setInt( nIndex++, physicalFile.getIdPhysicalFile( ) );
+            daoUtil.setBytes( nIndex++, physicalFile.getValue( ) );
+            daoUtil.setInt( nIndex, physicalFile.getIdPhysicalFile( ) );
+            daoUtil.executeUpdate( );
+        }
     }
 }

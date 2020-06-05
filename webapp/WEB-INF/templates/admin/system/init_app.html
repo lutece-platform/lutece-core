@@ -8,7 +8,7 @@
         <h1>
             Lutece - Configuration         </h1>
         <h3>${init_confirmation}</h3>
-            <table>
+            <@table>
                 <tr>
                     <td>Domaine de Lutece :</td>
                     <td>${lutece_domain}</td>
@@ -29,10 +29,10 @@
                     <td>Chemin de la webapp :</td>
                     <td>${webapp_home}</td>
                 </tr>
-            </table>
+            </@table>
             <br/>
             <b>Ces propriétés sont définies dans le fichier config.properties (../WEB-INF/conf/config.properties).
             <br/>Le chemin de la webapp doit être valide pour que Lutece demarre correctement.</b>
-        <br/><br/><a href=index.html>Retour à la page d'accueil de Lutece</a>
+        <br/><br/><@link href='index.html'>Retour à la page d'accueil de Lutece</@link>
     </body>
 </html>

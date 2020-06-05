@@ -4,8 +4,8 @@
       <@boxHeader title='#i18n{portal.rbac.modify_role.titleModifyRole}' />
 			<@boxBody>
 				<@tform method='post' action='jsp/admin/rbac/DoModifyRole.jsp' name='modify_role'>
-				  <input type="hidden" name="role_key_previous" value="${role.key}">
-				  <input type="hidden" name="token" value="${token}">
+				  <@input type='hidden' name='role_key_previous' value='${role.key}' />
+				  <@input type='hidden' name='token' value='${token}' />
 				  <@formGroup labelKey='#i18n{portal.rbac.modify_role.labelKey}' labelFor='role_key' mandatory=true rows=2>
 					<@input type='text' id='role_key' name='role_key' value='${role.key}' readonly=true />
 				  </@formGroup>
@@ -14,7 +14,7 @@
 				  </@formGroup>
 				  <@formGroup rows=2>
 					<@button type='submit' name='apply' title='#i18n{portal.util.labelValidate}' buttonIcon='check' size='' />
-					<@aButton href='jsp/admin/rbac/ViewRoleDescription.jsp?role_key=${role.key}' title='#i18n{portal.admin.message.buttonCancel}' buttonIcon='times' size='' color='btn-secondary' />
+					<@aButton href='jsp/admin/rbac/ViewRoleDescription.jsp?role_key=${role.key}' title='#i18n{portal.admin.message.buttonCancel}' buttonIcon='times' size='' color='secondary' />
 				  </@formGroup>
 				</@tform>
 			</@boxBody>
@@ -24,16 +24,16 @@
 	<@columns sm=9 md=9 lg=9>
     <@box color='success'>
       <@boxHeader title='${role.key} - ${role.description}' boxTools=true>
-				<@tform class='form-inline' method='post' action='jsp/admin/rbac/AddControlToRole.jsp'>
-					<input type="hidden" name="role_key" value="${role.key}">
+				<@tform type='inline' method='post' action='jsp/admin/rbac/AddControlToRole.jsp'>
+					<@input type='hidden' name='role_key' value='${role.key}' />
 					<@inputGroup>
-						<@select name='resource_type'>
+						<@select name='resource_type' size='sm'>
 							<#list resource_type_list?sort_by('resourceTypeLabel') as resource_type>
 							  <option value="${resource_type.resourceTypeKey}">${resource_type.resourceTypeLabel}</option>
 							</#list>
 						</@select>
 						<@inputGroupItem>
-							<@button type='submit' title='#i18n{portal.rbac.view_role_description.buttonLabelAddControl}' showTitle=false buttonIcon='plus' />
+							<@button type='submit' title='#i18n{portal.rbac.view_role_description.buttonLabelAddControl}' hideTitle=['all'] buttonIcon='plus' size='sm' />
 						</@inputGroupItem>
 					</@inputGroup>
 				</@tform>
@@ -62,8 +62,8 @@
 						<td>${controled_resource.permissionLabel} (${controled_resource.permissionKey})</td>
 						<td>
 							<@tform method='post' action='jsp/admin/rbac/DoConfirmRemoveControlFromRole.jsp'>
-								<input type="hidden" name="rbac_id" value="${controled_resource.RBACId}">
-								<@button type='submit' title='#i18n{portal.rbac.view_role_description.buttonLabelDeleteControl}' buttonIcon='trash' showTitle=false color='btn-danger' />
+								<@input type='hidden' name='rbac_id' value='${controled_resource.RBACId}' />
+								<@button type='submit' title='#i18n{portal.rbac.view_role_description.buttonLabelDeleteControl}' buttonIcon='trash' size='sm' hideTitle=['all'] color='danger' />
 							</@tform>
 						</td>
 					  </tr>

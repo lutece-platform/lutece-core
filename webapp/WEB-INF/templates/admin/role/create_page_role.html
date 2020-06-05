@@ -4,7 +4,7 @@
 			<@boxHeader title='#i18n{portal.role.create_role.boxTitle}' />
 			<@boxBody>
 				<@tform action='jsp/admin/role/DoCreatePageRole.jsp' name='create_page_role'>
-					<input type="hidden" name="token" value="${token}">
+					<@input type='hidden' name='token' value='${token}' />
 					<@formGroup labelKey='#i18n{portal.role.create_role.labelName}' mandatory=true>
 						<@input type='text' name='role' maxlength=50 />
 					</@formGroup>
@@ -16,7 +16,7 @@
 					</@formGroup>
 					<@formGroup>
 						<@button type='submit' buttonIcon='check' title='#i18n{portal.role.modify_role.buttonLabelValidate}'  size='' />
-						<@aButton buttonIcon='remove' href='jsp/admin/role/ManagePageRole.jsp' title='#i18n{portal.admin.message.buttonCancel}'  color='btn-secondary' size='' />
+						<@aButton buttonIcon='remove' href='jsp/admin/role/ManagePageRole.jsp' title='#i18n{portal.admin.message.buttonCancel}' color='secondary' />
 					</@formGroup>
 				</@tform>
 			</@boxBody>

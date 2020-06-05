@@ -4,7 +4,7 @@
       <@boxHeader title='#i18n{portal.rbac.create_role.titleCreateRole}' />
 			<@boxBody>
 				<@tform method='post' action='jsp/admin/rbac/DoCreateRole.jsp' name='create_role'>
-					<input type="hidden" name="token" value="${token}">
+					<@input type='hidden' name='token' value='${token}' />
 					<@formGroup labelKey='#i18n{portal.rbac.create_role.labelKey}' labelFor='role_key' mandatory=true>
 						<@input type='text' id='role_key' name='role_key' maxlength=255 />
 					</@formGroup>
@@ -13,7 +13,7 @@
 					</@formGroup>
 					<@formGroup>
 						<@button type='submit' buttonIcon='check' title='#i18n{portal.rbac.create_role.buttonLabelCreate}' size=''  />
-						<@aButton href='jsp/admin/rbac/ManageRoles.jsp' buttonIcon='times' color='btn-secondary' title='#i18n{portal.admin.message.buttonCancel}' size=''  />
+						<@aButton href='jsp/admin/rbac/ManageRoles.jsp' buttonIcon='times' color='secondary' title='#i18n{portal.admin.message.buttonCancel}' size=''  />
 					</@formGroup>
 				</@tform>
 			</@boxBody>

@@ -32,6 +32,7 @@ body > .header .navbar span#zone4{ min-width:180px;display:inline-block;}
 .main-header > .navbar {margin-left:0px;}
 .navbar-brand > img { display: inline;}
 .navbar-brand > span.fa-external-link{font-size:50%;padding-top:2em;}
+.navbar-brand{padding-top: 7px;}
 .navbar-nav > .tasks-menu > .dropdown-menu {width:310px;padding: 0 0 0 0!important;margin: 0!important;top: 100%;border: 1px solid #dfdfdf;-webkit-border-radius: 4px !important;-moz-border-radius: 4px !important;border-radius: 4px !important; }
 .navbar-nav > .tasks-menu > .dropdown-menu:after {bottom: 100%;left:10px;border: solid transparent;content: " "; height: 0;width: 0;position: absolute;pointer-events: none;border-color: rgba(255, 255, 255, 0);border-bottom-color: #fff;border-width: 10px;margin-left: 0px;}
 .navbar-nav > .tasks-menu > .dropdown-menu > li .menu {margin: 0; padding: 0; list-style: none; overflow-x: hidden;}
@@ -64,7 +65,7 @@ body > .header .navbar span#zone4{ min-width:180px;display:inline-block;}
 .nav-tabs-custom.top-black > .nav-tabs > li.active { border-top-color:#111111;}
 
 /* Login page */
-#login-page {margin: 0px -15px;padding: 9em 0px 2em;background: #fff url("../../images/admin/skin/bg_login1.jpg");background-size: cover;background-attachment: fixed;min-height: 922px;height: 100vh;overflow: hidden;}
+#login-page {margin: 0px -15px;/* padding: 9em 0px 2em; */background: #fff url("../../images/admin/skin/bg_login1.jpg");background-size: cover;background-attachment: fixed;min-height: 922px;height: 100vh;overflow: hidden;}
 #login-page img#logoLogin {position:absolute;top:50px;left:50px;}
 .login-box .login-logo{margin-bottom: 0;color:#fff}
 .login-box .login-logo a{color:#fff}
@@ -72,6 +73,7 @@ body > .header .navbar span#zone4{ min-width:180px;display:inline-block;}
 /* Header */
 .home{background-color:#fff !important;color:#fff;margin:0 0 0 0;display:block;}
 .home>a>i{color:#000 !important;}
+.user-image{margin-right: 5px}
 
 /* Dashboard */
 div.widget .box-body{max-height: 350px; overflow: overflow-hidden}
@@ -275,7 +277,7 @@ div.box-upload {min-height:100px;}
     .main-header .logo{width:80px}
     .navbar-nav > li > a {padding: 15px 8px;line-height: 20px;font-size:90% }
     .navbar-nav > .user-menu > .dropdown-menu {left: -150px;width: 220px;margin-top: 20px;}
-    .navbar-nav > .user-menu .user-image { width: 15px;height: 15px; margin-right:0;}
+    .navbar-nav > .user-menu .user-image { width: 15px;height: 15px; margin-right: 5px;}
     .navbar-nav.navbar-right:last-child { margin-right:2px;}
 }
 

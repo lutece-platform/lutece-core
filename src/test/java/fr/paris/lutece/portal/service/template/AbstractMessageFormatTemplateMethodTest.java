@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -63,7 +63,7 @@ public class AbstractMessageFormatTemplateMethodTest extends LuteceTestCase
     public void testExec( )
     {
         AbstractMessageFormatTemplateMethod method = new TestAbstractMessageFormatTemplateMethod( "test with 'quote'" );
-        Map<Object, Object> model = new HashMap<Object, Object>( );
+        Map<Object, Object> model = new HashMap<>( );
         model.put( "method", method );
         String template = "${method(\"key\")}";
         HtmlTemplate res = FreeMarkerTemplateService.getInstance( ).loadTemplate( template, Locale.FRANCE, model );
@@ -96,12 +96,17 @@ public class AbstractMessageFormatTemplateMethodTest extends LuteceTestCase
         model.put( "arg", new Date( 123456789 ) );
         res = FreeMarkerTemplateService.getInstance( ).loadTemplate( template, Locale.FRANCE, model );
         assertNotNull( res );
-        assertEquals( "test with quote and arg 02/01/70 11:17", res.getHtml( ) );
-
+        String expResultJava8 = "test with quote and arg 02/01/70 11:17";
+        String expResultJava10 = "test with quote and arg 02/01/1970 11:17";
+        assertTrue(expResultJava8.equals(res.getHtml()) || expResultJava10.equals(res.getHtml()));
+        
+        
         model.put( "arg", new Date( 123456789 ) );
         res = FreeMarkerTemplateService.getInstance( ).loadTemplate( template, Locale.US, model );
         assertNotNull( res );
-        assertEquals( "test with quote and arg 1/2/70 11:17 AM", res.getHtml( ) );
+        expResultJava8 = "test with quote and arg 1/2/70 11:17 AM";
+        expResultJava10 = "test with quote and arg 1/2/70, 11:17 AM";
+        assertTrue(expResultJava8.equals(res.getHtml()) || expResultJava10.equals(res.getHtml()));
     }
 
 }

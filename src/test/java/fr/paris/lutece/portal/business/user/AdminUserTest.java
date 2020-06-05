@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -115,5 +115,28 @@ public class AdminUserTest extends LuteceTestCase
         AdminUserHome.remove( user.getUserId( ) );
         userStored = AdminUserHome.findByPrimaryKey( user.getUserId( ) );
         assertNull( userStored );
+    }
+
+    public void testSetUserInfo( )
+    {
+        AdminUser user = new AdminUser( );
+        final Object info = new Object( );
+
+        final String strKey = "key";
+        assertNull( user.setUserInfo( strKey, info ) );
+        assertEquals( info, user.getUserInfo( strKey ) );
+    }
+
+    public void testSetUserInfoReturnPrevious( )
+    {
+        AdminUser user = new AdminUser( );
+        final Object previous = new Object( );
+
+        final String strKey = "key";
+        assertNull( user.setUserInfo( strKey, previous ) );
+        assertEquals( previous, user.getUserInfo( strKey ) );
+        final Object info = new Object( );
+        assertSame( previous, user.setUserInfo( strKey, info ) );
+        assertEquals( info, user.getUserInfo( strKey ) );
     }
 }

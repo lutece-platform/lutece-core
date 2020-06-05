@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.portal.web.admin;
 
+import fr.paris.lutece.api.user.UserRole;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.HashMap;
@@ -50,7 +51,7 @@ import fr.paris.lutece.portal.business.portlet.Portlet;
 import fr.paris.lutece.portal.business.portlet.PortletHome;
 import fr.paris.lutece.portal.business.portlet.PortletType;
 import fr.paris.lutece.portal.business.portlet.PortletTypeHome;
-import fr.paris.lutece.portal.business.rbac.AdminRole;
+import fr.paris.lutece.portal.business.rbac.RBACRole;
 import fr.paris.lutece.portal.business.rbac.RBAC;
 import fr.paris.lutece.portal.business.rbac.RBACHome;
 import fr.paris.lutece.portal.business.user.AdminUser;
@@ -1037,11 +1038,11 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
         rbac.setResourceId( RBAC.WILDCARD_RESOURCES_ID );
         rbac.setRoleKey( strRoleKey );
         RBACHome.create( rbac );
-        AdminRole role = new AdminRole( );
+        RBACRole role = new RBACRole( );
         role.setKey( strRoleKey );
         role.setDescription( strRoleKey );
         AdminUser user = new AdminUser( );
-        Map<String, AdminRole> roles = new HashMap<>( );
+        Map<String, RBACRole> roles = new HashMap<>( );
         roles.put( strRoleKey, role );
         user.setRoles( roles );
         return user;
@@ -1055,7 +1056,7 @@ public class AdminPagePortletJspBeanTest extends LuteceTestCase
      */
     private void removeUser( AdminUser user )
     {
-        Map<String, AdminRole> roles = user.getRoles( );
+        Map<String, UserRole> roles = user.getRoles( );
         for ( String roleKey : roles.keySet( ) )
         {
             RBACHome.removeForRoleKey( roleKey );

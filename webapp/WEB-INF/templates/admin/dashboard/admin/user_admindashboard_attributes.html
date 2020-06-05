@@ -1,0 +1,81 @@
+<#include "admindashboard_utils.html">
+<@tabPanel id='userAttributes'>
+	<@tform type='inline' method='post' action='jsp/admin/user/attribute/CreateAttribute.jsp'>
+		<@fieldSet legend='#i18n{portal.users.manage_attributes.pageTitle}'>
+			<@formGroup labelKey='&#160;' labelFor='attribute_type_class_name' formStyle='inline'>
+					<@btnGroup align='right'>
+							<@inputGroup>
+									<@select id='attribute_type_class_name' name='attribute_type_class_name' size='sm'>
+											<#list attribute_types_list as attribute_type>
+													<option value="${attribute_type.className}">${attribute_type.name}</option>
+											</#list>
+									</@select>
+									<@inputGroupItem>
+										<@button type='submit' buttonIcon='plus' title='#i18n{portal.users.manage_attributes.addNewAttributes}' hideTitle=['all'] size='sm' />
+									</@inputGroupItem>
+							</@inputGroup>
+					</@btnGroup>
+			</@formGroup>
+		</@fieldSet>
+	</@tform>
+	<@table>
+			<tr>
+				<th>#i18n{portal.users.manage_attributes.columnTitle}</th>
+				<th>#i18n{portal.users.manage_attributes.columnType}</th>
+				<th>#i18n{portal.users.manage_attributes.columnOriginalComponent}</th>
+				<th>#i18n{portal.users.manage_attributes.columnTitleActions}</th>
+			</tr>
+			<#assign cpt = 0>
+			<#list attributes_list as attribute >
+			<#assign cpt = cpt + 1>
+			<tr>
+				<td>${attribute.title?html}</td>
+				<td>${attribute.attributeType.name}</td>
+				<td>
+						<#if attribute.plugin?exists && attribute.plugin.name?has_content>
+						${attribute.plugin.name}
+						<#else>
+						#i18n{portal.users.manage_attributes.labelCore}
+						</#if>
+				</td>
+				<td>
+						<#if attribute.plugin?exists && attribute.plugin.name != "">
+						<#if cpt != 1>
+						<@tform align='left' method='post' action='jsp/admin/user/attribute/DoMoveUpAttribute.jsp#list'>
+								<@input type='hidden' name='token' value='${token}' />
+								<@input type='hidden' name='id_attribute' value='${attribute.idAttribute}' />
+								<@button type='submit' buttonIcon='chevron-up' title='#i18n{portal.users.modify_attribute.buttonLabelMoveUp}' hideTitle=['all'] size='sm' />
+						</@tform>
+						</#if>
+						<#if attribute_has_next>
+						<@tform align='left' method='post' action='jsp/admin/user/attribute/DoMoveDownAttribute.jsp#list'>
+								<@input type='hidden' name='token' value='${token}' />
+								<@input type='hidden' name='id_attribute' value='${attribute.idAttribute}' />
+								<@button type='submit' buttonIcon='chevron-down' title='#i18n{portal.users.modify_attribute.buttonLabelMoveDown}' hideTitle=['all'] size='sm' />
+						</@tform>
+						</#if>
+						<#else>
+						<@aButton align='left' href='jsp/admin/user/attribute/ModifyAttribute.jsp?id_attribute=${attribute.idAttribute}' buttonIcon='edit' title='#i18n{portal.users.manage_attributes.buttonLabelModify} (${attribute.title?html})' hideTitle=['all'] size='sm' />
+
+						<#if cpt != 1>
+						<@tform class='pull-left spaced' method='post' action='jsp/admin/user/attribute/DoMoveUpAttribute.jsp#list'>
+								<@input type='hidden' name='token' value='${token}' />
+								<@input type='hidden' name='id_attribute' value=attribute.idAttribute />
+								<@button type='submit' buttonIcon='chevron-up' title='#i18n{portal.users.modify_attribute.buttonLabelMoveUp}' hideTitle=['all'] size='sm' />
+						</@tform>
+						</#if>
+						<#if attribute_has_next>
+						<@tform align='left' method='post' action='jsp/admin/user/attribute/DoMoveDownAttribute.jsp#list'>
+								<@input type='hidden' name='token' value='${token}' />
+								<@input type='hidden' name='id_attribute' value='${attribute.idAttribute}' />
+								<@button type='submit' buttonIcon='chevron-down' title='#i18n{portal.users.modify_attribute.buttonLabelMoveDown}' hideTitle=['all'] size='sm' />
+						</@tform>
+						</#if>
+						<@aButton class='pull-left spaced' color='danger' href='jsp/admin/user/attribute/RemoveAttribute.jsp?id_attribute=${attribute.idAttribute}' buttonIcon='trash' title='#i18n{portal.users.manage_attributes.buttonLabelDelete} (${attribute.title?html})' hideTitle=['all'] size='sm' />
+
+						</#if>
+				</td>
+			</tr>
+			</#list>
+	</@table>
+</@tabPanel>

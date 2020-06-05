@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,17 +33,16 @@
  */
 package fr.paris.lutece.portal.web.upload;
 
-import org.apache.commons.fileupload.FileItem;
-
 import java.util.Collections;
 import java.util.Enumeration;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
+
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.fileupload.FileItem;
 
 /**
  * This class provides a Wrapper of an HTTP request that handle multipart content
@@ -52,7 +51,6 @@ public class MultipartHttpServletRequest extends HttpServletRequestWrapper
 {
     private final Map<String, List<FileItem>> _multipartFiles;
     private final Map<String, String [ ]> _stringParameters;
-    private Map<String, FileItem> _multipartSingleFiles;
 
     /**
      * Constructor
@@ -132,23 +130,6 @@ public class MultipartHttpServletRequest extends HttpServletRequestWrapper
     }
 
     /**
-     * Gets a map of files attached to the request. Only one file is returned for each name of the form.
-     * 
-     * @return The map
-     * @deprecated use {@link #getFileListMap()} instead to get every files
-     */
-    @Deprecated
-    public Map<String, FileItem> getFileMap( )
-    {
-        if ( _multipartSingleFiles == null )
-        {
-            _multipartSingleFiles = Collections.unmodifiableMap( convertFileMap( _multipartFiles ) );
-        }
-
-        return _multipartSingleFiles;
-    }
-
-    /**
      * Gets a map of all files attached to the request
      * 
      * @return The map
@@ -169,7 +150,7 @@ public class MultipartHttpServletRequest extends HttpServletRequestWrapper
     {
         List<FileItem> listFileItem = _multipartFiles.get( strName );
 
-        return ( ( listFileItem != null ) && ( listFileItem.size( ) > 0 ) ) ? listFileItem.get( 0 ) : null;
+        return CollectionUtils.isNotEmpty( listFileItem ) ? listFileItem.get( 0 ) : null;
     }
 
     /**
@@ -182,24 +163,5 @@ public class MultipartHttpServletRequest extends HttpServletRequestWrapper
     public List<FileItem> getFileList( String strName )
     {
         return _multipartFiles.get( strName );
-    }
-
-    /**
-     * Convert a map of file list with their name into a map of single files with their names
-     * 
-     * @param multipartFiles
-     *            The map to convert
-     * @return The converted map
-     */
-    private Map<String, FileItem> convertFileMap( Map<String, List<FileItem>> multipartFiles )
-    {
-        Map<String, FileItem> mapFiles = new HashMap<String, FileItem>( multipartFiles.size( ) );
-
-        for ( Entry<String, List<FileItem>> entry : multipartFiles.entrySet( ) )
-        {
-            mapFiles.put( entry.getKey( ), ( ( entry.getValue( ) == null ) || ( entry.getValue( ).size( ) == 0 ) ) ? null : entry.getValue( ).get( 0 ) );
-        }
-
-        return mapFiles;
     }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,6 +33,23 @@
  */
 package fr.paris.lutece.portal.web.stylesheet;
 
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+
+import org.apache.commons.fileupload.FileItem;
+import org.xml.sax.InputSource;
+
 import fr.paris.lutece.portal.business.portalcomponent.PortalComponentHome;
 import fr.paris.lutece.portal.business.portlet.PortletType;
 import fr.paris.lutece.portal.business.portlet.PortletTypeHome;
@@ -58,31 +75,10 @@ import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.portal.web.upload.MultipartHttpServletRequest;
 import fr.paris.lutece.portal.web.util.LocalizedPaginator;
 import fr.paris.lutece.util.ReferenceList;
+import fr.paris.lutece.util.file.FileUtil;
+import fr.paris.lutece.util.html.AbstractPaginator;
 import fr.paris.lutece.util.html.HtmlTemplate;
-import fr.paris.lutece.util.html.Paginator;
 import fr.paris.lutece.util.sort.AttributeComparator;
-import fr.paris.lutece.util.stream.StreamUtil;
-import fr.paris.lutece.util.url.UrlItem;
-
-import org.apache.commons.fileupload.FileItem;
-
-import org.xml.sax.InputSource;
-
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
 
 /**
  * This class provides the user interface to manage StyleSheet features
@@ -131,7 +127,6 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
     private static final String JSP_DO_REMOVE_STYLESHEET = "jsp/admin/style/DoRemoveStyleSheet.jsp";
     private static final String JSP_REMOVE_STYLE = "RemoveStyle.jsp";
     private int _nItemsPerPage;
-    private int _nDefaultItemsPerPage;
     private String _strCurrentPageIndex;
 
     /**
@@ -167,9 +162,9 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
             Collections.sort( listStyleSheets, new AttributeComparator( strSortedAttributeName, bIsAscSort ) );
         }
 
-        _nDefaultItemsPerPage = AppPropertiesService.getPropertyInt( PROPERTY_STYLESHEETS_PER_PAGE, 50 );
-        _strCurrentPageIndex = Paginator.getPageIndex( request, Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex );
-        _nItemsPerPage = Paginator.getItemsPerPage( request, Paginator.PARAMETER_ITEMS_PER_PAGE, _nItemsPerPage, _nDefaultItemsPerPage );
+        int defaultItemsPerPage = AppPropertiesService.getPropertyInt( PROPERTY_STYLESHEETS_PER_PAGE, 50 );
+        _strCurrentPageIndex = AbstractPaginator.getPageIndex( request, AbstractPaginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex );
+        _nItemsPerPage = AbstractPaginator.getItemsPerPage( request, AbstractPaginator.PARAMETER_ITEMS_PER_PAGE, _nItemsPerPage, defaultItemsPerPage );
 
         String strURL = getHomeUrl( request );
 
@@ -183,10 +178,10 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
             strURL += ( "&" + Parameters.SORTED_ASC + "=" + strAscSort );
         }
 
-        LocalizedPaginator<StyleSheet> paginator = new LocalizedPaginator<StyleSheet>( listStyleSheets, _nItemsPerPage, strURL, Paginator.PARAMETER_PAGE_INDEX,
+        LocalizedPaginator<StyleSheet> paginator = new LocalizedPaginator<>( listStyleSheets, _nItemsPerPage, strURL, AbstractPaginator.PARAMETER_PAGE_INDEX,
                 _strCurrentPageIndex, getLocale( ) );
 
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<>( );
         model.put( MARK_MODE_ID, strModeId );
         model.put( MARK_NB_ITEMS_PER_PAGE, "" + _nItemsPerPage );
         model.put( MARK_PAGINATOR, paginator );
@@ -209,12 +204,11 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
     {
         String strModeId = request.getParameter( Parameters.MODE_ID );
 
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<>( );
         model.put( MARK_STYLE_LIST, getStyleList( ) );
         model.put( MARK_MODE_LIST, ModeHome.getModes( ) );
         model.put( MARK_MODE_ID, strModeId );
-        model.put( SecurityTokenService.MARK_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_CREATE_STYLESHEET ) );
+        model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_CREATE_STYLESHEET ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CREATE_STYLESHEET, getLocale( ), model );
 
@@ -222,8 +216,7 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
     }
 
     /**
-     * Processes the creation form of a new stylesheet by recovering the
-     * parameters in the http request
+     * Processes the creation form of a new stylesheet by recovering the parameters in the http request
      * 
      * @param request
      *            the http request
@@ -234,7 +227,7 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
     public String doCreateStyleSheet( HttpServletRequest request ) throws AccessDeniedException
     {
         StyleSheet stylesheet = new StyleSheet( );
-        MultipartHttpServletRequest multipartRequest = ( MultipartHttpServletRequest ) request;
+        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
         String strErrorUrl = getData( multipartRequest, stylesheet );
 
         if ( strErrorUrl != null )
@@ -243,7 +236,7 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
         }
         if ( !SecurityTokenService.getInstance( ).validate( multipartRequest, TEMPLATE_CREATE_STYLESHEET ) )
         {
-            throw new AccessDeniedException( "Invalid security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
 
         // insert in the table stylesheet of the database
@@ -288,7 +281,7 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
         int nCount = StyleSheetHome.getStyleSheetNbPerStyleMode( nStyleId, nModeId );
 
         // Do not create a stylesheet of there is already one
-        if ( ( nCount >= 1 ) && ( stylesheet.getId( ) == 0 /* creation */) )
+        if ( ( nCount >= 1 ) && ( stylesheet.getId( ) == 0 /* creation */ ) )
         {
             return AdminMessageService.getMessageUrl( multipartRequest, MESSAGE_STYLESHEET_ALREADY_EXISTS, AdminMessage.TYPE_STOP );
         }
@@ -297,7 +290,7 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
         if ( isValid( baXslSource ) != null )
         {
             Object [ ] args = {
-                isValid( baXslSource )
+                    isValid( baXslSource )
             };
 
             return AdminMessageService.getMessageUrl( multipartRequest, MESSAGE_STYLESHEET_NOT_VALID, args, AdminMessage.TYPE_STOP );
@@ -324,7 +317,7 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
         String strStyleSheetId = request.getParameter( Parameters.STYLESHEET_ID );
         int nId = Integer.parseInt( strStyleSheetId );
 
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<>( );
         model.put( MARK_STYLE_LIST, getStyleList( ) );
         model.put( MARK_MODE_LIST, ModeHome.getModes( ) );
         model.put( MARK_STYLESHEET, StyleSheetHome.findByPrimaryKey( nId ) );
@@ -347,12 +340,13 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
 
         for ( Style style : stylesList )
         {
-            HashMap<String, Object> model = new HashMap<String, Object>( );
+            HashMap<String, Object> model = new HashMap<>( );
             model.put( MARK_PORTAL_COMPONENT_NAME, PortalComponentHome.findByPrimaryKey( style.getPortalComponentId( ) ).getName( ) );
 
             PortletType portletType = PortletTypeHome.findByPrimaryKey( style.getPortletTypeId( ) );
 
-            model.put( MARK_PORTLET_TYPE_NAME, ( ( portletType != null ) ? ( I18nService.getLocalizedString( portletType.getNameKey( ), getLocale( ) ) ) : "" ) );
+            model.put( MARK_PORTLET_TYPE_NAME,
+                    ( ( portletType != null ) ? ( I18nService.getLocalizedString( portletType.getNameKey( ), getLocale( ) ) ) : "" ) );
             model.put( MARK_STYLE_DESCRIPTION, style.getDescription( ) );
 
             HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_STYLE_SELECT_OPTION, getLocale( ), model );
@@ -363,8 +357,7 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
     }
 
     /**
-     * Processes the updating form of a stylesheet whose new parameters are
-     * stored in the http request
+     * Processes the updating form of a stylesheet whose new parameters are stored in the http request
      * 
      * @param request
      *            The http request
@@ -374,7 +367,7 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
      */
     public String doModifyStyleSheet( HttpServletRequest request ) throws AccessDeniedException
     {
-        MultipartHttpServletRequest multipartRequest = ( MultipartHttpServletRequest ) request;
+        MultipartHttpServletRequest multipartRequest = (MultipartHttpServletRequest) request;
         int nId = Integer.parseInt( multipartRequest.getParameter( Parameters.STYLESHEET_ID ) );
         StyleSheet stylesheet = StyleSheetHome.findByPrimaryKey( nId );
         String strErrorUrl = getData( multipartRequest, stylesheet );
@@ -385,7 +378,7 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
         }
         if ( !SecurityTokenService.getInstance( ).validate( multipartRequest, TEMPLATE_MODIFY_STYLESHEET ) )
         {
-            throw new AccessDeniedException( "Invalid security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
 
         // Remove the old local file
@@ -414,14 +407,15 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
 
         StyleSheet stylesheet = StyleSheetHome.findByPrimaryKey( Integer.parseInt( strId ) );
         Object [ ] args = {
-            stylesheet.getDescription( )
+                stylesheet.getDescription( )
         };
 
         Map<String, Object> parameters = new HashMap<>( );
         parameters.put( Parameters.STYLESHEET_ID, strId );
         parameters.put( Parameters.STYLE_ID, stylesheet.getStyleId( ) );
         parameters.put( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, JSP_DO_REMOVE_STYLESHEET ) );
-        return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_DELETE_STYLESHEET, args, null, JSP_DO_REMOVE_STYLESHEET, null, AdminMessage.TYPE_CONFIRMATION, parameters );
+        return AdminMessageService.getMessageUrl( request, MESSAGE_CONFIRM_DELETE_STYLESHEET, args, null, JSP_DO_REMOVE_STYLESHEET, null,
+                AdminMessage.TYPE_CONFIRMATION, parameters );
     }
 
     /**
@@ -430,13 +424,14 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
      * @param request
      *            the http request
      * @return The Jsp URL of the process result
-     * @throws AccessDeniedException if the security token is invalid
+     * @throws AccessDeniedException
+     *             if the security token is invalid
      */
     public String doRemoveStyleSheet( HttpServletRequest request ) throws AccessDeniedException
     {
         if ( !SecurityTokenService.getInstance( ).validate( request, JSP_DO_REMOVE_STYLESHEET ) )
         {
-            throw new AccessDeniedException( "Invalid security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
         int nId = Integer.parseInt( request.getParameter( Parameters.STYLESHEET_ID ) );
         int nIdStyle = Integer.parseInt( request.getParameter( Parameters.STYLE_ID ) );
@@ -449,13 +444,8 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
         Mode mode = ModeHome.findByPrimaryKey( nModeId );
         String strPathStyleSheet = AppPathService.getPath( PROPERTY_PATH_XSL ) + mode.getPath( );
         File fileToDelete = new File( strPathStyleSheet, strFile );
+        FileUtil.deleteFile( fileToDelete );
 
-        if ( fileToDelete.exists( ) )
-        {
-            fileToDelete.delete( );
-        }
-
-        // return getHomeUrl( request );
         return JSP_REMOVE_STYLE + "?" + Parameters.STYLE_ID + "=" + nIdStyle;
     }
 
@@ -502,28 +492,15 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
         String strFileName = stylesheet.getFile( );
         String strFilePath = strPathStyleSheet + strFileName;
 
-        FileOutputStream fos = null;
-
-        try
+        File file = new File( strFilePath );
+        FileUtil.deleteFile( file );
+        try ( FileOutputStream fos = new FileOutputStream( file ) )
         {
-            File file = new File( strFilePath );
-
-            if ( file.exists( ) )
-            {
-                file.delete( );
-            }
-
-            fos = new FileOutputStream( file );
             fos.write( stylesheet.getSource( ) );
-            fos.flush( );
         }
         catch( IOException e )
         {
             AppLogService.error( e.getMessage( ), e );
-        }
-        finally
-        {
-            StreamUtil.safeClose( fos );
         }
     }
 
@@ -543,10 +520,6 @@ public class StyleSheetJspBean extends AdminFeaturesPageJspBean
         String strOldFileName = stylesheet.getFile( );
         String strOldFilePath = strPathStyleSheet + strOldFileName;
         File oldFile = new File( strOldFilePath );
-
-        if ( oldFile.exists( ) )
-        {
-            oldFile.delete( );
-        }
+        FileUtil.deleteFile( oldFile );
     }
 }

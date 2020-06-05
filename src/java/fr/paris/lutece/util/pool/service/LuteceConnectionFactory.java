@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -48,7 +48,7 @@ public final class LuteceConnectionFactory
      */
     @SuppressWarnings( "rawtypes" )
     private static final Class [ ] PROXY_INTERFACES = {
-        LuteceConnection.class
+            LuteceConnection.class
     };
 
     /**
@@ -69,7 +69,7 @@ public final class LuteceConnectionFactory
      */
     public static LuteceConnection newInstance( ConnectionPool pool, Connection connection )
     {
-        return (LuteceConnection) Proxy.newProxyInstance( LuteceConnection.class.getClassLoader( ), PROXY_INTERFACES, new LuteceConnectionProxy( pool,
-                connection ) );
+        return (LuteceConnection) Proxy.newProxyInstance( LuteceConnection.class.getClassLoader( ), PROXY_INTERFACES,
+                new LuteceConnectionProxy( pool, connection ) );
     }
 }

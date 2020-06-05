@@ -4,7 +4,7 @@
       <@boxHeader title='#i18n{portal.users.modify_attribute.pageTitleAttributeText}' />
 			<@boxBody>
 				<@tform action='jsp/admin/user/attribute/DoModifyAttribute.jsp' method='post'>
-					<input type="hidden" name="token" value="${token}">
+					<@input type='hidden' name='token' value='${token}' />
 					<@formGroup labelKey='#i18n{portal.users.modify_attribute.labelTitle} *' labelFor='attr_title' helpKey='#i18n{portal.users.modify_attribute.labelTitleComment}' mandatory=true>
 						<@input type='text' name='title' id='attr_title' value='${attribute.title?html}' maxlength=255 />
 					</@formGroup>
@@ -17,13 +17,13 @@
 						</#list>
 					</@formGroup>
 					<@formGroup>
-						<@checkBox name='is_shown_in_search' value='1' checked=attribute.shownInSearch labelKey='#i18n{portal.users.modify_attribute.labelIsShownInSearch}' />
+						<@checkBox name='is_shown_in_search' id='is_shown_in_search' value='1' checked=attribute.shownInSearch labelKey='#i18n{portal.users.modify_attribute.labelIsShownInSearch}' />
 					</@formGroup>
 					<@formGroup>
-						<@checkBox name='is_shown_in_result_list' value='1' checked=attribute.shownInResultList labelKey='#i18n{portal.users.modify_attribute.labelIsShownInResultList}' />
+						<@checkBox name='is_shown_in_result_list' id='is_shown_in_result_list' value='1' checked=attribute.shownInResultList labelKey='#i18n{portal.users.modify_attribute.labelIsShownInResultList}' />
 					</@formGroup>
 					<@formGroup>
-						<@checkBox name='mandatory' value='1' checked=attribute.mandatory labelKey='#i18n{portal.users.modify_attribute.labelMandatory}' />
+						<@checkBox name='mandatory' id='mandatory' value='1' checked=attribute.mandatory labelKey='#i18n{portal.users.modify_attribute.labelMandatory}' />
 					</@formGroup>
 					<@formGroup labelKey='#i18n{portal.users.modify_attribute.labelWidth} *' labelFor='width'>
 						<#list attribute_fields_list as attribute_field>
@@ -47,12 +47,10 @@
 					</@formGroup>
 					
 					<@formGroup>
-						<input type="hidden" name="id_attribute" value="${attribute.idAttribute}">
-						<@button type='submit' name='validate' value='#i18n{portal.users.modify_attribute.buttonValidate}' buttonIcon='check' title='#i18n{portal.users.modify_attribute.buttonValidate}' size='' showTitleXs=false />
-						
-						<@button type='submit' name='apply' value='#i18n{portal.users.modify_attribute.buttonApply}' buttonIcon='check-circle-o' title='#i18n{portal.users.modify_attribute.buttonApply}' size='' showTitleXs=false />
-						
-						<@button type='submit' name='cancel' value='#i18n{portal.admin.message.buttonCancel}' buttonIcon='times' title='#i18n{portal.admin.message.buttonCancel}' size='' color='btn-secondary' showTitleXs=false />
+						<@input type='hidden' name='id_attribute' value='${attribute.idAttribute}' />
+						<@button type='submit' name='validate' value='#i18n{portal.users.modify_attribute.buttonValidate}' buttonIcon='check' title='#i18n{portal.users.modify_attribute.buttonValidate}' size='' hideTitle=['xs'] />
+						<@button type='submit' name='apply' value='#i18n{portal.users.modify_attribute.buttonApply}' buttonIcon='check-circle-o' title='#i18n{portal.users.modify_attribute.buttonApply}' size='' hideTitle=['xs'] />
+						<@button type='submit' name='cancel' value='#i18n{portal.admin.message.buttonCancel}' buttonIcon='times' title='#i18n{portal.admin.message.buttonCancel}' size='' cancel=true hideTitle=['xs'] />
 					</@formGroup>
 				</@tform>
 			</@boxBody>

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -77,29 +77,31 @@ public class AliasPortlet extends Portlet
     {
         return _nAliasId;
     }
-    
-  
+
     /**
      * {@inheritDoc}
      */
     @Override
     public boolean isContentGeneratedByXmlAndXsl( )
     {
-    	 Portlet portletParent= PortletHome.findByPrimaryKey( getAliasId( ) );
-         return portletParent.isContentGeneratedByXmlAndXsl( ) ;
+        Portlet portletParent = PortletHome.findByPrimaryKey( getAliasId( ) );
+        return portletParent.isContentGeneratedByXmlAndXsl( );
     }
+
     /**
-     * Returns the html content code of the Alias portlet 
+     * Returns the html content code of the Alias portlet
      *
      * @param request
      *            The HTTP servlet request
      * @return the Html content code of the Alias portlet content
      */
+    @Override
     public String getHtmlContent( HttpServletRequest request )
     {
         Portlet portlet = PortletHome.findByPrimaryKey( getAliasId( ) );
         return portlet.getHtmlContent( request );
     }
+
     /**
      * Returns the Xml code of the Alias portlet without XML heading
      *
@@ -147,6 +149,7 @@ public class AliasPortlet extends Portlet
      *
      * @return the Xsl params
      */
+    @Override
     public Map<String, String> getXslParams( )
     {
 
@@ -171,5 +174,5 @@ public class AliasPortlet extends Portlet
     {
         AliasPortletHome.getInstance( ).remove( this );
     }
-  
+
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -43,7 +43,7 @@ import java.util.HashMap;
  */
 public final class MailAttachmentCacheService extends AbstractCacheableService
 {
-    private static volatile MailAttachmentCacheService _singleton;
+    private static MailAttachmentCacheService _singleton;
     private static ICacheKeyService _cksMailAttachment = new MailAttachmentCacheKeyService( );
     private static final String SERVICE_NAME = "Mail Attachment Cache Service";
 
@@ -52,6 +52,7 @@ public final class MailAttachmentCacheService extends AbstractCacheableService
      */
     private MailAttachmentCacheService( )
     {
+        initCache( );
     }
 
     /**
@@ -67,16 +68,11 @@ public final class MailAttachmentCacheService extends AbstractCacheableService
      *
      * @return an instance of MailAttachmentCacheService
      */
-    public static MailAttachmentCacheService getInstance( )
+    public static synchronized MailAttachmentCacheService getInstance( )
     {
         if ( _singleton == null )
         {
-            synchronized( MailAttachmentCacheService.class )
-            {
-                MailAttachmentCacheService service = new MailAttachmentCacheService( );
-                service.initCache( );
-                _singleton = service;
-            }
+            _singleton = new MailAttachmentCacheService( );
         }
 
         return _singleton;
@@ -91,7 +87,7 @@ public final class MailAttachmentCacheService extends AbstractCacheableService
      */
     public String getKey( String strValue )
     {
-        HashMap<String, String> htParam = new HashMap<String, String>( );
+        HashMap<String, String> htParam = new HashMap<>( );
         htParam.put( MailAttachmentCacheKeyService.MARK_URL, strValue );
 
         return _cksMailAttachment.getKey( htParam, 0, null );

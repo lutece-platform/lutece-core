@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -41,7 +41,9 @@ import fr.paris.lutece.portal.service.message.AdminMessageServiceTest;
 import fr.paris.lutece.portal.service.page.PageServiceTest;
 import fr.paris.lutece.portal.service.plugin.PluginFileTest;
 import fr.paris.lutece.portal.service.portal.PortalMenuServiceTest;
+import fr.paris.lutece.portal.service.portal.PortalServiceTest;
 import fr.paris.lutece.portal.service.security.LuteceUserTest;
+import fr.paris.lutece.portal.service.security.SecurityServiceTest;
 import fr.paris.lutece.portal.service.template.FreeMarkerTemplateServiceTest;
 import fr.paris.lutece.portal.service.util.AppLogServiceTest;
 import fr.paris.lutece.portal.service.util.AppPathServiceTest;

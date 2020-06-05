@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -50,7 +50,7 @@ import java.util.List;
 public final class RegularExpressionService
 {
     private static final String PLUGIN_REGULAR_EXPRESSION_NAME = "regularexpression";
-    private static volatile RegularExpressionService _singleton;
+    private static RegularExpressionService _singleton;
     private boolean _bServiceAvailable = true;
     private IRegularExpressionService _service;
 
@@ -64,15 +64,7 @@ public final class RegularExpressionService
             _service = SpringContextService.getBean( "regularExpressionService" );
             _bServiceAvailable = _service != null;
         }
-        catch( BeanDefinitionStoreException e )
-        {
-            _bServiceAvailable = false;
-        }
-        catch( NoSuchBeanDefinitionException e )
-        {
-            _bServiceAvailable = false;
-        }
-        catch( CannotLoadBeanClassException e )
+        catch( CannotLoadBeanClassException | NoSuchBeanDefinitionException | BeanDefinitionStoreException e )
         {
             _bServiceAvailable = false;
         }
@@ -83,13 +75,12 @@ public final class RegularExpressionService
      * 
      * @return The instance of the service
      */
-    public static RegularExpressionService getInstance( )
+    public static synchronized RegularExpressionService getInstance( )
     {
         if ( _singleton == null )
         {
             _singleton = new RegularExpressionService( );
         }
-
         return _singleton;
     }
 
@@ -111,7 +102,7 @@ public final class RegularExpressionService
      */
     boolean isPatternValide( String strPattern )
     {
-        return isAvailable( ) ? _service.isPatternValide( strPattern ) : false;
+        return isAvailable( ) && _service.isPatternValide( strPattern );
     }
 
     /**
@@ -123,7 +114,7 @@ public final class RegularExpressionService
      */
     boolean isPatternValide( RegularExpression regularExpression )
     {
-        return isAvailable( ) ? _service.isPatternValide( regularExpression ) : false;
+        return isAvailable( ) && _service.isPatternValide( regularExpression );
     }
 
     /**
@@ -137,7 +128,7 @@ public final class RegularExpressionService
      */
     public boolean isMatches( String strValueToTest, String strPattern )
     {
-        return isAvailable( ) ? _service.isMatches( strValueToTest, strPattern ) : false;
+        return isAvailable( ) && _service.isMatches( strValueToTest, strPattern );
     }
 
     /**
@@ -151,7 +142,7 @@ public final class RegularExpressionService
      */
     public boolean isMatches( String strValueToTest, RegularExpression regularExpression )
     {
-        return isAvailable( ) ? _service.isMatches( strValueToTest, regularExpression ) : false;
+        return isAvailable( ) && _service.isMatches( strValueToTest, regularExpression );
     }
 
     /**

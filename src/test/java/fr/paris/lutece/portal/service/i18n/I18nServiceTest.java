@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -101,9 +101,10 @@ public class I18nServiceTest extends LuteceTestCase
         Locale locale = Locale.FRENCH;
         int nDateFormat = DateFormat.SHORT;
 
-        String expResult = "01/01/70";
-        String result = fr.paris.lutece.portal.service.i18n.I18nService.getLocalizedDate( date, locale, nDateFormat );
-        assertEquals( expResult, result );
+        String expResultJava8 = "01/01/70";
+	String expResultJava10 = "01/01/1970";
+	String result = fr.paris.lutece.portal.service.i18n.I18nService.getLocalizedDate( date, locale, nDateFormat );
+	assertTrue(expResultJava8.equals(result) || expResultJava10.equals(result));    
     }
 
     /**
@@ -118,9 +119,10 @@ public class I18nServiceTest extends LuteceTestCase
         int nDateFormat = DateFormat.SHORT;
         int nTimeFormat = DateFormat.SHORT;
 
-        String expResult = "01/01/70 01:00";
+        String expResultJava8 = "01/01/70 01:00";
+        String expResultJava10 = "01/01/1970 01:00";
         String result = fr.paris.lutece.portal.service.i18n.I18nService.getLocalizedDateTime( date, locale, nDateFormat, nTimeFormat );
-        assertEquals( expResult, result );
+        assertTrue(expResultJava8.equals(result) || expResultJava10.equals(result));    
     }
 
     /**

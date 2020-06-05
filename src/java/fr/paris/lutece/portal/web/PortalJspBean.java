@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -65,6 +65,7 @@ import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.url.UrlItem;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.BooleanUtils;
 
 import java.io.UnsupportedEncodingException;
 
@@ -73,6 +74,7 @@ import java.net.URLEncoder;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -178,21 +180,22 @@ public class PortalJspBean
                     LuteceUser user = SecurityService.getInstance( ).getRegisteredUser( request );
 
                     // no checks are needed if the user is already registered
-                    if ( user == null )
+                    // if multiauthentication is supported, then when have to check remote user
+                    // before other check
+                    if ( user == null && SecurityService.getInstance( ).isMultiAuthenticationSupported( ) )
                     {
-                        // if multiauthentication is supported, then when have to check remote user before other check
-                        if ( SecurityService.getInstance( ).isMultiAuthenticationSupported( ) )
-                        {
-                            // getRemoteUser needs to be checked before any check so the user is registered
-                            // getRemoteUser throws an exception if no user found, but here we have to bypass this exception to display login page.
-                            SecurityService.getInstance( ).getRemoteUser( request );
-                        }
+
+                        // getRemoteUser needs to be checked before any check so the user is registered
+                        // getRemoteUser throws an exception if no user found, but here we have to
+                        // bypass this exception to display login page.
+                        SecurityService.getInstance( ).getRemoteUser( request );
                     }
                 }
             }
             catch( UserNotSignedException unse )
             {
-                // nothing to do,Leave LuteceAuthenticationFilter testing if the access to the content requires authentication
+                // nothing to do,Leave LuteceAuthenticationFilter testing if the access to the
+                // content requires authentication
             }
         }
 
@@ -241,7 +244,7 @@ public class PortalJspBean
             return getStartUpFailurePage( request );
         }
 
-        ISiteMessageHandler handler = (ISiteMessageHandler) SpringContextService.getBean( BEAN_SITE_MESSAGE_HANDLER );
+        ISiteMessageHandler handler = SpringContextService.getBean( BEAN_SITE_MESSAGE_HANDLER );
 
         if ( handler.hasMessage( request ) )
         {
@@ -260,7 +263,7 @@ public class PortalJspBean
      */
     public String getStartUpFailurePage( HttpServletRequest request )
     {
-        HashMap<String, Object> model = new HashMap<String, Object>( );
+        HashMap<String, Object> model = new HashMap<>( );
         fillPageModel( request, model );
         model.put( MARK_FAILURE_MESSAGE, AppInit.getLoadingFailureCause( ) );
         model.put( MARK_FAILURE_DETAILS, AppInit.getLoadingFailureDetails( ) );
@@ -280,7 +283,7 @@ public class PortalJspBean
      */
     public String getCredits( HttpServletRequest request )
     {
-        HashMap<String, Object> model = new HashMap<String, Object>( );
+        HashMap<String, Object> model = new HashMap<>( );
         fillPageModel( request, model );
         model.put( MARK_APP_VERSION, AppInfo.getVersion( ) );
         model.put( MARK_PORTAL_DOMAIN, PortalService.getSiteName( ) );
@@ -300,7 +303,7 @@ public class PortalJspBean
      */
     public String getLegalInfos( HttpServletRequest request )
     {
-        HashMap<String, Object> model = new HashMap<String, Object>( );
+        HashMap<String, Object> model = new HashMap<>( );
         fillPageModel( request, model );
         model.put( MARK_ADDRESS_INFOS_CNIL, AppPropertiesService.getProperty( PROPERTY_INFOS_CNIL ) );
         model.put( MARK_PORTAL_DOMAIN, PortalService.getSiteName( ) );
@@ -320,7 +323,7 @@ public class PortalJspBean
      */
     public String getError404Page( HttpServletRequest request )
     {
-        HashMap<String, Object> model = new HashMap<String, Object>( );
+        HashMap<String, Object> model = new HashMap<>( );
         fillPageModel( request, model );
         model.put( Markers.PAGE_TITLE, I18nService.getLocalizedString( PROPERTY_PAGE_TITLE_ERROR404, request.getLocale( ) ) );
 
@@ -342,10 +345,10 @@ public class PortalJspBean
     {
         if ( exception instanceof AppException )
         {
-            //AppException calls AppLogService.error( message, this ) in the
-            //constructor, so don't call it here again Call toString to have
-            //the Class and the message to be able to indentify the correct
-            //stacktrace in the preceding logs.
+            // AppException calls AppLogService.error( message, this ) in the
+            // constructor, so don't call it here again Call toString to have
+            // the Class and the message to be able to indentify the correct
+            // stacktrace in the preceding logs.
             AppLogService.error( "Error 500 : Caused by previous Critical AppException" );
         }
         else
@@ -379,7 +382,7 @@ public class PortalJspBean
      */
     public String getError500Page( HttpServletRequest request, String strCause )
     {
-        HashMap<String, Object> model = new HashMap<String, Object>( );
+        HashMap<String, Object> model = new HashMap<>( );
         fillPageModel( request, model );
         model.put( Markers.PAGE_TITLE, I18nService.getLocalizedString( PROPERTY_PAGE_TITLE_ERROR500, request.getLocale( ) ) );
         model.put( MARK_ERROR_CAUSE, strCause );
@@ -451,9 +454,7 @@ public class PortalJspBean
     public static String getLoginNextUrl( HttpServletRequest request )
     {
         HttpSession session = request.getSession( );
-        String strNextUrl = (String) session.getAttribute( ATTRIBUTE_LOGIN_NEXT_URL );
-
-        return strNextUrl;
+        return (String) session.getAttribute( ATTRIBUTE_LOGIN_NEXT_URL );
     }
 
     /**
@@ -488,9 +489,7 @@ public class PortalJspBean
     public static String getUploadFilterSiteNextUrl( HttpServletRequest request )
     {
         HttpSession session = request.getSession( );
-        String strNextUrl = (String) session.getAttribute( ATTRIBUTE_UPLOAD_FILTER_SITE_NEXT_URL );
-
-        return strNextUrl;
+        return (String) session.getAttribute( ATTRIBUTE_UPLOAD_FILTER_SITE_NEXT_URL );
     }
 
     /**
@@ -526,22 +525,7 @@ public class PortalJspBean
         String strSend = request.getParameter( PARAMETER_SEND );
         IExtendableResource resource = null;
 
-        String strError = null;
-
-        // If the form was submited, we check data
-        if ( strSend != null )
-        {
-            if ( StringUtils.isBlank( strSenderEmail ) || StringUtils.isBlank( strSenderName ) || StringUtils.isBlank( strSenderFirstName )
-                    || StringUtils.isBlank( strReceipientEmail ) || StringUtils.isBlank( strContent ) )
-            {
-                strError = I18nService.getLocalizedString( MESSAGE_ERROR_MANDATORY_FIELDS, request.getLocale( ) );
-            }
-
-            if ( ( strError != null ) && ( !AdminUserService.checkEmail( strSenderEmail ) || !AdminUserService.checkEmail( strReceipientEmail ) ) )
-            {
-                strError = I18nService.getLocalizedString( MESSAGE_ERROR_WRONG_SENDER_EMAIL, request.getLocale( ) );
-            }
-        }
+        String strError = checkSendParams( strSend, strSenderEmail, strSenderName, strSenderFirstName, strReceipientEmail, strContent, request.getLocale( ) );
 
         // We get the resource from its resource service
         IExtendableResourceService resourceService = null;
@@ -563,14 +547,14 @@ public class PortalJspBean
         }
 
         String strResourceUrl = resourceService.getResourceUrl( strIdExtendableResource, strExtendableResourceType );
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<>( );
         model.put( MARK_RESOURCE, resource );
         model.put( MARK_RESOURCE_URL, strResourceUrl );
         model.put( Markers.BASE_URL, AppPathService.getBaseUrl( request ) );
 
         if ( ( strSend != null ) && ( strError == null ) )
         {
-            Map<String, Object> mailModel = new HashMap<String, Object>( );
+            Map<String, Object> mailModel = new HashMap<>( );
             mailModel.put( Markers.BASE_URL, AppPathService.getBaseUrl( request ) );
             mailModel.put( MARK_RESOURCE, resource );
             mailModel.put( PARAMETER_SENDER_EMAIL, strSenderEmail );
@@ -599,5 +583,30 @@ public class PortalJspBean
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_SEND_RESOURCE, request.getLocale( ), model );
 
         return template.getHtml( );
+    }
+
+    private static String checkSendParams( String strSend, String strSenderEmail, String strSenderName, String strSenderFirstName, String strReceipientEmail,
+            String strContent, Locale locale )
+    {
+        String strError = null;
+        // If the form was submited, we check data
+        if ( strSend != null )
+        {
+            boolean [ ] conditions = new boolean [ ] {
+                    StringUtils.isBlank( strSenderEmail ), StringUtils.isBlank( strSenderName ), StringUtils.isBlank( strSenderFirstName ),
+                    StringUtils.isBlank( strReceipientEmail ), StringUtils.isBlank( strContent )
+            };
+
+            if ( BooleanUtils.or( conditions ) )
+            {
+                strError = I18nService.getLocalizedString( MESSAGE_ERROR_MANDATORY_FIELDS, locale );
+            }
+
+            if ( ( strError != null ) && ( !AdminUserService.checkEmail( strSenderEmail ) || !AdminUserService.checkEmail( strReceipientEmail ) ) )
+            {
+                strError = I18nService.getLocalizedString( MESSAGE_ERROR_WRONG_SENDER_EMAIL, locale );
+            }
+        }
+        return strError;
     }
 }

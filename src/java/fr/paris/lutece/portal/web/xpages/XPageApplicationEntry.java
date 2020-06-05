@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,13 +33,12 @@
  */
 package fr.paris.lutece.portal.web.xpages;
 
-import fr.paris.lutece.portal.service.content.XPageAppService;
-import fr.paris.lutece.portal.service.plugin.Plugin;
-import fr.paris.lutece.portal.service.plugin.PluginService;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
+
+import fr.paris.lutece.portal.service.plugin.Plugin;
+import fr.paris.lutece.portal.service.plugin.PluginService;
 
 /**
  * XPageApplication Entry
@@ -50,7 +49,7 @@ public class XPageApplicationEntry
     private String _strId;
     private String _strClassName;
     private String _strPluginName;
-    private List<String> _listRoles = new ArrayList<String>( );
+    private List<String> _listRoles = new ArrayList<>( );
     private boolean _bEnabled = true; // defaults to enabled
 
     /**
@@ -144,28 +143,6 @@ public class XPageApplicationEntry
     public void setPluginName( String strPluginName )
     {
         _strPluginName = strPluginName;
-    }
-
-    /**
-     * Returns the Application
-     *
-     * @deprecated use {@link XPageAppService#getApplicationInstance(XPageApplicationEntry)} instead
-     * @return The Application
-     */
-    public XPageApplication getApplication( )
-    {
-        return XPageAppService.getApplicationInstance( this );
-    }
-
-    /**
-     * Sets the Application
-     *
-     * @deprecated should not be used anymore
-     * @param application
-     *            The Application
-     */
-    public void setApplication( XPageApplication application )
-    {
     }
 
     /**

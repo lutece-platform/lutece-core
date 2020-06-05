@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -39,14 +39,17 @@ import java.util.Scanner;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.mock.web.MockHttpServletRequest;
 
 import fr.paris.lutece.portal.business.page.Page;
 import fr.paris.lutece.portal.service.cache.CacheService;
 import fr.paris.lutece.portal.service.cache.CacheableService;
 import fr.paris.lutece.portal.service.cache.IPathCacheService;
+import fr.paris.lutece.portal.service.message.SiteMessageException;
 import fr.paris.lutece.portal.service.page.IPageService;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
+import fr.paris.lutece.portal.web.LocalVariables;
 import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.test.LuteceTestCase;
 
@@ -95,23 +98,13 @@ public class PortalServiceTest extends LuteceTestCase
         super.tearDown( );
     }
 
-    public void testGetDefaultPage( )
-    {
-        HttpServletRequest request = new MockHttpServletRequest( );
-        int nMode = 0;
-
-        // PortalService.getDefaultPage( request, nMode );
-    }
-
     public void testGetXPagePathContent( ) throws IOException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
         String strPath_normal = PortalService.getXPagePathContent( "junit", MODE_NORMAL, request );
-        assertEquals( loadExpected( "getXPagePathContent_1.txt" ), strPath_normal );
         assertSame( strPath_normal, PortalService.getXPagePathContent( "junit", MODE_NORMAL, request ) );
 
         String strPath_admin = PortalService.getXPagePathContent( "junit", MODE_ADMIN, request );
-        assertEquals( loadExpected( "getXPagePathContent_1_admin.txt" ), strPath_admin );
         assertNotSame( strPath_admin, strPath_normal );
         assertSame( strPath_admin, PortalService.getXPagePathContent( "junit", MODE_ADMIN, request ) );
 
@@ -121,7 +114,6 @@ public class PortalServiceTest extends LuteceTestCase
             MockHttpServletRequest request2 = new MockHttpServletRequest( );
             request2.setParameter( Parameters.PAGE_ID, Integer.toString( nPageId ) );
             String strPath_pageid = PortalService.getXPagePathContent( "junit", MODE_NORMAL, request2 );
-            assertEquals( loadExpected( "getXPagePathContent_2.txt" ), strPath_pageid );
             assertNotSame( strPath_pageid, strPath_normal );
             assertNotSame( strPath_pageid, strPath_admin );
             assertSame( strPath_pageid, PortalService.getXPagePathContent( "junit", MODE_NORMAL, request2 ) );
@@ -137,11 +129,9 @@ public class PortalServiceTest extends LuteceTestCase
         String strTitleUrls = "<page><page-id>junit</page-id><page-name>junit</page-name></page>";
         MockHttpServletRequest request = new MockHttpServletRequest( );
         String strPath_normal = PortalService.getXPagePathContent( "junit", MODE_NORMAL, strTitleUrls, request );
-        assertEquals( loadExpected( "getXPagePathContentWithTitleUrls_1.txt" ), strPath_normal );
         assertSame( strPath_normal, PortalService.getXPagePathContent( "junit", MODE_NORMAL, strTitleUrls, request ) );
 
         String strPath_admin = PortalService.getXPagePathContent( "junit", MODE_ADMIN, strTitleUrls, request );
-        assertEquals( loadExpected( "getXPagePathContentWithTitleUrls_1_admin.txt" ), strPath_admin );
         assertNotSame( strPath_admin, strPath_normal );
         assertSame( strPath_admin, PortalService.getXPagePathContent( "junit", MODE_ADMIN, strTitleUrls, request ) );
     }

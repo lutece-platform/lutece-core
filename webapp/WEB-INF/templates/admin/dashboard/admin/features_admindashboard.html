@@ -1,0 +1,24 @@
+<#include "admindashboard_utils.html">
+
+<@adminDashboardPanel title='#i18n{portal.admin.adminFeature.features_management.name}' icon='sitemap' parentId='technical_settings' childId='admin_features'>
+
+<@row>
+	<@columns lg=3>
+		<@tabs>
+			<@tabList type='pills' vertical=true>
+				<@tabLink active=true href='#feature_groups' title='#i18n{portal.features.manage_groups.title}' tabIcon='folder' />
+				<@tabLink href='#assign_features_groups' title='#i18n{portal.features.dispatch_features.title}' tabIcon='list' />
+				<@tabLink href='#external_features' title='#i18n{portal.features.external_features.manage_external_features.pageTitle}' tabIcon='users' />
+			</@tabList>
+		</@tabs>
+	</@columns>
+	<@columns lg=9>
+		<@tabContent>
+  	<#include "features_admindashboard_groups.html" />
+    <#include "features_admindashboard_features.html" />
+    <#include "features_admindashboard_external.html" />
+		</@tabContent>
+	</@columns>
+</@row>
+</@adminDashboardPanel>
+

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -59,7 +59,6 @@ public final class AllTests
         TestSuite suite = new TestSuite( "Test for test.fr.paris.lutece.util.date" );
 
         // $JUnit-BEGIN$
-        suite.addTest( new TestSuite( DateUtilTest.class ) );
 
         // $JUnit-END$
         return suite;

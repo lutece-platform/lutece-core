@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -45,6 +45,7 @@ import java.util.Random;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.mock.web.MockHttpServletRequest;
 
 import fr.paris.lutece.portal.business.style.PageTemplate;
@@ -84,7 +85,7 @@ public class PageTemplatesJspBeanTest extends LuteceTestCase
      */
     public void testGetManagePageTemplate( ) throws AccessDeniedException
     {
-        instance.getManagePageTemplate( request );
+        assertTrue( StringUtils.isNotEmpty( instance.getManagePageTemplate( request ) ) );
     }
 
     /**
@@ -92,7 +93,7 @@ public class PageTemplatesJspBeanTest extends LuteceTestCase
      */
     public void testGetCreatePageTemplate( ) throws AccessDeniedException
     {
-        instance.getCreatePageTemplate( request );
+        assertTrue( StringUtils.isNotEmpty( instance.getCreatePageTemplate( request ) ) );
     }
 
     /**
@@ -104,7 +105,7 @@ public class PageTemplatesJspBeanTest extends LuteceTestCase
     public void testDoCreatePageTemplate( ) throws AccessDeniedException, IOException
     {
         final String desc = getRandomName( );
-        Map<String, String [ ]> parameters = new HashMap<String, String [ ]>( );
+        Map<String, String [ ]> parameters = new HashMap<>( );
         parameters.put( Parameters.PAGE_TEMPLATE_DESCRIPTION, new String [ ] {
             desc
         } );
@@ -139,7 +140,7 @@ public class PageTemplatesJspBeanTest extends LuteceTestCase
     public void testDoCreatePageTemplateInvalidToken( ) throws AccessDeniedException, IOException
     {
         final String desc = getRandomName( );
-        Map<String, String [ ]> parameters = new HashMap<String, String [ ]>( );
+        Map<String, String [ ]> parameters = new HashMap<>( );
         parameters.put( Parameters.PAGE_TEMPLATE_DESCRIPTION, new String [ ] {
             desc
         } );
@@ -178,7 +179,7 @@ public class PageTemplatesJspBeanTest extends LuteceTestCase
     public void testDoCreatePageTemplateNoToken( ) throws AccessDeniedException, IOException
     {
         final String desc = getRandomName( );
-        Map<String, String [ ]> parameters = new HashMap<String, String [ ]>( );
+        Map<String, String [ ]> parameters = new HashMap<>( );
         parameters.put( Parameters.PAGE_TEMPLATE_DESCRIPTION, new String [ ] {
             desc
         } );
@@ -217,7 +218,7 @@ public class PageTemplatesJspBeanTest extends LuteceTestCase
     public void testGetModifyPageTemplate( ) throws AccessDeniedException
     {
         request.addParameter( Parameters.PAGE_TEMPLATE_ID, TEST_PAGE_TEMPLATE_ID );
-        instance.getModifyPageTemplate( request );
+        assertTrue( StringUtils.isNotEmpty( instance.getModifyPageTemplate( request ) ) );
     }
 
     /**

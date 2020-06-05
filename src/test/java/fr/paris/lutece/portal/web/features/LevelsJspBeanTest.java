@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -37,6 +37,7 @@ import java.math.BigInteger;
 import java.security.SecureRandom;
 import java.util.Random;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.mock.web.MockHttpServletRequest;
 
 import fr.paris.lutece.portal.business.right.Level;
@@ -45,6 +46,7 @@ import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.web.constants.Parameters;
+import fr.paris.lutece.portal.web.dashboard.AdminDashboardJspBean;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.test.Utils;
 
@@ -54,6 +56,9 @@ import fr.paris.lutece.test.Utils;
  */
 public class LevelsJspBeanTest extends LuteceTestCase
 {
+    // Templates files path
+    private static final String TEMPLATE_CREATE_LEVEL = "admin/features/create_level.html";
+    private static final String TEMPLATE_MODIFY_LEVEL = "admin/features/modify_level.html";
     private static final String TEST_LEVEL_ID = "0"; // administrator level_right
     private MockHttpServletRequest request;
     private LevelsJspBean instance;
@@ -70,19 +75,11 @@ public class LevelsJspBeanTest extends LuteceTestCase
     }
 
     /**
-     * Test of getManageLevels method, of class fr.paris.lutece.portal.web.features.LevelsJspBean.
-     */
-    public void testGetManageLevels( ) throws AccessDeniedException
-    {
-        instance.getManageLevels( request );
-    }
-
-    /**
      * Test of getCreateLevel method, of class fr.paris.lutece.portal.web.features.LevelsJspBean.
      */
     public void testGetCreateLevel( ) throws AccessDeniedException
     {
-        instance.getCreateLevel( request );
+        assertTrue( StringUtils.isNotEmpty( instance.getCreateLevel( request ) ) );
     }
 
     /**
@@ -94,7 +91,7 @@ public class LevelsJspBeanTest extends LuteceTestCase
     {
         final String name = getRandomName( );
         request.setParameter( "level_name", name );
-        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "admin/features/create_level.html" ) );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_CREATE_LEVEL ) );
 
         LevelHome.getLevelsList( ).forEach( level -> {
             assertFalse( name.equals( level.getName( ) ) );
@@ -120,7 +117,7 @@ public class LevelsJspBeanTest extends LuteceTestCase
     {
         final String name = getRandomName( );
         request.setParameter( "level_name", name );
-        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "admin/features/create_level.html" )
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_CREATE_LEVEL )
                 + "b" );
 
         LevelHome.getLevelsList( ).forEach( level -> {
@@ -190,7 +187,7 @@ public class LevelsJspBeanTest extends LuteceTestCase
     {
         request.addParameter( Parameters.LEVEL_ID, TEST_LEVEL_ID );
 
-        instance.getModifyLevel( request );
+        assertTrue( StringUtils.isNotEmpty( instance.getModifyLevel( request ) ) );
     }
 
     /**
@@ -206,7 +203,7 @@ public class LevelsJspBeanTest extends LuteceTestCase
         LevelHome.create( level );
         request.setParameter( Parameters.LEVEL_ID, Integer.toString( level.getId( ) ) );
         request.setParameter( Parameters.LEVEL_NAME, name + "_mod" );
-        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "admin/features/modify_level.html" ) );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MODIFY_LEVEL ) );
         try
         {
             assertEquals( name, LevelHome.findByPrimaryKey( level.getId( ) ).getName( ) );
@@ -227,7 +224,7 @@ public class LevelsJspBeanTest extends LuteceTestCase
         LevelHome.create( level );
         request.setParameter( Parameters.LEVEL_ID, Integer.toString( level.getId( ) ) );
         request.setParameter( Parameters.LEVEL_NAME, name + "_mod" );
-        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "admin/features/modify_level.html" )
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MODIFY_LEVEL )
                 + "b" );
         try
         {

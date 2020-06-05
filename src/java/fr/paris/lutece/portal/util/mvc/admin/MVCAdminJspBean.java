@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,6 +33,24 @@
  */
 package fr.paris.lutece.portal.util.mvc.admin;
 
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Map.Entry;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.log4j.Logger;
+import org.springframework.util.ReflectionUtils;
+
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
@@ -47,40 +65,19 @@ import fr.paris.lutece.util.beanvalidation.ValidationError;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.url.UrlItem;
 
-import org.apache.log4j.Logger;
-
-import org.springframework.util.ReflectionUtils;
-
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.PrintWriter;
-import java.io.Serializable;
-
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Map.Entry;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 /**
  * MVC Admin JspBean implementation let use MVC model to develop admin feature.
  */
-public abstract class MVCAdminJspBean extends PluginAdminPageJspBean implements Serializable
+public abstract class MVCAdminJspBean extends PluginAdminPageJspBean
 {
+    private static final long serialVersionUID = 278165302545398831L;
     private static final String MARK_ERRORS = "errors";
     private static final String MARK_INFOS = "infos";
     private static final String MARK_WARNINGS = "warnings";
     private static Logger _logger = MVCUtils.getLogger( );
-    private List<ErrorMessage> _listErrors = new ArrayList<ErrorMessage>( );
-    private List<ErrorMessage> _listInfos = new ArrayList<ErrorMessage>( );
-    private List<ErrorMessage> _listWarnings = new ArrayList<ErrorMessage>( );
+    private List<ErrorMessage> _listErrors = new ArrayList<>( );
+    private List<ErrorMessage> _listInfos = new ArrayList<>( );
+    private List<ErrorMessage> _listWarnings = new ArrayList<>( );
     private Controller _controller = getClass( ).getAnnotation( Controller.class );
     private HttpServletResponse _response;
 
@@ -223,9 +220,9 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean implements 
      */
     protected void fillCommons( Map<String, Object> model )
     {
-        List<ErrorMessage> listErrors = new ArrayList<ErrorMessage>( _listErrors );
-        List<ErrorMessage> listInfos = new ArrayList<ErrorMessage>( _listInfos );
-        List<ErrorMessage> listWarnings = new ArrayList<ErrorMessage>( _listWarnings );
+        List<ErrorMessage> listErrors = new ArrayList<>( _listErrors );
+        List<ErrorMessage> listInfos = new ArrayList<>( _listInfos );
+        List<ErrorMessage> listWarnings = new ArrayList<>( _listWarnings );
         model.put( MARK_ERRORS, listErrors );
         model.put( MARK_INFOS, listInfos );
         model.put( MARK_WARNINGS, listWarnings );
@@ -241,7 +238,7 @@ public abstract class MVCAdminJspBean extends PluginAdminPageJspBean implements 
      */
     protected Map<String, Object> getModel( )
     {
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<>( );
         fillCommons( model );
 
         return model;

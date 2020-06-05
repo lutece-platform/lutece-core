@@ -3,7 +3,7 @@
 		<@box color='info'>
 			<@boxHeader title='#i18n{portal.style.manage_styles.title}' boxTools=true>
 				<@tform method='post' action='jsp/admin/style/CreateStyle.jsp'>
-					<@button type='submit' buttonIcon='plus' title='#i18n{portal.style.manage_styles.buttonCreate}' size='' />
+					<@button type='submit' buttonIcon='plus' title='#i18n{portal.style.manage_styles.buttonCreate}' hideTitle=['xs','sm'] size='sm' />
 				</@tform>
 			</@boxHeader>
 			<@boxBody>
@@ -31,8 +31,8 @@
 					  <td>${style.portalComponentName}</td>
 					  <td>#i18n{${style.portletTypeName}}</td>
 					  <td>
-						<@aButton href='jsp/admin/style/ModifyStyle.jsp?style_id=${style.id}' buttonIcon='pencil' title='#i18n{portal.util.labelModify}' showTitle=false />
-						<@aButton href='jsp/admin/style/RemoveStyle.jsp?style_id=${style.id}' buttonIcon='trash' title='#i18n{portal.util.labelDelete}' showTitle=false color='btn-danger' />
+						<@aButton href='jsp/admin/style/ModifyStyle.jsp?style_id=${style.id}' buttonIcon='edit' title='#i18n{portal.util.labelModify}' hideTitle=['all'] size='sm' />
+						<@aButton href='jsp/admin/style/RemoveStyle.jsp?style_id=${style.id}' buttonIcon='trash' title='#i18n{portal.util.labelDelete}' hideTitle=['all'] size='sm' color='danger' />
 					  </td>
 					</tr>
 				  </#list>

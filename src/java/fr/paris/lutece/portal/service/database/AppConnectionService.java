@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -99,12 +99,10 @@ public final class AppConnectionService
     {
         if ( _poolManager == null )
         {
-            throw new RuntimeException( "* Erreur * getConnection : Le pool de connexion n'est pas initialise !" );
+            throw new AppException( "* Erreur * getConnection : Le pool de connexion n'est pas initialise !" );
         }
 
-        Connection conn = _connectionService.getConnection( );
-
-        return conn;
+        return _connectionService.getConnection( );
     }
 
     /**

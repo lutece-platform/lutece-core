@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -80,21 +80,12 @@ public class Page implements RBACResource, IExtendableResource
     private String _strCodeTheme;
     private byte [ ] _strImageContent;
     private Timestamp _dateUpdate;
-    private List<Portlet> _listPortlets = new ArrayList<Portlet>( );
+    private List<Portlet> _listPortlets = new ArrayList<>( );
     private String _strMetaKeywords;
     private String _strMetaDescription;
     private Integer _nIdAuthorizationNode;
     private boolean _bDisplayDateUpdate;
     private boolean _bIsManualDateUpdate;
-
-    /**
-     * Initialize the Page
-     */
-
-    /*
-     * FIXME PageRoleRemovalListener should not be registered here public static void init( ) { // Create removal listeners and register them if ( _listenerRole
-     * == null ) { _listenerRole = new PageRoleRemovalListener( ); RoleRemovalListenerService.getService( ).registerListener( _listenerRole ); } }
-     */
 
     /**
      * Sets the identifier of the page
@@ -446,12 +437,9 @@ public class Page implements RBACResource, IExtendableResource
      */
     public boolean isVisible( HttpServletRequest request )
     {
-        if ( SecurityService.isAuthenticationEnable( ) )
+        if ( SecurityService.isAuthenticationEnable( ) && !getRole( ).equals( ROLE_NONE ) )
         {
-            if ( !getRole( ).equals( ROLE_NONE ) )
-            {
-                return SecurityService.getInstance( ).isUserInRole( request, getRole( ) );
-            }
+            return SecurityService.getInstance( ).isUserInRole( request, getRole( ) );
         }
 
         return true;
@@ -576,7 +564,7 @@ public class Page implements RBACResource, IExtendableResource
     @Override
     public String getExtendableResourceDescription( )
     {
-        return _strDescription;
+        return getDescription( );
     }
 
     /**

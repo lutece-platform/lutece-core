@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -50,12 +50,13 @@ import java.util.Date;
  */
 public final class JobSchedulerService
 {
-    private static volatile JobSchedulerService _singleton;
+    private static JobSchedulerService _singleton;
     private static Scheduler _scheduler;
 
     /** Creates a new instance of JobSchedulerService */
     private JobSchedulerService( )
     {
+        init( );
     }
 
     /**
@@ -63,16 +64,11 @@ public final class JobSchedulerService
      * 
      * @return The service's instance
      */
-    public static JobSchedulerService getInstance( )
+    public static synchronized JobSchedulerService getInstance( )
     {
         if ( _singleton == null )
         {
-            synchronized( JobSchedulerService.class )
-            {
-                JobSchedulerService service = new JobSchedulerService( );
-                service.init( );
-                _singleton = service;
-            }
+            _singleton = new JobSchedulerService( );
         }
 
         return _singleton;

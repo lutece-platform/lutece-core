@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -205,18 +205,6 @@ public abstract class ResourceRss implements IResourceRss
      */
     @Override
     public IFeedResource getFeed( )
-    {
-        return null;
-    }
-
-    /**
-     * Always returns <code>null</code> and should be removed as soon as every plugin implement {@link #getFeed()}.
-     *
-     * @return the string
-     */
-    @Override
-    @Deprecated
-    public String createHtmlRss( )
     {
         return null;
     }

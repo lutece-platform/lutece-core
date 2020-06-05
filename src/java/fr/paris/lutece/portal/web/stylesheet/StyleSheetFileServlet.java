@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,20 +33,19 @@
  */
 package fr.paris.lutece.portal.web.stylesheet;
 
+import java.io.IOException;
+import java.io.OutputStream;
+
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import fr.paris.lutece.portal.business.stylesheet.StyleSheet;
 import fr.paris.lutece.portal.business.stylesheet.StyleSheetHome;
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.service.admin.AdminUserService;
 import fr.paris.lutece.portal.web.constants.Parameters;
-
-import java.io.IOException;
-import java.io.OutputStream;
-
-import javax.servlet.ServletContext;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 /**
  * StyleSheetFile Servlet
@@ -65,12 +64,9 @@ public class StyleSheetFileServlet extends HttpServlet
      *            servlet request
      * @param response
      *            servlet response
-     * @throws ServletException
-     *             the servlet Exception
      * @throws IOException
-     *             the io exception
      */
-    protected void processRequest( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException
+    protected void processRequest( HttpServletRequest request, HttpServletResponse response ) throws IOException
     {
         AdminUser user = AdminUserService.getAdminUser( request );
 
@@ -100,18 +96,22 @@ public class StyleSheetFileServlet extends HttpServlet
 
     /**
      * {@inheritDoc}
+     * 
+     * @throws IOException
      */
     @Override
-    protected void doGet( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException
+    protected void doGet( HttpServletRequest request, HttpServletResponse response ) throws IOException
     {
         processRequest( request, response );
     }
 
     /**
      * {@inheritDoc}
+     * 
+     * @throws IOException
      */
     @Override
-    protected void doPost( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException
+    protected void doPost( HttpServletRequest request, HttpServletResponse response ) throws IOException
     {
         processRequest( request, response );
     }

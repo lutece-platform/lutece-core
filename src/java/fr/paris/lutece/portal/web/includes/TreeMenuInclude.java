@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -89,8 +89,8 @@ public class TreeMenuInclude implements PageInclude
 
             try
             {
-                nCurrentPageId = ( request.getParameter( Parameters.PAGE_ID ) == null ) ? PortalService.getRootPageId( ) : Integer.parseInt( request
-                        .getParameter( Parameters.PAGE_ID ) );
+                nCurrentPageId = ( request.getParameter( Parameters.PAGE_ID ) == null ) ? PortalService.getRootPageId( )
+                        : Integer.parseInt( request.getParameter( Parameters.PAGE_ID ) );
             }
             catch( NumberFormatException nfe )
             {
@@ -199,7 +199,7 @@ public class TreeMenuInclude implements PageInclude
 
         // Added in v1.3
         // Add a path param for choose url to use in admin or normal mode
-        Map<String, String> mapParamRequest = new HashMap<String, String>( );
+        Map<String, String> mapParamRequest = new HashMap<>( );
         PortalService.setXslPortalPath( mapParamRequest, nMode );
 
         XmlTransformerService xmlTransformerService = new XmlTransformerService( );
@@ -225,7 +225,6 @@ public class TreeMenuInclude implements PageInclude
 
         int nParentTree = nParentPageId;
 
-        // while ( nParentPageId != 1 )
         while ( nParentPageId != 0 )
         {
             nParentTree = nParentPageId;

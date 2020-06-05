@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,6 +33,17 @@
  */
 package fr.paris.lutece.portal.web.style;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.fileupload.FileItem;
+import org.apache.commons.lang.StringUtils;
+
 import fr.paris.lutece.portal.business.style.PageTemplate;
 import fr.paris.lutece.portal.business.style.PageTemplateHome;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
@@ -50,19 +61,6 @@ import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.portal.web.upload.MultipartHttpServletRequest;
 import fr.paris.lutece.util.file.FileUtil;
 import fr.paris.lutece.util.html.HtmlTemplate;
-import fr.paris.lutece.util.stream.StreamUtil;
-
-import org.apache.commons.fileupload.FileItem;
-import org.apache.commons.lang.StringUtils;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * This class provides the user interface to manage page templates features ( manage, create, modify, remove)
@@ -128,7 +126,7 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
     {
         setPageTitleProperty( PROPERTY_PAGE_TITLE_PAGE_TEMPLATE_LIST );
 
-        HashMap<String, Object> model = new HashMap<String, Object>( );
+        HashMap<String, Object> model = new HashMap<>( );
         model.put( MARK_PAGE_TEMPLATES_LIST, PageTemplateHome.getPageTemplatesList( ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_PAGE_TEMPLATES, getLocale( ), model );
@@ -147,7 +145,7 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
     {
         setPageTitleProperty( PROPERTY_PAGE_TITLE_CREATE_PAGE_TEMPLATE );
 
-        HashMap<String, Object> model = new HashMap<String, Object>( );
+        HashMap<String, Object> model = new HashMap<>( );
         model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_CREATE_PAGE_TEMPLATE ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_CREATE_PAGE_TEMPLATE, getLocale( ), model );
@@ -189,7 +187,7 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
             return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FILE, AdminMessage.TYPE_STOP );
         }
 
-        if ( !FileUtil.hasHtmlExtension( strFileName ) )
+        if ( !( FileUtil.hasHtmlExtension( strFileName ) || FileUtil.hasFreemarkerExtension( strFileName ) ) )
         {
             return AdminMessageService.getMessageUrl( request, MESSAGE_WRONG_HTML_EXTENSION, AdminMessage.TYPE_STOP );
         }
@@ -201,7 +199,7 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
 
         if ( !SecurityTokenService.getInstance( ).validate( multipartRequest, TEMPLATE_CREATE_PAGE_TEMPLATE ) )
         {
-            throw new AccessDeniedException( "Invalid security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
 
         pageTemplate.setFile( AppPropertiesService.getProperty( PROPERTY_PATH_FILE_PAGE_TEMPLATE ) + strFileName );
@@ -231,7 +229,7 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
 
         String strId = request.getParameter( Parameters.PAGE_TEMPLATE_ID );
 
-        HashMap<String, Object> model = new HashMap<String, Object>( );
+        HashMap<String, Object> model = new HashMap<>( );
         model.put( MARK_PAGE_TEMPLATE, PageTemplateHome.findByPrimaryKey( Integer.parseInt( strId ) ) );
         model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MODIFY_PAGE_TEMPLATE ) );
 
@@ -276,7 +274,7 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
                 bHasError = true;
             }
             else
-                if ( !FileUtil.hasHtmlExtension( strFileName ) )
+                if ( !( FileUtil.hasHtmlExtension( strFileName ) || FileUtil.hasFreemarkerExtension( strFileName ) ) )
                 {
                     return AdminMessageService.getMessageUrl( request, MESSAGE_WRONG_HTML_EXTENSION, AdminMessage.TYPE_STOP );
                 }
@@ -306,12 +304,12 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
 
         if ( !SecurityTokenService.getInstance( ).validate( multipartRequest, TEMPLATE_MODIFY_PAGE_TEMPLATE ) )
         {
-            throw new AccessDeniedException( "Invalid security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
 
         if ( bUpdateFile )
         {
-            new File( AppPathService.getPath( PROPERTY_PATH_TEMPLATE ) + File.separator + pageTemplate.getFile( ) ).delete( );
+            FileUtil.deleteFile( new File( AppPathService.getPath( PROPERTY_PATH_TEMPLATE ), pageTemplate.getFile( ) ) );
             pageTemplate.setFile( AppPropertiesService.getProperty( PROPERTY_PATH_FILE_PAGE_TEMPLATE ) + strFileName );
 
             writeTemplateFile( strFileName, PATH_TEMPLATE, fileTemplate );
@@ -319,7 +317,7 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
 
         if ( bUpdatePicture )
         {
-            new File( PATH_IMAGE_PAGE_TEMPLATE, pageTemplate.getPicture( ) ).delete( );
+            FileUtil.deleteFile( new File( PATH_IMAGE_PAGE_TEMPLATE, pageTemplate.getPicture( ) ) );
             pageTemplate.setPicture( strPictureName );
 
             writeTemplateFile( strPictureName, PATH_IMAGE_PAGE_TEMPLATE, filePicture );
@@ -328,7 +326,8 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
         pageTemplate.setDescription( strDescription );
         PageTemplateHome.update( pageTemplate );
 
-        // If the process is successful, redirects towards the page template management page
+        // If the process is successful, redirects towards the page template management
+        // page
         return getHomeUrl( request );
     }
 
@@ -378,7 +377,7 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
     {
         if ( !SecurityTokenService.getInstance( ).validate( request, JSP_DO_REMOVE_PAGE_TEMPLATE ) )
         {
-            throw new AccessDeniedException( "Invalid security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
 
         String strId = request.getParameter( Parameters.PAGE_TEMPLATE_ID );
@@ -388,18 +387,10 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
         PageTemplate pageTemplate = PageTemplateHome.findByPrimaryKey( Integer.parseInt( strId ) );
 
         File filePageTemplateToDelete = new File( AppPathService.getPath( PROPERTY_PATH_TEMPLATE ), pageTemplate.getFile( ) );
-
-        if ( filePageTemplateToDelete.exists( ) )
-        {
-            filePageTemplateToDelete.delete( );
-        }
+        FileUtil.deleteFile( filePageTemplateToDelete );
 
         File filePictureToDelete = new File( PATH_IMAGE_PAGE_TEMPLATE, pageTemplate.getPicture( ) );
-
-        if ( filePictureToDelete.exists( ) )
-        {
-            filePictureToDelete.delete( );
-        }
+        FileUtil.deleteFile( filePictureToDelete );
 
         PageTemplateHome.remove( nId );
 
@@ -421,29 +412,16 @@ public class PageTemplatesJspBean extends AdminFeaturesPageJspBean
      */
     private void writeTemplateFile( String strFileName, String strPath, FileItem fileItem )
     {
-        FileOutputStream fosFile = null;
+        File file = new File( strPath + strFileName );
+        FileUtil.deleteFile( file );
 
-        try
+        try ( FileOutputStream fosFile = new FileOutputStream( file ) )
         {
-            File file = new File( strPath + strFileName );
-
-            if ( file.exists( ) )
-            {
-                file.delete( );
-            }
-
-            fosFile = new FileOutputStream( file );
-            fosFile.flush( );
             fosFile.write( fileItem.get( ) );
-            fosFile.close( );
         }
         catch( IOException e )
         {
             AppLogService.error( e.getMessage( ), e );
-        }
-        finally
-        {
-            StreamUtil.safeClose( fosFile );
         }
     }
 }

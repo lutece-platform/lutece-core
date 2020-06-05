@@ -30,6 +30,11 @@
             <item name="Introduction" href="index.html" />
         </menu>
 
+        <menu name="Documentation">
+            <item name="Documentation technique" href="https://fr.lutece.paris.fr/fr/jsp/site/Portal.jsp?page=wiki&amp;action=changeLanguage&amp;page_name=home&amp;language=fr" /> 
+            <item name="Guide des Macros" href="style_guide/output/" />
+        </menu> 
+
         <menu name="T&#233;l&#233;chargements" inherit="bottom">			
             <item name="Versions stables" href="../../stable_builds/lutece-core/" />
             <item name="Nightly builds" href="../../nightly_builds/lutece-core/" />

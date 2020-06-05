@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -74,7 +74,7 @@ public class SearchAppTest extends LuteceTestCase
         Plugin plugin = null;
         SearchApp instance = SpringContextService.getBean( "core.xpage.search" );
 
-        XPage result = instance.getPage( request, nMode, plugin );
+        assertNotNull( instance.getPage( request, nMode, plugin ) );
 
         listener.requestDestroyed( new ServletRequestEvent( context, request ) );
     }

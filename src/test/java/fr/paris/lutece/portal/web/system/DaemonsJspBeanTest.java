@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -73,7 +73,8 @@ public class DaemonsJspBeanTest extends LuteceTestCase
     {
         super.setUp( );
         origMaxInitialStartDelay = setInitialStartDelay( );
-        assertEquals( "Failed to adjust daemon initial start delay", 1, AppPropertiesService.getPropertyInt( "daemon.maxInitialStartDelay", 3000 ) );
+        assertEquals( "Failed to adjust daemon initial start delay", 1,
+                AppPropertiesService.getPropertyInt( "daemon.maxInitialStartDelay", 3000 ) );
         bean = new DaemonsJspBean( );
         _entry = new DaemonEntry( );
         _entry.setId( JUNIT_DAEMON );
@@ -91,13 +92,13 @@ public class DaemonsJspBeanTest extends LuteceTestCase
     {
         File propertiesFile = new File( getResourcesDir( ) + "/WEB-INF/conf/daemons.properties" );
         Properties props = new Properties( );
-        try( FileInputStream is = new FileInputStream( propertiesFile ) )
+        try ( FileInputStream is = new FileInputStream( propertiesFile ) )
         {
             props.load( is );
         }
         String orig = props.getProperty( "daemon.maxInitialStartDelay" );
         props.setProperty( "daemon.maxInitialStartDelay", "1" );
-        try( FileOutputStream out = new FileOutputStream( propertiesFile ) )
+        try ( FileOutputStream out = new FileOutputStream( propertiesFile ) )
         {
             props.store( out, "junit" );
         }
@@ -108,13 +109,18 @@ public class DaemonsJspBeanTest extends LuteceTestCase
     @Override
     protected void tearDown( ) throws Exception
     {
-        // Attempt to unlock test daemon threads that would be blocked on the barriers, for
-        // example if the test throws an unexpected exception, causing it to not call go() and waitforcompletion() to unlock the barriers.
+        // Attempt to unlock test daemon threads that would be blocked on the barriers,
+        // for
+        // example if the test throws an unexpected exception, causing it to not call
+        // go() and waitforcompletion() to unlock the barriers.
         // A stuck thread would make the next test start with the daemon already running
-        // (even though it is unregistered, because the logic to remove running daemons is done at the end of the thread),
-        // so the calls the go() and waitcompletion() could be imbalanced. And it's highly
+        // (even though it is unregistered, because the logic to remove running daemons
+        // is done at the end of the thread),
+        // so the calls the go() and waitcompletion() could be imbalanced. And it's
+        // highly
         // confusing that the tests keep this kind of state between them.
-        // Note that the thread would die off eventually because the barriers have a timeout, but tests
+        // Note that the thread would die off eventually because the barriers have a
+        // timeout, but tests
         // continue to execute in the mean time and fail with obscure reasons.
         _testDaemon.resetGo( );
         _testDaemon.resetCompletion( );
@@ -132,7 +138,7 @@ public class DaemonsJspBeanTest extends LuteceTestCase
     {
         File propertiesFile = new File( getResourcesDir( ) + "/WEB-INF/conf/daemons.properties" );
         Properties props = new Properties( );
-        try( FileInputStream is = new FileInputStream( propertiesFile ) )
+        try ( FileInputStream is = new FileInputStream( propertiesFile ) )
         {
             props.load( is );
         }
@@ -144,14 +150,15 @@ public class DaemonsJspBeanTest extends LuteceTestCase
         {
             props.setProperty( "daemon.maxInitialStartDelay", orig );
         }
-        try( FileOutputStream out = new FileOutputStream( propertiesFile ) )
+        try ( FileOutputStream out = new FileOutputStream( propertiesFile ) )
         {
             props.store( out, "junit" );
         }
         AppPropertiesService.reloadAll( );
     }
 
-    public void testDoDaemonActionStart( ) throws InterruptedException, BrokenBarrierException, TimeoutException, AccessDeniedException
+    public void testDoDaemonActionStart( )
+            throws InterruptedException, BrokenBarrierException, TimeoutException, AccessDeniedException
     {
         long lReadyTime;
         long lScheduledTime;
@@ -159,7 +166,8 @@ public class DaemonsJspBeanTest extends LuteceTestCase
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.setParameter( "action", "START" );
         request.setParameter( "daemon", JUNIT_DAEMON );
-        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MANAGE_DAEMONS ) );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MANAGE_DAEMONS ) );
         lReadyTime = System.nanoTime( );
         bean.doDaemonAction( request ); // Daemon should run periodically with interval of 1s
 
@@ -177,20 +185,25 @@ public class DaemonsJspBeanTest extends LuteceTestCase
         long lMarginMilliseconds = 250;
         AppLogService.info( "Daemon scheduled after " + lRescheduleDurationMilliseconds + " ms" );
 
-        _testDaemon.waitForCompletion( ); // Complete second run without a timeout. More runs would follow if we continued
+        _testDaemon.waitForCompletion( ); // Complete second run without a timeout. More runs would follow if we
+                                          // continued
 
         assertTrue(
-                "Daemon should be re-scheduled approximately 1 second after the end of the previous run, but got " + lRescheduleDurationMilliseconds + "ms",
-                1000 - lMarginMilliseconds <= lRescheduleDurationMilliseconds && lRescheduleDurationMilliseconds <= 1000 + lMarginMilliseconds );
+                "Daemon should be re-scheduled approximately 1 second after the end of the previous run, but got "
+                        + lRescheduleDurationMilliseconds + "ms",
+                1000 - lMarginMilliseconds <= lRescheduleDurationMilliseconds
+                        && lRescheduleDurationMilliseconds <= 1000 + lMarginMilliseconds );
     }
 
-    public void testDoDaemonActionStartInvalidToken( ) throws InterruptedException, BrokenBarrierException, TimeoutException, AccessDeniedException
+    public void testDoDaemonActionStartInvalidToken( )
+            throws InterruptedException, BrokenBarrierException, TimeoutException, AccessDeniedException
     {
         assertFalse( _entry.isRunning( ) );
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.setParameter( "action", "START" );
         request.setParameter( "daemon", JUNIT_DAEMON );
-        request.setParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MANAGE_DAEMONS ) + "b" );
+        request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MANAGE_DAEMONS ) + "b" );
         try
         {
             bean.doDaemonAction( request ); // Daemon should run periodically with interval of 1s
@@ -201,18 +214,19 @@ public class DaemonsJspBeanTest extends LuteceTestCase
             assertFalse( _entry.isRunning( ) );
             try
             {
-                // Here the daemon should not be launched 
+                // Here the daemon should not be launched
                 _testDaemon.go( 2500, TimeUnit.MILLISECONDS );
                 fail( "Daemon running be should not" );
             }
-            catch( TimeoutException te )
+            catch ( TimeoutException te )
             {
                 // ok
             }
         }
     }
 
-    public void testDoDaemonActionStartNoToken( ) throws InterruptedException, BrokenBarrierException, TimeoutException, AccessDeniedException
+    public void testDoDaemonActionStartNoToken( )
+            throws InterruptedException, BrokenBarrierException, TimeoutException, AccessDeniedException
     {
         assertFalse( _entry.isRunning( ) );
         MockHttpServletRequest request = new MockHttpServletRequest( );
@@ -228,7 +242,7 @@ public class DaemonsJspBeanTest extends LuteceTestCase
             assertFalse( _entry.isRunning( ) );
             try
             {
-                // Here the daemon should not be launched 
+                // Here the daemon should not be launched
                 _testDaemon.go( 2500, TimeUnit.MILLISECONDS );
                 fail( "Daemon running be should not" );
             }
@@ -499,9 +513,17 @@ public class DaemonsJspBeanTest extends LuteceTestCase
 
     public void testDoDaemonActionUnknown( ) throws AccessDeniedException
     {
-        MockHttpServletRequest request = new MockHttpServletRequest( );
-        request.setParameter( "action", "UNKNOWN" );
-        bean.doDaemonAction( request ); // does not throw
+        try
+        {
+            MockHttpServletRequest request = new MockHttpServletRequest( );
+            request.setParameter( "action", "UNKNOWN" );
+            bean.doDaemonAction( request );
+            // does not throw
+        }
+        catch ( Exception e )
+        {
+            fail( e.getMessage( ) );
+        }
     }
 
     public void testGetManageDaemons( ) throws PasswordResetException, AccessDeniedException

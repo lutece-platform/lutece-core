@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -133,22 +133,24 @@ public class ResourceEvent
     {
         _nIdPortlet = nIdPortlet;
     }
-    
-	/**
-	 * Sets the event Param.
-	 * @param param
-	 */
-	public void setParam( IEventParam<?> param )
-	{
-		_param = param;
-	}
-    
-	/**
-	 * Gets the event param
-	 * @return the param
-	 */
-	public IEventParam<?> getParam( )
-	{
-		return _param;
-	}
+
+    /**
+     * Sets the event Param.
+     * 
+     * @param param
+     */
+    public void setParam( IEventParam<?> param )
+    {
+        _param = param;
+    }
+
+    /**
+     * Gets the event param
+     * 
+     * @return the param
+     */
+    public IEventParam<?> getParam( )
+    {
+        return _param;
+    }
 }

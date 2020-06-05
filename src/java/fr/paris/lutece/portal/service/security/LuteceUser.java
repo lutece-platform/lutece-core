@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,22 +33,24 @@
  */
 package fr.paris.lutece.portal.service.security;
 
-import org.apache.commons.lang.ObjectUtils;
-
+import fr.paris.lutece.api.user.User;
+import fr.paris.lutece.api.user.UserRole;
+import fr.paris.lutece.portal.business.rbac.RBACRole;
 import java.io.Serializable;
-
 import java.security.Principal;
-
-import java.sql.Timestamp;
-
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import org.apache.commons.lang.ObjectUtils;
 
 /**
  * This Interface defines all methods required for a Lutece user implementation
  */
-public abstract class LuteceUser implements Principal, Serializable, Cloneable
+public abstract class LuteceUser implements Principal, Serializable, Cloneable, User
 {
     /*
      * These attribute names are derived from the Platform for Privacy Preferences 1.0 (P3P 1.0) Specification by the W3C (http://www.w3c.org/TR/P3P). The same
@@ -131,11 +133,12 @@ public abstract class LuteceUser implements Principal, Serializable, Cloneable
     public static final String BUSINESS_INFO_ONLINE_EMAIL = "user.business-info.online.email";
     public static final String BUSINESS_INFO_ONLINE_URI = "user.business-info.online.uri";
     public static final String ANONYMOUS_USERNAME = "GUEST";
-    public static final Timestamp DEFAULT_DATE_LAST_LOGIN = Timestamp.valueOf( "1980-01-01 00:00:00" );
+    /** USER REALM TYPE **/
+    public static final String USER_REALM = "FRONT_OFFICE_USER";
     private static final long serialVersionUID = -8733640540563208835L;
 
     /** Map containing users info */
-    private Map<String, String> _mapUserInfo = new HashMap<String, String>( );
+    private Map<String,String> _mapUserInfo = new HashMap<>( );
 
     /** User's name */
     private String _strUserName;
@@ -154,6 +157,8 @@ public abstract class LuteceUser implements Principal, Serializable, Cloneable
 
     /** Authentication Service */
     private String _strAuthenticationType;
+    /** User's workgroups */
+    private List<String> _workgroups=new ArrayList<String>();
 
     /**
      * Constructor
@@ -170,15 +175,16 @@ public abstract class LuteceUser implements Principal, Serializable, Cloneable
         _luteceAuthenticationService = authenticationService;
     }
 
+    
     /**
      * Gets the user info map
-     * 
      * @return The user info map
      */
     public final Map<String, String> getUserInfos( )
     {
         return _mapUserInfo;
     }
+
 
     /**
      * Add an user's info
@@ -192,19 +198,18 @@ public abstract class LuteceUser implements Principal, Serializable, Cloneable
     {
         _mapUserInfo.put( key, value );
     }
-
+    
+    
     /**
-     * Gets a user's info
-     * 
-     * @param key
-     *            The info key
-     * @return The info value
+     * Gets the user info value
+     * @param key The info key
+     * @return the user info value
      */
-    public final String getUserInfo( String key )
+    
+    public final  String getUserInfo( String key )
     {
-        String strInfo = _mapUserInfo.get( key );
-
-        return ( strInfo == null ) ? "" : strInfo;
+    	 String strInfo = _mapUserInfo.get( key );
+         return ( strInfo == null ) ? "" : strInfo; 
     }
 
     // /////////////////////////////////////////////////////////////////////////
@@ -281,6 +286,21 @@ public abstract class LuteceUser implements Principal, Serializable, Cloneable
         return _roles;
     }
 
+
+    /**
+     * {@inheritDoc }
+     */
+    @Override
+    public Map<String, UserRole> getUserRoles( )
+    {
+        Map<String, UserRole> mapRoles = new HashMap<>();
+        for( String strRole : _roles )
+        {
+            mapRoles.put( strRole , new RBACRole( strRole , strRole ));
+        }
+        return mapRoles;
+    }
+    
     /**
      * add user's roles
      * 
@@ -356,12 +376,7 @@ public abstract class LuteceUser implements Principal, Serializable, Cloneable
         }
         else
         {
-            newArray = new String [ collection.size( ) + array.length];
-
-            for ( j = 0; j < array.length; j++ )
-            {
-                newArray [j] = array [j];
-            }
+            newArray = Arrays.copyOf( array, collection.size( ) + array.length );
         }
 
         for ( String strItem : collection )
@@ -473,8 +488,54 @@ public abstract class LuteceUser implements Principal, Serializable, Cloneable
      * 
      * @return The email
      */
+    @Override
     public String getEmail( )
     {
         return null;
     }
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getAccessCode()
+    {
+    	return getName();
+    }
+   
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getLastName( )
+    {
+    	return this.getUserInfo(LuteceUser.NAME_FAMILY);
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public @Override
+    String getFirstName( )
+    {
+     	return this.getUserInfo(LuteceUser.NAME_GIVEN);
+    
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<String >getUserWorkgroups()
+    {
+    	return _workgroups;
+    }
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+	public String getRealm() 
+    {
+    	return USER_REALM;
+	}
 }

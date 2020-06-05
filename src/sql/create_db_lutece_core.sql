@@ -14,7 +14,7 @@ CREATE TABLE core_admin_dashboard (
 --
 DROP TABLE IF EXISTS core_admin_mailinglist;
 CREATE TABLE core_admin_mailinglist (
-	id_mailinglist int default 0 NOT NULL,
+	id_mailinglist int AUTO_INCREMENT NOT NULL,
 	name varchar(100) NOT NULL,
 	description varchar(255) NOT NULL,
 	workgroup varchar(50) NOT NULL,
@@ -69,7 +69,7 @@ CREATE TABLE core_admin_role (
 --
 DROP TABLE IF EXISTS core_admin_role_resource;
 CREATE TABLE core_admin_role_resource (
-	rbac_id int default 0 NOT NULL,
+	rbac_id int AUTO_INCREMENT NOT NULL,
 	role_key varchar(50) default '' NOT NULL,
 	resource_type varchar(50) default '' NOT NULL,
 	resource_id varchar(50) default '' NOT NULL,
@@ -82,7 +82,7 @@ CREATE TABLE core_admin_role_resource (
 --
 DROP TABLE IF EXISTS core_admin_user;
 CREATE TABLE core_admin_user (
-	id_user int default 0 NOT NULL,
+	id_user int AUTO_INCREMENT NOT NULL,
 	access_code varchar(100) default '' NOT NULL,
 	last_name varchar(100) default '' NOT NULL,
 	first_name varchar(100) default '' NOT NULL,
@@ -184,7 +184,7 @@ CREATE TABLE core_feature_group (
 --
 DROP TABLE IF EXISTS core_file;
 CREATE TABLE core_file (
-	id_file INT DEFAULT 0 NOT NULL,
+	id_file int AUTO_INCREMENT NOT NULL,
 	title LONG VARCHAR DEFAULT NULL, 
 	id_physical_file INT DEFAULT NULL,  
 	file_size  INT DEFAULT NULL,
@@ -198,7 +198,7 @@ CREATE TABLE core_file (
 --
 DROP TABLE IF EXISTS core_indexer_action;
 CREATE TABLE  core_indexer_action (
-  id_action int default 0 NOT NULL,
+  id_action int AUTO_INCREMENT NOT NULL,
   id_document varchar(255) NOT NULL,
   id_task int default 0 NOT NULL,
   indexer_name varchar(255) NOT NULL,
@@ -223,7 +223,7 @@ CREATE TABLE core_level_right (
 --
 DROP TABLE IF EXISTS core_mail_queue;
 CREATE TABLE core_mail_queue (
-	id_mail_queue int AUTO_INCREMENT,
+	id_mail_queue int AUTO_INCREMENT NOT NULL,
 	is_locked smallint default 0,
 	PRIMARY KEY (id_mail_queue)
 );
@@ -264,7 +264,7 @@ CREATE TABLE core_mode (
 --
 DROP TABLE IF EXISTS core_page;
 CREATE TABLE core_page (
-	id_page int default 0 NOT NULL,
+	id_page int AUTO_INCREMENT NOT NULL,
 	id_parent int default 0,
 	name varchar(50) default '' NOT NULL,
 	description long varchar,
@@ -294,7 +294,7 @@ CREATE INDEX index_childpage ON core_page (id_parent,page_order);
 --
 DROP TABLE IF EXISTS core_page_template;
 CREATE TABLE core_page_template (
-	id_template int default 0 NOT NULL,
+	id_template int AUTO_INCREMENT NOT NULL,
 	description varchar(50) default NULL,
 	file_name varchar(100) default NULL,
 	picture varchar(50) default NULL,
@@ -306,7 +306,7 @@ CREATE TABLE core_page_template (
 --
 DROP TABLE IF EXISTS core_physical_file;
 CREATE TABLE core_physical_file (
-	id_physical_file INT DEFAULT 0 NOT NULL,
+	id_physical_file int AUTO_INCREMENT NOT NULL,
 	file_value LONG VARBINARY,  
 	PRIMARY KEY (id_physical_file)
 );
@@ -326,7 +326,7 @@ CREATE TABLE core_portal_component (
 --
 DROP TABLE IF EXISTS core_portlet;
 CREATE TABLE core_portlet (
-	id_portlet int default 0 NOT NULL,
+	id_portlet int AUTO_INCREMENT NOT NULL,
 	id_portlet_type varchar(50) default NULL,
 	id_page int default NULL,
 	name varchar(70) default NULL,
@@ -420,7 +420,7 @@ CREATE INDEX index_style_mode_stylesheet ON core_style_mode_stylesheet (id_style
 --
 DROP TABLE IF EXISTS core_stylesheet;
 CREATE TABLE core_stylesheet (
-	id_stylesheet int default 0 NOT NULL,
+	id_stylesheet int AUTO_INCREMENT NOT NULL,
 	description varchar(255),
 	file_name varchar(255),
 	source long varbinary,
@@ -479,7 +479,7 @@ CREATE TABLE core_id_generator (
 --
 DROP TABLE IF EXISTS core_attribute;
 CREATE TABLE core_attribute (
-	id_attribute INT DEFAULT 0 NOT NULL,
+	id_attribute int AUTO_INCREMENT NOT NULL,
 	type_class_name VARCHAR(255) DEFAULT NULL,
 	title LONG VARCHAR DEFAULT NULL,
 	help_message LONG VARCHAR DEFAULT NULL,
@@ -498,7 +498,7 @@ CREATE TABLE core_attribute (
 --
 DROP TABLE IF EXISTS core_attribute_field;
 CREATE TABLE core_attribute_field (
-	id_field INT DEFAULT 0 NOT NULL,
+	id_field INT AUTO_INCREMENT NOT NULL,
 	id_attribute INT DEFAULT NULL,
 	title VARCHAR(255) DEFAULT NULL,
 	DEFAULT_value LONG VARCHAR DEFAULT NULL,
@@ -516,7 +516,7 @@ CREATE TABLE core_attribute_field (
 --
 DROP TABLE IF EXISTS core_admin_user_field;
 CREATE TABLE core_admin_user_field (
-	id_user_field INT DEFAULT 0 NOT NULL,
+	id_user_field INT AUTO_INCREMENT NOT NULL,
 	id_user INT DEFAULT NULL,
 	id_attribute INT DEFAULT NULL,
 	id_field INT DEFAULT NULL,
@@ -562,7 +562,7 @@ CREATE TABLE core_template (
   
 DROP TABLE IF EXISTS core_xsl_export;
 CREATE TABLE core_xsl_export (
-  id_xsl_export INT NOT NULL,
+  id_xsl_export INT AUTO_INCREMENT NOT NULL,
   title VARCHAR(255) DEFAULT NULL,
   description VARCHAR(255) DEFAULT NULL ,
   extension VARCHAR(255) DEFAULT NULL,

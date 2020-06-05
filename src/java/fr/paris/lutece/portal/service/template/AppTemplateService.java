@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -77,7 +77,7 @@ public final class AppTemplateService
      */
     public static void initAutoIncludes( )
     {
-        // register core
+        // register core (commons declared in core.xml)
         Plugin corePlugin = PluginService.getCore( );
         addPluginMacros( corePlugin );
 
@@ -86,6 +86,9 @@ public final class AppTemplateService
         {
             addPluginMacros( plugin );
         }
+
+        // activate current commons stored in the datastore
+        CommonsService.activateCommons( CommonsService.getCurrentCommonsKey( ) );
     }
 
     /**
@@ -214,7 +217,7 @@ public final class AppTemplateService
      * Returns a reference on a template object
      *
      * <br>
-     * <b>Deprecated</b> Using Freemarker without cache is huge CPU consuming
+     * Using Freemarker without cache is huge CPU consuming, , only user this method for dynamic templates
      *
      * @param strFreemarkerTemplateData
      *            The content of the template
@@ -225,7 +228,6 @@ public final class AppTemplateService
      * @return The template object
      * @since 1.5
      */
-    @Deprecated
     public static HtmlTemplate getTemplateFromStringFtl( String strFreemarkerTemplateData, Locale locale, Object model )
     {
         HtmlTemplate template;
@@ -268,7 +270,7 @@ public final class AppTemplateService
      * Load the template from the file WARNING : This method must not be used in front office (no cache management available).
      *
      * <br>
-     * <b>Deprecated</b> Using Freemarker without cache is huge CPU consuming
+     * Using Freemarker without cache is huge CPU consuming, only use this method for dynamic templates
      *
      * @param strTemplateData
      *            The data of the template
@@ -278,7 +280,6 @@ public final class AppTemplateService
      *            the model to use for loading
      * @return The loaded template
      */
-    @Deprecated
     private static HtmlTemplate loadTemplate( String strTemplateData, Locale locale, Object model )
     {
         HtmlTemplate template;

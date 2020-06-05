@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -79,7 +79,7 @@ public class DaemonsJspBean extends AdminPageJspBean
      */
     public String getManageDaemons( HttpServletRequest request )
     {
-        HashMap<String, Object> model = new HashMap<String, Object>( );
+        HashMap<String, Object> model = new HashMap<>( );
         model.put( MARK_DAEMONS_LIST, AppDaemonService.getDaemonEntries( ) );
         model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MANAGE_DAEMONS ) );
 
@@ -121,7 +121,7 @@ public class DaemonsJspBean extends AdminPageJspBean
                 String strDaemonInterval = request.getParameter( PARAMETER_INTERVAL );
 
                 Object [ ] tabFieldInterval = {
-                    I18nService.getLocalizedString( PROPERTY_FIELD_INTERVAL, getLocale( ) )
+                        I18nService.getLocalizedString( PROPERTY_FIELD_INTERVAL, getLocale( ) )
                 };
 
                 if ( StringUtils.isEmpty( strDaemonInterval ) )
@@ -161,7 +161,7 @@ public class DaemonsJspBean extends AdminPageJspBean
     {
         if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_MANAGE_DAEMONS ) )
         {
-            throw new AccessDeniedException( "Invalid security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
     }
 }

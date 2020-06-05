@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,6 +33,18 @@
  */
 package fr.paris.lutece.portal.service.portal;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Properties;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang.StringUtils;
+
 import fr.paris.lutece.portal.business.XmlContent;
 import fr.paris.lutece.portal.business.page.Page;
 import fr.paris.lutece.portal.business.page.PageHome;
@@ -41,8 +53,6 @@ import fr.paris.lutece.portal.business.portlet.Portlet;
 import fr.paris.lutece.portal.business.portlet.PortletHome;
 import fr.paris.lutece.portal.business.style.ModeHome;
 import fr.paris.lutece.portal.business.stylesheet.StyleSheet;
-import fr.paris.lutece.portal.service.cache.CacheService;
-import fr.paris.lutece.portal.service.cache.CacheableService;
 import fr.paris.lutece.portal.service.cache.IPathCacheService;
 import fr.paris.lutece.portal.service.content.ContentService;
 import fr.paris.lutece.portal.service.content.PageData;
@@ -65,18 +75,6 @@ import fr.paris.lutece.portal.web.l10n.LocaleService;
 import fr.paris.lutece.util.date.DateUtil;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.xml.XmlUtil;
-
-import org.apache.commons.lang.StringUtils;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Properties;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * This class provides methods to build the pages of the portal and manage the cache
@@ -107,6 +105,7 @@ public final class PortalService
     private static final String TEMPLATE_PAGE_TOOLS_MENU = "skin/site/page_menu_tools.html";
     private static final String TEMPLATE_PAGE_PATH = "skin/site/page_path.html";
     private static final String TEMPLATE_PORTAL_FOOTER = "skin/site/portal_footer.html";
+    private static final String TEMPLATE_ADMIN_CSS_LINKS = "admin/stylesheet_link.html";
 
     // Markers
     private static final String MARKER_TARGET = "target";
@@ -127,25 +126,14 @@ public final class PortalService
     private static final String PARAMETER_SITE_PATH = "site-path";
 
     // Content Service registry
-    private static Map<String, ContentService> _mapContentServicesRegistry = new HashMap<String, ContentService>( );
-    private static IPageService _pageService = (IPageService) SpringContextService.getBean( "pageService" );
+    private static Map<String, ContentService> _mapContentServicesRegistry = new HashMap<>( );
+    private static IPageService _pageService = SpringContextService.getBean( "pageService" );
 
     /**
      * Private Constructor
      */
     private PortalService( )
     {
-    }
-
-    /**
-     * Reset the cache
-     * 
-     * @deprecated use CacheService.resetCaches()
-     */
-    @Deprecated
-    public static void resetCache( )
-    {
-        CacheService.resetCaches( );
     }
 
     /**
@@ -189,34 +177,6 @@ public final class PortalService
     public static Collection<ContentService> getContentServicesList( )
     {
         return _mapContentServicesRegistry.values( );
-    }
-
-    /**
-     * Registers a new CacheableService
-     * 
-     * @deprecated Use CacheService.registerCacheableService( String strName, CacheableService cs ) instead
-     * @param strName
-     *            The name
-     * @param cs
-     *            The CacheableService
-     */
-    @Deprecated
-    public static void registerCacheableService( String strName, CacheableService cs )
-    {
-        CacheService.registerCacheableService( strName, cs );
-    }
-
-    /**
-     * Returns all registered Cacheable services
-     * 
-     * @deprecated Use CacheService.getCacheableServicesList() instead
-     *
-     * @return A collection containing all registered Cacheable services
-     */
-    @Deprecated
-    public static Collection<CacheableService> getCacheableServicesList( )
-    {
-        return CacheService.getCacheableServicesList( );
     }
 
     /**
@@ -306,14 +266,15 @@ public final class PortalService
     public static String buildPageContent( int nCurrentPageId, PageData data, int nMode, HttpServletRequest request )
     {
         Locale locale = null;
-        HashMap<String, Object> model = new HashMap<String, Object>( );
+        HashMap<String, Object> model = new HashMap<>( );
         LuteceUser user = null;
         String strWebmasterEmail = DatastoreService.getDataValue( KEY_WEBMASTER_EMAIL, "" );
         model.put( Markers.WEBMASTER_EMAIL, strWebmasterEmail );
 
+        locale = LocaleService.getContextUserLocale( request );
+
         if ( request != null )
         {
-            locale = LocaleService.getUserSelectedLocale( request );
             user = SecurityService.getInstance( ).getRegisteredUser( request );
             if ( nMode != MODE_ADMIN )
             {
@@ -328,7 +289,7 @@ public final class PortalService
             pic.fillTemplate( model, data, nMode, request );
         }
 
-        String strHeader = ( data.isHomePage( ) ) ? AppPropertiesService.getProperty( PROPERTY_HOME_PAGE_HEADER + nMode, TEMPLATE_HOME_PAGE_HEADER )
+        String strHeader = data.isHomePage( ) ? AppPropertiesService.getProperty( PROPERTY_HOME_PAGE_HEADER + nMode, TEMPLATE_HOME_PAGE_HEADER )
                 : AppPropertiesService.getProperty( PROPERTY_INTERNAL_PAGE_HEADER + nMode, TEMPLATE_INTERNAL_PAGE_HEADER );
         HtmlTemplate tHeader = AppTemplateService.getTemplate( strHeader, locale, model );
 
@@ -339,23 +300,27 @@ public final class PortalService
         boolean bDisplayLastModified = data.getDisplayDateUpdate( );
         model.put( MARK_DISPLAY_LAST_MODIFIED, bDisplayLastModified );
 
-        String strLastModified = DateUtil.getDateString( data.getDateUpdate( ), request.getLocale( ) );
-        model.put( MARK_LAST_MODIFIED, strLastModified );
-
+        if ( request != null )
+        {
+            String strLastModified = DateUtil.getDateString( data.getDateUpdate( ), locale );
+            model.put( MARK_LAST_MODIFIED, strLastModified );
+        }
         HtmlTemplate tFooter = AppTemplateService.getTemplate( strFooter, locale, model );
 
         HtmlTemplate tToolsMenu = AppTemplateService.getTemplate( strToolsMenu, locale, model );
         model.put( Markers.PAGE_HEADER, tHeader.getHtml( ) );
         model.put( MARKER_PAGE_DATA, data );
-        model.put( Markers.PAGE_NAME, ( data.getName( ) == null ) ? "" : data.getName( ) );
-        model.put( Markers.PAGE_CONTENT, ( data.getContent( ) == null ) ? "" : data.getContent( ) );
-        model.put( Markers.PAGE_PATH, ( data.getPagePath( ) == null ) ? "" : data.getPagePath( ) );
+        model.put( Markers.PAGE_NAME, data.getName( ) == null ? "" : data.getName( ) );
+        model.put( Markers.PAGE_CONTENT, data.getContent( ) == null ? "" : data.getContent( ) );
+        model.put( Markers.PAGE_PATH, data.getPagePath( ) == null ? "" : data.getPagePath( ) );
         model.put( Markers.PAGE_TOOLS_MENU, tToolsMenu.getHtml( ) );
         model.put( Markers.PAGE_ID, nCurrentPageId );
 
         model.put( Markers.PAGE_FOOTER, tFooter.getHtml( ) );
 
-        String strBaseUrl = ( request != null ) ? AppPathService.getBaseUrl( request ) : ""; // request could be null (method called by daemons or batch)
+        String strBaseUrl = request != null ? AppPathService.getBaseUrl( request ) : ""; // request could be null
+                                                                                         // (method called by daemons
+                                                                                         // or batch)
 
         // for link service
         model.put( Markers.WEBAPP_PATH_FOR_LINKSERVICE, strBaseUrl );
@@ -363,19 +328,29 @@ public final class PortalService
 
         String strEncoding = AppPropertiesService.getProperty( PROPERTY_ENCODING, PROPERTY_ENCODING_DEFAULT );
 
-        if ( ( strEncoding == null ) || strEncoding.equals( "" ) )
+        if ( strEncoding == null || strEncoding.equals( "" ) )
         {
             strEncoding = PROPERTY_ENCODING_DEFAULT;
         }
 
         model.put( Markers.ENCODING, strEncoding );
 
+        model.put( Markers.USER_CONTEXT_LANGUAGE, locale );
+
         model.put( MARK_IS_EXTEND_INSTALLED, isExtendActivated( ) );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_PAGE_FRAMESET, locale, model );
 
-        template.substitute( BOOKMARK_BASE_URL, ( request != null ) ? AppPathService.getBaseUrl( request ) : "" ); // request could be null (method called by
-                                                                                                                   // daemons or batch)
+        template.substitute( BOOKMARK_BASE_URL, request != null ? AppPathService.getBaseUrl( request ) : "" ); // request
+                                                                                                               // could
+                                                                                                               // be
+                                                                                                               // null
+                                                                                                               // (method
+                                                                                                               // called
+                                                                                                               // by
+                                                                                                               // daemons
+                                                                                                               // or
+                                                                                                               // batch)
 
         return template.getHtml( );
     }
@@ -398,8 +373,9 @@ public final class PortalService
     {
         String strPathOnRoot = AppPropertiesService.getProperty( PROPERTY_PATH_ON_ROOT );
 
-        // If the current page is the home page or the string strPathOnRoot equals false, not display the path
-        if ( ( nPageId == getRootPageId( ) ) && ( ( strPathOnRoot == null ) || strPathOnRoot.equalsIgnoreCase( "false" ) ) )
+        // If the current page is the home page or the string strPathOnRoot equals
+        // false, not display the path
+        if ( nPageId == getRootPageId( ) && ( strPathOnRoot == null || strPathOnRoot.equalsIgnoreCase( "false" ) ) )
         {
             return "";
         }
@@ -429,7 +405,7 @@ public final class PortalService
 
         // Added in v1.3
         // Add a path param for choose url to use in admin or normal mode
-        Map<String, String> mapParamRequest = new HashMap<String, String>( );
+        Map<String, String> mapParamRequest = new HashMap<>( );
         setXslPortalPath( mapParamRequest, nMode );
 
         XmlTransformerService xmlTransformerService = new XmlTransformerService( );
@@ -514,7 +490,7 @@ public final class PortalService
 
         // Added in v1.3
         // Add a path param for choose url to use in admin or normal mode
-        Map<String, String> mapXslParams = new HashMap<String, String>( );
+        Map<String, String> mapXslParams = new HashMap<>( );
         setXslPortalPath( mapXslParams, nMode );
 
         XmlTransformerService xmlTransformerService = new XmlTransformerService( );
@@ -536,7 +512,7 @@ public final class PortalService
      */
     public static Collection<Page> getPagePath( int nPageId )
     {
-        ArrayList<Page> list = new ArrayList<Page>( );
+        ArrayList<Page> list = new ArrayList<>( );
         Page page = PageHome.getPage( nPageId );
         int nParentPageId = page.getParentPageId( );
         list.add( page );
@@ -562,7 +538,7 @@ public final class PortalService
      */
     private static Collection<Page> getXPagePath( String strXPageName )
     {
-        ArrayList<Page> list = new ArrayList<Page>( );
+        ArrayList<Page> list = new ArrayList<>( );
         Page homePage = PageHome.getPage( getRootPageId( ) );
         list.add( homePage );
 
@@ -584,7 +560,7 @@ public final class PortalService
      */
     private static Collection<Page> getXPagePath( String strXPageName, int nPageId )
     {
-        List<Page> list = new ArrayList<Page>( );
+        List<Page> list = new ArrayList<>( );
         Page page = PageHome.getPage( nPageId );
 
         if ( page != null )
@@ -637,7 +613,7 @@ public final class PortalService
      */
     public static String formatPath( String strPath, int nMode, HttpServletRequest request )
     {
-        HashMap<String, Object> model = new HashMap<String, Object>( );
+        HashMap<String, Object> model = new HashMap<>( );
         model.put( Markers.PAGE_PATH, strPath );
 
         List<PageInclude> listIncludes = PageIncludeService.getIncludes( );
@@ -731,7 +707,7 @@ public final class PortalService
 
         // Added in v1.3
         // Add a path param for choose url to use in admin or normal mode
-        Map<String, String> mapXslParams = new HashMap<String, String>( );
+        Map<String, String> mapXslParams = new HashMap<>( );
         setXslPortalPath( mapXslParams, nMode );
 
         XmlTransformerService xmlTransformerService = new XmlTransformerService( );
@@ -793,5 +769,16 @@ public final class PortalService
     public static boolean isContactActivated( )
     {
         return PluginService.isPluginEnable( PLUGIN_CONTACT_NAME );
+    }
+
+    /**
+     * Get the list of CSS links for session less pages
+     * 
+     * @return The HTML code providing the list of CSS links.
+     */
+    public static String getAdminCssLinks( )
+    {
+        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_ADMIN_CSS_LINKS );
+        return template.getHtml( );
     }
 }

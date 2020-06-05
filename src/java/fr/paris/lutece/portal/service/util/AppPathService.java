@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,6 +33,19 @@
  */
 package fr.paris.lutece.portal.service.util;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.text.MessageFormat;
+import java.util.Enumeration;
+import java.util.StringTokenizer;
+
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import org.apache.commons.lang.StringUtils;
+
 import fr.paris.lutece.portal.service.datastore.DatastoreService;
 import fr.paris.lutece.portal.service.message.SiteMessageService;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
@@ -42,21 +55,6 @@ import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.stream.StreamUtil;
 import fr.paris.lutece.util.string.StringUtil;
 import fr.paris.lutece.util.url.UrlItem;
-
-import org.apache.commons.lang.StringUtils;
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-
-import java.text.MessageFormat;
-
-import java.util.Enumeration;
-import java.util.StringTokenizer;
-
-import javax.servlet.ServletContext;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 /**
  * this class provides services for locate repository or url
@@ -116,7 +114,7 @@ public final class AppPathService
      */
     public static void init( String strWebAppPath )
     {
-        _strWebAppPath = strWebAppPath;
+        _strWebAppPath = normalizeWebappPath( strWebAppPath );
     }
 
     /**
@@ -135,7 +133,7 @@ public final class AppPathService
         if ( strDirectory == null )
         {
             Object [ ] propertyMissing = {
-                strKey
+                    strKey
             };
             String strMsg = MessageFormat.format( MSG_LOG_PROPERTY_NOT_FOUND, propertyMissing );
             throw new AppException( strMsg );
@@ -334,18 +332,6 @@ public final class AppPathService
     }
 
     /**
-     * Return the webapp prod url (or the base url if no prod url has been definied)
-     *
-     * @return The prod url
-     * @deprecated Use {@link AppPathService#getProdUrl(String)} instead
-     */
-    @Deprecated
-    public static String getProdUrl( )
-    {
-        return getProdUrl( getBaseUrl( ) );
-    }
-
-    /**
      * Return the webapp prod url. If no prod URL has been defined, then the base URL is returned
      *
      * @param strBaseUrl
@@ -441,8 +427,16 @@ public final class AppPathService
      */
     private static String normalizeWebappPath( String strPath )
     {
+        String strNormalized = strPath;
+
+        // For windows, remove the leading \
+        if ( ( strNormalized.length( ) > 3 ) && ( strNormalized.indexOf( ':' ) == 2 ) )
+        {
+            strNormalized = strNormalized.substring( 1 );
+        }
+
         // convert Windows path separator if present
-        String strNormalized = StringUtil.substitute( strPath, "/", "\\" );
+        strNormalized = StringUtil.substitute( strNormalized, "/", "\\" );
 
         // remove the ending separator if present
         if ( strNormalized.endsWith( "/" ) )

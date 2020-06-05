@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -38,13 +38,14 @@ import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.web.LocalVariables;
 import fr.paris.lutece.util.string.StringUtil;
 
-import org.apache.commons.lang.StringUtils;
-
 import org.apache.log4j.Logger;
 
 import java.util.Enumeration;
 
 import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.AntPathMatcher;
 
 /**
@@ -65,8 +66,6 @@ public final class SecurityUtil
     };
 
     public static final String PROPERTY_REDIRECT_URL_SAFE_PATTERNS = "lutece.security.redirectUrlSafePatterns";
-
-    // private static final String PATTERN_CLEAN_PARAMETER = "^[\\w/]+$+";
 
     /**
      * Private Constructor
@@ -152,8 +151,8 @@ public final class SecurityUtil
      */
     public static boolean containsXssCharacters( HttpServletRequest request, String strValue, String strXssCharacters )
     {
-        boolean bContains = ( strXssCharacters == null ) ? StringUtil.containsXssCharacters( strValue ) : StringUtil.containsXssCharacters( strValue,
-                strXssCharacters );
+        boolean bContains = ( strXssCharacters == null ) ? StringUtil.containsXssCharacters( strValue )
+                : StringUtil.containsXssCharacters( strValue, strXssCharacters );
 
         if ( bContains )
         {
@@ -217,8 +216,8 @@ public final class SecurityUtil
      */
     public static String dumpRequest( HttpServletRequest request )
     {
-        StringBuffer sbDump = new StringBuffer( "\r\n Request Dump : \r\n" );
-        if( request != null )
+        StringBuilder sbDump = new StringBuilder( "\r\n Request Dump : \r\n" );
+        if ( request != null )
         {
             dumpTitle( sbDump, "Request variables" );
             dumpVariables( sbDump, request );
@@ -229,7 +228,7 @@ public final class SecurityUtil
         }
         else
         {
-            sbDump.append( "no request provided.");
+            sbDump.append( "no request provided." );
         }
 
         return sbDump.toString( );
@@ -271,12 +270,11 @@ public final class SecurityUtil
 
         return strIPAddress;
     }
-    
+
     /**
-     * Validate a forward URL to avoid open redirect
-     *  with url safe patterns found in properties 
+     * Validate a forward URL to avoid open redirect with url safe patterns found in properties
      * 
-     * @see SecurityUtil#isInternalRedirectUrlSafe(java.lang.String, javax.servlet.http.HttpServletRequest, java.lang.String) 
+     * @see SecurityUtil#isInternalRedirectUrlSafe(java.lang.String, javax.servlet.http.HttpServletRequest, java.lang.String)
      * 
      * @param strUrl
      * @param request
@@ -289,56 +287,64 @@ public final class SecurityUtil
         return isInternalRedirectUrlSafe( strUrl, request, strAntPathMatcherPatternsValues );
     }
 
-
     /**
-     * Validate an internal redirect URL to avoid internal open redirect.
-     * (Use this function only if the use of internal url redirect keys is not possible.
-     * For external url redirection control, use the plugin plugin-verifybackurl)
+     * Validate an internal redirect URL to avoid internal open redirect. (Use this function only if the use of internal url redirect keys is not possible. For
+     * external url redirection control, use the plugin plugin-verifybackurl)
      * 
-     * the url should :
-     *      - not be blank (null or empty string or spaces)
-     *      - not start with "http://" or "https://" or "//" OR match the base URL or any URL in the pattern list 
+     * the url should : - not be blank (null or empty string or spaces) - not start with "http://" or "https://" or "//" OR match the base URL or any URL in the
+     * pattern list
      * 
-     * example with a base url "https://lutece.fr/ :
-     *      - valid : myapp/jsp/site/Portal.jsp , Another.jsp , https://lutece.fr/myapp/jsp/site/Portal.jsp
-     *      - invalid : http://anothersite.com , https://anothersite.com , //anothersite.com , file://my.txt , ...
+     * example with a base url "https://lutece.fr/ : - valid : myapp/jsp/site/Portal.jsp , Another.jsp , https://lutece.fr/myapp/jsp/site/Portal.jsp - invalid :
+     * http://anothersite.com , https://anothersite.com , //anothersite.com , file://my.txt , ...
      * 
      * 
-     * @param strUrl the Url to validate
-     * @param request the current request (containing the baseUrl)
-     * @param strAntPathMatcherPatterns a comma separated list of AntPathMatcher patterns, as "http://**.lutece.com,https://**.lutece.com"
+     * @param strUrl
+     *            the Url to validate
+     * @param request
+     *            the current request (containing the baseUrl)
+     * @param strAntPathMatcherPatterns
+     *            a comma separated list of AntPathMatcher patterns, as "http://**.lutece.com,https://**.lutece.com"
      * @return true if valid
      */
     public static boolean isInternalRedirectUrlSafe( String strUrl, HttpServletRequest request, String strAntPathMatcherPatterns )
     {
 
-        if ( StringUtils.isBlank( strUrl ) ) return true ; // this is not a valid redirect Url, but it is not unsafe
+        if ( StringUtils.isBlank( strUrl ) )
+        {
+            return true; // this is not a valid redirect Url, but it is not unsafe
+        }
 
         // filter schemes
-        if ( !strUrl.startsWith( "//" )
-                && !strUrl.startsWith("http:" )
-                && !strUrl.startsWith("https:" )
-                && !strUrl.contains( "://" )
-                && !strUrl.startsWith("javascript:" ) )
-            return true ; // should be a relative path
+        boolean [ ] conditions = new boolean [ ] {
+                !strUrl.startsWith( "//" ), !strUrl.startsWith( "http:" ), !strUrl.startsWith( "https:" ), !strUrl.contains( "://" ),
+                !strUrl.startsWith( "javascript:" )
+        };
+
+        if ( BooleanUtils.and( conditions ) )
+        {
+            return true; // should be a relative path
+        }
 
         // compare with current baseUrl
         if ( strUrl.startsWith( AppPathService.getBaseUrl( request ) ) )
-                return true ;
+        {
+            return true;
+        }
 
         // compare with allowed url patterns
         if ( !StringUtils.isBlank( strAntPathMatcherPatterns ) )
         {
-            AntPathMatcher pathMatcher = new AntPathMatcher();
+            AntPathMatcher pathMatcher = new AntPathMatcher( );
 
-            String[] strAntPathMatcherPatternsTab =  strAntPathMatcherPatterns.split( CONSTANT_COMMA ) ;
+            String [ ] strAntPathMatcherPatternsTab = strAntPathMatcherPatterns.split( CONSTANT_COMMA );
             for ( String pattern : strAntPathMatcherPatternsTab )
             {
-                if ( pattern != null && pathMatcher.match( pattern , strUrl ) )
-                    return true ;
+                if ( pattern != null && pathMatcher.match( pattern, strUrl ) )
+                {
+                    return true;
+                }
             }
         }
-
 
         // the Url does not match the allowed patterns
         Logger logger = Logger.getLogger( LOGGER_NAME );
@@ -360,9 +366,7 @@ public final class SecurityUtil
         int nCharCount = strUserInputData.length( );
         int nLineCount = StringUtils.countMatches( strUserInputData, "\n" );
         String strPrefixedLines = strUserInputData.replace( "\n", "\n** " );
-        String strProtected = "\n** USER INPUT DATA : BEGIN (" + nLineCount + " lines and " + nCharCount + " chars) ** \n" + strPrefixedLines
-                + "\n** USER INPUT DATA : END\n";
-        return strProtected;
+        return "\n** USER INPUT DATA : BEGIN (" + nLineCount + " lines and " + nCharCount + " chars) ** \n" + strPrefixedLines + "\n** USER INPUT DATA : END\n";
     }
 
     /**
@@ -373,7 +377,7 @@ public final class SecurityUtil
      * @param strTitle
      *            The title
      */
-    private static void dumpTitle( StringBuffer sbDump, String strTitle )
+    private static void dumpTitle( StringBuilder sbDump, String strTitle )
     {
         sbDump.append( "** " );
         sbDump.append( strTitle );
@@ -388,7 +392,7 @@ public final class SecurityUtil
      * @param request
      *            The HTTP request
      */
-    private static void dumpVariables( StringBuffer sb, HttpServletRequest request )
+    private static void dumpVariables( StringBuilder sb, HttpServletRequest request )
     {
         dumpVariable( sb, "AUTH_TYPE", request.getAuthType( ) );
         dumpVariable( sb, "REQUEST_METHOD", request.getMethod( ) );
@@ -414,7 +418,7 @@ public final class SecurityUtil
      * @param request
      *            The HTTP request
      */
-    private static void dumpHeaders( StringBuffer sb, HttpServletRequest request )
+    private static void dumpHeaders( StringBuilder sb, HttpServletRequest request )
     {
         Enumeration<String> values;
         String key;
@@ -440,7 +444,7 @@ public final class SecurityUtil
      * @param request
      *            The HTTP request
      */
-    private static void dumpParameters( StringBuffer sb, HttpServletRequest request )
+    private static void dumpParameters( StringBuilder sb, HttpServletRequest request )
     {
         String key;
         String [ ] values;
@@ -471,7 +475,7 @@ public final class SecurityUtil
      * @param strValue
      *            The info value
      */
-    private static void dumpVariable( StringBuffer sb, String strName, String strValue )
+    private static void dumpVariable( StringBuilder sb, String strName, String strValue )
     {
         sb.append( strName );
         sb.append( " : \"" );

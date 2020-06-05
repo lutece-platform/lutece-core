@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -38,6 +38,8 @@ import fr.paris.lutece.portal.business.user.AdminUserDAO;
 import fr.paris.lutece.portal.business.user.AdminUserHome;
 import fr.paris.lutece.portal.business.user.authentication.LuteceDefaultAdminAuthentication;
 import fr.paris.lutece.portal.business.user.authentication.LuteceDefaultAdminUser;
+import fr.paris.lutece.portal.business.user.menu.AccessibilityModeAdminUserMenuItemProvider;
+import fr.paris.lutece.portal.business.user.menu.LanguageAdminUserMenuItemProvider;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.admin.AdminAuthenticationService;
 import fr.paris.lutece.portal.service.admin.AdminUserService;
@@ -61,6 +63,7 @@ import java.util.Locale;
 import javax.security.auth.login.FailedLoginException;
 import javax.security.auth.login.LoginException;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.mock.web.MockHttpServletRequest;
@@ -107,19 +110,18 @@ public class AdminMenuJspBeanTest extends LuteceTestCase
         Utils.registerAdminUser( request, _user );
 
         AdminMenuJspBean instance = new AdminMenuJspBean( );
-        instance.getAdminMenuUser( request );
+        assertTrue( StringUtils.isNotEmpty( instance.getAdminMenuUser( request ) ) );
     }
 
     /**
-     * Test of doChangeLanguage method, of class
-     * fr.paris.lutece.portal.web.admin.AdminMenuJspBean.
+     * Test of doChangeLanguage method, of class fr.paris.lutece.portal.web.admin.AdminMenuJspBean.
      */
     public void testDoChangeLanguage( ) throws AccessDeniedException
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.addParameter( PARAMETER_LANGUAGE, TEST_LANGUAGE );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/user/admin_header.html" ) );
+                SecurityTokenService.getInstance( ).getToken( request, LanguageAdminUserMenuItemProvider.TEMPLATE ) );
 
         getUser( request );
         Utils.registerAdminUser( request, _user );
@@ -137,7 +139,7 @@ public class AdminMenuJspBeanTest extends LuteceTestCase
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.addParameter( PARAMETER_LANGUAGE, TEST_LANGUAGE );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/user/admin_header.html" ) + "b" );
+                SecurityTokenService.getInstance( ).getToken( request, LanguageAdminUserMenuItemProvider.TEMPLATE ) + "b" );
 
         getUser( request );
         Utils.registerAdminUser( request, _user );
@@ -151,7 +153,7 @@ public class AdminMenuJspBeanTest extends LuteceTestCase
             instance.doChangeLanguage( request );
             fail( "Should have thrown" );
         }
-        catch ( AccessDeniedException e )
+        catch( AccessDeniedException e )
         {
             assertSame( localeSTored.getLanguage( ), _user.getLocale( ).getLanguage( ) );
         }
@@ -174,7 +176,7 @@ public class AdminMenuJspBeanTest extends LuteceTestCase
             instance.doChangeLanguage( request );
             fail( "Should have thrown" );
         }
-        catch ( AccessDeniedException e )
+        catch( AccessDeniedException e )
         {
             assertSame( localeSTored.getLanguage( ), _user.getLocale( ).getLanguage( ) );
         }
@@ -316,7 +318,8 @@ public class AdminMenuJspBeanTest extends LuteceTestCase
             request.addParameter( Parameters.PASSWORD_CURRENT, password );
             request.addParameter( Parameters.NEW_PASSWORD, password + "_mod" );
             request.addParameter( Parameters.CONFIRM_NEW_PASSWORD, password + "_mod" );
-            request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, "admin/user/modify_password_default_module.html" ) );
+            request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
+                    SecurityTokenService.getInstance( ).getToken( request, "admin/user/modify_password_default_module.html" ) );
             instance.doModifyDefaultAdminUserPassword( request );
             message = AdminMessageService.getMessage( request );
             assertNotNull( message );
@@ -341,8 +344,7 @@ public class AdminMenuJspBeanTest extends LuteceTestCase
         String password = "Pa55word!";
         IPasswordFactory passwordFactory = SpringContextService.getBean( IPasswordFactory.BEAN_NAME );
 
-        LuteceDefaultAdminUser user = new LuteceDefaultAdminUser( randomUsername,
-                new LuteceDefaultAdminAuthentication( ) );
+        LuteceDefaultAdminUser user = new LuteceDefaultAdminUser( randomUsername, new LuteceDefaultAdminAuthentication( ) );
         user.setPassword( passwordFactory.getPasswordFromCleartext( password ) );
         user.setFirstName( randomUsername );
         user.setLastName( randomUsername );
@@ -356,14 +358,14 @@ public class AdminMenuJspBeanTest extends LuteceTestCase
         request.addParameter( Parameters.PASSWORD_CURRENT, password );
         request.addParameter( Parameters.NEW_PASSWORD, password + "_mod" );
         request.addParameter( Parameters.CONFIRM_NEW_PASSWORD, password + "_mod" );
-        request.addParameter( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( )
-                .getToken( request, "admin/user/modify_password_default_module.html" ) + "b" );
+        request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
+                SecurityTokenService.getInstance( ).getToken( request, "admin/user/modify_password_default_module.html" ) + "b" );
         try
         {
             instance.doModifyDefaultAdminUserPassword( request );
             fail( "Shoulf have thrown" );
         }
-        catch ( AccessDeniedException e )
+        catch( AccessDeniedException e )
         {
             List<IPassword> history = AdminUserHome.selectUserPasswordHistory( user.getUserId( ) );
             assertEquals( 0, history.size( ) );
@@ -379,8 +381,7 @@ public class AdminMenuJspBeanTest extends LuteceTestCase
         String password = "Pa55word!";
         IPasswordFactory passwordFactory = SpringContextService.getBean( IPasswordFactory.BEAN_NAME );
 
-        LuteceDefaultAdminUser user = new LuteceDefaultAdminUser( randomUsername,
-                new LuteceDefaultAdminAuthentication( ) );
+        LuteceDefaultAdminUser user = new LuteceDefaultAdminUser( randomUsername, new LuteceDefaultAdminAuthentication( ) );
         user.setPassword( passwordFactory.getPasswordFromCleartext( password ) );
         user.setFirstName( randomUsername );
         user.setLastName( randomUsername );
@@ -400,7 +401,7 @@ public class AdminMenuJspBeanTest extends LuteceTestCase
             instance.doModifyDefaultAdminUserPassword( request );
             fail( "Shoulf have thrown" );
         }
-        catch ( AccessDeniedException e )
+        catch( AccessDeniedException e )
         {
             List<IPassword> history = AdminUserHome.selectUserPasswordHistory( user.getUserId( ) );
             assertEquals( 0, history.size( ) );
@@ -413,7 +414,7 @@ public class AdminMenuJspBeanTest extends LuteceTestCase
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/user/admin_header.html" ) );
+                SecurityTokenService.getInstance( ).getToken( request, AccessibilityModeAdminUserMenuItemProvider.TEMPLATE ) );
 
         getUser( request );
         Utils.registerAdminUser( request, _user );
@@ -435,7 +436,7 @@ public class AdminMenuJspBeanTest extends LuteceTestCase
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.setParameter( SecurityTokenService.PARAMETER_TOKEN,
-                SecurityTokenService.getInstance( ).getToken( request, "admin/user/admin_header.html" ) + "b" );
+                SecurityTokenService.getInstance( ).getToken( request, AccessibilityModeAdminUserMenuItemProvider.TEMPLATE ) + "b" );
 
         getUser( request );
         Utils.registerAdminUser( request, _user );
@@ -446,7 +447,7 @@ public class AdminMenuJspBeanTest extends LuteceTestCase
             instance.doModifyAccessibilityMode( request );
             fail( "Should have thrown" );
         }
-        catch ( AccessDeniedException e )
+        catch( AccessDeniedException e )
         {
             assertEquals( bAccessibilityMode, _user.getAccessibilityMode( ) );
         }
@@ -470,7 +471,7 @@ public class AdminMenuJspBeanTest extends LuteceTestCase
             instance.doModifyAccessibilityMode( request );
             fail( "Should have thrown" );
         }
-        catch ( AccessDeniedException e )
+        catch( AccessDeniedException e )
         {
             assertEquals( bAccessibilityMode, _user.getAccessibilityMode( ) );
         }

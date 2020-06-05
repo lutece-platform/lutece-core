@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -37,6 +37,8 @@ import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 
 import java.text.Normalizer;
+
+import org.apache.commons.lang.StringUtils;
 
 /**
  * This class provides String utils.
@@ -298,7 +300,7 @@ public final class StringUtil
      */
     public static synchronized boolean checkCodeKey( String strCodeKey )
     {
-        return ( strCodeKey == null ) ? false : strCodeKey.matches( STRING_CODE_PATTERN );
+        return strCodeKey != null && strCodeKey.matches( STRING_CODE_PATTERN );
     }
 
     /**
@@ -322,5 +324,24 @@ public final class StringUtil
         }
 
         return nDefaultValue;
+    }
+
+    /**
+     * Return true if any of the strings is empty, false otherwise
+     * 
+     * @param strings
+     *            the strings to test
+     * @return
+     */
+    public static boolean isAnyEmpty( String... strings )
+    {
+        for ( String string : strings )
+        {
+            if ( StringUtils.isEmpty( string ) )
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }

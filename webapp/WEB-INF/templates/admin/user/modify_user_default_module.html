@@ -1,37 +1,38 @@
 <@row>
-    <@columns>
-        <@box color='success'>
-            <@boxHeader boxTools=true title='<i class="glyphicon glyphicon-user"></i>&nbsp;${user.lastName} ${user.firstName}'>
-                <@item_navigation item_navigator=item_navigator />
-            </@boxHeader>
-            <@boxBody>
-                <@tabs>
-					<@listTabs>
-						<li class="active">
-              <a href="jsp/admin/user/ModifyUser.jsp?id_user=${user.userId}" >#i18n{portal.users.actions.labelUser}</a>
-            </li>
-            <li><a href="jsp/admin/user/ModifyUserPassword.jsp?id_user=${user.userId}">#i18n{portal.users.actions.labelPassword}</a>
-            <li><a href="jsp/admin/user/ModifyUserRights.jsp?id_user=${user.userId}">#i18n{portal.users.actions.labelRights}</a></li>
-            <li><a href="jsp/admin/user/ModifyUserRoles.jsp?id_user=${user.userId}">#i18n{portal.users.actions.labelRoles}</a></li>
-            <li><a href="jsp/admin/user/ModifyUserWorkgroups.jsp?id_user=${user.userId}">#i18n{portal.users.actions.labelWorkgroups}</a></li>
-					</@listTabs>
+	<@columns>
+		<@box color='success'>
+			<#assign headerIcon>
+				<@icon style='user' />
+			</#assign>
+			<@boxHeader title='${headerIcon}&nbsp;${user.lastName} ${user.firstName}' boxTools=true>
+					<@item_navigation item_navigator=item_navigator />
+			</@boxHeader>
+			<@boxBody>
+					<@tabs>
+					<@tabList>
+						<@tabLink active=true href='jsp/admin/user/ModifyUser.jsp?id_user=${user.userId}' title='#i18n{portal.users.actions.labelUser}' />
+						<@tabLink href='jsp/admin/user/ModifyUserPassword.jsp?id_user=${user.userId}' title='#i18n{portal.users.actions.labelPassword}' />
+						<@tabLink 
+						href='jsp/admin/user/ModifyUserRights.jsp?id_user=${user.userId}' title='#i18n{portal.users.actions.labelRights}' />
+						<@tabLink href='jsp/admin/user/ModifyUserRoles.jsp?id_user=${user.userId}' title='#i18n{portal.users.actions.labelRoles}' />
+						<@tabLink href='jsp/admin/user/ModifyUserWorkgroups.jsp?id_user=${user.userId}' title='#i18n{portal.users.actions.labelWorkgroups}' />
+					</@tabList>
 					<@tabContent>
 						<@tform method='post' role='form' name='modify_user' action='jsp/admin/user/DoModifyUser.jsp'  params='enctype="multipart/form-data"'>
 							<@row>
 								<#if attributes_list?has_content>
 									<#assign sm = 4>
 									<#assign md = 4>
-										<#assign lg = 4>
+									<#assign lg = 4>
 								<#else>
 									<#assign sm = 6>
 									<#assign md = 6>
 									<#assign lg = 6>
 								</#if>
 								<@columns sm=sm md=md lg=lg>
-									<input type="hidden" name="id_user" value="${user.userId}" />
-									<input type="hidden" name="token" value="${token}">
-									<fieldset>
-										<legend>#i18n{portal.users.modify_user.labelIdentity}</legend>
+									<@input type='hidden' name='id_user' value='${user.userId}' />
+									<@input type='hidden' name='token' value='${token}' />
+									<@fieldSet legend='#i18n{portal.users.modify_user.labelIdentity}'>
 										<@formGroup labelKey='#i18n{portal.users.modify_user.labelAccessCode}' labelFor='access_code' rows=2 mandatory=true>
 											<@input type='text' id='access_code' name='access_code' maxlength=100 value='${user.accessCode}' />
 										</@formGroup>
@@ -44,11 +45,10 @@
 										<@formGroup labelKey='#i18n{portal.users.modify_user.labelEmail}' labelFor='email' rows=2 mandatory=true>
 											<@input type='email' id='email' name='email' maxlength=100 value='${user.email}' />
 										</@formGroup>
-									</fieldset>
+									</@fieldSet>
 								</@columns>
 								<@columns sm=sm md=md lg=lg>
-									<fieldset>
-										<legend>#i18n{portal.users.modify_user.labelAttributes} </legend>
+									<@fieldSet legend='#i18n{portal.users.modify_user.labelAttributes}'>
 										<@formGroup labelKey='#i18n{portal.users.create_user.userLevelLabel}' labelFor='' rows=2>
 											<@staticText>${level.name}</@staticText>
 										</@formGroup>
@@ -72,15 +72,14 @@
 										<@formGroup labelKey='#i18n{portal.users.create_user.labelTheme}' labelFor='' rows=2>
 											<@checkBox labelKey='#i18n{portal.users.create_user.labelAccessibilityMode}' labelFor='accessility_mode' id='accessibility_mode' name='accessibility_mode' value='1' checked=user.accessibilityMode />
 										</@formGroup>
-									</fieldset>
+									</@fieldSet>
 								</@columns>
 								<#if attributes_list?has_content>
 									<#assign sm = 4>
 									<#assign md = 4>
 									<#assign lg = 4>
 								<@columns sm=sm md=md lg=lg>
-									<fieldset>
-										<legend>#i18n{portal.users.modify_user.labelComplementaryAttributes}</legend>
+									<@fieldSet legend='#i18n{portal.users.modify_user.labelComplementaryAttributes}'>
 										<@row>
 											<@columns>
 												<#list attributes_list as attribute>
@@ -100,7 +99,7 @@
 												</#list>
 											</@columns>
 										</@row>
-									</fieldset>
+									</@fieldSet>
 								</@columns>
 								</#if>
 							</@row> 
@@ -108,7 +107,7 @@
 								<@columns>
 									<@formGroup rows=2>
 										<@button size='' type='submit' buttonIcon='check' title='#i18n{portal.users.modify_user.buttonLabelModify}'  />
-										<@aButton size='' href='jsp/admin/user/ManageUsers.jsp' color='btn-secondary' buttonIcon='times' title='#i18n{portal.util.labelBack}'  />
+										<@aButton size='' href='jsp/admin/user/ManageUsers.jsp' color='secondary' buttonIcon='times' title='#i18n{portal.util.labelBack}'  />
 									</@formGroup>
 								</@columns>
 							</@row>   

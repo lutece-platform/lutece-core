@@ -3,7 +3,7 @@
 <%@ page import="fr.paris.lutece.portal.service.i18n.I18nService" %>
 <%@ page import="fr.paris.lutece.portal.service.admin.AdminUserService" %>
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="AdminUserService.getLocale( request ).getLanguage()">
 <head>
 <title><%= I18nService.getLocalizedString( "portal.insert.insertService.windowTitle" , AdminUserService.getLocale( request )) %></title>
 <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />

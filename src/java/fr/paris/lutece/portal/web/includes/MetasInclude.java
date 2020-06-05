@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -73,10 +73,11 @@ public class MetasInclude implements PageInclude
     public void fillTemplate( Map<String, Object> rootModel, PageData data, int nMode, HttpServletRequest request )
     {
         String strMetaAuthor = ( data.getMetaAuthor( ) != null ) ? data.getMetaAuthor( ) : DatastoreService.getDataValue( KEY_WEBMASTER_META_AUTHOR, "" );
-        String strMetaCopyright = ( data.getMetaCopyright( ) != null ) ? data.getMetaCopyright( ) : DatastoreService.getDataValue(
-                KEY_WEBMASTER_META_COPYRIGHT, "" );
-        String strMetaKeywords = ( ( data.getMetaKeywords( ) != null ) && ( data.getMetaKeywords( ).length( ) > 0 ) ) ? ( DatastoreService.getDataValue(
-                KEY_WEBMASTER_META_KEYWORDS, "" ) + ", " + data.getMetaKeywords( ) ) : DatastoreService.getDataValue( KEY_WEBMASTER_META_KEYWORDS, "" );
+        String strMetaCopyright = ( data.getMetaCopyright( ) != null ) ? data.getMetaCopyright( )
+                : DatastoreService.getDataValue( KEY_WEBMASTER_META_COPYRIGHT, "" );
+        String strMetaKeywords = ( ( data.getMetaKeywords( ) != null ) && ( data.getMetaKeywords( ).length( ) > 0 ) )
+                ? ( DatastoreService.getDataValue( KEY_WEBMASTER_META_KEYWORDS, "" ) + ", " + data.getMetaKeywords( ) )
+                : DatastoreService.getDataValue( KEY_WEBMASTER_META_KEYWORDS, "" );
         String strMetaDescription = ( ( data.getMetaDescription( ) != null ) && ( data.getMetaDescription( ).length( ) > 0 ) ) ? data.getMetaDescription( )
                 : DatastoreService.getDataValue( KEY_WEBMASTER_META_DESCRIPTION, "" );
 

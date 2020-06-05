@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -47,6 +47,8 @@ import java.util.TreeSet;
 
 import javax.activation.MimetypesFileTypeMap;
 
+import org.apache.commons.lang3.ArrayUtils;
+
 /**
  * This Service is used to manipulate Files and Directories in the File System.
  */
@@ -77,7 +79,7 @@ public final class FileSystemUtil
     public static List<File> getSubDirectories( String strRoot, String strDirectoryRelativePath ) throws DirectoryNotFoundException
     {
         // Files' list init
-        ArrayList<File> listFiles = new ArrayList<File>( );
+        ArrayList<File> listFiles = new ArrayList<>( );
 
         // Directory path
         String strDirectory = strRoot + strDirectoryRelativePath;
@@ -91,6 +93,10 @@ public final class FileSystemUtil
         }
 
         File [ ] files = fDirectory.listFiles( );
+        if ( ArrayUtils.isEmpty( files ) )
+        {
+            return listFiles;
+        }
 
         for ( int i = 0; i < files.length; i++ )
         {
@@ -119,7 +125,7 @@ public final class FileSystemUtil
     public static List<File> getFiles( String strRoot, String strDirectoryRelativePath ) throws DirectoryNotFoundException
     {
         // Use a treeset to order files with a comparator
-        TreeSet<File> set = new TreeSet<File>( new FileNameComparator( ) );
+        TreeSet<File> set = new TreeSet<>( new FileNameComparator( ) );
 
         // Directory path
         String strDirectory = strRoot + strDirectoryRelativePath;
@@ -133,6 +139,10 @@ public final class FileSystemUtil
         }
 
         File [ ] files = fDirectory.listFiles( );
+        if ( ArrayUtils.isEmpty( files ) )
+        {
+            return new ArrayList<>( set );
+        }
 
         for ( int i = 0; i < files.length; i++ )
         {
@@ -145,7 +155,7 @@ public final class FileSystemUtil
         }
 
         // Convert into a list to preserve the order
-        return new ArrayList<File>( set );
+        return new ArrayList<>( set );
     }
 
     /**

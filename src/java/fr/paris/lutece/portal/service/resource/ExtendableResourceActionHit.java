@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -68,7 +68,7 @@ public final class ExtendableResourceActionHit
      * Delete action
      */
     public static final String ACTION_DELETE = "delete";
-    private static volatile ExtendableResourceActionHit _instance;
+    private static ExtendableResourceActionHit _instance = new ExtendableResourceActionHit( );
 
     /**
      * Private constructor
@@ -84,14 +84,6 @@ public final class ExtendableResourceActionHit
      */
     public static ExtendableResourceActionHit getInstance( )
     {
-        if ( _instance == null )
-        {
-            synchronized( ExtendableResourceActionHit.class )
-            {
-                _instance = new ExtendableResourceActionHit( );
-            }
-        }
-
         return _instance;
     }
 
@@ -127,7 +119,7 @@ public final class ExtendableResourceActionHit
      */
     public Map<String, Integer> getResourceHit( String strExtendableResourceId, String strExtendableResourceType )
     {
-        Map<String, Integer> mapActionHit = new HashMap<String, Integer>( );
+        Map<String, Integer> mapActionHit = new HashMap<>( );
 
         for ( IExtendableResourceActionHitListener listener : SpringContextService.getBeansOfType( IExtendableResourceActionHitListener.class ) )
         {

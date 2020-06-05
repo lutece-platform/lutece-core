@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -35,13 +35,14 @@
 package fr.paris.lutece.util.pool.service;
 
 import com.mchange.v2.c3p0.ComboPooledDataSource;
+import fr.paris.lutece.util.env.EnvUtil;
 
 import org.apache.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 
-import java.util.Hashtable;
+import java.util.Map;
 
 import javax.sql.DataSource;
 
@@ -68,7 +69,8 @@ public class C3p0ConnectionService implements ConnectionService
     /**
      * {@inheritDoc }
      */
-    public void init( Hashtable<String, String> htParamsConnectionPool )
+    @Override
+    public void init( Map<String, String> htParamsConnectionPool )
     {
         try
         {
@@ -78,12 +80,15 @@ public class C3p0ConnectionService implements ConnectionService
             _dataSource.setDriverClass( strDriver );
 
             String strUrl = htParamsConnectionPool.get( getPoolName( ) + ".url" );
+            strUrl = EnvUtil.evaluate( strUrl, EnvUtil.PREFIX_ENV );
             _dataSource.setJdbcUrl( strUrl );
 
             String strUser = htParamsConnectionPool.get( getPoolName( ) + ".user" );
+            strUser = EnvUtil.evaluate( strUser, EnvUtil.PREFIX_ENV );
             _dataSource.setUser( strUser );
 
             String strPassword = htParamsConnectionPool.get( getPoolName( ) + ".password" );
+            strPassword = EnvUtil.evaluate( strPassword, EnvUtil.PREFIX_ENV );
             _dataSource.setPassword( strPassword );
 
             String strMaxConns = htParamsConnectionPool.get( getPoolName( ) + ".maxconns" );
@@ -107,6 +112,7 @@ public class C3p0ConnectionService implements ConnectionService
     /**
      * {@inheritDoc }
      */
+    @Override
     public Connection getConnection( )
     {
         Connection conn = null;
@@ -119,7 +125,8 @@ public class C3p0ConnectionService implements ConnectionService
 
                 if ( conn != null )
                 {
-                    _logger.debug( "The connexion is get, Current/Max pool : " + _dataSource.getNumConnectionsAllUsers( ) + "/" + _dataSource.getMaxPoolSize( ) );
+                    _logger.debug(
+                            "The connexion is get, Current/Max pool : " + _dataSource.getNumConnectionsAllUsers( ) + "/" + _dataSource.getMaxPoolSize( ) );
                 }
             }
         }
@@ -134,6 +141,7 @@ public class C3p0ConnectionService implements ConnectionService
     /**
      * {@inheritDoc }
      */
+    @Override
     public void freeConnection( Connection conn )
     {
         try
@@ -155,6 +163,7 @@ public class C3p0ConnectionService implements ConnectionService
     /**
      * {@inheritDoc }
      */
+    @Override
     public void setPoolName( String poolName )
     {
         this._strPoolName = poolName;
@@ -163,6 +172,7 @@ public class C3p0ConnectionService implements ConnectionService
     /**
      * {@inheritDoc }
      */
+    @Override
     public String getPoolName( )
     {
         return _strPoolName;
@@ -171,6 +181,7 @@ public class C3p0ConnectionService implements ConnectionService
     /**
      * {@inheritDoc }
      */
+    @Override
     public void setLogger( Logger log )
     {
         this._logger = log;
@@ -179,6 +190,7 @@ public class C3p0ConnectionService implements ConnectionService
     /**
      * {@inheritDoc }
      */
+    @Override
     public Logger getLogger( )
     {
         return _logger;
@@ -187,6 +199,7 @@ public class C3p0ConnectionService implements ConnectionService
     /**
      * {@inheritDoc }
      */
+    @Override
     public void release( )
     {
         _dataSource.close( );
@@ -195,6 +208,7 @@ public class C3p0ConnectionService implements ConnectionService
     /**
      * {@inheritDoc }
      */
+    @Override
     public int getCurrentConnections( )
     {
         int nCurrentConnections = -1;
@@ -214,6 +228,7 @@ public class C3p0ConnectionService implements ConnectionService
     /**
      * {@inheritDoc }
      */
+    @Override
     public int getMaxConnections( )
     {
         return _dataSource.getMaxPoolSize( );
@@ -222,6 +237,7 @@ public class C3p0ConnectionService implements ConnectionService
     /**
      * {@inheritDoc }
      */
+    @Override
     public String getPoolProvider( )
     {
         return "C3P0";
@@ -230,6 +246,7 @@ public class C3p0ConnectionService implements ConnectionService
     /**
      * {@inheritDoc }
      */
+    @Override
     public DataSource getDataSource( )
     {
         return _dataSource;

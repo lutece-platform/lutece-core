@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,14 +33,15 @@
  */
 package fr.paris.lutece.portal.service.workgroup;
 
+import fr.paris.lutece.api.user.User;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Locale;
+
 import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.portal.business.workgroup.AdminWorkgroupHome;
 import fr.paris.lutece.portal.service.i18n.I18nService;
 import fr.paris.lutece.util.ReferenceList;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Locale;
 
 /**
  * AdminWorkgroupService
@@ -66,16 +67,32 @@ public final class AdminWorkgroupService
      *            The current user
      * @return true if authorized, otherwise false
      */
-    public static boolean isAuthorized( AdminWorkgroupResource resource, AdminUser user )
+    public static boolean isAuthorized( AdminWorkgroupResource resource, User user )
     {
         String strWorkgroup = normalizeWorkgroupKey( resource.getWorkgroup( ) );
 
         if ( !strWorkgroup.equals( ALL_GROUPS ) )
         {
-            return AdminWorkgroupHome.isUserInWorkgroup( user, strWorkgroup );
+            return user.getUserWorkgroups( ) != null && user.getUserWorkgroups( ).stream( ).anyMatch( x -> strWorkgroup.equals( x ) );
         }
 
         return true;
+    }
+
+    /**
+     * Check if a resource should be visible to the user according its workgroup
+     * 
+     * @param resource
+     *            The resource to check
+     * @param user
+     *            The current user
+     * @return true if authorized, otherwise false
+     * 
+     */
+    @Deprecated
+    public static boolean isAuthorized( AdminWorkgroupResource resource, AdminUser user )
+    {
+        return isAuthorized( resource, (User) user );
     }
 
     /**
@@ -89,9 +106,9 @@ public final class AdminWorkgroupService
      * @param user
      *            The user
      */
-    public static <E extends AdminWorkgroupResource> Collection<E> getAuthorizedCollection( Collection<E> collection, AdminUser user )
+    public static <E extends AdminWorkgroupResource> Collection<E> getAuthorizedCollection( Collection<E> collection, User user )
     {
-        ArrayList<E> list = new ArrayList<E>( );
+        ArrayList<E> list = new ArrayList<>( );
 
         for ( E resource : collection )
         {
@@ -102,6 +119,23 @@ public final class AdminWorkgroupService
         }
 
         return list;
+    }
+
+    /**
+     * Filter a collection of resources for a given user
+     *
+     * @return A filtered collection of resources
+     * @param <E>
+     *            The workgroup resource
+     * @param collection
+     *            The collection to filter
+     * @param user
+     *            The user
+     */
+    @Deprecated
+    public static <E extends AdminWorkgroupResource> Collection<E> getAuthorizedCollection( Collection<E> collection, AdminUser user )
+    {
+        return getAuthorizedCollection( collection, (User) user );
     }
 
     /**

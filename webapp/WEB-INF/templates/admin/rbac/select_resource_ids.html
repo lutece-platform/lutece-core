@@ -4,19 +4,19 @@
       <@boxHeader title='#i18n{portal.rbac.select_resource_ids.titleSelectIds}' />
 			<@boxBody>
 				<@tform method='post' action='jsp/admin/rbac/DoSelectResourcesFromIdsList.jsp' name='ids'>
-					<input type="hidden" name="role_key" value="${role_key}">
-					<input type="hidden" name="resource_type" value="${resource_type}">
-					<input type="hidden" name="select_resources" value="${select_resources}">
+					<@input type='hidden' name='role_key' value='${role_key}' />
+					<@input type='hidden' name='resource_type' value='${resource_type}' />
+					<@input type='hidden' name='select_resources' value='${select_resources}' />
 					<@formGroup>
 						<label id="resourceList">#i18n{portal.rbac.select_resource_ids.labelSelectIdsFromList}</label>
 						<div aria-labelledby="resourceList">
 						<#list resource_id_list as item>
-							<@checkBox name='resource_id' value='${item.code}' labelKey='${item.name}' />
+							<@checkBox name='resource_id' id='${item.name}' value='${item.code}' labelKey='${item.name}' />
 						</#list>
 						</div>
 					</@formGroup>
 					<@formGroup>
-						<@aButton href='jsp/admin/rbac/AddControlToRole.jsp?role_key=${role_key}&amp;resource_type=${resource_type}' buttonIcon='arrow-left' size='' color='btn-secondary' title='#i18n{portal.rbac.select_permissions.buttonLabelCancel}' />
+						<@aButton href='jsp/admin/rbac/AddControlToRole.jsp?role_key=${role_key}&amp;resource_type=${resource_type}' buttonIcon='arrow-left' size='' color='secondary' title='#i18n{portal.rbac.select_permissions.buttonLabelCancel}' />
 						<@button type='submit' buttonIcon='arrow-right' title='#i18n{portal.rbac.select_permissions.buttonLabelValidate}' size='' iconPosition='right' />
 					</@formGroup>
 				</@tform>

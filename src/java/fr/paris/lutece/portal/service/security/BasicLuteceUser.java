@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -38,6 +38,8 @@ package fr.paris.lutece.portal.service.security;
  */
 public class BasicLuteceUser extends LuteceUser
 {
+    private static final long serialVersionUID = 4077599434967808839L;
+
     /**
      * Constructor
      * 

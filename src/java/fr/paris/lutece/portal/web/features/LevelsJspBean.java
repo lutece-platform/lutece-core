@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,6 +33,11 @@
  */
 package fr.paris.lutece.portal.web.features;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+
 import fr.paris.lutece.portal.business.right.Level;
 import fr.paris.lutece.portal.business.right.LevelHome;
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
@@ -43,56 +48,31 @@ import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
 import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.portal.web.constants.Parameters;
+import fr.paris.lutece.portal.web.dashboard.AdminDashboardJspBean;
 import fr.paris.lutece.util.html.HtmlTemplate;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * This class provides the user interface to manage levels features ( manage, create, modify )
  */
 public class LevelsJspBean extends AdminFeaturesPageJspBean
 {
+    private static final long serialVersionUID = 5513182604869973362L;
+
     // Right
     public static final String RIGHT_MANAGE_LEVELS = "CORE_LEVEL_RIGHT_MANAGEMENT";
 
     // Properties for page titles
-    private static final String PROPERTY_PAGE_TITLE_LEVEL_LIST = "portal.features.manage_levels.pageTitle";
     private static final String PROPERTY_PAGE_TITLE_CREATE_LEVEL = "portal.features.create_level.pageTitle";
     private static final String PROPERTY_PAGE_TITLE_MODIFY_LEVEL = "portal.features.modify_level.pageTitle";
 
     // Markers
-    private static final String MARK_LEVELS_LIST = "levels_list";
     private static final String MARK_LEVEL = "level";
 
     // Templates files path
-    private static final String TEMPLATE_MANAGE_LEVELS = "admin/features/manage_levels.html";
     private static final String TEMPLATE_CREATE_LEVEL = "admin/features/create_level.html";
     private static final String TEMPLATE_MODIFY_LEVEL = "admin/features/modify_level.html";
 
-    // Jsp definition
-    private static final String JSP_MANAGE_LEVEL = "ManageLevels.jsp";
-
-    /**
-     * Returns the list of levels
-     *
-     * @param request
-     *            The Http request
-     * @return the html code for display the levels list
-     */
-    public String getManageLevels( HttpServletRequest request )
-    {
-        setPageTitleProperty( PROPERTY_PAGE_TITLE_LEVEL_LIST );
-
-        HashMap<String, Object> model = new HashMap<String, Object>( );
-        model.put( MARK_LEVELS_LIST, LevelHome.getLevelsList( ) );
-
-        HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_MANAGE_LEVELS, getLocale( ), model );
-
-        return getAdminPage( template.getHtml( ) );
-    }
+    private static final String ANCHOR_RIGHT_LEVELS = "right_levels";
 
     /**
      * Returns the level form of creation
@@ -132,14 +112,14 @@ public class LevelsJspBean extends AdminFeaturesPageJspBean
         }
         if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_CREATE_LEVEL ) )
         {
-            throw new AccessDeniedException( "Invalid security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
         Level level = new Level( );
         level.setName( strName );
         LevelHome.create( level );
 
         // If the process is successfull, redirects towards the theme view
-        return JSP_MANAGE_LEVEL;
+        return getAdminDashboardsUrl( request, ANCHOR_RIGHT_LEVELS );
     }
 
     /**
@@ -159,10 +139,10 @@ public class LevelsJspBean extends AdminFeaturesPageJspBean
 
         if ( level == null )
         {
-            return getManageLevels( request );
+            return getAdminDashboardsUrl( request, ANCHOR_RIGHT_LEVELS );
         }
 
-        HashMap<String, Object> model = new HashMap<String, Object>( );
+        HashMap<String, Object> model = new HashMap<>( );
         model.put( MARK_LEVEL, level );
         model.put( SecurityTokenService.MARK_TOKEN, SecurityTokenService.getInstance( ).getToken( request, TEMPLATE_MODIFY_LEVEL ) );
 
@@ -192,7 +172,7 @@ public class LevelsJspBean extends AdminFeaturesPageJspBean
         }
         if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_MODIFY_LEVEL ) )
         {
-            throw new AccessDeniedException( "Invalid security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
 
         Level level = LevelHome.findByPrimaryKey( Integer.parseInt( strId ) );
@@ -200,6 +180,6 @@ public class LevelsJspBean extends AdminFeaturesPageJspBean
         LevelHome.update( level );
 
         // If the process is successfull, redirects towards the level management page
-        return JSP_MANAGE_LEVEL;
+        return getAdminDashboardsUrl( request, ANCHOR_RIGHT_LEVELS );
     }
 }

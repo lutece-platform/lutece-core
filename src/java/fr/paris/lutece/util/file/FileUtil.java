@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -60,6 +60,7 @@ public final class FileUtil
     private static final String PROPERTY_ALLOWED_HTML_EXTENSIONS = "portal.files.allowedHtmlExtentions";
     private static final String DEFAULT_IMAGES_EXTENSION = "gif,png,jpg,jpeg,bmp";
     private static final String DEFAULT_HTML_EXTENSION = "html,htm,xhtml";
+    private static final String FREEMARKER_EXTENSION = "ftl";
     private static final String CONSTANT_POINT = ".";
     private static final String CONSTANT_COMMA = ",";
 
@@ -99,6 +100,18 @@ public final class FileUtil
     }
 
     /**
+     * Check if a file has a valid Freemarker extension
+     * 
+     * @param strFileName
+     *            The file name to check
+     * @return True if the file name is valid, false otherwise
+     */
+    public static boolean hasFreemarkerExtension( String strFileName )
+    {
+        return hasExtension( strFileName, FREEMARKER_EXTENSION );
+    }
+
+    /**
      * Check if a file name match extensions in a given list
      * 
      * @param strFileName
@@ -129,19 +142,23 @@ public final class FileUtil
 
         return false;
     }
+
     /**
-     * creates a zip file 
-     * @param zipFile the zipfile to create
-     * @param files to add to the Zip
-     * @throws IOException 
+     * creates a zip file
+     * 
+     * @param zipFile
+     *            the zipfile to create
+     * @param files
+     *            to add to the Zip
+     * @throws IOException
      */
-    public static void zipFiles( Path zipFile, Path...paths ) throws IOException
+    public static void zipFiles( Path zipFile, Path... paths ) throws IOException
     {
         if ( zipFile.toFile( ).exists( ) )
         {
             deleteFile( zipFile.toFile( ) );
         }
-          
+
         try ( ZipOutputStream zos = new ZipOutputStream( Files.newOutputStream( zipFile ) ) )
         {
             for ( Path file : paths )
@@ -150,15 +167,15 @@ public final class FileUtil
             }
         }
     }
-    
+
     private static void addEntryToZip( ZipOutputStream zos, Path file ) throws IOException
     {
         try ( InputStream fis = Files.newInputStream( file ) )
         {
             ZipEntry zipEntry = new ZipEntry( file.toFile( ).getName( ) );
             zos.putNextEntry( zipEntry );
-            
-            byte[] bytes = new byte[1024];
+
+            byte [ ] bytes = new byte [ 1024];
             int length;
             while ( ( length = fis.read( bytes ) ) >= 0 )
             {
@@ -167,12 +184,13 @@ public final class FileUtil
             zos.closeEntry( );
         }
     }
-    
+
     /**
      * Converts French diacritics characters into non diacritics. <br />
      * Replace whitespaces by underscores <br />
      * Keep only underscores and alphanum characters <br />
      * Transform to lowercase
+     * 
      * @param string
      * @return
      */
@@ -180,10 +198,11 @@ public final class FileUtil
     {
         return StringUtil.replaceAccent( string ).replace( ' ', '_' ).replaceAll( "[^a-zA-Z0-9_]+", "" ).toLowerCase( );
     }
-    
+
     /**
      * Delete the file. <br />
      * Logs an error if the delete is not succesful.
+     * 
      * @param pathname
      */
     public static void deleteFile( File file )
@@ -200,10 +219,10 @@ public final class FileUtil
                 Files.delete( file.toPath( ) );
             }
         }
-        catch ( IOException e )
+        catch( IOException e )
         {
             AppLogService.error( "Error deleting file", e );
         }
     }
-    
+
 }

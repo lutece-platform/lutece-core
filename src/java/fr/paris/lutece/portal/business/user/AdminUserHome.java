@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,7 +33,7 @@
  */
 package fr.paris.lutece.portal.business.user;
 
-import fr.paris.lutece.portal.business.rbac.AdminRole;
+import fr.paris.lutece.portal.business.rbac.RBACRole;
 import fr.paris.lutece.portal.business.right.Right;
 import fr.paris.lutece.portal.business.user.authentication.LuteceDefaultAdminUser;
 import fr.paris.lutece.portal.service.spring.SpringContextService;
@@ -53,7 +53,7 @@ import java.util.Map;
 public final class AdminUserHome
 {
     // Static variable pointed at the DAO instance
-    private static IAdminUserDAO _dao = (IAdminUserDAO) SpringContextService.getBean( "adminUserDAO" );
+    private static IAdminUserDAO _dao = SpringContextService.getBean( "adminUserDAO" );
 
     /**
      * Private constructor
@@ -190,7 +190,7 @@ public final class AdminUserHome
      *            the id of the user to retrieve rights
      * @return the role list
      */
-    public static Map<String, AdminRole> getRolesListForUser( int nUserId )
+    public static Map<String, RBACRole> getRolesListForUser( int nUserId )
     {
         return _dao.selectRolesListForUser( nUserId );
     }
@@ -354,7 +354,7 @@ public final class AdminUserHome
      * @param role
      *            The new role
      */
-    public static void updateUsersRole( String strOldRoleKey, AdminRole role )
+    public static void updateUsersRole( String strOldRoleKey, RBACRole role )
     {
         _dao.storeUsersRole( strOldRoleKey, role );
     }

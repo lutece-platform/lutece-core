@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -45,6 +45,7 @@ import fr.paris.lutece.portal.service.message.AdminMessageService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
+import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.http.SecurityUtil;
 
@@ -60,6 +61,9 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 
 import javax.xml.transform.stream.StreamSource;
+
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 
 /**
  *
@@ -100,8 +104,8 @@ public class AdminDocumentationJspBean
 
     // utils
     private static final String LOCAL_DEFAULT = "en";
-    private static final String XML_BASE_PATH = "/doc/xml/";
-    private static final String XML_USER_PATH = "/xdoc/user/";
+    private static final String PROPERTY_XML_BASE_PATH = "lutece.xml.base.path";
+    private static final String PROPERTY_XML_USER_PATH = "lutece.xml.user.path";
     private static final String FEATURES_GROUP_SYSTEM = "SYSTEM";
 
     /**
@@ -131,24 +135,25 @@ public class AdminDocumentationJspBean
         StreamSource sourceStyleSheet = new StreamSource( fileXsl );
 
         // get the xml documentation file
+        String xmlBasePath = AppPropertiesService.getProperty( PROPERTY_XML_BASE_PATH );
+        String userBasePath = AppPropertiesService.getProperty( PROPERTY_XML_USER_PATH );
         String strXmlPath;
         StreamSource sourceXml;
-        String strLocal = locale.toString( );
 
-        if ( ( locale == null ) || strLocal.equals( LOCAL_DEFAULT ) )
+        if ( LOCAL_DEFAULT.equals( locale.toString( ) ) )
         {
-            strXmlPath = AppPathService.getWebAppPath( ) + XML_BASE_PATH + XML_USER_PATH + strFeature + ".xml";
+            strXmlPath = AppPathService.getWebAppPath( ) + xmlBasePath + userBasePath + strFeature + ".xml";
         }
         else
         {
-            strXmlPath = AppPathService.getWebAppPath( ) + XML_BASE_PATH + locale.toString( ) + XML_USER_PATH + strFeature + ".xml";
+            strXmlPath = AppPathService.getWebAppPath( ) + xmlBasePath + locale.toString( ) + userBasePath + strFeature + ".xml";
         }
 
         sourceXml = new StreamSource( new File( strXmlPath ) );
 
         String strHtmlDoc = null;
 
-        Map<String, String> params = new HashMap<String, String>( );
+        Map<String, String> params = new HashMap<>( );
         params.put( PARAMS_LOCAL, locale.toString( ) );
         params.put( PARAMS_DEFAULT_LOCAL, LOCAL_DEFAULT );
 
@@ -193,7 +198,7 @@ public class AdminDocumentationJspBean
         AdminUser user = AdminUserService.getAdminUser( request );
 
         List<FeatureGroup> listFeatureGroups = getFeatureGroupsList( user );
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<>( );
 
         model.put( BOOKMARK_FEATURE_GROUP_LIST, listFeatureGroups );
         model.put( BOOKMARK_HELP_ICON, IMAGE_HELP_PATH );
@@ -213,7 +218,7 @@ public class AdminDocumentationJspBean
     private List<FeatureGroup> getFeatureGroupsList( AdminUser user )
     {
         // structure that will be returned
-        ArrayList<FeatureGroup> aOutFeatureGroupList = new ArrayList<FeatureGroup>( );
+        ArrayList<FeatureGroup> aOutFeatureGroupList = new ArrayList<>( );
 
         // get the list of user's features
         Map<String, Right> featuresMap = user.getRights( );
@@ -222,7 +227,7 @@ public class AdminDocumentationJspBean
         // for each group, load the features
         for ( FeatureGroup featureGroup : FeatureGroupHome.getFeatureGroupsList( ) )
         {
-            ArrayList<Right> aLeftFeatures = new ArrayList<Right>( );
+            ArrayList<Right> aLeftFeatures = new ArrayList<>( );
 
             for ( Right right : features )
             {
@@ -231,12 +236,12 @@ public class AdminDocumentationJspBean
                 String strFeatureGroup = right.getFeatureGroup( );
                 String strUrlDocumentation = right.getDocumentationUrl( );
 
-                if ( featureGroup.getId( ).equalsIgnoreCase( strFeatureGroup ) && ( strUrlDocumentation != null ) && !( strUrlDocumentation.equals( "" ) ) )
+                if ( featureGroup.getId( ).equalsIgnoreCase( strFeatureGroup ) && StringUtils.isNotEmpty( strUrlDocumentation ) )
                 {
                     featureGroup.addFeature( right );
                 }
                 else
-                    if ( ( strUrlDocumentation != null ) && !( strUrlDocumentation.equals( "" ) ) )
+                    if ( StringUtils.isNotEmpty( strUrlDocumentation ) )
                     {
                         aLeftFeatures.add( right );
                     }
@@ -288,7 +293,7 @@ public class AdminDocumentationJspBean
             }
         }
         else
-            if ( ( aOutFeatureGroupList.size( ) > 0 ) && !features.isEmpty( ) )
+            if ( CollectionUtils.isNotEmpty( aOutFeatureGroupList ) )
             {
                 FeatureGroup lastFeatureGroup = aOutFeatureGroupList.get( aOutFeatureGroupList.size( ) - 1 );
 

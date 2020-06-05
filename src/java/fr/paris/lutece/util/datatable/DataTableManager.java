@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,26 +33,9 @@
  */
 package fr.paris.lutece.util.datatable;
 
-import fr.paris.lutece.portal.service.util.AppLogService;
-import fr.paris.lutece.portal.web.constants.Parameters;
-import fr.paris.lutece.portal.web.l10n.LocaleService;
-import fr.paris.lutece.portal.web.util.LocalizedDelegatePaginator;
-import fr.paris.lutece.portal.web.util.LocalizedPaginator;
-import fr.paris.lutece.util.ReferenceList;
-import fr.paris.lutece.util.UniqueIDGenerator;
-import fr.paris.lutece.util.html.IPaginator;
-import fr.paris.lutece.util.html.Paginator;
-import fr.paris.lutece.util.sort.AttributeComparator;
-import fr.paris.lutece.util.url.UrlItem;
-
-import org.apache.commons.beanutils.BeanUtilsBean;
-import org.apache.commons.lang.StringUtils;
-
 import java.io.Serializable;
-
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -62,6 +45,21 @@ import java.util.Locale;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.beanutils.BeanUtilsBean;
+import org.apache.commons.lang.StringUtils;
+
+import fr.paris.lutece.portal.service.util.AppLogService;
+import fr.paris.lutece.portal.web.constants.Parameters;
+import fr.paris.lutece.portal.web.l10n.LocaleService;
+import fr.paris.lutece.portal.web.util.LocalizedDelegatePaginator;
+import fr.paris.lutece.portal.web.util.LocalizedPaginator;
+import fr.paris.lutece.util.ReferenceList;
+import fr.paris.lutece.util.UniqueIDGenerator;
+import fr.paris.lutece.util.html.AbstractPaginator;
+import fr.paris.lutece.util.html.IPaginator;
+import fr.paris.lutece.util.sort.AttributeComparator;
+import fr.paris.lutece.util.url.UrlItem;
 
 /**
  * Class to manage data tables with freemarker macros
@@ -79,7 +77,7 @@ public class DataTableManager<T> implements Serializable
     private static final String CONSTANT_IS = "is";
     private static final String CONSTANT_DATA_TABLE_MANAGER_ID_PREFIX = "dataTableManager";
     private String _strSortUrl;
-    private List<DataTableColumn> _listColumn = new ArrayList<DataTableColumn>( );
+    private List<DataTableColumn> _listColumn = new ArrayList<>( );
     private FilterPanel _filterPanel;
     private IPaginator<T> _paginator;
     private String _strCurrentPageIndex = StringUtils.EMPTY;
@@ -260,7 +258,7 @@ public class DataTableManager<T> implements Serializable
      */
     public void filterSortAndPaginate( HttpServletRequest request, List<T> items )
     {
-        List<T> filteredSortedPaginatedItems = new ArrayList<T>( items );
+        List<T> filteredSortedPaginatedItems = new ArrayList<>( items );
 
         boolean bSubmitedDataTable = hasDataTableFormBeenSubmited( request );
 
@@ -306,7 +304,7 @@ public class DataTableManager<T> implements Serializable
 
             if ( StringUtils.isNotBlank( strFilterValue ) )
             {
-                List<T> bufferList = new ArrayList<T>( );
+                List<T> bufferList = new ArrayList<>( );
 
                 for ( T item : filteredSortedPaginatedItems )
                 {
@@ -366,7 +364,8 @@ public class DataTableManager<T> implements Serializable
             if ( _bEnablePaginator )
             {
                 int nOldItemsPerPage = _nItemsPerPage;
-                _nItemsPerPage = Paginator.getItemsPerPage( request, Paginator.PARAMETER_ITEMS_PER_PAGE, _nItemsPerPage, _nDefautlItemsPerPage );
+                _nItemsPerPage = AbstractPaginator.getItemsPerPage( request, AbstractPaginator.PARAMETER_ITEMS_PER_PAGE, _nItemsPerPage,
+                        _nDefautlItemsPerPage );
 
                 // If the number of items per page has changed, we switch to the first page
                 if ( _nItemsPerPage != nOldItemsPerPage )
@@ -375,7 +374,7 @@ public class DataTableManager<T> implements Serializable
                 }
                 else
                 {
-                    _strCurrentPageIndex = Paginator.getPageIndex( request, Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex );
+                    _strCurrentPageIndex = AbstractPaginator.getPageIndex( request, AbstractPaginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex );
                 }
             }
             else
@@ -385,9 +384,12 @@ public class DataTableManager<T> implements Serializable
             }
         }
 
-        // We paginate create the new paginator
-        _paginator = new LocalizedPaginator<T>( filteredSortedPaginatedItems, _nItemsPerPage, getSortUrl( ), Paginator.PARAMETER_PAGE_INDEX,
-                _strCurrentPageIndex, request.getLocale( ) );
+        if ( request != null )
+        {
+            // We paginate create the new paginator
+            _paginator = new LocalizedPaginator<>( filteredSortedPaginatedItems, _nItemsPerPage, getSortUrl( ), AbstractPaginator.PARAMETER_PAGE_INDEX,
+                    _strCurrentPageIndex, request.getLocale( ) );
+        }
     }
 
     /**
@@ -484,7 +486,7 @@ public class DataTableManager<T> implements Serializable
      */
     public void setItems( List<T> items, int nTotalItemsNumber )
     {
-        _paginator = new LocalizedDelegatePaginator<T>( items, _nItemsPerPage, getSortUrl( ), Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex,
+        _paginator = new LocalizedDelegatePaginator<>( items, _nItemsPerPage, getSortUrl( ), AbstractPaginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex,
                 nTotalItemsNumber, _locale );
     }
 
@@ -567,8 +569,9 @@ public class DataTableManager<T> implements Serializable
 
             if ( hasDataTableFormBeenSubmited( request ) )
             {
-                _strCurrentPageIndex = Paginator.getPageIndex( request, Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex );
-                _nItemsPerPage = Paginator.getItemsPerPage( request, Paginator.PARAMETER_ITEMS_PER_PAGE, _nItemsPerPage, _nDefautlItemsPerPage );
+                _strCurrentPageIndex = AbstractPaginator.getPageIndex( request, AbstractPaginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex );
+                _nItemsPerPage = AbstractPaginator.getItemsPerPage( request, AbstractPaginator.PARAMETER_ITEMS_PER_PAGE, _nItemsPerPage,
+                        _nDefautlItemsPerPage );
             }
 
             paginationProperties.setItemsPerPage( _nItemsPerPage );
@@ -609,9 +612,7 @@ public class DataTableManager<T> implements Serializable
             }
         }
 
-        DataTableSort sort = new DataTableSort( _strSortedAttributeName, _bIsAscSort );
-
-        return sort;
+        return new DataTableSort( _strSortedAttributeName, _bIsAscSort );
     }
 
     /**
@@ -631,21 +632,16 @@ public class DataTableManager<T> implements Serializable
 
         boolean bSubmitedDataTable = hasDataTableFormBeenSubmited( request );
 
-        boolean bResetFilter = false;
         boolean bUpdateFilter = false;
 
-        Map<String, Object> mapFilter = new HashMap<String, Object>( );
+        Map<String, Object> mapFilter = new HashMap<>( );
 
         if ( bSubmitedDataTable )
         {
-            bUpdateFilter = true;
             StringUtils.equals( request.getParameter( FilterPanel.PARAM_FILTER_PANEL_PREFIX + FilterPanel.PARAM_RESET_FILTERS ), Boolean.TRUE.toString( ) );
 
-            if ( !bResetFilter )
-            {
-                bUpdateFilter = StringUtils.equals( request.getParameter( FilterPanel.PARAM_FILTER_PANEL_PREFIX + FilterPanel.PARAM_UPDATE_FILTERS ),
-                        Boolean.TRUE.toString( ) );
-            }
+            bUpdateFilter = StringUtils.equals( request.getParameter( FilterPanel.PARAM_FILTER_PANEL_PREFIX + FilterPanel.PARAM_UPDATE_FILTERS ),
+                    Boolean.TRUE.toString( ) );
         }
 
         for ( DataTableFilter filter : listFilters )
@@ -670,13 +666,7 @@ public class DataTableManager<T> implements Serializable
         {
             BeanUtilsBean.getInstance( ).populate( filterObject, mapFilter );
         }
-        catch( IllegalAccessException e )
-        {
-            AppLogService.error( e.getMessage( ), e );
-
-            return null;
-        }
-        catch( InvocationTargetException e )
+        catch( InvocationTargetException | IllegalAccessException e )
         {
             AppLogService.error( e.getMessage( ), e );
 
@@ -743,6 +733,6 @@ public class DataTableManager<T> implements Serializable
      */
     private boolean hasDataTableFormBeenSubmited( HttpServletRequest request )
     {
-        return ( request != null ) ? StringUtils.equals( request.getParameter( getId( ) ), getId( ) ) : false;
+        return request != null && StringUtils.equals( request.getParameter( getId( ) ), getId( ) );
     }
 }

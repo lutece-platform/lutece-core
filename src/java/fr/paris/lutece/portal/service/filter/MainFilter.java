@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,9 +33,6 @@
  */
 package fr.paris.lutece.portal.service.filter;
 
-import fr.paris.lutece.portal.service.util.AppLogService;
-import fr.paris.lutece.util.sql.TransactionManager;
-
 import java.io.IOException;
 
 import javax.servlet.Filter;
@@ -46,6 +43,9 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import fr.paris.lutece.portal.service.util.AppLogService;
+import fr.paris.lutece.util.sql.TransactionManager;
 
 /**
  * MainFilter
@@ -90,7 +90,8 @@ public class MainFilter implements Filter
                         return;
                     }
 
-                    // the filter may have changed (wrapped) the request [like CAS filter] or the response
+                    // the filter may have changed (wrapped) the request [like CAS filter] or the
+                    // response
                     request = (HttpServletRequest) chainPluginsFilters.getRequest( );
                     response = (HttpServletResponse) chainPluginsFilters.getResponse( );
                 }
@@ -174,17 +175,10 @@ public class MainFilter implements Filter
 
         if ( strUrlPattern.endsWith( "/*" ) )
         {
-            if ( strUrlPattern.regionMatches( 0, strRequestUrl, 0, strUrlPattern.length( ) - 2 ) )
+            if ( strUrlPattern.regionMatches( 0, strRequestUrl, 0, strUrlPattern.length( ) - 2 )
+                    && ( strRequestUrl.length( ) == ( strUrlPattern.length( ) - 2 ) || '/' == strRequestUrl.charAt( strUrlPattern.length( ) - 2 ) ) )
             {
-                if ( strRequestUrl.length( ) == ( strUrlPattern.length( ) - 2 ) )
-                {
-                    return ( true );
-                }
-                else
-                    if ( '/' == strRequestUrl.charAt( strUrlPattern.length( ) - 2 ) )
-                    {
-                        return ( true );
-                    }
+                return ( true );
             }
 
             return ( false );

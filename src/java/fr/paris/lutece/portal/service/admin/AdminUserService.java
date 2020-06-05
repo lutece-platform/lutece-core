@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,7 +33,30 @@
  */
 package fr.paris.lutece.portal.service.admin;
 
-import fr.paris.lutece.portal.business.rbac.AdminRole;
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.ArrayUtils;
+
+import fr.paris.lutece.portal.business.rbac.RBACRole;
 import fr.paris.lutece.portal.business.rbac.RBAC;
 import fr.paris.lutece.portal.business.regularexpression.RegularExpression;
 import fr.paris.lutece.portal.business.right.Level;
@@ -66,7 +89,6 @@ import fr.paris.lutece.portal.service.user.attribute.AttributeService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.service.util.CryptoService;
 import fr.paris.lutece.portal.web.l10n.LocaleService;
-import fr.paris.lutece.util.ReferenceItem;
 import fr.paris.lutece.util.ReferenceList;
 import fr.paris.lutece.util.date.DateUtil;
 import fr.paris.lutece.util.html.HtmlTemplate;
@@ -75,24 +97,6 @@ import fr.paris.lutece.util.password.IPasswordFactory;
 import fr.paris.lutece.util.password.PasswordUtil;
 import fr.paris.lutece.util.url.UrlItem;
 import fr.paris.lutece.util.xml.XmlUtil;
-
-import org.apache.commons.lang.StringUtils;
-
-import java.sql.Timestamp;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Map.Entry;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * This service provides features concerning the administration users
@@ -185,7 +189,6 @@ public final class AdminUserService
     private static final String MARK_LOCK_RESET_TOKEN_TO_SESSION = "lock_reset_token_to_session";
 
     // Properties
-    private static final String PROPERTY_ADMINISTRATOR = "right.administrator";
     private static final String PROPERTY_EMAIL_PATTERN = "lutece.email.pattern";
     private static final String PROPERTY_MESSAGE_EMAIL_FORMAT = "portal.users.message.user.emailFormat";
     private static final String PROPERTY_MESSAGE_EMAIL_FORMAT_BANNED_DOMAIN_NAME = "portal.users.message.user.emailFormatBannedDomainNames";
@@ -207,7 +210,6 @@ public final class AdminUserService
     private static final String CONSTANT_DEFAULT_ENCRYPT_ALGO = "SHA-256";
     private static final String COMMA = ",";
     private static final String SEMICOLON = ";";
-    private static final String AMPERSAND = "&";
     private static final String ZERO = "0";
     private static final String CONSTANT_AT = "@";
     private static final String CONSTANT_UNDERSCORE = "_";
@@ -290,24 +292,6 @@ public final class AdminUserService
     }
 
     /**
-     * Gets the admin right level
-     *
-     * @param request
-     *            The HTTP request
-     * @return The boolean level right
-     */
-    @Deprecated
-    public static boolean getUserAdminRightLevel( HttpServletRequest request )
-    {
-        String strRightCode = AppPropertiesService.getProperty( PROPERTY_ADMINISTRATOR );
-
-        AdminUser user = getAdminUser( request );
-        boolean bLevelRight = user.checkRight( strRightCode );
-
-        return bLevelRight;
-    }
-
-    /**
      * Get the filtered list of admin users
      * 
      * @param listUsers
@@ -320,13 +304,14 @@ public final class AdminUserService
      *            URL of the current interface
      * @return The filtered list of admin users
      */
-    public static List<AdminUser> getFilteredUsersInterface( Collection<AdminUser> listUsers, HttpServletRequest request, Map<String, Object> model, UrlItem url )
+    public static List<AdminUser> getFilteredUsersInterface( Collection<AdminUser> listUsers, HttpServletRequest request, Map<String, Object> model,
+            UrlItem url )
     {
         AdminUser currentUser = getAdminUser( request );
 
         // FILTER
         AdminUserFilter auFilter = new AdminUserFilter( );
-        List<AdminUser> listFilteredUsers = new ArrayList<AdminUser>( );
+        List<AdminUser> listFilteredUsers = new ArrayList<>( );
         boolean bIsSearch = auFilter.setAdminUserFilter( request );
         boolean bIsFiltered;
 
@@ -350,7 +335,7 @@ public final class AdminUserService
             }
         }
 
-        List<AdminUser> filteredUsers = new ArrayList<AdminUser>( );
+        List<AdminUser> filteredUsers = new ArrayList<>( );
 
         AdminUserFieldFilter auFieldFilter = new AdminUserFieldFilter( );
         auFieldFilter.setAdminUserFieldFilter( request, currentUser.getLocale( ) );
@@ -359,23 +344,16 @@ public final class AdminUserService
 
         if ( listFilteredUsersByUserFields != null )
         {
-            for ( AdminUser filteredUser : listFilteredUsers )
-            {
-                for ( AdminUser filteredUserByUserField : listFilteredUsersByUserFields )
-                {
-                    if ( filteredUser.getUserId( ) == filteredUserByUserField.getUserId( ) )
-                    {
-                        filteredUsers.add( filteredUser );
-                    }
-                }
-            }
+            Set<Integer> listFilteredUsersByUserFieldsId = listFilteredUsersByUserFields.stream( ).map( AdminUser::getUserId ).collect( Collectors.toSet( ) );
+            filteredUsers.addAll( listFilteredUsers.stream( ).filter( user -> listFilteredUsersByUserFieldsId.contains( user.getUserId( ) ) )
+                    .collect( Collectors.toList( ) ) );
         }
         else
         {
             filteredUsers = listFilteredUsers;
         }
 
-        Map<String, List<AdminUserField>> map = new HashMap<String, List<AdminUserField>>( );
+        Map<String, List<AdminUserField>> map = new HashMap<>( );
 
         for ( AdminUser user : filteredUsers )
         {
@@ -392,7 +370,6 @@ public final class AdminUserService
         if ( bIsSearch )
         {
             auFilter.setUrlAttributes( url );
-            strSortSearchAttribute = AMPERSAND + auFilter.getUrlAttributes( );
             auFieldFilter.setUrlAttributes( url );
             strSortSearchAttribute = auFieldFilter.getUrlAttributes( );
         }
@@ -417,7 +394,7 @@ public final class AdminUserService
      */
     public static Map<String, Object> getManageAdvancedParameters( AdminUser user )
     {
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<>( );
 
         boolean bPermissionManageAdvancedParameters = RBACService.isAuthorized( AdminUser.RESOURCE_TYPE, RBAC.WILDCARD_RESOURCES_ID,
                 AdminUserResourceIdService.PERMISSION_MANAGE_ADVANCED_PARAMETERS, user );
@@ -519,30 +496,25 @@ public final class AdminUserService
             }
         }
 
-        if ( bIsValid )
+        if ( !bIsValid )
         {
-            String strBannedDomainNames = AdminUserService.getSecurityParameter( DSKEY_BANNED_DOMAIN_NAMES );
-
-            if ( !StringUtils.isEmpty( strBannedDomainNames ) )
-            {
-                String [ ] strListBannedDomainNames = strBannedDomainNames.split( SEMICOLON );
-                String strDomainName = strEmail.substring( strEmail.indexOf( CONSTANT_AT ) + 1 );
-
-                if ( ( strDomainName != null ) && ( strListBannedDomainNames != null ) && ( strListBannedDomainNames.length > 0 ) )
-                {
-                    for ( String strDomain : strListBannedDomainNames )
-                    {
-                        if ( strDomainName.equals( strDomain ) )
-                        {
-                            bIsValid = false;
-
-                            break;
-                        }
-                    }
-                }
-            }
+            return false;
         }
 
+        String strBannedDomainNames = AdminUserService.getSecurityParameter( DSKEY_BANNED_DOMAIN_NAMES );
+
+        if ( StringUtils.isEmpty( strBannedDomainNames ) )
+        {
+            return bIsValid;
+        }
+
+        String [ ] strListBannedDomainNames = strBannedDomainNames.split( SEMICOLON );
+        String strDomainName = strEmail.substring( strEmail.indexOf( CONSTANT_AT ) + 1 );
+
+        if ( strDomainName != null && ArrayUtils.isNotEmpty( strListBannedDomainNames ) && Arrays.asList( strListBannedDomainNames ).contains( strDomainName ) )
+        {
+            bIsValid = false;
+        }
         return bIsValid;
     }
 
@@ -565,9 +537,11 @@ public final class AdminUserService
         {
             if ( isEmailPatternSetManually( ) )
             {
-                // If the previous email pattern is set manually, then the parameter email_pattern_verify_by is set at 0
+                // If the previous email pattern is set manually, then the parameter
+                // email_pattern_verify_by is set at 0
                 // This way, the interface know the email pattern is not set manually
-                // Indeed, the control is set on the content of the parameter 'email_pattern_verify_by'
+                // Indeed, the control is set on the content of the parameter
+                // 'email_pattern_verify_by'
                 DefaultUserParameterHome.update( DSKEY_EMAIL_PATTERN_VERIFY_BY, ZERO );
             }
         }
@@ -604,11 +578,11 @@ public final class AdminUserService
 
             for ( String strRegularExpressionId : regularExpressionIds )
             {
-                strRegularExpressionId.trim( );
+                String trimedId = strRegularExpressionId.trim( );
 
-                if ( StringUtils.isNotBlank( strRegularExpressionId ) && StringUtils.isNumeric( strRegularExpressionId ) )
+                if ( StringUtils.isNotBlank( trimedId ) && StringUtils.isNumeric( trimedId ) )
                 {
-                    int nRegularExpressionId = Integer.parseInt( strRegularExpressionId );
+                    int nRegularExpressionId = Integer.parseInt( trimedId );
                     RegularExpression regularExpression = RegularExpressionService.getInstance( ).getRegularExpressionByKey( nRegularExpressionId );
 
                     if ( regularExpression != null )
@@ -661,11 +635,11 @@ public final class AdminUserService
 
             for ( String strRegularExpressionId : regularExpressionIds )
             {
-                strRegularExpressionId.trim( );
+                String trimedId = strRegularExpressionId.trim( );
 
-                if ( StringUtils.isNotBlank( strRegularExpressionId ) && StringUtils.isNumeric( strRegularExpressionId ) )
+                if ( StringUtils.isNotBlank( trimedId ) && StringUtils.isNumeric( trimedId ) )
                 {
-                    int nRegexId = Integer.parseInt( strRegularExpressionId );
+                    int nRegexId = Integer.parseInt( trimedId );
 
                     if ( nRegexId == nRegularExpressionId )
                     {
@@ -696,20 +670,21 @@ public final class AdminUserService
     {
         if ( !isEmailPatternSetManually( ) )
         {
-            List<Integer> listRegularExpressionIds = new ArrayList<Integer>( );
+            List<Integer> listRegularExpressionIds = new ArrayList<>( );
 
             // Retrieve the rules from the database
             String emailPatternVerifyBy = DefaultUserParameterHome.findByKey( DSKEY_EMAIL_PATTERN_VERIFY_BY );
             String [ ] regularExpressionIds = emailPatternVerifyBy.split( COMMA );
 
-            // Build the list of regular expression without the regular expression id to delete
+            // Build the list of regular expression without the regular expression id to
+            // delete
             for ( String strRegularExpressionId : regularExpressionIds )
             {
-                strRegularExpressionId.trim( );
+                String trimedId = strRegularExpressionId.trim( );
 
-                if ( StringUtils.isNotBlank( strRegularExpressionId ) && StringUtils.isNumeric( strRegularExpressionId ) )
+                if ( StringUtils.isNotBlank( trimedId ) && StringUtils.isNumeric( trimedId ) )
                 {
-                    int nRegexId = Integer.parseInt( strRegularExpressionId );
+                    int nRegexId = Integer.parseInt( trimedId );
 
                     if ( nRegexId != nRegularExpressionId )
                     {
@@ -718,19 +693,8 @@ public final class AdminUserService
                 }
             }
 
-            StringBuilder sbRegularExpressionIds = new StringBuilder( );
-
-            for ( int i = 0; i < listRegularExpressionIds.size( ); i++ )
-            {
-                sbRegularExpressionIds.append( listRegularExpressionIds.get( i ) );
-
-                if ( i < ( listRegularExpressionIds.size( ) - 1 ) )
-                {
-                    sbRegularExpressionIds.append( COMMA );
-                }
-            }
-
-            DefaultUserParameterHome.update( DSKEY_EMAIL_PATTERN_VERIFY_BY, sbRegularExpressionIds.toString( ) );
+            DefaultUserParameterHome.update( DSKEY_EMAIL_PATTERN_VERIFY_BY,
+                    listRegularExpressionIds.stream( ).map( String::valueOf ).collect( Collectors.joining( COMMA ) ) );
         }
     }
 
@@ -774,7 +738,7 @@ public final class AdminUserService
 
         if ( !isEmailPatternSetManually( ) )
         {
-            List<Integer> listRegularExpressionIds = new ArrayList<Integer>( );
+            List<Integer> listRegularExpressionIds = new ArrayList<>( );
 
             // Retrieve the rules from the database
             String emailPatternVerifyBy = DefaultUserParameterHome.findByKey( DSKEY_EMAIL_PATTERN_VERIFY_BY );
@@ -782,11 +746,11 @@ public final class AdminUserService
 
             for ( String strRegularExpressionId : regularExpressionIds )
             {
-                strRegularExpressionId.trim( );
+                String trimedId = strRegularExpressionId.trim( );
 
-                if ( StringUtils.isNotBlank( strRegularExpressionId ) && StringUtils.isNumeric( strRegularExpressionId ) )
+                if ( StringUtils.isNotBlank( trimedId ) && StringUtils.isNumeric( trimedId ) )
                 {
-                    int nRegexId = Integer.parseInt( strRegularExpressionId );
+                    int nRegexId = Integer.parseInt( trimedId );
                     listRegularExpressionIds.add( nRegexId );
                 }
             }
@@ -814,7 +778,7 @@ public final class AdminUserService
      */
     public static List<RegularExpression> getSelectedRegularExpressions( )
     {
-        List<RegularExpression> listRegularExpressions = new ArrayList<RegularExpression>( );
+        List<RegularExpression> listRegularExpressions = new ArrayList<>( );
 
         if ( !isEmailPatternSetManually( ) )
         {
@@ -824,11 +788,11 @@ public final class AdminUserService
 
             for ( String strRegularExpressionId : regularExpressionIds )
             {
-                strRegularExpressionId.trim( );
+                String trimedId = strRegularExpressionId.trim( );
 
-                if ( StringUtils.isNotBlank( strRegularExpressionId ) && StringUtils.isNumeric( strRegularExpressionId ) )
+                if ( StringUtils.isNotBlank( trimedId ) && StringUtils.isNumeric( trimedId ) )
                 {
-                    int nRegularExpressionId = Integer.parseInt( strRegularExpressionId );
+                    int nRegularExpressionId = Integer.parseInt( trimedId );
                     RegularExpression expression = RegularExpressionService.getInstance( ).getRegularExpressionByKey( nRegularExpressionId );
 
                     if ( expression != null )
@@ -882,9 +846,7 @@ public final class AdminUserService
 
         try
         {
-            int nValue = Integer.parseInt( defaultUserParameter );
-
-            return nValue;
+            return Integer.parseInt( defaultUserParameter );
         }
         catch( NumberFormatException e )
         {
@@ -903,7 +865,7 @@ public final class AdminUserService
     {
         String defaultUserParameter = DefaultUserParameterHome.findByKey( strParameterkey );
 
-        return ( defaultUserParameter == null ) ? false : Boolean.parseBoolean( defaultUserParameter );
+        return defaultUserParameter != null && Boolean.parseBoolean( defaultUserParameter );
     }
 
     /**
@@ -915,9 +877,7 @@ public final class AdminUserService
      */
     public static String getSecurityParameter( String strParameterkey )
     {
-        String defaultUserParameter = DefaultUserParameterHome.findByKey( strParameterkey );
-
-        return ( defaultUserParameter == null ) ? null : defaultUserParameter;
+        return DefaultUserParameterHome.findByKey( strParameterkey );
     }
 
     /**
@@ -996,104 +956,111 @@ public final class AdminUserService
         if ( ( nMinimumLength > 0 ) && ( strPassword.length( ) < nMinimumLength ) )
         {
             Object [ ] param = {
-                nMinimumLength
+                    nMinimumLength
             };
 
             return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_MINIMUM_PASSWORD_LENGTH, param, AdminMessage.TYPE_STOP );
         }
 
         // Password format
+        String message = checkPasswordFormat( request, strPassword );
+        if ( message != null )
+        {
+            return message;
+        }
+
+        // Check password history
+        if ( nUserId <= 0 || bSkipHistoryCheck )
+        {
+            return null;
+        }
+        return checkPasswordHistory( request, strPassword, nUserId );
+    }
+
+    private static String checkPasswordHistory( HttpServletRequest request, String strPassword, int nUserId )
+    {
+        int nPasswordHistorySize = AdminUserService.getIntegerSecurityParameter( DSKEY_PASSWORD_HISTORY_SIZE );
+
+        if ( nPasswordHistorySize > 0 )
+        {
+            List<IPassword> passwordHistory = AdminUserHome.selectUserPasswordHistory( nUserId );
+
+            if ( nPasswordHistorySize < passwordHistory.size( ) )
+            {
+                passwordHistory = passwordHistory.subList( 0, nPasswordHistorySize );
+            }
+
+            for ( IPassword password : passwordHistory )
+            {
+                if ( password.check( strPassword ) )
+                {
+                    return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_PASSWORD_ALREADY_USED, AdminMessage.TYPE_STOP );
+                }
+            }
+        }
+
+        int nTSWSizePasswordChange = AdminUserService.getIntegerSecurityParameter( DSKEY_TSW_SIZE_PASSWORD_CHANGE );
+        int nMaximumNumberPasswordChange = AdminUserService.getIntegerSecurityParameter( DSKEY_MAXIMUM_NUMBER_PASSWORD_CHANGE );
+
+        if ( nMaximumNumberPasswordChange > 0 )
+        {
+            Timestamp minDate;
+
+            if ( nTSWSizePasswordChange > 0 )
+            {
+                minDate = new Timestamp( new java.util.Date( ).getTime( ) - DateUtil.convertDaysInMiliseconds( nTSWSizePasswordChange ) );
+            }
+            else
+            {
+                minDate = new Timestamp( 0 );
+            }
+
+            if ( AdminUserHome.countUserPasswordHistoryFromDate( minDate, nUserId ) >= nMaximumNumberPasswordChange )
+            {
+                return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_MAX_PASSWORD_CHANGE, AdminMessage.TYPE_STOP );
+            }
+        }
+
+        return null;
+    }
+
+    private static String checkPasswordFormat( HttpServletRequest request, String strPassword )
+    {
         boolean bUserPasswordFormatUpperLowerCase = AdminUserService.getBooleanSecurityParameter( DSKEY_PASSWORD_FORMAT_UPPER_LOWER_CASE );
         boolean bUserPasswordFormatNumero = AdminUserService.getBooleanSecurityParameter( DSKEY_PASSWORD_FORMAT_NUMERO );
         boolean bUserPasswordFormatSpecialCaracters = AdminUserService.getBooleanSecurityParameter( DSKEY_PASSWORD_FORMAT_SPECIAL_CHARACTERS );
 
-        if ( ( bUserPasswordFormatUpperLowerCase || bUserPasswordFormatNumero || bUserPasswordFormatSpecialCaracters )
-                && !PasswordUtil.checkPasswordFormat( strPassword, bUserPasswordFormatUpperLowerCase, bUserPasswordFormatNumero,
-                        bUserPasswordFormatSpecialCaracters ) )
+        if ( ( bUserPasswordFormatUpperLowerCase || bUserPasswordFormatNumero || bUserPasswordFormatSpecialCaracters ) && !PasswordUtil
+                .checkPasswordFormat( strPassword, bUserPasswordFormatUpperLowerCase, bUserPasswordFormatNumero, bUserPasswordFormatSpecialCaracters ) )
         {
-            StringBuffer strParam = new StringBuffer( );
+            List<String> messageList = new ArrayList<>( );
 
             // Add Message Upper Lower Case
             if ( bUserPasswordFormatUpperLowerCase )
             {
-                strParam.append( I18nService.getLocalizedString( PROPERTY_MESSAGE_PASSWORD_FORMAT_UPPER_LOWER_CASE, request.getLocale( ) ) );
+                messageList.add( I18nService.getLocalizedString( PROPERTY_MESSAGE_PASSWORD_FORMAT_UPPER_LOWER_CASE, request.getLocale( ) ) );
             }
 
             // Add Message Numero
             if ( bUserPasswordFormatNumero )
             {
-                if ( bUserPasswordFormatUpperLowerCase )
-                {
-                    strParam.append( ", " );
-                }
-
-                strParam.append( I18nService.getLocalizedString( PROPERTY_MESSAGE_PASSWORD_FORMAT_NUMERO, request.getLocale( ) ) );
+                messageList.add( I18nService.getLocalizedString( PROPERTY_MESSAGE_PASSWORD_FORMAT_NUMERO, request.getLocale( ) ) );
             }
 
             // Add Message Special Characters
             if ( bUserPasswordFormatSpecialCaracters )
             {
-                if ( bUserPasswordFormatUpperLowerCase || bUserPasswordFormatNumero )
-                {
-                    strParam.append( ", " );
-                }
-
-                strParam.append( I18nService.getLocalizedString( PROPERTY_MESSAGE_PASSWORD_FORMAT_SPECIAL_CHARACTERS, request.getLocale( ) ) );
+                messageList.add( I18nService.getLocalizedString( PROPERTY_MESSAGE_PASSWORD_FORMAT_SPECIAL_CHARACTERS, request.getLocale( ) ) );
             }
 
+            String strParam = messageList.stream( ).collect( Collectors.joining( ", " ) );
+
             Object [ ] param = {
-                strParam.toString( )
+                    strParam
             };
 
             return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_PASSWORD_FORMAT, param, AdminMessage.TYPE_STOP );
         }
-
-        // Check password history
-        if ( ( nUserId > 0 ) && !bSkipHistoryCheck )
-        {
-            int nPasswordHistorySize = AdminUserService.getIntegerSecurityParameter( DSKEY_PASSWORD_HISTORY_SIZE );
-
-            if ( nPasswordHistorySize > 0 )
-            {
-                List<IPassword> passwordHistory = AdminUserHome.selectUserPasswordHistory( nUserId );
-
-                if ( nPasswordHistorySize < passwordHistory.size( ) )
-                {
-                    passwordHistory = passwordHistory.subList( 0, nPasswordHistorySize );
-                }
-
-                for ( IPassword password : passwordHistory )
-                {
-                    if ( password.check( strPassword ) )
-                    {
-                        return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_PASSWORD_ALREADY_USED, AdminMessage.TYPE_STOP );
-                    }
-                }
-            }
-
-            int nTSWSizePasswordChange = AdminUserService.getIntegerSecurityParameter( DSKEY_TSW_SIZE_PASSWORD_CHANGE );
-            int nMaximumNumberPasswordChange = AdminUserService.getIntegerSecurityParameter( DSKEY_MAXIMUM_NUMBER_PASSWORD_CHANGE );
-
-            if ( nMaximumNumberPasswordChange > 0 )
-            {
-                Timestamp minDate;
-
-                if ( nTSWSizePasswordChange > 0 )
-                {
-                    minDate = new Timestamp( new java.util.Date( ).getTime( ) - DateUtil.convertDaysInMiliseconds( nTSWSizePasswordChange ) );
-                }
-                else
-                {
-                    minDate = new Timestamp( 0 );
-                }
-
-                if ( AdminUserHome.countUserPasswordHistoryFromDate( minDate, nUserId ) >= nMaximumNumberPasswordChange )
-                {
-                    return AdminMessageService.getMessageUrl( request, PROPERTY_MESSAGE_MAX_PASSWORD_CHANGE, AdminMessage.TYPE_STOP );
-                }
-            }
-        }
-
         return null;
     }
 
@@ -1221,22 +1188,22 @@ public final class AdminUserService
 
         Map<String, Boolean> anonymizationStatus = AdminUserHome.getAnonymizationStatusUserStaticField( );
 
-        if ( anonymizationStatus.get( PARAMETER_ACCESS_CODE ) )
+        if ( Boolean.TRUE.equals( anonymizationStatus.get( PARAMETER_ACCESS_CODE ) ) )
         {
             user.setAccessCode( CryptoService.encrypt( user.getAccessCode( ), strEncryptionAlgorithme ) );
         }
 
-        if ( anonymizationStatus.get( PARAMETER_FIRST_NAME ) )
+        if ( Boolean.TRUE.equals( anonymizationStatus.get( PARAMETER_FIRST_NAME ) ) )
         {
             user.setFirstName( CryptoService.encrypt( user.getFirstName( ), strEncryptionAlgorithme ) );
         }
 
-        if ( anonymizationStatus.get( PARAMETER_LAST_NAME ) )
+        if ( Boolean.TRUE.equals( anonymizationStatus.get( PARAMETER_LAST_NAME ) ) )
         {
             user.setLastName( CryptoService.encrypt( user.getLastName( ), strEncryptionAlgorithme ) );
         }
 
-        if ( anonymizationStatus.get( PARAMETER_EMAIL ) )
+        if ( Boolean.TRUE.equals( anonymizationStatus.get( PARAMETER_EMAIL ) ) )
         {
             user.setEmail( CryptoService.encrypt( user.getEmail( ), strEncryptionAlgorithme ) );
         }
@@ -1249,7 +1216,7 @@ public final class AdminUserService
 
         AttributeService attributeService = AttributeService.getInstance( );
         List<IAttribute> listAllAttributes = attributeService.getAllAttributesWithoutFields( locale );
-        List<IAttribute> listAttributesText = new ArrayList<IAttribute>( );
+        List<IAttribute> listAttributesText = new ArrayList<>( );
 
         for ( IAttribute attribut : listAllAttributes )
         {
@@ -1287,7 +1254,6 @@ public final class AdminUserService
      * @param user
      *            The user to update
      */
-    @SuppressWarnings( "deprecation" )
     public static void updateUserExpirationDate( AdminUser user )
     {
         if ( user == null )
@@ -1321,13 +1287,15 @@ public final class AdminUserService
 
                 String strSubject = ( defaultUserParameter == null ) ? StringUtils.EMPTY : defaultUserParameter;
 
-                Map<String, String> model = new HashMap<String, String>( );
+                Map<String, String> model = new HashMap<>( );
 
-                DateFormat dateFormat = SimpleDateFormat.getDateInstance( DateFormat.SHORT, LocaleService.getDefault( ) );
+                DateFormat dateFormat = DateFormat.getDateInstance( DateFormat.SHORT, LocaleService.getDefault( ) );
 
-                String accountMaxValidDate = dateFormat.format( new Date( newExpirationDate.getTime( ) ) );
-
-                model.put( MARK_DATE_VALID, accountMaxValidDate );
+                if ( newExpirationDate != null )
+                {
+                    String accountMaxValidDate = dateFormat.format( new Date( newExpirationDate.getTime( ) ) );
+                    model.put( MARK_DATE_VALID, accountMaxValidDate );
+                }
                 model.put( MARK_NAME, completeUser.getLastName( ) );
                 model.put( MARK_FIRST_NAME, completeUser.getFirstName( ) );
 
@@ -1385,9 +1353,9 @@ public final class AdminUserService
         String strSiteName = PortalService.getSiteName( );
         Locale locale = user.getLocale( );
         String strEmailSubject = I18nService.getLocalizedString( strPropertyEmailSubject, new String [ ] {
-            strSiteName
+                strSiteName
         }, locale );
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<>( );
         model.put( MARK_USER, user );
         model.put( MARK_PASSWORD, strPassword );
         model.put( MARK_SITE_NAME, strSiteName );
@@ -1470,71 +1438,36 @@ public final class AdminUserService
         XmlUtil.addElement( sbXml, CONSTANT_XML_MUST_CHANGE_PASSWORD, Boolean.toString( user.isPasswordReset( ) ) );
         XmlUtil.addElement( sbXml, CONSTANT_XML_ACCESSIBILITY_MODE, Boolean.toString( user.getAccessibilityMode( ) ) );
 
-        String strPasswordMaxValidDate = StringUtils.EMPTY;
-
-        if ( user.getPasswordMaxValidDate( ) != null )
-        {
-            strPasswordMaxValidDate = dateFormat.format( user.getPasswordMaxValidDate( ) );
-        }
-
+        String strPasswordMaxValidDate = Optional.ofNullable( user.getPasswordMaxValidDate( ) ).map( dateFormat::format ).orElse( StringUtils.EMPTY );
         XmlUtil.addElement( sbXml, CONSTANT_XML_PASSWORD_MAX_VALID_DATE, strPasswordMaxValidDate );
 
-        String strAccountMaxValidDate = StringUtils.EMPTY;
-
-        if ( user.getAccountMaxValidDate( ) != null )
-        {
-            strAccountMaxValidDate = dateFormat.format( user.getAccountMaxValidDate( ) );
-        }
-
+        String strAccountMaxValidDate = Optional.ofNullable( user.getAccountMaxValidDate( ) ).map( dateFormat::format ).orElse( StringUtils.EMPTY );
         XmlUtil.addElement( sbXml, CONSTANT_XML_ACCOUNT_MAX_VALID_DATE, strAccountMaxValidDate );
 
-        String strDateLastLogin = StringUtils.EMPTY;
-
-        if ( user.getDateLastLogin( ) != null )
-        {
-            strDateLastLogin = dateFormat.format( user.getDateLastLogin( ) );
-        }
-
+        String strDateLastLogin = Optional.ofNullable( user.getDateLastLogin( ) ).map( dateFormat::format ).orElse( StringUtils.EMPTY );
         XmlUtil.addElement( sbXml, CONSTANT_XML_DATE_LAST_LOGIN, strDateLastLogin );
 
         if ( bIncludeRoles )
         {
-            Map<String, AdminRole> mapRoles = AdminUserHome.getRolesListForUser( user.getUserId( ) );
+            Map<String, RBACRole> mapRoles = AdminUserHome.getRolesListForUser( user.getUserId( ) );
             XmlUtil.beginElement( sbXml, CONSTANT_XML_ROLES );
-
-            for ( String strRole : mapRoles.keySet( ) )
-            {
-                XmlUtil.addElement( sbXml, CONSTANT_XML_ROLE, strRole );
-            }
-
+            mapRoles.keySet( ).forEach( s -> XmlUtil.addElement( sbXml, CONSTANT_XML_ROLE, s ) );
             XmlUtil.endElement( sbXml, CONSTANT_XML_ROLES );
         }
 
         if ( bIncludeRights )
         {
-            XmlUtil.beginElement( sbXml, CONSTANT_XML_RIGHTS );
-
             Map<String, Right> mapRights = AdminUserHome.getRightsListForUser( user.getUserId( ) );
-
-            for ( String strRight : mapRights.keySet( ) )
-            {
-                XmlUtil.addElement( sbXml, CONSTANT_XML_RIGHT, strRight );
-            }
-
+            XmlUtil.beginElement( sbXml, CONSTANT_XML_RIGHTS );
+            mapRights.keySet( ).forEach( s -> XmlUtil.addElement( sbXml, CONSTANT_XML_RIGHT, s ) );
             XmlUtil.endElement( sbXml, CONSTANT_XML_RIGHTS );
         }
 
         if ( bIncludeWorkgroups )
         {
-            XmlUtil.beginElement( sbXml, CONSTANT_XML_WORKGROUPS );
-
             ReferenceList refListWorkgroups = AdminWorkgroupHome.getUserWorkgroups( user );
-
-            for ( ReferenceItem refItem : refListWorkgroups )
-            {
-                XmlUtil.addElement( sbXml, CONSTANT_XML_WORKGROUP, refItem.getCode( ) );
-            }
-
+            XmlUtil.beginElement( sbXml, CONSTANT_XML_WORKGROUPS );
+            refListWorkgroups.forEach( ri -> XmlUtil.addElement( sbXml, CONSTANT_XML_WORKGROUP, ri.getCode( ) ) );
             XmlUtil.endElement( sbXml, CONSTANT_XML_WORKGROUPS );
         }
 
@@ -1551,17 +1484,15 @@ public final class AdminUserService
                 if ( value instanceof List<?> )
                 {
                     List<AdminUserField> listFields = (List<AdminUserField>) value;
+                    listFields = listFields.stream( ).filter( auf -> auf.getIdUserField( ) > 0 ).collect( Collectors.toList( ) );
 
                     for ( AdminUserField adminUserFields : listFields )
                     {
-                        if ( adminUserFields.getIdUserField( ) > 0 )
-                        {
-                            XmlUtil.beginElement( sbXml, CONSTANT_XML_ATTRIBUTE );
-                            XmlUtil.addElement( sbXml, CONSTANT_XML_ATTRIBUTE_ID, strAttributeKey );
-                            XmlUtil.addElement( sbXml, CONSTANT_XML_ATTRIBUTE_FIELD_ID, adminUserFields.getAttributeField( ).getIdField( ) );
-                            XmlUtil.addElement( sbXml, CONSTANT_XML_ATTRIBUTE_VALUE, adminUserFields.getValue( ) );
-                            XmlUtil.endElement( sbXml, CONSTANT_XML_ATTRIBUTE );
-                        }
+                        XmlUtil.beginElement( sbXml, CONSTANT_XML_ATTRIBUTE );
+                        XmlUtil.addElement( sbXml, CONSTANT_XML_ATTRIBUTE_ID, strAttributeKey );
+                        XmlUtil.addElement( sbXml, CONSTANT_XML_ATTRIBUTE_FIELD_ID, adminUserFields.getAttributeField( ).getIdField( ) );
+                        XmlUtil.addElement( sbXml, CONSTANT_XML_ATTRIBUTE_VALUE, adminUserFields.getValue( ) );
+                        XmlUtil.endElement( sbXml, CONSTANT_XML_ATTRIBUTE );
                     }
                 }
             }

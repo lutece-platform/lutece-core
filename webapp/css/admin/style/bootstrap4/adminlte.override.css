@@ -1,0 +1,22 @@
+iframe#preview {
+	margin: 10px 8px;
+}
+
+label:not(.form-check-label):not(.custom-file-label) {
+	font-weight: 600;
+}
+
+.card-header > .card-tools .input-group, .card-header > .card-tools .nav, .card-header > .card-tools .pagination {
+	margin-top:0;
+}
+
+div.card-header > div.d-flex form:last-of-type, div.card-header > div.d-flex > button, div.card-header > div.d-flex > a.btn {margin-left:0.2rem;}
+
+.btn-tool {
+	margin: 0;
+}
+
+.btn-group > form > .btn-group:not(:last-child) > .btn, .btn-group > form > .btn:not(:last-child):not(.dropdown-toggle) {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}

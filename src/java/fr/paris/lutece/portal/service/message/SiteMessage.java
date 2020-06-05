@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -115,36 +115,13 @@ public class SiteMessage implements Serializable
         // Object message conversion into String values for map of parameters
         if ( requestParameters != null )
         {
-            _requestParameters = new HashMap<String, String>( );
+            _requestParameters = new HashMap<>( );
 
             for ( Entry<String, Object> entry : requestParameters.entrySet( ) )
             {
                 _requestParameters.put( entry.getKey( ), ( entry.getValue( ) == null ) ? null : entry.getValue( ).toString( ) );
             }
         }
-    }
-
-    /**
-     *
-     * @param strTextKey
-     *            I18n key for the message body
-     * @param messageArgs
-     *            Arguments for the strTextKey or null
-     * @param strTitleKey
-     *            I18n key for the message title
-     * @param strUrl
-     *            The url for the Ok button
-     * @param strTarget
-     *            Target for the form (_blank, _self, ...)
-     * @param nType
-     *            Message type (TYPE_INFO, TYPE_QUESTION, ...)
-     * @param bCancelButton
-     *            True if Cancel button is necessary
-     * @deprecated
-     */
-    public SiteMessage( String strTextKey, Object [ ] messageArgs, String strTitleKey, String strUrl, String strTarget, int nType, boolean bCancelButton )
-    {
-        this( strTextKey, messageArgs, strTitleKey, strUrl, strTarget, nType, ( bCancelButton ) ? 1 : 0, null, null );
     }
 
     /**
@@ -155,36 +132,6 @@ public class SiteMessage implements Serializable
     public int getType( )
     {
         return _nType;
-    }
-
-    /**
-     * return True if button is required
-     * 
-     * @return True if button is required in message
-     * @deprecated
-     */
-    public boolean isCancel( )
-    {
-        return ( getTypeButton( ) == TYPE_BUTTON_HIDDEN ) ? false : true;
-    }
-
-    /**
-     * set cancel button value
-     *
-     * @param bCancel
-     *            True if Cancel button is required (set with default type)
-     * @deprecated
-     */
-    public void setCancel( boolean bCancel )
-    {
-        if ( !bCancel )
-        {
-            setTypeButton( TYPE_BUTTON_HIDDEN );
-        }
-        else
-        {
-            setTypeButton( TYPE_BUTTON_BACK );
-        }
     }
 
     /**

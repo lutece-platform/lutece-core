@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -49,15 +49,13 @@ public class XmlTransformerCacheService implements CacheableService
 {
     private static final String SERVICE_NAME = "XML Transformer Cache Service (XSLT)";
     private static final String MSG_KEYS_NOT_AVAILABLE = "Keys not available";
-    private static XmlTransformerCacheService _singleton;
 
     /**
      * Inits the.
      */
     public static void init( )
     {
-        _singleton = new XmlTransformerCacheService( );
-        CacheService.registerCacheableService( _singleton );
+        CacheService.registerCacheableService( new XmlTransformerCacheService( ) );
     }
 
     /**
@@ -111,7 +109,7 @@ public class XmlTransformerCacheService implements CacheableService
     @Override
     public List<String> getKeys( )
     {
-        List<String> list = new ArrayList<String>( );
+        List<String> list = new ArrayList<>( );
         list.add( MSG_KEYS_NOT_AVAILABLE );
 
         return list;

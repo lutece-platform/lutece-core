@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -53,24 +53,26 @@ public class FullPageCachingService extends HeadersPageCachingFilter
      * {@inheritDoc }
      */
     @Override
-    protected void doFilter( HttpServletRequest request, HttpServletResponse response, FilterChain chain ) throws AlreadyGzippedException, AlreadyCommittedException, FilterNonReentrantException, LockTimeoutException, Exception
+    protected void doFilter( HttpServletRequest request, HttpServletResponse response, FilterChain chain )
+            throws AlreadyGzippedException, AlreadyCommittedException, FilterNonReentrantException, LockTimeoutException, Exception
     {
         if ( !getInit( ) )
         {
             init( );
         }
 
-        if( SecurityService.isAuthenticationEnable() )
+        if ( SecurityService.isAuthenticationEnable( ) )
         {
-            if( isCacheEnable() )
+            if ( isCacheEnable( ) )
             {
-                AppLogService.info( "The PageCachingService has been inhibited because MyLutece authentication is enabled. Please disable this service in the Lutece Administration.");
+                AppLogService.info(
+                        "The PageCachingService has been inhibited because MyLutece authentication is enabled. Please disable this service in the Lutece Administration." );
             }
             chain.doFilter( request, response );
         }
         else
-        {    
-            super.doFilter( request, response, chain ); 
+        {
+            super.doFilter( request, response, chain );
         }
     }
 }

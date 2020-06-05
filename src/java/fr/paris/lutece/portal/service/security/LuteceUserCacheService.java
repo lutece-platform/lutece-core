@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -41,7 +41,7 @@ import fr.paris.lutece.portal.service.cache.AbstractCacheableService;
 public final class LuteceUserCacheService extends AbstractCacheableService
 {
     private static final String CACHE_SERVICE_NAME = "LuteceUserCacheService";
-    private static volatile LuteceUserCacheService _instance;
+    private static LuteceUserCacheService _instance;
 
     /**
      * Private constructor
@@ -56,20 +56,12 @@ public final class LuteceUserCacheService extends AbstractCacheableService
      * 
      * @return The instance of the cache service
      */
-    public static LuteceUserCacheService getInstance( )
+    public static synchronized LuteceUserCacheService getInstance( )
     {
         if ( _instance == null )
         {
-            synchronized( LuteceUserCacheService.class )
-            {
-                // Ignore double null check error : attribute is volatile
-                if ( _instance == null )
-                {
-                    _instance = new LuteceUserCacheService( );
-                }
-            }
+            _instance = new LuteceUserCacheService( );
         }
-
         return _instance;
     }
 

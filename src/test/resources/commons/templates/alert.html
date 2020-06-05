@@ -1,0 +1,62 @@
+<#include "utils.html">
+<@header title='Alert' />
+
+<@h2># Colors</@h2>
+
+<@row>
+    <@columns>
+    <@alert >Default</@alert>
+    <@alert color='primary' >Primary</@alert>
+    <@alert color='info' >Info</@alert>
+    <@alert color='success' >Success</@alert>
+    <@alert color='warning' >Warning</@alert>
+    <@alert color='danger' >Danger</@alert>
+    </@columns>
+
+    <@columns>
+    <pre>    
+&lt;@alert &gt;Default&lt;@alert&gt;
+&lt;@alert color='primary' &gt;Primary&lt;@alert&gt;
+&lt;@alert color='info' &gt;Info&lt;@alert&gt;
+&lt;@alert color='success' &gt;Success&lt;@alert&gt;
+&lt;@alert color='warning' &gt;Warning&lt;@alert&gt;
+&lt;@alert color='danger' &gt;Danger&lt;@alert&gt;
+    </pre>
+    </@columns>
+</@row>
+
+<@h2># Dismissible</@h2>
+
+<@row>
+    <@columns>
+    <@alert color='info' dismissible=true >Info</@alert>
+    </@columns>
+    <@columns>
+    <pre>    
+&lt;@alert color='info' dismissible=true &gt;Default&lt;@alert&gt;
+    </pre>
+    </@columns>
+</@row>
+
+<@h2># Parameters documentation</@h2>
+
+<@table>
+<@tr>
+    <@th>Parameter</@th>
+    <@th>Value</@th>
+    <@th>Default</@th>
+</@tr>
+<@tr>
+    <@th>color</@th>
+    <@td>primary/info/warning/danger/success</@td>
+    <@td>primary</@td>
+</@tr>
+<@tr>
+    <@th>dismissible</@th>
+    <@td>boolean</@td>
+    <@td>0</@td>
+</@tr>
+
+</@table>
+
+<@footer />

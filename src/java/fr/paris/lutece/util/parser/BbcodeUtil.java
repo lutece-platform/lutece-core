@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,18 +33,18 @@
  */
 package fr.paris.lutece.util.parser;
 
-import fr.paris.lutece.portal.business.editor.ParserComplexElement;
-import fr.paris.lutece.portal.business.editor.ParserElement;
-
+import java.util.ArrayDeque;
 import java.util.Collections;
-import java.util.Comparator;
+import java.util.Deque;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
-import java.util.Stack;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import fr.paris.lutece.portal.business.editor.ParserComplexElement;
+import fr.paris.lutece.portal.business.editor.ParserElement;
 
 /**
  *
@@ -75,7 +75,7 @@ public final class BbcodeUtil
      */
     public static String parse( String value, List<ParserElement> listParserElement, List<ParserComplexElement> listParserComplexElement )
     {
-        StringBuffer buffer = new StringBuffer( value );
+        StringBuilder buffer = new StringBuilder( value );
 
         // complex Element
         if ( listParserComplexElement != null )
@@ -127,18 +127,18 @@ public final class BbcodeUtil
      * @param requiresQuotedParam
      *            requiresQuotedParam
      */
-    private static void processNestedTags( StringBuffer buffer, String tagName, String openSubstWithParam, String closeSubstWithParam,
+    private static void processNestedTags( StringBuilder buffer, String tagName, String openSubstWithParam, String closeSubstWithParam,
             String openSubstWithoutParam, String closeSubstWithoutParam, String internalSubst, boolean processInternalTags, boolean acceptParam,
             boolean requiresQuotedParam )
     {
         String str = buffer.toString( );
 
-        Stack openStack = new Stack( );
-        Set subsOpen = new HashSet( );
-        Set subsClose = new HashSet( );
-        Set subsInternal = new HashSet( );
+        Deque<MutableCharSequence> openStack = new ArrayDeque<>( );
+        Set<MutableCharSequence> subsOpen = new HashSet<>( );
+        Set<MutableCharSequence> subsClose = new HashSet<>( );
+        Set<MutableCharSequence> subsInternal = new HashSet<>( );
 
-        String openTag = CR_LF + "\\[" + tagName + ( acceptParam ? ( requiresQuotedParam ? "(?:=\"(.*?)\")?" : "(?:=\"?(.*?)\"?)?" ) : "" ) + "\\]" + CR_LF;
+        String openTag = CR_LF + "\\[" + tagName + getOpenTag( acceptParam, requiresQuotedParam ) + "\\]" + CR_LF;
         String closeTag = CR_LF + "\\[/" + tagName + "\\]" + CR_LF;
         String internTag = CR_LF + "\\[\\*\\]" + CR_LF;
 
@@ -192,7 +192,7 @@ public final class BbcodeUtil
             else
                 if ( ( matcher.group( closeTagGroup ) != null ) && !openStack.isEmpty( ) )
                 {
-                    MutableCharSequence openSeq = (MutableCharSequence) openStack.pop( );
+                    MutableCharSequence openSeq = openStack.pop( );
 
                     if ( acceptParam )
                     {
@@ -211,21 +211,16 @@ public final class BbcodeUtil
                     }
         }
 
-        LinkedList subst = new LinkedList( );
+        LinkedList<MutableCharSequence> subst = new LinkedList<>( );
         subst.addAll( subsOpen );
         subst.addAll( subsClose );
         subst.addAll( subsInternal );
 
-        Collections.sort( subst, new Comparator( )
-        {
-            @Override
-            public int compare( Object o1, Object o2 )
-            {
-                MutableCharSequence s1 = (MutableCharSequence) o1;
-                MutableCharSequence s2 = (MutableCharSequence) o2;
+        Collections.sort( subst, ( Object o1, Object o2 ) -> {
+            MutableCharSequence s1 = (MutableCharSequence) o1;
+            MutableCharSequence s2 = (MutableCharSequence) o2;
 
-                return -( s1._nStart - s2._nStart );
-            }
+            return -( s1._nStart - s2._nStart );
         } );
 
         buffer.delete( 0, buffer.length( ) );
@@ -234,7 +229,7 @@ public final class BbcodeUtil
 
         while ( !subst.isEmpty( ) )
         {
-            MutableCharSequence seq = (MutableCharSequence) subst.removeLast( );
+            MutableCharSequence seq = subst.removeLast( );
             buffer.append( str.substring( start, seq._nStart ) );
 
             if ( subsClose.contains( seq ) )
@@ -263,7 +258,7 @@ public final class BbcodeUtil
                             if ( acceptParam && ( seq._strParam != null ) )
                             {
                                 buffer.append( //
-                                openSubstWithParam.replaceAll( "\\{BBCODE_PARAM\\}", seq._strParam ) );
+                                        openSubstWithParam.replaceAll( "\\{BBCODE_PARAM\\}", seq._strParam ) );
                             }
                             else
                             {
@@ -377,7 +372,7 @@ public final class BbcodeUtil
         @Override
         public String toString( )
         {
-            StringBuffer sb = new StringBuffer( );
+            StringBuilder sb = new StringBuilder( );
 
             for ( int i = _nStart; i < ( _nStart + _bLength ); i++ )
             {
@@ -386,5 +381,22 @@ public final class BbcodeUtil
 
             return sb.toString( );
         }
+    }
+
+    private static String getOpenTag( boolean acceptParam, boolean requiresQuotedParam )
+    {
+        String tag = "";
+        if ( acceptParam )
+        {
+            if ( requiresQuotedParam )
+            {
+                tag = "(?:=\"(.*?)\")?";
+            }
+            else
+            {
+                tag = "(?:=\"?(.*?)\"?)?";
+            }
+        }
+        return tag;
     }
 }

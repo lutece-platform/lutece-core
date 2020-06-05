@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -36,6 +36,7 @@ package fr.paris.lutece.portal.service.security;
 import java.util.Arrays;
 import java.util.Collection;
 
+import javax.security.auth.login.FailedLoginException;
 import javax.security.auth.login.LoginException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -62,7 +63,14 @@ public class MokeLuteceAuthentication implements LuteceAuthentication
 
     public LuteceUser login( final String strUserName, final String strUserPassword, HttpServletRequest request ) throws LoginException
     {
-        return null;
+        if ( "admin".equals( strUserName ) && "adminadmin".equals( strUserPassword ) )
+        {
+            return new MokeLuteceUser( strUserName, this );
+        }
+        else
+        {
+            throw new FailedLoginException( );
+        }
     }
 
     public void logout( LuteceUser user )

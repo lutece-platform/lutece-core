@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,6 +33,23 @@
  */
 package fr.paris.lutece.portal.web.user;
 
+import java.io.IOException;
+import java.util.Enumeration;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.StringTokenizer;
+
+import javax.servlet.Filter;
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.lang.StringUtils;
+
 import fr.paris.lutece.portal.service.admin.AccessDeniedException;
 import fr.paris.lutece.portal.service.admin.AdminAuthenticationService;
 import fr.paris.lutece.portal.service.admin.AdminUserService;
@@ -47,21 +64,6 @@ import fr.paris.lutece.portal.service.util.AppPropertiesService;
 import fr.paris.lutece.portal.web.constants.Messages;
 import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.util.url.UrlItem;
-
-import java.io.IOException;
-
-import java.util.Enumeration;
-import java.util.StringTokenizer;
-
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import org.apache.commons.lang.StringUtils;
 
 /**
  * Filter to prevent unauthenticated access to admin
@@ -204,7 +206,7 @@ public class AuthenticationFilter implements Filter
      *            the http request
      * @return the login url, in its absolute form
      *
-     * */
+     */
     private String getLoginUrl( HttpServletRequest request )
     {
         String strLoginUrl = AdminAuthenticationService.getInstance( ).getLoginPageUrl( );
@@ -231,7 +233,7 @@ public class AuthenticationFilter implements Filter
      *            the http request
      * @return the login url, in its absolute form
      *
-     * */
+     */
     private String getChangePasswordUrl( HttpServletRequest request )
     {
         String strChangePasswordUrl = AdminAuthenticationService.getInstance( ).getChangePasswordPageUrl( );
@@ -247,25 +249,21 @@ public class AuthenticationFilter implements Filter
      *            the http request
      * @return true if the url needs to be authenticated, false otherwise
      *
-     * */
+     */
     private boolean isPrivateUrl( HttpServletRequest request )
     {
-        boolean bIsRestricted = true;
         String strUrl = getResquestedUrl( request );
+        Set<String> allowedUrlSet = createAllowedUrlSet( request );
+        return !allowedUrlSet.contains( strUrl ) && !isInPublicUrlList( request, strUrl );
+    }
 
-        String strUrlDefaultAdminLogin = getAbsoluteUrl( request, JSP_URL_ADMIN_LOGIN );
-
-        if ( strUrl.equals( strUrlDefaultAdminLogin ) || strUrl.equals( getLoginUrl( request ) ) || strUrl.equals( getLogoutUrl( request ) ) )
-        {
-            bIsRestricted = false;
-        }
-        else
-            if ( isInPublicUrlList( request, strUrl ) )
-            {
-                bIsRestricted = false;
-            }
-
-        return bIsRestricted;
+    private Set<String> createAllowedUrlSet( HttpServletRequest request )
+    {
+        Set<String> set = new HashSet<>( );
+        set.add( getAbsoluteUrl( request, JSP_URL_ADMIN_LOGIN ) );
+        set.add( getLoginUrl( request ) );
+        set.add( getLogoutUrl( request ) );
+        return set;
     }
 
     /**
@@ -311,7 +309,7 @@ public class AuthenticationFilter implements Filter
      *            the url to test : it should start with "http://" is absolute, or should be relative to the webapp root otherwise
      * @return true if the url is in the list, false otherwise
      *
-     * */
+     */
     private boolean isInPublicUrlList( HttpServletRequest request, String strRequestedUrl )
     {
         // recovers list from the
@@ -345,7 +343,7 @@ public class AuthenticationFilter implements Filter
      *            the url to transform
      * @return the corresponding absolute url
      *
-     * */
+     */
     private String getAbsoluteUrl( HttpServletRequest request, String strUrl )
     {
         if ( ( strUrl != null ) && !strUrl.startsWith( "http://" ) && !strUrl.startsWith( "https://" ) )
@@ -363,7 +361,7 @@ public class AuthenticationFilter implements Filter
      *            the http request (provides the base path if needed)
      * @return the requested url has a string
      *
-     * */
+     */
     private String getResquestedUrl( HttpServletRequest request )
     {
         return AppPathService.getBaseUrl( request ) + request.getServletPath( ).substring( 1 );

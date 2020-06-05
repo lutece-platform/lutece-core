@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -37,6 +37,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.mock.web.MockServletConfig;
@@ -65,15 +66,14 @@ public class AdminJspBeanTest extends LuteceTestCase
      */
     public void testGetAdminPage( ) throws AccessDeniedException
     {
-        System.out.println( "getAdminPage" );
-
         MockHttpServletRequest request = new MockHttpServletRequest( );
         request.addParameter( PARAMETER_PAGE_ID, TEST_PAGE_ID );
         Utils.registerAdminUserWithRigth( request, new AdminUser( ), AdminPageJspBean.RIGHT_MANAGE_ADMIN_SITE );
 
         AdminPageJspBean instance = new AdminPageJspBean( );
         instance.init( request, AdminPageJspBean.RIGHT_MANAGE_ADMIN_SITE );
-        instance.getAdminPage( request );
+        
+        assertTrue( StringUtils.isNotEmpty( instance.getAdminPage( request ) ) );
     }
 
     /**
@@ -83,12 +83,10 @@ public class AdminJspBeanTest extends LuteceTestCase
      */
     public void testGetAdminPagePreview( ) throws AccessDeniedException, UserNotSignedException
     {
-        System.out.println( "getAdminPagePreview" );
-
         MockHttpServletRequest request = new MockHttpServletRequest( );
 
         // FIXME : MokeHttpServletRequest should be fixed to support attributes
-        Map<String, Right> mapRights = new HashMap<String, Right>( );
+        Map<String, Right> mapRights = new HashMap<>( );
         Right right = new Right( );
         right.setId( AdminPageJspBean.RIGHT_MANAGE_ADMIN_SITE );
         mapRights.put( AdminPageJspBean.RIGHT_MANAGE_ADMIN_SITE, right );
@@ -107,8 +105,7 @@ public class AdminJspBeanTest extends LuteceTestCase
         }
         catch( SiteMessageException e )
         {
-            // TODO Auto-generated catch block
-            e.printStackTrace( );
+            fail( );
         }
     }
 

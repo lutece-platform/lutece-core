@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -37,10 +37,13 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
@@ -107,82 +110,77 @@ public class LinksInclude implements PageInclude
         rootModel.put( MARK_FAVOURITE, strFavourite );
         rootModel.put( MARK_PORTAL_NAME, strPortalName );
 
-        Locale locale = request.getLocale( );
-
         // Add CSS links coming from plugins
         Collection<Plugin> listPlugins = PluginService.getPluginList( );
         listPlugins.add( PluginService.getCore( ) );
 
         String strPage = request.getParameter( PARAMETER_PAGE );
 
-        for ( Plugin plugin : listPlugins )
-        {
-            if ( plugin.isInstalled( ) )
-            {
-                Theme xpageTheme = plugin.getXPageTheme( request );
+        List<Plugin> installedPlugins = listPlugins.stream( ).filter( Plugin::isInstalled ).collect( Collectors.toList( ) );
 
-                if ( ( strPage != null ) && ( xpageTheme != null ) )
+        for ( Plugin plugin : installedPlugins )
+        {
+            Theme xpageTheme = plugin.getXPageTheme( request );
+
+            if ( ( strPage != null ) && ( xpageTheme != null ) )
+            {
+                for ( XPageApplicationEntry entry : plugin.getApplications( ) )
                 {
-                    for ( XPageApplicationEntry entry : plugin.getApplications( ) )
+                    if ( strPage.equals( entry.getId( ) ) )
                     {
-                        if ( strPage.equals( entry.getId( ) ) )
-                        {
-                            rootModel.put( MARK_PLUGIN_THEME_CSS, xpageTheme );
-                        }
+                        rootModel.put( MARK_PLUGIN_THEME_CSS, xpageTheme );
                     }
                 }
             }
         }
 
+        Map<String, Object> links = buildLinks( request, strPage, nMode, installedPlugins );
+        rootModel.putAll( links );
+    }
+
+    private Map<String, Object> buildLinks( HttpServletRequest request, String strPage, int nMode, List<Plugin> installedPlugins )
+    {
+        Locale locale = request.getLocale( );
         LinksIncludeCacheService cacheService = SpringContextService.getBean( LinksIncludeCacheService.SERVICE_NAME );
         String strKey = cacheService.getCacheKey( nMode, strPage, locale );
         @SuppressWarnings( "unchecked" )
         Map<String, Object> links = (Map<String, Object>) cacheService.getFromCache( strKey );
-        if ( links == null )
+
+        if ( links != null )
         {
-            StringBuilder sbCssLinks = new StringBuilder( );
-            StringBuilder sbJsLinks = new StringBuilder( );
+            return links;
+        }
+        StringBuilder sbCssLinks = new StringBuilder( );
+        StringBuilder sbJsLinks = new StringBuilder( );
 
-            for ( Plugin plugin : listPlugins )
+        for ( Plugin plugin : installedPlugins )
+        {
+            boolean bXPage = isPluginXPage( strPage, plugin );
+
+            if ( plugin.isCssStylesheetsScopePortal( ) || ( bXPage && plugin.isCssStylesheetsScopeXPage( ) ) )
             {
-                if ( plugin.isInstalled( ) )
-                {
-                    boolean bXPage = isPluginXPage( strPage, plugin );
+                List<String> cssFiles = new ArrayList<>( );
+                cssFiles.addAll( plugin.getCssStyleSheets( ) );
+                cssFiles.addAll( plugin.getCssStyleSheets( nMode ) );
 
-                    if ( plugin.isCssStylesheetsScopePortal( ) || ( bXPage && plugin.isCssStylesheetsScopeXPage( ) ) )
-                    {
-                        for ( String strCssStyleSheet : plugin.getCssStyleSheets( ) )
-                        {
-                            appendStyleSheet( request.getServletContext( ), sbCssLinks, strCssStyleSheet, locale );
-                        }
-
-                        for ( String strCssStyleSheet : plugin.getCssStyleSheets( nMode ) )
-                        {
-                            appendStyleSheet( request.getServletContext( ), sbCssLinks, strCssStyleSheet, locale );
-                        }
-                    }
-
-                    if ( plugin.isJavascriptFilesScopePortal( ) || ( bXPage && plugin.isJavascriptFilesScopeXPage( ) ) )
-                    {
-                        for ( String strJavascriptFile : plugin.getJavascriptFiles( ) )
-                        {
-                            appendJavascriptFile( request.getServletContext( ), sbJsLinks, strJavascriptFile, locale );
-                        }
-
-                        for ( String strJavascriptFile : plugin.getJavascriptFiles( nMode ) )
-                        {
-                            appendJavascriptFile( request.getServletContext( ), sbJsLinks, strJavascriptFile, locale );
-                        }
-                    }
-                }
+                cssFiles.stream( ).forEach( file -> appendStyleSheet( request.getServletContext( ), sbCssLinks, file, locale ) );
             }
 
-            links = new HashMap<>( 2 );
-            links.put( MARK_PLUGINS_CSS_LINKS, sbCssLinks.toString( ) );
-            links.put( MARK_PLUGINS_JAVASCRIPT_LINKS, sbJsLinks.toString( ) );
-            cacheService.putInCache( strKey, links );
+            if ( plugin.isJavascriptFilesScopePortal( ) || ( bXPage && plugin.isJavascriptFilesScopeXPage( ) ) )
+            {
+                List<String> jsFiles = new ArrayList<>( );
+                jsFiles.addAll( plugin.getJavascriptFiles( ) );
+                jsFiles.addAll( plugin.getJavascriptFiles( nMode ) );
+
+                jsFiles.stream( ).forEach( file -> appendJavascriptFile( request.getServletContext( ), sbJsLinks, file, locale ) );
+            }
         }
-        rootModel.putAll( links );
+
+        links = new HashMap<>( 2 );
+        links.put( MARK_PLUGINS_CSS_LINKS, sbCssLinks.toString( ) );
+        links.put( MARK_PLUGINS_JAVASCRIPT_LINKS, sbJsLinks.toString( ) );
+        cacheService.putInCache( strKey, links );
+        return links;
     }
 
     /**
@@ -206,7 +204,7 @@ public class LinksInclude implements PageInclude
             return;
         }
 
-        Map<String, String> model = new HashMap<String, String>( 1 );
+        Map<String, String> model = new HashMap<>( 1 );
         model.put( MARK_PLUGIN_JAVASCRIPT_FILE, javascripFileURI.toString( ) );
 
         HtmlTemplate tJs = AppTemplateService.getTemplate( TEMPLATE_PLUGIN_JAVASCRIPT_LINK, locale, model );
@@ -234,7 +232,7 @@ public class LinksInclude implements PageInclude
             return;
         }
 
-        Map<String, String> model = new HashMap<String, String>( 2 );
+        Map<String, String> model = new HashMap<>( 2 );
         model.put( MARK_PLUGIN_CSS_STYLESHEET, styleSheetURI.toString( ) );
 
         HtmlTemplate tCss = AppTemplateService.getTemplate( TEMPLATE_PLUGIN_CSS_LINK, locale, model );
@@ -264,26 +262,7 @@ public class LinksInclude implements PageInclude
                 {
                     resourceURI = new URI( strURIPrefix + strResourceURI );
                 }
-                try( InputStream inputStream = servletContext.getResourceAsStream( resourceURI.getPath( ) ) )
-                {
-                    if ( inputStream != null )
-                    {
-                        String hash = CryptoService.digest( inputStream, ALGORITHM );
-                        if ( hash != null )
-                        {
-                            char separator = '?';
-                            if ( resourceURI.getQuery( ) != null )
-                            {
-                                separator = '&';
-                            }
-                            resourceURI = new URI( resourceURI.toString( ) + separator + "lutece_h=" + hash );
-                        }
-                    }
-                }
-                catch( IOException e )
-                {
-                    AppLogService.error( "Error while closing stream for " + strResourceURI, e );
-                }
+                resourceURI = addHashToUri( servletContext, resourceURI, strResourceURI );
             }
             return resourceURI;
         }
@@ -292,6 +271,31 @@ public class LinksInclude implements PageInclude
             AppLogService.error( "Invalid cssStyleSheetURI : " + strResourceURI, e );
             return null;
         }
+    }
+
+    private URI addHashToUri( ServletContext servletContext, URI resourceURI, String strResourceURI ) throws URISyntaxException
+    {
+        try ( InputStream inputStream = servletContext.getResourceAsStream( resourceURI.getPath( ) ) )
+        {
+            if ( inputStream != null )
+            {
+                String hash = CryptoService.digest( inputStream, ALGORITHM );
+                if ( hash != null )
+                {
+                    char separator = '?';
+                    if ( resourceURI.getQuery( ) != null )
+                    {
+                        separator = '&';
+                    }
+                    resourceURI = new URI( resourceURI.toString( ) + separator + "lutece_h=" + hash );
+                }
+            }
+        }
+        catch( IOException e )
+        {
+            AppLogService.error( "Error while closing stream for " + strResourceURI, e );
+        }
+        return resourceURI;
     }
 
     /**

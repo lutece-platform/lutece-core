@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,6 +33,7 @@
  */
 package fr.paris.lutece.util.pool.service;
 
+import fr.paris.lutece.util.env.EnvUtil;
 import org.apache.log4j.Logger;
 
 import java.sql.Connection;
@@ -40,7 +41,7 @@ import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-import java.util.Hashtable;
+import java.util.Map;
 
 import javax.sql.DataSource;
 
@@ -59,6 +60,7 @@ public class LuteceConnectionService implements ConnectionService
      * @param strPoolName
      *            The pool name
      */
+    @Override
     public void setPoolName( String strPoolName )
     {
         _strPoolName = strPoolName;
@@ -69,6 +71,7 @@ public class LuteceConnectionService implements ConnectionService
      * 
      * @return The pool name
      */
+    @Override
     public String getPoolName( )
     {
         return _strPoolName;
@@ -80,6 +83,7 @@ public class LuteceConnectionService implements ConnectionService
      * @param logger
      *            The logger
      */
+    @Override
     public void setLogger( Logger logger )
     {
         _logger = logger;
@@ -90,6 +94,7 @@ public class LuteceConnectionService implements ConnectionService
      * 
      * @return The logger
      */
+    @Override
     public Logger getLogger( )
     {
         return _logger;
@@ -101,13 +106,18 @@ public class LuteceConnectionService implements ConnectionService
      * @param htParamsConnectionPool
      *            Pool parameters
      */
-    public void init( Hashtable<String, String> htParamsConnectionPool )
+    @Override
+    public void init( Map<String, String> htParamsConnectionPool )
     {
         String url = htParamsConnectionPool.get( getPoolName( ) + ".url" );
 
         if ( url == null )
         {
             _logger.error( "No URL specified for the pool " + getPoolName( ) );
+        }
+        else
+        {
+            url = EnvUtil.evaluate( url, EnvUtil.PREFIX_ENV );
         }
 
         String user = htParamsConnectionPool.get( getPoolName( ) + ".user" );
@@ -116,12 +126,20 @@ public class LuteceConnectionService implements ConnectionService
         {
             _logger.error( "No user specified for the pool " + getPoolName( ) );
         }
+        else
+        {
+            user = EnvUtil.evaluate( user, EnvUtil.PREFIX_ENV );
+        }
 
         String password = htParamsConnectionPool.get( getPoolName( ) + ".password" );
 
         if ( password == null )
         {
             _logger.error( "No password specified for the pool " + getPoolName( ) );
+        }
+        else
+        {
+            password = EnvUtil.evaluate( password, EnvUtil.PREFIX_ENV );
         }
 
         // load of the driver
@@ -142,17 +160,17 @@ public class LuteceConnectionService implements ConnectionService
             _logger.error( "Can't register JDBC driver: " + strDiverClassName, e );
         }
 
-        int maxConns = ( htParamsConnectionPool.get( getPoolName( ) + ".maxconns" ) == null ) ? 0 : Integer.parseInt( htParamsConnectionPool.get( getPoolName( )
-                + ".maxconns" ) );
+        int maxConns = ( htParamsConnectionPool.get( getPoolName( ) + ".maxconns" ) == null ) ? 0
+                : Integer.parseInt( htParamsConnectionPool.get( getPoolName( ) + ".maxconns" ) );
 
-        int initConns = ( htParamsConnectionPool.get( getPoolName( ) + ".initconns" ) == null ) ? 0 : Integer.parseInt( htParamsConnectionPool
-                .get( getPoolName( ) + ".initconns" ) );
+        int initConns = ( htParamsConnectionPool.get( getPoolName( ) + ".initconns" ) == null ) ? 0
+                : Integer.parseInt( htParamsConnectionPool.get( getPoolName( ) + ".initconns" ) );
 
-        int timeOut = ( htParamsConnectionPool.get( getPoolName( ) + ".logintimeout" ) == null ) ? 5 : Integer.parseInt( htParamsConnectionPool
-                .get( getPoolName( ) + ".logintimeout" ) );
+        int timeOut = ( htParamsConnectionPool.get( getPoolName( ) + ".logintimeout" ) == null ) ? 5
+                : Integer.parseInt( htParamsConnectionPool.get( getPoolName( ) + ".logintimeout" ) );
 
-        String checkValidConnectionSql = ( htParamsConnectionPool.get( getPoolName( ) + ".checkvalidconnectionsql" ) == null ) ? "" : htParamsConnectionPool
-                .get( getPoolName( ) + ".checkvalidconnectionsql" );
+        String checkValidConnectionSql = ( htParamsConnectionPool.get( getPoolName( ) + ".checkvalidconnectionsql" ) == null ) ? ""
+                : htParamsConnectionPool.get( getPoolName( ) + ".checkvalidconnectionsql" );
 
         _connPool = new ConnectionPool( getPoolName( ), url, user, password, maxConns, initConns, timeOut, _logger, checkValidConnectionSql );
     }
@@ -162,13 +180,12 @@ public class LuteceConnectionService implements ConnectionService
      * 
      * @return A connection
      */
+    @Override
     public Connection getConnection( )
     {
         try
         {
-            Connection connection = _connPool.getConnection( );
-
-            return connection;
+            return _connPool.getConnection( );
         }
         catch( SQLException e )
         {
@@ -184,6 +201,7 @@ public class LuteceConnectionService implements ConnectionService
      * @param conn
      *            The connection to release
      */
+    @Override
     public void freeConnection( Connection conn )
     {
         _connPool.freeConnection( conn );
@@ -192,6 +210,7 @@ public class LuteceConnectionService implements ConnectionService
     /**
      * Release the pool
      */
+    @Override
     public void release( )
     {
         _connPool.release( );
@@ -210,6 +229,7 @@ public class LuteceConnectionService implements ConnectionService
     /**
      * {@inheritDoc}
      */
+    @Override
     public int getCurrentConnections( )
     {
         return _connPool.getConnectionCount( );
@@ -218,6 +238,7 @@ public class LuteceConnectionService implements ConnectionService
     /**
      * {@inheritDoc}
      */
+    @Override
     public int getMaxConnections( )
     {
         return _connPool.getMaxConnectionCount( );
@@ -226,6 +247,7 @@ public class LuteceConnectionService implements ConnectionService
     /**
      * {@inheritDoc }
      */
+    @Override
     public String getPoolProvider( )
     {
         return "Lutece";
@@ -234,8 +256,9 @@ public class LuteceConnectionService implements ConnectionService
     /**
      * {@inheritDoc }
      */
+    @Override
     public DataSource getDataSource( )
     {
-        return _connPool;
+        return getConnectionPool( );
     }
 }

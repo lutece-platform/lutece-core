@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -51,6 +51,8 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.collections.CollectionUtils;
 
 /**
  * Dashboard Service
@@ -116,9 +118,7 @@ public final class DashboardService
         DashboardFilter filter = new DashboardFilter( );
         filter.setFilterColumn( nColumn );
 
-        List<IDashboardComponent> dashboardComponents = DashboardHome.findByFilter( filter );
-
-        return dashboardComponents;
+        return DashboardHome.findByFilter( filter );
     }
 
     /**
@@ -150,15 +150,7 @@ public final class DashboardService
                 AppLogService.error( " Dashboard Component not registered : " + entry.getName( ) + " : " + entry.getComponentClass( ) );
             }
         }
-        catch( InstantiationException e )
-        {
-            AppLogService.error( "Error registering a DashboardComponent : " + e.getMessage( ), e );
-        }
-        catch( IllegalAccessException e )
-        {
-            AppLogService.error( "Error registering a DashboardComponent : " + e.getMessage( ), e );
-        }
-        catch( ClassNotFoundException e )
+        catch( ClassNotFoundException | IllegalAccessException | InstantiationException e )
         {
             AppLogService.error( "Error registering a DashboardComponent : " + e.getMessage( ), e );
         }
@@ -187,7 +179,7 @@ public final class DashboardService
 
         List<IDashboardComponent> listColumnDashboards = DashboardHome.findByFilter( filter );
 
-        if ( ( listColumnDashboards != null ) && !listColumnDashboards.isEmpty( ) )
+        if ( CollectionUtils.isNotEmpty( listColumnDashboards ) )
         {
             if ( AppLogService.isDebugEnabled( ) )
             {
@@ -206,39 +198,7 @@ public final class DashboardService
             }
             else
             {
-                if ( nOrder < nOldOrder )
-                {
-                    for ( IDashboardComponent dc : listColumnDashboards )
-                    {
-                        if ( !dc.equals( dashboard ) )
-                        {
-                            int nCurrentOrder = dc.getOrder( );
-
-                            if ( ( nCurrentOrder >= nOrder ) && ( nCurrentOrder < nOldOrder ) )
-                            {
-                                dc.setOrder( nCurrentOrder + 1 );
-                                DashboardHome.update( dc );
-                            }
-                        }
-                    }
-                }
-                else
-                    if ( nOrder > nOldOrder )
-                    {
-                        for ( IDashboardComponent dc : listColumnDashboards )
-                        {
-                            if ( !dc.equals( dashboard ) )
-                            {
-                                int nCurrentOrder = dc.getOrder( );
-
-                                if ( ( nCurrentOrder <= nOrder ) && ( nCurrentOrder > nOldOrder ) )
-                                {
-                                    dc.setOrder( nCurrentOrder - 1 );
-                                    DashboardHome.update( dc );
-                                }
-                            }
-                        }
-                    }
+                updateDashboardComponents( dashboard, listColumnDashboards, nOldOrder );
 
                 // dashboard are singletons, values are modified by getting it from database
                 dashboard.setOrder( nOrder );
@@ -262,6 +222,40 @@ public final class DashboardService
         }
     }
 
+    private void updateDashboardComponents( IDashboardComponent dashboard, List<IDashboardComponent> listColumnDashboards, int nOldOrder )
+    {
+        int nOrder = dashboard.getOrder( );
+        for ( IDashboardComponent dc : listColumnDashboards )
+        {
+            if ( dc.equals( dashboard ) )
+            {
+                continue;
+            }
+
+            if ( nOrder < nOldOrder )
+            {
+                int nCurrentOrder = dc.getOrder( );
+
+                if ( ( nCurrentOrder >= nOrder ) && ( nCurrentOrder < nOldOrder ) )
+                {
+                    dc.setOrder( nCurrentOrder + 1 );
+                    DashboardHome.update( dc );
+                }
+            }
+            else
+                if ( nOrder > nOldOrder )
+                {
+                    int nCurrentOrder = dc.getOrder( );
+
+                    if ( ( nCurrentOrder <= nOrder ) && ( nCurrentOrder > nOldOrder ) )
+                    {
+                        dc.setOrder( nCurrentOrder - 1 );
+                        DashboardHome.update( dc );
+                    }
+                }
+        }
+    }
+
     /**
      * Returns all dashboards with no column/order set
      * 
@@ -272,7 +266,7 @@ public final class DashboardService
         List<IDashboardComponent> listDashboards = DashboardHome.findAll( );
         List<IDashboardComponent> listSpringDashboards = getAllDashboardComponents( );
 
-        List<IDashboardComponent> listUnsetDashboards = new ArrayList<IDashboardComponent>( );
+        List<IDashboardComponent> listUnsetDashboards = new ArrayList<>( );
 
         for ( IDashboardComponent dashboard : listSpringDashboards )
         {
@@ -294,7 +288,7 @@ public final class DashboardService
      */
     public Map<String, List<IDashboardComponent>> getAllSetDashboards( AdminUser user )
     {
-        Map<String, List<IDashboardComponent>> mapDashboardComponents = new HashMap<String, List<IDashboardComponent>>( );
+        Map<String, List<IDashboardComponent>> mapDashboardComponents = new HashMap<>( );
 
         List<IDashboardComponent> listDashboards = DashboardHome.findAll( );
 
@@ -311,14 +305,7 @@ public final class DashboardService
             String strColumn = Integer.toString( nColumn );
 
             // find this column list
-            List<IDashboardComponent> listDashboardsColumn = mapDashboardComponents.get( strColumn );
-
-            if ( listDashboardsColumn == null )
-            {
-                // the list does not exist, create it
-                listDashboardsColumn = new ArrayList<IDashboardComponent>( );
-                mapDashboardComponents.put( strColumn, listDashboardsColumn );
-            }
+            List<IDashboardComponent> listDashboardsColumn = mapDashboardComponents.computeIfAbsent( strColumn, s -> new ArrayList<>( ) );
 
             // add dashboard to the list
             listDashboardsColumn.add( dashboard );
@@ -340,7 +327,7 @@ public final class DashboardService
      */
     public String getDashboardData( AdminUser user, int nZone, HttpServletRequest request )
     {
-        StringBuffer sbDashboardData = new StringBuffer( );
+        StringBuilder sbDashboardData = new StringBuilder( );
 
         for ( IDashboardComponent dc : getDashboardComponents( nZone ) )
         {
@@ -366,7 +353,7 @@ public final class DashboardService
      */
     public List<IDashboardComponent> getDashboards( AdminUser user, HttpServletRequest request )
     {
-        List<IDashboardComponent> listDashboards = new ArrayList<IDashboardComponent>( );
+        List<IDashboardComponent> listDashboards = new ArrayList<>( );
 
         // Attributes associated to the plugins
         for ( DashboardListenerService dashboardListenerService : SpringContextService.getBeansOfType( DashboardListenerService.class ) )
@@ -392,7 +379,7 @@ public final class DashboardService
      */
     public String getDashboardData( List<IDashboardComponent> listDashboards, AdminUser user, int nZone, HttpServletRequest request )
     {
-        List<IDashboardComponent> listDashboardComponents = new ArrayList<IDashboardComponent>( );
+        List<IDashboardComponent> listDashboardComponents = new ArrayList<>( );
 
         for ( IDashboardComponent dc : listDashboards )
         {
@@ -404,7 +391,7 @@ public final class DashboardService
 
         Collections.sort( listDashboardComponents, new AttributeComparator( ORDER, true ) );
 
-        StringBuffer sbDashboardData = new StringBuffer( );
+        StringBuilder sbDashboardData = new StringBuilder( );
 
         for ( IDashboardComponent dc : listDashboardComponents )
         {
@@ -443,7 +430,7 @@ public final class DashboardService
      */
     public Map<String, Boolean> getOrderedColumnsStatus( )
     {
-        Map<String, Boolean> mapOrderedStatus = new HashMap<String, Boolean>( );
+        Map<String, Boolean> mapOrderedStatus = new HashMap<>( );
         List<Integer> listColumns = DashboardHome.findColumns( );
 
         for ( Integer nIdColumn : listColumns )
@@ -505,7 +492,7 @@ public final class DashboardService
      */
     public Map<String, ReferenceList> getMapAvailableOrders( )
     {
-        Map<String, ReferenceList> mapAvailableOrders = new HashMap<String, ReferenceList>( );
+        Map<String, ReferenceList> mapAvailableOrders = new HashMap<>( );
 
         // get columns
         for ( Integer nColumn : DashboardHome.findColumns( ) )

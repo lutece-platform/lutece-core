@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,12 +33,12 @@
  */
 package fr.paris.lutece.portal.service.page;
 
-import fr.paris.lutece.portal.service.cache.AbstractCacheableService;
+import java.util.concurrent.ConcurrentHashMap;
 
+import fr.paris.lutece.portal.service.cache.AbstractCacheableService;
+import fr.paris.lutece.portal.service.util.AppException;
 import net.sf.ehcache.Ehcache;
 import net.sf.ehcache.Element;
-
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Page Cache Service
@@ -48,7 +48,7 @@ public class PageCacheService extends AbstractCacheableService
     private static final String SERVICE_NAME = "Page Cache Service";
 
     // Performance patch
-    private static ConcurrentHashMap<String, String> _keyMemory = new ConcurrentHashMap<String, String>( );
+    private static ConcurrentHashMap<String, String> _keyMemory = new ConcurrentHashMap<>( );
 
     /**
      * {@inheritDoc }
@@ -143,6 +143,6 @@ public class PageCacheService extends AbstractCacheableService
     @Override
     public Object clone( )
     {
-        throw new RuntimeException( "This class shouldn't be cloned" );
+        throw new AppException( "This class shouldn't be cloned" );
     }
 }

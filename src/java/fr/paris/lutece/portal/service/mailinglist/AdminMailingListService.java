@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -100,7 +100,7 @@ public final class AdminMailingListService
      */
     public static Collection<MailingList> getUserMailingLists( AdminUser user )
     {
-        Collection<MailingList> listMailinglists = new ArrayList<MailingList>( );
+        Collection<MailingList> listMailinglists = new ArrayList<>( );
 
         // Add all global mailing lists
         listMailinglists.addAll( MailingListHome.findByWorkgroup( AdminWorkgroupService.ALL_GROUPS ) );
@@ -155,7 +155,7 @@ public final class AdminMailingListService
      */
     public static Collection<Recipient> getRecipients( int nIdMailingList )
     {
-        Collection<Recipient> listRecipients = new ArrayList<Recipient>( );
+        Collection<Recipient> listRecipients = new ArrayList<>( );
         MailingList mailinglist = MailingListHome.findByPrimaryKey( nIdMailingList );
 
         if ( mailinglist != null )
@@ -180,7 +180,7 @@ public final class AdminMailingListService
      */
     public static Collection<Recipient> getRecipients( String strWorkgroup, String strRole )
     {
-        Collection<Recipient> listRecipients = new ArrayList<Recipient>( );
+        Collection<Recipient> listRecipients = new ArrayList<>( );
         Collection<AdminUser> listUsers;
 
         if ( ( strWorkgroup != null ) && ( !strWorkgroup.equals( AdminWorkgroupService.ALL_GROUPS ) ) )
@@ -194,13 +194,10 @@ public final class AdminMailingListService
 
         for ( AdminUser user : listUsers )
         {
-            if ( ( strRole != null ) && ( !strRole.equals( ALL_ROLES ) ) )
+            if ( strRole != null && !strRole.equals( ALL_ROLES ) && !user.isInRole( strRole ) )
             {
-                if ( !user.isInRole( strRole ) )
-                {
-                    // skip this user if it isn't in the role
-                    continue;
-                }
+                // skip this user if it isn't in the role
+                continue;
             }
 
             Recipient recipient = new Recipient( );

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -64,8 +64,6 @@ import fr.paris.lutece.portal.service.spring.SpringContextService;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.util.http.MultipartUtil;
 
-import net.sf.json.JSONObject;
-
 public class UploadServletTest extends LuteceTestCase
 {
 
@@ -76,7 +74,7 @@ public class UploadServletTest extends LuteceTestCase
     {
         MockHttpServletRequest request = new MockHttpServletRequest( );
         MockHttpServletResponse response = new MockHttpServletResponse( );
-        MultipartHttpServletRequest multipartRequest = new MultipartHttpServletRequest( request, new HashMap( ), new HashMap( ) );
+        MultipartHttpServletRequest multipartRequest = new MultipartHttpServletRequest( request, new HashMap<>( ), new HashMap<>( ) );
 
         new UploadServlet( ).doPost( multipartRequest, response );
 
@@ -124,13 +122,13 @@ public class UploadServletTest extends LuteceTestCase
 
         clearLuteceSpringCache( );
         ConfigurableListableBeanFactory beanFactory = ( (ConfigurableApplicationContext) SpringContextService.getContext( ) ).getBeanFactory( );
-        beanFactory.registerSingleton( BEAN_NAME, new IAsynchronousUploadHandler( )
+        beanFactory.registerSingleton( BEAN_NAME, new IAsynchronousUploadHandler2( )
         {
             @Override
-            public void process( HttpServletRequest request, HttpServletResponse response, JSONObject mainObject, List<FileItem> fileItems )
+            public void process( HttpServletRequest request, HttpServletResponse response, Map<String, Object> mainObject, List<FileItem> fileItems )
             {
                 mainObject.clear( );
-                mainObject.element( "testnetsf", "valuetestnetsf" );
+                mainObject.put( "testnetsf", "valuetestnetsf" );
             }
 
             @Override

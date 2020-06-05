@@ -4,7 +4,7 @@
 			<@boxHeader title='#i18n{portal.workgroup.create_workgroup.titleCreationForm}' />
 			<@boxBody>
 				<@tform method='post' action='jsp/admin/workgroup/DoCreateWorkgroup.jsp'>
-					<input type="hidden" name="token" value="${token}">
+					<@input type='hidden' name='token' value='${token}' />
 					<@formGroup labelKey='#i18n{portal.workgroup.create_workgroup.labelKey}' labelFor='workgroup_key' mandatory=true>
 						<@input type='text' id='workgroup_key' name='workgroup_key' inputSize=20 maxlength=50 />
 					</@formGroup>
@@ -13,7 +13,7 @@
 					</@formGroup>
 					<@formGroup>
 						<@button type='submit' buttonIcon='check' title='#i18n{portal.workgroup.create_workgroup.buttonLabelCreate}' size='' />
-						<@aButton href='jsp/admin/workgroup/ManageWorkgroups.jsp' buttonIcon='times' title='#i18n{portal.util.labelCancel}' size='' color='btn-secondary' />
+						<@aButton href='jsp/admin/workgroup/ManageWorkgroups.jsp' buttonIcon='times' title='#i18n{portal.util.labelCancel}' size='' color='secondary' />
 					</@formGroup>
 				</@tform>
 			</@boxBody>

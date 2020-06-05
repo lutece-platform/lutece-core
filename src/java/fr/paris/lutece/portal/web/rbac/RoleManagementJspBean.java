@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2002-2019, Mairie de Paris
+ * Copyright (c) 2002-2020, City of Paris
  * All rights reserved.
  *
  * Redistribution and use in source and binary forms, with or without
@@ -33,8 +33,21 @@
  */
 package fr.paris.lutece.portal.web.rbac;
 
-import fr.paris.lutece.portal.business.rbac.AdminRole;
-import fr.paris.lutece.portal.business.rbac.AdminRoleHome;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
+
+import fr.paris.lutece.portal.business.rbac.RBACRole;
+import fr.paris.lutece.portal.business.rbac.RBACRoleHome;
 import fr.paris.lutece.portal.business.rbac.RBAC;
 import fr.paris.lutece.portal.business.rbac.RBACHome;
 import fr.paris.lutece.portal.business.right.Level;
@@ -59,23 +72,12 @@ import fr.paris.lutece.portal.web.constants.Parameters;
 import fr.paris.lutece.portal.web.util.LocalizedPaginator;
 import fr.paris.lutece.util.ReferenceItem;
 import fr.paris.lutece.util.ReferenceList;
+import fr.paris.lutece.util.html.AbstractPaginator;
 import fr.paris.lutece.util.html.HtmlTemplate;
 import fr.paris.lutece.util.html.ItemNavigator;
-import fr.paris.lutece.util.html.Paginator;
 import fr.paris.lutece.util.sort.AttributeComparator;
 import fr.paris.lutece.util.string.StringUtil;
 import fr.paris.lutece.util.url.UrlItem;
-
-import org.apache.commons.lang.StringUtils;
-
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
 
 /**
  * This class provides methods for role management.
@@ -187,7 +189,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
         // Reinit session
         reinitItemNavigator( );
 
-        List<AdminRole> listRole = (List<AdminRole>) AdminRoleHome.findAll( );
+        List<RBACRole> listRole = (List<RBACRole>) RBACRoleHome.findAll( );
 
         // SORT
         String strSortedAttributeName = request.getParameter( Parameters.SORTED_ATTRIBUTE_NAME );
@@ -202,9 +204,9 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
             Collections.sort( listRole, new AttributeComparator( strSortedAttributeName, bIsAscSort ) );
         }
 
-        _strCurrentPageIndex = Paginator.getPageIndex( request, Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex );
+        _strCurrentPageIndex = AbstractPaginator.getPageIndex( request, AbstractPaginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex );
         _nDefaultItemsPerPage = AppPropertiesService.getPropertyInt( PROPERTY_ROLES_PER_PAGE, 50 );
-        _nItemsPerPage = Paginator.getItemsPerPage( request, Paginator.PARAMETER_ITEMS_PER_PAGE, _nItemsPerPage, _nDefaultItemsPerPage );
+        _nItemsPerPage = AbstractPaginator.getItemsPerPage( request, AbstractPaginator.PARAMETER_ITEMS_PER_PAGE, _nItemsPerPage, _nDefaultItemsPerPage );
 
         String strURL = getHomeUrl( request );
         UrlItem url = new UrlItem( strURL );
@@ -220,10 +222,10 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
         }
 
         // PAGINATOR
-        LocalizedPaginator<AdminRole> paginator = new LocalizedPaginator<AdminRole>( listRole, _nItemsPerPage, url.getUrl( ), Paginator.PARAMETER_PAGE_INDEX,
+        LocalizedPaginator<RBACRole> paginator = new LocalizedPaginator<>( listRole, _nItemsPerPage, url.getUrl( ), AbstractPaginator.PARAMETER_PAGE_INDEX,
                 _strCurrentPageIndex, getLocale( ) );
 
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<>( );
         model.put( MARK_NB_ITEMS_PER_PAGE, Integer.toString( _nItemsPerPage ) );
         model.put( MARK_PAGINATOR, paginator );
         model.put( MARK_ROLE_LIST, paginator.getPageItems( ) );
@@ -269,7 +271,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
         {
             return AdminMessageService.getMessageUrl( request, Messages.MANDATORY_FIELDS, AdminMessage.TYPE_STOP );
         }
-        if ( AdminRoleHome.checkExistRole( strRoleKey ) )
+        if ( RBACRoleHome.checkExistRole( strRoleKey ) )
         {
             return AdminMessageService.getMessageUrl( request, PROPERTY_ROLE_ALREADY_EXISTS, AdminMessage.TYPE_STOP );
         }
@@ -279,13 +281,13 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
         }
         if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_CREATE_ROLE ) )
         {
-            throw new AccessDeniedException( "Invalid security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
 
-        AdminRole role = new AdminRole( );
+        RBACRole role = new RBACRole( );
         role.setKey( strRoleKey.trim( ) );
         role.setDescription( strRoleDescription );
-        AdminRoleHome.create( role );
+        RBACRoleHome.create( role );
 
         return JSP_URL_ROLE_DESCRIPTION + "?" + PARAMETER_ROLE_KEY + "=" + strRoleKey;
     }
@@ -316,31 +318,31 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
         {
             if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_VIEW_ROLE_DESCRIPTION ) )
             {
-                throw new AccessDeniedException( "Invalid security token" );
+                throw new AccessDeniedException( ERROR_INVALID_TOKEN );
             }
             // update the role
-            AdminRole role = AdminRoleHome.findByPrimaryKey( strOldRoleKey );
+            RBACRole role = RBACRoleHome.findByPrimaryKey( strOldRoleKey );
             role.setKey( strNewRoleKey );
             role.setDescription( strRoleDescription );
-            AdminRoleHome.update( strOldRoleKey, role );
+            RBACRoleHome.update( strOldRoleKey, role );
         }
         else
         // if the key changes, first check that the new key doesn't exist
         {
-            if ( AdminRoleHome.checkExistRole( strNewRoleKey ) )
+            if ( RBACRoleHome.checkExistRole( strNewRoleKey ) )
             {
                 return AdminMessageService.getMessageUrl( request, PROPERTY_ROLE_ALREADY_EXISTS, AdminMessage.TYPE_STOP );
             }
             if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_VIEW_ROLE_DESCRIPTION ) )
             {
-                throw new AccessDeniedException( "Invalid security token" );
+                throw new AccessDeniedException( ERROR_INVALID_TOKEN );
             }
 
             // update the role
-            AdminRole role = AdminRoleHome.findByPrimaryKey( strOldRoleKey );
+            RBACRole role = RBACRoleHome.findByPrimaryKey( strOldRoleKey );
             role.setKey( strNewRoleKey );
             role.setDescription( strRoleDescription );
-            AdminRoleHome.update( strOldRoleKey, role );
+            RBACRoleHome.update( strOldRoleKey, role );
             AdminUserHome.updateUsersRole( strOldRoleKey, role );
 
             // update the role key in the role-resource associations
@@ -365,9 +367,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
         Map<String, Object> parameters = new HashMap<>( 2 );
         parameters.put( PARAMETER_ROLE_KEY, strRoleKey );
         parameters.put( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, JSP_URL_REMOVE_ROLE ) );
-        String strUrl = AdminMessageService.getMessageUrl( request, PROPERTY_CONFIRM_DELETE_ROLE, strDeleteUrl, AdminMessage.TYPE_CONFIRMATION, parameters );
-
-        return strUrl;
+        return AdminMessageService.getMessageUrl( request, PROPERTY_CONFIRM_DELETE_ROLE, strDeleteUrl, AdminMessage.TYPE_CONFIRMATION, parameters );
     }
 
     /**
@@ -382,7 +382,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
     public String doRemoveRole( HttpServletRequest request ) throws AccessDeniedException
     {
         String strRoleKey = request.getParameter( PARAMETER_ROLE_KEY );
-        List<String> listErrors = new ArrayList<String>( );
+        List<String> listErrors = new ArrayList<>( );
 
         // check that no user has this role
         if ( AdminUserHome.checkRoleAttributed( strRoleKey ) )
@@ -393,7 +393,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
         {
             String strCause = AdminMessageService.getFormattedList( listErrors, getLocale( ) );
             Object [ ] args = {
-                strCause
+                    strCause
             };
 
             return AdminMessageService.getMessageUrl( request, MESSAGE_CANNOT_REMOVE_ROLE, args, AdminMessage.TYPE_STOP );
@@ -402,10 +402,10 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
         {
             if ( !SecurityTokenService.getInstance( ).validate( request, JSP_URL_REMOVE_ROLE ) )
             {
-                throw new AccessDeniedException( "Invalid security token" );
+                throw new AccessDeniedException( ERROR_INVALID_TOKEN );
             }
             // remove role
-            AdminRoleHome.remove( strRoleKey );
+            RBACRoleHome.remove( strRoleKey );
 
             // remove resources entries for that role
             RBACHome.removeForRoleKey( strRoleKey );
@@ -433,14 +433,14 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
         Collection<ResourceType> listResourceTypes = ResourceTypeManager.getResourceTypeList( );
         I18nService.localizeCollection( listResourceTypes, getLocale( ) );
 
-        AdminRole adminRole = AdminRoleHome.findByPrimaryKey( strRoleKey );
+        RBACRole adminRole = RBACRoleHome.findByPrimaryKey( strRoleKey );
 
         if ( adminRole == null )
         {
             return getManageRoles( request );
         }
 
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<>( );
         model.put( MARK_ROLE, adminRole );
         model.put( MARK_CONTROLED_RESOURCE_LIST, listResources );
         model.put( MARK_RESOURCE_TYPE_LIST, listResourceTypes );
@@ -465,9 +465,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
         Map<String, Object> parameters = new HashMap<>( 2 );
         parameters.put( PARAMETER_RBAC_ID, strIdControl );
         parameters.put( SecurityTokenService.PARAMETER_TOKEN, SecurityTokenService.getInstance( ).getToken( request, JSP_URL_REMOVE_CONTROL_FROM_ROLE ) );
-        String strUrl = AdminMessageService.getMessageUrl( request, PROPERTY_CONFIRM_DELETE_CONTROL, strDeleteUrl, AdminMessage.TYPE_CONFIRMATION, parameters );
-
-        return strUrl;
+        return AdminMessageService.getMessageUrl( request, PROPERTY_CONFIRM_DELETE_CONTROL, strDeleteUrl, AdminMessage.TYPE_CONFIRMATION, parameters );
     }
 
     /**
@@ -483,7 +481,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
     {
         if ( !SecurityTokenService.getInstance( ).validate( request, JSP_URL_REMOVE_CONTROL_FROM_ROLE ) )
         {
-            throw new AccessDeniedException( "Invalid security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
         String strIdControl = request.getParameter( PARAMETER_RBAC_ID );
         int nId = Integer.parseInt( strIdControl );
@@ -511,7 +509,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
     {
         setPageTitleProperty( PROPERTY_CHOOSE_RESOURCES_PAGETITLE );
 
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<>( );
 
         String strRoleKey = request.getParameter( PARAMETER_ROLE_KEY );
         String strResourceType = request.getParameter( PARAMETER_RESOURCE_TYPE );
@@ -521,7 +519,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
         boolean bResourceListAvailable = true;
         ReferenceList listResources = resourceType.getResourceIdService( ).getResourceIdList( getLocale( ) );
 
-        if ( ( listResources == null ) || ( listResources.size( ) == 0 ) )
+        if ( CollectionUtils.isEmpty( listResources ) )
         {
             bResourceListAvailable = false;
         }
@@ -593,7 +591,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
 
         ResourceType resourceType = ResourceTypeManager.getResourceType( strResourceType );
 
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<>( );
 
         model.put( MARK_RESOURCE_ID_LIST, resourceType.getResourceIdService( ).getResourceIdList( getLocale( ) ) );
         model.put( MARK_ROLE_KEY, strRoleKey );
@@ -721,7 +719,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
         // load the permission list for permission selection
         ReferenceList listPermissions = ResourceTypeManager.getPermissionsList( strResourceType, getLocale( ) );
 
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<>( );
 
         // forward the resource id list
         model.put( MARK_RESOURCE_ID_LIST, strArrayResourceIds );
@@ -811,7 +809,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
 
         if ( !SecurityTokenService.getInstance( ).validate( request, TEMPLATE_SELECT_PERMISSIONS ) )
         {
-            throw new AccessDeniedException( "Invalid security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
 
         // store the selected elements in database
@@ -840,7 +838,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
      */
     public String getAssignUsers( HttpServletRequest request )
     {
-        Map<String, Object> model = new HashMap<String, Object>( );
+        Map<String, Object> model = new HashMap<>( );
         setPageTitleProperty( PROPERTY_ASSIGN_USERS_PAGETITLE );
 
         String strBaseUrl = AppPathService.getBaseUrl( request ) + JSP_URL_ASSIGN_USERS_TO_ROLE;
@@ -848,46 +846,28 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
 
         // ROLE
         String strRoleKey = request.getParameter( PARAMETER_ROLE_KEY );
-        AdminRole role = AdminRoleHome.findByPrimaryKey( strRoleKey );
+        RBACRole role = RBACRoleHome.findByPrimaryKey( strRoleKey );
 
         // ASSIGNED USERS
-        List<AdminUser> listAssignedUsers = new ArrayList<AdminUser>( );
-
-        for ( AdminUser user : AdminUserHome.findByRole( strRoleKey ) )
-        {
-            // Add users with higher level then connected user or add all users if connected user is administrator
-            if ( ( user.getUserLevel( ) > getUser( ).getUserLevel( ) ) || ( getUser( ).isAdmin( ) ) )
-            {
-                listAssignedUsers.add( user );
-            }
-        }
+        List<AdminUser> listAssignedUsers = AdminUserHome.findByRole( strRoleKey ).stream( ).filter( this::isUserHigherThanConnectedUser )
+                .collect( Collectors.toList( ) );
 
         List<AdminUser> listFilteredUsers = AdminUserService.getFilteredUsersInterface( listAssignedUsers, request, model, url );
 
         // AVAILABLE USERS
         ReferenceList listAvailableUsers = new ReferenceList( );
-        ReferenceItem itemUser = null;
-        boolean bAssigned;
 
         for ( AdminUser user : AdminUserHome.findUserList( ) )
         {
-            itemUser = new ReferenceItem( );
+            final ReferenceItem itemUser = new ReferenceItem( );
             itemUser.setCode( Integer.toString( user.getUserId( ) ) );
             itemUser.setName( user.getAccessCode( ) + "(" + user.getFirstName( ) + " " + user.getLastName( ) + ")" );
-            bAssigned = Boolean.FALSE;
 
-            for ( AdminUser assignedUser : listAssignedUsers )
-            {
-                if ( Integer.toString( assignedUser.getUserId( ) ).equals( itemUser.getCode( ) ) )
-                {
-                    bAssigned = Boolean.TRUE;
-
-                    break;
-                }
-            }
+            boolean bAssigned = listAssignedUsers.stream( )
+                    .anyMatch( assignedUser -> Integer.toString( assignedUser.getUserId( ) ).equals( itemUser.getCode( ) ) );
 
             // Add users with higher level then connected user or add all users if connected user is administrator
-            if ( !bAssigned && ( ( user.getUserLevel( ) > getUser( ).getUserLevel( ) ) || ( getUser( ).isAdmin( ) ) ) )
+            if ( !bAssigned && isUserHigherThanConnectedUser( user ) )
             {
                 listAvailableUsers.add( itemUser );
             }
@@ -899,6 +879,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
 
         if ( strSortedAttributeName != null )
         {
+            url.addParameter( Parameters.SORTED_ATTRIBUTE_NAME, strSortedAttributeName );
             strAscSort = request.getParameter( Parameters.SORTED_ASC );
 
             boolean bIsAscSort = Boolean.parseBoolean( strAscSort );
@@ -906,14 +887,9 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
             Collections.sort( listFilteredUsers, new AttributeComparator( strSortedAttributeName, bIsAscSort ) );
         }
 
-        _strCurrentPageIndex = Paginator.getPageIndex( request, Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex );
+        _strCurrentPageIndex = AbstractPaginator.getPageIndex( request, AbstractPaginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex );
         _nDefaultItemsPerPage = AppPropertiesService.getPropertyInt( PROPERTY_ROLES_PER_PAGE, 50 );
-        _nItemsPerPage = Paginator.getItemsPerPage( request, Paginator.PARAMETER_ITEMS_PER_PAGE, _nItemsPerPage, _nDefaultItemsPerPage );
-
-        if ( strSortedAttributeName != null )
-        {
-            url.addParameter( Parameters.SORTED_ATTRIBUTE_NAME, strSortedAttributeName );
-        }
+        _nItemsPerPage = AbstractPaginator.getItemsPerPage( request, AbstractPaginator.PARAMETER_ITEMS_PER_PAGE, _nItemsPerPage, _nDefaultItemsPerPage );
 
         if ( strAscSort != null )
         {
@@ -926,11 +902,11 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
         // PAGINATOR
         url.addParameter( PARAMETER_ROLE_KEY, role.getKey( ) );
 
-        LocalizedPaginator<AdminUser> paginator = new LocalizedPaginator<AdminUser>( listFilteredUsers, _nItemsPerPage, url.getUrl( ),
-                Paginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex, getLocale( ) );
+        LocalizedPaginator<AdminUser> paginator = new LocalizedPaginator<>( listFilteredUsers, _nItemsPerPage, url.getUrl( ),
+                AbstractPaginator.PARAMETER_PAGE_INDEX, _strCurrentPageIndex, getLocale( ) );
 
         // USER LEVEL
-        Collection<Level> filteredLevels = new ArrayList<Level>( );
+        Collection<Level> filteredLevels = new ArrayList<>( );
 
         for ( Level level : LevelHome.getLevelsList( ) )
         {
@@ -968,7 +944,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
     {
         if ( !SecurityTokenService.getInstance( ).validate( request, JSP_ASSIGN_USERS_TO_ROLE ) )
         {
-            throw new AccessDeniedException( "Invalid security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
         String strRoleKey = request.getParameter( PARAMETER_ROLE_KEY );
 
@@ -1005,7 +981,7 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
     {
         if ( !SecurityTokenService.getInstance( ).validate( request, JSP_ASSIGN_USERS_TO_ROLE ) )
         {
-            throw new AccessDeniedException( "Invalid security token" );
+            throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
         String strRoleKey = request.getParameter( PARAMETER_ROLE_KEY );
         int nIdUser = Integer.parseInt( request.getParameter( PARAMETER_ID_USER ) );
@@ -1033,11 +1009,11 @@ public class RoleManagementJspBean extends AdminFeaturesPageJspBean
     {
         if ( _itemNavigator == null )
         {
-            List<String> listIdsRight = new ArrayList<String>( );
+            List<String> listIdsRight = new ArrayList<>( );
             int nCurrentItemId = 0;
             int nIndex = 0;
 
-            for ( AdminRole role : AdminRoleHome.findAll( ) )
+            for ( RBACRole role : RBACRoleHome.findAll( ) )
             {
                 if ( ( role != null ) && StringUtils.isNotBlank( role.getKey( ) ) )
                 {

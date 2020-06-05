@@ -1,0 +1,34 @@
+<#include "admindashboard_utils.html">
+<@tabPanel id='userRightsLevels'>
+	<@fieldSet legend='#i18n{portal.users.adminFeature.level_right_management.name}'>
+    #i18n{portal.features.manage_levels.featureDescription}
+    <@btnGroup align='right'>
+			<@tform method='post' action='jsp/admin/features/CreateLevel.jsp'>
+					<@button type='submit' buttonIcon='plus' title='#i18n{portal.features.manage_levels.buttonLabelCreate}' hideTitle=['xs','sm'] size='sm' />
+			</@tform>
+    </@btnGroup>
+    
+    <@fieldSet legend='#i18n{portal.features.manage_levels.labelList}'>
+        <@table>
+					<thead>
+						<tr>            
+							<th>#i18n{portal.features.manage_levels.columnTitleId}</th>
+							<th>#i18n{portal.features.manage_levels.columnTitleName}</th>
+							<th>#i18n{portal.features.manage_groups.labelActions}</th>
+						</tr>
+					</thead>
+					<tbody>
+						<#list levels_list as level >
+						<tr>
+							<td>${level.id}</td>
+							<td>${level.name}</td>
+							<td>
+								<@aButton href='jsp/admin/features/ModifyLevel.jsp?level_id=${level.id}' buttonIcon='edit' title='#i18n{portal.features.manage_groups.buttonModify} (${level.name?html})' hideTitle=['all'] size='sm' />
+							</td>
+						</tr>			
+						</#list>
+					</tbody>
+        </@table>
+    </@fieldSet>
+	</@fieldSet>
+</@tabPanel>
