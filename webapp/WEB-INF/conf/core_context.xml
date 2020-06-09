@@ -262,6 +262,7 @@
         <property name="files">
             <list>
                 <value>commons_bs4_materialkit.html</value>
+								<value>commons_bs4_backport.html</value>
             </list>
         </property>
     </bean>
@@ -299,6 +300,7 @@
         <property name="files">
             <list>
                 <value>commons_bs4_adminlte.html</value>
+								<value>commons_bs4_backport.html</value>
             </list>
         </property>
     </bean>

@@ -36,7 +36,6 @@ package fr.paris.lutece.portal.service.workflow;
 import fr.paris.lutece.api.user.User;
 import fr.paris.lutece.plugins.workflowcore.business.action.Action;
 import fr.paris.lutece.plugins.workflowcore.business.state.State;
-import fr.paris.lutece.portal.business.user.AdminUser;
 import fr.paris.lutece.util.ReferenceList;
 
 import java.util.Collection;
@@ -99,7 +98,7 @@ public interface IWorkflowProvider
      *            the request
      * @param locale
      *            the locale
-     * @param User
+     * @param user
      *            the User
      * @return the history of actions performed on a resource
      */
@@ -145,6 +144,7 @@ public interface IWorkflowProvider
      *            the request
      * @param locale
      *            the locale
+     * @param user
      * @return a xml wich contains the history of actions performed on a resource
      */
     String getDocumentHistoryXml( int nIdResource, String strResourceType, int nIdWorkflow, HttpServletRequest request, Locale locale,  User user );
@@ -294,7 +294,7 @@ public interface IWorkflowProvider
      *            the request
      * @param locale
      *            the locale
-     * @param the user
+     * @param user the user
      * @return null if there is no error in the tasks form, return the error message otherwise
      */
     String doValidateTasksForm( int nIdResource, String strResourceType, int nIdAction, HttpServletRequest request, Locale locale , User user );
