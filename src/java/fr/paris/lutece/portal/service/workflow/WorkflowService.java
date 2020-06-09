@@ -383,7 +383,7 @@ public final class WorkflowService
      * @param request         the request
      * @param nIdWorkflow     the workflow id
      * @param locale          the locale
-     * @param User			  the User
+     * @param user			  the User
      * 
      * @return a xml wich contains the history of actions performed on a resource
      */
