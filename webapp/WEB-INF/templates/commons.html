@@ -763,9 +763,14 @@ and is kept only for backwards compatibility
 <#macro icon prefix='fa fa-' style='' class='' title='' id='' params=''>
 	<#switch style>
 		<#case 'sync'>
-		<#local iconStyle = 'refresh' />
+			<#local iconStyle = 'refresh' />
 		<#break>
-		
+		<#case 'edit'>
+			<#local iconStyle = 'pencil' />
+		<#break>
+		<#case 'times'>
+			<#local iconStyle = 'close' />
+		<#break>
 		<#default>
 		<#local iconStyle = style />
 	</#switch>

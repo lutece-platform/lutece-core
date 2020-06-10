@@ -326,7 +326,20 @@
 <#else>
 	<#local prefix = 'fa ' + prefix />
 </#if>
-	<i class="${prefix}${style}<#if class!=''> ${class}</#if>" aria-hidden="true"<#if title!=''> title='${title}'</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>></i>
+<#switch style>
+	<#case 'refresh'>
+		<#local iconStyle = 'sync' />
+	<#break>
+	<#case 'pencil'>
+		<#local iconStyle = 'edit' />
+	<#break>
+	<#case 'close'>
+		<#local iconStyle = 'times' />
+	<#break>
+	<#default>
+	<#local iconStyle = style />
+</#switch>
+	<i class="${prefix}${iconStyle}<#if class!=''> ${class}</#if>" aria-hidden="true"<#if title!=''> title='${title}'</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>></i>
 </#macro>
 
 <#-- FORM -->
@@ -600,7 +613,7 @@
 <#macro pre id='' params='' class='' hide=[] align=''>
 	<#local class += alignmentSettings(align) />
 	<#local class += displaySettings(hide,'block') />
-	<pre<#if class!=''> class="${class}"</#if><#if params!=''> ${params}</#if><#if id!=''> ${id}</#if> style="white-space:nowrap;">
+	<pre<#if class!=''> class="${class}"</#if><#if params!=''> ${params}</#if><#if id!=''> ${id}</#if>>
 		<#nested>
 	</pre>
 </#macro>
