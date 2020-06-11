@@ -17,7 +17,7 @@
     <properties>
         <jiraProjectName>LUTECE</jiraProjectName>
         <jiraComponentId>10000</jiraComponentId>
-        <springVersion>4.3.22.RELEASE</springVersion>
+        <springVersion>4.3.27.RELEASE</springVersion>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <github.project>lutece-platform/lutece-core</github.project>
         <twitter.account>LuteceFoundry</twitter.account>
@@ -212,47 +212,6 @@
             </exclusions>
         </dependency>
       
-        <!-- indexing -->
-        <dependency>
-            <groupId>fr.paris.lutece.plugins</groupId>
-            <artifactId>library-lucene</artifactId>
-            <version>3.0.1</version>
-            <type>lutece-plugin</type>
-        </dependency>
-        
-        <!-- Lutece API -->
-        <dependency>
-            <groupId>fr.paris.lutece.plugins</groupId>
-            <artifactId>library-user-api</artifactId>
-            <version>1.0.1-SNAPSHOT</version>
-            <type>jar</type> 
-        </dependency>
-        <dependency>
-            <groupId>fr.paris.lutece.plugins</groupId>
-            <artifactId>library-rbac-api</artifactId>
-            <version>1.0.0</version>
-            <type>jar</type> 
-        </dependency>
-        <dependency>
-            <groupId>fr.paris.lutece.plugins</groupId>
-            <artifactId>library-workgroup-api</artifactId>
-            <version>1.0.0</version>
-            <type>jar</type> 
-        </dependency> 
-        <dependency>
-            <groupId>fr.paris.lutece.plugins</groupId>
-            <artifactId>library-freemarker</artifactId>
-            <version>1.2.2-SNAPSHOT</version>
-            <type>jar</type>
-        </dependency>
-
-        <!-- Workflow -->
-        <dependency>
-            <groupId>fr.paris.lutece.plugins</groupId>
-            <artifactId>library-workflow-core</artifactId>
-            <version>1.2.4-SNAPSHOT</version>
-            <type>jar</type>
-        </dependency>
         
         <!-- scannotation -->
         <dependency>
@@ -305,32 +264,11 @@
             <version>5.3.2.Final</version>
         </dependency>
         
-        <!-- Dozer - Java Bean to Java Bean -->
-        <dependency>
-            <groupId>net.sf.dozer</groupId>
-            <artifactId>dozer</artifactId>
-            <version>5.5.1</version>
-            <exclusions>
-                <exclusion>
-                    <!-- Conflicts with the dozen of dependencies requiring commons-logging:commons-logging -->
-                    <groupId>org.slf4j</groupId>
-                    <artifactId>jcl-over-slf4j</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        
         <!-- Open CSV -->
         <dependency>
             <groupId>net.sf.opencsv</groupId>
             <artifactId>opencsv</artifactId>
             <version>2.3</version>
-        </dependency>
-        
-        <!-- Lutece JMX API Library -->                                              
-        <dependency>
-            <groupId>fr.paris.lutece.plugins</groupId>
-            <artifactId>library-jmx-api</artifactId>
-            <version>1.0.0</version>
         </dependency>
         
         <!-- JDK 11 Support -->
@@ -350,6 +288,62 @@
             <version>2.3.3</version>
         </dependency>
 
+        <!-- LUTECE DEPENDENCIES -->
+        
+        <!-- Lutece search indexing -->
+        <dependency>
+            <groupId>fr.paris.lutece.plugins</groupId>
+            <artifactId>library-lucene</artifactId>
+            <version>3.0.1</version>
+            <type>lutece-plugin</type>
+        </dependency>
+        
+        <!-- Lutece User API -->
+        <dependency>
+            <groupId>fr.paris.lutece.plugins</groupId>
+            <artifactId>library-user-api</artifactId>
+            <version>1.0.1-SNAPSHOT</version>
+            <type>jar</type> 
+        </dependency>
+
+        <!-- Lutece RBAC -->
+        <dependency>
+            <groupId>fr.paris.lutece.plugins</groupId>
+            <artifactId>library-rbac-api</artifactId>
+            <version>1.0.0</version>
+            <type>jar</type> 
+        </dependency>
+        
+        <!-- Lutece Workflow -->
+        <dependency>
+            <groupId>fr.paris.lutece.plugins</groupId>
+            <artifactId>library-workflow-core</artifactId>
+            <version>1.2.4-SNAPSHOT</version>
+            <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>fr.paris.lutece.plugins</groupId>
+            <artifactId>library-workgroup-api</artifactId>
+            <version>1.0.0</version>
+            <type>jar</type> 
+        </dependency>
+        
+        <!-- Lutece Freemarker --> 
+        <dependency>
+            <groupId>fr.paris.lutece.plugins</groupId>
+            <artifactId>library-freemarker</artifactId>
+            <version>1.2.2-SNAPSHOT</version>
+            <type>jar</type>
+        </dependency>
+
+        
+        <!-- Lutece JMX API Library -->                                              
+        <dependency>
+            <groupId>fr.paris.lutece.plugins</groupId>
+            <artifactId>library-jmx-api</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        
     </dependencies>
 
     <scm>
