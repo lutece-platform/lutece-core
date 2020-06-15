@@ -267,7 +267,7 @@
         </property>
     </bean>
     <bean id="commonsDefault" class="fr.paris.lutece.portal.business.template.CommonsInclude">
-        <property name="key" value="Bootstrap4" />
+        <property name="key" value="Bootstrap3" />
         <property name="name" value="Bootstap 3.3 + AdminLTE (Lutece v6.x compatible)" />
         <property name="files">
             <list>
