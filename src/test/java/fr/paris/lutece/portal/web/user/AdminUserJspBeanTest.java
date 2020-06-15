@@ -81,6 +81,7 @@ import fr.paris.lutece.portal.web.l10n.LocaleService;
 import fr.paris.lutece.portal.web.upload.MultipartHttpServletRequest;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.util.password.IPasswordFactory;
+import org.junit.Test;
 
 public class AdminUserJspBeanTest extends LuteceTestCase
 {
@@ -1402,7 +1403,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
                 assertTrue( entry.getValue( ) );
             }
             request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
-                    SecurityTokenService.getInstance( ).getToken( request, "admin/user/field_anonymize_admin_user.html" ) );
+            SecurityTokenService.getInstance( ).getToken( request, AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) );
             bean.doChangeFieldAnonymizeAdminUsers( request );
             for ( Entry<String, Boolean> entry : AdminUserHome.getAnonymizationStatusUserStaticField( ).entrySet( ) )
             {
