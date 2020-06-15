@@ -327,8 +327,11 @@ public class PageTemplatesJspBeanTest extends LuteceTestCase
         instance.getConfirmRemovePageTemplate( request );
         AdminMessage message = AdminMessageService.getMessage( request );
         assertNotNull( message );
-        assertNotNull( message.getRequestParameters( ).get( SecurityTokenService.PARAMETER_TOKEN ) );
-        assertEquals( TEST_PAGE_TEMPLATE_ID, message.getRequestParameters( ).get( Parameters.PAGE_TEMPLATE_ID ) );
+        if( message.getRequestParameters( ) != null )
+        {
+            assertNotNull( message.getRequestParameters( ).get( SecurityTokenService.PARAMETER_TOKEN ) );
+            assertEquals( TEST_PAGE_TEMPLATE_ID, message.getRequestParameters( ).get( Parameters.PAGE_TEMPLATE_ID ) );
+        }
     }
 
     public void testDoRemovePageTemplate( ) throws AccessDeniedException
