@@ -239,7 +239,7 @@ INSERT INTO core_text_editor VALUES ( '', 'portal.admindashboard.editors.labelBa
 INSERT INTO core_text_editor VALUES ( '', 'portal.admindashboard.editors.labelFrontNoEditor', 0 );
 INSERT INTO core_text_editor VALUES ( 'markitupbbcode', 'portal.admindashboard.editors.labelFrontMarkitupBBCode', 0 );
 
-INSERT INTO core_admin_mailinglist VALUES( '1', 'admin', 'admin', 'all' );
+INSERT INTO core_admin_mailinglist (name,description,workgroup) VALUES( 'admin', 'admin', 'all' );
 INSERT INTO core_admin_mailinglist_filter VALUES( '1', 'all', 'super_admin' );
 
 INSERT INTO core_xsl_export VALUES (125,'Core - Export users to a CSV file','Export back office users to a CSV file','csv',125,'core');
