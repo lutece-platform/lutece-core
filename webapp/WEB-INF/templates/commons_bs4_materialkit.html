@@ -318,6 +318,11 @@
 	</td>
 </#macro>
 
+<#macro tableHeadBodySeparator>
+</thead>
+<tbody>
+</#macro>
+
 
 <#-- SORT -->
 <#macro sort jsp_url attribute id="" >
@@ -341,14 +346,17 @@
 	<#local prefix = 'fa ' + prefix />
 </#if>
 <#switch style>
-	<#case 'refresh'>
-		<#local iconStyle = 'sync' />
+	<#case 'clock-o'>
+		<#local iconStyle = 'clock' />
+	<#break>
+	<#case 'close'>
+		<#local iconStyle = 'times' />
 	<#break>
 	<#case 'pencil'>
 		<#local iconStyle = 'edit' />
 	<#break>
-	<#case 'close'>
-		<#local iconStyle = 'times' />
+	<#case 'refresh'>
+		<#local iconStyle = 'sync' />
 	<#break>
 	<#default>
 	<#local iconStyle = style />
@@ -943,6 +951,23 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 <div class="btn-group<#if size!=''> btn-group-${size}</#if> align-items-center<#if class!=''> ${class}</#if><#if displayClass !=''> ${displayClass}</#if>" role="group"<#if ariaLabel!=''> aria-label="${ariaLabel}"</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 	<#nested>
 </div>
+</#macro>
+
+<#macro actionButtons button1Name='' button2Name='' i18nValue1Key='portal.admin.message.buttonValidate' i18nValue2Key='portal.admin.message.buttonCancel' url1='' url2='' icon1='check' icon2='close' offset=3 >
+	<@formGroup rows=2>
+        <#if url1 != ''>
+			<@aButton href='${url1}' buttonIcon='${icon1}' title='#i18n{${i18nValue1Key}}' />
+        <#else>
+			<@button type='submit' name='${button1Name}' buttonIcon='${icon1}' title='#i18n{${i18nValue1Key}}' />
+        </#if>
+        <#if url2 != ''>
+			<@aButton href='${url2}' buttonIcon='${icon2}' title='#i18n{${i18nValue2Key}}' color='secondary' />
+        <#else>
+            <#if button2Name != ''>
+				<@button type='submit' name='${button2Name}' buttonIcon='${icon2}' title='#i18n{${i18nValue2Key}}' color='secondary' />
+            </#if>
+        </#if>
+	</@formGroup>
 </#macro>
 
 <#-- Radio button/Checkbox as buttons (to use with btnGroup)  -->
