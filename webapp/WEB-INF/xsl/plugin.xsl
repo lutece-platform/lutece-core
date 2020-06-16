@@ -3,6 +3,7 @@
     <xsl:output method="html" indent="yes" />
 
     <xsl:template match="plug-in">
+		<!DOCTYPE html>
         <html>
             <head>
                 <title>
