@@ -54,7 +54,7 @@ public class FreeMarkerTemplateServiceTest extends LuteceTestCase
      */
     public void testInit( )
     {
-        String strTemplatePath = "WEB-INF/templates/";
+        String strTemplatePath = "/WEB-INF/templates/";
 
         IFreeMarkerTemplateService freeMarkerTemplateService = FreeMarkerTemplateService.getInstance( );
 
