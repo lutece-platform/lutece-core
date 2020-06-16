@@ -81,7 +81,6 @@ import fr.paris.lutece.portal.web.l10n.LocaleService;
 import fr.paris.lutece.portal.web.upload.MultipartHttpServletRequest;
 import fr.paris.lutece.test.LuteceTestCase;
 import fr.paris.lutece.util.password.IPasswordFactory;
-import org.junit.Test;
 
 public class AdminUserJspBeanTest extends LuteceTestCase
 {
@@ -699,7 +698,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
             bean.init( request, "CORE_USERS_MANAGEMENT" );
             String html = bean.getModifyUserPassword( request );
             assertNotNull( html );
-            assertTrue( html.contains( "<small>" + I18nService.getLocalizedString( "portal.users.modify_user_password.pageTitle", Locale.FRANCE ) + "</small>" ) );
+            assertTrue( html.contains( I18nService.getLocalizedString( "portal.users.modify_user_password.pageTitle", Locale.FRANCE ) ) );
         }
         finally
         {
