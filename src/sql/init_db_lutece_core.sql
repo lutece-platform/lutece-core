@@ -67,9 +67,9 @@ INSERT INTO core_level_right VALUES (1,'Level 1 - Fonctionnal administrator');
 INSERT INTO core_level_right VALUES (2,'Level 2 - Site Manager - Webmaster');
 INSERT INTO core_level_right VALUES (3,'Level 3 - Contributor');
 
-INSERT INTO core_mode VALUES (0,'Normal','normal/','xml','1.0','text/xml','UTF-8','yes','yes','yes');
-INSERT INTO core_mode VALUES (1,'Administration','admin/','xml','1.0','text/xml','UTF-8','yes','yes','yes');
-INSERT INTO core_mode VALUES (2,'Wap','wml/','xml','1.0','text/xml','UTF-8','yes','yes','yes');
+INSERT INTO core_mode VALUES (0,'Normal','normal/','xml','1.0','text/xml','UTF-8','yes','yes',null);
+INSERT INTO core_mode VALUES (1,'Administration','admin/','xml','1.0','text/xml','UTF-8','yes','yes',null);
+INSERT INTO core_mode VALUES (2,'Wap','wml/','xml','1.0','text/xml','UTF-8','yes','yes',null);
 
 INSERT INTO core_page (id_parent,name,description,date_update,status,page_order,id_template,date_creation,role,code_theme,node_status,image_content,mime_type,meta_keywords,meta_description,id_authorization_node,display_date_update,is_manual_date_update) VALUES (0,'Home','Home Page','2014-06-08 17:20:44',1,1,4,'2003-09-09 00:38:01','none','default',0,'','application/octet-stream',NULL,NULL,1,0,0);
 INSERT INTO core_page (id_parent,name,description,date_update,status,page_order,id_template,date_creation,role,code_theme,node_status,image_content,mime_type,meta_keywords,meta_description,id_authorization_node,display_date_update,is_manual_date_update) VALUES (1,'Page 1','A child page','2014-06-08 18:23:42',0,1,2,'2014-06-08 18:23:42','none','default',1,NULL,'application/octet-stream',NULL,NULL,1,0,0);
