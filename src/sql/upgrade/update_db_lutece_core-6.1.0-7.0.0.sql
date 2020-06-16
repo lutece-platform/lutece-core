@@ -57,3 +57,5 @@ ALTER TABLE core_attribute modify COLUMN id_attribute int AUTO_INCREMENT NOT NUL
 ALTER TABLE core_attribute_field modify COLUMN id_field int AUTO_INCREMENT NOT NULL;
 ALTER TABLE core_admin_user_field modify COLUMN id_user_field int AUTO_INCREMENT NOT NULL;
 ALTER TABLE core_xsl_export modify COLUMN id_xsl_export int AUTO_INCREMENT NOT NULL;
+
+UPDATE core_mode SET output_xsl_standalone=NULL WHERE output_xsl_omit_xml_dec='yes';
