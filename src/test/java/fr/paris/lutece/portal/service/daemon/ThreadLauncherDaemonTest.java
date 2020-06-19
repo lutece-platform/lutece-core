@@ -90,6 +90,9 @@ public class ThreadLauncherDaemonTest extends LuteceTestCase
     {
         CyclicBarrier barrier = new CyclicBarrier( 2 );
         _runnableTimedOut = false;
+        
+        dumpStateWhileWaiting( 0L ); // for debugging test failure
+        
         Instant start = Instant.now( );
         ThreadLauncherDaemon.addItemToQueue( ( ) -> {
             try
@@ -103,7 +106,7 @@ public class ThreadLauncherDaemonTest extends LuteceTestCase
             }
         }, "key", PluginService.getCore( ) );
 
-        dumpStateWhileWaiting( ); // for debugging test failure
+        dumpStateWhileWaiting( 500L ); // for debugging test failure
 
         barrier.await( TIMEOUT_DURATION, TIMEOUT_TIMEUNIT );
         AppLogService.info( "ThreadLauncherDaemonTest#testAddItemToQueue : task executed after "
@@ -112,10 +115,10 @@ public class ThreadLauncherDaemonTest extends LuteceTestCase
         assertFalse( _runnableTimedOut );
     }
 
-    private void dumpStateWhileWaiting( ) throws InterruptedException
+    private void dumpStateWhileWaiting( long lWait ) throws InterruptedException
     {
         // wait for the daemon to have a chance to try running
-        Thread.sleep( 1000 );
+        Thread.sleep( lWait );
         final StringBuilder dump = new StringBuilder( );
         final ThreadMXBean threadMXBean = ManagementFactory.getThreadMXBean( );
         final ThreadInfo[ ] threadInfos = threadMXBean.getThreadInfo( threadMXBean.getAllThreadIds( ), 100 );
