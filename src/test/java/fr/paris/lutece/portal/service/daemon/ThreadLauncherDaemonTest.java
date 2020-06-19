@@ -49,7 +49,7 @@ public class ThreadLauncherDaemonTest extends LuteceTestCase
     private static final long TIMEOUT_DURATION = 10L;
     private static final TimeUnit TIMEOUT_TIMEUNIT = TimeUnit.SECONDS;
     private boolean _runnableTimedOut;
-    private Boolean _bThreadLuancherDaemonInitialState;
+    private Boolean _bThreadLauncherDaemonInitialState;
     private DaemonEntry _threadLauncherDaemonEntry;
 
     @Override
@@ -57,16 +57,17 @@ public class ThreadLauncherDaemonTest extends LuteceTestCase
     {
         super.setUp( );
         // we ensure the ThreadLauncherDeamon is started
+        AppLogService.info( "Ensure ThreadLauncherDeamon is started" );
         for ( DaemonEntry daemonEntry : AppDaemonService.getDaemonEntries( ) )
         {
             if ( daemonEntry.getId( ).equals( "threadLauncherDaemon" ) )
             {
                 _threadLauncherDaemonEntry = daemonEntry;
-                _bThreadLuancherDaemonInitialState = daemonEntry.isRunning( );
+                _bThreadLauncherDaemonInitialState = daemonEntry.isRunning( );
                 break;
             }
         }
-        assertNotNull( "Did not find threadLauncherDaemon daemon", _bThreadLuancherDaemonInitialState );
+        assertNotNull( "Did not find threadLauncherDaemon daemon", _bThreadLauncherDaemonInitialState );
         AppDaemonService.startDaemon( "threadLauncherDaemon" );
     }
 
@@ -74,7 +75,8 @@ public class ThreadLauncherDaemonTest extends LuteceTestCase
     protected void tearDown( ) throws Exception
     {
         // restore threadLauncherDaemon state
-        if ( !_bThreadLuancherDaemonInitialState.booleanValue( ) )
+        AppLogService.info( "restore threadLauncherDaemon state (" + _bThreadLauncherDaemonInitialState + ")" );
+        if ( !_bThreadLauncherDaemonInitialState.booleanValue( ) )
         {
             AppDaemonService.stopDaemon( "threadLauncherDaemon" );
         }
