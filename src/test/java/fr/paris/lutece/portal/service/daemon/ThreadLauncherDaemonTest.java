@@ -114,7 +114,7 @@ public class ThreadLauncherDaemonTest extends LuteceTestCase
     private void dumpStateWhileWaiting( ) throws InterruptedException
     {
         // wait for the daemon to have a chance to try running
-        Thread.sleep( 500 );
+        Thread.sleep( 1000 );
         final StringBuilder dump = new StringBuilder( );
         final ThreadMXBean threadMXBean = ManagementFactory.getThreadMXBean( );
         final ThreadInfo[ ] threadInfos = threadMXBean.getThreadInfo( threadMXBean.getAllThreadIds( ), 100 );
