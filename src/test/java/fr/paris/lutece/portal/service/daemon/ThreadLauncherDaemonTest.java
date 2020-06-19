@@ -49,6 +49,37 @@ public class ThreadLauncherDaemonTest extends LuteceTestCase
     private static final long TIMEOUT_DURATION = 10L;
     private static final TimeUnit TIMEOUT_TIMEUNIT = TimeUnit.SECONDS;
     private boolean _runnableTimedOut;
+    private Boolean _bThreadLuancherDaemonInitialState;
+    private DaemonEntry _threadLauncherDaemonEntry;
+
+    @Override
+    protected void setUp( ) throws Exception
+    {
+        super.setUp( );
+        // we ensure the ThreadLauncherDeamon is started
+        for ( DaemonEntry daemonEntry : AppDaemonService.getDaemonEntries( ) )
+        {
+            if ( daemonEntry.getId( ).equals( "threadLauncherDaemon" ) )
+            {
+                _threadLauncherDaemonEntry = daemonEntry;
+                _bThreadLuancherDaemonInitialState = daemonEntry.isRunning( );
+                break;
+            }
+        }
+        assertNotNull( "Did not find threadLauncherDaemon daemon", _bThreadLuancherDaemonInitialState );
+        AppDaemonService.startDaemon( "threadLauncherDaemon" );
+    }
+
+    @Override
+    protected void tearDown( ) throws Exception
+    {
+        // restore threadLauncherDaemon state
+        if ( !_bThreadLuancherDaemonInitialState.booleanValue( ) )
+        {
+            AppDaemonService.stopDaemon( "threadLauncherDaemon" );
+        }
+        super.tearDown( );
+    }
 
     public void testAddItemToQueue( ) throws InterruptedException, BrokenBarrierException, TimeoutException
     {
@@ -68,6 +99,7 @@ public class ThreadLauncherDaemonTest extends LuteceTestCase
         barrier.await( TIMEOUT_DURATION, TIMEOUT_TIMEUNIT );
         AppLogService.info( "ThreadLauncherDaemonTest#testAddItemToQueue : task executed after "
                 + Duration.between( start, Instant.now( ) ).toMillis( ) + "ms" );
+        AppLogService.info( "Last Run Logs : " + _threadLauncherDaemonEntry.getLastRunLogs( ) );
         assertFalse( _runnableTimedOut );
     }
 }
