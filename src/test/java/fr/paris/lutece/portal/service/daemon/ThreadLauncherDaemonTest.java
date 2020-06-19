@@ -94,6 +94,7 @@ public class ThreadLauncherDaemonTest extends LuteceTestCase
         ThreadLauncherDaemon.addItemToQueue( ( ) -> {
             try
             {
+                AppLogService.info( "testAddItemToQueue: Inside the task, going to await" );
                 barrier.await( TIMEOUT_DURATION, TIMEOUT_TIMEUNIT );
             }
             catch ( InterruptedException | BrokenBarrierException | TimeoutException e )
