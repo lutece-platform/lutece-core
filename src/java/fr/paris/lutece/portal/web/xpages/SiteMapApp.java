@@ -45,6 +45,7 @@ import fr.paris.lutece.portal.service.plugin.Plugin;
 import fr.paris.lutece.portal.service.portal.PortalService;
 import fr.paris.lutece.portal.service.security.LuteceUser;
 import fr.paris.lutece.portal.service.security.SecurityService;
+import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.web.admin.AdminPageJspBean;
 import fr.paris.lutece.util.xml.XmlUtil;
@@ -53,9 +54,11 @@ import org.apache.commons.lang.StringUtils;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -194,7 +197,7 @@ public class SiteMapApp implements XPageApplication
         strArborescenceXml.append( XmlUtil.getXmlHeader( ) );
 
         int nLevel = 0;
-        findPages( strArborescenceXml, PortalService.getRootPageId( ), nLevel, request );
+        findPages( strArborescenceXml, PortalService.getRootPageId( ), nLevel, new HashSet<>( ), request );
 
         // Added in v1.3
         // Use the same stylesheet for normal or admin mode
@@ -247,8 +250,13 @@ public class SiteMapApp implements XPageApplication
      * @param request
      *            The HttpServletRequest
      */
-    private void findPages( StringBuffer strXmlArborescence, int nPageId, int nLevel, HttpServletRequest request )
+    private void findPages( StringBuffer strXmlArborescence, int nPageId, int nLevel, Set<Integer> seenPages, HttpServletRequest request )
     {
+        if ( !seenPages.add( nPageId ) )
+        {
+            AppLogService.error( "SiteMapApp : A cycle exists in pages; page id " + nPageId + " was already processed" );
+            return;
+        }
         Page page = PageHome.getPage( nPageId );
 
         if ( page.isVisible( request ) )
@@ -276,7 +284,7 @@ public class SiteMapApp implements XPageApplication
 
             for ( Page pageChild : PageHome.getChildPagesMinimalData( nPageId ) )
             {
-                findPages( strXmlArborescence, pageChild.getId( ), nLevel + 1, request );
+                findPages( strXmlArborescence, pageChild.getId( ), nLevel + 1, seenPages, request );
             }
 
             XmlUtil.endElement( strXmlArborescence, XmlContent.TAG_CHILD_PAGES_LIST );
