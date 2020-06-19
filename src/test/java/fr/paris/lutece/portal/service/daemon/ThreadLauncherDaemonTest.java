@@ -33,6 +33,9 @@
  */
 package fr.paris.lutece.portal.service.daemon;
 
+import java.lang.management.ManagementFactory;
+import java.lang.management.ThreadInfo;
+import java.lang.management.ThreadMXBean;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.concurrent.BrokenBarrierException;
@@ -98,10 +101,39 @@ public class ThreadLauncherDaemonTest extends LuteceTestCase
                 _runnableTimedOut = true;
             }
         }, "key", PluginService.getCore( ) );
+
+        dumpStateWhileWaiting( ); // for debugging test failure
+
         barrier.await( TIMEOUT_DURATION, TIMEOUT_TIMEUNIT );
         AppLogService.info( "ThreadLauncherDaemonTest#testAddItemToQueue : task executed after "
                 + Duration.between( start, Instant.now( ) ).toMillis( ) + "ms" );
         AppLogService.info( "Last Run Logs : " + _threadLauncherDaemonEntry.getLastRunLogs( ) );
         assertFalse( _runnableTimedOut );
+    }
+
+    private void dumpStateWhileWaiting( ) throws InterruptedException
+    {
+        // wait for thea daemon to have a chance to try running
+        Thread.sleep( 500 );
+        final StringBuilder dump = new StringBuilder( );
+        final ThreadMXBean threadMXBean = ManagementFactory.getThreadMXBean( );
+        final ThreadInfo[ ] threadInfos = threadMXBean.getThreadInfo( threadMXBean.getAllThreadIds( ), 100 );
+        for ( ThreadInfo threadInfo : threadInfos )
+        {
+            dump.append( '"' );
+            dump.append( threadInfo.getThreadName( ) );
+            dump.append( "\" " );
+            final Thread.State state = threadInfo.getThreadState( );
+            dump.append( "\n   java.lang.Thread.State: " );
+            dump.append( state );
+            final StackTraceElement[ ] stackTraceElements = threadInfo.getStackTrace( );
+            for ( final StackTraceElement stackTraceElement : stackTraceElements )
+            {
+                dump.append( "\n        at " );
+                dump.append( stackTraceElement );
+            }
+            dump.append( "\n\n" );
+        }
+        AppLogService.info( "Current state : " + dump );
     }
 }
