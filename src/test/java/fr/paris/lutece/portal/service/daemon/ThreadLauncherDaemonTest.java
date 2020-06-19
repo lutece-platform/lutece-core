@@ -33,33 +33,41 @@
  */
 package fr.paris.lutece.portal.service.daemon;
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 import fr.paris.lutece.portal.service.plugin.PluginService;
+import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.test.LuteceTestCase;
 
 public class ThreadLauncherDaemonTest extends LuteceTestCase
 {
+    private static final long TIMEOUT_DURATION = 10L;
+    private static final TimeUnit TIMEOUT_TIMEUNIT = TimeUnit.SECONDS;
     private boolean _runnableTimedOut;
 
     public void testAddItemToQueue( ) throws InterruptedException, BrokenBarrierException, TimeoutException
     {
         CyclicBarrier barrier = new CyclicBarrier( 2 );
         _runnableTimedOut = false;
+        Instant start = Instant.now( );
         ThreadLauncherDaemon.addItemToQueue( ( ) -> {
             try
             {
-                barrier.await( 10L, TimeUnit.SECONDS );
+                barrier.await( TIMEOUT_DURATION, TIMEOUT_TIMEUNIT );
             }
-            catch( InterruptedException | BrokenBarrierException | TimeoutException e )
+            catch ( InterruptedException | BrokenBarrierException | TimeoutException e )
             {
                 _runnableTimedOut = true;
             }
         }, "key", PluginService.getCore( ) );
-        barrier.await( 250L, TimeUnit.MILLISECONDS );
+        barrier.await( TIMEOUT_DURATION, TIMEOUT_TIMEUNIT );
+        AppLogService.info( "ThreadLauncherDaemonTest#testAddItemToQueue : task executed after "
+                + Duration.between( start, Instant.now( ) ).toMillis( ) + "ms" );
         assertFalse( _runnableTimedOut );
     }
 }
