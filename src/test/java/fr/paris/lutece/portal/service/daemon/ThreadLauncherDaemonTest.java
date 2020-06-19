@@ -33,33 +33,111 @@
  */
 package fr.paris.lutece.portal.service.daemon;
 
+import java.lang.management.ManagementFactory;
+import java.lang.management.ThreadInfo;
+import java.lang.management.ThreadMXBean;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
 import fr.paris.lutece.portal.service.plugin.PluginService;
+import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.test.LuteceTestCase;
 
 public class ThreadLauncherDaemonTest extends LuteceTestCase
 {
+    private static final long TIMEOUT_DURATION = 10L;
+    private static final TimeUnit TIMEOUT_TIMEUNIT = TimeUnit.SECONDS;
     private boolean _runnableTimedOut;
+    private Boolean _bThreadLauncherDaemonInitialState;
+    private DaemonEntry _threadLauncherDaemonEntry;
+
+    @Override
+    protected void setUp( ) throws Exception
+    {
+        super.setUp( );
+        // we ensure the ThreadLauncherDeamon is started
+        AppLogService.info( "Ensure ThreadLauncherDeamon is started" );
+        for ( DaemonEntry daemonEntry : AppDaemonService.getDaemonEntries( ) )
+        {
+            if ( daemonEntry.getId( ).equals( "threadLauncherDaemon" ) )
+            {
+                _threadLauncherDaemonEntry = daemonEntry;
+                _bThreadLauncherDaemonInitialState = daemonEntry.isRunning( );
+                break;
+            }
+        }
+        assertNotNull( "Did not find threadLauncherDaemon daemon", _bThreadLauncherDaemonInitialState );
+        AppDaemonService.startDaemon( "threadLauncherDaemon" );
+    }
+
+    @Override
+    protected void tearDown( ) throws Exception
+    {
+        // restore threadLauncherDaemon state
+        AppLogService.info( "restore threadLauncherDaemon state (" + _bThreadLauncherDaemonInitialState + ")" );
+        if ( !_bThreadLauncherDaemonInitialState.booleanValue( ) )
+        {
+            AppDaemonService.stopDaemon( "threadLauncherDaemon" );
+        }
+        super.tearDown( );
+    }
 
     public void testAddItemToQueue( ) throws InterruptedException, BrokenBarrierException, TimeoutException
     {
         CyclicBarrier barrier = new CyclicBarrier( 2 );
         _runnableTimedOut = false;
+        
+        dumpStateWhileWaiting( 0L ); // for debugging test failure
+        
+        Instant start = Instant.now( );
         ThreadLauncherDaemon.addItemToQueue( ( ) -> {
             try
             {
-                barrier.await( 10L, TimeUnit.SECONDS );
+                AppLogService.info( "testAddItemToQueue: Inside the task, going to await" );
+                barrier.await( TIMEOUT_DURATION, TIMEOUT_TIMEUNIT );
             }
-            catch( InterruptedException | BrokenBarrierException | TimeoutException e )
+            catch ( InterruptedException | BrokenBarrierException | TimeoutException e )
             {
                 _runnableTimedOut = true;
             }
         }, "key", PluginService.getCore( ) );
-        barrier.await( 250L, TimeUnit.MILLISECONDS );
+
+        dumpStateWhileWaiting( 500L ); // for debugging test failure
+
+        barrier.await( TIMEOUT_DURATION, TIMEOUT_TIMEUNIT );
+        AppLogService.info( "ThreadLauncherDaemonTest#testAddItemToQueue : task executed after "
+                + Duration.between( start, Instant.now( ) ).toMillis( ) + "ms" );
+        AppLogService.info( "Last Run Logs : " + _threadLauncherDaemonEntry.getLastRunLogs( ) );
         assertFalse( _runnableTimedOut );
+    }
+
+    private void dumpStateWhileWaiting( long lWait ) throws InterruptedException
+    {
+        // wait for the daemon to have a chance to try running
+        Thread.sleep( lWait );
+        final StringBuilder dump = new StringBuilder( );
+        final ThreadMXBean threadMXBean = ManagementFactory.getThreadMXBean( );
+        final ThreadInfo[ ] threadInfos = threadMXBean.getThreadInfo( threadMXBean.getAllThreadIds( ), 100 );
+        for ( ThreadInfo threadInfo : threadInfos )
+        {
+            dump.append( '"' );
+            dump.append( threadInfo.getThreadName( ) );
+            dump.append( "\" " );
+            final Thread.State state = threadInfo.getThreadState( );
+            dump.append( "\n   java.lang.Thread.State: " );
+            dump.append( state );
+            final StackTraceElement[ ] stackTraceElements = threadInfo.getStackTrace( );
+            for ( final StackTraceElement stackTraceElement : stackTraceElements )
+            {
+                dump.append( "\n        at " );
+                dump.append( stackTraceElement );
+            }
+            dump.append( "\n\n" );
+        }
+        AppLogService.info( "Current state : " + dump );
     }
 }
