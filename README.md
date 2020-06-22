@@ -1,4 +1,8 @@
-![](http://dev.lutece.paris.fr/jenkins/buildStatus/icon?job=lutece-core-deploy)
+![](https://dev.lutece.paris.fr/jenkins/buildStatus/icon?job=core-deploy)
+[![Alerte](https://dev.lutece.paris.fr/sonar/api/project_badges/measure?project=fr.paris.lutece%3Alutece-core&metric=alert_status)](https://dev.lutece.paris.fr/sonar/dashboard?id=fr.paris.lutece%3Alutece-core)
+[![Line of code](https://dev.lutece.paris.fr/sonar/api/project_badges/measure?project=fr.paris.lutece%3Alutece-core&metric=ncloc)](https://dev.lutece.paris.fr/sonar/dashboard?id=fr.paris.lutece%3Alutece-core)
+[![Coverage](https://dev.lutece.paris.fr/sonar/api/project_badges/measure?project=fr.paris.lutece%3Alutece-core&metric=coverage)](https://dev.lutece.paris.fr/sonar/dashboard?id=fr.paris.lutece%3Alutece-core)
+
 # Welcome to the Lutece Project 
 
 Lutece is a portal engine which allows you to easily create your websites or intranets based upon HTML,XML.. content. This open-source software is implemented in Java and based on widely used libraries and frameworks : Spring, Freemarker,Lucene, Ehcache, Jakarta-commons, ... . Lutece provides a user friendly interface for portal management and therefore no specific technical skills are required.
@@ -11,18 +15,18 @@ Languages available are for the moment English and French. French users are invi
 
 # Project Information
 
- [Project Summary](http://dev.lutece.paris.fr/lutece-core/project-summary.html) : this document lists other related information of this project
+ [Project Summary](project-summary.html) : this document lists other related information of this project
 
  [Issue Tracking](http://dev.lutece.paris.fr/jira/browse/LUTECE) : this is a link to the issue management system for this project. Issues (bugs, features, change requests) can be created and queried using this link.
 
  [Source Repository](https://github.com/lutece-platform/lutece-core/) : this is a link to the online source repository that can be viewed via a web browser.
 
- [Dependencies](http://dev.lutece.paris.fr/lutece-core/dependencies.html) : this document lists the projects dependencies and provides information on each dependency.
+ [Dependencies](dependencies.html) : this document lists the projects dependencies and provides information on each dependency.
 
- [Project License](http://dev.lutece.paris.fr/lutece-core/license.html) : this is a link to the definitions of project licenses.
+ [Project License](license.html) : this is a link to the definitions of project licenses.
 
 
-[Maven documentation and reports](http://dev.lutece.paris.fr/plugins/lutece-core/)
+[Maven documentation and reports](https://dev.lutece.paris.fr/plugins/lutece-core/)
 
 
 

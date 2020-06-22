@@ -41,7 +41,7 @@
 				</#if>
 
 				<span title="Portlet Id: ${last_modified_portlet.id}">${last_modified_portlet.name} - #i18n{${last_modified_portlet.portletTypeName}}</span>
-				<@aButton href='jsp/admin/DoModifyPortlet.jsp?portlet_id=${last_modified_portlet.id}' title='${last_modified_portlet.name} - #i18n{portal.site.dashboard.labelDateModification} : ${last_modified_portlet.dateUpdate}' buttonIcon='pencil' size='sm' hideTitle=['all'] class='pull-right' />
+				<@aButton href='jsp/admin/DoModifyPortlet.jsp?portlet_id=${last_modified_portlet.id}' title='${last_modified_portlet.name} - #i18n{portal.site.dashboard.labelDateModification} : ${last_modified_portlet.dateUpdate}' buttonIcon='edit' size='sm' hideTitle=['all'] class='pull-right' />
 			</p>
 		</@boxBody>
 		<@boxFooter class='text-center'>

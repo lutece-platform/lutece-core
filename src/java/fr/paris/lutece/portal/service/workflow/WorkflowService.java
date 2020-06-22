@@ -808,6 +808,26 @@ public final class WorkflowService
     }
 
     /**
+     * Get the list of mass actions from a given id workflow
+     * 
+     * @param nIdWorkflow the id workflow
+     * @param nIdState
+     * @param user
+     * @return the list of mass actions
+     */
+    public Collection<Action> getMassActions( int nIdWorkflow, int nIdState, User user )
+    {
+        if ( !isAvailable( ) )
+        {
+            return null ;
+        }
+
+        Collection<Action> listActions = _service.getMassActions( nIdWorkflow, nIdState ) ;
+        
+        return _provider.getAuthorizedActions( listActions, user );
+    }
+
+    /**
      * Check if the action can be proceed for the given resource
      * 
      * @param nIdResource       the id resource

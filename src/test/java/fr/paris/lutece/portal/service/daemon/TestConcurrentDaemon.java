@@ -31,38 +31,33 @@
  *
  * License 1.0
  */
-package fr.paris.lutece.portal.service.init;
+package fr.paris.lutece.portal.service.daemon;
 
-/**
- * this class provides informations about application version
- */
-public final class AppInfo
+import java.util.concurrent.BrokenBarrierException;
+import java.util.concurrent.TimeoutException;
+
+public final class TestConcurrentDaemon extends Daemon
 {
-    /** Defines the current version of the application */
-    private static final String APP_VERSION = "7.0.0-SNAPSHOT";
-    static final String LUTECE_BANNER_VERSION = "\n _      _   _   _____   ___    ___   ___      ____\n"
-            + "| |    | | | | |_   _| | __|  / __| | __|    |__  |\n" + "| |__  | |_| |   | |   | _|  | (__  | _|       / / \n"
-            + "|____|  \\___/    |_|   |___|  \\___| |___|     /_/  ";
+    private TestDaemon _other;
 
-    static final String LUTECE_BANNER_SERVER = "\n _      _   _   _____   ___    ___   ___       ___   ___   ___  __   __  ___   ___ \n"
-            + "| |    | | | | |_   _| | __|  / __| | __|     / __| | __| | _ \\ \\ \\ / / | __| | _ \\\n"
-            + "| |__  | |_| |   | |   | _|  | (__  | _|      \\__ \\ | _|  |   /  \\ V /  | _|  |   /\n"
-            + "|____|  \\___/    |_|   |___|  \\___| |___|     |___/ |___| |_|_\\   \\_/   |___| |_|_\\";
-
-    /**
-     * Creates a new AppInfo object.
-     */
-    private AppInfo( )
+    public void setOther( TestDaemon other )
     {
+        _other = other;
     }
 
-    /**
-     * Returns the current version of the application
-     * 
-     * @return APP_VERSION The current version of the application
-     */
-    public static String getVersion( )
+    @Override
+    public void run( )
     {
-        return APP_VERSION;
+        try
+        {
+            // wait for other to start
+            _other.go( );
+        }
+        catch ( InterruptedException | BrokenBarrierException | TimeoutException e )
+        {
+            // TODO Auto-generated catch block
+            e.printStackTrace( );
+        }
     }
+
 }

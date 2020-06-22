@@ -83,7 +83,16 @@ public interface IWorkflowProvider
      */
     Map<Integer, List<Action>> getActions( String strResourceType, Map<Integer, List<Action>> mapActions, User user );
 
-   
+
+    /**
+     * Returns authorized action list
+     * 
+     * @param listActions
+     * @param nIdWorkflowState
+     * @param user
+     * @return authorized action list
+     */
+    Collection<Action> getAuthorizedActions( Collection<Action> listActions, User user ) ;
 
     /**
      * returns the actions history performed on a resource.

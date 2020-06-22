@@ -53,6 +53,7 @@
     {
 %>
 
+<!DOCTYPE html>
 <html>
 <head>
 <base href="<%= AppPathService.getBaseUrl( request ) %>/" />

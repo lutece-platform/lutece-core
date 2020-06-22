@@ -762,10 +762,18 @@ and is kept only for backwards compatibility
 <#-- Icons from FontAwesome -->
 <#macro icon prefix='fa fa-' style='' class='' title='' id='' params=''>
 	<#switch style>
-		<#case 'sync'>
-		<#local iconStyle = 'refresh' />
+		<#case 'clock'>
+			<#local iconStyle = 'clock-o' />
 		<#break>
-		
+		<#case 'sync'>
+			<#local iconStyle = 'refresh' />
+		<#break>
+		<#case 'edit'>
+			<#local iconStyle = 'pencil' />
+		<#break>
+		<#case 'times'>
+			<#local iconStyle = 'close' />
+		<#break>
 		<#default>
 		<#local iconStyle = style />
 	</#switch>
@@ -875,7 +883,7 @@ and is kept only for backwards compatibility
 	<#elseif type='text' || type='search' || type='password' || type='email' || type='file' || type='number'>
 		<input class="form-control<#if size!=''> input-${size}</#if><#if class!=''> ${class}</#if> " name="${name}" type="${type}" value="${value}"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}"</#if><#if title!=''> title="${title}"</#if><#if maxlength &gt; 0> maxlength="${maxlength}"</#if><#if inputSize!=0> size="${inputSize}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if min!=0> min="${min}"</#if><#if max!=0> max="${max}"</#if><#if formGroupMandatory?? && formGroupMandatory || mandatory > required </#if><#if labelFor?? && labelFor!='' && helpkey?? && helpKey!=''> aria-describedby="${labelFor}_help"</#if> />
 	<#elseif type='hidden'>
-		<input type="hidden" name="${name}" value="${value}" />
+		<input type="hidden" name="${name}" id="${id}" value="${value}" />
 	<#else><@icon style='warning' />Type not supported
 	</#if>
 </#macro>

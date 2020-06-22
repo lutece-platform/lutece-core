@@ -188,6 +188,8 @@ public class MailSenderDaemon extends Daemon
                 AppDaemonService.signalDaemon( DAEMON_ID, nRetryWaitTime, retryWaitTimeUnit );
                 break;
             }
+            
+            mail = queue.consume( );
             // Tempo
             count++;
 

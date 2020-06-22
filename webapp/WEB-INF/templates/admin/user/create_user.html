@@ -57,10 +57,10 @@
 											</@select>
 										</@formGroup>  
 										<@formGroup labelFor='workgroup_key' labelKey='${i18n("portal.role.create_role.labelWorkgroupKey")}' mandatory=true rows=2>
-											<@comboSortedWithParams name="workgroup_key" default_value="${workgroup_key_default_value}" additionalParameters="class=\"form-control input-sm\"" items=workgroup_key_list />
+											<@select name='workgroup_key' default_value='${workgroup_key_default_value}' items=workgroup_key_list sort=true />
 										</@formGroup> 	
 										<@formGroup labelFor='workgroup_key' labelKey='${i18n("portal.users.create_user.labelLanguage")}' rows=2>
-											<@comboSortedWithParams name="language" default_value="${default_user_language}" additionalParameters="class=\"form-control input-sm\"" items=languages_list />
+											<@select name='language' default_value='${default_user_language}' items=languages_list sort=true />
 										</@formGroup> 	
 									</#if>
 								</#if>

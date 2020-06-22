@@ -17,7 +17,7 @@
     <properties>
         <jiraProjectName>LUTECE</jiraProjectName>
         <jiraComponentId>10000</jiraComponentId>
-        <springVersion>4.3.22.RELEASE</springVersion>
+        <springVersion>4.3.27.RELEASE</springVersion>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <github.project>lutece-platform/lutece-core</github.project>
         <twitter.account>LuteceFoundry</twitter.account>
@@ -49,7 +49,7 @@
         <dependency>
             <groupId>commons-beanutils</groupId>
             <artifactId>commons-beanutils</artifactId>
-            <version>1.9.3</version>
+            <version>1.9.4</version>
         </dependency>
         <!-- commons-digester deprecated, use commons-digester3 instead. To be removed in the future -->
         <!-- Not upgrading to 2.1 because for new projects we should use digester3, and for old projects -->
@@ -84,12 +84,12 @@
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
-            <version>2.5</version>
+            <version>2.7</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-            <version>3.4</version>
+            <version>3.10</version>
         </dependency>
         <dependency>
             <groupId>org.apache.commons</groupId>
@@ -139,7 +139,7 @@
         <dependency>
             <groupId>org.jsoup</groupId>
             <artifactId>jsoup</artifactId>
-            <version>1.10.1</version>
+            <version>1.10.3</version>
         </dependency>
         <dependency>
             <groupId>com.sun.mail</groupId>
@@ -195,7 +195,7 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.12</version>
+            <version>4.13</version>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -212,47 +212,6 @@
             </exclusions>
         </dependency>
       
-        <!-- indexing -->
-        <dependency>
-            <groupId>fr.paris.lutece.plugins</groupId>
-            <artifactId>library-lucene</artifactId>
-            <version>3.0.1</version>
-            <type>lutece-plugin</type>
-        </dependency>
-        
-        <!-- Lutece API -->
-        <dependency>
-            <groupId>fr.paris.lutece.plugins</groupId>
-            <artifactId>library-user-api</artifactId>
-            <version>1.0.1-SNAPSHOT</version>
-            <type>jar</type> 
-        </dependency>
-        <dependency>
-            <groupId>fr.paris.lutece.plugins</groupId>
-            <artifactId>library-rbac-api</artifactId>
-            <version>1.0.0</version>
-            <type>jar</type> 
-        </dependency>
-        <dependency>
-            <groupId>fr.paris.lutece.plugins</groupId>
-            <artifactId>library-workgroup-api</artifactId>
-            <version>1.0.0</version>
-            <type>jar</type> 
-        </dependency> 
-        <dependency>
-            <groupId>fr.paris.lutece.plugins</groupId>
-            <artifactId>library-freemarker</artifactId>
-            <version>1.2.2-SNAPSHOT</version>
-            <type>jar</type>
-        </dependency>
-
-        <!-- Workflow -->
-        <dependency>
-            <groupId>fr.paris.lutece.plugins</groupId>
-            <artifactId>library-workflow-core</artifactId>
-            <version>1.2.4-SNAPSHOT</version>
-            <type>jar</type>
-        </dependency>
         
         <!-- scannotation -->
         <dependency>
@@ -275,21 +234,9 @@
 
         <!-- JSON -->
         <dependency>
-            <groupId>net.sf.json-lib</groupId>
-            <artifactId>json-lib</artifactId>
-            <version>2.4</version>
-            <classifier>jdk15</classifier>
-        </dependency>
-        <!-- jackson 1.x (org.codehaus.jackson) deprecated, use jackson 2.x (com.fasterxml.jackson) instead. To be removed in the future -->
-        <dependency>
-            <groupId>org.codehaus.jackson</groupId>
-            <artifactId>jackson-mapper-asl</artifactId>
-            <version>1.9.13</version>
-        </dependency>
-        <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
-            <version>2.8.11.6</version>
+            <version>2.11.0</version>
         </dependency>
         
         <!-- @Inject API -->
@@ -314,21 +261,7 @@
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-validator</artifactId>
-            <version>5.3.2.Final</version>
-        </dependency>
-        
-        <!-- Dozer - Java Bean to Java Bean -->
-        <dependency>
-            <groupId>net.sf.dozer</groupId>
-            <artifactId>dozer</artifactId>
-            <version>5.5.1</version>
-            <exclusions>
-                <exclusion>
-                    <!-- Conflicts with the dozen of dependencies requiring commons-logging:commons-logging -->
-                    <groupId>org.slf4j</groupId>
-                    <artifactId>jcl-over-slf4j</artifactId>
-                </exclusion>
-            </exclusions>
+            <version>5.3.5.Final</version>
         </dependency>
         
         <!-- Open CSV -->
@@ -336,13 +269,6 @@
             <groupId>net.sf.opencsv</groupId>
             <artifactId>opencsv</artifactId>
             <version>2.3</version>
-        </dependency>
-        
-        <!-- Lutece JMX API Library -->                                              
-        <dependency>
-            <groupId>fr.paris.lutece.plugins</groupId>
-            <artifactId>library-jmx-api</artifactId>
-            <version>1.0.0</version>
         </dependency>
         
         <!-- JDK 11 Support -->
@@ -362,6 +288,62 @@
             <version>2.3.3</version>
         </dependency>
 
+        <!-- LUTECE DEPENDENCIES -->
+        
+        <!-- Lutece search indexing -->
+        <dependency>
+            <groupId>fr.paris.lutece.plugins</groupId>
+            <artifactId>library-lucene</artifactId>
+            <version>3.0.1</version>
+            <type>lutece-plugin</type>
+        </dependency>
+        
+        <!-- Lutece User API -->
+        <dependency>
+            <groupId>fr.paris.lutece.plugins</groupId>
+            <artifactId>library-user-api</artifactId>
+            <version>1.0.1-SNAPSHOT</version>
+            <type>jar</type> 
+        </dependency>
+
+        <!-- Lutece RBAC -->
+        <dependency>
+            <groupId>fr.paris.lutece.plugins</groupId>
+            <artifactId>library-rbac-api</artifactId>
+            <version>1.0.0</version>
+            <type>jar</type> 
+        </dependency>
+        
+        <!-- Lutece Workflow -->
+        <dependency>
+            <groupId>fr.paris.lutece.plugins</groupId>
+            <artifactId>library-workflow-core</artifactId>
+            <version>1.2.4-SNAPSHOT</version>
+            <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>fr.paris.lutece.plugins</groupId>
+            <artifactId>library-workgroup-api</artifactId>
+            <version>1.0.0</version>
+            <type>jar</type> 
+        </dependency>
+        
+        <!-- Lutece Freemarker --> 
+        <dependency>
+            <groupId>fr.paris.lutece.plugins</groupId>
+            <artifactId>library-freemarker</artifactId>
+            <version>1.3.0</version>
+            <type>jar</type>
+        </dependency>
+
+        
+        <!-- Lutece JMX API Library -->                                              
+        <dependency>
+            <groupId>fr.paris.lutece.plugins</groupId>
+            <artifactId>library-jmx-api</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+        
     </dependencies>
 
     <scm>

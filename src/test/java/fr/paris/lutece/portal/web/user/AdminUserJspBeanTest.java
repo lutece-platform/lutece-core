@@ -698,7 +698,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
             bean.init( request, "CORE_USERS_MANAGEMENT" );
             String html = bean.getModifyUserPassword( request );
             assertNotNull( html );
-            assertTrue( html.contains( "<small>" + I18nService.getLocalizedString( "portal.users.modify_user_password.pageTitle", Locale.FRANCE ) + "</small>" ) );
+            assertTrue( html.contains( I18nService.getLocalizedString( "portal.users.modify_user_password.pageTitle", Locale.FRANCE ) ) );
         }
         finally
         {
@@ -1402,7 +1402,7 @@ public class AdminUserJspBeanTest extends LuteceTestCase
                 assertTrue( entry.getValue( ) );
             }
             request.addParameter( SecurityTokenService.PARAMETER_TOKEN,
-                    SecurityTokenService.getInstance( ).getToken( request, "admin/user/field_anonymize_admin_user.html" ) );
+            SecurityTokenService.getInstance( ).getToken( request, AdminDashboardJspBean.TEMPLATE_MANAGE_DASHBOARDS ) );
             bean.doChangeFieldAnonymizeAdminUsers( request );
             for ( Entry<String, Boolean> entry : AdminUserHome.getAnonymizationStatusUserStaticField( ).entrySet( ) )
             {

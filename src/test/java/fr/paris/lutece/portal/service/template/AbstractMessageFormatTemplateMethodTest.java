@@ -68,37 +68,37 @@ public class AbstractMessageFormatTemplateMethodTest extends LuteceTestCase
         String template = "${method(\"key\")}";
         HtmlTemplate res = FreeMarkerTemplateService.getInstance( ).loadTemplate( template, Locale.FRANCE, model );
         assertNotNull( res );
-        assertEquals( "test with 'quote'", res.getHtml( ) );
+        assertEquals( "test with 'quote'", res.getHtml( ).replaceAll( "\n", "" ) );
 
         template = "${method(\"key\",\"arg\")}";
         res = FreeMarkerTemplateService.getInstance( ).loadTemplate( template, Locale.FRANCE, model );
         assertNotNull( res );
-        assertEquals( "test with quote", res.getHtml( ) );
+        assertEquals( "test with quote", res.getHtml( ).replaceAll( "\n", "" ) );
 
         method = new TestAbstractMessageFormatTemplateMethod( "test with 'quote' and arg {0}" );
         model.put( "method", method );
         template = "${method(\"key\",\"arg\")}";
         res = FreeMarkerTemplateService.getInstance( ).loadTemplate( template, Locale.FRANCE, model );
         assertNotNull( res );
-        assertEquals( "test with quote and arg arg", res.getHtml( ) );
+        assertEquals( "test with quote and arg arg", res.getHtml( ).replaceAll( "\n", "" ) );
 
         template = "${method(\"key\",arg)}";
         model.put( "arg", "arg" );
         res = FreeMarkerTemplateService.getInstance( ).loadTemplate( template, Locale.FRANCE, model );
         assertNotNull( res );
-        assertEquals( "test with quote and arg arg", res.getHtml( ) );
+        assertEquals( "test with quote and arg arg", res.getHtml( ).replaceAll( "\n", "" ) );
 
         model.put( "arg", 10 );
         res = FreeMarkerTemplateService.getInstance( ).loadTemplate( template, Locale.FRANCE, model );
         assertNotNull( res );
-        assertEquals( "test with quote and arg 10", res.getHtml( ) );
+        assertEquals( "test with quote and arg 10", res.getHtml( ).replaceAll( "\n", "" ) );
 
         model.put( "arg", new Date( 123456789 ) );
         res = FreeMarkerTemplateService.getInstance( ).loadTemplate( template, Locale.FRANCE, model );
         assertNotNull( res );
         String expResultJava8 = "test with quote and arg 02/01/70 11:17";
         String expResultJava10 = "test with quote and arg 02/01/1970 11:17";
-        assertTrue(expResultJava8.equals(res.getHtml()) || expResultJava10.equals(res.getHtml()));
+        assertTrue( expResultJava8.equals(res.getHtml().replaceAll( "\n", "" )) || expResultJava10.equals(res.getHtml().replaceAll( "\n", "" )));
         
         
         model.put( "arg", new Date( 123456789 ) );
@@ -106,7 +106,7 @@ public class AbstractMessageFormatTemplateMethodTest extends LuteceTestCase
         assertNotNull( res );
         expResultJava8 = "test with quote and arg 1/2/70 11:17 AM";
         expResultJava10 = "test with quote and arg 1/2/70, 11:17 AM";
-        assertTrue(expResultJava8.equals(res.getHtml()) || expResultJava10.equals(res.getHtml()));
+        assertTrue(expResultJava8.equals(res.getHtml().replaceAll( "\n", "" )) || expResultJava10.equals(res.getHtml().replaceAll( "\n", "" )));
     }
 
 }
