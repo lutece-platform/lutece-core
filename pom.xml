@@ -302,7 +302,7 @@
         <dependency>
             <groupId>fr.paris.lutece.plugins</groupId>
             <artifactId>library-user-api</artifactId>
-            <version>1.0.1-SNAPSHOT</version>
+            <version>1.0.1</version>
             <type>jar</type> 
         </dependency>
 
@@ -318,7 +318,7 @@
         <dependency>
             <groupId>fr.paris.lutece.plugins</groupId>
             <artifactId>library-workflow-core</artifactId>
-            <version>1.2.4-SNAPSHOT</version>
+            <version>1.2.4</version>
             <type>jar</type>
         </dependency>
         <dependency>
@@ -350,7 +350,6 @@
         <connection>scm:git:https://github.com/lutece-platform/lutece-core.git</connection>
         <developerConnection>scm:git:https://github.com/lutece-platform/lutece-core.git</developerConnection>
         <url>https://github.com/lutece-platform/lutece-core.git</url>
-        <tag>lutece-core-7.0.0-RC-01</tag>
     </scm>
 
 </project>
