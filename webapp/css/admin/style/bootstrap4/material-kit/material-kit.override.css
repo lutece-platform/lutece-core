@@ -40,6 +40,12 @@ header nav .collapse:not(.show) {display:unset;}
 
 .navbar {padding: .5rem 1rem!important;}
 
+.row > form, .col form {width:100%;}
+
+.card:not(:first-of-type) {
+    margin-top: 80px;
+}
+
 /* Forms.css override */
 @media only screen and (max-width :1650px) {
 	.form-inline .form-group {max-width: 100%!important;}
