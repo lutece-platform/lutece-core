@@ -118,7 +118,7 @@ public final class BeanUtil
             try
             {
                 // for all boolean field, init to false
-                if ( field.getClass( ).isAssignableFrom( Boolean.class ) )
+                if ( Boolean.class.isAssignableFrom( field.getType( ) ) || boolean.class.isAssignableFrom( field.getType( ) ) ) 
                 {
                     field.setAccessible( true );
                     field.set( bean, false );
