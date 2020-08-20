@@ -1535,10 +1535,10 @@ $(function() {
 </#macro>
 
 <#-- fieldSet  -->
-<#macro fieldSet legend=''>
-<fieldset>
+<#macro fieldSet legend='' class='' legendClass='' >
+<fieldset <#if class!=''> class="${class}"</#if>>
 	<#if legend!=''>
-		<legend>${legend}</legend>
+		<legend <#if legendClass!=''> class="${legendClass}"</#if>>${legend}</legend>
 	</#if>
 	<#nested>
 </fieldset>
