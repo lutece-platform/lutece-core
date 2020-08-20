@@ -384,3 +384,13 @@
 		</div>
 	</div>
 </#macro>
+
+<#-- fieldSet  -->
+<#macro fieldSet legend='' class='' legendClass='' >
+<fieldset <#if class!=''> class="${class}"</#if>>
+	<#if legend!=''>
+		<legend <#if legendClass!=''> class="${legendClass}"</#if>>${legend}</legend>
+	</#if>
+	<#nested>
+</fieldset>
+</#macro>
