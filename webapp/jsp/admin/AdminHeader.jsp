@@ -32,7 +32,6 @@ response.setDateHeader ("Expires", 0);
 %>
 <!-- Le fav and touch icons -->
 <link rel="shortcut icon" href="<%= AppPathService.getBaseUrl( request ) %>favicon.ico">
-<script src="js/jquery/jquery.min.js"></script>
-</head>
 <%-- Display the admin menu --%>
 <%= adminMenu.getAdminMenuHeader( request ) %>
+<%-- LUTECE-2310 Remove jQuery Lib - and move /head to adminHeader macro --%>

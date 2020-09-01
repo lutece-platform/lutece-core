@@ -25,7 +25,7 @@
 <![endif]-->
 <link rel="shortcut icon" href="favicon.ico">
 <link rel="stylesheet" href="css/admin/portal_admin.css">
-<script src="js/jquery/jquery.min.js"></script>
+<script src="js/admin/jquery/jquery-3.5.1.min.js"></script>
 <style>body{padding-top:0;}</style>
 </head>
 <body class="portlet">

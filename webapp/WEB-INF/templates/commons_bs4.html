@@ -3,7 +3,7 @@
  # See http://dev.lutece.paris.fr/jira/browse/LUTECE-765
 -->
 
-<#include "util/calendar/macro_datepicker.html"  ignore_missing=true />
+<#include "admin/util/calendar/macro_datepicker.html"  ignore_missing=true />
 <#-- Do not remove this comment -->
 
 <#-- Information about this commons file -->
@@ -1232,6 +1232,8 @@
 -------------------------------------------------- -->
 <#-- MACRO adminHeader -->
 <#macro adminHeader site_name=site_name>
+<script src="js/admin/jquery/jquery-3.5.1.min.js"></script>
+</head>
 <body class="d-flex flex-column vh-100">
 	<div class="skipnav"><a href="#main">allez au contenu principal</a></div>
 	<h1 id="top" class="sr-only sr-only-focusable">Haut de page</h1>
@@ -1383,6 +1385,9 @@
 
 <#-- adminLoginPage  -->
 <#macro adminLoginPage title='' site_name='SITE_NAME'>
+<script src="js/admin/jquery/jquery-3.5.1.min.js"></script>
+</head>
+<body>
 <img src="images/logo-header.png" class="fixed-top m-4" aria-hidden="true" title="LUTECE Back-Office" alt="LUTECE Back-Office">
 <section id="login-page">
 	<div class="container">
@@ -1461,6 +1466,9 @@ $(function() {
    <#assign alerttype="danger" />
    <#assign icontype="fa-ban" />
 </#if>
+<script src="js/admin/jquery/jquery-3.5.1.min.js"></script>
+</head>
+<body>
 <div class="container">
 	<div class="row justify-content-center align-items-center min-vh-100">
 		<div class="col-sm-12 col-md-6">

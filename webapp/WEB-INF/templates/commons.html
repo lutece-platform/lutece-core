@@ -2,9 +2,8 @@
  # This macro template can be used to output white-space-sensitive formats (like RSS files).
  # See http://dev.lutece.paris.fr/jira/browse/LUTECE-765
 -->
-<#include "util/calendar/macro_datepicker.html" ignore_missing=true />
+<#include "admin/util/calendar/macro_datepicker.html" ignore_missing=true />
 <#-- Do not remove this comment -->
-
 
 <#-- Information about this commons file -->
 <#macro commonsFile>commons.html</#macro>
@@ -28,11 +27,11 @@
 </#macro>
 
 <#macro coreAdminJSLinks>
-<script src="js/bootstrap.min.js"></script><!-- provided by core -->
-<script src="js/jquery/jquery-ui.min.js"></script> <!-- provided by core -->
-<script src="js/bootstrap-filestyle.min.js"></script> <!-- provided by core -->
-<script src="js/app.min.js"></script> <!-- provided by core -->
-<script src="js/admin.js"></script> <!-- provided by core -->
+<script src="js/admin/bootstrap.min.js"></script><!-- provided by core -->
+<script src="js/admin/jquery/jquery-ui.min.js"></script> <!-- provided by core -->
+<script src="js/admin/bootstrap-filestyle.min.js"></script> <!-- provided by core -->
+<script src="js/admin/app.min.js"></script> <!-- provided by core -->
+<script src="js/admin/admin.js"></script> <!-- provided by core -->
 </#macro>
 
 <#global gClassActive='active' />
@@ -1604,6 +1603,8 @@ and is kept only for backwards compatibility
 <#-- NEW MACRO LUTECE-2221 -->
 <#-- MACRO adminHeader -->
 <#macro adminHeader site_name=site_name>
+<script src="js/admin/jquery/jquery-3.5.1.min.js"></script>
+</head>
 <body class="skin-blue-light hold-transition sidebar-mini" data-spy="scroll" data-target="#scrollspy">
 	<div class="wrapper">
 	  <header class="main-header" role="banner" data-menu="${menu_pos}">
@@ -1784,33 +1785,40 @@ enableBSToppltip: false
 
 <#-- adminLoginPage  -->
 <#macro adminLoginPage title='' site_name='SITE_NAME'>
-<div id="login-page">
-	<img src="images/logo-header.png" id="logoLogin" title="LUTECE Back-Office" alt="LUTECE Back-Office">
-	<div class="login-box">
-		<div class="login-logo bg-primary">
-		  <a href="jsp/site/Portal.jsp" title="${site_name}">#i18n{portal.admin.admin_login.welcome}<br> <b>${site_name}</b></a>
-		</div>
-		<div class="login-box-body">
-		  	<div class="login-box-header">
-				<p class="text-center">${title}</p>
-			</div>
-			<#nested>
-			<p class='text-center'>
-				<@aButton href='http://fr.lutece.paris.fr' params='target="_blank"' title='#i18n{portal.site.portal_footer.labelPortal}' hideTitle=['all'] color='secondary'>
-					<img src="images/poweredby.png" class="thumbnails" alt="logo lutece" title="Lutece">
-				</@aButton>
-			</p>
-		</div>
-	</div>
-</div>
-<script>
-$(function() {
-	var randomImages = [#dskey{portal.site.site_property.back_images}];
-	var rndNum = Math.floor(Math.random()*(randomImages.length));
-	var bgImg = 'url(' + randomImages[rndNum] + ')';
-	$("#login-page").css('background-image', bgImg );
-});
-</script>
+<script src="js/admin/jquery/jquery-3.5.1.min.js"></script>
+</head>
+<body>
+	<section>
+		<div class="headless-wrapper">
+			<div class="headless-content">
+				<div id="login-page">
+					<img src="images/logo-header.png" id="logoLogin" title="LUTECE Back-Office" alt="LUTECE Back-Office">
+					<div class="login-box">
+						<div class="login-logo bg-primary">
+						<a href="jsp/site/Portal.jsp" title="${site_name}">#i18n{portal.admin.admin_login.welcome}<br> <b>${site_name}</b></a>
+						</div>
+						<div class="login-box-body">
+							<div class="login-box-header">
+								<p class="text-center">${title}</p>
+							</div>
+							<#nested>
+							<p class='text-center'>
+								<@aButton href='http://fr.lutece.paris.fr' params='target="_blank"' title='#i18n{portal.site.portal_footer.labelPortal}' hideTitle=['all'] color='secondary'>
+									<img src="images/poweredby.png" class="thumbnails" alt="logo lutece" title="Lutece">
+								</@aButton>
+							</p>
+						</div>
+					</div>
+				</div>
+				<script>
+				$(function() {
+					var randomImages = [#dskey{portal.site.site_property.back_images}];
+					var rndNum = Math.floor(Math.random()*(randomImages.length));
+					var bgImg = 'url(' + randomImages[rndNum] + ')';
+					$("#login-page").css('background-image', bgImg );
+				});
+				</script>
+
 </#macro>
 
 
@@ -1855,6 +1863,9 @@ $(function() {
    <#local alerttype="red" />
    <#local icontype="fa-ban" />
 </#if>
+<script src="js/admin/jquery/jquery-3.5.1.min.js"></script>
+</head>
+<body>
 <div class="login-box" id="message-box">
 	<div class="login-logo bg-${alerttype}">
 		<strong><span class="fa ${icontype}"></span> ${title!"Info"}</strong>

@@ -2,7 +2,7 @@
  # This macro template can be used to output white-space-sensitive formats (like RSS files).
  # See http://dev.lutece.paris.fr/jira/browse/LUTECE-765
 -->
-<#include "util/calendar/macro_datepicker.html"  ignore_missing=true />
+<#include "admin/util/calendar/macro_datepicker.html"  ignore_missing=true />
 <#-- Do not remove this comment -->
 
 <#-- Information about this commons file -->
@@ -25,8 +25,8 @@
 
 <#macro coreAdminJSLinks>
 <script src="js/admin/style/bulma/bulma-accordion.min.js"></script> <!-- provided by core -->
-<script src="js/jquery/jquery-ui.min.js"></script> <!-- provided by core -->
-<script src="js/admin.js"></script> <!-- provided by core -->
+<script src="js/admin/jquery/jquery-ui.min.js"></script> <!-- provided by core -->
+<script src="js/admin/admin.js"></script> <!-- provided by core -->
 </#macro>
 
 <#global gClassActive='is-active' />
@@ -1613,6 +1613,8 @@ and is kept only for backwards compatibility
 <#-- UI STRUCTURE ELEMENTS -->
 <#-- MACRO adminHeader -->
 <#macro adminHeader site_name=site_name>
+<script src="js/admin/jquery/jquery-3.5.1.min.js"></script>
+</head>
 <body class="has-navbar-fixed-top">
 	<div class="wrapper">
 		<header class="main-header" role="banner">
@@ -1789,7 +1791,9 @@ $( function() {
 
 <#-- adminLoginPage  -->
 <#macro adminLoginPage title='' site_name='SITE_NAME'>
-
+<script src="js/admin/jquery/jquery-3.5.1.min.js"></script>
+</head>
+<body>
 <div class=container" id="login-page">
     <img src="images/logo-header.png" id="logoLogin" title="LUTECE Back-Office" alt="LUTECE Back-Office">
     <div class="columns">
@@ -1867,8 +1871,9 @@ $(function() {
    <#assign color="danger" />
    <#assign icontype="fa-ban" />
 </#if>
-<br>
-<br>
+<script src="js/admin/jquery/jquery-3.5.1.min.js"></script>
+</head>
+<body>
 <div class="columns">
     <div class="column is-4 is-offset-4">
         <div class="message" id="message-box">
