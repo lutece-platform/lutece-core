@@ -1,0 +1,159 @@
+<#-- -------------- jQuery UI Datepicker --------------
+ # More information for jQuery UI Datepicker usage :
+ # http://docs.jquery.com/UI/Datepicker
+ # http://marcgrabanski.com/code/ui-datepicker/
+ # ---------------- Bootstrap datepicker ------------
+ # http://www.eyecon.ro/bootstrap-datepicker/
+-->
+
+<#-- getDatePicker
+ # Get a simple datepicker
+ # idField The id of the text field
+ # language The locale language
+ #
+ # Implementation example :
+ # <input type="text" name="my_date" id="my_date" />
+ # <@getDatePicker idField="my_date" language=locale.language />
+ #
+-->
+
+<#-- New Bootstrap Date picker to use -->
+<#macro getDatePickerBootstrap idField language >
+	<script src="js/admin/bootstrap-datepicker.js"></script>
+	<script src="js/admin/locales/bootstrap-datepicker.<@getRegional language=language />.js" charset="utf-8"></script>
+	<script type="text/javascript" charset="utf-8">
+	$(document).ready( function() {
+		<#-- boostrap version -->
+ 		$('#${idField}').datepicker({language: '<@getRegional language=language />', autoclose: true});
+	});
+	</script>
+</#macro>
+
+<#macro getDatePickerBootstrapClass idForm language >
+	<script src="js/admin/bootstrap-datepicker.min.js"></script>
+	<script src="js/admin/locales/bootstrap-datepicker.<@getRegional language=language />.js" charset="utf-8"></script>
+	<script type="text/javascript" charset="utf-8">
+	$(document).ready( function() {
+		<#-- boostrap version -->
+ 		$("#${idForm} .dtBootstrap").datepicker({language: '<@getRegional language=language />', autoclose: true});
+	});
+	</script>
+</#macro>
+
+<#-- Deprecated -->
+<#macro getDatePicker idField language >
+	<script src="js/admin/jquery/plugins/ui/jquery-ui.min.js"></script>
+	<script src="js/admin/jquery/plugins/ui/ui.datepicker-fr.js"></script>
+	<script type="text/javascript" charset="utf-8">
+	$(document).ready(function(){
+		$('#${idField}').datepicker({language: '<@getRegional language=language />'});
+	});
+	</script>
+</#macro>
+<#-- Deprecated -->
+
+<#-- getDatePickerRange
+ # Get a datepicker range
+ # idFieldFrom The id of the 'from' text field
+ # idFieldTo The id of the 'to' text field
+ # language The locale language
+ #
+ # Implementation example :
+ # <input type="text" name="document_validity_begin" id="document_validity_begin" size="10" />
+ # <input type="text" name="document_validity_end" id="document_validity_end" size="10" />
+ # <@getDatePickerRange idFieldFrom="document_validity_begin" idFieldTo="document_validity_end" language=locale.language />
+ #
+-->
+
+<#-- New Bootstrap Date range picker to use -->
+<#macro getDatePickerRangeBootstrap language >
+	<script src="js/admin/bootstrap-datepicker.js"></script>
+	<script src="js/admin/locales/bootstrap-datepicker.<@getRegional language=language />.js" charset="utf-8"></script>
+	<script type="text/javascript" charset="utf-8">
+	$(document).ready( function() {
+		<#-- The range must be defined with a <div class="input-daterange">..</div> englobing 2 input fields as shown beside.
+		Example:
+    <div class="input-daterange">
+      <div class="col-xs-12 col-sm-4">
+        <input type="text" name="date_begin" id="date_begin" value="" class="form-control">
+      </div>
+      <div class="col-xs-12 col-sm-4">
+        <strong>#i18n{labelDateEnd}</strong>
+      </div>
+      <div class="col-xs-12 col-sm-4">
+        <input type="text" name="date_end" id="date_end" value="" class="form-control">
+      </div>
+    </div>
+    -->
+ 		$('.input-daterange').datepicker({language: "<@getRegional language=language />", autoclose: true});
+	});
+	</script>
+</#macro>
+
+<#-- Deprecated -->
+<#macro getDatePickerRange idFieldFrom idFieldTo language >
+	<script src="js/admin/jquery/plugins/ui/jquery-ui.min.js"></script>
+	<script src="js/admin/jquery/plugins/ui/ui.datepicker-fr.js"></script>
+	<script type="text/javascript" charset="utf-8">
+	$(document).ready(function() {
+		<#-- <@setDefaultsDatePicker /> -->
+		$('#${idFieldFrom}').datepicker();
+		$('#${idFieldTo}').datepicker({beforeShow: customRange}, $.extend({showStatus: true}));
+		// Customize two date pickers to work as a date range
+		function customRange(input) {
+			$.datepicker.setDefaults($.datepicker.regional['<@getRegional language=language />']);
+		    return {minDate: (input.id == '${idFieldTo}' ? $('#${idFieldFrom}').datepicker('getDate') : null),
+	        maxDate: (input.id == '${idFieldFrom}' ? $('#${idFieldTo}').datepicker('getDate') : null)};
+		}
+		$('.${idFieldFrom}').datepicker({language: '<@getRegional language=language />'});
+	});
+	</script>
+</#macro>
+
+
+
+<#-- ------------ Privates macro --------------- -->
+
+<#-- setDefaultsDatePicker
+ # This macro should not be called directly
+ #
+-->
+<#macro setDefaultsDatePicker >
+	$.datepicker.setDefaults({showOn: 'button', buttonImageOnly: true,
+    buttonImage: 'js/admin/jquery/plugins/ui/datepicker/calendar.png', buttonText: 'Calendar',
+    showAnim: 'slideDown', speed: 'fast'});
+</#macro>
+
+<#-- getRegional
+ # This macro should not be called directly
+ #
+-->
+<#macro getRegional language><#if !('${language}'=='en')>${language}</#if></#macro>
+<#-- -------------- jQuery UI Datepicker --------------
+ # More information for jQuery UI Datepicker usage :
+ # http://docs.jquery.com/UI/Datepicker
+ # http://marcgrabanski.com/code/ui-datepicker/
+-->
+
+<#-- getDatePicker
+ # Get a simple datepicker
+ # idField The id of the text field
+ # language The locale language
+ #
+ # Implementation example :
+ # <input type="text" name="my_date" id="my_date" />
+ # <@getDatePicker idField="my_date" language=locale.language />
+ #
+-->
+<#-- getDatePickerRange
+ # Get a datepicker range
+ # idFieldFrom The id of the 'from' text field
+ # idFieldTo The id of the 'to' text field
+ # language The locale language
+ #
+ # Implementation example :
+ # <input type="text" name="document_validity_begin" id="document_validity_begin" size="10" />
+ # <input type="text" name="document_validity_end" id="document_validity_end" size="10" />
+ # <@getDatePickerRange idFieldFrom="document_validity_begin" idFieldTo="document_validity_end" language=locale.language />
+ #
+-->
