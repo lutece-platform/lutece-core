@@ -1,19 +1,27 @@
 <@row>
 	<@columns>
 		<@box color='success'>
-      <@boxHeader title='#i18n{portal.rbac.select_resource_ids.titleSelectIds}' />
+			<@boxHeader title='#i18n{portal.rbac.select_resource_ids.titleSelectIds}' boxTools=true>
+				<@tform method='post' type='inline'>
+					<@formGroup labelFor='plugin_type' labelKey='#i18n{portal.system.manage_plugins.buttonFilter}' hideLabel=['all'] formStyle='inline'>
+						<@inputGroup>
+							<@input type='text' name='search_role' id='search_role' placeHolder='#i18n{portal.system.manage_plugins.buttonFilter}' params='autocomplete="off"' />
+							<@inputGroupItem>
+								<@button type='submit' title='#i18n{portal.system.manage_plugins.buttonFilter}' buttonIcon='filter' hideTitle=['all'] />
+							</@inputGroupItem>
+						</@inputGroup>
+					</@formGroup>
+				</@tform>
+			</@boxHeader>
 			<@boxBody>
 				<@tform method='post' action='jsp/admin/rbac/DoSelectResourcesFromIdsList.jsp' name='ids'>
 					<@input type='hidden' name='role_key' value='${role_key}' />
 					<@input type='hidden' name='resource_type' value='${resource_type}' />
 					<@input type='hidden' name='select_resources' value='${select_resources}' />
-					<@formGroup>
-						<label id="resourceList">#i18n{portal.rbac.select_resource_ids.labelSelectIdsFromList}</label>
-						<div aria-labelledby="resourceList">
-						<#list resource_id_list as item>
-							<@checkBox name='resource_id' id='${item.name}' value='${item.code}' labelKey='${item.name}' />
+					<@formGroup labelKey='#i18n{portal.rbac.select_resource_ids.labelSelectIdsFromList}' id='resourceList' >
+						<#list resource_id_list?sort_by('name') as item>
+							<@checkBox name='resource_id' id='${item.name}' value='${item.code}' labelKey='${item.name} [ ${item.code} ]' params=' aria-labelledby="resourceList" data-role="${item.name}" ' />
 						</#list>
-						</div>
 					</@formGroup>
 					<@formGroup>
 						<@aButton href='jsp/admin/rbac/AddControlToRole.jsp?role_key=${role_key}&amp;resource_type=${resource_type}' buttonIcon='arrow-left' size='' color='secondary' title='#i18n{portal.rbac.select_permissions.buttonLabelCancel}' />
@@ -24,3 +32,21 @@
     </@box>
   </@columns>
 </@row>
+
+<script>
+$( function(){
+    /* Filter role list */
+    $("#search_role").on("keyup", function () {
+        var addOrRemove;
+        var search = $("#search_role").val();
+        $(".checkbox input").each(function ( index ) {
+            var roleName = $(this).attr("data-role");
+            if ( roleName.match(search) == null ){
+                $(this).parent().slideUp(200).fadeOut(500);
+            } else {
+                $(this).parent().slideDown(200).fadeIn(500);
+            }
+        });
+    });
+});
+</script>
