@@ -42,9 +42,9 @@ $( function(){
         $(".checkbox input").each(function ( index ) {
             var roleName = $(this).attr("data-role");
             if ( roleName.match(search) == null ){
-                $(this).parent().slideUp(200).fadeOut(500);
+                $(this).parents('.checkbox').slideUp(200).fadeOut(500);
             } else {
-                $(this).parent().slideDown(200).fadeIn(500);
+                $(this).parents('.checkbox').slideDown(200).fadeIn(500);
             }
         });
     });
