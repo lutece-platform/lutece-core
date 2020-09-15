@@ -1,0 +1,30 @@
+<@row>
+    <@columns>
+        <@box color='primary'>
+            <@boxHeader title='Generate a form' />
+            <@boxBody>
+                <@tform name='form_generation' id='form_generation'>
+                    <fieldset>
+                            <legend class="sr-only">Display an HTML form</legend>
+                            <@formGroup labelFor='text_field' labelKey='#i18n{pluginwizard.create_configurationkey.rowTitleConfigurationDescription}' mandatory=true>
+                                <@input type='text' id='text_field' name='text_field' maxlength=50 tabIndex='1' />
+                            </@formGroup>
+                            <@formGroup>
+                                <@button type='submit' tabIndex='3' title='Submit form' buttonIcon='check' size='' />
+                            </@formGroup>
+                    </fieldset>
+                </@tform>
+            </@boxBody>
+        </@box>
+    </@columns>
+</@row>
+<@row>
+    <@columns>
+        <@alert >Default</@alert>
+        <@alert color='primary' >Primary</@alert>
+        <@alert color='info' >Info</@alert>
+        <@alert color='success' >Success</@alert>
+        <@alert color='warning' >Warning</@alert>
+        <@alert color='danger' >Danger</@alert>
+    </@columns>
+</@row>
