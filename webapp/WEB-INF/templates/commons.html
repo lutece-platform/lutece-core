@@ -2,7 +2,7 @@
  # This macro template can be used to output white-space-sensitive formats (like RSS files).
  # See http://dev.lutece.paris.fr/jira/browse/LUTECE-765
 -->
-<#include "admin/util/calendar/macro_datepicker.html" ignore_missing=true />
+
 <#-- Do not remove this comment -->
 
 <#-- Information about this commons file -->
@@ -969,10 +969,10 @@ and is kept only for backwards compatibility
 
 <#-- COLUMNS -->
 <#-- cols = col-xs- (<544px)/col-sm- (>=544px)/col-md- (>=768px)/col-lg- (>=992px)/col-xl- (>=1200px) -->
-<#macro columns offsetXs=0 offsetSm=0 offsetMd=0 offsetLg=0 offsetXl=0 pushXs=0 pushSm=0 pushMd=0 pushLg=0 pushXl=0 pullXs=0 pullSm=0 pullMd=0 pullLg=0 pullXl=0 xs=12 sm=0 md=0 lg=0 xl=0 id='' class='' params=''>
-	<div class="col-xs-${xs}<#if sm!=0> col-sm-${sm}</#if><#if md!=0> col-md-${md}</#if><#if lg!=0> col-lg-${lg}</#if><#if xl!=0> col-xl-${xl}</#if><#if offsetXs!=0> col-xs-offset-${offsetXs}</#if><#if offsetSm!=0> col-sm-offset-${offsetSm}</#if><#if offsetMd!=0> col-md-offset-${offsetMd}</#if><#if offsetLg!=0> col-lg-offset-${offsetLg}</#if><#if offsetXl!=0> col-xl-offset-${offsetXl}</#if><#if pushXs!=0> col-xs-push-${pushXs}</#if><#if pushSm!=0> col-sm-push-${pushSm}</#if><#if pushMd!=0> col-md-push-${pushMd}</#if><#if pushLg!=0> col-lg-push-${pushLg}</#if><#if pushXl!=0> col-xl-push-${pushXl}</#if><#if pullXs!=0> col-xs-pull-${pullXs}</#if><#if pullSm!=0> col-sm-pull-${pullSm}</#if><#if pullMd!=0> col-md-pull-${pullMd}</#if><#if pullLg!=0> col-lg-pull-${pullLg}</#if><#if pullXl!=0> col-xl-pull-${pullXl}</#if><#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<#macro columns tag='div' offsetXs=0 offsetSm=0 offsetMd=0 offsetLg=0 offsetXl=0 pushXs=0 pushSm=0 pushMd=0 pushLg=0 pushXl=0 pullXs=0 pullSm=0 pullMd=0 pullLg=0 pullXl=0 xs=12 sm=0 md=0 lg=0 xl=0 id='' class='' params=''>
+	<${tag} class="col-xs-${xs}<#if sm!=0> col-sm-${sm}</#if><#if md!=0> col-md-${md}</#if><#if lg!=0> col-lg-${lg}</#if><#if xl!=0> col-xl-${xl}</#if><#if offsetXs!=0> col-xs-offset-${offsetXs}</#if><#if offsetSm!=0> col-sm-offset-${offsetSm}</#if><#if offsetMd!=0> col-md-offset-${offsetMd}</#if><#if offsetLg!=0> col-lg-offset-${offsetLg}</#if><#if offsetXl!=0> col-xl-offset-${offsetXl}</#if><#if pushXs!=0> col-xs-push-${pushXs}</#if><#if pushSm!=0> col-sm-push-${pushSm}</#if><#if pushMd!=0> col-md-push-${pushMd}</#if><#if pushLg!=0> col-lg-push-${pushLg}</#if><#if pushXl!=0> col-xl-push-${pushXl}</#if><#if pullXs!=0> col-xs-pull-${pullXs}</#if><#if pullSm!=0> col-sm-pull-${pullSm}</#if><#if pullMd!=0> col-md-pull-${pullMd}</#if><#if pullLg!=0> col-lg-pull-${pullLg}</#if><#if pullXl!=0> col-xl-pull-${pullXl}</#if><#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 		<#nested>
-	</div>
+	</${tag}>
 </#macro>
 
 <#-- LISTS -->
@@ -1332,9 +1332,9 @@ and is kept only for backwards compatibility
 
 <#-- MODAL -->
 <#-- bgColor: modal-default/modal-primary/modal-info/modal-warning/modal-danger -->
-<#macro modal id params='' bgColor=''>
+<#macro modal id params='' bgColor='' size=''>
 <div class="modal ${bgColor} fade" tabindex="-1" role="dialog" id="${id}" data-toggle="modal"<#if params!=''> ${params}</#if>>
-	<div class="modal-dialog" role="document">
+	<div class="modal-dialog<#if size!=''> modal-${size}</#if>" role="document">
 		<div class="modal-content">
 			<#nested>
 		</div>
@@ -1344,6 +1344,7 @@ and is kept only for backwards compatibility
 
 <#macro modalHeader titleLevel='h4' modalTitle='' id='' params=''>
 <div class="modal-header"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+	<#nested>
 	<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 		<span aria-hidden="true">&times;</span>
 	</button>
@@ -1604,6 +1605,7 @@ and is kept only for backwards compatibility
 <#-- MACRO adminHeader -->
 <#macro adminHeader site_name=site_name>
 <script src="js/admin/jquery/jquery-3.5.1.min.js"></script>
+<script src="js/admin/jquery/jquery-migrate-3.3.1.min.js"></script>
 </head>
 <body class="skin-blue-light hold-transition sidebar-mini" data-spy="scroll" data-target="#scrollspy">
 	<div class="wrapper">
@@ -1728,6 +1730,7 @@ and is kept only for backwards compatibility
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
 <@coreAdminJSLinks />
+${javascript_files}
 <script>
 var AdminLTEOptions = {
 //Bootstrap.js tooltip
