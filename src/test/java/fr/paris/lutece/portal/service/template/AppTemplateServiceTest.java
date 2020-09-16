@@ -94,7 +94,6 @@ public class AppTemplateServiceTest extends LuteceTestCase
 
 				AppTemplateService.resetCache( );
 				AppTemplateService.resetConfiguration( );
-				AppTemplateService.initAutoIncludes( );
 
 				String reference_template = readFile(classPath + templatesPath + REFERENCE_TEMPLATE, StandardCharsets.UTF_8);
 				HtmlTemplate generated_template =  AppTemplateService.getTemplateFromStringFtl( reference_template, LocaleService.getDefault( ), model );
