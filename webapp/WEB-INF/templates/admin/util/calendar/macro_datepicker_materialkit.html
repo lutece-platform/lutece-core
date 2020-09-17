@@ -1,0 +1,268 @@
+<#--  ---------------- Bootstrap Material Kit datepicker ------------
+ # 		http://eonasdan.github.io/bootstrap-datetimepicker
+ # 		https://github.com/moment/moment/tree/develop/locale : List of available locale -default is us for the datetimepicker plugin-
+-->
+
+<#-- getDatePickerBootstrap
+ # Get a simple datepicker
+ # idField The id of the text field
+ # language The locale language
+ #
+ # Implementation example :
+ # <input type="text" name="my_date" id="my_date">
+ # <@getDatePickerBootstrap idField="my_date" language=locale.language />
+ #
+-->
+<#macro getDatePickerBootstrap idField language >
+<#local idt18n><@getRegional language=language /></#local>
+<#local dtFormat></#local>
+<#switch idt18n>
+  	<#case 'fr'>
+	<#case 'es'>
+	<#case 'it'>
+  		<#local dtFormat='DD/MM/YYYY' />
+  		<#break>
+  	<#case 'en'>
+  	<#case 'en-ca'>
+  	<#case 'en-nz'>-
+  		<#local dtFormat='MM/DD/YYYY' />
+  		<#break>
+  	<#case 'ru'>
+  	<#case 'hu'>
+  		<#local dtFormat='YYYY.MM.DD' />
+		<#break>
+</#switch>
+<script>
+$( function() {
+	$('#${idField}').datetimepicker({
+		locale: '${idt18n!}', 
+		<#if dtFormat!=''>format:'${dtFormat}',</#if>
+		icons: {
+			time: "fa fa-clock-o",
+			date: "fa fa-calendar",
+			up: "fa fa-chevron-up",
+			down: "fa fa-chevron-down",
+			previous: 'fa fa-chevron-left',
+			next: 'fa fa-chevron-right',
+			today: 'fa fa-screenshot',
+			clear: 'fa fa-trash',
+			close: 'fa fa-remove'
+		}
+	});
+});
+</script>
+</#macro>
+
+<#macro getDatePickerBootstrapClass idForm language >
+<#local idt18n><@getRegional language=language /></#local>
+<#local dtFormat></#local>
+<#switch idt18n>
+  	<#case 'fr'>
+	<#case 'es'>
+  		<#local dtFormat='DD/MM/YYYY' />
+  		<#break>
+  	<#case 'en-gb'>
+  	<#case 'en-CA'>
+  		<#local dtFormat='MM/DD/YYYY' />
+  		<#break>
+  	<#case 'hu'>
+  		<#local dtFormat='YYYY.MM.DD' />
+		<#break>
+</#switch>
+<script>
+$( function() {
+	$("#${idForm} .dtBootstrap").datepicker({
+		<#if idt18n!='' >locale: '${idt18n}',</#if> 
+		<#if dtFormat!='' >format: '${dtFormat}',</#if>
+		icons: {
+			time: "fa fa-clock-o",
+			date: "fa fa-calendar",
+			up: "fa fa-chevron-up",
+			down: "fa fa-chevron-down",
+			previous: 'fa fa-chevron-left',
+			next: 'fa fa-chevron-right',
+			today: 'fa fa-screenshot',
+			clear: 'fa fa-trash',
+			close: 'fa fa-remove'
+		}
+	});
+});
+</script>
+</#macro>
+
+<#-- getDatePickerRangeBootstrap
+ # Get a simple datepicker
+ # idField The id of the text field
+ # language The locale language
+ #
+ # Implementation example :
+ # <input type="text" name="my_date" id="my_date">
+ # <@getDatePickerBootstrap idField="my_date" language=locale.language />
+ #
+-->
+<#macro getDatePickerRangeBootstrap language >
+<#-- The range must be defined with id "datetimepicker_start" for start date input and another id "datetimepicker_end" for end date input.
+Example:
+<div class="form-group">
+	<div class='input-group date' id='datetimepicker_start'>
+		<input type='text' class="form-control" />
+		<span class="input-group-addon">
+			<span class="glyphicon glyphicon-calendar"></span>
+		</span>
+	</div>
+</div>
+<div class="form-group">
+	<div class='input-group date' id='datetimepicker_end'>
+		<input type='text' class="form-control" />
+		<span class="input-group-addon">
+			<span class="glyphicon glyphicon-calendar"></span>
+		</span>
+	</div>
+</div>
+--> 
+<#local idt18n><@getRegional language=language /></#local>
+<#local dtFormat></#local>
+<#switch idt18n>
+  	<#case 'fr'>
+	<#case 'es'>
+  		<#local dtFormat='DD/MM/YYYY' />
+  		<#break>
+  	<#case 'en-gb'>
+  	<#case 'en-CA'>
+  		<#local dtFormat='MM/DD/YYYY' />
+  		<#break>
+  	<#case 'hu'>
+  		<#local dtFormat='YYYY.MM.DD' />
+		<#break>
+</#switch>
+<script>
+    $(function () {
+        $('#datetimepicker_start').datetimepicker({
+			<#if idt18n!='' >locale: '${idt18n}',</#if> 
+			<#if dtFormat!='' >format: '${dtFormat}',</#if>
+			icons: {
+				time: "fa fa-clock-o",
+				date: "fa fa-calendar",
+				up: "fa fa-chevron-up",
+				down: "fa fa-chevron-down",
+				previous: 'fa fa-chevron-left',
+				next: 'fa fa-chevron-right',
+				today: 'fa fa-screenshot',
+				clear: 'fa fa-trash',
+				close: 'fa fa-remove'
+			}
+		}
+		);
+        $('#datetimepicker_end').datetimepicker({
+			locale: '${idt18n}', 
+			<#if dtFormat!='' >format: '${dtFormat}',</#if>
+			icons: {
+				time: "fa fa-clock-o",
+				date: "fa fa-calendar",
+				up: "fa fa-chevron-up",
+				down: "fa fa-chevron-down",
+				previous: 'fa fa-chevron-left',
+				next: 'fa fa-chevron-right',
+				today: 'fa fa-screenshot',
+				clear: 'fa fa-trash',
+				close: 'fa fa-remove'
+			},
+			useCurrent: false //Important! See issue #1075
+        });
+        $("#datetimepicker_start").on("dp.change", function (e) {
+            $('#datetimepicker_end').data("DateTimePicker").minDate(e.date);
+        });
+        $("#datetimepicker_end").on("dp.change", function (e) {
+            $('#datetimepicker_start').data("DateTimePicker").maxDate(e.date);
+        });
+    });
+</script>
+</#macro>
+
+<#-- DEPRECATED DO NOT USE ANYMORE !!!!								 -->
+<#macro getDatePicker idField language >
+	<script src="js/admin/jquery/plugins/ui/jquery-ui.min.js"></script>
+	<script src="js/admin/jquery/plugins/ui/ui.datepicker-fr.js"></script>
+	<script type="text/javascript" charset="utf-8">
+	$(document).ready(function(){
+		$('#${idField}').datepicker({language: '<@getRegional language=language />'});
+	});
+	</script>
+</#macro>
+
+<#-- getDatePickerRange
+ # Get a datepicker range
+ # idFieldFrom The id of the 'from' text field
+ # idFieldTo The id of the 'to' text field
+ # language The locale language
+ #
+ # Implementation example :
+ # <input type="text" name="document_validity_begin" id="document_validity_begin" size="10" />
+ # <input type="text" name="document_validity_end" id="document_validity_end" size="10" />
+ # <@getDatePickerRange idFieldFrom="document_validity_begin" idFieldTo="document_validity_end" language=locale.language />
+ #
+-->
+<#macro getDatePickerRange idFieldFrom idFieldTo language >
+	<script src="js/admin/jquery/plugins/ui/jquery-ui.min.js"></script>
+	<script src="js/admin/jquery/plugins/ui/ui.datepicker-fr.js"></script>
+	<script type="text/javascript" charset="utf-8">
+	$(document).ready(function() {
+		<#-- <@setDefaultsDatePicker /> -->
+		$('#${idFieldFrom}').datepicker();
+		$('#${idFieldTo}').datepicker({beforeShow: customRange}, $.extend({showStatus: true}));
+		// Customize two date pickers to work as a date range
+		function customRange(input) {
+			$.datepicker.setDefaults($.datepicker.regional['<@getRegional language=language />']);
+		    return {minDate: (input.id == '${idFieldTo}' ? $('#${idFieldFrom}').datepicker('getDate') : null),
+	        maxDate: (input.id == '${idFieldFrom}' ? $('#${idFieldTo}').datepicker('getDate') : null)};
+		}
+		$('.${idFieldFrom}').datepicker({language: '<@getRegional language=language />'});
+	});
+	</script>
+</#macro>
+
+<#-- ------------ Privates macro --------------- -->
+
+<#-- setDefaultsDatePicker
+ # This macro should not be called directly
+ #
+-->
+<#macro setDefaultsDatePicker >
+	$.datepicker.setDefaults({showOn: 'button', buttonImageOnly: true,
+    buttonImage: 'js/admin/jquery/plugins/ui/datepicker/calendar.png', buttonText: 'Calendar',
+    showAnim: 'slideDown', speed: 'fast'});
+</#macro>
+
+<#-- getRegional
+ # This macro should not be called directly
+ #
+-->
+<#macro getRegional language><#if !('${language}'=='en')>${language}</#if></#macro>
+<#-- -------------- jQuery UI Datepicker --------------
+ # More information for jQuery UI Datepicker usage :
+ # http://docs.jquery.com/UI/Datepicker
+ # http://marcgrabanski.com/code/ui-datepicker/
+-->
+
+<#-- getDatePicker
+ # Get a simple datepicker
+ # idField The id of the text field
+ # language The locale language
+ #
+ # Implementation example :
+ # <input type="text" name="my_date" id="my_date" />
+ # <@getDatePicker idField="my_date" language=locale.language />
+ #
+-->
+<#-- getDatePickerRange
+ # Get a datepicker range
+ # idFieldFrom The id of the 'from' text field
+ # idFieldTo The id of the 'to' text field
+ # language The locale language
+ #
+ # Implementation example :
+ # <input type="text" name="document_validity_begin" id="document_validity_begin" size="10" />
+ # <input type="text" name="document_validity_end" id="document_validity_end" size="10" />
+ # <@getDatePickerRange idFieldFrom="document_validity_begin" idFieldTo="document_validity_end" language=locale.language />
+ #
+-->
