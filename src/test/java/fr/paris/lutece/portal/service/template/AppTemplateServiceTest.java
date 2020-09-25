@@ -31,28 +31,31 @@ public class AppTemplateServiceTest extends LuteceTestCase
 	final private static String TEST_TEMPLATES_PATH = "commons/templates/test/";
 
 	@Test
-	public void testCommonsTemplates() throws IOException, TemplateException {
+	public void testCommonsTemplates( ) throws IOException, TemplateException 
+	{
 
-		String classPath = getClass().getProtectionDomain().getCodeSource().getLocation().getPath();
+		String classPath = getClass( ).getProtectionDomain( ).getCodeSource( ).getLocation( ).getPath( );
 
 
-		for (CommonsInclude ci : CommonsService.getCommonsIncludes()) {
-			try {
-				CommonsService.activateCommons(ci.getKey());
+		for (CommonsInclude ci : CommonsService.getCommonsIncludes( ) ) 
+		{
+			try 
+			{
+				CommonsService.activateCommons( ci.getKey( ) );
 				String ciKey = ci.getKey( );
-				Map<String, Object> model = new HashMap<>();
+				Map<String, Object> model = new HashMap<>( );
 				
 				AppTemplateService.resetCache( );
 
-				String reference_template = readFile(classPath + TEST_TEMPLATES_PATH + REFERENCE_TEMPLATE, StandardCharsets.UTF_8);
-				HtmlTemplate generated_template =  AppTemplateService.getTemplateFromStringFtl( reference_template, LocaleService.getDefault( ), model );
-				String expected_template = readFile(classPath + TEST_TEMPLATES_PATH + EXPECTED_PREFIX + ciKey + HTML_EXTENSION, StandardCharsets.UTF_8);
+				String strReferenceTemplate = readFile( classPath + TEST_TEMPLATES_PATH + REFERENCE_TEMPLATE, StandardCharsets.UTF_8 );
+				HtmlTemplate generated_template =  AppTemplateService.getTemplateFromStringFtl( strReferenceTemplate, LocaleService.getDefault( ), model );
+				String strExpectedTemplate = readFile( classPath + TEST_TEMPLATES_PATH + EXPECTED_PREFIX + ciKey + HTML_EXTENSION, StandardCharsets.UTF_8 );
 
-				assertEquals( "AppTemplateServiceTest freemarker lib :  "  + ciKey, generated_template.getHtml( ), expected_template );
+				assertEquals( "AppTemplateServiceTest freemarker lib :  "  + ciKey, generated_template.getHtml( ), strExpectedTemplate );
 			}
 			catch ( IOException e )
 			{
-				fail( e.getMessage());
+				fail( e.getMessage( ) );
 			}
 		}
 
@@ -66,11 +69,11 @@ public class AppTemplateServiceTest extends LuteceTestCase
 	 * @return the file as string
 	 * @throws IOException
 	 */
-	static String readFile(String path, Charset encoding)
+	static String readFile( String path, Charset encoding )
 			throws IOException
 	{
-		byte[] encoded = Files.readAllBytes(Paths.get(path));
-		return new String(encoded, encoding);
+		byte[] encoded = Files.readAllBytes( Paths.get( path ) );
+		return new String( encoded, encoding );
 	}
 
 
