@@ -1140,14 +1140,14 @@
 </${type}>
 </#macro>
 
-<#macro listGroup id='' params=''>
-<ul class="list-group"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<#macro listGroup id='' class='' params=''>
+<ul class="list-group<#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 	<#nested>
 </ul>
 </#macro>
 
-<#macro listGroupItem id='' params=''>
-<li class="list-group-item list-group-item-action"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<#macro listGroupItem id='' class='' params=''>
+<li class="list-group-item list-group-item-action<#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 	<#nested>
 </li>
 </#macro>

@@ -1493,14 +1493,14 @@ and is kept only for backwards compatibility
 </${type}>
 </#macro>
 
-<#macro listGroup id='' params=''>
-<div class="panel"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<#macro listGroup id='' class='' params=''>
+<div class="panel<#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 	<#nested>
 </div>
 </#macro>
 
-<#macro listGroupItem id='' params=''>
-<div class="panel-block"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<#macro listGroupItem id='' class='' params=''>
+<div class="panel-block<#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 	<#nested>
 </div>
 </#macro>
