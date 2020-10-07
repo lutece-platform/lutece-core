@@ -284,6 +284,7 @@
             <list>
                 <value>commons.html</value>
                 <value>admin/util/calendar/macro_datepicker.html</value>
+                <value>admin/util/calendar/macro_datetimepicker.html</value>
             </list>
         </property>
     </bean>
