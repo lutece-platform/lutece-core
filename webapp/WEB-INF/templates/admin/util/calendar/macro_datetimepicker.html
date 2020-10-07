@@ -1,0 +1,9 @@
+<#macro getDateTimePickerBootstrap idField language >
+	<script src="js/admin/bootstrap-flatpickr.min.js"></script>
+	<script src="js/admin/locales/bootstrap-flatpickr.<@getRegional language=language />.js" charset="utf-8"></script>
+	<script type="text/javascript" charset="utf-8">
+	$(document).ready( function() {
+ 		$('#${idField}').flatpickr({enableTime: true, dateFormat: 'Y-m-d H:i:S', "locale": "<@getRegional language=language />"});
+	});
+	</script>
+</#macro>
