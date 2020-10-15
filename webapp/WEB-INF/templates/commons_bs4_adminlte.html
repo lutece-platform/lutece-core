@@ -1409,14 +1409,18 @@ ${javascript_files}
 	<div class="row justify-content-between">
 		<div class="col">
 			<h3 class="ml-2">
-				<a href="${feature_url}" title="${feature_title}">${feature_title}</a>
+				<#if feature_url?? >
+					<@link href='${feature_url}' title='${feature_title!""}'>${feature_title!''}</@link>
+				<#else>
+					${feature_title!''}
+				</#if>
 				<#if page_title?has_content><small>${page_title}</small></#if>
 			</h3>
 		</div>
 		<@adminHeaderDocumentationLink />
 	</div>
 </header>
-<section class="content <#if feature_url?ends_with('AdminSite.jsp')>no-padding</#if>">
+<section class="content <#if feature_url?? && feature_url?ends_with('AdminSite.jsp')>no-padding</#if>">
 </#macro>
 
 <#-- adminLoginPage  -->
@@ -1428,7 +1432,7 @@ ${javascript_files}
 <section id="login-page">
 	<div class="container">
 		<div class="row align-items-center vh-100">
-			<div class="col-sm-5 offset-sm-3 bg-light rounded px-5" style="background-color:>
+			<div class="col-sm-5 offset-sm-3 bg-light rounded px-5">
 				<header>
 					<h1 class="h2 mb-3 text-center">
 						<a class="btn btn-link btn-block" href="jsp/site/Portal.jsp" title="${site_name!'Lutece'}">#i18n{portal.admin.admin_login.welcome}<br> <b>${site_name!'Lutece'}</b></a>
@@ -1666,28 +1670,4 @@ $(function() {
 		<@button color='link text-dark' size='sm' type='submit' buttonIcon='eye-slash' title='#i18n{portal.users.admin_header.labelActivateAccessibilityMode}'/>
 	</#if>
 </@tform>
-</#macro>
-
-<#-- adminContentHeader  -->
-<#macro adminContentHeader >
-<section class="content-header">
-	<div class="container-fluid">
-		<div class="row">
-			<div class="col-sm-6">
-				<h1>
-				<#if feature_url?? >
-					<@link href='${feature_url}' title='${feature_title!""}'>${feature_title!''}</@link>
-				<#else>
-					${feature_title!''}
-				</#if>
-				<#if page_title?has_content><small>${page_title}</small></#if>
-				</h1>
-			</div>
-			<div class="col-sm-6">
-				<@adminHeaderDocumentationLink />
-			</div>
-		</div>
-	</div>
-</section>
-<section class="content <#if feature_url?? && feature_url?ends_with('AdminSite.jsp')>no-padding</#if>">
 </#macro>
