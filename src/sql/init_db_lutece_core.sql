@@ -208,12 +208,10 @@ INSERT INTO core_datastore VALUES ('portal.site.site_property.popup_credits.text
 INSERT INTO core_datastore VALUES ('portal.site.site_property.popup_legal_info.copyright.textblock', '&lt;copyright text&gt;');
 INSERT INTO core_datastore VALUES ('portal.site.site_property.popup_legal_info.privacy.textblock', '&lt;privacy text&gt;');
 INSERT INTO core_datastore VALUES ('portal.site.site_property.logo_url', 'images/logo-header-icon.png');
-INSERT INTO core_datastore VALUES ('portal.site.site_property.menu.position', 'top');
 INSERT INTO core_datastore VALUES ('portal.site.site_property.locale.default', 'fr');
 -- LUTECE 
 INSERT INTO core_datastore VALUES ('portal.site.site_property.avatar_default', 'images/admin/skin/unknown.png');
 INSERT INTO core_datastore VALUES ('portal.site.site_property.back_images', '\'images/admin/skin/bg_login1.jpg\' , \'images/admin/skin/bg_login2.jpg\' , \'images/admin/skin/bg_login3.jpg\' , \'images/admin/skin/bg_login4.jpg\'');
-
 
 INSERT INTO core_search_parameter (parameter_key, parameter_value) VALUES ('type_filter', 'none');
 INSERT INTO core_search_parameter (parameter_key, parameter_value) VALUES ('default_operator', 'OR');

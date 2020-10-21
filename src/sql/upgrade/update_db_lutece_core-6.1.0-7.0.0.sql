@@ -59,3 +59,6 @@ ALTER TABLE core_admin_user_field modify COLUMN id_user_field int AUTO_INCREMENT
 ALTER TABLE core_xsl_export modify COLUMN id_xsl_export int AUTO_INCREMENT NOT NULL;
 
 UPDATE core_mode SET output_xsl_standalone=NULL WHERE output_xsl_omit_xml_dec='yes';
+
+DELETE FROM `core_datastore` WHERE `entity_key`='portal.site.site_property.menu.position';
+REPLACE INTO `core_datastore` (`entity_key`, `entity_value`) VALUES ('portal.site.site_property.back_images', '\'images/admin/skin/bg_login1.svg\' , \'images/admin/skin/bg_login2.svg\' , \'images/admin/skin/bg_login3.svg\' , \'images/admin/skin/bg_login4.svg\'');
