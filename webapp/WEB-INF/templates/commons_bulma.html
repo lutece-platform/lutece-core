@@ -1131,7 +1131,7 @@ and is kept only for backwards compatibility
 
 <#local displayTitleClass = displaySettings(hideTitle,'inline') />
 
-	<#if cancel || color = 'default' || color = 'secondary'>
+	<#if cancel || color = 'default' || color = 'secondary' || color='btn-default' || color='btn-secondary'>
 		<#assign buttonColor = 'light' />
 	<#elseif !cancel && color=''>
 		<#assign buttonColor = 'primary' />

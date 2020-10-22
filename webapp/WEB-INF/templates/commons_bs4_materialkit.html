@@ -849,7 +849,7 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 <#macro button name='' id='' type='button' size='' color='' style='' class='' params='' value='' title='' tabIndex='' hideTitle=[] showTitle=true showTitleXs=true showTitleSm=true showTitleMd=true showTitleLg=true showTitleXl=true buttonIcon='' disabled=false iconPosition='left' dropdownMenu=false cancel=false form=''>
 	<#-- Visibility of button title -->
 	<#local displayTitleClass = displaySettings(hideTitle,'inline') />
-	<#if cancel || color = 'default'>
+	<#if cancel || color = 'default' || color='btn-default' || color='btn-secondary'>
 		<#local buttonColor = 'secondary' />
 	<#elseif !cancel && color=''>
 		<#local buttonColor = mainColor />
