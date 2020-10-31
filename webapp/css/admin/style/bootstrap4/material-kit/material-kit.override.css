@@ -1,10 +1,14 @@
 .btn.btn-default.btn-link, .btn.btn-link {
-  color: #fff;
+	color: #fff;
 }
 
 .btn.btn-default.btn-link:active, .btn.btn-default.btn-link:focus, .btn.btn-default.btn-link:hover, .btn.btn-link:active, .btn.btn-link:focus, .btn.btn-link:hover {
-  color: #fff;
+	color: #fff;
 	text-shadow: 2px 1px 10px #fff;
+}
+
+.btn-group-xs .btn, .btn-group-xs > .btn, .btn.btn-xs {
+    padding: .40rem .80rem;
 }
 
 .card-login .card-body {
