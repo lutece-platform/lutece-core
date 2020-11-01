@@ -820,7 +820,7 @@
 
 	<#-- Visibility of button title -->
 	<#local displayTitleClass = displaySettings(hideTitle,'inline') />
-	<#if cancel || color = 'default' || color='btn-default' || color='btn-secondary'>
+	<#if cancel || color = 'default' || color='btn-default' || color='btn-secondary' || color='secondary'>
 		<#local buttonColor = 'btn-secondary' />
 	<#elseif !cancel && color=''>
 		<#local buttonColor = 'bg-indigo' />
