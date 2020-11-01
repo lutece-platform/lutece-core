@@ -128,6 +128,19 @@ public class AdminWorkgroupJspBeanTest extends LuteceTestCase
         }
     }
 
+    public void testGetAssignUsers( ) throws AccessDeniedException
+    {
+        MockHttpServletRequest request = new MockHttpServletRequest( );
+        request.setParameter( "workgroup_key", adminWorkgroup.getKey( ) );
+        AdminUser user = new AdminUser( );
+        Utils.registerAdminUserWithRigth( request, user, "CORE_WORKGROUPS_MANAGEMENT" );
+        bean.init( request, "CORE_WORKGROUPS_MANAGEMENT" );
+
+        String html = bean.getAssignUsers( request );
+
+        assertNotNull( html );
+    }
+
     public void testDoCreateWorkgroup( ) throws AccessDeniedException
     {
         final String key = getRandomName( );

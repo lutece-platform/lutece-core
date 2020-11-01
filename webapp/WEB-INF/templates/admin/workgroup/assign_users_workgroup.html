@@ -1,7 +1,12 @@
 <@row>
   <@columns>
     <@box color='success' collapsed=true>
-			<@boxHeader title='#i18n{portal.workgroup.assign_users.pageTitle} <strong title="#i18n{portal.workgroup.assign_users.workgroup.description} : ${workgroup.description}"> ${workgroup.key}</strong> <small class="spaced"><@icon style='user' />&nbsp;#i18n{portal.workgroup.assign_users.workgroup.number_user} : <@tag>${assigned_users_number}</@tag></small>' boxTools=true>
+      <#assign boxTitle>
+		#i18n{portal.workgroup.assign_users.pageTitle}
+		<strong title="#i18n{portal.workgroup.assign_users.workgroup.description} : ${workgroup.description}">${workgroup.key}</strong> 
+		<small class="spaced"><@icon style="user" />&nbsp;#i18n{portal.workgroup.assign_users.workgroup.number_user}&nbsp;: <@tag>${assigned_users_number}</@tag></small>
+      </#assign>
+	  <@boxHeader title=boxTitle boxTools=true>
 				<@aButton href='jsp/admin/workgroup/ModifyWorkgroup.jsp?workgroup_key=${workgroup.key}' title='#i18n{portal.workgroup.manage_workgroups.buttonLabelModify}' size='' buttonIcon='edit' />
 				<@aButton href='jsp/admin/workgroup/RemoveWorkgroup.jsp?workgroup_key=${workgroup.key}' title='#i18n{portal.workgroup.manage_workgroups.buttonLabelDelete}' size='' buttonIcon='trash' color='danger' />
 				<@item_navigation item_navigator=item_navigator id='item-navigator-availableusers' />
