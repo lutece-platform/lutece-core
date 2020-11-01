@@ -774,9 +774,10 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 	</div>
 	</#if>
 </div>
+<#assign parentId=parentId />
 </#macro>
 
-<#macro accordionBody id=childId class=childClass expanded=expanded params=''>
+<#macro accordionBody id=childId parentId=parentId class=childClass expanded=expanded params=''>
 <div id="${id}" class="${class}" aria-labelledby="${childId}-header" data-parent="#${parentId}" <#if params!=''> ${params}</#if>>
 	<@boxBody>
 		<#nested>

@@ -32,7 +32,7 @@ body.vh-100 {
     height: 100% !important;
 }
 
-body > main {margin-bottom:50px;}
+body > main {margin-bottom:150px;}
 
 header nav .collapse:not(.show) {display:unset;}
 
@@ -45,13 +45,12 @@ header nav .collapse:not(.show) {display:unset;}
 .navbar {padding: .5rem 1rem!important;}
 
 .row > form, .col form {width:100%;}
+fieldset {margin-bottom:15px;}
 
-.card:not(:first-of-type) {
-    margin-top: 80px;
-}
-
-.card .card-collapse {margin-top:0;}
-.card .card-collapse > .card-header {margin:0; padding:0; border-radius:3px 3px 0 0;}
+.card:not(:first-of-type) {margin-top: 80px;}
+.card.card-collapse {margin-top:0; margin-bottom:0;}
+.card.card-collapse > .card-header {margin:0; padding:0; border-radius:3px 3px 0 0;}
+.card.card-collapse > .card-header h2 {margin:0;}
 
 /* Forms.css override */
 @media only screen and (max-width :1650px) {

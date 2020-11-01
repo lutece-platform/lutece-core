@@ -1027,7 +1027,6 @@ and is kept only for backwards compatibility
 <script type='text/javascript'>
     var accordions = bulmaAccordion.attach();     
 </script>
-    
 </#macro>
 
 <#macro accordionPanel color='' collapsed=true childId='' id='' params=''>
@@ -1061,6 +1060,7 @@ and is kept only for backwards compatibility
 	</div>
 	</#if>
 </div>
+<#assign parentId=parentId />
 </#macro>
 
 <#macro accordionBody id=childId class=childClass expanded=expanded params=''>

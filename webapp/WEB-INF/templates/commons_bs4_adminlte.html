@@ -719,7 +719,7 @@
 			<#assign expanded = 'true'>
 			<#assign childClass = 'collapse show'>
 		</#if>
-		<#assign childId = childId>
+		<#assign childId = childId />
 		<#nested>
 	</div>
 </#macro>
@@ -740,6 +740,7 @@
 	</div>
 	</#if>
 </div>
+<#assign parentId = parentId />
 </#macro>
 
 <#macro accordionBody id=childId class=childClass expanded=expanded params=''>
@@ -826,7 +827,11 @@
 		<#local buttonColor = 'bg-indigo' />
 	<#else>
 		<#if color == 'primary' || color == 'secondary' || color == 'success' || color == 'info' || color == 'warning' || color == 'danger'>
-			<#local buttonColor = 'btn-' + color />
+			<#if color == 'primary'>
+				<#local buttonColor = 'bg-indigo' />
+			<#else>
+				<#local buttonColor = 'btn-' + color />
+			</#if>
 		<#else>
 			<#local buttonColor = 'bg-' + color />
 		</#if>
@@ -885,7 +890,11 @@
 		<#assign buttonColor = 'bg-indigo' />
 	<#else>
 		<#if color == 'primary' || color == 'secondary' || color == 'success' || color == 'info' || color == 'warning' || color == 'danger'>
-			<#assign buttonColor = 'btn-' + color />
+			<#assign buttonColor = 'btn-' + color /><#if color == 'primary'>
+				<#local buttonColor = 'bg-indigo' />
+			<#else>
+				<#local buttonColor = 'btn-' + color />
+			</#if>
 		<#else>
 			<#assign buttonColor = 'bg-' + color />
 		</#if>
@@ -904,7 +913,7 @@
 		<div class="btn-group">
 	</#if>
 	
-	<a class="${style} <#if size!=''> btn-${size}</#if><#if color!=''> btn-${color}</#if><#if class!=''> ${class}</#if>"<#if name!=''> name="${name}"</#if><#if id!=''> id="${id}"</#if> href="${href}" title="${title}"<#if params!=''> ${params}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if>>
+	<a class="${style} <#if size!=''> btn-${size}</#if><#if color!=''> ${buttonColor}</#if><#if class!=''> ${class}</#if>"<#if name!=''> name="${name}"</#if><#if id!=''> id="${id}"</#if> href="${href}" title="${title}"<#if params!=''> ${params}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if>>
 		<#if buttonIcon!='' && iconPosition='left'><@icon style=buttonIcon /></#if>
 		<span class="${displayTitleClass}">${title}</span>
 		<#if buttonIcon!='' && iconPosition='right'><@icon style=buttonIcon /></#if>
