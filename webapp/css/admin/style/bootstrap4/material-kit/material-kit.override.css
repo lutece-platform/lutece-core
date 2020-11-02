@@ -44,7 +44,7 @@ header nav .collapse:not(.show) {display:unset;}
 
 .navbar {padding: .5rem 1rem!important;}
 
-.row > form, .col form {width:100%;}
+.row > form, .col > form {width:100%;}
 fieldset {margin-bottom:15px;}
 
 .card:not(:first-of-type) {margin-top: 80px;}
