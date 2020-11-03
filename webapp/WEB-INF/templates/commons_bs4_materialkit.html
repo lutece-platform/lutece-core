@@ -852,6 +852,7 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 <#macro button name='' id='' type='button' size='' color='' style='' class='' params='' value='' title='' tabIndex='' hideTitle=[] showTitle=true showTitleXs=true showTitleSm=true showTitleMd=true showTitleLg=true showTitleXl=true buttonIcon='' disabled=false iconPosition='left' dropdownMenu=false cancel=false form=''>
 	<#-- Visibility of button title -->
 	<#local displayTitleClass = displaySettings(hideTitle,'inline') />
+	
 	<#if cancel || color = 'default' || color='btn-default' || color='btn-secondary' || color='secondary'>
 		<#local buttonColor = 'default' />
 	<#elseif !cancel && color=''>
@@ -890,18 +891,14 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 	<#-- Visibility of button title -->
 	<#local displayTitleClass = displaySettings(hideTitle,'inline') />
 	
-	<#if color = 'default'>
-		<#local buttonColor = 'secondary' />
+	<#if color = 'default' || color='btn-default' || color='btn-secondary' || color='secondary'>
+		<#local buttonColor = 'default' />
 	<#elseif color = ''>
 		<#local buttonColor = mainColor />
 	<#else>
 		<#local buttonColor = color />
 	</#if>
 
-	<#if size = 'xs'>
-		<#local size = 'sm' />
-	</#if>
-	
 	<#if dropdownMenu>
 		<div class="btn-group">
 	</#if>
