@@ -325,7 +325,7 @@
 </#macro>
 
 <#-- ICONS -->
-<#-- Icons from FontAwesome -->
+<#-- Icons from FontAwesome 5.8.1 -->
 <#macro icon prefix='fa-' style='' class='' title='' id='' params=''>
 <#if style='docker' || style = 'github' || style='gitlab' || style='java' || style='jira' || style='jenkins' || style = 'twitter' >
 	<#local prefix = 'fab ' + prefix />
@@ -808,7 +808,7 @@
 	<#else>
 		<#local buttonColor = color />
 	</#if>
-	<#if style='card-control'>
+	<#if style?contains('card-control')>
 		<#local style='text-right btn-link' />
 	</#if>
 
@@ -819,9 +819,9 @@
 	<#if dropdownMenu>
 		<div class="btn-group">
 	</#if>
-		<button class="<#if style!='close'>btn</#if><#if size!='' && style!='card-control'> btn-${size}</#if><#if buttonColor!='' && style!='card-control'> btn-${buttonColor}</#if><#if style!=''> ${style}</#if><#if dropdownMenu> dropdown-toggle</#if><#if class!=''> ${class}</#if>" type="${type}"<#if title!=''> title="${title}"</#if><#if name!=''> name="${name}"</#if><#if id!=''> id="${id}"</#if><#if value!=''> value="${value}"</#if><#if params!=''> ${params}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if><#if cancel> formnovalidate</#if><#if form!=''> form="${form}"</#if>>
+		<button class="<#if style!='close'>btn</#if><#if size!='' && !style?contains('card-control')> btn-${size}</#if><#if buttonColor!='' && !style?contains('card-control')> btn-${buttonColor}</#if><#if style!=''> ${style}</#if><#if dropdownMenu> dropdown-toggle</#if><#if class!=''> ${class}</#if>" type="${type}"<#if title!=''> title="${title}"</#if><#if name!=''> name="${name}"</#if><#if id!=''> id="${id}"</#if><#if value!=''> value="${value}"</#if><#if params!=''> ${params}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if><#if cancel> formnovalidate</#if><#if form!=''> form="${form}"</#if>>
 			<#if buttonIcon!='' && iconPosition='left'><@icon style=buttonIcon /></#if>
-			<#if displayTitleClass!='' && style!='card-control'><span class="${displayTitleClass}"></#if>${title}<#if displayTitleClass!='' && style!='card-control'></span></#if>
+			<#if displayTitleClass!='' && !style?contains('card-control')><span class="${displayTitleClass}"></#if>${title}<#if displayTitleClass!='' && !style?contains('card-control')></span></#if>
 			<#if buttonIcon!='' && iconPosition='right'><@icon style=buttonIcon /></#if>
 		</button>
 	<#if dropdownMenu>
