@@ -415,7 +415,6 @@
 				<#local divClass = "col-lg-6">
 			</#if>
 		<#elseif formStyle = 'inline'>
-			<#local labelClass = 'sr-only'>
 			<#local divClass = "mb-2 mr-sm-2">
 		<#else>
 				<#local divClass="col-sm-12">
@@ -424,7 +423,7 @@
 		<#local labelClass = "col-12">
 		<#local divClass = "col-12">
 	</#if>
-	<#local labelClass = labelClass + " bmd-label-floating">
+	<#local labelClass = labelClass + " bmd-label-floating" />
 	<#if labelKey!=''>
 		<@formLabel class=labelClass labelFor=labelFor labelId=labelId labelKey=labelKey hideLabel=hideLabel mandatory=mandatory />
 	</#if>

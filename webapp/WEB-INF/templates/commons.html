@@ -806,7 +806,7 @@ and is kept only for backwards compatibility
 <#-- groupStyle: success/warning/error... -->
 <#-- showLabel is deprecated in Lutece v7 -->
 <#macro formGroup class='' formStyle='horizontal' groupStyle='' rows=1 labelKey='' labelFor='' labelId='' helpKey='' id='' mandatory=false hideLabel=[] showLabel=true params=''>
-	<#local displayTitleClass = displaySettings(hideLabel,'') />
+	<#local displayLabelClass = displaySettings(hideLabel,'') />
 	<div class="form-group<#if groupStyle!=''> has-${groupStyle} has-feedback</#if><#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 		<#if rows=1>
 			<#if labelKey!='' && formStyle='horizontal'>
@@ -822,7 +822,7 @@ and is kept only for backwards compatibility
 			<#local divClass = "col-xs-12">
 		</#if>
 		<#if labelKey!=''>
-		<label class="${labelClass}<#if displayTitleClass!=''> ${displayTitleClass}</#if><#if showLabel=false> sr-only</#if>" for="${labelFor}"<#if labelId!=''> id="${labelId}"</#if>>
+		<label class="${labelClass}<#if displayLabelClass!=''> ${displayLabelClass}</#if><#if showLabel=false> sr-only</#if>" for="${labelFor}"<#if labelId!=''> id="${labelId}"</#if>>
 			${labelKey}
 			<#if mandatory=false>
 				&#160;

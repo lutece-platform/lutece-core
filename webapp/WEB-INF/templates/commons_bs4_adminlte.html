@@ -412,20 +412,19 @@
 </#if>
 <div class="form-group<#if formStyle='horizontal'> row</#if><#if class!=''> ${class}<#/if><#if validation?? && validation!=''> ${validation}</#if></#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 <#local labelClass = '' />
-<#local displayClass = displaySettings(hideLabel,'inline-flex') />
+<#local displayLabelClass = displaySettings(hideLabel,'inline-flex') />
 	<#if rows=1>
 		<#if labelKey!='' && formStyle='horizontal'>
 			<#local labelClass = "col-sm-12 col-lg-3 col-form-label">
-			<#if displayClass?contains('d-none')>
+			<#if displayLabelClass?contains('d-none')>
 				<#local divClass="col">
 			<#else>
 				<#local divClass = "col-lg-6">
 			</#if>
 		<#elseif formStyle = 'inline'>
-			<#local labelClass = 'sr-only'>
 			<#local divClass = "mb-2 mr-sm-2">
 		<#else>
-				<#local divClass="col-sm-12 offset-lg-3 col-lg-3">
+			<#local divClass="col-sm-12 offset-lg-3 col-lg-6">
 		</#if>
 	<#else>
 		<#local labelClass = "col-sm-12 col-form-label">
@@ -845,7 +844,9 @@
 		<#if style?contains('card-control')>
 			<#local btnStyle = 'btn-tool' />
 			<#if style?contains('collapse')>
-				<#local widgetAction = 'collapse' />				
+				<#local widgetAction = 'collapse' />
+			<#elseif style?contains('maximize')
+				<#local widgetAction = 'maximize' />
 			<#else>
 				<#local widgetAction = 'remove' />			
 			</#if>
