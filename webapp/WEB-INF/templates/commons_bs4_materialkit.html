@@ -98,9 +98,9 @@
 <#if (paginator.pagesCount > 1) >
 	<@paginationPageLinks paginator=paginator />
 </#if>
-<nav>
+<nav class="float-right">
 	<#if form == 1 >
-		<@tform type='inline'>
+		<@tform type='inline' params='style="display:block;"'>
 			<@paginationItemCount paginator=paginator combo=combo nb_items_per_page=nb_items_per_page showcount=showcount showall=showall/>
 		</@tform>
 	<#else>
@@ -329,8 +329,8 @@
 	<#assign sort_url = jsp_url + "?sorted_attribute_name=" + attribute + "&amp;asc_sort=" />
 </#if>
 <@btnGroup ariaLabel='sortButton'>
-	<@aButton color='default' size='sm' id='sort${id!}_${attribute!}' href='${sort_url}true#sort${id!}_${attribute!}' title='#i18n{portal.util.sort.asc}' buttonIcon='chevron-up' hideTitle=['all'] />
-	<@aButton color='default' size='sm' href='${sort_url}false#sort${id!}_${attribute!}' title='#i18n{portal.util.sort.desc}' buttonIcon='chevron-down' hideTitle=['all'] />
+	<@aButton color='default' size='xs' id='sort${id!}_${attribute!}' href='${sort_url}true#sort${id!}_${attribute!}' title='#i18n{portal.util.sort.asc}' buttonIcon='chevron-up' hideTitle=['all'] />
+	<@aButton color='default' size='xs' href='${sort_url}false#sort${id!}_${attribute!}' title='#i18n{portal.util.sort.desc}' buttonIcon='chevron-down' hideTitle=['all'] />
 </@btnGroup>
 </#macro>
 
