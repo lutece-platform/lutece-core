@@ -52,6 +52,8 @@ fieldset {margin-bottom:15px;}
 .card.card-collapse > .card-header {margin:0; padding:0; border-radius:3px 3px 0 0;}
 .card.card-collapse > .card-header h2 {margin:0;}
 
+div.card-header > div.d-flex > *:not(:first-of-type){margin-left:0.5rem;}
+
 /* Forms.css override */
 @media only screen and (max-width :1650px) {
 	.form-inline .form-group {max-width: 100%!important;}

@@ -1539,10 +1539,10 @@ $(function() {
 </#macro>
 
 <#-- fieldSet  -->
-<#macro fieldSet legend='' class='' legendClass='' >
-<fieldset <#if class!=''> class="${class}"</#if>>
+<#macro fieldSet class='' fieldsetId='' fieldsetParams='' legend='' legendClass='' legendId='' legendParams=''>
+<fieldset<#if class!=''> class="${class}"</#if><#if fieldsetId!=''> id="${fieldsetId}"</#if><#if fieldsetParams!=''> ${fieldsetParams}</#if>>
 	<#if legend!=''>
-		<legend <#if legendClass!=''> class="${legendClass}"</#if>>${legend}</legend>
+		<legend<#if legendClass!=''> class="${legendClass}"</#if><#if legendId!=''> id="${legendId}"</#if><#if legendParams!=''> ${legendParams}</#if>>${legend}</legend>
 	</#if>
 	<#nested>
 </fieldset>
