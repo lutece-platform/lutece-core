@@ -326,8 +326,9 @@
 </#if>
 </#macro>
 
-<#macro item_navigation item_navigator id="item-navigator">
-<nav id="${id}" style="display:inline;">
+<#macro item_navigation item_navigator id='item-navigator' align=''>
+<#assign alignClass = alignmentSettings(align) />
+<nav id="${id}" class="${alignClass}">
 <#if (item_navigator.currentItemId > 0)>
 	<@aButton size='' href='${item_navigator.previousPageLink?xhtml}' title='#i18n{portal.util.labelPrevious}' buttonIcon='arrow-left' color='info' hideTitle=['xs','sm'] />
 </#if>
@@ -1910,10 +1911,11 @@ $(function() {
 </#macro>
 
 <#-- fieldSet  -->
-<#macro fieldSet legend='' class='' legendClass='' >
-<fieldset class="box<#if class!=''> ${class}</#if><#if fieldsetId!=''> id="${fieldsetId}"</#if><#if fieldsetParams!=''> ${fieldsetParams}</#if>">
+<#macro fieldSet class='' fieldsetId='' fieldsetParams='' legend='' legendClass='' legendId='' legendParams='' hideLegend=[] disabled=false>
+<fieldset class="box<#if class!=''> ${class}</#if>"<#if fieldsetId!=''> id="${fieldsetId}"</#if><#if fieldsetParams!=''> ${fieldsetParams}</#if><#if disabled> disabled</#if>>
 	<#if legend!=''>
-		<legend class="label has-text-centered<#if legendClass!=''> ${legendClass}</#if>" <#if legendId!=''> id="${legendId}"</#if><#if legendParams!=''> ${legendParams}</#if>>${legend}</legend>
+		<#local legendClass += ' ' +  displaySettings(hideLegend,'block') />
+		<legend class="label has-text-centered<#if legendClass!=''> ${legendClass?trim}</#if>" <#if legendId!=''> id="${legendId}"</#if><#if legendParams!=''> ${legendParams}</#if>>${legend}</legend>
 	</#if>
 	<#nested>
 </fieldset>

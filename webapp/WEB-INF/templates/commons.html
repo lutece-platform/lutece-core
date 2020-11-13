@@ -321,8 +321,9 @@
 </#if>
 </#macro>
 
-<#macro item_navigation item_navigator id="item-navigator">
-<nav id="${id}" style="display:inline;">
+<#macro item_navigation item_navigator id='item-navigator' align=''>
+<#assign alignClass = alignmentSettings(align) />
+<nav id="${id}" class="${alignClass}">
 <#if (item_navigator.currentItemId > 0)>
 	<@aButton href='${item_navigator.previousPageLink?xhtml}' title='#i18n{portal.util.labelPrevious}' buttonIcon='arrow-left' color='info' hideTitle=['xs','sm'] />
 </#if>
@@ -766,9 +767,6 @@ and is kept only for backwards compatibility
 		<#case 'dot-circle'>
 			<#local iconStyle = 'dot-circle-o' />
 		<#break>
-		<#case 'sync'>
-			<#local iconStyle = 'refresh' />
-		<#break>
 		<#case 'edit'>
 			<#local iconStyle = 'pencil' />
 		<#break>
@@ -778,8 +776,17 @@ and is kept only for backwards compatibility
 		<#case 'sign-in-alt'>
 			<#local iconStyle = 'sign-in' />
 		<#break>
+		<#case 'sync'>
+			<#local iconStyle = 'refresh' />
+		<#break>
 		<#case 'times'>
 			<#local iconStyle = 'close' />
+		<#break>
+		<#case 'user-check'>
+			<#local iconStyle = 'user-plus' />
+		<#break>
+		<#case 'user-tag'>
+			<#local iconStyle = 'tags' />
 		<#break>
 		<#default>
 		<#local iconStyle = style />
@@ -1429,7 +1436,8 @@ and is kept only for backwards compatibility
 	<#if nested?has_content>
 	<div class="box-tools">
 		<style type="text/css">
-			div.box-tools > form:last-of-type {margin-left:0.5rem;}
+			div.box-tools > * {display:inline-block;}
+			div.box-tools > *:not(:first-of-type) {margin-left:0.5rem;}
 		</style>
 		${nested}
 	</div>
@@ -1891,10 +1899,11 @@ enableBSToppltip: false
 </#macro>
 
 <#-- fieldSet  -->
-<#macro fieldSet class='' fieldsetId='' fieldsetParams='' legend='' legendClass='' legendId='' legendParams=''>
-<fieldset<#if class!=''> class="${class}"</#if><#if fieldsetId!=''> id="${fieldsetId}"</#if><#if fieldsetParams!=''> ${fieldsetParams}</#if>>
+<#macro fieldSet class='' fieldsetId='' fieldsetParams='' legend='' legendClass='' legendId='' legendParams='' hideLegend=[] disabled=false>
+<fieldset<#if class!=''> class="${class}"</#if><#if fieldsetId!=''> id="${fieldsetId}"</#if><#if fieldsetParams!=''> ${fieldsetParams}</#if><#if disabled> disabled</#if>>
 	<#if legend!=''>
-		<legend<#if legendClass!=''> class="${legendClass}"</#if><#if legendId!=''> id="${legendId}"</#if><#if legendParams!=''> ${legendParams}</#if>>${legend}</legend>
+		<#local legendClass += ' ' +  displaySettings(hideLegend,'block') />
+		<legend<#if legendClass!=''> class="${legendClass?trim}"</#if><#if legendId!=''> id="${legendId}"</#if><#if legendParams!=''> ${legendParams}</#if>>${legend}</legend>
 	</#if>
 	<#nested>
 </fieldset>

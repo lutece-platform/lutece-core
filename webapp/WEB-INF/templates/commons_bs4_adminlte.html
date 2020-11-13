@@ -215,8 +215,9 @@
 </#macro>
 
 <#-- NAVIGATION -->
-<#macro item_navigation item_navigator id="item-navigator">
-<nav id="${id}" class="d-inline-block">
+<#macro item_navigation item_navigator id='item-navigator' align=''>
+<#assign alignClass = alignmentSettings(align) />
+<nav id="${id}" class="${alignClass}">
 <#if (item_navigator.currentItemId > 0)>
 	<@aButton href='${item_navigator.previousPageLink?xhtml}' title='#i18n{portal.util.labelPrevious}' buttonIcon='arrow-left' size='sm' color='primary' hideTitle=['xs','sm'] />
 </#if>
@@ -761,7 +762,7 @@
 </#if>
 </#macro>
 
-<#macro progress color='primary' id='' params='' value=0 min=0 max=100 text=''>
+<#macro progress color='primary' id='' params='' value=0 min=0 max=100 =''>
 <div class="progress"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 	<div id="progressbar" class="progress-bar bg-${color}" role="progressbar" style="width: ${value}%;" aria-valuenow="${value}" aria-valuemin="${min}" aria-valuemax="${max}">
         <#if text=''>${value}%<#else>${text}</#if>
@@ -1539,10 +1540,11 @@ $(function() {
 </#macro>
 
 <#-- fieldSet  -->
-<#macro fieldSet class='' fieldsetId='' fieldsetParams='' legend='' legendClass='' legendId='' legendParams=''>
-<fieldset<#if class!=''> class="${class}"</#if><#if fieldsetId!=''> id="${fieldsetId}"</#if><#if fieldsetParams!=''> ${fieldsetParams}</#if>>
+<#macro fieldSet class='' fieldsetId='' fieldsetParams='' legend='' legendClass='' legendId='' legendParams='' hideLegend=[] disabled=false>
+<fieldset<#if class!=''> class="${class}"</#if><#if fieldsetId!=''> id="${fieldsetId}"</#if><#if fieldsetParams!=''> ${fieldsetParams}</#if><#if disabled> disabled</#if>>
 	<#if legend!=''>
-		<legend<#if legendClass!=''> class="${legendClass}"</#if><#if legendId!=''> id="${legendId}"</#if><#if legendParams!=''> ${legendParams}</#if>>${legend}</legend>
+		<#local legendClass += ' ' +  displaySettings(hideLegend,'block') />
+		<legend<#if legendClass!=''> class="${legendClass?trim}"</#if><#if legendId!=''> id="${legendId}"</#if><#if legendParams!=''> ${legendParams}</#if>>${legend}</legend>
 	</#if>
 	<#nested>
 </fieldset>
