@@ -78,7 +78,6 @@ li.portlet-type a:hover{
 
 /* Site Map           */
 .sitemap{
-  border:2px solid #000;
   min-height:650px;
 }
 .sitemap #map{

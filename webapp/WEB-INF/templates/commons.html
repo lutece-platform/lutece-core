@@ -1204,9 +1204,10 @@ and is kept only for backwards compatibility
 <#-- buttonIcon: icon name ex: info/check/comment/envelope... -->
 <#-- iconPosition: left/right -->
 <#-- cancel: switch to true for a cancellation form button. Adds the "formnovalidate" attribute to the button, as well as the right class -->
-<#-- form: contains the form ID if the button is outside of the form -->
+<#-- formId: contains the form ID if the button is outside of the form -->
+<#-- buttonTargetId: contains the collapsable target div ID -->
 <#-- showTitle, showTitleXs, showTitleSm, showTitleMd, showTitleLg are deprecated in Lutece v7 -->
-<#macro button name='' id='' type='button' size='' color='' style='btn-flat' class='' params='' value='' title='' tabIndex='' hideTitle=[] showTitle=true showTitleXs=true showTitleSm=true showTitleMd=true showTitleLg=true buttonIcon='' disabled=false iconPosition='left' dropdownMenu=false cancel=false form=''>
+<#macro button name='' id='' type='button' size='' color='' style='btn-flat' class='' params='' value='' title='' tabIndex='' hideTitle=[] showTitle=true showTitleXs=true showTitleSm=true showTitleMd=true showTitleLg=true buttonIcon='' disabled=false iconPosition='left' dropdownMenu=false cancel=false formId='' buttonTargetId=''>
 	<#if cancel || color = 'default' || color='btn-default' || color='btn-secondary' || color='secondary'>
 		<#local buttonColor = 'default' />
 	<#elseif !cancel && color=''>
@@ -1228,18 +1229,19 @@ and is kept only for backwards compatibility
 	
 	<#if style != ''>
 		<#if style?contains('card-control')>
-			<#local btnStyle = 'btn-box-tool' />
+			<#local size='sm' />
 			<#if style?contains('collapse')>
-				<#local widgetAction = 'collapse' />				
+				<#local widgetAction = 'collapse' />
 			<#elseif style?contains('remove')>
-				<#local widgetAction = 'remove' />			
+				<#local widgetAction = 'remove' />
 			</#if>
+			<#local btnStyle = 'btn-flat ' + style?replace('collapse|remove', '', 'r')?trim />
 		<#else>
 			<#local btnStyle = style />
 		</#if>
 	</#if>
 	
-	<button class="<#if style!='close'>btn</#if><#if size!='' && style!='card-control'> btn-${size}</#if><#if buttonColor!='' && !style?contains('card-control')> btn-${buttonColor}</#if><#if btnStyle!=''> ${btnStyle}</#if><#if dropdownMenu> dropdown-toggle</#if><#if class!=''> ${class}</#if>" type="${type}"<#if title!=''> title="${title}"</#if><#if name!=''> name="${name}"</#if><#if id!=''> id="${id}"</#if><#if value!=''> value="${value}"</#if><#if params!=''> ${params}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if><#if widgetAction?? && widgetAction!=''> data-widget="${widgetAction}"</#if><#if cancel> formnovalidate</#if><#if form!=''> form="${form}"</#if>>
+	<button class="<#if style!='close'>btn</#if><#if size!=''> btn-${size}</#if><#if buttonColor!=''> btn-${buttonColor}</#if><#if btnStyle!=''> ${btnStyle}</#if><#if dropdownMenu> dropdown-toggle</#if><#if class!=''> ${class}</#if>" type="${type}"<#if title!=''> title="${title}"</#if><#if name!=''> name="${name}"</#if><#if id!=''> id="${id}"</#if><#if value!=''> value="${value}"</#if><#if params!=''> ${params}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if><#if widgetAction?? && widgetAction!=''> data-toggle="${widgetAction}"</#if><#if buttonTargetId!=''> data-target="${buttonTargetId}"</#if><#if cancel> formnovalidate</#if><#if formId!=''> form="${formId}"</#if>>
 		<#if buttonIcon!='' && iconPosition='left'><@icon style=buttonIcon /></#if>
 		
 		<span class="<#if displayTitleClass!='' && style!='card-control'>${displayTitleClass}<#elseif showTitleClass!='' && style!='btn-box-tool'>${showTitleClass}</#if>">${title}</span>
@@ -1435,10 +1437,6 @@ and is kept only for backwards compatibility
 	<#local nested><#nested></#local>
 	<#if nested?has_content>
 	<div class="box-tools">
-		<style type="text/css">
-			div.box-tools > * {display:inline-block;}
-			div.box-tools > *:not(:first-of-type) {margin-left:0.5rem;}
-		</style>
 		${nested}
 	</div>
 	</#if>

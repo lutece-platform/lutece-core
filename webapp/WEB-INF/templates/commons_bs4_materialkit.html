@@ -277,7 +277,7 @@
 	<#if striped>   <#assign tableClass=tableClass + ' table-striped'   /> </#if>
 	<#if bordered>  <#assign tableClass=tableClass + ' table-bordered'  /> </#if>
 	<#if responsive>
-	<div class="table-responsive-sm">
+	<div class="table-responsive">
 	</#if>
 	<table class="table ${tableClass}" id="${id}"<#if params!=''> ${params}</#if>>
 		<#nested>
@@ -849,8 +849,9 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 <#-- buttonIcon: icon name ex: info/check/comment/envelope... -->
 <#-- iconPosition: left/right -->
 <#-- cancel: switch to true for a cancellation form button. Adds the "formnovalidate" attribute to the button, as well as the right class -->
-<#-- form: contains the form ID if the button is outside of the form -->
-<#macro button name='' id='' type='button' size='' color='' style='' class='' params='' value='' title='' tabIndex='' hideTitle=[] showTitle=true showTitleXs=true showTitleSm=true showTitleMd=true showTitleLg=true showTitleXl=true buttonIcon='' disabled=false iconPosition='left' dropdownMenu=false cancel=false form=''>
+<#-- formId: contains the form ID if the button is outside of the form -->
+<#-- buttonTargetId: contains the collapsable target div ID -->
+<#macro button name='' id='' type='button' size='' color='' style='' class='' params='' value='' title='' tabIndex='' hideTitle=[] showTitle=true showTitleXs=true showTitleSm=true showTitleMd=true showTitleLg=true showTitleXl=true buttonIcon='' disabled=false iconPosition='left' dropdownMenu=false cancel=false formId='' buttonTargetId=''>
 	<#-- Visibility of button title -->
 	<#local displayTitleClass = displaySettings(hideTitle,'inline') />
 	
@@ -862,13 +863,19 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 		<#local buttonColor = color />
 	</#if>
 	<#if style?contains('card-control')>
-		<#local style='text-right btn-link' />
+		<#local size='sm' />
+		<#if style?contains('collapse')>
+			<#local widgetAction = 'collapse' />
+		<#elseif style?contains('remove')>
+			<#local widgetAction = 'remove' />
+		</#if>
+		<#local style = style?replace('collapse|remove', '', 'r')?trim />
 	</#if>
 
 	<#if dropdownMenu>
 		<div class="btn-group">
 	</#if>
-		<button class="<#if style!='close'>btn</#if><#if size!='' && !style?contains('card-control')> btn-${size}</#if><#if buttonColor!='' && !style?contains('card-control')> btn-${buttonColor}</#if><#if style!=''> ${style}</#if><#if dropdownMenu> dropdown-toggle</#if><#if class!=''> ${class}</#if>" type="${type}"<#if title!=''> title="${title}"</#if><#if name!=''> name="${name}"</#if><#if id!=''> id="${id}"</#if><#if value!=''> value="${value}"</#if><#if params!=''> ${params}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if><#if cancel> formnovalidate</#if><#if form!=''> form="${form}"</#if>>
+		<button class="<#if style!='close'>btn</#if><#if size!=''> btn-${size}</#if><#if buttonColor!=''> btn-${buttonColor}</#if><#if style!=''> ${style}</#if><#if dropdownMenu> dropdown-toggle</#if><#if class!=''> ${class}</#if>" type="${type}"<#if title!=''> title="${title}"</#if><#if name!=''> name="${name}"</#if><#if id!=''> id="${id}"</#if><#if value!=''> value="${value}"</#if><#if params!=''> ${params}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if><#if widgetAction?? && widgetAction!=''> data-toggle="${widgetAction}"</#if><#if buttonTargetId!=''> data-target="${buttonTargetId}"</#if><#if cancel> formnovalidate</#if><#if formId!=''> form="${formId}"</#if>>
 			<#if buttonIcon!='' && iconPosition='left'><@icon style=buttonIcon /></#if>
 			<#if displayTitleClass!='' && !style?contains('card-control')><span class="${displayTitleClass}"></#if>${title}<#if displayTitleClass!='' && !style?contains('card-control')></span></#if>
 			<#if buttonIcon!='' && iconPosition='right'><@icon style=buttonIcon /></#if>

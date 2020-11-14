@@ -80,6 +80,9 @@ div.widget .box-body{max-height: 350px; overflow: overflow-hidden}
 a.dashboard-title{color:#fff !important;}
 a.dashboard-title:hover{}
 
+/* Card headers forms and buttons */
+div.box-tools > * {display:inline-block;}
+
 /* Footer */
 #footer{background: none repeat scroll 0 0 #000;color: #fff;margin-bottom:0;
   /* Sticky footer styles */

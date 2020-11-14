@@ -816,22 +816,19 @@
 <#-- buttonIcon: icon name ex: info/check/comment/envelope... -->
 <#-- iconPosition: left/right -->
 <#-- cancel: switch to true for a cancellation form button. Adds the "formnovalidate" attribute to the button, as well as the right class -->
-<#-- form: contains the form ID if the button is outside of the form -->
-<#macro button name='' id='' type='button' size='' color='' style='' class='' params='' value='' title='' tabIndex='' hideTitle=[] buttonIcon='' disabled=false iconPosition='left' dropdownMenu=false cancel=false form=''>
+<#-- formId: contains the form ID if the button is outside of the form -->
+<#-- buttonTargetId: contains the collapsable target div ID -->
+<#macro button name='' id='' type='button' size='' color='' style='' class='' params='' value='' title='' tabIndex='' hideTitle=[] buttonIcon='' disabled=false iconPosition='left' dropdownMenu=false cancel=false formId='' buttonTargetId=''>
 
 	<#-- Visibility of button title -->
 	<#local displayTitleClass = displaySettings(hideTitle,'inline') />
 	<#if cancel || color = 'default' || color='btn-default' || color='btn-secondary' || color='secondary'>
-		<#local buttonColor = 'btn-secondary' />
+		<#local buttonColor = 'btn-default' />
 	<#elseif !cancel && color=''>
-		<#local buttonColor = 'bg-indigo' />
+		<#local buttonColor = 'btn-primary' />
 	<#else>
 		<#if color == 'primary' || color == 'secondary' || color == 'success' || color == 'info' || color == 'warning' || color == 'danger'>
-			<#if color == 'primary'>
-				<#local buttonColor = 'bg-indigo' />
-			<#else>
-				<#local buttonColor = 'btn-' + color />
-			</#if>
+			<#local buttonColor = 'btn-' + color />
 		<#else>
 			<#local buttonColor = 'bg-' + color />
 		</#if>
@@ -843,13 +840,11 @@
 	
 	<#if style != ''>
 		<#if style?contains('card-control')>
-			<#local btnStyle = 'btn-tool' />
+			<#local size='sm' />
 			<#if style?contains('collapse')>
 				<#local widgetAction = 'collapse' />
-			<#elseif style?contains('maximize')>
-				<#local widgetAction = 'maximize' />
-			<#else>
-				<#local widgetAction = 'remove' />			
+			<#elseif style?contains('remove')>
+				<#local widgetAction = 'remove' />
 			</#if>
 		<#else>
 			<#local btnStyle = style />
@@ -861,7 +856,7 @@
 		<div class="btn-group">
 	</#if>
 	
-		<button class="<#if style!='close'>btn</#if><#if size!='' && !style?contains('card-control')> btn-${size}</#if><#if buttonColor!='' && !style?contains('card-control')> ${buttonColor}</#if><#if btnStyle?? && btnStyle!=''> ${btnStyle}</#if><#if dropdownMenu> dropdown-toggle</#if><#if class!=''> ${class}</#if>" type="${type}"<#if title!=''> title="${title}"</#if><#if name!=''> name="${name}"</#if><#if id!=''> id="${id}"</#if><#if value!=''> value="${value}"</#if><#if params!=''> ${params}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if><#if widgetAction?? && widgetAction!=''> data-card-widget="${widgetAction}"</#if><#if cancel> formnovalidate</#if><#if form!=''> form="${form}"</#if>>
+		<button class="<#if style!='close'>btn</#if><#if size!=''> btn-${size}</#if><#if buttonColor!=''> ${buttonColor}</#if><#if btnStyle?? && btnStyle!=''> ${btnStyle}</#if><#if dropdownMenu> dropdown-toggle</#if><#if class!=''> ${class}</#if>" type="${type}"<#if title!=''> title="${title}"</#if><#if name!=''> name="${name}"</#if><#if id!=''> id="${id}"</#if><#if value!=''> value="${value}"</#if><#if params!=''> ${params}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if><#if widgetAction?? && widgetAction!=''> data-toggle="${widgetAction}"</#if><#if buttonTargetId!=''> data-target="${buttonTargetId}"</#if><#if cancel> formnovalidate</#if><#if formId!=''> form="${formId}"</#if>>
 			<#if buttonIcon!='' && iconPosition='left'><@icon style=buttonIcon /></#if>
 			<#if displayTitleClass!='' && !style?contains('card-control')><span class="${displayTitleClass}"></#if>${title}<#if displayTitleClass!='' && !style?contains('card-control')></span></#if>
 			<#if buttonIcon!='' && iconPosition='right'><@icon style=buttonIcon /></#if>
@@ -886,21 +881,19 @@
 <#macro aButton name='' id='' href='' size='' color='primary' style='btn' align='' class='' params='' title='' tabIndex='' hideTitle=[] buttonIcon='' disabled=false iconPosition='left' dropdownMenu=false>
 	<#-- Visibility of button title -->
 	<#local displayTitleClass = displaySettings(hideTitle,'inline') />
-	<#if color = 'default'>
-		<#assign buttonColor = 'btn-secondary' />
+	
+	<#if color = 'default' || color='btn-default' || color='btn-secondary' || color='secondary'>
+		<#local buttonColor = 'btn-default' />
 	<#elseif color=''>
-		<#assign buttonColor = 'bg-indigo' />
+		<#local buttonColor = 'btn-primary' />
 	<#else>
 		<#if color == 'primary' || color == 'secondary' || color == 'success' || color == 'info' || color == 'warning' || color == 'danger'>
-			<#assign buttonColor = 'btn-' + color /><#if color == 'primary'>
-				<#local buttonColor = 'bg-indigo' />
-			<#else>
-				<#local buttonColor = 'btn-' + color />
-			</#if>
+			<#local buttonColor = 'btn-' + color />
 		<#else>
-			<#assign buttonColor = 'bg-' + color />
+			<#local buttonColor = 'bg-' + color />
 		</#if>
 	</#if>
+	
 	<#if style='card-control'>
 		<#assign style='text-right btn-link' />
 	</#if>
@@ -1066,7 +1059,7 @@
 <#-- collapsed: true/false 																-->
 <#---------------------------------------------------------->
 <#macro box color='' id='' style='' class='' params='' collapsed=false>
-<div class="card m-2 bg-indigo<#if color!=''> </#if><#if style!=''> text-${style}</#if><#if class!=''> ${class}</#if><#if collapsed> collapsed-box</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<div class="card m-2<#if color!=''> card-${color}<#else> card-primary</#if> card-outline<#if style!=''> text-${style}</#if><#if class!=''> ${class}</#if><#if collapsed> collapsed-box</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 	<#nested>
 </div>
 </#macro>
@@ -1288,7 +1281,7 @@
 	<div class="wrapper"><!-- Close in footer -->
 		<div class="sr-only"><a href="#main">aller au contenu principal</a></div>
 		<h1 id="top" class="sr-only sr-only-focusable">Haut de page</h1>
-		<nav class="main-header navbar navbar-expand-lg navbar-dark bg-indigo">
+		<nav class="main-header navbar navbar-expand-lg navbar-dark navbar-primary">
 			<a class="navbar-brand" href="jsp/site/Portal.jsp" title="#i18n{portal.users.admin_header.title.viewSite} ${site_name}" target="_blank" >
 				<img src="#dskey{portal.site.site_property.logo_url}" height="30" class="d-inline-block align-top" aria-hidden="true" title="#i18n{portal.users.admin_header.title.viewSite} ${site_name}" alt="${site_name}">
 				<#if site_name?length &gt; 18> ${site_name?substring(0,16)}... <#else> ${site_name}</#if>
