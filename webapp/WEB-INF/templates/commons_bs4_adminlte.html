@@ -843,6 +843,11 @@
 			<#local size='sm' />
 			<#if style?contains('collapse')>
 				<#local widgetAction = 'collapse' />
+				<script>
+					$(document).ready(function() {
+						$("${buttonTargetId}").addClass("show");
+					});
+				</script>
 			<#elseif style?contains('remove')>
 				<#local widgetAction = 'remove' />
 			</#if>
@@ -856,7 +861,7 @@
 		<div class="btn-group">
 	</#if>
 	
-		<button class="<#if style!='close'>btn</#if><#if size!=''> btn-${size}</#if><#if buttonColor!=''> ${buttonColor}</#if><#if btnStyle?? && btnStyle!=''> ${btnStyle}</#if><#if dropdownMenu> dropdown-toggle</#if><#if class!=''> ${class}</#if>" type="${type}"<#if title!=''> title="${title}"</#if><#if name!=''> name="${name}"</#if><#if id!=''> id="${id}"</#if><#if value!=''> value="${value}"</#if><#if params!=''> ${params}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if><#if widgetAction?? && widgetAction!=''> data-toggle="${widgetAction}"</#if><#if buttonTargetId!=''> data-target="${buttonTargetId}"</#if><#if cancel> formnovalidate</#if><#if formId!=''> form="${formId}"</#if>>
+		<button class="<#if style!='close'>btn</#if><#if size!=''> btn-${size}</#if><#if buttonColor!=''> ${buttonColor}</#if><#if btnStyle?? && btnStyle!=''> ${btnStyle}</#if><#if dropdownMenu> dropdown-toggle</#if><#if class!=''> ${class}</#if>" type="${type}"<#if title!=''> title="${title}"</#if><#if name!=''> name="${name}"</#if><#if id!=''> id="${id}"</#if><#if value!=''> value="${value}"</#if><#if params!=''> ${params}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if><#if widgetAction?? && widgetAction!=''><#if widgetAction = 'collapse'> data-toggle="${widgetAction}"<#elseif widgetAction = 'remove'> data-dismiss="alert"</#if></#if><#if buttonTargetId!=''> data-target="${buttonTargetId}"</#if><#if cancel> formnovalidate</#if><#if formId!=''> form="${formId}"</#if>>
 			<#if buttonIcon!='' && iconPosition='left'><@icon style=buttonIcon /></#if>
 			<#if displayTitleClass!='' && !style?contains('card-control')><span class="${displayTitleClass}"></#if>${title}<#if displayTitleClass!='' && !style?contains('card-control')></span></#if>
 			<#if buttonIcon!='' && iconPosition='right'><@icon style=buttonIcon /></#if>
@@ -1077,13 +1082,15 @@
 </div>
 </#macro>
 
-<#macro boxBody class='' id='' params=''>
+<#macro boxBody class='' align='' id='' params=''>
+<#if align!=''><#local class += ' ' + alignmentSettings(align) /></#if>
 <div class="card-body bg-white<#if class!=''> ${class}</#if>" <#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 	<#nested>
 </div>
 </#macro>
 
-<#macro boxFooter class='' id='' params=''>
+<#macro boxFooter class='' align='' id='' params=''>
+<#if align!=''><#local class += ' ' + alignmentSettings(align) /></#if>
 <div class="card-footer<#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 	<#nested>
 </div>
