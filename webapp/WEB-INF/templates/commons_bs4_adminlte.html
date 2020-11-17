@@ -620,6 +620,14 @@
 		</li>
 </#macro>
 
+<#-- DIV -->
+<#macro div id='' class='' align='' params=''>
+	<#if align!=''><#local class += ' ' + alignmentSettings(align) /></#if>
+	<div<#if class!=''> class="${class}"</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+		<#nested>
+	</div>
+</#macro>
+
 <#-- PARAGRAPH -->
 <#macro p id='' params='' class='' hide=[] align=''>
 	<#local class += alignmentSettings(align) />
@@ -845,14 +853,17 @@
 				<#local widgetAction = 'collapse' />
 				<script>
 					$(document).ready(function() {
-						$("${buttonTargetId}").addClass("show");
+						<#if buttonIcon = 'minus'>
+						$("${buttonTargetId}").addClass("collapse show");
+						<#else>
+						$("${buttonTargetId}").addClass("collapse");
+						</#if>
 					});
 				</script>
 			<#elseif style?contains('remove')>
 				<#local widgetAction = 'remove' />
 			</#if>
-		<#else>
-			<#local btnStyle = style />
+			<#local style = style?replace('collapse|remove', '', 'r')?trim />
 		</#if>
 	</#if>
 	
@@ -861,7 +872,7 @@
 		<div class="btn-group">
 	</#if>
 	
-		<button class="<#if style!='close'>btn</#if><#if size!=''> btn-${size}</#if><#if buttonColor!=''> ${buttonColor}</#if><#if btnStyle?? && btnStyle!=''> ${btnStyle}</#if><#if dropdownMenu> dropdown-toggle</#if><#if class!=''> ${class}</#if>" type="${type}"<#if title!=''> title="${title}"</#if><#if name!=''> name="${name}"</#if><#if id!=''> id="${id}"</#if><#if value!=''> value="${value}"</#if><#if params!=''> ${params}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if><#if widgetAction?? && widgetAction!=''><#if widgetAction = 'collapse'> data-toggle="${widgetAction}"<#elseif widgetAction = 'remove'> data-dismiss="alert"</#if></#if><#if buttonTargetId!=''> data-target="${buttonTargetId}"</#if><#if cancel> formnovalidate</#if><#if formId!=''> form="${formId}"</#if>>
+		<button class="<#if style!='close'>btn</#if><#if size!=''> btn-${size}</#if><#if buttonColor!=''> ${buttonColor}</#if><#if style?? && style!=''> ${style}</#if><#if dropdownMenu> dropdown-toggle</#if><#if class!=''> ${class}</#if>" type="${type}"<#if title!=''> title="${title}"</#if><#if name!=''> name="${name}"</#if><#if id!=''> id="${id}"</#if><#if value!=''> value="${value}"</#if><#if params!=''> ${params}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if><#if widgetAction?? && widgetAction!=''><#if widgetAction = 'collapse'> data-toggle="${widgetAction}"<#elseif widgetAction = 'remove'> data-dismiss="alert"</#if></#if><#if buttonTargetId!=''> data-target="${buttonTargetId}"</#if><#if cancel> formnovalidate</#if><#if formId!=''> form="${formId}"</#if>>
 			<#if buttonIcon!='' && iconPosition='left'><@icon style=buttonIcon /></#if>
 			<#if displayTitleClass!='' && !style?contains('card-control')><span class="${displayTitleClass}"></#if>${title}<#if displayTitleClass!='' && !style?contains('card-control')></span></#if>
 			<#if buttonIcon!='' && iconPosition='right'><@icon style=buttonIcon /></#if>

@@ -267,7 +267,7 @@
 	</#if>
 </#if>
 </#macro>
-	
+
 <#-- TABLE -->
 <#-- class:  -->
 <#macro table responsive=true condensed=true hover=true striped=false bordered=false narrow=false class='' id='' params=''>
@@ -368,18 +368,20 @@
 <#-- FORM -->
 <#-- type: inline/horizontal/form -->
 <#macro tform type='horizontal' class='' align='' hide=[] action='' method='post' name='' id='' role='form' params=''>
-	<#assign formClass = alignmentSettings(align) + ' ' + class />
+	<#local formClass = class />
+	<#if align!=''><#local formClass += ' ' + alignmentSettings(align) /></#if>
+	<#if hide??><#local formClass += ' ' + displaySettings(hide,'block') /></#if>
 	<#switch type>
 		<#case 'horizontal'>
-		<#assign formClass += ' form-horizontal'>
+		<#local formClass += ' form-horizontal'>
 		<#break>
 
 		<#case 'inline'>
-		<#assign formClass += ' form-inline'>
+		<#local formClass += ' form-inline'>
 		<#break>
 		
 		<#default>
-		<#assign formClass += ' form'>
+		<#local formClass += ' form'>
 	</#switch>
 
 	<form class="<#if formClass!=''>${formClass?trim}</#if>"<#if id!=''> id="${id}"</#if><#if action!=''> action="${action}"</#if><#if method!=''> method="${method}"</#if><#if name!=''> name="${name}"</#if><#if role!=''> role="${role}"</#if><#if params!=''> ${params}</#if>>
@@ -623,8 +625,8 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 
 <#-- LISTS -->
 <#macro ul id='' params='' class='' hide=[] align=''>
-	<#local class += alignmentSettings(align) />
-	<#local class += displaySettings(hide,'block') />
+	<#if align!=''><#local class += ' ' + alignmentSettings(align) /></#if>
+	<#if hide??><#local class += ' ' + displaySettings(hide,'block') /></#if>
 	<ul<#if class!=''> class="${class}"</#if><#if params!=''> ${params}</#if><#if id!=''> ${id}</#if>>
 		<#nested>
 	</ul>
@@ -636,6 +638,14 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 		<li<#if class!=''> class="${class}"</#if><#if params!=''> ${params}</#if><#if id!=''> ${id}</#if>>
 			<#nested>
 		</li>
+</#macro>
+
+<#-- DIV -->
+<#macro div id='' class='' align='' params=''>
+	<#if align!=''><#local class += ' ' + alignmentSettings(align) /></#if>
+	<div<#if class!=''> class="${class}"</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+		<#nested>
+	</div>
 </#macro>
 
 <#-- PARAGRAPH -->
@@ -863,18 +873,25 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 		<#local buttonColor = color />
 	</#if>
 	<#if style?contains('card-control')>
-		<#local size='sm' />
 		<#if style?contains('collapse')>
 			<#local widgetAction = 'collapse' />
 			<script>
 				$(document).ready(function() {
-					$("${buttonTargetId}").addClass("show");
+					<#if buttonIcon = 'minus'>
+					$("${buttonTargetId}").addClass("collapse show");
+					<#else>
+					$("${buttonTargetId}").addClass("collapse");
+					</#if>
 				});
 			</script>
 		<#elseif style?contains('remove')>
 			<#local widgetAction = 'remove' />
 		</#if>
 		<#local style = style?replace('collapse|remove', '', 'r')?trim />
+	</#if>
+	
+	<#if size = 'xs'>
+		<#local size = 'sm' />
 	</#if>
 
 	<#if dropdownMenu>
@@ -1271,11 +1288,11 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 	<#local x = ''>
 	<#if align !=''>
 		<#if align = 'left'>
-			<#local x = 'float-left' />
+			<#local x = 'd-flex justify-content-start' />
 		<#elseif align = 'right'>
-			<#local x = 'float-right' />
+			<#local x = 'd-flex justify-content-end' />
 		<#elseif align = 'center'>
-			<#local x = 'mx-auto' />
+			<#local x = 'd-flex justify-content-center' />
 		</#if>
 	</#if>
 	<#return x>

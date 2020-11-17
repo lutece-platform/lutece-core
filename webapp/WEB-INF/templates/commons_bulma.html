@@ -948,6 +948,14 @@ and is kept only for backwards compatibility
 		</li>
 </#macro>
 
+<#-- DIV -->
+<#macro div id='' class='' align='' params=''>
+	<#if align!=''><#local class += ' ' + alignmentSettings(align) /></#if>
+	<div<#if class!=''> class="${class}"</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+		<#nested>
+	</div>
+</#macro>
+
 <#-- PARAGRAPH -->
 <#macro p id='' params='' class='' hide=[] align=''>
 	<#local class += alignmentSettings(align) />
