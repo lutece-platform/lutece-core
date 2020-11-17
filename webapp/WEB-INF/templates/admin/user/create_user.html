@@ -14,38 +14,41 @@
 </#function>
 
 <@row>
-	<@colums>
+	<@columns>
 		<#if import_user?has_content>
-			<@box color='success'>
+			<@box>
 				<@boxBody>
 					<@tform name='create_user' action='jsp/admin/user/DoCreateUser.jsp' params='enctype="multipart/form-data"' >
 				  	<@input type='hidden' name='token' value='${token}' />
 				  	<@row>
-						<@colums md=4>
+						<@columns md=4>
 							<@fieldSet legend='#i18n{portal.users.create_user.labelAccount}'>
 								<@formGroup labelFor='access_code' labelKey='${i18n("portal.users.modify_password_default_module.form.password.new")}' mandatory=true rows=2>
-									<@input type='text' name='access_code' id='access_code' value='${import_user.accessCode?if_exists}' />
-									<@staticText>${import_user.accessCode?if_exists}</@staticText>
+									<@input type='text' name='access_code' id='access_code' value='${import_user.accessCode!}' />
 								</@formGroup>   
 							</@fieldSet>
 							<@fieldSet legend='#i18n{portal.users.create_user.labelIdentity}'>
 								<@formGroup labelFor='last_name' labelKey='${i18n("portal.users.modify_user.labelLastName")}' mandatory=true rows=2>
-									<@input type='text' name='last_name' id='last_name' value='${import_user.lastName?if_exists}' maxlength='100' />
+									<@input type='text' name='last_name' id='last_name' value='${import_user.lastName!}' maxlength=100 />
 								</@formGroup>  
 								<@formGroup labelFor='first_name' labelKey='${i18n("portal.users.modify_user.labelFirstName")}' mandatory=true rows=2>
-									<span class="input-group-addon"><@icon style='user' /></span>
-                                	<@input type='text' name='first_name' id='first_name' value='${import_user.firstName?if_exists}' maxlength='100' />
+									<@inputGroup>
+										<@inputGroupItem type='text'>
+											<@icon style='user' />
+										</@inputGroupItem>
+										<@input type='text' name='first_name' id='first_name' value='${import_user.firstName!}' maxlength=100 />
+									</@inputGroup>
                             	</@formGroup>   
                             	<@formGroup labelFor='email' labelKey='${i18n("portal.users.modify_user.labelEmail")}' mandatory=true rows=2>
-                                	<@input type='email' name='email' id='email' value="${import_user.email?if_exists}" maxlength="100" />
+                                	<@input type='email' name='email' id='email' value='${import_user.email!}' maxlength=100 />
                             	</@formGroup>  
 							</@fieldSet>
 						</@columns>
-						<@colums md=4>
+						<@columns md=4>
 							<@fieldSet legend='#i18n{portal.users.create_user.labelAttributes}'>
 								<#if displayFieldset( user_levels attributes_list )>
 									<#if (user_levels?has_content)>
-										<@formGroup labelFor='user_level' labelKey='${i18n("portal.users.create_user.userLevelLabel")}' rows=1>
+										<@formGroup labelFor='user_level' labelKey='${i18n("portal.users.create_user.userLevelLabel")}' rows=2>
 											<@select class='input-sm' name='user_level'>
 												<#list user_levels as user_level>
 													<#if user_level.id = default_user_level.id>
@@ -69,7 +72,7 @@
 								</@formGroup>
 							</@fieldSet>
 						</@columns>
-						<@colums md=4>
+						<@columns md=4>
 							<@fieldSet legend='#i18n{portal.users.create_user.labelComplementaryAttributes}'>
 								<@formGroup labelFor='status' labelKey='${i18n("portal.users.modify_user.labelStatus")}' rows=2>
 									<@select name="status">
@@ -101,7 +104,7 @@
 						</@columns>
 					</@row>
 					<@row>
-						<@colums offsetMd=4 md=4>	
+						<@columns offsetMd=4 md=4>	
 							<@button type='submit' style='btn-block' buttonIcon='check' title='#i18n{portal.users.manage_users.buttonLabelAddUser}' />
 						</@columns>
 					</@row>
@@ -112,4 +115,4 @@
 			<@alert color="danger">#i18n{portal.users.create_user.error.accessCodeNotFound}</@alert>
 		</#if>
     </@columns>
-</@rows>
+</@row>

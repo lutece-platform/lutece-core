@@ -190,3 +190,6 @@ li.portlet-type a:hover{
   display: block; width: 200px; background: #3C763D; top: 25px; left: -50px; text-align: center; line-height: 50px;  letter-spacing: 1px;
   font-weight: bold; font-size: 16px; color: #fff; box-shadow: 0 0 3px rgba(0,0,0,.3); position: absolute; top: 25px; right: -50px; left: auto; transform: rotate(45deg); -webkit-transform: rotate(45deg);
 }
+
+/* spaces between elements when display is set to flex. intended for buttons */
+.d-flex > * + * {margin-left: 0.2rem;}

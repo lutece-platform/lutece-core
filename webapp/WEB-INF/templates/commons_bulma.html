@@ -713,16 +713,16 @@ and is kept only for backwards compatibility
 
 <#-- MACRO TH -->
 <#macro th id='' class='' hide=[] showXs=true showSm=true showMd=true showLg=true showXl=true cols=0 xs=0 sm=0 md=0 lg=0 xl=0 flex=false params=''>
-    <#local class += displaySettings(hide,'is-inline') />
-		<th <#if class != ''>class="${class}"</#if>>
+    <#local class += ' ' + displaySettings(hide,'is-inline') />
+		<th <#if class != ''>class="${class?trim}"</#if>>
         <#nested>
     </th>
 </#macro>
 
 <#-- MACRO TD -->
-<#macro td id='' class='' hide=[] showXs=true showSm=true showMd=true showLg=true showXl=true xs=0 sm=0 md=0 lg=0 xl=0 flex=false params=''>
-    <#local class += displaySettings(hide,'is-inline') />
-		<td class="<#if class != ''>${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<#macro td id='' class='' hide=[] align='' showXs=true showSm=true showMd=true showLg=true showXl=true xs=0 sm=0 md=0 lg=0 xl=0 flex=false params=''>
+	<#local class += ' ' + displaySettings(hide,'is-inline') + ' ' + alignmentSettings(align) />
+		<td class="<#if class != ''>${class?trim}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 			<#if flex><div style="display:flex;"></#if>
 			<#nested>
 			<#if flex></div></#if>
@@ -835,8 +835,8 @@ and is kept only for backwards compatibility
 </#macro>
 
 <#macro formLabel class='' labelFor='' labelId='' labelKey='' hideLabel=[] mandatory=true>
-	<#local labelDisplayClass = displaySettings(hideLabel,'') />
-	<label class="<#if class !=''>${class}</#if> ${labelDisplayClass}" for="${labelFor}" <#if labelId!=''> id="${labelId}"</#if><#if mandatory=true>ariaLabel="${labelKey} [#i18n{portal.users.modify_attribute.labelMandatory}]"</#if>>${labelKey}</label>
+	<#local class += ' ' + displaySettings(hideLabel,'') />
+	<label class="<#if class !=''>${class?trim}</#if>" for="${labelFor}" <#if labelId!=''> id="${labelId}"</#if><#if mandatory=true>ariaLabel="${labelKey} [#i18n{portal.users.modify_attribute.labelMandatory}]"</#if>>${labelKey}</label>
 </#macro>
 
 <#macro formHelp style='inline' class='' labelFor=''>
@@ -949,36 +949,34 @@ and is kept only for backwards compatibility
 </#macro>
 
 <#-- DIV -->
-<#macro div id='' class='' align='' params=''>
+<#macro div id='' class='' hide=[] align='' params=''>
 	<#if align!=''><#local class += ' ' + alignmentSettings(align) /></#if>
-	<div<#if class!=''> class="${class}"</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+	<#if hide??><#local class += ' ' + displaySettings(hide,'block') /></#if>
+	<div<#if class!=''> class="${class?trim}"</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 		<#nested>
 	</div>
 </#macro>
 
 <#-- PARAGRAPH -->
 <#macro p id='' params='' class='' hide=[] align=''>
-	<#local class += alignmentSettings(align) />
-	<#local class += displaySettings(hide,'is-block') />
-	<p<#if class!=''> class="${class}"</#if><#if params!=''> ${params}</#if><#if id!=''> ${id}</#if>>
+	<#local class += ' ' + alignmentSettings(align) + ' ' + displaySettings(hide,'is-block') />
+	<p<#if class!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if><#if id!=''> ${id}</#if>>
 		<#nested>
 	</p>
 </#macro>
 
 <#-- SPAN -->
 <#macro span id='' params='' class='' hide=[] align=''>
-	<#local class += alignmentSettings(align) />
-	<#local class += displaySettings(hide,'is-inline') />
-	<span<#if class!=''> class="${class}"</#if><#if params!=''> ${params}</#if><#if id!=''> ${id}</#if>>
+	<#local class += ' ' + alignmentSettings(align) + ' ' + displaySettings(hide,'is-inline') />
+	<span<#if class!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if><#if id!=''> ${id}</#if>>
 		<#nested>
 	</span>
 </#macro>
 
 <#-- PRE -->
 <#macro pre id='' params='' class='' hide=[] align=''>
-	<#local class += alignmentSettings(align) />
-	<#local class += displaySettings(hide,'is-block') />
-	<pre<#if class!=''> class="${class}"</#if><#if params!=''> ${params}</#if><#if id!=''> ${id}</#if>>
+	<#local class += ' ' + alignmentSettings(align) + ' ' + displaySettings(hide,'is-block') />
+	<pre<#if class!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if><#if id!=''> ${id}</#if>>
 		<#nested>
 	</pre>
 </#macro>
@@ -1270,30 +1268,30 @@ and is kept only for backwards compatibility
 <#-- size: sm/lg -->
 <#-- align: left/center/right -->
 <#macro btnGroup size='' align='' class='' id='' params='' ariaLabel='' hide=[] showXs=true showSm=true showMd=true showLg=true showXl=true>
-<#local displayClass = displaySettings(hide,'inline-flex') />
+<#local class += ' ' + displaySettings(hide,'inline-flex') />
     <#switch size>
         <#case 'sm'>
-            <#assign sizeClass='are-small'>
+            <#local class += ' are-small'>
             <#break>
         <#case 'lg'>
-            <#assign sizeClass='are-large'>
+            <#local class += ' are-large'>
             <#break>
-            <#default>
-        <#assign sizeClass=''>
+		<#default>
+        <#local class += ''>
     </#switch>
 
     <#switch align>
         <#case 'right'>
-            <#assign alignClass='is-right'>
+            <#local class += ' is-right'>
             <#break>
         <#case 'center'>
-            <#assign alignClass='is-centered'>
+            <#local class += ' is-centered'>
             <#break>
         <#default>
-        <#assign alignClass=''>
+        <#local class += ''>
     </#switch>
     
-    <div class="buttons ${alignClass} ${sizeClass} <#if class!=''>${class}</#if><#if displayClass !=''> ${displayClass}</#if>" role="group"<#if ariaLabel!=''> aria-label="${ariaLabel}"</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+    <div class="buttons<#if class!=''> ${class?trim}</#if>" role="group"<#if ariaLabel!=''> aria-label="${ariaLabel}"</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
         <#nested>
     </div>
 </#macro>

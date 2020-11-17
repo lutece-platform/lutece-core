@@ -289,18 +289,18 @@
 
 <#-- MACRO TH -->
 <#macro th id='' class='' hide=[] showXs=true showSm=true showMd=true showLg=true showXl=true cols=0 xs=0 sm=0 md=0 lg=0 xl=0 flex=false params=''>
-	<#local class += displaySettings(hide,'table-cell') />
+	<#local class += ' ' + displaySettings(hide,'table-cell') />
 	<#if cols!=0>
 		<#local class += ' col-${cols}' />
 	</#if>
-	<th class="<#if class != ''>${class}</#if><#if flex> d-flex</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+	<th class="<#if class != ''>${class?trim}</#if><#if flex> d-flex</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 		<#nested>
 	</th>
 </#macro>
 
 <#-- MACRO TD -->
-<#macro td id='' class='' hide=[] showXs=true showSm=true showMd=true showLg=true showXl=true cols=0 xs=0 sm=0 md=0 lg=0 xl=0 flex=false params=''>
-	<#local class += displaySettings(hide,'table-cell') />
+<#macro td id='' class='' hide=[] align='' showXs=true showSm=true showMd=true showLg=true showXl=true cols=0 xs=0 sm=0 md=0 lg=0 xl=0 flex=false params=''>
+	<#local class += ' ' + displaySettings(hide,'table-cell') + ' ' + alignmentSettings(align) />
 	<#if xs &gt; 0>
 		<#local class += ' col-xs-${xs}' />
 	</#if>
@@ -319,7 +319,7 @@
 	<#if cols!=0>
 		<#local class += ' col-${cols}' />
 	</#if>
-	<td class="<#if class != ''>${class}</#if><#if flex> d-flex</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+	<td class="<#if class != ''>${class?trim}</#if><#if flex> d-flex</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 		<#nested>
 	</td>
 </#macro>
@@ -453,8 +453,8 @@
 </#macro>
 
 <#macro formLabel class='' labelFor='' labelId='' labelKey='' hideLabel=hideLabel mandatory=true>
-<#local labelDisplayClass = displaySettings(hideLabel,'') />
-<label class="<#if class !=''>${class}</#if> ${labelDisplayClass}" for="${labelFor}" <#if labelId!=''> id="${labelId}"</#if><#if mandatory=true>ariaLabel="${labelKey} [#i18n{portal.users.modify_attribute.labelMandatory}]"</#if>>${labelKey}</label>
+<#local class += ' ' + displaySettings(hideLabel,'') />
+<label class="<#if class !=''>${class?trim}</#if>" for="${labelFor}" <#if labelId!=''> id="${labelId}"</#if><#if mandatory=true>ariaLabel="${labelKey} [#i18n{portal.users.modify_attribute.labelMandatory}]"</#if>>${labelKey}</label>
 </#macro>
 
 <#macro formHelp style='inline' class='' labelFor=''>
@@ -605,52 +605,48 @@
 
 <#-- LISTS -->
 <#macro ul id='' params='' class='' hide=[] align=''>
-	<#local class += alignmentSettings(align) />
-	<#local class += displaySettings(hide,'block') />
-	<ul<#if class!=''> class="${class}"</#if><#if params!=''> ${params}</#if><#if id!=''> ${id}</#if>>
+	<#local class += ' ' + alignmentSettings(align) + ' ' + displaySettings(hide,'block') />
+	<ul<#if class!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if><#if id!=''> ${id}</#if>>
 		<#nested>
 	</ul>
 </#macro>
 
 <#macro li id='' params='' class='' hide=[] align=''>
-		<#local class += alignmentSettings(align) />
-		<#local class += displaySettings(hide,'block') />
-		<li<#if class!=''> class="${class}"</#if><#if params!=''> ${params}</#if><#if id!=''> ${id}</#if>>
+		<#local class += ' ' + alignmentSettings(align) + ' ' + displaySettings(hide,'block') />
+		<li<#if class!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if><#if id!=''> ${id}</#if>>
 			<#nested>
 		</li>
 </#macro>
 
 <#-- DIV -->
-<#macro div id='' class='' align='' params=''>
+<#macro div id='' class='' hide=[] align='' params=''>
 	<#if align!=''><#local class += ' ' + alignmentSettings(align) /></#if>
-	<div<#if class!=''> class="${class}"</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+	<#if hide??><#local class += ' ' + displaySettings(hide,'block') /></#if>
+	<div<#if class!=''> class="${class?trim}"</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 		<#nested>
 	</div>
 </#macro>
 
 <#-- PARAGRAPH -->
 <#macro p id='' params='' class='' hide=[] align=''>
-	<#local class += alignmentSettings(align) />
-	<#local class += displaySettings(hide,'block') />
-	<p<#if class!=''> class="${class}"</#if><#if params!=''> ${params}</#if><#if id!=''> ${id}</#if>>
+	<#local class += ' ' + displaySettings(hide,'block') + ' ' + alignmentSettings(align) />
+	<p<#if class!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if><#if id!=''> ${id}</#if>>
 		<#nested>
 	</p>
 </#macro>
 
 <#-- SPAN -->
 <#macro span id='' params='' class='' hide=[] align=''>
-	<#local class += alignmentSettings(align) />
-	<#local class += displaySettings(hide,'inline-flex') />
-	<span<#if class!=''> class="${class}"</#if><#if params!=''> ${params}</#if><#if id!=''> ${id}</#if>>
+	<#local class += ' ' + alignmentSettings(align) + ' ' + displaySettings(hide,'inline-flex') />
+	<span<#if class!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if><#if id!=''> ${id}</#if>>
 		<#nested>
 	</span>
 </#macro>
 
 <#-- PRE -->
 <#macro pre id='' params='' class='' hide=[] align=''>
-	<#local class += alignmentSettings(align) />
-	<#local class += displaySettings(hide,'block') />
-	<pre<#if class!=''> class="${class}"</#if><#if params!=''> ${params}</#if><#if id!=''> ${id}</#if>>
+	<#local class += ' ' + alignmentSettings(align) + ' ' + displaySettings(hide,'block') />
+	<pre<#if class!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if><#if id!=''> ${id}</#if>>
 		<#nested>
 	</pre>
 </#macro>
@@ -848,7 +844,6 @@
 	
 	<#if style != ''>
 		<#if style?contains('card-control')>
-			<#local size='sm' />
 			<#if style?contains('collapse')>
 				<#local widgetAction = 'collapse' />
 				<script>
@@ -958,9 +953,8 @@
 <#-- size: sm/empty/lg -->
 <#-- align: left/center/right -->
 <#macro btnGroup id='' class='' align='' size='' params='' ariaLabel='' hide=[]>
-<#local displayClass = displaySettings(hide,'inline-flex') />
-<#local class = class + alignmentSettings(align) />
-<div class="btn-group<#if size!=''> btn-group-${size}</#if> align-items-baseline<#if class!=''> ${class}</#if><#if displayClass !=''> ${displayClass}</#if>" role="group"<#if ariaLabel!=''> aria-label="${ariaLabel}"</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<#local class += ' ' + displaySettings(hide,'inline-flex') + ' ' + alignmentSettings(align) />
+<div class="btn-group<#if size!=''> btn-group-${size}</#if> align-items-baseline<#if class!=''> ${class?trim}</#if>" role="group"<#if ariaLabel!=''> aria-label="${ariaLabel}"</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 	<#nested>
 </div>
 </#macro>
@@ -1277,11 +1271,11 @@
 	<#local x = ''>
 	<#if align !=''>
 		<#if align = 'left'>
-			<#local x = 'float-left' />
+			<#local x = 'd-flex justify-content-start' />
 		<#elseif align = 'right'>
-			<#local x = 'float-right' />
+			<#local x = 'd-flex justify-content-end' />
 		<#elseif align = 'center'>
-			<#local x = 'mx-auto' />
+			<#local x = 'd-flex justify-content-center' />
 		</#if>
 	</#if>
 	<#return x>
@@ -1346,13 +1340,13 @@
 							<i class="fas fa-home"></i>
 						</a>
 					</li>
-										<#if user.userLevel == 0>
-										<li class="nav-item home">
-												<a class="nav-link" href="jsp/admin/AdminTechnicalMenu.jsp" title="#i18n{portal.admindashboard.view_dashboards.title}">
-															<i class="fa fa-cog"></i>
-												</a>
-										</li>
-										</#if>
+					<#if user.userLevel == 0>
+					<li class="nav-item home">
+							<a class="nav-link" href="jsp/admin/AdminTechnicalMenu.jsp" title="#i18n{portal.admindashboard.view_dashboards.title}">
+										<i class="fa fa-cog"></i>
+							</a>
+					</li>
+					</#if>
 					<li class="nav-item dropdown user-menu">
 						<a href="${admin_url}#user-menu" class="nav-link dropdown-toggle" data-toggle="dropdown" id="dLabelUserHeader">
 							<#if adminAvatar> 
@@ -1651,7 +1645,7 @@ $(function() {
 			<table>
 					<tr>
 						<td class="content footer" align="center">
-								<p><a href="${footer_link}">Lutece</a></p>
+							<p><a href="${footer_link}">Lutece</a></p>
 						</td>
 					</tr>
 			</table>
