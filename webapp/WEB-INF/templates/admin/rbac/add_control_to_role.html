@@ -1,7 +1,7 @@
 <@row>
 	<@columns>
-    <@box color='success'>
-      <@boxHeader title='#i18n{portal.rbac.add_control_to_role.titleAddControl}' />
+		<@box>
+			<@boxHeader title='#i18n{portal.rbac.add_control_to_role.titleAddControl}' />
 			<@boxBody>
 				<@tform method='post' action='jsp/admin/rbac/DoSelectResources.jsp' name='add_control'>
 					<@input type='hidden' name='role_key' value='${role_key}' />
@@ -19,11 +19,11 @@
 						</#if>
 					</@formGroup>
 					<@formGroup>
-						<@aButton href='jsp/admin/rbac/ViewRoleDescription.jsp?role_key=${role_key}' buttonIcon='times' title='#i18n{portal.rbac.add_control_to_role.buttonLabelCancel}' size='' color='secondary' />
-						<@button type='submit' buttonIcon='arrow-right' title='#i18n{portal.rbac.add_control_to_role.buttonLabelValidate}' size='' iconPosition='right' />
+						<@aButton href='jsp/admin/rbac/ViewRoleDescription.jsp?role_key=${role_key}' buttonIcon='times' title='#i18n{portal.rbac.add_control_to_role.buttonLabelCancel}' color='default' />
+						<@button type='submit' buttonIcon='arrow-right' title='#i18n{portal.rbac.add_control_to_role.buttonLabelValidate}' iconPosition='right' />
 					</@formGroup>
 				</@tform>
 			</@boxBody>
 		</@box>
-  </@columns>
+	</@columns>
 </@row>

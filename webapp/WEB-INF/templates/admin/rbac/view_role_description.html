@@ -1,6 +1,6 @@
 <@row>
-	<@columns sm=3 md=3 lg=3>
-    <@box color='success'>
+	<@columns sm=3>
+    <@box>
       <@boxHeader title='#i18n{portal.rbac.modify_role.titleModifyRole}' />
 			<@boxBody>
 				<@tform method='post' action='jsp/admin/rbac/DoModifyRole.jsp' name='modify_role'>
@@ -13,17 +13,17 @@
 					<@input type='text' id='role_description' name='role_description' value='${role.description}' inputSize=100 maxlength=255 />
 				  </@formGroup>
 				  <@formGroup rows=2>
-					<@button type='submit' name='apply' title='#i18n{portal.util.labelValidate}' buttonIcon='check' size='' />
-					<@aButton href='jsp/admin/rbac/ViewRoleDescription.jsp?role_key=${role.key}' title='#i18n{portal.admin.message.buttonCancel}' buttonIcon='times' size='' color='secondary' />
+					<@button type='submit' name='apply' title='#i18n{portal.util.labelValidate}' buttonIcon='check' />
+					<@aButton href='jsp/admin/rbac/ManageRoles.jsp' title='#i18n{portal.admin.message.buttonCancel}' buttonIcon='times' color='default' />
 				  </@formGroup>
 				</@tform>
 			</@boxBody>
     </@box>
 	</@columns>
 	
-	<@columns sm=9 md=9 lg=9>
-    <@box color='success'>
-      <@boxHeader title='${role.key} - ${role.description}' boxTools=true>
+	<@columns sm=9>
+		<@box>
+			<@boxHeader title='${role.key} - ${role.description}'>
 				<@tform type='inline' method='post' action='jsp/admin/rbac/AddControlToRole.jsp'>
 					<@input type='hidden' name='role_key' value='${role.key}' />
 					<@inputGroup>
@@ -72,5 +72,5 @@
 				</@table>
 			</@boxBody>
 		</@box>
-  </@columns>
+	</@columns>
 </@row>

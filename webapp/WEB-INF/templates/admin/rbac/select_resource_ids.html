@@ -1,13 +1,13 @@
 <@row>
 	<@columns>
-		<@box color='success'>
-			<@boxHeader title='#i18n{portal.rbac.select_resource_ids.titleSelectIds}' boxTools=true>
+		<@box>
+			<@boxHeader title='#i18n{portal.rbac.select_resource_ids.titleSelectIds}'>
 				<@tform method='post' type='inline'>
 					<@formGroup labelFor='plugin_type' labelKey='#i18n{portal.system.manage_plugins.buttonFilter}' hideLabel=['all'] formStyle='inline'>
 						<@inputGroup>
-							<@input type='text' name='search_role' id='search_role' placeHolder='#i18n{portal.system.manage_plugins.buttonFilter}' params='autocomplete="off"' />
+							<@input type='text' name='search_role' id='search_role' placeHolder='#i18n{portal.system.manage_plugins.buttonFilter}' params='autocomplete="off"' size='sm' />
 							<@inputGroupItem>
-								<@button type='submit' title='#i18n{portal.system.manage_plugins.buttonFilter}' buttonIcon='filter' hideTitle=['all'] />
+								<@button type='submit' title='#i18n{portal.system.manage_plugins.buttonFilter}' buttonIcon='filter' hideTitle=['all'] size='sm' />
 							</@inputGroupItem>
 						</@inputGroup>
 					</@formGroup>
@@ -20,12 +20,12 @@
 					<@input type='hidden' name='select_resources' value='${select_resources}' />
 					<@formGroup labelKey='#i18n{portal.rbac.select_resource_ids.labelSelectIdsFromList}' id='resourceList' >
 						<#list resource_id_list?sort_by('name') as item>
-							<@checkBox name='resource_id' id='${item.name}' value='${item.code}' labelKey='${item.name} [ ${item.code} ]' params=' aria-labelledby="resourceList" data-role="${item.name}" ' />
+							<@checkBox name='resource_id' id=item.name?replace('\\s+','','r')+item.code value='${item.code}' labelKey='${item.name} [ ${item.code} ]' params=' aria-labelledby="resourceList" data-role="${item.name}" ' />
 						</#list>
 					</@formGroup>
 					<@formGroup>
-						<@aButton href='jsp/admin/rbac/AddControlToRole.jsp?role_key=${role_key}&amp;resource_type=${resource_type}' buttonIcon='arrow-left' size='' color='secondary' title='#i18n{portal.rbac.select_permissions.buttonLabelCancel}' />
-						<@button type='submit' buttonIcon='arrow-right' title='#i18n{portal.rbac.select_permissions.buttonLabelValidate}' size='' iconPosition='right' />
+						<@aButton href='jsp/admin/rbac/AddControlToRole.jsp?role_key=${role_key}&amp;resource_type=${resource_type}' buttonIcon='arrow-left' color='secondary' title='#i18n{portal.rbac.select_permissions.buttonLabelCancel}' />
+						<@button type='submit' buttonIcon='arrow-right' title='#i18n{portal.rbac.select_permissions.buttonLabelValidate}' iconPosition='right' />
 					</@formGroup>
 				</@tform>
 			</@boxBody>
