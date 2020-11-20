@@ -1,7 +1,7 @@
 <@row>
 	<@columns>
-    <@box color='success'>
-      <@boxHeader title='#i18n{portal.rbac.create_role.titleCreateRole}' />
+		<@box>
+		  <@boxHeader title='#i18n{portal.rbac.create_role.titleCreateRole}' />
 			<@boxBody>
 				<@tform method='post' action='jsp/admin/rbac/DoCreateRole.jsp' name='create_role'>
 					<@input type='hidden' name='token' value='${token}' />
@@ -12,11 +12,11 @@
 						<@input type='text' id='role_description' name='role_description' maxlength=255 />
 					</@formGroup>
 					<@formGroup>
-						<@button type='submit' buttonIcon='check' title='#i18n{portal.rbac.create_role.buttonLabelCreate}' size=''  />
-						<@aButton href='jsp/admin/rbac/ManageRoles.jsp' buttonIcon='times' color='secondary' title='#i18n{portal.admin.message.buttonCancel}' size=''  />
+						<@button type='submit' buttonIcon='check' title='#i18n{portal.rbac.create_role.buttonLabelCreate}' />
+						<@aButton href='jsp/admin/rbac/ManageRoles.jsp' buttonIcon='times' color='default' title='#i18n{portal.admin.message.buttonCancel}' />
 					</@formGroup>
 				</@tform>
 			</@boxBody>
-    </@box>
-  </@columns>
+		</@box>
+	</@columns>
 </@row>

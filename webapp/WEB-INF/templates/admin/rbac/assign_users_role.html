@@ -1,10 +1,10 @@
 <@row>
 	<@columns>
-    <@box color='success' collapsed=true>
+		<@box collapsed=true>
 			<#assign headerTitle>
 				#i18n{portal.rbac.assign_users.role.name} :<strong title="#i18n{portal.rbac.assign_users.role.description} : ${role.description} "> ${role.key}</strong> <small class="spaced"><@icon style='user' />&nbsp;#i18n{portal.rbac.assign_users.role.number_user} : <@tag>${assigned_users_number}</@tag></small>
 			</#assign>
-			<@boxHeader title='${headerTitle}' boxTools=true>
+			<@boxHeader title='${headerTitle}'>
 				<@aButton href='jsp/admin/rbac/ViewRoleDescription.jsp?role_key=${role.key}" title="#i18n{portal.rbac.modify_role.buttonLabelModify}' title='#i18n{portal.rbac.modify_role.buttonLabelModify}' hideTitle=['xs','sm'] buttonIcon='edit' size='sm' />
 				<@aButton href='jsp/admin/rbac/DoConfirmRemoveRole.jsp?role_key=${role.key}' title='#i18n{portal.rbac.manage_roles.buttonLabelDelete}' hideTitle=['xs','sm'] buttonIcon='trash' color='danger' size='sm' />
 				<@item_navigation item_navigator=item_navigator />
@@ -76,8 +76,8 @@
 					</@tform>
 				</#if>
 			</@boxBody>
-    </@box>
-  </@columns>
+		</@box>
+	</@columns>
 </@row>
 <@row>
     <@columns sm=3 md=3 lg=3>
