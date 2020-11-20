@@ -222,14 +222,14 @@
 </#macro>
 
 <#-- NAVIGATION -->
-<#macro item_navigation item_navigator id='item-navigator' align=''>
-<#assign alignClass = alignmentSettings(align) />
-<nav id="${id}" class="${alignClass}">
+<#macro item_navigation item_navigator id='item-navigator' align='' hideButtonTitle=[] buttonColor='info' buttonSize='sm'>
+<#local class = alignmentSettings(align) />
+<nav id="${id}" class="${class}">
 <#if (item_navigator.currentItemId > 0)>
-	<@aButton href='${item_navigator.previousPageLink?xhtml}' title='#i18n{portal.util.labelPrevious}' buttonIcon='arrow-left' color='info' hideTitle=['xs','sm'] />
+	<@aButton href='${item_navigator.previousPageLink?xhtml}' title='#i18n{portal.util.labelPrevious}' buttonIcon='arrow-left' color='${buttonColor}' hideTitle=hideButtonTitle size='${buttonSize}' />
 </#if>
 <#if (item_navigator.currentItemId < item_navigator.listItemSize - 1) >
-	<@aButton href='${item_navigator.nextPageLink?xhtml}' title='#i18n{portal.util.labelNext}' buttonIcon='arrow-right' color='info' hideTitle=['xs','sm'] />
+	<@aButton href='${item_navigator.nextPageLink?xhtml}' title='#i18n{portal.util.labelNext}' buttonIcon='arrow-right' color='${buttonColor}' hideTitle=hideButtonTitle size='${buttonSize}' />
 </#if>
 </nav>
 </#macro>
@@ -347,6 +347,12 @@
 	<#case 'arrows'>
 		<#local iconStyle = 'arrows-alt' />
 	<#break>
+	<#case 'arrows-h'>
+		<#local iconStyle = 'arrows-alt-h' />
+	<#break>
+	<#case 'arrows-v'>
+		<#local iconStyle = 'arrows-alt-v' />
+	<#break>
 	<#case 'clock-o'>
 		<#local iconStyle = 'clock' />
 	<#break>
@@ -416,7 +422,7 @@
 <#elseif groupStyle='error'>
 	<#local validation = 'is-invalid'>
 </#if>
-<div class="form-group bmd-form-group<#if formStyle='horizontal'> row</#if><#if class!=''> ${class}</#if>"<#if validation?? && validation!=''> ${validation}</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<div class="form-group<#if formStyle='horizontal'> bmd-form-group row</#if><#if class!=''> ${class}</#if>"<#if validation?? && validation!=''> ${validation}</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 <#local labelClass = '' />
 <#local displayClass = displaySettings(hideLabel,'inline-flex') />
 	<#if rows=1>

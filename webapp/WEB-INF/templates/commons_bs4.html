@@ -211,14 +211,14 @@
 </#macro>
 
 <#-- NAVIGATION -->
-<#macro item_navigation item_navigator id='item-navigator' align=''>
-<#assign alignClass = alignmentSettings(align) />
-<nav id="${id}" class="${alignClass}">
+<#macro item_navigation item_navigator id='item-navigator' align='' hideButtonTitle=[] buttonColor='info' buttonSize='sm'>
+<#assign class = alignmentSettings(align) />
+<nav id="${id}" class="${class}">
 <#if (item_navigator.currentItemId > 0)>
-	<@aButton href='${item_navigator.previousPageLink?xhtml}' title='#i18n{portal.util.labelPrevious}' buttonIcon='arrow-left' color='info' hideTitle=['xs','sm'] />
+	<@aButton href='${item_navigator.previousPageLink?xhtml}' title='#i18n{portal.util.labelPrevious}' buttonIcon='arrow-left' color='${buttonColor}' hideTitle=hideButtonTitle size='${buttonSize}' />
 </#if>
 <#if (item_navigator.currentItemId < item_navigator.listItemSize - 1) >
-	<@aButton href='${item_navigator.nextPageLink?xhtml}' title='#i18n{portal.util.labelNext}' buttonIcon='arrow-right' color='info' hideTitle=['xs','sm'] />
+	<@aButton href='${item_navigator.nextPageLink?xhtml}' title='#i18n{portal.util.labelNext}' buttonIcon='arrow-right' color='${buttonColor}' hideTitle=hideButtonTitle size='${buttonSize}' />
 </#if>
 </nav>
 </#macro>
@@ -335,6 +335,12 @@
 <#switch style>
 	<#case 'arrows'>
 		<#local iconStyle = 'arrows-alt' />
+	<#break>
+	<#case 'arrows-h'>
+		<#local iconStyle = 'arrows-alt-h' />
+	<#break>
+	<#case 'arrows-v'>
+		<#local iconStyle = 'arrows-alt-v' />
 	<#break>
 	<#case 'clock-o'>
 		<#local iconStyle = 'clock' />
