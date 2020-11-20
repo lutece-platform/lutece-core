@@ -365,6 +365,16 @@
 	<i class="${prefix}${iconStyle}<#if class!=''> ${class}</#if>" aria-hidden="true"<#if title!=''> title='${title}'</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>></i>
 </#macro>
 
+<#-- ICONSTACK 																					-->
+<#-- iconStack 																					-->
+<#-- class: par défaut 2x peut être tout autre taille voir doc FontAwesome  					-->			
+<#-- nested: 2 macro @icon une class fa-stack-2x , autre avec class fa-stack-1x dans l'ordre   	-->
+<#macro iconStack class='fa-2x' id='' params=''>
+<span class="fa-stack ${class}"<#if id!=''> ${id}</#if><#if params!=''> ${params}</#if>>
+<#nested>
+</span>
+</#macro>
+
 <#-- FORM -->
 <#-- type: inline/horizontal/form -->
 <#macro tform type='horizontal' class='' align='' hide=[] action='' method='post' name='' id='' role='form' params=''>
