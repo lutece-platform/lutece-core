@@ -1223,6 +1223,7 @@ and is kept only for backwards compatibility
 	</span>
 </#macro>
 
+
 <#-- BUTTON -->
 <#-- bootstrap 3 : size: btn-xs/btn-sm/btn-lg -->
 <#-- upcoming bootstrap 4 : size: btn-sm for small buttons/empty for medium buttons/btn-lg for large buttons -->
@@ -1236,8 +1237,10 @@ and is kept only for backwards compatibility
 <#-- cancel: switch to true for a cancellation form button. Adds the "formnovalidate" attribute to the button, as well as the right class -->
 <#-- formId: contains the form ID if the button is outside of the form -->
 <#-- buttonTargetId: contains the collapsable target div ID -->
+<#-- buttonNested=false : If true add content inside the button else -default- outside  -->
 <#-- showTitle, showTitleXs, showTitleSm, showTitleMd, showTitleLg are deprecated in Lutece v7 -->
-<#macro button name='' id='' type='button' size='' color='' style='btn-flat' class='' params='' value='' title='' tabIndex='' hideTitle=[] showTitle=true showTitleXs=true showTitleSm=true showTitleMd=true showTitleLg=true buttonIcon='' disabled=false iconPosition='left' dropdownMenu=false cancel=false formId='' buttonTargetId=''>
+
+<#macro button name='' id='' type='button' size='' color='' style='btn-flat' class='' params='' value='' title='' tabIndex='' hideTitle=[] showTitle=true showTitleXs=true showTitleSm=true showTitleMd=true showTitleLg=true buttonIcon='' disabled=false iconPosition='left' dropdownMenu=false cancel=false formId='' buttonTargetId='' buttonNested=false>
 	<#if cancel || color = 'default' || color='btn-default' || color='btn-secondary' || color='secondary'>
 		<#local buttonColor = 'default' />
 	<#elseif !cancel && color=''>
@@ -1290,14 +1293,15 @@ and is kept only for backwards compatibility
 		<#if dropdownMenu>
 		&#160;<@icon style='caret-down' />
 		</#if>
+		<#if buttonNested><#nested></#if>
 	</button>
 	
 	<#if dropdownMenu>
 		<ul class="dropdown-menu"<#if id!=''> id="${id}-content" aria-labelledby="${id}-content"</#if>>
-			<#nested>
+			<#if !buttonNested><#nested></#if>
 		</ul>
 	<#else>
-		<#nested>
+		<#if !buttonNested><#nested></#if>
 	</#if>
 </#macro>
 

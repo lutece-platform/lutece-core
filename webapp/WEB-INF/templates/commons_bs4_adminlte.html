@@ -825,12 +825,13 @@
 	</span>
 </#macro>
 
+
 <#-- BUTTON -->
-<#-- bootstrap 4 : size: sm for small buttons/empty for medium buttons/lg for large buttons -->
+<#-- bootstrap 3 : size: btn-xs/btn-sm/btn-lg -->
+<#-- upcoming bootstrap 4 : size: btn-sm for small buttons/empty for medium buttons/btn-lg for large buttons -->
 <#-- color: default[bootstrap4 : secondary]/primary/success/warning/danger/info -->
 <#-- color (upcoming bootstrap 4): btn-outline-default/btn-outline-primary/btn-outline-success/btn-outline-warning/btn-outline-danger/btn-outline-info/ -->
-<#-- AdminLTE colors: black/gray-dark/gray/light/indigo/navy/purple/fuchsia/pink/maroon/orange/lime/teal/olive -->
-<#-- style: card-control/btn-block/btn-flat/close/navbar-toggle/collapsed... -->
+<#-- style: btn-block/btn-flat/close/navbar-toggle/collapsed... -->
 <#-- type: button/submit/reset -->
 <#-- params: data-toggle/data-target/data-dismiss... -->
 <#-- buttonIcon: icon name ex: info/check/comment/envelope... -->
@@ -838,63 +839,71 @@
 <#-- cancel: switch to true for a cancellation form button. Adds the "formnovalidate" attribute to the button, as well as the right class -->
 <#-- formId: contains the form ID if the button is outside of the form -->
 <#-- buttonTargetId: contains the collapsable target div ID -->
-<#macro button name='' id='' type='button' size='' color='' style='' class='' params='' value='' title='' tabIndex='' hideTitle=[] buttonIcon='' disabled=false iconPosition='left' dropdownMenu=false cancel=false formId='' buttonTargetId=''>
+<#-- buttonNested=false : If true add content inside the button else -default- outside  -->
+<#-- showTitle, showTitleXs, showTitleSm, showTitleMd, showTitleLg are deprecated in Lutece v7 -->
 
-	<#-- Visibility of button title -->
-	<#local displayTitleClass = displaySettings(hideTitle,'inline') />
+<#macro button name='' id='' type='button' size='' color='' style='btn-flat' class='' params='' value='' title='' tabIndex='' hideTitle=[] showTitle=true showTitleXs=true showTitleSm=true showTitleMd=true showTitleLg=true buttonIcon='' disabled=false iconPosition='left' dropdownMenu=false cancel=false formId='' buttonTargetId='' buttonNested=false>
 	<#if cancel || color = 'default' || color='btn-default' || color='btn-secondary' || color='secondary'>
-		<#local buttonColor = 'btn-default' />
+		<#local buttonColor = 'default' />
 	<#elseif !cancel && color=''>
-		<#local buttonColor = 'btn-primary' />
+		<#local buttonColor = 'primary' />
 	<#else>
-		<#if color == 'primary' || color == 'secondary' || color == 'success' || color == 'info' || color == 'warning' || color == 'danger'>
-			<#local buttonColor = 'btn-' + color />
-		<#else>
-			<#local buttonColor = 'bg-' + color />
-		</#if>
+		<#local buttonColor = color />
 	</#if>
-
-	<#if size = 'xs'>
-		<#local size = 'sm' />
-	</#if>
+	
+	<#-- Visibility of button title -->
+	<#local displayTitleClass = displaySettings(hideTitle,'inline-flex') />
+	
+	<#-- Visibility of button title: backwards compatibility with Lutece v6, BS3 only -->
+	<#local showTitleClass = '' />
+	<#if showTitle = false><#local showTitleClass = 'sr-only' /></#if>
+	<#if showTitleXs = false><#local showTitleClass = showTitleClass + ' hidden-xs' /></#if>
+	<#if showTitleSm = false><#local showTitleClass = showTitleClass + ' hidden-sm' /></#if>
+	<#if showTitleMd = false><#local showTitleClass = showTitleClass + ' hidden-md' /></#if>
+	<#if showTitleLg = false><#local showTitleClass = showTitleClass + ' hidden-lg' /></#if>
 	
 	<#if style != ''>
 		<#if style?contains('card-control')>
 			<#if style?contains('collapse')>
 				<#local widgetAction = 'collapse' />
-				<script>
-					$(document).ready(function() {
-						<#if buttonIcon = 'minus'>
-						$("${buttonTargetId}").addClass("collapse show");
-						<#else>
-						$("${buttonTargetId}").addClass("collapse");
-						</#if>
-					});
-				</script>
+				<div style="display:none;">
+					<script type="text/javascript">
+						$(document).ready(function() {
+							<#if buttonIcon = 'minus'>
+							$("${buttonTargetId}").addClass("collapse in");
+							<#else>
+							$("${buttonTargetId}").addClass("collapse");
+							</#if>
+						});
+					</script>
+				</div>
 			<#elseif style?contains('remove')>
 				<#local widgetAction = 'remove' />
 			</#if>
-			<#local style = style?replace('collapse|remove', '', 'r')?trim />
+			<#local btnStyle = 'btn-flat ' + style?replace('collapse|remove', '', 'r')?trim />
+		<#else>
+			<#local btnStyle = style />
 		</#if>
 	</#if>
 	
+	<button class="<#if style!='close'>btn</#if><#if size!=''> btn-${size}</#if><#if buttonColor!=''> btn-${buttonColor}</#if><#if btnStyle!=''> ${btnStyle}</#if><#if dropdownMenu> dropdown-toggle</#if><#if class!=''> ${class}</#if>" type="${type}"<#if title!=''> title="${title}"</#if><#if name!=''> name="${name}"</#if><#if id!=''> id="${id}"</#if><#if value!=''> value="${value}"</#if><#if params!=''> ${params}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if><#if widgetAction?? && widgetAction!=''><#if widgetAction = 'collapse'> data-toggle="${widgetAction}"<#elseif widgetAction = 'remove'> data-dismiss="alert"</#if></#if><#if buttonTargetId!=''> data-target="${buttonTargetId}"</#if><#if cancel> formnovalidate</#if><#if formId!=''> form="${formId}"</#if>>
+		<#if buttonIcon!='' && iconPosition='left'><@icon style=buttonIcon /></#if>
+		
+		<span class="<#if displayTitleClass!='' && style!='card-control'>${displayTitleClass}<#elseif showTitleClass!='' && style!='btn-box-tool'>${showTitleClass}</#if>">${title}</span>
+		
+		<#if buttonIcon!='' && iconPosition='right'><@icon style=buttonIcon /></#if>
+		<#if dropdownMenu>
+		&#160;<@icon style='caret-down' />
+		</#if>
+		<#if buttonNested><#nested></#if>
+	</button>
 	
 	<#if dropdownMenu>
-		<div class="btn-group">
-	</#if>
-	
-		<button class="<#if style!='close'>btn</#if><#if size!=''> btn-${size}</#if><#if buttonColor!=''> ${buttonColor}</#if><#if style?? && style!=''> ${style}</#if><#if dropdownMenu> dropdown-toggle</#if><#if class!=''> ${class}</#if>" type="${type}"<#if title!=''> title="${title}"</#if><#if name!=''> name="${name}"</#if><#if id!=''> id="${id}"</#if><#if value!=''> value="${value}"</#if><#if params!=''> ${params}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if><#if widgetAction?? && widgetAction!=''><#if widgetAction = 'collapse'> data-toggle="${widgetAction}"<#elseif widgetAction = 'remove'> data-dismiss="alert"</#if></#if><#if buttonTargetId!=''> data-target="${buttonTargetId}"</#if><#if cancel> formnovalidate</#if><#if formId!=''> form="${formId}"</#if>>
-			<#if buttonIcon!='' && iconPosition='left'><@icon style=buttonIcon /></#if>
-			<#if displayTitleClass!='' && !style?contains('card-control')><span class="${displayTitleClass}"></#if>${title}<#if displayTitleClass!='' && !style?contains('card-control')></span></#if>
-			<#if buttonIcon!='' && iconPosition='right'><@icon style=buttonIcon /></#if>
-		</button>
-	<#if dropdownMenu>
-			<div class="dropdown-menu"<#if id!=''> aria-labelledby="${id}"</#if>>
-				<#nested>
-			</div>
-		</div>
+		<ul class="dropdown-menu"<#if id!=''> id="${id}-content" aria-labelledby="${id}-content"</#if>>
+			<#if !buttonNested><#nested></#if>
+		</ul>
 	<#else>
-		<#nested>
+		<#if !buttonNested><#nested></#if>
 	</#if>
 </#macro>
 

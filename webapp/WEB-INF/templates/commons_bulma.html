@@ -1136,131 +1136,85 @@ and is kept only for backwards compatibility
 	</span>
 </#macro>
 
+
 <#-- BUTTON -->
-<#-- size: xs/sm/md/lg -->
-<#-- color: default : primary/success/warning/danger/info -->
+<#-- bootstrap 3 : size: btn-xs/btn-sm/btn-lg -->
+<#-- upcoming bootstrap 4 : size: btn-sm for small buttons/empty for medium buttons/btn-lg for large buttons -->
+<#-- color: default[bootstrap4 : secondary]/primary/success/warning/danger/info -->
+<#-- color (upcoming bootstrap 4): btn-outline-default/btn-outline-primary/btn-outline-success/btn-outline-warning/btn-outline-danger/btn-outline-info/ -->
+<#-- style: btn-block/btn-flat/close/navbar-toggle/collapsed... -->
 <#-- type: button/submit/reset -->
 <#-- params: data-toggle/data-target/data-dismiss... -->
 <#-- buttonIcon: icon name ex: info/check/comment/envelope... -->
 <#-- iconPosition: left/right -->
 <#-- cancel: switch to true for a cancellation form button. Adds the "formnovalidate" attribute to the button, as well as the right class -->
-<#-- form: contains the form ID if the button is outside of the form -->
-<#macro button name='' id='' type='button'  buttonIcon='' size='' color='' style='' class='' params='' value='' title='' tabIndex='' hideTitle=[] showTitle=true showTitleXs=true showTitleSm=true showTitleMd=true showTitleLg=true disabled=false iconPosition='left' dropdownMenu=false cancel=false form=''>
+<#-- formId: contains the form ID if the button is outside of the form -->
+<#-- buttonTargetId: contains the collapsable target div ID -->
+<#-- buttonNested=false : If true add content inside the button else -default- outside  -->
+<#-- showTitle, showTitleXs, showTitleSm, showTitleMd, showTitleLg are deprecated in Lutece v7 -->
 
-<#local displayTitleClass = displaySettings(hideTitle,'inline') />
-
-	<#if cancel || color = 'default' || color = 'secondary' || color='btn-default' || color='btn-secondary'>
-		<#assign buttonColor = 'light' />
+<#macro button name='' id='' type='button' size='' color='' style='btn-flat' class='' params='' value='' title='' tabIndex='' hideTitle=[] showTitle=true showTitleXs=true showTitleSm=true showTitleMd=true showTitleLg=true buttonIcon='' disabled=false iconPosition='left' dropdownMenu=false cancel=false formId='' buttonTargetId='' buttonNested=false>
+	<#if cancel || color = 'default' || color='btn-default' || color='btn-secondary' || color='secondary'>
+		<#local buttonColor = 'default' />
 	<#elseif !cancel && color=''>
-		<#assign buttonColor = 'primary' />
+		<#local buttonColor = 'primary' />
 	<#else>
-		<#assign buttonColor = color />
+		<#local buttonColor = color />
 	</#if>
-	<#if style='card-control'>
-		<#assign style='text-right btn-link' />
-	</#if>
-
-<#switch size>
-    <#case 'xs'>
-        <#assign buttonSize='small'>
-        <#break>
-    <#case 'sm'>
-        <#assign buttonSize='small'>
-        <#break>
-    <#case 'md'>
-        <#assign buttonSize='medium'>
-        <#break>
-    <#case 'lg'>
-        <#assign buttonSize='large'>
-        <#break>
-    <#default>
-        <#assign buttonSize='normal'>
-</#switch>
-
-<#if dropdownMenu>
-<div class="dropdown">
-	<div class="dropdown-trigger">
-</#if>
-	<button class="button<#if buttonSize!=''> is-${buttonSize}</#if><#if buttonColor!=''> is-${buttonColor}</#if><#if dropdownMenu> dropdown-toggle</#if><#if class!=''> ${class}</#if>" type="${type}"<#if title!=''> title="${title}"</#if><#if name!=''> name="${name}"</#if><#if id!=''> id="${id}"</#if><#if value!=''> value="${value}"</#if><#if params!=''> ${params}</#if><#if disabled> disabled</#if><#if dropdownMenu> aria-haspopup="true" aria-controls="<#if id!=''>${id}</#if>-content"</#if><#if cancel> formnovalidate</#if><#if form!=''> form="${form}"</#if>>
-    <#if buttonIcon!='' && iconPosition='left'><@icon style=buttonIcon />&nbsp;</#if>
-		<#if displayTitleClass!='' && style!='card-control'><span class="${displayTitleClass}"></#if>${title}<#if displayTitleClass!='' && style!='card-control'></span></#if>
-		<#if buttonIcon!='' && iconPosition='right'>&nbsp;<@icon style=buttonIcon /></#if>
-		<#if dropdownMenu>
-		&nbsp;<@icon style='angle-down' />
+	
+	<#-- Visibility of button title -->
+	<#local displayTitleClass = displaySettings(hideTitle,'inline-flex') />
+	
+	<#-- Visibility of button title: backwards compatibility with Lutece v6, BS3 only -->
+	<#local showTitleClass = '' />
+	<#if showTitle = false><#local showTitleClass = 'sr-only' /></#if>
+	<#if showTitleXs = false><#local showTitleClass = showTitleClass + ' hidden-xs' /></#if>
+	<#if showTitleSm = false><#local showTitleClass = showTitleClass + ' hidden-sm' /></#if>
+	<#if showTitleMd = false><#local showTitleClass = showTitleClass + ' hidden-md' /></#if>
+	<#if showTitleLg = false><#local showTitleClass = showTitleClass + ' hidden-lg' /></#if>
+	
+	<#if style != ''>
+		<#if style?contains('card-control')>
+			<#if style?contains('collapse')>
+				<#local widgetAction = 'collapse' />
+				<div style="display:none;">
+					<script type="text/javascript">
+						$(document).ready(function() {
+							<#if buttonIcon = 'minus'>
+							$("${buttonTargetId}").addClass("collapse in");
+							<#else>
+							$("${buttonTargetId}").addClass("collapse");
+							</#if>
+						});
+					</script>
+				</div>
+			<#elseif style?contains('remove')>
+				<#local widgetAction = 'remove' />
+			</#if>
+			<#local btnStyle = 'btn-flat ' + style?replace('collapse|remove', '', 'r')?trim />
+		<#else>
+			<#local btnStyle = style />
 		</#if>
+	</#if>
+	
+	<button class="<#if style!='close'>btn</#if><#if size!=''> btn-${size}</#if><#if buttonColor!=''> btn-${buttonColor}</#if><#if btnStyle!=''> ${btnStyle}</#if><#if dropdownMenu> dropdown-toggle</#if><#if class!=''> ${class}</#if>" type="${type}"<#if title!=''> title="${title}"</#if><#if name!=''> name="${name}"</#if><#if id!=''> id="${id}"</#if><#if value!=''> value="${value}"</#if><#if params!=''> ${params}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if><#if widgetAction?? && widgetAction!=''><#if widgetAction = 'collapse'> data-toggle="${widgetAction}"<#elseif widgetAction = 'remove'> data-dismiss="alert"</#if></#if><#if buttonTargetId!=''> data-target="${buttonTargetId}"</#if><#if cancel> formnovalidate</#if><#if formId!=''> form="${formId}"</#if>>
+		<#if buttonIcon!='' && iconPosition='left'><@icon style=buttonIcon /></#if>
+		
+		<span class="<#if displayTitleClass!='' && style!='card-control'>${displayTitleClass}<#elseif showTitleClass!='' && style!='btn-box-tool'>${showTitleClass}</#if>">${title}</span>
+		
+		<#if buttonIcon!='' && iconPosition='right'><@icon style=buttonIcon /></#if>
+		<#if dropdownMenu>
+		&#160;<@icon style='caret-down' />
+		</#if>
+		<#if buttonNested><#nested></#if>
 	</button>
-<#if dropdownMenu>
-	</div>
-	<div class="dropdown-menu"<#if id!=''> id="${id}-content" aria-labelledby="${id}"</#if> role="menu">
-		<div class="dropdown-content">
-			<#nested>
-		</div>
-	</div>
-</div>
-<#else>
-		<#nested>
-</#if>
-</#macro>
-
-<#-- A BUTTON (LINK STYLED AS A BUTTON) -->
-<#-- size: small/medium/large -->
-<#-- color: default/primary/success/warning/danger/info/bg-purple/bg-blue/bg-navy/bg-teal/bg-maroon/bg-black/bg-gray/bg-olive/bg-lime/bg-orange/bg-fuchsia -->
-<#-- style: disabled ignored : btn-block/btn-flat/btn-app-->
-<#-- icon: icon name ex: info/check/comment/envelope... -->
-<#macro aButton name='' id='' href='' size='' color='primary' style='' align='' class='' params='' title='' tabIndex='' hideTitle=[] showTitle=true showTitleXs=true showTitleSm=true showTitleMd=true showTitleLg=true buttonIcon='' disabled=false iconPosition='left' dropdownMenu=false cancel=false>
-<#local displayTitleClass = displaySettings(hideTitle,'inline') />
-	<#if cancel || color = 'default' || color = 'secondary'>
-		<#assign buttonColor = 'light' />
-	<#elseif !cancel && color=''>
-		<#assign buttonColor = 'primary' />
-	<#else>
-		<#assign buttonColor = color />
-	</#if>
-	<#if style='card-control'>
-		<#assign style='text-right btn-link' />
-	</#if>
-
-<#switch size>
-    <#case 'xs'>
-        <#assign buttonSize='small'>
-        <#break>
-    <#case 'sm'>
-        <#assign buttonSize='small'>
-        <#break>
-    <#case 'md'>
-        <#assign buttonSize='medium'>
-        <#break>
-    <#case 'lg'>
-        <#assign buttonSize='large'>
-        <#break>
-    <#default>
-        <#assign buttonSize='normal'>
-</#switch>
-
-<#local class += alignmentSettings(align) />
-
-<#if dropdownMenu>
-<div class="dropdown">
-	<div class="dropdown-trigger">
-</#if>
-
-<a class="button is-grouped <#if buttonSize!=''>is-${buttonSize}</#if><#if buttonColor!=''> is-${buttonColor}</#if><#if style!=''> ${style}</#if><#if class!=''> ${class}</#if>"<#if name!=''> name="${name}"</#if><#if id!=''> id="${id}"</#if> href="${href}" title="${title}"<#if params!=''> ${params}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if>>
-   <#if buttonIcon!='' && iconPosition='left'><@icon style=buttonIcon /> &nbsp; </#if>
-	<span class="${displayTitleClass}">${title}</span>
-	<#if buttonIcon!='' && iconPosition='right'> &nbsp; <@icon style=buttonIcon /></#if>
-	<#if dropdownMenu>&#160;<@icon style='caret-down' /></#if>
-	<#if !dropdownMenu>
-		<#nested>
-	</#if>
-</a>
+	
 	<#if dropdownMenu>
-	</div>
-	<div class="dropdown-menu"<#if id!=''> id="${id}-content" aria-labelledby="${id}-content"</#if> role="menu">
-		<div class="dropdown-content">
-			<#nested>
-		</div>
-	</div>
-</div>
+		<ul class="dropdown-menu"<#if id!=''> id="${id}-content" aria-labelledby="${id}-content"</#if>>
+			<#if !buttonNested><#nested></#if>
+		</ul>
+	<#else>
+		<#if !buttonNested><#nested></#if>
 	</#if>
 </#macro>
 
