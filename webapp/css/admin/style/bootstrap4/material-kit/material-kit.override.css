@@ -85,3 +85,10 @@ pre {white-space:pre-wrap;}
 		height:auto;
 	}
 }
+
+@media (min-width:991px){
+	/* Admin dashboard cards */
+	div.widget .card-body {
+    max-height: 350px;
+}
+}

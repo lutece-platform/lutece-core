@@ -1,8 +1,8 @@
 <#if last_modified_page??>
 	<@box color='primary box-solid' id='site_dashboard_last_page'>
 		<@boxHeader title='#i18n{portal.site.adminFeature.admin_site.name}'>
-			<@button style='card-control collapse' buttonTargetId='#site_dashboard_last_page_card_body' buttonIcon='minus' />
-			<@button style='card-control remove' buttonTargetId='#site_dashboard_last_page' buttonIcon='times' />
+			<@button style='card-control collapse' buttonTargetId='#site_dashboard_last_page_card_body' buttonIcon='minus' size='sm' />
+			<@button style='card-control remove' buttonTargetId='#site_dashboard_last_page' buttonIcon='times' size='sm' />
 		</@boxHeader>
 		<@boxBody id='site_dashboard_last_page_card_body'>
 			<h6>#i18n{portal.site.dashboard.columnLastModifiedPage}</h6>
@@ -30,8 +30,8 @@
 <#if last_modified_portlet??>
 	<@box color='primary box-solid' id='site_dashboard_last_portlet'>
 		<@boxHeader title='#i18n{portal.site.adminFeature.admin_site.name}' boxTools=true>
-			<@button style='card-control collapse' buttonTargetId='#site_dashboard_last_portlet_card_body' buttonIcon='minus' />
-			<@button style='card-control remove' buttonTargetId='#site_dashboard_last_portlet' buttonIcon='close' />
+			<@button style='card-control collapse' buttonTargetId='#site_dashboard_last_portlet_card_body' buttonIcon='minus' size='sm' />
+			<@button style='card-control remove' buttonTargetId='#site_dashboard_last_portlet' buttonIcon='close' size='sm' />
 		</@boxHeader>
 		<@boxBody id='site_dashboard_last_portlet_card_body'>
 			<h6>#i18n{portal.site.dashboard.columnLastModifiedPortlet}</h6>
