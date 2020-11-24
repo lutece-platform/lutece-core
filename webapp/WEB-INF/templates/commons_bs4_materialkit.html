@@ -624,7 +624,7 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 
 <#-- ROW -->
 <#macro row class='' id='' align='' collapsed=false params=''>
-<#if collapsed><#local class += ' ' + collapse' /></#if>
+	<#if collapsed><#local class += ' ' + 'collapse' /></#if>
 <#if align!=''><#local class+= ' ' + alignmentSettings(align) /></#if>
 	<div class="row<#if class!=''> ${class?trim}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 		<#nested>
@@ -634,7 +634,7 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 <#-- COLUMNS -->
 <#-- cols = col-xs- (<544px)/col-sm- (>=544px)/col-md- (>=768px)/col-lg- (>=992px)/col-xl- (>=1200px) -->
 <#macro columns tag='div' offsetXs=0 offsetSm=0 offsetMd=0 offsetLg=0 offsetXl=0 pushXs=0 pushSm=0 pushMd=0 pushLg=0 pushXl=0 pullXs=0 pullSm=0 pullMd=0 pullLg=0 pullXl=0 xs=12 sm=0 md=0 lg=0 xl=0 id='' class='' align='' collapsed=false params=''>
-<#if collapsed><#local class += ' ' + collapse' /></#if>
+<#if collapsed><#local class += ' ' + 'collapse' /></#if>
 <#if align!=''><#local class+= ' ' + alignmentSettings(align) /></#if>
 <#if xs=12 && sm=0 && md=0 && lg=0 && xl=0>
 <${tag} class="col<#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
@@ -647,7 +647,7 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 
 <#-- LISTS -->
 <#macro ul id='' params='' class='' hide=[] collapsed=false align=''>
-	<#if collapsed><#local class += ' ' + collapse' /></#if>
+	<#if collapsed><#local class += ' ' + 'collapse' /></#if>
 	<#if align!=''><#local class+= ' ' + alignmentSettings(align) /></#if>
 	<#if hide??><#local class += ' ' + displaySettings(hide,'block') /></#if>
 	<ul<#if class!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if><#if id!=''> ${id}</#if>>
@@ -664,7 +664,7 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 
 <#-- DIV -->
 <#macro div id='' class='' hide=[] collapsed=false align='' params=''>
-	<#if collapsed><#local class += ' ' + collapse' /></#if>
+	<#if collapsed><#local class += ' ' + 'collapse' /></#if>
 	<#if align!=''><#local class+= ' ' + alignmentSettings(align) /></#if>
 	<#if hide??><#local class += ' ' + displaySettings(hide,'block') /></#if>
 	<div<#if class!=''> class="${class?trim}"</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
@@ -674,7 +674,7 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 
 <#-- PARAGRAPH -->
 <#macro p id='' class='' hide=[] collapsed=false align='' params=''>
-	<#if collapsed><#local class += ' ' + collapse' /></#if>
+	<#if collapsed><#local class += ' ' + 'collapse' /></#if>
 	<#local class += ' ' + alignmentSettings(align) + ' ' + displaySettings(hide,'block') />
 	<p<#if class!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if><#if id!=''> ${id}</#if>>
 		<#nested>
@@ -683,7 +683,7 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 
 <#-- SPAN -->
 <#macro span id='' class='' hide=[] collapsed=false align='' params=''>
-	<#if collapsed><#local class += ' ' + collapse' /></#if>
+	<#if collapsed><#local class += ' ' + 'collapse' /></#if>
 	<#local class += ' ' + alignmentSettings(align) + ' ' + displaySettings(hide,'inline-flex') />
 	<span<#if class!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if><#if id!=''> ${id}</#if>>
 		<#nested>
@@ -692,7 +692,7 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 
 <#-- PRE -->
 <#macro pre id='' class='' hide=[] collapsed=false align='' params=''>
-	<#if collapsed><#local class += ' ' + collapse' /></#if>
+	<#if collapsed><#local class += ' ' + 'collapse' /></#if>
 	<#local class += ' ' + alignmentSettings(align) + ' ' + displaySettings(hide,'block') />
 	<pre<#if class!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if><#if id!=''> ${id}</#if>>
 		<#nested>
@@ -703,7 +703,7 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 
 <#-- Tab Container -->
 <#macro tabs color='' class='' id='' hide=[] collapsed=false params=''>
-	<#if collapsed><#local class += ' ' + collapse' /></#if>
+	<#if collapsed><#local class += ' ' + 'collapse' /></#if>
 	<#if hide??><#local class += ' ' + displaySettings(hide,'block') /></#if>
 	<div class="card card-nav-tabs<#if color!=''> ${color}</#if><#if class!=''> ${class?trim}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 		<#nested>
@@ -994,7 +994,7 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 
 <#-- BTN TOOLBAR -->
 <#macro btnToolbar id='' class='' align='' ariaLabel='' params=''>
-<#if align!=''><#local class += ' ' alignmentSettings(align) /></#if>
+<#if align!=''><#local class += ' ' + alignmentSettings(align) /></#if>
 <div class="btn-toolbar<#if class!=''> ${class?trim}</#if>" role="toolbar"<#if ariaLabel!=''> aria-label="${ariaLabel}"</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 <style type="text/css">
 .btn-toolbar > div:not(:last-of-type) {margin-right:0.2rem;}
@@ -1146,7 +1146,7 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 </#macro>
 
 <#macro boxBody id='' class='' collapsed=false align='' params=''>
-<#if collapsed><#local class += ' ' + collapse' /></#if>
+<#if collapsed><#local class += ' ' + 'collapse' /></#if>
 <#if align!=''><#local class += ' ' + alignmentSettings(align) /></#if>
 <div class="card-body<#if class!=''> ${class}</#if>" style="border-radius:0 0 3px 3px;"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 	<#nested>
