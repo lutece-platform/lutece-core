@@ -418,37 +418,38 @@
 <#-- formStyle values: horizontal/empty/inline Default is horizontal 	-->
 <#-- class: 						 								-->
 <#-- groupStyle: success/error -->
-<#macro formGroup id='' formStyle='horizontal' groupStyle='' class='' rows=1 labelKey='' labelFor='' labelId='' helpKey='' mandatory=false hideLabel=[] params=''>
+<#macro formGroup id='' formStyle='horizontal' groupStyle='' class='' rows=1 labelKey='' labelFor='' labelId='' helpKey='' mandatory=false hideLabel=[] collapsed=false params=''>
 <#assign mandatory = mandatory>
 <#assign labelFor = labelFor>
 <#assign labelId = labelId>
 <#assign labelKey = labelKey>
 <#assign hideLabel = hideLabel>
 <#assign helpKey = helpKey>
-<#if groupStyle = "success">
-	<#local validation = "is-valid">
-<#elseif groupStyle="error">
-	<#local validation = "is-invalid">
+<#if groupStyle = 'success'>
+	<#local validation = 'is-valid'>
+<#elseif groupStyle='error'>
+	<#local validation = 'is-invalid'>
 </#if>
-<div class="form-group<#if formStyle='horizontal'> row</#if><#if class!=''> ${class}<#/if><#if validation?? && validation!=''> ${validation}</#if></#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<#if collapsed><#local class += ' collapse' /></#if>
+<div class="form-group<#if formStyle='horizontal'> row</#if><#if class!=''> ${class?trim}<#/if><#if validation?? && validation!=''> ${validation}</#if></#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 <#local labelClass = '' />
 <#local displayLabelClass = displaySettings(hideLabel,'inline-flex') />
 	<#if rows=1>
 		<#if labelKey!='' && formStyle='horizontal'>
-			<#local labelClass = "col-sm-12 col-lg-3 col-form-label">
+			<#local labelClass = 'col-sm-12 col-lg-3 col-form-label'>
 			<#if displayLabelClass?contains('d-none')>
-				<#local divClass="col">
+				<#local divClass='col'>
 			<#else>
-				<#local divClass = "col-lg-6">
+				<#local divClass = 'col-lg-6'>
 			</#if>
 		<#elseif formStyle = 'inline'>
-			<#local divClass = "mb-2 mr-sm-2">
+			<#local divClass = 'mb-2 mr-sm-2'>
 		<#else>
-			<#local divClass="col-sm-12 offset-lg-3 col-lg-6">
+			<#local divClass='col-sm-12 offset-lg-3 col-lg-6'>
 		</#if>
 	<#else>
-		<#local labelClass = "col-sm-12 col-form-label">
-		<#local divClass = "col-sm-12">
+		<#local labelClass = 'col-sm-12 col-form-label'>
+		<#local divClass = 'col-sm-12'>
 	</#if>
 	<#local labelClass = labelClass>
 	<#if labelKey!=''>
@@ -604,7 +605,9 @@
 </#macro>
 
 <#-- ROW -->
-<#macro row class='' id='' params=''>
+<#macro row class='' id='' collapsed=false align='' params=''>
+<#if collapsed><#local class += ' ' + collapse' /></#if>
+<#if align!=''><#local class+= ' ' + alignmentSettings(align) /></#if>
 	<div class="row<#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 		<#nested>
 	</div>
@@ -612,7 +615,9 @@
 
 <#-- COLUMNS -->
 <#-- cols = col-xs- (<544px)/col-sm- (>=544px)/col-md- (>=768px)/col-lg- (>=992px)/col-xl- (>=1200px) -->
-<#macro columns tag='div' offsetXs=0 offsetSm=0 offsetMd=0 offsetLg=0 offsetXl=0 pushXs=0 pushSm=0 pushMd=0 pushLg=0 pushXl=0 pullXs=0 pullSm=0 pullMd=0 pullLg=0 pullXl=0 xs=12 sm=0 md=0 lg=0 xl=0 id='' class='' params=''>
+<#macro columns tag='div' offsetXs=0 offsetSm=0 offsetMd=0 offsetLg=0 offsetXl=0 pushXs=0 pushSm=0 pushMd=0 pushLg=0 pushXl=0 pullXs=0 pullSm=0 pullMd=0 pullLg=0 pullXl=0 xs=12 sm=0 md=0 lg=0 xl=0 id='' class='' align='' collapsed=false params=''>
+<#if collapsed><#local class += ' ' + collapse' /></#if>
+<#if align!=''><#local class+= ' ' + alignmentSettings(align) /></#if>
 <#if xs=12 && sm=0 && md=0 && lg=0 && xl=0>
 <${tag} class="col<#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 <#else>
@@ -623,8 +628,9 @@
 </#macro>
 
 <#-- LISTS -->
-<#macro ul id='' params='' class='' hide=[] align=''>
+<#macro ul id='' params='' class='' hide=[] collapsed=false align=''>
 	<#local class += ' ' + alignmentSettings(align) + ' ' + displaySettings(hide,'block') />
+	<#if collapsed><#local class += ' ' + collapse' /></#if>
 	<ul<#if class!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if><#if id!=''> ${id}</#if>>
 		<#nested>
 	</ul>
@@ -638,7 +644,8 @@
 </#macro>
 
 <#-- DIV -->
-<#macro div id='' class='' hide=[] align='' params=''>
+<#macro div id='' class='' hide=[] collapsed=false align='' params=''>
+	<#if collapsed><#local class += ' ' + collapse' /></#if>
 	<#if align!=''><#local class += ' ' + alignmentSettings(align) /></#if>
 	<#if hide??><#local class += ' ' + displaySettings(hide,'block') /></#if>
 	<div<#if class!=''> class="${class?trim}"</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
@@ -647,7 +654,8 @@
 </#macro>
 
 <#-- PARAGRAPH -->
-<#macro p id='' params='' class='' hide=[] align=''>
+<#macro p id='' params='' class='' hide=[] collapsed=false align=''>
+	<#if collapsed><#local class += ' ' + collapse' /></#if>
 	<#local class += ' ' + displaySettings(hide,'block') + ' ' + alignmentSettings(align) />
 	<p<#if class!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if><#if id!=''> ${id}</#if>>
 		<#nested>
@@ -655,7 +663,8 @@
 </#macro>
 
 <#-- SPAN -->
-<#macro span id='' params='' class='' hide=[] align=''>
+<#macro span id='' class='' hide=[] align='' params=''>
+	<#if collapsed><#local class += ' ' + collapse' /></#if>
 	<#local class += ' ' + alignmentSettings(align) + ' ' + displaySettings(hide,'inline-flex') />
 	<span<#if class!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if><#if id!=''> ${id}</#if>>
 		<#nested>
@@ -663,7 +672,8 @@
 </#macro>
 
 <#-- PRE -->
-<#macro pre id='' params='' class='' hide=[] align=''>
+<#macro pre id='' class='' hide=[] collapsed=true align='' params=''>
+	<#if collapsed><#local class += ' ' + collapse' /></#if>
 	<#local class += ' ' + alignmentSettings(align) + ' ' + displaySettings(hide,'block') />
 	<pre<#if class!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if><#if id!=''> ${id}</#if>>
 		<#nested>
@@ -673,8 +683,10 @@
 <#-- TABS -->
 
 <#-- Tab Container -->
-<#macro tabs color='' id='' params=''>
-	<div class="<#if color!=''> ${color}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<#macro tabs color='' id='' hide=[] collapsed=false params=''>
+	<#if hide??><#local class += ' ' + displaySettings(hide,'block') /></#if>
+	<#if collapsed><#local class += ' ' + collapse' /></#if>
+	<div class="<#if color!=''> ${color}</#if><#if class!=''> ${class?trim}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 		<#nested>
 	</div>
 </#macro>
@@ -968,8 +980,9 @@
 </#macro>
 
 <#-- BTN TOOLBAR -->
-<#macro btnToolbar id='' params='' ariaLabel=''>
-<div class="btn-toolbar" role="toolbar"<#if ariaLabel!=''> aria-label="${ariaLabel}"</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<#macro btnToolbar id='' class='' align='' ariaLabel='' params=''>
+<#if align!=''><#local class += ' ' alignmentSettings(align) /></#if>
+<div class="btn-toolbar<#if class!=''> ${class?trim}</#if>" role="toolbar"<#if ariaLabel!=''> aria-label="${ariaLabel}"</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 <style type="text/css">
 .btn-toolbar > div:not(:last-of-type) {margin-right:0.2rem;}
 </style>
@@ -1115,7 +1128,8 @@
 </div>
 </#macro>
 
-<#macro boxBody class='' align='' id='' params=''>
+<#macro boxBody class='' collapsed=false align='' id='' params=''>
+<#if collapsed><#local class += ' ' + collapse' /></#if>
 <#if align!=''><#local class += ' ' + alignmentSettings(align) /></#if>
 <div class="card-body bg-white<#if class!=''> ${class}</#if>" <#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 	<#nested>

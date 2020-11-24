@@ -411,7 +411,7 @@
 <#-- formStyle values: horizontal/empty/inline Default is horizontal 	-->
 <#-- class: 						 																							-->
 <#-- groupStyle: success/error 																				-->
-<#macro formGroup formStyle='horizontal' class='' groupStyle='' rows=1 labelKey='' labelFor='' labelId='' helpKey='' id='' mandatory=false hideLabel=[] params=''>
+<#macro formGroup formStyle='horizontal' class='' groupStyle='' rows=1 labelKey='' labelFor='' labelId='' helpKey='' id='' mandatory=false hideLabel=[] collapsed=false params=''>
 <#assign mandatory = mandatory>
 <#assign labelFor = labelFor>
 <#assign labelId = labelId>
@@ -423,27 +423,28 @@
 <#elseif groupStyle='error'>
 	<#local validation = 'is-invalid'>
 </#if>
-<div class="form-group<#if formStyle='horizontal'> bmd-form-group row</#if><#if class!=''> ${class}</#if>"<#if validation?? && validation!=''> ${validation}</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<#if collapsed><#local class += ' collapse' /></#if>
+<div class="form-group<#if formStyle='horizontal'> bmd-form-group row</#if><#if class!=''> ${class?trim}</#if>"<#if validation?? && validation!=''> ${validation}</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 <#local labelClass = '' />
 <#local displayClass = displaySettings(hideLabel,'inline-flex') />
 	<#if rows=1>
 		<#if labelKey!='' && formStyle='horizontal'>
-			<#local labelClass = "col-12">
+			<#local labelClass = 'col-12'>
 			<#if displayClass?contains('d-none')>
-				<#local divClass="col">
+				<#local divClass='col'>
 			<#else>	
-				<#local divClass = "col-lg-6">
+				<#local divClass = 'col-lg-6'>
 			</#if>
 		<#elseif formStyle = 'inline'>
-			<#local divClass = "mb-2 mr-sm-2">
+			<#local divClass = 'mb-2 mr-sm-2'>
 		<#else>
-				<#local divClass="col-sm-12">
+				<#local divClass='col-sm-12'>
 		</#if>
 	<#else>
-		<#local labelClass = "col-12">
-		<#local divClass = "col-12">
+		<#local labelClass = 'col-12'>
+		<#local divClass = 'col-12'>
 	</#if>
-	<#local labelClass = labelClass + " bmd-label-floating" />
+	<#local labelClass = labelClass + ' bmd-label-floating' />
 	<#if labelKey!=''>
 		<@formLabel class=labelClass labelFor=labelFor labelId=labelId labelKey=labelKey hideLabel=hideLabel mandatory=mandatory />
 	</#if>
@@ -622,15 +623,19 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 </#macro>
 
 <#-- ROW -->
-<#macro row class='' id='' params=''>
-	<div class="row<#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<#macro row class='' id='' align='' collapsed=false params=''>
+<#if collapsed><#local class += ' ' + collapse' /></#if>
+<#if align!=''><#local class+= ' ' + alignmentSettings(align) /></#if>
+	<div class="row<#if class!=''> ${class?trim}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 		<#nested>
 	</div>
 </#macro>
 
 <#-- COLUMNS -->
 <#-- cols = col-xs- (<544px)/col-sm- (>=544px)/col-md- (>=768px)/col-lg- (>=992px)/col-xl- (>=1200px) -->
-<#macro columns tag='div' offsetXs=0 offsetSm=0 offsetMd=0 offsetLg=0 offsetXl=0 pushXs=0 pushSm=0 pushMd=0 pushLg=0 pushXl=0 pullXs=0 pullSm=0 pullMd=0 pullLg=0 pullXl=0 xs=12 sm=0 md=0 lg=0 xl=0 id='' class='' params=''>
+<#macro columns tag='div' offsetXs=0 offsetSm=0 offsetMd=0 offsetLg=0 offsetXl=0 pushXs=0 pushSm=0 pushMd=0 pushLg=0 pushXl=0 pullXs=0 pullSm=0 pullMd=0 pullLg=0 pullXl=0 xs=12 sm=0 md=0 lg=0 xl=0 id='' class='' align='' collapsed=false params=''>
+<#if collapsed><#local class += ' ' + collapse' /></#if>
+<#if align!=''><#local class+= ' ' + alignmentSettings(align) /></#if>
 <#if xs=12 && sm=0 && md=0 && lg=0 && xl=0>
 <${tag} class="col<#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 <#else>
@@ -641,8 +646,9 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 </#macro>
 
 <#-- LISTS -->
-<#macro ul id='' params='' class='' hide=[] align=''>
-	<#if align!=''><#local class += ' ' + alignmentSettings(align) /></#if>
+<#macro ul id='' params='' class='' hide=[] collapsed=false align=''>
+	<#if collapsed><#local class += ' ' + collapse' /></#if>
+	<#if align!=''><#local class+= ' ' + alignmentSettings(align) /></#if>
 	<#if hide??><#local class += ' ' + displaySettings(hide,'block') /></#if>
 	<ul<#if class!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if><#if id!=''> ${id}</#if>>
 		<#nested>
@@ -657,8 +663,9 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 </#macro>
 
 <#-- DIV -->
-<#macro div id='' class='' hide=[] align='' params=''>
-	<#if align!=''><#local class += ' ' + alignmentSettings(align) /></#if>
+<#macro div id='' class='' hide=[] collapsed=false align='' params=''>
+	<#if collapsed><#local class += ' ' + collapse' /></#if>
+	<#if align!=''><#local class+= ' ' + alignmentSettings(align) /></#if>
 	<#if hide??><#local class += ' ' + displaySettings(hide,'block') /></#if>
 	<div<#if class!=''> class="${class?trim}"</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 		<#nested>
@@ -666,7 +673,8 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 </#macro>
 
 <#-- PARAGRAPH -->
-<#macro p id='' params='' class='' hide=[] align=''>
+<#macro p id='' class='' hide=[] collapsed=false align='' params=''>
+	<#if collapsed><#local class += ' ' + collapse' /></#if>
 	<#local class += ' ' + alignmentSettings(align) + ' ' + displaySettings(hide,'block') />
 	<p<#if class!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if><#if id!=''> ${id}</#if>>
 		<#nested>
@@ -674,7 +682,8 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 </#macro>
 
 <#-- SPAN -->
-<#macro span id='' params='' class='' hide=[] align=''>
+<#macro span id='' class='' hide=[] collapsed=false align='' params=''>
+	<#if collapsed><#local class += ' ' + collapse' /></#if>
 	<#local class += ' ' + alignmentSettings(align) + ' ' + displaySettings(hide,'inline-flex') />
 	<span<#if class!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if><#if id!=''> ${id}</#if>>
 		<#nested>
@@ -682,7 +691,8 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 </#macro>
 
 <#-- PRE -->
-<#macro pre id='' params='' class='' hide=[] align=''>
+<#macro pre id='' class='' hide=[] collapsed=false align='' params=''>
+	<#if collapsed><#local class += ' ' + collapse' /></#if>
 	<#local class += ' ' + alignmentSettings(align) + ' ' + displaySettings(hide,'block') />
 	<pre<#if class!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if><#if id!=''> ${id}</#if>>
 		<#nested>
@@ -692,15 +702,17 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 <#-- TABS -->
 
 <#-- Tab Container -->
-<#macro tabs color='' id='' params=''>
-	<div class="card card-nav-tabs<#if color!=''> ${color}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<#macro tabs color='' class='' id='' hide=[] collapsed=false params=''>
+	<#if collapsed><#local class += ' ' + collapse' /></#if>
+	<#if hide??><#local class += ' ' + displaySettings(hide,'block') /></#if>
+	<div class="card card-nav-tabs<#if color!=''> ${color}</#if><#if class!=''> ${class?trim}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 		<#nested>
 	</div>
 </#macro>
 
 <#-- Tabs List -->
 <#-- type: tabs/tabs nav-justified/pills/pills nav-stacked/pills nav-justified -->
-<#macro tabList type='tabs' vertical=false id='' params='' color=''>
+<#macro tabList type='tabs' vertical=false id='' color='' params=''>
 		<#if type != 'pills'>
 		<div class="card-header card-header-primary">
 			<div class="nav-tabs-navigation">
@@ -981,8 +993,9 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 </#macro>
 
 <#-- BTN TOOLBAR -->
-<#macro btnToolbar id='' params='' ariaLabel=''>
-<div class="btn-toolbar" role="toolbar"<#if ariaLabel!=''> aria-label="${ariaLabel}"</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<#macro btnToolbar id='' class='' align='' ariaLabel='' params=''>
+<#if align!=''><#local class += ' ' alignmentSettings(align) /></#if>
+<div class="btn-toolbar<#if class!=''> ${class?trim}</#if>" role="toolbar"<#if ariaLabel!=''> aria-label="${ariaLabel}"</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 <style type="text/css">
 .btn-toolbar > div:not(:last-of-type) {margin-right:0.2rem;}
 </style>
@@ -1132,7 +1145,8 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 </div>
 </#macro>
 
-<#macro boxBody class='' align='' id='' params=''>
+<#macro boxBody id='' class='' collapsed=false align='' params=''>
+<#if collapsed><#local class += ' ' + collapse' /></#if>
 <#if align!=''><#local class += ' ' + alignmentSettings(align) /></#if>
 <div class="card-body<#if class!=''> ${class}</#if>" style="border-radius:0 0 3px 3px;"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 	<#nested>
@@ -1331,7 +1345,7 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 <script src="js/admin/jquery/jquery-migrate-3.3.1.min.js"></script>
 </head>
 <body class="d-flex flex-column vh-100 container-fluid">
-	<div class="skipnav"><a href="#main">allez au contenu principal</a></div>
+	<div class="skipnav"><a href="#main">aller au contenu principal</a></div>
 	<h1 id="top" class="sr-only sr-only-focusable">Haut de page</h1>
 	<header class="main-header" role="banner">
 	  <nav class="navbar navbar-expand-lg bg-${mainColor} fixed-top" role="navigation">

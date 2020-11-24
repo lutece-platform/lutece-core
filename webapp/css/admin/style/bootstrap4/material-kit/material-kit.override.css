@@ -57,6 +57,11 @@ div.card-header > div.d-flex > :not(:first-child),
 	margin-left: 0.2rem;
 }
 
+/* Text area with richtext margin */
+.mce-tinymce.mce-container.mce-panel {
+    margin-top: 0.5rem;
+}
+
 /* Forms.css override */
 @media only screen and (max-width :1650px) {
 	.form-inline .form-group {max-width: 100%!important;}

@@ -273,5 +273,10 @@ $( function(){
 
 // Toggle collapse buttons
 $('[data-toggle="collapse"]').click(function() {
-	$(this).find("i").toggleClass("fa-plus").toggleClass("fa-minus");
+	if ($(this).find("i").hasClass("fa-minus")){
+    $(this).find("i").toggleClass("fa-plus");
+    }
+	else if ($(this).find("i").hasClass("fa-plus")){
+    $(this).find("i").toggleClass("fa-minus");
+    }
 });

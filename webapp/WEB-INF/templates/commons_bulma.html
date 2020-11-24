@@ -824,9 +824,10 @@ and is kept only for backwards compatibility
 <#-- formStyle values: empty/inline/horizontal/navbar-form/navbar-left... Default is horizontal -->
 <#-- groupStyle: is-success/is-danger/is-warning... -->
 
-<#macro formGroup formStyle='horizontal' class='' groupStyle='' rows=1 labelKey='' labelFor='' labelId='' helpKey='' id='' mandatory=false hideLabel=[] params=''>
+<#macro formGroup formStyle='horizontal' class='' groupStyle='' rows=1 labelKey='' labelFor='' labelId='' helpKey='' id='' mandatory=false hideLabel=[] collapsed=false params=''>
 <#local labelDisplayClass = displaySettings(hideLabel,'') />
-<div class="field is-horizontal">
+<#if collapsed><#local class += ' collapse' /></#if>
+<div class="field is-horizontal<#if class!=''> ${class?trim}">
   <div class="field-label<#if labelDisplayClass!=''> ${labelDisplayClass}</#if>">
     <label class="label">${labelKey} <#if mandatory=true>*</#if></label>
   </div>
@@ -934,7 +935,9 @@ and is kept only for backwards compatibility
 </#macro>
 
 <#-- ROW -->
-<#macro row class='' id='' params=''>
+<#macro row class='' id='' collapsed=false align='' params=''>
+<#if collapsed><#local class += ' ' + collapse' /></#if>
+<#if align!=''><#local class+= ' ' + alignmentSettings(align) /></#if>
 <div class="columns is-multiline<#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 	<#nested>
 </div>
@@ -942,14 +945,18 @@ and is kept only for backwards compatibility
 
 <#-- COLUMNS -->
 <#-- cols -->
-<#macro columns offsetXs=0 offsetSm=0 offsetMd=0 offsetLg=0 offsetXl=0 pushXs=0 pushSm=0 pushMd=0 pushLg=0 pushXl=0 pullXs=0 pullSm=0 pullMd=0 pullLg=0 pullXl=0 xs=12 sm=0 md=0 lg=0 xl=0 id='' class='' params=''>
+<#macro columns offsetXs=0 offsetSm=0 offsetMd=0 offsetLg=0 offsetXl=0 pushXs=0 pushSm=0 pushMd=0 pushLg=0 pushXl=0 pullXs=0 pullSm=0 pullMd=0 pullLg=0 pullXl=0 xs=12 sm=0 md=0 lg=0 xl=0 id='' class='' collapsed=false align='' params=''>
+<#if collapsed><#local class += ' ' + collapse' /></#if>
+<#if align!=''><#local class+= ' ' + alignmentSettings(align) /></#if>
 <div class="column<#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 <#nested>
 </div>
 </#macro>
 
 <#-- LISTS -->
-<#macro ul id='' params='' class=''>
+<#macro ul id='' params='' collapsed=false align='' class=''>
+	<#if collapsed><#local class += ' ' + collapse' /></#if>
+	<#if align!=''><#local class+= ' ' + alignmentSettings(align) /></#if>
 	<ul<#if class!=''> class="${class}"</#if><#if params!=''> ${params}</#if><#if id!=''> ${id}</#if>>
 		<#nested>
 	</ul>
@@ -962,8 +969,9 @@ and is kept only for backwards compatibility
 </#macro>
 
 <#-- DIV -->
-<#macro div id='' class='' hide=[] align='' params=''>
-	<#if align!=''><#local class += ' ' + alignmentSettings(align) /></#if>
+<#macro div id='' class='' hide=[] collapsed=false align='' params=''>
+	<#if collapsed><#local class += ' ' + collapse' /></#if>
+	<#if align!=''><#local class+= ' ' + alignmentSettings(align) /></#if>
 	<#if hide??><#local class += ' ' + displaySettings(hide,'block') /></#if>
 	<div<#if class!=''> class="${class?trim}"</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 		<#nested>
@@ -971,7 +979,8 @@ and is kept only for backwards compatibility
 </#macro>
 
 <#-- PARAGRAPH -->
-<#macro p id='' params='' class='' hide=[] align=''>
+<#macro p id='' class='' hide=[] collapsed=false align='' params=''>
+	<#if collapsed><#local class += ' ' + collapse' /></#if>
 	<#local class += ' ' + alignmentSettings(align) + ' ' + displaySettings(hide,'is-block') />
 	<p<#if class!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if><#if id!=''> ${id}</#if>>
 		<#nested>
@@ -979,7 +988,8 @@ and is kept only for backwards compatibility
 </#macro>
 
 <#-- SPAN -->
-<#macro span id='' params='' class='' hide=[] align=''>
+<#macro span id='' class='' hide=[] collapsed=false align='' params=''>
+	<#if collapsed><#local class += ' ' + collapse' /></#if>
 	<#local class += ' ' + alignmentSettings(align) + ' ' + displaySettings(hide,'is-inline') />
 	<span<#if class!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if><#if id!=''> ${id}</#if>>
 		<#nested>
@@ -987,7 +997,8 @@ and is kept only for backwards compatibility
 </#macro>
 
 <#-- PRE -->
-<#macro pre id='' params='' class='' hide=[] align=''>
+<#macro pre id='' class='' hide=[] collapsed=false align='' params=''>
+	<#if collapsed><#local class += ' ' + collapse' /></#if>
 	<#local class += ' ' + alignmentSettings(align) + ' ' + displaySettings(hide,'is-block') />
 	<pre<#if class!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if><#if id!=''> ${id}</#if>>
 		<#nested>
@@ -997,8 +1008,12 @@ and is kept only for backwards compatibility
 <#-- TABS -->
 
 <#-- TAB -->
-<#macro tabs color='' id='' params=''>
+<#macro tabs color='' class='' hide=[] collapsed=false id='' params=''>
+	<#if hide??><#local class += ' ' + displaySettings(hide,'block') /></#if>
+	<#if collapsed><#local class += ' ' + collapse' /></#if>
+	<#if hide?? || collapsed><div class="{class?trim"}></#if>
 	<#nested>
+	<#if hide?? || collapsed></div></#if>
 </#macro>
 
 <#-- Tabs List -->
@@ -1225,8 +1240,9 @@ and is kept only for backwards compatibility
 </#macro>
 
 <#-- BTN TOOLBAR -->
-<#macro btnToolbar id='' params='' ariaLabel=''>
-<div class="field is-grouped" role="toolbar"<#if ariaLabel!=''> aria-label="${ariaLabel}"</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<#macro btnToolbar id='' class='' align='' ariaLabel='' params=''>
+<#if align!=''><#local class += ' ' alignmentSettings(align) /></#if>
+<div class="field is-grouped<#if class!=''> ${class?trim}</#if>" role="toolbar"<#if ariaLabel!=''> aria-label="${ariaLabel}"</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 	<#nested>
 </div>
 </#macro>
@@ -1370,7 +1386,8 @@ and is kept only for backwards compatibility
 </header>
 </#macro>
 
-<#macro boxBody class='' align='' id='' params=''>
+<#macro boxBody class='' collapsed=false align='' id='' params=''>
+<#if collapsed><#local class += ' ' + collapse' /></#if>
 <#if align!=''><#local class += ' ' + alignmentSettings(align) /></#if>
 <div class="card-content<#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 	<#nested>
