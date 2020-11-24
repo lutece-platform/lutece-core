@@ -259,16 +259,17 @@
 	
 <#-- TABLE -->
 <#-- class:  -->
-<#macro table responsive=true condensed=true hover=true striped=false bordered=false narrow=false class='' id='' params=''>
-	<#assign tableClass=class />
-	<#if condensed> <#assign tableClass=tableClass + ' table-sm' /> </#if>
-	<#if hover>     <#assign tableClass=tableClass + ' table-hover' /> </#if>
-	<#if striped>   <#assign tableClass=tableClass + ' table-striped'   /> </#if>
-	<#if bordered>  <#assign tableClass=tableClass + ' table-bordered'  /> </#if>
+<#macro table id='' class='' responsive=true condensed=true hover=true striped=false bordered=false narrow=false collapsed=false params=''>
+	<#local class = class />
+	<#if condensed> <#local class += ' table-sm' /> </#if>
+	<#if hover>     <#local class += ' table-hover' /> </#if>
+	<#if striped>   <#local class += ' table-striped'   /> </#if>
+	<#if bordered>  <#local class += ' table-bordered'  /> </#if>
+	<#if collapsed> <#local class += ' collapse' /> </#if>
 	<#if responsive>
 	<div class="table-responsive-sm">
 	</#if>
-	<table class="table ${tableClass}" id="${id}"<#if params!=''> ${params}</#if>>
+	<table class="table ${class?trim}" id="${id}"<#if params!=''> ${params}</#if>>
 		<#nested>
 	</table>
 	<#if responsive>
@@ -372,22 +373,24 @@
 
 <#-- FORM -->
 <#-- type: inline/horizontal/form -->
-<#macro tform type='horizontal' class='' align='' hide=[] action='' method='post' name='' id='' role='form' params=''>
-	<#assign formClass = alignmentSettings(align) + ' ' + class />
+<#macro tform type='horizontal' class='' align='' hide=[] action='' method='post' name='' id='' role='form' collapsed=false params=''>
+	<#local class = class />
+	<#if align!=''><#local class += ' ' + alignmentSettings(align) /></#if>
+	<#if hide??><#local class += ' ' + displaySettings(hide,'block') /></#if>
+	<#if collapsed><#local class += ' collapse' /></#if>
+
 	<#switch type>
 		<#case 'horizontal'>
-		<#assign formClass += ' form-horizontal'>
-		<#break>
-
+			<#local class += ' form-horizontal'>
+			<#break>
 		<#case 'inline'>
-		<#assign formClass += ' form-inline'>
-		<#break>
-		
+			<#local class += ' form-inline'>
+			<#break>
 		<#default>
-		<#assign formClass += ' form'>
+			<#local class += ' form'>
 	</#switch>
 
-	<form class="<#if formClass!=''>${formClass?trim}</#if>"<#if id!=''> id="${id}"</#if><#if action!=''> action="${action}"</#if><#if method!=''> method="${method}"</#if><#if name!=''> name="${name}"</#if><#if role!=''> role="${role}"</#if><#if params!=''> ${params}</#if>>
+	<form class="<#if class!=''>${class?trim}</#if>"<#if id!=''> id="${id}"</#if><#if action!=''> action="${action}"</#if><#if method!=''> method="${method}"</#if><#if name!=''> name="${name}"</#if><#if role!=''> role="${role}"</#if><#if params!=''> ${params}</#if>>
 		<#nested>
 	</form>
 </#macro>

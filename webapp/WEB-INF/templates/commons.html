@@ -681,20 +681,21 @@ and is kept only for backwards compatibility
 	
 <#-- TABLE -->
 <#-- class:  -->
-<#macro table responsive=true condensed=true hover=true striped=false bordered=false narrow=false class='' id='' params=''>
-	<#local tableClass=class />
-	<#if condensed> <#local tableClass=tableClass + ' table-condensed' /> </#if>
-	<#if hover>     <#local tableClass=tableClass + ' table-hover' /> </#if>
-	<#if striped>   <#local tableClass=tableClass + ' table-striped'   /> </#if>
-	<#if bordered>  <#local tableClass=tableClass + ' table-bordered'  /> </#if>
-  <#if responsive>
+<#macro table id='' class='' responsive=true condensed=true hover=true striped=false bordered=false narrow=false collapsed=false params=''>
+	<#local class = class />
+	<#if condensed> <#local class += ' table-condensed' /> </#if>
+	<#if hover>     <#local class += ' table-hover' /> </#if>
+	<#if striped>   <#local class += ' table-striped'   /> </#if>
+	<#if bordered>  <#local class += ' table-bordered'  /> </#if>
+	<#if collapsed> <#local class += ' collapse' /> </#if>
+	<#if responsive>
 	<div class="table-responsive">
 	</#if>
-		<table class="table ${tableClass}" id="${id}"<#if params!=''> ${params}</#if>>
-			<thead>
-					<#nested>
-			</tbody>
-		</table>
+	<table class="table ${class?trim}" id="${id}"<#if params!=''> ${params}</#if>>
+		<thead>
+			<#nested>
+		</tbody>
+	</table>
 	<#if responsive>
 	</div>
 	</#if>
@@ -810,26 +811,26 @@ and is kept only for backwards compatibility
 
 <#-- FORM -->
 <#-- type: inline/horizontal/form -->
-<#macro tform type='horizontal' class='' align='' hide=[] action='' method='post' name='' id='' role='form' params=''>
-	<#local formClass = class />
-	<#if align!=''><#local formClass += ' ' + alignmentSettings(align) /></#if>
-	<#if hide??><#local formClass += ' ' + displaySettings(hide,'block') /></#if>
+<#macro tform type='horizontal' class='' align='' hide=[] action='' method='post' name='' id='' role='form' collapsed=false params=''>
+	<#local class = class />
+	<#if align!=''><#local class += ' ' + alignmentSettings(align) /></#if>
+	<#if hide??><#local class += ' ' + displaySettings(hide,'block') /></#if>
+	<#if collapsed><#local class += ' collapse' /></#if>
+	
 	<#switch type>
-    <#case 'horizontal'>
-    <#local formClass += ' form-horizontal'>
-    <#break>
-
-    <#case 'inline'>
-		<#local formClass += ' form-inline'>
-		<#break>
-		
+		<#case 'horizontal'>
+			<#local class += ' form-horizontal'>
+			<#break>
+		<#case 'inline'>
+			<#local class += ' form-inline'>
+			<#break>
 		<#default>
-		<#local formClass += ' form'>
+			<#local class += ' form'>
 	</#switch>
 
-<form class="<#if formClass!=''>${formClass?trim}</#if>"<#if id!=''> id="${id}"</#if><#if action!=''> action="${action}"</#if><#if method!=''> method="${method}"</#if><#if name!=''> name="${name}"</#if><#if role!=''> role="${role}"</#if><#if params!=''> ${params}</#if>>
-	<#nested>
-</form>
+	<form class="<#if class!=''>${class?trim}</#if>"<#if id!=''> id="${id}"</#if><#if action!=''> action="${action}"</#if><#if method!=''> method="${method}"</#if><#if name!=''> name="${name}"</#if><#if role!=''> role="${role}"</#if><#if params!=''> ${params}</#if>>
+		<#nested>
+	</form>
 </#macro>
 
 

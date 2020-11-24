@@ -192,4 +192,8 @@ li.portlet-type a:hover{
 }
 
 /* spaces between elements when display is set to flex. intended for buttons */
-.d-flex > * + * {margin-left: 0.2rem;}
+.card-header .d-flex > * + *,
+.card-body .d-flex > * + * 
+{
+	margin-left: 0.2rem;
+}
