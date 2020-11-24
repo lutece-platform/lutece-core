@@ -41,11 +41,13 @@ import org.apache.commons.beanutils.BeanUtilsBean;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.beanutils.SuppressPropertiesBeanIntrospector;
 import org.apache.commons.beanutils.converters.DateConverter;
+import org.apache.commons.beanutils.converters.SqlTimeConverter;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -82,6 +84,10 @@ public final class BeanUtil
             DateConverter dateConverter = new DateConverter( null );
             dateConverter.setPattern( I18nService.getDateFormatShortPattern( locale ) );
             beanUtilsBean.getConvertUtils( ).register( dateConverter, Date.class );
+            
+            SqlTimeConverter sqlTimeConverter = new SqlTimeConverter( null );
+            beanUtilsBean.getConvertUtils( ).register( sqlTimeConverter, Timestamp.class );
+            
             _mapBeanUtilsBeans.put( locale.getLanguage( ), beanUtilsBean );
         }
     }
