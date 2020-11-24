@@ -32,3 +32,6 @@ body#tinymce{padding-top:0;}
 .admin_column_outline > div:empty {
 	height: 100px;
 }
+
+/* For portlet admin buttons */
+.d-none{display:none;}

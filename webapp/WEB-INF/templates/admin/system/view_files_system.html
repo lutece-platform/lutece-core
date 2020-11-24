@@ -2,11 +2,11 @@
 	<@columns>
 		<@box color='danger'>
 			<#assign path>
-				<@aButton href='jsp/admin/system/ManageFilesSystem.jsp'  title='${files_system_directory}' />
+				<@aButton href='jsp/admin/system/ManageFilesSystem.jsp' title='${files_system_directory}' color='primary' />
 			</#assign>
             <@boxHeader title='#i18n{portal.system.view_files_system.boxTitle} ${path}' />
 			<@boxBody>
-				<@table class="table table-hover table-condensed">
+				<@table>
 				<tr>
 					<th>#i18n{portal.system.view_files_system.labelName}</th>
 					<th>#i18n{portal.system.view_files_system.labelDate}</th>
@@ -19,7 +19,7 @@
 					<td>${file.date?datetime?string.medium_short}</td>
 					<td>${file.size} Ko</td>
 					<td>
-						<@aButton href='jsp/admin/system/ViewFile.jsp?directory=${file.directory}&amp;file=${file.name}' buttonIcon='eye' title='#i18n{portal.system.view_files_system.Display} ${file.name}' hideTitle=['all'] />
+						<@aButton href='jsp/admin/system/ViewFile.jsp?directory=${file.directory}&amp;file=${file.name}' buttonIcon='eye' title='#i18n{portal.system.view_files_system.Display} ${file.name}' hideTitle=['all'] size='sm' />
 					</td>
 				</tr>	
 				</#list>			
