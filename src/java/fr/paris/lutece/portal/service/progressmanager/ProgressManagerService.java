@@ -276,4 +276,24 @@ public final class ProgressManagerService
 
         return null;
     }
+
+    /**
+     * update feed total item number
+     *
+     * @param strFeedToken
+     * @param nTotalItems
+     * @return true if the feed exists
+     */
+    public boolean initFeed( String strFeedToken, int nTotalItems )
+    {
+        if ( _progressFeeds.get( strFeedToken ) != null )
+        {
+            _progressFeeds.get( strFeedToken ).setNbItemTotal( nTotalItems );
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 }
