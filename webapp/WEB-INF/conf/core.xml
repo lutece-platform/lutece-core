@@ -224,5 +224,14 @@
     <admin-javascript-files>
         <!-- Default core Admin CSS declaration moved in commons.html @coreAdminJSLinks macro -->
     </admin-javascript-files>
+    
+    <!-- servlets -->
+    <servlets>
+        <servlet>
+            <servlet-name>progressManagerServlet</servlet-name>
+            <url-pattern>/servlet/plugins/core/progressManager/progressFeed</url-pattern>
+            <servlet-class>fr.paris.lutece.portal.web.progressmanager.ProgressManagerServlet</servlet-class>
+        </servlet>
+    </servlets>
 
 </plug-in>

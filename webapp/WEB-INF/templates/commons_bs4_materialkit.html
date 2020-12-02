@@ -33,6 +33,7 @@
 <script data-jscorelib="jquery.sharrre" src="js/admin/style/bootstrap4/material-kit/jquery.sharrre.js"></script> 
 <script data-jscorelib="material-kit" src="js/admin/style/bootstrap4/material-kit/material-kit.min.js"></script> 
 <script data-jscorelib="material-kit-forms" src="js/admin/style/bootstrap4/material-kit/material-kit-forms.js"></script> 
+<script data-jscorelib="progress-manager" src="js/util/progress-manager.js"></script> <!-- provided by core -->
 <script data-jscorelib="admin" src="js/admin/admin.js"></script> <!-- provided by core -->
 </#macro>
 
@@ -833,12 +834,22 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 </#if>
 </#macro>
 
-<#macro progress color='primary' id='' params='' value=0 min=0 max=100 text=''>
+<#-- Progress macro
+    token : the progress manager Feed Token
+    interval : refresh period in milli seconds (if the feed token is provided) 
+    showReport : display the messages report (if the feed token is provided) -->
+<#macro progress color='primary' id='' params='' value=0 min=0 max=100 text='' progressId='progressbar' token='' label='' showReport=false intervalTime=2000 >
+<#if label!='' >
+<div id="${progressId}-label" >${label}</div>
+</#if>
 <div class="progress"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
-	<div id="progressbar" class="progress-bar bg-${color}" role="progressbar" style="width: ${value}%;" aria-valuenow="${value}" aria-valuemin="${min}" aria-valuemax="${max}">
+	<div id="${progressId}" class="progress-bar progress-bar-${color}<#if token!=''> progressmanager</#if>" role="progressbar" style="width: ${value}%;" aria-valuenow="${value}" aria-valuemin="${min}" aria-valuemax="${max}" <#if token!=''>token="${token}" intervalTime=${intervalTime} showReport=${showReport?c}</#if> >
         <#if text=''>${value}%<#else>${text}</#if>
-	</div>
+	</div>       
 </div>
+<#if showReport >
+<div id="${progressId}-report" class="progress-bar-report" lastline=0></div>
+</#if>
 </#macro>
 
 

@@ -62,8 +62,11 @@ import org.apache.lucene.util.Version;
 import fr.paris.lutece.portal.business.indexeraction.IndexerAction;
 import fr.paris.lutece.portal.business.indexeraction.IndexerActionFilter;
 import fr.paris.lutece.portal.business.indexeraction.IndexerActionHome;
+import fr.paris.lutece.portal.service.daemon.AppDaemonService;
+import fr.paris.lutece.portal.service.daemon.DaemonEntry;
 import fr.paris.lutece.portal.service.init.LuteceInitException;
 import fr.paris.lutece.portal.service.message.SiteMessageException;
+import fr.paris.lutece.portal.service.progressmanager.ProgressManagerService;
 import fr.paris.lutece.portal.service.util.AppLogService;
 import fr.paris.lutece.portal.service.util.AppPathService;
 import fr.paris.lutece.portal.service.util.AppPropertiesService;
@@ -85,8 +88,11 @@ public final class IndexationService
     private static Analyzer _analyzer;
     private static Map<String, SearchIndexer> _mapIndexers = new ConcurrentHashMap<>( );
     private static IndexWriter _writer;
-    private static StringBuilder _sbLogs;
     private static SearchIndexerComparator _comparator = new SearchIndexerComparator( );
+    private static final String INDEXING_FEED = "indexing_feed";
+    private static final String INDEXER_DAEMON_ID = "indexer";
+    private static String _strFeedToken;
+    private static ProgressManagerService _progressManagerService = ProgressManagerService.getInstance( );
 
     /**
      * The private constructor
@@ -173,7 +179,7 @@ public final class IndexationService
     }
 
     /**
-     * Process the indexing
+     * Process the indexing 
      *
      * @param bCreate
      *            Force creating the index
@@ -181,14 +187,26 @@ public final class IndexationService
      */
     public static synchronized String processIndexing( boolean bCreate )
     {
-        _sbLogs = new StringBuilder( );
-
+        return processIndexing( bCreate, true );
+    }
+    
+    /**
+     * Process the indexing
+     *
+     * @param bCreateIndex
+     *            Force creating the index
+     * @param isFromDaemon
+     *            indexing action called by daemon
+     * @return the token of progress feed, or the result log of the indexing
+     */
+    public static synchronized String processIndexing( boolean bCreateIndex, boolean isFromDaemon )
+    {
+        
         _writer = null;
 
-        boolean bCreateIndex = bCreate;
-
         Directory dir = null;
-
+        String strResult="";
+        
         try
         {
             dir = IndexationService.getDirectoryIndex( );
@@ -198,7 +216,6 @@ public final class IndexationService
                 bCreateIndex = true;
             }
 
-            Date start = new Date( );
             IndexWriterConfig conf = new IndexWriterConfig( _analyzer );
 
             if ( bCreateIndex )
@@ -214,83 +231,120 @@ public final class IndexationService
 
             if ( bCreateIndex )
             {
-                processFullIndexing( );
+                strResult = processFullIndexing( isFromDaemon );
+                if ( !isFromDaemon )
+                {
+                    _strFeedToken = strResult;
+                }
             }
             else
             {
-                processIncrementalIndexing( );
+                strResult = processIncrementalIndexing( isFromDaemon );
+                if ( !isFromDaemon )
+                {
+                    _strFeedToken = strResult;
+                }
             }
 
-            Date end = new Date( );
-            _sbLogs.append( "Duration of the treatment : " );
-            _sbLogs.append( end.getTime( ) - start.getTime( ) );
-            _sbLogs.append( " milliseconds\r\n" );
+            
         }
         catch( Exception e )
         {
-            error( "Indexing error ", e, "" );
-        }
-        finally
-        {
-            try
+            error( "Indexing error ", e, "" , isFromDaemon);
+            if (isFromDaemon) 
             {
-                if ( _writer != null )
-                {
-                    _writer.close( );
-                }
-            }
-            catch( IOException e )
-            {
-                AppLogService.error( e.getMessage( ), e );
-            }
-
-            try
-            {
-                if ( dir != null )
-                {
-                    dir.close( );
-                }
-            }
-            catch( IOException e )
-            {
-                AppLogService.error( e.getMessage( ), e );
+                strResult = "Indexing error : " + e.getLocalizedMessage( );
             }
         }
-
-        return _sbLogs.toString( );
+        
+        return strResult;
     }
 
     /**
      * Process all contents
      */
-    private static void processFullIndexing( )
+    private static String processFullIndexing( boolean isFromDaemon )
     {
-        _sbLogs.append( "\r\nIndexing all contents ...\r\n" );
-
-        for ( SearchIndexer indexer : getIndexerListSortedByName( ) )
+        Date start = new Date( );
+        String strResult;
+        
+        if ( !isFromDaemon )
         {
-            // catch any exception coming from an indexer to prevent global indexation to fail
-            try
-            {
-                if ( indexer.isEnable( ) )
-                {
-                    _sbLogs.append( "\r\n<strong>Indexer : " );
-                    _sbLogs.append( indexer.getName( ) );
-                    _sbLogs.append( " - " );
-                    _sbLogs.append( indexer.getDescription( ) );
-                    _sbLogs.append( "</strong>\r\n" );
-
-                    // the indexer will call write(doc)
-                    indexer.indexDocuments( );
-                }
-            }
-            catch( Exception e )
-            {
-                error( indexer, e, StringUtils.EMPTY );
-            }
+            _strFeedToken = _progressManagerService.registerFeed( INDEXING_FEED, getIndexerListSortedByName( ).size( ) );
+            strResult = _strFeedToken;
         }
+        else
+        {
+            StringBuilder sbLogs = new StringBuilder();
+            sbLogs.append( "Treatment running, started at : " );
+            sbLogs.append( start.toString( ) );            
+            strResult = sbLogs.toString( );
+        }
+        
+        Runnable task = ( ) ->
+        {
+            for ( SearchIndexer indexer : getIndexerListSortedByName( ) )
+            {
+                // catch any exception coming from an indexer to prevent global indexation to fail
+                try
+                {
+                    if ( indexer.isEnable( ) )
+                    {
+                        if ( !isFromDaemon )
+                        {
+                            StringBuilder sbLogs =  new StringBuilder( );
 
-        removeAllIndexerAction( );
+                            sbLogs.append( "\r\n<strong>Start Indexer : " ).append( indexer.getName( ) ).append( " - " );
+                            sbLogs.append( indexer.getDescription( ) ).append( "</strong>\r\n" );
+
+                            _progressManagerService.addReport( _strFeedToken, sbLogs.toString( ) );
+                        }
+                               
+                        // the indexer will call write(doc)
+                        indexer.indexDocuments( );
+                        
+                        if ( !isFromDaemon )
+                        {
+                            StringBuilder sbLogs =  new StringBuilder( );
+                            sbLogs.append( "\r\n<strong>End of Indexing." );
+                            _progressManagerService.addReport( _strFeedToken, sbLogs.toString( ) );
+                            _progressManagerService.incrementSuccess( _strFeedToken, 1 );
+                        }
+                    }
+                }
+                catch( Exception e )
+                {
+                    error( indexer.getName( ), e, StringUtils.EMPTY , isFromDaemon );
+                    closeWriter( );
+                    removeAllIndexerAction( );
+                }
+                
+            }
+
+            StringBuilder sbLogs = new StringBuilder();
+            Date end = new Date( );
+            sbLogs.append( "Duration of the treatment : " );
+            sbLogs.append( end.getTime( ) - start.getTime( ) );
+            sbLogs.append( " milliseconds\r\n" );
+                
+            if ( isFromDaemon )
+            {
+                setDaemonLastRunLog( sbLogs.toString( ) );
+            }
+            else
+            {
+                _progressManagerService.addReport(_strFeedToken, sbLogs.toString( ) );
+            }
+
+            removeAllIndexerAction( );
+            closeWriter( );        
+        };
+
+        Thread thread = new Thread(task);
+        thread.start();
+
+        return strResult ;
+
     }
 
     /**
@@ -305,29 +359,84 @@ public final class IndexationService
      * @throws SiteMessageException
      *             if an error occurs
      */
-    private static void processIncrementalIndexing( ) throws IOException, InterruptedException, SiteMessageException
+    private static String processIncrementalIndexing( boolean isFromDaemon ) throws IOException, InterruptedException, SiteMessageException
     {
-        _sbLogs.append( "\r\nIncremental Indexing ...\r\n" );
+        logMsg( "Start Incremental Indexing ...\r\n" );
+        String strResult;
+        
+        Date start = new Date( );
 
-        // incremental indexing
-        Collection<IndexerAction> actions = IndexerActionHome.getList( );
-
-        for ( IndexerAction action : actions )
+        if ( !isFromDaemon )
         {
-            // catch any exception coming from an indexer to prevent global indexation to fail
-            try
-            {
-                processIndexAction( action );
-            }
-            catch( Exception e )
-            {
-                error( action, e, StringUtils.EMPTY );
-            }
+            _strFeedToken = _progressManagerService.registerFeed( INDEXING_FEED, IndexerActionHome.getList( ).size() +1 );
+            strResult = _strFeedToken;
         }
+        else
+        {
+            StringBuilder sbLogs = new StringBuilder();
+            sbLogs.append( "Treatment running, started at : " );
+            sbLogs.append( start.toString( ) );            
+            strResult = sbLogs.toString( );
+        }
+        
+        Runnable task;
+        task = ( ) ->
+        {
+        
+            // incremental indexing
+            Collection<IndexerAction> actions = IndexerActionHome.getList( );
 
-        // reindexing all pages.
-        _writer.deleteDocuments( new Term( SearchItem.FIELD_TYPE, PARAM_TYPE_PAGE ) );
-        _mapIndexers.get( PageIndexer.INDEXER_NAME ).indexDocuments( );
+            for ( IndexerAction action : actions )
+            {
+                // catch any exception coming from an indexer to prevent global indexation to fail
+                try
+                {
+                    processIndexAction( action );
+                    if ( !isFromDaemon  )
+                    {
+                        _progressManagerService.incrementSuccess( _strFeedToken, 1);
+                    }
+
+                }
+                catch( Exception e )
+                {
+                    error( action, e, StringUtils.EMPTY, isFromDaemon );
+                }
+            }
+
+            try {
+                // reindexing all pages.
+                _writer.deleteDocuments( new Term( SearchItem.FIELD_TYPE, PARAM_TYPE_PAGE ) );
+                _mapIndexers.get( PageIndexer.INDEXER_NAME ).indexDocuments( );
+                
+                _progressManagerService.incrementSuccess( _strFeedToken, 1);
+            } catch (IOException | InterruptedException | SiteMessageException ex) {
+                error( "Incremental Indexing Pages", ex, StringUtils.EMPTY, isFromDaemon );
+            }
+            
+            StringBuilder sbLogs = new StringBuilder();
+            Date end = new Date( );
+            sbLogs.append( "Duration of the treatment : " );
+            sbLogs.append( end.getTime( ) - start.getTime( ) );
+            sbLogs.append( " milliseconds\r\n" );
+            
+            if ( isFromDaemon )
+            {
+                setDaemonLastRunLog( sbLogs.toString( ) );
+            }
+            else
+            {
+                _progressManagerService.addReport(_strFeedToken, sbLogs.toString( ) );
+            }
+            
+            closeWriter( );
+            
+        };
+
+        Thread thread = new Thread(task);
+        thread.start();
+
+        return strResult;
     }
     
     private static void processIndexAction( IndexerAction action ) throws IOException, InterruptedException, SiteMessageException
@@ -382,7 +491,7 @@ public final class IndexationService
             _writer.deleteDocuments( new Term( SearchItem.FIELD_UID, action.getIdDocument( ) ) );
         }
 
-        _sbLogs.append( "Deleting #" ).append( action.getIdDocument( ) ).append( "\r\n" );
+        logMsg( "Deleting #" + action.getIdDocument( ) );
     }
 
     /**
@@ -447,15 +556,31 @@ public final class IndexationService
      */
     private static void logDoc( String strAction, Document doc )
     {
-        _sbLogs.append( strAction );
-        _sbLogs.append( doc.get( SearchItem.FIELD_TYPE ) );
-        _sbLogs.append( " #" );
-        _sbLogs.append( doc.get( SearchItem.FIELD_UID ) );
-        _sbLogs.append( " - " );
-        _sbLogs.append( doc.get( SearchItem.FIELD_TITLE ) );
-        _sbLogs.append( "\r\n" );
+        StringBuilder sbLogs = new StringBuilder();
+        
+        sbLogs.append( strAction );
+        sbLogs.append( doc.get( SearchItem.FIELD_TYPE ) );
+        sbLogs.append( " #" );
+        sbLogs.append( doc.get( SearchItem.FIELD_UID ) );
+        sbLogs.append( " - " );
+        sbLogs.append( doc.get( SearchItem.FIELD_TITLE ) );
+        
+        logMsg( sbLogs.toString( ) );
     }
 
+        /**
+     * Log an action made on a document
+     * 
+     * @param strAction
+     *            The action
+     * @param doc
+     *            The document
+     */
+    private static void logMsg( String strMsg )
+    {        
+        _progressManagerService.addReport(_strFeedToken, strMsg );
+    }
+    
     /**
      * Log the error for the search indexer.
      *
@@ -469,7 +594,7 @@ public final class IndexationService
     public static void error( SearchIndexer indexer, Exception e, String strMessage )
     {
         String strTitle = "Indexer : " + indexer.getName( );
-        error( strTitle, e, strMessage );
+        error( strTitle, e, strMessage, false );
     }
 
     /**
@@ -482,11 +607,27 @@ public final class IndexationService
      * @param strMessage
      *            the str message
      */
-    public static void error( IndexerAction action, Exception e, String strMessage )
+    public static void error( IndexerAction action, Exception e, String strMessage  )
+    {
+        error( action, e, strMessage, false );
+    }
+            
+    /**
+     * Log the error for the indexer action.
+     *
+     * @param action
+     *            the {@link IndexerAction}
+     * @param e
+     *            the exception
+     * @param strMessage
+     *            the str message
+     * @param isFromDaemon
+     */
+    public static void error( IndexerAction action, Exception e, String strMessage,  boolean isFromDaemon  )
     {
         String strTitle = "Action from indexer : " + action.getIndexerName( );
         strTitle += ( " Action ID : " + action.getIdAction( ) + " - Document ID : " + action.getIdDocument( ) );
-        error( strTitle, e, strMessage );
+        error( strTitle, e, strMessage, isFromDaemon );
     }
 
     /**
@@ -499,25 +640,41 @@ public final class IndexationService
      * @param strMessage
      *            The message
      */
-    private static void error( String strTitle, Exception e, String strMessage )
+    private static void error( String strTitle, Exception e, String strMessage, boolean isFromDaemon )
     {
-        _sbLogs.append( "<strong class=\"alert\">" );
-        _sbLogs.append( strTitle );
-        _sbLogs.append( " - ERROR : " );
-        _sbLogs.append( e.getMessage( ) );
+        StringBuilder sbLogs = new StringBuilder();
+        
+        sbLogs.append( "<strong style=\"color:red\">" );
+        sbLogs.append( strTitle );
+        sbLogs.append( " - ERROR : " );
+        sbLogs.append( e.getMessage( ) );
 
         if ( e.getCause( ) != null )
         {
-            _sbLogs.append( " : " );
-            _sbLogs.append( e.getCause( ).getMessage( ) );
+            sbLogs.append( " : " );
+            sbLogs.append( e.getCause( ).getMessage( ) );
         }
 
         if ( StringUtils.isNotBlank( strMessage ) )
         {
-            _sbLogs.append( " - " ).append( strMessage );
+            sbLogs.append( " - " ).append( strMessage );
         }
 
-        _sbLogs.append( "</strong>\r\n" );
+        sbLogs.append( "</strong>\r\n" );
+        
+        if ( isFromDaemon )
+        {
+            setDaemonLastRunLog( sbLogs.toString( ) );
+        } 
+        else
+        {
+            if (_progressManagerService.isRegistred(_strFeedToken ) )
+            {
+                _progressManagerService.addReport(_strFeedToken, sbLogs.toString( ) );
+                _progressManagerService.incrementFailure( _strFeedToken, 1);
+            }
+        }
+        
         AppLogService.error( "Indexing error : " + e.getMessage( ), e );
     }
 
@@ -654,5 +811,37 @@ public final class IndexationService
         {
             return si1.getName( ).compareToIgnoreCase( si2.getName( ) );
         }
+    }
+    
+    private static void closeWriter( )
+    {
+
+            try
+            {
+                if ( _writer != null )
+                {
+                    _writer.close( );
+                }
+            }
+            catch( IOException e )
+            {
+                AppLogService.error( e.getMessage( ), e );
+            }
+    }
+    
+    /**
+     * set Daemon entry Last Run Log
+     * @param strLog 
+     */
+    private static void setDaemonLastRunLog( String strLog )
+    {
+        Collection<DaemonEntry> daemonEntries = AppDaemonService.getDaemonEntries( );
+                for ( DaemonEntry daemonEntry : daemonEntries )
+                {
+                    if (daemonEntry.getId( ).equals( INDEXER_DAEMON_ID ) )
+                    {
+                        daemonEntry.setLastRunLogs( strLog );
+                    }
+                }
     }
 }

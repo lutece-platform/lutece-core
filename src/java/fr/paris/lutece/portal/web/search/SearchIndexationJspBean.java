@@ -39,7 +39,6 @@ import fr.paris.lutece.portal.service.search.SearchIndexer;
 import fr.paris.lutece.portal.service.security.SecurityTokenService;
 import fr.paris.lutece.portal.service.template.AppTemplateService;
 import fr.paris.lutece.portal.web.admin.AdminFeaturesPageJspBean;
-import fr.paris.lutece.portal.web.dashboard.AdminDashboardJspBean;
 import fr.paris.lutece.util.html.HtmlTemplate;
 
 import java.util.Collection;
@@ -61,8 +60,8 @@ public class SearchIndexationJspBean extends AdminFeaturesPageJspBean
     private static final long serialVersionUID = 2585709013740037568L;
     private static final String TEMPLATE_MANAGE_INDEXER = "admin/search/manage_search_indexation.html";
     private static final String TEMPLATE_INDEXER_LOGS = "admin/search/search_indexation_logs.html";
-    private static final String MARK_LOGS = "logs";
     private static final String MARK_INDEXERS_LIST = "indexers_list";
+    private static final String MARK_FEED_TOKEN = "feed_token" ;
 
     /**
      * Displays the indexing parameters
@@ -99,18 +98,24 @@ public class SearchIndexationJspBean extends AdminFeaturesPageJspBean
             throw new AccessDeniedException( ERROR_INVALID_TOKEN );
         }
         HashMap<String, Object> model = new HashMap<>( );
-        String strLogs;
+        
+        Collection<SearchIndexer> listIndexers = IndexationService.getIndexers( );
+        model.put( MARK_INDEXERS_LIST, listIndexers );
+        
+        String strFeedToken ;
 
         if ( request.getParameter( "incremental" ) != null )
         {
-            strLogs = IndexationService.processIndexing( false );
+            strFeedToken = IndexationService.processIndexing( false, false );
         }
         else
         {
-            strLogs = IndexationService.processIndexing( true );
+            strFeedToken = IndexationService.processIndexing( true, false );
         }
 
-        model.put( MARK_LOGS, strLogs );
+        
+
+        model.put( MARK_FEED_TOKEN, strFeedToken );
 
         HtmlTemplate template = AppTemplateService.getTemplate( TEMPLATE_INDEXER_LOGS, null, model );
 

@@ -25,6 +25,7 @@
 <#macro coreAdminJSLinks>
 <script src="js/admin/style/bulma/bulma-accordion.min.js"></script> <!-- provided by core -->
 <script src="js/admin/jquery/jquery-ui.min.js"></script> <!-- provided by core -->
+<script src="js/util/progress-manager.js"></script> <!-- provided by core -->
 <script src="js/admin/admin.js"></script> <!-- provided by core -->
 </#macro>
 
@@ -1119,11 +1120,21 @@ and is kept only for backwards compatibility
 </#if>
 </#macro>
 
-
-<#macro progress  color='primary' id='' params='' value=0 min=0 max=100 text=''>
-    <progress class="progress is-${color}" value="${value}" max="${max}"><#if text=''>${value}%<#else>${text}</#if></progress>
+<#-- Progress macro
+    token : the progress manager Feed Token
+    interval : refresh period in milli seconds (if the feed token is provided) 
+    showReport : display the messages report (if the feed token is provided) -->
+<#macro progress color='primary' id='' params='' value=0 min=0 max=100 text='' progressId='progressbar' token='' label='' showReport=false intervalTime=2000 >
+<#if label!='' >
+<div id="${progressId}-label" >${label}</div>
+</#if>
+<div class="progress"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+    <progress id="${progressId}" max="${max}" value="${value}" class="progress is-${color}<#if token!=''> progressmanager</#if>" <#if token!=''>token="${token}" intervalTime=${intervalTime} showReport=${showReport?c}</#if> ><#if text=''>${value}%<#else>${text}</#if></progress>
+</div>
+<#if showReport >
+<div id="${progressId}-report" class="progress-bar-report" lastline=0></div>
+</#if>
 </#macro>
-
 
 <#-- TAG -->
 <#-- color: default/primary/success/info/warning/danger/ -->
