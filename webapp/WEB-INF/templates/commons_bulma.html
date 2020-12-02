@@ -249,14 +249,14 @@
 		<a href="${(paginator.pagesLinks?first).url?xhtml}"><strong>...</strong></a>
 	</li>
 </#if>
-<#list paginator.pagesLinks as link>
-	<#if ( link.index == paginator.pageCurrent )>
+<#list paginator.pagesLinks as pageLink>
+	<#if ( pageLink.index == paginator.pageCurrent )>
 		<li class="active">
-			<a href="${link.url?xhtml}">${link.name}</a>
+			<@link href='${pageLink.url?xhtml}'>${pageLink.name}</@link>
 		</li>
 	<#else>
 		<li>
-			<a href="${link.url?xhtml}">${link.name}</a>
+			<@link href='${pageLink.url?xhtml}'>${pageLink.name}</@link>
 		</li>
 	</#if>
 </#list>
@@ -783,7 +783,7 @@ and is kept only for backwards compatibility
 <#else>
 	<#local prefix = 'fa ' + prefix />
 </#if>
-	<i class="${prefix}${style}<#if class!=''> ${class}</#if>" aria-hidden="true"<#if title!=''> title='${title}'</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>></i>
+	<i class="${prefix}${style} fa-fw<#if class!=''> ${class}</#if>" aria-hidden="true"<#if title!=''> title='${title}'</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>></i>
 </#macro>
 
 <#-- ICONSTACK 																					-->

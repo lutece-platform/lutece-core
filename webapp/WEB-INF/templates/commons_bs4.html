@@ -134,14 +134,14 @@
 		<@link href='${(paginator.pagesLinks?first).url?xhtml}'><strong>...</strong></@link>
 	</li>
 </#if>
-<#list paginator.pagesLinks as link>
-	<#if ( link.index == paginator.pageCurrent )>
+<#list paginator.pagesLinks as pageLink>
+	<#if ( pageLink.index == paginator.pageCurrent )>
 		<li class="active">
-			<@link href='${link.url?xhtml}'>${link.name}</@link>
+			<@link href='${pageLink.url?xhtml}'>${pageLink.name}</@link>
 		</li>
 	<#else>
 		<li>
-			<@link href='${link.url?xhtml}'>${link.name}</@link>
+			<@link href='${pageLink.url?xhtml}'>${pageLink.name}</@link>
 		</li>
 	</#if>
 </#list>
@@ -358,7 +358,7 @@
 	<#default>
 	<#local iconStyle = style />
 </#switch>
-	<i class="${prefix}${iconStyle}<#if class!=''> ${class}</#if>" aria-hidden="true"<#if title!=''> title='${title}'</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>></i>
+	<i class="${prefix}${iconStyle} fa-fw<#if class!=''> ${class}</#if>" aria-hidden="true"<#if title!=''> title='${title}'</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>></i>
 </#macro>
 
 <#-- ICONSTACK 																					-->

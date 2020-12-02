@@ -17,7 +17,7 @@
 <link href="css/admin/jquery-ui.min.css"  rel="stylesheet" > <!-- provided by core -->
 <link href="css/admin/jquery-ui.structure.min.css"  rel="stylesheet" > <!-- provided by core -->
 <link href="css/admin/jquery-ui.theme.min.css"  rel="stylesheet" > <!-- provided by core -->
-<link href="css/admin/font-awesome.min.css"  rel="stylesheet" > <!-- provided by core -->
+<link href="css/admin/style/bootstrap4/all.min.css" rel="stylesheet"> <!-- Font-Awesome 5.8.1, provided by core -->
 <link href="css/admin/ionicons.min.css"  rel="stylesheet" > <!-- provided by core -->
 <link href="css/admin/bootstrap-clockpicker.css"  rel="stylesheet" > <!-- provided by core -->
 <link href="css/admin/AdminLTE.css"  rel="stylesheet" > <!-- provided by core -->
@@ -225,59 +225,59 @@
 <ul class="pagination pagination-sm">
 <#if ( paginator.pageCurrent - offsetPrev > 1 )>
 	<li>
-		<a href="${paginator.firstPageLink?xhtml}">
+		<@link href='${paginator.firstPageLink?xhtml}'>
 			${paginator.labelFirst}
-		</a>
+		</@link>
 	</li>
 </#if>
 <#if (paginator.pageCurrent > 1) >
 	<li class="previous">
-		<a href="${paginator.previousPageLink?xhtml}">
+		<@link href='${paginator.previousPageLink?xhtml}'>
 			${paginator.labelPrevious}
-		</a>
+		</@link>
 	</li>
 <#else>
 	<li class="disabled">
-		<a href="${paginator.firstPageLink?xhtml}">${paginator.labelPrevious}</a>
+		<@link href='${paginator.firstPageLink?xhtml}'>${paginator.labelPrevious}</@link>
 	</li>
 </#if>
 <#if ( paginator.pageCurrent - offsetPrev > 1 )>
 	<li>
-		<a href="${(paginator.pagesLinks?first).url?xhtml}"><strong>...</strong></a>
+		<@link href='${(paginator.pagesLinks?first).url?xhtml}'><strong>...</strong></@link>
 	</li>
 </#if>
-<#list paginator.pagesLinks as link>
-	<#if ( link.index == paginator.pageCurrent )>
+<#list paginator.pagesLinks as pageLink>
+	<#if ( pageLink.index == paginator.pageCurrent )>
 		<li class="active">
-			<a href="${link.url?xhtml}">${link.name}</a>
+			<@link href='${pageLink.url?xhtml}'>${pageLink.name}</@link>
 		</li>
 	<#else>
 		<li>
-			<a href="${link.url?xhtml}">${link.name}</a>
+			<@link href='${pageLink.url?xhtml}'>${pageLink.name}</@link>
 		</li>
 	</#if>
 </#list>
 <#if ( paginator.pageCurrent + offsetNext < paginator.pagesCount )>
 	<li>
-		<a href="${(paginator.pagesLinks?last).url?xhtml}"><strong>...</strong></a>
+		<@link href='${(paginator.pagesLinks?last).url?xhtml}'><strong>...</strong></@link>
 	</li>
 </#if>
 <#if (paginator.pageCurrent < paginator.pagesCount) >
 	<li class="next">
-		<a href="${paginator.nextPageLink?xhtml}">
+		<@link href='${paginator.nextPageLink?xhtml}'>
 			${paginator.labelNext}
-		</a>
+		</@link>
 	</li>
 	<#if ( paginator.pageCurrent + offsetNext < paginator.pagesCount )>
 		<li class="next">
-			<a href="${paginator.lastPageLink?xhtml}">
+			<@link href='${paginator.lastPageLink?xhtml}'>
 				${paginator.labelLast}
-			</a>
+			</@link>
 		</li>
 	</#if>
 <#else>
 	<li class="disabled">
-		<a href="${paginator.lastPageLink?xhtml}">${paginator.labelNext}</a>
+		<@link href='${paginator.lastPageLink?xhtml}'>${paginator.labelNext}</@link>
 	</li>
 </#if>
 </ul>
@@ -302,7 +302,7 @@
 	</select>
 	<span class="input-group-btn">
 		<button class="btn btn-default btn-xs" type="submit" title="#i18n{portal.util.labelRefresh}">
-			<i class="fa fa-repeat"></i>
+			<i class="fa fa-sync"></i>
 		</button>
 	</span>
 </div>
@@ -760,46 +760,34 @@ and is kept only for backwards compatibility
 </#macro>
 
 <#-- ICONS -->
-<#-- Icons from FontAwesome 4.7.0 -->
+<#-- Icons from FontAwesome 5.8.1 -->
 <#macro icon prefix='fa fa-' style='' class='' title='' id='' params=''>
 	<#switch style>
-		<#case 'comment'>
-			<#local iconStyle = 'comment-o' />
-		<#break>
-		<#case 'clock'>
-			<#local iconStyle = 'clock-o' />
-		<#break>
-		<#case 'dot-circle'>
-			<#local iconStyle = 'dot-circle-o' />
-		<#break>
-		<#case 'edit'>
-			<#local iconStyle = 'pencil' />
-		<#break>
-		<#case 'file-alt'>
-			<#local iconStyle = 'file' />
-		<#break>
-		<#case 'file-import'>
-			<#local iconStyle = 'download' />
-		<#break>
-		<#case 'sign-in-alt'>
-			<#local iconStyle = 'sign-in' />
-		<#break>
-		<#case 'sync'>
-			<#local iconStyle = 'refresh' />
-		<#break>
-		<#case 'times'>
-			<#local iconStyle = 'close' />
-		<#break>
-		<#case 'user-check'>
-			<#local iconStyle = 'user-plus' />
-		<#break>
-		<#case 'user-tag'>
-			<#local iconStyle = 'tags' />
-		<#break>
-		<#default>
-		<#local iconStyle = style />
-	</#switch>
-  <i class="${prefix}${iconStyle}<#if class!=''> ${class}</#if>" aria-hidden="true"<#if title!=''> title='${title}'</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>></i>
+	<#case 'arrows'>
+		<#local iconStyle = 'arrows-alt' />
+	<#break>
+	<#case 'arrows-h'>
+		<#local iconStyle = 'arrows-alt-h' />
+	<#break>
+	<#case 'arrows-v'>
+		<#local iconStyle = 'arrows-alt-v' />
+	<#break>
+	<#case 'clock-o'>
+		<#local iconStyle = 'clock' />
+	<#break>
+	<#case 'close'>
+		<#local iconStyle = 'times' />
+	<#break>
+	<#case 'pencil'>
+		<#local iconStyle = 'edit' />
+	<#break>
+	<#case 'refresh'>
+		<#local iconStyle = 'sync' />
+	<#break>
+	<#default>
+	<#local iconStyle = style />
+</#switch>
+  <i class="${prefix}${iconStyle} fa-fw<#if class!=''> ${class}</#if>" aria-hidden="true"<#if title!=''> title='${title}'</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>></i>
 </#macro>
 
 <#-- ICONSTACK 																					-->
@@ -1304,7 +1292,7 @@ and is kept only for backwards compatibility
 	
 	<button class="<#if style!='close'>btn</#if><#if size!=''> btn-${size}</#if><#if buttonColor!=''> btn-${buttonColor}</#if><#if btnStyle!=''> ${btnStyle}</#if><#if dropdownMenu> dropdown-toggle</#if><#if class!=''> ${class}</#if>" type="${type}"<#if title!=''> title="${title}"</#if><#if name!=''> name="${name}"</#if><#if id!=''> id="${id}"</#if><#if value!=''> value="${value}"</#if><#if params!=''> ${params}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if><#if widgetAction?? && widgetAction!=''><#if widgetAction = 'collapse'> data-toggle="${widgetAction}"<#elseif widgetAction = 'remove'> data-dismiss="alert"</#if></#if><#if buttonTargetId!=''> data-target="${buttonTargetId}"</#if><#if cancel> formnovalidate</#if><#if formId!=''> form="${formId}"</#if>>
 		<#if buttonIcon!='' && iconPosition='left'><@icon style=buttonIcon /></#if>
-		<#if displayTitleClass!='' && !style?contains('card-control')><span class="${displayTitleClass}"></#if>${title}<#if displayTitleClass!='' && !style?contains('card-control')></span></#if>
+		<#if displayTitleClass!=''><span class="${displayTitleClass}"></#if>${title}<#if displayTitleClass!=''></span></#if>
 		<#if buttonIcon!='' && iconPosition='right'><@icon style=buttonIcon /></#if>
 		<#if dropdownMenu>
 		&#160;<@icon style='caret-down' />

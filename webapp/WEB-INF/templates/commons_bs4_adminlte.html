@@ -138,14 +138,14 @@
 		<@link href='${(paginator.pagesLinks?first).url?xhtml}'><strong>...</strong></@link>
 	</li>
 </#if>
-<#list paginator.pagesLinks as link>
-	<#if ( link.index == paginator.pageCurrent )>
+<#list paginator.pagesLinks as pageLink>
+	<#if ( pageLink.index == paginator.pageCurrent )>
 		<li class="active">
-			<@link href='${link.url?xhtml}'>${link.name}</@link>
+			<@link href='${pageLink.url?xhtml}'>${pageLink.name}</@link>
 		</li>
 	<#else>
 		<li>
-			<@link href='${link.url?xhtml}'>${link.name}</@link>
+			<@link href='${pageLink.url?xhtml}'>${pageLink.name}</@link>
 		</li>
 	</#if>
 </#list>
@@ -216,7 +216,7 @@
 
 <#-- NAVIGATION -->
 <#macro item_navigation item_navigator id='item-navigator' align='' hideButtonTitle=[] buttonColor='info' buttonSize='sm'>
-<#local class = alignmentSettings(align) />
+<#local class = alignmentSettings(align,'') />
 <nav id="${id}" class="${class}">
 <#if (item_navigator.currentItemId > 0)>
 	<@aButton href='${item_navigator.previousPageLink?xhtml}' title='#i18n{portal.util.labelPrevious}' buttonIcon='arrow-left' color='${buttonColor}' hideTitle=hideButtonTitle size='${buttonSize}' />
@@ -301,7 +301,7 @@
 
 <#-- MACRO TD -->
 <#macro td id='' class='' hide=[] align='' showXs=true showSm=true showMd=true showLg=true showXl=true cols=0 xs=0 sm=0 md=0 lg=0 xl=0 flex=false params=''>
-	<#local class += ' ' + displaySettings(hide,'table-cell') + ' ' + alignmentSettings(align) />
+	<#local class += ' ' + displaySettings(hide,'table-cell') + ' ' + alignmentSettings(align,'') />
 	<#if xs &gt; 0>
 		<#local class += ' col-xs-${xs}' />
 	</#if>
@@ -376,7 +376,7 @@
 	<#default>
 	<#local iconStyle = style />
 </#switch>
-	<i class="${prefix}${iconStyle}<#if class!=''> ${class}</#if>" aria-hidden="true"<#if title!=''> title='${title}'</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>></i>
+	<i class="${prefix}${iconStyle} fa-fw<#if class!=''> ${class}</#if>" aria-hidden="true"<#if title!=''> title='${title}'</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>></i>
 </#macro>
 
 <#-- ICONSTACK 																					-->
@@ -393,7 +393,7 @@
 <#-- type: inline/horizontal/form -->
 <#macro tform type='horizontal' class='' align='' hide=[] action='' method='post' name='' id='' role='form' collapsed=false params=''>
 	<#local class = class />
-	<#if align!=''><#local class += ' ' + alignmentSettings(align) /></#if>
+	<#if align!=''><#local class += ' ' + alignmentSettings(align,'') /></#if>
 	<#if hide??><#local class += ' ' + displaySettings(hide,'block') /></#if>
 	<#if collapsed><#local class += ' collapse' /></#if>
 
@@ -607,7 +607,7 @@
 <#-- ROW -->
 <#macro row class='' id='' collapsed=false align='' params=''>
 <#if collapsed><#local class += ' ' + 'collapse' /></#if>
-<#if align!=''><#local class += ' ' + alignmentSettings(align) /></#if>
+<#if align!=''><#local class += ' ' + alignmentSettings(align,'') /></#if>
 	<div class="row<#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 		<#nested>
 	</div>
@@ -617,7 +617,7 @@
 <#-- cols = col-xs- (<544px)/col-sm- (>=544px)/col-md- (>=768px)/col-lg- (>=992px)/col-xl- (>=1200px) -->
 <#macro columns tag='div' offsetXs=0 offsetSm=0 offsetMd=0 offsetLg=0 offsetXl=0 pushXs=0 pushSm=0 pushMd=0 pushLg=0 pushXl=0 pullXs=0 pullSm=0 pullMd=0 pullLg=0 pullXl=0 xs=12 sm=0 md=0 lg=0 xl=0 id='' class='' align='' collapsed=false params=''>
 <#if collapsed><#local class += ' ' + 'collapse' /></#if>
-<#if align!=''><#local class+= ' ' + alignmentSettings(align) /></#if>
+<#if align!=''><#local class+= ' ' + alignmentSettings(align,'') /></#if>
 <#if xs=12 && sm=0 && md=0 && lg=0 && xl=0>
 <${tag} class="col<#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 <#else>
@@ -629,7 +629,7 @@
 
 <#-- LISTS -->
 <#macro ul id='' params='' class='' hide=[] collapsed=false align=''>
-	<#local class += ' ' + alignmentSettings(align) + ' ' + displaySettings(hide,'block') />
+	<#local class += ' ' + alignmentSettings(align,'') + ' ' + displaySettings(hide,'block') />
 	<#if collapsed><#local class += ' ' + 'collapse' /></#if>
 	<ul<#if class!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if><#if id!=''> ${id}</#if>>
 		<#nested>
@@ -637,7 +637,7 @@
 </#macro>
 
 <#macro li id='' params='' class='' hide=[] align=''>
-		<#local class += ' ' + alignmentSettings(align) + ' ' + displaySettings(hide,'block') />
+		<#local class += ' ' + alignmentSettings(align,'') + ' ' + displaySettings(hide,'block') />
 		<li<#if class!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if><#if id!=''> ${id}</#if>>
 			<#nested>
 		</li>
@@ -646,7 +646,7 @@
 <#-- DIV -->
 <#macro div id='' class='' hide=[] collapsed=false align='' params=''>
 	<#if collapsed><#local class += ' ' + 'collapse' /></#if>
-	<#if align!=''><#local class += ' ' + alignmentSettings(align) /></#if>
+	<#if align!=''><#local class += ' ' + alignmentSettings(align,'') /></#if>
 	<#if hide??><#local class += ' ' + displaySettings(hide,'block') /></#if>
 	<div<#if class!=''> class="${class?trim}"</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 		<#nested>
@@ -656,7 +656,7 @@
 <#-- PARAGRAPH -->
 <#macro p id='' params='' class='' hide=[] collapsed=false align=''>
 	<#if collapsed><#local class += ' ' + 'collapse' /></#if>
-	<#local class += ' ' + displaySettings(hide,'block') + ' ' + alignmentSettings(align) />
+	<#local class += ' ' + displaySettings(hide,'block') + ' ' + alignmentSettings(align,'') />
 	<p<#if class!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if><#if id!=''> ${id}</#if>>
 		<#nested>
 	</p>
@@ -665,7 +665,7 @@
 <#-- SPAN -->
 <#macro span id='' class='' hide=[] align='' params=''>
 	<#if collapsed><#local class += ' ' + 'collapse' /></#if>
-	<#local class += ' ' + alignmentSettings(align) + ' ' + displaySettings(hide,'inline-flex') />
+	<#local class += ' ' + alignmentSettings(align,'') + ' ' + displaySettings(hide,'inline-flex') />
 	<span<#if class!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if><#if id!=''> ${id}</#if>>
 		<#nested>
 	</span>
@@ -674,7 +674,7 @@
 <#-- PRE -->
 <#macro pre id='' class='' hide=[] collapsed=true align='' params=''>
 	<#if collapsed><#local class += ' ' + 'collapse' /></#if>
-	<#local class += ' ' + alignmentSettings(align) + ' ' + displaySettings(hide,'block') />
+	<#local class += ' ' + alignmentSettings(align,'') + ' ' + displaySettings(hide,'block') />
 	<pre<#if class!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if><#if id!=''> ${id}</#if>>
 		<#nested>
 	</pre>
@@ -953,7 +953,7 @@
 		<#local size = 'sm' />
 	</#if>
 	
-	<#local class += alignmentSettings(align) />
+	<#local class += alignmentSettings(align,'') />
 	
 	<#if dropdownMenu>
 		<div class="btn-group">
@@ -981,7 +981,7 @@
 
 <#-- BTN TOOLBAR -->
 <#macro btnToolbar id='' class='' align='' ariaLabel='' params=''>
-<#if align!=''><#local class += ' ' + alignmentSettings(align) /></#if>
+<#if align!=''><#local class += ' ' + alignmentSettings(align,'') /></#if>
 <div class="btn-toolbar<#if class!=''> ${class?trim}</#if>" role="toolbar"<#if ariaLabel!=''> aria-label="${ariaLabel}"</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 <style type="text/css">
 .btn-toolbar > div:not(:last-of-type) {margin-right:0.2rem;}
@@ -994,7 +994,7 @@
 <#-- size: sm/empty/lg -->
 <#-- align: left/center/right -->
 <#macro btnGroup id='' class='' align='' size='' params='' ariaLabel='' hide=[]>
-<#local class += ' ' + displaySettings(hide,'inline-flex') + ' ' + alignmentSettings(align) />
+<#local class += ' ' + displaySettings(hide,'inline-flex') + ' ' + alignmentSettings(align,'') />
 <div class="btn-group<#if size!=''> btn-group-${size}</#if> align-items-baseline<#if class!=''> ${class?trim}</#if>" role="group"<#if ariaLabel!=''> aria-label="${ariaLabel}"</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 	<#nested>
 </div>
@@ -1130,14 +1130,14 @@
 
 <#macro boxBody class='' collapsed=false align='' id='' params=''>
 <#if collapsed><#local class += ' ' + 'collapse' /></#if>
-<#if align!=''><#local class += ' ' + alignmentSettings(align) /></#if>
+<#if align!=''><#local class += ' ' + alignmentSettings(align,'') /></#if>
 <div class="card-body bg-white<#if class!=''> ${class}</#if>" <#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 	<#nested>
 </div>
 </#macro>
 
 <#macro boxFooter class='' align='' id='' params=''>
-<#if align!=''><#local class += ' ' + alignmentSettings(align) /></#if>
+<#if align!=''><#local class += ' ' + alignmentSettings(align,'') /></#if>
 <div class="card-footer<#if class!=''> ${class}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 	<#nested>
 </div>
@@ -1309,15 +1309,27 @@
 	<#return displayClass?trim>
 </#function>
 
-<#function alignmentSettings align=''>
+<#function alignmentSettings align='' style=''>
 	<#local x = ''>
 	<#if align !=''>
 		<#if align = 'left'>
-			<#local x = 'd-flex justify-content-start' />
+			<#if style = 'text'>
+				<#local x = 'text-left' />
+			<#elseif style = ''>
+				<#local x = 'd-flex justify-content-start' />
+			</#if>
 		<#elseif align = 'right'>
-			<#local x = 'd-flex justify-content-end' />
+			<#if style = 'text'>
+				<#local x = 'text-right' />
+			<#elseif style = ''>
+				<#local x = 'd-flex justify-content-end' />
+			</#if>
 		<#elseif align = 'center'>
-			<#local x = 'd-flex justify-content-center' />
+			<#if style = 'text'>
+				<#local x = 'text-center' />
+			<#elseif style = ''>
+				<#local x = 'd-flex justify-content-center' />
+			</#if>
 		</#if>
 	</#if>
 	<#return x>
