@@ -361,6 +361,12 @@
 	<#case 'close'>
 		<#local iconStyle = 'times' />
 	<#break>
+	<#case 'external-link'>
+		<#local iconStyle = 'external-link-alt' />
+	<#break>
+	<#case 'file-pdf-o'>
+		<#local iconStyle = 'file-pdf' />
+	<#break>
 	<#case 'pencil'>
 		<#local iconStyle = 'edit' />
 	<#break>
@@ -709,6 +715,11 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 	<div class="card card-nav-tabs<#if color!=''> ${color}</#if><#if class!=''> ${class?trim}</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 		<#nested>
 	</div>
+	<script>
+		if ($(".card-nav-tabs").parents('.card').length) {
+			$(".card-nav-tabs").addClass("card-plain");
+		}
+	</script>
 </#macro>
 
 <#-- Tabs List -->
@@ -718,6 +729,9 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 		<div class="card-header card-header-primary">
 			<div class="nav-tabs-navigation">
 				<div class="nav-tabs-wrapper">
+		</#if>
+		<#if vertical = true>
+
 		</#if>
 					<ul class="nav nav-${type}<#if type='pills'> nav-pills-icons</#if><#if vertical> flex-column mb-3</#if>" data-tabs="tabs" <#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if> role="tablist">
 						<#nested>
@@ -896,7 +910,7 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 <#macro button name='' id='' type='button' size='' color='' style='' class='' params='' value='' title='' tabIndex='' hideTitle=[] showTitle=true showTitleXs=true showTitleSm=true showTitleMd=true showTitleLg=true buttonIcon='' disabled=false iconPosition='left' dropdownMenu=false cancel=false formId='' buttonTargetId='' buttonNested=false>
 	<#if cancel || color = 'default' || color='btn-default' || color='btn-secondary' || color='secondary'>
 		<#local buttonColor = 'default' />
-	<#elseif !cancel && color=''>
+	<#elseif !cancel && color='' || color = 'primary'>
 		<#local buttonColor = mainColor />
 	<#else>
 		<#local buttonColor = color />
@@ -961,7 +975,7 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 	
 	<#if color = 'default' || color='btn-default' || color='btn-secondary' || color='secondary'>
 		<#local buttonColor = 'default' />
-	<#elseif color = ''>
+	<#elseif color = '' || color = 'primary'>
 		<#local buttonColor = mainColor />
 	<#else>
 		<#local buttonColor = color />
@@ -1288,7 +1302,7 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 				<#local displayClass += 'd-none' />
 				<#if breakPoint = 'xs'>
 					<#if !breakPointsOrdered?seq_contains('sm')>
-						<#local displayClass += ' d-md-${display}' />
+						<#local displayClass += ' d-sm-${display}' />
 					</#if>
 				</#if>
 			<#elseif breakPoint = 'sm' || breakPoint = 'md' || breakPoint = 'lg' || breakPoint = 'xl'>
@@ -1306,10 +1320,12 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 						<#local displayClass += ' d-lg-${display}' />
 					</#if>
 				<#elseif breakPoint = 'lg'>
-					<#if !breakPointsOrdered?contains('md')>
+					<#if !breakPointsOrdered?seq_contains('md')>
 						<#local displayClass += ' d-' + breakPoint + '-none' />
 					</#if>
-					<#local displayClass += ' d-xl-${display}' />
+					<#if !breakPointsOrdered?seq_contains('xl')>
+						<#local displayClass += ' d-xl-${display}' />
+					</#if>
 				<#elseif breakPoint = 'xl'>
 					<#if !breakPointsOrdered?seq_contains('lg')>
 						<#local displayClass += ' d-' + breakPoint + '-none' />

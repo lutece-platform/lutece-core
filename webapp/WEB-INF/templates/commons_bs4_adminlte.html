@@ -367,6 +367,12 @@
 	<#case 'close'>
 		<#local iconStyle = 'times' />
 	<#break>
+	<#case 'external-link'>
+		<#local iconStyle = 'external-link-alt' />
+	<#break>
+	<#case 'file-pdf-o'>
+		<#local iconStyle = 'file-pdf' />
+	<#break>
 	<#case 'pencil'>
 		<#local iconStyle = 'edit' />
 	<#break>
@@ -1274,7 +1280,7 @@
 				<#local displayClass += 'd-none' />
 				<#if breakPoint = 'xs'>
 					<#if !breakPointsOrdered?seq_contains('sm')>
-						<#local displayClass += ' d-md-${display}' />
+						<#local displayClass += ' d-sm-${display}' />
 					</#if>
 				</#if>
 			<#elseif breakPoint = 'sm' || breakPoint = 'md' || breakPoint = 'lg' || breakPoint = 'xl'>
@@ -1295,7 +1301,9 @@
 					<#if !breakPointsOrdered?seq_contains('md')>
 						<#local displayClass += ' d-' + breakPoint + '-none' />
 					</#if>
-					<#local displayClass += ' d-xl-${display}' />
+					<#if !breakPointsOrdered?seq_contains('xl')>
+						<#local displayClass += ' d-xl-${display}' />
+					</#if>
 				<#elseif breakPoint = 'xl'>
 					<#if !breakPointsOrdered?seq_contains('lg')>
 						<#local displayClass += ' d-' + breakPoint + '-none' />
