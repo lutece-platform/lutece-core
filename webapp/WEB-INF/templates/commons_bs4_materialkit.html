@@ -28,7 +28,8 @@
 <script data-jscorelib="popper" src="js/admin/style/bootstrap4/material-kit/popper.min.js"></script> 
 <script data-jscorelib="bootstrap-material-design" src="js/admin/style/bootstrap4/material-kit/bootstrap-material-design.min.js"></script> 
 <script data-jscorelib="moment-with-locales" src="js/admin/style/bootstrap4/material-kit/moment-with-locales.min.js"></script> 
-<script data-jscorelib="bootstrap-datetimepicker" src="js/admin/style/bootstrap4/material-kit/bootstrap-datetimepicker.js"></script> 
+<script data-jscorelib="bootstrap-datetimepicker" src="js/admin/style/bootstrap4/material-kit/bootstrap-datetimepicker.js"></script>
+<!-- <script data-jscorelib="bootstrap-flatpickr" src="js/admin/bootstrap-flatpickr.min.js"></script> -->
 <script data-jscorelib="nouislider" src="js/admin/style/bootstrap4/material-kit/nouislider.min.js"></script> 
 <script data-jscorelib="jquery.sharrre" src="js/admin/style/bootstrap4/material-kit/jquery.sharrre.js"></script> 
 <script data-jscorelib="material-kit" src="js/admin/style/bootstrap4/material-kit/material-kit.min.js"></script> 
@@ -297,12 +298,18 @@
 </#macro>
 
 <#-- MACRO TH -->
-<#macro th id='' class='' hide=[] showXs=true showSm=true showMd=true showLg=true showXl=true cols=0 xs=0 sm=0 md=0 lg=0 xl=0 flex=false params=''>
+<#macro th id='' title='' scope='' class='' hide=[] showXs=true showSm=true showMd=true showLg=true showXl=true cols=0 xs=0 sm=0 md=0 lg=0 xl=0 flex=false params=''>
 	<#local class += ' ' + displaySettings(hide,'table-cell') />
 	<#if cols!=0>
 		<#local class += ' col-${cols}' />
 	</#if>
-	<th class="<#if class != ''>${class?trim}</#if><#if flex> d-flex</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+	<#local breakpoints = {'xs':xs, 'sm':sm, 'md':md, 'lg':lg, 'xl':xl}>
+	<#list breakpoints as breakpointkey,breakpointvalue>
+		<#if breakpointvalue!=0>
+			<#local class += ' col-${breakpointkey}-${breakpointvalue}' />
+		</#if>
+	</#list>
+	<th class="<#if class != ''>${class?trim}</#if><#if flex> d-flex</#if>"<#if id!=''> id="${id}"</#if><#if title!=''> title="${title}"</#if><#if scope!=''> scope="${scope}"</#if><#if params!=''> ${params}</#if>>
 		<#nested>
 	</th>
 </#macro>
@@ -313,6 +320,12 @@
 	<#if cols!=0>
 		<#local class += ' col-${cols}' />
 	</#if>
+	<#local breakpoints = {'xs':xs, 'sm':sm, 'md':md, 'lg':lg, 'xl':xl}>
+	<#list breakpoints as breakpointkey,breakpointvalue>
+		<#if breakpointvalue!=0>
+			<#local class += ' col-${breakpointkey}-${breakpointvalue}' />
+		</#if>
+	</#list>	
 	<td class="<#if class != ''>${class?trim}</#if><#if flex> d-flex</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 		<#nested>
 	</td>
@@ -491,7 +504,7 @@
 <#macro input name type='text' value='' class='' size='' inputSize=0 maxlength=0 placeHolder='' rows=4 cols=40 richtext=false tabIndex='' id='' disabled=false readonly=false pattern='' params='' title='' min=0 max=0>
 	<#if type='textarea'>
 		<textarea name="${name}" class="form-control<#if size!=''> form-control-${size}</#if><#if class!=''> ${class}</#if><#if richtext> richtext</#if>" rows="${rows}" cols="${cols}"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}"</#if><#if title!=''> title="${title}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if mandatory?? && mandatory && !richtext> required</#if><#if labelFor?? && labelFor!='' && helpKey?? && helpKey!=''> aria-describedby="${labelFor}_help"</#if>><#nested></textarea>
-	<#elseif type='text' || type='search' || type='password' || type='email' || type='file' || type='number' || type='date'>
+	<#elseif type='text' || type='search' || type='password' || type='email' || type='file' || type='number'>
 		<#if type='file'>
 		<input type="text" class="form-control inputFileVisible" />
 		</#if>
@@ -501,6 +514,10 @@
 			$(".inputFileHidden").parents('div.form-group').addClass('form-file-upload form-file-simple');
 		</script>
 		</#if>
+	<#elseif type='date'>
+		<@getDatePickerBootstrap idField='${id}' language=locale />
+		<#if id=''><@alert class='danger'>La saisie d'un ID pour le champ est obligatoire</@alert></#if>
+		<input class="form-control<#if size!=''> input-${size}</#if><#if class!=''> ${class}</#if>" type="text" name="${name}" value="${value}"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}"</#if><#if title!=''> title="${title}"</#if><#if maxlength &gt; 0> maxlength="${maxlength}"</#if><#if inputSize!=0> size="${inputSize}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if min!=0> min="${min}"</#if><#if max!=0> max="${max}"</#if><#if formGroupMandatory?? && formGroupMandatory || mandatory > required </#if><#if labelFor?? && labelFor!='' && helpkey?? && helpKey!=''> aria-describedby="${labelFor}_help"</#if> />
 	<#elseif type='hidden'>
 		<input type="hidden" name="${name}" id="${id}" value="${value}" />
 	<#else>
@@ -910,7 +927,7 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 <#macro button name='' id='' type='button' size='' color='' style='' class='' params='' value='' title='' tabIndex='' hideTitle=[] showTitle=true showTitleXs=true showTitleSm=true showTitleMd=true showTitleLg=true buttonIcon='' disabled=false iconPosition='left' dropdownMenu=false cancel=false formId='' buttonTargetId='' buttonNested=false>
 	<#if cancel || color = 'default' || color='btn-default' || color='btn-secondary' || color='secondary'>
 		<#local buttonColor = 'default' />
-	<#elseif !cancel && color='' || color = 'primary'>
+	<#elseif !cancel && color=''>
 		<#local buttonColor = mainColor />
 	<#else>
 		<#local buttonColor = color />
@@ -947,12 +964,16 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 	
 	<button class="<#if style!='close'>btn</#if><#if size!=''> btn-${size}</#if><#if buttonColor!=''> btn-${buttonColor}</#if><#if btnStyle?? && btnStyle!=''> ${btnStyle}</#if><#if dropdownMenu> dropdown-toggle</#if><#if class!=''> ${class}</#if>" type="${type}"<#if title!=''> title="${title}"</#if><#if name!=''> name="${name}"</#if><#if id!=''> id="${id}"</#if><#if value!=''> value="${value}"</#if><#if params!=''> ${params}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if><#if widgetAction?? && widgetAction!=''><#if widgetAction = 'collapse'> data-toggle="${widgetAction}"<#elseif widgetAction = 'remove'> data-dismiss="alert"</#if></#if><#if buttonTargetId!=''> data-target="${buttonTargetId}"</#if><#if cancel> formnovalidate</#if><#if formId!=''> form="${formId}"</#if>>
 		<#if buttonIcon!='' && iconPosition='left'><@icon style=buttonIcon /></#if>
-		<#if displayTitleClass!='' && !style?contains('card-control')><span class="${displayTitleClass}"></#if>${title}<#if displayTitleClass!='' && !style?contains('card-control')></span></#if>
+		<#if !buttonNested>
+			<#if displayTitleClass!=''><span class="${displayTitleClass}"></#if>
+				${title}
+			<#if displayTitleClass!=''></span></#if>
+		</#if>
+		<#if buttonNested><#if displayTitleClass!=''><span class="${displayTitleClass}"></#if><#nested><#if displayTitleClass!=''></span></#if></#if>
 		<#if buttonIcon!='' && iconPosition='right'><@icon style=buttonIcon /></#if>
 		<#if dropdownMenu>
 		&#160;<@icon style='caret-down' />
 		</#if>
-		<#if buttonNested><#nested></#if>
 	</button>
 	
 	<#if dropdownMenu>

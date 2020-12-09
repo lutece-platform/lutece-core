@@ -715,9 +715,15 @@ and is kept only for backwards compatibility
 
 
 <#-- MACRO TH -->
-<#macro th id='' class='' hide=[] showXs=true showSm=true showMd=true showLg=true showXl=true cols=0 xs=0 sm=0 md=0 lg=0 xl=0 flex=false params=''>
+<#macro th id='' title='' scope='' class='' hide=[] showXs=true showSm=true showMd=true showLg=true showXl=true cols=0 xs=0 sm=0 md=0 lg=0 xl=0 flex=false params=''>
     <#local class += ' ' + displaySettings(hide,'') />
-		<th class="<#if class != ''>${class?trim}</#if>"<#if flex> style="display:flex;"</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+	<#local breakpoints = {'xs':xs, 'sm':sm, 'md':md, 'lg':lg, 'xl':xl}>
+	<#list breakpoints as breakpointkey,breakpointvalue>
+		<#if breakpointvalue!=0>
+			<#local class += ' col-${breakpointkey}-${breakpointvalue}' />
+		</#if>
+	</#list>
+		<th class="<#if class != ''>${class?trim}</#if>"<#if flex> style="display:flex;"</#if><#if id!=''> id="${id}"</#if><#if title!=''> title="${title}"</#if><#if scope!=''> scope="${scope}"</#if><#if params!=''> ${params}</#if>>
         <#nested>
     </th>
 </#macro>
@@ -727,6 +733,12 @@ and is kept only for backwards compatibility
 <#-- MACRO TD -->
 <#macro td id='' class='' hide=[] align='' showXs=true showSm=true showMd=true showLg=true xs=0 sm=0 md=0 lg=0 xl=0 flex=false params=''>
     <#local class += ' ' + displaySettings(hide,'') + ' ' + alignmentSettings(align,'text') />
+	<#local breakpoints = {'xs':xs, 'sm':sm, 'md':md, 'lg':lg, 'xl':xl}>
+	<#list breakpoints as breakpointkey,breakpointvalue>
+		<#if breakpointvalue!=0>
+			<#local class += ' col-${breakpointkey}-${breakpointvalue}' />
+		</#if>
+	</#list>
 		<td class="<#if class != ''>${class?trim}</#if>"<#if flex> style="display:flex;"</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 			<#nested>
 		</td>
@@ -910,7 +922,11 @@ and is kept only for backwards compatibility
 	<#if type='textarea'>
 		<textarea name="${name}" class="form-control<#if size!=''> input-${size}</#if><#if class!=''> ${class}</#if><#if richtext> richtext</#if>" rows="${rows}" cols="${cols}"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}"</#if><#if title!=''> title="${title}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if (formGroupMandatory?? && formGroupMandatory && !richtext) || (mandatory && !richtext)> required</#if><#if labelFor?? && labelFor!='' && helpKey?? && helpKey!=''> aria-describedby="${labelFor}_help"</#if>><#nested></textarea>
 	<#elseif type='text' || type='search' || type='password' || type='email' || type='file' || type='number'>
-		<input class="form-control<#if size!=''> input-${size}</#if><#if class!=''> ${class}</#if> " name="${name}" type="${type}" value="${value}"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}"</#if><#if title!=''> title="${title}"</#if><#if maxlength &gt; 0> maxlength="${maxlength}"</#if><#if inputSize!=0> size="${inputSize}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if min!=0> min="${min}"</#if><#if max!=0> max="${max}"</#if><#if formGroupMandatory?? && formGroupMandatory || mandatory > required </#if><#if labelFor?? && labelFor!='' && helpkey?? && helpKey!=''> aria-describedby="${labelFor}_help"</#if> />
+		<input class="form-control<#if size!=''> input-${size}</#if><#if class!=''> ${class}</#if>" type="${type}" name="${name}" value="${value}"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}"</#if><#if title!=''> title="${title}"</#if><#if maxlength &gt; 0> maxlength="${maxlength}"</#if><#if inputSize!=0> size="${inputSize}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if min!=0> min="${min}"</#if><#if max!=0> max="${max}"</#if><#if formGroupMandatory?? && formGroupMandatory || mandatory > required </#if><#if labelFor?? && labelFor!='' && helpkey?? && helpKey!=''> aria-describedby="${labelFor}_help"</#if> />
+	<#elseif type='date'>
+		<@getDateTimePickerBootstrap idField='${id}' language=locale />
+		<#if id=''><@alert class='danger'>La saisie d'un ID pour le champ est obligatoire</@alert></#if>
+		<input class="form-control<#if size!=''> input-${size}</#if><#if class!=''> ${class}</#if>" type="text" name="${name}" value="${value}"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}"</#if><#if title!=''> title="${title}"</#if><#if maxlength &gt; 0> maxlength="${maxlength}"</#if><#if inputSize!=0> size="${inputSize}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if min!=0> min="${min}"</#if><#if max!=0> max="${max}"</#if><#if formGroupMandatory?? && formGroupMandatory || mandatory > required </#if><#if labelFor?? && labelFor!='' && helpkey?? && helpKey!=''> aria-describedby="${labelFor}_help"</#if> />
 	<#elseif type='hidden'>
 		<input type="hidden" name="${name}" id="${id}" value="${value}" />
 	<#else><@icon style='warning' />Type not supported
@@ -1051,7 +1067,7 @@ and is kept only for backwards compatibility
 </#macro>
 
 <#-- SPAN -->
-<#macro span id='' class='' hide=[] align='' params=''>
+<#macro span id='' class='' hide=[] collapsed=false align='' params=''>
 	<#if collapsed><#local class += ' ' + 'collapse' /></#if>
 	<#local class += ' ' + alignmentSettings(align,'text') + ' ' + displaySettings(hide,'inline-flex') />
 	<span<#if class!=''> class="${class?trim}"</#if><#if params!=''> ${params}</#if><#if id!=''> ${id}</#if>>
@@ -1298,12 +1314,16 @@ and is kept only for backwards compatibility
 	
 	<button class="<#if style!='close'>btn</#if><#if size!=''> btn-${size}</#if><#if buttonColor!=''> btn-${buttonColor}</#if><#if btnStyle!=''> ${btnStyle}</#if><#if dropdownMenu> dropdown-toggle</#if><#if class!=''> ${class}</#if>" type="${type}"<#if title!=''> title="${title}"</#if><#if name!=''> name="${name}"</#if><#if id!=''> id="${id}"</#if><#if value!=''> value="${value}"</#if><#if params!=''> ${params}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if><#if widgetAction?? && widgetAction!=''><#if widgetAction = 'collapse'> data-toggle="${widgetAction}"<#elseif widgetAction = 'remove'> data-dismiss="alert"</#if></#if><#if buttonTargetId!=''> data-target="${buttonTargetId}"</#if><#if cancel> formnovalidate</#if><#if formId!=''> form="${formId}"</#if>>
 		<#if buttonIcon!='' && iconPosition='left'><@icon style=buttonIcon /></#if>
-		<#if displayTitleClass!=''><span class="${displayTitleClass}"></#if>${title}<#if displayTitleClass!=''></span></#if>
+		<#if !buttonNested>
+			<#if displayTitleClass!=''><span class="${displayTitleClass}"></#if>
+				${title}
+			<#if displayTitleClass!=''></span></#if>
+		</#if>
+		<#if buttonNested><#if displayTitleClass!=''><span class="${displayTitleClass}"></#if><#nested><#if displayTitleClass!=''></span></#if></#if>
 		<#if buttonIcon!='' && iconPosition='right'><@icon style=buttonIcon /></#if>
 		<#if dropdownMenu>
 		&#160;<@icon style='caret-down' />
 		</#if>
-		<#if buttonNested><#nested></#if>
 	</button>
 	
 	<#if dropdownMenu>

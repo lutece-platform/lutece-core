@@ -289,12 +289,18 @@
 </#macro>
 
 <#-- MACRO TH -->
-<#macro th id='' class='' hide=[] showXs=true showSm=true showMd=true showLg=true showXl=true cols=0 xs=0 sm=0 md=0 lg=0 xl=0 flex=false params=''>
+<#macro th id='' title='' scope='' class='' hide=[] showXs=true showSm=true showMd=true showLg=true showXl=true cols=0 xs=0 sm=0 md=0 lg=0 xl=0 flex=false params=''>
 	<#local class += ' ' + displaySettings(hide,'table-cell') />
 	<#if cols!=0>
 		<#local class += ' col-${cols}' />
 	</#if>
-	<th class="<#if class != ''>${class?trim}</#if><#if flex> d-flex</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+	<#local breakpoints = {'xs':xs, 'sm':sm, 'md':md, 'lg':lg, 'xl':xl}>
+	<#list breakpoints as breakpointkey,breakpointvalue>
+		<#if breakpointvalue!=0>
+			<#local class += ' col-${breakpointkey}-${breakpointvalue}' />
+		</#if>
+	</#list>
+	<th class="<#if class != ''>${class?trim}</#if><#if flex> d-flex</#if>"<#if id!=''> id="${id}"</#if><#if title!=''> title="${title}"</#if><#if scope!=''> scope="${scope}"</#if><#if params!=''> ${params}</#if>>
 		<#nested>
 	</th>
 </#macro>
@@ -302,24 +308,15 @@
 <#-- MACRO TD -->
 <#macro td id='' class='' hide=[] align='' showXs=true showSm=true showMd=true showLg=true showXl=true cols=0 xs=0 sm=0 md=0 lg=0 xl=0 flex=false params=''>
 	<#local class += ' ' + displaySettings(hide,'table-cell') + ' ' + alignmentSettings(align,'') />
-	<#if xs &gt; 0>
-		<#local class += ' col-xs-${xs}' />
-	</#if>
-	<#if sm &gt; 0>
-		<#local class += ' col-sm-${sm}' />
-	</#if>
-	<#if md &gt; 0>
-		<#local class += ' col-md-${md}' />
-	</#if>
-	<#if lg &gt; 0>
-		<#local class += ' col-lg-${lg}' />
-	</#if>
-	<#if xl &gt; 0>
-		<#local class += ' col-xl-${xl}' />
-	</#if>
 	<#if cols!=0>
 		<#local class += ' col-${cols}' />
 	</#if>
+	<#local breakpoints = {'xs':xs, 'sm':sm, 'md':md, 'lg':lg, 'xl':xl}>
+	<#list breakpoints as breakpointkey,breakpointvalue>
+		<#if breakpointvalue!=0>
+			<#local class += ' col-${breakpointkey}-${breakpointvalue}' />
+		</#if>
+	</#list>
 	<td class="<#if class != ''>${class?trim}</#if><#if flex> d-flex</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 		<#nested>
 	</td>
@@ -911,12 +908,16 @@
 	
 	<button class="<#if style!='close'>btn btn-flat</#if><#if size!=''> btn-${size}</#if><#if buttonColor!=''> btn-${buttonColor}</#if><#if btnStyle?? && btnStyle!=''> ${btnStyle}</#if><#if dropdownMenu> dropdown-toggle</#if><#if class!=''> ${class}</#if>" type="${type}"<#if title!=''> title="${title}"</#if><#if name!=''> name="${name}"</#if><#if id!=''> id="${id}"</#if><#if value!=''> value="${value}"</#if><#if params!=''> ${params}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if><#if widgetAction?? && widgetAction!=''><#if widgetAction = 'collapse'> data-toggle="${widgetAction}"<#elseif widgetAction = 'remove'> data-dismiss="alert"</#if></#if><#if buttonTargetId!=''> data-target="${buttonTargetId}"</#if><#if cancel> formnovalidate</#if><#if formId!=''> form="${formId}"</#if>>
 		<#if buttonIcon!='' && iconPosition='left'><@icon style=buttonIcon /></#if>
-		<#if displayTitleClass!='' && !style?contains('card-control')><span class="${displayTitleClass}"></#if>${title}<#if displayTitleClass!='' && !style?contains('card-control')></span></#if>
+		<#if !buttonNested>
+			<#if displayTitleClass!=''><span class="${displayTitleClass}"></#if>
+				${title}
+			<#if displayTitleClass!=''></span></#if>
+		</#if>
+		<#if buttonNested><#if displayTitleClass!=''><span class="${displayTitleClass}"></#if><#nested><#if displayTitleClass!=''></span></#if></#if>
 		<#if buttonIcon!='' && iconPosition='right'><@icon style=buttonIcon /></#if>
 		<#if dropdownMenu>
 		&#160;<@icon style='caret-down' />
 		</#if>
-		<#if buttonNested><#nested></#if>
 	</button>
 	
 	<#if dropdownMenu>

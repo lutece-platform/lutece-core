@@ -713,9 +713,9 @@ and is kept only for backwards compatibility
 </#macro>
 
 <#-- MACRO TH -->
-<#macro th id='' class='' hide=[] showXs=true showSm=true showMd=true showLg=true showXl=true cols=0 xs=0 sm=0 md=0 lg=0 xl=0 flex=false params=''>
+<#macro th id='' title='' scope='' class='' hide=[] showXs=true showSm=true showMd=true showLg=true showXl=true cols=0 xs=0 sm=0 md=0 lg=0 xl=0 flex=false params=''>
     <#local class += ' ' + displaySettings(hide,'is-inline') />
-		<th <#if class != ''>class="${class?trim}"</#if>>
+		<th<#if class!=''> class="${class?trim}"</#if><#if title=!=''> title="${title}"</#if><#if scope!=''> scope="${scope}"</#if><#if params!=''> ${params}</#if>>
         <#nested>
     </th>
 </#macro>
@@ -1216,14 +1216,16 @@ and is kept only for backwards compatibility
 	
 	<button class="<#if style!='close'>button</#if><#if size!=''> is-${size}</#if><#if buttonColor!=''> is-${buttonColor}</#if><#if btnStyle!=''> ${btnStyle}</#if><#if dropdownMenu> dropdown-toggle</#if><#if class!=''> ${class}</#if>" type="${type}"<#if title!=''> title="${title}"</#if><#if name!=''> name="${name}"</#if><#if id!=''> id="${id}"</#if><#if value!=''> value="${value}"</#if><#if params!=''> ${params}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if><#if widgetAction?? && widgetAction!=''><#if widgetAction = 'collapse'> data-toggle="${widgetAction}"<#elseif widgetAction = 'remove'> data-dismiss="alert"</#if></#if><#if buttonTargetId!=''> data-target="${buttonTargetId}"</#if><#if cancel> formnovalidate</#if><#if formId!=''> form="${formId}"</#if>>
 		<#if buttonIcon!='' && iconPosition='left'><@icon style=buttonIcon /></#if>
-		
-		<span class="<#if displayTitleClass!='' && style!='card-control'>${displayTitleClass}<#elseif showTitleClass!='' && style!='btn-box-tool'>${showTitleClass}</#if>">${title}</span>
-		
+		<#if !buttonNested>
+			<#if displayTitleClass!=''><span class="${displayTitleClass}"></#if>
+				${title}
+			<#if displayTitleClass!=''></span></#if>
+		</#if>
+		<#if buttonNested><#if displayTitleClass!=''><span class="${displayTitleClass}"></#if><#nested><#if displayTitleClass!=''></span></#if></#if>
 		<#if buttonIcon!='' && iconPosition='right'><@icon style=buttonIcon /></#if>
 		<#if dropdownMenu>
 		&#160;<@icon style='caret-down' />
 		</#if>
-		<#if buttonNested><#nested></#if>
 	</button>
 	
 	<#if dropdownMenu>
