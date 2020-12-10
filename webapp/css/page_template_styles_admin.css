@@ -20,7 +20,7 @@ body#tinymce{padding-top:0;}
 .admin_column_outline:hover .admin_column_id {
 	display: block;
 	position: absolute;
-	height 20px;
+	height: 20px;
 	width: 10em;
 	top: -20px;
 	z-index: 1030;

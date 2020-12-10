@@ -715,23 +715,8 @@ and is kept only for backwards compatibility
 
 
 <#-- MACRO TH -->
-<#macro th id='' title='' scope='' class='' hide=[] showXs=true showSm=true showMd=true showLg=true showXl=true cols=0 xs=0 sm=0 md=0 lg=0 xl=0 flex=false params=''>
-    <#local class += ' ' + displaySettings(hide,'') />
-	<#local breakpoints = {'xs':xs, 'sm':sm, 'md':md, 'lg':lg, 'xl':xl}>
-	<#list breakpoints as breakpointkey,breakpointvalue>
-		<#if breakpointvalue!=0>
-			<#local class += ' col-${breakpointkey}-${breakpointvalue}' />
-		</#if>
-	</#list>
-		<th class="<#if class != ''>${class?trim}</#if>"<#if flex> style="display:flex;"</#if><#if id!=''> id="${id}"</#if><#if title!=''> title="${title}"</#if><#if scope!=''> scope="${scope}"</#if><#if params!=''> ${params}</#if>>
-        <#nested>
-    </th>
-</#macro>
-
-
-
-<#-- MACRO TD -->
-<#macro td id='' class='' hide=[] align='' showXs=true showSm=true showMd=true showLg=true xs=0 sm=0 md=0 lg=0 xl=0 flex=false params=''>
+<#-- valign: baseline|top|middle|bottom|bottom|text-top -->
+<#macro th id='' title='' scope='' class='' align='' valign='' hide=[] showXs=true showSm=true showMd=true showLg=true showXl=true cols=0 xs=0 sm=0 md=0 lg=0 xl=0 flex=false params=''>
     <#local class += ' ' + displaySettings(hide,'') + ' ' + alignmentSettings(align,'text') />
 	<#local breakpoints = {'xs':xs, 'sm':sm, 'md':md, 'lg':lg, 'xl':xl}>
 	<#list breakpoints as breakpointkey,breakpointvalue>
@@ -739,7 +724,24 @@ and is kept only for backwards compatibility
 			<#local class += ' col-${breakpointkey}-${breakpointvalue}' />
 		</#if>
 	</#list>
-		<td class="<#if class != ''>${class?trim}</#if>"<#if flex> style="display:flex;"</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+		<th class="<#if class != ''>${class?trim}</#if>"<#if valign!=''> style="vertical-align:${valign};"</#if><#if flex> style="display:flex;"</#if><#if id!=''> id="${id}"</#if><#if title!=''> title="${title}"</#if><#if scope!=''> scope="${scope}"</#if><#if params!=''> ${params}</#if>>
+        <#nested>
+    </th>
+</#macro>
+
+
+
+<#-- MACRO TD -->
+<#-- valign: baseline|top|middle|bottom|bottom|text-top -->
+<#macro td id='' class='' hide=[] align='' valign='' showXs=true showSm=true showMd=true showLg=true xs=0 sm=0 md=0 lg=0 xl=0 flex=false params=''>
+    <#local class += ' ' + displaySettings(hide,'') + ' ' + alignmentSettings(align,'text') />
+	<#local breakpoints = {'xs':xs, 'sm':sm, 'md':md, 'lg':lg, 'xl':xl}>
+	<#list breakpoints as breakpointkey,breakpointvalue>
+		<#if breakpointvalue!=0>
+			<#local class += ' col-${breakpointkey}-${breakpointvalue}' />
+		</#if>
+	</#list>
+		<td class="<#if class != ''>${class?trim}</#if>"<#if valign!=''> style="vertical-align:${valign};"</#if><#if flex> style="display:flex;"</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 			<#nested>
 		</td>
 </#macro>

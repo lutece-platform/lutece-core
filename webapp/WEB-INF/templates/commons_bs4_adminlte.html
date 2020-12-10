@@ -289,8 +289,9 @@
 </#macro>
 
 <#-- MACRO TH -->
-<#macro th id='' title='' scope='' class='' hide=[] showXs=true showSm=true showMd=true showLg=true showXl=true cols=0 xs=0 sm=0 md=0 lg=0 xl=0 flex=false params=''>
-	<#local class += ' ' + displaySettings(hide,'table-cell') />
+<#-- valign: baseline|top|middle|bottom|bottom|text-top -->
+<#macro th id='' title='' scope='' class='' align='' valign='' hide=[] showXs=true showSm=true showMd=true showLg=true showXl=true cols=0 xs=0 sm=0 md=0 lg=0 xl=0 flex=false params=''>
+	<#local class += ' ' + displaySettings(hide,'table-cell') + ' ' + alignmentSettings(align,'text') />
 	<#if cols!=0>
 		<#local class += ' col-${cols}' />
 	</#if>
@@ -300,13 +301,14 @@
 			<#local class += ' col-${breakpointkey}-${breakpointvalue}' />
 		</#if>
 	</#list>
+	<#if valign!=''><#local class += ' align-' + valign /></#if>
 	<th class="<#if class != ''>${class?trim}</#if><#if flex> d-flex</#if>"<#if id!=''> id="${id}"</#if><#if title!=''> title="${title}"</#if><#if scope!=''> scope="${scope}"</#if><#if params!=''> ${params}</#if>>
 		<#nested>
 	</th>
 </#macro>
 
 <#-- MACRO TD -->
-<#macro td id='' class='' hide=[] align='' showXs=true showSm=true showMd=true showLg=true showXl=true cols=0 xs=0 sm=0 md=0 lg=0 xl=0 flex=false params=''>
+<#macro td id='' class='' hide=[] align='' valign='' showXs=true showSm=true showMd=true showLg=true showXl=true cols=0 xs=0 sm=0 md=0 lg=0 xl=0 flex=false params=''>
 	<#local class += ' ' + displaySettings(hide,'table-cell') + ' ' + alignmentSettings(align,'') />
 	<#if cols!=0>
 		<#local class += ' col-${cols}' />
@@ -317,6 +319,7 @@
 			<#local class += ' col-${breakpointkey}-${breakpointvalue}' />
 		</#if>
 	</#list>
+	<#if valign!=''><#local class += ' align-' + valign /></#if>
 	<td class="<#if class != ''>${class?trim}</#if><#if flex> d-flex</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
 		<#nested>
 	</td>
