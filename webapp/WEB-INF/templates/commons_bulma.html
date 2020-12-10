@@ -734,7 +734,7 @@ and is kept only for backwards compatibility
 </#macro>
 
 <#--- MACRO SELECT (TO REPLACE "COMBO" MACROS) --->
-<#macro select name items='' default_value="" id=name class='' size='' sort=false multiple=0 params='' title='' tabIndex=0>
+<#macro select name items='' default_value="" id=name class='' size='' sort=false multiple=0 params='' title='' tabIndex=0 disabled=false>
 	<#switch size>
 		<#case 'xs'>
 				<#assign selectSize='small'>
@@ -752,7 +752,7 @@ and is kept only for backwards compatibility
 				<#assign selectSize='normal'>
 	</#switch>
 <div class="select<#if selectSize!=''> is-${selectSize}</#if>">
-    <select id="${id}" name="${name}" class="field<#if class!=''> input-${class}</#if>" <#if (multiple &gt; 0)>multiple size="${multiple}"</#if><#if (tabIndex &gt; 0)> tabindex="${tabIndex}"</#if><#if params!=''> ${params}</#if><#if title!=''> ${title}</#if><#if mandatory?? && mandatory> required</#if>>
+    <select id="${id}" name="${name}" class="field<#if class!=''> input-${class}</#if>" <#if (multiple &gt; 0)>multiple size="${multiple}"</#if><#if (tabIndex &gt; 0)> tabindex="${tabIndex}"</#if><#if params!=''> ${params}</#if><#if title!=''> ${title}</#if><#if mandatory?? && mandatory> required</#if><#if disabled> disabled</#if>>
     <#if items?has_content>
         <#if sort=true>
             <#list items?sort_by("name") as item>
