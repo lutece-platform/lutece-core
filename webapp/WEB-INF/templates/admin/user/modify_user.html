@@ -1,5 +1,5 @@
 <#assign boxtitle>
-<@icon style='user/> ${user.lastName} ${user.firstName}
+<@icon style='user'/> ${user.lastName} ${user.firstName}
 </#assign>
 <@row>
 	<@columns>
@@ -20,7 +20,8 @@
 				<@input type='hidden' name='id_user' value='${user.userId}' />
 				<@input type='hidden' name='token' value='${token}' />
 				<@row>
-					<#if attributes_list?has_content><@columns sm=4><#else><@columns sm=6></#if>
+					<#if attributes_list?has_content><#assign colsm=4><#else><#assign colsm=6></#if>
+					<@columns sm=colsm>
 					<@fieldSet legend='#i18n{portal.users.modify_user.labelIdentity}'>
 						<@formGroup labelFor='access_code' labelKey='${i18n("portal.users.modify_password_default_module.form.password.new")}' mandatory=true rows=2>
 							<@input type='text' name='access_code' id='access_code' value="${user.accessCode!''}" />
@@ -36,7 +37,7 @@
 						</@formGroup>   
 					</@fieldSet>
 					</@columns>
-						<#if attributes_list?has_content><@columns sm=4><#else><@columns sm=6></#if>
+					<@columns sm=colsm>
 							<@fieldSet legend='#i18n{portal.users.modify_user.labelAttributes}'>
 									<@formGroup labelKey='${i18n("portal.users.create_user.userLevelLabel")}' rows=2>
 										<@staticText>${level.name}</@staticText>
@@ -90,13 +91,13 @@
 							</@fieldSet>
 						</@columns>
 					</#if>
-					<@row>
-						<@columns md=4 offsetMd=4>
-							<@button type='submit' style='btn-block' buttonIcon='check' title='#i18n{portal.users.modify_user.buttonLabelModify}' />
-						</@columns>    
-					</@row>  
-					</@columns>
-					</@row>
+				</@row>
+				<@row>
+					<@columns md=4 offsetMd=4>
+						<@button type='submit' style='btn-block' buttonIcon='check' title='#i18n{portal.users.modify_user.buttonLabelModify}' />
+					</@columns>    
+				</@row>  
+					
 				</@tform>
 			</@boxBody>
 		</@box>
