@@ -1032,12 +1032,13 @@ and is kept only for backwards compatibility
 <#-- Tabs -->
 <#-- type:  -->
 <#macro tabLink class='' hide=[] id='' active=false href='' title='' tabIcon='' params=''>
-		<li class="<#if class!=''>${class}</#if><#if active> is-active</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
-			<@link href='${href}' title='${title}'>
-				<#if tabIcon!=''><span class="icon is-small"><@icon style=tabIcon /></span></#if>
-				${title}
-			</@link>
-		</li>
+<li class="<#if class!=''>${class}</#if><#if active> is-active</#if>"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+	<@link href='${href}' title='${title}'>
+		<#if tabIcon!=''><span class="icon is-small"><@icon style=tabIcon /></span></#if>
+		${title}
+	</@link>
+	<#nested>
+</li>
 </#macro>
 
 <#-- TAB Content -->

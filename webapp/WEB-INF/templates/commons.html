@@ -1116,17 +1116,18 @@ and is kept only for backwards compatibility
 <#-- Tabs -->
 <#-- type:  -->
 <#macro tabLink class='' hide=[] id='' active=false href='' title='' tabIcon='' params=''>
-	<#local tabLinkClass = class />
-	<#if active><#local tabLinkClass += ' active' /></#if>
-		<li class="${tabLinkClass?trim}" role="presentation"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
-		<#local tabLinkSettings = 'role="tab" aria-expanded="false"' />
-		<#if href?contains('#') && href?contains('.jsp') == false>
-			<#local tabLinkSettings += 'data-toggle="tab"' />
-		</#if>
-			<@link href=href title=title params=tabLinkSettings>
-				<#if tabIcon!=''><@icon style=tabIcon /></#if> ${title}
-			</@link>
-		</li>
+<#local tabLinkClass = class />
+<#if active><#local tabLinkClass += ' active' /></#if>
+<li class="${tabLinkClass?trim}" role="presentation"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<#local tabLinkSettings = 'role="tab" aria-expanded="false"' />
+<#if href?contains('#') && href?contains('.jsp') == false>
+	<#local tabLinkSettings += 'data-toggle="tab"' />
+</#if>
+	<@link href=href title=title params=tabLinkSettings>
+		<#if tabIcon!=''><@icon style=tabIcon /></#if> ${title}
+	</@link>
+	<#nested>
+</li>
 </#macro>
 
 <#-- TAB Content AdminLTE -->

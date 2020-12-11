@@ -770,20 +770,21 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 <#-- Tabs -->
 <#-- type:  -->
 <#macro tabLink class='' hide=[] id='' active=false href='' title='' tabIcon='' params=''>
-		<li class="nav-item"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
-		<#local tabLinkClass = class + ' nav-link' />
-		<#if active><#local tabLinkClass += ' active' /></#if>
-		<#local tabLinkSettings = 'role="tab" aria-expanded="${active?c}" aria-controls="${href?remove_beginning("#")}"' />
-		<#if href?contains('#') && href?contains('.jsp') == false>
-			<#local tabLinkSettings += ' data-toggle="tab"' />
-			<#local tabLinkId = '${href?remove_beginning("#")}-tab' />
-		<#else>
-			<#local tabLinkId = href?keep_after_last('/')?keep_before('.')?lower_case />
-		</#if>
-			<@link class=tabLinkClass?trim href=href id=tabLinkId title=title params=tabLinkSettings>
-				<#if tabIcon!=''><@icon style=tabIcon /></#if> ${title}
-			</@link>
-		</li>
+<li class="nav-item"<#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if>>
+<#local tabLinkClass = class + ' nav-link' />
+<#if active><#local tabLinkClass += ' active' /></#if>
+<#local tabLinkSettings = 'role="tab" aria-expanded="${active?c}" aria-controls="${href?remove_beginning("#")}"' />
+<#if href?contains('#') && href?contains('.jsp') == false>
+	<#local tabLinkSettings += ' data-toggle="tab"' />
+	<#local tabLinkId = '${href?remove_beginning("#")}-tab' />
+<#else>
+	<#local tabLinkId = href?keep_after_last('/')?keep_before('.')?lower_case />
+</#if>
+	<@link class=tabLinkClass?trim href=href id=tabLinkId title=title params=tabLinkSettings>
+		<#if tabIcon!=''><@icon style=tabIcon /></#if> ${title}
+	</@link>
+	<#nested>
+</li>
 </#macro>
 
 <#-- TAB Content -->
