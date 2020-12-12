@@ -518,7 +518,7 @@
 		</script>
 		</#if>
 	<#elseif type='date'>
-		<@getDatePickerBootstrap idField='${id}' language=locale />
+		<@getDatePickerBootstrap idField='${id}' language=locale!'fr' />
 		<#if id=''><@alert class='danger'>La saisie d'un ID pour le champ est obligatoire</@alert></#if>
 		<input class="form-control<#if size!=''> input-${size}</#if><#if class!=''> ${class}</#if>" type="text" name="${name}" value="${value}"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}"</#if><#if title!=''> title="${title}"</#if><#if maxlength &gt; 0> maxlength="${maxlength}"</#if><#if inputSize!=0> size="${inputSize}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if min!=0> min="${min}"</#if><#if max!=0> max="${max}"</#if><#if formGroupMandatory?? && formGroupMandatory || mandatory > required </#if><#if labelFor?? && labelFor!='' && helpkey?? && helpKey!=''> aria-describedby="${labelFor}_help"</#if> />
 	<#elseif type='hidden'>
@@ -596,7 +596,7 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 <#-- orientation: vertical/horizontal. Default is vertical -->
 <#macro radioButton name id='' value='' labelKey='' labelFor='' orientation='vertical' tabIndex='' title='' disabled=false readonly=false checked=false params=''>
 		<div class="form-check form-check-radio<#if orientation!='vertical'> form-check-inline</#if><#if disabled> disabled</#if>">
-			<label class="form-check-label<#if orientation='horizontal'> radio-inline</#if>">
+			<label class="form-check-label<#if orientation='horizontal'> radio-inline</#if>" for="${labelFor}">
 				<input type="radio" id="${id}" name="${name}" class="form-check-input" <#if value!=''> value="${value}"</#if><#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if checked> checked</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if mandatory?? && mandatory> required</#if><#if params!=''> ${params}</#if> />
 			<#if labelKey!=''>
 					${labelKey}
@@ -781,9 +781,9 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 	<#local tabLinkId = href?keep_after_last('/')?keep_before('.')?lower_case />
 </#if>
 	<@link class=tabLinkClass?trim href=href id=tabLinkId title=title params=tabLinkSettings>
-		<#if tabIcon!=''><@icon style=tabIcon /></#if> ${title}
+		<#if tabIcon!=''><@icon style=tabIcon /></#if> ${title}&nbsp;
+		<#nested>
 	</@link>
-	<#nested>
 </li>
 </#macro>
 
