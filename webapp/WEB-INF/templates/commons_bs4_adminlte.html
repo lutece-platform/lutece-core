@@ -479,8 +479,8 @@
 </#macro>
 
 <#macro formLabel class='' labelFor='' labelId='' labelKey='' hideLabel=hideLabel mandatory=true>
-<#local class += ' ' + displaySettings(hideLabel,'') />
-<label class="<#if class !=''>${class?trim}</#if>" for="${labelFor}" <#if labelId!=''> id="${labelId}"</#if><#if mandatory=true>ariaLabel="${labelKey} [#i18n{portal.users.modify_attribute.labelMandatory}]"</#if>>${labelKey}</label>
+<#local labelClass = ' ' + displaySettings(hideLabel,'') />
+<label class="<#if class !=''>${class?trim}</#if>" for="${labelFor}" <#if labelId!=''> id="${labelId}"</#if><#if mandatory=true>ariaLabel="${labelKey} [#i18n{portal.users.modify_attribute.labelMandatory}]"</#if>><span class="${labelClass}">${labelKey}</span></label>
 </#macro>
 
 <#macro formHelp style='inline' class='' labelFor=''>
@@ -489,18 +489,23 @@
 </small>
 </#macro>
 
-<#-- INPUT TEXT/TEXTAREA/SEARCH/PASSWORD/EMAIL/FILE 																					-->
-<#-- type : text/textarea/password/email/file/number. Default is text 												-->
-<#-- size: sm/lg/EMPTY for medium size 																												-->
-<#-- pattern: [A-F][0-9]{5} 																																	-->
-<#macro input name id='' class='' type='text' value='' size='' inputSize=0 maxlength=0 placeHolder='' rows=4 cols=40 richtext=false tabIndex='' disabled=false readonly=false pattern='' params='' title='' min=0 max=0>
+<#-- INPUT TEXT/TEXTAREA/SEARCH/PASSWORD/EMAIL/FILE -->
+<#-- type : text/textarea/password/email/file/number. Default is text -->
+<#-- size: sm/lg/EMPTY for medium size -->
+<#-- pattern: [A-F][0-9]{5} -->
+<#-- language: for input type DATE and datepickers -->
+<#macro input name id='' class='' type='text' value='' size='' inputSize=0 maxlength=0 placeHolder='' rows=4 cols=40 richtext=false tabIndex='' disabled=false readonly=false pattern='' title='' min=0 max=0 language='' params=''>
 	<#if type='textarea'>
 		<textarea name="${name}" class="form-control<#if size!=''> form-control-${size}</#if><#if class!=''> ${class}</#if><#if richtext> richtext</#if>" rows="${rows}" cols="${cols}"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}"</#if><#if title!=''> title="${title}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if mandatory?? && mandatory && !richtext> required</#if><#if labelFor?? && labelFor!='' && helpKey?? && helpKey!=''> aria-describedby="${labelFor}_help"</#if>><#nested></textarea>
 	<#elseif type='text' || type='search' || type='password' || type='email' || type='file' || type='number'>
 		<input class="form-control<#if type='file'>-file</#if><#if size!=''> form-control-${size}</#if><#if class!=''> ${class}</#if>" name="${name}" type="${type}" value="${value}"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}<#if mandatory?? && mandatory> [#i18n{portal.users.modify_attribute.labelMandatory}]</#if>"</#if><#if title!=''> title="${title}"</#if><#if maxlength &gt; 0> maxlength="${maxlength}"</#if><#if inputSize!=0> size="${inputSize}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if min!=0> min="${min}"</#if><#if max!=0> max="${max}"</#if><#if mandatory?? && mandatory> required</#if><#if labelFor?? && labelFor!='' && helpKey?? && helpKey!=''> aria-describedby="${labelFor}_help"</#if> />
 		<span class="focus-border"></span>
-	<#elseif type='date'>
-		<@getDatePickerBootstrap idField='${id}' language=locale />
+	<#elseif type='date' || type='datetime'>
+		<#if type='date'>
+			<@getDatePickerBootstrap idField='${id}' language=language />
+		<#elseif type='datetime'>
+			<@getDateTimePickerBootstrap idField='${id}' language=language />
+		</#if>
 		<#if id=''><@alert class='danger'>La saisie d'un ID pour le champ est obligatoire</@alert></#if>
 		<input class="form-control<#if size!=''> input-${size}</#if><#if class!=''> ${class}</#if>" type="text" name="${name}" value="${value}"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}"</#if><#if title!=''> title="${title}"</#if><#if maxlength &gt; 0> maxlength="${maxlength}"</#if><#if inputSize!=0> size="${inputSize}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if min!=0> min="${min}"</#if><#if max!=0> max="${max}"</#if><#if formGroupMandatory?? && formGroupMandatory || mandatory > required </#if><#if labelFor?? && labelFor!='' && helpkey?? && helpKey!=''> aria-describedby="${labelFor}_help"</#if> />
 	<#elseif type='hidden'>

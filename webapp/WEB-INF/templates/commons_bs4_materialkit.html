@@ -499,12 +499,13 @@
 </small>
 </#macro>
 
-<#-- INPUT TEXT/TEXTAREA/SEARCH/PASSWORD/EMAIL/FILE 																					-->
-<#-- type : text/textarea/password/email/file/number. Default is text 												-->
-<#-- size: sm/lg/EMPTY for medium size 																												-->
-<#-- incoming Bootstrap 4 size: form-control-sm/form-control-lg or empty for the normal size 	-->
-<#-- pattern: [A-F][0-9]{5} 																																	-->
-<#macro input name type='text' value='' class='' size='' inputSize=0 maxlength=0 placeHolder='' rows=4 cols=40 richtext=false tabIndex='' id='' disabled=false readonly=false pattern='' params='' title='' min=0 max=0>
+<#-- INPUT TEXT/TEXTAREA/SEARCH/PASSWORD/EMAIL/FILE -->
+<#-- type : text/textarea/password/email/file/number. Default is text -->
+<#-- size: sm/lg/EMPTY for medium size -->
+<#-- incoming Bootstrap 4 size: form-control-sm/form-control-lg or empty for the normal size -->
+<#-- pattern: [A-F][0-9]{5} -->
+<#-- language: for input type DATE and datepickers -->
+<#macro input name type='text' value='' class='' size='' inputSize=0 maxlength=0 placeHolder='' rows=4 cols=40 richtext=false tabIndex='' id='' disabled=false readonly=false pattern='' title='' min=0 max=0 language='' params=''>
 	<#if type='textarea'>
 		<textarea name="${name}" class="form-control<#if size!=''> form-control-${size}</#if><#if class!=''> ${class}</#if><#if richtext> richtext</#if>" rows="${rows}" cols="${cols}"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}"</#if><#if title!=''> title="${title}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if mandatory?? && mandatory && !richtext> required</#if><#if labelFor?? && labelFor!='' && helpKey?? && helpKey!=''> aria-describedby="${labelFor}_help"</#if>><#nested></textarea>
 	<#elseif type='text' || type='search' || type='password' || type='email' || type='file' || type='number'>
@@ -517,8 +518,12 @@
 			$(".inputFileHidden").parents('div.form-group').addClass('form-file-upload form-file-simple');
 		</script>
 		</#if>
-	<#elseif type='date'>
-		<@getDatePickerBootstrap idField='${id}' language=locale!'fr' />
+	<#elseif type='date' || type='datetime'>
+		<#if type='date'>
+			<@getDatePickerBootstrap idField='${id}' language=language />
+		<#elseif type='datetime'>
+			<@getDateTimePickerBootstrap idField='${id}' language=language />
+		</#if>
 		<#if id=''><@alert class='danger'>La saisie d'un ID pour le champ est obligatoire</@alert></#if>
 		<input class="form-control<#if size!=''> input-${size}</#if><#if class!=''> ${class}</#if>" type="text" name="${name}" value="${value}"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}"</#if><#if title!=''> title="${title}"</#if><#if maxlength &gt; 0> maxlength="${maxlength}"</#if><#if inputSize!=0> size="${inputSize}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if min!=0> min="${min}"</#if><#if max!=0> max="${max}"</#if><#if formGroupMandatory?? && formGroupMandatory || mandatory > required </#if><#if labelFor?? && labelFor!='' && helpkey?? && helpKey!=''> aria-describedby="${labelFor}_help"</#if> />
 	<#elseif type='hidden'>

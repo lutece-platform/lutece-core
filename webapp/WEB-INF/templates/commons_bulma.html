@@ -831,8 +831,8 @@ and is kept only for backwards compatibility
 <#local labelDisplayClass = displaySettings(hideLabel,'') />
 <#if collapsed><#local class += ' collapse' /></#if>
 <div class="field is-horizontal<#if class!=''> ${class?trim}</#if>">
-  <div class="field-label<#if labelDisplayClass!=''> ${labelDisplayClass}</#if>">
-    <label class="label">${labelKey} <#if mandatory=true>*</#if></label>
+  <div class="field-label">
+    <label class="label<#if labelDisplayClass!=''> ${labelDisplayClass}</#if>">${labelKey} <#if mandatory=true>*</#if></label>
   </div>
   <div class="field-body">
     <div class="field">
@@ -866,7 +866,7 @@ and is kept only for backwards compatibility
 <#-- type : text/textarea/password/email/file/number. Default is text -->
 <#-- size: xs/sm/lg -->
 <#-- pattern: [A-F][0-9]{5} -->
-<#macro input name type='text' value='' class='' size='' inputSize=0 maxlength=0 placeHolder='' rows=4 cols=40 richtext=false tabIndex='' id='' disabled=false readonly=false pattern='' params='' title='' min=0 max=0>
+<#macro input name type='text' value='' class='' size='' inputSize=0 maxlength=0 placeHolder='' rows=4 cols=40 richtext=false tabIndex='' id='' disabled=false readonly=false pattern='' title='' min=0 max=0 language='' params=''>
 <#if size == 'xs' || size == 'sm'><#local size = 'small' />
 <#elseif size == 'md'><#local size = 'medium' />
 <#elseif size == 'lg'><#local size = 'large' />
@@ -878,6 +878,13 @@ and is kept only for backwards compatibility
 	<textarea name="${name}" class="textarea <#if size!=''> is-${size}</#if><#if class!=''> ${class}</#if><#if richtext> richtext</#if>" rows="${rows}" cols="${cols}"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}"</#if><#if title!=''> title="${title}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if mandatory?? && mandatory && !richtext> required</#if><#if labelFor?? && labelFor!='' && helpKey?? && helpKey!=''> aria-describedby="${labelFor}_help"</#if>><#nested></textarea>
 <#elseif type='text' || type='search' || type='password' || type='email' || type='file' || type='number'>
     <input class="input<#if size!=''> is-${size}</#if><#if class!=''> ${class}</#if>" name="${name}" type="${type}" value="${value}"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}"</#if><#if title!=''> title="${title}"</#if><#if maxlength &gt; 0> maxlength="${maxlength}"</#if><#if inputSize!=0> size="${inputSize}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if min!=0> min="${min}"</#if><#if max!=0> max="${max}"</#if><#if mandatory?? && mandatory> required</#if><#if labelFor?? && labelFor!='' && helpKey?? && helpKey!=''> aria-describedby="${labelFor}_help"</#if> />
+<#elseif type='date' || type='datetime'>
+	<#if type='date'>
+		<@getDatePickerBootstrap idField='${id}' language=language />
+	<#elseif type='datetime'>
+		<@getDateTimePickerBootstrap idField='${id}' language=language />
+	</#if>
+	<input class="input<#if size!=''> is-${size}</#if><#if class!=''> ${class}</#if>" name="${name}" type="${type}" value="${value}"<#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if placeHolder!=''> placeholder="${placeHolder}"</#if><#if title!=''> title="${title}"</#if><#if maxlength &gt; 0> maxlength="${maxlength}"</#if><#if inputSize!=0> size="${inputSize}"</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if id!=''> id="${id}"</#if><#if params!=''> ${params}</#if><#if pattern!=''>pattern=${pattern}</#if><#if min!=0> min="${min}"</#if><#if max!=0> max="${max}"</#if><#if mandatory?? && mandatory> required</#if><#if labelFor?? && labelFor!='' && helpKey?? && helpKey!=''> aria-describedby="${labelFor}_help"</#if> />
 <#elseif type='hidden'>
 	<input type="hidden" name="${name}" id="${id}" value="${value}" />
 <#else><@icon style='warning' />Type not supported
