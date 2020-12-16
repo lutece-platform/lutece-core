@@ -1249,8 +1249,8 @@ and is kept only for backwards compatibility
 
 <#-- TAG -->
 <#-- color: default/primary/success/info/warning/danger/ -->
-<#macro tag color='default' size='' title='' tagIcon='' id='' params=''>
-	<span class="label label-${color}"<#if title!=''> title='${title}'</#if><#if id!=''>id='${id}'</#if><#if params!=''>${params}</#if>>
+<#macro tag color='default' class='' size='' title='' tagIcon='' id='' params=''>
+	<span class="label label-${color}<#if class!=''> ${class}</#if>"<#if title!=''> title='${title}'</#if><#if id!=''>id='${id}'</#if><#if params!=''>${params}</#if>>
         <#if tagIcon !=''>
             <@icon style=tagIcon />
         </#if>

@@ -1138,7 +1138,7 @@ and is kept only for backwards compatibility
 
 <#-- TAG -->
 <#-- color: default/primary/success/info/warning/danger/ -->
-<#macro tag color='default'  size='' title='' tagIcon='' id='' params=''>
+<#macro tag color='default' class='' size='' title='' tagIcon='' id='' params=''>
     <#switch size>
         <#case 'xs'>
             <#assign tagSize='is-small'>
@@ -1156,7 +1156,7 @@ and is kept only for backwards compatibility
             <#assign tagSize='is-normal'>
     </#switch>
 
-	<span class="tag is-${color} <#if tagSize!=''>${tagSize}</#if>"<#if title!=''> title='${title}'</#if><#if id!=''>id='${id}'</#if><#if params!=''>${params}</#if>>
+	<span class="tag is-${color}<#if class!=''> ${class}</#if><#if tagSize!=''> ${tagSize}</#if>"<#if title!=''> title='${title}'</#if><#if id!=''>id='${id}'</#if><#if params!=''>${params}</#if>>
         <#if tagIcon !=''>
             <@icon style=tagIcon /> &nbsp;
         </#if>

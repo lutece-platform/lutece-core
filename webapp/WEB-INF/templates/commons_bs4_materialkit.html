@@ -907,9 +907,9 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 
 <#-- TAG -->
 <#-- color: default/primary/success/info/warning/danger/ -->
-<#macro tag color='default' size='' title='' tagIcon='' id='' params=''>
+<#macro tag color='default' class='' size='' title='' tagIcon='' id='' params=''>
 	
-	<span class="badge badge-${color}"<#if title!=''> title='${title}'</#if><#if id!=''>id='${id}'</#if><#if params!=''>${params}</#if>>
+	<span class="badge badge-${color}<#if class!=''> ${class}</#if>"<#if title!=''> title='${title}'</#if><#if id!=''>id='${id}'</#if><#if params!=''>${params}</#if>>
 		<#if tagIcon !=''>
 		<@icon style=tagIcon />
 		</#if>
