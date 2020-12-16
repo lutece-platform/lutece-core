@@ -18,6 +18,7 @@
 <link href="css/admin/style/bootstrap4/all.min.css" rel="stylesheet"> <!-- Font-Awesome 5 -->
 <link href="css/admin/style/bootstrap4/material-kit/material-kit.min.css" rel="stylesheet">
 <link href="css/admin/style/bootstrap4/material-kit/material-kit.override.css" rel="stylesheet">
+<link href="css/admin/style/bootstrap4/bootstrap4.override.css" rel="stylesheet"> <!-- Bootstrap 4.3.1 -->
 <link href="css/admin/style/bootstrap4/portal_admin.css" rel="stylesheet">
 </#macro>
 
@@ -929,7 +930,7 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 <#-- iconPosition: left/right -->
 <#-- cancel: switch to true for a cancellation form button. Adds the "formnovalidate" attribute to the button, as well as the right class -->
 <#-- formId: contains the form ID if the button is outside of the form -->
-<#-- buttonTargetId: contains the collapsable target div ID -->
+<#-- buttonTargetId: contains the target element ID -->
 <#-- buttonNested=false : If true add content inside the button else -default- outside  -->
 <#-- showTitle, showTitleXs, showTitleSm, showTitleMd, showTitleLg are deprecated in Lutece v7 -->
 
@@ -964,6 +965,9 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 				<#local widgetAction = 'remove' />
 			</#if>
 			<#local btnStyle = style?replace('collapse|remove', '', 'r')?trim />
+		<#elseif style?contains('modal')>
+			<#local widgetAction = 'modal' />
+			<#local btnStyle = style?replace('modal', '', 'r')?trim />
 		<#else>
 			<#local btnStyle = style />
 		</#if>
@@ -971,7 +975,7 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 	
 	<#if buttonNested><#local dropdownMenu=false /></#if>
 	
-	<button class="<#if style!='close'>btn</#if><#if size!=''> btn-${size}</#if><#if buttonColor!=''> btn-${buttonColor}</#if><#if btnStyle?? && btnStyle!=''> ${btnStyle}</#if><#if dropdownMenu> dropdown-toggle</#if><#if class!=''> ${class}</#if>" type="${type}"<#if title!=''> title="${title}"</#if><#if name!=''> name="${name}"</#if><#if id!=''> id="${id}"</#if><#if value!=''> value="${value}"</#if><#if params!=''> ${params}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if><#if widgetAction?? && widgetAction!=''><#if widgetAction = 'collapse'> data-toggle="${widgetAction}"<#elseif widgetAction = 'remove'> data-dismiss="alert"</#if></#if><#if buttonTargetId!=''> data-target="${buttonTargetId}"</#if><#if cancel> formnovalidate</#if><#if formId!=''> form="${formId}"</#if>>
+	<button class="<#if style!='close'>btn</#if><#if size!=''> btn-${size}</#if><#if buttonColor!=''> btn-${buttonColor}</#if><#if btnStyle?? && btnStyle!=''> ${btnStyle}</#if><#if dropdownMenu> dropdown-toggle</#if><#if class!=''> ${class}</#if>" type="${type}"<#if title!=''> title="${title}"</#if><#if name!=''> name="${name}"</#if><#if id!=''> id="${id}"</#if><#if value!=''> value="${value}"</#if><#if params!=''> ${params}</#if><#if disabled> disabled</#if><#if dropdownMenu> data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"</#if><#if widgetAction?? && widgetAction!=''><#if widgetAction = 'collapse' || widgetAction = 'modal'> data-toggle="${widgetAction}"<#elseif widgetAction = 'remove'> data-dismiss="alert"</#if></#if><#if buttonTargetId!=''> data-target="${buttonTargetId}"</#if><#if cancel> formnovalidate</#if><#if formId!=''> form="${formId}"</#if>>
 		<#if buttonIcon!='' && iconPosition='left'><@icon style=buttonIcon /></#if>
 		<#if !buttonNested>
 			<#if displayTitleClass!=''><span class="${displayTitleClass}"></#if>
