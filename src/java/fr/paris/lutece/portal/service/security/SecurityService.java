@@ -316,10 +316,6 @@ public final class SecurityService
     public void registerUser( HttpServletRequest request, LuteceUser user )
     {
         HttpSession session = request.getSession( true );
-
-        // change session Id 
-        request.changeSessionId( );
-
         session.setAttribute( ATTRIBUTE_LUTECE_USER, user );
     }
 

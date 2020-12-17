@@ -105,8 +105,8 @@ public class SecurityServiceTest extends LuteceTestCase
 
             String newSessionId = request.getSession( true ).getId( );
 
-            // session Id should be changed during authentication process
-            assertFalse( sessionId.contentEquals( newSessionId ) );
+            // session Id should not changed during authentication process
+            assertTrue( sessionId.contentEquals( newSessionId ) );
         }
         catch( Exception e )
         {
