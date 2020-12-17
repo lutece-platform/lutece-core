@@ -581,7 +581,7 @@ $('.form-control-plaintext').parents('div.form-group').addClass('is-filled');
 <#macro checkBox name id labelKey='' labelFor='' orientation='vertical' value='' tabIndex='' title='' disabled=false readonly=false checked=false params='' mandatory=false>
 <#if labelFor = ''><#local labelFor = id /></#if>
 <div class="form-check<#if orientation!='vertical'> form-check-inline</#if><#if disabled> disabled</#if>">
-	<label class="form-check-label"<#if labelFor!=''> for="${labelFor}"</#if>>
+	<label class="form-check-label"<#if labelFor!=''> for="${labelFor}"</#if><#if title!=''> title="${title}"</#if>>
 	<input type="checkbox" id="${id}" name="${name}" class="form-check-input" <#if value!=''> value="${value}"</#if><#if tabIndex!=''> tabindex="${tabIndex}"</#if><#if checked> checked</#if><#if disabled> disabled</#if><#if readonly> readonly</#if><#if params!=''> ${params}</#if><#if mandatory> required</#if> />
 		<#if labelKey!=''>
 			${labelKey}
